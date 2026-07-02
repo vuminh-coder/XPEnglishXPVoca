@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useAuthStore } from "@/lib/store/authStore";
 import { getXpProgress } from "@/lib/utils/calculateXP";
@@ -10,6 +10,51 @@ export default function RightSidebar() {
   const { user: clerkUser } = useUser();
   const { user, awardXp } = useAuthStore();
   const currentUser = user;
+  const [suggestedUsers, setSuggestedUsers] = useState<any[]>([]);
+
+  // Fetch suggested users from API on mount
+  useEffect(() => {
+    if (currentUser) {
+      fetch("/api/friends/suggestions")
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.success && res.data) {
+            // Map keys of API data to fit component expectation
+            const mapped = res.data.map((u: any) => ({
+              id: u.id,
+              username: u.username,
+              level: u.level,
+              avatarEmoji: u.avatarEmoji,
+              name: u.fullName,
+              totalXp: u.xp,
+            }));
+            setSuggestedUsers(mapped);
+          }
+        })
+        .catch((err) => console.error("Error fetching right sidebar suggestions:", err));
+    }
+  }, [currentUser]);
+
+  const handleConnectFriend = async (friendId: string, name: string) => {
+    try {
+      const res = await fetch("/api/friends", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ receiverId: friendId }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        awardXp(10);
+        alert(`Đã gửi lời mời kết bạn đến ${name}! +10 XP`);
+        // Remove from current suggested list
+        setSuggestedUsers(suggestedUsers.filter((u) => u.id !== friendId));
+      } else {
+        alert(data.error || "Không thể gửi kết bạn");
+      }
+    } catch (err) {
+      console.error("Error connecting with friend on sidebar:", err);
+    }
+  };
 
   if (!currentUser) return null;
   const { current, total, percent } = getXpProgress(
@@ -71,32 +116,7 @@ export default function RightSidebar() {
     },
   ];
 
-  const suggestedUsers = [
-    {
-      id: "u2",
-      username: "TuanDepTrai",
-      level: 9,
-      avatarEmoji: "🐱",
-      name: "Nguyễn Tuấn",
-      totalXp: 2850,
-    },
-    {
-      id: "u3",
-      username: "HoangAnh",
-      level: 7,
-      avatarEmoji: "🌟",
-      name: "Hoàng Anh",
-      totalXp: 1650,
-    },
-    {
-      id: "u4",
-      username: "MinhThu",
-      level: 12,
-      avatarEmoji: "🦋",
-      name: "Minh Thư",
-      totalXp: 6850,
-    },
-  ];
+
 
   const shareProgress = () => {
     alert("Đã sao chép liên kết chia sẻ tiến độ học tập!");
@@ -259,10 +279,7 @@ export default function RightSidebar() {
                 </div>
                 <button
                   className="flex items-center gap-1 bg-neutral-50 dark:bg-neutral-950 text-[9px] font-black uppercase tracking-wider py-1.5 px-3 border border-black/10 dark:border-white/10 rounded-full hover:bg-cyan-50 dark:hover:bg-cyan-950/20 hover:text-cyan-500 hover:border-cyan-200 dark:hover:border-cyan-800 transition-all duration-300 tactile"
-                  onClick={() => {
-                    awardXp(10);
-                    alert(`Đã gửi lời mời kết bạn đến @${u.username}`);
-                  }}
+                  onClick={() => handleConnectFriend(u.id, u.name)}
                 >
                   <Sparkles
                     className="w-2.5 h-2.5 text-cyan-500"

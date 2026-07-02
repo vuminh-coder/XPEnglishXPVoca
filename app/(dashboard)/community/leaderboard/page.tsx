@@ -1,19 +1,28 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { useUser } from "@clerk/nextjs";
 import { Crown, Medal, Award } from "lucide-react";
 
 export default function LeaderboardPage() {
   const { user } = useUser();
+  const [leaders, setLeaders] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const leaders = [
-    { id: "u4", rank: 1, fullName: "Trần Minh Thư", username: "MinhThu", level: 12, title: "Language Legend", xp: 3200, avatarEmoji: "🦋" },
-    { id: "u1", rank: 2, fullName: "Vũ Văn Minh", username: "Aministrator", level: 11, title: "Word Wizard", xp: 2850, avatarEmoji: "🦉" },
-    { id: "u2", rank: 3, fullName: "Nguyễn Tuấn", username: "TuanDepTrai", level: 9, title: "Vocabulary Master", xp: 830, avatarEmoji: "🐱" },
-    { id: "u6", rank: 4, fullName: "Phạm Thanh Hà", username: "ThanhHa", level: 8, title: "Streak Champion", xp: 710, avatarEmoji: "🌸" },
-    { id: "u3", rank: 5, fullName: "Hoàng Anh", username: "HoangAnh", level: 7, title: "Rising Star", xp: 620, avatarEmoji: "🌟" },
-  ];
+  React.useEffect(() => {
+    fetch("/api/leaderboard")
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.success && res.data) {
+          setLeaders(res.data);
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching leaderboard:", err);
+        setLoading(false);
+      });
+  }, []);
 
   const top1 = leaders.find(l => l.rank === 1);
   const top2 = leaders.find(l => l.rank === 2);
@@ -37,10 +46,17 @@ export default function LeaderboardPage() {
         <Link href="/community/groups" className="px-4 py-2 text-xs font-bold rounded-full text-muted" style={{ transition: 'all 500ms cubic-bezier(0.32, 0.72, 0, 1)' }}>Nhóm học tập</Link>
       </div>
 
-      <div className="animate-fade-in-up flex flex-col gap-6">
-        {/* Podium — Double-Bezel */}
+      {loading ? (
         <div className="bezel">
-          <div className="bezel-inner p-8 flex flex-col items-center" style={{ background: 'linear-gradient(180deg, rgba(14, 165, 233, 0.04) 0%, transparent 100%)' }}>
+          <div className="bezel-inner p-12 text-center text-xs font-bold text-muted animate-pulse">
+            Đang tải bảng xếp hạng...
+          </div>
+        </div>
+      ) : (
+        <div className="animate-fade-in-up flex flex-col gap-6">
+          {/* Podium — Double-Bezel */}
+          <div className="bezel">
+            <div className="bezel-inner p-8 flex flex-col items-center" style={{ background: 'linear-gradient(180deg, rgba(14, 165, 233, 0.04) 0%, transparent 100%)' }}>
             <h3 className="text-[11px] font-extrabold text-gray-500 uppercase tracking-[0.15em] mb-8 text-center">
               Top 3 Chiến Binh Tuần
             </h3>
@@ -119,6 +135,7 @@ export default function LeaderboardPage() {
           </div>
         </div>
       </div>
+      )}
     </div>
   );
 }

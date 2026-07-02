@@ -11,18 +11,25 @@ datasource db {
 }
 
 model Profile {
-  id             String           @id @db.VarChar(255) // Clerk User ID
-  fullName       String?          @map("full_name") @db.VarChar(255)
-  username       String?          @db.VarChar(255)
-  avatarEmoji    String?          @map("avatar_emoji") @db.VarChar(50)
-  level          Int              @default(1)
-  totalXp        Int              @default(0) @map("total_xp")
-  currentStreak  Int              @default(0) @map("current_streak")
-  longestStreak  Int              @default(0) @map("longest_streak")
-  minutesStudied Int              @default(0) @map("minutes_studied")
-  title          String           @default("Beginner") @db.VarChar(100)
-  updatedAt      DateTime         @default(now()) @updatedAt @map("updated_at")
-  vocabularies   UserVocabulary[]
+  id                  String           @id @db.VarChar(255) // Clerk User ID
+  fullName            String?          @map("full_name") @db.VarChar(255)
+  username            String?          @db.VarChar(255)
+  avatarEmoji         String?          @map("avatar_emoji") @db.VarChar(50)
+  level               Int              @default(1)
+  totalXp             Int              @default(0) @map("total_xp")
+  currentStreak       Int              @default(0) @map("current_streak")
+  longestStreak       Int              @default(0) @map("longest_streak")
+  minutesStudied      Int              @default(0) @map("minutes_studied")
+  title               String           @default("Beginner") @db.VarChar(100)
+  updatedAt           DateTime         @default(now()) @updatedAt @map("updated_at")
+  vocabularies        UserVocabulary[]
+  posts               Post[]
+  comments            Comment[]
+  likes               Like[]
+  sentFriendships     Friendship[]     @relation("SentFriendships")
+  receivedFriendships Friendship[]     @relation("ReceivedFriendships")
+  createdGroups       Group[]          @relation("CreatedGroups")
+  groupMemberships    GroupMember[]
 
   @@map("profiles")
 }
@@ -40,3 +47,88 @@ model UserVocabulary {
   @@unique([userId, vocabId])
   @@map("user_vocabulary")
 }
+
+model Post {
+  id        String    @id @default(uuid())
+  userId    String    @map("user_id") @db.VarChar(255)
+  content   String    @db.Text
+  vocabTags String[]  @map("vocab_tags")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  user      Profile   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comments  Comment[]
+  likes     Like[]
+
+  @@map("posts")
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  postId    String   @map("post_id") @db.VarChar(255)
+  userId    String   @map("user_id") @db.VarChar(255)
+  content   String   @db.Text
+  createdAt DateTime @default(now()) @map("created_at")
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("comments")
+}
+
+model Like {
+  postId    String   @map("post_id") @db.VarChar(255)
+  userId    String   @map("user_id") @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at")
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([postId, userId])
+  @@map("likes")
+}
+
+model Friendship {
+  id         String           @id @default(uuid())
+  senderId   String           @map("sender_id") @db.VarChar(255)
+  receiverId String           @map("receiver_id") @db.VarChar(255)
+  status     FriendshipStatus @default(PENDING)
+  createdAt  DateTime         @default(now()) @map("created_at")
+  updatedAt  DateTime         @updatedAt @map("updated_at")
+  sender     Profile          @relation("SentFriendships", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver   Profile          @relation("ReceivedFriendships", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@unique([senderId, receiverId])
+  @@map("friendships")
+}
+
+enum FriendshipStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+}
+
+model Group {
+  id          String        @id @default(uuid())
+  name        String        @db.VarChar(255)
+  description String        @db.Text
+  themeName   String        @map("theme_name") @db.VarChar(255)
+  accent      String        @db.VarChar(50)
+  maxMembers  Int           @default(50) @map("max_members")
+  createdById String        @map("created_by_id") @db.VarChar(255)
+  createdAt   DateTime      @default(now()) @map("created_at")
+  creator     Profile       @relation("CreatedGroups", fields: [createdById], references: [id], onDelete: Cascade)
+  members     GroupMember[]
+
+  @@map("groups")
+}
+
+model GroupMember {
+  groupId  String   @map("group_id") @db.VarChar(255)
+  userId   String   @map("user_id") @db.VarChar(255)
+  role     String   @default("MEMBER") @db.VarChar(50)
+  joinedAt DateTime @default(now()) @map("joined_at")
+  group    Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  user     Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([groupId, userId])
+  @@map("group_members")
+}
+
