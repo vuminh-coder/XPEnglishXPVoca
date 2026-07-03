@@ -920,6 +920,15 @@ export const MOCK_THEMES = [
     "color": "#059669"
   },
   {
+    "id": "t101",
+    "name": "CẢM XÚC CƠ BẢN",
+    "nameEn": "Basic Emotions",
+    "icon": "😊",
+    "difficulty": 2,
+    "totalVocabs": 30,
+    "color": "#f43f5e"
+  },
+  {
     "id": "t102",
     "name": "CẢM XÚC PHỨC TẠP",
     "nameEn": "Complex Emotions",
