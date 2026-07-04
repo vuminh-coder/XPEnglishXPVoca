@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { MOCK_VOCABULARIES } from '@/lib/constants';
+import { MOCK_VOCABULARIES } from '@/lib/constants/vocabularies';
 import { useVocabularyStore } from '@/lib/store/vocabularyStore';
 import { useAuthStore } from '@/lib/store/authStore';
 import { Brain, Layers, PenLine, Mic, Volume2, CheckCircle2, XCircle } from 'lucide-react';
@@ -71,7 +71,7 @@ export default function WritingPage() {
                 {m.icon}
               </div>
               <div className="text-sm font-bold text-gray-900 dark:text-gray-100 mb-1">{m.label}</div>
-              <p className="text-[10px] text-muted leading-relaxed">Chuyển sang chế độ học tập này.</p>
+              <p className="text-[12px] text-muted leading-relaxed">Chuyển sang chế độ học tập này.</p>
             </div>
           </Link>
         ))}
@@ -82,7 +82,7 @@ export default function WritingPage() {
               <PenLine className="w-5 h-5" strokeWidth={1.8} />
             </div>
             <div className="text-sm font-bold text-gray-900 dark:text-gray-100 mb-1">Luyện viết</div>
-            <p className="text-[10px] text-muted leading-relaxed">Ghi nhớ chính xác cách viết từ.</p>
+            <p className="text-[12px] text-muted leading-relaxed">Ghi nhớ chính xác cách viết từ.</p>
           </div>
         </div>
 
@@ -92,7 +92,7 @@ export default function WritingPage() {
               <Mic className="w-5 h-5" strokeWidth={1.8} />
             </div>
             <div className="text-sm font-bold text-gray-900 dark:text-gray-100 mb-1">Luyện phát âm</div>
-            <p className="text-[10px] text-muted leading-relaxed">Micro nhận diện phát âm chuẩn.</p>
+            <p className="text-[12px] text-muted leading-relaxed">Micro nhận diện phát âm chuẩn.</p>
           </div>
         </Link>
       </div>
@@ -117,7 +117,7 @@ export default function WritingPage() {
 
             {/* Prompt */}
             <div className="text-center p-8 bg-neutral-50/50 dark:bg-neutral-900/30 rounded-[calc(var(--radius-3xl)-6px)] border border-black/[0.03] dark:border-white/[0.03] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
-              <div className="text-[10px] text-muted font-bold tracking-[0.15em] uppercase mb-2">Hãy dịch từ sau sang tiếng Anh:</div>
+              <div className="text-[12px] text-muted font-bold tracking-[0.15em] uppercase mb-2">Hãy dịch từ sau sang tiếng Anh:</div>
               <h2 className="text-3xl font-extrabold text-gray-900 dark:text-gray-100 mb-2">
                 {vocabs[index]?.definitionVn}
               </h2>

@@ -201,7 +201,7 @@ export default function CommunityPage() {
                       </div>
                       <div>
                         <div className="text-sm font-bold text-gray-900 dark:text-gray-100">{p.author}</div>
-                        <div className="text-[10px] text-muted font-medium">{p.meta}</div>
+                        <div className="text-[12px] text-muted font-medium">{p.meta}</div>
                       </div>
                     </div>
 
@@ -214,7 +214,7 @@ export default function CommunityPage() {
                     {p.vocabTags && p.vocabTags.length > 0 && (
                       <div className="flex flex-wrap gap-2 mb-4">
                         {p.vocabTags.map((tag: string, idx: number) => (
-                          <span key={idx} className="text-[10px] font-bold py-1 px-2.5 rounded-full bg-cyan-50 dark:bg-cyan-950/30 text-cyan-600 dark:text-cyan-400 border border-cyan-200/50 dark:border-cyan-900/30">{tag}</span>
+                          <span key={idx} className="text-[12px] font-bold py-1 px-2.5 rounded-full bg-cyan-50 dark:bg-cyan-950/30 text-cyan-600 dark:text-cyan-400 border border-cyan-200/50 dark:border-cyan-900/30">{tag}</span>
                         ))}
                       </div>
                     )}
@@ -271,7 +271,7 @@ export default function CommunityPage() {
                       {/* Server-hidden comments notice */}
                       {serverHiddenCount > 0 && (
                         <div className="text-center mb-3">
-                          <span className="text-[10px] text-muted font-medium italic">
+                          <span className="text-[12px] text-muted font-medium italic">
                             Có {serverHiddenCount} bình luận cũ hơn không được hiển thị
                           </span>
                         </div>

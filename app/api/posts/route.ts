@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs/server";
+import { getAuthenticatedUserId } from "@/lib/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { LEVEL_TITLES } from "@/lib/constants";
@@ -19,7 +19,7 @@ function calculateLevelAndTitle(xp: number, currentLevel: number) {
 
 export async function GET() {
   try {
-    const { userId } = await auth();
+    const userId = await getAuthenticatedUserId();
     
     // Fetch all posts with user info, comments (and comment author), and likes count
     const posts = await prisma.post.findMany({
@@ -88,7 +88,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const { userId } = await auth();
+    const userId = await getAuthenticatedUserId();
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

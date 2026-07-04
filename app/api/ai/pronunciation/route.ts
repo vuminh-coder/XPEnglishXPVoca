@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs/server";
+import { getAuthenticatedUserId } from "@/lib/auth";
 import { NextResponse } from "next/server";
 
 // Helper to calculate Levenshtein distance similarity
@@ -33,7 +33,7 @@ function getSimilarity(s1: string, s2: string): number {
 
 export async function POST(request: Request) {
   try {
-    const { userId } = await auth();
+    const userId = await getAuthenticatedUserId();
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

@@ -28,6 +28,8 @@ interface AuthState {
   awardXp: (amount: number) => { levelUp: boolean };
   updateProfile: (fullName: string, bio: string) => void;
   syncClerkUser: (clerkUser: any, isSignedIn: boolean) => void;
+  setLocalUser: () => void;
+  localLogin: (username: string, email: string) => void;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -40,7 +42,56 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     }
     return false;
   },
-  logout: () => set({ isAuthenticated: false, user: null }),
+  logout: () => {
+    set({ isAuthenticated: false, user: null });
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("xp_voca_active_userId");
+      document.cookie = "auth-token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+      document.cookie = "local-user-id=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+    }
+  },
+  setLocalUser: () => {
+    if (typeof window !== "undefined") {
+      const activeUserId = localStorage.getItem("xp_voca_active_userId") || "local_user";
+      const localData = localStorage.getItem(`xp_voca_user_${activeUserId}`);
+      if (localData) {
+        try {
+          const localUser = JSON.parse(localData);
+          set({ user: localUser, isAuthenticated: true });
+          useVocabularyStore.getState().loadLearnedWords(activeUserId);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
+  },
+  localLogin: (username, email) => {
+    const userId = "local_" + username.toLowerCase().replace(/[^a-z0-9]/g, "");
+    const syncedUser: User = {
+      id: userId,
+      username: username,
+      fullName: username,
+      email: email,
+      level: 1,
+      totalXp: 0,
+      currentStreak: 1,
+      longestStreak: 1,
+      avatarEmoji: "🦉",
+      bio: "Học viên mới của XP Voca! 🚀",
+      title: LEVEL_TITLES[1] || "Newbie",
+      wordsLearned: 0,
+      wordsToReview: 0,
+      minutesStudied: 0,
+    };
+    set({ user: syncedUser, isAuthenticated: true });
+    if (typeof window !== "undefined") {
+      localStorage.setItem(`xp_voca_user_${userId}`, JSON.stringify(syncedUser));
+      localStorage.setItem("xp_voca_active_userId", userId);
+      document.cookie = "auth-token=true; path=/; max-age=86400";
+      document.cookie = `local-user-id=${userId}; path=/; max-age=86400`;
+    }
+    useVocabularyStore.getState().loadLearnedWords(userId);
+  },
   updateProfile: (fullName, bio) => {
     const user = get().user;
     if (user) {

@@ -3,6 +3,7 @@ import React from "react";
 import Navbar from "@/components/layout/Navbar";
 import Sidebar from "@/components/layout/Sidebar";
 import RightSidebar from "@/components/layout/RightSidebar";
+import BottomNav from "@/components/layout/BottomNav";
 
 export default function DashboardLayout({
   children,
@@ -25,6 +26,7 @@ export default function DashboardLayout({
       <aside id="app-right-sidebar">
         <RightSidebar />
       </aside>
+      <BottomNav />
     </>
   );
 }

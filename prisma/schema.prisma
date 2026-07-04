@@ -30,6 +30,8 @@ model Profile {
   receivedFriendships Friendship[]     @relation("ReceivedFriendships")
   createdGroups       Group[]          @relation("CreatedGroups")
   groupMemberships    GroupMember[]
+  examAttempts        ExamAttempt[]
+  studyPlan           StudyPlan?
 
   @@map("profiles")
 }
@@ -130,5 +132,165 @@ model GroupMember {
 
   @@id([groupId, userId])
   @@map("group_members")
+}
+
+// === EXAM ENGINE ===
+
+model ExamType {
+  id          String   @id @default(uuid())
+  name        String   @db.VarChar(50) // "TOEIC", "IELTS", "CUSTOM"
+  description String   @db.Text
+  createdAt   DateTime @default(now())
+  exams       Exam[]
+
+  @@map("exam_types")
+}
+
+model Exam {
+  id            String       @id @default(uuid())
+  examTypeId    String       @map("exam_type_id")
+  title         String       @db.VarChar(255)
+  description   String       @db.Text
+  duration      Int          // minutes
+  totalQuestions Int         @map("total_questions")
+  difficulty    Int          @default(1) // 1-5
+  isFullTest    Boolean      @default(false)
+  createdAt     DateTime     @default(now())
+  examType      ExamType     @relation(fields: [examTypeId], references: [id])
+  sections      ExamSection[]
+  attempts      ExamAttempt[]
+
+  @@map("exams")
+}
+
+model ExamSection {
+  id          String   @id @default(uuid())
+  examId      String   @map("exam_id")
+  name        String   @db.VarChar(100) // "Listening Part 1", "Reading Part 5"
+  sectionType String   @map("section_type") @db.VarChar(50) // "listening", "reading", "writing", "speaking", "grammar"
+  orderIndex  Int      @map("order_index")
+  duration    Int?     // minutes, null = untimed
+  audioUrl    String?  @map("audio_url") @db.Text
+  passageText String?  @map("passage_text") @db.Text
+  exam        Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
+  questions   Question[]
+
+  @@map("exam_sections")
+}
+
+model Question {
+  id            String        @id @default(uuid())
+  sectionId     String        @map("section_id")
+  questionType  String        @map("question_type") @db.VarChar(50) 
+  content       String        @db.Text // Question text or JSON
+  options       Json?         // Array of {id, text, isCorrect}
+  correctAnswer String?       @map("correct_answer") @db.Text
+  explanation   String?       @db.Text
+  audioUrl      String?       @map("audio_url") @db.Text
+  imageUrl      String?       @map("image_url") @db.Text
+  points        Int           @default(1)
+  orderIndex    Int           @map("order_index")
+  section       ExamSection   @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  answers       QuestionAnswer[]
+
+  @@map("questions")
+}
+
+// === USER EXAM TRACKING ===
+
+model ExamAttempt {
+  id            String     @id @default(uuid())
+  userId        String     @map("user_id") @db.VarChar(255)
+  examId        String     @map("exam_id")
+  startedAt     DateTime   @default(now()) @map("started_at")
+  completedAt   DateTime?  @map("completed_at")
+  totalScore    Float?     @map("total_score")
+  maxScore      Float?     @map("max_score")
+  percentage    Float?
+  estimatedBand Float?     @map("estimated_band") // IELTS 1.0-9.0
+  estimatedScore Int?      @map("estimated_score") // TOEIC 10-990
+  timeSpent     Int?       @map("time_spent") // seconds
+  status        String     @default("IN_PROGRESS") @db.VarChar(20) // "IN_PROGRESS", "COMPLETED", "ABANDONED"
+  user          Profile    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  exam          Exam       @relation(fields: [examId], references: [id])
+  answers       QuestionAnswer[]
+
+  @@map("exam_attempts")
+}
+
+model QuestionAnswer {
+  id           String      @id @default(uuid())
+  attemptId    String      @map("attempt_id")
+  questionId   String      @map("question_id")
+  userAnswer   String?     @map("user_answer") @db.Text
+  isCorrect    Boolean?    @map("is_correct")
+  points       Float       @default(0)
+  timeSpent    Int?        @map("time_spent") // seconds per question
+  aiScore      Float?      @map("ai_score")   // AI scoring for essays/speaking
+  aiFeedback   String?     @map("ai_feedback") @db.Text
+  attempt      ExamAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  question     Question    @relation(fields: [questionId], references: [id])
+
+  @@map("question_answers")
+}
+
+// === GRAMMAR MODULE ===
+
+model GrammarTopic {
+  id          String   @id @default(uuid())
+  name        String   @db.VarChar(255)
+  nameVn      String   @map("name_vn") @db.VarChar(255)
+  category    String   @db.VarChar(100) // "tenses", "articles", "prepositions", etc.
+  difficulty  Int      @default(1)
+  explanation String   @db.Text
+  examples    Json     // Array of {sentence, translation, highlight}
+  orderIndex  Int      @map("order_index")
+  exercises   GrammarExercise[]
+
+  @@map("grammar_topics")
+}
+
+model GrammarExercise {
+  id            String       @id @default(uuid())
+  topicId       String       @map("topic_id")
+  exerciseType  String       @map("exercise_type") @db.VarChar(50)
+  content       String       @db.Text
+  options       Json?
+  correctAnswer String       @map("correct_answer") @db.Text
+  explanation   String?      @db.Text
+  topic         GrammarTopic @relation(fields: [topicId], references: [id], onDelete: Cascade)
+
+  @@map("grammar_exercises")
+}
+
+// === STUDY PLAN ===
+
+model StudyPlan {
+  id          String      @id @default(uuid())
+  userId      String      @map("user_id") @db.VarChar(255) @unique
+  targetExam  String      @map("target_exam") @db.VarChar(50) // "TOEIC", "IELTS"
+  targetScore Int?        @map("target_score")
+  targetDate  DateTime?   @map("target_date")
+  currentLevel String?    @map("current_level") @db.VarChar(50)
+  weeklyHours Int         @default(10) @map("weekly_hours")
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+  user        Profile     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  dailyTasks  DailyTask[]
+
+  @@map("study_plans")
+}
+
+model DailyTask {
+  id          String    @id @default(uuid())
+  planId      String    @map("plan_id")
+  date        DateTime  @db.Date
+  taskType    String    @map("task_type") @db.VarChar(50) 
+  description String    @db.Text
+  isCompleted Boolean   @default(false) @map("is_completed")
+  xpReward    Int       @default(0) @map("xp_reward")
+  plan        StudyPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  @@map("daily_tasks")
 }
 

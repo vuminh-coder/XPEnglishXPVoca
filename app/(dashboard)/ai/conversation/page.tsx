@@ -116,9 +116,9 @@ export default function ConversationPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="text-sm font-bold text-gray-900 dark:text-gray-100 truncate">{t.name}</div>
-                      <div className="text-[10px] text-muted font-medium truncate">{t.description}</div>
+                      <div className="text-[12px] text-muted font-medium truncate">{t.description}</div>
                     </div>
-                    <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full border ${
+                    <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full border ${
                       t.level === 'Beginner' ? 'border-emerald-200 dark:border-emerald-900/30 text-emerald-500 bg-emerald-50 dark:bg-emerald-950/20' :
                       t.level === 'Intermediate' ? 'border-amber-200 dark:border-amber-900/30 text-amber-500 bg-amber-50 dark:bg-amber-950/20' :
                       'border-red-200 dark:border-red-900/30 text-red-500 bg-red-50 dark:bg-red-950/20'
@@ -150,7 +150,7 @@ export default function ConversationPage() {
                 </div>
                 <div>
                   <div className="text-sm font-bold text-gray-900 dark:text-gray-100">Companion AI</div>
-                  <div className="text-[10px] text-muted font-semibold tracking-wide flex items-center gap-1.5 mt-0.5">
+                  <div className="text-[12px] text-muted font-semibold tracking-wide flex items-center gap-1.5 mt-0.5">
                     <span className={`w-1.5 h-1.5 rounded-full ${isAiTyping ? 'bg-amber-400 animate-pulse' : 'bg-emerald-500'}`}></span>
                     {isAiTyping ? 'AI đang soạn câu trả lời...' : 'Đang trực tuyến'}
                   </div>

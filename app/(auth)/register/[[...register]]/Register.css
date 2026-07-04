@@ -1,0 +1,130 @@
+.bg-blob-1 {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 40vw;
+  height: 40vw;
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  background: radial-gradient(
+    circle at center,
+    rgba(182, 235, 255, 0.4) 0%,
+    rgba(216, 226, 255, 0) 70%
+  );
+  filter: blur(80px);
+  z-index: 1;
+  animation: morph 12s infinite alternate;
+}
+
+.bg-blob-2 {
+  position: absolute;
+  top: 30%;
+  right: -10%;
+  width: 35vw;
+  height: 35vw;
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  background: radial-gradient(
+    circle at center,
+    rgba(211, 187, 255, 0.3) 0%,
+    rgba(235, 221, 255, 0) 70%
+  );
+  filter: blur(100px);
+  z-index: 1;
+  animation: morph 15s infinite alternate-reverse;
+}
+
+@keyframes morph {
+  0% {
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    transform: rotate(0deg) scale(1);
+  }
+  100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    transform: rotate(15deg) scale(1.08);
+  }
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+}
+
+.bg-gradient-premium {
+  background: linear-gradient(135deg, #0059bb 0%, #7043c2 50%, #0070ea 100%);
+}
+
+.shadow-glow {
+  box-shadow: 0 0 20px rgba(0, 89, 187, 0.25);
+}
+
+.shadow-card {
+  box-shadow:
+    0 20px 40px -10px rgba(0, 0, 0, 0.08),
+    0 0 10px rgba(255, 255, 255, 0.6) inset;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in-right {
+  animation: fadeInRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.benefit-card {
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.04);
+  transition: all 0.4s ease;
+}
+
+.benefit-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 48px 0 rgba(31, 38, 135, 0.08);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.input-premium {
+  width: 100%;
+  background: rgba(248, 249, 250, 0.6);
+  border: 1px solid rgba(193, 198, 215, 0.5);
+  border-radius: 12px;
+  padding: 10px 16px; /* Giảm nhẹ padding dọc của input */
+  color: #191c1d;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  outline: none;
+  backdrop-filter: blur(4px);
+}
+
+.input-premium:focus {
+  border-color: #0059bb;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(0, 89, 187, 0.12);
+}

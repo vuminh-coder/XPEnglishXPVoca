@@ -1,11 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-import { useUser } from "@clerk/nextjs";
+import { useAuthStore } from "@/lib/store/authStore";
 import { Crown, Medal, Award } from "lucide-react";
 
 export default function LeaderboardPage() {
-  const { user } = useUser();
+  const { user } = useAuthStore();
   const [leaders, setLeaders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -67,7 +67,7 @@ export default function LeaderboardPage() {
                 <div className="flex flex-col items-center flex-1 h-full justify-end">
                   <div className="text-3xl mb-1.5">{top2.avatarEmoji}</div>
                   <div className="text-xs font-bold truncate max-w-[80px] text-gray-900 dark:text-gray-100">{top2.username}</div>
-                  <div className="text-[10px] text-muted mb-3">{top2.xp} XP</div>
+                  <div className="text-[12px] text-muted mb-3">{top2.xp} XP</div>
                   <div className="w-full bg-gradient-to-t from-slate-200 to-slate-300 dark:from-neutral-800 dark:to-neutral-700 h-28 rounded-t-2xl shadow-sm border-t border-white/30 relative flex flex-col items-center justify-center">
                     <Medal className="w-5 h-5 text-slate-500 absolute top-3" strokeWidth={1.5} />
                     <span className="text-2xl font-black text-white/40 mt-4">2</span>
@@ -83,7 +83,7 @@ export default function LeaderboardPage() {
                     {top1.avatarEmoji}
                   </div>
                   <div className="text-xs font-extrabold truncate max-w-[90px] text-gray-900 dark:text-gray-100">{top1.username}</div>
-                  <div className="text-[10px] text-cyan-500 font-bold mb-3">{top1.xp} XP</div>
+                  <div className="text-[12px] text-cyan-500 font-bold mb-3">{top1.xp} XP</div>
                   <div className="w-full bg-gradient-to-t from-amber-400 to-amber-500 dark:from-amber-600 dark:to-amber-500 h-36 rounded-t-3xl shadow-md border-t border-amber-300/40 relative flex flex-col items-center justify-center">
                     <Award className="w-6 h-6 text-white/60 absolute top-3" strokeWidth={1.5} />
                     <span className="text-3xl font-black text-white/40 mt-4">1</span>
@@ -96,7 +96,7 @@ export default function LeaderboardPage() {
                 <div className="flex flex-col items-center flex-1 h-full justify-end">
                   <div className="text-3xl mb-1.5">{top3.avatarEmoji}</div>
                   <div className="text-xs font-bold truncate max-w-[80px] text-gray-900 dark:text-gray-100">{top3.username}</div>
-                  <div className="text-[10px] text-muted mb-3">{top3.xp} XP</div>
+                  <div className="text-[12px] text-muted mb-3">{top3.xp} XP</div>
                   <div className="w-full bg-gradient-to-t from-amber-700/20 to-amber-800/10 dark:from-neutral-800/80 dark:to-neutral-800/40 h-20 rounded-t-2xl shadow-sm border-t border-white/10 relative flex flex-col items-center justify-center">
                     <Medal className="w-5 h-5 text-amber-600 absolute top-2" strokeWidth={1.5} />
                     <span className="text-xl font-black text-white/30 mt-3">3</span>
@@ -123,7 +123,7 @@ export default function LeaderboardPage() {
                     </div>
                     <div>
                       <div className="text-xs font-bold text-gray-900 dark:text-gray-100">{l.fullName} <span className="text-muted">(@{l.username})</span></div>
-                      <div className="text-[10px] text-muted font-medium mt-0.5">Cấp độ {l.level} · {l.title}</div>
+                      <div className="text-[12px] text-muted font-medium mt-0.5">Cấp độ {l.level} · {l.title}</div>
                     </div>
                   </div>
                   <div className="text-xs font-bold text-cyan-500 bg-cyan-50 dark:bg-cyan-950/30 py-1.5 px-3 rounded-full border border-cyan-100 dark:border-cyan-900/30">

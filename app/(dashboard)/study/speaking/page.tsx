@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { MOCK_VOCABULARIES } from '@/lib/constants';
+import { MOCK_VOCABULARIES } from '@/lib/constants/vocabularies';
 import { useVocabularyStore } from '@/lib/store/vocabularyStore';
 import { useAuthStore } from '@/lib/store/authStore';
 import { Brain, Layers, PenLine, Mic, Volume2, Sparkles, Check, AlertCircle } from 'lucide-react';
@@ -120,7 +120,7 @@ export default function SpeakingPage() {
                 {m.icon}
               </div>
               <div className="text-sm font-bold text-gray-900 dark:text-gray-100 mb-1">{m.label}</div>
-              <p className="text-[10px] text-muted leading-relaxed">Chuyển sang chế độ học tập này.</p>
+              <p className="text-[12px] text-muted leading-relaxed">Chuyển sang chế độ học tập này.</p>
             </div>
           </Link>
         ))}
@@ -131,7 +131,7 @@ export default function SpeakingPage() {
               <Mic className="w-5 h-5" strokeWidth={1.8} />
             </div>
             <div className="text-sm font-bold text-gray-900 dark:text-gray-100 mb-1">Luyện phát âm</div>
-            <p className="text-[10px] text-muted leading-relaxed">Nhận diện giọng nói thông minh.</p>
+            <p className="text-[12px] text-muted leading-relaxed">Nhận diện giọng nói thông minh.</p>
           </div>
         </div>
       </div>

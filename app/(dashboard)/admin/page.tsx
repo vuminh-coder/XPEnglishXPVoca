@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
-import { MOCK_THEMES, MOCK_VOCABULARIES } from '@/lib/constants';
+import { MOCK_THEMES } from '@/lib/constants';
+import { MOCK_VOCABULARIES } from '@/lib/constants/vocabularies';
 import { useAuthStore } from '@/lib/store/authStore';
 
 export default function AdminPage() {

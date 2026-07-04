@@ -1,13 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useUser } from "@clerk/nextjs";
 import { useAuthStore } from "@/lib/store/authStore";
 import { getXpProgress } from "@/lib/utils/calculateXP";
 import Link from "next/link";
 import { Share2, Sparkles } from "lucide-react";
 
 export default function RightSidebar() {
-  const { user: clerkUser } = useUser();
   const { user, awardXp } = useAuthStore();
   const currentUser = user;
   const [suggestedUsers, setSuggestedUsers] = useState<any[]>([]);
@@ -31,7 +29,9 @@ export default function RightSidebar() {
             setSuggestedUsers(mapped);
           }
         })
-        .catch((err) => console.error("Error fetching right sidebar suggestions:", err));
+        .catch((err) =>
+          console.error("Error fetching right sidebar suggestions:", err),
+        );
     }
   }, [currentUser]);
 
@@ -116,8 +116,6 @@ export default function RightSidebar() {
     },
   ];
 
-
-
   const shareProgress = () => {
     alert("Đã sao chép liên kết chia sẻ tiến độ học tập!");
     if (typeof navigator !== "undefined") {
@@ -159,13 +157,13 @@ export default function RightSidebar() {
           </h3>
 
           {/* Level Badge */}
-          <span className="inline-flex items-center gap-1.5 px-3 py-2 bg-cyan-50 dark:bg-cyan-950/30 text-cyan-600 dark:text-cyan-400 border border-cyan-200/50 dark:border-cyan-900/30 rounded-full text-[10px] font-black uppercase tracking-wider mb-5">
+          <span className="inline-flex items-center gap-1.5 px-3 py-2 bg-cyan-50 dark:bg-cyan-950/30 text-cyan-600 dark:text-cyan-400 border border-cyan-200/50 dark:border-cyan-900/30 rounded-full text-[12px] font-black uppercase tracking-wider mb-5">
             Cấp độ {currentUser.level} · {currentUser.title}
           </span>
 
           {/* XP Progress Section */}
           <div className="w-full text-left bg-black/[0.015] dark:bg-white/[0.015] p-3.5 rounded-2xl border border-black/[0.03] dark:border-white/[0.03] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
-            <div className="flex justify-between items-center text-[10px] text-muted mb-2 font-bold uppercase tracking-wider">
+            <div className="flex justify-between items-center text-[12px] text-muted mb-2 font-bold uppercase tracking-wider">
               <span>Đến cấp {currentUser.level + 1}</span>
               <span className="text-cyan-500">
                 {current}/{total} XP ({percent}%)
@@ -200,7 +198,7 @@ export default function RightSidebar() {
           </h4>
           <Link
             href="/profile"
-            className="text-[10px] text-cyan-500 hover:text-cyan-600 font-bold transition-colors duration-300"
+            className="text-[12px] text-cyan-500 hover:text-cyan-600 font-bold transition-colors duration-300"
           >
             Xem tất cả
           </Link>
@@ -215,7 +213,7 @@ export default function RightSidebar() {
               }`}
             >
               {!ach.unlocked && (
-                <span className="text-[9px] absolute top-1.5 right-1.5 text-muted opacity-80 select-none">
+                <span className="text-[11px] absolute top-1.5 right-1.5 text-muted opacity-80 select-none">
                   🔒
                 </span>
               )}
@@ -227,17 +225,17 @@ export default function RightSidebar() {
                 {ach.icon}
               </div>
 
-              <span className="text-[9px] font-black text-center truncate w-full text-gray-800 dark:text-gray-200">
+              <span className="text-[11px] font-black text-center truncate w-full text-gray-800 dark:text-gray-200">
                 {ach.name}
               </span>
 
               {/* Advanced Glass Tooltip */}
               <div className="absolute bottom-full mb-2 hidden group-hover:flex flex-col items-center z-50 pointer-events-none transition-all duration-300">
-                <div className="bg-neutral-950/90 text-white text-[10px] p-2.5 rounded-xl shadow-lg w-36 text-center leading-normal border border-white/10 backdrop-blur-md">
+                <div className="bg-neutral-950/90 text-white text-[12px] p-2.5 rounded-xl shadow-lg w-36 text-center leading-normal border border-white/10 backdrop-blur-md">
                   <div className="font-extrabold mb-0.5 text-cyan-400">
                     {ach.name}
                   </div>
-                  <div className="opacity-80 text-[9px] font-medium">
+                  <div className="opacity-80 text-[11px] font-medium">
                     {ach.description}
                   </div>
                 </div>
@@ -265,7 +263,7 @@ export default function RightSidebar() {
                     <div className="text-[11px] font-extrabold text-gray-900 dark:text-gray-100 leading-tight">
                       {u.name}
                     </div>
-                    <div className="text-[9px] text-muted font-semibold mt-0.5">
+                    <div className="text-[11px] text-muted font-semibold mt-0.5">
                       <span className="text-cyan-500 font-black">
                         Cấp độ {u.level} ·{" "}
                       </span>
@@ -278,7 +276,7 @@ export default function RightSidebar() {
                   </div>
                 </div>
                 <button
-                  className="flex items-center gap-1 bg-neutral-50 dark:bg-neutral-950 text-[9px] font-black uppercase tracking-wider py-1.5 px-3 border border-black/10 dark:border-white/10 rounded-full hover:bg-cyan-50 dark:hover:bg-cyan-950/20 hover:text-cyan-500 hover:border-cyan-200 dark:hover:border-cyan-800 transition-all duration-300 tactile"
+                  className="flex items-center gap-1 bg-neutral-50 dark:bg-neutral-950 text-[11px] font-black uppercase tracking-wider py-1.5 px-3 border border-black/10 dark:border-white/10 rounded-full hover:bg-cyan-50 dark:hover:bg-cyan-950/20 hover:text-cyan-500 hover:border-cyan-200 dark:hover:border-cyan-800 transition-all duration-300 tactile"
                   onClick={() => handleConnectFriend(u.id, u.name)}
                 >
                   <Sparkles

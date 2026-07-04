@@ -77,17 +77,17 @@ export default function ProfilePage() {
             <div className="flex flex-wrap justify-center md:justify-start gap-4">
               <div className="bg-neutral-50 dark:bg-neutral-950 px-4 py-2 rounded-xl border border-black/5 dark:border-white/5 text-center min-w-[90px]">
                 <div className="text-lg font-black text-gray-900 dark:text-gray-100 tracking-tight">{user.wordsLearned}</div>
-                <div className="text-[10px] text-muted font-semibold uppercase tracking-wider">Từ đã học</div>
+                <div className="text-[12px] text-muted font-semibold uppercase tracking-wider">Từ đã học</div>
               </div>
               <div className="bg-neutral-50 dark:bg-neutral-950 px-4 py-2 rounded-xl border border-black/5 dark:border-white/5 text-center min-w-[90px]">
                 <div className="text-lg font-black text-gray-900 dark:text-gray-100 tracking-tight flex items-center justify-center gap-1">
                   {user.currentStreak} <Flame className="w-4 h-4 text-amber-500 fill-amber-500" strokeWidth={1.8} />
                 </div>
-                <div className="text-[10px] text-muted font-semibold uppercase tracking-wider">Streak học</div>
+                <div className="text-[12px] text-muted font-semibold uppercase tracking-wider">Streak học</div>
               </div>
               <div className="bg-neutral-50 dark:bg-neutral-950 px-4 py-2 rounded-xl border border-black/5 dark:border-white/5 text-center min-w-[90px]">
                 <div className="text-lg font-black text-gray-900 dark:text-gray-100 tracking-tight">{user.totalXp}</div>
-                <div className="text-[10px] text-muted font-semibold uppercase tracking-wider">Tổng XP</div>
+                <div className="text-[12px] text-muted font-semibold uppercase tracking-wider">Tổng XP</div>
               </div>
             </div>
           </div>
@@ -113,7 +113,7 @@ export default function ProfilePage() {
                   <h4 className="text-sm font-bold text-gray-900 dark:text-gray-100 mb-1">{ach.name}</h4>
                   <p className="text-[11px] text-muted max-w-xs leading-relaxed">{ach.description}</p>
                 </div>
-                <span className={`text-[9px] font-bold py-1 px-3.5 rounded-full border mt-4 uppercase tracking-wider ${
+                <span className={`text-[11px] font-bold py-1 px-3.5 rounded-full border mt-4 uppercase tracking-wider ${
                   ach.unlocked 
                     ? 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200/50 dark:border-emerald-900/30 text-emerald-600 dark:text-emerald-400' 
                     : 'bg-neutral-50 dark:bg-neutral-900 border-black/5 dark:border-white/5 text-muted'

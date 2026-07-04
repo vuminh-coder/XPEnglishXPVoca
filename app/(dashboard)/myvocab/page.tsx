@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { MOCK_VOCABULARIES } from '@/lib/constants';
+import { MOCK_VOCABULARIES } from '@/lib/constants/vocabularies';
 import { useVocabularyStore } from '@/lib/store/vocabularyStore';
 import { useAuthStore } from '@/lib/store/authStore';
 import { FolderOpen, Heart, RefreshCw, Crown, Volume2, Zap, Inbox, ArrowRight } from 'lucide-react';
@@ -68,7 +68,7 @@ export default function MyVocabularyPage() {
               <div className="bezel-inner p-5">
                 <div className="flex justify-between items-start mb-3">
                   <div className={`icon-well ${a.iconBg} ${a.badgeText}`}>{s.icon}</div>
-                  <span className={`text-[9px] ${a.badgeText} ${a.badgeBg} px-2 py-0.5 rounded-full font-bold uppercase tracking-wider`}>{s.label}</span>
+                  <span className={`text-[11px] ${a.badgeText} ${a.badgeBg} px-2 py-0.5 rounded-full font-bold uppercase tracking-wider`}>{s.label}</span>
                 </div>
                 <div className="text-2xl font-black text-gray-900 dark:text-gray-100 tracking-tight">{s.count}</div>
                 <div className="text-[11px] text-muted font-medium mt-1">{s.sublabel}</div>
@@ -121,7 +121,7 @@ export default function MyVocabularyPage() {
                   <div className="flex items-start justify-between mb-3">
                     <div>
                       <h3 className="text-xl font-extrabold text-primary-600 dark:text-cyan-400 group-hover:text-cyan-500" style={{ transition: 'color 500ms cubic-bezier(0.32, 0.72, 0, 1)' }}>{v.word}</h3>
-                      <span className="inline-block text-[10px] font-bold px-2 py-0.5 bg-cyan-100 dark:bg-cyan-950/50 text-cyan-700 dark:text-cyan-300 rounded-full uppercase mt-1">
+                      <span className="inline-block text-[12px] font-bold px-2 py-0.5 bg-cyan-100 dark:bg-cyan-950/50 text-cyan-700 dark:text-cyan-300 rounded-full uppercase mt-1">
                         {v.pos}
                       </span>
                       <div className="text-xs text-muted font-mono mt-1">{v.phonetic}</div>

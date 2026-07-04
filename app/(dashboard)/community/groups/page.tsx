@@ -159,7 +159,7 @@ export default function GroupsPage() {
                         <h3 className="font-bold text-sm text-gray-900 dark:text-gray-100 mb-1 leading-tight group-hover:text-cyan-500" style={{ transition: 'color 500ms cubic-bezier(0.32, 0.72, 0, 1)' }}>
                           {g.name}
                         </h3>
-                        <span className="inline-block text-[9px] font-bold py-0.5 px-2 bg-neutral-100 dark:bg-neutral-800 text-muted rounded-full border border-black/5 dark:border-white/5 uppercase">
+                        <span className="inline-block text-[11px] font-bold py-0.5 px-2 bg-neutral-100 dark:bg-neutral-800 text-muted rounded-full border border-black/5 dark:border-white/5 uppercase">
                           {g.themeName}
                         </span>
                       </div>
@@ -168,11 +168,11 @@ export default function GroupsPage() {
                   </div>
                   
                   <div className="flex justify-between items-center pt-3 border-t border-black/[0.04] dark:border-white/[0.04]">
-                    <span className="flex items-center gap-1.5 text-[10px] text-muted font-bold uppercase tracking-wider">
+                    <span className="flex items-center gap-1.5 text-[12px] text-muted font-bold uppercase tracking-wider">
                       <Users className="w-3.5 h-3.5 text-muted" strokeWidth={1.8} /> {g.memberCount}/{g.maxMembers} thành viên
                     </span>
                     <button 
-                      className={`flex items-center gap-1 px-4 py-1.5 text-[10px] font-bold rounded-full tactile border ${
+                      className={`flex items-center gap-1 px-4 py-1.5 text-[12px] font-bold rounded-full tactile border ${
                         g.joined 
                           ? 'bg-neutral-100 dark:bg-neutral-850 text-red-500 border-black/5 dark:border-white/5' 
                           : 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-sm'

@@ -4,7 +4,7 @@ export default function StreakCounter({ count }: { count: number }) {
       <span className="text-2xl animate-bounce">🔥</span>
       <div>
         <div className="font-black text-xl leading-none">{count} Ngày</div>
-        <div className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider">Học liên tiếp</div>
+        <div className="text-[12px] text-gray-500 font-semibold uppercase tracking-wider">Học liên tiếp</div>
       </div>
     </div>
   );

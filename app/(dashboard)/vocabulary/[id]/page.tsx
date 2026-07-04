@@ -1,7 +1,8 @@
 'use client';
 import React, { use, useState } from 'react';
 import Link from 'next/link';
-import { MOCK_THEMES, MOCK_VOCABULARIES } from '@/lib/constants';
+import { MOCK_THEMES } from '@/lib/constants';
+import { MOCK_VOCABULARIES } from '@/lib/constants/vocabularies';
 import { useVocabularyStore } from '@/lib/store/vocabularyStore';
 import { useAuthStore } from '@/lib/store/authStore';
 import { ArrowLeft, Layers, List, Heart, Volume2, Zap, CheckCircle2, RotateCcw, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -48,7 +49,7 @@ export default function ThemeDetailPage({ params }: { params: Promise<{ id: stri
             <CheckCircle2 className="w-5 h-5 text-emerald-500" strokeWidth={2.5} />
             <div>
               <div className="text-xs font-bold text-gray-900 dark:text-gray-100">{toast.title}</div>
-              <div className="text-[10px] text-muted font-medium">{toast.body}</div>
+              <div className="text-[12px] text-muted font-medium">{toast.body}</div>
             </div>
           </div>
         </div>
@@ -98,7 +99,7 @@ export default function ThemeDetailPage({ params }: { params: Promise<{ id: stri
               >
                 {/* Front Side */}
                 <div className="absolute inset-0 bg-white dark:bg-neutral-900 rounded-[calc(var(--radius-3xl)-6px)] p-8 flex flex-col items-center justify-center [backface-visibility:hidden] text-center shadow-[inset_0_1px_1px_rgba(255,255,255,0.12)]">
-                  <span className="flex items-center gap-1.5 text-[9px] uppercase tracking-[0.2em] font-extrabold text-cyan-500 mb-6 bg-cyan-500/10 px-2.5 py-1 rounded-full">
+                  <span className="flex items-center gap-1.5 text-[11px] uppercase tracking-[0.2em] font-extrabold text-cyan-500 mb-6 bg-cyan-500/10 px-2.5 py-1 rounded-full">
                     <RotateCcw className="w-3 h-3" strokeWidth={2} /> Bấm để lật
                   </span>
                   <h3 className="text-4xl font-extrabold text-primary-600 dark:text-cyan-400 mb-2 tracking-tight">{activeVocab.word}</h3>
@@ -110,7 +111,7 @@ export default function ThemeDetailPage({ params }: { params: Promise<{ id: stri
 
                 {/* Back Side */}
                 <div className="absolute inset-0 rounded-[calc(var(--radius-3xl)-6px)] p-8 flex flex-col items-center justify-center [backface-visibility:hidden] [transform:rotateY(180deg)] text-center shadow-[inset_0_1px_1px_rgba(255,255,255,0.12)]" style={{ background: 'linear-gradient(135deg, rgba(14, 165, 233, 0.06) 0%, rgba(99, 102, 241, 0.03) 100%)' }}>
-                  <span className="text-[9px] uppercase tracking-[0.2em] font-extrabold text-emerald-500 mb-4 bg-emerald-500/10 px-2.5 py-1 rounded-full">
+                  <span className="text-[11px] uppercase tracking-[0.2em] font-extrabold text-emerald-500 mb-4 bg-emerald-500/10 px-2.5 py-1 rounded-full">
                     Ý nghĩa từ vựng
                   </span>
                   <h4 className="text-xl font-extrabold text-gray-900 dark:text-gray-100 mb-2">{activeVocab.definitionVn}</h4>
@@ -199,7 +200,7 @@ export default function ThemeDetailPage({ params }: { params: Promise<{ id: stri
                   <div className="flex items-start justify-between mb-3">
                     <div>
                       <h3 className="text-xl font-extrabold text-primary-600 dark:text-cyan-400 group-hover:text-cyan-500" style={{ transition: 'color 500ms cubic-bezier(0.32, 0.72, 0, 1)' }}>{v.word}</h3>
-                      <span className="inline-block text-[10px] font-bold px-2 py-0.5 bg-cyan-100 dark:bg-cyan-950/50 text-cyan-700 dark:text-cyan-300 rounded-full uppercase mt-1">
+                      <span className="inline-block text-[12px] font-bold px-2 py-0.5 bg-cyan-100 dark:bg-cyan-950/50 text-cyan-700 dark:text-cyan-300 rounded-full uppercase mt-1">
                         {v.pos}
                       </span>
                       <div className="text-xs text-muted font-mono mt-1">{v.phonetic}</div>

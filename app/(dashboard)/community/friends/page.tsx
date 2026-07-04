@@ -175,20 +175,20 @@ export default function FriendsPage() {
                       </div>
                       <div>
                         <div className="text-xs font-extrabold text-gray-900 dark:text-gray-100">
-                          {req.fullName} <span className="text-[10px] text-muted font-normal">(@{req.username})</span>
+                          {req.fullName} <span className="text-[12px] text-muted font-normal">(@{req.username})</span>
                         </div>
-                        <div className="text-[10px] text-muted font-medium">Cấp độ {req.level}</div>
+                        <div className="text-[12px] text-muted font-medium">Cấp độ {req.level}</div>
                       </div>
                     </div>
                     <div className="flex gap-2">
                       <button 
-                        className="px-3 py-1.5 text-[10px] font-bold text-white bg-gradient-to-r from-emerald-500 to-teal-600 rounded-full tactile shadow-sm" 
+                        className="px-3 py-1.5 text-[12px] font-bold text-white bg-gradient-to-r from-emerald-500 to-teal-600 rounded-full tactile shadow-sm" 
                         onClick={() => handleProcessRequest(req.requestId, 'ACCEPT')}
                       >
                         Đồng ý
                       </button>
                       <button 
-                        className="px-3 py-1.5 text-[10px] font-bold text-muted bg-neutral-50 dark:bg-neutral-900 border border-black/5 dark:border-white/5 rounded-full tactile" 
+                        className="px-3 py-1.5 text-[12px] font-bold text-muted bg-neutral-50 dark:bg-neutral-900 border border-black/5 dark:border-white/5 rounded-full tactile" 
                         onClick={() => handleProcessRequest(req.requestId, 'DECLINE')}
                       >
                         Từ chối
@@ -232,20 +232,20 @@ export default function FriendsPage() {
                       </div>
                       <div>
                         <div className="text-xs font-extrabold text-gray-900 dark:text-gray-100">
-                          {f.fullName} <span className="text-[10px] text-muted font-normal">(@{f.username})</span>
+                          {f.fullName} <span className="text-[12px] text-muted font-normal">(@{f.username})</span>
                         </div>
-                        <div className="text-[10px] text-muted font-medium mt-0.5">Cấp độ {f.level} · {f.xp} XP</div>
+                        <div className="text-[12px] text-muted font-medium mt-0.5">Cấp độ {f.level} · {f.xp} XP</div>
                       </div>
                     </div>
                     <div className="flex gap-2">
                       <button 
-                        className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-bold text-muted bg-neutral-50 dark:bg-neutral-900 border border-black/5 dark:border-white/5 rounded-full tactile" 
+                        className="flex items-center gap-1.5 px-3 py-1.5 text-[12px] font-bold text-muted bg-neutral-50 dark:bg-neutral-900 border border-black/5 dark:border-white/5 rounded-full tactile" 
                         onClick={() => alert('Tính năng chat riêng tư đang được phát triển!')}
                       >
                         <MessageSquare className="w-3 h-3 text-muted" strokeWidth={1.8} /> Chat
                       </button>
                       <button 
-                        className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-bold text-red-500 bg-red-50 dark:bg-red-950/20 border border-red-200/50 dark:border-red-900/30 rounded-full tactile" 
+                        className="flex items-center gap-1.5 px-3 py-1.5 text-[12px] font-bold text-red-500 bg-red-50 dark:bg-red-950/20 border border-red-200/50 dark:border-red-900/30 rounded-full tactile" 
                         onClick={() => handleRemoveFriend(f.id)}
                       >
                         <UserMinus className="w-3 h-3 text-red-500" strokeWidth={1.8} /> Hủy kết
@@ -274,13 +274,13 @@ export default function FriendsPage() {
                       </div>
                       <div>
                         <div className="text-xs font-bold text-gray-900 dark:text-gray-100">
-                          {s.fullName} <span className="text-[10px] text-muted font-normal">(@{s.username})</span>
+                          {s.fullName} <span className="text-[12px] text-muted font-normal">(@{s.username})</span>
                         </div>
-                        <div className="text-[10px] text-muted font-medium mt-0.5">Cấp độ {s.level} · {s.xp} XP</div>
+                        <div className="text-[12px] text-muted font-medium mt-0.5">Cấp độ {s.level} · {s.xp} XP</div>
                       </div>
                     </div>
                     <button 
-                      className="flex items-center gap-1 bg-neutral-50 dark:bg-neutral-900 text-[9px] font-black uppercase tracking-wider py-1.5 px-3.5 border border-black/10 dark:border-white/10 rounded-full hover:bg-cyan-50 dark:hover:bg-cyan-950/20 hover:text-cyan-500 hover:border-cyan-200 dark:hover:border-cyan-800 transition-all duration-300 tactile"
+                      className="flex items-center gap-1 bg-neutral-50 dark:bg-neutral-900 text-[11px] font-black uppercase tracking-wider py-1.5 px-3.5 border border-black/10 dark:border-white/10 rounded-full hover:bg-cyan-50 dark:hover:bg-cyan-950/20 hover:text-cyan-500 hover:border-cyan-200 dark:hover:border-cyan-800 transition-all duration-300 tactile"
                       onClick={() => handleAddFriend(s.id, s.fullName)}
                     >
                       <UserPlus className="w-3.5 h-3.5" strokeWidth={2} /> Kết bạn

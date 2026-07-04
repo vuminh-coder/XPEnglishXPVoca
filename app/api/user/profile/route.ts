@@ -1,10 +1,10 @@
-import { auth } from "@clerk/nextjs/server";
+import { getAuthenticatedUserId } from "@/lib/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 export async function GET() {
   try {
-    const { userId } = await auth();
+    const userId = await getAuthenticatedUserId();
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -19,7 +19,7 @@ export async function GET() {
         data: {
           id: userId,
           fullName: "User",
-          username: "user_" + userId.substring(userId.length - 8),
+          username: "user_" + userId.substring(Math.max(0, userId.length - 8)),
           avatarEmoji: "🦉",
           level: 1,
           totalXp: 0,
@@ -40,7 +40,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const { userId } = await auth();
+    const userId = await getAuthenticatedUserId();
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -64,7 +64,7 @@ export async function POST(request: Request) {
       create: {
         id: userId,
         fullName: fullName || "User",
-        username: username || "user_" + userId.substring(userId.length - 8),
+        username: username || "user_" + userId.substring(Math.max(0, userId.length - 8)),
         avatarEmoji: avatarEmoji || "🦉",
         level: level || 1,
         totalXp: totalXp || 0,

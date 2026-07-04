@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { Vocabulary, LearnedVocabulary } from '@/types';
-import { MOCK_VOCABULARIES } from '../constants';
+import { MOCK_VOCABULARIES } from '../constants/vocabularies';
 import { useAuthStore } from './authStore';
 
 interface VocabularyState {

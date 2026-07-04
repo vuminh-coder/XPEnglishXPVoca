@@ -1,11 +1,11 @@
-import { auth } from "@clerk/nextjs/server";
+import { getAuthenticatedUserId } from "@/lib/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 // GET /api/friends/suggestions - Get friend suggestions for the current user
 export async function GET() {
   try {
-    const { userId } = await auth();
+    const userId = await getAuthenticatedUserId();
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
