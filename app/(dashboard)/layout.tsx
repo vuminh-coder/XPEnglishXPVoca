@@ -4,6 +4,7 @@ import Navbar from "@/components/layout/Navbar";
 import Sidebar from "@/components/layout/Sidebar";
 import RightSidebar from "@/components/layout/RightSidebar";
 import BottomNav from "@/components/layout/BottomNav";
+import { ToastContainer } from "@/components/ui/Toast";
 
 export default function DashboardLayout({
   children,
@@ -27,6 +28,7 @@ export default function DashboardLayout({
         <RightSidebar />
       </aside>
       <BottomNav />
+      <ToastContainer />
     </>
   );
 }

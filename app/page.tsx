@@ -176,6 +176,27 @@ export default function LandingPage() {
                   thoại mô phỏng thực tế với người bạn AI của riêng bạn.
                 </p>
               </div>
+              <div className="feature-card">
+                <div className="feature-icon">📝</div>
+                <h3 className="feature-title">Thi thử TOEIC/IELTS</h3>
+                <p className="feature-desc">
+                  Kiểm tra trình độ định kỳ với bộ đề mô phỏng cấu trúc đề thi chính thức, chấm điểm và gợi ý phần yếu cần học lại.
+                </p>
+              </div>
+              <div className="feature-card">
+                <div className="feature-icon">🎧</div>
+                <h3 className="feature-title">Luyện nghe & Ngữ pháp</h3>
+                <p className="feature-desc">
+                  Rèn luyện phản xạ nghe với Dictation (nghe gõ lại) nâng cao và tối ưu lý thuyết qua phòng Lab Ngữ pháp thông minh.
+                </p>
+              </div>
+              <div className="feature-card">
+                <div className="feature-icon">🎮</div>
+                <h3 className="feature-title">Mini Games & Phòng nhóm</h3>
+                <p className="feature-desc">
+                  Vừa học vừa giải trí với Word Scramble, lật hình Memory Match và tham gia phòng học nhóm ảo realtime cùng bạn bè.
+                </p>
+              </div>
             </div>
           </section>
 

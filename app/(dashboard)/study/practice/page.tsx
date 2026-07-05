@@ -1,9 +1,10 @@
-﻿"use client";
+"use client";
 import React, { useState } from "react";
 import Link from "next/link";
 import { MOCK_VOCABULARIES } from "@/lib/constants/vocabularies";
 import { useVocabularyStore } from "@/lib/store/vocabularyStore";
 import { useAuthStore } from "@/lib/store/authStore";
+import { Button } from "@/components/ui";
 import {
   Brain,
   Layers,
@@ -30,7 +31,7 @@ export default function PracticeQuizPage() {
   const [fIndex, setFIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
 
-  const { practiceWord } = useVocabularyStore();
+  const { practiceWord, submitReview } = useVocabularyStore();
   const { awardXp } = useAuthStore();
 
   const currentWord = vocabs[qIndex];
@@ -63,9 +64,10 @@ export default function PracticeQuizPage() {
     }, 1500);
   };
 
-  const handleFlashcardResult = (correct: boolean) => {
-    practiceWord(vocabs[fIndex].id, correct);
-    const xpEarned = correct ? 15 : 5;
+  const handleFlashcardReview = async (quality: number) => {
+    const wordId = vocabs[fIndex].id;
+    await submitReview(wordId, quality);
+    const xpEarned = quality >= 3 ? 15 : 5;
     awardXp(xpEarned);
     setIsFlipped(false);
     setFIndex((prev) => (prev + 1) % vocabs.length);
@@ -319,26 +321,44 @@ export default function PracticeQuizPage() {
             </div>
 
             <div className="bezel mt-4">
-              <div className="bezel-inner flex items-center justify-between p-3">
-                <button
-                  type="button"
-                  className="flex items-center gap-1.5 rounded-full border border-rose-200 bg-rose-50 px-4 py-2 text-xs font-bold text-rose-600 dark:border-rose-900/30 dark:bg-rose-950/20"
-                  onClick={() => handleFlashcardResult(false)}
-                >
-                  <X className="h-3.5 w-3.5" strokeWidth={2.5} />
-                  Đã quên
-                </button>
-                <span className="text-xs font-semibold text-muted">
-                  Lưu lại phản hồi
+              <div className="bezel-inner flex flex-col gap-3 p-4">
+                <span className="text-[11px] font-black uppercase tracking-wider text-slate-400 text-center">
+                  Đánh giá độ nhớ của bạn
                 </span>
-                <button
-                  type="button"
-                  className="flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-xs font-bold text-emerald-600 dark:border-emerald-900/30 dark:bg-emerald-950/20"
-                  onClick={() => handleFlashcardResult(true)}
-                >
-                  <Check className="h-3.5 w-3.5" strokeWidth={2.5} />
-                  Đã thuộc
-                </button>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    className="rounded-xl font-bold py-2.5"
+                    onClick={() => handleFlashcardReview(1)}
+                  >
+                    Lặp lại ngay
+                  </Button>
+                  <Button
+                    variant="bezel"
+                    size="sm"
+                    className="rounded-xl border-amber-300 dark:border-amber-700/50 hover:bg-amber-50 dark:hover:bg-amber-950/20 text-amber-600 dark:text-amber-400 py-2.5"
+                    onClick={() => handleFlashcardReview(3)}
+                  >
+                    Khó
+                  </Button>
+                  <Button
+                    variant="bezel"
+                    size="sm"
+                    className="rounded-xl border-sky-300 dark:border-sky-700/50 hover:bg-sky-50 dark:hover:bg-sky-950/20 text-sky-600 dark:text-sky-400 py-2.5"
+                    onClick={() => handleFlashcardReview(4)}
+                  >
+                    Tốt
+                  </Button>
+                  <Button
+                    variant="success"
+                    size="sm"
+                    className="rounded-xl font-bold py-2.5"
+                    onClick={() => handleFlashcardReview(5)}
+                  >
+                    Dễ
+                  </Button>
+                </div>
               </div>
             </div>
           </div>

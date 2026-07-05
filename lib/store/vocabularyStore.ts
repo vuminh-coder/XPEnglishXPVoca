@@ -9,6 +9,7 @@ interface VocabularyState {
   toggleFavorite: (vocabId: string) => void;
   practiceWord: (vocabId: string, isCorrect: boolean) => void;
   loadLearnedWords: (userId: string) => void;
+  submitReview: (vocabId: string, quality: number) => Promise<void>;
 }
 
 export const useVocabularyStore = create<VocabularyState>((set, get) => ({
@@ -114,6 +115,47 @@ export const useVocabularyStore = create<VocabularyState>((set, get) => ({
           nextReview: activeItem.nextReview
         })
       }).catch(err => console.error("Error syncing practice word to API:", err));
+    }
+  },
+  submitReview: async (vocabId, quality) => {
+    const list = get().learned;
+    const userId = useAuthStore.getState().user?.id || 'u1';
+    
+    try {
+      const res = await fetch("/api/user/vocab/review-submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ vocabId, quality }),
+      });
+      const json = await res.json();
+      
+      if (json.success && json.data) {
+        const updatedVocab = json.data;
+        const itemIndex = list.findIndex(l => l.vocabId === vocabId && l.userId === userId);
+        
+        let updatedList = [...list];
+        const newLearnedItem = {
+          userId,
+          vocabId,
+          proficiency: updatedVocab.proficiency,
+          lastPracticed: updatedVocab.lastPracticed,
+          nextReview: updatedVocab.nextReview,
+          isFavorite: itemIndex !== -1 ? list[itemIndex].isFavorite : false
+        };
+
+        if (itemIndex !== -1) {
+          updatedList[itemIndex] = newLearnedItem;
+        } else {
+          updatedList.push(newLearnedItem);
+        }
+
+        set({ learned: updatedList });
+        if (typeof window !== 'undefined') {
+          localStorage.setItem(`xp_voca_learned_${userId}`, JSON.stringify(updatedList));
+        }
+      }
+    } catch (e) {
+      console.error("Error submitting SM-2 review:", e);
     }
   }
 }));

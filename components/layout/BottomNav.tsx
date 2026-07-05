@@ -48,6 +48,7 @@ export default function BottomNav() {
           <Link
             key={tab.path}
             href={tab.path}
+            aria-current={isActive ? "page" : undefined}
             className={`flex flex-col items-center justify-center gap-1 w-14 h-12 rounded-xl transition-all duration-300 tactile ${
               isActive 
                 ? "text-primary-500 font-bold bg-primary-500/5 dark:bg-primary-500/10" 
@@ -55,7 +56,7 @@ export default function BottomNav() {
             }`}
           >
             {tab.icon}
-            <span className="text-[10px] tracking-wide font-medium">{tab.name}</span>
+            <span className="text-[11px] tracking-wide font-medium">{tab.name}</span>
           </Link>
         );
       })}

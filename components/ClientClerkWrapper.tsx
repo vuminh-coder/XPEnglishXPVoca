@@ -39,6 +39,15 @@ export default function ClientClerkWrapper({
   const clerkEnabled = checkIsClerkEnabled();
   const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
+  React.useEffect(() => {
+    if (typeof window !== "undefined" && "serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("/sw.js")
+        .then((reg) => console.log("Service Worker registered:", reg.scope))
+        .catch((err) => console.warn("Service Worker registration failed:", err));
+    }
+  }, []);
+
   if (!clerkEnabled || !publishableKey) {
     return (
       <div suppressHydrationWarning>

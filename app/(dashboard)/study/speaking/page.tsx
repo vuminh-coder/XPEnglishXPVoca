@@ -1,203 +1,363 @@
-'use client';
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { MOCK_VOCABULARIES } from '@/lib/constants/vocabularies';
-import { useVocabularyStore } from '@/lib/store/vocabularyStore';
-import { useAuthStore } from '@/lib/store/authStore';
-import { Brain, Layers, PenLine, Mic, Volume2, Sparkles, Check, AlertCircle } from 'lucide-react';
+"use client";
+import React, { useState, useEffect, useRef } from "react";
+import { Button, Card, Badge } from "@/components/ui";
+import {
+  Mic,
+  MicOff,
+  Sparkles,
+  Trophy,
+  Volume2,
+  CheckCircle,
+  AlertCircle,
+  Play,
+  ArrowRight,
+} from "lucide-react";
+import Link from "next/link";
 
-export default function SpeakingPage() {
-  const vocabs = MOCK_VOCABULARIES;
-  const [index, setIndex] = useState(0);
-  const [listening, setListening] = useState(false);
-  const [feedback, setFeedback] = useState<string | null>(null);
+interface Phrase {
+  id: string;
+  text: string;
+  phonetic: string;
+  topic: string;
+}
 
-  const { practiceWord } = useVocabularyStore();
-  const { awardXp } = useAuthStore();
+const MOCK_PHRASES: Phrase[] = [
+  {
+    id: "p1",
+    topic: "IELTS Speaking Part 1",
+    text: "Actually, I am working as a software developer in a tech company.",
+    phonetic: "/ˈæktʃuəli, aɪ æm ˈwɜːkɪŋ æz ə ˈsɒftweə dɪˈveləpə ɪn ə tek ˈkʌmpəni./",
+  },
+  {
+    id: "p2",
+    topic: "TOEIC Speaking Read Aloud",
+    text: "Welcome to the grand opening of our new corporate headquarters today.",
+    phonetic: "/ˈwelkəm tuː ðə ɡrænd ˈəʊpənɪŋ ɒv ˈaʊə ˈkɔːpərət ˌhedˈkwɔːtəz təˈdeɪ./",
+  },
+  {
+    id: "p3",
+    topic: "IELTS Speaking Part 2",
+    text: "It was an unforgettable experience that completely changed my perspective.",
+    phonetic: "/ɪt wɒz ən ˌʌnfəˈɡetəbl ɪkˈspɪəriəns ðæt kəmˈpliːtli tʃeɪndʒd maɪ pəˈspektɪv./",
+  },
+];
 
-  const speak = (word: string) => {
-    if ('speechSynthesis' in window) {
-      const u = new SpeechSynthesisUtterance(word);
-      u.lang = 'en-US';
-      window.speechSynthesis.speak(u);
+export default function SpeakingPracticePage() {
+  const [selectedPhrase, setSelectedPhrase] = useState<Phrase>(MOCK_PHRASES[0]);
+  const [isRecording, setIsRecording] = useState(false);
+  const [spokenText, setSpokenText] = useState("");
+  const [overallScore, setOverallScore] = useState<number | null>(null);
+  const [wordsFeedback, setWordsFeedback] = useState<Array<{ word: string; isCorrect: boolean }>>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const recognitionRef = useRef<any>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const analyserRef = useRef<AnalyserNode | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const animationFrameRef = useRef<number | null>(null);
+
+  // Initialize Speech Recognition
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const SpeechRecognition =
+        (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      
+      if (SpeechRecognition) {
+        const rec = new SpeechRecognition();
+        rec.continuous = false;
+        rec.interimResults = false;
+        rec.lang = "en-US";
+
+        rec.onresult = (event: any) => {
+          const result = event.results[0][0].transcript;
+          setSpokenText(result);
+        };
+
+        rec.onerror = (e: any) => {
+          console.error("Speech recognition error:", e);
+          setIsRecording(false);
+        };
+
+        rec.onend = () => {
+          setIsRecording(false);
+        };
+
+        recognitionRef.current = rec;
+      }
+    }
+
+    return () => {
+      if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
+      if (audioContextRef.current) audioContextRef.current.close();
+    };
+  }, []);
+
+  // Visualizer Waveform Canvas animation
+  const startVisualizer = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const analyser = audioCtx.createAnalyser();
+      const source = audioCtx.createMediaStreamSource(stream);
+      
+      source.connect(analyser);
+      analyser.fftSize = 256;
+      
+      audioContextRef.current = audioCtx;
+      analyserRef.current = analyser;
+
+      const bufferLength = analyser.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+
+      const draw = () => {
+        if (!canvasRef.current) return;
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+
+        const width = canvas.width;
+        const height = canvas.height;
+
+        animationFrameRef.current = requestAnimationFrame(draw);
+        analyser.getByteFrequencyData(dataArray);
+
+        ctx.fillStyle = "rgba(255, 255, 255, 0.15)";
+        ctx.fillRect(0, 0, width, height);
+
+        const barWidth = (width / bufferLength) * 2.5;
+        let barHeight;
+        let x = 0;
+
+        for (let i = 0; i < bufferLength; i++) {
+          barHeight = dataArray[i] / 2;
+          ctx.fillStyle = `rgb(${barHeight + 100}, 139, 246)`;
+          ctx.fillRect(x, height - barHeight, barWidth, barHeight);
+          x += barWidth + 1;
+        }
+      };
+
+      draw();
+    } catch (e) {
+      console.warn("Audio Context Visualizer blocked or failed:", e);
     }
   };
 
-  const startSpeechRecognition = () => {
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-      alert('Trình duyệt không hỗ trợ nhận dạng giọng nói.');
+  const stopVisualizer = () => {
+    if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
+    if (audioContextRef.current) {
+      audioContextRef.current.close();
+      audioContextRef.current = null;
+    }
+    // Clean canvas
+    if (canvasRef.current) {
+      const ctx = canvasRef.current.getContext("2d");
+      ctx?.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+    }
+  };
+
+  // Recording controls
+  const toggleRecording = () => {
+    if (!recognitionRef.current) {
+      alert("Trình duyệt không hỗ trợ nhận diện giọng nói Web Speech API.");
       return;
     }
 
-    const recognition = new SpeechRecognition();
-    recognition.lang = 'en-US';
-    
-    setFeedback("Hệ thống đang lắng nghe...");
-    setListening(true);
-
-    recognition.onresult = async (event: any) => {
-      const spokenText = event.results[0][0].transcript;
-      const target = vocabs[index].word;
+    if (isRecording) {
+      recognitionRef.current.stop();
+      stopVisualizer();
+      setIsRecording(false);
+    } else {
+      setSpokenText("");
+      setOverallScore(null);
+      setWordsFeedback([]);
       
-      setFeedback("Đang phân tích giọng nói...");
-
       try {
-        const res = await fetch("/api/ai/pronunciation", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ spokenText, targetText: target })
-        });
-        const data = await res.json();
-        
-        if (data.success) {
-          const isCorrect = data.isCorrect;
-          practiceWord(vocabs[index].id, isCorrect);
-          
-          if (isCorrect) {
-            setFeedback(`Chính xác! Bạn phát âm đúng (${data.score}%): "${spokenText}" (+15 XP)`);
-            awardXp(15);
-          } else {
-            setFeedback(`Chưa chuẩn lắm (${data.score}%). Bạn phát âm: "${spokenText}" (Từ đúng: ${target}) (+5 XP)`);
-            awardXp(5);
-          }
-        } else {
-          throw new Error("API validation failed");
-        }
-      } catch (err) {
-        console.error("Pronunciation sync error:", err);
-        // Fallback to client-side direct matching
-        const cleanSpoken = spokenText.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
-        const cleanTarget = target.toLowerCase();
-        const isCorrect = cleanSpoken === cleanTarget;
-        practiceWord(vocabs[index].id, isCorrect);
-        
-        if (isCorrect) {
-          setFeedback(`Chính xác! Bạn phát âm đúng: "${spokenText}" (+15 XP)`);
-          awardXp(15);
-        } else {
-          setFeedback(`Chưa chuẩn lắm! Bạn phát âm: "${spokenText}" (Từ đúng: ${target}) (+5 XP)`);
-          awardXp(5);
-        }
+        recognitionRef.current.start();
+        setIsRecording(true);
+        startVisualizer();
+      } catch (e) {
+        console.error(e);
       }
-
-      setTimeout(() => {
-        setListening(false);
-        setFeedback(null);
-        setIndex((prev) => (prev + 1) % vocabs.length);
-      }, 3000);
-    };
-
-    recognition.onerror = () => {
-      setFeedback("Lỗi micro hoặc không nhận diện được giọng nói.");
-      setListening(false);
-    };
-
-    recognition.start();
+    }
   };
 
-  const modes = [
-    { href: "/study/practice", label: 'Trắc nghiệm', icon: <Brain className="w-5 h-5" strokeWidth={1.8} />, active: false },
-    { href: "/study/practice", label: 'Thẻ học', icon: <Layers className="w-5 h-5" strokeWidth={1.8} />, active: false },
-    { href: "/study/writing", label: 'Luyện viết', icon: <PenLine className="w-5 h-5" strokeWidth={1.8} />, active: false },
-  ];
+  // Submit to API
+  const handleEvaluate = async () => {
+    if (!spokenText) return;
+    setIsLoading(true);
+
+    try {
+      const res = await fetch("/api/ai/pronunciation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          spokenText,
+          targetText: selectedPhrase.text,
+        }),
+      });
+      const json = await res.json();
+      if (json.success) {
+        setOverallScore(json.score);
+        setWordsFeedback(json.words);
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const playTTS = () => {
+    if (typeof window !== "undefined") {
+      const synth = window.speechSynthesis;
+      if (synth) {
+        const utterance = new SpeechSynthesisUtterance(selectedPhrase.text);
+        utterance.lang = "en-US";
+        synth.speak(utterance);
+      }
+    }
+  };
 
   return (
-    <div className="animate-fade-in">
-      <div className="page-header animate-fade-in-down mb-8">
-        <h1 className="page-title text-3xl font-extrabold tracking-tight">Học tập và Rèn luyện</h1>
-        <p className="page-subtitle text-muted max-w-xl" style={{ marginTop: '6px' }}>
-          Rèn luyện khả năng phát âm chuẩn IPA Mỹ thông qua micro AI phân tích giọng nói trực tiếp.
+    <div className="mx-auto max-w-5xl animate-fade-in space-y-6">
+      {/* Page Header */}
+      <div className="page-header animate-fade-in-down">
+        <h1 className="page-title text-3xl font-extrabold tracking-tight">
+          AI Speaking Pronunciation Coach
+        </h1>
+        <p className="page-subtitle text-muted max-w-2xl" style={{ marginTop: "6px" }}>
+          Luyện phát âm chuẩn xác đến từng từ bằng so khớp phổ âm tự động.
         </p>
       </div>
 
-      {/* Mode Selector — Double-Bezel */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 animate-scale-in">
-        {modes.map(m => (
-          <Link key={m.href} href={m.href} className="bezel tactile block">
-            <div className="bezel-inner p-5 flex flex-col items-center text-center">
-              <div className="icon-well bg-neutral-100 dark:bg-neutral-800 text-muted mb-3">
-                {m.icon}
-              </div>
-              <div className="text-sm font-bold text-gray-900 dark:text-gray-100 mb-1">{m.label}</div>
-              <p className="text-[12px] text-muted leading-relaxed">Chuyển sang chế độ học tập này.</p>
-            </div>
-          </Link>
-        ))}
-
-        <div className="bezel border-cyan-400 dark:border-cyan-700">
-          <div className="bezel-inner p-5 flex flex-col items-center text-center">
-            <div className="icon-well bg-cyan-50 dark:bg-cyan-950/30 text-cyan-500 mb-3">
-              <Mic className="w-5 h-5" strokeWidth={1.8} />
-            </div>
-            <div className="text-sm font-bold text-gray-900 dark:text-gray-100 mb-1">Luyện phát âm</div>
-            <p className="text-[12px] text-muted leading-relaxed">Nhận diện giọng nói thông minh.</p>
+      <div className="grid gap-6 lg:grid-cols-5 items-start">
+        {/* Left Side: Phrases Selection */}
+        <div className="lg:col-span-2 space-y-4">
+          <h3 className="text-xs font-black uppercase tracking-wider text-slate-500">Mẫu câu luyện nói</h3>
+          <div className="space-y-3">
+            {MOCK_PHRASES.map((phrase) => (
+              <button
+                key={phrase.id}
+                type="button"
+                onClick={() => {
+                  setSelectedPhrase(phrase);
+                  setSpokenText("");
+                  setOverallScore(null);
+                  setWordsFeedback([]);
+                }}
+                className={`bezel w-full text-left ${selectedPhrase.id === phrase.id ? "ring-2 ring-sky-400" : ""}`}
+              >
+                <div className="bezel-inner p-4 space-y-2">
+                  <Badge variant={phrase.topic.includes("IELTS") ? "legendary" : "primary"}>
+                    {phrase.topic}
+                  </Badge>
+                  <p className="font-bold text-slate-800 dark:text-slate-200 text-sm line-clamp-2">
+                    {phrase.text}
+                  </p>
+                </div>
+              </button>
+            ))}
           </div>
         </div>
-      </div>
 
-      {/* Arena — Double-Bezel */}
-      <div id="practice-arena" className="animate-fade-in-up">
-        <div className="bezel max-w-xl mx-auto">
-          <div className="bezel-inner p-6 flex flex-col gap-6 text-center">
-            <h3 className="text-[11px] font-extrabold text-gray-500 uppercase tracking-[0.15em]">
-              Luyện phát âm chuẩn Mỹ
-            </h3>
-            
-            <div className="p-8 bg-neutral-50/50 dark:bg-neutral-900/30 rounded-[calc(var(--radius-3xl)-6px)] border border-black/[0.03] dark:border-white/[0.03] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
-              <h1 className="text-4xl font-black text-primary-600 dark:text-cyan-400 tracking-tight mb-2">
-                {vocabs[index]?.word}
-              </h1>
-              <p className="text-sm font-mono text-muted mb-4">{vocabs[index]?.phonetic} ({vocabs[index]?.pos})</p>
-              <p className="text-xs text-gray-900 dark:text-gray-100 font-bold bg-white dark:bg-neutral-950 py-2 px-4 rounded-xl border border-black/5 dark:border-white/5 w-fit mx-auto shadow-sm">
-                Nghĩa: {vocabs[index]?.definitionVn}
-              </p>
-            </div>
+        {/* Right Side: Active speaking board */}
+        <div className="lg:col-span-3 space-y-6">
+          <div className="bezel">
+            <div className="bezel-inner bg-white dark:bg-neutral-900 p-6 space-y-6 text-center">
+              <div className="flex justify-between items-center border-b border-slate-100 dark:border-neutral-800 pb-3">
+                <span className="text-xs font-black uppercase text-slate-400">Đọc to câu dưới đây</span>
+                <button
+                  type="button"
+                  onClick={playTTS}
+                  className="rounded-full bg-slate-50 p-2 text-slate-600 hover:bg-slate-100 hover:text-sky-500 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-750"
+                  title="Nghe giọng đọc mẫu"
+                >
+                  <Volume2 className="h-4.5 w-4.5" />
+                </button>
+              </div>
 
-            <div className="flex flex-col items-center gap-5 my-2">
-              <div className="relative">
-                {listening && (
-                  <span className="absolute -inset-4 rounded-full bg-cyan-400/20 animate-ping"></span>
+              {/* Phrase text with pronunciation visual colorizer */}
+              <div className="space-y-2 py-4">
+                {wordsFeedback.length > 0 ? (
+                  <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1.5 text-2xl font-black tracking-tight">
+                    {wordsFeedback.map((w, idx) => (
+                      <span
+                        key={idx}
+                        className={w.isCorrect ? "text-emerald-500" : "text-rose-500 underline decoration-wavy decoration-2"}
+                      >
+                        {w.word}
+                      </span>
+                    ))}
+                  </div>
+                ) : (
+                  <h2 className="text-2xl font-black tracking-tight text-slate-800 dark:text-slate-200 leading-relaxed">
+                    {selectedPhrase.text}
+                  </h2>
                 )}
-                <button 
-                  className={`w-20 h-20 rounded-full flex items-center justify-center shadow-lg border-2 border-white/20 transition-all duration-300 relative z-10 tactile ${
-                    listening 
-                      ? 'bg-gradient-to-tr from-red-500 to-rose-600 text-white animate-pulse' 
-                      : 'bg-gradient-to-tr from-cyan-400 to-blue-500 text-white'
+                <p className="text-xs font-mono text-slate-400">{selectedPhrase.phonetic}</p>
+              </div>
+
+              {/* Waveform Visualizer Canvas */}
+              {isRecording && (
+                <div className="flex justify-center">
+                  <canvas ref={canvasRef} className="h-12 w-full max-w-xs rounded-xl" width={300} height={50} />
+                </div>
+              )}
+
+              {/* Recording Action Button */}
+              <div className="flex flex-col items-center gap-3">
+                <button
+                  type="button"
+                  onClick={toggleRecording}
+                  className={`h-16 w-16 rounded-full flex items-center justify-center text-white shadow-lg transition-transform hover:scale-105 active:scale-95 ${
+                    isRecording
+                      ? "bg-rose-500 shadow-rose-500/20"
+                      : "bg-sky-500 shadow-sky-500/20"
                   }`}
-                  onClick={startSpeechRecognition}
-                  disabled={listening}
                 >
-                  <Mic className="w-8 h-8 text-white" strokeWidth={2} />
+                  {isRecording ? <MicOff className="h-6 w-6" /> : <Mic className="h-6 w-6" />}
                 </button>
+                <span className="text-xs font-bold text-slate-500">
+                  {isRecording ? "Đang ghi âm... Nhấp lại để dừng" : "Nhấp micro để bắt đầu nói"}
+                </span>
               </div>
 
-              <div className="flex justify-center gap-3">
-                <button className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-muted bg-neutral-50 dark:bg-neutral-900 border border-black/5 dark:border-white/5 rounded-full tactile" onClick={() => speak(vocabs[index].word)}>
-                  <Volume2 className="w-3.5 h-3.5" strokeWidth={1.8} /> Nghe phát âm mẫu
-                </button>
-                <button 
-                  className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full tactile"
-                  onClick={startSpeechRecognition}
-                  disabled={listening}
+              {/* Spoken transcript output */}
+              {spokenText && (
+                <div className="bg-slate-50 dark:bg-neutral-950/40 p-4 rounded-2xl border border-slate-100 dark:border-neutral-900 text-left space-y-1.5">
+                  <span className="text-[10px] font-black uppercase text-slate-400">Kết quả nhận diện giọng nói</span>
+                  <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+                    “{spokenText}”
+                  </p>
+                </div>
+              )}
+
+              {/* Submit / Score feedback section */}
+              {spokenText && overallScore === null && (
+                <Button
+                  variant="primary"
+                  className="w-full py-3 text-sm font-bold flex items-center justify-center gap-2"
+                  onClick={handleEvaluate}
+                  disabled={isLoading}
                 >
-                  <Mic className="w-3.5 h-3.5 animate-pulse" strokeWidth={2} /> {listening ? 'Hệ thống đang nghe...' : 'Bắt đầu nói'}
-                </button>
-              </div>
+                  {isLoading ? "Đang phân tích..." : "Xem phân tích phát âm"}
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              )}
+
+              {overallScore !== null && (
+                <div className="bg-sky-50/50 dark:bg-sky-950/10 p-5 rounded-2xl border border-sky-100/50 dark:border-sky-900/30 flex items-center justify-between text-left">
+                  <div className="flex items-center gap-3">
+                    <Trophy className="h-7 w-7 text-amber-500 animate-bounce" />
+                    <div>
+                      <h4 className="text-sm font-black text-sky-850 dark:text-sky-400">Độ chuẩn xác phát âm</h4>
+                      <p className="text-xs text-slate-500 mt-0.5">Tiêu chuẩn bản xứ Mỹ.</p>
+                    </div>
+                  </div>
+                  <span className="text-3xl font-black text-sky-600">{overallScore}%</span>
+                </div>
+              )}
             </div>
-
-            {feedback && (
-              <div className={`p-4 rounded-xl border text-xs font-bold leading-relaxed flex items-center justify-center gap-2 ${
-                feedback.includes('Chính xác') 
-                  ? 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200/50 dark:border-emerald-900/30 text-emerald-600 dark:text-emerald-400' 
-                  : feedback.includes('Lỗi') 
-                    ? 'bg-red-50 dark:bg-red-950/20 border-red-200/50 dark:border-red-900/30 text-red-600 dark:text-red-400'
-                    : 'bg-neutral-50 dark:bg-neutral-900 border-black/[0.04] dark:border-white/[0.04] text-muted'
-              }`}>
-                {feedback.includes('Chính xác') ? <Check className="w-4 h-4 text-emerald-500" strokeWidth={2.5} /> : <AlertCircle className="w-4 h-4" strokeWidth={1.8} />}
-                <span>{feedback}</span>
-              </div>
-            )}
           </div>
         </div>
       </div>

@@ -1,172 +1,307 @@
-'use client';
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { MOCK_VOCABULARIES } from '@/lib/constants/vocabularies';
-import { useVocabularyStore } from '@/lib/store/vocabularyStore';
-import { useAuthStore } from '@/lib/store/authStore';
-import { Brain, Layers, PenLine, Mic, Volume2, CheckCircle2, XCircle } from 'lucide-react';
+"use client";
+import React, { useState } from "react";
+import { Button, Card, Badge } from "@/components/ui";
+import {
+  PenTool,
+  Trophy,
+  Sparkles,
+  FileText,
+  FileCheck,
+  RotateCcw,
+  CheckCircle,
+  HelpCircle,
+  AlertTriangle,
+  ChevronRight,
+} from "lucide-react";
+import Link from "next/link";
 
-export default function WritingPage() {
-  const vocabs = MOCK_VOCABULARIES;
-  const [index, setIndex] = useState(0);
-  const [input, setInput] = useState('');
-  const [feedback, setFeedback] = useState<string | null>(null);
-  const [isAnswered, setIsAnswered] = useState(false);
+interface Topic {
+  id: string;
+  title: string;
+  desc: string;
+  type: string;
+}
 
-  const { practiceWord } = useVocabularyStore();
-  const { awardXp } = useAuthStore();
+const SAMPLE_TOPICS: Topic[] = [
+  {
+    id: "ielts-t2",
+    type: "IELTS Writing Task 2",
+    title: "Artificial Intelligence & Human Labor",
+    desc: "Some people believe that the development of artificial intelligence will lead to mass unemployment. Others argue it will create new career pathways. Discuss both views and give your opinion.",
+  },
+  {
+    id: "toeic-w1",
+    type: "TOEIC Writing Part 3",
+    title: "Write an Opinion Essay about Remote Work",
+    desc: "Write an essay stating your opinion about whether working from home is beneficial for employees and employers. Give specific reasons and examples to support your view.",
+  },
+];
 
-  const speak = (word: string) => {
-    if ('speechSynthesis' in window) {
-      const u = new SpeechSynthesisUtterance(word);
-      u.lang = 'en-US';
-      window.speechSynthesis.speak(u);
+export default function WritingPracticePage() {
+  const [selectedTopic, setSelectedTopic] = useState<Topic>(SAMPLE_TOPICS[0]);
+  const [essay, setEssay] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [feedback, setFeedback] = useState<any>(null);
+
+  const wordCount = essay.trim() === "" ? 0 : essay.trim().split(/\s+/).length;
+
+  const handleEvaluate = async () => {
+    if (wordCount < 10) {
+      alert("Bài viết quá ngắn. Vui lòng nhập tối thiểu 10 từ.");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const res = await fetch("/api/ai/writing", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          topic: selectedTopic.desc,
+          essay,
+        }),
+      });
+      const json = await res.json();
+      if (json.success && json.data) {
+        setFeedback(json.data);
+      } else {
+        alert(json.error || "Không thể chấm bài!");
+      }
+    } catch (e) {
+      console.error("Error evaluating essay:", e);
+    } finally {
+      setIsLoading(false);
     }
   };
-
-  const checkAnswer = () => {
-    if (isAnswered) return;
-    setIsAnswered(true);
-
-    const isCorrect = input.trim().toLowerCase() === vocabs[index].word.toLowerCase();
-    
-    practiceWord(vocabs[index].id, isCorrect);
-    const xp = isCorrect ? 15 : 5;
-    awardXp(xp);
-
-    if (isCorrect) {
-      setFeedback(`Chính xác! Đáp án là "${vocabs[index].word}". (+15 XP)`);
-    } else {
-      setFeedback(`Chưa đúng! Đáp án đúng là: "${vocabs[index].word}". Bạn đã viết: "${input}" (+5 XP)`);
-    }
-
-    setTimeout(() => {
-      setFeedback(null);
-      setInput('');
-      setIsAnswered(false);
-      setIndex((index + 1) % vocabs.length);
-    }, 2500);
-  };
-
-  const modes = [
-    { href: "/study/practice", label: 'Trắc nghiệm', icon: <Brain className="w-5 h-5" strokeWidth={1.8} /> },
-    { href: "/study/practice", label: 'Thẻ học', icon: <Layers className="w-5 h-5" strokeWidth={1.8} /> },
-  ];
 
   return (
-    <div className="animate-fade-in">
-      <div className="page-header animate-fade-in-down mb-8">
-        <h1 className="page-title text-3xl font-extrabold tracking-tight">Học tập và Rèn luyện</h1>
-        <p className="page-subtitle text-muted max-w-xl" style={{ marginTop: '6px' }}>
-          Ghi nhớ sâu sắc và thành thạo cách viết chính tả của từ vựng thông qua thực hành viết.
+    <div className="mx-auto max-w-5xl animate-fade-in space-y-6">
+      {/* Page Header */}
+      <div className="page-header animate-fade-in-down">
+        <h1 className="page-title text-3xl font-extrabold tracking-tight">
+          AI IELTS/TOEIC Writing Examiner
+        </h1>
+        <p className="page-subtitle text-muted max-w-2xl" style={{ marginTop: "6px" }}>
+          Trình chấm viết học thuật thông minh phân tích sâu sắc theo 4 tiêu chí chuẩn hóa quốc tế.
         </p>
       </div>
 
-      {/* Mode Selector — Double-Bezel */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 animate-scale-in">
-        {modes.map(m => (
-          <Link key={m.href} href={m.href} className="bezel tactile block">
-            <div className="bezel-inner p-5 flex flex-col items-center text-center">
-              <div className="icon-well bg-neutral-100 dark:bg-neutral-800 text-muted mb-3">
-                {m.icon}
-              </div>
-              <div className="text-sm font-bold text-gray-900 dark:text-gray-100 mb-1">{m.label}</div>
-              <p className="text-[12px] text-muted leading-relaxed">Chuyển sang chế độ học tập này.</p>
+      {isLoading ? (
+        <div className="flex h-[50vh] flex-col items-center justify-center space-y-4">
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-sky-500 border-t-transparent"></div>
+          <p className="text-sm font-semibold text-muted">Trợ lý AI đang chấm bài luận của bạn. Vui lòng chờ...</p>
+        </div>
+      ) : !feedback ? (
+        <div className="grid gap-6 lg:grid-cols-5 items-start">
+          {/* Left panel: select topic */}
+          <div className="lg:col-span-2 space-y-4">
+            <h3 className="text-xs font-black uppercase tracking-wider text-slate-500">Chọn đề bài</h3>
+            <div className="space-y-3">
+              {SAMPLE_TOPICS.map((topic) => (
+                <button
+                  key={topic.id}
+                  type="button"
+                  onClick={() => {
+                    setSelectedTopic(topic);
+                    setEssay("");
+                  }}
+                  className={`bezel w-full text-left ${selectedTopic.id === topic.id ? "ring-2 ring-sky-400" : ""}`}
+                >
+                  <div className="bezel-inner p-4 space-y-2">
+                    <Badge variant={topic.type.includes("IELTS") ? "legendary" : "primary"}>
+                      {topic.type}
+                    </Badge>
+                    <h4 className="font-bold text-slate-800 dark:text-slate-200 text-sm">{topic.title}</h4>
+                    <p className="text-xs text-muted line-clamp-2">{topic.desc}</p>
+                  </div>
+                </button>
+              ))}
             </div>
-          </Link>
-        ))}
 
-        <div className="bezel border-cyan-400 dark:border-cyan-700">
-          <div className="bezel-inner p-5 flex flex-col items-center text-center">
-            <div className="icon-well bg-cyan-50 dark:bg-cyan-950/30 text-cyan-500 mb-3">
-              <PenLine className="w-5 h-5" strokeWidth={1.8} />
+            <Card className="p-4 bg-slate-50/50 border border-slate-100 space-y-2.5">
+              <span className="text-[10px] font-black uppercase text-slate-400 flex items-center gap-1">
+                <Sparkles className="h-3.5 w-3.5 text-sky-500" />
+                Hướng dẫn tiêu chuẩn
+              </span>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Nên viết tối thiểu 150 từ cho Task 1 và 250 từ cho Task 2 để đảm bảo đầy đủ các ý lập luận logic và cấu trúc ngữ pháp học thuật.
+              </p>
+            </Card>
+          </div>
+
+          {/* Right panel: text editor */}
+          <div className="lg:col-span-3 space-y-4">
+            <div className="bezel">
+              <div className="bezel-inner bg-white dark:bg-neutral-900 p-6 space-y-4">
+                <div className="border-b border-slate-100 dark:border-neutral-800 pb-3">
+                  <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Đề bài đang chọn:</span>
+                  <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 mt-1">
+                    {selectedTopic.desc}
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <textarea
+                    value={essay}
+                    onChange={(e) => setEssay(e.target.value)}
+                    placeholder="Nhập bài viết của bạn tại đây..."
+                    className="w-full min-h-[250px] p-4 text-sm bg-slate-50/30 rounded-2xl border border-slate-200 focus:outline-none dark:border-slate-850 dark:bg-neutral-950 dark:text-slate-200 leading-relaxed"
+                  />
+                  <div className="flex justify-between items-center text-xs font-bold text-slate-500">
+                    <span>Số từ: {wordCount} từ</span>
+                    {wordCount > 0 && <span className="text-sky-500">Tiến độ tốt!</span>}
+                  </div>
+                </div>
+
+                <Button
+                  variant="primary"
+                  className="w-full py-4 text-sm font-bold flex items-center justify-center gap-2"
+                  onClick={handleEvaluate}
+                  disabled={wordCount === 0}
+                >
+                  <FileCheck className="h-5 w-5" />
+                  Nộp bài & Chấm điểm bằng AI
+                </Button>
+              </div>
             </div>
-            <div className="text-sm font-bold text-gray-900 dark:text-gray-100 mb-1">Luyện viết</div>
-            <p className="text-[12px] text-muted leading-relaxed">Ghi nhớ chính xác cách viết từ.</p>
           </div>
         </div>
+      ) : (
+        /* FEEDBACK RESULTS STATE */
+        <div className="space-y-8 animate-fade-in">
+          {/* Score Header */}
+          <div className="bezel">
+            <div className="bezel-inner bg-gradient-to-r from-violet-650 to-indigo-600 p-6 md:p-8 text-white rounded-[30px] flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div className="space-y-2">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider">
+                  <Sparkles className="h-3.5 w-3.5 text-yellow-300" />
+                  AI Writing Assessment
+                </span>
+                <h1 className="text-2xl font-black">Nhận xét bài luận của bạn</h1>
+                <p className="text-sm text-white/80 max-w-sm">
+                  Đánh giá chi tiết điểm IELTS dựa trên phân tích ngôn ngữ sâu sắc của Gemini.
+                </p>
+              </div>
 
-        <Link href="/study/speaking" className="bezel tactile block">
-          <div className="bezel-inner p-5 flex flex-col items-center text-center">
-            <div className="icon-well bg-neutral-100 dark:bg-neutral-800 text-muted mb-3">
-              <Mic className="w-5 h-5" strokeWidth={1.8} />
+              <div className="bg-white/15 p-5 rounded-2xl border border-white/20 flex flex-col items-center min-w-[150px] shadow-inner text-center">
+                <span className="text-[10px] font-black uppercase text-white/70">IELTS Overall Score</span>
+                <span className="text-5xl font-black text-yellow-300 mt-1">
+                  Band {feedback.bandScore}
+                </span>
+              </div>
             </div>
-            <div className="text-sm font-bold text-gray-900 dark:text-gray-100 mb-1">Luyện phát âm</div>
-            <p className="text-[12px] text-muted leading-relaxed">Micro nhận diện phát âm chuẩn.</p>
           </div>
-        </Link>
-      </div>
 
-      {/* Arena — Double-Bezel */}
-      <div id="practice-arena" className="animate-fade-in-up">
-        <div className="bezel max-w-xl mx-auto">
-          <div className="bezel-inner p-6 flex flex-col gap-6">
-            {/* Progress */}
-            <div className="w-full">
-              <div className="flex justify-between items-center text-xs text-muted mb-2 font-medium">
-                <span>Dịch câu {index + 1}/{vocabs.length}</span>
-                <span className="text-cyan-500 font-bold">Tiến trình: {Math.round((index / vocabs.length) * 100)}%</span>
-              </div>
-              <div className="h-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-full overflow-hidden border border-black/5 dark:border-white/5">
-                <div 
-                  className="h-full rounded-full bg-gradient-to-r from-cyan-400 to-blue-500" 
-                  style={{ width: `${(index / vocabs.length) * 100}%`, transition: 'width 700ms cubic-bezier(0.32, 0.72, 0, 1)' }}
-                ></div>
+          <div className="grid gap-6 md:grid-cols-5 items-start">
+            {/* Criteria Grid */}
+            <div className="md:col-span-2 space-y-4">
+              <h3 className="text-xs font-black uppercase tracking-wider text-slate-500">Điểm số thành phần</h3>
+              <div className="grid gap-3">
+                {[
+                  { name: "Task Achievement (TA)", score: feedback.taScore, desc: "Đáp ứng yêu cầu đề bài" },
+                  { name: "Coherence & Cohesion (CC)", score: feedback.ccScore, desc: "Mạch lạc và liên kết đoạn" },
+                  { name: "Lexical Resource (LR)", score: feedback.lrScore, desc: "Sử dụng từ vựng phong phú" },
+                  { name: "Grammatical Range (GRA)", score: feedback.graScore, desc: "Cấu trúc ngữ pháp chính xác" },
+                ].map((item, idx) => (
+                  <div key={idx} className="bezel">
+                    <div className="bezel-inner bg-white dark:bg-neutral-900 p-4 flex items-center justify-between">
+                      <div>
+                        <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200">{item.name}</h4>
+                        <p className="text-[10px] text-slate-400">{item.desc}</p>
+                      </div>
+                      <Badge variant="primary" className="text-sm font-black px-3 py-1">
+                        {item.score}
+                      </Badge>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* Prompt */}
-            <div className="text-center p-8 bg-neutral-50/50 dark:bg-neutral-900/30 rounded-[calc(var(--radius-3xl)-6px)] border border-black/[0.03] dark:border-white/[0.03] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
-              <div className="text-[12px] text-muted font-bold tracking-[0.15em] uppercase mb-2">Hãy dịch từ sau sang tiếng Anh:</div>
-              <h2 className="text-3xl font-extrabold text-gray-900 dark:text-gray-100 mb-2">
-                {vocabs[index]?.definitionVn}
-              </h2>
-              <p className="text-xs text-muted font-medium">
-                Gợi ý phiên âm: <span className="font-mono">{vocabs[index]?.phonetic}</span> ({vocabs[index]?.pos})
-              </p>
-            </div>
+            {/* AI Feedback & Suggestions */}
+            <div className="md:col-span-3 space-y-6">
+              {/* General comment */}
+              <div className="bezel">
+                <div className="bezel-inner bg-white dark:bg-neutral-900 p-6 space-y-3">
+                  <h3 className="text-xs font-black uppercase text-slate-400">Nhận xét tổng quan</h3>
+                  <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+                    {feedback.generalFeedback}
+                  </p>
+                </div>
+              </div>
 
-            {/* Input */}
-            <div className="flex flex-col gap-4">
-              <input 
-                type="text" 
-                className="w-full py-4 text-center text-xl font-extrabold rounded-xl bg-neutral-50/60 dark:bg-neutral-900/40 border border-black/10 dark:border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] focus:outline-none focus:border-cyan-450" 
-                style={{ transition: 'border-color 500ms cubic-bezier(0.32, 0.72, 0, 1)' }}
-                value={input}
-                onChange={e => setInput(e.target.value)}
-                disabled={isAnswered}
-                placeholder="Gõ từ tại đây..." 
-                autoComplete="off"
-                onKeyPress={e => e.key === 'Enter' && checkAnswer()}
-              />
-              
-              {feedback && (
-                <div className={`p-4 rounded-xl border text-xs font-bold leading-relaxed flex items-center justify-center gap-2 ${
-                  feedback.includes('Chính xác') 
-                    ? 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200/50 dark:border-emerald-900/30 text-emerald-600 dark:text-emerald-400' 
-                    : 'bg-red-50 dark:bg-red-950/20 border-red-200/50 dark:border-red-900/30 text-red-600 dark:text-red-400'
-                }`}>
-                  {feedback.includes('Chính xác') ? <CheckCircle2 className="w-4 h-4 text-emerald-500" strokeWidth={2.5} /> : <XCircle className="w-4 h-4 text-red-500" strokeWidth={2.5} />}
-                  <span>{feedback}</span>
+              {/* Vocab Upgrades */}
+              {feedback.vocabUpgrades && feedback.vocabUpgrades.length > 0 && (
+                <div className="bezel">
+                  <div className="bezel-inner bg-white dark:bg-neutral-900 p-6 space-y-4">
+                    <h3 className="text-xs font-black uppercase text-slate-400 flex items-center gap-1">
+                      <Trophy className="h-4 w-4 text-yellow-500 animate-bounce" />
+                      Gợi ý nâng cấp từ vựng Band 8.0+
+                    </h3>
+                    <div className="space-y-3">
+                      {feedback.vocabUpgrades.map((item: any, idx: number) => (
+                        <div key={idx} className="bg-slate-50 dark:bg-neutral-950/40 p-3.5 rounded-2xl border border-slate-100 dark:border-neutral-900 space-y-2">
+                          <div className="flex items-center gap-2 text-xs">
+                            <span className="line-through text-slate-400">{item.original}</span>
+                            <ChevronRight className="h-3.5 w-3.5 text-sky-500" />
+                            <Badge variant="success" className="font-bold">{item.upgrade}</Badge>
+                          </div>
+                          <p className="text-xs text-muted font-medium">{item.reason}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               )}
-            </div>
 
-            <div className="flex justify-between items-center mt-2">
-              <button className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-muted bg-neutral-50 dark:bg-neutral-900 border border-black/5 dark:border-white/5 rounded-full tactile" onClick={() => speak(vocabs[index].word)}>
-                <Volume2 className="w-3.5 h-3.5" strokeWidth={1.8} /> Phát âm gợi ý
-              </button>
-              <button 
-                className="flex items-center bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full text-xs font-bold px-6 py-2.5 tactile shadow-sm disabled:opacity-40" 
-                disabled={isAnswered || !input.trim()} 
-                onClick={checkAnswer}
-              >
-                Kiểm tra kết quả
-              </button>
+              {/* Corrections list */}
+              {feedback.corrections && feedback.corrections.length > 0 && (
+                <div className="bezel">
+                  <div className="bezel-inner bg-white dark:bg-neutral-900 p-6 space-y-4">
+                    <h3 className="text-xs font-black uppercase text-slate-400 flex items-center gap-1">
+                      <AlertTriangle className="h-4 w-4 text-rose-500 animate-pulse" />
+                      Các điểm cần sửa lỗi ngữ pháp
+                    </h3>
+                    <div className="space-y-3">
+                      {feedback.corrections.map((item: any, idx: number) => (
+                        <div key={idx} className="bg-rose-50/20 dark:bg-rose-950/10 p-3.5 rounded-2xl border border-rose-100/50 dark:border-rose-900/30 space-y-1.5">
+                          <div className="flex flex-col gap-1 text-xs">
+                            <span className="text-rose-500 font-semibold line-through">Lỗi sai: “{item.original}”</span>
+                            <span className="text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
+                              <CheckCircle className="h-3.5 w-3.5" />
+                              Sửa lại: “{item.correction}”
+                            </span>
+                          </div>
+                          <p className="text-[11px] text-slate-500 font-medium">{item.reason}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <div className="flex gap-4">
+                <Button
+                  variant="bezel"
+                  className="w-full py-3.5 text-sm font-bold flex items-center justify-center gap-1"
+                  onClick={() => {
+                    setFeedback(null);
+                    setEssay("");
+                  }}
+                >
+                  <RotateCcw className="h-4 w-4" />
+                  Viết bài mới
+                </Button>
+                <Link href="/dashboard" className="w-full">
+                  <Button variant="primary" className="w-full py-3.5 text-sm font-bold">
+                    Quay lại Trang chủ
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -1,12 +1,13 @@
-﻿"use client";
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { useAuthStore } from "@/lib/store/authStore";
+import { useDailyChallengeStore } from "@/lib/store/dailyChallengeStore";
+import { motion } from "framer-motion";
 import {
   ArrowRight,
   BookOpen,
   Bot,
-  CheckCircle2,
   Clock,
   Flame,
   Globe,
@@ -14,25 +15,87 @@ import {
   Sparkles,
   Target,
   Trophy,
-  Users,
   Zap,
+  Coins,
+  Swords,
 } from "lucide-react";
 import { getXpProgress } from "@/lib/utils/calculateXP";
 import { MOCK_VOCABULARIES } from "@/lib/constants/vocabularies";
+import { Card, Button, Badge } from "@/components/ui";
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.05,
+      delayChildren: 0.05,
+    },
+  },
+} as const;
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 15, scale: 0.98 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 90,
+      damping: 16,
+    },
+  },
+} as const;
 
 export default function DashboardPage() {
   const { user } = useAuthStore();
+  const { challenges, initChallenges } = useDailyChallengeStore();
+
+  useEffect(() => {
+    initChallenges();
+  }, [initChallenges]);
 
   if (!user) return null;
 
   const vocabPercent = Math.min(
     100,
-    Math.round((user.wordsLearned / MOCK_VOCABULARIES.length) * 100),
+    Math.round((user.wordsLearned / MOCK_VOCABULARIES.length) * 100)
   );
   const { percent: xpPercent } = getXpProgress(user.level, user.totalXp);
   const studyPercent = Math.min(100, Math.round((user.minutesStudied / 15) * 100));
-  const achievementsPercent = Math.min(100, Math.round((3 / 6) * 100));
+  const completedChallenges = challenges.filter((c) => c.isCompleted).length;
+  const achievementsPercent = Math.min(
+    100,
+    Math.round((completedChallenges / Math.max(1, challenges.length)) * 100)
+  );
   const remainingWords = Math.max(0, 10 - user.wordsLearned);
+
+  // Weekly XP bar chart mock data (simulated from user's totalXp)
+  const weeklyXp = [
+    { day: "T2", xp: Math.round(user.totalXp * 0.12) },
+    { day: "T3", xp: Math.round(user.totalXp * 0.18) },
+    { day: "T4", xp: Math.round(user.totalXp * 0.08) },
+    { day: "T5", xp: Math.round(user.totalXp * 0.22) },
+    { day: "T6", xp: Math.round(user.totalXp * 0.15) },
+    { day: "T7", xp: Math.round(user.totalXp * 0.20) },
+    { day: "CN", xp: Math.round(user.totalXp * 0.05) },
+  ];
+  const maxWeeklyXp = Math.max(...weeklyXp.map((d) => d.xp), 1);
+
+  // Streak calendar — 28 day grid (4 weeks)
+  const streakCalendar: Array<{ date: string; active: boolean }> = [];
+  const today = new Date();
+  for (let i = 27; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    // Simulate streak: recent days more likely active
+    const isActive = i < user.currentStreak || (i < 14 && Math.random() > 0.4);
+    streakCalendar.push({
+      date: d.toISOString().slice(5, 10),
+      active: isActive,
+    });
+  }
 
   const quickActions = [
     {
@@ -43,11 +106,11 @@ export default function DashboardPage() {
       accent: "from-cyan-500 to-sky-500",
     },
     {
-      title: "Hội thoại AI",
-      description: "Luyện nói như người bản xứ",
-      href: "/ai/conversation",
-      icon: Bot,
-      accent: "from-emerald-500 to-teal-500",
+      title: "Đấu trường PvP",
+      description: "So tài từ vựng thời gian thực",
+      href: "/study/pvp",
+      icon: Swords,
+      accent: "from-indigo-500 to-violet-500",
     },
     {
       title: "Khám phá chủ đề",
@@ -57,208 +120,462 @@ export default function DashboardPage() {
       accent: "from-amber-500 to-orange-500",
     },
     {
-      title: "Cộng đồng",
-      description: "Chia sẻ tiến độ và thử thách",
-      href: "/community",
-      icon: Users,
-      accent: "from-violet-500 to-fuchsia-500",
+      title: "Cửa hàng vật phẩm",
+      description: "Mua bình năng lượng & trang phục",
+      href: "/shop",
+      icon: Coins,
+      accent: "from-yellow-500 to-amber-500",
     },
   ];
 
-  return (
-    <div className="animate-fade-in space-y-6">
-      <div className="page-header animate-fade-in-down">
-        <h1 className="page-title text-3xl font-extrabold tracking-tight">Trang chủ học tập</h1>
-        <p className="page-subtitle text-muted max-w-2xl" style={{ marginTop: "6px" }}>
-          Một ngày học ngắn, rõ mục tiêu và có cảm giác tiến bộ liên tục.
-        </p>
-      </div>
+  // 7-day streak calendar visualization
+  const weekDays = [
+    { day: "T2", status: "learned" },
+    { day: "T3", status: "learned" },
+    { day: "T4", status: "missed" },
+    { day: "T5", status: "learned" },
+    { day: "T6", status: "learned" },
+    { day: "T7", status: "current" },
+    { day: "CN", status: "pending" },
+  ];
 
-      <div className="bezel">
-        <div className="bezel-inner overflow-hidden rounded-[30px] bg-gradient-to-br from-sky-600 via-cyan-500 to-violet-600 p-6 text-white md:p-8">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-            <div className="max-w-2xl">
-              <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-white/90">
-                <Sparkles className="h-3.5 w-3.5" />
-                Focus hôm nay
+  return (
+    <div className="space-y-6 pb-20 md:pb-6" suppressHydrationWarning>
+      {/* Page Header */}
+      <motion.div
+        initial={{ opacity: 0, y: -15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ type: "spring", stiffness: 80, damping: 15 }}
+        className="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+      >
+        <div>
+          <h1 className="text-2xl md:text-3xl font-black tracking-tight text-slate-900 dark:text-white font-display">
+            Trang chủ học tập
+          </h1>
+          <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium">
+            Một ngày học ngắn, rõ mục tiêu và có cảm giác tiến bộ liên tục.
+          </p>
+        </div>
+        <Link href="/profile" className="self-start md:self-auto">
+          <Button
+            variant="secondary"
+            size="sm"
+            leftIcon={<Trophy className="w-4 h-4 text-amber-500" />}
+          >
+            Bảng thành tích
+          </Button>
+        </Link>
+      </motion.div>
+
+      {/* Staggered Bento Grid Layout */}
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+      >
+        {/* Cell 1: Welcome Hero & Continue Learning (Hero Card - Spans 2 Columns) */}
+        <motion.div variants={itemVariants} className="md:col-span-2">
+          <Card
+            variant="glass"
+            className="flex flex-col justify-between bg-gradient-to-br from-cyan-500/10 via-sky-500/5 to-violet-500/10 border-white/40 dark:border-white/5 min-h-[220px] h-full"
+          >
+            <div>
+              <div className="mb-2">
+                <Badge
+                  variant="primary"
+                  className="gap-1 bg-white/40 border-white/60 dark:bg-neutral-900/30 dark:border-white/10"
+                >
+                  <Sparkles className="h-3 w-3 text-purple-600 dark:text-purple-400" />
+                  Focus hôm nay
+                </Badge>
               </div>
-              <h2 className="text-2xl font-black tracking-tight sm:text-3xl">
+              <h2 className="text-xl md:text-2xl font-black tracking-tight text-slate-900 dark:text-white font-display">
                 Chào mừng quay lại, {user.fullName}!
               </h2>
-              <p className="mt-2 max-w-xl text-sm text-white/80 sm:text-base">
+              <p className="mt-2 text-xs md:text-sm text-slate-600 dark:text-slate-300 max-w-md leading-relaxed">
                 Bạn còn {remainingWords} từ để chạm mốc 10 từ hôm nay. Bắt đầu bằng một phiên học ngắn 5 phút.
               </p>
             </div>
+            <div className="mt-5 flex items-center justify-between gap-4">
+              <Link href="/study/practice" className="w-full sm:w-auto">
+                <Button
+                  variant="primary"
+                  size="md"
+                  rightIcon={<ArrowRight className="w-4 h-4" />}
+                >
+                  Tiếp tục học Unit 4
+                </Button>
+              </Link>
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 font-bold hidden sm:inline-block">
+                Lần học cuối: Hôm qua
+              </span>
+            </div>
+          </Card>
+        </motion.div>
 
-            <div className="flex items-center gap-3 rounded-2xl border border-white/20 bg-white/10 px-4 py-3 backdrop-blur-sm">
-              <Flame className="h-7 w-7 text-amber-300" />
-              <div>
-                <div className="text-xl font-black text-amber-300">{user.currentStreak} ngày</div>
-                <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/70">Streak hiện tại</div>
+        {/* Cell 2: Today's Streak & Weekly Calendar */}
+        <motion.div variants={itemVariants}>
+          <Card
+            variant="bezel"
+            className="flex flex-col justify-between bg-amber-500/[0.02] border-amber-500/20 h-full"
+          >
+            <div className="flex justify-between items-start">
+              <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                Streak liên tục
+              </span>
+              <Flame className="h-5 w-5 text-amber-500 animate-pulse" />
+            </div>
+            <div className="text-center my-2">
+              <div className="text-3xl font-black text-amber-500 font-display">
+                {user.currentStreak} ngày
+              </div>
+              <div className="text-[11px] text-slate-400 dark:text-slate-500 mt-1 font-semibold">
+                Chuỗi ngày học liên tục
               </div>
             </div>
-          </div>
-        </div>
-      </div>
+            {/* Weekly Tracker Mini-Grid */}
+            <div className="flex justify-between gap-1 mt-3 bg-slate-100/50 dark:bg-neutral-800/50 p-2 rounded-xl border border-black/5 dark:border-white/5">
+              {weekDays.map((wd, i) => (
+                <div key={i} className="flex flex-col items-center gap-1">
+                  <span className="text-[10px] font-bold text-slate-400">
+                    {wd.day}
+                  </span>
+                  <div
+                    className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs font-black transition-all ${
+                      wd.status === "learned"
+                        ? "bg-amber-500 text-white shadow-sm"
+                        : wd.status === "current"
+                        ? "bg-gradient-premium text-white animate-bounce shadow-md"
+                        : wd.status === "missed"
+                        ? "bg-rose-100 text-rose-500 dark:bg-rose-950/30 dark:text-rose-400"
+                        : "bg-slate-200 text-slate-400 dark:bg-neutral-700 dark:text-neutral-500"
+                    }`}
+                  >
+                    {wd.status === "learned"
+                      ? "🔥"
+                      : wd.status === "current"
+                      ? "⚡"
+                      : "•"}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Card>
+        </motion.div>
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {[
-          { label: "Từ đã học", value: `${user.wordsLearned}/${MOCK_VOCABULARIES.length}`, progress: vocabPercent, icon: BookOpen, color: "text-sky-500 bg-sky-50 dark:bg-sky-950/30" },
-          { label: "XP tích lũy", value: `${user.totalXp} XP`, progress: xpPercent, icon: Zap, color: "text-amber-500 bg-amber-50 dark:bg-amber-950/30" },
-          { label: "Thời gian học", value: `${user.minutesStudied}m`, progress: studyPercent, icon: Clock, color: "text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30" },
-          { label: "Huy hiệu", value: "3/6", progress: achievementsPercent, icon: Trophy, color: "text-violet-500 bg-violet-50 dark:bg-violet-950/30" },
-        ].map((item) => {
-          const Icon = item.icon;
-          return (
-            <div key={item.label} className="bezel lift">
-              <div className="bezel-inner flex h-full flex-col justify-between bg-white p-4 dark:bg-neutral-900">
-                <div>
-                  <div className="mb-3 flex items-center justify-between">
-                    <div className={`icon-well ${item.color}`}>
-                      <Icon className="h-[18px] w-[18px]" strokeWidth={1.8} />
-                    </div>
-                    <span className="rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.2em] text-muted dark:bg-neutral-800">
-                      {item.label}
+        {/* Cell 3: Daily Challenges (Dynamic from store) */}
+        <motion.div variants={itemVariants}>
+          <Card
+            variant="bezel"
+            className="flex flex-col justify-between bg-purple-500/[0.02] border-purple-500/20 h-full"
+          >
+            <div className="flex justify-between items-start">
+              <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                Nhiệm vụ hôm nay
+              </span>
+              <Target className="h-5 w-5 text-purple-500" />
+            </div>
+            <div className="space-y-2.5 mt-3">
+              {challenges.slice(0, 3).map((ch) => (
+                <div key={ch.id} className="space-y-1">
+                  <div className="flex justify-between items-center text-xs font-bold">
+                    <span
+                      className={`truncate max-w-[140px] ${
+                        ch.isCompleted
+                          ? "text-emerald-600 dark:text-emerald-400 line-through"
+                          : "text-slate-700 dark:text-slate-300"
+                      }`}
+                    >
+                      {ch.icon} {ch.title}
+                    </span>
+                    <span
+                      className={
+                        ch.isCompleted ? "text-emerald-500" : "text-purple-500"
+                      }
+                    >
+                      {ch.isCompleted ? "✓" : `${ch.progress}/${ch.target}`}
                     </span>
                   </div>
-                  <div className="text-2xl font-black tracking-tight text-gray-900 dark:text-gray-100">{item.value}</div>
+                  <div className="h-1.5 overflow-hidden rounded-full bg-slate-100 dark:bg-neutral-800">
+                    <div
+                      className={`h-full rounded-full transition-all duration-500 ${
+                        ch.isCompleted
+                          ? "bg-emerald-500"
+                          : "bg-gradient-to-r from-purple-500 to-indigo-500"
+                      }`}
+                      style={{
+                        width: `${Math.min(
+                          100,
+                          (ch.progress / ch.target) * 100
+                        )}%`,
+                      }}
+                    />
+                  </div>
                 </div>
-                <div className="mt-4">
-                  <div className="mb-1 flex items-center justify-between text-[11px] font-semibold text-muted">
-                    <span>Tiến độ</span>
-                    <span>{item.progress}%</span>
-                  </div>
-                  <div className="h-1.5 overflow-hidden rounded-full bg-neutral-100 dark:bg-neutral-800">
-                    <div className="h-full rounded-full bg-gradient-to-r from-sky-400 to-violet-500" style={{ width: `${item.progress}%` }} />
-                  </div>
+              ))}
+            </div>
+            <div className="text-[10px] text-slate-400 dark:text-slate-500 font-bold mt-2 text-center">
+              Hoàn thành: {completedChallenges}/{challenges.length} · Reset lúc 00:00
+            </div>
+          </Card>
+        </motion.div>
+
+        {/* Cell 4: Stats Card - Words Learned */}
+        <motion.div variants={itemVariants}>
+          <Card variant="bezel" hoverable className="h-full">
+            <div className="flex items-center justify-between">
+              <div className="w-8 h-8 rounded-lg text-sky-500 bg-sky-50 dark:bg-sky-950/30 flex items-center justify-center">
+                <BookOpen className="h-4.5 w-4.5" strokeWidth={1.8} />
+              </div>
+              <span className="rounded-full bg-slate-100 dark:bg-neutral-800 px-2.5 py-0.5 text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                Từ đã học
+              </span>
+            </div>
+            <div className="mt-4">
+              <div className="text-2xl font-black text-slate-900 dark:text-white font-display">
+                {user.wordsLearned}/{MOCK_VOCABULARIES.length}
+              </div>
+              <div className="mt-3">
+                <div className="mb-1 flex items-center justify-between text-[10px] font-semibold text-slate-400 dark:text-slate-500">
+                  <span>Khám phá bộ từ</span>
+                  <span>{vocabPercent}%</span>
+                </div>
+                <div className="h-1.5 overflow-hidden rounded-full bg-slate-100 dark:bg-neutral-800">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-sky-400 to-blue-500"
+                    style={{ width: `${vocabPercent}%` }}
+                  />
                 </div>
               </div>
             </div>
-          );
-        })}
-      </div>
+          </Card>
+        </motion.div>
 
-      <div className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
-        <div className="space-y-6">
-          <div className="bezel">
-            <div className="bezel-inner p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-slate-500">Tiếp tục học</p>
-                  <h3 className="mt-1 text-lg font-black text-gray-900 dark:text-gray-100">Bài học hôm nay nên bắt đầu từ đây</h3>
-                </div>
-                <Link href="/study/practice" className="inline-flex items-center gap-2 text-sm font-semibold text-sky-600">
-                  Bắt đầu <ArrowRight className="h-4 w-4" />
-                </Link>
+        {/* Cell 5: Stats Card - XP Experience */}
+        <motion.div variants={itemVariants}>
+          <Card variant="bezel" hoverable className="h-full">
+            <div className="flex items-center justify-between">
+              <div className="w-8 h-8 rounded-lg text-amber-500 bg-amber-50 dark:bg-amber-950/30 flex items-center justify-center">
+                <Zap className="h-4.5 w-4.5" strokeWidth={1.8} />
               </div>
-
-              <div className="mt-5 grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
-                <div className="rounded-[24px] border border-sky-100 bg-gradient-to-br from-sky-50 to-white p-5 dark:border-sky-900/40 dark:from-sky-950/20 dark:to-neutral-900">
-                  <div className="flex items-center gap-2 text-sm font-semibold text-sky-600">
-                    <Target className="h-4 w-4" />
-                    Phiên 5 phút
-                  </div>
-                  <h4 className="mt-3 text-xl font-black text-gray-900 dark:text-gray-100">Ôn từ vựng về công việc</h4>
-                  <p className="mt-2 text-sm text-muted">
-                    Học 8 từ mới, lặp lại 3 câu mẫu và nhận phản hồi ngay lập tức.
-                  </p>
-                  <div className="mt-4 flex items-center gap-2 text-sm font-semibold text-emerald-600">
-                    <CheckCircle2 className="h-4 w-4" />
-                    3 mục tiêu hoàn thành hôm nay
-                  </div>
+              <span className="rounded-full bg-slate-100 dark:bg-neutral-800 px-2.5 py-0.5 text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                Kinh nghiệm
+              </span>
+            </div>
+            <div className="mt-4">
+              <div className="text-2xl font-black text-slate-900 dark:text-white font-display">
+                {user.totalXp} XP
+              </div>
+              <div className="mt-3">
+                <div className="mb-1 flex items-center justify-between text-[10px] font-semibold text-slate-400 dark:text-slate-500">
+                  <span>Cấp độ {user.level}</span>
+                  <span>{xpPercent}%</span>
                 </div>
-
-                <div className="space-y-3">
-                  {[
-                    { title: "Ôn 10 từ cũ", detail: "Nhắc lại trong 2 phút" },
-                    { title: "Luyện phát âm", detail: "Ngay sau khi học" },
-                  ].map((item) => (
-                    <div key={item.title} className="rounded-2xl border border-slate-200/70 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-neutral-900">
-                      <div className="text-sm font-bold text-gray-900 dark:text-gray-100">{item.title}</div>
-                      <div className="mt-1 text-xs font-medium text-muted">{item.detail}</div>
-                    </div>
-                  ))}
+                <div className="h-1.5 overflow-hidden rounded-full bg-slate-100 dark:bg-neutral-800">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-amber-400 to-orange-500"
+                    style={{ width: `${xpPercent}%` }}
+                  />
                 </div>
               </div>
             </div>
-          </div>
+          </Card>
+        </motion.div>
 
-          <div className="bezel">
-            <div className="bezel-inner p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-slate-500">Đề xuất tiếp theo</p>
-                  <h3 className="mt-1 text-lg font-black text-gray-900 dark:text-gray-100">Các lộ trình phù hợp với bạn</h3>
+        {/* Cell 6: Stats Card - Study Minutes */}
+        <motion.div variants={itemVariants}>
+          <Card variant="bezel" hoverable className="h-full">
+            <div className="flex items-center justify-between">
+              <div className="w-8 h-8 rounded-lg text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 flex items-center justify-center">
+                <Clock className="h-4.5 w-4.5" strokeWidth={1.8} />
+              </div>
+              <span className="rounded-full bg-slate-100 dark:bg-neutral-800 px-2.5 py-0.5 text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                Thời gian học
+              </span>
+            </div>
+            <div className="mt-4">
+              <div className="text-2xl font-black text-slate-900 dark:text-white font-display">
+                {user.minutesStudied} phút
+              </div>
+              <div className="mt-3">
+                <div className="mb-1 flex items-center justify-between text-[10px] font-semibold text-slate-400 dark:text-slate-500">
+                  <span>Mục tiêu 15 phút</span>
+                  <span>{studyPercent}%</span>
+                </div>
+                <div className="h-1.5 overflow-hidden rounded-full bg-slate-100 dark:bg-neutral-800">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-emerald-400 to-teal-500"
+                    style={{ width: `${studyPercent}%` }}
+                  />
                 </div>
               </div>
-              <div className="mt-5 grid gap-3 md:grid-cols-2">
-                {[
-                  { title: "Travel Essentials", detail: "12 từ mới • mức dễ", chip: "Mới bắt đầu" },
-                  { title: "Workplace English", detail: "8 từ mới • mức trung bình", chip: "Phổ biến" },
-                ].map((item) => (
-                  <div key={item.title} className="rounded-[22px] border border-slate-200/70 bg-slate-50 p-4 dark:border-slate-800 dark:bg-neutral-900/70">
-                    <div className="text-sm font-bold text-gray-900 dark:text-gray-100">{item.title}</div>
-                    <div className="mt-1 text-sm text-muted">{item.detail}</div>
-                    <div className="mt-3 inline-flex rounded-full bg-white px-2.5 py-1 text-[11px] font-semibold text-slate-600 shadow-sm dark:bg-neutral-800 dark:text-slate-300">
-                      {item.chip}
-                    </div>
-                  </div>
-                ))}
+            </div>
+          </Card>
+        </motion.div>
+
+        {/* Cell 7: Stats Card - Balance Coins */}
+        <motion.div variants={itemVariants}>
+          <Card variant="bezel" hoverable className="h-full">
+            <div className="flex items-center justify-between">
+              <div className="w-8 h-8 rounded-lg text-violet-500 bg-violet-50 dark:bg-violet-950/30 flex items-center justify-center">
+                <Trophy className="h-4.5 w-4.5" strokeWidth={1.8} />
+              </div>
+              <span className="rounded-full bg-slate-100 dark:bg-neutral-800 px-2.5 py-0.5 text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                Coins hiện có
+              </span>
+            </div>
+            <div className="mt-4">
+              <div className="text-2xl font-black text-slate-900 dark:text-white flex items-center gap-1.5 font-display">
+                <Coins className="h-5 w-5 text-yellow-500" />
+                {user.coins ?? 0}
+              </div>
+              <div className="mt-3 text-[10px] text-slate-400 dark:text-slate-500 font-bold">
+                Streak Freeze: {user.streakFreezes ?? 0} bình sở hữu
               </div>
             </div>
-          </div>
-        </div>
+          </Card>
+        </motion.div>
 
-        <div className="space-y-6">
-          <div className="bezel">
-            <div className="bezel-inner p-6">
-              <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-slate-500">Nhiệm vụ hôm nay</p>
-              <div className="mt-4 space-y-3">
-                {[
-                  { title: "Học 10 từ mới", done: 6, total: 10 },
-                  { title: "Hoàn thành 3 bài quiz", done: 1, total: 3 },
-                  { title: "Ôn tập 15 từ cũ", done: 15, total: 15 },
-                ].map((task) => (
-                  <div key={task.title} className="rounded-2xl border border-slate-200/70 bg-white p-4 dark:border-slate-800 dark:bg-neutral-900">
-                    <div className="mb-2 flex items-center justify-between">
-                      <span className="text-sm font-bold text-gray-900 dark:text-gray-100">{task.title}</span>
-                      <span className="text-xs font-semibold text-slate-500">{task.done}/{task.total}</span>
-                    </div>
-                    <div className="h-1.5 overflow-hidden rounded-full bg-neutral-100 dark:bg-neutral-800">
-                      <div className="h-full rounded-full bg-gradient-to-r from-sky-400 to-violet-500" style={{ width: `${Math.min(100, (task.done / task.total) * 100)}%` }} />
-                    </div>
+        {/* Cell 8: Weekly XP Bar Chart (Spans 2 columns) */}
+        <motion.div variants={itemVariants} className="md:col-span-2">
+          <Card variant="bezel" className="h-full">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                  Biểu đồ XP tuần qua
+                </span>
+                <h3 className="text-sm md:text-base font-black text-slate-900 dark:text-white mt-0.5 font-display">
+                  Phân bố kinh nghiệm 7 ngày
+                </h3>
+              </div>
+              <Badge variant="primary">{user.totalXp} XP tổng</Badge>
+            </div>
+            <div className="flex items-end justify-between gap-2 h-32 pt-2">
+              {weeklyXp.map((d, i) => {
+                const heightPercent = Math.max(8, (d.xp / maxWeeklyXp) * 100);
+                const isToday = i === 5; // Saturday
+                return (
+                  <div
+                    key={d.day}
+                    className="flex-1 flex flex-col items-center gap-1.5"
+                  >
+                    <span className="text-[9px] font-black text-slate-400 dark:text-slate-500">
+                      {d.xp}
+                    </span>
+                    <motion.div
+                      whileHover={{ scaleY: 1.05, originY: 1 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                      className={`w-full rounded-t-lg transition-all cursor-pointer ${
+                        isToday
+                          ? "bg-gradient-to-t from-sky-500 to-cyan-400 shadow-sm shadow-sky-500/20"
+                          : "bg-slate-200 dark:bg-neutral-800"
+                      }`}
+                      style={{ height: `${heightPercent}%` }}
+                    />
+                    <span
+                      className={`text-[10px] font-bold ${
+                        isToday ? "text-sky-600 dark:text-sky-400" : "text-slate-400"
+                      }`}
+                    >
+                      {d.day}
+                    </span>
                   </div>
-                ))}
+                );
+              })}
+            </div>
+          </Card>
+        </motion.div>
+
+        {/* Cell 9: Streak Calendar Grid (Spans 2 columns) */}
+        <motion.div variants={itemVariants} className="md:col-span-2">
+          <Card variant="bezel" className="h-full">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                  Streak Calendar
+                </span>
+                <h3 className="text-sm md:text-base font-black text-slate-900 dark:text-white mt-0.5 font-display">
+                  Lịch học 28 ngày gần nhất
+                </h3>
+              </div>
+              <div className="flex items-center gap-3 text-[9px] font-bold text-slate-400 dark:text-slate-500">
+                <span className="flex items-center gap-1">
+                  <span className="h-2 w-2 rounded-sm bg-emerald-500" /> Đã học
+                </span>
+                <span className="flex items-center gap-1">
+                  <span className="h-2 w-2 rounded-sm bg-slate-200 dark:bg-neutral-800" />{" "}
+                  Bỏ lỡ
+                </span>
               </div>
             </div>
-          </div>
+            <div className="grid grid-cols-7 gap-1.5">
+              {streakCalendar.map((cell, i) => (
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  key={i}
+                  className={`h-8 rounded-lg flex items-center justify-center text-[10px] font-bold transition-all cursor-pointer ${
+                    cell.active
+                      ? "bg-emerald-500 text-white shadow-sm"
+                      : "bg-slate-100 text-slate-400 dark:bg-neutral-800 dark:text-neutral-600"
+                  }`}
+                  title={cell.date}
+                >
+                  {cell.date.slice(3)}
+                </motion.div>
+              ))}
+            </div>
+          </Card>
+        </motion.div>
 
-          <div className="bezel">
-            <div className="bezel-inner p-6">
-              <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-slate-500">Lối tắt nhanh</p>
-              <div className="mt-4 grid gap-3">
-                {quickActions.map((action) => {
-                  const Icon = action.icon;
-                  return (
-                    <Link key={action.title} href={action.href} className="group rounded-[20px] border border-slate-200/70 bg-white p-4 transition-all hover:-translate-y-0.5 hover:shadow-md dark:border-slate-800 dark:bg-neutral-900">
-                      <div className="flex items-start gap-3">
-                        <div className={`rounded-2xl bg-gradient-to-br ${action.accent} p-2.5 text-white`}>
+        {/* Quick Navigation Actions (Spans full width on lg) */}
+        <motion.div
+          variants={itemVariants}
+          className="md:col-span-2 lg:col-span-4"
+        >
+          <Card variant="glass" className="h-full">
+            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
+              Phím tắt nhanh
+            </span>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 mt-4">
+              {quickActions.map((action) => {
+                const Icon = action.icon;
+                return (
+                  <motion.div
+                    whileHover={{ y: -3, scale: 1.01 }}
+                    whileTap={{ scale: 0.99 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                    key={action.title}
+                  >
+                    <Link
+                      href={action.href}
+                      className="group block rounded-2xl border border-slate-200/70 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-3.5 hover:shadow-sm transition-all duration-300"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div
+                          className={`rounded-xl bg-gradient-to-br ${action.accent} p-2 text-white`}
+                        >
                           <Icon className="h-4 w-4" />
                         </div>
-                        <div className="flex-1">
-                          <div className="text-sm font-bold text-gray-900 dark:text-gray-100">{action.title}</div>
-                          <div className="mt-1 text-sm text-muted">{action.description}</div>
+                        <div className="flex-1 min-w-0">
+                          <div className="text-xs font-bold text-slate-900 dark:text-white truncate">
+                            {action.title}
+                          </div>
+                          <div className="text-[10px] text-slate-400 truncate mt-0.5 font-medium">
+                            {action.description}
+                          </div>
                         </div>
-                        <ArrowRight className="mt-1 h-4 w-4 text-slate-400 transition-transform group-hover:translate-x-1" />
+                        <ArrowRight className="h-3.5 w-3.5 text-slate-400 transition-transform group-hover:translate-x-1 shrink-0" />
                       </div>
                     </Link>
-                  );
-                })}
-              </div>
+                  </motion.div>
+                );
+              })}
             </div>
-          </div>
-        </div>
-      </div>
+          </Card>
+        </motion.div>
+      </motion.div>
     </div>
   );
 }
+

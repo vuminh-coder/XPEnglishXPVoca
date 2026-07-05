@@ -106,24 +106,8 @@
     0 0 0 3px rgba(112, 67, 194, 0.15),
     0 2px 10px rgba(0, 0, 0, 0.02) inset;
 }
-.login-header {
-  text-align: center;
-  /* Bạn có thể thêm margin-bottom tại đây nếu cần cách xa form bên dưới */
-}
 
-/* Định kiểu cho tiêu đề H3 "Đăng nhập" */
-.login-title {
-  font-size: 1.5rem; /* tương đương text-2xl (24px) */
-  font-weight: 800; /* tương đương font-extrabold */
-  color: #0f172a; /* tương đương màu text-slate-900 */
-  letter-spacing: -0.025em; /* tương đương tracking-tight */
-  margin: 0; /* Reset margin mặc định của thẻ h3 */
-}
-
-/* Định kiểu cho dòng chữ mô tả phía dưới */
-.login-subtitle {
-  font-size: 0.75rem; /* tương đương text-xs (12px) */
-  color: #64748b; /* tương đương màu text-slate-500 */
-  margin-top: 0.25rem; /* tương đương mt-1 (4px) */
-  margin-bottom: 0; /* Reset margin mặc định của thẻ p */
+/* Clerk UI Custom Overrides to hide duplicate titles */
+.cl-header, .cl-headerTitle, .cl-headerSubtitle {
+  display: none !important;
 }

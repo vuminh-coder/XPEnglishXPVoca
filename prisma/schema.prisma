@@ -32,6 +32,7 @@ model Profile {
   groupMemberships    GroupMember[]
   examAttempts        ExamAttempt[]
   studyPlan           StudyPlan?
+  matchHistories      MatchHistory[]
 
   @@map("profiles")
 }
@@ -44,6 +45,9 @@ model UserVocabulary {
   isFavorite    Boolean   @default(false) @map("is_favorite")
   lastPracticed DateTime? @map("last_practiced")
   nextReview    DateTime? @map("next_review")
+  interval      Int       @default(1)
+  easeFactor    Float     @default(2.5) @map("ease_factor")
+  repetitions   Int       @default(0)
   user          Profile   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, vocabId])
@@ -294,3 +298,16 @@ model DailyTask {
   @@map("daily_tasks")
 }
 
+model MatchHistory {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id") @db.VarChar(255)
+  opponent   String   @db.VarChar(255)
+  userScore  Int      @map("user_score")
+  oppScore   Int      @map("opp_score")
+  result     String   @db.VarChar(20) // "WIN", "LOSE", "DRAW"
+  xpGained   Int      @map("xp_gained")
+  createdAt  DateTime @default(now()) @map("created_at")
+  user       Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("match_histories")
+}

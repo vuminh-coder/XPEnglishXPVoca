@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useClerk, useUser } from "@clerk/nextjs";
 import { useUiStore } from "@/lib/store/uiStore";
 import { useAuthStore } from "@/lib/store/authStore";
@@ -11,6 +11,8 @@ const checkIsClerkEnabled = () => {
   const key = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
   return !!(key && key.startsWith("pk_"));
 };
+
+const CLERK_ENABLED = checkIsClerkEnabled();
 
 const notifications = [
   {
@@ -42,7 +44,6 @@ function ClerkNavbar() {
   const { user: clerkUser } = useUser();
   const { signOut } = useClerk();
   const { theme, toggleTheme, toggleSidebar } = useUiStore();
-  const router = useRouter();
 
   const [notifOpen, setNotifOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
@@ -316,14 +317,15 @@ function LocalNavbar() {
 
 export default function Navbar() {
   const [mounted, setMounted] = useState(false);
-  const [clerkEnabled, setClerkEnabled] = useState(true);
 
   useEffect(() => {
-    setClerkEnabled(checkIsClerkEnabled());
-    setMounted(true);
+    const timer = setTimeout(() => {
+      setMounted(true);
+    }, 0);
+    return () => clearTimeout(timer);
   }, []);
 
   if (!mounted) return <div className="top-navbar"></div>;
 
-  return clerkEnabled ? <ClerkNavbar /> : <LocalNavbar />;
+  return CLERK_ENABLED ? <ClerkNavbar /> : <LocalNavbar />;
 }

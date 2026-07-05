@@ -18,6 +18,8 @@ const getDemoUser = (): User => ({
   wordsLearned: 245,
   wordsToReview: 12,
   minutesStudied: 1240,
+  coins: 350,
+  streakFreezes: 1,
 });
 
 interface AuthState {
@@ -30,6 +32,8 @@ interface AuthState {
   syncClerkUser: (clerkUser: any, isSignedIn: boolean) => void;
   setLocalUser: () => void;
   localLogin: (username: string, email: string) => void;
+  buyStreakFreeze: () => boolean;
+  buyDoubleXp: () => boolean;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -82,6 +86,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       wordsLearned: 0,
       wordsToReview: 0,
       minutesStudied: 0,
+      coins: 350,
+      streakFreezes: 0,
     };
     set({ user: syncedUser, isAuthenticated: true });
     if (typeof window !== "undefined") {
@@ -91,6 +97,37 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       document.cookie = `local-user-id=${userId}; path=/; max-age=86400`;
     }
     useVocabularyStore.getState().loadLearnedWords(userId);
+  },
+  buyStreakFreeze: () => {
+    const user = get().user;
+    if (!user || (user.coins || 0) < 100) return false;
+
+    const updatedUser: User = {
+      ...user,
+      coins: (user.coins || 0) - 100,
+      streakFreezes: (user.streakFreezes || 0) + 1,
+    };
+
+    set({ user: updatedUser });
+    if (typeof window !== "undefined") {
+      localStorage.setItem(`xp_voca_user_${user.id}`, JSON.stringify(updatedUser));
+    }
+    return true;
+  },
+  buyDoubleXp: () => {
+    const user = get().user;
+    if (!user || (user.coins || 0) < 150) return false;
+
+    const updatedUser: User = {
+      ...user,
+      coins: (user.coins || 0) - 150,
+    };
+
+    set({ user: updatedUser });
+    if (typeof window !== "undefined") {
+      localStorage.setItem(`xp_voca_user_${user.id}`, JSON.stringify(updatedUser));
+    }
+    return true;
   },
   updateProfile: (fullName, bio) => {
     const user = get().user;

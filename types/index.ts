@@ -14,6 +14,8 @@ export interface User {
   wordsToReview: number;
   minutesStudied: number;
   imageUrl?: string;
+  coins?: number;
+  streakFreezes?: number;
 }
 
 export interface Vocabulary {

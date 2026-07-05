@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { SignUp } from "@clerk/nextjs";
 import { useAuthStore } from "@/lib/store/authStore";
 import "./Register.css";
+import styles from "./Register.module.css";
 import {
   Rocket,
   Gift,

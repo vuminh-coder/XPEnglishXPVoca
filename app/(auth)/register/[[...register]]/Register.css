@@ -128,3 +128,8 @@
   background: #ffffff;
   box-shadow: 0 0 0 4px rgba(0, 89, 187, 0.12);
 }
+
+/* Clerk UI Custom Overrides to hide duplicate titles */
+.cl-header, .cl-headerTitle, .cl-headerSubtitle {
+  display: none !important;
+}

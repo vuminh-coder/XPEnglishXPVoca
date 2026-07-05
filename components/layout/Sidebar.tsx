@@ -5,13 +5,15 @@ import { usePathname } from "next/navigation";
 import { useUser, useClerk } from "@clerk/nextjs";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useUiStore } from "@/lib/store/uiStore";
-import { Home, BookOpen, Layers, Calendar, PenLine, MessageSquare, Users, LogOut } from "lucide-react";
+import { Home, BookOpen, Layers, Calendar, PenLine, MessageSquare, Users, LogOut, Compass, Swords, Trophy, ShoppingBag, Brain, Gamepad2, Headphones, Mic } from "lucide-react";
 
 // Check if Clerk is enabled based on key type and domain
 const checkIsClerkEnabled = () => {
   const key = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
   return !!(key && key.startsWith("pk_"));
 };
+
+const CLERK_ENABLED = checkIsClerkEnabled();
 
 const sections = [
   {
@@ -24,10 +26,28 @@ const sections = [
         page: "dashboard",
       },
       {
+        name: "Lộ trình AI",
+        path: "/study/plan",
+        icon: <Compass className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        page: "studyplan",
+      },
+      {
         name: "Khám phá bộ từ",
         path: "/vocabulary",
         icon: <BookOpen className="w-[18px] h-[18px]" strokeWidth={1.8} />,
         page: "vocabulary",
+      },
+      {
+        name: "Thi thử TOEIC/IELTS",
+        path: "/study/exams",
+        icon: <Trophy className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        page: "exams",
+      },
+      {
+        name: "Cửa hàng vật phẩm",
+        path: "/shop",
+        icon: <ShoppingBag className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        page: "shop",
       },
       {
         name: "Bộ từ của tôi",
@@ -53,10 +73,52 @@ const sections = [
         page: "practice",
       },
       {
+        name: "Đấu trường PvP",
+        path: "/study/pvp",
+        icon: <Swords className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        page: "pvp",
+      },
+      {
         name: "Hội thoại AI",
         path: "/ai/conversation",
         icon: <MessageSquare className="w-[18px] h-[18px]" strokeWidth={1.8} />,
         page: "aichat",
+      },
+      {
+        name: "Gia sư nói AI",
+        path: "/ai/tutor",
+        icon: <Mic className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        page: "aitutor",
+      },
+      {
+        name: "Ngữ pháp AI",
+        path: "/study/grammar",
+        icon: <Brain className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        page: "grammar",
+      },
+      {
+        name: "Luyện nghe",
+        path: "/study/listening",
+        icon: <Headphones className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        page: "listening",
+      },
+      {
+        name: "Đọc hiểu",
+        path: "/study/reading",
+        icon: <BookOpen className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        page: "reading",
+      },
+      {
+        name: "Phòng học nhóm",
+        path: "/study/rooms",
+        icon: <Users className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        page: "rooms",
+      },
+      {
+        name: "Mini Games",
+        path: "/study/games",
+        icon: <Gamepad2 className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        page: "games",
       },
     ],
   },
@@ -100,6 +162,7 @@ function ClerkSidebar() {
                   <Link
                     key={link.path}
                     href={link.path}
+                    aria-current={isActive ? "page" : undefined}
                     onClick={() => sidebarOpen && toggleSidebar()}
                     className={`sidebar-link ${isActive ? "active" : ""} tactile`}
                     style={{
@@ -162,6 +225,7 @@ function LocalSidebar() {
                   <Link
                     key={link.path}
                     href={link.path}
+                    aria-current={isActive ? "page" : undefined}
                     onClick={() => sidebarOpen && toggleSidebar()}
                     className={`sidebar-link ${isActive ? "active" : ""} tactile`}
                     style={{
@@ -200,14 +264,15 @@ function LocalSidebar() {
 
 export default function Sidebar() {
   const [mounted, setMounted] = useState(false);
-  const [clerkEnabled, setClerkEnabled] = useState(true);
 
   useEffect(() => {
-    setClerkEnabled(checkIsClerkEnabled());
-    setMounted(true);
+    const timer = setTimeout(() => {
+      setMounted(true);
+    }, 0);
+    return () => clearTimeout(timer);
   }, []);
 
   if (!mounted) return <div className="left-sidebar"></div>;
 
-  return clerkEnabled ? <ClerkSidebar /> : <LocalSidebar />;
+  return CLERK_ENABLED ? <ClerkSidebar /> : <LocalSidebar />;
 }

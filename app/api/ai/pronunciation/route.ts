@@ -2,7 +2,7 @@ import { getAuthenticatedUserId } from "@/lib/auth";
 import { NextResponse } from "next/server";
 
 // Helper to calculate Levenshtein distance similarity
-function getSimilarity(s1: string, s2: string): number {
+function getLevenshteinDistance(s1: string, s2: string): number {
   const len1 = s1.length;
   const len2 = s2.length;
   const matrix: number[][] = [];
@@ -25,10 +25,7 @@ function getSimilarity(s1: string, s2: string): number {
     }
   }
 
-  const distance = matrix[len1][len2];
-  const maxLength = Math.max(len1, len2);
-  if (maxLength === 0) return 100;
-  return Math.round((1 - distance / maxLength) * 100);
+  return matrix[len1][len2];
 }
 
 export async function POST(request: Request) {
@@ -45,16 +42,57 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Missing spokenText or targetText" }, { status: 400 });
     }
 
-    const cleanSpoken = spokenText.toLowerCase().trim().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
-    const cleanTarget = targetText.toLowerCase().trim().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+    // Clean and split words
+    const cleanWord = (w: string) => w.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "").trim();
+    
+    const spokenWords = spokenText.split(/\s+/).map(cleanWord).filter(Boolean);
+    const targetWordsOriginal = targetText.split(/\s+/);
+    const targetWordsClean = targetWordsOriginal.map(cleanWord).filter(Boolean);
 
-    const score = getSimilarity(cleanSpoken, cleanTarget);
-    const isCorrect = score >= 80; // Threshold of 80% similarity
+    // Map each target word to see if it exists in spoken words or is close enough
+    let correctCount = 0;
+    const wordsFeedback = targetWordsOriginal.map((origWord: string) => {
+      const cleanTargetWord = cleanWord(origWord);
+      if (!cleanTargetWord) return { word: origWord, isCorrect: true };
+
+      // Find best match in spoken words
+      let isWordCorrect = false;
+      let bestDiff = 999;
+      let matchedIndex = -1;
+
+      for (let i = 0; i < spokenWords.length; i++) {
+        const spoken = spokenWords[i];
+        const dist = getLevenshteinDistance(cleanTargetWord, spoken);
+        if (dist < bestDiff) {
+          bestDiff = dist;
+          matchedIndex = i;
+        }
+      }
+
+      // If word distance is small enough (relative to word length), it's correct
+      const maxAllowedDist = Math.max(1, Math.floor(cleanTargetWord.length * 0.3));
+      if (bestDiff <= maxAllowedDist && matchedIndex !== -1) {
+        isWordCorrect = true;
+        correctCount++;
+        // Remove matched word so it's not matched twice
+        spokenWords.splice(matchedIndex, 1);
+      }
+
+      return {
+        word: origWord,
+        isCorrect: isWordCorrect,
+      };
+    });
+
+    const overallScore = targetWordsClean.length > 0 
+      ? Math.round((correctCount / targetWordsClean.length) * 100) 
+      : 100;
 
     return NextResponse.json({
       success: true,
-      score: score,
-      isCorrect: isCorrect,
+      score: overallScore,
+      isCorrect: overallScore >= 80,
+      words: wordsFeedback,
     });
   } catch (error: any) {
     console.error("POST /api/ai/pronunciation error:", error);
