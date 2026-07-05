@@ -49,32 +49,32 @@ export default function OnboardingPage() {
     }
   };
 
-  const calculateResult = () => {
-    setShowResult(true);
-    let score = 0;
+  // Pure memoized score calculation following DRY principles
+  const score = React.useMemo(() => {
+    let s = 0;
     PLACEMENT_QUESTIONS.forEach((q) => {
       if (answers[q.id] === q.correct) {
-        score += q.difficulty === "easy" ? 1 : q.difficulty === "medium" ? 2 : 3;
+        s += q.difficulty === "easy" ? 1 : q.difficulty === "medium" ? 2 : 3;
       }
     });
+    return s;
+  }, [answers]);
 
+  const calculateResult = () => {
+    setShowResult(true);
     const xp = score * 5 + 30;
     awardXp(xp);
   };
 
   const getLevel = () => {
-    let score = 0;
-    PLACEMENT_QUESTIONS.forEach((q) => {
-      if (answers[q.id] === q.correct) {
-        score += q.difficulty === "easy" ? 1 : q.difficulty === "medium" ? 2 : 3;
-      }
-    });
     if (score >= 16) return { level: "Advanced", color: "text-violet-600", bg: "bg-violet-100 dark:bg-violet-950/30", emoji: "🏆" };
     if (score >= 8) return { level: "Intermediate", color: "text-sky-600", bg: "bg-sky-100 dark:bg-sky-950/30", emoji: "📘" };
     return { level: "Beginner", color: "text-emerald-600", bg: "bg-emerald-100 dark:bg-emerald-950/30", emoji: "🌱" };
   };
 
-  const correctCount = PLACEMENT_QUESTIONS.filter((q) => answers[q.id] === q.correct).length;
+  const correctCount = React.useMemo(() => {
+    return PLACEMENT_QUESTIONS.filter((q) => answers[q.id] === q.correct).length;
+  }, [answers]);
 
   if (showResult) {
     const levelInfo = getLevel();

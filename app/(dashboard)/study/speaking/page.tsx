@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { Button, Card, Badge } from "@/components/ui";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Mic,
   MicOff,
@@ -121,16 +122,18 @@ export default function SpeakingPracticePage() {
         animationFrameRef.current = requestAnimationFrame(draw);
         analyser.getByteFrequencyData(dataArray);
 
-        ctx.fillStyle = "rgba(255, 255, 255, 0.15)";
+        // Soft visualizer tail glow overlay
+        ctx.fillStyle = "rgba(250, 251, 252, 0.2)";
         ctx.fillRect(0, 0, width, height);
 
-        const barWidth = (width / bufferLength) * 2.5;
+        const barWidth = (width / bufferLength) * 2.2;
         let barHeight;
         let x = 0;
 
         for (let i = 0; i < bufferLength; i++) {
-          barHeight = dataArray[i] / 2;
-          ctx.fillStyle = `rgb(${barHeight + 100}, 139, 246)`;
+          barHeight = dataArray[i] / 2.5;
+          // Gradient fill colors matching styling
+          ctx.fillStyle = `rgb(${i * 4 + 78}, 145, 245)`;
           ctx.fillRect(x, height - barHeight, barWidth, barHeight);
           x += barWidth + 1;
         }
@@ -219,24 +222,33 @@ export default function SpeakingPracticePage() {
   };
 
   return (
-    <div className="mx-auto max-w-5xl animate-fade-in space-y-6">
+    <div className="mx-auto max-w-5xl space-y-6" suppressHydrationWarning>
       {/* Page Header */}
-      <div className="page-header animate-fade-in-down">
-        <h1 className="page-title text-3xl font-extrabold tracking-tight">
+      <motion.div
+        initial={{ opacity: 0, y: -15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ type: "spring", stiffness: 85, damping: 15 }}
+        className="page-header"
+      >
+        <h1 className="text-2xl md:text-3xl font-black tracking-tight text-slate-900 dark:text-white font-display">
           AI Speaking Pronunciation Coach
         </h1>
-        <p className="page-subtitle text-muted max-w-2xl" style={{ marginTop: "6px" }}>
+        <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium max-w-xl">
           Luyện phát âm chuẩn xác đến từng từ bằng so khớp phổ âm tự động.
         </p>
-      </div>
+      </motion.div>
 
       <div className="grid gap-6 lg:grid-cols-5 items-start">
         {/* Left Side: Phrases Selection */}
         <div className="lg:col-span-2 space-y-4">
-          <h3 className="text-xs font-black uppercase tracking-wider text-slate-500">Mẫu câu luyện nói</h3>
+          <h3 className="text-[10px] font-black uppercase tracking-wider text-slate-450 dark:text-slate-500">
+            Mẫu câu luyện nói
+          </h3>
           <div className="space-y-3">
             {MOCK_PHRASES.map((phrase) => (
-              <button
+              <motion.button
+                whileHover={{ translateY: -1 }}
+                whileTap={{ scale: 0.98 }}
                 key={phrase.id}
                 type="button"
                 onClick={() => {
@@ -245,17 +257,19 @@ export default function SpeakingPracticePage() {
                   setOverallScore(null);
                   setWordsFeedback([]);
                 }}
-                className={`bezel w-full text-left ${selectedPhrase.id === phrase.id ? "ring-2 ring-sky-400" : ""}`}
+                className={`bezel w-full text-left cursor-pointer ${
+                  selectedPhrase.id === phrase.id ? "ring-2 ring-sky-400" : ""
+                }`}
               >
-                <div className="bezel-inner p-4 space-y-2">
+                <div className="bezel-inner p-4 space-y-2 bg-white dark:bg-neutral-900">
                   <Badge variant={phrase.topic.includes("IELTS") ? "legendary" : "primary"}>
                     {phrase.topic}
                   </Badge>
-                  <p className="font-bold text-slate-800 dark:text-slate-200 text-sm line-clamp-2">
+                  <p className="font-bold text-slate-800 dark:text-slate-200 text-xs md:text-sm line-clamp-2 leading-relaxed">
                     {phrase.text}
                   </p>
                 </div>
-              </button>
+              </motion.button>
             ))}
           </div>
         </div>
@@ -264,12 +278,14 @@ export default function SpeakingPracticePage() {
         <div className="lg:col-span-3 space-y-6">
           <div className="bezel">
             <div className="bezel-inner bg-white dark:bg-neutral-900 p-6 space-y-6 text-center">
-              <div className="flex justify-between items-center border-b border-slate-100 dark:border-neutral-800 pb-3">
-                <span className="text-xs font-black uppercase text-slate-400">Đọc to câu dưới đây</span>
+              <div className="flex justify-between items-center border-b border-slate-100 dark:border-neutral-850 pb-3">
+                <span className="text-[10px] font-black uppercase text-slate-400 dark:text-slate-500">
+                  Đọc to câu dưới đây
+                </span>
                 <button
                   type="button"
                   onClick={playTTS}
-                  className="rounded-full bg-slate-50 p-2 text-slate-600 hover:bg-slate-100 hover:text-sky-500 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-750"
+                  className="rounded-full bg-slate-50 p-2 text-slate-650 hover:bg-slate-100 hover:text-sky-500 dark:bg-neutral-850 dark:text-slate-400 dark:hover:bg-neutral-800 cursor-pointer"
                   title="Nghe giọng đọc mẫu"
                 >
                   <Volume2 className="h-4.5 w-4.5" />
@@ -279,64 +295,81 @@ export default function SpeakingPracticePage() {
               {/* Phrase text with pronunciation visual colorizer */}
               <div className="space-y-2 py-4">
                 {wordsFeedback.length > 0 ? (
-                  <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1.5 text-2xl font-black tracking-tight">
+                  <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1.5 text-xl md:text-2xl font-black tracking-tight">
                     {wordsFeedback.map((w, idx) => (
-                      <span
+                      <motion.span
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: idx * 0.05 }}
                         key={idx}
                         className={w.isCorrect ? "text-emerald-500" : "text-rose-500 underline decoration-wavy decoration-2"}
                       >
                         {w.word}
-                      </span>
+                      </motion.span>
                     ))}
                   </div>
                 ) : (
-                  <h2 className="text-2xl font-black tracking-tight text-slate-800 dark:text-slate-200 leading-relaxed">
+                  <h2 className="text-xl md:text-2xl font-black tracking-tight text-slate-800 dark:text-slate-200 leading-relaxed font-display">
                     {selectedPhrase.text}
                   </h2>
                 )}
-                <p className="text-xs font-mono text-slate-400">{selectedPhrase.phonetic}</p>
+                <p className="text-[10px] md:text-xs font-mono text-slate-400 dark:text-slate-500 font-bold mt-1">
+                  {selectedPhrase.phonetic}
+                </p>
               </div>
 
               {/* Waveform Visualizer Canvas */}
               {isRecording && (
                 <div className="flex justify-center">
-                  <canvas ref={canvasRef} className="h-12 w-full max-w-xs rounded-xl" width={300} height={50} />
+                  <canvas ref={canvasRef} className="h-12 w-full max-w-xs rounded-xl bg-slate-50/50 border border-slate-100 dark:bg-neutral-950/20 dark:border-neutral-850" width={300} height={50} />
                 </div>
               )}
 
               {/* Recording Action Button */}
               <div className="flex flex-col items-center gap-3">
-                <button
-                  type="button"
-                  onClick={toggleRecording}
-                  className={`h-16 w-16 rounded-full flex items-center justify-center text-white shadow-lg transition-transform hover:scale-105 active:scale-95 ${
-                    isRecording
-                      ? "bg-rose-500 shadow-rose-500/20"
-                      : "bg-sky-500 shadow-sky-500/20"
-                  }`}
-                >
-                  {isRecording ? <MicOff className="h-6 w-6" /> : <Mic className="h-6 w-6" />}
-                </button>
-                <span className="text-xs font-bold text-slate-500">
+                <div className="relative">
+                  {isRecording && (
+                    <span className="absolute inset-0 rounded-full bg-rose-500/25 animate-ping" />
+                  )}
+                  <motion.button
+                    whileTap={{ scale: 0.93 }}
+                    type="button"
+                    onClick={toggleRecording}
+                    className={`relative h-16 w-16 rounded-full flex items-center justify-center text-white shadow-lg transition-transform hover:scale-105 cursor-pointer ${
+                      isRecording
+                        ? "bg-rose-500 shadow-rose-500/20"
+                        : "bg-sky-500 shadow-sky-500/20"
+                    }`}
+                  >
+                    {isRecording ? <MicOff className="h-6 w-6" /> : <Mic className="h-6 w-6" />}
+                  </motion.button>
+                </div>
+                <span className="text-[10px] font-black uppercase text-slate-450 dark:text-slate-500">
                   {isRecording ? "Đang ghi âm... Nhấp lại để dừng" : "Nhấp micro để bắt đầu nói"}
                 </span>
               </div>
 
               {/* Spoken transcript output */}
               {spokenText && (
-                <div className="bg-slate-50 dark:bg-neutral-950/40 p-4 rounded-2xl border border-slate-100 dark:border-neutral-900 text-left space-y-1.5">
-                  <span className="text-[10px] font-black uppercase text-slate-400">Kết quả nhận diện giọng nói</span>
-                  <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-slate-50 dark:bg-neutral-950/40 p-4 rounded-2xl border border-slate-100 dark:border-neutral-850 text-left space-y-1.5"
+                >
+                  <span className="text-[9px] font-black uppercase text-slate-400 dark:text-slate-550">
+                    Kết quả nhận diện giọng nói
+                  </span>
+                  <p className="text-xs md:text-sm font-semibold text-slate-700 dark:text-slate-350 leading-relaxed">
                     “{spokenText}”
                   </p>
-                </div>
+                </motion.div>
               )}
 
               {/* Submit / Score feedback section */}
               {spokenText && overallScore === null && (
                 <Button
                   variant="primary"
-                  className="w-full py-3 text-sm font-bold flex items-center justify-center gap-2"
+                  className="w-full py-3 text-xs md:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-glow"
                   onClick={handleEvaluate}
                   disabled={isLoading}
                 >
@@ -346,16 +379,21 @@ export default function SpeakingPracticePage() {
               )}
 
               {overallScore !== null && (
-                <div className="bg-sky-50/50 dark:bg-sky-950/10 p-5 rounded-2xl border border-sky-100/50 dark:border-sky-900/30 flex items-center justify-between text-left">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ type: "spring", stiffness: 95, damping: 15 }}
+                  className="bg-sky-50/50 dark:bg-sky-950/10 p-5 rounded-2xl border border-sky-100/50 dark:border-sky-900/30 flex items-center justify-between text-left"
+                >
                   <div className="flex items-center gap-3">
                     <Trophy className="h-7 w-7 text-amber-500 animate-bounce" />
                     <div>
-                      <h4 className="text-sm font-black text-sky-850 dark:text-sky-400">Độ chuẩn xác phát âm</h4>
-                      <p className="text-xs text-slate-500 mt-0.5">Tiêu chuẩn bản xứ Mỹ.</p>
+                      <h4 className="text-xs md:text-sm font-black text-sky-850 dark:text-sky-400">Độ chuẩn xác phát âm</h4>
+                      <p className="text-[10px] text-slate-500 mt-0.5">Tiêu chuẩn bản xứ Mỹ.</p>
                     </div>
                   </div>
-                  <span className="text-3xl font-black text-sky-600">{overallScore}%</span>
-                </div>
+                  <span className="text-2xl md:text-3xl font-black text-sky-600 font-display">{overallScore}%</span>
+                </motion.div>
               )}
             </div>
           </div>

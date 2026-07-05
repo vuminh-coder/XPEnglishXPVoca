@@ -49,13 +49,18 @@ const itemVariants = {
 
 export default function VocabularyPage() {
   const [search, setSearch] = useState("");
-  const themes = MOCK_THEMES;
 
-  const filteredThemes = themes.filter(
-    (t) =>
-      t.name.toLowerCase().includes(search.toLowerCase()) ||
-      t.nameEn.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredThemes = React.useMemo(() => {
+    return MOCK_THEMES.filter(
+      (t) =>
+        t.name.toLowerCase().includes(search.toLowerCase()) ||
+        t.nameEn.toLowerCase().includes(search.toLowerCase())
+    );
+  }, [search]);
+
+  const totalVocabs = React.useMemo(() => {
+    return filteredThemes.reduce((sum, t) => sum + t.totalVocabs, 0);
+  }, [filteredThemes]);
 
   const getThemeAccent = (id: string) => {
     switch (id) {
@@ -169,7 +174,7 @@ export default function VocabularyPage() {
             <div className="flex items-center gap-2">
               <BookOpen className="h-4 w-4 text-amber-500" />
               <span>
-                {filteredThemes.reduce((sum, t) => sum + t.totalVocabs, 0)} từ
+                {totalVocabs} từ
               </span>
             </div>
           </div>
@@ -259,7 +264,7 @@ export default function VocabularyPage() {
                       </div>
 
                       <div className="mt-5">
-                        <div className="mb-2 flex items-center justify-between text-[10px] font-bold text-slate-450 dark:text-slate-500">
+                        <div className="mb-2 flex items-center justify-between text-[10px] font-bold text-slate-400 dark:text-slate-500">
                           <span>Tiến trình</span>
                           <span>{percentage}%</span>
                         </div>

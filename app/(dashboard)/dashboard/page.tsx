@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useDailyChallengeStore } from "@/lib/store/dailyChallengeStore";
@@ -7,7 +7,6 @@ import { motion } from "framer-motion";
 import {
   ArrowRight,
   BookOpen,
-  Bot,
   Clock,
   Flame,
   Globe,
@@ -56,6 +55,24 @@ export default function DashboardPage() {
     initChallenges();
   }, [initChallenges]);
 
+  // Streak calendar calculation memoized purely based on user streak (no Math.random)
+  const streakCalendar = useMemo(() => {
+    if (!user) return [];
+    const calendar = [];
+    const today = new Date();
+    for (let i = 27; i >= 0; i--) {
+      const d = new Date(today);
+      d.setDate(d.getDate() - i);
+      // Simulate streak: recent days are active deterministically
+      const isActive = i < user.currentStreak || (i < 14 && i % 3 === 0);
+      calendar.push({
+        date: d.toISOString().slice(5, 10),
+        active: isActive,
+      });
+    }
+    return calendar;
+  }, [user]);
+
   if (!user) return null;
 
   const vocabPercent = Math.min(
@@ -65,10 +82,6 @@ export default function DashboardPage() {
   const { percent: xpPercent } = getXpProgress(user.level, user.totalXp);
   const studyPercent = Math.min(100, Math.round((user.minutesStudied / 15) * 100));
   const completedChallenges = challenges.filter((c) => c.isCompleted).length;
-  const achievementsPercent = Math.min(
-    100,
-    Math.round((completedChallenges / Math.max(1, challenges.length)) * 100)
-  );
   const remainingWords = Math.max(0, 10 - user.wordsLearned);
 
   // Weekly XP bar chart mock data (simulated from user's totalXp)
@@ -82,20 +95,6 @@ export default function DashboardPage() {
     { day: "CN", xp: Math.round(user.totalXp * 0.05) },
   ];
   const maxWeeklyXp = Math.max(...weeklyXp.map((d) => d.xp), 1);
-
-  // Streak calendar — 28 day grid (4 weeks)
-  const streakCalendar: Array<{ date: string; active: boolean }> = [];
-  const today = new Date();
-  for (let i = 27; i >= 0; i--) {
-    const d = new Date(today);
-    d.setDate(d.getDate() - i);
-    // Simulate streak: recent days more likely active
-    const isActive = i < user.currentStreak || (i < 14 && Math.random() > 0.4);
-    streakCalendar.push({
-      date: d.toISOString().slice(5, 10),
-      active: isActive,
-    });
-  }
 
   const quickActions = [
     {

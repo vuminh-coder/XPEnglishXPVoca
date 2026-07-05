@@ -1,8 +1,9 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Button, Badge } from "@/components/ui";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useNotificationStore } from "@/lib/store/notificationStore";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Headphones,
   Play,
@@ -64,6 +65,30 @@ const LISTENING_QUIZZES = [
   },
 ];
 
+const menuContainerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.05,
+    },
+  },
+} as const;
+
+const menuItemVariants = {
+  hidden: { opacity: 0, y: 15, scale: 0.98 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 85,
+      damping: 15,
+    },
+  },
+} as const;
+
 // ── Dictation Game Component ──
 function DictationMode({ onBack }: { onBack: () => void }) {
   const { awardXp } = useAuthStore();
@@ -75,6 +100,7 @@ function DictationMode({ onBack }: { onBack: () => void }) {
   const [results, setResults] = useState<Array<{ sentence: string; input: string; score: number }>>([]);
   const [speed, setSpeed] = useState(1);
   const [gameOver, setGameOver] = useState(false);
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
 
   const speak = (text: string) => {
     if (typeof window === "undefined") return;
@@ -83,6 +109,9 @@ function DictationMode({ onBack }: { onBack: () => void }) {
     utterance.lang = "en-US";
     utterance.rate = speed;
     utterance.pitch = 1;
+    utterance.onstart = () => setIsAudioPlaying(true);
+    utterance.onend = () => setIsAudioPlaying(false);
+    utterance.onerror = () => setIsAudioPlaying(false);
     const voices = window.speechSynthesis.getVoices();
     const enVoice = voices.find((v) => v.lang.startsWith("en"));
     if (enVoice) utterance.voice = enVoice;
@@ -122,22 +151,22 @@ function DictationMode({ onBack }: { onBack: () => void }) {
   if (gameOver) {
     const avgScore = Math.round(results.reduce((sum, r) => sum + r.score, 0) / results.length);
     return (
-      <Card variant="bezel" className="p-8 text-center space-y-5">
-        <Trophy className="h-12 w-12 text-amber-500 mx-auto" />
-        <div className="text-3xl font-black text-slate-900 dark:text-white">{avgScore}%</div>
-        <p className="text-sm text-muted">Trung bình chính xác qua {sentences.length} câu</p>
+      <Card variant="bezel" className="p-8 text-center space-y-5 bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-[calc(var(--radius-3xl)-6px)]">
+        <Trophy className="h-12 w-12 text-amber-500 mx-auto animate-bounce" />
+        <div className="text-3xl font-black text-slate-900 dark:text-white font-display">{avgScore}%</div>
+        <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 font-bold">Trung bình chính xác qua {sentences.length} câu</p>
         <div className="space-y-3 text-left max-w-lg mx-auto">
           {results.map((r, i) => (
-            <div key={i} className={`p-3 rounded-xl border text-xs ${r.score >= 80 ? "border-emerald-200 bg-emerald-50/50 dark:border-emerald-800/30 dark:bg-emerald-950/20" : "border-rose-200 bg-rose-50/50 dark:border-rose-800/30 dark:bg-rose-950/20"}`}>
-              <p className="font-bold text-slate-700 dark:text-slate-300">✓ {r.sentence}</p>
-              <p className="text-muted mt-1">Bạn gõ: {r.input}</p>
-              <Badge variant={r.score >= 80 ? "success" : "danger"} className="mt-1.5">{r.score}%</Badge>
+            <div key={i} className={`p-3 rounded-xl border text-xs leading-relaxed font-semibold ${r.score >= 80 ? "border-emerald-200 bg-emerald-50/30 dark:border-emerald-850/20 dark:bg-emerald-950/20 text-emerald-650 dark:text-emerald-450" : "border-rose-200 bg-rose-50/30 dark:border-rose-850/20 dark:bg-rose-950/20 text-rose-650 dark:text-rose-455"}`}>
+              <p className="font-black text-slate-800 dark:text-slate-200">✓ {r.sentence}</p>
+              <p className="text-slate-500 dark:text-slate-400 mt-1">Bạn gõ: {r.input}</p>
+              <Badge variant={r.score >= 80 ? "success" : "danger"} className="mt-1.5 font-bold">{r.score}%</Badge>
             </div>
           ))}
         </div>
-        <div className="flex gap-3 justify-center">
-          <Button variant="secondary" size="sm" onClick={onBack}>← Quay lại</Button>
-          <Button variant="primary" size="sm" onClick={() => { setCurrent(0); setInput(""); setSubmitted(false); setResults([]); setGameOver(false); }}>
+        <div className="flex gap-3 justify-center pt-2">
+          <Button variant="secondary" size="sm" className="rounded-xl font-bold cursor-pointer" onClick={onBack}>← Quay lại</Button>
+          <Button variant="primary" size="sm" className="rounded-xl font-bold cursor-pointer" onClick={() => { setCurrent(0); setInput(""); setSubmitted(false); setResults([]); setGameOver(false); }}>
             <RotateCcw className="h-3.5 w-3.5 mr-1" /> Chơi lại
           </Button>
         </div>
@@ -150,57 +179,99 @@ function DictationMode({ onBack }: { onBack: () => void }) {
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between">
-        <Button variant="secondary" size="sm" onClick={onBack}>← Quay lại</Button>
-        <Badge variant="primary">{current + 1}/{sentences.length}</Badge>
+        <Button variant="secondary" size="sm" className="rounded-xl font-bold cursor-pointer" onClick={onBack}>← Quay lại</Button>
+        <Badge variant="primary" className="text-xs md:text-sm font-black px-3.5 py-1">{current + 1}/{sentences.length}</Badge>
       </div>
 
-      <div className="h-1.5 rounded-full bg-slate-100 dark:bg-neutral-800 overflow-hidden">
-        <div className="h-full rounded-full bg-gradient-to-r from-violet-500 to-purple-500 transition-all" style={{ width: `${((current + 1) / sentences.length) * 100}%` }} />
-      </div>
-
-      <Card variant="bezel" className="p-6 space-y-5">
-        <div className="text-center">
-          <p className="text-xs text-muted font-bold mb-3">Nghe và gõ lại chính xác câu bạn nghe được</p>
-          <Button variant="primary" size="md" onClick={() => speak(sentences[current])}>
-            <Volume2 className="h-5 w-5 mr-2" /> Phát âm thanh
-          </Button>
-        </div>
-
-        <div className="flex items-center gap-3 text-xs text-muted">
-          <span className="font-bold shrink-0">Tốc độ:</span>
-          <input type="range" min="0.5" max="1.5" step="0.1" value={speed} onChange={(e) => setSpeed(Number(e.target.value))}
-            className="flex-1 accent-violet-500" />
-          <span className="font-black text-violet-600 w-10 text-right">{speed}x</span>
-        </div>
-
-        <textarea
-          className="w-full py-3 px-4 text-sm font-medium rounded-xl bg-slate-50 dark:bg-neutral-800 border border-slate-200 dark:border-neutral-700 focus:outline-none focus:border-violet-400 resize-none min-h-[80px]"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Gõ lại những gì bạn nghe được..."
-          disabled={submitted}
+      <div className="h-2 rounded-full bg-slate-100 dark:bg-neutral-850 overflow-hidden">
+        <motion.div
+          className="h-full rounded-full bg-gradient-to-r from-violet-500 to-purple-500"
+          initial={{ width: 0 }}
+          animate={{ width: `${((current + 1) / sentences.length) * 100}%` }}
+          transition={{ type: "spring", stiffness: 80, damping: 15 }}
         />
+      </div>
 
-        {submitted && comparison && (
-          <div className="p-4 rounded-xl bg-slate-50 dark:bg-neutral-800 space-y-2">
-            <div className="flex items-center gap-2">
-              {comparison.percent >= 80 ? <CheckCircle className="h-5 w-5 text-emerald-500" /> : <XCircle className="h-5 w-5 text-rose-500" />}
-              <span className="text-sm font-black">{comparison.correct}/{comparison.total} từ đúng ({comparison.percent}%)</span>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={`dictation-${current}`}
+          initial={{ opacity: 0, x: 15 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -15 }}
+          transition={{ type: "spring", stiffness: 95, damping: 16 }}
+        >
+          <Card variant="bezel" className="p-6 space-y-6 bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-[calc(var(--radius-3xl)-6px)]">
+            <div className="text-center relative">
+              <p className="text-xs text-slate-400 dark:text-slate-500 font-bold mb-4 uppercase tracking-wide">Nghe và gõ lại chính xác câu bạn nghe được</p>
+              
+              <div className="inline-block relative">
+                {isAudioPlaying && (
+                  <motion.span
+                    className="absolute -inset-2.5 rounded-full bg-violet-500/10 pointer-events-none"
+                    animate={{ scale: [1, 1.25, 1], opacity: [0.6, 0.2, 0.6] }}
+                    transition={{ repeat: Infinity, duration: 1.2 }}
+                  />
+                )}
+                <Button
+                  variant="primary"
+                  size="md"
+                  className="rounded-full py-4 px-6 cursor-pointer font-bold flex items-center gap-2 shadow-glow"
+                  onClick={() => speak(sentences[current])}
+                >
+                  <Volume2 className={`h-5 w-5 ${isAudioPlaying ? "animate-bounce" : ""}`} />
+                  Phát âm thanh
+                </Button>
+              </div>
             </div>
-            <p className="text-xs text-emerald-700 dark:text-emerald-400 font-bold">✓ {sentences[current]}</p>
-          </div>
-        )}
 
-        {!submitted ? (
-          <Button variant="primary" className="w-full justify-center" onClick={handleSubmit} disabled={!input.trim()}>
-            Kiểm tra <CheckCircle className="h-4 w-4 ml-1" />
-          </Button>
-        ) : (
-          <Button variant="primary" className="w-full justify-center" onClick={handleNext}>
-            {current < sentences.length - 1 ? <>Câu tiếp <ArrowRight className="h-4 w-4 ml-1" /></> : <>Xem kết quả <Trophy className="h-4 w-4 ml-1" /></>}
-          </Button>
-        )}
-      </Card>
+            <div className="flex items-center gap-3 text-xs text-slate-500 dark:text-slate-400 font-bold bg-slate-50/50 dark:bg-neutral-950 p-3 rounded-2xl border border-slate-200/20">
+              <span className="shrink-0">Tốc độ phát:</span>
+              <input
+                type="range"
+                min="0.5"
+                max="1.5"
+                step="0.1"
+                value={speed}
+                onChange={(e) => setSpeed(Number(e.target.value))}
+                className="flex-1 accent-violet-500 cursor-pointer h-1.5 bg-slate-200 dark:bg-neutral-850 rounded-lg appearance-none"
+              />
+              <span className="text-violet-650 dark:text-violet-400 w-10 text-right font-black">{speed}x</span>
+            </div>
+
+            <textarea
+              className="w-full py-3 px-4 text-xs md:text-sm font-semibold rounded-2xl bg-slate-50 dark:bg-neutral-950 border border-slate-200/40 dark:border-neutral-850 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-300/30 resize-none min-h-[90px] leading-relaxed"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Gõ lại những gì bạn nghe được..."
+              disabled={submitted}
+            />
+
+            {submitted && comparison && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className={`p-4 rounded-2xl border text-xs leading-relaxed font-semibold ${comparison.percent >= 80 ? "border-emerald-250 bg-emerald-50/30 dark:border-emerald-850/20 dark:bg-emerald-950/20 text-emerald-650 dark:text-emerald-400" : "border-rose-250 bg-rose-50/30 dark:border-rose-850/20 dark:bg-rose-950/20 text-rose-650 dark:text-rose-455"}`}
+              >
+                <div className="flex items-center gap-2">
+                  {comparison.percent >= 80 ? <CheckCircle className="h-5 w-5 text-emerald-500 shrink-0" /> : <XCircle className="h-5 w-5 text-rose-500 shrink-0" />}
+                  <span className="text-sm font-black">{comparison.correct}/{comparison.total} từ đúng ({comparison.percent}%)</span>
+                </div>
+                <p className="text-xs text-emerald-650 dark:text-emerald-450 mt-1.5">✓ {sentences[current]}</p>
+              </motion.div>
+            )}
+
+            {!submitted ? (
+              <Button variant="primary" className="w-full justify-center py-4 font-bold text-xs md:text-sm cursor-pointer shadow-glow" onClick={handleSubmit} disabled={!input.trim()}>
+                Kiểm tra <CheckCircle className="h-4 w-4 ml-1 shrink-0" />
+              </Button>
+            ) : (
+              <Button variant="primary" className="w-full justify-center py-4 font-bold text-xs md:text-sm cursor-pointer shadow-glow" onClick={handleNext}>
+                {current < sentences.length - 1 ? <>Câu tiếp <ArrowRight className="h-4 w-4 ml-1 shrink-0" /></> : <>Xem kết quả <Trophy className="h-4 w-4 ml-1 shrink-0" /></>}
+              </Button>
+            )}
+          </Card>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }
@@ -213,6 +284,7 @@ function ListeningQuizMode({ onBack }: { onBack: () => void }) {
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [showResult, setShowResult] = useState(false);
   const [speed, setSpeed] = useState(1);
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const quiz = LISTENING_QUIZZES[quizIndex];
 
   const speak = (text: string) => {
@@ -221,6 +293,9 @@ function ListeningQuizMode({ onBack }: { onBack: () => void }) {
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = "en-US";
     utterance.rate = speed;
+    utterance.onstart = () => setIsAudioPlaying(true);
+    utterance.onend = () => setIsAudioPlaying(false);
+    utterance.onerror = () => setIsAudioPlaying(false);
     const voices = window.speechSynthesis.getVoices();
     const enVoice = voices.find((v) => v.lang.startsWith("en"));
     if (enVoice) utterance.voice = enVoice;
@@ -246,76 +321,104 @@ function ListeningQuizMode({ onBack }: { onBack: () => void }) {
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between">
-        <Button variant="secondary" size="sm" onClick={onBack}>← Quay lại</Button>
-        <Badge variant="primary">Bài {quizIndex + 1}/{LISTENING_QUIZZES.length}</Badge>
+        <Button variant="secondary" size="sm" className="rounded-xl font-bold cursor-pointer" onClick={onBack}>← Quay lại</Button>
+        <Badge variant="primary" className="text-xs md:text-sm font-black px-3.5 py-1">Bài {quizIndex + 1}/{LISTENING_QUIZZES.length}</Badge>
       </div>
 
-      <Card variant="bezel" className="p-6 space-y-5">
-        <div>
-          <h3 className="text-sm font-black text-slate-800 dark:text-white">{quiz.title}</h3>
-          <p className="text-xs text-muted mt-1">Nghe đoạn hội thoại rồi trả lời các câu hỏi bên dưới</p>
-        </div>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={`quiz-${quizIndex}`}
+          initial={{ opacity: 0, x: 15 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -15 }}
+          transition={{ type: "spring", stiffness: 95, damping: 16 }}
+        >
+          <Card variant="bezel" className="p-6 space-y-6 bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-[calc(var(--radius-3xl)-6px)]">
+            <div>
+              <h3 className="text-base font-black text-slate-800 dark:text-white font-display">{quiz.title}</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">Nghe đoạn hội thoại rồi trả lời các câu hỏi bên dưới</p>
+            </div>
 
-        <div className="flex items-center gap-3">
-          <Button variant="primary" size="sm" onClick={() => speak(quiz.passage)}>
-            <Volume2 className="h-4 w-4 mr-1" /> Nghe
-          </Button>
-          <div className="flex items-center gap-2 text-xs text-muted flex-1">
-            <span className="font-bold">Tốc độ:</span>
-            <input type="range" min="0.5" max="1.5" step="0.1" value={speed} onChange={(e) => setSpeed(Number(e.target.value))} className="flex-1 accent-violet-500" />
-            <span className="font-black text-violet-600">{speed}x</span>
-          </div>
-        </div>
-
-        <div className="space-y-4">
-          {quiz.questions.map((q, qi) => {
-            const key = `${quiz.id}_${qi}`;
-            const isCorrect = showResult && answers[key] === q.correct;
-            const isWrong = showResult && answers[key] !== undefined && answers[key] !== q.correct;
-            return (
-              <div key={qi} className={`p-4 rounded-xl border ${isCorrect ? "border-emerald-300 bg-emerald-50/50 dark:border-emerald-800/30 dark:bg-emerald-950/20" : isWrong ? "border-rose-300 bg-rose-50/50 dark:border-rose-800/30 dark:bg-rose-950/20" : "border-slate-200 dark:border-neutral-700"}`}>
-                <p className="text-xs font-bold text-slate-800 dark:text-slate-200 mb-2.5">Q{qi + 1}. {q.text}</p>
-                <div className="grid gap-1.5 sm:grid-cols-2">
-                  {q.options.map((opt, oi) => {
-                    const selected = answers[key] === oi;
-                    const correctOpt = showResult && oi === q.correct;
-                    return (
-                      <button
-                        key={oi}
-                        onClick={() => !showResult && setAnswers((prev) => ({ ...prev, [key]: oi }))}
-                        disabled={showResult}
-                        className={`p-2.5 rounded-lg text-[11px] font-bold text-left transition-all border ${
-                          correctOpt ? "border-emerald-400 bg-emerald-100 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300"
-                          : selected && isWrong ? "border-rose-400 bg-rose-100 dark:bg-rose-950/30 text-rose-700 dark:text-rose-300"
-                          : selected ? "border-violet-400 bg-violet-50 text-violet-700 dark:bg-violet-950/30 dark:text-violet-300"
-                          : "border-slate-200 dark:border-neutral-700 text-slate-600 dark:text-slate-400 hover:border-slate-300"
-                        }`}
-                      >
-                        {opt}
-                      </button>
-                    );
-                  })}
-                </div>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4 bg-slate-50/50 dark:bg-neutral-950 p-4 rounded-2xl border border-slate-200/20">
+              <div className="relative inline-block self-start sm:self-auto">
+                {isAudioPlaying && (
+                  <motion.span
+                    className="absolute -inset-2 rounded-full bg-violet-500/10 pointer-events-none"
+                    animate={{ scale: [1, 1.25, 1], opacity: [0.6, 0.2, 0.6] }}
+                    transition={{ repeat: Infinity, duration: 1.2 }}
+                  />
+                )}
+                <Button variant="primary" size="sm" className="rounded-xl font-bold cursor-pointer flex items-center gap-1 px-4 py-2.5 shadow-glow" onClick={() => speak(quiz.passage)}>
+                  <Volume2 className={`h-4.5 w-4.5 ${isAudioPlaying ? "animate-bounce" : ""}`} /> Nghe Audio
+                </Button>
               </div>
-            );
-          })}
-        </div>
+              <div className="flex items-center gap-3 text-xs text-slate-500 dark:text-slate-450 font-bold flex-1 w-full">
+                <span className="shrink-0 select-none">Tốc độ:</span>
+                <input
+                  type="range"
+                  min="0.5"
+                  max="1.5"
+                  step="0.1"
+                  value={speed}
+                  onChange={(e) => setSpeed(Number(e.target.value))}
+                  className="flex-1 accent-violet-500 cursor-pointer h-1 bg-slate-250 dark:bg-neutral-850 rounded-lg appearance-none"
+                />
+                <span className="font-black text-violet-650 dark:text-violet-400 w-8 text-right">{speed}x</span>
+              </div>
+            </div>
 
-        {!showResult ? (
-          <Button variant="primary" className="w-full justify-center" onClick={submitQuiz}
-            disabled={Object.keys(answers).length < quiz.questions.length}>
-            <Zap className="h-4 w-4 mr-1" /> Nộp bài
-          </Button>
-        ) : quizIndex < LISTENING_QUIZZES.length - 1 ? (
-          <Button variant="primary" className="w-full justify-center" onClick={nextQuiz}>
-            Bài tiếp <ArrowRight className="h-4 w-4 ml-1" />
-          </Button>
-        ) : (
-          <Button variant="secondary" className="w-full justify-center" onClick={onBack}>
-            ← Quay lại trang chính
-          </Button>
-        )}
-      </Card>
+            <div className="space-y-5">
+              {quiz.questions.map((q, qi) => {
+                const key = `${quiz.id}_${qi}`;
+                const isCorrect = showResult && answers[key] === q.correct;
+                const isWrong = showResult && answers[key] !== undefined && answers[key] !== q.correct;
+                return (
+                  <div key={qi} className={`p-4 rounded-2xl border text-xs leading-relaxed font-semibold ${isCorrect ? "border-emerald-350 bg-emerald-50/30 dark:border-emerald-850/20 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-450" : isWrong ? "border-rose-350 bg-rose-50/30 dark:border-rose-850/20 dark:bg-rose-950/20 text-rose-700 dark:text-rose-455" : "border-slate-200/50 dark:border-neutral-850 bg-white dark:bg-neutral-950"}`}>
+                    <p className="text-xs font-black text-slate-800 dark:text-slate-200 mb-3">Q{qi + 1}. {q.text}</p>
+                    <div className="grid gap-2.5 sm:grid-cols-2">
+                      {q.options.map((opt, oi) => {
+                        const selected = answers[key] === oi;
+                        const correctOpt = showResult && oi === q.correct;
+                        return (
+                          <motion.button
+                            whileTap={{ scale: 0.98 }}
+                            key={oi}
+                            onClick={() => !showResult && setAnswers((prev) => ({ ...prev, [key]: oi }))}
+                            disabled={showResult}
+                            className={`p-3 rounded-xl text-[11px] font-bold text-left transition-all border cursor-pointer leading-snug ${
+                              correctOpt ? "border-emerald-400 bg-emerald-100/55 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300"
+                              : selected && isWrong ? "border-rose-400 bg-rose-100/55 dark:bg-rose-950/30 text-rose-700 dark:text-rose-300"
+                              : selected ? "border-violet-400 bg-violet-50 dark:bg-violet-950/20 text-violet-750 dark:text-violet-400"
+                              : "border-slate-200 dark:border-neutral-850 text-slate-650 dark:text-slate-400 hover:border-slate-300"
+                            }`}
+                          >
+                            {opt}
+                          </motion.button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {!showResult ? (
+              <Button variant="primary" className="w-full justify-center py-4 font-bold text-xs md:text-sm cursor-pointer shadow-glow" onClick={submitQuiz}
+                disabled={Object.keys(answers).length < quiz.questions.length}>
+                <Zap className="h-4 w-4 mr-1 text-yellow-300 animate-bounce" /> Nộp bài
+              </Button>
+            ) : quizIndex < LISTENING_QUIZZES.length - 1 ? (
+              <Button variant="primary" className="w-full justify-center py-4 font-bold text-xs md:text-sm cursor-pointer shadow-glow" onClick={nextQuiz}>
+                Bài tiếp <ArrowRight className="h-4 w-4 ml-1 shrink-0" />
+              </Button>
+            ) : (
+              <Button variant="secondary" className="w-full justify-center py-4 font-bold text-xs md:text-sm cursor-pointer" onClick={onBack}>
+                ← Quay lại trang chính
+              </Button>
+            )}
+          </Card>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }
@@ -324,56 +427,108 @@ function ListeningQuizMode({ onBack }: { onBack: () => void }) {
 export default function ListeningPage() {
   const [mode, setMode] = useState<"menu" | "dictation" | "quiz">("menu");
 
-  if (mode === "dictation") {
-    return (
-      <div className="animate-fade-in max-w-2xl mx-auto pb-20 md:pb-6">
-        <DictationMode onBack={() => setMode("menu")} />
-      </div>
-    );
-  }
-
-  if (mode === "quiz") {
-    return (
-      <div className="animate-fade-in max-w-2xl mx-auto pb-20 md:pb-6">
-        <ListeningQuizMode onBack={() => setMode("menu")} />
-      </div>
-    );
-  }
-
   return (
-    <div className="animate-fade-in max-w-3xl mx-auto space-y-6 pb-20 md:pb-6">
-      <div className="page-header animate-fade-in-down">
-        <h1 className="page-title text-3xl font-extrabold tracking-tight flex items-center gap-2">
-          <Headphones className="h-7 w-7 text-violet-500" /> Luyện Nghe tiếng Anh
-        </h1>
-        <p className="page-subtitle text-muted mt-1">Cải thiện kỹ năng nghe hiểu qua bài tập Dictation và Listening Quiz.</p>
-      </div>
+    <div className="max-w-3xl mx-auto space-y-6 pb-20 md:pb-6" suppressHydrationWarning>
+      <AnimatePresence mode="wait">
+        {mode === "dictation" && (
+          <motion.div
+            key="dictation-panel"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ type: "spring", stiffness: 85, damping: 15 }}
+            className="max-w-2xl mx-auto"
+          >
+            <DictationMode onBack={() => setMode("menu")} />
+          </motion.div>
+        )}
 
-      <div className="grid gap-5 sm:grid-cols-2">
-        <Card variant="bezel" hoverable className="p-6 cursor-pointer group" onClick={() => setMode("dictation")}>
-          <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white mb-4">
-            <Mic className="h-7 w-7" />
-          </div>
-          <h3 className="text-base font-black text-slate-800 dark:text-white">Dictation</h3>
-          <p className="text-xs text-muted mt-1 leading-relaxed">Nghe phát âm rồi gõ lại chính xác. Rèn luyện khả năng bắt âm và chính tả.</p>
-          <div className="mt-4 flex items-center gap-2">
-            <Badge variant="primary">5 câu</Badge>
-            <Badge variant="neutral">~5 phút</Badge>
-          </div>
-        </Card>
+        {mode === "quiz" && (
+          <motion.div
+            key="quiz-panel"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ type: "spring", stiffness: 85, damping: 15 }}
+            className="max-w-2xl mx-auto"
+          >
+            <ListeningQuizMode onBack={() => setMode("menu")} />
+          </motion.div>
+        )}
 
-        <Card variant="bezel" hoverable className="p-6 cursor-pointer group" onClick={() => setMode("quiz")}>
-          <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-sky-500 to-cyan-600 flex items-center justify-center text-white mb-4">
-            <Headphones className="h-7 w-7" />
-          </div>
-          <h3 className="text-base font-black text-slate-800 dark:text-white">Listening Quiz</h3>
-          <p className="text-xs text-muted mt-1 leading-relaxed">Nghe đoạn văn rồi trả lời trắc nghiệm. Phong cách TOEIC Part 3-4.</p>
-          <div className="mt-4 flex items-center gap-2">
-            <Badge variant="primary">3 bài</Badge>
-            <Badge variant="neutral">~8 phút</Badge>
-          </div>
-        </Card>
-      </div>
+        {mode === "menu" && (
+          <motion.div
+            key="menu-panel"
+            variants={menuContainerVariants}
+            initial="hidden"
+            animate="show"
+            exit="hidden"
+            className="space-y-6"
+          >
+            <motion.div
+              variants={menuItemVariants}
+              className="page-header"
+            >
+              <h1 className="text-2xl md:text-3xl font-black tracking-tight flex items-center gap-2 text-slate-900 dark:text-white font-display">
+                <Headphones className="h-7 w-7 text-violet-500 animate-pulse" /> Luyện Nghe tiếng Anh
+              </h1>
+              <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium">
+                Cải thiện kỹ năng nghe hiểu qua bài tập Dictation (Chính tả) và Listening Quiz (Trắc nghiệm bài hội thoại).
+              </p>
+            </motion.div>
+
+            <div className="grid gap-5 sm:grid-cols-2">
+              <motion.div
+                variants={menuItemVariants}
+                whileHover={{ translateY: -3 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => setMode("dictation")}
+                className="cursor-pointer"
+              >
+                <Card variant="bezel" className="p-6 flex flex-col justify-between h-full bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-[calc(var(--radius-3xl)-6px)] relative overflow-hidden group">
+                  <div>
+                    <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-650 flex items-center justify-center text-white mb-4 group-hover:scale-105 transition-transform duration-300">
+                      <Mic className="h-7 w-7" />
+                    </div>
+                    <h3 className="text-base font-black text-slate-800 dark:text-white font-display">Dictation</h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed font-medium">
+                      Nghe phát âm rồi gõ lại chính xác từng câu. Giúp rèn luyện khả năng bắt âm nhạy bén và kiểm tra chính tả.
+                    </p>
+                  </div>
+                  <div className="mt-4 flex items-center gap-2 pt-2 border-t border-slate-100/50 dark:border-neutral-850/50">
+                    <Badge variant="primary">5 câu</Badge>
+                    <Badge variant="neutral">~5 phút</Badge>
+                  </div>
+                </Card>
+              </motion.div>
+
+              <motion.div
+                variants={menuItemVariants}
+                whileHover={{ translateY: -3 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => setMode("quiz")}
+                className="cursor-pointer"
+              >
+                <Card variant="bezel" className="p-6 flex flex-col justify-between h-full bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-[calc(var(--radius-3xl)-6px)] relative overflow-hidden group">
+                  <div>
+                    <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-sky-500 to-cyan-650 flex items-center justify-center text-white mb-4 group-hover:scale-105 transition-transform duration-300">
+                      <Headphones className="h-7 w-7" />
+                    </div>
+                    <h3 className="text-base font-black text-slate-800 dark:text-white font-display">Listening Quiz</h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed font-medium">
+                      Nghe các đoạn hội thoại thực tế rồi hoàn thành bảng trắc nghiệm. Bám sát dạng đề thi TOEIC Part 3 & Part 4.
+                    </p>
+                  </div>
+                  <div className="mt-4 flex items-center gap-2 pt-2 border-t border-slate-100/50 dark:border-neutral-850/50">
+                    <Badge variant="primary">3 bài</Badge>
+                    <Badge variant="neutral">~8 phút</Badge>
+                  </div>
+                </Card>
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

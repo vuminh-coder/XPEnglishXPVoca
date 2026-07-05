@@ -3,15 +3,14 @@ import React, { useState, useEffect, useRef } from "react";
 import { Card, Button, Badge } from "@/components/ui";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useNotificationStore } from "@/lib/store/notificationStore";
+import { motion } from "framer-motion";
 import {
   BookOpen,
-  ArrowRight,
   ArrowLeft,
   CheckCircle,
   XCircle,
   Clock,
   Zap,
-  Trophy,
   RotateCcw,
 } from "lucide-react";
 
@@ -113,21 +112,43 @@ const READING_PASSAGES: ReadingPassage[] = [
   },
 ];
 
+const listContainerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.05,
+    },
+  },
+} as const;
+
+const cardItemVariants = {
+  hidden: { opacity: 0, y: 15, scale: 0.98 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 85,
+      damping: 15,
+    },
+  },
+} as const;
+
 export default function ReadingPage() {
   const { awardXp } = useAuthStore();
   const { addToast } = useNotificationStore();
   const [selectedPassage, setSelectedPassage] = useState<ReadingPassage | null>(null);
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [showResult, setShowResult] = useState(false);
-  const [startTime, setStartTime] = useState(0);
   const [elapsed, setElapsed] = useState(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     if (selectedPassage && !showResult) {
-      setStartTime(Date.now());
       timerRef.current = setInterval(() => {
-        setElapsed(Math.floor((Date.now() - Date.now()) / 1000));
+        setElapsed((e) => e + 1);
       }, 1000);
     }
     return () => {
@@ -135,21 +156,10 @@ export default function ReadingPage() {
     };
   }, [selectedPassage, showResult]);
 
-  // Update elapsed time every second
-  useEffect(() => {
-    if (selectedPassage && !showResult && startTime > 0) {
-      const interval = setInterval(() => {
-        setElapsed(Math.floor((Date.now() - startTime) / 1000));
-      }, 1000);
-      return () => clearInterval(interval);
-    }
-  }, [selectedPassage, showResult, startTime]);
-
   const selectPassage = (p: ReadingPassage) => {
     setSelectedPassage(p);
     setAnswers({});
     setShowResult(false);
-    setStartTime(Date.now());
     setElapsed(0);
   };
 
@@ -168,27 +178,46 @@ export default function ReadingPage() {
   // Passage list
   if (!selectedPassage) {
     return (
-      <div className="animate-fade-in max-w-3xl mx-auto space-y-6 pb-20 md:pb-6">
-        <div className="page-header animate-fade-in-down">
-          <h1 className="page-title text-3xl font-extrabold tracking-tight flex items-center gap-2">
-            <BookOpen className="h-7 w-7 text-teal-500" /> Đọc hiểu tiếng Anh
+      <div className="max-w-3xl mx-auto space-y-6 pb-20 md:pb-6" suppressHydrationWarning>
+        <motion.div
+          initial={{ opacity: 0, y: -15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ type: "spring", stiffness: 85, damping: 15 }}
+          className="page-header animate-fade-in-down"
+        >
+          <h1 className="text-2xl md:text-3xl font-black tracking-tight flex items-center gap-2 text-slate-900 dark:text-white font-display">
+            <BookOpen className="h-7 w-7 text-teal-500 animate-pulse" /> Đọc hiểu tiếng Anh
           </h1>
-          <p className="page-subtitle text-muted mt-1">Đọc bài viết và trả lời câu hỏi — phong cách TOEIC Part 7.</p>
-        </div>
+          <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium">Đọc bài viết và trả lời câu hỏi — phong cách TOEIC Part 7.</p>
+        </motion.div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <motion.div
+          variants={listContainerVariants}
+          initial="hidden"
+          animate="show"
+          className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+        >
           {READING_PASSAGES.map((p) => (
-            <Card key={p.id} variant="bezel" hoverable className="p-5 cursor-pointer" onClick={() => selectPassage(p)}>
-              <div className="text-3xl mb-3">{p.icon}</div>
-              <h3 className="text-sm font-black text-slate-800 dark:text-white">{p.title}</h3>
-              <div className="flex items-center gap-2 mt-2">
-                <Badge variant="neutral" className="text-[10px]">{p.category}</Badge>
-                <Badge variant="primary" className="text-[10px]">{p.wordCount} từ</Badge>
-                <Badge variant="neutral" className="text-[10px]">{p.questions.length} câu hỏi</Badge>
-              </div>
-            </Card>
+            <motion.div
+              variants={cardItemVariants}
+              whileHover={{ translateY: -3 }}
+              whileTap={{ scale: 0.98 }}
+              key={p.id}
+              className="cursor-pointer"
+              onClick={() => selectPassage(p)}
+            >
+              <Card variant="bezel" className="p-5 bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-[calc(var(--radius-3xl)-6px)] relative overflow-hidden group">
+                <div className="text-3xl mb-3 group-hover:scale-110 transition-transform duration-300 w-fit">{p.icon}</div>
+                <h3 className="text-sm font-black text-slate-800 dark:text-white font-display">{p.title}</h3>
+                <div className="flex flex-wrap items-center gap-2 mt-3">
+                  <Badge variant="neutral" className="text-[9px] font-bold">{p.category}</Badge>
+                  <Badge variant="primary" className="text-[9px] font-bold">{p.wordCount} từ</Badge>
+                  <Badge variant="neutral" className="text-[9px] font-bold">{p.questions.length} câu hỏi</Badge>
+                </div>
+              </Card>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     );
   }
@@ -197,15 +226,15 @@ export default function ReadingPage() {
   const correctCount = selectedPassage.questions.filter((q, i) => answers[`q_${i}`] === q.correct).length;
 
   return (
-    <div className="animate-fade-in max-w-3xl mx-auto space-y-5 pb-20 md:pb-6">
+    <div className="max-w-3xl mx-auto space-y-5 pb-20 md:pb-6" suppressHydrationWarning>
       <div className="flex items-center justify-between">
-        <Button variant="secondary" size="sm" onClick={() => setSelectedPassage(null)}>
+        <Button variant="secondary" size="sm" className="rounded-xl font-bold cursor-pointer" onClick={() => setSelectedPassage(null)}>
           <ArrowLeft className="h-3.5 w-3.5 mr-1" /> Chọn bài khác
         </Button>
         <div className="flex items-center gap-2">
-          <Badge variant="neutral"><Clock className="h-3 w-3 mr-0.5" />{formatTime(elapsed)}</Badge>
+          <Badge variant="neutral" className="font-bold"><Clock className="h-3 w-3 mr-0.5 text-sky-500 animate-spin" />{formatTime(elapsed)}</Badge>
           {showResult && (
-            <Badge variant={correctCount === selectedPassage.questions.length ? "success" : "primary"}>
+            <Badge variant={correctCount === selectedPassage.questions.length ? "success" : "primary"} className="font-bold">
               {correctCount}/{selectedPassage.questions.length} đúng
             </Badge>
           )}
@@ -213,57 +242,59 @@ export default function ReadingPage() {
       </div>
 
       {/* Passage */}
-      <Card variant="bezel" className="p-6">
-        <div className="flex items-center gap-2 mb-3">
+      <Card variant="bezel" className="p-6 bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-[calc(var(--radius-3xl)-6px)]">
+        <div className="flex items-center gap-2.5 mb-4 border-b border-slate-100 dark:border-neutral-850 pb-3">
           <span className="text-2xl">{selectedPassage.icon}</span>
           <div>
-            <h2 className="text-base font-black text-slate-900 dark:text-white">{selectedPassage.title}</h2>
-            <Badge variant="neutral" className="text-[10px]">{selectedPassage.category}</Badge>
+            <h2 className="text-sm md:text-base font-black text-slate-900 dark:text-white font-display">{selectedPassage.title}</h2>
+            <Badge variant="neutral" className="text-[9px] font-bold mt-0.5">{selectedPassage.category}</Badge>
           </div>
         </div>
         <div className="prose prose-sm dark:prose-invert max-w-none">
-          <div className="text-xs leading-relaxed text-slate-700 dark:text-slate-300 whitespace-pre-line">
+          <div className="text-xs leading-relaxed text-slate-700 dark:text-slate-350 whitespace-pre-line font-medium bg-slate-50/50 dark:bg-neutral-950 p-4 rounded-2xl border border-slate-100/50 dark:border-neutral-850/50">
             {selectedPassage.passage}
           </div>
         </div>
       </Card>
 
       {/* Questions */}
-      <Card variant="bezel" className="p-6 space-y-5">
-        <h3 className="text-[11px] font-extrabold uppercase tracking-wider text-slate-500">Câu hỏi đọc hiểu</h3>
+      <Card variant="bezel" className="p-6 bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-[calc(var(--radius-3xl)-6px)] space-y-5">
+        <h3 className="text-[10px] font-black uppercase tracking-wider text-slate-400">Câu hỏi đọc hiểu</h3>
 
         {selectedPassage.questions.map((q, qi) => {
           const key = `q_${qi}`;
           const isCorrect = showResult && answers[key] === q.correct;
           const isWrong = showResult && answers[key] !== undefined && answers[key] !== q.correct;
           return (
-            <div key={qi} className={`p-4 rounded-xl border ${isCorrect ? "border-emerald-300 bg-emerald-50/50 dark:border-emerald-800/30 dark:bg-emerald-950/20" : isWrong ? "border-rose-300 bg-rose-50/50 dark:border-rose-800/30 dark:bg-rose-950/20" : "border-slate-200 dark:border-neutral-700"}`}>
-              <p className="text-xs font-bold text-slate-800 dark:text-slate-200 mb-2.5">
-                {qi + 1}. {q.text}
-                {showResult && isCorrect && <CheckCircle className="inline h-4 w-4 text-emerald-500 ml-1.5" />}
-                {showResult && isWrong && <XCircle className="inline h-4 w-4 text-rose-500 ml-1.5" />}
+            <div key={qi} className={`p-4 rounded-2xl border ${isCorrect ? "border-emerald-300 bg-emerald-50/30 dark:border-emerald-850/30 dark:bg-emerald-950/20" : isWrong ? "border-rose-300 bg-rose-50/30 dark:border-rose-850/30 dark:bg-rose-950/20" : "border-slate-200 dark:border-neutral-850"}`}>
+              <p className="text-xs font-bold text-slate-800 dark:text-slate-250 mb-3 flex items-start gap-1">
+                <span className="shrink-0">{qi + 1}.</span> 
+                <span className="flex-1 leading-normal">{q.text}</span>
+                {showResult && isCorrect && <CheckCircle className="inline h-4 w-4 text-emerald-500 ml-1.5 shrink-0" />}
+                {showResult && isWrong && <XCircle className="inline h-4 w-4 text-rose-500 ml-1.5 shrink-0" />}
               </p>
-              <div className="grid gap-1.5 sm:grid-cols-2">
+              <div className="grid gap-2 sm:grid-cols-2">
                 {q.options.map((opt, oi) => {
                   const selected = answers[key] === oi;
                   const correctOpt = showResult && oi === q.correct;
                   return (
-                    <button
+                    <motion.button
+                      whileTap={{ scale: 0.98 }}
                       key={oi}
                       onClick={() => !showResult && setAnswers((prev) => ({ ...prev, [key]: oi }))}
                       disabled={showResult}
-                      className={`p-2.5 rounded-lg text-[11px] font-bold text-left transition-all border ${
-                        correctOpt ? "border-emerald-400 bg-emerald-100 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300"
-                        : selected && isWrong ? "border-rose-400 bg-rose-100 dark:bg-rose-950/30 text-rose-700 dark:text-rose-300"
-                        : selected ? "border-teal-400 bg-teal-50 text-teal-700 dark:bg-teal-950/30 dark:text-teal-300"
-                        : "border-slate-200 dark:border-neutral-700 text-slate-600 dark:text-slate-400 hover:border-slate-300"
+                      className={`p-3 rounded-xl text-[11px] font-bold text-left transition-all border leading-snug flex items-center cursor-pointer ${
+                        correctOpt ? "border-emerald-450 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300 font-extrabold ring-1 ring-emerald-500/10"
+                        : selected && isWrong ? "border-rose-450 bg-rose-50 dark:bg-rose-950/30 text-rose-700 dark:text-rose-350 font-extrabold ring-1 ring-rose-500/10"
+                        : selected ? "border-teal-450 bg-teal-50/50 text-teal-700 dark:bg-teal-950/30 dark:text-teal-300 font-extrabold ring-1 ring-teal-500/10"
+                        : "border-slate-250 dark:border-neutral-850 text-slate-650 dark:text-slate-400 hover:border-slate-350 bg-white dark:bg-neutral-900"
                       }`}
                     >
-                      <span className="inline-block w-5 h-5 rounded-lg bg-slate-100 dark:bg-neutral-800 text-center text-[10px] font-black leading-5 mr-2">
+                      <span className="inline-block w-5 h-5 rounded-lg bg-slate-100 dark:bg-neutral-850 text-center text-[10px] font-black leading-5 mr-2.5 shrink-0">
                         {String.fromCharCode(65 + oi)}
                       </span>
-                      {opt}
-                    </button>
+                      <span className="flex-1">{opt}</span>
+                    </motion.button>
                   );
                 })}
               </div>
@@ -272,16 +303,16 @@ export default function ReadingPage() {
         })}
 
         {!showResult ? (
-          <Button variant="primary" className="w-full justify-center" onClick={submitReading}
+          <Button variant="primary" className="w-full justify-center py-3.5 font-bold cursor-pointer rounded-xl shadow-glow" onClick={submitReading}
             disabled={Object.keys(answers).length < selectedPassage.questions.length}>
             <Zap className="h-4 w-4 mr-1" /> Nộp bài
           </Button>
         ) : (
           <div className="flex gap-3">
-            <Button variant="secondary" className="flex-1 justify-center" onClick={() => setSelectedPassage(null)}>
+            <Button variant="secondary" className="flex-1 justify-center py-3.5 font-bold cursor-pointer rounded-xl" onClick={() => setSelectedPassage(null)}>
               <ArrowLeft className="h-4 w-4 mr-1" /> Chọn bài khác
             </Button>
-            <Button variant="primary" className="flex-1 justify-center" onClick={() => { setAnswers({}); setShowResult(false); setStartTime(Date.now()); setElapsed(0); }}>
+            <Button variant="primary" className="flex-1 justify-center py-3.5 font-bold cursor-pointer rounded-xl shadow-glow" onClick={() => { setAnswers({}); setShowResult(false); setElapsed(0); }}>
               <RotateCcw className="h-4 w-4 mr-1" /> Làm lại
             </Button>
           </div>

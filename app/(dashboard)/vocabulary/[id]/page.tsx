@@ -49,8 +49,8 @@ export default function ThemeDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = use(params);
-  const theme = MOCK_THEMES.find((t) => t.id === id);
-  const vocabs = MOCK_VOCABULARIES.filter((v) => v.themeId === id);
+  const theme = React.useMemo(() => MOCK_THEMES.find((t) => t.id === id), [id]);
+  const vocabs = React.useMemo(() => MOCK_VOCABULARIES.filter((v) => v.themeId === id), [id]);
   const { toggleFavorite, learned, practiceWord } = useVocabularyStore();
   const { awardXp } = useAuthStore();
 
@@ -60,6 +60,12 @@ export default function ThemeDetailPage({
   const [viewMode, setViewMode] = useState<"flashcard" | "list">("flashcard");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
+
+  const activeVocab = vocabs[currentIndex];
+  const activeState = React.useMemo(() => activeVocab
+    ? learned.find((l) => l.vocabId === activeVocab.id)
+    : null, [activeVocab, learned]);
+  const isCurrentFav = activeState?.isFavorite || false;
 
   if (!theme)
     return <div className="p-8 text-center text-red-500 font-bold">Chủ đề không tồn tại</div>;
@@ -80,13 +86,6 @@ export default function ThemeDetailPage({
       showToastMsg("Lỗi phát âm", "Trình duyệt không hỗ trợ!");
     }
   };
-
-  const activeVocab = vocabs[currentIndex];
-  const activeState = activeVocab
-    ? learned.find((l) => l.vocabId === activeVocab.id)
-    : null;
-  const isCurrentFav = activeState?.isFavorite || false;
-  const currentProf = activeState?.proficiency || 0;
 
   return (
     <div className="space-y-6" suppressHydrationWarning>
@@ -137,7 +136,7 @@ export default function ThemeDetailPage({
             <h2 className="font-black text-xl md:text-2xl tracking-tight text-slate-900 dark:text-white font-display">
               {theme.name}
             </h2>
-            <p className="text-[11px] text-slate-405 dark:text-slate-500 font-bold mt-0.5">
+            <p className="text-[11px] text-slate-400 dark:text-slate-500 font-bold mt-0.5">
               {theme.nameEn} · Độ khó: {theme.difficulty}/5
             </p>
           </div>
@@ -149,7 +148,7 @@ export default function ThemeDetailPage({
             className={`relative flex items-center gap-1.5 px-4 py-2 text-xs font-black rounded-full transition-colors duration-250 select-none z-10 ${
               viewMode === "flashcard"
                 ? "text-cyan-600 dark:text-cyan-400"
-                : "text-slate-450 dark:text-slate-500"
+                : "text-slate-400 dark:text-slate-500"
             }`}
             onClick={() => setViewMode("flashcard")}
           >
@@ -167,7 +166,7 @@ export default function ThemeDetailPage({
             className={`relative flex items-center gap-1.5 px-4 py-2 text-xs font-black rounded-full transition-colors duration-250 select-none z-10 ${
               viewMode === "list"
                 ? "text-cyan-600 dark:text-cyan-400"
-                : "text-slate-450 dark:text-slate-500"
+                : "text-slate-400 dark:text-slate-500"
             }`}
             onClick={() => setViewMode("list")}
           >
@@ -397,7 +396,7 @@ export default function ThemeDetailPage({
                       <div className="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed font-medium">
                         {v.definition}
                       </div>
-                      <div className="text-xs text-slate-500 dark:text-slate-450 bg-slate-50/60 dark:bg-neutral-950/30 p-3 rounded-xl border border-slate-250/20 dark:border-neutral-850 italic leading-relaxed font-bold">
+                      <div className="text-xs text-slate-500 dark:text-slate-400 bg-slate-50/60 dark:bg-neutral-950/30 p-3 rounded-xl border border-slate-250/20 dark:border-neutral-850 italic leading-relaxed font-bold">
                         &quot;{v.examples[0]}&quot;
                       </div>
                     </div>

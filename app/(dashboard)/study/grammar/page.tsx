@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Card, Button, Badge } from "@/components/ui";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useNotificationStore } from "@/lib/store/notificationStore";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   BookOpen,
   Sparkles,
@@ -30,6 +31,30 @@ const GRAMMAR_TOPICS = [
   { id: "prepositions", name: "Giới từ", icon: "📍", desc: "In, On, At, By, For, With..." },
   { id: "relative_clauses", name: "Mệnh đề quan hệ", icon: "🔗", desc: "Who, Which, That, Whose, Where" },
 ];
+
+const topicsContainerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.04,
+    },
+  },
+} as const;
+
+const topicItemVariants = {
+  hidden: { opacity: 0, y: 15, scale: 0.98 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 85,
+      damping: 15,
+    },
+  },
+} as const;
 
 export default function GrammarLabPage() {
   const { awardXp } = useAuthStore();
@@ -94,38 +119,58 @@ export default function GrammarLabPage() {
   // Topic selection screen
   if (!selectedTopic || exercises.length === 0) {
     return (
-      <div className="animate-fade-in space-y-6 pb-20 md:pb-6">
-        <div className="page-header animate-fade-in-down">
-          <h1 className="page-title text-3xl font-extrabold tracking-tight flex items-center gap-2">
+      <div className="space-y-6 pb-20 md:pb-6" suppressHydrationWarning>
+        <motion.div
+          initial={{ opacity: 0, y: -15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ type: "spring", stiffness: 85, damping: 15 }}
+          className="page-header"
+        >
+          <h1 className="text-2xl md:text-3xl font-black tracking-tight flex items-center gap-2 text-slate-900 dark:text-white font-display">
             <BookOpen className="h-7 w-7 text-indigo-500" /> Phòng luyện Ngữ pháp AI
           </h1>
-          <p className="page-subtitle text-muted mt-1">Chọn chủ đề ngữ pháp — Gemini AI sẽ sinh bài tập cho bạn.</p>
-        </div>
+          <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium">
+            Chọn chủ đề ngữ pháp — Gemini AI sẽ tự động sinh bài tập riêng biệt cho bạn.
+          </p>
+        </motion.div>
 
         {loading ? (
-          <Card variant="bezel" className="p-12 text-center">
+          <Card variant="bezel" className="p-12 text-center bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-[calc(var(--radius-3xl)-6px)]">
             <Loader2 className="h-8 w-8 animate-spin text-indigo-500 mx-auto" />
-            <p className="text-sm font-bold text-muted mt-3">AI đang sinh bài tập...</p>
+            <p className="text-xs md:text-sm font-bold text-slate-400 dark:text-slate-500 mt-3 animate-pulse">AI đang sinh đề bài tập...</p>
           </Card>
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <motion.div
+            variants={topicsContainerVariants}
+            initial="hidden"
+            animate="show"
+            className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+          >
             {GRAMMAR_TOPICS.map((topic) => (
-              <Card
+              <motion.div
+                variants={topicItemVariants}
+                whileHover={{ translateY: -3 }}
+                whileTap={{ scale: 0.98 }}
                 key={topic.id}
-                variant="bezel"
-                hoverable
-                className="p-5 cursor-pointer group"
                 onClick={() => generateExercises(topic.id)}
+                className="cursor-pointer"
               >
-                <div className="text-3xl mb-3">{topic.icon}</div>
-                <h3 className="text-sm font-black text-slate-800 dark:text-white">{topic.name}</h3>
-                <p className="text-[11px] text-muted mt-1">{topic.desc}</p>
-                <div className="mt-3 flex items-center gap-1 text-[11px] font-bold text-indigo-500 group-hover:translate-x-1 transition-transform">
-                  <Sparkles className="h-3 w-3" /> Bắt đầu luyện <ArrowRight className="h-3 w-3" />
-                </div>
-              </Card>
+                <Card
+                  variant="bezel"
+                  className="p-5 flex flex-col justify-between h-full group bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-[calc(var(--radius-3xl)-6px)] relative overflow-hidden"
+                >
+                  <div>
+                    <div className="text-3xl mb-3">{topic.icon}</div>
+                    <h3 className="text-sm font-black text-slate-800 dark:text-white">{topic.name}</h3>
+                    <p className="text-[11px] text-slate-450 dark:text-slate-500 mt-1 leading-relaxed">{topic.desc}</p>
+                  </div>
+                  <div className="mt-4 flex items-center gap-1 text-[10px] font-black text-indigo-500 uppercase tracking-wide group-hover:translate-x-1 transition-transform">
+                    <Sparkles className="h-3 w-3 text-yellow-500 animate-pulse" /> Bắt đầu luyện <ArrowRight className="h-3 w-3 shrink-0" />
+                  </div>
+                </Card>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         )}
       </div>
     );
@@ -133,115 +178,142 @@ export default function GrammarLabPage() {
 
   // Exercise screen
   return (
-    <div className="animate-fade-in max-w-2xl mx-auto space-y-6 pb-20 md:pb-6">
+    <div className="max-w-2xl mx-auto space-y-6 pb-20 md:pb-6" suppressHydrationWarning>
       {/* Progress header */}
-      <div className="flex items-center justify-between">
-        <Button variant="secondary" size="sm" onClick={() => { setSelectedTopic(null); setExercises([]); }}>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="flex items-center justify-between"
+      >
+        <Button variant="secondary" size="sm" className="cursor-pointer rounded-xl font-bold" onClick={() => { setSelectedTopic(null); setExercises([]); }}>
           <RotateCcw className="h-3.5 w-3.5 mr-1" /> Chọn chủ đề khác
         </Button>
-        <Badge variant="primary" className="text-sm font-black">
+        <Badge variant="primary" className="text-xs md:text-sm font-black px-3.5 py-1">
           {showResults ? "Kết quả" : `${currentIndex + 1} / ${exercises.length}`}
         </Badge>
-      </div>
+      </motion.div>
 
       {/* Progress bar */}
-      <div className="h-2 rounded-full bg-slate-100 dark:bg-neutral-800 overflow-hidden">
-        <div
-          className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 transition-all duration-500"
-          style={{ width: `${((showResults ? exercises.length : currentIndex + 1) / exercises.length) * 100}%` }}
+      <div className="h-2 rounded-full bg-slate-100 dark:bg-neutral-850 overflow-hidden">
+        <motion.div
+          className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-violet-500"
+          initial={{ width: 0 }}
+          animate={{ width: `${((showResults ? exercises.length : currentIndex + 1) / exercises.length) * 100}%` }}
+          transition={{ type: "spring", stiffness: 80, damping: 15 }}
         />
       </div>
 
-      {showResults ? (
-        /* Results summary */
-        <Card variant="bezel" className="p-6 space-y-5">
-          <div className="text-center">
-            <div className="text-4xl font-black text-indigo-600">
-              {exercises.filter((ex) => answers[ex.id] === ex.correctAnswer).length}/{exercises.length}
-            </div>
-            <p className="text-sm text-muted mt-1 font-bold">Câu trả lời đúng</p>
-          </div>
-
-          <div className="space-y-4">
-            {exercises.map((ex) => {
-              const isCorrect = answers[ex.id] === ex.correctAnswer;
-              return (
-                <div key={ex.id} className={`p-4 rounded-xl border ${isCorrect ? "border-emerald-200 bg-emerald-50/50 dark:border-emerald-800/30 dark:bg-emerald-950/20" : "border-rose-200 bg-rose-50/50 dark:border-rose-800/30 dark:bg-rose-950/20"}`}>
-                  <div className="flex items-start gap-2">
-                    {isCorrect ? <CheckCircle className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" /> : <XCircle className="h-4 w-4 text-rose-500 shrink-0 mt-0.5" />}
-                    <div className="space-y-1.5">
-                      <p className="text-xs font-bold text-slate-800 dark:text-slate-200">{ex.sentence}</p>
-                      {!isCorrect && (
-                        <p className="text-[11px] text-rose-600">Bạn chọn: <b>{answers[ex.id] || "(bỏ trống)"}</b> — Đáp án đúng: <b>{ex.correctAnswer}</b></p>
-                      )}
-                      <p className="text-[11px] text-slate-500 leading-relaxed">{ex.explanation}</p>
-                    </div>
-                  </div>
+      <AnimatePresence mode="wait">
+        {showResults ? (
+          /* Results summary */
+          <motion.div
+            key="results-summary"
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.98 }}
+            transition={{ type: "spring", stiffness: 85, damping: 15 }}
+          >
+            <Card variant="bezel" className="p-6 space-y-5 bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-[calc(var(--radius-3xl)-6px)]">
+              <div className="text-center">
+                <div className="text-4xl font-black text-indigo-650 font-display">
+                  {exercises.filter((ex) => answers[ex.id] === ex.correctAnswer).length}/{exercises.length}
                 </div>
-              );
-            })}
-          </div>
+                <p className="text-xs md:text-sm text-slate-400 dark:text-slate-500 mt-1 font-bold">Câu trả lời đúng</p>
+              </div>
 
-          <Button variant="primary" className="w-full justify-center" onClick={() => { setSelectedTopic(null); setExercises([]); }}>
-            <RotateCcw className="h-4 w-4 mr-1.5" /> Luyện chủ đề khác
-          </Button>
-        </Card>
-      ) : currentExercise ? (
-        /* Single exercise card */
-        <Card variant="bezel" className="p-6 space-y-5">
-          <div>
-            <Badge variant="neutral" className="mb-3">Câu {currentIndex + 1}</Badge>
-            <p className="text-base font-black text-slate-800 dark:text-white leading-relaxed">
-              {currentExercise.sentence}
-            </p>
-          </div>
+              <div className="space-y-4">
+                {exercises.map((ex) => {
+                  const isCorrect = answers[ex.id] === ex.correctAnswer;
+                  return (
+                    <div key={ex.id} className={`p-4 rounded-2xl border text-xs leading-relaxed font-semibold ${isCorrect ? "border-emerald-200 bg-emerald-50/30 dark:border-emerald-800/20 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-450" : "border-rose-200 bg-rose-50/30 dark:border-rose-800/20 dark:bg-rose-950/20 text-rose-750 dark:text-rose-455"}`}>
+                      <div className="flex items-start gap-2.5">
+                        {isCorrect ? <CheckCircle className="h-4.5 w-4.5 text-emerald-500 shrink-0 mt-0.5" /> : <XCircle className="h-4.5 w-4.5 text-rose-500 shrink-0 mt-0.5" />}
+                        <div className="space-y-1.5">
+                          <p className="text-xs font-black text-slate-800 dark:text-slate-200">{ex.sentence}</p>
+                          {!isCorrect && (
+                            <p className="text-[11px] text-rose-500 font-bold">Bạn chọn: <span className="underline decoration-wavy">{answers[ex.id] || "(bỏ trống)"}</span> — Đáp án đúng: <span className="text-emerald-600 dark:text-emerald-400 font-black">{ex.correctAnswer}</span></p>
+                          )}
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed font-medium mt-1">{ex.explanation}</p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
 
-          <div className="grid gap-2.5 sm:grid-cols-2">
-            {currentExercise.options.map((option) => {
-              const isSelected = answers[currentExercise.id] === option;
-              return (
-                <button
-                  key={option}
-                  onClick={() => selectAnswer(currentExercise.id, option)}
-                  className={`p-3.5 rounded-xl text-xs font-bold text-left transition-all border ${
-                    isSelected
-                      ? "border-indigo-400 bg-indigo-50 text-indigo-700 dark:bg-indigo-950/30 dark:text-indigo-300 dark:border-indigo-600"
-                      : "border-slate-200 dark:border-neutral-700 hover:border-slate-300 dark:hover:border-neutral-600 text-slate-700 dark:text-slate-300"
-                  }`}
+              <Button variant="primary" className="w-full py-4 text-xs md:text-sm font-bold flex items-center justify-center cursor-pointer shadow-glow" onClick={() => { setSelectedTopic(null); setExercises([]); }}>
+                <RotateCcw className="h-4 w-4 mr-1.5" /> Luyện chủ đề khác
+              </Button>
+            </Card>
+          </motion.div>
+        ) : currentExercise ? (
+          /* Single exercise card */
+          <motion.div
+            key={`exercise-${currentIndex}`}
+            initial={{ opacity: 0, x: 15 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -15 }}
+            transition={{ type: "spring", stiffness: 95, damping: 16 }}
+          >
+            <Card variant="bezel" className="p-6 space-y-6 bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-[calc(var(--radius-3xl)-6px)]">
+              <div>
+                <Badge variant="neutral" className="mb-3 font-bold">Câu {currentIndex + 1}</Badge>
+                <p className="text-base font-black text-slate-800 dark:text-white leading-relaxed font-display">
+                  {currentExercise.sentence}
+                </p>
+              </div>
+
+              <div className="grid gap-3 sm:grid-cols-2">
+                {currentExercise.options.map((option) => {
+                  const isSelected = answers[currentExercise.id] === option;
+                  return (
+                    <motion.button
+                      whileTap={{ scale: 0.98 }}
+                      key={option}
+                      onClick={() => selectAnswer(currentExercise.id, option)}
+                      className={`p-3.5 rounded-xl text-xs md:text-sm font-bold text-left transition-all border cursor-pointer leading-snug ${
+                        isSelected
+                          ? "border-indigo-400 bg-indigo-50/50 text-indigo-750 dark:bg-indigo-950/20 dark:text-indigo-400 dark:border-indigo-650"
+                          : "border-slate-200 dark:border-neutral-850 hover:border-slate-350 bg-white dark:bg-neutral-950 text-slate-700 dark:text-slate-300 dark:hover:bg-neutral-800"
+                      }`}
+                    >
+                      {option}
+                    </motion.button>
+                  );
+                })}
+              </div>
+
+              <div className="flex justify-between gap-3 pt-3 border-t border-slate-100 dark:border-neutral-850">
+                <Button
+                  variant="bezel"
+                  size="sm"
+                  className="rounded-xl font-bold cursor-pointer text-xs"
+                  disabled={currentIndex === 0}
+                  onClick={() => setCurrentIndex((i) => i - 1)}
                 >
-                  {option}
-                </button>
-              );
-            })}
-          </div>
+                  ← Trước
+                </Button>
 
-          <div className="flex justify-between gap-3">
-            <Button
-              variant="secondary"
-              size="sm"
-              disabled={currentIndex === 0}
-              onClick={() => setCurrentIndex((i) => i - 1)}
-            >
-              ← Trước
-            </Button>
-
-            {currentIndex < exercises.length - 1 ? (
-              <Button variant="primary" size="sm" onClick={() => setCurrentIndex((i) => i + 1)}>
-                Tiếp <ArrowRight className="h-3.5 w-3.5 ml-1" />
-              </Button>
-            ) : (
-              <Button
-                variant="primary"
-                size="sm"
-                onClick={submitAll}
-                disabled={Object.keys(answers).length < exercises.length}
-              >
-                <Zap className="h-3.5 w-3.5 mr-1" /> Nộp bài
-              </Button>
-            )}
-          </div>
-        </Card>
-      ) : null}
+                {currentIndex < exercises.length - 1 ? (
+                  <Button variant="primary" size="sm" className="rounded-xl font-bold cursor-pointer text-xs flex items-center gap-1" onClick={() => setCurrentIndex((i) => i + 1)}>
+                    Tiếp <ArrowRight className="h-3.5 w-3.5" />
+                  </Button>
+                ) : (
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    className="rounded-xl font-bold cursor-pointer text-xs flex items-center gap-1 shadow-glow"
+                    onClick={submitAll}
+                    disabled={Object.keys(answers).length < exercises.length}
+                  >
+                    <Zap className="h-3.5 w-3.5 text-yellow-300 animate-bounce" /> Nộp bài
+                  </Button>
+                )}
+              </div>
+            </Card>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </div>
   );
 }

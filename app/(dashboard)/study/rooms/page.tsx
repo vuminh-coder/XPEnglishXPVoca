@@ -3,17 +3,12 @@ import React, { useState, useEffect, useRef } from "react";
 import { Card, Button, Badge } from "@/components/ui";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useNotificationStore } from "@/lib/store/notificationStore";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Users,
-  MessageSquare,
   Send,
-  Trophy,
   ArrowRight,
-  BookOpen,
-  Volume2,
-  Zap,
   Sparkles,
-  Layers,
 } from "lucide-react";
 
 interface UserProfile {
@@ -80,6 +75,30 @@ const RANDOM_USERS: UserProfile[] = [
   { name: "Sophie Le", avatar: "👩‍⚕️", level: "Advanced", xp: 2800 },
   { name: "David Nguyen", avatar: "👨‍✈️", level: "Intermediate", xp: 1980 },
 ];
+
+const listContainerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.05,
+    },
+  },
+} as const;
+
+const cardItemVariants = {
+  hidden: { opacity: 0, y: 15, scale: 0.98 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 85,
+      damping: 15,
+    },
+  },
+} as const;
 
 export default function GroupRoomsPage() {
   const { user, awardXp } = useAuthStore();
@@ -247,102 +266,128 @@ export default function GroupRoomsPage() {
   // Main list view
   if (!activeRoom) {
     return (
-      <div className="animate-fade-in max-w-3xl mx-auto space-y-6 pb-20 md:pb-6">
-        <div className="page-header animate-fade-in-down">
-          <h1 className="page-title text-3xl font-extrabold tracking-tight flex items-center gap-2">
-            <Users className="h-7 w-7 text-indigo-500" /> Phòng Học Nhóm Live
+      <div className="max-w-3xl mx-auto space-y-6 pb-20 md:pb-6" suppressHydrationWarning>
+        <motion.div
+          initial={{ opacity: 0, y: -15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ type: "spring", stiffness: 85, damping: 15 }}
+          className="page-header animate-fade-in-down"
+        >
+          <h1 className="text-2xl md:text-3xl font-black tracking-tight flex items-center gap-2 text-slate-900 dark:text-white font-display">
+            <Users className="h-7 w-7 text-indigo-500 animate-pulse" /> Phòng Học Nhóm Live
           </h1>
-          <p className="page-subtitle text-muted mt-1">
+          <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium">
             Tham gia phòng học nhóm trực tuyến để cùng chia sẻ kinh nghiệm học tập, chat realtime và thử thách từ vựng.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <motion.div
+          variants={listContainerVariants}
+          initial="hidden"
+          animate="show"
+          className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+        >
           {STUDY_ROOMS.map((room) => (
-            <Card key={room.id} variant="bezel" hoverable className="p-6 flex flex-col justify-between h-[200px]">
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <Badge variant="primary">{room.category}</Badge>
-                  <span className="text-xs text-muted flex items-center gap-1">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    {room.onlineCount} online
-                  </span>
+            <motion.div
+              variants={cardItemVariants}
+              whileHover={{ translateY: -3 }}
+              whileTap={{ scale: 0.98 }}
+              key={room.id}
+              className="cursor-pointer"
+            >
+              <Card variant="bezel" className="p-6 flex flex-col justify-between h-[200px] bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-[calc(var(--radius-3xl)-6px)] relative overflow-hidden group">
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <Badge variant="primary">{room.category}</Badge>
+                    <span className="text-[10px] text-slate-500 flex items-center gap-1 font-black uppercase">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                      {room.onlineCount} online
+                    </span>
+                  </div>
+                  <h3 className="text-sm font-black text-slate-800 dark:text-white font-display">{room.name}</h3>
+                  <p className="text-[11px] text-slate-450 dark:text-slate-500 mt-1.5 line-clamp-2 leading-relaxed font-semibold">{room.description}</p>
                 </div>
-                <h3 className="text-sm font-black text-slate-800 dark:text-white">{room.name}</h3>
-                <p className="text-[11px] text-muted mt-1.5 line-clamp-2 leading-relaxed">{room.description}</p>
-              </div>
-              <Button variant="primary" size="sm" className="w-full justify-center mt-4" onClick={() => joinRoom(room)}>
-                Tham gia phòng <ArrowRight className="h-3.5 w-3.5 ml-1" />
-              </Button>
-            </Card>
+                <Button variant="primary" size="sm" className="w-full justify-center mt-4 cursor-pointer" onClick={() => joinRoom(room)}>
+                  Tham gia phòng <ArrowRight className="h-3.5 w-3.5 ml-1 shrink-0" />
+                </Button>
+              </Card>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     );
   }
 
   // Room view
   return (
-    <div className="animate-fade-in max-w-5xl mx-auto grid md:grid-cols-4 gap-5 h-[calc(100vh-140px)] pb-20 md:pb-6">
+    <div className="max-w-5xl mx-auto grid md:grid-cols-4 gap-5 h-[calc(100vh-140px)] pb-20 md:pb-6" suppressHydrationWarning>
       {/* Main chat column */}
-      <Card variant="bezel" className="md:col-span-3 flex flex-col h-full overflow-hidden p-0 border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900">
+      <Card variant="bezel" className="md:col-span-3 flex flex-col h-full overflow-hidden p-0 border-slate-200/40 dark:border-neutral-850 bg-white dark:bg-neutral-900 rounded-[calc(var(--radius-3xl)-6px)]">
         {/* Room Header */}
-        <div className="p-4 border-b border-slate-100 dark:border-neutral-800 flex items-center justify-between bg-slate-50/50 dark:bg-neutral-900/50">
+        <div className="p-4 border-b border-slate-100 dark:border-neutral-850 flex items-center justify-between bg-slate-50/50 dark:bg-neutral-950">
           <div>
-            <h2 className="text-sm font-black text-slate-900 dark:text-white flex items-center gap-2">
+            <h2 className="text-xs md:text-sm font-black text-slate-900 dark:text-white flex items-center gap-2 font-display">
               {activeRoom.name}
             </h2>
-            <p className="text-[10px] text-muted">{activeRoom.description}</p>
+            <p className="text-[10px] text-slate-450 mt-0.5">{activeRoom.description}</p>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="secondary" size="sm" onClick={() => setQuizActive(true)} disabled={quizActive}>
+            <Button variant="secondary" size="sm" className="rounded-xl font-bold cursor-pointer text-xs" onClick={() => setQuizActive(true)} disabled={quizActive}>
               <Sparkles className="h-3.5 w-3.5 text-amber-500 mr-1" /> Thử thách nhóm
             </Button>
-            <Button variant="ghost" size="sm" onClick={() => setActiveRoom(null)}>Rời phòng</Button>
+            <Button variant="ghost" size="sm" className="text-xs font-bold text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/20 cursor-pointer rounded-xl" onClick={() => setActiveRoom(null)}>Rời phòng</Button>
           </div>
         </div>
 
         {/* Challenge Box if active */}
-        {quizActive && (
-          <div className="p-4 bg-gradient-to-r from-violet-500/10 to-indigo-500/10 border-b border-violet-100 dark:border-violet-950/30 animate-fade-in">
-            <div className="flex items-center justify-between mb-3">
-              <Badge variant="primary">Thử thách học nhóm: Câu {quizStep + 1}/3</Badge>
-              <Badge variant="neutral">Đúng: {quizScore}</Badge>
-            </div>
-            <p className="text-xs font-bold text-slate-800 dark:text-slate-200 mb-3">
-              {QUIZ_QUESTIONS[quizStep].q}
-            </p>
-            <div className="grid grid-cols-2 gap-2">
-              {QUIZ_QUESTIONS[quizStep].options.map((opt, i) => {
-                const isSelected = selectedAnswer === i;
-                const isCorrect = i === QUIZ_QUESTIONS[quizStep].correct;
-                let btnStyle = "border-slate-200 bg-white dark:bg-neutral-800 hover:border-slate-300";
-                if (selectedAnswer !== null) {
-                  if (isCorrect) btnStyle = "border-emerald-400 bg-emerald-50 text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-400";
-                  else if (isSelected) btnStyle = "border-rose-400 bg-rose-50 text-rose-700 dark:bg-rose-950/20 dark:text-rose-400";
-                }
-                return (
-                  <button
-                    key={i}
-                    onClick={() => selectedAnswer === null && answerQuiz(i)}
-                    disabled={selectedAnswer !== null}
-                    className={`p-2.5 rounded-xl text-left text-[11px] font-bold border transition-all ${btnStyle}`}
-                  >
-                    {opt}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        )}
+        <AnimatePresence>
+          {quizActive && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className="p-4 bg-gradient-to-r from-violet-500/10 to-indigo-500/10 border-b border-violet-100 dark:border-violet-900/30 overflow-hidden"
+            >
+              <div className="flex items-center justify-between mb-3">
+                <Badge variant="primary" className="font-bold text-[10px]">Thử thách học nhóm: Câu {quizStep + 1}/3</Badge>
+                <Badge variant="neutral" className="font-bold text-[10px]">Đúng: {quizScore}</Badge>
+              </div>
+              <p className="text-xs font-bold text-slate-800 dark:text-slate-200 mb-3">
+                {QUIZ_QUESTIONS[quizStep].q}
+              </p>
+              <div className="grid grid-cols-2 gap-2">
+                {QUIZ_QUESTIONS[quizStep].options.map((opt, i) => {
+                  const isSelected = selectedAnswer === i;
+                  const isCorrect = i === QUIZ_QUESTIONS[quizStep].correct;
+                  let btnStyle = "border-slate-200 dark:border-neutral-850 bg-white dark:bg-neutral-900 hover:border-slate-350 cursor-pointer text-slate-700 dark:text-slate-300";
+                  if (selectedAnswer !== null) {
+                    if (isCorrect) btnStyle = "border-emerald-350 bg-emerald-50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-400 font-bold ring-1 ring-emerald-500/10";
+                    else if (isSelected) btnStyle = "border-rose-350 bg-rose-50 dark:bg-rose-950/20 text-rose-700 dark:text-rose-455 font-bold ring-1 ring-rose-500/10";
+                  }
+                  return (
+                    <motion.button
+                      whileTap={{ scale: 0.98 }}
+                      key={i}
+                      onClick={() => selectedAnswer === null && answerQuiz(i)}
+                      disabled={selectedAnswer !== null}
+                      className={`p-2.5 rounded-xl text-left text-[11px] font-bold border transition-all ${btnStyle}`}
+                    >
+                      {opt}
+                    </motion.button>
+                  );
+                })}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Message area */}
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {messages.map((msg) => {
             if (msg.isSystem) {
               return (
-                <div key={msg.id} className="flex justify-center animate-fade-in">
-                  <span className="bg-slate-100 dark:bg-neutral-800 text-[10px] text-muted py-1 px-3 rounded-full font-bold">
+                <div key={msg.id} className="flex justify-center">
+                  <span className="bg-slate-50 dark:bg-neutral-950 text-[10px] text-slate-450 py-1 px-3 rounded-full font-bold border border-slate-100 dark:border-neutral-850">
                     {msg.text}
                   </span>
                 </div>
@@ -350,52 +395,56 @@ export default function GroupRoomsPage() {
             }
             const isMe = msg.user.name === (user?.username || "Bạn");
             return (
-              <div key={msg.id} className={`flex items-start gap-2.5 max-w-[85%] ${isMe ? "ml-auto flex-row-reverse" : ""}`}>
+              <motion.div
+                layout
+                key={msg.id}
+                className={`flex items-start gap-2.5 max-w-[85%] ${isMe ? "ml-auto flex-row-reverse" : ""}`}
+              >
                 <span className="text-xl shrink-0 select-none">{msg.user.avatar}</span>
                 <div>
-                  <div className="flex items-center gap-1.5 mb-1 justify-start">
-                    <span className="text-[10px] font-extrabold text-slate-700 dark:text-slate-300">{msg.user.name}</span>
-                    {msg.user.level && <Badge variant="neutral" className="text-[8px] px-1 py-0">{msg.user.level}</Badge>}
-                    <span className="text-[8px] text-muted">{msg.time}</span>
+                  <div className={`flex items-center gap-1.5 mb-1 ${isMe ? "justify-end" : "justify-start"}`}>
+                    <span className="text-[10px] font-extrabold text-slate-700 dark:text-slate-350">{msg.user.name}</span>
+                    {msg.user.level && <Badge variant="neutral" className="text-[8px] px-1.5 py-0 font-bold">{msg.user.level}</Badge>}
+                    <span className="text-[8px] text-slate-400 dark:text-slate-500 font-semibold">{msg.time}</span>
                   </div>
-                  <div className={`p-3 rounded-2xl text-xs font-medium leading-relaxed ${isMe ? "bg-violet-600 text-white rounded-tr-none" : "bg-slate-100 dark:bg-neutral-800 text-slate-800 dark:text-slate-100 rounded-tl-none"}`}>
+                  <div className={`p-3 rounded-2xl text-xs font-semibold leading-relaxed ${isMe ? "bg-violet-600 text-white rounded-tr-none" : "bg-slate-50 dark:bg-neutral-950 border border-slate-200/20 dark:border-neutral-850/50 text-slate-800 dark:text-slate-200 rounded-tl-none"}`}>
                     {msg.text}
                   </div>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
           <div ref={chatEndRef} />
         </div>
 
         {/* Input box */}
-        <div className="p-4 border-t border-slate-100 dark:border-neutral-800 flex gap-2 bg-slate-50/50 dark:bg-neutral-900/50">
+        <div className="p-4 border-t border-slate-100 dark:border-neutral-850 flex gap-2 bg-slate-50/50 dark:bg-neutral-950">
           <input
             type="text"
-            className="flex-1 py-2.5 px-4 text-xs font-medium rounded-xl bg-white dark:bg-neutral-800 border border-slate-200 dark:border-neutral-700 focus:outline-none focus:border-violet-400"
+            className="flex-1 py-2.5 px-4 text-xs font-semibold rounded-xl bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-850 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-300/30 text-slate-800 dark:text-slate-200"
             placeholder="Nhập tin nhắn..."
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && sendMessage()}
           />
-          <Button variant="primary" size="md" className="shrink-0 aspect-square" onClick={sendMessage}>
+          <Button variant="primary" size="md" className="shrink-0 aspect-square rounded-xl cursor-pointer" onClick={sendMessage}>
             <Send className="h-4 w-4" />
           </Button>
         </div>
       </Card>
 
-      {/* Online Users List */}
-      <Card variant="bezel" className="hidden md:block h-full p-4 overflow-y-auto">
-        <h3 className="text-[11px] font-black text-slate-500 uppercase tracking-wider mb-4">Đang trực tuyến ({members.length})</h3>
-        <div className="space-y-3">
+      {/* Online Members List */}
+      <Card variant="bezel" className="hidden md:block h-full p-4 overflow-y-auto bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-[calc(var(--radius-3xl)-6px)]">
+        <h3 className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-4 select-none">Đang trực tuyến ({members.length})</h3>
+        <div className="space-y-3.5">
           {members.map((member, i) => (
             <div key={i} className="flex items-center gap-2">
               <span className="text-xl">{member.avatar}</span>
               <div className="flex-1 overflow-hidden">
-                <p className="text-[11px] font-bold text-slate-800 dark:text-white truncate">{member.name}</p>
-                <p className="text-[9px] text-muted">{member.xp} XP • {member.level || "Học viên"}</p>
+                <p className="text-[11px] font-black text-slate-800 dark:text-white truncate">{member.name}</p>
+                <p className="text-[9px] text-slate-400 dark:text-slate-500 font-bold">{member.xp} XP • {member.level || "Học viên"}</p>
               </div>
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
             </div>
           ))}
         </div>

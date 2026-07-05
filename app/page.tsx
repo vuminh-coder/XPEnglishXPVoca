@@ -7,6 +7,8 @@ import { useAuth } from "@clerk/nextjs";
 export default function LandingPage() {
   const { userId, isLoaded } = useAuth();
   const router = useRouter();
+  const [isScrolled, setIsScrolled] = React.useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
   // If authenticated, redirect to dashboard
   React.useEffect(() => {
@@ -15,51 +17,98 @@ export default function LandingPage() {
     }
   }, [isLoaded, userId, router]);
 
+  // Scroll listener for navbar background
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const scrollToSection = (id: string) => {
+    setIsMobileMenuOpen(false);
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
+
+  const navbarClass = `landing-navbar${isScrolled ? " scrolled" : ""}`;
 
   return (
     <main id="app-content" className="main-content no-sidebars">
       <div id="app-view-container">
         <div className="landing-page">
           {/* Landing Header */}
-          <header className="landing-navbar" id="landing-nav">
-            <div className="navbar-brand">
-              <div className="navbar-logo">🦉</div>
-              <span
-                className="navbar-title"
-                style={{
-                  background: "linear-gradient(135deg, #ffffff, #4ec5f1)",
-                  WebkitBackgroundClip: "text",
-                  backgroundClip: "text",
-                }}
-              >
-                XP English
-              </span>
-            </div>
+          <header className={navbarClass} id="landing-nav">
+            <nav aria-label="Main navigation">
+              <div className="navbar-brand">
+                <div className="navbar-logo" aria-hidden="true">🦉</div>
+                <span
+                  className="navbar-title"
+                  style={{
+                    background: "linear-gradient(135deg, #ffffff, #4ec5f1)",
+                    WebkitBackgroundClip: "text",
+                    backgroundClip: "text",
+                  }}
+                >
+                  XP English
+                </span>
+              </div>
+            </nav>
             <div className="navbar-actions">
               {isLoaded && userId ? (
-                <Link href="/dashboard" className="btn btn-primary btn-sm">
+                <Link href="/dashboard" className="btn btn-primary btn-sm" aria-label="Vào trang Dashboard">
                   Vào Dashboard ➔
                 </Link>
               ) : (
                 <>
-                  <Link href="/login" className="btn btn-secondary btn-sm">
+                  <Link href="/login" className="btn btn-secondary btn-sm" aria-label="Đăng nhập tài khoản">
                     Đăng nhập
                   </Link>
-                  <Link href="/register" className="btn btn-primary btn-sm">
+                  <Link href="/register" className="btn btn-primary btn-sm" aria-label="Đăng ký tài khoản mới">
                     Đăng ký
                   </Link>
                 </>
               )}
             </div>
+            <button
+              className="landing-menu-toggle"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label={isMobileMenuOpen ? "Đóng menu" : "Mở menu"}
+              aria-expanded={isMobileMenuOpen}
+            >
+              {isMobileMenuOpen ? "✕" : "☰"}
+            </button>
           </header>
+
+          {/* Mobile Menu Drawer */}
+          <div className={`landing-mobile-menu${isMobileMenuOpen ? " open" : ""}`} role="navigation" aria-label="Mobile navigation">
+            {isLoaded && userId ? (
+              <Link href="/dashboard" className="btn btn-primary" onClick={() => setIsMobileMenuOpen(false)}>
+                Vào Dashboard ➔
+              </Link>
+            ) : (
+              <>
+                <Link href="/login" className="btn btn-secondary" onClick={() => setIsMobileMenuOpen(false)}>
+                  Đăng nhập
+                </Link>
+                <Link href="/register" className="btn btn-primary" onClick={() => setIsMobileMenuOpen(false)}>
+                  Đăng ký miễn phí
+                </Link>
+              </>
+            )}
+            <button
+              className="btn btn-secondary"
+              onClick={() => scrollToSection("features")}
+              style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.15)", color: "white" }}
+            >
+              Khám phá tính năng
+            </button>
+          </div>
 
           {/* Hero Section */}
           <section className="hero-section">
-            <div className="hero-bg-shapes">
+            <div className="hero-bg-shapes" aria-hidden="true">
               <div className="shape shape-1"></div>
               <div className="shape shape-2"></div>
               <div className="shape shape-3"></div>
@@ -67,7 +116,7 @@ export default function LandingPage() {
             <div className="hero-content">
               <div className="hero-text">
                 <div className="hero-badge">
-                  <span>🔥</span> Nền tảng học từ vựng thế hệ mới
+                  <span aria-hidden="true">🔥</span> Nền tảng học từ vựng thế hệ mới
                 </div>
                 <h1 className="hero-title">
                   Đột phá từ vựng cùng{" "}
@@ -89,7 +138,7 @@ export default function LandingPage() {
                     </Link>
                   )}
                   <button
-                    className="btn btn-secondary btn-lg cursor-pointer"
+                    className="btn btn-secondary btn-lg"
                     onClick={() => scrollToSection("features")}
                   >
                     Khám phá tính năng
@@ -113,7 +162,7 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              <div className="hero-visual">
+              <div className="hero-visual" aria-hidden="true">
                 <div className="hero-mockup">
                   <div className="hero-card-stack">
                     <div className="hero-vocab-card">
@@ -153,7 +202,7 @@ export default function LandingPage() {
 
             <div className="features-grid">
               <div className="feature-card">
-                <div className="feature-icon">🧠</div>
+                <div className="feature-icon" aria-hidden="true">🧠</div>
                 <h3 className="feature-title">Học thông minh</h3>
                 <p className="feature-desc">
                   Thuật toán lặp lại ngắt quãng (Spaced Repetition) tự động tính
@@ -161,7 +210,7 @@ export default function LandingPage() {
                 </p>
               </div>
               <div className="feature-card">
-                <div className="feature-icon">👥</div>
+                <div className="feature-icon" aria-hidden="true">👥</div>
                 <h3 className="feature-title">Đồng đội chiến</h3>
                 <p className="feature-desc">
                   Học tập không cô đơn! Tham gia các nhóm học tập, chia sẻ từ
@@ -169,7 +218,7 @@ export default function LandingPage() {
                 </p>
               </div>
               <div className="feature-card">
-                <div className="feature-icon">🤖</div>
+                <div className="feature-icon" aria-hidden="true">🤖</div>
                 <h3 className="feature-title">Giao tiếp AI</h3>
                 <p className="feature-desc">
                   Luyện phát âm và áp dụng từ vựng trực tiếp vào các cuộc hội
@@ -177,22 +226,22 @@ export default function LandingPage() {
                 </p>
               </div>
               <div className="feature-card">
-                <div className="feature-icon">📝</div>
+                <div className="feature-icon" aria-hidden="true">📝</div>
                 <h3 className="feature-title">Thi thử TOEIC/IELTS</h3>
                 <p className="feature-desc">
                   Kiểm tra trình độ định kỳ với bộ đề mô phỏng cấu trúc đề thi chính thức, chấm điểm và gợi ý phần yếu cần học lại.
                 </p>
               </div>
               <div className="feature-card">
-                <div className="feature-icon">🎧</div>
-                <h3 className="feature-title">Luyện nghe & Ngữ pháp</h3>
+                <div className="feature-icon" aria-hidden="true">🎧</div>
+                <h3 className="feature-title">Luyện nghe &amp; Ngữ pháp</h3>
                 <p className="feature-desc">
                   Rèn luyện phản xạ nghe với Dictation (nghe gõ lại) nâng cao và tối ưu lý thuyết qua phòng Lab Ngữ pháp thông minh.
                 </p>
               </div>
               <div className="feature-card">
-                <div className="feature-icon">🎮</div>
-                <h3 className="feature-title">Mini Games & Phòng nhóm</h3>
+                <div className="feature-icon" aria-hidden="true">🎮</div>
+                <h3 className="feature-title">Mini Games &amp; Phòng nhóm</h3>
                 <p className="feature-desc">
                   Vừa học vừa giải trí với Word Scramble, lật hình Memory Match và tham gia phòng học nhóm ảo realtime cùng bạn bè.
                 </p>
@@ -208,14 +257,14 @@ export default function LandingPage() {
             </div>
             <div className="testimonials-grid">
               <div className="testimonial-card">
-                <div className="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                <div className="testimonial-stars" aria-label="5 trên 5 sao">⭐⭐⭐⭐⭐</div>
                 <p className="testimonial-text">
                   &quot;Nhờ phương pháp ôn tập của XP Voca, mình đã vượt qua kỳ
                   thi IELTS với điểm từ vựng tuyệt đối. Bảng xếp hạng tạo động
                   lực rất lớn.&quot;
                 </p>
                 <div className="testimonial-author">
-                  <div className="avatar avatar-sm">👤</div>
+                  <div className="avatar avatar-sm" aria-hidden="true">👤</div>
                   <div>
                     <div className="testimonial-author-name">Hoàng Anh</div>
                     <div className="testimonial-author-role">
@@ -225,14 +274,14 @@ export default function LandingPage() {
                 </div>
               </div>
               <div className="testimonial-card">
-                <div className="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                <div className="testimonial-stars" aria-label="5 trên 5 sao">⭐⭐⭐⭐⭐</div>
                 <p className="testimonial-text">
                   &quot;Giao diện tối giản, trực quan cực kỳ. Các bài trắc
                   nghiệm nhanh giúp mình học từ vựng công nghệ mới siêu
                   tốc!&quot;
                 </p>
                 <div className="testimonial-author">
-                  <div className="avatar avatar-sm">👤</div>
+                  <div className="avatar avatar-sm" aria-hidden="true">👤</div>
                   <div>
                     <div className="testimonial-author-name">Minh Đức</div>
                     <div className="testimonial-author-role">
@@ -242,13 +291,13 @@ export default function LandingPage() {
                 </div>
               </div>
               <div className="testimonial-card">
-                <div className="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                <div className="testimonial-stars" aria-label="5 trên 5 sao">⭐⭐⭐⭐⭐</div>
                 <p className="testimonial-text">
                   &quot;Robot AI rất thông minh, sửa lỗi ngữ pháp và phát âm của
                   tôi vô cùng chu đáo. Việc học thực sự rất vui vẻ!&quot;
                 </p>
                 <div className="testimonial-author">
-                  <div className="avatar avatar-sm">👤</div>
+                  <div className="avatar avatar-sm" aria-hidden="true">👤</div>
                   <div>
                     <div className="testimonial-author-name">Minh Thư</div>
                     <div className="testimonial-author-role">
@@ -265,7 +314,7 @@ export default function LandingPage() {
             <div className="footer-content">
               <div>
                 <div className="navbar-brand">
-                  <div className="navbar-logo">🦉</div>
+                  <div className="navbar-logo" aria-hidden="true">🦉</div>
                   <span className="navbar-title">XP English</span>
                 </div>
                 <p className="footer-brand-desc">
@@ -276,24 +325,24 @@ export default function LandingPage() {
               <div>
                 <h4 className="footer-title">Khám phá</h4>
                 <div className="footer-links">
-                  <a href="#">Bộ từ vựng</a>
-                  <a href="#">Trắc nghiệm</a>
-                  <a href="#">Hội thoại AI</a>
+                  <Link href="/vocabulary">Bộ từ vựng</Link>
+                  <Link href="/review">Trắc nghiệm</Link>
+                  <Link href="/ai/conversation">Hội thoại AI</Link>
                 </div>
               </div>
               <div>
                 <h4 className="footer-title">Cộng đồng</h4>
                 <div className="footer-links">
-                  <a href="#">Bảng xếp hạng</a>
-                  <a href="#">Diễn đàn học tập</a>
-                  <a href="#">Nhóm học tập</a>
+                  <Link href="/community/leaderboard">Bảng xếp hạng</Link>
+                  <Link href="/community">Diễn đàn học tập</Link>
+                  <Link href="/community/groups">Nhóm học tập</Link>
                 </div>
               </div>
               <div>
                 <h4 className="footer-title">Liên hệ</h4>
                 <div className="footer-links">
-                  <a>support@xpenglish.com</a>
-                  <a>Hà Nội, Việt Nam</a>
+                  <a href="mailto:support@xpenglish.com">support@xpenglish.com</a>
+                  <span>Hà Nội, Việt Nam</span>
                 </div>
               </div>
             </div>
@@ -307,3 +356,4 @@ export default function LandingPage() {
     </main>
   );
 }
+

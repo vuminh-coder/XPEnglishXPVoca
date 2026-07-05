@@ -130,6 +130,29 @@
 }
 
 /* Clerk UI Custom Overrides to hide duplicate titles */
-.cl-header, .cl-headerTitle, .cl-headerSubtitle {
+.cl-header,
+.cl-headerTitle,
+.cl-headerSubtitle {
   display: none !important;
+}
+
+.cl-rootBox,
+.cl-cardBox {
+  width: 100% !important;
+  max-width: 400px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.cl-card {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+@media (max-width: 640px) {
+  .cl-rootBox,
+  .cl-cardBox {
+    max-width: 100% !important;
+    padding: 0 16px !important;
+  }
 }

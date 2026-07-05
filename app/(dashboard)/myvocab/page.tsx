@@ -70,17 +70,21 @@ export default function MyVocabularyPage() {
   const { awardXp } = useAuthStore();
   const vocabs = MOCK_VOCABULARIES;
 
-  const favoriteWords = learned.filter((l) => l.isFavorite);
-  const masteredWords = learned.filter((l) => l.proficiency === 5);
-  const learningWords = learned.filter(
-    (l) => l.proficiency > 0 && l.proficiency < 5
-  );
+  const { favoriteWords, masteredWords, learningWords } = React.useMemo(() => {
+    return {
+      favoriteWords: learned.filter((l) => l.isFavorite),
+      masteredWords: learned.filter((l) => l.proficiency === 5),
+      learningWords: learned.filter((l) => l.proficiency > 0 && l.proficiency < 5),
+    };
+  }, [learned]);
 
-  let filteredList: any[] = [];
-  if (filter === "all") filteredList = learned;
-  else if (filter === "favorite") filteredList = favoriteWords;
-  else if (filter === "learning") filteredList = learningWords;
-  else if (filter === "mastered") filteredList = masteredWords;
+  const filteredList = React.useMemo(() => {
+    if (filter === "all") return learned;
+    if (filter === "favorite") return favoriteWords;
+    if (filter === "learning") return learningWords;
+    if (filter === "mastered") return masteredWords;
+    return [];
+  }, [filter, learned, favoriteWords, learningWords, masteredWords]);
 
   const speak = (word: string) => {
     if ("speechSynthesis" in window) {
@@ -227,7 +231,7 @@ export default function MyVocabularyPage() {
                 <div className="text-2xl font-black text-slate-900 dark:text-white tracking-tight font-display">
                   {s.count}
                 </div>
-                <div className="text-[10px] text-slate-400 dark:text-slate-505 font-bold mt-1 leading-normal">
+                <div className="text-[10px] text-slate-400 dark:text-slate-500 font-bold mt-1 leading-normal">
                   {s.sublabel}
                 </div>
               </div>
@@ -263,7 +267,7 @@ export default function MyVocabularyPage() {
               className={`relative px-4 py-2 text-xs font-black rounded-full transition-colors duration-250 select-none z-10 ${
                 isActive
                   ? "text-cyan-600 dark:text-cyan-400"
-                  : "text-slate-450 dark:text-slate-500"
+                  : "text-slate-400 dark:text-slate-500"
               }`}
               onClick={() => setFilter(key)}
             >
@@ -296,7 +300,7 @@ export default function MyVocabularyPage() {
               <motion.div
                 animate={{ y: [0, -6, 0] }}
                 transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-                className="w-12 h-12 flex items-center justify-center text-slate-400 dark:text-slate-550 mb-4 bg-slate-50 dark:bg-neutral-950 rounded-2xl border border-slate-200/50 dark:border-neutral-850 shadow-sm"
+                className="w-12 h-12 flex items-center justify-center text-slate-400 dark:text-slate-500 mb-4 bg-slate-50 dark:bg-neutral-950 rounded-2xl border border-slate-200/50 dark:border-neutral-850 shadow-sm"
               >
                 <Inbox className="w-6 h-6" strokeWidth={1.5} />
               </motion.div>
@@ -345,7 +349,7 @@ export default function MyVocabularyPage() {
                             <span className="inline-block text-[10px] font-black px-2.5 py-0.5 bg-cyan-100 dark:bg-cyan-950/50 text-cyan-700 dark:text-cyan-300 rounded-full uppercase mt-1">
                               {v.pos}
                             </span>
-                            <div className="text-[11px] text-slate-405 dark:text-slate-500 font-bold font-mono mt-1">
+                            <div className="text-[11px] text-slate-400 dark:text-slate-500 font-bold font-mono mt-1">
                               {v.phonetic}
                             </div>
                           </div>
@@ -372,7 +376,7 @@ export default function MyVocabularyPage() {
                         <div className="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed font-medium">
                           {v.definition}
                         </div>
-                        <div className="text-xs text-slate-500 dark:text-slate-450 bg-slate-50/60 dark:bg-neutral-950/30 p-3 rounded-xl border border-slate-250/20 dark:border-neutral-850 italic leading-relaxed font-bold">
+                        <div className="text-xs text-slate-500 dark:text-slate-400 bg-slate-50/60 dark:bg-neutral-950/30 p-3 rounded-xl border border-slate-250/20 dark:border-neutral-850 italic leading-relaxed font-bold">
                           &quot;{v.examples[0]}&quot;
                         </div>
                       </div>
