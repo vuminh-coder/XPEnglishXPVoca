@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useClerk, useUser } from "@clerk/nextjs";
 import { useUiStore } from "@/lib/store/uiStore";
 import { useAuthStore } from "@/lib/store/authStore";
+import { Bell, Sun, Moon, Menu, X, ChevronDown, Shield, LogOut, User } from "lucide-react";
 
 // Check if Clerk is enabled based on key type and domain
 const checkIsClerkEnabled = () => {
@@ -43,7 +44,7 @@ const unreadCount = notifications.filter((n) => !n.isRead).length;
 function ClerkNavbar() {
   const { user: clerkUser } = useUser();
   const { signOut } = useClerk();
-  const { theme, toggleTheme, toggleSidebar } = useUiStore();
+  const { theme, toggleTheme, toggleSidebar, sidebarOpen } = useUiStore();
 
   const [notifOpen, setNotifOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
@@ -60,33 +61,41 @@ function ClerkNavbar() {
       </Link>
 
       <button className="navbar-menu-toggle" onClick={toggleSidebar}>
-        <span className="icon">☰</span>
+        {sidebarOpen ? (
+          <X className="w-[20px] h-[20px]" strokeWidth={1.3} />
+        ) : (
+          <Menu className="w-[20px] h-[20px]" strokeWidth={1.3} />
+        )}
       </button>
 
       <div className="navbar-actions">
         <div
-          className="theme-toggle"
+          className="theme-toggle transition-spring hover:scale-105 active:scale-95"
           onClick={toggleTheme}
           title="Đổi giao diện"
         >
-          <span>{theme === "dark" ? "☀️" : "🌙"}</span>
+          {theme === "dark" ? (
+            <Sun className="w-[18px] h-[18px] text-amber-500" strokeWidth={1.3} />
+          ) : (
+            <Moon className="w-[18px] h-[18px] text-slate-700" strokeWidth={1.3} />
+          )}
         </div>
 
         <div className="dropdown navbar-notification">
           <button
-            className="btn-icon btn-ghost relative"
+            className="btn-icon btn-ghost relative transition-spring hover:scale-105 active:scale-95"
             onClick={() => {
               setNotifOpen(!notifOpen);
               setUserOpen(false);
             }}
           >
-            <span>🔔</span>
+            <Bell className="w-[18px] h-[18px]" strokeWidth={1.3} />
             {unreadCount > 0 && (
               <span className="notification-dot">{unreadCount}</span>
             )}
           </button>
           <div
-            className={`dropdown-menu ${notifOpen ? "active" : ""}`}
+            className={`dropdown-menu ${notifOpen ? "active" : ""} transition-spring`}
             style={{ right: 0 }}
           >
             <div className="p-3 font-bold text-sm border-bottom flex justify-between items-center">
@@ -123,52 +132,58 @@ function ClerkNavbar() {
 
         <div className="dropdown">
           <div
-            className="navbar-user"
+            className="navbar-user transition-spring hover:bg-black/5 dark:hover:bg-white/5 rounded-xl px-2 py-1 cursor-pointer"
             onClick={() => {
               setUserOpen(!userOpen);
               setNotifOpen(false);
             }}
           >
-            <div className="avatar avatar-sm flex items-center justify-center bg-slate-100 text-lg" style={{ overflow: "hidden" }}>
+            <div className="avatar avatar-sm flex items-center justify-center bg-slate-100 text-lg border border-slate-200/50 rounded-full" style={{ overflow: "hidden" }}>
               {clerkUser?.imageUrl ? (
                 <img src={clerkUser.imageUrl} alt="Avatar" className="w-full h-full object-cover" />
               ) : (
-                <span>👤</span>
+                <User className="w-[16px] h-[16px] text-slate-500" strokeWidth={1.3} />
               )}
             </div>
             <div className="navbar-user-info hidden-mobile">
               <div className="navbar-user-name">
                 {clerkUser?.fullName || "User"}
               </div>
-              <div className="navbar-user-level">Học viên</div>
+              <div className="navbar-user-level flex items-center gap-1">
+                <span>Học viên</span>
+                <ChevronDown className="w-3 h-3 text-slate-400" />
+              </div>
             </div>
           </div>
           <div
-            className={`dropdown-menu ${userOpen ? "active" : ""}`}
+            className={`dropdown-menu ${userOpen ? "active" : ""} transition-spring`}
             style={{ right: 0 }}
           >
             <Link
               href="/profile"
-              className="dropdown-item"
+              className="dropdown-item flex items-center gap-2"
               onClick={() => setUserOpen(false)}
             >
-              👤 Trang cá nhân
+              <User className="w-4 h-4" strokeWidth={1.3} />
+              Trang cá nhân
             </Link>
             {clerkUser?.publicMetadata?.role === "admin" && (
               <Link
                 href="/admin"
-                className="dropdown-item"
+                className="dropdown-item flex items-center gap-2"
                 onClick={() => setUserOpen(false)}
               >
-                ⚙️ Quản trị
+                <Shield className="w-4 h-4" strokeWidth={1.3} />
+                Quản trị
               </Link>
             )}
             <div className="dropdown-divider"></div>
             <div
-              className="dropdown-item text-error cursor-pointer"
+              className="dropdown-item text-error flex items-center gap-2 cursor-pointer"
               onClick={handleLogout}
             >
-              🚪 Đăng xuất
+              <LogOut className="w-4 h-4" strokeWidth={1.3} />
+              Đăng xuất
             </div>
           </div>
         </div>
@@ -179,7 +194,7 @@ function ClerkNavbar() {
 
 function LocalNavbar() {
   const { user, logout: localLogout } = useAuthStore();
-  const { theme, toggleTheme, toggleSidebar } = useUiStore();
+  const { theme, toggleTheme, toggleSidebar, sidebarOpen } = useUiStore();
   const router = useRouter();
 
   const [notifOpen, setNotifOpen] = useState(false);
@@ -198,33 +213,41 @@ function LocalNavbar() {
       </Link>
 
       <button className="navbar-menu-toggle" onClick={toggleSidebar}>
-        <span className="icon">☰</span>
+        {sidebarOpen ? (
+          <X className="w-[20px] h-[20px]" strokeWidth={1.3} />
+        ) : (
+          <Menu className="w-[20px] h-[20px]" strokeWidth={1.3} />
+        )}
       </button>
 
       <div className="navbar-actions">
         <div
-          className="theme-toggle"
+          className="theme-toggle transition-spring hover:scale-105 active:scale-95"
           onClick={toggleTheme}
           title="Đổi giao diện"
         >
-          <span>{theme === "dark" ? "☀️" : "🌙"}</span>
+          {theme === "dark" ? (
+            <Sun className="w-[18px] h-[18px] text-amber-500" strokeWidth={1.3} />
+          ) : (
+            <Moon className="w-[18px] h-[18px] text-slate-700" strokeWidth={1.3} />
+          )}
         </div>
 
         <div className="dropdown navbar-notification">
           <button
-            className="btn-icon btn-ghost relative"
+            className="btn-icon btn-ghost relative transition-spring hover:scale-105 active:scale-95"
             onClick={() => {
               setNotifOpen(!notifOpen);
               setUserOpen(false);
             }}
           >
-            <span>🔔</span>
+            <Bell className="w-[18px] h-[18px]" strokeWidth={1.3} />
             {unreadCount > 0 && (
               <span className="notification-dot">{unreadCount}</span>
             )}
           </button>
           <div
-            className={`dropdown-menu ${notifOpen ? "active" : ""}`}
+            className={`dropdown-menu ${notifOpen ? "active" : ""} transition-spring`}
             style={{ right: 0 }}
           >
             <div className="p-3 font-bold text-sm border-bottom flex justify-between items-center">
@@ -261,52 +284,58 @@ function LocalNavbar() {
 
         <div className="dropdown">
           <div
-            className="navbar-user"
+            className="navbar-user transition-spring hover:bg-black/5 dark:hover:bg-white/5 rounded-xl px-2 py-1 cursor-pointer"
             onClick={() => {
               setUserOpen(!userOpen);
               setNotifOpen(false);
             }}
           >
-            <div className="avatar avatar-sm flex items-center justify-center bg-slate-100 text-lg" style={{ overflow: "hidden" }}>
+            <div className="avatar avatar-sm flex items-center justify-center bg-slate-100 text-lg border border-slate-200/50 rounded-full" style={{ overflow: "hidden" }}>
               {user?.avatarEmoji ? (
                 <span className="text-lg">{user.avatarEmoji}</span>
               ) : (
-                <span>👤</span>
+                <User className="w-[16px] h-[16px] text-slate-500" strokeWidth={1.3} />
               )}
             </div>
             <div className="navbar-user-info hidden-mobile">
               <div className="navbar-user-name">
                 {user?.fullName || "User"}
               </div>
-              <div className="navbar-user-level">Lvl {user?.level || 1}</div>
+              <div className="navbar-user-level flex items-center gap-1">
+                <span>Lvl {user?.level || 1}</span>
+                <ChevronDown className="w-3 h-3 text-slate-400" />
+              </div>
             </div>
           </div>
           <div
-            className={`dropdown-menu ${userOpen ? "active" : ""}`}
+            className={`dropdown-menu ${userOpen ? "active" : ""} transition-spring`}
             style={{ right: 0 }}
           >
             <Link
               href="/profile"
-              className="dropdown-item"
+              className="dropdown-item flex items-center gap-2"
               onClick={() => setUserOpen(false)}
             >
-              👤 Trang cá nhân
+              <User className="w-4 h-4" strokeWidth={1.3} />
+              Trang cá nhân
             </Link>
             {user?.email === "vuanhtuanfc@gmail.com" && (
               <Link
                 href="/admin"
-                className="dropdown-item"
+                className="dropdown-item flex items-center gap-2"
                 onClick={() => setUserOpen(false)}
               >
-                ⚙️ Quản trị
+                <Shield className="w-4 h-4" strokeWidth={1.3} />
+                Quản trị
               </Link>
             )}
             <div className="dropdown-divider"></div>
             <div
-              className="dropdown-item text-error cursor-pointer"
+              className="dropdown-item text-error flex items-center gap-2 cursor-pointer"
               onClick={handleLogout}
             >
-              🚪 Đăng xuất
+              <LogOut className="w-4 h-4" strokeWidth={1.3} />
+              Đăng xuất
             </div>
           </div>
         </div>

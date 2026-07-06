@@ -243,7 +243,7 @@ export default function PvpQuizArenaPage() {
             className="text-center py-12 space-y-8"
           >
             <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-indigo-50 dark:bg-indigo-950/20 text-indigo-500">
-              <Swords className="h-10 w-10 animate-bounce" />
+              <Swords className="h-10 w-10 animate-bounce" strokeWidth={1.3} />
             </div>
             <div className="space-y-2">
               <h1 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900 dark:text-white font-display">
@@ -254,21 +254,21 @@ export default function PvpQuizArenaPage() {
               </p>
             </div>
 
-            <div className="max-w-md mx-auto bezel">
-              <div className="bezel-inner bg-white dark:bg-neutral-900 p-6 space-y-4 text-left">
+            <div className="max-w-md mx-auto bezel-outer p-1.5 bg-slate-200/50 dark:bg-white/5 rounded-3xl">
+              <div className="bezel-inner rounded-[calc(1.5rem-6px)] bg-white dark:bg-neutral-900 p-6 space-y-4 text-left">
                 <div className="flex items-center justify-between border-b border-slate-100 dark:border-neutral-850 pb-3">
                   <span className="text-[10px] font-black uppercase text-slate-400">Hồ sơ thi đấu</span>
                   <Badge variant="primary" className="font-bold">Trực tuyến</Badge>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="h-12 w-12 rounded-full bg-sky-100 dark:bg-neutral-955 flex items-center justify-center text-xl">
+                  <div className="h-12 w-12 rounded-full bg-sky-100 dark:bg-neutral-950 flex items-center justify-center text-xl border border-black/[0.03] dark:border-white/[0.03]">
                     {user?.avatarEmoji || "🦉"}
                   </div>
                   <div>
                     <h4 className="text-sm font-bold text-slate-800 dark:text-slate-200">
                       {user?.fullName || "Học viên"}
                     </h4>
-                    <p className="text-xs text-slate-550">
+                    <p className="text-xs text-slate-500">
                       Cấp độ {user?.level || 1} · {user?.title || "Newbie"}
                     </p>
                   </div>
@@ -302,7 +302,7 @@ export default function PvpQuizArenaPage() {
               <div className="absolute inset-0 rounded-full border border-sky-400/30 animate-ping opacity-60 pointer-events-none" />
               <div className="absolute inset-4 rounded-full border border-sky-500/20 animate-pulse pointer-events-none" />
               <div className="h-24 w-24 rounded-full bg-sky-50 dark:bg-sky-950 border border-sky-200/50 flex items-center justify-center relative z-10">
-                <Swords className="h-8 w-8 text-sky-500 animate-pulse" />
+                <Swords className="h-8 w-8 text-sky-500 animate-pulse" strokeWidth={1.3} />
               </div>
             </div>
             
@@ -313,7 +313,7 @@ export default function PvpQuizArenaPage() {
                   <div className="flex items-center justify-center gap-4 py-2">
                     <div className="text-right">
                       <h4 className="font-bold text-slate-800 dark:text-slate-200">{user?.fullName || "Bạn"}</h4>
-                      <span className="text-xs text-slate-550">LV {user?.level || 1}</span>
+                      <span className="text-xs text-slate-500">LV {user?.level || 1}</span>
                     </div>
                     <span className="text-xl font-bold text-sky-500 animate-pulse">VS</span>
                     <div className="text-left flex items-center gap-2">
@@ -374,8 +374,8 @@ export default function PvpQuizArenaPage() {
 
               {/* Timer Center */}
               <div className="flex flex-col items-center justify-center">
-                <div className="flex items-center gap-1.5 rounded-full bg-slate-100 dark:bg-neutral-800 px-3 py-1 text-[11px] font-black text-slate-700 dark:text-slate-250">
-                  <Timer className="h-3.5 w-3.5 text-sky-555 animate-spin" />
+                <div className="flex items-center gap-1.5 rounded-full bg-slate-100 dark:bg-neutral-800 px-3 py-1 text-[11px] font-black text-slate-700 dark:text-slate-255">
+                  <Timer className="h-3.5 w-3.5 text-sky-500 animate-spin" strokeWidth={1.3} />
                   <span>{timer}s</span>
                 </div>
                 <span className="text-[9px] text-slate-400 dark:text-slate-500 font-black uppercase mt-1">Câu {currentQuestionIndex + 1}/5</span>
@@ -388,7 +388,7 @@ export default function PvpQuizArenaPage() {
                     {matchedOpponent.name}
                   </h4>
                   <div className="flex items-center justify-end gap-1.5 mt-1">
-                    <span className="text-xs font-black text-slate-700 dark:text-slate-350">{opponentScore}/5</span>
+                    <span className="text-xs font-black text-slate-700 dark:text-slate-355">{opponentScore}/5</span>
                     <div className="h-1.5 w-16 bg-slate-100 dark:bg-neutral-800 rounded-full overflow-hidden">
                       <div className="h-full bg-amber-500 transition-all duration-300" style={{ width: `${(opponentScore / 5) * 100}%` }}></div>
                     </div>
@@ -400,7 +400,7 @@ export default function PvpQuizArenaPage() {
 
             {/* AI Opponent action card overlay */}
             <div className="bg-slate-50 dark:bg-neutral-950 p-3.5 rounded-2xl border border-slate-100 dark:border-neutral-850 text-center flex items-center justify-center gap-2">
-              <span className="text-xs font-bold text-slate-500">Đối thủ:</span>
+              <span className="text-xs font-bold text-slate-555">Đối thủ:</span>
               {opponentStatus === "thinking" ? (
                 <span className="text-xs font-semibold text-slate-400 animate-pulse">{matchedOpponent.name} đang suy nghĩ...</span>
               ) : opponentStatus === "answered_correct" ? (
@@ -415,7 +415,7 @@ export default function PvpQuizArenaPage() {
               <div className="bezel-inner bg-gradient-to-br from-indigo-50/10 to-sky-50/10 dark:from-indigo-950/10 dark:to-sky-950/10 p-8 rounded-[30px] text-center space-y-3">
                 <span className="text-[9px] font-black uppercase tracking-wider text-slate-400">Chọn nghĩa chính xác của từ</span>
                 <h2 className="text-3xl font-black text-slate-900 dark:text-white font-display">{currentWord.word}</h2>
-                <p className="font-mono text-xs text-slate-550">[{currentWord.phonetic}] · {currentWord.pos}</p>
+                <p className="font-mono text-xs text-slate-500">[{currentWord.phonetic}] · {currentWord.pos}</p>
               </div>
             </div>
 
@@ -463,15 +463,15 @@ export default function PvpQuizArenaPage() {
               {userScore > opponentScore ? (
                 <>
                   <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-emerald-50 dark:bg-emerald-950/20 text-emerald-500">
-                    <Trophy className="h-10 w-10 animate-bounce" />
+                    <Trophy className="h-10 w-10 animate-bounce" strokeWidth={1.3} />
                   </div>
                   <h1 className="text-2xl md:text-3xl font-black text-emerald-600 dark:text-emerald-400 font-display">CHIẾN THẮNG! 🎉</h1>
                   <p className="text-xs text-slate-500 dark:text-slate-400 font-bold">Bạn đã áp đảo đối thủ hoàn toàn.</p>
                 </>
               ) : userScore === opponentScore ? (
                 <>
-                  <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-slate-100 dark:bg-neutral-800 text-slate-500">
-                    <RotateCcw className="h-10 w-10 animate-pulse" />
+                  <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-slate-100 dark:bg-neutral-850 text-slate-555">
+                    <RotateCcw className="h-10 w-10 animate-pulse" strokeWidth={1.3} />
                   </div>
                   <h1 className="text-2xl md:text-3xl font-black text-slate-800 dark:text-slate-200 font-display">HÒA NHAU! 🤝</h1>
                   <p className="text-xs text-slate-500 dark:text-slate-400 font-bold">Kẻ tám lạng người nửa cân.</p>
@@ -479,7 +479,7 @@ export default function PvpQuizArenaPage() {
               ) : (
                 <>
                   <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-rose-50 dark:bg-rose-950/20 text-rose-500">
-                    <XCircle className="h-10 w-10 animate-pulse" />
+                    <XCircle className="h-10 w-10 animate-pulse" strokeWidth={1.3} />
                   </div>
                   <h1 className="text-2xl md:text-3xl font-black text-rose-600 dark:text-rose-455 font-display">THẤT BẠI! 💔</h1>
                   <p className="text-xs text-slate-500 dark:text-slate-400 font-bold">Hãy rèn luyện thêm và phục thù.</p>
@@ -487,8 +487,8 @@ export default function PvpQuizArenaPage() {
               )}
             </div>
 
-            <div className="bezel">
-              <div className="bezel-inner bg-white dark:bg-neutral-900 p-6 space-y-4">
+            <div className="max-w-md mx-auto bezel-outer p-1.5 bg-slate-200/50 dark:bg-white/5 rounded-3xl">
+              <div className="bezel-inner rounded-[calc(1.5rem-6px)] bg-white dark:bg-neutral-900 p-6 space-y-4">
                 <div className="flex items-center justify-between border-b border-slate-100 dark:border-neutral-850 pb-3">
                   <span className="text-[10px] font-black uppercase text-slate-400">Báo cáo trận đấu</span>
                   <Badge variant={userScore > opponentScore ? "success" : "neutral"} className="font-bold">

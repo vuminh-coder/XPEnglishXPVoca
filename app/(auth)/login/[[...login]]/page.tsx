@@ -15,29 +15,32 @@ export default function LoginPage() {
       <div className="bg-blob-2 pointer-events-none"></div>
 
       {/* Main Content */}
-      <main className="flex-1 min-h-0 flex items-center justify-center p-6 md:p-12 lg:py-4 w-full max-w-[1400px] mx-auto z-10">
+      <main className="flex-1 min-h-0 flex items-center justify-center p-0 md:p-12 lg:py-4 w-full max-w-[1400px] mx-auto z-10">
         <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Left Column: Branding & Content */}
-          <div className="lg:col-span-7 flex flex-col gap-4 lg:gap-6 animate-fade-in-up">
+          <div className="lg:col-span-7 flex flex-col items-center lg:items-start gap-4 lg:gap-6 animate-fade-in-up text-center lg:text-left px-6 lg:px-0">
             {/* Brand Header */}
-            <div className="flex items-center gap-3">
-              <div className="w-11 bg-blue-700 h-11 rounded-xl bg-gradient-premium flex items-center justify-center text-white shadow-glow transform hover:scale-105 transition-transform duration-300">
-                <Rocket className="w-5 h-5 fill-white/10" />
+            <div className="flex items-center justify-center lg:justify-start gap-2.5 w-full">
+              <div className="w-8 h-8 lg:w-11 lg:h-11 rounded-lg lg:rounded-xl bg-gradient-premium flex items-center justify-center text-white shadow-glow transform hover:scale-105 transition-transform duration-300">
+                <Rocket className="w-4 h-4 lg:w-5 lg:h-5 fill-white/10" />
               </div>
-              <h1 className="text-xl font-black text-slate-900 tracking-tight">
+              <h1 className="text-lg lg:text-xl font-black text-slate-900 tracking-tight">
                 XP English <span className="text-blue-600 font-normal">|</span>{" "}
                 XP Voca
               </h1>
             </div>
 
             {/* Hero Text */}
-            <div className="hidden lg:block space-y-2">
-              <h2 className="text-3xl md:text-5xl font-black leading-[1.1] text-slate-900 tracking-tight">
-                Chào mừng bạn quay lại! 👋
-                <br />
-                <span className="text-[#0059bb]">Học mỗi ngày</span>
+            <div className="space-y-1 lg:space-y-2">
+              <h2 className="text-xl lg:text-5xl font-black leading-[1.1] text-slate-900 tracking-tight">
+                <span className="lg:hidden">Chào mừng quay lại! 👋</span>
+                <span className="hidden lg:inline">
+                  Chào mừng bạn quay lại! 👋
+                  <br />
+                  <span className="text-[#0059bb]">Học mỗi ngày</span>
+                </span>
               </h2>
-              <p className="text-sm md:text-[16px] text-slate-600 max-w-lg leading-relaxed">
+              <p className="hidden lg:block text-sm md:text-[16px] text-slate-650 max-w-lg leading-relaxed font-semibold">
                 Tiếp tục hành trình chinh phục tiếng Anh với phương pháp học tập
                 kết hợp trò chơi đầy thú vị và hiệu quả.
               </p>
@@ -104,7 +107,7 @@ export default function LoginPage() {
           </div>
 
           {/* Right Column: Login Card */}
-          <div className="lg:col-span-5 w-full mx-auto animate-fade-in-right flex justify-center items-center">
+          <div className="lg:col-span-5 w-full mx-auto animate-fade-in-right flex justify-center items-center p-0">
             <SignIn
               path="/login"
               signInUrl="/login"
@@ -118,10 +121,14 @@ export default function LoginPage() {
                   colorForeground: "#0f172a",
                   colorMutedForeground: "#475569",
                   colorPrimaryForeground: "#ffffff",
-                  borderRadius: "0.5rem",
+                  borderRadius: "0.75rem",
                 },
                 elements: {
-                  cardBox: "mx-auto w-full",
+                  cardBox: "mx-auto w-full max-w-[400px]",
+                  card: "shadow-2xl border border-slate-200/50 rounded-2xl overflow-hidden bg-white/95 backdrop-blur-md",
+                  formButtonPrimary: "bg-gradient-to-r from-sky-400 to-indigo-500 hover:opacity-95 transition-opacity font-bold rounded-xl py-2.5",
+                  formFieldInput: "rounded-xl border-slate-200 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all",
+                  socialButtonsBlockButton: "border-slate-200 rounded-xl hover:bg-slate-50 transition-colors",
                 },
               }}
             />
@@ -130,7 +137,7 @@ export default function LoginPage() {
       </main>
 
       {/* Scoped and Optimized Footer Component */}
-      <footer className="glass-panel w-full flex flex-col md:flex-row justify-between items-center px-6 md:px-12 py-4 border-t border-white/40 mt-auto z-10">
+      <footer className="glass-panel w-full flex flex-col md:flex-row justify-between items-center px-4 md:px-12 py-4 border-t border-white/40 mt-auto z-10">
         <div className="flex items-center gap-2 mb-2 md:mb-0">
           <Rocket className="text-blue-600 w-4 h-4 fill-blue-600/10" />
           <div className="text-sm font-bold text-slate-900">XP Voca</div>

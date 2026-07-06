@@ -1,6 +1,7 @@
 import { getAuthenticatedUserId } from "@/lib/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { currentUser } from "@clerk/nextjs/server";
 
 export async function GET() {
   try {
@@ -14,12 +15,26 @@ export async function GET() {
     });
 
     if (!profile) {
+      // Fetch user details from Clerk if available to sync profile
+      let fullName = "User";
+      let username = "user_" + userId.substring(Math.max(0, userId.length - 8));
+      
+      try {
+        const clerkUser = await currentUser();
+        if (clerkUser) {
+          fullName = [clerkUser.firstName, clerkUser.lastName].filter(Boolean).join(" ") || fullName;
+          username = clerkUser.username || clerkUser.firstName || username;
+        }
+      } catch (e) {
+        console.warn("Clerk currentUser lookup failed in GET /api/user/profile:", e);
+      }
+
       // Create a default profile if it doesn't exist
       profile = await prisma.profile.create({
         data: {
           id: userId,
-          fullName: "User",
-          username: "user_" + userId.substring(Math.max(0, userId.length - 8)),
+          fullName,
+          username,
           avatarEmoji: "🦉",
           level: 1,
           totalXp: 0,
@@ -48,6 +63,21 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { fullName, username, avatarEmoji, level, totalXp, currentStreak, longestStreak, minutesStudied, title } = body;
 
+    let defaultFullName = "User";
+    let defaultUsername = "user_" + userId.substring(Math.max(0, userId.length - 8));
+
+    if (!fullName || !username) {
+      try {
+        const clerkUser = await currentUser();
+        if (clerkUser) {
+          defaultFullName = [clerkUser.firstName, clerkUser.lastName].filter(Boolean).join(" ") || defaultFullName;
+          defaultUsername = clerkUser.username || clerkUser.firstName || defaultUsername;
+        }
+      } catch (e) {
+        console.warn("Clerk currentUser lookup failed in POST /api/user/profile:", e);
+      }
+    }
+
     const updatedProfile = await prisma.profile.upsert({
       where: { id: userId },
       update: {
@@ -63,8 +93,8 @@ export async function POST(request: Request) {
       },
       create: {
         id: userId,
-        fullName: fullName || "User",
-        username: username || "user_" + userId.substring(Math.max(0, userId.length - 8)),
+        fullName: fullName || defaultFullName,
+        username: username || defaultUsername,
         avatarEmoji: avatarEmoji || "🦉",
         level: level || 1,
         totalXp: totalXp || 0,

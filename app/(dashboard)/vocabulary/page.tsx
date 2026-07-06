@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { MOCK_THEMES } from "@/lib/constants";
 import { motion } from "framer-motion";
+import { Button } from "@/components/ui";
 import {
   Search,
   BookOpen,
@@ -16,10 +17,10 @@ import {
 } from "lucide-react";
 
 const THEME_ICONS: Record<string, React.ReactNode> = {
-  t1: <BookOpen className="h-6 w-6 text-cyan-500" strokeWidth={1.8} />,
-  t2: <GraduationCap className="h-6 w-6 text-purple-500" strokeWidth={1.8} />,
-  t3: <Briefcase className="h-6 w-6 text-amber-500" strokeWidth={1.8} />,
-  t4: <Plane className="h-6 w-6 text-blue-500" strokeWidth={1.8} />,
+  t1: <BookOpen className="h-6 w-6 text-cyan-500" strokeWidth={1.3} />,
+  t2: <GraduationCap className="h-6 w-6 text-purple-500" strokeWidth={1.3} />,
+  t3: <Briefcase className="h-6 w-6 text-amber-500" strokeWidth={1.3} />,
+  t4: <Plane className="h-6 w-6 text-blue-500" strokeWidth={1.3} />,
 };
 
 const containerVariants = {
@@ -49,14 +50,40 @@ const itemVariants = {
 
 export default function VocabularyPage() {
   const [search, setSearch] = useState("");
+  const [displayedIds, setDisplayedIds] = useState<string[]>(() => {
+    // Return first 6 to match SSR and prevent hydration mismatches
+    return MOCK_THEMES.slice(0, 6).map(t => t.id);
+  });
+
+  // Initialize with 6 random unique themes
+  React.useEffect(() => {
+    const shuffled = [...MOCK_THEMES].sort(() => 0.5 - Math.random());
+    setDisplayedIds(shuffled.slice(0, 6).map(t => t.id));
+  }, []);
+
+  const loadMoreThemes = () => {
+    const remaining = MOCK_THEMES.filter(t => !displayedIds.includes(t.id));
+    if (remaining.length > 0) {
+      // Shuffle remaining and add next 6 random unique sets
+      const nextBatch = [...remaining].sort(() => 0.5 - Math.random()).slice(0, 6).map(t => t.id);
+      setDisplayedIds(prev => [...prev, ...nextBatch]);
+    }
+  };
 
   const filteredThemes = React.useMemo(() => {
-    return MOCK_THEMES.filter(
-      (t) =>
-        t.name.toLowerCase().includes(search.toLowerCase()) ||
-        t.nameEn.toLowerCase().includes(search.toLowerCase())
-    );
-  }, [search]);
+    if (search !== "") {
+      // Search mode searches in all vocabulary sets
+      return MOCK_THEMES.filter(
+        (t) =>
+            t.name.toLowerCase().includes(search.toLowerCase()) ||
+            t.nameEn.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+    // Normal mode displays only active random-paginated sets in selection order
+    return displayedIds
+      .map(id => MOCK_THEMES.find(t => t.id === id))
+      .filter((t): t is typeof MOCK_THEMES[0] => !!t);
+  }, [search, displayedIds]);
 
   const totalVocabs = React.useMemo(() => {
     return filteredThemes.reduce((sum, t) => sum + t.totalVocabs, 0);
@@ -113,33 +140,42 @@ export default function VocabularyPage() {
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 80, damping: 15, delay: 0.05 }}
-        className="bezel"
+        className="bezel border-indigo-500/15 bg-indigo-550/5 dark:border-indigo-500/10 dark:bg-indigo-500/5 shadow-[0_4px_30px_rgba(99,102,241,0.12)] animate-fade-in-up"
       >
-        <div className="bezel-inner overflow-hidden rounded-[calc(var(--radius-3xl)-6px)] bg-gradient-to-br from-slate-950 via-slate-900 to-sky-950 p-6 text-white md:p-8 relative">
-          {/* Decorative mesh background orb */}
-          <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-500/10 rounded-full blur-[80px] pointer-events-none" />
+        <div className="bezel-inner overflow-hidden rounded-[calc(var(--radius-3xl)-6px)] bg-gradient-to-br from-[#141526] via-[#0d0e1b] to-[#040409] p-6 text-white md:p-8 relative">
+          {/* Decorative mesh background orb - glowing neon blue/purple */}
+          <div className="absolute -top-12 -right-12 w-96 h-96 bg-indigo-500/20 dark:bg-indigo-500/15 rounded-full blur-[90px] pointer-events-none" />
+          <div className="absolute -bottom-16 -left-16 w-80 h-80 bg-cyan-500/10 dark:bg-cyan-500/5 rounded-full blur-[80px] pointer-events-none" />
+          
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between relative z-10">
-            <div className="max-w-2xl">
-              <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[9px] font-black uppercase tracking-[0.25em] text-white/80">
-                <Sparkles className="h-3.5 w-3.5 text-cyan-300" />
+            <div className="max-w-2xl space-y-3">
+              <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.2em] text-cyan-400">
+                <Sparkles className="h-3.5 w-3.5 text-cyan-400 animate-pulse" strokeWidth={1.5} />
                 Mục tiêu hôm nay
               </div>
-              <h2 className="text-xl md:text-2xl font-black tracking-tight sm:text-3xl font-display">
+              <h2 className="text-xl md:text-2xl font-black tracking-tight sm:text-3xl font-display text-white leading-tight">
                 Bắt đầu từ một chủ đề quen thuộc nhất
               </h2>
-              <p className="mt-2 text-xs md:text-sm text-white/75 sm:text-base leading-relaxed font-medium">
+              <p className="text-xs md:text-sm text-slate-100 sm:text-base leading-relaxed font-semibold max-w-xl">
                 Tìm bộ từ phù hợp với mục tiêu của bạn, rồi học theo các gói ngắn, dễ hoàn thành.
               </p>
             </div>
-            <div className="rounded-2xl border border-white/15 bg-white/10 px-4 py-3 backdrop-blur-sm shrink-0">
-              <div className="text-[9px] font-black uppercase tracking-[0.2em] text-white/70">
-                Trong tuần
+            
+            {/* Today status sub-card */}
+            <div className="rounded-2xl border border-slate-700/60 bg-slate-900/90 p-4 shrink-0 shadow-lg flex items-center gap-3">
+              <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-lg shadow-md shadow-orange-500/20 shrink-0">
+                🎯
               </div>
-              <div className="mt-1 flex items-center gap-2 text-xs font-bold text-white">
-                <Target className="h-4 w-4 text-cyan-300 animate-pulse" />
-                12 mục tiêu sắp hoàn thành
+              <div>
+                <div className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">
+                  Trong tuần này
+                </div>
+                <div className="mt-0.5 flex items-center gap-1.5 text-xs font-black text-amber-300">
+                  12 mục tiêu sắp hoàn thành
+                </div>
               </div>
             </div>
+
           </div>
         </div>
       </motion.div>
@@ -155,12 +191,12 @@ export default function VocabularyPage() {
           <div className="relative flex-1">
             <Search
               className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
-              strokeWidth={1.8}
+              strokeWidth={1.3}
             />
             <input
               type="text"
               className="w-full rounded-2xl border border-slate-200 bg-white py-3 pl-11 pr-4 text-sm font-bold placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent dark:border-neutral-800 dark:bg-neutral-950 transition-colors"
-              placeholder="Tìm kiếm chủ đề..."
+              placeholder="Tìm theo chủ đề (Ví dụ: Travel, Business, Academics, TOEIC...)"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               aria-label="Tìm kiếm chủ đề từ vựng"
@@ -168,11 +204,11 @@ export default function VocabularyPage() {
           </div>
           <div className="flex items-center gap-4 text-xs font-bold text-slate-400 dark:text-slate-500 shrink-0">
             <div className="flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-cyan-500" />
+              <Sparkles className="h-4 w-4 text-cyan-500" strokeWidth={1.3} />
               <span>{filteredThemes.length} chủ đề</span>
             </div>
             <div className="flex items-center gap-2">
-              <BookOpen className="h-4 w-4 text-amber-500" />
+              <BookOpen className="h-4 w-4 text-amber-500" strokeWidth={1.3} />
               <span>
                 {totalVocabs} từ
               </span>
@@ -222,13 +258,13 @@ export default function VocabularyPage() {
                           {THEME_ICONS[t.id] || (
                             <BookOpen
                               className="h-5 w-5 text-slate-500"
-                              strokeWidth={1.8}
+                              strokeWidth={1.3}
                             />
                           )}
                         </div>
                         <ArrowUpRight
                           className="h-4 w-4 text-slate-400 opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
-                          strokeWidth={2}
+                          strokeWidth={1.3}
                         />
                       </div>
 
@@ -244,7 +280,7 @@ export default function VocabularyPage() {
 
                     <div>
                       <div className="mt-4 flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.15em] text-slate-500">
-                        <Clock3 className="h-3.5 w-3.5" />
+                        <Clock3 className="h-3.5 w-3.5" strokeWidth={1.3} />
                         8 phút / buổi
                       </div>
 
@@ -281,6 +317,20 @@ export default function VocabularyPage() {
               </motion.div>
             );
           })}
+
+          {/* Add vocabulary sets button */}
+          {search === "" && displayedIds.length < MOCK_THEMES.length && (
+            <div className="flex justify-end pt-6 pb-2 col-span-full">
+              <Button
+                variant="bezel"
+                onClick={loadMoreThemes}
+                className="px-8 py-3.5 text-xs font-black tracking-wider uppercase flex items-center gap-2"
+              >
+                <Sparkles className="h-4 w-4 text-cyan-500 animate-pulse" />
+                Thêm bộ từ khám phá
+              </Button>
+            </div>
+          )}
         </motion.div>
       )}
     </div>

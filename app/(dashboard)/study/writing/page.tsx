@@ -12,6 +12,7 @@ import {
   CheckCircle,
   AlertTriangle,
   ChevronRight,
+  ArrowLeft,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -35,13 +36,40 @@ const SAMPLE_TOPICS: Topic[] = [
     title: "Write an Opinion Essay about Remote Work",
     desc: "Write an essay stating your opinion about whether working from home is beneficial for employees and employers. Give specific reasons and examples to support your view.",
   },
+  {
+    id: "ielts-t3",
+    type: "IELTS Writing Task 2",
+    title: "Online Education vs Traditional Classrooms",
+    desc: "Online education has become increasingly popular. Some believe it will eventually replace traditional classroom learning, while others argue that physical attendance is essential. Discuss both sides and give your opinion.",
+  },
+  {
+    id: "toeic-w2",
+    type: "TOEIC Writing Part 3",
+    title: "State your opinion on Business Trips",
+    desc: "Some organizations prefer employees to travel for face-to-face business meetings, while others favor web conferencing to save costs. Write an essay defending your preference with examples.",
+  },
+  {
+    id: "ielts-t4",
+    type: "IELTS Writing Task 2",
+    title: "Individual Responsibility for Climate Change",
+    desc: "Some argue that large corporations and governments should take sole responsibility for addressing climate change, while others believe individuals should change their lifestyles. Discuss both views and give your opinion.",
+  },
 ];
 
 export default function WritingPracticePage() {
+  const [shuffledTopics, setShuffledTopics] = useState<Topic[]>(() => SAMPLE_TOPICS);
   const [selectedTopic, setSelectedTopic] = useState<Topic>(SAMPLE_TOPICS[0]);
   const [essay, setEssay] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [feedback, setFeedback] = useState<any>(null);
+
+  React.useEffect(() => {
+    const shuffled = [...SAMPLE_TOPICS].sort(() => 0.5 - Math.random());
+    setShuffledTopics(shuffled);
+    if (shuffled.length > 0) {
+      setSelectedTopic(shuffled[0]);
+    }
+  }, []);
 
   const wordCount = essay.trim() === "" ? 0 : essay.trim().split(/\s+/).length;
 
@@ -83,6 +111,13 @@ export default function WritingPracticePage() {
         transition={{ type: "spring", stiffness: 85, damping: 15 }}
         className="page-header"
       >
+        <Link
+          href="/study/practice"
+          className="inline-flex items-center gap-2 text-xs font-black text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-400 transition-colors mb-3 group select-none"
+        >
+          <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
+          Quay lại Luyện tập
+        </Link>
         <h1 className="text-2xl md:text-3xl font-black tracking-tight text-slate-900 dark:text-white font-display">
           AI IELTS/TOEIC Writing Examiner
         </h1>
@@ -123,7 +158,7 @@ export default function WritingPracticePage() {
                 Chọn đề bài
               </h3>
               <div className="space-y-3">
-                {SAMPLE_TOPICS.map((topic) => (
+                {shuffledTopics.map((topic) => (
                   <motion.button
                     whileHover={{ translateY: -1 }}
                     whileTap={{ scale: 0.98 }}
@@ -137,7 +172,11 @@ export default function WritingPracticePage() {
                       selectedTopic.id === topic.id ? "ring-2 ring-sky-400" : ""
                     }`}
                   >
-                    <div className="bezel-inner p-4 space-y-2 bg-white dark:bg-neutral-900">
+                    <div className={`bezel-inner p-4 space-y-2 transition-all ${
+                      selectedTopic.id === topic.id 
+                        ? "bg-sky-50/30 dark:bg-sky-950/20" 
+                        : "bg-white dark:bg-neutral-900"
+                    }`}>
                       <Badge variant={topic.type.includes("IELTS") ? "legendary" : "primary"}>
                         {topic.type}
                       </Badge>
@@ -153,7 +192,7 @@ export default function WritingPracticePage() {
               </div>
 
               <Card className="p-4 bg-slate-50/50 border border-slate-200/40 dark:bg-neutral-950/20 dark:border-neutral-850 space-y-2.5 rounded-[22px]">
-                <span className="text-[9px] font-black uppercase text-slate-455 dark:text-slate-500 flex items-center gap-1.5">
+                <span className="text-[9px] font-black uppercase text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
                   <Sparkles className="h-3.5 w-3.5 text-sky-500 animate-pulse" />
                   Hướng dẫn tiêu chuẩn
                 </span>
@@ -181,7 +220,7 @@ export default function WritingPracticePage() {
                       value={essay}
                       onChange={(e) => setEssay(e.target.value)}
                       placeholder="Nhập bài viết của bạn tại đây..."
-                      className="w-full min-h-[250px] p-4 text-xs md:text-sm bg-slate-50/30 rounded-2xl border border-slate-200 focus:border-cyan-500 focus:outline-none dark:border-neutral-850 dark:bg-neutral-950/40 dark:text-slate-200 leading-relaxed font-medium transition-all"
+                      className="w-full min-h-[250px] md:min-h-[380px] p-4 text-xs md:text-sm bg-slate-50/30 rounded-2xl border border-slate-200 focus:border-cyan-500 focus:outline-none dark:border-neutral-850 dark:bg-neutral-950/40 dark:text-slate-200 leading-relaxed font-medium transition-all"
                     />
                     <div className="flex justify-between items-center text-[10px] font-black text-slate-450 dark:text-slate-550 uppercase">
                       <span>Số từ: {wordCount} từ</span>
@@ -214,7 +253,7 @@ export default function WritingPracticePage() {
           >
             {/* Score Header */}
             <div className="bezel">
-              <div className="bezel-inner bg-gradient-to-r from-violet-650 via-indigo-600 to-sky-650 p-6 md:p-8 text-white rounded-[calc(var(--radius-3xl)-6px)] flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
+              <div className="bezel-inner bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500 p-6 md:p-8 text-white rounded-[calc(var(--radius-3xl)-6px)] flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-60 h-60 bg-white/10 rounded-full blur-3xl pointer-events-none" />
                 <div className="space-y-2 relative z-10">
                   <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[9px] font-black uppercase tracking-wider">
@@ -270,7 +309,7 @@ export default function WritingPracticePage() {
                 <div className="bezel">
                   <div className="bezel-inner bg-white dark:bg-neutral-900 p-6 space-y-3">
                     <h3 className="text-[10px] font-black uppercase text-slate-400">Nhận xét tổng quan</h3>
-                    <p className="text-xs md:text-sm text-slate-650 dark:text-slate-300 leading-relaxed font-medium">
+                    <p className="text-xs md:text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
                       {feedback.generalFeedback}
                     </p>
                   </div>

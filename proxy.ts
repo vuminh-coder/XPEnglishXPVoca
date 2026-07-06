@@ -5,16 +5,7 @@ import type { NextRequest } from "next/server";
 // Helper to determine if Clerk should be used dynamically per request
 const getIsClerkEnabled = (req: NextRequest) => {
   const key = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
-  if (!key || !key.startsWith("pk_")) return false;
-  // If it's a test key, but request hostname is not local, disable Clerk
-  if (
-    key.startsWith("pk_test_") &&
-    req.nextUrl.hostname !== "localhost" &&
-    req.nextUrl.hostname !== "127.0.0.1"
-  ) {
-    return false;
-  }
-  return true;
+  return !!(key && key.startsWith("pk_"));
 };
 
 const isProtectedRoute = createRouteMatcher([
@@ -98,7 +89,5 @@ export const config = {
     "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
     // Always run for API routes
     "/(api|trpc)(.*)",
-    // Always run for Clerk-specific frontend API routes
-    "/__clerk/(.*)",
   ],
 };

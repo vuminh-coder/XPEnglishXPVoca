@@ -22,43 +22,43 @@ const sections = [
       {
         name: "Trang chủ",
         path: "/dashboard",
-        icon: <Home className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        icon: <Home className="w-[18px] h-[18px]" strokeWidth={1.3} />,
         page: "dashboard",
       },
       {
-        name: "Lộ trình AI",
+        name: "Lộ trình học",
         path: "/study/plan",
-        icon: <Compass className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        icon: <Compass className="w-[18px] h-[18px]" strokeWidth={1.3} />,
         page: "studyplan",
       },
       {
         name: "Khám phá bộ từ",
         path: "/vocabulary",
-        icon: <BookOpen className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        icon: <BookOpen className="w-[18px] h-[18px]" strokeWidth={1.3} />,
         page: "vocabulary",
       },
       {
         name: "Thi thử TOEIC/IELTS",
         path: "/study/exams",
-        icon: <Trophy className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        icon: <Trophy className="w-[18px] h-[18px]" strokeWidth={1.3} />,
         page: "exams",
       },
       {
         name: "Cửa hàng vật phẩm",
         path: "/shop",
-        icon: <ShoppingBag className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        icon: <ShoppingBag className="w-[18px] h-[18px]" strokeWidth={1.3} />,
         page: "shop",
       },
       {
         name: "Bộ từ của tôi",
         path: "/myvocab",
-        icon: <Layers className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        icon: <Layers className="w-[18px] h-[18px]" strokeWidth={1.3} />,
         page: "myvocab",
       },
       {
         name: "Lịch ôn",
         path: "/review",
-        icon: <Calendar className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        icon: <Calendar className="w-[18px] h-[18px]" strokeWidth={1.3} />,
         page: "review",
       },
     ],
@@ -69,55 +69,55 @@ const sections = [
       {
         name: "Luyện viết & Trắc nghiệm",
         path: "/study/practice",
-        icon: <PenLine className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        icon: <PenLine className="w-[18px] h-[18px]" strokeWidth={1.3} />,
         page: "practice",
       },
       {
         name: "Đấu trường PvP",
         path: "/study/pvp",
-        icon: <Swords className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        icon: <Swords className="w-[18px] h-[18px]" strokeWidth={1.3} />,
         page: "pvp",
       },
       {
         name: "Hội thoại AI",
         path: "/ai/conversation",
-        icon: <MessageSquare className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        icon: <MessageSquare className="w-[18px] h-[18px]" strokeWidth={1.3} />,
         page: "aichat",
       },
       {
         name: "Gia sư nói AI",
         path: "/ai/tutor",
-        icon: <Mic className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        icon: <Mic className="w-[18px] h-[18px]" strokeWidth={1.3} />,
         page: "aitutor",
       },
       {
         name: "Ngữ pháp AI",
         path: "/study/grammar",
-        icon: <Brain className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        icon: <Brain className="w-[18px] h-[18px]" strokeWidth={1.3} />,
         page: "grammar",
       },
       {
         name: "Luyện nghe",
         path: "/study/listening",
-        icon: <Headphones className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        icon: <Headphones className="w-[18px] h-[18px]" strokeWidth={1.3} />,
         page: "listening",
       },
       {
         name: "Đọc hiểu",
         path: "/study/reading",
-        icon: <BookOpen className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        icon: <BookOpen className="w-[18px] h-[18px]" strokeWidth={1.3} />,
         page: "reading",
       },
       {
         name: "Phòng học nhóm",
         path: "/study/rooms",
-        icon: <Users className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        icon: <Users className="w-[18px] h-[18px]" strokeWidth={1.3} />,
         page: "rooms",
       },
       {
         name: "Mini Games",
         path: "/study/games",
-        icon: <Gamepad2 className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        icon: <Gamepad2 className="w-[18px] h-[18px]" strokeWidth={1.3} />,
         page: "games",
       },
     ],
@@ -128,7 +128,7 @@ const sections = [
       {
         name: "Cộng đồng",
         path: "/community",
-        icon: <Users className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        icon: <Users className="w-[18px] h-[18px]" strokeWidth={1.3} />,
         page: "community",
       },
     ],
@@ -164,13 +164,10 @@ function ClerkSidebar() {
                     href={link.path}
                     aria-current={isActive ? "page" : undefined}
                     onClick={() => sidebarOpen && toggleSidebar()}
-                    className={`sidebar-link ${isActive ? "active" : ""} tactile`}
-                    style={{
-                      transition: "all 500ms cubic-bezier(0.32, 0.72, 0, 1)",
-                    }}
+                    className={`sidebar-link ${isActive ? "active" : ""} transition-spring`}
                   >
                     <span className="sidebar-link-icon">{link.icon}</span>
-                    <span className="font-bold text-[13px]">{link.name}</span>
+                    <span className="font-bold text-[13px]" style={{ whiteSpace: 'nowrap' }}>{link.name}</span>
                   </Link>
                 );
               })}
@@ -180,12 +177,11 @@ function ClerkSidebar() {
 
         <div className="sidebar-footer">
           <div
-            className="sidebar-link cursor-pointer text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-xl tactile"
-            style={{ transition: "all 500ms cubic-bezier(0.32, 0.72, 0, 1)" }}
+            className="sidebar-link cursor-pointer text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-xl transition-spring"
             onClick={handleLogout}
           >
             <span className="sidebar-link-icon">
-              <LogOut className="w-[18px] h-[18px]" strokeWidth={1.8} />
+              <LogOut className="w-[18px] h-[18px]" strokeWidth={1.3} />
             </span>
             <span className="font-bold text-[13px]">Đăng xuất</span>
           </div>
@@ -227,13 +223,10 @@ function LocalSidebar() {
                     href={link.path}
                     aria-current={isActive ? "page" : undefined}
                     onClick={() => sidebarOpen && toggleSidebar()}
-                    className={`sidebar-link ${isActive ? "active" : ""} tactile`}
-                    style={{
-                      transition: "all 500ms cubic-bezier(0.32, 0.72, 0, 1)",
-                    }}
+                    className={`sidebar-link ${isActive ? "active" : ""} transition-spring`}
                   >
                     <span className="sidebar-link-icon">{link.icon}</span>
-                    <span className="font-bold text-[13px]">{link.name}</span>
+                    <span className="font-bold text-[13px]" style={{ whiteSpace: 'nowrap' }}>{link.name}</span>
                   </Link>
                 );
               })}
@@ -243,12 +236,11 @@ function LocalSidebar() {
 
         <div className="sidebar-footer">
           <div
-            className="sidebar-link cursor-pointer text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-xl tactile"
-            style={{ transition: "all 500ms cubic-bezier(0.32, 0.72, 0, 1)" }}
+            className="sidebar-link cursor-pointer text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-xl transition-spring"
             onClick={handleLogout}
           >
             <span className="sidebar-link-icon">
-              <LogOut className="w-[18px] h-[18px]" strokeWidth={1.8} />
+              <LogOut className="w-[18px] h-[18px]" strokeWidth={1.3} />
             </span>
             <span className="font-bold text-[13px]">Đăng xuất</span>
           </div>

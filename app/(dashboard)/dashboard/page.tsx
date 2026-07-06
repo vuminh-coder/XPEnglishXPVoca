@@ -1,9 +1,10 @@
 "use client";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useDailyChallengeStore } from "@/lib/store/dailyChallengeStore";
-import { motion } from "framer-motion";
+import { useNotificationStore } from "@/lib/store/notificationStore";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
   BookOpen,
@@ -17,10 +18,13 @@ import {
   Zap,
   Coins,
   Swords,
+  Send,
+  Loader2,
+  Bot,
 } from "lucide-react";
 import { getXpProgress } from "@/lib/utils/calculateXP";
 import { MOCK_VOCABULARIES } from "@/lib/constants/vocabularies";
-import { Card, Button, Badge } from "@/components/ui";
+import { Button, Badge } from "@/components/ui";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -48,14 +52,29 @@ const itemVariants = {
 } as const;
 
 export default function DashboardPage() {
-  const { user } = useAuthStore();
+  const { user, awardXp, awardCoins } = useAuthStore();
   const { challenges, initChallenges } = useDailyChallengeStore();
+  const { addToast } = useNotificationStore();
+
+  const [claimedList, setClaimedList] = useState<string[]>([]);
+  const [aiQuestion, setAiQuestion] = useState("");
+  const [aiAnswer, setAiAnswer] = useState<string | null>(null);
+  const [isAiLoading, setIsAiLoading] = useState(false);
 
   useEffect(() => {
     initChallenges();
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("xp_claimed_challenges");
+      if (stored) {
+        try {
+          setClaimedList(JSON.parse(stored));
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
   }, [initChallenges]);
 
-  // Streak calendar calculation memoized purely based on user streak (no Math.random)
   const streakCalendar = useMemo(() => {
     if (!user) return [];
     const calendar = [];
@@ -63,7 +82,6 @@ export default function DashboardPage() {
     for (let i = 27; i >= 0; i--) {
       const d = new Date(today);
       d.setDate(d.getDate() - i);
-      // Simulate streak: recent days are active deterministically
       const isActive = i < user.currentStreak || (i < 14 && i % 3 === 0);
       calendar.push({
         date: d.toISOString().slice(5, 10),
@@ -84,7 +102,6 @@ export default function DashboardPage() {
   const completedChallenges = challenges.filter((c) => c.isCompleted).length;
   const remainingWords = Math.max(0, 10 - user.wordsLearned);
 
-  // Weekly XP bar chart mock data (simulated from user's totalXp)
   const weeklyXp = [
     { day: "T2", xp: Math.round(user.totalXp * 0.12) },
     { day: "T3", xp: Math.round(user.totalXp * 0.18) },
@@ -96,38 +113,6 @@ export default function DashboardPage() {
   ];
   const maxWeeklyXp = Math.max(...weeklyXp.map((d) => d.xp), 1);
 
-  const quickActions = [
-    {
-      title: "Luyện tập từ vựng",
-      description: "Flashcard, quiz và điền từ",
-      href: "/study/practice",
-      icon: PenLine,
-      accent: "from-cyan-500 to-sky-500",
-    },
-    {
-      title: "Đấu trường PvP",
-      description: "So tài từ vựng thời gian thực",
-      href: "/study/pvp",
-      icon: Swords,
-      accent: "from-indigo-500 to-violet-500",
-    },
-    {
-      title: "Khám phá chủ đề",
-      description: "Bộ từ theo chủ đề và mức độ",
-      href: "/vocabulary",
-      icon: Globe,
-      accent: "from-amber-500 to-orange-500",
-    },
-    {
-      title: "Cửa hàng vật phẩm",
-      description: "Mua bình năng lượng & trang phục",
-      href: "/shop",
-      icon: Coins,
-      accent: "from-yellow-500 to-amber-500",
-    },
-  ];
-
-  // 7-day streak calendar visualization
   const weekDays = [
     { day: "T2", status: "learned" },
     { day: "T3", status: "learned" },
@@ -138,443 +123,558 @@ export default function DashboardPage() {
     { day: "CN", status: "pending" },
   ];
 
+  const quickActions = [
+    {
+      title: "Luyện tập từ vựng",
+      description: "Flashcard, quiz và điền từ",
+      href: "/study/practice",
+      icon: PenLine,
+      accent: "from-cyan-500/20 to-sky-500/20 text-cyan-600 dark:text-cyan-400",
+    },
+    {
+      title: "Đấu trường PvP",
+      description: "So tài từ vựng thời gian thực",
+      href: "/study/pvp",
+      icon: Swords,
+      accent: "from-indigo-500/20 to-violet-500/20 text-indigo-600 dark:text-indigo-400",
+    },
+    {
+      title: "Khám phá chủ đề",
+      description: "Bộ từ theo chủ đề và mức độ",
+      href: "/vocabulary",
+      icon: Globe,
+      accent: "from-amber-500/20 to-orange-500/20 text-amber-600 dark:text-amber-400",
+    },
+    {
+      title: "Cửa hàng vật phẩm",
+      description: "Mua bình năng lượng & trang phục",
+      href: "/shop",
+      icon: Coins,
+      accent: "from-yellow-500/20 to-amber-500/20 text-yellow-600 dark:text-yellow-400",
+    },
+  ];
+
+  const handleClaimChallenge = (id: string, xp: number, coins: number) => {
+    if (claimedList.includes(id)) return;
+    const updated = [...claimedList, id];
+    setClaimedList(updated);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("xp_claimed_challenges", JSON.stringify(updated));
+    }
+    
+    awardXp(xp);
+    awardCoins(coins);
+
+    addToast({
+      type: "success",
+      title: "Nhận thưởng thành công! 🎉",
+      message: `Bạn nhận được +${xp} XP và +${coins} Vàng. Tiếp tục phát huy nhé!`,
+      duration: 3500
+    });
+  };
+
+  const handleQuickAskSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!aiQuestion.trim() || isAiLoading) return;
+
+    setIsAiLoading(true);
+    setAiAnswer(null);
+
+    try {
+      const res = await fetch("/api/ai/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: [{ role: "user", text: `Giải đáp ngắn gọn câu hỏi sau bằng tiếng Việt: ${aiQuestion}` }],
+        }),
+      });
+      const data = await res.json();
+      if (data.success && data.reply) {
+        setAiAnswer(data.reply);
+        awardXp(10);
+        addToast({
+          type: "success",
+          title: "AI đã trả lời! 🤖",
+          message: "Bạn đã nhận được +10 XP cho việc tích cực học hỏi.",
+        });
+      } else {
+        setAiAnswer("Xin lỗi, AI Tutor tạm thời không thể kết nối. Hãy thử lại sau.");
+      }
+    } catch (e) {
+      console.error(e);
+      setAiAnswer("Không có kết nối mạng ổn định. Vui lòng kiểm tra lại đường truyền.");
+    } finally {
+      setIsAiLoading(false);
+    }
+  };
+
   return (
-    <div className="space-y-6 pb-20 md:pb-6" suppressHydrationWarning>
-      {/* Page Header */}
+    <div className="space-y-6 md:space-y-8 pb-20 md:pb-6 px-1 md:px-0" suppressHydrationWarning>
+      {/* 1. Header Row */}
       <motion.div
-        initial={{ opacity: 0, y: -15 }}
+        initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 80, damping: 15 }}
-        className="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+        transition={{ type: "spring", stiffness: 90, damping: 15 }}
+        className="flex flex-col md:flex-row md:items-center md:justify-between gap-3.5"
       >
         <div>
-          <h1 className="text-2xl md:text-3xl font-black tracking-tight text-slate-900 dark:text-white font-display">
+          <h1 className="text-xl md:text-3xl font-black tracking-tight text-slate-900 dark:text-white font-display">
             Trang chủ học tập
           </h1>
-          <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium">
-            Một ngày học ngắn, rõ mục tiêu và có cảm giác tiến bộ liên tục.
+          <p className="text-[11px] md:text-sm text-slate-500 dark:text-slate-400 mt-0.5 font-medium">
+            Lộ trình học từ vựng tiếng Anh thông minh và theo sát mục tiêu mỗi ngày.
           </p>
         </div>
         <Link href="/profile" className="self-start md:self-auto">
           <Button
             variant="secondary"
             size="sm"
-            leftIcon={<Trophy className="w-4 h-4 text-amber-500" />}
+            className="text-xs font-bold py-1.5 px-3"
+            leftIcon={<Trophy className="w-3.5 h-3.5 text-amber-500" strokeWidth={1.3} />}
           >
             Bảng thành tích
           </Button>
         </Link>
       </motion.div>
 
-      {/* Staggered Bento Grid Layout */}
+      {/* 2. Responsive Bento Grid */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="show"
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+        className="grid grid-cols-1 lg:grid-cols-3 gap-5 md:gap-6 auto-rows-max"
       >
-        {/* Cell 1: Welcome Hero & Continue Learning (Hero Card - Spans 2 Columns) */}
-        <motion.div variants={itemVariants} className="md:col-span-2">
-          <Card
-            variant="glass"
-            className="flex flex-col justify-between bg-gradient-to-br from-cyan-500/10 via-sky-500/5 to-violet-500/10 border-white/40 dark:border-white/5 min-h-[220px] h-full"
-          >
-            <div>
-              <div className="mb-2">
-                <Badge
-                  variant="primary"
-                  className="gap-1 bg-white/40 border-white/60 dark:bg-neutral-900/30 dark:border-white/10"
-                >
-                  <Sparkles className="h-3 w-3 text-purple-600 dark:text-purple-400" />
-                  Focus hôm nay
+        {/* ROW 1: Learning Path (2 cols) & Streak Tracker (1 col) */}
+        <motion.div variants={itemVariants} className="lg:col-span-2">
+          <div className="bezel-outer p-1 bg-slate-200/50 dark:bg-white/5 h-full rounded-[1.5rem] md:rounded-[2rem]">
+            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-5 md:p-6 bg-gradient-to-br from-cyan-500/10 via-sky-500/5 to-violet-500/10 border-white/40 dark:border-white/5 h-full flex flex-col justify-between min-h-[160px]">
+              <div>
+                <div className="mb-2">
+                  <Badge
+                    variant="primary"
+                    className="gap-1 bg-white/40 border-white/60 dark:bg-neutral-900/30 dark:border-white/10 text-[9px] py-0.5 px-2"
+                  >
+                    <Sparkles className="h-3 w-3 text-purple-600 dark:text-purple-400" />
+                    Lộ trình hôm nay
+                  </Badge>
+                </div>
+                <h2 className="text-base md:text-xl font-black tracking-tight text-slate-900 dark:text-white font-display">
+                  Unit 5: Office & Work Communications
+                </h2>
+                <p className="mt-1.5 text-xs text-slate-600 dark:text-slate-350 leading-relaxed font-medium">
+                  Hãy học thêm {remainingWords} từ vựng mới để hoàn thành mục tiêu ngày hôm nay.
+                </p>
+              </div>
+              <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3.5">
+                <Link href="/study/practice" className="w-full sm:w-auto">
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    className="w-full sm:w-auto font-bold text-xs"
+                    rightIcon={<ArrowRight className="w-3.5 h-3.5" strokeWidth={1.3} />}
+                  >
+                    Bắt đầu học ngay
+                  </Button>
+                </Link>
+                <span className="text-[10px] text-slate-450 dark:text-slate-500 font-extrabold uppercase tracking-wider text-center sm:text-right">
+                  Tiến trình: {10 - remainingWords} / 10 từ
+                </span>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div variants={itemVariants} className="lg:col-span-1">
+          <div className="bezel-outer p-1 bg-slate-200/50 dark:bg-white/5 h-full rounded-[1.5rem] md:rounded-[2rem]">
+            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-5 md:p-6 bg-white dark:bg-[#0c0c0e] h-full flex flex-col justify-between border-amber-500/20">
+              <div className="flex justify-between items-start">
+                <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                  Streak của bạn
+                </span>
+                <Flame className="h-5 w-5 text-amber-500 animate-pulse" strokeWidth={1.3} />
+              </div>
+              <div className="text-center my-1.5">
+                <div className="text-2xl md:text-3xl font-black text-amber-500 font-display">
+                  {user.currentStreak} ngày
+                </div>
+              </div>
+              
+              <div className="flex justify-between gap-1 mt-1 bg-slate-50 dark:bg-neutral-900/50 p-2 rounded-xl border border-black/5 dark:border-white/5">
+                {weekDays.map((wd, i) => (
+                  <div key={i} className="flex-1 flex flex-col items-center gap-1">
+                    <span className="text-[8px] font-bold text-slate-400">
+                      {wd.day}
+                    </span>
+                    <div
+                      className={`w-6.5 h-6.5 rounded-lg flex items-center justify-center text-xs font-black transition-all ${
+                        wd.status === "learned"
+                          ? "bg-amber-500 text-white shadow-sm"
+                          : wd.status === "current"
+                          ? "bg-gradient-to-r from-amber-400 to-orange-500 text-white animate-bounce shadow-md"
+                          : wd.status === "missed"
+                          ? "bg-rose-500/10 text-rose-500 dark:bg-rose-500/20 dark:text-rose-400"
+                          : "bg-slate-200 text-slate-400 dark:bg-neutral-800 dark:text-neutral-550"
+                      }`}
+                    >
+                      {wd.status === "learned"
+                        ? "🔥"
+                        : wd.status === "current"
+                        ? "⚡"
+                        : "•"}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* ROW 2: Challenges Panel (2 cols) & Combined Stats List (1 col) */}
+        <motion.div variants={itemVariants} className="lg:col-span-2">
+          <div className="bezel-outer p-1 bg-slate-200/50 dark:bg-white/5 h-full rounded-[1.5rem] md:rounded-[2rem]">
+            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-5 md:p-6 bg-white dark:bg-[#0c0c0e] space-y-4">
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-neutral-850 pb-2">
+                <div className="flex items-center gap-2">
+                  <Target className="h-4.5 w-4.5 text-purple-500" strokeWidth={1.3} />
+                  <h2 className="text-sm font-black text-slate-900 dark:text-white font-display">
+                    Nhiệm vụ hôm nay
+                  </h2>
+                </div>
+                <Badge variant="primary" className="font-bold text-[9px] py-0.5 px-2">
+                  Hoàn thành {completedChallenges}/{challenges.length}
                 </Badge>
               </div>
-              <h2 className="text-xl md:text-2xl font-black tracking-tight text-slate-900 dark:text-white font-display">
-                Chào mừng quay lại, {user.fullName}!
-              </h2>
-              <p className="mt-2 text-xs md:text-sm text-slate-600 dark:text-slate-300 max-w-md leading-relaxed">
-                Bạn còn {remainingWords} từ để chạm mốc 10 từ hôm nay. Bắt đầu bằng một phiên học ngắn 5 phút.
-              </p>
+              
+              <div className="space-y-3">
+                {challenges.map((ch) => {
+                  const hasReachedGoal = ch.progress >= ch.target;
+                  const isClaimed = claimedList.includes(ch.id);
+
+                  return (
+                    <div key={ch.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-2xl bg-slate-50/50 dark:bg-neutral-900/30 border border-slate-200/40 dark:border-neutral-800/40">
+                      <div className="flex items-center gap-3">
+                        <span className="text-xl w-8 h-8 rounded-lg bg-white dark:bg-neutral-850 border border-black/5 dark:border-white/5 flex items-center justify-center shadow-sm shrink-0">
+                          {ch.icon}
+                        </span>
+                        <div className="min-w-0">
+                          <h3 className={`text-xs font-black ${
+                            isClaimed ? "text-slate-400 dark:text-slate-500 line-through opacity-70" : "text-slate-800 dark:text-slate-200"
+                          }`}>
+                            {ch.title}
+                          </h3>
+                          <p className="text-[10px] text-slate-400 dark:text-slate-500 font-semibold truncate max-w-[200px] sm:max-w-none">
+                            {ch.description}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between sm:justify-end gap-3.5 border-t border-dashed border-slate-200/60 dark:border-neutral-800/60 pt-2 sm:pt-0 sm:border-0 w-full sm:w-auto">
+                        <div className="text-left sm:text-right">
+                          <span className="text-[9px] font-black text-slate-455">
+                            Tiến trình: {ch.progress} / {ch.target}
+                          </span>
+                          <div className="h-1 w-20 rounded-full bg-slate-200 dark:bg-neutral-800 overflow-hidden mt-1">
+                            <div
+                              className={`h-full rounded-full transition-all duration-500 ${
+                                isClaimed ? "bg-emerald-500" : "bg-purple-500"
+                              }`}
+                              style={{ width: `${Math.min(100, (ch.progress / ch.target) * 100)}%` }}
+                            />
+                          </div>
+                        </div>
+
+                        <div className="w-20 flex justify-end">
+                          {hasReachedGoal ? (
+                            isClaimed ? (
+                              <Badge variant="success" className="font-bold text-[9px] py-0.5 px-2">ĐÃ NHẬN</Badge>
+                            ) : (
+                              <button
+                                onClick={() => handleClaimChallenge(ch.id, ch.xpReward, ch.coinReward)}
+                                className="w-full py-1 text-center text-[9px] font-black bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-lg shadow-sm animate-pulse tracking-wider uppercase cursor-pointer"
+                              >
+                                Nhận
+                              </button>
+                            )
+                          ) : (
+                            <Badge variant="neutral" className="text-[9px] font-bold py-0.5 px-2">CHƯA XONG</Badge>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-            <div className="mt-5 flex items-center justify-between gap-4">
-              <Link href="/study/practice" className="w-full sm:w-auto">
-                <Button
-                  variant="primary"
-                  size="md"
-                  rightIcon={<ArrowRight className="w-4 h-4" />}
-                >
-                  Tiếp tục học Unit 4
-                </Button>
-              </Link>
-              <span className="text-[11px] text-slate-500 dark:text-slate-400 font-bold hidden sm:inline-block">
-                Lần học cuối: Hôm qua
-              </span>
-            </div>
-          </Card>
+          </div>
         </motion.div>
 
-        {/* Cell 2: Today's Streak & Weekly Calendar */}
-        <motion.div variants={itemVariants}>
-          <Card
-            variant="bezel"
-            className="flex flex-col justify-between bg-amber-500/[0.02] border-amber-500/20 h-full"
-          >
-            <div className="flex justify-between items-start">
-              <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                Streak liên tục
-              </span>
-              <Flame className="h-5 w-5 text-amber-500 animate-pulse" />
-            </div>
-            <div className="text-center my-2">
-              <div className="text-3xl font-black text-amber-500 font-display">
-                {user.currentStreak} ngày
+        <motion.div variants={itemVariants} className="lg:col-span-1">
+          <div className="bezel-outer p-1 bg-slate-200/50 dark:bg-white/5 h-full rounded-[1.5rem] md:rounded-[2rem]">
+            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-5 md:p-6 bg-white dark:bg-[#0c0c0e] space-y-4 h-full flex flex-col justify-between">
+              <div>
+                <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 block border-b border-slate-100 dark:border-neutral-850 pb-2">
+                  Chỉ số tổng quan
+                </span>
+                
+                <div className="space-y-3.5 mt-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2">
+                      <div className="w-7 h-7 rounded-lg text-sky-500 bg-sky-50 dark:bg-sky-950/30 flex items-center justify-center">
+                        <BookOpen className="h-3.5 w-3.5" strokeWidth={1.3} />
+                      </div>
+                      <span className="text-xs font-bold text-slate-700 dark:text-slate-350">Từ đã học</span>
+                    </div>
+                    <span className="text-xs font-black text-slate-900 dark:text-white font-display">
+                      {user.wordsLearned}/{MOCK_VOCABULARIES.length} ({vocabPercent}%)
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2">
+                      <div className="w-7 h-7 rounded-lg text-amber-500 bg-amber-50 dark:bg-amber-950/30 flex items-center justify-center">
+                        <Zap className="h-3.5 w-3.5" strokeWidth={1.3} />
+                      </div>
+                      <span className="text-xs font-bold text-slate-700 dark:text-slate-350">Kinh nghiệm</span>
+                    </div>
+                    <span className="text-xs font-black text-slate-900 dark:text-white font-display">
+                      {user.totalXp} XP (LV {user.level})
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2">
+                      <div className="w-7 h-7 rounded-lg text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 flex items-center justify-center">
+                        <Clock className="h-3.5 w-3.5" strokeWidth={1.3} />
+                      </div>
+                      <span className="text-xs font-bold text-slate-700 dark:text-slate-350">Thời gian</span>
+                    </div>
+                    <span className="text-xs font-black text-slate-900 dark:text-white font-display">
+                      {user.minutesStudied}m ({studyPercent}%)
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2">
+                      <div className="w-7 h-7 rounded-lg text-yellow-500 bg-yellow-50 dark:bg-yellow-950/30 flex items-center justify-center">
+                        <Coins className="h-3.5 w-3.5" strokeWidth={1.3} />
+                      </div>
+                      <span className="text-xs font-bold text-slate-700 dark:text-slate-350">Cửa hàng vàng</span>
+                    </div>
+                    <span className="text-xs font-black text-slate-900 dark:text-white font-display font-sans">
+                      {user.coins ?? 0} Vàng
+                    </span>
+                  </div>
+                </div>
               </div>
-              <div className="text-[11px] text-slate-400 dark:text-slate-500 mt-1 font-semibold">
-                Chuỗi ngày học liên tục
+              <div className="text-[9px] text-slate-450 dark:text-slate-500 font-bold uppercase tracking-wider text-center pt-2 border-t border-slate-100 dark:border-neutral-850 mt-3">
+                Cập nhật liên tục
               </div>
             </div>
-            {/* Weekly Tracker Mini-Grid */}
-            <div className="flex justify-between gap-1 mt-3 bg-slate-100/50 dark:bg-neutral-800/50 p-2 rounded-xl border border-black/5 dark:border-white/5">
-              {weekDays.map((wd, i) => (
-                <div key={i} className="flex flex-col items-center gap-1">
-                  <span className="text-[10px] font-bold text-slate-400">
-                    {wd.day}
+          </div>
+        </motion.div>
+
+        {/* ROW 3: AI Tutor (2 cols) & PVP Arena (1 col) */}
+        <motion.div variants={itemVariants} className="lg:col-span-2">
+          <div className="bezel-outer p-1 bg-slate-200/50 dark:bg-white/5 h-full rounded-[1.5rem] md:rounded-[2rem]">
+            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-5 md:p-6 bg-white dark:bg-[#0c0c0e] h-full flex flex-col justify-between">
+              <form onSubmit={handleQuickAskSubmit} className="space-y-3">
+                <h3 className="text-[10px] font-black uppercase tracking-wider text-slate-455 flex items-center gap-1.5 border-b border-slate-100 dark:border-neutral-850 pb-2">
+                  <Bot className="h-4 w-4 text-cyan-500" strokeWidth={1.3} /> Hỏi đáp nhanh cùng AI Tutor
+                </h3>
+                <div className="space-y-1.5">
+                  <label className="text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">Giải đáp câu hỏi ngữ pháp hoặc từ vựng</label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      className="w-full py-2 px-3 text-xs font-bold rounded-xl bg-neutral-50/60 dark:bg-neutral-900/40 border border-black/10 dark:border-white/10 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
+                      placeholder="Ví dụ: Phân biệt 'make' và 'do'?"
+                      value={aiQuestion}
+                      onChange={(e) => setAiQuestion(e.target.value)}
+                    />
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      type="submit"
+                      disabled={isAiLoading || !aiQuestion.trim()}
+                      className="px-3 font-bold flex items-center gap-1 text-xs shrink-0"
+                    >
+                      {isAiLoading ? (
+                        <Loader2 className="h-3.5 w-3.5 animate-spin" strokeWidth={1.3} />
+                      ) : (
+                        <Send className="h-3.5 w-3.5" strokeWidth={1.3} />
+                      )}
+                    </Button>
+                  </div>
+                </div>
+              </form>
+
+              <AnimatePresence>
+                {aiAnswer && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="mt-3 bg-slate-50 dark:bg-neutral-950 p-3 rounded-xl border border-slate-100 dark:border-neutral-850 text-xs font-medium text-slate-650 dark:text-slate-350 leading-relaxed overflow-hidden"
+                  >
+                    <span className="font-extrabold text-cyan-600 dark:text-cyan-400 block mb-1 text-[10px] uppercase tracking-wide">Giải đáp từ AI Tutor:</span>
+                    {aiAnswer}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div variants={itemVariants} className="lg:col-span-1">
+          <div className="bezel-outer p-1 bg-slate-200/50 dark:bg-white/5 h-full rounded-[1.5rem] md:rounded-[2rem]">
+            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-5 md:p-6 bg-white dark:bg-[#0c0c0e] h-full flex flex-col justify-between border-indigo-500/25 min-h-[140px]">
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-neutral-850 pb-2">
+                <span className="text-[10px] font-black uppercase tracking-wider text-slate-455">Đấu trường PvP</span>
+                <span className="flex items-center gap-1.5 text-[10px] font-extrabold text-emerald-500">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" /> 14 Online
+                </span>
+              </div>
+              <div className="py-2.5">
+                <h3 className="text-xs font-black text-slate-900 dark:text-white font-display">So tài từ vựng PvP</h3>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                  Thi đấu PvP thời gian thực cùng bạn học toàn quốc để tích lũy điểm kinh nghiệm.
+                </p>
+              </div>
+              <div className="flex justify-end mt-2">
+                <Link href="/study/pvp" className="w-full">
+                  <Button variant="primary" size="sm" className="w-full font-bold flex items-center justify-center gap-1.5 text-xs">
+                    <Swords className="h-3.5 w-3.5" strokeWidth={1.3} /> Thách đấu nhanh
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* ROW 4: Streak Calendar (2 cols) & Weekly XP Chart (1 col) */}
+        <motion.div variants={itemVariants} className="lg:col-span-2">
+          <div className="bezel-outer p-1 bg-slate-200/50 dark:bg-white/5 h-full rounded-[1.5rem] md:rounded-[2rem]">
+            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-5 md:p-6 bg-white dark:bg-[#0c0c0e] h-full flex flex-col justify-between">
+              <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-100 dark:border-neutral-850">
+                <div>
+                  <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                    Streak Calendar
                   </span>
+                  <h3 className="text-xs font-black text-slate-900 dark:text-white mt-0.5 font-display">
+                    Lịch học 28 ngày
+                  </h3>
+                </div>
+                <div className="flex items-center gap-2.5 text-[9px] font-bold text-slate-450 dark:text-slate-500">
+                  <span className="flex items-center gap-1">
+                    <span className="h-2 w-2 rounded-sm bg-emerald-500" /> Học
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <span className="h-2 w-2 rounded-sm bg-slate-100 dark:bg-neutral-800" /> Lỡ
+                  </span>
+                </div>
+              </div>
+              <div className="grid grid-cols-7 gap-1">
+                {streakCalendar.map((cell, i) => (
                   <div
-                    className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs font-black transition-all ${
-                      wd.status === "learned"
-                        ? "bg-amber-500 text-white shadow-sm"
-                        : wd.status === "current"
-                        ? "bg-gradient-premium text-white animate-bounce shadow-md"
-                        : wd.status === "missed"
-                        ? "bg-rose-100 text-rose-500 dark:bg-rose-950/30 dark:text-rose-400"
-                        : "bg-slate-200 text-slate-400 dark:bg-neutral-700 dark:text-neutral-500"
+                    key={i}
+                    className={`h-6 sm:h-7 rounded flex items-center justify-center text-[8px] sm:text-[9px] font-bold transition-all ${
+                      cell.active
+                        ? "bg-emerald-500 text-white shadow-sm"
+                        : "bg-slate-100 text-slate-400 dark:bg-neutral-800 dark:text-neutral-600"
                     }`}
+                    title={cell.date}
                   >
-                    {wd.status === "learned"
-                      ? "🔥"
-                      : wd.status === "current"
-                      ? "⚡"
-                      : "•"}
+                    {cell.date.slice(3)}
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </Card>
+          </div>
         </motion.div>
 
-        {/* Cell 3: Daily Challenges (Dynamic from store) */}
-        <motion.div variants={itemVariants}>
-          <Card
-            variant="bezel"
-            className="flex flex-col justify-between bg-purple-500/[0.02] border-purple-500/20 h-full"
-          >
-            <div className="flex justify-between items-start">
-              <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                Nhiệm vụ hôm nay
-              </span>
-              <Target className="h-5 w-5 text-purple-500" />
-            </div>
-            <div className="space-y-2.5 mt-3">
-              {challenges.slice(0, 3).map((ch) => (
-                <div key={ch.id} className="space-y-1">
-                  <div className="flex justify-between items-center text-xs font-bold">
-                    <span
-                      className={`truncate max-w-[140px] ${
-                        ch.isCompleted
-                          ? "text-emerald-600 dark:text-emerald-400 line-through"
-                          : "text-slate-700 dark:text-slate-300"
-                      }`}
-                    >
-                      {ch.icon} {ch.title}
-                    </span>
-                    <span
-                      className={
-                        ch.isCompleted ? "text-emerald-500" : "text-purple-500"
-                      }
-                    >
-                      {ch.isCompleted ? "✓" : `${ch.progress}/${ch.target}`}
-                    </span>
-                  </div>
-                  <div className="h-1.5 overflow-hidden rounded-full bg-slate-100 dark:bg-neutral-800">
-                    <div
-                      className={`h-full rounded-full transition-all duration-500 ${
-                        ch.isCompleted
-                          ? "bg-emerald-500"
-                          : "bg-gradient-to-r from-purple-500 to-indigo-500"
-                      }`}
-                      style={{
-                        width: `${Math.min(
-                          100,
-                          (ch.progress / ch.target) * 100
-                        )}%`,
-                      }}
-                    />
-                  </div>
+        <motion.div variants={itemVariants} className="lg:col-span-1">
+          <div className="bezel-outer p-1 bg-slate-200/50 dark:bg-white/5 h-full rounded-[1.5rem] md:rounded-[2rem]">
+            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-5 md:p-6 bg-white dark:bg-[#0c0c0e] h-full flex flex-col justify-between min-h-[160px]">
+              <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-100 dark:border-neutral-850">
+                <div>
+                  <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                    Phân bố kinh nghiệm
+                  </span>
+                  <h3 className="text-xs font-black text-slate-900 dark:text-white mt-0.5 font-display">
+                    XP 7 ngày qua
+                  </h3>
                 </div>
-              ))}
+                <Badge variant="primary" className="text-[9px] py-0.5 px-2">{user.totalXp} XP</Badge>
+              </div>
+              <div className="flex items-end justify-between gap-1 h-24 sm:h-28 pt-2">
+                {weeklyXp.map((d, i) => {
+                  const heightPercent = Math.max(8, (d.xp / maxWeeklyXp) * 100);
+                  const isToday = i === 5;
+                  return (
+                    <div key={d.day} className="flex-1 flex flex-col items-center gap-1">
+                      <span className="text-[8px] font-bold text-slate-400">{d.xp}</span>
+                      <div
+                        className={`w-full rounded-t transition-all ${
+                          isToday ? "bg-gradient-to-t from-sky-500 to-cyan-400" : "bg-slate-200 dark:bg-neutral-800"
+                        }`}
+                        style={{ height: `${heightPercent}%` }}
+                      />
+                      <span className="text-[9px] font-bold text-slate-450">{d.day}</span>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-            <div className="text-[10px] text-slate-400 dark:text-slate-500 font-bold mt-2 text-center">
-              Hoàn thành: {completedChallenges}/{challenges.length} · Reset lúc 00:00
-            </div>
-          </Card>
+          </div>
         </motion.div>
 
-        {/* Cell 4: Stats Card - Words Learned */}
-        <motion.div variants={itemVariants}>
-          <Card variant="bezel" hoverable className="h-full">
-            <div className="flex items-center justify-between">
-              <div className="w-8 h-8 rounded-lg text-sky-500 bg-sky-50 dark:bg-sky-950/30 flex items-center justify-center">
-                <BookOpen className="h-4.5 w-4.5" strokeWidth={1.8} />
-              </div>
-              <span className="rounded-full bg-slate-100 dark:bg-neutral-800 px-2.5 py-0.5 text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                Từ đã học
-              </span>
-            </div>
-            <div className="mt-4">
-              <div className="text-2xl font-black text-slate-900 dark:text-white font-display">
-                {user.wordsLearned}/{MOCK_VOCABULARIES.length}
-              </div>
-              <div className="mt-3">
-                <div className="mb-1 flex items-center justify-between text-[10px] font-semibold text-slate-400 dark:text-slate-500">
-                  <span>Khám phá bộ từ</span>
-                  <span>{vocabPercent}%</span>
-                </div>
-                <div className="h-1.5 overflow-hidden rounded-full bg-slate-100 dark:bg-neutral-800">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-sky-400 to-blue-500"
-                    style={{ width: `${vocabPercent}%` }}
-                  />
-                </div>
-              </div>
-            </div>
-          </Card>
-        </motion.div>
-
-        {/* Cell 5: Stats Card - XP Experience */}
-        <motion.div variants={itemVariants}>
-          <Card variant="bezel" hoverable className="h-full">
-            <div className="flex items-center justify-between">
-              <div className="w-8 h-8 rounded-lg text-amber-500 bg-amber-50 dark:bg-amber-950/30 flex items-center justify-center">
-                <Zap className="h-4.5 w-4.5" strokeWidth={1.8} />
-              </div>
-              <span className="rounded-full bg-slate-100 dark:bg-neutral-800 px-2.5 py-0.5 text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                Kinh nghiệm
-              </span>
-            </div>
-            <div className="mt-4">
-              <div className="text-2xl font-black text-slate-900 dark:text-white font-display">
-                {user.totalXp} XP
-              </div>
-              <div className="mt-3">
-                <div className="mb-1 flex items-center justify-between text-[10px] font-semibold text-slate-400 dark:text-slate-500">
-                  <span>Cấp độ {user.level}</span>
-                  <span>{xpPercent}%</span>
-                </div>
-                <div className="h-1.5 overflow-hidden rounded-full bg-slate-100 dark:bg-neutral-800">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-amber-400 to-orange-500"
-                    style={{ width: `${xpPercent}%` }}
-                  />
-                </div>
-              </div>
-            </div>
-          </Card>
-        </motion.div>
-
-        {/* Cell 6: Stats Card - Study Minutes */}
-        <motion.div variants={itemVariants}>
-          <Card variant="bezel" hoverable className="h-full">
-            <div className="flex items-center justify-between">
-              <div className="w-8 h-8 rounded-lg text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 flex items-center justify-center">
-                <Clock className="h-4.5 w-4.5" strokeWidth={1.8} />
-              </div>
-              <span className="rounded-full bg-slate-100 dark:bg-neutral-800 px-2.5 py-0.5 text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                Thời gian học
-              </span>
-            </div>
-            <div className="mt-4">
-              <div className="text-2xl font-black text-slate-900 dark:text-white font-display">
-                {user.minutesStudied} phút
-              </div>
-              <div className="mt-3">
-                <div className="mb-1 flex items-center justify-between text-[10px] font-semibold text-slate-400 dark:text-slate-500">
-                  <span>Mục tiêu 15 phút</span>
-                  <span>{studyPercent}%</span>
-                </div>
-                <div className="h-1.5 overflow-hidden rounded-full bg-slate-100 dark:bg-neutral-800">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-emerald-400 to-teal-500"
-                    style={{ width: `${studyPercent}%` }}
-                  />
-                </div>
-              </div>
-            </div>
-          </Card>
-        </motion.div>
-
-        {/* Cell 7: Stats Card - Balance Coins */}
-        <motion.div variants={itemVariants}>
-          <Card variant="bezel" hoverable className="h-full">
-            <div className="flex items-center justify-between">
-              <div className="w-8 h-8 rounded-lg text-violet-500 bg-violet-50 dark:bg-violet-950/30 flex items-center justify-center">
-                <Trophy className="h-4.5 w-4.5" strokeWidth={1.8} />
-              </div>
-              <span className="rounded-full bg-slate-100 dark:bg-neutral-800 px-2.5 py-0.5 text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                Coins hiện có
-              </span>
-            </div>
-            <div className="mt-4">
-              <div className="text-2xl font-black text-slate-900 dark:text-white flex items-center gap-1.5 font-display">
-                <Coins className="h-5 w-5 text-yellow-500" />
-                {user.coins ?? 0}
-              </div>
-              <div className="mt-3 text-[10px] text-slate-400 dark:text-slate-500 font-bold">
-                Streak Freeze: {user.streakFreezes ?? 0} bình sở hữu
-              </div>
-            </div>
-          </Card>
-        </motion.div>
-
-        {/* Cell 8: Weekly XP Bar Chart (Spans 2 columns) */}
-        <motion.div variants={itemVariants} className="md:col-span-2">
-          <Card variant="bezel" className="h-full">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                  Biểu đồ XP tuần qua
-                </span>
-                <h3 className="text-sm md:text-base font-black text-slate-900 dark:text-white mt-0.5 font-display">
-                  Phân bố kinh nghiệm 7 ngày
-                </h3>
-              </div>
-              <Badge variant="primary">{user.totalXp} XP tổng</Badge>
-            </div>
-            <div className="flex items-end justify-between gap-2 h-32 pt-2">
-              {weeklyXp.map((d, i) => {
-                const heightPercent = Math.max(8, (d.xp / maxWeeklyXp) * 100);
-                const isToday = i === 5; // Saturday
-                return (
-                  <div
-                    key={d.day}
-                    className="flex-1 flex flex-col items-center gap-1.5"
-                  >
-                    <span className="text-[9px] font-black text-slate-400 dark:text-slate-500">
-                      {d.xp}
-                    </span>
-                    <motion.div
-                      whileHover={{ scaleY: 1.05, originY: 1 }}
-                      transition={{ type: "spring", stiffness: 300, damping: 15 }}
-                      className={`w-full rounded-t-lg transition-all cursor-pointer ${
-                        isToday
-                          ? "bg-gradient-to-t from-sky-500 to-cyan-400 shadow-sm shadow-sky-500/20"
-                          : "bg-slate-200 dark:bg-neutral-800"
-                      }`}
-                      style={{ height: `${heightPercent}%` }}
-                    />
-                    <span
-                      className={`text-[10px] font-bold ${
-                        isToday ? "text-sky-600 dark:text-sky-400" : "text-slate-400"
-                      }`}
-                    >
-                      {d.day}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-          </Card>
-        </motion.div>
-
-        {/* Cell 9: Streak Calendar Grid (Spans 2 columns) */}
-        <motion.div variants={itemVariants} className="md:col-span-2">
-          <Card variant="bezel" className="h-full">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                  Streak Calendar
-                </span>
-                <h3 className="text-sm md:text-base font-black text-slate-900 dark:text-white mt-0.5 font-display">
-                  Lịch học 28 ngày gần nhất
-                </h3>
-              </div>
-              <div className="flex items-center gap-3 text-[9px] font-bold text-slate-400 dark:text-slate-500">
-                <span className="flex items-center gap-1">
-                  <span className="h-2 w-2 rounded-sm bg-emerald-500" /> Đã học
-                </span>
-                <span className="flex items-center gap-1">
-                  <span className="h-2 w-2 rounded-sm bg-slate-200 dark:bg-neutral-800" />{" "}
-                  Bỏ lỡ
-                </span>
-              </div>
-            </div>
-            <div className="grid grid-cols-7 gap-1.5">
-              {streakCalendar.map((cell, i) => (
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  key={i}
-                  className={`h-8 rounded-lg flex items-center justify-center text-[10px] font-bold transition-all cursor-pointer ${
-                    cell.active
-                      ? "bg-emerald-500 text-white shadow-sm"
-                      : "bg-slate-100 text-slate-400 dark:bg-neutral-800 dark:text-neutral-600"
-                  }`}
-                  title={cell.date}
-                >
-                  {cell.date.slice(3)}
-                </motion.div>
-              ))}
-            </div>
-          </Card>
-        </motion.div>
-
-        {/* Quick Navigation Actions (Spans full width on lg) */}
+        {/* ROW 5: Quick shortcuts */}
         <motion.div
           variants={itemVariants}
-          className="md:col-span-2 lg:col-span-4"
+          className="lg:col-span-3"
         >
-          <Card variant="glass" className="h-full">
-            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
-              Phím tắt nhanh
-            </span>
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 mt-4">
-              {quickActions.map((action) => {
-                const Icon = action.icon;
-                return (
-                  <motion.div
-                    whileHover={{ y: -3, scale: 1.01 }}
-                    whileTap={{ scale: 0.99 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                    key={action.title}
-                  >
-                    <Link
-                      href={action.href}
-                      className="group block rounded-2xl border border-slate-200/70 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-3.5 hover:shadow-sm transition-all duration-300"
+          <div className="bezel-outer p-1 bg-slate-200/50 dark:bg-white/5 rounded-[1.5rem] md:rounded-[2rem]">
+            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-5 md:p-6 bg-white dark:bg-[#0c0c0e]">
+              <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 block border-b border-slate-100 dark:border-neutral-850 pb-2">
+                Phím tắt nhanh
+              </span>
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 mt-4">
+                {quickActions.map((action) => {
+                  const Icon = action.icon;
+                  return (
+                    <motion.div
+                      whileHover={{ y: -3, scale: 1.01 }}
+                      whileTap={{ scale: 0.99 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                      key={action.title}
                     >
-                      <div className="flex items-center gap-3">
-                        <div
-                          className={`rounded-xl bg-gradient-to-br ${action.accent} p-2 text-white`}
-                        >
-                          <Icon className="h-4 w-4" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="text-xs font-bold text-slate-900 dark:text-white truncate">
-                            {action.title}
+                      <Link
+                        href={action.href}
+                        className="group block rounded-2xl border border-slate-200/70 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-3 hover:shadow-sm transition-all duration-300"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className={`rounded-xl bg-gradient-to-br ${action.accent} p-1.5 sm:p-2`}>
+                            <Icon className="h-4 w-4" strokeWidth={1.3} />
                           </div>
-                          <div className="text-[10px] text-slate-400 truncate mt-0.5 font-medium">
-                            {action.description}
+                          <div className="flex-1 min-w-0">
+                            <div className="text-xs font-bold text-slate-900 dark:text-white truncate">
+                              {action.title}
+                            </div>
+                            <div className="text-[10px] text-slate-450 truncate mt-0.5 font-semibold">
+                              {action.description}
+                            </div>
                           </div>
+                          <ArrowRight className="h-3.5 w-3.5 text-slate-400 transition-transform group-hover:translate-x-1 shrink-0" strokeWidth={1.3} />
                         </div>
-                        <ArrowRight className="h-3.5 w-3.5 text-slate-400 transition-transform group-hover:translate-x-1 shrink-0" />
-                      </div>
-                    </Link>
-                  </motion.div>
-                );
-              })}
+                      </Link>
+                    </motion.div>
+                  );
+                })}
+              </div>
             </div>
-          </Card>
+          </div>
         </motion.div>
       </motion.div>
     </div>
   );
 }
-

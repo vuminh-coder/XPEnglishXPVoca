@@ -1,6 +1,7 @@
 "use client";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { MOCK_VOCABULARIES } from "@/lib/constants/vocabularies";
 import { useVocabularyStore } from "@/lib/store/vocabularyStore";
 import { useAuthStore } from "@/lib/store/authStore";
@@ -42,8 +43,43 @@ const optionItemVariants = {
   },
 } as const;
 
-export default function PracticeQuizPage() {
-  const vocabs = MOCK_VOCABULARIES;
+function PracticeQuizContent() {
+  const searchParams = useSearchParams();
+  const mode = searchParams.get("mode");
+  const dateParam = searchParams.get("date");
+
+  const { practiceWord, submitReview, learned } = useVocabularyStore();
+
+  const formatLocalDate = (d: Date) => {
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  const vocabs = useMemo(() => {
+    let list = [];
+    if (mode === "review") {
+      let filteredLearned = [];
+      if (dateParam) {
+        filteredLearned = learned.filter((l) => {
+          if (!l.nextReview) return false;
+          const nextDateStr = formatLocalDate(new Date(l.nextReview));
+          return nextDateStr === dateParam;
+        });
+      } else {
+        filteredLearned = learned.filter((l) => l.nextReview && new Date(l.nextReview) <= new Date());
+      }
+      
+      const dueVocabIds = filteredLearned.map((l) => l.vocabId);
+      const filtered = MOCK_VOCABULARIES.filter((v) => dueVocabIds.includes(v.id));
+      list = filtered.length > 0 ? filtered : MOCK_VOCABULARIES;
+    } else {
+      list = MOCK_VOCABULARIES;
+    }
+    return [...list].sort(() => 0.5 - Math.random());
+  }, [mode, dateParam, learned]);
+
   const [subMode, setSubMode] = useState<"quiz" | "flashcard">("quiz");
 
   const [qIndex, setQIndex] = useState(0);
@@ -55,7 +91,6 @@ export default function PracticeQuizPage() {
   const [fIndex, setFIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
 
-  const { practiceWord, submitReview } = useVocabularyStore();
   const { awardXp } = useAuthStore();
 
   const currentWord = vocabs[qIndex];
@@ -258,7 +293,7 @@ export default function PracticeQuizPage() {
                     />
                   </div>
 
-                  <div className="rounded-[24px] border border-sky-100/50 bg-gradient-to-br from-sky-50/40 to-white p-8 text-center dark:border-neutral-800 dark:from-neutral-950/30 dark:to-neutral-900 relative">
+                  <div className="rounded-[24px] border border-sky-100/50 bg-gradient-to-br from-sky-50/40 to-white p-5 sm:p-8 text-center dark:border-neutral-800 dark:from-neutral-950/30 dark:to-neutral-900 relative">
                     <div className="absolute top-2 right-3 text-[10px] uppercase font-black tracking-wider text-cyan-600 dark:text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded-full border border-cyan-500/5">
                       {vocabs[qIndex]?.pos}
                     </div>
@@ -345,7 +380,7 @@ export default function PracticeQuizPage() {
                     onClick={() => setIsFlipped(!isFlipped)}
                   >
                     {/* Front cover card */}
-                    <div className="absolute inset-0 flex flex-col items-center justify-center rounded-[calc(var(--radius-3xl)-6px)] bg-white p-8 text-center border border-slate-100 dark:border-neutral-850 [backface-visibility:hidden] dark:bg-neutral-900">
+                    <div className="absolute inset-0 flex flex-col items-center justify-center rounded-[calc(var(--radius-3xl)-6px)] bg-white p-5 sm:p-8 text-center border border-slate-100 dark:border-neutral-850 [backface-visibility:hidden] dark:bg-neutral-900 overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                       <span className="mb-6 inline-flex items-center gap-1.5 rounded-full bg-sky-500/10 px-3 py-1 text-[9px] font-black uppercase tracking-[0.2em] text-cyan-600 dark:text-cyan-400 border border-cyan-500/5">
                         <RotateCcw className="h-3 w-3 animate-spin-slow" />
                         Bấm để lật
@@ -363,8 +398,10 @@ export default function PracticeQuizPage() {
 
                     {/* Back layout details */}
                     <div
-                      className="absolute inset-0 flex flex-col items-center justify-center rounded-[calc(var(--radius-3xl)-6px)] p-8 text-center border border-slate-100 dark:border-neutral-850 [backface-visibility:hidden] [transform:rotateY(180deg)]"
+                      className="absolute inset-0 flex flex-col items-center justify-center rounded-[calc(var(--radius-3xl)-6px)] p-5 sm:p-8 text-center border border-slate-100 dark:border-neutral-850 [backface-visibility:hidden] [transform:rotateY(180deg)] overflow-y-auto"
                       style={{
+                        scrollbarWidth: 'none',
+                        msOverflowStyle: 'none',
                         background:
                           "linear-gradient(135deg, rgba(6, 182, 212, 0.05) 0%, rgba(99, 102, 241, 0.03) 100%), var(--bg-card)",
                       }}
@@ -404,7 +441,7 @@ export default function PracticeQuizPage() {
                     <Button
                       variant="bezel"
                       size="sm"
-                      className="rounded-xl border-amber-250 dark:border-amber-700/50 hover:bg-amber-50 dark:hover:bg-amber-950/20 text-amber-600 dark:text-amber-400 py-2.5 cursor-pointer text-xs font-bold"
+                      className="rounded-xl border-amber-200 dark:border-amber-700/50 hover:bg-amber-50 dark:hover:bg-amber-950/20 text-amber-600 dark:text-amber-400 py-2.5 cursor-pointer text-xs font-bold"
                       onClick={() => handleFlashcardReview(3)}
                     >
                       Mơ hồ
@@ -412,7 +449,7 @@ export default function PracticeQuizPage() {
                     <Button
                       variant="bezel"
                       size="sm"
-                      className="rounded-xl border-sky-255 dark:border-sky-700/50 hover:bg-sky-50 dark:hover:bg-sky-950/20 text-sky-600 dark:text-sky-400 py-2.5 cursor-pointer text-xs font-bold"
+                      className="rounded-xl border-sky-200 dark:border-sky-700/50 hover:bg-sky-50 dark:hover:bg-sky-950/20 text-sky-600 dark:text-sky-400 py-2.5 cursor-pointer text-xs font-bold"
                       onClick={() => handleFlashcardReview(4)}
                     >
                       Nhớ tốt
@@ -433,5 +470,17 @@ export default function PracticeQuizPage() {
         </AnimatePresence>
       </div>
     </div>
+  );
+}
+
+export default function PracticeQuizPage() {
+  return (
+    <Suspense fallback={
+      <div className="mx-auto max-w-6xl p-8 text-center text-xs font-bold text-slate-400 dark:text-neutral-600 animate-pulse">
+        Đang tải phòng học ôn tập...
+      </div>
+    }>
+      <PracticeQuizContent />
+    </Suspense>
   );
 }

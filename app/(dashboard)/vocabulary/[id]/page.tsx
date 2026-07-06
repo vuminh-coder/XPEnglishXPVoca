@@ -102,7 +102,7 @@ export default function ThemeDetailPage({
             <div className="bezel-inner bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-250/50 dark:border-emerald-900/30 p-4 flex items-center gap-3">
               <CheckCircle2
                 className="w-5 h-5 text-emerald-500 shrink-0"
-                strokeWidth={2.5}
+                strokeWidth={1.3}
               />
               <div>
                 <div className="text-xs font-black text-slate-900 dark:text-white">
@@ -130,7 +130,7 @@ export default function ThemeDetailPage({
             className="w-9 h-9 rounded-full flex items-center justify-center border border-slate-200 dark:border-neutral-850 hover:border-cyan-300 dark:hover:border-cyan-800 bg-white dark:bg-neutral-900 tactile shrink-0"
             aria-label="Quay lại danh sách từ vựng"
           >
-            <ArrowLeft className="w-4 h-4 text-slate-500" strokeWidth={2} />
+            <ArrowLeft className="w-4 h-4 text-slate-500" strokeWidth={1.3} />
           </Link>
           <div>
             <h2 className="font-black text-xl md:text-2xl tracking-tight text-slate-900 dark:text-white font-display">
@@ -159,7 +159,7 @@ export default function ThemeDetailPage({
                 transition={{ type: "spring", stiffness: 100, damping: 18 }}
               />
             )}
-            <Layers className="w-3.5 h-3.5 relative z-10" strokeWidth={2} />
+            <Layers className="w-3.5 h-3.5 relative z-10" strokeWidth={1.3} />
             <span className="relative z-10">Flashcard 3D</span>
           </button>
           <button
@@ -177,7 +177,7 @@ export default function ThemeDetailPage({
                 transition={{ type: "spring", stiffness: 100, damping: 18 }}
               />
             )}
-            <List className="w-3.5 h-3.5 relative z-10" strokeWidth={2} />
+            <List className="w-3.5 h-3.5 relative z-10" strokeWidth={1.3} />
             <span className="relative z-10">Danh sách</span>
           </button>
         </div>
@@ -261,7 +261,7 @@ export default function ThemeDetailPage({
                 }}
                 aria-label="Từ trước"
               >
-                <ChevronLeft className="w-5 h-5" strokeWidth={2} />
+                <ChevronLeft className="w-5 h-5" strokeWidth={1.3} />
               </motion.button>
 
               <div className="flex flex-col items-center gap-2">
@@ -289,7 +289,7 @@ export default function ThemeDetailPage({
                           ? "text-red-500 fill-red-500"
                           : "text-slate-400"
                       }`}
-                      strokeWidth={2}
+                      strokeWidth={1.3}
                     />
                   </motion.button>
                   <motion.button
@@ -298,7 +298,7 @@ export default function ThemeDetailPage({
                     onClick={() => speak(activeVocab.word)}
                     aria-label="Phát âm từ"
                   >
-                    <Volume2 className="w-3.5 h-3.5" strokeWidth={2} />
+                    <Volume2 className="w-3.5 h-3.5" strokeWidth={1.3} />
                   </motion.button>
                   <motion.button
                     whileTap={{ scale: 0.95 }}
@@ -310,7 +310,7 @@ export default function ThemeDetailPage({
                     }}
                     aria-label="Ôn tập từ"
                   >
-                    <Zap className="w-3.5 h-3.5 text-amber-500" strokeWidth={2} />
+                    <Zap className="w-3.5 h-3.5 text-amber-500" strokeWidth={1.3} />
                   </motion.button>
                 </div>
               </div>
@@ -328,7 +328,7 @@ export default function ThemeDetailPage({
                 }}
                 aria-label="Từ tiếp theo"
               >
-                <ChevronRight className="w-5 h-5" strokeWidth={2} />
+                <ChevronRight className="w-5 h-5" strokeWidth={1.3} />
               </motion.button>
             </div>
           </div>
@@ -385,7 +385,7 @@ export default function ThemeDetailPage({
                                 ? "text-red-500 fill-red-500"
                                 : "text-slate-400"
                             }`}
-                            strokeWidth={2}
+                            strokeWidth={1.3}
                           />
                         </motion.button>
                       </div>
@@ -425,7 +425,7 @@ export default function ThemeDetailPage({
                           className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-black text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-neutral-950 border border-slate-200/50 dark:border-neutral-850 rounded-full tactile cursor-pointer"
                           onClick={() => speak(v.word)}
                         >
-                          <Volume2 className="w-3.5 h-3.5" strokeWidth={2} />{" "}
+                          <Volume2 className="w-3.5 h-3.5" strokeWidth={1.3} />{" "}
                           Nghe
                         </motion.button>
                         <motion.button
@@ -440,7 +440,7 @@ export default function ThemeDetailPage({
                             );
                           }}
                         >
-                          <Zap className="w-3.5 h-3.5" strokeWidth={2} /> Luyện
+                          <Zap className="w-3.5 h-3.5" strokeWidth={1.3} /> Luyện
                         </motion.button>
                       </div>
                     </div>

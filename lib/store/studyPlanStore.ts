@@ -40,17 +40,39 @@ export const useStudyPlanStore = create<StudyPlanState>((set, get) => ({
   plan: null,
   isLoading: false,
   loadPlan: async () => {
-    set({ isLoading: true });
+    // 1. Instantly load from localStorage cache to prevent UI flashing
+    const user = useAuthStore.getState().user;
+    const userId = user?.id || "local_user";
+    if (typeof window !== "undefined") {
+      try {
+        const cached = localStorage.getItem(`xp_voca_study_plan_${userId}`);
+        if (cached) {
+          set({ plan: JSON.parse(cached) });
+        }
+      } catch (e) {
+        console.error("Error reading cached study plan:", e);
+      }
+    }
+
+    // Only show loading skeletons/spinners if we do not have a cached plan
+    set({ isLoading: !get().plan });
     try {
       const res = await fetch("/api/study-plan/current");
       const json = await res.json();
       if (json.success && json.data) {
         set({ plan: json.data });
+        if (typeof window !== "undefined") {
+          localStorage.setItem(`xp_voca_study_plan_${userId}`, JSON.stringify(json.data));
+        }
       } else {
         set({ plan: null });
+        if (typeof window !== "undefined") {
+          localStorage.removeItem(`xp_voca_study_plan_${userId}`);
+        }
       }
     } catch (e) {
-      console.error("Error loading study plan:", e);
+      console.error("Error loading study plan from API:", e);
+      // Keep cached plan if API fails/offline
     } finally {
       set({ isLoading: false });
     }
@@ -65,7 +87,7 @@ export const useStudyPlanStore = create<StudyPlanState>((set, get) => ({
       });
       const json = await res.json();
       if (json.success) {
-        // Reload plan with tasks list
+        // Reload plan with tasks list which will also update cache
         await get().loadPlan();
         return true;
       }
@@ -85,12 +107,19 @@ export const useStudyPlanStore = create<StudyPlanState>((set, get) => ({
     const updatedTasks = currentPlan.dailyTasks.map((t) =>
       t.id === taskId ? { ...t, isCompleted } : t
     );
-    set({
-      plan: {
-        ...currentPlan,
-        dailyTasks: updatedTasks,
-      },
-    });
+    const updatedPlan = {
+      ...currentPlan,
+      dailyTasks: updatedTasks,
+    };
+    
+    set({ plan: updatedPlan });
+
+    // Save optimistic state to cache immediately to prevent loss on reload
+    const user = useAuthStore.getState().user;
+    const userId = user?.id || "local_user";
+    if (typeof window !== "undefined") {
+      localStorage.setItem(`xp_voca_study_plan_${userId}`, JSON.stringify(updatedPlan));
+    }
 
     try {
       const res = await fetch("/api/study-plan/task-complete", {
@@ -102,7 +131,6 @@ export const useStudyPlanStore = create<StudyPlanState>((set, get) => ({
 
       if (json.success && json.profile) {
         // Sync new XP & level to auth store
-        const syncClerkUser = useAuthStore.getState().syncClerkUser;
         const currentLocalUser = useAuthStore.getState().user;
         if (currentLocalUser) {
           useAuthStore.setState({
@@ -127,8 +155,11 @@ export const useStudyPlanStore = create<StudyPlanState>((set, get) => ({
       }
     } catch (e) {
       console.error("Error updating task completion:", e);
-      // Revert optimistic update on failure
+      // Revert optimistic update and cache on failure
       set({ plan: currentPlan });
+      if (typeof window !== "undefined") {
+        localStorage.setItem(`xp_voca_study_plan_${userId}`, JSON.stringify(currentPlan));
+      }
     }
   },
 }));

@@ -12,6 +12,7 @@ import {
   AlertCircle,
   Play,
   ArrowRight,
+  ArrowLeft,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -41,10 +42,37 @@ const MOCK_PHRASES: Phrase[] = [
     text: "It was an unforgettable experience that completely changed my perspective.",
     phonetic: "/ɪt wɒz ən ˌʌnfəˈɡetəbl ɪkˈspɪəriəns ðæt kəmˈpliːtli tʃeɪndʒd maɪ pəˈspektɪv./",
   },
+  {
+    id: "p4",
+    topic: "IELTS Speaking Part 1",
+    text: "In my opinion, online learning offers incredible flexibility for working professionals.",
+    phonetic: "/ɪn maɪ əˈpɪnjən, ˈɒnˌlaɪn ˈlɜːnɪŋ ˈɒfəz ɪnˈkredəbl ˌfleksəˈbɪləti fɔː ˈwɜːkɪŋ prəˈfeʃənlz./",
+  },
+  {
+    id: "p5",
+    topic: "TOEIC Speaking Read Aloud",
+    text: "We are pleased to inform you that your job application has been approved.",
+    phonetic: "/wiː ɑː pliːzd tuː ɪnˈfɔːm juː ðæt jɔː dʒɒb ˌæplɪˈkeɪʃn hæz biːn əˈpruːvd./",
+  },
+  {
+    id: "p6",
+    topic: "IELTS Speaking Part 2",
+    text: "The technological advancements in recent years have been absolutely phenomenal.",
+    phonetic: "/ðə ˌteknəˈlɒdʒɪkl ədˈvɑːnsmənts ɪn ˈriːsnt jɪəz hæv biːn ˌæbsəˈluːtli fəˈnɒmɪnl./",
+  },
 ];
 
 export default function SpeakingPracticePage() {
+  const [shuffledPhrases, setShuffledPhrases] = useState<Phrase[]>(() => MOCK_PHRASES);
   const [selectedPhrase, setSelectedPhrase] = useState<Phrase>(MOCK_PHRASES[0]);
+
+  useEffect(() => {
+    const shuffled = [...MOCK_PHRASES].sort(() => 0.5 - Math.random());
+    setShuffledPhrases(shuffled);
+    if (shuffled.length > 0) {
+      setSelectedPhrase(shuffled[0]);
+    }
+  }, []);
   const [isRecording, setIsRecording] = useState(false);
   const [spokenText, setSpokenText] = useState("");
   const [overallScore, setOverallScore] = useState<number | null>(null);
@@ -113,6 +141,14 @@ export default function SpeakingPracticePage() {
       const draw = () => {
         if (!canvasRef.current) return;
         const canvas = canvasRef.current;
+        
+        // Dynamically resize canvas logical pixels to match CSS layout width to prevent pixelation
+        const rect = canvas.getBoundingClientRect();
+        if (canvas.width !== rect.width || canvas.height !== rect.height) {
+          canvas.width = rect.width;
+          canvas.height = rect.height;
+        }
+
         const ctx = canvas.getContext("2d");
         if (!ctx) return;
 
@@ -230,6 +266,13 @@ export default function SpeakingPracticePage() {
         transition={{ type: "spring", stiffness: 85, damping: 15 }}
         className="page-header"
       >
+        <Link
+          href="/study/practice"
+          className="inline-flex items-center gap-2 text-xs font-black text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-400 transition-colors mb-3 group select-none"
+        >
+          <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
+          Quay lại Luyện tập
+        </Link>
         <h1 className="text-2xl md:text-3xl font-black tracking-tight text-slate-900 dark:text-white font-display">
           AI Speaking Pronunciation Coach
         </h1>
@@ -245,7 +288,7 @@ export default function SpeakingPracticePage() {
             Mẫu câu luyện nói
           </h3>
           <div className="space-y-3">
-            {MOCK_PHRASES.map((phrase) => (
+            {shuffledPhrases.map((phrase) => (
               <motion.button
                 whileHover={{ translateY: -1 }}
                 whileTap={{ scale: 0.98 }}
@@ -261,7 +304,11 @@ export default function SpeakingPracticePage() {
                   selectedPhrase.id === phrase.id ? "ring-2 ring-sky-400" : ""
                 }`}
               >
-                <div className="bezel-inner p-4 space-y-2 bg-white dark:bg-neutral-900">
+                <div className={`bezel-inner p-4 space-y-2 transition-all ${
+                  selectedPhrase.id === phrase.id 
+                    ? "bg-sky-50/30 dark:bg-sky-950/20" 
+                    : "bg-white dark:bg-neutral-900"
+                }`}>
                   <Badge variant={phrase.topic.includes("IELTS") ? "legendary" : "primary"}>
                     {phrase.topic}
                   </Badge>
@@ -344,7 +391,7 @@ export default function SpeakingPracticePage() {
                     {isRecording ? <MicOff className="h-6 w-6" /> : <Mic className="h-6 w-6" />}
                   </motion.button>
                 </div>
-                <span className="text-[10px] font-black uppercase text-slate-450 dark:text-slate-500">
+                <span className="text-[10px] font-black uppercase text-slate-500 dark:text-slate-400">
                   {isRecording ? "Đang ghi âm... Nhấp lại để dừng" : "Nhấp micro để bắt đầu nói"}
                 </span>
               </div>

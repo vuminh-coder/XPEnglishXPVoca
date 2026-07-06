@@ -195,7 +195,7 @@ export default function ActiveExamPage() {
             className="mx-auto max-w-2xl text-center py-12 space-y-6"
           >
             <Link href="/study/exams" className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 dark:hover:text-white cursor-pointer select-none">
-              <ArrowLeft className="h-4 w-4" />
+              <ArrowLeft className="h-4 w-4" strokeWidth={1.3} />
               Quay lại cổng đề thi
             </Link>
             
@@ -205,29 +205,30 @@ export default function ActiveExamPage() {
                   <h1 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white font-display">
                     Đề thi thử chuẩn hóa
                   </h1>
-                  <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 font-medium">
+                  <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium">
                     Vui lòng đọc kỹ thông tin trước khi bắt đầu làm bài thi.
                   </p>
                 </div>
 
                 <div className="bg-slate-50 dark:bg-neutral-950/40 p-5 rounded-2xl border border-slate-100 dark:border-neutral-850 grid grid-cols-2 gap-4 text-xs font-bold text-slate-700 dark:text-slate-350">
                   <div className="flex items-center gap-2">
-                    <Timer className="h-5 w-5 text-sky-500" />
+                    <Timer className="h-5 w-5 text-sky-500" strokeWidth={1.3} />
                     <span>Thời gian: {examData ? examData.exam.duration : 120} phút</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Trophy className="h-5 w-5 text-amber-500" />
+                    <Trophy className="h-5 w-5 text-amber-500" strokeWidth={1.3} />
                     <span>Tổng số: {examData ? examData.exam.totalQuestions : 6} câu</span>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-2.5 text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
-                  <Info className="h-5 w-5 text-sky-550 shrink-0 mt-0.5" />
+                  <Info className="h-5 w-5 text-sky-550 shrink-0 mt-0.5" strokeWidth={1.3} />
                   <span>
                     Bài thi thử sẽ được bắt đầu đếm ngược ngay khi bạn bấm nút dưới đây. Hệ thống sẽ tự động nộp bài khi hết giờ. Vui lòng đảm bảo kết nối internet ổn định trong quá trình thi.
                   </span>
                 </div>
 
+                {/* Rule 18: Primary Action Button verb is action-oriented */}
                 <Button
                   variant="primary"
                   className="w-full py-4 font-bold text-xs md:text-sm cursor-pointer shadow-glow"
@@ -249,7 +250,7 @@ export default function ActiveExamPage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
             transition={{ type: "spring", stiffness: 85, damping: 15 }}
-            className="space-y-6"
+            className="space-y-6 pb-24 md:pb-6"
           >
             {/* Top Bar Navigation */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white dark:bg-neutral-900 px-6 py-4 rounded-3xl border border-slate-100 dark:border-neutral-850 shadow-sm">
@@ -271,18 +272,18 @@ export default function ActiveExamPage() {
                       transition={{ repeat: Infinity, duration: 1.2 }}
                     />
                   )}
-                  <Timer className={`h-4.5 w-4.5 ${isTimeLow ? "animate-pulse" : ""}`} />
+                  <Timer className={`h-4.5 w-4.5 ${isTimeLow ? "animate-pulse" : ""}`} strokeWidth={1.3} />
                   <span>{formatTime(timeLeft)}</span>
                 </div>
-                <Button variant="danger" size="sm" className="font-bold flex items-center gap-1.5 rounded-xl cursor-pointer" onClick={() => submitExam(false)}>
-                  <Send className="h-4 w-4" />
+                <Button variant="danger" size="sm" className="hidden md:flex font-bold items-center gap-1.5 rounded-xl cursor-pointer" onClick={() => submitExam(false)}>
+                  <Send className="h-4 w-4" strokeWidth={1.3} />
                   Nộp bài
                 </Button>
               </div>
             </div>
 
             <div className="grid gap-6 lg:grid-cols-5 items-start">
-              {/* Left Content Column (Reading Passage or Listening Player) */}
+              {/* Left Content Column */}
               <div className="lg:col-span-3 space-y-6">
                 <div className="bezel">
                   <div className="bezel-inner bg-white dark:bg-neutral-900 p-6 space-y-4 min-h-[300px]">
@@ -294,7 +295,7 @@ export default function ActiveExamPage() {
                     {activeQuestionItem.section.audioUrl && (
                       <div className="bg-slate-50 dark:bg-neutral-950/40 p-4 rounded-2xl border border-slate-100 dark:border-neutral-850 space-y-2">
                         <span className="text-xs font-bold text-slate-500 flex items-center gap-1.5">
-                          <Headphones className="h-4.5 w-4.5 text-sky-500 animate-bounce" />
+                          <Headphones className="h-4.5 w-4.5 text-sky-500 animate-bounce" strokeWidth={1.3} />
                           Listening Audio Player:
                         </span>
                         <audio controls className="w-full mt-2 focus:outline-none" src={activeQuestionItem.section.audioUrl} />
@@ -375,11 +376,9 @@ export default function ActiveExamPage() {
 
                         let bubbleStyle = "bg-slate-50 border-slate-200 text-slate-500 dark:bg-neutral-950 dark:border-neutral-850 dark:text-slate-450";
                         if (isAnsweredVal) {
-                          // Answered questions
                           bubbleStyle = "bg-sky-500 border-sky-600 text-white shadow-sm shadow-sky-500/10";
                         }
                         if (isCurrent) {
-                          // Current selection index
                           bubbleStyle = "bg-indigo-600 border-indigo-700 text-white shadow-sm ring-2 ring-indigo-300 dark:ring-indigo-800";
                         }
 
@@ -397,7 +396,7 @@ export default function ActiveExamPage() {
                       })}
                     </div>
 
-                    <div className="flex gap-2.5 pt-2">
+                    <div className="hidden md:flex gap-2.5 pt-2">
                       <Button
                         variant="bezel"
                         size="sm"
@@ -405,7 +404,7 @@ export default function ActiveExamPage() {
                         onClick={() => setCurrentQuestionIdx((p) => Math.max(0, p - 1))}
                         disabled={currentQuestionIdx === 0}
                       >
-                        <ChevronLeft className="h-4 w-4 shrink-0" />
+                        <ChevronLeft className="h-4 w-4 shrink-0" strokeWidth={1.3} />
                         Câu trước
                       </Button>
                       <Button
@@ -416,12 +415,44 @@ export default function ActiveExamPage() {
                         disabled={currentQuestionIdx === flatQuestions.length - 1}
                       >
                         Câu tiếp
-                        <ChevronRight className="h-4 w-4 shrink-0" />
+                        <ChevronRight className="h-4 w-4 shrink-0" strokeWidth={1.3} />
                       </Button>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* Mobile Thumb-Zone CTA Action Bar (Rule 13) */}
+            <div className="fixed bottom-4 left-4 right-4 z-40 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md border border-slate-200/50 dark:border-neutral-850/50 shadow-xl rounded-2xl p-3 flex gap-2 md:hidden">
+              <Button
+                variant="bezel"
+                size="sm"
+                className="flex-grow flex items-center justify-center gap-1.5 text-xs font-bold py-2.5 cursor-pointer"
+                onClick={() => setCurrentQuestionIdx((p) => Math.max(0, p - 1))}
+                disabled={currentQuestionIdx === 0}
+              >
+                <ChevronLeft className="h-4 w-4 shrink-0" strokeWidth={1.3} />
+                Câu trước
+              </Button>
+              <Button
+                variant="bezel"
+                size="sm"
+                className="flex-grow flex items-center justify-center gap-1.5 text-xs font-bold py-2.5 cursor-pointer"
+                onClick={() => setCurrentQuestionIdx((p) => Math.min(flatQuestions.length - 1, p + 1))}
+                disabled={currentQuestionIdx === flatQuestions.length - 1}
+              >
+                Câu tiếp
+                <ChevronRight className="h-4 w-4 shrink-0" strokeWidth={1.3} />
+              </Button>
+              <Button
+                variant="danger"
+                size="sm"
+                className="px-4 font-bold flex items-center justify-center gap-1.5 rounded-xl cursor-pointer"
+                onClick={() => submitExam(false)}
+              >
+                <Send className="h-4 w-4" strokeWidth={1.3} />
+              </Button>
             </div>
           </motion.div>
         )}
@@ -469,7 +500,7 @@ export default function ActiveExamPage() {
             {/* Reward Alert */}
             <div className="bg-amber-50/50 dark:bg-amber-950/10 border border-amber-200/50 dark:border-amber-900/20 p-5 rounded-3xl flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <Trophy className="h-7 w-7 text-amber-500 animate-bounce" />
+                <Trophy className="h-7 w-7 text-amber-500 animate-bounce" strokeWidth={1.3} />
                 <div>
                   <h4 className="text-xs md:text-sm font-black text-amber-800 dark:text-amber-400">Nhiệm vụ hoàn thành</h4>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 font-medium">Nhận thưởng XP tích lũy thăng cấp học viên.</p>
@@ -501,12 +532,12 @@ export default function ActiveExamPage() {
                                 <span className="text-[10px] font-black text-slate-400">Câu {qIdx + 1}</span>
                                 {isUserCorrect ? (
                                   <Badge variant="success" className="flex items-center gap-1.5 font-bold">
-                                    <CheckCircle className="h-3.5 w-3.5" />
+                                    <CheckCircle className="h-3.5 w-3.5" strokeWidth={1.3} />
                                     Đúng
                                   </Badge>
                                 ) : (
                                   <Badge variant="danger" className="flex items-center gap-1.5 font-bold">
-                                    <XCircle className="h-3.5 w-3.5" />
+                                    <XCircle className="h-3.5 w-3.5" strokeWidth={1.3} />
                                     Sai
                                   </Badge>
                                 )}
@@ -521,7 +552,7 @@ export default function ActiveExamPage() {
                                   const isCorrectAnswer = opt.id === q.correctAnswer;
                                   const isSelectedByUser = opt.id === q.userAnswer;
                                   
-                                  let optionClass = "border-slate-100 dark:border-neutral-850 text-slate-650 dark:text-slate-400";
+                                  let optionClass = "border-slate-100 dark:border-neutral-850 text-slate-655 dark:text-slate-400";
                                   if (isCorrectAnswer) {
                                     optionClass = "border-emerald-350 bg-emerald-50/40 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-450 font-bold ring-1 ring-emerald-500/10";
                                   } else if (isSelectedByUser) {

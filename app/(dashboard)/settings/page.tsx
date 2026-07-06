@@ -9,15 +9,14 @@ import {
   Save,
   Moon,
   Sun,
+  Palette,
   Bell,
-  BellOff,
   Shield,
   Trash2,
   LogOut,
   Clock,
-  Palette,
 } from "lucide-react";
-import { Card, Button, Badge } from "@/components/ui";
+import { Button, Badge } from "@/components/ui";
 
 interface UserSettings {
   dailyGoal: number;
@@ -95,163 +94,175 @@ export default function SettingsPage() {
     addToast({ type: "info", title: "Đã đăng xuất!" });
   };
 
-  const inputClass = "w-full py-2.5 px-4 text-xs font-medium rounded-xl bg-neutral-50/60 dark:bg-neutral-900/40 border border-black/10 dark:border-white/10 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-cyan-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition-colors";
+  const inputClass = "w-full py-2.5 px-4 text-xs font-bold rounded-xl bg-neutral-50/60 dark:bg-neutral-900/40 border border-black/10 dark:border-white/10 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition-all";
 
   return (
     <div className="animate-fade-in max-w-2xl mx-auto space-y-6 pb-20 md:pb-6">
       {/* Page Header */}
-      <div className="page-header animate-fade-in-down text-center">
+      <div className="page-header animate-fade-in-down text-center mb-6">
         <h1 className="page-title text-3xl font-extrabold tracking-tight">Cài đặt cấu hình</h1>
-        <p className="page-subtitle text-muted mt-1.5 max-w-xl mx-auto">
-          Quản lý hồ sơ, thiết lập học tập và tùy chỉnh giao diện.
+        <p className="page-subtitle text-slate-500 dark:text-slate-400 mt-1.5 max-w-xl mx-auto text-xs md:text-sm font-medium">
+          Quản lý hồ sơ cá nhân, thiết lập học tập và tùy chỉnh chế độ hiển thị.
         </p>
       </div>
 
-      {/* Section 1: Profile */}
-      <Card variant="bezel" className="p-6">
-        <h3 className="text-[11px] font-extrabold text-gray-500 uppercase tracking-[0.15em] mb-4 flex items-center gap-1.5">
-          <User className="w-3.5 h-3.5" /> Hồ sơ công khai
-        </h3>
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-bold text-muted uppercase tracking-wider">Họ và tên</label>
-            <input type="text" className={inputClass} value={fullName} onChange={(e) => setFullName(e.target.value)} />
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-bold text-muted uppercase tracking-wider flex items-center gap-1.5">
-              <FileText className="w-3.5 h-3.5" /> Tiểu sử ngắn (Bio)
-            </label>
-            <textarea
-              className={`${inputClass} resize-none min-h-[80px]`}
-              value={bio}
-              onChange={(e) => setBio(e.target.value)}
-              placeholder="Viết vài dòng giới thiệu về bạn..."
-            />
-          </div>
-          <Button variant="primary" size="sm" onClick={handleSaveProfile} className="w-full">
-            <Save className="w-3.5 h-3.5 mr-1.5" /> Lưu hồ sơ
-          </Button>
-        </div>
-      </Card>
-
-      {/* Section 2: Study Goals */}
-      <Card variant="bezel" className="p-6">
-        <h3 className="text-[11px] font-extrabold text-gray-500 uppercase tracking-[0.15em] mb-4 flex items-center gap-1.5">
-          <Target className="w-3.5 h-3.5" /> Mục tiêu học tập
-        </h3>
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-bold text-muted uppercase tracking-wider">Mục tiêu từ vựng / ngày</label>
-            <select
-              className={`${inputClass} cursor-pointer`}
-              value={settings.dailyGoal}
-              onChange={(e) => updateSetting("dailyGoal", Number(e.target.value))}
-            >
-              <option value={5}>Dễ dàng (5 từ / ngày)</option>
-              <option value={10}>Trung bình (10 từ / ngày)</option>
-              <option value={15}>Chăm chỉ (15 từ / ngày)</option>
-              <option value={20}>Thử thách (20 từ / ngày)</option>
-            </select>
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-bold text-muted uppercase tracking-wider flex items-center gap-1.5">
-              <Clock className="w-3.5 h-3.5" /> Thời gian học / ngày
-            </label>
-            <select
-              className={`${inputClass} cursor-pointer`}
-              value={settings.dailyMinutes}
-              onChange={(e) => updateSetting("dailyMinutes", Number(e.target.value))}
-            >
-              <option value={5}>5 phút</option>
-              <option value={10}>10 phút</option>
-              <option value={15}>15 phút</option>
-              <option value={30}>30 phút</option>
-              <option value={60}>60 phút</option>
-            </select>
+      {/* Section 1: Profile (Rule 10: Double Bezel Concentric radius math) */}
+      <div className="bezel-outer p-1.5 bg-slate-200/50 dark:bg-white/5 rounded-[2rem]">
+        <div className="bezel-inner rounded-[calc(2rem-6px)] bg-white dark:bg-[#0c0c0e] p-6 space-y-5">
+          <h3 className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest flex items-center gap-1.5 border-b border-slate-100 dark:border-neutral-850 pb-2">
+            <User className="w-3.5 h-3.5" strokeWidth={1.3} /> Hồ sơ công khai
+          </h3>
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider">Họ và tên</label>
+              <input type="text" className={inputClass} value={fullName} onChange={(e) => setFullName(e.target.value)} />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+                <FileText className="w-3.5 h-3.5" strokeWidth={1.3} /> Tiểu sử ngắn (Bio)
+              </label>
+              <textarea
+                className={`${inputClass} resize-none min-h-[80px] font-medium`}
+                value={bio}
+                onChange={(e) => setBio(e.target.value)}
+                placeholder="Viết vài dòng giới thiệu về bản thân..."
+              />
+            </div>
+            <Button variant="primary" size="sm" onClick={handleSaveProfile} className="w-full font-bold">
+              <Save className="w-3.5 h-3.5 mr-1.5" strokeWidth={1.3} /> Lưu hồ sơ
+            </Button>
           </div>
         </div>
-      </Card>
+      </div>
 
-      {/* Section 3: Notifications */}
-      <Card variant="bezel" className="p-6">
-        <h3 className="text-[11px] font-extrabold text-gray-500 uppercase tracking-[0.15em] mb-4 flex items-center gap-1.5">
-          <Bell className="w-3.5 h-3.5" /> Cài đặt thông báo
-        </h3>
-        <div className="space-y-3">
-          {[
-            { key: "notifyXp" as const, label: "Thông báo nhận XP", desc: "Hiển thị popup khi bạn kiếm được điểm kinh nghiệm" },
-            { key: "notifyChallenge" as const, label: "Nhiệm vụ hàng ngày", desc: "Nhắc nhở khi có nhiệm vụ mới hoặc hoàn thành nhiệm vụ" },
-            { key: "notifyStreak" as const, label: "Nhắc streak", desc: "Cảnh báo khi sắp mất chuỗi ngày học liên tục" },
-          ].map((item) => (
-            <div key={item.key} className="flex items-center justify-between gap-4 p-3 rounded-xl bg-slate-50/50 dark:bg-neutral-800/30">
-              <div>
-                <div className="text-xs font-bold text-slate-800 dark:text-slate-200">{item.label}</div>
-                <div className="text-[11px] text-slate-400 mt-0.5">{item.desc}</div>
-              </div>
-              <button
-                onClick={() => updateSetting(item.key, !settings[item.key])}
-                className={`relative w-11 h-6 rounded-full transition-colors ${
-                  settings[item.key] ? "bg-emerald-500" : "bg-slate-300 dark:bg-neutral-600"
-                }`}
+      {/* Section 2: Study Goals (Rule 10: Double Bezel Concentric radius math) */}
+      <div className="bezel-outer p-1.5 bg-slate-200/50 dark:bg-white/5 rounded-[2rem]">
+        <div className="bezel-inner rounded-[calc(2rem-6px)] bg-white dark:bg-[#0c0c0e] p-6 space-y-5">
+          <h3 className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest flex items-center gap-1.5 border-b border-slate-100 dark:border-neutral-850 pb-2">
+            <Target className="w-3.5 h-3.5" strokeWidth={1.3} /> Mục tiêu học tập
+          </h3>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider">Mục tiêu từ vựng / ngày</label>
+              <select
+                className={`${inputClass} cursor-pointer`}
+                value={settings.dailyGoal}
+                onChange={(e) => updateSetting("dailyGoal", Number(e.target.value))}
               >
-                <span
-                  className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow-sm transition-transform ${
-                    settings[item.key] ? "translate-x-5" : "translate-x-0"
-                  }`}
-                />
-              </button>
+                <option value={5}>Dễ dàng (5 từ / ngày)</option>
+                <option value={10}>Trung bình (10 từ / ngày)</option>
+                <option value={15}>Chăm chỉ (15 từ / ngày)</option>
+                <option value={20}>Thử thách (20 từ / ngày)</option>
+              </select>
             </div>
-          ))}
-        </div>
-      </Card>
-
-      {/* Section 4: Appearance */}
-      <Card variant="bezel" className="p-6">
-        <h3 className="text-[11px] font-extrabold text-gray-500 uppercase tracking-[0.15em] mb-4 flex items-center gap-1.5">
-          <Palette className="w-3.5 h-3.5" /> Giao diện
-        </h3>
-        <div className="flex items-center justify-between gap-4 p-3 rounded-xl bg-slate-50/50 dark:bg-neutral-800/30">
-          <div className="flex items-center gap-3">
-            {settings.darkMode ? <Moon className="h-5 w-5 text-indigo-400" /> : <Sun className="h-5 w-5 text-amber-500" />}
-            <div>
-              <div className="text-xs font-bold text-slate-800 dark:text-slate-200">
-                {settings.darkMode ? "Chế độ tối (Dark Mode)" : "Chế độ sáng (Light Mode)"}
-              </div>
-              <div className="text-[11px] text-slate-400 mt-0.5">Chuyển đổi giao diện sáng / tối</div>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+                <Clock className="w-3.5 h-3.5" strokeWidth={1.3} /> Thời gian học / ngày
+              </label>
+              <select
+                className={`${inputClass} cursor-pointer`}
+                value={settings.dailyMinutes}
+                onChange={(e) => updateSetting("dailyMinutes", Number(e.target.value))}
+              >
+                <option value={5}>5 phút</option>
+                <option value={10}>10 phút</option>
+                <option value={15}>15 phút</option>
+                <option value={30}>30 phút</option>
+                <option value={60}>60 phút</option>
+              </select>
             </div>
           </div>
-          <button
-            onClick={() => updateSetting("darkMode", !settings.darkMode)}
-            className={`relative w-11 h-6 rounded-full transition-colors ${
-              settings.darkMode ? "bg-indigo-500" : "bg-slate-300 dark:bg-neutral-600"
-            }`}
-          >
-            <span
-              className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow-sm transition-transform ${
-                settings.darkMode ? "translate-x-5" : "translate-x-0"
-              }`}
-            />
-          </button>
         </div>
-      </Card>
+      </div>
 
-      {/* Section 5: Account Actions */}
-      <Card variant="bezel" className="p-6">
-        <h3 className="text-[11px] font-extrabold text-gray-500 uppercase tracking-[0.15em] mb-4 flex items-center gap-1.5">
-          <Shield className="w-3.5 h-3.5" /> Tài khoản & Dữ liệu
-        </h3>
-        <div className="space-y-3">
-          <Button variant="bezel" size="sm" onClick={handleSaveSettings} className="w-full justify-center">
-            <Save className="w-3.5 h-3.5 mr-1.5" /> Lưu tất cả cài đặt
-          </Button>
-          <Button variant="secondary" size="sm" onClick={handleClearCache} className="w-full justify-center">
-            <Trash2 className="w-3.5 h-3.5 mr-1.5" /> Xóa dữ liệu cache
-          </Button>
-          <Button variant="danger" size="sm" onClick={handleLogout} className="w-full justify-center">
-            <LogOut className="w-3.5 h-3.5 mr-1.5" /> Đăng xuất
-          </Button>
+      {/* Section 3: Notifications (Rule 10: Double Bezel Concentric radius math) */}
+      <div className="bezel-outer p-1.5 bg-slate-200/50 dark:bg-white/5 rounded-[2rem]">
+        <div className="bezel-inner rounded-[calc(2rem-6px)] bg-white dark:bg-[#0c0c0e] p-6 space-y-5">
+          <h3 className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest flex items-center gap-1.5 border-b border-slate-100 dark:border-neutral-850 pb-2">
+            <Bell className="w-3.5 h-3.5" strokeWidth={1.3} /> Cài đặt thông báo
+          </h3>
+          <div className="space-y-3">
+            {[
+              { key: "notifyXp" as const, label: "Thông báo nhận XP", desc: "Hiển thị popup khi bạn kiếm được điểm kinh nghiệm" },
+              { key: "notifyChallenge" as const, label: "Nhiệm vụ hàng ngày", desc: "Nhắc nhở khi có nhiệm vụ mới hoặc hoàn thành nhiệm vụ" },
+              { key: "notifyStreak" as const, label: "Nhắc streak", desc: "Cảnh báo khi sắp mất chuỗi ngày học liên tục" },
+            ].map((item) => (
+              <div key={item.key} className="flex items-center justify-between gap-4 p-3 rounded-xl bg-slate-50/50 dark:bg-neutral-800/30">
+                <div>
+                  <div className="text-xs font-bold text-slate-800 dark:text-slate-200">{item.label}</div>
+                  <div className="text-[11px] text-slate-400 mt-0.5">{item.desc}</div>
+                </div>
+                <button
+                  onClick={() => updateSetting(item.key, !settings[item.key])}
+                  className={`relative w-11 h-6 rounded-full transition-colors ${
+                    settings[item.key] ? "bg-emerald-500" : "bg-slate-300 dark:bg-neutral-650"
+                  }`}
+                  aria-label={`Toggle ${item.label}`}
+                >
+                  <span
+                    className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow-sm transition-transform ${
+                      settings[item.key] ? "translate-x-5" : "translate-x-0"
+                    }`}
+                  />
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
-      </Card>
+      </div>
+
+      {/* Section 4: Appearance (Rule 10: Double Bezel Concentric radius math) */}
+      <div className="bezel-outer p-1.5 bg-slate-200/50 dark:bg-white/5 rounded-[2rem]">
+        <div className="bezel-inner rounded-[calc(2rem-6px)] bg-white dark:bg-[#0c0c0e] p-6 space-y-5">
+          <h3 className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest flex items-center gap-1.5 border-b border-slate-100 dark:border-neutral-850 pb-2">
+            <Palette className="w-3.5 h-3.5" strokeWidth={1.3} /> Giao diện
+          </h3>
+          <div className="flex items-center justify-between gap-4 p-3 rounded-xl bg-slate-50/50 dark:bg-neutral-800/30">
+            <div className="flex items-center gap-3">
+              {settings.darkMode ? <Moon className="h-5 w-5 text-indigo-400" strokeWidth={1.3} /> : <Sun className="h-5 w-5 text-amber-500" strokeWidth={1.3} />}
+              <div>
+                <div className="text-xs font-bold text-slate-800 dark:text-slate-200">
+                  {settings.darkMode ? "Chế độ tối (Dark Mode)" : "Chế độ sáng (Light Mode)"}
+                </div>
+                <div className="text-[11px] text-slate-400 mt-0.5">Chuyển đổi giao diện sáng / tối</div>
+              </div>
+            </div>
+            <button
+              onClick={() => updateSetting("darkMode", !settings.darkMode)}
+              className={`relative w-11 h-6 rounded-full transition-colors ${
+                settings.darkMode ? "bg-indigo-500" : "bg-slate-300 dark:bg-neutral-650"
+              }`}
+              aria-label="Toggle Dark Mode"
+            >
+              <span
+                className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow-sm transition-transform ${
+                  settings.darkMode ? "translate-x-5" : "translate-x-0"
+                }`}
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Section 5: Account Actions (Rule 10: Double Bezel Concentric radius math) */}
+      <div className="bezel-outer p-1.5 bg-slate-200/50 dark:bg-white/5 rounded-[2rem]">
+        <div className="bezel-inner rounded-[calc(2rem-6px)] bg-white dark:bg-[#0c0c0e] p-6 space-y-4">
+          <h3 className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest flex items-center gap-1.5 border-b border-slate-100 dark:border-neutral-850 pb-2">
+            <Shield className="w-3.5 h-3.5" strokeWidth={1.3} /> Tài khoản & Dữ liệu
+          </h3>
+          <div className="space-y-3">
+            <Button variant="bezel" size="sm" onClick={handleSaveSettings} className="w-full justify-center font-bold">
+              <Save className="w-3.5 h-3.5 mr-1.5" strokeWidth={1.3} /> Lưu tất cả cài đặt
+            </Button>
+            <Button variant="secondary" size="sm" onClick={handleClearCache} className="w-full justify-center font-bold">
+              <Trash2 className="w-3.5 h-3.5 mr-1.5" strokeWidth={1.3} /> Xóa dữ liệu cache
+            </Button>
+            <Button variant="danger" size="sm" onClick={handleLogout} className="w-full justify-center font-bold">
+              <LogOut className="w-3.5 h-3.5 mr-1.5" strokeWidth={1.3} /> Đăng xuất
+            </Button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

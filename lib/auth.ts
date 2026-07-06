@@ -4,13 +4,7 @@ import { cookies } from "next/headers";
 export async function getAuthenticatedUserId(): Promise<string | null> {
   // Check if Clerk is enabled
   const key = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
-  const isClerkEnabled =
-    !!key &&
-    key.startsWith("pk_") &&
-    !(
-      key.startsWith("pk_test_") &&
-      process.env.VERCEL_ENV === "production"
-    );
+  const isClerkEnabled = !!(key && key.startsWith("pk_"));
 
   if (isClerkEnabled) {
     try {
