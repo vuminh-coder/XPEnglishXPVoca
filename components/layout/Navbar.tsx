@@ -145,8 +145,8 @@ function ClerkNavbar() {
                 <User className="w-[16px] h-[16px] text-slate-500" strokeWidth={1.3} />
               )}
             </div>
-            <div className="navbar-user-info hidden-mobile">
-              <div className="navbar-user-name">
+            <div className="navbar-user-info">
+              <div className="navbar-user-name hidden md:block">
                 {clerkUser?.fullName || "User"}
               </div>
               <div className="navbar-user-level flex items-center gap-1">
@@ -297,8 +297,8 @@ function LocalNavbar() {
                 <User className="w-[16px] h-[16px] text-slate-500" strokeWidth={1.3} />
               )}
             </div>
-            <div className="navbar-user-info hidden-mobile">
-              <div className="navbar-user-name">
+            <div className="navbar-user-info">
+              <div className="navbar-user-name hidden md:block">
                 {user?.fullName || "User"}
               </div>
               <div className="navbar-user-level flex items-center gap-1">

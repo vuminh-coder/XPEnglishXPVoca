@@ -176,26 +176,26 @@ function PracticeQuizContent() {
         transition={{ type: "spring", stiffness: 80, damping: 15, delay: 0.05 }}
         className="bezel"
       >
-        <div className="bezel-inner rounded-[calc(var(--radius-3xl)-6px)] bg-gradient-to-br from-slate-950 via-slate-900 to-sky-950 p-6 text-white md:p-8 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-500/10 rounded-full blur-[80px] pointer-events-none" />
+        <div className="bezel-inner rounded-[calc(var(--radius-3xl)-6px)] bg-gradient-to-br from-sky-50 via-cyan-50 to-blue-50 dark:from-slate-900 dark:via-slate-900 dark:to-sky-950 p-6 md:p-8 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-400/10 dark:bg-cyan-500/10 rounded-full blur-[80px] pointer-events-none" />
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between relative z-10">
             <div>
-              <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[9px] font-black uppercase tracking-[0.25em] text-white/80">
-                <Sparkles className="h-3.5 w-3.5 text-cyan-300" />
+              <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-cyan-200 dark:border-white/20 bg-cyan-100/60 dark:bg-white/10 px-3 py-1 text-[9px] font-black uppercase tracking-[0.25em] text-cyan-700 dark:text-cyan-300">
+                <Sparkles className="h-3.5 w-3.5 text-cyan-500 dark:text-cyan-300" />
                 Focus session
               </div>
-              <h2 className="text-xl md:text-2xl font-black tracking-tight sm:text-3xl font-display">
+              <h2 className="text-xl md:text-2xl font-black tracking-tight sm:text-3xl font-display text-slate-900 dark:text-white">
                 5 phút học là đủ để giữ streak sống động
               </h2>
-              <p className="mt-2 max-w-xl text-xs md:text-sm text-white/75 sm:text-base leading-relaxed font-medium">
+              <p className="mt-2 max-w-xl text-xs md:text-sm text-slate-600 dark:text-white/75 sm:text-base leading-relaxed font-medium">
                 Chọn chế độ học phù hợp, làm vài câu và nhận điểm XP ngay trong lần đầu tiên.
               </p>
             </div>
-            <div className="flex items-center gap-3 rounded-2xl border border-white/15 bg-white/10 px-4 py-3 backdrop-blur-sm shrink-0">
-              <Clock3 className="h-5 w-5 text-cyan-300 animate-pulse" />
+            <div className="flex items-center gap-3 rounded-2xl border border-cyan-200/60 dark:border-white/15 bg-white/60 dark:bg-white/10 px-4 py-3 backdrop-blur-sm shrink-0">
+              <Clock3 className="h-5 w-5 text-cyan-500 dark:text-cyan-300 animate-pulse" />
               <div>
-                <div className="text-xs font-bold text-white">Phiên học ngắn</div>
-                <div className="text-[10px] text-white/70 font-semibold mt-0.5">Tối ưu cho mobile</div>
+                <div className="text-xs font-bold text-slate-800 dark:text-white">Phiên học ngắn</div>
+                <div className="text-[10px] text-slate-500 dark:text-white/70 font-semibold mt-0.5">Tối ưu cho mobile</div>
               </div>
             </div>
           </div>
@@ -207,52 +207,55 @@ function PracticeQuizContent() {
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 80, damping: 15, delay: 0.1 }}
-        className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-100 dark:bg-neutral-950 p-1.5 rounded-[22px] border border-slate-200/50 dark:border-neutral-900 w-full"
+        className="flex items-center gap-1 md:justify-between bg-slate-100 dark:bg-neutral-950 p-1.5 rounded-[22px] border border-slate-200/50 dark:border-neutral-900 w-full overflow-x-auto"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        <div className="flex gap-1">
-          {modes.map((mode) => {
-            const isActive = subMode === mode.key;
-            return (
-              <button
-                key={mode.key}
-                type="button"
-                onClick={() => setSubMode(mode.key)}
-                className={`relative flex items-center gap-2 px-5 py-2.5 text-xs font-black rounded-full transition-colors duration-250 select-none z-10 cursor-pointer ${
-                  isActive
-                    ? "text-cyan-600 dark:text-cyan-400"
-                    : "text-slate-450 dark:text-slate-500"
-                }`}
-              >
-                {isActive && (
-                  <motion.div
-                    layoutId="activeSubModeIndicator"
-                    className="absolute inset-0 bg-white dark:bg-neutral-900 rounded-full shadow-sm border border-slate-100 dark:border-neutral-850"
-                    transition={{ type: "spring", stiffness: 100, damping: 18 }}
-                  />
-                )}
-                <span className="relative z-10">{mode.icon}</span>
-                <span className="relative z-10">{mode.label}</span>
-              </button>
-            );
-          })}
-        </div>
+          {/* Left group: Quiz modes */}
+          <div className="flex items-center gap-1 shrink-0">
+            {modes.map((mode) => {
+              const isActive = subMode === mode.key;
+              return (
+                <button
+                  key={mode.key}
+                  type="button"
+                  onClick={() => setSubMode(mode.key)}
+                  className={`relative flex items-center gap-2 px-4 py-2.5 text-xs font-black rounded-full transition-colors duration-250 select-none z-10 cursor-pointer whitespace-nowrap shrink-0 ${
+                    isActive
+                      ? "text-cyan-600 dark:text-cyan-400"
+                      : "text-slate-500 dark:text-slate-500"
+                  }`}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeSubModeIndicator"
+                      className="absolute inset-0 bg-white dark:bg-neutral-900 rounded-full shadow-sm border border-slate-100 dark:border-neutral-850"
+                      transition={{ type: "spring", stiffness: 100, damping: 18 }}
+                    />
+                  )}
+                  <span className="relative z-10">{mode.icon}</span>
+                  <span className="relative z-10">{mode.label}</span>
+                </button>
+              );
+            })}
+          </div>
 
-        <div className="flex gap-2 mr-1">
-          <Link
-            href="/study/writing"
-            className="flex items-center gap-1.5 px-4 py-2 text-xs font-black text-slate-500 dark:text-slate-400 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors cursor-pointer select-none"
-          >
-            <PenLine className="h-4 w-4" />
-            <span>Luyện viết</span>
-          </Link>
-          <Link
-            href="/study/speaking"
-            className="flex items-center gap-1.5 px-4 py-2 text-xs font-black text-slate-500 dark:text-slate-400 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors cursor-pointer select-none"
-          >
-            <Mic className="h-4 w-4" />
-            <span>Luyện phát âm</span>
-          </Link>
-        </div>
+          {/* Right group: Writing & Speaking links */}
+          <div className="flex items-center gap-1 shrink-0">
+            <Link
+              href="/study/writing"
+              className="flex items-center gap-1.5 px-4 py-2 text-xs font-black text-slate-500 dark:text-slate-400 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors cursor-pointer select-none whitespace-nowrap shrink-0"
+            >
+              <PenLine className="h-4 w-4" />
+              <span>Luyện viết</span>
+            </Link>
+            <Link
+              href="/study/speaking"
+              className="flex items-center gap-1.5 px-4 py-2 text-xs font-black text-slate-500 dark:text-slate-400 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors cursor-pointer select-none whitespace-nowrap shrink-0"
+            >
+              <Mic className="h-4 w-4" />
+              <span>Luyện phát âm</span>
+            </Link>
+          </div>
       </motion.div>
 
       {/* Practice arena area */}

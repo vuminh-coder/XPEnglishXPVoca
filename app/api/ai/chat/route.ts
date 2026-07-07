@@ -9,7 +9,7 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { messages } = body;
+    const { messages, topicId } = body;
 
     if (!messages || !Array.isArray(messages)) {
       return NextResponse.json({ error: "Invalid messages array" }, { status: 400 });
@@ -19,28 +19,74 @@ export async function POST(request: Request) {
     
     // Fallback response if API Key is not set yet
     if (!apiKey) {
-      const fallbackReplies = [
-        "That's very interesting! Could you share more about it?",
-        "Your English is great! Let's keep talking about this.",
-        "Great job! Tip: you can say 'I would prefer...' to sound more native.",
-        "I agree with you completely. Tell me more about your thoughts."
-      ];
-      const fallbackReply = fallbackReplies[Math.floor(Math.random() * fallbackReplies.length)];
-      return NextResponse.json({ success: true, reply: fallbackReply });
+      return NextResponse.json({
+        success: true,
+        reply: "That's very interesting! Could you share more about it?",
+        vietnameseTranslation: "Điều đó thật thú vị! Bạn có thể chia sẻ thêm về nó không?",
+        corrections: ["Mẹo nhỏ: Bạn nên bắt đầu câu bằng chữ in hoa."],
+        suggestions: ["Gợi ý: Dùng 'Could you tell me more' nghe tự nhiên hơn 'Tell me more'."],
+        goalsCompleted: []
+      });
     }
 
     // System instruction for Gemini English partner
-    const systemPrompt = "You are a friendly, encouraging English conversation partner named Companion AI. Keep your responses brief (2-3 sentences max) to keep the conversation flowing. Match the student's level. If they make a noticeable grammatical error, gently correct it in a constructive way, then ask a follow-up question. Respond only in English.";
+    const systemPrompt = `You are a supportive, high-end native English conversation tutor named "Companion AI".
+The user is an English student. You must respond in a JSON format matching the schema below.
+
+Current scenario topic: "${topicId || 'Free Conversation'}".
+Possible scenario goals to track (if matching current topic):
+- Topic "at1" (Ordering Food):
+  * "at1_salad" (User ordered a salad)
+  * "at1_orange" (User ordered orange juice)
+  * "at1_no_ice" (User asked for no ice)
+- Topic "at2" (Job Interview):
+  * "at2_intro" (User introduced themselves/background)
+  * "at2_skills" (User stated skills/strengths/experience)
+  * "at2_salary" (User mentioned expected salary range)
+- Topic "at3" (Traveling):
+  * "at3_directions" (User asked for directions/location)
+  * "at3_hotel" (User discussed hotel room/booking)
+  * "at3_price" (User asked about ticket/room price)
+- Topic "at4" (Tech Discussion):
+  * "at4_explain_ai" (User explained an app/tool/AI)
+  * "at4_opinion" (User shared an opinion on technology/automation)
+  * "at4_future" (User described future tech vision)
+  
+Your JSON response MUST contain exactly these fields:
+{
+  "reply": "Friendly response to the user's latest message (2-3 sentences max). Maintain the conversation flow, ask a follow-up question. Tone should match student's English level.",
+  "vietnameseTranslation": "A natural, polite Vietnamese translation of the reply for student's reference.",
+  "corrections": ["Array of concise corrections (in Vietnamese) for any grammar, spelling, or punctuation mistakes the user made in their LATEST message. Empty array if none."],
+  "suggestions": ["Array of native expression alternatives or vocabulary upgrades (in Vietnamese) to help the user sound more natural. Empty array if none."],
+  "goalsCompleted": ["Array of goal IDs (e.g., 'at1_salad', 'at1_no_ice') that the user completed in this turn or in the conversation history so far. Only detect matching goals for the current topic."]
+}
+
+Return ONLY the raw JSON block. No markdown backticks, no comments, no extra characters. Ensure valid JSON parsing.`;
 
     // Convert frontend messages to Gemini contents format
-    const contents = messages.map(m => ({
+    let contents = messages.map(m => ({
       role: m.role === 'ai' ? 'model' : 'user',
       parts: [{ text: m.text }]
     }));
 
-    // Prepend system prompt instructions as a system content or systemInstruction property
+    // Gemini API requires multi-turn chat to start with a 'user' message.
+    if (contents.length > 0 && contents[0].role === 'model') {
+      contents.shift();
+    }
+
+    if (contents.length === 0) {
+      return NextResponse.json({
+        success: true,
+        reply: "Hello! How can I help you today?",
+        vietnameseTranslation: "Xin chào! Hôm nay tôi có thể giúp gì cho bạn?",
+        corrections: [],
+        suggestions: [],
+        goalsCompleted: []
+      });
+    }
+
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -51,7 +97,8 @@ export async function POST(request: Request) {
           },
           generationConfig: {
             temperature: 0.7,
-            maxOutputTokens: 200,
+            maxOutputTokens: 2048,
+            responseMimeType: "application/json"
           }
         })
       }
@@ -65,7 +112,20 @@ export async function POST(request: Request) {
       throw new Error("Failed to get content from Gemini");
     }
 
-    return NextResponse.json({ success: true, reply: candidateText.trim() });
+    let parsedData;
+    try {
+      parsedData = JSON.parse(candidateText.trim());
+    } catch (e) {
+      parsedData = {
+        reply: candidateText.trim(),
+        vietnameseTranslation: "Không thể dịch phản hồi này.",
+        corrections: [],
+        suggestions: [],
+        goalsCompleted: []
+      };
+    }
+
+    return NextResponse.json({ success: true, ...parsedData });
   } catch (error: any) {
     console.error("POST /api/ai/chat error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });

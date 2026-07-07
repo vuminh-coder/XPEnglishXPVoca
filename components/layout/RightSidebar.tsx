@@ -163,10 +163,10 @@ export default function RightSidebar() {
 
           {/* XP Progress Section */}
           <div className="w-full text-left bg-black/[0.015] dark:bg-white/[0.015] p-3.5 rounded-2xl border border-black/[0.03] dark:border-white/[0.03] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
-            <div className="flex justify-between items-center text-[12px] text-muted mb-2 font-bold uppercase tracking-wider">
+            <div className="flex justify-between items-center text-[11px] text-slate-500 dark:text-slate-400 mb-2 font-bold uppercase tracking-wider">
               <span>Đến cấp {currentUser.level + 1}</span>
-              <span className="text-cyan-500">
-                {current}/{total} XP ({percent}%)
+              <span className="text-cyan-500 font-black">
+                {current}/{total} XP
               </span>
             </div>
             <div className="h-2 bg-neutral-100 dark:bg-neutral-850 rounded-full overflow-hidden p-[1px] border border-black/5 dark:border-white/5">
