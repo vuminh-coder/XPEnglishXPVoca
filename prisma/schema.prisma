@@ -33,6 +33,7 @@ model Profile {
   examAttempts        ExamAttempt[]
   studyPlan           StudyPlan?
   matchHistories      MatchHistory[]
+  grammarProgress     GrammarProgress[]
 
   @@map("profiles")
 }
@@ -310,4 +311,19 @@ model MatchHistory {
   user       Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("match_histories")
+}
+
+model GrammarProgress {
+  id          String   @id @default(cuid())
+  userId      String   @map("user_id") @db.VarChar(255)
+  topicId     String   @map("topic_id")
+  level       String
+  score       Int
+  xpEarned    Int      @map("xp_earned")
+  createdAt   DateTime @default(now()) @map("created_at")
+  user        Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([topicId])
+  @@map("grammar_progress")
 }

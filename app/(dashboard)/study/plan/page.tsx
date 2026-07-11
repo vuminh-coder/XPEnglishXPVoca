@@ -922,12 +922,12 @@ export default function StudyPlanPage() {
                   {/* Straight linear timeline layout (Responsive self-centering no absolute pixel offset hacks) */}
                   <div className="relative space-y-4 pt-1 z-10 w-full">
                     {/* Glowing timeline pipeline tube positioned exactly at left-6 (24px) */}
-                    <div className="absolute left-6 top-4 bottom-4 w-1 bg-slate-100 dark:bg-neutral-900 rounded-full" />
+                    <div className="absolute left-5 sm:left-6 top-4 bottom-4 w-1 bg-slate-100 dark:bg-neutral-900 rounded-full" />
                     
                     {/* Glowing active path segment exactly aligned to left-6 */}
                     {completedCount > 0 && (
                       <div 
-                        className="absolute left-6 top-4 w-1 bg-gradient-to-b from-emerald-400 to-teal-500 rounded-full transition-all duration-500" 
+                        className="absolute left-5 sm:left-6 top-4 w-1 bg-gradient-to-b from-emerald-400 to-teal-500 rounded-full transition-all duration-500" 
                         style={{ height: `${(Math.min(completedCount, 6) / 7) * 100}%` }}
                       />
                     )}
@@ -943,7 +943,7 @@ export default function StudyPlanPage() {
                         <div key={task.id} className="relative flex items-center w-full min-h-[4.5rem]">
                           
                           {/* Timeline node connection sphere - dynamically centered at left-6 */}
-                          <div className="absolute left-6 -translate-x-1/2 z-20 flex items-center justify-center">
+                          <div className="absolute left-5 sm:left-6 -translate-x-1/2 z-20 flex items-center justify-center">
                             <motion.button
                               whileHover={state === "Locked" ? {} : { scale: 1.15 }}
                               whileTap={state === "Locked" ? {} : { scale: 0.95 }}
@@ -979,7 +979,7 @@ export default function StudyPlanPage() {
                                 setSelectedNode({ type: "task", id: task.id, task });
                               }
                             }}
-                            className={`flex-1 ml-12 flex items-center justify-between p-3.5 rounded-2xl border-2 transition-all duration-250 cursor-pointer ${
+                            className={`flex-1 min-w-0 ml-10 sm:ml-12 flex items-center justify-between p-3 sm:p-3.5 rounded-2xl border-2 transition-all duration-250 cursor-pointer ${
                               state === "Locked"
                                 ? "bg-slate-50/40 dark:bg-neutral-900/10 border-slate-100 dark:border-neutral-850/20 text-slate-350 dark:text-neutral-700 pointer-events-none"
                                 : isSelected
@@ -1035,7 +1035,7 @@ export default function StudyPlanPage() {
                     {/* Checkpoint Chest Row (Unit end) */}
                     <div className="relative flex items-center w-full min-h-[3.5rem] pt-1">
                       {/* Node connection - aligned exactly to left-6 */}
-                      <div className="absolute left-6 -translate-x-1/2 z-20 flex items-center justify-center">
+                      <div className="absolute left-5 sm:left-6 -translate-x-1/2 z-20 flex items-center justify-center">
                         <button
                           onClick={() => setSelectedNode({
                             type: "milestone",
@@ -1071,7 +1071,7 @@ export default function StudyPlanPage() {
                             daysCompleted: completedCount
                           }
                         })}
-                        className={`flex-1 ml-12 flex items-center justify-between p-3.5 rounded-2xl border-2 border-dashed transition-all cursor-pointer ${
+                        className={`flex-1 min-w-0 ml-10 sm:ml-12 flex items-center justify-between p-3 sm:p-3.5 rounded-2xl border-2 border-dashed transition-all cursor-pointer ${
                           isMilestoneClaimed
                             ? "bg-slate-50/20 dark:bg-neutral-900/10 border-slate-200 dark:border-neutral-850/20 text-slate-450 hover:bg-slate-50/45 dark:hover:bg-[#0c0c0f]/20"
                             : isUnitCompleted

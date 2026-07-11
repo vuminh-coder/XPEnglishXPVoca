@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import { Card, Button, Badge } from "@/components/ui";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useNotificationStore } from "@/lib/store/notificationStore";
@@ -11,11 +11,22 @@ import {
   XCircle,
   Loader2,
   ArrowRight,
+  ArrowLeft,
   RotateCcw,
   Zap,
   Target,
-  GraduationCap
+  GraduationCap,
+  PenTool,
+  Lightbulb,
+  AlertTriangle,
+  Tag,
+  FlaskConical,
+  MessageSquare,
+  Copy,
+  Check,
+  Send
 } from "lucide-react";
+import { getGrammarLesson, type GrammarLesson } from "@/lib/data/grammarContent";
 
 interface Exercise {
   id: number;
@@ -23,6 +34,7 @@ interface Exercise {
   correctAnswer: string;
   options: string[];
   explanation: string;
+  difficulty?: string;
 }
 
 interface GrammarTopic {
@@ -36,56 +48,71 @@ interface GrammarTopic {
 }
 
 const GRAMMAR_TOPICS: GrammarTopic[] = [
-  // Basic level (15 topics)
-  { id: "present_tenses", name: "Thì Hiện tại đơn & Tiếp diễn", nameEn: "Present Simple & Continuous", icon: "⏰", desc: "Mô tả công việc hàng ngày, thói quen và lịch trình.", level: "basic", focus: "TOEIC Part 5 & IELTS Speaking" },
-  { id: "past_continuous_tenses", name: "Thì Quá khứ đơn & Tiếp diễn", nameEn: "Past Simple & Continuous", icon: "🗓", desc: "Mô tả sự việc đã hoàn thành hoặc đang xảy ra tại một thời điểm quá khứ.", level: "basic", focus: "TOEIC Part 6 & IELTS Speaking" },
-  { id: "future_tenses", name: "Thì Tương lai đơn & Tương lai gần", nameEn: "Future Simple & Be Going To", icon: "🔮", desc: "Kêu gọi hành động tự phát hoặc kế hoạch dự định trước.", level: "basic", focus: "TOEIC Part 5 & IELTS Speaking" },
-  { id: "nouns_countability", name: "Danh từ & Tính chất đếm được", nameEn: "Nouns & Countability", icon: "📦", desc: "Phân biệt danh từ đếm được, không đếm được và danh từ số nhiều.", level: "basic", focus: "TOEIC Part 5" },
-  { id: "pronouns", name: "Đại từ nhân xưng & Phản thân", nameEn: "Pronouns & Possessives", icon: "👥", desc: "Sử dụng đúng đại từ làm chủ ngữ, tân ngữ và phản thân.", level: "basic", focus: "TOEIC Part 5 & IELTS Writing" },
-  { id: "possessive_structures", name: "Tính từ sở hữu & Sở hữu cách", nameEn: "Possessive Adjectives & Case", icon: "🔑", desc: "Cách chỉ định sở hữu vật lý và danh tính sở hữu cách.", level: "basic", focus: "TOEIC Part 5" },
-  { id: "determiners_quantifiers", name: "Từ hạn định & Lượng từ cơ bản", nameEn: "Determiners & Quantifiers", icon: "🔢", desc: "Dùng các lượng từ thông dụng: some, any, many, much, few, little.", level: "basic", focus: "TOEIC Part 5 & 6" },
-  { id: "basic_articles", name: "Mạo từ cơ bản (A, An, The)", nameEn: "Basic Articles", icon: "📝", desc: "Quy tắc xác định và không xác định danh từ.", level: "basic", focus: "TOEIC Part 5 & IELTS Writing" },
-  { id: "basic_adj_adv", name: "Tính từ & Trạng từ chỉ thể cách", nameEn: "Adjectives & Adverbs", icon: "✨", desc: "Vị trí của tính từ và trạng từ bổ nghĩa trong câu.", level: "basic", focus: "TOEIC Part 5" },
-  { id: "basic_comparisons", name: "So sánh hơn & So sánh nhất", nameEn: "Basic Comparatives & Superlatives", icon: "📊", desc: "Các cấu trúc so sánh hơn, so sánh bằng và so sánh nhất.", level: "basic", focus: "TOEIC Part 5 & IELTS Writing Task 1" },
-  { id: "time_prepositions", name: "Giới từ chỉ Thời gian", nameEn: "Prepositions of Time", icon: "⏳", desc: "Cách dùng In, On, At, During, For, Since chính xác.", level: "basic", focus: "TOEIC Part 5 & 6" },
-  { id: "place_prepositions", name: "Giới từ chỉ Nơi chốn & Hướng", nameEn: "Prepositions of Place & Direction", icon: "📍", desc: "Cách sử dụng giới từ không gian: In, On, At, Under, Into, To.", level: "basic", focus: "TOEIC Part 5 & 6" },
-  { id: "basic_modals", name: "Động từ khuyết thiếu cơ bản", nameEn: "Basic Modal Verbs", icon: "💡", desc: "Diễn tả khả năng, xin phép, bắt buộc: Can, Could, Must, Should.", level: "basic", focus: "TOEIC Part 5 & IELTS Speaking" },
-  { id: "tag_questions", name: "Câu hỏi đuôi cơ bản", nameEn: "Basic Tag Questions", icon: "❓", desc: "Quy tắc láy đuôi xác nhận thông tin khẳng định/phủ định.", level: "basic", focus: "TOEIC Part 7 & IELTS Speaking" },
-  { id: "basic_conjunctions", name: "Liên từ nối cơ bản (FANBOYS)", nameEn: "Basic Conjunctions", icon: "🔗", desc: "Kết nối ý tưởng cơ bản bằng And, But, Or, So, Because.", level: "basic", focus: "TOEIC Part 5 & IELTS Writing" },
+  // Basic level (20 topics in pedagogical learning order)
+  { id: "present_simple", name: "Thì Hiện tại đơn", nameEn: "Present Simple", icon: "⏰", desc: "Mô tả công việc hàng ngày, thói quen và sự thật hiển nhiên.", level: "basic", focus: "TOEIC Part 5 & IELTS Speaking" },
+  { id: "present_continuous", name: "Thì Hiện tại tiếp diễn", nameEn: "Present Continuous", icon: "⏳", desc: "Mô tả hành động đang diễn ra tại thời điểm nói hoặc kế hoạch gần.", level: "basic", focus: "TOEIC Part 5 & IELTS Speaking" },
+  { id: "past_simple", name: "Thì Quá khứ đơn", nameEn: "Past Simple", icon: "🗓", desc: "Kể lại sự việc đã chấm dứt hoàn toàn trong quá khứ.", level: "basic", focus: "TOEIC Part 6 & IELTS Speaking" },
+  { id: "past_continuous", name: "Thì Quá khứ tiếp diễn", nameEn: "Past Continuous", icon: "⏱", desc: "Mô tả hành động đang xảy ra tại một thời điểm xác định trong quá khứ.", level: "basic", focus: "TOEIC Part 5 & IELTS Writing Task 1" },
+  { id: "future_simple", name: "Thì Tương lai đơn", nameEn: "Future Simple", icon: "🔮", desc: "Quyết định tự phát, hứa hẹn hoặc dự đoán không căn cứ.", level: "basic", focus: "TOEIC Part 5 & IELTS Speaking" },
+  { id: "future_near", name: "Thì Tương lai gần", nameEn: "Be Going To", icon: "🛫", desc: "Dự định, kế hoạch đã có từ trước hoặc dự đoán có căn cứ.", level: "basic", focus: "TOEIC Part 5 & IELTS Speaking" },
+  { id: "singular_plural_nouns", name: "Danh từ số ít & số nhiều", nameEn: "Singular & Plural Nouns", icon: "📦", desc: "Quy tắc thêm đuôi -s/es và danh từ biến đổi bất quy tắc.", level: "basic", focus: "TOEIC Part 5" },
+  { id: "nouns_countability", name: "Danh từ đếm được & không đếm được", nameEn: "Countable & Uncountable Nouns", icon: "🥛", desc: "Phân biệt danh từ đếm được, không đếm được và đơn vị đo lường.", level: "basic", focus: "TOEIC Part 5" },
+  { id: "subject_object_pronouns", name: "Đại từ chủ ngữ & tân ngữ", nameEn: "Subject & Object Pronouns", icon: "👥", desc: "Cách định dạng chủ từ và túc từ đứng trước/sau động từ.", level: "basic", focus: "TOEIC Part 5" },
+  { id: "reflexive_demonstrative", name: "Đại từ phản thân & chỉ định", nameEn: "Reflexive & Demonstrative Pronouns", icon: "👈", desc: "Cách sử dụng đại từ phản thân (myself) và từ chỉ định (this, that).", level: "basic", focus: "TOEIC Part 5 & 6" },
+  { id: "possessive_adj_pronouns", name: "Tính từ & Đại từ sở hữu", nameEn: "Possessive Adjectives & Pronouns", icon: "🔑", desc: "Phân biệt cách dùng tính từ sở hữu (my) và đại từ sở hữu (mine).", level: "basic", focus: "TOEIC Part 5" },
+  { id: "possessive_case", name: "Danh từ sở hữu cách ('s)", nameEn: "Possessive Case", icon: "📎", desc: "Cách biểu thị quyền sở hữu đối với người và vật hữu sinh.", level: "basic", focus: "TOEIC Part 5" },
+  { id: "determiners_basic", name: "Từ hạn định: Some, Any, No", nameEn: "Basic Determiners", icon: "🔢", desc: "Quy tắc dùng một vài, bất kỳ và không có gì trong câu.", level: "basic", focus: "TOEIC Part 5 & 6" },
+  { id: "quantifiers_basic", name: "Lượng từ: Much, Many, Few, Little", nameEn: "Basic Quantifiers", icon: "📊", desc: "Dùng các lượng từ chỉ số lượng nhiều/ít với danh từ đếm/không đếm được.", level: "basic", focus: "TOEIC Part 5 & 6" },
+  { id: "basic_articles", name: "Mạo từ xác định & Không xác định", nameEn: "Basic Articles (A, An, The)", icon: "📝", desc: "Quy tắc dùng mạo từ A, An, The hoặc lược bỏ mạo từ.", level: "basic", focus: "TOEIC Part 5 & IELTS Writing" },
+  { id: "basic_adj_adv", name: "Tính từ & Trạng từ chỉ thể cách", nameEn: "Adjectives & Adverbs of Manner", icon: "✨", desc: "Nhận biết vị trí tính từ và trạng từ đuôi -ly bổ nghĩa động từ.", level: "basic", focus: "TOEIC Part 5" },
+  { id: "comparatives_basic", name: "So sánh bằng & So sánh hơn", nameEn: "Basic Comparatives", icon: "📊", desc: "Cấu trúc so sánh bằng (as...as) và so sánh hơn của tính từ ngắn/dài.", level: "basic", focus: "TOEIC Part 5 & IELTS Writing Task 1" },
+  { id: "superlatives_basic", name: "Cấu trúc So sánh nhất", nameEn: "Superlatives", icon: "🏆", desc: "Cấu trúc so sánh nhất của tính từ ngắn/dài và trạng từ.", level: "basic", focus: "TOEIC Part 5 & IELTS Writing Task 1" },
+  { id: "time_prepositions", name: "Giới từ chỉ Thời gian", nameEn: "Prepositions of Time", icon: "⏳", desc: "Quy tắc sử dụng các giới từ thời gian In, On, At, For, Since.", level: "basic", focus: "TOEIC Part 5 & 6" },
+  { id: "place_prepositions", name: "Giới từ chỉ Nơi chốn & Hướng", nameEn: "Prepositions of Place & Direction", icon: "📍", desc: "Cách định vị không gian: In, On, At, Under, Into, To, Across.", level: "basic", focus: "TOEIC Part 5 & 6" },
 
-  // Intermediate level (15 topics)
-  { id: "perfect_present", name: "Thì Hiện tại hoàn thành & HTTD", nameEn: "Present Perfect & Continuous", icon: "⏳", desc: "Mô tả hành động kéo dài từ quá khứ hoặc vừa mới xảy ra.", level: "intermediate", focus: "TOEIC Part 5 & IELTS Speaking" },
-  { id: "perfect_past", name: "Thì Quá khứ hoàn thành & QKHTTD", nameEn: "Past Perfect & Continuous", icon: "⏮", desc: "Mô tả sự việc xảy ra trước một thời điểm hoặc hành động khác trong quá khứ.", level: "intermediate", focus: "TOEIC Part 6 & IELTS Writing" },
-  { id: "perfect_future", name: "Thì Tương lai hoàn thành & TLHTTD", nameEn: "Future Perfect & Continuous", icon: "⏭", desc: "Mô tả hành động sẽ hoàn thành trước một mốc thời gian tương lai.", level: "intermediate", focus: "TOEIC Part 5 & IELTS Writing Task 1" },
-  { id: "passive_voice", name: "Câu bị động cơ bản & nâng cao", nameEn: "Passive Voice", icon: "🔄", desc: "Nhấn mạnh đối tượng chịu tác động của hành động trong các thì.", level: "intermediate", focus: "TOEIC Part 5 & IELTS Writing Task 1" },
-  { id: "conditionals_0_1_2", name: "Câu điều kiện Loại 0, 1 & 2", nameEn: "Conditionals Type 0, 1 & 2", icon: "🔀", desc: "Giả định về các tình huống có thật hoặc giả định trái thực tế hiện tại.", level: "intermediate", focus: "TOEIC Part 5 & IELTS Writing Task 2" },
-  { id: "relative_clauses", name: "Mệnh đề quan hệ", nameEn: "Relative Clauses", icon: "🔗", desc: "Nối các câu đơn sử dụng đại từ quan hệ Who, Whom, Which, That, Whose.", level: "intermediate", focus: "TOEIC Part 5 & 6" },
-  { id: "gerunds_infinitives", name: "Danh động từ & Động từ nguyên mẫu", nameEn: "Gerunds & Infinitives", icon: "🎯", desc: "Quy tắc động từ đi kèm đuôi -ing hoặc to-infinitive.", level: "intermediate", focus: "TOEIC Part 5" },
-  { id: "modal_verbs_inter", name: "Động từ khuyết thiếu trung cấp", nameEn: "Intermediate Modals", icon: "💡", desc: "Diễn tả bổn phận, khuyên bảo nâng cao: Have to, Ought to, May, Might, Need.", level: "intermediate", focus: "TOEIC Part 5 & IELTS Writing" },
-  { id: "conjunctions_transitions", name: "Liên từ tương hợp & Trạng từ liên kết", nameEn: "Correlative Conjunctions & Adverbs", icon: "🖇", desc: "Kết nối ý tưởng bằng Both...and, Either...or, However, Therefore.", level: "intermediate", focus: "TOEIC Part 5 & 6 & IELTS Writing Task 2" },
-  { id: "adverbial_clauses", name: "Mệnh đề trạng ngữ chỉ Lý do & Nhượng bộ", nameEn: "Adverbial Clauses", icon: "📝", desc: "Cách dùng cấu trúc Although, Even though, Because of, Due to.", level: "intermediate", focus: "TOEIC Part 5 & IELTS Writing Task 2" },
-  { id: "reported_speech", name: "Câu gián tiếp & Tường thuật", nameEn: "Reported Speech", icon: "💬", desc: "Trần thuật lại câu nói của người khác với quy tắc lùi thì.", level: "intermediate", focus: "TOEIC Part 7 & IELTS Speaking" },
-  { id: "causative_structures", name: "Cấu trúc truyền khiến (Nhờ vả)", nameEn: "Causative Structures", icon: "🤝", desc: "Thể nhờ vả, yêu cầu: Have/Get something done.", level: "intermediate", focus: "TOEIC Part 5 & 6" },
-  { id: "subject_verb_agreement", name: "Sự hòa hợp Chủ - Vị cơ bản", nameEn: "Subject-Verb Agreement Rules", icon: "⚖️", desc: "Các nguyên tắc chia động từ cơ bản phù hợp với chủ ngữ số ít/số nhiều.", level: "intermediate", focus: "TOEIC Part 5 & IELTS Writing" },
-  { id: "linking_verbs", name: "Động từ liên kết & Hệ từ", nameEn: "Linking Verbs", icon: "🧠", desc: "Cách dùng động từ nối với tính từ: Become, Seem, Taste, Feel.", level: "intermediate", focus: "TOEIC Part 5" },
-  { id: "phrasal_verbs_basics", name: "Cụm động từ phổ biến", nameEn: "Phrasal Verbs basics", icon: "🚀", desc: "Giới thiệu các cụm động từ thông dụng trong giao tiếp và công sở.", level: "intermediate", focus: "TOEIC Part 7 & IELTS Speaking" },
+  // Intermediate level (20 topics in pedagogical learning order)
+  { id: "perfect_present", name: "Thì Hiện tại hoàn thành", nameEn: "Present Perfect", icon: "⏳", desc: "Mô tả kinh nghiệm, hành động vừa xảy ra kéo dài đến hiện tại.", level: "intermediate", focus: "TOEIC Part 5 & IELTS Speaking" },
+  { id: "perfect_present_cont", name: "Thì Hiện tại hoàn thành tiếp diễn", nameEn: "Present Perfect Continuous", icon: "🔄", desc: "Nhấn mạnh tính liên tục của hành động bắt đầu từ quá khứ kéo dài đến nay.", level: "intermediate", focus: "IELTS Speaking & Writing" },
+  { id: "perfect_past", name: "Thì Quá khứ hoàn thành", nameEn: "Past Perfect", icon: "⏮", desc: "Mô tả hành động hoàn thành trước một hành động quá khứ khác.", level: "intermediate", focus: "TOEIC Part 6 & IELTS Writing" },
+  { id: "perfect_past_cont", name: "Thì Quá khứ hoàn thành tiếp diễn", nameEn: "Past Perfect Continuous", icon: "⏳", desc: "Nhấn mạnh tính liên tục của sự việc trước một mốc quá khứ khác.", level: "intermediate", focus: "IELTS Writing Task 2" },
+  { id: "perfect_future", name: "Thì Tương lai hoàn thành", nameEn: "Future Perfect", icon: "⏭", desc: "Mô tả sự việc sẽ hoàn tất trước một thời điểm ở tương lai.", level: "intermediate", focus: "TOEIC Part 5 & IELTS Writing Task 1" },
+  { id: "perfect_future_cont", name: "Thì Tương lai hoàn thành tiếp diễn", nameEn: "Future Perfect Continuous", icon: "⌛", desc: "Mô tả tính liên tục của hành động kéo dài đến một mốc tương lai.", level: "intermediate", focus: "IELTS Writing Task 1" },
+  { id: "passive_basic", name: "Câu bị động các thì cơ bản", nameEn: "Passive Voice in Basic Tenses", icon: "🔄", desc: "Chuyển câu chủ động sang bị động với thì hiện tại, quá khứ, tương lai.", level: "intermediate", focus: "TOEIC Part 5 & IELTS Writing Task 1" },
+  { id: "passive_modals_cont", name: "Câu bị động khuyết thiếu & tiếp diễn", nameEn: "Passive with Modals & Continuous", icon: "🔄", desc: "Cấu trúc bị động với modal verbs (should be done) và thì tiếp diễn (being done).", level: "intermediate", focus: "TOEIC Part 5 & IELTS Writing" },
+  { id: "conditionals_0_1", name: "Câu điều kiện Loại 0 & Loại 1", nameEn: "Conditionals Type 0 & 1", icon: "🔀", desc: "Diễn tả chân lý khoa học hoặc giả định thực tế có thể xảy ra ở tương lai.", level: "intermediate", focus: "TOEIC Part 5 & IELTS Writing Task 2" },
+  { id: "conditionals_2", name: "Câu điều kiện Loại 2", nameEn: "Conditionals Type 2", icon: "🔀", desc: "Giả định trái ngược hoàn toàn với thực tế ở hiện tại.", level: "intermediate", focus: "TOEIC Part 5 & IELTS Writing Task 2" },
+  { id: "relative_defining", name: "Mệnh đề quan hệ xác định", nameEn: "Defining Relative Clauses", icon: "🔗", desc: "Mệnh đề cung cấp thông tin bắt buộc phải có cho danh từ đứng trước.", level: "intermediate", focus: "TOEIC Part 5 & 6" },
+  { id: "relative_non_defining", name: "Mệnh đề quan hệ không xác định", nameEn: "Non-defining Relative Clauses", icon: "🔗", desc: "Bổ sung thông tin phụ cho danh từ đã xác định (ngăn cách bởi dấu phẩy).", level: "intermediate", focus: "TOEIC Part 5 & 6" },
+  { id: "gerunds_usage", name: "Danh động từ làm Chủ & Tân ngữ", nameEn: "Gerunds as Subjects & Objects", icon: "🎯", desc: "Cấu trúc danh động từ đứng đầu câu làm chủ ngữ hoặc sau giới từ.", level: "intermediate", focus: "TOEIC Part 5" },
+  { id: "infinitives_usage", name: "Động từ nguyên mẫu có 'to' & không 'to'", nameEn: "Infinitives with/without To", icon: "🎯", desc: "Quy tắc sử dụng to-V và V-bare sau các động từ đặc biệt.", level: "intermediate", focus: "TOEIC Part 5" },
+  { id: "modal_obligation", name: "Động từ khuyết thiếu bắt buộc & khuyên bảo", nameEn: "Modals of Obligation & Advice", icon: "💡", desc: "Cách dùng diễn tả trách nhiệm, lời khuyên: Must, Have to, Should, Ought to.", level: "intermediate", focus: "TOEIC Part 5 & IELTS Writing" },
+  { id: "modal_ability", name: "Động từ khuyết thiếu xin phép & khả năng", nameEn: "Modals of Permission & Ability", icon: "💡", desc: "Diễn tả năng lực, khả năng xảy ra hoặc xin phép: Can, Could, May, Might.", level: "intermediate", focus: "TOEIC Part 5 & IELTS Speaking" },
+  { id: "conjunctions_coordinating", name: "Liên từ kết hợp & Liên từ tương hợp", nameEn: "Coordinating & Correlative Conjunctions", icon: "🖇", desc: "Nối các từ/mệnh đề độc lập: FANBOYS, both...and, either...or, neither...nor.", level: "intermediate", focus: "TOEIC Part 5 & 6" },
+  { id: "conjunctions_cause_effect", name: "Mệnh đề trạng ngữ chỉ Lý do & Kết quả", nameEn: "Adverbial Clauses of Cause & Effect", icon: "📝", desc: "Mệnh đề phụ thuộc dùng Because, Since, As, So, Therefore, Consequently.", level: "intermediate", focus: "TOEIC Part 5 & 6 & IELTS Writing Task 2" },
+  { id: "reported_statements", name: "Câu gián tiếp tường thuật câu kể", nameEn: "Reported Speech: Statements", icon: "💬", desc: "Quy tắc lùi thì, đổi đại từ, trạng ngữ chỉ thời gian khi thuật lại câu kể.", level: "intermediate", focus: "TOEIC Part 7 & IELTS Speaking" },
+  { id: "reported_questions", name: "Câu gián tiếp tường thuật câu hỏi", nameEn: "Reported Speech: Questions & Commands", icon: "💬", desc: "Thuật lại câu hỏi Yes/No, câu hỏi Wh- và câu ra lệnh yêu cầu.", level: "intermediate", focus: "TOEIC Part 7 & IELTS Speaking" },
 
-  // Advanced level (15 topics in pedagogical learning order)
-  { id: "noun_clauses", name: "Mệnh đề danh từ", nameEn: "Noun Clauses", icon: "💬", desc: "Mệnh đề đóng vai trò danh từ dùng That, Wh-words, If/Whether.", level: "advanced", focus: "IELTS Writing Task 2 & TOEIC Part 6" },
-  { id: "conditionals_3_mixed", name: "Điều kiện Loại 3 & Hỗn hợp", nameEn: "Type 3 & Mixed Conditionals", icon: "🔀", desc: "Giả định trái ngược với quá khứ và tác động đến hiện tại.", level: "advanced", focus: "IELTS Writing & Speaking (Band 7.0+)" },
-  { id: "conditional_inversion", name: "Đảo ngữ trong câu điều kiện", nameEn: "Inversion in Conditionals", icon: "🔀", desc: "Cấu trúc đảo ngữ trang trọng: Should I, Were I, Had I.", level: "advanced", focus: "TOEIC Part 5 & IELTS Writing Task 2" },
-  { id: "inversion", name: "Đảo ngữ với Trạng từ phủ định", nameEn: "Inversion with Negative Adverbs", icon: "🔄", desc: "Đảo trợ động từ lên trước chủ ngữ để nhấn mạnh câu viết.", level: "advanced", focus: "IELTS Writing Task 2 (Band 7.0+)" },
-  { id: "subjunctive_mood", name: "Thể giả định nâng cao", nameEn: "Advanced Subjunctive Mood", icon: "⚖️", desc: "Sử dụng trong các câu cầu khiến trang trọng: demand that, crucial that.", level: "advanced", focus: "TOEIC Part 5 & IELTS Writing" },
-  { id: "reduced_clauses", name: "Rút gọn mệnh đề quan hệ & phân từ", nameEn: "Reduced Clauses & Participles", icon: "✂️", desc: "Lược bỏ đại từ quan hệ và dùng V-ing/V3 để câu ngắn gọn.", level: "advanced", focus: "TOEIC Part 5 & IELTS Writing Task 2" },
-  { id: "reduced_adverbial", name: "Rút gọn mệnh đề trạng ngữ", nameEn: "Reduced Adverbial Clauses", icon: "✂️", desc: "Lược bỏ chủ ngữ phụ khi hai mệnh đề cùng chủ ngữ: Although playing, When finished.", level: "advanced", focus: "IELTS Writing Task 2 & TOEIC Part 6" },
-  { id: "double_passive", name: "Bị động kép & Bị động phi cá nhân", nameEn: "Double & Impersonal Passive", icon: "🔄", desc: "Cấu trúc giả định khách quan: It is believed that / She is said to.", level: "advanced", focus: "TOEIC Part 5 & IELTS Writing Task 2" },
-  { id: "cleft_sentences", name: "Câu chẻ nhấn mạnh", nameEn: "Cleft Sentences", icon: "⚡", desc: "Cấu trúc nhấn mạnh tiêu điểm thông tin: It is... that...", level: "advanced", focus: "IELTS Writing Task 2 & Speaking" },
-  { id: "double_comparatives", name: "So sánh kép & Nâng cao", nameEn: "Double & Advanced Comparatives", icon: "📈", desc: "Cấu trúc nhân quả song song: The more... the more...", level: "advanced", focus: "IELTS Writing Task 2" },
-  { id: "advanced_modals", name: "Động từ khuyết thiếu quá khứ", nameEn: "Advanced Past Modals", icon: "🛡", desc: "Đoán nhận sự việc quá khứ: must have done, should have done.", level: "advanced", focus: "TOEIC Part 5 & IELTS Speaking" },
-  { id: "advanced_determiners", name: "Từ hạn định & Lượng từ nâng cao", nameEn: "Advanced Determiners", icon: "🔢", desc: "Phân biệt cách dùng: Either, Neither, None, All, Both, Each.", level: "advanced", focus: "TOEIC Part 5" },
+  // Advanced level (20 topics in pedagogical learning order)
+  { id: "noun_clauses_basic", name: "Mệnh đề danh từ làm Chủ & Tân ngữ", nameEn: "Noun Clauses as Subjects & Objects", icon: "💬", desc: "Mệnh đề đóng vai trò danh từ đứng đầu câu hoặc sau động từ chính.", level: "advanced", focus: "IELTS Writing Task 2 & TOEIC Part 6" },
+  { id: "noun_clauses_advanced", name: "Mệnh đề danh từ làm bổ ngữ & đồng vị", nameEn: "Noun Clauses as Complements", icon: "💬", desc: "Mệnh đề danh từ đóng vai trò bổ nghĩa cho tính từ hoặc đồng vị đứng sau danh từ.", level: "advanced", focus: "IELTS Writing Task 2" },
+  { id: "conditionals_3", name: "Câu điều kiện Loại 3", nameEn: "Conditionals Type 3", icon: "🔀", desc: "Giả định trái ngược hoàn toàn với thực tế đã xảy ra trong quá khứ.", level: "advanced", focus: "IELTS Writing & Speaking (Band 7.0+)" },
+  { id: "conditionals_mixed", name: "Câu điều kiện Hỗn hợp (Mixed)", nameEn: "Mixed Conditionals", icon: "🔀", desc: "Kết hợp giả định quá khứ có ảnh hưởng/kết quả ở hiện tại và ngược lại.", level: "advanced", focus: "IELTS Writing & Speaking (Band 7.0+)" },
+  { id: "conditional_inversion", name: "Đảo ngữ trong câu điều kiện", nameEn: "Inversion in Conditionals", icon: "🔀", desc: "Lược bỏ 'If' và đảo trợ động từ lên đầu câu: Should I, Were I, Had I.", level: "advanced", focus: "TOEIC Part 5 & IELTS Writing Task 2" },
+  { id: "inversion", name: "Đảo ngữ với Trạng từ phủ định", nameEn: "Inversion with Negative Adverbs", icon: "🔄", desc: "Đảo trợ động từ lên trước chủ ngữ: Never, Seldom, Hardly, Under no circumstances.", level: "advanced", focus: "IELTS Writing Task 2 (Band 7.0+)" },
+  { id: "subjunctive_mood", name: "Thể giả định nâng cao", nameEn: "Advanced Subjunctive Mood", icon: "⚖️", desc: "Cấu trúc giả định trong câu khuyên bảo trang trọng: demand that, crucial that.", level: "advanced", focus: "TOEIC Part 5 & IELTS Writing" },
+  { id: "reduced_relative", name: "Rút gọn mệnh đề quan hệ (Chủ/Bị động)", nameEn: "Reduced Relative Clauses", icon: "✂️", desc: "Lược bỏ đại từ quan hệ và động từ to-be, dùng cụm V-ing hoặc V3/ed.", level: "advanced", focus: "TOEIC Part 5 & IELTS Writing Task 2" },
+  { id: "participle_clauses", name: "Mệnh đề phân từ đồng chủ ngữ", nameEn: "Participle Clauses", icon: "✂️", desc: "Kết nối 2 hành động cùng chủ ngữ sử dụng V-ing (chủ động) hoặc V3/ed (bị động).", level: "advanced", focus: "IELTS Writing Task 2 (Band 7.5+)" },
+  { id: "reduced_adverbial", name: "Rút gọn mệnh đề trạng ngữ", nameEn: "Reduced Adverbial Clauses", icon: "✂️", desc: "Lược bỏ chủ ngữ phụ trong mệnh đề thời gian/nhượng bộ: Although playing, When finished.", level: "advanced", focus: "IELTS Writing Task 2 & TOEIC Part 6" },
+  { id: "double_passive", name: "Bị động kép & Bị động phi cá nhân", nameEn: "Double & Impersonal Passive", icon: "🔄", desc: "Cấu trúc tường thuật khách quan: It is believed that / She is said to.", level: "advanced", focus: "TOEIC Part 5 & IELTS Writing Task 2" },
+  { id: "cleft_sentences", name: "Câu chẻ nhấn mạnh", nameEn: "Cleft Sentences", icon: "⚡", desc: "Cấu trúc nhấn mạnh tiêu điểm thông tin cụ thể: It is... that... / What... is...", level: "advanced", focus: "IELTS Writing Task 2 & Speaking" },
+  { id: "double_comparatives", name: "So sánh kép (The more... the more...)", nameEn: "Double Comparatives", icon: "📈", desc: "Cấu trúc nhân quả song song biểu thị sự biến đổi tương thích.", level: "advanced", focus: "IELTS Writing Task 2" },
+  { id: "advanced_comparatives", name: "So sánh bội số & So sánh ẩn", nameEn: "Advanced Comparatives", icon: "📈", desc: "Cấu trúc so sánh nâng cao: gấp bao nhiêu lần, so sánh ngầm.", level: "advanced", focus: "IELTS Writing Task 1 & TOEIC Part 5" },
+  { id: "advanced_modals", name: "Động từ khuyết thiếu quá khứ (Perfect Modals)", nameEn: "Advanced Past Modals", icon: "🛡", desc: "Đoán nhận sự việc quá khứ: must have done, should have done, needn't have done.", level: "advanced", focus: "TOEIC Part 5 & IELTS Speaking" },
+  { id: "parallel_structure", name: "Cấu trúc song hành nâng cao", nameEn: "Parallel Structure", icon: "⚖️", desc: "Đồng bộ từ loại trong chuỗi thông tin để tăng điểm mạch lạc và liên kết.", level: "advanced", focus: "IELTS Writing Task 2 (Band 7.0+)" },
   { id: "subject_verb_exceptions", name: "Hòa hợp Chủ - Vị ngoại lệ", nameEn: "Subject-Verb Agreement Exceptions", icon: "🤝", desc: "Các quy tắc chia động từ phức tạp với danh từ tập hợp, đại từ bất định.", level: "advanced", focus: "TOEIC Part 5 & IELTS Writing" },
-  { id: "parallel_structure", name: "Cấu trúc song hành nâng cao", nameEn: "Parallel Structure", icon: "⚖️", desc: "Đồng bộ từ loại trong chuỗi thông tin để tăng điểm mạch lạc.", level: "advanced", focus: "IELTS Writing Task 2 (Band 7.0+)" },
-  { id: "prepositions_collocations", name: "Cụm giới từ đi kèm (Collocations)", nameEn: "Prepositional Collocations", icon: "📍", desc: "Các cụm giới từ cố định đi với danh từ, động từ và tính từ phổ biến.", level: "advanced", focus: "TOEIC Part 5 & IELTS Writing Task 2" }
+  { id: "advanced_determiners", name: "Từ hạn định & Lượng từ nâng cao", nameEn: "Advanced Determiners", icon: "🔢", desc: "Phân biệt cách dùng nâng cao: Either, Neither, None, Both, Each, Every.", level: "advanced", focus: "TOEIC Part 5" },
+  { id: "prepositional_phrases", name: "Cụm giới từ đi kèm (Collocations)", nameEn: "Prepositional Collocations", icon: "📍", desc: "Các cụm giới từ cố định đi với danh từ, động từ và tính từ phổ biến trong viết luận.", level: "advanced", focus: "TOEIC Part 5 & IELTS Writing Task 2" },
+  { id: "emphatic_fronting", name: "Cấu trúc nhấn mạnh bổ trợ (Fronting)", nameEn: "Emphatic Structures & Fronting", icon: "🚀", desc: "Đảo ngữ hoặc đảo thành tố câu lên đầu câu để tạo hiệu ứng tu từ mạnh mẽ.", level: "advanced", focus: "IELTS Writing & Speaking (Band 8.0+)" }
 ];
 
 const topicsContainerVariants = {
@@ -112,25 +139,429 @@ const topicItemVariants = {
   },
 } as const;
 
+function parseFormula(formula: string) {
+  let type: "affirmative" | "negative" | "interrogative" | "general" = "general";
+  let cleanText = formula;
+  if (formula.startsWith("(+)")) {
+    type = "affirmative";
+    cleanText = formula.substring(3).trim();
+  } else if (formula.startsWith("(-)")) {
+    type = "negative";
+    cleanText = formula.substring(3).trim();
+  } else if (formula.startsWith("(?)")) {
+    type = "interrogative";
+    cleanText = formula.substring(3).trim();
+  }
+  return { type, cleanText };
+}
+
+interface ParsedHeading {
+  text: string;
+  slug: string;
+  level: number;
+}
+
+function CodeBlock({ code }: { code: string }) {
+  const [copied, setCopied] = useState(false);
+  const handleCopy = () => {
+    navigator.clipboard.writeText(code);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+  return (
+    <div className="my-5 border border-slate-200 dark:border-neutral-800 bg-slate-50/50 dark:bg-black/30 rounded-2xl overflow-hidden relative group font-mono text-xs sm:text-sm shadow-inner">
+      <div className="flex justify-between items-center px-4 py-2.5 bg-slate-100/50 dark:bg-neutral-900 border-b border-slate-200/50 dark:border-neutral-850 text-slate-500 dark:text-slate-400 text-xs font-bold select-none">
+        <span>Cú pháp & Ví dụ mẫu</span>
+        <button
+          type="button"
+          onClick={handleCopy}
+          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white dark:bg-neutral-850 border border-slate-200 dark:border-neutral-700 text-slate-600 dark:text-slate-350 hover:bg-slate-50 dark:hover:bg-neutral-800 hover:text-indigo-650 dark:hover:text-indigo-400 transition cursor-pointer"
+        >
+          {copied ? (
+            <>
+              <Check className="h-3.5 w-3.5 text-emerald-500" />
+              <span className="text-[10px] sm:text-xs">Đã chép!</span>
+            </>
+          ) : (
+            <>
+              <Copy className="h-3.5 w-3.5" />
+              <span className="text-[10px] sm:text-xs">Sao chép</span>
+            </>
+          )}
+        </button>
+      </div>
+      <pre className="p-4 sm:p-5 overflow-x-auto text-slate-800 dark:text-indigo-300 whitespace-pre-wrap leading-relaxed select-all">
+        <code>{code}</code>
+      </pre>
+    </div>
+  );
+}
+
+function parseMarkdown(md: string): { elements: React.ReactNode[]; headings: ParsedHeading[] } {
+  const lines = md.split("\n");
+  const elements: React.ReactNode[] = [];
+  const headings: ParsedHeading[] = [];
+  
+  let currentCodeBlock: string[] = [];
+  let inCodeBlock = false;
+  
+  let currentBlockquote: string[] = [];
+  let inBlockquote = false;
+
+  let currentList: string[] = [];
+  let inList = false;
+
+  let currentTable: string[] = [];
+  let inTable = false;
+
+  const renderText = (text: string) => {
+    const boldRegex = /\*\*(.*?)\*\*/g;
+    const italicRegex = /\*(.*?)\*/g;
+    const codeRegex = /`(.*?)`/g;
+    
+    let parts: React.ReactNode[] = [text];
+    
+    parts = parts.flatMap(part => {
+      if (typeof part !== 'string') return part;
+      const subparts = part.split(/\*\*(.*?)\*\*/);
+      return subparts.map((sp, idx) => idx % 2 === 1 ? <strong key={idx} className="font-black text-slate-900 dark:text-white">{sp}</strong> : sp);
+    });
+
+    parts = parts.flatMap(part => {
+      if (typeof part !== 'string') return part;
+      const subparts = part.split(/\*(.*?)\*/);
+      return subparts.map((sp, idx) => idx % 2 === 1 ? <em key={idx} className="italic text-indigo-650 dark:text-indigo-400 font-bold">{sp}</em> : sp);
+    });
+
+    parts = parts.flatMap(part => {
+      if (typeof part !== 'string') return part;
+      const subparts = part.split(/`(.*?)`/);
+      return subparts.map((sp, idx) => idx % 2 === 1 ? <code key={idx} className="font-mono text-xs sm:text-sm px-1.5 py-0.5 rounded bg-slate-100 dark:bg-black text-indigo-600 dark:text-indigo-400 font-bold border border-slate-200/50 dark:border-neutral-800">{sp}</code> : sp);
+    });
+
+    return parts;
+  };
+
+  const flushCode = (key: number) => {
+    if (currentCodeBlock.length > 0) {
+      const codeStr = currentCodeBlock.join("\n");
+      elements.push(<CodeBlock key={`code-${key}`} code={codeStr} />);
+      currentCodeBlock = [];
+      inCodeBlock = false;
+    }
+  };
+
+  const flushBlockquote = (key: number) => {
+    if (currentBlockquote.length > 0) {
+      const text = currentBlockquote.join(" ");
+      let type: "info" | "warning" = "info";
+      let cleanText = text;
+      if (text.includes("[CHÚ Ý]") || text.includes("[LƯU Ý]") || text.includes("[CẢNH BÁO]")) {
+        type = "warning";
+        cleanText = text.replace(/\[(CHÚ Ý|LƯU Ý|CẢNH BÁO)\]/g, "").trim();
+      }
+      elements.push(
+        <div 
+          key={`quote-${key}`} 
+          className={`my-5 border-l-[4px] p-4.5 rounded-r-2xl text-xs sm:text-sm leading-relaxed font-semibold shadow-sm ${
+            type === "warning"
+              ? "border-amber-500 bg-amber-50/50 dark:bg-amber-950/10 text-amber-900 dark:text-amber-200"
+              : "border-indigo-500 bg-indigo-50/50 dark:bg-indigo-950/10 text-slate-800 dark:text-slate-200"
+          }`}
+        >
+          <div className="flex gap-3 items-start">
+            <span className="text-base sm:text-lg shrink-0 mt-0.5">{type === "warning" ? "⚠️" : "💡"}</span>
+            <div className="flex-1">{renderText(cleanText)}</div>
+          </div>
+        </div>
+      );
+      currentBlockquote = [];
+      inBlockquote = false;
+    }
+  };
+
+  const flushList = (key: number) => {
+    if (currentList.length > 0) {
+      elements.push(
+        <div key={`ul-${key}`} className="my-4 pl-1 space-y-3">
+          {currentList.map((item, idx) => (
+            <div key={idx} className="flex items-start gap-3">
+              <span className="text-indigo-500 dark:text-indigo-400 shrink-0 mt-2 w-1.5 h-1.5 rounded-full bg-indigo-500 dark:bg-indigo-400" />
+              <div className="text-sm md:text-base text-slate-700 dark:text-slate-350 leading-relaxed font-medium flex-1">
+                {renderText(item)}
+              </div>
+            </div>
+          ))}
+        </div>
+      );
+      currentList = [];
+      inList = false;
+    }
+  };
+
+  const flushTable = (key: number) => {
+    if (currentTable.length > 0) {
+      let tableHeaders: string[] = [];
+      let tableRows: string[][] = [];
+      
+      currentTable.forEach((line) => {
+        const cols = line.split("|").map(c => c.trim()).filter((_, idx, arr) => idx > 0 && idx < arr.length - 1);
+        if (line.includes("-") && cols.every(c => c.match(/^-+$/))) {
+          return;
+        }
+        if (tableHeaders.length === 0) {
+          tableHeaders = cols;
+        } else {
+          tableRows.push(cols);
+        }
+      });
+
+      if (tableHeaders.length > 0 || tableRows.length > 0) {
+        elements.push(
+          <div key={`table-wrapper-${key}`} className="overflow-x-auto my-6 border border-slate-200 dark:border-neutral-800 rounded-2xl shadow-sm bg-white dark:bg-neutral-900">
+            <table className="w-full text-left border-collapse text-sm">
+              <thead className="bg-slate-50/80 dark:bg-neutral-950 text-slate-800 dark:text-white font-black border-b border-slate-200 dark:border-neutral-800">
+                <tr>
+                  {tableHeaders.map((h, idx) => (
+                    <th key={idx} className="px-4 py-3.5 font-extrabold">{renderText(h)}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 dark:divide-neutral-800 text-slate-600 dark:text-slate-300">
+                {tableRows.map((row, rIdx) => (
+                  <tr key={rIdx} className="hover:bg-slate-50/50 dark:hover:bg-neutral-800/20 transition-colors">
+                    {row.map((cell, cIdx) => (
+                      <td key={cIdx} className="px-4 py-3.5 font-semibold">{renderText(cell)}</td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        );
+      }
+      currentTable = [];
+      inTable = false;
+    }
+  };
+
+  const flushAll = (key: number) => {
+    flushList(key);
+    flushTable(key);
+    flushBlockquote(key);
+  };
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    
+    if (line.startsWith("```")) {
+      if (inCodeBlock) {
+        flushCode(i);
+      } else {
+        flushAll(i);
+        inCodeBlock = true;
+      }
+      continue;
+    }
+    
+    if (inCodeBlock) {
+      currentCodeBlock.push(lines[i]);
+      continue;
+    }
+
+    if (line.startsWith(">")) {
+      flushList(i);
+      flushTable(i);
+      inBlockquote = true;
+      currentBlockquote.push(line.substring(1).trim());
+      continue;
+    } else {
+      flushBlockquote(i);
+    }
+
+    if (line.startsWith("|")) {
+      flushList(i);
+      inTable = true;
+      currentTable.push(line);
+      continue;
+    } else {
+      flushTable(i);
+    }
+
+    if (line.startsWith("- ") || line.startsWith("* ")) {
+      inList = true;
+      currentList.push(line.substring(2).trim());
+      continue;
+    } else {
+      flushList(i);
+    }
+
+    if (line.startsWith("## ")) {
+      const text = line.substring(3).trim();
+      const slug = text.replace(/[^a-zA-Z0-9\s-]/g, '').trim().toLowerCase().replace(/\s+/g, '-');
+      headings.push({ text, slug, level: 2 });
+      elements.push(
+        <h2 
+          key={i} 
+          id={slug} 
+          className="text-lg md:text-xl font-black text-slate-800 dark:text-white mt-8 mb-4 border-l-[3.5px] border-indigo-500 pl-3.5 scroll-mt-20 flex items-center gap-2"
+        >
+          {renderText(text)}
+        </h2>
+      );
+    } else if (line.startsWith("### ")) {
+      const text = line.substring(4).trim();
+      const slug = text.replace(/[^a-zA-Z0-9\s-]/g, '').trim().toLowerCase().replace(/\s+/g, '-');
+      headings.push({ text, slug, level: 3 });
+      elements.push(
+        <h3 
+          key={i} 
+          id={slug} 
+          className="text-base md:text-lg font-black text-indigo-650 dark:text-indigo-400 mt-6 mb-3 scroll-mt-20 flex items-center gap-1.5"
+        >
+          <span className="text-indigo-500 text-sm">✦</span> {renderText(text)}
+        </h3>
+      );
+    } else if (line.startsWith("#### ")) {
+      const text = line.substring(5).trim();
+      elements.push(
+        <h4 key={i} className="text-sm md:text-base font-extrabold text-slate-700 dark:text-white mt-4 mb-2">
+          {renderText(text)}
+        </h4>
+      );
+    } else if (line !== "") {
+      elements.push(
+        <p key={i} className="text-sm md:text-base text-slate-600 dark:text-slate-350 leading-relaxed my-3.5 font-medium">
+          {renderText(line)}
+        </p>
+      );
+    }
+  }
+
+  flushAll(lines.length);
+  return { elements, headings };
+}
+
 export default function GrammarLabPage() {
   const { awardXp } = useAuthStore();
   const { addToast } = useNotificationStore();
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
   const [activeLevel, setActiveLevel] = useState<"basic" | "intermediate" | "advanced">("basic");
+  const [activeTab, setActiveTab] = useState<"lesson" | "exercise">("lesson");
+  const [lessonData, setLessonData] = useState<GrammarLesson | null>(null);
   
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [loading, setLoading] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string>>({});
+  const [checkedQuestions, setCheckedQuestions] = useState<Record<number, boolean>>({});
   const [showResults, setShowResults] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const generateExercises = async (topicId: string) => {
+  // New sub-tab state for interactive AI Lecture Lab
+  const [activeSubTab, setActiveSubTab] = useState<"summary" | "deep_dive" | "chat">("summary");
+  const [deepDiveContent, setDeepDiveContent] = useState<string>("");
+  const [guideLoading, setGuideLoading] = useState(false);
+  const [chatMessages, setChatMessages] = useState<Array<{ role: "user" | "ai"; text: string }>>([]);
+  const [chatInput, setChatInput] = useState("");
+  const [chatLoading, setChatLoading] = useState(false);
+
+  const [activeHeading, setActiveHeading] = useState<string>("");
+
+  const parsedDeepDive = useMemo(() => {
+    if (!deepDiveContent) return { elements: [], headings: [] };
+    return parseMarkdown(deepDiveContent);
+  }, [deepDiveContent]);
+
+  const scrollToAnchor = useCallback((slug: string) => {
+    setActiveHeading(slug);
+    const el = document.getElementById(slug);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, []);
+
+  const openTopic = useCallback((topicId: string) => {
     setSelectedTopic(topicId);
+    setActiveTab("lesson");
+    setActiveSubTab("summary");
+    setDeepDiveContent("");
+    setChatMessages([]);
+    setChatInput("");
+    setExercises([]);
+    setCurrentIndex(0);
+    setAnswers({});
+    setCheckedQuestions({});
+    setShowResults(false);
+    setSubmitted(false);
+    // Load static lesson content
+    const lesson = getGrammarLesson(topicId);
+    setLessonData(lesson || null);
+  }, []);
+
+  const fetchDeepDiveGuide = useCallback(async (topicId: string, level: string) => {
+    if (deepDiveContent) return;
+    setGuideLoading(true);
+    try {
+      const res = await fetch("/api/ai/grammar/explain", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ topicId, level, mode: "generate_guide" }),
+      });
+      if (!res.ok) throw new Error("API error");
+      const data = await res.json();
+      if (data.guide) {
+        setDeepDiveContent(data.guide);
+      }
+    } catch {
+      addToast({ type: "error", title: "Lỗi!", message: "Không thể tải bài giảng chuyên sâu. Vui lòng thử lại." });
+    } finally {
+      setGuideLoading(false);
+    }
+  }, [deepDiveContent, addToast]);
+
+  const sendChatMessage = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!chatInput.trim() || chatLoading || !selectedTopic) return;
+
+    const userText = chatInput.trim();
+    setChatInput("");
+    
+    const updatedMessages = [...chatMessages, { role: "user" as const, text: userText }];
+    setChatMessages(updatedMessages);
+    setChatLoading(true);
+
+    try {
+      const res = await fetch("/api/ai/grammar/explain", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          topicId: selectedTopic,
+          level: activeLevel,
+          mode: "chat",
+          messages: updatedMessages,
+        }),
+      });
+      if (!res.ok) throw new Error("API error");
+      const data = await res.json();
+      if (data.reply) {
+        setChatMessages([...updatedMessages, { role: "ai" as const, text: data.reply }]);
+      }
+    } catch {
+      addToast({ type: "error", title: "Lỗi!", message: "Không thể kết nối trợ lý AI." });
+    } finally {
+      setChatLoading(false);
+    }
+  };
+
+  const generateExercises = async () => {
+    if (!selectedTopic) return;
+    setActiveTab("exercise");
     setLoading(true);
     setExercises([]);
     setCurrentIndex(0);
     setAnswers({});
+    setCheckedQuestions({});
     setShowResults(false);
     setSubmitted(false);
 
@@ -138,7 +569,7 @@ export default function GrammarLabPage() {
       const res = await fetch("/api/ai/grammar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ topic: topicId, level: activeLevel }),
+        body: JSON.stringify({ topic: selectedTopic, level: activeLevel }),
       });
 
       if (!res.ok) throw new Error("API error");
@@ -159,11 +590,27 @@ export default function GrammarLabPage() {
     setAnswers((prev) => ({ ...prev, [exerciseId]: answer }));
   };
 
-  const submitAll = () => {
+  const submitAll = async () => {
     setSubmitted(true);
     setShowResults(true);
     const correctCount = exercises.filter((ex) => answers[ex.id] === ex.correctAnswer).length;
     const xpEarned = correctCount * 5 + 20;
+
+    try {
+      await fetch("/api/ai/grammar/progress", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          topicId: selectedTopic,
+          level: activeLevel,
+          score: correctCount,
+          xpEarned: xpEarned
+        })
+      });
+    } catch (dbErr) {
+      console.error("Failed to submit progress:", dbErr);
+    }
+
     awardXp(xpEarned);
     addToast({
       type: "xp",
@@ -174,96 +621,527 @@ export default function GrammarLabPage() {
 
   const currentExercise = exercises[currentIndex];
   const filteredTopics = GRAMMAR_TOPICS.filter((t) => t.level === activeLevel);
+  const selectedTopicData = GRAMMAR_TOPICS.find((t) => t.id === selectedTopic);
 
   // Topic selection screen
-  if (!selectedTopic || exercises.length === 0) {
+  if (!selectedTopic) {
     return (
-      <div className="space-y-6 pb-20 md:pb-6" suppressHydrationWarning>
+      <div className="max-w-6xl mx-auto space-y-8 pb-24 md:pb-12" suppressHydrationWarning>
         <motion.div
-          initial={{ opacity: 0, y: -15 }}
+          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ type: "spring", stiffness: 85, damping: 15 }}
-          className="bezel overflow-hidden"
+          className="bezel overflow-hidden rounded-[2rem]"
         >
-          <div className="bezel-inner bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 dark:from-slate-950 dark:via-indigo-950/20 dark:to-purple-950/20 p-6 relative">
-            <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-500/10 rounded-full blur-[80px] pointer-events-none" />
-            <h1 className="text-2xl md:text-3xl font-black tracking-tight flex items-center gap-2 text-slate-900 dark:text-white font-display">
-              <BookOpen className="h-7 w-7 text-indigo-500 animate-pulse" /> Phòng luyện Ngữ pháp AI
+          <div className="bezel-inner bg-gradient-to-br from-indigo-50 via-purple-50/50 to-pink-50/30 dark:from-neutral-950 dark:via-indigo-950/20 dark:to-purple-950/10 p-4 sm:p-6 md:p-8 relative">
+            <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-indigo-500/10 dark:bg-indigo-500/5 rounded-full blur-[100px] pointer-events-none" />
+            <h1 className="text-xl sm:text-3xl md:text-4xl font-black tracking-tight flex items-center gap-2 sm:gap-3 text-slate-900 dark:text-white font-display">
+              <BookOpen className="h-6 w-6 sm:h-8 w-8 text-indigo-500 animate-pulse shrink-0" /> Phòng luyện Ngữ pháp AI
             </h1>
-            <p className="text-xs md:text-sm text-slate-600 dark:text-slate-400 mt-1 font-semibold leading-relaxed">
+            <p className="text-sm md:text-base text-slate-600 dark:text-slate-400 mt-2 font-medium leading-relaxed max-w-3xl">
               Chọn chủ đề ngữ pháp IELTS & TOEIC tích hợp — Gemini AI sẽ phân tích trình độ và tự động sinh bài tập trắc nghiệm riêng biệt cho bạn.
             </p>
           </div>
         </motion.div>
 
         {/* Level Tabs selector */}
-        <div className="flex gap-2 p-1.5 bg-slate-100 dark:bg-neutral-950 rounded-2xl w-fit">
+        <div className="flex w-full sm:w-fit gap-1 p-1.5 bg-slate-100 dark:bg-neutral-950 rounded-2xl">
           {[
             { id: "basic", name: "Cơ bản" },
             { id: "intermediate", name: "Trung cấp" },
             { id: "advanced", name: "Nâng cao" }
           ].map((lvl) => {
             const active = activeLevel === lvl.id;
+            const count = GRAMMAR_TOPICS.filter(t => t.level === lvl.id).length;
             return (
               <button
                 key={lvl.id}
                 type="button"
                 onClick={() => setActiveLevel(lvl.id as any)}
-                className={`px-5 py-2.5 rounded-xl text-xs font-black cursor-pointer transition-all select-none ${
+                className={`flex-1 sm:flex-initial text-center px-4 sm:px-6 py-3 rounded-xl text-sm font-black cursor-pointer transition-all select-none flex items-center justify-center gap-1.5 ${
                   active 
                     ? "bg-white dark:bg-neutral-900 text-indigo-600 dark:text-indigo-400 shadow-sm" 
-                    : "text-slate-500 hover:text-slate-750 dark:text-slate-400 dark:hover:text-slate-200"
+                    : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"
                 }`}
               >
                 {lvl.name}
+                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md ${
+                  active ? "bg-indigo-100 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400" : "bg-slate-200 dark:bg-neutral-800 text-slate-500 dark:text-slate-500"
+                }`}>{count}</span>
               </button>
             );
           })}
         </div>
 
-        {loading ? (
-          <Card variant="bezel" className="p-12 text-center bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-[calc(var(--radius-3xl)-6px)] animate-scale-up">
-            <Loader2 className="h-8 w-8 animate-spin text-indigo-500 mx-auto" />
-            <p className="text-xs md:text-sm font-bold text-slate-450 dark:text-slate-500 mt-3 animate-pulse">AI đang phân tích và sinh đề bài tập...</p>
-          </Card>
-        ) : (
-          <motion.div
-            variants={topicsContainerVariants}
-            initial="hidden"
-            animate="show"
-            className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
-          >
-            {filteredTopics.map((topic) => (
-              <motion.div
-                variants={topicItemVariants}
-                whileHover={{ translateY: -3 }}
-                whileTap={{ scale: 0.98 }}
-                key={topic.id}
-                onClick={() => generateExercises(topic.id)}
-                className="cursor-pointer"
+        <motion.div
+          variants={topicsContainerVariants}
+          initial="hidden"
+          animate="show"
+          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+        >
+          {filteredTopics.map((topic) => (
+            <motion.div
+              variants={topicItemVariants}
+              whileHover={{ translateY: -4 }}
+              whileTap={{ scale: 0.98 }}
+              key={topic.id}
+              onClick={() => openTopic(topic.id)}
+              className="cursor-pointer group p-1 bg-slate-100/40 dark:bg-neutral-900/40 border border-slate-200/20 dark:border-neutral-800/20 rounded-[2rem]"
+            >
+              <Card
+                variant="bezel"
+                className="p-4 sm:p-6 flex flex-col justify-between h-full bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-800 rounded-[calc(2rem-0.25rem)] relative overflow-hidden shadow-sm"
               >
-                <Card
-                  variant="bezel"
-                  className="p-5 flex flex-col justify-between h-full group bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-[calc(var(--radius-3xl)-6px)] relative overflow-hidden"
-                >
-                  <div className="space-y-2">
-                    <div className="text-3xl mb-1">{topic.icon}</div>
-                    <h3 className="text-xs font-black text-slate-800 dark:text-white group-hover:text-indigo-500 transition-colors">{topic.name}</h3>
-                    <p className="text-[10px] text-slate-450 dark:text-slate-500 font-semibold italic">{topic.nameEn}</p>
-                    <p className="text-[10px] text-slate-500 dark:text-slate-450 leading-relaxed font-medium mt-1">{topic.desc}</p>
-                  </div>
-                  
-                  <div className="mt-4 pt-3 border-t border-slate-100/60 dark:border-neutral-850/60 flex items-center justify-between">
-                    <div className="flex items-center gap-1 text-[9px] font-black text-indigo-500 uppercase tracking-wide group-hover:translate-x-1 transition-transform">
-                      <Sparkles className="h-3 w-3 text-yellow-500 animate-pulse" /> Bắt đầu luyện <ArrowRight className="h-3 w-3 shrink-0" />
-                    </div>
-                    <Badge variant="neutral" className="text-[8px] font-extrabold px-1.5 py-0.5 tracking-tighter flex items-center gap-0.5">
-                      <Target className="h-2.5 w-2.5 text-indigo-500" /> {topic.focus}
+                <div className="space-y-3.5">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="text-4xl">{topic.icon}</div>
+                    <Badge variant="neutral" className="text-[10px] font-black px-2.5 py-1 text-slate-500 dark:text-slate-500 border border-slate-100 dark:border-neutral-800 rounded-lg flex items-center gap-1 shrink-0 max-w-[160px] truncate">
+                      <Target className="h-3 w-3 text-indigo-500 shrink-0" /> {topic.focus}
                     </Badge>
                   </div>
+                  <h3 className="text-base md:text-lg font-black text-slate-800 dark:text-white group-hover:text-indigo-500 transition-colors">{topic.name}</h3>
+                  <p className="text-xs text-indigo-500 dark:text-indigo-400 font-bold uppercase tracking-wider">{topic.nameEn}</p>
+                  <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-medium mt-2">{topic.desc}</p>
+                </div>
+                
+                <div className="mt-6 pt-4 border-t border-slate-100 dark:border-neutral-800 flex items-center justify-between">
+                  <div className="flex items-center gap-1.5 text-xs font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-wide">
+                    <Sparkles className="h-4.5 w-4.5 text-yellow-500 animate-pulse" /> Bắt đầu học 
+                  </div>
+                  <div className="w-8 h-8 rounded-full bg-indigo-50 dark:bg-indigo-950/50 flex items-center justify-center transition-all duration-300 group-hover:bg-indigo-600 group-hover:text-white dark:group-hover:bg-indigo-500">
+                    <ArrowRight className="h-4 w-4 text-indigo-600 dark:text-indigo-400 transition-transform group-hover:translate-x-0.5 group-hover:text-white" />
+                  </div>
+                </div>
+              </Card>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    );
+  }
+
+  // ── LESSON + EXERCISE TABS SCREEN ──
+  if (activeTab === "lesson" && lessonData) {
+    return (
+      <div className="max-w-6xl mx-auto space-y-8 pb-24 md:pb-12 px-0 sm:px-6" suppressHydrationWarning>
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-center justify-between"
+        >
+          <Button variant="secondary" size="sm" className="cursor-pointer rounded-xl font-bold px-4 py-2 hover:bg-slate-200/50" onClick={() => { setSelectedTopic(null); setLessonData(null); }}>
+            <ArrowLeft className="h-4 w-4 mr-1.5" /> Chọn chủ đề khác
+          </Button>
+          <Badge variant="primary" className="text-sm font-black px-4 py-1.5 flex items-center gap-1.5 shadow-sm">
+            <span className="text-lg">{selectedTopicData?.icon}</span> {selectedTopicData?.name}
+          </Badge>
+        </motion.div>
+        {/* Tab Navigation — 3 content tabs + 1 CTA */}
+        <div className="border-b border-slate-200 dark:border-neutral-800">
+          <div className="flex items-center justify-between gap-3">
+            {/* Content tabs */}
+            <div 
+              className="flex overflow-x-auto gap-1 sm:gap-1.5 pb-0 scroll-smooth [&::-webkit-scrollbar]:hidden flex-1"
+              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            >
+               {([
+                { key: "summary" as const, label: "Tóm tắt cốt lõi", mobileLabel: "Tóm tắt", icon: <GraduationCap className="h-4 w-4 shrink-0" /> },
+                { key: "deep_dive" as const, label: "Cẩm nang Chuyên sâu", mobileLabel: "Cẩm nang", icon: <BookOpen className="h-4 w-4 shrink-0" /> },
+                { key: "chat" as const, label: "Hỏi Trợ lý AI", mobileLabel: "Hỏi AI", icon: <MessageSquare className="h-4 w-4 shrink-0" /> },
+              ]).map((tab) => {
+                const isActive = activeSubTab === tab.key;
+                return (
+                  <button
+                    key={tab.key}
+                    type="button"
+                    onClick={() => {
+                      setActiveTab("lesson");
+                      setActiveSubTab(tab.key);
+                      if (tab.key === "deep_dive") fetchDeepDiveGuide(selectedTopic, activeLevel);
+                    }}
+                    className={`whitespace-nowrap shrink-0 text-xs sm:text-sm font-black px-3 sm:px-4 py-2.5 rounded-t-xl transition-all cursor-pointer flex items-center gap-1.5 border-b-2 ${
+                      isActive
+                        ? "border-indigo-600 text-indigo-600 dark:text-indigo-400 dark:border-indigo-400 bg-indigo-50/50 dark:bg-indigo-950/20"
+                        : "border-transparent text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 hover:border-slate-300 dark:hover:border-neutral-700"
+                    }`}
+                  >
+                    {tab.icon} <span className="hidden sm:inline">{tab.label}</span>
+                    <span className="sm:hidden">{tab.mobileLabel}</span>
+                  </button>
+                );
+              })}
+            </div>
+            {/* CTA: Luyện tập AI — tách riêng khỏi tabs */}
+            <button
+              type="button"
+              onClick={() => generateExercises()}
+              className="whitespace-nowrap shrink-0 text-xs sm:text-sm font-black px-3 sm:px-5 py-2 rounded-xl cursor-pointer flex items-center gap-1.5 bg-indigo-600 text-white shadow-sm hover:bg-indigo-700 active:scale-[0.97] transition-all mb-px"
+            >
+              <PenTool className="h-3.5 w-3.5 shrink-0" /> <span className="hidden sm:inline">Luyện tập AI</span><span className="sm:hidden">Luyện tập</span>
+            </button>
+          </div>
+        </div>
+
+        {/* ═══════════ Tab Content: Tóm tắt cốt lõi ═══════════ */}
+        {activeSubTab === "summary" && (
+          <>
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ type: "spring", stiffness: 85, damping: 15 }}
+              className="space-y-8"
+            >
+              {/* ─── FORMULAS: Full-width hero card ─── */}
+              <div className="p-1.5 bg-slate-100/40 dark:bg-neutral-950/40 border border-slate-200/25 dark:border-neutral-800/20 rounded-[2rem]">
+                <Card variant="bezel" className="overflow-hidden bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-800 rounded-[calc(2rem-0.375rem)] shadow-sm">
+                  <div className="px-5 sm:px-6 py-4 bg-slate-50 dark:bg-neutral-950 border-b border-slate-100 dark:border-neutral-800 flex items-center gap-2.5">
+                    <FlaskConical className="h-5 w-5 text-indigo-500" />
+                    <h2 className="text-sm md:text-base font-black text-slate-800 dark:text-white">Công thức Ngữ pháp</h2>
+                  </div>
+                  <div className="p-4 sm:p-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4">
+                      {lessonData.formulas.map((f, i) => {
+                        const { type, cleanText } = parseFormula(f);
+                        let badgeLabel = "";
+                        let accentColor = "";
+                        let icon = "";
+                        switch (type) {
+                          case "affirmative":
+                            badgeLabel = "Khẳng định";
+                            accentColor = "emerald";
+                            icon = "➕";
+                            break;
+                          case "negative":
+                            badgeLabel = "Phủ định";
+                            accentColor = "rose";
+                            icon = "➖";
+                            break;
+                          case "interrogative":
+                            badgeLabel = "Nghi vấn";
+                            accentColor = "amber";
+                            icon = "❓";
+                            break;
+                          default:
+                            badgeLabel = "Công thức";
+                            accentColor = "indigo";
+                            icon = "✨";
+                        }
+                        const borderColorMap: Record<string, string> = {
+                          emerald: "border-l-emerald-500",
+                          rose: "border-l-rose-500",
+                          amber: "border-l-amber-500",
+                          indigo: "border-l-indigo-500",
+                        };
+                        const badgeBgMap: Record<string, string> = {
+                          emerald: "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-800/40",
+                          rose: "bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/30 dark:text-rose-400 dark:border-rose-800/40",
+                          amber: "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/30 dark:text-amber-400 dark:border-amber-800/40",
+                          indigo: "bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/30 dark:text-indigo-400 dark:border-indigo-800/40",
+                        };
+
+                        return (
+                          <div key={i} className={`flex flex-col gap-2.5 p-4 rounded-xl bg-slate-50/80 dark:bg-neutral-950/60 border border-slate-100 dark:border-neutral-800 border-l-[3px] ${borderColorMap[accentColor]} shadow-sm`}>
+                            <div className="flex items-center gap-2">
+                              <span className="text-base">{icon}</span>
+                              <span className={`text-[10px] font-black px-2 py-0.5 rounded-md border ${badgeBgMap[accentColor]}`}>
+                                {badgeLabel}
+                              </span>
+                            </div>
+                            <div className="font-mono text-[13px] sm:text-sm font-extrabold text-slate-800 dark:text-slate-200 tracking-wide select-all leading-relaxed break-all sm:break-normal whitespace-pre-wrap">
+                              {cleanText}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </Card>
-              </motion.div>
-            ))}
+              </div>
+
+              {/* ─── TWO-COLUMN GRID: Content + Sidebar ─── */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                {/* Left Column (8 cols): Examples + Common Mistakes + Extra Rules */}
+                <div className="lg:col-span-8 space-y-6">
+                  {/* Examples Card */}
+                  <Card variant="bezel" className="overflow-hidden bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-800 rounded-2xl shadow-sm">
+                    <div className="px-5 sm:px-6 py-4 bg-slate-50 dark:bg-neutral-950 border-b border-slate-100 dark:border-neutral-800 flex items-center gap-2.5">
+                      <BookOpen className="h-5 w-5 text-indigo-500" />
+                      <h2 className="text-sm md:text-base font-black text-slate-800 dark:text-white">Ví dụ Mẫu</h2>
+                    </div>
+                    <div className="p-4 sm:p-6 space-y-3">
+                      {lessonData.examples.map((ex, i) => (
+                        <div key={i} className="p-3.5 sm:p-4 rounded-xl bg-slate-50/60 dark:bg-neutral-950/60 border border-slate-100 dark:border-neutral-800 flex items-start justify-between gap-3 hover:border-slate-300 dark:hover:border-neutral-700 transition-colors duration-200">
+                          <div className="space-y-1.5 min-w-0">
+                            <p className="text-sm md:text-base font-extrabold text-slate-800 dark:text-white leading-relaxed">
+                              {ex.en.split(ex.highlight).map((part, j, arr) => (
+                                <React.Fragment key={j}>
+                                  {part}
+                                  {j < arr.length - 1 && (
+                                    <span className="text-indigo-600 dark:text-indigo-400 font-black underline decoration-2 decoration-indigo-400/50 bg-indigo-500/5 dark:bg-indigo-500/10 px-1 rounded">
+                                      {ex.highlight}
+                                    </span>
+                                  )}
+                                </React.Fragment>
+                              ))}
+                            </p>
+                            <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 font-bold italic">→ {ex.vi}</p>
+                          </div>
+                          <button className="w-8 h-8 rounded-full bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 flex items-center justify-center cursor-pointer hover:scale-105 active:scale-95 transition-all duration-200 shrink-0 hover:bg-indigo-50 dark:hover:bg-indigo-950/30 text-sm" title="Nghe phát âm">
+                            🔊
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </Card>
+
+                  {/* Common Mistakes Card */}
+                  {lessonData.commonMistakes.length > 0 && (
+                    <Card variant="bezel" className="overflow-hidden bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-800 rounded-2xl shadow-sm">
+                      <div className="px-5 sm:px-6 py-4 bg-slate-50 dark:bg-neutral-950 border-b border-slate-100 dark:border-neutral-800 flex items-center gap-2.5">
+                        <AlertTriangle className="h-5 w-5 text-rose-500" />
+                        <h2 className="text-sm md:text-base font-black text-slate-800 dark:text-white">Lỗi sai phổ biến</h2>
+                      </div>
+                      <div className="p-4 sm:p-6 space-y-4">
+                        {lessonData.commonMistakes.map((m, i) => (
+                          <div key={i} className="p-3.5 sm:p-4 rounded-xl bg-slate-50/60 dark:bg-neutral-950/60 border border-slate-100 dark:border-neutral-800 space-y-2.5">
+                            <div className="p-2.5 bg-rose-50/80 dark:bg-rose-500/10 border border-rose-200/30 dark:border-rose-900/30 rounded-lg flex items-start gap-2">
+                              <XCircle className="h-4 w-4 text-rose-500 shrink-0 mt-0.5" />
+                              <p className="text-xs md:text-sm font-extrabold text-rose-600 dark:text-rose-400 line-through decoration-1 leading-relaxed">{m.wrong}</p>
+                            </div>
+                            <div className="p-2.5 bg-emerald-50/80 dark:bg-emerald-500/10 border border-emerald-200/30 dark:border-emerald-900/30 rounded-lg flex items-start gap-2">
+                              <CheckCircle className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
+                              <p className="text-xs md:text-sm font-black text-emerald-600 dark:text-emerald-400 leading-relaxed">{m.correct}</p>
+                            </div>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold leading-relaxed pl-1">
+                              💡 {m.explanation}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </Card>
+                  )}
+
+                  {/* Extra Rules Card */}
+                  {lessonData.extraRules && lessonData.extraRules.length > 0 && (
+                    <Card variant="bezel" className="overflow-hidden bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-800 rounded-2xl shadow-sm">
+                      <div className="px-5 sm:px-6 py-4 bg-slate-50 dark:bg-neutral-950 border-b border-slate-100 dark:border-neutral-800 flex items-center gap-2.5">
+                        <Sparkles className="h-5 w-5 text-indigo-500" />
+                        <h2 className="text-sm md:text-base font-black text-slate-800 dark:text-white">Quy tắc Bổ sung</h2>
+                      </div>
+                      <div className="p-4 sm:p-6 space-y-2.5">
+                        {lessonData.extraRules.map((rule, i) => (
+                          <div key={i} className="flex items-start gap-2.5 p-3 rounded-lg bg-slate-50/60 dark:bg-neutral-950/60 border border-slate-100 dark:border-neutral-800">
+                            <span className="text-indigo-500 font-black text-xs shrink-0 mt-0.5">•</span>
+                            <p className="text-xs md:text-sm font-semibold text-slate-600 dark:text-slate-400 leading-relaxed">{rule}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </Card>
+                  )}
+                </div>
+
+                {/* Right Column (4 cols): Signal Words + Memory Tip + Usages */}
+                <div className="lg:col-span-4 space-y-6">
+                  {/* Signal Words */}
+                  {lessonData.signalWords.length > 0 && (
+                    <Card variant="bezel" className="overflow-hidden bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-800 rounded-2xl shadow-sm">
+                      <div className="px-5 py-3.5 bg-slate-50 dark:bg-neutral-950 border-b border-slate-100 dark:border-neutral-800 flex items-center gap-2">
+                        <Tag className="h-4 w-4 text-indigo-500" />
+                        <h2 className="text-sm font-black text-slate-800 dark:text-white">Từ Nhận biết</h2>
+                      </div>
+                      <div className="p-4 flex flex-wrap gap-2">
+                        {lessonData.signalWords.map((w, i) => (
+                          <span key={i} className="px-3 py-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-950/20 border border-indigo-200/50 dark:border-indigo-800/30 text-xs font-black text-indigo-700 dark:text-indigo-400">
+                            {w}
+                          </span>
+                        ))}
+                      </div>
+                    </Card>
+                  )}
+
+                  {/* Memory Tip */}
+                  <Card variant="bezel" className="overflow-hidden bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-800 rounded-2xl shadow-sm">
+                    <div className="px-5 py-3.5 bg-slate-50 dark:bg-neutral-950 border-b border-slate-100 dark:border-neutral-800 flex items-center gap-2">
+                      <Lightbulb className="h-4 w-4 text-amber-500" />
+                      <h2 className="text-sm font-black text-slate-800 dark:text-white">Mẹo Ghi nhớ</h2>
+                    </div>
+                    <div className="p-4">
+                      <p className="text-xs md:text-sm font-extrabold text-amber-700 dark:text-amber-400 leading-relaxed">{lessonData.memoryTip}</p>
+                    </div>
+                  </Card>
+
+                  {/* Exam Usage Contexts */}
+                  {lessonData.usages.length > 0 && (
+                    <Card variant="bezel" className="overflow-hidden bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-800 rounded-2xl shadow-sm">
+                      <div className="px-5 py-3.5 bg-slate-50 dark:bg-neutral-950 border-b border-slate-100 dark:border-neutral-800 flex items-center gap-2">
+                        <Target className="h-4 w-4 text-indigo-500" />
+                        <h2 className="text-sm font-black text-slate-800 dark:text-white">Ứng dụng thi cử</h2>
+                      </div>
+                      <div className="p-4 space-y-3">
+                        {lessonData.usages.map((u, i) => (
+                          <div key={i} className="p-3 rounded-lg bg-slate-50/60 dark:bg-neutral-950/60 border border-slate-100 dark:border-neutral-800">
+                            <Badge variant="neutral" className="text-[10px] font-black px-2 py-0.5 mb-1.5">{u.context}</Badge>
+                            <p className="text-xs font-semibold text-slate-600 dark:text-slate-400 leading-relaxed italic">"{u.example}"</p>
+                          </div>
+                        ))}
+                      </div>
+                    </Card>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+
+            {/* CTA: Start Practice */}
+            <div className="flex justify-center pt-6">
+              <Button
+                variant="primary"
+                onClick={() => generateExercises()}
+                className="w-full sm:w-auto px-8 py-4 rounded-full text-sm sm:text-base font-black flex items-center justify-center gap-3 shadow-lg shadow-indigo-500/20 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer group"
+              >
+                <span>Bắt đầu Luyện tập AI (8 câu hỏi)</span>
+                <div className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center group-hover:translate-x-1 transition-transform">
+                  <ArrowRight className="h-3.5 w-3.5 text-white" />
+                </div>
+              </Button>
+            </div>
+          </>
+        )}
+
+        {activeSubTab === "deep_dive" && (
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="space-y-6"
+          >
+            {guideLoading ? (
+              /* Skeleton Loading (Rule 1) */
+              <div className="space-y-6 animate-pulse">
+                <div className="h-8 bg-slate-200 dark:bg-neutral-800 rounded-xl w-3/4" />
+                <div className="space-y-3">
+                  <div className="h-4 bg-slate-100 dark:bg-neutral-800 rounded w-full" />
+                  <div className="h-4 bg-slate-100 dark:bg-neutral-800 rounded w-5/6" />
+                  <div className="h-4 bg-slate-100 dark:bg-neutral-800 rounded w-2/3" />
+                </div>
+                <div className="h-40 bg-slate-100 dark:bg-neutral-900 rounded-[2rem] border border-slate-200/20 dark:border-neutral-800/30" />
+                <div className="space-y-3">
+                  <div className="h-4 bg-slate-100 dark:bg-neutral-800 rounded w-full" />
+                  <div className="h-4 bg-slate-100 dark:bg-neutral-800 rounded w-4/5" />
+                </div>
+              </div>
+            ) : (
+              <div className="p-1.5 bg-slate-100/40 dark:bg-neutral-950/40 border border-slate-200/25 dark:border-neutral-800/20 rounded-[2rem]">
+                <Card variant="bezel" className="p-6 md:p-8 bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-800 rounded-[calc(2rem-0.375rem)] shadow-sm max-w-none">
+                  <div className="prose dark:prose-invert max-w-none text-slate-800 dark:text-slate-200">
+                    {parsedDeepDive.elements}
+                  </div>
+                </Card>
+              </div>
+            )}
+          </motion.div>
+        )}
+
+        {activeSubTab === "chat" && (
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <div className="p-1.5 bg-slate-100/40 dark:bg-neutral-950/40 border border-slate-200/25 dark:border-neutral-800/20 rounded-[2rem]">
+              <Card variant="bezel" className="bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-800 rounded-[calc(2rem-0.375rem)] overflow-hidden shadow-sm flex flex-col h-[500px] sm:h-[550px] md:h-[600px] max-h-[70dvh] min-h-[400px]">
+                {/* Welcome Banner */}
+                <div className="p-4 bg-gradient-to-r from-indigo-500/10 to-violet-500/10 dark:from-indigo-500/5 dark:to-violet-500/5 border-b border-slate-100 dark:border-neutral-800 flex items-center gap-2.5">
+                  <MessageSquare className="h-5 w-5 text-indigo-500" />
+                  <div>
+                    <h3 className="text-sm font-black text-slate-800 dark:text-white">Trợ lý Hỏi đáp Ngữ pháp AI</h3>
+                    <p className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold">Thảo luận, viết ví dụ, hoặc dịch thuật về: {selectedTopicData?.name}</p>
+                  </div>
+                </div>
+
+                {/* Message History */}
+                <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                  {chatMessages.length === 0 ? (
+                    <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-3">
+                      <div className="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-950/30 flex items-center justify-center text-indigo-500 text-xl font-bold">
+                        💬
+                      </div>
+                      <div className="space-y-1">
+                        <p className="text-sm font-black text-slate-700 dark:text-slate-300">Chưa có câu hỏi nào</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm font-medium leading-relaxed">
+                          Nhập câu hỏi của bạn ở bên dưới hoặc dùng các gợi ý nhanh để bắt đầu thảo luận với trợ lý AI nhé!
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    chatMessages.map((msg, idx) => (
+                      <div key={idx} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+                        <div className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 sm:px-4 sm:py-3 text-xs sm:text-sm font-medium leading-relaxed ${
+                          msg.role === "user"
+                            ? "bg-indigo-600 text-white rounded-br-none shadow-sm"
+                            : "bg-slate-50 dark:bg-neutral-950 text-slate-800 dark:text-slate-300 rounded-bl-none border border-slate-200/30 dark:border-neutral-850/40"
+                        }`}>
+                          {msg.role === "user" ? (
+                            msg.text
+                          ) : (
+                            <div className="prose dark:prose-invert max-w-none text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200">
+                              {parseMarkdown(msg.text).elements}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))
+                  )}
+                  {chatLoading && (
+                    <div className="flex justify-start">
+                      <div className="bg-slate-100/50 dark:bg-neutral-950 text-slate-400 rounded-2xl rounded-bl-none px-4 py-3 border border-slate-200/20 dark:border-neutral-800/30 flex items-center gap-2">
+                        <Loader2 className="h-4 w-4 animate-spin text-indigo-500" />
+                        <span className="text-xs font-semibold">Trợ lý đang gõ...</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Suggested Prompts (Pills) */}
+                {chatMessages.length === 0 && (
+                  <div className="px-4 py-2.5 border-t border-slate-100 dark:border-neutral-855 flex flex-wrap gap-2 select-none bg-slate-50/40 dark:bg-black/10">
+                    {[
+                      "💡 Giải thích sâu công thức",
+                      "📝 Cho tôi 3 ví dụ thực tế",
+                      "⚠️ Lỗi thường gặp là gì?",
+                      "🔄 Viết một câu tương tự"
+                    ].map((promptText) => (
+                      <button
+                        key={promptText}
+                        type="button"
+                        onClick={() => setChatInput(promptText)}
+                        className="text-[10px] sm:text-xs font-extrabold px-3 py-1.5 rounded-lg border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-slate-600 dark:text-slate-400 hover:border-indigo-500 hover:text-indigo-650 dark:hover:text-indigo-400 hover:bg-indigo-50/30 dark:hover:bg-indigo-950/20 transition-all duration-150 cursor-pointer"
+                      >
+                        {promptText}
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {/* Chat Form Input */}
+                <form onSubmit={sendChatMessage} className="p-3 sm:p-4 border-t border-slate-100/60 dark:border-neutral-800 bg-slate-50/50 dark:bg-neutral-950/30 flex gap-2 items-center">
+                  <input
+                    type="text"
+                    value={chatInput}
+                    onChange={(e) => setChatInput(e.target.value)}
+                    placeholder="Hỏi về cấu trúc, ví dụ, cách dùng..."
+                    disabled={chatLoading}
+                    className="flex-1 px-4 py-3 rounded-xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-sm font-semibold outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/20 disabled:opacity-50"
+                  />
+                  <Button 
+                    type="submit" 
+                    disabled={chatLoading || !chatInput.trim()} 
+                    className="h-11 w-11 shrink-0 p-0 flex items-center justify-center rounded-xl cursor-pointer"
+                    variant="primary"
+                  >
+                    <Send className="h-4.5 w-4.5 text-white" />
+                  </Button>
+                </form>
+              </Card>
+            </div>
           </motion.div>
         )}
       </div>
@@ -272,23 +1150,30 @@ export default function GrammarLabPage() {
 
   // Exercise screen
   return (
-    <div className="max-w-2xl mx-auto space-y-6 pb-20 md:pb-6" suppressHydrationWarning>
+    <div className="max-w-3xl mx-auto space-y-6 pb-24 md:pb-12 px-0 sm:px-6" suppressHydrationWarning>
       {/* Progress header */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="flex items-center justify-between"
+        className="flex flex-col sm:flex-row sm:items-center justify-between gap-3"
       >
-        <Button variant="secondary" size="sm" className="cursor-pointer rounded-xl font-bold" onClick={() => { setSelectedTopic(null); setExercises([]); }}>
-          <RotateCcw className="h-3.5 w-3.5 mr-1" /> Chọn chủ đề khác
-        </Button>
-        <Badge variant="primary" className="text-xs md:text-sm font-black px-3.5 py-1">
-          {showResults ? "Kết quả" : `${currentIndex + 1} / ${exercises.length}`}
+        <div className="flex items-center gap-2 w-full sm:w-auto overflow-x-auto no-scrollbar whitespace-nowrap" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+          {lessonData && (
+            <Button variant="secondary" className="cursor-pointer rounded-xl font-black text-[10px] sm:text-xs px-3 sm:px-4 py-1.5 sm:py-2 shrink-0" onClick={() => setActiveTab("lesson")}>
+              <ArrowLeft className="h-3.5 w-3.5 mr-1" /> Bài giảng
+            </Button>
+          )}
+          <Button variant="secondary" className="cursor-pointer rounded-xl font-black text-[10px] sm:text-xs px-3 sm:px-4 py-1.5 sm:py-2 shrink-0" onClick={() => { setSelectedTopic(null); setLessonData(null); setExercises([]); }}>
+            <RotateCcw className="h-3.5 w-3.5 mr-1" /> Chọn chủ đề khác
+          </Button>
+        </div>
+        <Badge variant="primary" className="w-fit text-[10px] sm:text-xs font-black px-3 py-1 sm:px-4 sm:py-1.5 self-end sm:self-auto shadow-sm">
+          {showResults ? "Kết quả" : `Câu ${currentIndex + 1} / ${exercises.length}`}
         </Badge>
       </motion.div>
 
       {/* Progress bar */}
-      <div className="h-2 rounded-full bg-slate-100 dark:bg-neutral-855 overflow-hidden">
+      <div className="h-2.5 rounded-full bg-slate-100 dark:bg-neutral-800 overflow-hidden shadow-inner">
         <motion.div
           className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-violet-500"
           initial={{ width: 0 }}
@@ -298,36 +1183,39 @@ export default function GrammarLabPage() {
       </div>
 
       <AnimatePresence mode="wait">
-        {showResults ? (
+        {showResults ? (() => {
+          const correctCount = exercises.filter((ex) => answers[ex.id] === ex.correctAnswer).length;
+          const percentage = Math.round((correctCount / exercises.length) * 100);
+          const emoji = percentage >= 80 ? "🎉" : percentage >= 50 ? "💪" : "📚";
+          const message = percentage >= 80 ? "Xuất sắc!" : percentage >= 50 ? "Khá tốt!" : "Cần ôn thêm!";
+          return (
           /* Results summary */
-          <motion.div
-            key="results-summary"
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.98 }}
-            transition={{ type: "spring", stiffness: 85, damping: 15 }}
-          >
-            <Card variant="bezel" className="p-6 space-y-5 bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-[calc(var(--radius-3xl)-6px)] animate-scale-up">
-              <div className="text-center">
-                <div className="text-4xl font-black text-indigo-650 font-display">
-                  {exercises.filter((ex) => answers[ex.id] === ex.correctAnswer).length}/{exercises.length}
+          <div className="p-1 bg-slate-100/40 dark:bg-neutral-900/40 border border-slate-200/20 dark:border-neutral-800/20 rounded-[2rem] animate-scale-up">
+            <Card variant="bezel" className="p-5 sm:p-8 space-y-5 bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-800 rounded-[calc(2rem-0.25rem)] shadow-sm">
+              <div className="text-center py-4 bg-gradient-to-r from-indigo-500/5 to-violet-500/5 rounded-2xl border border-indigo-100/30 dark:border-indigo-950/20">
+                <div className="text-3xl mb-2">{emoji}</div>
+                <div className="text-4xl sm:text-5xl md:text-6xl font-black text-indigo-600 dark:text-indigo-400 font-display">
+                  {correctCount} / {exercises.length}
                 </div>
-                <p className="text-xs md:text-sm text-slate-400 dark:text-slate-500 mt-1 font-bold">Câu trả lời đúng</p>
+                <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-1.5 font-bold uppercase tracking-wider">
+                  {message} — {percentage}% đúng
+                </p>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {exercises.map((ex) => {
                   const isCorrect = answers[ex.id] === ex.correctAnswer;
                   return (
-                    <div key={ex.id} className={`p-4 rounded-2xl border text-xs leading-relaxed font-semibold ${isCorrect ? "border-emerald-250/50 bg-emerald-50/20 dark:bg-emerald-950/15 text-emerald-700 dark:text-emerald-400" : "border-rose-250/50 bg-rose-50/20 dark:bg-rose-950/15 text-rose-750 dark:text-rose-400"}`}>
+                    <div key={ex.id} className={`p-3.5 rounded-xl border text-xs sm:text-sm leading-relaxed font-semibold ${isCorrect ? "border-emerald-200/50 bg-emerald-50/20 dark:bg-emerald-950/10 text-emerald-700 dark:text-emerald-400" : "border-rose-200/50 bg-rose-50/20 dark:bg-rose-950/10 text-rose-700 dark:text-rose-400"}`}>
                       <div className="flex items-start gap-2.5">
-                        {isCorrect ? <CheckCircle className="h-4.5 w-4.5 text-emerald-500 shrink-0 mt-0.5" /> : <XCircle className="h-4.5 w-4.5 text-rose-500 shrink-0 mt-0.5" />}
-                        <div className="space-y-1.5">
-                          <p className="text-xs font-black text-slate-800 dark:text-slate-200">{ex.sentence}</p>
+                        {isCorrect ? <CheckCircle className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" /> : <XCircle className="h-4 w-4 text-rose-500 shrink-0 mt-0.5" />}
+                        <div className="space-y-1.5 min-w-0">
+                          <p className="text-sm md:text-base font-extrabold text-slate-800 dark:text-slate-200 leading-relaxed">{ex.sentence}</p>
                           {!isCorrect && (
-                            <p className="text-[11px] text-rose-500 font-bold">Bạn chọn: <span className="underline decoration-wavy">{answers[ex.id] || "(bỏ trống)"}</span> — Đáp án đúng: <span className="text-emerald-600 dark:text-emerald-400 font-black">{ex.correctAnswer}</span></p>
+                            <p className="text-xs font-black text-rose-600 dark:text-rose-400 leading-relaxed">
+                              Bạn chọn: <span className="underline decoration-wavy">{answers[ex.id] || "(bỏ trống)"}</span> — Đáp án: <span className="text-emerald-600 dark:text-emerald-400 font-black">{ex.correctAnswer}</span>
+                            </p>
                           )}
-                          <p className="text-[11px] text-slate-500 dark:text-slate-450 leading-relaxed font-medium mt-1">{ex.explanation}</p>
                         </div>
                       </div>
                     </div>
@@ -335,40 +1223,77 @@ export default function GrammarLabPage() {
                 })}
               </div>
 
-              <Button variant="primary" className="w-full py-4 text-xs md:text-sm font-bold flex items-center justify-center cursor-pointer shadow-glow" onClick={() => { setSelectedTopic(null); setExercises([]); }}>
-                <RotateCcw className="h-4 w-4 mr-1.5" /> Luyện chủ đề khác
-              </Button>
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                <Button variant="primary" className="flex-1 py-3.5 rounded-xl font-black text-sm cursor-pointer" onClick={() => { setActiveTab("lesson"); setExercises([]); setShowResults(false); }}>
+                  Quay lại bài học
+                </Button>
+                <Button variant="secondary" className="flex-1 py-3.5 rounded-xl font-black text-sm cursor-pointer" onClick={() => { setExercises([]); setShowResults(false); setAnswers({}); setCurrentIndex(0); setSubmitted(false); generateExercises(); }}>
+                  <RotateCcw className="h-3.5 w-3.5 mr-1.5" /> Làm lại
+                </Button>
+              </div>
             </Card>
-          </motion.div>
-        ) : currentExercise ? (
-          /* Single exercise card */
-          <motion.div
-            key={`exercise-${currentIndex}`}
-            initial={{ opacity: 0, x: 15 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -15 }}
-            transition={{ type: "spring", stiffness: 95, damping: 16 }}
-          >
-            <Card variant="bezel" className="p-6 space-y-6 bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-[calc(var(--radius-3xl)-6px)]">
-              <div>
-                <Badge variant="neutral" className="mb-3 font-bold animate-pulse">Câu {currentIndex + 1}</Badge>
-                <p className="text-base font-black text-slate-800 dark:text-white leading-relaxed font-display">
-                  {currentExercise.sentence}
-                </p>
+          </div>
+          );
+        })() : exercises[currentIndex] ? (() => {
+          const currentQuestion = exercises[currentIndex];
+          const hasAnswered = answers[currentQuestion.id] !== undefined;
+          const isChecked = checkedQuestions[currentQuestion.id] === true;
+          const selectedAnswer = answers[currentQuestion.id];
+          const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
+
+          return (
+          /* Question Display */
+          <div key={currentIndex} className="p-1 bg-slate-100/40 dark:bg-neutral-900/40 border border-slate-200/20 dark:border-neutral-800/20 rounded-[2rem]">
+            <Card variant="bezel" className="p-5 sm:p-8 space-y-5 bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-800 rounded-[calc(2rem-0.375rem)] shadow-sm">
+              
+              <div className="flex justify-between items-center select-none">
+                <Badge variant={currentQuestion.difficulty === "easy" ? "success" : currentQuestion.difficulty === "medium" ? "warning" : "danger"} className="text-[10px] font-black px-2 py-0.5 capitalize">
+                  Độ khó: {currentQuestion.difficulty || "easy"}
+                </Badge>
+                {isChecked && (
+                  <Badge variant={isCorrect ? "success" : "danger"} className="text-[10px] font-black px-2 py-0.5 capitalize flex items-center gap-1">
+                    {isCorrect ? <CheckCircle className="h-3 w-3" /> : <XCircle className="h-3 w-3" />}
+                    {isCorrect ? "Chính xác" : "Chưa đúng"}
+                  </Badge>
+                )}
               </div>
 
-              <div className="grid gap-3 sm:grid-cols-2">
-                {currentExercise.options.map((option) => {
-                  const isSelected = answers[currentExercise.id] === option;
+              <h2 className="text-base sm:text-lg md:text-xl font-black text-slate-800 dark:text-white leading-relaxed">
+                {currentQuestion.sentence}
+              </h2>
+
+              <div className="grid grid-cols-1 gap-2.5">
+                {currentQuestion.options.map((option) => {
+                  const isSelected = selectedAnswer === option;
+                  const isOptionCorrect = option === currentQuestion.correctAnswer;
+
+                  let optionStyle = "border-slate-200 dark:border-neutral-800 hover:border-slate-300 bg-white dark:bg-neutral-950 text-slate-700 dark:text-slate-300 dark:hover:bg-neutral-800";
+                  
+                  if (isChecked) {
+                    if (isOptionCorrect) {
+                      // Correct option is always green once checked
+                      optionStyle = "border-emerald-500 bg-emerald-50/50 text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-400 dark:border-emerald-600 shadow-sm font-black";
+                    } else if (isSelected) {
+                      // Selected wrong option is red
+                      optionStyle = "border-rose-500 bg-rose-50/50 text-rose-700 dark:bg-rose-950/20 dark:text-rose-400 dark:border-rose-600 shadow-sm font-black";
+                    } else {
+                      optionStyle = "border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 text-slate-400 dark:text-slate-600 opacity-60";
+                    }
+                  } else if (isSelected) {
+                    optionStyle = "border-indigo-500 bg-indigo-50/50 text-indigo-700 dark:bg-indigo-950/20 dark:text-indigo-400 dark:border-indigo-600 shadow-sm";
+                  }
+
                   return (
                     <motion.button
-                      whileTap={{ scale: 0.98 }}
+                      disabled={isChecked}
+                      whileHover={isChecked ? {} : { scale: 1.01 }}
+                      whileTap={isChecked ? {} : { scale: 0.98 }}
                       key={option}
-                      onClick={() => selectAnswer(currentExercise.id, option)}
-                      className={`p-3.5 rounded-xl text-xs md:text-sm font-bold text-left transition-all border cursor-pointer leading-snug ${
+                      onClick={() => selectAnswer(exercises[currentIndex].id, option)}
+                      className={`p-4 min-h-[48px] rounded-xl text-sm md:text-base font-extrabold text-left transition-all border cursor-pointer leading-snug ${
                         isSelected
-                          ? "border-indigo-400 bg-indigo-50/50 text-indigo-750 dark:bg-indigo-950/20 dark:text-indigo-450 dark:border-indigo-650"
-                          : "border-slate-200 dark:border-neutral-850 hover:border-slate-350 bg-white dark:bg-neutral-950 text-slate-700 dark:text-slate-300 dark:hover:bg-neutral-800"
+                          ? "border-indigo-500 bg-indigo-50/50 text-indigo-700 dark:bg-indigo-950/20 dark:text-indigo-400 dark:border-indigo-600 shadow-sm"
+                          : "border-slate-200 dark:border-neutral-800 hover:border-slate-300 bg-white dark:bg-neutral-950 text-slate-700 dark:text-slate-300 dark:hover:bg-neutral-800"
                       }`}
                     >
                       {option}
@@ -377,36 +1302,89 @@ export default function GrammarLabPage() {
                 })}
               </div>
 
-              <div className="flex justify-between gap-3 pt-3 border-t border-slate-100 dark:border-neutral-850">
+              {/* Instant check Explanation box */}
+              {isChecked && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`p-4 rounded-xl border leading-relaxed text-xs sm:text-sm font-semibold shadow-sm ${
+                    isCorrect 
+                      ? "border-emerald-200/50 bg-emerald-50/20 dark:bg-emerald-950/10 text-emerald-700 dark:text-emerald-400" 
+                      : "border-rose-200/50 bg-rose-50/20 dark:bg-rose-950/10 text-rose-700 dark:text-rose-400"
+                  }`}
+                >
+                  <div className="flex gap-2.5 items-start">
+                    <span className="text-base shrink-0 mt-0.5">{isCorrect ? "🎉" : "💡"}</span>
+                    <div>
+                      <p className="font-extrabold text-slate-800 dark:text-slate-200 text-sm">Giải thích đáp án:</p>
+                      <p className="mt-1 font-semibold text-slate-600 dark:text-slate-400 text-xs sm:text-sm leading-relaxed">{currentQuestion.explanation}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              <div className="flex justify-between items-center gap-3 pt-3 border-t border-slate-100 dark:border-neutral-800 flex-wrap">
                 <Button
                   variant="bezel"
-                  size="sm"
-                  className="rounded-xl font-bold cursor-pointer text-xs"
+                  className="rounded-xl font-bold cursor-pointer text-xs sm:text-sm px-4 sm:px-5 py-2.5"
                   disabled={currentIndex === 0}
                   onClick={() => setCurrentIndex((i) => i - 1)}
                 >
                   ← Trước
                 </Button>
 
-                {currentIndex < exercises.length - 1 ? (
-                  <Button variant="primary" size="sm" className="rounded-xl font-bold cursor-pointer text-xs flex items-center gap-1" onClick={() => setCurrentIndex((i) => i + 1)}>
-                    Tiếp <ArrowRight className="h-3.5 w-3.5" />
-                  </Button>
-                ) : (
-                  <Button
-                    variant="primary"
-                    size="sm"
-                    className="rounded-xl font-bold cursor-pointer text-xs flex items-center gap-1 shadow-glow"
-                    onClick={submitAll}
-                    disabled={Object.keys(answers).length < exercises.length}
-                  >
-                    <Zap className="h-3.5 w-3.5 text-yellow-300 animate-bounce" /> Nộp bài
-                  </Button>
-                )}
+                <div className="flex items-center gap-2 flex-1 sm:flex-initial justify-end">
+                  {!isChecked ? (
+                    <>
+                      {currentIndex < exercises.length - 1 ? (
+                        <Button
+                          variant="bezel"
+                          className="rounded-xl font-bold cursor-pointer text-xs sm:text-sm px-4 sm:px-5 py-2.5"
+                          onClick={() => setCurrentIndex((i) => i + 1)}
+                        >
+                          Bỏ qua
+                        </Button>
+                      ) : (
+                        <Button
+                          variant="bezel"
+                          className="rounded-xl font-bold cursor-pointer text-xs sm:text-sm px-4 sm:px-5 py-2.5"
+                          onClick={submitAll}
+                        >
+                          Hoàn thành
+                        </Button>
+                      )}
+                      <Button
+                        variant="primary"
+                        disabled={!hasAnswered}
+                        className="rounded-xl font-bold cursor-pointer text-xs sm:text-sm px-5 py-2.5 flex items-center justify-center gap-1.5"
+                        onClick={() => setCheckedQuestions(prev => ({ ...prev, [currentQuestion.id]: true }))}
+                      >
+                        Kiểm tra đáp án
+                      </Button>
+                    </>
+                  ) : currentIndex < exercises.length - 1 ? (
+                    <Button
+                      variant="primary"
+                      className="rounded-xl font-bold cursor-pointer text-xs sm:text-sm px-5 py-2.5 flex items-center justify-center gap-1.5 animate-bounce"
+                      onClick={() => setCurrentIndex((i) => i + 1)}
+                    >
+                      Tiếp theo <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="primary"
+                      className="rounded-xl font-bold cursor-pointer text-xs sm:text-sm px-5 sm:px-6 py-2.5 flex items-center justify-center gap-1.5 shadow-glow"
+                      onClick={submitAll}
+                    >
+                      <Zap className="h-4 w-4 text-yellow-300 animate-bounce" /> Hoàn thành
+                    </Button>
+                  )}
+                </div>
               </div>
             </Card>
-          </motion.div>
-        ) : null}
+          </div>
+          );
+        })() : null}
       </AnimatePresence>
     </div>
   );

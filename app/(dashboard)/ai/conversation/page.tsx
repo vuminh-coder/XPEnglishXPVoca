@@ -417,7 +417,7 @@ export default function ConversationPage() {
         {/* Column 2: Chat Arena (col-span-2, row-span-2) */}
         <div className="lg:col-span-2 lg:row-span-2 order-2 lg:order-2 flex flex-col">
           <div className="bezel h-full flex flex-col">
-            <div className="bezel-inner bg-white dark:bg-neutral-900 flex flex-col h-full min-h-[550px] relative overflow-hidden">
+            <div className="bezel-inner bg-white dark:bg-neutral-900 flex flex-col h-full min-h-[460px] sm:min-h-[550px] relative overflow-hidden">
               {/* Header Info */}
               <div className="flex items-center justify-between p-4 border-b border-slate-100 dark:border-neutral-850">
                 <div className="flex items-center gap-3">
@@ -440,7 +440,7 @@ export default function ConversationPage() {
               {/* Chat Messages viewport */}
               <div 
                 id="ai-messages-container"
-                className="flex-1 overflow-y-auto p-5 space-y-4 min-h-[350px]"
+                className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 min-h-[300px] sm:min-h-[350px]"
               >
                 {messages.length === 0 && !isAiTyping && (
                   <div className="flex flex-col items-center justify-center h-full text-center p-8 opacity-40 select-none">
@@ -477,7 +477,7 @@ export default function ConversationPage() {
                               setActiveFeedbackIndex(idx);
                             }
                           }}
-                          className={`rounded-[1.25rem] p-4 text-xs md:text-sm border transition-all relative ${
+                          className={`min-w-0 break-words rounded-[1.25rem] p-3.5 sm:p-4 text-xs md:text-sm border transition-all relative ${
                             isAi 
                               ? 'bg-slate-50 dark:bg-neutral-950/60 text-slate-800 dark:text-slate-200 rounded-tl-md border-slate-100 dark:border-neutral-850 shadow-sm' 
                               : `text-white rounded-tr-md border-cyan-400/20 shadow-sm font-medium cursor-pointer ${
@@ -521,7 +521,7 @@ export default function ConversationPage() {
 
               {/* Chat Input panel */}
               <div className="p-4 border-t border-slate-100 dark:border-neutral-850 space-y-2">
-                <div className="flex items-center gap-3 p-1.5 bg-slate-50 dark:bg-neutral-955 rounded-full border border-slate-200/50 dark:border-neutral-850">
+                <div className="flex items-center gap-2 sm:gap-3 p-1.5 bg-slate-50 dark:bg-neutral-955 rounded-full border border-slate-200/50 dark:border-neutral-850">
                   {/* Web Speech micro recorder */}
                   <button
                     type="button"
@@ -547,11 +547,12 @@ export default function ConversationPage() {
                   />
                   <button 
                     type="button"
-                    className="flex items-center gap-1.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white rounded-full text-xs font-black py-2.5 px-5 cursor-pointer disabled:opacity-40 whitespace-nowrap select-none shrink-0"
+                    className="h-9 w-9 rounded-full flex items-center justify-center shrink-0 bg-gradient-to-r from-cyan-500 to-blue-600 text-white cursor-pointer disabled:opacity-40 select-none active:scale-95 transition-all"
                     onClick={sendMessage}
                     disabled={isAiTyping || !input.trim()}
+                    title="Gửi"
                   >
-                    <Send className="w-3.5 h-3.5" /> Gửi
+                    <Send className="w-4 h-4" />
                   </button>
                 </div>
                 {isListening && (

@@ -548,10 +548,10 @@ export default function VoiceTutorPage() {
         {/* Column 2: Active Speaking Arena (col-span-2, row-span-2) */}
         <div className="lg:col-span-2 lg:row-span-2 order-2 lg:order-2 flex flex-col">
           <Card variant="bezel" className="h-full flex flex-col">
-            <div className="bezel-inner bg-white dark:bg-neutral-900 p-6 flex flex-col justify-between h-full min-h-[550px] relative overflow-hidden">
+            <div className="bezel-inner bg-white dark:bg-neutral-900 p-4 sm:p-6 flex flex-col justify-between h-full min-h-[460px] sm:min-h-[550px] relative overflow-hidden">
               
               {/* Context header */}
-              <div className="border-b border-slate-100 dark:border-neutral-850 pb-3 flex justify-between items-center">
+              <div className="border-b border-slate-100 dark:border-neutral-850 pb-3 flex flex-wrap justify-between items-center gap-2">
                 <span className="text-[10px] font-black text-slate-450 dark:text-slate-500 uppercase tracking-wider">Võ đài giọng nói</span>
                 {practiceMode === "drill" && (
                   <Badge variant="success" className="animate-pulse">Drill #{drillIndex + 1}</Badge>
@@ -559,10 +559,10 @@ export default function VoiceTutorPage() {
               </div>
 
               {/* Glowing Pulsing Voice Visualizer */}
-              <div className="flex-1 flex flex-col items-center justify-center space-y-8 py-8">
+              <div className="flex-1 flex flex-col items-center justify-center space-y-6 sm:space-y-8 py-6 sm:py-8">
                 
                 {/* Voice Halo Pulsing Ring */}
-                <div className="relative flex items-center justify-center h-48 w-48 mx-auto">
+                <div className="relative flex items-center justify-center h-40 w-40 sm:h-48 sm:w-48 mx-auto">
                   {/* Outer glowing halo ring 1 */}
                   <div className={`absolute inset-0 rounded-full blur-2xl opacity-40 transition-all duration-700 ${
                     isSpeaking ? 'bg-emerald-400 animate-pulse scale-110' :
@@ -578,7 +578,7 @@ export default function VoiceTutorPage() {
                   }`} />
                   
                   {/* Core ring */}
-                  <div className={`h-36 w-36 rounded-full flex flex-col items-center justify-center relative z-10 border transition-all duration-500 bg-white dark:bg-neutral-900 ${
+                  <div className={`h-32 w-32 sm:h-36 sm:w-36 rounded-full flex flex-col items-center justify-center relative z-10 border transition-all duration-500 bg-white dark:bg-neutral-900 ${
                     isSpeaking ? 'border-emerald-500 shadow-emerald-500/20 shadow-lg' :
                     isRecording ? 'border-violet-500 shadow-violet-500/20 shadow-lg' :
                     'border-slate-200 dark:border-neutral-800'
@@ -588,7 +588,7 @@ export default function VoiceTutorPage() {
                       <button
                         type="button"
                         onClick={startListening}
-                        className="h-20 w-20 rounded-full flex items-center justify-center shadow-md bg-gradient-to-tr from-emerald-400 to-teal-500 hover:from-emerald-500 hover:to-teal-600 text-white cursor-pointer active:scale-90 transition-all select-none"
+                        className="h-16 w-16 sm:h-20 sm:w-20 rounded-full flex items-center justify-center shadow-md bg-gradient-to-tr from-emerald-400 to-teal-500 hover:from-emerald-500 hover:to-teal-600 text-white cursor-pointer active:scale-90 transition-all select-none"
                         title="Bấm để nói"
                       >
                         <Mic className="h-8 w-8" />
@@ -597,7 +597,7 @@ export default function VoiceTutorPage() {
                       <button
                         type="button"
                         onClick={stopListening}
-                        className="h-20 w-20 rounded-full flex items-center justify-center shadow-md bg-gradient-to-tr from-rose-500 to-red-600 text-white cursor-pointer animate-pulse active:scale-90 transition-all select-none"
+                        className="h-16 w-16 sm:h-20 sm:w-20 rounded-full flex items-center justify-center shadow-md bg-gradient-to-tr from-rose-500 to-red-600 text-white cursor-pointer animate-pulse active:scale-90 transition-all select-none"
                         title="Đang ghi âm... Bấm để dừng"
                       >
                         <MicOff className="h-8 w-8" />
@@ -655,11 +655,11 @@ export default function VoiceTutorPage() {
                     {/* Drill Score statistics */}
                     {drillFeedback ? (
                       <div className="pt-2 border-t border-slate-200/50 dark:border-neutral-850 space-y-2">
-                        <div className="flex justify-between items-center">
+                        <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between">
                           <span className="text-[10px] text-slate-400 font-semibold">Giọng nói ghi âm: <span className="text-slate-700 italic">"{lastSpeechInput}"</span></span>
                           <span className="text-xs font-black text-emerald-600">Độ chuẩn khớp: {drillFeedback.score}%</span>
                         </div>
-                        <div className="flex gap-2">
+                        <div className="flex flex-col gap-2 sm:flex-row">
                           <Button variant="secondary" size="sm" onClick={() => speakText(DRILL_SENTENCES[drillIndex])} className="flex-1 justify-center py-2.5">
                             <Volume2 className="h-3.5 w-3.5 mr-1" /> Nghe lại phát âm mẫu
                           </Button>
@@ -682,7 +682,7 @@ export default function VoiceTutorPage() {
                       <p className="text-sm font-bold text-slate-800 dark:text-slate-200 mt-1 italic">
                         "{lastUserConvoMessage.text}"
                       </p>
-                      <div className="flex items-center justify-between text-[10px] text-slate-450 dark:text-slate-500 mt-2 pt-2 border-t border-slate-200/50 dark:border-neutral-850">
+                      <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-between text-[10px] text-slate-450 dark:text-slate-500 mt-2 pt-2 border-t border-slate-200/50 dark:border-neutral-850">
                         <span>Độ tự tin STT: <span className="font-extrabold text-emerald-500">{lastUserConvoMessage.pronunciationScore || 90}%</span></span>
                         {(lastUserConvoMessage.wordAnalysis && lastUserConvoMessage.wordAnalysis.length > 0) && (
                           <button

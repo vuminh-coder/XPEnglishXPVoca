@@ -287,7 +287,7 @@ export default function SpeakingPracticePage() {
           <h3 className="text-[10px] font-black uppercase tracking-wider text-slate-450 dark:text-slate-500">
             Mẫu câu luyện nói
           </h3>
-          <div className="space-y-3">
+          <div className="flex flex-row overflow-x-auto pb-2 gap-3 lg:flex-col lg:overflow-x-visible lg:pb-0 lg:space-y-3 scrollbar-thin" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {shuffledPhrases.map((phrase) => (
               <motion.button
                 whileHover={{ translateY: -1 }}
@@ -300,19 +300,21 @@ export default function SpeakingPracticePage() {
                   setOverallScore(null);
                   setWordsFeedback([]);
                 }}
-                className={`bezel w-full text-left cursor-pointer ${
+                className={`bezel shrink-0 w-[230px] lg:w-full text-left cursor-pointer ${
                   selectedPhrase.id === phrase.id ? "ring-2 ring-sky-400" : ""
                 }`}
               >
-                <div className={`bezel-inner p-4 space-y-2 transition-all ${
+                <div className={`bezel-inner p-3.5 space-y-2 h-full flex flex-col justify-between transition-all ${
                   selectedPhrase.id === phrase.id 
                     ? "bg-sky-50/30 dark:bg-sky-950/20" 
                     : "bg-white dark:bg-neutral-900"
                 }`}>
-                  <Badge variant={phrase.topic.includes("IELTS") ? "legendary" : "primary"}>
-                    {phrase.topic}
-                  </Badge>
-                  <p className="font-bold text-slate-800 dark:text-slate-200 text-xs md:text-sm line-clamp-2 leading-relaxed">
+                  <div>
+                    <Badge variant={phrase.topic.includes("IELTS") ? "legendary" : "primary"}>
+                      {phrase.topic}
+                    </Badge>
+                  </div>
+                  <p className="font-bold text-slate-800 dark:text-slate-200 text-xs md:text-sm line-clamp-2 leading-relaxed mt-1">
                     {phrase.text}
                   </p>
                 </div>

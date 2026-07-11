@@ -247,7 +247,7 @@ export default function DashboardPage() {
         {/* ROW 1: Learning Path (2 cols) & Streak Tracker (1 col) */}
         <motion.div variants={itemVariants} className="lg:col-span-2">
           <div className="bezel-outer p-1 bg-slate-200/50 dark:bg-white/5 h-full rounded-[1.5rem] md:rounded-[2rem]">
-            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-5 md:p-6 bg-gradient-to-br from-cyan-500/10 via-sky-500/5 to-violet-500/10 border-white/40 dark:border-white/5 h-full flex flex-col justify-between min-h-[160px]">
+            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-4 sm:p-5 md:p-6 bg-gradient-to-br from-cyan-500/10 via-sky-500/5 to-violet-500/10 border-white/40 dark:border-white/5 h-full flex flex-col justify-between min-h-[160px]">
               <div>
                 <div className="mb-2">
                   <Badge
@@ -286,7 +286,7 @@ export default function DashboardPage() {
 
         <motion.div variants={itemVariants} className="lg:col-span-1">
           <div className="bezel-outer p-1 bg-slate-200/50 dark:bg-white/5 h-full rounded-[1.5rem] md:rounded-[2rem]">
-            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-5 md:p-6 bg-white dark:bg-[#0c0c0e] h-full flex flex-col justify-between border-amber-500/20">
+            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-4 sm:p-5 md:p-6 bg-white dark:bg-[#0c0c0e] h-full flex flex-col justify-between border-amber-500/20">
               <div className="flex justify-between items-start">
                 <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
                   Streak của bạn
@@ -332,7 +332,7 @@ export default function DashboardPage() {
         {/* ROW 2: Challenges Panel (2 cols) & Combined Stats List (1 col) */}
         <motion.div variants={itemVariants} className="lg:col-span-2">
           <div className="bezel-outer p-1 bg-slate-200/50 dark:bg-white/5 h-full rounded-[1.5rem] md:rounded-[2rem]">
-            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-5 md:p-6 bg-white dark:bg-[#0c0c0e] space-y-4">
+            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-4 sm:p-5 md:p-6 bg-white dark:bg-[#0c0c0e] space-y-4">
               <div className="flex items-center justify-between border-b border-slate-100 dark:border-neutral-850 pb-2">
                 <div className="flex items-center gap-2">
                   <Target className="h-4.5 w-4.5 text-purple-500" strokeWidth={1.3} />
@@ -410,7 +410,7 @@ export default function DashboardPage() {
 
         <motion.div variants={itemVariants} className="lg:col-span-1">
           <div className="bezel-outer p-1 bg-slate-200/50 dark:bg-white/5 h-full rounded-[1.5rem] md:rounded-[2rem]">
-            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-5 md:p-6 bg-white dark:bg-[#0c0c0e] space-y-4 h-full flex flex-col justify-between">
+            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-4 sm:p-5 md:p-6 bg-white dark:bg-[#0c0c0e] space-y-4 h-full flex flex-col justify-between">
               <div>
                 <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 block border-b border-slate-100 dark:border-neutral-850 pb-2">
                   Chỉ số tổng quan
@@ -422,9 +422,9 @@ export default function DashboardPage() {
                       <div className="w-7 h-7 rounded-lg text-sky-500 bg-sky-50 dark:bg-sky-950/30 flex items-center justify-center">
                         <BookOpen className="h-3.5 w-3.5" strokeWidth={1.3} />
                       </div>
-                      <span className="text-xs font-bold text-slate-700 dark:text-slate-350">Từ đã học</span>
+                      <span className="text-[11px] sm:text-xs font-bold text-slate-700 dark:text-slate-350">Từ đã học</span>
                     </div>
-                    <span className="text-xs font-black text-slate-900 dark:text-white font-display">
+                    <span className="text-[11px] sm:text-xs font-black text-slate-900 dark:text-white font-display">
                       {user.wordsLearned}/{MOCK_VOCABULARIES.length} ({vocabPercent}%)
                     </span>
                   </div>
@@ -434,9 +434,9 @@ export default function DashboardPage() {
                       <div className="w-7 h-7 rounded-lg text-amber-500 bg-amber-50 dark:bg-amber-950/30 flex items-center justify-center">
                         <Zap className="h-3.5 w-3.5" strokeWidth={1.3} />
                       </div>
-                      <span className="text-xs font-bold text-slate-700 dark:text-slate-350">Kinh nghiệm</span>
+                      <span className="text-[11px] sm:text-xs font-bold text-slate-700 dark:text-slate-350">Kinh nghiệm</span>
                     </div>
-                    <span className="text-xs font-black text-slate-900 dark:text-white font-display">
+                    <span className="text-[11px] sm:text-xs font-black text-slate-900 dark:text-white font-display">
                       {user.totalXp} XP (LV {user.level})
                     </span>
                   </div>
@@ -446,9 +446,9 @@ export default function DashboardPage() {
                       <div className="w-7 h-7 rounded-lg text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 flex items-center justify-center">
                         <Clock className="h-3.5 w-3.5" strokeWidth={1.3} />
                       </div>
-                      <span className="text-xs font-bold text-slate-700 dark:text-slate-350">Thời gian</span>
+                      <span className="text-[11px] sm:text-xs font-bold text-slate-700 dark:text-slate-350">Thời gian</span>
                     </div>
-                    <span className="text-xs font-black text-slate-900 dark:text-white font-display">
+                    <span className="text-[11px] sm:text-xs font-black text-slate-900 dark:text-white font-display">
                       {user.minutesStudied}m ({studyPercent}%)
                     </span>
                   </div>
@@ -458,9 +458,9 @@ export default function DashboardPage() {
                       <div className="w-7 h-7 rounded-lg text-yellow-500 bg-yellow-50 dark:bg-yellow-950/30 flex items-center justify-center">
                         <Coins className="h-3.5 w-3.5" strokeWidth={1.3} />
                       </div>
-                      <span className="text-xs font-bold text-slate-700 dark:text-slate-350">Cửa hàng vàng</span>
+                      <span className="text-[11px] sm:text-xs font-bold text-slate-700 dark:text-slate-350">Cửa hàng vàng</span>
                     </div>
-                    <span className="text-xs font-black text-slate-900 dark:text-white font-display font-sans">
+                    <span className="text-[11px] sm:text-xs font-black text-slate-900 dark:text-white font-display font-sans">
                       {user.coins ?? 0} Vàng
                     </span>
                   </div>
@@ -476,7 +476,7 @@ export default function DashboardPage() {
         {/* ROW 3: AI Tutor (2 cols) & PVP Arena (1 col) */}
         <motion.div variants={itemVariants} className="lg:col-span-2">
           <div className="bezel-outer p-1 bg-slate-200/50 dark:bg-white/5 h-full rounded-[1.5rem] md:rounded-[2rem]">
-            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-5 md:p-6 bg-white dark:bg-[#0c0c0e] h-full flex flex-col justify-between">
+            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-4 sm:p-5 md:p-6 bg-white dark:bg-[#0c0c0e] h-full flex flex-col justify-between">
               <form onSubmit={handleQuickAskSubmit} className="space-y-3">
                 <h3 className="text-[10px] font-black uppercase tracking-wider text-slate-455 flex items-center gap-1.5 border-b border-slate-100 dark:border-neutral-850 pb-2">
                   <Bot className="h-4 w-4 text-cyan-500" strokeWidth={1.3} /> Hỏi đáp nhanh cùng AI Tutor
@@ -527,7 +527,7 @@ export default function DashboardPage() {
 
         <motion.div variants={itemVariants} className="lg:col-span-1">
           <div className="bezel-outer p-1 bg-slate-200/50 dark:bg-white/5 h-full rounded-[1.5rem] md:rounded-[2rem]">
-            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-5 md:p-6 bg-white dark:bg-[#0c0c0e] h-full flex flex-col justify-between border-indigo-500/25 min-h-[140px]">
+            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-4 sm:p-5 md:p-6 bg-white dark:bg-[#0c0c0e] h-full flex flex-col justify-between border-indigo-500/25 min-h-[140px]">
               <div className="flex items-center justify-between border-b border-slate-100 dark:border-neutral-850 pb-2">
                 <span className="text-[10px] font-black uppercase tracking-wider text-slate-455">Đấu trường PvP</span>
                 <span className="flex items-center gap-1.5 text-[10px] font-extrabold text-emerald-500">
@@ -554,7 +554,7 @@ export default function DashboardPage() {
         {/* ROW 4: Streak Calendar (2 cols) & Weekly XP Chart (1 col) */}
         <motion.div variants={itemVariants} className="lg:col-span-2">
           <div className="bezel-outer p-1 bg-slate-200/50 dark:bg-white/5 h-full rounded-[1.5rem] md:rounded-[2rem]">
-            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-5 md:p-6 bg-white dark:bg-[#0c0c0e] h-full flex flex-col justify-between">
+            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-4 sm:p-5 md:p-6 bg-white dark:bg-[#0c0c0e] h-full flex flex-col justify-between">
               <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-100 dark:border-neutral-850">
                 <div>
                   <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
@@ -594,7 +594,7 @@ export default function DashboardPage() {
 
         <motion.div variants={itemVariants} className="lg:col-span-1">
           <div className="bezel-outer p-1 bg-slate-200/50 dark:bg-white/5 h-full rounded-[1.5rem] md:rounded-[2rem]">
-            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-5 md:p-6 bg-white dark:bg-[#0c0c0e] h-full flex flex-col justify-between min-h-[160px]">
+            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-4 sm:p-5 md:p-6 bg-white dark:bg-[#0c0c0e] h-full flex flex-col justify-between min-h-[160px]">
               <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-100 dark:border-neutral-850">
                 <div>
                   <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
@@ -634,7 +634,7 @@ export default function DashboardPage() {
           className="lg:col-span-3"
         >
           <div className="bezel-outer p-1 bg-slate-200/50 dark:bg-white/5 rounded-[1.5rem] md:rounded-[2rem]">
-            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-5 md:p-6 bg-white dark:bg-[#0c0c0e]">
+            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-4 sm:p-5 md:p-6 bg-white dark:bg-[#0c0c0e]">
               <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 block border-b border-slate-100 dark:border-neutral-850 pb-2">
                 Phím tắt nhanh
               </span>

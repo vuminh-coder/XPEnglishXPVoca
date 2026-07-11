@@ -245,7 +245,8 @@ export default function MyVocabularyPage() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 90, damping: 15, delay: 0.1 }}
-        className="relative flex bg-slate-100 dark:bg-neutral-950 p-1 rounded-full border border-slate-200/50 dark:border-neutral-900 w-fit"
+        className="relative flex bg-slate-100 dark:bg-neutral-950 p-1 rounded-full border border-slate-200/50 dark:border-neutral-900 w-full sm:w-fit overflow-x-auto"
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {(["all", "favorite", "learning", "mastered"] as const).map((key) => {
           const labels: Record<string, string> = {
@@ -264,7 +265,7 @@ export default function MyVocabularyPage() {
           return (
             <button
               key={key}
-              className={`relative px-4 py-2 text-xs font-black rounded-full transition-colors duration-250 select-none z-10 ${
+              className={`flex-1 sm:flex-initial relative px-2.5 sm:px-4 py-2 text-[10px] sm:text-xs font-black rounded-full transition-colors duration-250 select-none z-10 whitespace-nowrap cursor-pointer ${
                 isActive
                   ? "text-cyan-600 dark:text-cyan-400"
                   : "text-slate-400 dark:text-slate-500"

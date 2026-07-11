@@ -7,6 +7,10 @@ import { Home, BookOpen, PenLine, Users, User } from "lucide-react";
 export default function BottomNav() {
   const pathname = usePathname();
 
+  // Hide BottomNav on active exam screen
+  const isExamActivePage = pathname.match(/\/study\/exams\/[a-zA-Z0-9_-]+$/);
+  if (isExamActivePage) return null;
+
   const tabs = [
     {
       name: "Trang chủ",
@@ -37,13 +41,14 @@ export default function BottomNav() {
 
   return (
     <nav
-      className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-white/90 dark:bg-neutral-950/90 backdrop-blur-xl border-t border-black/5 dark:border-white/5 z-navbar flex items-center justify-between px-2 shadow-[0_-8px_32px_rgba(0,0,0,0.05)]"
+      className="md:hidden fixed bottom-0 left-0 right-0 h-[calc(4rem+env(safe-area-inset-bottom))] pb-[env(safe-area-inset-bottom)] bg-white/90 dark:bg-neutral-950/90 backdrop-blur-xl border-t border-black/5 dark:border-white/5 z-[var(--z-navbar)] flex items-center justify-between px-2 shadow-[0_-8px_32px_rgba(0,0,0,0.05)]"
       aria-label="Mobile navigation"
     >
       {tabs.map((tab) => {
         const isActive =
           pathname === tab.path ||
-          (tab.path !== "/" && pathname.startsWith(tab.path));
+          (tab.path !== "/" && pathname.startsWith(tab.path)) ||
+          (tab.path === "/study/practice" && pathname.startsWith("/study"));
         return (
           <Link
             key={tab.path}
@@ -52,7 +57,7 @@ export default function BottomNav() {
             className={`flex-1 flex flex-col items-center justify-center gap-1.5 h-12 rounded-xl transition-all duration-300 tactile ${
               isActive
                 ? "text-slate-900 dark:text-white bg-slate-100/70 dark:bg-neutral-850/50 font-black"
-                : "text-slate-450 dark:text-slate-500 text-slate-800 dark:hover:text-white font-bold"
+                : "text-slate-400 dark:text-slate-500 text-slate-800 dark:hover:text-white font-bold"
             }`}
           >
             {tab.icon}

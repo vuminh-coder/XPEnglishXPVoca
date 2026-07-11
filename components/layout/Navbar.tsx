@@ -145,7 +145,7 @@ function ClerkNavbar() {
                 <User className="w-[16px] h-[16px] text-slate-500" strokeWidth={1.3} />
               )}
             </div>
-            <div className="navbar-user-info">
+            <div className="navbar-user-info hidden sm:block">
               <div className="navbar-user-name hidden md:block">
                 {clerkUser?.fullName || "User"}
               </div>
@@ -297,7 +297,7 @@ function LocalNavbar() {
                 <User className="w-[16px] h-[16px] text-slate-500" strokeWidth={1.3} />
               )}
             </div>
-            <div className="navbar-user-info">
+            <div className="navbar-user-info hidden sm:block">
               <div className="navbar-user-name hidden md:block">
                 {user?.fullName || "User"}
               </div>

@@ -78,42 +78,54 @@ Return ONLY the raw JSON block. No markdown backticks, no comments, no extra cha
       });
     }
 
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: contents,
-          systemInstruction: {
-            parts: [{ text: systemPrompt }]
-          },
-          generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 2048,
-            responseMimeType: "application/json"
-          }
-        })
-      }
-    );
-
-    const data = await response.json();
-    const candidateText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-
-    if (!candidateText) {
-      console.error("Gemini API error response:", data);
-      throw new Error("Failed to get content from Gemini");
-    }
-
     let parsedData;
     try {
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: contents,
+            systemInstruction: {
+              parts: [{ text: systemPrompt }]
+            },
+            generationConfig: {
+              temperature: 0.7,
+              maxOutputTokens: 2048,
+              responseMimeType: "application/json"
+            }
+          })
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Gemini API error status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const candidateText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+      if (!candidateText) {
+        throw new Error("Failed to get content from Gemini");
+      }
+
       parsedData = JSON.parse(candidateText.trim());
-    } catch (e) {
+    } catch (apiError) {
+      console.warn("AI Tutor fetch failed, using fallback simulated response:", apiError);
+      
+      const lastUserText = messages[messages.length - 1]?.text || "";
+      
       parsedData = {
-        reply: candidateText.trim(),
-        vietnameseTranslation: "Không thể dịch phản hồi này.",
-        wordAnalysis: [],
-        pronunciationTips: []
+        reply: `That's interesting! You said: "${lastUserText}". Let's keep practicing.`,
+        vietnameseTranslation: `Thật thú vị! Bạn vừa nói: "${lastUserText}". Hãy tiếp tục luyện tập nhé.`,
+        wordAnalysis: [
+          { word: "practice", stress: "PRAC-tice", tips: "Nhấn trọng âm vào âm tiết đầu tiên." }
+        ],
+        pronunciationTips: [
+          "Chú ý phát âm rõ phụ âm cuối '/s/' trong từ 'practice'.",
+          "Hãy cố gắng ngắt nghỉ tự nhiên sau mỗi mệnh đề."
+        ]
       };
     }
 

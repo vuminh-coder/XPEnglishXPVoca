@@ -157,7 +157,7 @@ export default function WritingPracticePage() {
               <h3 className="text-[10px] font-black uppercase tracking-wider text-slate-450 dark:text-slate-500">
                 Chọn đề bài
               </h3>
-              <div className="space-y-3">
+              <div className="flex flex-row overflow-x-auto pb-2 gap-3 lg:flex-col lg:overflow-x-visible lg:pb-0 lg:space-y-3.5 scrollbar-thin" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                 {shuffledTopics.map((topic) => (
                   <motion.button
                     whileHover={{ translateY: -1 }}
@@ -168,19 +168,21 @@ export default function WritingPracticePage() {
                       setSelectedTopic(topic);
                       setEssay("");
                     }}
-                    className={`bezel w-full text-left cursor-pointer ${
+                    className={`bezel shrink-0 w-[240px] lg:w-full text-left cursor-pointer ${
                       selectedTopic.id === topic.id ? "ring-2 ring-sky-400" : ""
                     }`}
                   >
-                    <div className={`bezel-inner p-4 space-y-2 transition-all ${
+                    <div className={`bezel-inner p-3.5 space-y-2 h-full flex flex-col justify-between transition-all ${
                       selectedTopic.id === topic.id 
                         ? "bg-sky-50/30 dark:bg-sky-950/20" 
                         : "bg-white dark:bg-neutral-900"
                     }`}>
-                      <Badge variant={topic.type.includes("IELTS") ? "legendary" : "primary"}>
-                        {topic.type}
-                      </Badge>
-                      <h4 className="font-bold text-slate-800 dark:text-slate-200 text-xs md:text-sm">
+                      <div>
+                        <Badge variant={topic.type.includes("IELTS") ? "legendary" : "primary"}>
+                          {topic.type}
+                        </Badge>
+                      </div>
+                      <h4 className="font-bold text-slate-800 dark:text-slate-200 text-xs md:text-sm line-clamp-1 mt-1">
                         {topic.title}
                       </h4>
                       <p className="text-[11px] text-slate-500 dark:text-slate-450 line-clamp-2 leading-relaxed">

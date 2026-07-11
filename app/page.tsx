@@ -260,14 +260,14 @@ export default function LandingPage() {
               Nền tảng học thế hệ mới
             </div>
 
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-black leading-[1.05] tracking-tight text-slate-900 dark:text-white mb-6">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-black leading-[1.05] tracking-tight text-slate-900 dark:text-white mb-6 text-balance">
               Đột phá từ vựng cùng{" "}
               <span className="bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-500 bg-clip-text text-transparent">
                 XP English
               </span>
             </h1>
 
-            <p className="text-sm sm:text-base text-slate-650 dark:text-slate-400 max-w-xl leading-relaxed mb-8 font-semibold">
+            <p className="text-sm sm:text-base text-slate-650 dark:text-slate-400 max-w-xl leading-relaxed mb-8 font-semibold text-balance">
               Hệ sinh thái học tập cá nhân hóa. Ứng dụng phương pháp lặp lại
               ngắt quãng khoa học, thách đấu từ vựng PvP thời gian thực và tương
               tác phản xạ nói cùng Gia sư AI.
@@ -316,7 +316,7 @@ export default function LandingPage() {
             </div>
 
             {/* Key stats */}
-            <div className="grid grid-cols-3 gap-6 pt-6 border-t border-slate-200 dark:border-neutral-900">
+            <div className="grid grid-cols-3 gap-3 sm:gap-6 pt-6 border-t border-slate-200 dark:border-neutral-900">
               <div>
                 <div className="text-3xl md:text-4xl font-display font-black text-sky-500">
                   15K+

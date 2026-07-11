@@ -450,7 +450,7 @@ export default function PvpQuizArenaPage() {
           >
             {/* Premium Hero Banner */}
             <div className="bezel overflow-hidden">
-              <div className="bezel-inner bg-gradient-to-br from-sky-50 via-cyan-50 to-blue-50 dark:from-slate-950 dark:via-indigo-950 dark:to-cyan-950 p-6 md:p-8 relative">
+              <div className="bezel-inner bg-gradient-to-br from-sky-50 via-cyan-50 to-blue-50 dark:from-slate-950 dark:via-indigo-950 dark:to-cyan-950 p-4 sm:p-6 md:p-8 relative">
                 <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-400/10 dark:bg-cyan-500/10 rounded-full blur-[80px] pointer-events-none" />
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 z-10 relative">
                   <div>
@@ -689,12 +689,12 @@ export default function PvpQuizArenaPage() {
             className="space-y-6"
           >
             {/* Top stats bar: User vs Opponent */}
-            <div className="grid grid-cols-3 items-center bg-white dark:bg-neutral-900 p-4 rounded-3xl border border-slate-200/60 dark:border-neutral-850 shadow-sm relative overflow-hidden">
+            <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center bg-white dark:bg-neutral-900 p-3 sm:p-4 rounded-3xl border border-slate-200/60 dark:border-neutral-850 shadow-sm relative overflow-hidden">
               <div className="absolute top-0 bottom-0 left-0 w-1 bg-cyan-500" />
               <div className="absolute top-0 bottom-0 right-0 w-1 bg-amber-500" />
 
               {/* Player Left (User) */}
-              <div className="flex items-center gap-3">
+              <div className="flex min-w-0 items-center gap-2 sm:gap-3">
                 <div className="h-11 w-11 rounded-2xl bg-cyan-50 dark:bg-neutral-950 border border-cyan-100 dark:border-cyan-950 flex items-center justify-center text-2xl shrink-0 shadow-sm">
                   {user?.avatarEmoji || "🦉"}
                 </div>
@@ -761,7 +761,7 @@ export default function PvpQuizArenaPage() {
               </div>
 
               {/* Opponent Right */}
-              <div className="flex items-center justify-end gap-3 text-right">
+              <div className="flex min-w-0 items-center justify-end gap-2 sm:gap-3 text-right">
                 <div>
                   <h4 className="text-xs font-black text-slate-800 dark:text-slate-200 truncate leading-tight max-w-[90px]">
                     {matchedOpponent.name}
@@ -793,7 +793,7 @@ export default function PvpQuizArenaPage() {
             </div>
 
             {/* AI Opponent action card overlay */}
-            <div className="bg-slate-50 dark:bg-neutral-950 p-3.5 rounded-2xl border border-slate-100 dark:border-neutral-850 text-center flex items-center justify-center gap-2">
+            <div className="bg-slate-50 dark:bg-neutral-950 p-3.5 rounded-2xl border border-slate-100 dark:border-neutral-850 text-center flex flex-wrap items-center justify-center gap-2">
               <span className="text-xs font-bold text-slate-555">Đối thủ:</span>
               {opponentStatus === "thinking" ? (
                 <span className="text-xs font-semibold text-slate-400 animate-pulse">{matchedOpponent.name} đang suy nghĩ...</span>
@@ -804,7 +804,7 @@ export default function PvpQuizArenaPage() {
               )}
             </div>
             <div className="bezel">
-              <div className="bezel-inner bg-white/60 dark:bg-neutral-900/40 backdrop-blur-md border border-slate-200/50 dark:border-neutral-800/80 p-8 rounded-[30px] text-center space-y-3 relative overflow-hidden">
+              <div className="bezel-inner bg-white/60 dark:bg-neutral-900/40 backdrop-blur-md border border-slate-200/50 dark:border-neutral-800/80 p-5 sm:p-8 rounded-[30px] text-center space-y-3 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 rounded-full blur-xl pointer-events-none" />
                 <div className="absolute bottom-0 left-0 w-32 h-32 bg-cyan-500/5 rounded-full blur-xl pointer-events-none" />
 
