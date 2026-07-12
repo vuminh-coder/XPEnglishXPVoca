@@ -63,17 +63,21 @@ export async function POST(request: Request) {
         throw new Error("Profile not found");
       }
 
-      // 3. Update XP and check Level up
+      // 3. Update XP, check Level up, and calculate Coins
       const newXp = profile.totalXp + xpGained;
       let newLevel = profile.level;
       let levelUp = false;
+      let levelUpCoins = 0;
 
       while (newLevel < LEVEL_XP.length && newXp >= LEVEL_XP[newLevel]) {
         newLevel++;
         levelUp = true;
+        levelUpCoins += 100 * newLevel;
       }
 
       const newTitle = LEVEL_TITLES[newLevel] || profile.title;
+      const coinsGained = result === "WIN" ? 20 : result === "DRAW" ? 10 : 2;
+      const totalCoinsGained = coinsGained + levelUpCoins;
 
       const updatedProfile = await tx.profile.update({
         where: { id: userId },
@@ -81,6 +85,7 @@ export async function POST(request: Request) {
           totalXp: newXp,
           level: newLevel,
           title: newTitle,
+          coins: { increment: totalCoinsGained },
         },
       });
 

@@ -61,7 +61,7 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { fullName, username, avatarEmoji, level, totalXp, currentStreak, longestStreak, minutesStudied, title } = body;
+    const { fullName, username, avatarEmoji, level, totalXp, currentStreak, longestStreak, minutesStudied, title, coins, streakFreezes } = body;
 
     let defaultFullName = "User";
     let defaultUsername = "user_" + userId.substring(Math.max(0, userId.length - 8));
@@ -90,6 +90,8 @@ export async function POST(request: Request) {
         longestStreak: longestStreak ?? undefined,
         minutesStudied: minutesStudied ?? undefined,
         title: title ?? undefined,
+        coins: coins ?? undefined,
+        streakFreezes: streakFreezes ?? undefined,
       },
       create: {
         id: userId,
@@ -102,6 +104,8 @@ export async function POST(request: Request) {
         longestStreak: longestStreak || 0,
         minutesStudied: minutesStudied || 0,
         title: title || "Newbie",
+        coins: coins || 100,
+        streakFreezes: streakFreezes || 0,
       },
     });
 

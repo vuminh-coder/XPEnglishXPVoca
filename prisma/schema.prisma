@@ -22,6 +22,11 @@ model Profile {
   minutesStudied      Int              @default(0) @map("minutes_studied")
   title               String           @default("Beginner") @db.VarChar(100)
   updatedAt           DateTime         @default(now()) @updatedAt @map("updated_at")
+  coins               Int              @default(100) @map("coins")
+  streakFreezes       Int              @default(0) @map("streak_freezes")
+  activeAvatarFrame   String?          @map("active_avatar_frame") @db.VarChar(100)
+  activeChatBubble    String?          @map("active_chat_bubble") @db.VarChar(100)
+  purchaseLogs        PurchaseLog[]
   vocabularies        UserVocabulary[]
   posts               Post[]
   comments            Comment[]
@@ -359,4 +364,18 @@ model GrammarProgress {
   @@index([userId])
   @@index([topicId])
   @@map("grammar_progress")
+}
+
+model PurchaseLog {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id") @db.VarChar(255)
+  itemId      String   @map("item_id") @db.VarChar(100)
+  cost        Int
+  purchasedAt DateTime @default(now()) @map("purchased_at")
+  isEquipped  Boolean  @default(false) @map("is_equipped")
+
+  user        Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("purchase_logs")
 }

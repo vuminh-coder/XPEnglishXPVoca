@@ -9,12 +9,14 @@ export async function GET(request: Request) {
     const search = searchParams.get("search");
     const limitStr = searchParams.get("limit");
     const random = searchParams.get("random") === "true";
+    const ids = searchParams.get("ids")?.split(",").filter(Boolean);
 
     const limit = limitStr ? parseInt(limitStr) : undefined;
     const difficulty = difficultyStr ? parseInt(difficultyStr) : undefined;
 
     // Build the query conditions
     const where: any = {};
+    if (ids && ids.length > 0) where.id = { in: ids };
     if (themeId) where.themeId = themeId;
     if (difficulty !== undefined && !isNaN(difficulty)) where.difficulty = difficulty;
     

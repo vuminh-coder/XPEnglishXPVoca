@@ -10,8 +10,8 @@ interface UserState {
   updateProfile: (fullName: string, bio: string) => void;
   syncClerkUser: (clerkUser: any, isSignedIn: boolean) => void;
   setLocalUser: () => void;
-  buyStreakFreeze: () => boolean;
-  buyDoubleXp: () => boolean;
+  buyStreakFreeze: () => Promise<boolean>;
+  buyDoubleXp: () => Promise<boolean>;
   syncStreak: (hasCompletedActivity: boolean) => void;
   logout: () => void;
 }
@@ -158,6 +158,7 @@ export const useUserStore = create<UserState>((set, get) => ({
     // Level up check
     let newLevel = user.level;
     let levelUp = false;
+    let levelUpCoins = 0;
     const LEVEL_XP = [
       0, 100, 250, 450, 700, 1000, 1400, 1900, 2500, 3200, 4000, 5000, 6200,
       7600, 9200, 11000,
@@ -165,10 +166,12 @@ export const useUserStore = create<UserState>((set, get) => ({
     if (newXp >= LEVEL_XP[newLevel]) {
       newLevel++;
       levelUp = true;
+      levelUpCoins = 100 * newLevel;
     }
 
     const newTitle = LEVEL_TITLES[newLevel] || "Grandmaster";
-    const updatedUser = { ...user, totalXp: newXp, level: newLevel, title: newTitle };
+    const newCoins = (user.coins || 0) + levelUpCoins;
+    const updatedUser = { ...user, totalXp: newXp, level: newLevel, title: newTitle, coins: newCoins };
     set({ user: updatedUser });
     if (typeof window !== "undefined") {
       localStorage.setItem(`xp_voca_user_${user.id}`, JSON.stringify(updatedUser));
@@ -182,6 +185,7 @@ export const useUserStore = create<UserState>((set, get) => ({
         totalXp: newXp,
         level: newLevel,
         title: newTitle,
+        coins: newCoins,
       }),
     }).catch(err => console.error("Error syncing XP to DB:", err));
 
@@ -190,11 +194,21 @@ export const useUserStore = create<UserState>((set, get) => ({
   awardCoins: (amount) => {
     const user = get().user;
     if (!user) return;
-    const updatedUser = { ...user, coins: (user.coins || 0) + amount };
+    const newCoins = (user.coins || 0) + amount;
+    const updatedUser = { ...user, coins: newCoins };
     set({ user: updatedUser });
     if (typeof window !== "undefined") {
       localStorage.setItem(`xp_voca_user_${user.id}`, JSON.stringify(updatedUser));
     }
+
+    // Sync coins with DB
+    fetch("/api/user/profile", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        coins: newCoins,
+      }),
+    }).catch(err => console.error("Error syncing awardCoins to DB:", err));
   },
   updateProfile: (fullName, bio) => {
     const user = get().user;
@@ -254,6 +268,8 @@ export const useUserStore = create<UserState>((set, get) => ({
       wordsToReview: storedUser.wordsToReview || 0,
       minutesStudied: storedUser.minutesStudied || 0,
       imageUrl: imageUrl,
+      coins: storedUser.coins !== undefined ? storedUser.coins : 100,
+      streakFreezes: storedUser.streakFreezes !== undefined ? storedUser.streakFreezes : 0,
     };
 
     set({ user: syncedUser });
@@ -287,6 +303,8 @@ export const useUserStore = create<UserState>((set, get) => ({
             minutesStudied: profile.minutesStudied || syncedUser.minutesStudied,
             title: profile.title || syncedUser.title,
             avatarEmoji: profile.avatarEmoji || syncedUser.avatarEmoji,
+            coins: profile.coins !== undefined ? profile.coins : syncedUser.coins,
+            streakFreezes: profile.streakFreezes !== undefined ? profile.streakFreezes : syncedUser.streakFreezes,
           };
           set({ user: cloudUser });
           localStorage.setItem(`xp_voca_user_${userId}`, JSON.stringify(cloudUser));
@@ -337,36 +355,60 @@ export const useUserStore = create<UserState>((set, get) => ({
       }
     }
   },
-  buyStreakFreeze: () => {
+  buyStreakFreeze: async () => {
+    const user = get().user;
+    if (!user || (user.coins || 0) < 50) return false;
+
+    try {
+      const res = await fetch("/api/shop/purchase", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ itemId: "streak_freeze" }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        const updatedUser: User = {
+          ...user,
+          coins: data.coins,
+          streakFreezes: data.streakFreezes,
+        };
+        set({ user: updatedUser });
+        if (typeof window !== "undefined") {
+          localStorage.setItem(`xp_voca_user_${user.id}`, JSON.stringify(updatedUser));
+        }
+        return true;
+      }
+    } catch (e) {
+      console.error(e);
+    }
+    return false;
+  },
+  buyDoubleXp: async () => {
     const user = get().user;
     if (!user || (user.coins || 0) < 100) return false;
 
-    const updatedUser: User = {
-      ...user,
-      coins: (user.coins || 0) - 100,
-      streakFreezes: (user.streakFreezes || 0) + 1,
-    };
-
-    set({ user: updatedUser });
-    if (typeof window !== "undefined") {
-      localStorage.setItem(`xp_voca_user_${user.id}`, JSON.stringify(updatedUser));
+    try {
+      const res = await fetch("/api/shop/purchase", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ itemId: "double_xp" }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        const updatedUser: User = {
+          ...user,
+          coins: data.coins,
+        };
+        set({ user: updatedUser });
+        if (typeof window !== "undefined") {
+          localStorage.setItem(`xp_voca_user_${user.id}`, JSON.stringify(updatedUser));
+        }
+        return true;
+      }
+    } catch (e) {
+      console.error(e);
     }
-    return true;
-  },
-  buyDoubleXp: () => {
-    const user = get().user;
-    if (!user || (user.coins || 0) < 150) return false;
-
-    const updatedUser: User = {
-      ...user,
-      coins: (user.coins || 0) - 150,
-    };
-
-    set({ user: updatedUser });
-    if (typeof window !== "undefined") {
-      localStorage.setItem(`xp_voca_user_${user.id}`, JSON.stringify(updatedUser));
-    }
-    return true;
+    return false;
   },
   logout: () => {
     set({ user: null });
