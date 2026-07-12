@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-import { MOCK_VOCABULARIES } from "@/lib/constants/vocabularies";
 import { useVocabularyStore } from "@/lib/store/vocabularyStore";
 import { useAuthStore } from "@/lib/store/authStore";
 import { motion, AnimatePresence } from "framer-motion";
@@ -68,7 +67,6 @@ export default function MyVocabularyPage() {
   const [filter, setFilter] = useState<"all" | "favorite" | "learning" | "mastered">("all");
   const { learned, toggleFavorite, practiceWord } = useVocabularyStore();
   const { awardXp } = useAuthStore();
-  const vocabs = MOCK_VOCABULARIES;
 
   const { favoriteWords, masteredWords, learningWords } = React.useMemo(() => {
     return {
@@ -335,8 +333,8 @@ export default function MyVocabularyPage() {
             className="grid grid-cols-1 md:grid-cols-2 gap-5"
           >
             {filteredList.map((item) => {
-              const v = vocabs.find((vocab) => vocab.id === item.vocabId);
-              if (!v) return null;
+              const v = item;
+              if (!v || !v.word) return null;
               return (
                 <motion.div key={item.vocabId} variants={cardVariants}>
                   <div className="bezel lift group h-full">
@@ -357,7 +355,7 @@ export default function MyVocabularyPage() {
                           <motion.button
                             whileTap={{ scale: 0.95 }}
                             className="w-9 h-9 rounded-full flex items-center justify-center border border-slate-200/50 dark:border-neutral-850 bg-slate-50 dark:bg-neutral-950 text-slate-500 tactile cursor-pointer shrink-0"
-                            onClick={() => toggleFavorite(v.id)}
+                            onClick={() => toggleFavorite(v.vocabId)}
                             aria-label="Đánh dấu yêu thích"
                           >
                             <Heart
@@ -377,9 +375,11 @@ export default function MyVocabularyPage() {
                         <div className="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed font-medium">
                           {v.definition}
                         </div>
-                        <div className="text-xs text-slate-500 dark:text-slate-400 bg-slate-50/60 dark:bg-neutral-950/30 p-3 rounded-xl border border-slate-250/20 dark:border-neutral-850 italic leading-relaxed font-bold">
-                          &quot;{v.examples[0]}&quot;
-                        </div>
+                        {v.examples && v.examples[0] && (
+                          <div className="text-xs text-slate-500 dark:text-slate-400 bg-slate-50/60 dark:bg-neutral-950/30 p-3 rounded-xl border border-slate-250/20 dark:border-neutral-850 italic leading-relaxed font-bold">
+                            &quot;{v.examples[0]}&quot;
+                          </div>
+                        )}
                       </div>
 
                       <div className="flex items-center justify-between mt-4 pt-4 border-t border-slate-100 dark:border-neutral-850">
@@ -403,7 +403,7 @@ export default function MyVocabularyPage() {
                           <motion.button
                             whileTap={{ scale: 0.95 }}
                             className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-black text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-neutral-950 border border-slate-200/50 dark:border-neutral-850 rounded-full tactile cursor-pointer"
-                            onClick={() => speak(v.word)}
+                            onClick={() => speak(v.word || "")}
                           >
                             <Volume2 className="w-3.5 h-3.5" strokeWidth={2} /> Nghe
                           </motion.button>
@@ -411,7 +411,7 @@ export default function MyVocabularyPage() {
                             whileTap={{ scale: 0.95 }}
                             className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-black text-white bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full tactile cursor-pointer shadow-sm hover:shadow"
                             onClick={() => {
-                              practiceWord(v.id, true);
+                              practiceWord(v.vocabId, true);
                               awardXp(15);
                             }}
                           >

@@ -12,6 +12,7 @@ import {
   ShoppingBag,
 } from "lucide-react";
 import Link from "next/link";
+import { useNotificationStore } from "@/lib/store/notificationStore";
 
 interface ShopItem {
   id: string;
@@ -23,6 +24,7 @@ interface ShopItem {
 }
 
 export default function ShopPage() {
+  const { addToast } = useNotificationStore();
   const { user, buyStreakFreeze, buyDoubleXp } = useAuthStore();
   const [purchasingId, setPurchasingId] = useState<string | null>(null);
   const [successId, setSuccessId] = useState<string | null>(null);
@@ -30,23 +32,23 @@ export default function ShopPage() {
   const shopItems: ShopItem[] = [
     {
       id: "streak_freeze",
-      name: "Streak Freeze (Đóng băng chuỗi)",
-      desc: "Giữ nguyên chuỗi ngày học Streak của bạn ngay cả khi bạn bỏ lỡ 1 ngày học tập bận rộn.",
-      cost: 100,
-      icon: <Flame className="h-7 w-7 text-sky-400 animate-pulse" />,
-      bgGradient: "from-sky-500/10 via-sky-600/5 to-indigo-500/10",
+      name: "Streak Freeze (Bảo Hộ Lửa)",
+      desc: "Giữ nguyên ngọn lửa Streak của bạn không bị dập tắt kể cả khi bạn bỏ lỡ 1 ngày không hoàn thành bài tập.",
+      cost: 50,
+      icon: <Flame className="h-7 w-7 text-orange-500 fill-orange-500 animate-pulse" />,
+      bgGradient: "from-orange-500/10 via-orange-600/5 to-amber-500/10",
     },
     {
       id: "double_xp",
-      name: "Bình nhân đôi XP (XP Potion)",
-      desc: "Nhận gấp đôi điểm kinh nghiệm (Double XP) cho tất cả các bài học trắc nghiệm và ôn tập trong 30 phút.",
-      cost: 150,
-      icon: <Zap className="h-7 w-7 text-amber-400 animate-pulse" />,
-      bgGradient: "from-amber-500/10 via-amber-600/5 to-yellow-500/10",
+      name: "Nhân đôi XP (30 Phút)",
+      desc: "Kích hoạt hiệu ứng tăng tốc nhân đôi toàn bộ điểm kinh nghiệm (XP) kiếm được từ mọi chế độ học tập trong 30 phút kế tiếp.",
+      cost: 100,
+      icon: <Zap className="h-7 w-7 text-yellow-500 fill-yellow-500 animate-bounce" style={{ animationDuration: "3s" }} />,
+      bgGradient: "from-yellow-500/10 via-yellow-600/5 to-orange-500/10",
     },
     {
-      id: "wise_owl",
-      name: "Trang phục Cú Thông Thái",
+      id: "premium_owl",
+      name: "Trang phục Cú Tốt Nghiệp",
       desc: "Trang bị cho cú avatar của bạn chiếc mũ tốt nghiệp danh tiếng nâng tầm đẳng cấp học viên.",
       cost: 250,
       icon: <Sparkles className="h-7 w-7 text-purple-400 animate-pulse" />,
@@ -57,7 +59,11 @@ export default function ShopPage() {
   const handlePurchase = (itemId: string, cost: number) => {
     if (!user) return;
     if ((user.coins || 0) < cost) {
-      alert("Bạn không đủ Coins để mua vật phẩm này! Hãy tích cực học tập thêm nhé.");
+      addToast({
+        type: "warning",
+        title: "Không đủ Coins",
+        message: "Bạn không đủ Coins để mua vật phẩm này! Hãy tích cực học tập thêm nhé.",
+      });
       return;
     }
 

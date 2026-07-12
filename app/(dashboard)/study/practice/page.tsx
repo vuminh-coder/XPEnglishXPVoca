@@ -2,7 +2,6 @@
 import React, { useState, useMemo, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { MOCK_VOCABULARIES } from "@/lib/constants/vocabularies";
 import { useVocabularyStore } from "@/lib/store/vocabularyStore";
 import { useAuthStore } from "@/lib/store/authStore";
 import { Button } from "@/components/ui";
@@ -57,8 +56,10 @@ function PracticeQuizContent() {
     return `${year}-${month}-${day}`;
   };
 
-  const vocabs = useMemo(() => {
-    let list = [];
+  const [dbVocabs, setDbVocabs] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  React.useEffect(() => {
     if (mode === "review") {
       let filteredLearned = [];
       if (dateParam) {
@@ -71,14 +72,31 @@ function PracticeQuizContent() {
         filteredLearned = learned.filter((l) => l.nextReview && new Date(l.nextReview) <= new Date());
       }
       
-      const dueVocabIds = filteredLearned.map((l) => l.vocabId);
-      const filtered = MOCK_VOCABULARIES.filter((v) => dueVocabIds.includes(v.id));
-      list = filtered.length > 0 ? filtered : MOCK_VOCABULARIES;
-    } else {
-      list = MOCK_VOCABULARIES;
+      if (filteredLearned.length > 0) {
+        const mapped = filteredLearned.map((l) => ({
+          ...l,
+          id: l.vocabId,
+        }));
+        setDbVocabs(mapped.sort(() => 0.5 - Math.random()));
+        setIsLoading(false);
+        return;
+      }
     }
-    return [...list].sort(() => 0.5 - Math.random());
+
+    // Fetch random vocabs from database
+    setIsLoading(true);
+    fetch("/api/vocabulary?limit=20&random=true")
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.success && res.data) {
+          setDbVocabs(res.data.sort(() => 0.5 - Math.random()));
+        }
+      })
+      .catch((err) => console.error(err))
+      .finally(() => setIsLoading(false));
   }, [mode, dateParam, learned]);
+
+  const vocabs = dbVocabs;
 
   const [subMode, setSubMode] = useState<"quiz" | "flashcard">("quiz");
 
@@ -105,14 +123,11 @@ function PracticeQuizContent() {
     
     // Fallback: Pad decoys to ensure exactly 4 choices
     if (decoys.length < 3) {
-      const extraDecoys = MOCK_VOCABULARIES.filter(
-        (v) => v.id !== currentWord.id && !decoys.some((d) => d.id === v.id)
-      ).slice(0, 3 - decoys.length);
-      decoys = [...decoys, ...extraDecoys];
+      decoys = [...decoys];
     }
 
     const combined = [currentWord, ...decoys];
-    return combined.sort((a, b) => a.word.localeCompare(b.word));
+    return combined.sort((a, b) => (a.word || '').localeCompare(b.word || ''));
   }, [currentWord, vocabs]);
 
   const handleQuizAnswer = (optId: string) => {
@@ -170,6 +185,18 @@ function PracticeQuizContent() {
     },
   ];
 
+  if (isLoading) {
+    return (
+      <div className="space-y-6 pb-20 md:pb-6 select-none animate-pulse">
+        <div className="h-8 w-48 rounded bg-slate-200 dark:bg-neutral-850" />
+        <div className="h-4 w-72 rounded bg-slate-200 dark:bg-neutral-850 mt-2" />
+        <div className="bezel-outer p-1.5 bg-slate-200/40 dark:bg-white/5 rounded-[2rem] h-[250px] max-w-lg mx-auto mt-6">
+          <div className="bezel-inner rounded-[calc(2rem-6px)] bg-slate-50 dark:bg-[#0c0c0e] h-full" />
+        </div>
+      </div>
+    );
+  }
+
   const progressPercent = Math.round(
     (qIndex / Math.max(1, vocabs.length)) * 100
   );
@@ -197,7 +224,7 @@ function PracticeQuizContent() {
         transition={{ type: "spring", stiffness: 80, damping: 15, delay: 0.05 }}
         className="bezel"
       >
-        <div className="bezel-inner rounded-[calc(var(--radius-3xl)-6px)] bg-gradient-to-br from-sky-50 via-cyan-50 to-blue-50 dark:from-slate-900 dark:via-slate-900 dark:to-sky-950 p-6 md:p-8 relative overflow-hidden">
+        <div className="bezel-inner rounded-[calc(var(--radius-3xl)-6px)] !bg-gradient-to-br !from-sky-50 !via-cyan-50 !to-blue-50 dark:!from-slate-900 dark:!via-slate-900 dark:!to-sky-950 p-6 md:p-8 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-400/10 dark:bg-cyan-500/10 rounded-full blur-[80px] pointer-events-none" />
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between relative z-10">
             <div>

@@ -15,6 +15,7 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import Link from "next/link";
+import { useNotificationStore } from "@/lib/store/notificationStore";
 
 interface Topic {
   id: string;
@@ -57,6 +58,7 @@ const SAMPLE_TOPICS: Topic[] = [
 ];
 
 export default function WritingPracticePage() {
+  const { addToast } = useNotificationStore();
   const [shuffledTopics, setShuffledTopics] = useState<Topic[]>(() => SAMPLE_TOPICS);
   const [selectedTopic, setSelectedTopic] = useState<Topic>(SAMPLE_TOPICS[0]);
   const [essay, setEssay] = useState<string>("");
@@ -75,7 +77,11 @@ export default function WritingPracticePage() {
 
   const handleEvaluate = async () => {
     if (wordCount < 10) {
-      alert("Bài viết quá ngắn. Vui lòng nhập tối thiểu 10 từ.");
+      addToast({
+        type: "warning",
+        title: "Bài viết quá ngắn",
+        message: "Vui lòng nhập tối thiểu 10 từ.",
+      });
       return;
     }
 
@@ -93,7 +99,11 @@ export default function WritingPracticePage() {
       if (json.success && json.data) {
         setFeedback(json.data);
       } else {
-        alert(json.error || "Không thể chấm bài!");
+        addToast({
+          type: "error",
+          title: "Lỗi chấm bài",
+          message: json.error || "Không thể chấm bài!",
+        });
       }
     } catch (e) {
       console.error("Error evaluating essay:", e);

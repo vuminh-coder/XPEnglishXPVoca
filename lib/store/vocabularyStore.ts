@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { Vocabulary, LearnedVocabulary } from '@/types';
-import { MOCK_VOCABULARIES } from '../constants/vocabularies';
 import { useAuthStore } from './authStore';
 
 interface VocabularyState {
@@ -13,11 +12,8 @@ interface VocabularyState {
 }
 
 export const useVocabularyStore = create<VocabularyState>((set, get) => ({
-  vocabularies: MOCK_VOCABULARIES,
-  learned: [
-    { userId: 'u1', vocabId: 'v1', proficiency: 5, lastPracticed: new Date().toISOString(), nextReview: new Date().toISOString(), isFavorite: true },
-    { userId: 'u1', vocabId: 'v2', proficiency: 3, lastPracticed: new Date().toISOString(), nextReview: new Date().toISOString(), isFavorite: false }
-  ],
+  vocabularies: [],
+  learned: [],
   loadLearnedWords: (userId) => {
     if (!userId || typeof window === 'undefined') return;
     try {
@@ -35,14 +31,26 @@ export const useVocabularyStore = create<VocabularyState>((set, get) => ({
         const res = await fetch("/api/user/vocab");
         const json = await res.json();
         
-        if (json.success && json.data && json.data.length > 0) {
+        if (json.success && json.data) {
           const mappedList = json.data.map((c: any) => ({
             userId: c.userId,
             vocabId: c.vocabId,
             proficiency: c.proficiency,
             lastPracticed: c.lastPracticed,
             nextReview: c.nextReview,
-            isFavorite: c.isFavorite
+            isFavorite: c.isFavorite,
+            // Joined fields
+            word: c.word,
+            phonetic: c.phonetic,
+            definition: c.definition,
+            definitionVn: c.definitionVn,
+            pos: c.pos,
+            difficulty: c.difficulty,
+            frequency: c.frequency,
+            themeId: c.themeId,
+            examples: c.examples,
+            synonyms: c.synonyms,
+            antonyms: c.antonyms,
           }));
           set({ learned: mappedList });
           localStorage.setItem(`xp_voca_learned_${userId}`, JSON.stringify(mappedList));

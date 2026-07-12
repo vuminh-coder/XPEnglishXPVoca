@@ -2,7 +2,6 @@
 import React, { use, useState } from "react";
 import Link from "next/link";
 import { MOCK_THEMES } from "@/lib/constants";
-import { MOCK_VOCABULARIES } from "@/lib/constants/vocabularies";
 import { useVocabularyStore } from "@/lib/store/vocabularyStore";
 import { useAuthStore } from "@/lib/store/authStore";
 import { motion, AnimatePresence } from "framer-motion";
@@ -50,9 +49,23 @@ export default function ThemeDetailPage({
 }) {
   const { id } = use(params);
   const theme = React.useMemo(() => MOCK_THEMES.find((t) => t.id === id), [id]);
-  const vocabs = React.useMemo(() => MOCK_VOCABULARIES.filter((v) => v.themeId === id), [id]);
+  const [vocabs, setVocabs] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { toggleFavorite, learned, practiceWord } = useVocabularyStore();
   const { awardXp } = useAuthStore();
+
+  React.useEffect(() => {
+    setIsLoading(true);
+    fetch(`/api/vocabulary?themeId=${id}`)
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.success && res.data) {
+          setVocabs(res.data);
+        }
+      })
+      .catch((err) => console.error(err))
+      .finally(() => setIsLoading(false));
+  }, [id]);
 
   const [toast, setToast] = useState<{ title: string; body: string } | null>(
     null
@@ -69,6 +82,28 @@ export default function ThemeDetailPage({
 
   if (!theme)
     return <div className="p-8 text-center text-red-500 font-bold">Chủ đề không tồn tại</div>;
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6 pb-20 md:pb-6 select-none animate-pulse">
+        <div className="flex items-center gap-4">
+          <div className="w-9 h-9 rounded-full bg-slate-200 dark:bg-neutral-850" />
+          <div className="space-y-2">
+            <div className="h-6 w-48 rounded bg-slate-200 dark:bg-neutral-850" />
+            <div className="h-3.5 w-32 rounded bg-slate-100 dark:bg-neutral-900" />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {[1, 2, 3, 4].map((i) => (
+            <div
+              key={i}
+              className="h-44 rounded-[2rem] bg-slate-100/40 dark:bg-white/5 border border-slate-200/20 dark:border-neutral-800/25"
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   const showToastMsg = (title: string, body: string) => {
     setToast({ title, body });

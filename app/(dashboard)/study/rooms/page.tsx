@@ -320,7 +320,7 @@ export default function GroupRoomsPage() {
 
   // Room view
   return (
-    <div className="max-w-5xl mx-auto grid md:grid-cols-4 gap-5 h-[calc(100vh-140px)] pb-20 md:pb-6" suppressHydrationWarning>
+    <div className="max-w-5xl mx-auto grid md:grid-cols-4 gap-5 h-[calc(100dvh-140px)] pb-20 md:pb-6" suppressHydrationWarning>
       {/* Main chat column */}
       <Card variant="bezel" className="md:col-span-3 flex flex-col h-full overflow-hidden p-0 border-slate-200/40 dark:border-neutral-850 bg-white dark:bg-neutral-900 rounded-[calc(var(--radius-3xl)-6px)]">
         {/* Room Header */}

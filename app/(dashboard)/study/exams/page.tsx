@@ -11,6 +11,7 @@ import {
   Database,
 } from "lucide-react";
 import Link from "next/link";
+import { useNotificationStore } from "@/lib/store/notificationStore";
 
 interface Exam {
   id: string;
@@ -51,6 +52,7 @@ const cardItemVariants = {
 } as const;
 
 export default function ExamsListPage() {
+  const { addToast } = useNotificationStore();
   const [exams, setExams] = useState<Exam[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [seeding, setSeeding] = useState(false);
@@ -80,7 +82,11 @@ export default function ExamsListPage() {
       const res = await fetch("/api/exams/seed");
       const json = await res.json();
       if (json.success) {
-        alert("Đã khởi tạo đề thi mẫu thành công!");
+        addToast({
+          type: "success",
+          title: "Khởi tạo thành công",
+          message: "Đã khởi tạo đề thi mẫu thành công!",
+        });
         fetchExams();
       }
     } catch (e) {
@@ -151,7 +157,7 @@ export default function ExamsListPage() {
             </div>
             <h3 className="text-sm md:text-base font-black text-slate-800 dark:text-slate-200">Không tìm thấy đề thi nào</h3>
             <p className="text-xs text-slate-500 dark:text-slate-450 max-w-xs mx-auto leading-relaxed">
-              Nhấp vào nút "Khởi tạo đề thi mẫu" phía trên để tạo sẵn các đề thi thử TOEIC và IELTS mẫu vào database.
+              Nhấp vào nút &quot;Khởi tạo đề thi mẫu&quot; phía trên để tạo sẵn các đề thi thử TOEIC và IELTS mẫu vào database.
             </p>
           </div>
         </motion.div>

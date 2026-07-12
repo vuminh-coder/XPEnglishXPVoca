@@ -1,4 +1,5 @@
 import { getAuthenticatedUserId } from "@/lib/auth";
+import { isRateLimited } from "@/lib/rateLimit";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -6,6 +7,11 @@ export async function POST(request: Request) {
     const userId = await getAuthenticatedUserId();
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Rate Limit: Max 20 requests per minute
+    if (isRateLimited(userId, 20, 60 * 1000)) {
+      return NextResponse.json({ error: "Too many requests. Please slow down." }, { status: 429 });
     }
 
     const body = await request.json();

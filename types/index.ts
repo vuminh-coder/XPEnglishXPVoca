@@ -40,6 +40,17 @@ export interface LearnedVocabulary {
   lastPracticed: string | null;
   nextReview: string | null;
   isFavorite: boolean;
+  word?: string;
+  phonetic?: string;
+  definition?: string;
+  definitionVn?: string;
+  pos?: string;
+  difficulty?: number;
+  frequency?: number;
+  themeId?: string;
+  examples?: string[];
+  synonyms?: string[];
+  antonyms?: string[];
 }
 
 export interface Achievement {

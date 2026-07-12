@@ -15,6 +15,7 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import Link from "next/link";
+import { useNotificationStore } from "@/lib/store/notificationStore";
 
 interface Phrase {
   id: string;
@@ -63,6 +64,7 @@ const MOCK_PHRASES: Phrase[] = [
 ];
 
 export default function SpeakingPracticePage() {
+  const { addToast } = useNotificationStore();
   const [shuffledPhrases, setShuffledPhrases] = useState<Phrase[]>(() => MOCK_PHRASES);
   const [selectedPhrase, setSelectedPhrase] = useState<Phrase>(MOCK_PHRASES[0]);
 
@@ -197,7 +199,11 @@ export default function SpeakingPracticePage() {
   // Recording controls
   const toggleRecording = () => {
     if (!recognitionRef.current) {
-      alert("Trình duyệt không hỗ trợ nhận diện giọng nói Web Speech API.");
+      addToast({
+        type: "error",
+        title: "Không hỗ trợ nhận diện",
+        message: "Trình duyệt không hỗ trợ nhận diện giọng nói Web Speech API.",
+      });
       return;
     }
 

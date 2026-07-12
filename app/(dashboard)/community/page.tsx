@@ -2,6 +2,7 @@
 import React, { useState, useCallback } from 'react';
 import Link from 'next/link';
 import { useAuthStore } from '@/lib/store/authStore';
+import { useNotificationStore } from '@/lib/store/notificationStore';
 import { Heart, MessageCircle, Send, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui';
 
@@ -10,6 +11,7 @@ const LOAD_MORE_COMMENTS = 10;
 
 export default function CommunityPage() {
   const { user, awardXp } = useAuthStore();
+  const { addToast } = useNotificationStore();
 
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -59,11 +61,11 @@ export default function CommunityPage() {
         setPostText('');
         awardXp(20);
       } else {
-        alert(data.error || "Không thể đăng bài viết");
+        addToast({ type: "error", title: "Lỗi", message: data.error || "Không thể đăng bài viết" });
       }
     } catch (err) {
       console.error("Error creating post:", err);
-      alert("Đã xảy ra lỗi khi tạo bài viết");
+      addToast({ type: "error", title: "Lỗi", message: "Đã xảy ra lỗi khi tạo bài viết" });
     }
   };
 
@@ -112,11 +114,11 @@ export default function CommunityPage() {
         }));
         setCommentText(prev => ({ ...prev, [postId]: '' }));
       } else {
-        alert(data.error || "Không thể gửi bình luận");
+        addToast({ type: "error", title: "Lỗi", message: data.error || "Không thể gửi bình luận" });
       }
     } catch (err) {
       console.error("Error adding comment:", err);
-      alert("Đã xảy ra lỗi khi bình luận");
+      addToast({ type: "error", title: "Lỗi", message: "Đã xảy ra lỗi khi bình luận" });
     }
   };
 

@@ -50,9 +50,42 @@ model UserVocabulary {
   easeFactor    Float     @default(2.5) @map("ease_factor")
   repetitions   Int       @default(0)
   user          Profile   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  vocabulary    Vocabulary @relation(fields: [vocabId], references: [id], onDelete: Cascade)
 
   @@unique([userId, vocabId])
   @@map("user_vocabulary")
+}
+
+model VocabularyTheme {
+  id          String       @id @default(uuid())
+  name        String       @db.VarChar(255)
+  nameVn      String       @map("name_vn") @db.VarChar(255)
+  icon        String?      @db.VarChar(50)
+  orderIndex  Int          @map("order_index")
+  vocabularies Vocabulary[]
+
+  @@map("vocabulary_themes")
+}
+
+model Vocabulary {
+  id           String           @id @db.VarChar(100)
+  word         String           @db.VarChar(255)
+  phonetic     String?          @db.VarChar(100)
+  definition   String           @db.Text
+  definitionVn String           @map("definition_vn") @db.Text
+  pos          String           @db.VarChar(50)   // noun, verb, adj...
+  difficulty   Int              @default(1)
+  frequency    Int              @default(1)
+  themeId      String           @map("theme_id")
+  examples     Json             // String[]
+  synonyms     Json?            // String[]
+  antonyms     Json?            // String[]
+  theme        VocabularyTheme  @relation(fields: [themeId], references: [id], onDelete: Cascade)
+  userEntries  UserVocabulary[]
+
+  @@index([themeId])
+  @@index([difficulty])
+  @@map("vocabularies")
 }
 
 model Post {

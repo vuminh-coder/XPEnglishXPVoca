@@ -17,6 +17,7 @@ import {
   Info,
 } from "lucide-react";
 import Link from "next/link";
+import { useNotificationStore } from "@/lib/store/notificationStore";
 
 interface Question {
   id: string;
@@ -50,6 +51,7 @@ interface ExamAttemptDetail {
 }
 
 export default function ActiveExamPage() {
+  const { addToast } = useNotificationStore();
   const params = useParams();
   const router = useRouter();
   const examId = params.id as string;
@@ -99,7 +101,11 @@ export default function ActiveExamPage() {
         setCurrentQuestionIdx(0);
         startCountdown();
       } else {
-        alert(json.error || "Không thể khởi động bài thi!");
+        addToast({
+          type: "error",
+          title: "Lỗi bắt đầu thi",
+          message: json.error || "Không thể khởi động bài thi!",
+        });
       }
     } catch (e) {
       console.error("Error starting exam attempt:", e);
@@ -155,7 +161,11 @@ export default function ActiveExamPage() {
         setGradingResult(json.data);
         setGameState("review");
       } else {
-        alert(json.error || "Không thể nộp bài thi!");
+        addToast({
+          type: "error",
+          title: "Lỗi nộp bài",
+          message: json.error || "Không thể nộp bài thi!",
+        });
       }
     } catch (e) {
       console.error("Error submitting exam:", e);

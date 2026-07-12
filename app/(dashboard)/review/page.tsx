@@ -1,7 +1,6 @@
 'use client';
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { MOCK_VOCABULARIES } from '@/lib/constants/vocabularies';
 import { useVocabularyStore } from '@/lib/store/vocabularyStore';
 import { useAuthStore } from '@/lib/store/authStore';
 import { Calendar as CalendarIcon, Zap, PartyPopper, ArrowRight, Clock, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -63,15 +62,12 @@ export default function ReviewPage() {
       cells.push(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i));
     }
 
-    // Next month head days to complete the calendar grid
-    const remaining = cells.length % 7;
-    if (remaining > 0) {
-      const nextMonthYear = currentMonth.getMonth() === 11 ? currentMonth.getFullYear() + 1 : currentMonth.getFullYear();
-      const nextMonth = currentMonth.getMonth() === 11 ? 0 : currentMonth.getMonth() + 1;
-      const cellsToAdd = 7 - remaining;
-      for (let i = 1; i <= cellsToAdd; i++) {
-        cells.push(new Date(nextMonthYear, nextMonth, i));
-      }
+    // Next month head days (fill grid to multiple of 7)
+    const remainingCells = 42 - cells.length;
+    const nextMonthYear = currentMonth.getMonth() === 11 ? currentMonth.getFullYear() + 1 : currentMonth.getFullYear();
+    const nextMonth = currentMonth.getMonth() === 11 ? 0 : currentMonth.getMonth() + 1;
+    for (let i = 1; i <= remainingCells; i++) {
+      cells.push(new Date(nextMonthYear, nextMonth, i));
     }
 
     return cells;
@@ -96,13 +92,22 @@ export default function ReviewPage() {
       return nextDateStr === dateStr;
     });
 
-    const ids = dueItemsForSelected.map(i => i.vocabId);
-    return MOCK_VOCABULARIES.filter(v => ids.includes(v.id)).map(v => {
-      const learnedInfo = dueItemsForSelected.find(i => i.vocabId === v.id);
+    return dueItemsForSelected.map(v => {
       return {
-        ...v,
-        proficiency: learnedInfo?.proficiency ?? 0,
-        nextReview: learnedInfo?.nextReview
+        id: v.vocabId,
+        word: v.word || "",
+        phonetic: v.phonetic || "",
+        definition: v.definition || "",
+        definitionVn: v.definitionVn || "",
+        pos: v.pos || "",
+        difficulty: v.difficulty || 1,
+        frequency: v.frequency || 1,
+        themeId: v.themeId || "",
+        examples: v.examples || [],
+        synonyms: v.synonyms || [],
+        antonyms: v.antonyms || [],
+        proficiency: v.proficiency ?? 0,
+        nextReview: v.nextReview
       };
     });
   }, [selectedDate, learned]);

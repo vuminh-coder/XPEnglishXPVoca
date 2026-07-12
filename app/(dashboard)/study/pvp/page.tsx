@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { useAuthStore } from "@/lib/store/authStore";
-import { MOCK_VOCABULARIES } from "@/lib/constants/vocabularies";
 import { Button, Badge } from "@/components/ui";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -30,8 +29,8 @@ interface Opponent {
 }
 
 interface QuestionPackage {
-  question: typeof MOCK_VOCABULARIES[0];
-  options: typeof MOCK_VOCABULARIES;
+  question: any;
+  options: any[];
 }
 
 const MOCK_OPPONENTS: Opponent[] = [
@@ -222,9 +221,18 @@ export default function PvpQuizArenaPage() {
     setSelectedOptionId(null);
     setSpellingInput("");
     
+    let pool: any[] = [];
+    fetch("/api/vocabulary?limit=100&random=true")
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.success && res.data) pool = res.data;
+      })
+      .catch((e) => console.error(e));
+
     searchTimerRef.current = setInterval(() => {
       setSearchTime((prev) => {
-        if (prev >= 4) {
+        const nextTime = prev + 1;
+        if (nextTime >= 4) {
           // Found Match!
           clearInterval(searchTimerRef.current!);
           const randomOpp = MOCK_OPPONENTS[Math.floor(Math.random() * MOCK_OPPONENTS.length)];
@@ -232,13 +240,16 @@ export default function PvpQuizArenaPage() {
           
           // Select vocab pool based on difficulty settings
           const settings = getDifficultySettings(difficulty);
-          let pool = MOCK_VOCABULARIES.filter((v) => settings.vocabFilter(v.word));
-          if (pool.length < settings.totalQuestions) pool = MOCK_VOCABULARIES; // fallback safety
+          let filteredPool = pool.filter((v) => settings.vocabFilter(v.word));
+          if (filteredPool.length < settings.totalQuestions) filteredPool = pool; // fallback safety
+          if (filteredPool.length === 0) {
+            filteredPool = [{ id: "mock", word: "Hello", definitionVn: "Xin chào", definition: "A greeting", pos: "interjection", examples: ["Hello world"] }];
+          }
           
           // Select random questions and pre-generate options
-          const shuffledQuestions = [...pool].sort(() => 0.5 - Math.random()).slice(0, settings.totalQuestions);
+          const shuffledQuestions = [...filteredPool].sort(() => 0.5 - Math.random()).slice(0, settings.totalQuestions);
           const packages = shuffledQuestions.map((q) => {
-            const otherWords = MOCK_VOCABULARIES.filter((v) => v.id !== q.id);
+            const otherWords = pool.filter((v) => v.id !== q.id);
             const decoys = [...otherWords].sort(() => 0.5 - Math.random()).slice(0, 3);
             const options = [q, ...decoys].sort(() => 0.5 - Math.random());
             return { question: q, options };
@@ -249,10 +260,8 @@ export default function PvpQuizArenaPage() {
             setGameState("battle");
             startQuestion(0, packages);
           }, 2000);
-          
-          return prev;
         }
-        return prev + 1;
+        return nextTime;
       });
     }, 1000);
   };
@@ -270,23 +279,7 @@ export default function PvpQuizArenaPage() {
     const isDraw = userScore === opponentScore;
     const result = isWin ? "WIN" : isDraw ? "DRAW" : "LOSE";
     
-    // XP multipliers based on tier difficulty
-    let baseWinXp = 30; // medium default
-    let baseDrawXp = 15;
-    let baseLoseXp = 5;
-    
-    if (difficulty === "easy") {
-      baseWinXp = 15;
-      baseDrawXp = 8;
-      baseLoseXp = 3;
-    } else if (difficulty === "hard") {
-      baseWinXp = 50;
-      baseDrawXp = 25;
-      baseLoseXp = 10;
-    }
-    
-    const xpGained = isWin ? baseWinXp : isDraw ? baseDrawXp : baseLoseXp;
-
+    // XP is now calculated server-side for security — client only sends scores
     try {
       const res = await fetch("/api/pvp/match-submit", {
         method: "POST",
@@ -296,7 +289,6 @@ export default function PvpQuizArenaPage() {
           userScore,
           oppScore: opponentScore,
           result,
-          xpGained,
         }),
       });
       const json = await res.json();
@@ -347,7 +339,6 @@ export default function PvpQuizArenaPage() {
           userScore: 0,
           oppScore: getDifficultySettings(difficulty).totalQuestions,
           result: "LOSE",
-          xpGained: 0,
         }),
       });
     } catch (e) {
@@ -370,24 +361,6 @@ export default function PvpQuizArenaPage() {
       }
     };
   }, []);
-
-  // Keyboard support for Spelling Duel mode
-  useEffect(() => {
-    if (gameState !== "battle" || gameMode !== "spelling" || answered || !currentWord) return;
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Backspace") {
-        handleBackspace();
-      } else if (e.key === "Enter") {
-        handleSpellingSubmit();
-      } else if (e.key.length === 1 && /[a-zA-Z]/.test(e.key)) {
-        handleLetterClick(e.key.toLowerCase());
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [gameState, gameMode, answered, spellingInput, currentWord]);
 
   const handleLetterClick = (char: string) => {
     if (answered) return;
@@ -415,6 +388,24 @@ export default function PvpQuizArenaPage() {
       handleNextQuestionOrEnd(currentQuestionIndex, gameQuestions);
     }, 2000);
   };
+
+  // Keyboard support for Spelling Duel mode
+  useEffect(() => {
+    if (gameState !== "battle" || gameMode !== "spelling" || answered || !currentWord) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Backspace") {
+        handleBackspace();
+      } else if (e.key === "Enter") {
+        handleSpellingSubmit();
+      } else if (e.key.length === 1 && /[a-zA-Z]/.test(e.key)) {
+        handleLetterClick(e.key.toLowerCase());
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [gameState, gameMode, answered, spellingInput, currentWord]);
 
   const calculatedXpGained = () => {
     const isWin = userScore > opponentScore;

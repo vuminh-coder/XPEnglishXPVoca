@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { Card, Button, Badge } from "@/components/ui";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useNotificationStore } from "@/lib/store/notificationStore";
-import { MOCK_VOCABULARIES } from "@/lib/constants/vocabularies";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Shuffle,
@@ -57,19 +56,26 @@ const cardItemVariants = {
 } as const;
 
 // ── Word Scramble Game ──
-function WordScrambleGame({ onBack }: { onBack: () => void }) {
+function WordScrambleGame({ pool, onBack }: { pool: any[]; onBack: () => void }) {
   const { awardXp } = useAuthStore();
   const { addToast } = useNotificationStore();
-  const [words, setWords] = useState<ScrambleWordPackage[]>(() =>
-    [...MOCK_VOCABULARIES]
-      .sort(() => 0.5 - Math.random())
-      .slice(0, 8)
-      .map((w) => ({
-        word: w.word,
-        definitionVn: w.definitionVn,
-        scrambled: scrambleWord(w.word.toUpperCase()),
-      }))
-  );
+  const [words, setWords] = useState<ScrambleWordPackage[]>([]);
+
+  useEffect(() => {
+    if (pool && pool.length > 0) {
+      setWords(
+        [...pool]
+          .sort(() => 0.5 - Math.random())
+          .slice(0, 8)
+          .map((w) => ({
+            word: w.word,
+            definitionVn: w.definitionVn,
+            scrambled: scrambleWord(w.word.toUpperCase()),
+          }))
+      );
+    }
+  }, [pool]);
+
   const [current, setCurrent] = useState(0);
   const [input, setInput] = useState("");
   const [score, setScore] = useState(0);
@@ -135,7 +141,7 @@ function WordScrambleGame({ onBack }: { onBack: () => void }) {
   };
 
   const handleRestart = () => {
-    const selected = [...MOCK_VOCABULARIES]
+    const selected = [...pool]
       .sort(() => 0.5 - Math.random())
       .slice(0, 8)
       .map((w) => ({
@@ -251,23 +257,28 @@ interface MemoryCard {
   matched: boolean;
 }
 
-function MemoryMatchGame({ onBack }: { onBack: () => void }) {
+function MemoryMatchGame({ pool, onBack }: { pool: any[]; onBack: () => void }) {
   const { awardXp } = useAuthStore();
   const { addToast } = useNotificationStore();
-  const [cards, setCards] = useState<MemoryCard[]>(() => {
-    const selected = [...MOCK_VOCABULARIES].sort(() => 0.5 - Math.random()).slice(0, 6);
-    const cardPairs: MemoryCard[] = [];
-    selected.forEach((v, i) => {
-      cardPairs.push({ id: i * 2, text: v.word, pairId: v.id, flipped: false, matched: false });
-      cardPairs.push({ id: i * 2 + 1, text: v.definitionVn, pairId: v.id, flipped: false, matched: false });
-    });
-    return cardPairs.sort(() => 0.5 - Math.random());
-  });
+  const [cards, setCards] = useState<MemoryCard[]>([]);
+  const totalPairs = 6;
+
+  useEffect(() => {
+    if (pool && pool.length > 0) {
+      const selected = [...pool].sort(() => 0.5 - Math.random()).slice(0, totalPairs);
+      const cardPairs: MemoryCard[] = [];
+      selected.forEach((v, i) => {
+        cardPairs.push({ id: i * 2, text: v.word, pairId: v.id, flipped: false, matched: false });
+        cardPairs.push({ id: i * 2 + 1, text: v.definitionVn, pairId: v.id, flipped: false, matched: false });
+      });
+      setCards(cardPairs.sort(() => 0.5 - Math.random()));
+    }
+  }, [pool]);
+
   const [flippedIds, setFlippedIds] = useState<number[]>([]);
   const [moves, setMoves] = useState(0);
   const [matchedPairs, setMatchedPairs] = useState(0);
   const [gameOver, setGameOver] = useState(false);
-  const totalPairs = 6;
 
   useEffect(() => {
     if (gameOver) {
@@ -318,7 +329,7 @@ function MemoryMatchGame({ onBack }: { onBack: () => void }) {
     setMoves(0);
     setMatchedPairs(0);
     setGameOver(false);
-    const selected = [...MOCK_VOCABULARIES].sort(() => 0.5 - Math.random()).slice(0, totalPairs);
+    const selected = [...pool].sort(() => 0.5 - Math.random()).slice(0, totalPairs);
     const cardPairs: MemoryCard[] = [];
     selected.forEach((v, i) => {
       cardPairs.push({ id: i * 2, text: v.word, pairId: v.id, flipped: false, matched: false });
@@ -386,6 +397,34 @@ function MemoryMatchGame({ onBack }: { onBack: () => void }) {
 // ── Main Games Page ──
 export default function GamesPage() {
   const [activeGame, setActiveGame] = useState<"scramble" | "memory" | null>(null);
+  const [pool, setPool] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetch("/api/vocabulary?limit=100&random=true")
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.success && res.data) {
+          setPool(res.data);
+        }
+      })
+      .catch((err) => console.error(err))
+      .finally(() => setIsLoading(false));
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6 pb-20 md:pb-6 select-none animate-pulse">
+        <div className="h-8 w-48 rounded bg-slate-200 dark:bg-neutral-850" />
+        <div className="h-4 w-72 rounded bg-slate-200 dark:bg-neutral-850 mt-2" />
+        <div className="grid gap-5 sm:grid-cols-2 mt-6">
+          <div className="h-[220px] rounded-[2rem] bg-slate-100/40 dark:bg-white/5 border border-slate-200/20 dark:border-neutral-800/25" />
+          <div className="h-[220px] rounded-[2rem] bg-slate-100/40 dark:bg-white/5 border border-slate-200/20 dark:border-neutral-800/25" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-3xl mx-auto space-y-6 pb-20 md:pb-6" suppressHydrationWarning>
@@ -399,7 +438,7 @@ export default function GamesPage() {
             transition={{ type: "spring", stiffness: 85, damping: 15 }}
             className="max-w-2xl mx-auto"
           >
-            <WordScrambleGame onBack={() => setActiveGame(null)} />
+            <WordScrambleGame pool={pool} onBack={() => setActiveGame(null)} />
           </motion.div>
         )}
 
@@ -412,7 +451,7 @@ export default function GamesPage() {
             transition={{ type: "spring", stiffness: 85, damping: 15 }}
             className="max-w-2xl mx-auto"
           >
-            <MemoryMatchGame onBack={() => setActiveGame(null)} />
+            <MemoryMatchGame pool={pool} onBack={() => setActiveGame(null)} />
           </motion.div>
         )}
 

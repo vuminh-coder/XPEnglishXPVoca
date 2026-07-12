@@ -1,12 +1,14 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useAuthStore } from "@/lib/store/authStore";
+import { useNotificationStore } from "@/lib/store/notificationStore";
 import { getXpProgress } from "@/lib/utils/calculateXP";
 import Link from "next/link";
 import { Share2, Sparkles } from "lucide-react";
 
 export default function RightSidebar() {
   const { user, awardXp } = useAuthStore();
+  const { addToast } = useNotificationStore();
   const currentUser = user;
   const [suggestedUsers, setSuggestedUsers] = useState<any[]>([]);
 
@@ -45,11 +47,11 @@ export default function RightSidebar() {
       const data = await res.json();
       if (data.success) {
         awardXp(10);
-        alert(`Đã gửi lời mời kết bạn đến ${name}! +10 XP`);
+        addToast({ type: "success", title: "Kết bạn thành công!", message: `Đã gửi lời mời đến ${name}. +10 XP` });
         // Remove from current suggested list
         setSuggestedUsers(suggestedUsers.filter((u) => u.id !== friendId));
       } else {
-        alert(data.error || "Không thể gửi kết bạn");
+        addToast({ type: "error", title: "Lỗi", message: data.error || "Không thể gửi kết bạn" });
       }
     } catch (err) {
       console.error("Error connecting with friend on sidebar:", err);
@@ -117,7 +119,7 @@ export default function RightSidebar() {
   ];
 
   const shareProgress = () => {
-    alert("Đã sao chép liên kết chia sẻ tiến độ học tập!");
+    addToast({ type: "success", title: "Đã sao chép!", message: "Liên kết chia sẻ tiến độ học tập đã được sao chép." });
     if (typeof navigator !== "undefined") {
       navigator.clipboard.writeText(
         `Tôi đang học từ vựng tiếng Anh trên XP English! Cấp độ hiện tại: Level ${currentUser.level} (${currentUser.title}). Cùng tham gia với tôi nhé!`,

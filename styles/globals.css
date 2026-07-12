@@ -1305,7 +1305,7 @@ textarea.input-field {
   top: var(--navbar-height);
   left: 0;
   width: var(--sidebar-width);
-  height: calc(100vh - var(--navbar-height));
+  height: calc(100dvh - var(--navbar-height));
   background: var(--bg-sidebar);
   border-right: 1px solid var(--border-light);
   overflow-y: auto;
@@ -1431,7 +1431,7 @@ textarea.input-field {
   top: var(--navbar-height);
   right: 0;
   width: var(--right-sidebar-width);
-  height: calc(100vh - var(--navbar-height));
+  height: calc(100dvh - var(--navbar-height));
   background: var(--bg-sidebar);
   border-left: 1px solid var(--border-light);
   overflow-y: auto;
@@ -1558,7 +1558,7 @@ textarea.input-field {
   margin-top: var(--navbar-height);
   margin-left: var(--sidebar-width);
   margin-right: var(--right-sidebar-width);
-  min-height: calc(100vh - var(--navbar-height));
+  min-height: calc(100dvh - var(--navbar-height));
   padding: var(--space-6) var(--space-8);
   transition: margin var(--transition-base);
 }
@@ -1624,7 +1624,7 @@ textarea.input-field {
 /* Hero Section */
 .hero-section {
   position: relative;
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2074,7 +2074,7 @@ textarea.input-field {
    11. AUTH PAGE
    ============================================================ */
 .auth-page {
-  min-height: 100vh;
+  min-height: 100dvh;
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
@@ -3164,7 +3164,7 @@ textarea.input-field {
 .ai-chat-container {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - var(--navbar-height) - 3rem);
+  height: calc(100dvh - var(--navbar-height) - 3rem);
   background: var(--bg-card);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-2xl);

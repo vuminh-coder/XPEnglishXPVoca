@@ -113,6 +113,7 @@ export default function VoiceTutorPage() {
   const [lastSpeechInput, setLastSpeechInput] = useState("");
 
   const recognitionRef = useRef<any>(null);
+  const onResultRef = useRef<any>(null);
 
   // Clean strings for sentence comparison
   const getNormalizedWords = (text: string) => {
@@ -121,73 +122,6 @@ export default function VoiceTutorPage() {
       .trim()
       .split(/\s+/);
   };
-
-  // Initialize Speech Recognition
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const SpeechRecognition =
-        (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-      if (SpeechRecognition) {
-        const rec = new SpeechRecognition();
-        rec.continuous = false;
-        rec.interimResults = false;
-        rec.lang = "en-US";
-
-        rec.onstart = () => {
-          setIsRecording(true);
-        };
-
-        rec.onend = () => {
-          setIsRecording(false);
-        };
-
-        rec.onresult = async (event: any) => {
-          const resultText = event.results[0][0].transcript;
-          const confidence = Math.round(event.results[0][0].confidence * 100);
-          if (resultText.trim()) {
-            setLastSpeechInput(resultText);
-            
-            if (practiceMode === "drill") {
-              // Sentence drill comparison matching
-              const target = DRILL_SENTENCES[drillIndex];
-              const studentWords = getNormalizedWords(resultText);
-              const targetWords = getNormalizedWords(target);
-              const matches = targetWords.filter(w => studentWords.includes(w));
-              const score = Math.round((matches.length / targetWords.length) * 100);
-              
-              setDrillFeedback({ score, studentWords, targetWords });
-              
-              // Award XP based on pronunciation match score
-              const xp = Math.round(score / 5);
-              if (xp > 0) {
-                awardXp(xp);
-                addToast({
-                  type: "xp",
-                  title: `+${xp} XP!`,
-                  message: `Đọc đúng khớp: ${score}% số từ mẫu.`,
-                });
-              }
-            } else {
-              // Regular convo flow
-              await handleNewUserSpeech(resultText, confidence);
-            }
-          }
-        };
-
-        rec.onerror = (e: any) => {
-          console.error("Speech recognition error:", e);
-          setIsRecording(false);
-          addToast({
-            type: "error",
-            title: "Lỗi Micro",
-            message: "Không thể nhận diện được giọng nói. Vui lòng thử lại.",
-          });
-        };
-
-        recognitionRef.current = rec;
-      }
-    }
-  }, [practiceMode, drillIndex]);
 
   const speakText = (text: string) => {
     if (!soundEnabled || typeof window === "undefined") return;
@@ -291,6 +225,86 @@ export default function VoiceTutorPage() {
       setLoading(false);
     }
   };
+
+  // Update ref callback on every render to avoid stale closure in SpeechRecognition event listener
+  useEffect(() => {
+    onResultRef.current = async (resultText: string, confidence: number) => {
+      setLastSpeechInput(resultText);
+      
+      if (practiceMode === "drill") {
+        // Sentence drill comparison matching
+        const target = DRILL_SENTENCES[drillIndex];
+        const studentWords = getNormalizedWords(resultText);
+        const targetWords = getNormalizedWords(target);
+        const matches = targetWords.filter(w => studentWords.includes(w));
+        const score = Math.round((matches.length / targetWords.length) * 100);
+        
+        setDrillFeedback({ score, studentWords, targetWords });
+        
+        // Award XP based on pronunciation match score
+        const xp = Math.round(score / 5);
+        if (xp > 0) {
+          awardXp(xp);
+          addToast({
+            type: "xp",
+            title: `+${xp} XP!`,
+            message: `Đọc đúng khớp: ${score}% số từ mẫu.`,
+          });
+        }
+      } else {
+        // Regular convo flow
+        await handleNewUserSpeech(resultText, confidence);
+      }
+    };
+  });
+
+  // Initialize Speech Recognition
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const SpeechRecognition =
+        (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      if (SpeechRecognition) {
+        const rec = new SpeechRecognition();
+        rec.continuous = false;
+        rec.interimResults = false;
+        rec.lang = "en-US";
+
+        rec.onstart = () => {
+          setIsRecording(true);
+        };
+
+        rec.onend = () => {
+          setIsRecording(false);
+        };
+
+        rec.onresult = async (event: any) => {
+          const resultText = event.results[0][0].transcript;
+          const confidence = Math.round(event.results[0][0].confidence * 100);
+          if (resultText.trim() && onResultRef.current) {
+            onResultRef.current(resultText, confidence);
+          }
+        };
+
+        rec.onerror = (e: any) => {
+          console.error("Speech recognition error:", e);
+          setIsRecording(false);
+          addToast({
+            type: "error",
+            title: "Lỗi Micro",
+            message: "Không thể nhận diện được giọng nói. Vui lòng thử lại.",
+          });
+        };
+
+        recognitionRef.current = rec;
+      }
+    }
+    
+    return () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.abort();
+      }
+    };
+  }, []);
 
   const startListening = () => {
     if (recognitionRef.current) {

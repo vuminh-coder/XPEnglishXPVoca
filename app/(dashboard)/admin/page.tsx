@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import { MOCK_THEMES } from "@/lib/constants";
-import { MOCK_VOCABULARIES } from "@/lib/constants/vocabularies";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useNotificationStore } from "@/lib/store/notificationStore";
 import { Card, Button, Badge } from "@/components/ui";
@@ -20,7 +19,18 @@ import {
 export default function AdminPage() {
   const { awardXp } = useAuthStore();
   const { addToast } = useNotificationStore();
-  const [vocabs, setVocabs] = useState(MOCK_VOCABULARIES);
+  const [vocabs, setVocabs] = useState<any[]>([]);
+
+  React.useEffect(() => {
+    fetch("/api/vocabulary?limit=10")
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.success && res.data) {
+          setVocabs(res.data);
+        }
+      })
+      .catch((err) => console.error(err));
+  }, []);
 
   // Form states
   const [word, setWord] = useState("");
@@ -34,7 +44,7 @@ export default function AdminPage() {
   // Mock platform stats
   const platformStats = [
     { label: "Người dùng", value: "1,247", icon: Users, accent: "text-sky-500 bg-sky-50 dark:bg-sky-950/30", trend: "+12%" },
-    { label: "Tổng từ vựng", value: String(vocabs.length), icon: BookOpen, accent: "text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30", trend: "+5" },
+    { label: "Tổng từ vựng", value: String(3903 + vocabs.length), icon: BookOpen, accent: "text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30", trend: "+5" },
     { label: "Bài thi đã tạo", value: "24", icon: FileText, accent: "text-violet-500 bg-violet-50 dark:bg-violet-950/30", trend: "+3" },
     { label: "XP Platform", value: "284K", icon: Zap, accent: "text-amber-500 bg-amber-50 dark:bg-amber-950/30", trend: "+8.2%" },
   ];

@@ -180,7 +180,7 @@ export default function LandingPage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="fixed top-14 left-0 right-0 w-full bg-white/98 dark:bg-[#08080a]/98 border-b border-slate-200/80 dark:border-neutral-800/60 p-6 z-40 flex flex-col gap-5 shadow-2xl backdrop-blur-xl text-slate-900 dark:text-white max-h-[calc(100vh-3.5rem)] overflow-y-auto"
+            className="fixed top-14 left-0 right-0 w-full bg-white/98 dark:bg-[#08080a]/98 border-b border-slate-200/80 dark:border-neutral-800/60 p-6 z-40 flex flex-col gap-5 shadow-2xl backdrop-blur-xl text-slate-900 dark:text-white max-h-[calc(100dvh-3.5rem)] overflow-y-auto"
           >
             {/* Navigation links with chevron indicators (Rule 2 select options) */}
             <div className="flex flex-col w-full">

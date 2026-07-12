@@ -1,6 +1,6 @@
 import { getAuthenticatedUserId } from "@/lib/auth";
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { prisma, handlePrismaError } from "@/lib/prisma";
 
 export async function GET() {
   try {
@@ -11,22 +11,39 @@ export async function GET() {
 
     const vocabList = await prisma.userVocabulary.findMany({
       where: { userId: userId },
+      include: {
+        vocabulary: true,
+      },
     });
 
     // Convert BigInt id to String/Number for JSON serialization
-    const serializedData = vocabList.map(v => ({
-      userId: v.userId,
-      vocabId: v.vocabId,
-      proficiency: v.proficiency,
-      isFavorite: v.isFavorite,
-      lastPracticed: v.lastPracticed ? v.lastPracticed.toISOString() : null,
-      nextReview: v.nextReview ? v.nextReview.toISOString() : null,
-    }));
+    const serializedData = vocabList
+      .filter(v => v.vocabulary !== null)
+      .map(v => ({
+        userId: v.userId,
+        vocabId: v.vocabId,
+        proficiency: v.proficiency,
+        isFavorite: v.isFavorite,
+        lastPracticed: v.lastPracticed ? v.lastPracticed.toISOString() : null,
+        nextReview: v.nextReview ? v.nextReview.toISOString() : null,
+        // Embedded vocabulary fields
+        word: v.vocabulary.word,
+        phonetic: v.vocabulary.phonetic,
+        definition: v.vocabulary.definition,
+        definitionVn: v.vocabulary.definitionVn,
+        pos: v.vocabulary.pos,
+        difficulty: v.vocabulary.difficulty,
+        frequency: v.vocabulary.frequency,
+        themeId: v.vocabulary.themeId,
+        examples: v.vocabulary.examples,
+        synonyms: v.vocabulary.synonyms,
+        antonyms: v.vocabulary.antonyms,
+      }));
 
     return NextResponse.json({ success: true, data: serializedData });
-  } catch (error: any) {
-    console.error("GET /api/user/vocab error:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const { error: errorMsg, status } = handlePrismaError(error);
+    return NextResponse.json({ error: errorMsg }, { status });
   }
 }
 
@@ -77,8 +94,8 @@ export async function POST(request: Request) {
     };
 
     return NextResponse.json({ success: true, data: serializedData });
-  } catch (error: any) {
-    console.error("POST /api/user/vocab error:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const { error: errorMsg, status } = handlePrismaError(error);
+    return NextResponse.json({ error: errorMsg }, { status });
   }
 }

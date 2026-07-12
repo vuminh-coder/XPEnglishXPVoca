@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Target, Laptop, Briefcase, MessageCircle, Plus, Users, Globe, ArrowRight } from 'lucide-react';
 import { useAuthStore } from "@/lib/store/authStore";
+import { useNotificationStore } from "@/lib/store/notificationStore";
 
 const GROUP_ICONS: Record<string, React.ReactNode> = {
   'g1': <Target className="w-6 h-6 text-cyan-500" strokeWidth={1.8} />,
@@ -13,6 +14,7 @@ const GROUP_ICONS: Record<string, React.ReactNode> = {
 
 export default function GroupsPage() {
   const { user } = useAuthStore();
+  const { addToast } = useNotificationStore();
   const [groups, setGroups] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -45,7 +47,7 @@ export default function GroupsPage() {
       const data = await res.json();
       if (data.success && data.data) {
         const { joined, memberCount } = data.data;
-        alert(joined ? "Đã tham gia nhóm thành công!" : "Đã rời nhóm thành công.");
+        addToast({ type: "success", title: joined ? "Tham gia thành công!" : "Rời nhóm", message: joined ? "Đã tham gia nhóm thành công!" : "Đã rời nhóm thành công." });
         setGroups(
           groups.map((g) => {
             if (g.id === id) {
@@ -55,7 +57,7 @@ export default function GroupsPage() {
           })
         );
       } else {
-        alert(data.error || "Không thể thực hiện hành động");
+        addToast({ type: "error", title: "Lỗi", message: data.error || "Không thể thực hiện hành động" });
       }
     } catch (err) {
       console.error("Error toggling group member:", err);
@@ -65,7 +67,7 @@ export default function GroupsPage() {
   const handleCreateGroup = async () => {
     if (!user) return;
     if (user.level < 15) {
-      alert("Khởi tạo nhóm mới yêu cầu cấp độ 15!");
+      addToast({ type: "warning", title: "Chưa đủ cấp độ", message: "Khởi tạo nhóm mới yêu cầu cấp độ 15!" });
       return;
     }
 
@@ -88,10 +90,10 @@ export default function GroupsPage() {
       });
       const data = await res.json();
       if (data.success && data.data) {
-        alert(`Đã khởi tạo thành công nhóm ${name}!`);
+        addToast({ type: "success", title: "Tạo nhóm thành công!", message: `Đã khởi tạo nhóm ${name}` });
         loadGroups();
       } else {
-        alert(data.error || "Không thể khởi tạo nhóm");
+        addToast({ type: "error", title: "Lỗi", message: data.error || "Không thể khởi tạo nhóm" });
       }
     } catch (err) {
       console.error("Error creating group:", err);

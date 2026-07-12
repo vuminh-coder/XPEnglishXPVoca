@@ -8,6 +8,9 @@ const LEVEL_XP = [
   7600, 9200, 11000,
 ];
 
+import { getXpProgress } from "@/lib/utils/calculateXP";
+import { calculateXp, MatchResult, VALID_RESULTS } from "@/lib/utils/xp";
+
 export async function POST(request: Request) {
   try {
     const userId = await getAuthenticatedUserId();
@@ -16,11 +19,27 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { opponent, userScore, oppScore, result, xpGained } = body;
+    const { opponent, userScore, oppScore, result } = body;
 
-    if (!opponent || userScore === undefined || oppScore === undefined || !result || xpGained === undefined) {
+    // Validate required fields
+    if (!opponent || userScore === undefined || oppScore === undefined || !result) {
       return NextResponse.json({ error: "Missing required match fields" }, { status: 400 });
     }
+
+    // Validate result is a known value
+    if (!VALID_RESULTS.includes(result)) {
+      return NextResponse.json({ error: "Invalid match result" }, { status: 400 });
+    }
+
+    // Validate scores are non-negative integers
+    const parsedUserScore = parseInt(userScore);
+    const parsedOppScore = parseInt(oppScore);
+    if (isNaN(parsedUserScore) || isNaN(parsedOppScore) || parsedUserScore < 0 || parsedOppScore < 0) {
+      return NextResponse.json({ error: "Invalid score values" }, { status: 400 });
+    }
+
+    // Server calculates XP — client value is ignored
+    const xpGained = calculateXp(result as MatchResult, parsedUserScore, parsedOppScore);
 
     const transactionResult = await prisma.$transaction(async (tx) => {
       // 1. Create MatchHistory entry
@@ -28,10 +47,10 @@ export async function POST(request: Request) {
         data: {
           userId: userId,
           opponent: opponent,
-          userScore: parseInt(userScore),
-          oppScore: parseInt(oppScore),
+          userScore: parsedUserScore,
+          oppScore: parsedOppScore,
           result: result,
-          xpGained: parseInt(xpGained),
+          xpGained: xpGained,
         },
       });
 
@@ -45,7 +64,7 @@ export async function POST(request: Request) {
       }
 
       // 3. Update XP and check Level up
-      const newXp = profile.totalXp + parseInt(xpGained);
+      const newXp = profile.totalXp + xpGained;
       let newLevel = profile.level;
       let levelUp = false;
 
@@ -78,8 +97,9 @@ export async function POST(request: Request) {
       profile: transactionResult.profile,
       levelUp: transactionResult.levelUp,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Internal server error";
     console.error("POST /api/pvp/match-submit error:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

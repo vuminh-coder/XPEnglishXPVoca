@@ -2,10 +2,12 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useAuthStore } from '@/lib/store/authStore';
+import { useNotificationStore } from '@/lib/store/notificationStore';
 import { Users, UserPlus, MessageSquare, UserMinus, Search } from 'lucide-react';
 
 export default function FriendsPage() {
   const { user, awardXp } = useAuthStore();
+  const { addToast } = useNotificationStore();
   const [friendName, setFriendName] = useState('');
   const [friends, setFriends] = useState<any[]>([]);
   const [suggestions, setSuggestions] = useState<any[]>([]);
@@ -52,10 +54,10 @@ export default function FriendsPage() {
       const data = await res.json();
       if (data.success) {
         awardXp(10);
-        alert(`Đã gửi lời mời kết bạn hoặc kết bạn thành công với ${name}! +10 XP`);
+        addToast({ type: "success", title: "Kết bạn thành công!", message: `Đã gửi lời mời đến ${name}. +10 XP` });
         loadData();
       } else {
-        alert(data.error || "Không thể kết bạn");
+        addToast({ type: "error", title: "Lỗi", message: data.error || "Không thể kết bạn" });
       }
     } catch (err) {
       console.error("Error adding friend:", err);
@@ -75,7 +77,7 @@ export default function FriendsPage() {
       setFriendName('');
     } else {
       // Nếu không khớp gợi ý, hiện thông báo tìm kiếm chi tiết
-      alert(`Không tìm thấy người dùng có tên khớp trong danh sách gợi ý. Vui lòng nhập chính xác tên từ bảng gợi ý.`);
+      addToast({ type: "warning", title: "Không tìm thấy", message: "Vui lòng nhập chính xác tên từ bảng gợi ý." });
     }
   };
 
@@ -88,10 +90,10 @@ export default function FriendsPage() {
       });
       const data = await res.json();
       if (data.success) {
-        alert(action === "ACCEPT" ? "Đã chấp nhận lời mời kết bạn!" : "Đã từ chối lời mời.");
+        addToast({ type: "success", title: action === "ACCEPT" ? "Đã chấp nhận!" : "Đã từ chối", message: action === "ACCEPT" ? "Đã chấp nhận lời mời kết bạn!" : "Đã từ chối lời mời." });
         loadData();
       } else {
-        alert(data.error || "Lỗi xử lý yêu cầu");
+        addToast({ type: "error", title: "Lỗi", message: data.error || "Lỗi xử lý yêu cầu" });
       }
     } catch (err) {
       console.error("Error processing friend request:", err);
@@ -106,10 +108,10 @@ export default function FriendsPage() {
       });
       const data = await res.json();
       if (data.success) {
-        alert("Đã hủy kết bạn thành công.");
+        addToast({ type: "success", title: "Đã hủy kết bạn", message: "Hủy kết bạn thành công." });
         loadData();
       } else {
-        alert(data.error || "Không thể hủy kết bạn");
+        addToast({ type: "error", title: "Lỗi", message: data.error || "Không thể hủy kết bạn" });
       }
     } catch (err) {
       console.error("Error removing friend:", err);
@@ -240,7 +242,7 @@ export default function FriendsPage() {
                     <div className="flex gap-2">
                       <button 
                         className="flex items-center gap-1.5 px-3 py-1.5 text-[12px] font-bold text-muted bg-neutral-50 dark:bg-neutral-900 border border-black/5 dark:border-white/5 rounded-full tactile" 
-                        onClick={() => alert('Tính năng chat riêng tư đang được phát triển!')}
+                        onClick={() => addToast({ type: "info", title: "Sắp ra mắt", message: "Tính năng chat riêng tư đang được phát triển!" })}
                       >
                         <MessageSquare className="w-3 h-3 text-muted" strokeWidth={1.8} /> Chat
                       </button>

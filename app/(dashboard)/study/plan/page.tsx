@@ -526,13 +526,10 @@ export default function StudyPlanPage() {
   };
 
   // Shared Detail View Component
-  const RenderDetailContent = ({
-    node,
-    onClose
-  }: {
-    node: NonNullable<typeof selectedNode>;
-    onClose: () => void;
-  }) => {
+  const renderDetailContent = (
+    node: NonNullable<typeof selectedNode>,
+    onClose: () => void
+  ) => {
     if (node.type === "task" || node.type === "boss") {
       const selectedTask = node.task!;
       const state = getTaskState(selectedTask);
@@ -1278,10 +1275,7 @@ export default function StudyPlanPage() {
                 className="bezel animate-spring"
               >
                 <div className="bezel-inner bg-white dark:bg-[#0c0c0f] p-6 border border-slate-100/50 dark:border-white/5 shadow-xl relative overflow-hidden">
-                  <RenderDetailContent 
-                    node={selectedNode} 
-                    onClose={() => setSelectedNode(null)} 
-                  />
+                  {renderDetailContent(selectedNode, () => setSelectedNode(null))}
                 </div>
               </motion.div>
             ) : (
@@ -1354,10 +1348,7 @@ export default function StudyPlanPage() {
                 {/* Drag handle block */}
                 <div className="w-12 h-1 bg-slate-350 dark:bg-neutral-800 rounded-full mx-auto mb-2" />
 
-                <RenderDetailContent 
-                  node={selectedNode} 
-                  onClose={() => setSelectedNode(null)} 
-                />
+                {renderDetailContent(selectedNode, () => setSelectedNode(null))}
 
                 <Button
                   variant="ghost"

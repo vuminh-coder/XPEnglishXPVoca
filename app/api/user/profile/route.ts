@@ -1,6 +1,6 @@
 import { getAuthenticatedUserId } from "@/lib/auth";
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { prisma, handlePrismaError } from "@/lib/prisma";
 import { currentUser } from "@clerk/nextjs/server";
 
 export async function GET() {
@@ -47,9 +47,9 @@ export async function GET() {
     }
 
     return NextResponse.json({ success: true, data: profile });
-  } catch (error: any) {
-    console.error("GET /api/user/profile error:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const { error: errorMsg, status } = handlePrismaError(error);
+    return NextResponse.json({ error: errorMsg }, { status });
   }
 }
 
@@ -106,8 +106,8 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({ success: true, data: updatedProfile });
-  } catch (error: any) {
-    console.error("POST /api/user/profile error:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const { error: errorMsg, status } = handlePrismaError(error);
+    return NextResponse.json({ error: errorMsg }, { status });
   }
 }

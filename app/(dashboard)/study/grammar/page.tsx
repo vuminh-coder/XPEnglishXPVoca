@@ -982,7 +982,7 @@ export default function GrammarLabPage() {
                         {lessonData.usages.map((u, i) => (
                           <div key={i} className="p-3 rounded-lg bg-slate-50/60 dark:bg-neutral-950/60 border border-slate-100 dark:border-neutral-800">
                             <Badge variant="neutral" className="text-[10px] font-black px-2 py-0.5 mb-1.5">{u.context}</Badge>
-                            <p className="text-xs font-semibold text-slate-600 dark:text-slate-400 leading-relaxed italic">"{u.example}"</p>
+                            <p className="text-xs font-semibold text-slate-600 dark:text-slate-400 leading-relaxed italic">&ldquo;{u.example}&rdquo;</p>
                           </div>
                         ))}
                       </div>

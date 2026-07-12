@@ -20,6 +20,8 @@ import {
   Star
 } from 'lucide-react';
 
+import { useNotificationStore } from '@/lib/store/notificationStore';
+
 interface Goal {
   id: string;
   name: string;
@@ -103,6 +105,7 @@ const aiTopics: Topic[] = [
 
 export default function ConversationPage() {
   const { awardXp } = useAuthStore();
+  const { addToast } = useNotificationStore();
   const [messages, setMessages] = useState<Message[]>([
     { role: 'ai', text: "Hi! I'm your AI speaking companion. Please select a topic to start practicing, or write anything you want!" }
   ]);
@@ -162,7 +165,11 @@ export default function ConversationPage() {
 
   const toggleVoiceInput = () => {
     if (!recognitionRef.current) {
-      alert("Trình duyệt của bạn không hỗ trợ nhận diện giọng nói. Hãy dùng Google Chrome hoặc Microsoft Edge.");
+      addToast({
+        type: "error",
+        title: "Không hỗ trợ nhận diện",
+        message: "Trình duyệt của bạn không hỗ trợ nhận diện giọng nói. Hãy dùng Google Chrome hoặc Microsoft Edge.",
+      });
       return;
     }
 
@@ -270,7 +277,11 @@ export default function ConversationPage() {
 
   const handleRatingSubmit = () => {
     if (rating === 0) {
-      alert("Vui lòng chọn số sao để đánh giá!");
+      addToast({
+        type: "warning",
+        title: "Đánh giá chưa hoàn thành",
+        message: "Vui lòng chọn số sao để đánh giá!",
+      });
       return;
     }
 

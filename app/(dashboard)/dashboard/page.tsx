@@ -23,7 +23,6 @@ import {
   Bot,
 } from "lucide-react";
 import { getXpProgress } from "@/lib/utils/calculateXP";
-import { MOCK_VOCABULARIES } from "@/lib/constants/vocabularies";
 import { Button, Badge } from "@/components/ui";
 
 const containerVariants = {
@@ -95,7 +94,7 @@ export default function DashboardPage() {
 
   const vocabPercent = Math.min(
     100,
-    Math.round((user.wordsLearned / MOCK_VOCABULARIES.length) * 100)
+    Math.round((user.wordsLearned / 3903) * 100)
   );
   const { percent: xpPercent } = getXpProgress(user.level, user.totalXp);
   const studyPercent = Math.min(100, Math.round((user.minutesStudied / 15) * 100));
@@ -425,7 +424,7 @@ export default function DashboardPage() {
                       <span className="text-[11px] sm:text-xs font-bold text-slate-700 dark:text-slate-350">Từ đã học</span>
                     </div>
                     <span className="text-[11px] sm:text-xs font-black text-slate-900 dark:text-white font-display">
-                      {user.wordsLearned}/{MOCK_VOCABULARIES.length} ({vocabPercent}%)
+                      {user.wordsLearned}/3903 ({vocabPercent}%)
                     </span>
                   </div>
 
