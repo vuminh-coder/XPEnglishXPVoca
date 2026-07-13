@@ -31,7 +31,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variants = {
       primary:
-        "bg-gradient-premium text-white shadow-glow hover:brightness-105 active:brightness-95",
+        "bg-gradient-premium text-white dark:text-white shadow-glow hover:brightness-105 active:brightness-95",
       secondary:
         "bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-neutral-800 shadow-sm",
       success:
@@ -81,7 +81,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           </svg>
         )}
         {!isLoading && leftIcon && <span className="flex-shrink-0">{leftIcon}</span>}
-        <span className="truncate">{children}</span>
+        {children}
         {!isLoading && rightIcon && <span className="flex-shrink-0">{rightIcon}</span>}
       </motion.button>
     );

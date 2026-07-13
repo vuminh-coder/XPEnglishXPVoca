@@ -369,7 +369,7 @@ export default function VoiceTutorPage() {
           <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-450/10 dark:bg-emerald-500/10 rounded-full blur-[80px] pointer-events-none" />
           <div className="flex flex-col sm:flex-row justify-between items-start gap-4 z-10 relative">
             <div>
-              <span className="mb-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-emerald-250 dark:border-emerald-500/30 bg-emerald-100/60 dark:bg-emerald-500/15 text-[9px] font-black uppercase tracking-wider text-emerald-700 dark:text-emerald-400 animate-pulse">
+              <span className="mb-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-emerald-200 dark:border-emerald-500/30 bg-emerald-100/60 dark:bg-emerald-500/15 text-[9px] font-black uppercase tracking-wider text-emerald-700 dark:text-emerald-400 animate-pulse">
                 <Mic className="h-3.5 w-3.5" /> ai speech coach
               </span>
               <h1 className="text-2xl md:text-3xl font-black tracking-tight text-slate-900 dark:text-white font-display">Gia sư Giọng nói AI chuyên sâu</h1>
@@ -487,7 +487,7 @@ export default function VoiceTutorPage() {
                     className="w-full text-left flex items-center justify-between lg:cursor-default"
                   >
                     <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 block">Mục tiêu kịch bản</span>
-                    <ChevronRight className={`h-4.5 w-4.5 text-slate-450 transition-all duration-300 lg:hidden ${isGoalsExpanded ? 'transform rotate-90' : ''}`} />
+                    <ChevronRight className={`h-4.5 w-4.5 text-slate-500 dark:text-slate-400 transition-all duration-300 lg:hidden ${isGoalsExpanded ? 'transform rotate-90' : ''}`} />
                   </button>
 
                   <div className={`space-y-3 lg:block ${isGoalsExpanded ? 'block animate-fade-in-down' : 'hidden'}`}>
@@ -498,14 +498,14 @@ export default function VoiceTutorPage() {
                           key={goal.id} 
                           className={`flex items-start gap-2.5 p-3 rounded-2xl border transition-all duration-300 ${
                             completed 
-                              ? 'bg-emerald-50/30 dark:bg-emerald-950/10 border-emerald-250/50' 
-                              : 'bg-slate-50/50 dark:bg-neutral-950/20 border-slate-150/40 dark:border-neutral-850'
+                              ? 'bg-emerald-50/30 dark:bg-emerald-950/10 border-emerald-300/50' 
+                              : 'bg-slate-50/50 dark:bg-neutral-950/20 border-slate-200/40 dark:border-neutral-850'
                           }`}
                         >
                           <CheckCircle2 className={`h-4.5 w-4.5 shrink-0 mt-0.5 ${completed ? 'text-emerald-500' : 'text-slate-300'}`} />
                           <div>
                             <h5 className={`text-xs font-bold ${completed ? 'text-emerald-600 dark:text-emerald-400 line-through' : 'text-slate-700 dark:text-slate-300'}`}>{goal.name}</h5>
-                            <p className="text-[10px] text-slate-450 dark:text-slate-500 mt-0.5">{goal.nameEn}</p>
+                            <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">{goal.nameEn}</p>
                           </div>
                         </div>
                       );
@@ -534,8 +534,8 @@ export default function VoiceTutorPage() {
                         }}
                         className={`w-full text-left p-2.5 text-[11px] font-semibold border rounded-xl cursor-pointer transition-all ${
                           active 
-                            ? 'border-emerald-350 bg-emerald-50/10 text-emerald-600 dark:text-emerald-400 font-extrabold ring-1 ring-emerald-500/30' 
-                            : 'border-slate-100 dark:border-neutral-850 bg-transparent text-slate-600 dark:text-slate-450 hover:bg-slate-50 dark:hover:bg-neutral-850'
+                            ? 'border-emerald-300 bg-emerald-50/10 text-emerald-600 dark:text-emerald-400 font-extrabold ring-1 ring-emerald-500/30' 
+                            : 'border-slate-100 dark:border-neutral-850 bg-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-neutral-850'
                         }`}
                       >
                         {idx + 1}. {sent}
@@ -566,7 +566,7 @@ export default function VoiceTutorPage() {
               
               {/* Context header */}
               <div className="border-b border-slate-100 dark:border-neutral-850 pb-3 flex flex-wrap justify-between items-center gap-2">
-                <span className="text-[10px] font-black text-slate-450 dark:text-slate-500 uppercase tracking-wider">Võ đài giọng nói</span>
+                <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider">Võ đài giọng nói</span>
                 {practiceMode === "drill" && (
                   <Badge variant="success" className="animate-pulse">Drill #{drillIndex + 1}</Badge>
                 )}
@@ -631,7 +631,7 @@ export default function VoiceTutorPage() {
                       🎙 Lắng nghe tiếng Anh... Hãy phát âm câu thoại của bạn!
                     </p>
                   ) : (
-                    <p className="text-xs text-slate-450 dark:text-slate-500 font-bold">
+                    <p className="text-xs text-slate-500 dark:text-slate-400 font-bold">
                       Nhấn vòng tròn Micro ở trên để bắt đầu đối thoại bằng giọng nói
                     </p>
                   )}
@@ -641,7 +641,7 @@ export default function VoiceTutorPage() {
               {/* Target / Output Speech visualization box */}
               <div className="mt-auto space-y-4">
                 {practiceMode === "drill" ? (
-                  <div className="bg-slate-50 dark:bg-neutral-955 p-5 rounded-2xl border border-slate-100 dark:border-neutral-850 text-center space-y-3.5">
+                  <div className="bg-slate-50 dark:bg-neutral-905 p-5 rounded-2xl border border-slate-100 dark:border-neutral-850 text-center space-y-3.5">
                     <span className="text-[9px] font-black text-slate-400 uppercase tracking-wide">Mẫu câu tập đọc</span>
                     
                     {/* Sentence word-by-word visualizer */}
@@ -677,7 +677,7 @@ export default function VoiceTutorPage() {
                           <Button variant="secondary" size="sm" onClick={() => speakText(DRILL_SENTENCES[drillIndex])} className="flex-1 justify-center py-2.5">
                             <Volume2 className="h-3.5 w-3.5 mr-1" /> Nghe lại phát âm mẫu
                           </Button>
-                          <Button variant="primary" size="sm" onClick={startNextDrill} className="flex-1 justify-center py-2.5 bg-emerald-500 hover:bg-emerald-600">
+                          <Button variant="primary" size="sm" onClick={startNextDrill} className="flex-1 justify-center py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white dark:text-white">
                             Luyện câu tiếp theo <ArrowRight className="h-3.5 w-3.5 ml-1" />
                           </Button>
                         </div>
@@ -691,12 +691,12 @@ export default function VoiceTutorPage() {
                 ) : (
                   // Convo last user speech display
                   lastUserConvoMessage && (
-                    <div className="bg-slate-50 dark:bg-neutral-955 p-4 rounded-2xl border border-slate-100 dark:border-neutral-850">
+                    <div className="bg-slate-50 dark:bg-neutral-905 p-4 rounded-2xl border border-slate-100 dark:border-neutral-850">
                       <span className="text-[9px] font-black text-slate-400 uppercase tracking-wide">Nhận diện câu thoại của bạn</span>
                       <p className="text-sm font-bold text-slate-800 dark:text-slate-200 mt-1 italic">
                         "{lastUserConvoMessage.text}"
                       </p>
-                      <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-between text-[10px] text-slate-450 dark:text-slate-500 mt-2 pt-2 border-t border-slate-200/50 dark:border-neutral-850">
+                      <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-between text-[10px] text-slate-500 dark:text-slate-400 mt-2 pt-2 border-t border-slate-200/50 dark:border-neutral-850">
                         <span>Độ tự tin STT: <span className="font-extrabold text-emerald-500">{lastUserConvoMessage.pronunciationScore || 90}%</span></span>
                         {(lastUserConvoMessage.wordAnalysis && lastUserConvoMessage.wordAnalysis.length > 0) && (
                           <button
@@ -743,7 +743,7 @@ export default function VoiceTutorPage() {
                         {lastUserConvoMessage.wordAnalysis && lastUserConvoMessage.wordAnalysis.length > 0 ? (
                           <div className="space-y-2">
                             {lastUserConvoMessage.wordAnalysis.map((item, idx) => (
-                              <div key={idx} className="bg-slate-50 dark:bg-neutral-955 border border-slate-100 dark:border-neutral-850 p-3 rounded-xl space-y-1 text-xs">
+                              <div key={idx} className="bg-slate-50 dark:bg-neutral-905 border border-slate-100 dark:border-neutral-850 p-3 rounded-xl space-y-1 text-xs">
                                 <div className="flex justify-between items-center">
                                   <span className="font-black text-slate-800 dark:text-slate-100">"{item.word}"</span>
                                   <Badge variant="neutral" className="text-[9px] font-bold">{item.stress}</Badge>
@@ -769,7 +769,7 @@ export default function VoiceTutorPage() {
                         {lastUserConvoMessage.pronunciationTips && lastUserConvoMessage.pronunciationTips.length > 0 ? (
                           <div className="space-y-1.5">
                             {lastUserConvoMessage.pronunciationTips.map((tip, idx) => (
-                              <div key={idx} className="bg-indigo-50/40 dark:bg-indigo-950/10 border border-indigo-100 dark:border-indigo-950/45 p-2.5 rounded-xl text-[11px] font-semibold text-indigo-750 dark:text-indigo-400 leading-normal">
+                              <div key={idx} className="bg-indigo-50/40 dark:bg-indigo-950/10 border border-indigo-100 dark:border-indigo-950/45 p-2.5 rounded-xl text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 leading-normal">
                                 {tip}
                               </div>
                             ))}
@@ -794,7 +794,7 @@ export default function VoiceTutorPage() {
 
               {/* AI translation reference overlay if AI reply is displayed */}
               {messages.length > 0 && messages[messages.length - 1].role === "ai" && messages[messages.length - 1].vietnameseTranslation && (
-                <div className="bg-slate-50 dark:bg-neutral-955 p-3.5 rounded-2xl border border-slate-100 dark:border-neutral-850 text-[10px] text-slate-500 font-semibold leading-relaxed">
+                <div className="bg-slate-50 dark:bg-neutral-905 p-3.5 rounded-2xl border border-slate-100 dark:border-neutral-850 text-[10px] text-slate-500 font-semibold leading-relaxed">
                   <span className="text-[9px] font-black text-slate-400 block uppercase mb-0.5">Ý nghĩa phản hồi AI</span>
                   "{messages[messages.length - 1].text}"
                   <p className="mt-1 text-emerald-600 dark:text-emerald-450 italic leading-tight font-medium">
@@ -818,7 +818,7 @@ export default function VoiceTutorPage() {
             <div className="w-12 h-1 bg-slate-200 dark:bg-neutral-800 rounded-full mx-auto mb-2" />
             
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-neutral-850 pb-3">
-              <span className="text-[10px] font-black uppercase tracking-wider text-slate-450 dark:text-slate-500">Chi tiết phân tích âm tiết</span>
+              <span className="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">Chi tiết phân tích âm tiết</span>
               <button 
                 type="button" 
                 onClick={() => setActiveFeedbackIndexForConvo(null)}
@@ -834,9 +834,9 @@ export default function VoiceTutorPage() {
                 <Flame className="h-3.5 w-3.5 text-amber-500" /> Trọng âm & Nhấn từ
               </span>
               {messages[activeFeedbackIndexForConvo].wordAnalysis?.map((item, idx) => (
-                <div key={idx} className="bg-slate-50 dark:bg-neutral-955 border border-slate-100 dark:border-neutral-850 p-3 rounded-xl space-y-1 text-xs">
+                <div key={idx} className="bg-slate-50 dark:bg-neutral-905 border border-slate-100 dark:border-neutral-850 p-3 rounded-xl space-y-1 text-xs">
                   <div className="flex justify-between items-center">
-                    <span className="font-black text-slate-855 dark:text-white">"{item.word}"</span>
+                    <span className="font-black text-slate-800 dark:text-white">"{item.word}"</span>
                     <Badge variant="neutral" className="text-[9px] font-bold">{item.stress}</Badge>
                   </div>
                   <p className="text-[10px] text-slate-500 dark:text-slate-450 font-medium leading-relaxed">
@@ -852,7 +852,7 @@ export default function VoiceTutorPage() {
                 <Sparkles className="h-3.5 w-3.5" /> Mẹo nối âm & Ngữ điệu
               </span>
               {messages[activeFeedbackIndexForConvo].pronunciationTips?.map((tip, idx) => (
-                <div key={idx} className="bg-indigo-50/40 dark:bg-indigo-950/10 border border-indigo-150 p-3 rounded-xl text-xs font-semibold text-indigo-750 dark:text-indigo-400">
+                <div key={idx} className="bg-indigo-50/40 dark:bg-indigo-950/10 border border-indigo-200 p-3 rounded-xl text-xs font-semibold text-indigo-650 dark:text-indigo-400">
                   {tip}
                 </div>
               ))}

@@ -117,6 +117,7 @@ export default function OnboardingPage() {
         <Button
           variant="primary"
           size="md"
+          className="text-white dark:text-white"
           onClick={() => {
             addToast({ type: "success", title: `Chào mừng! Level: ${levelInfo.level}`, message: "Hệ thống đã thiết lập lộ trình học phù hợp cho bạn." });
             router.push("/dashboard");
@@ -187,7 +188,7 @@ export default function OnboardingPage() {
 
         <Button
           variant="primary"
-          className="w-full justify-center"
+          className="w-full justify-center text-white dark:text-white"
           disabled={answers[question.id] === undefined}
           onClick={goNext}
         >

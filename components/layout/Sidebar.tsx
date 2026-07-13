@@ -38,12 +38,6 @@ const sections = [
         page: "vocabulary",
       },
       {
-        name: "Thi thử TOEIC/IELTS",
-        path: "/study/exams",
-        icon: <Trophy className="w-[18px] h-[18px]" strokeWidth={1.3} />,
-        page: "exams",
-      },
-      {
         name: "Cửa hàng vật phẩm",
         path: "/shop",
         icon: <ShoppingBag className="w-[18px] h-[18px]" strokeWidth={1.3} />,

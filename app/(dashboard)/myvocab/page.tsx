@@ -180,7 +180,7 @@ export default function MyVocabularyPage() {
         <h1 className="text-2xl md:text-3xl font-black tracking-tight text-slate-900 dark:text-white font-display">
           Bộ từ vựng của tôi
         </h1>
-        <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium max-w-xl">
+        <p className="text-xs md:text-sm text-slate-500 dark:text-slate-300 mt-1 font-medium max-w-xl">
           Theo dõi, ôn tập và quản lý các từ vựng bạn đang học, yêu thích hoặc đã làm chủ.
         </p>
       </motion.div>
@@ -229,7 +229,7 @@ export default function MyVocabularyPage() {
                 <div className="text-2xl font-black text-slate-900 dark:text-white tracking-tight font-display">
                   {s.count}
                 </div>
-                <div className="text-[10px] text-slate-400 dark:text-slate-500 font-bold mt-1 leading-normal">
+                <div className="text-[10px] text-slate-400 dark:text-slate-400 font-bold mt-1 leading-normal">
                   {s.sublabel}
                 </div>
               </div>
@@ -306,7 +306,7 @@ export default function MyVocabularyPage() {
               <div className="text-base font-black text-slate-900 dark:text-white font-display mb-1">
                 Thư mục đang trống
               </div>
-              <p className="text-xs text-slate-400 dark:text-slate-500 max-w-xs mb-6 leading-relaxed font-medium">
+              <p className="text-xs text-slate-400 dark:text-slate-400 max-w-xs mb-6 leading-relaxed font-medium">
                 Bạn chưa lưu từ vựng nào thuộc bộ lọc này. Hãy bắt đầu khám phá và ôn luyện từ vựng mới ngay!
               </p>
               <Link
@@ -348,7 +348,7 @@ export default function MyVocabularyPage() {
                             <span className="inline-block text-[10px] font-black px-2.5 py-0.5 bg-cyan-100 dark:bg-cyan-950/50 text-cyan-700 dark:text-cyan-300 rounded-full uppercase mt-1">
                               {v.pos}
                             </span>
-                            <div className="text-[11px] text-slate-400 dark:text-slate-500 font-bold font-mono mt-1">
+                            <div className="text-[11px] text-slate-400 dark:text-slate-400 font-bold font-mono mt-1">
                               {v.phonetic}
                             </div>
                           </div>
@@ -372,11 +372,11 @@ export default function MyVocabularyPage() {
                         <div className="text-sm font-black text-slate-900 dark:text-white mb-1">
                           {v.definitionVn}
                         </div>
-                        <div className="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed font-medium">
+                        <div className="text-xs text-slate-500 dark:text-slate-350 mb-4 leading-relaxed font-medium">
                           {v.definition}
                         </div>
                         {v.examples && v.examples[0] && (
-                          <div className="text-xs text-slate-500 dark:text-slate-400 bg-slate-50/60 dark:bg-neutral-950/30 p-3 rounded-xl border border-slate-250/20 dark:border-neutral-850 italic leading-relaxed font-bold">
+                          <div className="text-xs text-slate-500 dark:text-slate-300 bg-slate-50/60 dark:bg-neutral-950/60 p-3 rounded-xl border border-slate-250/20 dark:border-white/[0.04] italic leading-relaxed font-bold">
                             &quot;{v.examples[0]}&quot;
                           </div>
                         )}

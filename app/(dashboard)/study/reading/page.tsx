@@ -188,7 +188,7 @@ export default function ReadingPage() {
           <h1 className="text-2xl md:text-3xl font-black tracking-tight flex items-center gap-2 text-slate-900 dark:text-white font-display">
             <BookOpen className="h-7 w-7 text-teal-500 animate-pulse" /> Đọc hiểu tiếng Anh
           </h1>
-          <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium">Đọc bài viết và trả lời câu hỏi — phong cách TOEIC Part 7.</p>
+          <p className="text-xs md:text-sm text-slate-555 dark:text-slate-300 mt-1 font-medium">Đọc bài viết và trả lời câu hỏi — phong cách TOEIC Part 7.</p>
         </motion.div>
 
         <motion.div
@@ -251,7 +251,7 @@ export default function ReadingPage() {
           </div>
         </div>
         <div className="prose prose-sm dark:prose-invert max-w-none">
-          <div className="text-xs leading-relaxed text-slate-700 dark:text-slate-350 whitespace-pre-line font-medium bg-slate-50/50 dark:bg-neutral-950 p-4 rounded-2xl border border-slate-100/50 dark:border-neutral-850/50">
+          <div className="text-xs leading-relaxed text-slate-700 dark:text-slate-350 whitespace-pre-line font-medium bg-slate-50/50 dark:bg-neutral-955 p-4 rounded-2xl border border-slate-200/50 dark:border-neutral-850/50">
             {selectedPassage.passage}
           </div>
         </div>
@@ -266,8 +266,8 @@ export default function ReadingPage() {
           const isCorrect = showResult && answers[key] === q.correct;
           const isWrong = showResult && answers[key] !== undefined && answers[key] !== q.correct;
           return (
-            <div key={qi} className={`p-4 rounded-2xl border ${isCorrect ? "border-emerald-300 bg-emerald-50/30 dark:border-emerald-850/30 dark:bg-emerald-950/20" : isWrong ? "border-rose-300 bg-rose-50/30 dark:border-rose-850/30 dark:bg-rose-950/20" : "border-slate-200 dark:border-neutral-850"}`}>
-              <p className="text-xs font-bold text-slate-800 dark:text-slate-250 mb-3 flex items-start gap-1">
+            <div key={qi} className={`p-4 rounded-2xl border ${isCorrect ? "border-emerald-300 bg-emerald-50/30 dark:border-emerald-850/30 dark:bg-emerald-950/20" : isWrong ? "border-rose-300 bg-rose-50/30 dark:border-rose-850/30 dark:bg-rose-955/20" : "border-slate-200 dark:border-neutral-850"}`}>
+              <p className="text-xs font-bold text-slate-800 dark:text-slate-200 mb-3 flex items-start gap-1">
                 <span className="shrink-0">{qi + 1}.</span> 
                 <span className="flex-1 leading-normal">{q.text}</span>
                 {showResult && isCorrect && <CheckCircle className="inline h-4 w-4 text-emerald-500 ml-1.5 shrink-0" />}
@@ -284,10 +284,10 @@ export default function ReadingPage() {
                       onClick={() => !showResult && setAnswers((prev) => ({ ...prev, [key]: oi }))}
                       disabled={showResult}
                       className={`p-3 rounded-xl text-[11px] font-bold text-left transition-all border leading-snug flex items-center cursor-pointer ${
-                        correctOpt ? "border-emerald-450 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300 font-extrabold ring-1 ring-emerald-500/10"
-                        : selected && isWrong ? "border-rose-450 bg-rose-50 dark:bg-rose-950/30 text-rose-700 dark:text-rose-350 font-extrabold ring-1 ring-rose-500/10"
-                        : selected ? "border-teal-450 bg-teal-50/50 text-teal-700 dark:bg-teal-950/30 dark:text-teal-300 font-extrabold ring-1 ring-teal-500/10"
-                        : "border-slate-250 dark:border-neutral-850 text-slate-650 dark:text-slate-400 hover:border-slate-350 bg-white dark:bg-neutral-900"
+                        correctOpt ? "border-emerald-400 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300 font-extrabold ring-1 ring-emerald-500/10"
+                        : selected && isWrong ? "border-rose-400 bg-rose-50 dark:bg-rose-950/30 text-rose-700 dark:text-rose-300 font-extrabold ring-1 ring-rose-500/10"
+                        : selected ? "border-teal-400 bg-teal-50/50 text-teal-700 dark:bg-teal-950/30 dark:text-teal-300 font-extrabold ring-1 ring-teal-500/10"
+                        : "border-slate-200 dark:border-neutral-850 text-slate-500 dark:text-slate-400 hover:border-slate-300 bg-white dark:bg-neutral-900"
                       }`}
                     >
                       <span className="inline-block w-5 h-5 rounded-lg bg-slate-100 dark:bg-neutral-850 text-center text-[10px] font-black leading-5 mr-2.5 shrink-0">
@@ -303,7 +303,7 @@ export default function ReadingPage() {
         })}
 
         {!showResult ? (
-          <Button variant="primary" className="w-full justify-center py-3.5 font-bold cursor-pointer rounded-xl shadow-glow" onClick={submitReading}
+          <Button variant="primary" className="w-full justify-center py-3.5 font-bold cursor-pointer rounded-xl shadow-glow text-white dark:text-white" onClick={submitReading}
             disabled={Object.keys(answers).length < selectedPassage.questions.length}>
             <Zap className="h-4 w-4 mr-1" /> Nộp bài
           </Button>
@@ -312,7 +312,7 @@ export default function ReadingPage() {
             <Button variant="secondary" className="flex-1 justify-center py-3.5 font-bold cursor-pointer rounded-xl" onClick={() => setSelectedPassage(null)}>
               <ArrowLeft className="h-4 w-4 mr-1" /> Chọn bài khác
             </Button>
-            <Button variant="primary" className="flex-1 justify-center py-3.5 font-bold cursor-pointer rounded-xl shadow-glow" onClick={() => { setAnswers({}); setShowResult(false); setElapsed(0); }}>
+            <Button variant="primary" className="flex-1 justify-center py-3.5 font-bold cursor-pointer rounded-xl shadow-glow text-white dark:text-white" onClick={() => { setAnswers({}); setShowResult(false); setElapsed(0); }}>
               <RotateCcw className="h-4 w-4 mr-1" /> Làm lại
             </Button>
           </div>

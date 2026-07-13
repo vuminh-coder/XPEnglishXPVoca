@@ -197,6 +197,47 @@ function CodeBlock({ code }: { code: string }) {
   );
 }
 
+function renderVisualFormula(formulaText: string) {
+  const tokens = formulaText.split(/(\s*\+\s*)/);
+  return (
+    <div className="flex flex-nowrap items-center gap-1 sm:gap-1.5 font-sans w-full py-0.5 overflow-hidden select-none">
+      {tokens.map((token, index) => {
+        const cleanToken = token.trim();
+        if (cleanToken === "+") {
+          return (
+            <span key={index} className="text-slate-400 dark:text-slate-300 font-extrabold text-[10px] sm:text-xs shrink-0">
+              →
+            </span>
+          );
+        }
+        if (!cleanToken) return null;
+        
+        let bgStyle = "bg-slate-100 text-slate-700 dark:bg-neutral-850 dark:text-slate-355 border-slate-250 dark:border-neutral-850";
+        const lowerToken = cleanToken.toLowerCase();
+        if (lowerToken === "s" || lowerToken.includes("subject")) {
+          bgStyle = "bg-sky-50 text-sky-700 border-sky-200 dark:bg-sky-950/20 dark:text-sky-400 dark:border-sky-850/30";
+        } else if (lowerToken.startsWith("v") || lowerToken.includes("verb")) {
+          bgStyle = "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/20 dark:text-emerald-400 dark:border-emerald-850/30";
+        } else if (lowerToken === "o" || lowerToken.includes("object")) {
+          bgStyle = "bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-950/20 dark:text-purple-400 dark:border-purple-850/30";
+        } else if (lowerToken.includes("not") || lowerToken.includes("don't") || lowerToken.includes("doesn't")) {
+          bgStyle = "bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/20 dark:text-rose-400 dark:border-rose-850/30";
+        } else if (lowerToken.includes("do") || lowerToken.includes("does") || lowerToken.includes("did") || lowerToken.includes("has") || lowerToken.includes("have") || lowerToken.includes("will") || lowerToken.includes("modal")) {
+          bgStyle = "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/20 dark:text-amber-400 dark:border-amber-850/30";
+        }
+        return (
+          <span
+            key={index}
+            className={`px-1.5 py-1 sm:px-2.5 sm:py-1.5 rounded-lg border text-[10px] sm:text-[11px] font-black tracking-wide shadow-sm leading-none flex items-center shrink-0 ${bgStyle}`}
+          >
+            {cleanToken}
+          </span>
+        );
+      })}
+    </div>
+  );
+}
+
 function parseMarkdown(md: string): { elements: React.ReactNode[]; headings: ParsedHeading[] } {
   const lines = md.split("\n");
   const elements: React.ReactNode[] = [];
@@ -224,19 +265,19 @@ function parseMarkdown(md: string): { elements: React.ReactNode[]; headings: Par
     parts = parts.flatMap(part => {
       if (typeof part !== 'string') return part;
       const subparts = part.split(/\*\*(.*?)\*\*/);
-      return subparts.map((sp, idx) => idx % 2 === 1 ? <strong key={idx} className="font-black text-slate-900 dark:text-white">{sp}</strong> : sp);
+      return subparts.map((sp, idx) => idx % 2 === 1 ? <strong key={`bold-${idx}`} className="font-black text-slate-900 dark:text-white">{sp}</strong> : sp);
     });
 
     parts = parts.flatMap(part => {
       if (typeof part !== 'string') return part;
       const subparts = part.split(/\*(.*?)\*/);
-      return subparts.map((sp, idx) => idx % 2 === 1 ? <em key={idx} className="italic text-indigo-650 dark:text-indigo-400 font-bold">{sp}</em> : sp);
+      return subparts.map((sp, idx) => idx % 2 === 1 ? <em key={`italic-${idx}`} className="italic text-indigo-650 dark:text-indigo-400 font-bold">{sp}</em> : sp);
     });
 
     parts = parts.flatMap(part => {
       if (typeof part !== 'string') return part;
       const subparts = part.split(/`(.*?)`/);
-      return subparts.map((sp, idx) => idx % 2 === 1 ? <code key={idx} className="font-mono text-xs sm:text-sm px-1.5 py-0.5 rounded bg-slate-100 dark:bg-black text-indigo-600 dark:text-indigo-400 font-bold border border-slate-200/50 dark:border-neutral-800">{sp}</code> : sp);
+      return subparts.map((sp, idx) => idx % 2 === 1 ? <code key={`code-${idx}`} className="font-mono text-xs sm:text-sm px-1.5 py-0.5 rounded bg-slate-100 dark:bg-black text-indigo-600 dark:text-indigo-400 font-bold border border-slate-200/50 dark:border-neutral-800">{sp}</code> : sp);
     });
 
     return parts;
@@ -417,7 +458,7 @@ function parseMarkdown(md: string): { elements: React.ReactNode[]; headings: Par
         <h3 
           key={i} 
           id={slug} 
-          className="text-base md:text-lg font-black text-indigo-650 dark:text-indigo-400 mt-6 mb-3 scroll-mt-20 flex items-center gap-1.5"
+          className="text-base md:text-lg font-black text-indigo-600 dark:text-indigo-400 mt-6 mb-3 scroll-mt-20 flex items-center gap-1.5"
         >
           <span className="text-indigo-500 text-sm">✦</span> {renderText(text)}
         </h3>
@@ -461,6 +502,7 @@ export default function GrammarLabPage() {
   // New sub-tab state for interactive AI Lecture Lab
   const [activeSubTab, setActiveSubTab] = useState<"summary" | "deep_dive" | "chat">("summary");
   const [deepDiveContent, setDeepDiveContent] = useState<string>("");
+  const [guideCache, setGuideCache] = useState<Record<string, string>>({});
   const [guideLoading, setGuideLoading] = useState(false);
   const [chatMessages, setChatMessages] = useState<Array<{ role: "user" | "ai"; text: string }>>([]);
   const [chatInput, setChatInput] = useState("");
@@ -485,7 +527,7 @@ export default function GrammarLabPage() {
     setSelectedTopic(topicId);
     setActiveTab("lesson");
     setActiveSubTab("summary");
-    setDeepDiveContent("");
+    setDeepDiveContent(guideCache[`${topicId}_${activeLevel}`] || "");
     setChatMessages([]);
     setChatInput("");
     setExercises([]);
@@ -497,10 +539,14 @@ export default function GrammarLabPage() {
     // Load static lesson content
     const lesson = getGrammarLesson(topicId);
     setLessonData(lesson || null);
-  }, []);
+  }, [guideCache, activeLevel]);
 
   const fetchDeepDiveGuide = useCallback(async (topicId: string, level: string) => {
-    if (deepDiveContent) return;
+    const cacheKey = `${topicId}_${level}`;
+    if (guideCache[cacheKey]) {
+      setDeepDiveContent(guideCache[cacheKey]);
+      return;
+    }
     setGuideLoading(true);
     try {
       const res = await fetch("/api/ai/grammar/explain", {
@@ -512,13 +558,14 @@ export default function GrammarLabPage() {
       const data = await res.json();
       if (data.guide) {
         setDeepDiveContent(data.guide);
+        setGuideCache((prev) => ({ ...prev, [cacheKey]: data.guide }));
       }
     } catch {
       addToast({ type: "error", title: "Lỗi!", message: "Không thể tải bài giảng chuyên sâu. Vui lòng thử lại." });
     } finally {
       setGuideLoading(false);
     }
-  }, [deepDiveContent, addToast]);
+  }, [guideCache, addToast]);
 
   const sendChatMessage = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -626,7 +673,7 @@ export default function GrammarLabPage() {
   // Topic selection screen
   if (!selectedTopic) {
     return (
-      <div className="max-w-6xl mx-auto space-y-8 pb-24 md:pb-12" suppressHydrationWarning>
+      <div className="max-w-6xl mx-auto space-y-8 pb-24 md:pb-12 px-4 sm:px-6" suppressHydrationWarning>
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -666,7 +713,7 @@ export default function GrammarLabPage() {
               >
                 {lvl.name}
                 <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md ${
-                  active ? "bg-indigo-100 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400" : "bg-slate-200 dark:bg-neutral-800 text-slate-500 dark:text-slate-500"
+                  active ? "bg-indigo-100 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400" : "bg-slate-200 dark:bg-neutral-800 text-slate-500 dark:text-slate-400"
                 }`}>{count}</span>
               </button>
             );
@@ -690,18 +737,28 @@ export default function GrammarLabPage() {
             >
               <Card
                 variant="bezel"
-                className="p-4 sm:p-6 flex flex-col justify-between h-full bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-800 rounded-[calc(2rem-0.25rem)] relative overflow-hidden shadow-sm"
+                className={`p-4 sm:p-6 flex flex-col justify-between h-full bg-white dark:bg-neutral-900 border-t-[4px] ${
+                  topic.level === "basic"
+                    ? "border-t-emerald-500"
+                    : topic.level === "intermediate"
+                    ? "border-t-sky-500"
+                    : "border-t-amber-500"
+                } border-l border-r border-b border-slate-250 dark:border-neutral-800 rounded-[calc(2rem-0.25rem)] relative overflow-hidden shadow-sm`}
               >
                 <div className="space-y-3.5">
                   <div className="flex items-start justify-between gap-3">
                     <div className="text-4xl">{topic.icon}</div>
-                    <Badge variant="neutral" className="text-[10px] font-black px-2.5 py-1 text-slate-500 dark:text-slate-500 border border-slate-100 dark:border-neutral-800 rounded-lg flex items-center gap-1 shrink-0 max-w-[160px] truncate">
-                      <Target className="h-3 w-3 text-indigo-500 shrink-0" /> {topic.focus}
-                    </Badge>
+                    <div className="flex flex-wrap gap-1 justify-end max-w-[200px]">
+                      {topic.focus.split("&").map((part, pIdx) => (
+                        <Badge key={pIdx} variant="neutral" className="text-[9px] font-black px-2 py-0.5 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-neutral-850 rounded-md shrink-0">
+                          {part.trim()}
+                        </Badge>
+                      ))}
+                    </div>
                   </div>
                   <h3 className="text-base md:text-lg font-black text-slate-800 dark:text-white group-hover:text-indigo-500 transition-colors">{topic.name}</h3>
                   <p className="text-xs text-indigo-500 dark:text-indigo-400 font-bold uppercase tracking-wider">{topic.nameEn}</p>
-                  <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-medium mt-2">{topic.desc}</p>
+                  <p className="text-xs md:text-sm text-slate-500 dark:text-slate-350 leading-relaxed font-medium mt-2">{topic.desc}</p>
                 </div>
                 
                 <div className="mt-6 pt-4 border-t border-slate-100 dark:border-neutral-800 flex items-center justify-between">
@@ -723,7 +780,7 @@ export default function GrammarLabPage() {
   // ── LESSON + EXERCISE TABS SCREEN ──
   if (activeTab === "lesson" && lessonData) {
     return (
-      <div className="max-w-6xl mx-auto space-y-8 pb-24 md:pb-12 px-0 sm:px-6" suppressHydrationWarning>
+      <div className="max-w-6xl mx-auto space-y-8 pb-24 md:pb-12 px-4 sm:px-6" suppressHydrationWarning>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
@@ -848,8 +905,8 @@ export default function GrammarLabPage() {
                                 {badgeLabel}
                               </span>
                             </div>
-                            <div className="font-mono text-[13px] sm:text-sm font-extrabold text-slate-800 dark:text-slate-200 tracking-wide select-all leading-relaxed break-all sm:break-normal whitespace-pre-wrap">
-                              {cleanText}
+                            <div className="py-1">
+                              {renderVisualFormula(cleanText)}
                             </div>
                           </div>
                         );
@@ -885,9 +942,21 @@ export default function GrammarLabPage() {
                                 </React.Fragment>
                               ))}
                             </p>
-                            <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 font-bold italic">→ {ex.vi}</p>
+                            <p className="text-xs md:text-sm text-slate-505 dark:text-slate-300 font-bold italic">→ {ex.vi}</p>
                           </div>
-                          <button className="w-8 h-8 rounded-full bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 flex items-center justify-center cursor-pointer hover:scale-105 active:scale-95 transition-all duration-200 shrink-0 hover:bg-indigo-50 dark:hover:bg-indigo-950/30 text-sm" title="Nghe phát âm">
+                          <button 
+                            type="button"
+                            onClick={() => {
+                              if (typeof window !== "undefined" && window.speechSynthesis) {
+                                window.speechSynthesis.cancel();
+                                const utterance = new SpeechSynthesisUtterance(ex.en);
+                                utterance.lang = "en-US";
+                                window.speechSynthesis.speak(utterance);
+                              }
+                            }}
+                            className="w-8 h-8 rounded-full bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-all duration-200 shrink-0 hover:bg-indigo-50 dark:hover:bg-indigo-950/30 text-sm" 
+                            title="Nghe phát âm"
+                          >
                             🔊
                           </button>
                         </div>
@@ -913,7 +982,7 @@ export default function GrammarLabPage() {
                               <CheckCircle className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
                               <p className="text-xs md:text-sm font-black text-emerald-600 dark:text-emerald-400 leading-relaxed">{m.correct}</p>
                             </div>
-                            <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold leading-relaxed pl-1">
+                            <p className="text-xs text-slate-500 dark:text-slate-300 font-semibold leading-relaxed pl-1">
                               💡 {m.explanation}
                             </p>
                           </div>
@@ -933,13 +1002,14 @@ export default function GrammarLabPage() {
                         {lessonData.extraRules.map((rule, i) => (
                           <div key={i} className="flex items-start gap-2.5 p-3 rounded-lg bg-slate-50/60 dark:bg-neutral-950/60 border border-slate-100 dark:border-neutral-800">
                             <span className="text-indigo-500 font-black text-xs shrink-0 mt-0.5">•</span>
-                            <p className="text-xs md:text-sm font-semibold text-slate-600 dark:text-slate-400 leading-relaxed">{rule}</p>
+                            <p className="text-xs md:text-sm font-semibold text-slate-600 dark:text-slate-300 leading-relaxed">{rule}</p>
                           </div>
                         ))}
                       </div>
                     </Card>
                   )}
-                </div>
+
+                  </div>
 
                 {/* Right Column (4 cols): Signal Words + Memory Tip + Usages */}
                 <div className="lg:col-span-4 space-y-6">
@@ -961,13 +1031,13 @@ export default function GrammarLabPage() {
                   )}
 
                   {/* Memory Tip */}
-                  <Card variant="bezel" className="overflow-hidden bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-800 rounded-2xl shadow-sm">
-                    <div className="px-5 py-3.5 bg-slate-50 dark:bg-neutral-950 border-b border-slate-100 dark:border-neutral-800 flex items-center gap-2">
-                      <Lightbulb className="h-4 w-4 text-amber-500" />
-                      <h2 className="text-sm font-black text-slate-800 dark:text-white">Mẹo Ghi nhớ</h2>
+                  <Card variant="bezel" className="overflow-hidden bg-gradient-to-br from-amber-500/10 to-orange-500/10 dark:from-amber-950/20 dark:to-orange-950/15 border border-amber-500/20 dark:border-neutral-800 rounded-2xl shadow-sm">
+                    <div className="px-5 py-3.5 bg-amber-500/10 dark:bg-amber-950/40 border-b border-amber-200/30 dark:border-neutral-800 flex items-center gap-2">
+                      <Lightbulb className="h-4 w-4 text-amber-500 animate-pulse" />
+                      <h2 className="text-sm font-black text-amber-900 dark:text-amber-300">Mẹo Ghi nhớ</h2>
                     </div>
                     <div className="p-4">
-                      <p className="text-xs md:text-sm font-extrabold text-amber-700 dark:text-amber-400 leading-relaxed">{lessonData.memoryTip}</p>
+                      <p className="text-xs md:text-sm font-extrabold text-amber-800 dark:text-amber-300 leading-relaxed italic">{lessonData.memoryTip}</p>
                     </div>
                   </Card>
 
@@ -982,7 +1052,7 @@ export default function GrammarLabPage() {
                         {lessonData.usages.map((u, i) => (
                           <div key={i} className="p-3 rounded-lg bg-slate-50/60 dark:bg-neutral-950/60 border border-slate-100 dark:border-neutral-800">
                             <Badge variant="neutral" className="text-[10px] font-black px-2 py-0.5 mb-1.5">{u.context}</Badge>
-                            <p className="text-xs font-semibold text-slate-600 dark:text-slate-400 leading-relaxed italic">&ldquo;{u.example}&rdquo;</p>
+                            <p className="text-xs font-semibold text-slate-605 dark:text-slate-300 leading-relaxed italic">&ldquo;{u.example}&rdquo;</p>
                           </div>
                         ))}
                       </div>
@@ -990,21 +1060,21 @@ export default function GrammarLabPage() {
                   )}
                 </div>
               </div>
+
+              {/* Start Practice CTA below the entire grid */}
+              <div className="flex justify-end pt-4">
+                <button
+                  type="button"
+                  onClick={() => generateExercises()}
+                  className="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-black flex items-center justify-center gap-1.5 shadow-md shadow-indigo-500/10 active:scale-[0.98] transition-all cursor-pointer group"
+                >
+                  <span>Bắt đầu luyện tập</span>
+                  <ArrowRight className="h-3.5 w-3.5 text-white group-hover:translate-x-0.5 transition-transform" />
+                </button>
+              </div>
             </motion.div>
 
-            {/* CTA: Start Practice */}
-            <div className="flex justify-center pt-6">
-              <Button
-                variant="primary"
-                onClick={() => generateExercises()}
-                className="w-full sm:w-auto px-8 py-4 rounded-full text-sm sm:text-base font-black flex items-center justify-center gap-3 shadow-lg shadow-indigo-500/20 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer group"
-              >
-                <span>Bắt đầu Luyện tập AI (8 câu hỏi)</span>
-                <div className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center group-hover:translate-x-1 transition-transform">
-                  <ArrowRight className="h-3.5 w-3.5 text-white" />
-                </div>
-              </Button>
-            </div>
+
           </>
         )}
 
@@ -1053,7 +1123,7 @@ export default function GrammarLabPage() {
                   <MessageSquare className="h-5 w-5 text-indigo-500" />
                   <div>
                     <h3 className="text-sm font-black text-slate-800 dark:text-white">Trợ lý Hỏi đáp Ngữ pháp AI</h3>
-                    <p className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold">Thảo luận, viết ví dụ, hoặc dịch thuật về: {selectedTopicData?.name}</p>
+                    <p className="text-[10px] text-slate-500 dark:text-slate-300 font-semibold">Thảo luận, viết ví dụ, hoặc dịch thuật về: {selectedTopicData?.name}</p>
                   </div>
                 </div>
 
@@ -1066,7 +1136,7 @@ export default function GrammarLabPage() {
                       </div>
                       <div className="space-y-1">
                         <p className="text-sm font-black text-slate-700 dark:text-slate-300">Chưa có câu hỏi nào</p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm font-medium leading-relaxed">
+                        <p className="text-xs text-slate-500 dark:text-slate-300 max-w-sm font-medium leading-relaxed">
                           Nhập câu hỏi của bạn ở bên dưới hoặc dùng các gợi ý nhanh để bắt đầu thảo luận với trợ lý AI nhé!
                         </p>
                       </div>
@@ -1092,7 +1162,7 @@ export default function GrammarLabPage() {
                   )}
                   {chatLoading && (
                     <div className="flex justify-start">
-                      <div className="bg-slate-100/50 dark:bg-neutral-950 text-slate-400 rounded-2xl rounded-bl-none px-4 py-3 border border-slate-200/20 dark:border-neutral-800/30 flex items-center gap-2">
+                      <div className="bg-slate-100/50 dark:bg-neutral-950 text-slate-400 dark:text-slate-300 rounded-2xl rounded-bl-none px-4 py-3 border border-slate-200/20 dark:border-neutral-800/30 flex items-center gap-2">
                         <Loader2 className="h-4 w-4 animate-spin text-indigo-500" />
                         <span className="text-xs font-semibold">Trợ lý đang gõ...</span>
                       </div>
@@ -1102,7 +1172,7 @@ export default function GrammarLabPage() {
 
                 {/* Suggested Prompts (Pills) */}
                 {chatMessages.length === 0 && (
-                  <div className="px-4 py-2.5 border-t border-slate-100 dark:border-neutral-855 flex flex-wrap gap-2 select-none bg-slate-50/40 dark:bg-black/10">
+                  <div className="px-4 py-2.5 border-t border-slate-100 dark:border-neutral-850 flex flex-wrap gap-2 select-none bg-slate-50/40 dark:bg-black/10">
                     {[
                       "💡 Giải thích sâu công thức",
                       "📝 Cho tôi 3 ví dụ thực tế",
@@ -1113,7 +1183,7 @@ export default function GrammarLabPage() {
                         key={promptText}
                         type="button"
                         onClick={() => setChatInput(promptText)}
-                        className="text-[10px] sm:text-xs font-extrabold px-3 py-1.5 rounded-lg border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-slate-600 dark:text-slate-400 hover:border-indigo-500 hover:text-indigo-650 dark:hover:text-indigo-400 hover:bg-indigo-50/30 dark:hover:bg-indigo-950/20 transition-all duration-150 cursor-pointer"
+                        className="text-[10px] sm:text-xs font-extrabold px-3 py-1.5 rounded-lg border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-slate-600 dark:text-slate-300 hover:border-indigo-500 hover:text-indigo-650 dark:hover:text-indigo-400 hover:bg-indigo-50/30 dark:hover:bg-indigo-950/20 transition-all duration-150 cursor-pointer"
                       >
                         {promptText}
                       </button>
@@ -1150,7 +1220,7 @@ export default function GrammarLabPage() {
 
   // Exercise screen
   return (
-    <div className="max-w-3xl mx-auto space-y-6 pb-24 md:pb-12 px-0 sm:px-6" suppressHydrationWarning>
+    <div className="max-w-3xl mx-auto space-y-6 pb-24 md:pb-12 px-4 sm:px-6" suppressHydrationWarning>
       {/* Progress header */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -1197,7 +1267,7 @@ export default function GrammarLabPage() {
                 <div className="text-4xl sm:text-5xl md:text-6xl font-black text-indigo-600 dark:text-indigo-400 font-display">
                   {correctCount} / {exercises.length}
                 </div>
-                <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-1.5 font-bold uppercase tracking-wider">
+                <p className="text-xs md:text-sm text-slate-500 dark:text-slate-300 mt-1.5 font-bold uppercase tracking-wider">
                   {message} — {percentage}% đúng
                 </p>
               </div>
@@ -1224,7 +1294,7 @@ export default function GrammarLabPage() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                <Button variant="primary" className="flex-1 py-3.5 rounded-xl font-black text-sm cursor-pointer" onClick={() => { setActiveTab("lesson"); setExercises([]); setShowResults(false); }}>
+                <Button variant="primary" className="flex-1 py-3.5 rounded-xl font-black text-sm cursor-pointer text-white dark:text-white" onClick={() => { setActiveTab("lesson"); setExercises([]); setShowResults(false); }}>
                   Quay lại bài học
                 </Button>
                 <Button variant="secondary" className="flex-1 py-3.5 rounded-xl font-black text-sm cursor-pointer" onClick={() => { setExercises([]); setShowResults(false); setAnswers({}); setCurrentIndex(0); setSubmitted(false); generateExercises(); }}>
@@ -1277,7 +1347,7 @@ export default function GrammarLabPage() {
                       // Selected wrong option is red
                       optionStyle = "border-rose-500 bg-rose-50/50 text-rose-700 dark:bg-rose-950/20 dark:text-rose-400 dark:border-rose-600 shadow-sm font-black";
                     } else {
-                      optionStyle = "border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 text-slate-400 dark:text-slate-600 opacity-60";
+                      optionStyle = "border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 text-slate-400 dark:text-slate-500 opacity-60";
                     }
                   } else if (isSelected) {
                     optionStyle = "border-indigo-500 bg-indigo-50/50 text-indigo-700 dark:bg-indigo-950/20 dark:text-indigo-400 dark:border-indigo-600 shadow-sm";
@@ -1317,7 +1387,7 @@ export default function GrammarLabPage() {
                     <span className="text-base shrink-0 mt-0.5">{isCorrect ? "🎉" : "💡"}</span>
                     <div>
                       <p className="font-extrabold text-slate-800 dark:text-slate-200 text-sm">Giải thích đáp án:</p>
-                      <p className="mt-1 font-semibold text-slate-600 dark:text-slate-400 text-xs sm:text-sm leading-relaxed">{currentQuestion.explanation}</p>
+                      <p className="mt-1 font-semibold text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed">{currentQuestion.explanation}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -1356,7 +1426,7 @@ export default function GrammarLabPage() {
                       <Button
                         variant="primary"
                         disabled={!hasAnswered}
-                        className="rounded-xl font-bold cursor-pointer text-xs sm:text-sm px-5 py-2.5 flex items-center justify-center gap-1.5"
+                        className="rounded-xl font-bold cursor-pointer text-xs sm:text-sm px-5 py-2.5 flex items-center justify-center gap-1.5 text-white dark:text-white"
                         onClick={() => setCheckedQuestions(prev => ({ ...prev, [currentQuestion.id]: true }))}
                       >
                         Kiểm tra đáp án
@@ -1365,7 +1435,7 @@ export default function GrammarLabPage() {
                   ) : currentIndex < exercises.length - 1 ? (
                     <Button
                       variant="primary"
-                      className="rounded-xl font-bold cursor-pointer text-xs sm:text-sm px-5 py-2.5 flex items-center justify-center gap-1.5 animate-bounce"
+                      className="rounded-xl font-bold cursor-pointer text-xs sm:text-sm px-5 py-2.5 flex items-center justify-center gap-1.5 animate-bounce text-white dark:text-white"
                       onClick={() => setCurrentIndex((i) => i + 1)}
                     >
                       Tiếp theo <ArrowRight className="h-4 w-4" />
@@ -1373,7 +1443,7 @@ export default function GrammarLabPage() {
                   ) : (
                     <Button
                       variant="primary"
-                      className="rounded-xl font-bold cursor-pointer text-xs sm:text-sm px-5 sm:px-6 py-2.5 flex items-center justify-center gap-1.5 shadow-glow"
+                      className="rounded-xl font-bold cursor-pointer text-xs sm:text-sm px-5 sm:px-6 py-2.5 flex items-center justify-center gap-1.5 shadow-glow text-white dark:text-white"
                       onClick={submitAll}
                     >
                       <Zap className="h-4 w-4 text-yellow-300 animate-bounce" /> Hoàn thành

@@ -169,7 +169,7 @@ function WordScrambleGame({ pool, onBack }: { pool: any[]; onBack: () => void })
           <Button variant="secondary" size="sm" className="rounded-xl font-bold cursor-pointer" onClick={onBack}>
             <ArrowLeft className="h-3.5 w-3.5 mr-1" /> Quay lại
           </Button>
-          <Button variant="primary" size="sm" className="rounded-xl font-bold cursor-pointer" onClick={handleRestart}>
+          <Button variant="primary" size="sm" className="rounded-xl font-bold cursor-pointer text-white dark:text-white" onClick={handleRestart}>
             <RotateCcw className="h-3.5 w-3.5 mr-1" /> Chơi lại
           </Button>
         </div>
@@ -214,10 +214,10 @@ function WordScrambleGame({ pool, onBack }: { pool: any[]; onBack: () => void })
               feedback === "correct" 
                 ? "ring-2 ring-emerald-400" 
                 : feedback === "wrong" 
-                ? "ring-2 ring-rose-455" 
+                ? "ring-2 ring-rose-400" 
                 : ""
             }`}>
-              <p className="text-xs text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wide">Sắp xếp lại các chữ cái</p>
+              <p className="text-xs text-slate-400 dark:text-slate-400 font-bold uppercase tracking-wide">Sắp xếp lại các chữ cái</p>
               <div className="flex flex-wrap justify-center gap-2">
                 {currentWord.scrambled.split("").map((ch, i) => (
                   <span key={i} className="h-11 w-11 rounded-xl bg-indigo-100 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-850 flex items-center justify-center text-lg font-black text-indigo-700 dark:text-indigo-300 font-display">
@@ -225,7 +225,7 @@ function WordScrambleGame({ pool, onBack }: { pool: any[]; onBack: () => void })
                   </span>
                 ))}
               </div>
-              <p className="text-xs text-slate-555 dark:text-slate-400 leading-relaxed font-semibold max-w-sm mx-auto">{currentWord.definitionVn}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-300 leading-relaxed font-semibold max-w-sm mx-auto">{currentWord.definitionVn}</p>
               
               <input
                 type="text"
@@ -238,7 +238,7 @@ function WordScrambleGame({ pool, onBack }: { pool: any[]; onBack: () => void })
               />
               <div className="flex gap-3 justify-center pt-2">
                 <Button variant="secondary" size="sm" className="rounded-xl font-bold cursor-pointer text-xs" onClick={handleSkip}>Bỏ qua</Button>
-                <Button variant="primary" size="sm" className="rounded-xl font-bold cursor-pointer text-xs shadow-glow" onClick={handleSubmit} disabled={!input}>Xác nhận</Button>
+                <Button variant="primary" size="sm" className="rounded-xl font-bold cursor-pointer text-xs shadow-glow text-white dark:text-white" onClick={handleSubmit} disabled={!input}>Xác nhận</Button>
               </div>
             </Card>
           </motion.div>
@@ -348,7 +348,7 @@ function MemoryMatchGame({ pool, onBack }: { pool: any[]; onBack: () => void }) 
           <Button variant="secondary" size="sm" className="rounded-xl font-bold cursor-pointer" onClick={onBack}>
             <ArrowLeft className="h-3.5 w-3.5 mr-1" /> Quay lại
           </Button>
-          <Button variant="primary" size="sm" className="rounded-xl font-bold cursor-pointer shadow-glow" onClick={resetGame}>
+          <Button variant="primary" size="sm" className="rounded-xl font-bold cursor-pointer shadow-glow text-white dark:text-white" onClick={resetGame}>
             <RotateCcw className="h-3.5 w-3.5 mr-1" /> Chơi lại
           </Button>
         </div>
@@ -378,9 +378,9 @@ function MemoryMatchGame({ pool, onBack }: { pool: any[]; onBack: () => void }) 
               onClick={() => flipCard(card.id)}
               className={`h-20 sm:h-24 rounded-2xl text-[10px] sm:text-xs font-black transition-all duration-300 border leading-relaxed px-2.5 flex items-center justify-center text-center cursor-pointer ${
                 card.matched
-                  ? "bg-emerald-50 dark:bg-emerald-950/20 border-emerald-350 dark:border-emerald-800/30 text-emerald-700 dark:text-emerald-450 scale-95"
+                  ? "bg-emerald-50 dark:bg-emerald-950/20 border-emerald-300 dark:border-emerald-800/30 text-emerald-700 dark:text-emerald-400 scale-95"
                   : card.flipped
-                  ? "bg-indigo-50 dark:bg-indigo-950/20 border-indigo-350 dark:border-indigo-800 text-indigo-750 dark:text-indigo-400"
+                  ? "bg-indigo-50 dark:bg-indigo-950/20 border-indigo-300 dark:border-indigo-800 text-indigo-600 dark:text-indigo-400"
                   : "bg-slate-50 dark:bg-neutral-950 border-slate-200 dark:border-neutral-850 hover:bg-slate-100 dark:hover:bg-neutral-800 text-transparent select-none"
               }`}
               disabled={isFlippedOrMatched}
@@ -468,7 +468,7 @@ export default function GamesPage() {
               <h1 className="text-2xl md:text-3xl font-black tracking-tight flex items-center gap-2 text-slate-900 dark:text-white font-display">
                 <Gamepad2 className="h-7 w-7 text-rose-500 animate-pulse" /> Mini Games từ vựng
               </h1>
-              <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium">Học từ vựng qua trò chơi tương tác — vui hơn, nhớ lâu hơn!</p>
+              <p className="text-xs md:text-sm text-slate-555 dark:text-slate-300 mt-1 font-medium">Học từ vựng qua trò chơi tương tác — vui hơn, nhớ lâu hơn!</p>
             </motion.div>
 
             <div className="grid gap-5 sm:grid-cols-2">
@@ -485,7 +485,7 @@ export default function GamesPage() {
                       <Shuffle className="h-7 w-7" />
                     </div>
                     <h3 className="text-base font-black text-slate-800 dark:text-white font-display">Word Scramble</h3>
-                    <p className="text-xs text-slate-550 dark:text-slate-450 mt-1.5 leading-relaxed font-medium">Xáo trộn chữ cái — sắp xếp lại thành từ đúng. Timer 30s/từ, combo streak tăng điểm.</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-350 mt-1.5 leading-relaxed font-medium">Xáo trộn chữ cái — sắp xếp lại thành từ đúng. Timer 30s/từ, combo streak tăng điểm.</p>
                   </div>
                   <div className="mt-4 flex items-center gap-2 pt-2 border-t border-slate-100/50 dark:border-neutral-850/50">
                     <Badge variant="primary">8 từ</Badge>
@@ -507,7 +507,7 @@ export default function GamesPage() {
                       <Layers className="h-7 w-7" />
                     </div>
                     <h3 className="text-base font-black text-slate-800 dark:text-white font-display">Memory Match</h3>
-                    <p className="text-xs text-slate-550 dark:text-slate-450 mt-1.5 leading-relaxed font-medium">Lật thẻ nối từ tiếng Anh với nghĩa tiếng Việt. Ít lượt lật = nhiều XP hơn.</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-355 mt-1.5 leading-relaxed font-medium">Lật thẻ nối từ tiếng Anh với nghĩa tiếng Việt. Ít lượt lật = nhiều XP hơn.</p>
                   </div>
                   <div className="mt-4 flex items-center gap-2 pt-2 border-t border-slate-100/50 dark:border-neutral-850/50">
                     <Badge variant="primary">6 cặp</Badge>

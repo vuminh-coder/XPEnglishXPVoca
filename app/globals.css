@@ -1,6 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&display=swap");
 @import "tailwindcss";
 
+@variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 @theme {
   --font-sans: var(--font-be-vietnam-pro), "Be Vietnam Pro", sans-serif;
   --font-display: var(--font-be-vietnam-pro), "Be Vietnam Pro", sans-serif;
@@ -75,24 +77,24 @@
   --neutral-950: #020617;
 
   /* Semantic Colors */
-  --bg-primary: var(--neutral-0);
-  --bg-secondary: var(--neutral-50);
+  --bg-primary: #f8fafc;
+  --bg-secondary: var(--neutral-0);
   --bg-tertiary: var(--neutral-100);
   --bg-card: var(--neutral-0);
   --bg-sidebar: var(--neutral-0);
-  --bg-navbar: rgba(255, 255, 255, 0.85);
+  --bg-navbar: rgba(248, 250, 252, 0.85);
   --bg-modal-overlay: rgba(15, 23, 42, 0.5);
   --bg-input: var(--neutral-0);
 
   --text-primary: var(--neutral-900);
-  --text-secondary: var(--neutral-600);
+  --text-secondary: var(--neutral-650);
   --text-tertiary: var(--neutral-400);
   --text-inverse: var(--neutral-0);
   --text-link: var(--primary-500);
 
-  --border-light: var(--neutral-200);
-  --border-medium: var(--neutral-300);
-  --border-input: var(--neutral-300);
+  --border-light: rgba(0, 0, 0, 0.05);
+  --border-medium: var(--neutral-200);
+  --border-input: var(--neutral-200);
   --border-focus: var(--primary-400);
 
   /* Typography */
@@ -218,23 +220,23 @@
 
 /* Dark Mode */
 [data-theme="dark"] {
-  --bg-primary: #0f172a;
-  --bg-secondary: #1e293b;
-  --bg-tertiary: #283548;
-  --bg-card: #1e293b;
-  --bg-sidebar: #1a2332;
-  --bg-navbar: rgba(15, 23, 42, 0.9);
+  --bg-primary: #050505;
+  --bg-secondary: #0d0d10;
+  --bg-tertiary: #16161a;
+  --bg-card: #0d0d10;
+  --bg-sidebar: #050505;
+  --bg-navbar: rgba(5, 5, 5, 0.85);
   --bg-modal-overlay: rgba(0, 0, 0, 0.7);
-  --bg-input: #283548;
+  --bg-input: #16161a;
 
   --text-primary: #f1f5f9;
-  --text-secondary: #94a3b8;
-  --text-tertiary: #64748b;
-  --text-inverse: #0f172a;
+  --text-secondary: #a3b3cc;
+  --text-tertiary: #8899af;
+  --text-inverse: #050505;
 
-  --border-light: #334155;
-  --border-medium: #475569;
-  --border-input: #475569;
+  --border-light: rgba(255, 255, 255, 0.06);
+  --border-medium: rgba(255, 255, 255, 0.1);
+  --border-input: rgba(255, 255, 255, 0.1);
 
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
@@ -242,11 +244,11 @@
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
 
-  --gradient-sidebar: linear-gradient(180deg, #1a2332 0%, #1e293b 100%);
+  --gradient-sidebar: linear-gradient(180deg, #050505 0%, #0d0d10 100%);
   --gradient-navbar: linear-gradient(
     90deg,
     rgba(78, 197, 241, 0.05) 0%,
-    rgba(15, 23, 42, 0.95) 50%,
+    rgba(5, 5, 5, 0.95) 50%,
     rgba(102, 126, 234, 0.05) 100%
   );
   --gradient-card: linear-gradient(

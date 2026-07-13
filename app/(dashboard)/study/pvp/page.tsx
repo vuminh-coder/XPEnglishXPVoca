@@ -20,6 +20,7 @@ import {
   Flag,
 } from "lucide-react";
 import Link from "next/link";
+import { useDailyChallengeStore } from "@/lib/store/dailyChallengeStore";
 
 interface Opponent {
   name: string;
@@ -182,8 +183,7 @@ export default function PvpQuizArenaPage() {
     if (aiTimerRef.current) clearTimeout(aiTimerRef.current);
     if (gameTimerRef.current) clearInterval(gameTimerRef.current);
 
-    const settings = getDifficultySettings(difficulty);
-    if (index < settings.totalQuestions - 1) {
+    if (index < questionsList.length - 1) {
       startQuestion(index + 1, questionsList);
     } else {
       // Game Over: submit results
@@ -221,49 +221,73 @@ export default function PvpQuizArenaPage() {
     setSelectedOptionId(null);
     setSpellingInput("");
     
-    let pool: any[] = [];
     fetch("/api/vocabulary?limit=100&random=true")
       .then((res) => res.json())
       .then((res) => {
-        if (res.success && res.data) pool = res.data;
-      })
-      .catch((e) => console.error(e));
-
-    searchTimerRef.current = setInterval(() => {
-      setSearchTime((prev) => {
-        const nextTime = prev + 1;
-        if (nextTime >= 4) {
-          // Found Match!
-          clearInterval(searchTimerRef.current!);
-          const randomOpp = MOCK_OPPONENTS[Math.floor(Math.random() * MOCK_OPPONENTS.length)];
-          setMatchedOpponent(randomOpp);
-          
-          // Select vocab pool based on difficulty settings
-          const settings = getDifficultySettings(difficulty);
-          let filteredPool = pool.filter((v) => settings.vocabFilter(v.word));
-          if (filteredPool.length < settings.totalQuestions) filteredPool = pool; // fallback safety
-          if (filteredPool.length === 0) {
-            filteredPool = [{ id: "mock", word: "Hello", definitionVn: "Xin chào", definition: "A greeting", pos: "interjection", examples: ["Hello world"] }];
-          }
-          
-          // Select random questions and pre-generate options
-          const shuffledQuestions = [...filteredPool].sort(() => 0.5 - Math.random()).slice(0, settings.totalQuestions);
-          const packages = shuffledQuestions.map((q) => {
-            const otherWords = pool.filter((v) => v.id !== q.id);
-            const decoys = [...otherWords].sort(() => 0.5 - Math.random()).slice(0, 3);
-            const options = [q, ...decoys].sort(() => 0.5 - Math.random());
-            return { question: q, options };
-          });
-          setGameQuestions(packages);
-          
-          setTimeout(() => {
-            setGameState("battle");
-            startQuestion(0, packages);
-          }, 2000);
+        if (!res.success || !res.data || res.data.length === 0) {
+          throw new Error("Empty vocabulary pool");
         }
-        return nextTime;
+        const pool = res.data;
+
+        searchTimerRef.current = setInterval(() => {
+          setSearchTime((prev) => {
+            const nextTime = prev + 1;
+            if (nextTime >= 4) {
+              // Found Match!
+              clearInterval(searchTimerRef.current!);
+              const randomOpp = MOCK_OPPONENTS[Math.floor(Math.random() * MOCK_OPPONENTS.length)];
+              setMatchedOpponent(randomOpp);
+              
+              // Select vocab pool based on difficulty settings
+              const settings = getDifficultySettings(difficulty);
+              let filteredPool = pool.filter((v: any) => settings.vocabFilter(v.word));
+              if (filteredPool.length < settings.totalQuestions) filteredPool = pool; // fallback safety
+              if (filteredPool.length === 0) {
+                filteredPool = [{ id: "mock", word: "Hello", definitionVn: "Xin chào", definition: "A greeting", pos: "interjection", examples: ["Hello world"] }];
+              }
+              
+              // Select random questions and pre-generate options
+              const shuffledQuestions = [...filteredPool].sort(() => 0.5 - Math.random()).slice(0, settings.totalQuestions);
+              const packages = shuffledQuestions.map((q) => {
+                const otherWords = pool.filter((v: any) => v.id !== q.id);
+                const decoys = [...otherWords].sort(() => 0.5 - Math.random()).slice(0, 3);
+                const options = [q, ...decoys].sort(() => 0.5 - Math.random());
+                return { question: q, options };
+              });
+              setGameQuestions(packages);
+              
+              setTimeout(() => {
+                setGameState("battle");
+                startQuestion(0, packages);
+              }, 2000);
+            }
+            return nextTime;
+          });
+        }, 1000);
+      })
+      .catch((e) => {
+        console.error("Matchmaking pool fetch error, using fallback:", e);
+        const fallbackPool = [{ id: "mock", word: "Hello", definitionVn: "Xin chào", definition: "A greeting", pos: "interjection", examples: ["Hello world"] }];
+        searchTimerRef.current = setInterval(() => {
+          setSearchTime((prev) => {
+            const nextTime = prev + 1;
+            if (nextTime >= 4) {
+              clearInterval(searchTimerRef.current!);
+              const randomOpp = MOCK_OPPONENTS[Math.floor(Math.random() * MOCK_OPPONENTS.length)];
+              setMatchedOpponent(randomOpp);
+              
+              const packages = fallbackPool.map((q) => ({ question: q, options: [q] }));
+              setGameQuestions(packages);
+              
+              setTimeout(() => {
+                setGameState("battle");
+                startQuestion(0, packages);
+              }, 2000);
+            }
+            return nextTime;
+          });
+        }, 1000);
       });
-    }, 1000);
   };
 
   const cancelMatchmaking = () => {
@@ -294,6 +318,9 @@ export default function PvpQuizArenaPage() {
       const json = await res.json();
       
       if (json.success && json.profile) {
+        if (result === "WIN") {
+          useDailyChallengeStore.getState().incrementProgress("win_pvp");
+        }
         // Sync to Zustand Auth Store
         const currentLocalUser = useAuthStore.getState().user;
         if (currentLocalUser) {
@@ -428,7 +455,7 @@ export default function PvpQuizArenaPage() {
 
   // UI rendering based on gameState
   return (
-    <div className="mx-auto max-w-4xl space-y-6" suppressHydrationWarning>
+    <div className="mx-auto max-w-4xl space-y-6 pb-28 md:pb-6" suppressHydrationWarning>
       <AnimatePresence mode="wait">
         {/* 1. LOBBY STATE */}
         {gameState === "lobby" && (
@@ -502,7 +529,7 @@ export default function PvpQuizArenaPage() {
                         { rank: 2, name: "Minh Thu", avatar: "🦊", trophy: 1350, badgeColor: "text-slate-400" },
                         { rank: 3, name: "Sarah Connor", avatar: "🦁", trophy: 1290, badgeColor: "text-amber-700" },
                       ].map((player) => (
-                        <div key={player.rank} className="flex items-center justify-between text-xs p-2 rounded-xl bg-slate-50/50 dark:bg-neutral-950/50 border border-slate-100/50 dark:border-neutral-855/50">
+                        <div key={player.rank} className="flex items-center justify-between text-xs p-2 rounded-xl bg-slate-50/50 dark:bg-neutral-950/50 border border-slate-100/50 dark:border-neutral-850/50">
                           <div className="flex items-center gap-2">
                             <span className={`font-black w-4 text-center ${player.badgeColor}`}>#{player.rank}</span>
                             <span className="text-base select-none">{player.avatar}</span>
@@ -524,7 +551,7 @@ export default function PvpQuizArenaPage() {
                     <div className="grid gap-6 sm:grid-cols-2">
                       {/* Difficulty Selection */}
                       <div className="space-y-3">
-                        <h3 className="text-xs font-black uppercase text-slate-450 dark:text-slate-500 tracking-wider">Cấp Độ Đấu</h3>
+                        <h3 className="text-xs font-black uppercase text-slate-500 dark:text-slate-400 tracking-wider">Cấp Độ Đấu</h3>
                         <div className="space-y-2.5">
                           {[
                             { id: "easy" as const, name: "Dễ (Easy)", desc: "5 câu hỏi · 15s/câu · AI dễ thở · Thắng +15 XP" },
@@ -559,7 +586,7 @@ export default function PvpQuizArenaPage() {
 
                       {/* Game Mode Selection */}
                       <div className="space-y-3">
-                        <h3 className="text-xs font-black uppercase text-slate-450 dark:text-slate-500 tracking-wider">Trò Chơi</h3>
+                        <h3 className="text-xs font-black uppercase text-slate-500 dark:text-slate-400 tracking-wider">Trò Chơi</h3>
                         <div className="space-y-2.5">
                           {[
                             { id: "quiz" as const, name: "Trắc nghiệm tốc độ", desc: "Chọn nghĩa từ vựng nhanh nhất", icon: <Brain className="h-4 w-4 text-sky-500" /> },
@@ -600,7 +627,7 @@ export default function PvpQuizArenaPage() {
                     <div className="pt-4 flex justify-end">
                       <Button
                         variant="primary"
-                        className="px-6 py-2.5 font-bold text-xs cursor-pointer shadow-glow rounded-xl flex flex-row items-center gap-1.5 justify-center tracking-wide hover:scale-[1.02] active:scale-[0.98] transition-all bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white select-none whitespace-nowrap shrink-0"
+                        className="px-6 py-2.5 font-bold text-xs cursor-pointer shadow-glow rounded-xl flex flex-row items-center gap-1.5 justify-center tracking-wide hover:scale-[1.02] active:scale-[0.98] transition-all bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white dark:text-white select-none whitespace-nowrap shrink-0"
                         onClick={startMatchmaking}
                       >
                         <Swords className="h-3.5 w-3.5 shrink-0" /> <span>Bắt đầu tìm trận</span>
@@ -645,7 +672,7 @@ export default function PvpQuizArenaPage() {
                       <span className="text-2xl">{matchedOpponent.avatarEmoji}</span>
                       <div>
                         <h4 className="font-bold text-slate-800 dark:text-slate-200">{matchedOpponent.name}</h4>
-                        <span className="text-xs text-slate-550">LV {matchedOpponent.level}</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400">LV {matchedOpponent.level}</span>
                       </div>
                     </div>
                   </div>
@@ -695,13 +722,13 @@ export default function PvpQuizArenaPage() {
                   </h4>
                   {/* Segmented points */}
                   <div className="flex gap-1 mt-1.5 flex-wrap">
-                    {Array.from({ length: getDifficultySettings(difficulty).totalQuestions }).map((_, i) => (
+                    {Array.from({ length: gameQuestions.length }).map((_, i) => (
                       <div
                         key={i}
                         className={`h-1.5 rounded-full transition-all duration-300 ${
-                          getDifficultySettings(difficulty).totalQuestions <= 5
+                          gameQuestions.length <= 5
                             ? "w-4"
-                            : getDifficultySettings(difficulty).totalQuestions <= 10
+                            : gameQuestions.length <= 10
                             ? "w-2.5"
                             : "w-1.5"
                         } ${
@@ -738,13 +765,13 @@ export default function PvpQuizArenaPage() {
                   </svg>
                   <span className="text-xs font-black text-slate-800 dark:text-white leading-none relative z-10">{timer}s</span>
                 </div>
-                <span className="text-[9px] text-slate-400 dark:text-slate-500 font-black uppercase mt-1 tracking-wider">CÂU {currentQuestionIndex + 1}/{getDifficultySettings(difficulty).totalQuestions}</span>
+                <span className="text-[9px] text-slate-400 dark:text-slate-500 font-black uppercase mt-1 tracking-wider">CÂU {currentQuestionIndex + 1}/{gameQuestions.length}</span>
                 
                 {/* Surrender Button */}
                 <button
                   type="button"
                   onClick={handleGiveUp}
-                  className="mt-2.5 inline-flex flex-row items-center gap-1 px-2.5 py-1 rounded-lg border border-rose-200 dark:border-rose-900/40 bg-rose-50/40 dark:bg-rose-950/10 text-[9px] font-black text-rose-550 dark:text-rose-455 uppercase tracking-wide cursor-pointer hover:bg-rose-50 dark:hover:bg-rose-950/20 active:scale-95 transition-all whitespace-nowrap"
+                  className="mt-2.5 inline-flex flex-row items-center gap-1 px-2.5 py-1 rounded-lg border border-rose-200 dark:border-rose-900/40 bg-rose-50/40 dark:bg-rose-950/10 text-[9px] font-black text-rose-600 dark:text-rose-400 uppercase tracking-wide cursor-pointer hover:bg-rose-50 dark:hover:bg-rose-950/20 active:scale-95 transition-all whitespace-nowrap"
                 >
                   <Flag className="h-3 w-3 shrink-0" />
                   <span>Bỏ cuộc</span>
@@ -759,13 +786,13 @@ export default function PvpQuizArenaPage() {
                   </h4>
                   {/* Segmented points */}
                   <div className="flex gap-1 mt-1.5 justify-end flex-wrap">
-                    {Array.from({ length: getDifficultySettings(difficulty).totalQuestions }).map((_, i) => (
+                    {Array.from({ length: gameQuestions.length }).map((_, i) => (
                       <div
                         key={i}
                         className={`h-1.5 rounded-full transition-all duration-300 ${
-                          getDifficultySettings(difficulty).totalQuestions <= 5
+                          gameQuestions.length <= 5
                             ? "w-4"
-                            : getDifficultySettings(difficulty).totalQuestions <= 10
+                            : gameQuestions.length <= 10
                             ? "w-2.5"
                             : "w-1.5"
                         } ${
@@ -785,7 +812,7 @@ export default function PvpQuizArenaPage() {
 
             {/* AI Opponent action card overlay */}
             <div className="bg-slate-50 dark:bg-neutral-950 p-3.5 rounded-2xl border border-slate-100 dark:border-neutral-850 text-center flex flex-wrap items-center justify-center gap-2">
-              <span className="text-xs font-bold text-slate-555">Đối thủ:</span>
+              <span className="text-xs font-bold text-slate-500">Đối thủ:</span>
               {opponentStatus === "thinking" ? (
                 <span className="text-xs font-semibold text-slate-400 animate-pulse">{matchedOpponent.name} đang suy nghĩ...</span>
               ) : opponentStatus === "answered_correct" ? (
@@ -824,7 +851,7 @@ export default function PvpQuizArenaPage() {
                       <span className="absolute inset-0 rounded-full border border-cyan-400/30 animate-ping group-hover:block" />
                       <Volume2 className="h-7 w-7 animate-pulse" />
                     </button>
-                    <p className="font-mono text-xs text-slate-450 dark:text-slate-500">Nhấp để phát lại âm thanh</p>
+                    <p className="font-mono text-xs text-slate-500 dark:text-slate-400">Nhấp để phát lại âm thanh</p>
                   </div>
                 )}
               </div>
@@ -873,7 +900,7 @@ export default function PvpQuizArenaPage() {
                       {spellingInput.trim().toLowerCase() === currentWord.word.toLowerCase() ? (
                         <div className="text-emerald-600 dark:text-emerald-400 font-black">✓ ĐÚNG CHÍNH XÁC! Từ vựng: {currentWord.word}</div>
                       ) : (
-                        <div className="text-rose-600 dark:text-rose-455 font-black">✗ SAI MẤT RỒI! Từ đúng là: <span className="underline font-mono">{currentWord.word}</span></div>
+                        <div className="text-rose-600 dark:text-rose-400 font-black">✗ SAI MẤT RỒI! Từ đúng là: <span className="underline font-mono">{currentWord.word}</span></div>
                       )}
                     </div>
                   )}
@@ -883,7 +910,7 @@ export default function PvpQuizArenaPage() {
                     <Button
                       variant="bezel"
                       size="sm"
-                      className="rounded-xl font-bold py-3 text-xs text-slate-555 select-none"
+                      className="rounded-xl font-bold py-3 text-xs text-slate-500 select-none"
                       onClick={handleClearSpelling}
                       disabled={answered}
                     >
@@ -892,7 +919,7 @@ export default function PvpQuizArenaPage() {
                     <Button
                       variant="bezel"
                       size="sm"
-                      className="rounded-xl font-bold py-3 text-xs text-slate-555 select-none"
+                      className="rounded-xl font-bold py-3 text-xs text-slate-500 select-none"
                       onClick={handleBackspace}
                       disabled={answered}
                     >
@@ -901,7 +928,7 @@ export default function PvpQuizArenaPage() {
                     <Button
                       variant="success"
                       size="sm"
-                      className="rounded-xl font-bold py-3 text-xs shadow-md shadow-emerald-500/10 select-none"
+                      className="rounded-xl font-bold py-3 text-xs shadow-md shadow-emerald-500/10 select-none text-white dark:text-white"
                       onClick={handleSpellingSubmit}
                       disabled={answered}
                     >
@@ -914,12 +941,12 @@ export default function PvpQuizArenaPage() {
               /* Options Grid for Quiz & Listening Modes */
               <div className="grid gap-3.5 md:grid-cols-2">
                 {currentOptions.map((opt) => {
-                  let optStyle = "border-slate-250 dark:border-neutral-850 bg-white/70 dark:bg-neutral-900/60 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-neutral-800 hover:border-slate-300 dark:hover:border-neutral-700 cursor-pointer shadow-sm";
+                  let optStyle = "border-slate-200 dark:border-neutral-850 bg-white/70 dark:bg-neutral-900/60 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-neutral-800 hover:border-slate-300 dark:hover:border-neutral-700 cursor-pointer shadow-sm";
                   if (answered) {
                     if (opt.id === currentWord.id) {
-                      optStyle = "border-emerald-350 bg-emerald-50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-400 ring-1 ring-emerald-300/30 font-black";
+                      optStyle = "border-emerald-300 bg-emerald-50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-400 ring-1 ring-emerald-300/30 font-black";
                     } else if (selectedOptionId === opt.id) {
-                      optStyle = "border-rose-350 bg-rose-50 dark:bg-rose-950/20 text-rose-700 dark:text-rose-455 ring-1 ring-rose-300/30 font-black";
+                      optStyle = "border-rose-300 bg-rose-50 dark:bg-rose-950/20 text-rose-700 dark:text-rose-400 ring-1 ring-rose-300/30 font-black";
                     } else {
                       optStyle = "opacity-40 border-slate-100 dark:border-neutral-850 text-slate-400";
                     }
@@ -974,7 +1001,7 @@ export default function PvpQuizArenaPage() {
                   <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-rose-50 dark:bg-rose-950/20 text-rose-500">
                     <XCircle className="h-10 w-10 animate-pulse" strokeWidth={1.3} />
                   </div>
-                  <h1 className="text-2xl md:text-3xl font-black text-rose-600 dark:text-rose-455 font-display">THẤT BẠI! 💔</h1>
+                  <h1 className="text-2xl md:text-3xl font-black text-rose-600 dark:text-rose-400 font-display">THẤT BẠI! 💔</h1>
                   <p className="text-xs text-slate-500 dark:text-slate-400 font-bold">Hãy rèn luyện thêm và phục thù.</p>
                 </>
               )}
@@ -1019,7 +1046,7 @@ export default function PvpQuizArenaPage() {
               </Link>
               <Button
                 variant="primary"
-                className="w-full py-3.5 text-xs md:text-sm font-bold cursor-pointer rounded-2xl shadow-glow"
+                className="w-full py-3.5 text-xs md:text-sm font-bold cursor-pointer rounded-2xl shadow-glow text-white dark:text-white"
                 onClick={() => {
                   setMatchedOpponent(null);
                   setUserScore(0);

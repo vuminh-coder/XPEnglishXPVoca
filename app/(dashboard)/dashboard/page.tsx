@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useDailyChallengeStore } from "@/lib/store/dailyChallengeStore";
 import { useNotificationStore } from "@/lib/store/notificationStore";
+import { useVocabularyStore } from "@/lib/store/vocabularyStore";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
@@ -54,11 +55,13 @@ export default function DashboardPage() {
   const { user, awardXp, awardCoins } = useAuthStore();
   const { challenges, initChallenges } = useDailyChallengeStore();
   const { addToast } = useNotificationStore();
+  const { learned } = useVocabularyStore();
 
   const [claimedList, setClaimedList] = useState<string[]>([]);
   const [aiQuestion, setAiQuestion] = useState("");
   const [aiAnswer, setAiAnswer] = useState<string | null>(null);
   const [isAiLoading, setIsAiLoading] = useState(false);
+  const [currentTask, setCurrentTask] = useState<string | null>(null);
 
   useEffect(() => {
     initChallenges();
@@ -74,14 +77,76 @@ export default function DashboardPage() {
     }
   }, [initChallenges]);
 
+  // Fetch current day's study plan task
+  useEffect(() => {
+    const fetchPlan = async () => {
+      try {
+        const res = await fetch("/api/study-plan/current");
+        const json = await res.json();
+        if (json.success && json.data) {
+          const plan = json.data;
+          const todayStr = new Date().toISOString().slice(0, 10);
+          const todayTask = plan.dailyTasks.find((t: any) => {
+            const taskDate = new Date(t.date).toISOString().slice(0, 10);
+            return taskDate === todayStr;
+          });
+          if (todayTask) {
+            setCurrentTask(todayTask.description);
+          }
+        }
+      } catch (e) {
+        console.error("Error fetching study plan:", e);
+      }
+    };
+    fetchPlan();
+  }, []);
+
+  const wordsPracticedToday = useMemo(() => {
+    if (!user) return 0;
+    const todayStr = new Date().toISOString().slice(0, 10);
+    return learned.filter((item) => {
+      return (
+        item.userId === user.id &&
+        item.lastPracticed &&
+        item.lastPracticed.slice(0, 10) === todayStr
+      );
+    }).length;
+  }, [learned, user]);
+
+  // Sync learn_words daily challenge progress automatically based on wordsPracticedToday
+  useEffect(() => {
+    if (wordsPracticedToday > 0) {
+      const learnChallenge = challenges.find((c) => c.id === "learn_words");
+      if (learnChallenge && learnChallenge.progress !== wordsPracticedToday) {
+        const diff = wordsPracticedToday - learnChallenge.progress;
+        if (diff > 0) {
+          useDailyChallengeStore
+            .getState()
+            .incrementProgress("learn_words", diff);
+        }
+      }
+    }
+  }, [wordsPracticedToday, challenges]);
+
   const streakCalendar = useMemo(() => {
     if (!user) return [];
     const calendar = [];
     const today = new Date();
+
+    // Load real active dates from localStorage
+    let activeDates: string[] = [];
+    if (typeof window !== "undefined") {
+      try {
+        const stored = localStorage.getItem(`xp_voca_active_dates_${user.id}`);
+        activeDates = stored ? JSON.parse(stored) : [];
+      } catch (e) {}
+    }
+
     for (let i = 27; i >= 0; i--) {
       const d = new Date(today);
       d.setDate(d.getDate() - i);
-      const isActive = i < user.currentStreak || (i < 14 && i % 3 === 0);
+      const cellDateStr = d.toISOString().slice(0, 10);
+      const isActive = activeDates.includes(cellDateStr);
       calendar.push({
         date: d.toISOString().slice(5, 10),
         active: isActive,
@@ -94,33 +159,86 @@ export default function DashboardPage() {
 
   const vocabPercent = Math.min(
     100,
-    Math.round((user.wordsLearned / 3903) * 100)
+    Math.round((user.wordsLearned / 3903) * 100),
   );
   const { percent: xpPercent } = getXpProgress(user.level, user.totalXp);
-  const studyPercent = Math.min(100, Math.round((user.minutesStudied / 15) * 100));
+  const studyPercent = Math.min(
+    100,
+    Math.round((user.minutesStudied / 15) * 100),
+  );
   const completedChallenges = challenges.filter((c) => c.isCompleted).length;
-  const remainingWords = Math.max(0, 10 - user.wordsLearned);
+  const remainingWords = Math.max(0, 10 - wordsPracticedToday);
 
-  const weeklyXp = [
-    { day: "T2", xp: Math.round(user.totalXp * 0.12) },
-    { day: "T3", xp: Math.round(user.totalXp * 0.18) },
-    { day: "T4", xp: Math.round(user.totalXp * 0.08) },
-    { day: "T5", xp: Math.round(user.totalXp * 0.22) },
-    { day: "T6", xp: Math.round(user.totalXp * 0.15) },
-    { day: "T7", xp: Math.round(user.totalXp * 0.20) },
-    { day: "CN", xp: Math.round(user.totalXp * 0.05) },
-  ];
+  // Real weekly XP computation
+  const weeklyXp = useMemo(() => {
+    const today = new Date();
+    const currentDayOfWeek = today.getDay();
+    const dayDiff = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek;
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() + dayDiff);
+
+    // Load real daily XP mapping
+    let dailyXpMap: Record<string, number> = {};
+    if (typeof window !== "undefined") {
+      try {
+        const stored = localStorage.getItem(`xp_voca_daily_xp_${user.id}`);
+        dailyXpMap = stored ? JSON.parse(stored) : {};
+      } catch (e) {}
+    }
+
+    const labels = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
+    return labels.map((label, index) => {
+      const targetDate = new Date(startOfWeek);
+      targetDate.setDate(startOfWeek.getDate() + index);
+      const dateStr = targetDate.toISOString().slice(0, 10);
+      const xp = dailyXpMap[dateStr] || 0;
+      return { day: label, xp };
+    });
+  }, [user]);
+
   const maxWeeklyXp = Math.max(...weeklyXp.map((d) => d.xp), 1);
 
-  const weekDays = [
-    { day: "T2", status: "learned" },
-    { day: "T3", status: "learned" },
-    { day: "T4", status: "missed" },
-    { day: "T5", status: "learned" },
-    { day: "T6", status: "learned" },
-    { day: "T7", status: "current" },
-    { day: "CN", status: "pending" },
-  ];
+  const weekDays = useMemo(() => {
+    const today = new Date();
+    const currentDayOfWeek = today.getDay();
+    const dayDiff = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek;
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() + dayDiff);
+
+    // Load real active dates
+    let activeDates: string[] = [];
+    if (typeof window !== "undefined") {
+      try {
+        const stored = localStorage.getItem(`xp_voca_active_dates_${user.id}`);
+        activeDates = stored ? JSON.parse(stored) : [];
+      } catch (e) {}
+    }
+
+    const labels = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
+    return labels.map((label, index) => {
+      const targetDate = new Date(startOfWeek);
+      targetDate.setDate(startOfWeek.getDate() + index);
+      const dateStr = targetDate.toISOString().slice(0, 10);
+      const todayStr = today.toISOString().slice(0, 10);
+
+      let status: "learned" | "missed" | "current" | "pending" = "pending";
+      const isPast = dateStr < todayStr;
+      const isToday = dateStr === todayStr;
+      const hasLearned = activeDates.includes(dateStr);
+
+      if (hasLearned) {
+        status = "learned";
+      } else if (isToday) {
+        status = "current";
+      } else if (isPast) {
+        status = "missed";
+      } else {
+        status = "pending";
+      }
+
+      return { day: label, status };
+    });
+  }, [user]);
 
   const quickActions = [
     {
@@ -135,21 +253,24 @@ export default function DashboardPage() {
       description: "So tài từ vựng thời gian thực",
       href: "/study/pvp",
       icon: Swords,
-      accent: "from-indigo-500/20 to-violet-500/20 text-indigo-600 dark:text-indigo-400",
+      accent:
+        "from-indigo-500/20 to-violet-500/20 text-indigo-600 dark:text-indigo-400",
     },
     {
       title: "Khám phá chủ đề",
       description: "Bộ từ theo chủ đề và mức độ",
       href: "/vocabulary",
       icon: Globe,
-      accent: "from-amber-500/20 to-orange-500/20 text-amber-600 dark:text-amber-400",
+      accent:
+        "from-amber-500/20 to-orange-500/20 text-amber-600 dark:text-amber-400",
     },
     {
       title: "Cửa hàng vật phẩm",
       description: "Mua bình năng lượng & trang phục",
       href: "/shop",
       icon: Coins,
-      accent: "from-yellow-500/20 to-amber-500/20 text-yellow-600 dark:text-yellow-400",
+      accent:
+        "from-yellow-500/20 to-amber-500/20 text-yellow-600 dark:text-yellow-400",
     },
   ];
 
@@ -160,7 +281,7 @@ export default function DashboardPage() {
     if (typeof window !== "undefined") {
       localStorage.setItem("xp_claimed_challenges", JSON.stringify(updated));
     }
-    
+
     awardXp(xp);
     awardCoins(coins);
 
@@ -168,7 +289,7 @@ export default function DashboardPage() {
       type: "success",
       title: "Nhận thưởng thành công! 🎉",
       message: `Bạn nhận được +${xp} XP và +${coins} Vàng. Tiếp tục phát huy nhé!`,
-      duration: 3500
+      duration: 3500,
     });
   };
 
@@ -184,7 +305,12 @@ export default function DashboardPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          messages: [{ role: "user", text: `Giải đáp ngắn gọn câu hỏi sau bằng tiếng Việt: ${aiQuestion}` }],
+          messages: [
+            {
+              role: "user",
+              text: `Giải đáp ngắn gọn câu hỏi sau bằng tiếng Việt: ${aiQuestion}`,
+            },
+          ],
         }),
       });
       const data = await res.json();
@@ -197,18 +323,25 @@ export default function DashboardPage() {
           message: "Bạn đã nhận được +10 XP cho việc tích cực học hỏi.",
         });
       } else {
-        setAiAnswer("Xin lỗi, AI Tutor tạm thời không thể kết nối. Hãy thử lại sau.");
+        setAiAnswer(
+          "Xin lỗi, AI Tutor tạm thời không thể kết nối. Hãy thử lại sau.",
+        );
       }
     } catch (e) {
       console.error(e);
-      setAiAnswer("Không có kết nối mạng ổn định. Vui lòng kiểm tra lại đường truyền.");
+      setAiAnswer(
+        "Không có kết nối mạng ổn định. Vui lòng kiểm tra lại đường truyền.",
+      );
     } finally {
       setIsAiLoading(false);
     }
   };
 
   return (
-    <div className="space-y-6 md:space-y-8 pb-20 md:pb-6 px-1 md:px-0" suppressHydrationWarning>
+    <div
+      className="space-y-6 md:space-y-8 pb-20 md:pb-6 px-1 md:px-0"
+      suppressHydrationWarning
+    >
       {/* 1. Header Row */}
       <motion.div
         initial={{ opacity: 0, y: -12 }}
@@ -221,7 +354,8 @@ export default function DashboardPage() {
             Trang chủ học tập
           </h1>
           <p className="text-[11px] md:text-sm text-slate-500 dark:text-slate-400 mt-0.5 font-medium">
-            Lộ trình học từ vựng tiếng Anh thông minh và theo sát mục tiêu mỗi ngày.
+            Lộ trình học từ vựng tiếng Anh thông minh và theo sát mục tiêu mỗi
+            ngày.
           </p>
         </div>
         <Link href="/profile" className="self-start md:self-auto">
@@ -229,7 +363,12 @@ export default function DashboardPage() {
             variant="secondary"
             size="sm"
             className="text-xs font-bold py-1.5 px-3"
-            leftIcon={<Trophy className="w-3.5 h-3.5 text-amber-500" strokeWidth={1.3} />}
+            leftIcon={
+              <Trophy
+                className="w-3.5 h-3.5 text-amber-500"
+                strokeWidth={1.3}
+              />
+            }
           >
             Bảng thành tích
           </Button>
@@ -245,8 +384,8 @@ export default function DashboardPage() {
       >
         {/* ROW 1: Learning Path (2 cols) & Streak Tracker (1 col) */}
         <motion.div variants={itemVariants} className="lg:col-span-2">
-          <div className="bezel-outer p-1 bg-slate-200/50 dark:bg-white/5 h-full rounded-[1.5rem] md:rounded-[2rem]">
-            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-4 sm:p-5 md:p-6 bg-gradient-to-br from-cyan-500/10 via-sky-500/5 to-violet-500/10 border-white/40 dark:border-white/5 h-full flex flex-col justify-between min-h-[160px]">
+          <div className="bezel h-full">
+            <div className="bezel-inner p-4 sm:p-5 md:p-6 bg-gradient-to-br from-cyan-500/10 via-sky-500/5 to-violet-500/10 h-full flex flex-col justify-between min-h-[160px]">
               <div>
                 <div className="mb-2">
                   <Badge
@@ -258,10 +397,11 @@ export default function DashboardPage() {
                   </Badge>
                 </div>
                 <h2 className="text-base md:text-xl font-black tracking-tight text-slate-900 dark:text-white font-display">
-                  Unit 5: Office & Work Communications
+                  {currentTask || "Unit 5: Office & Work Communications"}
                 </h2>
                 <p className="mt-1.5 text-xs text-slate-600 dark:text-slate-350 leading-relaxed font-medium">
-                  Hãy học thêm {remainingWords} từ vựng mới để hoàn thành mục tiêu ngày hôm nay.
+                  Hãy học thêm {remainingWords} từ vựng mới để hoàn thành mục
+                  tiêu ngày hôm nay.
                 </p>
               </div>
               <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3.5">
@@ -270,7 +410,9 @@ export default function DashboardPage() {
                     variant="primary"
                     size="sm"
                     className="w-full sm:w-auto font-bold text-xs"
-                    rightIcon={<ArrowRight className="w-3.5 h-3.5" strokeWidth={1.3} />}
+                    rightIcon={
+                      <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.3} />
+                    }
                   >
                     Bắt đầu học ngay
                   </Button>
@@ -284,23 +426,29 @@ export default function DashboardPage() {
         </motion.div>
 
         <motion.div variants={itemVariants} className="lg:col-span-1">
-          <div className="bezel-outer p-1 bg-slate-200/50 dark:bg-white/5 h-full rounded-[1.5rem] md:rounded-[2rem]">
-            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-4 sm:p-5 md:p-6 bg-white dark:bg-[#0c0c0e] h-full flex flex-col justify-between border-amber-500/20">
+          <div className="bezel h-full">
+            <div className="bezel-inner p-4 sm:p-5 md:p-6 bg-white dark:bg-neutral-900 h-full flex flex-col justify-between">
               <div className="flex justify-between items-start">
                 <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
                   Streak của bạn
                 </span>
-                <Flame className="h-5 w-5 text-amber-500 animate-pulse" strokeWidth={1.3} />
+                <Flame
+                  className="h-5 w-5 text-amber-500 animate-pulse"
+                  strokeWidth={1.3}
+                />
               </div>
               <div className="text-center my-1.5">
                 <div className="text-2xl md:text-3xl font-black text-amber-500 font-display">
                   {user.currentStreak} ngày
                 </div>
               </div>
-              
+
               <div className="flex justify-between gap-1 mt-1 bg-slate-50 dark:bg-neutral-900/50 p-2 rounded-xl border border-black/5 dark:border-white/5">
                 {weekDays.map((wd, i) => (
-                  <div key={i} className="flex-1 flex flex-col items-center gap-1">
+                  <div
+                    key={i}
+                    className="flex-1 flex flex-col items-center gap-1"
+                  >
                     <span className="text-[8px] font-bold text-slate-400">
                       {wd.day}
                     </span>
@@ -309,17 +457,17 @@ export default function DashboardPage() {
                         wd.status === "learned"
                           ? "bg-amber-500 text-white shadow-sm"
                           : wd.status === "current"
-                          ? "bg-gradient-to-r from-amber-400 to-orange-500 text-white animate-bounce shadow-md"
-                          : wd.status === "missed"
-                          ? "bg-rose-500/10 text-rose-500 dark:bg-rose-500/20 dark:text-rose-400"
-                          : "bg-slate-200 text-slate-400 dark:bg-neutral-800 dark:text-neutral-550"
+                            ? "bg-gradient-to-r from-amber-400 to-orange-500 text-white animate-bounce shadow-md"
+                            : wd.status === "missed"
+                              ? "bg-rose-500/10 text-rose-500 dark:bg-rose-500/20 dark:text-rose-400"
+                              : "bg-slate-200 text-slate-400 dark:bg-neutral-800 dark:text-neutral-550"
                       }`}
                     >
                       {wd.status === "learned"
                         ? "🔥"
                         : wd.status === "current"
-                        ? "⚡"
-                        : "•"}
+                          ? "⚡"
+                          : "•"}
                     </div>
                   </div>
                 ))}
@@ -330,35 +478,48 @@ export default function DashboardPage() {
 
         {/* ROW 2: Challenges Panel (2 cols) & Combined Stats List (1 col) */}
         <motion.div variants={itemVariants} className="lg:col-span-2">
-          <div className="bezel-outer p-1 bg-slate-200/50 dark:bg-white/5 h-full rounded-[1.5rem] md:rounded-[2rem]">
-            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-4 sm:p-5 md:p-6 bg-white dark:bg-[#0c0c0e] space-y-4">
+          <div className="bezel h-full">
+            <div className="bezel-inner p-4 sm:p-5 md:p-6 bg-white dark:bg-neutral-900 space-y-4">
               <div className="flex items-center justify-between border-b border-slate-100 dark:border-neutral-850 pb-2">
                 <div className="flex items-center gap-2">
-                  <Target className="h-4.5 w-4.5 text-purple-500" strokeWidth={1.3} />
+                  <Target
+                    className="h-4.5 w-4.5 text-purple-500"
+                    strokeWidth={1.3}
+                  />
                   <h2 className="text-sm font-black text-slate-900 dark:text-white font-display">
                     Nhiệm vụ hôm nay
                   </h2>
                 </div>
-                <Badge variant="primary" className="font-bold text-[9px] py-0.5 px-2">
+                <Badge
+                  variant="primary"
+                  className="font-bold text-[9px] py-0.5 px-2"
+                >
                   Hoàn thành {completedChallenges}/{challenges.length}
                 </Badge>
               </div>
-              
+
               <div className="space-y-3">
                 {challenges.map((ch) => {
                   const hasReachedGoal = ch.progress >= ch.target;
                   const isClaimed = claimedList.includes(ch.id);
 
                   return (
-                    <div key={ch.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-2xl bg-slate-50/50 dark:bg-neutral-900/30 border border-slate-200/40 dark:border-neutral-800/40">
+                    <div
+                      key={ch.id}
+                      className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-2xl bg-slate-50/50 dark:bg-neutral-900/30 border border-slate-200/40 dark:border-neutral-800/40"
+                    >
                       <div className="flex items-center gap-3">
                         <span className="text-xl w-8 h-8 rounded-lg bg-white dark:bg-neutral-850 border border-black/5 dark:border-white/5 flex items-center justify-center shadow-sm shrink-0">
                           {ch.icon}
                         </span>
                         <div className="min-w-0">
-                          <h3 className={`text-xs font-black ${
-                            isClaimed ? "text-slate-400 dark:text-slate-500 line-through opacity-70" : "text-slate-800 dark:text-slate-200"
-                          }`}>
+                          <h3
+                            className={`text-xs font-black ${
+                              isClaimed
+                                ? "text-slate-400 dark:text-slate-500 line-through opacity-70"
+                                : "text-slate-800 dark:text-slate-200"
+                            }`}
+                          >
                             {ch.title}
                           </h3>
                           <p className="text-[10px] text-slate-400 dark:text-slate-500 font-semibold truncate max-w-[200px] sm:max-w-none">
@@ -377,7 +538,9 @@ export default function DashboardPage() {
                               className={`h-full rounded-full transition-all duration-500 ${
                                 isClaimed ? "bg-emerald-500" : "bg-purple-500"
                               }`}
-                              style={{ width: `${Math.min(100, (ch.progress / ch.target) * 100)}%` }}
+                              style={{
+                                width: `${Math.min(100, (ch.progress / ch.target) * 100)}%`,
+                              }}
                             />
                           </div>
                         </div>
@@ -385,17 +548,33 @@ export default function DashboardPage() {
                         <div className="w-20 flex justify-end">
                           {hasReachedGoal ? (
                             isClaimed ? (
-                              <Badge variant="success" className="font-bold text-[9px] py-0.5 px-2">ĐÃ NHẬN</Badge>
+                              <Badge
+                                variant="success"
+                                className="font-bold text-[9px] py-0.5 px-2"
+                              >
+                                ĐÃ NHẬN
+                              </Badge>
                             ) : (
                               <button
-                                onClick={() => handleClaimChallenge(ch.id, ch.xpReward, ch.coinReward)}
+                                onClick={() =>
+                                  handleClaimChallenge(
+                                    ch.id,
+                                    ch.xpReward,
+                                    ch.coinReward,
+                                  )
+                                }
                                 className="w-full py-1 text-center text-[9px] font-black bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-lg shadow-sm animate-pulse tracking-wider uppercase cursor-pointer"
                               >
                                 Nhận
                               </button>
                             )
                           ) : (
-                            <Badge variant="neutral" className="text-[9px] font-bold py-0.5 px-2">CHƯA XONG</Badge>
+                            <Badge
+                              variant="neutral"
+                              className="text-[9px] font-bold py-0.5 px-2"
+                            >
+                              CHƯA XONG
+                            </Badge>
                           )}
                         </div>
                       </div>
@@ -408,20 +587,22 @@ export default function DashboardPage() {
         </motion.div>
 
         <motion.div variants={itemVariants} className="lg:col-span-1">
-          <div className="bezel-outer p-1 bg-slate-200/50 dark:bg-white/5 h-full rounded-[1.5rem] md:rounded-[2rem]">
-            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-4 sm:p-5 md:p-6 bg-white dark:bg-[#0c0c0e] space-y-4 h-full flex flex-col justify-between">
+          <div className="bezel h-full">
+            <div className="bezel-inner p-4 sm:p-5 md:p-6 bg-white dark:bg-neutral-900 space-y-4 h-full flex flex-col justify-between">
               <div>
                 <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 block border-b border-slate-100 dark:border-neutral-850 pb-2">
                   Chỉ số tổng quan
                 </span>
-                
+
                 <div className="space-y-3.5 mt-3">
                   <div className="flex items-center justify-between gap-3">
                     <div className="flex items-center gap-2">
                       <div className="w-7 h-7 rounded-lg text-sky-500 bg-sky-50 dark:bg-sky-950/30 flex items-center justify-center">
                         <BookOpen className="h-3.5 w-3.5" strokeWidth={1.3} />
                       </div>
-                      <span className="text-[11px] sm:text-xs font-bold text-slate-700 dark:text-slate-350">Từ đã học</span>
+                      <span className="text-[11px] sm:text-xs font-bold text-slate-700 dark:text-slate-350">
+                        Từ đã học
+                      </span>
                     </div>
                     <span className="text-[11px] sm:text-xs font-black text-slate-900 dark:text-white font-display">
                       {user.wordsLearned}/3903 ({vocabPercent}%)
@@ -433,7 +614,9 @@ export default function DashboardPage() {
                       <div className="w-7 h-7 rounded-lg text-amber-500 bg-amber-50 dark:bg-amber-950/30 flex items-center justify-center">
                         <Zap className="h-3.5 w-3.5" strokeWidth={1.3} />
                       </div>
-                      <span className="text-[11px] sm:text-xs font-bold text-slate-700 dark:text-slate-350">Kinh nghiệm</span>
+                      <span className="text-[11px] sm:text-xs font-bold text-slate-700 dark:text-slate-350">
+                        Kinh nghiệm
+                      </span>
                     </div>
                     <span className="text-[11px] sm:text-xs font-black text-slate-900 dark:text-white font-display">
                       {user.totalXp} XP (LV {user.level})
@@ -445,7 +628,9 @@ export default function DashboardPage() {
                       <div className="w-7 h-7 rounded-lg text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 flex items-center justify-center">
                         <Clock className="h-3.5 w-3.5" strokeWidth={1.3} />
                       </div>
-                      <span className="text-[11px] sm:text-xs font-bold text-slate-700 dark:text-slate-350">Thời gian</span>
+                      <span className="text-[11px] sm:text-xs font-bold text-slate-700 dark:text-slate-350">
+                        Thời gian
+                      </span>
                     </div>
                     <span className="text-[11px] sm:text-xs font-black text-slate-900 dark:text-white font-display">
                       {user.minutesStudied}m ({studyPercent}%)
@@ -457,7 +642,9 @@ export default function DashboardPage() {
                       <div className="w-7 h-7 rounded-lg text-yellow-500 bg-yellow-50 dark:bg-yellow-950/30 flex items-center justify-center">
                         <Coins className="h-3.5 w-3.5" strokeWidth={1.3} />
                       </div>
-                      <span className="text-[11px] sm:text-xs font-bold text-slate-700 dark:text-slate-350">Cửa hàng vàng</span>
+                      <span className="text-[11px] sm:text-xs font-bold text-slate-700 dark:text-slate-350">
+                        Cửa hàng vàng
+                      </span>
                     </div>
                     <span className="text-[11px] sm:text-xs font-black text-slate-900 dark:text-white font-display font-sans">
                       {user.coins ?? 0} Vàng
@@ -474,14 +661,17 @@ export default function DashboardPage() {
 
         {/* ROW 3: AI Tutor (2 cols) & PVP Arena (1 col) */}
         <motion.div variants={itemVariants} className="lg:col-span-2">
-          <div className="bezel-outer p-1 bg-slate-200/50 dark:bg-white/5 h-full rounded-[1.5rem] md:rounded-[2rem]">
-            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-4 sm:p-5 md:p-6 bg-white dark:bg-[#0c0c0e] h-full flex flex-col justify-between">
+          <div className="bezel h-full">
+            <div className="bezel-inner p-4 sm:p-5 md:p-6 bg-white dark:bg-neutral-900 h-full flex flex-col justify-between">
               <form onSubmit={handleQuickAskSubmit} className="space-y-3">
                 <h3 className="text-[10px] font-black uppercase tracking-wider text-slate-455 flex items-center gap-1.5 border-b border-slate-100 dark:border-neutral-850 pb-2">
-                  <Bot className="h-4 w-4 text-cyan-500" strokeWidth={1.3} /> Hỏi đáp nhanh cùng AI Tutor
+                  <Bot className="h-4 w-4 text-cyan-500" strokeWidth={1.3} />{" "}
+                  Hỏi đáp nhanh cùng AI Tutor
                 </h3>
                 <div className="space-y-1.5">
-                  <label className="text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">Giải đáp câu hỏi ngữ pháp hoặc từ vựng</label>
+                  <label className="text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                    Giải đáp câu hỏi ngữ pháp hoặc từ vựng
+                  </label>
                   <div className="flex gap-2">
                     <input
                       type="text"
@@ -498,7 +688,10 @@ export default function DashboardPage() {
                       className="px-3 font-bold flex items-center gap-1 text-xs shrink-0"
                     >
                       {isAiLoading ? (
-                        <Loader2 className="h-3.5 w-3.5 animate-spin" strokeWidth={1.3} />
+                        <Loader2
+                          className="h-3.5 w-3.5 animate-spin"
+                          strokeWidth={1.3}
+                        />
                       ) : (
                         <Send className="h-3.5 w-3.5" strokeWidth={1.3} />
                       )}
@@ -515,7 +708,9 @@ export default function DashboardPage() {
                     exit={{ opacity: 0, height: 0 }}
                     className="mt-3 bg-slate-50 dark:bg-neutral-950 p-3 rounded-xl border border-slate-100 dark:border-neutral-850 text-xs font-medium text-slate-650 dark:text-slate-350 leading-relaxed overflow-hidden"
                   >
-                    <span className="font-extrabold text-cyan-600 dark:text-cyan-400 block mb-1 text-[10px] uppercase tracking-wide">Giải đáp từ AI Tutor:</span>
+                    <span className="font-extrabold text-cyan-600 dark:text-cyan-400 block mb-1 text-[10px] uppercase tracking-wide">
+                      Giải đáp từ AI Tutor:
+                    </span>
                     {aiAnswer}
                   </motion.div>
                 )}
@@ -525,24 +720,35 @@ export default function DashboardPage() {
         </motion.div>
 
         <motion.div variants={itemVariants} className="lg:col-span-1">
-          <div className="bezel-outer p-1 bg-slate-200/50 dark:bg-white/5 h-full rounded-[1.5rem] md:rounded-[2rem]">
-            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-4 sm:p-5 md:p-6 bg-white dark:bg-[#0c0c0e] h-full flex flex-col justify-between border-indigo-500/25 min-h-[140px]">
+          <div className="bezel h-full">
+            <div className="bezel-inner p-4 sm:p-5 md:p-6 bg-white dark:bg-neutral-900 h-full flex flex-col justify-between min-h-[140px]">
               <div className="flex items-center justify-between border-b border-slate-100 dark:border-neutral-850 pb-2">
-                <span className="text-[10px] font-black uppercase tracking-wider text-slate-455">Đấu trường PvP</span>
+                <span className="text-[10px] font-black uppercase tracking-wider text-slate-455">
+                  Đấu trường PvP
+                </span>
                 <span className="flex items-center gap-1.5 text-[10px] font-extrabold text-emerald-500">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" /> 14 Online
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />{" "}
+                  14 Online
                 </span>
               </div>
               <div className="py-2.5">
-                <h3 className="text-xs font-black text-slate-900 dark:text-white font-display">So tài từ vựng PvP</h3>
+                <h3 className="text-xs font-black text-slate-900 dark:text-white font-display">
+                  So tài từ vựng PvP
+                </h3>
                 <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                  Thi đấu PvP thời gian thực cùng bạn học toàn quốc để tích lũy điểm kinh nghiệm.
+                  Thi đấu PvP thời gian thực cùng bạn học toàn quốc để tích lũy
+                  điểm kinh nghiệm.
                 </p>
               </div>
               <div className="flex justify-end mt-2">
                 <Link href="/study/pvp" className="w-full">
-                  <Button variant="primary" size="sm" className="w-full font-bold flex items-center justify-center gap-1.5 text-xs">
-                    <Swords className="h-3.5 w-3.5" strokeWidth={1.3} /> Thách đấu nhanh
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    className="w-full font-bold flex items-center justify-center gap-1.5 text-xs"
+                  >
+                    <Swords className="h-3.5 w-3.5" strokeWidth={1.3} /> Thách
+                    đấu nhanh
                   </Button>
                 </Link>
               </div>
@@ -552,8 +758,8 @@ export default function DashboardPage() {
 
         {/* ROW 4: Streak Calendar (2 cols) & Weekly XP Chart (1 col) */}
         <motion.div variants={itemVariants} className="lg:col-span-2">
-          <div className="bezel-outer p-1 bg-slate-200/50 dark:bg-white/5 h-full rounded-[1.5rem] md:rounded-[2rem]">
-            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-4 sm:p-5 md:p-6 bg-white dark:bg-[#0c0c0e] h-full flex flex-col justify-between">
+          <div className="bezel h-full">
+            <div className="bezel-inner p-4 sm:p-5 md:p-6 bg-white dark:bg-neutral-900 h-full flex flex-col justify-between">
               <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-100 dark:border-neutral-850">
                 <div>
                   <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
@@ -568,7 +774,8 @@ export default function DashboardPage() {
                     <span className="h-2 w-2 rounded-sm bg-emerald-500" /> Học
                   </span>
                   <span className="flex items-center gap-1">
-                    <span className="h-2 w-2 rounded-sm bg-slate-100 dark:bg-neutral-800" /> Lỡ
+                    <span className="h-2 w-2 rounded-sm bg-slate-100 dark:bg-neutral-800" />{" "}
+                    Lỡ
                   </span>
                 </div>
               </div>
@@ -592,8 +799,8 @@ export default function DashboardPage() {
         </motion.div>
 
         <motion.div variants={itemVariants} className="lg:col-span-1">
-          <div className="bezel-outer p-1 bg-slate-200/50 dark:bg-white/5 h-full rounded-[1.5rem] md:rounded-[2rem]">
-            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-4 sm:p-5 md:p-6 bg-white dark:bg-[#0c0c0e] h-full flex flex-col justify-between min-h-[160px]">
+          <div className="bezel h-full">
+            <div className="bezel-inner p-4 sm:p-5 md:p-6 bg-white dark:bg-neutral-900 h-full flex flex-col justify-between min-h-[160px]">
               <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-100 dark:border-neutral-850">
                 <div>
                   <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
@@ -603,22 +810,33 @@ export default function DashboardPage() {
                     XP 7 ngày qua
                   </h3>
                 </div>
-                <Badge variant="primary" className="text-[9px] py-0.5 px-2">{user.totalXp} XP</Badge>
+                <Badge variant="primary" className="text-[9px] py-0.5 px-2">
+                  {user.totalXp} XP
+                </Badge>
               </div>
               <div className="flex items-end justify-between gap-1 h-24 sm:h-28 pt-2">
                 {weeklyXp.map((d, i) => {
                   const heightPercent = Math.max(8, (d.xp / maxWeeklyXp) * 100);
                   const isToday = i === 5;
                   return (
-                    <div key={d.day} className="flex-1 flex flex-col items-center gap-1">
-                      <span className="text-[8px] font-bold text-slate-400">{d.xp}</span>
+                    <div
+                      key={d.day}
+                      className="flex-1 flex flex-col items-center gap-1"
+                    >
+                      <span className="text-[8px] font-bold text-slate-400">
+                        {d.xp}
+                      </span>
                       <div
                         className={`w-full rounded-t transition-all ${
-                          isToday ? "bg-gradient-to-t from-sky-500 to-cyan-400" : "bg-slate-200 dark:bg-neutral-800"
+                          isToday
+                            ? "bg-gradient-to-t from-sky-500 to-cyan-400"
+                            : "bg-slate-200 dark:bg-neutral-800"
                         }`}
                         style={{ height: `${heightPercent}%` }}
                       />
-                      <span className="text-[9px] font-bold text-slate-450">{d.day}</span>
+                      <span className="text-[9px] font-bold text-slate-450">
+                        {d.day}
+                      </span>
                     </div>
                   );
                 })}
@@ -628,12 +846,9 @@ export default function DashboardPage() {
         </motion.div>
 
         {/* ROW 5: Quick shortcuts */}
-        <motion.div
-          variants={itemVariants}
-          className="lg:col-span-3"
-        >
-          <div className="bezel-outer p-1 bg-slate-200/50 dark:bg-white/5 rounded-[1.5rem] md:rounded-[2rem]">
-            <div className="bezel-inner rounded-[calc(1.5rem-4px)] md:rounded-[calc(2rem-6px)] p-4 sm:p-5 md:p-6 bg-white dark:bg-[#0c0c0e]">
+        <motion.div variants={itemVariants} className="lg:col-span-3">
+          <div className="bezel">
+            <div className="bezel-inner p-4 sm:p-5 md:p-6 bg-white dark:bg-neutral-900">
               <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 block border-b border-slate-100 dark:border-neutral-850 pb-2">
                 Phím tắt nhanh
               </span>
@@ -644,7 +859,11 @@ export default function DashboardPage() {
                     <motion.div
                       whileHover={{ y: -3, scale: 1.01 }}
                       whileTap={{ scale: 0.99 }}
-                      transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 15,
+                      }}
                       key={action.title}
                     >
                       <Link
@@ -652,7 +871,9 @@ export default function DashboardPage() {
                         className="group block rounded-2xl border border-slate-200/70 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-3 hover:shadow-sm transition-all duration-300"
                       >
                         <div className="flex items-center gap-3">
-                          <div className={`rounded-xl bg-gradient-to-br ${action.accent} p-1.5 sm:p-2`}>
+                          <div
+                            className={`rounded-xl bg-gradient-to-br ${action.accent} p-1.5 sm:p-2`}
+                          >
                             <Icon className="h-4 w-4" strokeWidth={1.3} />
                           </div>
                           <div className="flex-1 min-w-0">
@@ -663,7 +884,10 @@ export default function DashboardPage() {
                               {action.description}
                             </div>
                           </div>
-                          <ArrowRight className="h-3.5 w-3.5 text-slate-400 transition-transform group-hover:translate-x-1 shrink-0" strokeWidth={1.3} />
+                          <ArrowRight
+                            className="h-3.5 w-3.5 text-slate-400 transition-transform group-hover:translate-x-1 shrink-0"
+                            strokeWidth={1.3}
+                          />
                         </div>
                       </Link>
                     </motion.div>

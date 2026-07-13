@@ -7,7 +7,7 @@ import { Rocket, Gift, Gamepad2, Bot } from "lucide-react";
 export default function RegisterPage() {
   return (
     <div
-      className="min-h-screen lg:h-screen lg:max-h-screen lg:overflow-hidden text-slate-800 flex flex-col justify-between bg-[#f0f4f8] relative w-full font-sans antialiased"
+      className="min-h-screen lg:h-screen lg:max-h-screen lg:overflow-hidden text-slate-800 flex flex-col justify-between bg-[#f0f4f8] relative w-full overflow-x-hidden font-sans antialiased"
       suppressHydrationWarning
     >
       {/* Floating Background Blobs */}
@@ -98,7 +98,7 @@ export default function RegisterPage() {
           </div>
 
           {/* Right Column: Registration Card */}
-          <div className="lg:col-span-5 w-full mx-auto animate-fade-in-right flex justify-center items-center p-0">
+          <div className="lg:col-span-5 w-full mx-auto animate-fade-in-right flex justify-center items-center px-4 lg:px-0">
             <SignUp
               path="/register"
               signInUrl="/login"

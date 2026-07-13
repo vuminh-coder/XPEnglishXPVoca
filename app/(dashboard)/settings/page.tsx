@@ -128,7 +128,7 @@ export default function SettingsPage() {
                 placeholder="Viết vài dòng giới thiệu về bản thân..."
               />
             </div>
-            <Button variant="primary" size="sm" onClick={handleSaveProfile} className="w-full font-bold">
+            <Button variant="primary" size="sm" onClick={handleSaveProfile} className="w-full font-bold text-white dark:text-white">
               <Save className="w-3.5 h-3.5 mr-1.5" strokeWidth={1.3} /> Lưu hồ sơ
             </Button>
           </div>
@@ -195,7 +195,7 @@ export default function SettingsPage() {
                 <button
                   onClick={() => updateSetting(item.key, !settings[item.key])}
                   className={`relative w-11 h-6 rounded-full transition-colors ${
-                    settings[item.key] ? "bg-emerald-500" : "bg-slate-300 dark:bg-neutral-650"
+                    settings[item.key] ? "bg-emerald-500" : "bg-slate-300 dark:bg-neutral-700"
                   }`}
                   aria-label={`Toggle ${item.label}`}
                 >
@@ -230,7 +230,7 @@ export default function SettingsPage() {
             <button
               onClick={() => updateSetting("darkMode", !settings.darkMode)}
               className={`relative w-11 h-6 rounded-full transition-colors ${
-                settings.darkMode ? "bg-indigo-500" : "bg-slate-300 dark:bg-neutral-650"
+                settings.darkMode ? "bg-indigo-500" : "bg-slate-300 dark:bg-neutral-700"
               }`}
               aria-label="Toggle Dark Mode"
             >
@@ -257,7 +257,7 @@ export default function SettingsPage() {
             <Button variant="secondary" size="sm" onClick={handleClearCache} className="w-full justify-center font-bold">
               <Trash2 className="w-3.5 h-3.5 mr-1.5" strokeWidth={1.3} /> Xóa dữ liệu cache
             </Button>
-            <Button variant="danger" size="sm" onClick={handleLogout} className="w-full justify-center font-bold">
+            <Button variant="danger" size="sm" onClick={handleLogout} className="w-full justify-center font-bold text-white dark:text-white">
               <LogOut className="w-3.5 h-3.5 mr-1.5" strokeWidth={1.3} /> Đăng xuất
             </Button>
           </div>

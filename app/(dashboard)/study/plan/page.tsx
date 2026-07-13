@@ -67,36 +67,36 @@ const getTaskMetadata = (type: string) => {
   }
   if (t === "speaking") {
     return {
-      title: "Luyện nói phát âm chuẩn",
+      title: "Luyện phát âm từ vựng",
       tips: [
-        "Ghi âm lại câu trả lời và so sánh trực tiếp với giọng bản xứ.",
-        "Chú ý ngắt nghỉ đúng chỗ (chunking) theo cụm nghĩa.",
-        "Luyện phát âm rõ ràng các nguyên âm đôi và phụ âm cuối khó."
+        "Nhấp vào micro và phát âm rõ ràng từ vựng tiếng Anh.",
+        "Chú ý phát âm các phụ âm cuối (ending sounds) thật chuẩn xác.",
+        "Nghe phát âm mẫu của từ nhiều lần trước khi thực hành nói."
       ],
-      practicePath: "/study/speaking",
+      practicePath: "/study/practice?subMode=speaking",
       gradient: "from-amber-400 via-orange-500 to-red-500",
       glow: "shadow-orange-500/20",
       ringColor: "ring-orange-450 dark:ring-orange-850",
       iconBg: "bg-amber-100 dark:bg-amber-950/40 text-amber-600 dark:text-amber-455",
-      difficulty: "Khó",
-      difficultyColor: "bg-red-100 dark:bg-red-955/20 text-red-655 dark:text-red-400"
+      difficulty: "Dễ",
+      difficultyColor: "bg-emerald-100 dark:bg-emerald-955/20 text-emerald-650 dark:text-emerald-400"
     };
   }
   if (t === "writing") {
     return {
-      title: "Luyện viết học thuật",
+      title: "Luyện viết chính tả từ",
       tips: [
-        "Sử dụng cấu trúc câu phức kết hợp mệnh đề quan hệ.",
-        "Tránh lặp từ bằng cách dùng từ đồng nghĩa (synonyms) linh hoạt.",
-        "Dành 2 phút cuối để soát lỗi thì động từ và chính tả."
+        "Nghe kỹ phát âm mẫu và điền chính xác từng ký tự tiếng Anh.",
+        "Chú ý phân biệt nguyên âm đứng cạnh nhau để tránh gõ sai.",
+        "Luyện tập viết từ hàng ngày giúp nhớ sâu mặt chữ tiếng Anh."
       ],
-      practicePath: "/study/writing",
+      practicePath: "/study/practice?subMode=writing",
       gradient: "from-purple-400 via-pink-500 to-rose-600",
       glow: "shadow-pink-500/20",
       ringColor: "ring-pink-400 dark:ring-pink-800",
       iconBg: "bg-purple-100 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400",
-      difficulty: "Khó",
-      difficultyColor: "bg-red-100 dark:bg-red-955/20 text-red-650 dark:text-red-400"
+      difficulty: "Dễ",
+      difficultyColor: "bg-emerald-100 dark:bg-emerald-955/20 text-emerald-650 dark:text-emerald-400"
     };
   }
   if (t === "grammar") {
@@ -849,10 +849,10 @@ export default function StudyPlanPage() {
             </div>
 
             <div className="border-t border-slate-100 dark:border-neutral-850 pt-3 mt-4 flex items-center justify-between">
-              <span className="text-[10px] text-slate-450 dark:text-slate-550 font-bold">
+              <span className="text-[10px] text-slate-450 dark:text-slate-400 font-bold">
                 Học vị hiện tại:
               </span>
-              <span className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">
+              <span className="text-[10px] font-black text-indigo-650 dark:text-indigo-400 uppercase tracking-wider">
                 👑 {user?.title || "Học Viên Mới"} (Lv. {user?.level || 1})
               </span>
             </div>
@@ -903,7 +903,7 @@ export default function StudyPlanPage() {
                         <h3 className="font-extrabold text-sm text-slate-800 dark:text-slate-200">
                           {unit.title}
                         </h3>
-                        <p className="text-[11px] text-slate-450 dark:text-slate-500 font-bold max-w-sm mt-0.5 leading-normal">
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400 font-bold max-w-sm mt-0.5 leading-normal">
                           {unit.description}
                         </p>
                       </div>
@@ -950,7 +950,7 @@ export default function StudyPlanPage() {
                                   ? "bg-gradient-to-br from-emerald-400 to-teal-500 border-white dark:border-neutral-950 text-white shadow-emerald-500/10"
                                   : state === "Learning"
                                     ? "bg-gradient-to-br from-sky-400 via-indigo-500 to-violet-650 border-white dark:border-neutral-950 text-white ring-2 ring-offset-2 ring-indigo-400"
-                                    : "bg-slate-50 dark:bg-neutral-900 border-slate-205 dark:border-neutral-800 text-slate-350 dark:text-neutral-600"
+                                    : "bg-slate-50 dark:bg-neutral-900 border-slate-200 dark:border-neutral-800 text-slate-400 dark:text-neutral-500"
                               }`}
                               disabled={state === "Locked"}
                             >
@@ -978,12 +978,12 @@ export default function StudyPlanPage() {
                             }}
                             className={`flex-1 min-w-0 ml-10 sm:ml-12 flex items-center justify-between p-3 sm:p-3.5 rounded-2xl border-2 transition-all duration-250 cursor-pointer ${
                               state === "Locked"
-                                ? "bg-slate-50/40 dark:bg-neutral-900/10 border-slate-100 dark:border-neutral-850/20 text-slate-350 dark:text-neutral-700 pointer-events-none"
+                                ? "bg-slate-50/40 dark:bg-neutral-900/10 border-slate-100 dark:border-neutral-850/20 text-slate-300 dark:text-slate-500 pointer-events-none"
                                 : isSelected
                                   ? "bg-slate-100/50 dark:bg-white/5 border-indigo-500 dark:border-indigo-400/50 shadow-md " + getHoverStyles(task.taskType)
                                   : state === "Learning"
                                     ? "bg-[#0b0c10]/40 dark:bg-[#161824]/20 border-indigo-500/40 dark:border-indigo-500/25 shadow-sm hover:border-indigo-550 dark:hover:border-indigo-400 " + getHoverStyles(task.taskType)
-                                    : "bg-white dark:bg-neutral-900/35 border-slate-150 dark:border-neutral-850/50 " + getHoverStyles(task.taskType)
+                                    : "bg-white dark:bg-neutral-900/60 border-slate-200 dark:border-neutral-850/50 " + getHoverStyles(task.taskType)
                             }`}
                           >
                             <div className="flex items-center gap-3 overflow-hidden">
@@ -1007,7 +1007,7 @@ export default function StudyPlanPage() {
                             </div>
 
                             <div className="flex items-center gap-3 shrink-0 ml-2">
-                              <span className="text-[10px] font-extrabold text-slate-400 dark:text-slate-550 hidden sm:inline">
+                              <span className="text-[10px] font-extrabold text-slate-400 dark:text-slate-400 hidden sm:inline">
                                 +{task.xpReward} XP
                               </span>
                               {state === "Completed" ? (
@@ -1020,7 +1020,7 @@ export default function StudyPlanPage() {
                                   <ChevronRight className="h-3 w-3" />
                                 </span>
                               ) : (
-                                <Lock className="h-3.5 w-3.5 text-slate-300 dark:text-slate-700" />
+                                <Lock className="h-3.5 w-3.5 text-slate-300 dark:text-slate-600" />
                               )}
                             </div>
                           </div>
@@ -1070,10 +1070,10 @@ export default function StudyPlanPage() {
                         })}
                         className={`flex-1 min-w-0 ml-10 sm:ml-12 flex items-center justify-between p-3 sm:p-3.5 rounded-2xl border-2 border-dashed transition-all cursor-pointer ${
                           isMilestoneClaimed
-                            ? "bg-slate-50/20 dark:bg-neutral-900/10 border-slate-200 dark:border-neutral-850/20 text-slate-450 hover:bg-slate-50/45 dark:hover:bg-[#0c0c0f]/20"
+                            ? "bg-slate-50/20 dark:bg-neutral-900/10 border-slate-200 dark:border-neutral-850/20 text-slate-400 hover:bg-slate-50/45 dark:hover:bg-[#0c0c0f]/20"
                             : isUnitCompleted
-                              ? "bg-amber-50/10 dark:bg-amber-955/5 border-amber-400/60 dark:border-amber-400/30 text-amber-500 shadow-[0_0_12px_rgba(245,158,11,0.1)] hover:border-amber-500"
-                              : "bg-transparent border-slate-200 dark:border-neutral-850 text-slate-450 dark:text-slate-655 hover:bg-slate-50/20 dark:hover:bg-[#0c0c0f]/10"
+                              ? "bg-amber-50/10 dark:bg-amber-950/5 border-amber-400/60 dark:border-amber-400/30 text-amber-500 shadow-[0_0_12px_rgba(245,158,11,0.1)] hover:border-amber-500"
+                              : "bg-transparent border-slate-200 dark:border-neutral-850 text-slate-400 dark:text-slate-400 hover:bg-slate-50/20 dark:hover:bg-[#0c0c0f]/10"
                         }`}
                       >
                         <div className="flex items-center gap-2">
@@ -1151,7 +1151,7 @@ export default function StudyPlanPage() {
                         <h3 className="font-extrabold text-sm text-slate-800 dark:text-slate-200 mt-0.5">
                           Boss Challenge 1: Chinh phục Nền tảng
                         </h3>
-                        <p className="text-[10px] text-slate-500 mt-1 font-semibold leading-normal max-w-md">
+                        <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1 font-semibold leading-normal max-w-md">
                           Bài kiểm tra tổng hợp 15 câu hỏi nâng cao giới hạn trong 10 phút. Đòi hỏi độ phản xạ nhanh.
                         </p>
                       </div>
@@ -1232,7 +1232,7 @@ export default function StudyPlanPage() {
                         <h3 className="font-extrabold text-sm text-slate-800 dark:text-slate-200 mt-0.5">
                           Final Boss: Trận chiến Cuối cùng
                         </h3>
-                        <p className="text-[10px] text-slate-500 mt-1 font-semibold leading-normal max-w-md">
+                        <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1 font-semibold leading-normal max-w-md">
                           Tổng hợp toàn bộ kiến thức nâng cao, bài giải đề hoàn chỉnh để mở khóa Chứng nhận và hoàn tất Lộ trình.
                         </p>
                       </div>
@@ -1286,11 +1286,11 @@ export default function StudyPlanPage() {
                 className="bezel"
               >
                 <div className="bezel-inner bg-white dark:bg-[#0c0c0f] p-8 text-center space-y-5 border border-slate-100/50 dark:border-white/5">
-                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-slate-55 dark:bg-neutral-950 border border-slate-150/40 dark:border-neutral-850">
+                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-slate-100 dark:bg-neutral-950 border border-slate-200 dark:border-neutral-850">
                     <Compass className="h-7 w-7 text-slate-400 animate-spin" style={{ animationDuration: "16s" }} />
                   </div>
                   <h3 className="text-base font-black text-slate-900 dark:text-white font-display">Bắt đầu hành trình</h3>
-                  <p className="text-xs text-slate-550 dark:text-slate-400 max-w-xs mx-auto leading-relaxed font-bold">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 max-w-xs mx-auto leading-relaxed font-bold">
                     Bấm vào bất kỳ bài học hoặc cột mốc chặng học nào trên sơ đồ quãng đường để xem chi tiết, nhận mẹo tự học và tham gia bài học tương ứng.
                   </p>
                 </div>

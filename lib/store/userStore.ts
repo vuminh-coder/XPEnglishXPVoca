@@ -175,6 +175,31 @@ export const useUserStore = create<UserState>((set, get) => ({
     set({ user: updatedUser });
     if (typeof window !== "undefined") {
       localStorage.setItem(`xp_voca_user_${user.id}`, JSON.stringify(updatedUser));
+
+      // Record daily active date and daily XP locally
+      const todayStr = new Date().toISOString().slice(0, 10);
+      const activeDatesKey = `xp_voca_active_dates_${user.id}`;
+      const dailyXpKey = `xp_voca_daily_xp_${user.id}`;
+      
+      try {
+        const storedDates = localStorage.getItem(activeDatesKey);
+        const activeDates = storedDates ? JSON.parse(storedDates) : [];
+        if (!activeDates.includes(todayStr)) {
+          activeDates.push(todayStr);
+          localStorage.setItem(activeDatesKey, JSON.stringify(activeDates));
+        }
+      } catch (e) {
+        console.error("Error saving active dates:", e);
+      }
+
+      try {
+        const storedXp = localStorage.getItem(dailyXpKey);
+        const dailyXp = storedXp ? JSON.parse(storedXp) : {};
+        dailyXp[todayStr] = (dailyXp[todayStr] || 0) + amount;
+        localStorage.setItem(dailyXpKey, JSON.stringify(dailyXp));
+      } catch (e) {
+        console.error("Error saving daily XP:", e);
+      }
     }
     
     // Sync with secure profile API endpoint

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAuthenticatedUserId } from "@/lib/auth";
 import { getGrammarLesson } from "@/lib/data/grammarContent";
+import fs from "fs";
+import path from "path";
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
 
@@ -22,8 +24,20 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Lesson not found" }, { status: 404 });
     }
 
+    const cacheDir = path.join(process.cwd(), "lib", "data", "grammar_cache");
+    const cacheKey = `${topicId}_${level || "intermediate"}.md`;
+    const cachePath = path.join(cacheDir, cacheKey);
+
     // ── CASE 1: GENERATE DETAILED GUIDE ──
     if (mode === "generate_guide") {
+      if (fs.existsSync(cachePath)) {
+        try {
+          const cachedGuide = fs.readFileSync(cachePath, "utf-8");
+          return NextResponse.json({ guide: cachedGuide });
+        } catch (readErr) {
+          console.warn("Failed to read grammar cache file:", readErr);
+        }
+      }
       if (!GEMINI_API_KEY) {
         // Fallback mockup guide if API key is not present
         return NextResponse.json({
@@ -78,6 +92,18 @@ Return ONLY the raw markdown text. No JSON wrapper, no metadata.`;
 
         const data = await response.json();
         guideText = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+
+        // Save to cache on success
+        if (guideText && GEMINI_API_KEY) {
+          try {
+            if (!fs.existsSync(cacheDir)) {
+              fs.mkdirSync(cacheDir, { recursive: true });
+            }
+            fs.writeFileSync(cachePath, guideText, "utf-8");
+          } catch (writeErr) {
+            console.warn("Failed to write grammar cache file:", writeErr);
+          }
+        }
       } catch (err) {
         console.warn("Failed to generate AI guide, using static details fallback:", err);
         guideText = `## Hướng dẫn Chuyên sâu: ${lesson.title}\n\nĐây là bài học phân tích chi tiết về cấu trúc **${lesson.titleEn}**.\n\n### 1. Công thức cốt lõi\n${lesson.formulas.map(f => `- ${f}`).join("\n")}\n\n### 2. Mẹo học tập & Ghi nhớ\n> [LƯU Ý]\n> ${lesson.memoryTip}\n\n### 3. Ví dụ tiêu biểu\n${lesson.examples.map(ex => `- **${ex.en}**\n  *Ý nghĩa:* ${ex.vi}`).join("\n\n")}\n\n### 4. Lỗi sai cần tránh\n${lesson.commonMistakes.map(m => `- **Sai:** *${m.wrong}* → **Đúng:** *${m.correct}*\n  *Giải thích:* ${m.explanation}`).join("\n\n")}`;

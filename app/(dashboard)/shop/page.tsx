@@ -219,7 +219,7 @@ export default function ShopPage() {
             <h1 className="text-3xl font-black font-sans">
               Cửa hàng Gamification
             </h1>
-            <p className="text-sm text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-medium font-sans max-w-sm font-sans">
+            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-medium max-w-sm font-sans">
               Sử dụng số vàng tích lũy từ tiến trình học để trang bị bình năng
               lượng và trang phục hỗ trợ.
             </p>
@@ -284,7 +284,7 @@ export default function ShopPage() {
                     <Button
                       variant={isEquipped ? "success" : "bezel"}
                       size="sm"
-                      className="font-bold rounded-xl px-4 py-2 text-xs min-w-[95px] flex items-center justify-center font-sans"
+                      className={`font-bold rounded-xl px-4 py-2 text-xs min-w-[95px] flex items-center justify-center font-sans ${isEquipped ? "text-white dark:text-white" : ""}`}
                       disabled={isEquipping === item.id}
                       onClick={() => handleEquip(item.id, !isEquipped)}
                     >
@@ -302,7 +302,9 @@ export default function ShopPage() {
                         isSuccess ? "success" : canAfford ? "primary" : "bezel"
                       }
                       size="sm"
-                      className="font-bold rounded-xl px-4 py-2 text-xs min-w-[95px] flex items-center justify-center font-sans"
+                      className={`font-bold rounded-xl px-4 py-2 text-xs min-w-[95px] flex items-center justify-center font-sans ${
+                        (isSuccess || canAfford) ? "text-white dark:text-white" : ""
+                      }`}
                       disabled={isPurchasing || isSuccess}
                       onClick={() => handlePurchase(item.id, item.cost)}
                     >

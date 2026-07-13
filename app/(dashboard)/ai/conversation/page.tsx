@@ -440,7 +440,7 @@ export default function ConversationPage() {
                   </div>
                   <div>
                     <h4 className="text-xs font-black text-slate-800 dark:text-slate-200">Companion AI</h4>
-                    <p className="text-[10px] text-slate-555 mt-0.5 font-semibold flex items-center gap-1.5">
+                    <p className="text-[10px] text-slate-500 mt-0.5 font-semibold flex items-center gap-1.5">
                       <span className={`w-1.5 h-1.5 rounded-full ${isAiTyping ? 'bg-amber-400 animate-pulse' : 'bg-emerald-500'}`}></span>
                       {isAiTyping ? 'AI đang phân tích & soạn câu trả lời...' : 'Đang trực tuyến'}
                     </p>
@@ -456,7 +456,7 @@ export default function ConversationPage() {
                 {messages.length === 0 && !isAiTyping && (
                   <div className="flex flex-col items-center justify-center h-full text-center p-8 opacity-40 select-none">
                     <MessageSquare className="w-12 h-12 mb-3 text-slate-400" strokeWidth={1.2} />
-                    <p className="text-xs font-black text-slate-550">Chọn chủ đề bên trái để bắt đầu luyện phản xạ!</p>
+                    <p className="text-xs font-black text-slate-500">Chọn chủ đề bên trái để bắt đầu luyện phản xạ!</p>
                   </div>
                 )}
 
@@ -475,7 +475,7 @@ export default function ConversationPage() {
                           <button
                             type="button"
                             onClick={() => playMessageSpeech(m.text)}
-                            className="h-7 w-7 rounded-lg bg-slate-50 dark:bg-neutral-955 border border-slate-100 dark:border-neutral-850 hover:bg-slate-100 dark:hover:bg-neutral-850 flex items-center justify-center shrink-0 cursor-pointer active:scale-95 transition-all text-slate-500 dark:text-slate-400"
+                            className="h-7 w-7 rounded-lg bg-slate-50 dark:bg-neutral-905 border border-slate-100 dark:border-neutral-850 hover:bg-slate-100 dark:hover:bg-neutral-850 flex items-center justify-center shrink-0 cursor-pointer active:scale-95 transition-all text-slate-500 dark:text-slate-400"
                             title="Nghe phát âm"
                           >
                             <Volume2 className="h-3.5 w-3.5" />
@@ -493,7 +493,7 @@ export default function ConversationPage() {
                               ? 'bg-slate-50 dark:bg-neutral-950/60 text-slate-800 dark:text-slate-200 rounded-tl-md border-slate-100 dark:border-neutral-850 shadow-sm' 
                               : `text-white rounded-tr-md border-cyan-400/20 shadow-sm font-medium cursor-pointer ${
                                   isSelectedFeedback 
-                                    ? 'bg-gradient-to-r from-cyan-600 to-blue-600 border-cyan-450 ring-2 ring-cyan-500/50' 
+                                    ? 'bg-gradient-to-r from-cyan-600 to-blue-600 border-cyan-400 ring-2 ring-cyan-500/50' 
                                     : 'bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-500/90'
                                 }`
                           }`}
@@ -502,7 +502,7 @@ export default function ConversationPage() {
                           
                           {/* Indicator badge if this user bubble has grammar feedback */}
                           {hasFeedback && (
-                            <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-amber-550 border border-white dark:border-neutral-900 text-[8px] font-black text-white shadow-sm animate-pulse">
+                            <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-amber-500 border border-white dark:border-neutral-900 text-[8px] font-black text-white shadow-sm animate-pulse">
                               !
                             </span>
                           )}
@@ -511,7 +511,7 @@ export default function ConversationPage() {
 
                       {/* AI Translation helper for Beginner level */}
                       {isAi && m.vietnameseTranslation && (
-                        <p className="text-[10px] text-slate-450 dark:text-slate-500 px-9 italic leading-tight">
+                        <p className="text-[10px] text-slate-500 dark:text-slate-400 px-9 italic leading-tight">
                           Dịch: {m.vietnameseTranslation}
                         </p>
                       )}
@@ -521,7 +521,7 @@ export default function ConversationPage() {
 
                 {isAiTyping && (
                   <div className="flex justify-start animate-fade-in-up">
-                    <div className="flex items-center gap-1.5 bg-slate-50 dark:bg-neutral-955 rounded-[1.25rem] rounded-tl-md py-3 px-5 border border-slate-100 dark:border-neutral-850">
+                    <div className="flex items-center gap-1.5 bg-slate-50 dark:bg-neutral-905 rounded-[1.25rem] rounded-tl-md py-3 px-5 border border-slate-100 dark:border-neutral-850">
                       <span className="w-1.5 h-1.5 bg-cyan-500 rounded-full animate-bounce"></span>
                       <span className="w-1.5 h-1.5 bg-cyan-500 rounded-full animate-bounce [animation-delay:0.2s]"></span>
                       <span className="w-1.5 h-1.5 bg-cyan-500 rounded-full animate-bounce [animation-delay:0.4s]"></span>
@@ -532,7 +532,7 @@ export default function ConversationPage() {
 
               {/* Chat Input panel */}
               <div className="p-4 border-t border-slate-100 dark:border-neutral-850 space-y-2">
-                <div className="flex items-center gap-2 sm:gap-3 p-1.5 bg-slate-50 dark:bg-neutral-955 rounded-full border border-slate-200/50 dark:border-neutral-850">
+                <div className="flex items-center gap-2 sm:gap-3 p-1.5 bg-slate-50 dark:bg-neutral-905 rounded-full border border-slate-200/50 dark:border-neutral-850">
                   {/* Web Speech micro recorder */}
                   <button
                     type="button"
@@ -586,7 +586,7 @@ export default function ConversationPage() {
                 {activeFeedbackMessage ? (
                   <div className="space-y-4 animate-fade-in">
                     {/* Original sentence bubble */}
-                    <div className="bg-slate-50 dark:bg-neutral-955 p-3 rounded-2xl border border-slate-100/80 dark:border-neutral-850">
+                    <div className="bg-slate-50 dark:bg-neutral-905 p-3 rounded-2xl border border-slate-200/80 dark:border-neutral-850">
                       <span className="text-[9px] font-black text-slate-400 uppercase tracking-wide">Câu thoại của bạn</span>
                       <p className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-1 italic">
                         "{activeFeedbackMessage.text}"
@@ -601,7 +601,7 @@ export default function ConversationPage() {
                       {activeFeedbackMessage.corrections && activeFeedbackMessage.corrections.length > 0 ? (
                         <div className="space-y-1.5">
                           {activeFeedbackMessage.corrections.map((corr, idx) => (
-                            <div key={idx} className="bg-rose-50/40 dark:bg-rose-950/10 border border-rose-100 dark:border-rose-950/40 p-2.5 rounded-xl text-[11px] font-medium text-rose-700 dark:text-rose-455 leading-normal">
+                            <div key={idx} className="bg-rose-50/40 dark:bg-rose-950/10 border border-rose-100 dark:border-rose-950/40 p-2.5 rounded-xl text-[11px] font-medium text-rose-700 dark:text-rose-400 leading-normal">
                               {corr}
                             </div>
                           ))}
@@ -635,15 +635,15 @@ export default function ConversationPage() {
                   </div>
                 ) : (
                   <div className="flex flex-col items-center justify-center py-16 text-center opacity-30 px-4">
-                    <Info className="h-8 w-8 text-slate-450 mb-2.5" />
-                    <p className="text-[11px] font-semibold leading-normal text-slate-700 dark:text-slate-355">
+                    <Info className="h-8 w-8 text-slate-500 mb-2.5" />
+                    <p className="text-[11px] font-semibold leading-normal text-slate-700 dark:text-slate-400">
                       Nhấp vào bất kỳ tin nhắn đã gửi nào của bạn để xem phân tích ngữ pháp và gợi ý nâng cấp từ vựng tại đây!
                     </p>
                   </div>
                 )}
               </div>
 
-              <div className="bg-slate-50 dark:bg-neutral-955 p-3 rounded-2xl border border-slate-100/85 dark:border-neutral-850 text-[10px] text-slate-500 font-semibold leading-relaxed flex items-start gap-2">
+              <div className="bg-slate-50 dark:bg-neutral-905 p-3 rounded-2xl border border-slate-200/80 dark:border-neutral-850 text-[10px] text-slate-500 font-semibold leading-relaxed flex items-start gap-2">
                 <Info className="h-4 w-4 shrink-0 text-cyan-500" />
                 <span>
                   Bảng đánh giá giúp bạn sửa lỗi viết tức thời. Hãy thử cố ý gõ sai ngữ pháp để kiểm chứng phân tích của Companion AI nhé!
@@ -677,7 +677,7 @@ export default function ConversationPage() {
             </div>
 
             {/* Original Text */}
-            <div className="bg-slate-50 dark:bg-neutral-955 p-3 rounded-2xl border border-slate-100/80 dark:border-neutral-850">
+            <div className="bg-slate-50 dark:bg-neutral-905 p-3 rounded-2xl border border-slate-100/80 dark:border-neutral-850">
               <span className="text-[9px] font-black text-slate-400 uppercase tracking-wide">Câu thoại của bạn</span>
               <p className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-1 italic">
                 "{activeFeedbackMessage.text}"
@@ -832,7 +832,7 @@ export default function ConversationPage() {
                     <button
                       type="button"
                       onClick={handleRatingSubmit}
-                      className="flex-1 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-xs font-black text-white rounded-xl cursor-pointer active:scale-95 transition-all select-none shadow-glow"
+                      className="flex-1 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-xs font-black text-white rounded-xl cursor-pointer active:scale-95 transition-all select-none shadow-glow text-white dark:text-white"
                     >
                       Gửi đánh giá (+15 XP)
                     </button>

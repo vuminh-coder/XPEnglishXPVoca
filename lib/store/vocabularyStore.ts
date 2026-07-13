@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { Vocabulary, LearnedVocabulary } from '@/types';
 import { useAuthStore } from './authStore';
+import { useDailyChallengeStore } from './dailyChallengeStore';
 
 interface VocabularyState {
   vocabularies: Vocabulary[];
@@ -101,8 +102,14 @@ export const useVocabularyStore = create<VocabularyState>((set, get) => ({
       item.proficiency = isCorrect ? Math.min(5, item.proficiency + 1) : Math.max(0, item.proficiency - 1);
       item.lastPracticed = new Date().toISOString();
       updatedList = [...list];
+      if (isCorrect) {
+        useDailyChallengeStore.getState().incrementProgress("review_cards");
+      }
     } else {
       updatedList = [...list, { userId, vocabId, proficiency: isCorrect ? 1 : 0, lastPracticed: new Date().toISOString(), nextReview: new Date().toISOString(), isFavorite: false }];
+      if (isCorrect) {
+        useDailyChallengeStore.getState().incrementProgress("learn_words");
+      }
     }
     set({ learned: updatedList });
 
@@ -138,6 +145,9 @@ export const useVocabularyStore = create<VocabularyState>((set, get) => ({
       const json = await res.json();
       
       if (json.success && json.data) {
+        // Increment review_cards Daily Challenge progress
+        useDailyChallengeStore.getState().incrementProgress("review_cards");
+
         const updatedVocab = json.data;
         const itemIndex = list.findIndex(l => l.vocabId === vocabId && l.userId === userId);
         

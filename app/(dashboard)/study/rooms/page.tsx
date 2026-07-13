@@ -276,7 +276,7 @@ export default function GroupRoomsPage() {
           <h1 className="text-2xl md:text-3xl font-black tracking-tight flex items-center gap-2 text-slate-900 dark:text-white font-display">
             <Users className="h-7 w-7 text-indigo-500 animate-pulse" /> Phòng Học Nhóm Live
           </h1>
-          <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium">
+          <p className="text-xs md:text-sm text-slate-555 dark:text-slate-300 mt-1 font-medium">
             Tham gia phòng học nhóm trực tuyến để cùng chia sẻ kinh nghiệm học tập, chat realtime và thử thách từ vựng.
           </p>
         </motion.div>
@@ -305,9 +305,9 @@ export default function GroupRoomsPage() {
                     </span>
                   </div>
                   <h3 className="text-sm font-black text-slate-800 dark:text-white font-display">{room.name}</h3>
-                  <p className="text-[11px] text-slate-450 dark:text-slate-500 mt-1.5 line-clamp-2 leading-relaxed font-semibold">{room.description}</p>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1.5 line-clamp-2 leading-relaxed font-semibold">{room.description}</p>
                 </div>
-                <Button variant="primary" size="sm" className="w-full justify-center mt-4 cursor-pointer" onClick={() => joinRoom(room)}>
+                <Button variant="primary" size="sm" className="w-full justify-center mt-4 cursor-pointer text-white dark:text-white" onClick={() => joinRoom(room)}>
                   Tham gia phòng <ArrowRight className="h-3.5 w-3.5 ml-1 shrink-0" />
                 </Button>
               </Card>
@@ -329,7 +329,7 @@ export default function GroupRoomsPage() {
             <h2 className="text-xs md:text-sm font-black text-slate-900 dark:text-white flex items-center gap-2 font-display">
               {activeRoom.name}
             </h2>
-            <p className="text-[10px] text-slate-450 mt-0.5">{activeRoom.description}</p>
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">{activeRoom.description}</p>
           </div>
           <div className="flex items-center gap-2">
             <Button variant="secondary" size="sm" className="rounded-xl font-bold cursor-pointer text-xs" onClick={() => setQuizActive(true)} disabled={quizActive}>
@@ -361,8 +361,8 @@ export default function GroupRoomsPage() {
                   const isCorrect = i === QUIZ_QUESTIONS[quizStep].correct;
                   let btnStyle = "border-slate-200 dark:border-neutral-850 bg-white dark:bg-neutral-900 hover:border-slate-350 cursor-pointer text-slate-700 dark:text-slate-300";
                   if (selectedAnswer !== null) {
-                    if (isCorrect) btnStyle = "border-emerald-350 bg-emerald-50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-400 font-bold ring-1 ring-emerald-500/10";
-                    else if (isSelected) btnStyle = "border-rose-350 bg-rose-50 dark:bg-rose-950/20 text-rose-700 dark:text-rose-455 font-bold ring-1 ring-rose-500/10";
+                    if (isCorrect) btnStyle = "border-emerald-300 bg-emerald-50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-400 font-bold ring-1 ring-emerald-500/10";
+                    else if (isSelected) btnStyle = "border-rose-300 bg-rose-50 dark:bg-rose-950/20 text-rose-700 dark:text-rose-400 font-bold ring-1 ring-rose-500/10";
                   }
                   return (
                     <motion.button
@@ -387,7 +387,7 @@ export default function GroupRoomsPage() {
             if (msg.isSystem) {
               return (
                 <div key={msg.id} className="flex justify-center">
-                  <span className="bg-slate-50 dark:bg-neutral-950 text-[10px] text-slate-450 py-1 px-3 rounded-full font-bold border border-slate-100 dark:border-neutral-850">
+                  <span className="bg-slate-50 dark:bg-neutral-950 text-[10px] text-slate-500 dark:text-slate-400 py-1 px-3 rounded-full font-bold border border-slate-200 dark:border-neutral-850">
                     {msg.text}
                   </span>
                 </div>
@@ -403,9 +403,9 @@ export default function GroupRoomsPage() {
                 <span className="text-xl shrink-0 select-none">{msg.user.avatar}</span>
                 <div>
                   <div className={`flex items-center gap-1.5 mb-1 ${isMe ? "justify-end" : "justify-start"}`}>
-                    <span className="text-[10px] font-extrabold text-slate-700 dark:text-slate-350">{msg.user.name}</span>
+                    <span className="text-[10px] font-extrabold text-slate-700 dark:text-slate-300">{msg.user.name}</span>
                     {msg.user.level && <Badge variant="neutral" className="text-[8px] px-1.5 py-0 font-bold">{msg.user.level}</Badge>}
-                    <span className="text-[8px] text-slate-400 dark:text-slate-500 font-semibold">{msg.time}</span>
+                    <span className="text-[8px] text-slate-400 dark:text-slate-400 font-semibold">{msg.time}</span>
                   </div>
                   <div className={`p-3 rounded-2xl text-xs font-semibold leading-relaxed ${isMe ? "bg-violet-600 text-white rounded-tr-none" : "bg-slate-50 dark:bg-neutral-950 border border-slate-200/20 dark:border-neutral-850/50 text-slate-800 dark:text-slate-200 rounded-tl-none"}`}>
                     {msg.text}
@@ -427,7 +427,7 @@ export default function GroupRoomsPage() {
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && sendMessage()}
           />
-          <Button variant="primary" size="md" className="shrink-0 aspect-square rounded-xl cursor-pointer" onClick={sendMessage}>
+          <Button variant="primary" size="md" className="shrink-0 aspect-square rounded-xl cursor-pointer text-white dark:text-white" onClick={sendMessage}>
             <Send className="h-4 w-4" />
           </Button>
         </div>
@@ -435,7 +435,7 @@ export default function GroupRoomsPage() {
 
       {/* Online Members List */}
       <Card variant="bezel" className="hidden md:block h-full p-4 overflow-y-auto bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-[calc(var(--radius-3xl)-6px)]">
-        <h3 className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-4 select-none">Đang trực tuyến ({members.length})</h3>
+        <h3 className="text-[10px] font-black text-slate-400 dark:text-slate-400 uppercase tracking-wider mb-4 select-none">Đang trực tuyến ({members.length})</h3>
         <div className="space-y-3.5">
           {members.map((member, i) => (
             <div key={i} className="flex items-center gap-2">

@@ -151,7 +151,7 @@ export default function VocabularyThemesClientList({
         <h1 className="text-2xl md:text-3xl font-black tracking-tight text-slate-900 dark:text-white font-display">
           Khám phá bộ từ vựng
         </h1>
-        <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium max-w-xl">
+        <p className="text-xs md:text-sm text-slate-500 dark:text-slate-300 mt-1 font-medium max-w-xl">
           Chọn một chủ đề, học theo nhịp điệu riêng và giữ động lực bằng lộ trình rõ ràng.
         </p>
       </motion.div>
@@ -220,7 +220,7 @@ export default function VocabularyThemesClientList({
               aria-label="Tìm kiếm chủ đề từ vựng"
             />
           </div>
-          <div className="flex items-center gap-4 text-xs font-bold text-slate-400 dark:text-slate-500 shrink-0">
+          <div className="flex items-center gap-4 text-xs font-bold text-slate-400 dark:text-slate-400 shrink-0">
             <div className="flex items-center gap-2">
               <Sparkles className="h-4 w-4 text-cyan-500" strokeWidth={1.3} />
               <span>{filteredThemes.length} chủ đề</span>
@@ -244,7 +244,7 @@ export default function VocabularyThemesClientList({
             <p className="text-base font-extrabold text-slate-900 dark:text-white">
               Không tìm thấy chủ đề phù hợp
             </p>
-            <p className="mt-1 text-xs text-slate-400 dark:text-slate-500 font-medium">
+            <p className="mt-1 text-xs text-slate-400 dark:text-slate-400 font-medium">
               Hãy thử từ khóa khác như “travel”, “work”, hoặc “daily”.
             </p>
           </div>
@@ -283,14 +283,14 @@ export default function VocabularyThemesClientList({
                         <h3 className="text-sm md:text-base font-black text-slate-900 dark:text-white font-display">
                           {t.name}
                         </h3>
-                        <p className="mt-1 text-[11px] text-slate-400 dark:text-slate-500 font-bold">
+                        <p className="mt-1 text-[11px] text-slate-400 dark:text-slate-400 font-bold">
                           {t.nameEn} · {t.totalVocabs} từ vựng
                         </p>
                       </div>
                     </div>
 
                     <div>
-                      <div className="mt-4 flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.15em] text-slate-500">
+                      <div className="mt-4 flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">
                         <Clock3 className="h-3.5 w-3.5" strokeWidth={1.3} />
                         8 phút / buổi
                       </div>
@@ -311,7 +311,7 @@ export default function VocabularyThemesClientList({
                       </div>
 
                       <div className="mt-5">
-                        <div className="mb-2 flex items-center justify-between text-[10px] font-bold text-slate-400 dark:text-slate-500">
+                        <div className="mb-2 flex items-center justify-between text-[10px] font-bold text-slate-400 dark:text-slate-400">
                           <span>Tiến trình</span>
                           <span>{percentage}%</span>
                         </div>

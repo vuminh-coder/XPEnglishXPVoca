@@ -7,7 +7,7 @@ import { Rocket, BookOpen, Gamepad2, Bot, Users } from "lucide-react";
 export default function LoginPage() {
   return (
     <div
-      className="min-h-screen lg:h-screen lg:max-h-screen lg:overflow-hidden text-slate-800 flex flex-col justify-between bg-[#f0f4f8] relative w-full font-sans antialiased"
+      className="min-h-screen lg:h-screen lg:max-h-screen lg:overflow-hidden text-slate-800 flex flex-col justify-between bg-[#f0f4f8] relative w-full overflow-x-hidden font-sans antialiased"
       suppressHydrationWarning
     >
       {/* Floating Background Blobs */}
@@ -107,7 +107,7 @@ export default function LoginPage() {
           </div>
 
           {/* Right Column: Login Card */}
-          <div className="lg:col-span-5 w-full mx-auto animate-fade-in-right flex justify-center items-center p-0">
+          <div className="lg:col-span-5 w-full mx-auto animate-fade-in-right flex justify-center items-center px-4 lg:px-0">
             <SignIn
               path="/login"
               signInUrl="/login"

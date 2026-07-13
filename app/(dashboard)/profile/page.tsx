@@ -159,7 +159,7 @@ export default function ProfilePage() {
             </div>
           </div>
           <button 
-            className="flex items-center gap-1.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full text-xs font-bold py-2.5 px-6 tactile shadow-sm" 
+            className="flex items-center gap-1.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-white dark:text-white rounded-full text-xs font-bold py-2.5 px-6 tactile shadow-sm" 
             onClick={handleSaveProfile}
           >
             <Save className="w-3.5 h-3.5" strokeWidth={2} /> Lưu cài đặt

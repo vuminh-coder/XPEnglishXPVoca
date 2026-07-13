@@ -23,9 +23,8 @@ const CHALLENGE_POOL: Omit<Challenge, "progress" | "isCompleted">[] = [
   { id: "learn_words", title: "Học 5 từ mới", description: "Thêm 5 từ vựng mới vào bộ sưu tập", icon: "📚", xpReward: 15, coinReward: 10, target: 5 },
   { id: "review_cards", title: "Ôn tập 10 flashcards", description: "Hoàn thành 10 lượt ôn tập flashcard", icon: "🔄", xpReward: 20, coinReward: 15, target: 10 },
   { id: "win_pvp", title: "Thắng 1 trận PvP", description: "Giành chiến thắng trong Đấu trường từ vựng", icon: "⚔️", xpReward: 25, coinReward: 20, target: 1 },
-  { id: "write_essay", title: "Viết 1 bài luận AI", description: "Nộp bài viết cho AI Writing Examiner chấm", icon: "✍️", xpReward: 30, coinReward: 25, target: 1 },
-  { id: "speak_practice", title: "Luyện nói 3 câu", description: "Hoàn thành 3 bài phát âm trong Speaking Coach", icon: "🎤", xpReward: 20, coinReward: 15, target: 3 },
-  { id: "exam_attempt", title: "Làm 1 bài thi thử", description: "Hoàn thành một đề thi thử TOEIC hoặc IELTS", icon: "📝", xpReward: 35, coinReward: 30, target: 1 },
+  { id: "write_essay", title: "Chính tả 5 từ", description: "Luyện viết chính tả đúng 5 từ vựng", icon: "✍️", xpReward: 25, coinReward: 20, target: 5 },
+  { id: "speak_practice", title: "Phát âm 5 từ vựng", description: "Luyện nói phát âm chuẩn 5 từ vựng", icon: "🎤", xpReward: 25, coinReward: 20, target: 5 },
 ];
 
 function getTodayString(): string {
