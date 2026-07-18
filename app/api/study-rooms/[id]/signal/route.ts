@@ -7,11 +7,11 @@ const signalQueue = new Map<string, Array<{ senderId: string; payload: any; time
 
 export async function POST(
   req: Request,
-  { params }: { params: Promise<{ roomId: string }> }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { userId } = getAuth(req as any);
-    const { roomId } = await params;
+    const { id: roomId } = await params;
     const body = await req.json();
     const { senderId, targetId, payload } = body;
 
@@ -47,11 +47,11 @@ export async function POST(
 
 export async function GET(
   req: Request,
-  { params }: { params: Promise<{ roomId: string }> }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { userId: authedUserId } = getAuth(req as any);
-    const { roomId } = await params;
+    const { id: roomId } = await params;
     const { searchParams } = new URL(req.url);
     const userId = searchParams.get("userId");
 
