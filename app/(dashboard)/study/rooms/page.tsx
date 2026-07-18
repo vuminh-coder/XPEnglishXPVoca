@@ -798,7 +798,7 @@ export default function GroupRoomsPage() {
   // Active Room View
   return (
     <div className="max-w-5xl mx-auto h-[calc(100dvh-220px)] md:h-[calc(100dvh-140px)] pb-0 md:pb-6" suppressHydrationWarning>
-      <div className="w-full flex flex-col h-full overflow-hidden border-2 border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 rounded-[calc(var(--radius-3xl)-6px)] relative shadow-md">
+      <div className="w-full flex flex-col h-full overflow-hidden border-2 border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 rounded-2xl relative shadow-md">
         {/* Room Header with Custom Timer Selector & Share ID */}
         <div className="p-3 md:p-3.5 border-b border-slate-100 dark:border-neutral-850 flex flex-col gap-2 bg-slate-50/50 dark:bg-neutral-950">
           {/* Row 1: Title, ID & Stats (Timer, Members) */}
@@ -923,7 +923,7 @@ export default function GroupRoomsPage() {
             <Button
               variant="secondary"
               size="sm"
-              className="rounded-xl font-bold cursor-pointer text-xs bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700/50 text-amber-700 dark:text-amber-300 hover:bg-amber-100 flex items-center gap-1"
+              className="rounded-lg h-8 px-3 text-[11px] font-bold bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/30 text-amber-700 dark:text-amber-400 hover:bg-amber-100/50 flex items-center gap-1 shrink-0 cursor-pointer"
               onClick={startQuizSession}
               disabled={quizActive}
             >
@@ -934,7 +934,7 @@ export default function GroupRoomsPage() {
             <Button
               variant="ghost"
               size="sm"
-              className="text-xs font-bold text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/20 cursor-pointer rounded-xl"
+              className="rounded-lg h-8 px-3 text-[11px] font-bold bg-rose-50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/30 text-rose-600 dark:text-rose-400 hover:bg-rose-100/50 flex items-center gap-1 shrink-0 cursor-pointer"
               onClick={leaveRoom}
             >
               <span>Rời phòng</span>
