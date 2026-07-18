@@ -26,6 +26,10 @@ export const useVocabularyStore = create<VocabularyState>((set, get) => ({
       console.error("Error loading local vocab progress:", e);
     }
 
+    if (userId === "local_user" || userId.startsWith("local_user")) {
+      return;
+    }
+
     // Sync with secure vocab API endpoint
     (async () => {
       try {

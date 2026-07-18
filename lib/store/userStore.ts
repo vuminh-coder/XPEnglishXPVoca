@@ -79,15 +79,17 @@ export const useUserStore = create<UserState>((set, get) => ({
         localStorage.setItem(`xp_voca_user_${user.id}`, JSON.stringify(updatedUser));
       }
 
-      fetch("/api/user/profile", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          currentStreak: newStreak,
-          longestStreak: newLongest,
-          streakFreezes: newFreezes,
-        }),
-      }).catch(err => console.error("Error syncing streak activity:", err));
+      if (user.id !== "local_user" && !user.id.startsWith("local_user")) {
+        fetch("/api/user/profile", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            currentStreak: newStreak,
+            longestStreak: newLongest,
+            streakFreezes: newFreezes,
+          }),
+        }).catch(err => console.error("Error syncing streak activity:", err));
+      }
 
     } else {
       if (!lastActive) return;
@@ -119,14 +121,16 @@ export const useUserStore = create<UserState>((set, get) => ({
           localStorage.setItem(`xp_voca_user_${user.id}`, JSON.stringify(updatedUser));
         }
 
-        fetch("/api/user/profile", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            currentStreak: newStreak,
-            streakFreezes: newFreezes,
-          }),
-        }).catch(err => console.error("Error syncing freeze consumption:", err));
+        if (user.id !== "local_user" && !user.id.startsWith("local_user")) {
+          fetch("/api/user/profile", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              currentStreak: newStreak,
+              streakFreezes: newFreezes,
+            }),
+          }).catch(err => console.error("Error syncing freeze consumption:", err));
+        }
 
       } else if (newStreak > 0) {
         const updatedUser = {
@@ -139,13 +143,15 @@ export const useUserStore = create<UserState>((set, get) => ({
           localStorage.setItem(`xp_voca_user_${user.id}`, JSON.stringify(updatedUser));
         }
 
-        fetch("/api/user/profile", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            currentStreak: 0,
-          }),
-        }).catch(err => console.error("Error syncing reset streak:", err));
+        if (user.id !== "local_user" && !user.id.startsWith("local_user")) {
+          fetch("/api/user/profile", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              currentStreak: 0,
+            }),
+          }).catch(err => console.error("Error syncing reset streak:", err));
+        }
       }
     }
   },
@@ -203,16 +209,18 @@ export const useUserStore = create<UserState>((set, get) => ({
     }
     
     // Sync with secure profile API endpoint
-    fetch("/api/user/profile", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        totalXp: newXp,
-        level: newLevel,
-        title: newTitle,
-        coins: newCoins,
-      }),
-    }).catch(err => console.error("Error syncing XP to DB:", err));
+    if (user.id !== "local_user" && !user.id.startsWith("local_user")) {
+      fetch("/api/user/profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          totalXp: newXp,
+          level: newLevel,
+          title: newTitle,
+          coins: newCoins,
+        }),
+      }).catch(err => console.error("Error syncing XP to DB:", err));
+    }
 
     return { levelUp };
   },
@@ -227,13 +235,15 @@ export const useUserStore = create<UserState>((set, get) => ({
     }
 
     // Sync coins with DB
-    fetch("/api/user/profile", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        coins: newCoins,
-      }),
-    }).catch(err => console.error("Error syncing awardCoins to DB:", err));
+    if (user.id !== "local_user" && !user.id.startsWith("local_user")) {
+      fetch("/api/user/profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          coins: newCoins,
+        }),
+      }).catch(err => console.error("Error syncing awardCoins to DB:", err));
+    }
   },
   updateProfile: (fullName, bio) => {
     const user = get().user;
@@ -245,11 +255,13 @@ export const useUserStore = create<UserState>((set, get) => ({
       }
       
       // Sync with secure profile API endpoint
-      fetch("/api/user/profile", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fullName, bio }),
-      }).catch(err => console.error("Error updating profile in DB:", err));
+      if (user.id !== "local_user" && !user.id.startsWith("local_user")) {
+        fetch("/api/user/profile", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ fullName, bio }),
+        }).catch(err => console.error("Error updating profile in DB:", err));
+      }
     }
   },
   syncClerkUser: (clerkUser, isSignedIn) => {
@@ -386,6 +398,19 @@ export const useUserStore = create<UserState>((set, get) => ({
     const user = get().user;
     if (!user || (user.coins || 0) < 50) return false;
 
+    if (user.id === "local_user" || user.id.startsWith("local_user")) {
+      const updatedUser: User = {
+        ...user,
+        coins: (user.coins || 0) - 50,
+        streakFreezes: (user.streakFreezes || 0) + 1,
+      };
+      set({ user: updatedUser });
+      if (typeof window !== "undefined") {
+        localStorage.setItem(`xp_voca_user_${user.id}`, JSON.stringify(updatedUser));
+      }
+      return true;
+    }
+
     try {
       const res = await fetch("/api/shop/purchase", {
         method: "POST",
@@ -413,6 +438,18 @@ export const useUserStore = create<UserState>((set, get) => ({
   buyDoubleXp: async () => {
     const user = get().user;
     if (!user || (user.coins || 0) < 100) return false;
+
+    if (user.id === "local_user" || user.id.startsWith("local_user")) {
+      const updatedUser: User = {
+        ...user,
+        coins: (user.coins || 0) - 100,
+      };
+      set({ user: updatedUser });
+      if (typeof window !== "undefined") {
+        localStorage.setItem(`xp_voca_user_${user.id}`, JSON.stringify(updatedUser));
+      }
+      return true;
+    }
 
     try {
       const res = await fetch("/api/shop/purchase", {
