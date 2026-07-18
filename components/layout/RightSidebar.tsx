@@ -275,7 +275,7 @@ export default function RightSidebar() {
                   </div>
                   <div>
                     <div className="text-[11px] font-extrabold text-gray-900 dark:text-gray-100 leading-tight">
-                      {u.name}
+                      {u.name.length > 12 ? u.name.slice(0, 10) + "..." : u.name}
                     </div>
                     <div className="text-[11px] text-muted font-semibold mt-0.5">
                       <p className="text-cyan-500 font-black">
@@ -290,7 +290,7 @@ export default function RightSidebar() {
                   </div>
                 </div>
                 <button
-                  className="flex items-center gap-1 bg-neutral-50 dark:bg-neutral-950 text-[11px] font-black uppercase tracking-wider py-1.5 px-3 border border-black/10 dark:border-white/10 rounded-full hover:bg-cyan-50 dark:hover:bg-cyan-950/20 hover:text-cyan-500 hover:border-cyan-200 dark:hover:border-cyan-800 transition-all duration-300 tactile"
+                  className="flex items-center justify-center gap-1 bg-neutral-50 dark:bg-neutral-950 text-[11px] font-black uppercase tracking-wider py-1.5 w-24 border border-black/10 dark:border-white/10 rounded-full hover:bg-cyan-50 dark:hover:bg-cyan-950/20 hover:text-cyan-500 hover:border-cyan-200 dark:hover:border-cyan-800 transition-all duration-300 tactile flex-shrink-0"
                   onClick={() => handleConnectFriend(u.id, u.name)}
                 >
                   <Sparkles
