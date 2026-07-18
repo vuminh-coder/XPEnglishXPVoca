@@ -2,6 +2,7 @@
 import React from "react";
 import { ClerkProvider, useUser, useAuth } from "@clerk/nextjs";
 import { useAuthStore } from "@/lib/store/authStore";
+import { viVN } from "@clerk/localizations";
 
 // Check if Clerk is enabled based on key type and domain
 const checkIsClerkEnabled = () => {
@@ -22,6 +23,19 @@ function ClerkStateSyncer() {
 
   return null;
 }
+
+// Custom Vietnamese translation overrides to prevent English placeholders from slipping through
+const customLocalization = {
+  ...viVN,
+  formFieldInputPlaceholder__password: "Nhập mật khẩu của bạn",
+  formFieldInputPlaceholder__signUp_password: "Tạo mật khẩu của bạn",
+  formFieldInputPlaceholder__newPassword: "Tạo mật khẩu mới của bạn",
+  formFieldInputPlaceholder__currentPassword: "Nhập mật khẩu hiện tại",
+  formFieldInputPlaceholder__confirmPassword: "Xác nhận lại mật khẩu",
+  formFieldInputPlaceholder__emailAddress: "Nhập địa chỉ email của bạn",
+  formFieldInputPlaceholder__username: "Nhập tên người dùng của bạn",
+  formFieldInputPlaceholder__emailAddressOrUsername: "Nhập email hoặc tên người dùng",
+};
 
 function LocalStateSyncer() {
   const setLocalUser = useAuthStore((state) => state.setLocalUser);
@@ -64,7 +78,8 @@ export default function ClientClerkWrapper({
       signInUrl="/login"
       signUpUrl="/register"
       signInFallbackRedirectUrl="/dashboard"
-      signUpFallbackRedirectUrl="/dashboard"
+      signUpFallbackRedirectUrl="/onboarding"
+      localization={customLocalization}
     >
       <ClerkStateSyncer />
       {children}

@@ -264,26 +264,33 @@ function ClerkNavbar() {
   };
 
   return (
-    <div className="top-navbar">
-      <Link href="/" className="navbar-brand">
-        <div className="navbar-logo">🦉</div>
-        <span className="navbar-title">XP English</span>
-      </Link>
+    <div className="top-navbar px-3.5 sm:px-6">
+      <div className="flex items-center gap-2 min-w-0">
+        <button className="navbar-menu-toggle shrink-0" onClick={toggleSidebar}>
+          {sidebarOpen ? (
+            <X className="w-[20px] h-[20px]" strokeWidth={1.8} />
+          ) : (
+            <Menu className="w-[20px] h-[20px]" strokeWidth={1.8} />
+          )}
+        </button>
+        <Link href="/" className="navbar-brand flex items-center gap-2 group min-w-0">
+          <div className="w-9 h-9 rounded-xl bg-slate-50 dark:bg-neutral-900 border border-slate-200/50 dark:border-neutral-800 flex items-center justify-center shadow-sm transform group-hover:scale-105 transition-transform duration-300 shrink-0 overflow-hidden">
+            <img src="/mascot.png" alt="Mascot" className="w-[90%] h-[90%] object-contain" />
+          </div>
+          <div className="text-sm sm:text-base font-black text-slate-900 dark:text-white flex items-center gap-1 truncate">
+            <span className="text-[#0059bb]">XP</span> English
+            <span className="text-amber-500 font-normal hidden min-[380px]:inline">|</span>
+            <span className="text-amber-500 hidden min-[380px]:inline">XP Voca</span>
+          </div>
+        </Link>
+      </div>
 
-      <button className="navbar-menu-toggle" onClick={toggleSidebar}>
-        {sidebarOpen ? (
-          <X className="w-[20px] h-[20px]" strokeWidth={1.3} />
-        ) : (
-          <Menu className="w-[20px] h-[20px]" strokeWidth={1.3} />
-        )}
-      </button>
-
-      <div className="navbar-actions">
+      <div className="navbar-actions flex items-center gap-1 sm:gap-2 shrink-0">
         {/* Dynamic Theme Control Dropdown */}
         <div className="dropdown navbar-theme-control">
           <button
             type="button"
-            className="btn-icon btn-ghost relative transition-spring hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center"
+            className="btn-icon btn-ghost relative transition-spring hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10"
             onClick={() => {
               setThemeOpen(!themeOpen);
               setNotifOpen(false);
@@ -302,7 +309,7 @@ function ClerkNavbar() {
                     transition={{ type: "spring", stiffness: 100, damping: 12 }}
                     className="absolute inset-0 flex items-center justify-center"
                   >
-                    <Moon className="w-[18px] h-[18px] text-indigo-400" strokeWidth={1.3} />
+                    <Moon className="w-[18px] h-[18px] text-indigo-400" strokeWidth={1.8} />
                   </motion.div>
                 )}
                 {theme === "light" && (
@@ -314,7 +321,7 @@ function ClerkNavbar() {
                     transition={{ type: "spring", stiffness: 100, damping: 12 }}
                     className="absolute inset-0 flex items-center justify-center"
                   >
-                    <Sun className="w-[18px] h-[18px] text-amber-500" strokeWidth={1.3} />
+                    <Sun className="w-[18px] h-[18px] text-amber-500" strokeWidth={1.8} />
                   </motion.div>
                 )}
                 {theme === "system" && (
@@ -326,7 +333,7 @@ function ClerkNavbar() {
                     transition={{ type: "spring", stiffness: 100, damping: 12 }}
                     className="absolute inset-0 flex items-center justify-center"
                   >
-                    <Laptop className="w-[18px] h-[18px] text-cyan-500" strokeWidth={1.3} />
+                    <Laptop className="w-[18px] h-[18px] text-cyan-500" strokeWidth={1.8} />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -339,18 +346,18 @@ function ClerkNavbar() {
         {/* Dynamic Notification Bell */}
         <div className="dropdown navbar-notification">
           <button
-            className="btn-icon btn-ghost relative transition-spring hover:scale-105 active:scale-95 cursor-pointer"
+            className="btn-icon btn-ghost relative transition-spring hover:scale-105 active:scale-95 cursor-pointer w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center"
             onClick={() => {
               setNotifOpen(!notifOpen);
               setThemeOpen(false);
               setUserOpen(false);
             }}
           >
-            <Bell className="w-[18px] h-[18px]" strokeWidth={1.3} />
+            <Bell className="w-[18px] h-[18px]" strokeWidth={1.8} />
             {unreadCount > 0 && (
               <>
                 <span className="notification-dot">{unreadCount}</span>
-                <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-rose-550/30 animate-ping pointer-events-none" />
+                <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-rose-500/30 animate-ping pointer-events-none" />
               </>
             )}
           </button>
@@ -360,18 +367,18 @@ function ClerkNavbar() {
 
         <div className="dropdown">
           <div
-            className="navbar-user transition-spring hover:bg-black/5 dark:hover:bg-white/5 rounded-xl px-2 py-1 cursor-pointer"
+            className="navbar-user transition-spring hover:bg-black/5 dark:hover:bg-white/5 rounded-xl p-1 cursor-pointer flex items-center gap-1.5"
             onClick={() => {
               setUserOpen(!userOpen);
               setNotifOpen(false);
               setThemeOpen(false);
             }}
           >
-            <div className="avatar avatar-sm flex items-center justify-center bg-slate-100 text-lg border border-slate-200/50 rounded-full" style={{ overflow: "hidden" }}>
+            <div className="avatar avatar-sm flex items-center justify-center bg-slate-100 dark:bg-neutral-800 text-lg border border-slate-200/50 dark:border-white/10 rounded-full w-8 h-8 shrink-0 overflow-hidden">
               {clerkUser?.imageUrl ? (
                 <img src={clerkUser.imageUrl} alt="Avatar" className="w-full h-full object-cover" />
               ) : (
-                <User className="w-[16px] h-[16px] text-slate-500" strokeWidth={1.3} />
+                <User className="w-[16px] h-[16px] text-slate-500" strokeWidth={1.8} />
               )}
             </div>
             <div className="navbar-user-info hidden sm:block">
@@ -393,7 +400,7 @@ function ClerkNavbar() {
               className="dropdown-item flex items-center gap-2"
               onClick={() => setUserOpen(false)}
             >
-              <User className="w-4 h-4" strokeWidth={1.3} />
+              <User className="w-4 h-4" strokeWidth={1.8} />
               Trang cá nhân
             </Link>
             {clerkUser?.publicMetadata?.role === "admin" && (
@@ -402,7 +409,7 @@ function ClerkNavbar() {
                 className="dropdown-item flex items-center gap-2"
                 onClick={() => setUserOpen(false)}
               >
-                <Shield className="w-4 h-4" strokeWidth={1.3} />
+                <Shield className="w-4 h-4" strokeWidth={1.8} />
                 Quản trị
               </Link>
             )}
@@ -411,7 +418,7 @@ function ClerkNavbar() {
               className="dropdown-item text-error flex items-center gap-2 cursor-pointer"
               onClick={handleLogout}
             >
-              <LogOut className="w-4 h-4" strokeWidth={1.3} />
+              <LogOut className="w-4 h-4" strokeWidth={1.8} />
               Đăng xuất
             </div>
           </div>
@@ -437,26 +444,33 @@ function LocalNavbar() {
   };
 
   return (
-    <div className="top-navbar">
-      <Link href="/" className="navbar-brand">
-        <div className="navbar-logo">🦉</div>
-        <span className="navbar-title">XP English</span>
-      </Link>
+    <div className="top-navbar px-3.5 sm:px-6">
+      <div className="flex items-center gap-2 min-w-0">
+        <button className="navbar-menu-toggle shrink-0" onClick={toggleSidebar}>
+          {sidebarOpen ? (
+            <X className="w-[20px] h-[20px]" strokeWidth={1.8} />
+          ) : (
+            <Menu className="w-[20px] h-[20px]" strokeWidth={1.8} />
+          )}
+        </button>
+        <Link href="/" className="navbar-brand flex items-center gap-2 group min-w-0">
+          <div className="w-9 h-9 rounded-xl bg-slate-50 dark:bg-neutral-900 border border-slate-200/50 dark:border-neutral-800 flex items-center justify-center shadow-sm transform group-hover:scale-105 transition-transform duration-300 shrink-0 overflow-hidden">
+            <img src="/mascot.png" alt="Mascot" className="w-[90%] h-[90%] object-contain" />
+          </div>
+          <div className="text-sm sm:text-base font-black text-slate-900 dark:text-white flex items-center gap-1 truncate">
+            <span className="text-[#0059bb]">XP</span> English
+            <span className="text-amber-500 font-normal hidden min-[380px]:inline">|</span>
+            <span className="text-amber-500 hidden min-[380px]:inline">XP Voca</span>
+          </div>
+        </Link>
+      </div>
 
-      <button className="navbar-menu-toggle" onClick={toggleSidebar}>
-        {sidebarOpen ? (
-          <X className="w-[20px] h-[20px]" strokeWidth={1.3} />
-        ) : (
-          <Menu className="w-[20px] h-[20px]" strokeWidth={1.3} />
-        )}
-      </button>
-
-      <div className="navbar-actions">
+      <div className="navbar-actions flex items-center gap-1 sm:gap-2 shrink-0">
         {/* Dynamic Theme Control Dropdown */}
         <div className="dropdown navbar-theme-control">
           <button
             type="button"
-            className="btn-icon btn-ghost relative transition-spring hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center"
+            className="btn-icon btn-ghost relative transition-spring hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10"
             onClick={() => {
               setThemeOpen(!themeOpen);
               setNotifOpen(false);
@@ -475,7 +489,7 @@ function LocalNavbar() {
                     transition={{ type: "spring", stiffness: 100, damping: 12 }}
                     className="absolute inset-0 flex items-center justify-center"
                   >
-                    <Moon className="w-[18px] h-[18px] text-indigo-400" strokeWidth={1.3} />
+                    <Moon className="w-[18px] h-[18px] text-indigo-400" strokeWidth={1.8} />
                   </motion.div>
                 )}
                 {theme === "light" && (
@@ -487,7 +501,7 @@ function LocalNavbar() {
                     transition={{ type: "spring", stiffness: 100, damping: 12 }}
                     className="absolute inset-0 flex items-center justify-center"
                   >
-                    <Sun className="w-[18px] h-[18px] text-amber-500" strokeWidth={1.3} />
+                    <Sun className="w-[18px] h-[18px] text-amber-500" strokeWidth={1.8} />
                   </motion.div>
                 )}
                 {theme === "system" && (
@@ -499,7 +513,7 @@ function LocalNavbar() {
                     transition={{ type: "spring", stiffness: 100, damping: 12 }}
                     className="absolute inset-0 flex items-center justify-center"
                   >
-                    <Laptop className="w-[18px] h-[18px] text-cyan-500" strokeWidth={1.3} />
+                    <Laptop className="w-[18px] h-[18px] text-cyan-500" strokeWidth={1.8} />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -512,14 +526,14 @@ function LocalNavbar() {
         {/* Dynamic Notification Bell */}
         <div className="dropdown navbar-notification">
           <button
-            className="btn-icon btn-ghost relative transition-spring hover:scale-105 active:scale-95 cursor-pointer"
+            className="btn-icon btn-ghost relative transition-spring hover:scale-105 active:scale-95 cursor-pointer w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center"
             onClick={() => {
               setNotifOpen(!notifOpen);
               setThemeOpen(false);
               setUserOpen(false);
             }}
           >
-            <Bell className="w-[18px] h-[18px]" strokeWidth={1.3} />
+            <Bell className="w-[18px] h-[18px]" strokeWidth={1.8} />
             {unreadCount > 0 && (
               <>
                 <span className="notification-dot">{unreadCount}</span>
@@ -533,18 +547,18 @@ function LocalNavbar() {
 
         <div className="dropdown">
           <div
-            className="navbar-user transition-spring hover:bg-black/5 dark:hover:bg-white/5 rounded-xl px-2 py-1 cursor-pointer"
+            className="navbar-user transition-spring hover:bg-black/5 dark:hover:bg-white/5 rounded-xl p-1 cursor-pointer flex items-center gap-1.5"
             onClick={() => {
               setUserOpen(!userOpen);
               setNotifOpen(false);
               setThemeOpen(false);
             }}
           >
-            <div className="avatar avatar-sm flex items-center justify-center bg-slate-100 text-lg border border-slate-200/50 rounded-full" style={{ overflow: "hidden" }}>
+            <div className="avatar avatar-sm flex items-center justify-center bg-slate-100 dark:bg-neutral-800 text-lg border border-slate-200/50 dark:border-white/10 rounded-full w-8 h-8 shrink-0 overflow-hidden">
               {user?.avatarEmoji ? (
                 <span className="text-lg">{user.avatarEmoji}</span>
               ) : (
-                <User className="w-[16px] h-[16px] text-slate-500" strokeWidth={1.3} />
+                <User className="w-[16px] h-[16px] text-slate-500" strokeWidth={1.8} />
               )}
             </div>
             <div className="navbar-user-info hidden sm:block">
@@ -566,7 +580,7 @@ function LocalNavbar() {
               className="dropdown-item flex items-center gap-2"
               onClick={() => setUserOpen(false)}
             >
-              <User className="w-4 h-4" strokeWidth={1.3} />
+              <User className="w-4 h-4" strokeWidth={1.8} />
               Trang cá nhân
             </Link>
             {user?.email === "vuanhtuanfc@gmail.com" && (
@@ -575,7 +589,7 @@ function LocalNavbar() {
                 className="dropdown-item flex items-center gap-2"
                 onClick={() => setUserOpen(false)}
               >
-                <Shield className="w-4 h-4" strokeWidth={1.3} />
+                <Shield className="w-4 h-4" strokeWidth={1.8} />
                 Quản trị
               </Link>
             )}
@@ -584,7 +598,7 @@ function LocalNavbar() {
               className="dropdown-item text-error flex items-center gap-2 cursor-pointer"
               onClick={handleLogout}
             >
-              <LogOut className="w-4 h-4" strokeWidth={1.3} />
+              <LogOut className="w-4 h-4" strokeWidth={1.8} />
               Đăng xuất
             </div>
           </div>

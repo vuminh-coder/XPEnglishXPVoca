@@ -47,11 +47,19 @@ export default function RightSidebar() {
       const data = await res.json();
       if (data.success) {
         awardXp(10);
-        addToast({ type: "success", title: "Kết bạn thành công!", message: `Đã gửi lời mời đến ${name}. +10 XP` });
+        addToast({
+          type: "success",
+          title: "Kết bạn thành công!",
+          message: `Đã gửi lời mời đến ${name}. +10 XP`,
+        });
         // Remove from current suggested list
         setSuggestedUsers(suggestedUsers.filter((u) => u.id !== friendId));
       } else {
-        addToast({ type: "error", title: "Lỗi", message: data.error || "Không thể gửi kết bạn" });
+        addToast({
+          type: "error",
+          title: "Lỗi",
+          message: data.error || "Không thể gửi kết bạn",
+        });
       }
     } catch (err) {
       console.error("Error connecting with friend on sidebar:", err);
@@ -119,7 +127,11 @@ export default function RightSidebar() {
   ];
 
   const shareProgress = () => {
-    addToast({ type: "success", title: "Đã sao chép!", message: "Liên kết chia sẻ tiến độ học tập đã được sao chép." });
+    addToast({
+      type: "success",
+      title: "Đã sao chép!",
+      message: "Liên kết chia sẻ tiến độ học tập đã được sao chép.",
+    });
     if (typeof navigator !== "undefined") {
       navigator.clipboard.writeText(
         `Tôi đang học từ vựng tiếng Anh trên XP English! Cấp độ hiện tại: Level ${currentUser.level} (${currentUser.title}). Cùng tham gia với tôi nhé!`,
@@ -159,21 +171,22 @@ export default function RightSidebar() {
           </h3>
 
           {/* Level Badge */}
-          <span className="inline-flex items-center gap-1.5 px-3 py-2 bg-cyan-50 dark:bg-cyan-950/30 text-cyan-600 dark:text-cyan-400 border border-cyan-200/50 dark:border-cyan-900/30 rounded-full text-[12px] font-black uppercase tracking-wider mb-5">
+          <span className="inline-flex items-center gap-1.5 px-3 py-2 bg-[#0059bb]/10 dark:bg-sky-950/40 text-[#0059bb] dark:text-sky-300 border border-blue-500/20 rounded-full text-[12px] font-black uppercase tracking-wider mb-5 shadow-xs">
             Cấp độ {currentUser.level} · {currentUser.title}
           </span>
 
           {/* XP Progress Section */}
           <div className="w-full text-left bg-black/[0.015] dark:bg-white/[0.015] p-3.5 rounded-2xl border border-black/[0.03] dark:border-white/[0.03] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
-            <div className="flex justify-between items-center text-[11px] text-slate-500 dark:text-slate-400 mb-2 font-bold uppercase tracking-wider">
+            <div className="flex justify-between items-center text-[11px] text-slate-700 dark:text-slate-300 mb-2 font-black uppercase tracking-wider">
               <span>Đến cấp {currentUser.level + 1}</span>
-              <span className="text-cyan-500 font-black">
+
+              <span className="text-[#0059bb] dark:text-sky-400 font-black">
                 {current}/{total} XP
               </span>
             </div>
-            <div className="h-2 bg-neutral-100 dark:bg-neutral-850 rounded-full overflow-hidden p-[1px] border border-black/5 dark:border-white/5">
+            <div className="h-2.5 bg-slate-200 dark:bg-neutral-850 rounded-full overflow-hidden p-[1px] border border-black/5 dark:border-white/5">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500"
+                className="h-full rounded-full bg-gradient-to-r from-[#0059bb] via-blue-500 to-cyan-400 shadow-sm"
                 style={{
                   width: `${percent}%`,
                   transition: "width 1000ms cubic-bezier(0.32, 0.72, 0, 1)",
@@ -183,11 +196,10 @@ export default function RightSidebar() {
           </div>
 
           <button
-            className="flex items-center justify-center gap-2 w-full mt-5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white rounded-full text-xs font-bold py-2.5 px-4 tactile shadow-md shadow-cyan-500/10"
-            style={{ transition: "all 500ms cubic-bezier(0.32, 0.72, 0, 1)" }}
+            className="flex items-center justify-center gap-2 w-full mt-5 h-11 bg-gradient-to-r from-[#0059bb] via-blue-600 to-indigo-600 hover:opacity-95 text-white rounded-xl text-xs font-black py-0 px-4 shadow-md active:scale-[0.98] transition-transform border border-blue-400/20 cursor-pointer"
             onClick={shareProgress}
           >
-            <Share2 className="w-3.5 h-3.5" strokeWidth={2} /> Chia sẻ tiến độ
+            <Share2 className="w-4 h-4 stroke-[2]" /> Chia sẻ tiến độ
           </button>
         </div>
       </div>
@@ -266,9 +278,9 @@ export default function RightSidebar() {
                       {u.name}
                     </div>
                     <div className="text-[11px] text-muted font-semibold mt-0.5">
-                      <span className="text-cyan-500 font-black">
+                      <p className="text-cyan-500 font-black">
                         Cấp độ {u.level} ·{" "}
-                      </span>
+                      </p>
                       <span className="text-red-500 font-black">XP</span>
                       <span className="text-orange-500 font-black">
                         {" "}

@@ -11,7 +11,7 @@
     rgba(216, 226, 255, 0) 70%
   );
   filter: blur(80px);
-  z-index: 1;
+  z-index: 0;
   animation: morph 12s infinite alternate;
 }
 
@@ -28,7 +28,7 @@
     rgba(235, 221, 255, 0) 70%
   );
   filter: blur(100px);
-  z-index: 1;
+  z-index: 0;
   animation: morph 15s infinite alternate-reverse;
 }
 
@@ -129,13 +129,7 @@
   box-shadow: 0 0 0 4px rgba(0, 89, 187, 0.12);
 }
 
-/* Clerk UI Custom Overrides to hide duplicate titles */
-.cl-header,
-.cl-headerTitle,
-.cl-headerSubtitle {
-  display: none !important;
-}
-
+/* Clerk UI Custom Overrides */
 .cl-rootBox,
 .cl-cardBox {
   width: 100% !important;
@@ -183,3 +177,277 @@
     margin: 0 !important;
   }
 }
+
+/* Custom mobile locked layouts (Cases 1 & 2) */
+.mobile-locked-container {
+  overscroll-behavior: none !important;
+  overscroll-behavior-y: none !important;
+}
+
+/* Height-based media query for screens with height <= 700px (iPhone SE, etc - Case 6) */
+@media (max-height: 700px) {
+  .brand-container {
+    gap: 0.5rem !important;
+  }
+  .brand-container h1 {
+    font-size: 0.9rem !important;
+  }
+  .brand-container h2 {
+    font-size: 1.25rem !important;
+  }
+  .cl-card {
+    margin-top: -0.75rem !important;
+  }
+}
+
+/* Case 35: Tactile click feedback for Clerk buttons and social login links */
+.cl-formButtonPrimary:active,
+.cl-socialButtonsBlockButton:active {
+  transform: scale(0.97) translateY(1px) !important;
+  transition: transform 0.08s ease !important;
+}
+
+/* Case 87 & 100: Highlight fields with validation errors */
+.cl-formFieldInput[aria-invalid="true"] {
+  border-color: #ef4444 !important;
+  background-color: #fef2f2 !important;
+}
+
+/* Cases 11, 12, 14, 15, 17: Style & Position "Last used" badge inside the button */
+.cl-badge,
+.cl-badgeBox {
+  position: absolute !important;
+  top: 50% !important;
+  right: 12px !important;
+  transform: translateY(-50%) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background-color: #e0e7ff !important;
+  color: #4f46e5 !important;
+  border: 1px solid #c7d2fe !important;
+  border-radius: 9999px !important;
+  padding: 2.5px 8px !important;
+  font-size: 8px !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  pointer-events: none !important;
+  box-shadow: 0 1px 2px rgba(79, 70, 229, 0.05) !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  z-index: 2 !important;
+}
+
+/* Ensure Google button acts as the bounding container for the badge */
+.cl-socialButtonsBlockButton {
+  position: relative !important;
+}
+
+/* Mobile-specific UI refinements (Only for mobile/tablet devices) */
+@media (max-width: 1024px) {
+  /* Standardize height for all inputs and buttons to ensure visual balance (iOS 44px Touch target) */
+  .cl-formFieldInput {
+    height: 44px !important;
+  }
+  .cl-formButtonPrimary {
+    height: 44px !important;
+  }
+
+  /* Keep label row horizontal: label wraps on left, action stays on right */
+  .cl-formFieldLabelRow {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+  }
+  .cl-formFieldLabel {
+    flex: 1 !important;
+    min-width: 0 !important;
+    letter-spacing: 0.02em !important;
+  }
+  .cl-formFieldAction {
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+  }
+
+  /* Center and align Clerk's social button row on Register */
+  .cl-socialButtons {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 12px !important;
+    width: 100% !important;
+    margin: 12px auto 16px auto !important;
+  }
+
+  /* Style the social icon buttons (Google, Apple, Facebook) with border and correct proportions */
+  .cl-socialButtonsIconButton {
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+    background-color: #ffffff !important;
+    border-radius: 12px !important;
+    height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s ease !important;
+    margin: 0 !important;
+    flex: none !important;
+  }
+  .cl-socialButtonsIconButton:hover {
+    background-color: #f8fafc !important;
+    border-color: #94a3b8 !important;
+  }
+  .cl-socialButtonsIconButton:active {
+    transform: scale(0.95) !important;
+  }
+
+  /* Make Google a full-width block button at the top row */
+  .cl-socialButtonsIconButton__google {
+    width: 100% !important;
+    order: -1 !important;
+  }
+
+  /* Append text to make Google look like a block button with text */
+  .cl-socialButtonsIconButton__google::after {
+    content: "Tiếp tục với Google" !important;
+    margin-left: 8px !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    color: #475569 !important;
+  }
+
+  /* Hide "Tiếp tục với Google" text when "Lần sử dụng cuối cùng" badge is present */
+  .cl-socialButtonsIconButton__google:has(.cl-badge)::after,
+  .cl-socialButtonsIconButton__google:has(.cl-badgeBox)::after,
+  .cl-socialButtonsBlockButton:has(.cl-badge) .cl-socialButtonsBlockButtonText,
+  .cl-socialButtonsBlockButton:has(.cl-badgeBox) .cl-socialButtonsBlockButtonText {
+    display: none !important;
+  }
+
+  /* Make Apple and Facebook buttons sit side-by-side in the second row, taking 50% width each */
+  .cl-socialButtonsIconButton__apple,
+  .cl-socialButtonsIconButton__facebook {
+    width: calc(50% - 6px) !important;
+    order: 1 !important;
+  }
+
+  /* Balanced icon size inside button */
+  .cl-socialButtonsIconButton svg,
+  .cl-socialButtonsIconButton img {
+    width: 18px !important;
+    height: 18px !important;
+    display: block !important;
+    object-fit: contain !important;
+  }
+
+  /* Globally remove border and shadow from Clerk wrapper components on mobile */
+  .cl-card,
+  .cl-cardBox,
+  .cl-rootBox {
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Hide Clerk duplicate header, footer action links, and development watermarks on mobile */
+  .cl-header,
+  .cl-card__footer,
+  .cl-footerAction,
+  .cl-footerActionText,
+  .cl-footerActionLink,
+  .cl-footer {
+    display: none !important;
+  }
+
+  /* Set full page background and card background to white on mobile for a seamless flat app look */
+  .mobile-locked-container,
+  main,
+  .cl-card {
+    background-color: #ffffff !important;
+    background-image: none !important;
+  }
+  .cl-card {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 24px 16px !important;
+  }
+  /* Hide the blobs on mobile to prevent clutter */
+  .bg-blob-1,
+  .bg-blob-2 {
+    display: none !important;
+  }
+}
+
+/* Suppress Clerk watermark logos, "Secured by Clerk", and "Development mode" badges everywhere */
+.cl-footer__logo,
+.cl-internal-b384ic,
+.cl-internal-18090x4,
+.cl-internal-1dau4k,
+.cl-dev-mode,
+.cl-internal-b384ic,
+.cl-userButtonPopoverFooter {
+  display: none !important;
+}
+
+/* Hide any footer child that is NOT footerAction (keeps the 'Already have an account? Sign in' link clean) */
+.cl-footer > *:not(.cl-footerAction) {
+  display: none !important;
+}
+
+/* Desktop layout optimizations (min-width: 1024px) */
+@media (min-width: 1024px) {
+  .cl-header {
+    display: block !important;
+    text-align: center !important;
+    margin-bottom: 0.5rem !important;
+  }
+  .cl-headerTitle {
+    display: block !important;
+    font-size: 1.25rem !important;
+    font-weight: 900 !important;
+    color: #0f172a !important;
+    margin-bottom: 0.15rem !important;
+  }
+  .cl-headerSubtitle {
+    display: block !important;
+    font-size: 0.8125rem !important;
+    font-weight: 600 !important;
+    color: #64748b !important;
+    margin-bottom: 0.25rem !important;
+  }
+  .cl-formField {
+    margin-bottom: 0.4rem !important;
+  }
+  .cl-formFieldLabel {
+    margin-bottom: 0.2rem !important;
+  }
+  .cl-formFieldInput {
+    height: 44px !important;
+  }
+  .cl-card {
+    min-height: auto !important;
+    padding: 24px 28px 20px 28px !important;
+    border-radius: 1.25rem !important;
+    box-shadow: 0 20px 40px -10px rgba(0, 89, 187, 0.08), 0 0 1px 1px rgba(0, 89, 187, 0.08) !important;
+  }
+  .cl-footer {
+    margin-top: 0.75rem !important;
+    padding-top: 0.75rem !important;
+    border-top: 1px solid rgba(226, 232, 240, 0.9) !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+  .cl-footerActionText {
+    font-size: 0.8125rem !important;
+    font-weight: 600 !important;
+    color: #475569 !important;
+  }
+  .cl-footerActionLink {
+    font-size: 0.8125rem !important;
+    font-weight: 800 !important;
+    color: #0059bb !important;
+  }
+}
+

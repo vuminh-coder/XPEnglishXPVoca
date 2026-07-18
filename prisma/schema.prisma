@@ -40,6 +40,9 @@ model Profile {
   studyPlan           StudyPlan?
   matchHistories      MatchHistory[]
   grammarProgress     GrammarProgress[]
+  createdStudyRooms   StudyRoom[]      @relation("CreatedStudyRooms")
+  studyRoomMemberships StudyRoomMember[]
+  roomMessages        RoomMessage[]
 
   @@map("profiles")
 }
@@ -379,4 +382,50 @@ model PurchaseLog {
 
   @@index([userId])
   @@map("purchase_logs")
+}
+
+// === STUDY ROOMS 2.0 ===
+
+model StudyRoom {
+  id          String            @id @default(uuid())
+  name        String            @db.VarChar(255)
+  description String            @db.Text
+  category    String            @db.VarChar(100) // "TOEIC", "IELTS", "General"
+  accentColor String            @default("indigo") @map("accent_color") @db.VarChar(50)
+  maxMembers  Int               @default(20) @map("max_members")
+  isPrivate   Boolean           @default(false) @map("is_private")
+  passcode    String?           @db.VarChar(50)
+  createdById String            @map("created_by_id") @db.VarChar(255)
+  createdAt   DateTime          @default(now()) @map("created_at")
+  creator     Profile           @relation("CreatedStudyRooms", fields: [createdById], references: [id], onDelete: Cascade)
+  messages    RoomMessage[]
+  members     StudyRoomMember[]
+
+  @@map("study_rooms")
+}
+
+model StudyRoomMember {
+  roomId   String    @map("room_id") @db.VarChar(255)
+  userId   String    @map("user_id") @db.VarChar(255)
+  joinedAt DateTime  @default(now()) @map("joined_at")
+  status   String    @default("FOCUSING") @db.VarChar(50) // "FOCUSING", "BREAK", "IDLE"
+  room     StudyRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  user     Profile   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([roomId, userId])
+  @@map("study_room_members")
+}
+
+model RoomMessage {
+  id        String    @id @default(uuid())
+  roomId    String    @map("room_id") @db.VarChar(255)
+  userId    String?   @map("user_id") @db.VarChar(255)
+  content   String    @db.Text
+  isAi      Boolean   @default(false) @map("is_ai")
+  isSystem  Boolean   @default(false) @map("is_system")
+  createdAt DateTime  @default(now()) @map("created_at")
+  room      StudyRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  user      Profile?  @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("room_messages")
 }

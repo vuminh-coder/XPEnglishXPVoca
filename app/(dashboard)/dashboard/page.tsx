@@ -155,20 +155,6 @@ export default function DashboardPage() {
     return calendar;
   }, [user]);
 
-  if (!user) return null;
-
-  const vocabPercent = Math.min(
-    100,
-    Math.round((user.wordsLearned / 3903) * 100),
-  );
-  const { percent: xpPercent } = getXpProgress(user.level, user.totalXp);
-  const studyPercent = Math.min(
-    100,
-    Math.round((user.minutesStudied / 15) * 100),
-  );
-  const completedChallenges = challenges.filter((c) => c.isCompleted).length;
-  const remainingWords = Math.max(0, 10 - wordsPracticedToday);
-
   // Real weekly XP computation
   const weeklyXp = useMemo(() => {
     const today = new Date();
@@ -179,7 +165,7 @@ export default function DashboardPage() {
 
     // Load real daily XP mapping
     let dailyXpMap: Record<string, number> = {};
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && user) {
       try {
         const stored = localStorage.getItem(`xp_voca_daily_xp_${user.id}`);
         dailyXpMap = stored ? JSON.parse(stored) : {};
@@ -196,8 +182,6 @@ export default function DashboardPage() {
     });
   }, [user]);
 
-  const maxWeeklyXp = Math.max(...weeklyXp.map((d) => d.xp), 1);
-
   const weekDays = useMemo(() => {
     const today = new Date();
     const currentDayOfWeek = today.getDay();
@@ -207,7 +191,7 @@ export default function DashboardPage() {
 
     // Load real active dates
     let activeDates: string[] = [];
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && user) {
       try {
         const stored = localStorage.getItem(`xp_voca_active_dates_${user.id}`);
         activeDates = stored ? JSON.parse(stored) : [];
@@ -239,6 +223,22 @@ export default function DashboardPage() {
       return { day: label, status };
     });
   }, [user]);
+
+  if (!user) return null;
+
+  const vocabPercent = Math.min(
+    100,
+    Math.round((user.wordsLearned / 3903) * 100),
+  );
+  const { percent: xpPercent } = getXpProgress(user.level, user.totalXp);
+  const studyPercent = Math.min(
+    100,
+    Math.round((user.minutesStudied / 15) * 100),
+  );
+  const completedChallenges = challenges.filter((c) => c.isCompleted).length;
+  const remainingWords = Math.max(0, 10 - wordsPracticedToday);
+
+  const maxWeeklyXp = Math.max(...weeklyXp.map((d) => d.xp), 1);
 
   const quickActions = [
     {
@@ -339,21 +339,30 @@ export default function DashboardPage() {
 
   return (
     <div
-      className="space-y-6 md:space-y-8 pb-20 md:pb-6 px-1 md:px-0"
+      className="space-y-6 md:space-y-8 pb-24 md:pb-8 px-1 md:px-0 relative"
       suppressHydrationWarning
     >
-      {/* 1. Header Row */}
+      {/* Mobile Landscape Orientation Overlay */}
+      <div className="hidden max-lg:landscape:flex fixed inset-0 bg-[#f0f4f8] dark:bg-neutral-950 z-50 flex-col items-center justify-center p-6 text-center select-none" aria-hidden="true">
+        <div className="w-16 h-16 rounded-2xl bg-slate-50 dark:bg-neutral-900 border border-slate-200/50 dark:border-neutral-800 flex items-center justify-center text-blue-600 animate-bounce mb-3 overflow-hidden">
+          <img src="/mascot.png" alt="Mascot" className="w-[90%] h-[90%] object-contain" />
+        </div>
+        <h3 className="text-sm font-black text-slate-900 dark:text-white font-display">Vui lòng xoay dọc điện thoại</h3>
+        <p className="text-xs font-semibold text-slate-700 dark:text-slate-300 mt-1">XP English | XP Voca hoạt động tốt nhất ở chế độ màn hình dọc.</p>
+      </div>
+
+      {/* 1. Header Row with Official Owl Logo */}
       <motion.div
         initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 90, damping: 15 }}
-        className="flex flex-col md:flex-row md:items-center md:justify-between gap-3.5"
+        className="flex flex-col md:flex-row md:items-center md:justify-between gap-3.5 border-b border-slate-200/60 dark:border-neutral-800 pb-4"
       >
-        <div>
+        <div className="space-y-1">
           <h1 className="text-xl md:text-3xl font-black tracking-tight text-slate-900 dark:text-white font-display">
             Trang chủ học tập
           </h1>
-          <p className="text-[11px] md:text-sm text-slate-500 dark:text-slate-400 mt-0.5 font-medium">
+          <p className="text-xs md:text-sm font-semibold text-slate-700 dark:text-slate-300">
             Lộ trình học từ vựng tiếng Anh thông minh và theo sát mục tiêu mỗi
             ngày.
           </p>
@@ -361,12 +370,10 @@ export default function DashboardPage() {
         <Link href="/profile" className="self-start md:self-auto">
           <Button
             variant="secondary"
-            size="sm"
-            className="text-xs font-bold py-1.5 px-3"
+            className="h-10 px-4 text-xs font-black rounded-xl active:scale-[0.98] transition-all border border-amber-500/30 hover:border-amber-500/60 text-slate-900 dark:text-white shadow-sm flex items-center gap-2"
             leftIcon={
               <Trophy
-                className="w-3.5 h-3.5 text-amber-500"
-                strokeWidth={1.3}
+                className="w-4 h-4 text-amber-500 stroke-[2]"
               />
             }
           >
@@ -385,22 +392,22 @@ export default function DashboardPage() {
         {/* ROW 1: Learning Path (2 cols) & Streak Tracker (1 col) */}
         <motion.div variants={itemVariants} className="lg:col-span-2">
           <div className="bezel h-full">
-            <div className="bezel-inner p-4 sm:p-5 md:p-6 bg-gradient-to-br from-cyan-500/10 via-sky-500/5 to-violet-500/10 h-full flex flex-col justify-between min-h-[160px]">
+            <div className="bezel-inner p-4 sm:p-5 md:p-6 bg-gradient-to-br from-[#0059bb]/10 via-sky-500/10 to-amber-500/10 h-full flex flex-col justify-between min-h-[170px] border border-blue-500/10">
               <div>
                 <div className="mb-2">
                   <Badge
                     variant="primary"
-                    className="gap-1 bg-white/40 border-white/60 dark:bg-neutral-900/30 dark:border-white/10 text-[9px] py-0.5 px-2"
+                    className="gap-1.5 bg-white/80 border-blue-500/30 dark:bg-neutral-900/80 dark:border-white/10 text-xs font-black text-[#0059bb] dark:text-blue-400 py-1 px-2.5 shadow-sm"
                   >
-                    <Sparkles className="h-3 w-3 text-purple-600 dark:text-purple-400" />
+                    <Sparkles className="h-3.5 w-3.5 text-amber-500 fill-amber-500/20" />
                     Lộ trình hôm nay
                   </Badge>
                 </div>
                 <h2 className="text-base md:text-xl font-black tracking-tight text-slate-900 dark:text-white font-display">
                   {currentTask || "Unit 5: Office & Work Communications"}
                 </h2>
-                <p className="mt-1.5 text-xs text-slate-600 dark:text-slate-350 leading-relaxed font-medium">
-                  Hãy học thêm {remainingWords} từ vựng mới để hoàn thành mục
+                <p className="mt-1.5 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 leading-relaxed">
+                  Hãy học thêm <span className="text-[#0059bb] dark:text-sky-400 font-extrabold">{remainingWords} từ vựng mới</span> để hoàn thành mục
                   tiêu ngày hôm nay.
                 </p>
               </div>
@@ -408,17 +415,16 @@ export default function DashboardPage() {
                 <Link href="/study/practice" className="w-full sm:w-auto">
                   <Button
                     variant="primary"
-                    size="sm"
-                    className="w-full sm:w-auto font-bold text-xs"
+                    className="w-full sm:w-auto h-11 sm:h-12 px-5 font-black text-xs sm:text-sm rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#0059bb] via-blue-600 to-indigo-600 hover:opacity-95 text-white shadow-md active:scale-[0.98] transition-transform flex items-center justify-center gap-2 border border-blue-400/20"
                     rightIcon={
-                      <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.3} />
+                      <ArrowRight className="w-4 h-4 stroke-[2.5]" />
                     }
                   >
                     Bắt đầu học ngay
                   </Button>
                 </Link>
-                <span className="text-[10px] text-slate-450 dark:text-slate-500 font-extrabold uppercase tracking-wider text-center sm:text-right">
-                  Tiến trình: {10 - remainingWords} / 10 từ
+                <span className="text-xs font-black text-slate-700 dark:text-slate-300 uppercase tracking-wider text-center sm:text-right">
+                  Tiến trình: <span className="text-[#0059bb] dark:text-sky-400 font-black">{10 - remainingWords}</span> / 10 từ
                 </span>
               </div>
             </div>
@@ -429,12 +435,11 @@ export default function DashboardPage() {
           <div className="bezel h-full">
             <div className="bezel-inner p-4 sm:p-5 md:p-6 bg-white dark:bg-neutral-900 h-full flex flex-col justify-between">
               <div className="flex justify-between items-start">
-                <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                <span className="text-xs font-black uppercase tracking-wider text-[#0059bb] dark:text-sky-400">
                   Streak của bạn
                 </span>
                 <Flame
-                  className="h-5 w-5 text-amber-500 animate-pulse"
-                  strokeWidth={1.3}
+                  className="h-5 w-5 text-amber-500 animate-pulse stroke-[2]"
                 />
               </div>
               <div className="text-center my-1.5">
@@ -449,18 +454,18 @@ export default function DashboardPage() {
                     key={i}
                     className="flex-1 flex flex-col items-center gap-1"
                   >
-                    <span className="text-[8px] font-bold text-slate-400">
+                    <span className="text-[10px] font-extrabold text-slate-700 dark:text-slate-300">
                       {wd.day}
                     </span>
                     <div
-                      className={`w-6.5 h-6.5 rounded-lg flex items-center justify-center text-xs font-black transition-all ${
+                      className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black transition-all ${
                         wd.status === "learned"
                           ? "bg-amber-500 text-white shadow-sm"
                           : wd.status === "current"
                             ? "bg-gradient-to-r from-amber-400 to-orange-500 text-white animate-bounce shadow-md"
                             : wd.status === "missed"
                               ? "bg-rose-500/10 text-rose-500 dark:bg-rose-500/20 dark:text-rose-400"
-                              : "bg-slate-200 text-slate-400 dark:bg-neutral-800 dark:text-neutral-550"
+                              : "bg-slate-200 text-slate-500 dark:bg-neutral-800 dark:text-neutral-400 font-extrabold"
                       }`}
                     >
                       {wd.status === "learned"
@@ -483,8 +488,7 @@ export default function DashboardPage() {
               <div className="flex items-center justify-between border-b border-slate-100 dark:border-neutral-850 pb-2">
                 <div className="flex items-center gap-2">
                   <Target
-                    className="h-4.5 w-4.5 text-purple-500"
-                    strokeWidth={1.3}
+                    className="h-4.5 w-4.5 text-[#0059bb] dark:text-sky-400 stroke-[2]"
                   />
                   <h2 className="text-sm font-black text-slate-900 dark:text-white font-display">
                     Nhiệm vụ hôm nay
@@ -492,7 +496,7 @@ export default function DashboardPage() {
                 </div>
                 <Badge
                   variant="primary"
-                  className="font-bold text-[9px] py-0.5 px-2"
+                  className="font-extrabold text-xs py-0.5 px-2.5"
                 >
                   Hoàn thành {completedChallenges}/{challenges.length}
                 </Badge>
@@ -506,37 +510,37 @@ export default function DashboardPage() {
                   return (
                     <div
                       key={ch.id}
-                      className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-2xl bg-slate-50/50 dark:bg-neutral-900/30 border border-slate-200/40 dark:border-neutral-800/40"
+                      className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-2xl bg-slate-50/80 dark:bg-neutral-900/50 border border-slate-200/60 dark:border-neutral-800/60 shadow-sm"
                     >
-                      <div className="flex items-center gap-3">
-                        <span className="text-xl w-8 h-8 rounded-lg bg-white dark:bg-neutral-850 border border-black/5 dark:border-white/5 flex items-center justify-center shadow-sm shrink-0">
+                      <div className="flex items-center gap-3 min-w-0">
+                        <span className="text-xl w-9 h-9 rounded-xl bg-white dark:bg-neutral-850 border border-slate-200/60 dark:border-white/10 flex items-center justify-center shadow-sm shrink-0">
                           {ch.icon}
                         </span>
-                        <div className="min-w-0">
+                        <div className="min-w-0 flex-1">
                           <h3
-                            className={`text-xs font-black ${
+                            className={`text-xs sm:text-sm font-black ${
                               isClaimed
                                 ? "text-slate-400 dark:text-slate-500 line-through opacity-70"
-                                : "text-slate-800 dark:text-slate-200"
+                                : "text-slate-900 dark:text-white"
                             }`}
                           >
                             {ch.title}
                           </h3>
-                          <p className="text-[10px] text-slate-400 dark:text-slate-500 font-semibold truncate max-w-[200px] sm:max-w-none">
+                          <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">
                             {ch.description}
                           </p>
                         </div>
                       </div>
 
-                      <div className="flex items-center justify-between sm:justify-end gap-3.5 border-t border-dashed border-slate-200/60 dark:border-neutral-800/60 pt-2 sm:pt-0 sm:border-0 w-full sm:w-auto">
+                      <div className="flex items-center justify-between sm:justify-end gap-3 border-t border-dashed border-slate-200/80 dark:border-neutral-800/80 pt-2 sm:pt-0 sm:border-0 w-full sm:w-auto shrink-0">
                         <div className="text-left sm:text-right">
-                          <span className="text-[9px] font-black text-slate-455">
-                            Tiến trình: {ch.progress} / {ch.target}
+                          <span className="text-xs font-extrabold text-slate-700 dark:text-slate-300">
+                            Tiến trình: <span className="text-[#0059bb] dark:text-sky-400 font-black">{ch.progress}</span> / {ch.target}
                           </span>
-                          <div className="h-1 w-20 rounded-full bg-slate-200 dark:bg-neutral-800 overflow-hidden mt-1">
+                          <div className="h-1.5 w-24 sm:w-28 rounded-full bg-slate-200 dark:bg-neutral-800 overflow-hidden mt-1">
                             <div
                               className={`h-full rounded-full transition-all duration-500 ${
-                                isClaimed ? "bg-emerald-500" : "bg-purple-500"
+                                isClaimed ? "bg-emerald-500" : "bg-gradient-to-r from-[#0059bb] to-indigo-600"
                               }`}
                               style={{
                                 width: `${Math.min(100, (ch.progress / ch.target) * 100)}%`,
@@ -545,12 +549,12 @@ export default function DashboardPage() {
                           </div>
                         </div>
 
-                        <div className="w-20 flex justify-end">
+                        <div className="w-auto sm:w-28 flex justify-end shrink-0">
                           {hasReachedGoal ? (
                             isClaimed ? (
                               <Badge
                                 variant="success"
-                                className="font-bold text-[9px] py-0.5 px-2"
+                                className="font-extrabold text-xs py-1 px-3 shadow-sm whitespace-nowrap"
                               >
                                 ĐÃ NHẬN
                               </Badge>
@@ -563,15 +567,15 @@ export default function DashboardPage() {
                                     ch.coinReward,
                                   )
                                 }
-                                className="w-full py-1 text-center text-[9px] font-black bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-lg shadow-sm animate-pulse tracking-wider uppercase cursor-pointer"
+                                className="px-3.5 h-9 text-center text-xs font-black bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:opacity-95 text-white rounded-xl shadow-md active:scale-[0.98] transition-transform uppercase tracking-wider cursor-pointer border border-emerald-400/30 whitespace-nowrap"
                               >
-                                Nhận
+                                Nhận +{ch.xpReward} XP
                               </button>
                             )
                           ) : (
                             <Badge
                               variant="neutral"
-                              className="text-[9px] font-bold py-0.5 px-2"
+                              className="text-xs font-black py-1 px-3 whitespace-nowrap"
                             >
                               CHƯA XONG
                             </Badge>
@@ -590,70 +594,70 @@ export default function DashboardPage() {
           <div className="bezel h-full">
             <div className="bezel-inner p-4 sm:p-5 md:p-6 bg-white dark:bg-neutral-900 space-y-4 h-full flex flex-col justify-between">
               <div>
-                <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 block border-b border-slate-100 dark:border-neutral-850 pb-2">
+                <span className="text-xs font-black uppercase tracking-wider text-[#0059bb] dark:text-sky-400 block border-b border-slate-100 dark:border-neutral-850 pb-2">
                   Chỉ số tổng quan
                 </span>
 
                 <div className="space-y-3.5 mt-3">
                   <div className="flex items-center justify-between gap-3">
                     <div className="flex items-center gap-2">
-                      <div className="w-7 h-7 rounded-lg text-sky-500 bg-sky-50 dark:bg-sky-950/30 flex items-center justify-center">
-                        <BookOpen className="h-3.5 w-3.5" strokeWidth={1.3} />
+                      <div className="w-8 h-8 rounded-xl text-sky-600 bg-sky-500/10 border border-sky-500/20 flex items-center justify-center">
+                        <BookOpen className="h-4 w-4 stroke-[2]" />
                       </div>
-                      <span className="text-[11px] sm:text-xs font-bold text-slate-700 dark:text-slate-350">
+                      <span className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200">
                         Từ đã học
                       </span>
                     </div>
-                    <span className="text-[11px] sm:text-xs font-black text-slate-900 dark:text-white font-display">
+                    <span className="text-xs sm:text-sm font-black text-slate-900 dark:text-white font-display">
                       {user.wordsLearned}/3903 ({vocabPercent}%)
                     </span>
                   </div>
 
                   <div className="flex items-center justify-between gap-3">
                     <div className="flex items-center gap-2">
-                      <div className="w-7 h-7 rounded-lg text-amber-500 bg-amber-50 dark:bg-amber-950/30 flex items-center justify-center">
-                        <Zap className="h-3.5 w-3.5" strokeWidth={1.3} />
+                      <div className="w-8 h-8 rounded-xl text-amber-600 bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
+                        <Zap className="h-4 w-4 stroke-[2]" />
                       </div>
-                      <span className="text-[11px] sm:text-xs font-bold text-slate-700 dark:text-slate-350">
+                      <span className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200">
                         Kinh nghiệm
                       </span>
                     </div>
-                    <span className="text-[11px] sm:text-xs font-black text-slate-900 dark:text-white font-display">
+                    <span className="text-xs sm:text-sm font-black text-slate-900 dark:text-white font-display">
                       {user.totalXp} XP (LV {user.level})
                     </span>
                   </div>
 
                   <div className="flex items-center justify-between gap-3">
                     <div className="flex items-center gap-2">
-                      <div className="w-7 h-7 rounded-lg text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 flex items-center justify-center">
-                        <Clock className="h-3.5 w-3.5" strokeWidth={1.3} />
+                      <div className="w-8 h-8 rounded-xl text-emerald-600 bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                        <Clock className="h-4 w-4 stroke-[2]" />
                       </div>
-                      <span className="text-[11px] sm:text-xs font-bold text-slate-700 dark:text-slate-350">
-                        Thời gian
+                      <span className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200">
+                        Thời gian học
                       </span>
                     </div>
-                    <span className="text-[11px] sm:text-xs font-black text-slate-900 dark:text-white font-display">
+                    <span className="text-xs sm:text-sm font-black text-slate-900 dark:text-white font-display">
                       {user.minutesStudied}m ({studyPercent}%)
                     </span>
                   </div>
 
                   <div className="flex items-center justify-between gap-3">
                     <div className="flex items-center gap-2">
-                      <div className="w-7 h-7 rounded-lg text-yellow-500 bg-yellow-50 dark:bg-yellow-950/30 flex items-center justify-center">
-                        <Coins className="h-3.5 w-3.5" strokeWidth={1.3} />
+                      <div className="w-8 h-8 rounded-xl text-yellow-600 bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center">
+                        <Coins className="h-4 w-4 stroke-[2]" />
                       </div>
-                      <span className="text-[11px] sm:text-xs font-bold text-slate-700 dark:text-slate-350">
-                        Cửa hàng vàng
+                      <span className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200">
+                        Kho Vàng
                       </span>
                     </div>
-                    <span className="text-[11px] sm:text-xs font-black text-slate-900 dark:text-white font-display font-sans">
+                    <span className="text-xs sm:text-sm font-black text-amber-600 dark:text-amber-400 font-display">
                       {user.coins ?? 0} Vàng
                     </span>
                   </div>
                 </div>
               </div>
-              <div className="text-[9px] text-slate-450 dark:text-slate-500 font-bold uppercase tracking-wider text-center pt-2 border-t border-slate-100 dark:border-neutral-850 mt-3">
-                Cập nhật liên tục
+              <div className="text-xs text-slate-600 dark:text-slate-400 font-extrabold uppercase tracking-wider text-center pt-2 border-t border-slate-100 dark:border-neutral-850 mt-3">
+                Cập nhật tự động ⚡
               </div>
             </div>
           </div>
@@ -664,36 +668,34 @@ export default function DashboardPage() {
           <div className="bezel h-full">
             <div className="bezel-inner p-4 sm:p-5 md:p-6 bg-white dark:bg-neutral-900 h-full flex flex-col justify-between">
               <form onSubmit={handleQuickAskSubmit} className="space-y-3">
-                <h3 className="text-[10px] font-black uppercase tracking-wider text-slate-455 flex items-center gap-1.5 border-b border-slate-100 dark:border-neutral-850 pb-2">
-                  <Bot className="h-4 w-4 text-cyan-500" strokeWidth={1.3} />{" "}
+                <h3 className="text-xs font-black uppercase tracking-wider text-[#0059bb] dark:text-sky-400 flex items-center gap-2 border-b border-slate-100 dark:border-neutral-850 pb-2">
+                  <Bot className="h-4.5 w-4.5 text-cyan-600 dark:text-cyan-400 stroke-[2]" />{" "}
                   Hỏi đáp nhanh cùng AI Tutor
                 </h3>
                 <div className="space-y-1.5">
-                  <label className="text-[9px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                    Giải đáp câu hỏi ngữ pháp hoặc từ vựng
+                  <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                    Giải đáp câu hỏi ngữ pháp hoặc từ vựng tiếng Anh
                   </label>
                   <div className="flex gap-2">
                     <input
                       type="text"
-                      className="w-full py-2 px-3 text-xs font-bold rounded-xl bg-neutral-50/60 dark:bg-neutral-900/40 border border-black/10 dark:border-white/10 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
+                      className="w-full h-11 px-4 text-xs sm:text-sm font-semibold rounded-xl bg-slate-50 dark:bg-neutral-900/60 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-blue-500/20 transition-all"
                       placeholder="Ví dụ: Phân biệt 'make' và 'do'?"
                       value={aiQuestion}
                       onChange={(e) => setAiQuestion(e.target.value)}
                     />
                     <Button
                       variant="primary"
-                      size="sm"
                       type="submit"
                       disabled={isAiLoading || !aiQuestion.trim()}
-                      className="px-3 font-bold flex items-center gap-1 text-xs shrink-0"
+                      className="h-11 px-4 font-black flex items-center gap-1.5 text-xs rounded-xl bg-gradient-to-r from-[#0059bb] to-blue-600 hover:opacity-95 text-white shadow-md shrink-0 active:scale-[0.98] transition-transform"
                     >
                       {isAiLoading ? (
                         <Loader2
-                          className="h-3.5 w-3.5 animate-spin"
-                          strokeWidth={1.3}
+                          className="h-4 w-4 animate-spin stroke-[2]"
                         />
                       ) : (
-                        <Send className="h-3.5 w-3.5" strokeWidth={1.3} />
+                        <Send className="h-4 w-4 stroke-[2]" />
                       )}
                     </Button>
                   </div>
@@ -706,10 +708,10 @@ export default function DashboardPage() {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="mt-3 bg-slate-50 dark:bg-neutral-950 p-3 rounded-xl border border-slate-100 dark:border-neutral-850 text-xs font-medium text-slate-650 dark:text-slate-350 leading-relaxed overflow-hidden"
+                    className="mt-3 bg-slate-50 dark:bg-neutral-950 p-3.5 rounded-xl border border-slate-200/80 dark:border-neutral-800 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 leading-relaxed overflow-hidden shadow-inner"
                   >
-                    <span className="font-extrabold text-cyan-600 dark:text-cyan-400 block mb-1 text-[10px] uppercase tracking-wide">
-                      Giải đáp từ AI Tutor:
+                    <span className="font-black text-[#0059bb] dark:text-cyan-400 block mb-1 text-xs uppercase tracking-wide">
+                      🤖 Giải đáp từ AI Tutor:
                     </span>
                     {aiAnswer}
                   </motion.div>
@@ -721,21 +723,21 @@ export default function DashboardPage() {
 
         <motion.div variants={itemVariants} className="lg:col-span-1">
           <div className="bezel h-full">
-            <div className="bezel-inner p-4 sm:p-5 md:p-6 bg-white dark:bg-neutral-900 h-full flex flex-col justify-between min-h-[140px]">
+            <div className="bezel-inner p-4 sm:p-5 md:p-6 bg-white dark:bg-neutral-900 h-full flex flex-col justify-between min-h-[150px]">
               <div className="flex items-center justify-between border-b border-slate-100 dark:border-neutral-850 pb-2">
-                <span className="text-[10px] font-black uppercase tracking-wider text-slate-455">
+                <span className="text-xs font-black uppercase tracking-wider text-slate-900 dark:text-white">
                   Đấu trường PvP
                 </span>
-                <span className="flex items-center gap-1.5 text-[10px] font-extrabold text-emerald-500">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />{" "}
+                <span className="flex items-center gap-1.5 text-xs font-extrabold text-emerald-600 dark:text-emerald-400">
+                  <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />{" "}
                   14 Online
                 </span>
               </div>
               <div className="py-2.5">
-                <h3 className="text-xs font-black text-slate-900 dark:text-white font-display">
+                <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white font-display">
                   So tài từ vựng PvP
                 </h3>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                <p className="text-xs font-semibold text-slate-700 dark:text-slate-300 mt-1 leading-relaxed">
                   Thi đấu PvP thời gian thực cùng bạn học toàn quốc để tích lũy
                   điểm kinh nghiệm.
                 </p>
@@ -744,11 +746,9 @@ export default function DashboardPage() {
                 <Link href="/study/pvp" className="w-full">
                   <Button
                     variant="primary"
-                    size="sm"
-                    className="w-full font-bold flex items-center justify-center gap-1.5 text-xs"
+                    className="w-full h-11 px-4 font-black text-xs sm:text-sm rounded-xl bg-gradient-to-r from-[#0059bb] via-indigo-600 to-purple-600 hover:opacity-95 text-white shadow-md active:scale-[0.98] transition-transform flex items-center justify-center gap-2 border border-indigo-400/20"
                   >
-                    <Swords className="h-3.5 w-3.5" strokeWidth={1.3} /> Thách
-                    đấu nhanh
+                    <Swords className="h-4 w-4 stroke-[2]" /> Thách đấu nhanh
                   </Button>
                 </Link>
               </div>
@@ -762,19 +762,19 @@ export default function DashboardPage() {
             <div className="bezel-inner p-4 sm:p-5 md:p-6 bg-white dark:bg-neutral-900 h-full flex flex-col justify-between">
               <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-100 dark:border-neutral-850">
                 <div>
-                  <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                  <span className="text-xs font-black uppercase tracking-wider text-[#0059bb] dark:text-sky-400">
                     Streak Calendar
                   </span>
-                  <h3 className="text-xs font-black text-slate-900 dark:text-white mt-0.5 font-display">
+                  <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white mt-0.5 font-display">
                     Lịch học 28 ngày
                   </h3>
                 </div>
-                <div className="flex items-center gap-2.5 text-[9px] font-bold text-slate-450 dark:text-slate-500">
+                <div className="flex items-center gap-3 text-xs font-bold text-slate-700 dark:text-slate-300">
                   <span className="flex items-center gap-1">
-                    <span className="h-2 w-2 rounded-sm bg-emerald-500" /> Học
+                    <span className="h-2.5 w-2.5 rounded-sm bg-emerald-500 shadow-xs" /> Học
                   </span>
                   <span className="flex items-center gap-1">
-                    <span className="h-2 w-2 rounded-sm bg-slate-100 dark:bg-neutral-800" />{" "}
+                    <span className="h-2.5 w-2.5 rounded-sm bg-slate-200 dark:bg-neutral-800" />{" "}
                     Lỡ
                   </span>
                 </div>
@@ -783,10 +783,10 @@ export default function DashboardPage() {
                 {streakCalendar.map((cell, i) => (
                   <div
                     key={i}
-                    className={`h-6 sm:h-7 rounded flex items-center justify-center text-[8px] sm:text-[9px] font-bold transition-all ${
+                    className={`h-6 sm:h-7 rounded-lg flex items-center justify-center text-[10px] sm:text-xs font-black transition-all ${
                       cell.active
                         ? "bg-emerald-500 text-white shadow-sm"
-                        : "bg-slate-100 text-slate-400 dark:bg-neutral-800 dark:text-neutral-600"
+                        : "bg-slate-100 text-slate-500 dark:bg-neutral-800 dark:text-neutral-400"
                     }`}
                     title={cell.date}
                   >
@@ -803,14 +803,14 @@ export default function DashboardPage() {
             <div className="bezel-inner p-4 sm:p-5 md:p-6 bg-white dark:bg-neutral-900 h-full flex flex-col justify-between min-h-[160px]">
               <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-100 dark:border-neutral-850">
                 <div>
-                  <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                  <span className="text-xs font-black uppercase tracking-wider text-[#0059bb] dark:text-sky-400">
                     Phân bố kinh nghiệm
                   </span>
-                  <h3 className="text-xs font-black text-slate-900 dark:text-white mt-0.5 font-display">
+                  <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white mt-0.5 font-display">
                     XP 7 ngày qua
                   </h3>
                 </div>
-                <Badge variant="primary" className="text-[9px] py-0.5 px-2">
+                <Badge variant="primary" className="text-xs font-extrabold py-0.5 px-2.5">
                   {user.totalXp} XP
                 </Badge>
               </div>

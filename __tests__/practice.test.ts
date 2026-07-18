@@ -25,7 +25,7 @@ const localStorage = new LocalStorageMock();
 global.window = {
   localStorage,
 } as any;
-global.localStorage = localStorage;
+global.localStorage = localStorage as unknown as Storage;
 
 const BOOKMARK_KEY = "xp_bookmarked_words";
 

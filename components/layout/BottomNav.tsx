@@ -56,8 +56,8 @@ export default function BottomNav() {
             aria-current={isActive ? "page" : undefined}
             className={`flex-1 flex flex-col items-center justify-center gap-1.5 h-12 rounded-xl transition-all duration-300 tactile ${
               isActive
-                ? "text-slate-900 dark:text-white bg-slate-100/70 dark:bg-neutral-850/50 font-black"
-                : "text-slate-400 dark:text-slate-500 text-slate-800 dark:hover:text-white font-bold"
+                ? "text-slate-900 dark:text-white bg-slate-100 dark:bg-white/10 font-black"
+                : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-bold"
             }`}
           >
             {tab.icon}

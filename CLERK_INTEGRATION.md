@@ -163,16 +163,17 @@ Unauthenticated User → Request `/dashboard`
 ## 📝 Next Steps (Optional Enhancements)
 
 ### Phase 2: User Profile Sync
-
-- [ ] Sync Clerk user data to custom database
-- [ ] Store additional profile data (XP, level, etc.)
-- [ ] Link Clerk userId to user database records
+ 
+- [x] Sync Clerk user data to custom database (`syncClerkUser` in userStore.ts)
+- [x] Store additional profile data (XP, level, etc.) via `/api/user/profile`
+- [x] Link Clerk userId to user database records (Prisma `Profile.id = clerkUserId`)
 
 ### Phase 3: OAuth Integration
 
-- [ ] Add Google OAuth
-- [ ] Add Facebook OAuth
-- [ ] Add GitHub OAuth
+- [x] Add Google OAuth ✅ (Working in production)
+- [ ] Add Facebook OAuth ⚠️ (Code ready — needs Clerk Dashboard SSO + Facebook Developer App config)
+- [ ] Add Apple Sign-In ⚠️ (Code ready — needs Clerk Dashboard SSO + Apple Developer config)
+- [ ] Add GitHub OAuth (Optional)
 
 ### Phase 4: Refactor Zustand Auth
 

@@ -260,8 +260,10 @@ export const useUserStore = create<UserState>((set, get) => ({
 
     const userId = clerkUser.id;
     const email = clerkUser.primaryEmailAddress?.emailAddress || "";
-    const username = clerkUser.username || clerkUser.firstName || "user";
-    const fullName = clerkUser.fullName || clerkUser.firstName || "User";
+    // Facebook/Apple users may lack username & firstName — derive from email prefix as fallback
+    const emailPrefix = email ? email.split("@")[0].replace(/[^a-zA-Z0-9_]/g, "") : "";
+    const username = clerkUser.username || clerkUser.firstName || emailPrefix || "user";
+    const fullName = clerkUser.fullName || [clerkUser.firstName, clerkUser.lastName].filter(Boolean).join(" ") || emailPrefix || "User";
     const imageUrl = clerkUser.imageUrl || "";
 
     let storedUser: Partial<User> = {};

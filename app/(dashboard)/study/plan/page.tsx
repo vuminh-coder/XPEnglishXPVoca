@@ -295,14 +295,14 @@ export default function StudyPlanPage() {
           transition={{ type: "spring", stiffness: 85, damping: 15 }}
           className="text-center space-y-3"
         >
-          <div className="inline-flex items-center gap-2 rounded-full border border-sky-200/50 bg-sky-50 dark:bg-sky-950/20 px-4 py-1.5 text-xs font-black uppercase tracking-widest text-sky-600 dark:text-sky-400 dark:border-sky-900/30">
-            <Sparkles className="h-4 w-4 text-sky-500 animate-pulse" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-[#0059bb]/10 dark:bg-sky-950/30 px-4 py-1.5 text-xs font-black uppercase tracking-widest text-[#0059bb] dark:text-sky-300">
+            <Sparkles className="h-4 w-4 text-amber-500 animate-pulse stroke-[2]" />
             Lộ Trình Học Tự Do
           </div>
           <h1 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900 dark:text-white font-display">
             Thiết kế Lộ trình học tiếng Anh cá nhân hóa
           </h1>
-          <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 max-w-xl mx-auto font-semibold leading-relaxed">
+          <p className="text-xs md:text-sm text-slate-700 dark:text-slate-300 max-w-xl mx-auto font-semibold leading-relaxed">
             Tạo giáo án học tập không giới hạn thời gian, tự do chinh phục mục tiêu IELTS hoặc TOEIC theo nhịp độ của riêng bạn.
           </p>
         </motion.div>
@@ -316,15 +316,15 @@ export default function StudyPlanPage() {
           <form onSubmit={handleGenerate} className="bezel-inner bg-white dark:bg-neutral-900 p-6 md:p-8 space-y-6">
             {/* Exam Selector */}
             <div className="space-y-3">
-              <label className="block text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              <label className="block text-xs font-black uppercase tracking-wider text-[#0059bb] dark:text-sky-400">
                 Kỳ thi mục tiêu
               </label>
               <div className="grid grid-cols-2 gap-4">
                 {/* TOEIC */}
                 <div className={`p-1 rounded-[24px] border transition-all duration-300 ${
                   targetExam === "TOEIC"
-                    ? "bg-slate-100/80 dark:bg-white/5 border-sky-500/50 shadow-[0_0_15px_rgba(56,189,248,0.15)] scale-[1.02]"
-                    : "bg-slate-50/50 dark:bg-neutral-950/10 border-slate-205/50 dark:border-neutral-850/40"
+                    ? "bg-slate-100/80 dark:bg-white/5 border-[#0059bb] shadow-[0_0_15px_rgba(0,89,187,0.15)] scale-[1.02]"
+                    : "bg-slate-50/50 dark:bg-neutral-950/10 border-slate-200 dark:border-neutral-800"
                 }`}>
                   <button
                     type="button"
@@ -334,19 +334,19 @@ export default function StudyPlanPage() {
                     }}
                     className={`w-full p-4 rounded-[calc(24px-6px)] text-left transition-all cursor-pointer ${
                       targetExam === "TOEIC"
-                        ? "bg-white dark:bg-[#0c0c0f] border-sky-500 shadow-[inset_0_1px_1px_rgba(255,255,255,0.12)]"
+                        ? "bg-white dark:bg-[#0c0c0f] border-[#0059bb] shadow-sm"
                         : "bg-white dark:bg-neutral-900 border-transparent hover:border-slate-200 dark:hover:border-neutral-800"
-                    } border-2`}
+                    } border-2 active:scale-[0.98]`}
                   >
                     <div className="flex items-center gap-3">
                       <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg transition-colors ${
-                        targetExam === "TOEIC" ? "bg-sky-500 text-white shadow-md shadow-sky-500/20" : "bg-slate-100 dark:bg-neutral-800 text-slate-505"
+                        targetExam === "TOEIC" ? "bg-[#0059bb] text-white shadow-md shadow-blue-500/20" : "bg-slate-100 dark:bg-neutral-800 text-slate-500"
                       }`}>
                         📊
                       </div>
                       <div>
-                        <p className="font-extrabold text-sm text-slate-800 dark:text-slate-200">TOEIC</p>
-                        <p className="text-[10px] text-slate-450 dark:text-slate-550 font-bold">Giao tiếp Công sở</p>
+                        <p className="font-black text-sm text-slate-900 dark:text-white">TOEIC</p>
+                        <p className="text-xs text-slate-700 dark:text-slate-300 font-semibold">Giao tiếp Công sở</p>
                       </div>
                     </div>
                   </button>
@@ -355,8 +355,8 @@ export default function StudyPlanPage() {
                 {/* IELTS */}
                 <div className={`p-1 rounded-[24px] border transition-all duration-300 ${
                   targetExam === "IELTS"
-                    ? "bg-slate-100/80 dark:bg-white/5 border-indigo-500/50 shadow-[0_0_15px_rgba(99,102,241,0.15)] scale-[1.02]"
-                    : "bg-slate-50/50 dark:bg-neutral-950/10 border-slate-205/50 dark:border-neutral-850/40"
+                    ? "bg-slate-100/80 dark:bg-white/5 border-indigo-500 shadow-[0_0_15px_rgba(99,102,241,0.15)] scale-[1.02]"
+                    : "bg-slate-50/50 dark:bg-neutral-950/10 border-slate-200 dark:border-neutral-800"
                 }`}>
                   <button
                     type="button"
@@ -366,19 +366,19 @@ export default function StudyPlanPage() {
                     }}
                     className={`w-full p-4 rounded-[calc(24px-6px)] text-left transition-all cursor-pointer ${
                       targetExam === "IELTS"
-                        ? "bg-white dark:bg-[#0c0c0f] border-indigo-500 shadow-[inset_0_1px_1px_rgba(255,255,255,0.12)]"
+                        ? "bg-white dark:bg-[#0c0c0f] border-indigo-500 shadow-sm"
                         : "bg-white dark:bg-neutral-900 border-transparent hover:border-slate-200 dark:hover:border-neutral-800"
-                    } border-2`}
+                    } border-2 active:scale-[0.98]`}
                   >
                     <div className="flex items-center gap-3">
                       <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg transition-colors ${
-                        targetExam === "IELTS" ? "bg-indigo-500 text-white shadow-md shadow-indigo-500/20" : "bg-slate-100 dark:bg-neutral-800 text-slate-500"
+                        targetExam === "IELTS" ? "bg-indigo-600 text-white shadow-md shadow-indigo-500/20" : "bg-slate-100 dark:bg-neutral-800 text-slate-500"
                       }`}>
                         🎓
                       </div>
                       <div>
-                        <p className="font-extrabold text-sm text-slate-800 dark:text-slate-200">IELTS</p>
-                        <p className="text-[10px] text-slate-450 dark:text-slate-550 font-bold">Học thuật quốc tế</p>
+                        <p className="font-black text-sm text-slate-900 dark:text-white">IELTS</p>
+                        <p className="text-xs text-slate-700 dark:text-slate-300 font-semibold">Học thuật quốc tế</p>
                       </div>
                     </div>
                   </button>
@@ -389,7 +389,7 @@ export default function StudyPlanPage() {
             {/* Score & Hours selections */}
             <div className="grid gap-6 md:grid-cols-2">
               <div className="space-y-3">
-                <label className="block text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                <label className="block text-xs font-black uppercase tracking-wider text-[#0059bb] dark:text-sky-400">
                   Điểm số mục tiêu
                 </label>
                 <div className="grid grid-cols-2 gap-2">
@@ -398,12 +398,12 @@ export default function StudyPlanPage() {
                       key={score}
                       type="button"
                       onClick={() => setTargetScore(score)}
-                      className={`py-3 px-3 text-xs font-black rounded-xl border-2 transition-all cursor-pointer ${
+                      className={`h-11 px-3 text-xs font-black rounded-xl border-2 transition-all cursor-pointer active:scale-[0.98] ${
                         targetScore === score
                           ? targetExam === "TOEIC"
-                            ? "border-sky-500 bg-sky-50/20 text-sky-600 dark:text-sky-400 dark:bg-sky-950/20 shadow-sm"
-                            : "border-indigo-500 bg-indigo-50/20 text-indigo-650 dark:text-indigo-400 dark:bg-indigo-950/20 shadow-sm"
-                          : "border-slate-200 dark:border-neutral-800 text-slate-655 dark:text-slate-400 bg-white dark:bg-neutral-900/40 hover:border-slate-300 dark:hover:border-neutral-700"
+                            ? "border-[#0059bb] bg-blue-50/40 text-[#0059bb] dark:text-sky-300 dark:bg-sky-950/30 shadow-sm"
+                            : "border-indigo-600 bg-indigo-50/40 text-indigo-700 dark:text-indigo-300 dark:bg-indigo-950/30 shadow-sm"
+                          : "border-slate-200 dark:border-neutral-800 text-slate-800 dark:text-slate-200 bg-white dark:bg-neutral-900/40 hover:border-slate-300 dark:hover:border-neutral-700 font-bold"
                       }`}
                     >
                       {targetExam} {score}{targetExam === "TOEIC" ? "+" : ""}
@@ -414,7 +414,7 @@ export default function StudyPlanPage() {
 
               {/* Time commitment */}
               <div className="space-y-3">
-                <label className="block text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                <label className="block text-xs font-black uppercase tracking-wider text-[#0059bb] dark:text-sky-400">
                   Cam kết học tập
                 </label>
                 <div className="grid grid-cols-2 gap-2">
@@ -423,10 +423,10 @@ export default function StudyPlanPage() {
                       key={hours}
                       type="button"
                       onClick={() => setWeeklyHours(hours)}
-                      className={`py-3 px-3 text-xs font-bold rounded-xl border-2 transition-all cursor-pointer ${
+                      className={`h-11 px-3 text-xs font-black rounded-xl border-2 transition-all cursor-pointer active:scale-[0.98] ${
                         weeklyHours === hours
-                          ? "border-emerald-500 bg-emerald-50/20 text-emerald-600 dark:text-emerald-400 dark:bg-emerald-955/20 shadow-sm"
-                          : "border-slate-200 dark:border-neutral-800 text-slate-655 dark:text-slate-400 bg-white dark:bg-neutral-900/40 hover:border-slate-300 dark:hover:border-neutral-700"
+                          ? "border-emerald-500 bg-emerald-50/40 text-emerald-700 dark:text-emerald-400 dark:bg-emerald-950/30 shadow-sm"
+                          : "border-slate-200 dark:border-neutral-800 text-slate-800 dark:text-slate-200 bg-white dark:bg-neutral-900/40 hover:border-slate-300 dark:hover:border-neutral-700 font-bold"
                       }`}
                     >
                       {hours} giờ / tuần
@@ -441,10 +441,10 @@ export default function StudyPlanPage() {
               <Button
                 type="submit"
                 variant="primary"
-                className="w-full py-4 text-xs md:text-sm font-black tracking-wider uppercase flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-indigo-500/20 bg-gradient-to-r from-sky-400 to-indigo-500 hover:opacity-95 text-white border-none rounded-xl active:scale-[0.98] transition-all"
+                className="w-full h-11 sm:h-12 text-xs md:text-sm font-black tracking-wider uppercase flex items-center justify-center gap-2 cursor-pointer shadow-md bg-gradient-to-r from-[#0059bb] via-blue-600 to-indigo-600 hover:opacity-95 text-white border-none rounded-xl sm:rounded-2xl active:scale-[0.98] transition-all"
               >
                 Tạo Lộ Trình Học
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4 stroke-[2.5]" />
               </Button>
             </div>
           </form>
@@ -543,7 +543,7 @@ export default function StudyPlanPage() {
           {/* Header */}
           <div className="flex items-center justify-between border-b border-slate-100 dark:border-neutral-850 pb-4">
             <div>
-              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+              <span className="text-[10px] font-black uppercase tracking-widest text-[#0059bb] dark:text-sky-400">
                 {isBoss ? "🔥 THỬ THÁCH BOSS CHƯƠNG" : `Chi tiết Bài học ${absoluteIndex + 1}`}
               </span>
               <h2 className="text-base font-black text-slate-900 dark:text-white font-display mt-0.5">
@@ -559,18 +559,18 @@ export default function StudyPlanPage() {
           </div>
 
           {/* AI Success Predictor Bento Card */}
-          <div className="p-4 bg-gradient-to-br from-indigo-50/40 to-sky-50/20 dark:from-[#11121d] dark:to-[#0a0f18] border border-indigo-500/10 dark:border-indigo-500/5 rounded-2xl space-y-2 relative overflow-hidden">
+          <div className="p-4 bg-gradient-to-br from-blue-50/60 to-indigo-50/40 dark:from-[#11121d] dark:to-[#0a0f18] border border-blue-500/20 dark:border-indigo-500/15 rounded-2xl space-y-2 relative overflow-hidden">
             <div className="absolute top-2 right-2 flex items-center justify-center">
-              <Activity className="h-4 w-4 text-sky-500 animate-pulse" />
+              <Activity className="h-4 w-4 text-[#0059bb] dark:text-sky-400 animate-pulse stroke-[2]" />
             </div>
-            <h4 className="text-[9px] font-black uppercase tracking-wider text-indigo-400">Phân Tích Lộ Trình</h4>
+            <h4 className="text-[9px] font-black uppercase tracking-wider text-[#0059bb] dark:text-sky-400">Phân Tích Lộ Trình</h4>
             <div className="flex items-baseline gap-1.5">
-              <span className="text-xl font-black text-slate-800 dark:text-white font-display">
+              <span className="text-2xl font-black text-slate-900 dark:text-white font-display">
                 {selectedTask.isCompleted ? "100%" : isBoss ? "72%" : "88%"}
               </span>
-              <span className="text-[9px] font-bold text-slate-450 dark:text-slate-550">Xác suất vượt qua</span>
+              <span className="text-xs font-extrabold text-slate-700 dark:text-slate-300">Xác suất vượt qua</span>
             </div>
-            <p className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold leading-normal">
+            <p className="text-xs text-slate-700 dark:text-slate-300 font-semibold leading-relaxed">
               {selectedTask.isCompleted 
                 ? "Bài học đã hoàn chỉnh xuất sắc. Bạn có thể học lại để củng cố trí nhớ dài hạn bất cứ lúc nào."
                 : isBoss 
@@ -581,13 +581,13 @@ export default function StudyPlanPage() {
           </div>
 
           {/* Task Info with dynamic type styling */}
-          <div className="flex items-start gap-4 bg-slate-50/50 dark:bg-neutral-950/40 p-4 rounded-xl border border-slate-150 dark:border-neutral-850/60">
+          <div className="flex items-start gap-4 bg-slate-50 dark:bg-neutral-950/40 p-4 rounded-xl border border-slate-200/60 dark:border-neutral-850/60">
             <div className={`rounded-xl p-3.5 shrink-0 ${meta.iconBg} shadow-sm`}>
               {getTaskIcon(selectedTask.taskType)}
             </div>
             <div>
-              <h3 className="text-[9px] font-black uppercase tracking-wider text-slate-400">Nhiệm vụ</h3>
-              <p className="mt-1 text-xs text-slate-700 dark:text-slate-350 font-bold leading-relaxed">
+              <h3 className="text-[10px] font-black uppercase tracking-wider text-[#0059bb] dark:text-sky-400">Nhiệm vụ bài học</h3>
+              <p className="mt-1 text-xs text-slate-800 dark:text-slate-200 font-extrabold leading-relaxed">
                 {selectedTask.description.replace(/^Ngày \d+: /, "")}
               </p>
             </div>
@@ -595,15 +595,15 @@ export default function StudyPlanPage() {
 
           {/* Reward block */}
           <div className="grid grid-cols-2 gap-3">
-            <div className="flex items-center justify-between text-sm bg-indigo-50/30 dark:bg-indigo-950/10 p-3 rounded-xl border border-indigo-150/40 dark:border-indigo-900/20">
-              <span className="font-black text-indigo-950 dark:text-indigo-400 text-[9px] uppercase">Phần thưởng</span>
-              <span className="font-black text-xs text-indigo-650 dark:text-indigo-400 font-display">
+            <div className="flex items-center justify-between text-sm bg-blue-50/40 dark:bg-indigo-950/20 p-3 rounded-xl border border-blue-200/50 dark:border-indigo-900/30">
+              <span className="font-black text-[#0059bb] dark:text-sky-300 text-[10px] uppercase">Phần thưởng</span>
+              <span className="font-black text-xs text-[#0059bb] dark:text-sky-300 font-display">
                 +{selectedTask.xpReward} XP
               </span>
             </div>
-            <div className="flex items-center justify-between text-sm bg-amber-50/30 dark:bg-amber-955/10 p-3 rounded-xl border border-amber-150/40 dark:border-amber-900/20">
-              <span className="font-black text-amber-900 dark:text-amber-400 text-[9px] uppercase">Ước tính</span>
-              <span className="font-black text-xs text-amber-600 dark:text-amber-455 font-display">
+            <div className="flex items-center justify-between text-sm bg-amber-50/50 dark:bg-amber-955/20 p-3 rounded-xl border border-amber-200/50 dark:border-amber-900/30">
+              <span className="font-black text-amber-900 dark:text-amber-300 text-[10px] uppercase">Ước tính</span>
+              <span className="font-black text-xs text-amber-600 dark:text-amber-400 font-display">
                 {isBoss ? "⏱️ 10m" : "⏱️ 5m"}
               </span>
             </div>
@@ -611,10 +611,10 @@ export default function StudyPlanPage() {
 
           {/* Concentric child card tips */}
           <div className="space-y-2">
-            <h4 className="text-[10px] font-black uppercase tracking-wider text-slate-400">💡 Hướng dẫn & mẹo tự học</h4>
-            <div className="p-3.5 bg-amber-50/20 dark:bg-amber-950/5 border border-amber-100/50 dark:border-amber-900/15 rounded-xl space-y-2">
+            <h4 className="text-[10px] font-black uppercase tracking-wider text-slate-700 dark:text-slate-300">💡 Hướng dẫn & mẹo tự học</h4>
+            <div className="p-3.5 bg-amber-50/30 dark:bg-amber-950/10 border border-amber-200/60 dark:border-amber-900/30 rounded-xl space-y-2">
               {meta.tips.map((tip, i) => (
-                <div key={i} className="flex gap-2.5 text-xs text-slate-650 dark:text-slate-400 font-semibold leading-relaxed">
+                <div key={i} className="flex gap-2.5 text-xs text-slate-800 dark:text-slate-200 font-semibold leading-relaxed">
                   <span className="text-amber-500 font-bold">•</span>
                   <span>{tip}</span>
                 </div>
@@ -624,31 +624,31 @@ export default function StudyPlanPage() {
 
           {/* AI recommendation reminder */}
           {!selectedTask.isCompleted && isBoss && (
-            <div className="flex items-center gap-2 p-3 bg-red-500/10 dark:bg-red-500/5 border border-red-500/20 rounded-xl text-[10px] text-red-500 dark:text-red-400 font-bold">
-              <AlertCircle className="h-4 w-4 shrink-0" />
+            <div className="flex items-center gap-2 p-3 bg-red-500/10 dark:bg-red-500/10 border border-red-500/30 rounded-xl text-xs text-red-600 dark:text-red-400 font-extrabold">
+              <AlertCircle className="h-4 w-4 shrink-0 stroke-[2]" />
               <span>Chế độ Boss Challenge giới hạn 10 phút đếm ngược. Thử thách bắt đầu ngay khi nhấn nút.</span>
             </div>
           )}
 
           {/* CTAs */}
-          <div className="flex flex-col gap-2 pt-2">
+          <div className="flex flex-col gap-2.5 pt-2">
             {state !== "Locked" ? (
               <>
                 <Link href={meta.practicePath} className="w-full" onClick={onClose}>
                   <Button
                     variant="primary"
-                    className={`w-full py-4 text-xs md:text-sm font-black tracking-wider uppercase flex items-center justify-center gap-1.5 cursor-pointer rounded-xl bg-gradient-to-r ${
-                      isBoss ? "from-red-500 to-orange-500 shadow-red-500/20" : "from-sky-400 to-indigo-500 shadow-indigo-500/25"
-                    } text-white shadow-md active:scale-[0.98] transition-all`}
+                    className={`w-full h-11 sm:h-12 text-xs md:text-sm font-black tracking-wider uppercase flex items-center justify-center gap-2 cursor-pointer rounded-xl sm:rounded-2xl ${
+                      isBoss ? "bg-gradient-to-r from-red-500 via-orange-500 to-red-600 shadow-red-500/20" : "bg-gradient-to-r from-[#0059bb] via-blue-600 to-indigo-600 shadow-blue-500/20"
+                    } text-white shadow-md active:scale-[0.98] transition-all border border-white/10`}
                   >
                     {isBoss ? "KHIÊU CHIẾN BOSS CHALLENGE" : "HỌC NGAY BÀI HỌC"}
-                    <ChevronRight className="h-4 w-4" />
+                    <ChevronRight className="h-4 w-4 stroke-[2.5]" />
                   </Button>
                 </Link>
                 {!selectedTask.isCompleted && (
                   <Button
                     variant="ghost"
-                    className="w-full py-3 text-xs font-bold cursor-pointer rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-neutral-800 border border-slate-200 dark:border-neutral-850 active:scale-[0.98]"
+                    className="w-full h-10 text-xs font-extrabold cursor-pointer rounded-xl text-slate-700 hover:bg-slate-100 dark:hover:bg-neutral-800 border border-slate-200 dark:border-neutral-800 active:scale-[0.98]"
                     onClick={async () => {
                       await toggleTask(selectedTask.id, true);
                       onClose();
@@ -661,7 +661,7 @@ export default function StudyPlanPage() {
             ) : (
               <Button
                 variant="bezel"
-                className="w-full py-3.5 text-xs font-bold cursor-default rounded-xl bg-slate-100 dark:bg-neutral-855 text-slate-400 border border-slate-200/50 dark:border-neutral-800"
+                className="w-full h-11 text-xs font-extrabold cursor-default rounded-xl bg-slate-100 dark:bg-neutral-850 text-slate-500 border border-slate-200/50 dark:border-neutral-800"
                 disabled
               >
                 Bài học đang khóa (Hãy học bài trước đó)
@@ -671,7 +671,7 @@ export default function StudyPlanPage() {
             {selectedTask.isCompleted && (
               <Button
                 variant="bezel"
-                className="w-full py-3.5 text-xs font-bold cursor-pointer rounded-xl active:scale-[0.98]"
+                className="w-full h-10 text-xs font-extrabold cursor-pointer rounded-xl border border-slate-200 dark:border-neutral-800 active:scale-[0.98]"
                 onClick={async () => {
                   await toggleTask(selectedTask.id, false);
                   onClose();
@@ -690,7 +690,7 @@ export default function StudyPlanPage() {
         <div className="space-y-5">
           <div className="flex items-center justify-between border-b border-slate-100 dark:border-neutral-850 pb-4">
             <div>
-              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+              <span className="text-[10px] font-black uppercase tracking-widest text-[#0059bb] dark:text-sky-400">
                 Cột mốc chặng học
               </span>
               <h2 className="text-base font-black text-slate-900 dark:text-white font-display mt-0.5">
@@ -702,13 +702,13 @@ export default function StudyPlanPage() {
             </Badge>
           </div>
 
-          <div className="flex items-start gap-4 bg-slate-50/50 dark:bg-neutral-950/40 p-4 rounded-xl border border-slate-150 dark:border-neutral-850/60">
-            <div className="rounded-xl p-3 shrink-0 bg-amber-50 dark:bg-amber-955/20 text-amber-550 flex items-center justify-center shadow-sm">
-              <Gift className={`h-6 w-6 ${isCompleted && !isClaimed ? "animate-bounce" : ""}`} />
+          <div className="flex items-start gap-4 bg-slate-50 dark:bg-neutral-950/40 p-4 rounded-xl border border-slate-200/60 dark:border-neutral-850/60">
+            <div className="rounded-xl p-3 shrink-0 bg-amber-100 dark:bg-amber-955/30 text-amber-600 flex items-center justify-center shadow-sm">
+              <Gift className={`h-6 w-6 stroke-[2] ${isCompleted && !isClaimed ? "animate-bounce" : ""}`} />
             </div>
             <div>
-              <h3 className="text-[9px] font-black uppercase tracking-wider text-slate-400">Yêu cầu rương</h3>
-              <p className="mt-1 text-xs text-slate-700 dark:text-slate-350 font-bold leading-relaxed">
+              <h3 className="text-[10px] font-black uppercase tracking-wider text-[#0059bb] dark:text-sky-400">Yêu cầu rương</h3>
+              <p className="mt-1 text-xs text-slate-800 dark:text-slate-200 font-extrabold leading-relaxed">
                 Hoàn thành tất cả 7 bài học học tập của Chặng {week} để mở rương báu nhận +50 XP thưởng động lực.
               </p>
             </div>
@@ -716,13 +716,13 @@ export default function StudyPlanPage() {
 
           {/* Week progress bar */}
           <div className="space-y-2">
-            <div className="flex justify-between text-[11px] font-extrabold text-slate-500 dark:text-slate-400">
+            <div className="flex justify-between text-xs font-black text-slate-800 dark:text-slate-200">
               <span>Tiến độ bài học chặng</span>
-              <span>{daysCompleted}/7 bài</span>
+              <span className="text-[#0059bb] dark:text-sky-400">{daysCompleted}/7 bài</span>
             </div>
             <div className="h-2.5 w-full bg-slate-100 dark:bg-neutral-850 rounded-full overflow-hidden border border-slate-200/50 dark:border-neutral-800/30 relative">
               <div 
-                className="h-full bg-gradient-to-r from-emerald-400 to-emerald-655 transition-all duration-500 relative" 
+                className="h-full bg-gradient-to-r from-emerald-400 to-teal-500 transition-all duration-500 relative" 
                 style={{ width: `${(daysCompleted / 7) * 100}%` }}
               >
                 {daysCompleted > 0 && (
@@ -733,12 +733,12 @@ export default function StudyPlanPage() {
           </div>
 
           {/* Rewards */}
-          <div className="flex items-center justify-between text-sm bg-amber-50/40 dark:bg-amber-955/15 p-4 rounded-xl border border-amber-100/50 dark:border-amber-900/30">
+          <div className="flex items-center justify-between text-sm bg-amber-50/50 dark:bg-amber-955/20 p-4 rounded-xl border border-amber-200/60 dark:border-amber-900/30">
             <div className="flex items-center gap-2">
-              <Trophy className="h-4.5 w-4.5 text-yellow-500" />
-              <span className="font-black text-amber-900 dark:text-amber-400 text-[10px] uppercase">Rương quà tặng</span>
+              <Trophy className="h-4.5 w-4.5 text-amber-500 stroke-[2]" />
+              <span className="font-black text-amber-900 dark:text-amber-300 text-[10px] uppercase">Rương quà tặng</span>
             </div>
-            <span className="font-black text-base text-amber-600 dark:text-yellow-450 font-display">
+            <span className="font-black text-base text-amber-600 dark:text-amber-400 font-display">
               +50 XP
             </span>
           </div>
@@ -749,16 +749,16 @@ export default function StudyPlanPage() {
               !isClaimed ? (
                 <Button
                   variant="primary"
-                  className="w-full py-4 text-xs font-black tracking-wider uppercase flex items-center justify-center gap-1.5 cursor-pointer rounded-xl bg-gradient-to-r from-amber-450 via-yellow-500 to-amber-550 text-white shadow-md shadow-yellow-500/20 active:scale-[0.98] transition-all animate-pulse"
+                  className="w-full h-11 text-xs font-black tracking-wider uppercase flex items-center justify-center gap-1.5 cursor-pointer rounded-xl bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 text-white shadow-md shadow-amber-500/20 active:scale-[0.98] transition-all animate-pulse"
                   onClick={() => handleClaimMilestone(week)}
                 >
                   Nhận 50 XP Thưởng
-                  <Gift className="h-4 w-4" />
+                  <Gift className="h-4 w-4 stroke-[2]" />
                 </Button>
               ) : (
                 <Button
                   variant="bezel"
-                  className="w-full py-3.5 text-xs font-bold cursor-default rounded-xl bg-slate-150 dark:bg-neutral-850 text-slate-400 border border-slate-200/50 dark:border-neutral-800"
+                  className="w-full h-11 text-xs font-extrabold cursor-default rounded-xl bg-slate-150 dark:bg-neutral-850 text-slate-400 border border-slate-200/50 dark:border-neutral-800"
                   disabled
                 >
                   Đã nhận thưởng rương chặng
@@ -767,7 +767,7 @@ export default function StudyPlanPage() {
             ) : (
               <Button
                 variant="ghost"
-                className="w-full py-3.5 text-xs font-bold cursor-pointer rounded-xl border border-slate-200 dark:border-neutral-850 text-slate-500 hover:bg-slate-50 dark:hover:bg-neutral-855 active:scale-[0.98]"
+                className="w-full h-10 text-xs font-extrabold cursor-pointer rounded-xl border border-slate-200 dark:border-neutral-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-neutral-800 active:scale-[0.98]"
                 onClick={onClose}
               >
                 Đóng & Tiếp tục học tập
@@ -780,45 +780,45 @@ export default function StudyPlanPage() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl space-y-6 px-3 py-4 md:px-6" suppressHydrationWarning>
+    <div className="mx-auto max-w-6xl space-y-6 px-3 py-4 md:px-6 pb-24" suppressHydrationWarning>
       
       {/* 1. BENTO STATS DASHBOARD GRID */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
         {/* Bento 1: Chapter Progress Card */}
         <div className="bezel md:col-span-2">
-          <div className="bezel-inner bg-gradient-to-br from-[#0c0d12] via-[#161824] to-[#0c0d12] p-4 sm:p-5 text-white rounded-[24px] border border-white/5 relative overflow-hidden h-full flex flex-col justify-between">
-            <div className="absolute top-0 right-0 w-36 h-36 rounded-full bg-indigo-500/10 blur-[60px] pointer-events-none" />
+          <div className="bezel-inner bg-gradient-to-br from-blue-50/90 via-indigo-50/50 to-sky-50/70 dark:from-[#0c0d14] dark:via-[#131522] dark:to-[#0c0d14] p-4 sm:p-5 rounded-[24px] border border-blue-200/80 dark:border-white/10 relative overflow-hidden h-full flex flex-col justify-between shadow-md shadow-blue-500/5">
+            <div className="absolute top-0 right-0 w-36 h-36 rounded-full bg-blue-500/10 blur-[60px] pointer-events-none" />
             <div className="space-y-1 relative z-10">
               <div className="flex items-center gap-2">
-                <span className="inline-flex items-center gap-1 rounded-full border border-sky-500/30 bg-sky-950/40 px-2.5 py-0.5 text-[9px] font-black uppercase tracking-wider text-sky-400">
+                <span className="inline-flex items-center gap-1 rounded-full border border-blue-300/80 bg-[#0059bb]/10 dark:bg-sky-950/60 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-[#0059bb] dark:text-sky-300">
                   Mục tiêu: {plan.targetExam} · {plan.targetScore}
                 </span>
-                <span className="inline-flex items-center gap-1 rounded-full border border-indigo-500/30 bg-indigo-950/40 px-2.5 py-0.5 text-[9px] font-black uppercase tracking-wider text-indigo-400">
+                <span className="inline-flex items-center gap-1 rounded-full border border-indigo-300/80 bg-indigo-50 dark:bg-indigo-950/60 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-indigo-700 dark:text-indigo-300">
                   {weeklyHours} giờ / tuần
                 </span>
               </div>
-              <h2 className="text-xl font-black font-display bg-gradient-to-r from-white to-slate-350 bg-clip-text text-transparent pt-1">
+              <h2 className="text-xl sm:text-2xl font-black font-display text-slate-900 dark:text-white pt-1">
                 {activeChapterTitle}
               </h2>
-              <p className="text-[11px] text-slate-400 font-semibold leading-relaxed max-w-md hidden sm:block">
+              <p className="text-xs text-slate-700 dark:text-slate-300 font-semibold leading-relaxed max-w-md hidden sm:block">
                 {activeChapterDesc}
               </p>
             </div>
 
             <div className="space-y-1.5 pt-4 relative z-10">
-              <div className="flex justify-between text-[11px] font-extrabold uppercase tracking-wider text-slate-300">
+              <div className="flex justify-between text-xs font-black uppercase tracking-wider text-slate-800 dark:text-slate-200">
                 <span>Tiến độ Chapter</span>
-                <span className="text-sky-400">{progressPercent}%</span>
+                <span className="text-[#0059bb] dark:text-sky-400 font-display font-black">{progressPercent}%</span>
               </div>
-              <div className="h-2 w-full overflow-hidden rounded-full bg-slate-800 border border-white/5 relative">
+              <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200/80 dark:bg-slate-800 border border-slate-300/50 dark:border-white/10 relative">
                 <motion.div
-                  className="h-full rounded-full bg-gradient-to-r from-sky-400 to-indigo-500"
+                  className="h-full rounded-full bg-gradient-to-r from-sky-400 via-[#0059bb] to-indigo-600"
                   initial={{ width: 0 }}
                   animate={{ width: `${progressPercent}%` }}
                   transition={{ type: "spring", stiffness: 60, damping: 15 }}
                 />
               </div>
-              <div className="text-[9px] text-slate-500 font-bold">
+              <div className="text-[10px] text-slate-700 dark:text-slate-300 font-black">
                 Đã hoàn thành {completedTasksCount}/{plan.dailyTasks.length} bài học mục tiêu
               </div>
             </div>
@@ -827,32 +827,32 @@ export default function StudyPlanPage() {
 
         {/* Bento 2: Streak Flame & Coins Card */}
         <div className="bezel">
-          <div className="bezel-inner bg-white dark:bg-[#0c0c0f] p-4 sm:p-5 rounded-[24px] border border-slate-100 dark:border-white/5 h-full flex flex-col justify-between relative overflow-hidden">
+          <div className="bezel-inner bg-gradient-to-br from-amber-50/80 via-orange-50/40 to-yellow-50/60 dark:from-[#0c0c0f] dark:to-[#17140e] p-4 sm:p-5 rounded-[24px] border border-amber-200/80 dark:border-amber-500/20 h-full flex flex-col justify-between relative overflow-hidden shadow-md shadow-amber-500/5">
             <div className="absolute top-0 right-0 w-24 h-24 rounded-full bg-orange-500/10 blur-[40px] pointer-events-none" />
             <div className="flex justify-between items-start">
               <div>
-                <h3 className="text-[10px] font-black uppercase tracking-wider text-slate-400">Streak liên tiếp</h3>
-                <div className="flex items-center gap-1 mt-1">
-                  <Flame className="h-8 w-8 text-orange-550 fill-orange-500 animate-pulse" />
-                  <span className="text-3xl font-black font-display text-slate-850 dark:text-white">
+                <h3 className="text-[10px] font-black uppercase tracking-wider text-[#0059bb] dark:text-sky-400">Streak liên tiếp</h3>
+                <div className="flex items-center gap-1.5 mt-1">
+                  <Flame className="h-8 w-8 text-amber-500 fill-amber-500 animate-pulse stroke-[2]" />
+                  <span className="text-3xl font-black font-display text-slate-900 dark:text-white">
                     {user?.currentStreak || 0}
                   </span>
-                  <span className="text-xs font-bold text-slate-450 dark:text-slate-550 mt-2">ngày</span>
+                  <span className="text-xs font-black text-slate-700 dark:text-slate-300 mt-2">ngày</span>
                 </div>
               </div>
-              <div className="bg-amber-50 dark:bg-amber-955/20 border border-amber-200/50 dark:border-amber-900/30 px-3 py-1.5 rounded-xl flex items-center gap-1.5">
-                <Coins className="h-4.5 w-4.5 text-amber-555" />
-                <span className="text-xs font-black text-amber-600 dark:text-amber-400">
+              <div className="bg-amber-100/80 dark:bg-amber-955/30 border border-amber-300/80 dark:border-amber-900/40 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-sm">
+                <Coins className="h-4.5 w-4.5 text-amber-600 dark:text-amber-400 stroke-[2]" />
+                <span className="text-xs font-black text-amber-800 dark:text-amber-300 font-display">
                   {user?.coins || 0}
                 </span>
               </div>
             </div>
 
-            <div className="border-t border-slate-100 dark:border-neutral-850 pt-3 mt-4 flex items-center justify-between">
-              <span className="text-[10px] text-slate-450 dark:text-slate-400 font-bold">
+            <div className="border-t border-amber-200/60 dark:border-neutral-850 pt-3 mt-4 flex items-center justify-between">
+              <span className="text-xs text-slate-700 dark:text-slate-300 font-extrabold">
                 Học vị hiện tại:
               </span>
-              <span className="text-[10px] font-black text-indigo-650 dark:text-indigo-400 uppercase tracking-wider">
+              <span className="text-xs font-black text-[#0059bb] dark:text-sky-400 uppercase tracking-wider font-display">
                 👑 {user?.title || "Học Viên Mới"} (Lv. {user?.level || 1})
               </span>
             </div>
@@ -882,7 +882,7 @@ export default function StudyPlanPage() {
                 }`}
               >
                 {/* Bento outer container */}
-                <div className="bezel-inner bg-white dark:bg-[#07070a] p-4 sm:p-5 md:p-6 rounded-[24px] border border-slate-150/40 dark:border-white/5 relative overflow-hidden space-y-6">
+                <div className="bezel-inner bg-white dark:bg-[#07070a] p-4 sm:p-5 md:p-6 rounded-[24px] border border-slate-200/80 dark:border-white/10 relative overflow-hidden space-y-6 shadow-sm">
                   
                   {/* Decorative faint grid lines in bento box */}
                   <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] pointer-events-none" />
@@ -890,27 +890,27 @@ export default function StudyPlanPage() {
                   {/* Unit Title Header - Glassmorphic design */}
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100 dark:border-neutral-900 relative z-10">
                     <div className="flex items-center gap-3">
-                      <div className={`h-11 w-11 rounded-2xl flex items-center justify-center font-extrabold text-sm shrink-0 shadow-md ${
+                      <div className={`h-11 w-11 rounded-2xl flex items-center justify-center font-black text-sm shrink-0 shadow-md ${
                         isUnitCompleted 
                           ? "bg-gradient-to-br from-emerald-400 to-teal-500 text-white"
                           : isUnitLocked 
                             ? "bg-slate-100 dark:bg-neutral-850 text-slate-400"
-                            : "bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-indigo-500/20"
+                            : "bg-gradient-to-br from-[#0059bb] via-blue-600 to-indigo-600 text-white shadow-blue-500/20"
                       }`}>
                         U{unit.id}
                       </div>
                       <div>
-                        <h3 className="font-extrabold text-sm text-slate-800 dark:text-slate-200">
+                        <h3 className="font-black text-sm sm:text-base text-slate-900 dark:text-white font-display">
                           {unit.title}
                         </h3>
-                        <p className="text-[11px] text-slate-500 dark:text-slate-400 font-bold max-w-sm mt-0.5 leading-normal">
+                        <p className="text-xs text-slate-700 dark:text-slate-300 font-semibold max-w-sm mt-0.5 leading-normal">
                           {unit.description}
                         </p>
                       </div>
                     </div>
 
                     <div className="shrink-0 flex items-center gap-2">
-                      <Badge variant={isUnitCompleted ? "success" : "neutral"} className="text-[9px] font-bold px-2 py-0.5 rounded-md uppercase">
+                      <Badge variant={isUnitCompleted ? "success" : "neutral"} className="text-[10px] font-black px-2.5 py-0.5 rounded-md uppercase">
                         {isUnitCompleted ? "Hoàn thành" : `Tiến độ: ${completedCount}/7`}
                       </Badge>
                     </div>

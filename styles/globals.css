@@ -3479,7 +3479,7 @@ textarea.input-field {
 
 @media (max-width: 768px) {
   :root {
-    --sidebar-width: 280px;
+    --sidebar-width: 255px;
   }
 
   .left-sidebar {

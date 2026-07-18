@@ -1,10 +1,9 @@
-const CACHE_NAME = "xp-voca-v1";
+const CACHE_NAME = "xp-voca-v13";
 const OFFLINE_URL = "/dashboard"; // Fallback URL if offline
 
 const ASSETS_TO_CACHE = [
   "/dashboard",
-  "/owl.svg",
-  "/manifest.json"
+  "/owl.svg"
 ];
 
 self.addEventListener("install", (event) => {
