@@ -874,7 +874,7 @@ export default function GroupRoomsPage() {
           </div>
 
           {/* Row 2: Action tools (Voice panel, 100 Test quiz, Leave room) */}
-          <div className="flex items-center gap-2 flex-wrap pb-1">
+          <div className="flex items-center gap-2 overflow-x-auto scrollbar-none w-full flex-nowrap py-0.5 select-none">
             <VoiceControlPanel
               isConnected={voiceChannel.isConnected}
               isMuted={voiceChannel.isMuted}
@@ -942,12 +942,12 @@ export default function GroupRoomsPage() {
           </div>
         </div>
 
-        {/* Tab Switcher: Chat Feed vs Speed Match Game vs Toggle Hide Chat */}
-        <div className="px-3 md:px-4 py-1.5 border-b border-slate-100 dark:border-neutral-850 flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-slate-50/30 dark:bg-neutral-950">
-          <div className="flex gap-2 items-center flex-wrap">
+        {/* Tab Switcher: Chat Feed vs Speed Match Game vs Toggle Hide Chat & Team Selector (Horizontal scrolling bar) */}
+        <div className="px-3 md:px-4 py-1.5 border-b border-slate-100 dark:border-neutral-850 bg-slate-50/30 dark:bg-neutral-950 overflow-hidden">
+          <div className="flex items-center gap-3 overflow-x-auto scrollbar-none w-full flex-nowrap py-0.5 select-none">
             <button
               onClick={() => setActiveTab("chat")}
-              className={`py-1 px-3 text-xs font-extrabold rounded-xl transition-all ${
+              className={`py-1 px-3 text-xs font-extrabold rounded-xl transition-all shrink-0 ${
                 activeTab === "chat"
                   ? "bg-blue-600 text-white shadow-xs"
                   : "text-slate-500 hover:text-slate-800 dark:hover:text-white"
@@ -957,7 +957,7 @@ export default function GroupRoomsPage() {
             </button>
             <button
               onClick={() => setActiveTab("speed_game")}
-              className={`py-1 px-3 text-xs font-extrabold rounded-xl transition-all flex items-center gap-1 ${
+              className={`py-1 px-3 text-xs font-extrabold rounded-xl transition-all shrink-0 flex items-center gap-1 ${
                 activeTab === "speed_game"
                   ? "bg-amber-500 text-white shadow-xs"
                   : "text-slate-500 hover:text-slate-800 dark:hover:text-white"
@@ -975,7 +975,7 @@ export default function GroupRoomsPage() {
                     setIsChatHidden(true);
                   }
                 }}
-                className={`py-1 px-3 text-xs font-extrabold rounded-xl transition-all flex items-center gap-1 border border-slate-200 dark:border-neutral-800/80 hover:bg-slate-100 dark:hover:bg-neutral-850/60 cursor-pointer ${
+                className={`py-1 px-3 text-xs font-extrabold rounded-xl transition-all shrink-0 flex items-center gap-1 border border-slate-200 dark:border-neutral-800/80 hover:bg-slate-100 dark:hover:bg-neutral-850/60 cursor-pointer ${
                   isChatHidden
                     ? "bg-rose-50 dark:bg-rose-950/20 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-900/40"
                     : "text-slate-500 hover:text-slate-800 dark:hover:text-white"
@@ -989,47 +989,49 @@ export default function GroupRoomsPage() {
                 )}
               </button>
             )}
-          </div>
 
-          {/* Select & Join Team Controls */}
-          <div className="flex items-center gap-2 flex-wrap">
-            {isJoinedTeam ? (
-              <span
-                className="text-[10px] font-extrabold px-2 py-0.5 rounded-lg bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-300/40 cursor-pointer hover:bg-amber-100 flex items-center gap-1"
-                onClick={() => setIsJoinedTeam(false)}
-                title="Bấm để đổi Tổ"
-              >
-                🛡️ Bạn thuộc: {myTeam} <span className="text-[8px] text-slate-400 font-bold ml-1 hover:underline">(Đổi)</span>
-              </span>
-            ) : (
-              <div className="flex items-center gap-1.5">
-                <span className="text-[10px] font-bold text-slate-400">Chọn Tổ:</span>
-                <select
-                  value={myTeam}
-                  onChange={(e) => {
-                    setMyTeam(e.target.value);
-                  }}
-                  className="py-0.5 px-1.5 text-[11px] font-extrabold rounded-lg bg-amber-50 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border border-amber-300/50 focus:outline-none"
+            <div className="w-px h-4 bg-slate-200 dark:bg-neutral-800/60 shrink-0 mx-1" />
+
+            {/* Select & Join Team Controls */}
+            <div className="flex items-center gap-2 shrink-0">
+              {isJoinedTeam ? (
+                <span
+                  className="text-[10px] font-extrabold px-2 py-0.5 rounded-lg bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-300/40 cursor-pointer hover:bg-amber-100 flex items-center gap-1"
+                  onClick={() => setIsJoinedTeam(false)}
+                  title="Bấm để đổi Tổ"
                 >
-                  {TEAMS_LIST.map((t) => (
-                    <option key={t} value={t}>{t}</option>
-                  ))}
-                </select>
-                <button
-                  className="rounded-lg text-[10px] font-black py-0.5 px-2 bg-amber-500 hover:bg-amber-600 text-white cursor-pointer shadow-xs transition-all"
-                  onClick={() => {
-                    setIsJoinedTeam(true);
-                    addToast({
-                      type: "xp",
-                      title: `Đã Gia Nhập ${myTeam}! 🛡️`,
-                      message: `Bạn đang thi đấu đại diện cho ${myTeam}!`,
-                    });
-                  }}
-                >
-                  Gia Nhập
-                </button>
-              </div>
-            )}
+                  🛡️ Bạn thuộc: {myTeam} <span className="text-[8px] text-slate-400 font-bold ml-1 hover:underline">(Đổi)</span>
+                </span>
+              ) : (
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[10px] font-bold text-slate-400">Chọn Tổ:</span>
+                  <select
+                    value={myTeam}
+                    onChange={(e) => {
+                      setMyTeam(e.target.value);
+                    }}
+                    className="py-0.5 px-1.5 text-[11px] font-extrabold rounded-lg bg-amber-50 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border border-amber-300/50 focus:outline-none"
+                  >
+                    {TEAMS_LIST.map((t) => (
+                      <option key={t} value={t}>{t}</option>
+                    ))}
+                  </select>
+                  <button
+                    className="rounded-lg text-[10px] font-black py-0.5 px-2 bg-amber-500 hover:bg-amber-600 text-white cursor-pointer shadow-xs transition-all"
+                    onClick={() => {
+                      setIsJoinedTeam(true);
+                      addToast({
+                        type: "xp",
+                        title: `Đã Gia Nhập ${myTeam}! 🛡️`,
+                        message: `Bạn đang thi đấu đại diện cho ${myTeam}!`,
+                      });
+                    }}
+                  >
+                    Gia Nhập
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
