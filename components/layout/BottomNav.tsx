@@ -47,8 +47,7 @@ export default function BottomNav() {
       {tabs.map((tab) => {
         const isActive =
           pathname === tab.path ||
-          (tab.path !== "/" && pathname.startsWith(tab.path)) ||
-          (tab.path === "/study/practice" && pathname.startsWith("/study"));
+          (tab.path !== "/" && tab.path !== "/study/practice" && pathname.startsWith(tab.path));
         return (
           <Link
             key={tab.path}

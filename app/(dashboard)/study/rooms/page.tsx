@@ -765,11 +765,11 @@ export default function GroupRoomsPage() {
 
   // Active Room View
   return (
-    <div className="max-w-5xl mx-auto h-[calc(100dvh-140px)] pb-20 md:pb-6" suppressHydrationWarning>
+    <div className="max-w-5xl mx-auto h-[calc(100dvh-220px)] md:h-[calc(100dvh-140px)] pb-0 md:pb-6" suppressHydrationWarning>
       {/* Main chat & Arena column */}
       <Card variant="bezel" className="w-full flex flex-col h-full overflow-hidden p-0 border-slate-200/40 dark:border-neutral-850 bg-white dark:bg-neutral-900 rounded-[calc(var(--radius-3xl)-6px)]">
         {/* Room Header with Custom Timer Selector & Share ID */}
-        <div className="p-3.5 border-b border-slate-100 dark:border-neutral-850 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-50/50 dark:bg-neutral-950">
+        <div className="p-3 md:p-3.5 border-b border-slate-100 dark:border-neutral-850 flex flex-col gap-2.5 bg-slate-50/50 dark:bg-neutral-950">
           <div>
             <div className="flex items-center gap-2">
               <h2 className="text-xs md:text-sm font-black text-slate-900 dark:text-white flex items-center gap-1.5 font-display">
@@ -786,7 +786,7 @@ export default function GroupRoomsPage() {
             <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">{activeRoom.description}</p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 flex-wrap">
             {/* Custom Timer Selector Dropdown */}
             <div className="relative">
               <button
@@ -837,7 +837,8 @@ export default function GroupRoomsPage() {
               className="rounded-xl font-bold cursor-pointer text-xs bg-blue-50 dark:bg-blue-950/40 border border-blue-300 dark:border-blue-700/50 text-blue-700 dark:text-blue-300 hover:bg-blue-100 flex items-center gap-1"
               onClick={() => setShowMembersModal(true)}
             >
-              <Users className="h-3.5 w-3.5 text-blue-600" /> Thành Viên ({members.length})
+              <Users className="h-3.5 w-3.5 text-blue-600" />
+              <span className="hidden sm:inline">Thành Viên</span> ({members.length})
             </Button>
 
             <VoiceControlPanel
@@ -888,11 +889,13 @@ export default function GroupRoomsPage() {
             <Button
               variant="secondary"
               size="sm"
-              className="rounded-xl font-bold cursor-pointer text-xs bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700/50 text-amber-700 dark:text-amber-300 hover:bg-amber-100"
+              className="rounded-xl font-bold cursor-pointer text-xs bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700/50 text-amber-700 dark:text-amber-300 hover:bg-amber-100 flex items-center gap-1"
               onClick={startQuizSession}
               disabled={quizActive}
             >
-              <Sparkles className="h-3.5 w-3.5 text-amber-500 fill-amber-400 mr-1 animate-pulse" /> 100 Test
+              <Sparkles className="h-3.5 w-3.5 text-amber-500 fill-amber-400 animate-pulse" />
+              <span className="hidden sm:inline">100 Test</span>
+              <span className="sm:hidden">Test</span>
             </Button>
 
             <Button
@@ -901,13 +904,14 @@ export default function GroupRoomsPage() {
               className="text-xs font-bold text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/20 cursor-pointer rounded-xl"
               onClick={leaveRoom}
             >
-              Rời phòng
+              <span className="hidden sm:inline">Rời phòng</span>
+              <span className="sm:hidden">Rời</span>
             </Button>
           </div>
         </div>
 
         {/* Tab Switcher: Chat Feed vs Speed Match Game */}
-        <div className="px-4 py-2 border-b border-slate-100 dark:border-neutral-850 flex items-center justify-between bg-slate-50/30 dark:bg-neutral-950">
+        <div className="px-3 md:px-4 py-2 border-b border-slate-100 dark:border-neutral-850 flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-slate-50/30 dark:bg-neutral-950">
           <div className="flex gap-2">
             <button
               onClick={() => setActiveTab("chat")}
@@ -1082,7 +1086,7 @@ export default function GroupRoomsPage() {
                   <motion.div
                     layout
                     key={msg.id}
-                    className={`flex items-start gap-2.5 max-w-[85%] ${isMe ? "ml-auto flex-row-reverse" : ""}`}
+                    className={`flex items-start gap-2 md:gap-2.5 max-w-[92%] sm:max-w-[85%] ${isMe ? "ml-auto flex-row-reverse" : ""}`}
                   >
                     <div className="relative cursor-pointer" onClick={() => setSelectedMemberModal(msg.user)}>
                       <span className={`text-xl block select-none p-1 rounded-full transition-all ${isUserVoiceActive ? "ring-4 ring-emerald-500/60 bg-emerald-50 dark:bg-emerald-950/40 animate-pulse" : ""}`}>
@@ -1106,7 +1110,7 @@ export default function GroupRoomsPage() {
                         )}
                         <span className="text-[8px] text-slate-400 font-semibold">{msg.time}</span>
                       </div>
-                      <div className={`p-3 rounded-2xl text-xs font-semibold leading-relaxed ${isMe ? "bg-blue-600 text-white rounded-tr-none" : "bg-slate-50 dark:bg-neutral-950 border border-slate-200/40 dark:border-neutral-850 text-slate-800 dark:text-slate-200 rounded-tl-none"}`}>
+                      <div className={`p-2.5 md:p-3 rounded-2xl text-xs font-semibold leading-relaxed break-words ${isMe ? "bg-blue-600 text-white rounded-tr-none" : "bg-slate-50 dark:bg-neutral-950 border border-slate-200/40 dark:border-neutral-850 text-slate-800 dark:text-slate-200 rounded-tl-none"}`}>
                         {msg.text}
                       </div>
                     </div>
@@ -1117,7 +1121,7 @@ export default function GroupRoomsPage() {
             </div>
 
             {/* Input box */}
-            <div className="p-4 border-t border-slate-100 dark:border-neutral-850 bg-slate-50/50 dark:bg-neutral-950">
+            <div className="p-3 md:p-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:pb-4 border-t border-slate-100 dark:border-neutral-850 bg-slate-50/50 dark:bg-neutral-950">
               <div className="flex gap-2">
                 <input
                   type="text"

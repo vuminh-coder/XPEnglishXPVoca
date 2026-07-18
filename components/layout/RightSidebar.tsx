@@ -278,9 +278,9 @@ export default function RightSidebar() {
                       {u.name.length > 12 ? u.name.slice(0, 10) + "..." : u.name}
                     </div>
                     <div className="text-[11px] text-muted font-semibold mt-0.5">
-                      <p className="text-cyan-500 font-black">
+                      <span className="text-cyan-500 font-black">
                         Cấp độ {u.level} ·{" "}
-                      </p>
+                      </span>
                       <span className="text-red-500 font-black">XP</span>
                       <span className="text-orange-500 font-black">
                         {" "}
