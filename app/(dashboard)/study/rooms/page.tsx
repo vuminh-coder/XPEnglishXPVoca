@@ -105,6 +105,9 @@ export default function GroupRoomsPage() {
   const [members, setMembers] = useState<UserProfile[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [sendingMsg, setSendingMsg] = useState(false);
+  const [isChatHidden, setIsChatHidden] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const prevMessagesCountRef = useRef(0);
   // My Selected Team
   const [myTeam, setMyTeam] = useState<string>("Tổ 1");
   // Team Level Balancing
@@ -248,7 +251,7 @@ export default function GroupRoomsPage() {
               ? {
                   id: m.user.id,
                   name: m.user.fullName || m.user.username || "Học viên",
-                  avatar: m.user.avatarEmoji || "🎓",
+                  avatar: m.user.id === user?.id ? (user?.avatarEmoji || m.user.avatarEmoji || "🦉") : (m.user.avatarEmoji || "🎓"),
                   level: m.user.title || "Intermediate",
                   xp: m.user.totalXp || 100,
                   team: "Tổ " + ((Math.abs(m.user.id.charCodeAt(0) || 1) % 5) + 1),
@@ -297,6 +300,35 @@ export default function GroupRoomsPage() {
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  // Reset message tracking when entering a room or toggling chat visibility
+  useEffect(() => {
+    prevMessagesCountRef.current = messages.length;
+    if (!isChatHidden) {
+      setUnreadCount(0);
+    }
+  }, [activeRoom, isChatHidden]);
+
+  // Track unread messages when chat is hidden and trigger a Toast notification
+  useEffect(() => {
+    if (isChatHidden) {
+      const diff = messages.length - prevMessagesCountRef.current;
+      if (diff > 0) {
+        setUnreadCount((c) => c + diff);
+        // Get the latest message content for notification
+        const latestMsg = messages[messages.length - 1];
+        if (latestMsg && !latestMsg.isSystem) {
+          const senderName = latestMsg.user?.name || (latestMsg.isAi ? "AI Mentor" : "Học viên");
+          addToast({
+            type: "xp", // elegant orange/amber highlight toast
+            title: `Tin nhắn mới từ ${senderName} 💬`,
+            message: latestMsg.text.length > 40 ? latestMsg.text.slice(0, 40) + "..." : latestMsg.text,
+          });
+        }
+      }
+    }
+    prevMessagesCountRef.current = messages.length;
+  }, [messages, isChatHidden, addToast]);
 
   // Timer countdown logic
   useEffect(() => {
@@ -358,7 +390,7 @@ export default function GroupRoomsPage() {
     }
 
     const rawList: UserProfile[] = [
-      { id: user?.id || "me", name: user?.username || "Bạn", avatar: "🎓", level: "Pro", xp: user?.totalXp || 1200 },
+      { id: user?.id || "me", name: user?.username || "Bạn", avatar: user?.avatarEmoji || "🦉", level: "Pro", xp: user?.totalXp || 1200 },
       { id: "ai_bot", name: "AI Mentor", avatar: "🤖", level: "AI Tutor", xp: 9999 },
       { id: "mem_2", name: "Jenny Tran", avatar: "👩‍🎨", level: "Advanced", xp: 3400 },
       { id: "mem_3", name: "Alex Pham", avatar: "👨‍🚀", level: "Intermediate", xp: 1980 },
@@ -433,7 +465,7 @@ export default function GroupRoomsPage() {
           user: {
             id: user?.id || "me",
             name: user?.username || "Bạn",
-            avatar: "🎓",
+            avatar: user?.avatarEmoji || "🦉",
             level: "Pro",
             xp: user?.totalXp || 1000,
             team: myTeam,
@@ -933,6 +965,30 @@ export default function GroupRoomsPage() {
             >
               <Gamepad2 className="h-3.5 w-3.5" /> ⚡ Game Nối Từ
             </button>
+            {activeTab === "chat" && (
+              <button
+                onClick={() => {
+                  if (isChatHidden) {
+                    setIsChatHidden(false);
+                    setUnreadCount(0);
+                  } else {
+                    setIsChatHidden(true);
+                  }
+                }}
+                className={`py-1 px-3 text-xs font-extrabold rounded-xl transition-all flex items-center gap-1 border border-slate-200 dark:border-neutral-800/80 hover:bg-slate-100 dark:hover:bg-neutral-850/60 cursor-pointer ${
+                  isChatHidden
+                    ? "bg-rose-50 dark:bg-rose-950/20 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-900/40"
+                    : "text-slate-500 hover:text-slate-800 dark:hover:text-white"
+                }`}
+              >
+                {isChatHidden ? "👁️ Hiện chat" : "👁️ Ẩn chat"}
+                {isChatHidden && unreadCount > 0 && (
+                  <span className="ml-1 bg-red-500 text-white text-[9px] px-1.5 py-0.5 rounded-full font-black animate-pulse">
+                    {unreadCount}
+                  </span>
+                )}
+              </button>
+            )}
           </div>
 
           {/* Select & Join Team Controls */}
@@ -1043,107 +1099,137 @@ export default function GroupRoomsPage() {
           <div className="p-4 flex-1 overflow-y-auto">
             <SpeedMatchGame pool={vocabPool.current} onBack={() => setActiveTab("chat")} />
           </div>
-        ) : (
-          <>
-            {/* Message feed */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
-              {messages.map((msg) => {
-                if (msg.isSystem) {
-                  return (
-                    <div key={msg.id} className="flex justify-center">
-                      <span className="bg-slate-50 dark:bg-neutral-950 text-[10px] text-slate-500 dark:text-slate-400 py-1 px-3 rounded-full font-bold border border-slate-200 dark:border-neutral-850">
-                        {msg.text}
-                      </span>
-                    </div>
-                  );
-                }
-
-                if (msg.isAi) {
-                  return (
-                    <motion.div key={msg.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex gap-2.5 max-w-[90%]">
-                      <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-xs shadow-md shrink-0">
-                        <Bot className="h-4 w-4" />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-1.5 mb-1">
-                          <span className="text-[10px] font-extrabold text-indigo-600 dark:text-indigo-400">AI Room Mentor</span>
-                          <Badge variant="primary" className="text-[8px] px-1.5 py-0">BOT AI</Badge>
-                          <span className="text-[8px] text-slate-400 font-semibold">{msg.time}</span>
-                        </div>
-                        <div className="p-3.5 rounded-2xl rounded-tl-none bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/40 text-xs font-semibold text-slate-800 dark:text-slate-200 leading-relaxed shadow-xs">
-                          {msg.text}
-                        </div>
-                      </div>
-                    </motion.div>
-                  );
-                }
-
-                const isMe = msg.user?.id === user?.id || msg.user?.name === (user?.username || "Bạn");
-                const isUserVoiceActive = isMe
-                  ? voiceChannel.isConnected && voiceChannel.isSpeaking && !voiceChannel.isMuted
-                  : false;
-                return (
-                  <motion.div
-                    layout
-                    key={msg.id}
-                    className={`flex items-start gap-2 md:gap-2.5 max-w-[92%] sm:max-w-[85%] ${isMe ? "ml-auto flex-row-reverse" : ""}`}
-                  >
-                    <div className="relative cursor-pointer" onClick={() => setSelectedMemberModal(msg.user)}>
-                      <span className={`text-xl block select-none p-1 rounded-full transition-all ${isUserVoiceActive ? "ring-4 ring-emerald-500/60 bg-emerald-50 dark:bg-emerald-950/40 animate-pulse" : ""}`}>
-                        {msg.user?.avatar || "🎓"}
-                      </span>
-                      {isUserVoiceActive && (
-                        <span className="absolute -bottom-1 -right-1 text-[8px] bg-emerald-500 text-white rounded-full px-1 py-0.2 font-black shadow-xs">
-                          🎙️
-                        </span>
-                      )}
-                    </div>
-                    <div>
-                      <div className={`flex items-center gap-1.5 mb-1 ${isMe ? "justify-end" : "justify-start"}`}>
-                        <span className="text-[10px] font-extrabold text-slate-700 dark:text-slate-300 cursor-pointer hover:underline" onClick={() => setSelectedMemberModal(msg.user)}>
-                          {msg.user?.name}
-                        </span>
-                        {msg.user?.team && (
-                          <Badge variant="neutral" className="text-[8px] px-1.5 py-0 font-bold bg-amber-100 text-amber-800 border-amber-300">
-                            {msg.user.team}
-                          </Badge>
-                        )}
-                        <span className="text-[8px] text-slate-400 font-semibold">{msg.time}</span>
-                      </div>
-                      <div className={`p-2.5 md:p-3 rounded-2xl text-xs font-semibold leading-relaxed break-words ${isMe ? "bg-blue-600 text-white rounded-tr-none" : "bg-slate-50 dark:bg-neutral-950 border border-slate-200/40 dark:border-neutral-850 text-slate-800 dark:text-slate-200 rounded-tl-none"}`}>
-                        {msg.text}
-                      </div>
-                    </div>
-                  </motion.div>
-                );
-              })}
-              <div ref={chatEndRef} />
-            </div>
-
-            {/* Input box */}
-            <div className="p-3 md:p-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:pb-4 border-t border-slate-100 dark:border-neutral-850 bg-slate-50/50 dark:bg-neutral-950">
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  className="flex-1 py-2.5 px-4 text-xs font-semibold rounded-xl bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-850 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-300/30 text-slate-800 dark:text-slate-200"
-                  placeholder={`Nhắn tin công khai cùng nhóm (${myTeam}). Gõ @AI để hỏi bài...`}
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-                />
+        ) : isChatHidden ? (
+              <div className="flex-1 flex flex-col items-center justify-center p-6 text-center space-y-4 bg-slate-50/10 dark:bg-neutral-950/10">
+                <div className="relative">
+                  <div className="w-16 h-16 rounded-full bg-slate-100 dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 flex items-center justify-center text-2xl select-none">
+                    💬
+                  </div>
+                  {unreadCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full font-black border-2 border-white dark:border-neutral-900 animate-bounce">
+                      {unreadCount} tin nhắn mới
+                    </span>
+                  )}
+                </div>
+                <div className="space-y-1 max-w-sm">
+                  <h3 className="text-sm font-black text-slate-800 dark:text-white">Đoạn chat đang ẩn</h3>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 font-semibold leading-relaxed">
+                    Bạn đã ẩn cuộc trò chuyện để tập trung học. Thông báo sẽ tự động cập nhật khi có tin nhắn mới gửi đến nhóm.
+                  </p>
+                </div>
                 <Button
                   variant="primary"
-                  size="md"
-                  className="shrink-0 aspect-square rounded-xl cursor-pointer text-white dark:text-white bg-blue-600"
-                  onClick={sendMessage}
-                  disabled={sendingMsg}
+                  size="sm"
+                  className="rounded-xl font-black text-xs text-white bg-blue-600 hover:bg-blue-700 shadow-md cursor-pointer px-4 py-2"
+                  onClick={() => {
+                    setIsChatHidden(false);
+                    setUnreadCount(0);
+                  }}
                 >
-                  <Send className="h-4 w-4" />
+                  Hiện đoạn chat
                 </Button>
               </div>
-            </div>
-          </>
-        )}
+            ) : (
+              <>
+                {/* Message feed */}
+                <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                  {messages.map((msg) => {
+                    if (msg.isSystem) {
+                      return (
+                        <div key={msg.id} className="flex justify-center">
+                          <span className="bg-slate-50 dark:bg-neutral-950 text-[10px] text-slate-500 dark:text-slate-400 py-1 px-3 rounded-full font-bold border border-slate-200 dark:border-neutral-850">
+                            {msg.text}
+                          </span>
+                        </div>
+                      );
+                    }
+
+                    if (msg.isAi) {
+                      return (
+                        <motion.div key={msg.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex gap-2.5 max-w-[90%]">
+                          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-xs shadow-md shrink-0">
+                            <Bot className="h-4 w-4" />
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-1.5 mb-1">
+                              <span className="text-[10px] font-extrabold text-indigo-600 dark:text-indigo-400">AI Room Mentor</span>
+                              <Badge variant="primary" className="text-[8px] px-1.5 py-0">BOT AI</Badge>
+                              <span className="text-[8px] text-slate-400 font-semibold">{msg.time}</span>
+                            </div>
+                            <div className="p-3.5 rounded-2xl rounded-tl-none bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/40 text-xs font-semibold text-slate-800 dark:text-slate-200 leading-relaxed shadow-xs">
+                              {msg.text}
+                            </div>
+                          </div>
+                        </motion.div>
+                      );
+                    }
+
+                    const isMe = msg.user?.id === user?.id || msg.user?.name === (user?.username || "Bạn");
+                    const isUserVoiceActive = isMe
+                      ? voiceChannel.isConnected && voiceChannel.isSpeaking && !voiceChannel.isMuted
+                      : false;
+                    return (
+                      <motion.div
+                        layout
+                        key={msg.id}
+                        className={`flex items-start gap-2 md:gap-2.5 max-w-[92%] sm:max-w-[85%] ${isMe ? "ml-auto flex-row-reverse" : ""}`}
+                      >
+                        <div className="relative cursor-pointer" onClick={() => setSelectedMemberModal(msg.user)}>
+                          <span className={`text-xl block select-none p-1 rounded-full transition-all ${isUserVoiceActive ? "ring-4 ring-emerald-500/60 bg-emerald-50 dark:bg-emerald-950/40 animate-pulse" : ""}`}>
+                            {isMe ? (user?.avatarEmoji || "🦉") : (msg.user?.avatar || "🎓")}
+                          </span>
+                          {isUserVoiceActive && (
+                            <span className="absolute -bottom-1 -right-1 text-[8px] bg-emerald-500 text-white rounded-full px-1 py-0.2 font-black shadow-xs">
+                              🎙️
+                            </span>
+                          )}
+                        </div>
+                        <div>
+                          <div className={`flex items-center gap-1.5 mb-1 ${isMe ? "justify-end" : "justify-start"}`}>
+                            <span className="text-[10px] font-extrabold text-slate-700 dark:text-slate-300 cursor-pointer hover:underline" onClick={() => setSelectedMemberModal(msg.user)}>
+                              {msg.user?.name}
+                            </span>
+                            {msg.user?.team && (
+                              <Badge variant="neutral" className="text-[8px] px-1.5 py-0 font-bold bg-amber-100 text-amber-800 border-amber-300">
+                                {msg.user.team}
+                              </Badge>
+                            )}
+                            <span className="text-[8px] text-slate-400 font-semibold">{msg.time}</span>
+                          </div>
+                          <div className={`p-2.5 md:p-3 rounded-2xl text-xs font-semibold leading-relaxed break-words ${isMe ? "bg-blue-600 text-white rounded-tr-none" : "bg-slate-50 dark:bg-neutral-950 border border-slate-200/40 dark:border-neutral-850 text-slate-800 dark:text-slate-200 rounded-tl-none"}`}>
+                            {msg.text}
+                          </div>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                  <div ref={chatEndRef} />
+                </div>
+
+                {/* Input box */}
+                <div className="p-3 md:p-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:pb-4 border-t border-slate-100 dark:border-neutral-850 bg-slate-50/50 dark:bg-neutral-950">
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      className="flex-1 py-2.5 px-4 text-xs font-semibold rounded-xl bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-850 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-300/30 text-slate-800 dark:text-slate-200"
+                      placeholder={`Nhắn tin công khai cùng nhóm (${myTeam}). Gõ @AI để hỏi bài...`}
+                      value={inputValue}
+                      onChange={(e) => setInputValue(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+                    />
+                    <Button
+                      variant="primary"
+                      size="md"
+                      className="shrink-0 aspect-square rounded-xl cursor-pointer text-white dark:text-white bg-blue-600"
+                      onClick={sendMessage}
+                      disabled={sendingMsg}
+                    >
+                      <Send className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </>
+            )}
       </Card>
 
 
