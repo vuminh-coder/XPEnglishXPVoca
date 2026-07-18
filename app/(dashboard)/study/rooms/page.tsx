@@ -798,81 +798,83 @@ export default function GroupRoomsPage() {
   // Active Room View
   return (
     <div className="max-w-5xl mx-auto h-[calc(100dvh-220px)] md:h-[calc(100dvh-140px)] pb-0 md:pb-6" suppressHydrationWarning>
-      {/* Main chat & Arena column */}
-      <Card variant="bezel" className="w-full flex flex-col h-full overflow-hidden p-0 border-slate-200/40 dark:border-neutral-850 bg-white dark:bg-neutral-900 rounded-[calc(var(--radius-3xl)-6px)]">
+      <div className="w-full flex flex-col h-full overflow-hidden border-2 border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 rounded-[calc(var(--radius-3xl)-6px)] relative shadow-md">
         {/* Room Header with Custom Timer Selector & Share ID */}
-        <div className="p-3 md:p-3.5 border-b border-slate-100 dark:border-neutral-850 flex flex-col gap-2.5 bg-slate-50/50 dark:bg-neutral-950">
-          <div>
-            <div className="flex items-center gap-2">
-              <h2 className="text-xs md:text-sm font-black text-slate-900 dark:text-white flex items-center gap-1.5 font-display">
+        <div className="p-3 md:p-3.5 border-b border-slate-100 dark:border-neutral-850 flex flex-col gap-2 bg-slate-50/50 dark:bg-neutral-950">
+          {/* Row 1: Title, ID & Stats (Timer, Members) */}
+          <div className="flex items-center justify-between gap-2 flex-wrap">
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <h2 className="text-xs md:text-sm font-black text-slate-900 dark:text-white font-display">
                 {activeRoom.name}
               </h2>
               <button
                 onClick={handleCopyLink}
-                className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/40 py-0.5 px-2 rounded-md border border-indigo-200/50 dark:border-indigo-800/40 flex items-center gap-1 hover:bg-indigo-100"
+                className="text-[9px] font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/40 py-0.5 px-2 rounded-md border border-indigo-200/50 dark:border-indigo-800/40 flex items-center gap-1 hover:bg-indigo-100"
               >
                 {copiedLink ? <Check className="h-3 w-3 text-emerald-500" /> : <Copy className="h-3 w-3" />}
                 ID: {activeRoom.id.slice(0, 8)}
               </button>
+              <p className="text-[10px] text-slate-500 dark:text-slate-400 hidden sm:block">{activeRoom.description}</p>
             </div>
-            <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">{activeRoom.description}</p>
+
+            {/* Quick Badges (Timer & Members list trigger) */}
+            <div className="flex items-center gap-1.5">
+              {/* Pomodoro Timer Badge */}
+              <div className="relative">
+                <button
+                  onClick={() => setShowTimerSettings(!showTimerSettings)}
+                  className="flex items-center gap-1 py-0.5 px-2 rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-300/60 dark:border-amber-700/50 text-amber-700 dark:text-amber-300 font-mono text-[10px] font-black cursor-pointer hover:bg-amber-100 shadow-xs"
+                >
+                  <Clock className="h-3 w-3 text-amber-500 animate-spin" style={{ animationDuration: "10s" }} />
+                  <span>{formatPomodoroTime(pomodoroSeconds)}</span>
+                </button>
+
+                {/* Timer Settings Dropdown */}
+                {showTimerSettings && (
+                  <div className="absolute right-0 top-7 z-30 w-48 p-3 bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 rounded-2xl shadow-xl space-y-2">
+                    <p className="text-[10px] font-black text-slate-400 uppercase">Chọn thời lượng tập trung</p>
+                    <div className="grid grid-cols-2 gap-1.5">
+                      {[15, 25, 45, 60].map((m) => (
+                        <button
+                          key={m}
+                          onClick={() => changeTimerDuration(m)}
+                          className={`py-1.5 text-xs font-extrabold rounded-lg border transition-all ${
+                            timerMinutes === m
+                              ? "bg-amber-500 text-white border-amber-500"
+                              : "bg-slate-50 dark:bg-neutral-950 border-slate-200 dark:border-neutral-800 text-slate-700 dark:text-slate-300"
+                          }`}
+                        >
+                          {m} phút
+                        </button>
+                      ))}
+                    </div>
+
+                    <div className="pt-1 flex items-center gap-1">
+                      <button
+                        onClick={() => setIsTimerPaused(!isTimerPaused)}
+                        className="flex-1 py-1 px-2 text-[10px] font-bold rounded-lg bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 border border-indigo-200 flex items-center justify-center gap-1"
+                      >
+                        {isTimerPaused ? <Play className="h-3 w-3" /> : <Pause className="h-3 w-3" />}
+                        {isTimerPaused ? "Tiếp tục" : "Tạm dừng"}
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Members Count Badge */}
+              <button
+                onClick={() => setShowMembersModal(true)}
+                className="flex items-center gap-1 py-0.5 px-2 rounded-lg bg-blue-50/80 dark:bg-blue-950/40 border border-blue-200/60 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-[10px] font-extrabold cursor-pointer hover:bg-blue-100"
+              >
+                <Users className="h-3 w-3 text-blue-500" />
+                <span>Thành Viên ({members.length})</span>
+              </button>
+            </div>
           </div>
 
-          <div className="flex items-center gap-1.5 flex-wrap">
-            {/* Custom Timer Selector Dropdown */}
-            <div className="relative">
-              <button
-                onClick={() => setShowTimerSettings(!showTimerSettings)}
-                className="flex items-center gap-1.5 py-1 px-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700/50 text-amber-700 dark:text-amber-300 font-mono text-[11px] font-black cursor-pointer hover:bg-amber-100 shadow-xs"
-              >
-                <Clock className="h-3.5 w-3.5 text-amber-500 animate-spin" style={{ animationDuration: "10s" }} />
-                <span>{formatPomodoroTime(pomodoroSeconds)}</span>
-                <Sliders className="h-3 w-3 ml-0.5" />
-              </button>
-
-              {/* Timer Settings Dropdown */}
-              {showTimerSettings && (
-                <div className="absolute right-0 top-10 z-30 w-48 p-3 bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 rounded-2xl shadow-xl space-y-2">
-                  <p className="text-[10px] font-black text-slate-400 uppercase">Chọn thời lượng tập trung</p>
-                  <div className="grid grid-cols-2 gap-1.5">
-                    {[15, 25, 45, 60].map((m) => (
-                      <button
-                        key={m}
-                        onClick={() => changeTimerDuration(m)}
-                        className={`py-1.5 text-xs font-extrabold rounded-lg border transition-all ${
-                          timerMinutes === m
-                            ? "bg-amber-500 text-white border-amber-500"
-                            : "bg-slate-50 dark:bg-neutral-950 border-slate-200 dark:border-neutral-800 text-slate-700 dark:text-slate-300"
-                        }`}
-                      >
-                        {m} phút
-                      </button>
-                    ))}
-                  </div>
-
-                  <div className="pt-1 flex items-center gap-1">
-                    <button
-                      onClick={() => setIsTimerPaused(!isTimerPaused)}
-                      className="flex-1 py-1 px-2 text-[10px] font-bold rounded-lg bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 border border-indigo-200 flex items-center justify-center gap-1"
-                    >
-                      {isTimerPaused ? <Play className="h-3 w-3" /> : <Pause className="h-3 w-3" />}
-                      {isTimerPaused ? "Tiếp tục" : "Tạm dừng"}
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <Button
-              variant="secondary"
-              size="sm"
-              className="rounded-xl font-bold cursor-pointer text-xs bg-blue-50 dark:bg-blue-950/40 border border-blue-300 dark:border-blue-700/50 text-blue-700 dark:text-blue-300 hover:bg-blue-100 flex items-center gap-1"
-              onClick={() => setShowMembersModal(true)}
-            >
-              <Users className="h-3.5 w-3.5 text-blue-600" />
-              <span className="hidden sm:inline">Thành Viên</span> ({members.length})
-            </Button>
-
+          {/* Row 2: Action tools (Voice panel, 100 Test quiz, Leave room) */}
+          <div className="flex items-center gap-2 flex-wrap pb-1">
             <VoiceControlPanel
               isConnected={voiceChannel.isConnected}
               isMuted={voiceChannel.isMuted}
@@ -926,8 +928,7 @@ export default function GroupRoomsPage() {
               disabled={quizActive}
             >
               <Sparkles className="h-3.5 w-3.5 text-amber-500 fill-amber-400 animate-pulse" />
-              <span className="hidden sm:inline">100 Test</span>
-              <span className="sm:hidden">Test</span>
+              <span>100 Test</span>
             </Button>
 
             <Button
@@ -936,15 +937,14 @@ export default function GroupRoomsPage() {
               className="text-xs font-bold text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/20 cursor-pointer rounded-xl"
               onClick={leaveRoom}
             >
-              <span className="hidden sm:inline">Rời phòng</span>
-              <span className="sm:hidden">Rời</span>
+              <span>Rời phòng</span>
             </Button>
           </div>
         </div>
 
-        {/* Tab Switcher: Chat Feed vs Speed Match Game */}
-        <div className="px-3 md:px-4 py-2 border-b border-slate-100 dark:border-neutral-850 flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-slate-50/30 dark:bg-neutral-950">
-          <div className="flex gap-2">
+        {/* Tab Switcher: Chat Feed vs Speed Match Game vs Toggle Hide Chat */}
+        <div className="px-3 md:px-4 py-1.5 border-b border-slate-100 dark:border-neutral-850 flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-slate-50/30 dark:bg-neutral-950">
+          <div className="flex gap-2 items-center flex-wrap">
             <button
               onClick={() => setActiveTab("chat")}
               className={`py-1 px-3 text-xs font-extrabold rounded-xl transition-all ${
@@ -992,42 +992,44 @@ export default function GroupRoomsPage() {
           </div>
 
           {/* Select & Join Team Controls */}
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1">
-              <span className="text-[10px] font-bold text-slate-400">Chọn Tổ:</span>
-              <select
-                value={myTeam}
-                onChange={(e) => {
-                  setMyTeam(e.target.value);
-                  setIsJoinedTeam(false);
-                }}
-                className="py-1 px-2 text-[11px] font-extrabold rounded-lg bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border border-amber-300/50 focus:outline-none"
+          <div className="flex items-center gap-2 flex-wrap">
+            {isJoinedTeam ? (
+              <span
+                className="text-[10px] font-extrabold px-2 py-0.5 rounded-lg bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-300/40 cursor-pointer hover:bg-amber-100 flex items-center gap-1"
+                onClick={() => setIsJoinedTeam(false)}
+                title="Bấm để đổi Tổ"
               >
-                {TEAMS_LIST.map((t) => (
-                  <option key={t} value={t}>{t}</option>
-                ))}
-              </select>
-            </div>
-
-            <Button
-              variant="primary"
-              size="sm"
-              className={`rounded-lg text-[11px] font-black py-1 px-3 transition-all ${
-                isJoinedTeam
-                  ? "bg-emerald-600 text-white shadow-xs cursor-default"
-                  : "bg-amber-500 hover:bg-amber-600 text-white cursor-pointer shadow-md"
-              }`}
-              onClick={() => {
-                setIsJoinedTeam(true);
-                addToast({
-                  type: "xp",
-                  title: `Đã Gia Nhập ${myTeam}! 🛡️`,
-                  message: `Bạn đang thi đấu đại diện cho ${myTeam}!`,
-                });
-              }}
-            >
-              {isJoinedTeam ? `✓ Đã Vào ${myTeam}` : `Gia Nhập ${myTeam}`}
-            </Button>
+                🛡️ Bạn thuộc: {myTeam} <span className="text-[8px] text-slate-400 font-bold ml-1 hover:underline">(Đổi)</span>
+              </span>
+            ) : (
+              <div className="flex items-center gap-1.5">
+                <span className="text-[10px] font-bold text-slate-400">Chọn Tổ:</span>
+                <select
+                  value={myTeam}
+                  onChange={(e) => {
+                    setMyTeam(e.target.value);
+                  }}
+                  className="py-0.5 px-1.5 text-[11px] font-extrabold rounded-lg bg-amber-50 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border border-amber-300/50 focus:outline-none"
+                >
+                  {TEAMS_LIST.map((t) => (
+                    <option key={t} value={t}>{t}</option>
+                  ))}
+                </select>
+                <button
+                  className="rounded-lg text-[10px] font-black py-0.5 px-2 bg-amber-500 hover:bg-amber-600 text-white cursor-pointer shadow-xs transition-all"
+                  onClick={() => {
+                    setIsJoinedTeam(true);
+                    addToast({
+                      type: "xp",
+                      title: `Đã Gia Nhập ${myTeam}! 🛡️`,
+                      message: `Bạn đang thi đấu đại diện cho ${myTeam}!`,
+                    });
+                  }}
+                >
+                  Gia Nhập
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
@@ -1230,7 +1232,7 @@ export default function GroupRoomsPage() {
                 </div>
               </>
             )}
-      </Card>
+      </div>
 
 
 

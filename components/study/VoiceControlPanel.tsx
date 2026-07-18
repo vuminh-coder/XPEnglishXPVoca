@@ -85,18 +85,21 @@ export function VoiceControlPanel({
           isMuted ? (
             <>
               <MicOff className="h-3.5 w-3.5 text-white stroke-[2.5]" />
-              <span>🔇 Muted</span>
+              <span className="hidden sm:inline">🔇 Muted</span>
+              <span className="sm:hidden">Mute</span>
             </>
           ) : (
             <>
               <Mic className="h-3.5 w-3.5 text-white" />
-              <span>🎙️ {isSpeaking ? "Đang phát tiếng..." : "Đã vào Kênh Thoại"}</span>
+              <span className="hidden sm:inline">🎙️ {isSpeaking ? "Đang phát tiếng..." : "Đã vào Kênh Thoại"}</span>
+              <span className="sm:hidden">{isSpeaking ? "Nói" : "Bật"}</span>
             </>
           )
         ) : (
           <>
             <Mic className="h-3.5 w-3.5 text-slate-500 dark:text-slate-400" />
-            <span>🎙️ Vào Kênh Thoại</span>
+            <span className="hidden sm:inline">🎙️ Vào Kênh Thoại</span>
+            <span className="sm:hidden">Thoại</span>
           </>
         )}
       </Button>
