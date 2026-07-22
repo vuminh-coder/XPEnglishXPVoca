@@ -271,8 +271,16 @@ export default function FriendsPage() {
                 <div key={s.id} className="bezel lift">
                   <div className="bezel-inner p-4 flex justify-between items-center bg-white dark:bg-neutral-900">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-neutral-100 dark:bg-neutral-800 rounded-full flex items-center justify-center text-lg border border-black/5 dark:border-white/5 flex-shrink-0">
-                        <span>{s.avatarEmoji}</span>
+                      <div className="w-10 h-10 bg-neutral-100 dark:bg-neutral-800 rounded-full flex items-center justify-center text-lg border border-black/5 dark:border-white/5 flex-shrink-0 overflow-hidden">
+                        {s.imageUrl ? (
+                          <img src={s.imageUrl} alt={s.fullName} className="w-full h-full object-cover" />
+                        ) : s.avatarEmoji && s.avatarEmoji !== "🦉" ? (
+                          <span>{s.avatarEmoji}</span>
+                        ) : (
+                          <span className="text-xs font-black text-slate-800 dark:text-white">
+                            {(s.fullName || s.username || "XP").slice(0, 2).toUpperCase()}
+                          </span>
+                        )}
                       </div>
                       <div>
                         <div className="text-xs font-bold text-gray-900 dark:text-gray-100">

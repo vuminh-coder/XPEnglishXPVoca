@@ -22,8 +22,12 @@ import {
   Send,
   Loader2,
   Bot,
+  User as UserIcon,
+  Shield,
+  ChevronRight,
 } from "lucide-react";
 import { getXpProgress } from "@/lib/utils/calculateXP";
+import { LEVEL_TITLES } from "@/lib/constants";
 import { Button, Badge } from "@/components/ui";
 
 const containerVariants = {
@@ -237,40 +241,38 @@ export default function DashboardPage() {
   );
   const completedChallenges = challenges.filter((c) => c.isCompleted).length;
   const remainingWords = Math.max(0, 10 - wordsPracticedToday);
+  const userTitle = LEVEL_TITLES[user.level] || user.title || "Word Explorer";
 
   const maxWeeklyXp = Math.max(...weeklyXp.map((d) => d.xp), 1);
 
   const quickActions = [
     {
-      title: "Luyện tập từ vựng",
-      description: "Flashcard, quiz và điền từ",
+      title: "Luyện từ vựng",
+      badge: "Flashcard & Quiz",
       href: "/study/practice",
       icon: PenLine,
-      accent: "from-cyan-500/20 to-sky-500/20 text-cyan-600 dark:text-cyan-400",
+      accent: "from-cyan-500/20 to-sky-500/20 text-cyan-600 dark:text-cyan-400 border-cyan-500/30",
     },
     {
       title: "Đấu trường PvP",
-      description: "So tài từ vựng thời gian thực",
+      badge: "So tài Realtime",
       href: "/study/pvp",
       icon: Swords,
-      accent:
-        "from-indigo-500/20 to-violet-500/20 text-indigo-600 dark:text-indigo-400",
+      accent: "from-indigo-500/20 to-violet-500/20 text-indigo-600 dark:text-indigo-400 border-indigo-500/30",
     },
     {
       title: "Khám phá chủ đề",
-      description: "Bộ từ theo chủ đề và mức độ",
+      badge: "Bộ từ 3,900+",
       href: "/vocabulary",
       icon: Globe,
-      accent:
-        "from-amber-500/20 to-orange-500/20 text-amber-600 dark:text-amber-400",
+      accent: "from-amber-500/20 to-orange-500/20 text-amber-600 dark:text-amber-400 border-amber-500/30",
     },
     {
       title: "Cửa hàng vật phẩm",
-      description: "Mua bình năng lượng & trang phục",
+      badge: "Vàng & Trang phục",
       href: "/shop",
       icon: Coins,
-      accent:
-        "from-yellow-500/20 to-amber-500/20 text-yellow-600 dark:text-yellow-400",
+      accent: "from-yellow-500/20 to-amber-500/20 text-yellow-600 dark:text-amber-400 border-yellow-500/30",
     },
   ];
 
@@ -288,8 +290,8 @@ export default function DashboardPage() {
     addToast({
       type: "success",
       title: "Nhận thưởng thành công! 🎉",
-      message: `Bạn nhận được +${xp} XP và +${coins} Vàng. Tiếp tục phát huy nhé!`,
-      duration: 3500,
+      message: `+${xp} XP và +${coins} Vàng đã được cộng vào tài khoản!`,
+      duration: 3000,
     });
   };
 
@@ -319,18 +321,18 @@ export default function DashboardPage() {
         awardXp(10);
         addToast({
           type: "success",
-          title: "AI đã trả lời! 🤖",
-          message: "Bạn đã nhận được +10 XP cho việc tích cực học hỏi.",
+          title: "AI Tutor đã trả lời! 🤖",
+          message: "+10 XP cho tinh thần chủ động học hỏi.",
         });
       } else {
         setAiAnswer(
-          "Xin lỗi, AI Tutor tạm thời không thể kết nối. Hãy thử lại sau.",
+          "AI Tutor đang bận. Vui lòng gửi lại câu hỏi sau giây lát.",
         );
       }
     } catch (e) {
       console.error(e);
       setAiAnswer(
-        "Không có kết nối mạng ổn định. Vui lòng kiểm tra lại đường truyền.",
+        "Không có kết nối mạng. Vui lòng kiểm tra lại đường truyền.",
       );
     } finally {
       setIsAiLoading(false);
@@ -339,7 +341,7 @@ export default function DashboardPage() {
 
   return (
     <div
-      className="space-y-6 md:space-y-8 pb-24 md:pb-8 px-1 md:px-0 relative"
+      className="space-y-5 md:space-y-7 pb-24 md:pb-8 px-1 md:px-0 relative select-none"
       suppressHydrationWarning
     >
       {/* Mobile Landscape Orientation Overlay */}
@@ -351,128 +353,144 @@ export default function DashboardPage() {
         <p className="text-xs font-semibold text-slate-700 dark:text-slate-300 mt-1">XP English | XP Voca hoạt động tốt nhất ở chế độ màn hình dọc.</p>
       </div>
 
-      {/* 1. Header Row with Official Owl Logo */}
+      {/* 1. Sleek Greeting & Quick Metrics Header (Non-redundant with RightSidebar) */}
       <motion.div
-        initial={{ opacity: 0, y: -12 }}
+        initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 90, damping: 15 }}
-        className="flex flex-col md:flex-row md:items-center md:justify-between gap-3.5 border-b border-slate-200/60 dark:border-neutral-800 pb-4"
+        className="bezel-outer p-1 bg-gradient-to-r from-blue-600/10 via-sky-500/5 to-amber-500/10 dark:from-blue-600/15 dark:via-sky-500/10 dark:to-amber-500/15 border border-blue-500/15 dark:border-white/10 rounded-2xl shadow-xs backdrop-blur-md"
       >
-        <div className="space-y-1">
-          <h1 className="text-xl md:text-3xl font-black tracking-tight text-slate-900 dark:text-white font-display">
-            Trang chủ học tập
-          </h1>
-          <p className="text-xs md:text-sm font-semibold text-slate-700 dark:text-slate-300">
-            Lộ trình học từ vựng tiếng Anh thông minh và theo sát mục tiêu mỗi
-            ngày.
-          </p>
+        <div className="bezel-inner rounded-[calc(var(--radius-2xl,1rem)-4px)] p-4 sm:p-4.5 bg-white/90 dark:bg-[#0c0c12]/90 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h1 className="text-base sm:text-xl font-black tracking-tight text-slate-900 dark:text-white font-display flex items-center gap-2">
+              <span>Sẵn sàng bứt phá hôm nay? 🚀</span>
+            </h1>
+            <p className="text-xs font-semibold text-slate-700 dark:text-slate-300 mt-0.5">
+              Hoàn thành lộ trình bài học để duy trì chuỗi Streak và tích lũy XP.
+            </p>
+          </div>
+
+          {/* Quick Stat Chips (Non-redundant with Sidebar profile) */}
+          <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap shrink-0">
+            <div className="flex items-center gap-1.5 text-xs font-black text-amber-500 dark:text-amber-400 bg-amber-500/10 dark:bg-amber-500/15 px-2.5 py-1.5 rounded-xl border border-amber-500/20 shadow-xs">
+              <Flame className="w-4 h-4 fill-amber-500 stroke-none animate-pulse" />
+              {user.currentStreak} ngày
+            </div>
+            <div className="flex items-center gap-1.5 text-xs font-black text-yellow-600 dark:text-yellow-400 bg-yellow-500/10 dark:bg-yellow-500/15 px-2.5 py-1.5 rounded-xl border border-yellow-500/20 shadow-xs">
+              <Coins className="w-4 h-4 text-yellow-500 stroke-[2.2]" />
+              {user.coins ?? 0} Vàng
+            </div>
+            <div className="flex items-center gap-1.5 text-xs font-black text-[#0059bb] dark:text-sky-400 bg-blue-500/10 dark:bg-blue-500/15 px-2.5 py-1.5 rounded-xl border border-blue-500/20 shadow-xs">
+              <Zap className="w-4 h-4 text-sky-500 fill-sky-500/30 stroke-[2.2]" />
+              {user.totalXp} XP
+            </div>
+          </div>
         </div>
-        <Link href="/profile" className="self-start md:self-auto">
-          <Button
-            variant="secondary"
-            className="h-10 px-4 text-xs font-black rounded-xl active:scale-[0.98] transition-all border border-amber-500/30 hover:border-amber-500/60 text-slate-900 dark:text-white shadow-sm flex items-center gap-2"
-            leftIcon={
-              <Trophy
-                className="w-4 h-4 text-amber-500 stroke-[2]"
-              />
-            }
-          >
-            Bảng thành tích
-          </Button>
-        </Link>
       </motion.div>
 
-      {/* 2. Responsive Bento Grid */}
+      {/* 2. Streamlined Bento Grid */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="show"
-        className="grid grid-cols-1 lg:grid-cols-3 gap-5 md:gap-6 auto-rows-max"
+        className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-5 auto-rows-max"
       >
-        {/* ROW 1: Learning Path (2 cols) & Streak Tracker (1 col) */}
+        {/* ROW 1: Learning Path (2 cols) & Streak Card (1 col) */}
         <motion.div variants={itemVariants} className="lg:col-span-2">
           <div className="bezel h-full">
-            <div className="bezel-inner p-4 sm:p-5 md:p-6 bg-gradient-to-br from-[#0059bb]/10 via-sky-500/10 to-amber-500/10 h-full flex flex-col justify-between min-h-[170px] border border-blue-500/10">
+            <div className="bezel-inner p-4 sm:p-5 bg-gradient-to-br from-[#0059bb]/10 via-sky-500/5 to-indigo-500/10 dark:from-[#0059bb]/20 dark:via-sky-500/10 dark:to-indigo-500/15 h-full flex flex-col justify-between min-h-[160px] border border-blue-500/15 rounded-[calc(var(--radius-2xl,1rem)-4px)]">
               <div>
-                <div className="mb-2">
+                <div className="flex items-center justify-between gap-2 mb-2">
                   <Badge
                     variant="primary"
-                    className="gap-1.5 bg-white/80 border-blue-500/30 dark:bg-neutral-900/80 dark:border-white/10 text-xs font-black text-[#0059bb] dark:text-blue-400 py-1 px-2.5 shadow-sm"
+                    className="gap-1 bg-white/90 border-blue-500/30 dark:bg-neutral-900/90 dark:border-white/10 text-[11px] font-black text-[#0059bb] dark:text-sky-400 py-0.5 px-2.5 shadow-sm"
                   >
-                    <Sparkles className="h-3.5 w-3.5 text-amber-500 fill-amber-500/20" />
+                    <Sparkles className="h-3 w-3 text-amber-500 fill-amber-500" />
                     Lộ trình hôm nay
                   </Badge>
+                  <span className="text-xs font-black text-slate-700 dark:text-slate-300">
+                    Tiến trình: <span className="text-[#0059bb] dark:text-sky-400">{10 - remainingWords}</span>/10 từ
+                  </span>
                 </div>
-                <h2 className="text-base md:text-xl font-black tracking-tight text-slate-900 dark:text-white font-display">
+
+                <h2 className="text-base sm:text-xl font-black tracking-tight text-slate-900 dark:text-white font-display">
                   {currentTask || "Unit 5: Office & Work Communications"}
                 </h2>
-                <p className="mt-1.5 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 leading-relaxed">
-                  Hãy học thêm <span className="text-[#0059bb] dark:text-sky-400 font-extrabold">{remainingWords} từ vựng mới</span> để hoàn thành mục
-                  tiêu ngày hôm nay.
-                </p>
+
+                {/* Streamlined Visual Chips (Replacing long paragraphs) */}
+                <div className="flex items-center gap-2 mt-2.5 flex-wrap">
+                  <span className="inline-flex items-center gap-1 text-[11px] font-extrabold px-2.5 py-1 rounded-lg bg-white/70 dark:bg-neutral-900/70 border border-black/5 dark:border-white/10 text-slate-800 dark:text-slate-200 shadow-xs">
+                    🎯 <span className="text-[#0059bb] dark:text-sky-400 font-black">{remainingWords}</span> từ chưa học
+                  </span>
+                  <span className="inline-flex items-center gap-1 text-[11px] font-extrabold px-2.5 py-1 rounded-lg bg-white/70 dark:bg-neutral-900/70 border border-black/5 dark:border-white/10 text-slate-800 dark:text-slate-200 shadow-xs">
+                    ⏱️ ~15 phút
+                  </span>
+                  <span className="inline-flex items-center gap-1 text-[11px] font-extrabold px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 shadow-xs">
+                    ⚡ +50 XP
+                  </span>
+                </div>
               </div>
-              <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3.5">
-                <Link href="/study/practice" className="w-full sm:w-auto">
+
+              <div className="mt-4 flex items-center justify-between gap-3 pt-3 border-t border-blue-500/10 dark:border-white/5">
+                <div className="flex-1 max-w-[200px] h-2 rounded-full bg-slate-200/80 dark:bg-neutral-800 overflow-hidden">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-[#0059bb] to-indigo-500 transition-all duration-500"
+                    style={{ width: `${Math.min(100, ((10 - remainingWords) / 10) * 100)}%` }}
+                  />
+                </div>
+
+                <Link href="/study/practice" className="shrink-0">
                   <Button
                     variant="primary"
-                    className="w-full sm:w-auto h-11 sm:h-12 px-5 font-black text-xs sm:text-sm rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#0059bb] via-blue-600 to-indigo-600 hover:opacity-95 text-white shadow-md active:scale-[0.98] transition-transform flex items-center justify-center gap-2 border border-blue-400/20"
-                    rightIcon={
-                      <ArrowRight className="w-4 h-4 stroke-[2.5]" />
-                    }
+                    className="h-10 sm:h-11 px-5 font-black text-xs sm:text-sm rounded-xl bg-gradient-to-r from-[#0059bb] via-blue-600 to-indigo-600 hover:opacity-95 text-white shadow-md active:scale-[0.98] transition-transform flex items-center justify-center gap-1.5 border border-blue-400/20 cursor-pointer"
+                    rightIcon={<ArrowRight className="w-4 h-4 stroke-[2.5]" />}
                   >
-                    Bắt đầu học ngay
+                    Bắt đầu học
                   </Button>
                 </Link>
-                <span className="text-xs font-black text-slate-700 dark:text-slate-300 uppercase tracking-wider text-center sm:text-right">
-                  Tiến trình: <span className="text-[#0059bb] dark:text-sky-400 font-black">{10 - remainingWords}</span> / 10 từ
-                </span>
               </div>
             </div>
           </div>
         </motion.div>
 
+        {/* Streak Tracker Card */}
         <motion.div variants={itemVariants} className="lg:col-span-1">
           <div className="bezel h-full">
-            <div className="bezel-inner p-4 sm:p-5 md:p-6 bg-white dark:bg-neutral-900 h-full flex flex-col justify-between">
-              <div className="flex justify-between items-start">
+            <div className="bezel-inner p-4 sm:p-5 bg-white dark:bg-neutral-900 h-full flex flex-col justify-between rounded-[calc(var(--radius-2xl,1rem)-4px)]">
+              <div className="flex justify-between items-center border-b border-slate-100 dark:border-neutral-850 pb-2">
                 <span className="text-xs font-black uppercase tracking-wider text-[#0059bb] dark:text-sky-400">
-                  Streak của bạn
+                  Streak học tập
                 </span>
-                <Flame
-                  className="h-5 w-5 text-amber-500 animate-pulse stroke-[2]"
-                />
+                <Flame className="h-5 w-5 text-amber-500 animate-pulse stroke-[2]" />
               </div>
-              <div className="text-center my-1.5">
-                <div className="text-2xl md:text-3xl font-black text-amber-500 font-display">
-                  {user.currentStreak} ngày
+
+              {/* High Contrast Figures (Rule 8) */}
+              <div className="text-center my-2">
+                <div className="text-3xl sm:text-4xl font-black text-amber-500 font-display tracking-tight flex items-center justify-center gap-1">
+                  <span>{user.currentStreak}</span>
+                  <span className="text-lg font-bold text-slate-700 dark:text-slate-300">ngày</span>
                 </div>
               </div>
 
-              <div className="flex justify-between gap-1 mt-1 bg-slate-50 dark:bg-neutral-900/50 p-2 rounded-xl border border-black/5 dark:border-white/5">
+              {/* 7-Day Capsule List */}
+              <div className="flex justify-between gap-1 bg-slate-50 dark:bg-neutral-950 p-1.5 rounded-xl border border-slate-200/60 dark:border-neutral-800">
                 {weekDays.map((wd, i) => (
-                  <div
-                    key={i}
-                    className="flex-1 flex flex-col items-center gap-1"
-                  >
-                    <span className="text-[10px] font-extrabold text-slate-700 dark:text-slate-300">
+                  <div key={i} className="flex-1 flex flex-col items-center gap-1">
+                    <span className="text-[9px] font-extrabold text-slate-700 dark:text-slate-300">
                       {wd.day}
                     </span>
                     <div
-                      className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black transition-all ${
+                      className={`w-6.5 h-6.5 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-xs font-black transition-all ${
                         wd.status === "learned"
-                          ? "bg-amber-500 text-white shadow-sm"
+                          ? "bg-amber-500 text-white shadow-xs"
                           : wd.status === "current"
-                            ? "bg-gradient-to-r from-amber-400 to-orange-500 text-white animate-bounce shadow-md"
+                            ? "bg-gradient-to-r from-amber-400 to-orange-500 text-white animate-bounce shadow-xs"
                             : wd.status === "missed"
                               ? "bg-rose-500/10 text-rose-500 dark:bg-rose-500/20 dark:text-rose-400"
                               : "bg-slate-200 text-slate-500 dark:bg-neutral-800 dark:text-neutral-400 font-extrabold"
                       }`}
                     >
-                      {wd.status === "learned"
-                        ? "🔥"
-                        : wd.status === "current"
-                          ? "⚡"
-                          : "•"}
+                      {wd.status === "learned" ? "🔥" : wd.status === "current" ? "⚡" : "•"}
                     </div>
                   </div>
                 ))}
@@ -481,28 +499,23 @@ export default function DashboardPage() {
           </div>
         </motion.div>
 
-        {/* ROW 2: Challenges Panel (2 cols) & Combined Stats List (1 col) */}
+        {/* ROW 2: Challenges Panel (2 cols) & Stats Summary (1 col) */}
         <motion.div variants={itemVariants} className="lg:col-span-2">
           <div className="bezel h-full">
-            <div className="bezel-inner p-4 sm:p-5 md:p-6 bg-white dark:bg-neutral-900 space-y-4">
+            <div className="bezel-inner p-4 sm:p-5 bg-white dark:bg-neutral-900 space-y-3 rounded-[calc(var(--radius-2xl,1rem)-4px)]">
               <div className="flex items-center justify-between border-b border-slate-100 dark:border-neutral-850 pb-2">
                 <div className="flex items-center gap-2">
-                  <Target
-                    className="h-4.5 w-4.5 text-[#0059bb] dark:text-sky-400 stroke-[2]"
-                  />
-                  <h2 className="text-sm font-black text-slate-900 dark:text-white font-display">
+                  <Target className="h-4 w-4 text-[#0059bb] dark:text-sky-400 stroke-[2.2]" />
+                  <h2 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white font-display">
                     Nhiệm vụ hôm nay
                   </h2>
                 </div>
-                <Badge
-                  variant="primary"
-                  className="font-extrabold text-xs py-0.5 px-2.5"
-                >
+                <Badge variant="primary" className="font-extrabold text-[11px] py-0.5 px-2">
                   Hoàn thành {completedChallenges}/{challenges.length}
                 </Badge>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-2.5">
                 {challenges.map((ch) => {
                   const hasReachedGoal = ch.progress >= ch.target;
                   const isClaimed = claimedList.includes(ch.id);
@@ -510,74 +523,57 @@ export default function DashboardPage() {
                   return (
                     <div
                       key={ch.id}
-                      className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-2xl bg-slate-50/80 dark:bg-neutral-900/50 border border-slate-200/60 dark:border-neutral-800/60 shadow-sm"
+                      className="flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-50/80 dark:bg-neutral-950/60 border border-slate-200/60 dark:border-neutral-800/80 shadow-xs"
                     >
-                      <div className="flex items-center gap-3 min-w-0">
-                        <span className="text-xl w-9 h-9 rounded-xl bg-white dark:bg-neutral-850 border border-slate-200/60 dark:border-white/10 flex items-center justify-center shadow-sm shrink-0">
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <span className="text-lg w-8 h-8 rounded-lg bg-white dark:bg-neutral-900 border border-slate-200/60 dark:border-white/10 flex items-center justify-center shrink-0 shadow-xs">
                           {ch.icon}
                         </span>
-                        <div className="min-w-0 flex-1">
+                        <div className="min-w-0">
                           <h3
-                            className={`text-xs sm:text-sm font-black ${
+                            className={`text-xs font-black truncate ${
                               isClaimed
-                                ? "text-slate-400 dark:text-slate-500 line-through opacity-70"
+                                ? "text-slate-400 dark:text-slate-500 line-through"
                                 : "text-slate-900 dark:text-white"
                             }`}
                           >
                             {ch.title}
                           </h3>
-                          <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                            {ch.description}
-                          </p>
                         </div>
                       </div>
 
-                      <div className="flex items-center justify-between sm:justify-end gap-3 border-t border-dashed border-slate-200/80 dark:border-neutral-800/80 pt-2 sm:pt-0 sm:border-0 w-full sm:w-auto shrink-0">
-                        <div className="text-left sm:text-right">
-                          <span className="text-xs font-extrabold text-slate-700 dark:text-slate-300">
-                            Tiến trình: <span className="text-[#0059bb] dark:text-sky-400 font-black">{ch.progress}</span> / {ch.target}
+                      <div className="flex items-center gap-3 shrink-0">
+                        <div className="hidden sm:block text-right">
+                          <span className="text-[11px] font-extrabold text-slate-700 dark:text-slate-300">
+                            <span className="text-[#0059bb] dark:text-sky-400 font-black">{ch.progress}</span>/{ch.target}
                           </span>
-                          <div className="h-1.5 w-24 sm:w-28 rounded-full bg-slate-200 dark:bg-neutral-800 overflow-hidden mt-1">
+                          <div className="h-1.5 w-20 rounded-full bg-slate-200 dark:bg-neutral-800 overflow-hidden mt-0.5">
                             <div
                               className={`h-full rounded-full transition-all duration-500 ${
                                 isClaimed ? "bg-emerald-500" : "bg-gradient-to-r from-[#0059bb] to-indigo-600"
                               }`}
-                              style={{
-                                width: `${Math.min(100, (ch.progress / ch.target) * 100)}%`,
-                              }}
+                              style={{ width: `${Math.min(100, (ch.progress / ch.target) * 100)}%` }}
                             />
                           </div>
                         </div>
 
-                        <div className="w-auto sm:w-28 flex justify-end shrink-0">
+                        <div>
                           {hasReachedGoal ? (
                             isClaimed ? (
-                              <Badge
-                                variant="success"
-                                className="font-extrabold text-xs py-1 px-3 shadow-sm whitespace-nowrap"
-                              >
+                              <Badge variant="success" className="font-extrabold text-[10px] py-1 px-2.5">
                                 ĐÃ NHẬN
                               </Badge>
                             ) : (
                               <button
-                                onClick={() =>
-                                  handleClaimChallenge(
-                                    ch.id,
-                                    ch.xpReward,
-                                    ch.coinReward,
-                                  )
-                                }
-                                className="px-3.5 h-9 text-center text-xs font-black bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:opacity-95 text-white rounded-xl shadow-md active:scale-[0.98] transition-transform uppercase tracking-wider cursor-pointer border border-emerald-400/30 whitespace-nowrap"
+                                onClick={() => handleClaimChallenge(ch.id, ch.xpReward, ch.coinReward)}
+                                className="px-3 h-8 text-[11px] font-black bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg shadow-sm active:scale-[0.98] transition-transform uppercase tracking-wider cursor-pointer border border-emerald-400/30 whitespace-nowrap"
                               >
                                 Nhận +{ch.xpReward} XP
                               </button>
                             )
                           ) : (
-                            <Badge
-                              variant="neutral"
-                              className="text-xs font-black py-1 px-3 whitespace-nowrap"
-                            >
-                              CHƯA XONG
+                            <Badge variant="neutral" className="text-[10px] font-black py-1 px-2.5">
+                              {ch.progress}/{ch.target}
                             </Badge>
                           )}
                         </div>
@@ -590,74 +586,72 @@ export default function DashboardPage() {
           </div>
         </motion.div>
 
+        {/* Quick Stats Overview */}
         <motion.div variants={itemVariants} className="lg:col-span-1">
           <div className="bezel h-full">
-            <div className="bezel-inner p-4 sm:p-5 md:p-6 bg-white dark:bg-neutral-900 space-y-4 h-full flex flex-col justify-between">
+            <div className="bezel-inner p-4 sm:p-5 bg-white dark:bg-neutral-900 space-y-3 h-full flex flex-col justify-between rounded-[calc(var(--radius-2xl,1rem)-4px)]">
               <div>
                 <span className="text-xs font-black uppercase tracking-wider text-[#0059bb] dark:text-sky-400 block border-b border-slate-100 dark:border-neutral-850 pb-2">
                   Chỉ số tổng quan
                 </span>
 
-                <div className="space-y-3.5 mt-3">
-                  <div className="flex items-center justify-between gap-3">
+                <div className="space-y-3 mt-3">
+                  <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-xl text-sky-600 bg-sky-500/10 border border-sky-500/20 flex items-center justify-center">
-                        <BookOpen className="h-4 w-4 stroke-[2]" />
+                      <div className="w-7 h-7 rounded-lg text-sky-600 bg-sky-500/10 border border-sky-500/20 flex items-center justify-center">
+                        <BookOpen className="h-3.5 w-3.5 stroke-[2]" />
                       </div>
-                      <span className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200">
+                      <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
                         Từ đã học
                       </span>
                     </div>
-                    <span className="text-xs sm:text-sm font-black text-slate-900 dark:text-white font-display">
-                      {user.wordsLearned}/3903 ({vocabPercent}%)
+                    <span className="text-xs font-black text-slate-900 dark:text-white font-display">
+                      {user.wordsLearned} <span className="text-slate-400 font-medium">/ 3903</span>
                     </span>
                   </div>
 
-                  <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-xl text-amber-600 bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
-                        <Zap className="h-4 w-4 stroke-[2]" />
+                      <div className="w-7 h-7 rounded-lg text-amber-600 bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
+                        <Zap className="h-3.5 w-3.5 stroke-[2]" />
                       </div>
-                      <span className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200">
+                      <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
                         Kinh nghiệm
                       </span>
                     </div>
-                    <span className="text-xs sm:text-sm font-black text-slate-900 dark:text-white font-display">
-                      {user.totalXp} XP (LV {user.level})
+                    <span className="text-xs font-black text-slate-900 dark:text-white font-display">
+                      {user.totalXp} XP <span className="text-amber-500 text-[10px]">(LV.{user.level})</span>
                     </span>
                   </div>
 
-                  <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-xl text-emerald-600 bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                        <Clock className="h-4 w-4 stroke-[2]" />
+                      <div className="w-7 h-7 rounded-lg text-emerald-600 bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                        <Clock className="h-3.5 w-3.5 stroke-[2]" />
                       </div>
-                      <span className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200">
+                      <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
                         Thời gian học
                       </span>
                     </div>
-                    <span className="text-xs sm:text-sm font-black text-slate-900 dark:text-white font-display">
-                      {user.minutesStudied}m ({studyPercent}%)
+                    <span className="text-xs font-black text-slate-900 dark:text-white font-display">
+                      {user.minutesStudied}m <span className="text-emerald-500 text-[10px]">({studyPercent}%)</span>
                     </span>
                   </div>
 
-                  <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-xl text-yellow-600 bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center">
-                        <Coins className="h-4 w-4 stroke-[2]" />
+                      <div className="w-7 h-7 rounded-lg text-yellow-600 bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center">
+                        <Coins className="h-3.5 w-3.5 stroke-[2]" />
                       </div>
-                      <span className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200">
+                      <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
                         Kho Vàng
                       </span>
                     </div>
-                    <span className="text-xs sm:text-sm font-black text-amber-600 dark:text-amber-400 font-display">
+                    <span className="text-xs font-black text-amber-600 dark:text-amber-400 font-display">
                       {user.coins ?? 0} Vàng
                     </span>
                   </div>
                 </div>
-              </div>
-              <div className="text-xs text-slate-600 dark:text-slate-400 font-extrabold uppercase tracking-wider text-center pt-2 border-t border-slate-100 dark:border-neutral-850 mt-3">
-                Cập nhật tự động ⚡
               </div>
             </div>
           </div>
@@ -666,20 +660,28 @@ export default function DashboardPage() {
         {/* ROW 3: AI Tutor (2 cols) & PVP Arena (1 col) */}
         <motion.div variants={itemVariants} className="lg:col-span-2">
           <div className="bezel h-full">
-            <div className="bezel-inner p-4 sm:p-5 md:p-6 bg-white dark:bg-neutral-900 h-full flex flex-col justify-between">
-              <form onSubmit={handleQuickAskSubmit} className="space-y-3">
-                <h3 className="text-xs font-black uppercase tracking-wider text-[#0059bb] dark:text-sky-400 flex items-center gap-2 border-b border-slate-100 dark:border-neutral-850 pb-2">
-                  <Bot className="h-4.5 w-4.5 text-cyan-600 dark:text-cyan-400 stroke-[2]" />{" "}
-                  Hỏi đáp nhanh cùng AI Tutor
-                </h3>
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                    Giải đáp câu hỏi ngữ pháp hoặc từ vựng tiếng Anh
+            <div className="bezel-inner p-4 sm:p-5 bg-white dark:bg-neutral-900 h-full flex flex-col justify-between rounded-[calc(var(--radius-2xl,1rem)-4px)]">
+              <form onSubmit={handleQuickAskSubmit} className="space-y-2.5">
+                <div className="flex items-center justify-between border-b border-slate-100 dark:border-neutral-850 pb-2">
+                  <h3 className="text-xs font-black uppercase tracking-wider text-[#0059bb] dark:text-sky-400 flex items-center gap-2">
+                    <Bot className="h-4 w-4 text-cyan-600 dark:text-cyan-400 stroke-[2.2]" />{" "}
+                    Hỏi đáp nhanh cùng AI Tutor
+                  </h3>
+                  <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">
+                    +10 XP / câu hỏi
+                  </span>
+                </div>
+
+                {/* External Label (Rule 6) */}
+                <div className="space-y-1">
+                  <label htmlFor="ai-prompt-input" className="text-[11px] font-bold text-slate-700 dark:text-slate-300">
+                    Đặt câu hỏi từ vựng hoặc ngữ pháp:
                   </label>
                   <div className="flex gap-2">
                     <input
+                      id="ai-prompt-input"
                       type="text"
-                      className="w-full h-11 px-4 text-xs sm:text-sm font-semibold rounded-xl bg-slate-50 dark:bg-neutral-900/60 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-blue-500/20 transition-all"
+                      className="w-full h-10 px-3.5 text-xs font-semibold rounded-xl bg-slate-50 dark:bg-neutral-950 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-blue-500/20 transition-all"
                       placeholder="Ví dụ: Phân biệt 'make' và 'do'?"
                       value={aiQuestion}
                       onChange={(e) => setAiQuestion(e.target.value)}
@@ -688,12 +690,10 @@ export default function DashboardPage() {
                       variant="primary"
                       type="submit"
                       disabled={isAiLoading || !aiQuestion.trim()}
-                      className="h-11 px-4 font-black flex items-center gap-1.5 text-xs rounded-xl bg-gradient-to-r from-[#0059bb] to-blue-600 hover:opacity-95 text-white shadow-md shrink-0 active:scale-[0.98] transition-transform"
+                      className="h-10 px-4 font-black flex items-center gap-1 text-xs rounded-xl bg-gradient-to-r from-[#0059bb] to-blue-600 text-white shadow-md shrink-0 active:scale-[0.98] transition-transform cursor-pointer"
                     >
                       {isAiLoading ? (
-                        <Loader2
-                          className="h-4 w-4 animate-spin stroke-[2]"
-                        />
+                        <Loader2 className="h-4 w-4 animate-spin stroke-[2]" />
                       ) : (
                         <Send className="h-4 w-4 stroke-[2]" />
                       )}
@@ -708,10 +708,10 @@ export default function DashboardPage() {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="mt-3 bg-slate-50 dark:bg-neutral-950 p-3.5 rounded-xl border border-slate-200/80 dark:border-neutral-800 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 leading-relaxed overflow-hidden shadow-inner"
+                    className="mt-3 bg-slate-50 dark:bg-neutral-950 p-3 rounded-xl border border-slate-200/80 dark:border-neutral-800 text-xs font-semibold text-slate-700 dark:text-slate-300 leading-relaxed overflow-hidden shadow-inner"
                   >
-                    <span className="font-black text-[#0059bb] dark:text-cyan-400 block mb-1 text-xs uppercase tracking-wide">
-                      🤖 Giải đáp từ AI Tutor:
+                    <span className="font-black text-[#0059bb] dark:text-cyan-400 block mb-1 text-[11px] uppercase tracking-wide">
+                      🤖 AI Tutor:
                     </span>
                     {aiAnswer}
                   </motion.div>
@@ -721,34 +721,41 @@ export default function DashboardPage() {
           </div>
         </motion.div>
 
+        {/* PVP Arena Card */}
         <motion.div variants={itemVariants} className="lg:col-span-1">
           <div className="bezel h-full">
-            <div className="bezel-inner p-4 sm:p-5 md:p-6 bg-white dark:bg-neutral-900 h-full flex flex-col justify-between min-h-[150px]">
+            <div className="bezel-inner p-4 sm:p-5 bg-white dark:bg-neutral-900 h-full flex flex-col justify-between rounded-[calc(var(--radius-2xl,1rem)-4px)]">
               <div className="flex items-center justify-between border-b border-slate-100 dark:border-neutral-850 pb-2">
                 <span className="text-xs font-black uppercase tracking-wider text-slate-900 dark:text-white">
                   Đấu trường PvP
                 </span>
-                <span className="flex items-center gap-1.5 text-xs font-extrabold text-emerald-600 dark:text-emerald-400">
+                <span className="flex items-center gap-1.5 text-[11px] font-extrabold text-emerald-600 dark:text-emerald-400">
                   <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />{" "}
                   14 Online
                 </span>
               </div>
-              <div className="py-2.5">
+
+              <div className="py-2">
                 <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white font-display">
-                  So tài từ vựng PvP
+                  So tài từ vựng 1v1
                 </h3>
-                <p className="text-xs font-semibold text-slate-700 dark:text-slate-300 mt-1 leading-relaxed">
-                  Thi đấu PvP thời gian thực cùng bạn học toàn quốc để tích lũy
-                  điểm kinh nghiệm.
-                </p>
+                <div className="flex items-center gap-1.5 mt-1.5 flex-wrap">
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">
+                    ⚡ Realtime
+                  </span>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                    🏆 Thăng hạng
+                  </span>
+                </div>
               </div>
-              <div className="flex justify-end mt-2">
-                <Link href="/study/pvp" className="w-full">
+
+              <div className="mt-2">
+                <Link href="/study/pvp" className="w-full block">
                   <Button
                     variant="primary"
-                    className="w-full h-11 px-4 font-black text-xs sm:text-sm rounded-xl bg-gradient-to-r from-[#0059bb] via-indigo-600 to-purple-600 hover:opacity-95 text-white shadow-md active:scale-[0.98] transition-transform flex items-center justify-center gap-2 border border-indigo-400/20"
+                    className="w-full h-10 px-4 font-black text-xs rounded-xl bg-gradient-to-r from-[#0059bb] via-indigo-600 to-purple-600 text-white shadow-md active:scale-[0.98] transition-transform flex items-center justify-center gap-1.5 border border-indigo-400/20 cursor-pointer"
                   >
-                    <Swords className="h-4 w-4 stroke-[2]" /> Thách đấu nhanh
+                    <Swords className="h-4 w-4 stroke-[2]" /> Thách đấu
                   </Button>
                 </Link>
               </div>
@@ -759,33 +766,28 @@ export default function DashboardPage() {
         {/* ROW 4: Streak Calendar (2 cols) & Weekly XP Chart (1 col) */}
         <motion.div variants={itemVariants} className="lg:col-span-2">
           <div className="bezel h-full">
-            <div className="bezel-inner p-4 sm:p-5 md:p-6 bg-white dark:bg-neutral-900 h-full flex flex-col justify-between">
-              <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-100 dark:border-neutral-850">
-                <div>
-                  <span className="text-xs font-black uppercase tracking-wider text-[#0059bb] dark:text-sky-400">
-                    Streak Calendar
-                  </span>
-                  <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white mt-0.5 font-display">
-                    Lịch học 28 ngày
-                  </h3>
-                </div>
-                <div className="flex items-center gap-3 text-xs font-bold text-slate-700 dark:text-slate-300">
+            <div className="bezel-inner p-4 sm:p-5 bg-white dark:bg-neutral-900 h-full flex flex-col justify-between rounded-[calc(var(--radius-2xl,1rem)-4px)]">
+              <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-100 dark:border-neutral-850">
+                <span className="text-xs font-black uppercase tracking-wider text-[#0059bb] dark:text-sky-400">
+                  Lịch học 28 ngày
+                </span>
+                <div className="flex items-center gap-2.5 text-[11px] font-bold text-slate-700 dark:text-slate-300">
                   <span className="flex items-center gap-1">
                     <span className="h-2.5 w-2.5 rounded-sm bg-emerald-500 shadow-xs" /> Học
                   </span>
                   <span className="flex items-center gap-1">
-                    <span className="h-2.5 w-2.5 rounded-sm bg-slate-200 dark:bg-neutral-800" />{" "}
-                    Lỡ
+                    <span className="h-2.5 w-2.5 rounded-sm bg-slate-200 dark:bg-neutral-800" /> Lỡ
                   </span>
                 </div>
               </div>
+
               <div className="grid grid-cols-7 gap-1">
                 {streakCalendar.map((cell, i) => (
                   <div
                     key={i}
-                    className={`h-6 sm:h-7 rounded-lg flex items-center justify-center text-[10px] sm:text-xs font-black transition-all ${
+                    className={`h-6 sm:h-7 rounded-lg flex items-center justify-center text-[10px] font-black transition-all ${
                       cell.active
-                        ? "bg-emerald-500 text-white shadow-sm"
+                        ? "bg-emerald-500 text-white shadow-xs"
                         : "bg-slate-100 text-slate-500 dark:bg-neutral-800 dark:text-neutral-400"
                     }`}
                     title={cell.date}
@@ -798,43 +800,37 @@ export default function DashboardPage() {
           </div>
         </motion.div>
 
+        {/* Weekly XP Bar Chart */}
         <motion.div variants={itemVariants} className="lg:col-span-1">
           <div className="bezel h-full">
-            <div className="bezel-inner p-4 sm:p-5 md:p-6 bg-white dark:bg-neutral-900 h-full flex flex-col justify-between min-h-[160px]">
-              <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-100 dark:border-neutral-850">
-                <div>
-                  <span className="text-xs font-black uppercase tracking-wider text-[#0059bb] dark:text-sky-400">
-                    Phân bố kinh nghiệm
-                  </span>
-                  <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white mt-0.5 font-display">
-                    XP 7 ngày qua
-                  </h3>
-                </div>
-                <Badge variant="primary" className="text-xs font-extrabold py-0.5 px-2.5">
+            <div className="bezel-inner p-4 sm:p-5 bg-white dark:bg-neutral-900 h-full flex flex-col justify-between min-h-[160px] rounded-[calc(var(--radius-2xl,1rem)-4px)]">
+              <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-100 dark:border-neutral-850">
+                <span className="text-xs font-black uppercase tracking-wider text-[#0059bb] dark:text-sky-400">
+                  XP 7 ngày
+                </span>
+                <Badge variant="primary" className="text-[10px] font-extrabold py-0.5 px-2">
                   {user.totalXp} XP
                 </Badge>
               </div>
-              <div className="flex items-end justify-between gap-1 h-24 sm:h-28 pt-2">
+
+              <div className="flex items-end justify-between gap-1.5 h-24 pt-2">
                 {weeklyXp.map((d, i) => {
-                  const heightPercent = Math.max(8, (d.xp / maxWeeklyXp) * 100);
+                  const heightPercent = Math.max(10, (d.xp / maxWeeklyXp) * 100);
                   const isToday = i === 5;
                   return (
-                    <div
-                      key={d.day}
-                      className="flex-1 flex flex-col items-center gap-1"
-                    >
-                      <span className="text-[8px] font-bold text-slate-400">
+                    <div key={d.day} className="flex-1 flex flex-col items-center gap-1">
+                      <span className="text-[9px] font-bold text-slate-700 dark:text-slate-300">
                         {d.xp}
                       </span>
                       <div
-                        className={`w-full rounded-t transition-all ${
+                        className={`w-full rounded-t-md transition-all ${
                           isToday
-                            ? "bg-gradient-to-t from-sky-500 to-cyan-400"
+                            ? "bg-gradient-to-t from-[#0059bb] to-sky-400 shadow-xs"
                             : "bg-slate-200 dark:bg-neutral-800"
                         }`}
                         style={{ height: `${heightPercent}%` }}
                       />
-                      <span className="text-[9px] font-bold text-slate-450">
+                      <span className="text-[9px] font-bold text-slate-700 dark:text-slate-300">
                         {d.day}
                       </span>
                     </div>
@@ -845,49 +841,40 @@ export default function DashboardPage() {
           </div>
         </motion.div>
 
-        {/* ROW 5: Quick shortcuts */}
+        {/* ROW 5: Quick Shortcuts Panel */}
         <motion.div variants={itemVariants} className="lg:col-span-3">
           <div className="bezel">
-            <div className="bezel-inner p-4 sm:p-5 md:p-6 bg-white dark:bg-neutral-900">
-              <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 block border-b border-slate-100 dark:border-neutral-850 pb-2">
+            <div className="bezel-inner p-4 sm:p-5 bg-white dark:bg-neutral-900 rounded-[calc(var(--radius-2xl,1rem)-4px)]">
+              <span className="text-xs font-black uppercase tracking-wider text-[#0059bb] dark:text-sky-400 block border-b border-slate-100 dark:border-neutral-850 pb-2">
                 Phím tắt nhanh
               </span>
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 mt-4">
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 mt-3">
                 {quickActions.map((action) => {
                   const Icon = action.icon;
                   return (
                     <motion.div
-                      whileHover={{ y: -3, scale: 1.01 }}
+                      whileHover={{ y: -2, scale: 1.01 }}
                       whileTap={{ scale: 0.99 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 400,
-                        damping: 15,
-                      }}
+                      transition={{ type: "spring", stiffness: 400, damping: 15 }}
                       key={action.title}
                     >
                       <Link
                         href={action.href}
-                        className="group block rounded-2xl border border-slate-200/70 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-3 hover:shadow-sm transition-all duration-300"
+                        className="group block rounded-xl border border-slate-200/70 dark:border-neutral-800 bg-slate-50/50 dark:bg-neutral-950/50 p-3 hover:border-blue-500/40 dark:hover:border-blue-500/40 transition-all duration-200 shadow-xs"
                       >
                         <div className="flex items-center gap-3">
-                          <div
-                            className={`rounded-xl bg-gradient-to-br ${action.accent} p-1.5 sm:p-2`}
-                          >
-                            <Icon className="h-4 w-4" strokeWidth={1.3} />
+                          <div className={`rounded-xl bg-gradient-to-br ${action.accent} p-2 border shrink-0`}>
+                            <Icon className="h-4 w-4 stroke-[2]" />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <div className="text-xs font-bold text-slate-900 dark:text-white truncate">
+                            <div className="text-xs font-black text-slate-900 dark:text-white truncate">
                               {action.title}
                             </div>
-                            <div className="text-[10px] text-slate-450 truncate mt-0.5 font-semibold">
-                              {action.description}
+                            <div className="text-[10px] text-slate-700 dark:text-slate-300 font-bold truncate mt-0.5">
+                              {action.badge}
                             </div>
                           </div>
-                          <ArrowRight
-                            className="h-3.5 w-3.5 text-slate-400 transition-transform group-hover:translate-x-1 shrink-0"
-                            strokeWidth={1.3}
-                          />
+                          <ChevronRight className="h-4 w-4 text-slate-400 group-hover:text-[#0059bb] dark:group-hover:text-sky-400 transition-transform group-hover:translate-x-0.5 shrink-0" />
                         </div>
                       </Link>
                     </motion.div>
@@ -901,3 +888,4 @@ export default function DashboardPage() {
     </div>
   );
 }
+

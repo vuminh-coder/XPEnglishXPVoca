@@ -555,10 +555,16 @@ function LocalNavbar() {
             }}
           >
             <div className="avatar avatar-sm flex items-center justify-center bg-slate-100 dark:bg-neutral-800 text-lg border border-slate-200/50 dark:border-white/10 rounded-full w-8 h-8 shrink-0 overflow-hidden">
-              {user?.avatarEmoji ? (
+              {user?.imageUrl ? (
+                <img src={user.imageUrl} alt="Avatar" className="w-full h-full object-cover" />
+              ) : user?.avatarEmoji && user.avatarEmoji !== "🦉" ? (
                 <span className="text-lg">{user.avatarEmoji}</span>
               ) : (
-                <User className="w-[16px] h-[16px] text-slate-500" strokeWidth={1.8} />
+                <img
+                  src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user?.fullName || user?.username || "User")}&background=0059bb&color=fff&font-size=0.45`}
+                  alt="Avatar"
+                  className="w-full h-full object-cover"
+                />
               )}
             </div>
             <div className="navbar-user-info hidden sm:block">

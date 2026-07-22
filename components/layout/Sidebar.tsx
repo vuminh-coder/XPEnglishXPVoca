@@ -103,12 +103,6 @@ const sections = [
         page: "reading",
       },
       {
-        name: "Phòng học nhóm",
-        path: "/study/rooms",
-        icon: <Users className="w-[18px] h-[18px]" strokeWidth={1.8} />,
-        page: "rooms",
-      },
-      {
         name: "Mini Games",
         path: "/study/games",
         icon: <Gamepad2 className="w-[18px] h-[18px]" strokeWidth={1.8} />,

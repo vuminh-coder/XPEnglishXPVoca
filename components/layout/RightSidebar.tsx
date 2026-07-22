@@ -19,14 +19,14 @@ export default function RightSidebar() {
         .then((res) => res.json())
         .then((res) => {
           if (res.success && res.data) {
-            // Map keys of API data to fit component expectation
             const mapped = res.data.map((u: any) => ({
               id: u.id,
               username: u.username,
               level: u.level,
               avatarEmoji: u.avatarEmoji,
-              name: u.fullName,
-              totalXp: u.xp,
+              imageUrl: u.imageUrl,
+              name: u.fullName || u.username,
+              totalXp: u.xp || u.totalXp || 0,
             }));
             setSuggestedUsers(mapped);
           }
@@ -52,7 +52,6 @@ export default function RightSidebar() {
           title: "Kết bạn thành công!",
           message: `Đã gửi lời mời đến ${name}. +10 XP`,
         });
-        // Remove from current suggested list
         setSuggestedUsers(suggestedUsers.filter((u) => u.id !== friendId));
       } else {
         addToast({
@@ -149,7 +148,7 @@ export default function RightSidebar() {
           <div className="absolute -bottom-10 -right-10 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
 
           {/* Avatar frame */}
-          <div className="relative group mb-4">
+          <div className="relative group mb-3">
             <div className="absolute inset-0 bg-gradient-to-tr from-cyan-400 to-blue-500 rounded-full blur-md opacity-25 group-hover:opacity-50 transition-all duration-700"></div>
             <div className="relative z-10 w-20 h-20 rounded-full border-[3px] border-white dark:border-neutral-800 shadow-md flex items-center justify-center overflow-hidden bg-neutral-100 dark:bg-neutral-800 transition-transform duration-500 group-hover:scale-102">
               {currentUser.imageUrl ? (
@@ -159,44 +158,53 @@ export default function RightSidebar() {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <span className="text-3xl select-none">
-                  {currentUser.avatarEmoji}
-                </span>
+                <img
+                  src={`https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.fullName || currentUser.username)}&background=0059bb&color=fff&font-size=0.4`}
+                  alt="Avatar"
+                  className="w-full h-full object-cover"
+                />
               )}
             </div>
           </div>
 
-          <h3 className="text-base font-extrabold text-gray-950 dark:text-white tracking-tight mb-1">
-            {currentUser.fullName}
+          <h3 className="text-base font-extrabold text-gray-950 dark:text-white tracking-tight mb-3">
+            {currentUser.fullName || currentUser.username}
           </h3>
 
-          {/* Level Badge */}
-          <span className="inline-flex items-center gap-1.5 px-3 py-2 bg-[#0059bb]/10 dark:bg-sky-950/40 text-[#0059bb] dark:text-sky-300 border border-blue-500/20 rounded-full text-[12px] font-black uppercase tracking-wider mb-5 shadow-xs">
-            Cấp độ {currentUser.level} · {currentUser.title}
-          </span>
+          {/* 3-Line Level & Experience Section */}
+          <div className="flex flex-col items-center gap-1.5 mb-3 w-full">
+            {/* Dòng 1: Cấp độ */}
+            <span className="text-[11px] font-black uppercase tracking-widest text-amber-600 dark:text-amber-400 bg-amber-500/10 px-2.5 py-0.5 rounded-md border border-amber-500/20 shadow-xs">
+              CẤP ĐỘ {currentUser.level}
+            </span>
 
-          {/* XP Progress Section */}
-          <div className="w-full text-left bg-black/[0.015] dark:bg-white/[0.015] p-3.5 rounded-2xl border border-black/[0.03] dark:border-white/[0.03] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
-            <div className="flex justify-between items-center text-[11px] text-slate-700 dark:text-slate-300 mb-2 font-black uppercase tracking-wider">
-              <span>Đến cấp {currentUser.level + 1}</span>
+            {/* Dòng 2: Danh hiệu */}
+            <h4 className="text-xs font-black uppercase tracking-wider text-[#0059bb] dark:text-sky-400">
+              {currentUser.title}
+            </h4>
 
-              <span className="text-[#0059bb] dark:text-sky-400 font-black">
-                {current}/{total} XP
-              </span>
-            </div>
-            <div className="h-2.5 bg-slate-200 dark:bg-neutral-850 rounded-full overflow-hidden p-[1px] border border-black/5 dark:border-white/5">
-              <div
-                className="h-full rounded-full bg-gradient-to-r from-[#0059bb] via-blue-500 to-cyan-400 shadow-sm"
-                style={{
-                  width: `${percent}%`,
-                  transition: "width 1000ms cubic-bezier(0.32, 0.72, 0, 1)",
-                }}
-              ></div>
+            {/* Dòng 3: Khối tiến trình XP */}
+            <div className="w-full text-left bg-black/[0.015] dark:bg-white/[0.015] p-3 rounded-2xl border border-black/[0.03] dark:border-white/[0.03] mt-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
+              <div className="flex justify-between items-center text-[11px] text-slate-700 dark:text-slate-300 mb-1.5 font-black uppercase tracking-wider">
+                <span>Đến cấp {currentUser.level + 1}</span>
+                <span className="text-[#0059bb] dark:text-sky-400 font-black">
+                  {current}/{total} XP
+                </span>
+              </div>
+              <div className="h-2.5 bg-slate-200 dark:bg-neutral-850 rounded-full overflow-hidden p-[1px] border border-black/5 dark:border-white/5">
+                <div
+                  className="h-full rounded-full bg-gradient-to-r from-[#0059bb] via-blue-500 to-cyan-400 shadow-sm"
+                  style={{
+                    width: `${percent}%`,
+                    transition: "width 1000ms cubic-bezier(0.32, 0.72, 0, 1)",
+                  }}
+                ></div>
+              </div>
             </div>
           </div>
 
           <button
-            className="flex items-center justify-center gap-2 w-full mt-5 h-11 bg-gradient-to-r from-[#0059bb] via-blue-600 to-indigo-600 hover:opacity-95 text-white rounded-xl text-xs font-black py-0 px-4 shadow-md active:scale-[0.98] transition-transform border border-blue-400/20 cursor-pointer"
+            className="flex items-center justify-center gap-2 w-full mt-2 h-10 bg-gradient-to-r from-[#0059bb] via-blue-600 to-indigo-600 hover:opacity-95 text-white rounded-xl text-xs font-black py-0 px-4 shadow-md active:scale-[0.98] transition-transform border border-blue-400/20 cursor-pointer"
             onClick={shareProgress}
           >
             <Share2 className="w-4 h-4 stroke-[2]" /> Chia sẻ tiến độ
@@ -232,7 +240,6 @@ export default function RightSidebar() {
                 </span>
               )}
 
-              {/* Icon Container with gradient background matching the badge accent */}
               <div
                 className={`w-10 h-10 rounded-xl bg-gradient-to-br ${ach.accent.split(" ")[0]} ${ach.accent.split(" ")[1]} border border-black/5 dark:border-white/5 flex items-center justify-center text-xl transition-transform duration-500 group-hover:scale-105`}
               >
@@ -243,7 +250,6 @@ export default function RightSidebar() {
                 {ach.name}
               </span>
 
-              {/* Advanced Glass Tooltip */}
               <div className="absolute bottom-full mb-2 hidden group-hover:flex flex-col items-center z-50 pointer-events-none transition-all duration-300">
                 <div className="bg-neutral-950/90 text-white text-[12px] p-2.5 rounded-xl shadow-lg w-36 text-center leading-normal border border-white/10 backdrop-blur-md">
                   <div className="font-extrabold mb-0.5 text-cyan-400">
@@ -262,39 +268,59 @@ export default function RightSidebar() {
 
       {/* Suggested Users Section */}
       <div>
-        <h4 className="text-[11px] font-extrabold text-gray-500 dark:text-gray-400 uppercase tracking-[0.15em] mb-4">
+        <h4 className="text-[11px] font-extrabold text-gray-500 dark:text-gray-400 uppercase tracking-[0.15em] mb-3">
           Có thể bạn quen
         </h4>
         <div className="flex flex-col gap-2.5">
           {suggestedUsers.map((u) => (
             <div key={u.id} className="bezel lift">
-              <div className="bezel-inner p-3 flex justify-between items-center bg-white dark:bg-neutral-900 border-black/[0.04] dark:border-white/[0.04]">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 bg-neutral-100 dark:bg-neutral-800 rounded-full flex items-center justify-center border border-black/5 dark:border-white/5 flex-shrink-0 text-lg">
-                    <span className="select-none">{u.avatarEmoji}</span>
-                  </div>
-                  <div>
-                    <div className="text-[11px] font-extrabold text-gray-900 dark:text-gray-100 leading-tight">
-                      {u.name.length > 12 ? u.name.slice(0, 10) + "..." : u.name}
+              <div className="bezel-inner p-3.5 flex justify-between items-center bg-white dark:bg-neutral-900 border-black/[0.04] dark:border-white/[0.04] rounded-[calc(var(--radius-xl,0.875rem)-3px)]">
+                <div className="flex items-center gap-3 min-w-0 flex-1">
+                  {/* Native Gradient Avatar Circle (Original Compact Size w-8 h-8) */}
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#0059bb] via-indigo-600 to-amber-500 p-[1.5px] shrink-0 shadow-xs">
+                    <div className="w-full h-full rounded-full bg-slate-900 dark:bg-neutral-850 flex items-center justify-center overflow-hidden">
+                      {u.imageUrl ? (
+                        <img
+                          src={u.imageUrl}
+                          alt={u.name}
+                          className="w-full h-full object-cover rounded-full"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=0059bb&color=fff&font-size=0.4`;
+                          }}
+                        />
+                      ) : (
+                        <img
+                          src={`https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=0059bb&color=fff&font-size=0.4`}
+                          alt={u.name}
+                          className="w-full h-full object-cover rounded-full"
+                        />
+                      )}
                     </div>
-                    <div className="text-[11px] text-muted font-semibold mt-0.5">
-                      <span className="text-cyan-500 font-black">
-                        Cấp độ {u.level} ·{" "}
-                      </span>
-                      <span className="text-red-500 font-black">XP</span>
-                      <span className="text-orange-500 font-black">
-                        {" "}
-                        {u.totalXp}
-                      </span>
+                  </div>
+
+                  {/* 3 Separate Lines with Optimal Vertical Spacing */}
+                  <div className="flex flex-col text-left min-w-0 justify-center gap-0.5">
+                    {/* Dòng 1: Tên người dùng */}
+                    <div className="text-xs font-black text-slate-900 dark:text-white truncate leading-tight">
+                      {u.name}
+                    </div>
+                    {/* Dòng 2: Cấp độ */}
+                    <div className="text-[10.5px] font-extrabold text-[#0059bb] dark:text-sky-400 leading-tight">
+                      Cấp độ {u.level}
+                    </div>
+                    {/* Dòng 3: Kinh nghiệm */}
+                    <div className="text-[10.5px] font-bold text-amber-600 dark:text-amber-400 leading-tight">
+                      {u.totalXp} XP
                     </div>
                   </div>
                 </div>
+
                 <button
-                  className="flex items-center justify-center gap-1 bg-neutral-50 dark:bg-neutral-950 text-[11px] font-black uppercase tracking-wider py-1.5 w-24 border border-black/10 dark:border-white/10 rounded-full hover:bg-cyan-50 dark:hover:bg-cyan-950/20 hover:text-cyan-500 hover:border-cyan-200 dark:hover:border-cyan-800 transition-all duration-300 tactile flex-shrink-0"
+                  className="flex items-center justify-center gap-1 bg-slate-50 dark:bg-neutral-950 text-[11px] font-black uppercase tracking-wider py-1.5 px-3 border border-black/10 dark:border-white/10 rounded-full hover:bg-blue-50 dark:hover:bg-blue-950/30 hover:text-[#0059bb] dark:hover:text-sky-400 hover:border-blue-300 dark:hover:border-blue-700 transition-all duration-200 tactile shrink-0 ml-2 cursor-pointer"
                   onClick={() => handleConnectFriend(u.id, u.name)}
                 >
                   <Sparkles
-                    className="w-2.5 h-2.5 text-cyan-500"
+                    className="w-2.5 h-2.5 text-[#0059bb] dark:text-sky-400"
                     strokeWidth={2.5}
                   />{" "}
                   Kết bạn
