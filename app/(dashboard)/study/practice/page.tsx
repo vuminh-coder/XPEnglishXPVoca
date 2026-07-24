@@ -862,87 +862,105 @@ function PracticeQuizContent() {
                 transition={{ type: "spring", stiffness: 85, damping: 15 }}
                 className="mx-auto max-w-2xl"
               >
-                <div className="bezel">
-                  <div className="bezel-inner flex flex-col gap-5 p-6 bg-white dark:bg-neutral-900">
-                    <div className="flex items-center justify-between gap-3">
+                <div className="p-2.5 rounded-3xl bg-slate-200/60 dark:bg-neutral-800/60 border border-slate-200 dark:border-white/5 shadow-sm">
+                  <div className="rounded-[calc(1.5rem-0.3rem)] p-5 sm:p-7 bg-white dark:bg-neutral-900 space-y-5">
+                    
+                    {/* Top Status Header Row */}
+                    <div className="flex items-center justify-between gap-3 border-b border-slate-100 dark:border-white/5 pb-3">
                       <div>
-                        <p className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 font-sans">
-                          Câu {qIndex + 1}/{vocabs.length}
+                        <p className="text-[11px] font-black uppercase tracking-wider text-slate-400">
+                          CÂU {qIndex + 1}/{vocabs.length}
                         </p>
-                        <div className="mt-1 text-xs font-bold text-slate-500 dark:text-slate-400 font-sans">
-                          Điểm:{" "}
-                          <span className="text-cyan-500 font-extrabold font-sans">{qScore}</span> ·{" "}
-                          <span className={qXp >= 0 ? "text-amber-500 font-extrabold font-sans" : "text-rose-500 font-extrabold font-sans"}>
+                        <div className="mt-0.5 text-xs font-black text-slate-600 dark:text-slate-300">
+                          Điểm: <span className="text-blue-600 dark:text-sky-400">{qScore}</span> ·{" "}
+                          <span className={qXp >= 0 ? "text-amber-500" : "text-rose-500"}>
                             {qXp >= 0 ? "+" : ""}{qXp} XP
                           </span>
                         </div>
                       </div>
+
                       <div className="flex items-center gap-2">
                         <button
                           type="button"
                           onClick={handleToggleBookmark}
-                          className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[10px] font-black uppercase tracking-wider border transition-all cursor-pointer font-sans ${
+                          className={`flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[11px] font-black uppercase tracking-wider border transition-all cursor-pointer ${
                             isCurrentBookmarked
                               ? "bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 border-indigo-200 dark:border-indigo-700/40"
-                              : "bg-slate-50 dark:bg-neutral-900 text-slate-400 dark:text-slate-500 border-slate-200 dark:border-neutral-800 hover:border-indigo-300 hover:text-indigo-500"
+                              : "bg-slate-50 dark:bg-neutral-950 text-slate-500 dark:text-slate-400 border-slate-200/80 dark:border-neutral-800 hover:border-indigo-300 hover:text-indigo-600"
                           }`}
                         >
                           {isCurrentBookmarked ? (
-                            <BookmarkCheck className="h-3.5 w-3.5" strokeWidth={2} />
+                            <BookmarkCheck className="h-3.5 w-3.5" strokeWidth={2.2} />
                           ) : (
-                            <Bookmark className="h-3.5 w-3.5" strokeWidth={2} />
+                            <Bookmark className="h-3.5 w-3.5" strokeWidth={2.2} />
                           )}
-                          <span className="hidden sm:inline">
-                            {isCurrentBookmarked ? "Đã ghi nhớ" : "Ghi nhớ"}
-                          </span>
+                          <span>{isCurrentBookmarked ? "ĐÃ GHI NHỚ" : "GHI NHỚ"}</span>
                         </button>
-                        <div className="flex items-center gap-2 rounded-full bg-sky-50 dark:bg-sky-950/20 px-3 py-1 text-[10px] font-black uppercase text-sky-600 dark:text-sky-400 border border-sky-500/10 font-sans">
+
+                        <div className="flex items-center gap-1.5 rounded-full bg-amber-500/10 dark:bg-amber-950/30 px-3.5 py-1.5 text-[11px] font-black uppercase text-amber-600 dark:text-amber-400 border border-amber-500/20">
                           <Trophy className="h-3.5 w-3.5 text-amber-500 animate-bounce" />
-                          <span className="hidden sm:inline">Mục tiêu ngày</span>
+                          <span>MỤC TIÊU NGÀY</span>
                         </div>
                       </div>
                     </div>
 
-                    <div className="h-1.5 overflow-hidden rounded-full bg-slate-100 dark:bg-neutral-850">
+                    {/* Progress Bar */}
+                    <div className="h-1.5 overflow-hidden rounded-full bg-slate-100 dark:bg-neutral-800">
                       <motion.div
-                        className="h-full rounded-full bg-gradient-to-r from-sky-400 to-violet-500"
+                        className="h-full rounded-full bg-gradient-to-r from-blue-600 via-sky-500 to-indigo-600"
                         initial={{ width: 0 }}
                         animate={{ width: `${qProgressPercent}%` }}
                         transition={{ type: "spring", stiffness: 80, damping: 15 }}
                       />
                     </div>
 
-                    <div className="rounded-[24px] border border-sky-100/50 bg-gradient-to-br from-sky-50/40 to-white p-5 sm:p-8 text-center dark:border-neutral-800 dark:from-neutral-950/30 dark:to-neutral-900 relative">
-                      <div className="absolute top-2 right-3 text-[10px] uppercase font-black tracking-wider text-cyan-600 dark:text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded-full border border-cyan-500/5 font-sans">
-                        {vocabs[qIndex]?.pos}
+                    {/* Vocabulary Display Center Box */}
+                    <div className="rounded-2xl border border-slate-200/80 bg-slate-50/50 dark:bg-neutral-950/40 p-6 text-center relative shadow-2xs">
+                      <span className="absolute top-3 right-3 text-[10px] uppercase font-black tracking-wider text-sky-600 dark:text-sky-400 bg-sky-500/10 px-2.5 py-0.5 rounded-full border border-sky-500/20">
+                        {vocabs[qIndex]?.pos || "NOUN"}
+                      </span>
+
+                      <div className="flex items-center justify-center gap-2">
+                        <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white font-display">
+                          {vocabs[qIndex]?.word}
+                        </h2>
+                        {vocabs[qIndex]?.word && (
+                          <button
+                            type="button"
+                            onClick={() => speakWord()}
+                            className="p-1.5 rounded-full text-blue-600 dark:text-sky-400 hover:bg-blue-100/60 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                            title="Phát âm"
+                          >
+                            <Volume2 className="w-5 h-5" />
+                          </button>
+                        )}
                       </div>
-                      <h2 className="text-3xl font-black tracking-tight text-slate-900 dark:text-white font-display font-sans">
-                        {vocabs[qIndex]?.word}
-                      </h2>
-                      <div className="mt-2 text-xs text-slate-450 dark:text-slate-400 font-bold font-sans">
-                        Phiên âm: <span className="font-mono text-slate-500 dark:text-slate-350">{vocabs[qIndex]?.phonetic}</span>
+
+                      <div className="mt-1.5 text-xs text-slate-500 dark:text-slate-400 font-semibold">
+                        Phiên âm: <span className="font-mono font-bold text-slate-700 dark:text-slate-300">{vocabs[qIndex]?.phonetic || "/.../"}</span>
                       </div>
                     </div>
 
+                    {/* 2x2 Choice Answer Grid (Rule 14 & Rule 15) */}
                     <motion.div
                       variants={optionsContainerVariants}
                       initial="hidden"
                       animate="show"
                       key={`options-${qIndex}`}
-                      className="grid gap-3 md:grid-cols-2"
+                      className="grid grid-cols-1 sm:grid-cols-2 gap-3"
                     >
                       {options.map((opt) => {
                         const correctId = vocabs[qIndex]?.id;
                         let statusClass =
-                          "border border-slate-200 bg-white text-left text-xs md:text-sm font-bold text-slate-700 dark:border-neutral-800 dark:bg-neutral-950 dark:text-slate-200 hover:border-cyan-300 dark:hover:border-cyan-700/50";
+                          "border border-slate-200/80 bg-white dark:bg-neutral-950 text-slate-800 dark:text-slate-200 hover:border-blue-500 hover:bg-blue-50/40 hover:text-blue-600 shadow-2xs";
 
                         if (isAnswered) {
                           if (opt.id === correctId) {
-                            statusClass = "border border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-extrabold";
+                            statusClass = "border-2 border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-black shadow-sm";
                           } else if (opt.id === selectedOpt) {
-                            statusClass = "border border-rose-500 bg-rose-500/10 text-rose-600 dark:text-rose-400 font-extrabold";
+                            statusClass = "border-2 border-rose-500 bg-rose-500/10 text-rose-600 dark:text-rose-400 font-black shadow-sm";
                           } else {
-                            statusClass = "border border-slate-100 bg-slate-50/50 text-slate-400 dark:border-neutral-850 dark:bg-neutral-950/20 dark:text-slate-500 pointer-events-none";
+                            statusClass = "border border-slate-100 bg-slate-50/50 text-slate-400 dark:border-neutral-850 dark:bg-neutral-950/20 dark:text-slate-600 pointer-events-none";
                           }
                         }
 
@@ -953,35 +971,36 @@ function PracticeQuizContent() {
                             type="button"
                             onClick={() => handleQuizAnswer(opt.id)}
                             disabled={isAnswered}
-                            className={`w-full py-4 px-5 rounded-[1.25rem] transition-all cursor-pointer font-sans duration-200 ${statusClass}`}
+                            className={`w-full p-4 rounded-2xl transition-all duration-200 cursor-pointer font-bold text-center text-xs sm:text-sm min-h-[56px] flex items-center justify-center ${statusClass}`}
                           >
-                            {opt.definitionVn}
+                            <span>{opt.definitionVn || opt.definition}</span>
                           </motion.button>
                         );
                       })}
                     </motion.div>
 
+                    {/* Answer Feedback Banner */}
                     <AnimatePresence>
                       {isAnswered && (
                         <motion.div
                           initial={{ opacity: 0, y: 8 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -8 }}
-                          className={`rounded-2xl p-4 text-center text-xs font-bold border font-sans ${
+                          className={`rounded-2xl p-3.5 text-center text-xs font-bold border ${
                             selectedOpt === vocabs[qIndex]?.id
                               ? "bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-800/40 text-emerald-700 dark:text-emerald-400"
                               : "bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800/40 text-rose-700 dark:text-rose-400"
                           }`}
                         >
                           {selectedOpt === vocabs[qIndex]?.id ? (
-                            <div className="flex items-center justify-center gap-2 font-sans">
-                              <Check className="h-4 w-4" strokeWidth={3} />
+                            <div className="flex items-center justify-center gap-2">
+                              <Check className="h-4 w-4 stroke-[3]" />
                               <span>Chính xác! +15 XP</span>
                             </div>
                           ) : (
-                            <div className="space-y-1 font-sans">
+                            <div className="space-y-1">
                               <div className="flex items-center justify-center gap-2">
-                                <X className="h-4 w-4" strokeWidth={3} />
+                                <X className="h-4 w-4 stroke-[3]" />
                                 <span>Sai rồi! {consecutiveWrong >= 2 ? `(Sai liên tiếp ${consecutiveWrong}/3)` : ""}</span>
                               </div>
                               <div className="text-[11px] font-semibold opacity-80">
@@ -993,30 +1012,31 @@ function PracticeQuizContent() {
                       )}
                     </AnimatePresence>
 
-                    <div className="flex items-center justify-between gap-3 pt-1">
-                      <Button
-                        variant="secondary"
-                        size="sm"
-                        className="rounded-xl font-bold cursor-pointer text-xs px-4 py-2.5 font-sans whitespace-nowrap"
-                        onClick={goToPrevQuestion}
+                    {/* Card Footer Bar: Single Primary CTA (Rule 18 & Rule 13) */}
+                    <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-white/5">
+                      <button
+                        type="button"
                         disabled={qIndex === 0}
-                        leftIcon={<ChevronLeft className="h-4 w-4" strokeWidth={2} />}
+                        onClick={goToPrevQuestion}
+                        className="px-4 py-2 rounded-full text-xs font-bold text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-colors flex items-center gap-1"
                       >
-                        Câu trước
-                      </Button>
-                      <div className="text-[10px] font-black text-slate-400 dark:text-slate-400 tabular-nums font-sans">
-                        {qIndex + 1} / {vocabs.length}
-                      </div>
-                      <Button
-                        variant="primary"
-                        size="sm"
-                        className="rounded-xl font-bold cursor-pointer text-xs px-4 py-2.5 font-sans whitespace-nowrap text-white dark:text-white"
+                        <ChevronLeft className="w-4 h-4 stroke-[2]" />
+                        <span>Câu trước</span>
+                      </button>
+
+                      <span className="text-xs font-black text-slate-400 dark:text-slate-500 tabular-nums">
+                        {qIndex + 1}/{vocabs.length}
+                      </span>
+
+                      <button
+                        type="button"
                         onClick={goToNextQuestion}
                         disabled={!isAnswered}
-                        rightIcon={<ChevronRight className="h-4 w-4" strokeWidth={2} />}
+                        className="px-6 py-2.5 rounded-full text-xs font-black bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/25 hover:opacity-95 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-all flex items-center gap-1 border border-blue-400/20"
                       >
-                        {qIndex >= vocabs.length - 1 ? "Hoàn thành" : "Câu tiếp"}
-                      </Button>
+                        <span>{qIndex >= vocabs.length - 1 ? "Hoàn thành" : "Câu tiếp"}</span>
+                        <ChevronRight className="w-4 h-4 stroke-[2.5]" />
+                      </button>
                     </div>
                   </div>
                 </div>

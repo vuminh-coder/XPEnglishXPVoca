@@ -3,9 +3,11 @@ import { create } from 'zustand';
 interface UiState {
   theme: 'light' | 'dark' | 'system';
   sidebarOpen: boolean;
+  sidebarCollapsed: boolean;
   setTheme: (theme: 'light' | 'dark' | 'system') => void;
   toggleTheme: () => void;
   toggleSidebar: () => void;
+  toggleSidebarCollapsed: () => void;
 }
 
 export const useUiStore = create<UiState>((set, get) => {
@@ -22,6 +24,7 @@ export const useUiStore = create<UiState>((set, get) => {
   return {
     theme: 'light',
     sidebarOpen: false,
+    sidebarCollapsed: false,
 
     setTheme: (theme) => {
       applyTheme(theme);
@@ -41,6 +44,7 @@ export const useUiStore = create<UiState>((set, get) => {
       set({ theme: next });
     },
 
-    toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen }))
+    toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),
+    toggleSidebarCollapsed: () => set((state) => ({ sidebarCollapsed: !state.sidebarCollapsed })),
   };
 });

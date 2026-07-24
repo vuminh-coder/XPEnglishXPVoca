@@ -9,15 +9,15 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, variant = "default", hoverable = false, children, ...props }, ref) => {
-    const baseStyles = "rounded-2xl transition-all duration-300 relative overflow-hidden";
+    const baseStyles = "rounded-[20px] transition-all duration-300 relative overflow-hidden";
 
     const variants = {
       default:
-        "bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 shadow-sm",
+        "bg-white dark:bg-neutral-900 border border-[#e9eef5] dark:border-white/10 shadow-[0_2px_12px_rgba(0,0,0,0.03)]",
       bezel:
-        "bg-white dark:bg-neutral-900 border-2 border-slate-200 dark:border-neutral-800 shadow-card bezel",
+        "bg-white dark:bg-neutral-900 border border-[#e9eef5] dark:border-white/10 shadow-[0_2px_12px_rgba(0,0,0,0.03)]",
       glass:
-        "bg-white/50 dark:bg-neutral-950/50 backdrop-blur-xl border border-white/60 dark:border-white/10 shadow-card",
+        "bg-white/70 dark:bg-neutral-950/70 backdrop-blur-xl border border-[#e9eef5] dark:border-white/10 shadow-[0_2px_12px_rgba(0,0,0,0.03)]",
     };
 
     const hoverStyles = hoverable
