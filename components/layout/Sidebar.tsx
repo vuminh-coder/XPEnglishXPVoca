@@ -79,7 +79,7 @@ const sections = [
       },
       {
         name: "Shadowing",
-        path: "/study/listening",
+        path: "/study/shadowing",
         icon: <Mic className="w-[18px] h-[18px]" strokeWidth={1.8} />,
         page: "shadowing",
       },
@@ -122,7 +122,7 @@ const sections = [
         badge: "0",
       },
       {
-        name: "Từ điển AI",
+        name: "Ngữ pháp AI",
         path: "/study/grammar",
         icon: <BookMarked className="w-[18px] h-[18px]" strokeWidth={1.8} />,
         page: "grammar",
@@ -133,16 +133,23 @@ const sections = [
     title: "TIẾN ĐỘ",
     links: [
       {
+        name: "Lộ trình",
+        path: "/roadmap",
+        icon: <Compass className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        page: "roadmap",
+        badge: "AI",
+      },
+      {
+        name: "Thống kê",
+        path: "/analytics",
+        icon: <BarChart3 className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        page: "analytics",
+      },
+      {
         name: "Xếp hạng",
         path: "/community",
         icon: <Trophy className="w-[18px] h-[18px]" strokeWidth={1.8} />,
         page: "community",
-      },
-      {
-        name: "Thống kê",
-        path: "/study/plan",
-        icon: <BarChart3 className="w-[18px] h-[18px]" strokeWidth={1.8} />,
-        page: "studyplan",
       },
     ],
   },
@@ -165,11 +172,15 @@ function SidebarNavInner({ userName = "Minh Vu Van", onLogout }: SidebarNavProps
         } ${sidebarCollapsed ? "collapsed" : ""}`}
       >
         {/* 1. TOP BRAND HEADER */}
-        <div className="flex items-center justify-between px-3.5 py-4 border-b border-slate-100 dark:border-white/5 shrink-0 min-h-[64px]">
+        <div
+          className={`flex items-center justify-between px-3.5 ${
+            sidebarCollapsed ? "py-2.5 min-h-[56px]" : "py-4 min-h-[64px]"
+          } border-b border-slate-100 dark:border-white/5 shrink-0`}
+        >
           {sidebarCollapsed ? (
             /* Show mascot owl inside clean circular avatar frame when collapsed */
             <Link href="/dashboard" className="mx-auto flex items-center justify-center" title="Trang chủ">
-              <div className="w-10 h-10 rounded-full bg-[#e8edf5]/70 dark:bg-slate-800/70 p-1 flex items-center justify-center overflow-hidden transition-transform hover:scale-105 shadow-2xs">
+              <div className="w-9 h-9 rounded-full bg-[#e8edf5]/70 dark:bg-slate-800/70 p-1 flex items-center justify-center overflow-hidden transition-transform hover:scale-105 shadow-2xs">
                 <img src="/mascot.png" alt="XP Mascot" className="w-full h-full object-contain" />
               </div>
             </Link>
@@ -196,7 +207,11 @@ function SidebarNavInner({ userName = "Minh Vu Van", onLogout }: SidebarNavProps
         </div>
 
         {/* 2. NAVIGATION LINKS */}
-        <div className="sidebar-nav flex-1 overflow-y-auto px-2.5 py-3 space-y-4 no-scrollbar">
+        <div
+          className={`sidebar-nav flex-1 overflow-y-auto px-2.5 ${
+            sidebarCollapsed ? "py-3 space-y-2.5" : "py-3 space-y-4"
+          } no-scrollbar`}
+        >
           {sections.map((section, idx) => (
             <div key={idx} className="sidebar-section">
               {!sidebarCollapsed && (
@@ -208,7 +223,7 @@ function SidebarNavInner({ userName = "Minh Vu Van", onLogout }: SidebarNavProps
                 </div>
               )}
 
-              <div className="space-y-0.5">
+              <div className={sidebarCollapsed ? "space-y-1.5" : "space-y-0.5"}>
                 {section.links.map((link) => {
                   const isActive =
                     pathname === link.path ||
@@ -225,9 +240,11 @@ function SidebarNavInner({ userName = "Minh Vu Van", onLogout }: SidebarNavProps
                         isActive
                           ? "active bg-[#e8edf5] text-slate-900 dark:bg-slate-800 dark:text-white font-extrabold shadow-2xs"
                           : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-900/60 font-semibold"
-                      } transition-all duration-200 flex items-center justify-between w-full px-3 py-2 rounded-md`}
+                      } transition-all duration-200 flex items-center ${
+                        sidebarCollapsed ? "justify-center px-0 py-2" : "justify-between px-3 py-2"
+                      } w-full rounded-md`}
                     >
-                      <div className="flex items-center gap-3 min-w-0">
+                      <div className={`flex items-center ${sidebarCollapsed ? "justify-center" : "gap-3"} min-w-0`}>
                         <span className="sidebar-link-icon text-current shrink-0">
                           {link.icon}
                         </span>
@@ -251,17 +268,17 @@ function SidebarNavInner({ userName = "Minh Vu Van", onLogout }: SidebarNavProps
 
           {/* WHEN COLLAPSED: SHOW EXPAND BUTTON, LANGUAGES & BORDERLESS THEME TOGGLE BUTTON BELOW THỐNG KÊ */}
           {sidebarCollapsed && (
-            <div className="pt-2 border-t border-slate-100 dark:border-white/5 flex flex-col items-center gap-2">
+            <div className="pt-2 border-t border-slate-100 dark:border-white/5 flex flex-col items-center gap-1.5">
               <button
                 onClick={toggleSidebarCollapsed}
-                className="w-10 h-10 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer flex items-center justify-center border-none outline-none"
+                className="w-9 h-9 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer flex items-center justify-center border-none outline-none"
                 title="Mở rộng thanh bên"
               >
                 <PanelLeft className="w-5 h-5 stroke-[1.8]" />
               </button>
               <button
                 type="button"
-                className="w-10 h-10 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer flex items-center justify-center border-none outline-none"
+                className="w-9 h-9 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer flex items-center justify-center border-none outline-none"
                 title="Ngôn ngữ"
               >
                 <Languages className="w-[18px] h-[18px]" strokeWidth={1.8} />
@@ -269,7 +286,7 @@ function SidebarNavInner({ userName = "Minh Vu Van", onLogout }: SidebarNavProps
               <button
                 type="button"
                 onClick={toggleTheme}
-                className="w-10 h-10 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer flex items-center justify-center border-none outline-none"
+                className="w-9 h-9 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer flex items-center justify-center border-none outline-none"
                 title={theme === "dark" ? "Chuyển sang giao diện Sáng" : "Chuyển sang giao diện Tối"}
               >
                 {theme === "dark" ? (

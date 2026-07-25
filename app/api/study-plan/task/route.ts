@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { LEVEL_TITLES } from "@/lib/constants";
 
+// Helper to calculate level and title from XP
 function calculateLevelAndTitle(xp: number, currentLevel: number) {
   const LEVEL_XP = [
     0, 100, 250, 450, 700, 1000, 1400, 1900, 2500, 3200, 4000, 5000, 6200,
@@ -24,12 +25,13 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { taskId, isCompleted } = body;
+    const { taskId } = body;
 
     if (!taskId) {
       return NextResponse.json({ error: "Task ID is required" }, { status: 400 });
     }
 
+    // Find the task
     const task = await prisma.dailyTask.findUnique({
       where: { id: taskId },
       include: { plan: true },
@@ -39,20 +41,22 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Task not found" }, { status: 404 });
     }
 
+    // Ensure current user owns the plan
     if (task.plan.userId !== userId) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    const targetState = typeof isCompleted === "boolean" ? isCompleted : !task.isCompleted;
+    const nextCompleted = !task.isCompleted;
 
+    // Transactionally toggle task and update Profile XP
     const result = await prisma.$transaction(async (tx) => {
       const updatedTask = await tx.dailyTask.update({
         where: { id: taskId },
-        data: { isCompleted: targetState },
+        data: { isCompleted: nextCompleted },
       });
 
       let updatedProfile = null;
-      if (targetState && !task.isCompleted) {
+      if (nextCompleted) {
         const profile = await tx.profile.findUnique({
           where: { id: userId },
         });
@@ -85,7 +89,7 @@ export async function POST(request: Request) {
       profile: result.updatedProfile,
     });
   } catch (error: any) {
-    console.error("POST /api/study-plan/task-complete error:", error);
+    console.error("POST /api/study-plan/task error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

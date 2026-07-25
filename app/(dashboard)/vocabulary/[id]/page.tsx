@@ -1,9 +1,11 @@
 "use client";
-import React, { use, useState } from "react";
+import React, { use, useState, useMemo, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { MOCK_THEMES } from "@/lib/constants";
 import { useVocabularyStore } from "@/lib/store/vocabularyStore";
 import { useAuthStore } from "@/lib/store/authStore";
+import { useUserStore } from "@/lib/store/userStore";
+import { useDailyChallengeStore } from "@/lib/store/dailyChallengeStore";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft,
@@ -11,33 +13,53 @@ import {
   List,
   Heart,
   Volume2,
+  Volume1,
   Zap,
   CheckCircle2,
   RotateCcw,
   ChevronLeft,
   ChevronRight,
+  BookOpen,
+  Target,
+  Search,
+  Bot,
+  Send,
+  RotateCw,
+  Check,
+  X,
+  Sparkles,
+  Bookmark,
+  Eye,
+  EyeOff,
+  Lightbulb,
+  Shuffle,
+  Globe,
+  Flame,
+  Award,
+  VolumeX,
 } from "lucide-react";
 
-const listContainerVariants = {
+const containerVariants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
     transition: {
       staggerChildren: 0.05,
+      delayChildren: 0.05,
     },
   },
 } as const;
 
-const listItemVariants = {
-  hidden: { opacity: 0, y: 15, scale: 0.98 },
+const itemVariants = {
+  hidden: { opacity: 0, y: 12, scale: 0.98 },
   show: {
     opacity: 1,
     y: 0,
     scale: 1,
     transition: {
       type: "spring",
-      stiffness: 90,
-      damping: 16,
+      stiffness: 110,
+      damping: 18,
     },
   },
 } as const;
@@ -48,13 +70,28 @@ export default function ThemeDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = use(params);
-  const theme = React.useMemo(() => MOCK_THEMES.find((t) => t.id === id), [id]);
+
   const [vocabs, setVocabs] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { toggleFavorite, learned, practiceWord } = useVocabularyStore();
   const { awardXp } = useAuthStore();
 
-  React.useEffect(() => {
+  // Find theme metadata or fallback
+  const theme = useMemo(() => {
+    const found = MOCK_THEMES.find((t) => t.id === id);
+    if (found) return found;
+    return {
+      id,
+      name: `Chủ đề ${id.toUpperCase()}`,
+      nameEn: `Theme ${id}`,
+      icon: "⛺",
+      difficulty: 2,
+      totalVocabs: vocabs.length || 20,
+      color: "#0059bb",
+    };
+  }, [id, vocabs.length]);
+
+  useEffect(() => {
     setIsLoading(true);
     fetch(`/api/vocabulary?themeId=${id}`)
       .then((res) => res.json())
@@ -63,41 +100,284 @@ export default function ThemeDetailPage({
           setVocabs(res.data);
         }
       })
-      .catch((err) => console.error(err))
+      .catch((err) => console.error("Error fetching vocabs:", err))
       .finally(() => setIsLoading(false));
   }, [id]);
 
-  const [toast, setToast] = useState<{ title: string; body: string } | null>(
-    null
-  );
-  const [viewMode, setViewMode] = useState<"flashcard" | "list">("flashcard");
+  // Page States
+  const [toast, setToast] = useState<{ title: string; body: string } | null>(null);
+  const [viewMode, setViewMode] = useState<"flashcard" | "list" | "quiz" | "ai">("flashcard");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
 
+  // Flashcard Interactive Studio States
+  const [showAiHint, setShowAiHint] = useState(false);
+  const [isWordMasked, setIsWordMasked] = useState(false);
+  const [autoPlayAudio, setAutoPlayAudio] = useState(false);
+  const [bookmarkedIds, setBookmarkedIds] = useState<string[]>([]);
+
+  // List Mode Search & Filters
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterStatus, setFilterStatus] = useState<"all" | "unlearned" | "learned" | "favorite">("all");
+
+  // Quiz Mode States
+  const [quizIndex, setQuizIndex] = useState(0);
+  const [quizScore, setQuizScore] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [isQuizSubmitted, setIsQuizSubmitted] = useState(false);
+  const [quizFinished, setQuizFinished] = useState(false);
+
+  // AI Coach States
+  const [aiQuestion, setAiQuestion] = useState("");
+  const [aiResponse, setAiResponse] = useState<string | null>(null);
+  const [isAiLoading, setIsAiLoading] = useState(false);
+
+  // Computed Theme Metrics
+  const learnedCount = useMemo(() => {
+    if (!vocabs.length) return 0;
+    const vocabIds = new Set(vocabs.map((v) => v.id));
+    return learned.filter(
+      (l) => vocabIds.has(l.vocabId) && (l.isLearned || (l.proficiency && l.proficiency > 0))
+    ).length;
+  }, [vocabs, learned]);
+
+  const favoriteCount = useMemo(() => {
+    if (!vocabs.length) return 0;
+    const vocabIds = new Set(vocabs.map((v) => v.id));
+    return learned.filter((l) => vocabIds.has(l.vocabId) && l.isFavorite).length;
+  }, [vocabs, learned]);
+
+  const unlearnedCount = useMemo(() => {
+    return Math.max(0, vocabs.length - learnedCount);
+  }, [vocabs.length, learnedCount]);
+
+  const progressPercent = useMemo(() => {
+    if (!vocabs.length) return 0;
+    return Math.round((learnedCount / vocabs.length) * 100);
+  }, [vocabs, learnedCount]);
+
   const activeVocab = vocabs[currentIndex];
-  const activeState = React.useMemo(() => activeVocab
-    ? learned.find((l) => l.vocabId === activeVocab.id)
-    : null, [activeVocab, learned]);
+  const activeState = useMemo(
+    () => (activeVocab ? learned.find((l) => l.vocabId === activeVocab.id) : null),
+    [activeVocab, learned]
+  );
   const isCurrentFav = activeState?.isFavorite || false;
+  const isCurrentBookmarked = activeVocab ? bookmarkedIds.includes(activeVocab.id) : false;
 
-  if (!theme)
-    return <div className="p-8 text-center text-red-500 font-bold">Chủ đề không tồn tại</div>;
+  const showToastMsg = (title: string, body: string) => {
+    setToast({ title, body });
+    setTimeout(() => setToast(null), 3000);
+  };
 
+  const speak = (word: string, rate = 0.9, lang = "en-US") => {
+    if ("speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(word);
+      u.lang = lang;
+      u.rate = rate;
+      window.speechSynthesis.speak(u);
+    } else {
+      showToastMsg("Lỗi phát âm", "Trình duyệt không hỗ trợ tổng hợp giọng nói!");
+    }
+  };
+
+  // Auto-play audio when switching cards if autoPlayAudio is enabled
+  useEffect(() => {
+    if (autoPlayAudio && activeVocab && viewMode === "flashcard" && !isFlipped) {
+      speak(activeVocab.word, 0.9);
+    }
+  }, [currentIndex, autoPlayAudio, viewMode]);
+
+  // Keyboard navigation for Flashcard 3D mode
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (["INPUT", "TEXTAREA"].includes((e.target as HTMLElement)?.tagName)) {
+        return;
+      }
+
+      if (viewMode === "flashcard" && vocabs.length > 0) {
+        if (e.code === "Space") {
+          e.preventDefault();
+          setIsFlipped((prev) => !prev);
+        } else if (e.code === "ArrowLeft") {
+          e.preventDefault();
+          setIsFlipped(false);
+          setCurrentIndex((prev) => (prev > 0 ? prev - 1 : vocabs.length - 1));
+        } else if (e.code === "ArrowRight") {
+          e.preventDefault();
+          setIsFlipped(false);
+          setCurrentIndex((prev) => (prev < vocabs.length - 1 ? prev + 1 : 0));
+        }
+      }
+    },
+    [viewMode, vocabs.length]
+  );
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [handleKeyDown]);
+
+  // Filtered Vocabularies for List View
+  const filteredVocabs = useMemo(() => {
+    return vocabs.filter((v) => {
+      const q = searchQuery.trim().toLowerCase();
+      const matchesSearch =
+        !q ||
+        v.word.toLowerCase().includes(q) ||
+        (v.phonetic && v.phonetic.toLowerCase().includes(q)) ||
+        (v.definitionVn && v.definitionVn.toLowerCase().includes(q)) ||
+        (v.definition && v.definition.toLowerCase().includes(q));
+
+      if (!matchesSearch) return false;
+
+      const state = learned.find((l) => l.vocabId === v.id);
+      if (filterStatus === "learned") return !!state?.isLearned;
+      if (filterStatus === "unlearned") return !state?.isLearned;
+      if (filterStatus === "favorite") return !!state?.isFavorite;
+
+      return true;
+    });
+  }, [vocabs, searchQuery, filterStatus, learned]);
+
+  // Generate Quiz Options for Current Question
+  const currentQuizItem = vocabs[quizIndex];
+  const quizOptions = useMemo(() => {
+    if (!currentQuizItem || vocabs.length < 2) return [];
+
+    const correctDef = currentQuizItem.definitionVn;
+    const distractors = vocabs
+      .filter((v) => v.id !== currentQuizItem.id)
+      .map((v) => v.definitionVn)
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 3);
+
+    const all = [correctDef, ...distractors].sort(() => Math.random() - 0.5);
+    return all;
+  }, [currentQuizItem, vocabs, quizIndex]);
+
+  const handleAnswerQuiz = (optIndex: number) => {
+    if (isQuizSubmitted) return;
+    setSelectedAnswer(optIndex);
+    setIsQuizSubmitted(true);
+
+    const isCorrect = quizOptions[optIndex] === currentQuizItem.definitionVn;
+    if (isCorrect) {
+      setQuizScore((prev) => prev + 1);
+      practiceWord(currentQuizItem.id, true);
+      useDailyChallengeStore.getState().incrementProgress("review_cards", 1);
+      useDailyChallengeStore.getState().incrementProgress("learn_words", 1);
+    }
+  };
+
+  const handleNextQuizQuestion = () => {
+    if (quizIndex < vocabs.length - 1) {
+      setQuizIndex((prev) => prev + 1);
+      setSelectedAnswer(null);
+      setIsQuizSubmitted(false);
+    } else {
+      setQuizFinished(true);
+      const bonusXp = quizScore * 5 + 10;
+      awardXp(bonusXp);
+      useUserStore.getState().addPracticeTime(3);
+      useDailyChallengeStore.getState().incrementProgress("review_cards", 1);
+      useDailyChallengeStore.getState().incrementProgress("learn_words", 1);
+      showToastMsg("Hoàn thành bài tập! 🎉", `Bạn đã nhận +${bonusXp} XP thưởng & +3 phút học!`);
+    }
+  };
+
+  const handleResetQuiz = () => {
+    setQuizIndex(0);
+    setQuizScore(0);
+    setSelectedAnswer(null);
+    setIsQuizSubmitted(false);
+    setQuizFinished(false);
+  };
+
+  const handleAiAsk = async (queryText?: string) => {
+    const textToSend = queryText || aiQuestion;
+    if (!textToSend.trim() || isAiLoading) return;
+
+    setIsAiLoading(true);
+    setAiResponse(null);
+
+    try {
+      const res = await fetch("/api/ai/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: [
+            {
+              role: "user",
+              text: `Hỏi về từ vựng thuộc chủ đề ${theme.name} (${theme.nameEn}): ${textToSend}`,
+            },
+          ],
+        }),
+      });
+      const data = await res.json();
+      if (data.success && data.reply) {
+        setAiResponse(data.reply);
+        awardXp(10);
+        showToastMsg("AI Tutor trả lời! 🤖", "+10 XP chủ động học hỏi.");
+      } else {
+        setAiResponse("Hệ thống AI đang bận. Vui lòng thử lại sau giây lát!");
+      }
+    } catch (err) {
+      console.error(err);
+      setAiResponse("Không có kết nối mạng. Vui lòng kiểm tra lại kết nối.");
+    } finally {
+      setIsAiLoading(false);
+    }
+  };
+
+  const toggleBookmark = (vocabId: string) => {
+    setBookmarkedIds((prev) => {
+      const exists = prev.includes(vocabId);
+      if (exists) {
+        showToastMsg("Đánh dấu", "Đã gỡ bookmark từ vựng.");
+        return prev.filter((id) => id !== vocabId);
+      } else {
+        showToastMsg("Đánh dấu 🔖", "Đã lưu vào danh sách xem lại.");
+        return [...prev, vocabId];
+      }
+    });
+  };
+
+  const getMaskedWord = (word: string) => {
+    if (!word) return "";
+    return word
+      .split("")
+      .map((char, i) => (i === 0 || i === word.length - 1 || char === " " ? char : "_ "))
+      .join("");
+  };
+
+  // Rule 1: Skeleton Loading State
   if (isLoading) {
     return (
-      <div className="space-y-6 pb-20 md:pb-6 select-none animate-pulse">
-        <div className="flex items-center gap-4">
-          <div className="w-9 h-9 rounded-full bg-slate-200 dark:bg-neutral-850" />
-          <div className="space-y-2">
-            <div className="h-6 w-48 rounded bg-slate-200 dark:bg-neutral-850" />
-            <div className="h-3.5 w-32 rounded bg-slate-100 dark:bg-neutral-900" />
+      <div className="space-y-4 pb-16 md:pb-6 select-none animate-pulse">
+        <div className="p-5 rounded-xl bg-white dark:bg-slate-900/60 border border-slate-200/80 dark:border-white/5 space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-slate-200 dark:bg-slate-800" />
+              <div className="space-y-2">
+                <div className="h-6 w-48 rounded bg-slate-200 dark:bg-slate-800" />
+                <div className="h-3.5 w-32 rounded bg-slate-200 dark:bg-slate-800" />
+              </div>
+            </div>
+            <div className="h-9 w-32 rounded-lg bg-slate-200 dark:bg-slate-800" />
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="h-20 rounded-lg bg-slate-100 dark:bg-slate-800/50" />
+            ))}
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="h-10 w-80 rounded-full bg-slate-200 dark:bg-slate-900/60" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[1, 2, 3, 4].map((i) => (
             <div
               key={i}
-              className="h-44 rounded-[2rem] bg-slate-100/40 dark:bg-white/5 border border-slate-200/20 dark:border-neutral-800/25"
+              className="h-40 rounded-xl bg-white dark:bg-slate-900/40 border border-slate-200/60 dark:border-white/5"
             />
           ))}
         </div>
@@ -105,209 +385,247 @@ export default function ThemeDetailPage({
     );
   }
 
-  const showToastMsg = (title: string, body: string) => {
-    setToast({ title, body });
-    setTimeout(() => setToast(null), 3000);
-  };
-
-  const speak = (word: string) => {
-    if ("speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(word);
-      u.lang = "en-US";
-      u.rate = 0.9;
-      window.speechSynthesis.speak(u);
-    } else {
-      showToastMsg("Lỗi phát âm", "Trình duyệt không hỗ trợ!");
-    }
-  };
-
   return (
-    <div className="space-y-6" suppressHydrationWarning>
+    <div className="space-y-5 pb-16 md:pb-6 px-1 md:px-0 select-none font-sans" suppressHydrationWarning>
       {/* Toast Notification Container */}
       <AnimatePresence>
         {toast && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            initial={{ opacity: 0, y: 15, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 15, scale: 0.95 }}
             transition={{ type: "spring", stiffness: 120, damping: 15 }}
-            className="fixed bottom-6 right-6 z-[600] bezel"
+            className="fixed bottom-6 right-6 z-[600]"
           >
-            <div className="bezel-inner bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-250/50 dark:border-emerald-900/30 p-4 flex items-center gap-3">
-              <CheckCircle2
-                className="w-5 h-5 text-emerald-500 shrink-0"
-                strokeWidth={1.3}
-              />
+            <div className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white border border-slate-200/90 dark:border-white/10 p-3.5 rounded-xl shadow-xl flex items-center gap-3 max-w-md">
+              <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" strokeWidth={2} />
               <div>
-                <div className="text-xs font-black text-slate-900 dark:text-white">
-                  {toast.title}
-                </div>
-                <div className="text-[11px] text-slate-500 dark:text-slate-400 font-bold mt-0.5">
-                  {toast.body}
-                </div>
+                <div className="text-xs font-bold font-display text-slate-900 dark:text-white">{toast.title}</div>
+                <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium mt-0.5">{toast.body}</div>
               </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Header section with back shortcut and dynamic tabs */}
+      {/* 1. HERO HEADER CARD (Dashboard Bento Style) */}
       <motion.div
-        initial={{ opacity: 0, y: -15 }}
+        initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 85, damping: 15 }}
-        className="flex flex-col md:flex-row md:items-center justify-between gap-4"
+        transition={{ type: "spring", stiffness: 110, damping: 20 }}
+        className="p-4 sm:p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-4"
       >
-        <div className="flex items-center gap-4">
-          <Link
-            href="/vocabulary"
-            className="w-9 h-9 rounded-full flex items-center justify-center border border-slate-200 dark:border-neutral-850 hover:border-cyan-300 dark:hover:border-cyan-800 bg-white dark:bg-neutral-900 tactile shrink-0"
-            aria-label="Quay lại danh sách từ vựng"
-          >
-            <ArrowLeft className="w-4 h-4 text-slate-500" strokeWidth={1.3} />
-          </Link>
-          <div>
-            <h2 className="font-black text-xl md:text-2xl tracking-tight text-slate-900 dark:text-white font-display">
-              {theme.name}
-            </h2>
-            <p className="text-[11px] text-slate-400 dark:text-slate-500 font-bold mt-0.5">
-              {theme.nameEn} · Độ khó: {theme.difficulty}/5
-            </p>
-          </div>
-        </div>
-
-        {/* View Mode Switching Tab with Slider Layout animation */}
-        <div className="relative flex bg-slate-100 dark:bg-neutral-950 p-1 rounded-full border border-slate-200/50 dark:border-neutral-900 w-fit">
-          <button
-            className={`relative flex items-center gap-1.5 px-4 py-2 text-xs font-black rounded-full transition-colors duration-250 select-none z-10 ${
-              viewMode === "flashcard"
-                ? "text-cyan-600 dark:text-cyan-400"
-                : "text-slate-400 dark:text-slate-500"
-            }`}
-            onClick={() => setViewMode("flashcard")}
-          >
-            {viewMode === "flashcard" && (
-              <motion.div
-                layoutId="activeViewIndicator"
-                className="absolute inset-0 bg-white dark:bg-neutral-900 rounded-full shadow-sm border border-slate-100 dark:border-neutral-850"
-                transition={{ type: "spring", stiffness: 100, damping: 18 }}
-              />
-            )}
-            <Layers className="w-3.5 h-3.5 relative z-10" strokeWidth={1.3} />
-            <span className="relative z-10">Flashcard 3D</span>
-          </button>
-          <button
-            className={`relative flex items-center gap-1.5 px-4 py-2 text-xs font-black rounded-full transition-colors duration-250 select-none z-10 ${
-              viewMode === "list"
-                ? "text-cyan-600 dark:text-cyan-400"
-                : "text-slate-400 dark:text-slate-500"
-            }`}
-            onClick={() => setViewMode("list")}
-          >
-            {viewMode === "list" && (
-              <motion.div
-                layoutId="activeViewIndicator"
-                className="absolute inset-0 bg-white dark:bg-neutral-900 rounded-full shadow-sm border border-slate-100 dark:border-neutral-850"
-                transition={{ type: "spring", stiffness: 100, damping: 18 }}
-              />
-            )}
-            <List className="w-3.5 h-3.5 relative z-10" strokeWidth={1.3} />
-            <span className="relative z-10">Danh sách</span>
-          </button>
-        </div>
-      </motion.div>
-
-      {/* Mode View Content Panel */}
-      {viewMode === "flashcard" && activeVocab && (
-        <div className="max-w-md mx-auto animate-scale-in space-y-6">
-          {/* Outer Bezel Wrapper */}
-          <div className="bezel shadow-md">
-            {/* 3D Perspective container */}
-            <div
-              className="perspective-[1500px] w-full"
-              style={{ borderRadius: "calc(var(--radius-3xl) - 6px)" }}
+        {/* Upper Header Row */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-3.5">
+            <Link
+              href="/vocabulary"
+              className="w-9 h-9 rounded-lg flex items-center justify-center border border-slate-200 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors shrink-0"
+              title="Quay lại danh sách chủ đề"
+              aria-label="Quay lại danh sách từ vựng"
             >
-              {/* Inner card containing flipping state */}
-              <motion.div
-                animate={{ rotateY: isFlipped ? 180 : 0 }}
-                transition={{ type: "spring", stiffness: 70, damping: 15 }}
-                className="relative w-full h-80 rounded-[calc(var(--radius-3xl)-6px)] cursor-pointer select-none [transform-style:preserve-3d]"
-                onClick={() => setIsFlipped(!isFlipped)}
-              >
-                {/* FRONT SIDE (Statically hidden on rotateY(180)) */}
-                <div
-                  className="absolute inset-0 bg-white dark:bg-neutral-900 rounded-[calc(var(--radius-3xl)-6px)] p-8 flex flex-col items-center justify-center text-center shadow-[inset_0_1px_1px_rgba(255,255,255,0.12)] border border-slate-100 dark:border-neutral-850 [backface-visibility:hidden]"
-                  style={{ transform: "rotateY(0deg)" }}
-                >
-                  <span className="inline-flex items-center gap-1.5 text-[9px] uppercase tracking-[0.2em] font-black text-cyan-600 dark:text-cyan-400 mb-6 bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/10">
-                    <RotateCcw className="w-3 h-3 animate-spin-slow" /> Bấm để lật
-                  </span>
-                  <h3 className="text-3xl md:text-4xl font-black text-cyan-600 dark:text-cyan-400 mb-2 tracking-tight font-display">
-                    {activeVocab.word}
-                  </h3>
-                  <span className="text-[10px] bg-cyan-100 dark:bg-cyan-950/50 text-cyan-700 dark:text-cyan-300 px-3 py-0.5 rounded-full font-black uppercase mb-3">
-                    {activeVocab.pos}
-                  </span>
-                  <div className="text-slate-400 dark:text-slate-500 text-xs font-bold font-mono">
-                    {activeVocab.phonetic}
-                  </div>
-                </div>
+              <ArrowLeft className="w-4 h-4 stroke-[2]" />
+            </Link>
 
-                {/* BACK SIDE (Rotated initially) */}
-                <div
-                  className="absolute inset-0 rounded-[calc(var(--radius-3xl)-6px)] p-8 flex flex-col items-center justify-center text-center shadow-[inset_0_1px_1px_rgba(255,255,255,0.12)] border border-slate-100 dark:border-neutral-850 [backface-visibility:hidden]"
-                  style={{
-                    transform: "rotateY(180deg)",
-                    background:
-                      "linear-gradient(135deg, rgba(6, 182, 212, 0.05) 0%, rgba(99, 102, 241, 0.03) 100%), var(--bg-card)",
-                  }}
-                >
-                  <span className="text-[9px] uppercase tracking-[0.2em] font-black text-emerald-600 dark:text-emerald-400 mb-4 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/10">
-                    Định nghĩa từ
+            <div className="flex items-center gap-3 min-w-0">
+              {/* Theme Icon Avatar Badge */}
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#0059bb]/10 to-indigo-500/10 dark:from-[#0059bb]/20 dark:to-indigo-500/20 border border-[#0059bb]/20 text-2xl flex items-center justify-center shrink-0 shadow-2xs">
+                {theme.icon || "⛺"}
+              </div>
+
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h1 className="text-lg sm:text-xl font-bold tracking-tight text-slate-900 dark:text-white font-display truncate">
+                    {theme.name}
+                  </h1>
+                  <span className="px-2 py-0.5 rounded text-[9px] font-black uppercase bg-[#0059bb]/10 dark:bg-sky-500/10 text-[#0059bb] dark:text-sky-400 border border-[#0059bb]/20 dark:border-sky-500/20">
+                    Cấp độ {theme.difficulty}/5
                   </span>
-                  <h4 className="text-lg md:text-xl font-black text-slate-900 dark:text-white mb-2 leading-tight">
-                    {activeVocab.definitionVn}
-                  </h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 max-w-xs mb-5 leading-relaxed font-medium">
-                    {activeVocab.definition}
-                  </p>
-                  <div className="bg-slate-50/50 dark:bg-neutral-950/40 px-4 py-3 rounded-xl border border-slate-200/40 dark:border-neutral-850 text-xs text-slate-500 dark:text-slate-400 font-bold italic w-full max-w-xs leading-relaxed">
-                    &quot;{activeVocab.examples[0]}&quot;
-                  </div>
+                  <span className="px-2 py-0.5 rounded text-[9px] font-black uppercase bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
+                    CEFR B1-B2
+                  </span>
                 </div>
-              </motion.div>
+                <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 mt-0.5">
+                  {theme.nameEn} • Tổng hợp từ vựng thông dụng chuẩn bản ngữ
+                </p>
+              </div>
             </div>
           </div>
 
-          {/* Flashcard operations bezel control block */}
-          <div className="bezel">
-            <div className="bezel-inner p-3.5 flex items-center justify-between bg-white dark:bg-neutral-900">
-              <motion.button
-                whileTap={{ scale: 0.95 }}
-                className="w-9 h-9 rounded-full flex items-center justify-center border border-slate-200 dark:border-neutral-850 bg-slate-50 dark:bg-neutral-950 text-slate-500 hover:border-cyan-300 dark:hover:border-cyan-800 tactile shrink-0 cursor-pointer"
-                onClick={() => {
-                  setIsFlipped(false);
-                  setTimeout(() => {
-                    setCurrentIndex((prev) =>
-                      prev > 0 ? prev - 1 : vocabs.length - 1
-                    );
-                  }, 120);
-                }}
-                aria-label="Từ trước"
-              >
-                <ChevronLeft className="w-5 h-5" strokeWidth={1.3} />
-              </motion.button>
+          <div className="flex items-center gap-2 self-end sm:self-auto shrink-0">
+            <button
+              onClick={() => {
+                if (vocabs.length > 0) {
+                  practiceWord(vocabs[0].id, true);
+                  awardXp(15);
+                  showToastMsg("Bắt đầu ôn tập", "Đã khởi động bài luyện tập! +15 XP");
+                }
+              }}
+              className="px-3.5 py-2 rounded-lg bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer"
+            >
+              <Zap className="w-3.5 h-3.5 fill-current" />
+              Luyện ngay +15 XP
+            </button>
+          </div>
+        </div>
 
-              <div className="flex flex-col items-center gap-2">
-                <span className="text-xs font-black text-slate-400 dark:text-slate-500 select-none">
-                  {currentIndex + 1} / {vocabs.length} từ
+        {/* Hero Metrics Strip (4 Cards) */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
+          <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-white/5 flex items-center justify-between">
+            <div>
+              <div className="text-[10px] font-bold uppercase text-slate-400 dark:text-slate-500">
+                Tổng từ vựng
+              </div>
+              <div className="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-display mt-0.5">
+                {vocabs.length} <span className="text-xs font-medium text-slate-400">từ</span>
+              </div>
+            </div>
+            <div className="w-8 h-8 rounded-md bg-blue-500/10 text-blue-600 dark:text-sky-400 flex items-center justify-center">
+              <BookOpen className="w-4 h-4" />
+            </div>
+          </div>
+
+          <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-white/5 flex items-center justify-between">
+            <div>
+              <div className="text-[10px] font-bold uppercase text-slate-400 dark:text-slate-500">
+                Đã thành thạo
+              </div>
+              <div className="text-base sm:text-lg font-bold text-emerald-600 dark:text-emerald-400 font-display mt-0.5">
+                {learnedCount} <span className="text-xs font-medium text-slate-400">từ</span>
+              </div>
+            </div>
+            <div className="w-8 h-8 rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+              <CheckCircle2 className="w-4 h-4" />
+            </div>
+          </div>
+
+          <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-white/5 flex items-center justify-between">
+            <div>
+              <div className="text-[10px] font-bold uppercase text-slate-400 dark:text-slate-500">
+                Từ yêu thích
+              </div>
+              <div className="text-base sm:text-lg font-bold text-rose-500 dark:text-rose-400 font-display mt-0.5">
+                {favoriteCount} <span className="text-xs font-medium text-slate-400">từ</span>
+              </div>
+            </div>
+            <div className="w-8 h-8 rounded-md bg-rose-500/10 text-rose-500 flex items-center justify-center">
+              <Heart className="w-4 h-4 fill-rose-500/20" />
+            </div>
+          </div>
+
+          <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-white/5 flex items-center justify-between">
+            <div className="flex-1 pr-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-bold uppercase text-slate-400 dark:text-slate-500">
+                  Tiến độ
                 </span>
-                <div className="flex gap-2">
-                  <motion.button
-                    whileTap={{ scale: 0.95 }}
-                    className="w-8 h-8 rounded-full flex items-center justify-center border border-slate-200/50 dark:border-neutral-850 bg-slate-50/60 dark:bg-neutral-950 tactile cursor-pointer text-slate-500"
-                    onClick={() => {
+                <span className="text-xs font-bold text-[#0059bb] dark:text-sky-400 font-display">
+                  {progressPercent}%
+                </span>
+              </div>
+              <div className="w-full h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden mt-1.5">
+                <div
+                  className="h-full bg-gradient-to-r from-[#0059bb] to-indigo-500 rounded-full transition-all duration-500"
+                  style={{ width: `${progressPercent}%` }}
+                />
+              </div>
+            </div>
+            <div className="w-8 h-8 rounded-md bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">
+              <Target className="w-4 h-4" />
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* 2. MODE NAVIGATION TABS - SPLIT BAR DASHBOARD STYLE */}
+      <div className="p-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-2">
+        {/* Left Side: 2 Main View Modes */}
+        <div className="flex items-center gap-1 bg-slate-100/90 dark:bg-slate-800/60 p-1 rounded-lg w-full sm:w-auto">
+          <button
+            onClick={() => setViewMode("flashcard")}
+            className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3.5 py-1.5 text-xs font-bold rounded-md transition-all select-none cursor-pointer ${
+              viewMode === "flashcard"
+                ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-2xs font-black"
+                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-700/50"
+            }`}
+          >
+            <Layers className="w-3.5 h-3.5 stroke-[2]" />
+            <span>Flashcard 3D</span>
+          </button>
+
+          <button
+            onClick={() => setViewMode("list")}
+            className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3.5 py-1.5 text-xs font-bold rounded-md transition-all select-none cursor-pointer ${
+              viewMode === "list"
+                ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-2xs font-black"
+                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-700/50"
+            }`}
+          >
+            <List className="w-3.5 h-3.5 stroke-[2]" />
+            <span>Danh sách từ ({filteredVocabs.length})</span>
+          </button>
+        </div>
+
+        {/* Right Side: 2 Interactive Practice & AI Tools */}
+        <div className="flex items-center gap-1 bg-slate-100/90 dark:bg-slate-800/60 p-1 rounded-lg w-full sm:w-auto">
+          <button
+            onClick={() => setViewMode("quiz")}
+            className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3.5 py-1.5 text-xs font-bold rounded-md transition-all select-none cursor-pointer ${
+              viewMode === "quiz"
+                ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-2xs font-black"
+                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-700/50"
+            }`}
+          >
+            <Zap className="w-3.5 h-3.5 stroke-[2] text-amber-500" />
+            <span>Kiểm tra nhanh</span>
+          </button>
+
+          <button
+            onClick={() => setViewMode("ai")}
+            className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3.5 py-1.5 text-xs font-bold rounded-md transition-all select-none cursor-pointer ${
+              viewMode === "ai"
+                ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-2xs font-black"
+                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-700/50"
+            }`}
+          >
+            <Bot className="w-3.5 h-3.5 stroke-[2] text-purple-500" />
+            <span>AI Coach</span>
+          </button>
+        </div>
+      </div>
+
+      {/* 3. MODE CONTENT PANELS */}
+
+      {/* MODE 1: FLASHCARD 3D - CLEAN MINIMALIST DASHBOARD DESIGN */}
+      {viewMode === "flashcard" && activeVocab && (
+        <div className="max-w-xl mx-auto space-y-4">
+          {/* 3D Perspective Flashcard Container */}
+          <div className="perspective-[1500px] w-full">
+            <motion.div
+              animate={{ rotateY: isFlipped ? 180 : 0 }}
+              transition={{ type: "spring", stiffness: 75, damping: 16 }}
+              className="relative w-full min-h-[320px] sm:min-h-[340px] rounded-xl cursor-pointer select-none [transform-style:preserve-3d] shadow-xs hover:shadow transition-shadow"
+              onClick={() => setIsFlipped(!isFlipped)}
+            >
+              {/* FRONT SIDE */}
+              <div
+                className="absolute inset-0 bg-white dark:bg-slate-900 rounded-xl p-6 sm:p-8 flex flex-col items-center justify-between text-center border border-slate-200/80 dark:border-white/10 [backface-visibility:hidden]"
+                style={{ transform: "rotateY(0deg)" }}
+              >
+                {/* Upper Card Header Row */}
+                <div className="w-full flex items-center justify-between">
+                  <div className="flex items-center gap-1.5">
+                    <span className="px-2.5 py-0.5 rounded text-[10px] font-black uppercase bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 border border-[#0059bb]/20">
+                      {activeVocab.pos}
+                    </span>
+                    <span className="px-2.5 py-0.5 rounded text-[10px] font-black uppercase bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                      CEFR B1
+                    </span>
+                  </div>
+
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
                       toggleFavorite(activeVocab.id);
                       showToastMsg(
                         "Yêu thích",
@@ -316,175 +634,569 @@ export default function ThemeDetailPage({
                           : "Đã bỏ từ khỏi mục yêu thích"
                       );
                     }}
-                    aria-label="Thêm vào yêu thích"
+                    className="p-1.5 rounded-lg text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                    title="Yêu thích"
                   >
                     <Heart
-                      className={`w-3.5 h-3.5 transition-all duration-200 ${
-                        isCurrentFav
-                          ? "text-red-500 fill-red-500"
-                          : "text-slate-400"
+                      className={`w-4 h-4 ${
+                        isCurrentFav ? "text-rose-500 fill-rose-500" : ""
                       }`}
-                      strokeWidth={1.3}
                     />
-                  </motion.button>
-                  <motion.button
-                    whileTap={{ scale: 0.95 }}
-                    className="w-8 h-8 rounded-full flex items-center justify-center border border-slate-200/50 dark:border-neutral-850 bg-slate-50/60 dark:bg-neutral-950 tactile cursor-pointer text-slate-500"
-                    onClick={() => speak(activeVocab.word)}
-                    aria-label="Phát âm từ"
-                  >
-                    <Volume2 className="w-3.5 h-3.5" strokeWidth={1.3} />
-                  </motion.button>
-                  <motion.button
-                    whileTap={{ scale: 0.95 }}
-                    className="w-8 h-8 rounded-full flex items-center justify-center border border-slate-200/50 dark:border-neutral-850 bg-slate-50/60 dark:bg-neutral-950 tactile cursor-pointer text-slate-500"
-                    onClick={() => {
-                      practiceWord(activeVocab.id, true);
-                      awardXp(15);
-                      showToastMsg("Rèn luyện", "Đã ghi nhận ôn tập từ! +15 XP");
+                  </button>
+                </div>
+
+                {/* Main Word Center Display */}
+                <div className="my-auto py-3 space-y-2.5">
+                  <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white font-display tracking-tight">
+                    {activeVocab.word}
+                  </h2>
+
+                  <div className="text-slate-400 dark:text-slate-500 text-xs font-mono font-bold">
+                    {activeVocab.phonetic}
+                  </div>
+
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      speak(activeVocab.word);
                     }}
-                    aria-label="Ôn tập từ"
+                    className="px-3.5 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-[#0059bb] hover:text-white text-slate-700 dark:text-slate-300 text-xs font-bold transition-all inline-flex items-center gap-1.5 cursor-pointer mt-1"
                   >
-                    <Zap className="w-3.5 h-3.5 text-amber-500" strokeWidth={1.3} />
-                  </motion.button>
+                    <Volume2 className="w-4 h-4 text-[#0059bb]" /> Nghe phát âm
+                  </button>
+                </div>
+
+                {/* Bottom Card Flip Hint */}
+                <div className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 flex items-center justify-center gap-1">
+                  <RotateCcw className="w-3.5 h-3.5" /> Bấm vào thẻ hoặc phím Space để lật xem nghĩa
                 </div>
               </div>
 
-              <motion.button
-                whileTap={{ scale: 0.95 }}
-                className="w-9 h-9 rounded-full flex items-center justify-center border border-slate-200 dark:border-neutral-850 bg-slate-50 dark:bg-neutral-950 text-slate-500 hover:border-cyan-300 dark:hover:border-cyan-800 tactile shrink-0 cursor-pointer"
-                onClick={() => {
-                  setIsFlipped(false);
-                  setTimeout(() => {
-                    setCurrentIndex((prev) =>
-                      prev < vocabs.length - 1 ? prev + 1 : 0
-                    );
-                  }, 120);
-                }}
-                aria-label="Từ tiếp theo"
+              {/* BACK SIDE */}
+              <div
+                className="absolute inset-0 bg-gradient-to-br from-blue-50/90 via-[#ebf3fe] to-indigo-50/80 dark:from-slate-900 dark:to-slate-950 text-slate-900 dark:text-white rounded-xl p-6 sm:p-8 flex flex-col items-center justify-between text-center border border-[#0059bb]/20 dark:border-white/10 [backface-visibility:hidden] shadow-xs"
+                style={{ transform: "rotateY(180deg)" }}
               >
-                <ChevronRight className="w-5 h-5" strokeWidth={1.3} />
-              </motion.button>
+                {/* Back Upper Header */}
+                <div className="w-full flex items-center justify-between">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-emerald-700 dark:text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
+                    Nghĩa Tiếng Việt
+                  </span>
+
+                  <span className="text-[10px] font-bold text-slate-400">
+                    Bấm để lật lại
+                  </span>
+                </div>
+
+                {/* Back Main Content */}
+                <div className="my-auto py-2 space-y-2 max-w-md">
+                  <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white font-display">
+                    {activeVocab.definitionVn}
+                  </h3>
+
+                  <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
+                    {activeVocab.definition}
+                  </p>
+
+                  {activeVocab.examples?.[0] && (
+                    <div className="bg-white/80 dark:bg-white/5 px-4 py-2.5 rounded-lg border border-blue-200/60 dark:border-white/10 text-xs text-slate-700 dark:text-slate-300 italic shadow-2xs">
+                      &quot;{activeVocab.examples[0]}&quot;
+                    </div>
+                  )}
+                </div>
+
+                {/* Back Footer Action - Equal Width 50/50 Buttons */}
+                <div className="w-full pt-2 border-t border-blue-200/40 dark:border-white/10 grid grid-cols-2 gap-3">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      speak(activeVocab.word);
+                    }}
+                    className="w-full py-2 rounded-lg bg-white/90 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 text-xs font-bold transition-all border border-slate-200/80 dark:border-white/10 flex items-center justify-center gap-1.5 cursor-pointer"
+                  >
+                    <Volume2 className="w-4 h-4 text-[#0059bb]" /> Nghe lại
+                  </button>
+
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      practiceWord(activeVocab.id, true);
+                      awardXp(15);
+                      showToastMsg("Đã thuộc từ!", "+15 XP đã được cộng.");
+                    }}
+                    className="w-full py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-2xs flex items-center justify-center gap-1.5 cursor-pointer"
+                  >
+                    <Check className="w-4 h-4" /> Đã thuộc +15 XP
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Flashcard Bottom Control Bar */}
+          <div className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center justify-between">
+            <button
+              onClick={() => {
+                setIsFlipped(false);
+                setTimeout(() => {
+                  setCurrentIndex((prev) => (prev > 0 ? prev - 1 : vocabs.length - 1));
+                }, 100);
+              }}
+              className="px-3.5 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-colors cursor-pointer text-xs font-bold flex items-center gap-1"
+              title="Từ trước (Mũi tên phím trái ←)"
+            >
+              <ChevronLeft className="w-4 h-4" /> Từ trước
+            </button>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => {
+                  const shuffled = [...vocabs].sort(() => Math.random() - 0.5);
+                  setVocabs(shuffled);
+                  setCurrentIndex(0);
+                  setIsFlipped(false);
+                  showToastMsg("Trộn thẻ", "Đã trộn ngẫu nhiên danh sách Flashcard!");
+                }}
+                className="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-colors cursor-pointer"
+                title="Trộn ngẫu nhiên"
+              >
+                <Shuffle className="w-3.5 h-3.5 text-indigo-500" />
+              </button>
+
+              <span className="text-xs font-bold text-slate-600 dark:text-slate-300 font-display">
+                {currentIndex + 1} / {vocabs.length}
+              </span>
             </div>
+
+            <button
+              onClick={() => {
+                setIsFlipped(false);
+                setTimeout(() => {
+                  setCurrentIndex((prev) => (prev < vocabs.length - 1 ? prev + 1 : 0));
+                }, 100);
+              }}
+              className="px-3.5 py-2 rounded-lg bg-[#0059bb] hover:bg-[#004799] text-white transition-colors cursor-pointer text-xs font-bold flex items-center gap-1 shadow-2xs"
+              title="Từ tiếp theo (Mũi tên phím phải →)"
+            >
+              Từ tiếp <ChevronRight className="w-4 h-4" />
+            </button>
           </div>
         </div>
       )}
 
-      {/* List Mode View */}
+      {/* MODE 2: RICH LIST VIEW WITH SEARCH & FILTER */}
       {viewMode === "list" && (
-        <motion.div
-          variants={listContainerVariants}
-          initial="hidden"
-          animate="show"
-          className="vocab-list grid grid-cols-1 md:grid-cols-2 gap-5"
-        >
-          {vocabs.map((v) => {
-            const state = learned.find((l) => l.vocabId === v.id);
-            const isFav = state?.isFavorite || false;
-            const prof = state?.proficiency || 0;
+        <div className="space-y-4">
+          {/* Search & Filter Toolbar (Rule 2 & Rule 6 Compliance) */}
+          <div className="p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3">
+            {/* Search Box */}
+            <div className="relative w-full sm:w-80">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Tìm từ vựng, phiên âm hoặc nghĩa tiếng Việt..."
+                className="w-full pl-9 pr-3 py-2 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-white/10 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0059bb]"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-white"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
 
-            return (
-              <motion.div key={v.id} variants={listItemVariants}>
-                <div className="bezel lift group h-full">
-                  <div className="bezel-inner p-5 h-full flex flex-col justify-between bg-white dark:bg-neutral-900">
-                    <div>
-                      <div className="flex items-start justify-between mb-3 gap-2">
-                        <div>
-                          <h3 className="text-lg md:text-xl font-black text-cyan-600 dark:text-cyan-400 group-hover:text-cyan-500 transition-colors duration-300 font-display">
-                            {v.word}
-                          </h3>
-                          <span className="inline-block text-[10px] font-black px-2.5 py-0.5 bg-cyan-100 dark:bg-cyan-950/50 text-cyan-700 dark:text-cyan-300 rounded-full uppercase mt-1">
-                            {v.pos}
-                          </span>
-                          <div className="text-[11px] text-slate-400 dark:text-slate-500 font-bold font-mono mt-1">
-                            {v.phonetic}
+            {/* Filter Status Chips with Exact Counter Badges */}
+            <div className="flex items-center gap-1.5 w-full sm:w-auto overflow-x-auto no-scrollbar">
+              <button
+                onClick={() => setFilterStatus("all")}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  filterStatus === "all"
+                    ? "bg-[#0059bb] text-white shadow-2xs"
+                    : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                }`}
+              >
+                Tất cả ({vocabs.length})
+              </button>
+              <button
+                onClick={() => setFilterStatus("unlearned")}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  filterStatus === "unlearned"
+                    ? "bg-[#0059bb] text-white shadow-2xs"
+                    : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                }`}
+              >
+                Chưa thuộc ({unlearnedCount})
+              </button>
+              <button
+                onClick={() => setFilterStatus("learned")}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  filterStatus === "learned"
+                    ? "bg-[#0059bb] text-white shadow-2xs"
+                    : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                }`}
+              >
+                Đã thuộc ({learnedCount})
+              </button>
+              <button
+                onClick={() => setFilterStatus("favorite")}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  filterStatus === "favorite"
+                    ? "bg-[#0059bb] text-white shadow-2xs"
+                    : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                }`}
+              >
+                Yêu thích ({favoriteCount})
+              </button>
+            </div>
+          </div>
+
+          {/* Cards Grid */}
+          {filteredVocabs.length === 0 ? (
+            <div className="p-8 text-center bg-white dark:bg-slate-900 rounded-xl border border-slate-200/80 dark:border-white/10 space-y-2">
+              <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 flex items-center justify-center mx-auto">
+                <Search className="w-6 h-6" />
+              </div>
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white font-display">
+                Không tìm thấy từ vựng phù hợp
+              </h3>
+              <p className="text-xs text-slate-500">
+                Thử thay đổi từ khóa hoặc bộ lọc tìm kiếm phía trên.
+              </p>
+            </div>
+          ) : (
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate="show"
+              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3"
+            >
+              {filteredVocabs.map((v) => {
+                const state = learned.find((l) => l.vocabId === v.id);
+                const isFav = state?.isFavorite || false;
+                const prof = state?.proficiency || 0;
+                const isLearned = state?.isLearned || false;
+
+                return (
+                  <motion.div key={v.id} variants={itemVariants}>
+                    <div className="p-3 sm:p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs hover:border-[#0059bb]/40 dark:hover:border-sky-500/30 transition-all space-y-2.5 flex flex-col justify-between h-full">
+                      <div>
+                        {/* Upper row: Word title & Action tools */}
+                        <div className="flex items-start justify-between gap-1.5 mb-1">
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display truncate">
+                                {v.word}
+                              </h3>
+                              <span className="text-[9px] bg-blue-100 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 px-1.5 py-0.2 rounded font-black uppercase">
+                                {v.pos}
+                              </span>
+                              {isLearned && (
+                                <span className="text-[9px] bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 px-1.5 py-0.2 rounded font-bold">
+                                  ✓ thuộc
+                                </span>
+                              )}
+                            </div>
+                            <div className="text-[10px] text-slate-400 dark:text-slate-500 font-mono font-semibold mt-0.5 truncate">
+                              {v.phonetic}
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-0.5 shrink-0">
+                            <button
+                              onClick={() => speak(v.word)}
+                              className="p-1 rounded-md text-slate-400 hover:text-[#0059bb] dark:hover:text-sky-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                              title="Phát âm từ"
+                            >
+                              <Volume2 className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              onClick={() => {
+                                toggleFavorite(v.id);
+                                showToastMsg(
+                                  "Yêu thích",
+                                  !isFav
+                                    ? "Đã thêm vào yêu thích"
+                                    : "Đã xóa khỏi yêu thích"
+                                );
+                              }}
+                              className="p-1 rounded-md text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                              title="Thêm yêu thích"
+                            >
+                              <Heart
+                                className={`w-3.5 h-3.5 ${
+                                  isFav ? "text-rose-500 fill-rose-500" : ""
+                                }`}
+                              />
+                            </button>
                           </div>
                         </div>
-                        <motion.button
-                          whileTap={{ scale: 0.95 }}
-                          className="w-9 h-9 rounded-full flex items-center justify-center border border-slate-200/50 dark:border-neutral-850 bg-slate-50 dark:bg-neutral-950 text-slate-500 tactile cursor-pointer shrink-0"
-                          onClick={() => {
-                            toggleFavorite(v.id);
-                            showToastMsg(
-                              "Yêu thích",
-                              !isFav
-                                ? "Đã thêm từ vào mục yêu thích"
-                                : "Đã bỏ từ khỏi mục yêu thích"
-                            );
-                          }}
-                          aria-label="Thêm vào yêu thích"
-                        >
-                          <Heart
-                            className={`w-4 h-4 transition-all duration-200 ${
-                              isFav
-                                ? "text-red-500 fill-red-500"
-                                : "text-slate-400"
-                            }`}
-                            strokeWidth={1.3}
-                          />
-                        </motion.button>
+
+                        {/* Definition & Examples */}
+                        <div className="text-xs font-bold text-[#0059bb] dark:text-sky-400 mb-0.5 line-clamp-1">
+                          {v.definitionVn}
+                        </div>
+                        <div className="text-[11px] text-slate-600 dark:text-slate-300 mb-2 leading-relaxed line-clamp-2">
+                          {v.definition}
+                        </div>
+                        {v.examples?.[0] && (
+                          <div className="text-[10px] text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/50 p-2 rounded-lg border border-slate-200/50 dark:border-white/5 italic line-clamp-2">
+                            &quot;{v.examples[0]}&quot;
+                          </div>
+                        )}
                       </div>
 
-                      <div className="text-sm font-black text-slate-900 dark:text-white mb-1">
-                        {v.definitionVn}
-                      </div>
-                      <div className="text-xs text-slate-500 dark:text-slate-400 mb-4 leading-relaxed font-medium">
-                        {v.definition}
-                      </div>
-                      <div className="text-xs text-slate-500 dark:text-slate-400 bg-slate-50/60 dark:bg-neutral-950/30 p-3 rounded-xl border border-slate-250/20 dark:border-neutral-850 italic leading-relaxed font-bold">
-                        &quot;{v.examples[0]}&quot;
-                      </div>
-                    </div>
+                      {/* Card Footer: Dots proficiency & Practice CTA */}
+                      <div className="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-white/5 mt-1.5">
+                        <div className="flex items-center gap-0.5">
+                          {Array(5)
+                            .fill(0)
+                            .map((_, idx) => (
+                              <div
+                                key={idx}
+                                className={`w-1.5 h-1.5 rounded-full ${
+                                  idx < prof
+                                    ? "bg-emerald-500"
+                                    : "bg-slate-200 dark:bg-slate-700"
+                                }`}
+                              />
+                            ))}
+                        </div>
 
-                    <div className="flex items-center justify-between mt-4 pt-4 border-t border-slate-100 dark:border-neutral-850">
-                      {/* Proficiency Dot Matrix */}
-                      <div className="flex gap-1">
-                        {Array(5)
-                          .fill(0)
-                          .map((_, i) => (
-                            <div
-                              key={i}
-                              className={`w-1.5 h-1.5 rounded-full ${
-                                i < prof
-                                  ? "bg-emerald-500 shadow-sm"
-                                  : "bg-slate-200 dark:bg-neutral-800"
-                              }`}
-                            />
-                          ))}
-                      </div>
-
-                      {/* Action Triggers */}
-                      <div className="flex gap-2">
-                        <motion.button
-                          whileTap={{ scale: 0.95 }}
-                          className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-black text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-neutral-950 border border-slate-200/50 dark:border-neutral-850 rounded-full tactile cursor-pointer"
-                          onClick={() => speak(v.word)}
-                        >
-                          <Volume2 className="w-3.5 h-3.5" strokeWidth={1.3} />{" "}
-                          Nghe
-                        </motion.button>
-                        <motion.button
-                          whileTap={{ scale: 0.95 }}
-                          className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-black text-white bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full tactile cursor-pointer shadow-sm hover:shadow"
+                        <button
                           onClick={() => {
                             practiceWord(v.id, true);
                             awardXp(15);
-                            showToastMsg(
-                              "Rèn luyện",
-                              "Đã ghi nhận luyện từ! +15 XP"
-                            );
+                            showToastMsg("Ôn tập thành công!", "+15 XP cho từ " + v.word);
                           }}
+                          className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 hover:bg-[#0059bb] hover:text-white dark:hover:bg-[#0059bb] text-[#0059bb] dark:text-sky-400 text-[10px] font-bold transition-all flex items-center gap-1 cursor-pointer shrink-0"
                         >
-                          <Zap className="w-3.5 h-3.5" strokeWidth={1.3} /> Luyện
-                        </motion.button>
+                          <Zap className="w-3 h-3 fill-current" /> Luyện
+                        </button>
                       </div>
                     </div>
+                  </motion.div>
+                );
+              })}
+            </motion.div>
+          )}
+        </div>
+      )}
+
+      {/* MODE 3: QUICK QUIZ MODE */}
+      {viewMode === "quiz" && (
+        <div className="max-w-xl mx-auto space-y-4">
+          <div className="p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-4">
+            {!quizFinished ? (
+              <>
+                {/* Quiz Header Bar */}
+                <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400">
+                      Câu {quizIndex + 1} / {vocabs.length}
+                    </span>
+                    <span className="text-xs font-bold text-slate-500">
+                      Điểm: <strong className="text-emerald-600">{quizScore}</strong>
+                    </span>
                   </div>
+                  <button
+                    onClick={handleResetQuiz}
+                    className="text-xs text-slate-400 hover:text-slate-700 dark:hover:text-white flex items-center gap-1 cursor-pointer"
+                  >
+                    <RotateCw className="w-3.5 h-3.5" /> Làm lại
+                  </button>
                 </div>
-              </motion.div>
-            );
-          })}
-        </motion.div>
+
+                {/* Question Box */}
+                {currentQuizItem && (
+                  <div className="text-center py-4 space-y-2">
+                    <div className="text-[11px] uppercase font-bold text-slate-400">
+                      Chọn nghĩa đúng của từ từ vựng bên dưới
+                    </div>
+                    <h2 className="text-3xl font-black text-slate-900 dark:text-white font-display">
+                      {currentQuizItem.word}
+                    </h2>
+                    <div className="text-xs text-slate-400 font-mono font-bold">
+                      {currentQuizItem.phonetic} ({currentQuizItem.pos})
+                    </div>
+                  </div>
+                )}
+
+                {/* Options List */}
+                <div className="space-y-2.5">
+                  {quizOptions.map((opt, idx) => {
+                    const isSelected = selectedAnswer === idx;
+                    const isCorrect = opt === currentQuizItem?.definitionVn;
+
+                    let btnStyle =
+                      "bg-slate-50 dark:bg-slate-800/50 border-slate-200/80 dark:border-white/10 text-slate-800 dark:text-slate-200 hover:bg-blue-50/60 dark:hover:bg-slate-800 hover:border-blue-300";
+                    if (isQuizSubmitted) {
+                      if (isCorrect) {
+                        btnStyle = "bg-emerald-500 text-white border-emerald-600 font-bold shadow-2xs";
+                      } else if (isSelected && !isCorrect) {
+                        btnStyle = "bg-rose-500 text-white border-rose-600 font-bold shadow-2xs";
+                      }
+                    }
+
+                    return (
+                      <button
+                        key={idx}
+                        onClick={() => handleAnswerQuiz(idx)}
+                        disabled={isQuizSubmitted}
+                        className={`w-full p-3.5 rounded-lg border text-left text-xs transition-all flex items-center justify-between cursor-pointer ${btnStyle}`}
+                      >
+                        <span>{opt}</span>
+                        {isQuizSubmitted && isCorrect && <Check className="w-4 h-4 text-white" />}
+                        {isQuizSubmitted && isSelected && !isCorrect && (
+                          <X className="w-4 h-4 text-white" />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Next Button */}
+                {isQuizSubmitted && (
+                  <button
+                    onClick={handleNextQuizQuestion}
+                    className="w-full py-2.5 rounded-lg bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold transition-all shadow-2xs flex items-center justify-center gap-1.5 cursor-pointer mt-3"
+                  >
+                    <span>{quizIndex < vocabs.length - 1 ? "Câu tiếp theo" : "Xem kết quả"}</span>
+                    <ArrowLeft className="w-4 h-4 rotate-180" />
+                  </button>
+                )}
+              </>
+            ) : (
+              /* Quiz Summary Screen */
+              <div className="text-center py-6 space-y-4">
+                <div className="w-16 h-16 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center mx-auto text-2xl">
+                  🏆
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white font-display">
+                    Hoàn thành bài luyện tập!
+                  </h3>
+                  <p className="text-xs text-slate-500 mt-1">
+                    Bạn đã trả lời đúng <strong className="text-emerald-600">{quizScore}</strong> / {vocabs.length} câu hỏi.
+                  </p>
+                </div>
+                <button
+                  onClick={handleResetQuiz}
+                  className="px-5 py-2.5 rounded-lg bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold transition-all shadow-2xs inline-flex items-center gap-2 cursor-pointer"
+                >
+                  <RotateCw className="w-4 h-4" /> Luyện tập lại
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* MODE 4: AI COACH MODE */}
+      {viewMode === "ai" && (
+        <div className="max-w-xl mx-auto space-y-4">
+          <div className="p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-4">
+            <div className="flex items-center gap-3 border-b border-slate-100 dark:border-white/5 pb-3">
+              <div className="w-9 h-9 rounded-lg bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
+                <Bot className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-slate-900 dark:text-white font-display">
+                  Hỏi đáp từ vựng với AI Coach 🤖
+                </h3>
+                <p className="text-[11px] text-slate-500">
+                  Đặt câu hỏi về nghĩa, cách dùng hoặc nhờ AI đặt câu mẫu cho từ trong chủ đề {theme.name}.
+                </p>
+              </div>
+            </div>
+
+            {/* 1-Click Quick Prompts */}
+            <div className="space-y-1.5">
+              <div className="text-[10px] uppercase font-bold text-slate-400">Gợi ý nhanh 1-Click:</div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <button
+                  onClick={() => {
+                    const q = `Hãy cho 3 câu ví dụ thực tế giao tiếp tiếng Anh với các từ thuộc chủ đề ${theme.name}`;
+                    setAiQuestion(q);
+                    handleAiAsk(q);
+                  }}
+                  className="px-2.5 py-1 rounded-lg bg-purple-50 dark:bg-purple-950/40 hover:bg-purple-100 text-purple-700 dark:text-purple-300 border border-purple-200/60 dark:border-purple-800/40 text-[11px] font-bold transition-all cursor-pointer flex items-center gap-1"
+                >
+                  <Sparkles className="w-3 h-3 text-purple-500" /> Cho 3 ví dụ thực tế
+                </button>
+
+                <button
+                  onClick={() => {
+                    const q = `Phân biệt cách dùng và ngữ cảnh cụ thể của các từ vựng tiêu biểu trong chủ đề ${theme.name}`;
+                    setAiQuestion(q);
+                    handleAiAsk(q);
+                  }}
+                  className="px-2.5 py-1 rounded-lg bg-purple-50 dark:bg-purple-950/40 hover:bg-purple-100 text-purple-700 dark:text-purple-300 border border-purple-200/60 dark:border-purple-800/40 text-[11px] font-bold transition-all cursor-pointer flex items-center gap-1"
+                >
+                  🔍 Phân biệt ngữ cảnh
+                </button>
+
+                <button
+                  onClick={() => {
+                    const q = `Chia sẻ mẹo ghi nhớ nhanh và phản xạ từ vựng dễ hiểu cho bộ từ ${theme.name}`;
+                    setAiQuestion(q);
+                    handleAiAsk(q);
+                  }}
+                  className="px-2.5 py-1 rounded-lg bg-purple-50 dark:bg-purple-950/40 hover:bg-purple-100 text-purple-700 dark:text-purple-300 border border-purple-200/60 dark:border-purple-800/40 text-[11px] font-bold transition-all cursor-pointer flex items-center gap-1"
+                >
+                  🧠 Mẹo ghi nhớ từ
+                </button>
+              </div>
+            </div>
+
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleAiAsk();
+              }}
+              className="space-y-3 pt-1"
+            >
+              <div>
+                <label className="block text-[11px] font-bold uppercase text-slate-400 mb-1">
+                  Đặt câu hỏi tự do cho AI:
+                </label>
+                <textarea
+                  rows={3}
+                  value={aiQuestion}
+                  onChange={(e) => setAiQuestion(e.target.value)}
+                  placeholder={`Ví dụ: Hãy phân biệt cách dùng các từ vựng trong chủ đề ${theme.name} hoặc cho tôi 3 câu ví dụ...`}
+                  className="w-full p-3 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-white/10 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0059bb]"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isAiLoading || !aiQuestion.trim()}
+                className="w-full py-2.5 rounded-lg bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold transition-all shadow-2xs flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+              >
+                {isAiLoading ? (
+                  <span>Đang suy nghĩ...</span>
+                ) : (
+                  <>
+                    <Send className="w-3.5 h-3.5" /> Gửi câu hỏi (+10 XP)
+                  </>
+                )}
+              </button>
+            </form>
+
+            {aiResponse && (
+              <div className="p-4 rounded-lg bg-[#ebf3fe] dark:bg-purple-950/40 border border-[#0059bb]/20 dark:border-purple-500/20 text-xs text-slate-800 dark:text-slate-200 space-y-1">
+                <div className="font-bold text-purple-700 dark:text-purple-300 flex items-center gap-1.5">
+                  <Bot className="w-4 h-4 text-purple-600" /> Trả lời từ AI Coach:
+                </div>
+                <div className="whitespace-pre-wrap leading-relaxed pt-1">{aiResponse}</div>
+              </div>
+            )}
+          </div>
+        </div>
       )}
     </div>
   );

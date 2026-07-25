@@ -3,17 +3,27 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET() {
   try {
+    // Ultra-fast query selecting only required fields
     const leaders = await prisma.profile.findMany({
+      select: {
+        id: true,
+        fullName: true,
+        username: true,
+        level: true,
+        title: true,
+        totalXp: true,
+        avatarEmoji: true,
+      },
       orderBy: {
         totalXp: "desc",
       },
-      take: 50, // Top 50 users
+      take: 50,
     });
 
     const formattedLeaders = leaders.map((l, index) => ({
       id: l.id,
       rank: index + 1,
-      fullName: l.fullName || "User",
+      fullName: l.fullName || l.username || "Học viên XP",
       username: l.username || "user",
       level: l.level,
       title: l.title,

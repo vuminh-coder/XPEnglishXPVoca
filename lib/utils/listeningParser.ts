@@ -5,10 +5,13 @@ export interface WordAlignment {
 
 export interface TranscriptSentence {
   sentenceId: string;
+  id?: number | string;
   startTime: number; // in seconds
   endTime: number; // in seconds
   text: string;
   vietnamese: string;
+  translation?: string;
+  ipa?: string;
   words?: WordAlignment[];
 }
 
@@ -17,6 +20,7 @@ export interface VocabularyItem {
   ipa?: string;
   pos?: string;
   vietnamese: string;
+  meaning?: string;
   example?: string;
 }
 
@@ -32,11 +36,17 @@ export interface ListeningLesson {
   id: string;
   title: string;
   audioUrl?: string;
+  imageUrl?: string;
   level?: string;
+  accent?: string;
+  voice?: string;
+  emotion?: string;
   duration?: string;
   category?: string;
   tags?: string[];
   vocabularyList: VocabularyItem[];
+  vocabList?: VocabularyItem[];
+  vocabulary?: VocabularyItem[];
   transcript: TranscriptSentence[];
   quizzes: ListeningQuiz[];
 }
@@ -282,6 +292,9 @@ export function parseListeningMarkdown(markdownText: string): ListeningLesson {
       currentSent.endTime = currentSent.startTime + Math.max(2.5, wordCount * 0.35 + 1.2);
     }
   }
+
+  lesson.vocabList = lesson.vocabularyList;
+  lesson.vocabulary = lesson.vocabularyList;
 
   return lesson;
 }

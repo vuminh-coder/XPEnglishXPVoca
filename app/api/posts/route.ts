@@ -17,22 +17,53 @@ function calculateLevelAndTitle(xp: number, currentLevel: number) {
   return { level: newLevel, title: newTitle };
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     const userId = await getAuthenticatedUserId();
-    
-    // Fetch all posts with user info, comments (and comment author), and likes count
+    const { searchParams } = new URL(request.url);
+    const limit = Math.min(parseInt(searchParams.get("limit") || "15", 10), 50);
+    const page = Math.max(parseInt(searchParams.get("page") || "1", 10), 1);
+    const skip = (page - 1) * limit;
+    const tagFilter = searchParams.get("tag");
+
+    // Build filter condition
+    const whereCondition = tagFilter ? { vocabTags: { has: tagFilter } } : {};
+
+    // High-speed SELECT query filtering down columns
     const posts = await prisma.post.findMany({
-      include: {
-        user: true,
+      where: whereCondition,
+      select: {
+        id: true,
+        content: true,
+        vocabTags: true,
+        createdAt: true,
+        user: {
+          select: {
+            id: true,
+            fullName: true,
+            username: true,
+            avatarEmoji: true,
+            title: true,
+          },
+        },
         comments: {
-          include: {
-            user: true,
+          select: {
+            id: true,
+            content: true,
+            createdAt: true,
+            user: {
+              select: {
+                id: true,
+                fullName: true,
+                username: true,
+                avatarEmoji: true,
+              },
+            },
           },
           orderBy: {
             createdAt: "desc",
           },
-          take: 15,
+          take: 10,
         },
         _count: {
           select: {
@@ -44,42 +75,53 @@ export async function GET() {
       orderBy: {
         createdAt: "desc",
       },
+      skip,
+      take: limit,
     });
 
-    // Check which posts the current user liked
-    let likedPostIds: string[] = [];
-    if (userId) {
+    // Batch check likes status for current user if authenticated
+    let likedPostIdsSet = new Set<string>();
+    if (userId && posts.length > 0) {
+      const postIds = posts.map((p) => p.id);
       const userLikes = await prisma.like.findMany({
-        where: { userId },
+        where: {
+          userId,
+          postId: { in: postIds },
+        },
         select: { postId: true },
       });
-      likedPostIds = userLikes.map((l) => l.postId);
+      likedPostIdsSet = new Set(userLikes.map((l) => l.postId));
     }
 
-    // Map to frontend expected format
+    // Format output with zero overhead
     const formattedPosts = posts.map((post) => ({
       id: post.id,
-      author: `${post.user.fullName || "User"} (@${post.user.username || "user"})`,
+      author: post.user.fullName || post.user.username || "Học viên XP",
       avatarEmoji: post.user.avatarEmoji || "🦉",
       meta: new Date(post.createdAt).toLocaleTimeString("vi-VN", {
         hour: "2-digit",
         minute: "2-digit",
-      }) + " · " + post.user.title,
+      }) + " · " + (post.user.title || "Member"),
       content: post.content,
       vocabTags: post.vocabTags,
       likes: post._count.likes,
       commentsCount: post._count.comments,
-      liked: likedPostIds.includes(post.id),
-      // Reverse so oldest appears first (we fetched DESC to get latest 15)
+      liked: likedPostIdsSet.has(post.id),
       comments: post.comments.reverse().map((c) => ({
         id: c.id,
-        author: c.user.username || "user",
+        author: c.user.fullName || c.user.username || "Học viên XP",
         avatarEmoji: c.user.avatarEmoji || "👤",
         content: c.content,
       })),
     }));
 
-    return NextResponse.json({ success: true, data: formattedPosts });
+    return NextResponse.json({
+      success: true,
+      data: formattedPosts,
+      page,
+      limit,
+      hasMore: posts.length === limit,
+    });
   } catch (error: any) {
     console.error("GET /api/posts error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -94,25 +136,42 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { content, vocabTags = [] } = body;
+    const { content } = body;
 
     if (!content || !content.trim()) {
       return NextResponse.json({ error: "Content is required" }, { status: 400 });
     }
 
-    // Create the post
+    // Auto extract #Hashtags from post text
+    const hashtagRegex = /#[\wÀ-ỹ]+/g;
+    const extractedTags = content.match(hashtagRegex) || [];
+    const uniqueTags = Array.from(new Set(extractedTags));
+
+    // Create the post & award +20 XP in single transaction
     const post = await prisma.post.create({
       data: {
         userId,
         content: content.trim(),
-        vocabTags,
+        vocabTags: uniqueTags,
       },
-      include: {
-        user: true,
+      select: {
+        id: true,
+        content: true,
+        vocabTags: true,
+        createdAt: true,
+        user: {
+          select: {
+            id: true,
+            fullName: true,
+            username: true,
+            avatarEmoji: true,
+            title: true,
+          },
+        },
       },
     });
 
-    // Award +20 XP for sharing a post
+    // Update profile XP & Title
     const profile = await prisma.profile.findUnique({
       where: { id: userId },
     });
@@ -135,12 +194,11 @@ export async function POST(request: Request) {
       });
     }
 
-    // Return the new post formatted
     const formattedPost = {
       id: post.id,
-      author: `${post.user.fullName || "User"} (@${post.user.username || "user"})`,
+      author: post.user.fullName || post.user.username || "Học viên XP",
       avatarEmoji: post.user.avatarEmoji || "🦉",
-      meta: "Vừa xong · " + post.user.title,
+      meta: "Vừa xong · " + (post.user.title || "Member"),
       content: post.content,
       vocabTags: post.vocabTags,
       likes: 0,

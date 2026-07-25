@@ -12,6 +12,17 @@ interface VocabularyState {
   submitReview: (vocabId: string, quality: number) => Promise<void>;
 }
 
+const safeFetch = async (url: string, options?: RequestInit) => {
+  try {
+    const res = await fetch(url, options);
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (err) {
+    console.warn(`[SafeFetch] Suppressed fetch error for ${url}:`, err);
+    return null;
+  }
+};
+
 export const useVocabularyStore = create<VocabularyState>((set, get) => ({
   vocabularies: [],
   learned: [],
@@ -26,49 +37,43 @@ export const useVocabularyStore = create<VocabularyState>((set, get) => ({
       console.error("Error loading local vocab progress:", e);
     }
 
-    if (userId === "local_user" || userId.startsWith("local_user")) {
+    if (userId === "local_user" || userId.startsWith("local_user") || userId === "u1") {
       return;
     }
 
     // Sync with secure vocab API endpoint
     (async () => {
-      try {
-        const res = await fetch("/api/user/vocab");
-        const json = await res.json();
-        
-        if (json.success && json.data) {
-          const mappedList = json.data.map((c: any) => ({
-            userId: c.userId,
-            vocabId: c.vocabId,
-            proficiency: c.proficiency,
-            lastPracticed: c.lastPracticed,
-            nextReview: c.nextReview,
-            isFavorite: c.isFavorite,
-            // Joined fields
-            word: c.word,
-            phonetic: c.phonetic,
-            definition: c.definition,
-            definitionVn: c.definitionVn,
-            pos: c.pos,
-            difficulty: c.difficulty,
-            frequency: c.frequency,
-            themeId: c.themeId,
-            examples: c.examples,
-            synonyms: c.synonyms,
-            antonyms: c.antonyms,
-          }));
-          set({ learned: mappedList });
-          localStorage.setItem(`xp_voca_learned_${userId}`, JSON.stringify(mappedList));
-        }
-      } catch (err) {
-        console.error("Secure API load vocab progress error:", err);
+      const json = await safeFetch("/api/user/vocab");
+      if (json && json.success && json.data) {
+        const mappedList = json.data.map((c: any) => ({
+          userId: c.userId,
+          vocabId: c.vocabId,
+          proficiency: c.proficiency,
+          lastPracticed: c.lastPracticed,
+          nextReview: c.nextReview,
+          isFavorite: c.isFavorite,
+          word: c.word,
+          phonetic: c.phonetic,
+          definition: c.definition,
+          definitionVn: c.definitionVn,
+          pos: c.pos,
+          difficulty: c.difficulty,
+          frequency: c.frequency,
+          themeId: c.themeId,
+          examples: c.examples,
+          synonyms: c.synonyms,
+          antonyms: c.antonyms,
+        }));
+        set({ learned: mappedList });
+        localStorage.setItem(`xp_voca_learned_${userId}`, JSON.stringify(mappedList));
       }
     })();
   },
   toggleFavorite: (vocabId) => {
     const list = get().learned;
-    const userId = useAuthStore.getState().user?.id || 'u1';
-    const item = list.find(l => l.vocabId === vocabId && l.userId === userId);
+    const user = useAuthStore.getState().user;
+    const userId = user?.id || 'u1';
+    const item = list.find(l => l.vocabId === vocabId && (l.userId === userId || l.userId === 'local_user'));
     let updatedList = [];
     if (item) {
       item.isFavorite = !item.isFavorite;
@@ -78,13 +83,28 @@ export const useVocabularyStore = create<VocabularyState>((set, get) => ({
     }
     set({ learned: updatedList });
 
+    if (user) {
+      const activeSavedCount = updatedList.filter(l => (l.userId === user.id || l.userId === 'local_user') && (l.isFavorite || (l.proficiency && l.proficiency > 0))).length;
+      useAuthStore.setState({ user: { ...user, wordsLearned: activeSavedCount } });
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(`xp_voca_user_${user.id}`, JSON.stringify({ ...user, wordsLearned: activeSavedCount }));
+      }
+      if (user.id !== "local_user" && !user.id.startsWith("local_user") && user.id !== "u1") {
+        safeFetch("/api/user/profile", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ wordsLearned: activeSavedCount }),
+        });
+      }
+    }
+
     if (typeof window !== 'undefined') {
       localStorage.setItem(`xp_voca_learned_${userId}`, JSON.stringify(updatedList));
     }
 
-    const activeItem = updatedList.find(l => l.vocabId === vocabId && l.userId === userId);
-    if (activeItem) {
-      fetch("/api/user/vocab", {
+    const activeItem = updatedList.find(l => l.vocabId === vocabId);
+    if (activeItem && user && user.id !== "local_user" && !user.id.startsWith("local_user") && user.id !== "u1") {
+      safeFetch("/api/user/vocab", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -94,36 +114,53 @@ export const useVocabularyStore = create<VocabularyState>((set, get) => ({
           lastPracticed: activeItem.lastPracticed,
           nextReview: activeItem.nextReview
         })
-      }).catch(err => console.error("Error syncing favorite to API:", err));
+      });
     }
   },
   practiceWord: (vocabId, isCorrect) => {
     const list = get().learned;
-    const userId = useAuthStore.getState().user?.id || 'u1';
-    const item = list.find(l => l.vocabId === vocabId && l.userId === userId);
+    const user = useAuthStore.getState().user;
+    const userId = user?.id || 'u1';
+    const item = list.find(l => l.vocabId === vocabId && (l.userId === userId || l.userId === 'local_user'));
     let updatedList = [];
     if (item) {
       item.proficiency = isCorrect ? Math.min(5, item.proficiency + 1) : Math.max(0, item.proficiency - 1);
+      item.isLearned = item.proficiency > 0;
       item.lastPracticed = new Date().toISOString();
       updatedList = [...list];
       if (isCorrect) {
         useDailyChallengeStore.getState().incrementProgress("review_cards");
       }
     } else {
-      updatedList = [...list, { userId, vocabId, proficiency: isCorrect ? 1 : 0, lastPracticed: new Date().toISOString(), nextReview: new Date().toISOString(), isFavorite: false }];
+      updatedList = [...list, { userId, vocabId, proficiency: isCorrect ? 1 : 0, isLearned: isCorrect, lastPracticed: new Date().toISOString(), nextReview: new Date().toISOString(), isFavorite: false }];
       if (isCorrect) {
         useDailyChallengeStore.getState().incrementProgress("learn_words");
       }
     }
     set({ learned: updatedList });
 
+    if (user) {
+      const activeSavedCount = updatedList.filter(l => (l.userId === user.id || l.userId === 'local_user') && (l.isFavorite || (l.proficiency && l.proficiency > 0))).length;
+      useAuthStore.setState({ user: { ...user, wordsLearned: activeSavedCount } });
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(`xp_voca_user_${user.id}`, JSON.stringify({ ...user, wordsLearned: activeSavedCount }));
+      }
+      if (user.id !== "local_user" && !user.id.startsWith("local_user") && user.id !== "u1") {
+        safeFetch("/api/user/profile", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ wordsLearned: activeSavedCount }),
+        });
+      }
+    }
+
     if (typeof window !== 'undefined') {
       localStorage.setItem(`xp_voca_learned_${userId}`, JSON.stringify(updatedList));
     }
 
-    const activeItem = updatedList.find(l => l.vocabId === vocabId && l.userId === userId);
-    if (activeItem) {
-      fetch("/api/user/vocab", {
+    const activeItem = updatedList.find(l => l.vocabId === vocabId);
+    if (activeItem && user && user.id !== "local_user" && !user.id.startsWith("local_user") && user.id !== "u1") {
+      safeFetch("/api/user/vocab", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -133,51 +170,46 @@ export const useVocabularyStore = create<VocabularyState>((set, get) => ({
           lastPracticed: activeItem.lastPracticed,
           nextReview: activeItem.nextReview
         })
-      }).catch(err => console.error("Error syncing practice word to API:", err));
+      });
     }
   },
   submitReview: async (vocabId, quality) => {
     const list = get().learned;
-    const userId = useAuthStore.getState().user?.id || 'u1';
+    const user = useAuthStore.getState().user;
+    const userId = user?.id || 'u1';
     
-    try {
-      const res = await fetch("/api/user/vocab/review-submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ vocabId, quality }),
-      });
-      const json = await res.json();
+    const json = await safeFetch("/api/user/vocab/review-submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ vocabId, quality }),
+    });
+    
+    if (json && json.success && json.data) {
+      useDailyChallengeStore.getState().incrementProgress("review_cards");
+
+      const updatedVocab = json.data;
+      const itemIndex = list.findIndex(l => l.vocabId === vocabId);
       
-      if (json.success && json.data) {
-        // Increment review_cards Daily Challenge progress
-        useDailyChallengeStore.getState().incrementProgress("review_cards");
+      let updatedList = [...list];
+      const newLearnedItem = {
+        userId,
+        vocabId,
+        proficiency: updatedVocab.proficiency,
+        lastPracticed: updatedVocab.lastPracticed,
+        nextReview: updatedVocab.nextReview,
+        isFavorite: itemIndex !== -1 ? list[itemIndex].isFavorite : false
+      };
 
-        const updatedVocab = json.data;
-        const itemIndex = list.findIndex(l => l.vocabId === vocabId && l.userId === userId);
-        
-        let updatedList = [...list];
-        const newLearnedItem = {
-          userId,
-          vocabId,
-          proficiency: updatedVocab.proficiency,
-          lastPracticed: updatedVocab.lastPracticed,
-          nextReview: updatedVocab.nextReview,
-          isFavorite: itemIndex !== -1 ? list[itemIndex].isFavorite : false
-        };
-
-        if (itemIndex !== -1) {
-          updatedList[itemIndex] = newLearnedItem;
-        } else {
-          updatedList.push(newLearnedItem);
-        }
-
-        set({ learned: updatedList });
-        if (typeof window !== 'undefined') {
-          localStorage.setItem(`xp_voca_learned_${userId}`, JSON.stringify(updatedList));
-        }
+      if (itemIndex !== -1) {
+        updatedList[itemIndex] = newLearnedItem;
+      } else {
+        updatedList.push(newLearnedItem);
       }
-    } catch (e) {
-      console.error("Error submitting SM-2 review:", e);
+
+      set({ learned: updatedList });
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(`xp_voca_learned_${userId}`, JSON.stringify(updatedList));
+      }
     }
   }
 }));

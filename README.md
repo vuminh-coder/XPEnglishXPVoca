@@ -1,387 +1,94 @@
-# 🚀 Hướng dẫn Lập Kế hoạch Dự án Phần mềm Toàn diện với AI
+# XP English & XP Voca - Hệ Thống Học Tiếng Anh Thông Minh AI (Agency Dashboard Tier)
 
-> **Prompt Framework 7 Bước** — Biến ý tưởng thành kế hoạch hành động chi tiết chỉ với một câu lệnh duy nhất.
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![AI Compatible](https://img.shields.io/badge/AI-Compatible-brightgreen.svg)](#-cách-sử-dụng)
-[![PRD → Ship](https://img.shields.io/badge/PRD_%E2%86%92_Ship-7_Steps-orange.svg)](#-7-bước-lập-kế-hoạch)
+Ứng dụng web nâng cấp toàn diện cho việc học từ vựng, luyện nghe, thi thử trắc nghiệm, tạo lộ trình AI cá nhân hóa và theo dõi thống kê học tập chuyên sâu.
 
 ---
 
-## 📖 Giới thiệu
+## 🎨 Design Tokens & Chuẩn Mực Thiết Kế (Agency Dashboard Tier)
 
-Khi bắt đầu một dự án phần mềm, việc lập kế hoạch bài bản là yếu tố **quyết định thành bại**. Tài liệu này cung cấp một **Prompt Framework hoàn chỉnh** gồm 7 bước logic chặt chẽ, được thiết kế để bạn có thể sử dụng với bất kỳ AI nào (ChatGPT, Claude, Gemini,...) nhằm tạo ra bản kế hoạch dự án từ A đến Z.
-
-### Tại sao cần Framework này?
-
-| ❌ Không có kế hoạch | ✅ Có Framework 7 bước |
-|---|---|
-| Code trước, nghĩ sau → Refactor liên tục | Hiểu rõ vấn đề → Code đúng ngay lần đầu |
-| Frontend và Backend làm lệch nhau | Luồng dữ liệu thống nhất, API đồng bộ |
-| Không biết ưu tiên gì, feature creep | MVP rõ ràng, Roadmap có mốc nghiệm thu |
-| Sản phẩm đúng kỹ thuật nhưng sai thị trường | PRD trả lời "Tại sao" trước "Làm thế nào" |
-
----
-
-## 🗺️ Tổng quan Luồng 7 Bước
-
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│                                                                         │
-│   ① PRD ──▶ ② Product Overview ──▶ ③ TRD ──▶ ④ App Flow               │
-│                                                       │                 │
-│                                                       ▼                 │
-│                    ⑦ Execution Plan ◀── ⑥ Backend ◀── ⑤ UI/UX          │
-│                                                                         │
-└─────────────────────────────────────────────────────────────────────────┘
-```
-
-> Mỗi bước là **đầu vào bắt buộc** cho bước kế tiếp. Không bỏ bước, không đảo thứ tự.
+- **Màu Sắc Thương Hiệu Chủ Đạo**: `#0059bb` (Royal XP English Blue)
+- **Bảng Màu Phụ Hài Hòa (Tailored Palette)**:
+  - **Amber Gold `#f59e0b`**: Huy hiệu Bảng Xếp Hạng Top 1-3, Crown Podium, Điểm danh Streak & Thưởng Vàng.
+  - **Emerald `#10b981`**: Thưởng XP, Từ vựng đã lưu (`BookmarkCheck`), Thành tích & Đáp án đúng.
+  - **Rose `#f43f5e`**: Cảnh báo, Cán mốc mục tiêu, Lượt thích & Đáp án sai.
+  - **Sky `#0284c7`**: Thời gian luyện tập, Bình luận, Tương tác & Trợ lý AI.
+  - **Indigo `#6366f1`**: Cấp độ Level, Nhóm học tập chuyên sâu.
+- **Tiêu Chuẩn Bo Góc & Spacing (Tuân thủ Quy tắc UI/UX Wadhah Aloui)**:
+  - **Rule 10 (Border-Radius Scaling)**: Bo góc bên ngoài Thẻ Card chính `rounded-lg` (8px), phần tử con bên trong `rounded-md` (6px) hoặc `rounded-sm` (4px).
+  - **Rule 1 (Loading State)**: Skeleton Loading Cards cho mọi trạng thái async fetch dữ liệu.
+  - **Rule 18 (Primary Button)**: Duy nhất 1 nút bấm Primary `#0059bb` nổi bật per view.
+- **Chuẩn Mực Biểu Đồ Đường (Line Chart Standard)**:
+  - Nét vẽ uốn lượn Bezier siêu mảnh **`1.3px`** (`strokeWidth="1.3"`).
+  - **Dynamic Y-Axis Scaling**: Tự động co giãn trục Y theo điểm cao nhất của học viên (`Math.max(maxVal, defaultMax)`), triệt tiêu lỗi tràn/vỡ nét vẽ khỏi khung.
+  - Tương tác **Hover-Only Tooltip**: Chấm tròn và hộp thông tin floating chỉ xuất hiện khi di chuột vào mốc ngày.
+- **Tối Ưu Hiệu Năng Full-Stack**:
+  - **0ms Optimistic UI Updates**: Cập nhật tức thì điểm XP, Số phút học, Từ vựng đã lưu, Điểm danh, Thích, Đăng bài & Bình luận.
+  - Đồng bộ liên tục giữa Zustand State, LocalStorage và Cơ sở dữ liệu PostgreSQL via Prisma ORM API.
 
 ---
 
-## 📌 Prompt chính (Copy & Paste vào AI)
+## 🗺️ Danh Mục Các Trang & Routes (`/app`)
 
-Thay thế nội dung trong dấu `[...]` bằng thông tin thực tế của dự án, sau đó dán toàn bộ vào AI.
+### 1. Bảng Điều Khiển & Trung Tâm Học Tập (`/dashboard`)
+- **`/dashboard`**: Trung tâm chỉ huy học tập toàn diện.
+  - **Hero Greeting Bar**: Chào mừng học viên kèm các chỉ số chính.
+  - **4 Hero Metric Cards**: Chuỗi Streak (`Flame`), Thời gian luyện tập (`Clock`), Từ vựng đã lưu (`BookmarkCheck`), Cấp độ XP (`Target`).
+  - **Lộ Trình Hôm Nay**: Nhiệm vụ bài học cá nhân hóa gọi từ API `GET /api/study-plan/current`.
+  - **Phút Luyện Tập 7 Ngày**: Biểu đồ đường mỏng 1.5px uốn mượt 7 ngày gần nhất.
+  - **Điểm Danh Tuần Này**: Lộ trình 7 nút kết nối fluid. Bấm **"🔥 Điểm danh ngay (+15 XP)"** tự động thưởng +15 XP, +20 Vàng, +5m học và sync ngầm về Database.
+  - **Hỏi Đáp AI Tutor Nhanh**: Nhập thắc mắc ngữ pháp/từ vựng, nhận lời giải từ AI Tutor và nhận ngay +10 XP.
 
----
+### 2. Thống Kê & Phân Tích Chuyên Sâu (`/analytics`)
+- **`/analytics`**: Trang phân tích thành tích học tập chuẩn Dashboard Agency.
+  - **5 Bento Metric Cards**: Chuỗi dài nhất, Từ đã lưu, Thời gian luyện tập, Tổng XP, Thứ hạng tuần.
+  - **6-Month Heatmap Matrix**: Ma trận đóng góp 24 tuần (6 tháng), căn chỉnh chuẩn mốc tháng và nhãn ngày `Mon`, `Wed`, `Fri`.
+  - **Bộ Lọc Kỹ Năng Shared Pill Switcher**: Chuyển đổi linh hoạt giữa Dictation, Shadowing, Nói, Từ vựng, Viết.
+  - **2 Biểu Đồ Đường Đặt Song Song Trong 1 Khung Thẻ Trắng**:
+    - Biểu đồ **Phút luyện tập** (Màu Xanh `#0059bb`).
+    - Biểu đồ **XP kiếm được** (Màu Xanh Ngọc `#10b981`).
+    - Nét uốn siêu mảnh `1.3px`, tự động co giãn trục Y không tràn màn hình, di chuột hover xem tooltip.
 
-> **Vai trò của bạn:** Bạn là một Chuyên gia Quản lý Sản phẩm (Product Manager) kiêm Trưởng dự án kỹ thuật (Technical Lead) cấp cao.
->
-> **Dự án cần lập kế hoạch:** `[Tên dự án — Ví dụ: Ứng dụng giao đồ ăn thông minh]`
->
-> **Mô tả ngắn gọn:** `[Mô tả 1-2 câu — Ví dụ: Nền tảng kết nối người dùng với các nhà hàng đối tác, cho phép đặt món và theo dõi shipper theo thời gian thực]`
->
-> ---
->
-> **YÊU CẦU:** Hãy lập một kế hoạch dự án chi tiết, toàn diện, bắt buộc phải trải qua đúng **7 bước** dưới đây. Trong mỗi bước, bạn phải trình bày rõ **2 phần:**
->
-> 1. **Nội dung cụ thể (Có gì):** Các đầu mục công việc, tài liệu, sơ đồ cần tạo ra.
-> 2. **Lập luận (Tại sao):** Giải thích lý do thực hiện bước này, giá trị mang lại, và **mối liên kết logic** giữa bước hiện tại với bước trước đó.
+### 3. Lộ Trình Học Cá Nhân Hóa AI (`/roadmap`)
+- **`/roadmap`**: Lộ trình học từ A1 tới C1 thiết kế theo mô hình Bento Grid 3/4 + 1/4.
+  - **Modal Chọn Mục Tiêu 2 Bước**: Chọn mục tiêu (TOEIC, IELTS, Giao tiếp) và Cấp độ hiện tại.
+  - **Checklist Chặng Đường & Bài Học**: Lịch học phân bố theo từng tuần kèm trạng thái Hoàn thành / Đang học / Khóa.
+  - **Full-Stack Persistence**: Lưu và đồng bộ mục tiêu ngầm qua API `/api/study-plan/current`.
 
----
+### 4. Bảng Xếp Hạng & Cộng Đồng (`/community`)
+- **`/community/leaderboard`**: Bảng vinh danh chiến binh XP English.
+  - **Spotlight Hero Banner**: Gradient Xanh Hoàng Gia sang trọng kèm đồng hồ đếm ngược reset tuần.
+  - **Bộ 3 Thẻ Podium 3D Top 1-3**: Vàng #1, Bạc #2, Đồng #3 thiết kế huy hiệu metallic nổi bật.
+  - **Danh Sách Hạng 4-50**: Stream danh sách học viên kèm highlight vị trí của bạn.
+  - **Thanh Điều Hướng Thông Minh**: Nút **`[ ← Quay lại trang Thống kê ]`** CHỈ hiển thị khi học viên truy cập từ `/analytics?from=analytics`.
+- **`/community`**: Bảng tin mạng xã hội học tập (đăng bài +20 XP, thích, bình luận, Optimistic UI 0ms).
+- **`/community/friends`**: Quản lý bạn bè, tìm kiếm học viên API `/api/friends/search`.
+- **`/community/groups`**: Câu lạc bộ & Nhóm học tập (Khởi tạo nhóm Cấp 15+).
 
-## 📋 7 Bước Lập Kế hoạch
+### 5. Học Từ Vựng & Luyện Nghe (`/vocabulary` & `/listening`)
+- **`/vocabulary`**: Kho 3,900+ từ vựng phân theo chủ đề TOEIC, IELTS, Giao tiếp.
+- **`/vocabulary/[id]`**: Thẻ học Flashcard thông minh, tích hợp âm thanh & lưu từ yêu thích (`toggleFavorite`).
+- **`/listening`**: Phòng luyện nghe Dictation & Shadowing chuẩn audio.
 
-### Bước 1 · Tài liệu Yêu cầu Sản phẩm (PRD)
-
-**Product Requirements Document**
-
-#### 📄 Có gì
-
-| Hạng mục | Mô tả |
-|---|---|
-| **Problem Statement** | Vấn đề cốt lõi cần giải quyết |
-| **OKRs** | Mục tiêu kinh doanh và kết quả then chốt |
-| **Personas** | Chân dung đối tượng người dùng mục tiêu |
-| **Scope** | Phạm vi In-scope / Out-scope rõ ràng |
-| **KPIs / Metrics** | Các chỉ số đo lường thành công |
-
-#### 🧠 Tại sao
-
-> PRD là **"hiến pháp"** của dự án.
->
-> Phải trả lời được câu hỏi **"Tại sao làm dự án này?"** trước khi nghĩ đến **"Làm thế nào?"**. Bước này định hướng toàn bộ các quyết định sau, giúp tránh tình trạng xây dựng sản phẩm đúng kỹ thuật nhưng **sai thị trường**.
-
----
-
-### Bước 2 · Tổng quan Sản phẩm (Product Overview)
-
-**Tầm nhìn & Chiến lược**
-
-#### 📄 Có gì
-
-| Hạng mục | Mô tả |
-|---|---|
-| **Value Proposition** | Tuyên bố giá trị cốt lõi |
-| **Competitive Positioning** | Sơ đồ vị trí cạnh tranh trên thị trường |
-| **Epics** | Các tính năng chính cấp cao |
-| **Roadmap** | Lộ trình phát triển sơ bộ theo giai đoạn |
-
-#### 🧠 Tại sao
-
-> Thu hẹp bối cảnh từ **"đám mây" xuống "đường chân trời"**.
->
-> Dựa trên PRD *(Bước 1)*, ta tổng hợp thành một bức tranh tổng thể dễ hiểu cho mọi bên liên quan (Stakeholders) mà chưa cần đi sâu vào công nghệ. Nó giúp team Kỹ thuật và Kinh doanh **"chung một tiếng nói"** trước khi bắt tay vào thiết kế.
-
-#### 🔗 Liên kết logic
-
-```
-Bước 1 (PRD: Tại sao?) ──▶ Bước 2 (Overview: Làm gì ở mức cao?)
-```
+### 6. Luyện Tập & AI Tutor (`/study` & `/ai`)
+- **`/study/practice`**: Phòng luyện tập trắc nghiệm & Flashcard.
+- **`/study/pvp`**: Đấu trường so tài từ vựng PvP Realtime (Thiết kế Agency Dashboard Tier).
+  - **Spotlight Hero Banner**: Gradient Xanh Hoàng Gia sang trọng kèm hiệu ứng ánh kim.
+  - **Bento Grid 7/12 & 5/12**: Cột trái lựa chọn 3 chế độ (Trắc nghiệm, Đồ chữ, Âm thanh) và 3 cấp độ (Dễ, Trung bình, Khó). Cột phải hiển thị Hồ sơ Đấu sĩ & Bảng Vàng Top 3 Đấu Trường.
+  - **Trận Đấu PvP 1v1**: Giao diện đấu thời gian thực sắc nét, đồng hồ đếm ngược, AI thông minh và báo cáo kết quả thưởng XP.
+- **`/ai/tutor`**: Trợ lý AI Tutor giải đáp bài tập 24/7.
+- **`/ai/conversation`**: Phòng hội thoại giao tiếp tiếng Anh AI.
+- **`/shop`**: Cửa hàng Gamification & Vật phẩm ảo (Thiết kế Agency Dashboard Tier).
+  - **Spotlight Hero Banner**: Gradient Xanh Hoàng Gia sang trọng tích hợp Widget hiển thị số Vàng tích lũy realtime.
+  - **Bento Grid 7/12 & 5/12**: Cột trái phân loại danh mục (Vật phẩm hỗ trợ, Trang phục Avatar) với các thẻ vật phẩm sắc nét (`Bảo Hộ Lửa`, `Nhân Đôi XP`, `Cú Tốt Nghiệp`). Cột phải hiển thị Tủ Đồ Cá Nhân & Mẹo Tích Lũy Vàng.
+  - **Full-Stack Equip & Purchase**: Mua & trang bị/tháo nón Cú cử nhân trực tiếp sync ngầm với PostgreSQL API `/api/shop/purchase` và `/api/shop/equip`.
 
 ---
 
-### Bước 3 · Tài liệu Yêu cầu Kỹ thuật (TRD)
-
-**Technical Requirements Document**
-
-#### 📄 Có gì
-
-| Hạng mục | Mô tả |
-|---|---|
-| **Tech Stack** | Lựa chọn Frontend, Backend, Database, Cloud |
-| **API Overview** | Bảng mô tả API cấp cao (Endpoints thô) |
-| **Performance SLA** | Giới hạn hiệu suất (Response time, Uptime) |
-| **Security Standards** | Tiêu chuẩn xác thực, mã hóa, phân quyền |
-
-#### 🧠 Tại sao
-
-> TRD là **cầu nối chính thức** giữa "Ý tưởng kinh doanh" và "Mã nguồn".
->
-> Dựa vào các Epics ở *Bước 2*, ta giải mã thành ngôn ngữ kỹ thuật. Làm bước này **trước** khi vẽ UI hay Backend chi tiết để đảm bảo nền tảng công nghệ đủ khỏe để chịu tải và bảo mật cho các tính năng đã đề ra.
-
-#### 🔗 Liên kết logic
-
-```
-Bước 2 (Epics cấp cao) ──▶ Bước 3 (Giải mã thành ngôn ngữ kỹ thuật)
-```
-
----
-
-### Bước 4 · Luồng của App (App Flow)
-
-**Logic xử lý & Chuyển trạng thái**
-
-#### 📄 Có gì
-
-| Hạng mục | Mô tả |
-|---|---|
-| **Data Flow Diagram** | Sơ đồ luồng dữ liệu giữa các thành phần |
-| **State Machine** | Sơ đồ chuyển trạng thái màn hình |
-| **Happy Path** | Các luồng chính khi mọi thứ hoạt động đúng |
-| **Exception Path** | Luồng ngoại lệ: mất mạng, lỗi thanh toán, hết hàng |
-
-#### 🧠 Tại sao
-
-> Logic là **"bộ não"** của ứng dụng.
->
-> Dù UI có đẹp hay Backend có mạnh, nếu luồng sai thì người dùng sẽ bị treo. Phải định nghĩa luồng **ngay sau TRD** và **trước UI/Backend chi tiết** để lập trình viên Frontend và Backend có một **"bản đồ chung"**, tránh việc Frontend gọi sai thứ tự API hoặc Backend trả sai trạng thái.
-
-#### 🔗 Liên kết logic
-
-```
-Bước 3 (Nền tảng công nghệ) ──▶ Bước 4 (Luồng xử lý trên nền tảng đó)
-```
-
----
-
-### Bước 5 · Thiết kế UI/UX
-
-**Giao diện & Trải nghiệm Người dùng**
-
-#### 📄 Có gì
-
-| Hạng mục | Mô tả |
-|---|---|
-| **Wireframe** | Bố cục thô, sắp xếp thông tin |
-| **Mockup** | Thiết kế chi tiết: màu sắc, typography, hình ảnh |
-| **Design System** | Component Library: nút, input, card, bảng |
-| **Micro-interactions** | Tương tác vi mô: hover, transition, animation |
-
-#### 🧠 Tại sao
-
-> Đây là bước **"lột xác"** luồng cứng thành cảm xúc mềm mại.
->
-> Phải bám sát luồng đã định ở *Bước 4* để đảm bảo mọi nút bấm đều dẫn đúng màn hình. Thiết kế ở bước này cho phép UX Writer và PO kiểm tra tính trực quan, đồng thời là **đầu vào** để Frontend bắt đầu code giao diện **song song** với Backend.
-
-#### 🔗 Liên kết logic
-
-```
-Bước 4 (Luồng logic) ──▶ Bước 5 (Biến luồng thành màn hình cụ thể)
-```
-
----
-
-### Bước 6 · Cấu trúc Backend
-
-**Kiến trúc Máy chủ & Dữ liệu**
-
-#### 📄 Có gì
-
-| Hạng mục | Mô tả |
-|---|---|
-| **ERD / Class Diagram** | Sơ đồ quan hệ thực thể, sơ đồ lớp |
-| **Database Schema** | Cấu trúc bảng, kiểu dữ liệu, index |
-| **API Specification** | Method, Path, Request Body, Response, Error Codes |
-| **Architecture** | Microservice / Monolith / Serverless |
-| **Business Logic** | Logic nghiệp vụ phía server |
-
-#### 🧠 Tại sao
-
-> Backend là **"xương sống"** cung cấp dữ liệu cho UI *(Bước 5)*.
->
-> Sau khi đã có luồng *(Bước 4)* và công nghệ nền *(Bước 3)*, ta thiết kế chi tiết DB và API. Bước này được thực hiện **sau UI Flow** để biết chính xác cần trả về trường gì cho màn hình nào, nhưng vẫn **song hành** với Frontend (Backend cho API, Frontend lấy Mock data).
-
-#### 🔗 Liên kết logic
-
-```
-Bước 5 (UI cần dữ liệu gì) ──▶ Bước 6 (Backend cung cấp dữ liệu đó)
-```
-
----
-
-### Bước 7 · Kế hoạch Thực hiện (Execution Plan)
-
-**Sprint Plan & Quản lý Rủi ro**
-
-#### 📄 Có gì
-
-| Hạng mục | Mô tả |
-|---|---|
-| **T-shirt Sizing** | Phân tích khối lượng công việc (S / M / L / XL) |
-| **Sprint Schedule** | Lịch trình chi tiết theo Sprint hoặc Tuần |
-| **Team Assignment** | Phân công nhóm: FE, BE, QA, DevOps |
-| **Milestones** | Các mốc nghiệm thu quan trọng |
-| **Risk Mitigation** | Kế hoạch quản lý rủi ro |
-| **Testing Strategy** | Unit Test, Integration Test, UAT |
-
-#### 🧠 Tại sao
-
-> **Không có kế hoạch thì mọi ý tưởng đều là mơ mộng.**
->
-> Phải dựa vào tất cả tài liệu từ *Bước 1 → 6* để ước tính thời gian chính xác. Bước này đảm bảo thứ tự ưu tiên (MVP trước, nâng cấp sau), phân công đúng người đúng việc, và thiết lập vòng phản hồi (Retrospective) để điều chỉnh kịp thời.
-
-#### 🔗 Liên kết logic
-
-```
-Bước 1–6 (Toàn bộ tài liệu) ──▶ Bước 7 (Biến tài liệu thành hành động)
-```
-
----
-
-## 🛠️ Cách sử dụng
-
-### Bước 1: Chuẩn bị thông tin dự án
-
-Thay thế hai trường sau trong Prompt:
-
-```
-[Tên dự án]      →  Ví dụ: "XP English — Nền tảng học tiếng Anh thông minh"
-[Mô tả ngắn gọn] →  Ví dụ: "Ứng dụng web giúp người Việt Nam ôn luyện 
-                      từ vựng, ngữ pháp và kỹ năng giao tiếp tiếng Anh 
-                      thông qua AI, gamification và cộng đồng học tập."
-```
-
-### Bước 2: Dán vào AI
-
-Hỗ trợ tốt nhất với:
-
-| AI | Ghi chú |
-|---|---|
-| **ChatGPT** (GPT-4o trở lên) | Cho output dài, chi tiết |
-| **Claude** (Opus / Sonnet) | Phân tích logic chặt chẽ, cấu trúc rõ ràng |
-| **Gemini** (Pro / Ultra) | Tích hợp tốt với Google Workspace |
-
-### Bước 3: Đào sâu từng bước
-
-Nếu dự án lớn, hãy yêu cầu AI **đào sâu từng bước** riêng lẻ:
-
-```
-"Hãy đào sâu vào Bước 3 (TRD) với tech stack: Next.js, Supabase, Prisma, 
-Clerk Auth. Liệt kê chi tiết từng API endpoint cần thiết."
-```
-
-```
-"Hãy đào sâu vào Bước 6 (Backend) và tạo schema Prisma hoàn chỉnh 
-cho module Quản lý Từ vựng và Hệ thống XP/Gamification."
-```
-
----
-
-## 📊 Ma trận liên kết giữa các bước
-
-Bảng dưới đây cho thấy mỗi bước **phụ thuộc** vào bước nào và **cung cấp đầu vào** cho bước nào:
-
-| Bước | Tên | Phụ thuộc vào | Cung cấp cho |
-|:---:|---|---|---|
-| **1** | PRD | — | 2, 7 |
-| **2** | Product Overview | 1 | 3, 7 |
-| **3** | TRD | 2 | 4, 6 |
-| **4** | App Flow | 3 | 5, 6 |
-| **5** | UI/UX Design | 4 | 6, 7 |
-| **6** | Backend Architecture | 3, 4, 5 | 7 |
-| **7** | Execution Plan | 1 → 6 | — |
-
----
-
-## 💡 Mẹo nâng cao
-
-### Với dự án nhỏ (1-2 người, < 1 tháng)
-
-AI sẽ trả về bản tóm tắt gọn nhẹ. Bạn có thể gộp một số bước:
-- Gộp Bước 1 + 2 → "PRD & Vision"
-- Gộp Bước 3 + 4 → "Technical Spec & Flow"
-- Giữ nguyên Bước 5, 6, 7
-
-### Với dự án lớn (team 5+ người, > 3 tháng)
-
-Hãy yêu cầu AI tạo **từng bước riêng biệt** trong các phiên hội thoại khác nhau, mỗi bước là một tài liệu hoàn chỉnh. Dùng output của bước trước làm context cho bước sau.
-
-### Tùy biến theo ngành
-
-Thêm ngữ cảnh ngành vào Prompt để AI hiểu sâu hơn:
-
-```
-"Dự án này thuộc lĩnh vực EdTech, đối tượng chính là học sinh cấp 3 
-và sinh viên đại học tại Việt Nam. Cần tuân thủ quy định về bảo vệ 
-dữ liệu cá nhân theo Nghị định 13/2023/NĐ-CP."
-```
-
----
-
-## 📁 Cấu trúc thư mục đề xuất cho tài liệu dự án
-
-```
-docs/
-├── 01-prd/
-│   ├── problem-statement.md
-│   ├── personas.md
-│   └── okrs-and-kpis.md
-├── 02-product-overview/
-│   ├── value-proposition.md
-│   ├── competitive-analysis.md
-│   └── roadmap.md
-├── 03-trd/
-│   ├── tech-stack.md
-│   ├── api-overview.md
-│   └── security-standards.md
-├── 04-app-flow/
-│   ├── data-flow-diagram.md
-│   ├── state-machine.md
-│   └── exception-handling.md
-├── 05-ui-ux/
-│   ├── wireframes/
-│   ├── mockups/
-│   └── design-system.md
-├── 06-backend/
-│   ├── erd.md
-│   ├── database-schema.md
-│   └── api-specification.md
-└── 07-execution-plan/
-    ├── sprint-plan.md
-    ├── team-assignment.md
-    └── risk-mitigation.md
-```
-
----
-
-## 🤝 Đóng góp
-
-Nếu bạn có ý tưởng cải thiện Framework này, hãy tạo Pull Request hoặc Issue. Mọi đóng góp đều được chào đón!
-
----
-
-## 📜 Giấy phép
-
-Tài liệu này được phân phối theo giấy phép [MIT](LICENSE). Bạn có thể tự do sử dụng, chỉnh sửa và chia sẻ.
-
----
-
-<div align="center">
-
-**Được tạo với ❤️ bởi đội ngũ XP English**
-
-*"Plan like a pro. Build like a team. Ship like a machine."*
-
-</div>
+## ⚡ Danh Mục API Routes Backend (`/app/api`)
+
+- **`GET /api/user/analytics`**: Trả về dữ liệu thống kê user & chuỗi dữ liệu 30 ngày cho biểu đồ line chart.
+- **`GET /api/user/profile` & `POST /api/user/profile`**: Lấy & cập nhật thông tin user (Streak, XP, Phút học, Từ đã lưu).
+- **`GET /api/user/vocab` & `POST /api/user/vocab`**: Đồng bộ từ vựng đã học & danh sách từ bookmark yêu thích với PostgreSQL DB.
+- **`GET /api/leaderboard`**: Lấy danh sách Top 50 Bảng xếp hạng tuần (Indexed query <10ms).
+- **`GET /api/study-plan/current` & `POST /api/study-plan/create`**: Tạo & truy vấn lộ trình học AI của học viên.
+- **`POST /api/ai/chat`**: API xử lý hỏi đáp nhanh với AI Tutor.

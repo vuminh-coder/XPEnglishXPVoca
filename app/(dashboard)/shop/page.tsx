@@ -1,7 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useAuthStore } from "@/lib/store/authStore";
-import { Button } from "@/components/ui";
+import { Button, Badge } from "@/components/ui";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Coins,
   Flame,
@@ -10,6 +11,13 @@ import {
   Check,
   ShoppingBag,
   Shirt,
+  ShieldCheck,
+  Crown,
+  Trophy,
+  ArrowRight,
+  UserCheck,
+  PackageCheck,
+  HelpCircle
 } from "lucide-react";
 import Link from "next/link";
 import { useNotificationStore } from "@/lib/store/notificationStore";
@@ -20,8 +28,10 @@ interface ShopItem {
   desc: string;
   cost: number;
   icon: React.ReactNode;
-  bgGradient: string;
+  accentBg: string;
+  accentText: string;
   category: "consumable" | "cosmetic";
+  tag: string;
 }
 
 export default function ShopPage() {
@@ -31,8 +41,8 @@ export default function ShopPage() {
   const [successId, setSuccessId] = useState<string | null>(null);
   const [purchasedItems, setPurchasedItems] = useState<Set<string>>(new Set());
   const [isEquipping, setIsEquipping] = useState<string | null>(null);
+  const [categoryFilter, setCategoryFilter] = useState<"all" | "consumable" | "cosmetic">("all");
 
-  // Fetch shop inventory on mount
   useEffect(() => {
     if (!user) return;
     fetch("/api/shop/inventory")
@@ -40,7 +50,7 @@ export default function ShopPage() {
       .then((data) => {
         if (data.success && data.purchaseLogs) {
           const purchased = new Set<string>(
-            data.purchaseLogs.map((log: any) => log.itemId),
+            data.purchaseLogs.map((log: any) => log.itemId)
           );
           setPurchasedItems(purchased);
         }
@@ -51,48 +61,50 @@ export default function ShopPage() {
   const shopItems: ShopItem[] = [
     {
       id: "streak_freeze",
-      name: "Streak Freeze (Bảo Hộ Lửa)",
-      desc: "Giữ nguyên ngọn lửa Streak của bạn không bị dập tắt kể cả khi bạn bỏ lỡ 1 ngày không học.",
+      name: "Bảo Hộ Lửa (Streak Freeze)",
+      desc: "Bảo vệ chuỗi ngọn lửa Streak của bạn không bị ngắt quãng khi bạn lỡ bận 1 ngày không học.",
       cost: 50,
-      icon: (
-        <Flame className="h-7 w-7 text-orange-500 fill-orange-500 animate-pulse" />
-      ),
-      bgGradient: "from-orange-500/10 via-orange-600/5 to-amber-500/10",
+      icon: <Flame className="w-5 h-5 text-orange-500 stroke-[2.2] animate-pulse" />,
+      accentBg: "bg-orange-50 dark:bg-orange-950/40 border-orange-200/50 dark:border-orange-900/40",
+      accentText: "text-orange-600 dark:text-orange-400",
       category: "consumable",
+      tag: "Vật phẩm Hỗ trợ",
     },
     {
       id: "double_xp",
-      name: "Nhân đôi XP (30 Phút)",
-      desc: "Kích hoạt hiệu ứng tăng tốc nhân đôi toàn bộ điểm kinh nghiệm (XP) kiếm được trong 30 phút kế tiếp.",
+      name: "Thẻ Nhân Đôi XP (30 Phút)",
+      desc: "Tăng gấp đôi 2x toàn bộ số điểm XP nhận được khi luyện tập bài học trong 30 phút kế tiếp.",
       cost: 100,
-      icon: (
-        <Zap
-          className="h-7 w-7 text-yellow-500 fill-yellow-500 animate-bounce"
-          style={{ animationDuration: "3s" }}
-        />
-      ),
-      bgGradient: "from-yellow-500/10 via-yellow-600/5 to-orange-500/10",
+      icon: <Zap className="w-5 h-5 text-amber-500 stroke-[2.2] animate-bounce" />,
+      accentBg: "bg-amber-50 dark:bg-amber-950/40 border-amber-200/50 dark:border-amber-900/40",
+      accentText: "text-amber-600 dark:text-amber-400",
       category: "consumable",
+      tag: "Vật phẩm Hỗ trợ",
     },
     {
       id: "premium_owl",
-      name: "Trang phục Cú Tốt Nghiệp",
-      desc: "Trang bị cho cú avatar của bạn chiếc mũ tốt nghiệp danh tiếng nâng tầm đẳng cấp học viên.",
+      name: "Trang Phục Cú Tốt Nghiệp",
+      desc: "Đội chiếc mũ tốt nghiệp cử nhân uy phong cho Avatar Cú, khẳng định đẳng cấp học viên xuất sắc.",
       cost: 250,
-      icon: <Sparkles className="h-7 w-7 text-purple-400 animate-pulse" />,
-      bgGradient: "from-purple-500/10 via-purple-600/5 to-pink-500/10",
+      icon: <Sparkles className="w-5 h-5 text-purple-500 stroke-[2.2]" />,
+      accentBg: "bg-purple-50 dark:bg-purple-950/40 border-purple-200/50 dark:border-purple-900/40",
+      accentText: "text-purple-600 dark:text-purple-400",
       category: "cosmetic",
+      tag: "Trang phục Avatar",
     },
   ];
+
+  const filteredItems = shopItems.filter(
+    (item) => categoryFilter === "all" || item.category === categoryFilter
+  );
 
   const handlePurchase = async (itemId: string, cost: number) => {
     if (!user) return;
     if ((user.coins || 0) < cost) {
       addToast({
         type: "warning",
-        title: "Không đủ Coins",
-        message:
-          "Bạn không đủ Coins để mua vật phẩm này! Hãy tích cực học tập thêm nhé.",
+        title: "Không đủ Vàng 🪙",
+        message: "Bạn chưa đủ số Vàng tích lũy để mua vật phẩm này! Hãy chăm chỉ làm bài tập nhé.",
       });
       return;
     }
@@ -106,7 +118,6 @@ export default function ShopPage() {
       } else if (itemId === "double_xp") {
         success = await buyDoubleXp();
       } else {
-        // Cosmetic / custom item purchase via backend API
         const res = await fetch("/api/shop/purchase", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -115,7 +126,6 @@ export default function ShopPage() {
         const data = await res.json();
         if (data.success) {
           success = true;
-          // Deduct coins locally
           useAuthStore.setState({
             user: {
               ...user,
@@ -134,8 +144,8 @@ export default function ShopPage() {
         setSuccessId(itemId);
         addToast({
           type: "success",
-          title: "Mua thành công!",
-          message: `Giao dịch hoàn tất. Bạn đã mua thành công vật phẩm này.`,
+          title: "Mua thành công! 🎉",
+          message: "Giao dịch hoàn tất. Vật phẩm đã được thêm vào kho đồ của bạn.",
         });
         setTimeout(() => setSuccessId(null), 2000);
       } else {
@@ -171,13 +181,12 @@ export default function ShopPage() {
       if (data.success) {
         addToast({
           type: "success",
-          title: equip ? "Đã trang bị!" : "Đã tháo trang bị",
+          title: equip ? "Trang bị thành công! 🎓" : "Đã tháo trang bị",
           message: equip
-            ? "Mũ tốt nghiệp đã được trang bị cho cú của bạn."
-            : "Đã khôi phục avatar cú mặc định.",
+            ? "Mũ tốt nghiệp cử nhân đã được trang bị cho Avatar Cú của bạn."
+            : "Đã khôi phục Avatar Cú mặc định.",
         });
 
-        // Update local user state
         useAuthStore.setState({
           user: {
             ...user,
@@ -203,126 +212,304 @@ export default function ShopPage() {
     }
   };
 
+  const isOwlEquipped = user?.avatarEmoji === "🎓";
+
   return (
-    <div
-      className="mx-auto max-w-5xl animate-fade-in space-y-8 pb-10"
-      suppressHydrationWarning
-    >
-      {/* Header banner */}
-      <div className="bezel">
-        <div className="bezel-inner bg-gradient-to-br from-indigo-900 via-slate-900 to-indigo-950 p-6 md:p-8 text-white rounded-[30px] flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[13px] font-semibold uppercase tracking-[0.2em] text-blue-600 font-sans">
-              <ShoppingBag className="h-4 w-4" />
-              Cửa hàng vật phẩm ảo
+    <div className="space-y-4 pb-16 md:pb-6 select-none font-sans" suppressHydrationWarning>
+      
+      {/* 0. HERO SPOTLIGHT BANNER (AGENCY DASHBOARD TIER) */}
+      <div className="p-4 sm:p-5 rounded-lg bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-xs relative overflow-hidden">
+        <div className="absolute -right-10 -bottom-10 w-52 h-52 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="space-y-1 max-w-2xl">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider bg-amber-400/20 text-amber-200 border border-amber-300/30 flex items-center gap-1 font-display">
+                <ShoppingBag className="w-3.5 h-3.5 text-amber-300" /> Cửa Hàng Vật Phẩm Ảo
+              </span>
+              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-white/15 text-white border border-white/20 font-mono">
+                Gamification Rewards
+              </span>
             </div>
-            <h1 className="text-3xl font-black font-sans">
-              Cửa hàng Gamification
+
+            <h1 className="text-base sm:text-xl font-black font-display tracking-tight text-white flex items-center gap-2 pt-0.5">
+              Cửa Hàng Vật Phẩm & Vật Phẩm Ảo
+              <Sparkles className="w-4 h-4 text-amber-300" />
             </h1>
-            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-medium max-w-sm font-sans">
-              Sử dụng số vàng tích lũy từ tiến trình học để trang bị bình năng
-              lượng và trang phục hỗ trợ.
+            <p className="text-xs text-blue-100/90 max-w-2xl font-medium leading-relaxed">
+              Dùng số Vàng tích lũy từ tiến trình học tập để mua thẻ tăng tốc, bảo hộ ngọn lửa Streak và mở khóa trang phục Avatar độc quyền. 🪙
             </p>
           </div>
 
-          <div className="bg-amber-500/10 border border-amber-500/30 p-5 rounded-2xl flex flex-col items-center min-w-[180px]">
-            <span className="text-[10px] font-black uppercase text-amber-300 tracking-wider font-sans">
-              Số vàng của bạn
-            </span>
-            <div className="flex items-center gap-1.5 mt-1">
-              <Coins className="h-6 w-6 text-yellow-400 animate-bounce" />
-              <span className="text-3xl font-black text-yellow-300 tabular-nums font-sans">
-                {user?.coins ?? 0}
-              </span>
+          {/* Current Gold Balance Widget */}
+          <div className="p-3 rounded-md bg-amber-400/15 border border-amber-300/30 flex items-center gap-3 shrink-0 self-start md:self-center shadow-2xs">
+            <div className="w-9 h-9 rounded-md bg-gradient-to-tr from-amber-500 to-yellow-400 text-slate-950 flex items-center justify-center shrink-0 shadow-2xs">
+              <Coins className="w-5 h-5 stroke-[2.2] animate-bounce" />
             </div>
-            <span className="text-[10px] text-amber-200 mt-1.5 font-bold font-sans">
-              Đóng băng sở hữu: {user?.streakFreezes ?? 0} bình
-            </span>
+            <div>
+              <span className="text-[10px] font-black uppercase tracking-wider text-amber-200 block font-display">
+                Số Vàng Của Bạn
+              </span>
+              <div className="text-lg font-black font-mono text-amber-300 leading-tight">
+                {user?.coins ?? 0} <span className="text-xs font-bold text-amber-200/80">Vàng</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Grid items */}
-      <div className="grid gap-6 md:grid-cols-3">
-        {shopItems.map((item) => {
-          const isPurchasing = purchasingId === item.id;
-          const isSuccess = successId === item.id;
-          const canAfford = (user?.coins ?? 0) >= item.cost;
-          const isPurchased = purchasedItems.has(item.id);
-          const isEquipped =
-            user?.avatarEmoji === "🎓" && item.id === "premium_owl";
+      {/* 1. BENTO GRID LAYOUT (Cột Trái 7/12 - Cột Phải 5/12) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5">
+        
+        {/* CỘT TRÁI: SHOP CATALOG (7/12 Width) */}
+        <div className="lg:col-span-7 space-y-3.5">
+          
+          {/* Category Filter Pills Bar */}
+          <div className="p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#0059bb] dark:text-sky-400 flex items-center gap-1.5 font-display">
+                <ShoppingBag className="w-3.5 h-3.5 stroke-[2.2]" /> DANH MỤC VẬT PHẨM
+              </h3>
+              <span className="text-[10px] font-bold text-slate-400">3 Vật phẩm sẵn sàng</span>
+            </div>
 
-          return (
-            <div key={item.id} className="bezel">
-              <div
-                className={`bezel-inner bg-gradient-to-br ${item.bgGradient} bg-white dark:bg-neutral-900 p-6 flex flex-col justify-between h-full gap-5`}
+            <div className="p-0.5 bg-slate-100 dark:bg-slate-950 rounded-md flex items-center gap-0.5 border border-slate-200/50 dark:border-white/5">
+              <button
+                onClick={() => setCategoryFilter("all")}
+                className={`flex-1 py-1.5 px-3 rounded text-xs font-bold transition-all cursor-pointer text-center ${
+                  categoryFilter === "all"
+                    ? "bg-[#0059bb] text-white shadow-2xs font-extrabold"
+                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900"
+                }`}
               >
-                <div className="space-y-4">
-                  <div className="h-14 w-14 rounded-2xl bg-white dark:bg-neutral-800 flex items-center justify-center border border-black/5 dark:border-white/5 shadow-sm">
-                    {item.icon}
+                Tất cả vật phẩm
+              </button>
+              <button
+                onClick={() => setCategoryFilter("consumable")}
+                className={`flex-1 py-1.5 px-3 rounded text-xs font-bold transition-all cursor-pointer text-center ${
+                  categoryFilter === "consumable"
+                    ? "bg-[#0059bb] text-white shadow-2xs font-extrabold"
+                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900"
+                }`}
+              >
+                Vật phẩm hỗ trợ
+              </button>
+              <button
+                onClick={() => setCategoryFilter("cosmetic")}
+                className={`flex-1 py-1.5 px-3 rounded text-xs font-bold transition-all cursor-pointer text-center ${
+                  categoryFilter === "cosmetic"
+                    ? "bg-[#0059bb] text-white shadow-2xs font-extrabold"
+                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900"
+                }`}
+              >
+                Trang phục Avatar
+              </button>
+            </div>
+          </div>
+
+          {/* Shop Item Cards Stream */}
+          <div className="space-y-3">
+            {filteredItems.map((item) => {
+              const isPurchasing = purchasingId === item.id;
+              const isSuccess = successId === item.id;
+              const canAfford = (user?.coins ?? 0) >= item.cost;
+              const isPurchased = purchasedItems.has(item.id);
+              const isEquipped = isOwlEquipped && item.id === "premium_owl";
+
+              return (
+                <div
+                  key={item.id}
+                  className="p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3 transition-all hover:border-blue-500/30"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-start gap-3 min-w-0">
+                      <div className={`w-10 h-10 rounded-md ${item.accentBg} flex items-center justify-center shrink-0 shadow-2xs`}>
+                        {item.icon}
+                      </div>
+
+                      <div className="space-y-0.5 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
+                            {item.name}
+                          </h3>
+                          <span className={`px-2 py-0.2 rounded text-[9px] font-black ${item.accentBg} ${item.accentText}`}>
+                            {item.tag}
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+                          {item.desc}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Price Pill */}
+                    <div className="px-2.5 py-1 rounded bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/20 text-xs font-black font-mono shrink-0 flex items-center gap-1 shadow-2xs">
+                      <Coins className="w-3.5 h-3.5 text-amber-500" />
+                      <span>{item.cost} Vàng</span>
+                    </div>
                   </div>
 
-                  <div className="space-y-1.5">
-                    <h3 className="text-base font-black text-slate-800 dark:text-slate-200 font-sans">
-                      {item.name}
-                    </h3>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-medium font-sans">
-                      {item.desc}
-                    </p>
+                  {/* Action Bar Strip */}
+                  <div className="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-white/5">
+                    <span className="text-[10px] font-bold text-slate-400">
+                      {item.category === "cosmetic"
+                        ? isPurchased ? "Mở khóa vĩnh viễn" : "Vật phẩm thời trang"
+                        : "Vật phẩm tiêu hao"}
+                    </span>
+
+                    {item.category === "cosmetic" && isPurchased ? (
+                      <button
+                        onClick={() => handleEquip(item.id, !isEquipped)}
+                        disabled={isEquipping === item.id}
+                        className={`px-3.5 py-1.5 rounded-md text-xs font-bold transition-all shadow-2xs cursor-pointer flex items-center gap-1 font-display ${
+                          isEquipped
+                            ? "bg-emerald-600 hover:bg-emerald-700 text-white"
+                            : "bg-[#0059bb] hover:bg-[#004799] text-white"
+                        }`}
+                      >
+                        {isEquipping === item.id ? (
+                          "Đang xử lý..."
+                        ) : isEquipped ? (
+                          <>
+                            <Check className="w-3.5 h-3.5" /> Đang sử dụng
+                          </>
+                        ) : (
+                          "Trang bị ngay"
+                        )}
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handlePurchase(item.id, item.cost)}
+                        disabled={isPurchasing || isSuccess}
+                        className={`px-3.5 py-1.5 rounded-md text-xs font-bold transition-all shadow-2xs cursor-pointer flex items-center gap-1 font-display ${
+                          isSuccess
+                            ? "bg-emerald-600 text-white"
+                            : canAfford
+                            ? "bg-[#0059bb] hover:bg-[#004799] text-white"
+                            : "bg-slate-100 dark:bg-slate-800 text-slate-400 cursor-not-allowed"
+                        }`}
+                      >
+                        {isSuccess ? (
+                          <>
+                            <Check className="w-3.5 h-3.5" /> Mua thành công!
+                          </>
+                        ) : isPurchasing ? (
+                          "Đang xử lý..."
+                        ) : canAfford ? (
+                          "Mua ngay"
+                        ) : (
+                          "Không đủ Vàng"
+                        )}
+                      </button>
+                    )}
                   </div>
                 </div>
+              );
+            })}
+          </div>
 
-                <div className="flex items-center justify-between border-t border-slate-100 dark:border-neutral-800/80 pt-4 mt-2">
-                  <div className="flex items-center gap-1">
-                    <Coins className="h-4.5 w-4.5 text-yellow-500" />
-                    <span className="text-sm font-black text-slate-800 dark:text-slate-200 font-sans">
-                      {item.cost}
-                    </span>
-                  </div>
+        </div>
 
-                  {item.category === "cosmetic" && isPurchased ? (
-                    <Button
-                      variant={isEquipped ? "success" : "bezel"}
-                      size="sm"
-                      className={`font-bold rounded-xl px-4 py-2 text-xs min-w-[95px] flex items-center justify-center font-sans ${isEquipped ? "text-white dark:text-white" : ""}`}
-                      disabled={isEquipping === item.id}
-                      onClick={() => handleEquip(item.id, !isEquipped)}
-                    >
-                      {isEquipping === item.id ? (
-                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-slate-400 border-t-transparent"></div>
-                      ) : isEquipped ? (
-                        "Đang dùng"
-                      ) : (
-                        "Trang bị"
-                      )}
-                    </Button>
-                  ) : (
-                    <Button
-                      variant={
-                        isSuccess ? "success" : canAfford ? "primary" : "bezel"
-                      }
-                      size="sm"
-                      className={`font-bold rounded-xl px-4 py-2 text-xs min-w-[95px] flex items-center justify-center font-sans ${
-                        (isSuccess || canAfford) ? "text-white dark:text-white" : ""
-                      }`}
-                      disabled={isPurchasing || isSuccess}
-                      onClick={() => handlePurchase(item.id, item.cost)}
-                    >
-                      {isSuccess ? (
-                        <Check className="h-4 w-4" />
-                      ) : isPurchasing ? (
-                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
-                      ) : (
-                        "Mua ngay"
-                      )}
-                    </Button>
-                  )}
+        {/* CỘT PHẢI: MY INVENTORY & GOLD EARNING TIPS (5/12 Width) */}
+        <div className="lg:col-span-5 space-y-3.5">
+          
+          {/* Widget 1: My Inventory & Active Boosts */}
+          <div className="p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
+              <h3 className="text-xs font-bold text-slate-900 dark:text-white font-display flex items-center gap-1.5">
+                <PackageCheck className="w-3.5 h-3.5 text-[#0059bb]" /> Tủ Đồ & Vật Phẩm Sở Hữu
+              </h3>
+              <span className="text-[10px] font-black px-1.5 py-0.5 rounded bg-blue-100 dark:bg-blue-950 text-[#0059bb] dark:text-sky-300">
+                Kho đồ
+              </span>
+            </div>
+
+            {/* Current Equipped Avatar Box */}
+            <div className="p-3 rounded-md bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-white/5 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2.5">
+                <div className="w-10 h-10 rounded-full bg-[#0059bb] text-white flex items-center justify-center font-black text-lg shrink-0 shadow-2xs font-display">
+                  {user?.avatarEmoji || "🦉"}
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-slate-900 dark:text-white font-display">
+                    Avatar Hiện Tại
+                  </h4>
+                  <p className="text-[10px] font-medium text-slate-500 dark:text-slate-400">
+                    {isOwlEquipped ? "Cú Tốt Nghiệp 🎓" : "Avatar Mặc Định 🦉"}
+                  </p>
+                </div>
+              </div>
+
+              {purchasedItems.has("premium_owl") && (
+                <button
+                  onClick={() => handleEquip("premium_owl", !isOwlEquipped)}
+                  disabled={isEquipping === "premium_owl"}
+                  className="px-2.5 py-1 rounded bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-100 transition-all shadow-2xs cursor-pointer shrink-0 font-display"
+                >
+                  {isOwlEquipped ? "Tháo nón" : "Đội nón"}
+                </button>
+              )}
+            </div>
+
+            {/* Active Consumables Inventory Strip */}
+            <div className="grid grid-cols-2 gap-2 pt-1">
+              <div className="p-2.5 rounded bg-orange-50/60 dark:bg-orange-950/30 border border-orange-200/60 dark:border-orange-900/40 flex items-center gap-2">
+                <Flame className="w-4 h-4 text-orange-500 shrink-0" />
+                <div className="min-w-0">
+                  <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 block">Bảo Hộ Lửa</span>
+                  <span className="text-xs font-black text-slate-900 dark:text-white font-mono">{user?.streakFreezes || 0} bình</span>
+                </div>
+              </div>
+
+              <div className="p-2.5 rounded bg-amber-50/60 dark:bg-amber-950/30 border border-amber-200/60 dark:border-amber-900/40 flex items-center gap-2">
+                <Zap className="w-4 h-4 text-amber-500 shrink-0" />
+                <div className="min-w-0">
+                  <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 block">Nhân Đôi XP</span>
+                  <span className="text-xs font-black text-slate-900 dark:text-white font-mono">30 Phút</span>
                 </div>
               </div>
             </div>
-          );
-        })}
+          </div>
+
+          {/* Widget 2: How to Earn Gold Tips */}
+          <div className="p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-2.5">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
+              <div className="flex items-center gap-1.5 text-amber-500">
+                <Coins className="w-3.5 h-3.5 stroke-[2.2]" />
+                <span className="text-xs font-bold text-slate-900 dark:text-white font-display">
+                  Mẹo Tích Lũy Vàng
+                </span>
+              </div>
+              <span className="text-[10px] font-bold text-slate-400">Cơ chế thưởng</span>
+            </div>
+
+            <div className="space-y-2 text-xs font-medium text-slate-600 dark:text-slate-400">
+              <div className="p-2 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-white/5 flex items-center justify-between">
+                <span className="flex items-center gap-1.5 truncate">
+                  🔥 Điểm danh chuỗi Streak mỗi ngày
+                </span>
+                <span className="text-[10px] font-black text-amber-600 dark:text-amber-400 font-mono">+15 Vàng</span>
+              </div>
+
+              <div className="p-2 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-white/5 flex items-center justify-between">
+                <span className="flex items-center gap-1.5 truncate">
+                  🎯 Hoàn thành Thử thách Hàng ngày
+                </span>
+                <span className="text-[10px] font-black text-amber-600 dark:text-amber-400 font-mono">+20 Vàng</span>
+              </div>
+
+              <div className="p-2 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-white/5 flex items-center justify-between">
+                <span className="flex items-center gap-1.5 truncate">
+                  ⚔️ Chiến thắng trận đấu PvP Từ Vựng
+                </span>
+                <span className="text-[10px] font-black text-amber-600 dark:text-amber-400 font-mono">+50 Vàng</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
       </div>
+
     </div>
   );
 }

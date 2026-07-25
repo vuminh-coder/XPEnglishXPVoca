@@ -1,8 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui";
 import {
   Search,
   BookOpen,
@@ -11,7 +10,12 @@ import {
   Plane,
   ArrowUpRight,
   Sparkles,
-  Clock3,
+  Clock,
+  Target,
+  Zap,
+  ChevronRight,
+  Layers,
+  Filter
 } from "lucide-react";
 
 interface ClientTheme {
@@ -24,36 +28,27 @@ interface ClientTheme {
 }
 
 const THEME_ICONS: Record<string, React.ReactNode> = {
-  t1: <BookOpen className="h-6 w-6 text-cyan-500" strokeWidth={1.3} />,
-  t2: <GraduationCap className="h-6 w-6 text-purple-500" strokeWidth={1.3} />,
-  t3: <Briefcase className="h-6 w-6 text-amber-500" strokeWidth={1.3} />,
-  t4: <Plane className="h-6 w-6 text-blue-500" strokeWidth={1.3} />,
+  t1: <BookOpen className="w-5 h-5 text-[#1d6ee6]" />,
+  t2: <GraduationCap className="w-5 h-5 text-purple-500" />,
+  t3: <Briefcase className="w-5 h-5 text-amber-500" />,
+  t4: <Plane className="w-5 h-5 text-emerald-500" />,
 };
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.04,
-      delayChildren: 0.05,
-    },
-  },
-} as const;
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 15, scale: 0.98 },
-  show: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      type: "spring",
-      stiffness: 90,
-      damping: 16,
-    },
-  },
-} as const;
+// O(K) Fisher-Yates sampling algorithm for fast random sampling
+function getRandomSample<T>(arr: T[], limit: number): T[] {
+  const len = arr.length;
+  if (len <= limit) return arr;
+  const result: T[] = [];
+  const used = new Set<number>();
+  while (result.length < limit && used.size < len) {
+    const idx = Math.floor(Math.random() * len);
+    if (!used.has(idx)) {
+      used.add(idx);
+      result.push(arr[idx]);
+    }
+  }
+  return result;
+}
 
 export default function VocabularyThemesClientList({
   initialThemes,
@@ -61,36 +56,35 @@ export default function VocabularyThemesClientList({
   initialThemes: ClientTheme[];
 }) {
   const [search, setSearch] = useState("");
+  const [activeCategory, setActiveCategory] = useState("all");
   const [displayedIds, setDisplayedIds] = useState<string[]>(() => {
-    // Return first 6 to match SSR and prevent hydration mismatches
-    return initialThemes.slice(0, 6).map((t) => t.id);
+    // Deterministic SSR initial slice to prevent React Hydration Mismatch
+    return initialThemes.slice(0, 8).map((t) => t.id);
   });
 
-  // Initialize with 6 random unique themes if none is displayed
   React.useEffect(() => {
+    // Randomize on client after hydration completes
     if (initialThemes.length > 0) {
-      const shuffled = [...initialThemes].sort(() => 0.5 - Math.random());
-      setDisplayedIds(shuffled.slice(0, 6).map((t) => t.id));
+      setDisplayedIds(getRandomSample(initialThemes, 8).map((t) => t.id));
     }
   }, [initialThemes]);
 
   const loadMoreThemes = () => {
     const remaining = initialThemes.filter((t) => !displayedIds.includes(t.id));
     if (remaining.length > 0) {
-      const nextBatch = [...remaining]
-        .sort(() => 0.5 - Math.random())
-        .slice(0, 6)
-        .map((t) => t.id);
+      const nextBatch = getRandomSample(remaining, 8).map((t) => t.id);
       setDisplayedIds((prev) => [...prev, ...nextBatch]);
     }
   };
 
-  const filteredThemes = React.useMemo(() => {
-    if (search !== "") {
-      return initialThemes.filter(
+  const filteredThemes = useMemo(() => {
+    let list = initialThemes;
+    if (search.trim()) {
+      const q = search.toLowerCase();
+      return list.filter(
         (t) =>
-          t.name.toLowerCase().includes(search.toLowerCase()) ||
-          t.nameEn.toLowerCase().includes(search.toLowerCase())
+          t.name.toLowerCase().includes(q) ||
+          t.nameEn.toLowerCase().includes(q)
       );
     }
     return displayedIds
@@ -98,252 +92,212 @@ export default function VocabularyThemesClientList({
       .filter((t): t is ClientTheme => !!t);
   }, [search, displayedIds, initialThemes]);
 
-  const totalVocabs = React.useMemo(() => {
-    return filteredThemes.reduce((sum, t) => sum + t.totalVocabs, 0);
-  }, [filteredThemes]);
-
-  const getThemeAccent = (id: string) => {
-    const hash = id.charCodeAt(0) + (id.charCodeAt(1) || 0);
-    const index = hash % 4;
-    switch (index) {
-      case 0:
-        return {
-          iconBg: "bg-cyan-50 dark:bg-cyan-950/30",
-          stripe: "from-cyan-400 to-sky-500",
-        };
-      case 1:
-        return {
-          iconBg: "bg-purple-50 dark:bg-purple-950/30",
-          stripe: "from-violet-400 to-fuchsia-500",
-        };
-      case 2:
-        return {
-          iconBg: "bg-amber-50 dark:bg-amber-950/30",
-          stripe: "from-amber-400 to-orange-500",
-        };
-      default:
-        return {
-          iconBg: "bg-blue-50 dark:bg-blue-950/30",
-          stripe: "from-blue-400 to-indigo-500",
-        };
-    }
-  };
+  const totalVocabsCount = useMemo(() => {
+    return initialThemes.reduce((sum, t) => sum + (t.totalVocabs || 0), 0);
+  }, [initialThemes]);
 
   const renderIcon = (theme: ClientTheme) => {
     if (THEME_ICONS[theme.id]) return THEME_ICONS[theme.id];
-    
-    // Parse standard emojis/icons if defined
     return (
-      <span className="text-xl select-none" role="img" aria-label={theme.name}>
-        {theme.icon || "🏠"}
+      <span className="text-lg select-none" role="img" aria-label={theme.name}>
+        {theme.icon || "📚"}
       </span>
     );
   };
 
   return (
-    <div className="space-y-6" suppressHydrationWarning>
-      {/* Page Header */}
+    <div className="space-y-3.5 pb-16 md:pb-6 px-1 md:px-0 select-none font-sans">
+      
+      {/* 1. TOP MICRO-HERO TOOLBAR (DASHBOARD BENTO STYLE) */}
       <motion.div
-        initial={{ opacity: 0, y: -15 }}
+        initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 85, damping: 15 }}
+        transition={{ duration: 0.2 }}
+        className="p-3.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-3 min-w-0"
       >
-        <h1 className="text-2xl md:text-3xl font-black tracking-tight text-slate-900 dark:text-white font-display">
-          Khám phá bộ từ vựng
-        </h1>
-        <p className="text-xs md:text-sm text-slate-500 dark:text-slate-300 mt-1 font-medium max-w-xl">
-          Chọn một chủ đề, học theo nhịp điệu riêng và giữ động lực bằng lộ trình rõ ràng.
-        </p>
-      </motion.div>
-
-      {/* Hero Banner Feature: Today's Focus */}
-      <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 80, damping: 15, delay: 0.05 }}
-        className="bezel border-indigo-500/15 bg-indigo-550/5 dark:border-indigo-500/10 dark:bg-indigo-500/5 shadow-[0_4px_30px_rgba(99,102,241,0.12)] animate-fade-in-up"
-      >
-        <div className="bezel-inner overflow-hidden rounded-[calc(var(--radius-3xl)-6px)] !bg-gradient-to-br !from-[#141526] !via-[#0d0e1b] !to-[#040409] p-6 text-white md:p-8 relative">
-          <div className="absolute -top-12 -right-12 w-96 h-96 bg-indigo-500/20 dark:bg-indigo-500/15 rounded-full blur-[90px] pointer-events-none" />
-          <div className="absolute -bottom-16 -left-16 w-80 h-80 bg-cyan-500/10 dark:bg-cyan-500/5 rounded-full blur-[80px] pointer-events-none" />
-          
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between relative z-10">
-            <div className="max-w-2xl space-y-3">
-              <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.2em] text-cyan-400">
-                <Sparkles className="h-3.5 w-3.5 text-cyan-400 animate-pulse" strokeWidth={1.5} />
-                Mục tiêu hôm nay
-              </div>
-              <h2 className="text-xl md:text-2xl font-black tracking-tight sm:text-3xl font-display text-white leading-tight">
-                Bắt đầu từ một chủ đề quen thuộc nhất
-              </h2>
-              <p className="text-xs md:text-sm text-slate-100 sm:text-base leading-relaxed font-semibold max-w-xl">
-                Tìm bộ từ phù hợp với mục tiêu của bạn, rồi học theo các gói ngắn, dễ hoàn thành.
-              </p>
-            </div>
-            
-            <div className="rounded-2xl border border-slate-700/60 bg-slate-900/90 p-4 shrink-0 shadow-lg flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-lg shadow-md shadow-orange-500/20 shrink-0">
-                🎯
-              </div>
-              <div>
-                <div className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">
-                  Trong tuần này
-                </div>
-                <div className="mt-0.5 flex items-center gap-1.5 text-xs font-black text-amber-300">
-                  12 mục tiêu sắp hoàn thành
-                </div>
-              </div>
-            </div>
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div className="p-2 rounded-md bg-[#1d6ee6]/10 text-[#1d6ee6] shrink-0">
+            <BookOpen className="w-5 h-5" />
           </div>
+          <div className="min-w-0">
+            <div className="flex items-center gap-2">
+              <h1 className="text-base font-bold text-slate-900 dark:text-white font-display truncate">
+                Kho Từ Vựng Tiếng Anh
+              </h1>
+              <span className="px-2 py-0.5 rounded text-[10px] font-extrabold bg-[#1d6ee6]/10 text-[#1d6ee6] shrink-0">
+                {totalVocabsCount > 0 ? `${totalVocabsCount}+ từ vựng` : "4,000+ từ vựng"}
+              </span>
+            </div>
+            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium truncate">
+              Luyện tập theo từng chủ đề thiết yếu với thuật toán ghi nhớ SRS ngắt quãng.
+            </p>
+          </div>
+        </div>
+
+        {/* Search Input Dock */}
+        <div className="relative w-full md:w-72 shrink-0">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <input
+            type="text"
+            placeholder="Tìm theo tên chủ đề..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full h-9 pl-9 pr-3 text-xs font-bold rounded-md bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-[#1d6ee6] transition-colors"
+          />
         </div>
       </motion.div>
 
-      {/* Search and Statistics Bar */}
-      <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 80, damping: 15, delay: 0.1 }}
-        className="bezel"
-      >
-        <div className="bezel-inner flex flex-col gap-4 p-4 md:flex-row md:items-center md:justify-between bg-white dark:bg-neutral-900">
-          <div className="relative flex-1">
-            <Search
-              className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
-              strokeWidth={1.3}
-            />
-            <input
-              type="text"
-              className="w-full rounded-2xl border border-slate-200 bg-white py-3 pl-11 pr-4 text-sm font-bold placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent dark:border-neutral-800 dark:bg-neutral-950 transition-colors"
-              placeholder="Tìm theo chủ đề (Ví dụ: Travel, Business, Academics, TOEIC...)"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              aria-label="Tìm kiếm chủ đề từ vựng"
-            />
-          </div>
-          <div className="flex items-center gap-4 text-xs font-bold text-slate-400 dark:text-slate-400 shrink-0">
-            <div className="flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-cyan-500" strokeWidth={1.3} />
-              <span>{filteredThemes.length} chủ đề</span>
+      {/* 2. TOP BENTO STATS BAR (4-COLUMN CARDS) */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3.5">
+        {[
+          {
+            title: "Tổng số chủ đề",
+            value: `${initialThemes.length} Bộ từ`,
+            subtitle: "Cập nhật liên tục",
+            icon: Layers,
+            color: "text-[#1d6ee6]",
+            bg: "bg-[#1d6ee6]/10",
+          },
+          {
+            title: "Mục tiêu bài học",
+            value: "12 Từ / ngày",
+            subtitle: "Nhịp độ khuyến nghị",
+            icon: Target,
+            color: "text-purple-500",
+            bg: "bg-purple-500/10",
+          },
+          {
+            title: "Thời gian mỗi bài",
+            value: "8 phút / buổi",
+            subtitle: "Học mọi lúc mọi nơi",
+            icon: Clock,
+            color: "text-amber-500",
+            bg: "bg-amber-500/10",
+          },
+          {
+            title: "Tỷ lệ ghi nhớ SRS",
+            value: "86% Bền vững",
+            subtitle: "Thuật toán lặp lại",
+            icon: Zap,
+            color: "text-emerald-500",
+            bg: "bg-emerald-500/10",
+          },
+        ].map((item, idx) => {
+          const Icon = item.icon;
+          return (
+            <div
+              key={idx}
+              className="p-3 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center gap-3 min-w-0"
+            >
+              <div className={`p-2 rounded-md ${item.bg} ${item.color} shrink-0`}>
+                <Icon className="w-4 h-4" />
+              </div>
+              <div className="min-w-0">
+                <span className="text-[10px] font-bold text-slate-400 uppercase block truncate">
+                  {item.title}
+                </span>
+                <p className="text-xs font-black text-slate-900 dark:text-white font-display truncate">
+                  {item.value}
+                </p>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <BookOpen className="h-4 w-4 text-amber-500" strokeWidth={1.3} />
-              <span>{totalVocabs} từ</span>
-            </div>
-          </div>
-        </div>
-      </motion.div>
+          );
+        })}
+      </div>
 
-      {/* Grid Content */}
+      {/* 3. MAIN BENTO THEMES GRID */}
       {filteredThemes.length === 0 ? (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="bezel"
-        >
-          <div className="bezel-inner p-10 text-center bg-white dark:bg-neutral-900">
-            <p className="text-base font-extrabold text-slate-900 dark:text-white">
-              Không tìm thấy chủ đề phù hợp
-            </p>
-            <p className="mt-1 text-xs text-slate-400 dark:text-slate-400 font-medium">
-              Hãy thử từ khóa khác như “travel”, “work”, hoặc “daily”.
-            </p>
-          </div>
-        </motion.div>
+        <div className="p-8 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs text-center space-y-2">
+          <p className="text-sm font-bold text-slate-900 dark:text-white font-display">
+            Không tìm thấy chủ đề nào phù hợp
+          </p>
+          <p className="text-xs font-medium text-slate-400">
+            Hãy thử tìm lại với từ khóa khác như "Work", "Travel", hoặc "Daily".
+          </p>
+        </div>
       ) : (
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="show"
-          className="grid gap-5 md:grid-cols-2 xl:grid-cols-3"
-        >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3.5">
           {filteredThemes.map((t) => {
-            const style = getThemeAccent(t.id);
-            const percentage = Math.min(100, 15 + t.difficulty * 8);
+            const percentage = Math.min(100, 20 + (t.difficulty || 1) * 12);
             return (
-              <motion.div key={t.id} variants={itemVariants}>
-                <Link
-                  href={`/vocabulary/${t.id}`}
-                  className="bezel lift tactile group block h-full cursor-pointer select-none"
-                >
-                  <div className="bezel-inner p-6 h-full flex flex-col justify-between bg-white dark:bg-neutral-900">
-                    <div>
-                      <div className="flex items-start justify-between gap-4">
-                        <div
-                          className={`icon-well ${style.iconBg} h-12 w-12 rounded-2xl border border-black/[0.03] shadow-sm dark:border-white/[0.03] flex items-center justify-center`}
-                        >
-                          {renderIcon(t)}
-                        </div>
-                        <ArrowUpRight
-                          className="h-4 w-4 text-slate-400 opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
-                          strokeWidth={1.3}
-                        />
+              <Link key={t.id} href={`/vocabulary/${t.id}`} className="group block min-w-0">
+                <div className="p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs hover:shadow-sm hover:border-[#1d6ee6]/50 transition-all flex flex-col justify-between space-y-3 h-full cursor-pointer">
+                  
+                  {/* Card Header */}
+                  <div className="space-y-2.5">
+                    <div className="flex items-center justify-between">
+                      <div className="p-2 rounded-md bg-slate-50 dark:bg-slate-950 border border-slate-200/60 dark:border-white/5 shrink-0">
+                        {renderIcon(t)}
                       </div>
-
-                      <div className="mt-5">
-                        <h3 className="text-sm md:text-base font-black text-slate-900 dark:text-white font-display">
-                          {t.name}
-                        </h3>
-                        <p className="mt-1 text-[11px] text-slate-400 dark:text-slate-400 font-bold">
-                          {t.nameEn} · {t.totalVocabs} từ vựng
-                        </p>
-                      </div>
+                      <span className="p-1 rounded text-slate-400 group-hover:text-[#1d6ee6] group-hover:bg-[#1d6ee6]/10 transition-colors">
+                        <ArrowUpRight className="w-4 h-4" />
+                      </span>
                     </div>
 
                     <div>
-                      <div className="mt-4 flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">
-                        <Clock3 className="h-3.5 w-3.5" strokeWidth={1.3} />
-                        8 phút / buổi
-                      </div>
+                      <h3 className="text-sm font-bold text-slate-900 dark:text-white font-display line-clamp-1 group-hover:text-[#1d6ee6] transition-colors">
+                        {t.name}
+                      </h3>
+                      <p className="text-xs font-semibold text-slate-400 line-clamp-1">
+                        {t.nameEn} · {t.totalVocabs} từ vựng
+                      </p>
+                    </div>
+                  </div>
 
-                      <div className="mt-4 flex items-center gap-1.5">
+                  {/* Card Footer: Difficulty & Progress */}
+                  <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-white/5">
+                    <div className="flex items-center justify-between text-[10px] font-bold text-slate-400">
+                      <span>Độ khó:</span>
+                      <div className="flex items-center gap-1">
                         {Array(5)
                           .fill(0)
                           .map((_, i) => (
-                            <div
+                            <span
                               key={i}
-                              className={`h-1.5 w-1.5 rounded-full ${
-                                i < t.difficulty
-                                  ? "bg-cyan-500"
-                                  : "bg-slate-200 dark:bg-neutral-800"
+                              className={`w-1.5 h-1.5 rounded-full ${
+                                i < (t.difficulty || 1)
+                                  ? "bg-[#1d6ee6]"
+                                  : "bg-slate-200 dark:bg-slate-800"
                               }`}
                             />
                           ))}
                       </div>
+                    </div>
 
-                      <div className="mt-5">
-                        <div className="mb-2 flex items-center justify-between text-[10px] font-bold text-slate-400 dark:text-slate-400">
-                          <span>Tiến trình</span>
-                          <span>{percentage}%</span>
-                        </div>
-                        <div className="h-1.5 overflow-hidden rounded-full bg-slate-100 dark:bg-neutral-850">
-                          <div
-                            className={`h-full rounded-full bg-gradient-to-r ${style.stripe}`}
-                            style={{ width: `${percentage}%` }}
-                          />
-                        </div>
+                    <div className="space-y-1">
+                      <div className="flex items-center justify-between text-[10px] font-bold">
+                        <span className="text-slate-400">Tiến trình</span>
+                        <span className="text-[#1d6ee6]">{percentage}%</span>
+                      </div>
+                      <div className="w-full h-1.5 rounded-full bg-slate-100 dark:bg-slate-950 overflow-hidden">
+                        <div
+                          className="h-full rounded-full bg-[#1d6ee6] transition-all duration-300"
+                          style={{ width: `${percentage}%` }}
+                        />
                       </div>
                     </div>
                   </div>
-                </Link>
-              </motion.div>
+
+                </div>
+              </Link>
             );
           })}
-
-          {/* Add vocabulary sets button */}
-          {search === "" && displayedIds.length < initialThemes.length && (
-            <div className="flex justify-end pt-6 pb-2 col-span-full">
-              <Button
-                variant="bezel"
-                onClick={loadMoreThemes}
-                className="px-8 py-3.5 text-xs font-black tracking-wider uppercase flex items-center gap-2"
-              >
-                <Sparkles className="h-4 w-4 text-cyan-500 animate-pulse" />
-                Thêm bộ từ khám phá
-              </Button>
-            </div>
-          )}
-        </motion.div>
+        </div>
       )}
+
+      {/* Load More Button (Aligned to Bottom-Right Corner) */}
+      {search === "" && displayedIds.length < initialThemes.length && (
+        <div className="flex justify-end pt-2 pb-1">
+          <button
+            onClick={loadMoreThemes}
+            className="px-5 py-2.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 hover:border-[#1d6ee6] text-slate-800 dark:text-slate-200 hover:text-[#1d6ee6] text-xs font-black shadow-xs hover:shadow-sm transition-all cursor-pointer inline-flex items-center gap-2 active:scale-[0.98]"
+          >
+            <Sparkles className="w-4 h-4 text-[#1d6ee6]" />
+            <span>Khám phá thêm bộ từ</span>
+          </button>
+        </div>
+      )}
+
     </div>
   );
 }

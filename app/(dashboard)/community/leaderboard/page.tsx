@@ -1,15 +1,106 @@
-"use client";
-import React, { useState } from "react";
-import Link from "next/link";
-import { useAuthStore } from "@/lib/store/authStore";
-import { Crown, Medal, Award } from "lucide-react";
+'use client';
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useAuthStore } from '@/lib/store/authStore';
+import { 
+  Crown, 
+  Medal, 
+  Award, 
+  Trophy, 
+  Flame, 
+  Sparkles, 
+  TrendingUp, 
+  ArrowRight, 
+  ArrowLeft,
+  Users, 
+  UserPlus, 
+  MessageSquare,
+  Zap,
+  Target,
+  ShieldCheck,
+  Star,
+  ChevronRight,
+  Clock,
+  CheckCircle2,
+  Lock,
+  ArrowUp
+} from 'lucide-react';
+import { Button, Badge } from '@/components/ui';
+
+// Helper to format clean display names without @ or duplicate bracket usernames
+const formatCleanName = (name?: string) => {
+  if (!name) return 'Học viên XP';
+  let clean = name.replace(/^@+/, '').split(' (')[0].trim();
+  return clean || 'Học viên XP';
+};
+
+// Component to render Google/Facebook OAuth avatar image or sidebar-styled initial circle fallback
+const UserAvatar = ({ avatar, emoji, name, size = "w-9 h-9" }: { avatar?: string; emoji?: string; name?: string; size?: string }) => {
+  if (avatar && (avatar.startsWith('http') || avatar.startsWith('/'))) {
+    return (
+      <img
+        src={avatar}
+        alt={name || ''}
+        className={`${size} rounded-full object-cover shrink-0 border border-slate-200/80 dark:border-white/10 shadow-2xs`}
+      />
+    );
+  }
+
+  const initial = (name || 'X').replace(/^@+/, '').trim().charAt(0).toUpperCase() || 'X';
+
+  return (
+    <div className={`${size} rounded-full bg-[#0059bb] text-white flex items-center justify-center font-black text-xs shrink-0 shadow-2xs font-display`}>
+      <span>{initial}</span>
+    </div>
+  );
+};
+
+// Specialized Rank Avatar component for Leaderboard Podium Champions (1 = Gold, 2 = Silver, 3 = Bronze)
+const RankAvatar = ({ avatar, name, rank, size = "w-14 h-14" }: { avatar?: string; name?: string; rank: 1 | 2 | 3; size?: string }) => {
+  if (avatar && (avatar.startsWith('http') || avatar.startsWith('/'))) {
+    const ringColor = rank === 1 ? 'ring-4 ring-amber-400' : rank === 2 ? 'ring-4 ring-slate-300' : 'ring-4 ring-amber-700/60';
+    return (
+      <img
+        src={avatar}
+        alt={name || ''}
+        className={`${size} rounded-full object-cover shrink-0 ${ringColor} shadow-md`}
+      />
+    );
+  }
+
+  const initial = (name || 'X').replace(/^@+/, '').trim().charAt(0).toUpperCase() || 'X';
+
+  const rankStyle = rank === 1 
+    ? 'bg-gradient-to-tr from-amber-500 via-amber-400 to-amber-300 text-slate-950 ring-4 ring-amber-300/80 shadow-lg' 
+    : rank === 2 
+    ? 'bg-gradient-to-tr from-slate-600 via-slate-500 to-slate-400 text-white ring-4 ring-slate-300 dark:ring-slate-600 shadow-md' 
+    : 'bg-gradient-to-tr from-amber-800 via-amber-700 to-amber-600 text-white ring-4 ring-amber-700/50 shadow-md';
+
+  return (
+    <div className={`${size} rounded-full ${rankStyle} flex items-center justify-center font-black text-lg sm:text-xl shrink-0 font-display`}>
+      <span>{initial}</span>
+    </div>
+  );
+};
 
 export default function LeaderboardPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const { user } = useAuthStore();
   const [leaders, setLeaders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isFromAnalytics, setIsFromAnalytics] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
+    const fromParam = searchParams.get('from') === 'analytics';
+    const referrerCheck = typeof document !== 'undefined' && document.referrer.includes('/analytics');
+    if (fromParam || referrerCheck) {
+      setIsFromAnalytics(true);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
     fetch("/api/leaderboard")
       .then((res) => res.json())
       .then((res) => {
@@ -29,113 +120,382 @@ export default function LeaderboardPage() {
   const top3 = leaders.find(l => l.rank === 3);
   const otherLeaders = leaders.filter(l => l.rank > 3);
 
+  // Find current user position if available
+  const currentUserLeader = leaders.find(l => l.fullName === user?.fullName || l.username === user?.username);
+  const userRankNum = currentUserLeader ? currentUserLeader.rank : 4;
+  const userXp = user?.totalXp || user?.xp || 10;
+  const nextRankTargetXp = top3 ? top3.xp + 25 : 100;
+  const xpNeeded = Math.max(0, nextRankTargetXp - userXp);
+
   return (
-    <div className="animate-fade-in">
-      <div className="page-header animate-fade-in-down mb-8">
-        <h1 className="page-title text-3xl font-extrabold tracking-tight">Cộng đồng học tập</h1>
-        <p className="page-subtitle text-muted max-w-xl" style={{ marginTop: '6px' }}>
-          Bảng xếp hạng tuần của các chiến binh bền bỉ học từ vựng.
-        </p>
-      </div>
+    <div className="space-y-5 pb-16 md:pb-6 select-none font-sans" suppressHydrationWarning>
+      
+      {/* 0. NAVIGATION BACK BUTTON (ONLY SHOWN WHEN NAVIGATING FROM ANALYTICS) */}
+      {isFromAnalytics && (
+        <div className="flex items-center justify-between">
+          <button
+            onClick={() => router.back()}
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all shadow-2xs cursor-pointer font-display"
+          >
+            <ArrowLeft className="w-4 h-4 text-[#0059bb]" />
+            <span>Quay lại trang Thống kê</span>
+          </button>
 
-      {/* Tabs */}
-      <div className="flex gap-1.5 mb-8 bg-black/[0.025] dark:bg-white/[0.025] p-1 rounded-full w-fit border border-black/[0.03] dark:border-white/[0.03] animate-scale-in">
-        <Link href="/community" className="px-4 py-2 text-xs font-bold rounded-full text-muted" style={{ transition: 'all 500ms cubic-bezier(0.32, 0.72, 0, 1)' }}>Bảng tin</Link>
-        <div className="px-4 py-2 text-xs font-bold rounded-full bg-white dark:bg-neutral-900 text-primary-c shadow-sm">Bảng xếp hạng</div>
-        <Link href="/community/friends" className="px-4 py-2 text-xs font-bold rounded-full text-muted" style={{ transition: 'all 500ms cubic-bezier(0.32, 0.72, 0, 1)' }}>Bạn bè</Link>
-        <Link href="/community/groups" className="px-4 py-2 text-xs font-bold rounded-full text-muted" style={{ transition: 'all 500ms cubic-bezier(0.32, 0.72, 0, 1)' }}>Nhóm học tập</Link>
-      </div>
-
-      {loading ? (
-        <div className="bezel">
-          <div className="bezel-inner p-12 text-center text-xs font-bold text-muted animate-pulse">
-            Đang tải bảng xếp hạng...
-          </div>
+          <Link
+            href="/analytics"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0059bb] hover:underline font-display"
+          >
+            <Trophy className="w-3.5 h-3.5" />
+            <span>Xem Thống kê của tôi</span>
+          </Link>
         </div>
-      ) : (
-        <div className="animate-fade-in-up flex flex-col gap-6">
-          {/* Podium — Double-Bezel */}
-          <div className="bezel">
-            <div className="bezel-inner p-8 flex flex-col items-center" style={{ background: 'linear-gradient(180deg, rgba(14, 165, 233, 0.04) 0%, transparent 100%)' }}>
-            <h3 className="text-[11px] font-extrabold text-gray-500 uppercase tracking-[0.15em] mb-8 text-center">
-              Top 3 Chiến Binh Tuần
-            </h3>
-            
-            <div className="flex items-end justify-center gap-4 sm:gap-8 w-full max-w-lg h-64 select-none">
-              {/* Rank 2 */}
-              {top2 && (
-                <div className="flex flex-col items-center flex-1 h-full justify-end">
-                  <div className="text-3xl mb-1.5">{top2.avatarEmoji}</div>
-                  <div className="text-xs font-bold truncate max-w-[80px] text-gray-900 dark:text-gray-100">{top2.username}</div>
-                  <div className="text-[12px] text-muted mb-3">{top2.xp} XP</div>
-                  <div className="w-full bg-gradient-to-t from-slate-200 to-slate-300 dark:from-neutral-800 dark:to-neutral-700 h-28 rounded-t-2xl shadow-sm border-t border-white/30 relative flex flex-col items-center justify-center">
-                    <Medal className="w-5 h-5 text-slate-500 absolute top-3" strokeWidth={1.5} />
-                    <span className="text-2xl font-black text-white/40 mt-4">2</span>
-                  </div>
-                </div>
-              )}
+      )}
+      
+      {/* 1. HERO SPOTLIGHT BANNER (AGENCY DASHBOARD TIER) */}
+      <div className="p-4 sm:p-5 rounded-lg bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-xs relative overflow-hidden">
+        <div className="absolute -right-10 -bottom-10 w-52 h-52 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="space-y-1.5 max-w-2xl">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider bg-amber-400/20 text-amber-200 border border-amber-300/30 flex items-center gap-1 font-display">
+                <Trophy className="w-3.5 h-3.5 text-amber-300" /> Bảng Xếp Hạng Tuần
+              </span>
+              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-white/15 text-white border border-white/20 font-mono">
+                Reset: 23:59 Chủ Nhật
+              </span>
+            </div>
 
-              {/* Rank 1 */}
-              {top1 && (
-                <div className="flex flex-col items-center flex-1 h-full justify-end">
-                  <div className="relative text-4xl mb-2">
-                    <Crown className="w-4 h-4 text-amber-400 absolute -top-4 left-1/2 -translate-x-1/2" strokeWidth={2} />
-                    {top1.avatarEmoji}
-                  </div>
-                  <div className="text-xs font-extrabold truncate max-w-[90px] text-gray-900 dark:text-gray-100">{top1.username}</div>
-                  <div className="text-[12px] text-cyan-500 font-bold mb-3">{top1.xp} XP</div>
-                  <div className="w-full bg-gradient-to-t from-amber-400 to-amber-500 dark:from-amber-600 dark:to-amber-500 h-36 rounded-t-3xl shadow-md border-t border-amber-300/40 relative flex flex-col items-center justify-center">
-                    <Award className="w-6 h-6 text-white/60 absolute top-3" strokeWidth={1.5} />
-                    <span className="text-3xl font-black text-white/40 mt-4">1</span>
-                  </div>
-                </div>
-              )}
+            <div className="space-y-0.5">
+              <h1 className="text-lg sm:text-xl font-black font-display tracking-tight text-white flex items-center gap-2">
+                Đua Top Chiến Binh XP English
+                <Sparkles className="w-4 h-4 text-amber-300" />
+              </h1>
+              <p className="text-xs text-blue-100/90 max-w-2xl font-medium leading-relaxed">
+                Vinh danh những học viên có chuỗi ngày học bền bỉ và tích lũy XP cao nhất trong tuần. Tích lũy XP ngay bằng bài học & thi thử!
+              </p>
+            </div>
+          </div>
 
-              {/* Rank 3 */}
-              {top3 && (
-                <div className="flex flex-col items-center flex-1 h-full justify-end">
-                  <div className="text-3xl mb-1.5">{top3.avatarEmoji}</div>
-                  <div className="text-xs font-bold truncate max-w-[80px] text-gray-900 dark:text-gray-100">{top3.username}</div>
-                  <div className="text-[12px] text-muted mb-3">{top3.xp} XP</div>
-                  <div className="w-full bg-gradient-to-t from-amber-700/20 to-amber-800/10 dark:from-neutral-800/80 dark:to-neutral-800/40 h-20 rounded-t-2xl shadow-sm border-t border-white/10 relative flex flex-col items-center justify-center">
-                    <Medal className="w-5 h-5 text-amber-600 absolute top-2" strokeWidth={1.5} />
-                    <span className="text-xl font-black text-white/30 mt-3">3</span>
-                  </div>
-                </div>
-              )}
+          <div className="flex items-center gap-3 shrink-0">
+            <div className="p-2.5 rounded-md bg-white/10 dark:bg-slate-900/60 border border-white/15 backdrop-blur-md flex items-center gap-3">
+              <div className="w-9 h-9 rounded-full bg-amber-400/20 border border-amber-300/40 flex items-center justify-center text-amber-300 shrink-0">
+                <Trophy className="w-4 h-4" />
+              </div>
+              <div>
+                <div className="text-[10px] font-bold uppercase tracking-wider text-blue-200 font-display">Thứ hạng bạn</div>
+                <div className="text-xs font-black font-display text-white font-mono">#{userRankNum} Tuần</div>
+              </div>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Other Leaderboard — Double-Bezel */}
-        <div className="bezel">
-          <div className="bezel-inner p-2 flex flex-col">
-            {otherLeaders.map((l) => {
-              const isCurrentUser = l.fullName === user?.fullName;
-              return (
-                <div key={l.id} className={`flex items-center justify-between p-4 rounded-[calc(var(--radius-3xl)-6px)] ${isCurrentUser ? "bg-cyan-50/50 dark:bg-cyan-950/10 border border-cyan-200/30 dark:border-cyan-800/20" : ""}`} style={{ transition: 'background 500ms cubic-bezier(0.32, 0.72, 0, 1)' }}>
-                  <div className="flex items-center gap-4">
-                    <div className="w-8 h-8 rounded-xl bg-neutral-100 dark:bg-neutral-900 flex items-center justify-center font-black text-xs text-muted border border-black/5 dark:border-white/5">
-                      {l.rank}
-                    </div>
-                    <div className="w-9 h-9 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-lg border border-black/5 dark:border-white/5">
-                      {l.avatarEmoji}
-                    </div>
-                    <div>
-                      <div className="text-xs font-bold text-gray-900 dark:text-gray-100">{l.fullName} <span className="text-muted">(@{l.username})</span></div>
-                      <div className="text-[12px] text-muted font-medium mt-0.5">Cấp độ {l.level} · {l.title}</div>
-                    </div>
-                  </div>
-                  <div className="text-xs font-bold text-cyan-500 bg-cyan-50 dark:bg-cyan-950/30 py-1.5 px-3 rounded-full border border-cyan-100 dark:border-cyan-900/30">
-                    {l.xp} XP
-                  </div>
-                </div>
-              );
-            })}
+      {/* 2. BENTO GRID LAYOUT (3/4 PODIUM & STREAM + 1/4 INSPECTOR WIDGETS) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
+
+        {/* LEFT 3/4 COLUMN: SEGMENTED TABS, PODIUM & RANKING STREAM */}
+        <div className="lg:col-span-8 space-y-4">
+          
+          {/* SEGMENTED NAVIGATION TABS (EVENLY DISTRIBUTED 4-COLUMNS) */}
+          <div className="p-1 rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-1 sm:gap-1.5 w-full">
+            <Link
+              href="/community"
+              className="py-1.5 px-2.5 sm:px-3 rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800 text-xs font-bold transition-all flex items-center justify-center gap-1.5 w-full truncate text-center font-display"
+            >
+              <MessageSquare className="w-3.5 h-3.5 shrink-0" /> <span className="truncate">Bảng tin</span>
+            </Link>
+            <div className="py-1.5 px-2.5 sm:px-3 rounded-md bg-[#0059bb] text-white text-xs font-bold shadow-2xs flex items-center justify-center gap-1.5 w-full truncate text-center font-display">
+              <Trophy className="w-3.5 h-3.5 text-amber-300 shrink-0" /> <span className="truncate">Bảng xếp hạng</span>
+            </div>
+            <Link
+              href="/community/friends"
+              className="py-1.5 px-2.5 sm:px-3 rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800 text-xs font-bold transition-all flex items-center justify-center gap-1.5 w-full truncate text-center font-display"
+            >
+              <UserPlus className="w-3.5 h-3.5 text-sky-500 shrink-0" /> <span className="truncate">Bạn bè</span>
+            </Link>
+            <Link
+              href="/community/groups"
+              className="py-1.5 px-2.5 sm:px-3 rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800 text-xs font-bold transition-all flex items-center justify-center gap-1.5 w-full truncate text-center font-display"
+            >
+              <Users className="w-3.5 h-3.5 text-indigo-500 shrink-0" /> <span className="truncate">Nhóm học tập</span>
+            </Link>
           </div>
+
+          {loading ? (
+            /* SKELETON LOADING STATE (RULE 1 COMPLIANCE) */
+            <div className="space-y-4">
+              <div className="p-6 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-4 animate-pulse">
+                <div className="w-36 h-5 bg-slate-200 dark:bg-slate-800 rounded-md mx-auto" />
+                <div className="flex items-end justify-center gap-4 h-48 pt-4">
+                  <div className="w-24 h-32 bg-slate-100 dark:bg-slate-800/60 rounded-t-lg" />
+                  <div className="w-28 h-40 bg-amber-500/10 rounded-t-lg" />
+                  <div className="w-24 h-24 bg-slate-100 dark:bg-slate-800/60 rounded-t-lg" />
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              
+              {/* 🏆 TOP 3 BENTO CHAMPIONS SHOWCASE (HIGH-CONTRAST GOLD, SILVER, BRONZE) */}
+              <div className="p-4 sm:p-5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-4">
+                <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5">
+                  <h2 className="text-xs font-black uppercase tracking-widest text-[#0059bb] dark:text-sky-400 flex items-center gap-1.5 font-display">
+                    <Trophy className="w-4 h-4 text-amber-500" /> Bảng Vinh Danh Quán Quân Tuần
+                  </h2>
+                  <span className="text-[10px] font-bold text-slate-400">Tự động cập nhật 24/7</span>
+                </div>
+
+                <div className="grid grid-cols-3 gap-2.5 sm:gap-4 items-end pt-2 pb-1">
+                  
+                  {/* RANK 2 - SILVER BENTO CARD */}
+                  {top2 && (
+                    <div className="p-3 sm:p-4 rounded-lg bg-gradient-to-b from-slate-200/80 via-slate-100/50 to-white dark:from-slate-800 dark:to-slate-900 border-2 border-slate-300 dark:border-slate-600 shadow-xs text-center flex flex-col items-center justify-between space-y-2 relative group hover:border-slate-400 transition-all">
+                      <div className="px-2 py-0.5 rounded-full bg-slate-300 dark:bg-slate-700 text-slate-800 dark:text-slate-100 font-mono font-black text-[10px] sm:text-xs flex items-center gap-1 shadow-2xs">
+                        <Medal className="w-3 h-3 text-slate-600 dark:text-slate-300 shrink-0" /> #2 Á Quân
+                      </div>
+
+                      <div className="relative my-1">
+                        <RankAvatar
+                          avatar={top2.avatar}
+                          name={top2.fullName || top2.username}
+                          rank={2}
+                          size="w-12 h-12 sm:w-14 sm:h-14"
+                        />
+                      </div>
+
+                      <div className="w-full space-y-1">
+                        <div className="text-xs font-bold text-slate-900 dark:text-white truncate font-display">
+                          {formatCleanName(top2.fullName || top2.username)}
+                        </div>
+                        <div className="inline-block px-2.5 py-0.5 rounded-full bg-slate-700 dark:bg-slate-800 text-white font-mono font-black text-[11px] shadow-2xs">
+                          {top2.xp} XP
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* RANK 1 - GOLD BENTO CARD (CENTER - HIGHEST & GLOWING GOLD) */}
+                  {top1 && (
+                    <div className="p-3.5 sm:p-5 rounded-lg bg-gradient-to-b from-amber-500/25 via-amber-400/10 to-amber-500/5 dark:from-amber-500/30 dark:via-slate-900 dark:to-slate-900 border-2 border-amber-400 shadow-lg text-center flex flex-col items-center justify-between space-y-2.5 relative group -top-3 z-10 transition-all">
+                      <div className="px-2.5 py-0.5 rounded-full bg-gradient-to-r from-amber-400 via-amber-500 to-amber-400 text-slate-950 font-mono font-black text-[10px] sm:text-xs flex items-center gap-1 shadow-xs animate-pulse">
+                        <Crown className="w-3.5 h-3.5 fill-slate-950 text-slate-950 shrink-0" /> #1 Quán Quân
+                      </div>
+
+                      <div className="relative my-1">
+                        <RankAvatar
+                          avatar={top1.avatar}
+                          name={top1.fullName || top1.username}
+                          rank={1}
+                          size="w-14 h-14 sm:w-16 sm:h-16"
+                        />
+                      </div>
+
+                      <div className="w-full space-y-1">
+                        <div className="text-xs sm:text-sm font-black text-slate-900 dark:text-white truncate font-display">
+                          {formatCleanName(top1.fullName || top1.username)}
+                        </div>
+                        <div className="inline-block px-3 py-0.5 rounded-full bg-amber-500 text-slate-950 font-mono font-black text-xs shadow-md border border-amber-300">
+                          {top1.xp} XP
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* RANK 3 - BRONZE BENTO CARD */}
+                  {top3 && (
+                    <div className="p-3 sm:p-4 rounded-lg bg-gradient-to-b from-amber-800/20 via-amber-800/10 to-white dark:from-amber-950/60 dark:to-slate-900 border-2 border-amber-700/50 dark:border-amber-800/60 shadow-xs text-center flex flex-col items-center justify-between space-y-2 relative group hover:border-amber-700 transition-all">
+                      <div className="px-2 py-0.5 rounded-full bg-amber-800/30 text-amber-900 dark:text-amber-200 font-mono font-black text-[10px] sm:text-xs flex items-center gap-1 shadow-2xs border border-amber-700/40">
+                        <Medal className="w-3 h-3 text-amber-700 dark:text-amber-400 shrink-0" /> #3 Hạng Ba
+                      </div>
+
+                      <div className="relative my-1">
+                        <RankAvatar
+                          avatar={top3.avatar}
+                          name={top3.fullName || top3.username}
+                          rank={3}
+                          size="w-12 h-12 sm:w-14 sm:h-14"
+                        />
+                      </div>
+
+                      <div className="w-full space-y-1">
+                        <div className="text-xs font-bold text-slate-900 dark:text-white truncate font-display">
+                          {formatCleanName(top3.fullName || top3.username)}
+                        </div>
+                        <div className="inline-block px-2.5 py-0.5 rounded-full bg-amber-800 text-amber-100 font-mono font-black text-[11px] shadow-2xs">
+                          {top3.xp} XP
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                </div>
+              </div>
+
+              {/* 📋 DETAILED LEADERBOARD STREAM (RANKS 4+) */}
+              <div className="p-3.5 sm:p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-2.5">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5 border-b border-slate-100 dark:border-white/5 pb-2 font-display">
+                  <TrendingUp className="w-4 h-4 text-[#0059bb] dark:text-sky-400" /> Danh Sách Học Viên Bứt Phá:
+                </h3>
+
+                <div className="space-y-1.5">
+                  {otherLeaders.map((l) => {
+                    const cleanName = formatCleanName(l.fullName || l.username);
+                    const isCurrentUser = l.fullName === user?.fullName || l.username === user?.username || cleanName === formatCleanName(user?.fullName);
+
+                    return (
+                      <div
+                        key={l.id}
+                        className={`p-2.5 rounded-md border flex items-center justify-between gap-3 transition-all ${
+                          isCurrentUser
+                            ? "bg-sky-50/80 dark:bg-sky-950/40 border-[#0059bb] dark:border-sky-400 shadow-2xs ring-2 ring-[#0059bb]/20"
+                            : "bg-slate-50/60 dark:bg-slate-800/40 border-slate-200/60 dark:border-white/5 hover:bg-slate-100 dark:hover:bg-slate-800"
+                        }`}
+                      >
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          {/* Rank Badge */}
+                          <div className="w-7 h-7 rounded bg-slate-200/80 dark:bg-slate-700 flex items-center justify-center text-xs font-black text-slate-700 dark:text-slate-200 shrink-0 font-mono">
+                            #{l.rank}
+                          </div>
+
+                          {/* Avatar */}
+                          <UserAvatar
+                            avatar={l.avatar}
+                            emoji={l.avatarEmoji}
+                            name={cleanName}
+                            size="w-8 h-8"
+                          />
+
+                          {/* User info */}
+                          <div className="min-w-0">
+                            <div className="text-xs font-bold text-slate-900 dark:text-white truncate font-display flex items-center gap-1.5">
+                              {cleanName}
+                              {isCurrentUser && (
+                                <span className="px-1.5 py-0.2 rounded text-[9px] font-black uppercase bg-[#0059bb] text-white">
+                                  Bạn
+                                </span>
+                              )}
+                            </div>
+                            <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium truncate">
+                              Cấp {l.level || 1} · {l.title || 'Học viên chăm chỉ'}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* XP Badge */}
+                        <div className="px-2.5 py-1 rounded bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 border border-[#0059bb]/20 font-black text-xs shrink-0 font-mono">
+                          {l.xp} XP
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+            </div>
+          )}
+        </div>
+
+        {/* RIGHT 1/4 COLUMN: SIDEBAR INSPECTOR WIDGETS */}
+        <div className="lg:col-span-4 space-y-4 sticky top-4">
+          
+          {/* BENTO WIDGET 1: YOUR CURRENT RANK & XP STATUS */}
+          <div className="p-4 sm:p-4.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3">
+            <div className="flex items-center gap-2.5 border-b border-slate-100 dark:border-white/5 pb-2.5">
+              <UserAvatar
+                avatar={user?.avatar}
+                emoji={user?.avatarEmoji}
+                name={user?.fullName || user?.username}
+                size="w-9 h-9"
+              />
+              <div className="min-w-0">
+                <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display truncate">
+                  Vị Trí Của Bạn
+                </h3>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate font-medium">
+                  {formatCleanName(user?.fullName || user?.username)}
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2 text-center">
+              <div className="p-2.5 rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5">
+                <div className="text-[10px] uppercase font-bold text-slate-400 font-display">Hạng tuần:</div>
+                <div className="text-base font-black text-[#0059bb] dark:text-sky-400 font-mono">
+                  #{userRankNum}
+                </div>
+              </div>
+
+              <div className="p-2.5 rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5">
+                <div className="text-[10px] uppercase font-bold text-slate-400 font-display">Điểm XP:</div>
+                <div className="text-base font-black text-amber-500 font-mono">
+                  {userXp} XP
+                </div>
+              </div>
+            </div>
+
+            {/* Target Progress Bar to Next Rank */}
+            <div className="space-y-1 bg-slate-50 dark:bg-slate-800/40 p-2.5 rounded-md border border-slate-200/60 dark:border-white/5">
+              <div className="flex items-center justify-between text-[10px] font-bold font-mono">
+                <span className="text-slate-500">Tiến độ vượt hạng #3</span>
+                <span className="text-[#0059bb] dark:text-sky-400">Cần +{xpNeeded} XP</span>
+              </div>
+              <div className="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                <div className="h-full bg-[#0059bb] rounded-full" style={{ width: `${Math.min(100, (userXp / nextRankTargetXp) * 100)}%` }} />
+              </div>
+            </div>
+
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 text-center font-medium leading-relaxed">
+              💡 Học thêm <span className="font-bold text-[#0059bb] dark:text-sky-400">1 bài thi thử AI</span> để nhận ngay +15 XP bứt phá thứ hạng!
+            </p>
+          </div>
+
+          {/* BENTO WIDGET 2: QUICK ACTION TO EARN XP */}
+          <div className="p-4 sm:p-4.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-2.5">
+            <div className="flex items-center gap-2 border-b border-slate-100 dark:border-white/5 pb-2 text-xs font-bold text-slate-900 dark:text-white font-display">
+              <Zap className="w-4 h-4 text-amber-500" /> Nhiệm Vụ Tích Lũy XP Nhanh
+            </div>
+
+            <div className="space-y-2">
+              <Link
+                href="/study/grammar"
+                className="p-2.5 rounded-md bg-slate-50 dark:bg-slate-800/60 hover:bg-[#0059bb] hover:text-white text-slate-700 dark:text-slate-300 border border-slate-200/60 text-xs font-bold transition-all flex items-center justify-between cursor-pointer group"
+              >
+                <div className="flex items-center gap-2 font-display">
+                  <Target className="w-3.5 h-3.5 text-[#0059bb] group-hover:text-white" />
+                  <span>Thi thử trắc nghiệm AI</span>
+                </div>
+                <span className="text-[10px] font-black uppercase text-emerald-600 bg-emerald-500/10 group-hover:bg-white/20 group-hover:text-white px-1.5 py-0.2 rounded font-mono">
+                  +15 XP
+                </span>
+              </Link>
+
+              <Link
+                href="/community"
+                className="p-2.5 rounded-md bg-slate-50 dark:bg-slate-800/60 hover:bg-[#0059bb] hover:text-white text-slate-700 dark:text-slate-300 border border-slate-200/60 text-xs font-bold transition-all flex items-center justify-between cursor-pointer group"
+              >
+                <div className="flex items-center gap-2 font-display">
+                  <MessageSquare className="w-3.5 h-3.5 text-[#0059bb] group-hover:text-white" />
+                  <span>Chia sẻ kinh nghiệm học</span>
+                </div>
+                <span className="text-[10px] font-black uppercase text-emerald-600 bg-emerald-500/10 group-hover:bg-white/20 group-hover:text-white px-1.5 py-0.2 rounded font-mono">
+                  +20 XP
+                </span>
+              </Link>
+            </div>
+          </div>
+
+          {/* BENTO WIDGET 3: REWARD RULES */}
+          <div className="p-4 sm:p-4.5 rounded-lg bg-sky-50/70 dark:bg-sky-950/30 border border-[#0059bb]/30 shadow-xs space-y-2">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-[#0059bb] dark:text-sky-400 font-display">
+              <Award className="w-4 h-4 text-amber-500" /> Thưởng Cuối Tuần
+            </div>
+            <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+              Top 3 học viên xuất sắc nhất tuần sẽ được nhận **Badge Quán Quân** và được vinh danh trang trọng trên trang chủ Cộng Đồng!
+            </p>
+          </div>
+
         </div>
       </div>
-      )}
     </div>
   );
 }

@@ -2,12 +2,10 @@ import { getAuthenticatedUserId } from "@/lib/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-// Prepopulate groups if database is empty
+// Prepopulate groups if database is empty (called only when group table is empty)
 async function ensureDefaultGroups() {
   const count = await prisma.group.count();
   if (count === 0) {
-    // We need at least one admin profile to create groups
-    // If no profiles, we can't associate creator, so we'll wait for a user or associate to a placeholder if profile exists.
     const adminProfile = await prisma.profile.findFirst();
     if (adminProfile) {
       const defaultGroups = [
@@ -65,12 +63,15 @@ async function ensureDefaultGroups() {
 export async function GET() {
   try {
     const userId = await getAuthenticatedUserId();
-    
-    // Check if we need to seed default groups
-    await ensureDefaultGroups();
 
-    const groups = await prisma.group.findMany({
-      include: {
+    let groups = await prisma.group.findMany({
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        themeName: true,
+        accent: true,
+        maxMembers: true,
         members: {
           select: {
             userId: true,
@@ -82,6 +83,29 @@ export async function GET() {
         createdAt: "desc",
       },
     });
+
+    if (groups.length === 0) {
+      await ensureDefaultGroups();
+      groups = await prisma.group.findMany({
+        select: {
+          id: true,
+          name: true,
+          description: true,
+          themeName: true,
+          accent: true,
+          maxMembers: true,
+          members: {
+            select: {
+              userId: true,
+              role: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
+    }
 
     const formattedGroups = groups.map((g) => ({
       id: g.id,
@@ -109,16 +133,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Verify user profile exists
     const profile = await prisma.profile.findUnique({
       where: { id: userId },
+      select: { level: true },
     });
 
     if (!profile) {
       return NextResponse.json({ error: "Profile not found" }, { status: 404 });
     }
 
-    // Yêu cầu cấp độ 15 để tạo nhóm mới (giống mock frontend)
     if (profile.level < 15) {
       return NextResponse.json(
         { error: "Khởi tạo nhóm mới yêu cầu cấp độ 15 trở lên!" },
@@ -148,8 +171,18 @@ export async function POST(request: Request) {
           },
         },
       },
-      include: {
-        members: true,
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        themeName: true,
+        accent: true,
+        maxMembers: true,
+        members: {
+          select: {
+            userId: true,
+          },
+        },
       },
     });
 

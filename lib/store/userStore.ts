@@ -6,6 +6,7 @@ import { useVocabularyStore } from "./vocabularyStore";
 interface UserState {
   user: User | null;
   awardXp: (amount: number) => { levelUp: boolean };
+  addPracticeTime: (minutes: number) => void;
   awardCoins: (amount: number) => void;
   updateProfile: (fullName: string, bio: string) => void;
   syncClerkUser: (clerkUser: any, isSignedIn: boolean) => void;
@@ -159,17 +160,17 @@ export const useUserStore = create<UserState>((set, get) => ({
     get().syncStreak(true);
     const user = get().user;
     if (!user) return { levelUp: false };
-    const newXp = user.totalXp + amount;
+    const newXp = (user.totalXp || 0) + amount;
 
     // Level up check
-    let newLevel = user.level;
+    let newLevel = user.level || 1;
     let levelUp = false;
     let levelUpCoins = 0;
     const LEVEL_XP = [
       0, 100, 250, 450, 700, 1000, 1400, 1900, 2500, 3200, 4000, 5000, 6200,
       7600, 9200, 11000,
     ];
-    if (newXp >= LEVEL_XP[newLevel]) {
+    if (newXp >= (LEVEL_XP[newLevel] || 99999)) {
       newLevel++;
       levelUp = true;
       levelUpCoins = 100 * newLevel;
@@ -224,6 +225,39 @@ export const useUserStore = create<UserState>((set, get) => ({
 
     return { levelUp };
   },
+  addPracticeTime: (minutes) => {
+    get().syncStreak(true);
+    const user = get().user;
+    if (!user) return;
+    const newMinutes = (user.minutesStudied || 0) + minutes;
+    const updatedUser = { ...user, minutesStudied: newMinutes };
+    set({ user: updatedUser });
+    if (typeof window !== "undefined") {
+      localStorage.setItem(`xp_voca_user_${user.id}`, JSON.stringify(updatedUser));
+
+      const todayStr = new Date().toISOString().slice(0, 10);
+      const dailyMinKey = `xp_voca_daily_minutes_${user.id}`;
+      
+      try {
+        const storedMin = localStorage.getItem(dailyMinKey);
+        const dailyMin = storedMin ? JSON.parse(storedMin) : {};
+        dailyMin[todayStr] = (dailyMin[todayStr] || 0) + minutes;
+        localStorage.setItem(dailyMinKey, JSON.stringify(dailyMin));
+      } catch (e) {
+        console.error("Error saving daily minutes:", e);
+      }
+    }
+
+    if (user.id !== "local_user" && !user.id.startsWith("local_user")) {
+      fetch("/api/user/profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          minutesStudied: newMinutes,
+        }),
+      }).catch(err => console.error("Error syncing practice time to DB:", err));
+    }
+  },
   awardCoins: (amount) => {
     const user = get().user;
     if (!user) return;
@@ -272,7 +306,6 @@ export const useUserStore = create<UserState>((set, get) => ({
 
     const userId = clerkUser.id;
     const email = clerkUser.primaryEmailAddress?.emailAddress || "";
-    // Facebook/Apple users may lack username & firstName — derive from email prefix as fallback
     const emailPrefix = email ? email.split("@")[0].replace(/[^a-zA-Z0-9_]/g, "") : "";
     const username = clerkUser.username || clerkUser.firstName || emailPrefix || "user";
     const fullName = clerkUser.fullName || [clerkUser.firstName, clerkUser.lastName].filter(Boolean).join(" ") || emailPrefix || "User";

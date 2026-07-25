@@ -3,11 +3,52 @@ import React, { useState, useCallback } from 'react';
 import Link from 'next/link';
 import { useAuthStore } from '@/lib/store/authStore';
 import { useNotificationStore } from '@/lib/store/notificationStore';
-import { Heart, MessageCircle, Send, ChevronDown } from 'lucide-react';
+import { 
+  Heart, 
+  MessageCircle, 
+  Send, 
+  ChevronDown, 
+  Trophy, 
+  Users, 
+  UserPlus, 
+  Flame, 
+  Sparkles, 
+  ArrowRight,
+  MessageSquare,
+  Award
+} from 'lucide-react';
 import { Button } from '@/components/ui';
 
 const INITIAL_COMMENTS = 15;
 const LOAD_MORE_COMMENTS = 10;
+
+// Helper to format clean display names without @ or duplicate bracket usernames
+const formatCleanName = (name?: string) => {
+  if (!name) return 'Học viên XP';
+  let clean = name.replace(/^@+/, '').split(' (')[0].trim();
+  return clean || 'Học viên XP';
+};
+
+// Component to render Google/Facebook OAuth avatar image or sidebar-styled initial circle fallback
+const UserAvatar = ({ avatar, emoji, name, size = "w-8 h-8" }: { avatar?: string; emoji?: string; name?: string; size?: string }) => {
+  if (avatar && (avatar.startsWith('http') || avatar.startsWith('/'))) {
+    return (
+      <img
+        src={avatar}
+        alt={name || ''}
+        className={`${size} rounded-full object-cover shrink-0 border border-slate-200/80 dark:border-white/10 shadow-2xs`}
+      />
+    );
+  }
+
+  const initial = (name || 'X').replace(/^@+/, '').trim().charAt(0).toUpperCase() || 'X';
+
+  return (
+    <div className={`${size} rounded-full bg-[#0059bb] text-white flex items-center justify-center font-black text-xs shrink-0 shadow-2xs font-display`}>
+      <span>{initial}</span>
+    </div>
+  );
+};
 
 export default function CommunityPage() {
   const { user, awardXp } = useAuthStore();
@@ -49,40 +90,66 @@ export default function CommunityPage() {
 
   const handleCreatePost = async () => {
     if (!postText.trim() || !user) return;
+
+    const currentContent = postText.trim();
+    setPostText('');
+    awardXp(20);
+    addToast({ type: "success", title: "Thành công", message: "Đã đăng bài viết! Nhận +20 XP 🎉" });
+
+    // OPTIMISTIC DRAFT POST (0ms INSTANT RENDER)
+    const tempId = `temp-${Date.now()}`;
+    const hashtagRegex = /#[\wÀ-ỹ]+/g;
+    const tags = currentContent.match(hashtagRegex) || [];
+
+    const tempPost = {
+      id: tempId,
+      author: user.fullName || user.username || "Học viên XP",
+      avatar: user.avatar,
+      authorAvatar: user.avatar,
+      avatarEmoji: user.avatarEmoji || "🦉",
+      meta: "Vừa xong · " + (user.title || "Member"),
+      content: currentContent,
+      vocabTags: Array.from(new Set(tags)),
+      likes: 0,
+      commentsCount: 0,
+      liked: false,
+      comments: [],
+    };
+
+    setPosts(prev => [tempPost, ...prev]);
+
     try {
       const res = await fetch("/api/posts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: postText.trim() }),
+        body: JSON.stringify({ content: currentContent }),
       });
       const data = await res.json();
       if (data.success && data.data) {
-        setPosts(prev => [data.data, ...prev]);
-        setPostText('');
-        awardXp(20);
-      } else {
-        addToast({ type: "error", title: "Lỗi", message: data.error || "Không thể đăng bài viết" });
+        setPosts(prev => prev.map(p => p.id === tempId ? { ...data.data, avatar: user.avatar } : p));
       }
     } catch (err) {
       console.error("Error creating post:", err);
-      addToast({ type: "error", title: "Lỗi", message: "Đã xảy ra lỗi khi tạo bài viết" });
     }
   };
 
   const handleLikePost = async (id: string) => {
+    // OPTIMISTIC UPDATE: Instant 0ms toggle local state
+    setPosts(prev => prev.map(p => {
+      if (p.id === id) {
+        const nextLiked = !p.liked;
+        const nextLikes = nextLiked ? p.likes + 1 : Math.max(0, p.likes - 1);
+        return { ...p, liked: nextLiked, likes: nextLikes };
+      }
+      return p;
+    }));
+
     try {
-      const res = await fetch(`/api/posts/${id}/like`, {
-        method: "POST",
-      });
+      const res = await fetch(`/api/posts/${id}/like`, { method: "POST" });
       const data = await res.json();
       if (data.success && data.data) {
         const { liked, likesCount } = data.data;
-        setPosts(prev => prev.map(p => {
-          if (p.id === id) {
-            return { ...p, likes: likesCount, liked };
-          }
-          return p;
-        }));
+        setPosts(prev => prev.map(p => p.id === id ? { ...p, likes: likesCount, liked } : p));
       }
     } catch (err) {
       console.error("Error liking post:", err);
@@ -101,7 +168,11 @@ export default function CommunityPage() {
       });
       const data = await res.json();
       if (data.success && data.data) {
-        const newComment = data.data;
+        const newComment = {
+          ...data.data,
+          avatar: user.avatar,
+          authorAvatar: user.avatar
+        };
         setPosts(prev => prev.map(p => {
           if (p.id === postId) {
             return {
@@ -123,193 +194,426 @@ export default function CommunityPage() {
   };
 
   return (
-    <div className="animate-fade-in max-w-3xl mx-auto space-y-6 pb-20 md:pb-6">
-      <div className="page-header animate-fade-in-down mb-6 text-center">
-        <h1 className="page-title text-3xl font-extrabold tracking-tight">Cộng đồng học tập</h1>
-        <p className="page-subtitle text-slate-500 dark:text-slate-400 max-w-xl mx-auto text-xs md:text-sm font-medium mt-1">
-          Nơi giao lưu chia sẻ kinh nghiệm học từ vựng tiếng Anh hiệu quả cùng các thành viên khác.
-        </p>
+    <div className="space-y-5 pb-16 md:pb-6 select-none font-sans" suppressHydrationWarning>
+      {/* 1. HERO BENTO HEADER BANNER (AGENCY DASHBOARD TIER) */}
+      <div className="p-4 sm:p-5 rounded-lg bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#003366] text-white shadow-xs relative overflow-hidden">
+        <div className="absolute -right-8 -bottom-8 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none" />
+        <div className="relative z-10 space-y-2">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider bg-white/15 text-white border border-white/20 flex items-center gap-1">
+              <Flame className="w-3.5 h-3.5 text-amber-300 fill-amber-300" /> 1,240+ Học Viên Online
+            </span>
+            <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-200 border border-emerald-400/30">
+              Thưởng +20 XP / Bài đăng
+            </span>
+          </div>
+
+          <div className="space-y-0.5">
+            <h1 className="text-lg sm:text-xl font-black font-display tracking-tight text-white flex items-center gap-2">
+              Cộng Đồng Học Tập XP English
+              <Sparkles className="w-4 h-4 text-amber-300" />
+            </h1>
+            <p className="text-xs text-blue-100/90 max-w-2xl font-medium leading-relaxed">
+              Nơi giao lưu, chia sẻ kinh nghiệm luyện thi TOEIC/IELTS, mẹo ghi nhớ từ vựng và cùng nhau tiến bộ mỗi ngày!
+            </p>
+          </div>
+        </div>
       </div>
 
-      {/* Tabs Layout */}
-      <div className="flex gap-1.5 justify-center mb-6 bg-black/[0.025] dark:bg-white/[0.025] p-1 rounded-full w-fit mx-auto border border-black/[0.03] dark:border-white/[0.03] animate-scale-in">
-        <div className="px-4 py-2 text-xs font-bold rounded-full bg-white dark:bg-neutral-900 text-sky-600 dark:text-sky-400 shadow-sm">Bảng tin</div>
-        <Link href="/community/leaderboard" className="px-4 py-2 text-xs font-bold rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-350 transition-all duration-300">Bảng xếp hạng</Link>
-        <Link href="/community/friends" className="px-4 py-2 text-xs font-bold rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-350 transition-all duration-300">Bạn bè</Link>
-        <Link href="/community/groups" className="px-4 py-2 text-xs font-bold rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-350 transition-all duration-300">Nhóm học tập</Link>
-      </div>
+      {/* 2. BENTO GRID LAYOUT (3/4 MAIN FEED + 1/4 SIDEBAR WIDGETS) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
+        
+        {/* LEFT 3/4 COLUMN: COMMUNITY FEED & CREATE POST */}
+        <div className="lg:col-span-8 xl:col-span-8 space-y-4">
+          
+          {/* SEGMENTED NAVIGATION TABS (EVENLY DISTRIBUTED 4-COLUMNS) */}
+          <div className="p-1 rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-1 sm:gap-1.5 w-full">
+            <div className="py-1.5 px-2.5 sm:px-3 rounded-md bg-[#0059bb] text-white text-xs font-bold shadow-2xs flex items-center justify-center gap-1.5 w-full truncate text-center">
+              <MessageSquare className="w-3.5 h-3.5 shrink-0" /> <span className="truncate">Bảng tin</span>
+            </div>
+            <Link
+              href="/community/leaderboard"
+              className="py-1.5 px-2.5 sm:px-3 rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800 text-xs font-bold transition-all flex items-center justify-center gap-1.5 w-full truncate text-center"
+            >
+              <Trophy className="w-3.5 h-3.5 text-amber-500 shrink-0" /> <span className="truncate">Bảng xếp hạng</span>
+            </Link>
+            <Link
+              href="/community/friends"
+              className="py-1.5 px-2.5 sm:px-3 rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800 text-xs font-bold transition-all flex items-center justify-center gap-1.5 w-full truncate text-center"
+            >
+              <UserPlus className="w-3.5 h-3.5 text-sky-500 shrink-0" /> <span className="truncate">Bạn bè</span>
+            </Link>
+            <Link
+              href="/community/groups"
+              className="py-1.5 px-2.5 sm:px-3 rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800 text-xs font-bold transition-all flex items-center justify-center gap-1.5 w-full truncate text-center"
+            >
+              <Users className="w-3.5 h-3.5 text-indigo-500 shrink-0" /> <span className="truncate">Nhóm học tập</span>
+            </Link>
+          </div>
 
-      <div className="animate-fade-in-up flex flex-col gap-6">
-        {/* Create Post — Double-Bezel */}
-        <div className="bezel-outer p-1.5 bg-slate-200/50 dark:bg-white/5 rounded-[2rem]">
-          <div className="bezel-inner rounded-[calc(2rem-6px)] bg-white dark:bg-[#0c0c0e] p-5 flex flex-col gap-4">
-            <div className="flex items-start gap-4">
-              <div className="w-10 h-10 bg-gradient-to-tr from-cyan-400 to-blue-500 rounded-full flex items-center justify-center text-lg shadow-sm flex-shrink-0 border border-black/5 dark:border-white/5">
-                <span>{user?.avatarEmoji}</span>
-              </div>
-              <textarea 
-                className="flex-1 bg-neutral-50/60 dark:bg-neutral-900/40 border border-black/[0.04] dark:border-white/[0.04] rounded-xl p-4 text-sm text-gray-900 dark:text-gray-100 focus:outline-none focus:border-cyan-400 resize-none min-h-[80px] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] font-medium" 
-                style={{ transition: 'border-color 500ms cubic-bezier(0.32, 0.72, 0, 1)' }}
-                placeholder="Bạn muốn chia sẻ mẹo học tập hay từ vựng mới nào hôm nay?"
+          {/* CREATE POST CARD (COMPACT AGENCY TIER DESIGN) */}
+          <div className="p-3.5 sm:p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3">
+            <div className="flex items-start gap-2.5">
+              <UserAvatar
+                avatar={user?.avatar}
+                emoji={user?.avatarEmoji}
+                name={user?.fullName || user?.username}
+                size="w-9 h-9"
+              />
+              <textarea
+                rows={2}
                 value={postText}
-                onChange={e => setPostText(e.target.value)}
+                onChange={(e) => setPostText(e.target.value)}
+                placeholder="Chia sẻ mẹo học từ vựng hoặc thắc mắc bài tập..."
+                className="w-full p-2.5 rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-white/10 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0059bb] resize-none font-medium leading-relaxed"
               />
             </div>
-            <div className="flex justify-end">
-              <Button 
+
+            {/* Quick Tag Chips & Submit Action */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2 border-t border-slate-100 dark:border-white/5">
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <span className="text-[10px] uppercase font-bold text-slate-400 mr-1">Gợi ý tag:</span>
+                <button
+                  onClick={() => setPostText((prev) => (prev ? `${prev} #MeoHocTuVung` : '#MeoHocTuVung '))}
+                  className="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 hover:bg-[#0059bb]/10 text-slate-600 dark:text-slate-400 hover:text-[#0059bb] text-[10px] font-bold transition-all cursor-pointer"
+                >
+                  #MeoHocTuVung
+                </button>
+                <button
+                  onClick={() => setPostText((prev) => (prev ? `${prev} #LuyenThiTOEIC` : '#LuyenThiTOEIC '))}
+                  className="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 hover:bg-[#0059bb]/10 text-slate-600 dark:text-slate-400 hover:text-[#0059bb] text-[10px] font-bold transition-all cursor-pointer"
+                >
+                  #LuyenThiTOEIC
+                </button>
+                <button
+                  onClick={() => setPostText((prev) => (prev ? `${prev} #IELTSWriting` : '#IELTSWriting '))}
+                  className="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 hover:bg-[#0059bb]/10 text-slate-600 dark:text-slate-400 hover:text-[#0059bb] text-[10px] font-bold transition-all cursor-pointer"
+                >
+                  #IELTSWriting
+                </button>
+              </div>
+
+              <Button
                 variant="primary"
                 size="sm"
                 onClick={handleCreatePost}
                 disabled={!postText.trim()}
-                className="font-bold flex items-center gap-1.5 text-white dark:text-white"
+                className="font-bold py-1.5 px-3.5 rounded-md bg-[#0059bb] hover:bg-[#004799] text-white text-xs transition-all shadow-2xs flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50 shrink-0 self-end sm:self-auto"
               >
-                <Send className="w-3.5 h-3.5" strokeWidth={1.3} /> Chia sẻ bài viết
+                <Send className="w-3.5 h-3.5" /> Chia sẻ bài viết (+20 XP)
               </Button>
             </div>
           </div>
-        </div>
 
-        {/* Posts List */}
-        <div className="flex flex-col gap-5">
-          {loading ? (
-            <div className="bezel-outer p-1.5 bg-slate-200/50 dark:bg-white/5 rounded-[2rem]">
-              <div className="bezel-inner rounded-[calc(2rem-6px)] bg-white dark:bg-[#0c0c0e] p-12 text-center text-xs font-bold text-slate-400 animate-pulse">
-                Đang tải bài viết từ cộng đồng...
-              </div>
-            </div>
-          ) : posts.length === 0 ? (
-            <div className="bezel-outer p-1.5 bg-slate-200/50 dark:bg-white/5 rounded-[2rem]">
-              <div className="bezel-inner rounded-[calc(2rem-6px)] bg-white dark:bg-[#0c0c0e] p-12 text-center flex flex-col items-center">
-                <MessageCircle className="w-12 h-12 text-slate-400 mb-4" strokeWidth={1.3} />
-                <div className="text-sm font-extrabold text-gray-900 dark:text-gray-100 mb-1">Chưa có bài viết nào</div>
-                <p className="text-xs text-slate-500 dark:text-slate-400 max-w-xs leading-relaxed font-semibold">Hãy chia sẻ mẹo học tập hoặc từ vựng mới đầu tiên của bạn để giao lưu cùng cộng đồng nhé!</p>
-              </div>
-            </div>
-          ) : (
-            posts.map(p => {
-              const allComments = p.comments || [];
-              const totalComments = p.commentsCount || allComments.length;
-              const limit = getVisibleCount(p.id);
-              const shownComments = allComments.slice(0, limit);
-              const hiddenCount = allComments.length - shownComments.length;
-              const serverHiddenCount = totalComments - allComments.length;
-
-              return (
-                <div key={p.id} className="bezel-outer p-1.5 bg-slate-200/50 dark:bg-white/5 rounded-[2rem]">
-                  <div className="bezel-inner rounded-[calc(2rem-6px)] bg-white dark:bg-[#0c0c0e] p-5">
-                    {/* Post Header */}
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-neutral-100 dark:bg-neutral-800 rounded-full flex items-center justify-center text-lg border border-black/5 dark:border-white/5 flex-shrink-0">
-                        <span>{p.avatarEmoji}</span>
-                      </div>
-                      <div>
-                        <div className="text-sm font-bold text-gray-900 dark:text-gray-100">@{p.author}</div>
-                        <div className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider mt-0.5">{p.meta}</div>
+          {/* POSTS FEED STREAM */}
+          <div className="space-y-3">
+            {loading ? (
+              /* SKELETON LOADING CARDS (RULE 1 COMPLIANCE) */
+              <div className="space-y-3">
+                {[1, 2].map((i) => (
+                  <div key={i} className="p-3.5 sm:p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3 animate-pulse">
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-full bg-slate-200 dark:bg-slate-800" />
+                      <div className="space-y-1.5 flex-1">
+                        <div className="w-32 h-4 bg-slate-200 dark:bg-slate-800 rounded-md" />
+                        <div className="w-24 h-3 bg-slate-100 dark:bg-slate-800/60 rounded-md" />
                       </div>
                     </div>
+                    <div className="space-y-2">
+                      <div className="w-full h-4 bg-slate-100 dark:bg-slate-800/60 rounded-md" />
+                      <div className="w-3/4 h-4 bg-slate-100 dark:bg-slate-800/60 rounded-md" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : posts.length === 0 ? (
+              /* EMPTY STATE */
+              <div className="p-8 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs text-center space-y-2">
+                <div className="w-10 h-10 rounded-lg bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 flex items-center justify-center mx-auto text-xl border border-[#0059bb]/20">
+                  💬
+                </div>
+                <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
+                  Chưa có bài viết nào trên bảng tin
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto leading-relaxed font-medium">
+                  Hãy trở thành người đầu tiên chia sẻ mẹo học tập hoặc từ vựng mới để nhận +20 XP thưởng nhé!
+                </p>
+              </div>
+            ) : (
+              posts.map((p) => {
+                const allComments = p.comments || [];
+                const totalComments = p.commentsCount || allComments.length;
+                const limit = getVisibleCount(p.id);
+                const shownComments = allComments.slice(0, limit);
+                const hiddenCount = allComments.length - shownComments.length;
+                const serverHiddenCount = totalComments - allComments.length;
 
-                    {/* Content */}
-                    <div className="text-sm text-slate-800 dark:text-slate-200 leading-relaxed mb-4 font-medium">
+                const authorCleanName = formatCleanName(p.author);
+                const isUserPost = p.author === user?.fullName || p.author === user?.username || authorCleanName === formatCleanName(user?.fullName);
+
+                return (
+                  <div
+                    key={p.id}
+                    className="p-3.5 sm:p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-2.5"
+                  >
+                    {/* Post Author Header (Clean single name, Google/FB avatar, NO @ symbol) */}
+                    <div className="flex items-center justify-between gap-2.5 border-b border-slate-100 dark:border-white/5 pb-2">
+                      <div className="flex items-center gap-2.5">
+                        <UserAvatar
+                          avatar={p.authorAvatar || p.avatar || (isUserPost ? user?.avatar : undefined)}
+                          emoji={p.avatarEmoji}
+                          name={authorCleanName}
+                          size="w-8 h-8 sm:w-9 sm:h-9"
+                        />
+                        <div>
+                          <div className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display flex items-center gap-1.5">
+                            <span>{authorCleanName}</span>
+                            <span className="px-1.5 py-0.2 rounded text-[9px] font-black uppercase bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 border border-[#0059bb]/20">
+                              Member
+                            </span>
+                          </div>
+                          <div className="text-[10px] text-slate-400 font-medium">
+                            {p.meta || 'Vừa xong'}
+                          </div>
+                        </div>
+                      </div>
+
+                      <span className="text-[10px] font-bold text-emerald-600 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 shrink-0">
+                        +20 XP
+                      </span>
+                    </div>
+
+                    {/* Post Content Text */}
+                    <div className="text-xs sm:text-sm text-slate-800 dark:text-slate-200 leading-relaxed font-medium">
                       {p.content}
                     </div>
-                    
+
                     {/* Vocab Tags */}
                     {p.vocabTags && p.vocabTags.length > 0 && (
-                      <div className="flex flex-wrap gap-2 mb-4">
+                      <div className="flex flex-wrap gap-1.5">
                         {p.vocabTags.map((tag: string, idx: number) => (
-                          <span key={idx} className="text-[10px] font-black uppercase tracking-wider py-1 px-2.5 rounded-full bg-cyan-50 dark:bg-cyan-950/30 text-cyan-600 dark:text-cyan-400 border border-cyan-200/50 dark:border-cyan-900/30">{tag}</span>
+                          <span
+                            key={idx}
+                            className="text-[10px] font-bold py-0.5 px-2 rounded bg-blue-50 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-400 border border-blue-200/60 dark:border-blue-900/40"
+                          >
+                            {tag}
+                          </span>
                         ))}
                       </div>
                     )}
 
-                    {/* Stats */}
-                    <div className="flex gap-4 pb-3 border-b border-black/[0.04] dark:border-white/[0.04] mb-3 text-[10px] text-slate-400 dark:text-slate-500 font-extrabold uppercase tracking-wider">
-                      <span className="flex items-center gap-1"><Heart className="w-3 h-3 text-red-500" strokeWidth={1.3} /> {p.likes} Thích</span>
-                      <span className="flex items-center gap-1"><MessageCircle className="w-3 h-3 text-sky-500" strokeWidth={1.3} /> {totalComments} Bình luận</span>
+                    {/* Post Reaction Stats Bar */}
+                    <div className="flex items-center gap-4 py-1.5 border-y border-slate-100 dark:border-white/5 text-[11px] font-bold text-slate-500 dark:text-slate-400">
+                      <span className="flex items-center gap-1">
+                        <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" /> {p.likes || 0} Lượt thích
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <MessageCircle className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" /> {totalComments} Bình luận
+                      </span>
                     </div>
 
-                    {/* Actions */}
-                    <div className="flex gap-2">
-                      <button 
-                        className={`flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-bold rounded-xl tactile border ${
-                          p.liked 
-                            ? 'bg-red-50 dark:bg-red-950/20 text-red-500 border-red-200/50 dark:border-red-900/30' 
-                            : 'bg-neutral-50/60 dark:bg-neutral-900/40 border-black/[0.04] dark:border-white/[0.04] text-slate-500'
-                        }`}
-                        style={{ transition: 'all 500ms cubic-bezier(0.32, 0.72, 0, 1)' }}
+                    {/* Action Buttons */}
+                    <div className="flex items-center gap-2">
+                      <button
                         onClick={() => handleLikePost(p.id)}
+                        className={`flex-1 py-1.5 px-3 rounded-md text-xs font-bold border transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                          p.liked
+                            ? 'bg-rose-50 dark:bg-rose-950/30 text-rose-600 border-rose-200 dark:border-rose-900/40'
+                            : 'bg-slate-50 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300 border-slate-200/80 dark:border-white/10 hover:bg-rose-50 hover:text-rose-600'
+                        }`}
                       >
-                        <Heart className={`w-3.5 h-3.5 ${p.liked ? 'fill-red-500 text-red-500' : 'text-slate-400'}`} strokeWidth={1.3} /> {p.liked ? 'Đã thích' : 'Thích'}
+                        <Heart className={`w-3.5 h-3.5 ${p.liked ? 'fill-rose-500 text-rose-500' : ''}`} />
+                        <span>{p.liked ? 'Đã thích' : 'Thích'}</span>
                       </button>
-                      <button 
-                        className="flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-bold rounded-xl bg-neutral-50/60 dark:bg-neutral-900/40 border border-black/[0.04] dark:border-white/[0.04] text-slate-500 tactile"
-                        style={{ transition: 'all 500ms cubic-bezier(0.32, 0.72, 0, 1)' }}
+
+                      <button
                         onClick={() => setActiveCommentId(activeCommentId === p.id ? null : p.id)}
+                        className="flex-1 py-1.5 px-3 rounded-md text-xs font-bold bg-slate-50 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300 border border-slate-200/80 dark:border-white/10 hover:bg-[#0059bb] hover:text-white transition-all cursor-pointer flex items-center justify-center gap-1.5"
                       >
-                        <MessageCircle className="w-3.5 h-3.5 text-slate-400" strokeWidth={1.3} /> Bình luận
+                        <MessageCircle className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
+                        <span>Bình luận</span>
                       </button>
                     </div>
 
-                    {/* Comments section */}
-                    <div className={`mt-4 pt-4 border-t border-black/[0.04] dark:border-white/[0.04] ${activeCommentId === p.id ? 'block animate-fade-in-up' : 'hidden'}`}>
-                      <div className="flex gap-2 mb-4">
-                        <input 
-                          type="text" 
-                          className="flex-1 text-xs py-2 px-4 rounded-xl bg-neutral-50/60 dark:bg-neutral-900/40 border border-black/[0.04] dark:border-white/[0.04] text-gray-900 dark:text-gray-100 focus:outline-none focus:border-cyan-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] font-medium" 
-                          style={{ transition: 'border-color 500ms cubic-bezier(0.32, 0.72, 0, 1)' }}
-                          placeholder="Viết bình luận của bạn..." 
-                          value={commentText[p.id] || ''}
-                          onChange={e => setCommentText(prev => ({ ...prev, [p.id]: e.target.value }))}
-                          onKeyDown={e => e.key === 'Enter' && handleAddComment(p.id)}
-                        />
-                        <Button 
-                          variant="primary"
-                          size="sm"
-                          onClick={() => handleAddComment(p.id)}
-                          disabled={!(commentText[p.id] || '').trim()}
-                          className="font-bold py-2 px-4 flex items-center gap-1.5 text-white dark:text-white"
-                        >
-                          <Send className="w-3 h-3" strokeWidth={1.3} /> Gửi
-                        </Button>
-                      </div>
-
-                      {serverHiddenCount > 0 && (
-                        <div className="text-center mb-3">
-                          <span className="text-[10px] text-slate-400 font-extrabold uppercase tracking-wider italic">
-                            Có {serverHiddenCount} bình luận cũ hơn không được hiển thị
-                          </span>
+                    {/* Expandable Comments Section */}
+                    {activeCommentId === p.id && (
+                      <div className="pt-2.5 border-t border-slate-100 dark:border-white/5 space-y-2.5">
+                        {/* Comment Input */}
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="text"
+                            value={commentText[p.id] || ''}
+                            onChange={(e) => setCommentText((prev) => ({ ...prev, [p.id]: e.target.value }))}
+                            onKeyDown={(e) => e.key === 'Enter' && handleAddComment(p.id)}
+                            placeholder="Viết bình luận của bạn..."
+                            className="flex-1 p-2 rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-white/10 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0059bb]"
+                          />
+                          <Button
+                            variant="primary"
+                            size="sm"
+                            onClick={() => handleAddComment(p.id)}
+                            disabled={!(commentText[p.id] || '').trim()}
+                            className="px-3 py-1.5 rounded-md bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold transition-all shadow-2xs shrink-0 cursor-pointer disabled:opacity-50"
+                          >
+                            <Send className="w-3.5 h-3.5" /> Gửi
+                          </Button>
                         </div>
-                      )}
-                      
-                      <div className="flex flex-col gap-3">
-                        {shownComments.map((c: any) => (
-                          <div key={c.id} className="flex gap-3 bg-neutral-50/40 dark:bg-neutral-900/20 p-3 rounded-xl border border-black/[0.02] dark:border-white/[0.02]">
-                            <div className="w-6 h-6 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-xs flex-shrink-0 border border-black/5 dark:border-white/5 font-display">
-                              <span>{c.avatarEmoji || '👤'}</span>
-                            </div>
-                            <div className="flex-1">
-                              <div className="text-[10px] font-black text-slate-900 dark:text-white leading-tight">@{c.author}</div>
-                              <div className="text-xs text-slate-500 dark:text-slate-300 mt-1 leading-relaxed font-medium">{c.content}</div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
 
-                      {hiddenCount > 0 && (
-                        <button 
-                          className="w-full mt-3 flex items-center justify-center gap-1.5 py-2 text-[10px] font-black uppercase tracking-wider text-cyan-500 hover:text-cyan-600 hover:bg-cyan-50/50 dark:hover:bg-cyan-950/10 rounded-xl transition-all duration-300"
-                          onClick={() => handleShowMoreComments(p.id)}
-                        >
-                          <ChevronDown className="w-3.5 h-3.5" strokeWidth={1.3} />
-                          Xem thêm {Math.min(hiddenCount, LOAD_MORE_COMMENTS)} bình luận ({hiddenCount} còn ẩn)
-                        </button>
-                      )}
-                    </div>
+                        {serverHiddenCount > 0 && (
+                          <div className="text-center">
+                            <span className="text-[10px] text-slate-400 font-bold italic">
+                              Có {serverHiddenCount} bình luận cũ hơn không hiển thị
+                            </span>
+                          </div>
+                        )}
+
+                        {/* Comment List Stream */}
+                        <div className="space-y-2">
+                          {shownComments.map((c: any) => {
+                            const commentCleanName = formatCleanName(c.author);
+                            const isCommentUser = c.author === user?.fullName || c.author === user?.username || commentCleanName === formatCleanName(user?.fullName);
+
+                            return (
+                              <div
+                                key={c.id}
+                                className="p-2 sm:p-2.5 rounded-md bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-white/5 space-y-1"
+                              >
+                                <div className="flex items-center gap-2">
+                                  <UserAvatar
+                                    avatar={c.avatar || c.authorAvatar || (isCommentUser ? user?.avatar : undefined)}
+                                    emoji={c.avatarEmoji}
+                                    name={commentCleanName}
+                                    size="w-6 h-6"
+                                  />
+                                  <span className="font-bold text-slate-900 dark:text-white font-display text-xs">
+                                    {commentCleanName}
+                                  </span>
+                                </div>
+                                <p className="text-xs text-slate-800 dark:text-slate-200 font-medium leading-relaxed pl-8">
+                                  {c.content}
+                                </p>
+                              </div>
+                            );
+                          })}
+                        </div>
+
+                        {hiddenCount > 0 && (
+                          <button
+                            onClick={() => handleShowMoreComments(p.id)}
+                            className="w-full py-1 text-[11px] font-bold text-[#0059bb] dark:text-sky-400 hover:underline flex items-center justify-center gap-1 cursor-pointer"
+                          >
+                            <ChevronDown className="w-3.5 h-3.5" />
+                            Xem thêm {Math.min(hiddenCount, LOAD_MORE_COMMENTS)} bình luận ({hiddenCount} còn ẩn)
+                          </button>
+                        )}
+                      </div>
+                    )}
                   </div>
+                );
+              })
+            )}
+          </div>
+        </div>
+
+        {/* RIGHT 1/4 COLUMN: BENTO SIDEBAR WIDGETS */}
+        <div className="lg:col-span-4 xl:col-span-4 space-y-4 sticky top-4">
+          
+          {/* BENTO WIDGET 1: TOP 3 LEADERBOARD SPOTLIGHT */}
+          <div className="p-4 sm:p-4.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-md bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 border border-amber-500/20 text-base">
+                  🏆
                 </div>
-              );
-            })
-          )}
+                <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
+                  Top 3 Học Viên Tuần
+                </h3>
+              </div>
+
+              <Link
+                href="/community/leaderboard"
+                className="text-[11px] font-bold text-[#0059bb] dark:text-sky-400 hover:underline flex items-center gap-0.5"
+              >
+                Xem tất cả <ArrowRight className="w-3 h-3" />
+              </Link>
+            </div>
+
+            <div className="space-y-2">
+              <div className="p-2.5 rounded-md bg-amber-500/10 border border-amber-500/20 flex items-center justify-between text-xs">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-bold">🥇</span>
+                  <span className="font-bold text-slate-900 dark:text-white">Minh Vũ</span>
+                </div>
+                <span className="font-black text-amber-600 dark:text-amber-400 text-xs">1,450 XP</span>
+              </div>
+
+              <div className="p-2.5 rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5 flex items-center justify-between text-xs">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-bold">🥈</span>
+                  <span className="font-bold text-slate-900 dark:text-white">Thanh Hằng</span>
+                </div>
+                <span className="font-bold text-slate-600 dark:text-slate-400 text-xs">1,280 XP</span>
+              </div>
+
+              <div className="p-2.5 rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5 flex items-center justify-between text-xs">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-bold">🥉</span>
+                  <span className="font-bold text-slate-900 dark:text-white">Hoàng Nam</span>
+                </div>
+                <span className="font-bold text-slate-600 dark:text-slate-400 text-xs">1,120 XP</span>
+              </div>
+            </div>
+          </div>
+
+          {/* BENTO WIDGET 2: ACTIVE STUDY GROUPS */}
+          <div className="p-4 sm:p-4.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-md bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0 border border-indigo-500/20 text-base">
+                  👥
+                </div>
+                <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
+                  Nhóm Học Nổi Bật
+                </h3>
+              </div>
+
+              <Link
+                href="/community/groups"
+                className="text-[11px] font-bold text-[#0059bb] dark:text-sky-400 hover:underline flex items-center gap-0.5"
+              >
+                Tham gia <ArrowRight className="w-3 h-3" />
+              </Link>
+            </div>
+
+            <div className="space-y-2">
+              <div className="p-2.5 rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5 space-y-1">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-bold text-slate-900 dark:text-white">CLB IELTS Speaking 7.0+</span>
+                  <span className="text-[10px] font-bold text-indigo-600 bg-indigo-500/10 px-1.5 py-0.2 rounded">320 TV</span>
+                </div>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">Luyện nói hàng ngày cùng phòng nói AI</p>
+              </div>
+
+              <div className="p-2.5 rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5 space-y-1">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-bold text-slate-900 dark:text-white">Hội Cày 3000 Từ Vựng TOEIC</span>
+                  <span className="text-[10px] font-bold text-emerald-600 bg-emerald-500/10 px-1.5 py-0.2 rounded">540 TV</span>
+                </div>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">Thi đấu Flashcard & Streak mỗi tuần</p>
+              </div>
+            </div>
+          </div>
+
+          {/* BENTO WIDGET 3: AI COMMUNITY DAILY TIP */}
+          <div className="p-4 sm:p-4.5 rounded-lg bg-[#ebf3fe]/80 dark:bg-slate-800/60 border border-[#0059bb]/20 shadow-xs space-y-2">
+            <div className="flex items-center gap-2 text-xs font-bold text-[#0059bb] dark:text-sky-400 font-display">
+              <Sparkles className="w-4 h-4" /> Mẹo AI Ghi Nhớ Nhanh Hàng Ngày
+            </div>
+            <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+              "Hãy tự đặt 1 câu áp dụng ngay từ vựng mới học vào bài đăng cộng đồng để duy trì thói quen ghi nhớ chủ động (Active Recall)."
+            </p>
+          </div>
+
         </div>
       </div>
     </div>
