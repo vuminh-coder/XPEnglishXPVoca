@@ -4,7 +4,7 @@ import Link from "next/link";
 import { MOCK_THEMES } from "@/lib/constants";
 import { useVocabularyStore } from "@/lib/store/vocabularyStore";
 import { useAuthStore } from "@/lib/store/authStore";
-import { useUserStore } from "@/lib/store/userStore";
+import { useUserStore, recordSkillPractice } from "@/lib/store/userStore";
 import { useDailyChallengeStore } from "@/lib/store/dailyChallengeStore";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -280,6 +280,8 @@ export default function ThemeDetailPage({
       const bonusXp = quizScore * 5 + 10;
       awardXp(bonusXp);
       useUserStore.getState().addPracticeTime(3);
+      const currentUser = useAuthStore.getState().user;
+      recordSkillPractice(currentUser?.id, "Từ vựng", 3, bonusXp);
       useDailyChallengeStore.getState().incrementProgress("review_cards", 1);
       useDailyChallengeStore.getState().incrementProgress("learn_words", 1);
       showToastMsg("Hoàn thành bài tập! 🎉", `Bạn đã nhận +${bonusXp} XP thưởng & +3 phút học!`);

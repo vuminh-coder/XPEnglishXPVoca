@@ -273,11 +273,8 @@ function ClerkNavbar() {
             <Menu className="w-[20px] h-[20px]" strokeWidth={1.8} />
           )}
         </button>
-        <Link href="/" className="navbar-brand flex items-center gap-2 group min-w-0">
-          <div className="w-9 h-9 rounded-xl bg-slate-50 dark:bg-neutral-900 border border-slate-200/50 dark:border-neutral-800 flex items-center justify-center shadow-sm transform group-hover:scale-105 transition-transform duration-300 shrink-0 overflow-hidden">
-            <img src="/mascot.png" alt="Mascot" className="w-[90%] h-[90%] object-contain" />
-          </div>
-          <div className="text-sm sm:text-base font-black text-slate-900 dark:text-white flex items-center gap-1 truncate">
+        <Link href="/" className="navbar-brand flex items-center gap-2 group min-w-0 shrink-0">
+          <div className="text-lg sm:text-xl font-black text-slate-900 dark:text-white flex items-center gap-1.5 truncate leading-none">
             <span className="text-[#0059bb]">XP</span> English
             <span className="text-amber-500 font-normal hidden min-[380px]:inline">|</span>
             <span className="text-amber-500 hidden min-[380px]:inline">XP Voca</span>
@@ -454,9 +451,7 @@ function LocalNavbar() {
           )}
         </button>
         <Link href="/" className="navbar-brand flex items-center gap-2 group min-w-0">
-          <div className="w-9 h-9 rounded-xl bg-slate-50 dark:bg-neutral-900 border border-slate-200/50 dark:border-neutral-800 flex items-center justify-center shadow-sm transform group-hover:scale-105 transition-transform duration-300 shrink-0 overflow-hidden">
-            <img src="/mascot.png" alt="Mascot" className="w-[90%] h-[90%] object-contain" />
-          </div>
+          <img src="/mascot.png" alt="XP Logo" className="w-8 h-8 object-contain shrink-0 transition-transform group-hover:scale-105" />
           <div className="text-sm sm:text-base font-black text-slate-900 dark:text-white flex items-center gap-1 truncate">
             <span className="text-[#0059bb]">XP</span> English
             <span className="text-amber-500 font-normal hidden min-[380px]:inline">|</span>

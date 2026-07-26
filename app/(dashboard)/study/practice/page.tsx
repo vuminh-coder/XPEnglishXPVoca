@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useVocabularyStore } from "@/lib/store/vocabularyStore";
 import { useAuthStore } from "@/lib/store/authStore";
-import { useUserStore } from "@/lib/store/userStore";
+import { useUserStore, recordSkillPractice } from "@/lib/store/userStore";
 import { useNotificationStore } from "@/lib/store/notificationStore";
 import { useDailyChallengeStore } from "@/lib/store/dailyChallengeStore";
 import { Button } from "@/components/ui";
@@ -312,12 +312,17 @@ function PracticeQuizContent() {
     setShowSummary(true);
     const mins = Math.max(1, Math.ceil(elapsedTime / 60));
     useUserStore.getState().addPracticeTime(mins);
+    const user = useAuthStore.getState().user;
+    const skillName = subMode === "writing" ? "Viết" : subMode === "speaking" ? "Nói" : "Từ vựng";
+    const totalXpEarned = subMode === "quiz" ? qXp : subMode === "writing" ? wXp : subMode === "speaking" ? sXp : fXp;
+    recordSkillPractice(user?.id, skillName, mins, totalXpEarned);
+
     addToast({
       type: "success",
       title: "Hoàn thành bài học! 🎉",
-      message: `Tải xong bài học! Đã ghi nhận +${mins} phút luyện tập & cập nhật tiến độ nhiệm vụ.`,
+      message: `Đã cập nhật biểu đồ kỹ năng ${skillName}: +${mins}m & +${totalXpEarned} XP!`,
     });
-  }, [elapsedTime, addToast]);
+  }, [elapsedTime, subMode, qXp, wXp, sXp, fXp, addToast]);
 
   const handleQuizAnswer = (optId: string) => {
     if (isAnswered) return;

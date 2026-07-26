@@ -1308,7 +1308,7 @@ textarea.input-field {
   height: calc(100dvh - var(--navbar-height));
   background: var(--bg-sidebar);
   border-right: 1px solid var(--border-light);
-  overflow-y: auto;
+  overflow: visible;
   z-index: var(--z-sidebar);
   transition: all var(--transition-base);
   display: flex;
@@ -1391,9 +1391,9 @@ textarea.input-field {
   left: 0;
   top: 50%;
   transform: translateY(-50%);
-  width: 3px;
-  height: 60%;
-  background: var(--primary-500);
+  width: 2.5px;
+  height: 72%;
+  background: #0059bb;
   border-radius: var(--radius-full);
 }
 .sidebar-link-icon {

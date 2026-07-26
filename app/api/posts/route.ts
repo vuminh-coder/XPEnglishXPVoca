@@ -145,14 +145,14 @@ export async function POST(request: Request) {
     // Auto extract #Hashtags from post text
     const hashtagRegex = /#[\wÀ-ỹ]+/g;
     const extractedTags = content.match(hashtagRegex) || [];
-    const uniqueTags = Array.from(new Set(extractedTags));
+    const uniqueTags: string[] = Array.from(new Set(extractedTags));
 
     // Create the post & award +20 XP in single transaction
-    const post = await prisma.post.create({
+    const post: any = await prisma.post.create({
       data: {
         userId,
         content: content.trim(),
-        vocabTags: uniqueTags,
+        vocabTags: uniqueTags as any,
       },
       select: {
         id: true,
@@ -196,9 +196,9 @@ export async function POST(request: Request) {
 
     const formattedPost = {
       id: post.id,
-      author: post.user.fullName || post.user.username || "Học viên XP",
-      avatarEmoji: post.user.avatarEmoji || "🦉",
-      meta: "Vừa xong · " + (post.user.title || "Member"),
+      author: post.user?.fullName || post.user?.username || "Học viên XP",
+      avatarEmoji: post.user?.avatarEmoji || "🦉",
+      meta: "Vừa xong · " + (post.user?.title || "Member"),
       content: post.content,
       vocabTags: post.vocabTags,
       likes: 0,

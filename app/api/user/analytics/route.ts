@@ -7,10 +7,10 @@ export async function GET() {
     const user = await currentUser();
     const userId = user?.id || "local_user";
 
-    let profile = null;
+    let profile: any = null;
     if (userId !== "local_user") {
       profile = await prisma.profile.findUnique({
-        where: { userId },
+        where: { id: userId },
       });
     }
 
@@ -18,7 +18,7 @@ export async function GET() {
     const minutesStudied = profile?.minutesStudied || 6;
     const currentStreak = profile?.currentStreak || 1;
     const longestStreak = profile?.longestStreak || 1;
-    const wordsLearned = profile?.wordsLearned || 0;
+    const wordsLearned = (profile as any)?.wordsLearned || 0;
 
     // Generate 30-day dynamic analytics series data
     const today = new Date();

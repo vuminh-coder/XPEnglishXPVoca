@@ -516,3 +516,30 @@ export const useUserStore = create<UserState>((set, get) => ({
     }
   },
 }));
+
+export function recordSkillPractice(
+  userId: string | undefined,
+  skill: "Dictation" | "Shadowing" | "Nói" | "Từ vựng" | "Viết",
+  mins: number,
+  xp: number
+) {
+  if (typeof window === "undefined" || !userId) return;
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const dailyXpKey = `xp_voca_daily_xp_${userId}_${skill}`;
+  const dailyMinKey = `xp_voca_daily_minutes_${userId}_${skill}`;
+
+  try {
+    const storedXp = localStorage.getItem(dailyXpKey);
+    const storedMin = localStorage.getItem(dailyMinKey);
+    const xpMap = storedXp ? JSON.parse(storedXp) : {};
+    const minMap = storedMin ? JSON.parse(storedMin) : {};
+
+    xpMap[todayStr] = (xpMap[todayStr] || 0) + xp;
+    minMap[todayStr] = (minMap[todayStr] || 0) + mins;
+
+    localStorage.setItem(dailyXpKey, JSON.stringify(xpMap));
+    localStorage.setItem(dailyMinKey, JSON.stringify(minMap));
+  } catch (e) {
+    console.error("Error recording skill practice:", e);
+  }
+}

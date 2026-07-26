@@ -1711,9 +1711,10 @@
     height: 100dvh;
     background: var(--bg-sidebar, #ffffff);
     border-right: 1px solid var(--border-light);
-    overflow-y: auto;
+    overflow: visible;
     z-index: var(--z-sidebar);
-    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: width 0.22s cubic-bezier(0.2, 0.9, 0.1, 1), transform 0.22s cubic-bezier(0.2, 0.9, 0.1, 1);
+    will-change: width, transform;
     display: flex;
     flex-direction: column;
   }
@@ -1801,9 +1802,9 @@
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    width: 3px;
-    height: 60%;
-    background: var(--primary-500);
+    width: 2.5px;
+    height: 72%;
+    background: #0059bb;
     border-radius: var(--radius-full);
   }
   .sidebar-link-icon {
@@ -1986,7 +1987,8 @@
     margin-top: 0;
     margin-right: 0;
     min-height: 100dvh;
-    transition: margin-left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: margin-left 0.22s cubic-bezier(0.2, 0.9, 0.1, 1);
+    will-change: margin-left;
   }
 
   .main-content.sidebar-collapsed {

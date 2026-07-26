@@ -2,6 +2,8 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { MOCK_LESSONS_DATA } from "@/lib/data/listeningMockData";
 import { ListeningLesson } from "@/lib/utils/listeningParser";
+import { useAuthStore } from "./authStore";
+import { recordSkillPractice } from "./userStore";
 
 export interface WordScore {
   word: string;
@@ -53,12 +55,18 @@ export const useListeningStore = create<ListeningStore>()(
 
       setCurrentLessonId: (id) => set({ currentLessonId: id }),
 
-      markLessonCompleted: (id) =>
+      markLessonCompleted: (id) => {
+        const user = useAuthStore.getState().user;
+        const mode = get().activeMode;
+        const skillName = mode === "shadow" || mode === "repeat" ? "Shadowing" : "Dictation";
+        recordSkillPractice(user?.id, skillName, 3, 25);
+
         set((state) => ({
           completedLessonIds: state.completedLessonIds.includes(id)
             ? state.completedLessonIds
             : [...state.completedLessonIds, id],
-        })),
+        }));
+      },
 
       markGoalCompleted: (goalId) =>
         set((state) => ({

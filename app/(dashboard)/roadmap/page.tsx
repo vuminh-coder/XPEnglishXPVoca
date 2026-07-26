@@ -257,9 +257,9 @@ export default function RoadmapPage() {
     })));
 
     if (plan && plan.dailyTasks) {
-      const matched = plan.dailyTasks.find(t => t.id === taskId);
+      const matched = plan.dailyTasks.find((t: any) => t.id === taskId);
       if (matched) {
-        toggleTask(taskId, !matched.isCompleted);
+        matched.isCompleted = !matched.isCompleted;
       }
     }
   };

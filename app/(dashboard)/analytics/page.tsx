@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useUserStore } from "@/lib/store/userStore";
 import { useVocabularyStore } from "@/lib/store/vocabularyStore";
 import Link from "next/link";
@@ -127,6 +128,37 @@ export default function AnalyticsPage() {
       console.error("Error reading daily activity stats:", e);
     }
   }, [user]);
+
+  // Skill-Specific Analytics Computation for modeFilter ("Dictation" | "Shadowing" | "Nói" | "Từ vựng" | "Viết")
+  const activeSkillData = useMemo(() => {
+    if (!user || typeof window === "undefined") {
+      return { minutes: minutesValues, xp: xpValues };
+    }
+
+    const dailyXpKey = `xp_voca_daily_xp_${user.id}_${modeFilter}`;
+    const dailyMinKey = `xp_voca_daily_minutes_${user.id}_${modeFilter}`;
+
+    const storedXp = localStorage.getItem(dailyXpKey);
+    const storedMin = localStorage.getItem(dailyMinKey);
+
+    const today = new Date();
+    const intervals = [28, 24, 20, 16, 12, 8, 5, 2, 0];
+    const mVals: number[] = [];
+    const xVals: number[] = [];
+
+    const dailyXpMap = storedXp ? JSON.parse(storedXp) : {};
+    const dailyMinMap = storedMin ? JSON.parse(storedMin) : {};
+
+    intervals.forEach((daysAgo) => {
+      const d = new Date(today);
+      d.setDate(d.getDate() - daysAgo);
+      const isoKey = d.toISOString().slice(0, 10);
+      xVals.push(dailyXpMap[isoKey] || 0);
+      mVals.push(dailyMinMap[isoKey] || 0);
+    });
+
+    return { minutes: mVals, xp: xVals };
+  }, [modeFilter, user, minutesValues, xpValues]);
 
   // 6-Month Heatmap Structured Data
   const monthList = [
@@ -274,12 +306,19 @@ export default function AnalyticsPage() {
               );
             })}
 
-            {/* Soft Gradient Fill */}
-            <path d={fillD} fill={`url(#${gradientId})`} />
+            {/* Soft Gradient Fill with Framer Motion Morphing */}
+            <motion.path
+              d={fillD}
+              animate={{ d: fillD }}
+              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+              fill={`url(#${gradientId})`}
+            />
 
-            {/* SLEEK ULTRA-FINE THIN LINE STROKE (strokeWidth="1.3") */}
-            <path
+            {/* SLEEK ULTRA-FINE THIN LINE STROKE WITH MORPHING ANIMATION */}
+            <motion.path
               d={pathD}
+              animate={{ d: pathD }}
+              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
               fill="none"
               stroke={strokeColor}
               strokeWidth="1.3"
@@ -316,9 +355,11 @@ export default function AnalyticsPage() {
                         strokeWidth="1"
                         strokeDasharray="2 2"
                       />
-                      <circle
+                      <motion.circle
                         cx={p.x}
                         cy={p.y}
+                        animate={{ cx: p.x, cy: p.y }}
+                        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
                         r="3"
                         fill="white"
                         stroke={strokeColor}
@@ -578,66 +619,54 @@ export default function AnalyticsPage() {
             Luyện tập hàng ngày (30 ngày gần đây)
           </h2>
 
-          {/* Top Right Mode Switcher */}
-          <div className="p-1 rounded-md bg-slate-100 dark:bg-slate-800/80 flex items-center gap-1 text-xs font-medium border border-slate-200/60 dark:border-white/5">
-            <button
-              onClick={() => setModeFilter("Dictation")}
-              className={`px-3 py-1 rounded-md transition-all ${
-                modeFilter === "Dictation" ? "bg-[#0059bb] text-white shadow-2xs font-bold" : "text-slate-600 dark:text-slate-400 hover:text-slate-900"
-              }`}
-            >
-              Dictation
-            </button>
-            <button
-              onClick={() => setModeFilter("Shadowing")}
-              className={`px-3 py-1 rounded-md transition-all ${
-                modeFilter === "Shadowing" ? "bg-[#0059bb] text-white shadow-2xs font-bold" : "text-slate-600 dark:text-slate-400 hover:text-slate-900"
-              }`}
-            >
-              Shadowing
-            </button>
-            <button
-              onClick={() => setModeFilter("Nói")}
-              className={`px-3 py-1 rounded-md transition-all ${
-                modeFilter === "Nói" ? "bg-[#0059bb] text-white shadow-2xs font-bold" : "text-slate-600 dark:text-slate-400 hover:text-slate-900"
-              }`}
-            >
-              Nói
-            </button>
-            <button
-              onClick={() => setModeFilter("Từ vựng")}
-              className={`px-3 py-1 rounded-md transition-all ${
-                modeFilter === "Từ vựng" ? "bg-[#0059bb] text-white shadow-2xs font-bold" : "text-slate-600 dark:text-slate-400 hover:text-slate-900"
-              }`}
-            >
-              Từ vựng
-            </button>
-            <button
-              onClick={() => setModeFilter("Viết")}
-              className={`px-3 py-1 rounded-md transition-all ${
-                modeFilter === "Viết" ? "bg-[#0059bb] text-white shadow-2xs font-bold" : "text-slate-600 dark:text-slate-400 hover:text-slate-900"
-              }`}
-            >
-              Viết
-            </button>
+          {/* Top Right Mode Switcher with Fluid Sliding Pill Animation */}
+          <div className="p-1 rounded-md bg-slate-100 dark:bg-slate-800/80 flex items-center gap-1 text-xs font-medium border border-slate-200/60 dark:border-white/5 relative">
+            {[
+              { id: "Dictation" as const, label: "Dictation" },
+              { id: "Shadowing" as const, label: "Shadowing" },
+              { id: "Nói" as const, label: "Nói" },
+              { id: "Từ vựng" as const, label: "Từ vựng" },
+              { id: "Viết" as const, label: "Viết" },
+            ].map((mode) => {
+              const isSelected = modeFilter === mode.id;
+              return (
+                <button
+                  key={mode.id}
+                  type="button"
+                  onClick={() => setModeFilter(mode.id)}
+                  className={`relative px-3 py-1 rounded-md text-xs transition-colors cursor-pointer select-none font-display ${
+                    isSelected ? "text-white font-bold" : "text-slate-600 dark:text-slate-400 hover:text-slate-900"
+                  }`}
+                >
+                  {isSelected && (
+                    <motion.div
+                      layoutId="activeSkillTabPill"
+                      transition={{ type: "spring", stiffness: 450, damping: 32 }}
+                      className="absolute inset-0 bg-[#0059bb] rounded-md shadow-2xs -z-0"
+                    />
+                  )}
+                  <span className="relative z-10">{mode.label}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
         {/* INNER 2 SIDE-BY-SIDE DYNAMIC LINE CHARTS */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-2">
           {renderExactSvgChart(
-            "Phút luyện tập",
+            `Phút luyện tập (${modeFilter})`,
             [4, 3, 2, 1, 0],
-            minutesValues,
+            activeSkillData.minutes,
             "MINUTES",
             "#0059bb",
             "minutesGradientBigCard"
           )}
 
           {renderExactSvgChart(
-            "XP kiếm được",
+            `XP kiếm được (${modeFilter})`,
             [12, 9, 6, 3, 0],
-            xpValues,
+            activeSkillData.xp,
             "XP",
             "#10b981",
             "xpGradientBigCard"

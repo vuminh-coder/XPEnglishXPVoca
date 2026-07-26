@@ -29,6 +29,19 @@
 
 ## 🗺️ Danh Mục Các Trang & Routes (`/app`)
 
+### 0. Trang Chủ Landing Page (`/`)
+- **`/`**: Trang chào mừng & giới thiệu hệ sinh thái học tập XP English | XP Voca (Thiết kế Agency Dashboard Tier).
+
+### 0.1. Trang Xác Thực (`/login` & `/register`)
+- **`/login`**: Trang đăng nhập — Thiết kế Dashboard Micro-Sharp Cards, hỗ trợ Dark Mode.
+  - **2-Column Layout**: Cột trái Branding + 4 Feature Cards (3,900+ Từ vựng, Gamification & PvP, AI Tutor 24/7, Listening & Speaking). Cột phải Clerk `<SignIn>` form.
+  - **Skeleton Loading**: Dashboard-style solid card skeleton (không kính mờ).
+  - **Nền**: `bg-white dark:bg-[#050505]` đồng bộ Dashboard, không blob/glass effects.
+  - **Clerk Appearance**: `borderRadius: 0.5rem`, `rounded-lg` cards, `rounded-md` inputs/buttons.
+- **`/register`**: Trang đăng ký — Cùng thiết kế với Login, 4 Feature Cards riêng (Miễn phí 100%, Spaced Repetition, Bảng Xếp Hạng, Writing AI).
+- **Shared CSS**: `app/(auth)/auth.css` — gộp từ Login.css + Register.css, xóa blob/glass, thêm dark mode.
+- **Logo Rule**: Footer Desktop chỉ hiển thị brand text `XP English | XP Voca`, không ảnh mascot.
+
 ### 1. Bảng Điều Khiển & Trung Tâm Học Tập (`/dashboard`)
 - **`/dashboard`**: Trung tâm chỉ huy học tập toàn diện.
   - **Hero Greeting Bar**: Chào mừng học viên kèm các chỉ số chính.
@@ -77,6 +90,13 @@
   - **Trận Đấu PvP 1v1**: Giao diện đấu thời gian thực sắc nét, đồng hồ đếm ngược, AI thông minh và báo cáo kết quả thưởng XP.
 - **`/ai/tutor`**: Trợ lý AI Tutor giải đáp bài tập 24/7.
 - **`/ai/conversation`**: Phòng hội thoại giao tiếp tiếng Anh AI.
+- **`/profile`**: Hồ sơ cá nhân học viên (Thiết kế Agency Dashboard Tier).
+  - **Spotlight Hero Profile Banner**: Gradient Xanh Hoàng Gia sang trọng (`from-[#0059bb] via-[#004799] to-[#002b5b]`), vành khung Avatar danh hiệu nổi bật (`🎓`, `👑`, `🛡️`), huy hiệu Cấp độ `LV.x`, số ngày Streak rực rỡ và số dư Vàng live.
+  - **4 High-Contrast Bento Metric Cards**: Từ vựng tích lũy (`BookOpen`), Chuỗi Streak (`Flame`), Kinh nghiệm XP & Level (`Zap`), Vàng & Bảo Hộ Streak (`Coins`).
+  - **Bento Grid 8/12 & 4/12**:
+    - **Cột Trái (8/12)**: Mini Skill Activity Meters (Tóm tắt tiến độ 5 kỹ năng *Từ vựng*, *Viết*, *Nói*, *Dictation*, *Shadowing*), Kho Huy Hiệu Thành Tích với bộ lọc tab (*Tất cả*, *Đã đạt*, *Chưa mở*), Tủ Vật Phẩm Trang Bị & Trang Phục Cử Nhân (`🎓 Cú Tốt Nghiệp`).
+    - **Cột Phải (4/12)**: Phân tích Cấp độ & Danh hiệu tiến bước, Lối tắt ứng dụng đến Thống Kê, Đấu Trường PvP, Cửa Hàng Shop và Bảng Xếp Hạng.
+  - **Form Cài Đặt Hồ Sơ Mượt Mà**: Trượt mở với Framer Motion, nhãn ngoài float label (Rule 6), nút Primary "Lưu thay đổi" (Rule 18 & 19).
 - **`/shop`**: Cửa hàng Gamification & Vật phẩm ảo (Thiết kế Agency Dashboard Tier).
   - **Spotlight Hero Banner**: Gradient Xanh Hoàng Gia sang trọng tích hợp Widget hiển thị số Vàng tích lũy realtime.
   - **Bento Grid 7/12 & 5/12**: Cột trái phân loại danh mục (Vật phẩm hỗ trợ, Trang phục Avatar) với các thẻ vật phẩm sắc nét (`Bảo Hộ Lửa`, `Nhân Đôi XP`, `Cú Tốt Nghiệp`). Cột phải hiển thị Tủ Đồ Cá Nhân & Mẹo Tích Lũy Vàng.

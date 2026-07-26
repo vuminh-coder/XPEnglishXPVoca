@@ -40,6 +40,7 @@ export interface LearnedVocabulary {
   lastPracticed: string | null;
   nextReview: string | null;
   isFavorite: boolean;
+  isLearned?: boolean;
   word?: string;
   phonetic?: string;
   definition?: string;

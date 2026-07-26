@@ -104,8 +104,8 @@ export default function CommunityPage() {
     const tempPost = {
       id: tempId,
       author: user.fullName || user.username || "Học viên XP",
-      avatar: user.avatar,
-      authorAvatar: user.avatar,
+      avatar: (user as any).avatar || (user as any).avatarUrl,
+      authorAvatar: (user as any).avatar || (user as any).avatarUrl,
       avatarEmoji: user.avatarEmoji || "🦉",
       meta: "Vừa xong · " + (user.title || "Member"),
       content: currentContent,
@@ -126,7 +126,7 @@ export default function CommunityPage() {
       });
       const data = await res.json();
       if (data.success && data.data) {
-        setPosts(prev => prev.map(p => p.id === tempId ? { ...data.data, avatar: user.avatar } : p));
+        setPosts(prev => prev.map(p => p.id === tempId ? { ...data.data, avatar: (user as any).avatar } : p));
       }
     } catch (err) {
       console.error("Error creating post:", err);
@@ -170,8 +170,8 @@ export default function CommunityPage() {
       if (data.success && data.data) {
         const newComment = {
           ...data.data,
-          avatar: user.avatar,
-          authorAvatar: user.avatar
+          avatar: (user as any).avatar || (user as any).avatarUrl,
+          authorAvatar: (user as any).avatar || (user as any).avatarUrl
         };
         setPosts(prev => prev.map(p => {
           if (p.id === postId) {
@@ -255,7 +255,7 @@ export default function CommunityPage() {
           <div className="p-3.5 sm:p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3">
             <div className="flex items-start gap-2.5">
               <UserAvatar
-                avatar={user?.avatar}
+                avatar={(user as any)?.avatar || (user as any)?.avatarUrl}
                 emoji={user?.avatarEmoji}
                 name={user?.fullName || user?.username}
                 size="w-9 h-9"
@@ -360,7 +360,7 @@ export default function CommunityPage() {
                     <div className="flex items-center justify-between gap-2.5 border-b border-slate-100 dark:border-white/5 pb-2">
                       <div className="flex items-center gap-2.5">
                         <UserAvatar
-                          avatar={p.authorAvatar || p.avatar || (isUserPost ? user?.avatar : undefined)}
+                          avatar={p.authorAvatar || p.avatar || (isUserPost ? (user as any)?.avatar : undefined)}
                           emoji={p.avatarEmoji}
                           name={authorCleanName}
                           size="w-8 h-8 sm:w-9 sm:h-9"
@@ -480,7 +480,7 @@ export default function CommunityPage() {
                               >
                                 <div className="flex items-center gap-2">
                                   <UserAvatar
-                                    avatar={c.avatar || c.authorAvatar || (isCommentUser ? user?.avatar : undefined)}
+                                    avatar={c.avatar || c.authorAvatar || (isCommentUser ? (user as any)?.avatar : undefined)}
                                     emoji={c.avatarEmoji}
                                     name={commentCleanName}
                                     size="w-6 h-6"

@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useCallback, useMemo } from "react";
 import { useAuthStore } from "@/lib/store/authStore";
+import { useUserStore, recordSkillPractice } from "@/lib/store/userStore";
 import { useNotificationStore } from "@/lib/store/notificationStore";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -341,6 +342,10 @@ export default function AiGrammarPage() {
 
     const xpEarned = correctCount * 5 + 10;
     awardXp(xpEarned);
+    const currentUser = useAuthStore.getState().user;
+    useUserStore.getState().addPracticeTime(3);
+    recordSkillPractice(currentUser?.id, "Viết", 3, xpEarned);
+
     addToast({
       type: "xp",
       title: `+${xpEarned} XP!`,

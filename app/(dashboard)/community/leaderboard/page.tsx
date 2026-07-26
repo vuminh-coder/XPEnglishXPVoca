@@ -123,7 +123,7 @@ export default function LeaderboardPage() {
   // Find current user position if available
   const currentUserLeader = leaders.find(l => l.fullName === user?.fullName || l.username === user?.username);
   const userRankNum = currentUserLeader ? currentUserLeader.rank : 4;
-  const userXp = user?.totalXp || user?.xp || 10;
+  const userXp = user?.totalXp || (user as any)?.xp || 10;
   const nextRankTargetXp = top3 ? top3.xp + 25 : 100;
   const xpNeeded = Math.max(0, nextRankTargetXp - userXp);
 
@@ -402,7 +402,7 @@ export default function LeaderboardPage() {
           <div className="p-4 sm:p-4.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3">
             <div className="flex items-center gap-2.5 border-b border-slate-100 dark:border-white/5 pb-2.5">
               <UserAvatar
-                avatar={user?.avatar}
+                avatar={(user as any)?.avatar || (user as any)?.avatarUrl}
                 emoji={user?.avatarEmoji}
                 name={user?.fullName || user?.username}
                 size="w-9 h-9"

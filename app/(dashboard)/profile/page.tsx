@@ -1,586 +1,913 @@
-'use client';
-import React, { useState, useEffect } from 'react';
-import { useAuthStore } from '@/lib/store/authStore';
-import { useNotificationStore } from '@/lib/store/notificationStore';
-import { getXpProgress } from '@/lib/utils/calculateXP';
-import { LEVEL_TITLES } from '@/lib/constants';
-import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  GraduationCap, 
-  Flame, 
-  Swords, 
-  Trophy, 
-  UserPlus, 
-  Brain, 
-  Lock, 
-  CheckCircle2, 
-  User, 
-  FileText, 
-  Save, 
-  Sparkles, 
-  Share2, 
-  Coins, 
-  Shield, 
-  Zap, 
-  BookOpen, 
-  Clock, 
+"use client";
+import React, { useState, useEffect, useMemo } from "react";
+import Link from "next/link";
+import { useAuthStore } from "@/lib/store/authStore";
+import { useUserStore } from "@/lib/store/userStore";
+import { useNotificationStore } from "@/lib/store/notificationStore";
+import { getXpProgress } from "@/lib/utils/calculateXP";
+import { LEVEL_TITLES } from "@/lib/constants";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  GraduationCap,
+  Flame,
+  Trophy,
+  User,
+  FileText,
+  Save,
+  Sparkles,
+  Share2,
+  Coins,
+  Shield,
+  Zap,
+  BookOpen,
+  Clock,
   Award,
   Settings,
-  Edit3
-} from 'lucide-react';
-import { Button, Badge } from '@/components/ui';
+  Edit3,
+  Check,
+  ChevronRight,
+  BarChart3,
+  Swords,
+  ShoppingBag,
+  PenTool,
+  Mic,
+  Headphones,
+  Crown,
+  Heart,
+} from "lucide-react";
+import { Button, Badge } from "@/components/ui";
 
 const containerVariants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.06,
+      staggerChildren: 0.05,
       delayChildren: 0.05,
     },
   },
 } as const;
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 15, scale: 0.98 },
+  hidden: { opacity: 0, y: 12, scale: 0.98 },
   show: {
     opacity: 1,
     y: 0,
     scale: 1,
     transition: {
       type: "spring",
-      stiffness: 90,
-      damping: 16,
+      stiffness: 110,
+      damping: 18,
     },
   },
 } as const;
 
 export default function ProfilePage() {
-  const { user, updateProfile } = useAuthStore();
+  const { user, updateProfile, awardXp } = useAuthStore();
   const { addToast } = useNotificationStore();
 
-  const [fullName, setFullName] = useState(user?.fullName || '');
-  const [bio, setBio] = useState(user?.bio || '');
+  const [fullName, setFullName] = useState(user?.fullName || "");
+  const [bio, setBio] = useState(user?.bio || "");
+  const [selectedEmoji, setSelectedEmoji] = useState(user?.avatarEmoji || "🦉");
   const [isEditing, setIsEditing] = useState(false);
-  const [activeTab, setActiveTab] = useState<'all' | 'unlocked' | 'locked'>('all');
+  const [activeTab, setActiveTab] = useState<"all" | "unlocked" | "locked">("all");
+
+  // Equipped cosmetic item states
+  const [equippedHat, setEquippedHat] = useState(false);
 
   useEffect(() => {
     if (user) {
-      setFullName(user.fullName || user.username || '');
-      setBio(user.bio || '');
+      setFullName(user.fullName || user.username || "");
+      setBio(user.bio || "");
+      setSelectedEmoji(user.avatarEmoji || "🦉");
     }
+  }, [user]);
+
+  // Skill-Specific Activity Minutes Computation from localStorage
+  const skillMinutes = useMemo(() => {
+    if (!user || typeof window === "undefined") {
+      return { dictation: 15, shadowing: 10, speaking: 12, vocab: 25, writing: 18 };
+    }
+
+    const readMinutes = (skill: string) => {
+      try {
+        const key = `xp_voca_daily_minutes_${user.id}_${skill}`;
+        const data = localStorage.getItem(key);
+        if (data) {
+          const parsed = JSON.parse(data);
+          const total = Object.values(parsed).reduce((a: any, b: any) => Number(a) + Number(b), 0);
+          return Math.max(Number(total), 0);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+      return 0;
+    };
+
+    return {
+      dictation: readMinutes("Dictation") || 15,
+      shadowing: readMinutes("Shadowing") || 10,
+      speaking: readMinutes("Nói") || 12,
+      vocab: readMinutes("Từ vựng") || 25,
+      writing: readMinutes("Viết") || 18,
+    };
   }, [user]);
 
   if (!user) return null;
 
   const { current: xpCurrent, total: xpTotal, percent: xpPercent } = getXpProgress(
     user.level,
-    user.totalXp,
+    user.totalXp
   );
-  const userTitle = LEVEL_TITLES[user.level] || user.title || 'Word Explorer';
+  const userTitle = LEVEL_TITLES[user.level] || user.title || "Word Explorer";
   const vocabPercent = Math.min(100, Math.round((user.wordsLearned / 3903) * 100));
 
   const handleSaveProfile = (e: React.FormEvent) => {
     e.preventDefault();
     updateProfile(fullName, bio);
+    if (selectedEmoji !== user.avatarEmoji) {
+      useAuthStore.setState((state) => ({
+        user: state.user ? { ...state.user, avatarEmoji: selectedEmoji } : null,
+      }));
+    }
     setIsEditing(false);
     addToast({
-      type: 'success',
-      title: 'Đã cập nhật hồ sơ! 🎉',
-      message: 'Thông tin cá nhân của bạn đã được lưu thành công.',
+      type: "success",
+      title: "Đã cập nhật hồ sơ! 🎉",
+      message: "Thông tin cá nhân của bạn đã được lưu thành công.",
       duration: 3000,
     });
   };
 
   const shareProfile = () => {
-    if (typeof navigator !== 'undefined') {
+    if (typeof navigator !== "undefined") {
       navigator.clipboard.writeText(
-        `Ghé thăm trang cá nhân của ${user.fullName || user.username} trên XP English! Cấp độ: ${user.level} (${userTitle})`
+        `Ghé thăm hồ sơ cá nhân của ${user.fullName || user.username} trên XP English! Cấp độ: ${user.level} (${userTitle})`
       );
       addToast({
-        type: 'success',
-        title: 'Đã sao chép liên kết! 🔗',
-        message: 'Liên kết hồ sơ cá nhân đã được sao chép vào bộ nhớ tạm.',
+        type: "success",
+        title: "Đã sao chép liên kết! 🔗",
+        message: "Liên kết hồ sơ cá nhân đã được sao chép vào bộ nhớ tạm.",
       });
     }
   };
 
   const achievements = [
-    { 
-      id: 'a1', 
-      name: 'Bước Đầu', 
-      description: 'Học 10 từ vựng đầu tiên', 
-      icon: '🎓', 
-      xpBonus: 50, 
+    {
+      id: "a1",
+      name: "Bước Đầu Vinh Quang",
+      description: "Học 10 từ vựng đầu tiên",
+      icon: "🎓",
+      xpBonus: 50,
       unlocked: true,
-      rarity: 'Phổ biến',
-      accent: 'from-blue-500/10 to-cyan-500/5 text-blue-500 border-blue-200/30'
+      rarity: "Phổ biến",
+      accent: "from-blue-500/10 to-cyan-500/5 text-[#0059bb] dark:text-sky-400 border-blue-200/50 dark:border-blue-900/40",
     },
-    { 
-      id: 'a2', 
-      name: '5 Ngày Liên', 
-      description: 'Duy trì streak 5 ngày liên tục', 
-      icon: '🔥', 
-      xpBonus: 100, 
+    {
+      id: "a2",
+      name: "Ngọn Lửa Bất Diệt",
+      description: "Duy trì streak 5 ngày liên tục",
+      icon: "🔥",
+      xpBonus: 100,
       unlocked: true,
-      rarity: 'Hiếm',
-      accent: 'from-orange-500/10 to-amber-500/5 text-amber-500 border-orange-200/30'
+      rarity: "Hiếm",
+      accent: "from-amber-500/10 to-orange-500/5 text-amber-500 border-amber-200/50 dark:border-amber-900/40",
     },
-    { 
-      id: 'a3', 
-      name: 'Tuần Chiến', 
-      description: 'Học 7 ngày liên tiếp', 
-      icon: '⚔️', 
-      xpBonus: 150, 
+    {
+      id: "a3",
+      name: "Chiến Binh Tuần",
+      description: "Học 7 ngày liên tiếp không ngắt quãng",
+      icon: "⚔️",
+      xpBonus: 150,
       unlocked: true,
-      rarity: 'Hiếm',
-      accent: 'from-red-500/10 to-rose-500/5 text-red-500 border-red-200/30'
+      rarity: "Hiếm",
+      accent: "from-rose-500/10 to-red-500/5 text-rose-500 border-rose-200/50 dark:border-rose-900/40",
     },
-    { 
-      id: 'a4', 
-      name: 'Bách Từ', 
-      description: 'Học đạt mốc 100 từ vựng', 
-      icon: '💯', 
-      xpBonus: 200, 
+    {
+      id: "a4",
+      name: "Bách Từ Uy Phong",
+      description: "Học đạt mốc 100 từ vựng",
+      icon: "💯",
+      xpBonus: 200,
       unlocked: user.wordsLearned >= 100,
       progress: `${Math.min(100, user.wordsLearned)}/100`,
-      rarity: 'Huyền thoại',
-      accent: 'from-yellow-500/10 to-amber-500/5 text-yellow-500 border-yellow-200/30'
+      rarity: "Huyền thoại",
+      accent: "from-yellow-500/10 to-amber-500/5 text-yellow-600 dark:text-yellow-400 border-yellow-200/50 dark:border-yellow-900/40",
     },
-    { 
-      id: 'a5', 
-      name: 'Xã Hội', 
-      description: 'Kết bạn với 5 học viên', 
-      icon: '🦋', 
-      xpBonus: 75, 
+    {
+      id: "a5",
+      name: "Kết Nối Bạn Bè",
+      description: "Giao lưu và kết bạn với 5 học viên",
+      icon: "🦋",
+      xpBonus: 75,
       unlocked: false,
-      progress: '1/5',
-      rarity: 'Phổ biến',
-      accent: 'from-purple-500/10 to-indigo-500/5 text-purple-500 border-purple-200/30'
+      progress: "1/5",
+      rarity: "Phổ biến",
+      accent: "from-purple-500/10 to-indigo-500/5 text-purple-500 border-purple-200/50 dark:border-purple-900/40",
     },
-    { 
-      id: 'a6', 
-      name: 'Quiz Master', 
-      description: 'Hoàn thành 50 bài quiz', 
-      icon: '🧠', 
-      xpBonus: 150, 
+    {
+      id: "a6",
+      name: "Bậc Thầy Quiz",
+      description: "Hoàn thành 50 bài trắc nghiệm",
+      icon: "🧠",
+      xpBonus: 150,
       unlocked: false,
-      progress: '12/50',
-      rarity: 'Huyền thoại',
-      accent: 'from-pink-500/10 to-rose-500/5 text-pink-500 border-pink-200/30'
-    }
+      progress: "12/50",
+      rarity: "Huyền thoại",
+      accent: "from-emerald-500/10 to-teal-500/5 text-emerald-500 border-emerald-200/50 dark:border-emerald-900/40",
+    },
   ];
 
-  const unlockedCount = achievements.filter(a => a.unlocked).length;
+  const unlockedCount = achievements.filter((a) => a.unlocked).length;
 
   const filteredAchievements = achievements.filter((ach) => {
-    if (activeTab === 'unlocked') return ach.unlocked;
-    if (activeTab === 'locked') return !ach.unlocked;
+    if (activeTab === "unlocked") return ach.unlocked;
+    if (activeTab === "locked") return !ach.unlocked;
     return true;
   });
 
-  return (
-    <div className="space-y-6 md:space-y-8 pb-24 md:pb-8 relative select-none">
-      {/* 1. Hero Gaming Profile Banner */}
-      <motion.div
-        initial={{ opacity: 0, y: -15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 90, damping: 15 }}
-        className="bezel overflow-hidden"
-      >
-        <div className="bezel-inner bg-white dark:bg-neutral-900 rounded-[calc(var(--radius-2xl,1rem)-4px)] overflow-hidden">
-          {/* Cover Header Graphic */}
-          <div className="h-28 sm:h-36 bg-gradient-to-r from-[#0059bb] via-indigo-600 to-sky-500 relative p-3 sm:p-5 flex justify-between items-start">
-            <div className="absolute inset-0 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px] opacity-15 pointer-events-none" />
-            
-            {/* Decorative Brand Badge */}
-            <span className="text-[10px] font-black uppercase tracking-widest text-white/90 bg-white/15 backdrop-blur-md px-3 py-1 rounded-full border border-white/20 relative z-10 shadow-2xs">
-              Hồ sơ học viên
-            </span>
+  const availableEmojis = ["🦉", "🦁", "🦊", "👑", "🎓", "🚀", "⚡", "💎"];
 
-            {/* Share Button */}
+  return (
+    <div className="space-y-5 pb-16 md:pb-6 select-none font-sans" suppressHydrationWarning>
+      {/* 1. HERO SPOTLIGHT BANNER (AGENCY DASHBOARD TIER) */}
+      <motion.div
+        initial={{ opacity: 0, y: -12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ type: "spring", stiffness: 100, damping: 18 }}
+        className="rounded-lg bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-xs relative overflow-hidden"
+      >
+        {/* Subtle Decorative Backdrop Elements */}
+        <div className="absolute -right-12 -bottom-12 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px] opacity-15 pointer-events-none" />
+
+        {/* Cover Header Bar */}
+        <div className="p-4 sm:p-5 pb-0 flex items-center justify-between relative z-10">
+          <span className="text-[10px] font-black uppercase tracking-wider text-white/90 bg-white/15 backdrop-blur-md px-2.5 py-1 rounded border border-white/20 shadow-2xs">
+            Hồ sơ học viên cá nhân
+          </span>
+
+          <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={shareProfile}
-              className="h-8.5 px-3.5 text-[11px] font-black rounded-xl bg-white/20 hover:bg-white/30 text-white backdrop-blur-md border border-white/20 shadow-2xs flex items-center gap-1.5 active:scale-[0.98] transition-all cursor-pointer relative z-10"
+              className="h-8 px-3 text-[11px] font-bold rounded-md bg-white/15 hover:bg-white/25 text-white backdrop-blur-md border border-white/20 shadow-2xs flex items-center gap-1.5 transition-all cursor-pointer"
             >
               <Share2 className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Chia sẻ hồ sơ</span>
             </button>
-          </div>
 
-          {/* Profile Content Body */}
-          <div className="p-4 sm:p-6 pt-0 relative z-10">
-            {/* Header Info Block with Avatar & Actions */}
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 -mt-10 sm:-mt-12 mb-4">
-              {/* Avatar + Primary User Details */}
-              <div className="flex flex-col sm:flex-row items-center sm:items-end gap-3.5 sm:gap-5 text-center sm:text-left min-w-0">
-                {/* Avatar Container with Glow & Concentric Ring */}
-                <div className="relative group shrink-0">
-                  <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl sm:rounded-3xl bg-gradient-to-tr from-[#0059bb] via-indigo-600 to-amber-500 p-1 shadow-md border-2 border-white dark:border-neutral-900 bg-white dark:bg-neutral-900">
-                    <div className="w-full h-full bg-slate-900 rounded-xl sm:rounded-[20px] flex items-center justify-center overflow-hidden">
-                      {user.imageUrl ? (
-                        <img
-                          src={user.imageUrl}
-                          alt={user.fullName || user.username}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <span className="text-2xl sm:text-3xl font-black text-white select-none">
-                          {user.avatarEmoji && user.avatarEmoji !== "🦉"
-                            ? user.avatarEmoji
-                            : (user.fullName || user.username || "XP").slice(0, 2).toUpperCase()}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  <div className="absolute -bottom-1 -right-1 bg-amber-500 text-slate-950 font-black text-[10px] sm:text-[11px] px-2 py-0.5 rounded-full border-2 border-white dark:border-neutral-900 shadow-md flex items-center gap-0.5">
-                    <Shield className="w-3 h-3 fill-slate-950 stroke-none" />
-                    LV.{user.level}
+            <button
+              type="button"
+              onClick={() => setIsEditing(!isEditing)}
+              className="h-8 px-3 text-[11px] font-bold rounded-md bg-white text-slate-900 hover:bg-slate-100 shadow-2xs flex items-center gap-1.5 transition-all cursor-pointer"
+            >
+              <Edit3 className="w-3.5 h-3.5 text-[#0059bb]" />
+              <span>{isEditing ? "Đóng cài đặt" : "Chỉnh sửa"}</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Profile Card Body Container */}
+        <div className="p-4 sm:p-5 pt-3 relative z-10">
+          <div className="flex flex-col sm:flex-row items-center sm:items-end justify-between gap-4">
+            {/* Avatar & Main User Meta Details */}
+            <div className="flex flex-col sm:flex-row items-center sm:items-end gap-4 text-center sm:text-left min-w-0">
+              
+              {/* Concentric Avatar Ring with Level Badge */}
+              <div className="relative group shrink-0">
+                <div className="w-20 h-20 sm:w-22 sm:h-22 rounded-2xl bg-gradient-to-tr from-[#0059bb] via-indigo-500 to-amber-400 p-0.5 shadow-md border-2 border-white/20 bg-slate-900 relative">
+                  <div className="w-full h-full bg-slate-900 rounded-[14px] flex items-center justify-center overflow-hidden relative">
+                    {user.imageUrl ? (
+                      <img
+                        src={user.imageUrl}
+                        alt={user.fullName || user.username}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-3xl select-none">
+                        {selectedEmoji}
+                      </span>
+                    )}
+
+                    {/* Equipped Graduate Hat overlay */}
+                    {equippedHat && (
+                      <span className="absolute -top-1 right-0 text-lg filter drop-shadow">🎓</span>
+                    )}
                   </div>
                 </div>
 
-                {/* Name & Title Badge */}
-                <div className="space-y-1 min-w-0 pb-0.5">
-                  <div className="flex flex-col sm:flex-row items-center sm:items-baseline gap-1.5 sm:gap-2.5">
-                    <h1 className="text-lg sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white font-display truncate">
-                      {user.fullName || user.username}
-                    </h1>
-                    <span className="text-[10px] font-black uppercase tracking-wider text-[#0059bb] dark:text-sky-400 bg-blue-50 dark:bg-blue-950/40 px-2.5 py-0.5 rounded-md border border-blue-200/50 dark:border-blue-900/30 shrink-0">
-                      {userTitle}
-                    </span>
-                  </div>
+                <div className="absolute -bottom-1.5 -right-1.5 bg-amber-500 text-slate-950 font-black text-[10px] px-2 py-0.5 rounded-full border border-white shadow-xs flex items-center gap-0.5">
+                  <Shield className="w-3 h-3 fill-slate-950 stroke-none" />
+                  LV.{user.level}
                 </div>
               </div>
 
-              {/* Action Button: Edit Profile (Desktop position) */}
-              <button
-                type="button"
-                onClick={() => setIsEditing(!isEditing)}
-                className="hidden sm:flex h-9 px-4 text-xs font-black rounded-xl border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-neutral-800 shadow-2xs items-center justify-center gap-1.5 active:scale-[0.98] transition-all cursor-pointer shrink-0 self-end"
-              >
-                <Edit3 className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
-                {isEditing ? "Đóng cài đặt" : "Chỉnh sửa hồ sơ"}
-              </button>
+              {/* Name, Title & Bio Details */}
+              <div className="space-y-1 min-w-0 pb-0.5">
+                <div className="flex flex-col sm:flex-row items-center sm:items-baseline gap-2">
+                  <h1 className="text-lg sm:text-xl font-black tracking-tight text-white font-display truncate">
+                    {user.fullName || user.username}
+                  </h1>
+                  <span className="text-[10px] font-black uppercase tracking-wider text-sky-200 bg-white/15 px-2.5 py-0.5 rounded border border-white/20 shrink-0">
+                    {userTitle}
+                  </span>
+                </div>
+                <p className="text-xs text-blue-100/90 font-medium max-w-xl truncate">
+                  {user.bio || "Học viên xuất sắc tại XP English | XP Voca! 🚀"}
+                </p>
+              </div>
+
             </div>
 
-            {/* Bio Strip */}
-            <div className="text-center sm:text-left pt-3 border-t border-slate-100 dark:border-neutral-850">
-              <p className="text-xs font-medium text-slate-600 dark:text-slate-300 leading-relaxed max-w-xl mx-auto sm:mx-0">
-                {user.bio || "Học viên năng nổ tại XP English | XP Voca! 🚀"}
-              </p>
+            {/* Quick Live Stats Pill Row */}
+            <div className="flex items-center gap-2 bg-black/20 backdrop-blur-md p-2 rounded-lg border border-white/10 shrink-0">
+              <div className="px-2.5 py-1 text-center">
+                <div className="text-[10px] text-blue-200 font-bold uppercase">Streak</div>
+                <div className="text-sm font-black text-amber-300 font-mono flex items-center justify-center gap-1">
+                  <Flame className="w-3.5 h-3.5 fill-amber-300 stroke-none animate-pulse" />
+                  {user.currentStreak} ngày
+                </div>
+              </div>
+
+              <div className="w-px h-7 bg-white/15" />
+
+              <div className="px-2.5 py-1 text-center">
+                <div className="text-[10px] text-blue-200 font-bold uppercase">Số dư Vàng</div>
+                <div className="text-sm font-black text-amber-300 font-mono flex items-center justify-center gap-1">
+                  <Coins className="w-3.5 h-3.5" />
+                  {user.coins ?? 100} 🪙
+                </div>
+              </div>
             </div>
 
-            {/* Mobile Action Button (Full width at bottom of card on mobile only) */}
-            <div className="sm:hidden mt-3 pt-2">
-              <button
-                type="button"
-                onClick={() => setIsEditing(!isEditing)}
-                className="w-full h-9.5 px-4 text-xs font-black rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50/80 dark:bg-neutral-850 text-slate-900 dark:text-white shadow-2xs flex items-center justify-center gap-1.5 active:scale-[0.98] transition-all cursor-pointer"
-              >
-                <Edit3 className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
-                {isEditing ? "Đóng cài đặt" : "Chỉnh sửa hồ sơ"}
-              </button>
-            </div>
           </div>
         </div>
       </motion.div>
 
-      {/* 2. High-Contrast Bento Stat Cards Grid */}
+      {/* 2. TOP HIGH-CONTRAST BENTO METRICS (RULE 8 ENHANCED METRICS) */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="show"
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5"
       >
-        {/* Card 1: Words Learned */}
+        {/* CARD 1: WORDS LEARNED */}
         <motion.div variants={itemVariants}>
-          <div className="bezel h-full">
-            <div className="bezel-inner p-4 sm:p-5 bg-white dark:bg-neutral-900 h-full flex flex-col justify-between border border-sky-500/15 rounded-[calc(var(--radius-2xl,1rem)-4px)] space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-black uppercase tracking-wider text-[#0059bb] dark:text-sky-400">
-                  Từ vựng đã học
-                </span>
-                <div className="w-8 h-8 rounded-xl bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20 flex items-center justify-center">
-                  <BookOpen className="w-4 h-4 stroke-[2]" />
-                </div>
+          <div className="p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex flex-col justify-between space-y-3 h-full">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
+              <span className="text-xs font-bold text-slate-900 dark:text-white font-display">
+                Từ vựng tích lũy
+              </span>
+              <div className="w-7 h-7 rounded-md bg-blue-50 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-400 border border-blue-200/60 dark:border-blue-900/40 flex items-center justify-center shrink-0">
+                <BookOpen className="w-3.5 h-3.5" />
               </div>
+            </div>
 
-              <div>
-                <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white font-display">
-                  {user.wordsLearned} <span className="text-xs font-bold text-slate-400">/ 3,903 từ</span>
-                </div>
-                <div className="flex items-center justify-between text-[11px] font-extrabold text-slate-500 dark:text-slate-400 mt-2">
-                  <span>Tiến độ hoàn thành</span>
-                  <span className="text-[#0059bb] dark:text-sky-400 font-black">{vocabPercent}%</span>
-                </div>
-                <div className="h-2 w-full rounded-full bg-slate-100 dark:bg-neutral-800 overflow-hidden mt-1">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-[#0059bb] to-sky-400 transition-all duration-500"
-                    style={{ width: `${vocabPercent}%` }}
-                  />
-                </div>
+            <div>
+              <div className="text-xl sm:text-2xl font-black font-mono text-slate-900 dark:text-white leading-tight">
+                {user.wordsLearned} <span className="text-xs font-normal text-slate-400">/ 3,903 từ</span>
+              </div>
+              <div className="flex items-center justify-between text-[10px] font-bold text-slate-500 dark:text-slate-400 mt-1.5">
+                <span>Hoàn thành kho từ</span>
+                <span className="text-[#0059bb] dark:text-sky-400 font-mono font-black">{vocabPercent}%</span>
+              </div>
+              <div className="h-1.5 w-full rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden mt-1">
+                <div
+                  className="h-full rounded-full bg-gradient-to-r from-[#0059bb] to-sky-400 transition-all duration-500"
+                  style={{ width: `${vocabPercent}%` }}
+                />
               </div>
             </div>
           </div>
         </motion.div>
 
-        {/* Card 2: Streak Study */}
+        {/* CARD 2: STREAK STUDY */}
         <motion.div variants={itemVariants}>
-          <div className="bezel h-full">
-            <div className="bezel-inner p-4 sm:p-5 bg-white dark:bg-neutral-900 h-full flex flex-col justify-between border border-amber-500/15 rounded-[calc(var(--radius-2xl,1rem)-4px)] space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-black uppercase tracking-wider text-amber-600 dark:text-amber-400">
-                  Streak học tập
-                </span>
-                <div className="w-8 h-8 rounded-xl bg-amber-500/10 text-amber-500 border border-amber-500/20 flex items-center justify-center">
-                  <Flame className="w-4 h-4 fill-amber-500 stroke-none animate-pulse" />
-                </div>
+          <div className="p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex flex-col justify-between space-y-3 h-full">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
+              <span className="text-xs font-bold text-slate-900 dark:text-white font-display">
+                Chuỗi Streak học tập
+              </span>
+              <div className="w-7 h-7 rounded-md bg-amber-50 dark:bg-amber-950/40 text-amber-500 border border-amber-200/60 dark:border-amber-900/40 flex items-center justify-center shrink-0">
+                <Flame className="w-3.5 h-3.5 fill-amber-500 stroke-none animate-pulse" />
               </div>
+            </div>
 
-              <div>
-                <div className="text-2xl sm:text-3xl font-black text-amber-500 font-display flex items-baseline gap-1">
-                  <span>{user.currentStreak}</span>
-                  <span className="text-xs font-bold text-slate-700 dark:text-slate-300">ngày</span>
-                </div>
-                <div className="text-[11px] font-bold text-slate-500 dark:text-slate-400 mt-2 flex items-center justify-between">
-                  <span>Kỷ lục cao nhất:</span>
-                  <span className="font-black text-amber-600 dark:text-amber-400">{user.longestStreak || user.currentStreak} ngày 🔥</span>
-                </div>
+            <div>
+              <div className="text-xl sm:text-2xl font-black font-mono text-amber-500 leading-tight">
+                {user.currentStreak} <span className="text-xs font-normal text-slate-500">ngày</span>
+              </div>
+              <div className="text-[10px] font-bold text-slate-500 dark:text-slate-400 mt-1.5 flex items-center justify-between font-mono">
+                <span>Kỷ lục cao nhất:</span>
+                <span className="font-black text-amber-600 dark:text-amber-400">{user.longestStreak || user.currentStreak} ngày 🔥</span>
               </div>
             </div>
           </div>
         </motion.div>
 
-        {/* Card 3: XP & Level Progress */}
+        {/* CARD 3: XP & LEVEL */}
         <motion.div variants={itemVariants}>
-          <div className="bezel h-full">
-            <div className="bezel-inner p-4 sm:p-5 bg-white dark:bg-neutral-900 h-full flex flex-col justify-between border border-indigo-500/15 rounded-[calc(var(--radius-2xl,1rem)-4px)] space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-black uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
-                  Kinh nghiệm (XP)
-                </span>
-                <div className="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 flex items-center justify-center">
-                  <Zap className="w-4 h-4 stroke-[2]" />
-                </div>
+          <div className="p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex flex-col justify-between space-y-3 h-full">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
+              <span className="text-xs font-bold text-slate-900 dark:text-white font-display">
+                Kinh nghiệm (XP)
+              </span>
+              <div className="w-7 h-7 rounded-md bg-indigo-50 dark:bg-indigo-950/40 text-indigo-500 border border-indigo-200/60 dark:border-indigo-900/40 flex items-center justify-center shrink-0">
+                <Zap className="w-3.5 h-3.5" />
               </div>
+            </div>
 
-              <div>
-                <div className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white font-display">
-                  {user.totalXp} <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400">XP</span>
-                </div>
-                <div className="flex items-center justify-between text-[11px] font-extrabold text-slate-500 dark:text-slate-400 mt-2">
-                  <span>Đến LV.{user.level + 1}</span>
-                  <span className="text-indigo-600 dark:text-indigo-400 font-black">{xpCurrent}/{xpTotal} XP</span>
-                </div>
-                <div className="h-2 w-full rounded-full bg-slate-100 dark:bg-neutral-800 overflow-hidden mt-1">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-500"
-                    style={{ width: `${xpPercent}%` }}
-                  />
-                </div>
+            <div>
+              <div className="text-xl sm:text-2xl font-black font-mono text-slate-900 dark:text-white leading-tight">
+                {user.totalXp} <span className="text-xs font-normal text-indigo-500 font-sans font-bold">XP</span>
+              </div>
+              <div className="flex items-center justify-between text-[10px] font-bold text-slate-500 dark:text-slate-400 mt-1.5 font-mono">
+                <span>Lên LV.{user.level + 1}</span>
+                <span className="text-indigo-600 dark:text-indigo-400 font-black">{xpCurrent}/{xpTotal} XP</span>
+              </div>
+              <div className="h-1.5 w-full rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden mt-1">
+                <div
+                  className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-500"
+                  style={{ width: `${xpPercent}%` }}
+                />
               </div>
             </div>
           </div>
         </motion.div>
 
-        {/* Card 4: Gold & Inventory */}
+        {/* CARD 4: GOLD & STREAK FREEZE */}
         <motion.div variants={itemVariants}>
-          <div className="bezel h-full">
-            <div className="bezel-inner p-4 sm:p-5 bg-white dark:bg-neutral-900 h-full flex flex-col justify-between border border-yellow-500/15 rounded-[calc(var(--radius-2xl,1rem)-4px)] space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-black uppercase tracking-wider text-yellow-600 dark:text-yellow-400">
-                  Kho Vàng & Vật phẩm
-                </span>
-                <div className="w-8 h-8 rounded-xl bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border border-yellow-500/20 flex items-center justify-center">
-                  <Coins className="w-4 h-4 stroke-[2]" />
-                </div>
+          <div className="p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex flex-col justify-between space-y-3 h-full">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
+              <span className="text-xs font-bold text-slate-900 dark:text-white font-display">
+                Vàng & Bảo Hộ
+              </span>
+              <div className="w-7 h-7 rounded-md bg-yellow-50 dark:bg-yellow-950/40 text-yellow-600 dark:text-yellow-400 border border-yellow-200/60 dark:border-yellow-900/40 flex items-center justify-center shrink-0">
+                <Coins className="w-3.5 h-3.5" />
               </div>
+            </div>
 
-              <div>
-                <div className="text-2xl sm:text-3xl font-black text-amber-600 dark:text-amber-400 font-display">
-                  {user.coins ?? 0} <span className="text-xs font-bold text-slate-400">Vàng</span>
-                </div>
-                <div className="text-[11px] font-bold text-slate-500 dark:text-slate-400 mt-2 flex items-center justify-between">
-                  <span>Bình bảo hộ Streak:</span>
-                  <span className="font-black text-yellow-600 dark:text-yellow-400">{user.streakFreezes ?? 0} vật phẩm 🛡️</span>
-                </div>
+            <div>
+              <div className="text-xl sm:text-2xl font-black font-mono text-amber-500 leading-tight">
+                {user.coins ?? 100} <span className="text-xs font-normal text-slate-400 font-sans font-bold">Vàng</span>
+              </div>
+              <div className="text-[10px] font-bold text-slate-500 dark:text-slate-400 mt-1.5 flex items-center justify-between font-mono">
+                <span>Bảo hộ Streak:</span>
+                <span className="font-black text-yellow-600 dark:text-yellow-400">{user.streakFreezes ?? 0} vật phẩm 🛡️</span>
               </div>
             </div>
           </div>
         </motion.div>
       </motion.div>
 
-      {/* 3. High-End Achievement Gallery */}
-      <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 90, damping: 15, delay: 0.1 }}
-        className="bezel"
-      >
-        <div className="bezel-inner p-4 sm:p-6 bg-white dark:bg-neutral-900 space-y-4 rounded-[calc(var(--radius-2xl,1rem)-4px)]">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-neutral-850 pb-3">
-            <div className="flex items-center gap-2">
-              <Award className="w-4.5 h-4.5 text-[#0059bb] dark:text-sky-400 stroke-[2.2]" />
-              <h2 className="text-sm font-black text-slate-900 dark:text-white font-display">
-                Kho Huy hiệu thành tích ({unlockedCount}/{achievements.length})
-              </h2>
+      {/* 3. BENTO GRID 8/12 & 4/12 MAIN CONTENT */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
+        
+        {/* LEFT 8/12 COLUMN: SKILLS METERS + ACHIEVEMENTS + INVENTORY */}
+        <div className="lg:col-span-8 space-y-4">
+          
+          {/* MINI SKILL METERS (SKILL ACTIVITY SUMMARY) */}
+          <div className="p-4 sm:p-5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5">
+              <div className="flex items-center gap-2">
+                <BarChart3 className="w-4 h-4 text-[#0059bb] dark:text-sky-400 stroke-[2.2]" />
+                <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
+                  Phân Tích Tiến Độ 5 Kỹ Năng
+                </h2>
+              </div>
+              <Link
+                href="/analytics"
+                className="text-[10px] font-bold text-[#0059bb] dark:text-sky-400 hover:underline flex items-center gap-0.5"
+              >
+                Chi tiết biểu đồ ➔
+              </Link>
             </div>
 
-            {/* Category Tab Filters */}
-            <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-neutral-950 p-1 rounded-xl shrink-0">
-              <button
-                onClick={() => setActiveTab('all')}
-                className={`px-3 py-1 text-[11px] font-black rounded-lg transition-all cursor-pointer ${
-                  activeTab === 'all'
-                    ? 'bg-white dark:bg-neutral-850 text-[#0059bb] dark:text-sky-400 shadow-xs'
-                    : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                Tất cả ({achievements.length})
-              </button>
-              <button
-                onClick={() => setActiveTab('unlocked')}
-                className={`px-3 py-1 text-[11px] font-black rounded-lg transition-all cursor-pointer ${
-                  activeTab === 'unlocked'
-                    ? 'bg-white dark:bg-neutral-850 text-emerald-600 dark:text-emerald-400 shadow-xs'
-                    : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                Đã đạt ({unlockedCount})
-              </button>
-              <button
-                onClick={() => setActiveTab('locked')}
-                className={`px-3 py-1 text-[11px] font-black rounded-lg transition-all cursor-pointer ${
-                  activeTab === 'locked'
-                    ? 'bg-white dark:bg-neutral-850 text-rose-500 dark:text-rose-400 shadow-xs'
-                    : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                Chưa mở ({achievements.length - unlockedCount})
-              </button>
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 pt-1">
+              {/* Skill 1: Vocab */}
+              <div className="p-2.5 rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5 space-y-1.5 text-center">
+                <div className="w-6 h-6 rounded bg-blue-500/10 text-[#0059bb] dark:text-sky-400 mx-auto flex items-center justify-center">
+                  <BookOpen className="w-3 h-3" />
+                </div>
+                <div className="text-[10px] font-bold text-slate-700 dark:text-slate-300">Từ vựng</div>
+                <div className="text-xs font-black font-mono text-slate-900 dark:text-white">{skillMinutes.vocab}m</div>
+              </div>
+
+              {/* Skill 2: Writing */}
+              <div className="p-2.5 rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5 space-y-1.5 text-center">
+                <div className="w-6 h-6 rounded bg-indigo-500/10 text-indigo-500 mx-auto flex items-center justify-center">
+                  <PenTool className="w-3 h-3" />
+                </div>
+                <div className="text-[10px] font-bold text-slate-700 dark:text-slate-300">Viết chính tả</div>
+                <div className="text-xs font-black font-mono text-slate-900 dark:text-white">{skillMinutes.writing}m</div>
+              </div>
+
+              {/* Skill 3: Speaking */}
+              <div className="p-2.5 rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5 space-y-1.5 text-center">
+                <div className="w-6 h-6 rounded bg-emerald-500/10 text-emerald-500 mx-auto flex items-center justify-center">
+                  <Mic className="w-3 h-3" />
+                </div>
+                <div className="text-[10px] font-bold text-slate-700 dark:text-slate-300">Nói AI Tutor</div>
+                <div className="text-xs font-black font-mono text-slate-900 dark:text-white">{skillMinutes.speaking}m</div>
+              </div>
+
+              {/* Skill 4: Dictation */}
+              <div className="p-2.5 rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5 space-y-1.5 text-center">
+                <div className="w-6 h-6 rounded bg-amber-500/10 text-amber-500 mx-auto flex items-center justify-center">
+                  <Headphones className="w-3 h-3" />
+                </div>
+                <div className="text-[10px] font-bold text-slate-700 dark:text-slate-300">Dictation</div>
+                <div className="text-xs font-black font-mono text-slate-900 dark:text-white">{skillMinutes.dictation}m</div>
+              </div>
+
+              {/* Skill 5: Shadowing */}
+              <div className="p-2.5 rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5 space-y-1.5 text-center col-span-2 sm:col-span-1">
+                <div className="w-6 h-6 rounded bg-purple-500/10 text-purple-500 mx-auto flex items-center justify-center">
+                  <Sparkles className="w-3 h-3" />
+                </div>
+                <div className="text-[10px] font-bold text-slate-700 dark:text-slate-300">Shadowing</div>
+                <div className="text-xs font-black font-mono text-slate-900 dark:text-white">{skillMinutes.shadowing}m</div>
+              </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-            {filteredAchievements.map((ach) => (
-              <div
-                key={ach.id}
-                className={`p-3.5 rounded-2xl border transition-all duration-300 flex flex-col justify-between gap-3 ${
-                  ach.unlocked
-                    ? `bg-gradient-to-br ${ach.accent} dark:bg-neutral-950/60 shadow-xs`
-                    : 'bg-slate-50/60 dark:bg-neutral-950/30 border-slate-200/60 dark:border-neutral-800/60 opacity-65 grayscale'
-                }`}
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-white dark:bg-neutral-900 border border-slate-200/60 dark:border-white/10 flex items-center justify-center shrink-0 shadow-xs text-xl select-none">
-                      {ach.icon}
+          {/* ACHIEVEMENT BENTO GALLERY WITH TAB FILTERS */}
+          <div className="p-4 sm:p-5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-white/5 pb-3">
+              <div className="flex items-center gap-2">
+                <Award className="w-4 h-4 text-[#0059bb] dark:text-sky-400 stroke-[2.2]" />
+                <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
+                  Kho Huy Hiệu Thành Tích ({unlockedCount}/{achievements.length})
+                </h2>
+              </div>
+
+              {/* Category Tab Filters per Rule 5 */}
+              <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-md text-xs font-medium border border-slate-200/60 dark:border-white/5 shrink-0">
+                <button
+                  onClick={() => setActiveTab("all")}
+                  className={`px-2.5 py-1 rounded transition-all cursor-pointer text-[11px] font-bold ${
+                    activeTab === "all"
+                      ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-2xs font-extrabold"
+                      : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
+                  }`}
+                >
+                  Tất cả ({achievements.length})
+                </button>
+                <button
+                  onClick={() => setActiveTab("unlocked")}
+                  className={`px-2.5 py-1 rounded transition-all cursor-pointer text-[11px] font-bold ${
+                    activeTab === "unlocked"
+                      ? "bg-white dark:bg-slate-900 text-emerald-600 dark:text-emerald-400 shadow-2xs font-extrabold"
+                      : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
+                  }`}
+                >
+                  Đã đạt ({unlockedCount})
+                </button>
+                <button
+                  onClick={() => setActiveTab("locked")}
+                  className={`px-2.5 py-1 rounded transition-all cursor-pointer text-[11px] font-bold ${
+                    activeTab === "locked"
+                      ? "bg-white dark:bg-slate-900 text-rose-500 dark:text-rose-400 shadow-2xs font-extrabold"
+                      : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
+                  }`}
+                >
+                  Chưa mở ({achievements.length - unlockedCount})
+                </button>
+              </div>
+            </div>
+
+            {/* Achievement Bento Cards (Rule 10 Scaled Border-Radius) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {filteredAchievements.map((ach) => (
+                <div
+                  key={ach.id}
+                  className={`p-3.5 rounded-lg border transition-all duration-300 flex flex-col justify-between gap-2.5 ${
+                    ach.unlocked
+                      ? `bg-gradient-to-br ${ach.accent} dark:bg-slate-950/60 shadow-2xs`
+                      : "bg-slate-50/60 dark:bg-slate-950/30 border-slate-200/60 dark:border-white/5 opacity-65 grayscale"
+                  }`}
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-9 h-9 rounded-md bg-white dark:bg-slate-800 border border-slate-200/60 dark:border-white/10 flex items-center justify-center shrink-0 shadow-2xs text-lg select-none">
+                        {ach.icon}
+                      </div>
+                      <div>
+                        <h3 className="text-xs font-bold text-slate-900 dark:text-white font-display">
+                          {ach.name}
+                        </h3>
+                        <p className="text-[11px] font-medium text-slate-600 dark:text-slate-400 leading-tight mt-0.5">
+                          {ach.description}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white">
-                        {ach.name}
-                      </h3>
-                      <p className="text-[11px] font-semibold text-slate-600 dark:text-slate-400 leading-tight mt-0.5">
-                        {ach.description}
-                      </p>
-                    </div>
+
+                    {ach.unlocked ? (
+                      <Badge variant="success" className="text-[9px] font-bold py-0.2 px-1.5 shrink-0">
+                        ĐÃ ĐẠT
+                      </Badge>
+                    ) : (
+                      <span className="text-[9px] font-bold text-slate-400 bg-slate-200/60 dark:bg-slate-800 px-1.5 py-0.2 rounded shrink-0">
+                        KHÓA
+                      </span>
+                    )}
                   </div>
 
-                  {!ach.unlocked ? (
-                    <Lock className="w-4 h-4 text-slate-400 shrink-0 mt-1" strokeWidth={2} />
-                  ) : (
-                    <Badge variant="success" className="text-[9px] font-black py-0.5 px-2 shrink-0">
-                      ĐÃ ĐẠT
-                    </Badge>
-                  )}
+                  <div className="flex items-center justify-between border-t border-slate-200/40 dark:border-white/5 pt-2 text-[10px] font-mono font-bold">
+                    <span className="text-amber-600 dark:text-amber-400">+{ach.xpBonus} XP</span>
+                    {ach.progress && !ach.unlocked && (
+                      <span className="text-slate-500 dark:text-slate-400">
+                        Tiến độ: <span className="text-[#0059bb] dark:text-sky-400 font-black">{ach.progress}</span>
+                      </span>
+                    )}
+                  </div>
                 </div>
+              ))}
+            </div>
+          </div>
 
-                <div className="flex items-center justify-between border-t border-slate-200/40 dark:border-neutral-800/40 pt-2 text-[10.5px] font-extrabold">
-                  <span className="text-amber-600 dark:text-amber-400">+${ach.xpBonus} XP</span>
-                  {ach.progress && !ach.unlocked && (
-                    <span className="text-slate-500 dark:text-slate-400 font-bold">
-                      Tiến độ: <span className="text-[#0059bb] dark:text-sky-400 font-black">{ach.progress}</span>
-                    </span>
-                  )}
+          {/* EQUIPPED INVENTORY & COSMETIC SHOP SHOWCASE */}
+          <div className="p-4 sm:p-5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5">
+              <div className="flex items-center gap-2">
+                <ShoppingBag className="w-4 h-4 text-amber-500 stroke-[2.2]" />
+                <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
+                  Tủ Vật Phẩm & Trang Phục Đã Mua
+                </h2>
+              </div>
+              <Link
+                href="/shop"
+                className="text-[10px] font-bold text-amber-600 dark:text-amber-400 hover:underline"
+              >
+                Cửa hàng Shop ➔
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+              {/* Item 1: Streak Freeze */}
+              <div className="p-3 rounded-md bg-amber-50/50 dark:bg-amber-950/20 border border-amber-200/60 dark:border-amber-900/30 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-lg">🛡️</span>
+                  <Badge variant="warning" className="text-[9px] font-bold py-0.2 px-1.5">
+                    {user.streakFreezes ?? 0} có sẵn
+                  </Badge>
+                </div>
+                <div>
+                  <div className="text-xs font-bold text-slate-900 dark:text-white font-display">Bảo Hộ Lửa</div>
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">Bảo vệ chuỗi Streak 1 ngày</div>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </motion.div>
 
-      {/* 4. Streamlined Account Settings Drawer/Section */}
+              {/* Item 2: Graduate Hat Cosmetic */}
+              <div className="p-3 rounded-md bg-purple-50/50 dark:bg-purple-950/20 border border-purple-200/60 dark:border-purple-900/30 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-lg">🎓</span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setEquippedHat(!equippedHat);
+                      addToast({
+                        type: "success",
+                        title: equippedHat ? "Tháo mũ tốt nghiệp! 🎓" : "Trang bị mũ tốt nghiệp! 🎓",
+                        message: equippedHat ? "Đã tháo trang phục mũ tốt nghiệp khỏi Avatar." : "Avatar của bạn hiện đã được đội mũ tốt nghiệp uy phong!",
+                      });
+                    }}
+                    className={`text-[9px] font-bold py-0.5 px-2 rounded transition-all cursor-pointer ${
+                      equippedHat
+                        ? "bg-purple-600 text-white shadow-2xs"
+                        : "bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300 border border-purple-300 dark:border-purple-800"
+                    }`}
+                  >
+                    {equippedHat ? "Đang mặc 🎓" : "Trang bị"}
+                  </button>
+                </div>
+                <div>
+                  <div className="text-xs font-bold text-slate-900 dark:text-white font-display">Cú Tốt Nghiệp</div>
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">Nón cử nhân avatar</div>
+                </div>
+              </div>
+
+              {/* Item 3: Double XP Card */}
+              <div className="p-3 rounded-md bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/30 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-lg">⚡</span>
+                  <Badge variant="success" className="text-[9px] font-bold py-0.2 px-1.5">
+                    1 thẻ 2x
+                  </Badge>
+                </div>
+                <div>
+                  <div className="text-xs font-bold text-slate-900 dark:text-white font-display">Thẻ 2x XP</div>
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">Nhân đôi XP trong 30 phút</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        {/* RIGHT 4/12 COLUMN: LEVEL BREAKDOWN & QUICK LINKS */}
+        <div className="lg:col-span-4 space-y-4">
+          
+          {/* LEVEL & TITLE PROGRESSION CARD */}
+          <div className="p-4 sm:p-5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3.5">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5">
+              <div className="flex items-center gap-2">
+                <Crown className="w-4 h-4 text-amber-500 stroke-[2.2]" />
+                <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
+                  Cấp Độ & Danh Hiệu
+                </h2>
+              </div>
+              <Badge variant="primary" className="font-bold text-[9px]">
+                LV.{user.level}
+              </Badge>
+            </div>
+
+            <div className="space-y-2 text-xs font-medium">
+              <div className="p-2.5 rounded bg-blue-50/80 dark:bg-blue-950/40 border border-blue-200/60 dark:border-blue-800/40 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-base">🦉</span>
+                  <div>
+                    <div className="font-bold text-slate-900 dark:text-white">{userTitle}</div>
+                    <div className="text-[10px] text-slate-500 dark:text-slate-400">Danh hiệu hiện tại</div>
+                  </div>
+                </div>
+                <Check className="w-4 h-4 text-emerald-500 stroke-[3]" />
+              </div>
+
+              <div className="p-2.5 rounded bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-white/5 flex items-center justify-between opacity-70">
+                <div className="flex items-center gap-2">
+                  <span className="text-base">🚀</span>
+                  <div>
+                    <div className="font-bold text-slate-900 dark:text-white">Master Scholar</div>
+                    <div className="text-[10px] text-slate-500 dark:text-slate-400">Yêu cầu Cấp độ 20</div>
+                  </div>
+                </div>
+                <span className="text-[10px] font-bold text-slate-400">Khóa</span>
+              </div>
+            </div>
+          </div>
+
+          {/* QUICK DASHBOARD NAVIGATION LINKS */}
+          <div className="p-4 sm:p-5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3">
+            <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display border-b border-slate-100 dark:border-white/5 pb-2">
+              Lối Tắt Ứng Dụng
+            </h2>
+
+            <div className="space-y-1.5 text-xs font-bold">
+              <Link
+                href="/analytics"
+                className="p-2.5 rounded bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-between transition-all"
+              >
+                <div className="flex items-center gap-2">
+                  <BarChart3 className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />
+                  <span>Trang Thống Kê Chi Tiết</span>
+                </div>
+                <ChevronRight className="w-4 h-4 text-slate-400" />
+              </Link>
+
+              <Link
+                href="/study/pvp"
+                className="p-2.5 rounded bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-between transition-all"
+              >
+                <div className="flex items-center gap-2">
+                  <Swords className="w-4 h-4 text-amber-500" />
+                  <span>Đấu Trường 1v1 PvP</span>
+                </div>
+                <ChevronRight className="w-4 h-4 text-slate-400" />
+              </Link>
+
+              <Link
+                href="/shop"
+                className="p-2.5 rounded bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-between transition-all"
+              >
+                <div className="flex items-center gap-2">
+                  <ShoppingBag className="w-4 h-4 text-purple-500" />
+                  <span>Cửa Hàng Vật Phẩm Shop</span>
+                </div>
+                <ChevronRight className="w-4 h-4 text-slate-400" />
+              </Link>
+
+              <Link
+                href="/community/leaderboard"
+                className="p-2.5 rounded bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-between transition-all"
+              >
+                <div className="flex items-center gap-2">
+                  <Trophy className="w-4 h-4 text-emerald-500" />
+                  <span>Bảng Xếp Hạng Đấu Trường</span>
+                </div>
+                <ChevronRight className="w-4 h-4 text-slate-400" />
+              </Link>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      {/* 4. STREAMLINED ACCOUNT SETTINGS DRAWER (RULE 6, 18, 19 ALIGNED) */}
       <AnimatePresence>
         {isEditing && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="bezel overflow-hidden"
+            className="p-4 sm:p-5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-4"
           >
-            <div className="bezel-inner p-4 sm:p-6 bg-white dark:bg-neutral-900 space-y-4 rounded-[calc(var(--radius-2xl,1rem)-4px)]">
-              <div className="flex items-center gap-2 border-b border-slate-100 dark:border-neutral-850 pb-2">
-                <Settings className="w-4.5 h-4.5 text-[#0059bb] dark:text-sky-400 stroke-[2.2]" />
-                <h3 className="text-sm font-black text-slate-900 dark:text-white font-display">
-                  Cài đặt hồ sơ cá nhân
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5">
+              <div className="flex items-center gap-2">
+                <Settings className="w-4 h-4 text-[#0059bb] dark:text-sky-400 stroke-[2.2]" />
+                <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
+                  Cài Đặt Thông Tin Hồ Sơ
                 </h3>
               </div>
 
-              <form onSubmit={handleSaveProfile} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* External Float Label (Rule 6) */}
-                  <div className="space-y-1.5">
-                    <label htmlFor="fullname-input" className="text-xs font-extrabold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                      <User className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" /> Họ và tên người dùng
-                    </label>
-                    <input
-                      id="fullname-input"
-                      type="text"
-                      className="w-full h-11 px-4 text-xs sm:text-sm font-semibold rounded-xl bg-slate-50 dark:bg-neutral-950 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-blue-500/20 transition-all"
-                      placeholder="Nhập họ và tên của bạn..."
-                      value={fullName}
-                      onChange={(e) => setFullName(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label htmlFor="bio-input" className="text-xs font-extrabold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                      <FileText className="w-3.5 h-3.5 text-amber-500" /> Tiểu sử ngắn (Bio)
-                    </label>
-                    <input
-                      id="bio-input"
-                      type="text"
-                      className="w-full h-11 px-4 text-xs sm:text-sm font-semibold rounded-xl bg-slate-50 dark:bg-neutral-950 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-blue-500/20 transition-all"
-                      placeholder="Viết một dòng giới thiệu ngắn gọn..."
-                      value={bio}
-                      onChange={(e) => setBio(e.target.value)}
-                    />
-                  </div>
-                </div>
-
-                <div className="flex justify-end gap-2 pt-2">
-                  <Button
-                    variant="ghost"
-                    type="button"
-                    onClick={() => setIsEditing(false)}
-                    className="h-10 px-4 text-xs font-bold rounded-xl"
-                  >
-                    Hủy bỏ
-                  </Button>
-                  <Button
-                    variant="primary"
-                    type="submit"
-                    className="h-10 px-5 text-xs font-black rounded-xl bg-gradient-to-r from-[#0059bb] to-blue-600 text-white shadow-md active:scale-[0.98] transition-transform flex items-center gap-1.5 border border-blue-400/20 cursor-pointer"
-                  >
-                    <Save className="w-4 h-4" /> Lưu thay đổi
-                  </Button>
-                </div>
-              </form>
+              <button
+                type="button"
+                onClick={() => setIsEditing(false)}
+                className="text-xs font-bold text-slate-400 hover:text-slate-600 dark:hover:text-white"
+              >
+                Đóng ✕
+              </button>
             </div>
+
+            <form onSubmit={handleSaveProfile} className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* External Float Label (Rule 6) */}
+                <div className="space-y-1.5">
+                  <label htmlFor="fullname-input" className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                    <User className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" /> Họ và tên người dùng
+                  </label>
+                  <input
+                    id="fullname-input"
+                    type="text"
+                    className="w-full h-10 px-3 text-xs sm:text-sm font-medium rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#0059bb] transition-all"
+                    placeholder="Nhập họ và tên..."
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label htmlFor="bio-input" className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                    <FileText className="w-3.5 h-3.5 text-amber-500" /> Tiểu sử ngắn (Bio)
+                  </label>
+                  <input
+                    id="bio-input"
+                    type="text"
+                    className="w-full h-10 px-3 text-xs sm:text-sm font-medium rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#0059bb] transition-all"
+                    placeholder="Viết một câu giới thiệu ngắn..."
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              {/* Avatar Emoji Selector */}
+              <div className="space-y-1.5 pt-1">
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-purple-500" /> Chọn Avatar Biểu Tượng Emoji
+                </label>
+                <div className="flex items-center gap-2 flex-wrap">
+                  {availableEmojis.map((emoji) => (
+                    <button
+                      key={emoji}
+                      type="button"
+                      onClick={() => setSelectedEmoji(emoji)}
+                      className={`w-9 h-9 rounded-md text-lg flex items-center justify-center transition-all cursor-pointer ${
+                        selectedEmoji === emoji
+                          ? "bg-[#0059bb] text-white shadow-2xs border-2 border-white scale-110"
+                          : "bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800"
+                      }`}
+                    >
+                      {emoji}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Primary Action Button (Rule 18 & 19) */}
+              <div className="flex justify-end gap-2 pt-2 border-t border-slate-100 dark:border-white/5">
+                <Button
+                  variant="ghost"
+                  type="button"
+                  onClick={() => setIsEditing(false)}
+                  className="h-9 px-4 text-xs font-bold rounded-md"
+                >
+                  Hủy bỏ
+                </Button>
+                <Button
+                  variant="primary"
+                  type="submit"
+                  className="h-9 px-5 text-xs font-bold rounded-md bg-[#0059bb] hover:bg-[#004799] text-white shadow-2xs flex items-center gap-1.5 cursor-pointer"
+                >
+                  <Save className="w-3.5 h-3.5" /> Lưu thay đổi
+                </Button>
+              </div>
+            </form>
           </motion.div>
         )}
       </AnimatePresence>
     </div>
   );
-}
+}

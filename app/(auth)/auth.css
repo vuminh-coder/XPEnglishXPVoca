@@ -1,0 +1,423 @@
+/* ============================================================
+   XP English / XP Voca — Shared Auth Pages CSS
+   Used by: Login, Register
+   Design System: Dashboard Micro-Sharp Cards
+   ============================================================ */
+
+/* === Entry Animations === */
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in-right {
+  animation: fadeInRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* === Benefit Cards (Dashboard Micro-Sharp Style) === */
+.benefit-card {
+  background: rgba(248, 250, 252, 0.9);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 2px 8px -1px rgba(0, 0, 0, 0.04), 0 1px 3px -1px rgba(0, 0, 0, 0.02);
+  transition: all 0.3s ease;
+}
+
+.benefit-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.06);
+  background: rgba(255, 255, 255, 1);
+}
+
+[data-theme="dark"] .benefit-card {
+  background: rgba(15, 15, 20, 0.8);
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .benefit-card:hover {
+  background: rgba(20, 20, 28, 0.9);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* === Clerk UI Custom Overrides === */
+.cl-rootBox,
+.cl-cardBox {
+  width: 100% !important;
+  max-width: 400px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.cl-card {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* === Mobile Locked Layout === */
+.mobile-locked-container {
+  overscroll-behavior: none !important;
+  overscroll-behavior-y: none !important;
+}
+
+/* === Mobile Responsive (<= 768px) === */
+@media (max-width: 768px) {
+  .cl-card {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .cl-main {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .cl-footer {
+    background: transparent !important;
+    border-top: none !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .cl-rootBox,
+  .cl-cardBox {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+}
+
+/* === Short Screen Adjustments (<= 700px height) === */
+@media (max-height: 700px) {
+  .brand-container {
+    gap: 0.5rem !important;
+  }
+  .brand-container h1 {
+    font-size: 0.9rem !important;
+  }
+  .brand-container h2 {
+    font-size: 1.25rem !important;
+  }
+  .cl-card {
+    margin-top: -0.75rem !important;
+  }
+}
+
+/* === Tactile Feedback for Clerk Buttons === */
+.cl-formButtonPrimary:active,
+.cl-socialButtonsBlockButton:active {
+  transform: scale(0.97) translateY(1px) !important;
+  transition: transform 0.08s ease !important;
+}
+
+/* === Validation Error Highlight === */
+.cl-formFieldInput[aria-invalid="true"] {
+  border-color: #ef4444 !important;
+  background-color: #fef2f2 !important;
+}
+
+[data-theme="dark"] .cl-formFieldInput[aria-invalid="true"] {
+  background-color: rgba(127, 29, 29, 0.2) !important;
+}
+
+/* === "Last Used" Badge (Google Social Button) === */
+.cl-socialButtonsBlockButton {
+  position: relative !important;
+}
+.cl-badge,
+.cl-badgeBox {
+  position: absolute !important;
+  top: 50% !important;
+  right: 12px !important;
+  transform: translateY(-50%) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background-color: #e0e7ff !important;
+  color: #4f46e5 !important;
+  border: 1px solid #c7d2fe !important;
+  border-radius: 9999px !important;
+  padding: 2.5px 8px !important;
+  font-size: 8px !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  pointer-events: none !important;
+  box-shadow: 0 1px 2px rgba(79, 70, 229, 0.05) !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  z-index: 2 !important;
+}
+
+/* === Mobile/Tablet Clerk Overrides (<= 1024px) === */
+@media (max-width: 1024px) {
+  .cl-formFieldInput {
+    height: 44px !important;
+  }
+  .cl-formButtonPrimary {
+    height: 44px !important;
+  }
+
+  .cl-formFieldLabelRow {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+  }
+  .cl-formFieldLabel {
+    flex: 1 !important;
+    min-width: 0 !important;
+    letter-spacing: 0.02em !important;
+  }
+  .cl-formFieldAction {
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+  }
+
+  .cl-socialButtons {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 12px !important;
+    width: 100% !important;
+    margin: 12px auto 16px auto !important;
+  }
+
+  /* Google block button: full width, first row */
+  .cl-socialButtonsBlockButton {
+    position: relative !important;
+    width: 100% !important;
+    height: 44px !important;
+    order: -1 !important;
+    margin: 0 !important;
+  }
+
+  /* Hide Google text when "Last used" badge is present */
+  .cl-socialButtonsBlockButton:has(.cl-badge) .cl-socialButtonsBlockButtonText,
+  .cl-socialButtonsBlockButton:has(.cl-badgeBox) .cl-socialButtonsBlockButtonText,
+  .cl-socialButtonsIconButton__google:has(.cl-badge)::after,
+  .cl-socialButtonsIconButton__google:has(.cl-badgeBox)::after {
+    display: none !important;
+  }
+
+  /* Style social icon buttons */
+  .cl-socialButtonsIconButton {
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+    background-color: #ffffff !important;
+    border-radius: 8px !important;
+    height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s ease !important;
+    margin: 0 !important;
+    flex: none !important;
+  }
+
+  [data-theme="dark"] .cl-socialButtonsIconButton {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    background-color: rgba(15, 15, 20, 0.8) !important;
+  }
+
+  .cl-socialButtonsIconButton:hover {
+    background-color: #f8fafc !important;
+    border-color: #94a3b8 !important;
+  }
+  .cl-socialButtonsIconButton:active {
+    transform: scale(0.95) !important;
+  }
+
+  /* Google icon button: full-width block at top */
+  .cl-socialButtonsIconButton__google {
+    width: 100% !important;
+    order: -1 !important;
+  }
+  .cl-socialButtonsIconButton__google::after {
+    content: "Tiếp tục với Google" !important;
+    margin-left: 8px !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    color: #475569 !important;
+  }
+
+  [data-theme="dark"] .cl-socialButtonsIconButton__google::after {
+    color: #94a3b8 !important;
+  }
+
+  /* Apple + Facebook: side-by-side, second row */
+  .cl-socialButtonsIconButton__apple,
+  .cl-socialButtonsIconButton__facebook {
+    width: calc(50% - 6px) !important;
+    order: 1 !important;
+  }
+
+  .cl-socialButtonsIconButton svg,
+  .cl-socialButtonsIconButton img {
+    width: 18px !important;
+    height: 18px !important;
+    display: block !important;
+    object-fit: contain !important;
+  }
+
+  /* Remove borders/shadows from Clerk wrappers on mobile */
+  .cl-card,
+  .cl-cardBox,
+  .cl-rootBox {
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Hide Clerk duplicate header/footer on mobile */
+  .cl-header,
+  .cl-card__footer,
+  .cl-footerAction,
+  .cl-footerActionText,
+  .cl-footerActionLink,
+  .cl-footer {
+    display: none !important;
+  }
+
+  /* Seamless flat mobile background */
+  .mobile-locked-container,
+  .mobile-locked-container main,
+  .cl-card {
+    background-color: #ffffff !important;
+    background-image: none !important;
+  }
+
+  [data-theme="dark"] .mobile-locked-container,
+  [data-theme="dark"] .mobile-locked-container main,
+  [data-theme="dark"] .cl-card {
+    background-color: #050505 !important;
+  }
+
+  .cl-card {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 24px 16px !important;
+  }
+}
+
+/* === Suppress Clerk Watermarks === */
+.cl-footer__logo,
+.cl-internal-b384ic,
+.cl-internal-18090x4,
+.cl-internal-1dau4k,
+.cl-dev-mode,
+.cl-userButtonPopoverFooter {
+  display: none !important;
+}
+
+.cl-footer > *:not(.cl-footerAction) {
+  display: none !important;
+}
+
+/* === Desktop Clerk Layout (>= 1024px) === */
+@media (min-width: 1024px) {
+  .cl-header {
+    display: block !important;
+    text-align: center !important;
+    margin-bottom: 0.5rem !important;
+  }
+  .cl-headerTitle {
+    display: block !important;
+    font-size: 1.25rem !important;
+    font-weight: 900 !important;
+    color: #0f172a !important;
+    margin-bottom: 0.15rem !important;
+  }
+
+  [data-theme="dark"] .cl-headerTitle {
+    color: #f1f5f9 !important;
+  }
+
+  .cl-headerSubtitle {
+    display: block !important;
+    font-size: 0.8125rem !important;
+    font-weight: 600 !important;
+    color: #64748b !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  [data-theme="dark"] .cl-headerSubtitle {
+    color: #94a3b8 !important;
+  }
+
+  .cl-formField {
+    margin-bottom: 0.5rem !important;
+  }
+  .cl-formFieldLabel {
+    margin-bottom: 0.25rem !important;
+  }
+  .cl-formFieldInput {
+    height: 44px !important;
+  }
+  .cl-card {
+    min-height: auto !important;
+    padding: 24px 28px 20px 28px !important;
+    border-radius: 0.5rem !important;
+    box-shadow: 0 2px 8px -1px rgba(0, 0, 0, 0.04), 0 1px 3px -1px rgba(0, 0, 0, 0.02) !important;
+    border: 1px solid rgba(226, 232, 240, 0.8) !important;
+    background: #ffffff !important;
+  }
+
+  [data-theme="dark"] .cl-card {
+    background: #0d0d10 !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+  }
+
+  .cl-footer {
+    margin-top: 0.75rem !important;
+    padding-top: 0.75rem !important;
+    border-top: 1px solid rgba(226, 232, 240, 0.9) !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+
+  [data-theme="dark"] .cl-footer {
+    border-top-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .cl-footerActionText {
+    font-size: 0.8125rem !important;
+    font-weight: 600 !important;
+    color: #475569 !important;
+  }
+
+  [data-theme="dark"] .cl-footerActionText {
+    color: #94a3b8 !important;
+  }
+
+  .cl-footerActionLink {
+    font-size: 0.8125rem !important;
+    font-weight: 800 !important;
+    color: #0059bb !important;
+  }
+
+  [data-theme="dark"] .cl-footerActionLink {
+    color: #60a5fa !important;
+  }
+}

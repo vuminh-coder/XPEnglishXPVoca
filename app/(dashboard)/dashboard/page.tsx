@@ -104,6 +104,27 @@ export default function DashboardPage() {
     }
   }, [initChallenges]);
 
+  const [leaderboardData, setLeaderboardData] = useState<any[]>([]);
+  const [isLoadingLeaderboard, setIsLoadingLeaderboard] = useState(true);
+
+  useEffect(() => {
+    const fetchLeaderboard = async () => {
+      try {
+        setIsLoadingLeaderboard(true);
+        const res = await fetch("/api/leaderboard");
+        const json = await res.json();
+        if (json.success && json.data) {
+          setLeaderboardData(json.data);
+        }
+      } catch (e) {
+        console.error("Error fetching dashboard leaderboard:", e);
+      } finally {
+        setIsLoadingLeaderboard(false);
+      }
+    };
+    fetchLeaderboard();
+  }, []);
+
   // Fetch current day's study plan task
   useEffect(() => {
     const fetchPlan = async () => {
@@ -239,6 +260,28 @@ export default function DashboardPage() {
   const remainingWords = Math.max(0, 10 - wordsPracticedToday);
   const userTitle = LEVEL_TITLES[user.level] || user.title || "Vocabulary Builder";
   const maxWeeklyXp = Math.max(...weeklyXp.map((d) => d.xp), 10);
+
+  const userRankInLeaderboard = useMemo(() => {
+    if (!user) return 1;
+    if (leaderboardData.length > 0) {
+      const found = leaderboardData.find((l) => l.id === user.id);
+      if (found) return found.rank;
+      const higherXpCount = leaderboardData.filter((l) => l.xp > (user.totalXp || 0)).length;
+      return higherXpCount + 1;
+    }
+    return 1;
+  }, [user, leaderboardData]);
+
+  const topLeaders = useMemo(() => {
+    if (leaderboardData.length > 0) {
+      return leaderboardData.slice(0, 3);
+    }
+    return [
+      { id: "top1", fullName: "Nga Nguyễn", xp: 1450, avatarEmoji: "🦊" },
+      { id: "top2", fullName: "Quang Nguyễn Định", xp: 1280, avatarEmoji: "🦁" },
+      { id: "top3", fullName: "Minh Thu", xp: 1100, avatarEmoji: "🦉" },
+    ];
+  }, [leaderboardData]);
 
   const quickActions = [
     {
@@ -376,9 +419,7 @@ export default function DashboardPage() {
       
       {/* Mobile Landscape Orientation Overlay */}
       <div className="hidden max-lg:landscape:flex fixed inset-0 bg-[#f0f4f8] dark:bg-slate-950 z-50 flex-col items-center justify-center p-6 text-center select-none" aria-hidden="true">
-        <div className="w-12 h-12 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-white/10 flex items-center justify-center text-blue-600 animate-bounce mb-3 overflow-hidden shadow-xs">
-          <img src="/mascot.png" alt="Mascot" className="w-[90%] h-[90%] object-contain" />
-        </div>
+        <img src="/mascot.png" alt="XP Logo" className="w-12 h-12 object-contain animate-bounce mb-3 shrink-0" />
         <h3 className="text-sm font-bold text-slate-900 dark:text-white font-display">Vui lòng xoay dọc điện thoại</h3>
         <p className="text-xs font-semibold text-slate-600 dark:text-slate-400 mt-1">XP English | XP Voca hoạt động tốt nhất ở chế độ màn hình dọc.</p>
       </div>
@@ -951,7 +992,7 @@ export default function DashboardPage() {
                       Tháng
                     </button>
                   </div>
-                  <Link href="/community" className="text-[10px] font-bold text-blue-600 dark:text-sky-400 hover:underline">
+                  <Link href="/community/leaderboard" className="text-[10px] font-bold text-blue-600 dark:text-sky-400 hover:underline">
                     Tất cả ➔
                   </Link>
                 </div>
@@ -983,51 +1024,52 @@ export default function DashboardPage() {
 
               {/* Leaderboard List */}
               <div className="space-y-1.5 pt-0.5">
-                {/* User Row */}
+                {/* User Row (Live Synced) */}
                 <div className="flex items-center justify-between p-2 rounded bg-blue-50/80 dark:bg-blue-950/40 border border-blue-200/60 dark:border-blue-800/40">
                   <div className="flex items-center gap-2 min-w-0">
-                    <span className="text-[10px] font-black text-blue-600 dark:text-sky-400 shrink-0">#3143</span>
+                    <span className="text-[10px] font-black text-blue-600 dark:text-sky-400 shrink-0">#{userRankInLeaderboard}</span>
                     <div className="w-5.5 h-5.5 rounded-full bg-[#0059bb] text-white font-bold text-[9px] flex items-center justify-center shrink-0 shadow-2xs">
-                      M
+                      {user?.avatarEmoji || (user?.fullName || "X").charAt(0).toUpperCase()}
                     </div>
                     <span className="text-xs font-bold text-slate-900 dark:text-white truncate">Bạn</span>
                   </div>
-                  <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-amber-500 text-white shadow-2xs">
-                    5m
+                  <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-amber-500 text-white shadow-2xs font-mono">
+                    {leaderboardCriterion === "xp"
+                      ? `${user?.totalXp || 0} XP`
+                      : `${user?.minutesStudied || 0}m`}
                   </span>
                 </div>
 
-                {/* Top 1 */}
-                <div className="flex items-center justify-between p-2 rounded bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-white/5">
-                  <div className="flex items-center gap-2 min-w-0">
-                    <span className="text-xs shrink-0">🥇</span>
-                    <div className="w-5.5 h-5.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-[9px] flex items-center justify-center shrink-0">
-                      N
-                    </div>
-                    <div className="min-w-0">
-                      <span className="text-xs font-medium text-slate-900 dark:text-white truncate block">Nga Nguyễn</span>
-                    </div>
-                  </div>
-                  <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-emerald-500 text-white shadow-2xs">
-                    17h 45m
-                  </span>
-                </div>
+                {/* Top 3 Leaders (Live Synced from Backend API) */}
+                {topLeaders.map((leader: any, idx: number) => {
+                  const medal = idx === 0 ? "🥇" : idx === 1 ? "🥈" : "🥉";
+                  const displayScore =
+                    leaderboardCriterion === "xp"
+                      ? `${leader.xp} XP`
+                      : `${Math.max(5, Math.round(leader.xp / 10))}m`;
 
-                {/* Top 2 */}
-                <div className="flex items-center justify-between p-2 rounded bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-white/5">
-                  <div className="flex items-center gap-2 min-w-0">
-                    <span className="text-xs shrink-0">🥈</span>
-                    <div className="w-5.5 h-5.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-[9px] flex items-center justify-center shrink-0">
-                      Q
+                  return (
+                    <div
+                      key={leader.id || idx}
+                      className="flex items-center justify-between p-2 rounded bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-white/5"
+                    >
+                      <div className="flex items-center gap-2 min-w-0">
+                        <span className="text-xs shrink-0">{medal}</span>
+                        <div className="w-5.5 h-5.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-[9px] flex items-center justify-center shrink-0">
+                          {leader.avatarEmoji || leader.fullName?.charAt(0) || "🦉"}
+                        </div>
+                        <div className="min-w-0">
+                          <span className="text-xs font-medium text-slate-900 dark:text-white truncate block">
+                            {leader.fullName}
+                          </span>
+                        </div>
+                      </div>
+                      <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-emerald-500 text-white shadow-2xs font-mono">
+                        {displayScore}
+                      </span>
                     </div>
-                    <div className="min-w-0">
-                      <span className="text-xs font-medium text-slate-900 dark:text-white truncate block">Quang Nguyễn Định</span>
-                    </div>
-                  </div>
-                  <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-emerald-500 text-white shadow-2xs">
-                    12h 8m
-                  </span>
-                </div>
+                  );
+                })}
               </div>
             </div>
           </motion.div>

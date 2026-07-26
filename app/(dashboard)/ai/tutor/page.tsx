@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { Card, Button, Badge } from "@/components/ui";
 import { useAuthStore } from "@/lib/store/authStore";
+import { useUserStore, recordSkillPractice } from "@/lib/store/userStore";
 import { useNotificationStore } from "@/lib/store/notificationStore";
 import { useListeningStore } from "@/lib/store/listeningStore";
 import { motion, AnimatePresence } from "framer-motion";
@@ -209,6 +210,9 @@ export default function VoiceTutorPage() {
       speedWpm: 148,
       stressScore: 94,
     });
+
+    useUserStore.getState().addPracticeTime(2);
+    recordSkillPractice(user?.id, "Nói", 2, 15);
 
     try {
       const res = await fetch("/api/ai/tutor", {
