@@ -264,7 +264,7 @@ function ClerkNavbar() {
   };
 
   return (
-    <div className="top-navbar px-3.5 sm:px-6">
+    <div className="top-navbar h-[52px] px-3.5 sm:px-6">
       <div className="flex items-center gap-2 min-w-0">
         <button className="navbar-menu-toggle shrink-0" onClick={toggleSidebar}>
           {sidebarOpen ? (
@@ -441,7 +441,7 @@ function LocalNavbar() {
   };
 
   return (
-    <div className="top-navbar px-3.5 sm:px-6">
+    <div className="top-navbar h-[52px] px-3.5 sm:px-6">
       <div className="flex items-center gap-2 min-w-0">
         <button className="navbar-menu-toggle shrink-0" onClick={toggleSidebar}>
           {sidebarOpen ? (

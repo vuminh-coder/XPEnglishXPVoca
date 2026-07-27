@@ -301,51 +301,72 @@ export default function VoiceTutorPage() {
   return (
     <div className="space-y-3 pb-16 md:pb-6 px-1 md:px-0 relative select-none font-sans">
       
-      {/* 0. TOP UNIFIED MICRO-HERO TOOLBAR CONTROL STRIP (Single Row Height 52px) */}
+      {/* 0. TOP UNIFIED MICRO-HERO TOOLBAR CONTROL STRIP */}
       <motion.div
         initial={{ opacity: 0, y: -6 }}
         animate={{ opacity: 1, y: 0 }}
-        className="p-2.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-2 min-w-0"
+        className="p-2.5 sm:p-3 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-2.5 min-w-0"
       >
-        {/* Left: Bot Icon + Title + 3-Mode Segmented Controls */}
-        <div className="flex items-center gap-2.5 min-w-0 flex-1 overflow-hidden">
-          <div className="w-8 h-8 rounded-md bg-[#1d6ee6]/10 text-[#1d6ee6] dark:text-sky-400 flex items-center justify-center shrink-0 border border-[#1d6ee6]/20">
-            <Bot className="w-4 h-4 stroke-[2]" />
+        {/* Left: Bot Icon + Title */}
+        <div className="flex items-center justify-between md:justify-start gap-2.5 min-w-0 flex-1">
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-md bg-[#1d6ee6]/10 text-[#1d6ee6] dark:text-sky-400 flex items-center justify-center shrink-0 border border-[#1d6ee6]/20">
+              <Bot className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2]" />
+            </div>
+
+            <div className="min-w-0">
+              <h1 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display truncate">
+                AI Voice Tutor Studio
+              </h1>
+              <p className="hidden sm:block text-[10px] text-slate-400 font-medium truncate">
+                Gia sư AI 1-1 • {practiceMode === "freetalk" ? "💬 FreeTalk" : practiceMode === "roleplay" ? "🎭 Roleplay" : "⚡ Drill"}
+              </p>
+            </div>
           </div>
 
-          <div className="min-w-0">
-            <h1 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display truncate">
-              AI Voice Tutor Studio
-            </h1>
-            <p className="text-[10px] text-slate-400 font-medium truncate">
-              Gia sư AI 1-1 • {practiceMode === "freetalk" ? "💬 FreeTalk" : practiceMode === "roleplay" ? "🎭 Roleplay" : "⚡ Drill"}
-            </p>
-          </div>
+          {/* Right: Sound Switcher & Timer on Mobile Header Top Row */}
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 md:hidden">
+            <button
+              onClick={() => setSoundEnabled(!soundEnabled)}
+              className={`px-2 py-1 rounded text-[11px] font-bold border transition-all shadow-2xs flex items-center gap-1 cursor-pointer ${
+                soundEnabled
+                  ? "bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:border-[#1d6ee6]"
+                  : "bg-rose-50 dark:bg-rose-950/40 border-rose-200 dark:border-rose-900/30 text-rose-600"
+              }`}
+            >
+              {soundEnabled ? <Volume2 className="w-3 h-3 text-[#1d6ee6]" /> : <VolumeX className="w-3 h-3" />}
+              <span className="hidden sm:inline">{soundEnabled ? "Bật âm" : "Tắt âm"}</span>
+            </button>
 
-          {/* Mode Switcher Pills Inline */}
-          <div className="p-0.5 bg-slate-100 dark:bg-slate-950 rounded-md flex items-center gap-1 border border-slate-200/50 dark:border-white/5 ml-2 shrink-0">
-            {[
-              { id: "freetalk", label: "FreeTalk" },
-              { id: "roleplay", label: "Roleplay" },
-              { id: "drill", label: "Drill" },
-            ].map((mode) => (
-              <button
-                key={mode.id}
-                onClick={() => setPracticeMode(mode.id as any)}
-                className={`py-1 px-2 rounded text-[11px] font-bold transition-all cursor-pointer whitespace-nowrap ${
-                  practiceMode === mode.id
-                    ? "bg-[#1d6ee6] text-white shadow-2xs font-extrabold"
-                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-                }`}
-              >
-                {mode.label}
-              </button>
-            ))}
+            <span className="px-2 py-1 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-[11px] font-black flex items-center gap-1 shadow-2xs">
+              ⏱️ {formatElapsedTime(elapsedTime)}
+            </span>
           </div>
         </div>
 
-        {/* Right: Sound Switcher & Timer */}
-        <div className="flex items-center gap-2 shrink-0 self-end md:self-auto">
+        {/* Mode Switcher Tabs (100% full-width on mobile) */}
+        <div className="p-0.5 bg-slate-100 dark:bg-slate-950 rounded-md grid grid-cols-3 md:flex items-center gap-1 border border-slate-200/50 dark:border-white/5 w-full md:w-auto shrink-0">
+          {[
+            { id: "freetalk", label: "FreeTalk" },
+            { id: "roleplay", label: "Roleplay" },
+            { id: "drill", label: "Drill" },
+          ].map((mode) => (
+            <button
+              key={mode.id}
+              onClick={() => setPracticeMode(mode.id as any)}
+              className={`py-1 px-2 rounded text-[11px] font-bold transition-all cursor-pointer whitespace-nowrap text-center ${
+                practiceMode === mode.id
+                  ? "bg-[#1d6ee6] text-white shadow-2xs font-extrabold"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+              }`}
+            >
+              {mode.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Desktop Sound Switcher & Timer */}
+        <div className="hidden md:flex items-center gap-2 shrink-0">
           <button
             onClick={() => setSoundEnabled(!soundEnabled)}
             className={`px-2 py-1 rounded text-[11px] font-bold border transition-all shadow-2xs flex items-center gap-1 cursor-pointer ${
@@ -355,7 +376,7 @@ export default function VoiceTutorPage() {
             }`}
           >
             {soundEnabled ? <Volume2 className="w-3 h-3 text-[#1d6ee6]" /> : <VolumeX className="w-3 h-3" />}
-            {soundEnabled ? "Bật âm" : "Tắt âm"}
+            <span>{soundEnabled ? "Bật âm" : "Tắt âm"}</span>
           </button>
 
           <span className="px-2 py-1 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-[11px] font-black flex items-center gap-1 shadow-2xs">
@@ -712,9 +733,9 @@ export default function VoiceTutorPage() {
                   </p>
                 </div>
 
-                <div className="space-y-1 pt-1">
-                  <span className="text-[10px] font-bold text-slate-400 block">Gợi ý trả lời nhanh:</span>
-                  <div className="flex flex-wrap gap-1">
+                <div className="space-y-1.5 pt-1">
+                  <span className="text-[10px] font-bold text-slate-400 block uppercase">Gợi ý trả lời nhanh:</span>
+                  <div className="flex flex-col gap-1.5 w-full">
                     {[
                       "I love learning English with AI.",
                       "Could you please repeat that?",
@@ -723,7 +744,7 @@ export default function VoiceTutorPage() {
                       <button
                         key={idx}
                         onClick={() => handleNewUserSpeech(sug, 96)}
-                        className="px-2 py-1 rounded text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-[#1d6ee6] dark:text-sky-400 hover:bg-slate-200 cursor-pointer"
+                        className="w-full text-left px-2.5 py-1.5 rounded-md text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-[#1d6ee6] dark:text-sky-400 hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors cursor-pointer truncate"
                       >
                         💬 {sug}
                       </button>

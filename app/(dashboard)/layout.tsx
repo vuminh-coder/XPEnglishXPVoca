@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Navbar from "@/components/layout/Navbar";
 import Sidebar from "@/components/layout/Sidebar";
 import BottomNav from "@/components/layout/BottomNav";
 import { ToastContainer } from "@/components/ui/Toast";
@@ -14,6 +15,9 @@ export default function DashboardLayout({
 
   return (
     <>
+      <header id="app-header" className="md:hidden">
+        <Navbar />
+      </header>
       <aside id="app-sidebar">
         <Sidebar />
       </aside>

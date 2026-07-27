@@ -46,7 +46,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi" data-theme="light">
+    <html lang="vi" data-theme="light" data-scroll-behavior="smooth">
       <body
         className={`${beVietnamPro.className} ${beVietnamPro.variable} antialiased border-0`}
       >

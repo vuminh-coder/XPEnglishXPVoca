@@ -44,12 +44,13 @@
 
 ### 1. Bảng Điều Khiển & Trung Tâm Học Tập (`/dashboard`)
 - **`/dashboard`**: Trung tâm chỉ huy học tập toàn diện.
-  - **Hero Greeting Bar**: Chào mừng học viên kèm các chỉ số chính.
+  - **Hero Greeting Bar**: Chào mừng học viên kèm các chỉ số chính (Tối ưu mobile: Ẩn subtext rườm rà `hidden sm:block`, mở rộng nút bấm full-width).
   - **4 Hero Metric Cards**: Chuỗi Streak (`Flame`), Thời gian luyện tập (`Clock`), Từ vựng đã lưu (`BookmarkCheck`), Cấp độ XP (`Target`).
-  - **Lộ Trình Hôm Nay**: Nhiệm vụ bài học cá nhân hóa gọi từ API `GET /api/study-plan/current`.
-  - **Phút Luyện Tập 7 Ngày**: Biểu đồ đường mỏng 1.5px uốn mượt 7 ngày gần nhất.
-  - **Điểm Danh Tuần Này**: Lộ trình 7 nút kết nối fluid. Bấm **"🔥 Điểm danh ngay (+15 XP)"** tự động thưởng +15 XP, +20 Vàng, +5m học và sync ngầm về Database.
-  - **Hỏi Đáp AI Tutor Nhanh**: Nhập thắc mắc ngữ pháp/từ vựng, nhận lời giải từ AI Tutor và nhận ngay +10 XP.
+  - **Lộ Trình Hôm Nay**: Nhiệm vụ bài học cá nhân hóa gọi từ API `GET /api/study-plan/current` (Giới hạn `line-clamp-2` tiêu đề bài học trên mobile).
+  - **Phút Luyện Tập 7 Ngày**: Biểu đồ đường mỏng 1.5px uốn mượt 7 ngày gần nhất & Hàng tab kỹ năng cuộn mượt `overflow-x-auto`.
+  - **Điểm Danh Tuần Này**: Lộ trình 7 nút kết nối fluid. Nút **"🔥 Điểm danh ngay (+15 XP)"** tự động đưa xuống hàng full-width trên mobile, bấm thưởng +15 XP, +20 Vàng, +5m học và sync ngầm về Database.
+  - **Hỏi Đáp AI Tutor Nhanh**: Ô nhập thắc mắc ngữ pháp/từ vựng nâng tap-target `h-10` chuẩn di động, nhận lời giải từ AI Tutor và cộng ngay +10 XP.
+  - **Phím Tắt Nhanh (Quick Actions Grid)**: Lưới 2x2 siêu gọn trên mobile nhờ ẩn subtext badge phụ (`hidden sm:block`), giữ icon & tiêu đề nổi bật.
 
 ### 2. Thống Kê & Phân Tích Chuyên Sâu (`/analytics`)
 - **`/analytics`**: Trang phân tích thành tích học tập chuẩn Dashboard Agency.
@@ -78,17 +79,23 @@
 - **`/community/groups`**: Câu lạc bộ & Nhóm học tập (Khởi tạo nhóm Cấp 15+).
 
 ### 5. Học Từ Vựng & Luyện Nghe (`/vocabulary` & `/listening`)
-- **`/vocabulary`**: Kho 3,900+ từ vựng phân theo chủ đề TOEIC, IELTS, Giao tiếp.
+- **`/vocabulary`**: Kho 3,900+ từ vựng phân theo chủ đề (TOEIC, IELTS, VSTEP, Giao tiếp).
+  - **Mobile Layout Optimize**: Ô tìm kiếm nổi bật ngay dưới Mobile Header Bar không bị lấp khuất, ẩn subtext rườm rà `hidden sm:block`.
+  - **4 Bento Stats Cards**: Format gọn 1 hàng (`12 từ/ngày`, `8 phút/buổi`, `86% SRS`), không bị rớt chữ.
+  - **Theme Cards Grid**: Thu nhỏ độ cao thẻ 35% trên mobile, gộp Icon + Title trên 1 hàng flex ngang, gộp Độ khó & Tiến trình trên 1 hàng chân thẻ. Căn giữa nút "Khám phá thêm" full-width trên mobile.
 - **`/vocabulary/[id]`**: Thẻ học Flashcard thông minh, tích hợp âm thanh & lưu từ yêu thích (`toggleFavorite`).
 - **`/listening`**: Phòng luyện nghe Dictation & Shadowing chuẩn audio.
 
-### 6. Luyện Tập & AI Tutor (`/study` & `/ai`)
-- **`/study/practice`**: Phòng luyện tập trắc nghiệm & Flashcard.
+- **`/study/practice`**: Phòng luyện tập 4 kỹ năng (Quiz, Flashcard 3D, Writing, Speaking AI).
+  - **Mobile Layout Optimize**: Ẩn phụ đề rườm rà `hidden sm:block`, rút gọn tên 4 tab chế độ trên mobile (`Quiz`, `Flashcard`, `Writing`, `Nói AI`) kèm cuộn mượt `overflow-x-auto`.
+  - **Khung Thẻ Câu Hỏi & Đáp Án**: Tối ưu padding `p-3 sm:p-4`, hiển thị vừa trọn 1 màn hình di động không rớt dòng. Nút "Câu tiếp theo" căn giữa full-width trên mobile.
 - **`/study/pvp`**: Đấu trường so tài từ vựng PvP Realtime (Thiết kế Agency Dashboard Tier).
   - **Spotlight Hero Banner**: Gradient Xanh Hoàng Gia sang trọng kèm hiệu ứng ánh kim.
   - **Bento Grid 7/12 & 5/12**: Cột trái lựa chọn 3 chế độ (Trắc nghiệm, Đồ chữ, Âm thanh) và 3 cấp độ (Dễ, Trung bình, Khó). Cột phải hiển thị Hồ sơ Đấu sĩ & Bảng Vàng Top 3 Đấu Trường.
   - **Trận Đấu PvP 1v1**: Giao diện đấu thời gian thực sắc nét, đồng hồ đếm ngược, AI thông minh và báo cáo kết quả thưởng XP.
-- **`/ai/tutor`**: Trợ lý AI Tutor giải đáp bài tập 24/7.
+- **`/ai/tutor`**: Gia sư AI 1-1 hỗ trợ hội thoại 4 kỹ năng (FreeTalk, Roleplay, Drill).
+  - **Mobile Layout Optimize**: Ẩn subtext rườm rà `hidden sm:block`, đưa 3 tab chế độ (FreeTalk, Roleplay, Drill) thành thanh tab 3 cột full-width 100% trên mobile.
+  - **Thanh Nhập Liệu & Gợi Ý AI**: Cấu trúc bộ input `[🎙️ Mic] [Input Text] [🚀 Gửi]` thành 1 khối compact 1 hàng ngang, các câu gợi ý phản hồi nhanh dạng danh sách dọc 100% width.
 - **`/ai/conversation`**: Phòng hội thoại giao tiếp tiếng Anh AI.
 - **`/profile`**: Hồ sơ cá nhân học viên (Thiết kế Agency Dashboard Tier).
   - **Spotlight Hero Profile Banner**: Gradient Xanh Hoàng Gia sang trọng (`from-[#0059bb] via-[#004799] to-[#002b5b]`), vành khung Avatar danh hiệu nổi bật (`🎓`, `👑`, `🛡️`), huy hiệu Cấp độ `LV.x`, số ngày Streak rực rỡ và số dư Vàng live.

@@ -618,48 +618,48 @@ function PracticeQuizContent() {
       <motion.div
         initial={{ opacity: 0, y: -6 }}
         animate={{ opacity: 1, y: 0 }}
-        className="p-3.5 rounded-lg bg-[#ebf3fe] dark:bg-blue-950/40 border border-[#d5e5fe] dark:border-blue-900/50 flex flex-col md:flex-row md:items-center justify-between gap-2.5 shadow-2xs"
+        className="p-3 sm:p-3.5 rounded-lg bg-[#ebf3fe] dark:bg-blue-950/40 border border-[#d5e5fe] dark:border-blue-900/50 flex flex-col md:flex-row md:items-center justify-between gap-2.5 shadow-2xs"
       >
         <div className="flex items-center gap-2.5 min-w-0">
-          <div className="w-8 h-8 rounded-md bg-[#1d6ee6]/10 text-[#1d6ee6] dark:text-sky-400 flex items-center justify-center shrink-0">
-            <Brain className="w-4 h-4 stroke-[2]" />
+          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-md bg-[#1d6ee6]/10 text-[#1d6ee6] dark:text-sky-400 flex items-center justify-center shrink-0">
+            <Brain className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2]" />
           </div>
           <div className="space-y-0.5 min-w-0">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="px-2 py-0.5 rounded text-[9px] font-black bg-[#1d6ee6] text-white shadow-2xs">
-                VOCABULARY PRACTICE STUDIO
+            <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+              <span className="px-1.5 sm:px-2 py-0.5 rounded text-[9px] font-black bg-[#1d6ee6] text-white shadow-2xs shrink-0">
+                PRACTICE STUDIO
               </span>
               <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display truncate">
-                Luyện Tập & Ôn Tập Từ Vựng Chuyên Sâu 4 Kỹ Năng
+                Luyện Tập & Ôn Tập 4 Kỹ Năng
               </h3>
             </div>
-            <p className="text-[11px] text-slate-600 dark:text-slate-300 font-medium truncate">
+            <p className="hidden sm:block text-[11px] text-slate-600 dark:text-slate-300 font-medium truncate">
               🎯 Ôn tập thuật toán Spaced Repetition (SRS), phát âm bản xứ và ghi nhớ từ vựng lâu dài
             </p>
           </div>
         </div>
 
         {/* 4 Hero Metrics Strip */}
-        <div className="flex items-center gap-2 shrink-0 flex-wrap">
-          <span className="px-2.5 py-1 rounded-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-xs font-bold text-slate-700 dark:text-slate-300 shadow-2xs">
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 flex-wrap">
+          <span className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-[11px] sm:text-xs font-bold text-slate-700 dark:text-slate-300 shadow-2xs">
             🎯 Câu {(subMode === "quiz" ? qIndex : subMode === "flashcard" ? fIndex : subMode === "writing" ? wIndex : sIndex) + 1}/{vocabs.length}
           </span>
-          <span className="px-2.5 py-1 rounded-md bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-xs font-black shadow-2xs">
+          <span className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-[11px] sm:text-xs font-black shadow-2xs">
             🏆 +{qXp + fXp + wXp + sXp} XP
           </span>
-          <span className="px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-xs font-black shadow-2xs">
+          <span className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-[11px] sm:text-xs font-black shadow-2xs">
             ⏱️ {formatElapsedTime(elapsedTime)}
           </span>
         </div>
       </motion.div>
 
       {/* 1. SUB-MODE SEGMENTED PILLS SWITCHER */}
-      <div className="p-1 bg-slate-100 dark:bg-slate-950 rounded-md flex items-center gap-1 border border-slate-200/50 dark:border-white/5">
+      <div className="p-1 bg-slate-100 dark:bg-slate-950 rounded-md flex items-center gap-1 border border-slate-200/50 dark:border-white/5 overflow-x-auto no-scrollbar">
         {[
-          { id: "quiz", label: "Quiz (Trắc nghiệm)", icon: Brain },
-          { id: "flashcard", label: "Flashcard (Lật thẻ 3D)", icon: Layers },
-          { id: "writing", label: "Writing (Gõ từ chính xác)", icon: PenLine },
-          { id: "speaking", label: "Speaking (Phát âm từ)", icon: Mic },
+          { id: "quiz", labelMobile: "Quiz", labelDesktop: "Quiz (Trắc nghiệm)", icon: Brain },
+          { id: "flashcard", labelMobile: "Flashcard", labelDesktop: "Flashcard (Lật thẻ 3D)", icon: Layers },
+          { id: "writing", labelMobile: "Writing", labelDesktop: "Writing (Gõ từ chính xác)", icon: PenLine },
+          { id: "speaking", labelMobile: "Nói AI", labelDesktop: "Speaking (Luyện phát âm AI)", icon: Mic },
         ].map((m) => {
           const Icon = m.icon;
           const isActive = subMode === m.id;
@@ -667,13 +667,15 @@ function PracticeQuizContent() {
             <button
               key={m.id}
               onClick={() => setSubMode(m.id as any)}
-              className={`flex-1 py-1.5 px-2 rounded text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center justify-center gap-1.5 ${
+              className={`flex-1 min-w-[70px] sm:min-w-0 py-1.5 px-2 rounded text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center justify-center gap-1 sm:gap-1.5 ${
                 isActive
                   ? "bg-[#1d6ee6] text-white shadow-2xs font-extrabold"
                   : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
               }`}
             >
-              <Icon className="w-3.5 h-3.5" /> {m.label}
+              <Icon className="w-3.5 h-3.5 shrink-0" />
+              <span className="sm:hidden">{m.labelMobile}</span>
+              <span className="hidden sm:inline">{m.labelDesktop}</span>
             </button>
           );
         })}
@@ -685,13 +687,13 @@ function PracticeQuizContent() {
         {/* CỘT TRÁI: PRACTICE STUDIO WORKSPACE (7/12 Width) */}
         <div className="lg:col-span-7 space-y-3.5 min-w-0">
           
-          <div className="p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3.5 min-w-0">
+          <div className="p-3 sm:p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-2.5 sm:space-y-3.5 min-w-0">
             
             {/* Header Title */}
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
-              <div className="flex items-center gap-2">
-                <Target className="w-4 h-4 text-[#1d6ee6]" />
-                <h2 className="text-xs font-bold text-slate-900 dark:text-white font-display uppercase tracking-wider">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <Target className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#1d6ee6]" />
+                <h2 className="text-[11px] sm:text-xs font-bold text-slate-900 dark:text-white font-display uppercase tracking-wider">
                   {subMode === "quiz"
                     ? "CÂU HỎI TRẮC NGHIỆM CHỌN NGHĨA"
                     : subMode === "flashcard"
@@ -705,36 +707,36 @@ function PracticeQuizContent() {
               {currentWord && (
                 <button
                   onClick={handleToggleBookmark}
-                  className={`px-2 py-0.5 rounded text-[10px] font-bold border transition-colors cursor-pointer flex items-center gap-1 ${
+                  className={`px-2 py-0.5 rounded text-[10px] font-bold border transition-colors cursor-pointer flex items-center gap-1 shrink-0 ${
                     bookmarkedIds.has(currentWord.id)
                       ? "bg-amber-50 dark:bg-amber-950/40 border-amber-300 text-amber-600"
                       : "bg-slate-50 dark:bg-slate-800 border-slate-200 text-slate-500"
                   }`}
                 >
                   <Bookmark className="w-3 h-3" />
-                  {bookmarkedIds.has(currentWord.id) ? "Đã ghi nhớ" : "Ghi nhớ"}
+                  <span>{bookmarkedIds.has(currentWord.id) ? "Đã ghi nhớ" : "Ghi nhớ"}</span>
                 </button>
               )}
             </div>
 
             {/* SUB-MODE 1: QUIZ VIEW */}
             {subMode === "quiz" && currentWord && (
-              <div className="space-y-3.5">
-                <div className="p-4 rounded-md bg-slate-50 dark:bg-slate-950 border border-slate-200/60 dark:border-white/5 text-center space-y-1.5">
-                  <span className="text-[10px] font-bold uppercase text-[#1d6ee6] block">Từ vựng mục tiêu</span>
+              <div className="space-y-2.5 sm:space-y-3.5">
+                <div className="p-3 sm:p-4 rounded-md bg-slate-50 dark:bg-slate-950 border border-slate-200/60 dark:border-white/5 text-center space-y-1 sm:space-y-1.5">
+                  <span className="text-[9.5px] sm:text-[10px] font-bold uppercase text-[#1d6ee6] block">Từ vựng mục tiêu</span>
                   <div className="flex items-center justify-center gap-2">
-                    <h3 className="text-xl font-black text-slate-900 dark:text-white font-display">
+                    <h3 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white font-display">
                       {currentWord.word}
                     </h3>
                     <button
                       onClick={() => speakText(currentWord.word)}
                       className="p-1 rounded bg-[#1d6ee6]/10 text-[#1d6ee6] hover:bg-[#1d6ee6]/20 cursor-pointer"
                     >
-                      <Volume2 className="w-4 h-4" />
+                      <Volume2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                     </button>
                   </div>
                   {currentWord.phonetic && (
-                    <p className="text-xs font-mono text-slate-400 font-bold">{currentWord.phonetic}</p>
+                    <p className="text-[11px] sm:text-xs font-mono text-slate-400 font-bold">{currentWord.phonetic}</p>
                   )}
                 </div>
 
@@ -754,7 +756,7 @@ function PracticeQuizContent() {
                         key={opt.id}
                         disabled={isAnswered}
                         onClick={() => handleQuizAnswer(opt.id)}
-                        className={`p-3 rounded-md border text-xs font-medium text-left transition-all cursor-pointer ${bgClass}`}
+                        className={`p-2.5 sm:p-3 rounded-md border text-xs font-medium text-left transition-all cursor-pointer ${bgClass}`}
                       >
                         {getMeaningText(opt)}
                       </button>
@@ -763,10 +765,10 @@ function PracticeQuizContent() {
                 </div>
 
                 {isAnswered && (
-                  <div className="flex justify-end pt-1">
+                  <div className="flex justify-center sm:justify-end pt-1">
                     <button
                       onClick={handleNextQuiz}
-                      className="px-4 py-2 rounded-md bg-[#1d6ee6] hover:bg-[#155bc5] text-white text-xs font-bold shadow-2xs cursor-pointer flex items-center gap-1.5"
+                      className="w-full sm:w-auto justify-center px-4 py-2 rounded-md bg-[#1d6ee6] hover:bg-[#155bc5] text-white text-xs font-bold shadow-2xs cursor-pointer flex items-center gap-1.5"
                     >
                       <span>Câu tiếp theo</span>
                       <ChevronRight className="w-4 h-4" />
@@ -824,24 +826,24 @@ function PracticeQuizContent() {
                   </div>
                 </div>
 
-                {/* ACTION BUTTONS (ROUNDED-MD COMPACT) */}
-                <div className="flex items-center justify-center gap-3 pt-1">
+                {/* ACTION BUTTONS (ROUNDED-MD COMPACT - 100% 1 SINGLE LINE ON MOBILE) */}
+                <div className="grid grid-cols-2 gap-2 pt-1 min-w-0">
                   <button
                     onClick={() => handleNextFlashcard(false)}
-                    className="px-5 py-2 rounded-md bg-rose-500/10 hover:bg-rose-500 border border-rose-500/30 hover:border-transparent text-rose-700 dark:text-rose-400 hover:text-white font-bold text-xs shadow-2xs hover:shadow-xs transition-all cursor-pointer flex items-center justify-center gap-1.5 group/btn"
+                    className="w-full justify-center px-2 sm:px-5 py-2 rounded-md bg-rose-500/10 hover:bg-rose-500 border border-rose-500/30 hover:border-transparent text-rose-700 dark:text-rose-400 hover:text-white font-bold text-xs shadow-2xs hover:shadow-xs transition-all cursor-pointer flex items-center gap-1 sm:gap-1.5 whitespace-nowrap min-w-0 group/btn"
                   >
-                    <X className="w-4 h-4 transition-transform group-hover/btn:scale-110" />
-                    <span>Chưa nhớ</span>
-                    <span className="text-[10px] opacity-75 font-normal">(-0 XP)</span>
+                    <X className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0 transition-transform group-hover/btn:scale-110" />
+                    <span className="truncate">Chưa nhớ</span>
+                    <span className="text-[9.5px] sm:text-[10px] opacity-75 font-normal shrink-0">(-0 XP)</span>
                   </button>
 
                   <button
                     onClick={() => handleNextFlashcard(true)}
-                    className="px-5 py-2 rounded-md bg-emerald-500/10 hover:bg-emerald-600 border border-emerald-500/30 hover:border-transparent text-emerald-700 dark:text-emerald-400 hover:text-white font-bold text-xs shadow-2xs hover:shadow-xs transition-all cursor-pointer flex items-center justify-center gap-1.5 group/btn"
+                    className="w-full justify-center px-2 sm:px-5 py-2 rounded-md bg-emerald-500/10 hover:bg-emerald-600 border border-emerald-500/30 hover:border-transparent text-emerald-700 dark:text-emerald-400 hover:text-white font-bold text-xs shadow-2xs hover:shadow-xs transition-all cursor-pointer flex items-center gap-1 sm:gap-1.5 whitespace-nowrap min-w-0 group/btn"
                   >
-                    <Check className="w-4 h-4 transition-transform group-hover/btn:scale-110" />
-                    <span>Đã nhớ</span>
-                    <span className="text-[10px] opacity-75 font-normal">(+10 XP)</span>
+                    <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0 transition-transform group-hover/btn:scale-110" />
+                    <span className="truncate">Đã nhớ</span>
+                    <span className="text-[9.5px] sm:text-[10px] opacity-75 font-normal shrink-0">(+10 XP)</span>
                   </button>
                 </div>
               </div>

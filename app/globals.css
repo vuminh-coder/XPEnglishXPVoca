@@ -4066,6 +4066,11 @@
   }
 
   .top-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 52px;
     padding: 0 var(--space-3);
   }
   .navbar-actions {
@@ -4084,8 +4089,7 @@
 
   .main-content {
     margin-left: 0;
-    padding: var(--space-4);
-    padding-bottom: calc(var(--space-16) + 24px + env(safe-area-inset-bottom));
+    padding: calc(52px + 12px) var(--space-3) calc(var(--space-16) + 24px + env(safe-area-inset-bottom)) var(--space-3);
   }
 
   .auth-page {
