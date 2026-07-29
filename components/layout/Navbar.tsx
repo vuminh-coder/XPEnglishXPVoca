@@ -5,7 +5,10 @@ import { useRouter } from "next/navigation";
 import { useClerk, useUser } from "@clerk/nextjs";
 import { useUiStore } from "@/lib/store/uiStore";
 import { useAuthStore } from "@/lib/store/authStore";
-import { useNotificationCenterStore, AppNotification } from "@/lib/store/notificationCenterStore";
+import {
+  useNotificationCenterStore,
+  AppNotification,
+} from "@/lib/store/notificationCenterStore";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Bell,
@@ -51,9 +54,21 @@ function ThemeDropdown({ isOpen, setIsOpen }: ThemeDropdownProps) {
       </div>
 
       {[
-        { id: "light" as const, label: "☀️ Chế độ Sáng", desc: "Độ sáng ban ngày dịu mát" },
-        { id: "dark" as const, label: "🌙 Chế độ Tối", desc: "Màu tối OLED chống mỏi mắt" },
-        { id: "system" as const, label: "💻 Theo hệ thống", desc: "Tự động đồng bộ thiết bị" }
+        {
+          id: "light" as const,
+          label: "☀️ Chế độ Sáng",
+          desc: "Độ sáng ban ngày dịu mát",
+        },
+        {
+          id: "dark" as const,
+          label: "🌙 Chế độ Tối",
+          desc: "Màu tối OLED chống mỏi mắt",
+        },
+        {
+          id: "system" as const,
+          label: "💻 Theo hệ thống",
+          desc: "Tự động đồng bộ thiết bị",
+        },
       ].map((item) => {
         const isSelected = theme === item.id;
         return (
@@ -65,12 +80,16 @@ function ThemeDropdown({ isOpen, setIsOpen }: ThemeDropdownProps) {
               setIsOpen(false);
             }}
             className={`w-full text-left px-2.5 py-2 rounded-lg cursor-pointer flex items-center justify-between transition-colors hover:bg-slate-50 dark:hover:bg-neutral-850/50 ${
-              isSelected ? "bg-cyan-50/20 dark:bg-cyan-950/10 text-cyan-600 dark:text-cyan-400" : "text-slate-700 dark:text-slate-350"
+              isSelected
+                ? "bg-cyan-50/20 dark:bg-cyan-950/10 text-cyan-600 dark:text-cyan-400"
+                : "text-slate-700 dark:text-slate-350"
             }`}
           >
             <div>
               <div className="text-xs font-black">{item.label}</div>
-              <div className="text-[9px] text-slate-400 dark:text-slate-500 font-bold mt-0.5">{item.desc}</div>
+              <div className="text-[9px] text-slate-400 dark:text-slate-500 font-bold mt-0.5">
+                {item.desc}
+              </div>
             </div>
             {isSelected && (
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 shadow-md" />
@@ -87,10 +106,13 @@ interface NotificationCenterDropdownProps {
   setIsOpen: (open: boolean) => void;
 }
 
-function NotificationCenterDropdown({ isOpen, setIsOpen }: NotificationCenterDropdownProps) {
+function NotificationCenterDropdown({
+  isOpen,
+  setIsOpen,
+}: NotificationCenterDropdownProps) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<"all" | "study" | "social">("all");
-  
+
   const {
     notifications,
     unreadCount,
@@ -196,10 +218,16 @@ function NotificationCenterDropdown({ isOpen, setIsOpen }: NotificationCenterDro
       >
         {filteredNotifs.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-10 px-6 text-center select-none">
-            <BellOff className="w-9 h-9 text-slate-300 dark:text-neutral-700 mb-3" strokeWidth={1.2} />
-            <span className="text-xs font-black text-slate-800 dark:text-white">Không có thông báo nào</span>
+            <BellOff
+              className="w-9 h-9 text-slate-300 dark:text-neutral-700 mb-3"
+              strokeWidth={1.2}
+            />
+            <span className="text-xs font-black text-slate-800 dark:text-white">
+              Không có thông báo nào
+            </span>
             <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1 font-semibold max-w-[220px] leading-relaxed">
-              Các thông báo nhắc nhở và sự kiện học tập sẽ xuất hiện tại đây khi phát sinh.
+              Các thông báo nhắc nhở và sự kiện học tập sẽ xuất hiện tại đây khi
+              phát sinh.
             </p>
           </div>
         ) : (
@@ -213,7 +241,9 @@ function NotificationCenterDropdown({ isOpen, setIsOpen }: NotificationCenterDro
               style={{ whiteSpace: "normal" }}
             >
               <div className="flex items-start gap-2.5 flex-1 min-w-0">
-                <span className="text-lg shrink-0 mt-0.5 select-none">{n.icon}</span>
+                <span className="text-lg shrink-0 mt-0.5 select-none">
+                  {n.icon}
+                </span>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center justify-between gap-1.5">
                     <span className="font-extrabold text-[11.5px] text-slate-800 dark:text-white truncate">
@@ -227,11 +257,14 @@ function NotificationCenterDropdown({ isOpen, setIsOpen }: NotificationCenterDro
                     {n.body}
                   </p>
                   <span className="text-[8.5px] font-bold text-slate-400 dark:text-neutral-500 block mt-1 uppercase tracking-wide">
-                    {new Date(n.createdAt).toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" })}
+                    {new Date(n.createdAt).toLocaleTimeString("vi-VN", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
                   </span>
                 </div>
               </div>
-              
+
               {/* Trash button to delete notification */}
               <button
                 type="button"
@@ -273,11 +306,18 @@ function ClerkNavbar() {
             <Menu className="w-[20px] h-[20px]" strokeWidth={1.8} />
           )}
         </button>
-        <Link href="/" className="navbar-brand flex items-center gap-2 group min-w-0 shrink-0">
+        <Link
+          href="/"
+          className="navbar-brand flex items-center gap-2 group min-w-0 shrink-0"
+        >
           <div className="text-lg sm:text-xl font-black text-slate-900 dark:text-white flex items-center gap-1.5 truncate leading-none">
             <span className="text-[#0059bb]">XP</span> English
-            <span className="text-amber-500 font-normal hidden min-[380px]:inline">|</span>
-            <span className="text-amber-500 hidden min-[380px]:inline">XP Voca</span>
+            <span className="text-amber-500 font-normal hidden min-[380px]:inline">
+              |
+            </span>
+            <span className="text-amber-500 hidden min-[380px]:inline">
+              XP Voca
+            </span>
           </div>
         </Link>
       </div>
@@ -306,7 +346,10 @@ function ClerkNavbar() {
                     transition={{ type: "spring", stiffness: 100, damping: 12 }}
                     className="absolute inset-0 flex items-center justify-center"
                   >
-                    <Moon className="w-[18px] h-[18px] text-indigo-400" strokeWidth={1.8} />
+                    <Moon
+                      className="w-[18px] h-[18px] text-indigo-400"
+                      strokeWidth={1.8}
+                    />
                   </motion.div>
                 )}
                 {theme === "light" && (
@@ -318,7 +361,10 @@ function ClerkNavbar() {
                     transition={{ type: "spring", stiffness: 100, damping: 12 }}
                     className="absolute inset-0 flex items-center justify-center"
                   >
-                    <Sun className="w-[18px] h-[18px] text-amber-500" strokeWidth={1.8} />
+                    <Sun
+                      className="w-[18px] h-[18px] text-amber-500"
+                      strokeWidth={1.8}
+                    />
                   </motion.div>
                 )}
                 {theme === "system" && (
@@ -330,13 +376,16 @@ function ClerkNavbar() {
                     transition={{ type: "spring", stiffness: 100, damping: 12 }}
                     className="absolute inset-0 flex items-center justify-center"
                   >
-                    <Laptop className="w-[18px] h-[18px] text-cyan-500" strokeWidth={1.8} />
+                    <Laptop
+                      className="w-[18px] h-[18px] text-cyan-500"
+                      strokeWidth={1.8}
+                    />
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
           </button>
-          
+
           <ThemeDropdown isOpen={themeOpen} setIsOpen={setThemeOpen} />
         </div>
 
@@ -358,8 +407,11 @@ function ClerkNavbar() {
               </>
             )}
           </button>
-          
-          <NotificationCenterDropdown isOpen={notifOpen} setIsOpen={setNotifOpen} />
+
+          <NotificationCenterDropdown
+            isOpen={notifOpen}
+            setIsOpen={setNotifOpen}
+          />
         </div>
 
         <div className="dropdown">
@@ -373,9 +425,16 @@ function ClerkNavbar() {
           >
             <div className="avatar avatar-sm flex items-center justify-center bg-slate-100 dark:bg-neutral-800 text-lg border border-slate-200/50 dark:border-white/10 rounded-full w-8 h-8 shrink-0 overflow-hidden">
               {clerkUser?.imageUrl ? (
-                <img src={clerkUser.imageUrl} alt="Avatar" className="w-full h-full object-cover" />
+                <img
+                  src={clerkUser.imageUrl}
+                  alt="Avatar"
+                  className="w-full h-full object-cover"
+                />
               ) : (
-                <User className="w-[16px] h-[16px] text-slate-500" strokeWidth={1.8} />
+                <User
+                  className="w-[16px] h-[16px] text-slate-500"
+                  strokeWidth={1.8}
+                />
               )}
             </div>
             <div className="navbar-user-info hidden sm:block">
@@ -450,12 +509,23 @@ function LocalNavbar() {
             <Menu className="w-[20px] h-[20px]" strokeWidth={1.8} />
           )}
         </button>
-        <Link href="/" className="navbar-brand flex items-center gap-2 group min-w-0">
-          <img src="/mascot.png" alt="XP Logo" className="w-8 h-8 object-contain shrink-0 transition-transform group-hover:scale-105" />
+        <Link
+          href="/"
+          className="navbar-brand flex items-center gap-2 group min-w-0"
+        >
+          <img
+            src="/mascot.png"
+            alt="XP Logo"
+            className="w-8 h-8 object-contain shrink-0 transition-transform group-hover:scale-105"
+          />
           <div className="text-sm sm:text-base font-black text-slate-900 dark:text-white flex items-center gap-1 truncate">
             <span className="text-[#0059bb]">XP</span> English
-            <span className="text-amber-500 font-normal hidden min-[380px]:inline">|</span>
-            <span className="text-amber-500 hidden min-[380px]:inline">XP Voca</span>
+            <span className="text-amber-500 font-normal hidden min-[380px]:inline">
+              |
+            </span>
+            <span className="text-amber-500 hidden min-[380px]:inline">
+              XP Voca
+            </span>
           </div>
         </Link>
       </div>
@@ -484,7 +554,10 @@ function LocalNavbar() {
                     transition={{ type: "spring", stiffness: 100, damping: 12 }}
                     className="absolute inset-0 flex items-center justify-center"
                   >
-                    <Moon className="w-[18px] h-[18px] text-indigo-400" strokeWidth={1.8} />
+                    <Moon
+                      className="w-[18px] h-[18px] text-indigo-400"
+                      strokeWidth={1.8}
+                    />
                   </motion.div>
                 )}
                 {theme === "light" && (
@@ -496,7 +569,10 @@ function LocalNavbar() {
                     transition={{ type: "spring", stiffness: 100, damping: 12 }}
                     className="absolute inset-0 flex items-center justify-center"
                   >
-                    <Sun className="w-[18px] h-[18px] text-amber-500" strokeWidth={1.8} />
+                    <Sun
+                      className="w-[18px] h-[18px] text-amber-500"
+                      strokeWidth={1.8}
+                    />
                   </motion.div>
                 )}
                 {theme === "system" && (
@@ -508,13 +584,16 @@ function LocalNavbar() {
                     transition={{ type: "spring", stiffness: 100, damping: 12 }}
                     className="absolute inset-0 flex items-center justify-center"
                   >
-                    <Laptop className="w-[18px] h-[18px] text-cyan-500" strokeWidth={1.8} />
+                    <Laptop
+                      className="w-[18px] h-[18px] text-cyan-500"
+                      strokeWidth={1.8}
+                    />
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
           </button>
-          
+
           <ThemeDropdown isOpen={themeOpen} setIsOpen={setThemeOpen} />
         </div>
 
@@ -536,8 +615,11 @@ function LocalNavbar() {
               </>
             )}
           </button>
-          
-          <NotificationCenterDropdown isOpen={notifOpen} setIsOpen={setNotifOpen} />
+
+          <NotificationCenterDropdown
+            isOpen={notifOpen}
+            setIsOpen={setNotifOpen}
+          />
         </div>
 
         <div className="dropdown">
@@ -551,7 +633,11 @@ function LocalNavbar() {
           >
             <div className="avatar avatar-sm flex items-center justify-center bg-slate-100 dark:bg-neutral-800 text-lg border border-slate-200/50 dark:border-white/10 rounded-full w-8 h-8 shrink-0 overflow-hidden">
               {user?.imageUrl ? (
-                <img src={user.imageUrl} alt="Avatar" className="w-full h-full object-cover" />
+                <img
+                  src={user.imageUrl}
+                  alt="Avatar"
+                  className="w-full h-full object-cover"
+                />
               ) : user?.avatarEmoji && user.avatarEmoji !== "🦉" ? (
                 <span className="text-lg">{user.avatarEmoji}</span>
               ) : (
@@ -622,10 +708,14 @@ export default function Navbar() {
   // System media query theme preference synchronization
   useEffect(() => {
     if (!mounted) return;
-    
+
     // Read cached choice
     const uiStore = useUiStore.getState();
-    const savedTheme = localStorage.getItem("xp_theme_preference") as "light" | "dark" | "system" | null;
+    const savedTheme = localStorage.getItem("xp_theme_preference") as
+      | "light"
+      | "dark"
+      | "system"
+      | null;
     if (savedTheme) {
       uiStore.setTheme(savedTheme);
     } else {
@@ -633,23 +723,27 @@ export default function Navbar() {
     }
 
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    
+
     const handleSystemThemeChange = () => {
       const currentTheme = useUiStore.getState().theme;
       if (currentTheme === "system") {
         const isDark = mediaQuery.matches;
-        document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
+        document.documentElement.setAttribute(
+          "data-theme",
+          isDark ? "dark" : "light",
+        );
       }
     };
 
     mediaQuery.addEventListener("change", handleSystemThemeChange);
-    return () => mediaQuery.removeEventListener("change", handleSystemThemeChange);
+    return () =>
+      mediaQuery.removeEventListener("change", handleSystemThemeChange);
   }, [mounted]);
 
   // Simulation timer for dynamic incoming notifications to bring life to the application
   useEffect(() => {
     if (!mounted) return;
-    
+
     // Initial storage load
     const store = useNotificationCenterStore.getState();
     store.loadFromStorage();

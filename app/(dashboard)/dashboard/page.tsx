@@ -78,9 +78,15 @@ export default function DashboardPage() {
   const [isAiLoading, setIsAiLoading] = useState(false);
   const [currentTask, setCurrentTask] = useState<string | null>(null);
   const [showAnnouncement, setShowAnnouncement] = useState(true);
-  const [activeSkillTab, setActiveSkillTab] = useState<"dictation" | "shadowing" | "speaking" | "vocab" | "writing">("dictation");
-  const [leaderboardTab, setLeaderboardTab] = useState<"week" | "month">("week");
-  const [leaderboardCriterion, setLeaderboardCriterion] = useState<"time" | "xp">("time");
+  const [activeSkillTab, setActiveSkillTab] = useState<
+    "dictation" | "shadowing" | "speaking" | "vocab" | "writing"
+  >("dictation");
+  const [leaderboardTab, setLeaderboardTab] = useState<"week" | "month">(
+    "week",
+  );
+  const [leaderboardCriterion, setLeaderboardCriterion] = useState<
+    "time" | "xp"
+  >("time");
 
   useEffect(() => {
     initChallenges();
@@ -192,12 +198,22 @@ export default function DashboardPage() {
       } catch (e) {}
     }
 
-    const dates = ["18 thg 7", "19 thg 7", "20 thg 7", "21 thg 7", "22 thg 7", "23 thg 7", "24 thg 7"];
+    const dates = [
+      "18 thg 7",
+      "19 thg 7",
+      "20 thg 7",
+      "21 thg 7",
+      "22 thg 7",
+      "23 thg 7",
+      "24 thg 7",
+    ];
     return dates.map((dateStr, index) => {
       const targetDate = new Date(startOfWeek);
       targetDate.setDate(startOfWeek.getDate() + index);
       const isoDate = targetDate.toISOString().slice(0, 10);
-      const xp = dailyXpMap[isoDate] || (index === 6 ? Math.max(5, user?.minutesStudied || 5) : 0);
+      const xp =
+        dailyXpMap[isoDate] ||
+        (index === 6 ? Math.max(5, user?.minutesStudied || 5) : 0);
       return { day: dateStr, xp };
     });
   }, [user]);
@@ -246,7 +262,9 @@ export default function DashboardPage() {
   const savedWordsCount = useMemo(() => {
     if (!user) return 0;
     const count = learned.filter(
-      (item) => (item.userId === user.id || item.userId === "local_user") && (item.isFavorite || (item.proficiency && item.proficiency > 0))
+      (item) =>
+        (item.userId === user.id || item.userId === "local_user") &&
+        (item.isFavorite || (item.proficiency && item.proficiency > 0)),
     ).length;
     return Math.max(count, user.wordsLearned || 0);
   }, [learned, user]);
@@ -256,7 +274,9 @@ export default function DashboardPage() {
     if (leaderboardData.length > 0) {
       const found = leaderboardData.find((l) => l.id === user.id);
       if (found) return found.rank;
-      const higherXpCount = leaderboardData.filter((l) => l.xp > (user.totalXp || 0)).length;
+      const higherXpCount = leaderboardData.filter(
+        (l) => l.xp > (user.totalXp || 0),
+      ).length;
       return higherXpCount + 1;
     }
     return 1;
@@ -268,7 +288,12 @@ export default function DashboardPage() {
     }
     return [
       { id: "top1", fullName: "Nga Nguyễn", xp: 1450, avatarEmoji: "🦊" },
-      { id: "top2", fullName: "Quang Nguyễn Định", xp: 1280, avatarEmoji: "🦁" },
+      {
+        id: "top2",
+        fullName: "Quang Nguyễn Định",
+        xp: 1280,
+        avatarEmoji: "🦁",
+      },
       { id: "top3", fullName: "Minh Thu", xp: 1100, avatarEmoji: "🦉" },
     ];
   }, [leaderboardData]);
@@ -277,10 +302,12 @@ export default function DashboardPage() {
 
   const { percent: xpPercent } = getXpProgress(user.level, user.totalXp);
   const completedChallenges = challenges.filter(
-    (c) => (c.progress >= c.target || c.isCompleted) && claimedList.includes(c.id)
+    (c) =>
+      (c.progress >= c.target || c.isCompleted) && claimedList.includes(c.id),
   ).length;
   const remainingWords = Math.max(0, 10 - wordsPracticedToday);
-  const userTitle = LEVEL_TITLES[user.level] || user.title || "Vocabulary Builder";
+  const userTitle =
+    LEVEL_TITLES[user.level] || user.title || "Vocabulary Builder";
   const maxWeeklyXp = Math.max(...weeklyXp.map((d) => d.xp), 10);
 
   const quickActions = [
@@ -290,7 +317,8 @@ export default function DashboardPage() {
       href: "/study/practice",
       icon: PenLine,
       gradient: "from-blue-600 to-indigo-600",
-      accent: "bg-blue-500/10 text-blue-600 dark:text-sky-400 border-blue-500/20",
+      accent:
+        "bg-blue-500/10 text-blue-600 dark:text-sky-400 border-blue-500/20",
     },
     {
       title: "Đấu trường PvP",
@@ -298,7 +326,8 @@ export default function DashboardPage() {
       href: "/study/pvp",
       icon: Swords,
       gradient: "from-indigo-600 to-purple-600",
-      accent: "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20",
+      accent:
+        "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20",
     },
     {
       title: "Khám phá chủ đề",
@@ -306,7 +335,8 @@ export default function DashboardPage() {
       href: "/vocabulary",
       icon: Globe,
       gradient: "from-emerald-600 to-teal-600",
-      accent: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
+      accent:
+        "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
     },
     {
       title: "Cửa hàng vật phẩm",
@@ -314,7 +344,8 @@ export default function DashboardPage() {
       href: "/shop",
       icon: Coins,
       gradient: "from-amber-500 to-orange-600",
-      accent: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
+      accent:
+        "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
     },
   ];
 
@@ -341,12 +372,13 @@ export default function DashboardPage() {
   const handleCheckIn = () => {
     const todayStr = new Date().toISOString().slice(0, 10);
     const checkinKey = `daily_checkin_${todayStr}`;
-    
+
     if (claimedList.includes(checkinKey)) {
       addToast({
         type: "info",
         title: "Đã điểm danh hôm nay! ✨",
-        message: "Bạn đã hoàn thành điểm danh hôm nay. Hãy tiếp tục duy trì chuỗi nhé!",
+        message:
+          "Bạn đã hoàn thành điểm danh hôm nay. Hãy tiếp tục duy trì chuỗi nhé!",
         duration: 3000,
       });
       return;
@@ -365,7 +397,8 @@ export default function DashboardPage() {
     addToast({
       type: "success",
       title: "Điểm danh thành công! 🔥",
-      message: "+15 XP, +20 Vàng và +5 phút luyện tập đã được cộng vào tài khoản!",
+      message:
+        "+15 XP, +20 Vàng và +5 phút luyện tập đã được cộng vào tài khoản!",
       duration: 3000,
     });
   };
@@ -406,9 +439,7 @@ export default function DashboardPage() {
       }
     } catch (e) {
       console.error(e);
-      setAiAnswer(
-        "Không có kết nối mạng. Vui lòng kiểm tra lại đường truyền.",
-      );
+      setAiAnswer("Không có kết nối mạng. Vui lòng kiểm tra lại đường truyền.");
     } finally {
       setIsAiLoading(false);
     }
@@ -416,12 +447,22 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-2.5 sm:space-y-4 pb-16 md:pb-6 px-1 md:px-0 relative select-none font-sans">
-      
       {/* Mobile Landscape Orientation Overlay */}
-      <div className="hidden max-lg:landscape:flex fixed inset-0 bg-[#f0f4f8] dark:bg-slate-950 z-50 flex-col items-center justify-center p-6 text-center select-none" aria-hidden="true">
-        <img src="/mascot.png" alt="XP Logo" className="w-12 h-12 object-contain animate-bounce mb-3 shrink-0" />
-        <h3 className="text-sm font-bold text-slate-900 dark:text-white font-display">Vui lòng xoay dọc điện thoại</h3>
-        <p className="text-xs font-semibold text-slate-600 dark:text-slate-400 mt-1">XP English | XP Voca hoạt động tốt nhất ở chế độ màn hình dọc.</p>
+      <div
+        className="hidden max-lg:landscape:flex fixed inset-0 bg-[#f0f4f8] dark:bg-slate-950 z-50 flex-col items-center justify-center p-6 text-center select-none"
+        aria-hidden="true"
+      >
+        <img
+          src="/app-icon-horizontal-brand.png"
+          alt="XP Logo"
+          className="w-12 h-12 object-contain animate-bounce mb-3 shrink-0"
+        />
+        <h3 className="text-sm font-bold text-slate-900 dark:text-white font-display">
+          Vui lòng xoay dọc điện thoại
+        </h3>
+        <p className="text-xs font-semibold text-slate-600 dark:text-slate-400 mt-1">
+          XP English | XP Voca hoạt động tốt nhất ở chế độ màn hình dọc.
+        </p>
       </div>
 
       {/* 0. Top Hero Announcement Banner Card */}
@@ -475,7 +516,9 @@ export default function DashboardPage() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
           <div>
             <h1 className="text-base sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white font-display flex items-center gap-1.5">
-              <span>Chào mừng trở lại, {user.fullName || "Minh Vu Van"}! 👋</span>
+              <span>
+                Chào mừng trở lại, {user.fullName || "Minh Vu Van"}! 👋
+              </span>
             </h1>
             <p className="hidden sm:block text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-0.5">
               Cố gắng lên nhé bạn ơi — mình tin bạn sẽ ngày càng tiến bộ!
@@ -497,7 +540,6 @@ export default function DashboardPage() {
 
         {/* Integrated 4 Micro-Sharp Hero Metrics Strip */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
-          
           {/* Metric 1: Streak */}
           <div className="p-2 sm:p-2.5 rounded-md bg-slate-50/80 dark:bg-slate-950/80 border border-slate-200/50 dark:border-white/5 flex items-center gap-2">
             <div className="w-6.5 h-6.5 sm:w-7 sm:h-7 rounded-sm bg-orange-50 dark:bg-orange-950/60 border border-orange-200/50 dark:border-orange-900/40 text-orange-500 flex items-center justify-center shrink-0 shadow-2xs">
@@ -505,9 +547,14 @@ export default function DashboardPage() {
             </div>
             <div className="min-w-0">
               <div className="text-xs sm:text-base font-black font-display text-slate-900 dark:text-white truncate">
-                {user.currentStreak} <span className="text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400">ngày</span>
+                {user.currentStreak}{" "}
+                <span className="text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400">
+                  ngày
+                </span>
               </div>
-              <div className="text-[9px] sm:text-[10px] font-medium text-slate-400 truncate">Chuỗi hiện tại</div>
+              <div className="text-[9px] sm:text-[10px] font-medium text-slate-400 truncate">
+                Chuỗi hiện tại
+              </div>
             </div>
           </div>
 
@@ -520,7 +567,9 @@ export default function DashboardPage() {
               <div className="text-xs sm:text-base font-black font-display text-slate-900 dark:text-white truncate">
                 0h {user.minutesStudied || 5}m
               </div>
-              <div className="text-[9px] sm:text-[10px] font-medium text-slate-400 truncate">Thời gian luyện tập</div>
+              <div className="text-[9px] sm:text-[10px] font-medium text-slate-400 truncate">
+                Thời gian luyện tập
+              </div>
             </div>
           </div>
 
@@ -531,9 +580,14 @@ export default function DashboardPage() {
             </div>
             <div className="min-w-0">
               <div className="text-xs sm:text-base font-black font-display text-slate-900 dark:text-white truncate">
-                {savedWordsCount} <span className="text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400">từ</span>
+                {savedWordsCount}{" "}
+                <span className="text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400">
+                  từ
+                </span>
               </div>
-              <div className="text-[9px] sm:text-[10px] font-medium text-slate-400 truncate">Từ đã lưu</div>
+              <div className="text-[9px] sm:text-[10px] font-medium text-slate-400 truncate">
+                Từ đã lưu
+              </div>
             </div>
           </div>
 
@@ -545,7 +599,10 @@ export default function DashboardPage() {
                   <Target className="w-3 h-3 stroke-[2.2]" />
                 </div>
                 <div className="text-xs sm:text-sm font-black font-display text-slate-900 dark:text-white">
-                  {user.totalXp} <span className="text-[9px] font-bold text-indigo-500">XP</span>
+                  {user.totalXp}{" "}
+                  <span className="text-[9px] font-bold text-indigo-500">
+                    XP
+                  </span>
                 </div>
               </div>
               <span className="text-[9px] font-black uppercase px-1 rounded bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300">
@@ -565,7 +622,6 @@ export default function DashboardPage() {
               </div>
             </div>
           </div>
-
         </div>
       </motion.div>
 
@@ -578,7 +634,6 @@ export default function DashboardPage() {
       >
         {/* CỘT TRÁI: MAIN LEARNING HUB (7/12 Width) */}
         <div className="lg:col-span-7 space-y-3.5">
-          
           {/* Hero Daily Learning Command Card */}
           <motion.div variants={itemVariants}>
             <div className="p-3 sm:p-4 rounded-lg bg-gradient-to-br from-blue-50/80 via-indigo-50/40 to-slate-50 dark:from-blue-950/30 dark:via-indigo-950/20 dark:to-slate-900/40 border border-blue-200/60 dark:border-blue-800/30 shadow-xs space-y-2 sm:space-y-3">
@@ -591,17 +646,26 @@ export default function DashboardPage() {
                   LỘ TRÌNH HÔM NAY
                 </Badge>
                 <span className="text-[11px] font-bold text-slate-600 dark:text-slate-300">
-                  Tiến trình: <span className="text-blue-600 dark:text-sky-400 font-display text-xs font-black">{10 - remainingWords}</span>/10 từ
+                  Tiến trình:{" "}
+                  <span className="text-blue-600 dark:text-sky-400 font-display text-xs font-black">
+                    {10 - remainingWords}
+                  </span>
+                  /10 từ
                 </span>
               </div>
 
               <h2 className="text-xs sm:text-sm font-bold tracking-tight text-slate-900 dark:text-white font-display leading-snug line-clamp-2 sm:line-clamp-none">
-                {currentTask || "Ngày 13: Luyện nghe TOEIC Part 6: Text Completion & Liên từ/Trạng từ. Hoàn thành 10 câu trắc nghiệm nghe và ghi chú các từ mới."}
+                {currentTask ||
+                  "Ngày 13: Luyện nghe TOEIC Part 6: Text Completion & Liên từ/Trạng từ. Hoàn thành 10 câu trắc nghiệm nghe và ghi chú các từ mới."}
               </h2>
 
               <div className="grid grid-cols-3 gap-1 sm:flex sm:items-center sm:gap-1.5">
                 <span className="inline-flex items-center justify-center gap-0.5 text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded bg-white/90 dark:bg-slate-900/90 border border-slate-200/60 dark:border-white/10 text-slate-800 dark:text-slate-200 shadow-2xs whitespace-nowrap">
-                  🎯 <span className="text-blue-600 dark:text-sky-400 font-black">{remainingWords}</span> từ chưa học
+                  🎯{" "}
+                  <span className="text-blue-600 dark:text-sky-400 font-black">
+                    {remainingWords}
+                  </span>{" "}
+                  từ chưa học
                 </span>
                 <span className="inline-flex items-center justify-center gap-0.5 text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded bg-white/90 dark:bg-slate-900/90 border border-slate-200/60 dark:border-white/10 text-slate-800 dark:text-slate-200 shadow-2xs whitespace-nowrap">
                   ⏱️ ~15 phút
@@ -615,7 +679,9 @@ export default function DashboardPage() {
                 <div className="flex-1 max-w-xs h-1.5 rounded-full bg-slate-200/80 dark:bg-slate-800 overflow-hidden">
                   <div
                     className="h-full rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 transition-all duration-500"
-                    style={{ width: `${Math.min(100, ((10 - remainingWords) / 10) * 100)}%` }}
+                    style={{
+                      width: `${Math.min(100, ((10 - remainingWords) / 10) * 100)}%`,
+                    }}
                   />
                 </div>
 
@@ -635,7 +701,6 @@ export default function DashboardPage() {
           {/* Interactive Skill Analytics & 7-Day Graph Card */}
           <motion.div variants={itemVariants}>
             <div className="p-3 sm:p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-2.5 sm:space-y-3.5">
-              
               {/* Skill Tabs Bar */}
               <div className="p-0.5 bg-slate-100 dark:bg-slate-950 rounded-md flex items-center gap-0.5 overflow-x-auto no-scrollbar border border-slate-200/50 dark:border-white/5">
                 <button
@@ -695,7 +760,9 @@ export default function DashboardPage() {
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-[11px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 font-display flex items-center gap-1.5 truncate">
                     <BarChart3 className="w-3.5 h-3.5 text-blue-600 dark:text-sky-400 shrink-0" />
-                    <span className="hidden sm:inline">Phút luyện tập (7 ngày gần đây)</span>
+                    <span className="hidden sm:inline">
+                      Phút luyện tập (7 ngày gần đây)
+                    </span>
                     <span className="sm:hidden">Luyện tập (7 ngày)</span>
                   </span>
                   <span className="text-[11px] sm:text-xs font-black text-blue-600 dark:text-sky-400 shrink-0">
@@ -712,16 +779,53 @@ export default function DashboardPage() {
                       preserveAspectRatio="none"
                     >
                       <defs>
-                        <linearGradient id="lineChartGradient" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#1d6ee6" stopOpacity="0.25" />
-                          <stop offset="100%" stopColor="#1d6ee6" stopOpacity="0.0" />
+                        <linearGradient
+                          id="lineChartGradient"
+                          x1="0"
+                          y1="0"
+                          x2="0"
+                          y2="1"
+                        >
+                          <stop
+                            offset="0%"
+                            stopColor="#1d6ee6"
+                            stopOpacity="0.25"
+                          />
+                          <stop
+                            offset="100%"
+                            stopColor="#1d6ee6"
+                            stopOpacity="0.0"
+                          />
                         </linearGradient>
                       </defs>
 
                       {/* Horizontal Grid lines */}
-                      <line x1="0" y1="20" x2="700" y2="20" stroke="currentColor" className="text-slate-200/50 dark:text-white/5" strokeDasharray="4 4" />
-                      <line x1="0" y1="60" x2="700" y2="60" stroke="currentColor" className="text-slate-200/50 dark:text-white/5" strokeDasharray="4 4" />
-                      <line x1="0" y1="100" x2="700" y2="100" stroke="currentColor" className="text-slate-200/50 dark:text-white/5" />
+                      <line
+                        x1="0"
+                        y1="20"
+                        x2="700"
+                        y2="20"
+                        stroke="currentColor"
+                        className="text-slate-200/50 dark:text-white/5"
+                        strokeDasharray="4 4"
+                      />
+                      <line
+                        x1="0"
+                        y1="60"
+                        x2="700"
+                        y2="60"
+                        stroke="currentColor"
+                        className="text-slate-200/50 dark:text-white/5"
+                        strokeDasharray="4 4"
+                      />
+                      <line
+                        x1="0"
+                        y1="100"
+                        x2="700"
+                        y2="100"
+                        stroke="currentColor"
+                        className="text-slate-200/50 dark:text-white/5"
+                      />
 
                       {(() => {
                         const points = weeklyXp.map((d, i) => {
@@ -814,7 +918,9 @@ export default function DashboardPage() {
                 <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2 gap-2">
                   <h3 className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-sky-400 flex items-center gap-1.5 font-display shrink-0">
                     <Bot className="h-3.5 w-3.5 text-blue-600 dark:text-sky-400 stroke-[2.2] shrink-0" />
-                    <span className="hidden sm:inline">HỎI ĐÁP NHANH CÙNG AI TUTOR</span>
+                    <span className="hidden sm:inline">
+                      HỎI ĐÁP NHANH CÙNG AI TUTOR
+                    </span>
                     <span className="sm:hidden">HỎI ĐÁP AI TUTOR</span>
                   </h3>
                   <span className="text-[9px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-1.5 py-0.2 rounded border border-emerald-500/20 shrink-0">
@@ -823,7 +929,10 @@ export default function DashboardPage() {
                 </div>
 
                 <div className="space-y-1">
-                  <label htmlFor="ai-prompt-input" className="text-[11px] font-bold text-slate-700 dark:text-slate-300">
+                  <label
+                    htmlFor="ai-prompt-input"
+                    className="text-[11px] font-bold text-slate-700 dark:text-slate-300"
+                  >
                     Đặt câu hỏi từ vựng hoặc ngữ pháp:
                   </label>
                   <div className="flex gap-2">
@@ -868,16 +977,13 @@ export default function DashboardPage() {
               </AnimatePresence>
             </div>
           </motion.div>
-
         </div>
 
         {/* CỘT PHẢI: GAMIFIED COMPACT SIDEBAR (5/12 Width) */}
         <div className="lg:col-span-5 space-y-3.5">
-          
           {/* Widget 1: FLUID CONNECTED STREAK ATTENDANCE TRACK */}
           <motion.div variants={itemVariants}>
             <div className="p-3 sm:p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-2 sm:space-y-3">
-              
               {/* Header with Flame Badge & Action CTA */}
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5 gap-2.5">
                 <div className="flex items-center gap-2">
@@ -906,19 +1012,22 @@ export default function DashboardPage() {
               <div className="relative py-1 px-1">
                 {/* Background Track Line */}
                 <div className="h-1 bg-slate-100 dark:bg-slate-800 absolute top-[28px] left-[5%] right-[5%] z-0 rounded-full" />
-                
+
                 {/* Active Progress Line */}
                 <div
                   className="h-1 bg-gradient-to-r from-orange-500 to-amber-500 absolute top-[28px] left-[5%] z-0 rounded-full transition-all duration-500"
                   style={{
-                    width: `${Math.max(0, Math.min(90, (weekDays.filter(w => w.status === "learned" || w.status === "current").length / 7) * 90))}%`,
+                    width: `${Math.max(0, Math.min(90, (weekDays.filter((w) => w.status === "learned" || w.status === "current").length / 7) * 90))}%`,
                   }}
                 />
 
                 {/* 7 Connected Nodes */}
                 <div className="flex items-center justify-between relative z-10">
                   {weekDays.map((wd, i) => (
-                    <div key={i} className="flex flex-col items-center gap-1 text-center">
+                    <div
+                      key={i}
+                      className="flex flex-col items-center gap-1 text-center"
+                    >
                       <span className="text-[9px] font-black text-slate-400 uppercase">
                         {wd.day}
                       </span>
@@ -932,17 +1041,27 @@ export default function DashboardPage() {
                               : "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-400"
                         }`}
                       >
-                        {wd.status === "learned" ? "🔥" : wd.status === "current" ? "⚡" : "•"}
+                        {wd.status === "learned"
+                          ? "🔥"
+                          : wd.status === "current"
+                            ? "⚡"
+                            : "•"}
                       </div>
 
-                      <span className={`text-[8px] font-extrabold tracking-tight ${
-                        wd.status === "current"
-                          ? "text-orange-500 font-black"
+                      <span
+                        className={`text-[8px] font-extrabold tracking-tight ${
+                          wd.status === "current"
+                            ? "text-orange-500 font-black"
+                            : wd.status === "learned"
+                              ? "text-emerald-600 dark:text-emerald-400"
+                              : "text-slate-400"
+                        }`}
+                      >
+                        {wd.status === "current"
+                          ? "Hôm nay"
                           : wd.status === "learned"
-                            ? "text-emerald-600 dark:text-emerald-400"
-                            : "text-slate-400"
-                      }`}>
-                        {wd.status === "current" ? "Hôm nay" : wd.status === "learned" ? "Đã nhận" : "+10XP"}
+                            ? "Đã nhận"
+                            : "+10XP"}
                       </span>
                     </div>
                   ))}
@@ -952,7 +1071,10 @@ export default function DashboardPage() {
               {/* Bottom Motivation Reward Strip */}
               <div className="p-2 rounded-md bg-amber-500/10 border border-amber-500/20 text-[10px] font-bold text-amber-700 dark:text-amber-300 flex items-center justify-between gap-2">
                 <span className="flex items-center gap-1.5 truncate">
-                  🎁 Điểm danh đủ 7 ngày nhận ngay <span className="hidden sm:inline font-black text-amber-600 dark:text-amber-400">+100 Vàng & Badge</span>
+                  🎁 Điểm danh đủ 7 ngày nhận ngay{" "}
+                  <span className="hidden sm:inline font-black text-amber-600 dark:text-amber-400">
+                    +100 Vàng & Badge
+                  </span>
                 </span>
                 <span className="shrink-0 text-[9px] font-black px-1.5 py-0.5 rounded bg-amber-500 text-white">
                   Thưởng tuần
@@ -976,7 +1098,9 @@ export default function DashboardPage() {
                     <button
                       onClick={() => setLeaderboardTab("week")}
                       className={`px-1.5 py-0.5 rounded transition-all ${
-                        leaderboardTab === "week" ? "bg-white dark:bg-slate-900 shadow-2xs font-extrabold text-slate-900 dark:text-white" : "text-slate-400"
+                        leaderboardTab === "week"
+                          ? "bg-white dark:bg-slate-900 shadow-2xs font-extrabold text-slate-900 dark:text-white"
+                          : "text-slate-400"
                       }`}
                     >
                       Tuần
@@ -984,13 +1108,18 @@ export default function DashboardPage() {
                     <button
                       onClick={() => setLeaderboardTab("month")}
                       className={`px-1.5 py-0.5 rounded transition-all ${
-                        leaderboardTab === "month" ? "bg-white dark:bg-slate-900 shadow-2xs font-extrabold text-slate-900 dark:text-white" : "text-slate-400"
+                        leaderboardTab === "month"
+                          ? "bg-white dark:bg-slate-900 shadow-2xs font-extrabold text-slate-900 dark:text-white"
+                          : "text-slate-400"
                       }`}
                     >
                       Tháng
                     </button>
                   </div>
-                  <Link href="/community/leaderboard" className="text-[10px] font-bold text-blue-600 dark:text-sky-400 hover:underline shrink-0">
+                  <Link
+                    href="/community/leaderboard"
+                    className="text-[10px] font-bold text-blue-600 dark:text-sky-400 hover:underline shrink-0"
+                  >
                     Tất cả ➔
                   </Link>
                 </div>
@@ -1025,11 +1154,16 @@ export default function DashboardPage() {
                 {/* User Row (Live Synced) */}
                 <div className="flex items-center justify-between p-2 rounded bg-blue-50/80 dark:bg-blue-950/40 border border-blue-200/60 dark:border-blue-800/40">
                   <div className="flex items-center gap-2 min-w-0">
-                    <span className="text-[10px] font-black text-blue-600 dark:text-sky-400 shrink-0">#{userRankInLeaderboard}</span>
+                    <span className="text-[10px] font-black text-blue-600 dark:text-sky-400 shrink-0">
+                      #{userRankInLeaderboard}
+                    </span>
                     <div className="w-5.5 h-5.5 rounded-full bg-[#0059bb] text-white font-bold text-[9px] flex items-center justify-center shrink-0 shadow-2xs">
-                      {user?.avatarEmoji || (user?.fullName || "X").charAt(0).toUpperCase()}
+                      {user?.avatarEmoji ||
+                        (user?.fullName || "X").charAt(0).toUpperCase()}
                     </div>
-                    <span className="text-xs font-bold text-slate-900 dark:text-white truncate">Bạn</span>
+                    <span className="text-xs font-bold text-slate-900 dark:text-white truncate">
+                      Bạn
+                    </span>
                   </div>
                   <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-amber-500 text-white shadow-2xs font-mono">
                     {leaderboardCriterion === "xp"
@@ -1054,7 +1188,9 @@ export default function DashboardPage() {
                       <div className="flex items-center gap-2 min-w-0">
                         <span className="text-xs shrink-0">{medal}</span>
                         <div className="w-5.5 h-5.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-[9px] flex items-center justify-center shrink-0">
-                          {leader.avatarEmoji || leader.fullName?.charAt(0) || "🦉"}
+                          {leader.avatarEmoji ||
+                            leader.fullName?.charAt(0) ||
+                            "🦉"}
                         </div>
                         <div className="min-w-0">
                           <span className="text-xs font-medium text-slate-900 dark:text-white truncate block">
@@ -1082,14 +1218,18 @@ export default function DashboardPage() {
                     Nhiệm vụ hôm nay
                   </h2>
                 </div>
-                <Badge variant="primary" className="font-bold text-[9px] py-0.2 px-1.5">
+                <Badge
+                  variant="primary"
+                  className="font-bold text-[9px] py-0.2 px-1.5"
+                >
                   {completedChallenges}/{challenges.length} HOÀN THÀNH
                 </Badge>
               </div>
 
               <div className="space-y-1.5">
                 {challenges.map((ch) => {
-                  const hasReachedGoal = ch.progress >= ch.target || ch.isCompleted;
+                  const hasReachedGoal =
+                    ch.progress >= ch.target || ch.isCompleted;
                   const isClaimed = claimedList.includes(ch.id);
                   const isTaskFullyCompleted = hasReachedGoal && isClaimed;
 
@@ -1118,18 +1258,30 @@ export default function DashboardPage() {
                       <div className="flex items-center gap-1 shrink-0">
                         <div>
                           {isTaskFullyCompleted ? (
-                            <Badge variant="success" className="font-bold text-[9px] py-0.2 px-1">
+                            <Badge
+                              variant="success"
+                              className="font-bold text-[9px] py-0.2 px-1"
+                            >
                               ĐÃ NHẬN
                             </Badge>
                           ) : hasReachedGoal ? (
                             <button
-                              onClick={() => handleClaimChallenge(ch.id, ch.xpReward, ch.coinReward)}
+                              onClick={() =>
+                                handleClaimChallenge(
+                                  ch.id,
+                                  ch.xpReward,
+                                  ch.coinReward,
+                                )
+                              }
                               className="px-2 h-6 text-[9px] font-black bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded shadow-2xs active:scale-95 transition-transform uppercase tracking-wider cursor-pointer whitespace-nowrap"
                             >
                               Nhận +{ch.xpReward} XP
                             </button>
                           ) : (
-                            <Badge variant="neutral" className="text-[9px] font-bold py-0.2 px-1">
+                            <Badge
+                              variant="neutral"
+                              className="text-[9px] font-bold py-0.2 px-1"
+                            >
                               {ch.progress}/{ch.target}
                             </Badge>
                           )}
@@ -1141,7 +1293,6 @@ export default function DashboardPage() {
               </div>
             </div>
           </motion.div>
-
         </div>
       </motion.div>
 
@@ -1149,16 +1300,25 @@ export default function DashboardPage() {
       <motion.div
         initial={{ opacity: 0, y: 6 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 110, damping: 20, delay: 0.06 }}
+        transition={{
+          type: "spring",
+          stiffness: 110,
+          damping: 20,
+          delay: 0.06,
+        }}
         className="space-y-2 pt-1"
       >
         <div className="flex items-center justify-between px-0.5">
           <h2 className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-sky-400 font-display flex items-center gap-1.5">
             <Zap className="w-3.5 h-3.5 text-amber-500 fill-amber-500 shrink-0" />
             <span>PHÍM TẮT NHANH</span>
-            <span className="hidden sm:inline text-slate-400 font-normal">(QUICK ACTIONS)</span>
+            <span className="hidden sm:inline text-slate-400 font-normal">
+              (QUICK ACTIONS)
+            </span>
           </h2>
-          <span className="hidden sm:inline text-[10px] font-semibold text-slate-400">Truy cập siêu tốc ⚡</span>
+          <span className="hidden sm:inline text-[10px] font-semibold text-slate-400">
+            Truy cập siêu tốc ⚡
+          </span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-1.5 sm:gap-2.5">
@@ -1176,7 +1336,9 @@ export default function DashboardPage() {
                   className="group block p-2 sm:p-2.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 hover:border-blue-500/40 dark:hover:border-blue-500/40 transition-all duration-200 shadow-2xs hover:shadow-2xs relative overflow-hidden"
                 >
                   <div className="flex items-center gap-2 sm:gap-2.5">
-                    <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-md bg-gradient-to-br ${action.gradient} text-white flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform`}>
+                    <div
+                      className={`w-7 h-7 sm:w-8 sm:h-8 rounded-md bg-gradient-to-br ${action.gradient} text-white flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform`}
+                    >
                       <Icon className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[2]" />
                     </div>
                     <div className="min-w-0 flex-1">
@@ -1195,7 +1357,6 @@ export default function DashboardPage() {
           })}
         </div>
       </motion.div>
-
     </div>
   );
 }

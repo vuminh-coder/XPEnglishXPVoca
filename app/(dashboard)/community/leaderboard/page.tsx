@@ -196,28 +196,28 @@ export default function LeaderboardPage() {
         {/* LEFT 3/4 COLUMN: SEGMENTED TABS, PODIUM & RANKING STREAM */}
         <div className="lg:col-span-8 space-y-4">
           
-          {/* SEGMENTED NAVIGATION TABS (EVENLY DISTRIBUTED 4-COLUMNS) */}
-          <div className="p-1 rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-1 sm:gap-1.5 w-full">
+          {/* SEGMENTED NAVIGATION TABS */}
+          <div className="p-1 rounded-md sm:rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 grid grid-cols-4 gap-1 w-full">
             <Link
               href="/community"
-              className="py-1.5 px-2.5 sm:px-3 rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800 text-xs font-bold transition-all flex items-center justify-center gap-1.5 w-full truncate text-center font-display"
+              className="py-1.5 px-3 rounded-sm sm:rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800 text-[10px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap"
             >
-              <MessageSquare className="w-3.5 h-3.5 shrink-0" /> <span className="truncate">Bảng tin</span>
+              <MessageSquare className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" /> Bảng tin
             </Link>
-            <div className="py-1.5 px-2.5 sm:px-3 rounded-md bg-[#0059bb] text-white text-xs font-bold shadow-2xs flex items-center justify-center gap-1.5 w-full truncate text-center font-display">
-              <Trophy className="w-3.5 h-3.5 text-amber-300 shrink-0" /> <span className="truncate">Bảng xếp hạng</span>
+            <div className="py-1.5 px-3 rounded-sm sm:rounded-md bg-[#0059bb] text-white text-[10px] sm:text-xs font-bold shadow-2xs flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap">
+              <Trophy className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-300 shrink-0" /> Xếp hạng
             </div>
             <Link
               href="/community/friends"
-              className="py-1.5 px-2.5 sm:px-3 rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800 text-xs font-bold transition-all flex items-center justify-center gap-1.5 w-full truncate text-center font-display"
+              className="py-1.5 px-3 rounded-sm sm:rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800 text-[10px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap"
             >
-              <UserPlus className="w-3.5 h-3.5 text-sky-500 shrink-0" /> <span className="truncate">Bạn bè</span>
+              <UserPlus className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-sky-500 shrink-0" /> Bạn bè
             </Link>
             <Link
               href="/community/groups"
-              className="py-1.5 px-2.5 sm:px-3 rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800 text-xs font-bold transition-all flex items-center justify-center gap-1.5 w-full truncate text-center font-display"
+              className="py-1.5 px-3 rounded-sm sm:rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800 text-[10px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap"
             >
-              <Users className="w-3.5 h-3.5 text-indigo-500 shrink-0" /> <span className="truncate">Nhóm học tập</span>
+              <Users className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-indigo-500 shrink-0" /> Nhóm
             </Link>
           </div>
 

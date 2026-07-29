@@ -25,11 +25,11 @@ export const metadata: Metadata = {
   ],
   icons: {
     icon: [
-      { url: "/icons/favicon-32x32.png?v=12", sizes: "32x32" },
-      { url: "/icons/icon-any-192x192.png?v=12", sizes: "192x192" },
+      { url: "/app-icon-horizontal-brand.png?v=13", sizes: "32x32" },
+      { url: "/app-icon-horizontal-brand.png?v=13", sizes: "192x192" },
     ],
-    shortcut: "/icons/favicon-32x32.png?v=12",
-    apple: [{ url: "/icons/apple-touch-icon.png?v=12", sizes: "180x180" }],
+    shortcut: "/app-icon-horizontal-brand.png?v=13",
+    apple: [{ url: "/app-icon-horizontal-brand.png?v=13", sizes: "180x180" }],
   },
 };
 
