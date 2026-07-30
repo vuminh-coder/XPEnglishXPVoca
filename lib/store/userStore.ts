@@ -9,8 +9,9 @@ interface UserState {
   addPracticeTime: (minutes: number) => void;
   awardCoins: (amount: number) => void;
   updateProfile: (fullName: string, bio: string) => void;
-  syncClerkUser: (clerkUser: any, isSignedIn: boolean) => void;
   setLocalUser: () => void;
+  setUserPayload: (user: User) => void;
+  checkSession: () => Promise<void>;
   buyStreakFreeze: () => Promise<boolean>;
   buyDoubleXp: () => Promise<boolean>;
   syncStreak: (hasCompletedActivity: boolean) => void;
@@ -298,116 +299,43 @@ export const useUserStore = create<UserState>((set, get) => ({
       }
     }
   },
-  syncClerkUser: (clerkUser, isSignedIn) => {
-    if (!isSignedIn || !clerkUser) {
-      set({ user: null });
-      return;
-    }
-
-    const userId = clerkUser.id;
-    const email = clerkUser.primaryEmailAddress?.emailAddress || "";
-    const emailPrefix = email ? email.split("@")[0].replace(/[^a-zA-Z0-9_]/g, "") : "";
-    const username = clerkUser.username || clerkUser.firstName || emailPrefix || "user";
-    const fullName = clerkUser.fullName || [clerkUser.firstName, clerkUser.lastName].filter(Boolean).join(" ") || emailPrefix || "User";
-    const imageUrl = clerkUser.imageUrl || "";
-
-    let storedUser: Partial<User> = {};
+  setUserPayload: (userPayload: User) => {
+    const existingUser = get().user;
+    let cachedImageUrl = "";
     if (typeof window !== "undefined") {
       try {
-        const localData = localStorage.getItem(`xp_voca_user_${userId}`);
-        if (localData) {
-          storedUser = JSON.parse(localData);
+        const cached = localStorage.getItem(`xp_voca_user_${userPayload.id}`);
+        if (cached) {
+          cachedImageUrl = JSON.parse(cached).imageUrl || "";
         }
-      } catch (e) {
-        console.error("Error loading user data from localStorage:", e);
-      }
+      } catch (e) {}
     }
 
-    const userLevel = storedUser.level || 1;
-    const syncedUser: User = {
-      id: userId,
-      username: storedUser.username || username,
-      fullName: storedUser.fullName || fullName,
-      email: storedUser.email || email,
-      level: userLevel,
-      totalXp: storedUser.totalXp || 0,
-      currentStreak: storedUser.currentStreak || 0,
-      longestStreak: storedUser.longestStreak || 0,
-      avatarEmoji: storedUser.avatarEmoji || "🦉",
-      bio: storedUser.bio || "Học viên mới của XP Voca! 🚀",
-      title: LEVEL_TITLES[userLevel] || storedUser.title || "Newbie",
-      wordsLearned: storedUser.wordsLearned || 0,
-      wordsToReview: storedUser.wordsToReview || 0,
-      minutesStudied: storedUser.minutesStudied || 0,
-      imageUrl: imageUrl,
-      coins: storedUser.coins !== undefined ? storedUser.coins : 100,
-      streakFreezes: storedUser.streakFreezes !== undefined ? storedUser.streakFreezes : 0,
+    const mergedUser: User = {
+      ...userPayload,
+      imageUrl: userPayload.imageUrl || existingUser?.imageUrl || cachedImageUrl || "",
     };
 
-    set({ user: syncedUser });
-
+    set({ user: mergedUser });
     if (typeof window !== "undefined") {
-      localStorage.setItem(`xp_voca_user_${userId}`, JSON.stringify(syncedUser));
+      localStorage.setItem("xp_voca_active_userId", mergedUser.id);
+      localStorage.setItem(`xp_voca_user_${mergedUser.id}`, JSON.stringify(mergedUser));
     }
-
-    // Load vocabulary progress locally first
-    useVocabularyStore.getState().loadLearnedWords(userId);
-
-    // Validate streak status locally on Clerk user load
+    useVocabularyStore.getState().loadLearnedWords(mergedUser.id);
     get().syncStreak(false);
-
-    // Sync with secure profile API endpoint
-    (async () => {
-      try {
-        const res = await fetch("/api/user/profile");
-        const json = await res.json();
-        
-        if (json.success && json.data) {
-          const profile = json.data;
-          const cloudUser: User = {
-            ...syncedUser,
-            fullName: profile.fullName || syncedUser.fullName,
-            username: profile.username || syncedUser.username,
-            level: profile.level || syncedUser.level,
-            totalXp: profile.totalXp || syncedUser.totalXp,
-            currentStreak: profile.currentStreak || syncedUser.currentStreak,
-            longestStreak: profile.longestStreak || syncedUser.longestStreak,
-            minutesStudied: profile.minutesStudied || syncedUser.minutesStudied,
-            title: profile.title || syncedUser.title,
-            avatarEmoji: profile.avatarEmoji || syncedUser.avatarEmoji,
-            coins: profile.coins !== undefined ? profile.coins : syncedUser.coins,
-            streakFreezes: profile.streakFreezes !== undefined ? profile.streakFreezes : syncedUser.streakFreezes,
-          };
-          set({ user: cloudUser });
-          localStorage.setItem(`xp_voca_user_${userId}`, JSON.stringify(cloudUser));
-          
-          // Re-validate streak after retrieving server-synced cloud data
-          get().syncStreak(false);
-
-          // Re-load vocabulary progress to sync correctly after profile loaded
-          useVocabularyStore.getState().loadLearnedWords(userId);
-        } else {
-          // If profile fetch fails or profile is missing, initialize on server
-          await fetch("/api/user/profile", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              fullName: syncedUser.fullName,
-              username: syncedUser.username,
-              avatarEmoji: syncedUser.avatarEmoji,
-              level: syncedUser.level,
-              totalXp: syncedUser.totalXp,
-              currentStreak: syncedUser.currentStreak,
-              longestStreak: syncedUser.longestStreak,
-              minutesStudied: syncedUser.minutesStudied,
-              title: syncedUser.title,
-            }),
-          });
-        }
-      } catch (err) {
-        console.error("Secure profile sync error:", err);
+  },
+  checkSession: async () => {
+    try {
+      const res = await fetch("/api/auth/me");
+      const json = await res.json();
+      if (json.success && json.data) {
+        get().setUserPayload(json.data);
+      } else {
+        get().setLocalUser();
       }
-    })();
+    } catch (e) {
+      get().setLocalUser();
+    }
   },
   setLocalUser: () => {
     if (typeof window !== "undefined") {
@@ -513,6 +441,12 @@ export const useUserStore = create<UserState>((set, get) => ({
       localStorage.removeItem("xp_voca_active_userId");
       document.cookie = "auth-token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
       document.cookie = "local-user-id=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+      document.cookie = "xp_voca_session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+      
+      fetch("/api/auth/logout", { method: "POST" })
+        .finally(() => {
+          window.location.href = "/login";
+        });
     }
   },
 }));

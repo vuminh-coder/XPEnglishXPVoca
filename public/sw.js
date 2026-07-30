@@ -1,4 +1,4 @@
-const CACHE_NAME = "xp-voca-v13";
+const CACHE_NAME = "xp-voca-v14";
 const OFFLINE_URL = "/dashboard"; // Fallback URL if offline
 
 const ASSETS_TO_CACHE = [

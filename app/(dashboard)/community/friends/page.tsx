@@ -157,27 +157,27 @@ export default function FriendsPage() {
   };
 
   return (
-    <div className="space-y-6 pb-16 md:pb-6 select-none font-sans" suppressHydrationWarning>
+    <div className="space-y-3.5 sm:space-y-6 pb-16 md:pb-6 select-none font-sans" suppressHydrationWarning>
       
       {/* 1. HERO FRIENDS BANNER */}
-      <div className="p-5 sm:p-6 rounded-lg bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#0284c7] text-white shadow-xs relative overflow-hidden">
+      <div className="p-3.5 sm:p-6 rounded-md sm:rounded-lg bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#0284c7] text-white shadow-xs relative overflow-hidden">
         <div className="absolute -right-8 -bottom-8 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none" />
-        <div className="relative z-10 space-y-3">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="px-2.5 py-0.5 rounded text-[11px] font-black uppercase tracking-wider bg-white/15 text-white border border-white/20 flex items-center gap-1">
-              <UserCheck className="w-3.5 h-3.5 text-sky-200" /> Kết Nối Học Tập XP
+        <div className="relative z-10 space-y-2 sm:space-y-3">
+          <div className="flex items-center gap-1.5 sm:gap-2 flex-nowrap whitespace-nowrap overflow-x-auto no-scrollbar">
+            <span className="px-1.5 py-0.5 sm:px-2 sm:py-0.5 rounded-sm text-[8.5px] sm:text-[11px] font-black uppercase tracking-wider bg-white/15 text-white border border-white/20 flex items-center gap-1 font-display shrink-0">
+              <UserCheck className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-sky-200" /> Kết Nối Học Tập XP
             </span>
-            <span className="px-2.5 py-0.5 rounded text-[11px] font-bold bg-emerald-500/20 text-emerald-200 border border-emerald-400/30">
+            <span className="px-1.5 py-0.5 sm:px-2 sm:py-0.5 rounded-sm text-[8.5px] sm:text-[11px] font-bold bg-emerald-500/20 text-emerald-200 border border-emerald-400/30 shrink-0">
               Thưởng +10 XP / Lời mời kết bạn
             </span>
           </div>
 
-          <div className="space-y-1">
-            <h1 className="text-xl sm:text-2xl font-black font-display tracking-tight text-white flex items-center gap-2">
+          <div className="space-y-0.5 sm:space-y-1">
+            <h1 className="text-base sm:text-2xl font-black font-display tracking-tight text-white flex items-center gap-1.5 sm:gap-2">
               Bạn Đồng Hành Học Tập
-              <Sparkles className="w-5 h-5 text-amber-300" />
+              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-amber-300" />
             </h1>
-            <p className="text-xs sm:text-sm text-blue-100/90 max-w-2xl font-medium leading-relaxed">
+            <p className="hidden sm:block text-xs sm:text-sm text-blue-100/90 max-w-2xl font-medium leading-relaxed">
               Tìm kiếm và kết nối với những người bạn cùng mục tiêu thi TOEIC, IELTS để cùng nhau thi đấu và duy trì thói quen học mỗi ngày!
             </p>
           </div>
@@ -185,52 +185,52 @@ export default function FriendsPage() {
       </div>
 
       {/* 2. BENTO GRID LAYOUT (3/4 MAIN CONTENT + 1/4 SIDEBAR SUGGESTIONS) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 sm:gap-5 items-start">
         
         {/* LEFT 3/4 COLUMN: SEARCH, PENDING REQUESTS & FRIENDS LIST */}
-        <div className="lg:col-span-8 xl:col-span-8 space-y-5">
+        <div className="lg:col-span-8 xl:col-span-8 space-y-3.5 sm:space-y-5">
           
           {/* SEGMENTED NAVIGATION TABS */}
           <div className="p-1 rounded-md sm:rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 grid grid-cols-4 gap-1 w-full">
             <Link
               href="/community"
-              className="py-1.5 px-3 rounded-sm sm:rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800 text-[10px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap"
+              className="py-1.5 px-1 sm:px-3 rounded-sm sm:rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800 text-[10px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap"
             >
               <MessageSquare className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" /> Bảng tin
             </Link>
             <Link
               href="/community/leaderboard"
-              className="py-1.5 px-3 rounded-sm sm:rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800 text-[10px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap"
+              className="py-1.5 px-1 sm:px-3 rounded-sm sm:rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800 text-[10px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap"
             >
               <Trophy className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-500 shrink-0" /> Xếp hạng
             </Link>
-            <div className="py-1.5 px-3 rounded-sm sm:rounded-md bg-[#0059bb] text-white text-[10px] sm:text-xs font-bold shadow-2xs flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap">
+            <div className="py-1.5 px-1 sm:px-3 rounded-sm sm:rounded-md bg-[#0059bb] text-white text-[10px] sm:text-xs font-bold shadow-2xs flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap">
               <UserPlus className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-sky-200 shrink-0" /> Bạn bè
             </div>
             <Link
               href="/community/groups"
-              className="py-1.5 px-3 rounded-sm sm:rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800 text-[10px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap"
+              className="py-1.5 px-1 sm:px-3 rounded-sm sm:rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800 text-[10px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap"
             >
               <Users className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-indigo-500 shrink-0" /> Nhóm
             </Link>
           </div>
 
           {/* SEARCH & ADD FRIEND CARD */}
-          <div className="p-4 sm:p-5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-              <Search className="w-4 h-4 text-[#0059bb] dark:text-sky-400" /> Tìm Kiếm Bạn Bè Theo Username:
+          <div className="p-3 sm:p-5 rounded-md sm:rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-2.5 sm:space-y-3">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5 font-display">
+              <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#0059bb] dark:text-sky-400" /> Tìm Kiếm Bạn Bè Theo Username:
             </h3>
 
             <div className="flex items-center gap-2">
               <div className="relative flex-1">
-                <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
                   type="text"
                   value={friendName}
                   onChange={(e) => setFriendName(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSearchAndAddFriend()}
                   placeholder="Nhập tên người dùng hoặc username..."
-                  className="w-full pl-9 pr-3 py-2 rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-white/10 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0059bb]"
+                  className="w-full pl-8 sm:pl-9 pr-3 py-1.5 sm:py-2 rounded-sm sm:rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-white/10 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0059bb]"
                 />
               </div>
               <Button
@@ -238,7 +238,7 @@ export default function FriendsPage() {
                 size="sm"
                 onClick={handleSearchAndAddFriend}
                 disabled={!friendName.trim()}
-                className="px-4 py-2 rounded-md bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold transition-all shadow-2xs shrink-0 cursor-pointer disabled:opacity-50"
+                className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-sm sm:rounded-md bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold transition-all shadow-2xs shrink-0 cursor-pointer disabled:opacity-50"
               >
                 <UserPlus className="w-3.5 h-3.5" /> Kết bạn
               </Button>
@@ -247,25 +247,25 @@ export default function FriendsPage() {
 
           {/* PENDING FRIEND REQUESTS SECTION */}
           {pendingRequests.length > 0 && (
-            <div className="p-4 sm:p-5 rounded-lg bg-[#ebf3fe]/80 dark:bg-slate-800/60 border border-[#0059bb]/30 shadow-xs space-y-3">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-[#0059bb] dark:text-sky-400 flex items-center gap-1.5">
-                <UserPlus className="w-4 h-4" /> Lời Mời Kết Bạn Đang Chờ ({pendingRequests.length}):
+            <div className="p-3 sm:p-5 rounded-md sm:rounded-lg bg-[#ebf3fe]/80 dark:bg-slate-800/60 border border-[#0059bb]/30 shadow-xs space-y-2.5 sm:space-y-3">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#0059bb] dark:text-sky-400 flex items-center gap-1.5 font-display">
+                <UserPlus className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> Lời Mời Kết Bạn Đang Chờ ({pendingRequests.length}):
               </h3>
 
               <div className="space-y-2">
                 {pendingRequests.map((req: any) => (
                   <div
                     key={req.id}
-                    className="p-3 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 flex items-center justify-between gap-3"
+                    className="p-2.5 sm:p-3 rounded-sm sm:rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 flex items-center justify-between gap-2.5 sm:gap-3"
                   >
-                    <div className="flex items-center gap-3">
-                      <UserAvatar avatar={req.sender?.avatar} emoji={req.sender?.avatarEmoji} name={req.sender?.fullName} size="w-9 h-9" />
-                      <div>
-                        <div className="text-xs font-bold text-slate-900 dark:text-white font-display">
+                    <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                      <UserAvatar avatar={req.sender?.avatar} emoji={req.sender?.avatarEmoji} name={req.sender?.fullName} size="w-8 h-8 sm:w-9 sm:h-9" />
+                      <div className="min-w-0">
+                        <div className="text-xs font-bold text-slate-900 dark:text-white font-display truncate">
                           {req.sender?.fullName} <span className="text-slate-400 font-normal">(@{req.sender?.username})</span>
                         </div>
-                        <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
-                          Muốn kết nối đồng hành học tập cùng bạn
+                        <div className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-medium truncate">
+                          Muốn kết nối đồng hành học tập
                         </div>
                       </div>
                     </div>
@@ -273,13 +273,13 @@ export default function FriendsPage() {
                     <div className="flex items-center gap-1.5 shrink-0">
                       <button
                         onClick={() => handleProcessRequest(req.id, 'ACCEPT')}
-                        className="px-3 py-1.5 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-2xs flex items-center gap-1 cursor-pointer"
+                        className="px-2.5 py-1.5 rounded-sm sm:rounded-md bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-2xs flex items-center gap-1 cursor-pointer"
                       >
                         <Check className="w-3.5 h-3.5" /> Đồng ý
                       </button>
                       <button
                         onClick={() => handleProcessRequest(req.id, 'DECLINE')}
-                        className="px-3 py-1.5 rounded-md bg-slate-100 dark:bg-slate-800 hover:bg-rose-50 hover:text-rose-600 text-slate-600 dark:text-slate-400 text-xs font-bold transition-all flex items-center gap-1 cursor-pointer"
+                        className="px-2.5 py-1.5 rounded-sm sm:rounded-md bg-slate-100 dark:bg-slate-800 hover:bg-rose-50 hover:text-rose-600 text-slate-600 dark:text-slate-400 text-xs font-bold transition-all flex items-center gap-1 cursor-pointer"
                       >
                         <X className="w-3.5 h-3.5" /> Từ chối
                       </button>
@@ -291,17 +291,17 @@ export default function FriendsPage() {
           )}
 
           {/* MAIN FRIENDS LIST */}
-          <div className="p-4 sm:p-5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3.5">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5 border-b border-slate-100 dark:border-white/5 pb-2.5">
-              <Users className="w-4 h-4 text-[#0059bb] dark:text-sky-400" /> Danh Sách Bạn Bè ({friends.length}):
+          <div className="p-3 sm:p-5 rounded-md sm:rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3 sm:space-y-3.5">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5 border-b border-slate-100 dark:border-white/5 pb-2 sm:pb-2.5 font-display">
+              <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#0059bb] dark:text-sky-400" /> Danh Sách Bạn Bè ({friends.length}):
             </h3>
 
             {loading ? (
               /* SKELETON LOADING (RULE 1 COMPLIANCE) */
               <div className="space-y-2">
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="p-3 rounded-md bg-slate-100 dark:bg-slate-800/40 animate-pulse flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full bg-slate-200 dark:bg-slate-700" />
+                  <div key={i} className="p-2.5 sm:p-3 rounded-sm sm:rounded-md bg-slate-100 dark:bg-slate-800/40 animate-pulse flex items-center gap-3">
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-slate-200 dark:bg-slate-700" />
                     <div className="flex-1 space-y-1.5">
                       <div className="w-32 h-4 bg-slate-200 dark:bg-slate-700 rounded-md" />
                       <div className="w-24 h-3 bg-slate-200 dark:bg-slate-700/60 rounded-md" />
@@ -310,42 +310,42 @@ export default function FriendsPage() {
                 ))}
               </div>
             ) : friends.length === 0 ? (
-              <div className="p-6 text-center space-y-2">
-                <div className="text-2xl">👥</div>
-                <div className="text-xs font-bold text-slate-700 dark:text-slate-300">
+              <div className="p-5 text-center space-y-1.5 sm:space-y-2">
+                <div className="text-xl sm:text-2xl">👥</div>
+                <div className="text-xs font-bold text-slate-700 dark:text-slate-300 font-display">
                   Chưa có bạn bè nào trong danh sách
                 </div>
-                <p className="text-[11px] text-slate-500 max-w-xs mx-auto font-medium">
+                <p className="text-[10px] sm:text-[11px] text-slate-500 max-w-xs mx-auto font-medium">
                   Hãy kết bạn từ danh sách gợi ý bên phải để nhận thưởng +10 XP và cùng nhau thi đấu từ vựng nhé!
                 </p>
               </div>
             ) : (
-              <div className="space-y-2">
+              <div className="space-y-1.5 sm:space-y-2">
                 {friends.map((f: any) => (
                   <div
                     key={f.id}
-                    className="p-3 rounded-md bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-white/5 flex items-center justify-between gap-3 hover:bg-slate-100/80 dark:hover:bg-slate-800 transition-all"
+                    className="p-2.5 sm:p-3 rounded-sm sm:rounded-md bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-white/5 flex items-center justify-between gap-2.5 sm:gap-3 hover:bg-slate-100/80 dark:hover:bg-slate-800 transition-all"
                   >
-                    <div className="flex items-center gap-3 min-w-0">
-                      <UserAvatar avatar={f.avatar} emoji={f.avatarEmoji} name={f.fullName} size="w-9 h-9" />
+                    <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                      <UserAvatar avatar={f.avatar} emoji={f.avatarEmoji} name={f.fullName} size="w-8 h-8 sm:w-9 sm:h-9" />
                       <div className="min-w-0">
                         <div className="text-xs font-bold text-slate-900 dark:text-white font-display truncate">
                           {f.fullName} <span className="text-slate-400 font-normal">(@{f.username})</span>
                         </div>
-                        <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium truncate">
+                        <div className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-medium truncate">
                           Cấp {f.level || 1} · {f.title || 'Học viên năng nổ'}
                         </div>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-2 shrink-0">
-                      <span className="px-2.5 py-0.5 rounded text-[11px] font-black uppercase bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 border border-[#0059bb]/20">
+                    <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                      <span className="px-2 py-0.5 rounded-sm text-[10px] sm:text-[11px] font-black uppercase bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 border border-[#0059bb]/20 font-mono">
                         {f.xp || 0} XP
                       </span>
                       <button
                         onClick={() => handleRemoveFriend(f.id)}
                         title="Hủy kết bạn"
-                        className="p-1.5 rounded bg-slate-200/60 dark:bg-slate-700 hover:bg-rose-50 hover:text-rose-600 text-slate-500 dark:text-slate-400 text-xs transition-all cursor-pointer"
+                        className="p-1.5 rounded-sm bg-slate-200/60 dark:bg-slate-700 hover:bg-rose-50 hover:text-rose-600 text-slate-500 dark:text-slate-400 text-xs transition-all cursor-pointer"
                       >
                         <UserMinus className="w-3.5 h-3.5" />
                       </button>
@@ -359,13 +359,13 @@ export default function FriendsPage() {
         </div>
 
         {/* RIGHT 1/4 COLUMN: SUGGESTED FRIENDS SIDEBAR WIDGET */}
-        <div className="lg:col-span-4 xl:col-span-4 space-y-4 sticky top-4">
+        <div className="lg:col-span-4 xl:col-span-4 space-y-3.5 sm:space-y-4 sticky top-4">
           
           {/* BENTO WIDGET 1: SUGGESTED STUDY BUDDIES */}
-          <div className="p-4 sm:p-4.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3">
+          <div className="p-3.5 sm:p-4.5 rounded-md sm:rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-2.5 sm:space-y-3">
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-md bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0 border border-sky-500/20 text-base">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-sm bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0 border border-sky-500/20 text-sm sm:text-base">
                   💡
                 </div>
                 <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
@@ -373,7 +373,7 @@ export default function FriendsPage() {
                 </h3>
               </div>
 
-              <span className="text-[10px] font-bold text-emerald-600 bg-emerald-500/10 px-1.5 py-0.2 rounded">
+              <span className="text-[9px] sm:text-[10px] font-bold text-emerald-600 bg-emerald-500/10 px-1.5 py-0.2 rounded-sm font-mono">
                 +10 XP
               </span>
             </div>
@@ -382,12 +382,12 @@ export default function FriendsPage() {
               {suggestions.slice(0, 4).map((s: any) => (
                 <div
                   key={s.id}
-                  className="p-2.5 rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5 flex items-center justify-between gap-2"
+                  className="p-2 sm:p-2.5 rounded-sm bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5 flex items-center justify-between gap-2"
                 >
                   <div className="flex items-center gap-2 min-w-0">
                     <UserAvatar avatar={s.avatar} emoji={s.avatarEmoji} name={s.fullName} size="w-7 h-7" />
                     <div className="min-w-0">
-                      <div className="text-xs font-bold text-slate-900 dark:text-white truncate">
+                      <div className="text-xs font-bold text-slate-900 dark:text-white truncate font-display">
                         {s.fullName}
                       </div>
                       <div className="text-[10px] text-slate-400 truncate">
@@ -398,7 +398,7 @@ export default function FriendsPage() {
 
                   <button
                     onClick={() => handleAddFriend(s.id, s.fullName)}
-                    className="px-2 py-1 rounded bg-[#0059bb] hover:bg-[#004799] text-white text-[11px] font-bold transition-all shadow-2xs shrink-0 cursor-pointer flex items-center gap-1"
+                    className="px-2 py-1 rounded-sm bg-[#0059bb] hover:bg-[#004799] text-white text-[10px] sm:text-[11px] font-bold transition-all shadow-2xs shrink-0 cursor-pointer flex items-center gap-1"
                   >
                     <UserPlus className="w-3 h-3" /> Kết bạn
                   </button>
@@ -408,9 +408,9 @@ export default function FriendsPage() {
           </div>
 
           {/* BENTO WIDGET 2: REASON TO CONNECT */}
-          <div className="p-4 sm:p-4.5 rounded-lg bg-[#ebf3fe]/80 dark:bg-slate-800/60 border border-[#0059bb]/20 shadow-xs space-y-2">
+          <div className="p-3.5 sm:p-4.5 rounded-md sm:rounded-lg bg-[#ebf3fe]/80 dark:bg-slate-800/60 border border-[#0059bb]/20 shadow-xs space-y-1.5 sm:space-y-2">
             <div className="flex items-center gap-1.5 text-xs font-bold text-[#0059bb] dark:text-sky-400 font-display">
-              <Sparkles className="w-4 h-4" /> Lợi Ích Kết Bạn Học Tập
+              <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> Lợi Ích Kết Bạn Học Tập
             </div>
             <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
               "Học cùng bạn bè giúp duy trì chuỗi Streak học tập cao hơn 3 lần so với học đơn độc. Thách đấu từ vựng ngay!"

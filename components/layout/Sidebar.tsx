@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useUser, useClerk } from "@clerk/nextjs";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useUiStore } from "@/lib/store/uiStore";
 import { motion, AnimatePresence } from "framer-motion";
@@ -35,14 +34,6 @@ import {
   Laptop,
   Check,
 } from "lucide-react";
-
-// Check if Clerk is enabled based on key type and domain
-const checkIsClerkEnabled = () => {
-  const key = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
-  return !!(key && key.startsWith("pk_"));
-};
-
-const CLERK_ENABLED = checkIsClerkEnabled();
 
 const SpeakingIcon = ({
   className = "w-[18px] h-[18px]",
@@ -166,11 +157,13 @@ const sections = [
 
 interface SidebarNavProps {
   userName?: string;
+  user?: any;
   onLogout: () => void;
 }
 
 function SidebarNavInner({
-  userName = "Minh Vu Van",
+  userName = "Học viên XP Voca",
+  user,
   onLogout,
 }: SidebarNavProps) {
   const pathname = usePathname();
@@ -228,7 +221,7 @@ function SidebarNavInner({
               />
             </Link>
           ) : (
-            /* When expanded: Hide logo image, show brand name text + collapse button */
+            /* When expanded: Show brand name text + collapse button (No logo image) */
             <>
               <Link
                 href="/dashboard"
@@ -512,10 +505,20 @@ function SidebarNavInner({
               <button
                 type="button"
                 onClick={() => setShowUserMenu(!showUserMenu)}
-                className="w-9 h-9 rounded-full bg-[#0059bb] text-white font-black text-sm flex items-center justify-center mx-auto shadow-2xs hover:opacity-90 transition-opacity cursor-pointer border-none outline-none"
+                className="w-9 h-9 rounded-full bg-[#0059bb] text-white font-black text-sm flex items-center justify-center mx-auto shadow-2xs hover:opacity-90 transition-opacity cursor-pointer border-none outline-none overflow-hidden shrink-0"
                 title={userName}
               >
-                {(userName || "M")[0].toUpperCase()}
+                {user?.imageUrl ? (
+                  <img src={user.imageUrl} alt={userName} className="w-full h-full object-cover" />
+                ) : user?.avatarEmoji && user.avatarEmoji !== "🦉" ? (
+                  <span className="text-sm">{user.avatarEmoji}</span>
+                ) : (
+                  <img
+                    src={`https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=0059bb&color=fff&font-size=0.4`}
+                    alt={userName}
+                    className="w-full h-full object-cover"
+                  />
+                )}
               </button>
             ) : (
               <button
@@ -524,16 +527,25 @@ function SidebarNavInner({
                 className="w-full flex items-center justify-between p-2.5 rounded bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 transition-all cursor-pointer text-left shadow-2xs"
               >
                 <div className="flex items-center gap-2.5 min-w-0">
-                  <div className="w-8.5 h-8.5 rounded-full bg-[#0059bb] text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-2xs font-display">
-                    {(userName || "M")[0].toUpperCase()}
+                  <div className="w-8.5 h-8.5 rounded-full bg-[#0059bb] text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-2xs overflow-hidden">
+                    {user?.imageUrl ? (
+                      <img src={user.imageUrl} alt={userName} className="w-full h-full object-cover" />
+                    ) : user?.avatarEmoji && user.avatarEmoji !== "🦉" ? (
+                      <span className="text-sm">{user.avatarEmoji}</span>
+                    ) : (
+                      <img
+                        src={`https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=0059bb&color=fff&font-size=0.4`}
+                        alt={userName}
+                        className="w-full h-full object-cover"
+                      />
+                    )}
                   </div>
-                  <div className="min-w-0">
-                    <span className="text-[13px] font-semibold text-slate-900 dark:text-white truncate block">
+                  <div className="min-w-0 flex-1">
+                    <span className="text-[13px] font-bold text-slate-900 dark:text-white truncate block">
                       {userName}
                     </span>
-                    <span className="text-[11px] font-medium text-slate-400 block flex items-center gap-1 mt-0.5">
-                      <User className="w-3 h-3 text-slate-400 stroke-[1.8]" />{" "}
-                      Miễn phí
+                    <span className="text-[10px] font-medium text-slate-400 dark:text-slate-500 block truncate mt-0.5">
+                      {user?.email || (user?.username ? `@${user.username}` : "Thành viên XP Voca")}
                     </span>
                   </div>
                 </div>
@@ -555,35 +567,9 @@ function SidebarNavInner({
   );
 }
 
-function ClerkSidebar() {
-  const { user: clerkUser } = useUser();
-  const { signOut } = useClerk();
-
-  if (!clerkUser) return null;
-
-  return (
-    <SidebarNavInner
-      userName={clerkUser.fullName || clerkUser.username || "Minh Vu Van"}
-      onLogout={() => signOut({ redirectUrl: "/" })}
-    />
-  );
-}
-
-function LocalSidebar() {
-  const { user, logout: localLogout } = useAuthStore();
-
-  if (!user) return null;
-
-  return (
-    <SidebarNavInner
-      userName={user.fullName || user.username || "Minh Vu Van"}
-      onLogout={localLogout}
-    />
-  );
-}
-
 export default function Sidebar() {
   const [mounted, setMounted] = useState(false);
+  const { user, logout } = useAuthStore();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -592,7 +578,13 @@ export default function Sidebar() {
     return () => clearTimeout(timer);
   }, []);
 
-  if (!mounted) return <div className="left-sidebar"></div>;
+  if (!mounted || !user) return <div className="left-sidebar"></div>;
 
-  return CLERK_ENABLED ? <ClerkSidebar /> : <LocalSidebar />;
+  return (
+    <SidebarNavInner
+      userName={user.fullName || user.username || "Học viên XP Voca"}
+      user={user}
+      onLogout={logout}
+    />
+  );
 }

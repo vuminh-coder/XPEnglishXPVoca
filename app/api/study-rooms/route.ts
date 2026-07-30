@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { getAuth } from "@clerk/nextjs/server";
+import { getAuthenticatedUserId } from "@/lib/auth";
 
 export async function GET(req: Request) {
   try {
@@ -46,7 +46,7 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   try {
-    const { userId } = getAuth(req as any);
+    const userId = await getAuthenticatedUserId();
     if (!userId) {
       return NextResponse.json(
         { success: false, error: "Unauthorized" },
@@ -64,7 +64,7 @@ export async function POST(req: Request) {
       );
     }
 
-    // Ensure profile exists for clerk user
+    // Ensure profile exists for user
     let profile = await prisma.profile.findUnique({ where: { id: userId } });
     if (!profile) {
       profile = await prisma.profile.create({

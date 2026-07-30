@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { currentUser } from "@clerk/nextjs/server";
+import { getAuthenticatedUserId } from "@/lib/auth";
 
 export async function GET() {
   try {
-    const user = await currentUser();
-    const userId = user?.id || "local_user";
+    const authUserId = await getAuthenticatedUserId();
+    const userId = authUserId || "local_user";
 
     let profile: any = null;
     if (userId !== "local_user") {

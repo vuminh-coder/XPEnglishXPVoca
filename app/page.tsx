@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@clerk/nextjs";
+import { useAuthStore } from "@/lib/store/authStore";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Brain,
@@ -26,17 +26,17 @@ import {
 } from "lucide-react";
 
 export default function LandingPage() {
-  const { userId, isLoaded } = useAuth();
+  const { user } = useAuthStore();
   const router = useRouter();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
 
   useEffect(() => {
-    if (isLoaded && userId) {
+    if (user) {
       router.replace("/dashboard");
     }
-  }, [isLoaded, userId, router]);
+  }, [user, router]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -131,7 +131,7 @@ export default function LandingPage() {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-2">
-            {isLoaded && userId ? (
+            {user ? (
               <Link href="/dashboard">
                 <button className="bg-[#0059bb] hover:bg-blue-700 text-white font-bold text-xs h-8.5 px-3.5 rounded flex items-center gap-1.5 shadow-xs transition-colors cursor-pointer">
                   Vào Dashboard
@@ -209,7 +209,7 @@ export default function LandingPage() {
             </div>
 
             <div className="flex flex-col gap-2 pt-2 border-t border-slate-100 dark:border-white/10">
-              {isLoaded && userId ? (
+              {user ? (
                 <Link href="/dashboard" onClick={() => setIsMobileMenuOpen(false)}>
                   <button className="w-full h-9 bg-[#0059bb] text-white font-bold text-xs rounded flex items-center justify-center gap-2">
                     Vào Dashboard
@@ -268,7 +268,7 @@ export default function LandingPage() {
             </p>
 
             <div className="flex flex-wrap items-center gap-3 mb-5 sm:mb-8">
-              {isLoaded && userId ? (
+              {user ? (
                 <Link href="/dashboard">
                   <button className="h-10 bg-[#0059bb] hover:bg-blue-700 text-white font-bold text-xs px-5 rounded flex items-center justify-center gap-2 shadow-xs transition-colors cursor-pointer">
                     Vào Học Ngay
@@ -702,7 +702,7 @@ export default function LandingPage() {
           </div>
 
           <div className="w-full md:w-auto shrink-0">
-            {isLoaded && userId ? (
+            {user ? (
               <Link href="/dashboard" className="w-full sm:w-auto">
                 <button className="w-full sm:w-auto h-10 bg-[#0059bb] hover:bg-blue-700 text-white font-bold text-xs px-6 rounded flex items-center justify-center gap-1.5 shadow-xs transition-colors cursor-pointer">
                   Xem Báo Cáo Của Bạn
@@ -827,7 +827,7 @@ export default function LandingPage() {
 
           {/* Glowing CTA Button */}
           <div className="mt-2 relative z-10">
-            {isLoaded && userId ? (
+            {user ? (
               <Link href="/dashboard">
                 <button className="h-11 md:h-12 bg-white text-[#0059bb] hover:bg-amber-300 hover:text-slate-900 font-black text-xs md:text-sm px-7 md:px-9 rounded flex items-center justify-center gap-2 shadow-lg transition-all duration-200 cursor-pointer">
                   Vào Dashboard Ngay

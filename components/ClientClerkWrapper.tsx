@@ -1,58 +1,43 @@
 "use client";
 import React from "react";
-import { ClerkProvider, useUser, useAuth } from "@clerk/nextjs";
 import { useAuthStore } from "@/lib/store/authStore";
-import { viVN } from "@clerk/localizations";
 
-// Check if Clerk is enabled based on key type and domain
-const checkIsClerkEnabled = () => {
-  const key = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
-  return !!(key && key.startsWith("pk_"));
-};
-
-function ClerkStateSyncer() {
-  const { user: clerkUser, isLoaded: isUserLoaded } = useUser();
-  const { isSignedIn, isLoaded: isAuthLoaded } = useAuth();
-  const syncClerkUser = useAuthStore((state) => state.syncClerkUser);
+function AuthStateSyncer() {
+  const checkSession = useAuthStore((state) => state.checkSession);
+  const setUserPayload = useAuthStore((state) => state.setUserPayload);
 
   React.useEffect(() => {
-    if (isUserLoaded && isAuthLoaded) {
-      syncClerkUser(clerkUser, !!isSignedIn);
+    // Check if returning from OAuth redirect with user data in URL
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const oauthUser = params.get("oauth_user");
+
+      if (oauthUser) {
+        try {
+          const userData = JSON.parse(decodeURIComponent(oauthUser));
+          setUserPayload(userData);
+
+          // Clean up URL (remove oauth_user param)
+          const cleanUrl = window.location.pathname;
+          window.history.replaceState({}, "", cleanUrl);
+          return; // Skip checkSession since we already have user data
+        } catch (e) {
+          console.error("Failed to parse OAuth user data:", e);
+        }
+      }
     }
-  }, [clerkUser, isSignedIn, isUserLoaded, isAuthLoaded, syncClerkUser]);
+
+    checkSession();
+  }, [checkSession, setUserPayload]);
 
   return null;
 }
 
-// Custom Vietnamese translation overrides to prevent English placeholders from slipping through
-const customLocalization = {
-  ...viVN,
-  formFieldInputPlaceholder__password: "Nhập mật khẩu của bạn",
-  formFieldInputPlaceholder__signUp_password: "Tạo mật khẩu của bạn",
-  formFieldInputPlaceholder__newPassword: "Tạo mật khẩu mới của bạn",
-  formFieldInputPlaceholder__currentPassword: "Nhập mật khẩu hiện tại",
-  formFieldInputPlaceholder__confirmPassword: "Xác nhận lại mật khẩu",
-  formFieldInputPlaceholder__emailAddress: "Nhập địa chỉ email của bạn",
-  formFieldInputPlaceholder__username: "Nhập tên người dùng của bạn",
-  formFieldInputPlaceholder__emailAddressOrUsername: "Nhập email hoặc tên người dùng",
-};
-
-function LocalStateSyncer() {
-  const setLocalUser = useAuthStore((state) => state.setLocalUser);
-  React.useEffect(() => {
-    setLocalUser();
-  }, [setLocalUser]);
-  return null;
-}
-
-export default function ClientClerkWrapper({
+export default function ClientAuthWrapper({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const clerkEnabled = checkIsClerkEnabled();
-  const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
-
   React.useEffect(() => {
     if (typeof window !== "undefined" && "serviceWorker" in navigator) {
       navigator.serviceWorker
@@ -62,28 +47,11 @@ export default function ClientClerkWrapper({
     }
   }, []);
 
-  if (!clerkEnabled || !publishableKey) {
-    return (
-      <div suppressHydrationWarning>
-        <LocalStateSyncer />
-        {children}
-        <div id="toast-container" className="toast-container"></div>
-      </div>
-    );
-  }
-
   return (
-    <ClerkProvider
-      publishableKey={publishableKey}
-      signInUrl="/login"
-      signUpUrl="/register"
-      signInFallbackRedirectUrl="/dashboard"
-      signUpFallbackRedirectUrl="/onboarding"
-      localization={customLocalization}
-    >
-      <ClerkStateSyncer />
+    <div suppressHydrationWarning>
+      <AuthStateSyncer />
       {children}
       <div id="toast-container" className="toast-container"></div>
-    </ClerkProvider>
+    </div>
   );
 }

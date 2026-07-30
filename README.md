@@ -32,15 +32,16 @@
 ### 0. Trang Chủ Landing Page (`/`)
 - **`/`**: Trang chào mừng & giới thiệu hệ sinh thái học tập XP English | XP Voca (Thiết kế Agency Dashboard Tier).
 
-### 0.1. Trang Xác Thực (`/login` & `/register`)
-- **`/login`**: Trang đăng nhập — Thiết kế Dashboard Micro-Sharp Cards, hỗ trợ Dark Mode.
-  - **2-Column Layout**: Cột trái Branding + 4 Feature Cards (3,900+ Từ vựng, Gamification & PvP, AI Tutor 24/7, Listening & Speaking). Cột phải Clerk `<SignIn>` form.
-  - **Skeleton Loading**: Dashboard-style solid card skeleton (không kính mờ).
-  - **Nền**: `bg-white dark:bg-[#050505]` đồng bộ Dashboard, không blob/glass effects.
-  - **Clerk Appearance**: `borderRadius: 0.5rem`, `rounded-lg` cards, `rounded-md` inputs/buttons.
-- **`/register`**: Trang đăng ký — Cùng thiết kế với Login, 4 Feature Cards riêng (Miễn phí 100%, Spaced Repetition, Bảng Xếp Hạng, Writing AI).
-- **Shared CSS**: `app/(auth)/auth.css` — gộp từ Login.css + Register.css, xóa blob/glass, thêm dark mode.
-- **Logo Rule**: Footer Desktop chỉ hiển thị brand text `XP English | XP Voca`, không ảnh mascot.
+### 0.1. Trang Xác Thực (`/login`, `/register`, `/forgot-password`)
+- **Hệ Thống Xác Thực Tự Chủ (Custom Local Auth & Session Management)**: Xóa bỏ hoàn toàn phụ thuộc Clerk. Quản lý phiên làm việc bằng HTTP-Only Cookie mã hóa JWT (`xp_voca_session`) 30 ngày + Mã hóa mật khẩu bảo mật PBKDF2 (HMAC-SHA512) chuẩn OWASP.
+- **Tự Động Bảo Vệ Route (`proxy.ts`)**: Tự động chuyển hướng người dùng chưa xác thực về `/login`, và điều hướng người dùng đã đăng nhập từ `/login`, `/register` thẳng tới `/dashboard`.
+- **`/login`**: Trang đăng nhập — Thiết kế Micro-Sharp Cards (`rounded-md`), hỗ trợ Dark Mode và Chế độ xoay dọc màn hình mobile.
+  - **Phân tách Mobile & Desktop Layout**: Trên Mobile hiển thị Sticky Header Bar (Top-Left: `XP English | XP Voca`, Top-Right: Dropdown chọn ngôn ngữ 🇻🇳/🇺🇸). Trên Desktop hiển thị Bố cục 2 cột (Cột trái Branding + 4 Feature Cards, Cột phải Custom Login Form Card).
+  - **Google, Facebook & Email Real OAuth**: Đăng nhập bằng Google OAuth (`/api/auth/google`), Facebook OAuth (`/api/auth/facebook`) hoặc Email/Tên đăng nhập + Mật khẩu kết nối PostgreSQL.
+  - **Single Primary Button (Rule 18 & 19)**: Nút Primary nổi bật "Đăng nhập vào hệ thống", nút Social dạng Outline Secondary.
+- **`/register`**: Trang đăng ký — Cấu trúc Micro-Sharp Card tự chủ với Họ tên, Email, Mật khẩu & Xác nhận mật khẩu, tự động tạo tài khoản trong PostgreSQL DB.
+- **`/forgot-password`**: Trang khôi phục mật khẩu — API `/api/auth/forgot-password` sinh mã `resetToken` 32-bytes ngẫu nhiên kèm thời hạn 1 giờ trong DB. API `/api/auth/reset-password` hỗ trợ đặt lại mật khẩu mới.
+- **Responsive Footer**: Trên Mobile chỉ hiển thị dòng bản quyền căn giữa `© 2026 XP English / XP Voca. Đã bảo lưu mọi quyền.` Trên Desktop hiển thị 2 bên đầy đủ.
 
 ### 1. Bảng Điều Khiển & Trung Tâm Học Tập (`/dashboard`)
 - **`/dashboard`**: Trung tâm chỉ huy học tập toàn diện.
@@ -89,14 +90,31 @@
 - **`/study/practice`**: Phòng luyện tập 4 kỹ năng (Quiz, Flashcard 3D, Writing, Speaking AI).
   - **Mobile Layout Optimize**: Ẩn phụ đề rườm rà `hidden sm:block`, rút gọn tên 4 tab chế độ trên mobile (`Quiz`, `Flashcard`, `Writing`, `Nói AI`) kèm cuộn mượt `overflow-x-auto`.
   - **Khung Thẻ Câu Hỏi & Đáp Án**: Tối ưu padding `p-3 sm:p-4`, hiển thị vừa trọn 1 màn hình di động không rớt dòng. Nút "Câu tiếp theo" căn giữa full-width trên mobile.
+- **`/study/shadowing`**: Trang Luyện Nói & Nhại Giọng Bản Xứ (Shadowing Engine + AI Speech Scoring).
+  - **Mobile Layout Optimize**: Ẩn các đoạn hướng dẫn rườm rà `hidden sm:flex` (Mobile hiển thị Hero Banner siêu gọn `Shadowing 🎙️` + Nút `Khám phá`).
+  - **Rút gọn nhãn nút bấm**: `← Đổi bài` (thay vì `← Đổi bài học khác`), `🎧 Luyện nghe` (thay vì `🎧 Chuyển sang Luyện nghe bài này`).
+  - **Dàn hàng 4 Chế độ**: Dàn đều 4 tab chế độ (`Sentence`, `Paragraph`, `Shadow`, `Repeat`) thành 1 hàng `grid-cols-4` vừa vặn trên mobile.
+  - **Tốc độ đọc & Mic ghi âm**: Bộ chọn tốc độ gọn gàng 4 mức chính (`0.8x`, `1.0x`, `1.25x`, `1.5x`), nút Mic thu âm to rõ chuẩn ngón tay bấm.
+  - **Zero-Shift Guarantee**: Giữ nguyên 100% bố cục và câu chữ đầy đủ trên màn hình Desktop.
 - **`/study/pvp`**: Đấu trường so tài từ vựng PvP Realtime (Thiết kế Agency Dashboard Tier).
   - **Spotlight Hero Banner**: Gradient Xanh Hoàng Gia sang trọng kèm hiệu ứng ánh kim.
   - **Bento Grid 7/12 & 5/12**: Cột trái lựa chọn 3 chế độ (Trắc nghiệm, Đồ chữ, Âm thanh) và 3 cấp độ (Dễ, Trung bình, Khó). Cột phải hiển thị Hồ sơ Đấu sĩ & Bảng Vàng Top 3 Đấu Trường.
   - **Trận Đấu PvP 1v1**: Giao diện đấu thời gian thực sắc nét, đồng hồ đếm ngược, AI thông minh và báo cáo kết quả thưởng XP.
 - **`/ai/tutor`**: Gia sư AI 1-1 hỗ trợ hội thoại 4 kỹ năng (FreeTalk, Roleplay, Drill).
+  - **Multi-Model Fallback Loop**: Tự động chuyển đổi mô hình AI (`gemini-2.5-flash` ➔ `gemini-1.5-flash` ➔ `gemini-2.0-flash`) đảm bảo 100% không bị ngắt kết nối.
   - **Mobile Layout Optimize**: Ẩn subtext rườm rà `hidden sm:block`, đưa 3 tab chế độ (FreeTalk, Roleplay, Drill) thành thanh tab 3 cột full-width 100% trên mobile.
   - **Thanh Nhập Liệu & Gợi Ý AI**: Cấu trúc bộ input `[🎙️ Mic] [Input Text] [🚀 Gửi]` thành 1 khối compact 1 hàng ngang, các câu gợi ý phản hồi nhanh dạng danh sách dọc 100% width.
-- **`/ai/conversation`**: Phòng hội thoại giao tiếp tiếng Anh AI.
+- **`/ai/conversation`**: Phòng hội thoại giao tiếp tiếng Anh AI thực tế.
+  - **Multi-Model Fallback Loop & Safe JSON**: Tự động thử nghiệm đa mô hình Gemini và làm sạch chuỗi JSON (`strip Markdown backticks`) phòng chống lỗi parse.
+  - **Mobile Layout Optimize**: Ẩn các đoạn subtext rườm rà `hidden sm:block`, thu gọn Hero Banner (`Hội thoại AI 💬` + Nút `✓ Chấm điểm` + Đồng hồ `⏱ 06:16`), tiêu đề không tràn lề.
+  - **Đồng bộ Ngôn ngữ UI**: Chuyển đổi toàn bộ nhãn cấp độ lọc từ tiếng Anh sang tiếng Việt (`Tất cả`, `Cơ bản`, `Trung cấp`, `Nâng cao`).
+  - **Giảm Border Radius**: Giảm bo góc các thẻ chủ đề từ `rounded-2xl`/`rounded-xl` xuống `rounded-md` theo quy tắc Rule 10 Wadhah Aloui.
+  - **Tối ưu padding chân trang**: Mở rộng khoảng cách dưới `pb-20 sm:pb-6` triệt tiêu hoàn toàn lỗi đè lấp của thanh Footer Mobile Navigation.
+- **`/community` & Subpages (`/leaderboard`, `/friends`, `/groups`)**: Phân hệ Cộng Đồng Học Tập.
+  - **Tối Ưu Bố Cục Mobile Chuyên Sâu Đồng Bộ**: Navigation Tabs 4 ô dàn vừa vặn 1 hàng **`grid grid-cols-4 gap-1 p-1 rounded-md`**, Top 3 Podium Quán quân linh hoạt (`w-10`/`w-12` Avatar), Thẻ bạn bè & Thẻ nhóm học thuật tinh gọn.
+  - **Lược Bỏ Subtext Rườm Rà**: Ẩn đoạn văn bản mô tả 2 dòng phụ ở Hero Banner `hidden sm:block text-xs text-blue-100/90`.
+  - **Giảm Border Radius (Rule 10)**: Khung ngoài `rounded-md`, khung phần tử con (nút bấm, ô nhập, badges, pills) `rounded-sm` / `rounded-full`.
+  - **Zero-Shift Guarantee**: Bảo tồn 100% bố cục và nội dung hiển thị trên Desktop.
 - **`/profile`**: Hồ sơ cá nhân học viên (Thiết kế Agency Dashboard Tier).
   - **Spotlight Hero Profile Banner**: Gradient Xanh Hoàng Gia sang trọng (`from-[#0059bb] via-[#004799] to-[#002b5b]`), vành khung Avatar danh hiệu nổi bật (`🎓`, `👑`, `🛡️`), huy hiệu Cấp độ `LV.x`, số ngày Streak rực rỡ và số dư Vàng live.
   - **4 High-Contrast Bento Metric Cards**: Từ vựng tích lũy (`BookOpen`), Chuỗi Streak (`Flame`), Kinh nghiệm XP & Level (`Zap`), Vàng & Bảo Hộ Streak (`Coins`).
@@ -109,6 +127,22 @@
   - **Spotlight Hero Banner**: Gradient Xanh Hoàng Gia sang trọng tích hợp Widget hiển thị số Vàng tích lũy realtime.
   - **Bento Grid 7/12 & 5/12**: Cột trái phân loại danh mục (Vật phẩm hỗ trợ, Trang phục Avatar) với các thẻ vật phẩm sắc nét (`Bảo Hộ Lửa`, `Nhân Đôi XP`, `Cú Tốt Nghiệp`). Cột phải hiển thị Tủ Đồ Cá Nhân & Mẹo Tích Lũy Vàng.
   - **Full-Stack Equip & Purchase**: Mua & trang bị/tháo nón Cú cử nhân trực tiếp sync ngầm với PostgreSQL API `/api/shop/purchase` và `/api/shop/equip`.
+
+---
+
+## 🎨 Hệ Thống Thương Hiệu & Logo System
+
+- **Quy tắc hiển thị thương hiệu (Exclusive Brand Display Rule)**: Không hiển thị ảnh logo mascot và tên chữ thương hiệu (`XP English | XP Voca`) cùng một lúc tại bất kỳ header/navbar nào.
+  - Khi Sidebar thu gọn (`collapsed`): Chỉ hiển thị duy nhất ảnh logo chữ **X** (`public/mascot.png`).
+  - Khi Sidebar mở rộng (`expanded`) & trên các thanh Navbar/Headers: Chỉ hiển thị duy nhất chữ brand text `XP English | XP Voca` (không chứa ảnh logo).
+- **Phân bổ tài nguyên Web & Mobile (PWA)**:
+  - **Sidebar (Collapsed)**: `public/mascot.png` (Transparent PNG 512x512).
+  - **Mobile Orientation Warning Card**: `public/app-icon-horizontal-brand.png` (Transparent PNG 512x512).
+  - **Android PWA Icons**: `public/icons/icon-any-192x192.png` & `public/icons/icon-any-512x512.png`.
+  - **Android PWA Maskable Icons (Safe Zone ~18% Margin)**: `public/icons/icon-maskable-192x192.png` & `public/icons/icon-maskable-512x512.png`.
+  - **iOS Home Screen App Icons**: `public/apple-touch-icon.png` & `public/icons/apple-touch-icon.png` (180x180).
+  - **Favicon Trình duyệt**: `public/icons/favicon-16x16.png` & `public/icons/favicon-32x32.png`.
+- **Cache Management**: Đồng bộ phiên bản metadata `?v=14` tại `app/layout.tsx`, `public/manifest.json` và Service Worker `xp-voca-v14` tại `public/sw.js`.
 
 ---
 

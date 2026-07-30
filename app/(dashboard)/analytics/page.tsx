@@ -261,8 +261,8 @@ export default function AnalyticsPage() {
     const activePoint = isCurrentHovered && hoveredChartIndex ? points[hoveredChartIndex.index] : null;
 
     return (
-      <div className="space-y-3 flex-1 min-w-0">
-        <h3 className="text-xs font-semibold text-slate-500 font-display">
+      <div className="space-y-2 sm:space-y-3 flex-1 min-w-0">
+        <h3 className="text-[11px] sm:text-xs font-semibold text-slate-500 font-display">
           {title}
         </h3>
 
@@ -270,7 +270,7 @@ export default function AnalyticsPage() {
         <div className="relative overflow-hidden rounded-md border border-slate-100 dark:border-white/5 p-1 bg-slate-50/30 dark:bg-slate-900/30">
           <svg
             viewBox={`0 0 ${svgW} ${svgH}`}
-            className="w-full h-44 sm:h-48 overflow-hidden cursor-pointer"
+            className="w-full h-36 sm:h-48 overflow-hidden cursor-pointer"
             onMouseLeave={() => setHoveredChartIndex(null)}
           >
             <defs>
@@ -288,7 +288,7 @@ export default function AnalyticsPage() {
                   <text
                     x="10"
                     y={y + 3}
-                    className="fill-slate-400 text-[10px] font-mono font-medium"
+                    className="fill-slate-400 text-[8.5px] sm:text-[10px] font-mono font-medium"
                   >
                     {yVal}
                   </text>
@@ -378,7 +378,7 @@ export default function AnalyticsPage() {
                 x={p.x}
                 y={svgH - 5}
                 textAnchor="middle"
-                className={`text-[9px] font-mono ${
+                className={`text-[8px] sm:text-[9px] font-mono ${
                   idx === points.length - 1
                     ? "fill-[#0059bb] font-bold"
                     : "fill-slate-400 font-medium"
@@ -392,17 +392,17 @@ export default function AnalyticsPage() {
           {/* FLOATING TOOLTIP BOX */}
           {activePoint && (
             <div
-              className="absolute pointer-events-none bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 rounded-md p-2 shadow-sm text-center min-w-[90px] z-10 transition-opacity"
+              className="absolute pointer-events-none bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 rounded-sm p-1.5 shadow-xs text-center min-w-[80px] sm:min-w-[90px] z-10 transition-opacity"
               style={{
                 left: `${(activePoint.x / svgW) * 100}%`,
                 top: "35%",
                 transform: "translate(-50%, -50%)",
               }}
             >
-              <div className="text-xs font-bold text-slate-800 dark:text-white font-mono">
+              <div className="text-[10px] sm:text-xs font-bold text-slate-800 dark:text-white font-mono">
                 {activePoint.date}
               </div>
-              <div className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 font-mono">
+              <div className="text-[9.5px] sm:text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 font-mono">
                 {chartType === "XP" ? `Điểm : ${activePoint.val} XP` : `Phút : ${activePoint.val}m`}
               </div>
             </div>
@@ -413,93 +413,95 @@ export default function AnalyticsPage() {
   };
 
   return (
-    <div className="space-y-6 pb-16 md:pb-6 select-none font-sans max-w-6xl mx-auto" suppressHydrationWarning>
+    <div className="space-y-4 sm:space-y-6 pb-16 md:pb-6 select-none font-sans max-w-6xl mx-auto" suppressHydrationWarning>
       
       {/* 1. PAGE HEADER */}
-      <div className="space-y-1">
-        <h1 className="text-2xl font-bold font-display tracking-tight text-slate-900 dark:text-white">
+      <div className="space-y-0.5 sm:space-y-1">
+        <h1 className="text-lg sm:text-2xl font-bold font-display tracking-tight text-slate-900 dark:text-white">
           Tiến trình học tập
         </h1>
-        <p className="text-xs text-slate-500 font-medium">
+        <p className="hidden sm:block text-xs text-slate-500 font-medium">
           Theo dõi hoạt động hàng ngày, chuỗi ngày học và thứ hạng của bạn so với người học khác.
         </p>
       </div>
 
-      {/* 2. TOP 5 STAT CARDS (LIVE DYNAMIC ZUSTAND STORE SYNC) */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+      {/* 2. TOP 5 STAT CARDS (MICRO-GRID 2x2 + 1 FULL WIDTH ON MOBILE) */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-4">
         
         {/* CARD 1: STREAK */}
-        <div className="p-3.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center gap-3">
-          <div className="w-9 h-9 rounded-md bg-orange-50 dark:bg-orange-950/40 text-orange-500 flex items-center justify-center shrink-0">
-            <Flame className="w-4 h-4 fill-orange-400" />
+        <div className="p-2.5 sm:p-3.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center gap-2.5 sm:gap-3">
+          <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-sm bg-orange-50 dark:bg-orange-950/40 text-orange-500 flex items-center justify-center shrink-0">
+            <Flame className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-orange-400" />
           </div>
-          <div>
-            <div className="text-base font-bold font-mono text-slate-900 dark:text-white leading-tight">
-              {longestStreak} <span className="text-xs font-normal text-slate-500">ngày</span>
+          <div className="min-w-0">
+            <div className="text-xs sm:text-base font-bold font-mono text-slate-900 dark:text-white leading-tight">
+              {longestStreak} <span className="text-[10px] sm:text-xs font-normal text-slate-500">ngày</span>
             </div>
-            <div className="text-[11px] text-slate-400 font-medium">Chuỗi dài nhất</div>
+            <div className="text-[10px] sm:text-[11px] text-slate-400 font-medium truncate">Chuỗi dài nhất</div>
           </div>
         </div>
 
         {/* CARD 2: SAVED WORDS */}
-        <div className="p-3.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center gap-3">
-          <div className="w-9 h-9 rounded-md bg-emerald-50 dark:bg-emerald-950/40 text-emerald-500 flex items-center justify-center shrink-0">
-            <BookmarkCheck className="w-4 h-4" />
+        <div className="p-2.5 sm:p-3.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center gap-2.5 sm:gap-3">
+          <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-sm bg-emerald-50 dark:bg-emerald-950/40 text-emerald-500 flex items-center justify-center shrink-0">
+            <BookmarkCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           </div>
-          <div>
-            <div className="text-base font-bold font-mono text-slate-900 dark:text-white leading-tight">
+          <div className="min-w-0">
+            <div className="text-xs sm:text-base font-bold font-mono text-slate-900 dark:text-white leading-tight">
               {savedWords}
             </div>
-            <div className="text-[11px] text-slate-400 font-medium">Từ đã lưu</div>
+            <div className="text-[10px] sm:text-[11px] text-slate-400 font-medium truncate">Từ đã lưu</div>
           </div>
         </div>
 
         {/* CARD 3: PRACTICE TIME */}
-        <div className="p-3.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center gap-3">
-          <div className="w-9 h-9 rounded-md bg-sky-50 dark:bg-sky-950/40 text-sky-500 flex items-center justify-center shrink-0">
-            <Clock className="w-4 h-4" />
+        <div className="p-2.5 sm:p-3.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center gap-2.5 sm:gap-3">
+          <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-sm bg-sky-50 dark:bg-sky-950/40 text-sky-500 flex items-center justify-center shrink-0">
+            <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           </div>
-          <div>
-            <div className="text-base font-bold font-mono text-slate-900 dark:text-white leading-tight">
+          <div className="min-w-0">
+            <div className="text-xs sm:text-base font-bold font-mono text-slate-900 dark:text-white leading-tight">
               {minutesStudied}
             </div>
-            <div className="text-[11px] text-slate-400 font-medium">Thời gian luyện tập</div>
+            <div className="text-[10px] sm:text-[11px] text-slate-400 font-medium truncate">Thời gian luyện tập</div>
           </div>
         </div>
 
         {/* CARD 4: TOTAL XP */}
-        <div className="p-3.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center gap-3">
-          <div className="w-9 h-9 rounded-md bg-indigo-50 dark:bg-indigo-950/40 text-indigo-500 flex items-center justify-center shrink-0">
-            <Target className="w-4 h-4" />
+        <div className="p-2.5 sm:p-3.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center gap-2.5 sm:gap-3">
+          <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-sm bg-indigo-50 dark:bg-indigo-950/40 text-indigo-500 flex items-center justify-center shrink-0">
+            <Target className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           </div>
-          <div>
-            <div className="text-base font-bold font-mono text-slate-900 dark:text-white leading-tight">
+          <div className="min-w-0">
+            <div className="text-xs sm:text-base font-bold font-mono text-slate-900 dark:text-white leading-tight">
               {totalXp}
             </div>
-            <div className="text-[11px] text-slate-400 font-medium">Tổng XP</div>
+            <div className="text-[10px] sm:text-[11px] text-slate-400 font-medium truncate">Tổng XP</div>
           </div>
         </div>
 
-        {/* CARD 5: WEEKLY RANK */}
-        <div className="p-3.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center gap-3">
-          <div className="w-9 h-9 rounded-md bg-amber-50 dark:bg-amber-950/40 text-amber-500 flex items-center justify-center shrink-0">
-            <Trophy className="w-4 h-4" />
-          </div>
-          <div>
-            <div className="text-base font-bold font-mono text-slate-900 dark:text-white leading-tight">
-              {weeklyRank} <span className="text-xs font-normal text-slate-500">Tuần</span>
+        {/* CARD 5: WEEKLY RANK (Spans 2 cols on mobile for balance) */}
+        <div className="col-span-2 sm:col-span-1 p-2.5 sm:p-3.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center justify-between sm:justify-start gap-2.5 sm:gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-sm bg-amber-50 dark:bg-amber-950/40 text-amber-500 flex items-center justify-center shrink-0">
+              <Trophy className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </div>
-            <div className="text-[11px] text-slate-400 font-medium">Hạng của bạn</div>
+            <div className="min-w-0">
+              <div className="text-xs sm:text-base font-bold font-mono text-slate-900 dark:text-white leading-tight">
+                {weeklyRank} <span className="text-[10px] sm:text-xs font-normal text-slate-500">Tuần</span>
+              </div>
+              <div className="text-[10px] sm:text-[11px] text-slate-400 font-medium truncate">Hạng của bạn</div>
+            </div>
           </div>
         </div>
 
       </div>
 
       {/* 3. SUB-NAV TABS UNDER TOP CARDS BAR */}
-      <div className="border-b border-slate-200/80 dark:border-white/10 flex items-center gap-8 text-sm font-medium">
+      <div className="border-b border-slate-200/80 dark:border-white/10 flex items-center gap-6 sm:gap-8 text-xs sm:text-sm font-medium">
         <button
           onClick={() => setActiveTab("ACTIVITIES")}
-          className={`pb-3 relative font-bold transition-colors ${
+          className={`pb-2.5 sm:pb-3 relative font-bold transition-colors ${
             activeTab === "ACTIVITIES"
               ? "text-slate-900 dark:text-white"
               : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
@@ -507,25 +509,25 @@ export default function AnalyticsPage() {
         >
           Hoạt động của tôi
           {activeTab === "ACTIVITIES" && (
-            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-slate-900 dark:bg-white rounded-sm" />
+            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-slate-900 dark:bg-white rounded-xs" />
           )}
         </button>
 
         <Link
           href="/community/leaderboard?from=analytics"
-          className="pb-3 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 font-medium transition-colors"
+          className="pb-2.5 sm:pb-3 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 font-medium transition-colors"
         >
           Bảng xếp hạng
         </Link>
       </div>
 
       {/* 4. SECTION 1: TỔNG QUAN HOẠT ĐỘNG 6 THÁNG */}
-      <div className="p-5 sm:p-6 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-4">
-        <h2 className="text-sm font-bold text-slate-900 dark:text-white font-display">
+      <div className="p-3.5 sm:p-6 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3 sm:space-y-4">
+        <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
           Tổng quan hoạt động (6 tháng gần đây)
         </h2>
 
-        <div className="relative overflow-x-auto pb-2">
+        <div className="relative overflow-x-auto no-scrollbar pb-2">
           
           {/* Main Matrix Container */}
           <div className="min-w-[520px] space-y-2">
@@ -586,7 +588,7 @@ export default function AnalyticsPage() {
             </div>
 
             {/* FOOTER LEGEND & DYNAMIC TOOLTIP */}
-            <div className="flex items-center justify-between text-[11px] font-medium text-slate-400 pt-2 pl-8 border-t border-slate-100 dark:border-white/5">
+            <div className="flex items-center justify-between text-[10px] sm:text-[11px] font-medium text-slate-400 pt-2 pl-8 border-t border-slate-100 dark:border-white/5">
               <span className="font-mono">
                 {hoveredHeatmapTile
                   ? `${hoveredHeatmapTile.dateStr}: ${hoveredHeatmapTile.count} hoạt động`
@@ -611,16 +613,16 @@ export default function AnalyticsPage() {
       </div>
 
       {/* 5. SECTION 2: MODE SWITCHER PILLS & DYNAMIC REALTTIME LINE CHARTS */}
-      <div className="p-5 sm:p-6 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-6">
+      <div className="p-3.5 sm:p-6 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-4 sm:space-y-6">
         
         {/* CARD TOP HEADER: TITLE LEFT + MODE PILLS RIGHT */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 sm:gap-3">
+          <h2 className="text-xs sm:text-base font-bold text-slate-900 dark:text-white font-display">
             Luyện tập hàng ngày (30 ngày gần đây)
           </h2>
 
-          {/* Top Right Mode Switcher with Fluid Sliding Pill Animation */}
-          <div className="p-1 rounded-md bg-slate-100 dark:bg-slate-800/80 flex items-center gap-1 text-xs font-medium border border-slate-200/60 dark:border-white/5 relative">
+          {/* Top Right Mode Switcher (1 Single Line Scrollable Strip on Mobile) */}
+          <div className="p-1 rounded-md bg-slate-100 dark:bg-slate-800/80 flex items-center gap-1 text-xs font-medium border border-slate-200/60 dark:border-white/5 overflow-x-auto no-scrollbar whitespace-nowrap max-w-full shrink-0">
             {[
               { id: "Dictation" as const, label: "Dictation" },
               { id: "Shadowing" as const, label: "Shadowing" },
@@ -634,7 +636,7 @@ export default function AnalyticsPage() {
                   key={mode.id}
                   type="button"
                   onClick={() => setModeFilter(mode.id)}
-                  className={`relative px-3 py-1 rounded-md text-xs transition-colors cursor-pointer select-none font-display ${
+                  className={`relative px-2.5 py-1 rounded-sm text-[11px] sm:text-xs transition-colors cursor-pointer select-none font-display shrink-0 ${
                     isSelected ? "text-white font-bold" : "text-slate-600 dark:text-slate-400 hover:text-slate-900"
                   }`}
                 >
@@ -642,7 +644,7 @@ export default function AnalyticsPage() {
                     <motion.div
                       layoutId="activeSkillTabPill"
                       transition={{ type: "spring", stiffness: 450, damping: 32 }}
-                      className="absolute inset-0 bg-[#0059bb] rounded-md shadow-2xs -z-0"
+                      className="absolute inset-0 bg-[#0059bb] rounded-sm shadow-2xs -z-0"
                     />
                   )}
                   <span className="relative z-10">{mode.label}</span>
@@ -653,7 +655,7 @@ export default function AnalyticsPage() {
         </div>
 
         {/* INNER 2 SIDE-BY-SIDE DYNAMIC LINE CHARTS */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-2">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 pt-1 sm:pt-2">
           {renderExactSvgChart(
             `Phút luyện tập (${modeFilter})`,
             [4, 3, 2, 1, 0],

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getAuth } from "@clerk/nextjs/server";
+import { getAuthenticatedUserId } from "@/lib/auth";
 
 // In-memory queue for WebRTC signaling messages
 // Key: `${roomId}:${targetId}` -> Array of signals
@@ -10,7 +10,7 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { userId } = getAuth(req as any);
+    const userId = await getAuthenticatedUserId();
     const { id: roomId } = await params;
     const body = await req.json();
     const { senderId, targetId, payload } = body;
@@ -50,7 +50,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { userId: authedUserId } = getAuth(req as any);
+    const authedUserId = await getAuthenticatedUserId();
     const { id: roomId } = await params;
     const { searchParams } = new URL(req.url);
     const userId = searchParams.get("userId");

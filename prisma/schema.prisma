@@ -12,7 +12,9 @@ datasource db {
 }
 
 model Profile {
-  id                  String           @id @db.VarChar(255) // Clerk User ID
+  id                  String           @id @db.VarChar(255) // User ID
+  email               String?          @unique @db.VarChar(255)
+  passwordHash        String?          @map("password_hash") @db.VarChar(255)
   fullName            String?          @map("full_name") @db.VarChar(255)
   username            String?          @db.VarChar(255)
   avatarEmoji         String?          @map("avatar_emoji") @db.VarChar(50)
@@ -25,6 +27,8 @@ model Profile {
   updatedAt           DateTime         @default(now()) @updatedAt @map("updated_at")
   coins               Int              @default(100) @map("coins")
   streakFreezes       Int              @default(0) @map("streak_freezes")
+  passwordResetToken  String?          @map("password_reset_token") @db.VarChar(255)
+  passwordResetExpires DateTime?       @map("password_reset_expires")
   activeAvatarFrame   String?          @map("active_avatar_frame") @db.VarChar(100)
   activeChatBubble    String?          @map("active_chat_bubble") @db.VarChar(100)
   purchaseLogs        PurchaseLog[]

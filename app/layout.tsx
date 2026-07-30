@@ -2,7 +2,7 @@
 import type { Metadata } from "next";
 import { Be_Vietnam_Pro } from "next/font/google";
 import "./globals.css";
-import ClientClerkWrapper from "@/components/ClientClerkWrapper";
+import ClientAuthWrapper from "@/components/ClientClerkWrapper";
 
 const beVietnamPro = Be_Vietnam_Pro({
   variable: "--font-be-vietnam-pro",
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: "XP English / XP Voca - Cộng Đồng Học Từ Vựng Tiếng Anh Thông Minh",
   description:
     "XP English (XP Voca) là nền tảng học từ vựng tiếng Anh cộng đồng thế hệ mới. Ứng dụng lặp lại ngắt quãng (Spaced Repetition) thông minh và luyện hội thoại với AI.",
-  manifest: "/manifest.json?v=12",
+  manifest: "/manifest.json?v=15",
   keywords: [
     "learn english",
     "study vocabulary",
@@ -25,11 +25,11 @@ export const metadata: Metadata = {
   ],
   icons: {
     icon: [
-      { url: "/app-icon-horizontal-brand.png?v=13", sizes: "32x32" },
-      { url: "/app-icon-horizontal-brand.png?v=13", sizes: "192x192" },
+      { url: "/app-icon-horizontal-brand.png?v=14", sizes: "32x32" },
+      { url: "/app-icon-horizontal-brand.png?v=14", sizes: "192x192" },
     ],
-    shortcut: "/app-icon-horizontal-brand.png?v=13",
-    apple: [{ url: "/app-icon-horizontal-brand.png?v=13", sizes: "180x180" }],
+    shortcut: "/app-icon-horizontal-brand.png?v=14",
+    apple: [{ url: "/app-icon-horizontal-brand.png?v=14", sizes: "180x180" }],
   },
 };
 
@@ -50,7 +50,7 @@ export default function RootLayout({
       <body
         className={`${beVietnamPro.className} ${beVietnamPro.variable} antialiased border-0`}
       >
-        <ClientClerkWrapper>{children}</ClientClerkWrapper>
+        <ClientAuthWrapper>{children}</ClientAuthWrapper>
       </body>
     </html>
   );

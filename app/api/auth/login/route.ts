@@ -1,22 +1,96 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { comparePassword } from "@/lib/auth/password";
+import { signAuthToken } from "@/lib/auth/jwt";
 
-/**
- * This endpoint is now managed by Clerk UI components
- * Use Clerk SignIn component in /app/(auth)/login/page.tsx instead
- * This is a reference endpoint for developers
- */
-export async function GET(request: Request) {
-  return NextResponse.json({
-    success: true,
-    message: "Use Clerk SignIn component for authentication",
-    docs: "See /app/(auth)/login/page.tsx",
-  });
-}
+export async function POST(req: NextRequest) {
+  try {
+    const body = await req.json();
+    const { emailOrUsername, password } = body;
 
-export async function POST(request: Request) {
-  return NextResponse.json({
-    success: true,
-    message: "Use Clerk SignIn component for authentication",
-    docs: "See /app/(auth)/login/page.tsx",
-  });
+    if (!emailOrUsername || !password) {
+      return NextResponse.json(
+        { success: false, error: "Vui lòng nhập đầy đủ Email/Tên đăng nhập và Mật khẩu." },
+        { status: 400 }
+      );
+    }
+
+    const trimmedInput = String(emailOrUsername).trim().toLowerCase();
+
+    // Find profile by email, username, or id
+    const profile = await prisma.profile.findFirst({
+      where: {
+        OR: [
+          { email: trimmedInput },
+          { username: trimmedInput },
+          { id: trimmedInput },
+        ],
+      },
+    });
+
+    if (!profile) {
+      return NextResponse.json(
+        { success: false, error: "Tài khoản hoặc mật khẩu không chính xác." },
+        { status: 401 }
+      );
+    }
+
+    // Verify password if profile has a passwordHash
+    if (profile.passwordHash) {
+      const isPasswordValid = comparePassword(String(password), profile.passwordHash);
+      if (!isPasswordValid) {
+        return NextResponse.json(
+          { success: false, error: "Tài khoản hoặc mật khẩu không chính xác." },
+          { status: 401 }
+        );
+      }
+    }
+
+    // Generate JWT Token
+    const token = signAuthToken({
+      userId: profile.id,
+      email: profile.email,
+      username: profile.username,
+    });
+
+    const userPayload = {
+      id: profile.id,
+      username: profile.username || profile.id,
+      fullName: profile.fullName || profile.username || "Học viên XP Voca",
+      email: profile.email || `${profile.id}@xpvoca.com`,
+      level: profile.level,
+      totalXp: profile.totalXp,
+      currentStreak: profile.currentStreak,
+      longestStreak: profile.longestStreak,
+      minutesStudied: profile.minutesStudied,
+      avatarEmoji: profile.avatarEmoji || "🦉",
+      bio: "Học viên xuất sắc của XP English | XP Voca! 🚀",
+      title: profile.title,
+      coins: profile.coins,
+      streakFreezes: profile.streakFreezes,
+    };
+
+    const response = NextResponse.json({
+      success: true,
+      user: userPayload,
+      message: "Đăng nhập thành công!",
+    });
+
+    // Set secure HTTP-only session cookie
+    response.cookies.set("xp_voca_session", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 60 * 60 * 24 * 30, // 30 days
+      path: "/",
+    });
+
+    return response;
+  } catch (error: any) {
+    console.error("Login API Error:", error);
+    return NextResponse.json(
+      { success: false, error: "Đã xảy ra lỗi hệ thống. Vui lòng thử lại sau." },
+      { status: 500 }
+    );
+  }
 }

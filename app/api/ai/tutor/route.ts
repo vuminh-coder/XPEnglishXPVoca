@@ -84,44 +84,52 @@ Return ONLY the raw JSON block. No markdown backticks, no comments, no extra cha
       });
     }
 
-    let parsedData;
-    try {
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            contents: contents,
-            systemInstruction: {
-              parts: [{ text: systemPrompt }]
-            },
-            generationConfig: {
-              temperature: 0.7,
-              maxOutputTokens: 2048,
-              responseMimeType: "application/json"
+    let parsedData = null;
+    const modelsToTry = ["gemini-2.5-flash", "gemini-1.5-flash", "gemini-2.0-flash"];
+
+    for (const modelName of modelsToTry) {
+      try {
+        const response = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              contents: contents,
+              systemInstruction: {
+                parts: [{ text: systemPrompt }]
+              },
+              generationConfig: {
+                temperature: 0.7,
+                maxOutputTokens: 2048,
+                responseMimeType: "application/json"
+              }
+            })
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          let candidateText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (candidateText) {
+            candidateText = candidateText.trim().replace(/^```json/i, "").replace(/^```/i, "").replace(/```$/i, "").trim();
+            const jsonMatch = candidateText.match(/\{[\s\S]*\}/);
+            if (jsonMatch) {
+              parsedData = JSON.parse(jsonMatch[0]);
+              if (parsedData && parsedData.reply) {
+                break; // Success
+              }
             }
-          })
+          }
         }
-      );
-
-      if (!response.ok) {
-        throw new Error(`Gemini API error status: ${response.status}`);
+      } catch (mErr) {
+        console.warn(`AI Tutor model ${modelName} call failed, trying next fallback:`, mErr);
       }
+    }
 
-      const data = await response.json();
-      const candidateText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-
-      if (!candidateText) {
-        throw new Error("Failed to get content from Gemini");
-      }
-
-      parsedData = JSON.parse(candidateText.trim());
-    } catch (apiError) {
-      console.warn("AI Tutor fetch failed, using fallback simulated response:", apiError);
-      
+    // Fallback if all API model calls failed
+    if (!parsedData || !parsedData.reply) {
       const lastUserText = messages[messages.length - 1]?.text || "";
-      
       parsedData = {
         reply: `That's interesting! You said: "${lastUserText}". Let's keep practicing.`,
         vietnameseTranslation: `Thật thú vị! Bạn vừa nói: "${lastUserText}". Hãy tiếp tục luyện tập nhé.`,
@@ -138,6 +146,12 @@ Return ONLY the raw JSON block. No markdown backticks, no comments, no extra cha
     return NextResponse.json({ success: true, ...parsedData });
   } catch (error: any) {
     console.error("POST /api/ai/tutor error:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({
+      success: true,
+      reply: "Hello! I am your voice tutor. Please speak to me to start.",
+      vietnameseTranslation: "Xin chào! Tôi là gia sư giọng nói của bạn. Hãy nói chuyện với tôi để bắt đầu.",
+      wordAnalysis: [],
+      pronunciationTips: []
+    });
   }
 }

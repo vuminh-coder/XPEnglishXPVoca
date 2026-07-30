@@ -1,33 +1,33 @@
 {
-  "name": "XP English Voca",
-  "short_name": "XPEnglish",
+  "name": "XP English | XP Voca",
+  "short_name": "XP English",
   "description": "Nền tảng học từ vựng tiếng Anh thông minh thế hệ mới tích hợp AI và Gamification",
   "start_url": "/dashboard",
   "display": "standalone",
-  "background_color": "#dceaff",
+  "background_color": "#ffffff",
   "theme_color": "#0059bb",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/icons/icon-any-192x192.png?v=12",
+      "src": "/icons/icon-any-192x192.png?v=15",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/icons/icon-maskable-192x192.png?v=12",
+      "src": "/icons/icon-maskable-192x192.png?v=15",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/icons/icon-any-512x512.png?v=12",
+      "src": "/icons/icon-any-512x512.png?v=15",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/icons/icon-maskable-512x512.png?v=12",
+      "src": "/icons/icon-maskable-512x512.png?v=15",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"

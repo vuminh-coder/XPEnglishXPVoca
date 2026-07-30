@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useClerk, useUser } from "@clerk/nextjs";
 import { useUiStore } from "@/lib/store/uiStore";
 import { useAuthStore } from "@/lib/store/authStore";
 import {
@@ -25,14 +24,6 @@ import {
   BellOff,
   Laptop,
 } from "lucide-react";
-
-// Check if Clerk is enabled based on key type and domain
-const checkIsClerkEnabled = () => {
-  const key = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
-  return !!(key && key.startsWith("pk_"));
-};
-
-const CLERK_ENABLED = checkIsClerkEnabled();
 
 interface ThemeDropdownProps {
   isOpen: boolean;
@@ -282,208 +273,6 @@ function NotificationCenterDropdown({
   );
 }
 
-function ClerkNavbar() {
-  const { user: clerkUser } = useUser();
-  const { signOut } = useClerk();
-  const { theme, toggleSidebar, sidebarOpen } = useUiStore();
-  const { unreadCount } = useNotificationCenterStore();
-
-  const [notifOpen, setNotifOpen] = useState(false);
-  const [themeOpen, setThemeOpen] = useState(false);
-  const [userOpen, setUserOpen] = useState(false);
-
-  const handleLogout = () => {
-    signOut({ redirectUrl: "/" });
-  };
-
-  return (
-    <div className="top-navbar h-[52px] px-3.5 sm:px-6">
-      <div className="flex items-center gap-2 min-w-0">
-        <button className="navbar-menu-toggle shrink-0" onClick={toggleSidebar}>
-          {sidebarOpen ? (
-            <X className="w-[20px] h-[20px]" strokeWidth={1.8} />
-          ) : (
-            <Menu className="w-[20px] h-[20px]" strokeWidth={1.8} />
-          )}
-        </button>
-        <Link
-          href="/"
-          className="navbar-brand flex items-center gap-2 group min-w-0 shrink-0"
-        >
-          <div className="text-lg sm:text-xl font-black text-slate-900 dark:text-white flex items-center gap-1.5 truncate leading-none">
-            <span className="text-[#0059bb]">XP</span> English
-            <span className="text-amber-500 font-normal hidden min-[380px]:inline">
-              |
-            </span>
-            <span className="text-amber-500 hidden min-[380px]:inline">
-              XP Voca
-            </span>
-          </div>
-        </Link>
-      </div>
-
-      <div className="navbar-actions flex items-center gap-1 sm:gap-2 shrink-0">
-        {/* Dynamic Theme Control Dropdown */}
-        <div className="dropdown navbar-theme-control">
-          <button
-            type="button"
-            className="btn-icon btn-ghost relative transition-spring hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10"
-            onClick={() => {
-              setThemeOpen(!themeOpen);
-              setNotifOpen(false);
-              setUserOpen(false);
-            }}
-            title="Đổi chủ đề giao diện"
-          >
-            <div className="relative w-[18px] h-[18px]">
-              <AnimatePresence mode="wait">
-                {theme === "dark" && (
-                  <motion.div
-                    key="dark"
-                    initial={{ rotate: -90, opacity: 0, scale: 0.8 }}
-                    animate={{ rotate: 0, opacity: 1, scale: 1 }}
-                    exit={{ rotate: 90, opacity: 0, scale: 0.8 }}
-                    transition={{ type: "spring", stiffness: 100, damping: 12 }}
-                    className="absolute inset-0 flex items-center justify-center"
-                  >
-                    <Moon
-                      className="w-[18px] h-[18px] text-indigo-400"
-                      strokeWidth={1.8}
-                    />
-                  </motion.div>
-                )}
-                {theme === "light" && (
-                  <motion.div
-                    key="light"
-                    initial={{ rotate: -90, opacity: 0, scale: 0.8 }}
-                    animate={{ rotate: 0, opacity: 1, scale: 1 }}
-                    exit={{ rotate: 90, opacity: 0, scale: 0.8 }}
-                    transition={{ type: "spring", stiffness: 100, damping: 12 }}
-                    className="absolute inset-0 flex items-center justify-center"
-                  >
-                    <Sun
-                      className="w-[18px] h-[18px] text-amber-500"
-                      strokeWidth={1.8}
-                    />
-                  </motion.div>
-                )}
-                {theme === "system" && (
-                  <motion.div
-                    key="system"
-                    initial={{ rotate: -90, opacity: 0, scale: 0.8 }}
-                    animate={{ rotate: 0, opacity: 1, scale: 1 }}
-                    exit={{ rotate: 90, opacity: 0, scale: 0.8 }}
-                    transition={{ type: "spring", stiffness: 100, damping: 12 }}
-                    className="absolute inset-0 flex items-center justify-center"
-                  >
-                    <Laptop
-                      className="w-[18px] h-[18px] text-cyan-500"
-                      strokeWidth={1.8}
-                    />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </button>
-
-          <ThemeDropdown isOpen={themeOpen} setIsOpen={setThemeOpen} />
-        </div>
-
-        {/* Dynamic Notification Bell */}
-        <div className="dropdown navbar-notification">
-          <button
-            className="btn-icon btn-ghost relative transition-spring hover:scale-105 active:scale-95 cursor-pointer w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center"
-            onClick={() => {
-              setNotifOpen(!notifOpen);
-              setThemeOpen(false);
-              setUserOpen(false);
-            }}
-          >
-            <Bell className="w-[18px] h-[18px]" strokeWidth={1.8} />
-            {unreadCount > 0 && (
-              <>
-                <span className="notification-dot">{unreadCount}</span>
-                <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-rose-500/30 animate-ping pointer-events-none" />
-              </>
-            )}
-          </button>
-
-          <NotificationCenterDropdown
-            isOpen={notifOpen}
-            setIsOpen={setNotifOpen}
-          />
-        </div>
-
-        <div className="dropdown">
-          <div
-            className="navbar-user transition-spring hover:bg-black/5 dark:hover:bg-white/5 rounded-xl p-1 cursor-pointer flex items-center gap-1.5"
-            onClick={() => {
-              setUserOpen(!userOpen);
-              setNotifOpen(false);
-              setThemeOpen(false);
-            }}
-          >
-            <div className="avatar avatar-sm flex items-center justify-center bg-slate-100 dark:bg-neutral-800 text-lg border border-slate-200/50 dark:border-white/10 rounded-full w-8 h-8 shrink-0 overflow-hidden">
-              {clerkUser?.imageUrl ? (
-                <img
-                  src={clerkUser.imageUrl}
-                  alt="Avatar"
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <User
-                  className="w-[16px] h-[16px] text-slate-500"
-                  strokeWidth={1.8}
-                />
-              )}
-            </div>
-            <div className="navbar-user-info hidden sm:block">
-              <div className="navbar-user-name hidden md:block">
-                {clerkUser?.fullName || "User"}
-              </div>
-              <div className="navbar-user-level flex items-center gap-1">
-                <span>Học viên</span>
-                <ChevronDown className="w-3 h-3 text-slate-400" />
-              </div>
-            </div>
-          </div>
-          <div
-            className={`dropdown-menu ${userOpen ? "active" : ""} transition-spring`}
-            style={{ right: 0 }}
-          >
-            <Link
-              href="/profile"
-              className="dropdown-item flex items-center gap-2"
-              onClick={() => setUserOpen(false)}
-            >
-              <User className="w-4 h-4" strokeWidth={1.8} />
-              Trang cá nhân
-            </Link>
-            {clerkUser?.publicMetadata?.role === "admin" && (
-              <Link
-                href="/admin"
-                className="dropdown-item flex items-center gap-2"
-                onClick={() => setUserOpen(false)}
-              >
-                <Shield className="w-4 h-4" strokeWidth={1.8} />
-                Quản trị
-              </Link>
-            )}
-            <div className="dropdown-divider"></div>
-            <div
-              className="dropdown-item text-error flex items-center gap-2 cursor-pointer"
-              onClick={handleLogout}
-            >
-              <LogOut className="w-4 h-4" strokeWidth={1.8} />
-              Đăng xuất
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function LocalNavbar() {
   const { user, logout: localLogout } = useAuthStore();
   const { theme, toggleSidebar, sidebarOpen } = useUiStore();
@@ -496,7 +285,6 @@ function LocalNavbar() {
 
   const handleLogout = () => {
     localLogout();
-    router.push("/");
   };
 
   return (
@@ -513,12 +301,7 @@ function LocalNavbar() {
           href="/"
           className="navbar-brand flex items-center gap-2 group min-w-0"
         >
-          <img
-            src="/mascot.png"
-            alt="XP Logo"
-            className="w-8 h-8 object-contain shrink-0 transition-transform group-hover:scale-105"
-          />
-          <div className="text-sm sm:text-base font-black text-slate-900 dark:text-white flex items-center gap-1 truncate">
+          <div className="text-sm sm:text-base font-black text-slate-900 dark:text-white flex items-center gap-1 truncate font-display">
             <span className="text-[#0059bb]">XP</span> English
             <span className="text-amber-500 font-normal hidden min-[380px]:inline">
               |
@@ -650,7 +433,7 @@ function LocalNavbar() {
             </div>
             <div className="navbar-user-info hidden sm:block">
               <div className="navbar-user-name hidden md:block">
-                {user?.fullName || "User"}
+                {user?.fullName || user?.username || "Học viên XP Voca"}
               </div>
               <div className="navbar-user-level flex items-center gap-1">
                 <span>Lvl {user?.level || 1}</span>
@@ -659,7 +442,7 @@ function LocalNavbar() {
             </div>
           </div>
           <div
-            className={`dropdown-menu ${userOpen ? "active" : ""} transition-spring`}
+            className={`dropdown-menu ${userOpen ? "active" : ""} transition-spring rounded-md`}
             style={{ right: 0 }}
           >
             <Link
@@ -774,5 +557,5 @@ export default function Navbar() {
 
   if (!mounted) return <div className="top-navbar"></div>;
 
-  return CLERK_ENABLED ? <ClerkNavbar /> : <LocalNavbar />;
+  return <LocalNavbar />;
 }

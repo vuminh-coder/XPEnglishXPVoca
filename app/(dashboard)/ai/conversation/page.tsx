@@ -295,13 +295,14 @@ export default function ConversationPage() {
   };
 
   return (
-    <div className="space-y-3.5 pb-16 md:pb-6 px-1 md:px-0 relative select-none font-sans">
+    <div className="space-y-3.5 pb-20 sm:pb-6 px-1 md:px-0 relative select-none font-sans">
       
       {/* 0. Top Hero Announcement Banner Card (Dashboard Style) */}
+      {/* DESKTOP BANNER */}
       <motion.div
         initial={{ opacity: 0, y: -6 }}
         animate={{ opacity: 1, y: 0 }}
-        className="p-3.5 rounded-lg bg-[#ebf3fe] dark:bg-blue-950/40 border border-[#d5e5fe] dark:border-blue-900/50 flex flex-col md:flex-row md:items-center justify-between gap-2.5 shadow-2xs"
+        className="hidden sm:flex p-3.5 rounded-lg bg-[#ebf3fe] dark:bg-blue-950/40 border border-[#d5e5fe] dark:border-blue-900/50 flex-col md:flex-row md:items-center justify-between gap-2.5 shadow-2xs"
       >
         <div className="flex items-center gap-2.5 min-w-0">
           <div className="w-8 h-8 rounded-md bg-[#1d6ee6]/10 text-[#1d6ee6] dark:text-sky-400 flex items-center justify-center shrink-0">
@@ -337,35 +338,78 @@ export default function ConversationPage() {
         </div>
       </motion.div>
 
+      {/* MOBILE COMPACT HERO BANNER */}
+      <motion.div
+        initial={{ opacity: 0, y: -6 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="sm:hidden p-2.5 rounded-md bg-[#ebf3fe] dark:bg-blue-950/40 border border-[#d5e5fe] dark:border-blue-900/50 flex items-center justify-between gap-2 shadow-2xs"
+      >
+        <div className="flex items-center gap-2 min-w-0">
+          <div className="w-7 h-7 rounded-md bg-[#1d6ee6]/10 text-[#1d6ee6] dark:text-sky-400 flex items-center justify-center shrink-0">
+            <MessageSquare className="w-3.5 h-3.5 stroke-[2]" />
+          </div>
+          <div className="min-w-0">
+            <div className="flex items-center gap-1">
+              <span className="px-1.5 py-0.2 rounded text-[8px] font-black bg-[#1d6ee6] text-white">
+                Hội thoại AI 💬
+              </span>
+            </div>
+            <h3 className="text-xs font-bold text-slate-900 dark:text-white font-display truncate">
+              Luyện Giao Tiếp AI
+            </h3>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-1.5 shrink-0">
+          <button
+            onClick={handleFinishConversation}
+            className="px-2 py-1 rounded-md bg-[#20b26c] hover:bg-[#1b9a5d] text-white text-[10px] font-bold shadow-2xs flex items-center gap-1 cursor-pointer"
+          >
+            <CheckCircle2 className="w-3 h-3" /> ✓ Chấm điểm
+          </button>
+          <span className="px-1.5 py-1 rounded-md bg-amber-500/10 text-amber-600 dark:text-amber-400 text-[10px] font-black">
+            ⏱️ {formatElapsedTime(elapsedTime)}
+          </span>
+        </div>
+      </motion.div>
+
       {/* 1. TOPIC SELECTION CARDS GRID (Compact 4 Horizontal Cards) */}
       <div className="space-y-2">
         <div className="flex items-center justify-between px-0.5">
           <h2 className="text-xs font-black uppercase tracking-wider text-[#1d6ee6] dark:text-sky-400 font-display flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5 text-[#1d6ee6]" /> CHỌN CHỦ ĐỀ GIAO TIẾP ({aiTopics.length} CHỦ ĐỀ)
+            <Sparkles className="w-3.5 h-3.5 text-[#1d6ee6]" />
+            <span className="hidden sm:inline">CHỌN CHỦ ĐỀ GIAO TIẾP ({aiTopics.length} CHỦ ĐỀ)</span>
+            <span className="sm:hidden">Chủ đề giao tiếp</span>
           </h2>
 
-          {/* Level Filter Pills */}
+          {/* Level Filter Pills (Unified Vietnamese UI) */}
           <div className="flex items-center gap-1">
-            {['ALL', 'Beginner', 'Intermediate', 'Advanced'].map((lvl) => (
+            {[
+              { id: 'ALL', label: 'Tất cả' },
+              { id: 'Beginner', label: 'Cơ bản' },
+              { id: 'Intermediate', label: 'Trung cấp' },
+              { id: 'Advanced', label: 'Nâng cao' },
+            ].map((lvl) => (
               <button
-                key={lvl}
-                onClick={() => setLevelFilter(lvl)}
-                className={`px-2 py-0.5 rounded text-[10px] font-bold transition-all cursor-pointer ${
-                  levelFilter === lvl
+                key={lvl.id}
+                onClick={() => setLevelFilter(lvl.id)}
+                className={`px-1.5 sm:px-2 py-0.5 rounded text-[9px] sm:text-[10px] font-bold transition-all cursor-pointer whitespace-nowrap ${
+                  levelFilter === lvl.id
                     ? "bg-[#1d6ee6] text-white shadow-2xs font-black"
                     : "bg-slate-100 dark:bg-slate-800 text-slate-500 hover:bg-slate-200"
                 }`}
               >
-                {lvl === 'ALL' ? 'Tất cả' : lvl}
+                {lvl.label}
               </button>
             ))}
           </div>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5">
           {filteredTopics.map((topic) => {
             const isSelected = topic.id === selectedTopicId;
             const completedCount = completedGoalIds.filter((id) => id.startsWith(topic.id)).length;
+            const levelLabel = topic.level === 'Beginner' ? 'Cơ bản' : topic.level === 'Intermediate' ? 'Trung cấp' : 'Nâng cao';
 
             return (
               <motion.div
@@ -376,33 +420,33 @@ export default function ConversationPage() {
                   setSelectedTopicId(topic.id);
                   addToast({ type: "info", title: `Đã đổi chủ đề: ${topic.name}` });
                 }}
-                className={`p-3 rounded-lg border transition-all cursor-pointer relative flex flex-col justify-between ${
+                className={`p-2.5 sm:p-3 rounded-md sm:rounded-lg border transition-all cursor-pointer relative flex flex-col justify-between ${
                   isSelected
                     ? "bg-white dark:bg-slate-900 border-[#1d6ee6] ring-2 ring-[#1d6ee6]/20 shadow-xs"
                     : "bg-white dark:bg-slate-900 border-slate-200/80 dark:border-white/10 hover:border-[#1d6ee6]/40 shadow-2xs"
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <div className="w-7 h-7 rounded-md bg-slate-100 dark:bg-slate-800 flex items-center justify-center shrink-0">
-                    {TOPIC_ICONS[topic.id] || <MessageSquare className="w-4 h-4 text-[#1d6ee6]" />}
+                  <div className="w-6.5 h-6.5 sm:w-7 sm:h-7 rounded-md bg-slate-100 dark:bg-slate-800 flex items-center justify-center shrink-0">
+                    {TOPIC_ICONS[topic.id] || <MessageSquare className="w-3.5 h-3.5 text-[#1d6ee6]" />}
                   </div>
-                  <span className="px-1.5 py-0.2 rounded text-[9px] font-black bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
-                    {topic.level}
+                  <span className="px-1.5 py-0.2 rounded text-[8px] sm:text-[9px] font-black bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                    {levelLabel}
                   </span>
                 </div>
 
-                <div className="mt-2 space-y-0.5">
+                <div className="mt-1.5 sm:mt-2 space-y-0.5">
                   <h3 className={`text-xs font-bold font-display truncate ${
                     isSelected ? "text-[#1d6ee6] dark:text-sky-400" : "text-slate-900 dark:text-white"
                   }`}>
                     {topic.name}
                   </h3>
-                  <p className="text-[10px] text-slate-400 font-medium truncate">
+                  <p className="hidden sm:block text-[10px] text-slate-400 font-medium truncate">
                     {topic.description}
                   </p>
                 </div>
 
-                <div className="mt-2 pt-1 border-t border-slate-100 dark:border-white/5 flex items-center justify-between text-[10px] font-bold text-slate-500">
+                <div className="mt-1.5 sm:mt-2 pt-1 border-t border-slate-100 dark:border-white/5 flex items-center justify-between text-[9px] sm:text-[10px] font-bold text-slate-500">
                   <span>{completedCount}/{topic.goals.length} Mục tiêu</span>
                   {isSelected && <span className="text-[#1d6ee6] font-black">✓ Đang chọn</span>}
                 </div>

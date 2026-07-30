@@ -194,26 +194,26 @@ export default function CommunityPage() {
   };
 
   return (
-    <div className="space-y-5 pb-16 md:pb-6 select-none font-sans" suppressHydrationWarning>
+    <div className="space-y-3.5 sm:space-y-5 pb-16 md:pb-6 select-none font-sans" suppressHydrationWarning>
       {/* 1. HERO BENTO HEADER BANNER (AGENCY DASHBOARD TIER) */}
-      <div className="p-4 sm:p-5 rounded-lg bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#003366] text-white shadow-xs relative overflow-hidden">
+      <div className="p-3.5 sm:p-5 rounded-md sm:rounded-lg bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#003366] text-white shadow-xs relative overflow-hidden">
         <div className="absolute -right-8 -bottom-8 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none" />
-        <div className="relative z-10 space-y-2">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider bg-white/15 text-white border border-white/20 flex items-center gap-1">
-              <Flame className="w-3.5 h-3.5 text-amber-300 fill-amber-300" /> 1,240+ Học Viên Online
+        <div className="relative z-10 space-y-1.5 sm:space-y-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 flex-nowrap whitespace-nowrap overflow-x-auto no-scrollbar">
+            <span className="px-1.5 py-0.5 sm:px-2 sm:py-0.5 rounded-sm text-[8.5px] sm:text-[10px] font-black uppercase tracking-wider bg-white/15 text-white border border-white/20 flex items-center gap-1 font-display shrink-0">
+              <Flame className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-300 fill-amber-300" /> 1,240+ Học Viên Online
             </span>
-            <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-200 border border-emerald-400/30">
+            <span className="px-1.5 py-0.5 sm:px-2 sm:py-0.5 rounded-sm text-[8.5px] sm:text-[10px] font-bold bg-emerald-500/20 text-emerald-200 border border-emerald-400/30 shrink-0">
               Thưởng +20 XP / Bài đăng
             </span>
           </div>
 
           <div className="space-y-0.5">
-            <h1 className="text-lg sm:text-xl font-black font-display tracking-tight text-white flex items-center gap-2">
+            <h1 className="text-base sm:text-xl font-black font-display tracking-tight text-white flex items-center gap-1.5 sm:gap-2">
               Cộng Đồng Học Tập XP English
-              <Sparkles className="w-4 h-4 text-amber-300" />
+              <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-300" />
             </h1>
-            <p className="text-xs text-blue-100/90 max-w-2xl font-medium leading-relaxed">
+            <p className="hidden sm:block text-xs text-blue-100/90 max-w-2xl font-medium leading-relaxed">
               Nơi giao lưu, chia sẻ kinh nghiệm luyện thi TOEIC/IELTS, mẹo ghi nhớ từ vựng và cùng nhau tiến bộ mỗi ngày!
             </p>
           </div>
@@ -221,73 +221,73 @@ export default function CommunityPage() {
       </div>
 
       {/* 2. BENTO GRID LAYOUT (3/4 MAIN FEED + 1/4 SIDEBAR WIDGETS) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 sm:gap-4 items-start">
         
         {/* LEFT 3/4 COLUMN: COMMUNITY FEED & CREATE POST */}
-        <div className="lg:col-span-8 xl:col-span-8 space-y-4">
+        <div className="lg:col-span-8 xl:col-span-8 space-y-3.5 sm:space-y-4">
           
           {/* SEGMENTED NAVIGATION TABS */}
           <div className="p-1 rounded-md sm:rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 grid grid-cols-4 gap-1 w-full">
-            <div className="shrink-0 sm:shrink py-1.5 px-3 sm:px-3 rounded-sm sm:rounded-md bg-[#0059bb] text-white text-[10px] sm:text-xs font-bold shadow-2xs flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap">
+            <div className="shrink-0 sm:shrink py-1.5 px-1 sm:px-3 rounded-sm sm:rounded-md bg-[#0059bb] text-white text-[10px] sm:text-xs font-bold shadow-2xs flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap">
               <MessageSquare className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" /> Bảng tin
             </div>
             <Link
               href="/community/leaderboard"
-              className="shrink-0 sm:shrink py-1.5 px-3 sm:px-3 rounded-sm sm:rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800 text-[10px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap"
+              className="shrink-0 sm:shrink py-1.5 px-1 sm:px-3 rounded-sm sm:rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800 text-[10px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap"
             >
               <Trophy className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-500 shrink-0" /> Xếp hạng
             </Link>
             <Link
               href="/community/friends"
-              className="shrink-0 sm:shrink py-1.5 px-3 sm:px-3 rounded-sm sm:rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800 text-[10px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap"
+              className="shrink-0 sm:shrink py-1.5 px-1 sm:px-3 rounded-sm sm:rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800 text-[10px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap"
             >
               <UserPlus className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-sky-500 shrink-0" /> Bạn bè
             </Link>
             <Link
               href="/community/groups"
-              className="shrink-0 sm:shrink py-1.5 px-3 sm:px-3 rounded-sm sm:rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800 text-[10px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap"
+              className="shrink-0 sm:shrink py-1.5 px-1 sm:px-3 rounded-sm sm:rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800 text-[10px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap"
             >
               <Users className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-indigo-500 shrink-0" /> Nhóm
             </Link>
           </div>
 
           {/* CREATE POST CARD (COMPACT AGENCY TIER DESIGN) */}
-          <div className="p-3.5 sm:p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3">
+          <div className="p-3 sm:p-4 rounded-md sm:rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-2.5 sm:space-y-3">
             <div className="flex items-start gap-2.5">
               <UserAvatar
                 avatar={(user as any)?.avatar || (user as any)?.avatarUrl}
                 emoji={user?.avatarEmoji}
                 name={user?.fullName || user?.username}
-                size="w-9 h-9"
+                size="w-8 h-8 sm:w-9 sm:h-9"
               />
               <textarea
                 rows={2}
                 value={postText}
                 onChange={(e) => setPostText(e.target.value)}
                 placeholder="Chia sẻ mẹo học từ vựng hoặc thắc mắc bài tập..."
-                className="w-full p-2.5 rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-white/10 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0059bb] resize-none font-medium leading-relaxed"
+                className="w-full p-2 sm:p-2.5 rounded-sm bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-white/10 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0059bb] resize-none font-medium leading-relaxed"
               />
             </div>
 
             {/* Quick Tag Chips & Submit Action */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2 border-t border-slate-100 dark:border-white/5">
-              <div className="flex items-center gap-1.5 flex-wrap">
-                <span className="text-[10px] uppercase font-bold text-slate-400 mr-1">Gợi ý tag:</span>
+            <div className="flex flex-row items-center justify-between gap-2 pt-2 border-t border-slate-100 dark:border-white/5">
+              <div className="flex items-center gap-1 flex-wrap">
+                <span className="text-[9px] sm:text-[10px] uppercase font-bold text-slate-400 mr-0.5">Gợi ý:</span>
                 <button
                   onClick={() => setPostText((prev) => (prev ? `${prev} #MeoHocTuVung` : '#MeoHocTuVung '))}
-                  className="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 hover:bg-[#0059bb]/10 text-slate-600 dark:text-slate-400 hover:text-[#0059bb] text-[10px] font-bold transition-all cursor-pointer"
+                  className="px-1.5 py-0.5 rounded-sm bg-slate-100 dark:bg-slate-800 hover:bg-[#0059bb]/10 text-slate-600 dark:text-slate-400 hover:text-[#0059bb] text-[9px] sm:text-[10px] font-bold transition-all cursor-pointer"
                 >
                   #MeoHocTuVung
                 </button>
                 <button
                   onClick={() => setPostText((prev) => (prev ? `${prev} #LuyenThiTOEIC` : '#LuyenThiTOEIC '))}
-                  className="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 hover:bg-[#0059bb]/10 text-slate-600 dark:text-slate-400 hover:text-[#0059bb] text-[10px] font-bold transition-all cursor-pointer"
+                  className="px-1.5 py-0.5 rounded-sm bg-slate-100 dark:bg-slate-800 hover:bg-[#0059bb]/10 text-slate-600 dark:text-slate-400 hover:text-[#0059bb] text-[9px] sm:text-[10px] font-bold transition-all cursor-pointer"
                 >
                   #LuyenThiTOEIC
                 </button>
                 <button
                   onClick={() => setPostText((prev) => (prev ? `${prev} #IELTSWriting` : '#IELTSWriting '))}
-                  className="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 hover:bg-[#0059bb]/10 text-slate-600 dark:text-slate-400 hover:text-[#0059bb] text-[10px] font-bold transition-all cursor-pointer"
+                  className="px-1.5 py-0.5 rounded-sm bg-slate-100 dark:bg-slate-800 hover:bg-[#0059bb]/10 text-slate-600 dark:text-slate-400 hover:text-[#0059bb] text-[9px] sm:text-[10px] font-bold transition-all cursor-pointer"
                 >
                   #IELTSWriting
                 </button>
@@ -298,9 +298,11 @@ export default function CommunityPage() {
                 size="sm"
                 onClick={handleCreatePost}
                 disabled={!postText.trim()}
-                className="font-bold py-1.5 px-3.5 rounded-md bg-[#0059bb] hover:bg-[#004799] text-white text-xs transition-all shadow-2xs flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50 shrink-0 self-end sm:self-auto"
+                className="font-bold py-1.5 px-2.5 sm:px-3.5 rounded-sm bg-[#0059bb] hover:bg-[#004799] text-white text-xs transition-all shadow-2xs flex items-center justify-center gap-1 sm:gap-1.5 cursor-pointer disabled:opacity-50 shrink-0 self-auto"
               >
-                <Send className="w-3.5 h-3.5" /> Chia sẻ bài viết (+20 XP)
+                <Send className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                <span className="sm:hidden">Chia sẻ (+20 XP)</span>
+                <span className="hidden sm:inline">Chia sẻ bài viết (+20 XP)</span>
               </Button>
             </div>
           </div>
@@ -311,9 +313,9 @@ export default function CommunityPage() {
               /* SKELETON LOADING CARDS (RULE 1 COMPLIANCE) */
               <div className="space-y-3">
                 {[1, 2].map((i) => (
-                  <div key={i} className="p-3.5 sm:p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3 animate-pulse">
+                  <div key={i} className="p-3 sm:p-4 rounded-md sm:rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3 animate-pulse">
                     <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-full bg-slate-200 dark:bg-slate-800" />
+                      <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-slate-200 dark:bg-slate-800" />
                       <div className="space-y-1.5 flex-1">
                         <div className="w-32 h-4 bg-slate-200 dark:bg-slate-800 rounded-md" />
                         <div className="w-24 h-3 bg-slate-100 dark:bg-slate-800/60 rounded-md" />
@@ -328,8 +330,8 @@ export default function CommunityPage() {
               </div>
             ) : posts.length === 0 ? (
               /* EMPTY STATE */
-              <div className="p-8 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs text-center space-y-2">
-                <div className="w-10 h-10 rounded-lg bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 flex items-center justify-center mx-auto text-xl border border-[#0059bb]/20">
+              <div className="p-6 sm:p-8 rounded-md sm:rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs text-center space-y-2">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-md sm:rounded-lg bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 flex items-center justify-center mx-auto text-lg sm:text-xl border border-[#0059bb]/20">
                   💬
                 </div>
                 <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
@@ -354,11 +356,11 @@ export default function CommunityPage() {
                 return (
                   <div
                     key={p.id}
-                    className="p-3.5 sm:p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-2.5"
+                    className="p-3 sm:p-4 rounded-md sm:rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-2 sm:space-y-2.5"
                   >
                     {/* Post Author Header (Clean single name, Google/FB avatar, NO @ symbol) */}
                     <div className="flex items-center justify-between gap-2.5 border-b border-slate-100 dark:border-white/5 pb-2">
-                      <div className="flex items-center gap-2.5">
+                      <div className="flex items-center gap-2 sm:gap-2.5">
                         <UserAvatar
                           avatar={p.authorAvatar || p.avatar || (isUserPost ? (user as any)?.avatar : undefined)}
                           emoji={p.avatarEmoji}
@@ -368,7 +370,7 @@ export default function CommunityPage() {
                         <div>
                           <div className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display flex items-center gap-1.5">
                             <span>{authorCleanName}</span>
-                            <span className="px-1.5 py-0.2 rounded text-[9px] font-black uppercase bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 border border-[#0059bb]/20">
+                            <span className="px-1 py-0.2 sm:px-1.5 sm:py-0.2 rounded-sm text-[8.5px] sm:text-[9px] font-black uppercase bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 border border-[#0059bb]/20">
                               Member
                             </span>
                           </div>
@@ -378,7 +380,7 @@ export default function CommunityPage() {
                         </div>
                       </div>
 
-                      <span className="text-[10px] font-bold text-emerald-600 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 shrink-0">
+                      <span className="text-[9px] sm:text-[10px] font-bold text-emerald-600 bg-emerald-500/10 px-1.5 py-0.5 sm:px-2 sm:py-0.5 rounded-sm border border-emerald-500/20 shrink-0">
                         +20 XP
                       </span>
                     </div>
@@ -390,11 +392,11 @@ export default function CommunityPage() {
 
                     {/* Vocab Tags */}
                     {p.vocabTags && p.vocabTags.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5">
+                      <div className="flex flex-wrap gap-1 sm:gap-1.5">
                         {p.vocabTags.map((tag: string, idx: number) => (
                           <span
                             key={idx}
-                            className="text-[10px] font-bold py-0.5 px-2 rounded bg-blue-50 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-400 border border-blue-200/60 dark:border-blue-900/40"
+                            className="text-[9px] sm:text-[10px] font-bold py-0.5 px-1.5 sm:px-2 rounded-sm bg-blue-50 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-400 border border-blue-200/60 dark:border-blue-900/40"
                           >
                             {tag}
                           </span>
@@ -403,12 +405,12 @@ export default function CommunityPage() {
                     )}
 
                     {/* Post Reaction Stats Bar */}
-                    <div className="flex items-center gap-4 py-1.5 border-y border-slate-100 dark:border-white/5 text-[11px] font-bold text-slate-500 dark:text-slate-400">
+                    <div className="flex items-center gap-3 sm:gap-4 py-1.5 border-y border-slate-100 dark:border-white/5 text-[10px] sm:text-[11px] font-bold text-slate-500 dark:text-slate-400">
                       <span className="flex items-center gap-1">
-                        <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" /> {p.likes || 0} Lượt thích
+                        <Heart className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-rose-500 fill-rose-500" /> {p.likes || 0} Lượt thích
                       </span>
                       <span className="flex items-center gap-1">
-                        <MessageCircle className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" /> {totalComments} Bình luận
+                        <MessageCircle className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#0059bb] dark:text-sky-400" /> {totalComments} Bình luận
                       </span>
                     </div>
 
@@ -416,7 +418,7 @@ export default function CommunityPage() {
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => handleLikePost(p.id)}
-                        className={`flex-1 py-1.5 px-3 rounded-md text-xs font-bold border transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                        className={`flex-1 py-1.5 px-2.5 sm:px-3 rounded-sm sm:rounded-md text-xs font-bold border transition-all cursor-pointer flex items-center justify-center gap-1 sm:gap-1.5 ${
                           p.liked
                             ? 'bg-rose-50 dark:bg-rose-950/30 text-rose-600 border-rose-200 dark:border-rose-900/40'
                             : 'bg-slate-50 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300 border-slate-200/80 dark:border-white/10 hover:bg-rose-50 hover:text-rose-600'
@@ -428,7 +430,7 @@ export default function CommunityPage() {
 
                       <button
                         onClick={() => setActiveCommentId(activeCommentId === p.id ? null : p.id)}
-                        className="flex-1 py-1.5 px-3 rounded-md text-xs font-bold bg-slate-50 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300 border border-slate-200/80 dark:border-white/10 hover:bg-[#0059bb] hover:text-white transition-all cursor-pointer flex items-center justify-center gap-1.5"
+                        className="flex-1 py-1.5 px-2.5 sm:px-3 rounded-sm sm:rounded-md text-xs font-bold bg-slate-50 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300 border border-slate-200/80 dark:border-white/10 hover:bg-[#0059bb] hover:text-white transition-all cursor-pointer flex items-center justify-center gap-1 sm:gap-1.5"
                       >
                         <MessageCircle className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
                         <span>Bình luận</span>
@@ -437,25 +439,25 @@ export default function CommunityPage() {
 
                     {/* Expandable Comments Section */}
                     {activeCommentId === p.id && (
-                      <div className="pt-2.5 border-t border-slate-100 dark:border-white/5 space-y-2.5">
+                      <div className="pt-2 sm:pt-2.5 border-t border-slate-100 dark:border-white/5 space-y-2 sm:space-y-2.5">
                         {/* Comment Input */}
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1.5 sm:gap-2">
                           <input
                             type="text"
                             value={commentText[p.id] || ''}
                             onChange={(e) => setCommentText((prev) => ({ ...prev, [p.id]: e.target.value }))}
                             onKeyDown={(e) => e.key === 'Enter' && handleAddComment(p.id)}
                             placeholder="Viết bình luận của bạn..."
-                            className="flex-1 p-2 rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-white/10 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0059bb]"
+                            className="flex-1 p-1.5 sm:p-2 rounded-sm bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-white/10 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0059bb]"
                           />
                           <Button
                             variant="primary"
                             size="sm"
                             onClick={() => handleAddComment(p.id)}
                             disabled={!(commentText[p.id] || '').trim()}
-                            className="px-3 py-1.5 rounded-md bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold transition-all shadow-2xs shrink-0 cursor-pointer disabled:opacity-50"
+                            className="px-2.5 sm:px-3 py-1.5 rounded-sm bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold transition-all shadow-2xs shrink-0 cursor-pointer disabled:opacity-50"
                           >
-                            <Send className="w-3.5 h-3.5" /> Gửi
+                            <Send className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> Gửi
                           </Button>
                         </div>
 
@@ -468,7 +470,7 @@ export default function CommunityPage() {
                         )}
 
                         {/* Comment List Stream */}
-                        <div className="space-y-2">
+                        <div className="space-y-1.5 sm:space-y-2">
                           {shownComments.map((c: any) => {
                             const commentCleanName = formatCleanName(c.author);
                             const isCommentUser = c.author === user?.fullName || c.author === user?.username || commentCleanName === formatCleanName(user?.fullName);
@@ -476,20 +478,20 @@ export default function CommunityPage() {
                             return (
                               <div
                                 key={c.id}
-                                className="p-2 sm:p-2.5 rounded-md bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-white/5 space-y-1"
+                                className="p-2 sm:p-2.5 rounded-sm bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-white/5 space-y-1"
                               >
                                 <div className="flex items-center gap-2">
                                   <UserAvatar
                                     avatar={c.avatar || c.authorAvatar || (isCommentUser ? (user as any)?.avatar : undefined)}
                                     emoji={c.avatarEmoji}
                                     name={commentCleanName}
-                                    size="w-6 h-6"
+                                    size="w-5 h-5 sm:w-6 sm:h-6"
                                   />
                                   <span className="font-bold text-slate-900 dark:text-white font-display text-xs">
                                     {commentCleanName}
                                   </span>
                                 </div>
-                                <p className="text-xs text-slate-800 dark:text-slate-200 font-medium leading-relaxed pl-8">
+                                <p className="text-xs text-slate-800 dark:text-slate-200 font-medium leading-relaxed pl-7 sm:pl-8">
                                   {c.content}
                                 </p>
                               </div>
@@ -500,7 +502,7 @@ export default function CommunityPage() {
                         {hiddenCount > 0 && (
                           <button
                             onClick={() => handleShowMoreComments(p.id)}
-                            className="w-full py-1 text-[11px] font-bold text-[#0059bb] dark:text-sky-400 hover:underline flex items-center justify-center gap-1 cursor-pointer"
+                            className="w-full py-1 text-[10px] sm:text-[11px] font-bold text-[#0059bb] dark:text-sky-400 hover:underline flex items-center justify-center gap-1 cursor-pointer"
                           >
                             <ChevronDown className="w-3.5 h-3.5" />
                             Xem thêm {Math.min(hiddenCount, LOAD_MORE_COMMENTS)} bình luận ({hiddenCount} còn ẩn)
@@ -516,13 +518,13 @@ export default function CommunityPage() {
         </div>
 
         {/* RIGHT 1/4 COLUMN: BENTO SIDEBAR WIDGETS */}
-        <div className="lg:col-span-4 xl:col-span-4 space-y-4 sticky top-4">
+        <div className="lg:col-span-4 xl:col-span-4 space-y-3.5 sm:space-y-4 sticky top-4">
           
           {/* BENTO WIDGET 1: TOP 3 LEADERBOARD SPOTLIGHT */}
-          <div className="p-4 sm:p-4.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3">
+          <div className="p-3.5 sm:p-4.5 rounded-md sm:rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-2.5 sm:space-y-3">
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-md bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 border border-amber-500/20 text-base">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-sm bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 border border-amber-500/20 text-sm sm:text-base">
                   🏆
                 </div>
                 <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
@@ -532,14 +534,14 @@ export default function CommunityPage() {
 
               <Link
                 href="/community/leaderboard"
-                className="text-[11px] font-bold text-[#0059bb] dark:text-sky-400 hover:underline flex items-center gap-0.5"
+                className="text-[10px] sm:text-[11px] font-bold text-[#0059bb] dark:text-sky-400 hover:underline flex items-center gap-0.5"
               >
                 Xem tất cả <ArrowRight className="w-3 h-3" />
               </Link>
             </div>
 
             <div className="space-y-2">
-              <div className="p-2.5 rounded-md bg-amber-500/10 border border-amber-500/20 flex items-center justify-between text-xs">
+              <div className="p-2 sm:p-2.5 rounded-sm bg-amber-500/10 border border-amber-500/20 flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-bold">🥇</span>
                   <span className="font-bold text-slate-900 dark:text-white">Minh Vũ</span>
@@ -547,7 +549,7 @@ export default function CommunityPage() {
                 <span className="font-black text-amber-600 dark:text-amber-400 text-xs">1,450 XP</span>
               </div>
 
-              <div className="p-2.5 rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5 flex items-center justify-between text-xs">
+              <div className="p-2 sm:p-2.5 rounded-sm bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5 flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-bold">🥈</span>
                   <span className="font-bold text-slate-900 dark:text-white">Thanh Hằng</span>
@@ -555,7 +557,7 @@ export default function CommunityPage() {
                 <span className="font-bold text-slate-600 dark:text-slate-400 text-xs">1,280 XP</span>
               </div>
 
-              <div className="p-2.5 rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5 flex items-center justify-between text-xs">
+              <div className="p-2 sm:p-2.5 rounded-sm bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5 flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-bold">🥉</span>
                   <span className="font-bold text-slate-900 dark:text-white">Hoàng Nam</span>
@@ -566,10 +568,10 @@ export default function CommunityPage() {
           </div>
 
           {/* BENTO WIDGET 2: ACTIVE STUDY GROUPS */}
-          <div className="p-4 sm:p-4.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3">
+          <div className="p-3.5 sm:p-4.5 rounded-md sm:rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-2.5 sm:space-y-3">
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-md bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0 border border-indigo-500/20 text-base">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-sm bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0 border border-indigo-500/20 text-sm sm:text-base">
                   👥
                 </div>
                 <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
@@ -579,35 +581,35 @@ export default function CommunityPage() {
 
               <Link
                 href="/community/groups"
-                className="text-[11px] font-bold text-[#0059bb] dark:text-sky-400 hover:underline flex items-center gap-0.5"
+                className="text-[10px] sm:text-[11px] font-bold text-[#0059bb] dark:text-sky-400 hover:underline flex items-center gap-0.5"
               >
                 Tham gia <ArrowRight className="w-3 h-3" />
               </Link>
             </div>
 
             <div className="space-y-2">
-              <div className="p-2.5 rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5 space-y-1">
+              <div className="p-2 sm:p-2.5 rounded-sm bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5 space-y-0.5">
                 <div className="flex items-center justify-between text-xs">
                   <span className="font-bold text-slate-900 dark:text-white">CLB IELTS Speaking 7.0+</span>
-                  <span className="text-[10px] font-bold text-indigo-600 bg-indigo-500/10 px-1.5 py-0.2 rounded">320 TV</span>
+                  <span className="text-[9px] sm:text-[10px] font-bold text-indigo-600 bg-indigo-500/10 px-1.5 py-0.2 rounded-sm">320 TV</span>
                 </div>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400">Luyện nói hàng ngày cùng phòng nói AI</p>
+                <p className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400">Luyện nói hàng ngày cùng phòng nói AI</p>
               </div>
 
-              <div className="p-2.5 rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5 space-y-1">
+              <div className="p-2 sm:p-2.5 rounded-sm bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5 space-y-0.5">
                 <div className="flex items-center justify-between text-xs">
                   <span className="font-bold text-slate-900 dark:text-white">Hội Cày 3000 Từ Vựng TOEIC</span>
-                  <span className="text-[10px] font-bold text-emerald-600 bg-emerald-500/10 px-1.5 py-0.2 rounded">540 TV</span>
+                  <span className="text-[9px] sm:text-[10px] font-bold text-emerald-600 bg-emerald-500/10 px-1.5 py-0.2 rounded-sm">540 TV</span>
                 </div>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400">Thi đấu Flashcard & Streak mỗi tuần</p>
+                <p className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400">Thi đấu Flashcard & Streak mỗi tuần</p>
               </div>
             </div>
           </div>
 
           {/* BENTO WIDGET 3: AI COMMUNITY DAILY TIP */}
-          <div className="p-4 sm:p-4.5 rounded-lg bg-[#ebf3fe]/80 dark:bg-slate-800/60 border border-[#0059bb]/20 shadow-xs space-y-2">
-            <div className="flex items-center gap-2 text-xs font-bold text-[#0059bb] dark:text-sky-400 font-display">
-              <Sparkles className="w-4 h-4" /> Mẹo AI Ghi Nhớ Nhanh Hàng Ngày
+          <div className="p-3.5 sm:p-4.5 rounded-md sm:rounded-lg bg-[#ebf3fe]/80 dark:bg-slate-800/60 border border-[#0059bb]/20 shadow-xs space-y-1.5 sm:space-y-2">
+            <div className="flex items-center gap-1.5 sm:gap-2 text-xs font-bold text-[#0059bb] dark:text-sky-400 font-display">
+              <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> Mẹo AI Ghi Nhớ Nhanh Hàng Ngày
             </div>
             <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
               "Hãy tự đặt 1 câu áp dụng ngay từ vựng mới học vào bài đăng cộng đồng để duy trì thói quen ghi nhớ chủ động (Active Recall)."
