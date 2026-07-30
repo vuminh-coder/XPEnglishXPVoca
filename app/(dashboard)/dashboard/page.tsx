@@ -89,6 +89,25 @@ export default function DashboardPage() {
   >("time");
 
   useEffect(() => {
+    // 1. Handle OAuth user payload from Google/Facebook redirect
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const oauthUserRaw = params.get("oauth_user");
+      if (oauthUserRaw) {
+        try {
+          const userObj = JSON.parse(decodeURIComponent(oauthUserRaw));
+          if (userObj && userObj.id) {
+            useUserStore.getState().setUserPayload(userObj);
+            const newUrl = window.location.pathname;
+            window.history.replaceState({}, document.title, newUrl);
+          }
+        } catch (err) {
+          console.error("Error parsing oauth_user payload:", err);
+        }
+      }
+      useUserStore.getState().checkSession();
+    }
+
     initChallenges();
     if (typeof window !== "undefined") {
       const todayStr = new Date().toISOString().slice(0, 10);
@@ -371,7 +390,8 @@ export default function DashboardPage() {
 
   const handleCheckIn = () => {
     const todayStr = new Date().toISOString().slice(0, 10);
-    const checkinKey = `daily_checkin_${todayStr}`;
+    const userKey = user ? user.id : "guest";
+    const checkinKey = `daily_checkin_${userKey}_${todayStr}`;
 
     if (claimedList.includes(checkinKey)) {
       addToast({

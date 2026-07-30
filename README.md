@@ -45,11 +45,12 @@
 
 ### 1. Bảng Điều Khiển & Trung Tâm Học Tập (`/dashboard`)
 - **`/dashboard`**: Trung tâm chỉ huy học tập toàn diện.
+  - **Tự Động Nhận Diện OAuth Payload & Đồng Bộ Phiên**: Tự động parse payload `oauth_user` từ Google/Facebook OAuth redirect, dọn dẹp URL query param và đồng bộ phiên làm việc `checkSession()` tức thì.
   - **Hero Greeting Bar**: Chào mừng học viên kèm các chỉ số chính (Tối ưu mobile: Ẩn subtext rườm rà `hidden sm:block`, mở rộng nút bấm full-width).
   - **4 Hero Metric Cards**: Chuỗi Streak (`Flame`), Thời gian luyện tập (`Clock`), Từ vựng đã lưu (`BookmarkCheck`), Cấp độ XP (`Target`).
   - **Lộ Trình Hôm Nay**: Nhiệm vụ bài học cá nhân hóa gọi từ API `GET /api/study-plan/current` (Giới hạn `line-clamp-2` tiêu đề bài học trên mobile).
   - **Phút Luyện Tập 7 Ngày**: Biểu đồ đường mỏng 1.5px uốn mượt 7 ngày gần nhất & Hàng tab kỹ năng cuộn mượt `overflow-x-auto`.
-  - **Điểm Danh Tuần Này**: Lộ trình 7 nút kết nối fluid. Nút **"🔥 Điểm danh ngay (+15 XP)"** tự động đưa xuống hàng full-width trên mobile, bấm thưởng +15 XP, +20 Vàng, +5m học và sync ngầm về Database.
+  - **Điểm Danh Tuần Này**: Lộ trình 7 nút kết nối fluid. Nút **"🔥 Điểm danh ngay (+15 XP)"** tự động đưa xuống hàng full-width trên mobile, bấm thưởng +15 XP, +20 Vàng, +5m học, bảo vệ khóa chống điểm danh trùng theo `userId` và sync ngầm về Database.
   - **Hỏi Đáp AI Tutor Nhanh**: Ô nhập thắc mắc ngữ pháp/từ vựng nâng tap-target `h-10` chuẩn di động, nhận lời giải từ AI Tutor và cộng ngay +10 XP.
   - **Phím Tắt Nhanh (Quick Actions Grid)**: Lưới 2x2 siêu gọn trên mobile nhờ ẩn subtext badge phụ (`hidden sm:block`), giữ icon & tiêu đề nổi bật.
 
