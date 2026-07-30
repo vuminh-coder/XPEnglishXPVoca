@@ -36,7 +36,7 @@ export const SKILL_CONFIGS: Record<SkillType, SkillConfig> = {
   speaking: {
     id: "speaking",
     label: "Luyện nói",
-    iconName: "Volume2",
+    iconName: "SpeakingIcon",
     color: "#8b5cf6",
     gradientId: "gradientSpeaking",
     stopColor: "#8b5cf6",
@@ -52,7 +52,7 @@ export const SKILL_CONFIGS: Record<SkillType, SkillConfig> = {
   writing: {
     id: "writing",
     label: "Luyện viết",
-    iconName: "PenLine",
+    iconName: "Wand2",
     color: "#f59e0b",
     gradientId: "gradientWriting",
     stopColor: "#f59e0b",

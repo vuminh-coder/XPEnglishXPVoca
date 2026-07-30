@@ -72,6 +72,23 @@ const itemVariants = {
   },
 } as const;
 
+const SpeakingIcon = ({ className = "w-3 h-3" }: { className?: string }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M14 15a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v2" />
+    <circle cx="9" cy="7" r="3" />
+    <path d="M17 9a3 3 0 0 1 0 6" />
+    <path d="M20 7a6 6 0 0 1 0 10" />
+  </svg>
+);
+
 export default function DashboardPage() {
   const { user, awardXp, awardCoins } = useAuthStore();
   const { challenges, initChallenges } = useDailyChallengeStore();
@@ -772,7 +789,7 @@ export default function DashboardPage() {
                       : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                   }`}
                 >
-                  <Volume2 className="w-3 h-3" /> Luyện nói
+                  <SpeakingIcon className="w-3 h-3" /> Luyện nói
                 </button>
                 <button
                   onClick={() => setActiveSkillTab("vocab")}
@@ -792,7 +809,7 @@ export default function DashboardPage() {
                       : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                   }`}
                 >
-                  <PenLine className="w-3 h-3" /> Luyện viết
+                  <Wand2 className="w-3 h-3" /> Luyện viết
                 </button>
               </div>
 
