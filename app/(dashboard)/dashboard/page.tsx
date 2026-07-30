@@ -72,12 +72,12 @@ const itemVariants = {
   },
 } as const;
 
-const SpeakingIcon = ({ className = "w-3 h-3" }: { className?: string }) => (
+const SpeakingIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
   <svg
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth="2"
+    strokeWidth="2.2"
     strokeLinecap="round"
     strokeLinejoin="round"
     className={className}
@@ -789,7 +789,7 @@ export default function DashboardPage() {
                       : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                   }`}
                 >
-                  <SpeakingIcon className="w-3 h-3" /> Luyện nói
+                  <SpeakingIcon className="w-3.5 h-3.5 shrink-0" /> Luyện nói
                 </button>
                 <button
                   onClick={() => setActiveSkillTab("vocab")}
