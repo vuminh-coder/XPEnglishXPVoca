@@ -1,5 +1,5 @@
-const CACHE_NAME = "xp-voca-v14";
-const OFFLINE_URL = "/dashboard"; // Fallback URL if offline
+const CACHE_NAME = "xp-voca-v25";
+const OFFLINE_URL = "/dashboard";
 
 const ASSETS_TO_CACHE = [
   "/dashboard",
@@ -38,9 +38,10 @@ self.addEventListener("fetch", (event) => {
       })
     );
   } else {
+    // Network-first for static icons & manifest to ensure instant updates
     event.respondWith(
-      caches.match(event.request).then((response) => {
-        return response || fetch(event.request);
+      fetch(event.request).catch(() => {
+        return caches.match(event.request);
       })
     );
   }
