@@ -32,6 +32,7 @@ import {
   Wand2,
   Headphones,
   Mic,
+  Volume2,
   MessageSquare,
   BarChart3,
   Award,
@@ -751,7 +752,7 @@ export default function DashboardPage() {
                       : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                   }`}
                 >
-                  <Headphones className="w-3 h-3" /> Dictation
+                  <Headphones className="w-3 h-3" /> Nghe chép
                 </button>
                 <button
                   onClick={() => setActiveSkillTab("shadowing")}
@@ -761,7 +762,7 @@ export default function DashboardPage() {
                       : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                   }`}
                 >
-                  <Mic className="w-3 h-3" /> Shadowing
+                  <Mic className="w-3 h-3" /> Nhại giọng
                 </button>
                 <button
                   onClick={() => setActiveSkillTab("speaking")}
@@ -771,7 +772,7 @@ export default function DashboardPage() {
                       : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                   }`}
                 >
-                  <MessageSquare className="w-3 h-3" /> Nói
+                  <Volume2 className="w-3 h-3" /> Luyện nói
                 </button>
                 <button
                   onClick={() => setActiveSkillTab("vocab")}
@@ -791,7 +792,7 @@ export default function DashboardPage() {
                       : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                   }`}
                 >
-                  <Wand2 className="w-3 h-3" /> Viết
+                  <PenLine className="w-3 h-3" /> Luyện viết
                 </button>
               </div>
 

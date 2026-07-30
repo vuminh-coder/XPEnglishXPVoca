@@ -19,7 +19,7 @@ export interface SkillConfig {
 export const SKILL_CONFIGS: Record<SkillType, SkillConfig> = {
   dictation: {
     id: "dictation",
-    label: "Dictation",
+    label: "Nghe chép",
     iconName: "Headphones",
     color: "#1d6ee6",
     gradientId: "gradientDictation",
@@ -27,7 +27,7 @@ export const SKILL_CONFIGS: Record<SkillType, SkillConfig> = {
   },
   shadowing: {
     id: "shadowing",
-    label: "Shadowing",
+    label: "Nhại giọng",
     iconName: "Mic",
     color: "#06b6d4",
     gradientId: "gradientShadowing",
@@ -35,8 +35,8 @@ export const SKILL_CONFIGS: Record<SkillType, SkillConfig> = {
   },
   speaking: {
     id: "speaking",
-    label: "Nói",
-    iconName: "MessageSquare",
+    label: "Luyện nói",
+    iconName: "Volume2",
     color: "#8b5cf6",
     gradientId: "gradientSpeaking",
     stopColor: "#8b5cf6",
@@ -51,8 +51,8 @@ export const SKILL_CONFIGS: Record<SkillType, SkillConfig> = {
   },
   writing: {
     id: "writing",
-    label: "Viết",
-    iconName: "Wand2",
+    label: "Luyện viết",
+    iconName: "PenLine",
     color: "#f59e0b",
     gradientId: "gradientWriting",
     stopColor: "#f59e0b",
@@ -117,7 +117,6 @@ export function getWeeklySkillMinutes(
     // Fallback sync: if skillMap is empty for this date, fallback to general daily minutes or user total
     if (minutes === 0) {
       if (dailyGeneralMap[isoDate] && dailyGeneralMap[isoDate] > 0) {
-        // Distribute or assign fallback if this skill is vocab or first active
         if (skill === "vocab" || skill === "dictation") {
           minutes = Math.round(dailyGeneralMap[isoDate]);
         }

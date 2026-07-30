@@ -257,13 +257,13 @@ skills.forEach((skill) => {
     return config.id === activeTab && typeof config.label === "string";
   });
 
-  runTest(t++, `UI Label mapping matches expected Vietnamese/English mix for '${skill}'`, () => {
+  runTest(t++, `UI Label mapping matches expected standardized Vietnamese labels for '${skill}'`, () => {
     const labels = {
-      dictation: "Dictation",
-      shadowing: "Shadowing",
-      speaking: "Nói",
+      dictation: "Nghe chép",
+      shadowing: "Nhại giọng",
+      speaking: "Luyện nói",
       vocab: "Từ vựng",
-      writing: "Viết",
+      writing: "Luyện viết",
     };
     return SKILL_CONFIGS[skill].label === labels[skill];
   });
