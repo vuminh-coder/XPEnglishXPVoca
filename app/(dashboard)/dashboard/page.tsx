@@ -40,6 +40,11 @@ import {
 import { getXpProgress } from "@/lib/utils/calculateXP";
 import { LEVEL_TITLES } from "@/lib/constants";
 import { Button, Badge } from "@/components/ui";
+import {
+  getWeeklySkillMinutes,
+  SKILL_CONFIGS,
+  SkillType,
+} from "@/lib/store/skillChartStore";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -200,6 +205,21 @@ export default function DashboardPage() {
       }
     }
   }, [wordsPracticedToday, challenges]);
+
+  // Per-skill weekly practice computation
+  const currentSkillConfig = SKILL_CONFIGS[activeSkillTab];
+  const skillWeeklyChartData = useMemo(() => {
+    return getWeeklySkillMinutes(user?.id, activeSkillTab);
+  }, [user, activeSkillTab]);
+
+  const skillTotalMinutes = useMemo(() => {
+    const sum = skillWeeklyChartData.reduce((acc, curr) => acc + curr.minutes, 0);
+    return sum > 0 ? sum : Math.max(5, user?.minutesStudied || 5);
+  }, [skillWeeklyChartData, user]);
+
+  const maxSkillMinutes = useMemo(() => {
+    return Math.max(...skillWeeklyChartData.map((d) => d.minutes), 10);
+  }, [skillWeeklyChartData]);
 
   // Real weekly XP computation
   const weeklyXp = useMemo(() => {
@@ -775,18 +795,18 @@ export default function DashboardPage() {
                 </button>
               </div>
 
-              {/* Weekly Practice Time Line Graph (Biểu đồ đường mỏng tinh tế, không chấm) */}
+              {/* Weekly Practice Time Line Graph (Biểu đồ đường mỏng tinh tế cho từng kỹ năng) */}
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-[11px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 font-display flex items-center gap-1.5 truncate">
-                    <BarChart3 className="w-3.5 h-3.5 text-blue-600 dark:text-sky-400 shrink-0" />
+                    <BarChart3 className="w-3.5 h-3.5 shrink-0" style={{ color: currentSkillConfig.color }} />
                     <span className="hidden sm:inline">
-                      Phút luyện tập (7 ngày gần đây)
+                      Phút luyện tập {currentSkillConfig.label} (7 ngày gần đây)
                     </span>
-                    <span className="sm:hidden">Luyện tập (7 ngày)</span>
+                    <span className="sm:hidden">Luyện tập {currentSkillConfig.label} (7 ngày)</span>
                   </span>
-                  <span className="text-[11px] sm:text-xs font-black text-blue-600 dark:text-sky-400 shrink-0">
-                    Tổng: {user.minutesStudied || 5}m
+                  <span className="text-[11px] sm:text-xs font-black shrink-0" style={{ color: currentSkillConfig.color }}>
+                    Tổng: {skillTotalMinutes}m
                   </span>
                 </div>
 
@@ -800,7 +820,7 @@ export default function DashboardPage() {
                     >
                       <defs>
                         <linearGradient
-                          id="lineChartGradient"
+                          id={currentSkillConfig.gradientId}
                           x1="0"
                           y1="0"
                           x2="0"
@@ -808,12 +828,12 @@ export default function DashboardPage() {
                         >
                           <stop
                             offset="0%"
-                            stopColor="#1d6ee6"
+                            stopColor={currentSkillConfig.stopColor}
                             stopOpacity="0.25"
                           />
                           <stop
                             offset="100%"
-                            stopColor="#1d6ee6"
+                            stopColor={currentSkillConfig.stopColor}
                             stopOpacity="0.0"
                           />
                         </linearGradient>
@@ -848,10 +868,10 @@ export default function DashboardPage() {
                       />
 
                       {(() => {
-                        const points = weeklyXp.map((d, i) => {
+                        const points = skillWeeklyChartData.map((d, i) => {
                           const x = i * (700 / 6);
-                          const y = 100 - (d.xp / maxWeeklyXp) * 70;
-                          return { x, y, day: d.day, xp: d.xp };
+                          const y = 100 - (d.minutes / maxSkillMinutes) * 70;
+                          return { x, y, day: d.day, minutes: d.minutes };
                         });
 
                         // Generate smooth monotone bezier curve edge-to-edge
@@ -871,13 +891,13 @@ export default function DashboardPage() {
                         return (
                           <>
                             {/* Gradient Area Fill */}
-                            <path d={areaD} fill="url(#lineChartGradient)" />
+                            <path d={areaD} fill={`url(#${currentSkillConfig.gradientId})`} />
 
                             {/* Ultra-Thin Smooth Line (Edge-to-Edge 100% width) */}
                             <path
                               d={pathD}
                               fill="none"
-                              stroke="#1d6ee6"
+                              stroke={currentSkillConfig.color}
                               strokeWidth="1.5"
                               strokeLinecap="round"
                               strokeLinejoin="round"
@@ -890,14 +910,15 @@ export default function DashboardPage() {
 
                   {/* 7 Date labels perfectly aligned in grid */}
                   <div className="grid grid-cols-7 text-center pt-1 border-t border-slate-100 dark:border-white/5">
-                    {weeklyXp.map((d, i) => (
+                    {skillWeeklyChartData.map((d, i) => (
                       <span
                         key={i}
                         className={`text-[9px] font-bold ${
                           i === 6
-                            ? "text-blue-600 dark:text-sky-400 font-black"
+                            ? "font-black"
                             : "text-slate-400"
                         }`}
+                        style={{ color: i === 6 ? currentSkillConfig.color : undefined }}
                       >
                         {d.day}
                       </span>
