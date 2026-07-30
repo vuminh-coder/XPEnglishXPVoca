@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: "XP English / XP Voca - Cộng Đồng Học Từ Vựng Tiếng Anh Thông Minh",
   description:
     "XP English (XP Voca) là nền tảng học từ vựng tiếng Anh cộng đồng thế hệ mới. Ứng dụng lặp lại ngắt quãng (Spaced Repetition) thông minh và luyện hội thoại với AI.",
-  manifest: "/manifest.json?v=15",
+  manifest: "/manifest.json?v=20",
   keywords: [
     "learn english",
     "study vocabulary",
@@ -25,11 +25,11 @@ export const metadata: Metadata = {
   ],
   icons: {
     icon: [
-      { url: "/app-icon-horizontal-brand.png?v=14", sizes: "32x32" },
-      { url: "/app-icon-horizontal-brand.png?v=14", sizes: "192x192" },
+      { url: "/icons/icon-any-192x192.png?v=20", sizes: "192x192" },
+      { url: "/icons/icon-any-512x512.png?v=20", sizes: "512x512" },
     ],
-    shortcut: "/app-icon-horizontal-brand.png?v=14",
-    apple: [{ url: "/app-icon-horizontal-brand.png?v=14", sizes: "180x180" }],
+    shortcut: "/icons/icon-any-192x192.png?v=20",
+    apple: [{ url: "/icons/apple-touch-icon.png?v=20", sizes: "180x180" }],
   },
 };
 
