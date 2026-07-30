@@ -760,10 +760,19 @@ export default function DashboardPage() {
           <motion.div variants={itemVariants}>
             <div className="p-3 sm:p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-2.5 sm:space-y-3.5">
               {/* Skill Tabs Bar */}
-              <div className="p-0.5 bg-slate-100 dark:bg-slate-950 rounded-md flex items-center gap-0.5 overflow-x-auto no-scrollbar border border-slate-200/50 dark:border-white/5">
+              <div 
+                role="tablist"
+                aria-label="Lựa chọn kỹ năng phân tích biểu đồ"
+                className="p-0.5 bg-slate-100 dark:bg-slate-950 rounded-md flex items-center gap-0.5 overflow-x-auto no-scrollbar border border-slate-200/50 dark:border-white/5"
+              >
                 <button
+                  role="tab"
+                  id="tab-dictation"
+                  aria-selected={activeSkillTab === "dictation"}
+                  aria-controls="skill-chart-panel"
+                  tabIndex={activeSkillTab === "dictation" ? 0 : -1}
                   onClick={() => setActiveSkillTab("dictation")}
-                  className={`flex-1 py-1.5 px-2 rounded text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center justify-center gap-1 ${
+                  className={`flex-1 py-1.5 px-2 rounded text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center justify-center gap-1 focus:outline-hidden focus:ring-2 focus:ring-[#1d6ee6]/50 ${
                     activeSkillTab === "dictation"
                       ? "bg-[#1d6ee6] text-white shadow-2xs font-extrabold"
                       : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
@@ -772,8 +781,13 @@ export default function DashboardPage() {
                   <Headphones className="w-3 h-3" /> Dictation
                 </button>
                 <button
+                  role="tab"
+                  id="tab-shadowing"
+                  aria-selected={activeSkillTab === "shadowing"}
+                  aria-controls="skill-chart-panel"
+                  tabIndex={activeSkillTab === "shadowing" ? 0 : -1}
                   onClick={() => setActiveSkillTab("shadowing")}
-                  className={`flex-1 py-1.5 px-2 rounded text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center justify-center gap-1 ${
+                  className={`flex-1 py-1.5 px-2 rounded text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center justify-center gap-1 focus:outline-hidden focus:ring-2 focus:ring-[#1d6ee6]/50 ${
                     activeSkillTab === "shadowing"
                       ? "bg-[#1d6ee6] text-white shadow-2xs font-extrabold"
                       : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
@@ -782,8 +796,13 @@ export default function DashboardPage() {
                   <Mic className="w-3 h-3" /> Shadowing
                 </button>
                 <button
+                  role="tab"
+                  id="tab-speaking"
+                  aria-selected={activeSkillTab === "speaking"}
+                  aria-controls="skill-chart-panel"
+                  tabIndex={activeSkillTab === "speaking" ? 0 : -1}
                   onClick={() => setActiveSkillTab("speaking")}
-                  className={`flex-1 py-1.5 px-2 rounded text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center justify-center gap-1 ${
+                  className={`flex-1 py-1.5 px-2 rounded text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center justify-center gap-1 focus:outline-hidden focus:ring-2 focus:ring-[#1d6ee6]/50 ${
                     activeSkillTab === "speaking"
                       ? "bg-[#1d6ee6] text-white shadow-2xs font-extrabold"
                       : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
@@ -792,8 +811,13 @@ export default function DashboardPage() {
                   <SpeakingIcon className="w-3.5 h-3.5 shrink-0" /> Luyện nói
                 </button>
                 <button
+                  role="tab"
+                  id="tab-vocab"
+                  aria-selected={activeSkillTab === "vocab"}
+                  aria-controls="skill-chart-panel"
+                  tabIndex={activeSkillTab === "vocab" ? 0 : -1}
                   onClick={() => setActiveSkillTab("vocab")}
-                  className={`flex-1 py-1.5 px-2 rounded text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center justify-center gap-1 ${
+                  className={`flex-1 py-1.5 px-2 rounded text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center justify-center gap-1 focus:outline-hidden focus:ring-2 focus:ring-[#1d6ee6]/50 ${
                     activeSkillTab === "vocab"
                       ? "bg-[#1d6ee6] text-white shadow-2xs font-extrabold"
                       : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
@@ -802,8 +826,13 @@ export default function DashboardPage() {
                   <BookOpen className="w-3 h-3" /> Từ vựng
                 </button>
                 <button
+                  role="tab"
+                  id="tab-writing"
+                  aria-selected={activeSkillTab === "writing"}
+                  aria-controls="skill-chart-panel"
+                  tabIndex={activeSkillTab === "writing" ? 0 : -1}
                   onClick={() => setActiveSkillTab("writing")}
-                  className={`flex-1 py-1.5 px-2 rounded text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center justify-center gap-1 ${
+                  className={`flex-1 py-1.5 px-2 rounded text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center justify-center gap-1 focus:outline-hidden focus:ring-2 focus:ring-[#1d6ee6]/50 ${
                     activeSkillTab === "writing"
                       ? "bg-[#1d6ee6] text-white shadow-2xs font-extrabold"
                       : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"

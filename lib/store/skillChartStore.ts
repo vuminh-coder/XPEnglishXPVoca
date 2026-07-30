@@ -60,6 +60,34 @@ export const SKILL_CONFIGS: Record<SkillType, SkillConfig> = {
 };
 
 /**
+ * Safely parses and sanitizes a raw JSON map from LocalStorage
+ */
+function sanitizeMinutesMap(raw: string | null): Record<string, number> {
+  if (!raw) return {};
+  try {
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return {};
+
+    const cleanMap: Record<string, number> = {};
+    for (const key in parsed) {
+      if (Object.prototype.hasOwnProperty.call(parsed, key)) {
+        // Validate date format YYYY-MM-DD
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(key)) continue;
+
+        const val = Number(parsed[key]);
+        if (typeof val === "number" && !isNaN(val) && isFinite(val) && val >= 0) {
+          cleanMap[key] = Math.min(1440, Math.round(val)); // Cap max at 1440m (24 hours per day)
+        }
+      }
+    }
+    return cleanMap;
+  } catch (e) {
+    console.warn("Recovering corrupted skill chart storage entry:", e);
+    return {};
+  }
+}
+
+/**
  * Gets 7-day practice minutes data for a specific skill and user with intelligent daily fallback sync
  */
 export function getWeeklySkillMinutes(
@@ -81,17 +109,11 @@ export function getWeeklySkillMinutes(
     try {
       const store = storageProvider || localStorage;
       const key = `xp_voca_skill_minutes_${userId || "guest"}_${skill}`;
-      const raw = store.getItem(key);
-      if (raw) {
-        skillMap = JSON.parse(raw);
-      }
+      skillMap = sanitizeMinutesMap(store.getItem(key));
 
       // Check general daily minutes fallback
       const dailyKey = `xp_voca_daily_minutes_${userId || "guest"}`;
-      const rawDaily = store.getItem(dailyKey);
-      if (rawDaily) {
-        dailyGeneralMap = JSON.parse(rawDaily);
-      }
+      dailyGeneralMap = sanitizeMinutesMap(store.getItem(dailyKey));
 
       // Check user object fallback
       const userKey = `xp_voca_user_${userId || "guest"}`;
@@ -120,7 +142,7 @@ export function getWeeklySkillMinutes(
         if (skill === "vocab" || skill === "dictation") {
           minutes = Math.round(dailyGeneralMap[isoDate]);
         }
-      } else if (isoDate === todayStr && userObject && userObject.minutesStudied > 0) {
+      } else if (isoDate === todayStr && userObject && typeof userObject.minutesStudied === "number" && userObject.minutesStudied > 0) {
         if (skill === "vocab") {
           minutes = Math.max(5, userObject.minutesStudied);
         }
@@ -144,7 +166,7 @@ export function addSkillPracticeMinutes(
   minutes: number,
   storageProvider?: Storage
 ): void {
-  if (minutes <= 0) return;
+  if (typeof minutes !== "number" || isNaN(minutes) || !isFinite(minutes) || minutes <= 0) return;
   const todayStr = new Date().toISOString().slice(0, 10);
   const key = `xp_voca_skill_minutes_${userId || "guest"}_${skill}`;
 
@@ -152,9 +174,9 @@ export function addSkillPracticeMinutes(
     const store = storageProvider || (typeof window !== "undefined" ? localStorage : null);
     if (!store) return;
 
-    const raw = store.getItem(key);
-    const skillMap: Record<string, number> = raw ? JSON.parse(raw) : {};
-    skillMap[todayStr] = (skillMap[todayStr] || 0) + minutes;
+    const skillMap = sanitizeMinutesMap(store.getItem(key));
+    const currentMins = skillMap[todayStr] || 0;
+    skillMap[todayStr] = Math.min(1440, currentMins + Math.round(minutes));
     store.setItem(key, JSON.stringify(skillMap));
   } catch (e) {
     console.error(`Error saving skill practice minutes for ${skill}:`, e);
