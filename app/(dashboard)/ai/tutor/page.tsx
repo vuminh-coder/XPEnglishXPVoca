@@ -211,7 +211,7 @@ export default function VoiceTutorPage() {
       stressScore: 94,
     });
 
-    useUserStore.getState().addPracticeTime(2);
+    useUserStore.getState().addPracticeTime(2, "speaking");
     recordSkillPractice(user?.id, "Nói", 2, 15);
 
     try {

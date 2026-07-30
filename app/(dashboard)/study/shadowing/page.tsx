@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/store/authStore";
+import { useUserStore } from "@/lib/store/userStore";
 import { useNotificationStore } from "@/lib/store/notificationStore";
 import { useListeningStore } from "@/lib/store/listeningStore";
 import { motion, AnimatePresence } from "framer-motion";
@@ -348,11 +349,12 @@ export default function ShadowingPage() {
         createdAt: new Date().toISOString()
       });
 
+      useUserStore.getState().addPracticeTime(1, "shadowing");
       awardXp(20);
       addToast({
         type: "success",
         title: "AI Speech Assessment Hoàn Tất! 🎯",
-        message: `Đạt ${score}% Overall Score! +20 XP`,
+        message: `Đạt ${score}% Overall Score! +1m Shadowing & +20 XP`,
       });
     }, 1200);
   };

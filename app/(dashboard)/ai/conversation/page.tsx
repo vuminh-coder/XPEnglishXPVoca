@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuthStore } from '@/lib/store/authStore';
+import { useUserStore } from '@/lib/store/userStore';
 import { useNotificationStore } from '@/lib/store/notificationStore';
 import { useListeningStore } from '@/lib/store/listeningStore';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -238,6 +239,7 @@ export default function ConversationPage() {
         }
 
         awardXp(10);
+        useUserStore.getState().addPracticeTime(1, "writing");
       } else {
         const fallbackMsg: Message = {
           id: `ai_${Date.now()}`,

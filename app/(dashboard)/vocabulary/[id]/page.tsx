@@ -279,7 +279,7 @@ export default function ThemeDetailPage({
       setQuizFinished(true);
       const bonusXp = quizScore * 5 + 10;
       awardXp(bonusXp);
-      useUserStore.getState().addPracticeTime(3);
+      useUserStore.getState().addPracticeTime(3, "vocab");
       const currentUser = useAuthStore.getState().user;
       recordSkillPractice(currentUser?.id, "Từ vựng", 3, bonusXp);
       useDailyChallengeStore.getState().incrementProgress("review_cards", 1);

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Card, Button, Badge } from "@/components/ui";
 import { useAuthStore } from "@/lib/store/authStore";
+import { useUserStore } from "@/lib/store/userStore";
 import { useNotificationStore } from "@/lib/store/notificationStore";
 import { useListeningStore } from "@/lib/store/listeningStore";
 import { motion, AnimatePresence } from "framer-motion";
@@ -264,6 +265,10 @@ export default function ListeningPage() {
   };
 
   const handleBackToListing = () => {
+    if (elapsedTime > 5) {
+      const mins = Math.max(1, Math.ceil(elapsedTime / 60));
+      useUserStore.getState().addPracticeTime(mins, "dictation");
+    }
     setSelectedLessonId(null);
     setElapsedTime(0);
     setIsPlaying(false);

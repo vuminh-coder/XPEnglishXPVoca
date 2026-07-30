@@ -343,7 +343,7 @@ export default function AiGrammarPage() {
     const xpEarned = correctCount * 5 + 10;
     awardXp(xpEarned);
     const currentUser = useAuthStore.getState().user;
-    useUserStore.getState().addPracticeTime(3);
+    useUserStore.getState().addPracticeTime(3, "writing");
     recordSkillPractice(currentUser?.id, "Viết", 3, xpEarned);
 
     addToast({
