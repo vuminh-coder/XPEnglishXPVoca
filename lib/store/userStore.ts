@@ -2,11 +2,12 @@ import { create } from "zustand";
 import { User } from "@/types";
 import { LEVEL_TITLES } from "../constants";
 import { useVocabularyStore } from "./vocabularyStore";
+import { addSkillPracticeMinutes, SkillType } from "./skillChartStore";
 
 interface UserState {
   user: User | null;
   awardXp: (amount: number) => { levelUp: boolean };
-  addPracticeTime: (minutes: number) => void;
+  addPracticeTime: (minutes: number, skill?: SkillType) => void;
   awardCoins: (amount: number) => void;
   updateProfile: (fullName: string, bio: string) => void;
   setLocalUser: () => void;
@@ -226,10 +227,15 @@ export const useUserStore = create<UserState>((set, get) => ({
 
     return { levelUp };
   },
-  addPracticeTime: (minutes) => {
+  addPracticeTime: (minutes, skill) => {
     get().syncStreak(true);
     const user = get().user;
     if (!user) return;
+
+    // Sync per-skill chart minutes
+    const skillKey = skill || "vocab";
+    addSkillPracticeMinutes(user.id, skillKey, minutes);
+
     const newMinutes = (user.minutesStudied || 0) + minutes;
     const updatedUser = { ...user, minutesStudied: newMinutes };
     set({ user: updatedUser });

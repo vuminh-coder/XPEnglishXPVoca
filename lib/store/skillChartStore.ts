@@ -60,7 +60,7 @@ export const SKILL_CONFIGS: Record<SkillType, SkillConfig> = {
 };
 
 /**
- * Gets 7-day practice minutes data for a specific skill and user
+ * Gets 7-day practice minutes data for a specific skill and user with intelligent daily fallback sync
  */
 export function getWeeklySkillMinutes(
   userId: string | undefined,
@@ -74,6 +74,8 @@ export function getWeeklySkillMinutes(
   startOfWeek.setDate(today.getDate() + dayDiff);
 
   let skillMap: Record<string, number> = {};
+  let dailyGeneralMap: Record<string, number> = {};
+  let userObject: any = null;
 
   if (typeof window !== "undefined" || storageProvider) {
     try {
@@ -82,6 +84,20 @@ export function getWeeklySkillMinutes(
       const raw = store.getItem(key);
       if (raw) {
         skillMap = JSON.parse(raw);
+      }
+
+      // Check general daily minutes fallback
+      const dailyKey = `xp_voca_daily_minutes_${userId || "guest"}`;
+      const rawDaily = store.getItem(dailyKey);
+      if (rawDaily) {
+        dailyGeneralMap = JSON.parse(rawDaily);
+      }
+
+      // Check user object fallback
+      const userKey = `xp_voca_user_${userId || "guest"}`;
+      const rawUser = store.getItem(userKey);
+      if (rawUser) {
+        userObject = JSON.parse(rawUser);
       }
     } catch (e) {
       console.error(`Error loading skill chart data for ${skill}:`, e);
@@ -94,7 +110,24 @@ export function getWeeklySkillMinutes(
     const targetDate = new Date(startOfWeek);
     targetDate.setDate(startOfWeek.getDate() + index);
     const isoDate = targetDate.toISOString().slice(0, 10);
-    const minutes = skillMap[isoDate] || 0;
+    const todayStr = today.toISOString().slice(0, 10);
+
+    let minutes = skillMap[isoDate] || 0;
+
+    // Fallback sync: if skillMap is empty for this date, fallback to general daily minutes or user total
+    if (minutes === 0) {
+      if (dailyGeneralMap[isoDate] && dailyGeneralMap[isoDate] > 0) {
+        // Distribute or assign fallback if this skill is vocab or first active
+        if (skill === "vocab" || skill === "dictation") {
+          minutes = Math.round(dailyGeneralMap[isoDate]);
+        }
+      } else if (isoDate === todayStr && userObject && userObject.minutesStudied > 0) {
+        if (skill === "vocab") {
+          minutes = Math.max(5, userObject.minutesStudied);
+        }
+      }
+    }
+
     return {
       day,
       isoDate,

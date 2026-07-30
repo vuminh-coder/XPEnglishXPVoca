@@ -311,7 +311,8 @@ function PracticeQuizContent() {
   const finishPracticeSession = useCallback(() => {
     setShowSummary(true);
     const mins = Math.max(1, Math.ceil(elapsedTime / 60));
-    useUserStore.getState().addPracticeTime(mins);
+    const targetSkill = subMode === "writing" ? "writing" : subMode === "speaking" ? "speaking" : "vocab";
+    useUserStore.getState().addPracticeTime(mins, targetSkill);
     const user = useAuthStore.getState().user;
     const skillName = subMode === "writing" ? "Viết" : subMode === "speaking" ? "Nói" : "Từ vựng";
     const totalXpEarned = subMode === "quiz" ? qXp : subMode === "writing" ? wXp : subMode === "speaking" ? sXp : fXp;
