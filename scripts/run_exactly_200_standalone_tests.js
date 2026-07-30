@@ -257,10 +257,10 @@ skills.forEach((skill) => {
     return config.id === activeTab && typeof config.label === "string";
   });
 
-  runTest(t++, `UI Label mapping matches expected standardized Vietnamese labels for '${skill}'`, () => {
+  runTest(t++, `UI Label mapping matches expected labels for '${skill}'`, () => {
     const labels = {
-      dictation: "Nghe chép",
-      shadowing: "Nhại giọng",
+      dictation: "Dictation",
+      shadowing: "Shadowing",
       speaking: "Luyện nói",
       vocab: "Từ vựng",
       writing: "Luyện viết",

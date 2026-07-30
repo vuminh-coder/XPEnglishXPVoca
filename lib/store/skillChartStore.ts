@@ -19,7 +19,7 @@ export interface SkillConfig {
 export const SKILL_CONFIGS: Record<SkillType, SkillConfig> = {
   dictation: {
     id: "dictation",
-    label: "Nghe chép",
+    label: "Dictation",
     iconName: "Headphones",
     color: "#1d6ee6",
     gradientId: "gradientDictation",
@@ -27,7 +27,7 @@ export const SKILL_CONFIGS: Record<SkillType, SkillConfig> = {
   },
   shadowing: {
     id: "shadowing",
-    label: "Nhại giọng",
+    label: "Shadowing",
     iconName: "Mic",
     color: "#06b6d4",
     gradientId: "gradientShadowing",

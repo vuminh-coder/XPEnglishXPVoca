@@ -752,7 +752,7 @@ export default function DashboardPage() {
                       : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                   }`}
                 >
-                  <Headphones className="w-3 h-3" /> Nghe chép
+                  <Headphones className="w-3 h-3" /> Dictation
                 </button>
                 <button
                   onClick={() => setActiveSkillTab("shadowing")}
@@ -762,7 +762,7 @@ export default function DashboardPage() {
                       : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                   }`}
                 >
-                  <Mic className="w-3 h-3" /> Nhại giọng
+                  <Mic className="w-3 h-3" /> Shadowing
                 </button>
                 <button
                   onClick={() => setActiveSkillTab("speaking")}
