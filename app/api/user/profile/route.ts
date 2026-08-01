@@ -50,7 +50,9 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { fullName, username, avatarEmoji, level, totalXp, currentStreak, longestStreak, minutesStudied, title, coins, streakFreezes } = body;
+    const { fullName, username, avatarEmoji, avatarUrl, imageUrl, avatar, level, totalXp, currentStreak, longestStreak, minutesStudied, title, coins, streakFreezes } = body;
+
+    const finalAvatar = avatarUrl || imageUrl || avatar || undefined;
 
     let defaultFullName = "User";
     let defaultUsername = "user_" + userId.substring(Math.max(0, userId.length - 8));

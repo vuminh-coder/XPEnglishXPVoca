@@ -128,6 +128,22 @@ export default function VoiceTutorPage() {
   const [showTranslations, setShowTranslations] = useState<{ [key: string]: boolean }>({});
   
   // Roleplay states
+  const activeTimeRef = React.useRef(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      activeTimeRef.current += 1;
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+      if (activeTimeRef.current > 10) {
+        const mins = Math.max(1, Math.ceil(activeTimeRef.current / 60));
+        useUserStore.getState().addPracticeTime(mins, "speaking");
+        activeTimeRef.current = 0;
+      }
+    };
+  }, []);
   const [currentRoleplayTopic, setCurrentRoleplayTopic] = useState<string>("rp1");
   const [completedGoalIds, setCompletedGoalIds] = useState<string[]>([]);
   
@@ -319,7 +335,7 @@ export default function VoiceTutorPage() {
                 AI Voice Tutor Studio
               </h1>
               <p className="hidden sm:block text-[10px] text-slate-400 font-medium truncate">
-                Gia sư AI 1-1 • {practiceMode === "freetalk" ? "💬 FreeTalk" : practiceMode === "roleplay" ? "🎭 Roleplay" : "⚡ Drill"}
+                Gia sư AI 1-1 • {practiceMode === "freetalk" ? "FreeTalk" : practiceMode === "roleplay" ? "Roleplay" : "Drill"}
               </p>
             </div>
           </div>
@@ -339,7 +355,7 @@ export default function VoiceTutorPage() {
             </button>
 
             <span className="px-2 py-1 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-[11px] font-black flex items-center gap-1 shadow-2xs">
-              ⏱️ {formatElapsedTime(elapsedTime)}
+              <Clock className="w-3.5 h-3.5" /> {formatElapsedTime(elapsedTime)}
             </span>
           </div>
         </div>
@@ -380,7 +396,7 @@ export default function VoiceTutorPage() {
           </button>
 
           <span className="px-2 py-1 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-[11px] font-black flex items-center gap-1 shadow-2xs">
-            ⏱️ {formatElapsedTime(elapsedTime)}
+            <Clock className="w-3.5 h-3.5" /> {formatElapsedTime(elapsedTime)}
           </span>
         </div>
       </motion.div>
@@ -557,22 +573,26 @@ export default function VoiceTutorPage() {
             {/* 3-Tab Segmented Controller Header */}
             <div className="p-1 bg-slate-100 dark:bg-slate-950 rounded-md flex items-center gap-1 border border-slate-200/50 dark:border-white/5">
               {[
-                { id: "goals", label: "🎯 Mục tiêu", icon: Target },
-                { id: "speech", label: "🗣️ Tiêu chí", icon: BarChart3 },
-                { id: "coach", label: "💡 Gợi ý", icon: Lightbulb },
-              ].map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setSidebarTab(tab.id as any)}
-                  className={`flex-1 py-1 px-1.5 rounded text-[11px] font-bold transition-all cursor-pointer whitespace-nowrap flex items-center justify-center gap-1 ${
-                    sidebarTab === tab.id
-                      ? "bg-[#1d6ee6] text-white shadow-2xs font-extrabold"
-                      : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
+                { id: "goals", label: "Mục tiêu", icon: Target },
+                { id: "speech", label: "Tiêu chí", icon: BarChart3 },
+                { id: "coach", label: "Gợi ý", icon: Lightbulb },
+              ].map((tab) => {
+                const IconComponent = tab.icon;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setSidebarTab(tab.id as any)}
+                    className={`flex-1 py-1 px-1.5 rounded text-[11px] font-bold transition-all cursor-pointer whitespace-nowrap flex items-center justify-center gap-1.5 ${
+                      sidebarTab === tab.id
+                        ? "bg-[#1d6ee6] text-white shadow-2xs font-extrabold"
+                        : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    }`}
+                  >
+                    <IconComponent className="w-3.5 h-3.5 shrink-0" />
+                    {tab.label}
+                  </button>
+                );
+              })}
             </div>
 
             {/* TAB 1: ROLEPLAY MISSION & DRILL GOALS */}

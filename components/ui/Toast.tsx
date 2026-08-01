@@ -33,7 +33,7 @@ export function ToastContainer() {
           style={{ animationDelay: `${index * 50}ms` }}
         >
           <div
-            className={`flex items-start gap-3 rounded-2xl border p-4 shadow-lg backdrop-blur-xl transition-all ${bgMap[toast.type]}`}
+            className={`flex items-start gap-3 rounded-xs border p-4 shadow-lg backdrop-blur-xl transition-all ${bgMap[toast.type]}`}
           >
             <div className="shrink-0 mt-0.5">{iconMap[toast.type]}</div>
             <div className="flex-1 min-w-0">

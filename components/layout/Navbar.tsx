@@ -102,7 +102,7 @@ function NotificationCenterDropdown({
   setIsOpen,
 }: NotificationCenterDropdownProps) {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<"all" | "study" | "social">("all");
+  const [activeTab, setActiveTab] = useState<"all" | "study">("all");
 
   const {
     notifications,
@@ -115,7 +115,7 @@ function NotificationCenterDropdown({
 
   const filteredNotifs = notifications.filter((n) => {
     if (activeTab === "all") return true;
-    return n.type === activeTab;
+    return n.type === "study";
   });
 
   const handleItemClick = (n: AppNotification) => {
@@ -135,18 +135,17 @@ function NotificationCenterDropdown({
 
   return (
     <div
-      className="dropdown-menu active transition-spring w-80 md:w-96 overflow-hidden shadow-2xl rounded-2xl border border-slate-100/80 dark:border-neutral-850/60"
-      style={{ right: 0, top: "100%", marginTop: "8px" }}
+      className="fixed right-2.5 sm:right-0 top-[54px] sm:top-full sm:mt-2 w-[calc(100vw-1.25rem)] max-w-[340px] sm:w-80 md:w-96 overflow-hidden shadow-2xl rounded-xs border border-slate-200/90 dark:border-neutral-850/80 bg-white dark:bg-neutral-900 z-50 transition-all"
     >
-      {/* Category Tabs */}
-      <div className="p-2 border-b border-slate-100 dark:border-neutral-850/50 bg-slate-50/50 dark:bg-neutral-900/50">
-        <div className="grid grid-cols-3 gap-1 bg-slate-100 dark:bg-neutral-950 p-0.5 rounded-xl text-center">
+      {/* Category Tabs: 2 Tabs (Tất cả & Học tập) */}
+      <div className="p-1.5 border-b border-slate-100 dark:border-neutral-850/50 bg-slate-50/50 dark:bg-neutral-900/50">
+        <div className="grid grid-cols-2 gap-1 bg-slate-100 dark:bg-neutral-950 p-0.5 rounded-xs text-center">
           <button
             type="button"
             onClick={() => setActiveTab("all")}
-            className={`py-1 text-[10px] font-black uppercase tracking-wider rounded-lg cursor-pointer transition-all ${
+            className={`py-1 text-[11px] font-black uppercase tracking-wider rounded-xs cursor-pointer transition-all ${
               activeTab === "all"
-                ? "bg-white dark:bg-neutral-850 text-cyan-600 dark:text-cyan-400 shadow-sm"
+                ? "bg-white dark:bg-neutral-850 text-cyan-600 dark:text-cyan-400 shadow-2xs font-extrabold"
                 : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
             }`}
           >
@@ -155,35 +154,24 @@ function NotificationCenterDropdown({
           <button
             type="button"
             onClick={() => setActiveTab("study")}
-            className={`py-1 text-[10px] font-black uppercase tracking-wider rounded-lg cursor-pointer transition-all ${
+            className={`py-1 text-[11px] font-black uppercase tracking-wider rounded-xs cursor-pointer transition-all ${
               activeTab === "study"
-                ? "bg-white dark:bg-neutral-850 text-cyan-600 dark:text-cyan-400 shadow-sm"
+                ? "bg-white dark:bg-neutral-850 text-cyan-600 dark:text-cyan-400 shadow-2xs font-extrabold"
                 : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
             }`}
           >
             Học tập
           </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab("social")}
-            className={`py-1 text-[10px] font-black uppercase tracking-wider rounded-lg cursor-pointer transition-all ${
-              activeTab === "social"
-                ? "bg-white dark:bg-neutral-850 text-cyan-600 dark:text-cyan-400 shadow-sm"
-                : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
-            }`}
-          >
-            Bạn bè & PvP
-          </button>
         </div>
       </div>
 
       {/* Action Header controls */}
-      <div className="px-4 py-2.5 font-bold text-xs border-b border-slate-100 dark:border-neutral-850/50 flex justify-between items-center bg-white dark:bg-neutral-900">
-        <span className="text-slate-400 font-extrabold uppercase tracking-wide">
+      <div className="px-3 py-2 font-bold text-xs border-b border-slate-100 dark:border-neutral-850/50 flex justify-between items-center bg-white dark:bg-neutral-900">
+        <span className="text-slate-400 font-extrabold text-[10.5px] uppercase tracking-wide truncate">
           Hộp thông báo ({filteredNotifs.length})
         </span>
         {filteredNotifs.length > 0 && (
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 shrink-0">
             <button
               type="button"
               onClick={markAllAsRead}
@@ -226,25 +214,25 @@ function NotificationCenterDropdown({
             <div
               key={n.id}
               onClick={() => handleItemClick(n)}
-              className={`dropdown-item flex items-start justify-between gap-3 p-3 cursor-pointer hover:bg-slate-50/70 dark:hover:bg-neutral-850/30 transition-colors relative group ${
+              className={`dropdown-item flex items-start justify-between gap-2.5 p-2.5 sm:p-3 cursor-pointer hover:bg-slate-50/70 dark:hover:bg-neutral-850/30 transition-colors relative group ${
                 n.isRead ? "" : "bg-cyan-50/15 dark:bg-cyan-950/10"
               }`}
               style={{ whiteSpace: "normal" }}
             >
               <div className="flex items-start gap-2.5 flex-1 min-w-0">
-                <span className="text-lg shrink-0 mt-0.5 select-none">
+                <span className="text-base sm:text-lg shrink-0 mt-0.5 select-none">
                   {n.icon}
                 </span>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center justify-between gap-1.5">
-                    <span className="font-extrabold text-[11.5px] text-slate-800 dark:text-white truncate">
+                    <span className="font-extrabold text-[11.5px] sm:text-xs text-slate-800 dark:text-white truncate">
                       {n.title}
                     </span>
                     {!n.isRead && (
                       <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 shrink-0" />
                     )}
                   </div>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-450 leading-relaxed font-semibold mt-0.5 whitespace-normal break-words">
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-normal font-semibold mt-0.5 whitespace-normal break-words">
                     {n.body}
                   </p>
                   <span className="text-[8.5px] font-bold text-slate-400 dark:text-neutral-500 block mt-1 uppercase tracking-wide">
@@ -260,7 +248,7 @@ function NotificationCenterDropdown({
               <button
                 type="button"
                 onClick={(e) => handleItemDelete(e, n.id)}
-                className="opacity-0 group-hover:opacity-100 w-6.5 h-6.5 rounded-lg text-slate-400 hover:text-rose-500 hover:bg-rose-500/10 flex items-center justify-center cursor-pointer transition-all self-center shrink-0"
+                className="opacity-100 sm:opacity-0 group-hover:opacity-100 w-6 h-6 rounded text-slate-400 hover:text-rose-500 hover:bg-rose-500/10 flex items-center justify-center cursor-pointer transition-all self-center shrink-0"
                 title="Xóa thông báo"
               >
                 <Trash2 className="w-3.5 h-3.5" />
@@ -301,12 +289,12 @@ function LocalNavbar() {
           href="/"
           className="navbar-brand flex items-center gap-2 group min-w-0"
         >
-          <div className="text-sm sm:text-base font-black text-slate-900 dark:text-white flex items-center gap-1 truncate font-display">
+          <div className="text-base sm:text-lg font-black text-slate-900 dark:text-white flex items-center gap-1 font-display tracking-tight shrink-0">
             <span className="text-[#0059bb]">XP</span> English
-            <span className="text-amber-500 font-normal hidden min-[380px]:inline">
+            <span className="text-amber-500 font-normal">
               |
             </span>
-            <span className="text-amber-500 hidden min-[380px]:inline">
+            <span className="text-amber-500">
               XP Voca
             </span>
           </div>
@@ -415,9 +403,9 @@ function LocalNavbar() {
             }}
           >
             <div className="avatar avatar-sm flex items-center justify-center bg-slate-100 dark:bg-neutral-800 text-lg border border-slate-200/50 dark:border-white/10 rounded-full w-8 h-8 shrink-0 overflow-hidden">
-              {user?.imageUrl ? (
+              {user?.imageUrl || (user as any)?.avatar || (user as any)?.avatarUrl ? (
                 <img
-                  src={user.imageUrl}
+                  src={user?.imageUrl || (user as any)?.avatar || (user as any)?.avatarUrl}
                   alt="Avatar"
                   className="w-full h-full object-cover"
                 />

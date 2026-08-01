@@ -306,19 +306,23 @@ export default function AnalyticsPage() {
               );
             })}
 
-            {/* Soft Gradient Fill with Framer Motion Morphing */}
+            {/* Soft Gradient Fill */}
             <motion.path
+              key={`fill-${modeFilter}-${chartType}`}
               d={fillD}
-              animate={{ d: fillD }}
-              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.35, ease: "easeOut" }}
               fill={`url(#${gradientId})`}
             />
 
-            {/* SLEEK ULTRA-FINE THIN LINE STROKE WITH MORPHING ANIMATION */}
+            {/* SLEEK ULTRA-FINE THIN LINE STROKE WITH SMOOTH PATHLENGTH DRAW */}
             <motion.path
+              key={`line-${modeFilter}-${chartType}`}
               d={pathD}
-              animate={{ d: pathD }}
-              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+              initial={{ pathLength: 0, opacity: 0.2 }}
+              animate={{ pathLength: 1, opacity: 1 }}
+              transition={{ duration: 0.45, ease: "easeOut" }}
               fill="none"
               stroke={strokeColor}
               strokeWidth="1.3"
@@ -417,10 +421,10 @@ export default function AnalyticsPage() {
       
       {/* 1. PAGE HEADER */}
       <div className="space-y-0.5 sm:space-y-1">
-        <h1 className="text-lg sm:text-2xl font-bold font-display tracking-tight text-slate-900 dark:text-white">
+        <h1 className="text-sm sm:text-base font-bold font-display tracking-tight text-slate-900 dark:text-white">
           Tiến trình học tập
         </h1>
-        <p className="hidden sm:block text-xs text-slate-500 font-medium">
+        <p className="hidden sm:block text-[10px] sm:text-xs text-slate-500 font-medium">
           Theo dõi hoạt động hàng ngày, chuỗi ngày học và thứ hạng của bạn so với người học khác.
         </p>
       </div>

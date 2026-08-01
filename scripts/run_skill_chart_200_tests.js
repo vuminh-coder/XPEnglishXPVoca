@@ -8,6 +8,7 @@
 const {
   getWeeklySkillMinutes,
   addSkillPracticeMinutes,
+  getLocalDateString,
   SKILL_CONFIGS,
 } = require("../lib/store/skillChartStore.ts");
 
@@ -76,9 +77,9 @@ skills.forEach((skill) => {
 skills.forEach((skill) => {
   const weekly = getWeeklySkillMinutes(user1, skill, storage);
   assert(Array.isArray(weekly), testId++, `Weekly result is array for '${skill}'`);
-  assert(weekly.length === 7, testId++, `Weekly result has exactly 7 days for '${skill}'`);
-  assert(weekly[0].day === "T2", testId++, `First day label is T2 for '${skill}'`);
-  assert(weekly[6].day === "CN", testId++, `Last day label is CN for '${skill}'`);
+  const todayDateStr = `${new Date().getDate()} Th${new Date().getMonth() + 1}`;
+  assert(weekly[4].day === todayDateStr, testId++, `Center day (index 4) matches today date string (${todayDateStr}) for '${skill}'`);
+  assert(weekly.length === 7, testId++, `Rolling window returns exactly 7 days for '${skill}'`);
   
   weekly.forEach((item) => {
     assert(/^\d{4}-\d{2}-\d{2}$/.test(item.isoDate), testId++, `ISO date format valid: ${item.isoDate}`);
@@ -95,7 +96,7 @@ skills.forEach((skill, idx) => {
   addSkillPracticeMinutes(user1, skill, testMinutes, storage);
   
   const weekly = getWeeklySkillMinutes(user1, skill, storage);
-  const todayStr = new Date().toISOString().slice(0, 10);
+  const todayStr = getLocalDateString(new Date());
   const todayEntry = weekly.find((w) => w.isoDate === todayStr);
   
   assert(todayEntry !== undefined, testId++, `Today entry exists for '${skill}'`);
@@ -147,7 +148,7 @@ skills.forEach((skill) => {
 
   const u1Weekly = getWeeklySkillMinutes(user1, skill, storage);
   const u2Weekly = getWeeklySkillMinutes(user2, skill, storage);
-  const todayStr = new Date().toISOString().slice(0, 10);
+  const todayStr = getLocalDateString(new Date());
 
   const u1Today = u1Weekly.find((w) => w.isoDate === todayStr);
   const u2Today = u2Weekly.find((w) => w.isoDate === todayStr);
@@ -160,30 +161,30 @@ skills.forEach((skill) => {
 // Test Edge Cases: Negative inputs, zero, large numbers, null user (20 tests)
 skills.forEach((skill) => {
   const initialWeekly = getWeeklySkillMinutes(user1, skill, storage);
-  const initialToday = initialWeekly.find((w) => w.isoDate === new Date().toISOString().slice(0, 10)).minutes;
+  const initialToday = initialWeekly.find((w) => w.isoDate === getLocalDateString(new Date())).minutes;
 
   addSkillPracticeMinutes(user1, skill, -10, storage); // Should ignore negative
   const afterNegWeekly = getWeeklySkillMinutes(user1, skill, storage);
-  const afterNegToday = afterNegWeekly.find((w) => w.isoDate === new Date().toISOString().slice(0, 10)).minutes;
+  const afterNegToday = afterNegWeekly.find((w) => w.isoDate === getLocalDateString(new Date())).minutes;
 
   assert(afterNegToday === initialToday, testId++, `Negative minutes input ignored safely for '${skill}'`);
 
   addSkillPracticeMinutes(user1, skill, 0, storage); // Should ignore zero
   const afterZeroWeekly = getWeeklySkillMinutes(user1, skill, storage);
-  const afterZeroToday = afterZeroWeekly.find((w) => w.isoDate === new Date().toISOString().slice(0, 10)).minutes;
+  const afterZeroToday = afterZeroWeekly.find((w) => w.isoDate === getLocalDateString(new Date())).minutes;
 
   assert(afterZeroToday === initialToday, testId++, `Zero minutes input ignored safely for '${skill}'`);
 
   addSkillPracticeMinutes(undefined, skill, 15, storage); // Should fallback to 'guest'
   const guestWeekly = getWeeklySkillMinutes(undefined, skill, storage);
-  const guestToday = guestWeekly.find((w) => w.isoDate === new Date().toISOString().slice(0, 10)).minutes;
+  const guestToday = guestWeekly.find((w) => w.isoDate === getLocalDateString(new Date())).minutes;
 
   assert(guestToday >= 15, testId++, `Undefined user fallback to 'guest' works for '${skill}'`);
 
   // Incremental accumulation check
-  const beforeAccum = getWeeklySkillMinutes(user1, skill, storage).find((w) => w.isoDate === new Date().toISOString().slice(0, 10)).minutes;
+  const beforeAccum = getWeeklySkillMinutes(user1, skill, storage).find((w) => w.isoDate === getLocalDateString(new Date())).minutes;
   addSkillPracticeMinutes(user1, skill, 10, storage);
-  const afterAccum = getWeeklySkillMinutes(user1, skill, storage).find((w) => w.isoDate === new Date().toISOString().slice(0, 10)).minutes;
+  const afterAccum = getWeeklySkillMinutes(user1, skill, storage).find((w) => w.isoDate === getLocalDateString(new Date())).minutes;
 
   assert(afterAccum === beforeAccum + 10, testId++, `Incremental minutes accumulation verified (+10m) for '${skill}'`);
 });

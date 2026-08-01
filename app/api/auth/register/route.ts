@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { hashPassword } from "@/lib/auth/password";
 import { signAuthToken } from "@/lib/auth/jwt";
+import { sanitizeInput, isValidEmail } from "@/lib/security/validation";
 
 export async function POST(req: NextRequest) {
   try {
@@ -16,11 +17,11 @@ export async function POST(req: NextRequest) {
     }
 
     const trimmedEmail = String(email).trim().toLowerCase();
-    const trimmedFullName = String(fullName).trim();
+    const trimmedFullName = sanitizeInput(String(fullName).trim());
 
-    if (!trimmedEmail.includes("@") || !trimmedEmail.includes(".")) {
+    if (!isValidEmail(trimmedEmail)) {
       return NextResponse.json(
-        { success: false, error: "Địa chỉ Email không hợp lệ." },
+        { success: false, error: "Địa chỉ Email không đúng định dạng." },
         { status: 400 }
       );
     }

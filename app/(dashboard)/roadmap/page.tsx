@@ -278,24 +278,24 @@ export default function RoadmapPage() {
       <div className="space-y-4 sm:space-y-5 pb-16 md:pb-6 select-none font-sans max-w-4xl mx-auto" suppressHydrationWarning>
         
         {/* HERO DASHBOARD SPOTLIGHT BANNER */}
-        <div className="p-3.5 sm:p-5 rounded-md bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-xs relative overflow-hidden">
+        <div className="p-3.5 sm:p-5 rounded-md bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-2xs relative overflow-hidden">
           <div className="absolute -right-10 -bottom-10 w-52 h-52 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
           <div className="relative z-10 space-y-1.5 sm:space-y-2">
             <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
-              <span className="px-2 py-0.5 rounded-sm text-[9px] sm:text-[10px] font-black uppercase tracking-wider bg-amber-400/20 text-amber-200 border border-amber-300/30 flex items-center gap-1 font-display">
-                <Target className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-300" /> AI Goal Setting Step
+              <span className="px-2 py-0.5 rounded-xs text-[8.5px] sm:text-[9px] font-black uppercase tracking-wider bg-amber-400/20 text-amber-200 border border-amber-300/30 flex items-center gap-1 font-display">
+                <Target className="w-3 h-3 text-amber-300" /> AI Goal Setting Step
               </span>
-              <span className="px-2 py-0.5 rounded-sm text-[9px] sm:text-[10px] font-bold bg-white/15 text-white border border-white/20 font-mono">
+              <span className="px-2 py-0.5 rounded-xs text-[8.5px] sm:text-[9px] font-bold bg-white/15 text-white border border-white/20 font-mono">
                 Khung Chuẩn CEFR, TOEIC & IELTS
               </span>
             </div>
 
             <div className="space-y-0.5">
-              <h1 className="text-base sm:text-2xl font-black font-display tracking-tight text-white flex items-center gap-1.5 sm:gap-2">
+              <h1 className="text-sm sm:text-lg font-bold font-display tracking-tight text-white flex items-center gap-1.5 sm:gap-2">
                 Thiết Kế Lộ Trình Học AI Cho <span className="text-amber-300">{user?.fullName || "Học Viên"}</span>
-                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-amber-300" />
+                <Sparkles className="w-4 h-4 text-amber-300" />
               </h1>
-              <p className="hidden sm:block text-xs sm:text-sm text-blue-100/90 font-medium leading-relaxed max-w-2xl">
+              <p className="hidden sm:block text-[10px] sm:text-xs text-blue-100/90 font-medium leading-relaxed max-w-2xl">
                 Chọn mục tiêu của bạn bên dưới. AI sẽ khởi tạo giáo án bài học chuyên sâu chi tiết từng chặng phù hợp 100% với điểm số đó.
               </p>
             </div>
@@ -303,7 +303,7 @@ export default function RoadmapPage() {
         </div>
 
         {/* BENTO FORM CARD */}
-        <div className="p-3.5 sm:p-5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-4 sm:space-y-5">
+        <div className="p-3.5 sm:p-5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-4 sm:space-y-5">
           <form onSubmit={handleGenerate} className="space-y-4 sm:space-y-5">
             
             {/* 1. Category Selection Bento Grid (3 Micro Cards on Mobile) */}
@@ -320,14 +320,14 @@ export default function RoadmapPage() {
                     setTargetExam("TOEIC");
                     setTargetScore("750");
                   }}
-                  className={`p-2 sm:p-3 rounded-md border-2 cursor-pointer transition-all flex flex-col justify-between space-y-1.5 sm:space-y-3 ${
+                  className={`p-2 sm:p-3 rounded-xs border-2 cursor-pointer transition-all flex flex-col justify-between space-y-1.5 sm:space-y-3 ${
                     targetCategory === "EXAM"
                       ? "bg-sky-50/70 dark:bg-sky-950/30 border-[#0059bb] dark:border-sky-400 shadow-2xs ring-1 ring-[#0059bb]/20"
                       : "bg-slate-50/50 dark:bg-slate-800/40 border-slate-200 dark:border-white/10 hover:border-slate-300"
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-sm bg-blue-100 dark:bg-blue-950/50 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xs bg-blue-100 dark:bg-blue-950/50 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0">
                       <GraduationCap className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
                     </div>
                     {targetCategory === "EXAM" && <Check className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />}
@@ -345,14 +345,14 @@ export default function RoadmapPage() {
                     setTargetExam("TOEIC");
                     setTargetScore("750");
                   }}
-                  className={`p-2 sm:p-3 rounded-md border-2 cursor-pointer transition-all flex flex-col justify-between space-y-1.5 sm:space-y-3 ${
+                  className={`p-2 sm:p-3 rounded-xs border-2 cursor-pointer transition-all flex flex-col justify-between space-y-1.5 sm:space-y-3 ${
                     targetCategory === "BUSINESS"
                       ? "bg-emerald-50/70 dark:bg-emerald-950/30 border-emerald-500 shadow-2xs ring-1 ring-emerald-500/20"
                       : "bg-slate-50/50 dark:bg-slate-800/40 border-slate-200 dark:border-white/10 hover:border-slate-300"
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-sm bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xs bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
                       <Briefcase className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
                     </div>
                     {targetCategory === "BUSINESS" && <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />}
@@ -370,14 +370,14 @@ export default function RoadmapPage() {
                     setTargetExam("TOEIC");
                     setTargetScore("550");
                   }}
-                  className={`p-2 sm:p-3 rounded-md border-2 cursor-pointer transition-all flex flex-col justify-between space-y-1.5 sm:space-y-3 ${
+                  className={`p-2 sm:p-3 rounded-xs border-2 cursor-pointer transition-all flex flex-col justify-between space-y-1.5 sm:space-y-3 ${
                     targetCategory === "TRAVEL"
                       ? "bg-amber-50/70 dark:bg-amber-950/30 border-amber-500 shadow-2xs ring-1 ring-amber-500/20"
                       : "bg-slate-50/50 dark:bg-slate-800/40 border-slate-200 dark:border-white/10 hover:border-slate-300"
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-sm bg-amber-100 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xs bg-amber-100 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
                       <Globe className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
                     </div>
                     {targetCategory === "TRAVEL" && <Check className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />}
@@ -403,7 +403,7 @@ export default function RoadmapPage() {
                     setTargetExam("TOEIC");
                     setTargetScore("750");
                   }}
-                  className={`p-2.5 sm:p-3 rounded-md border-2 text-left transition-all flex items-center gap-2 sm:gap-3 cursor-pointer ${
+                  className={`p-2.5 sm:p-3 rounded-xs border-2 text-left transition-all flex items-center gap-2 sm:gap-3 cursor-pointer ${
                     targetExam === "TOEIC"
                       ? "bg-white dark:bg-slate-900 border-[#0059bb] shadow-2xs"
                       : "bg-slate-50 dark:bg-slate-800/40 border-slate-200 dark:border-white/10"
@@ -422,7 +422,7 @@ export default function RoadmapPage() {
                     setTargetExam("IELTS");
                     setTargetScore("6.5");
                   }}
-                  className={`p-2.5 sm:p-3 rounded-md border-2 text-left transition-all flex items-center gap-2 sm:gap-3 cursor-pointer ${
+                  className={`p-2.5 sm:p-3 rounded-xs border-2 text-left transition-all flex items-center gap-2 sm:gap-3 cursor-pointer ${
                     targetExam === "IELTS"
                       ? "bg-white dark:bg-slate-900 border-[#0059bb] shadow-2xs"
                       : "bg-slate-50 dark:bg-slate-800/40 border-slate-200 dark:border-white/10"
@@ -449,7 +449,7 @@ export default function RoadmapPage() {
                     key={score}
                     type="button"
                     onClick={() => setTargetScore(score)}
-                    className={`py-2 sm:py-2.5 px-1 sm:px-2 rounded-sm border-2 text-center font-black transition-all cursor-pointer font-mono text-[11px] sm:text-xs ${
+                    className={`py-2 sm:py-2.5 px-1 sm:px-2 rounded-xs border-2 text-center font-black transition-all cursor-pointer font-mono text-[11px] sm:text-xs ${
                       targetScore === score
                         ? "bg-[#0059bb] text-white border-[#0059bb] shadow-2xs"
                         : "bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:border-slate-300"
@@ -470,7 +470,7 @@ export default function RoadmapPage() {
                 <select
                   value={currentLevel}
                   onChange={(e) => setCurrentLevel(e.target.value)}
-                  className="w-full p-2 sm:p-2.5 rounded-sm border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-800 text-xs font-bold text-slate-900 dark:text-white"
+                  className="w-full p-2 sm:p-2.5 rounded-xs border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-800 text-xs font-bold text-slate-900 dark:text-white"
                 >
                   <option value="A1 Beginner">A1 - Mới bắt đầu / Mất gốc</option>
                   <option value="A2 Elementary">A2 - Sơ cấp (Có nền tảng nhẹ)</option>
@@ -482,7 +482,7 @@ export default function RoadmapPage() {
                 <label className="block text-[10px] sm:text-xs font-black uppercase tracking-widest text-slate-700 dark:text-slate-300 font-display">
                   Thời gian cam kết / Tuần
                 </label>
-                <div className="flex items-center justify-between text-xs font-bold font-mono p-2 sm:p-2.5 rounded-sm border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white">
+                <div className="flex items-center justify-between text-xs font-bold font-mono p-2 sm:p-2.5 rounded-xs border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white">
                   <span>{weeklyHours} giờ / tuần</span>
                   <span className="text-slate-400 text-[10px]">~{Math.round((weeklyHours / 7) * 60)} phút/ngày</span>
                 </div>
@@ -495,17 +495,17 @@ export default function RoadmapPage() {
                 <button
                   type="button"
                   onClick={() => setIsFormOpen(false)}
-                  className="px-3 sm:px-4 py-2 sm:py-2.5 rounded-sm border border-slate-200 dark:border-white/10 text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+                  className="px-3 sm:px-4 py-2 sm:py-2.5 rounded-xs border border-slate-200 dark:border-white/10 text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
                 >
                   Hủy
                 </button>
               )}
               <Button
                 type="submit"
-                className="flex-1 py-2.5 sm:py-3 text-xs font-black uppercase tracking-wider bg-[#0059bb] hover:bg-[#004799] text-white rounded-sm shadow-2xs flex items-center justify-center gap-1.5 sm:gap-2 font-display"
+                className="flex-1 py-2 sm:py-2.5 text-xs font-extrabold uppercase tracking-wider bg-[#0059bb] hover:bg-[#004799] text-white rounded-xs shadow-2xs flex items-center justify-center gap-1.5 sm:gap-2 font-display cursor-pointer"
               >
                 <Sparkles className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-amber-300" />
-                🚀 Tạo Lộ Trình AI Chuyên Sâu Ngay
+                <span>Tạo Lộ Trình AI Chuyên Sâu Ngay</span>
               </Button>
             </div>
 
@@ -529,44 +529,44 @@ export default function RoadmapPage() {
     <div className="space-y-3.5 sm:space-y-4 pb-16 md:pb-6 select-none font-sans" suppressHydrationWarning>
       
       {/* HERO SPOTLIGHT BANNER */}
-      <div className="p-3.5 sm:p-5 rounded-md bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-xs relative overflow-hidden">
+      <div className="p-3.5 sm:p-5 rounded-md bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-2xs relative overflow-hidden">
         <div className="absolute -right-10 -bottom-10 w-52 h-52 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 sm:gap-4">
           <div className="space-y-1 sm:space-y-1.5 max-w-2xl">
             <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
-              <span className="px-1.5 py-0.2 sm:px-2 sm:py-0.5 rounded-sm text-[9px] sm:text-[10px] font-black uppercase tracking-wider bg-amber-400/20 text-amber-200 border border-amber-300/30 flex items-center gap-1 font-display">
-                <Trophy className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-300" /> Lộ Trình AI
+              <span className="px-1.5 py-0.5 rounded-xs text-[8.5px] sm:text-[9px] font-black uppercase tracking-wider bg-amber-400/20 text-amber-200 border border-amber-300/30 flex items-center gap-1 font-display">
+                <Trophy className="w-3 h-3 text-amber-300" /> Lộ Trình AI
               </span>
-              <span className="px-1.5 py-0.2 sm:px-2 sm:py-0.5 rounded-sm text-[9px] sm:text-[10px] font-bold bg-white/15 text-white border border-white/20 font-mono">
+              <span className="px-1.5 py-0.5 rounded-xs text-[8.5px] sm:text-[9px] font-bold bg-white/15 text-white border border-white/20 font-mono">
                 {currentActiveExam} Target: {currentActiveScore}
               </span>
             </div>
 
             <div className="space-y-0.5">
-              <h1 className="text-sm sm:text-xl font-black font-display tracking-tight text-white flex items-center gap-1.5 sm:gap-2">
+              <h1 className="text-sm sm:text-base font-bold font-display tracking-tight text-white flex items-center gap-1.5 sm:gap-2">
                 Giáo Án Luyện Thi {currentActiveExam} {currentActiveScore}
-                <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-300" />
+                <Sparkles className="w-3.5 h-3.5 text-amber-300" />
               </h1>
-              <p className="hidden sm:block text-xs text-blue-100/90 font-medium leading-relaxed">
+              <p className="hidden sm:block text-[10px] sm:text-xs text-blue-100/90 font-medium leading-relaxed">
                 Tối ưu cá nhân hóa riêng cho học viên <strong className="text-amber-300 font-bold">{user?.fullName || "Minh Vu Van"}</strong> để chinh phục {currentActiveExam} {currentActiveScore}.
               </p>
             </div>
           </div>
 
           <div className="flex items-center justify-between w-full md:w-auto gap-2.5 shrink-0">
-            <div className="p-1.5 sm:p-2 rounded-sm bg-white/10 dark:bg-slate-900/60 border border-white/15 backdrop-blur-md flex items-center gap-2 sm:gap-2.5">
+            <div className="p-1.5 sm:p-2 rounded-xs bg-white/10 dark:bg-slate-900/60 border border-white/15 backdrop-blur-md flex items-center gap-2 sm:gap-2.5">
               <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-amber-400/20 border border-amber-300/40 flex items-center justify-center text-amber-300 shrink-0">
                 <Trophy className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </div>
               <div>
-                <div className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-blue-200 font-display">Tiến độ</div>
+                <div className="text-[8.5px] sm:text-[9px] font-bold uppercase tracking-wider text-blue-200 font-display">Tiến độ</div>
                 <div className="text-xs font-black font-display text-white font-mono">{overallProgress}% Hoàn Thành</div>
               </div>
             </div>
 
             <button
               onClick={() => setIsFormOpen(true)}
-              className="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-sm bg-white/20 hover:bg-white/30 text-white text-[11px] sm:text-xs font-bold border border-white/30 transition-all flex items-center gap-1 sm:gap-1.5 font-display shrink-0"
+              className="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xs bg-white/20 hover:bg-white/30 text-white text-[11px] sm:text-xs font-bold border border-white/30 transition-all flex items-center gap-1 sm:gap-1.5 font-display shrink-0 cursor-pointer"
             >
               <RefreshCw className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-300" /> 
               <span>Đổi Mục Tiêu AI</span>
@@ -586,16 +586,16 @@ export default function RoadmapPage() {
             const isPhaseDone = phaseCompletedCount === phaseTotalCount;
 
             return (
-              <div key={phase.phaseNum} className="p-3 sm:p-4 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3">
+              <div key={phase.phaseNum} className="p-3 sm:p-4 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3">
                 
                 {/* PHASE HEADER & CHEST REWARD */}
                 <div className="flex items-center justify-between gap-2 border-b border-slate-100 dark:border-white/5 pb-2.5">
                   <div className="space-y-0.5 min-w-0">
                     <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
-                      <span className="px-1.5 py-0.2 sm:px-2 sm:py-0.5 rounded-sm text-[8px] sm:text-[10px] font-black uppercase bg-[#0059bb] text-white font-display shrink-0">
+                      <span className="px-1.5 py-0.5 rounded-xs text-[8.5px] sm:text-[9px] font-black uppercase bg-[#0059bb] text-white font-display shrink-0">
                         Chặng {phase.phaseNum}
                       </span>
-                      <h2 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white font-display truncate">
+                      <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display truncate">
                         {phase.title}
                       </h2>
                     </div>
@@ -605,7 +605,7 @@ export default function RoadmapPage() {
                   </div>
 
                   {/* Chest Unlock Reward Badge */}
-                  <div className={`px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-sm border flex items-center gap-1 shrink-0 ${
+                  <div className={`px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-xs border flex items-center gap-1 shrink-0 ${
                     isPhaseDone
                       ? "bg-amber-400/20 border-amber-400/60 text-amber-700 dark:text-amber-300 animate-pulse"
                       : "bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-white/10 text-slate-400"
@@ -646,7 +646,7 @@ export default function RoadmapPage() {
                       <div key={task.id} className="space-y-2">
                         <div
                           onClick={() => setSelectedTask(task)}
-                          className={`p-2.5 sm:p-3 rounded-md border cursor-pointer transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 ${
+                          className={`p-2.5 sm:p-3 rounded-xs border cursor-pointer transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 ${
                             isSelected
                               ? "bg-sky-50/80 dark:bg-sky-950/40 border-[#0059bb] dark:border-sky-400 shadow-2xs ring-1 ring-[#0059bb]/20"
                               : task.isCompleted
@@ -674,7 +674,7 @@ export default function RoadmapPage() {
                             <div className="space-y-0.5 sm:space-y-1 min-w-0 flex-1">
                               <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
                                 {/* Skill Badge */}
-                                <span className={`px-1.5 py-0.2 sm:px-2 sm:py-0.5 rounded-sm text-[8.5px] sm:text-[10px] font-black flex items-center gap-1 border ${badge.bg} font-display shrink-0`}>
+                                <span className={`px-1.5 py-0.5 rounded-xs text-[8.5px] sm:text-[9px] font-black flex items-center gap-1 border ${badge.bg} font-display shrink-0`}>
                                   {badge.icon} {badge.name}
                                 </span>
 
@@ -697,12 +697,12 @@ export default function RoadmapPage() {
 
                           {/* Action Launcher */}
                           <div className="w-full sm:w-auto flex items-center justify-between sm:justify-end gap-2.5 pt-1.5 sm:pt-0 border-t sm:border-t-0 border-slate-100 dark:border-white/5 shrink-0">
-                            <span className="px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-700 dark:text-amber-300 font-mono font-black text-[10px] sm:text-xs border border-amber-300/30">
+                            <span className="px-2 py-0.5 rounded-xs bg-amber-500/10 text-amber-700 dark:text-amber-300 font-mono font-black text-[9.5px] sm:text-[10px] border border-amber-300/30">
                               +{task.xpReward} XP
                             </span>
 
                             <Link href={task.practicePath}>
-                              <Button className="py-1 px-2.5 sm:py-1.5 sm:px-3 bg-[#0059bb] hover:bg-[#004799] text-white text-[11px] sm:text-xs font-bold rounded-sm shadow-2xs flex items-center gap-1 font-display">
+                              <Button className="py-1 px-2.5 sm:py-1.5 sm:px-3 bg-[#0059bb] hover:bg-[#004799] text-white text-[11px] sm:text-xs font-bold rounded-xs shadow-2xs flex items-center gap-1 font-display cursor-pointer">
                                 <Play className="w-3 h-3 fill-white" /> Luyện Ngay
                               </Button>
                             </Link>
@@ -711,7 +711,7 @@ export default function RoadmapPage() {
 
                         {/* MOBILE INLINE GUIDANCE DRAWER (Shown when selected on mobile) */}
                         {isSelected && (
-                          <div className="lg:hidden p-2.5 rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-white/10 space-y-2">
+                          <div className="lg:hidden p-2.5 rounded-xs bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-white/10 space-y-2">
                             <div className="flex items-center justify-between border-b border-slate-200/60 dark:border-white/5 pb-1.5">
                               <span className="text-[10px] font-black uppercase text-[#0059bb] dark:text-sky-400 font-display flex items-center gap-1">
                                 <Compass className="w-3.5 h-3.5" /> Mẹo Làm Bài Ăn Điểm
@@ -731,7 +731,7 @@ export default function RoadmapPage() {
                             </ul>
 
                             <Link href={task.practicePath} className="block pt-1">
-                              <Button className="w-full bg-[#0059bb] hover:bg-[#004799] text-white font-bold text-xs py-1.5 rounded-sm shadow-2xs flex items-center justify-center gap-1 font-display">
+                              <Button className="w-full bg-[#0059bb] hover:bg-[#004799] text-white font-bold text-xs py-1.5 rounded-xs shadow-2xs flex items-center justify-center gap-1 font-display cursor-pointer">
                                 <Sparkles className="w-3.5 h-3.5 text-amber-300" /> Bắt Đầu Luyện Tập (+{task.xpReward} XP)
                               </Button>
                             </Link>
@@ -749,7 +749,7 @@ export default function RoadmapPage() {
 
         {/* RIGHT 4-COLS: INSPECTOR COMPANION CARD (Hidden on Mobile) */}
         <div className="hidden lg:block lg:col-span-4 space-y-4">
-          <div className="p-4 sm:p-4 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3.5 sticky top-4">
+          <div className="p-4 sm:p-4 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3.5 sticky top-4">
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5">
               <span className="text-xs font-black uppercase tracking-wider text-slate-400 font-display flex items-center gap-1.5">
                 <Compass className="w-4 h-4 text-[#0059bb]" /> Hướng Dẫn Chi Tiết Bài Học
@@ -772,7 +772,7 @@ export default function RoadmapPage() {
                   </p>
                 </div>
 
-                <div className="space-y-1.5 bg-slate-50 dark:bg-slate-800/50 p-2.5 rounded-sm border border-slate-200/60 dark:border-white/5">
+                <div className="space-y-1.5 bg-slate-50 dark:bg-slate-800/50 p-2.5 rounded-xs border border-slate-200/60 dark:border-white/5">
                   <span className="text-[10px] font-black uppercase text-slate-400 tracking-wider font-display">Mẹo làm bài ăn điểm</span>
                   <ul className="space-y-1.5 text-xs text-slate-600 dark:text-slate-300 font-medium">
                     {selectedTask.tips.map((tip, i) => (
@@ -784,14 +784,14 @@ export default function RoadmapPage() {
                   </ul>
                 </div>
 
-                <div className="p-2.5 rounded-sm bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/40 flex items-center justify-between text-xs font-bold text-amber-800 dark:text-amber-300 font-mono">
+                <div className="p-2.5 rounded-xs bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/40 flex items-center justify-between text-xs font-bold text-amber-800 dark:text-amber-300 font-mono">
                   <span>Thưởng bài học:</span>
                   <span>+{selectedTask.xpReward} XP</span>
                 </div>
 
                 <div className="pt-1">
                   <Link href={selectedTask.practicePath} className="w-full">
-                    <Button className="w-full bg-[#0059bb] hover:bg-[#004799] text-white font-bold text-xs py-2 rounded-sm shadow-2xs flex items-center justify-center gap-2 font-display">
+                    <Button className="w-full bg-[#0059bb] hover:bg-[#004799] text-white font-bold text-xs py-2 rounded-xs shadow-2xs flex items-center justify-center gap-2 font-display cursor-pointer">
                       <Sparkles className="w-4 h-4 text-amber-300" /> Bắt Đầu Luyện Tập (+{selectedTask.xpReward} XP)
                     </Button>
                   </Link>

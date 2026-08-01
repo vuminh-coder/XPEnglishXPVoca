@@ -123,6 +123,23 @@ export default function ConversationPage() {
   const [selectedTopicId, setSelectedTopicId] = useState<string | null>('at1');
   const [levelFilter, setLevelFilter] = useState<string>('ALL');
 
+  const activeTimeRef = useRef(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      activeTimeRef.current += 1;
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+      if (activeTimeRef.current > 10) {
+        const mins = Math.max(1, Math.ceil(activeTimeRef.current / 60));
+        useUserStore.getState().addPracticeTime(mins, "writing");
+        activeTimeRef.current = 0;
+      }
+    };
+  }, []);
+
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 'welcome',
@@ -320,7 +337,7 @@ export default function ConversationPage() {
               </h3>
             </div>
             <p className="text-[11px] text-slate-600 dark:text-slate-300 font-medium truncate">
-              💬 Trò chuyện 1-1 với AI, nhận phản hồi tức thì, gợi ý câu nói & sửa lỗi ngữ pháp tự động
+              Trò chuyện 1-1 với AI, nhận phản hồi tức thì, gợi ý câu nói & sửa lỗi ngữ pháp tự động
             </p>
           </div>
         </div>
@@ -335,7 +352,7 @@ export default function ConversationPage() {
           </button>
 
           <span className="px-2.5 py-1.5 rounded-md bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-xs font-black flex items-center gap-1 shadow-2xs">
-            ⏱️ {formatElapsedTime(elapsedTime)}
+            <Clock className="w-3.5 h-3.5" /> {formatElapsedTime(elapsedTime)}
           </span>
         </div>
       </motion.div>
@@ -353,7 +370,7 @@ export default function ConversationPage() {
           <div className="min-w-0">
             <div className="flex items-center gap-1">
               <span className="px-1.5 py-0.2 rounded text-[8px] font-black bg-[#1d6ee6] text-white">
-                Hội thoại AI 💬
+                Hội thoại AI
               </span>
             </div>
             <h3 className="text-xs font-bold text-slate-900 dark:text-white font-display truncate">
@@ -367,10 +384,10 @@ export default function ConversationPage() {
             onClick={handleFinishConversation}
             className="px-2 py-1 rounded-md bg-[#20b26c] hover:bg-[#1b9a5d] text-white text-[10px] font-bold shadow-2xs flex items-center gap-1 cursor-pointer"
           >
-            <CheckCircle2 className="w-3 h-3" /> ✓ Chấm điểm
+            <CheckCircle2 className="w-3 h-3" /> Chấm điểm
           </button>
-          <span className="px-1.5 py-1 rounded-md bg-amber-500/10 text-amber-600 dark:text-amber-400 text-[10px] font-black">
-            ⏱️ {formatElapsedTime(elapsedTime)}
+          <span className="px-1.5 py-1 rounded-md bg-amber-500/10 text-amber-600 dark:text-amber-400 text-[10px] font-black flex items-center gap-1">
+            <Clock className="w-3 h-3" /> {formatElapsedTime(elapsedTime)}
           </span>
         </div>
       </motion.div>

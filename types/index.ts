@@ -14,6 +14,8 @@ export interface User {
   wordsToReview: number;
   minutesStudied: number;
   imageUrl?: string;
+  avatar?: string;
+  avatarUrl?: string;
   coins?: number;
   streakFreezes?: number;
 }

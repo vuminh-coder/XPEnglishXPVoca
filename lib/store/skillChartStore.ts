@@ -88,6 +88,16 @@ function sanitizeMinutesMap(raw: string | null): Record<string, number> {
 }
 
 /**
+ * Safely formats a Date into local YYYY-MM-DD string without UTC timezone shift
+ */
+export function getLocalDateString(d: Date = new Date()): string {
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+/**
  * Gets 7-day practice minutes data for a specific skill and user with intelligent daily fallback sync
  */
 export function getWeeklySkillMinutes(
@@ -98,63 +108,36 @@ export function getWeeklySkillMinutes(
   const today = new Date();
   const currentDayOfWeek = today.getDay();
   const dayDiff = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek;
-  const startOfWeek = new Date(today);
-  startOfWeek.setDate(today.getDate() + dayDiff);
+  const startOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + dayDiff);
 
   let skillMap: Record<string, number> = {};
-  let dailyGeneralMap: Record<string, number> = {};
-  let userObject: any = null;
 
   if (typeof window !== "undefined" || storageProvider) {
     try {
       const store = storageProvider || localStorage;
       const key = `xp_voca_skill_minutes_${userId || "guest"}_${skill}`;
       skillMap = sanitizeMinutesMap(store.getItem(key));
-
-      // Check general daily minutes fallback
-      const dailyKey = `xp_voca_daily_minutes_${userId || "guest"}`;
-      dailyGeneralMap = sanitizeMinutesMap(store.getItem(dailyKey));
-
-      // Check user object fallback
-      const userKey = `xp_voca_user_${userId || "guest"}`;
-      const rawUser = store.getItem(userKey);
-      if (rawUser) {
-        userObject = JSON.parse(rawUser);
-      }
     } catch (e) {
       console.error(`Error loading skill chart data for ${skill}:`, e);
     }
   }
 
-  const dayLabels = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
+  // Generate 7-day rolling window: 4 days prior (-4, -3, -2, -1), Today (0), 2 days future (+1, +2)
+  const result: SkillDayData[] = [];
+  for (let offset = -4; offset <= 2; offset++) {
+    const targetDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + offset);
+    const isoDate = getLocalDateString(targetDate);
+    const day = `${targetDate.getDate()} Th${targetDate.getMonth() + 1}`;
+    const minutes = skillMap[isoDate] || 0;
 
-  return dayLabels.map((day, index) => {
-    const targetDate = new Date(startOfWeek);
-    targetDate.setDate(startOfWeek.getDate() + index);
-    const isoDate = targetDate.toISOString().slice(0, 10);
-    const todayStr = today.toISOString().slice(0, 10);
-
-    let minutes = skillMap[isoDate] || 0;
-
-    // Fallback sync: if skillMap is empty for this date, fallback to general daily minutes or user total
-    if (minutes === 0) {
-      if (dailyGeneralMap[isoDate] && dailyGeneralMap[isoDate] > 0) {
-        if (skill === "vocab" || skill === "dictation") {
-          minutes = Math.round(dailyGeneralMap[isoDate]);
-        }
-      } else if (isoDate === todayStr && userObject && typeof userObject.minutesStudied === "number" && userObject.minutesStudied > 0) {
-        if (skill === "vocab") {
-          minutes = Math.max(5, userObject.minutesStudied);
-        }
-      }
-    }
-
-    return {
+    result.push({
       day,
       isoDate,
       minutes: Math.max(0, minutes),
-    };
-  });
+    });
+  }
+
+  return result;
 }
 
 /**
@@ -167,7 +150,7 @@ export function addSkillPracticeMinutes(
   storageProvider?: Storage
 ): void {
   if (typeof minutes !== "number" || isNaN(minutes) || !isFinite(minutes) || minutes <= 0) return;
-  const todayStr = new Date().toISOString().slice(0, 10);
+  const todayStr = getLocalDateString(new Date());
   const key = `xp_voca_skill_minutes_${userId || "guest"}_${skill}`;
 
   try {

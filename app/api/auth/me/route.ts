@@ -39,6 +39,9 @@ export async function GET(req: NextRequest) {
         title: profile.title,
         coins: profile.coins,
         streakFreezes: profile.streakFreezes,
+        imageUrl: (profile as any).avatarUrl || null,
+        avatar: (profile as any).avatarUrl || null,
+        avatarUrl: (profile as any).avatarUrl || null,
       },
     });
   } catch (error) {

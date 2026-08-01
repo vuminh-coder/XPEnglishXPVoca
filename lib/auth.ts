@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 
-export async function getAuthenticatedUserId(): Promise<string | null> {
+export async function getAuthenticatedUserId(req?: Request): Promise<string | null> {
   try {
     const cookieStore = await cookies();
     const sessionCookie = cookieStore.get("xp_voca_session")?.value;
@@ -15,9 +15,20 @@ export async function getAuthenticatedUserId(): Promise<string | null> {
     }
 
     const localUserId = cookieStore.get("local-user-id")?.value;
-    return localUserId || null;
+    if (localUserId) return localUserId;
+
+    if (req) {
+      const headerUserId = req.headers.get("x-user-id");
+      if (headerUserId) return headerUserId;
+    }
+
+    return null;
   } catch (e) {
     console.error("Session lookup failed on server:", e);
+    if (req) {
+      const headerUserId = req.headers.get("x-user-id");
+      if (headerUserId) return headerUserId;
+    }
     return null;
   }
 }

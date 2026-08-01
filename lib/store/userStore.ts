@@ -2,14 +2,14 @@ import { create } from "zustand";
 import { User } from "@/types";
 import { LEVEL_TITLES } from "../constants";
 import { useVocabularyStore } from "./vocabularyStore";
-import { addSkillPracticeMinutes, SkillType } from "./skillChartStore";
+import { addSkillPracticeMinutes, getLocalDateString, SkillType } from "./skillChartStore";
 
 interface UserState {
   user: User | null;
   awardXp: (amount: number) => { levelUp: boolean };
   addPracticeTime: (minutes: number, skill?: SkillType) => void;
   awardCoins: (amount: number) => void;
-  updateProfile: (fullName: string, bio: string) => void;
+  updateProfile: (fullName: string, bio: string, avatarUrl?: string, avatarEmoji?: string) => void;
   setLocalUser: () => void;
   setUserPayload: (user: User) => void;
   checkSession: () => Promise<void>;
@@ -186,7 +186,7 @@ export const useUserStore = create<UserState>((set, get) => ({
       localStorage.setItem(`xp_voca_user_${user.id}`, JSON.stringify(updatedUser));
 
       // Record daily active date and daily XP locally
-      const todayStr = new Date().toISOString().slice(0, 10);
+      const todayStr = getLocalDateString(new Date());
       const activeDatesKey = `xp_voca_active_dates_${user.id}`;
       const dailyXpKey = `xp_voca_daily_xp_${user.id}`;
       
@@ -230,25 +230,51 @@ export const useUserStore = create<UserState>((set, get) => ({
   addPracticeTime: (minutes, skill) => {
     get().syncStreak(true);
     const user = get().user;
-    if (!user) return;
+    if (!user || typeof minutes !== "number" || isNaN(minutes) || minutes <= 0) return;
 
-    // Sync per-skill chart minutes
-    const skillKey = skill || "vocab";
-    addSkillPracticeMinutes(user.id, skillKey, minutes);
+    // Normalize skill key and Vietnamese name
+    const rawSkill = (skill || "vocab").toString().toLowerCase();
+    let englishKey: SkillType = "vocab";
+    let vnSkillName: "Dictation" | "Shadowing" | "Nói" | "Từ vựng" | "Viết" = "Từ vựng";
 
-    const newMinutes = (user.minutesStudied || 0) + minutes;
+    if (rawSkill.includes("dictation") || rawSkill.includes("nghe")) {
+      englishKey = "dictation";
+      vnSkillName = "Dictation";
+    } else if (rawSkill.includes("shadowing") || rawSkill.includes("nhại")) {
+      englishKey = "shadowing";
+      vnSkillName = "Shadowing";
+    } else if (rawSkill.includes("speaking") || rawSkill.includes("nói")) {
+      englishKey = "speaking";
+      vnSkillName = "Nói";
+    } else if (rawSkill.includes("writing") || rawSkill.includes("viết")) {
+      englishKey = "writing";
+      vnSkillName = "Viết";
+    } else {
+      englishKey = "vocab";
+      vnSkillName = "Từ vựng";
+    }
+
+    // 1. Sync per-skill chart minutes (English key used by skillChartStore & Dashboard)
+    addSkillPracticeMinutes(user.id, englishKey, minutes);
+
+    // 2. Sync legacy / analytics per-skill keys (both English and VN keys)
+    recordSkillPractice(user.id, vnSkillName, minutes, 0);
+    recordSkillPractice(user.id, englishKey as any, minutes, 0);
+
+    const newMinutes = (user.minutesStudied || 0) + Math.round(minutes);
     const updatedUser = { ...user, minutesStudied: newMinutes };
     set({ user: updatedUser });
+
     if (typeof window !== "undefined") {
       localStorage.setItem(`xp_voca_user_${user.id}`, JSON.stringify(updatedUser));
 
-      const todayStr = new Date().toISOString().slice(0, 10);
+      const todayStr = getLocalDateString(new Date());
       const dailyMinKey = `xp_voca_daily_minutes_${user.id}`;
       
       try {
         const storedMin = localStorage.getItem(dailyMinKey);
         const dailyMin = storedMin ? JSON.parse(storedMin) : {};
-        dailyMin[todayStr] = (dailyMin[todayStr] || 0) + minutes;
+        dailyMin[todayStr] = (dailyMin[todayStr] || 0) + Math.round(minutes);
         localStorage.setItem(dailyMinKey, JSON.stringify(dailyMin));
       } catch (e) {
         console.error("Error saving daily minutes:", e);
@@ -286,13 +312,25 @@ export const useUserStore = create<UserState>((set, get) => ({
       }).catch(err => console.error("Error syncing awardCoins to DB:", err));
     }
   },
-  updateProfile: (fullName, bio) => {
+  updateProfile: (fullName, bio, avatarUrl, avatarEmoji) => {
     const user = get().user;
     if (user) {
-      const updatedUser = { ...user, fullName, bio };
+      const finalAvatar = avatarUrl !== undefined ? avatarUrl : (user.imageUrl || user.avatar || user.avatarUrl || "");
+      const updatedUser: User = {
+        ...user,
+        fullName,
+        bio,
+        imageUrl: finalAvatar,
+        avatar: finalAvatar,
+        avatarUrl: finalAvatar,
+        avatarEmoji: avatarEmoji !== undefined ? avatarEmoji : user.avatarEmoji,
+      };
       set({ user: updatedUser });
       if (typeof window !== "undefined") {
         localStorage.setItem(`xp_voca_user_${user.id}`, JSON.stringify(updatedUser));
+        if (finalAvatar) {
+          localStorage.setItem(`xp_voca_avatar_${user.id}`, finalAvatar);
+        }
       }
       
       // Sync with secure profile API endpoint
@@ -300,7 +338,12 @@ export const useUserStore = create<UserState>((set, get) => ({
         fetch("/api/user/profile", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ fullName, bio }),
+          body: JSON.stringify({
+            fullName,
+            bio,
+            avatarUrl: finalAvatar,
+            avatarEmoji: avatarEmoji !== undefined ? avatarEmoji : user.avatarEmoji,
+          }),
         }).catch(err => console.error("Error updating profile in DB:", err));
       }
     }
@@ -311,21 +354,33 @@ export const useUserStore = create<UserState>((set, get) => ({
     if (typeof window !== "undefined") {
       try {
         const cached = localStorage.getItem(`xp_voca_user_${userPayload.id}`);
+        const avatarCached = localStorage.getItem(`xp_voca_avatar_${userPayload.id}`);
         if (cached) {
-          cachedImageUrl = JSON.parse(cached).imageUrl || "";
+          const parsed = JSON.parse(cached);
+          cachedImageUrl = parsed.imageUrl || parsed.avatar || parsed.avatarUrl || "";
+        }
+        if (!cachedImageUrl && avatarCached) {
+          cachedImageUrl = avatarCached;
         }
       } catch (e) {}
     }
 
+    const finalAvatar = userPayload.imageUrl || (userPayload as any).avatar || (userPayload as any).avatarUrl || existingUser?.imageUrl || existingUser?.avatar || existingUser?.avatarUrl || cachedImageUrl || "";
+
     const mergedUser: User = {
       ...userPayload,
-      imageUrl: userPayload.imageUrl || existingUser?.imageUrl || cachedImageUrl || "",
+      imageUrl: finalAvatar,
+      avatar: finalAvatar,
+      avatarUrl: finalAvatar,
     };
 
     set({ user: mergedUser });
     if (typeof window !== "undefined") {
       localStorage.setItem("xp_voca_active_userId", mergedUser.id);
       localStorage.setItem(`xp_voca_user_${mergedUser.id}`, JSON.stringify(mergedUser));
+      if (finalAvatar) {
+        localStorage.setItem(`xp_voca_avatar_${mergedUser.id}`, finalAvatar);
+      }
     }
     useVocabularyStore.getState().loadLearnedWords(mergedUser.id);
     get().syncStreak(false);
@@ -347,10 +402,18 @@ export const useUserStore = create<UserState>((set, get) => ({
     if (typeof window !== "undefined") {
       const activeUserId = localStorage.getItem("xp_voca_active_userId") || "local_user";
       const localData = localStorage.getItem(`xp_voca_user_${activeUserId}`);
+      const cachedAvatar = localStorage.getItem(`xp_voca_avatar_${activeUserId}`);
       if (localData) {
         try {
           const localUser = JSON.parse(localData);
-          set({ user: localUser });
+          const finalAvatar = localUser.imageUrl || localUser.avatar || localUser.avatarUrl || cachedAvatar || "";
+          const fullUser: User = {
+            ...localUser,
+            imageUrl: finalAvatar,
+            avatar: finalAvatar,
+            avatarUrl: finalAvatar,
+          };
+          set({ user: fullUser });
           useVocabularyStore.getState().loadLearnedWords(activeUserId);
           
           // Validate streak status on local load
@@ -464,7 +527,7 @@ export function recordSkillPractice(
   xp: number
 ) {
   if (typeof window === "undefined" || !userId) return;
-  const todayStr = new Date().toISOString().slice(0, 10);
+  const todayStr = getLocalDateString(new Date());
   const dailyXpKey = `xp_voca_daily_xp_${userId}_${skill}`;
   const dailyMinKey = `xp_voca_daily_minutes_${userId}_${skill}`;
 

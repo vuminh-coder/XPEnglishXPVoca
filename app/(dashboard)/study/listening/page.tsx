@@ -49,11 +49,15 @@ import {
   Layers,
   ListFilter,
   Lock,
-  HelpCircle
+  HelpCircle,
+  Clock,
+  Brain,
+  PenLine,
+  GraduationCap
 } from "lucide-react";
 import { MOCK_LESSONS_DATA } from "@/lib/data/listeningMockData";
 import { lookupWordDeep, DeepWordDefinition } from "@/lib/utils/deepDictionary";
-import { pick5RandomLessons } from "@/lib/utils/randomLessonPicker";
+import { pick10RandomLessons } from "@/lib/utils/randomLessonPicker";
 
 const getWordMaskDots = (word: string) => {
   const len = word.replace(/[^a-zA-Z0-9]/g, "").length;
@@ -91,16 +95,16 @@ export default function ListeningPage() {
 
   const currentLesson = lessonsList.find((l) => l.id === selectedLessonId) || null;
 
-  // Randomized 5-Lesson Picker State (Prioritizes unlearned lessons)
-  const [displayed5Lessons, setDisplayed5Lessons] = useState<any[]>([]);
+  // Randomized 10-Lesson Picker State (Prioritizes unlearned lessons)
+  const [displayed10Lessons, setDisplayed10Lessons] = useState<any[]>([]);
 
   useEffect(() => {
-    setDisplayed5Lessons(pick5RandomLessons(lessonsList, completedLessonIds || []));
+    setDisplayed10Lessons(pick10RandomLessons(lessonsList, completedLessonIds || []));
   }, [lessonsList, completedLessonIds]);
 
-  const handleShuffle5Lessons = () => {
-    setDisplayed5Lessons(pick5RandomLessons(lessonsList, completedLessonIds || []));
-    addToast({ type: "info", title: "Đã bốc 5 bài ngẫu nhiên mới! 🎲" });
+  const handleShuffle10Lessons = () => {
+    setDisplayed10Lessons(pick10RandomLessons(lessonsList, completedLessonIds || []));
+    addToast({ type: "info", title: "Đã bốc 10 bài ngẫu nhiên mới! 🎲" });
   };
 
   // Form State: Create New Article
@@ -243,6 +247,11 @@ export default function ListeningPage() {
 
   // Practice timer state (seconds elapsed)
   const [elapsedTime, setElapsedTime] = useState(0);
+  const elapsedTimeRef = React.useRef(0);
+
+  useEffect(() => {
+    elapsedTimeRef.current = elapsedTime;
+  }, [elapsedTime]);
 
   useEffect(() => {
     let timer: NodeJS.Timeout | null = null;
@@ -252,9 +261,16 @@ export default function ListeningPage() {
       }, 1000);
     } else {
       setElapsedTime(0);
+      elapsedTimeRef.current = 0;
     }
+
     return () => {
       if (timer) clearInterval(timer);
+      if (elapsedTimeRef.current > 10) {
+        const mins = Math.max(1, Math.ceil(elapsedTimeRef.current / 60));
+        useUserStore.getState().addPracticeTime(mins, "dictation");
+        elapsedTimeRef.current = 0;
+      }
     };
   }, [selectedLessonId]);
 
@@ -265,9 +281,10 @@ export default function ListeningPage() {
   };
 
   const handleBackToListing = () => {
-    if (elapsedTime > 5) {
-      const mins = Math.max(1, Math.ceil(elapsedTime / 60));
+    if (elapsedTimeRef.current > 5) {
+      const mins = Math.max(1, Math.ceil(elapsedTimeRef.current / 60));
       useUserStore.getState().addPracticeTime(mins, "dictation");
+      elapsedTimeRef.current = 0;
     }
     setSelectedLessonId(null);
     setElapsedTime(0);
@@ -488,7 +505,7 @@ export default function ListeningPage() {
       awardXp(15);
       addToast({
         type: "success",
-        title: "AI Chấm điểm nhại giọng! 🎙️",
+        title: "AI Chấm điểm nhại giọng!",
         message: `+15 XP! Điểm phát âm câu ${sentenceId + 1}: ${score}%`,
       });
     }, 1200);
@@ -503,20 +520,20 @@ export default function ListeningPage() {
           <motion.div
             initial={{ opacity: 0, y: -6 }}
             animate={{ opacity: 1, y: 0 }}
-            className="p-4 rounded-lg bg-[#ebf3fe] dark:bg-blue-950/40 border border-[#d5e5fe] dark:border-blue-900/50 flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-2xs"
+            className="p-3.5 sm:p-5 rounded-md bg-[#ebf3fe] dark:bg-blue-950/40 border border-[#d5e5fe] dark:border-blue-900/50 flex flex-col md:flex-row md:items-center justify-between gap-2.5 sm:gap-3 shadow-2xs"
           >
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="w-9 h-9 rounded-md bg-[#1d6ee6]/10 text-[#1d6ee6] dark:text-sky-400 flex items-center justify-center shrink-0">
-                <Headphones className="w-5 h-5 stroke-[2]" />
+            <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-md bg-[#1d6ee6]/10 text-[#1d6ee6] dark:text-sky-400 flex items-center justify-center shrink-0 shadow-2xs">
+                <Headphones className="w-4 h-4 stroke-[2]" />
               </div>
               <div className="min-w-0">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="px-2 py-0.5 rounded text-[9px] font-black bg-[#1d6ee6] text-white">
+                <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                  <span className="px-1.5 py-0.5 rounded-xs text-[8.5px] sm:text-[9px] font-black bg-[#1d6ee6] text-white">
                     AI LISTENING WORKSPACE
                   </span>
-                  <span className="text-xs font-bold text-slate-500">5 Bài đọc hàng ngang & Tạo bài AI</span>
+                  <span className="text-[10px] sm:text-[11px] font-semibold text-slate-500">10 Bài đọc hàng ngang & Tạo bài AI</span>
                 </div>
-                <h1 className="text-base sm:text-lg font-bold font-display text-slate-900 dark:text-white truncate">
+                <h1 className="text-sm sm:text-base font-bold tracking-tight font-display text-slate-900 dark:text-white truncate">
                   Hệ Thống Luyện Nghe & Tạo Bài Đọc Tiếng Anh
                 </h1>
               </div>
@@ -525,10 +542,10 @@ export default function ListeningPage() {
             {/* Create Article Toggle Button */}
             <button
               onClick={() => setShowCreateForm(!showCreateForm)}
-              className="px-3.5 py-1.5 rounded-md bg-[#1d6ee6] hover:bg-[#155bc5] text-white text-xs font-bold transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer shrink-0"
+              className="px-3 py-1.5 rounded-xs bg-[#1d6ee6] hover:bg-[#155bc5] text-white text-[11px] sm:text-xs font-extrabold transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer shrink-0"
             >
-              <Plus className="w-4 h-4 stroke-[2.5]" />
-              {showCreateForm ? "Đóng form tạo bài" : "✨ Tạo bài nghe mới"}
+              <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
+              {showCreateForm ? "Đóng form tạo bài" : "Tạo bài nghe mới"}
             </button>
           </motion.div>
 
@@ -540,13 +557,13 @@ export default function ListeningPage() {
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
                 onSubmit={handleCreateArticleSubmit}
-                className="p-4 rounded-lg bg-white dark:bg-slate-900 border border-blue-200 dark:border-blue-800/40 shadow-md space-y-3 overflow-hidden"
+                className="p-3.5 sm:p-5 rounded-md bg-white dark:bg-slate-900 border border-blue-200 dark:border-blue-800/40 shadow-2xs space-y-3 overflow-hidden"
               >
                 <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
                   <h2 className="text-xs font-black uppercase tracking-wider text-blue-600 dark:text-sky-400 font-display flex items-center gap-1.5">
                     <Wand2 className="w-4 h-4 text-purple-600" /> TẠO BÀI NGHE TIẾNG ANH AI TÙY CHỈNH
                   </h2>
-                  <span className="text-[10px] font-bold text-emerald-600 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                  <span className="text-[9px] font-bold text-emerald-600 bg-emerald-500/10 px-2 py-0.5 rounded-xs border border-emerald-500/20">
                     +30 XP / Bài tạo
                   </span>
                 </div>
@@ -560,7 +577,7 @@ export default function ListeningPage() {
                       id="new-article-title-input"
                       type="text"
                       required
-                      className="w-full h-8 px-2.5 text-xs font-semibold rounded bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:border-blue-600"
+                      className="w-full h-8 px-2.5 text-xs font-semibold rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:border-blue-600"
                       placeholder="Ví dụ: Coffee Culture in Vietnam..."
                       value={newTitle}
                       onChange={(e) => setNewTitle(e.target.value)}
@@ -576,13 +593,13 @@ export default function ListeningPage() {
                       <input
                         id="new-article-thumbnail-input"
                         type="text"
-                        className="w-full h-8 px-2.5 text-xs font-medium rounded bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:border-blue-600"
+                        className="w-full h-8 px-2.5 text-xs font-medium rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:border-blue-600"
                         placeholder="https://example.com/thumbnail.jpg"
                         value={newThumbnail}
                         onChange={(e) => setNewThumbnail(e.target.value)}
                       />
                       {newTitle && !newThumbnail && (
-                        <div className={`w-8 h-8 rounded shrink-0 bg-gradient-to-br ${getInitialAvatar(newTitle).gradient} text-white font-black text-xs flex items-center justify-center shadow-2xs`}>
+                        <div className={`w-8 h-8 rounded-xs shrink-0 bg-gradient-to-br ${getInitialAvatar(newTitle).gradient} text-white font-black text-xs flex items-center justify-center shadow-2xs`}>
                           {getInitialAvatar(newTitle).firstChar}
                         </div>
                       )}
@@ -598,7 +615,7 @@ export default function ListeningPage() {
                     id="new-article-text-textarea"
                     rows={3}
                     required
-                    className="w-full p-2.5 text-xs font-medium rounded bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:border-blue-600 shadow-inner"
+                    className="w-full p-2.5 text-xs font-medium rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:border-blue-600 shadow-inner"
                     placeholder="Today is a beautiful day. I really love learning English with AI..."
                     value={newText}
                     onChange={(e) => setNewText(e.target.value)}
@@ -611,7 +628,7 @@ export default function ListeningPage() {
                       aria-label="Chọn Accent"
                       value={newAccent}
                       onChange={(e) => setNewAccent(e.target.value)}
-                      className="h-7 px-2 text-xs font-bold rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white"
+                      className="h-7 px-2 text-xs font-bold rounded-xs bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white"
                     >
                       <option value="en-US">US Accent</option>
                       <option value="en-UK">UK Accent</option>
@@ -622,7 +639,7 @@ export default function ListeningPage() {
                       aria-label="Chọn Trình độ Level"
                       value={newLevel}
                       onChange={(e) => setNewLevel(e.target.value)}
-                      className="h-7 px-2 text-xs font-bold rounded bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white"
+                      className="h-7 px-2 text-xs font-bold rounded-xs bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white"
                     >
                       <option value="A1">Level A1</option>
                       <option value="A2">Level A2</option>
@@ -635,7 +652,7 @@ export default function ListeningPage() {
                   <Button
                     variant="primary"
                     type="submit"
-                    className="h-8 px-4 text-xs font-black rounded bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-2xs hover:scale-102 active:scale-98 transition-transform cursor-pointer"
+                    className="h-8 px-4 text-xs font-black rounded-xs bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-2xs hover:scale-102 active:scale-98 transition-transform cursor-pointer"
                   >
                     🚀 TẠO BÀI NGHE AI NGAY
                   </Button>
@@ -644,22 +661,22 @@ export default function ListeningPage() {
             )}
           </AnimatePresence>
 
-          {/* 3. DANH SÁCH 5 BÀI NGHE NẰM NGANG (BỐC NGẪU NHIÊN & TỰ ĐỘNG ĐÁNH DẤU ĐÃ HỌC) */}
+          {/* 3. DANH SÁCH 10 BÀI NGHE NẰM NGANG (BỐC NGẪU NHIÊN & TỰ ĐỘNG ĐÁNH DẤU ĐÃ HỌC) */}
           <div className="space-y-2">
             <div className="flex items-center justify-between px-0.5">
               <h2 className="text-xs font-black uppercase tracking-wider text-blue-600 dark:text-sky-400 font-display flex items-center gap-1.5">
-                <BookOpen className="w-3.5 h-3.5 text-blue-600 dark:text-sky-400" /> DANH SÁCH 5 BÀI ĐỌC (BẤM ĐỂ CHỌN BÀI HỌC)
+                <BookOpen className="w-3.5 h-3.5 text-blue-600 dark:text-sky-400" /> DANH SÁCH 10 BÀI ĐỌC (BẤM ĐỂ CHỌN BÀI HỌC)
               </h2>
               <button
-                onClick={handleShuffle5Lessons}
+                onClick={handleShuffle10Lessons}
                 className="text-[10px] font-bold text-slate-500 hover:text-[#1d6ee6] dark:hover:text-sky-400 flex items-center gap-1 cursor-pointer transition-colors"
               >
-                <RefreshCw className="w-3 h-3" /> 🔄 Đổi 5 bài ngẫu nhiên ⚡
+                <RefreshCw className="w-3 h-3" /> Đổi 10 bài ngẫu nhiên
               </button>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-              {(displayed5Lessons.length > 0 ? displayed5Lessons : lessonsList.slice(0, 5)).map((lesson) => {
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2.5 sm:gap-3">
+              {(displayed10Lessons.length > 0 ? displayed10Lessons : lessonsList.slice(0, 10)).map((lesson) => {
                 const isSelected = lesson.id === selectedLessonId;
                 const isCompleted = completedLessonIds.includes(lesson.id);
                 const { firstChar, gradient } = getInitialAvatar(lesson.title);
@@ -677,13 +694,13 @@ export default function ListeningPage() {
                       setRevealedBlocks({});
                       scrollToWorkspace();
                     }}
-                    className={`p-2.5 rounded-lg border transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between ${
+                    className={`p-2.5 rounded-xs border transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between ${
                       isSelected
                         ? "bg-white dark:bg-slate-900 border-[#1d6ee6] ring-2 ring-blue-500/20 shadow-xs"
                         : "bg-white dark:bg-slate-900 border-slate-200/80 dark:border-white/10 hover:border-blue-500/40 shadow-2xs"
                     }`}
                   >
-                    <div className="relative w-full h-24 rounded-md overflow-hidden shrink-0">
+                    <div className="relative w-full h-24 rounded-xs overflow-hidden shrink-0">
                       {lesson.imageUrl ? (
                         <img
                           src={lesson.imageUrl}
@@ -696,18 +713,18 @@ export default function ListeningPage() {
                         </div>
                       )}
 
-                      <span className="absolute top-1.5 left-1.5 px-1.5 py-0.2 rounded text-[9px] font-black bg-slate-900/80 text-white backdrop-blur-xs">
+                      <span className="absolute top-1.5 left-1.5 px-1.5 py-0.2 rounded-xs text-[9px] font-black bg-slate-900/80 text-white backdrop-blur-xs">
                         {lesson.level || "B1"}
                       </span>
 
                       {isCompleted && (
-                        <span className="absolute top-1.5 right-1.5 px-1.5 py-0.2 rounded text-[9px] font-black bg-emerald-600 text-white flex items-center gap-0.5 shadow-2xs">
+                        <span className="absolute top-1.5 right-1.5 px-1.5 py-0.2 rounded-xs text-[9px] font-black bg-emerald-600 text-white flex items-center gap-0.5 shadow-2xs">
                           <Check className="w-2.5 h-2.5 stroke-[3]" /> Đã học
                         </span>
                       )}
 
                       {isSelected && (
-                        <span className="absolute bottom-1.5 right-1.5 px-1.5 py-0.2 rounded text-[9px] font-black bg-[#1d6ee6] text-white flex items-center gap-1 shadow-2xs">
+                        <span className="absolute bottom-1.5 right-1.5 px-1.5 py-0.2 rounded-xs text-[9px] font-black bg-[#1d6ee6] text-white flex items-center gap-1 shadow-2xs">
                           <Play className="w-2.5 h-2.5 fill-white" /> Đang chọn
                         </span>
                       )}
@@ -721,7 +738,7 @@ export default function ListeningPage() {
                       </h3>
 
                       <div className="flex items-center justify-between text-[10px] text-slate-400 font-bold pt-1 border-t border-slate-100 dark:border-white/5">
-                        <span>⏱️ {lesson.duration || "5 min"}</span>
+                        <span className="flex items-center gap-1"><Clock className="w-3 h-3 text-slate-400" /> {lesson.duration || "5 min"}</span>
                         <span>{lesson.accent || "US"}</span>
                       </div>
                     </div>
@@ -738,7 +755,7 @@ export default function ListeningPage() {
         <motion.div
           initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
-          className="p-6 rounded-lg bg-slate-50/80 dark:bg-slate-950/60 border border-dashed border-slate-300 dark:border-white/10 text-center space-y-2.5 my-2"
+          className="p-6 rounded-md bg-slate-50/80 dark:bg-slate-950/60 border border-dashed border-slate-300 dark:border-white/10 text-center space-y-2.5 my-2"
         >
           <div className="w-12 h-12 rounded-full bg-blue-50 dark:bg-blue-950/60 text-[#1d6ee6] dark:text-sky-400 flex items-center justify-center mx-auto shadow-2xs">
             <Headphones className="w-6 h-6 stroke-[2]" />
@@ -757,16 +774,16 @@ export default function ListeningPage() {
         <div className="lg:col-span-7 space-y-3.5 min-w-0">
           
           {/* Active Lesson Header & Timer & Global Masking Toggle */}
-          <div className="p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3 min-w-0">
+          <div className="p-3.5 sm:p-4 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3 min-w-0">
             <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5 gap-2 min-w-0">
               <div className="flex items-center gap-2 min-w-0 flex-1 overflow-hidden">
                 <button
                   onClick={handleBackToListing}
-                  className="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-black text-slate-700 dark:text-slate-200 flex items-center gap-1 cursor-pointer transition-colors shadow-2xs shrink-0 whitespace-nowrap"
+                  className="px-2.5 py-1 rounded-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-black text-slate-700 dark:text-slate-200 flex items-center gap-1 cursor-pointer transition-colors shadow-2xs shrink-0 whitespace-nowrap"
                 >
                   ← Quay lại
                 </button>
-                <span className="px-2 py-0.5 rounded text-[9px] font-black bg-[#1d6ee6] text-white shrink-0 whitespace-nowrap">
+                <span className="px-2 py-0.5 rounded-xs text-[9px] font-black bg-[#1d6ee6] text-white shrink-0 whitespace-nowrap">
                   ĐANG LUYỆN BÀI
                 </span>
                 <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display truncate min-w-0 flex-1" title={currentLesson.title}>
@@ -777,27 +794,27 @@ export default function ListeningPage() {
               <div className="flex items-center gap-2 shrink-0 self-end md:self-auto">
                 <button
                   onClick={() => setGlobalRevealAll(!globalRevealAll)}
-                  className={`px-2.5 py-1 rounded text-xs font-bold transition-all cursor-pointer flex items-center gap-1 border whitespace-nowrap ${
+                  className={`px-2.5 py-1 rounded-xs text-xs font-bold transition-all cursor-pointer flex items-center gap-1 border whitespace-nowrap ${
                     globalRevealAll
                       ? "bg-amber-500/10 text-amber-600 border-amber-500/30"
                       : "bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-sky-400 border-blue-200 dark:border-blue-900/30"
                   }`}
                 >
                   {globalRevealAll ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
-                  {globalRevealAll ? "🙈 Ẩn chữ" : "👁️ Hiện toàn bộ chữ & Dịch"}
+                  {globalRevealAll ? "Ẩn chữ" : "Hiện toàn bộ chữ & Dịch"}
                 </button>
 
-                <span className="px-2.5 py-1 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-xs font-black flex items-center gap-1 shadow-2xs shrink-0 whitespace-nowrap">
-                  ⏱️ {formatElapsedTime(elapsedTime)}
+                <span className="px-2.5 py-1 rounded-xs bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-xs font-black flex items-center gap-1 shadow-2xs shrink-0 whitespace-nowrap">
+                  <Clock className="w-3.5 h-3.5" /> {formatElapsedTime(elapsedTime)}
                 </span>
               </div>
             </div>
 
             {/* 2 PRACTICE LISTEN MODES SWITCHER */}
-            <div className="p-1 bg-slate-100 dark:bg-slate-950 rounded-md flex items-center gap-1 border border-slate-200/50 dark:border-white/5">
+            <div className="p-1 bg-slate-100 dark:bg-slate-950 rounded-xs flex items-center gap-1 border border-slate-200/50 dark:border-white/5">
               <button
                 onClick={() => setPracticeListenMode("full")}
-                className={`flex-1 py-1.5 px-2 rounded text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                className={`flex-1 py-1.5 px-2 rounded-xs text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
                   practiceListenMode === "full"
                     ? "bg-[#1d6ee6] text-white shadow-2xs font-extrabold"
                     : "text-slate-600 dark:text-slate-400 hover:text-slate-900"
@@ -811,7 +828,7 @@ export default function ListeningPage() {
                   setPracticeListenMode("chunk3");
                   setChunkIndex(0);
                 }}
-                className={`flex-1 py-1.5 px-2 rounded text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                className={`flex-1 py-1.5 px-2 rounded-xs text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
                   practiceListenMode === "chunk3"
                     ? "bg-[#1d6ee6] text-white shadow-2xs font-extrabold"
                     : "text-slate-600 dark:text-slate-400 hover:text-slate-900"
@@ -829,7 +846,7 @@ export default function ListeningPage() {
             return (
               <div
                 onClick={() => toggleRevealBlock("full-block")}
-                className={`p-4.5 rounded-lg transition-all cursor-pointer space-y-3.5 ${
+                className={`p-4 rounded-md transition-all cursor-pointer space-y-3.5 ${
                   isFullRevealed
                     ? "bg-white dark:bg-slate-900 border-[#1d6ee6] ring-2 ring-blue-500/20 shadow-xs"
                     : "bg-slate-50/80 dark:bg-slate-950/80 border border-slate-200 dark:border-white/10 hover:border-slate-300"
@@ -854,7 +871,7 @@ export default function ListeningPage() {
                 </div>
 
                 {/* Single Unified Paragraph Card */}
-                <div className={`p-4 rounded-md transition-all relative ${
+                <div className={`p-4 rounded-xs transition-all relative ${
                   isFullRevealed
                     ? "bg-[#f8fafc] dark:bg-slate-950 border border-slate-200/60 dark:border-white/5 space-y-3"
                     : "bg-slate-50/90 dark:bg-slate-950 border border-slate-200/80 dark:border-white/10 relative p-4 space-y-3"
@@ -882,7 +899,7 @@ export default function ListeningPage() {
                                     }}
                                     onMouseEnter={(e) => handleWordMouseEnter(e, word, isWordRevealed || isFullRevealed)}
                                     onMouseLeave={handleWordMouseLeave}
-                                    className={`px-1.5 py-0.5 rounded-sm text-xs font-mono font-bold transition-all cursor-pointer inline-block select-none ${
+                                    className={`px-1.5 py-0.5 rounded-xs text-xs font-mono font-bold transition-all cursor-pointer inline-block select-none ${
                                       isWordRevealed
                                         ? "bg-blue-500/10 text-blue-600 dark:text-sky-400 font-sans"
                                         : "bg-slate-200/60 dark:bg-slate-800/60 text-slate-400 dark:text-slate-500 hover:bg-[#1d6ee6]/10 hover:text-[#1d6ee6]"
@@ -912,7 +929,7 @@ export default function ListeningPage() {
                                 }}
                                 onMouseEnter={(e) => handleWordMouseEnter(e, word, true)}
                                 onMouseLeave={handleWordMouseLeave}
-                                className="hover:bg-blue-500/10 hover:text-blue-600 dark:hover:text-sky-400 px-1 py-0.5 rounded transition-colors cursor-pointer border border-transparent hover:border-blue-500/20"
+                                className="hover:bg-blue-500/10 hover:text-blue-600 dark:hover:text-sky-400 px-1 py-0.5 rounded-xs transition-colors cursor-pointer border border-transparent hover:border-blue-500/20"
                               >
                                 {word}
                               </span>
@@ -923,7 +940,7 @@ export default function ListeningPage() {
                       </div>
 
                       {/* Polished Vietnamese Translation Left-Bordered Micro-Card */}
-                      <div className="p-3.5 rounded-r-lg bg-slate-50 dark:bg-slate-950 border-l-3 border-[#1d6ee6] space-y-1 mt-3 shadow-2xs">
+                      <div className="p-3.5 rounded-r-xs bg-slate-50 dark:bg-slate-950 border-l-3 border-[#1d6ee6] space-y-1 mt-3 shadow-2xs">
                         <div className="flex items-center gap-1.5 text-xs font-black uppercase text-[#1d6ee6] dark:text-sky-400 tracking-wider">
                           <span>🇻🇳</span>
                           <span>BẢN DỊCH TIẾNG VIỆT</span>
@@ -943,14 +960,14 @@ export default function ListeningPage() {
                       e.stopPropagation();
                       togglePlay();
                     }}
-                    className="px-5 py-2.5 rounded-md bg-[#1d6ee6] hover:bg-[#155bc5] text-white font-black text-xs flex items-center gap-2 shadow-2xs cursor-pointer active:scale-98 transition-transform"
+                    className="px-4 py-2 rounded-xs bg-[#1d6ee6] hover:bg-[#155bc5] text-white font-extrabold text-xs flex items-center gap-2 shadow-2xs cursor-pointer active:scale-98 transition-transform"
                   >
                     {isPlaying ? <Pause className="w-4 h-4 fill-white" /> : <Play className="w-4 h-4 fill-white" />}
                     {isPlaying ? "Tạm dừng phát toàn bộ" : "▶ BẤM MỘT LẦN NGHE TOÀN BỘ BÀI"}
                   </button>
 
                   <Link href={`/study/shadowing?lessonId=${currentLesson.id}`}>
-                    <button className="px-4 py-2.5 rounded-md bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black text-xs shadow-2xs flex items-center gap-1.5 cursor-pointer">
+                    <button className="px-3.5 py-2 rounded-xs bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-extrabold text-xs shadow-2xs flex items-center gap-1.5 cursor-pointer">
                       🎙️ Chuyển sang Shadowing <ArrowRight className="w-4 h-4" />
                     </button>
                   </Link>
@@ -981,9 +998,9 @@ export default function ListeningPage() {
                         playSingleSentence(sentence.text);
                       }
                     }}
-                    className={`p-4 rounded-lg transition-all cursor-pointer ${
+                    className={`p-3.5 sm:p-4 rounded-md transition-all cursor-pointer ${
                       isSentenceRevealed
-                        ? "bg-white dark:bg-slate-900 border-[#1d6ee6] ring-2 ring-blue-500/20 shadow-xs"
+                        ? "bg-white dark:bg-slate-900 border-[#1d6ee6] ring-2 ring-blue-500/20 shadow-2xs"
                         : "bg-slate-50/70 dark:bg-slate-950/70 border border-slate-200 dark:border-white/10 hover:border-slate-300"
                     }`}
                   >
@@ -1009,7 +1026,7 @@ export default function ListeningPage() {
 
                       <div className="flex items-center gap-2">
                         {score && (
-                          <span className="px-2 py-0.5 rounded text-[10px] font-black bg-emerald-500 text-white shadow-2xs">
+                          <span className="px-2 py-0.5 rounded-xs text-[10px] font-black bg-emerald-500 text-white shadow-2xs">
                             AI Score: {score}%
                           </span>
                         )}
@@ -1027,7 +1044,7 @@ export default function ListeningPage() {
 
                     {/* WORD-LEVEL GRAY MASK PILLS WHEN UNREVEALED */}
                     {!isSentenceRevealed ? (
-                      <div className="p-3 rounded bg-slate-100/70 dark:bg-slate-950 border border-slate-200/50 cursor-pointer space-y-2">
+                      <div className="p-3 rounded-xs bg-slate-100/70 dark:bg-slate-950 border border-slate-200/50 cursor-pointer space-y-2">
                         <div className="flex flex-wrap gap-1">
                           {sentence.text.split(" ").map((word: string, wIdx: number) => {
                             const wordKey = `s-${actualIdx}-${wIdx}`;
@@ -1042,7 +1059,7 @@ export default function ListeningPage() {
                                 }}
                                 onMouseEnter={(e) => handleWordMouseEnter(e, word, isWordRevealed)}
                                 onMouseLeave={handleWordMouseLeave}
-                                className={`px-1.5 py-0.5 rounded-sm text-xs font-mono font-bold transition-all cursor-pointer inline-block select-none ${
+                                className={`px-1.5 py-0.5 rounded-xs text-xs font-mono font-bold transition-all cursor-pointer inline-block select-none ${
                                   isWordRevealed
                                     ? "bg-blue-500/10 text-blue-600 dark:text-sky-400 font-sans"
                                     : "bg-slate-200/60 dark:bg-slate-800/60 text-slate-400 dark:text-slate-500 hover:bg-[#1d6ee6]/10 hover:text-[#1d6ee6]"
@@ -1067,7 +1084,7 @@ export default function ListeningPage() {
                               }}
                               onMouseEnter={(e) => handleWordMouseEnter(e, word, true)}
                               onMouseLeave={handleWordMouseLeave}
-                              className="hover:bg-blue-500/10 hover:text-blue-600 dark:hover:text-sky-400 px-1 py-0.5 rounded transition-colors cursor-pointer border border-transparent hover:border-blue-500/20"
+                              className="hover:bg-blue-500/10 hover:text-blue-600 dark:hover:text-sky-400 px-1 py-0.5 rounded-xs transition-colors cursor-pointer border border-transparent hover:border-blue-500/20"
                             >
                               {word}
                             </span>
@@ -1080,7 +1097,7 @@ export default function ListeningPage() {
                         </p>
 
                         {/* Polished Vietnamese Translation Left-Bordered Micro-Card */}
-                        <div className="p-3 rounded-r-lg bg-slate-50 dark:bg-slate-950 border-l-3 border-[#1d6ee6] space-y-0.5 mt-2 shadow-2xs">
+                        <div className="p-3 rounded-r-xs bg-slate-50 dark:bg-slate-950 border-l-3 border-[#1d6ee6] space-y-0.5 mt-2 shadow-2xs">
                           <span className="text-[10px] font-black uppercase text-[#1d6ee6] dark:text-sky-400 tracking-wider block">
                             🇻🇳 BẢN DỊCH CÂU:
                           </span>
@@ -1118,7 +1135,7 @@ export default function ListeningPage() {
                         }`}
                       >
                         {isRecordingThis ? <Square className="w-3.5 h-3.5 fill-white" /> : <Mic className="w-3.5 h-3.5 stroke-[2]" />}
-                        {isRecordingThis ? `Đang nhại... 00:0${inlineRecordingTime}` : "🎤 Speak (Nhại câu này)"}
+                        {isRecordingThis ? `Đang nhại... 00:0${inlineRecordingTime}` : "Speak (Nhại câu này)"}
                       </button>
                     </div>
                   </motion.div>
@@ -1170,7 +1187,7 @@ export default function ListeningPage() {
                   : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
               }`}
             >
-              🧠 Trắc Nghiệm
+              <Brain className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400 shrink-0" /> Trắc Nghiệm
             </button>
 
             <button
@@ -1181,7 +1198,7 @@ export default function ListeningPage() {
                   : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
               }`}
             >
-              📚 Từ Vựng & Ngữ Pháp
+              <BookOpen className="w-3.5 h-3.5 text-blue-600 dark:text-sky-400 shrink-0" /> Từ Vựng & Ngữ Pháp
             </button>
 
             <button
@@ -1192,7 +1209,7 @@ export default function ListeningPage() {
                   : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
               }`}
             >
-              📝 Ghi Chú Bài Học
+              <PenLine className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" /> Ghi Chú Bài Học
             </button>
           </div>
 
@@ -1202,7 +1219,7 @@ export default function ListeningPage() {
               <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
                 <div className="flex items-center gap-2">
                   <div className="w-7 h-7 rounded bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center font-black text-xs shrink-0">
-                    🧠
+                    <Brain className="w-4 h-4 text-purple-600 dark:text-purple-400" />
                   </div>
                   <div>
                     <h3 className="text-xs font-black text-slate-900 dark:text-white font-display">
@@ -1481,7 +1498,7 @@ export default function ListeningPage() {
 
             <Link href={`/study/shadowing?lessonId=${currentLesson.id}`} className="block">
               <button className="w-full py-2.5 rounded-md bg-[#1d6ee6] hover:bg-[#155bc5] text-white font-bold text-xs shadow-2xs hover:scale-101 active:scale-98 transition-all flex items-center justify-center gap-1.5 cursor-pointer">
-                🎙️ CHUYỂN SANG LUYỆN NHẠI GIỌNG CHUYÊN SÂU (SHADOWING) <ArrowRight className="w-3.5 h-3.5" />
+                <Mic className="w-4 h-4 stroke-[2]" /> CHUYỂN SANG LUYỆN NHẠI GIỌNG CHUYÊN SÂU (SHADOWING) <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </Link>
           </div>
@@ -1504,7 +1521,7 @@ export default function ListeningPage() {
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/10 pb-2">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-md bg-[#1d6ee6]/10 text-[#1d6ee6] dark:text-sky-400 flex items-center justify-center font-black text-sm">
-                  🎓
+                  <GraduationCap className="w-4.5 h-4.5 text-[#1d6ee6] dark:text-sky-400" />
                 </div>
                 <div>
                   <h4 className="text-base font-black text-slate-900 dark:text-white font-display">

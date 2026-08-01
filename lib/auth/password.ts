@@ -1,6 +1,12 @@
 import crypto from "crypto";
 
-const SALT_KEY = "xp_voca_secret_salt_2026";
+const ENV_SALT_KEY = process.env.PASSWORD_SALT_KEY;
+
+if (!ENV_SALT_KEY && process.env.NODE_ENV === "production") {
+  console.error("CRITICAL SECURITY ERROR: PASSWORD_SALT_KEY environment variable is not defined in production!");
+}
+
+const SALT_KEY = ENV_SALT_KEY || "xp_voca_secret_salt_2026_dev_only";
 
 /**
  * Hash password securely using PBKDF2 (OWASP recommended algorithm)
@@ -24,6 +30,7 @@ export function comparePassword(password: string, storedHash: string): boolean {
   }
 
   // Legacy SHA256 check fallback
-  const legacyHash = crypto.createHash("sha256").update(password + "xp_voca_salt_2026").digest("hex");
+  const legacyHash = crypto.createHash("sha256").update(password + (ENV_SALT_KEY || "xp_voca_salt_2026")).digest("hex");
   return legacyHash === storedHash;
 }
+

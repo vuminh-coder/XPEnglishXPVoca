@@ -1,6 +1,12 @@
 import crypto from "crypto";
 
-const JWT_SECRET = process.env.JWT_SECRET || "xp_english_xp_voca_jwt_secret_key_2026";
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET && process.env.NODE_ENV === "production") {
+  console.error("CRITICAL SECURITY ERROR: JWT_SECRET environment variable is not defined in production!");
+}
+
+const EFFECTIVE_JWT_SECRET = JWT_SECRET || "xp_english_xp_voca_jwt_secret_key_2026_dev_only";
 
 export interface SessionPayload {
   userId: string;
@@ -50,7 +56,7 @@ export function signAuthToken(payload: Omit<SessionPayload, "iat" | "exp">, expi
   const encodedPayload = base64UrlEncode(JSON.stringify(fullPayload));
 
   const signature = crypto
-    .createHmac("sha256", JWT_SECRET)
+    .createHmac("sha256", EFFECTIVE_JWT_SECRET)
     .update(`${encodedHeader}.${encodedPayload}`)
     .digest("base64")
     .replace(/=/g, "")
@@ -73,7 +79,7 @@ export function verifyAuthToken(token: string): SessionPayload | null {
     const [encodedHeader, encodedPayload, signature] = parts;
 
     const expectedSignature = crypto
-      .createHmac("sha256", JWT_SECRET)
+      .createHmac("sha256", EFFECTIVE_JWT_SECRET)
       .update(`${encodedHeader}.${encodedPayload}`)
       .digest("base64")
       .replace(/=/g, "")

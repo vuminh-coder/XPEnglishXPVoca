@@ -41,10 +41,11 @@ import {
   Search,
   X,
   ChevronDown,
-  Filter
+  Filter,
+  Clock
 } from "lucide-react";
 import { MOCK_LESSONS_DATA } from "@/lib/data/listeningMockData";
-import { pick5RandomLessons } from "@/lib/utils/randomLessonPicker";
+import { pick10RandomLessons } from "@/lib/utils/randomLessonPicker";
 
 export default function ShadowingPage() {
   const router = useRouter();
@@ -141,16 +142,16 @@ export default function ShadowingPage() {
     return matchesSearch && matchesLevel;
   });
 
-  // Randomized 5-Lesson Picker State
-  const [displayed5Lessons, setDisplayed5Lessons] = useState<any[]>([]);
+  // Randomized 10-Lesson Picker State
+  const [displayed10Lessons, setDisplayed10Lessons] = useState<any[]>([]);
 
   useEffect(() => {
-    setDisplayed5Lessons(pick5RandomLessons(MOCK_LESSONS_DATA, completedLessonIds || []));
+    setDisplayed10Lessons(pick10RandomLessons(MOCK_LESSONS_DATA, completedLessonIds || []));
   }, [completedLessonIds]);
 
-  const handleShuffle5Lessons = () => {
-    setDisplayed5Lessons(pick5RandomLessons(MOCK_LESSONS_DATA, completedLessonIds || []));
-    addToast({ type: "info", title: "Đã bốc 5 bài ngẫu nhiên mới! 🎲" });
+  const handleShuffle10Lessons = () => {
+    setDisplayed10Lessons(pick10RandomLessons(MOCK_LESSONS_DATA, completedLessonIds || []));
+    addToast({ type: "info", title: "Đã bốc 10 bài ngẫu nhiên mới! 🎲" });
   };
 
   const handleSelectLesson = (lessonId: string) => {
@@ -161,6 +162,23 @@ export default function ShadowingPage() {
     setAiAnalysisResult(null);
     setNativeAudioProgress(0);
   };
+
+  const activeTimeRef = React.useRef(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      activeTimeRef.current += 1;
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+      if (activeTimeRef.current > 10) {
+        const mins = Math.max(1, Math.ceil(activeTimeRef.current / 60));
+        useUserStore.getState().addPracticeTime(mins, "shadowing");
+        activeTimeRef.current = 0;
+      }
+    };
+  }, []);
 
   // Speech Synthesis fallback for native audio
   const speakWord = (word: string) => {
@@ -389,7 +407,7 @@ export default function ShadowingPage() {
             <p className="text-[11px] text-slate-600 dark:text-slate-300 font-medium truncate">
               {currentLesson
                 ? `Đang luyện: [${currentLesson.level}] ${currentLesson.title}`
-                : "Bấm chọn 1 trong 5 bài đọc bên dưới để vào luyện nhại giọng! 🎙️"}
+                : "Bấm chọn 1 trong 10 bài đọc bên dưới để vào luyện nhại giọng! 🎙️"}
             </p>
           </div>
         </div>
@@ -397,7 +415,7 @@ export default function ShadowingPage() {
         {/* Right Actions: Modal Trigger */}
         <button
           onClick={() => setShowLessonModal(true)}
-          className="px-3 py-1.5 rounded-md bg-[#1d6ee6] hover:bg-[#155bc5] text-white text-xs font-bold transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer shrink-0"
+          className="px-3 py-1.5 rounded-xs bg-[#1d6ee6] hover:bg-[#155bc5] text-white text-xs font-bold transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer shrink-0"
         >
           <Search className="w-3.5 h-3.5" />
           <span>Khám phá 100+ Bài học</span>
@@ -408,15 +426,15 @@ export default function ShadowingPage() {
       <motion.div
         initial={{ opacity: 0, y: -6 }}
         animate={{ opacity: 1, y: 0 }}
-        className="sm:hidden p-2.5 rounded-lg bg-[#ebf3fe] dark:bg-blue-950/40 border border-[#d5e5fe] dark:border-blue-900/50 flex items-center justify-between gap-2 shadow-2xs"
+        className="sm:hidden p-2.5 rounded-md bg-[#ebf3fe] dark:bg-blue-950/40 border border-[#d5e5fe] dark:border-blue-900/50 flex items-center justify-between gap-2 shadow-2xs"
       >
         <div className="flex items-center gap-2 min-w-0">
-          <div className="w-7 h-7 rounded-md bg-[#1d6ee6]/10 text-[#1d6ee6] dark:text-sky-400 flex items-center justify-center shrink-0">
+          <div className="w-7 h-7 rounded-xs bg-[#1d6ee6]/10 text-[#1d6ee6] dark:text-sky-400 flex items-center justify-center shrink-0">
             <Mic className="w-3.5 h-3.5 stroke-[2]" />
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-1.5">
-              <span className="px-1.5 py-0.2 rounded text-[8px] font-black bg-[#1d6ee6] text-white">
+              <span className="px-1.5 py-0.2 rounded-xs text-[8px] font-black bg-[#1d6ee6] text-white">
                 Shadowing 🎙️
               </span>
             </div>
@@ -428,30 +446,30 @@ export default function ShadowingPage() {
 
         <button
           onClick={() => setShowLessonModal(true)}
-          className="px-2.5 py-1 rounded-md bg-[#1d6ee6] text-white text-[11px] font-bold shadow-2xs flex items-center gap-1 cursor-pointer shrink-0"
+          className="px-2.5 py-1 rounded-xs bg-[#1d6ee6] text-white text-[11px] font-bold shadow-2xs flex items-center gap-1 cursor-pointer shrink-0"
         >
           <Search className="w-3 h-3" />
           <span>Khám phá</span>
         </button>
       </motion.div>
 
-      {/* 1. DANH SÁCH 5 BÀI ĐỌC NẰM NGANG (BỐC NGẪU NHIÊN & TỰ ĐỘNG ĐÁNH DẤU ĐÃ HỌC) */}
+      {/* 1. DANH SÁCH 10 BÀI ĐỌC NẰM NGANG (BỐC NGẪU NHIÊN & TỰ ĐỘNG ĐÁNH DẤU ĐÃ HỌC) */}
       {!selectedLessonId && (
         <div className="space-y-2">
           <div className="flex items-center justify-between px-0.5">
             <h2 className="text-xs font-black uppercase tracking-wider text-[#1d6ee6] dark:text-sky-400 font-display flex items-center gap-1.5">
-              <BookOpen className="w-3.5 h-3.5 text-[#1d6ee6] dark:text-sky-400" /> DANH SÁCH 5 BÀI ĐỌC
+              <BookOpen className="w-3.5 h-3.5 text-[#1d6ee6] dark:text-sky-400" /> DANH SÁCH 10 BÀI ĐỌC
             </h2>
             <button
-              onClick={handleShuffle5Lessons}
+              onClick={handleShuffle10Lessons}
               className="text-[10px] font-bold text-slate-500 hover:text-[#1d6ee6] dark:hover:text-sky-400 flex items-center gap-1 cursor-pointer transition-colors"
             >
-              <RefreshCw className="w-3 h-3" /> <span className="hidden sm:inline">🔄 Đổi 5 bài ngẫu nhiên ⚡</span><span className="sm:hidden">🔄 Đổi bài</span>
+              <RefreshCw className="w-3 h-3" /> <span className="hidden sm:inline">Đổi 10 bài ngẫu nhiên</span><span className="sm:hidden">Đổi bài</span>
             </button>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3">
-            {(displayed5Lessons.length > 0 ? displayed5Lessons : MOCK_LESSONS_DATA.slice(0, 5)).map((lesson) => {
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2.5 sm:gap-3">
+            {(displayed10Lessons.length > 0 ? displayed10Lessons : MOCK_LESSONS_DATA.slice(0, 10)).map((lesson) => {
               const isCompleted = completedLessonIds.includes(lesson.id);
               const { firstChar, gradient } = getInitialAvatar(lesson.title);
 
@@ -461,9 +479,9 @@ export default function ShadowingPage() {
                   whileTap={{ scale: 0.98 }}
                   key={lesson.id}
                   onClick={() => handleSelectLesson(lesson.id)}
-                  className="p-2 sm:p-2.5 rounded-lg border transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between bg-white dark:bg-slate-900 border-slate-200/80 dark:border-white/10 hover:border-[#1d6ee6] hover:ring-2 hover:ring-[#1d6ee6]/20 shadow-2xs"
+                  className="p-2 sm:p-2.5 rounded-xs border transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between bg-white dark:bg-slate-900 border-slate-200/80 dark:border-white/10 hover:border-[#1d6ee6] hover:ring-2 hover:ring-[#1d6ee6]/20 shadow-2xs"
                 >
-                  <div className="relative w-full h-16 sm:h-24 rounded-md overflow-hidden shrink-0">
+                  <div className="relative w-full h-16 sm:h-24 rounded-xs overflow-hidden shrink-0">
                     {lesson.imageUrl ? (
                       <img
                         src={lesson.imageUrl}
@@ -493,7 +511,7 @@ export default function ShadowingPage() {
                     </h3>
 
                     <div className="flex items-center justify-between text-[9px] sm:text-[10px] text-slate-400 font-bold pt-1 border-t border-slate-100 dark:border-white/5">
-                      <span>⏱️ {lesson.duration || "00:23"}</span>
+                      <span className="flex items-center gap-1"><Clock className="w-3 h-3 text-slate-400" /> {lesson.duration || "00:23"}</span>
                       <span>{lesson.accent || "US"}</span>
                     </div>
                   </div>
@@ -619,8 +637,8 @@ export default function ShadowingPage() {
                               <span className="px-1.5 py-0.2 rounded text-[9px] font-black bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10">
                                 {lesson.level || "Intermediate"}
                               </span>
-                              <span className="text-[10px] font-bold text-slate-400">
-                                ⏱️ {lesson.duration || "00:23"}
+                              <span className="text-[10px] font-bold text-slate-400 flex items-center gap-1">
+                                <Clock className="w-3 h-3 text-slate-400" /> {lesson.duration || "00:23"}
                               </span>
                             </div>
                             <h4 className={`text-xs font-bold font-display truncate ${

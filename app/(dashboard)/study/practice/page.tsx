@@ -118,13 +118,26 @@ function PracticeQuizContent() {
 
   // Timer state
   const [elapsedTime, setElapsedTime] = useState(0);
+  const elapsedTimeRef = useRef(0);
+
+  useEffect(() => {
+    elapsedTimeRef.current = elapsedTime;
+  }, [elapsedTime]);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setElapsedTime((prev) => prev + 1);
     }, 1000);
-    return () => clearInterval(timer);
-  }, []);
+    return () => {
+      clearInterval(timer);
+      if (elapsedTimeRef.current > 10) {
+        const mins = Math.max(1, Math.ceil(elapsedTimeRef.current / 60));
+        const targetSkill = subMode === "writing" ? "writing" : subMode === "speaking" ? "speaking" : "vocab";
+        useUserStore.getState().addPracticeTime(mins, targetSkill);
+        elapsedTimeRef.current = 0;
+      }
+    };
+  }, [subMode]);
 
   const formatElapsedTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -635,21 +648,21 @@ function PracticeQuizContent() {
               </h3>
             </div>
             <p className="hidden sm:block text-[11px] text-slate-600 dark:text-slate-300 font-medium truncate">
-              🎯 Ôn tập thuật toán Spaced Repetition (SRS), phát âm bản xứ và ghi nhớ từ vựng lâu dài
+              Ôn tập thuật toán Spaced Repetition (SRS), phát âm bản xứ và ghi nhớ từ vựng lâu dài
             </p>
           </div>
         </div>
 
         {/* 4 Hero Metrics Strip */}
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 flex-wrap">
-          <span className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-[11px] sm:text-xs font-bold text-slate-700 dark:text-slate-300 shadow-2xs">
-            🎯 Câu {(subMode === "quiz" ? qIndex : subMode === "flashcard" ? fIndex : subMode === "writing" ? wIndex : sIndex) + 1}/{vocabs.length}
+          <span className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-xs bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-[11px] sm:text-xs font-bold text-slate-700 dark:text-slate-300 shadow-2xs flex items-center gap-1">
+            <Target className="w-3.5 h-3.5 text-blue-500" /> Câu {(subMode === "quiz" ? qIndex : subMode === "flashcard" ? fIndex : subMode === "writing" ? wIndex : sIndex) + 1}/{vocabs.length}
           </span>
-          <span className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-[11px] sm:text-xs font-black shadow-2xs">
-            🏆 +{qXp + fXp + wXp + sXp} XP
+          <span className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-xs bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-[11px] sm:text-xs font-black shadow-2xs flex items-center gap-1">
+            <Trophy className="w-3.5 h-3.5 text-amber-500" /> +{qXp + fXp + wXp + sXp} XP
           </span>
-          <span className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-[11px] sm:text-xs font-black shadow-2xs">
-            ⏱️ {formatElapsedTime(elapsedTime)}
+          <span className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-xs bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-[11px] sm:text-xs font-black shadow-2xs flex items-center gap-1">
+            <Clock className="w-3.5 h-3.5 text-emerald-500" /> {formatElapsedTime(elapsedTime)}
           </span>
         </div>
       </motion.div>

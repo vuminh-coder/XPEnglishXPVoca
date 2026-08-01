@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useUserStore, recordSkillPractice } from "@/lib/store/userStore";
 import { useNotificationStore } from "@/lib/store/notificationStore";
@@ -31,8 +31,188 @@ import {
   Award,
   Flame,
   X,
+  Clock,
+  Activity,
+  History,
+  Timer,
+  Plane,
+  Boxes,
+  Scale,
+  Users,
+  UserCheck,
+  KeyRound,
+  Paperclip,
+  Hash,
+  BarChart2,
+  FileText,
+  Wand2,
+  SlidersHorizontal,
+  Trophy,
+  Calendar,
+  MapPin,
+  CheckCircle2,
+  RotateCw,
+  Rewind,
+  Hourglass,
+  FastForward,
+  Compass,
+  RefreshCw,
+  GitFork,
+  GitBranch,
+  Link2,
+  Link,
+  ShieldAlert,
+  FileCheck,
+  HelpCircle,
+  MessageCircle,
+  MessagesSquare,
+  GitMerge,
+  Shuffle,
+  ArrowUpDown,
+  Repeat,
+  Scissors,
+  Combine,
+  Minimize2,
+  TrendingUp,
+  BarChart3,
+  ShieldCheck,
+  Equal,
+  CheckCheck,
+  Binary,
+  Pin,
+  Rocket,
 } from "lucide-react";
 import { getGrammarLesson, type GrammarLesson } from "@/lib/data/grammarContent";
+
+function getGrammarTopicIcon(topicId: string) {
+  switch (topicId) {
+    case "present_simple":
+      return <Clock className="w-4 h-4 text-blue-500" />;
+    case "present_continuous":
+      return <Activity className="w-4 h-4 text-emerald-500" />;
+    case "past_simple":
+      return <History className="w-4 h-4 text-amber-500" />;
+    case "past_continuous":
+      return <Timer className="w-4 h-4 text-rose-500" />;
+    case "future_simple":
+      return <Sparkles className="w-4 h-4 text-purple-500" />;
+    case "future_near":
+      return <Plane className="w-4 h-4 text-teal-500" />;
+    case "singular_plural_nouns":
+      return <Boxes className="w-4 h-4 text-indigo-500" />;
+    case "nouns_countability":
+      return <Scale className="w-4 h-4 text-[#0059bb]" />;
+    case "subject_object_pronouns":
+      return <Users className="w-4 h-4 text-sky-500" />;
+    case "reflexive_demonstrative":
+      return <UserCheck className="w-4 h-4 text-emerald-600" />;
+    case "possessive_adj_pronouns":
+      return <KeyRound className="w-4 h-4 text-amber-600" />;
+    case "possessive_case":
+      return <Paperclip className="w-4 h-4 text-slate-500" />;
+    case "determiners_basic":
+      return <Hash className="w-4 h-4 text-purple-600" />;
+    case "quantifiers_basic":
+      return <BarChart2 className="w-4 h-4 text-rose-500" />;
+    case "basic_articles":
+      return <FileText className="w-4 h-4 text-blue-600" />;
+    case "basic_adj_adv":
+      return <Wand2 className="w-4 h-4 text-violet-500" />;
+    case "comparatives_basic":
+      return <SlidersHorizontal className="w-4 h-4 text-sky-500" />;
+    case "superlatives_basic":
+      return <Trophy className="w-4 h-4 text-amber-500" />;
+    case "time_prepositions":
+      return <Calendar className="w-4 h-4 text-rose-500" />;
+    case "place_prepositions":
+      return <MapPin className="w-4 h-4 text-red-500" />;
+
+    case "perfect_present":
+      return <CheckCircle2 className="w-4 h-4 text-emerald-500" />;
+    case "perfect_present_cont":
+      return <RotateCw className="w-4 h-4 text-teal-500" />;
+    case "perfect_past":
+      return <Rewind className="w-4 h-4 text-amber-600" />;
+    case "perfect_past_cont":
+      return <Hourglass className="w-4 h-4 text-orange-500" />;
+    case "perfect_future":
+      return <FastForward className="w-4 h-4 text-indigo-500" />;
+    case "perfect_future_cont":
+      return <Compass className="w-4 h-4 text-sky-500" />;
+    case "passive_basic":
+      return <RefreshCw className="w-4 h-4 text-blue-600" />;
+    case "passive_modals_cont":
+      return <Layers className="w-4 h-4 text-purple-500" />;
+    case "conditionals_0_1":
+      return <GitFork className="w-4 h-4 text-emerald-600" />;
+    case "conditionals_2":
+      return <GitBranch className="w-4 h-4 text-teal-600" />;
+    case "relative_defining":
+      return <Link2 className="w-4 h-4 text-blue-500" />;
+    case "relative_non_defining":
+      return <Link className="w-4 h-4 text-[#0059bb]" />;
+    case "gerunds_usage":
+      return <Target className="w-4 h-4 text-rose-500" />;
+    case "infinitives_usage":
+      return <Compass className="w-4 h-4 text-amber-500" />;
+    case "modal_obligation":
+      return <ShieldAlert className="w-4 h-4 text-red-500" />;
+    case "modal_ability":
+      return <Lightbulb className="w-4 h-4 text-amber-500" />;
+    case "conjunctions_coordinating":
+      return <Paperclip className="w-4 h-4 text-slate-600" />;
+    case "conjunctions_cause_effect":
+      return <FileCheck className="w-4 h-4 text-emerald-600" />;
+    case "reported_statements":
+      return <MessageSquare className="w-4 h-4 text-indigo-500" />;
+    case "reported_questions":
+      return <HelpCircle className="w-4 h-4 text-[#0059bb]" />;
+
+    case "noun_clauses_basic":
+      return <MessageCircle className="w-4 h-4 text-blue-600" />;
+    case "noun_clauses_advanced":
+      return <MessagesSquare className="w-4 h-4 text-purple-600" />;
+    case "conditionals_3":
+      return <GitMerge className="w-4 h-4 text-rose-500" />;
+    case "conditionals_mixed":
+      return <Shuffle className="w-4 h-4 text-violet-500" />;
+    case "conditional_inversion":
+      return <ArrowUpDown className="w-4 h-4 text-sky-500" />;
+    case "inversion":
+      return <Repeat className="w-4 h-4 text-[#0059bb]" />;
+    case "subjunctive_mood":
+      return <Scale className="w-4 h-4 text-stone-600" />;
+    case "reduced_relative":
+      return <Scissors className="w-4 h-4 text-pink-500" />;
+    case "participle_clauses":
+      return <Combine className="w-4 h-4 text-indigo-500" />;
+    case "reduced_adverbial":
+      return <Minimize2 className="w-4 h-4 text-teal-500" />;
+    case "double_passive":
+      return <Copy className="w-4 h-4 text-purple-500" />;
+    case "cleft_sentences":
+      return <Zap className="w-4 h-4 text-amber-500" />;
+    case "double_comparatives":
+      return <TrendingUp className="w-4 h-4 text-emerald-500" />;
+    case "advanced_comparatives":
+      return <BarChart3 className="w-4 h-4 text-indigo-600" />;
+    case "advanced_modals":
+      return <ShieldCheck className="w-4 h-4 text-emerald-600" />;
+    case "parallel_structure":
+      return <Equal className="w-4 h-4 text-blue-500" />;
+    case "subject_verb_exceptions":
+      return <CheckCheck className="w-4 h-4 text-emerald-500" />;
+    case "advanced_determiners":
+      return <Binary className="w-4 h-4 text-purple-500" />;
+    case "prepositional_phrases":
+      return <Pin className="w-4 h-4 text-red-500" />;
+    case "emphatic_fronting":
+      return <Rocket className="w-4 h-4 text-rose-500" />;
+
+    default:
+      return <BookOpen className="w-4 h-4 text-[#0059bb]" />;
+  }
+}
 
 interface Exercise {
   id: number;
@@ -155,6 +335,23 @@ export default function AiGrammarPage() {
 
   const [activeTab, setActiveTab] = useState<"lesson" | "practice">("lesson");
   const [lessonData, setLessonData] = useState<GrammarLesson | null>(null);
+
+  const activeTimeRef = useRef(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      activeTimeRef.current += 1;
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+      if (activeTimeRef.current > 10) {
+        const mins = Math.max(1, Math.ceil(activeTimeRef.current / 60));
+        useUserStore.getState().addPracticeTime(mins, "writing");
+        activeTimeRef.current = 0;
+      }
+    };
+  }, []);
 
   // Exercise Quiz states
   const [exercises, setExercises] = useState<Exercise[]>([]);
@@ -362,27 +559,27 @@ export default function AiGrammarPage() {
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ type: "spring", stiffness: 110, damping: 20 }}
-          className="p-3 sm:p-5 rounded-md sm:rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-2.5 sm:space-y-4"
+          className="p-3.5 sm:p-5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3 sm:space-y-4"
         >
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3">
-            <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0">
-              <div className="w-8.5 h-8.5 sm:w-10 sm:h-10 rounded-lg bg-gradient-to-br from-[#0059bb]/10 to-indigo-500/10 dark:from-[#0059bb]/20 dark:to-indigo-500/20 border border-[#0059bb]/20 text-lg sm:text-xl flex items-center justify-center shrink-0 shadow-2xs text-[#0059bb] dark:text-sky-400">
-                <BookMarked className="w-4.5 h-4.5 sm:w-5 sm:h-5 stroke-[2]" />
+            <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-md bg-gradient-to-br from-[#0059bb]/10 to-indigo-500/10 dark:from-[#0059bb]/20 dark:to-indigo-500/20 border border-[#0059bb]/20 flex items-center justify-center shrink-0 shadow-2xs text-[#0059bb] dark:text-sky-400">
+                <BookMarked className="w-4 h-4 stroke-[2]" />
               </div>
 
-              <div className="min-w-0 space-y-1">
-                <h1 className="text-sm sm:text-xl font-bold tracking-tight text-slate-900 dark:text-white font-display truncate">
+              <div className="min-w-0 space-y-0.5 sm:space-y-1">
+                <h1 className="text-sm sm:text-base font-bold tracking-tight text-slate-900 dark:text-white font-display truncate">
                   Ngữ Pháp AI • Grammar Studio
                 </h1>
                 <div className="flex items-center gap-1.5 flex-wrap">
-                  <span className="px-1.5 py-0.2 sm:px-2 sm:py-0.5 rounded text-[8px] sm:text-[9px] font-black uppercase bg-[#0059bb]/10 dark:bg-sky-500/10 text-[#0059bb] dark:text-sky-400 border border-[#0059bb]/20">
+                  <span className="px-1.5 py-0.5 rounded-xs text-[8.5px] sm:text-[9px] font-black uppercase bg-[#0059bb]/10 dark:bg-sky-500/10 text-[#0059bb] dark:text-sky-400 border border-[#0059bb]/20">
                     60 Chuyên đề
                   </span>
-                  <span className="px-1.5 py-0.2 sm:px-2 sm:py-0.5 rounded text-[8px] sm:text-[9px] font-black uppercase bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
+                  <span className="px-1.5 py-0.5 rounded-xs text-[8.5px] sm:text-[9px] font-black uppercase bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
                     CEFR B1-C2
                   </span>
                 </div>
-                <p className="hidden sm:block text-[11px] font-semibold text-slate-500 dark:text-slate-400 mt-0.5">
+                <p className="hidden sm:block text-[10px] sm:text-[11px] font-semibold text-slate-500 dark:text-slate-400 mt-0.5 truncate">
                   Hệ thống bài giảng và phòng luyện trắc nghiệm AI phân tích chuyên sâu chuẩn TOEIC & IELTS.
                 </p>
               </div>
@@ -392,7 +589,7 @@ export default function AiGrammarPage() {
             <div className="hidden sm:flex items-center gap-2 shrink-0">
               <button
                 onClick={() => openTopic("present_simple")}
-                className="px-3.5 py-1.5 rounded-md bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer"
+                className="px-3.5 py-2 rounded-xs bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-extrabold transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer"
               >
                 <Zap className="w-3.5 h-3.5 fill-current text-amber-300" />
                 <span>Học bài đầu tiên +15 XP</span>
@@ -404,7 +601,7 @@ export default function AiGrammarPage() {
           <div className="sm:hidden pt-0.5">
             <button
               onClick={() => openTopic("present_simple")}
-              className="w-full py-2 rounded-md bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold transition-all shadow-2xs flex items-center justify-center gap-1.5 cursor-pointer"
+              className="w-full py-1.5 rounded-xs bg-[#0059bb] hover:bg-[#004799] text-white text-[11px] font-extrabold transition-all shadow-2xs flex items-center justify-center gap-1.5 cursor-pointer"
             >
               <Zap className="w-3.5 h-3.5 fill-current text-amber-300" />
               <span>Học bài đầu tiên +15 XP</span>
@@ -413,7 +610,7 @@ export default function AiGrammarPage() {
 
           {/* Hero 4 Metrics Strip (Scaled down text & padding for Mobile) */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5 pt-1 border-t border-slate-100 dark:border-white/5">
-            <div className="p-1.5 sm:p-3 rounded-md bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-white/5 flex items-center justify-between">
+            <div className="p-2 sm:p-3 rounded-xs bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-white/5 flex items-center justify-between">
               <div>
                 <div className="text-[8.5px] sm:text-[10px] font-bold uppercase tracking-tight text-slate-400 dark:text-slate-500">
                   Tất cả bài học
@@ -422,12 +619,12 @@ export default function AiGrammarPage() {
                   60 <span className="text-[9px] sm:text-xs font-medium text-slate-400">chuyên đề</span>
                 </div>
               </div>
-              <div className="w-5.5 h-5.5 sm:w-7 sm:h-7 rounded bg-blue-500/10 text-blue-600 dark:text-sky-400 flex items-center justify-center shrink-0">
+              <div className="w-5.5 h-5.5 sm:w-7 sm:h-7 rounded-xs bg-blue-500/10 text-blue-600 dark:text-sky-400 flex items-center justify-center shrink-0">
                 <BookOpen className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
               </div>
             </div>
 
-            <div className="p-1.5 sm:p-3 rounded-md bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-white/5 flex items-center justify-between">
+            <div className="p-2 sm:p-3 rounded-xs bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-white/5 flex items-center justify-between">
               <div>
                 <div className="text-[8.5px] sm:text-[10px] font-bold uppercase tracking-tight text-slate-400 dark:text-slate-500">
                   Nền tảng 500+
@@ -436,12 +633,12 @@ export default function AiGrammarPage() {
                   20 <span className="text-[9px] sm:text-xs font-medium text-slate-400">bài</span>
                 </div>
               </div>
-              <div className="w-5.5 h-5.5 sm:w-7 sm:h-7 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+              <div className="w-5.5 h-5.5 sm:w-7 sm:h-7 rounded-xs bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
                 <CheckCircle className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
               </div>
             </div>
 
-            <div className="p-1.5 sm:p-3 rounded-md bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-white/5 flex items-center justify-between">
+            <div className="p-2 sm:p-3 rounded-xs bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-white/5 flex items-center justify-between">
               <div>
                 <div className="text-[8.5px] sm:text-[10px] font-bold uppercase tracking-tight text-slate-400 dark:text-slate-500">
                   Bứt phá 750+
@@ -450,12 +647,12 @@ export default function AiGrammarPage() {
                   20 <span className="text-[9px] sm:text-xs font-medium text-slate-400">bài</span>
                 </div>
               </div>
-              <div className="w-5.5 h-5.5 sm:w-7 sm:h-7 rounded bg-sky-500/10 text-sky-500 flex items-center justify-center shrink-0">
+              <div className="w-5.5 h-5.5 sm:w-7 sm:h-7 rounded-xs bg-sky-500/10 text-sky-500 flex items-center justify-center shrink-0">
                 <Layers className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
               </div>
             </div>
 
-            <div className="p-1.5 sm:p-3 rounded-md bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-white/5 flex items-center justify-between">
+            <div className="p-2 sm:p-3 rounded-xs bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-white/5 flex items-center justify-between">
               <div>
                 <div className="text-[8.5px] sm:text-[10px] font-bold uppercase tracking-tight text-slate-400 dark:text-slate-500">
                   Target 900+ / IELTS
@@ -464,7 +661,7 @@ export default function AiGrammarPage() {
                   20 <span className="text-[9px] sm:text-xs font-medium text-slate-400">bài</span>
                 </div>
               </div>
-              <div className="w-5.5 h-5.5 sm:w-7 sm:h-7 rounded bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
+              <div className="w-5.5 h-5.5 sm:w-7 sm:h-7 rounded-xs bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
                 <Award className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
               </div>
             </div>
@@ -472,9 +669,9 @@ export default function AiGrammarPage() {
         </motion.div>
 
         {/* 2. SPLIT BAR TABS & SEARCH BAR (Rule 2 Compliance) */}
-        <div className="p-1 sm:p-1.5 rounded-md sm:rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-3">
+        <div className="p-1 sm:p-1.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-3">
           {/* Level Tabs selector (Strictly 1 single row on Mobile) */}
-          <div className="flex items-center gap-1 bg-slate-100/90 dark:bg-slate-800/60 p-1 rounded-md w-full sm:w-auto flex-nowrap overflow-x-auto no-scrollbar">
+          <div className="flex items-center gap-1 bg-slate-100/90 dark:bg-slate-800/60 p-1 rounded-xs w-full sm:w-auto flex-nowrap overflow-x-auto no-scrollbar">
             {[
               { id: "all", name: "Tất cả", nameSm: "Tất cả" },
               { id: "basic", name: "Nền tảng 500+", nameSm: "Nền tảng" },
@@ -486,7 +683,7 @@ export default function AiGrammarPage() {
                 <button
                   key={lvl.id}
                   onClick={() => setActiveLevel(lvl.id as any)}
-                  className={`flex-1 sm:flex-initial flex items-center justify-center gap-1 px-1.5 sm:px-3 py-1 sm:py-1.5 text-[11px] sm:text-xs font-bold rounded transition-all select-none cursor-pointer shrink-0 whitespace-nowrap ${
+                  className={`flex-1 sm:flex-initial flex items-center justify-center gap-1 px-1.5 sm:px-3 py-1 sm:py-1.5 text-[11px] sm:text-xs font-bold rounded-xs transition-all select-none cursor-pointer shrink-0 whitespace-nowrap ${
                     active
                       ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-2xs font-black"
                       : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-700/50"
@@ -507,7 +704,7 @@ export default function AiGrammarPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Tìm kiếm chủ đề ngữ pháp..."
-              className="w-full pl-8 sm:pl-9 pr-3 py-1.5 rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-white/10 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0059bb]"
+              className="w-full pl-8 sm:pl-9 pr-3 py-1.5 rounded-xs bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-white/10 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0059bb]"
             />
             {searchQuery && (
               <button
@@ -544,26 +741,26 @@ export default function AiGrammarPage() {
               <motion.div key={topic.id} variants={itemVariants}>
                 <div
                   onClick={() => openTopic(topic.id)}
-                  className="p-3 sm:p-3.5 rounded-md sm:rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs hover:border-[#0059bb]/40 dark:hover:border-sky-500/30 hover:shadow-sm transition-all cursor-pointer flex flex-col justify-between h-full group"
+                  className="p-3 sm:p-3.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs hover:shadow-xs hover:border-[#0059bb]/50 dark:hover:border-sky-500/40 transition-all cursor-pointer flex flex-col justify-between h-full group"
                 >
                   <div className="space-y-2 sm:space-y-2.5">
                     {/* Upper Header: Icon + Focus Badge */}
                     <div className="flex items-center justify-between gap-2">
-                      <span className="w-8 h-8 sm:w-9 sm:h-9 rounded-md bg-slate-50 dark:bg-slate-800 text-lg sm:text-xl flex items-center justify-center border border-slate-200/50 dark:border-white/5 shrink-0 group-hover:scale-105 transition-transform">
-                        {topic.icon}
+                      <span className="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-xs bg-[#0059bb]/10 dark:bg-sky-500/10 flex items-center justify-center border border-[#0059bb]/20 dark:border-sky-500/20 shrink-0 group-hover:scale-105 transition-transform">
+                        {getGrammarTopicIcon(topic.id)}
                       </span>
 
-                      <span className="px-2 py-0.5 rounded text-[9px] font-black uppercase bg-blue-50 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-300 border border-blue-200/40 truncate max-w-[130px]">
+                      <span className="px-1.5 py-0.5 rounded-xs text-[9px] font-black uppercase tracking-wider bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 border border-[#0059bb]/20 shrink-0 truncate max-w-[130px]">
                         {topic.focus.split("&")[0].trim()}
                       </span>
                     </div>
 
                     {/* Topic Title & Desc */}
                     <div>
-                      <h3 className="text-xs sm:text-base font-bold text-slate-900 dark:text-white font-display group-hover:text-[#0059bb] dark:group-hover:text-sky-400 transition-colors line-clamp-1">
+                      <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display group-hover:text-[#0059bb] dark:group-hover:text-sky-400 transition-colors line-clamp-1">
                         {topic.name}
                       </h3>
-                      <div className="text-[9px] sm:text-[10px] font-bold uppercase text-slate-400 dark:text-slate-500 font-mono mt-0.5">
+                      <div className="text-[9px] sm:text-[10px] font-mono font-bold uppercase text-slate-400 dark:text-slate-500 mt-0.5">
                         {topic.nameEn}
                       </div>
                       <p className="hidden sm:block text-xs text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed line-clamp-2">
@@ -572,14 +769,15 @@ export default function AiGrammarPage() {
                     </div>
                   </div>
 
-                  {/* Card Footer Action */}
-                  <div className="pt-2 sm:pt-2.5 border-t border-slate-100 dark:border-white/5 mt-2.5 sm:mt-3 flex items-center justify-between">
-                    <span className="text-[10px] sm:text-[11px] font-bold text-[#0059bb] dark:text-sky-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-                      <Sparkles className="w-3 h-3 text-amber-500" /> Học ngay ➔
+                  {/* Card Footer Action: Clean single CTA button with ArrowRight */}
+                  <div className="pt-2.5 border-t border-slate-100 dark:border-white/5 mt-2.5 flex items-center justify-between">
+                    <span className="text-[11px] font-extrabold text-[#0059bb] dark:text-sky-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                      <Sparkles className="w-3 h-3 text-amber-500 fill-amber-500/20 shrink-0" />
+                      <span>Học ngay</span>
                     </span>
 
-                    <div className="w-5 h-5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 group-hover:bg-[#0059bb] group-hover:text-white transition-colors flex items-center justify-center">
-                      <ArrowRight className="w-3 h-3" />
+                    <div className="w-5 h-5 rounded-xs bg-slate-100 dark:bg-slate-800 text-slate-500 group-hover:bg-[#0059bb] group-hover:text-white transition-all flex items-center justify-center">
+                      <ArrowRight className="w-3 h-3 stroke-[2]" />
                     </div>
                   </div>
                 </div>
@@ -649,8 +847,8 @@ export default function AiGrammarPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 pt-1">
           <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0">
             {/* Topic Icon Avatar */}
-            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-lg bg-gradient-to-br from-[#0059bb]/10 to-indigo-500/10 dark:from-[#0059bb]/20 dark:to-indigo-500/20 border border-[#0059bb]/20 text-xl sm:text-2xl flex items-center justify-center shrink-0 shadow-2xs">
-              {selectedTopicData?.icon || "📘"}
+            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-lg bg-gradient-to-br from-[#0059bb]/10 to-indigo-500/10 dark:from-[#0059bb]/20 dark:to-indigo-500/20 border border-[#0059bb]/20 flex items-center justify-center shrink-0 shadow-2xs">
+              {getGrammarTopicIcon(selectedTopicData?.id || "")}
             </div>
 
             <div className="min-w-0">

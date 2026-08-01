@@ -508,8 +508,8 @@ function SidebarNavInner({
                 className="w-9 h-9 rounded-full bg-[#0059bb] text-white font-black text-sm flex items-center justify-center mx-auto shadow-2xs hover:opacity-90 transition-opacity cursor-pointer border-none outline-none overflow-hidden shrink-0"
                 title={userName}
               >
-                {user?.imageUrl ? (
-                  <img src={user.imageUrl} alt={userName} className="w-full h-full object-cover" />
+                {user?.imageUrl || (user as any)?.avatar || (user as any)?.avatarUrl ? (
+                  <img src={user.imageUrl || (user as any).avatar || (user as any).avatarUrl} alt={userName} className="w-full h-full object-cover" />
                 ) : user?.avatarEmoji && user.avatarEmoji !== "🦉" ? (
                   <span className="text-sm">{user.avatarEmoji}</span>
                 ) : (
@@ -528,8 +528,8 @@ function SidebarNavInner({
               >
                 <div className="flex items-center gap-2.5 min-w-0">
                   <div className="w-8.5 h-8.5 rounded-full bg-[#0059bb] text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-2xs overflow-hidden">
-                    {user?.imageUrl ? (
-                      <img src={user.imageUrl} alt={userName} className="w-full h-full object-cover" />
+                    {user?.imageUrl || (user as any)?.avatar || (user as any)?.avatarUrl ? (
+                      <img src={user.imageUrl || (user as any).avatar || (user as any).avatarUrl} alt={userName} className="w-full h-full object-cover" />
                     ) : user?.avatarEmoji && user.avatarEmoji !== "🦉" ? (
                       <span className="text-sm">{user.avatarEmoji}</span>
                     ) : (

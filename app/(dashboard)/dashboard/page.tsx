@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useUserStore } from "@/lib/store/userStore";
@@ -37,6 +37,9 @@ import {
   BarChart3,
   Award,
   CheckCircle2,
+  Video,
+  Gift,
+  RotateCcw,
 } from "lucide-react";
 import { getXpProgress } from "@/lib/utils/calculateXP";
 import { LEVEL_TITLES } from "@/lib/constants";
@@ -89,6 +92,47 @@ const SpeakingIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => 
   </svg>
 );
 
+/**
+ * Custom hook to smoothly interpolate 7 Y-coordinates for continuous Bezier path morphing across tab switches
+ */
+function useInterpolatedYPoints(targetYPoints: number[], duration = 320) {
+  const [currentYPoints, setCurrentYPoints] = useState<number[]>(targetYPoints);
+  const startYRef = useRef<number[]>(targetYPoints);
+  const startTimeRef = useRef<number>(0);
+  const animFrameRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    startYRef.current = currentYPoints.length === targetYPoints.length ? [...currentYPoints] : [...targetYPoints];
+    startTimeRef.current = performance.now();
+
+    const animate = (now: number) => {
+      const elapsed = now - startTimeRef.current;
+      const progress = Math.min(1, elapsed / duration);
+      // Smooth cubic ease-out curve
+      const ease = 1 - Math.pow(1 - progress, 3);
+
+      const nextY = startYRef.current.map((startVal, idx) => {
+        const targetVal = targetYPoints[idx] ?? startVal;
+        return startVal + (targetVal - startVal) * ease;
+      });
+
+      setCurrentYPoints(nextY);
+
+      if (progress < 1) {
+        animFrameRef.current = requestAnimationFrame(animate);
+      }
+    };
+
+    animFrameRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+    };
+  }, [targetYPoints.join(",")]);
+
+  return currentYPoints;
+}
+
 export default function DashboardPage() {
   const { user, awardXp, awardCoins } = useAuthStore();
   const { challenges, initChallenges } = useDailyChallengeStore();
@@ -104,6 +148,7 @@ export default function DashboardPage() {
   const [activeSkillTab, setActiveSkillTab] = useState<
     "dictation" | "shadowing" | "speaking" | "vocab" | "writing"
   >("dictation");
+  const [selectedDayIndex, setSelectedDayIndex] = useState<number | null>(4);
   const [leaderboardTab, setLeaderboardTab] = useState<"week" | "month">(
     "week",
   );
@@ -231,13 +276,19 @@ export default function DashboardPage() {
   }, [user, activeSkillTab]);
 
   const skillTotalMinutes = useMemo(() => {
-    const sum = skillWeeklyChartData.reduce((acc, curr) => acc + curr.minutes, 0);
-    return sum > 0 ? sum : Math.max(5, user?.minutesStudied || 5);
-  }, [skillWeeklyChartData, user]);
+    return skillWeeklyChartData.reduce((acc, curr) => acc + curr.minutes, 0);
+  }, [skillWeeklyChartData]);
 
   const maxSkillMinutes = useMemo(() => {
-    return Math.max(...skillWeeklyChartData.map((d) => d.minutes), 10);
+    const rawMax = Math.max(...skillWeeklyChartData.map((d) => d.minutes), 0);
+    return Math.max(10, Math.ceil(rawMax / 5) * 5);
   }, [skillWeeklyChartData]);
+
+  const targetYPoints = useMemo(() => {
+    return skillWeeklyChartData.map((d) => 140 - (d.minutes / maxSkillMinutes) * 110);
+  }, [skillWeeklyChartData, maxSkillMinutes]);
+
+  const animatedYPoints = useInterpolatedYPoints(targetYPoints, 320);
 
   // Real weekly XP computation
   const weeklyXp = useMemo(() => {
@@ -530,24 +581,25 @@ export default function DashboardPage() {
             initial={{ opacity: 0, y: -6 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
-            className="p-2.5 sm:p-3 rounded-lg bg-[#ebf3fe] dark:bg-blue-950/40 border border-[#d5e5fe] dark:border-blue-900/50 flex flex-row items-center justify-between gap-2 relative shadow-2xs"
+            className="p-2.5 sm:p-3 rounded-xs bg-[#ebf3fe] dark:bg-blue-950/40 border border-[#d5e5fe] dark:border-blue-900/50 flex flex-row items-center justify-between gap-2 relative shadow-2xs"
           >
             <div className="flex items-center gap-2 min-w-0">
-              <div className="w-7 h-7 rounded-md bg-[#1d6ee6]/10 text-[#1d6ee6] dark:text-sky-400 flex items-center justify-center shrink-0">
+              <div className="w-7 h-7 rounded-xs bg-[#1d6ee6]/10 text-[#1d6ee6] dark:text-sky-400 flex items-center justify-center shrink-0">
                 <Wand2 className="w-3.5 h-3.5 stroke-[1.8]" />
               </div>
               <div className="min-w-0 flex items-center gap-1.5 flex-wrap sm:flex-nowrap">
-                <span className="px-1.5 py-0.5 rounded text-[9px] font-black bg-[#1d6ee6] text-white shadow-2xs shrink-0">
-                  ✨ Mới ra mắt
+                <span className="px-1.5 py-0.5 rounded-xs text-[9px] font-black bg-[#1d6ee6] text-white shadow-2xs shrink-0">
+                  Mới ra mắt
                 </span>
-                <h3 className="text-xs font-bold text-slate-900 dark:text-white font-display truncate">
-                  Luyện Writing với AI đã có mặt!
+                <h3 className="text-[11px] sm:text-xs font-bold text-slate-900 dark:text-white font-display truncate">
+                  <span className="hidden sm:inline">Luyện Writing với AI đã có mặt!</span>
+                  <span className="sm:hidden">Writing AI đã có mặt!</span>
                 </h3>
               </div>
             </div>
             <div className="flex items-center gap-1.5 shrink-0">
               <Link href="/ai/tutor">
-                <button className="px-2.5 py-1 rounded-md bg-[#1d6ee6] hover:bg-[#155bc5] text-white text-[11px] font-bold transition-all shadow-2xs flex items-center gap-1 cursor-pointer whitespace-nowrap">
+                <button className="px-2.5 py-1 rounded-xs bg-[#1d6ee6] hover:bg-[#155bc5] text-white text-[11px] font-bold transition-all shadow-2xs flex items-center gap-1 cursor-pointer whitespace-nowrap">
                   Thử ngay <ArrowRight className="w-3 h-3" />
                 </button>
               </Link>
@@ -571,11 +623,11 @@ export default function DashboardPage() {
         className="p-3 sm:p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-2.5 sm:space-y-3.5"
       >
         {/* Upper Greeting & Actions Bar */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-2.5 sm:gap-3">
           <div>
-            <h1 className="text-base sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white font-display flex items-center gap-1.5">
+            <h1 className="text-sm sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white font-display flex items-center gap-1.5 truncate">
               <span>
-                Chào mừng trở lại, {user.fullName || "Minh Vu Van"}! 👋
+                Chào mừng, {user.fullName || "Minh Vu Van"}!
               </span>
             </h1>
             <p className="hidden sm:block text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-0.5">
@@ -583,12 +635,16 @@ export default function DashboardPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-2 w-full sm:w-auto">
-            <button className="px-2.5 py-1.5 rounded-md bg-[#20b26c] hover:bg-[#1b9a5d] text-white text-[11px] font-bold transition-all shadow-2xs flex items-center justify-center gap-1 cursor-pointer whitespace-nowrap">
-              📹 Thêm Video/Audio
+          <div className="grid grid-cols-2 gap-1.5 sm:gap-2 w-full sm:w-auto">
+            <button className="px-2 sm:px-2.5 py-1.5 rounded-xs bg-[#20b26c] hover:bg-[#1b9a5d] text-white text-[10px] sm:text-[11px] font-bold transition-all shadow-2xs flex items-center justify-center gap-1 sm:gap-1.5 cursor-pointer whitespace-nowrap">
+              <Video className="w-3 sm:w-3.5 h-3 sm:h-3.5 stroke-[2]" />
+              <span className="hidden sm:inline">Thêm Video/Audio</span>
+              <span className="sm:hidden">Video/Audio</span>
             </button>
-            <button className="px-2.5 py-1.5 rounded-md bg-[#1d6ee6] hover:bg-[#155bc5] text-white text-[11px] font-bold transition-all shadow-2xs flex items-center justify-center gap-1 cursor-pointer whitespace-nowrap">
-              💬 Chia sẻ & góp ý
+            <button className="px-2 sm:px-2.5 py-1.5 rounded-xs bg-[#1d6ee6] hover:bg-[#155bc5] text-white text-[10px] sm:text-[11px] font-bold transition-all shadow-2xs flex items-center justify-center gap-1 sm:gap-1.5 cursor-pointer whitespace-nowrap">
+              <MessageSquare className="w-3 sm:w-3.5 h-3 sm:h-3.5 stroke-[2]" />
+              <span className="hidden sm:inline">Chia sẻ & góp ý</span>
+              <span className="sm:hidden">Góp ý</span>
             </button>
           </div>
         </div>
@@ -597,21 +653,22 @@ export default function DashboardPage() {
         <div className="h-[1px] bg-slate-100 dark:bg-white/5 w-full" />
 
         {/* Integrated 4 Micro-Sharp Hero Metrics Strip */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-2.5">
           {/* Metric 1: Streak */}
           <div className="p-2 sm:p-2.5 rounded-md bg-slate-50/80 dark:bg-slate-950/80 border border-slate-200/50 dark:border-white/5 flex items-center gap-2">
             <div className="w-6.5 h-6.5 sm:w-7 sm:h-7 rounded-sm bg-orange-50 dark:bg-orange-950/60 border border-orange-200/50 dark:border-orange-900/40 text-orange-500 flex items-center justify-center shrink-0 shadow-2xs">
               <Flame className="w-3.5 h-3.5 stroke-[2.2] animate-pulse" />
             </div>
             <div className="min-w-0">
-              <div className="text-xs sm:text-base font-black font-display text-slate-900 dark:text-white truncate">
+              <div className="text-sm sm:text-base font-black font-display text-slate-900 dark:text-white truncate">
                 {user.currentStreak}{" "}
-                <span className="text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400">
+                <span className="text-[9.5px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400">
                   ngày
                 </span>
               </div>
-              <div className="text-[9px] sm:text-[10px] font-medium text-slate-400 truncate">
-                Chuỗi hiện tại
+              <div className="text-[9.5px] sm:text-[10px] font-medium text-slate-400 truncate">
+                <span className="hidden sm:inline">Chuỗi hiện tại</span>
+                <span className="sm:hidden">Chuỗi Streak</span>
               </div>
             </div>
           </div>
@@ -622,11 +679,12 @@ export default function DashboardPage() {
               <Clock className="w-3.5 h-3.5 stroke-[2.2]" />
             </div>
             <div className="min-w-0">
-              <div className="text-xs sm:text-base font-black font-display text-slate-900 dark:text-white truncate">
+              <div className="text-sm sm:text-base font-black font-display text-slate-900 dark:text-white truncate">
                 0h {user.minutesStudied || 5}m
               </div>
-              <div className="text-[9px] sm:text-[10px] font-medium text-slate-400 truncate">
-                Thời gian luyện tập
+              <div className="text-[9.5px] sm:text-[10px] font-medium text-slate-400 truncate">
+                <span className="hidden sm:inline">Thời gian luyện tập</span>
+                <span className="sm:hidden">Thời gian học</span>
               </div>
             </div>
           </div>
@@ -637,13 +695,13 @@ export default function DashboardPage() {
               <BookmarkCheck className="w-3.5 h-3.5 stroke-[2.2]" />
             </div>
             <div className="min-w-0">
-              <div className="text-xs sm:text-base font-black font-display text-slate-900 dark:text-white truncate">
+              <div className="text-sm sm:text-base font-black font-display text-slate-900 dark:text-white truncate">
                 {savedWordsCount}{" "}
-                <span className="text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400">
+                <span className="text-[9.5px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400">
                   từ
                 </span>
               </div>
-              <div className="text-[9px] sm:text-[10px] font-medium text-slate-400 truncate">
+              <div className="text-[9.5px] sm:text-[10px] font-medium text-slate-400 truncate">
                 Từ đã lưu
               </div>
             </div>
@@ -656,9 +714,9 @@ export default function DashboardPage() {
                 <div className="w-5 h-5 rounded-sm bg-indigo-50 dark:bg-indigo-950/60 text-indigo-500 flex items-center justify-center shrink-0">
                   <Target className="w-3 h-3 stroke-[2.2]" />
                 </div>
-                <div className="text-xs sm:text-sm font-black font-display text-slate-900 dark:text-white">
+                <div className="text-sm sm:text-base font-black font-display text-slate-900 dark:text-white">
                   {user.totalXp}{" "}
-                  <span className="text-[9px] font-bold text-indigo-500">
+                  <span className="text-[9.5px] font-bold text-indigo-500">
                     XP
                   </span>
                 </div>
@@ -718,18 +776,21 @@ export default function DashboardPage() {
               </h2>
 
               <div className="grid grid-cols-3 gap-1 sm:flex sm:items-center sm:gap-1.5">
-                <span className="inline-flex items-center justify-center gap-0.5 text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded bg-white/90 dark:bg-slate-900/90 border border-slate-200/60 dark:border-white/10 text-slate-800 dark:text-slate-200 shadow-2xs whitespace-nowrap">
-                  🎯{" "}
+                <span className="inline-flex items-center justify-center gap-1 text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded-xs bg-white/90 dark:bg-slate-900/90 border border-slate-200/60 dark:border-white/10 text-slate-800 dark:text-slate-200 shadow-2xs whitespace-nowrap">
+                  <Target className="w-3 h-3 text-blue-500 stroke-[2] shrink-0" />
                   <span className="text-blue-600 dark:text-sky-400 font-black">
                     {remainingWords}
                   </span>{" "}
-                  từ chưa học
+                  <span className="hidden sm:inline">từ chưa học</span>
+                  <span className="sm:hidden">từ mới</span>
                 </span>
-                <span className="inline-flex items-center justify-center gap-0.5 text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded bg-white/90 dark:bg-slate-900/90 border border-slate-200/60 dark:border-white/10 text-slate-800 dark:text-slate-200 shadow-2xs whitespace-nowrap">
-                  ⏱️ ~15 phút
+                <span className="inline-flex items-center justify-center gap-1 text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded-xs bg-white/90 dark:bg-slate-900/90 border border-slate-200/60 dark:border-white/10 text-slate-800 dark:text-slate-200 shadow-2xs whitespace-nowrap">
+                  <Clock className="w-3 h-3 text-slate-500 stroke-[2] shrink-0" />
+                  <span className="hidden sm:inline">~15 phút</span>
+                  <span className="sm:hidden">~15m</span>
                 </span>
-                <span className="inline-flex items-center justify-center gap-0.5 text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 shadow-2xs whitespace-nowrap">
-                  ⚡ +50 XP
+                <span className="inline-flex items-center justify-center gap-1 text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded-xs bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 shadow-2xs whitespace-nowrap">
+                  <Zap className="w-3 h-3 text-amber-500 fill-amber-500 stroke-[1.5] shrink-0" /> +50 XP
                 </span>
               </div>
 
@@ -763,83 +824,40 @@ export default function DashboardPage() {
               <div 
                 role="tablist"
                 aria-label="Lựa chọn kỹ năng phân tích biểu đồ"
-                className="p-0.5 bg-slate-100 dark:bg-slate-950 rounded-md flex items-center gap-0.5 overflow-x-auto no-scrollbar border border-slate-200/50 dark:border-white/5"
+                className="p-0.5 bg-slate-100 dark:bg-slate-950 rounded-xs flex items-center gap-0.5 overflow-x-auto no-scrollbar border border-slate-200/50 dark:border-white/5"
               >
-                <button
-                  role="tab"
-                  id="tab-dictation"
-                  aria-selected={activeSkillTab === "dictation"}
-                  aria-controls="skill-chart-panel"
-                  tabIndex={activeSkillTab === "dictation" ? 0 : -1}
-                  onClick={() => setActiveSkillTab("dictation")}
-                  className={`flex-1 py-1.5 px-2 rounded text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center justify-center gap-1 focus:outline-hidden focus:ring-2 focus:ring-[#1d6ee6]/50 ${
-                    activeSkillTab === "dictation"
-                      ? "bg-[#1d6ee6] text-white shadow-2xs font-extrabold"
-                      : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-                  }`}
-                >
-                  <Headphones className="w-3 h-3" /> Dictation
-                </button>
-                <button
-                  role="tab"
-                  id="tab-shadowing"
-                  aria-selected={activeSkillTab === "shadowing"}
-                  aria-controls="skill-chart-panel"
-                  tabIndex={activeSkillTab === "shadowing" ? 0 : -1}
-                  onClick={() => setActiveSkillTab("shadowing")}
-                  className={`flex-1 py-1.5 px-2 rounded text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center justify-center gap-1 focus:outline-hidden focus:ring-2 focus:ring-[#1d6ee6]/50 ${
-                    activeSkillTab === "shadowing"
-                      ? "bg-[#1d6ee6] text-white shadow-2xs font-extrabold"
-                      : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-                  }`}
-                >
-                  <Mic className="w-3 h-3" /> Shadowing
-                </button>
-                <button
-                  role="tab"
-                  id="tab-speaking"
-                  aria-selected={activeSkillTab === "speaking"}
-                  aria-controls="skill-chart-panel"
-                  tabIndex={activeSkillTab === "speaking" ? 0 : -1}
-                  onClick={() => setActiveSkillTab("speaking")}
-                  className={`flex-1 py-1.5 px-2 rounded text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center justify-center gap-1 focus:outline-hidden focus:ring-2 focus:ring-[#1d6ee6]/50 ${
-                    activeSkillTab === "speaking"
-                      ? "bg-[#1d6ee6] text-white shadow-2xs font-extrabold"
-                      : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-                  }`}
-                >
-                  <SpeakingIcon className="w-3.5 h-3.5 shrink-0" /> Luyện nói
-                </button>
-                <button
-                  role="tab"
-                  id="tab-vocab"
-                  aria-selected={activeSkillTab === "vocab"}
-                  aria-controls="skill-chart-panel"
-                  tabIndex={activeSkillTab === "vocab" ? 0 : -1}
-                  onClick={() => setActiveSkillTab("vocab")}
-                  className={`flex-1 py-1.5 px-2 rounded text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center justify-center gap-1 focus:outline-hidden focus:ring-2 focus:ring-[#1d6ee6]/50 ${
-                    activeSkillTab === "vocab"
-                      ? "bg-[#1d6ee6] text-white shadow-2xs font-extrabold"
-                      : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-                  }`}
-                >
-                  <BookOpen className="w-3 h-3" /> Từ vựng
-                </button>
-                <button
-                  role="tab"
-                  id="tab-writing"
-                  aria-selected={activeSkillTab === "writing"}
-                  aria-controls="skill-chart-panel"
-                  tabIndex={activeSkillTab === "writing" ? 0 : -1}
-                  onClick={() => setActiveSkillTab("writing")}
-                  className={`flex-1 py-1.5 px-2 rounded text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center justify-center gap-1 focus:outline-hidden focus:ring-2 focus:ring-[#1d6ee6]/50 ${
-                    activeSkillTab === "writing"
-                      ? "bg-[#1d6ee6] text-white shadow-2xs font-extrabold"
-                      : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-                  }`}
-                >
-                  <Wand2 className="w-3 h-3" /> Luyện viết
-                </button>
+                {(
+                  [
+                    { id: "dictation", label: "Dictation", Icon: Headphones },
+                    { id: "shadowing", label: "Shadowing", Icon: Mic },
+                    { id: "speaking", label: "Luyện nói", Icon: SpeakingIcon },
+                    { id: "vocab", label: "Từ vựng", Icon: BookOpen },
+                    { id: "writing", label: "Luyện viết", Icon: Wand2 },
+                  ] as const
+                ).map((tab) => {
+                  const isActive = activeSkillTab === tab.id;
+                  const Icon = tab.Icon;
+                  return (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      role="tab"
+                      id={`tab-${tab.id}`}
+                      aria-selected={isActive}
+                      aria-controls="skill-chart-panel"
+                      tabIndex={isActive ? 0 : -1}
+                      onClick={() => setActiveSkillTab(tab.id)}
+                      className={`flex-1 py-1 px-1 sm:py-1.5 sm:px-2 rounded-xs text-[10.5px] sm:text-xs font-bold transition-all duration-200 cursor-pointer whitespace-nowrap flex items-center justify-center gap-0.5 sm:gap-1 focus:outline-hidden focus:ring-2 focus:ring-[#1d6ee6]/50 ${
+                        isActive
+                          ? "bg-[#1d6ee6] text-white shadow-2xs font-extrabold"
+                          : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-slate-900/60"
+                      }`}
+                    >
+                      <Icon className="w-3 h-3 shrink-0" />
+                      {tab.label}
+                    </button>
+                  );
+                })}
               </div>
 
               {/* Weekly Practice Time Line Graph (Biểu đồ đường mỏng tinh tế cho từng kỹ năng) */}
@@ -857,33 +875,60 @@ export default function DashboardPage() {
                   </span>
                 </div>
 
-                <div className="relative pt-2 bg-slate-50/40 dark:bg-slate-950/40 rounded-md border border-slate-100 dark:border-white/5 overflow-hidden">
+                <div className="relative pt-2 bg-slate-50/40 dark:bg-slate-950/40 rounded-xs border border-slate-100 dark:border-white/5 overflow-hidden">
+                  {/* Refined Floating Day Practice Tooltip Badge with Minimal Border Radius */}
+                  {selectedDayIndex !== null && animatedYPoints[selectedDayIndex] !== undefined && (
+                    <motion.div
+                      key={`tooltip-${selectedDayIndex}-${activeSkillTab}`}
+                      initial={{ opacity: 0, y: -4, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      className="absolute top-1.5 z-20 transition-all duration-200 pointer-events-none"
+                      style={{
+                        left: `${(selectedDayIndex / 6) * 100}%`,
+                        transform: `translateX(-${(selectedDayIndex / 6) * 100}%)`,
+                      }}
+                    >
+                      <div
+                        className="px-2 py-0.5 rounded-xs text-[10px] shadow-sm shadow-slate-200/60 dark:shadow-none border border-slate-200/80 dark:border-white/10 bg-white/95 dark:bg-slate-900/95 flex items-center gap-1.5 backdrop-blur-md"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: currentSkillConfig.color }} />
+                        <span className="text-slate-500 dark:text-slate-400 font-semibold">
+                          {selectedDayIndex === 4 ? `Hôm nay (${skillWeeklyChartData[selectedDayIndex].day})` : skillWeeklyChartData[selectedDayIndex].day}:
+                        </span>
+                        <span className="font-black" style={{ color: currentSkillConfig.color }}>{skillWeeklyChartData[selectedDayIndex].minutes}m</span>
+                      </div>
+                    </motion.div>
+                  )}
+
                   {/* Ultra-Thin Smooth SVG Line & Area Chart Edge-to-Edge */}
-                  <div className="w-full h-16 sm:h-20 relative">
+                  <div className="w-full h-28 sm:h-36 relative">
                     <svg
-                      viewBox="0 0 700 120"
+                      viewBox="0 0 700 160"
                       className="w-full h-full overflow-hidden"
                       preserveAspectRatio="none"
                     >
                       <defs>
-                        <linearGradient
-                          id={currentSkillConfig.gradientId}
-                          x1="0"
-                          y1="0"
-                          x2="0"
-                          y2="1"
-                        >
-                          <stop
-                            offset="0%"
-                            stopColor={currentSkillConfig.stopColor}
-                            stopOpacity="0.25"
-                          />
-                          <stop
-                            offset="100%"
-                            stopColor={currentSkillConfig.stopColor}
-                            stopOpacity="0.0"
-                          />
-                        </linearGradient>
+                        {Object.values(SKILL_CONFIGS).map((cfg) => (
+                          <linearGradient
+                            key={cfg.gradientId}
+                            id={cfg.gradientId}
+                            x1="0"
+                            y1="0"
+                            x2="0"
+                            y2="1"
+                          >
+                            <stop
+                              offset="0%"
+                              stopColor={cfg.stopColor}
+                              stopOpacity="0.25"
+                            />
+                            <stop
+                              offset="100%"
+                              stopColor={cfg.stopColor}
+                              stopOpacity="0.0"
+                            />
+                          </linearGradient>
+                        ))}
                       </defs>
 
                       {/* Horizontal Grid lines */}
@@ -893,8 +938,8 @@ export default function DashboardPage() {
                         x2="700"
                         y2="20"
                         stroke="currentColor"
-                        className="text-slate-200/50 dark:text-white/5"
-                        strokeDasharray="4 4"
+                        className="text-slate-200/40 dark:text-white/5"
+                        strokeDasharray="3 3"
                       />
                       <line
                         x1="0"
@@ -902,8 +947,8 @@ export default function DashboardPage() {
                         x2="700"
                         y2="60"
                         stroke="currentColor"
-                        className="text-slate-200/50 dark:text-white/5"
-                        strokeDasharray="4 4"
+                        className="text-slate-200/40 dark:text-white/5"
+                        strokeDasharray="3 3"
                       />
                       <line
                         x1="0"
@@ -911,21 +956,36 @@ export default function DashboardPage() {
                         x2="700"
                         y2="100"
                         stroke="currentColor"
-                        className="text-slate-200/50 dark:text-white/5"
+                        className="text-slate-200/40 dark:text-white/5"
+                        strokeDasharray="3 3"
+                      />
+                      <line
+                        x1="0"
+                        y1="140"
+                        x2="700"
+                        y2="140"
+                        stroke="currentColor"
+                        className="text-slate-200/40 dark:text-white/5"
                       />
 
                       {(() => {
-                        const points = skillWeeklyChartData.map((d, i) => {
-                          const x = i * (700 / 6);
-                          const y = 100 - (d.minutes / maxSkillMinutes) * 70;
+                        const animatedPoints = skillWeeklyChartData.map((d, i) => {
+                          const x = 50 + i * 100; // Perfect column center (50, 150, 250, 350, 450, 550, 650)
+                          const y = animatedYPoints[i] ?? (140 - (d.minutes / maxSkillMinutes) * 110);
                           return { x, y, day: d.day, minutes: d.minutes };
                         });
 
-                        // Generate smooth monotone bezier curve edge-to-edge
-                        let pathD = `M ${points[0].x},${points[0].y}`;
-                        for (let i = 0; i < points.length - 1; i++) {
-                          const p0 = points[i];
-                          const p1 = points[i + 1];
+                        // Full curve including edge start (0, y0) and edge end (700, y6) for 100% full-width edge-to-edge
+                        const fullCurvePoints = [
+                          { x: 0, y: animatedPoints[0].y },
+                          ...animatedPoints,
+                          { x: 700, y: animatedPoints[6].y },
+                        ];
+
+                        let pathD = `M 0,${animatedPoints[0].y}`;
+                        for (let i = 0; i < fullCurvePoints.length - 1; i++) {
+                          const p0 = fullCurvePoints[i];
+                          const p1 = fullCurvePoints[i + 1];
                           const cp1x = p0.x + (p1.x - p0.x) / 2;
                           const cp1y = p0.y;
                           const cp2x = p0.x + (p1.x - p0.x) / 2;
@@ -933,43 +993,110 @@ export default function DashboardPage() {
                           pathD += ` C ${cp1x},${cp1y} ${cp2x},${cp2y} ${p1.x},${p1.y}`;
                         }
 
-                        const areaD = `${pathD} L 700,100 L 0,100 Z`;
+                        const areaD = `${pathD} L 700,140 L 0,140 Z`;
+                        const selPoint = selectedDayIndex !== null ? animatedPoints[selectedDayIndex] : null;
 
                         return (
-                          <>
+                          <g>
                             {/* Gradient Area Fill */}
-                            <path d={areaD} fill={`url(#${currentSkillConfig.gradientId})`} />
+                            <path
+                              d={areaD}
+                              fill={`url(#${currentSkillConfig.gradientId})`}
+                              className="transition-colors duration-300"
+                            />
 
-                            {/* Ultra-Thin Smooth Line (Edge-to-Edge 100% width) */}
+                            {/* Sleek Ultra-Thin Smooth Line */}
                             <path
                               d={pathD}
                               fill="none"
                               stroke={currentSkillConfig.color}
-                              strokeWidth="1.5"
+                              strokeWidth="1.2"
                               strokeLinecap="round"
                               strokeLinejoin="round"
+                              className="transition-colors duration-300"
                             />
-                          </>
+
+                            {/* Selected Day Vertical Indicator Line extending from baseline 0 (y=140) up to curve */}
+                            {selPoint && (
+                              <g>
+                                <motion.line
+                                  key={`vert-line-${selectedDayIndex}`}
+                                  initial={{ y2: 140, opacity: 0 }}
+                                  animate={{ y2: selPoint.y, opacity: 0.7 }}
+                                  transition={{ duration: 0.25, ease: "easeOut" }}
+                                  x1={selPoint.x}
+                                  y1={140}
+                                  x2={selPoint.x}
+                                  stroke={currentSkillConfig.color}
+                                  strokeWidth="1.2"
+                                  strokeDasharray="2 2"
+                                />
+                                <circle
+                                  cx={selPoint.x}
+                                  cy={selPoint.y}
+                                  r="5.5"
+                                  fill={currentSkillConfig.color}
+                                  opacity="0.25"
+                                  className="transition-colors duration-300"
+                                />
+                                <circle
+                                  cx={selPoint.x}
+                                  cy={selPoint.y}
+                                  r="3.5"
+                                  fill={currentSkillConfig.color}
+                                  stroke="#ffffff"
+                                  strokeWidth="1.8"
+                                  className="shadow-xs transition-colors duration-300"
+                                />
+                              </g>
+                            )}
+
+                            {/* Invisible Interactive Column Touch/Click Hitboxes centered over grid columns */}
+                            {animatedPoints.map((p, idx) => (
+                              <rect
+                                key={`col-hitbox-${idx}`}
+                                x={idx * 100}
+                                y="0"
+                                width="100"
+                                height="160"
+                                fill="transparent"
+                                className="cursor-pointer"
+                                onClick={() => setSelectedDayIndex(selectedDayIndex === idx ? null : idx)}
+                                onMouseEnter={() => setSelectedDayIndex(idx)}
+                              />
+                            ))}
+                          </g>
                         );
                       })()}
                     </svg>
                   </div>
 
-                  {/* 7 Date labels perfectly aligned in grid */}
+                  {/* 7 Interactive Date labels centered in grid-cols-7 matching point coordinates */}
                   <div className="grid grid-cols-7 text-center pt-1 border-t border-slate-100 dark:border-white/5">
-                    {skillWeeklyChartData.map((d, i) => (
-                      <span
-                        key={i}
-                        className={`text-[9px] font-bold ${
-                          i === 6
-                            ? "font-black"
-                            : "text-slate-400"
-                        }`}
-                        style={{ color: i === 6 ? currentSkillConfig.color : undefined }}
-                      >
-                        {d.day}
-                      </span>
-                    ))}
+                    {skillWeeklyChartData.map((d, i) => {
+                      const isSelected = selectedDayIndex === i;
+                      const isToday = i === 4;
+                      return (
+                        <button
+                          key={i}
+                          type="button"
+                          onClick={() => setSelectedDayIndex(isSelected ? null : i)}
+                          onMouseEnter={() => setSelectedDayIndex(i)}
+                          className={`py-0.5 px-0.5 rounded-xs text-[9.5px] transition-all cursor-pointer truncate ${
+                            isSelected
+                              ? "font-black text-xs scale-105"
+                              : isToday
+                              ? "font-bold text-slate-700 dark:text-slate-200"
+                              : "font-semibold text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+                          }`}
+                          style={{
+                            color: isSelected ? currentSkillConfig.color : undefined,
+                          }}
+                        >
+                          {d.day}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -1057,7 +1184,7 @@ export default function DashboardPage() {
                     className="bg-slate-50 dark:bg-slate-950 p-2.5 rounded border border-slate-200/80 dark:border-white/10 text-xs font-medium text-slate-700 dark:text-slate-300 leading-relaxed overflow-hidden shadow-inner"
                   >
                     <span className="font-bold text-blue-600 dark:text-sky-400 block mb-1 text-[11px] uppercase tracking-wide flex items-center gap-1">
-                      🤖 AI Tutor trả lời:
+                      <Bot className="w-3.5 h-3.5 text-blue-600 dark:text-sky-400" /> AI Tutor trả lời:
                     </span>
                     {aiAnswer}
                   </motion.div>
@@ -1082,89 +1209,110 @@ export default function DashboardPage() {
                     <h3 className="text-xs font-black text-slate-900 dark:text-white font-display">
                       Điểm danh tuần này
                     </h3>
-                    <span className="text-[10px] font-extrabold text-orange-500 block">
-                      🔥 Chuỗi {user.currentStreak} ngày liên tiếp
+                    <span className="text-[10px] font-extrabold text-orange-500 flex items-center gap-1">
+                      <Flame className="w-3 h-3 fill-orange-500 shrink-0" /> Chuỗi {user.currentStreak} ngày liên tiếp
                     </span>
                   </div>
                 </div>
 
                 <button
                   onClick={handleCheckIn}
-                  className="w-full sm:w-auto justify-center px-3 py-1.5 sm:py-1 rounded-md bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 hover:from-orange-600 hover:to-amber-600 text-white text-[10px] font-black transition-all shadow-2xs hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-1 font-display"
+                  className="w-full sm:w-auto justify-center px-3 py-1.5 sm:py-1 rounded-xs bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 hover:from-orange-600 hover:to-amber-600 text-white text-[10px] font-black transition-all shadow-2xs hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-1.5 font-display"
                 >
-                  🔥 Điểm danh ngay (+15 XP)
+                  <Flame className="w-3.5 h-3.5 fill-white stroke-[1.8] shrink-0" />
+                  <span className="hidden sm:inline">Điểm danh ngay (+15 XP)</span>
+                  <span className="sm:hidden">Điểm danh (+15 XP)</span>
                 </button>
               </div>
 
               {/* Fluid Connected Progress Track */}
-              <div className="relative py-1 px-1">
-                {/* Background Track Line */}
-                <div className="h-1 bg-slate-100 dark:bg-slate-800 absolute top-[28px] left-[5%] right-[5%] z-0 rounded-full" />
+              <div className="space-y-1.5 py-1 px-1">
+                {/* 1. Top Day Labels */}
+                <div className="flex items-center justify-between w-full px-1">
+                  {weekDays.map((wd, i) => (
+                    <span
+                      key={i}
+                      className="w-7 text-center text-[9.5px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wide shrink-0"
+                    >
+                      {wd.day}
+                    </span>
+                  ))}
+                </div>
 
-                {/* Active Progress Line */}
-                <div
-                  className="h-1 bg-gradient-to-r from-orange-500 to-amber-500 absolute top-[28px] left-[5%] z-0 rounded-full transition-all duration-500"
-                  style={{
-                    width: `${Math.max(0, Math.min(90, (weekDays.filter((w) => w.status === "learned" || w.status === "current").length / 7) * 90))}%`,
-                  }}
-                />
+                {/* 2. Middle Circle Nodes Track Bar - Line top-1/2 -translate-y-1/2 is 100% centered */}
+                <div className="relative flex items-center justify-between w-full px-1 py-1">
+                  {/* Background Track Line (Center to Center: starts at 14px, ends at calc(100% - 14px)) */}
+                  <div className="h-1 bg-slate-100 dark:bg-slate-800/80 absolute top-1/2 -translate-y-1/2 left-[18px] right-[18px] z-0 rounded-full" />
 
-                {/* 7 Connected Nodes */}
-                <div className="flex items-center justify-between relative z-10">
+                  {/* Active Progress Line */}
+                  <div
+                    className="h-1 bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 absolute top-1/2 -translate-y-1/2 left-[18px] z-0 rounded-full transition-all duration-500 shadow-2xs"
+                    style={{
+                      width: `calc(${(Math.max(1, weekDays.filter((w) => w.status === "learned" || w.status === "current").length) - 1) / 6} * (100% - 36px))`,
+                    }}
+                  />
+
+                  {/* 7 Circle Nodes */}
                   {weekDays.map((wd, i) => (
                     <div
                       key={i}
-                      className="flex flex-col items-center gap-1 text-center"
-                    >
-                      <span className="text-[9px] font-black text-slate-400 uppercase">
-                        {wd.day}
-                      </span>
-
-                      <div
-                        className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black transition-all ${
-                          wd.status === "learned"
-                            ? "bg-gradient-to-br from-orange-500 to-amber-500 text-white shadow-xs scale-105"
-                            : wd.status === "current"
-                              ? "bg-gradient-to-br from-orange-500 to-amber-500 text-white ring-4 ring-orange-500/25 animate-bounce shadow-md"
-                              : "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-400"
-                        }`}
-                      >
-                        {wd.status === "learned"
-                          ? "🔥"
+                      className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-black transition-all relative z-10 shrink-0 ${
+                        wd.status === "learned"
+                          ? "bg-gradient-to-br from-amber-500 via-orange-500 to-amber-600 text-white shadow-[0_2px_8px_rgba(245,158,11,0.35)] ring-2 ring-white dark:ring-slate-900"
                           : wd.status === "current"
-                            ? "⚡"
-                            : "•"}
-                      </div>
-
-                      <span
-                        className={`text-[8px] font-extrabold tracking-tight ${
-                          wd.status === "current"
-                            ? "text-orange-500 font-black"
-                            : wd.status === "learned"
-                              ? "text-emerald-600 dark:text-emerald-400"
-                              : "text-slate-400"
-                        }`}
-                      >
-                        {wd.status === "current"
-                          ? "Hôm nay"
-                          : wd.status === "learned"
-                            ? "Đã nhận"
-                            : "+10XP"}
-                      </span>
+                            ? "bg-gradient-to-br from-amber-500 via-orange-500 to-amber-600 text-white shadow-[0_2px_12px_rgba(245,158,11,0.45)] ring-4 ring-orange-500/25 scale-110"
+                            : "bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 text-slate-300 dark:text-slate-600 shadow-2xs"
+                      }`}
+                    >
+                      {wd.status === "learned" ? (
+                        <Flame className="w-3.5 h-3.5 fill-white stroke-none" />
+                      ) : wd.status === "current" ? (
+                        <Flame className="w-3.5 h-3.5 fill-white stroke-none animate-pulse" />
+                      ) : (
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700" />
+                      )}
                     </div>
+                  ))}
+                </div>
+
+                {/* 3. Bottom Status Labels */}
+                <div className="flex items-center justify-between w-full px-1">
+                  {weekDays.map((wd, i) => (
+                    <span
+                      key={i}
+                      className={`w-7 text-center text-[8.5px] font-extrabold tracking-tight shrink-0 ${
+                        wd.status === "current"
+                          ? "text-orange-500 font-black"
+                          : wd.status === "learned"
+                            ? "text-emerald-600 dark:text-emerald-400 font-extrabold"
+                            : "text-slate-400 dark:text-slate-500"
+                      }`}
+                    >
+                      {wd.status === "current"
+                        ? "Hôm nay"
+                        : wd.status === "learned"
+                          ? "Đã nhận"
+                          : "+10XP"}
+                    </span>
                   ))}
                 </div>
               </div>
 
               {/* Bottom Motivation Reward Strip */}
-              <div className="p-2 rounded-md bg-amber-500/10 border border-amber-500/20 text-[10px] font-bold text-amber-700 dark:text-amber-300 flex items-center justify-between gap-2">
+              <div className="p-2 rounded-xs bg-amber-500/10 border border-amber-500/20 text-[10px] font-bold text-amber-700 dark:text-amber-300 flex items-center justify-between gap-2">
                 <span className="flex items-center gap-1.5 truncate">
-                  🎁 Điểm danh đủ 7 ngày nhận ngay{" "}
-                  <span className="hidden sm:inline font-black text-amber-600 dark:text-amber-400">
-                    +100 Vàng & Badge
+                  <Gift className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                  <span>
+                    Điểm danh đủ 7 ngày nhận ngay{" "}
+                    <span className="hidden sm:inline font-black text-amber-600 dark:text-amber-400">
+                      +100 Vàng & Badge
+                    </span>
+                    <span className="sm:hidden font-black text-amber-600 dark:text-amber-400">
+                      +100 Vàng
+                    </span>
                   </span>
                 </span>
-                <span className="shrink-0 text-[9px] font-black px-1.5 py-0.5 rounded bg-amber-500 text-white">
+                <span className="shrink-0 text-[9px] font-black px-1.5 py-0.5 rounded-xs bg-amber-500 text-white">
                   Thưởng tuần
                 </span>
               </div>
@@ -1262,7 +1410,6 @@ export default function DashboardPage() {
 
                 {/* Top 3 Leaders (Live Synced from Backend API) */}
                 {topLeaders.map((leader: any, idx: number) => {
-                  const medal = idx === 0 ? "🥇" : idx === 1 ? "🥈" : "🥉";
                   const displayScore =
                     leaderboardCriterion === "xp"
                       ? `${leader.xp} XP`
@@ -1274,11 +1421,19 @@ export default function DashboardPage() {
                       className="flex items-center justify-between p-2 rounded bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-white/5"
                     >
                       <div className="flex items-center gap-2 min-w-0">
-                        <span className="text-xs shrink-0">{medal}</span>
+                        <span className="shrink-0 flex items-center justify-center w-4">
+                          {idx === 0 ? (
+                            <Trophy className="w-3.5 h-3.5 text-amber-500" />
+                          ) : idx === 1 ? (
+                            <Award className="w-3.5 h-3.5 text-slate-400" />
+                          ) : (
+                            <Award className="w-3.5 h-3.5 text-amber-700" />
+                          )}
+                        </span>
                         <div className="w-5.5 h-5.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-[9px] flex items-center justify-center shrink-0">
                           {leader.avatarEmoji ||
                             leader.fullName?.charAt(0) ||
-                            "🦉"}
+                            "U"}
                         </div>
                         <div className="min-w-0">
                           <span className="text-xs font-medium text-slate-900 dark:text-white truncate block">
@@ -1324,11 +1479,23 @@ export default function DashboardPage() {
                   return (
                     <div
                       key={ch.id}
-                      className="flex items-center justify-between gap-2 p-2 rounded-md bg-slate-50 dark:bg-slate-950 border border-slate-200/60 dark:border-white/5 shadow-2xs"
+                      className="flex items-center justify-between gap-2 p-2 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200/60 dark:border-white/5 shadow-2xs"
                     >
                       <div className="flex items-center gap-2 min-w-0">
-                        <span className="text-xs w-6 h-6 rounded bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-white/10 flex items-center justify-center shrink-0 shadow-2xs">
-                          {ch.icon}
+                        <span className="w-6 h-6 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-white/10 flex items-center justify-center shrink-0 shadow-2xs">
+                          {ch.id === "write_essay" ? (
+                            <PenLine className="w-3.5 h-3.5 text-amber-500 stroke-[2]" />
+                          ) : ch.id === "review_cards" ? (
+                            <RotateCcw className="w-3.5 h-3.5 text-blue-500 stroke-[2]" />
+                          ) : ch.id === "learn_words" ? (
+                            <BookOpen className="w-3.5 h-3.5 text-emerald-500 stroke-[2]" />
+                          ) : ch.id === "speak_practice" ? (
+                            <Mic className="w-3.5 h-3.5 text-purple-500 stroke-[2]" />
+                          ) : ch.id === "win_pvp" ? (
+                            <Swords className="w-3.5 h-3.5 text-rose-500 stroke-[2]" />
+                          ) : (
+                            <Sparkles className="w-3.5 h-3.5 text-blue-500 stroke-[2]" />
+                          )}
                         </span>
                         <div className="min-w-0">
                           <h3
@@ -1361,7 +1528,7 @@ export default function DashboardPage() {
                                   ch.coinReward,
                                 )
                               }
-                              className="px-2 h-6 text-[9px] font-black bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded shadow-2xs active:scale-95 transition-transform uppercase tracking-wider cursor-pointer whitespace-nowrap"
+                              className="px-2 h-6 text-[9px] font-black bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-xs shadow-2xs active:scale-95 transition-transform uppercase tracking-wider cursor-pointer whitespace-nowrap"
                             >
                               Nhận +{ch.xpReward} XP
                             </button>
@@ -1421,11 +1588,11 @@ export default function DashboardPage() {
               >
                 <Link
                   href={action.href}
-                  className="group block p-2 sm:p-2.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 hover:border-blue-500/40 dark:hover:border-blue-500/40 transition-all duration-200 shadow-2xs hover:shadow-2xs relative overflow-hidden"
+                  className="group block p-2 sm:p-2.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 hover:border-blue-500/40 dark:hover:border-blue-500/40 transition-all duration-200 shadow-2xs hover:shadow-2xs relative overflow-hidden"
                 >
                   <div className="flex items-center gap-2 sm:gap-2.5">
                     <div
-                      className={`w-7 h-7 sm:w-8 sm:h-8 rounded-md bg-gradient-to-br ${action.gradient} text-white flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform`}
+                      className={`w-7 h-7 sm:w-8 sm:h-8 rounded-xs bg-gradient-to-br ${action.gradient} text-white flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform`}
                     >
                       <Icon className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[2]" />
                     </div>

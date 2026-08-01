@@ -15,7 +15,39 @@ import {
   Zap,
   ChevronRight,
   Layers,
-  Filter
+  Filter,
+  Users,
+  Home,
+  Utensils,
+  Shirt,
+  CloudSun,
+  Car,
+  Dog,
+  Palette,
+  Activity,
+  Calculator,
+  Package,
+  Apple,
+  Coffee,
+  Trophy,
+  Gamepad2,
+  Stethoscope,
+  Building2,
+  Cpu,
+  TreePine,
+  Brain,
+  Globe,
+  MessageSquare,
+  ShoppingBag,
+  Mail,
+  Landmark,
+  Bus,
+  ShieldCheck,
+  Coins,
+  Scale,
+  Award,
+  BookMarked,
+  Compass,
 } from "lucide-react";
 
 interface ClientTheme {
@@ -27,12 +59,122 @@ interface ClientTheme {
   difficulty: number;
 }
 
-const THEME_ICONS: Record<string, React.ReactNode> = {
-  t1: <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 text-[#1d6ee6]" />,
-  t2: <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5 text-purple-500" />,
-  t3: <Briefcase className="w-4 h-4 sm:w-5 sm:h-5 text-amber-500" />,
-  t4: <Plane className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500" />,
-};
+export function getSemanticThemeIcon(theme: { id: string; name: string; nameEn?: string }) {
+  const text = `${theme.name} ${theme.nameEn || ""}`.toLowerCase();
+
+  if (text.includes("gia đình") || text.includes("family") || text.includes("con người") || text.includes("people")) {
+    return <Users className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500" />;
+  }
+  if (text.includes("nhà") || text.includes("house") || text.includes("home") || text.includes("nội thất")) {
+    return <Home className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-600" />;
+  }
+  if (text.includes("thực phẩm") || text.includes("food") || text.includes("rau") || text.includes("ăn uống") || text.includes("dining")) {
+    return <Utensils className="w-4 h-4 sm:w-5 sm:h-5 text-red-500" />;
+  }
+  if (text.includes("hoa quả") || text.includes("fruit") || text.includes("trái cây")) {
+    return <Apple className="w-4 h-4 sm:w-5 sm:h-5 text-pink-600" />;
+  }
+  if (text.includes("đồ uống") || text.includes("drink") || text.includes("cà phê") || text.includes("coffee")) {
+    return <Coffee className="w-4 h-4 sm:w-5 sm:h-5 text-amber-700" />;
+  }
+  if (text.includes("nghề") || text.includes("occupation") || text.includes("công việc") || text.includes("work") || text.includes("văn phòng")) {
+    return <Briefcase className="w-4 h-4 sm:w-5 sm:h-5 text-amber-500" />;
+  }
+  if (text.includes("trường") || text.includes("school") || text.includes("giáo dục") || text.includes("education") || text.includes("học")) {
+    return <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-500" />;
+  }
+  if (text.includes("quần áo") || text.includes("clothing") || text.includes("thời trang") || text.includes("fashion")) {
+    return <Shirt className="w-4 h-4 sm:w-5 sm:h-5 text-pink-500" />;
+  }
+  if (text.includes("thời tiết") || text.includes("weather") || text.includes("khí hậu")) {
+    return <CloudSun className="w-4 h-4 sm:w-5 sm:h-5 text-sky-400" />;
+  }
+  if (text.includes("phương tiện") || text.includes("transport") || text.includes("giao thông") || text.includes("xe") || text.includes("car")) {
+    return <Car className="w-4 h-4 sm:w-5 sm:h-5 text-purple-500" />;
+  }
+  if (text.includes("xe buýt") || text.includes("bus") || text.includes("trạm")) {
+    return <Bus className="w-4 h-4 sm:w-5 sm:h-5 text-amber-600" />;
+  }
+  if (text.includes("động vật") || text.includes("animal") || text.includes("thú") || text.includes("pet")) {
+    return <Dog className="w-4 h-4 sm:w-5 sm:h-5 text-teal-500" />;
+  }
+  if (text.includes("thời gian") || text.includes("time") || text.includes("thói quen") || text.includes("routine") || text.includes("giờ")) {
+    return <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-rose-500" />;
+  }
+  if (text.includes("màu sắc") || text.includes("color") || text.includes("nghệ thuật") || text.includes("art") || text.includes("thiết kế")) {
+    return <Palette className="w-4 h-4 sm:w-5 sm:h-5 text-violet-500" />;
+  }
+  if (text.includes("cơ thể") || text.includes("body") || text.includes("thể chất") || text.includes("fitness")) {
+    return <Activity className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500" />;
+  }
+  if (text.includes("số") || text.includes("number") || text.includes("toán") || text.includes("math")) {
+    return <Calculator className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />;
+  }
+  if (text.includes("đồ vật") || text.includes("object") || text.includes("hàng hóa")) {
+    return <Package className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-400" />;
+  }
+  if (text.includes("thể thao") || text.includes("sport")) {
+    return <Trophy className="w-4 h-4 sm:w-5 sm:h-5 text-amber-500" />;
+  }
+  if (text.includes("giải trí") || text.includes("entertainment") || text.includes("game")) {
+    return <Gamepad2 className="w-4 h-4 sm:w-5 sm:h-5 text-rose-500" />;
+  }
+  if (text.includes("sức khỏe") || text.includes("health") || text.includes("y tế") || text.includes("bệnh") || text.includes("medicine") || text.includes("pharmacy")) {
+    return <Stethoscope className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-600" />;
+  }
+  if (text.includes("tâm lý") || text.includes("psychology") || text.includes("trí tuệ") || text.includes("mind")) {
+    return <Brain className="w-4 h-4 sm:w-5 sm:h-5 text-pink-500" />;
+  }
+  if (text.includes("kinh doanh") || text.includes("business") || text.includes("doanh nghiệp") || text.includes("công ty")) {
+    return <Building2 className="w-4 h-4 sm:w-5 sm:h-5 text-blue-700" />;
+  }
+  if (text.includes("công nghệ") || text.includes("technology") || text.includes("máy tính") || text.includes("computer") || text.includes("phần mềm")) {
+    return <Cpu className="w-4 h-4 sm:w-5 sm:h-5 text-[#1d6ee6]" />;
+  }
+  if (text.includes("môi trường") || text.includes("environment") || text.includes("thiên nhiên") || text.includes("nature") || text.includes("cây")) {
+    return <TreePine className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500" />;
+  }
+  if (text.includes("du lịch") || text.includes("travel") || text.includes("sân bay") || text.includes("airport") || text.includes("chuyến bay")) {
+    return <Plane className="w-4 h-4 sm:w-5 sm:h-5 text-teal-500" />;
+  }
+  if (text.includes("mạng xã hội") || text.includes("social") || text.includes("internet") || text.includes("web")) {
+    return <Globe className="w-4 h-4 sm:w-5 sm:h-5 text-sky-500" />;
+  }
+  if (text.includes("giao tiếp") || text.includes("communication") || text.includes("hội thoại")) {
+    return <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-500" />;
+  }
+  if (text.includes("văn học") || text.includes("literature") || text.includes("đọc") || text.includes("sách")) {
+    return <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-600" />;
+  }
+  if (text.includes("siêu thị") || text.includes("supermarket") || text.includes("mua sắm") || text.includes("shopping") || text.includes("cửa hàng")) {
+    return <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5 text-pink-600" />;
+  }
+  if (text.includes("bưu điện") || text.includes("post") || text.includes("thư") || text.includes("mail")) {
+    return <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500" />;
+  }
+  if (text.includes("ngân hàng") || text.includes("bank") || text.includes("tài chính") || text.includes("finance") || text.includes("tiền")) {
+    return <Landmark className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600" />;
+  }
+  if (text.includes("pháp luật") || text.includes("law") || text.includes("luật") || text.includes("pháp lý")) {
+    return <Scale className="w-4 h-4 sm:w-5 sm:h-5 text-stone-600" />;
+  }
+  if (text.includes("an ninh") || text.includes("security") || text.includes("an toàn") || text.includes("safety")) {
+    return <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500" />;
+  }
+
+  const POOL = [
+    <BookMarked key="b1" className="w-4 h-4 sm:w-5 sm:h-5 text-[#1d6ee6]" />,
+    <Sparkles key="b2" className="w-4 h-4 sm:w-5 sm:h-5 text-purple-500" />,
+    <Compass key="b3" className="w-4 h-4 sm:w-5 sm:h-5 text-amber-500" />,
+    <Award key="b4" className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500" />,
+    <Target key="b5" className="w-4 h-4 sm:w-5 sm:h-5 text-rose-500" />,
+    <Zap key="b6" className="w-4 h-4 sm:w-5 sm:h-5 text-sky-500" />,
+    <Layers key="b7" className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-500" />,
+  ];
+
+  const sum = theme.id.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  return POOL[sum % POOL.length];
+}
 
 // O(K) Fisher-Yates sampling algorithm for fast random sampling
 function getRandomSample<T>(arr: T[], limit: number): T[] {
@@ -57,21 +199,36 @@ export default function VocabularyThemesClientList({
 }) {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
+  const [isDesktop, setIsDesktop] = useState(false);
+
   const [displayedIds, setDisplayedIds] = useState<string[]>(() => {
     // Deterministic SSR initial slice to prevent React Hydration Mismatch
-    return initialThemes.slice(0, 8).map((t) => t.id);
+    return initialThemes.slice(0, 16).map((t) => t.id);
   });
 
   React.useEffect(() => {
-    // Randomize on client after hydration completes
+    const checkIsDesktop = () => typeof window !== "undefined" && window.innerWidth >= 768;
+    const desktop = checkIsDesktop();
+    setIsDesktop(desktop);
+
+    const initialLimit = desktop ? 16 : 8;
+
     if (initialThemes.length > 0) {
-      setDisplayedIds(getRandomSample(initialThemes, 8).map((t) => t.id));
+      setDisplayedIds(getRandomSample(initialThemes, initialLimit).map((t) => t.id));
     }
+
+    const handleResize = () => {
+      setIsDesktop(checkIsDesktop());
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, [initialThemes]);
 
   const loadMoreThemes = () => {
     const remaining = initialThemes.filter((t) => !displayedIds.includes(t.id));
     if (remaining.length > 0) {
+      // Always load 8 more themes per click on both Desktop and Mobile
       const nextBatch = getRandomSample(remaining, 8).map((t) => t.id);
       setDisplayedIds((prev) => [...prev, ...nextBatch]);
     }
@@ -97,12 +254,7 @@ export default function VocabularyThemesClientList({
   }, [initialThemes]);
 
   const renderIcon = (theme: ClientTheme) => {
-    if (THEME_ICONS[theme.id]) return THEME_ICONS[theme.id];
-    return (
-      <span className="text-base sm:text-lg select-none" role="img" aria-label={theme.name}>
-        {theme.icon || "📚"}
-      </span>
-    );
+    return getSemanticThemeIcon(theme);
   };
 
   return (
@@ -113,10 +265,10 @@ export default function VocabularyThemesClientList({
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.2 }}
-        className="p-3 sm:p-3.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-2.5 sm:gap-3 min-w-0"
+        className="p-3 sm:p-3.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex flex-col md:flex-row items-start md:items-center justify-between gap-2.5 sm:gap-3 min-w-0"
       >
         <div className="flex items-center gap-2.5 min-w-0">
-          <div className="p-1.5 sm:p-2 rounded-md bg-[#1d6ee6]/10 text-[#1d6ee6] shrink-0">
+          <div className="p-1.5 sm:p-2 rounded-xs bg-[#1d6ee6]/10 text-[#1d6ee6] shrink-0">
             <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" />
           </div>
           <div className="min-w-0">
@@ -124,7 +276,7 @@ export default function VocabularyThemesClientList({
               <h1 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display truncate">
                 Kho Từ Vựng Tiếng Anh
               </h1>
-              <span className="px-1.5 sm:px-2 py-0.5 rounded text-[9px] sm:text-[10px] font-extrabold bg-[#1d6ee6]/10 text-[#1d6ee6] shrink-0">
+              <span className="px-1.5 sm:px-2 py-0.5 rounded-xs text-[9px] sm:text-[10px] font-extrabold bg-[#1d6ee6]/10 text-[#1d6ee6] shrink-0">
                 {totalVocabsCount > 0 ? `${totalVocabsCount}+ từ` : "4,000+ từ"}
               </span>
             </div>
@@ -142,7 +294,7 @@ export default function VocabularyThemesClientList({
             placeholder="Tìm theo tên chủ đề..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full h-8 sm:h-9 pl-8 pr-3 text-xs font-medium rounded-md bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-[#1d6ee6] transition-colors"
+            className="w-full h-8 sm:h-9 pl-8 pr-3 text-xs font-medium rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-[#1d6ee6] transition-colors"
           />
         </div>
       </motion.div>
@@ -187,9 +339,9 @@ export default function VocabularyThemesClientList({
           return (
             <div
               key={idx}
-              className="p-2 sm:p-3 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center gap-2 sm:gap-3 min-w-0"
+              className="p-2 sm:p-3 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex items-center gap-2 sm:gap-3 min-w-0"
             >
-              <div className={`p-1.5 sm:p-2 rounded-md ${item.bg} ${item.color} shrink-0`}>
+              <div className={`p-1.5 sm:p-2 rounded-xs ${item.bg} ${item.color} shrink-0`}>
                 <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </div>
               <div className="min-w-0">
@@ -207,7 +359,7 @@ export default function VocabularyThemesClientList({
 
       {/* 3. MAIN BENTO THEMES GRID */}
       {filteredThemes.length === 0 ? (
-        <div className="p-6 sm:p-8 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs text-center space-y-1.5">
+        <div className="p-6 sm:p-8 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs text-center space-y-1.5">
           <p className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
             Không tìm thấy chủ đề nào phù hợp
           </p>
@@ -222,12 +374,12 @@ export default function VocabularyThemesClientList({
             const hasEnglishSubtitle = t.nameEn && t.nameEn.trim().toLowerCase() !== t.name.trim().toLowerCase();
             return (
               <Link key={t.id} href={`/vocabulary/${t.id}`} className="group block min-w-0">
-                <div className="p-3 sm:p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs hover:shadow-sm hover:border-[#1d6ee6]/50 transition-all flex flex-col justify-between space-y-2 sm:space-y-3 h-full cursor-pointer">
+                <div className="p-3 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs hover:shadow-xs hover:border-[#1d6ee6]/50 transition-all flex flex-col justify-between space-y-2 sm:space-y-3 h-full cursor-pointer">
                   
                   {/* Card Header: Icon + Title inline row */}
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2.5 min-w-0">
-                      <div className="p-1.5 sm:p-2 rounded-md bg-slate-50 dark:bg-slate-950 border border-slate-200/60 dark:border-white/5 shrink-0">
+                      <div className="p-1.5 sm:p-2 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200/60 dark:border-white/5 shrink-0">
                         {renderIcon(t)}
                       </div>
                       <div className="min-w-0">
@@ -240,7 +392,7 @@ export default function VocabularyThemesClientList({
                       </div>
                     </div>
 
-                    <span className="p-1 rounded text-slate-400 group-hover:text-[#1d6ee6] group-hover:bg-[#1d6ee6]/10 transition-colors shrink-0">
+                    <span className="p-1 rounded-xs text-slate-400 group-hover:text-[#1d6ee6] group-hover:bg-[#1d6ee6]/10 transition-colors shrink-0">
                       <ArrowUpRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                     </span>
                   </div>
@@ -291,10 +443,10 @@ export default function VocabularyThemesClientList({
         <div className="flex justify-center sm:justify-end pt-2 pb-1">
           <button
             onClick={loadMoreThemes}
-            className="w-full sm:w-auto justify-center px-4 py-2 sm:py-2.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 hover:border-[#1d6ee6] text-slate-800 dark:text-slate-200 hover:text-[#1d6ee6] text-xs font-black shadow-xs hover:shadow-sm transition-all cursor-pointer inline-flex items-center gap-2 active:scale-[0.98]"
+            className="w-full sm:w-auto justify-center px-4 py-2 sm:py-2.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 hover:border-[#1d6ee6] text-slate-800 dark:text-slate-200 hover:text-[#1d6ee6] text-xs font-black shadow-2xs hover:shadow-xs transition-all cursor-pointer inline-flex items-center gap-2 active:scale-[0.98]"
           >
             <Sparkles className="w-3.5 h-3.5 text-[#1d6ee6]" />
-            <span>Khám phá thêm bộ từ</span>
+            <span>Khám phá thêm bộ từ (+8 bộ)</span>
           </button>
         </div>
       )}
