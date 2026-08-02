@@ -128,7 +128,7 @@ export default function GroupsPage() {
     <div className="space-y-3.5 sm:space-y-6 pb-16 md:pb-6 select-none font-sans" suppressHydrationWarning>
       
       {/* 1. HERO GROUPS BANNER */}
-      <div className="p-3.5 sm:p-4.5 rounded-md bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#312e81] text-white shadow-2xs relative overflow-hidden">
+      <div className="p-3.5 sm:p-4.5 rounded-xs bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#312e81] text-white shadow-2xs relative overflow-hidden">
         <div className="absolute -right-8 -bottom-8 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none" />
         <div className="relative z-10 space-y-1.5">
           <div className="flex items-center gap-1.5 sm:gap-2 flex-nowrap whitespace-nowrap overflow-x-auto no-scrollbar">
@@ -159,7 +159,7 @@ export default function GroupsPage() {
         <div className="lg:col-span-8 xl:col-span-8 space-y-3.5 sm:space-y-4">
           
           {/* SEGMENTED NAVIGATION TABS */}
-          <div className="p-1 rounded-md bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 grid grid-cols-4 gap-1 w-full">
+          <div className="p-1 rounded-xs bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 grid grid-cols-4 gap-1 w-full">
             <Link
               href="/community"
               className="py-1.5 px-1 sm:px-3 rounded-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-800 text-[10px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap"
@@ -184,7 +184,7 @@ export default function GroupsPage() {
           </div>
 
           {/* CREATE GROUP ACTION BAR */}
-          <div className="p-3 sm:p-4 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex flex-row items-center justify-between gap-3">
+          <div className="p-3 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex flex-row items-center justify-between gap-3">
             <div className="space-y-0.5 min-w-0">
               <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display truncate">
                 Tạo Nhóm học tập riêng?
@@ -216,7 +216,7 @@ export default function GroupsPage() {
               /* SKELETON LOADING (RULE 1 COMPLIANCE) */
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="p-3.5 sm:p-4 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3 animate-pulse">
+                  <div key={i} className="p-3.5 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3 animate-pulse">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xs bg-slate-200 dark:bg-slate-800" />
                       <div className="space-y-1.5 flex-1">
@@ -230,7 +230,7 @@ export default function GroupsPage() {
                 ))}
               </div>
             ) : groups.length === 0 ? (
-              <div className="p-6 sm:p-8 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 text-center space-y-2">
+              <div className="p-6 sm:p-8 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 text-center space-y-2">
                 <div className="text-xl sm:text-2xl">👥</div>
                 <div className="text-xs font-bold text-slate-700 dark:text-slate-300 font-display">
                   Chưa có nhóm học tập nào
@@ -241,7 +241,7 @@ export default function GroupsPage() {
                 {groups.map((g) => (
                   <div
                     key={g.id}
-                    className="p-3.5 sm:p-4 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex flex-col justify-between space-y-3 sm:space-y-3.5 hover:border-[#0059bb]/40 transition-all"
+                    className="p-3.5 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex flex-col justify-between space-y-3 sm:space-y-3.5 hover:border-[#0059bb]/40 transition-all"
                   >
                     <div className="space-y-2 sm:space-y-2.5">
                       <div className="flex items-center justify-between gap-2">
@@ -299,7 +299,7 @@ export default function GroupsPage() {
         <div className="lg:col-span-4 xl:col-span-4 space-y-3.5 sm:space-y-4 sticky top-4">
           
           {/* BENTO WIDGET 1: MY JOINED GROUPS */}
-          <div className="p-3.5 sm:p-4 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-2.5 sm:space-y-3">
+          <div className="p-3.5 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-2.5 sm:space-y-3">
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5">
               <div className="flex items-center gap-2">
                 <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xs bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0 border border-indigo-500/20 text-sm sm:text-base">
@@ -335,7 +335,7 @@ export default function GroupsPage() {
           </div>
 
           {/* BENTO WIDGET 2: CREATION REQUIREMENT */}
-          <div className="p-3.5 sm:p-4 rounded-md bg-[#ebf3fe]/80 dark:bg-slate-800/60 border border-[#0059bb]/20 shadow-2xs space-y-1.5 sm:space-y-2">
+          <div className="p-3.5 sm:p-4 rounded-xs bg-[#ebf3fe]/80 dark:bg-slate-800/60 border border-[#0059bb]/20 shadow-2xs space-y-1.5 sm:space-y-2">
             <div className="flex items-center gap-1.5 text-xs font-bold text-[#0059bb] dark:text-sky-400 font-display">
               <ShieldCheck className="w-3.5 h-3.5" /> Đạt Cấp 15 Để Tạo Nhóm Riêng
             </div>

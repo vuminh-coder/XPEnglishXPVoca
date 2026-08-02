@@ -310,6 +310,105 @@ const DICTIONARY_DATABASE: { [key: string]: DeepWordDefinition } = {
   },
 };
 
+const COMMON_WORDS_MAP: { [key: string]: { pos: string; ipa: string; meaning: string; detailMeaning?: string } } = {
+  this: { pos: "Đại từ / Chỉ định từ", ipa: "/ðɪs/", meaning: "Cái này, điều này, đây" },
+  that: { pos: "Đại từ / Chỉ định từ", ipa: "/ðæt/", meaning: "Cái đó, điều đó, kia" },
+  these: { pos: "Chỉ định từ số nhiều", ipa: "/ðiːz/", meaning: "Những cái này" },
+  those: { pos: "Chỉ định từ số nhiều", ipa: "/ðoʊz/", meaning: "Những cái kia" },
+  is: { pos: "Động từ to be", ipa: "/ɪz/", meaning: "Thì, là, ở (số ít)" },
+  are: { pos: "Động từ to be", ipa: "/ɑːr/", meaning: "Thì, là, ở (số nhiều)" },
+  am: { pos: "Động từ to be", ipa: "/æm/", meaning: "Là, ở (đi với I)" },
+  be: { pos: "Động từ nguyên mẫu", ipa: "/biː/", meaning: "Thì, là, ở, trở thành" },
+  was: { pos: "Động từ to be (quá khứ)", ipa: "/wʌz/", meaning: "Đã là, đã ở (số ít)" },
+  were: { pos: "Động từ to be (quá khứ)", ipa: "/wɜːr/", meaning: "Đã là, đã ở (số nhiều)" },
+  will: { pos: "Trợ động từ", ipa: "/wɪl/", meaning: "Sẽ" },
+  would: { pos: "Trợ động từ", ipa: "/wʊd/", meaning: "Sẽ, muốn (lịch sự)" },
+  can: { pos: "Trợ động từ", ipa: "/kæn/", meaning: "Có thể" },
+  could: { pos: "Trợ động từ", ipa: "/kʊd/", meaning: "Đã có thể, có lẽ" },
+  should: { pos: "Trợ động từ", ipa: "/ʃʊd/", meaning: "Nên" },
+  must: { pos: "Trợ động từ", ipa: "/mʌst/", meaning: "Phải, bắt buộc" },
+  have: { pos: "Động từ", ipa: "/hæv/", meaning: "Có, sở hữu" },
+  has: { pos: "Động từ", ipa: "/hæz/", meaning: "Có, sở hữu (số ít)" },
+  had: { pos: "Động từ (quá khứ)", ipa: "/hæd/", meaning: "Đã có" },
+  do: { pos: "Trợ động từ / Động từ", ipa: "/duː/", meaning: "Làm, thực hiện" },
+  does: { pos: "Trợ động từ / Động từ", ipa: "/dʌz/", meaning: "Làm, thực hiện (số ít)" },
+  did: { pos: "Trợ động từ / Động từ", ipa: "/dɪd/", meaning: "Đã làm" },
+  the: { pos: "Mạo từ xác định", ipa: "/ðə/", meaning: "Cái, con, người (xác định)" },
+  a: { pos: "Mạo từ không xác định", ipa: "/ə/", meaning: "Một (đứng trước phụ âm)" },
+  an: { pos: "Mạo từ không xác định", ipa: "/æn/", meaning: "Một (đứng trước nguyên âm)" },
+  we: { pos: "Đại từ nhân xưng", ipa: "/wiː/", meaning: "Chúng tôi, chúng ta" },
+  you: { pos: "Đại từ nhân xưng", ipa: "/juː/", meaning: "Bạn, các bạn" },
+  they: { pos: "Đại từ nhân xưng", ipa: "/ðeɪ/", meaning: "Họ, chúng nó" },
+  he: { pos: "Đại từ nhân xưng", ipa: "/hiː/", meaning: "Anh ấy, ông ấy" },
+  she: { pos: "Đại từ nhân xưng", ipa: "/ʃiː/", meaning: "Cô ấy, bà ấy" },
+  it: { pos: "Đại từ nhân xưng", ipa: "/ɪt/", meaning: "Nó, điều đó" },
+  i: { pos: "Đại từ nhân xưng", ipa: "/aɪ/", meaning: "Tôi, tớ" },
+  my: { pos: "Tính từ sở hữu", ipa: "/maɪ/", meaning: "Của tôi" },
+  your: { pos: "Tính từ sở hữu", ipa: "/jʊər/", meaning: "Của bạn" },
+  our: { pos: "Tính từ sở hữu", ipa: "/aʊər/", meaning: "Của chúng tôi" },
+  their: { pos: "Tính từ sở hữu", ipa: "/ðɛr/", meaning: "Của họ" },
+  his: { pos: "Tính từ sở hữu", ipa: "/hɪz/", meaning: "Của anh ấy" },
+  her: { pos: "Tính từ sở hữu", ipa: "/hɜːr/", meaning: "Của cô ấy" },
+  its: { pos: "Tính từ sở hữu", ipa: "/ɪts/", meaning: "Của nó" },
+  in: { pos: "Giới từ", ipa: "/ɪn/", meaning: "Trong, ở trong" },
+  on: { pos: "Giới từ", ipa: "/ɒn/", meaning: "Trên, ở trên" },
+  at: { pos: "Giới từ", ipa: "/æt/", meaning: "Tại, vào lúc" },
+  to: { pos: "Giới từ", ipa: "/tuː/", meaning: "Đến, tới, đối với" },
+  for: { pos: "Giới từ", ipa: "/fɔːr/", meaning: "Cho, vì, trong khoảng" },
+  with: { pos: "Giới từ", ipa: "/wɪð/", meaning: "Với, cùng với" },
+  by: { pos: "Giới từ", ipa: "/baɪ/", meaning: "Bởi, bằng, bên cạnh" },
+  from: { pos: "Giới từ", ipa: "/frɒm/", meaning: "Từ, xuất phát từ" },
+  of: { pos: "Giới từ", ipa: "/əv/", meaning: "Của, thuộc về" },
+  about: { pos: "Giới từ / Trạng từ", ipa: "/əˈbaʊt/", meaning: "Về, khoảng" },
+  and: { pos: "Liên từ", ipa: "/ænd/", meaning: "Và" },
+  but: { pos: "Liên từ", ipa: "/bʌt/", meaning: "Nhưng" },
+  or: { pos: "Liên từ", ipa: "/ɔːr/", meaning: "Hoặc, hay là" },
+  so: { pos: "Liên từ / Trạng từ", ipa: "/soʊ/", meaning: "Vì vậy, như thế" },
+  because: { pos: "Liên từ", ipa: "/bɪˈkɒz/", meaning: "Bởi vì" },
+  if: { pos: "Liên từ", ipa: "/ɪf/", meaning: "Nếu, giả sử" },
+  what: { pos: "Từ hỏi / Đại từ", ipa: "/wɒt/", meaning: "Cái gì, điều gì" },
+  where: { pos: "Từ hỏi / Trạng từ", ipa: "/wɛər/", meaning: "Ở đâu, nơi nào" },
+  when: { pos: "Từ hỏi / Trạng từ", ipa: "/wɛn/", meaning: "Khi nào, lúc nào" },
+  why: { pos: "Từ hỏi / Trạng từ", ipa: "/waɪ/", meaning: "Tại sao, vì sao" },
+  how: { pos: "Từ hỏi / Trạng từ", ipa: "/haʊ/", meaning: "Như thế nào, làm sao" },
+  who: { pos: "Từ hỏi / Đại từ", ipa: "/huː/", meaning: "Ai, người mà" },
+  welcome: { pos: "Danh từ / Động từ", ipa: "/ˈwel.kəm/", meaning: "Chào mừng, hoan nghênh" },
+  english: { pos: "Danh từ / Tính từ", ipa: "/ˈɪŋ.ɡlɪʃ/", meaning: "Tiếng Anh, thuộc về nước Anh" },
+  lesson: { pos: "Danh từ", ipa: "/ˈles.ən/", meaning: "Bài học" },
+  practice: { pos: "Danh từ / Động từ", ipa: "/ˈpræk.tɪs/", meaning: "Luyện tập, thực hành" },
+  study: { pos: "Động từ / Danh từ", ipa: "/ˈstʌd.i/", meaning: "Học tập, nghiên cứu" },
+  school: { pos: "Danh từ", ipa: "/skuːl/", meaning: "Trường học" },
+  student: { pos: "Danh từ", ipa: "/ˈstjuː.dənt/", meaning: "Học sinh, sinh viên" },
+  teacher: { pos: "Danh từ", ipa: "/ˈtiː.tʃər/", meaning: "Giáo viên, thầy cô" },
+  good: { pos: "Tính từ", ipa: "/ɡʊd/", meaning: "Tốt, hay, giỏi" },
+  great: { pos: "Tính từ", ipa: "/ɡreɪt/", meaning: "Tuyệt vời, to lớn" },
+  new: { pos: "Tính từ", ipa: "/njuː/", meaning: "Mới" },
+  old: { pos: "Tính từ", ipa: "/oʊld/", meaning: "Cũ, già" },
+  time: { pos: "Danh từ", ipa: "/taɪm/", meaning: "Thời gian, lần" },
+  day: { pos: "Danh từ", ipa: "/deɪ/", meaning: "Ngày" },
+  year: { pos: "Danh từ", ipa: "/jɪər/", meaning: "Năm" },
+  work: { pos: "Động từ / Danh từ", ipa: "/wɜːrk/", meaning: "Làm việc, công việc" },
+  people: { pos: "Danh từ", ipa: "/ˈpiː.pəl/", meaning: "Con người, mọi người" },
+  way: { pos: "Danh từ", ipa: "/weɪ/", meaning: "Cách, con đường" },
+  make: { pos: "Động từ", ipa: "/meɪk/", meaning: "Tạo ra, làm cho" },
+  know: { pos: "Động từ", ipa: "/noʊ/", meaning: "Biết, hiểu" },
+  take: { pos: "Động từ", ipa: "/teɪk/", meaning: "Lấy, nhận, dẫn đi" },
+  see: { pos: "Động từ", ipa: "/siː/", meaning: "Nhìn thấy, gặp" },
+  come: { pos: "Động từ", ipa: "/kʌm/", meaning: "Đến, tới" },
+  think: { pos: "Động từ", ipa: "/θɪŋk/", meaning: "Nghĩ, suy nghĩ" },
+  look: { pos: "Động từ", ipa: "/lʊk/", meaning: "Nhìn, xem" },
+  want: { pos: "Động từ", ipa: "/wɒnt/", meaning: "Muốn" },
+  give: { pos: "Động từ", ipa: "/ɡɪv/", meaning: "Cho, tặng" },
+  use: { pos: "Động từ / Danh từ", ipa: "/juːz/", meaning: "Sử dụng, dùng" },
+  find: { pos: "Động từ", ipa: "/faɪnd/", meaning: "Tìm thấy, nhận thấy" },
+  tell: { pos: "Động từ", ipa: "/tel/", meaning: "Kể, bảo, nói" },
+  ask: { pos: "Động từ", ipa: "/æsk/", meaning: "Hỏi, yêu cầu" },
+  feel: { pos: "Động từ", ipa: "/fiːl/", meaning: "Cảm thấy" },
+  try: { pos: "Động từ", ipa: "/traɪ/", meaning: "Thử, cố gắng" },
+  leave: { pos: "Động từ", ipa: "/liːv/", meaning: "Rời đi, để lại" },
+  call: { pos: "Động từ", ipa: "/kɔːl/", meaning: "Gọi, kêu" }
+};
+
 /**
  * Deep AI Word Lookup Function
  * Normalizes input word, strips suffixes (ing, ed, s, es, ly), and generates full pedagogical breakdown.
@@ -327,9 +426,22 @@ export function lookupWordDeep(rawWord: string): DeepWordDefinition {
     };
   }
 
-  // Direct match
+  // Direct match in Primary Database
   if (DICTIONARY_DATABASE[cleanWord]) {
     return DICTIONARY_DATABASE[cleanWord];
+  }
+
+  // Match in Common Words Map
+  if (COMMON_WORDS_MAP[cleanWord]) {
+    const item = COMMON_WORDS_MAP[cleanWord];
+    return {
+      word: rawWord,
+      ipa: item.ipa,
+      pos: item.pos,
+      meaning: item.meaning,
+      detailMeaning: item.detailMeaning || `Từ "${rawWord}" là một từ vựng tiếng Anh thông dụng.`,
+      example: `Usage example of "${rawWord}".`,
+    };
   }
 
   // Stemming fallback (Remove 's', 'es', 'ed', 'ing', 'ly')
@@ -347,13 +459,25 @@ export function lookupWordDeep(rawWord: string): DeepWordDefinition {
     };
   }
 
-  // Generative fallback for unlisted words
+  if (COMMON_WORDS_MAP[stem]) {
+    const base = COMMON_WORDS_MAP[stem];
+    return {
+      word: rawWord,
+      ipa: base.ipa,
+      pos: base.pos,
+      meaning: base.meaning,
+      detailMeaning: `Biến thể từ của gốc từ "${stem}".`,
+      example: `Usage example of "${rawWord}".`,
+    };
+  }
+
+  // Fallback for unlisted words: Show readable capitalized word meaning
   return {
     word: rawWord,
     ipa: `/${cleanWord}/`,
     pos: "Từ vựng tiếng Anh",
-    meaning: `Từ vựng trong bài đọc (${rawWord})`,
-    detailMeaning: `Từ "${rawWord}" xuất hiện trong văn bản bài nghe. Luyện tập nghe phát âm và ghép ngữ cảnh câu.`,
+    meaning: `${rawWord.charAt(0).toUpperCase() + rawWord.slice(1)} (Từ vựng tiếng Anh)`,
+    detailMeaning: `Từ "${rawWord}" xuất hiện trong bài đọc/nghe. Luyện tập ghép từ vào ngữ cảnh câu.`,
     collocations: [`${cleanWord} in sentence`, `learn ${cleanWord}`],
     example: `Context sentence containing "${rawWord}".`,
     synonyms: ["word", "vocabulary"],

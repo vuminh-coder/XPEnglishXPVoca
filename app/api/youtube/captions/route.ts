@@ -129,7 +129,125 @@ export async function POST(request: NextRequest) {
 }
 
 /**
- * Server-side Subtitle & Track Extraction Pipeline
+ * Extract captionTracks from YouTube page HTML using multiple regex strategies
+ */
+function extractCaptionTracksFromHtml(html: string): any[] {
+  // Strategy 1: "captionTracks" with greedy balanced bracket match
+  const strategies = [
+    // Match captionTracks JSON array (handles nested objects and various quote styles)
+    /"captionTracks"\s*:\s*(\[[\s\S]*?\])\s*,\s*"(?:audioTracks|translationLanguages|defaultAudioTrackIndex)/,
+    /"captionTracks"\s*:\s*(\[\{[\s\S]*?\}\])/,
+    /"captionTracks"\s*:\s*(\[[^\]]+\])/,
+  ];
+
+  for (const regex of strategies) {
+    const match = regex.exec(html);
+    if (match && match[1]) {
+      try {
+        const tracks = JSON.parse(match[1]);
+        if (Array.isArray(tracks) && tracks.length > 0) {
+          return tracks;
+        }
+      } catch (e) {
+        // Try cleaning the string and re-parsing
+        try {
+          const cleaned = match[1].replace(/\\u0026/g, "&").replace(/\\\\/g, "\\");
+          const tracks = JSON.parse(cleaned);
+          if (Array.isArray(tracks) && tracks.length > 0) return tracks;
+        } catch (e2) {}
+      }
+    }
+  }
+
+  // Strategy 2: Extract full ytInitialPlayerResponse and navigate to captionTracks
+  const playerResponsePatterns = [
+    /ytInitialPlayerResponse\s*=\s*(\{[\s\S]+?\})\s*;\s*(?:var\s|let\s|const\s|window\.|document\.|<\/script>)/,
+    /ytInitialPlayerResponse\s*=\s*(\{[\s\S]+?\})\s*;/,
+  ];
+
+  for (const pattern of playerResponsePatterns) {
+    const match = pattern.exec(html);
+    if (match && match[1]) {
+      try {
+        // Truncate at reasonable length to avoid parsing issues
+        let jsonStr = match[1];
+        if (jsonStr.length > 500000) jsonStr = jsonStr.substring(0, 500000);
+        const playerResponse = JSON.parse(jsonStr);
+        const tracks = playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks;
+        if (Array.isArray(tracks) && tracks.length > 0) return tracks;
+      } catch (e) {}
+    }
+  }
+
+  // Strategy 3: Find baseUrl patterns for timedtext directly
+  const urlPattern = /https?:\\?\/\\?\/www\.youtube\.com\\?\/api\\?\/timedtext[^"'\s]*/g;
+  const urls: string[] = [];
+  let urlMatch;
+  while ((urlMatch = urlPattern.exec(html)) !== null) {
+    const url = urlMatch[0]
+      .replace(/\\u0026/g, "&")
+      .replace(/\\\//g, "/")
+      .replace(/\\"/g, "");
+    if (!urls.includes(url)) urls.push(url);
+  }
+
+  if (urls.length > 0) {
+    // Create synthetic track objects from discovered URLs
+    return urls.map((url, i) => {
+      const langMatch = /[?&]lang=(\w+)/.exec(url);
+      const kindMatch = /[?&]kind=(\w+)/.exec(url);
+      return {
+        baseUrl: url,
+        languageCode: langMatch?.[1] || (i === 0 ? "en" : "vi"),
+        kind: kindMatch?.[1] || "manual",
+      };
+    });
+  }
+
+  return [];
+}
+
+/**
+ * Fetch caption tracks via YouTube Innertube API (Official Mobile Client Endpoint)
+ * Extremely reliable and bypasses watch page HTML parsing changes.
+ */
+async function fetchInnertubeCaptionTracks(videoId: string): Promise<any[]> {
+  try {
+    const res = await fetch("https://www.youtube.com/youtubei/v1/player", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "User-Agent": "com.google.android.youtube/19.02.39 (Linux; U; Android 14; US) gzip",
+      },
+      body: JSON.stringify({
+        videoId,
+        context: {
+          client: {
+            clientName: "ANDROID",
+            clientVersion: "19.02.39",
+            hl: "en",
+            gl: "US",
+          },
+        },
+      }),
+      cache: "no-store",
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      const tracks = data?.captions?.playerCaptionsTracklistRenderer?.captionTracks;
+      if (Array.isArray(tracks) && tracks.length > 0) {
+        return tracks;
+      }
+    }
+  } catch (e) {
+    console.warn("Innertube API caption extraction notice:", e);
+  }
+  return [];
+}
+
+/**
+ * Server-side Subtitle & Track Extraction Pipeline — Robust Multi-Strategy
  */
 async function fetchSubtitlesOrTracksOnServer(videoId: string): Promise<{
   subtitles?: SubtitleItem[];
@@ -137,102 +255,108 @@ async function fetchSubtitlesOrTracksOnServer(videoId: string): Promise<{
   needClientFetch?: boolean;
 }> {
   const watchUrl = `https://www.youtube.com/watch?v=${videoId}`;
-  const headers = {
+  const headers: Record<string, string> = {
     "User-Agent":
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
     "Accept-Language": "en-US,en;q=0.9,vi;q=0.8",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
   };
 
   let rawContentEn = "";
   let rawContentVn = "";
   let extractedTracks: ExtractedTrack[] = [];
 
-  // 1. Fetch Watch Page HTML to get tokenized captionTracks URLs
-  try {
-    const watchRes = await fetch(watchUrl, { headers, cache: "no-store" });
-    if (watchRes.ok) {
-      const html = await watchRes.text();
+  // Strategy A: Innertube Official Client API (Highest reliability for real captions)
+  let captionTracks = await fetchInnertubeCaptionTracks(videoId);
 
-      // Method A: Direct captionTracks regex
-      let captionTracks: any[] = [];
-      const tracksMatch = /"captionTracks":\s*(\[[\s\S]+?\])\s*,\s*"/i.exec(html);
-      if (tracksMatch && tracksMatch[1]) {
+  // Strategy B: Fetch Watch Page HTML if Innertube didn't return tracks
+  if (!captionTracks.length) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 8000);
+      const watchRes = await fetch(watchUrl, {
+        headers,
+        cache: "no-store",
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
+
+      if (watchRes.ok) {
+        const html = await watchRes.text();
+        captionTracks = extractCaptionTracksFromHtml(html);
+      }
+    } catch (e: any) {
+      console.warn("Watch page caption extraction warning:", e?.message || e);
+    }
+  }
+
+  if (captionTracks.length > 0) {
+    extractedTracks = captionTracks.map((t: any) => ({
+      lang: t.languageCode || "en",
+      kind: t.kind || "manual",
+      baseUrl: (t.baseUrl || "").replace(/\\u0026/g, "&").replace(/\\\//g, "/"),
+    }));
+
+    // Find English track (prefer manual over ASR)
+    let targetTrack = captionTracks.find(
+      (t: any) => t.languageCode?.startsWith("en") && t.kind !== "asr"
+    );
+    if (!targetTrack) {
+      targetTrack = captionTracks.find((t: any) => t.languageCode?.startsWith("en"));
+    }
+    if (!targetTrack) targetTrack = captionTracks[0];
+
+    if (targetTrack && targetTrack.baseUrl) {
+      const baseUrl = targetTrack.baseUrl.replace(/\\u0026/g, "&").replace(/\\\//g, "/");
+
+      // Try multiple formats: json3 first (most reliable), then srv1 (XML)
+      const fetchUrls = [
+        baseUrl.includes("fmt=") ? baseUrl : `${baseUrl}&fmt=json3`,
+        baseUrl.includes("fmt=") ? baseUrl.replace(/fmt=\w+/, "fmt=srv1") : `${baseUrl}&fmt=srv1`,
+        baseUrl,
+      ];
+
+      for (const url of fetchUrls) {
         try {
-          captionTracks = JSON.parse(tracksMatch[1]);
+          const trackRes = await fetch(url, { headers, cache: "no-store" });
+          if (trackRes.ok) {
+            const text = await trackRes.text();
+            if (text && text.trim().length > 50) {
+              rawContentEn = text;
+              break;
+            }
+          }
         } catch (e) {}
       }
 
-      // Method B: ytInitialPlayerResponse object regex fallback
-      if (!captionTracks.length) {
-        const playerResponseMatch =
-          /ytInitialPlayerResponse\s*=\s*({[\s\S]+?});\s*(?:var|window|document|<\/script>)/i.exec(html) ||
-          /ytInitialPlayerResponse\s*=\s*({[\s\S]+?})</i.exec(html);
+      // Fetch Vietnamese track
+      const vnTrack = captionTracks.find((t: any) => t.languageCode?.startsWith("vi"));
+      if (vnTrack || targetTrack.baseUrl) {
+        const vnBaseUrl = vnTrack
+          ? (vnTrack.baseUrl || "").replace(/\\u0026/g, "&").replace(/\\\//g, "/")
+          : `${baseUrl}&tlang=vi`;
+        const vnFetchUrls = [
+          vnBaseUrl.includes("fmt=") ? vnBaseUrl : `${vnBaseUrl}&fmt=json3`,
+          vnBaseUrl.includes("fmt=") ? vnBaseUrl.replace(/fmt=\w+/, "fmt=srv1") : `${vnBaseUrl}&fmt=srv1`,
+        ];
 
-        if (playerResponseMatch && playerResponseMatch[1]) {
+        for (const url of vnFetchUrls) {
           try {
-            const playerResponse = JSON.parse(playerResponseMatch[1]);
-            captionTracks = playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks || [];
+            const vnTrackRes = await fetch(url, { headers, cache: "no-store" });
+            if (vnTrackRes.ok) {
+              const vnText = await vnTrackRes.text();
+              if (vnText && vnText.trim().length > 30) {
+                rawContentVn = vnText;
+                break;
+              }
+            }
           } catch (e) {}
         }
       }
-
-      if (Array.isArray(captionTracks) && captionTracks.length > 0) {
-        extractedTracks = captionTracks.map((t: any) => ({
-          lang: t.languageCode || "en",
-          kind: t.kind || "manual",
-          baseUrl: t.baseUrl,
-        }));
-
-        let targetTrack = captionTracks.find((t: any) => t.languageCode?.startsWith("en"));
-        if (!targetTrack) targetTrack = captionTracks[0];
-
-        if (targetTrack && targetTrack.baseUrl) {
-          const fetchUrls = [
-            targetTrack.baseUrl.includes("fmt=") ? targetTrack.baseUrl : `${targetTrack.baseUrl}&fmt=json3`,
-            targetTrack.baseUrl.includes("fmt=") ? targetTrack.baseUrl : `${targetTrack.baseUrl}&fmt=srv1`,
-            targetTrack.baseUrl,
-          ];
-
-          for (const url of fetchUrls) {
-            try {
-              const trackRes = await fetch(url, { headers, cache: "no-store" });
-              if (trackRes.ok) {
-                const text = await trackRes.text();
-                if (text && text.trim().length > 0) {
-                  rawContentEn = text;
-                  break;
-                }
-              }
-            } catch (e) {}
-          }
-
-          const vnTrack = captionTracks.find((t: any) => t.languageCode?.startsWith("vi"));
-          const vnBaseUrl = vnTrack ? vnTrack.baseUrl : `${targetTrack.baseUrl}&tlang=vi`;
-          const vnFetchUrls = [
-            vnBaseUrl.includes("fmt=") ? vnBaseUrl : `${vnBaseUrl}&fmt=json3`,
-            vnBaseUrl.includes("fmt=") ? vnBaseUrl : `${vnBaseUrl}&fmt=srv1`,
-          ];
-
-          for (const url of vnFetchUrls) {
-            try {
-              const vnTrackRes = await fetch(url, { headers, cache: "no-store" });
-              if (vnTrackRes.ok) {
-                const vnText = await vnTrackRes.text();
-                if (vnText && vnText.trim().length > 0) {
-                  rawContentVn = vnText;
-                  break;
-                }
-              }
-            } catch (e) {}
-          }
-        }
-      }
     }
-  } catch (e) {
-    console.warn("Watch page caption extraction warning:", e);
   }
 
-  // 2. Server parse success
+  // 2. Server parse success → return subtitles
   if (rawContentEn) {
     const parsedEn = parseTimedTextAny(rawContentEn);
     const parsedVn = rawContentVn ? parseVnTimedTextAny(rawContentVn) : [];
@@ -253,17 +377,19 @@ async function fetchSubtitlesOrTracksOnServer(videoId: string): Promise<{
     }
   }
 
-  // 3. If server IP was throttled by YouTube (len 0), return extractedTracks for client browser fetch
+  // 3. If server got tracks but couldn't fetch content (YouTube IP throttle)
+  //    → return tracks for client browser to fetch (client has cookies/different IP)
   if (extractedTracks.length > 0) {
     return { tracks: extractedTracks, needClientFetch: true };
   }
 
-  // 4. Candidate direct URLs fallback on server
+  // 4. Direct timedtext API candidates (no watch page needed)
   let xmlEn = "";
   const candidateUrlsEn = [
+    `https://www.youtube.com/api/timedtext?v=${videoId}&lang=en&fmt=json3`,
     `https://www.youtube.com/api/timedtext?v=${videoId}&lang=en`,
     `https://www.youtube.com/api/timedtext?v=${videoId}&lang=en&kind=asr`,
-    `https://www.youtube.com/api/timedtext?v=${videoId}&lang=vi`,
+    `https://www.youtube.com/api/timedtext?v=${videoId}&lang=en&kind=asr&fmt=json3`,
   ];
 
   for (const url of candidateUrlsEn) {
@@ -271,7 +397,7 @@ async function fetchSubtitlesOrTracksOnServer(videoId: string): Promise<{
       const res = await fetch(url, { headers, cache: "no-store" });
       if (res.ok) {
         const text = await res.text();
-        if (text && text.includes("<text")) {
+        if (text && text.trim().length > 50) {
           xmlEn = text;
           break;
         }
@@ -279,10 +405,24 @@ async function fetchSubtitlesOrTracksOnServer(videoId: string): Promise<{
     } catch (e) {}
   }
 
-  if (xmlEn && xmlEn.includes("<text")) {
-    const parsedEn = parseTimedTextXml(xmlEn);
+  if (xmlEn) {
+    const parsedEn = parseTimedTextAny(xmlEn);
     if (parsedEn.length > 0) {
-      const aligned = alignBilingualSubtitles(parsedEn, []);
+      // Also try fetching Vietnamese
+      let xmlVn = "";
+      try {
+        const vnRes = await fetch(
+          `https://www.youtube.com/api/timedtext?v=${videoId}&lang=vi`,
+          { headers, cache: "no-store" }
+        );
+        if (vnRes.ok) {
+          const vnText = await vnRes.text();
+          if (vnText && vnText.trim().length > 30) xmlVn = vnText;
+        }
+      } catch (e) {}
+
+      const parsedVn = xmlVn ? parseVnTimedTextAny(xmlVn) : [];
+      const aligned = alignBilingualSubtitles(parsedEn, parsedVn);
       const subtitles = aligned.map((item, index) => ({
         id: index + 1,
         start: formatTimestampMs(item.startTime),
@@ -297,59 +437,6 @@ async function fetchSubtitlesOrTracksOnServer(videoId: string): Promise<{
     }
   }
 
-  // 5. Smart Fallback for videos without XML timedtext captions
-  const fallbackSubtitles = [
-    {
-      id: 1,
-      start: "00:00:02.500",
-      end: "00:00:06.800",
-      duration: 4.3,
-      english: "Welcome to this interactive English video learning session.",
-      vietnamese: "Chào mừng bạn đến với phiên học tiếng Anh tương tác qua video này.",
-      dictationWord: "interactive",
-      startSeconds: 2.5,
-    },
-    {
-      id: 2,
-      start: "00:00:07.200",
-      end: "00:00:12.000",
-      duration: 4.8,
-      english: "Listening to authentic English music and speech helps improve your pronunciation.",
-      vietnamese: "Nghe âm nhạc và lời nói tiếng Anh chuẩn giúp cải thiện phát âm của bạn.",
-      dictationWord: "pronunciation",
-      startSeconds: 7.2,
-    },
-    {
-      id: 3,
-      start: "00:00:12.500",
-      end: "00:00:17.400",
-      duration: 4.9,
-      english: "Click on any word in the subtitles to look up its instant definition.",
-      vietnamese: "Nhấp vào bất kỳ từ nào trong phụ đề để tra từ điển ngay lập tức.",
-      dictationWord: "instant",
-      startSeconds: 12.5,
-    },
-    {
-      id: 4,
-      start: "00:00:18.000",
-      end: "00:00:23.500",
-      duration: 5.5,
-      english: "Practice dictation and shadowing to boost your vocabulary retention.",
-      vietnamese: "Luyện nghe điền từ và nhại giọng để tăng cường khả năng ghi nhớ từ vựng.",
-      dictationWord: "retention",
-      startSeconds: 18.0,
-    },
-    {
-      id: 5,
-      start: "00:00:24.000",
-      end: "00:00:29.800",
-      duration: 5.8,
-      english: "Enjoy learning English naturally with your favorite YouTube videos and songs!",
-      vietnamese: "Hãy tận hưởng việc học tiếng Anh tự nhiên cùng các video và bài hát YouTube yêu thích!",
-      dictationWord: "naturally",
-      startSeconds: 24.0,
-    },
-  ];
-
-  return { subtitles: fallbackSubtitles, needClientFetch: false };
+  // 5. No captions found at all → return empty (let client service handle fallback)
+  return { subtitles: [], tracks: [], needClientFetch: false };
 }

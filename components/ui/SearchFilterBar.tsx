@@ -39,7 +39,7 @@ export const SearchFilterBar = ({
           value={searchValue}
           onChange={(e) => onSearchChange(e.target.value)}
           placeholder={placeholder}
-          className="w-full h-11 pl-10 pr-9 text-xs sm:text-sm font-semibold rounded-2xl bg-white dark:bg-slate-950 border border-slate-200/80 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all shadow-xs"
+          className="w-full h-11 pl-10 pr-9 text-xs sm:text-sm font-semibold rounded-xs bg-white dark:bg-slate-950 border border-slate-200/80 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all shadow-xs"
         />
         {searchValue && (
           <button
@@ -60,7 +60,7 @@ export const SearchFilterBar = ({
               key={tag.id}
               onClick={() => onSelectTag(tag.id)}
               className={cn(
-                "flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-extrabold whitespace-nowrap transition-all cursor-pointer border select-none shrink-0",
+                "flex items-center gap-1.5 px-3.5 py-2 rounded-xs text-xs font-extrabold whitespace-nowrap transition-all cursor-pointer border select-none shrink-0",
                 isActive
                   ? "bg-blue-600 text-white border-blue-500 shadow-md shadow-blue-500/20"
                   : "bg-slate-100 dark:bg-slate-900/80 text-slate-700 dark:text-slate-300 border-slate-200/70 dark:border-white/10 hover:bg-slate-200 dark:hover:bg-slate-800"

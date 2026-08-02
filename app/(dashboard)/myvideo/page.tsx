@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import {
   useVideoStore,
@@ -43,7 +43,19 @@ import {
   FileCode,
   Download,
   BarChart2,
+  Eye,
+  List,
+  Keyboard,
 } from "lucide-react";
+
+/** FIX BUG #8: Format seconds to MM:SS display string */
+function formatSubTime(seconds: number): string {
+  if (isNaN(seconds) || seconds < 0) return "00:00";
+  const totalSec = Math.floor(seconds);
+  const mins = Math.floor(totalSec / 60);
+  const secs = totalSec % 60;
+  return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+}
 
 export default function MyVideoPage() {
   const { user, awardXp } = useAuthStore();
@@ -59,6 +71,9 @@ export default function MyVideoPage() {
 
   // Ref to YouTube Player IFrame for PostMessage controls (seekTo, playVideo, pauseVideo)
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  // Ref to store real YouTube player time from postMessage events
+  const ytPlayerTimeRef = useRef<number>(0);
+  const ytPlayerStateRef = useRef<number>(-1); // -1=unstarted, 1=playing, 2=paused, 3=buffering, 0=ended
 
   // YouTube Link Import State with Category & Level Selection
   const [youtubeInput, setYoutubeInput] = useState("");
@@ -116,20 +131,124 @@ export default function MyVideoPage() {
     loadSavedVideos();
   }, [loadSavedVideos]);
 
-  // Set default active video on initial load if available
+  // Set default active video on initial load ONLY (not on every savedVideos change)
+  const hasSetInitialVideo = useRef(false);
   useEffect(() => {
-    if (!activeVideo && savedVideos.length > 0) {
+    if (!hasSetInitialVideo.current && !activeVideo && savedVideos.length > 0) {
       setActiveVideo(savedVideos[0]);
+      hasSetInitialVideo.current = true;
     }
   }, [savedVideos, activeVideo]);
 
-  // Sub-second high-precision timer loop (50ms interval) for real-time video-subtitle & Karaoke word sync
+  // FIX BUG #9: Sync activeVideo with store changes (favorite, progress updates)
+  useEffect(() => {
+    if (activeVideo) {
+      const updatedVideo = savedVideos.find((v) => v.id === activeVideo.id);
+      if (updatedVideo && (
+        updatedVideo.isFavorite !== activeVideo.isFavorite ||
+        updatedVideo.progressPercent !== activeVideo.progressPercent
+      )) {
+        setActiveVideo(updatedVideo);
+      }
+    }
+  }, [savedVideos, activeVideo]);
+
+  // FIX BUG #21: Keyboard shortcuts for video controls
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Don't intercept if user is typing in an input
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") {
+        // Allow Enter in dictation input
+        if (e.key === "Enter" && rightPanelTab === "dictation" && !dictationAnswered && dictationInput.trim()) {
+          e.preventDefault();
+          handleCheckDictation();
+        }
+        return;
+      }
+      if (!activeVideo) return;
+      switch (e.key) {
+        case " ":
+          e.preventDefault();
+          togglePlayPause();
+          break;
+        case "Escape":
+          if (showExportModal) setShowExportModal(false);
+          if (wordLookupData) { setWordLookupData(null); setSelectedWord(null); }
+          break;
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [activeVideo, isPlaying, showExportModal, wordLookupData, rightPanelTab, dictationAnswered, dictationInput]);
+
+  // YouTube IFrame API: Listen for postMessage events to get REAL player time & state
+  useEffect(() => {
+    const handleYTMessage = (event: MessageEvent) => {
+      if (event.origin !== "https://www.youtube.com") return;
+      try {
+        const data = typeof event.data === "string" ? JSON.parse(event.data) : event.data;
+        // YouTube sends infoDelivery with currentTime
+        if (data?.event === "infoDelivery" && data?.info) {
+          if (typeof data.info.currentTime === "number") {
+            ytPlayerTimeRef.current = data.info.currentTime;
+          }
+          // Sync play/pause state from YouTube player
+          if (typeof data.info.playerState === "number") {
+            ytPlayerStateRef.current = data.info.playerState;
+            const ytPlaying = data.info.playerState === 1;
+            setIsPlaying(ytPlaying);
+          }
+        }
+        // YouTube onStateChange event
+        if (data?.event === "onStateChange") {
+          ytPlayerStateRef.current = data.info;
+          setIsPlaying(data.info === 1);
+        }
+      } catch (e) {
+        // Not a JSON message from YouTube, ignore
+      }
+    };
+    window.addEventListener("message", handleYTMessage);
+    return () => window.removeEventListener("message", handleYTMessage);
+  }, []);
+
+  // Register as listener with YouTube IFrame API (required to receive infoDelivery events)
+  useEffect(() => {
+    if (iframeRef.current && iframeRef.current.contentWindow && activeVideo) {
+      // Small delay to let iframe load
+      const timeout = setTimeout(() => {
+        try {
+          iframeRef.current?.contentWindow?.postMessage(
+            JSON.stringify({ event: "listening", id: "yt-player" }),
+            "*"
+          );
+        } catch (e) {}
+      }, 1500);
+      return () => clearTimeout(timeout);
+    }
+  }, [activeVideo?.id]);
+
+  // Real-time sync loop: reads ACTUAL YouTube player time via postMessage, syncs subtitle & karaoke
   useEffect(() => {
     let timer: NodeJS.Timeout;
-    if (isPlaying && activeVideo && activeVideo.subtitles.length > 0) {
+    if (activeVideo && activeVideo.subtitles.length > 0) {
       timer = setInterval(() => {
+        // Read real time from YouTube player (via postMessage events)
+        const realTime = ytPlayerTimeRef.current;
+        // Also request fresh time from YouTube player
+        if (iframeRef.current?.contentWindow) {
+          try {
+            iframeRef.current.contentWindow.postMessage(
+              JSON.stringify({ event: "command", func: "getCurrentTime", args: [] }),
+              "*"
+            );
+          } catch (e) {}
+        }
+
         setCurrentTime((prevTime) => {
-          const nextTime = parseFloat((prevTime + 0.05).toFixed(2));
+          // Use YouTube's real time if available and significantly different from our tracked time
+          const nextTime = realTime > 0.1 ? parseFloat(realTime.toFixed(2)) : parseFloat((prevTime + 0.05).toFixed(2));
 
           // Auto-sync activeSubIndex when playback advances into a new sentence boundary
           const matchedIdx = activeVideo.subtitles.findIndex(
@@ -151,7 +270,7 @@ export default function MyVideoPage() {
             setActiveWordIndex(currentWordIdx);
           }
 
-          // Predictive Progressive Streaming Prefetch: Auto-append next segment when reaching cue boundary
+          // Progressive chunk loading
           const currentChunkBoundary = loadedChunkCount * 3;
           if (matchedIdx >= currentChunkBoundary - 1 && loadedChunkCount * 3 < activeVideo.subtitles.length) {
             setIsPipelineStreaming(true);
@@ -161,10 +280,10 @@ export default function MyVideoPage() {
 
           return nextTime;
         });
-      }, 50);
+      }, 80); // 80ms = ~12fps, enough for smooth karaoke and reduces CPU
     }
     return () => clearInterval(timer);
-  }, [isPlaying, activeVideo, activeSubIndex, loadedChunkCount]);
+  }, [activeVideo, activeSubIndex, loadedChunkCount]);
 
   // Waveform animation during recording
   useEffect(() => {
@@ -182,6 +301,8 @@ export default function MyVideoPage() {
   // Send seekTo & playVideo command to YouTube Player IFrame via PostMessage API
   const handleSeekTo = (seconds: number, subIndex: number) => {
     setActiveSubIndex(subIndex);
+    setCurrentTime(seconds); // Immediately sync local time to seek position
+    ytPlayerTimeRef.current = seconds; // Update ref too
     if (iframeRef.current && iframeRef.current.contentWindow) {
       try {
         iframeRef.current.contentWindow.postMessage(
@@ -284,8 +405,14 @@ export default function MyVideoPage() {
       setYoutubeInput("");
       setActiveVideo(newVideo); // Auto load in Master Player!
       setActiveSubtitleResult(fullResult);
-      setRightPanelTab("subtitles"); // TỰ ĐỘNG CHUYỂN VÀO TAB "PHỤ ĐỀ TRA TỪ" NGAY LẬP TỨC!
-      setActiveSubIndex(0); // Highlight câu phụ đề đầu tiên
+      setRightPanelTab("subtitles");
+      setActiveSubIndex(0);
+      setCurrentTime(0); // FIX BUG #3: Reset playback position
+      setActiveWordIndex(0);
+      setLoadedChunkCount(1); // FIX BUG #4: Reset progressive streaming
+      setCurrentSubIndex(0);
+      setDictationInput("");
+      setDictationAnswered(false);
       setIsPlaying(true);
       addToast({
         type: "success",
@@ -301,46 +428,98 @@ export default function MyVideoPage() {
   };
 
   // Select video helper: Loads player and switches right panel to Tab 1 Subtitles
+  // FIX BUG #3 + #4: Reset ALL playback state when switching videos
   const selectVideoAndOpenSubtitles = (video: YouTubeVideoItem) => {
     setActiveVideo(video);
-    setRightPanelTab("subtitles"); // Tự động mở Tab Phụ Đề Tra Từ
+    setRightPanelTab("subtitles");
     setActiveSubIndex(0);
     setCurrentSubIndex(0);
+    setCurrentTime(0); // FIX BUG #3
+    setActiveWordIndex(0); // FIX BUG #3
+    setLoadedChunkCount(1); // FIX BUG #4
     setDictationInput("");
     setDictationAnswered(false);
+    setDictationCorrect(null);
+    setShowHint(false);
+    setShadowingScore(null);
     setIsPlaying(true);
+    setWordLookupData(null);
+    setSelectedWord(null);
   };
 
-  // Click on word in Subtitles to lookup
-  const handleWordClick = (word: string) => {
+  // FIX BUG #24: Click on word → lookup via Free Dictionary API for real IPA/POS/definition
+  const handleWordClick = async (word: string) => {
     const cleanWord = word.replace(/[^a-zA-Z]/g, "").toLowerCase();
     if (!cleanWord) return;
 
     setSelectedWord(cleanWord);
+    // Show instant placeholder while API loads
     setWordLookupData({
       word: cleanWord.toUpperCase(),
       phonetic: `/${cleanWord}/`,
-      pos: "vocabulary",
-      definitionVn: `Từ vựng quan trọng xuất hiện trong video thoại`,
+      pos: "loading...",
+      definitionVn: "Đang tra từ điển...",
     });
 
+    // Play pronunciation via TTS
     if (typeof window !== "undefined" && window.speechSynthesis) {
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(cleanWord);
       utterance.lang = "en-US";
       window.speechSynthesis.speak(utterance);
     }
+
+    // FIX BUG #24: Fetch real dictionary data
+    try {
+      const dictRes = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${cleanWord}`);
+      if (dictRes.ok) {
+        const dictData = await dictRes.json();
+        if (Array.isArray(dictData) && dictData.length > 0) {
+          const entry = dictData[0];
+          const phonetic = entry.phonetic || entry.phonetics?.find((p: any) => p.text)?.text || `/${cleanWord}/`;
+          const firstMeaning = entry.meanings?.[0];
+          const pos = firstMeaning?.partOfSpeech || "word";
+          const definition = firstMeaning?.definitions?.[0]?.definition || "";
+          setWordLookupData({
+            word: cleanWord.toUpperCase(),
+            phonetic,
+            pos,
+            definitionVn: definition || `Từ vựng quan trọng trong ngữ cảnh video`,
+          });
+          return;
+        }
+      }
+    } catch (e) {
+      // API unreachable → keep placeholder
+    }
+    // Fallback if API fails
+    setWordLookupData({
+      word: cleanWord.toUpperCase(),
+      phonetic: `/${cleanWord}/`,
+      pos: "vocabulary",
+      definitionVn: `Từ vựng xuất hiện trong video — nhấn 🔊 để nghe phát âm`,
+    });
   };
 
-  // Save looked up word to Personal Notebook (/myvocab)
+  // FIX BUG #6: Save word to Notebook with duplicate check
   const handleSaveWordToNotebook = () => {
     if (!wordLookupData) return;
     if (typeof window !== "undefined") {
       try {
         const stored = localStorage.getItem("xp_voca_custom_notebook") || "[]";
         const parsed = JSON.parse(stored);
+        // FIX BUG #6: Check duplicate before saving
+        const wordLower = wordLookupData.word.toLowerCase();
+        if (parsed.some((w: any) => w.word === wordLower)) {
+          addToast({
+            type: "info" as any,
+            title: "Từ đã có trong Notebook!",
+            message: `Từ "${wordLookupData.word}" đã được lưu trước đó rồi.`,
+          });
+          return;
+        }
         parsed.push({
-          word: wordLookupData.word.toLowerCase(),
+          word: wordLower,
           phonetic: wordLookupData.phonetic,
           pos: wordLookupData.pos,
           definitionVn: wordLookupData.definitionVn,
@@ -358,14 +537,15 @@ export default function MyVideoPage() {
     });
   };
 
-  // Dictation Check Answer
+  // FIX BUG #7: Dictation Check Answer with normalized comparison (strip punctuation)
   const handleCheckDictation = () => {
     if (!activeVideo || dictationAnswered) return;
     const currentSub = activeVideo.subtitles[currentSubIndex];
     if (!currentSub) return;
 
-    const userClean = dictationInput.trim().toLowerCase();
-    const targetClean = currentSub.dictationWord.trim().toLowerCase();
+    // FIX BUG #7: Strip all non-alpha chars before comparing
+    const userClean = dictationInput.trim().toLowerCase().replace(/[^a-z]/g, "");
+    const targetClean = currentSub.dictationWord.trim().toLowerCase().replace(/[^a-z]/g, "");
     const isRight = userClean === targetClean;
 
     setDictationAnswered(true);
@@ -420,7 +600,7 @@ export default function MyVideoPage() {
     }
   };
 
-  // Filtered Video List
+  // FIX BUG #10: Filtered Video List with correct "Đang học" logic
   const filteredVideos = savedVideos.filter((v) => {
     const matchesSearch =
       v.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -430,7 +610,8 @@ export default function MyVideoPage() {
 
     if (!matchesSearch || !matchesCategory) return false;
 
-    if (selectedFilter === "learning") return v.progressPercent < 100;
+    // FIX BUG #10: "Đang học" = started but not finished (0% < progress < 100%)
+    if (selectedFilter === "learning") return v.progressPercent > 0 && v.progressPercent < 100;
     if (selectedFilter === "done") return v.progressPercent >= 100;
     if (selectedFilter === "favorite") return v.isFavorite;
 
@@ -446,7 +627,7 @@ export default function MyVideoPage() {
     <div className="space-y-4 sm:space-y-5 pb-20 md:pb-8 select-none font-sans" suppressHydrationWarning>
 
       {/* 1. HERO SPOTLIGHT BANNER */}
-      <div className="p-4 sm:p-5 rounded-md bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-xs relative overflow-hidden">
+      <div className="p-4 sm:p-5 rounded-xs bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-xs relative overflow-hidden">
         <div className="absolute -right-10 -bottom-10 w-44 sm:w-52 h-44 sm:h-52 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3.5 sm:gap-4">
           <div className="space-y-1 max-w-2xl">
@@ -489,7 +670,7 @@ export default function MyVideoPage() {
       </div>
 
       {/* 2. YOUTUBE PASTE LINK IMPORT BOX WITH CATEGORY & LEVEL SELECTORS */}
-      <div className="p-4 sm:p-5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3">
+      <div className="p-4 sm:p-5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3">
         <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
           <label className="text-xs font-bold uppercase tracking-wider text-[#0059bb] dark:text-sky-400 flex items-center gap-1.5 font-display">
             <LinkIcon className="w-3.5 h-3.5 stroke-[2.2]" /> DÁN LINK VIDEO YOUTUBE ĐỂ HỌC TƯƠNG TÁC
@@ -595,7 +776,7 @@ export default function MyVideoPage() {
           
           {/* CỘT TRÁI (LEFT MAIN COLUMN - lg:col-span-7 / 60%): CLEAN PLAYER WITHOUT TITLE OR EXTRA BARS */}
           <div className="lg:col-span-7 flex flex-col">
-            <div className="rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-sm overflow-hidden flex flex-col h-full">
+            <div className="rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-sm overflow-hidden flex flex-col h-full">
               {/* Option 1 Clean Player Container: controls=0 hides 100% native title & control overlays */}
               <div
                 onClick={togglePlayPause}
@@ -653,7 +834,16 @@ export default function MyVideoPage() {
                       </button>
                       <button
                         type="button"
-                        onClick={() => removeVideo(activeVideo.id)}
+                        onClick={() => {
+                          // FIX BUG #5: Clear activeVideo if removing the currently active one
+                          const nextVideos = savedVideos.filter((v) => v.id !== activeVideo.id);
+                          removeVideo(activeVideo.id);
+                          if (nextVideos.length > 0) {
+                            selectVideoAndOpenSubtitles(nextVideos[0]);
+                          } else {
+                            setActiveVideo(null);
+                          }
+                        }}
                         className="p-1.5 rounded-xs bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-all cursor-pointer"
                         title="Xóa video"
                       >
@@ -687,7 +877,7 @@ export default function MyVideoPage() {
 
           {/* CỘT PHẢI (RIGHT PANEL - lg:col-span-5 / 40%): HEIGHT CAO BẰNG CHÍNH XÁC KHỐI VIDEO BÊN CẠNH */}
           <div className="lg:col-span-5 flex flex-col">
-            <div className="rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-sm overflow-hidden flex flex-col h-full min-h-0">
+            <div className="rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-sm overflow-hidden flex flex-col h-full min-h-0">
               
               {/* Header Tabs */}
               <div className="p-1 bg-slate-100 dark:bg-slate-800 border-b border-slate-200 dark:border-white/10 grid grid-cols-3 gap-1 shrink-0">
@@ -789,9 +979,24 @@ export default function MyVideoPage() {
 
 
 
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
-                      CLICK CÂU ĐỂ NHẢY VIDEO · CLICK TỪ ĐỂ TRA VÀ LƯU NOTEBOOK
-                    </span>
+                    {/* FIX BUG #15: Toggle between Rolling and Full subtitle view */}
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                        CLICK CÂU ĐỂ NHẢY VIDEO · CLICK TỪ ĐỂ TRA VÀ LƯU NOTEBOOK
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setSubViewMode(subViewMode === "rolling" ? "full" : "rolling")}
+                        className="px-2 py-1 rounded-xs bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-[#0059bb] text-[10px] font-bold flex items-center gap-1 cursor-pointer transition-all border border-slate-200 dark:border-white/10"
+                        title={subViewMode === "rolling" ? "Xem toàn bộ phụ đề" : "Chế độ lướt 3 câu"}
+                      >
+                        {subViewMode === "rolling" ? (
+                          <><List className="w-3 h-3" /> Xem Tất Cả</>
+                        ) : (
+                          <><Eye className="w-3 h-3" /> Focus 3 Câu</>
+                        )}
+                      </button>
+                    </div>
 
                     {/* MODE 1: 3-SENTENCE ROLLING VIEWPORT (FOCUS MODE - DEFAULT) */}
                     {subViewMode === "rolling" && (
@@ -825,11 +1030,11 @@ export default function MyVideoPage() {
                                 {/* Subtitle Header Row */}
                                 <div className="flex items-center justify-between text-xs sm:text-sm font-mono border-b border-slate-200/40 dark:border-white/5 pb-1.5">
                                   <span className="flex items-center gap-1.5 font-bold text-slate-600 dark:text-slate-300">
-                                    <Clock className="w-4 h-4 text-[#0059bb]" /> 00:{sub.startTime < 10 ? `0${sub.startTime}` : sub.startTime}
+                                    <Clock className="w-4 h-4 text-[#0059bb]" /> {formatSubTime(sub.startTime)}
                                   </span>
                                   {isActive ? (
-                                    <span className="text-xs font-black text-[#0059bb] dark:text-sky-400 uppercase tracking-wider flex items-center gap-1.5 px-2 py-0.5 rounded-xs bg-blue-100 dark:bg-blue-900/40 border border-[#0059bb]/30 shadow-2xs">
-                                      <Play className="w-3 h-3 fill-current text-[#0059bb] animate-pulse" /> 🔴 LIVE KARAOKE SYNC
+                                    <span className="p-1 rounded-xs bg-blue-100 dark:bg-blue-900/40 border border-[#0059bb]/30 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shadow-2xs">
+                                      <Play className="w-3.5 h-3.5 fill-current text-[#0059bb] dark:text-sky-400 animate-pulse" />
                                     </span>
                                   ) : (
                                     <span className="text-[10px] font-bold text-slate-400">
@@ -892,11 +1097,11 @@ export default function MyVideoPage() {
                           >
                             <div className="flex items-center justify-between text-xs sm:text-sm font-mono border-b border-slate-200/40 dark:border-white/5 pb-1.5">
                               <span className="flex items-center gap-1.5 font-bold text-slate-600 dark:text-slate-300">
-                                <Clock className="w-4 h-4 text-[#0059bb] dark:text-sky-400" /> 00:{sub.startTime < 10 ? `0${sub.startTime}` : sub.startTime}
+                                <Clock className="w-4 h-4 text-[#0059bb] dark:text-sky-400" /> {formatSubTime(sub.startTime)}
                               </span>
                               {activeSubIndex === i && (
-                                <span className="text-xs font-black text-[#0059bb] dark:text-sky-400 uppercase tracking-wider flex items-center gap-1.5 px-2 py-0.5 rounded-xs bg-blue-100/80 dark:bg-blue-900/40 border border-[#0059bb]/30">
-                                  <Play className="w-3 h-3 fill-current text-[#0059bb] dark:text-sky-400 animate-pulse" /> ĐANG CHỌN / NHẢY MỐC
+                                <span className="p-1 rounded-xs bg-blue-100/80 dark:bg-blue-900/40 border border-[#0059bb]/30 text-[#0059bb] dark:text-sky-400 flex items-center justify-center">
+                                  <Play className="w-3.5 h-3.5 fill-current text-[#0059bb] dark:text-sky-400 animate-pulse" />
                                 </span>
                               )}
                             </div>
@@ -953,6 +1158,8 @@ export default function MyVideoPage() {
                           value={dictationInput}
                           onChange={(e) => setDictationInput(e.target.value)}
                           disabled={dictationAnswered}
+                          autoComplete="off"
+                          spellCheck={false}
                           placeholder="Gõ từ còn thiếu vào đây..."
                           className="flex-1 p-2.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-300 dark:border-white/15 text-xs font-bold text-center text-slate-900 dark:text-white"
                         />
@@ -1090,7 +1297,7 @@ export default function MyVideoPage() {
       )}
 
       {/* 4. SEARCH & CATEGORY FILTER BAR */}
-      <div className="p-3.5 sm:p-4 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3">
+      <div className="p-3.5 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3">
         <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2.5">
           {/* Search Box */}
           <div className="relative flex-1 min-w-0">
@@ -1131,7 +1338,7 @@ export default function MyVideoPage() {
 
         {/* Category Tabs */}
         <div className="flex items-center gap-1.5 overflow-x-auto pt-1 border-t border-slate-100 dark:border-white/5">
-          {["Tất cả", "Communication", "TED Talks", "Business", "Movies", "News"].map((cat) => (
+          {["Tất cả", "Communication", "TED Talks", "Business", "Movies", "News", "IELTS/TOEIC", "General"].map((cat) => (
             <button
               key={cat}
               type="button"
@@ -1142,7 +1349,7 @@ export default function MyVideoPage() {
                   : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
               }`}
             >
-              {cat === "Communication" ? "Giao tiếp" : cat}
+              {cat === "Communication" ? "Giao tiếp" : cat === "General" ? "Tổng hợp" : cat}
             </button>
           ))}
         </div>
@@ -1150,7 +1357,7 @@ export default function MyVideoPage() {
 
       {/* 5. MY VIDEO BENTO GRID */}
       {filteredVideos.length === 0 ? (
-        <div className="p-8 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs text-center space-y-3 max-w-md mx-auto">
+        <div className="p-8 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs text-center space-y-3 max-w-md mx-auto">
           <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 flex items-center justify-center mx-auto">
             <Video className="w-6 h-6" />
           </div>
@@ -1168,7 +1375,7 @@ export default function MyVideoPage() {
           {filteredVideos.map((video) => (
             <div
               key={video.id}
-              className={`rounded-md bg-white dark:bg-slate-900 border transition-all overflow-hidden flex flex-col justify-between group ${
+              className={`rounded-xs bg-white dark:bg-slate-900 border transition-all overflow-hidden flex flex-col justify-between group ${
                 activeVideo?.id === video.id
                   ? "border-[#0059bb] ring-2 ring-[#0059bb]/20 shadow-md"
                   : "border-slate-200/80 dark:border-white/10 hover:border-[#0059bb] shadow-xs"
@@ -1276,12 +1483,15 @@ export default function MyVideoPage() {
       {/* 6. EXPORT MODAL (JSON, SRT SONG NGỮ, WEBVTT SONG NGỮ & BÁO CÁO THỐNG KÊ 12 TIÊU CHÍ) */}
       <AnimatePresence>
         {showExportModal && activeSubtitleResult && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs">
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs"
+            onClick={(e) => { if (e.target === e.currentTarget) setShowExportModal(false); }}
+          >
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="w-full max-w-3xl max-h-[85vh] bg-white dark:bg-slate-900 rounded-md border border-slate-200 dark:border-white/10 shadow-xl overflow-hidden flex flex-col"
+              className="w-full max-w-3xl max-h-[85vh] bg-white dark:bg-slate-900 rounded-xs border border-slate-200 dark:border-white/10 shadow-xl overflow-hidden flex flex-col"
             >
               {/* Modal Header */}
               <div className="p-4 bg-slate-900 text-white flex items-center justify-between border-b border-white/10 shrink-0">

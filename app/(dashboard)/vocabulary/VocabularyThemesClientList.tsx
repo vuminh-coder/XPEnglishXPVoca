@@ -265,7 +265,7 @@ export default function VocabularyThemesClientList({
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.2 }}
-        className="p-3 sm:p-3.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex flex-col md:flex-row items-start md:items-center justify-between gap-2.5 sm:gap-3 min-w-0"
+        className="p-3 sm:p-3.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex flex-col md:flex-row items-start md:items-center justify-between gap-2.5 sm:gap-3 min-w-0"
       >
         <div className="flex items-center gap-2.5 min-w-0">
           <div className="p-1.5 sm:p-2 rounded-xs bg-[#1d6ee6]/10 text-[#1d6ee6] shrink-0">
@@ -339,7 +339,7 @@ export default function VocabularyThemesClientList({
           return (
             <div
               key={idx}
-              className="p-2 sm:p-3 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex items-center gap-2 sm:gap-3 min-w-0"
+              className="p-2 sm:p-3 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex items-center gap-2 sm:gap-3 min-w-0"
             >
               <div className={`p-1.5 sm:p-2 rounded-xs ${item.bg} ${item.color} shrink-0`}>
                 <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -359,7 +359,7 @@ export default function VocabularyThemesClientList({
 
       {/* 3. MAIN BENTO THEMES GRID */}
       {filteredThemes.length === 0 ? (
-        <div className="p-6 sm:p-8 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs text-center space-y-1.5">
+        <div className="p-6 sm:p-8 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs text-center space-y-1.5">
           <p className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
             Không tìm thấy chủ đề nào phù hợp
           </p>

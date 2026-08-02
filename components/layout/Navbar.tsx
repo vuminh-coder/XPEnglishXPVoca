@@ -37,7 +37,7 @@ function ThemeDropdown({ isOpen, setIsOpen }: ThemeDropdownProps) {
 
   return (
     <div
-      className="dropdown-menu active transition-spring w-48 shadow-2xl rounded-xl border border-slate-100/80 dark:border-neutral-850/60 p-1.5 bg-white dark:bg-neutral-900"
+      className="dropdown-menu active transition-spring w-48 shadow-2xl rounded-xs border border-slate-100/80 dark:border-neutral-850/60 p-1.5 bg-white dark:bg-neutral-900"
       style={{ right: 0, top: "100%", marginTop: "8px" }}
     >
       <div className="px-2.5 py-1.5 text-[9.5px] font-black text-slate-400 dark:text-neutral-500 uppercase tracking-widest border-b border-slate-100 dark:border-neutral-850/50 mb-1 select-none">
@@ -70,7 +70,7 @@ function ThemeDropdown({ isOpen, setIsOpen }: ThemeDropdownProps) {
               setTheme(item.id);
               setIsOpen(false);
             }}
-            className={`w-full text-left px-2.5 py-2 rounded-lg cursor-pointer flex items-center justify-between transition-colors hover:bg-slate-50 dark:hover:bg-neutral-850/50 ${
+            className={`w-full text-left px-2.5 py-2 rounded-xs cursor-pointer flex items-center justify-between transition-colors hover:bg-slate-50 dark:hover:bg-neutral-850/50 ${
               isSelected
                 ? "bg-cyan-50/20 dark:bg-cyan-950/10 text-cyan-600 dark:text-cyan-400"
                 : "text-slate-700 dark:text-slate-350"
@@ -419,7 +419,7 @@ function LocalNavbar() {
                 />
               )}
             </div>
-            <div className="navbar-user-info hidden sm:block">
+                  <div className="navbar-user-info hidden sm:block">
               <div className="navbar-user-name hidden md:block">
                 {user?.fullName || user?.username || "Học viên XP Voca"}
               </div>
@@ -430,7 +430,7 @@ function LocalNavbar() {
             </div>
           </div>
           <div
-            className={`dropdown-menu ${userOpen ? "active" : ""} transition-spring rounded-md`}
+            className={`dropdown-menu ${userOpen ? "active" : ""} transition-spring rounded-xs`}
             style={{ right: 0 }}
           >
             <Link

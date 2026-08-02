@@ -59,7 +59,7 @@ export default function BottomNav() {
             key={tab.path}
             href={tab.path}
             aria-current={isActive ? "page" : undefined}
-            className={`flex flex-col items-center justify-center gap-0.5 w-14 h-11 rounded-md transition-all duration-200 tactile ${
+            className={`flex flex-col items-center justify-center gap-0.5 w-14 h-11 rounded-xs transition-all duration-200 tactile ${
               isActive
                 ? "text-[#0059bb] dark:text-sky-400 bg-blue-50/80 dark:bg-sky-950/40"
                 : "text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"

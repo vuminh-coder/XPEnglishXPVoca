@@ -321,12 +321,12 @@ export default function VoiceTutorPage() {
       <motion.div
         initial={{ opacity: 0, y: -6 }}
         animate={{ opacity: 1, y: 0 }}
-        className="p-2.5 sm:p-3 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-2.5 min-w-0"
+        className="p-2.5 sm:p-3 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-2.5 min-w-0"
       >
         {/* Left: Bot Icon + Title */}
         <div className="flex items-center justify-between md:justify-start gap-2.5 min-w-0 flex-1">
           <div className="flex items-center gap-2 min-w-0">
-            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-md bg-[#1d6ee6]/10 text-[#1d6ee6] dark:text-sky-400 flex items-center justify-center shrink-0 border border-[#1d6ee6]/20">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xs bg-[#1d6ee6]/10 text-[#1d6ee6] dark:text-sky-400 flex items-center justify-center shrink-0 border border-[#1d6ee6]/20">
               <Bot className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2]" />
             </div>
 
@@ -344,7 +344,7 @@ export default function VoiceTutorPage() {
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 md:hidden">
             <button
               onClick={() => setSoundEnabled(!soundEnabled)}
-              className={`px-2 py-1 rounded text-[11px] font-bold border transition-all shadow-2xs flex items-center gap-1 cursor-pointer ${
+              className={`px-2 py-1 rounded-xs text-[11px] font-bold border transition-all shadow-2xs flex items-center gap-1 cursor-pointer ${
                 soundEnabled
                   ? "bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:border-[#1d6ee6]"
                   : "bg-rose-50 dark:bg-rose-950/40 border-rose-200 dark:border-rose-900/30 text-rose-600"
@@ -354,14 +354,14 @@ export default function VoiceTutorPage() {
               <span className="hidden sm:inline">{soundEnabled ? "Bật âm" : "Tắt âm"}</span>
             </button>
 
-            <span className="px-2 py-1 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-[11px] font-black flex items-center gap-1 shadow-2xs">
+            <span className="px-2 py-1 rounded-xs bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-[11px] font-black flex items-center gap-1 shadow-2xs">
               <Clock className="w-3.5 h-3.5" /> {formatElapsedTime(elapsedTime)}
             </span>
           </div>
         </div>
 
         {/* Mode Switcher Tabs (100% full-width on mobile) */}
-        <div className="p-0.5 bg-slate-100 dark:bg-slate-950 rounded-md grid grid-cols-3 md:flex items-center gap-1 border border-slate-200/50 dark:border-white/5 w-full md:w-auto shrink-0">
+        <div className="p-0.5 bg-slate-100 dark:bg-slate-950 rounded-xs grid grid-cols-3 md:flex items-center gap-1 border border-slate-200/50 dark:border-white/5 w-full md:w-auto shrink-0">
           {[
             { id: "freetalk", label: "FreeTalk" },
             { id: "roleplay", label: "Roleplay" },
@@ -370,7 +370,7 @@ export default function VoiceTutorPage() {
             <button
               key={mode.id}
               onClick={() => setPracticeMode(mode.id as any)}
-              className={`py-1 px-2 rounded text-[11px] font-bold transition-all cursor-pointer whitespace-nowrap text-center ${
+              className={`py-1 px-2 rounded-xs text-[11px] font-bold transition-all cursor-pointer whitespace-nowrap text-center ${
                 practiceMode === mode.id
                   ? "bg-[#1d6ee6] text-white shadow-2xs font-extrabold"
                   : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
@@ -385,7 +385,7 @@ export default function VoiceTutorPage() {
         <div className="hidden md:flex items-center gap-2 shrink-0">
           <button
             onClick={() => setSoundEnabled(!soundEnabled)}
-            className={`px-2 py-1 rounded text-[11px] font-bold border transition-all shadow-2xs flex items-center gap-1 cursor-pointer ${
+            className={`px-2 py-1 rounded-xs text-[11px] font-bold border transition-all shadow-2xs flex items-center gap-1 cursor-pointer ${
               soundEnabled
                 ? "bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:border-[#1d6ee6]"
                 : "bg-rose-50 dark:bg-rose-950/40 border-rose-200 dark:border-rose-900/30 text-rose-600"
@@ -395,7 +395,7 @@ export default function VoiceTutorPage() {
             <span>{soundEnabled ? "Bật âm" : "Tắt âm"}</span>
           </button>
 
-          <span className="px-2 py-1 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-[11px] font-black flex items-center gap-1 shadow-2xs">
+          <span className="px-2 py-1 rounded-xs bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-[11px] font-black flex items-center gap-1 shadow-2xs">
             <Clock className="w-3.5 h-3.5" /> {formatElapsedTime(elapsedTime)}
           </span>
         </div>
@@ -407,7 +407,7 @@ export default function VoiceTutorPage() {
         {/* CỘT TRÁI: VOICE CHAT STREAM & DUAL INPUT DOCK (7/12 Width) */}
         <div className="lg:col-span-7 space-y-3 min-w-0">
           
-          <div className="p-3.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3 min-w-0">
+          <div className="p-3.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3 min-w-0">
             
             {/* Header Title */}
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
@@ -419,11 +419,11 @@ export default function VoiceTutorPage() {
               </div>
 
               {isSpeaking ? (
-                <span className="text-[10px] font-bold text-purple-600 dark:text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded flex items-center gap-1 animate-pulse">
+                <span className="text-[10px] font-bold text-purple-600 dark:text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded-xs flex items-center gap-1 animate-pulse">
                   <Volume2 className="w-3 h-3" /> AI đang nói...
                 </span>
               ) : (
-                <span className="text-[10px] font-bold text-emerald-600 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                <span className="text-[10px] font-bold text-emerald-600 bg-emerald-500/10 px-2 py-0.5 rounded-xs border border-emerald-500/20">
                   Online
                 </span>
               )}
@@ -441,14 +441,14 @@ export default function VoiceTutorPage() {
                     className={`flex items-start gap-2.5 ${isAi ? "justify-start" : "justify-end"}`}
                   >
                     {isAi && (
-                      <div className="w-7 h-7 rounded-md bg-[#1d6ee6]/10 text-[#1d6ee6] dark:text-sky-400 flex items-center justify-center shrink-0 mt-0.5 border border-[#1d6ee6]/20">
+                      <div className="w-7 h-7 rounded-xs bg-[#1d6ee6]/10 text-[#1d6ee6] dark:text-sky-400 flex items-center justify-center shrink-0 mt-0.5 border border-[#1d6ee6]/20">
                         <Bot className="w-4 h-4" />
                       </div>
                     )}
 
                     <div className={`space-y-1 max-w-[85%] ${isAi ? "" : "items-end"}`}>
                       <div
-                        className={`p-3 rounded-lg text-xs font-medium leading-relaxed shadow-2xs ${
+                        className={`p-3 rounded-xs text-xs font-medium leading-relaxed shadow-2xs ${
                           isAi
                             ? "bg-slate-50 dark:bg-slate-950 border border-slate-200/60 dark:border-white/10 text-slate-900 dark:text-white"
                             : "bg-[#1d6ee6] text-white"
@@ -460,7 +460,7 @@ export default function VoiceTutorPage() {
                         {msg.pronunciationScore && (
                           <div className="mt-1.5 pt-1 border-t border-white/20 flex items-center justify-between text-[10px] font-bold">
                             <span>🎯 Độ chính xác phát âm:</span>
-                            <span className="bg-white/20 px-1.5 py-0.2 rounded font-mono">
+                            <span className="bg-white/20 px-1.5 py-0.2 rounded-xs font-mono">
                               {msg.pronunciationScore}%
                             </span>
                           </div>
@@ -498,7 +498,7 @@ export default function VoiceTutorPage() {
                 );
               })}
               {loading && (
-                <div className="flex items-center gap-2 p-2.5 rounded-md bg-blue-50/50 dark:bg-blue-950/30 text-[#1d6ee6] dark:text-sky-400 text-xs font-bold animate-pulse">
+                <div className="flex items-center gap-2 p-2.5 rounded-xs bg-blue-50/50 dark:bg-blue-950/30 text-[#1d6ee6] dark:text-sky-400 text-xs font-bold animate-pulse">
                   <RefreshCw className="w-3.5 h-3.5 animate-spin" /> AI Tutor đang suy nghĩ câu trả lời...
                 </div>
               )}
@@ -537,14 +537,14 @@ export default function VoiceTutorPage() {
                     placeholder={isRecording ? `Đang thu âm... 00:0${recordingTime}` : "Nhập câu trả lời bằng tiếng Anh hoặc bấm Mic để nói..."}
                     value={textInput}
                     onChange={(e) => setTextInput(e.target.value)}
-                    className="w-full h-9 pl-3 pr-3 text-xs font-medium rounded-md bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:border-[#1d6ee6]"
+                    className="w-full h-9 pl-3 pr-3 text-xs font-medium rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:border-[#1d6ee6]"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={!textInput.trim() || loading}
-                  className="h-9 px-3 rounded-md bg-[#1d6ee6] hover:bg-[#155bc5] disabled:opacity-40 text-white text-xs font-bold flex items-center gap-1 shadow-2xs cursor-pointer shrink-0"
+                  className="h-9 px-3 rounded-xs bg-[#1d6ee6] hover:bg-[#155bc5] disabled:opacity-40 text-white text-xs font-bold flex items-center gap-1 shadow-2xs cursor-pointer shrink-0"
                 >
                   <Send className="w-3.5 h-3.5" />
                 </button>
@@ -568,10 +568,10 @@ export default function VoiceTutorPage() {
         {/* CỘT PHẢI: MULTI-TAB BENTO TOOL CHEST (5/12 Width) */}
         <div className="lg:col-span-5 space-y-3 min-w-0">
           
-          <div className="p-3.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3 min-w-0">
+          <div className="p-3.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3 min-w-0">
             
             {/* 3-Tab Segmented Controller Header */}
-            <div className="p-1 bg-slate-100 dark:bg-slate-950 rounded-md flex items-center gap-1 border border-slate-200/50 dark:border-white/5">
+            <div className="p-1 bg-slate-100 dark:bg-slate-950 rounded-xs flex items-center gap-1 border border-slate-200/50 dark:border-white/5">
               {[
                 { id: "goals", label: "Mục tiêu", icon: Target },
                 { id: "speech", label: "Tiêu chí", icon: BarChart3 },
@@ -582,10 +582,10 @@ export default function VoiceTutorPage() {
                   <button
                     key={tab.id}
                     onClick={() => setSidebarTab(tab.id as any)}
-                    className={`flex-1 py-1 px-1.5 rounded text-[11px] font-bold transition-all cursor-pointer whitespace-nowrap flex items-center justify-center gap-1.5 ${
+                    className={`flex-1 py-1 px-1.5 rounded-xs text-[11px] font-bold transition-all cursor-pointer whitespace-nowrap flex items-center justify-center gap-1.5 ${
                       sidebarTab === tab.id
                         ? "bg-[#1d6ee6] text-white shadow-2xs font-extrabold"
-                        : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                        : "text-[#1d6ee6] dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                     }`}
                   >
                     <IconComponent className="w-3.5 h-3.5 shrink-0" />
@@ -611,7 +611,7 @@ export default function VoiceTutorPage() {
                           setCurrentRoleplayTopic(e.target.value);
                           setCompletedGoalIds([]);
                         }}
-                        className="w-full h-8 px-2 text-xs font-bold rounded-md bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:border-[#1d6ee6]"
+                        className="w-full h-8 px-2 text-xs font-bold rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:border-[#1d6ee6]"
                       >
                         {ROLEPLAY_TOPICS.map((t) => (
                           <option key={t.id} value={t.id}>
@@ -630,7 +630,7 @@ export default function VoiceTutorPage() {
                         return (
                           <div
                             key={goal.id}
-                            className={`p-2 rounded-md border text-xs font-bold flex items-center justify-between gap-2 transition-all ${
+                            className={`p-2 rounded-xs border text-xs font-bold flex items-center justify-between gap-2 transition-all ${
                               isDone
                                 ? "bg-emerald-50 dark:bg-emerald-950/40 border-emerald-500/40 text-emerald-700 dark:text-emerald-300"
                                 : "bg-slate-50 dark:bg-slate-950 border-slate-200/60 dark:border-white/5 text-slate-700 dark:text-slate-300"
@@ -652,7 +652,7 @@ export default function VoiceTutorPage() {
                   </>
                 ) : practiceMode === "drill" ? (
                   <div className="space-y-2.5">
-                    <div className="p-3 rounded-md bg-amber-500/5 border border-amber-500/20 text-center space-y-1.5">
+                    <div className="p-3 rounded-xs bg-amber-500/5 border border-amber-500/20 text-center space-y-1.5">
                       <span className="text-[10px] font-bold uppercase text-amber-600 block">
                         ⚡ Câu uốn lưỡi (#{drillIndex + 1})
                       </span>
@@ -661,7 +661,7 @@ export default function VoiceTutorPage() {
                       </p>
                       <button
                         onClick={() => speakText(DRILL_SENTENCES[drillIndex])}
-                        className="px-2.5 py-1 rounded bg-amber-500 text-white text-[11px] font-bold shadow-2xs hover:bg-amber-600 cursor-pointer inline-flex items-center gap-1"
+                        className="px-2.5 py-1 rounded-xs bg-amber-500 text-white text-[11px] font-bold shadow-2xs hover:bg-amber-600 cursor-pointer inline-flex items-center gap-1"
                       >
                         <Volume2 className="w-3 h-3" /> Nghe phát âm mẫu
                       </button>
@@ -671,14 +671,14 @@ export default function VoiceTutorPage() {
                       <button
                         onClick={() => setDrillIndex((prev) => Math.max(0, prev - 1))}
                         disabled={drillIndex === 0}
-                        className="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 disabled:opacity-40 text-xs font-bold cursor-pointer"
+                        className="px-2 py-1 rounded-xs bg-slate-100 dark:bg-slate-800 disabled:opacity-40 text-xs font-bold cursor-pointer"
                       >
                         ← Câu trước
                       </button>
                       <button
                         onClick={() => setDrillIndex((prev) => Math.min(DRILL_SENTENCES.length - 1, prev + 1))}
                         disabled={drillIndex === DRILL_SENTENCES.length - 1}
-                        className="px-2.5 py-1 rounded bg-[#1d6ee6] text-white text-xs font-bold shadow-2xs cursor-pointer"
+                        className="px-2.5 py-1 rounded-xs bg-[#1d6ee6] text-white text-xs font-bold shadow-2xs cursor-pointer"
                       >
                         Câu tiếp ➔
                       </button>
@@ -701,39 +701,39 @@ export default function VoiceTutorPage() {
                   <span className="text-xs font-bold text-slate-900 dark:text-white font-display">
                     🎯 AI Speech Evaluation
                   </span>
-                  <span className="px-2 py-0.5 rounded text-xs font-black bg-emerald-500 text-white shadow-2xs">
+                  <span className="px-2 py-0.5 rounded-xs text-xs font-black bg-emerald-500 text-white shadow-2xs">
                     {lastSpeechScore ? `${lastSpeechScore.overallScore}%` : "95% Overall"}
                   </span>
                 </div>
 
                 <div className="grid grid-cols-3 gap-1.5 text-center">
-                  <div className="p-1.5 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-white/5">
+                  <div className="p-1.5 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-white/5">
                     <span className="text-[9px] text-slate-400 font-bold block">Trôi chảy</span>
                     <span className="text-xs font-black text-purple-600 dark:text-purple-400 font-mono">
                       {lastSpeechScore ? `${lastSpeechScore.fluencyScore}%` : "96%"}
                     </span>
                   </div>
-                  <div className="p-1.5 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-white/5">
+                  <div className="p-1.5 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-white/5">
                     <span className="text-[9px] text-slate-400 font-bold block">Phát âm</span>
                     <span className="text-xs font-black text-[#1d6ee6] dark:text-sky-400 font-mono">
                       {lastSpeechScore ? `${lastSpeechScore.pronunciationScore}%` : "95%"}
                     </span>
                   </div>
-                  <div className="p-1.5 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-white/5">
+                  <div className="p-1.5 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-white/5">
                     <span className="text-[9px] text-slate-400 font-bold block">Ngữ điệu</span>
                     <span className="text-xs font-black text-emerald-600 dark:text-emerald-400 font-mono">
                       {lastSpeechScore ? `${lastSpeechScore.intonationScore}%` : "94%"}
                     </span>
                   </div>
-                  <div className="p-1.5 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-white/5">
+                  <div className="p-1.5 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-white/5">
                     <span className="text-[9px] text-slate-400 font-bold block">Đầy đủ</span>
                     <span className="text-xs font-black text-blue-600 dark:text-blue-400 font-mono">97%</span>
                   </div>
-                  <div className="p-1.5 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-white/5">
+                  <div className="p-1.5 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-white/5">
                     <span className="text-[9px] text-slate-400 font-bold block">Tốc độ</span>
                     <span className="text-xs font-black text-amber-600 dark:text-amber-400 font-mono">148 WPM</span>
                   </div>
-                  <div className="p-1.5 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-white/5">
+                  <div className="p-1.5 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-white/5">
                     <span className="text-[9px] text-slate-400 font-bold block">Trọng âm</span>
                     <span className="text-xs font-black text-teal-600 dark:text-teal-400 font-mono">94%</span>
                   </div>
@@ -744,7 +744,7 @@ export default function VoiceTutorPage() {
             {/* TAB 3: AI COACH & SMART SUGGESTIONS */}
             {sidebarTab === "coach" && (
               <div className="space-y-2 text-left">
-                <div className="p-2.5 rounded bg-blue-50/60 dark:bg-blue-950/30 border border-blue-200/50 dark:border-blue-900/30 text-xs font-medium space-y-1">
+                <div className="p-2.5 rounded-xs bg-blue-50/60 dark:bg-blue-950/30 border border-blue-200/50 dark:border-blue-900/30 text-xs font-medium space-y-1">
                   <span className="font-bold text-[#1d6ee6] dark:text-sky-400 block text-[11px] flex items-center gap-1">
                     <Bot className="w-3.5 h-3.5" /> AI Voice Coach Khẩu Hình:
                   </span>
@@ -764,7 +764,7 @@ export default function VoiceTutorPage() {
                       <button
                         key={idx}
                         onClick={() => handleNewUserSpeech(sug, 96)}
-                        className="w-full text-left px-2.5 py-1.5 rounded-md text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-[#1d6ee6] dark:text-sky-400 hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors cursor-pointer truncate"
+                        className="w-full text-left px-2.5 py-1.5 rounded-xs text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-[#1d6ee6] dark:text-sky-400 hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors cursor-pointer truncate"
                       >
                         💬 {sug}
                       </button>

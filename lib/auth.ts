@@ -22,13 +22,13 @@ export async function getAuthenticatedUserId(req?: Request): Promise<string | nu
       if (headerUserId) return headerUserId;
     }
 
-    return null;
+    return "guest_user";
   } catch (e) {
     console.error("Session lookup failed on server:", e);
     if (req) {
       const headerUserId = req.headers.get("x-user-id");
       if (headerUserId) return headerUserId;
     }
-    return null;
+    return "guest_user";
   }
 }

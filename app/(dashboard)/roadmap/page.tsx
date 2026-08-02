@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useStudyPlanStore, DailyTask } from "@/lib/store/studyPlanStore";
 import { useAuthStore } from "@/lib/store/authStore";
 import { Button, Badge } from "@/components/ui";
+import { useNotificationStore } from "@/lib/store/notificationStore";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Sparkles,
@@ -176,14 +177,14 @@ const generateGoalSpecificRoadmap = (targetExam: string, targetScore: string, ta
 function SkeletonLoader() {
   return (
     <div className="mx-auto max-w-6xl space-y-5 px-3 py-4 animate-pulse select-none font-sans" suppressHydrationWarning>
-      <div className="h-32 bg-slate-200 dark:bg-slate-800 rounded-lg w-full" />
+      <div className="h-32 bg-slate-200 dark:bg-slate-800 rounded-xs w-full" />
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         <div className="lg:col-span-8 space-y-4">
           {[1, 2].map((i) => (
-            <div key={i} className="h-36 bg-slate-200 dark:bg-slate-800 rounded-lg w-full" />
+            <div key={i} className="h-36 bg-slate-200 dark:bg-slate-800 rounded-xs w-full" />
           ))}
         </div>
-        <div className="lg:col-span-4 hidden lg:block h-64 bg-slate-200 dark:bg-slate-800 rounded-lg" />
+        <div className="lg:col-span-4 hidden lg:block h-64 bg-slate-200 dark:bg-slate-800 rounded-xs" />
       </div>
     </div>
   );
@@ -226,17 +227,29 @@ export default function RoadmapPage() {
     defaultTargetDate.setDate(defaultTargetDate.getDate() + 30);
     const targetDateStr = defaultTargetDate.toISOString().split("T")[0];
     
-    const success = await generatePlan({
+    const parsedScoreNum = parseFloat(targetScore) || 750;
+
+    await generatePlan({
       targetExam,
-      targetScore: parseInt(targetScore) || 750,
+      targetScore: parsedScoreNum,
       targetDate: targetDateStr,
       currentLevel,
       weeklyHours,
     });
 
-    if (success) {
-      setIsFormOpen(false);
+    // Update active phases state immediately
+    const generatedPhases = generateGoalSpecificRoadmap(targetExam, targetScore, targetCategory);
+    setPhases(generatedPhases);
+    if (generatedPhases.length > 0 && generatedPhases[0].tasks.length > 0) {
+      setSelectedTask(generatedPhases[0].tasks[0]);
     }
+
+    setIsFormOpen(false);
+    useNotificationStore.getState().addToast({
+      type: "success",
+      title: "Khởi Tạo Lộ Trình AI",
+      message: `Đã khởi tạo lộ trình học AI cho ${targetExam} Target ${targetScore} thành công! (+15 XP)`,
+    });
   };
 
   const handleToggleTaskCompleted = (taskId: string) => {
@@ -278,7 +291,7 @@ export default function RoadmapPage() {
       <div className="space-y-4 sm:space-y-5 pb-16 md:pb-6 select-none font-sans max-w-4xl mx-auto" suppressHydrationWarning>
         
         {/* HERO DASHBOARD SPOTLIGHT BANNER */}
-        <div className="p-3.5 sm:p-5 rounded-md bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-2xs relative overflow-hidden">
+        <div className="p-3.5 sm:p-5 rounded-xs bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-2xs relative overflow-hidden">
           <div className="absolute -right-10 -bottom-10 w-52 h-52 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
           <div className="relative z-10 space-y-1.5 sm:space-y-2">
             <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
@@ -303,7 +316,7 @@ export default function RoadmapPage() {
         </div>
 
         {/* BENTO FORM CARD */}
-        <div className="p-3.5 sm:p-5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-4 sm:space-y-5">
+        <div className="p-3.5 sm:p-5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-4 sm:space-y-5">
           <form onSubmit={handleGenerate} className="space-y-4 sm:space-y-5">
             
             {/* 1. Category Selection Bento Grid (3 Micro Cards on Mobile) */}
@@ -529,7 +542,7 @@ export default function RoadmapPage() {
     <div className="space-y-3.5 sm:space-y-4 pb-16 md:pb-6 select-none font-sans" suppressHydrationWarning>
       
       {/* HERO SPOTLIGHT BANNER */}
-      <div className="p-3.5 sm:p-5 rounded-md bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-2xs relative overflow-hidden">
+      <div className="p-3.5 sm:p-5 rounded-xs bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-2xs relative overflow-hidden">
         <div className="absolute -right-10 -bottom-10 w-52 h-52 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 sm:gap-4">
           <div className="space-y-1 sm:space-y-1.5 max-w-2xl">
@@ -586,7 +599,7 @@ export default function RoadmapPage() {
             const isPhaseDone = phaseCompletedCount === phaseTotalCount;
 
             return (
-              <div key={phase.phaseNum} className="p-3 sm:p-4 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3">
+              <div key={phase.phaseNum} className="p-3 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3">
                 
                 {/* PHASE HEADER & CHEST REWARD */}
                 <div className="flex items-center justify-between gap-2 border-b border-slate-100 dark:border-white/5 pb-2.5">
@@ -749,7 +762,7 @@ export default function RoadmapPage() {
 
         {/* RIGHT 4-COLS: INSPECTOR COMPANION CARD (Hidden on Mobile) */}
         <div className="hidden lg:block lg:col-span-4 space-y-4">
-          <div className="p-4 sm:p-4 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3.5 sticky top-4">
+          <div className="p-4 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3.5 sticky top-4">
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5">
               <span className="text-xs font-black uppercase tracking-wider text-slate-400 font-display flex items-center gap-1.5">
                 <Compass className="w-4 h-4 text-[#0059bb]" /> Hướng Dẫn Chi Tiết Bài Học

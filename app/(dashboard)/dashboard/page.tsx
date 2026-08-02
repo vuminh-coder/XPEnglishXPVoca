@@ -620,7 +620,7 @@ export default function DashboardPage() {
         initial={{ opacity: 0, y: -6 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 110, damping: 20 }}
-        className="p-3 sm:p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-2.5 sm:space-y-3.5"
+        className="p-3 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-2.5 sm:space-y-3.5"
       >
         {/* Upper Greeting & Actions Bar */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-2.5 sm:gap-3">
@@ -655,8 +655,8 @@ export default function DashboardPage() {
         {/* Integrated 4 Micro-Sharp Hero Metrics Strip */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-2.5">
           {/* Metric 1: Streak */}
-          <div className="p-2 sm:p-2.5 rounded-md bg-slate-50/80 dark:bg-slate-950/80 border border-slate-200/50 dark:border-white/5 flex items-center gap-2">
-            <div className="w-6.5 h-6.5 sm:w-7 sm:h-7 rounded-sm bg-orange-50 dark:bg-orange-950/60 border border-orange-200/50 dark:border-orange-900/40 text-orange-500 flex items-center justify-center shrink-0 shadow-2xs">
+          <div className="p-2 sm:p-2.5 rounded-xs bg-slate-50/80 dark:bg-slate-950/80 border border-slate-200/50 dark:border-white/5 flex items-center gap-2">
+            <div className="w-6.5 h-6.5 sm:w-7 sm:h-7 rounded-xs bg-orange-50 dark:bg-orange-950/60 border border-orange-200/50 dark:border-orange-900/40 text-orange-500 flex items-center justify-center shrink-0 shadow-2xs">
               <Flame className="w-3.5 h-3.5 stroke-[2.2] animate-pulse" />
             </div>
             <div className="min-w-0">
@@ -674,8 +674,8 @@ export default function DashboardPage() {
           </div>
 
           {/* Metric 2: Study Time */}
-          <div className="p-2 sm:p-2.5 rounded-md bg-slate-50/80 dark:bg-slate-950/80 border border-slate-200/50 dark:border-white/5 flex items-center gap-2">
-            <div className="w-6.5 h-6.5 sm:w-7 sm:h-7 rounded-sm bg-blue-50 dark:bg-blue-950/60 border border-blue-200/50 dark:border-blue-900/40 text-blue-500 flex items-center justify-center shrink-0 shadow-2xs">
+          <div className="p-2 sm:p-2.5 rounded-xs bg-slate-50/80 dark:bg-slate-950/80 border border-slate-200/50 dark:border-white/5 flex items-center gap-2">
+            <div className="w-6.5 h-6.5 sm:w-7 sm:h-7 rounded-xs bg-blue-50 dark:bg-blue-950/60 border border-blue-200/50 dark:border-blue-900/40 text-blue-500 flex items-center justify-center shrink-0 shadow-2xs">
               <Clock className="w-3.5 h-3.5 stroke-[2.2]" />
             </div>
             <div className="min-w-0">
@@ -690,8 +690,8 @@ export default function DashboardPage() {
           </div>
 
           {/* Metric 3: Saved Words */}
-          <div className="p-2 sm:p-2.5 rounded-md bg-slate-50/80 dark:bg-slate-950/80 border border-slate-200/50 dark:border-white/5 flex items-center gap-2">
-            <div className="w-6.5 h-6.5 sm:w-7 sm:h-7 rounded-sm bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/50 dark:border-emerald-900/40 text-emerald-500 flex items-center justify-center shrink-0 shadow-2xs">
+          <div className="p-2 sm:p-2.5 rounded-xs bg-slate-50/80 dark:bg-slate-950/80 border border-slate-200/50 dark:border-white/5 flex items-center gap-2">
+            <div className="w-6.5 h-6.5 sm:w-7 sm:h-7 rounded-xs bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/50 dark:border-emerald-900/40 text-emerald-500 flex items-center justify-center shrink-0 shadow-2xs">
               <BookmarkCheck className="w-3.5 h-3.5 stroke-[2.2]" />
             </div>
             <div className="min-w-0">
@@ -708,10 +708,10 @@ export default function DashboardPage() {
           </div>
 
           {/* Metric 4: XP Level */}
-          <div className="p-2 sm:p-2.5 rounded-md bg-slate-50/80 dark:bg-slate-950/80 border border-slate-200/50 dark:border-white/5 flex flex-col justify-between">
+          <div className="p-2 sm:p-2.5 rounded-xs bg-slate-50/80 dark:bg-slate-950/80 border border-slate-200/50 dark:border-white/5 flex flex-col justify-between">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1.5">
-                <div className="w-5 h-5 rounded-sm bg-indigo-50 dark:bg-indigo-950/60 text-indigo-500 flex items-center justify-center shrink-0">
+                <div className="w-5 h-5 rounded-xs bg-indigo-50 dark:bg-indigo-950/60 text-indigo-500 flex items-center justify-center shrink-0">
                   <Target className="w-3 h-3 stroke-[2.2]" />
                 </div>
                 <div className="text-sm sm:text-base font-black font-display text-slate-900 dark:text-white">
@@ -721,7 +721,7 @@ export default function DashboardPage() {
                   </span>
                 </div>
               </div>
-              <span className="text-[9px] font-black uppercase px-1 rounded bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300">
+              <span className="text-[9px] font-black uppercase px-1 rounded-xs bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300">
                 Lv.{user.level}
               </span>
             </div>
@@ -752,11 +752,11 @@ export default function DashboardPage() {
         <div className="lg:col-span-7 space-y-3.5">
           {/* Hero Daily Learning Command Card */}
           <motion.div variants={itemVariants}>
-            <div className="p-3 sm:p-4 rounded-lg bg-gradient-to-br from-blue-50/80 via-indigo-50/40 to-slate-50 dark:from-blue-950/30 dark:via-indigo-950/20 dark:to-slate-900/40 border border-blue-200/60 dark:border-blue-800/30 shadow-xs space-y-2 sm:space-y-3">
+            <div className="p-3 sm:p-4 rounded-xs bg-gradient-to-br from-blue-50/80 via-indigo-50/40 to-slate-50 dark:from-blue-950/30 dark:via-indigo-950/20 dark:to-slate-900/40 border border-blue-200/60 dark:border-blue-800/30 shadow-xs space-y-2 sm:space-y-3">
               <div className="flex items-center justify-between gap-2">
                 <Badge
                   variant="primary"
-                  className="gap-1 bg-blue-600/10 text-blue-600 dark:text-sky-400 py-0.5 px-2 font-bold text-[10px] rounded border border-blue-500/20"
+                  className="gap-1 bg-blue-600/10 text-blue-600 dark:text-sky-400 py-0.5 px-2 font-bold text-[10px] rounded-xs border border-blue-500/20"
                 >
                   <Sparkles className="h-3 w-3 text-amber-500 fill-amber-500" />
                   LỘ TRÌNH HÔM NAY
@@ -807,7 +807,7 @@ export default function DashboardPage() {
                 <Link href="/study/practice" className="shrink-0">
                   <Button
                     variant="primary"
-                    className="h-8 px-3.5 font-bold text-xs rounded bg-[#1d6ee6] hover:bg-[#155bc5] text-white shadow-2xs cursor-pointer flex items-center justify-center gap-1"
+                    className="h-8 px-3.5 font-bold text-xs rounded-xs bg-[#1d6ee6] hover:bg-[#155bc5] text-white shadow-2xs cursor-pointer flex items-center justify-center gap-1"
                     rightIcon={<ArrowRight className="w-3 h-3 stroke-[2.5]" />}
                   >
                     Bắt đầu học
@@ -819,7 +819,7 @@ export default function DashboardPage() {
 
           {/* Interactive Skill Analytics & 7-Day Graph Card */}
           <motion.div variants={itemVariants}>
-            <div className="p-3 sm:p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-2.5 sm:space-y-3.5">
+            <div className="p-3 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-2.5 sm:space-y-3.5">
               {/* Skill Tabs Bar */}
               <div 
                 role="tablist"
@@ -1102,9 +1102,9 @@ export default function DashboardPage() {
               </div>
 
               {/* Secondary CTA Card embedded inside graph block */}
-              <div className="p-2.5 rounded-md bg-emerald-50/80 dark:bg-emerald-950/40 border border-emerald-200/60 dark:border-emerald-900/40 flex items-center justify-between gap-2.5">
+              <div className="p-2.5 rounded-xs bg-emerald-50/80 dark:bg-emerald-950/40 border border-emerald-200/60 dark:border-emerald-900/40 flex items-center justify-between gap-2.5">
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-2xs">
+                  <div className="w-7 h-7 rounded-xs bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-2xs">
                     <BookOpen className="w-3.5 h-3.5 stroke-[2]" />
                   </div>
                   <div>
@@ -1118,7 +1118,7 @@ export default function DashboardPage() {
                 </div>
 
                 <Link href="/vocabulary">
-                  <button className="px-2.5 py-1 rounded bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-900 dark:text-white text-[11px] font-bold transition-all shadow-2xs cursor-pointer shrink-0">
+                  <button className="px-2.5 py-1 rounded-xs bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-900 dark:text-white text-[11px] font-bold transition-all shadow-2xs cursor-pointer shrink-0">
                     Học từ mới
                   </button>
                 </Link>
@@ -1128,7 +1128,7 @@ export default function DashboardPage() {
 
           {/* Quick Ask AI Tutor Widget */}
           <motion.div variants={itemVariants}>
-            <div className="p-3 sm:p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-2 sm:space-y-2.5">
+            <div className="p-3 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-2 sm:space-y-2.5">
               <form onSubmit={handleQuickAskSubmit} className="space-y-2">
                 <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2 gap-2">
                   <h3 className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-sky-400 flex items-center gap-1.5 font-display shrink-0">
@@ -1138,7 +1138,7 @@ export default function DashboardPage() {
                     </span>
                     <span className="sm:hidden">HỎI ĐÁP AI TUTOR</span>
                   </h3>
-                  <span className="text-[9px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-1.5 py-0.2 rounded border border-emerald-500/20 shrink-0">
+                  <span className="text-[9px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-1.5 py-0.2 rounded-xs border border-emerald-500/20 shrink-0">
                     +10 XP / câu hỏi
                   </span>
                 </div>
@@ -1154,7 +1154,7 @@ export default function DashboardPage() {
                     <input
                       id="ai-prompt-input"
                       type="text"
-                      className="w-full h-10 md:h-8 px-2.5 text-xs font-medium rounded bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:border-blue-600 transition-all shadow-inner"
+                      className="w-full h-10 md:h-8 px-2.5 text-xs font-medium rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:border-blue-600 transition-all shadow-inner"
                       placeholder="Ví dụ: Phân biệt 'make' và 'do'?"
                       value={aiQuestion}
                       onChange={(e) => setAiQuestion(e.target.value)}
@@ -1163,7 +1163,7 @@ export default function DashboardPage() {
                       variant="primary"
                       type="submit"
                       disabled={isAiLoading || !aiQuestion.trim()}
-                      className="h-10 md:h-8 px-3 font-bold flex items-center gap-1 text-xs rounded bg-[#1d6ee6] hover:bg-[#155bc5] text-white shadow-2xs shrink-0 active:scale-95 transition-transform cursor-pointer"
+                      className="h-10 md:h-8 px-3 font-bold flex items-center gap-1 text-xs rounded-xs bg-[#1d6ee6] hover:bg-[#155bc5] text-white shadow-2xs shrink-0 active:scale-95 transition-transform cursor-pointer"
                     >
                       {isAiLoading ? (
                         <Loader2 className="h-3 w-3 animate-spin stroke-[2]" />
@@ -1181,7 +1181,7 @@ export default function DashboardPage() {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="bg-slate-50 dark:bg-slate-950 p-2.5 rounded border border-slate-200/80 dark:border-white/10 text-xs font-medium text-slate-700 dark:text-slate-300 leading-relaxed overflow-hidden shadow-inner"
+                    className="bg-slate-50 dark:bg-slate-950 p-2.5 rounded-xs border border-slate-200/80 dark:border-white/10 text-xs font-medium text-slate-700 dark:text-slate-300 leading-relaxed overflow-hidden shadow-inner"
                   >
                     <span className="font-bold text-blue-600 dark:text-sky-400 block mb-1 text-[11px] uppercase tracking-wide flex items-center gap-1">
                       <Bot className="w-3.5 h-3.5 text-blue-600 dark:text-sky-400" /> AI Tutor trả lời:
@@ -1198,11 +1198,11 @@ export default function DashboardPage() {
         <div className="lg:col-span-5 space-y-3.5">
           {/* Widget 1: FLUID CONNECTED STREAK ATTENDANCE TRACK */}
           <motion.div variants={itemVariants}>
-            <div className="p-3 sm:p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-2 sm:space-y-3">
+            <div className="p-3 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-2 sm:space-y-3">
               {/* Header with Flame Badge & Action CTA */}
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5 gap-2.5">
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-md bg-gradient-to-br from-orange-500 to-amber-500 text-white shadow-2xs flex items-center justify-center">
+                  <div className="w-7 h-7 rounded-xs bg-gradient-to-br from-orange-500 to-amber-500 text-white shadow-2xs flex items-center justify-center">
                     <Flame className="w-4 h-4 fill-white animate-pulse" />
                   </div>
                   <div>
@@ -1321,7 +1321,7 @@ export default function DashboardPage() {
 
           {/* Widget 2: Micro Sharp Mini Leaderboard */}
           <motion.div variants={itemVariants}>
-            <div className="p-3 sm:p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-2 sm:space-y-2.5">
+            <div className="p-3 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-2 sm:space-y-2.5">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2 gap-2">
                 <div className="flex items-center gap-1.5 text-amber-500">
                   <Trophy className="w-3.5 h-3.5 stroke-[2.2]" />
@@ -1330,10 +1330,10 @@ export default function DashboardPage() {
                   </span>
                 </div>
                 <div className="flex items-center justify-between w-full sm:w-auto gap-2">
-                  <div className="p-0.5 bg-slate-100 dark:bg-slate-800 rounded flex text-[9px] font-bold">
+                  <div className="p-0.5 bg-slate-100 dark:bg-slate-800 rounded-xs flex text-[9px] font-bold">
                     <button
                       onClick={() => setLeaderboardTab("week")}
-                      className={`px-1.5 py-0.5 rounded transition-all ${
+                      className={`px-1.5 py-0.5 rounded-xs transition-all ${
                         leaderboardTab === "week"
                           ? "bg-white dark:bg-slate-900 shadow-2xs font-extrabold text-slate-900 dark:text-white"
                           : "text-slate-400"
@@ -1343,7 +1343,7 @@ export default function DashboardPage() {
                     </button>
                     <button
                       onClick={() => setLeaderboardTab("month")}
-                      className={`px-1.5 py-0.5 rounded transition-all ${
+                      className={`px-1.5 py-0.5 rounded-xs transition-all ${
                         leaderboardTab === "month"
                           ? "bg-white dark:bg-slate-900 shadow-2xs font-extrabold text-slate-900 dark:text-white"
                           : "text-slate-400"
@@ -1365,7 +1365,7 @@ export default function DashboardPage() {
               <div className="flex items-center gap-1">
                 <button
                   onClick={() => setLeaderboardCriterion("time")}
-                  className={`flex-1 py-1 px-1.5 rounded text-[10px] font-bold transition-all flex items-center justify-center gap-1 border ${
+                  className={`flex-1 py-1 px-1.5 rounded-xs text-[10px] font-bold transition-all flex items-center justify-center gap-1 border ${
                     leaderboardCriterion === "time"
                       ? "bg-[#1d6ee6] text-white border-transparent shadow-2xs font-extrabold"
                       : "bg-slate-50 dark:bg-slate-950 text-slate-600 dark:text-slate-400 border-slate-200/60 dark:border-white/5"
@@ -1375,7 +1375,7 @@ export default function DashboardPage() {
                 </button>
                 <button
                   onClick={() => setLeaderboardCriterion("xp")}
-                  className={`flex-1 py-1 px-1.5 rounded text-[10px] font-bold transition-all flex items-center justify-center gap-1 border ${
+                  className={`flex-1 py-1 px-1.5 rounded-xs text-[10px] font-bold transition-all flex items-center justify-center gap-1 border ${
                     leaderboardCriterion === "xp"
                       ? "bg-[#1d6ee6] text-white border-transparent shadow-2xs font-extrabold"
                       : "bg-slate-50 dark:bg-slate-950 text-slate-600 dark:text-slate-400 border-slate-200/60 dark:border-white/5"
@@ -1388,7 +1388,7 @@ export default function DashboardPage() {
               {/* Leaderboard List */}
               <div className="space-y-1.5 pt-0.5">
                 {/* User Row (Live Synced) */}
-                <div className="flex items-center justify-between p-2 rounded bg-blue-50/80 dark:bg-blue-950/40 border border-blue-200/60 dark:border-blue-800/40">
+                <div className="flex items-center justify-between p-2 rounded-xs bg-blue-50/80 dark:bg-blue-950/40 border border-blue-200/60 dark:border-blue-800/40">
                   <div className="flex items-center gap-2 min-w-0">
                     <span className="text-[10px] font-black text-blue-600 dark:text-sky-400 shrink-0">
                       #{userRankInLeaderboard}
@@ -1401,7 +1401,7 @@ export default function DashboardPage() {
                       Bạn
                     </span>
                   </div>
-                  <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-amber-500 text-white shadow-2xs font-mono">
+                  <span className="px-1.5 py-0.2 rounded-xs text-[9px] font-bold bg-amber-500 text-white shadow-2xs font-mono">
                     {leaderboardCriterion === "xp"
                       ? `${user?.totalXp || 0} XP`
                       : `${user?.minutesStudied || 0}m`}
@@ -1418,7 +1418,7 @@ export default function DashboardPage() {
                   return (
                     <div
                       key={leader.id || idx}
-                      className="flex items-center justify-between p-2 rounded bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-white/5"
+                      className="flex items-center justify-between p-2 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-white/5"
                     >
                       <div className="flex items-center gap-2 min-w-0">
                         <span className="shrink-0 flex items-center justify-center w-4">
@@ -1441,7 +1441,7 @@ export default function DashboardPage() {
                           </span>
                         </div>
                       </div>
-                      <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-emerald-500 text-white shadow-2xs font-mono">
+                      <span className="px-1.5 py-0.2 rounded-xs text-[9px] font-bold bg-emerald-500 text-white shadow-2xs font-mono">
                         {displayScore}
                       </span>
                     </div>
@@ -1453,7 +1453,7 @@ export default function DashboardPage() {
 
           {/* Widget 3: Compact Daily Quests Card */}
           <motion.div variants={itemVariants}>
-            <div className="p-3 sm:p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-2 sm:space-y-2.5">
+            <div className="p-3 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-2 sm:space-y-2.5">
               <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
                 <div className="flex items-center gap-1.5">
                   <Target className="h-3.5 w-3.5 text-blue-600 dark:text-sky-400 stroke-[2.2]" />

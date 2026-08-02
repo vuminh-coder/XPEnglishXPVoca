@@ -149,7 +149,7 @@ export default function AchievementsPage() {
       {/* Header */}
       <div className="flex items-center gap-4">
         <Link href="/profile">
-          <Button variant="bezel" size="sm" className="rounded-xl">
+          <Button variant="bezel" size="sm" className="rounded-xs">
             <ArrowLeft className="h-4 w-4" />
           </Button>
         </Link>
@@ -185,7 +185,7 @@ export default function AchievementsPage() {
             >
               {/* Icon */}
               <div
-                className={`h-14 w-14 rounded-2xl flex items-center justify-center text-2xl shrink-0 ${
+                className={`h-14 w-14 rounded-xs flex items-center justify-center text-2xl shrink-0 ${
                   ach.unlocked
                     ? "bg-gradient-to-br from-amber-100 to-yellow-50 dark:from-amber-950/30 dark:to-yellow-950/20 shadow-sm"
                     : "bg-slate-100 dark:bg-neutral-800 grayscale"

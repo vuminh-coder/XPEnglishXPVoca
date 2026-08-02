@@ -559,11 +559,11 @@ export default function AiGrammarPage() {
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ type: "spring", stiffness: 110, damping: 20 }}
-          className="p-3.5 sm:p-5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3 sm:space-y-4"
+          className="p-3.5 sm:p-5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3 sm:space-y-4"
         >
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3">
             <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-md bg-gradient-to-br from-[#0059bb]/10 to-indigo-500/10 dark:from-[#0059bb]/20 dark:to-indigo-500/20 border border-[#0059bb]/20 flex items-center justify-center shrink-0 shadow-2xs text-[#0059bb] dark:text-sky-400">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xs bg-gradient-to-br from-[#0059bb]/10 to-indigo-500/10 dark:from-[#0059bb]/20 dark:to-indigo-500/20 border border-[#0059bb]/20 flex items-center justify-center shrink-0 shadow-2xs text-[#0059bb] dark:text-sky-400">
                 <BookMarked className="w-4 h-4 stroke-[2]" />
               </div>
 
@@ -669,7 +669,7 @@ export default function AiGrammarPage() {
         </motion.div>
 
         {/* 2. SPLIT BAR TABS & SEARCH BAR (Rule 2 Compliance) */}
-        <div className="p-1 sm:p-1.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-3">
+        <div className="p-1 sm:p-1.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-3">
           {/* Level Tabs selector (Strictly 1 single row on Mobile) */}
           <div className="flex items-center gap-1 bg-slate-100/90 dark:bg-slate-800/60 p-1 rounded-xs w-full sm:w-auto flex-nowrap overflow-x-auto no-scrollbar">
             {[
@@ -719,7 +719,7 @@ export default function AiGrammarPage() {
 
         {/* 3. GRAMMAR TOPICS BENTO GRID (1 Card per Row on Mobile as Requested) */}
         {filteredTopics.length === 0 ? (
-          <div className="p-8 text-center bg-white dark:bg-slate-900 rounded-lg border border-slate-200/80 dark:border-white/10 space-y-2">
+          <div className="p-8 text-center bg-white dark:bg-slate-900 rounded-xs border border-slate-200/80 dark:border-white/10 space-y-2">
             <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 flex items-center justify-center mx-auto">
               <Search className="w-5 h-5" />
             </div>
@@ -741,7 +741,7 @@ export default function AiGrammarPage() {
               <motion.div key={topic.id} variants={itemVariants}>
                 <div
                   onClick={() => openTopic(topic.id)}
-                  className="p-3 sm:p-3.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs hover:shadow-xs hover:border-[#0059bb]/50 dark:hover:border-sky-500/40 transition-all cursor-pointer flex flex-col justify-between h-full group"
+                  className="p-3 sm:p-3.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs hover:shadow-xs hover:border-[#0059bb]/50 dark:hover:border-sky-500/40 transition-all cursor-pointer flex flex-col justify-between h-full group"
                 >
                   <div className="space-y-2 sm:space-y-2.5">
                     {/* Upper Header: Icon + Focus Badge */}
@@ -797,7 +797,7 @@ export default function AiGrammarPage() {
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 110, damping: 20 }}
-        className="p-3.5 sm:p-5 rounded-md sm:rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3 sm:space-y-4"
+        className="p-3.5 sm:p-5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3 sm:space-y-4"
       >
         {/* Breadcrumb Navigation Row - Desktop */}
         <div className="hidden sm:flex items-center gap-1.5 text-xs font-semibold text-slate-500 dark:text-slate-400">
@@ -847,7 +847,7 @@ export default function AiGrammarPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 pt-1">
           <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0">
             {/* Topic Icon Avatar */}
-            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-lg bg-gradient-to-br from-[#0059bb]/10 to-indigo-500/10 dark:from-[#0059bb]/20 dark:to-indigo-500/20 border border-[#0059bb]/20 flex items-center justify-center shrink-0 shadow-2xs">
+            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xs bg-gradient-to-br from-[#0059bb]/10 to-indigo-500/10 dark:from-[#0059bb]/20 dark:to-indigo-500/20 border border-[#0059bb]/20 flex items-center justify-center shrink-0 shadow-2xs">
               {getGrammarTopicIcon(selectedTopicData?.id || "")}
             </div>
 
@@ -856,7 +856,7 @@ export default function AiGrammarPage() {
                 <h1 className="text-sm sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white font-display truncate">
                   {selectedTopicData?.name}
                 </h1>
-                <span className="px-2 py-0.5 rounded text-[8px] sm:text-[10px] font-black uppercase bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 border border-[#0059bb]/20">
+                <span className="px-2 py-0.5 rounded-xs text-[8px] sm:text-[10px] font-black uppercase bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 border border-[#0059bb]/20">
                   {selectedTopicData?.nameEn}
                 </span>
               </div>
@@ -872,7 +872,7 @@ export default function AiGrammarPage() {
                 setSelectedTopic(null);
                 setLessonData(null);
               }}
-              className="px-2.5 py-1.5 rounded-md bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold transition-all cursor-pointer"
+              className="px-2.5 py-1.5 rounded-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold transition-all cursor-pointer"
             >
               ‹ Chọn bài khác
             </button>
@@ -880,7 +880,7 @@ export default function AiGrammarPage() {
             <button
               onClick={generateExercises}
               disabled={loading}
-              className="px-3 py-1.5 rounded-md bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+              className="px-3 py-1.5 rounded-xs bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
             >
               {loading ? (
                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -894,7 +894,7 @@ export default function AiGrammarPage() {
 
         {/* Hero 4 Metrics Bento Strip */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5 pt-2 border-t border-slate-100 dark:border-white/5">
-          <div className="hidden sm:flex p-3 rounded-md bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-white/5 items-center justify-between">
+          <div className="hidden sm:flex p-3 rounded-xs bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-white/5 items-center justify-between">
             <div>
               <div className="text-[10px] font-bold uppercase text-slate-400 dark:text-slate-500">
                 Phạm vi bài học
@@ -903,12 +903,12 @@ export default function AiGrammarPage() {
                 3 cấu trúc (+ / - / ?)
               </div>
             </div>
-            <div className="w-7 h-7 rounded bg-blue-500/10 text-blue-600 dark:text-sky-400 flex items-center justify-center shrink-0">
+            <div className="w-7 h-7 rounded-xs bg-blue-500/10 text-blue-600 dark:text-sky-400 flex items-center justify-center shrink-0">
               <BookOpen className="w-3.5 h-3.5" />
             </div>
           </div>
 
-          <div className="p-2.5 sm:p-3 rounded-md bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-white/5 flex items-center justify-between">
+          <div className="p-2.5 sm:p-3 rounded-xs bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-white/5 flex items-center justify-between">
             <div>
               <div className="text-[9px] sm:text-[10px] font-bold uppercase text-slate-400 dark:text-slate-500">
                 Trọng tâm bài thi
@@ -917,12 +917,12 @@ export default function AiGrammarPage() {
                 {selectedTopicData?.focus.split("&")[0].trim()}
               </div>
             </div>
-            <div className="w-6.5 h-6.5 sm:w-7 sm:h-7 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+            <div className="w-6.5 h-6.5 sm:w-7 sm:h-7 rounded-xs bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
               <Target className="w-3.5 h-3.5" />
             </div>
           </div>
 
-          <div className="hidden sm:flex p-3 rounded-md bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-white/5 items-center justify-between">
+          <div className="hidden sm:flex p-3 rounded-xs bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-white/5 items-center justify-between">
             <div>
               <div className="text-[10px] font-bold uppercase text-slate-400 dark:text-slate-500">
                 Cảnh báo bẫy thi
@@ -931,12 +931,12 @@ export default function AiGrammarPage() {
                 2 quy tắc bẫy TOEIC
               </div>
             </div>
-            <div className="w-7 h-7 rounded bg-amber-500/10 text-amber-500 flex items-center justify-center shrink-0">
+            <div className="w-7 h-7 rounded-xs bg-amber-500/10 text-amber-500 flex items-center justify-center shrink-0">
               <AlertTriangle className="w-3.5 h-3.5" />
             </div>
           </div>
 
-          <div className="p-2.5 sm:p-3 rounded-md bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-white/5 flex items-center justify-between">
+          <div className="p-2.5 sm:p-3 rounded-xs bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-white/5 flex items-center justify-between">
             <div>
               <div className="text-[9px] sm:text-[10px] font-bold uppercase text-slate-400 dark:text-slate-500">
                 Phần thưởng
@@ -945,7 +945,7 @@ export default function AiGrammarPage() {
                 +15 XP bài luyện
               </div>
             </div>
-            <div className="w-6.5 h-6.5 sm:w-7 sm:h-7 rounded bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
+            <div className="w-6.5 h-6.5 sm:w-7 sm:h-7 rounded-xs bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
               <Award className="w-3.5 h-3.5" />
             </div>
           </div>
@@ -953,10 +953,10 @@ export default function AiGrammarPage() {
       </motion.div>
 
       {/* 2. MODE SPLIT NAVIGATION TABS (UNIFIED 2 MODES) */}
-      <div className="p-1 sm:p-1.5 rounded-md sm:rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center gap-1 sm:gap-1.5">
+      <div className="p-1 sm:p-1.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center gap-1 sm:gap-1.5">
         <button
           onClick={() => setActiveTab("lesson")}
-          className={`flex-1 py-2 sm:py-2.5 text-xs font-bold rounded-md transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+          className={`flex-1 py-2 sm:py-2.5 text-xs font-bold rounded-xs transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
             activeTab === "lesson"
               ? "bg-[#0059bb] text-white shadow-2xs font-black"
               : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
@@ -975,7 +975,7 @@ export default function AiGrammarPage() {
             }
           }}
           disabled={loading}
-          className={`flex-1 py-2 sm:py-2.5 text-xs font-bold rounded-md transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+          className={`flex-1 py-2 sm:py-2.5 text-xs font-bold rounded-xs transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
             activeTab === "practice"
               ? "bg-purple-600 text-white shadow-2xs font-black"
               : "bg-slate-100 dark:bg-slate-800 text-purple-700 dark:text-purple-300 hover:bg-purple-50"
@@ -993,10 +993,10 @@ export default function AiGrammarPage() {
 
       {/* MODE 1: MASTER THEORY LECTURE & COLOR-CODED FORMULAS */}
       {activeTab === "lesson" && (
-        <div className="p-4 sm:p-5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-5">
+        <div className="p-4 sm:p-5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-5">
           {/* 1. Overview & Memory Tip */}
           {lessonData?.memoryTip && (
-            <div className="p-3.5 sm:p-4 rounded-md bg-[#ebf3fe]/80 dark:bg-slate-800/60 border border-[#0059bb]/20 space-y-1.5 shadow-2xs">
+            <div className="p-3.5 sm:p-4 rounded-xs bg-[#ebf3fe]/80 dark:bg-slate-800/60 border border-[#0059bb]/20 space-y-1.5 shadow-2xs">
               <div className="flex items-center gap-2 text-xs font-bold text-[#0059bb] dark:text-sky-400 font-display uppercase tracking-wider">
                 <Sparkles className="w-4 h-4 text-amber-500 animate-pulse" /> Mẹo ghi nhớ nhanh & Cốt lõi:
               </div>
@@ -1032,9 +1032,9 @@ export default function AiGrammarPage() {
                   }
 
                   return (
-                    <div key={fIdx} className={`p-3.5 rounded-md border space-y-2 font-mono shadow-2xs ${colorStyle}`}>
+                    <div key={fIdx} className={`p-3.5 rounded-xs border space-y-2 font-mono shadow-2xs ${colorStyle}`}>
                       <div className="flex items-center justify-between font-sans">
-                        <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase border ${badgeStyle}`}>
+                        <span className={`px-2 py-0.5 rounded-xs text-[9px] font-black uppercase border ${badgeStyle}`}>
                           {badgeText}
                         </span>
                       </div>
@@ -1050,13 +1050,13 @@ export default function AiGrammarPage() {
 
           {/* 3. Signal Words & Time Indicators */}
           {lessonData?.signalWords && lessonData.signalWords.length > 0 && (
-            <div className="p-3.5 rounded-md bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-white/5 space-y-2">
+            <div className="p-3.5 rounded-xs bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-white/5 space-y-2">
               <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
                 <Tag className="w-3.5 h-3.5 text-[#0059bb]" /> Từ nhận biết & Trạng từ chỉ thời gian:
               </h4>
               <div className="flex flex-wrap gap-1.5">
                 {lessonData.signalWords.map((word, wIdx) => (
-                  <span key={wIdx} className="px-2 py-0.5 rounded bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 text-xs font-semibold text-slate-700 dark:text-slate-300 shadow-2xs">
+                  <span key={wIdx} className="px-2 py-0.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 text-xs font-semibold text-slate-700 dark:text-slate-300 shadow-2xs">
                     {word}
                   </span>
                 ))}
@@ -1072,9 +1072,9 @@ export default function AiGrammarPage() {
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 {lessonData.usages.map((u, uIdx) => (
-                  <div key={uIdx} className="p-3.5 rounded-md bg-slate-50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-white/10 space-y-2 hover:border-[#0059bb]/30 transition-all shadow-2xs">
+                  <div key={uIdx} className="p-3.5 rounded-xs bg-slate-50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-white/10 space-y-2 hover:border-[#0059bb]/30 transition-all shadow-2xs">
                     <div className="flex items-center justify-between">
-                      <span className="px-2 py-0.5 rounded text-[9px] font-black uppercase bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 border border-[#0059bb]/20">
+                      <span className="px-2 py-0.5 rounded-xs text-[9px] font-black uppercase bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 border border-[#0059bb]/20">
                         {u.context}
                       </span>
                     </div>
@@ -1102,14 +1102,14 @@ export default function AiGrammarPage() {
                 {lessonData.examples.map((ex, eIdx) => (
                   <div
                     key={eIdx}
-                    className="p-3.5 rounded-md bg-slate-50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-white/10 space-y-2 relative overflow-hidden group hover:border-[#0059bb]/40 dark:hover:border-sky-500/30 hover:shadow-xs transition-all"
+                    className="p-3.5 rounded-xs bg-slate-50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-white/10 space-y-2 relative overflow-hidden group hover:border-[#0059bb]/40 dark:hover:border-sky-500/30 hover:shadow-xs transition-all"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="px-2 py-0.5 rounded text-[9px] font-bold uppercase bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
+                      <span className="px-2 py-0.5 rounded-xs text-[9px] font-bold uppercase bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
                         Ví dụ {eIdx + 1}
                       </span>
                       {ex.highlight && (
-                        <span className="px-2 py-0.5 rounded font-mono text-[9px] font-bold bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-300 border border-[#0059bb]/20">
+                        <span className="px-2 py-0.5 rounded-xs font-mono text-[9px] font-bold bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-300 border border-[#0059bb]/20">
                           Từ trọng tâm: {ex.highlight}
                         </span>
                       )}
@@ -1131,7 +1131,7 @@ export default function AiGrammarPage() {
 
           {/* 6. Extra Rules & Detailed Nuances */}
           {lessonData?.extraRules && lessonData.extraRules.length > 0 && (
-            <div className="p-3.5 rounded-md bg-blue-50/60 dark:bg-slate-800/40 border border-blue-200/60 dark:border-white/5 space-y-2">
+            <div className="p-3.5 rounded-xs bg-blue-50/60 dark:bg-slate-800/40 border border-blue-200/60 dark:border-white/5 space-y-2">
               <h4 className="text-xs font-bold uppercase tracking-wider text-[#0059bb] dark:text-sky-400 flex items-center gap-1.5">
                 <Lightbulb className="w-3.5 h-3.5 text-amber-500" /> Quy tắc bổ sung & Lưu ý đặc biệt:
               </h4>
@@ -1153,7 +1153,7 @@ export default function AiGrammarPage() {
                 <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center gap-1.5 font-display">
                   <AlertTriangle className="w-3.5 h-3.5 text-amber-500" /> Cảnh báo bẫy thi TOEIC & IELTS
                 </h3>
-                <span className="px-2 py-0.5 rounded text-[9px] font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                <span className="px-2 py-0.5 rounded-xs text-[9px] font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
                   {lessonData.commonMistakes.length} bẫy đề
                 </span>
               </div>
@@ -1162,12 +1162,12 @@ export default function AiGrammarPage() {
                 {lessonData.commonMistakes.map((mistake, mIdx) => (
                   <div
                     key={mIdx}
-                    className="p-3 rounded-md bg-slate-50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-white/10 space-y-2 hover:border-amber-400/40 transition-all shadow-2xs"
+                    className="p-3 rounded-xs bg-slate-50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-white/10 space-y-2 hover:border-amber-400/40 transition-all shadow-2xs"
                   >
                     {/* Wrong vs Correct Inline Rows */}
                     <div className="space-y-1.5 text-xs">
-                      <div className="flex items-center gap-2 p-1.5 rounded bg-rose-500/5 dark:bg-rose-950/20 border border-rose-500/10">
-                        <span className="px-1.5 py-0.2 rounded text-[9px] font-black uppercase bg-rose-500/15 text-rose-600 dark:text-rose-400 shrink-0">
+                      <div className="flex items-center gap-2 p-1.5 rounded-xs bg-rose-500/5 dark:bg-rose-950/20 border border-rose-500/10">
+                        <span className="px-1.5 py-0.2 rounded-xs text-[9px] font-black uppercase bg-rose-500/15 text-rose-600 dark:text-rose-400 shrink-0">
                           ❌ Sai
                         </span>
                         <span className="line-through text-slate-500 dark:text-slate-400 text-xs font-medium truncate">
@@ -1175,8 +1175,8 @@ export default function AiGrammarPage() {
                         </span>
                       </div>
 
-                      <div className="flex items-center gap-2 p-1.5 rounded bg-emerald-500/5 dark:bg-emerald-950/20 border border-emerald-500/10">
-                        <span className="px-1.5 py-0.2 rounded text-[9px] font-black uppercase bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 shrink-0">
+                      <div className="flex items-center gap-2 p-1.5 rounded-xs bg-emerald-500/5 dark:bg-emerald-950/20 border border-emerald-500/10">
+                        <span className="px-1.5 py-0.2 rounded-xs text-[9px] font-black uppercase bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 shrink-0">
                           ✅ Đúng
                         </span>
                         <span className="text-slate-900 dark:text-white text-xs font-bold font-mono truncate">
@@ -1211,7 +1211,7 @@ export default function AiGrammarPage() {
             <button
               onClick={generateExercises}
               disabled={loading}
-              className="px-4 py-2 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+              className="px-4 py-2 rounded-xs bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
             >
               <Zap className="w-4 h-4 fill-current" /> Bắt đầu bài thi thử AI (+15 XP) ➔
             </button>
@@ -1226,48 +1226,48 @@ export default function AiGrammarPage() {
           <div className="lg:col-span-8 xl:col-span-8 space-y-4">
             {loading ? (
               /* SKELETON LOADING CARD (RULE 1 COMPLIANCE) */
-              <div className="p-4 sm:p-5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-4 animate-pulse">
+              <div className="p-4 sm:p-5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-4 animate-pulse">
                 {/* Skeleton Header Bar */}
                 <div className="space-y-2 border-b border-slate-100 dark:border-white/5 pb-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <div className="w-20 h-5 bg-slate-200 dark:bg-slate-800 rounded-md" />
-                      <div className="w-44 h-4 bg-slate-100 dark:bg-slate-800/60 rounded-md hidden sm:block" />
+                      <div className="w-20 h-5 bg-slate-200 dark:bg-slate-800 rounded-xs" />
+                      <div className="w-44 h-4 bg-slate-100 dark:bg-slate-800/60 rounded-xs hidden sm:block" />
                     </div>
-                    <div className="w-28 h-6 bg-slate-200 dark:bg-slate-800 rounded-md" />
+                    <div className="w-28 h-6 bg-slate-200 dark:bg-slate-800 rounded-xs" />
                   </div>
                   <div className="w-full h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full" />
                 </div>
 
                 {/* Skeleton Sentence */}
                 <div className="space-y-2 py-1">
-                  <div className="w-4/5 h-6 bg-slate-200 dark:bg-slate-800 rounded-md" />
-                  <div className="w-1/2 h-4 bg-slate-100 dark:bg-slate-800/50 rounded-md" />
+                  <div className="w-4/5 h-6 bg-slate-200 dark:bg-slate-800 rounded-xs" />
+                  <div className="w-1/2 h-4 bg-slate-100 dark:bg-slate-800/50 rounded-xs" />
                 </div>
 
                 {/* Skeleton 4 Options */}
                 <div className="space-y-2.5">
-                  <div className="w-full h-12 bg-slate-100 dark:bg-slate-800/50 rounded-md border border-slate-200/60 dark:border-white/5" />
-                  <div className="w-full h-12 bg-slate-100 dark:bg-slate-800/50 rounded-md border border-slate-200/60 dark:border-white/5" />
-                  <div className="w-full h-12 bg-slate-100 dark:bg-slate-800/50 rounded-md border border-slate-200/60 dark:border-white/5" />
-                  <div className="w-full h-12 bg-slate-100 dark:bg-slate-800/50 rounded-md border border-slate-200/60 dark:border-white/5" />
+                  <div className="w-full h-12 bg-slate-100 dark:bg-slate-800/50 rounded-xs border border-slate-200/60 dark:border-white/5" />
+                  <div className="w-full h-12 bg-slate-100 dark:bg-slate-800/50 rounded-xs border border-slate-200/60 dark:border-white/5" />
+                  <div className="w-full h-12 bg-slate-100 dark:bg-slate-800/50 rounded-xs border border-slate-200/60 dark:border-white/5" />
+                  <div className="w-full h-12 bg-slate-100 dark:bg-slate-800/50 rounded-xs border border-slate-200/60 dark:border-white/5" />
                 </div>
 
                 {/* Skeleton Footer */}
                 <div className="pt-3 border-t border-slate-100 dark:border-white/5 flex items-center justify-between">
-                  <div className="w-20 h-8 bg-slate-200 dark:bg-slate-800 rounded-md" />
-                  <div className="w-24 h-8 bg-slate-200 dark:bg-slate-800 rounded-md" />
+                  <div className="w-20 h-8 bg-slate-200 dark:bg-slate-800 rounded-xs" />
+                  <div className="w-24 h-8 bg-slate-200 dark:bg-slate-800 rounded-xs" />
                 </div>
               </div>
             ) : exercises.length > 0 ? (
               <div>
                 {!submitted ? (
-                  <div className="p-4 sm:p-5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-4">
+                  <div className="p-4 sm:p-5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-4">
                     {/* Header Quiz Bar & Progress Line */}
                     <div className="space-y-2 border-b border-slate-100 dark:border-white/5 pb-3">
                       <div className="flex items-center justify-between gap-2">
                         <div className="flex items-center gap-2 min-w-0">
-                          <span className="px-2.5 py-0.5 rounded text-xs font-black bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 border border-[#0059bb]/20 shrink-0">
+                          <span className="px-2.5 py-0.5 rounded-xs text-xs font-black bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 border border-[#0059bb]/20 shrink-0">
                             Câu {currentIndex + 1} / {exercises.length}
                           </span>
                           <span className="text-xs font-bold text-slate-500 hidden sm:inline font-display truncate">
@@ -1280,13 +1280,13 @@ export default function AiGrammarPage() {
                             onClick={generateExercises}
                             disabled={loading}
                             title="Tạo ngẫu nhiên 5 câu hỏi thi thử mới"
-                            className="px-2.5 py-1 rounded bg-[#0059bb]/10 hover:bg-[#0059bb] hover:text-white text-[#0059bb] dark:text-sky-400 border border-[#0059bb]/20 text-[11px] font-bold transition-all flex items-center gap-1 cursor-pointer disabled:opacity-50"
+                            className="px-2.5 py-1 rounded-xs bg-[#0059bb]/10 hover:bg-[#0059bb] hover:text-white text-[#0059bb] dark:text-sky-400 border border-[#0059bb]/20 text-[11px] font-bold transition-all flex items-center gap-1 cursor-pointer disabled:opacity-50"
                           >
                             {loading ? <Loader2 className="w-3 h-3 animate-spin" /> : <RotateCcw className="w-3 h-3" />}
                             <span>Đổi 5 câu khác</span>
                           </button>
 
-                          <span className="text-[10px] font-bold uppercase text-emerald-600 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                          <span className="text-[10px] font-bold uppercase text-emerald-600 bg-emerald-500/10 px-2 py-0.5 rounded-xs border border-emerald-500/20">
                             +15 XP
                           </span>
                         </div>
@@ -1339,12 +1339,12 @@ export default function AiGrammarPage() {
                                   key={oIdx}
                                   onClick={() => handleSelectOption(currentEx.id, opt)}
                                   disabled={isAnswered}
-                                  className={`w-full p-3 rounded-md border text-left text-xs sm:text-sm font-semibold transition-all flex items-center justify-between gap-3 ${
+                                  className={`w-full p-3 rounded-xs border text-left text-xs sm:text-sm font-semibold transition-all flex items-center justify-between gap-3 ${
                                     isAnswered ? "cursor-default" : "cursor-pointer"
                                   } ${btnStyle}`}
                                 >
                                   <div className="flex items-center gap-3">
-                                    <span className={`w-6 h-6 rounded flex items-center justify-center text-xs font-black shrink-0 ${
+                                    <span className={`w-6 h-6 rounded-xs flex items-center justify-center text-xs font-black shrink-0 ${
                                       isAnswered
                                         ? isThisCorrect || isThisSelected
                                           ? "bg-white/20 text-white"
@@ -1360,12 +1360,12 @@ export default function AiGrammarPage() {
                                   {isAnswered && (
                                     <div className="shrink-0 font-bold text-xs">
                                       {isThisCorrect && (
-                                        <span className="flex items-center gap-1 bg-white/20 px-2 py-0.5 rounded text-[11px]">
+                                        <span className="flex items-center gap-1 bg-white/20 px-2 py-0.5 rounded-xs text-[11px]">
                                           <Check className="w-3.5 h-3.5" /> Đúng
                                         </span>
                                       )}
                                       {isThisSelected && !isThisCorrect && (
-                                        <span className="flex items-center gap-1 bg-white/20 px-2 py-0.5 rounded text-[11px]">
+                                        <span className="flex items-center gap-1 bg-white/20 px-2 py-0.5 rounded-xs text-[11px]">
                                           <X className="w-3.5 h-3.5" /> Sai
                                         </span>
                                       )}
@@ -1379,7 +1379,7 @@ export default function AiGrammarPage() {
                           {/* INSTANT AI EXPLANATION CARD RIGHT AT THIS QUESTION */}
                           {isAnswered && (
                             <div
-                              className={`p-3.5 rounded-md border text-xs space-y-2 transition-all shadow-2xs ${
+                              className={`p-3.5 rounded-xs border text-xs space-y-2 transition-all shadow-2xs ${
                                 isCorrect
                                   ? "bg-emerald-50/90 dark:bg-emerald-950/30 border-emerald-200/80 dark:border-emerald-900/40 text-emerald-950 dark:text-emerald-200"
                                   : "bg-rose-50/90 dark:bg-rose-950/30 border-rose-200/80 dark:border-rose-900/40 text-rose-950 dark:text-rose-200"
@@ -1399,7 +1399,7 @@ export default function AiGrammarPage() {
                                 </span>
 
                                 {!isCorrect && (
-                                  <span className="text-[11px] font-mono bg-white/60 dark:bg-slate-900/60 px-2 py-0.5 rounded border border-rose-200 dark:border-rose-900/40 font-bold text-rose-800 dark:text-rose-300">
+                                  <span className="text-[11px] font-mono bg-white/60 dark:bg-slate-900/60 px-2 py-0.5 rounded-xs border border-rose-200 dark:border-rose-900/40 font-bold text-rose-800 dark:text-rose-300">
                                     Đáp án đúng: <strong>{currentEx.correctAnswer}</strong>
                                   </span>
                                 )}
@@ -1420,7 +1420,7 @@ export default function AiGrammarPage() {
                       <button
                         onClick={() => setCurrentIndex((prev) => Math.max(0, prev - 1))}
                         disabled={currentIndex === 0}
-                        className="px-3.5 py-1.5 rounded-md bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-700 dark:text-slate-300 disabled:opacity-40 cursor-pointer"
+                        className="px-3.5 py-1.5 rounded-xs bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-700 dark:text-slate-300 disabled:opacity-40 cursor-pointer"
                       >
                         ‹ Câu trước
                       </button>
@@ -1428,7 +1428,7 @@ export default function AiGrammarPage() {
                       {currentIndex < exercises.length - 1 ? (
                         <button
                           onClick={() => setCurrentIndex((prev) => prev + 1)}
-                          className="px-4 py-1.5 rounded-md bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold transition-all shadow-2xs flex items-center gap-1 cursor-pointer"
+                          className="px-4 py-1.5 rounded-xs bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold transition-all shadow-2xs flex items-center gap-1 cursor-pointer"
                         >
                           Câu tiếp ➔
                         </button>
@@ -1436,7 +1436,7 @@ export default function AiGrammarPage() {
                         <button
                           onClick={handleSubmitQuiz}
                           disabled={Object.keys(answers).length < exercises.length}
-                          className="px-4 py-1.5 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-2xs flex items-center gap-1 cursor-pointer disabled:opacity-50"
+                          className="px-4 py-1.5 rounded-xs bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-2xs flex items-center gap-1 cursor-pointer disabled:opacity-50"
                         >
                           <Check className="w-4 h-4" /> Nộp bài (+15 XP)
                         </button>
@@ -1445,11 +1445,11 @@ export default function AiGrammarPage() {
                   </div>
                 ) : (
                   /* SCORECARD & DETAILED QUESTION REVIEW SCREEN */
-                  <div className="p-4 sm:p-5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-5">
+                  <div className="p-4 sm:p-5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-5">
                     {/* Score Header */}
-                    <div className="p-4 rounded-md bg-[#ebf3fe]/80 dark:bg-slate-800/60 border border-[#0059bb]/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div className="p-4 rounded-xs bg-[#ebf3fe]/80 dark:bg-slate-800/60 border border-[#0059bb]/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-2xl shrink-0">
+                        <div className="w-12 h-12 rounded-xs bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-2xl shrink-0">
                           🏆
                         </div>
                         <div>
@@ -1465,7 +1465,7 @@ export default function AiGrammarPage() {
                       <button
                         onClick={generateExercises}
                         disabled={loading}
-                        className="px-3.5 py-1.5 rounded-md bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer self-start sm:self-auto shrink-0"
+                        className="px-3.5 py-1.5 rounded-xs bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer self-start sm:self-auto shrink-0"
                       >
                         <RotateCcw className="w-3.5 h-3.5" /> Làm bài mới
                       </button>
@@ -1485,7 +1485,7 @@ export default function AiGrammarPage() {
                           return (
                             <div
                               key={ex.id}
-                              className={`p-3.5 rounded-md border space-y-2 shadow-2xs ${
+                              className={`p-3.5 rounded-xs border space-y-2 shadow-2xs ${
                                 isCorrect
                                   ? "bg-emerald-50/40 dark:bg-emerald-950/20 border-emerald-200/60 dark:border-emerald-900/30"
                                   : "bg-rose-50/40 dark:bg-rose-950/20 border-rose-200/60 dark:border-rose-900/30"
@@ -1495,7 +1495,7 @@ export default function AiGrammarPage() {
                                 <span className="text-xs font-bold text-slate-900 dark:text-white font-display">
                                   Câu {idx + 1}: {ex.sentence}
                                 </span>
-                                <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase shrink-0 ${
+                                <span className={`px-2 py-0.5 rounded-xs text-[9px] font-black uppercase shrink-0 ${
                                   isCorrect ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20" : "bg-rose-500/10 text-rose-700 dark:text-rose-400 border border-rose-500/20"
                                 }`}>
                                   {isCorrect ? "✅ Đúng" : "❌ Sai"}
@@ -1503,12 +1503,12 @@ export default function AiGrammarPage() {
                               </div>
 
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
-                                <div className={`p-2 rounded border ${
+                                <div className={`p-2 rounded-xs border ${
                                   isCorrect ? "bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200 text-emerald-800 dark:text-emerald-300" : "bg-rose-50 dark:bg-rose-950/40 border-rose-200 text-rose-800 dark:text-rose-300"
                                 }`}>
                                   <span className="font-sans font-bold">Bạn chọn:</span> {userAns || "(Chưa chọn)"}
                                 </div>
-                                <div className="p-2 rounded bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 text-emerald-800 dark:text-emerald-300">
+                                <div className="p-2 rounded-xs bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 text-emerald-800 dark:text-emerald-300">
                                   <span className="font-sans font-bold">Đáp án chuẩn:</span> {ex.correctAnswer}
                                 </div>
                               </div>
@@ -1529,9 +1529,9 @@ export default function AiGrammarPage() {
           </div>
 
           {/* RIGHT COLUMN: INTEGRATED AI TUTOR INTERACTIVE CHAT COMPANION (BALANCED 4/12 SPAN) */}
-          <div className="lg:col-span-4 xl:col-span-4 p-4 sm:p-4.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3.5 sticky top-4">
+          <div className="lg:col-span-4 xl:col-span-4 p-4 sm:p-4.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3.5 sticky top-4">
             <div className="flex items-center gap-2.5 border-b border-slate-100 dark:border-white/5 pb-2.5">
-              <div className="w-9 h-9 rounded-lg bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 text-xl border border-[#0059bb]/20">
+              <div className="w-9 h-9 rounded-xs bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 text-xl border border-[#0059bb]/20">
                 🤖
               </div>
               <div className="min-w-0">
@@ -1547,7 +1547,7 @@ export default function AiGrammarPage() {
             {/* Chat Message Stream */}
             <div className="space-y-2.5 max-h-80 lg:max-h-[380px] overflow-y-auto pr-1 no-scrollbar min-h-[140px]">
               {chatMessages.length === 0 ? (
-                <div className="p-3 text-center rounded-md bg-[#ebf3fe]/70 dark:bg-slate-800/60 border border-[#0059bb]/20 text-xs text-slate-700 dark:text-slate-300 font-medium space-y-1">
+                <div className="p-3 text-center rounded-xs bg-[#ebf3fe]/70 dark:bg-slate-800/60 border border-[#0059bb]/20 text-xs text-slate-700 dark:text-slate-300 font-medium space-y-1">
                   <div>👋 Bạn có thắc mắc về bài thi hay cấu trúc ngữ pháp này không?</div>
                   <div className="text-[11px] text-slate-500">Bấm gợi ý 1-Click hoặc gõ câu hỏi để trao đổi nhé!</div>
                 </div>
@@ -1558,13 +1558,13 @@ export default function AiGrammarPage() {
                     className={`flex items-start gap-2 ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                   >
                     {msg.role === "ai" && (
-                      <div className="w-6 h-6 rounded bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 text-xs border border-[#0059bb]/20">
+                      <div className="w-6 h-6 rounded-xs bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 text-xs border border-[#0059bb]/20">
                         🤖
                       </div>
                     )}
 
                     <div
-                      className={`p-2.5 rounded-md text-xs leading-relaxed max-w-[90%] ${
+                      className={`p-2.5 rounded-xs text-xs leading-relaxed max-w-[90%] ${
                         msg.role === "user"
                           ? "bg-[#0059bb] text-white font-semibold"
                           : "bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-white/10 text-slate-900 dark:text-white font-medium"
@@ -1574,7 +1574,7 @@ export default function AiGrammarPage() {
                     </div>
 
                     {msg.role === "user" && (
-                      <div className="w-6 h-6 rounded bg-blue-500/10 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 text-[10px] font-bold border border-blue-500/20">
+                      <div className="w-6 h-6 rounded-xs bg-blue-500/10 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 text-[10px] font-bold border border-blue-500/20">
                         👤
                       </div>
                     )}
@@ -1597,28 +1597,28 @@ export default function AiGrammarPage() {
                 <div className="flex flex-col gap-1.5">
                   <button
                     onClick={() => handleSendChatMessage(`Giải thích thêm cho tôi lý do chọn đáp án trong các câu trắc nghiệm trên`)}
-                    className="w-full p-1.5 rounded bg-slate-50 dark:bg-slate-800/60 hover:bg-[#0059bb] hover:text-white text-slate-700 dark:text-slate-300 border border-slate-200/60 text-[11px] font-bold transition-all cursor-pointer text-left flex items-center gap-1 truncate"
+                    className="w-full p-1.5 rounded-xs bg-slate-50 dark:bg-slate-800/60 hover:bg-[#0059bb] hover:text-white text-slate-700 dark:text-slate-300 border border-slate-200/60 text-[11px] font-bold transition-all cursor-pointer text-left flex items-center gap-1 truncate"
                   >
                     ❓ Tại sao câu trong bài lại chọn đáp án đó?
                   </button>
 
                   <button
                     onClick={() => handleSendChatMessage(`Cho 3 bẫy đề thi TOEIC Part 5 thường gặp nhất liên quan đến ${selectedTopicData?.name}`)}
-                    className="w-full p-1.5 rounded bg-slate-50 dark:bg-slate-800/60 hover:bg-[#0059bb] hover:text-white text-slate-700 dark:text-slate-300 border border-slate-200/60 text-[11px] font-bold transition-all cursor-pointer text-left flex items-center gap-1 truncate"
+                    className="w-full p-1.5 rounded-xs bg-slate-50 dark:bg-slate-800/60 hover:bg-[#0059bb] hover:text-white text-slate-700 dark:text-slate-300 border border-slate-200/60 text-[11px] font-bold transition-all cursor-pointer text-left flex items-center gap-1 truncate"
                   >
                     💡 3 bẫy TOEIC hay gặp nhất
                   </button>
 
                   <button
                     onClick={() => handleSendChatMessage(`Cho 3 câu ví dụ mẫu chuẩn IELTS Writing Task 2 áp dụng ${selectedTopicData?.name}`)}
-                    className="w-full p-1.5 rounded bg-slate-50 dark:bg-slate-800/60 hover:bg-[#0059bb] hover:text-white text-slate-700 dark:text-slate-300 border border-slate-200/60 text-[11px] font-bold transition-all cursor-pointer text-left flex items-center gap-1 truncate"
+                    className="w-full p-1.5 rounded-xs bg-slate-50 dark:bg-slate-800/60 hover:bg-[#0059bb] hover:text-white text-slate-700 dark:text-slate-300 border border-slate-200/60 text-[11px] font-bold transition-all cursor-pointer text-left flex items-center gap-1 truncate"
                   >
                     📝 3 câu ví dụ IELTS Writing
                   </button>
 
                   <button
                     onClick={() => handleSendChatMessage(`Phân biệt ${selectedTopicData?.name} với cấu trúc tương tự dễ nhầm lẫn`)}
-                    className="w-full p-1.5 rounded bg-slate-50 dark:bg-slate-800/60 hover:bg-[#0059bb] hover:text-white text-slate-700 dark:text-slate-300 border border-slate-200/60 text-[11px] font-bold transition-all cursor-pointer text-left flex items-center gap-1 truncate"
+                    className="w-full p-1.5 rounded-xs bg-slate-50 dark:bg-slate-800/60 hover:bg-[#0059bb] hover:text-white text-slate-700 dark:text-slate-300 border border-slate-200/60 text-[11px] font-bold transition-all cursor-pointer text-left flex items-center gap-1 truncate"
                   >
                     🔍 Phân biệt cấu trúc dễ nhầm
                   </button>
@@ -1645,13 +1645,13 @@ export default function AiGrammarPage() {
                   }
                 }}
                 placeholder="Hỏi AI Tutor... (Enter để gửi)"
-                className="w-full p-2 rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-white/10 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0059bb]"
+                className="w-full p-2 rounded-xs bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-white/10 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0059bb]"
               />
 
               <button
                 type="submit"
                 disabled={!chatInput.trim() || chatLoading}
-                className="w-full py-2 rounded-md bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold transition-all shadow-2xs flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+                className="w-full py-2 rounded-xs bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold transition-all shadow-2xs flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
               >
                 <Send className="w-3.5 h-3.5" /> Gửi câu hỏi cho AI (+10 XP)
               </button>

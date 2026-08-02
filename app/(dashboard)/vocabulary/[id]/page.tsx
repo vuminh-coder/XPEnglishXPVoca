@@ -375,29 +375,29 @@ export default function ThemeDetailPage({
   if (isLoading) {
     return (
       <div className="space-y-4 pb-16 md:pb-6 select-none animate-pulse">
-        <div className="p-5 rounded-xl bg-white dark:bg-slate-900/60 border border-slate-200/80 dark:border-white/5 space-y-4">
+        <div className="p-5 rounded-xs bg-white dark:bg-slate-900/60 border border-slate-200/80 dark:border-white/5 space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-slate-200 dark:bg-slate-800" />
+              <div className="w-10 h-10 rounded-xs bg-slate-200 dark:bg-slate-800" />
               <div className="space-y-2">
-                <div className="h-6 w-48 rounded bg-slate-200 dark:bg-slate-800" />
-                <div className="h-3.5 w-32 rounded bg-slate-200 dark:bg-slate-800" />
+                <div className="h-6 w-48 rounded-xs bg-slate-200 dark:bg-slate-800" />
+                <div className="h-3.5 w-32 rounded-xs bg-slate-200 dark:bg-slate-800" />
               </div>
             </div>
-            <div className="h-9 w-32 rounded-lg bg-slate-200 dark:bg-slate-800" />
+            <div className="h-9 w-32 rounded-xs bg-slate-200 dark:bg-slate-800" />
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-20 rounded-lg bg-slate-100 dark:bg-slate-800/50" />
+              <div key={i} className="h-20 rounded-xs bg-slate-100 dark:bg-slate-800/50" />
             ))}
           </div>
         </div>
-        <div className="h-10 w-80 rounded-full bg-slate-200 dark:bg-slate-900/60" />
+        <div className="h-10 w-80 rounded-xs bg-slate-200 dark:bg-slate-900/60" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[1, 2, 3, 4].map((i) => (
             <div
               key={i}
-              className="h-40 rounded-xl bg-white dark:bg-slate-900/40 border border-slate-200/60 dark:border-white/5"
+              className="h-40 rounded-xs bg-white dark:bg-slate-900/40 border border-slate-200/60 dark:border-white/5"
             />
           ))}
         </div>
@@ -417,7 +417,7 @@ export default function ThemeDetailPage({
             transition={{ type: "spring", stiffness: 120, damping: 15 }}
             className="fixed bottom-6 right-6 z-[600]"
           >
-            <div className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white border border-slate-200/90 dark:border-white/10 p-3.5 rounded-xl shadow-xl flex items-center gap-3 max-w-md">
+            <div className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white border border-slate-200/90 dark:border-white/10 p-3.5 rounded-xs shadow-xl flex items-center gap-3 max-w-md">
               <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" strokeWidth={2} />
               <div>
                 <div className="text-xs font-bold font-display text-slate-900 dark:text-white">{toast.title}</div>
@@ -433,7 +433,7 @@ export default function ThemeDetailPage({
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 110, damping: 20 }}
-        className="p-3.5 sm:p-5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3 sm:space-y-4"
+        className="p-3.5 sm:p-5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3 sm:space-y-4"
       >
         {/* Upper Header Row */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-3">
@@ -449,7 +449,7 @@ export default function ThemeDetailPage({
 
             <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
               {/* Theme Icon Avatar Badge */}
-              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-md bg-gradient-to-br from-[#0059bb]/10 to-indigo500/10 dark:from-[#0059bb]/20 dark:to-indigo-500/20 border border-[#0059bb]/20 flex items-center justify-center shrink-0 shadow-2xs">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xs bg-gradient-to-br from-[#0059bb]/10 to-indigo500/10 dark:from-[#0059bb]/20 dark:to-indigo-500/20 border border-[#0059bb]/20 flex items-center justify-center shrink-0 shadow-2xs">
                 {getSemanticThemeIcon(theme)}
               </div>
 
@@ -559,7 +559,7 @@ export default function ThemeDetailPage({
 
       {/* 2. MODE NAVIGATION TABS - SPLIT BAR DASHBOARD STYLE */}
       {/* 2. MODE NAVIGATION TABS - SPLIT BAR DASHBOARD STYLE */}
-      <div className="p-1 sm:p-1.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex flex-col sm:flex-row items-center justify-between gap-1.5 sm:gap-2">
+      <div className="p-1 sm:p-1.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex flex-col sm:flex-row items-center justify-between gap-1.5 sm:gap-2">
         {/* Left Side: 2 Main View Modes */}
         <div className="flex items-center gap-1 bg-slate-100/90 dark:bg-slate-800/60 p-1 rounded-xs w-full sm:w-auto">
           <button
@@ -625,12 +625,12 @@ export default function ThemeDetailPage({
             <motion.div
               animate={{ rotateY: isFlipped ? 180 : 0 }}
               transition={{ type: "spring", stiffness: 75, damping: 16 }}
-              className="relative w-full min-h-[270px] sm:min-h-[300px] rounded-md cursor-pointer select-none [transform-style:preserve-3d] shadow-2xs hover:shadow-xs transition-shadow"
+              className="relative w-full min-h-[270px] sm:min-h-[300px] rounded-xs cursor-pointer select-none [transform-style:preserve-3d] shadow-2xs hover:shadow-xs transition-shadow"
               onClick={() => setIsFlipped(!isFlipped)}
             >
               {/* FRONT SIDE */}
               <div
-                className="absolute inset-0 bg-white dark:bg-slate-900 rounded-md p-4 sm:p-6 flex flex-col items-center justify-between text-center border border-slate-200/80 dark:border-white/10 [backface-visibility:hidden]"
+                className="absolute inset-0 bg-white dark:bg-slate-900 rounded-xs p-4 sm:p-6 flex flex-col items-center justify-between text-center border border-slate-200/80 dark:border-white/10 [backface-visibility:hidden]"
                 style={{ transform: "rotateY(0deg)" }}
               >
                 {/* Upper Card Header Row */}
@@ -695,7 +695,7 @@ export default function ThemeDetailPage({
 
               {/* BACK SIDE */}
               <div
-                className="absolute inset-0 bg-gradient-to-br from-blue-50/90 via-[#ebf3fe] to-indigo-50/80 dark:from-slate-900 dark:to-slate-950 text-slate-900 dark:text-white rounded-md p-4 sm:p-6 flex flex-col items-center justify-between text-center border border-[#0059bb]/20 dark:border-white/10 [backface-visibility:hidden] shadow-2xs"
+                className="absolute inset-0 bg-gradient-to-br from-blue-50/90 via-[#ebf3fe] to-indigo-50/80 dark:from-slate-900 dark:to-slate-950 text-slate-900 dark:text-white rounded-xs p-4 sm:p-6 flex flex-col items-center justify-between text-center border border-[#0059bb]/20 dark:border-white/10 [backface-visibility:hidden] shadow-2xs"
                 style={{ transform: "rotateY(180deg)" }}
               >
                 {/* Back Upper Header */}
@@ -755,7 +755,7 @@ export default function ThemeDetailPage({
           </div>
 
           {/* Flashcard Bottom Control Bar */}
-          <div className="p-2.5 sm:p-3 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex items-center justify-between gap-2">
+          <div className="p-2.5 sm:p-3 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex items-center justify-between gap-2">
             <button
               onClick={() => {
                 setIsFlipped(false);
@@ -809,7 +809,7 @@ export default function ThemeDetailPage({
       {viewMode === "list" && (
         <div className="space-y-4">
           {/* Search & Filter Toolbar (Rule 2 & Rule 6 Compliance) */}
-          <div className="p-3.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="p-3.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex flex-col sm:flex-row items-center justify-between gap-3">
             {/* Search Box */}
             <div className="relative w-full sm:w-80">
               <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
@@ -877,7 +877,7 @@ export default function ThemeDetailPage({
 
           {/* Cards Grid */}
           {filteredVocabs.length === 0 ? (
-            <div className="p-8 text-center bg-white dark:bg-slate-900 rounded-md border border-slate-200/80 dark:border-white/10 space-y-2">
+            <div className="p-8 text-center bg-white dark:bg-slate-900 rounded-xs border border-slate-200/80 dark:border-white/10 space-y-2">
               <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 flex items-center justify-center mx-auto">
                 <Search className="w-6 h-6" />
               </div>
@@ -907,7 +907,7 @@ export default function ThemeDetailPage({
 
                 return (
                   <motion.div key={v.id} variants={itemVariants}>
-                    <div className="p-3 sm:p-3.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs hover:shadow-xs hover:border-[#0059bb]/50 dark:hover:border-sky-500/40 transition-all space-y-2 flex flex-col justify-between h-full group">
+                    <div className="p-3 sm:p-3.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs hover:shadow-xs hover:border-[#0059bb]/50 dark:hover:border-sky-500/40 transition-all space-y-2 flex flex-col justify-between h-full group">
                       <div className="space-y-1.5">
                         {/* Upper row: Word title, POS & Action tools */}
                         <div className="flex items-start justify-between gap-1.5">
@@ -1022,7 +1022,7 @@ export default function ThemeDetailPage({
       {/* MODE 3: QUICK QUIZ MODE */}
       {viewMode === "quiz" && (
         <div className="max-w-xl mx-auto space-y-4">
-          <div className="p-5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-4">
+          <div className="p-5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-4">
             {!quizFinished ? (
               <>
                 {/* Quiz Header Bar */}
@@ -1131,7 +1131,7 @@ export default function ThemeDetailPage({
       {/* MODE 4: AI COACH MODE */}
       {viewMode === "ai" && (
         <div className="max-w-xl mx-auto space-y-4">
-          <div className="p-5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-4">
+          <div className="p-5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-4">
             <div className="flex items-center gap-3 border-b border-slate-100 dark:border-white/5 pb-3">
               <div className="w-9 h-9 rounded-xs bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
                 <Bot className="w-5 h-5" />

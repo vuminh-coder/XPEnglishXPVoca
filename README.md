@@ -14,7 +14,7 @@
   - **Sky `#0284c7`**: Thời gian luyện tập, Bình luận, Tương tác & Trợ lý AI.
   - **Indigo `#6366f1`**: Cấp độ Level, Nhóm học tập chuyên sâu.
 - **Tiêu Chuẩn Bo Góc & Spacing (Tuân thủ Quy tắc UI/UX Wadhah Aloui)**:
-  - **Rule 10 (Border-Radius Scaling)**: Bo góc bên ngoài Thẻ Card chính `rounded-lg` (8px), phần tử con bên trong `rounded-md` (6px) hoặc `rounded-sm` (4px).
+  - **Rule 10 (Micro-Sharp UI Border-Radius Standard)**: Quy chuẩn bo góc tất cả các khối hình chữ nhật trên toàn website (cards, containers, buttons, inputs, dropdowns, modals, badges, tabs, alerts, toasts) về phẳng **`rounded-xs` (2px - 3px)** siêu sắc nét, tinh gọn và hiện đại (Ngoại lệ duy nhất: giữ nguyên `rounded-full` cho khối hình tròn như Avatar, chấm tiến trình tròn).
   - **Rule 1 (Loading State)**: Skeleton Loading Cards cho mọi trạng thái async fetch dữ liệu.
   - **Rule 18 (Primary Button)**: Duy nhất 1 nút bấm Primary `#0059bb` nổi bật per view.
 - **Chuẩn Mực Biểu Đồ Đường (Line Chart Standard)**:
@@ -98,13 +98,20 @@
   - **4 Bento Stats Cards**: Format gọn 1 hàng (`12 từ/ngày`, `8 phút/buổi`, `86% SRS`), không bị rớt chữ.
   - **Theme Cards Grid**: Thu nhỏ độ cao thẻ 35% trên mobile, gộp Icon + Title trên 1 hàng flex ngang, gộp Độ khó & Tiến trình trên 1 hàng chân thẻ. Căn giữa nút "Khám phá thêm" full-width trên mobile.
 - **`/vocabulary/[id]`**: Thẻ học Flashcard thông minh, tích hợp âm thanh & lưu từ yêu thích (`toggleFavorite`).
-- **`/listening`**: Phòng luyện nghe Dictation & Shadowing chuẩn audio.
+- **`/study/listening`**: Phòng Luyện Nghe Dictation & Bóc Tách Phụ Đề AI (Thiết kế Agency Dashboard Tier).
+  - **Luyện 3 Câu Một Lượt (Chunk3 Mode)**: Gõ từ phân tách theo thời gian thực (Instant Word Matching), tự động kiểm tra từ và mở chữ ẩn kèm viền xanh lá lá (`border-emerald-500`). Khóa chặt nút chuyển sang 3 câu tiếp theo (`🔒 Hoàn thành 3 câu này để chuyển tiếp`) cho đến khi hoàn thành đúng hết 3 câu hiện tại.
+  - **Giảm Mạnh Bo Góc (Micro-Sharp UI `rounded-xs`)**: Giảm mạnh 100% độ cong bo góc của toàn bộ các card Quiz trắc nghiệm, các nút đáp án A B C D, Tab Switcher, ô nhập từ, sổ tay ghi chú và các khối container bên cột trái/phải thành phẳng **`rounded-xs` (2px)** siêu sắc nét và tinh tế.
+  - **Tích hợp Innertube API**: Bóc tách phụ đề tiếng Anh & Việt chính xác 100% theo mốc mili-giây thời gian thực của video YouTube.
 
 - **`/study/practice`**: Phòng luyện tập 4 kỹ năng (Quiz, Flashcard 3D, Writing, Speaking AI).
   - **Mobile Layout Optimize**: Ẩn phụ đề rườm rà `hidden sm:block`, rút gọn tên 4 tab chế độ trên mobile (`Quiz`, `Flashcard`, `Writing`, `Nói AI`) kèm cuộn mượt `overflow-x-auto`.
   - **Khung Thẻ Câu Hỏi & Đáp Án**: Tối ưu padding `p-3 sm:p-4`, hiển thị vừa trọn 1 màn hình di động không rớt dòng. Nút "Câu tiếp theo" căn giữa full-width trên mobile.
-- **`/study/shadowing`**: Trang Luyện Nói & Nhại Giọng Bản Xứ (Shadowing Engine + AI Speech Scoring).
-  - **Mobile Layout Optimize**: Ẩn các đoạn hướng dẫn rườm rà `hidden sm:flex` (Mobile hiển thị Hero Banner siêu gọn `Shadowing 🎙️` + Nút `Khám phá`).
+- **`/study/shadowing`**: Trang Luyện Nói & Nhại Giọng Bản Xứ (Real-time Speech Recognition + AI Speech Scoring + Instant Color Coding + Mobile Dictionary Modal).
+  - **Live Real-time Speech-to-Text & Color Coding (Xanh/Đỏ)**: Chấm từ phát âm đúng/sai ngay lập tức khi cất giọng đọc (**XANH LÁ**: `text-emerald-700 bg-emerald-50 border-emerald-500`, **ĐỎ**: `text-rose-700 bg-rose-50 border-rose-400`).
+  - **Ngưỡng Vượt Qua 80% (PASS ≥ 80%)**: Đạt `≥ 80%` ➔ Coi như VƯỢT QUA (PASS 🎉), phát hiệu ứng chúc mừng và cộng thưởng **+20 XP**.
+  - **Icon Con Mắt `<Eye />` Xem Bản Dịch Tiếng Việt**: Nút bật/tắt hiển thị Khung Bản Dịch Tiếng Việt Chuyên Sâu.
+  - **Tương Tác Click Tra Từ Vựng & Mobile Word Dictionary Modal**: Chạm/Click từ vựng ➔ Mở chiếc Mobile Word Dictionary Modal ở góc dưới bên phải (`right-4 bottom-[72px]`) với phát âm IPA, audio chuẩn và bản dịch tiếng Việt in đậm ngay tiêu đề header.
+  - **Mobile Layout Optimize**: Thiết kế siêu gọn gàng, các nút Mic/Play nằm trong vùng ngón tay cái, tương thích mobile 100%.
   - **Rút gọn nhãn nút bấm**: `← Đổi bài` (thay vì `← Đổi bài học khác`), `🎧 Luyện nghe` (thay vì `🎧 Chuyển sang Luyện nghe bài này`).
   - **Dàn hàng 4 Chế độ**: Dàn đều 4 tab chế độ (`Sentence`, `Paragraph`, `Shadow`, `Repeat`) thành 1 hàng `grid-cols-4` vừa vặn trên mobile.
   - **Tốc độ đọc & Mic ghi âm**: Bộ chọn tốc độ gọn gàng 4 mức chính (`0.8x`, `1.0x`, `1.25x`, `1.5x`), nút Mic thu âm to rõ chuẩn ngón tay bấm.

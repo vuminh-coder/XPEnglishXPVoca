@@ -195,8 +195,8 @@ export default function CommunityPage() {
 
   return (
     <div className="space-y-3.5 sm:space-y-5 pb-16 md:pb-6 select-none font-sans" suppressHydrationWarning>
-      {/* 1. HERO BENTO HEADER BANNER (AGENCY DASHBOARD TIER) */}
-      <div className="p-3.5 sm:p-4.5 rounded-md bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#003366] text-white shadow-2xs relative overflow-hidden">
+      {/* 1. HERO SPOTLIGHT BANNER */}
+      <div className="p-3.5 sm:p-4.5 rounded-xs bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#003366] text-white shadow-2xs relative overflow-hidden">
         <div className="absolute -right-8 -bottom-8 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none" />
         <div className="relative z-10 space-y-1.5">
           <div className="flex items-center gap-1.5 sm:gap-2 flex-nowrap whitespace-nowrap overflow-x-auto no-scrollbar">
@@ -227,7 +227,7 @@ export default function CommunityPage() {
         <div className="lg:col-span-8 xl:col-span-8 space-y-3.5 sm:space-y-4">
           
           {/* SEGMENTED NAVIGATION TABS */}
-          <div className="p-1 rounded-md bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 grid grid-cols-4 gap-1 w-full">
+          <div className="p-1 rounded-xs bg-slate-100 dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 grid grid-cols-4 gap-1 w-full">
             <div className="shrink-0 sm:shrink py-1.5 px-1 sm:px-3 rounded-xs bg-[#0059bb] text-white text-[10px] sm:text-xs font-bold shadow-2xs flex items-center justify-center gap-1 sm:gap-1.5 whitespace-nowrap">
               <MessageSquare className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" /> Bảng tin
             </div>
@@ -252,7 +252,7 @@ export default function CommunityPage() {
           </div>
 
           {/* CREATE POST CARD (COMPACT AGENCY TIER DESIGN) */}
-          <div className="p-3 sm:p-4 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-2.5 sm:space-y-3">
+          <div className="p-3 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-2.5 sm:space-y-3">
             <div className="flex items-start gap-2.5">
               <UserAvatar
                 avatar={(user as any)?.avatar || (user as any)?.avatarUrl}
@@ -313,7 +313,7 @@ export default function CommunityPage() {
               /* SKELETON LOADING CARDS (RULE 1 COMPLIANCE) */
               <div className="space-y-3">
                 {[1, 2].map((i) => (
-                  <div key={i} className="p-3 sm:p-4 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3 animate-pulse">
+                  <div key={i} className="p-3 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3 animate-pulse">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-slate-200 dark:bg-slate-800" />
                       <div className="space-y-1.5 flex-1">
@@ -330,8 +330,8 @@ export default function CommunityPage() {
               </div>
             ) : posts.length === 0 ? (
               /* EMPTY STATE */
-              <div className="p-6 sm:p-8 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs text-center space-y-2">
-                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-md bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 flex items-center justify-center mx-auto text-lg sm:text-xl border border-[#0059bb]/20">
+              <div className="p-6 sm:p-8 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs text-center space-y-2">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xs bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 flex items-center justify-center mx-auto text-lg sm:text-xl border border-[#0059bb]/20">
                   💬
                 </div>
                 <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
@@ -356,7 +356,7 @@ export default function CommunityPage() {
                 return (
                   <div
                     key={p.id}
-                    className="p-3 sm:p-4 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-2 sm:space-y-2.5"
+                    className="p-3 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-2 sm:space-y-2.5"
                   >
                     {/* Post Author Header (Clean single name, Google/FB avatar, NO @ symbol) */}
                     <div className="flex items-center justify-between gap-2.5 border-b border-slate-100 dark:border-white/5 pb-2">
@@ -521,7 +521,7 @@ export default function CommunityPage() {
         <div className="lg:col-span-4 xl:col-span-4 space-y-3.5 sm:space-y-4 sticky top-4">
           
           {/* BENTO WIDGET 1: TOP 3 LEADERBOARD SPOTLIGHT */}
-          <div className="p-3.5 sm:p-4 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-2.5 sm:space-y-3">
+          <div className="p-3.5 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-2.5 sm:space-y-3">
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5">
               <div className="flex items-center gap-2">
                 <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xs bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 border border-amber-500/20 text-sm sm:text-base">
@@ -568,7 +568,7 @@ export default function CommunityPage() {
           </div>
 
           {/* BENTO WIDGET 2: ACTIVE STUDY GROUPS */}
-          <div className="p-3.5 sm:p-4 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-2.5 sm:space-y-3">
+          <div className="p-3.5 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-2.5 sm:space-y-3">
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5">
               <div className="flex items-center gap-2">
                 <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xs bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0 border border-indigo-500/20 text-sm sm:text-base">
@@ -607,7 +607,7 @@ export default function CommunityPage() {
           </div>
 
           {/* BENTO WIDGET 3: AI COMMUNITY DAILY TIP */}
-          <div className="p-3.5 sm:p-4 rounded-md bg-[#ebf3fe]/80 dark:bg-slate-800/60 border border-[#0059bb]/20 shadow-2xs space-y-1.5 sm:space-y-2">
+          <div className="p-3.5 sm:p-4 rounded-xs bg-[#ebf3fe]/80 dark:bg-slate-800/60 border border-[#0059bb]/20 shadow-2xs space-y-1.5 sm:space-y-2">
             <div className="flex items-center gap-1.5 sm:gap-2 text-xs font-bold text-[#0059bb] dark:text-sky-400 font-display">
               <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> Mẹo AI Ghi Nhớ Nhanh Hàng Ngày
             </div>

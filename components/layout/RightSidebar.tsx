@@ -174,7 +174,7 @@ export default function RightSidebar() {
           {/* 3-Line Level & Experience Section */}
           <div className="flex flex-col items-center gap-1.5 mb-3 w-full">
             {/* Dòng 1: Cấp độ */}
-            <span className="text-[11px] font-black uppercase tracking-widest text-amber-600 dark:text-amber-400 bg-amber-500/10 px-2.5 py-0.5 rounded-md border border-amber-500/20 shadow-xs">
+            <span className="text-[11px] font-black uppercase tracking-widest text-amber-600 dark:text-amber-400 bg-amber-500/10 px-2.5 py-0.5 rounded-xs border border-amber-500/20 shadow-xs">
               CẤP ĐỘ {currentUser.level}
             </span>
 
@@ -184,7 +184,7 @@ export default function RightSidebar() {
             </h4>
 
             {/* Dòng 3: Khối tiến trình XP */}
-            <div className="w-full text-left bg-black/[0.015] dark:bg-white/[0.015] p-3 rounded-2xl border border-black/[0.03] dark:border-white/[0.03] mt-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
+            <div className="w-full text-left bg-black/[0.015] dark:bg-white/[0.015] p-3 rounded-xs border border-black/[0.03] dark:border-white/[0.03] mt-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
               <div className="flex justify-between items-center text-[11px] text-slate-700 dark:text-slate-300 mb-1.5 font-black uppercase tracking-wider">
                 <span>Đến cấp {currentUser.level + 1}</span>
                 <span className="text-[#0059bb] dark:text-sky-400 font-black">
@@ -204,7 +204,7 @@ export default function RightSidebar() {
           </div>
 
           <button
-            className="flex items-center justify-center gap-2 w-full mt-2 h-10 bg-gradient-to-r from-[#0059bb] via-blue-600 to-indigo-600 hover:opacity-95 text-white rounded-xl text-xs font-black py-0 px-4 shadow-md active:scale-[0.98] transition-transform border border-blue-400/20 cursor-pointer"
+            className="flex items-center justify-center gap-2 w-full mt-2 h-10 bg-gradient-to-r from-[#0059bb] via-blue-600 to-indigo-600 hover:opacity-95 text-white rounded-xs text-xs font-black py-0 px-4 shadow-md active:scale-[0.98] transition-transform border border-blue-400/20 cursor-pointer"
             onClick={shareProgress}
           >
             <Share2 className="w-4 h-4 stroke-[2]" /> Chia sẻ tiến độ
@@ -230,7 +230,7 @@ export default function RightSidebar() {
           {achievements.map((ach) => (
             <div
               key={ach.id}
-              className={`group relative flex flex-col items-center gap-1.5 p-3 rounded-2xl border transition-all duration-500 hover:-translate-y-0.5 cursor-pointer bg-white dark:bg-neutral-900 border-black/[0.04] dark:border-white/[0.04] hover:border-cyan-300 dark:hover:border-cyan-800 shadow-xs hover:shadow-md ${
+              className={`group relative flex flex-col items-center gap-1.5 p-3 rounded-xs border transition-all duration-500 hover:-translate-y-0.5 cursor-pointer bg-white dark:bg-neutral-900 border-black/[0.04] dark:border-white/[0.04] hover:border-cyan-300 dark:hover:border-cyan-800 shadow-xs hover:shadow-md ${
                 ach.unlocked ? "" : "opacity-45 grayscale"
               }`}
             >
@@ -241,7 +241,7 @@ export default function RightSidebar() {
               )}
 
               <div
-                className={`w-10 h-10 rounded-xl bg-gradient-to-br ${ach.accent.split(" ")[0]} ${ach.accent.split(" ")[1]} border border-black/5 dark:border-white/5 flex items-center justify-center text-xl transition-transform duration-500 group-hover:scale-105`}
+                className={`w-10 h-10 rounded-xs bg-gradient-to-br ${ach.accent.split(" ")[0]} ${ach.accent.split(" ")[1]} border border-black/5 dark:border-white/5 flex items-center justify-center text-xl transition-transform duration-500 group-hover:scale-105`}
               >
                 {ach.icon}
               </div>
@@ -251,7 +251,7 @@ export default function RightSidebar() {
               </span>
 
               <div className="absolute bottom-full mb-2 hidden group-hover:flex flex-col items-center z-50 pointer-events-none transition-all duration-300">
-                <div className="bg-neutral-950/90 text-white text-[12px] p-2.5 rounded-xl shadow-lg w-36 text-center leading-normal border border-white/10 backdrop-blur-md">
+                <div className="bg-neutral-950/90 text-white text-[12px] p-2.5 rounded-xs shadow-lg w-36 text-center leading-normal border border-white/10 backdrop-blur-md">
                   <div className="font-extrabold mb-0.5 text-cyan-400">
                     {ach.name}
                   </div>

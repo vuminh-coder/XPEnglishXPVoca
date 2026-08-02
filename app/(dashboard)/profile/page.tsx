@@ -236,7 +236,7 @@ export default function ProfilePage() {
         initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 100, damping: 18 }}
-        className="rounded-md bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-2xs relative overflow-hidden"
+        className="rounded-xs bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-2xs relative overflow-hidden"
       >
         <div className="absolute -right-12 -bottom-12 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute inset-0 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px] opacity-15 pointer-events-none" />
@@ -247,7 +247,7 @@ export default function ProfilePage() {
           <div className="flex items-center gap-3">
             {/* Avatar with level badge */}
             <div className="relative shrink-0">
-              <div className="w-13 h-13 rounded-md bg-gradient-to-tr from-[#0059bb] via-indigo-500 to-amber-400 p-[2px] shadow-md">
+              <div className="w-13 h-13 rounded-xs bg-gradient-to-tr from-[#0059bb] via-indigo-500 to-amber-400 p-[2px] shadow-md">
                 <div className="w-full h-full bg-slate-900 rounded-xs flex items-center justify-center overflow-hidden">
                   {user.imageUrl || (user as any).avatar || (user as any).avatarUrl ? (
                     <img src={user.imageUrl || (user as any).avatar || (user as any).avatarUrl} alt={user.fullName || user.username} className="w-full h-full object-cover" />
@@ -335,7 +335,7 @@ export default function ProfilePage() {
             <div className="flex flex-row items-end justify-between gap-4">
               <div className="flex flex-row items-end gap-4 text-left min-w-0">
                 <div className="relative group shrink-0">
-                  <div className="w-20 h-20 rounded-md bg-gradient-to-tr from-[#0059bb] via-indigo-500 to-amber-400 p-0.5 shadow-md border-2 border-white/20 bg-slate-900 relative">
+                  <div className="w-20 h-20 rounded-xs bg-gradient-to-tr from-[#0059bb] via-indigo-500 to-amber-400 p-0.5 shadow-md border-2 border-white/20 bg-slate-900 relative">
                     <div className="w-full h-full bg-slate-900 rounded-xs flex items-center justify-center overflow-hidden relative">
                       {user.imageUrl || (user as any).avatar || (user as any).avatarUrl ? (
                         <img src={user.imageUrl || (user as any).avatar || (user as any).avatarUrl} alt={user.fullName || user.username} className="w-full h-full object-cover" />
@@ -383,7 +383,7 @@ export default function ProfilePage() {
       {/* 2. TOP METRICS */}
       {/* === MOBILE: Polished 2x2 grid === */}
       <div className="sm:hidden grid grid-cols-2 gap-1.5">
-        <div className="flex items-center gap-2 p-2 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs">
+        <div className="flex items-center gap-2 p-2 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs">
           <div className="w-7 h-7 rounded-xs bg-blue-50 dark:bg-blue-950/40 flex items-center justify-center shrink-0">
             <BookOpen className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
           </div>
@@ -392,7 +392,7 @@ export default function ProfilePage() {
             <div className="text-[8px] font-bold text-slate-500 dark:text-slate-400 mt-0.5 uppercase tracking-wide">từ vựng</div>
           </div>
         </div>
-        <div className="flex items-center gap-2 p-2 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs">
+        <div className="flex items-center gap-2 p-2 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs">
           <div className="w-7 h-7 rounded-xs bg-amber-50 dark:bg-amber-950/40 flex items-center justify-center shrink-0">
             <Flame className="w-3.5 h-3.5 fill-amber-500 stroke-none" />
           </div>
@@ -401,7 +401,7 @@ export default function ProfilePage() {
             <div className="text-[8px] font-bold text-slate-500 dark:text-slate-400 mt-0.5 uppercase tracking-wide">streak</div>
           </div>
         </div>
-        <div className="flex items-center gap-2 p-2 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs">
+        <div className="flex items-center gap-2 p-2 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs">
           <div className="w-7 h-7 rounded-xs bg-indigo-50 dark:bg-indigo-950/40 flex items-center justify-center shrink-0">
             <Zap className="w-3.5 h-3.5 text-indigo-500" />
           </div>
@@ -410,7 +410,7 @@ export default function ProfilePage() {
             <div className="text-[8px] font-bold text-slate-500 dark:text-slate-400 mt-0.5 uppercase tracking-wide">lv.{user.level}</div>
           </div>
         </div>
-        <div className="flex items-center gap-2 p-2 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs">
+        <div className="flex items-center gap-2 p-2 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs">
           <div className="w-7 h-7 rounded-xs bg-yellow-50 dark:bg-yellow-950/40 flex items-center justify-center shrink-0">
             <Coins className="w-3.5 h-3.5 text-yellow-600" />
           </div>
@@ -430,7 +430,7 @@ export default function ProfilePage() {
       >
         {/* CARD 1: WORDS LEARNED */}
         <motion.div variants={itemVariants}>
-          <div className="p-4 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex flex-col justify-between space-y-3 h-full">
+          <div className="p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex flex-col justify-between space-y-3 h-full">
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
               <span className="text-xs font-bold text-slate-900 dark:text-white font-display">Từ Vựng Tích Lũy</span>
               <div className="w-7 h-7 rounded-xs bg-blue-50 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-400 border border-blue-200/60 dark:border-blue-900/40 flex items-center justify-center shrink-0">
@@ -455,7 +455,7 @@ export default function ProfilePage() {
 
         {/* CARD 2: STREAK */}
         <motion.div variants={itemVariants}>
-          <div className="p-4 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex flex-col justify-between space-y-3 h-full">
+          <div className="p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex flex-col justify-between space-y-3 h-full">
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
               <span className="text-xs font-bold text-slate-900 dark:text-white font-display">Chuỗi Streak Học Tập</span>
               <div className="w-7 h-7 rounded-xs bg-amber-50 dark:bg-amber-950/40 text-amber-500 border border-amber-200/60 dark:border-amber-900/40 flex items-center justify-center shrink-0">
@@ -477,7 +477,7 @@ export default function ProfilePage() {
 
         {/* CARD 3: XP */}
         <motion.div variants={itemVariants}>
-          <div className="p-4 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex flex-col justify-between space-y-3 h-full">
+          <div className="p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex flex-col justify-between space-y-3 h-full">
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
               <span className="text-xs font-bold text-slate-900 dark:text-white font-display">Kinh Nghiệm (XP)</span>
               <div className="w-7 h-7 rounded-xs bg-indigo-50 dark:bg-indigo-950/40 text-indigo-500 border border-indigo-200/60 dark:border-indigo-900/40 flex items-center justify-center shrink-0">
@@ -502,7 +502,7 @@ export default function ProfilePage() {
 
         {/* CARD 4: GOLD */}
         <motion.div variants={itemVariants}>
-          <div className="p-4 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex flex-col justify-between space-y-3 h-full">
+          <div className="p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex flex-col justify-between space-y-3 h-full">
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
               <span className="text-xs font-bold text-slate-900 dark:text-white font-display">Vàng & Bảo Hộ</span>
               <div className="w-7 h-7 rounded-xs bg-yellow-50 dark:bg-yellow-950/40 text-yellow-600 dark:text-yellow-400 border border-yellow-200/60 dark:border-yellow-900/40 flex items-center justify-center shrink-0">
@@ -531,7 +531,7 @@ export default function ProfilePage() {
           
           {/* MINI SKILL METERS */}
           {/* === MOBILE: Clean horizontal list === */}
-          <div className="sm:hidden rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs p-2.5 space-y-2">
+          <div className="sm:hidden rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs p-2.5 space-y-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1.5">
                 <BarChart3 className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
@@ -560,7 +560,7 @@ export default function ProfilePage() {
           </div>
 
           {/* === DESKTOP: Full skill meters section === */}
-          <div className="hidden sm:block p-5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3">
+          <div className="hidden sm:block p-5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3">
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5">
               <div className="flex items-center gap-2">
                 <BarChart3 className="w-4 h-4 text-[#0059bb] dark:text-sky-400 stroke-[2.2]" />
@@ -588,7 +588,7 @@ export default function ProfilePage() {
           </div>
 
           {/* ACHIEVEMENT BENTO GALLERY WITH TAB FILTERS */}
-          <div className="p-3.5 sm:p-5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3 sm:space-y-4">
+          <div className="p-3.5 sm:p-5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3 sm:space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-3 border-b border-slate-100 dark:border-white/5 pb-2.5 sm:pb-3">
               <div className="flex items-center gap-2">
                 <Award className="w-4 h-4 text-[#0059bb] dark:text-sky-400 stroke-[2.2]" />
@@ -637,7 +637,7 @@ export default function ProfilePage() {
               {filteredAchievements.map((ach) => (
                 <div
                   key={ach.id}
-                  className={`p-3.5 rounded-md border transition-all duration-300 flex flex-col justify-between gap-3 ${
+                  className={`p-3.5 rounded-xs border transition-all duration-300 flex flex-col justify-between gap-3 ${
                     ach.unlocked
                       ? `bg-white dark:bg-slate-900 border-slate-200/90 dark:border-white/15 shadow-2xs`
                       : "bg-slate-50/80 dark:bg-slate-950/40 border-slate-200/60 dark:border-white/5 opacity-70"
@@ -686,7 +686,7 @@ export default function ProfilePage() {
 
           {/* EQUIPPED INVENTORY & COSMETIC SHOP SHOWCASE */}
           {/* === MOBILE: Clean list rows === */}
-          <div className="sm:hidden rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs p-2.5 space-y-2">
+          <div className="sm:hidden rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs p-2.5 space-y-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1.5">
                 <ShoppingBag className="w-3.5 h-3.5 text-amber-500" />
@@ -734,7 +734,7 @@ export default function ProfilePage() {
           </div>
 
           {/* === DESKTOP: Full inventory bento grid === */}
-          <div className="hidden sm:block p-5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3">
+          <div className="hidden sm:block p-5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3">
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5">
               <div className="flex items-center gap-2">
                 <ShoppingBag className="w-4 h-4 text-amber-500 stroke-[2.2]" />
@@ -807,7 +807,7 @@ export default function ProfilePage() {
         <div className="lg:col-span-4 space-y-2.5 sm:space-y-4">
           
           {/* LEVEL & TITLE PROGRESSION CARD */}
-          <div className="p-3 sm:p-4 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3 sm:space-y-3.5">
+          <div className="p-3 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3 sm:space-y-3.5">
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5">
               <div className="flex items-center gap-2">
                 <Crown className="w-4 h-4 text-amber-500 stroke-[2.2]" />
@@ -846,7 +846,7 @@ export default function ProfilePage() {
           </div>
 
           {/* QUICK DASHBOARD NAVIGATION LINKS */}
-          <div className="p-3 sm:p-4 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-2.5 sm:space-y-3">
+          <div className="p-3 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-2.5 sm:space-y-3">
             <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display border-b border-slate-100 dark:border-white/5 pb-2">
               Lối Tắt Ứng Dụng
             </h2>
@@ -909,7 +909,7 @@ export default function ProfilePage() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="p-4 sm:p-5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-4"
+            className="p-4 sm:p-5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-4"
           >
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5">
               <div className="flex items-center gap-2">
@@ -989,14 +989,14 @@ export default function ProfilePage() {
                   variant="ghost"
                   type="button"
                   onClick={() => setIsEditing(false)}
-                  className="h-9 px-4 text-xs font-bold rounded-md"
+                  className="h-9 px-4 text-xs font-bold rounded-xs"
                 >
                   Hủy bỏ
                 </Button>
                 <Button
                   variant="primary"
                   type="submit"
-                  className="h-9 px-5 text-xs font-bold rounded-md bg-[#0059bb] hover:bg-[#004799] text-white shadow-2xs flex items-center gap-1.5 cursor-pointer"
+                  className="h-9 px-5 text-xs font-bold rounded-xs bg-[#0059bb] hover:bg-[#004799] text-white shadow-2xs flex items-center gap-1.5 cursor-pointer"
                 >
                   <Save className="w-3.5 h-3.5" /> Lưu thay đổi
                 </Button>

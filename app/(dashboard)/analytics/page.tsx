@@ -267,7 +267,7 @@ export default function AnalyticsPage() {
         </h3>
 
         {/* OVERFLOW-HIDDEN CONTAINER TO GUARANTEE ZERO CANVAS LEAKS */}
-        <div className="relative overflow-hidden rounded-md border border-slate-100 dark:border-white/5 p-1 bg-slate-50/30 dark:bg-slate-900/30">
+        <div className="relative overflow-hidden rounded-xs border border-slate-100 dark:border-white/5 p-1 bg-slate-50/30 dark:bg-slate-900/30">
           <svg
             viewBox={`0 0 ${svgW} ${svgH}`}
             className="w-full h-36 sm:h-48 overflow-hidden cursor-pointer"
@@ -396,7 +396,7 @@ export default function AnalyticsPage() {
           {/* FLOATING TOOLTIP BOX */}
           {activePoint && (
             <div
-              className="absolute pointer-events-none bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 rounded-sm p-1.5 shadow-xs text-center min-w-[80px] sm:min-w-[90px] z-10 transition-opacity"
+              className="absolute pointer-events-none bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 rounded-xs p-1.5 shadow-xs text-center min-w-[80px] sm:min-w-[90px] z-10 transition-opacity"
               style={{
                 left: `${(activePoint.x / svgW) * 100}%`,
                 top: "35%",
@@ -433,8 +433,8 @@ export default function AnalyticsPage() {
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-4">
         
         {/* CARD 1: STREAK */}
-        <div className="p-2.5 sm:p-3.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center gap-2.5 sm:gap-3">
-          <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-sm bg-orange-50 dark:bg-orange-950/40 text-orange-500 flex items-center justify-center shrink-0">
+        <div className="p-2.5 sm:p-3.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center gap-2.5 sm:gap-3">
+          <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xs bg-orange-50 dark:bg-orange-950/40 text-orange-500 flex items-center justify-center shrink-0">
             <Flame className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-orange-400" />
           </div>
           <div className="min-w-0">
@@ -446,8 +446,8 @@ export default function AnalyticsPage() {
         </div>
 
         {/* CARD 2: SAVED WORDS */}
-        <div className="p-2.5 sm:p-3.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center gap-2.5 sm:gap-3">
-          <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-sm bg-emerald-50 dark:bg-emerald-950/40 text-emerald-500 flex items-center justify-center shrink-0">
+        <div className="p-2.5 sm:p-3.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center gap-2.5 sm:gap-3">
+          <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xs bg-emerald-50 dark:bg-emerald-950/40 text-emerald-500 flex items-center justify-center shrink-0">
             <BookmarkCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           </div>
           <div className="min-w-0">
@@ -459,8 +459,8 @@ export default function AnalyticsPage() {
         </div>
 
         {/* CARD 3: PRACTICE TIME */}
-        <div className="p-2.5 sm:p-3.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center gap-2.5 sm:gap-3">
-          <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-sm bg-sky-50 dark:bg-sky-950/40 text-sky-500 flex items-center justify-center shrink-0">
+        <div className="p-2.5 sm:p-3.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center gap-2.5 sm:gap-3">
+          <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xs bg-sky-50 dark:bg-sky-950/40 text-sky-500 flex items-center justify-center shrink-0">
             <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           </div>
           <div className="min-w-0">
@@ -472,8 +472,8 @@ export default function AnalyticsPage() {
         </div>
 
         {/* CARD 4: TOTAL XP */}
-        <div className="p-2.5 sm:p-3.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center gap-2.5 sm:gap-3">
-          <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-sm bg-indigo-50 dark:bg-indigo-950/40 text-indigo-500 flex items-center justify-center shrink-0">
+        <div className="p-2.5 sm:p-3.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center gap-2.5 sm:gap-3">
+          <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xs bg-indigo-50 dark:bg-indigo-950/40 text-indigo-500 flex items-center justify-center shrink-0">
             <Target className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           </div>
           <div className="min-w-0">
@@ -485,9 +485,9 @@ export default function AnalyticsPage() {
         </div>
 
         {/* CARD 5: WEEKLY RANK (Spans 2 cols on mobile for balance) */}
-        <div className="col-span-2 sm:col-span-1 p-2.5 sm:p-3.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center justify-between sm:justify-start gap-2.5 sm:gap-3">
+        <div className="col-span-2 sm:col-span-1 p-2.5 sm:p-3.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center justify-between sm:justify-start gap-2.5 sm:gap-3">
           <div className="flex items-center gap-2.5 sm:gap-3">
-            <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-sm bg-amber-50 dark:bg-amber-950/40 text-amber-500 flex items-center justify-center shrink-0">
+            <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xs bg-amber-50 dark:bg-amber-950/40 text-amber-500 flex items-center justify-center shrink-0">
               <Trophy className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </div>
             <div className="min-w-0">
@@ -526,7 +526,7 @@ export default function AnalyticsPage() {
       </div>
 
       {/* 4. SECTION 1: TỔNG QUAN HOẠT ĐỘNG 6 THÁNG */}
-      <div className="p-3.5 sm:p-6 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3 sm:space-y-4">
+      <div className="p-3.5 sm:p-6 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3 sm:space-y-4">
         <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
           Tổng quan hoạt động (6 tháng gần đây)
         </h2>
@@ -617,7 +617,7 @@ export default function AnalyticsPage() {
       </div>
 
       {/* 5. SECTION 2: MODE SWITCHER PILLS & DYNAMIC REALTTIME LINE CHARTS */}
-      <div className="p-3.5 sm:p-6 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-4 sm:space-y-6">
+      <div className="p-3.5 sm:p-6 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-4 sm:space-y-6">
         
         {/* CARD TOP HEADER: TITLE LEFT + MODE PILLS RIGHT */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 sm:gap-3">
@@ -626,7 +626,7 @@ export default function AnalyticsPage() {
           </h2>
 
           {/* Top Right Mode Switcher (1 Single Line Scrollable Strip on Mobile) */}
-          <div className="p-1 rounded-md bg-slate-100 dark:bg-slate-800/80 flex items-center gap-1 text-xs font-medium border border-slate-200/60 dark:border-white/5 overflow-x-auto no-scrollbar whitespace-nowrap max-w-full shrink-0">
+          <div className="p-1 rounded-xs bg-slate-100 dark:bg-slate-800/80 flex items-center gap-1 text-xs font-medium border border-slate-200/60 dark:border-white/5 overflow-x-auto no-scrollbar whitespace-nowrap max-w-full shrink-0">
             {[
               { id: "Dictation" as const, label: "Dictation" },
               { id: "Shadowing" as const, label: "Shadowing" },
@@ -640,7 +640,7 @@ export default function AnalyticsPage() {
                   key={mode.id}
                   type="button"
                   onClick={() => setModeFilter(mode.id)}
-                  className={`relative px-2.5 py-1 rounded-sm text-[11px] sm:text-xs transition-colors cursor-pointer select-none font-display shrink-0 ${
+                  className={`relative px-2.5 py-1 rounded-xs text-[11px] sm:text-xs transition-colors cursor-pointer select-none font-display shrink-0 ${
                     isSelected ? "text-white font-bold" : "text-slate-600 dark:text-slate-400 hover:text-slate-900"
                   }`}
                 >
@@ -648,7 +648,7 @@ export default function AnalyticsPage() {
                     <motion.div
                       layoutId="activeSkillTabPill"
                       transition={{ type: "spring", stiffness: 450, damping: 32 }}
-                      className="absolute inset-0 bg-[#0059bb] rounded-sm shadow-2xs -z-0"
+                      className="absolute inset-0 bg-[#0059bb] rounded-xs shadow-2xs -z-0"
                     />
                   )}
                   <span className="relative z-10">{mode.label}</span>
