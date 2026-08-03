@@ -7,6 +7,7 @@ import { useVocabularyStore } from "@/lib/store/vocabularyStore";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useUserStore, recordSkillPractice } from "@/lib/store/userStore";
 import { useDailyChallengeStore } from "@/lib/store/dailyChallengeStore";
+import { safeSpeakText } from "@/lib/utils/mobileAudio";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft,
@@ -188,15 +189,7 @@ export default function ThemeDetailPage({
   };
 
   const speak = (word: string, rate = 0.9, lang = "en-US") => {
-    if ("speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(word);
-      u.lang = lang;
-      u.rate = rate;
-      window.speechSynthesis.speak(u);
-    } else {
-      showToastMsg("Lỗi phát âm", "Trình duyệt không hỗ trợ tổng hợp giọng nói!");
-    }
+    safeSpeakText(word, { rate, lang });
   };
 
   // Auto-play audio when switching cards if autoPlayAudio is enabled

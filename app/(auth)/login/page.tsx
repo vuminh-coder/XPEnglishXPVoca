@@ -202,10 +202,10 @@ export default function LoginPage() {
                 </div>
                 <div>
                   <h4 className="text-xs font-bold text-slate-900 dark:text-white">
-                    3,900+ Từ vựng
+                    8,900+ Từ vựng
                   </h4>
                   <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
-                    145 chủ đề chuẩn
+                    155 chủ đề chuẩn
                   </p>
                 </div>
               </div>

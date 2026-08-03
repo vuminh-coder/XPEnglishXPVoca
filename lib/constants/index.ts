@@ -20,6 +20,96 @@ export const LEVEL_TITLES: Record<number, string> = {
 
 export const MOCK_THEMES = [
   {
+    "id": "t146",
+    "name": "CNTT & AI",
+    "nameEn": "IT & AI",
+    "icon": "💻",
+    "difficulty": 2,
+    "totalVocabs": 200,
+    "color": "#0284c7"
+  },
+  {
+    "id": "t147",
+    "name": "Y tế",
+    "nameEn": "Healthcare",
+    "icon": "🏥",
+    "difficulty": 2,
+    "totalVocabs": 200,
+    "color": "#e11d48"
+  },
+  {
+    "id": "t148",
+    "name": "Tài chính",
+    "nameEn": "Finance",
+    "icon": "📈",
+    "difficulty": 2,
+    "totalVocabs": 200,
+    "color": "#059669"
+  },
+  {
+    "id": "t149",
+    "name": "Luật pháp",
+    "nameEn": "Law",
+    "icon": "⚖️",
+    "difficulty": 3,
+    "totalVocabs": 200,
+    "color": "#4f46e5"
+  },
+  {
+    "id": "t150",
+    "name": "Môi trường",
+    "nameEn": "Environment",
+    "icon": "🌿",
+    "difficulty": 2,
+    "totalVocabs": 200,
+    "color": "#16a34a"
+  },
+  {
+    "id": "t151",
+    "name": "Marketing",
+    "nameEn": "Marketing",
+    "icon": "📢",
+    "difficulty": 2,
+    "totalVocabs": 200,
+    "color": "#d97706"
+  },
+  {
+    "id": "t152",
+    "name": "Du lịch",
+    "nameEn": "Travel",
+    "icon": "✈️",
+    "difficulty": 1,
+    "totalVocabs": 200,
+    "color": "#0284c7"
+  },
+  {
+    "id": "t153",
+    "name": "Khoa học",
+    "nameEn": "Science",
+    "icon": "🔬",
+    "difficulty": 3,
+    "totalVocabs": 200,
+    "color": "#7c3aed"
+  },
+  {
+    "id": "t154",
+    "name": "Nghệ thuật",
+    "nameEn": "Art",
+    "icon": "🎨",
+    "difficulty": 2,
+    "totalVocabs": 200,
+    "color": "#db2777"
+  },
+  {
+    "id": "t155",
+    "name": "Thể thao",
+    "nameEn": "Sports",
+    "icon": "⚽",
+    "difficulty": 1,
+    "totalVocabs": 200,
+    "color": "#ea580c"
+  },
+  {
     "id": "t1",
     "name": "Gia đình",
     "nameEn": "Family",

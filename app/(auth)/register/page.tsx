@@ -183,7 +183,7 @@ export default function RegisterPage() {
                 <span className="text-[#0059bb] dark:text-blue-400">Bắt đầu học ngay hôm nay</span>
               </h2>
               <p className="text-sm text-slate-500 dark:text-slate-400 max-w-md font-medium leading-relaxed">
-                Tham gia cộng đồng học viên thông minh, chinh phục 3,900+ từ vựng và luyện tập cùng AI Tutor.
+                Tham gia cộng đồng học viên thông minh, chinh phục 8,900+ từ vựng và luyện tập cùng AI Tutor.
               </p>
             </div>
 

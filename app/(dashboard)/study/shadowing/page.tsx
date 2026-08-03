@@ -6,6 +6,7 @@ import { useAuthStore } from "@/lib/store/authStore";
 import { useUserStore } from "@/lib/store/userStore";
 import { useNotificationStore } from "@/lib/store/notificationStore";
 import { useListeningStore } from "@/lib/store/listeningStore";
+import { safeSpeakText } from "@/lib/utils/mobileAudio";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Mic,
@@ -240,16 +241,12 @@ export default function ShadowingPage() {
     };
   }, []);
 
-  // Speech Synthesis fallback for native audio
+  // Speech Synthesis fallback for native audio (Mobile-safe)
   const speakWord = (word: string) => {
-    if (typeof window === "undefined" || !("speechSynthesis" in window) || !currentLesson) return;
-    window.speechSynthesis.cancel();
+    if (!currentLesson) return;
     const clean = word.replace(/[^a-zA-Z]/g, "").trim();
     if (!clean) return;
-    const utterance = new SpeechSynthesisUtterance(clean);
-    utterance.lang = currentLesson.accent || "en-US";
-    utterance.rate = 1.15;
-    window.speechSynthesis.speak(utterance);
+    safeSpeakText(clean, { lang: currentLesson.accent || "en-US", rate: 1.15 });
     addToast({ type: "info", title: `🔊 Phát âm từ: "${clean}"` });
   };
 
@@ -263,34 +260,18 @@ export default function ShadowingPage() {
       setNativeAudioProgress(0);
     } else {
       setIsPlayingNative(true);
-      if (typeof window !== "undefined" && "speechSynthesis" in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(currentSentence.text);
-        utterance.lang = currentLesson.accent || "en-US";
-        utterance.rate = playbackSpeed * 1.1;
+      safeSpeakText(currentSentence.text, { lang: currentLesson.accent || "en-US", rate: playbackSpeed * 1.1 });
         
-        let interval: any = setInterval(() => {
-          setNativeAudioProgress((prev) => {
-            if (prev >= 100) {
-              clearInterval(interval);
-              return 100;
-            }
-            return prev + 10;
-          });
-        }, 60);
-
-        utterance.onend = () => {
-          setIsPlayingNative(false);
-          setNativeAudioProgress(100);
-          clearInterval(interval);
-        };
-        utterance.onerror = () => {
-          setIsPlayingNative(false);
-          setNativeAudioProgress(0);
-          clearInterval(interval);
-        };
-        window.speechSynthesis.speak(utterance);
-      }
+      let interval: any = setInterval(() => {
+        setNativeAudioProgress((prev) => {
+          if (prev >= 100) {
+            clearInterval(interval);
+            setIsPlayingNative(false);
+            return 0;
+          }
+          return prev + 10;
+        });
+      }, 300);
     }
   };
 

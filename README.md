@@ -111,10 +111,7 @@
   - **Ngưỡng Vượt Qua 80% (PASS ≥ 80%)**: Đạt `≥ 80%` ➔ Coi như VƯỢT QUA (PASS 🎉), phát hiệu ứng chúc mừng và cộng thưởng **+20 XP**.
   - **Icon Con Mắt `<Eye />` Xem Bản Dịch Tiếng Việt**: Nút bật/tắt hiển thị Khung Bản Dịch Tiếng Việt Chuyên Sâu.
   - **Tương Tác Click Tra Từ Vựng 0ms & Mobile Word Dictionary Modal**: Chạm/Click từ vựng ➔ Mở chiếc Word Dictionary Modal ở góc dưới bên phải (`right-4 bottom-[72px]`, `sm:w-[400px]`) với phát âm IPA chuẩn, audio giọng bản xứ, bản dịch Tiếng Việt phong phú sát nghĩa phân tách phẩy/chấm phẩy, định nghĩa Tiếng Anh và câu ví dụ minh họa.
-  - **Mobile Layout Optimize**: Thiết kế siêu gọn gàng, các nút Mic/Play nằm trong vùng ngón tay cái, tương thích mobile 100%.
-  - **Rút gọn nhãn nút bấm**: `← Đổi bài` (thay vì `← Đổi bài học khác`), `🎧 Luyện nghe` (thay vì `🎧 Chuyển sang Luyện nghe bài này`).
-  - **Dàn hàng 4 Chế độ**: Dàn đều 4 tab chế độ (`Sentence`, `Paragraph`, `Shadow`, `Repeat`) thành 1 hàng `grid-cols-4` vừa vặn trên mobile.
-  - **Tốc độ đọc & Mic ghi âm**: Bộ chọn tốc độ gọn gàng 4 mức chính (`0.8x`, `1.0x`, `1.25x`, `1.5x`), nút Mic thu âm to rõ chuẩn ngón tay bấm.
+  - **Khắc phục âm thanh trên Mobile Web (iOS Safari / Android Chrome)**: Tích hợp bộ giải pháp [lib/utils/mobileAudio.ts](file:///e:/XP%20English%20%20XP%20Voca/lib/utils/mobileAudio.ts) (`unlockMobileAudio` & `safeSpeakText`), mở khóa Web Audio Context và SpeechSynthesis khi chạm nhẹ, tự động phát âm thanh rõ ràng 100% không bị đứng im trên điện thoại.
   - **Zero-Shift Guarantee**: Giữ nguyên 100% bố cục và câu chữ đầy đủ trên màn hình Desktop.
 - **`/study/pvp`**: Đấu trường so tài từ vựng PvP Realtime (Thiết kế Agency Dashboard Tier).
   - **Spotlight Hero Banner**: Gradient Xanh Hoàng Gia sang trọng kèm hiệu ứng ánh kim.
@@ -127,6 +124,9 @@
 - **`/ai/conversation`**: Phòng hội thoại giao tiếp tiếng Anh AI thực tế.
   - **Multi-Model Fallback Loop & Safe JSON**: Tự động thử nghiệm đa mô hình Gemini và làm sạch chuỗi JSON (`strip Markdown backticks`) phòng chống lỗi parse.
   - **Mobile Layout Optimize**: Ẩn các đoạn subtext rườm rà `hidden sm:block`, thu gọn Hero Banner (`Hội thoại AI 💬` + Nút `✓ Chấm điểm` + Đồng hồ `⏱ 06:16`), tiêu đề không tràn lề.
+- **`/vocabulary` & `/vocabulary/[id]`**: Kho Từ Vựng Tiếng Anh Theo Chủ Đề (155 Chủ Đề & 8,948 Từ Vựng Thực Tế).
+  - **Tự động cập nhật 155 Chủ đề**: Bao gồm 10 chủ đề mới chuyên ngành tên ngắn gọn (`CNTT & AI`, `Y tế`, `Tài chính`, `Luật pháp`, `Môi trường`, `Marketing`, `Du lịch`, `Khoa học`, `Nghệ thuật`, `Thể thao`) kèm icon Lucide sắc nét.
+  - **Dữ liệu 8,948 từ vựng thực tế**: Liên kết tự động qua API `/api/vocabulary`, hiển thị đầy đủ phát âm IPA, loại từ Tiếng Việt, nghĩa Tiếng Việt phong phú sát nghĩa và ví dụ câu minh họa.
   - **Đồng bộ Ngôn ngữ UI**: Chuyển đổi toàn bộ nhãn cấp độ lọc từ tiếng Anh sang tiếng Việt (`Tất cả`, `Cơ bản`, `Trung cấp`, `Nâng cao`).
   - **Giảm Border Radius**: Giảm bo góc các thẻ chủ đề từ `rounded-2xl`/`rounded-xl` xuống `rounded-md` theo quy tắc Rule 10 Wadhah Aloui.
   - **Tối ưu padding chân trang**: Mở rộng khoảng cách dưới `pb-20 sm:pb-6` triệt tiêu hoàn toàn lỗi đè lấp của thanh Footer Mobile Navigation.

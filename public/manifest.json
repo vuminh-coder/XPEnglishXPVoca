@@ -1,24 +1,55 @@
 {
-  "name": "XP English | XP Voca",
+  "name": "XP English - Học Từ Vựng Tiếng Anh",
   "short_name": "XP English",
-  "description": "Nền tảng học từ vựng tiếng Anh thông minh thế hệ mới tích hợp AI và Gamification",
+  "description": "XP English (XP Voca) - Nền tảng học từ vựng tiếng Anh thông minh thế hệ mới tích hợp AI và Lặp lại ngắt quãng Spaced Repetition.",
   "start_url": "/dashboard",
+  "scope": "/",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
   "background_color": "#ffffff",
-  "theme_color": "#0059bb",
+  "theme_color": "#ffffff",
   "orientation": "portrait-primary",
+  "categories": ["education", "productivity", "utilities"],
   "icons": [
     {
-      "src": "/icons/icon-any-192x192.png?v=999",
+      "src": "/icons/icon-any-192x192.png?v=5000",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "/icons/icon-any-512x512.png?v=999",
+      "src": "/icons/icon-maskable-192x192.png?v=5000",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-any-512x512.png?v=5000",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-512x512.png?v=5000",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Kho từ vựng 155 Chủ đề",
+      "short_name": "Từ Vựng",
+      "description": "Mở kho 8,900+ từ vựng tiếng Anh theo chủ đề",
+      "url": "/vocabulary",
+      "icons": [{ "src": "/icons/icon-any-192x192.png?v=5000", "sizes": "192x192" }]
+    },
+    {
+      "name": "Luyện Shadowing Bản Xứ",
+      "short_name": "Shadowing",
+      "description": "Luyện nói và nhại giọng bản xứ chuẩn IPA",
+      "url": "/study/shadowing",
+      "icons": [{ "src": "/icons/icon-any-192x192.png?v=5000", "sizes": "192x192" }]
     }
   ]
 }

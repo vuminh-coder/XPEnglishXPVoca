@@ -439,7 +439,7 @@ export default function DashboardPage() {
     },
     {
       title: "Khám phá chủ đề",
-      badge: "Bộ từ 3,900+",
+      badge: "Bộ từ 8,900+",
       href: "/vocabulary",
       icon: Globe,
       gradient: "from-emerald-600 to-teal-600",
