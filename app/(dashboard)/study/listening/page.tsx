@@ -666,6 +666,7 @@ export default function ListeningPage() {
     }
   };
 
+  // Word Click Handler (Instant 0ms lookup using lesson vocabulary & internal dictionary)
   const handleWordClick = (word: string) => {
     const cleanWord = word.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "").trim();
     if (!cleanWord) return;
@@ -673,7 +674,25 @@ export default function ListeningPage() {
     // Play native audio pronunciation automatically
     speakWord(cleanWord, currentLesson?.accent || "en-US");
 
-    // Perform Deep AI Dictionary Lookup
+    // 1. Check if word exists in the lesson's vocabularyList / vocabList
+    const vocabList: any[] = (currentLesson as any)?.vocabularyList || (currentLesson as any)?.vocabList || [];
+    const vocabMatch = vocabList.find(
+      (v: any) => v.word?.toLowerCase() === cleanWord.toLowerCase()
+    );
+
+    if (vocabMatch) {
+      setSelectedWord({
+        word: vocabMatch.word || cleanWord,
+        ipa: vocabMatch.ipa || `/${cleanWord}/`,
+        pos: vocabMatch.pos || "Từ vựng",
+        meaning: vocabMatch.vietnamese || vocabMatch.meaning || "Nghĩa tiếng Việt",
+        detailMeaning: vocabMatch.example ? `Ví dụ: "${vocabMatch.example}"` : undefined,
+        example: vocabMatch.example || `Example with ${cleanWord}`,
+      });
+      return;
+    }
+
+    // 2. Perform Deep Dictionary Lookup (Instant 0ms)
     const deepDef = lookupWordDeep(cleanWord);
     setSelectedWord(deepDef);
   };
@@ -2016,35 +2035,33 @@ export default function ListeningPage() {
             initial={{ opacity: 0, scale: 0.95, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 12 }}
-            className="fixed bottom-[72px] sm:bottom-6 right-4 sm:right-6 z-50 w-[86vw] max-w-[270px] sm:w-96 sm:max-w-[360px] p-2.5 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border-2 border-[#1d6ee6] shadow-2xl space-y-1.5 sm:space-y-3 font-sans max-h-[50vh] sm:max-h-[80vh] overflow-y-auto"
+            className="fixed bottom-[72px] sm:bottom-6 right-4 sm:right-6 z-50 w-[86vw] max-w-[270px] sm:w-[400px] sm:max-w-[400px] p-2.5 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border-2 border-[#1d6ee6] shadow-2xl space-y-2 sm:space-y-3 font-sans max-h-[50vh] sm:max-h-[80vh] overflow-y-auto"
           >
-            {/* Header */}
+            {/* Header: Word + Close */}
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/10 pb-1.5">
-              <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-xs bg-[#1d6ee6]/10 text-[#1d6ee6] dark:text-sky-400 flex items-center justify-center font-black shrink-0">
-                  <GraduationCap className="w-4 h-4 text-[#1d6ee6] dark:text-sky-400" />
+              <div className="flex items-center gap-2 min-w-0">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xs bg-[#1d6ee6]/10 flex items-center justify-center shrink-0">
+                  <GraduationCap className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#1d6ee6]" />
                 </div>
-                <div>
-                  <h4 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white font-display leading-tight">
+                <div className="min-w-0">
+                  <h4 className="text-sm sm:text-base font-black text-slate-900 dark:text-white font-display capitalize truncate">
                     {selectedWord.word}
                   </h4>
-                  <span className="text-[9px] font-bold text-slate-400 block">
-                    {selectedWord.pos || "Từ vựng tiếng Anh"}
-                  </span>
+                  <span className="text-[10px] sm:text-[11px] font-bold text-slate-400">{selectedWord.pos || "Từ vựng"}</span>
                 </div>
               </div>
               <button
                 onClick={() => setSelectedWord(null)}
                 className="p-0.5 rounded-xs text-slate-400 hover:text-slate-700 dark:hover:text-white cursor-pointer transition-colors"
               >
-                <XCircle className="w-4 h-4 text-slate-400" />
+                <XCircle className="w-4 h-4" />
               </button>
             </div>
 
-            {/* IPA & Pronounce Button */}
-            <div className="flex items-center justify-between bg-white dark:bg-slate-950 p-1.5 rounded-xs border border-slate-200/80 dark:border-white/10 text-[11px]">
-              <span className="font-mono text-[#1d6ee6] dark:text-sky-400 font-extrabold text-[11px]">
-                <span className="text-slate-400 font-mono font-bold">IPA:</span> {selectedWord.ipa}
+            {/* IPA + Pronounce */}
+            <div className="flex items-center justify-between bg-slate-50 dark:bg-slate-950 p-1.5 sm:p-2 rounded-xs border border-slate-200/80 dark:border-white/10">
+              <span className="font-mono text-[#1d6ee6] dark:text-sky-400 font-extrabold text-[11px] sm:text-xs">
+                {selectedWord.ipa}
               </span>
               <button
                 onClick={() => speakWord(selectedWord.word, currentLesson?.accent || "en-US")}
@@ -2054,19 +2071,30 @@ export default function ListeningPage() {
               </button>
             </div>
 
-            {/* Vietnamese Meaning Box */}
-            <div className="p-2 sm:p-2.5 rounded-xs bg-[#ebf3fe] dark:bg-blue-950/50 border border-[#d5e5fe] dark:border-blue-900/40 space-y-0.5">
-              <span className="text-[9px] font-black uppercase text-[#1d6ee6] dark:text-sky-400 tracking-wider block">
-                🇻🇳 BẢN DỊCH TIẾNG VIỆT CHUYÊN SÂU:
-              </span>
-              <p className="text-xs font-black text-slate-900 dark:text-white">
-                {selectedWord.meaning || "Chưa có bản dịch"} <span className="text-[10px] font-semibold text-slate-500">({selectedWord.pos || "Từ vựng tiếng Anh"})</span>
-              </p>
-              <p className="text-[11px] text-slate-600 dark:text-slate-300 font-medium leading-snug">
-                {selectedWord.detailMeaning
-                  ? selectedWord.detailMeaning
-                  : `Từ "${selectedWord.word}" dịch nghĩa tiếng Việt là "${selectedWord.meaning}".`}
-              </p>
+            {/* Clean Structured Definition Box */}
+            <div className="p-2.5 sm:p-3 rounded-xs bg-[#ebf3fe] dark:bg-blue-950/50 border border-[#d5e5fe] dark:border-blue-900/40 space-y-2">
+              {/* 1. Vietnamese Meaning */}
+              <div>
+                <p className="text-xs sm:text-sm font-black text-slate-900 dark:text-white leading-snug">
+                  {selectedWord.meaning || "Chưa có bản dịch"}
+                </p>
+              </div>
+
+              {/* 2. English Definition */}
+              {selectedWord.detailMeaning && (
+                <div className="pt-1.5 border-t border-[#d5e5fe]/60 dark:border-blue-900/40">
+                  <p className="text-[11px] sm:text-xs text-slate-700 dark:text-slate-300 font-medium leading-relaxed italic">
+                    "{selectedWord.detailMeaning}"
+                  </p>
+                </div>
+              )}
+
+              {/* 3. Example Sentence */}
+              {selectedWord.example && (
+                <div className="pt-1.5 border-t border-[#d5e5fe]/60 dark:border-blue-900/40 text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-normal">
+                  <span className="font-bold text-slate-700 dark:text-slate-300">Ex:</span> {selectedWord.example}
+                </div>
+              )}
             </div>
           </motion.div>
         )}

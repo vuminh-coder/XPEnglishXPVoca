@@ -110,7 +110,7 @@
   - **Live Real-time Speech-to-Text & Color Coding (Xanh/Đỏ)**: Chấm từ phát âm đúng/sai ngay lập tức khi cất giọng đọc (**XANH LÁ**: `text-emerald-700 bg-emerald-50 border-emerald-500`, **ĐỎ**: `text-rose-700 bg-rose-50 border-rose-400`).
   - **Ngưỡng Vượt Qua 80% (PASS ≥ 80%)**: Đạt `≥ 80%` ➔ Coi như VƯỢT QUA (PASS 🎉), phát hiệu ứng chúc mừng và cộng thưởng **+20 XP**.
   - **Icon Con Mắt `<Eye />` Xem Bản Dịch Tiếng Việt**: Nút bật/tắt hiển thị Khung Bản Dịch Tiếng Việt Chuyên Sâu.
-  - **Tương Tác Click Tra Từ Vựng & Mobile Word Dictionary Modal**: Chạm/Click từ vựng ➔ Mở chiếc Mobile Word Dictionary Modal ở góc dưới bên phải (`right-4 bottom-[72px]`) với phát âm IPA, audio chuẩn và bản dịch tiếng Việt in đậm ngay tiêu đề header.
+  - **Tương Tác Click Tra Từ Vựng 0ms & Mobile Word Dictionary Modal**: Chạm/Click từ vựng ➔ Mở chiếc Word Dictionary Modal ở góc dưới bên phải (`right-4 bottom-[72px]`, `sm:w-[400px]`) với phát âm IPA chuẩn, audio giọng bản xứ, bản dịch Tiếng Việt phong phú sát nghĩa phân tách phẩy/chấm phẩy, định nghĩa Tiếng Anh và câu ví dụ minh họa.
   - **Mobile Layout Optimize**: Thiết kế siêu gọn gàng, các nút Mic/Play nằm trong vùng ngón tay cái, tương thích mobile 100%.
   - **Rút gọn nhãn nút bấm**: `← Đổi bài` (thay vì `← Đổi bài học khác`), `🎧 Luyện nghe` (thay vì `🎧 Chuyển sang Luyện nghe bài này`).
   - **Dàn hàng 4 Chế độ**: Dàn đều 4 tab chế độ (`Sentence`, `Paragraph`, `Shadow`, `Repeat`) thành 1 hàng `grid-cols-4` vừa vặn trên mobile.

@@ -50,6 +50,7 @@ import {
 } from "lucide-react";
 import { MOCK_LESSONS_DATA } from "@/lib/data/listeningMockData";
 import { pick10RandomLessons } from "@/lib/utils/randomLessonPicker";
+import { lookupWordDeep } from "@/lib/utils/deepDictionary";
 
 export default function ShadowingPage() {
   const router = useRouter();
@@ -112,7 +113,10 @@ export default function ShadowingPage() {
     ipa: string;
     pos: string;
     meaning: string;
+    englishDef?: string;
+    example?: string;
     detailMeaning?: string;
+    loading?: boolean;
   } | null>(null);
 
   // Translation Toggle State
@@ -123,35 +127,38 @@ export default function ShadowingPage() {
   const [liveScorePercent, setLiveScorePercent] = useState<number | null>(null);
   const speechRecognitionRef = useRef<any>(null);
 
-  // Deep Vietnamese Dictionary Helper
-  const getDeepVietnameseTranslation = (word: string, rawMeaning: string) => {
-    const cleanWord = word.replace(/[^a-zA-Z]/g, "").toLowerCase();
-    const meaning = rawMeaning || "Nghĩa từ vựng";
-    let pos = "Từ vựng";
-
-    if (cleanWord.endsWith("ing") || cleanWord.endsWith("ed")) pos = "Động từ";
-    else if (cleanWord.endsWith("ly")) pos = "Phó từ";
-    else if (cleanWord.endsWith("tion") || cleanWord.endsWith("ment") || cleanWord.endsWith("ness")) pos = "Danh từ";
-
-    return {
-      ipa: `/${cleanWord.slice(0, 3)}.../`,
-      pos,
-      meaning,
-      detailMeaning: `Từ "${word}" (${pos}) dịch nghĩa Tiếng Việt là "${meaning}". Xuất hiện trong bài nhại giọng Shadowing.`,
-    };
-  };
-
+  // Direct Instant Word Dictionary Lookup (0ms latency, uses in-lesson vocabulary & core dictionary)
   const handleWordClick = (rawWord: string) => {
     const clean = rawWord.replace(/[^a-zA-Z]/g, "").trim();
     if (!clean) return;
-    const meaning = "Nghĩa tiếng Việt";
-    const deepData = getDeepVietnameseTranslation(clean, meaning);
+
+    // 1. Check if word exists in the current lesson's vocabularyList / vocabList
+    const vocabList: any[] = (currentLesson as any)?.vocabularyList || (currentLesson as any)?.vocabList || [];
+    const vocabMatch = vocabList.find(
+      (v: any) => v.word?.toLowerCase() === clean.toLowerCase()
+    );
+
+    if (vocabMatch) {
+      setSelectedWord({
+        word: vocabMatch.word || clean,
+        ipa: vocabMatch.ipa || `/${clean}/`,
+        pos: vocabMatch.pos || "Từ vựng",
+        meaning: vocabMatch.vietnamese || vocabMatch.meaning || "Nghĩa tiếng Việt",
+        englishDef: vocabMatch.englishDef || `Usage of "${vocabMatch.word || clean}" in this lesson.`,
+        example: vocabMatch.example || undefined,
+      });
+      return;
+    }
+
+    // 2. Instant lookup in internal deep dictionary database (0ms)
+    const deepData = lookupWordDeep(clean);
     setSelectedWord({
       word: clean,
       ipa: deepData.ipa,
       pos: deepData.pos,
       meaning: deepData.meaning,
-      detailMeaning: deepData.detailMeaning,
+      englishDef: deepData.detailMeaning,
+      example: deepData.example && !deepData.example.includes("Context sentence") ? deepData.example : undefined,
     });
   };
 
@@ -310,16 +317,17 @@ export default function ShadowingPage() {
           for (let i = 0; i < event.results.length; i++) {
             transcriptText += event.results[i][0].transcript + " ";
           }
-          const spokenWords = transcriptText.toLowerCase().split(/\s+/).filter(Boolean);
+          // Clean and deduplicate spoken words
+          const spokenWordsRaw = transcriptText.toLowerCase().split(/\s+/).filter(Boolean);
+          const spokenWordsClean = spokenWordsRaw.map((w) => w.replace(/[^a-zA-Z]/g, "").toLowerCase()).filter(Boolean);
           const targetWords = currentSentence?.text.split(/\s+/) || [];
 
           let correctCount = 0;
           const evaluated = targetWords.map((tWord) => {
             const cleanTarget = tWord.replace(/[^a-zA-Z]/g, "").toLowerCase();
-            const isMatch = spokenWords.some((sWord) => {
-              const cleanSpoken = sWord.replace(/[^a-zA-Z]/g, "").toLowerCase();
-              return cleanSpoken === cleanTarget || (cleanTarget.length > 3 && cleanSpoken.includes(cleanTarget));
-            });
+            if (!cleanTarget) return { word: tWord, status: "perfect" as const }; // punctuation-only
+            // STRICT equality match only — no substring matching
+            const isMatch = spokenWordsClean.some((cleanSpoken) => cleanSpoken === cleanTarget);
             if (isMatch) correctCount++;
             return {
               word: tWord,
@@ -328,7 +336,8 @@ export default function ShadowingPage() {
           });
 
           setLiveRecognizedWords(evaluated);
-          const calculatedScore = Math.round((correctCount / Math.max(1, targetWords.length)) * 100);
+          const totalMeaningful = targetWords.filter((w) => w.replace(/[^a-zA-Z]/g, "").length > 0).length;
+          const calculatedScore = Math.round((correctCount / Math.max(1, totalMeaningful)) * 100);
           setLiveScorePercent(calculatedScore);
         };
 
@@ -425,35 +434,54 @@ export default function ShadowingPage() {
       setIsAnalyzing(false);
       
       const targetWords = currentSentence.text.split(" ");
-      let correctCount = liveRecognizedWords.filter((w) => w.status === "perfect").length;
-      let finalScore = liveScorePercent !== null ? liveScorePercent : Math.floor(Math.random() * 10) + 85;
+      const totalMeaningfulWords = targetWords.filter((w) => w.replace(/[^a-zA-Z]/g, "").length > 0).length;
+
+      // Build word accuracy from REAL live recognition data only
+      const wordAccuracyList = targetWords.map((word) => {
+        const cleanTarget = word.replace(/[^a-zA-Z]/g, "").toLowerCase();
+        if (!cleanTarget) {
+          // Punctuation-only token — always "perfect"
+          return { word, score: 100, status: "perfect" as const };
+        }
+        const liveMatch = liveRecognizedWords.find(
+          (w) => w.word.replace(/[^a-zA-Z]/g, "").toLowerCase() === cleanTarget
+        );
+        // If no live match found for this word → it was NOT spoken → needs_work
+        const isPerf = liveMatch ? liveMatch.status === "perfect" : false;
+        return {
+          word,
+          score: isPerf ? 95 : 30,
+          status: isPerf ? ("perfect" as const) : ("needs_work" as const),
+        };
+      });
+
+      // Calculate score strictly from real recognition data
+      const correctCount = wordAccuracyList.filter((w) => w.status === "perfect" && w.word.replace(/[^a-zA-Z]/g, "").length > 0).length;
+      let finalScore: number;
 
       if (liveRecognizedWords.length === 0) {
-        finalScore = Math.floor(Math.random() * 10) + 85; // Fallback
+        // No speech was detected at all → score is 0%
+        finalScore = 0;
+      } else if (liveScorePercent !== null) {
+        finalScore = liveScorePercent;
+      } else {
+        finalScore = Math.round((correctCount / Math.max(1, totalMeaningfulWords)) * 100);
       }
 
       const isPassed = finalScore >= 80;
 
       const result = {
         overallScore: finalScore,
-        fluencyScore: Math.min(100, finalScore + 2),
-        pronunciationScore: Math.min(100, finalScore + 1),
-        intonationScore: Math.min(100, finalScore - 1),
-        completenessScore: 97,
-        speedWpm: 148,
-        stressScore: 94,
+        fluencyScore: Math.min(100, Math.max(0, finalScore + 2)),
+        pronunciationScore: Math.min(100, Math.max(0, finalScore + 1)),
+        intonationScore: Math.min(100, Math.max(0, finalScore - 1)),
+        completenessScore: Math.round((correctCount / Math.max(1, totalMeaningfulWords)) * 100),
+        speedWpm: recordingTime > 0 ? Math.round((totalMeaningfulWords / Math.max(1, recordingTime)) * 60) : 0,
+        stressScore: Math.min(100, Math.max(0, finalScore - 3)),
         feedback: isPassed
-          ? "🎉 Khẩu hình phát âm xuất sắc! Đã vượt qua câu này với điểm số đạt ngưỡng >= 80%."
-          : "⚠️ Ngữ điệu và phát âm cần điều chỉnh lại. Bạn hãy luyện tập phát âm lại các từ màu đỏ nhé!",
-        wordAccuracy: targetWords.map((word) => {
-          const liveMatch = liveRecognizedWords.find((w) => w.word.replace(/[^a-zA-Z]/g, "").toLowerCase() === word.replace(/[^a-zA-Z]/g, "").toLowerCase());
-          const isPerf = liveMatch ? liveMatch.status === "perfect" : Math.random() > 0.2;
-          return {
-            word,
-            score: isPerf ? 95 : 65,
-            status: isPerf ? ("perfect" as const) : ("needs_work" as const),
-          };
-        }),
+          ? `🎉 Khẩu hình phát âm xuất sắc! Đã vượt qua câu này: ${correctCount}/${totalMeaningfulWords} từ đúng (${finalScore}% ≥ 80%).`
+          : `⚠️ Phát âm chưa đạt: ${correctCount}/${totalMeaningfulWords} từ đúng (${finalScore}%). Hãy luyện lại các từ màu đỏ nhé!`,
+        wordAccuracy: wordAccuracyList,
       };
 
       setAiAnalysisResult(result);
@@ -472,7 +500,7 @@ export default function ShadowingPage() {
         wordScores: result.wordAccuracy.map(w => ({
           word: w.word,
           expected: w.word,
-          spoken: w.word,
+          spoken: w.status === "perfect" ? w.word : "",
           score: w.score,
           status: w.status
         })),
@@ -487,13 +515,13 @@ export default function ShadowingPage() {
         addToast({
           type: "success",
           title: `🎉 VƯỢT QUA CÂU! Đạt ${finalScore}% (≥80%)`,
-          message: `Xuất sắc! +1m Shadowing & +20 XP thưởng!`,
+          message: `Xuất sắc! ${correctCount}/${totalMeaningfulWords} từ đúng. +1m Shadowing & +20 XP thưởng!`,
         });
       } else {
         addToast({
           type: "warning",
           title: `⚠️ Chưa đạt 80% (${finalScore}%)`,
-          message: `Bạn hãy phát âm lại các từ màu đỏ để đạt từ 80% trở lên nhé!`,
+          message: `${correctCount}/${totalMeaningfulWords} từ đúng. Hãy phát âm lại các từ màu đỏ để đạt từ 80% trở lên nhé!`,
         });
       }
     }, 800);
@@ -879,7 +907,7 @@ export default function ShadowingPage() {
                   {/* Speed Controller Pills */}
                   <div className="flex items-center gap-1 overflow-x-auto">
                     <span className="text-[10px] font-bold text-slate-400 mr-0.5 hidden sm:inline">Tốc độ:</span>
-                    {[0.8, 1.0, 1.25, 1.5, 1.75, 2.0].map((speed) => (
+                    {[0.5, 0.8, 1.0, 1.25, 1.5, 2.0].map((speed) => (
                       <button
                         key={speed}
                         onClick={() => setPlaybackSpeed(speed)}
@@ -993,7 +1021,7 @@ export default function ShadowingPage() {
                           🇻🇳 BẢN DỊCH TIẾNG VIỆT CHUYÊN SÂU:
                         </span>
                         <p className="font-semibold text-slate-800 dark:text-slate-100">
-                          {currentSentence.translation}
+                          {currentSentence.vietnamese || currentSentence.translation || "Chưa có bản dịch tiếng Việt cho câu này."}
                         </p>
                       </motion.div>
                     )}
@@ -1051,6 +1079,8 @@ export default function ShadowingPage() {
                         setCurrentSentenceIndex((prev) => prev - 1);
                         setAiAnalysisResult(null);
                         setNativeAudioProgress(0);
+                        setLiveRecognizedWords([]);
+                        setLiveScorePercent(null);
                       }
                     }}
                     disabled={currentSentenceIndex === 0}
@@ -1065,6 +1095,8 @@ export default function ShadowingPage() {
                         setCurrentSentenceIndex((prev) => prev + 1);
                         setAiAnalysisResult(null);
                         setNativeAudioProgress(0);
+                        setLiveRecognizedWords([]);
+                        setLiveScorePercent(null);
                       }
                     }}
                     disabled={currentSentenceIndex === currentLesson.transcript.length - 1}
@@ -1257,28 +1289,33 @@ export default function ShadowingPage() {
             initial={{ opacity: 0, scale: 0.95, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 12 }}
-            className="fixed bottom-[72px] sm:bottom-6 right-4 sm:right-6 z-50 w-[86vw] max-w-[270px] sm:w-96 sm:max-w-[360px] p-2.5 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border-2 border-[#1d6ee6] shadow-2xl space-y-1.5 sm:space-y-3 font-sans max-h-[50vh] sm:max-h-[80vh] overflow-y-auto"
+            className="fixed bottom-[72px] sm:bottom-6 right-4 sm:right-6 z-50 w-[86vw] max-w-[270px] sm:w-[400px] sm:max-w-[400px] p-2.5 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border-2 border-[#1d6ee6] shadow-2xl space-y-2 sm:space-y-3 font-sans max-h-[50vh] sm:max-h-[80vh] overflow-y-auto"
           >
-            {/* Header */}
+            {/* Header: Word + Close */}
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/10 pb-1.5">
-              <div className="flex items-center gap-1.5 min-w-0">
-                <GraduationCap className="w-4 h-4 text-[#1d6ee6] shrink-0" />
-                <span className="text-[#1d6ee6] dark:text-sky-400 font-extrabold text-xs sm:text-sm font-mono truncate">
-                  {selectedWord.meaning} ({selectedWord.pos || "Từ vựng"})
-                </span>
+              <div className="flex items-center gap-2 min-w-0">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xs bg-[#1d6ee6]/10 flex items-center justify-center shrink-0">
+                  <GraduationCap className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#1d6ee6]" />
+                </div>
+                <div className="min-w-0">
+                  <h4 className="text-sm sm:text-base font-black text-slate-900 dark:text-white font-display capitalize truncate">
+                    {selectedWord.word}
+                  </h4>
+                  <span className="text-[10px] sm:text-[11px] font-bold text-slate-400">{selectedWord.pos}</span>
+                </div>
               </div>
               <button
                 onClick={() => setSelectedWord(null)}
                 className="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors shrink-0 cursor-pointer"
               >
-                <XCircle className="w-4 h-4 text-slate-400" />
+                <XCircle className="w-4 h-4" />
               </button>
             </div>
 
-            {/* IPA & Pronounce Button */}
-            <div className="flex items-center justify-between bg-white dark:bg-slate-950 p-1.5 rounded-xs border border-slate-200/80 dark:border-white/10 text-[11px]">
-              <span className="font-mono text-[#1d6ee6] dark:text-sky-400 font-extrabold text-[11px]">
-                <span className="text-slate-400 font-mono font-bold">IPA:</span> {selectedWord.ipa}
+            {/* IPA + Pronounce */}
+            <div className="flex items-center justify-between bg-slate-50 dark:bg-slate-950 p-1.5 sm:p-2 rounded-xs border border-slate-200/80 dark:border-white/10">
+              <span className="font-mono text-[#1d6ee6] dark:text-sky-400 font-extrabold text-[11px] sm:text-xs">
+                {selectedWord.ipa}
               </span>
               <button
                 onClick={() => speakWord(selectedWord.word)}
@@ -1288,17 +1325,30 @@ export default function ShadowingPage() {
               </button>
             </div>
 
-            {/* Vietnamese Meaning Box */}
-            <div className="p-2 sm:p-2.5 rounded-xs bg-[#ebf3fe] dark:bg-blue-950/50 border border-[#d5e5fe] dark:border-blue-900/40 space-y-0.5">
-              <span className="text-[9px] font-black uppercase text-[#1d6ee6] dark:text-sky-400 tracking-wider block">
-                🇻🇳 BẢN DỊCH TIẾNG VIỆT CHUYÊN SÂU:
-              </span>
-              <p className="text-xs font-black text-slate-900 dark:text-white">
-                {selectedWord.meaning} <span className="text-[10px] font-semibold text-slate-500">({selectedWord.pos})</span>
-              </p>
-              <p className="text-[11px] text-slate-600 dark:text-slate-300 font-medium leading-snug">
-                {selectedWord.detailMeaning}
-              </p>
+            {/* Clean Structured Definition Box */}
+            <div className="p-2.5 sm:p-3 rounded-xs bg-[#ebf3fe] dark:bg-blue-950/50 border border-[#d5e5fe] dark:border-blue-900/40 space-y-2">
+              {/* 1. Vietnamese Meaning */}
+              <div>
+                <p className="text-xs sm:text-sm font-black text-slate-900 dark:text-white leading-snug">
+                  {selectedWord.meaning}
+                </p>
+              </div>
+
+              {/* 2. English Definition */}
+              {selectedWord.englishDef && (
+                <div className="pt-1.5 border-t border-[#d5e5fe]/60 dark:border-blue-900/40">
+                  <p className="text-[11px] sm:text-xs text-slate-700 dark:text-slate-300 font-medium leading-relaxed italic">
+                    "{selectedWord.englishDef}"
+                  </p>
+                </div>
+              )}
+
+              {/* 3. Example Sentence */}
+              {selectedWord.example && (
+                <div className="pt-1.5 border-t border-[#d5e5fe]/60 dark:border-blue-900/40 text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 font-normal">
+                  <span className="font-bold text-slate-700 dark:text-slate-300">Ex:</span> {selectedWord.example}
+                </div>
+              )}
             </div>
           </motion.div>
         )}
