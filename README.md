@@ -100,6 +100,13 @@
 - **`/vocabulary/[id]`**: Thẻ học Flashcard thông minh, tích hợp âm thanh & lưu từ yêu thích (`toggleFavorite`).
 - **`/study/listening`**: Phòng Luyện Nghe Dictation & Bóc Tách Phụ Đề AI (Thiết kế Agency Dashboard Tier).
   - **Luyện 3 Câu Một Lượt (Chunk3 Mode)**: Gõ từ phân tách theo thời gian thực (Instant Word Matching), tự động kiểm tra từ và mở chữ ẩn kèm viền xanh lá lá (`border-emerald-500`). Khóa chặt nút chuyển sang 3 câu tiếp theo (`🔒 Hoàn thành 3 câu này để chuyển tiếp`) cho đến khi hoàn thành đúng hết 3 câu hiện tại.
+  - **Cơ Chế Phím Tắt Space Bật/Tắt Audio (Space Key Toggle Play/Pause)**:
+    - Bấm vào thẻ câu: Chỉ chọn và mở ô nhập từ, không tự động phát âm.
+    - Bấm phím **Space**: Bật/Tạm dừng luân phiên âm thanh đang phát của câu chọn (Miễn trừ tự động khi con trỏ ở trong các ô `<input>`, `<textarea>`).
+  - **Tách Từ Tuần Tự Chuẩn Xác (Sequential First Unmatched Word Index)**: Tìm vị trí từ chưa mở đầu tiên từ trái sang phải theo chuỗi câu. Kiểm tra khớp từ chỉ khi nhấn **Space** hoặc **Enter** (`onKeyDown`), tránh kiểm tra dở dang khi đang gõ.
+  - **Popup Tra Từ Hover Trên Desktop (Desktop Hover Word Tooltip)**: Di chuột (hover) vào từ vựng gõ đúng (viền xanh `isMatchedGreen`) ➔ Hiện thẻ Popover thông tin từ vựng (Tên từ + Phiên âm IPA + Bản dịch Tiếng Việt), tự động chuyển đổi màu tương phản theo Chế độ Sáng/Tối (`rect.top - 76px`).
+  - **Reset Trạng Thái 100% Khi Quay Lại / Đổi Bài (`resetLessonState`)**: Tắt toàn bộ âm thanh TTS & HTML5, xóa từ đã mở, reset ô nhập liệu, Quiz trắc nghiệm và bộ đếm giờ khi nhấn nút "Quay lại" hoặc chọn bất kỳ bài học mới nào.
+  - **Layout Desktop 8/4 & Framer Motion Tab Transitions**: Khối làm bài 8/4 cân bằng thị giác, hiệu ứng chuyển tab mượt mà (`AnimatePresence` `opacity: 0->1`, `y: 8->0`), nút CTA Shadowing 1 dòng tinh gọn.
   - **Giảm Mạnh Bo Góc (Micro-Sharp UI `rounded-xs`)**: Giảm mạnh 100% độ cong bo góc của toàn bộ các card Quiz trắc nghiệm, các nút đáp án A B C D, Tab Switcher, ô nhập từ, sổ tay ghi chú và các khối container bên cột trái/phải thành phẳng **`rounded-xs` (2px)** siêu sắc nét và tinh tế.
   - **Tích hợp Innertube API**: Bóc tách phụ đề tiếng Anh & Việt chính xác 100% theo mốc mili-giây thời gian thực của video YouTube.
 
@@ -117,13 +124,24 @@
   - **Spotlight Hero Banner**: Gradient Xanh Hoàng Gia sang trọng kèm hiệu ứng ánh kim.
   - **Bento Grid 7/12 & 5/12**: Cột trái lựa chọn 3 chế độ (Trắc nghiệm, Đồ chữ, Âm thanh) và 3 cấp độ (Dễ, Trung bình, Khó). Cột phải hiển thị Hồ sơ Đấu sĩ & Bảng Vàng Top 3 Đấu Trường.
   - **Trận Đấu PvP 1v1**: Giao diện đấu thời gian thực sắc nét, đồng hồ đếm ngược, AI thông minh và báo cáo kết quả thưởng XP.
-- **`/ai/tutor`**: Gia sư AI 1-1 hỗ trợ hội thoại 4 kỹ năng (FreeTalk, Roleplay, Drill).
+- **`/ai/tutor`**: AI Voice Tutor Studio — Phòng Luyện Nói & Giao Tiếp Giọng Nói AI Đỉnh Cao (Bento Grid 8/4 Layout Tier).
+  - **Bento Grid 8/4 Studio Layout & Mobile Responsive**: Cột trái 8/12 Không gian luyện thoại Voice-First rộng rãi; Cột phải 4/12 Bộ công cụ hỗ trợ Gia sư. Tự động tương thích hoàn hảo trên thiết bị di động (Mobile `60svh` chat container, cuộn trang tự nhiên, floating dictionary modal chuẩn khớp trên thanh BottomNav).
+  - **Smart Context-Aware Conversation Engine**: AI xử lý ngữ cảnh sâu, tự động thay đổi câu chào mừng ngẫu nhiên, phân tích từ khóa chủ đề (sân bay, nhà hàng, phỏng vấn, mua sắm...) và độ dài câu để phản hồi tự nhiên, biến hóa linh hoạt.
+  - **Audio Spectrum Waveform Visualizer**: Trạm 16 sóng âm nhấp nháy phát sáng đa sắc màu với CSS keyframe animation 60fps khi AI phát âm hoặc Học viên cất giọng nói qua Micro.
+  - **AI Instant Grammar & Natural Phrasing Coach**: Tự động sửa lỗi ngữ pháp (*Grammar Check*) và gợi ý cách diễn đạt tự nhiên chuẩn người bản xứ (*Better Natural Way*) theo đúng ngữ cảnh thực tế của câu nói.
+  - **1-Click Tra Từ & Lưu Từ Vựng 0ms (Interactive Dictionary Floating Modal)**: Tích hợp bảng tra 60+ từ chuẩn IPA & nghĩa Tiếng Việt. Nhấp vào bất kỳ từ nào ➔ Mở Modal Tra từ nhanh floating trên mobile (IPA, Audio giọng đọc bản xứ, dịch Tiếng Việt sát nghĩa và nút **"💾 Lưu vào Sổ tay từ vựng (+5 XP)"**).
+  - **Kịch Bản Giao Tiếp Thực Tế (6 Scenarios)**: Check-in sân bay (<Plane />), Đặt bàn nhà hàng (<Utensils />), Phỏng vấn xin việc (<Briefcase />), Mua sắm (<ShoppingBag />), Hỏi đường (<Navigation />), FreeTalk (<MessageSquare />) kèm Checklist mục tiêu hoàn thành.
+  - **Chuẩn hóa Vector Icons & Micro-Sharp UI**: Loại bỏ 100% icon emoji, sử dụng Lucide vector icons sắc nét (`strokeWidth={1.8}`) và thiết kế phẳng `rounded-xs` (2px-3px) đồng bộ toàn dự án.
   - **Multi-Model Fallback Loop**: Tự động chuyển đổi mô hình AI (`gemini-2.5-flash` ➔ `gemini-1.5-flash` ➔ `gemini-2.0-flash`) đảm bảo 100% không bị ngắt kết nối.
-  - **Mobile Layout Optimize**: Ẩn subtext rườm rà `hidden sm:block`, đưa 3 tab chế độ (FreeTalk, Roleplay, Drill) thành thanh tab 3 cột full-width 100% trên mobile.
-  - **Thanh Nhập Liệu & Gợi Ý AI**: Cấu trúc bộ input `[🎙️ Mic] [Input Text] [🚀 Gửi]` thành 1 khối compact 1 hàng ngang, các câu gợi ý phản hồi nhanh dạng danh sách dọc 100% width.
-- **`/ai/conversation`**: Phòng hội thoại giao tiếp tiếng Anh AI thực tế.
+- **`/ai/conversation`**: Phòng hội thoại giao tiếp tiếng Anh AI thực tế (Bento Grid 8/4 Layout Tier).
+  - **Bento Grid 8/4 Layout & Mobile Responsive**: Cột trái 8/12 Không gian luyện hội thoại Voice/Text rộng rãi (`55svh` trên di động, cuộn mượt); Cột phải 4/12 Bộ công cụ theo dõi mục tiêu và lời khuyên giao tiếp.
+  - **Chuẩn hóa Vector Icons & Micro-Sharp UI**: 100% Lucide vector icons (`strokeWidth={1.8}`), màu xanh chủ đạo `#0059bb`, phẳng `rounded-xs` (2px-3px), loại bỏ hoàn toàn icon emoji.
+  - **Real-Time Goal Completion Tracking**: Tự động phát hiện từ khóa mục tiêu trong câu nói của học viên hoặc phản hồi Gemini ➔ Đánh dấu tick xanh mục tiêu (<CheckCircle2 />), cộng XP và phát Toast thông báo tức thì.
+  - **1-Click Tra Từ & Lưu Từ Vựng 0ms (Interactive Dictionary Floating Modal)**: Nhấp bất kỳ từ nào trong câu thoại AI ➔ Mở Modal Tra từ nhanh (IPA, Audio đọc bản xứ, nghĩa Tiếng Việt và nút **"💾 Lưu vào Sổ tay từ vựng (+5 XP)"**).
+  - **Multi-Topic Switching (6 Scenarios)**: Gọi đồ ăn (<Utensils />), Phỏng vấn xin việc (<Briefcase />), Du lịch & Khách sạn (<Plane />), Thảo luận công nghệ (<Cpu />), Mua sắm & Đàm phán (<ShoppingBag />), Check-in Sân bay (<Navigation />) kèm gợi ý phản hồi và lời khuyên linh hoạt theo từng chủ đề.
   - **Multi-Model Fallback Loop & Safe JSON**: Tự động thử nghiệm đa mô hình Gemini và làm sạch chuỗi JSON (`strip Markdown backticks`) phòng chống lỗi parse.
-  - **Mobile Layout Optimize**: Ẩn các đoạn subtext rườm rà `hidden sm:block`, thu gọn Hero Banner (`Hội thoại AI 💬` + Nút `✓ Chấm điểm` + Đồng hồ `⏱ 06:16`), tiêu đề không tràn lề.
+  - **Tối ưu hóa Chiều cao Khung Chat (Generous Height Sizing)**: Tăng chiều cao tối thiểu của khung chat lên `460px` trên Desktop và `62svh` (tối thiểu `380px`) trên Mobile, giúp hiển thị thoải mái 4-6 lượt thoại cùng lúc mà không bị nén chật chẹp.
+  - **Tối ưu hóa Cỡ chữ Typography (Desktop & Mobile)**: Loại bỏ các cỡ chữ siêu nhỏ (`8px` - `9px`), nâng cấp hệ thống font scale chuẩn ứng dụng (`text-xs sm:text-sm` cho bong bóng chat, tiêu đề card và gợi ý phản hồi), giúp trải nghiệm đọc sắc nét, dễ chịu trên cả máy tính và màn hình di động.
 - **`/vocabulary` & `/vocabulary/[id]`**: Kho Từ Vựng Tiếng Anh Theo Chủ Đề (155 Chủ Đề & 8,948 Từ Vựng Thực Tế).
   - **Tự động cập nhật 155 Chủ đề**: Bao gồm 10 chủ đề mới chuyên ngành tên ngắn gọn (`CNTT & AI`, `Y tế`, `Tài chính`, `Luật pháp`, `Môi trường`, `Marketing`, `Du lịch`, `Khoa học`, `Nghệ thuật`, `Thể thao`) kèm icon Lucide sắc nét.
   - **Dữ liệu 8,948 từ vựng thực tế**: Liên kết tự động qua API `/api/vocabulary`, hiển thị đầy đủ phát âm IPA, loại từ Tiếng Việt, nghĩa Tiếng Việt phong phú sát nghĩa và ví dụ câu minh họa.
@@ -152,17 +170,15 @@
 
 ## 🎨 Hệ Thống Thương Hiệu & Logo System
 
-- **Quy tắc hiển thị thương hiệu (Exclusive Brand Display Rule)**: Không hiển thị ảnh logo mascot và tên chữ thương hiệu (`XP English | XP Voca`) cùng một lúc tại bất kỳ header/navbar nào.
-  - Khi Sidebar thu gọn (`collapsed`): Chỉ hiển thị duy nhất ảnh logo chữ **X** (`public/mascot.png`).
-  - Khi Sidebar mở rộng (`expanded`) & trên các thanh Navbar/Headers: Chỉ hiển thị duy nhất chữ brand text `XP English | XP Voca` (không chứa ảnh logo).
+- **Quy tắc hiển thị thương hiệu (Exclusive Brand Display Rule)**: Không hiển thị đồng thời ảnh logo mascot và tên chữ thương hiệu (`XP English | XP Voca`) tại cùng một vị trí.
+  - Khi tên chữ thương hiệu `XP English | XP Voca` hiển thị trên Navbar / Sidebar mở rộng (`expanded`): **Ẩn hoàn toàn ảnh logo** để giao diện phẳng, thanh thoát và không bị trùng lặp.
+  - Khi Sidebar thu gọn (`collapsed`): Hiển thị duy nhất biểu tượng icon thu gọn.
 - **Phân bổ tài nguyên Web & Mobile (PWA)**:
-  - **Sidebar (Collapsed)**: `public/mascot.png` (Transparent PNG 512x512).
-  - **Mobile Orientation Warning Card**: `public/app-icon-horizontal-brand.png` (Transparent PNG 512x512).
+  - **Chuẩn Hóa PWA Manifest Icons (`public/manifest.json`)**: Chuyển toàn bộ các mục icon về `"purpose": "any"` để trình duyệt điện thoại (iOS Safari & Android Chrome) giữ nguyên nền trong suốt gốc của ảnh PNG, triệt tiêu 100% hiện tượng tự động tô ô vuông nền màu đen xung quanh logo khi khởi động PWA từ Màn hình chính.
+  - **Triệt Tiêu Tap-Highlight Trên Mobile**: Áp dụng quy tắc CSS toàn cục `-webkit-tap-highlight-color: transparent` cho tất cả các thẻ link, nút bấm và hình ảnh để không xuất hiện ô phản hồi màu đen khi chạm ngón tay trên điện thoại.
   - **Android PWA Icons**: `public/icons/icon-any-192x192.png` & `public/icons/icon-any-512x512.png`.
-  - **Android PWA Maskable Icons (Safe Zone ~18% Margin)**: `public/icons/icon-maskable-192x192.png` & `public/icons/icon-maskable-512x512.png`.
   - **iOS Home Screen App Icons**: `public/apple-touch-icon.png` & `public/icons/apple-touch-icon.png` (180x180).
   - **Favicon Trình duyệt**: `public/icons/favicon-16x16.png` & `public/icons/favicon-32x32.png`.
-- **Cache Management**: Đồng bộ phiên bản metadata `?v=14` tại `app/layout.tsx`, `public/manifest.json` và Service Worker `xp-voca-v14` tại `public/sw.js`.
 
 ---
 

@@ -134,9 +134,7 @@ function NotificationCenterDropdown({
   if (!isOpen) return null;
 
   return (
-    <div
-      className="fixed right-2.5 sm:right-0 top-[54px] sm:top-full sm:mt-2 w-[calc(100vw-1.25rem)] max-w-[340px] sm:w-80 md:w-96 overflow-hidden shadow-2xl rounded-xs border border-slate-200/90 dark:border-neutral-850/80 bg-white dark:bg-neutral-900 z-50 transition-all"
-    >
+    <div className="fixed right-2.5 sm:right-0 top-[54px] sm:top-full sm:mt-2 w-[calc(100vw-1.25rem)] max-w-[340px] sm:w-80 md:w-96 overflow-hidden shadow-2xl rounded-xs border border-slate-200/90 dark:border-neutral-850/80 bg-white dark:bg-neutral-900 z-50 transition-all">
       {/* Category Tabs: 2 Tabs (Tất cả & Học tập) */}
       <div className="p-1.5 border-b border-slate-100 dark:border-neutral-850/50 bg-slate-50/50 dark:bg-neutral-900/50">
         <div className="grid grid-cols-2 gap-1 bg-slate-100 dark:bg-neutral-950 p-0.5 rounded-xs text-center">
@@ -286,17 +284,13 @@ function LocalNavbar() {
           )}
         </button>
         <Link
-          href="/"
+          href="/dashboard"
           className="navbar-brand flex items-center gap-2 group min-w-0"
         >
-          <div className="text-base sm:text-lg font-black text-slate-900 dark:text-white flex items-center gap-1 font-display tracking-tight shrink-0">
+          <div className="text-base sm:text-lg font-black text-slate-900 dark:text-white flex items-center gap-1 font-display tracking-tight shrink-0 select-none">
             <span className="text-[#0059bb]">XP</span> English
-            <span className="text-amber-500 font-normal">
-              |
-            </span>
-            <span className="text-amber-500">
-              XP Voca
-            </span>
+            <span className="text-amber-500 font-normal">|</span>
+            <span className="text-amber-500">XP Voca</span>
           </div>
         </Link>
       </div>
@@ -403,9 +397,15 @@ function LocalNavbar() {
             }}
           >
             <div className="avatar avatar-sm flex items-center justify-center bg-slate-100 dark:bg-neutral-800 text-lg border border-slate-200/50 dark:border-white/10 rounded-full w-8 h-8 shrink-0 overflow-hidden">
-              {user?.imageUrl || (user as any)?.avatar || (user as any)?.avatarUrl ? (
+              {user?.imageUrl ||
+              (user as any)?.avatar ||
+              (user as any)?.avatarUrl ? (
                 <img
-                  src={user?.imageUrl || (user as any)?.avatar || (user as any)?.avatarUrl}
+                  src={
+                    user?.imageUrl ||
+                    (user as any)?.avatar ||
+                    (user as any)?.avatarUrl
+                  }
                   alt="Avatar"
                   className="w-full h-full object-cover"
                 />
@@ -419,7 +419,7 @@ function LocalNavbar() {
                 />
               )}
             </div>
-                  <div className="navbar-user-info hidden sm:block">
+            <div className="navbar-user-info hidden sm:block">
               <div className="navbar-user-name hidden md:block">
                 {user?.fullName || user?.username || "Học viên XP Voca"}
               </div>

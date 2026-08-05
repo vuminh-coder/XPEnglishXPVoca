@@ -204,30 +204,32 @@ function SidebarNavInner({
         {/* 1. TOP BRAND HEADER */}
         <div
           className={`flex items-center justify-between ${
-            sidebarCollapsed ? "px-1 py-[7px] min-h-[57px]" : "px-3.5 py-4 min-h-[64px]"
+            sidebarCollapsed
+              ? "px-2 py-3.5 min-h-[57px]"
+              : "px-3.5 py-4 min-h-[64px]"
           } border-b border-slate-100 dark:border-white/5 shrink-0`}
         >
           {sidebarCollapsed ? (
-            /* Show transparent blue X logo when collapsed */
+            /* Show collapsed clean icon when collapsed */
             <Link
               href="/dashboard"
-              className="mx-auto flex items-center justify-center w-8.5 h-8.5 transition-transform hover:scale-105 my-[1.5px] py-[0.5px]"
+              className="mx-auto flex items-center justify-center w-8 h-8 transition-transform active:scale-95 my-[1.5px] py-[0.5px] select-none"
               title="Trang chủ"
             >
               <img
-                src="/mascot.png"
+                src="/icons/icon-any-192x192.png"
                 alt="XP Logo"
-                className="w-full h-full object-contain block"
+                className="w-full h-full object-contain block select-none pointer-events-none rounded-xs"
               />
             </Link>
           ) : (
-            /* When expanded: Show brand name text + collapse button (No logo image) */
+            /* When expanded: Show brand text name + collapse button (No logo image) */
             <>
               <Link
                 href="/dashboard"
                 className="flex items-center gap-1.5 group min-w-0"
               >
-                <div className="text-base sm:text-lg font-black text-slate-900 dark:text-white flex items-center gap-1 truncate font-display leading-none tracking-tight">
+                <div className="text-base sm:text-lg font-black text-slate-900 dark:text-white flex items-center gap-1 truncate font-display leading-none tracking-tight select-none">
                   <span className="text-[#0059bb]">XP</span> English
                   <span className="text-amber-500 font-normal">|</span>
                   <span className="text-amber-500">XP Voca</span>
@@ -372,9 +374,21 @@ function SidebarNavInner({
             <AnimatePresence>
               {showUserMenu && (
                 <motion.div
-                  initial={sidebarCollapsed ? { opacity: 0, x: -8, scale: 0.96 } : { opacity: 0, y: 6, scale: 0.97 }}
-                  animate={sidebarCollapsed ? { opacity: 1, x: 0, scale: 1 } : { opacity: 1, y: 0, scale: 1 }}
-                  exit={sidebarCollapsed ? { opacity: 0, x: -8, scale: 0.96 } : { opacity: 0, y: 6, scale: 0.97 }}
+                  initial={
+                    sidebarCollapsed
+                      ? { opacity: 0, x: -8, scale: 0.96 }
+                      : { opacity: 0, y: 6, scale: 0.97 }
+                  }
+                  animate={
+                    sidebarCollapsed
+                      ? { opacity: 1, x: 0, scale: 1 }
+                      : { opacity: 1, y: 0, scale: 1 }
+                  }
+                  exit={
+                    sidebarCollapsed
+                      ? { opacity: 0, x: -8, scale: 0.96 }
+                      : { opacity: 0, y: 6, scale: 0.97 }
+                  }
                   transition={{ duration: 0.15, ease: "easeOut" }}
                   className={`absolute z-[9999] p-1 rounded bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 shadow-xl shadow-slate-300/40 dark:shadow-black/70 space-y-0.5 select-none ${
                     sidebarCollapsed
@@ -418,7 +432,9 @@ function SidebarNavInner({
                             </span>
                             <ChevronRight
                               className={`w-4 h-4 text-slate-400 stroke-[1.8] transition-transform duration-200 ${
-                                showThemeSubmenu ? "rotate-90 text-[#0059bb]" : ""
+                                showThemeSubmenu
+                                  ? "rotate-90 text-[#0059bb]"
+                                  : ""
                               }`}
                             />
                           </div>
@@ -508,8 +524,18 @@ function SidebarNavInner({
                 className="w-9 h-9 rounded-full bg-[#0059bb] text-white font-black text-sm flex items-center justify-center mx-auto shadow-2xs hover:opacity-90 transition-opacity cursor-pointer border-none outline-none overflow-hidden shrink-0"
                 title={userName}
               >
-                {user?.imageUrl || (user as any)?.avatar || (user as any)?.avatarUrl ? (
-                  <img src={user.imageUrl || (user as any).avatar || (user as any).avatarUrl} alt={userName} className="w-full h-full object-cover" />
+                {user?.imageUrl ||
+                (user as any)?.avatar ||
+                (user as any)?.avatarUrl ? (
+                  <img
+                    src={
+                      user.imageUrl ||
+                      (user as any).avatar ||
+                      (user as any).avatarUrl
+                    }
+                    alt={userName}
+                    className="w-full h-full object-cover"
+                  />
                 ) : user?.avatarEmoji && user.avatarEmoji !== "🦉" ? (
                   <span className="text-sm">{user.avatarEmoji}</span>
                 ) : (
@@ -528,8 +554,18 @@ function SidebarNavInner({
               >
                 <div className="flex items-center gap-2.5 min-w-0">
                   <div className="w-8.5 h-8.5 rounded-full bg-[#0059bb] text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-2xs overflow-hidden">
-                    {user?.imageUrl || (user as any)?.avatar || (user as any)?.avatarUrl ? (
-                      <img src={user.imageUrl || (user as any).avatar || (user as any).avatarUrl} alt={userName} className="w-full h-full object-cover" />
+                    {user?.imageUrl ||
+                    (user as any)?.avatar ||
+                    (user as any)?.avatarUrl ? (
+                      <img
+                        src={
+                          user.imageUrl ||
+                          (user as any).avatar ||
+                          (user as any).avatarUrl
+                        }
+                        alt={userName}
+                        className="w-full h-full object-cover"
+                      />
                     ) : user?.avatarEmoji && user.avatarEmoji !== "🦉" ? (
                       <span className="text-sm">{user.avatarEmoji}</span>
                     ) : (
@@ -545,7 +581,10 @@ function SidebarNavInner({
                       {userName}
                     </span>
                     <span className="text-[10px] font-medium text-slate-400 dark:text-slate-500 block truncate mt-0.5">
-                      {user?.email || (user?.username ? `@${user.username}` : "Thành viên XP Voca")}
+                      {user?.email ||
+                        (user?.username
+                          ? `@${user.username}`
+                          : "Thành viên XP Voca")}
                     </span>
                   </div>
                 </div>
