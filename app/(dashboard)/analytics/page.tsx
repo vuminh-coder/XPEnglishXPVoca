@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { PageEntranceWrapper, MotionItem } from "@/components/shared/PageEntranceAnimation";
 import { useUserStore } from "@/lib/store/userStore";
 import { useVocabularyStore } from "@/lib/store/vocabularyStore";
 import Link from "next/link";
@@ -417,17 +418,17 @@ export default function AnalyticsPage() {
   };
 
   return (
-    <div className="space-y-4 sm:space-y-6 pb-16 md:pb-6 select-none font-sans max-w-6xl mx-auto" suppressHydrationWarning>
+    <PageEntranceWrapper className="space-y-4 sm:space-y-6 pb-16 md:pb-6 select-none font-sans max-w-6xl mx-auto" suppressHydrationWarning>
       
       {/* 1. PAGE HEADER */}
-      <div className="space-y-0.5 sm:space-y-1">
+      <MotionItem className="space-y-0.5 sm:space-y-1">
         <h1 className="text-sm sm:text-base font-bold font-display tracking-tight text-slate-900 dark:text-white">
           Tiến trình học tập
         </h1>
         <p className="hidden sm:block text-[10px] sm:text-xs text-slate-500 font-medium">
           Theo dõi hoạt động hàng ngày, chuỗi ngày học và thứ hạng của bạn so với người học khác.
         </p>
-      </div>
+      </MotionItem>
 
       {/* 2. TOP 5 STAT CARDS (MICRO-GRID 2x2 + 1 FULL WIDTH ON MOBILE) */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-4">
@@ -681,6 +682,6 @@ export default function AnalyticsPage() {
 
       </div>
 
-    </div>
+    </PageEntranceWrapper>
   );
 }

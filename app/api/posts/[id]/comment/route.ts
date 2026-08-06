@@ -41,10 +41,16 @@ export async function POST(
       },
     });
 
+    const commentAuthorName = comment.user.fullName || comment.user.username || "Học viên XP";
+    const commentDbAvatar = (comment.user as any).avatarUrl || (comment.user as any).imageUrl || (comment.user as any).avatar;
+    const commentAvatar = commentDbAvatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(commentAuthorName)}&background=0059bb&color=fff`;
+
     const formattedComment = {
       id: comment.id,
-      author: comment.user.username || "user",
+      author: commentAuthorName,
       avatarEmoji: comment.user.avatarEmoji || "👤",
+      avatar: commentAvatar,
+      authorAvatar: commentAvatar,
       content: comment.content,
     };
 

@@ -2,6 +2,7 @@
 import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { PageEntranceWrapper, MotionItem } from "@/components/shared/PageEntranceAnimation";
 import {
   Search,
   BookOpen,
@@ -289,9 +290,10 @@ export default function VocabularyThemesClientList({
   };
 
   return (
-    <div className="space-y-2.5 sm:space-y-3.5 pb-16 md:pb-6 px-1 md:px-0 select-none font-sans">
+    <PageEntranceWrapper className="space-y-2.5 sm:space-y-3.5 pb-16 md:pb-6 px-1 md:px-0 select-none font-sans">
       
       {/* 1. TOP MICRO-HERO TOOLBAR (DASHBOARD BENTO STYLE) */}
+      <MotionItem>
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -329,8 +331,10 @@ export default function VocabularyThemesClientList({
           />
         </div>
       </motion.div>
+      </MotionItem>
 
       {/* 2. TOP BENTO STATS BAR (4-COLUMN CARDS) */}
+      <MotionItem>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3.5">
         {[
           {
@@ -387,19 +391,20 @@ export default function VocabularyThemesClientList({
           );
         })}
       </div>
+      </MotionItem>
 
       {/* 3. MAIN BENTO THEMES GRID */}
       {filteredThemes.length === 0 ? (
-        <div className="p-6 sm:p-8 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs text-center space-y-1.5">
+        <MotionItem className="p-6 sm:p-8 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs text-center space-y-1.5">
           <p className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
             Không tìm thấy chủ đề nào phù hợp
           </p>
           <p className="text-[11px] sm:text-xs font-medium text-slate-400">
             Hãy thử tìm lại với từ khóa khác như "Work", "Travel", hoặc "Daily".
           </p>
-        </div>
+        </MotionItem>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2.5 sm:gap-3.5">
+        <MotionItem className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2.5 sm:gap-3.5">
           {filteredThemes.map((t) => {
             const percentage = Math.min(100, 20 + (t.difficulty || 1) * 12);
             const hasEnglishSubtitle = t.nameEn && t.nameEn.trim().toLowerCase() !== t.name.trim().toLowerCase();
@@ -466,12 +471,12 @@ export default function VocabularyThemesClientList({
               </Link>
             );
           })}
-        </div>
+        </MotionItem>
       )}
 
       {/* Load More Button (Centered full-width on mobile, right-aligned on desktop) */}
       {search === "" && displayedIds.length < initialThemes.length && (
-        <div className="flex justify-center sm:justify-end pt-2 pb-1">
+        <MotionItem className="flex justify-center sm:justify-end pt-2 pb-1">
           <button
             onClick={loadMoreThemes}
             className="w-full sm:w-auto justify-center px-4 py-2 sm:py-2.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 hover:border-[#1d6ee6] text-slate-800 dark:text-slate-200 hover:text-[#1d6ee6] text-xs font-black shadow-2xs hover:shadow-xs transition-all cursor-pointer inline-flex items-center gap-2 active:scale-[0.98]"
@@ -479,9 +484,9 @@ export default function VocabularyThemesClientList({
             <Sparkles className="w-3.5 h-3.5 text-[#1d6ee6]" />
             <span>Khám phá thêm bộ từ (+8 bộ)</span>
           </button>
-        </div>
+        </MotionItem>
       )}
 
-    </div>
+    </PageEntranceWrapper>
   );
 }

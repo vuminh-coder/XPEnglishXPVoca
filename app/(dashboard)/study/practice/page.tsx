@@ -7,8 +7,10 @@ import { useAuthStore } from "@/lib/store/authStore";
 import { useUserStore, recordSkillPractice } from "@/lib/store/userStore";
 import { useNotificationStore } from "@/lib/store/notificationStore";
 import { useDailyChallengeStore } from "@/lib/store/dailyChallengeStore";
-import { Button } from "@/components/ui";
+import { PageEntranceWrapper, MotionItem } from "@/components/shared/PageEntranceAnimation";
 import { motion, AnimatePresence } from "framer-motion";
+import { speakLessonText } from "@/lib/utils/ttsEngine";
+
 import {
   Brain,
   Layers,
@@ -292,18 +294,18 @@ function PracticeQuizContent() {
   };
 
   const speakText = (text: string) => {
-    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
     if (recognitionRef.current) {
       try {
         recognitionRef.current.abort();
       } catch (_) {}
     }
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = "en-US";
-    utterance.rate = 1.1;
-    window.speechSynthesis.speak(utterance);
+    speakLessonText(text, {
+      lessonId: currentWord?.topic || currentWord?.id || "practice_card",
+      rate: 1.0,
+    });
+
   };
+
 
   const handleToggleBookmark = useCallback(() => {
     if (!currentWord) return;
@@ -626,7 +628,7 @@ function PracticeQuizContent() {
   }
 
   return (
-    <div className="space-y-3.5 pb-16 md:pb-6 px-1 md:px-0 relative select-none font-sans">
+    <PageEntranceWrapper className="space-y-3.5 pb-16 md:pb-6 px-1 md:px-0 relative select-none font-sans">
       
       {/* 0. TOP MICRO-HERO TOOLBAR CARD (Dashboard Style) */}
       <motion.div
@@ -1175,7 +1177,7 @@ function PracticeQuizContent() {
 
       </div>
 
-    </div>
+    </PageEntranceWrapper>
   );
 }
 

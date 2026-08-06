@@ -1,5 +1,7 @@
 'use client';
 import React, { useState, useMemo, useEffect } from 'react';
+import { speakLessonText } from '@/lib/utils/ttsEngine';
+
 import Link from 'next/link';
 import { useVocabularyStore } from '@/lib/store/vocabularyStore';
 import { useAuthStore } from '@/lib/store/authStore';
@@ -227,13 +229,13 @@ export default function ReviewPage() {
   }, [learned]);
 
   const speakWord = (wordText: string) => {
-    if (typeof window !== "undefined" && window.speechSynthesis) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(wordText);
-      utterance.lang = "en-US";
-      window.speechSynthesis.speak(utterance);
-    }
+
+    speakLessonText(wordText, {
+      lessonId: "review_spaced_repetition",
+      rate: 1.0,
+    });
   };
+
 
   const handleToggleBookmark = (wordId: string) => {
     const bookmarked = getBookmarkedWords();

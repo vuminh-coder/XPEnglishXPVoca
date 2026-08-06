@@ -8,6 +8,9 @@ import { useUserStore } from "@/lib/store/userStore";
 import { useNotificationStore } from "@/lib/store/notificationStore";
 import { useListeningStore } from "@/lib/store/listeningStore";
 import { motion, AnimatePresence } from "framer-motion";
+import { speakLessonText, stopTTS } from "@/lib/utils/ttsEngine";
+
+
 import {
   Headphones,
   Play,
@@ -202,15 +205,12 @@ export default function ListeningPage() {
   };
 
   const speakSingleWord = (word: string) => {
-    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-    window.speechSynthesis.cancel();
-    const clean = word.replace(/[^a-zA-Z0-9]/g, "").trim();
-    if (!clean) return;
-    const utterance = new SpeechSynthesisUtterance(clean);
-    utterance.lang = currentLesson?.accent || "en-US";
-    utterance.rate = 1.0;
-    window.speechSynthesis.speak(utterance);
+    speakLessonText(word, {
+      lessonId: currentLesson?.id,
+      rate: 1.0,
+    });
   };
+
 
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -499,13 +499,12 @@ export default function ListeningPage() {
   };
 
   const resetLessonState = () => {
-    if (typeof window !== "undefined" && "speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-    }
+    stopTTS();
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current = null;
     }
+
 
     setIsPlaying(false);
     setPlayingSentenceText(null);
@@ -525,7 +524,16 @@ export default function ListeningPage() {
     elapsedTimeRef.current = 0;
   };
 
+  // Automatically stop audio on lesson change or component unmount
+  useEffect(() => {
+    return () => {
+      stopTTS();
+    };
+  }, [selectedLessonId]);
+
+
   const handleBackToListing = () => {
+
     if (elapsedTimeRef.current > 5) {
       const mins = Math.max(1, Math.ceil(elapsedTimeRef.current / 60));
       useUserStore.getState().addPracticeTime(mins, "dictation");
@@ -579,17 +587,11 @@ export default function ListeningPage() {
       ) {
         // Stop/Pause audio on 2nd press (even count)
         if (audioRef.current) audioRef.current.pause();
-        if (typeof window !== "undefined" && "speechSynthesis" in window) {
-          window.speechSynthesis.cancel();
-        }
-        if (activeUtteranceRef.current) {
-          activeUtteranceRef.current.onend = null;
-          activeUtteranceRef.current.onerror = null;
-          activeUtteranceRef.current = null;
-        }
+        stopTTS();
         setIsPlaying(false);
         setPlayingSentenceText(null);
       } else {
+
         // Play audio on 1st press (odd count)
         const sentence = currentLesson?.transcript?.[currentSentenceIndex];
         if (sentence?.text) {
@@ -621,36 +623,23 @@ export default function ListeningPage() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const speakParagraph = (text: string) => {
-    if (
-      typeof window === "undefined" ||
-      !("speechSynthesis" in window) ||
-      !text
-    ) {
+    if (!text) {
       setIsPlaying(false);
       return;
     }
-    if (activeUtteranceRef.current) {
-      activeUtteranceRef.current.onend = null;
-      activeUtteranceRef.current.onerror = null;
-    }
-    window.speechSynthesis.cancel();
+    if (audioRef.current) audioRef.current.pause();
+    stopTTS();
+    setPlayingSentenceText(null);
     setIsPlaying(true);
-    const utterance = new SpeechSynthesisUtterance(text);
-    activeUtteranceRef.current = utterance;
-    utterance.lang = currentLesson?.accent || "en-US";
-    utterance.rate = playbackSpeed;
-    utterance.onend = () => {
-      if (activeUtteranceRef.current === utterance) {
-        setIsPlaying(false);
-      }
-    };
-    utterance.onerror = () => {
-      if (activeUtteranceRef.current === utterance) {
-        setIsPlaying(false);
-      }
-    };
-    window.speechSynthesis.speak(utterance);
+    speakLessonText(text, {
+      lessonId: currentLesson?.id,
+      rate: playbackSpeed,
+      onEnd: () => setIsPlaying(false),
+      onError: () => setIsPlaying(false),
+    });
   };
+
+
 
   // Helper to ensure audio HTML5 element is ready
   const ensureAudioElement = () => {
@@ -725,37 +714,23 @@ export default function ListeningPage() {
     }
   };
 
-  const playSingleSentence = (text: string) => {
-    if (
-      typeof window === "undefined" ||
-      !("speechSynthesis" in window) ||
-      !text
-    )
-      return;
-    if (activeUtteranceRef.current) {
-      activeUtteranceRef.current.onend = null;
-      activeUtteranceRef.current.onerror = null;
-    }
-    window.speechSynthesis.cancel();
+  const playSingleSentence = (text: string, index: number = 0) => {
+    if (!text) return;
     if (audioRef.current) audioRef.current.pause();
+    stopTTS();
+    setIsPlaying(false);
 
     setPlayingSentenceText(text);
-    const utterance = new SpeechSynthesisUtterance(text);
-    activeUtteranceRef.current = utterance;
-    utterance.lang = currentLesson?.accent || "en-US";
-    utterance.rate = playbackSpeed;
-    utterance.onend = () => {
-      if (activeUtteranceRef.current === utterance) {
-        setPlayingSentenceText(null);
-      }
-    };
-    utterance.onerror = () => {
-      if (activeUtteranceRef.current === utterance) {
-        setPlayingSentenceText(null);
-      }
-    };
-    window.speechSynthesis.speak(utterance);
+    speakLessonText(text, {
+      lessonId: currentLesson?.id,
+      speakerIndex: index % 2,
+      rate: playbackSpeed,
+      onEnd: () => setPlayingSentenceText(null),
+      onError: () => setPlayingSentenceText(null),
+    });
   };
+
+
 
   const togglePlay = () => {
     if (isPlaying) {
@@ -765,10 +740,9 @@ export default function ListeningPage() {
         activeUtteranceRef.current = null;
       }
       if (audioRef.current) audioRef.current.pause();
-      if (typeof window !== "undefined" && "speechSynthesis" in window) {
-        window.speechSynthesis.cancel();
-      }
+      stopTTS();
       setIsPlaying(false);
+
     } else {
       setIsPlaying(true);
       const fullText = currentLesson?.transcript
@@ -875,20 +849,14 @@ export default function ListeningPage() {
     });
   };
 
-  // Speech Synthesis for Native Word Audio
   const speakWord = (word: string, accent = "en-US") => {
-    if (typeof window !== "undefined" && "speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-      const cleanWord = word
-        .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "")
-        .trim();
-      if (!cleanWord) return;
-      const utterance = new SpeechSynthesisUtterance(cleanWord);
-      utterance.lang = accent;
-      utterance.rate = 1.15;
-      window.speechSynthesis.speak(utterance);
-    }
+    speakLessonText(word, {
+      lessonId: currentLesson?.id,
+      accent: accent as any,
+      rate: 1.15,
+    });
   };
+
 
   // Word Click Handler (Instant 0ms lookup using lesson vocabulary & internal dictionary)
   const handleWordClick = (word: string) => {

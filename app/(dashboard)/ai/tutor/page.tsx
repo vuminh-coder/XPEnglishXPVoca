@@ -6,7 +6,10 @@ import { useAuthStore } from "@/lib/store/authStore";
 import { useUserStore, recordSkillPractice } from "@/lib/store/userStore";
 import { useNotificationStore } from "@/lib/store/notificationStore";
 import { useListeningStore } from "@/lib/store/listeningStore";
+import { PageEntranceWrapper, MotionItem } from "@/components/shared/PageEntranceAnimation";
 import { motion, AnimatePresence } from "framer-motion";
+import { speakLessonText } from "@/lib/utils/ttsEngine";
+
 import {
   Mic,
   MicOff,
@@ -349,18 +352,18 @@ export default function VoiceTutorPage() {
   };
 
   const speakText = (text: string) => {
-    if (!soundEnabled || typeof window === "undefined" || !("speechSynthesis" in window)) return;
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = "en-US";
-    utterance.rate = 1.0;
-    
-    utterance.onstart = () => setIsSpeaking(true);
-    utterance.onend = () => setIsSpeaking(false);
-    utterance.onerror = () => setIsSpeaking(false);
 
-    window.speechSynthesis.speak(utterance);
+    if (!soundEnabled) return;
+    setIsSpeaking(true);
+    speakLessonText(text, {
+      lessonId: "ai_tutor_session",
+      speakerIndex: 1, // Tutor voice
+      rate: 1.0,
+      onEnd: () => setIsSpeaking(false),
+      onError: () => setIsSpeaking(false),
+    });
   };
+
 
   const handleWordClick = (rawWord: string) => {
     const cleanWord = rawWord.replace(/[^a-zA-Z]/g, "").toLowerCase();
@@ -662,7 +665,7 @@ export default function VoiceTutorPage() {
   const TopicIcon = currentTopicData.icon;
 
   return (
-    <div className="pb-20 md:pb-6 px-1 md:px-0 relative select-none font-sans lg:flex lg:flex-col lg:min-h-[calc(100vh-4rem)]">
+    <PageEntranceWrapper className="pb-20 md:pb-6 px-1 md:px-0 relative select-none font-sans lg:flex lg:flex-col lg:min-h-[calc(100vh-4rem)]">
       
       {/* 0. TOP UNIFIED MICRO-HERO TOOLBAR CONTROL STRIP */}
       <motion.div
@@ -1279,6 +1282,6 @@ export default function VoiceTutorPage() {
         )}
       </AnimatePresence>
 
-    </div>
+    </PageEntranceWrapper>
   );
 }

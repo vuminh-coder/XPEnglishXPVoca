@@ -3,7 +3,10 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useVocabularyStore } from "@/lib/store/vocabularyStore";
 import { useAuthStore } from "@/lib/store/authStore";
+import { PageEntranceWrapper, MotionItem } from "@/components/shared/PageEntranceAnimation";
 import { motion, AnimatePresence } from "framer-motion";
+import { speakLessonText } from "@/lib/utils/ttsEngine";
+
 import {
   FolderOpen,
   Heart,
@@ -85,14 +88,13 @@ export default function MyVocabularyPage() {
   }, [filter, learned, favoriteWords, learningWords, masteredWords]);
 
   const speak = (word: string) => {
-    if ("speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(word);
-      u.lang = "en-US";
-      u.rate = 0.9;
-      window.speechSynthesis.speak(u);
-    }
+
+    speakLessonText(word, {
+      lessonId: "myvocab_list",
+      rate: 0.95,
+    });
   };
+
 
   const statCards = [
     {
@@ -170,7 +172,7 @@ export default function MyVocabularyPage() {
   };
 
   return (
-    <div className="space-y-6" suppressHydrationWarning>
+    <PageEntranceWrapper className="space-y-6">
       {/* Page Header */}
       <motion.div
         initial={{ opacity: 0, y: -15 }}
@@ -427,6 +429,6 @@ export default function MyVocabularyPage() {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </PageEntranceWrapper>
   );
 }

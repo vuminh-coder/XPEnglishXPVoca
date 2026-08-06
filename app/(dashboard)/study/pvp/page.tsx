@@ -3,7 +3,10 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useDailyChallengeStore } from "@/lib/store/dailyChallengeStore";
 import { Button, Badge } from "@/components/ui";
+import { PageEntranceWrapper, MotionItem } from "@/components/shared/PageEntranceAnimation";
 import { motion, AnimatePresence } from "framer-motion";
+import { speakLessonText } from "@/lib/utils/ttsEngine";
+
 import {
   Swords,
   Timer,
@@ -115,14 +118,12 @@ function normalizeWordForCheck(str: string): string {
   return str.toLowerCase().replace(/[^a-z0-9]/g, "").trim();
 }
 
+
 function playWordAudio(word: string) {
-  if (typeof window !== "undefined" && window.speechSynthesis) {
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(word);
-    utterance.lang = "en-US";
-    utterance.rate = 0.9;
-    window.speechSynthesis.speak(utterance);
-  }
+  speakLessonText(word, {
+    lessonId: "pvp_match_words",
+    rate: 0.95,
+  });
 }
 
 export default function PvpQuizArenaPage() {
@@ -818,10 +819,10 @@ export default function PvpQuizArenaPage() {
   };
 
   return (
-    <div className="space-y-3.5 sm:space-y-4 pb-16 md:pb-6 select-none font-sans" suppressHydrationWarning>
+    <PageEntranceWrapper className="space-y-3.5 sm:space-y-4 pb-16 md:pb-6 select-none font-sans">
 
       {/* 0. HERO SPOTLIGHT BANNER */}
-      <div className="p-3.5 sm:p-5 rounded-md bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-xs relative overflow-hidden">
+      <MotionItem className="p-3.5 sm:p-5 rounded-md bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-xs relative overflow-hidden">
         <div className="absolute -right-10 -bottom-10 w-44 sm:w-52 h-44 sm:h-52 bg-indigo-400/10 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 sm:gap-4">
           <div className="space-y-1 max-w-2xl">
@@ -851,7 +852,7 @@ export default function PvpQuizArenaPage() {
             </Link>
           </div>
         </div>
-      </div>
+      </MotionItem>
 
       <AnimatePresence mode="wait">
         {/* 1. LOBBY STATE */}
@@ -1854,6 +1855,6 @@ export default function PvpQuizArenaPage() {
         )}
       </AnimatePresence>
 
-    </div>
+    </PageEntranceWrapper>
   );
 }

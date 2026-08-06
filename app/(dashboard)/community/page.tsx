@@ -14,38 +14,65 @@ import {
   Flame, 
   Sparkles, 
   ArrowRight,
-  MessageSquare,
-  Award
+  MessageSquare
 } from 'lucide-react';
 import { Button } from '@/components/ui';
 
 const INITIAL_COMMENTS = 15;
 const LOAD_MORE_COMMENTS = 10;
 
-// Helper to format clean display names without @ or duplicate bracket usernames
+// Helper to format clean display names without @ or duplicate bracket usernames or raw email strings
 const formatCleanName = (name?: string) => {
   if (!name) return 'Học viên XP';
-  let clean = name.replace(/^@+/, '').split(' (')[0].trim();
+  let clean = name.trim().replace(/^@+/, '').split(' (')[0].trim();
+  if (clean.includes('@')) {
+    clean = clean.split('@')[0];
+    clean = clean.replace(/[._-]/g, ' ');
+    clean = clean
+      .split(' ')
+      .filter(Boolean)
+      .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+      .join(' ');
+  }
   return clean || 'Học viên XP';
 };
 
-// Component to render Google/Facebook OAuth avatar image or sidebar-styled initial circle fallback
-const UserAvatar = ({ avatar, emoji, name, size = "w-8 h-8" }: { avatar?: string; emoji?: string; name?: string; size?: string }) => {
-  if (avatar && (avatar.startsWith('http') || avatar.startsWith('/'))) {
+// Component to render Google/Facebook OAuth avatar image with self-healing onError fallback
+const UserAvatar = ({
+  avatar,
+  avatarUrl,
+  imageUrl,
+  emoji,
+  name,
+  size = "w-8 h-8",
+}: {
+  avatar?: string;
+  avatarUrl?: string;
+  imageUrl?: string;
+  emoji?: string;
+  name?: string;
+  size?: string;
+}) => {
+  const [imgError, setImgError] = useState(false);
+  const src = avatar || avatarUrl || imageUrl;
+
+  if (src && (src.startsWith('http') || src.startsWith('/')) && !imgError) {
     return (
       <img
-        src={avatar}
-        alt={name || ''}
+        src={src}
+        alt={name || 'User Avatar'}
+        onError={() => setImgError(true)}
         className={`${size} rounded-full object-cover shrink-0 border border-slate-200/80 dark:border-white/10 shadow-2xs`}
       />
     );
   }
 
-  const initial = (name || 'X').replace(/^@+/, '').trim().charAt(0).toUpperCase() || 'X';
+  const cleanName = formatCleanName(name);
+  const initial = cleanName.charAt(0).toUpperCase() || 'X';
 
   return (
     <div className={`${size} rounded-full bg-[#0059bb] text-white flex items-center justify-center font-black text-xs shrink-0 shadow-2xs font-display`}>
-      <span>{initial}</span>
+      <span>{emoji || initial}</span>
     </div>
   );
 };
@@ -60,6 +87,9 @@ export default function CommunityPage() {
   const [commentText, setCommentText] = useState<Record<string, string>>({});
   const [activeCommentId, setActiveCommentId] = useState<string | null>(null);
   const [visibleComments, setVisibleComments] = useState<Record<string, number>>({});
+
+  const currentUserAvatar = (user as any)?.avatar || (user as any)?.avatarUrl || user?.imageUrl;
+  const currentUserName = formatCleanName(user?.fullName || user?.username || user?.email);
 
   // Load posts on mount
   React.useEffect(() => {
@@ -103,9 +133,9 @@ export default function CommunityPage() {
 
     const tempPost = {
       id: tempId,
-      author: user.fullName || user.username || "Học viên XP",
-      avatar: (user as any).avatar || (user as any).avatarUrl,
-      authorAvatar: (user as any).avatar || (user as any).avatarUrl,
+      author: currentUserName,
+      avatar: currentUserAvatar,
+      authorAvatar: currentUserAvatar,
       avatarEmoji: user.avatarEmoji || "🦉",
       meta: "Vừa xong · " + (user.title || "Member"),
       content: currentContent,
@@ -126,7 +156,12 @@ export default function CommunityPage() {
       });
       const data = await res.json();
       if (data.success && data.data) {
-        setPosts(prev => prev.map(p => p.id === tempId ? { ...data.data, avatar: (user as any).avatar } : p));
+        setPosts(prev => prev.map(p => p.id === tempId ? {
+          ...data.data,
+          author: currentUserName,
+          avatar: currentUserAvatar,
+          authorAvatar: currentUserAvatar
+        } : p));
       }
     } catch (err) {
       console.error("Error creating post:", err);
@@ -170,8 +205,10 @@ export default function CommunityPage() {
       if (data.success && data.data) {
         const newComment = {
           ...data.data,
-          avatar: (user as any).avatar || (user as any).avatarUrl,
-          authorAvatar: (user as any).avatar || (user as any).avatarUrl
+          author: currentUserName,
+          avatar: currentUserAvatar,
+          authorAvatar: currentUserAvatar,
+          avatarEmoji: user.avatarEmoji || "👤"
         };
         setPosts(prev => prev.map(p => {
           if (p.id === postId) {
@@ -195,6 +232,7 @@ export default function CommunityPage() {
 
   return (
     <div className="space-y-3.5 sm:space-y-5 pb-16 md:pb-6 select-none font-sans" suppressHydrationWarning>
+      
       {/* 1. HERO SPOTLIGHT BANNER */}
       <div className="p-3.5 sm:p-4.5 rounded-xs bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#003366] text-white shadow-2xs relative overflow-hidden">
         <div className="absolute -right-8 -bottom-8 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none" />
@@ -255,9 +293,11 @@ export default function CommunityPage() {
           <div className="p-3 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-2.5 sm:space-y-3">
             <div className="flex items-start gap-2.5">
               <UserAvatar
-                avatar={(user as any)?.avatar || (user as any)?.avatarUrl}
+                avatar={currentUserAvatar}
+                avatarUrl={currentUserAvatar}
+                imageUrl={currentUserAvatar}
                 emoji={user?.avatarEmoji}
-                name={user?.fullName || user?.username}
+                name={currentUserName}
                 size="w-8 h-8 sm:w-9 sm:h-9"
               />
               <textarea
@@ -310,7 +350,7 @@ export default function CommunityPage() {
           {/* POSTS FEED STREAM */}
           <div className="space-y-3">
             {loading ? (
-              /* SKELETON LOADING CARDS (RULE 1 COMPLIANCE) */
+              /* SKELETON LOADING CARDS */
               <div className="space-y-3">
                 {[1, 2].map((i) => (
                   <div key={i} className="p-3 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3 animate-pulse">
@@ -351,7 +391,8 @@ export default function CommunityPage() {
                 const serverHiddenCount = totalComments - allComments.length;
 
                 const authorCleanName = formatCleanName(p.author);
-                const isUserPost = p.author === user?.fullName || p.author === user?.username || authorCleanName === formatCleanName(user?.fullName);
+                const isUserPost = p.author === user?.fullName || p.author === user?.username || p.author === user?.email || authorCleanName === currentUserName;
+                const postAvatar = p.authorAvatar || p.avatar || p.avatarUrl || (isUserPost ? currentUserAvatar : undefined);
 
                 return (
                   <div
@@ -362,7 +403,9 @@ export default function CommunityPage() {
                     <div className="flex items-center justify-between gap-2.5 border-b border-slate-100 dark:border-white/5 pb-2">
                       <div className="flex items-center gap-2 sm:gap-2.5">
                         <UserAvatar
-                          avatar={p.authorAvatar || p.avatar || (isUserPost ? (user as any)?.avatar : undefined)}
+                          avatar={postAvatar}
+                          avatarUrl={postAvatar}
+                          imageUrl={postAvatar}
                           emoji={p.avatarEmoji}
                           name={authorCleanName}
                           size="w-8 h-8 sm:w-9 sm:h-9"
@@ -448,14 +491,14 @@ export default function CommunityPage() {
                             onChange={(e) => setCommentText((prev) => ({ ...prev, [p.id]: e.target.value }))}
                             onKeyDown={(e) => e.key === 'Enter' && handleAddComment(p.id)}
                             placeholder="Viết bình luận của bạn..."
-                            className="flex-1 p-1.5 sm:p-2 rounded-xs bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-white/10 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0059bb]"
+                            className="flex-1 p-1.5 sm:p-2 rounded-xs bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-white/10 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-[#0059bb] font-medium"
                           />
                           <Button
                             variant="primary"
                             size="sm"
                             onClick={() => handleAddComment(p.id)}
-                            disabled={!(commentText[p.id] || '').trim()}
-                            className="px-2.5 sm:px-3 py-1.5 rounded-xs bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold transition-all shadow-2xs shrink-0 cursor-pointer disabled:opacity-50"
+                            disabled={!commentText[p.id]?.trim()}
+                            className="py-1.5 px-2.5 rounded-xs bg-[#0059bb] text-white text-xs font-bold cursor-pointer disabled:opacity-50 flex items-center gap-1 shrink-0"
                           >
                             <Send className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> Gửi
                           </Button>
@@ -473,7 +516,8 @@ export default function CommunityPage() {
                         <div className="space-y-1.5 sm:space-y-2">
                           {shownComments.map((c: any) => {
                             const commentCleanName = formatCleanName(c.author);
-                            const isCommentUser = c.author === user?.fullName || c.author === user?.username || commentCleanName === formatCleanName(user?.fullName);
+                            const isCommentUser = c.author === user?.fullName || c.author === user?.username || c.author === user?.email || commentCleanName === currentUserName;
+                            const commentAvatar = c.authorAvatar || c.avatar || c.avatarUrl || (isCommentUser ? currentUserAvatar : undefined);
 
                             return (
                               <div
@@ -482,7 +526,9 @@ export default function CommunityPage() {
                               >
                                 <div className="flex items-center gap-2">
                                   <UserAvatar
-                                    avatar={c.avatar || c.authorAvatar || (isCommentUser ? (user as any)?.avatar : undefined)}
+                                    avatar={commentAvatar}
+                                    avatarUrl={commentAvatar}
+                                    imageUrl={commentAvatar}
                                     emoji={c.avatarEmoji}
                                     name={commentCleanName}
                                     size="w-5 h-5 sm:w-6 sm:h-6"
@@ -544,14 +590,20 @@ export default function CommunityPage() {
               <div className="p-2 sm:p-2.5 rounded-xs bg-amber-500/10 border border-amber-500/20 flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-bold">🥇</span>
-                  <span className="font-bold text-slate-900 dark:text-white">Minh Vũ</span>
+                  <UserAvatar
+                    avatar={currentUserAvatar}
+                    name={currentUserName}
+                    size="w-5 h-5"
+                  />
+                  <span className="font-bold text-slate-900 dark:text-white">{currentUserName}</span>
                 </div>
-                <span className="font-black text-amber-600 dark:text-amber-400 text-xs">1,450 XP</span>
+                <span className="font-black text-amber-600 dark:text-amber-400 text-xs">{(user?.totalXp || 1450).toLocaleString()} XP</span>
               </div>
 
               <div className="p-2 sm:p-2.5 rounded-xs bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5 flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-bold">🥈</span>
+                  <UserAvatar name="Thanh Hằng" size="w-5 h-5" />
                   <span className="font-bold text-slate-900 dark:text-white">Thanh Hằng</span>
                 </div>
                 <span className="font-bold text-slate-600 dark:text-slate-400 text-xs">1,280 XP</span>
@@ -560,6 +612,7 @@ export default function CommunityPage() {
               <div className="p-2 sm:p-2.5 rounded-xs bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5 flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-bold">🥉</span>
+                  <UserAvatar name="Hoàng Nam" size="w-5 h-5" />
                   <span className="font-bold text-slate-900 dark:text-white">Hoàng Nam</span>
                 </div>
                 <span className="font-bold text-slate-600 dark:text-slate-400 text-xs">1,120 XP</span>

@@ -5,6 +5,7 @@ import { useAuthStore } from "@/lib/store/authStore";
 import { Button, Badge } from "@/components/ui";
 import { useNotificationStore } from "@/lib/store/notificationStore";
 import { motion, AnimatePresence } from "framer-motion";
+import { PageEntranceWrapper, MotionItem } from "@/components/shared/PageEntranceAnimation";
 import {
   Sparkles,
   BookOpen,
@@ -288,10 +289,10 @@ export default function RoadmapPage() {
     const scoresList = targetExam === "TOEIC" ? toeicScores : ieltsScores;
 
     return (
-      <div className="space-y-4 sm:space-y-5 pb-16 md:pb-6 select-none font-sans max-w-4xl mx-auto" suppressHydrationWarning>
+      <PageEntranceWrapper className="space-y-4 sm:space-y-5 pb-16 md:pb-6 select-none font-sans max-w-4xl mx-auto" suppressHydrationWarning>
         
         {/* HERO DASHBOARD SPOTLIGHT BANNER */}
-        <div className="p-3.5 sm:p-5 rounded-xs bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-2xs relative overflow-hidden">
+        <MotionItem className="p-3.5 sm:p-5 rounded-xs bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-2xs relative overflow-hidden">
           <div className="absolute -right-10 -bottom-10 w-52 h-52 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
           <div className="relative z-10 space-y-1.5 sm:space-y-2">
             <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
@@ -313,10 +314,10 @@ export default function RoadmapPage() {
               </p>
             </div>
           </div>
-        </div>
+        </MotionItem>
 
         {/* BENTO FORM CARD */}
-        <div className="p-3.5 sm:p-5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-4 sm:space-y-5">
+        <MotionItem className="p-3.5 sm:p-5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-4 sm:space-y-5">
           <form onSubmit={handleGenerate} className="space-y-4 sm:space-y-5">
             
             {/* 1. Category Selection Bento Grid (3 Micro Cards on Mobile) */}
@@ -523,9 +524,9 @@ export default function RoadmapPage() {
             </div>
 
           </form>
-        </div>
+        </MotionItem>
 
-      </div>
+      </PageEntranceWrapper>
     );
   }
 
@@ -539,10 +540,10 @@ export default function RoadmapPage() {
   const currentActiveScore = plan?.targetScore || targetScore;
 
   return (
-    <div className="space-y-3.5 sm:space-y-4 pb-16 md:pb-6 select-none font-sans" suppressHydrationWarning>
+    <PageEntranceWrapper className="space-y-3.5 sm:space-y-4 pb-16 md:pb-6 select-none font-sans" suppressHydrationWarning>
       
       {/* HERO SPOTLIGHT BANNER */}
-      <div className="p-3.5 sm:p-5 rounded-xs bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-2xs relative overflow-hidden">
+      <MotionItem className="p-3.5 sm:p-5 rounded-xs bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-2xs relative overflow-hidden">
         <div className="absolute -right-10 -bottom-10 w-52 h-52 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 sm:gap-4">
           <div className="space-y-1 sm:space-y-1.5 max-w-2xl">
@@ -586,7 +587,7 @@ export default function RoadmapPage() {
             </button>
           </div>
         </div>
-      </div>
+      </MotionItem>
 
       {/* BENTO 3/4 + 1/4 GRID LAYOUT */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 sm:gap-4 items-start">
@@ -821,6 +822,6 @@ export default function RoadmapPage() {
 
       </div>
 
-    </div>
+    </PageEntranceWrapper>
   );
 }

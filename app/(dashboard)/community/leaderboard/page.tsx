@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { PageEntranceWrapper, MotionItem } from "@/components/shared/PageEntranceAnimation";
 import { useAuthStore } from '@/lib/store/authStore';
 import { 
   Crown, 
@@ -150,11 +151,11 @@ export default function LeaderboardPage() {
   const xpNeeded = Math.max(0, nextRankTargetXp - userXp);
 
   return (
-    <div className="space-y-3.5 sm:space-y-5 pb-16 md:pb-6 select-none font-sans" suppressHydrationWarning>
+    <PageEntranceWrapper className="space-y-3.5 sm:space-y-5 pb-16 md:pb-6 select-none font-sans" suppressHydrationWarning>
       
       {/* 0. NAVIGATION BACK BUTTON (ONLY SHOWN WHEN NAVIGATING FROM ANALYTICS) */}
       {isFromAnalytics && (
-        <div className="flex items-center justify-between">
+        <MotionItem className="flex items-center justify-between">
           <button
             onClick={() => router.back()}
             className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 py-1.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all shadow-2xs cursor-pointer font-display"
@@ -170,11 +171,11 @@ export default function LeaderboardPage() {
             <Trophy className="w-3.5 h-3.5" />
             <span>Xem Thống kê của tôi</span>
           </Link>
-        </div>
+        </MotionItem>
       )}
       
       {/* 1. HERO SPOTLIGHT BANNER (AGENCY DASHBOARD TIER) */}
-      <div className="p-3.5 sm:p-4.5 rounded-xs bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-2xs relative overflow-hidden">
+      <MotionItem className="p-3.5 sm:p-4.5 rounded-xs bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-2xs relative overflow-hidden">
         <div className="absolute -right-10 -bottom-10 w-52 h-52 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 space-y-2">
           
@@ -221,7 +222,7 @@ export default function LeaderboardPage() {
           </div>
 
         </div>
-      </div>
+      </MotionItem>
 
       {/* 2. BENTO GRID LAYOUT (3/4 PODIUM & STREAM + 1/4 INSPECTOR WIDGETS) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 sm:gap-4 items-start">
@@ -529,6 +530,6 @@ export default function LeaderboardPage() {
 
         </div>
       </div>
-    </div>
+    </PageEntranceWrapper>
   );
 }

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/store/authStore";
+import { PageEntranceWrapper, MotionItem } from "@/components/shared/PageEntranceAnimation";
 import "../auth.css";
 import {
   BookOpen,
@@ -169,7 +170,7 @@ export default function LoginPage() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col justify-center items-center p-4 py-8 md:p-6 lg:py-12 w-full max-w-[1280px] mx-auto z-10" suppressHydrationWarning>
+      <PageEntranceWrapper className="flex-1 flex flex-col justify-center items-center p-4 py-8 md:p-6 lg:py-12 w-full max-w-[1280px] mx-auto z-10" suppressHydrationWarning>
         <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Left Column: Branding & Feature Cards (Desktop Only) */}
           <div className="hidden lg:flex lg:col-span-7 flex-col items-start gap-6 animate-fade-in-up text-left select-none">
@@ -411,7 +412,7 @@ export default function LoginPage() {
             </div>
           </div>
         </div>
-      </main>
+      </PageEntranceWrapper>
 
       {/* Website Footer */}
       <footer className="w-full flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-0 px-4 sm:px-8 md:px-12 py-3.5 sm:py-4 border-t border-slate-200/80 dark:border-white/10 bg-white/80 dark:bg-[#09090b]/80 backdrop-blur-md z-10 text-center sm:text-left select-none">

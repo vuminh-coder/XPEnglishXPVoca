@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { PageEntranceWrapper, MotionItem } from "@/components/shared/PageEntranceAnimation";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useNotificationStore } from "@/lib/store/notificationStore";
 import {
@@ -97,17 +98,17 @@ export default function SettingsPage() {
   const inputClass = "w-full py-2.5 px-4 text-xs font-bold rounded-xl bg-neutral-50/60 dark:bg-neutral-900/40 border border-black/10 dark:border-white/10 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition-all";
 
   return (
-    <div className="animate-fade-in max-w-2xl mx-auto space-y-6 pb-20 md:pb-6">
+    <PageEntranceWrapper className="max-w-2xl mx-auto space-y-6 pb-20 md:pb-6">
       {/* Page Header */}
-      <div className="page-header animate-fade-in-down text-center mb-6">
+      <MotionItem className="page-header text-center mb-6">
         <h1 className="page-title text-3xl font-extrabold tracking-tight">Cài đặt cấu hình</h1>
         <p className="page-subtitle text-slate-500 dark:text-slate-400 mt-1.5 max-w-xl mx-auto text-xs md:text-sm font-medium">
           Quản lý hồ sơ cá nhân, thiết lập học tập và tùy chỉnh chế độ hiển thị.
         </p>
-      </div>
+      </MotionItem>
 
       {/* Section 1: Profile (Rule 10: Double Bezel Concentric radius math) */}
-      <div className="bezel-outer p-1.5 bg-slate-200/50 dark:bg-white/5 rounded-[2rem]">
+      <MotionItem className="bezel-outer p-1.5 bg-slate-200/50 dark:bg-white/5 rounded-[2rem]">
         <div className="bezel-inner rounded-[calc(2rem-6px)] bg-white dark:bg-[#0c0c0e] p-6 space-y-5">
           <h3 className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest flex items-center gap-1.5 border-b border-slate-100 dark:border-neutral-850 pb-2">
             <User className="w-3.5 h-3.5" strokeWidth={1.3} /> Hồ sơ công khai
@@ -133,7 +134,7 @@ export default function SettingsPage() {
             </Button>
           </div>
         </div>
-      </div>
+      </MotionItem>
 
       {/* Section 2: Study Goals (Rule 10: Double Bezel Concentric radius math) */}
       <div className="bezel-outer p-1.5 bg-slate-200/50 dark:bg-white/5 rounded-[2rem]">
@@ -263,6 +264,6 @@ export default function SettingsPage() {
           </div>
         </div>
       </div>
-    </div>
+    </PageEntranceWrapper>
   );
 }

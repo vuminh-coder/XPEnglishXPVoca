@@ -94,26 +94,42 @@ export async function GET(request: Request) {
     }
 
     // Format output with zero overhead
-    const formattedPosts = posts.map((post) => ({
-      id: post.id,
-      author: post.user.fullName || post.user.username || "Học viên XP",
-      avatarEmoji: post.user.avatarEmoji || "🦉",
-      meta: new Date(post.createdAt).toLocaleTimeString("vi-VN", {
-        hour: "2-digit",
-        minute: "2-digit",
-      }) + " · " + (post.user.title || "Member"),
-      content: post.content,
-      vocabTags: post.vocabTags,
-      likes: post._count.likes,
-      commentsCount: post._count.comments,
-      liked: likedPostIdsSet.has(post.id),
-      comments: post.comments.reverse().map((c) => ({
-        id: c.id,
-        author: c.user.fullName || c.user.username || "Học viên XP",
-        avatarEmoji: c.user.avatarEmoji || "👤",
-        content: c.content,
-      })),
-    }));
+    const formattedPosts = posts.map((post) => {
+      const authorName = post.user.fullName || post.user.username || "Học viên XP";
+      const dbAvatar = (post.user as any).avatarUrl || (post.user as any).imageUrl || (post.user as any).avatar;
+      const authorAvatar = dbAvatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(authorName)}&background=0059bb&color=fff`;
+
+      return {
+        id: post.id,
+        author: authorName,
+        avatarEmoji: post.user.avatarEmoji || "🦉",
+        avatar: authorAvatar,
+        authorAvatar: authorAvatar,
+        meta: new Date(post.createdAt).toLocaleTimeString("vi-VN", {
+          hour: "2-digit",
+          minute: "2-digit",
+        }) + " · " + (post.user.title || "Member"),
+        content: post.content,
+        vocabTags: post.vocabTags,
+        likes: post._count.likes,
+        commentsCount: post._count.comments,
+        liked: likedPostIdsSet.has(post.id),
+        comments: post.comments.reverse().map((c) => {
+          const commentAuthorName = c.user.fullName || c.user.username || "Học viên XP";
+          const commentDbAvatar = (c.user as any).avatarUrl || (c.user as any).imageUrl || (c.user as any).avatar;
+          const commentAvatar = commentDbAvatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(commentAuthorName)}&background=0059bb&color=fff`;
+
+          return {
+            id: c.id,
+            author: commentAuthorName,
+            avatarEmoji: c.user.avatarEmoji || "👤",
+            avatar: commentAvatar,
+            authorAvatar: commentAvatar,
+            content: c.content,
+          };
+        }),
+      };
+    });
 
     return NextResponse.json({
       success: true,
@@ -194,10 +210,16 @@ export async function POST(request: Request) {
       });
     }
 
+    const authorName = post.user?.fullName || post.user?.username || "Học viên XP";
+    const dbAvatar = (post.user as any)?.avatarUrl || (post.user as any)?.imageUrl || (post.user as any)?.avatar;
+    const authorAvatar = dbAvatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(authorName)}&background=0059bb&color=fff`;
+
     const formattedPost = {
       id: post.id,
-      author: post.user?.fullName || post.user?.username || "Học viên XP",
+      author: authorName,
       avatarEmoji: post.user?.avatarEmoji || "🦉",
+      avatar: authorAvatar,
+      authorAvatar: authorAvatar,
       meta: "Vừa xong · " + (post.user?.title || "Member"),
       content: post.content,
       vocabTags: post.vocabTags,

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useAuthStore } from "@/lib/store/authStore";
 import { Button, Badge } from "@/components/ui";
 import { motion, AnimatePresence } from "framer-motion";
+import { PageEntranceWrapper, MotionItem } from "@/components/shared/PageEntranceAnimation";
 import {
   Coins,
   Flame,
@@ -215,10 +216,10 @@ export default function ShopPage() {
   const isOwlEquipped = user?.avatarEmoji === "🎓";
 
   return (
-    <div className="space-y-4 pb-16 md:pb-6 select-none font-sans" suppressHydrationWarning>
+    <PageEntranceWrapper className="space-y-4 pb-16 md:pb-6 select-none font-sans" suppressHydrationWarning>
       
       {/* 0. HERO SPOTLIGHT BANNER (AGENCY DASHBOARD TIER) */}
-      <div className="p-4 sm:p-5 rounded-lg bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-xs relative overflow-hidden">
+      <MotionItem className="p-4 sm:p-5 rounded-lg bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-xs relative overflow-hidden">
         <div className="absolute -right-10 -bottom-10 w-52 h-52 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div className="space-y-1 max-w-2xl">
@@ -255,7 +256,7 @@ export default function ShopPage() {
             </div>
           </div>
         </div>
-      </div>
+      </MotionItem>
 
       {/* 1. BENTO GRID LAYOUT (Cột Trái 7/12 - Cột Phải 5/12) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5">
@@ -510,6 +511,6 @@ export default function ShopPage() {
 
       </div>
 
-    </div>
+    </PageEntranceWrapper>
   );
 }

@@ -189,7 +189,7 @@ async function fetchRawTimedTextData(videoId: string, videoTitle?: string): Prom
  * Topic-Aware High-Precision Subtitles Generator
  * Produces 10+ authentic, detailed bilingual sentences tailored to the video topic & category.
  */
-function generateSmartFallbackSubtitles(videoTitle?: string): RawSubtitleItem[] {
+export function generateSmartFallbackSubtitles(videoTitle?: string): RawSubtitleItem[] {
   const lowerTitle = (videoTitle || "").toLowerCase();
 
   const isMusic =

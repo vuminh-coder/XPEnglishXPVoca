@@ -5,6 +5,9 @@ import { useUserStore } from '@/lib/store/userStore';
 import { useNotificationStore } from '@/lib/store/notificationStore';
 import { useListeningStore } from '@/lib/store/listeningStore';
 import { motion, AnimatePresence } from 'framer-motion';
+import { PageEntranceWrapper, MotionItem } from "@/components/shared/PageEntranceAnimation";
+import { speakLessonText } from '@/lib/utils/ttsEngine';
+
 import { 
   Bot, 
   Utensils, 
@@ -368,14 +371,16 @@ export default function ConversationPage() {
     setShowTranslations((prev) => ({ ...prev, [msgId]: !prev[msgId] }));
   };
 
-  const speakText = (text: string) => {
-    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = "en-US";
-    utterance.rate = 1.0;
-    window.speechSynthesis.speak(utterance);
+  const speakText = (text: string, speakerIndex: number = 0) => {
+    speakLessonText(text, {
+      lessonId: selectedTopicId || "ai_conversation",
+      speakerIndex: speakerIndex,
+      rate: 1.0,
+    });
   };
+
+
+
 
   const handleWordClick = (rawWord: string) => {
     const cleanWord = rawWord.replace(/[^a-zA-Z]/g, "").toLowerCase();
@@ -565,9 +570,10 @@ export default function ConversationPage() {
   };
 
   return (
-    <div className="pb-20 md:pb-6 px-1 md:px-0 relative select-none font-sans lg:flex lg:flex-col lg:min-h-[calc(100vh-4rem)]">
+    <PageEntranceWrapper className="pb-20 md:pb-6 px-1 md:px-0 relative select-none font-sans lg:flex lg:flex-col lg:min-h-[calc(100vh-4rem)]">
       
       {/* 0. Top Hero Announcement Banner Card (Dashboard Proportional Sizing) */}
+      <MotionItem>
       <motion.div
         initial={{ opacity: 0, y: -6 }}
         animate={{ opacity: 1, y: 0 }}
@@ -608,6 +614,7 @@ export default function ConversationPage() {
           </span>
         </div>
       </motion.div>
+      </MotionItem>
 
       {/* 1. TOPIC SELECTION CARDS GRID (Proportional Text Scale) */}
       <div className="space-y-2 mt-3 shrink-0">
@@ -1055,6 +1062,6 @@ export default function ConversationPage() {
         )}
       </AnimatePresence>
 
-    </div>
+    </PageEntranceWrapper>
   );
 }

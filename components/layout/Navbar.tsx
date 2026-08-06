@@ -25,6 +25,8 @@ import {
   Laptop,
 } from "lucide-react";
 
+
+
 interface ThemeDropdownProps {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
@@ -269,6 +271,7 @@ function LocalNavbar() {
   const [themeOpen, setThemeOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
 
+
   const handleLogout = () => {
     localLogout();
   };
@@ -297,6 +300,8 @@ function LocalNavbar() {
 
       <div className="navbar-actions flex items-center gap-1 sm:gap-2 shrink-0">
         {/* Dynamic Theme Control Dropdown */}
+
+
         <div className="dropdown navbar-theme-control">
           <button
             type="button"

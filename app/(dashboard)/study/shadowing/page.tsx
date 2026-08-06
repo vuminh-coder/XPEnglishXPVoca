@@ -7,6 +7,8 @@ import { useUserStore } from "@/lib/store/userStore";
 import { useNotificationStore } from "@/lib/store/notificationStore";
 import { useListeningStore } from "@/lib/store/listeningStore";
 import { safeSpeakText } from "@/lib/utils/mobileAudio";
+import { stopTTS } from "@/lib/utils/ttsEngine";
+
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Mic,
@@ -253,14 +255,19 @@ export default function ShadowingPage() {
   const toggleNativePlay = () => {
     if (!currentSentence || !currentLesson) return;
     if (isPlayingNative) {
-      if (typeof window !== "undefined" && "speechSynthesis" in window) {
-        window.speechSynthesis.cancel();
-      }
+      stopTTS();
       setIsPlayingNative(false);
       setNativeAudioProgress(0);
     } else {
+
       setIsPlayingNative(true);
-      safeSpeakText(currentSentence.text, { lang: currentLesson.accent || "en-US", rate: playbackSpeed * 1.1 });
+      safeSpeakText(currentSentence.text, {
+        lang: currentLesson.accent || "en-US",
+        rate: playbackSpeed * 1.1,
+        lessonId: currentLesson.id,
+        speakerIndex: currentSentenceIndex % 2,
+      });
+
         
       let interval: any = setInterval(() => {
         setNativeAudioProgress((prev) => {

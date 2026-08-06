@@ -179,29 +179,27 @@ export function parseTimedTextJson3(jsonContent: string | object): ParsedXmlItem
       let duration: number;
       const nextItem = rawItems[i + 1];
 
-      if (item.rawDur !== null && !isNaN(item.rawDur) && item.rawDur > 0) {
-        duration = item.rawDur;
-      } else {
-        if (nextItem) {
-          duration = Math.max(0.8, parseFloat((nextItem.startTime - item.startTime).toFixed(3)));
-          if (duration > 5.0) duration = 5.0;
+      if (nextItem) {
+        const gapToNext = parseFloat((nextItem.startTime - item.startTime).toFixed(3));
+        if (gapToNext <= 8.0) {
+          // Bridge gap seamlessly up to next item
+          duration = gapToNext;
         } else {
-          duration = 4.0;
+          // Long silence gap: show cue for rawDur or up to 5.0 seconds
+          const baseDur = item.rawDur && item.rawDur > 0.5 ? item.rawDur : 4.0;
+          duration = Math.min(gapToNext, Math.max(baseDur, 3.5));
         }
+      } else {
+        duration = item.rawDur && item.rawDur > 0.5 ? item.rawDur : 4.0;
       }
 
-      if (nextItem && item.startTime + duration > nextItem.startTime) {
-        const maxAllowedDur = parseFloat((nextItem.startTime - item.startTime).toFixed(3));
-        if (maxAllowedDur > 0.3) {
-          duration = maxAllowedDur;
-        }
-      }
-
+      duration = Math.max(0.8, parseFloat(duration.toFixed(3)));
       const endTime = parseFloat((item.startTime + duration).toFixed(3));
+
       return {
         startTime: item.startTime,
         endTime,
-        duration: parseFloat(duration.toFixed(3)),
+        duration,
         textEn: item.textEn,
       };
     });

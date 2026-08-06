@@ -50,30 +50,7 @@ import {
   SkillType,
 } from "@/lib/store/skillChartStore";
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.04,
-      delayChildren: 0.04,
-    },
-  },
-} as const;
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 8, scale: 0.99 },
-  show: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      type: "spring",
-      stiffness: 120,
-      damping: 20,
-    },
-  },
-} as const;
+import { containerVariants, itemVariants } from "@/components/shared/PageEntranceAnimation";
 
 const SpeakingIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
   <svg

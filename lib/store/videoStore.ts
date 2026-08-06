@@ -151,6 +151,7 @@ interface VideoState {
   removeVideo: (id: string) => void;
   toggleFavorite: (id: string) => void;
   updateProgress: (id: string, percent: number) => void;
+  updateVideoSubtitles: (id: string, subtitles: SubtitleSentence[]) => void;
   loadSavedVideos: () => void;
 }
 
@@ -204,6 +205,16 @@ export const useVideoStore = create<VideoState>((set, get) => ({
   updateProgress: (id, percent) => {
     const next = get().savedVideos.map((v) =>
       v.id === id ? { ...v, progressPercent: Math.min(100, Math.max(v.progressPercent, percent)) } : v
+    );
+    set({ savedVideos: next });
+    if (typeof window !== "undefined") {
+      localStorage.setItem("xp_voca_my_videos", JSON.stringify(next));
+    }
+  },
+
+  updateVideoSubtitles: (id, subtitles) => {
+    const next = get().savedVideos.map((v) =>
+      v.id === id ? { ...v, subtitles } : v
     );
     set({ savedVideos: next });
     if (typeof window !== "undefined") {

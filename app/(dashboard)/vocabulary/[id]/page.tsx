@@ -41,30 +41,7 @@ import {
   VolumeX,
 } from "lucide-react";
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.05,
-      delayChildren: 0.05,
-    },
-  },
-} as const;
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 12, scale: 0.98 },
-  show: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      type: "spring",
-      stiffness: 110,
-      damping: 18,
-    },
-  },
-} as const;
+import { containerVariants, itemVariants } from "@/components/shared/PageEntranceAnimation";
 
 export default function ThemeDetailPage({
   params,
