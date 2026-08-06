@@ -32,45 +32,92 @@ import { Button, Badge } from '@/components/ui';
 // Helper to format clean display names without @ or duplicate bracket usernames
 const formatCleanName = (name?: string) => {
   if (!name) return 'Học viên XP';
-  let clean = name.replace(/^@+/, '').split(' (')[0].trim();
+  let clean = name.trim().replace(/^@+/, '').split(' (')[0].trim();
+  if (clean.includes('@')) {
+    clean = clean.split('@')[0];
+    clean = clean.replace(/[._-]/g, ' ');
+    clean = clean
+      .split(' ')
+      .filter(Boolean)
+      .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+      .join(' ');
+  }
   return clean || 'Học viên XP';
 };
 
-// Component to render Google/Facebook OAuth avatar image or sidebar-styled initial circle fallback
-const UserAvatar = ({ avatar, emoji, name, size = "w-9 h-9" }: { avatar?: string; emoji?: string; name?: string; size?: string }) => {
-  if (avatar && (avatar.startsWith('http') || avatar.startsWith('/'))) {
+// Component to render Google/Facebook OAuth avatar image with self-healing onError fallback
+const UserAvatar = ({
+  avatar,
+  avatarUrl,
+  imageUrl,
+  emoji,
+  name,
+  size = "w-8 h-8",
+}: {
+  avatar?: string;
+  avatarUrl?: string;
+  imageUrl?: string;
+  emoji?: string;
+  name?: string;
+  size?: string;
+}) => {
+  const [imgError, setImgError] = useState(false);
+  const src = avatar || avatarUrl || imageUrl;
+
+  if (src && (src.startsWith('http') || src.startsWith('/')) && !imgError) {
     return (
       <img
-        src={avatar}
-        alt={name || ''}
+        src={src}
+        alt={name || 'User Avatar'}
+        onError={() => setImgError(true)}
         className={`${size} rounded-full object-cover shrink-0 border border-slate-200/80 dark:border-white/10 shadow-2xs`}
       />
     );
   }
 
-  const initial = (name || 'X').replace(/^@+/, '').trim().charAt(0).toUpperCase() || 'X';
+  const cleanName = formatCleanName(name);
+  const initial = cleanName.charAt(0).toUpperCase() || 'X';
 
   return (
     <div className={`${size} rounded-full bg-[#0059bb] text-white flex items-center justify-center font-black text-xs shrink-0 shadow-2xs font-display`}>
-      <span>{initial}</span>
+      <span>{emoji || initial}</span>
     </div>
   );
 };
 
 // Specialized Rank Avatar component for Leaderboard Podium Champions (1 = Gold, 2 = Silver, 3 = Bronze)
-const RankAvatar = ({ avatar, name, rank, size = "w-14 h-14" }: { avatar?: string; name?: string; rank: 1 | 2 | 3; size?: string }) => {
-  if (avatar && (avatar.startsWith('http') || avatar.startsWith('/'))) {
-    const ringColor = rank === 1 ? 'ring-4 ring-amber-400' : rank === 2 ? 'ring-4 ring-slate-300' : 'ring-4 ring-amber-700/60';
+const RankAvatar = ({
+  avatar,
+  avatarUrl,
+  imageUrl,
+  name,
+  rank,
+  size = "w-14 h-14",
+}: {
+  avatar?: string;
+  avatarUrl?: string;
+  imageUrl?: string;
+  name?: string;
+  rank: 1 | 2 | 3;
+  size?: string;
+}) => {
+  const [imgError, setImgError] = useState(false);
+  const src = avatar || avatarUrl || imageUrl;
+  const ringColor = rank === 1 ? 'ring-4 ring-amber-400' : rank === 2 ? 'ring-4 ring-slate-300' : 'ring-4 ring-amber-700/60';
+
+  if (src && (src.startsWith('http') || src.startsWith('/')) && !imgError) {
     return (
       <img
-        src={avatar}
-        alt={name || ''}
+        src={src}
+        alt={name || 'Champion Avatar'}
+        onError={() => setImgError(true)}
         className={`${size} rounded-full object-cover shrink-0 ${ringColor} shadow-md`}
       />
     );
   }
 
-  const initial = (name || 'X').replace(/^@+/, '').trim().charAt(0).toUpperCase() || 'X';
+  const cleanName = formatCleanName(name);
+  const initial = cleanName.charAt(0).toUpperCase() || 'X';
 
   const rankStyle = rank === 1 
     ? 'bg-gradient-to-tr from-amber-500 via-amber-400 to-amber-300 text-slate-950 ring-4 ring-amber-300/80 shadow-lg' 
