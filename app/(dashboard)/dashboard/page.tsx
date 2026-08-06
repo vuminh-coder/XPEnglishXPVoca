@@ -50,6 +50,7 @@ import {
   SkillType,
 } from "@/lib/store/skillChartStore";
 
+import { UserAvatar, formatCleanName } from "@/components/shared/UserAvatar";
 import { containerVariants, itemVariants } from "@/components/shared/PageEntranceAnimation";
 
 const SpeakingIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
@@ -604,7 +605,7 @@ export default function DashboardPage() {
           <div>
             <h1 className="text-sm sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white font-display flex items-center gap-1.5 truncate">
               <span>
-                Chào mừng, {user.fullName || "Minh Vu Van"}!
+                Chào mừng, {formatCleanName(user.fullName || user.username || user.email)}! 👋
               </span>
             </h1>
             <p className="hidden sm:block text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-0.5">

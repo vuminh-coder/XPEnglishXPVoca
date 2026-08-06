@@ -8,6 +8,7 @@ import { useNotificationStore } from "@/lib/store/notificationStore";
 import { useListeningStore } from "@/lib/store/listeningStore";
 import { PageEntranceWrapper, MotionItem } from "@/components/shared/PageEntranceAnimation";
 import { motion, AnimatePresence } from "framer-motion";
+import { UserAvatar, formatCleanName } from "@/components/shared/UserAvatar";
 import { speakLessonText } from "@/lib/utils/ttsEngine";
 
 import {
@@ -893,6 +894,18 @@ export default function VoiceTutorPage() {
                       )}
 
                     </div>
+
+                    {!isAi && (
+                      <UserAvatar
+                        avatar={(user as any)?.avatar}
+                        avatarUrl={(user as any)?.avatarUrl}
+                        imageUrl={user?.imageUrl}
+                        emoji={user?.avatarEmoji}
+                        name={user?.fullName || user?.username || user?.email}
+                        size="w-7 h-7"
+                        className="mt-0.5"
+                      />
+                    )}
                   </div>
                 );
               })}

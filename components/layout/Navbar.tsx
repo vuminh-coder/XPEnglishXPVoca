@@ -9,6 +9,7 @@ import {
   AppNotification,
 } from "@/lib/store/notificationCenterStore";
 import { motion, AnimatePresence } from "framer-motion";
+import { UserAvatar, formatCleanName } from "@/components/shared/UserAvatar";
 import {
   Bell,
   Sun,
@@ -401,32 +402,17 @@ function LocalNavbar() {
               setThemeOpen(false);
             }}
           >
-            <div className="avatar avatar-sm flex items-center justify-center bg-slate-100 dark:bg-neutral-800 text-lg border border-slate-200/50 dark:border-white/10 rounded-full w-8 h-8 shrink-0 overflow-hidden">
-              {user?.imageUrl ||
-              (user as any)?.avatar ||
-              (user as any)?.avatarUrl ? (
-                <img
-                  src={
-                    user?.imageUrl ||
-                    (user as any)?.avatar ||
-                    (user as any)?.avatarUrl
-                  }
-                  alt="Avatar"
-                  className="w-full h-full object-cover"
-                />
-              ) : user?.avatarEmoji && user.avatarEmoji !== "🦉" ? (
-                <span className="text-lg">{user.avatarEmoji}</span>
-              ) : (
-                <img
-                  src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user?.fullName || user?.username || "User")}&background=0059bb&color=fff&font-size=0.45`}
-                  alt="Avatar"
-                  className="w-full h-full object-cover"
-                />
-              )}
-            </div>
+            <UserAvatar
+              avatar={(user as any)?.avatar}
+              avatarUrl={(user as any)?.avatarUrl}
+              imageUrl={user?.imageUrl}
+              emoji={user?.avatarEmoji}
+              name={user?.fullName || user?.username || user?.email}
+              size="w-8 h-8"
+            />
             <div className="navbar-user-info hidden sm:block">
               <div className="navbar-user-name hidden md:block">
-                {user?.fullName || user?.username || "Học viên XP Voca"}
+                {formatCleanName(user?.fullName || user?.username || user?.email)}
               </div>
               <div className="navbar-user-level flex items-center gap-1">
                 <span>Lvl {user?.level || 1}</span>

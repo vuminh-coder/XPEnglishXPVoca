@@ -18,26 +18,7 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { Button } from '@/components/ui';
-
-const UserAvatar = ({ avatar, emoji, name, size = "w-8 h-8" }: { avatar?: string; emoji?: string; name?: string; size?: string }) => {
-  if (avatar && (avatar.startsWith('http') || avatar.startsWith('/'))) {
-    return (
-      <img
-        src={avatar}
-        alt={name || ''}
-        className={`${size} rounded-full object-cover shrink-0 border border-slate-200/80 dark:border-white/10 shadow-2xs`}
-      />
-    );
-  }
-
-  const initial = (name || 'X').replace(/^@+/, '').trim().charAt(0).toUpperCase() || 'X';
-
-  return (
-    <div className={`${size} rounded-full bg-[#0059bb] text-white flex items-center justify-center font-black text-xs shrink-0 shadow-2xs font-display`}>
-      <span>{initial}</span>
-    </div>
-  );
-};
+import { UserAvatar, formatCleanName } from '@/components/shared/UserAvatar';
 
 export default function FriendsPage() {
   const { user, awardXp } = useAuthStore();
@@ -253,39 +234,42 @@ export default function FriendsPage() {
               </h3>
 
               <div className="space-y-2">
-                {pendingRequests.map((req: any) => (
-                  <div
-                    key={req.id}
-                    className="p-2.5 sm:p-3 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 flex items-center justify-between gap-2.5 sm:gap-3"
-                  >
-                    <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                      <UserAvatar avatar={req.sender?.avatar} emoji={req.sender?.avatarEmoji} name={req.sender?.fullName} size="w-8 h-8 sm:w-9 sm:h-9" />
-                      <div className="min-w-0">
-                        <div className="text-xs font-bold text-slate-900 dark:text-white font-display truncate">
-                          {req.sender?.fullName} <span className="text-slate-400 font-normal">(@{req.sender?.username})</span>
-                        </div>
-                        <div className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-medium truncate">
-                          Muốn kết nối đồng hành học tập
+                {pendingRequests.map((req: any) => {
+                  const cleanSenderName = formatCleanName(req.sender?.fullName || req.sender?.username);
+                  return (
+                    <div
+                      key={req.id}
+                      className="p-2.5 sm:p-3 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 flex items-center justify-between gap-2.5 sm:gap-3"
+                    >
+                      <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                        <UserAvatar avatar={req.sender?.avatar} avatarUrl={req.sender?.avatarUrl} imageUrl={req.sender?.imageUrl} emoji={req.sender?.avatarEmoji} name={cleanSenderName} size="w-8 h-8 sm:w-9 sm:h-9" />
+                        <div className="min-w-0">
+                          <div className="text-xs font-bold text-slate-900 dark:text-white font-display truncate">
+                            {cleanSenderName}
+                          </div>
+                          <div className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-medium truncate">
+                            Muốn kết nối đồng hành học tập
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="flex items-center gap-1.5 shrink-0">
-                      <button
-                        onClick={() => handleProcessRequest(req.id, 'ACCEPT')}
-                        className="px-2.5 py-1.5 rounded-xs bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-2xs flex items-center gap-1 cursor-pointer"
-                      >
-                        <Check className="w-3.5 h-3.5" /> Đồng ý
-                      </button>
-                      <button
-                        onClick={() => handleProcessRequest(req.id, 'DECLINE')}
-                        className="px-2.5 py-1.5 rounded-xs bg-slate-100 dark:bg-slate-800 hover:bg-rose-50 hover:text-rose-600 text-slate-600 dark:text-slate-400 text-xs font-bold transition-all flex items-center gap-1 cursor-pointer"
-                      >
-                        <X className="w-3.5 h-3.5" /> Từ chối
-                      </button>
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        <button
+                          onClick={() => handleProcessRequest(req.id, 'ACCEPT')}
+                          className="px-2.5 py-1.5 rounded-xs bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-2xs flex items-center gap-1 cursor-pointer"
+                        >
+                          <Check className="w-3.5 h-3.5" /> Đồng ý
+                        </button>
+                        <button
+                          onClick={() => handleProcessRequest(req.id, 'DECLINE')}
+                          className="px-2.5 py-1.5 rounded-xs bg-slate-100 dark:bg-slate-800 hover:bg-rose-50 hover:text-rose-600 text-slate-600 dark:text-slate-400 text-xs font-bold transition-all flex items-center gap-1 cursor-pointer"
+                        >
+                          <X className="w-3.5 h-3.5" /> Từ chối
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}
@@ -321,37 +305,40 @@ export default function FriendsPage() {
               </div>
             ) : (
               <div className="space-y-1.5 sm:space-y-2">
-                {friends.map((f: any) => (
-                  <div
-                    key={f.id}
-                    className="p-2.5 sm:p-3 rounded-xs bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-white/5 flex items-center justify-between gap-2.5 sm:gap-3 hover:bg-slate-100/80 dark:hover:bg-slate-800 transition-all"
-                  >
-                    <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                      <UserAvatar avatar={f.avatar} emoji={f.avatarEmoji} name={f.fullName} size="w-8 h-8 sm:w-9 sm:h-9" />
-                      <div className="min-w-0">
-                        <div className="text-xs font-bold text-slate-900 dark:text-white font-display truncate">
-                          {f.fullName} <span className="text-slate-400 font-normal">(@{f.username})</span>
-                        </div>
-                        <div className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-medium truncate">
-                          Cấp {f.level || 1} · {f.title || 'Học viên năng nổ'}
+                {friends.map((f: any) => {
+                  const cleanFriendName = formatCleanName(f.fullName || f.username);
+                  return (
+                    <div
+                      key={f.id}
+                      className="p-2.5 sm:p-3 rounded-xs bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-white/5 flex items-center justify-between gap-2.5 sm:gap-3 hover:bg-slate-100/80 dark:hover:bg-slate-800 transition-all"
+                    >
+                      <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                        <UserAvatar avatar={f.avatar} avatarUrl={f.avatarUrl} imageUrl={f.imageUrl} emoji={f.avatarEmoji} name={cleanFriendName} size="w-8 h-8 sm:w-9 sm:h-9" />
+                        <div className="min-w-0">
+                          <div className="text-xs font-bold text-slate-900 dark:text-white font-display truncate">
+                            {cleanFriendName}
+                          </div>
+                          <div className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-medium truncate">
+                            Cấp {f.level || 1} · {f.title || 'Học viên năng nổ'}
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-                      <span className="px-2 py-0.5 rounded-xs text-[10px] sm:text-[11px] font-black uppercase bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 border border-[#0059bb]/20 font-mono">
-                        {f.xp || 0} XP
-                      </span>
-                      <button
-                        onClick={() => handleRemoveFriend(f.id)}
-                        title="Hủy kết bạn"
-                        className="p-1.5 rounded-xs bg-slate-200/60 dark:bg-slate-700 hover:bg-rose-50 hover:text-rose-600 text-slate-500 dark:text-slate-400 text-xs transition-all cursor-pointer"
-                      >
-                        <UserMinus className="w-3.5 h-3.5" />
-                      </button>
+                      <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                        <span className="px-2 py-0.5 rounded-xs text-[10px] sm:text-[11px] font-black uppercase bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 border border-[#0059bb]/20 font-mono">
+                          {f.xp || 0} XP
+                        </span>
+                        <button
+                          onClick={() => handleRemoveFriend(f.id)}
+                          title="Hủy kết bạn"
+                          className="p-1.5 rounded-xs bg-slate-200/60 dark:bg-slate-700 hover:bg-rose-50 hover:text-rose-600 text-slate-500 dark:text-slate-400 text-xs transition-all cursor-pointer"
+                        >
+                          <UserMinus className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>
@@ -365,7 +352,7 @@ export default function FriendsPage() {
           <div className="p-3.5 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-2.5 sm:space-y-3">
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5">
               <div className="flex items-center gap-2">
-                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xs bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0 border border-sky-500/20 text-sm sm:text-base">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xs bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 border border-amber-500/20 text-sm sm:text-base">
                   💡
                 </div>
                 <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
@@ -379,31 +366,34 @@ export default function FriendsPage() {
             </div>
 
             <div className="space-y-2">
-              {suggestions.slice(0, 4).map((s: any) => (
-                <div
-                  key={s.id}
-                  className="p-2 sm:p-2.5 rounded-xs bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5 flex items-center justify-between gap-2"
-                >
-                  <div className="flex items-center gap-2 min-w-0">
-                    <UserAvatar avatar={s.avatar} emoji={s.avatarEmoji} name={s.fullName} size="w-7 h-7" />
-                    <div className="min-w-0">
-                      <div className="text-xs font-bold text-slate-900 dark:text-white truncate font-display">
-                        {s.fullName}
-                      </div>
-                      <div className="text-[10px] text-slate-400 truncate">
-                        @{s.username} · Cấp {s.level}
+              {suggestions.slice(0, 4).map((s: any) => {
+                const cleanSuggName = formatCleanName(s.fullName || s.username);
+                return (
+                  <div
+                    key={s.id}
+                    className="p-2 sm:p-2.5 rounded-xs bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5 flex items-center justify-between gap-2"
+                  >
+                    <div className="flex items-center gap-2 min-w-0">
+                      <UserAvatar avatar={s.avatar} avatarUrl={s.avatarUrl} imageUrl={s.imageUrl} emoji={s.avatarEmoji} name={cleanSuggName} size="w-7 h-7" />
+                      <div className="min-w-0">
+                        <div className="text-xs font-bold text-slate-900 dark:text-white truncate font-display">
+                          {cleanSuggName}
+                        </div>
+                        <div className="text-[10px] text-slate-400 truncate">
+                          Cấp {s.level || 1} · {s.title || 'Học viên'}
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <button
-                    onClick={() => handleAddFriend(s.id, s.fullName)}
-                    className="px-2 py-1 rounded-xs bg-[#0059bb] hover:bg-[#004799] text-white text-[10px] sm:text-[11px] font-bold transition-all shadow-2xs shrink-0 cursor-pointer flex items-center gap-1"
-                  >
-                    <UserPlus className="w-3 h-3" /> Kết bạn
-                  </button>
-                </div>
-              ))}
+                    <button
+                      onClick={() => handleAddFriend(s.id, cleanSuggName)}
+                      className="px-2 py-1 rounded-xs bg-[#0059bb] hover:bg-[#004799] text-white text-[10px] sm:text-[11px] font-bold transition-all shadow-2xs shrink-0 cursor-pointer flex items-center gap-1"
+                    >
+                      <UserPlus className="w-3 h-3" /> Kết bạn
+                    </button>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
