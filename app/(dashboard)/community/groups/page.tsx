@@ -21,6 +21,7 @@ import {
 import { useAuthStore } from "@/lib/store/authStore";
 import { useNotificationStore } from "@/lib/store/notificationStore";
 import { Button } from '@/components/ui';
+import { UserAvatar, formatCleanName } from '@/components/shared/UserAvatar';
 
 const GROUP_ICONS: Record<string, React.ReactNode> = {
   'g1': <Target className="w-5 h-5 text-[#0059bb]" />,
@@ -267,6 +268,23 @@ export default function GroupsPage() {
                       <p className="text-xs text-slate-600 dark:text-slate-300 font-medium leading-relaxed line-clamp-2">
                         {g.description || 'Cùng luyện từ vựng và bài tập giao tiếp tiếng Anh.'}
                       </p>
+
+                      {g.membersList && g.membersList.length > 0 && (
+                        <div className="flex items-center gap-1.5 pt-1">
+                          <div className="flex -space-x-1.5 overflow-hidden">
+                            {g.membersList.map((m: any, idx: number) => (
+                              <UserAvatar
+                                key={m.id || idx}
+                                avatar={m.avatar}
+                                emoji={m.avatarEmoji}
+                                name={m.name}
+                                size="w-5 h-5"
+                              />
+                            ))}
+                          </div>
+                          <span className="text-[10px] font-bold text-slate-400">Thành viên năng nổ</span>
+                        </div>
+                      )}
                     </div>
 
                     <button

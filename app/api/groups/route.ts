@@ -76,6 +76,14 @@ export async function GET() {
           select: {
             userId: true,
             role: true,
+            user: {
+              select: {
+                id: true,
+                fullName: true,
+                username: true,
+                avatarEmoji: true,
+              },
+            },
           },
         },
       },
@@ -98,6 +106,14 @@ export async function GET() {
             select: {
               userId: true,
               role: true,
+              user: {
+                select: {
+                  id: true,
+                  fullName: true,
+                  username: true,
+                  avatarEmoji: true,
+                },
+              },
             },
           },
         },
@@ -117,6 +133,18 @@ export async function GET() {
       maxMembers: g.maxMembers,
       joined: userId ? g.members.some((m) => m.userId === userId) : false,
       role: userId ? g.members.find((m) => m.userId === userId)?.role || null : null,
+      membersList: g.members.slice(0, 4).map((m) => {
+        const authorName = m.user?.fullName || m.user?.username || "Thành viên";
+        const dbAvatar = (m.user as any)?.avatarUrl || (m.user as any)?.imageUrl || (m.user as any)?.avatar;
+        const avatarImage = dbAvatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(authorName)}&background=0059bb&color=fff`;
+
+        return {
+          id: m.userId,
+          name: authorName,
+          avatar: avatarImage,
+          avatarEmoji: m.user?.avatarEmoji || "🦉",
+        };
+      }),
     }));
 
     return NextResponse.json({ success: true, data: formattedGroups });

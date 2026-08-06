@@ -30,25 +30,49 @@ export async function GET() {
       },
     });
 
-    const formattedIncoming = incoming.map((req) => ({
-      requestId: req.id,
-      id: req.sender.id,
-      fullName: req.sender.fullName || "User",
-      username: req.sender.username || "user",
-      level: req.sender.level,
-      xp: req.sender.totalXp,
-      avatarEmoji: req.sender.avatarEmoji || "🦉",
-    }));
+    const formattedIncoming = incoming.map((req) => {
+      const authorName = req.sender.fullName || req.sender.username || "Học viên XP";
+      const dbAvatar = (req.sender as any).avatarUrl || (req.sender as any).imageUrl || (req.sender as any).avatar;
+      const avatarImage = dbAvatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(authorName)}&background=0059bb&color=fff`;
 
-    const formattedOutgoing = outgoing.map((req) => ({
-      requestId: req.id,
-      id: req.receiver.id,
-      fullName: req.receiver.fullName || "User",
-      username: req.receiver.username || "user",
-      level: req.receiver.level,
-      xp: req.receiver.totalXp,
-      avatarEmoji: req.receiver.avatarEmoji || "🦉",
-    }));
+      return {
+        id: req.id,
+        senderId: req.sender.id,
+        sender: {
+          id: req.sender.id,
+          fullName: authorName,
+          username: req.sender.username || "user",
+          level: req.sender.level,
+          xp: req.sender.totalXp,
+          avatarEmoji: req.sender.avatarEmoji || "🦉",
+          avatar: avatarImage,
+          avatarUrl: avatarImage,
+          imageUrl: avatarImage,
+        },
+      };
+    });
+
+    const formattedOutgoing = outgoing.map((req) => {
+      const authorName = req.receiver.fullName || req.receiver.username || "Học viên XP";
+      const dbAvatar = (req.receiver as any).avatarUrl || (req.receiver as any).imageUrl || (req.receiver as any).avatar;
+      const avatarImage = dbAvatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(authorName)}&background=0059bb&color=fff`;
+
+      return {
+        id: req.id,
+        receiverId: req.receiver.id,
+        receiver: {
+          id: req.receiver.id,
+          fullName: authorName,
+          username: req.receiver.username || "user",
+          level: req.receiver.level,
+          xp: req.receiver.totalXp,
+          avatarEmoji: req.receiver.avatarEmoji || "🦉",
+          avatar: avatarImage,
+          avatarUrl: avatarImage,
+          imageUrl: avatarImage,
+        },
+      };
+    });
 
     return NextResponse.json({
       success: true,

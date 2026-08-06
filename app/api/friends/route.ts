@@ -25,13 +25,20 @@ export async function GET() {
 
     const friendsList = friendships.map((f) => {
       const friend = f.senderId === userId ? f.receiver : f.sender;
+      const authorName = friend.fullName || friend.username || "Học viên XP";
+      const dbAvatar = (friend as any).avatarUrl || (friend as any).imageUrl || (friend as any).avatar;
+      const avatarImage = dbAvatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(authorName)}&background=0059bb&color=fff`;
+
       return {
         id: friend.id,
-        fullName: friend.fullName || "User",
+        fullName: authorName,
         username: friend.username || "user",
         level: friend.level,
         xp: friend.totalXp,
         avatarEmoji: friend.avatarEmoji || "🦉",
+        avatar: avatarImage,
+        avatarUrl: avatarImage,
+        imageUrl: avatarImage,
       };
     });
 
