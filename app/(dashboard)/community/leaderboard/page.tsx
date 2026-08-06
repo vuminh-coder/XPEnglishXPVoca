@@ -164,24 +164,33 @@ export default function LeaderboardPage() {
   }, []);
 
   const userAvatar = user?.imageUrl || (user as any)?.avatar || (user as any)?.avatarUrl;
+  const currentUserName = formatCleanName(user?.fullName || user?.username || user?.email);
 
   const processedLeaders = leaders.map((l) => {
+    const leaderCleanName = formatCleanName(l.fullName || l.username);
+
+    // Comprehensive matching to check if this leaderboard row belongs to the current logged-in user
     const isCurrentUser = Boolean(
       user &&
       (l.id === user.id ||
-        (l.fullName && user.fullName && l.fullName.toLowerCase() === user.fullName.toLowerCase()) ||
-        (l.username && user.username && l.username.toLowerCase() === user.username.toLowerCase()))
+        (user.id && l.id && l.id.toString() === user.id.toString()) ||
+        (l.fullName && user.fullName && l.fullName.trim().toLowerCase() === user.fullName.trim().toLowerCase()) ||
+        (l.username && user.username && l.username.trim().toLowerCase() === user.username.trim().toLowerCase()) ||
+        (leaderCleanName && currentUserName && leaderCleanName.toLowerCase() === currentUserName.toLowerCase()))
     );
 
-    const avatarUrl = isCurrentUser && userAvatar
+    // If current user, ALWAYS force their REAL original avatar (dark night sky moon photo)!
+    const avatarUrl = (isCurrentUser && userAvatar)
       ? userAvatar
-      : (l.avatar || l.imageUrl || l.avatarUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(l.fullName || l.username || "User")}&background=0059bb&color=fff`);
+      : (l.avatar || l.imageUrl || l.avatarUrl || undefined);
 
     return {
       ...l,
+      fullName: leaderCleanName,
       avatar: avatarUrl,
       imageUrl: avatarUrl,
       avatarUrl: avatarUrl,
+      isCurrentUser,
     };
   });
 
