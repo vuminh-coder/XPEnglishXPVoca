@@ -243,9 +243,7 @@ export function deduplicateAsrEvents(events: any[]): ParsedXmlItem[] {
   return deduplicated;
 }
 
-import {
-  generateSmartFallbackSubtitles,
-} from "@/lib/services/youtubeSubtitleService";
+
 
 /**
  * Fetch raw TimedText track content with multi-proxy chain resilience
@@ -371,16 +369,7 @@ export async function extractSubtitlesFromTrackUrl(
     }));
   }
 
-  // 100% Fallback Resilience: If all YouTube server endpoints fail/throttle, generate topic-aware smart subtitles
-  const smartFallbacks = generateSmartFallbackSubtitles(videoTitle);
-  return smartFallbacks.map((f, i) => ({
-    id: `xpsub_fallback_${videoId}_${i + 1}`,
-    startTime: f.startTime,
-    endTime: f.endTime,
-    textEn: f.textEn,
-    textVn: isBilingual ? f.textVn : "",
-    dictationWord: f.dictationWord,
-  }));
+  return [];
 }
 
 

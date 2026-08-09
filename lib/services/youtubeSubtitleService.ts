@@ -10,6 +10,7 @@ import {
   formatSrtTimestamp,
   wrapTextTo42Chars,
 } from "@/lib/services/youtubeSubtitleParser";
+import { fetchLrclibSyncedLyrics } from "@/lib/services/lrclibLyricsService";
 
 export interface DetailedBilingualSubtitleItem {
   id: number;
@@ -42,10 +43,17 @@ export interface SubtitleExtractionResult {
 export interface RawSubtitleItem {
   startTime: number;
   endTime: number;
+  duration?: number;
   textEn: string;
   textVn: string;
   dictationWord: string;
 }
+
+// Client-side cache for high-precision subtitle results by videoId
+const subtitleResultCache = new Map<string, {
+  storeSubtitles: SubtitleSentence[];
+  fullResult: SubtitleExtractionResult;
+}>();
 
 /**
  * Helper export for fetchYouTubeRealSubtitles
@@ -68,6 +76,12 @@ export async function processHighPrecisionSubtitles(
   storeSubtitles: SubtitleSentence[];
   fullResult: SubtitleExtractionResult;
 }> {
+  // Check Cache HIT
+  if (subtitleResultCache.has(videoId)) {
+    console.log(`[Subtitle Service Cache HIT] Returning cached high-precision subtitles for "${videoId}" instantly!`);
+    return subtitleResultCache.get(videoId)!;
+  }
+
   const rawSentences: RawSubtitleItem[] = await fetchRawTimedTextData(videoId, videoTitle);
 
   if (!rawSentences || rawSentences.length === 0) {
@@ -138,7 +152,10 @@ export async function processHighPrecisionSubtitles(
     dictationWord: j.dictationWord,
   }));
 
-  return { storeSubtitles, fullResult };
+  const result = { storeSubtitles, fullResult };
+  subtitleResultCache.set(videoId, result);
+
+  return result;
 }
 
 /**
@@ -180,205 +197,12 @@ async function fetchRawTimedTextData(videoId: string, videoTitle?: string): Prom
     return fallbackItems;
   }
 
-  // Case 4: Topic-Aware High-Precision Subtitles Generator
-  console.log(`[YouTube Subtitle Service] Generating detailed topic-aware bilingual subtitles for video "${videoTitle || videoId}"`);
-  return generateSmartFallbackSubtitles(videoTitle);
+  // Case 4: No real captions available from YouTube server
+  console.warn(`[YouTube Subtitle Service] No real captions found for video ID "${videoId}". Returning empty array to prevent timeline mismatch.`);
+  return [];
 }
 
-/**
- * Topic-Aware High-Precision Subtitles Generator
- * Produces 10+ authentic, detailed bilingual sentences tailored to the video topic & category.
- */
-export function generateSmartFallbackSubtitles(videoTitle?: string): RawSubtitleItem[] {
-  const lowerTitle = (videoTitle || "").toLowerCase();
 
-  const isMusic =
-    lowerTitle.includes("nhạc") ||
-    lowerTitle.includes("bài hát") ||
-    lowerTitle.includes("song") ||
-    lowerTitle.includes("tiktok") ||
-    lowerTitle.includes("cover") ||
-    lowerTitle.includes("music") ||
-    lowerTitle.includes("chill") ||
-    lowerTitle.includes("remix") ||
-    lowerTitle.includes("radio");
-
-  const isSpeech =
-    lowerTitle.includes("speech") ||
-    lowerTitle.includes("ted") ||
-    lowerTitle.includes("talk") ||
-    lowerTitle.includes("motivation") ||
-    lowerTitle.includes("steve jobs") ||
-    lowerTitle.includes("presentation");
-
-  if (isMusic) {
-    return [
-      {
-        startTime: 3.5,
-        endTime: 8.2,
-        textEn: "They say oh my god I see the way you shine",
-        textVn: "Họ nói rằng ôi chúa ơi tôi thấy cách mà bạn tỏa sáng rực rỡ",
-        dictationWord: "shine",
-      },
-      {
-        startTime: 8.8,
-        endTime: 13.5,
-        textEn: "Take your hands my dear and place them both in mine",
-        textVn: "Hãy đưa đôi tay bạn đây người yêu dấu và đặt chúng vào tay tôi",
-        dictationWord: "place",
-      },
-      {
-        startTime: 14.0,
-        endTime: 19.1,
-        textEn: "Once I was seven years old my mama told me go make yourself some friends",
-        textVn: "Khi tôi mới lên bảy tuổi, mẹ đã dặn tôi hãy ra ngoài kết thêm nhiều bạn mới",
-        dictationWord: "friends",
-      },
-      {
-        startTime: 19.8,
-        endTime: 25.4,
-        textEn: "It has been a long day without you my friend and I will tell you all about it when I see you again",
-        textVn: "Đã là một ngày dài vắng bóng bạn, tôi sẽ kể cho bạn nghe tất cả khi chúng ta gặp lại",
-        dictationWord: "friend",
-      },
-      {
-        startTime: 26.0,
-        endTime: 31.2,
-        textEn: "I am gonna love you like I am gonna lose you, I am gonna hold you like I am saying goodbye",
-        textVn: "Tôi sẽ yêu bạn như thể sắp mất bạn, tôi sẽ ôm bạn như thể trao lời chia tay",
-        dictationWord: "goodbye",
-      },
-      {
-        startTime: 31.8,
-        endTime: 37.0,
-        textEn: "If you ever find yourself stuck in the middle of the sea, I will sail the world to find you",
-        textVn: "Nếu một ngày bạn thấy mình bị kẹt giữa đại dương, tôi sẽ giăng buồm khắp thế giới để tìm bạn",
-        dictationWord: "middle",
-      },
-      {
-        startTime: 37.5,
-        endTime: 42.8,
-        textEn: "Darling do not be afraid I have loved you for a thousand years",
-        textVn: "Em yêu ơi đừng sợ hãi, anh đã dành tình yêu cho em suốt hàng ngàn năm rồi",
-        dictationWord: "thousand",
-      },
-      {
-        startTime: 43.4,
-        endTime: 48.9,
-        textEn: "I can see the crystal rain drops fall upon the window down the hall",
-        textVn: "Tôi có thể ngắm nhìn những giọt mưa pha lê rơi bên ngoài ô cửa sổ cuối hành lang",
-        dictationWord: "crystal",
-      },
-      {
-        startTime: 49.5,
-        endTime: 55.2,
-        textEn: "Just a small town girl living in a lonely world, she took the midnight train going anywhere",
-        textVn: "Chỉ là cô gái thị trấn nhỏ sống trong thế giới cô đơn, cô bắt chuyến tàu đêm đi bất cứ đâu",
-        dictationWord: "midnight",
-      },
-      {
-        startTime: 55.8,
-        endTime: 61.5,
-        textEn: "Cause all of me loves all of you, love your curves and all your edges",
-        textVn: "Bởi vì tất cả con người anh đều đắm say em, yêu từng góc cạnh và đường đường nét của em",
-        dictationWord: "edges",
-      },
-    ];
-  }
-
-  if (isSpeech) {
-    return [
-      {
-        startTime: 2.0,
-        endTime: 7.5,
-        textEn: "Your time is limited, so do not waste it living someone else's life.",
-        textVn: "Thời gian của bạn là có hạn, nên đừng lãng phí nó để sống cuộc đời của người khác.",
-        dictationWord: "limited",
-      },
-      {
-        startTime: 8.0,
-        endTime: 13.2,
-        textEn: "The only way to do great work is to love what you do.",
-        textVn: "Cách duy nhất để kiến tạo nên tác phẩm vĩ đại là hãy yêu thích công việc bạn đang làm.",
-        dictationWord: "great",
-      },
-      {
-        startTime: 13.8,
-        endTime: 19.0,
-        textEn: "Stay hungry, stay foolish. Never let the noise of others' opinions drown out your inner voice.",
-        textVn: "Hãy luôn khát khao, hãy luôn dại khùng. Đừng để dư luận dập tắt tiếng nói bên trong bạn.",
-        dictationWord: "foolish",
-      },
-      {
-        startTime: 19.5,
-        endTime: 25.0,
-        textEn: "Success is not final, failure is not fatal: it is the courage to continue that counts.",
-        textVn: "Thành công không phải là điểm dừng, thất bại không phải là tận cùng: lòng dũng cảm đi tiếp mới quan trọng.",
-        dictationWord: "courage",
-      },
-      {
-        startTime: 25.5,
-        endTime: 31.0,
-        textEn: "Language is the roadmap of a culture. It tells you where its people come from and where they are going.",
-        textVn: "Ngôn ngữ là bản đồ của một nền văn hóa. Nó cho biết con người đến từ đâu và đang đi về đâu.",
-        dictationWord: "roadmap",
-      },
-      {
-        startTime: 31.5,
-        endTime: 36.8,
-        textEn: "Mastering English vocabulary opens doors to endless international opportunities.",
-        textVn: "Làm chủ từ vựng tiếng Anh sẽ mở ra vô vàn cơ hội quốc tế không giới hạn.",
-        dictationWord: "opportunities",
-      },
-      {
-        startTime: 37.2,
-        endTime: 42.5,
-        textEn: "Believing in yourself is the first secret of extraordinary achievement.",
-        textVn: "Tin tưởng vào chính mình là bí mật đầu tiên của mọi thành tựu phi thường.",
-        dictationWord: "achievement",
-      },
-      {
-        startTime: 43.0,
-        endTime: 48.5,
-        textEn: "Every expert in any field was once an absolute beginner.",
-        textVn: "Mỗi chuyên gia trong bất kỳ lĩnh vực nào đều từng là một người mới bắt đầu hoàn toàn.",
-        dictationWord: "beginner",
-      },
-    ];
-  }
-
-  // General Interactive English Learning & Communication Subtitles
-  return [
-    {
-      startTime: 2.5,
-      endTime: 7.0,
-      textEn: "Welcome to this interactive English learning video workspace.",
-      textVn: "Chào mừng bạn đến với không gian học tiếng Anh qua video tương tác cao cấp này.",
-      dictationWord: "interactive",
-    },
-    {
-      startTime: 7.5,
-      endTime: 12.8,
-      textEn: "Listening to authentic native speakers helps refine your natural pronunciation.",
-      textVn: "Nghe phát âm người bản xứ giúp trau dồi giọng đọc tự nhiên chuẩn xác của bạn.",
-      dictationWord: "pronunciation",
-    },
-    {
-      startTime: 13.2,
-      endTime: 18.5,
-      textEn: "Click on any individual word in the subtitle lines to trigger instant vocabulary dictionary lookups.",
-      textVn: "Nhấp vào bất kỳ từ đơn nào trong dòng phụ đề để mở bảng tra từ điển từ vựng tức thì.",
-      dictationWord: "dictionary",
-    },
-    {
-      startTime: 19.0,
-      endTime: 24.5,
-      textEn: "Save essential vocabulary directly to your personal notebook for spaced repetition review.",
-      textVn: "Lưu từ vựng quan trọng trực tiếp vào sổ tay cá nhân để ôn tập theo phương pháp lặp lại ngắt quãng.",
-      dictationWord: "repetition",
-    },
-  ];
-}
 
 /**
  * Client-Side Direct Fetch with Proxy Resilience & Multi-Format Parsing (JSON3 & XML)

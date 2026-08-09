@@ -28,6 +28,59 @@ export async function checkDatabaseConnection(): Promise<boolean> {
 }
 
 /**
+ * Executes a Prisma database operation with automatic reconnect & retry
+ * if a "Closed" connection or network error occurs.
+ */
+export async function withPrismaRetry<T>(
+  operation: () => Promise<T>,
+  maxRetries = 2
+): Promise<T> {
+  let attempt = 0;
+  while (attempt < maxRetries) {
+    try {
+      return await operation();
+    } catch (error: any) {
+      attempt++;
+      const isClosedError =
+        error?.message?.includes("Closed") ||
+        error?.message?.includes("connection closed") ||
+        error?.code === "P1001" ||
+        error?.code === "P1017";
+
+      if (isClosedError && attempt < maxRetries) {
+        console.warn(`[Prisma Connection Resilience] Connection closed. Reconnecting (Attempt ${attempt}/${maxRetries})...`);
+        try {
+          await prisma.$disconnect();
+          await prisma.$connect();
+        } catch (reconnectErr) {
+          console.error("[Prisma Reconnect Error]:", reconnectErr);
+        }
+      } else {
+        throw error;
+      }
+    }
+  }
+  throw new Error("Failed to execute database query after retries.");
+}
+
+/**
+ * Safe Non-Blocking DB Operation Isolation Helper.
+ * Wraps background DB operations (logging, caching, history) so any DB connection error
+ * NEVER breaks or crashes the caller API response.
+ */
+export async function safeDbExecute<T>(
+  operation: () => Promise<T>,
+  fallbackMsg = "DB Operation"
+): Promise<T | null> {
+  try {
+    return await withPrismaRetry(operation);
+  } catch (error: any) {
+    console.warn(`[Safe DB Isolation] Non-critical ${fallbackMsg} notice:`, error?.message || error);
+    return null;
+  }
+}
+
+/**
  * Standardized database error handler to prevent stack traces leaking to clients.
  */
 export function handlePrismaError(error: unknown): { error: string; status: number } {
@@ -60,3 +113,4 @@ export function handlePrismaError(error: unknown): { error: string; status: numb
     status: 500,
   };
 }
+

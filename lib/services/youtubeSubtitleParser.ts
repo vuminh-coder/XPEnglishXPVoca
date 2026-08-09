@@ -179,18 +179,23 @@ export function parseTimedTextJson3(jsonContent: string | object): ParsedXmlItem
       let duration: number;
       const nextItem = rawItems[i + 1];
 
-      if (nextItem) {
-        const gapToNext = parseFloat((nextItem.startTime - item.startTime).toFixed(3));
-        if (gapToNext <= 8.0) {
-          // Bridge gap seamlessly up to next item
-          duration = gapToNext;
-        } else {
-          // Long silence gap: show cue for rawDur or up to 5.0 seconds
-          const baseDur = item.rawDur && item.rawDur > 0.5 ? item.rawDur : 4.0;
-          duration = Math.min(gapToNext, Math.max(baseDur, 3.5));
-        }
+      if (item.rawDur !== null && !isNaN(item.rawDur) && item.rawDur > 0) {
+        duration = item.rawDur;
       } else {
-        duration = item.rawDur && item.rawDur > 0.5 ? item.rawDur : 4.0;
+        if (nextItem) {
+          duration = Math.max(0.8, parseFloat((nextItem.startTime - item.startTime).toFixed(3)));
+          if (duration > 3.5) duration = 3.5;
+        } else {
+          duration = 3.5;
+        }
+      }
+
+      // Prevent timeline overlap with next item's startTime
+      if (nextItem && item.startTime + duration > nextItem.startTime) {
+        const maxAllowedDur = parseFloat((nextItem.startTime - item.startTime).toFixed(3));
+        if (maxAllowedDur > 0.3) {
+          duration = maxAllowedDur;
+        }
       }
 
       duration = Math.max(0.8, parseFloat(duration.toFixed(3)));
@@ -289,24 +294,130 @@ function parseVnTimedTextXmlLegacy(xmlVnStr: string): ParsedVnItem[] {
 }
 
 /**
+ * Merges short ASR fragments (1-2 words) into complete, natural sentences
+ * (merging across tight ASR streaming pauses <= 0.3s or 1-word fragments).
+ */
+export function mergeFragmentedSubtitlesIntoSentences(items: ParsedXmlItem[]): ParsedXmlItem[] {
+  if (!Array.isArray(items) || items.length === 0) return [];
+
+  const merged: ParsedXmlItem[] = [];
+  let current: ParsedXmlItem | null = null;
+
+  for (const item of items) {
+    if (!current) {
+      current = { ...item };
+      continue;
+    }
+
+    const timeGap = item.startTime - current.endTime;
+    const currentWords = current.textEn.split(/\s+/).filter(Boolean).length;
+    const itemWords = item.textEn.split(/\s+/).filter(Boolean).length;
+    const combinedDuration = item.endTime - current.startTime;
+    const endsWithPunctuation = /[.!?]$/.test(current.textEn.trim());
+
+    // Criteria to merge fragment into current sentence:
+    // 1. Time gap between cues is very short (<= 0.35s) or single-word fragment (currentWords <= 1)
+    // 2. Combined duration is reasonable (<= 5.5s)
+    // 3. Current sentence is short (< 8 words) and doesn't end with sentence-closing punctuation
+    const isFragmentCandidate = currentWords <= 1 || (timeGap <= 0.35 && currentWords <= 6 && itemWords <= 4);
+
+    if (isFragmentCandidate && combinedDuration <= 5.5 && !endsWithPunctuation) {
+      current.textEn = `${current.textEn} ${item.textEn}`.replace(/\s+/g, " ").trim();
+      current.endTime = item.endTime;
+      current.duration = parseFloat((current.endTime - current.startTime).toFixed(3));
+    } else {
+      merged.push(current);
+      current = { ...item };
+    }
+  }
+
+  if (current) {
+    merged.push(current);
+  }
+
+  return merged;
+}
+
+/**
+ * Bridges small silence gaps (<= 0.45s) between consecutive subtitle cues
+ * so text stays smoothly visible on screen without holding into long speech pauses.
+ */
+export function bridgeSubtitleGaps(items: ParsedXmlItem[]): ParsedXmlItem[] {
+  if (!Array.isArray(items) || items.length <= 1) return items;
+
+  return items.map((item, idx) => {
+    const next = items[idx + 1];
+    if (next && next.startTime > item.startTime) {
+      const gap = next.startTime - item.endTime;
+      if (gap > 0 && gap <= 0.45) {
+        const adjustedEndTime = next.startTime;
+        return {
+          ...item,
+          endTime: adjustedEndTime,
+          duration: parseFloat((adjustedEndTime - item.startTime).toFixed(3)),
+        };
+      }
+    }
+    return item;
+  });
+}
+
+/**
+ * Character-Weighted Word Alignment for High-Precision Karaoke Highlighting.
+ * Calculates active word index based on character length progression matching real speech cadence.
+ */
+export function calculateCharacterWeightedWordIndex(
+  textEn: string,
+  elapsedSeconds: number,
+  durationSeconds: number
+): number {
+  if (!textEn || durationSeconds <= 0) return -1;
+  const words = textEn.split(/\s+/).filter(Boolean);
+  if (words.length === 0) return -1;
+  if (words.length === 1) return 0;
+
+  const ratio = Math.max(0, Math.min(1, elapsedSeconds / durationSeconds));
+  const totalChars = words.reduce((sum, w) => sum + w.length, 0);
+  if (totalChars === 0) return 0;
+
+  const targetCharProgress = ratio * totalChars;
+  let accumulatedChars = 0;
+
+  for (let i = 0; i < words.length; i++) {
+    accumulatedChars += words[i].length;
+    if (targetCharProgress <= accumulatedChars) {
+      return i;
+    }
+  }
+  return words.length - 1;
+}
+
+/**
  * Optimal Bilingual Subtitle Alignment Algorithm.
  * Matches closest Vietnamese subtitle cue to English cue within time tolerance.
- * Supports N-to-1 merged Vietnamese translations naturally without leaving English cues blank.
+ * Applies High-Precision Sentence Merging & Continuous Gap Bridging.
  */
 export function alignBilingualSubtitles(
   enItems: ParsedXmlItem[],
   vnItems: ParsedVnItem[]
 ): { textEn: string; textVn: string; startTime: number; endTime: number; duration: number }[] {
-  return enItems.map((en) => {
+  // Step 1: Merge fragmented English ASR cues into complete sentences
+  const mergedEn = mergeFragmentedSubtitlesIntoSentences(enItems);
+  // Step 2: Bridge small timing gaps between sentences
+  const bridgedEn = bridgeSubtitleGaps(mergedEn);
+
+  return bridgedEn.map((en) => {
     let bestVnText = "";
-    let minDiff = 3.5; // Max 3.5 seconds tolerance
+    let minDiff = 4.0;
 
     for (let i = 0; i < vnItems.length; i++) {
       const vn = vnItems[i];
-      const diff = Math.abs(vn.startTime - en.startTime);
-      if (diff < minDiff) {
-        minDiff = diff;
-        bestVnText = vn.textVn;
+      if (vn.startTime >= en.startTime - 1.5 && vn.startTime <= en.endTime + 1.5) {
+        const diff = Math.abs(vn.startTime - en.startTime);
+        if (diff < minDiff) {
+          minDiff = diff;
+          bestVnText = vn.textVn;
+        }
       }
     }
 
