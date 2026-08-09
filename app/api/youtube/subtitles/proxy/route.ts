@@ -22,7 +22,7 @@ function isGoogleRateLimitPage(text: string): boolean {
     lower.includes("we're sorry") ||
     lower.includes("<title>sorry...") ||
     lower.includes("automated queries") ||
-    (lower.startsWith("<!doctype html") && !lower.includes("<text"))
+    (lower.startsWith("<!doctype html") && !lower.includes("<text") && !lower.includes('"events"'))
   );
 }
 
@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
           headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "public, max-age=3600" },
         });
       }
-      console.warn(`[Proxy Tier 1] Direct fetch returned invalid content (${text.length} chars, rate-limited: ${isGoogleRateLimitPage(text)})`);
+      console.warn(`[Proxy Tier 1] Direct fetch returned rate-limited content (${text.length} chars)`);
     } else {
       console.warn(`[Proxy Tier 1] Direct fetch HTTP ${res.status}`);
     }
@@ -63,52 +63,14 @@ export async function GET(request: NextRequest) {
     console.warn(`[Proxy Tier 1] Direct fetch error: ${e?.message}`);
   }
 
-  // Tier 2: AllOrigins proxy (Cloudflare-based, different IP)
-  try {
-    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
-    const res = await fetch(proxyUrl, { cache: "no-store" });
-    if (res.ok) {
-      const text = await res.text();
-      if (isValidSubtitleContent(text)) {
-        console.log(`[Proxy Tier 2] AllOrigins SUCCESS (${text.length} chars)`);
-        return new NextResponse(text, {
-          status: 200,
-          headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "public, max-age=3600" },
-        });
-      }
-      console.warn(`[Proxy Tier 2] AllOrigins returned invalid content`);
-    }
-  } catch (e: any) {
-    console.warn(`[Proxy Tier 2] AllOrigins error: ${e?.message}`);
-  }
-
-  // Tier 3: CodeTabs proxy (different infrastructure)
-  try {
-    const proxyUrl = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`;
-    const res = await fetch(proxyUrl, { cache: "no-store" });
-    if (res.ok) {
-      const text = await res.text();
-      if (isValidSubtitleContent(text)) {
-        console.log(`[Proxy Tier 3] CodeTabs SUCCESS (${text.length} chars)`);
-        return new NextResponse(text, {
-          status: 200,
-          headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "public, max-age=3600" },
-        });
-      }
-      console.warn(`[Proxy Tier 3] CodeTabs returned invalid content`);
-    }
-  } catch (e: any) {
-    console.warn(`[Proxy Tier 3] CodeTabs error: ${e?.message}`);
-  }
-
-  // Tier 4: CorsProxy.io
+  // Tier 2: CorsProxy.io (High reliability for YouTube timedtext URLs)
   try {
     const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
     const res = await fetch(proxyUrl, { cache: "no-store" });
     if (res.ok) {
       const text = await res.text();
       if (isValidSubtitleContent(text)) {
-        console.log(`[Proxy Tier 4] CorsProxy.io SUCCESS (${text.length} chars)`);
+        console.log(`[Proxy Tier 2] CorsProxy.io SUCCESS (${text.length} chars)`);
         return new NextResponse(text, {
           status: 200,
           headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "public, max-age=3600" },
@@ -116,7 +78,63 @@ export async function GET(request: NextRequest) {
       }
     }
   } catch (e: any) {
-    console.warn(`[Proxy Tier 4] CorsProxy.io error: ${e?.message}`);
+    console.warn(`[Proxy Tier 2] CorsProxy.io error: ${e?.message}`);
+  }
+
+  // Tier 3: AllOrigins /get (JSON wrapper mode — circumvents Google bot detection)
+  try {
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
+    const res = await fetch(proxyUrl, { cache: "no-store" });
+    if (res.ok) {
+      const data = await res.json();
+      if (data && typeof data.contents === "string" && isValidSubtitleContent(data.contents)) {
+        console.log(`[Proxy Tier 3] AllOrigins JSON Wrapper SUCCESS (${data.contents.length} chars)`);
+        return new NextResponse(data.contents, {
+          status: 200,
+          headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "public, max-age=3600" },
+        });
+      }
+      console.warn(`[Proxy Tier 3] AllOrigins JSON wrapper returned invalid content`);
+    }
+  } catch (e: any) {
+    console.warn(`[Proxy Tier 3] AllOrigins JSON error: ${e?.message}`);
+  }
+
+  // Tier 4: CodeTabs Proxy
+  try {
+    const proxyUrl = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`;
+    const res = await fetch(proxyUrl, { cache: "no-store" });
+    if (res.ok) {
+      const text = await res.text();
+      if (isValidSubtitleContent(text)) {
+        console.log(`[Proxy Tier 4] CodeTabs SUCCESS (${text.length} chars)`);
+        return new NextResponse(text, {
+          status: 200,
+          headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "public, max-age=3600" },
+        });
+      }
+      console.warn(`[Proxy Tier 4] CodeTabs returned invalid content`);
+    }
+  } catch (e: any) {
+    console.warn(`[Proxy Tier 4] CodeTabs error: ${e?.message}`);
+  }
+
+  // Tier 5: ThingProxy Freeboard
+  try {
+    const proxyUrl = `https://thingproxy.freeboard.io/fetch/${targetUrl}`;
+    const res = await fetch(proxyUrl, { cache: "no-store" });
+    if (res.ok) {
+      const text = await res.text();
+      if (isValidSubtitleContent(text)) {
+        console.log(`[Proxy Tier 5] ThingProxy SUCCESS (${text.length} chars)`);
+        return new NextResponse(text, {
+          status: 200,
+          headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "public, max-age=3600" },
+        });
+      }
+    }
+  } catch (e: any) {
+    console.warn(`[Proxy Tier 5] ThingProxy error: ${e?.message}`);
   }
 
   console.error(`[Proxy] ALL TIERS FAILED for URL: ${targetUrl.substring(0, 120)}...`);

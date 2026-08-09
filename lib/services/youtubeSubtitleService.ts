@@ -206,17 +206,18 @@ async function fetchRawTimedTextData(videoId: string, videoTitle?: string): Prom
 
 /**
  * External proxy services for client-side fallback.
- * These proxies have different IPs than Vercel datacenter, bypassing YouTube blocks.
+ * Ordered by highest success rate for YouTube timedtext URLs.
  */
 const CLIENT_PROXIES = [
-  { name: "AllOrigins", buildUrl: (url: string) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}` },
-  { name: "CodeTabs", buildUrl: (url: string) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}` },
-  { name: "CorsProxy", buildUrl: (url: string) => `https://corsproxy.io/?${encodeURIComponent(url)}` },
+  { name: "CorsProxy", type: "raw", buildUrl: (url: string) => `https://corsproxy.io/?${encodeURIComponent(url)}` },
+  { name: "AllOriginsJSON", type: "json", buildUrl: (url: string) => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}` },
+  { name: "CodeTabs", type: "raw", buildUrl: (url: string) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}` },
+  { name: "ThingProxy", type: "raw", buildUrl: (url: string) => `https://thingproxy.freeboard.io/fetch/${url}` },
 ];
 
 /**
  * Client-side fetch with external proxy fallback chain.
- * Browser direct fetch → AllOrigins → CodeTabs → CorsProxy.io
+ * Browser direct fetch (residential IP) → CorsProxy → AllOrigins JSON → CodeTabs → ThingProxy
  */
 async function clientFetchWithProxies(urls: string[]): Promise<string> {
   // Tier 0: Browser direct fetch (uses user's residential IP — highest success rate)
@@ -233,14 +234,21 @@ async function clientFetchWithProxies(urls: string[]): Promise<string> {
     } catch (e) {}
   }
 
-  // Tier 1-3: External proxy services (different IPs from Vercel)
+  // Tier 1-4: External proxy services
   for (const proxy of CLIENT_PROXIES) {
     for (const url of urls) {
       try {
         const proxyUrl = proxy.buildUrl(url);
         const res = await fetch(proxyUrl);
         if (res.ok) {
-          const text = await res.text();
+          let text = "";
+          if (proxy.type === "json") {
+            const data = await res.json();
+            text = typeof data?.contents === "string" ? data.contents : "";
+          } else {
+            text = await res.text();
+          }
+
           if (text && text.trim().length > 30) {
             console.log(`[Client ${proxy.name}] Proxy fetch SUCCESS (${text.length} chars)`);
             return text;

@@ -257,17 +257,18 @@ function isRateLimitedHtml(text: string): boolean {
 
 /**
  * External proxy services for bypassing Vercel datacenter IP blocks.
- * Each proxy has a different IP range so YouTube won't block all of them.
+ * Ordered by reliability for YouTube timedtext & HTML pages.
  */
 const EXTERNAL_PROXIES = [
-  { name: "AllOrigins", buildUrl: (url: string) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}` },
-  { name: "CodeTabs", buildUrl: (url: string) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}` },
-  { name: "CorsProxy", buildUrl: (url: string) => `https://corsproxy.io/?${encodeURIComponent(url)}` },
+  { name: "CorsProxy", type: "raw", buildUrl: (url: string) => `https://corsproxy.io/?${encodeURIComponent(url)}` },
+  { name: "AllOriginsJSON", type: "json", buildUrl: (url: string) => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}` },
+  { name: "CodeTabs", type: "raw", buildUrl: (url: string) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}` },
+  { name: "ThingProxy", type: "raw", buildUrl: (url: string) => `https://thingproxy.freeboard.io/fetch/${url}` },
 ];
 
 /**
  * Fetch a URL with multi-tier proxy fallback chain.
- * Tier 0: Direct fetch. Tier 1-3: External proxy services.
+ * Tier 0: Direct fetch. Tier 1-4: External proxy services.
  */
 async function fetchWithProxyChain(url: string, options?: RequestInit): Promise<{ text: string; tier: string } | null> {
   // Tier 0: Direct fetch
@@ -284,7 +285,7 @@ async function fetchWithProxyChain(url: string, options?: RequestInit): Promise<
     console.warn(`[ProxyChain Tier 0] Direct fetch failed: ${e?.message}`);
   }
 
-  // Tier 1-3: External proxy services
+  // Tier 1-4: External proxy services
   for (let i = 0; i < EXTERNAL_PROXIES.length; i++) {
     const proxy = EXTERNAL_PROXIES[i];
     try {
@@ -294,7 +295,14 @@ async function fetchWithProxyChain(url: string, options?: RequestInit): Promise<
       const res = await fetch(proxyUrl, { signal: controller.signal, cache: "no-store" });
       clearTimeout(timeoutId);
       if (res.ok) {
-        const text = await res.text();
+        let text = "";
+        if (proxy.type === "json") {
+          const data = await res.json();
+          text = typeof data?.contents === "string" ? data.contents : "";
+        } else {
+          text = await res.text();
+        }
+
         if (text && text.trim().length > 30 && !isRateLimitedHtml(text)) {
           console.log(`[ProxyChain Tier ${i + 1}] ${proxy.name} SUCCESS (${text.length} chars)`);
           return { text, tier: proxy.name };
@@ -311,11 +319,15 @@ async function fetchWithProxyChain(url: string, options?: RequestInit): Promise<
 
 /**
  * Fetch caption tracks via YouTube Innertube API with Multi-Proxy Resilience.
- * When direct Innertube calls fail (YouTube blocks Vercel datacenter IP),
- * automatically retries through external proxy services with different IPs.
+ * TVHTML5 client is prioritized as YouTube does not bot-check TV devices.
  */
 async function fetchInnertubeCaptionTracks(videoId: string): Promise<any[]> {
   const clients = [
+    {
+      userAgent: "Mozilla/5.0 (SMART-TV; LINUX; Tizen 6.0) AppleWebKit/537.36 (KHTML, like Gecko) Version/6.0 TV Safari/537.36",
+      clientName: "TVHTML5",
+      clientVersion: "7.20230405.08.01",
+    },
     {
       userAgent: "com.google.android.youtube/19.02.39 (Linux; U; Android 14; US) gzip",
       clientName: "ANDROID",
@@ -333,7 +345,7 @@ async function fetchInnertubeCaptionTracks(videoId: string): Promise<any[]> {
     },
   ];
 
-  // Strategy 1: Direct Innertube POST calls
+  // Strategy 1: Direct Innertube POST calls (TVHTML5 first)
   for (const clientConfig of clients) {
     try {
       const res = await fetch("https://www.youtube.com/youtubei/v1/player", {
