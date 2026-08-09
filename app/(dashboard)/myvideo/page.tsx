@@ -199,25 +199,25 @@ export default function MyVideoPage() {
     }
   }, []);
 
-  const togglePlayPause = () => {
-    if (isPlaying) {
-      sendYtCommand("pauseVideo");
-      setIsPlaying(false);
-    } else {
-      sendYtCommand("playVideo");
-      setIsPlaying(true);
-    }
-  };
-
-  const jumpToSubtitleIndex = (index: number) => {
+  const jumpToSubtitleIndex = useCallback((index: number) => {
     if (!activeVideo || !activeVideo.subtitles[index]) return;
     const targetSub = activeVideo.subtitles[index];
+
+    // 1. Synchronize all subtitle index states
     setCurrentSubIndex(index);
     setActiveSubIndex(index);
+    setActiveWordIndex(0);
+
+    // 2. Re-anchor 60fps clock refs instantly (0ms latency, zero flicker)
+    setCurrentTime(targetSub.startTime);
+    ytPlayerTimeRef.current = targetSub.startTime;
+    ytTimeLastUpdatedRef.current = Date.now();
+
+    // 3. Send IFrame commands to YouTube
     sendYtCommand("seekTo", [targetSub.startTime, true]);
     sendYtCommand("playVideo");
     setIsPlaying(true);
-  };
+  }, [activeVideo, sendYtCommand]);
 
   const jumpToRandomSubtitle = () => {
     if (!activeVideo || activeVideo.subtitles.length === 0) return;
@@ -230,9 +230,22 @@ export default function MyVideoPage() {
     });
   };
 
+  const togglePlayPause = () => {
+    if (isPlaying) {
+      sendYtCommand("pauseVideo");
+      setIsPlaying(false);
+      ytTimeLastUpdatedRef.current = Date.now();
+    } else {
+      sendYtCommand("playVideo");
+      setIsPlaying(true);
+      ytTimeLastUpdatedRef.current = Date.now();
+    }
+  };
+
   const changePlaybackSpeed = (speed: number) => {
     setPlaybackSpeed(speed);
     sendYtCommand("setPlaybackRate", [speed]);
+    ytTimeLastUpdatedRef.current = Date.now();
     addToast({
       type: "info",
       title: `Tốc độ: ${speed}x`,
@@ -523,33 +536,7 @@ export default function MyVideoPage() {
 
   // Send seekTo & playVideo command to YouTube Player IFrame via PostMessage API
   const handleSeekTo = (seconds: number, subIndex: number) => {
-    setActiveSubIndex(subIndex);
-    setCurrentTime(seconds); // Immediately sync local time to seek position
-    ytPlayerTimeRef.current = seconds; // Update ref too
-    ytTimeLastUpdatedRef.current = Date.now(); // Instantly update timestamp to prevent postMessage seek lag
-    if (iframeRef.current && iframeRef.current.contentWindow) {
-      try {
-        iframeRef.current.contentWindow.postMessage(
-          JSON.stringify({
-            event: "command",
-            func: "seekTo",
-            args: [seconds, true],
-          }),
-          "*"
-        );
-        iframeRef.current.contentWindow.postMessage(
-          JSON.stringify({
-            event: "command",
-            func: "playVideo",
-            args: [],
-          }),
-          "*"
-        );
-        setIsPlaying(true);
-      } catch (e) {
-        console.error("Error seeking YouTube player:", e);
-      }
-    }
+    jumpToSubtitleIndex(subIndex);
   };
 
 
@@ -668,6 +655,13 @@ export default function MyVideoPage() {
   const handleWordClick = async (word: string) => {
     const cleanWord = word.replace(/[^a-zA-Z]/g, "").toLowerCase();
     if (!cleanWord) return;
+
+    // Pause video playback when opening word lookup so TTS audio plays clearly
+    if (isPlaying) {
+      sendYtCommand("pauseVideo");
+      setIsPlaying(false);
+      ytTimeLastUpdatedRef.current = Date.now();
+    }
 
     setSelectedWord(cleanWord);
     // Show instant placeholder while API loads
@@ -1021,15 +1015,16 @@ export default function MyVideoPage() {
     }
   };
 
-  // Dictation Next Question
+  // Dictation Next Question — Automatically seek YouTube player to next dictation cue!
   const handleNextDictation = () => {
     if (!activeVideo) return;
-    if (currentSubIndex < activeVideo.subtitles.length - 1) {
-      setCurrentSubIndex((prev) => prev + 1);
+    const nextIdx = currentSubIndex + 1;
+    if (nextIdx < activeVideo.subtitles.length) {
       setDictationInput("");
       setDictationAnswered(false);
       setDictationCorrect(null);
       setShowHint(false);
+      jumpToSubtitleIndex(nextIdx); // ← Auto seek video to next dictation sentence!
     } else {
       updateProgress(activeVideo.id, 100);
       addToast({
@@ -1271,7 +1266,8 @@ export default function MyVideoPage() {
                   <button
                     type="button"
                     onClick={() => {
-                      const prevIdx = Math.max(0, currentSubIndex - 1);
+                      const currentIdx = activeSubIndex >= 0 ? activeSubIndex : currentSubIndex;
+                      const prevIdx = Math.max(0, currentIdx - 1);
                       jumpToSubtitleIndex(prevIdx);
                     }}
                     className="p-1 sm:p-1.5 rounded-xs text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-slate-200/80 dark:hover:bg-slate-800/80 transition-all cursor-pointer"
@@ -1298,7 +1294,8 @@ export default function MyVideoPage() {
                   <button
                     type="button"
                     onClick={() => {
-                      const nextIdx = Math.min(activeVideo.subtitles.length - 1, currentSubIndex + 1);
+                      const currentIdx = activeSubIndex >= 0 ? activeSubIndex : currentSubIndex;
+                      const nextIdx = Math.min(activeVideo.subtitles.length - 1, currentIdx + 1);
                       jumpToSubtitleIndex(nextIdx);
                     }}
                     className="p-1 sm:p-1.5 rounded-xs text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-slate-200/80 dark:hover:bg-slate-800/80 transition-all cursor-pointer"
