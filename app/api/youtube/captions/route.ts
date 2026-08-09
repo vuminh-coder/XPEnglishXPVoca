@@ -242,8 +242,77 @@ function extractCaptionTracksFromHtml(html: string): any[] {
 }
 
 /**
- * Fetch caption tracks via YouTube Innertube API (Official Mobile Client Endpoint)
- * Extremely reliable and bypasses watch page HTML parsing changes.
+ * Helper: Check if response text is a Google rate-limit/block page
+ */
+function isRateLimitedHtml(text: string): boolean {
+  if (!text) return true;
+  const lower = text.toLowerCase();
+  return (
+    lower.includes("we're sorry") ||
+    lower.includes("<title>sorry...") ||
+    lower.includes("automated queries") ||
+    (lower.startsWith("<!doctype html") && !lower.includes("<text") && !lower.includes("captionTracks"))
+  );
+}
+
+/**
+ * External proxy services for bypassing Vercel datacenter IP blocks.
+ * Each proxy has a different IP range so YouTube won't block all of them.
+ */
+const EXTERNAL_PROXIES = [
+  { name: "AllOrigins", buildUrl: (url: string) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}` },
+  { name: "CodeTabs", buildUrl: (url: string) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}` },
+  { name: "CorsProxy", buildUrl: (url: string) => `https://corsproxy.io/?${encodeURIComponent(url)}` },
+];
+
+/**
+ * Fetch a URL with multi-tier proxy fallback chain.
+ * Tier 0: Direct fetch. Tier 1-3: External proxy services.
+ */
+async function fetchWithProxyChain(url: string, options?: RequestInit): Promise<{ text: string; tier: string } | null> {
+  // Tier 0: Direct fetch
+  try {
+    const res = await fetch(url, { ...options, cache: "no-store" });
+    if (res.ok) {
+      const text = await res.text();
+      if (text && text.trim().length > 30 && !isRateLimitedHtml(text)) {
+        console.log(`[ProxyChain Tier 0] Direct fetch SUCCESS (${text.length} chars)`);
+        return { text, tier: "Direct" };
+      }
+    }
+  } catch (e: any) {
+    console.warn(`[ProxyChain Tier 0] Direct fetch failed: ${e?.message}`);
+  }
+
+  // Tier 1-3: External proxy services
+  for (let i = 0; i < EXTERNAL_PROXIES.length; i++) {
+    const proxy = EXTERNAL_PROXIES[i];
+    try {
+      const proxyUrl = proxy.buildUrl(url);
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 6000);
+      const res = await fetch(proxyUrl, { signal: controller.signal, cache: "no-store" });
+      clearTimeout(timeoutId);
+      if (res.ok) {
+        const text = await res.text();
+        if (text && text.trim().length > 30 && !isRateLimitedHtml(text)) {
+          console.log(`[ProxyChain Tier ${i + 1}] ${proxy.name} SUCCESS (${text.length} chars)`);
+          return { text, tier: proxy.name };
+        }
+        console.warn(`[ProxyChain Tier ${i + 1}] ${proxy.name} returned invalid/rate-limited content`);
+      }
+    } catch (e: any) {
+      console.warn(`[ProxyChain Tier ${i + 1}] ${proxy.name} failed: ${e?.message}`);
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Fetch caption tracks via YouTube Innertube API with Multi-Proxy Resilience.
+ * When direct Innertube calls fail (YouTube blocks Vercel datacenter IP),
+ * automatically retries through external proxy services with different IPs.
  */
 async function fetchInnertubeCaptionTracks(videoId: string): Promise<any[]> {
   const clients = [
@@ -264,6 +333,7 @@ async function fetchInnertubeCaptionTracks(videoId: string): Promise<any[]> {
     },
   ];
 
+  // Strategy 1: Direct Innertube POST calls
   for (const clientConfig of clients) {
     try {
       const res = await fetch("https://www.youtube.com/youtubei/v1/player", {
@@ -290,14 +360,34 @@ async function fetchInnertubeCaptionTracks(videoId: string): Promise<any[]> {
         const data = await res.json();
         const tracks = data?.captions?.playerCaptionsTracklistRenderer?.captionTracks;
         if (Array.isArray(tracks) && tracks.length > 0) {
+          console.log(`[Innertube Direct] ${clientConfig.clientName} returned ${tracks.length} caption tracks`);
           return tracks;
         }
       }
     } catch (e) {
-      console.warn(`Innertube API caption extraction notice (${clientConfig.clientName}):`, e);
+      console.warn(`[Innertube Direct] ${clientConfig.clientName} failed:`, e);
     }
   }
 
+  // Strategy 2: Innertube via Watch Page HTML through external proxies
+  console.log(`[Innertube] All direct calls failed. Trying Watch Page via external proxies...`);
+  const watchUrl = `https://www.youtube.com/watch?v=${videoId}`;
+  const proxyResult = await fetchWithProxyChain(watchUrl, {
+    headers: {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+      "Accept-Language": "en-US,en;q=0.9",
+    },
+  });
+
+  if (proxyResult && proxyResult.text) {
+    const tracks = extractCaptionTracksFromHtml(proxyResult.text);
+    if (tracks.length > 0) {
+      console.log(`[Innertube via ${proxyResult.tier}] Extracted ${tracks.length} caption tracks from Watch Page HTML`);
+      return tracks;
+    }
+  }
+
+  console.warn(`[Innertube] ALL strategies failed for videoId ${videoId}`);
   return [];
 }
 
@@ -439,16 +529,12 @@ async function fetchSubtitlesOrTracksOnServer(videoId: string): Promise<{
       ];
 
       for (const url of fetchUrls) {
-        try {
-          const trackRes = await fetch(url, { headers, cache: "no-store" });
-          if (trackRes.ok) {
-            const text = await trackRes.text();
-            if (text && text.trim().length > 50) {
-              rawContentEn = text;
-              break;
-            }
-          }
-        } catch (e) {}
+        const result = await fetchWithProxyChain(url, { headers });
+        if (result && result.text.trim().length > 50) {
+          rawContentEn = result.text;
+          console.log(`[Server TimedText EN] Fetched via ${result.tier} (${rawContentEn.length} chars)`);
+          break;
+        }
       }
 
       // Fetch Vietnamese track
@@ -463,16 +549,12 @@ async function fetchSubtitlesOrTracksOnServer(videoId: string): Promise<{
         ];
 
         for (const url of vnFetchUrls) {
-          try {
-            const vnTrackRes = await fetch(url, { headers, cache: "no-store" });
-            if (vnTrackRes.ok) {
-              const vnText = await vnTrackRes.text();
-              if (vnText && vnText.trim().length > 30) {
-                rawContentVn = vnText;
-                break;
-              }
-            }
-          } catch (e) {}
+          const vnResult = await fetchWithProxyChain(url, { headers });
+          if (vnResult && vnResult.text.trim().length > 30) {
+            rawContentVn = vnResult.text;
+            console.log(`[Server TimedText VN] Fetched via ${vnResult.tier} (${rawContentVn.length} chars)`);
+            break;
+          }
         }
       }
     }
@@ -511,32 +593,26 @@ async function fetchSubtitlesOrTracksOnServer(videoId: string): Promise<{
   ];
 
   for (const url of candidateUrlsEn) {
-    try {
-      const res = await fetch(url, { headers, cache: "no-store" });
-      if (res.ok) {
-        const text = await res.text();
-        if (text && text.trim().length > 50) {
-          xmlEn = text;
-          break;
-        }
-      }
-    } catch (e) {}
+    const result = await fetchWithProxyChain(url, { headers });
+    if (result && result.text.trim().length > 50) {
+      xmlEn = result.text;
+      console.log(`[Server Direct TimedText EN] Fetched via ${result.tier} (${xmlEn.length} chars)`);
+      break;
+    }
   }
 
   if (xmlEn) {
     const parsedEn = parseTimedTextAny(xmlEn);
     if (parsedEn.length > 0) {
       let xmlVn = "";
-      try {
-        const vnRes = await fetch(
-          `https://www.youtube.com/api/timedtext?v=${videoId}&lang=vi`,
-          { headers, cache: "no-store" }
-        );
-        if (vnRes.ok) {
-          const vnText = await vnRes.text();
-          if (vnText && vnText.trim().length > 30) xmlVn = vnText;
-        }
-      } catch (e) {}
+      const vnDirectResult = await fetchWithProxyChain(
+        `https://www.youtube.com/api/timedtext?v=${videoId}&lang=vi`,
+        { headers }
+      );
+      if (vnDirectResult && vnDirectResult.text.trim().length > 30) {
+        xmlVn = vnDirectResult.text;
+        console.log(`[Server Direct TimedText VN] Fetched via ${vnDirectResult.tier}`);
+      }
 
       const parsedVn = xmlVn ? parseVnTimedTextAny(xmlVn) : [];
       const aligned = alignBilingualSubtitles(parsedEn, parsedVn);

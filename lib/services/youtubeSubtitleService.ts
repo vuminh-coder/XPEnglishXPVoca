@@ -205,7 +205,56 @@ async function fetchRawTimedTextData(videoId: string, videoTitle?: string): Prom
 
 
 /**
- * Client-Side Direct Fetch with Proxy Resilience & Multi-Format Parsing (JSON3 & XML)
+ * External proxy services for client-side fallback.
+ * These proxies have different IPs than Vercel datacenter, bypassing YouTube blocks.
+ */
+const CLIENT_PROXIES = [
+  { name: "AllOrigins", buildUrl: (url: string) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}` },
+  { name: "CodeTabs", buildUrl: (url: string) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}` },
+  { name: "CorsProxy", buildUrl: (url: string) => `https://corsproxy.io/?${encodeURIComponent(url)}` },
+];
+
+/**
+ * Client-side fetch with external proxy fallback chain.
+ * Browser direct fetch → AllOrigins → CodeTabs → CorsProxy.io
+ */
+async function clientFetchWithProxies(urls: string[]): Promise<string> {
+  // Tier 0: Browser direct fetch (uses user's residential IP — highest success rate)
+  for (const url of urls) {
+    try {
+      const res = await fetch(url);
+      if (res.ok) {
+        const text = await res.text();
+        if (text && text.trim().length > 30) {
+          console.log(`[Client Tier 0] Direct browser fetch SUCCESS (${text.length} chars)`);
+          return text;
+        }
+      }
+    } catch (e) {}
+  }
+
+  // Tier 1-3: External proxy services (different IPs from Vercel)
+  for (const proxy of CLIENT_PROXIES) {
+    for (const url of urls) {
+      try {
+        const proxyUrl = proxy.buildUrl(url);
+        const res = await fetch(proxyUrl);
+        if (res.ok) {
+          const text = await res.text();
+          if (text && text.trim().length > 30) {
+            console.log(`[Client ${proxy.name}] Proxy fetch SUCCESS (${text.length} chars)`);
+            return text;
+          }
+        }
+      } catch (e) {}
+    }
+  }
+
+  return "";
+}
+
+/**
+ * Client-Side Direct Fetch with External Proxy Resilience & Multi-Format Parsing (JSON3 & XML)
  */
 async function fetchTracksOnClient(
   tracks: { lang: string; kind?: string; baseUrl: string }[]
@@ -213,46 +262,15 @@ async function fetchTracksOnClient(
   let enTrack = tracks.find((t) => t.lang?.startsWith("en")) || tracks[0];
   if (!enTrack || !enTrack.baseUrl) return [];
 
-  let rawEn = "";
-  let rawVn = "";
-
   const enUrls = [
     enTrack.baseUrl.includes("fmt=") ? enTrack.baseUrl : `${enTrack.baseUrl}&fmt=json3`,
     enTrack.baseUrl.includes("fmt=") ? enTrack.baseUrl : `${enTrack.baseUrl}&fmt=srv1`,
     enTrack.baseUrl,
   ];
 
-  for (const url of enUrls) {
-    try {
-      const res = await fetch(url);
-      if (res.ok) {
-        const text = await res.text();
-        if (text && text.trim().length > 0) {
-          rawEn = text;
-          break;
-        }
-      }
-    } catch (e) {}
-  }
+  const rawEn = await clientFetchWithProxies(enUrls);
 
-  // In-House Proxy fallback (Same-Origin, No CORS errors on Vercel)
-  if (!rawEn) {
-    for (const url of enUrls) {
-      try {
-        const proxyUrl = `/api/youtube/subtitles/proxy?url=${encodeURIComponent(url)}`;
-        const resProxy = await fetch(proxyUrl);
-        if (resProxy.ok) {
-          const text = await resProxy.text();
-          if (text && text.trim().length > 30) {
-            rawEn = text;
-            break;
-          }
-        }
-      } catch (e) {}
-    }
-  }
-
-  // Fetch Vietnamese track
+  // Fetch Vietnamese track with same proxy chain
   const vnTrack = tracks.find((t) => t.lang?.startsWith("vi"));
   const vnBaseUrl = vnTrack ? vnTrack.baseUrl : `${enTrack.baseUrl}&tlang=vi`;
   const vnUrls = [
@@ -260,18 +278,7 @@ async function fetchTracksOnClient(
     vnBaseUrl.includes("fmt=") ? vnBaseUrl : `${vnBaseUrl}&fmt=srv1`,
   ];
 
-  for (const url of vnUrls) {
-    try {
-      const resVn = await fetch(url);
-      if (resVn.ok) {
-        const text = await resVn.text();
-        if (text && text.trim().length > 0) {
-          rawVn = text;
-          break;
-        }
-      }
-    } catch (e) {}
-  }
+  const rawVn = await clientFetchWithProxies(vnUrls);
 
   if (!rawEn) return [];
 
@@ -292,66 +299,28 @@ async function fetchTracksOnClient(
 
 /**
  * Client-Side Candidate Direct TimedText Extraction Fallback
+ * Uses clientFetchWithProxies for multi-tier external proxy resilience.
  */
 async function fetchDirectCandidatesOnClient(videoId: string): Promise<RawSubtitleItem[]> {
-  const candidateUrls = [
+  const candidateEnUrls = [
     `https://www.youtube.com/api/timedtext?v=${videoId}&lang=en&fmt=srv1`,
     `https://www.youtube.com/api/timedtext?v=${videoId}&lang=en&fmt=json3`,
     `https://www.youtube.com/api/timedtext?v=${videoId}&lang=en&kind=asr&fmt=srv1`,
-    `https://www.youtube.com/api/timedtext?v=${videoId}&lang=vi&fmt=srv1`,
+    `https://www.youtube.com/api/timedtext?v=${videoId}&lang=en&kind=asr&fmt=json3`,
   ];
 
-  let rawEn = "";
-  let rawVn = "";
-
-  for (const url of candidateUrls) {
-    try {
-      const res = await fetch(url);
-      if (res.ok) {
-        const text = await res.text();
-        if (text && text.trim().length > 0) {
-          rawEn = text;
-          break;
-        }
-      }
-    } catch (e) {}
-  }
-
-  // Fallback 1: Internal In-House Proxy (Bypasses Vercel/Client CORS & Datacenter IP Blocks)
+  const rawEn = await clientFetchWithProxies(candidateEnUrls);
   if (!rawEn) {
-    for (const url of candidateUrls) {
-      try {
-        const proxyUrl = `/api/youtube/subtitles/proxy?url=${encodeURIComponent(url)}`;
-        const res = await fetch(proxyUrl);
-        if (res.ok) {
-          const text = await res.text();
-          if (text && text.trim().length > 30) {
-            rawEn = text;
-            break;
-          }
-        }
-      } catch (e) {}
-    }
+    console.warn(`[Client Direct Candidates] ALL tiers failed for videoId ${videoId}`);
+    return [];
   }
 
-  // Fallback 2: CORS Proxy via CorsProxy.io
-  if (!rawEn) {
-    for (const url of candidateUrls) {
-      try {
-        const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(url)}`;
-        const res = await fetch(proxyUrl);
-        if (res.ok) {
-          const text = await res.text();
-          if (text && text.trim().length > 30) {
-            rawEn = text;
-            break;
-          }
-        }
-      } catch (e) {}
-    }
-  }
-
-  if (!rawEn) return [];
+  // Also fetch Vietnamese via proxy chain
+  const candidateVnUrls = [
+    `https://www.youtube.com/api/timedtext?v=${videoId}&lang=vi&fmt=srv1`,
+    `https://www.youtube.com/api/timedtext?v=${videoId}&lang=vi&fmt=json3`,
+  ];
+  const rawVn = await clientFetchWithProxies(candidateVnUrls);
 
   const parsedEn = parseTimedTextAny(rawEn);
   const parsedVn = rawVn ? parseVnTimedTextAny(rawVn) : [];
