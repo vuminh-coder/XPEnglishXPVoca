@@ -128,6 +128,8 @@ export default function MyVideoPage() {
   // Ref to store real YouTube player time from postMessage events
   const ytPlayerTimeRef = useRef<number>(0);
   const ytPlayerStateRef = useRef<number>(-1); // -1=unstarted, 1=playing, 2=paused, 3=buffering, 0=ended
+  const ytTimeLastUpdatedRef = useRef<number>(0); // Timestamp (ms) of last YouTube infoDelivery update
+  const ytListenerRegisteredRef = useRef<boolean>(false); // Whether YouTube listening registration succeeded
 
   // YouTube Link Import State with Category & Level Selection
   const [youtubeInput, setYoutubeInput] = useState("");
@@ -345,6 +347,8 @@ export default function MyVideoPage() {
         if (data?.event === "infoDelivery" && data?.info) {
           if (typeof data.info.currentTime === "number") {
             ytPlayerTimeRef.current = data.info.currentTime;
+            ytTimeLastUpdatedRef.current = Date.now();
+            ytListenerRegisteredRef.current = true;
           }
           // Sync play/pause state from YouTube player
           if (typeof data.info.playerState === "number") {
@@ -366,19 +370,26 @@ export default function MyVideoPage() {
     return () => window.removeEventListener("message", handleYTMessage);
   }, []);
 
-  // Register as listener with YouTube IFrame API (required to receive infoDelivery events)
+  // Register as listener with YouTube IFrame API — retry every 300ms until confirmed
   useEffect(() => {
-    if (iframeRef.current && iframeRef.current.contentWindow && activeVideo) {
-      const timeout = setTimeout(() => {
-        try {
-          iframeRef.current?.contentWindow?.postMessage(
-            JSON.stringify({ event: "listening", id: "yt-player" }),
-            "*"
-          );
-        } catch (e) {}
-      }, 1000);
-      return () => clearTimeout(timeout);
-    }
+    if (!iframeRef.current || !activeVideo) return;
+    ytListenerRegisteredRef.current = false;
+    let attempts = 0;
+    const maxAttempts = 15; // 15 * 300ms = 4.5s max
+    const tryRegister = () => {
+      if (ytListenerRegisteredRef.current || attempts >= maxAttempts) return;
+      attempts++;
+      try {
+        iframeRef.current?.contentWindow?.postMessage(
+          JSON.stringify({ event: "listening", id: "yt-player" }),
+          "*"
+        );
+      } catch (e) {}
+    };
+    // Immediate first attempt + retry every 300ms
+    tryRegister();
+    const retryInterval = setInterval(tryRegister, 300);
+    return () => clearInterval(retryInterval);
   }, [activeVideo?.id]);
 
   // Real-time sync loop: reads ACTUAL YouTube player time via postMessage, syncs subtitle & karaoke
@@ -386,9 +397,6 @@ export default function MyVideoPage() {
     let timer: NodeJS.Timeout;
     if (activeVideo && activeVideo.subtitles.length > 0) {
       timer = setInterval(() => {
-        // Read real time from YouTube player (via postMessage events)
-        const realTime = ytPlayerTimeRef.current;
-
         // Request fresh time from YouTube player iframe
         if (iframeRef.current?.contentWindow) {
           try {
@@ -399,14 +407,18 @@ export default function MyVideoPage() {
           } catch (e) {}
         }
 
+        // Read real time from YouTube player (via postMessage events)
+        const realTime = ytPlayerTimeRef.current;
+        const timeSinceUpdate = Date.now() - ytTimeLastUpdatedRef.current;
+
         setCurrentTime((prevTime) => {
-          // Use YouTube's real time if available; if not available, ONLY advance if isPlaying is true!
+          // CRITICAL FIX: Only use REAL YouTube time. Never use manual +0.08 increment (causes 2s drift).
           let nextTime: number;
-          if (realTime > 0.05) {
-            nextTime = parseFloat(realTime.toFixed(2));
-          } else if (isPlaying) {
-            nextTime = parseFloat((prevTime + 0.08).toFixed(2));
+          if (realTime > 0.05 && timeSinceUpdate < 800) {
+            // YouTube is actively sending time updates → use real time
+            nextTime = parseFloat(realTime.toFixed(3));
           } else {
+            // YouTube hasn't sent time recently → hold still (don't drift)
             nextTime = prevTime;
           }
 
@@ -422,20 +434,41 @@ export default function MyVideoPage() {
           // Apply Subtitle Sync Offset calibration to determine effective speech time
           const effectiveTime = Math.max(0, parseFloat((nextTime + subtitleSyncOffsetRef.current).toFixed(3)));
 
-          // Auto-sync activeSubIndex with high-precision timestamp matching
-          let matchedIdx = activeVideo.subtitles.findIndex(
-            (s) => effectiveTime >= s.startTime && effectiveTime < s.endTime
-          );
+          // HIGH-PRECISION Binary Search Subtitle Matching O(log n) + Intelligent Gap Handling
+          const subs = activeVideo.subtitles;
+          let matchedIdx = -1;
 
-          if (matchedIdx === -1) {
-            // Find closest sentence within reasonable speech bounds
-            for (let i = activeVideo.subtitles.length - 1; i >= 0; i--) {
-              if (effectiveTime >= activeVideo.subtitles[i].startTime && effectiveTime < activeVideo.subtitles[i].endTime + 0.3) {
-                matchedIdx = i;
-                break;
-              }
+          // Binary search: find cue where startTime <= effectiveTime < endTime
+          let lo = 0, hi = subs.length - 1;
+          while (lo <= hi) {
+            const mid = (lo + hi) >>> 1;
+            if (effectiveTime >= subs[mid].startTime && effectiveTime < subs[mid].endTime) {
+              matchedIdx = mid;
+              break;
             }
-            if (matchedIdx === -1 && activeVideo.subtitles.length > 0 && effectiveTime < activeVideo.subtitles[0].startTime) {
+            if (effectiveTime < subs[mid].startTime) {
+              hi = mid - 1;
+            } else {
+              lo = mid + 1;
+            }
+          }
+
+          // Gap handling: if no exact match, find nearest cue
+          if (matchedIdx === -1) {
+            // lo = first cue AFTER effectiveTime, lo-1 = last cue BEFORE effectiveTime
+            const prevCue = lo > 0 ? subs[lo - 1] : null;
+            const nextCue = lo < subs.length ? subs[lo] : null;
+
+            // Look back: if just passed a cue (within 0.5s of its endTime), keep showing it
+            if (prevCue && effectiveTime - prevCue.endTime < 0.5) {
+              matchedIdx = lo - 1;
+            }
+            // Look ahead: if approaching next cue (within 1.0s), show it early
+            else if (nextCue && nextCue.startTime - effectiveTime < 1.0) {
+              matchedIdx = lo;
+            }
+            // Before first cue
+            else if (subs.length > 0 && effectiveTime < subs[0].startTime) {
               matchedIdx = 0;
             }
           }
@@ -445,7 +478,7 @@ export default function MyVideoPage() {
           }
 
           // High-Precision Character-Weighted Karaoke Word Highlighting
-          const targetSub = activeVideo.subtitles[matchedIdx !== -1 ? matchedIdx : activeSubIndex];
+          const targetSub = subs[matchedIdx !== -1 ? matchedIdx : activeSubIndex];
           if (targetSub) {
             if (effectiveTime >= targetSub.startTime && effectiveTime <= targetSub.endTime) {
               const duration = Math.max(0.4, targetSub.endTime - targetSub.startTime);
@@ -1207,7 +1240,7 @@ export default function MyVideoPage() {
               >
                 <iframe
                   ref={iframeRef}
-                  src={`https://www.youtube.com/embed/${activeVideo.id}?autoplay=1&enablejsapi=1&controls=1&modestbranding=1&rel=0`}
+                  src={`https://www.youtube.com/embed/${activeVideo.id}?autoplay=1&enablejsapi=1&controls=1&modestbranding=1&rel=0&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`}
                   title={activeVideo.title}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen

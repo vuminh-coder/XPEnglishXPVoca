@@ -198,7 +198,7 @@ export function parseTimedTextJson3(jsonContent: string | object): ParsedXmlItem
         }
       }
 
-      duration = Math.max(0.8, parseFloat(duration.toFixed(3)));
+      duration = Math.max(0.3, parseFloat(duration.toFixed(3)));
       const endTime = parseFloat((item.startTime + duration).toFixed(3));
 
       return {
@@ -339,8 +339,9 @@ export function mergeFragmentedSubtitlesIntoSentences(items: ParsedXmlItem[]): P
 }
 
 /**
- * Bridges small silence gaps (<= 0.45s) between consecutive subtitle cues
- * so text stays smoothly visible on screen without holding into long speech pauses.
+ * Bridges silence gaps between consecutive subtitle cues with adaptive thresholds.
+ * Uses linguistic heuristics: lowercase-starting next cue = continuation (longer bridge).
+ * Prevents "dead zones" where no subtitle is shown despite continuous speech.
  */
 export function bridgeSubtitleGaps(items: ParsedXmlItem[]): ParsedXmlItem[] {
   if (!Array.isArray(items) || items.length <= 1) return items;
@@ -349,7 +350,13 @@ export function bridgeSubtitleGaps(items: ParsedXmlItem[]): ParsedXmlItem[] {
     const next = items[idx + 1];
     if (next && next.startTime > item.startTime) {
       const gap = next.startTime - item.endTime;
-      if (gap > 0 && gap <= 0.45) {
+      if (gap <= 0) return item; // Already overlapping or seamless
+
+      // Adaptive threshold: if next cue starts with lowercase letter, it's likely a continuation
+      const nextStartsLowercase = /^[a-z]/.test(next.textEn.trim());
+      const bridgeThreshold = nextStartsLowercase ? 0.8 : 0.5;
+
+      if (gap > 0 && gap <= bridgeThreshold) {
         const adjustedEndTime = next.startTime;
         return {
           ...item,
