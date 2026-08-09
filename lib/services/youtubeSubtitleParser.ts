@@ -122,7 +122,7 @@ export function parseTimedTextXml(xmlStr: string): ParsedXmlItem[] {
     // Prevent timeline overlap with next item's startTime
     if (nextItem && item.startTime + duration > nextItem.startTime) {
       const maxAllowedDur = parseFloat((nextItem.startTime - item.startTime).toFixed(3));
-      if (maxAllowedDur > 0.3) {
+      if (maxAllowedDur > 0.05) {
         duration = maxAllowedDur;
       }
     }
@@ -193,7 +193,7 @@ export function parseTimedTextJson3(jsonContent: string | object): ParsedXmlItem
       // Prevent timeline overlap with next item's startTime
       if (nextItem && item.startTime + duration > nextItem.startTime) {
         const maxAllowedDur = parseFloat((nextItem.startTime - item.startTime).toFixed(3));
-        if (maxAllowedDur > 0.3) {
+        if (maxAllowedDur > 0.05) {
           duration = maxAllowedDur;
         }
       }
