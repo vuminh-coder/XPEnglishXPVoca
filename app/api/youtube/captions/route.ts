@@ -246,37 +246,58 @@ function extractCaptionTracksFromHtml(html: string): any[] {
  * Extremely reliable and bypasses watch page HTML parsing changes.
  */
 async function fetchInnertubeCaptionTracks(videoId: string): Promise<any[]> {
-  try {
-    const res = await fetch("https://www.youtube.com/youtubei/v1/player", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "User-Agent": "com.google.android.youtube/19.02.39 (Linux; U; Android 14; US) gzip",
-      },
-      body: JSON.stringify({
-        videoId,
-        context: {
-          client: {
-            clientName: "ANDROID",
-            clientVersion: "19.02.39",
-            hl: "en",
-            gl: "US",
-          },
-        },
-      }),
-      cache: "no-store",
-    });
+  const clients = [
+    {
+      userAgent: "com.google.android.youtube/19.02.39 (Linux; U; Android 14; US) gzip",
+      clientName: "ANDROID",
+      clientVersion: "19.02.39",
+    },
+    {
+      userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4.1 Mobile/15E148 Safari/604.1",
+      clientName: "MWEB",
+      clientVersion: "2.20240501.00.00",
+    },
+    {
+      userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+      clientName: "WEB",
+      clientVersion: "2.20240501.00.00",
+    },
+  ];
 
-    if (res.ok) {
-      const data = await res.json();
-      const tracks = data?.captions?.playerCaptionsTracklistRenderer?.captionTracks;
-      if (Array.isArray(tracks) && tracks.length > 0) {
-        return tracks;
+  for (const clientConfig of clients) {
+    try {
+      const res = await fetch("https://www.youtube.com/youtubei/v1/player", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": clientConfig.userAgent,
+        },
+        body: JSON.stringify({
+          videoId,
+          context: {
+            client: {
+              clientName: clientConfig.clientName,
+              clientVersion: clientConfig.clientVersion,
+              hl: "en",
+              gl: "US",
+            },
+          },
+        }),
+        cache: "no-store",
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        const tracks = data?.captions?.playerCaptionsTracklistRenderer?.captionTracks;
+        if (Array.isArray(tracks) && tracks.length > 0) {
+          return tracks;
+        }
       }
+    } catch (e) {
+      console.warn(`Innertube API caption extraction notice (${clientConfig.clientName}):`, e);
     }
-  } catch (e) {
-    console.warn("Innertube API caption extraction notice:", e);
   }
+
   return [];
 }
 

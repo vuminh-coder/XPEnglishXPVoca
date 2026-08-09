@@ -317,6 +317,40 @@ async function fetchDirectCandidatesOnClient(videoId: string): Promise<RawSubtit
     } catch (e) {}
   }
 
+  // Fallback 1: CORS Proxy via AllOrigins (Bypasses Vercel/Client CORS & Datacenter IP Blocks)
+  if (!rawEn) {
+    for (const url of candidateUrls) {
+      try {
+        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+        const res = await fetch(proxyUrl);
+        if (res.ok) {
+          const text = await res.text();
+          if (text && text.trim().length > 30) {
+            rawEn = text;
+            break;
+          }
+        }
+      } catch (e) {}
+    }
+  }
+
+  // Fallback 2: CORS Proxy via CorsProxy.io
+  if (!rawEn) {
+    for (const url of candidateUrls) {
+      try {
+        const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(url)}`;
+        const res = await fetch(proxyUrl);
+        if (res.ok) {
+          const text = await res.text();
+          if (text && text.trim().length > 30) {
+            rawEn = text;
+            break;
+          }
+        }
+      } catch (e) {}
+    }
+  }
+
   if (!rawEn) return [];
 
   const parsedEn = parseTimedTextAny(rawEn);
