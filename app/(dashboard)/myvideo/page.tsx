@@ -1250,47 +1250,7 @@ export default function MyVideoPage() {
               </div>
 
               {/* Sleek Ultra-Compact Media Control Bar directly below video iframe */}
-              <div className="py-1.5 px-3 bg-slate-100/90 dark:bg-slate-950/95 border-y border-slate-200/80 dark:border-white/10 flex items-center justify-between gap-2 shrink-0 select-none shadow-2xs">
-                {/* Left: 1-Click Subtitle Sync Calibration Pill Buttons */}
-                <div className="flex items-center p-0.5 rounded-xs bg-slate-200/80 dark:bg-slate-950/80 border border-slate-300/80 dark:border-white/10 gap-0.5 shrink-0">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSubtitleSyncOffset((prev) => parseFloat((prev - 0.2).toFixed(1)));
-                      addToast({ type: "info", title: "Đã hiệu chỉnh Sync -0.2s", message: "Phụ đề chạy sớm hơn 0.2s để khớp nhịp đọc." });
-                    }}
-                    className="px-1.5 py-0.5 rounded-xs text-[10px] font-bold font-mono text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-300/50 dark:hover:bg-slate-800/50 transition-all cursor-pointer"
-                    title="Hiệu chỉnh phụ đề chạy sớm hơn 0.2s (-0.2s)"
-                  >
-                    -0.2s
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSubtitleSyncOffset(0.0);
-                      addToast({ type: "success", title: "Reset Sync 0.0s", message: "Đã đưa độ trễ phụ đề về mặc định." });
-                    }}
-                    className={`px-1.5 py-0.5 rounded-xs text-[10px] font-bold font-mono transition-all cursor-pointer ${
-                      subtitleSyncOffset === 0
-                        ? "bg-emerald-600 text-white shadow-2xs"
-                        : "bg-amber-500 text-white shadow-2xs"
-                    }`}
-                    title="Reset độ trễ phụ đề về 0.0s"
-                  >
-                    {subtitleSyncOffset > 0 ? `+${subtitleSyncOffset}s` : subtitleSyncOffset < 0 ? `${subtitleSyncOffset}s` : "Sync 0s"}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSubtitleSyncOffset((prev) => parseFloat((prev + 0.2).toFixed(1)));
-                      addToast({ type: "info", title: "Đã hiệu chỉnh Sync +0.2s", message: "Phụ đề chạy trễ hơn 0.2s để khớp nhịp đọc." });
-                    }}
-                    className="px-1.5 py-0.5 rounded-xs text-[10px] font-bold font-mono text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-300/50 dark:hover:bg-slate-800/50 transition-all cursor-pointer"
-                    title="Hiệu chỉnh phụ đề chạy trễ hơn 0.2s (+0.2s)"
-                  >
-                    +0.2s
-                  </button>
-                </div>
+              <div className="py-1.5 px-3 bg-slate-100/90 dark:bg-slate-950/95 border-y border-slate-200/80 dark:border-white/10 flex items-center justify-center sm:justify-between gap-2 shrink-0 select-none shadow-2xs">
 
                 {/* Center: 5 Audio/Video Control Buttons with Micro Border-Radius */}
                 <div className="flex items-center gap-1.5 sm:gap-3">
