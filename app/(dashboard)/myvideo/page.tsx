@@ -414,10 +414,13 @@ export default function MyVideoPage() {
 
         setCurrentTime((prevTime) => {
           let nextTime: number;
-          if (realTime > 0.05 && timeSinceUpdate < 1500) {
-            // Smooth 60fps sub-second interpolation between postMessage packets (cancels 200ms-500ms packet latency lag)
-            const elapsed = isYtPlaying ? Math.min(1.5, timeSinceUpdate / 1000) * playbackSpeed : 0;
+          if (ytTimeLastUpdatedRef.current > 0 && timeSinceUpdate < 1200) {
+            // Smooth 60fps interpolation anchored to YouTube master clock
+            const elapsed = isYtPlaying ? Math.min(1.2, timeSinceUpdate / 1000) * playbackSpeed : 0;
             nextTime = parseFloat((realTime + elapsed).toFixed(3));
+          } else if (isYtPlaying) {
+            // Fallback: advance smoothly by interval duration (35ms = 0.035s) so subtitles NEVER freeze
+            nextTime = parseFloat((prevTime + 0.035 * playbackSpeed).toFixed(3));
           } else {
             nextTime = prevTime;
           }
