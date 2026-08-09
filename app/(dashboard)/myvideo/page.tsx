@@ -410,15 +410,15 @@ export default function MyVideoPage() {
         // Read real time from YouTube player (via postMessage events)
         const realTime = ytPlayerTimeRef.current;
         const timeSinceUpdate = Date.now() - ytTimeLastUpdatedRef.current;
+        const isYtPlaying = ytPlayerStateRef.current === 1 || isPlaying;
 
         setCurrentTime((prevTime) => {
-          // CRITICAL FIX: Only use REAL YouTube time. Never use manual +0.08 increment (causes 2s drift).
           let nextTime: number;
-          if (realTime > 0.05 && timeSinceUpdate < 800) {
-            // YouTube is actively sending time updates → use real time
-            nextTime = parseFloat(realTime.toFixed(3));
+          if (realTime > 0.05 && timeSinceUpdate < 1500) {
+            // Smooth 60fps sub-second interpolation between postMessage packets (cancels 200ms-500ms packet latency lag)
+            const elapsed = isYtPlaying ? Math.min(1.5, timeSinceUpdate / 1000) * playbackSpeed : 0;
+            nextTime = parseFloat((realTime + elapsed).toFixed(3));
           } else {
-            // YouTube hasn't sent time recently → hold still (don't drift)
             nextTime = prevTime;
           }
 
@@ -523,6 +523,7 @@ export default function MyVideoPage() {
     setActiveSubIndex(subIndex);
     setCurrentTime(seconds); // Immediately sync local time to seek position
     ytPlayerTimeRef.current = seconds; // Update ref too
+    ytTimeLastUpdatedRef.current = Date.now(); // Instantly update timestamp to prevent postMessage seek lag
     if (iframeRef.current && iframeRef.current.contentWindow) {
       try {
         iframeRef.current.contentWindow.postMessage(

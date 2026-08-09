@@ -175,9 +175,31 @@ export function parseTimedTextJson3(jsonContent: string | object): ParsedXmlItem
 
     rawItems.sort((a, b) => a.startTime - b.startTime);
 
-    return rawItems.map((item, i) => {
+    // Deduplicate ASR rolling stream prefixes (e.g. "hello", "hello world" -> "hello world")
+    const deduplicatedRaw: { startTime: number; rawDur: number | null; textEn: string }[] = [];
+    for (const item of rawItems) {
+      if (deduplicatedRaw.length === 0) {
+        deduplicatedRaw.push({ ...item });
+        continue;
+      }
+      const prev = deduplicatedRaw[deduplicatedRaw.length - 1];
+      const timeDiff = item.startTime - prev.startTime;
+
+      if (timeDiff < 1.0 && (item.textEn.startsWith(prev.textEn) || prev.textEn.startsWith(item.textEn))) {
+        if (item.textEn.length > prev.textEn.length) {
+          prev.textEn = item.textEn;
+        }
+        if (item.rawDur) {
+          prev.rawDur = Math.max(prev.rawDur || 0, item.rawDur + timeDiff);
+        }
+      } else {
+        deduplicatedRaw.push({ ...item });
+      }
+    }
+
+    return deduplicatedRaw.map((item, i) => {
       let duration: number;
-      const nextItem = rawItems[i + 1];
+      const nextItem = deduplicatedRaw[i + 1];
 
       if (item.rawDur !== null && !isNaN(item.rawDur) && item.rawDur > 0) {
         duration = item.rawDur;
