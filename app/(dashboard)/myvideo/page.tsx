@@ -288,6 +288,26 @@ export default function MyVideoPage() {
     subtitleSyncOffsetRef.current = subtitleSyncOffset;
   }, [subtitleSyncOffset]);
 
+  const activeSubIndexRef = useRef(activeSubIndex);
+  useEffect(() => {
+    activeSubIndexRef.current = activeSubIndex;
+  }, [activeSubIndex]);
+
+  const isPlayingRef = useRef(isPlaying);
+  useEffect(() => {
+    isPlayingRef.current = isPlaying;
+  }, [isPlaying]);
+
+  const playbackSpeedRef = useRef(playbackSpeed);
+  useEffect(() => {
+    playbackSpeedRef.current = playbackSpeed;
+  }, [playbackSpeed]);
+
+  const loadedChunkCountRef = useRef(loadedChunkCount);
+  useEffect(() => {
+    loadedChunkCountRef.current = loadedChunkCount;
+  }, [loadedChunkCount]);
+
   useEffect(() => {
     loadSavedVideos();
   }, [loadSavedVideos]);
@@ -423,17 +443,18 @@ export default function MyVideoPage() {
         // Read real time from YouTube player (via postMessage events)
         const realTime = ytPlayerTimeRef.current;
         const timeSinceUpdate = Date.now() - ytTimeLastUpdatedRef.current;
-        const isYtPlaying = ytPlayerStateRef.current === 1 || isPlaying;
+        const isYtPlaying = ytPlayerStateRef.current === 1 || isPlayingRef.current;
+        const currentSpeed = playbackSpeedRef.current;
 
         setCurrentTime((prevTime) => {
           let nextTime: number;
           if (ytTimeLastUpdatedRef.current > 0 && timeSinceUpdate < 1200) {
             // Smooth 60fps interpolation anchored to YouTube master clock
-            const elapsed = isYtPlaying ? Math.min(1.2, timeSinceUpdate / 1000) * playbackSpeed : 0;
+            const elapsed = isYtPlaying ? Math.min(1.2, timeSinceUpdate / 1000) * currentSpeed : 0;
             nextTime = parseFloat((realTime + elapsed).toFixed(3));
           } else if (isYtPlaying) {
             // Fallback: advance smoothly by interval duration (35ms = 0.035s) so subtitles NEVER freeze
-            nextTime = parseFloat((prevTime + 0.035 * playbackSpeed).toFixed(3));
+            nextTime = parseFloat((prevTime + 0.035 * currentSpeed).toFixed(3));
           } else {
             nextTime = prevTime;
           }
@@ -469,18 +490,17 @@ export default function MyVideoPage() {
             }
           }
 
-          // Gap handling: if no exact match, find nearest cue
+          // Gap handling: if no exact match, find nearest cue (0.4s lookback, 0.25s lookahead — zero overlap)
           if (matchedIdx === -1) {
-            // lo = first cue AFTER effectiveTime, lo-1 = last cue BEFORE effectiveTime
             const prevCue = lo > 0 ? subs[lo - 1] : null;
             const nextCue = lo < subs.length ? subs[lo] : null;
 
-            // Look back: if just passed a cue (within 0.5s of its endTime), keep showing it
-            if (prevCue && effectiveTime - prevCue.endTime < 0.5) {
+            // Look back: if just passed a cue (within 0.4s of its endTime), keep showing it
+            if (prevCue && effectiveTime - prevCue.endTime < 0.4) {
               matchedIdx = lo - 1;
             }
-            // Look ahead: if approaching next cue (within 1.0s), show it early
-            else if (nextCue && nextCue.startTime - effectiveTime < 1.0) {
+            // Look ahead: if approaching next cue (within 0.25s), show it early
+            else if (nextCue && nextCue.startTime - effectiveTime < 0.25) {
               matchedIdx = lo;
             }
             // Before first cue
@@ -489,12 +509,13 @@ export default function MyVideoPage() {
             }
           }
 
-          if (matchedIdx !== -1 && matchedIdx !== activeSubIndex) {
+          const currentSubIdx = activeSubIndexRef.current;
+          if (matchedIdx !== -1 && matchedIdx !== currentSubIdx) {
             setActiveSubIndex(matchedIdx);
           }
 
           // High-Precision Character-Weighted Karaoke Word Highlighting
-          const targetSub = subs[matchedIdx !== -1 ? matchedIdx : activeSubIndex];
+          const targetSub = subs[matchedIdx !== -1 ? matchedIdx : currentSubIdx];
           if (targetSub) {
             if (effectiveTime >= targetSub.startTime && effectiveTime <= targetSub.endTime) {
               const duration = Math.max(0.4, targetSub.endTime - targetSub.startTime);
@@ -507,8 +528,9 @@ export default function MyVideoPage() {
           }
 
           // Progressive chunk loading
-          const currentChunkBoundary = loadedChunkCount * 3;
-          if (matchedIdx >= currentChunkBoundary - 1 && loadedChunkCount * 3 < activeVideo.subtitles.length) {
+          const chunkCount = loadedChunkCountRef.current;
+          const currentChunkBoundary = chunkCount * 3;
+          if (matchedIdx >= currentChunkBoundary - 1 && chunkCount * 3 < activeVideo.subtitles.length) {
             setIsPipelineStreaming(true);
             setLoadedChunkCount((c) => c + 1);
             setTimeout(() => setIsPipelineStreaming(false), 300);
@@ -519,7 +541,7 @@ export default function MyVideoPage() {
       }, 35);
     }
     return () => clearInterval(timer);
-  }, [activeVideo, activeSubIndex, loadedChunkCount, isPlaying]);
+  }, [activeVideo?.id]);
 
   // Waveform animation during recording
   useEffect(() => {

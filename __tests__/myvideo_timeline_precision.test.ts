@@ -37,9 +37,9 @@ function binarySearchSubtitleIndex(
     const prevCue = lo > 0 ? subs[lo - 1] : null;
     const nextCue = lo < subs.length ? subs[lo] : null;
 
-    if (prevCue && effectiveTime - prevCue.endTime < 0.5) {
+    if (prevCue && effectiveTime - prevCue.endTime < 0.4) {
       matchedIdx = lo - 1;
-    } else if (nextCue && nextCue.startTime - effectiveTime < 1.0) {
+    } else if (nextCue && nextCue.startTime - effectiveTime < 0.25) {
       matchedIdx = lo;
     } else if (subs.length > 0 && effectiveTime < subs[0].startTime) {
       matchedIdx = 0;
@@ -65,14 +65,14 @@ describe("MyVideo 100% Timeline Precision & Edge Case Suite", () => {
       expect(binarySearchSubtitleIndex(cues, 13.0)).toBe(2);
     });
 
-    it("handles small gap after cue (lookback < 0.5s) by holding previous cue", () => {
-      // 5.2s is within 0.5s after Cue 0 ends at 5.0s -> holds Cue 0
+    it("handles small gap after cue (lookback < 0.4s) by holding previous cue", () => {
+      // 5.2s is within 0.4s after Cue 0 ends at 5.0s -> holds Cue 0
       expect(binarySearchSubtitleIndex(cues, 5.2)).toBe(0);
     });
 
-    it("handles upcoming gap before cue (lookahead < 1.0s) by showing next cue early", () => {
-      // 5.6s is 0.6s past Cue 0 (past 0.5s lookback) and 0.2s before Cue 1 start (5.8s) -> shows Cue 1 early
-      expect(binarySearchSubtitleIndex(cues, 5.6)).toBe(1);
+    it("handles upcoming gap before cue (lookahead < 0.25s) by showing next cue early", () => {
+      // 5.65s is within 0.25s before Cue 1 start (5.8s) -> shows Cue 1 early
+      expect(binarySearchSubtitleIndex(cues, 5.65)).toBe(1);
     });
 
     it("handles large gap (> 1.0s lookahead, > 0.5s lookback) cleanly", () => {
