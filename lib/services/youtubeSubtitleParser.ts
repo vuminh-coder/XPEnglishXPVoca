@@ -363,8 +363,8 @@ export function bridgeSubtitleGaps(items: ParsedXmlItem[]): ParsedXmlItem[] {
 }
 
 /**
- * Character-Weighted Word Alignment for High-Precision Karaoke Highlighting.
- * Calculates active word index based on character length progression matching real speech cadence.
+ * Character-Weighted Word Alignment with Punctuation Pacing for High-Precision Karaoke Highlighting.
+ * Calculates active word index based on character length progression & punctuation pauses matching real speech cadence.
  */
 export function calculateCharacterWeightedWordIndex(
   textEn: string,
@@ -377,15 +377,24 @@ export function calculateCharacterWeightedWordIndex(
   if (words.length === 1) return 0;
 
   const ratio = Math.max(0, Math.min(1, elapsedSeconds / durationSeconds));
-  const totalChars = words.reduce((sum, w) => sum + w.length, 0);
-  if (totalChars === 0) return 0;
+  
+  // Calculate character length with extra weight for words ending with punctuation (commas, semicolons, dashes)
+  const wordWeights = words.map((w) => {
+    let weight = w.length;
+    if (/[,;:—\-]$/.test(w)) weight += 2.5; // Natural pause weight for commas/dashes
+    else if (/[.!?]$/.test(w)) weight += 3.5; // Sentence closure pause weight
+    return weight;
+  });
 
-  const targetCharProgress = ratio * totalChars;
-  let accumulatedChars = 0;
+  const totalWeight = wordWeights.reduce((sum, w) => sum + w, 0);
+  if (totalWeight === 0) return 0;
+
+  const targetWeightProgress = ratio * totalWeight;
+  let accumulatedWeight = 0;
 
   for (let i = 0; i < words.length; i++) {
-    accumulatedChars += words[i].length;
-    if (targetCharProgress <= accumulatedChars) {
+    accumulatedWeight += wordWeights[i];
+    if (targetWeightProgress <= accumulatedWeight) {
       return i;
     }
   }

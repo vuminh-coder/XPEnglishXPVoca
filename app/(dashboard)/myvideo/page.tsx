@@ -467,7 +467,7 @@ export default function MyVideoPage() {
 
           return nextTime;
         });
-      }, 80);
+      }, 35);
     }
     return () => clearInterval(timer);
   }, [activeVideo, activeSubIndex, loadedChunkCount, isPlaying]);
