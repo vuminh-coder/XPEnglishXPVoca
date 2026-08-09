@@ -235,15 +235,15 @@ async function fetchTracksOnClient(
     } catch (e) {}
   }
 
-  // Proxy fallback if direct fetch returned 0 length
+  // In-House Proxy fallback (Same-Origin, No CORS errors on Vercel)
   if (!rawEn) {
     for (const url of enUrls) {
       try {
-        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+        const proxyUrl = `/api/youtube/subtitles/proxy?url=${encodeURIComponent(url)}`;
         const resProxy = await fetch(proxyUrl);
         if (resProxy.ok) {
           const text = await resProxy.text();
-          if (text && text.trim().length > 0) {
+          if (text && text.trim().length > 30) {
             rawEn = text;
             break;
           }
@@ -317,11 +317,11 @@ async function fetchDirectCandidatesOnClient(videoId: string): Promise<RawSubtit
     } catch (e) {}
   }
 
-  // Fallback 1: CORS Proxy via AllOrigins (Bypasses Vercel/Client CORS & Datacenter IP Blocks)
+  // Fallback 1: Internal In-House Proxy (Bypasses Vercel/Client CORS & Datacenter IP Blocks)
   if (!rawEn) {
     for (const url of candidateUrls) {
       try {
-        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+        const proxyUrl = `/api/youtube/subtitles/proxy?url=${encodeURIComponent(url)}`;
         const res = await fetch(proxyUrl);
         if (res.ok) {
           const text = await res.text();
