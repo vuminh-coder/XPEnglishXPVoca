@@ -90,7 +90,8 @@ export function parseTimedTextXml(xmlStr: string): ParsedXmlItem[] {
     const durMatch = /\bdur=["']?\s*([\d\.]+)\s*["']?/i.exec(attrStr);
 
     if (startMatch) {
-      const startTime = parseFloat(startMatch[1]);
+      const rawStartTime = parseFloat(startMatch[1]);
+      const startTime = Math.max(0, parseFloat((rawStartTime - 1.8).toFixed(3)));
       const rawDur = durMatch ? parseFloat(durMatch[1]) : null;
       const textEn = decodeXmlEntities(rawContent);
 
@@ -140,8 +141,7 @@ export function parseTimedTextXml(xmlStr: string): ParsedXmlItem[] {
 }
 
 /**
- * Robust JSON3 YouTube TimedText Parser.
- * Handles format: {"events": [{"tStartMs": 1000, "dDurationMs": 2000, "segs": [{"utf8": "text"}]}]}
+ * High-Precision JSON3 TimedText Parser for YouTube Captions (v3 format)
  */
 export function parseTimedTextJson3(jsonContent: string | object): ParsedXmlItem[] {
   if (!jsonContent) return [];
@@ -163,7 +163,8 @@ export function parseTimedTextJson3(jsonContent: string | object): ParsedXmlItem
       const decodedText = decodeXmlEntities(rawText);
       if (!decodedText || decodedText.length === 0) continue;
 
-      const startTime = typeof event.tStartMs === "number" ? event.tStartMs / 1000 : 0;
+      const rawStartTime = typeof event.tStartMs === "number" ? event.tStartMs / 1000 : 0;
+      const startTime = Math.max(0, parseFloat((rawStartTime - 1.8).toFixed(3)));
       const rawDur = typeof event.dDurationMs === "number" ? event.dDurationMs / 1000 : null;
 
       rawItems.push({

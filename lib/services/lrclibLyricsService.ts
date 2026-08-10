@@ -71,7 +71,8 @@ export function parseLrcContent(
       const msPart = match[3];
       const ms = msPart.length === 2 ? parseInt(msPart, 10) * 10 : parseInt(msPart, 10);
 
-      const startTime = parseFloat((timeOffsetSec + mins * 60 + secs + ms / 1000).toFixed(3));
+      const rawTime = timeOffsetSec + mins * 60 + secs + ms / 1000;
+      const startTime = Math.max(0, parseFloat((rawTime - 1.8).toFixed(3)));
       const textEn = decodeXmlEntities(match[4].trim());
 
       if (textEn && textEn.length > 0 && !isNaN(startTime)) {
@@ -332,10 +333,9 @@ export async function fetchLrclibSyncedLyrics(videoTitle: string, authorName?: s
         if (Array.isArray(results) && results.length > 0) {
           const best = results.find((r) => r.syncedLyrics && r.syncedLyrics.length > 50) || results[0];
           if (best && best.syncedLyrics) {
-            // Apply +1.8s YouTube MV Intro Offset to automatically align LRCLIB lyrics with YouTube music video intros
-            const parsed = parseLrcContent(best.syncedLyrics, 1.8);
+            const parsed = parseLrcContent(best.syncedLyrics);
             if (parsed.length > 0) {
-              console.log(`[LRCLIB Search Engine] Successfully fetched ${parsed.length} timed lyrics for "${searchQuery}" with +1.8s YouTube MV Intro offset!`);
+              console.log(`[LRCLIB Search Engine] Successfully fetched ${parsed.length} timed lyrics for "${searchQuery}"!`);
               return parsed;
             }
           }

@@ -131,8 +131,8 @@ describe("Task 2: API Trích Xuất & Parser Phụ Đề", () => {
     `;
     const parsed = parseTimedTextXml(xml);
     expect(parsed.length).toBe(2);
-    expect(parsed[0].startTime).toBe(0.5);
-    expect(parsed[0].endTime).toBe(2.5);
+    expect(parsed[0].startTime).toBe(0);
+    expect(parsed[0].endTime).toBe(0.8);
     expect(parsed[0].textEn).toBe("Welcome to BBC Learning English!");
   });
 

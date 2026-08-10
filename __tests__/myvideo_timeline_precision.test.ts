@@ -89,27 +89,29 @@ describe("MyVideo 100% Timeline Precision & Edge Case Suite", () => {
     it("ensures XML cues with long durations never overlap into next cue start time", () => {
       const xmlStr = `
         <xml>
-          <text start="1.0" dur="5.0">First sentence</text>
-          <text start="3.0" dur="2.0">Second sentence</text>
+          <text start="10.0" dur="5.0">First sentence</text>
+          <text start="12.0" dur="2.0">Second sentence</text>
         </xml>
       `;
       const parsed = parseTimedTextXml(xmlStr);
       expect(parsed).toHaveLength(2);
       expect(parsed[0].endTime).toBeLessThanOrEqual(parsed[1].startTime);
-      expect(parsed[0].endTime).toBe(3.0);
+      expect(parsed[0].startTime).toBe(8.2); // 10.0 - 1.8 = 8.2s
+      expect(parsed[0].endTime).toBe(10.2); // 12.0 - 1.8 = 10.2s
     });
 
     it("ensures JSON3 cues with tight gaps never overlap", () => {
       const jsonStr = JSON.stringify({
         events: [
-          { tStartMs: 1000, dDurationMs: 3000, segs: [{ utf8: "Hello world" }] },
-          { tStartMs: 2200, dDurationMs: 2000, segs: [{ utf8: "How are you" }] },
+          { tStartMs: 10000, dDurationMs: 3000, segs: [{ utf8: "Hello world" }] },
+          { tStartMs: 11200, dDurationMs: 2000, segs: [{ utf8: "How are you" }] },
         ],
       });
       const parsed = parseTimedTextJson3(jsonStr);
       expect(parsed).toHaveLength(2);
       expect(parsed[0].endTime).toBeLessThanOrEqual(parsed[1].startTime);
-      expect(parsed[0].endTime).toBe(2.2);
+      expect(parsed[0].startTime).toBe(8.2); // 10.0 - 1.8 = 8.2s
+      expect(parsed[0].endTime).toBe(9.4);  // 11.2 - 1.8 = 9.4s
     });
   });
 

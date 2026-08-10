@@ -288,38 +288,6 @@ export default function MyVideoPage() {
     subtitleSyncOffsetRef.current = subtitleSyncOffset;
   }, [subtitleSyncOffset]);
 
-  // Auto-restore per-video Subtitle Sync Offset calibration from localStorage
-  useEffect(() => {
-    if (activeVideo?.id) {
-      try {
-        const saved = localStorage.getItem(`xp_sync_offset_${activeVideo.id}`);
-        if (saved !== null) {
-          const parsed = parseFloat(saved);
-          if (!isNaN(parsed)) {
-            setSubtitleSyncOffset(parsed);
-            return;
-          }
-        }
-      } catch (e) {}
-      setSubtitleSyncOffset(0.0);
-    }
-  }, [activeVideo?.id]);
-
-  const updateSyncOffset = (offset: number) => {
-    setSubtitleSyncOffset(offset);
-    if (activeVideo?.id) {
-      try {
-        localStorage.setItem(`xp_sync_offset_${activeVideo.id}`, offset.toString());
-      } catch (e) {}
-    }
-    const label = offset === 0 ? "Chuẩn (0s)" : offset > 0 ? `Chậm +${offset}s` : `Sớm ${offset}s`;
-    addToast({
-      type: "info",
-      title: `Lệch Phụ Đề: ${label}`,
-      message: `Đã tự động căn chỉnh mốc khớp phụ đề ${label} cho video này.`,
-    });
-  };
-
   const activeSubIndexRef = useRef(activeSubIndex);
   useEffect(() => {
     activeSubIndexRef.current = activeSubIndex;
@@ -1380,45 +1348,22 @@ export default function MyVideoPage() {
                   </button>
                 </div>
 
-                {/* Right: 1-Click Sync Calibration & Playback Speed Controls */}
-                <div className="flex items-center gap-1.5 shrink-0 flex-wrap justify-end">
-                  {/* 1-Click Subtitle Sync Offset Calibrator */}
-                  <div className="flex items-center p-0.5 rounded-xs bg-slate-200/80 dark:bg-slate-950/80 border border-slate-300/80 dark:border-white/10 gap-0.5">
-                    <span className="px-1 text-[9px] font-bold text-slate-500 hidden xl:inline">Sync:</span>
-                    {[-2.0, -1.0, 0.0, 1.0, 2.0].map((offset) => (
-                      <button
-                        key={offset}
-                        type="button"
-                        onClick={() => updateSyncOffset(offset)}
-                        className={`px-1.5 py-0.5 rounded-xs text-[10px] font-bold font-mono transition-all cursor-pointer ${
-                          subtitleSyncOffset === offset
-                            ? "bg-amber-600 dark:bg-amber-500 text-white shadow-2xs"
-                            : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-300/50 dark:hover:bg-slate-800/50"
-                        }`}
-                        title={`Căn chỉnh mốc phụ đề ${offset > 0 ? `+${offset}` : offset} giây`}
-                      >
-                        {offset === 0 ? "0s" : offset > 0 ? `+${offset}s` : `${offset}s`}
-                      </button>
-                    ))}
-                  </div>
-
-                  {/* Horizontal Playback Speed Selector */}
-                  <div className="flex items-center p-0.5 rounded-xs bg-slate-200/80 dark:bg-slate-950/80 border border-slate-300/80 dark:border-white/10 gap-0.5">
-                    {[0.75, 1.0, 1.25, 1.5].map((speed) => (
-                      <button
-                        key={speed}
-                        type="button"
-                        onClick={() => changePlaybackSpeed(speed)}
-                        className={`px-1.5 py-0.5 sm:px-2 sm:py-0.5 rounded-xs text-[10px] font-bold font-mono transition-all cursor-pointer ${
-                          playbackSpeed === speed
-                            ? "bg-[#0059bb] dark:bg-blue-600 text-white shadow-2xs"
-                            : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-300/50 dark:hover:bg-slate-800/50"
-                        }`}
-                      >
-                        {speed}x
-                      </button>
-                    ))}
-                  </div>
+                {/* Right: Horizontal Playback Speed Selector with ultra-compact height */}
+                <div className="flex items-center p-0.5 rounded-xs bg-slate-200/80 dark:bg-slate-950/80 border border-slate-300/80 dark:border-white/10 gap-0.5 shrink-0">
+                  {[0.75, 1.0, 1.25, 1.5].map((speed) => (
+                    <button
+                      key={speed}
+                      type="button"
+                      onClick={() => changePlaybackSpeed(speed)}
+                      className={`px-1.5 py-0.5 sm:px-2 sm:py-0.5 rounded-xs text-[10px] font-bold font-mono transition-all cursor-pointer ${
+                        playbackSpeed === speed
+                          ? "bg-[#0059bb] dark:bg-blue-600 text-white shadow-2xs"
+                          : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-300/50 dark:hover:bg-slate-800/50"
+                      }`}
+                    >
+                      {speed}x
+                    </button>
+                  ))}
                 </div>
               </div>
 
