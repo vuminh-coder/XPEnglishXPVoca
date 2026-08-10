@@ -332,9 +332,10 @@ export async function fetchLrclibSyncedLyrics(videoTitle: string, authorName?: s
         if (Array.isArray(results) && results.length > 0) {
           const best = results.find((r) => r.syncedLyrics && r.syncedLyrics.length > 50) || results[0];
           if (best && best.syncedLyrics) {
-            const parsed = parseLrcContent(best.syncedLyrics);
+            // Apply +1.8s YouTube MV Intro Offset to automatically align LRCLIB lyrics with YouTube music video intros
+            const parsed = parseLrcContent(best.syncedLyrics, 1.8);
             if (parsed.length > 0) {
-              console.log(`[LRCLIB Search Engine] Successfully fetched ${parsed.length} timed lyrics for "${searchQuery}"!`);
+              console.log(`[LRCLIB Search Engine] Successfully fetched ${parsed.length} timed lyrics for "${searchQuery}" with +1.8s YouTube MV Intro offset!`);
               return parsed;
             }
           }
