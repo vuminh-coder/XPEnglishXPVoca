@@ -701,11 +701,6 @@ export default function RoadmapPage() {
                                 {task.description}
                               </p>
 
-                              <div className="flex items-center gap-2.5 text-[9px] sm:text-[10px] font-mono font-bold text-slate-400 pt-0.5">
-                                <span className="flex items-center gap-1"><Clock className="w-3 h-3 text-slate-400" /> {task.durationMinutes} Phút</span>
-                                <span>•</span>
-                                <span>Độ khó: {task.difficulty}</span>
-                              </div>
                             </div>
                           </div>
 
