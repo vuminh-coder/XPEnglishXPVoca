@@ -2,12 +2,12 @@ import { create } from "zustand";
 import { User } from "@/types";
 import { LEVEL_TITLES } from "../constants";
 import { useVocabularyStore } from "./vocabularyStore";
-import { addSkillPracticeMinutes, getLocalDateString, SkillType } from "./skillChartStore";
+import { addSkillPracticeMinutes, addSkillPracticeSession, getLocalDateString, SkillType } from "./skillChartStore";
 
 interface UserState {
   user: User | null;
-  awardXp: (amount: number) => { levelUp: boolean };
-  addPracticeTime: (minutes: number, skill?: SkillType) => void;
+  awardXp: (amount: number, skill?: SkillType | string) => { levelUp: boolean };
+  addPracticeTime: (minutes: number, skill?: SkillType | string) => void;
   awardCoins: (amount: number) => void;
   updateProfile: (fullName: string, bio: string, avatarUrl?: string, avatarEmoji?: string) => void;
   setLocalUser: () => void;
@@ -158,7 +158,7 @@ export const useUserStore = create<UserState>((set, get) => ({
       }
     }
   },
-  awardXp: (amount) => {
+  awardXp: (amount, skill) => {
     get().syncStreak(true);
     const user = get().user;
     if (!user) return { levelUp: false };
@@ -209,6 +209,9 @@ export const useUserStore = create<UserState>((set, get) => ({
       } catch (e) {
         console.error("Error saving daily XP:", e);
       }
+
+      // Record per-skill XP session
+      addSkillPracticeSession(user.id, (skill || "vocab") as any, 0, amount);
     }
     
     // Sync with secure profile API endpoint
@@ -254,8 +257,9 @@ export const useUserStore = create<UserState>((set, get) => ({
       vnSkillName = "Từ vựng";
     }
 
-    // 1. Sync per-skill chart minutes (English key used by skillChartStore & Dashboard)
+    // 1. Sync per-skill chart minutes and session tracker (English key used by skillChartStore & Dashboard)
     addSkillPracticeMinutes(user.id, englishKey, minutes);
+    addSkillPracticeSession(user.id, englishKey, minutes, 0);
 
     // 2. Sync legacy / analytics per-skill keys (both English and VN keys)
     recordSkillPractice(user.id, vnSkillName, minutes, 0);

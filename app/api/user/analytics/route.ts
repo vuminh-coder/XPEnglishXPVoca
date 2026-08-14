@@ -8,39 +8,63 @@ export async function GET() {
     const userId = authUserId || "local_user";
 
     let profile: any = null;
+    let weeklyRankStr = "#1";
+    let wordsLearnedCount = 0;
+
     if (userId !== "local_user") {
       profile = await prisma.profile.findUnique({
         where: { id: userId },
       });
+
+      if (profile) {
+        // Calculate actual user rank based on totalXp in Profile DB
+        const higherRankUsers = await prisma.profile.count({
+          where: {
+            totalXp: { gt: profile.totalXp || 0 },
+          },
+        });
+        weeklyRankStr = `#${higherRankUsers + 1}`;
+
+        // Count learned words from UserVocabulary table
+        wordsLearnedCount = await prisma.userVocabulary.count({
+          where: {
+            userId: userId,
+            OR: [
+              { isFavorite: true },
+              { proficiency: { gt: 0 } },
+            ],
+          },
+        });
+      }
     }
 
     const totalXp = profile?.totalXp || 10;
     const minutesStudied = profile?.minutesStudied || 6;
     const currentStreak = profile?.currentStreak || 1;
-    const longestStreak = profile?.longestStreak || 1;
-    const wordsLearned = (profile as any)?.wordsLearned || 0;
+    const longestStreak = profile?.longestStreak || profile?.currentStreak || 1;
+    const finalWordsLearned = Math.max(wordsLearnedCount, profile?.wordsLearned || 0);
 
-    // Generate 30-day dynamic analytics series data
+    // Generate 30-day dynamic analytics series data (-19 days past, 0 Today, +10 days future)
     const today = new Date();
     const dates: string[] = [];
     const minutesSeries: number[] = [];
     const xpSeries: number[] = [];
 
-    const intervals = [28, 24, 20, 16, 12, 8, 5, 2, 0];
+    const offsets = [-19, -14, -9, -4, 0, 3, 6, 10];
 
-    intervals.forEach((daysAgo, idx) => {
+    offsets.forEach((offset) => {
       const d = new Date(today);
-      d.setDate(d.getDate() - daysAgo);
+      d.setDate(d.getDate() + offset);
 
       const dayNum = d.getDate();
       const monthNum = d.getMonth() + 1;
-      dates.push(`${dayNum} thg ${monthNum}`);
 
-      if (daysAgo === 0) {
+      if (offset === 0) {
+        dates.push("Hôm nay");
         minutesSeries.push(minutesStudied);
         xpSeries.push(totalXp);
       } else {
-        // Subtle background baseline activity
+        dates.push(`${dayNum} thg ${monthNum}`);
         minutesSeries.push(0);
         xpSeries.push(0);
       }
@@ -52,10 +76,10 @@ export async function GET() {
         stats: {
           currentStreak,
           longestStreak,
-          wordsLearned,
+          wordsLearned: finalWordsLearned,
           minutesStudied,
           totalXp,
-          weeklyRank: "#3638",
+          weeklyRank: weeklyRankStr,
         },
         series: {
           dates,
@@ -76,7 +100,7 @@ export async function GET() {
             wordsLearned: 0,
             minutesStudied: 6,
             totalXp: 10,
-            weeklyRank: "#3638",
+            weeklyRank: "#1",
           },
           series: {
             dates: [

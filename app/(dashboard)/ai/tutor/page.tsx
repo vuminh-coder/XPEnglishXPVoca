@@ -270,7 +270,8 @@ export default function VoiceTutorPage() {
       { text: "Good to see you! If you could travel anywhere tomorrow, where would you go and why?", vi: "Rất vui gặp bạn! Nếu bạn có thể đi du lịch bất kỳ đâu vào ngày mai, bạn sẽ đi đâu và tại sao?" },
       { text: "Hey! Let's practice together. What's the most useful English phrase you've learned this week?", vi: "Này! Hãy cùng luyện tập. Cụm từ tiếng Anh hữu ích nhất mà bạn đã học trong tuần này là gì?" },
     ];
-    const pick = welcomePool[Math.floor(Math.random() * welcomePool.length)];
+    // Deterministic index 0 for SSR Hydration safety
+    const pick = welcomePool[0];
     return { id: "welcome", role: "ai", text: pick.text, vietnameseTranslation: pick.vi };
   };
 
@@ -282,6 +283,19 @@ export default function VoiceTutorPage() {
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [recordingTime, setRecordingTime] = useState(0);
   const [showTranslations, setShowTranslations] = useState<{ [key: string]: boolean }>({});
+
+  // Client-side mount welcome message randomizer (Hydration Safe)
+  useEffect(() => {
+    const welcomePool: { text: string; vi: string }[] = [
+      { text: "Hello! I'm your AI Voice Tutor. Tell me about your day so far — what have you been up to?", vi: "Xin chào! Tôi là AI Gia sư Giọng nói. Hãy kể cho tôi về ngày hôm nay của bạn — bạn đã làm gì?" },
+      { text: "Hi there! Let's warm up. Can you describe what you see around you right now in English?", vi: "Chào bạn! Hãy khởi động nhé. Bạn có thể mô tả những gì bạn đang nhìn thấy xung quanh bằng tiếng Anh không?" },
+      { text: "Welcome back! I'd love to hear about something interesting you learned recently.", vi: "Chào mừng trở lại! Tôi muốn nghe về điều thú vị mà bạn đã học gần đây." },
+      { text: "Good to see you! If you could travel anywhere tomorrow, where would you go and why?", vi: "Rất vui gặp bạn! Nếu bạn có thể đi du lịch bất kỳ đâu vào ngày mai, bạn sẽ đi đâu và tại sao?" },
+      { text: "Hey! Let's practice together. What's the most useful English phrase you've learned this week?", vi: "Này! Hãy cùng luyện tập. Cụm từ tiếng Anh hữu ích nhất mà bạn đã học trong tuần này là gì?" },
+    ];
+    const pick = welcomePool[Math.floor(Math.random() * welcomePool.length)];
+    setMessages([{ id: "welcome", role: "ai", text: pick.text, vietnameseTranslation: pick.vi }]);
+  }, []);
   
   // Selected word modal state for 1-Click Interactive Dictionary
   const [selectedWordData, setSelectedWordData] = useState<{
@@ -456,6 +470,7 @@ export default function VoiceTutorPage() {
     });
 
     useUserStore.getState().addPracticeTime(2, "speaking");
+    useUserStore.getState().awardXp(15, "speaking");
     recordSkillPractice(user?.id, "Nói", 2, 15);
 
     // ===== SMART CONTEXT-AWARE FALLBACK ENGINE =====
@@ -761,27 +776,27 @@ export default function VoiceTutorPage() {
           <div className="p-2.5 sm:p-3.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex flex-col min-w-0 lg:min-h-0 lg:flex-1">
             
             {/* Header Title */}
-            <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
-              <div className="flex items-center gap-2 truncate">
-                <MessageSquare className="w-4 h-4 text-[#0059bb]" strokeWidth={1.8} />
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2 gap-2">
+              <div className="flex items-center gap-2 min-w-0 flex-1">
+                <MessageSquare className="w-4 h-4 text-[#0059bb] shrink-0" strokeWidth={1.8} />
                 <h2 className="text-[11px] sm:text-xs font-bold text-slate-900 dark:text-white font-display uppercase tracking-wider truncate">
                   KHUNG GIAO TIẾP VỚI AI TUTOR STUDIO
                 </h2>
               </div>
 
               {isSpeaking ? (
-                <span className="text-[10px] font-bold text-purple-600 dark:text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded-xs flex items-center gap-1.5 animate-pulse border border-purple-500/20">
+                <span className="text-[10px] font-bold text-purple-600 dark:text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded-xs flex items-center gap-1.5 animate-pulse border border-purple-500/20 shrink-0 whitespace-nowrap">
                   <Volume2 className="w-3 h-3 text-purple-500" /> AI đang phát âm...
                 </span>
               ) : (
-                <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-xs border border-emerald-500/20 flex items-center gap-1">
+                <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-xs border border-emerald-500/20 flex items-center gap-1 shrink-0 whitespace-nowrap">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Sẵn sàng
                 </span>
               )}
             </div>
 
             {/* Scrollable Chat Stream (Generous Height on Mobile & Desktop) */}
-            <div className="h-[62svh] min-h-[380px] sm:min-h-[420px] lg:h-auto lg:min-h-[460px] lg:flex-1 overflow-y-auto space-y-3 p-1 pr-1.5 mt-2 sm:mt-3">
+            <div className="max-h-[50svh] min-h-[240px] sm:min-h-[420px] lg:h-auto lg:min-h-[460px] lg:flex-1 overflow-y-auto space-y-3 p-1 pr-1.5 mt-2 sm:mt-3">
               {messages.map((msg) => {
                 const isAi = msg.role === "ai";
                 const isTranslated = showTranslations[msg.id];

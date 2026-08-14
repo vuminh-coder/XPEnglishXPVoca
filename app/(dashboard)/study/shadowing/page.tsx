@@ -15,6 +15,7 @@ import {
   Play,
   Pause,
   RotateCcw,
+  Repeat,
   Volume2,
   Sparkles,
   CheckCircle2,
@@ -130,6 +131,15 @@ export default function ShadowingPage() {
   const [liveScorePercent, setLiveScorePercent] = useState<number | null>(null);
   const speechRecognitionRef = useRef<any>(null);
 
+  // Extended Shadowing Features: Roleplay Speaker, A-B Looping, Sentence Scores
+  const [roleplayFilter, setRoleplayFilter] = useState<"ALL" | "Speaker A" | "Speaker B">("ALL");
+  const [abLoop, setAbLoop] = useState<{ active: boolean; startIdx: number; endIdx: number }>({
+    active: false,
+    startIdx: 0,
+    endIdx: 3,
+  });
+  const [sentenceScores, setSentenceScores] = useState<Record<number, number>>({});
+
   // Direct Instant Word Dictionary Lookup (0ms latency, uses in-lesson vocabulary & core dictionary)
   const handleWordClick = (rawWord: string) => {
     const clean = rawWord.replace(/[^a-zA-Z]/g, "").trim();
@@ -165,13 +175,40 @@ export default function ShadowingPage() {
     });
   };
 
-  // Sync lesson ID from URL
+  // Sync lesson ID from URL and LocalStorage Persistence
   useEffect(() => {
-    if (lessonIdFromUrl && lessonIdFromUrl !== selectedLessonId) {
+    if (typeof window === "undefined") return;
+
+    if (lessonIdFromUrl) {
       setSelectedLessonId(lessonIdFromUrl);
       setCurrentLessonId(lessonIdFromUrl);
+      localStorage.setItem("xp_voca_last_shadowing_lesson", lessonIdFromUrl);
+    } else {
+      const savedLesson = localStorage.getItem("xp_voca_last_shadowing_lesson");
+      if (savedLesson && !selectedLessonId) {
+        setSelectedLessonId(savedLesson);
+        setCurrentLessonId(savedLesson);
+      }
     }
-  }, [lessonIdFromUrl, selectedLessonId, setCurrentLessonId]);
+  }, [lessonIdFromUrl, setCurrentLessonId]);
+
+  // Save active sentence index per lesson to LocalStorage
+  useEffect(() => {
+    if (typeof window === "undefined" || !selectedLessonId) return;
+    localStorage.setItem("xp_voca_last_shadowing_lesson", selectedLessonId);
+    const savedSentenceStr = localStorage.getItem(`xp_voca_last_sentence_${selectedLessonId}`);
+    if (savedSentenceStr && currentSentenceIndex === 0) {
+      const savedIdx = parseInt(savedSentenceStr, 10);
+      if (!isNaN(savedIdx) && savedIdx >= 0 && savedIdx < (currentLesson?.transcript?.length || 100)) {
+        setCurrentSentenceIndex(savedIdx);
+      }
+    }
+  }, [selectedLessonId]);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !selectedLessonId) return;
+    localStorage.setItem(`xp_voca_last_sentence_${selectedLessonId}`, currentSentenceIndex.toString());
+  }, [selectedLessonId, currentSentenceIndex]);
 
   const currentSentence = currentLesson?.transcript?.[currentSentenceIndex] || currentLesson?.transcript?.[0] || null;
 
@@ -473,6 +510,10 @@ export default function ShadowingPage() {
       };
 
       setAiAnalysisResult(result);
+      setSentenceScores((prev) => ({
+        ...prev,
+        [currentSentenceIndex]: Math.max(prev[currentSentenceIndex] || 0, finalScore),
+      }));
 
       // Save attempt to store
       addAttempt({
@@ -499,7 +540,7 @@ export default function ShadowingPage() {
       useUserStore.getState().addPracticeTime(1, "shadowing");
       
       if (isPassed) {
-        awardXp(20);
+        awardXp(20, "shadowing");
         addToast({
           type: "success",
           title: `🎉 VƯỢT QUA CÂU! Đạt ${finalScore}% (≥80%)`,
@@ -515,7 +556,7 @@ export default function ShadowingPage() {
     }, 800);
   };
 
-  const progressPercent = currentLesson
+  const progressPercent = currentLesson && currentLesson.transcript?.length
     ? Math.round(((currentSentenceIndex + 1) / currentLesson.transcript.length) * 100)
     : 0;
 
@@ -885,7 +926,7 @@ export default function ShadowingPage() {
                 <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
                   <div className="flex items-center gap-2">
                     <span className="text-xs font-bold text-slate-500 dark:text-slate-400 font-display">
-                      Câu {currentSentenceIndex + 1}/{currentLesson.transcript.length}
+                      Câu {currentSentenceIndex + 1}/{currentLesson.transcript?.length || 1}
                     </span>
                     <span className="text-[10px] font-mono font-bold text-[#1d6ee6]">
                       ({progressPercent}%)
@@ -913,6 +954,76 @@ export default function ShadowingPage() {
                   </div>
                 </div>
 
+                {/* 1. Sentence Navigator Bar (Scrollable row of 12-25 sentences) */}
+                <div className="flex items-center gap-1 overflow-x-auto py-1 no-scrollbar border-b border-slate-100 dark:border-white/5">
+                  <span className="text-[10px] font-bold text-slate-400 shrink-0 mr-1">Chuyển câu:</span>
+                  {currentLesson.transcript?.map((s: any, idx: number) => {
+                    const isCurrent = idx === currentSentenceIndex;
+                    const score = sentenceScores[idx];
+                    const isPassed = score !== undefined && score >= 80;
+
+                    return (
+                      <button
+                        key={idx}
+                        onClick={() => {
+                          setCurrentSentenceIndex(idx);
+                          setAiAnalysisResult(null);
+                          setNativeAudioProgress(0);
+                          setLiveRecognizedWords([]);
+                          setLiveScorePercent(null);
+                        }}
+                        className={`px-2 py-0.5 rounded-xs text-[10px] font-bold transition-all shrink-0 cursor-pointer flex items-center gap-1 border ${
+                          isCurrent
+                            ? "bg-[#1d6ee6] text-white border-transparent shadow-2xs font-black ring-2 ring-[#1d6ee6]/30"
+                            : isPassed
+                            ? "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border-emerald-500/30 font-bold"
+                            : score !== undefined
+                            ? "bg-amber-50 dark:bg-amber-950/40 text-amber-600 border-amber-500/30"
+                            : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-transparent hover:bg-slate-200"
+                        }`}
+                      >
+                        <span>Câu {idx + 1}</span>
+                        {isPassed && <Check className="w-2.5 h-2.5 stroke-[3]" />}
+                        {score !== undefined && !isPassed && <span className="text-[8.5px] font-mono">{score}%</span>}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* 2. Roleplay Speaker Selector & A-B Looping Bar */}
+                <div className="flex flex-wrap items-center justify-between gap-2 p-2 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-white/5 text-xs font-bold">
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider flex items-center gap-1">
+                      <Bot className="w-3 h-3 text-[#1d6ee6]" /> Nhập vai:
+                    </span>
+                    {(["ALL", "Speaker A", "Speaker B"] as const).map((speaker) => (
+                      <button
+                        key={speaker}
+                        onClick={() => setRoleplayFilter(speaker)}
+                        className={`px-2 py-0.5 rounded-xs text-[10px] font-bold transition-all cursor-pointer ${
+                          roleplayFilter === speaker
+                            ? "bg-[#1d6ee6] text-white shadow-2xs font-black"
+                            : "bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:border-[#1d6ee6]"
+                        }`}
+                      >
+                        {speaker === "ALL" ? "Tất cả các vai" : speaker === "Speaker A" ? "Speaker A 🗣️" : "Speaker B 🎧"}
+                      </button>
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={() => setAbLoop((prev) => ({ ...prev, active: !prev.active }))}
+                    className={`px-2 py-0.5 rounded-xs text-[10px] font-bold flex items-center gap-1 cursor-pointer transition-all ${
+                      abLoop.active
+                        ? "bg-purple-600 text-white shadow-2xs font-black animate-pulse"
+                        : "bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300"
+                    }`}
+                  >
+                    <Repeat className="w-3 h-3" />
+                    <span>{abLoop.active ? "Lặp A-B Đang Bật" : "Bật Lặp A-B"}</span>
+                  </button>
+                </div>
+
                 {/* Target Sentence Box */}
                 {currentSentence && (
                   <div className="p-3.5 rounded-xs bg-slate-50/80 dark:bg-slate-950/80 border border-slate-200/60 dark:border-white/5 space-y-2.5 relative">
@@ -925,6 +1036,11 @@ export default function ShadowingPage() {
                     {/* Sentence Action Toolbar: Toggle Translation Con Mắt Eye & Live Score Badge */}
                     <div className="flex items-center justify-between gap-2 border-b border-slate-200/50 dark:border-white/5 pb-2">
                       <div className="flex items-center gap-2">
+                        {currentSentence.speaker && (
+                          <span className="px-2 py-0.5 rounded-xs text-[10px] font-black bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20">
+                            🗣️ {currentSentence.speaker}
+                          </span>
+                        )}
                         <button
                           type="button"
                           onClick={() => setShowTranslation(!showTranslation)}
@@ -1079,7 +1195,7 @@ export default function ShadowingPage() {
 
                   <button
                     onClick={() => {
-                      if (currentSentenceIndex < currentLesson.transcript.length - 1) {
+                      if (currentLesson?.transcript && currentSentenceIndex < currentLesson.transcript.length - 1) {
                         setCurrentSentenceIndex((prev) => prev + 1);
                         setAiAnalysisResult(null);
                         setNativeAudioProgress(0);
@@ -1087,7 +1203,7 @@ export default function ShadowingPage() {
                         setLiveScorePercent(null);
                       }
                     }}
-                    disabled={currentSentenceIndex === currentLesson.transcript.length - 1}
+                    disabled={!currentLesson?.transcript || currentSentenceIndex === currentLesson.transcript.length - 1}
                     className="px-3.5 py-1 rounded-xs bg-[#1d6ee6] hover:bg-[#155bc5] text-white text-xs font-bold flex items-center gap-1 shadow-2xs cursor-pointer"
                   >
                     Câu tiếp ➔

@@ -1,4 +1,6 @@
 import { parseListeningMarkdown, ListeningLesson } from "../utils/listeningParser";
+import { EXTENDED_SHADOWING_LESSONS } from "./extendedShadowingData";
+import { ensureExtendedLessons } from "../utils/extendedTranscriptEngine";
 
 const LESSON_1_MD = `---
 id: listen_001
@@ -5171,7 +5173,7 @@ Q2: Who will conduct random quality inspections across all floors?
 -- Explanation: The transcript explicitly mentions: "Floor supervisors will conduct random quality inspections across all floors."
 `;
 
-export const MOCK_LESSONS_DATA: ListeningLesson[] = [
+const RAW_LESSONS_DATA: ListeningLesson[] = [
   parseListeningMarkdown(LESSON_Q3_101_MD),
   parseListeningMarkdown(LESSON_Q3_100_MD),
   parseListeningMarkdown(LESSON_Q3_099_MD),
@@ -5272,7 +5274,10 @@ export const MOCK_LESSONS_DATA: ListeningLesson[] = [
   parseListeningMarkdown(LESSON_Q3_003_MD),
   parseListeningMarkdown(LESSON_Q3_002_MD),
   parseListeningMarkdown(LESSON_Q3_MD),
+  ...EXTENDED_SHADOWING_LESSONS,
   parseListeningMarkdown(LESSON_1_MD),
   parseListeningMarkdown(LESSON_2_MD),
   parseListeningMarkdown(LESSON_3_MD)
 ];
+
+export const MOCK_LESSONS_DATA: ListeningLesson[] = ensureExtendedLessons(RAW_LESSONS_DATA);

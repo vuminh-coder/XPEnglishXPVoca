@@ -112,6 +112,23 @@ export default function ListeningPage() {
   const currentLesson =
     lessonsList.find((l) => l.id === selectedLessonId) || null;
 
+  // Sync URL & LocalStorage Persistence
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    if (lessonIdFromUrl) {
+      setSelectedLessonId(lessonIdFromUrl);
+      setCurrentLessonId(lessonIdFromUrl);
+      localStorage.setItem("xp_voca_last_listening_lesson", lessonIdFromUrl);
+    } else {
+      const savedLesson = localStorage.getItem("xp_voca_last_listening_lesson");
+      if (savedLesson && !selectedLessonId) {
+        setSelectedLessonId(savedLesson);
+        setCurrentLessonId(savedLesson);
+      }
+    }
+  }, [lessonIdFromUrl, setCurrentLessonId]);
+
   // Randomized 10-Lesson Picker State (Prioritizes unlearned lessons)
   const [displayed10Lessons, setDisplayed10Lessons] = useState<any[]>([]);
 
@@ -241,7 +258,7 @@ export default function ListeningPage() {
 
     const isCorrect = optionIdx === correctIdx;
     if (isCorrect) {
-      awardXp(10);
+      awardXp(10, "dictation");
       addToast({ type: "success", title: "Chính xác! +10 XP 🎯" });
     } else {
       addToast({

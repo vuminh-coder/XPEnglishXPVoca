@@ -738,9 +738,6 @@ export default function AiGrammarPage() {
                       <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display group-hover:text-[#0059bb] dark:group-hover:text-sky-400 transition-colors line-clamp-1">
                         {topic.name}
                       </h3>
-                      <div className="text-[9px] sm:text-[10px] font-mono font-bold uppercase text-slate-400 dark:text-slate-500 mt-0.5">
-                        {topic.nameEn}
-                      </div>
                       <p className="hidden sm:block text-xs text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed line-clamp-2">
                         {topic.desc}
                       </p>

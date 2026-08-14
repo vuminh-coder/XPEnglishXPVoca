@@ -3999,6 +3999,7 @@ a, button, img, input, [role="button"] {
 
   .left-sidebar {
     transform: translateX(-100%);
+    z-index: 120 !important;
   }
   .left-sidebar:not(.open) {
     visibility: hidden;
@@ -4006,6 +4007,9 @@ a, button, img, input, [role="button"] {
   }
   .left-sidebar.open {
     transform: translateX(0);
+  }
+  .sidebar-overlay {
+    z-index: 110 !important;
   }
   .sidebar-overlay.active {
     display: block;

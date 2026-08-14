@@ -182,7 +182,7 @@ export default function DashboardPage() {
     const fetchLeaderboard = async () => {
       try {
         setIsLoadingLeaderboard(true);
-        const res = await fetch("/api/leaderboard");
+        const res = await fetch(`/api/leaderboard?period=${leaderboardTab}`);
         const json = await res.json();
         if (json.success && json.data) {
           setLeaderboardData(json.data);
@@ -194,7 +194,7 @@ export default function DashboardPage() {
       }
     };
     fetchLeaderboard();
-  }, []);
+  }, [leaderboardTab]);
 
   // Fetch current day's study plan task
   useEffect(() => {
@@ -284,23 +284,13 @@ export default function DashboardPage() {
       } catch (e) {}
     }
 
-    const dates = [
-      "18 thg 7",
-      "19 thg 7",
-      "20 thg 7",
-      "21 thg 7",
-      "22 thg 7",
-      "23 thg 7",
-      "24 thg 7",
-    ];
-    return dates.map((dateStr, index) => {
+    return Array.from({ length: 7 }, (_, index) => {
       const targetDate = new Date(startOfWeek);
       targetDate.setDate(startOfWeek.getDate() + index);
       const isoDate = targetDate.toISOString().slice(0, 10);
-      const xp =
-        dailyXpMap[isoDate] ||
-        (index === 6 ? Math.max(5, user?.minutesStudied || 5) : 0);
-      return { day: dateStr, xp };
+      const day = `${targetDate.getDate()} thg ${targetDate.getMonth() + 1}`;
+      const xp = dailyXpMap[isoDate] || 0;
+      return { day, xp };
     });
   }, [user]);
 
@@ -475,6 +465,19 @@ export default function DashboardPage() {
     setClaimedList(updated);
     if (typeof window !== "undefined") {
       localStorage.setItem("xp_claimed_challenges", JSON.stringify(updated));
+
+      // Persist today's date to activeDates for streak track progress bar
+      try {
+        const activeDatesKey = `xp_voca_active_dates_${userKey}`;
+        const storedDates = localStorage.getItem(activeDatesKey);
+        const activeDates: string[] = storedDates ? JSON.parse(storedDates) : [];
+        if (!activeDates.includes(todayStr)) {
+          activeDates.push(todayStr);
+          localStorage.setItem(activeDatesKey, JSON.stringify(activeDates));
+        }
+      } catch (e) {
+        console.error("Error persisting active dates:", e);
+      }
     }
 
     awardXp(15);
@@ -614,16 +617,20 @@ export default function DashboardPage() {
           </div>
 
           <div className="grid grid-cols-2 gap-1.5 sm:gap-2 w-full sm:w-auto">
-            <button className="px-2 sm:px-2.5 py-1.5 rounded-xs bg-[#20b26c] hover:bg-[#1b9a5d] text-white text-[10px] sm:text-[11px] font-bold transition-all shadow-2xs flex items-center justify-center gap-1 sm:gap-1.5 cursor-pointer whitespace-nowrap">
-              <Video className="w-3 sm:w-3.5 h-3 sm:h-3.5 stroke-[2]" />
-              <span className="hidden sm:inline">Thêm Video/Audio</span>
-              <span className="sm:hidden">Video/Audio</span>
-            </button>
-            <button className="px-2 sm:px-2.5 py-1.5 rounded-xs bg-[#1d6ee6] hover:bg-[#155bc5] text-white text-[10px] sm:text-[11px] font-bold transition-all shadow-2xs flex items-center justify-center gap-1 sm:gap-1.5 cursor-pointer whitespace-nowrap">
-              <MessageSquare className="w-3 sm:w-3.5 h-3 sm:h-3.5 stroke-[2]" />
-              <span className="hidden sm:inline">Chia sẻ & góp ý</span>
-              <span className="sm:hidden">Góp ý</span>
-            </button>
+            <Link href="/myvideo">
+              <button className="w-full px-2 sm:px-2.5 py-1.5 rounded-xs bg-[#20b26c] hover:bg-[#1b9a5d] text-white text-[10px] sm:text-[11px] font-bold transition-all shadow-2xs flex items-center justify-center gap-1 sm:gap-1.5 cursor-pointer whitespace-nowrap">
+                <Video className="w-3 sm:w-3.5 h-3 sm:h-3.5 stroke-[2]" />
+                <span className="hidden sm:inline">Thêm Video/Audio</span>
+                <span className="sm:hidden">Video/Audio</span>
+              </button>
+            </Link>
+            <Link href="/community">
+              <button className="w-full px-2 sm:px-2.5 py-1.5 rounded-xs bg-[#1d6ee6] hover:bg-[#155bc5] text-white text-[10px] sm:text-[11px] font-bold transition-all shadow-2xs flex items-center justify-center gap-1 sm:gap-1.5 cursor-pointer whitespace-nowrap">
+                <MessageSquare className="w-3 sm:w-3.5 h-3 sm:h-3.5 stroke-[2]" />
+                <span className="hidden sm:inline">Chia sẻ & góp ý</span>
+                <span className="sm:hidden">Góp ý</span>
+              </button>
+            </Link>
           </div>
         </div>
 
@@ -854,29 +861,7 @@ export default function DashboardPage() {
                 </div>
 
                 <div className="relative pt-2 bg-slate-50/40 dark:bg-slate-950/40 rounded-xs border border-slate-100 dark:border-white/5 overflow-hidden">
-                  {/* Refined Floating Day Practice Tooltip Badge with Minimal Border Radius */}
-                  {selectedDayIndex !== null && animatedYPoints[selectedDayIndex] !== undefined && (
-                    <motion.div
-                      key={`tooltip-${selectedDayIndex}-${activeSkillTab}`}
-                      initial={{ opacity: 0, y: -4, scale: 0.95 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      className="absolute top-1.5 z-20 transition-all duration-200 pointer-events-none"
-                      style={{
-                        left: `${(selectedDayIndex / 6) * 100}%`,
-                        transform: `translateX(-${(selectedDayIndex / 6) * 100}%)`,
-                      }}
-                    >
-                      <div
-                        className="px-2 py-0.5 rounded-xs text-[10px] shadow-sm shadow-slate-200/60 dark:shadow-none border border-slate-200/80 dark:border-white/10 bg-white/95 dark:bg-slate-900/95 flex items-center gap-1.5 backdrop-blur-md"
-                      >
-                        <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: currentSkillConfig.color }} />
-                        <span className="text-slate-500 dark:text-slate-400 font-semibold">
-                          {selectedDayIndex === 4 ? `Hôm nay (${skillWeeklyChartData[selectedDayIndex].day})` : skillWeeklyChartData[selectedDayIndex].day}:
-                        </span>
-                        <span className="font-black" style={{ color: currentSkillConfig.color }}>{skillWeeklyChartData[selectedDayIndex].minutes}m</span>
-                      </div>
-                    </motion.div>
-                  )}
+
 
                   {/* Ultra-Thin Smooth SVG Line & Area Chart Edge-to-Edge */}
                   <div className="w-full h-28 sm:h-36 relative">
@@ -994,40 +979,62 @@ export default function DashboardPage() {
                               className="transition-colors duration-300"
                             />
 
-                            {/* Selected Day Vertical Indicator Line extending from baseline 0 (y=140) up to curve */}
-                            {selPoint && (
-                              <g>
-                                <motion.line
-                                  key={`vert-line-${selectedDayIndex}`}
-                                  initial={{ y2: 140, opacity: 0 }}
-                                  animate={{ y2: selPoint.y, opacity: 0.7 }}
-                                  transition={{ duration: 0.25, ease: "easeOut" }}
-                                  x1={selPoint.x}
-                                  y1={140}
-                                  x2={selPoint.x}
-                                  stroke={currentSkillConfig.color}
-                                  strokeWidth="1.2"
-                                  strokeDasharray="2 2"
-                                />
-                                <circle
-                                  cx={selPoint.x}
-                                  cy={selPoint.y}
-                                  r="5.5"
-                                  fill={currentSkillConfig.color}
-                                  opacity="0.25"
-                                  className="transition-colors duration-300"
-                                />
-                                <circle
-                                  cx={selPoint.x}
-                                  cy={selPoint.y}
-                                  r="3.5"
-                                  fill={currentSkillConfig.color}
-                                  stroke="#ffffff"
-                                  strokeWidth="1.8"
-                                  className="shadow-xs transition-colors duration-300"
-                                />
-                              </g>
-                            )}
+                             {/* Selected Day Vertical Indicator Line with Borderless Value Text Centered Above Clicked Point */}
+                            <AnimatePresence>
+                              {selPoint && (
+                                <g key={`vert-group-${selectedDayIndex}`}>
+                                  <motion.line
+                                    initial={{ y2: 140, opacity: 0 }}
+                                    animate={{ y2: selPoint.y, opacity: 0.8 }}
+                                    exit={{ opacity: 0 }}
+                                    transition={{ type: "spring", stiffness: 380, damping: 24 }}
+                                    x1={selPoint.x}
+                                    y1={140}
+                                    x2={selPoint.x}
+                                    stroke={currentSkillConfig.color}
+                                    strokeWidth="1.4"
+                                    strokeDasharray="3 3"
+                                  />
+                                  <motion.circle
+                                    initial={{ scale: 0, opacity: 0 }}
+                                    animate={{ scale: 1, opacity: 0.25 }}
+                                    exit={{ scale: 0, opacity: 0 }}
+                                    transition={{ type: "spring", stiffness: 450, damping: 22 }}
+                                    cx={selPoint.x}
+                                    cy={selPoint.y}
+                                    r="6"
+                                    fill={currentSkillConfig.color}
+                                  />
+                                  <motion.circle
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: 1 }}
+                                    exit={{ scale: 0 }}
+                                    transition={{ type: "spring", stiffness: 450, damping: 22 }}
+                                    cx={selPoint.x}
+                                    cy={selPoint.y}
+                                    r="3.5"
+                                    fill={currentSkillConfig.color}
+                                    stroke="#ffffff"
+                                    strokeWidth="1.8"
+                                    className="shadow-xs"
+                                  />
+                                  {/* Borderless Value Text Badge (e.g., 0m, 15m) centered directly over point */}
+                                  <motion.text
+                                    initial={{ opacity: 0, y: selPoint.y }}
+                                    animate={{ opacity: 1, y: Math.max(16, selPoint.y - 12) }}
+                                    exit={{ opacity: 0 }}
+                                    transition={{ type: "spring", stiffness: 420, damping: 26 }}
+                                    x={selPoint.x}
+                                    textAnchor="middle"
+                                    fill={currentSkillConfig.color}
+                                    className="font-black text-[13px] select-none"
+                                    style={{ fontWeight: 900 }}
+                                  >
+                                    {selPoint.minutes}m
+                                  </motion.text>
+                                </g>
+                              )}
+                            </AnimatePresence>
 
                             {/* Invisible Interactive Column Touch/Click Hitboxes centered over grid columns */}
                             {animatedPoints.map((p, idx) => (
@@ -1040,7 +1047,6 @@ export default function DashboardPage() {
                                 fill="transparent"
                                 className="cursor-pointer"
                                 onClick={() => setSelectedDayIndex(selectedDayIndex === idx ? null : idx)}
-                                onMouseEnter={() => setSelectedDayIndex(idx)}
                               />
                             ))}
                           </g>
@@ -1059,7 +1065,6 @@ export default function DashboardPage() {
                           key={i}
                           type="button"
                           onClick={() => setSelectedDayIndex(isSelected ? null : i)}
-                          onMouseEnter={() => setSelectedDayIndex(i)}
                           className={`py-0.5 px-0.5 rounded-xs text-[9.5px] transition-all cursor-pointer truncate ${
                             isSelected
                               ? "font-black text-xs scale-105"
@@ -1071,7 +1076,8 @@ export default function DashboardPage() {
                             color: isSelected ? currentSkillConfig.color : undefined,
                           }}
                         >
-                          {d.day}
+                          <span className="hidden sm:inline">{d.day}</span>
+                          <span className="sm:hidden">{d.day.split(" ")[0]}</span>
                         </button>
                       );
                     })}
@@ -1371,10 +1377,13 @@ export default function DashboardPage() {
                     <span className="text-[10px] font-black text-blue-600 dark:text-sky-400 shrink-0">
                       #{userRankInLeaderboard}
                     </span>
-                    <div className="w-5.5 h-5.5 rounded-full bg-[#0059bb] text-white font-bold text-[9px] flex items-center justify-center shrink-0 shadow-2xs">
-                      {user?.avatarEmoji ||
-                        (user?.fullName || "X").charAt(0).toUpperCase()}
-                    </div>
+                    <UserAvatar
+                      avatar={(user as any)?.avatarUrl || user?.imageUrl || (user as any)?.avatar}
+                      imageUrl={user?.imageUrl}
+                      emoji={user?.avatarEmoji}
+                      name={user?.fullName || user?.username || "Bạn"}
+                      size="w-5.5 h-5.5"
+                    />
                     <span className="text-xs font-bold text-slate-900 dark:text-white truncate">
                       Bạn
                     </span>
@@ -1391,7 +1400,7 @@ export default function DashboardPage() {
                   const displayScore =
                     leaderboardCriterion === "xp"
                       ? `${leader.xp} XP`
-                      : `${Math.max(5, Math.round(leader.xp / 10))}m`;
+                      : `${leader.minutesStudied ?? Math.max(5, Math.round(leader.xp / 10))}m`;
 
                   return (
                     <div
@@ -1408,11 +1417,13 @@ export default function DashboardPage() {
                             <Award className="w-3.5 h-3.5 text-amber-700" />
                           )}
                         </span>
-                        <div className="w-5.5 h-5.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-[9px] flex items-center justify-center shrink-0">
-                          {leader.avatarEmoji ||
-                            leader.fullName?.charAt(0) ||
-                            "U"}
-                        </div>
+                        <UserAvatar
+                          avatar={leader.avatarUrl || leader.imageUrl || leader.avatar}
+                          imageUrl={leader.imageUrl}
+                          emoji={leader.avatarEmoji}
+                          name={leader.fullName || leader.username || "Học viên"}
+                          size="w-5.5 h-5.5"
+                        />
                         <div className="min-w-0">
                           <span className="text-xs font-medium text-slate-900 dark:text-white truncate block">
                             {leader.fullName}

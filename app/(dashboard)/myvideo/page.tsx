@@ -5,6 +5,7 @@ import {
   useVideoStore,
   YouTubeVideoItem,
   extractYouTubeId,
+  extractYouTubeStartTimestamp,
   SubtitleSentence,
 } from "@/lib/store/videoStore";
 import { processHighPrecisionSubtitles, SubtitleExtractionResult } from "@/lib/services/youtubeSubtitleService";
@@ -16,6 +17,7 @@ import { useNotificationStore } from "@/lib/store/notificationStore";
 import { PageEntranceWrapper, MotionItem } from "@/components/shared/PageEntranceAnimation";
 import { motion, AnimatePresence } from "framer-motion";
 import { speakLessonText } from "@/lib/utils/ttsEngine";
+import { backgroundWebSpeechTranscriber } from "@/lib/services/webSpeechTranscriber";
 
 import {
   Video,
@@ -129,6 +131,7 @@ export default function MyVideoPage() {
   const ytPlayerTimeRef = useRef<number>(0);
   const ytPlayerStateRef = useRef<number>(-1); // -1=unstarted, 1=playing, 2=paused, 3=buffering, 0=ended
   const ytTimeLastUpdatedRef = useRef<number>(0); // Timestamp (ms) of last YouTube infoDelivery update
+  const ytLastTimeChangedAtRef = useRef<number>(0); // Timestamp (ms) of when YouTube currentTime actually changed
   const ytListenerRegisteredRef = useRef<boolean>(false); // Whether YouTube listening registration succeeded
 
   // YouTube Link Import State with Category & Level Selection
@@ -184,7 +187,7 @@ export default function MyVideoPage() {
   const [rightPanelTab, setRightPanelTab] = useState<"subtitles" | "dictation" | "playlist">("subtitles");
 
   // Interactive Play/Pause & Media Control Bar States
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [isLoopingSentence, setIsLoopingSentence] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState<number>(1.0);
   const [activeSubIndex, setActiveSubIndex] = useState<number>(0);
@@ -216,6 +219,7 @@ export default function MyVideoPage() {
     // 3. Send IFrame commands to YouTube
     sendYtCommand("seekTo", [targetSub.startTime, true]);
     sendYtCommand("playVideo");
+    ytPlayerStateRef.current = 1;
     setIsPlaying(true);
   }, [activeVideo, sendYtCommand]);
 
@@ -233,10 +237,12 @@ export default function MyVideoPage() {
   const togglePlayPause = () => {
     if (isPlaying) {
       sendYtCommand("pauseVideo");
+      ytPlayerStateRef.current = 2;
       setIsPlaying(false);
       ytTimeLastUpdatedRef.current = Date.now();
     } else {
       sendYtCommand("playVideo");
+      ytPlayerStateRef.current = 1;
       setIsPlaying(true);
       ytTimeLastUpdatedRef.current = Date.now();
     }
@@ -287,6 +293,17 @@ export default function MyVideoPage() {
   useEffect(() => {
     subtitleSyncOffsetRef.current = subtitleSyncOffset;
   }, [subtitleSyncOffset]);
+
+  // Full Subtitle List Auto-Scroll Ref
+  const subItemRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
+  useEffect(() => {
+    if (subViewMode === "full" && subItemRefs.current[activeSubIndex]) {
+      subItemRefs.current[activeSubIndex]?.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+      });
+    }
+  }, [activeSubIndex, subViewMode]);
 
   const activeSubIndexRef = useRef(activeSubIndex);
   useEffect(() => {
@@ -368,6 +385,15 @@ export default function MyVideoPage() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [activeVideo, isPlaying, showExportModal, wordLookupData, rightPanelTab, dictationAnswered, dictationInput]);
 
+  // Helper to parse YouTube player state from numeric, string, or object payload
+  const parseYtState = (val: any): number | null => {
+    if (typeof val === "number") return val;
+    if (typeof val === "string" && !isNaN(Number(val))) return Number(val);
+    if (val && typeof val.playerState === "number") return val.playerState;
+    if (val && typeof val.playerState === "string" && !isNaN(Number(val.playerState))) return Number(val.playerState);
+    return null;
+  };
+
   // YouTube IFrame API: Listen for postMessage events to get REAL player time & state
   useEffect(() => {
     const handleYTMessage = (event: MessageEvent) => {
@@ -376,6 +402,19 @@ export default function MyVideoPage() {
 
       try {
         const data = typeof event.data === "string" ? JSON.parse(event.data) : event.data;
+
+        // Parse YouTube state from event payload (supports onStateChange & infoDelivery)
+        const state = parseYtState(data.info) ?? parseYtState(data);
+        if (state !== null) {
+          ytPlayerStateRef.current = state;
+          const ytPlaying = state === 1;
+          isPlayingRef.current = ytPlaying; // INSTANT SYNCHRONOUS REF UPDATE!
+          setIsPlaying(ytPlaying);
+          if (ytPlaying) {
+            ytTimeLastUpdatedRef.current = Date.now();
+          }
+        }
+
         // YouTube sends infoDelivery with currentTime
         if (data?.event === "infoDelivery" && data?.info) {
           if (typeof data.info.currentTime === "number") {
@@ -383,17 +422,6 @@ export default function MyVideoPage() {
             ytTimeLastUpdatedRef.current = Date.now();
             ytListenerRegisteredRef.current = true;
           }
-          // Sync play/pause state from YouTube player
-          if (typeof data.info.playerState === "number") {
-            ytPlayerStateRef.current = data.info.playerState;
-            const ytPlaying = data.info.playerState === 1;
-            setIsPlaying(ytPlaying);
-          }
-        }
-        // YouTube onStateChange event
-        if (data?.event === "onStateChange") {
-          ytPlayerStateRef.current = data.info;
-          setIsPlaying(data.info === 1);
         }
       } catch (e) {
         // Not a JSON message from YouTube, ignore
@@ -443,18 +471,21 @@ export default function MyVideoPage() {
         // Read real time from YouTube player (via postMessage events)
         const realTime = ytPlayerTimeRef.current;
         const timeSinceUpdate = Date.now() - ytTimeLastUpdatedRef.current;
-        const isYtPlaying = ytPlayerStateRef.current === 1 || isPlayingRef.current;
         const currentSpeed = playbackSpeedRef.current;
 
         setCurrentTime((prevTime) => {
           let nextTime: number;
-          if (ytTimeLastUpdatedRef.current > 0 && timeSinceUpdate < 1200) {
-            // Smooth 60fps interpolation anchored to YouTube master clock
-            const elapsed = isYtPlaying ? Math.min(1.2, timeSinceUpdate / 1000) * currentSpeed : 0;
-            nextTime = parseFloat((realTime + elapsed).toFixed(3));
-          } else if (isYtPlaying) {
-            // Fallback: advance smoothly by interval duration (35ms = 0.035s) so subtitles NEVER freeze
-            nextTime = parseFloat((prevTime + 0.035 * currentSpeed).toFixed(3));
+
+          if (realTime > 0) {
+            // Check if player is actively playing and receiving fresh postMessage ticks (< 350ms)
+            const isPlayingActive = isPlayingRef.current && ytPlayerStateRef.current !== 2 && ytPlayerStateRef.current !== 0;
+            if (isPlayingActive && timeSinceUpdate < 350) {
+              const elapsed = (timeSinceUpdate / 1000) * currentSpeed;
+              nextTime = parseFloat((realTime + elapsed).toFixed(3));
+            } else {
+              // Video is paused or updates stopped: lock time strictly to realTime
+              nextTime = realTime;
+            }
           } else {
             nextTime = prevTime;
           }
@@ -507,6 +538,10 @@ export default function MyVideoPage() {
             else if (subs.length > 0 && effectiveTime < subs[0].startTime) {
               matchedIdx = 0;
             }
+            // In silence gap between cues: transition matchedIdx to upcoming cue (lo) so rolling view previews next sentence
+            else if (lo < subs.length && lo >= 0) {
+              matchedIdx = lo;
+            }
           }
 
           const currentSubIdx = activeSubIndexRef.current;
@@ -542,6 +577,50 @@ export default function MyVideoPage() {
     }
     return () => clearInterval(timer);
   }, [activeVideo?.id]);
+
+  // Background Web Speech AI Transcriber (0-UI Under-the-hood automatic speech recognition for non-CC videos)
+  useEffect(() => {
+    if (!activeVideo || !isPlaying) {
+      backgroundWebSpeechTranscriber.stop();
+      return;
+    }
+
+    if (activeVideo.subtitles.length === 0) {
+      backgroundWebSpeechTranscriber.start({
+        getCurrentTimeSec: () => ytPlayerTimeRef.current,
+        isPlaying: () => isPlayingRef.current,
+        onSentenceCaptured: (rawItem) => {
+          setActiveVideo((prev) => {
+            if (!prev) return null;
+            // Prevent duplicate sentence text
+            const exists = prev.subtitles.some(
+              (s) => Math.abs(s.startTime - rawItem.startTime) < 1.0 || s.textEn.toLowerCase() === rawItem.textEn.toLowerCase()
+            );
+            if (exists) return prev;
+
+            const newSub: SubtitleSentence = {
+              id: `ai_${prev.id}_${prev.subtitles.length + 1}`,
+              startTime: rawItem.startTime,
+              endTime: rawItem.endTime,
+              textEn: rawItem.textEn,
+              textVn: rawItem.textVn,
+              dictationWord: rawItem.dictationWord,
+            };
+
+            const updatedSubs = [...prev.subtitles, newSub].sort((a, b) => a.startTime - b.startTime);
+            return {
+              ...prev,
+              subtitles: updatedSubs,
+            };
+          });
+        },
+      });
+    }
+
+    return () => {
+      backgroundWebSpeechTranscriber.stop();
+    };
+  }, [activeVideo?.id, activeVideo?.subtitles.length, isPlaying]);
 
   // Waveform animation during recording
   useEffect(() => {
@@ -630,12 +709,15 @@ export default function MyVideoPage() {
       setRightPanelTab("subtitles");
       setActiveSubIndex(0);
       setCurrentTime(0); // FIX BUG #3: Reset playback position
+      ytPlayerTimeRef.current = 0;
+      ytPlayerStateRef.current = -1;
+      ytTimeLastUpdatedRef.current = 0;
       setActiveWordIndex(0);
       setLoadedChunkCount(1); // FIX BUG #4: Reset progressive streaming
       setCurrentSubIndex(0);
       setDictationInput("");
       setDictationAnswered(false);
-      setIsPlaying(true);
+      setIsPlaying(false);
 
       // Auto scroll smoothly to active Video Player & Subtitle Timeline
       window.scrollTo({ top: 220, behavior: "smooth" });
@@ -661,6 +743,9 @@ export default function MyVideoPage() {
     setActiveSubIndex(0);
     setCurrentSubIndex(0);
     setCurrentTime(0); // FIX BUG #3
+    ytPlayerTimeRef.current = 0;
+    ytPlayerStateRef.current = -1;
+    ytTimeLastUpdatedRef.current = 0;
     setActiveWordIndex(0); // FIX BUG #3
     setLoadedChunkCount(1); // FIX BUG #4
     setDictationInput("");
@@ -668,7 +753,7 @@ export default function MyVideoPage() {
     setDictationCorrect(null);
     setShowHint(false);
     setShadowingScore(null);
-    setIsPlaying(true);
+    setIsPlaying(false);
     setWordLookupData(null);
     setSelectedWord(null);
   };
@@ -1261,12 +1346,32 @@ export default function MyVideoPage() {
               >
                 <iframe
                   ref={iframeRef}
-                  src={`https://www.youtube.com/embed/${activeVideo.id}?autoplay=1&enablejsapi=1&controls=1&modestbranding=1&rel=0&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`}
+                  src={`https://www.youtube.com/embed/${activeVideo.id}?enablejsapi=1&controls=1&rel=0&playsinline=1${extractYouTubeStartTimestamp(activeVideo.youtubeUrl) > 0 ? `&start=${extractYouTubeStartTimestamp(activeVideo.youtubeUrl)}` : ''}&origin=${encodeURIComponent(typeof window !== 'undefined' ? window.location.origin : '')}`}
                   title={activeVideo.title}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                   className="w-full h-full border-0"
                 />
+
+                {/* Synchronized Center Play Button Overlay on Video */}
+                {!isPlaying && (
+                  <div
+                    onClick={togglePlayPause}
+                    className="absolute inset-0 bg-slate-950/35 backdrop-blur-[1px] flex items-center justify-center cursor-pointer transition-all hover:bg-slate-950/20 group/playbtn z-10"
+                  >
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        togglePlayPause();
+                      }}
+                      className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#0059bb] hover:bg-[#004799] dark:bg-blue-600 dark:hover:bg-blue-500 text-white shadow-xl flex items-center justify-center transition-all hover:scale-110 active:scale-95 cursor-pointer border-2 border-white/20"
+                      title="Phát video (Play)"
+                    >
+                      <Play className="w-7 h-7 sm:w-8 sm:h-8 fill-current ml-1" />
+                    </button>
+                  </div>
+                )}
               </div>
 
               {/* Sleek Ultra-Compact Media Control Bar directly below video iframe */}
@@ -1660,6 +1765,7 @@ export default function MyVideoPage() {
                         {activeVideo.subtitles.map((sub, i) => (
                           <div
                             key={sub.id}
+                            ref={(el) => { subItemRefs.current[i] = el; }}
                             onClick={() => handleSeekTo(sub.startTime, i)}
                             className={`p-3.5 sm:p-4 rounded-xs border transition-all cursor-pointer space-y-2 ${
                               activeSubIndex === i

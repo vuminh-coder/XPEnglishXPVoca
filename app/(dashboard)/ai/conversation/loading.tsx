@@ -6,19 +6,19 @@ export default function AiConversationLoading() {
     <div className="space-y-3 pb-20 md:pb-6 px-1 md:px-0 relative select-none font-sans animate-pulse lg:flex lg:flex-col lg:min-h-[calc(100vh-4rem)]">
       
       {/* 0. TOP HERO ANNOUNCEMENT BANNER SKELETON */}
-      <div className="p-3 sm:p-4 rounded-xs bg-[#0059bb]/5 dark:bg-blue-950/40 border border-[#0059bb]/15 dark:border-blue-900/50 flex flex-row items-center justify-between gap-3 shadow-2xs shrink-0">
+      <div className="p-3 sm:p-4 rounded-xs bg-[#0059bb]/5 dark:bg-blue-950/40 border border-[#0059bb]/15 dark:border-blue-900/50 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 shadow-2xs shrink-0">
         <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
           <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xs bg-blue-600/20 dark:bg-blue-500/20 shrink-0" />
           <div className="space-y-1 min-w-0">
-            <div className="flex items-center gap-2">
-              <div className="h-4 w-32 rounded-xs bg-blue-600/30 dark:bg-blue-500/20 shrink-0" />
-              <div className="h-4 w-48 sm:w-64 rounded-xs bg-slate-300 dark:bg-slate-800" />
+            <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+              <div className="h-4 w-28 rounded-xs bg-blue-600/30 dark:bg-blue-500/20 shrink-0 whitespace-nowrap" />
+              <div className="h-4 w-40 sm:w-64 rounded-xs bg-slate-300 dark:bg-slate-800" />
             </div>
             <div className="h-3.5 w-64 sm:w-80 rounded-xs bg-slate-300 dark:bg-slate-800 hidden sm:block" />
           </div>
         </div>
         <div className="flex items-center gap-2 shrink-0">
-          <div className="h-8 w-32 sm:w-44 rounded-xs bg-emerald-600/30 dark:bg-emerald-500/30 shrink-0" />
+          <div className="h-8 w-24 sm:w-44 rounded-xs bg-emerald-600/30 dark:bg-emerald-500/30 shrink-0" />
           <div className="h-8 w-20 rounded-xs bg-amber-500/20 dark:bg-amber-500/10 shrink-0" />
         </div>
       </div>

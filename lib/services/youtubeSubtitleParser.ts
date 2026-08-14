@@ -15,6 +15,15 @@ export interface ParsedVnItem {
   textVn: string;
 }
 
+/** Standard timing shift in seconds (0.0s default so raw subtitle timestamps match video audio 100%) */
+export const SUBTITLE_TIME_SHIFT_SEC = 0.0;
+
+/** Helper to shift timestamp (clamped to >= 0) */
+export function shiftTimestampSec(seconds: number, shift: number = SUBTITLE_TIME_SHIFT_SEC): number {
+  if (isNaN(seconds)) return 0;
+  return Math.max(0, parseFloat((seconds - shift).toFixed(3)));
+}
+
 // Common English Stop-Words to exclude from dictation target word selection
 const STOP_WORDS = new Set([
   "the", "be", "to", "of", "and", "a", "in", "that", "have", "i",
@@ -90,8 +99,7 @@ export function parseTimedTextXml(xmlStr: string): ParsedXmlItem[] {
     const durMatch = /\bdur=["']?\s*([\d\.]+)\s*["']?/i.exec(attrStr);
 
     if (startMatch) {
-      const rawStartTime = parseFloat(startMatch[1]);
-      const startTime = Math.max(0, parseFloat((rawStartTime - 1.8).toFixed(3)));
+      const startTime = parseFloat(startMatch[1]);
       const rawDur = durMatch ? parseFloat(durMatch[1]) : null;
       const textEn = decodeXmlEntities(rawContent);
 
@@ -114,9 +122,9 @@ export function parseTimedTextXml(xmlStr: string): ParsedXmlItem[] {
     } else {
       if (nextItem) {
         duration = Math.max(0.8, parseFloat((nextItem.startTime - item.startTime).toFixed(3)));
-        if (duration > 3.5) duration = 3.5;
+        if (duration > 8.0) duration = 8.0;
       } else {
-        duration = 3.5;
+        duration = 4.0;
       }
     }
 
@@ -141,7 +149,8 @@ export function parseTimedTextXml(xmlStr: string): ParsedXmlItem[] {
 }
 
 /**
- * High-Precision JSON3 TimedText Parser for YouTube Captions (v3 format)
+ * Robust JSON3 YouTube TimedText Parser.
+ * Handles format: {"events": [{"tStartMs": 1000, "dDurationMs": 2000, "segs": [{"utf8": "text"}]}]}
  */
 export function parseTimedTextJson3(jsonContent: string | object): ParsedXmlItem[] {
   if (!jsonContent) return [];
@@ -163,8 +172,7 @@ export function parseTimedTextJson3(jsonContent: string | object): ParsedXmlItem
       const decodedText = decodeXmlEntities(rawText);
       if (!decodedText || decodedText.length === 0) continue;
 
-      const rawStartTime = typeof event.tStartMs === "number" ? event.tStartMs / 1000 : 0;
-      const startTime = Math.max(0, parseFloat((rawStartTime - 1.8).toFixed(3)));
+      const startTime = typeof event.tStartMs === "number" ? event.tStartMs / 1000 : 0;
       const rawDur = typeof event.dDurationMs === "number" ? event.dDurationMs / 1000 : null;
 
       rawItems.push({

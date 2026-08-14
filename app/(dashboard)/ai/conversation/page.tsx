@@ -503,7 +503,7 @@ export default function ConversationPage() {
           });
         }
 
-        awardXp(10);
+        awardXp(10, "writing");
         useUserStore.getState().addPracticeTime(1, "writing");
       } else {
         // Fallback response generator matching topic
@@ -577,18 +577,18 @@ export default function ConversationPage() {
       <motion.div
         initial={{ opacity: 0, y: -6 }}
         animate={{ opacity: 1, y: 0 }}
-        className="p-3 sm:p-4 rounded-xs bg-[#0059bb]/5 dark:bg-blue-950/40 border border-[#0059bb]/15 dark:border-blue-900/50 flex flex-row items-center justify-between gap-3 shadow-2xs shrink-0"
+        className="p-3 sm:p-4 rounded-xs bg-[#0059bb]/5 dark:bg-blue-950/40 border border-[#0059bb]/15 dark:border-blue-900/50 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 shadow-2xs shrink-0"
       >
         <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
           <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xs bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 border border-[#0059bb]/20">
             <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5 stroke-[1.8]" />
           </div>
           <div className="space-y-0.5 min-w-0">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="px-2 py-0.5 rounded-xs text-[10px] sm:text-xs font-black bg-[#0059bb] text-white">
+            <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap sm:flex-nowrap">
+              <span className="px-2 py-0.5 rounded-xs text-[10px] sm:text-xs font-black bg-[#0059bb] text-white shrink-0 whitespace-nowrap">
                 AI CONVERSATION
               </span>
-              <h1 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display truncate">
+              <h1 className="text-xs sm:text-base font-bold text-slate-900 dark:text-white font-display truncate">
                 Luyện Giao Tiếp AI 1-1 Theo Chủ Đề
               </h1>
             </div>
@@ -602,14 +602,14 @@ export default function ConversationPage() {
         <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={handleFinishConversation}
-            className="px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xs bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer"
+            className="px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xs bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer whitespace-nowrap"
           >
             <CheckCircle2 className="w-4 h-4" strokeWidth={1.8} />
             <span className="hidden sm:inline">Hoàn thành & Chấm điểm</span>
             <span className="sm:hidden">Chấm điểm</span>
           </button>
 
-          <span className="px-2.5 py-1.5 sm:py-2 rounded-xs bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-xs sm:text-sm font-black flex items-center gap-1.5 shadow-2xs font-mono">
+          <span className="px-2.5 py-1.5 sm:py-2 rounded-xs bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-xs sm:text-sm font-black flex items-center gap-1.5 shadow-2xs font-mono whitespace-nowrap">
             <Clock className="w-4 h-4 text-amber-500" strokeWidth={1.8} /> {formatElapsedTime(elapsedTime)}
           </span>
         </div>
@@ -621,8 +621,8 @@ export default function ConversationPage() {
         <div className="flex items-center justify-between px-0.5">
           <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-[#0059bb] dark:text-sky-400 font-display flex items-center gap-1.5">
             <Sparkles className="w-4 h-4 text-[#0059bb]" strokeWidth={1.8} />
-            <span className="hidden sm:inline">CHỌN CHỦ ĐỀ GIAO TIẾP ({aiTopics.length} CHỦ ĐỀ)</span>
-            <span className="sm:hidden">Chủ đề giao tiếp</span>
+            <span className="hidden sm:inline">CHỌN CHỦ ĐỀ GIAO TIẾP</span>
+            <span className="sm:hidden text-[10px]">CHỦ ĐỀ</span>
           </h2>
 
           {/* Level Filter Pills */}
@@ -670,7 +670,7 @@ export default function ConversationPage() {
                   <div className="w-7 h-7 rounded-xs bg-[#0059bb]/10 flex items-center justify-center shrink-0 border border-[#0059bb]/20">
                     {TOPIC_ICONS[topic.id] || <MessageSquare className="w-4 h-4 text-[#0059bb]" strokeWidth={1.8} />}
                   </div>
-                  <span className="px-1.5 py-0.5 rounded-xs text-[10px] sm:text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                  <span className="px-1.5 py-0.5 rounded-xs text-[10px] sm:text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 whitespace-nowrap">
                     {levelLabel}
                   </span>
                 </div>
@@ -681,14 +681,18 @@ export default function ConversationPage() {
                   }`}>
                     {topic.name}
                   </h3>
-                  <p className="hidden sm:block text-[11px] sm:text-xs text-slate-400 font-medium truncate">
+                  <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 line-clamp-1">
                     {topic.description}
                   </p>
                 </div>
 
-                <div className="mt-2 pt-1.5 border-t border-slate-100 dark:border-white/5 flex items-center justify-between text-[10px] sm:text-[11px] font-bold text-slate-500">
-                  <span>{completedCount}/{topic.goals.length} Đạt</span>
-                  {isSelected && <span className="text-[#0059bb] font-black">✓ Đang học</span>}
+                <div className="mt-2.5 pt-2 border-t border-slate-100 dark:border-white/5 flex items-center justify-between text-[10px] sm:text-[11px] font-semibold">
+                  <span className="text-slate-500 dark:text-slate-400 font-mono">{completedCount}/3 Đạt</span>
+                  {isSelected && (
+                    <span className="text-[#0059bb] dark:text-sky-400 font-bold flex items-center gap-0.5 whitespace-nowrap">
+                      ✓ Đang học
+                    </span>
+                  )}
                 </div>
               </motion.div>
             );
@@ -705,9 +709,9 @@ export default function ConversationPage() {
           <div className="p-3 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex flex-col min-w-0 lg:min-h-0 lg:flex-1">
             
             {/* Header Active Topic Indicator */}
-            <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5">
-              <div className="flex items-center gap-2 truncate">
-                <Bot className="w-4.5 h-4.5 text-[#0059bb]" strokeWidth={1.8} />
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5 gap-2">
+              <div className="flex items-center gap-2 min-w-0 flex-1">
+                <Bot className="w-4.5 h-4.5 text-[#0059bb] shrink-0" strokeWidth={1.8} />
                 <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display uppercase tracking-wider truncate">
                   CHỦ ĐỀ: {currentTopic.name} ({currentTopic.nameEn})
                 </h2>

@@ -66,9 +66,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi" data-theme="light" data-scroll-behavior="smooth">
+    <html lang="vi" data-theme="light" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body
         className={`${beVietnamPro.className} ${beVietnamPro.variable} antialiased border-0`}
+        suppressHydrationWarning
       >
         <ClientAuthWrapper>{children}</ClientAuthWrapper>
       </body>

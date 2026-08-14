@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { PageEntranceWrapper, MotionItem } from "@/components/shared/PageEntranceAnimation";
 import { useUserStore } from "@/lib/store/userStore";
 import { useVocabularyStore } from "@/lib/store/vocabularyStore";
+import { UserAvatar } from "@/components/shared/UserAvatar";
 import Link from "next/link";
 import {
   Flame,
@@ -17,8 +18,15 @@ import {
   Mic,
   PenTool,
   BarChart3,
-  Sparkles,
+  Crown,
+  Medal,
+  Award,
+  Loader2,
 } from "lucide-react";
+import {
+  get30DaySkillAnalytics,
+  get6MonthHeatmapAnalytics,
+} from "@/lib/store/skillChartStore";
 
 export default function AnalyticsPage() {
   const { user } = useUserStore();
@@ -26,9 +34,35 @@ export default function AnalyticsPage() {
 
   // Single shared mode filter on top right
   const [modeFilter, setModeFilter] = useState<"Dictation" | "Shadowing" | "Nói" | "Từ vựng" | "Viết">("Dictation");
+  const [apiRank, setApiRank] = useState<string>("#1");
 
-  // Active tooltip index for 30-day line charts (Default null, ONLY shows on hover!)
+  // Leaderboard state for inline tab
+  const [leaderboardData, setLeaderboardData] = useState<any[]>([]);
+  const [isLoadingLeaderboard, setIsLoadingLeaderboard] = useState<boolean>(false);
+  const [visibleLeaderboardCount, setVisibleLeaderboardCount] = useState<number>(8);
+
+  useEffect(() => {
+    if (activeTab === "LEADERBOARD" && leaderboardData.length === 0) {
+      setIsLoadingLeaderboard(true);
+      fetch("/api/leaderboard")
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.success && Array.isArray(res.data)) {
+            setLeaderboardData(res.data);
+          }
+        })
+        .catch((err) => console.error("Error fetching leaderboard:", err))
+        .finally(() => setIsLoadingLeaderboard(false));
+    }
+  }, [activeTab, leaderboardData.length]);
+
+  // Active hover & persistent clicked selection index for 30-day line charts
   const [hoveredChartIndex, setHoveredChartIndex] = useState<{
+    chart: "MINUTES" | "XP";
+    index: number;
+  } | null>(null);
+
+  const [selectedChartIndex, setSelectedChartIndex] = useState<{
     chart: "MINUTES" | "XP";
     index: number;
   } | null>(null);
@@ -53,23 +87,22 @@ export default function AnalyticsPage() {
   const longestStreak = user?.longestStreak ?? user?.currentStreak ?? 1;
   const minutesStudied = user?.minutesStudied !== undefined ? `${user.minutesStudied}m` : "6m";
   const totalXp = user?.totalXp !== undefined ? `${user.totalXp} XP` : "10 XP";
-  const weeklyRank = "#3638";
+  const weeklyRank = apiRank;
 
-  // Dynamic 30-day date generator & backend API sync
+  // Dynamic 30-day date generator & backend API sync (Exactly 8 time milestones)
   const [dates, setDates] = useState<string[]>([
-    "26 thg 6",
-    "30 thg 6",
-    "3 thg 7",
-    "6 thg 7",
-    "9 thg 7",
-    "12 thg 7",
-    "15 thg 7",
-    "18 thg 7",
-    "25 thg 7",
+    "26 thg 7",
+    "31 thg 7",
+    "5 thg 8",
+    "10 thg 8",
+    "Hôm nay",
+    "17 thg 8",
+    "20 thg 8",
+    "24 thg 8",
   ]);
 
-  const [minutesValues, setMinutesValues] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 4]);
-  const [xpValues, setXpValues] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 10]);
+  const [minutesValues, setMinutesValues] = useState<number[]>([0, 0, 0, 0, 6, 0, 0, 0]);
+  const [xpValues, setXpValues] = useState<number[]>([0, 0, 0, 0, 10, 0, 0, 0]);
 
   // Fetch backend API analytics data & sync with localStorage
   useEffect(() => {
@@ -77,7 +110,10 @@ export default function AnalyticsPage() {
       .then((res) => res.json())
       .then((res) => {
         if (res.success && res.data) {
-          const { series } = res.data;
+          const { stats, series } = res.data;
+          if (stats?.weeklyRank) {
+            setApiRank(stats.weeklyRank);
+          }
           if (series?.dates && series.dates.length > 0) {
             setDates(series.dates);
             if (series.minutesSeries) setMinutesValues(series.minutesSeries);
@@ -86,122 +122,71 @@ export default function AnalyticsPage() {
         }
       })
       .catch((err) => console.error("Error loading analytics API:", err));
-
-    if (!user || typeof window === "undefined") return;
-
-    try {
-      const today = new Date();
-      const generatedDates: string[] = [];
-      const mValues: number[] = [];
-      const xValues: number[] = [];
-
-      const dailyXpKey = `xp_voca_daily_xp_${user.id}`;
-      const dailyMinKey = `xp_voca_daily_minutes_${user.id}`;
-
-      const storedXp = localStorage.getItem(dailyXpKey);
-      const storedMin = localStorage.getItem(dailyMinKey);
-
-      const dailyXpMap = storedXp ? JSON.parse(storedXp) : {};
-      const dailyMinMap = storedMin ? JSON.parse(storedMin) : {};
-
-      const intervals = [28, 24, 20, 16, 12, 8, 5, 2, 0];
-
-      intervals.forEach((daysAgo) => {
-        const d = new Date(today);
-        d.setDate(d.getDate() - daysAgo);
-
-        const isoKey = d.toISOString().slice(0, 10);
-        const dayNum = d.getDate();
-        const monthNum = d.getMonth() + 1;
-        generatedDates.push(`${dayNum} thg ${monthNum}`);
-
-        const dayXp = dailyXpMap[isoKey] || (daysAgo === 0 ? user.totalXp || 10 : 0);
-        const dayMin = dailyMinMap[isoKey] || (daysAgo === 0 ? user.minutesStudied || 4 : 0);
-
-        xValues.push(dayXp);
-        mValues.push(dayMin);
-      });
-
-      setDates(generatedDates);
-      setXpValues(xValues);
-      setMinutesValues(mValues);
-    } catch (e) {
-      console.error("Error reading daily activity stats:", e);
-    }
   }, [user]);
 
   // Skill-Specific Analytics Computation for modeFilter ("Dictation" | "Shadowing" | "Nói" | "Từ vựng" | "Viết")
   const activeSkillData = useMemo(() => {
-    if (!user || typeof window === "undefined") {
-      return { minutes: minutesValues, xp: xpValues };
+    const data = get30DaySkillAnalytics(user?.id, modeFilter);
+    if (data.dates.length > 0) {
+      return { minutes: data.minutes, xp: data.xp };
     }
-
-    const dailyXpKey = `xp_voca_daily_xp_${user.id}_${modeFilter}`;
-    const dailyMinKey = `xp_voca_daily_minutes_${user.id}_${modeFilter}`;
-
-    const storedXp = localStorage.getItem(dailyXpKey);
-    const storedMin = localStorage.getItem(dailyMinKey);
-
-    const today = new Date();
-    const intervals = [28, 24, 20, 16, 12, 8, 5, 2, 0];
-    const mVals: number[] = [];
-    const xVals: number[] = [];
-
-    const dailyXpMap = storedXp ? JSON.parse(storedXp) : {};
-    const dailyMinMap = storedMin ? JSON.parse(storedMin) : {};
-
-    intervals.forEach((daysAgo) => {
-      const d = new Date(today);
-      d.setDate(d.getDate() - daysAgo);
-      const isoKey = d.toISOString().slice(0, 10);
-      xVals.push(dailyXpMap[isoKey] || 0);
-      mVals.push(dailyMinMap[isoKey] || 0);
-    });
-
-    return { minutes: mVals, xp: xVals };
+    return { minutes: minutesValues, xp: xpValues };
   }, [modeFilter, user, minutesValues, xpValues]);
 
-  // 6-Month Heatmap Structured Data
-  const monthList = [
-    { name: "Feb", startIndex: 0 },
-    { name: "Mar", startIndex: 4 },
-    { name: "Apr", startIndex: 8 },
-    { name: "May", startIndex: 12 },
-    { name: "Jun", startIndex: 16 },
-    { name: "Jul", startIndex: 20 },
-  ];
+  // Dynamic 6-Month Heatmap Data Generator
+  const { weeks: heatmapWeeks, totalActivities } = useMemo(() => {
+    return get6MonthHeatmapAnalytics(user?.id);
+  }, [user]);
 
-  // Generate 24 weeks of 7 days
-  const heatmapWeeks = Array.from({ length: 24 }, (_, weekIdx) => {
-    const monthIndex = Math.floor(weekIdx / 4);
-    const monthName = monthList[monthIndex]?.name || "Jul";
-    return Array.from({ length: 7 }, (_, dIdx) => {
-      let intensity = 0;
-      let count = 0;
+  // Memoized Leaderboard Data Processor (Optimized Performance O(N))
+  const processedLeaderboard = useMemo(() => {
+    if (!leaderboardData || leaderboardData.length === 0) return [];
 
-      if (weekIdx === 20 && (dIdx === 5 || dIdx === 6)) {
-        intensity = 3;
-        count = 5;
-      } else if (weekIdx === 19 && (dIdx === 6 || dIdx === 5)) {
-        intensity = 2;
-        count = 3;
-      } else if (weekIdx === 18 && dIdx === 1) {
-        intensity = 1;
-        count = 1;
-      } else if (weekIdx === 18 && dIdx === 3) {
-        intensity = 2;
-        count = 2;
-      } else if (weekIdx === 18 && dIdx === 6) {
-        intensity = 1;
-        count = 1;
-      }
+    const currentUserName = user?.fullName || user?.username || "";
+    const userAvatar = user?.imageUrl || (user as any)?.avatar || (user as any)?.avatarUrl;
 
-      const dayNum = (weekIdx * 7 + dIdx) % 28 + 1;
-      const dateStr = `Ngày ${dayNum} ${monthName} 2026`;
+    return leaderboardData.map((item) => {
+      const itemCleanName = item.fullName || item.username || "";
+      const isSelf = Boolean(
+        user &&
+          (item.id === user.id ||
+            (user.id && item.id && item.id.toString() === user.id.toString()) ||
+            (user.id?.startsWith("local_user") && item.id?.startsWith("local_user")) ||
+            (itemCleanName && currentUserName && itemCleanName.trim().toLowerCase() === currentUserName.trim().toLowerCase()))
+      );
 
-      return { intensity, count, dateStr };
+      const fullName = isSelf ? (user?.fullName || user?.username || item.fullName) : item.fullName;
+      const avatarUrl = isSelf ? (userAvatar || item.avatarUrl || item.imageUrl || item.avatar) : (item.avatarUrl || item.imageUrl || item.avatar);
+      const avatarEmoji = isSelf ? (user?.avatarEmoji || item.avatarEmoji) : item.avatarEmoji;
+
+      return {
+        ...item,
+        fullName,
+        xp: item.xp,
+        level: isSelf ? (user?.level || item.level) : item.level,
+        title: isSelf ? (user?.title || item.title) : item.title,
+        avatarUrl,
+        avatarEmoji,
+        isSelf,
+      };
     });
-  });
+  }, [leaderboardData, user]);
+
+  // Dynamic Rolling 6-Month Heatmap Month Headers (Auto-shifts relative to current date)
+  const monthList = useMemo(() => {
+    const today = new Date();
+    const shortMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const list: { name: string; startIndex: number }[] = [];
+
+    for (let i = 5; i >= 0; i--) {
+      const d = new Date(today.getFullYear(), today.getMonth() - i, 1);
+      const monthName = shortMonths[d.getMonth()];
+      const startIndex = (5 - i) * 4;
+      list.push({ name: monthName, startIndex });
+    }
+
+    return list;
+  }, []);
 
   // Helper to render SVG line chart with Dynamic Scaled Y-Axis & Clamped Canvas (NO OVERFLOW SPIKES)
   const renderExactSvgChart = (
@@ -217,7 +202,7 @@ export default function AnalyticsPage() {
     const padLeft = 30;
     const padRight = 15;
     const padTop = 15;
-    const padBottom = 25;
+    const padBottom = 32;
 
     // DYNAMICALLY SCALE Y-AXIS BASED ON MAXIMUM DATA VALUE TO PREVENT OVERFLOW SPIKES
     const maxDataVal = Math.max(...values, 0);
@@ -259,7 +244,14 @@ export default function AnalyticsPage() {
     const fillD = `${pathD} L ${svgW - padRight},${svgH - padBottom} L ${padLeft},${svgH - padBottom} Z`;
 
     const isCurrentHovered = hoveredChartIndex?.chart === chartType;
-    const activePoint = isCurrentHovered && hoveredChartIndex ? points[hoveredChartIndex.index] : null;
+    const isCurrentSelected = selectedChartIndex?.chart === chartType;
+
+    // Active point index: Hover preview takes priority if hovering; otherwise fallback to clicked selected index
+    const activePointIndex = isCurrentHovered && hoveredChartIndex
+      ? hoveredChartIndex.index
+      : (isCurrentSelected && selectedChartIndex ? selectedChartIndex.index : null);
+
+    const activePoint = activePointIndex !== null ? points[activePointIndex] : null;
 
     return (
       <div className="space-y-2 sm:space-y-3 flex-1 min-w-0">
@@ -288,8 +280,8 @@ export default function AnalyticsPage() {
                 <g key={i}>
                   <text
                     x="10"
-                    y={y + 3}
-                    className="fill-slate-400 text-[8.5px] sm:text-[10px] font-mono font-medium"
+                    y={y + 3.5}
+                    className="fill-slate-500 dark:fill-slate-400 text-[10px] sm:text-[11.5px] font-mono font-bold"
                   >
                     {yVal}
                   </text>
@@ -326,19 +318,28 @@ export default function AnalyticsPage() {
               transition={{ duration: 0.45, ease: "easeOut" }}
               fill="none"
               stroke={strokeColor}
-              strokeWidth="1.3"
+              strokeWidth="1"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
 
-            {/* Interactive Points Hover Targets */}
+            {/* Interactive Points Hover & Click Selection Targets */}
             {points.map((p, idx) => {
-              const isPointHovered = isCurrentHovered && hoveredChartIndex?.index === idx;
+              const isPointActive = activePointIndex === idx;
 
               return (
                 <g
                   key={idx}
                   onMouseEnter={() => setHoveredChartIndex({ chart: chartType, index: idx })}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedChartIndex({ chart: chartType, index: idx });
+                    setHoveredChartIndex({ chart: chartType, index: idx });
+                  }}
+                  onTouchStart={() => {
+                    setSelectedChartIndex({ chart: chartType, index: idx });
+                    setHoveredChartIndex({ chart: chartType, index: idx });
+                  }}
                   className="cursor-pointer"
                 >
                   <rect
@@ -349,17 +350,19 @@ export default function AnalyticsPage() {
                     fill="transparent"
                   />
 
-                  {isPointHovered && (
+                  {isPointActive && (
                     <g>
-                      <line
-                        x1={p.x}
-                        y1={padTop}
-                        x2={p.x}
-                        y2={svgH - padBottom}
-                        stroke="#cbd5e1"
-                        strokeWidth="1"
-                        strokeDasharray="2 2"
-                      />
+                      {p.y < svgH - padBottom && (
+                        <line
+                          x1={p.x}
+                          y1={p.y + 3}
+                          x2={p.x}
+                          y2={svgH - padBottom}
+                          stroke="#cbd5e1"
+                          strokeWidth="1"
+                          strokeDasharray="2 2"
+                        />
+                      )}
                       <motion.circle
                         cx={p.x}
                         cy={p.y}
@@ -376,42 +379,65 @@ export default function AnalyticsPage() {
               );
             })}
 
-            {/* X-Axis Date Labels */}
-            {points.map((p, idx) => (
-              <text
-                key={idx}
-                x={p.x}
-                y={svgH - 5}
-                textAnchor="middle"
-                className={`text-[8px] sm:text-[9px] font-mono ${
-                  idx === points.length - 1
-                    ? "fill-[#0059bb] font-bold"
-                    : "fill-slate-400 font-medium"
-                }`}
-              >
-                {p.date}
-              </text>
-            ))}
-          </svg>
+            {/* Vertical Reference Guideline for TODAY (Origin Anchor - Starts from below circle point downwards) */}
+            {points.map((p, idx) => {
+              const isToday = p.date === "Hôm nay" || p.date.includes("Hôm nay");
+              if (!isToday) return null;
+              const lineY1 = Math.min(p.y + 3, svgH - padBottom);
+              return (
+                <g key={`today-anchor-${idx}`}>
+                  {lineY1 < svgH - padBottom && (
+                    <line
+                      x1={p.x}
+                      y1={lineY1}
+                      x2={p.x}
+                      y2={svgH - padBottom}
+                      stroke="#0059bb"
+                      strokeWidth="1"
+                      strokeDasharray="3 3"
+                      opacity="0.6"
+                    />
+                  )}
+                  <circle cx={p.x} cy={p.y} r="3" fill="#0059bb" />
+                </g>
+              );
+            })}
 
-          {/* FLOATING TOOLTIP BOX */}
-          {activePoint && (
-            <div
-              className="absolute pointer-events-none bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 rounded-xs p-1.5 shadow-xs text-center min-w-[80px] sm:min-w-[90px] z-10 transition-opacity"
-              style={{
-                left: `${(activePoint.x / svgW) * 100}%`,
-                top: "35%",
-                transform: "translate(-50%, -50%)",
-              }}
-            >
-              <div className="text-[10px] sm:text-xs font-bold text-slate-800 dark:text-white font-mono">
-                {activePoint.date}
-              </div>
-              <div className="text-[9.5px] sm:text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 font-mono">
-                {chartType === "XP" ? `Điểm : ${activePoint.val} XP` : `Phút : ${activePoint.val}m`}
-              </div>
-            </div>
-          )}
+            {/* X-Axis Date Labels */}
+            {points.map((p, idx) => {
+              const isToday = p.date === "Hôm nay" || p.date.includes("Hôm nay");
+              return (
+                <text
+                  key={idx}
+                  x={p.x}
+                  y={svgH - 5}
+                  textAnchor="middle"
+                  className={`text-[10.5px] sm:text-[11px] font-mono ${
+                    isToday
+                      ? "fill-[#0059bb] font-black"
+                      : "fill-slate-500 dark:fill-slate-400 font-semibold"
+                  }`}
+                >
+                  {p.date}
+                </text>
+              );
+            })}
+
+            {/* FRAMELESS VALUE LABEL DIRECTLY ABOVE HOVERED POINT (~8.5px SPACING ABOVE POINT EVEN AT 0 VAL) */}
+            {activePoint && (
+              <g className="pointer-events-none">
+                <text
+                  x={activePoint.x}
+                  y={Math.max(8.5, activePoint.y - 8.5)}
+                  textAnchor="middle"
+                  fill={strokeColor}
+                  className="text-[11px] sm:text-[12.5px] font-mono font-extrabold drop-shadow-2xs select-none"
+                >
+                  {chartType === "XP" ? `${activePoint.val} XP` : `${activePoint.val}m`}
+                </text>
+              </g>
+            )}
+          </svg>
         </div>
       </div>
     );
@@ -506,7 +532,7 @@ export default function AnalyticsPage() {
       <div className="border-b border-slate-200/80 dark:border-white/10 flex items-center gap-6 sm:gap-8 text-xs sm:text-sm font-medium">
         <button
           onClick={() => setActiveTab("ACTIVITIES")}
-          className={`pb-2.5 sm:pb-3 relative font-bold transition-colors ${
+          className={`pb-2.5 sm:pb-3 relative font-bold transition-colors cursor-pointer ${
             activeTab === "ACTIVITIES"
               ? "text-slate-900 dark:text-white"
               : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
@@ -518,104 +544,329 @@ export default function AnalyticsPage() {
           )}
         </button>
 
-        <Link
-          href="/community/leaderboard?from=analytics"
-          className="pb-2.5 sm:pb-3 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 font-medium transition-colors"
+        <button
+          onClick={() => setActiveTab("LEADERBOARD")}
+          className={`pb-2.5 sm:pb-3 relative font-bold transition-colors cursor-pointer ${
+            activeTab === "LEADERBOARD"
+              ? "text-slate-900 dark:text-white"
+              : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
+          }`}
         >
           Bảng xếp hạng
-        </Link>
+          {activeTab === "LEADERBOARD" && (
+            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-slate-900 dark:bg-white rounded-xs" />
+          )}
+        </button>
       </div>
 
-      {/* 4. SECTION 1: TỔNG QUAN HOẠT ĐỘNG 6 THÁNG */}
-      <div className="p-3.5 sm:p-6 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3 sm:space-y-4">
-        <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
-          Tổng quan hoạt động (6 tháng gần đây)
-        </h2>
-
-        <div className="relative overflow-x-auto no-scrollbar pb-2">
-          
-          {/* Main Matrix Container */}
-          <div className="min-w-[520px] space-y-2">
-            
-            {/* TOP MONTH LABELS */}
-            <div className="flex items-center pl-8 text-[11px] font-bold text-slate-400 font-display">
-              {monthList.map((m, mIdx) => (
-                <div key={mIdx} className="w-[68px] text-center">
-                  {m.name}
-                </div>
-              ))}
+      {/* 4. SECTION 1: TỔNG QUAN HOẠT ĐỘNG / BẢNG XẾP HẠNG 2 CỘT */}
+      <AnimatePresence mode="wait">
+        {activeTab === "LEADERBOARD" ? (
+          <motion.div
+            key="leaderboard-container"
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -14 }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="p-3.5 sm:p-6 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-4"
+          >
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-3">
+              <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display flex items-center gap-2">
+                <Trophy className="w-4 h-4 text-amber-500 shrink-0" />
+                Bảng xếp hạng thành tích XP
+              </h2>
+              <span className="text-[10px] sm:text-[11px] font-mono text-slate-400 font-medium">
+                Cập nhật trực tiếp từ hệ thống
+              </span>
             </div>
 
-            {/* MATRIX GRID WITH VERTICAL DAY LABELS */}
-            <div className="flex items-start gap-3">
-              
-              <div className="relative w-5 h-[102px] shrink-0 text-[10px] font-bold text-slate-400 font-display">
-                <span className="absolute top-[13px] left-0 leading-none">Mon</span>
-                <span className="absolute top-[43px] left-0 leading-none">Wed</span>
-                <span className="absolute top-[73px] left-0 leading-none">Fri</span>
+            {isLoadingLeaderboard && leaderboardData.length === 0 ? (
+              <div className="flex items-center justify-center py-12 text-slate-400 gap-2 font-medium text-xs">
+                <Loader2 className="w-4 h-4 animate-spin text-[#0059bb]" />
+                Đang tải bảng xếp hạng...
               </div>
+            ) : (
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-stretch">
+                {/* LEFT COLUMN: TOP 3 BENTO PODIUM ISOSCELES TRAPEZOID (lg:col-span-5) */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.97, y: 10 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
+                  className="lg:col-span-5 flex flex-col justify-between p-3.5 sm:p-4 rounded-t-xs [clip-path:polygon(2%_0%,98%_0%,100%_100%,0%_100%)] bg-gradient-to-b from-amber-500/10 via-amber-500/5 to-slate-50/40 dark:from-amber-500/15 dark:to-slate-900/40 space-y-3 border-b-2 border-amber-500/30"
+                >
+                  <div className="text-center text-xs font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider font-display flex items-center justify-center gap-1.5">
+                    <Crown className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
+                    Top 3 Học Viên Đứng Đầu
+                  </div>
 
-              <div className="flex items-center gap-3">
-                {monthList.map((mGroup, mIdx) => (
-                  <div key={mIdx} className="flex items-center gap-1">
-                    {Array.from({ length: 4 }).map((_, wInMonth) => {
-                      const globalWeekIdx = mIdx * 4 + wInMonth;
-                      const weekTiles = heatmapWeeks[globalWeekIdx] || [];
-
+                  {/* PODIUM 3 ISOSCELES TRAPEZOID PILLARS */}
+                  <div className="grid grid-cols-3 gap-2 items-end pt-2 pb-1">
+                    {/* TOP 2 (SILVER ISOSCELES TRAPEZOID) */}
+                    {processedLeaderboard[1] && (() => {
+                      const top2 = processedLeaderboard[1];
                       return (
-                        <div key={wInMonth} className="flex flex-col gap-1">
-                          {weekTiles.map((tile, dIdx) => {
-                            const tileBg =
-                              tile.intensity === 3
-                                ? "bg-[#0059bb] dark:bg-sky-400"
-                                : tile.intensity === 2
-                                ? "bg-[#0059bb]/70 dark:bg-sky-500/70"
-                                : tile.intensity === 1
-                                ? "bg-[#0059bb]/35 dark:bg-sky-600/40"
-                                : "bg-slate-100 dark:bg-slate-800/60";
+                        <motion.div
+                          initial={{ opacity: 0, y: 14 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.35, delay: 0.1 }}
+                          className="flex flex-col items-center p-2 rounded-t-xs [clip-path:polygon(6%_0%,94%_0%,100%_100%,0%_100%)] bg-gradient-to-b from-slate-200/80 via-slate-100/60 to-white/90 dark:from-slate-700/80 dark:to-slate-800/90 text-center space-y-1.5 shadow-2xs border-t-2 border-slate-300"
+                        >
+                          <span className="text-[10px] font-bold text-slate-600 dark:text-slate-300 px-2.5 py-0.5 [clip-path:polygon(12%_0%,88%_0%,100%_100%,0%_100%)] bg-white/80 dark:bg-slate-700/80 flex items-center gap-1">
+                            <Medal className="w-3 h-3 text-slate-400 fill-slate-300" /> #2
+                          </span>
+                          <UserAvatar
+                            avatarUrl={top2.avatarUrl}
+                            emoji={top2.avatarEmoji}
+                            name={top2.fullName}
+                            size="w-9 h-9 sm:w-11 sm:h-11"
+                          />
+                          <div className="min-w-0 w-full flex flex-col items-center">
+                            <div className="text-[11px] font-bold text-slate-800 dark:text-white truncate font-display w-full">
+                              {top2.fullName}
+                            </div>
+                            <div className="w-full mt-1.5 py-1 sm:py-1.5 [clip-path:polygon(6%_0%,94%_0%,100%_100%,0%_100%)] bg-slate-700 dark:bg-slate-800 text-white font-mono font-bold text-[10px] sm:text-[11px] shadow-2xs text-center truncate">
+                              {top2.xp?.toLocaleString()} XP
+                            </div>
+                          </div>
+                        </motion.div>
+                      );
+                    })()}
 
-                            return (
-                              <div
-                                key={dIdx}
-                                onMouseEnter={() => setHoveredHeatmapTile({ dateStr: tile.dateStr, count: tile.count })}
-                                onMouseLeave={() => setHoveredHeatmapTile(null)}
-                                className={`w-3 h-3 rounded-xs cursor-pointer transition-all hover:scale-125 ${tileBg}`}
-                              />
-                            );
-                          })}
-                        </div>
+                    {/* TOP 1 (GOLD CENTER ISOSCELES TRAPEZOID - TALLER & SHINY) */}
+                    {processedLeaderboard[0] && (() => {
+                      const top1 = processedLeaderboard[0];
+                      return (
+                        <motion.div
+                          initial={{ opacity: 0, y: 18, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          transition={{ duration: 0.4, delay: 0.15 }}
+                          className="flex flex-col items-center p-2.5 rounded-t-xs [clip-path:polygon(6%_0%,94%_0%,100%_100%,0%_100%)] bg-gradient-to-b from-amber-200/90 via-amber-100/70 to-white dark:from-amber-900/90 dark:to-slate-800/90 text-center space-y-1.5 shadow-xs relative -top-1 border-t-2 border-amber-400"
+                        >
+                          <span className="text-[10px] font-extrabold text-amber-700 dark:text-amber-300 px-3 py-0.5 [clip-path:polygon(12%_0%,88%_0%,100%_100%,0%_100%)] bg-amber-200/80 dark:bg-amber-900/90 flex items-center gap-1">
+                            <Crown className="w-3.5 h-3.5 text-amber-600 fill-amber-400" /> TOP 1
+                          </span>
+                          <UserAvatar
+                            avatarUrl={top1.avatarUrl}
+                            emoji={top1.avatarEmoji}
+                            name={top1.fullName}
+                            size="w-11 h-11 sm:w-13 sm:h-13"
+                          />
+                          <div className="min-w-0 w-full flex flex-col items-center">
+                            <div className="text-xs font-bold text-amber-950 dark:text-amber-200 truncate font-display w-full">
+                              {top1.fullName}
+                            </div>
+                            <div className="w-full mt-1.5 py-1 sm:py-1.5 [clip-path:polygon(6%_0%,94%_0%,100%_100%,0%_100%)] bg-amber-500 text-slate-950 font-mono font-extrabold text-[11px] sm:text-xs shadow-md border-t border-amber-300 text-center truncate">
+                              {top1.xp?.toLocaleString()} XP
+                            </div>
+                          </div>
+                        </motion.div>
+                      );
+                    })()}
+
+                    {/* TOP 3 (BRONZE ISOSCELES TRAPEZOID) */}
+                    {processedLeaderboard[2] && (() => {
+                      const top3 = processedLeaderboard[2];
+                      return (
+                        <motion.div
+                          initial={{ opacity: 0, y: 14 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.35, delay: 0.2 }}
+                          className="flex flex-col items-center p-2 rounded-t-xs [clip-path:polygon(6%_0%,94%_0%,100%_100%,0%_100%)] bg-gradient-to-b from-amber-900/25 via-amber-800/15 to-amber-50/50 dark:from-amber-900/50 dark:to-slate-800/90 text-center space-y-1.5 shadow-2xs border-t-2 border-amber-600/60"
+                        >
+                          <span className="text-[10px] font-bold text-amber-800 dark:text-amber-400 px-2.5 py-0.5 [clip-path:polygon(12%_0%,88%_0%,100%_100%,0%_100%)] bg-amber-100/80 dark:bg-amber-900/60 flex items-center gap-1">
+                            <Award className="w-3 h-3 text-amber-700 fill-amber-600" /> #3
+                          </span>
+                          <UserAvatar
+                            avatarUrl={top3.avatarUrl}
+                            emoji={top3.avatarEmoji}
+                            name={top3.fullName}
+                            size="w-9 h-9 sm:w-11 sm:h-11"
+                          />
+                          <div className="min-w-0 w-full flex flex-col items-center">
+                            <div className="text-[11px] font-bold text-slate-800 dark:text-white truncate font-display w-full">
+                              {top3.fullName}
+                            </div>
+                            <div className="w-full mt-1.5 py-1 sm:py-1.5 [clip-path:polygon(6%_0%,94%_0%,100%_100%,0%_100%)] bg-amber-800 text-amber-100 font-mono font-bold text-[10px] sm:text-[11px] shadow-2xs text-center truncate">
+                              {top3.xp?.toLocaleString()} XP
+                            </div>
+                          </div>
+                        </motion.div>
+                      );
+                    })()}
+                  </div>
+                </motion.div>
+
+                {/* RIGHT COLUMN: TOP 4+ SCROLLABLE LIST VIEW (lg:col-span-7) */}
+                <div className="lg:col-span-7 flex flex-col min-w-0">
+                  <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 font-display">
+                    Thứ hạng Top 4 trở đi (Cuộn để xem tiếp)
+                  </div>
+
+                  <div
+                    onScroll={(e) => {
+                      const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+                      if (scrollTop + clientHeight >= scrollHeight - 20) {
+                        if (visibleLeaderboardCount < processedLeaderboard.length) {
+                          setVisibleLeaderboardCount((prev) => Math.min(processedLeaderboard.length, prev + 8));
+                        }
+                      }
+                    }}
+                    className="max-h-[300px] sm:max-h-[320px] overflow-y-auto pr-1.5 space-y-1.5 no-scrollbar"
+                  >
+                    {processedLeaderboard.slice(3, 3 + visibleLeaderboardCount).map((item, idx) => {
+                      return (
+                        <motion.div
+                          key={item.id}
+                          initial={{ opacity: 0, x: 12 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.25, delay: 0.03 * Math.min(idx, 8) }}
+                          className={`flex items-center justify-between p-2 sm:p-2.5 rounded-xs border transition-all text-xs ${
+                            item.isSelf
+                              ? "bg-[#0059bb]/10 border-[#0059bb]/40 font-bold"
+                              : "bg-slate-50/60 dark:bg-slate-800/40 border-slate-200/60 dark:border-white/5 hover:border-slate-300"
+                          }`}
+                        >
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <span className="w-6 text-center font-mono font-bold text-slate-400 shrink-0 text-[11px]">
+                              #{item.rank}
+                            </span>
+                            <UserAvatar
+                              avatarUrl={item.avatarUrl}
+                              emoji={item.avatarEmoji}
+                              name={item.fullName}
+                              size="w-7 h-7"
+                            />
+                            <div className="min-w-0">
+                              <div className="font-bold text-slate-800 dark:text-white truncate font-display flex items-center gap-1.5 text-xs">
+                                {item.fullName}
+                                {item.isSelf && (
+                                  <span className="text-[9px] px-1 py-0.2 rounded-xs bg-[#0059bb] text-white">Bạn</span>
+                                )}
+                              </div>
+                              <div className="text-[10px] text-slate-400 font-mono">
+                                Lv.{item.level || 1} • {item.title || "Học viên"}
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="font-bold font-mono text-[#0059bb] dark:text-sky-400 text-xs shrink-0 pl-2">
+                            {item.xp?.toLocaleString()} XP
+                          </div>
+                        </motion.div>
                       );
                     })}
+
+                    {visibleLeaderboardCount < leaderboardData.length - 3 && (
+                      <button
+                        onClick={() => setVisibleLeaderboardCount((prev) => Math.min(leaderboardData.length, prev + 8))}
+                        className="w-full py-2 text-center text-[11px] font-bold text-[#0059bb] hover:underline cursor-pointer font-display"
+                      >
+                        Cuộn hoặc bấm để tải thêm thứ hạng tiếp theo...
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+          </motion.div>
+        ) : (
+          <motion.div
+            key="activities-tab"
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -14 }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="p-3.5 sm:p-6 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3 sm:space-y-4"
+          >
+          <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
+            Tổng quan hoạt động (6 tháng gần đây)
+          </h2>
+
+          <div className="relative w-full overflow-hidden sm:overflow-x-auto sm:no-scrollbar pb-2">
+            
+            {/* Main Matrix Container */}
+            <div className="w-full sm:min-w-[520px] space-y-1.5 sm:space-y-2">
+              
+              {/* TOP MONTH LABELS */}
+              <div className="flex items-center pl-5 sm:pl-8 text-[9px] sm:text-[11px] font-bold text-slate-400 font-display">
+                {monthList.map((m, mIdx) => (
+                  <div key={mIdx} className="w-[48px] sm:w-[68px] text-center shrink-0">
+                    {m.name}
                   </div>
                 ))}
               </div>
 
-            </div>
-
-            {/* FOOTER LEGEND & DYNAMIC TOOLTIP */}
-            <div className="flex items-center justify-between text-[10px] sm:text-[11px] font-medium text-slate-400 pt-2 pl-8 border-t border-slate-100 dark:border-white/5">
-              <span className="font-mono">
-                {hoveredHeatmapTile
-                  ? `${hoveredHeatmapTile.dateStr}: ${hoveredHeatmapTile.count} hoạt động`
-                  : "15 activities in 2026"}
-              </span>
-
-              <div className="flex items-center gap-1.5 font-display">
-                <span>Less</span>
-                <div className="flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded-xs bg-slate-100 dark:bg-slate-800" />
-                  <span className="w-2.5 h-2.5 rounded-xs bg-[#0059bb]/35 dark:bg-sky-600/40" />
-                  <span className="w-2.5 h-2.5 rounded-xs bg-[#0059bb]/70 dark:bg-sky-500/70" />
-                  <span className="w-2.5 h-2.5 rounded-xs bg-[#0059bb] dark:bg-sky-400" />
+              {/* MATRIX GRID WITH VERTICAL DAY LABELS */}
+              <div className="flex items-start gap-2 sm:gap-3.5">
+                
+                <div className="relative w-5 sm:w-6 pr-1 sm:pr-1.5 h-[78px] sm:h-[102px] shrink-0 text-[9px] sm:text-[10px] font-bold text-slate-400 font-display">
+                  <span className="absolute top-[8px] sm:top-[13px] left-0 leading-none">Mon</span>
+                  <span className="absolute top-[30px] sm:top-[43px] left-0 leading-none">Wed</span>
+                  <span className="absolute top-[52px] sm:top-[73px] left-0 leading-none">Fri</span>
                 </div>
-                <span>More</span>
+
+                <div className="flex items-center gap-1.5 sm:gap-3">
+                  {monthList.map((mGroup, mIdx) => (
+                    <div key={mIdx} className="flex items-center gap-0.5 sm:gap-1">
+                      {Array.from({ length: 4 }).map((_, wInMonth) => {
+                        const globalWeekIdx = mIdx * 4 + wInMonth;
+                        const weekTiles = heatmapWeeks[globalWeekIdx] || [];
+
+                        return (
+                          <div key={wInMonth} className="flex flex-col gap-0.5 sm:gap-1">
+                            {weekTiles.map((tile, dIdx) => {
+                              const tileBg =
+                                tile.intensity === 3
+                                  ? "bg-[#0059bb] dark:bg-sky-400"
+                                  : tile.intensity === 2
+                                  ? "bg-[#0059bb]/70 dark:bg-sky-500/70"
+                                  : tile.intensity === 1
+                                  ? "bg-[#0059bb]/35 dark:bg-sky-600/40"
+                                  : "bg-slate-100 dark:bg-slate-800/60";
+
+                              return (
+                                <div
+                                  key={dIdx}
+                                  onMouseEnter={() => setHoveredHeatmapTile({ dateStr: tile.dateStr, count: tile.count })}
+                                  onMouseLeave={() => setHoveredHeatmapTile(null)}
+                                  className={`w-[9px] h-[9px] sm:w-3 sm:h-3 rounded-xs cursor-pointer transition-all hover:scale-125 ${tileBg}`}
+                                />
+                              );
+                            })}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ))}
+                </div>
+
               </div>
+
+              {/* FOOTER LEGEND & DYNAMIC TOOLTIP */}
+              <div className="flex items-center justify-between gap-1 text-[9px] sm:text-[11px] font-medium text-slate-400 pt-2 pl-5 sm:pl-8 border-t border-slate-100 dark:border-white/5">
+                <span className="font-mono truncate">
+                  {hoveredHeatmapTile
+                    ? `${hoveredHeatmapTile.dateStr}: ${hoveredHeatmapTile.count} hoạt động`
+                    : `${totalActivities} hoạt động trong 6 tháng qua`}
+                </span>
+
+                <div className="flex items-center gap-1 sm:gap-1.5 font-display shrink-0">
+                  <span>Less</span>
+                  <div className="flex items-center gap-1">
+                    <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-xs bg-slate-100 dark:bg-slate-800" />
+                    <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-xs bg-[#0059bb]/35 dark:bg-sky-600/40" />
+                    <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-xs bg-[#0059bb]/70 dark:bg-sky-500/70" />
+                    <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-xs bg-[#0059bb] dark:bg-sky-400" />
+                  </div>
+                  <span>More</span>
+                </div>
+              </div>
+
             </div>
-
           </div>
-
-        </div>
-      </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
 
       {/* 5. SECTION 2: MODE SWITCHER PILLS & DYNAMIC REALTTIME LINE CHARTS */}
       <div className="p-3.5 sm:p-6 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-4 sm:space-y-6">

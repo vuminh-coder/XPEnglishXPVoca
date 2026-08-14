@@ -229,3 +229,22 @@ export function extractYouTubeId(url: string): string | null {
   const match = url.trim().match(regExp);
   return match && match[2].length === 11 ? match[2] : null;
 }
+
+export function extractYouTubeStartTimestamp(url: string): number {
+  if (!url) return 0;
+  const match = url.match(/[?&](?:t|start)=([0-9hms]+)/i);
+  if (!match || !match[1]) return 0;
+  const val = match[1].toLowerCase();
+
+  if (/^\d+$/.test(val)) return parseInt(val, 10);
+  if (/^\d+s$/.test(val)) return parseInt(val.replace("s", ""), 10);
+
+  let seconds = 0;
+  const hMatch = val.match(/(\d+)h/);
+  const mMatch = val.match(/(\d+)m/);
+  const sMatch = val.match(/(\d+)s/);
+  if (hMatch) seconds += parseInt(hMatch[1], 10) * 3600;
+  if (mMatch) seconds += parseInt(mMatch[1], 10) * 60;
+  if (sMatch) seconds += parseInt(sMatch[1], 10);
+  return seconds;
+}

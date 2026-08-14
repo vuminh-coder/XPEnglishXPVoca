@@ -71,8 +71,7 @@ export function parseLrcContent(
       const msPart = match[3];
       const ms = msPart.length === 2 ? parseInt(msPart, 10) * 10 : parseInt(msPart, 10);
 
-      const rawTime = timeOffsetSec + mins * 60 + secs + ms / 1000;
-      const startTime = Math.max(0, parseFloat((rawTime - 1.8).toFixed(3)));
+      const startTime = parseFloat((timeOffsetSec + mins * 60 + secs + ms / 1000).toFixed(3));
       const textEn = decodeXmlEntities(match[4].trim());
 
       if (textEn && textEn.length > 0 && !isNaN(startTime)) {
@@ -230,25 +229,51 @@ export async function fetchCompilationTracklistLyrics(videoId: string): Promise<
   if (!videoId) return [];
 
   try {
-    const watchRes = await fetch(`https://www.youtube.com/watch?v=${videoId}`, {
-      headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
-        "Accept-Language": "en-US,en;q=0.9",
-        "Referer": "https://www.youtube.com/",
-      },
-    });
+    // Fetch description via YouTube Innertube API (bypasses Google consent HTML blocks)
+    let desc = "";
+    try {
+      const innertubeRes = await fetch("https://www.youtube.com/youtubei/v1/player", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+        },
+        body: JSON.stringify({
+          videoId,
+          context: { client: { clientName: "WEB", clientVersion: "2.20240501.00.00", hl: "en", gl: "US" } },
+        }),
+        cache: "no-store",
+      });
 
-    if (!watchRes.ok) return [];
+      if (innertubeRes.ok) {
+        const innertubeData = await innertubeRes.json();
+        desc = innertubeData?.videoDetails?.shortDescription || "";
+      }
+    } catch (e) {}
 
-    const html = await watchRes.text();
-    const descMatch =
-      /"shortDescription"\s*:\s*"([\s\S]*?)"\s*,\s*"(?:isCrawlable|author)/.exec(html) ||
-      /"description"\s*:\s*\{\s*"simpleText"\s*:\s*"([\s\S]*?)"/.exec(html);
+    if (!desc) {
+      const watchRes = await fetch(`https://www.youtube.com/watch?v=${videoId}`, {
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+          "Accept-Language": "en-US,en;q=0.9",
+        },
+      });
 
-    if (!descMatch || !descMatch[1]) return [];
+      if (watchRes.ok) {
+        const html = await watchRes.text();
+        const descMatch =
+          /"shortDescription"\s*:\s*"([\s\S]*?)"\s*,\s*"(?:isCrawlable|author)/.exec(html) ||
+          /"description"\s*:\s*\{\s*"simpleText"\s*:\s*"([\s\S]*?)"/.exec(html);
 
-    const desc = descMatch[1].replace(/\\n/g, "\n").replace(/\\"/g, '"');
+        if (descMatch && descMatch[1]) {
+          desc = descMatch[1].replace(/\\n/g, "\n").replace(/\\"/g, '"');
+        }
+      }
+    }
+
+    if (!desc) return [];
+
     const timestampRegex = /(\d{1,2}:\d{2}(?::\d{2})?)\s*[-:]?\s*([^\n]+)/g;
     const rawTracks: { startSec: number; rawTitle: string }[] = [];
     let m: RegExpExecArray | null;
@@ -308,19 +333,62 @@ export async function fetchCompilationTracklistLyrics(videoId: string): Promise<
 }
 
 /**
+ * Clean compilation title by removing Vietnamese filler words to extract potential English track names
+ */
+export function cleanCompilationVideoTitle(rawTitle: string): string[] {
+  if (!rawTitle) return [];
+  const clean = rawTitle
+    .replace(/(những bài hát|bài hát|nhạc chill|nhạc english|tik tok|nhẹ nhàng|tuyển tập|hay nhất|lofi|spotify|acoustic|tiếng anh|nổi tiếng trên|album|full album|cover|audio|lyric|lyrics|official|video)/gi, " ")
+    .replace(/[\(\[\{\|\}\]\)]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  const candidates: string[] = [];
+  if (clean.length >= 3) candidates.push(clean);
+
+  const parts = rawTitle
+    .split(/[-–|,]/)
+    .map((p) => p.replace(/(những bài hát|nhạc|tik tok|spotify|acoustic|tiếng anh|nổi tiếng)/gi, "").trim())
+    .filter((p) => p.length > 3);
+
+  parts.forEach((p) => {
+    if (!candidates.includes(p)) candidates.push(p);
+  });
+
+  return candidates;
+}
+
+/**
  * Fetch Synced Lyrics from LRCLIB Open API for a music video
  */
 export async function fetchLrclibSyncedLyrics(videoTitle: string, authorName?: string, videoId?: string): Promise<RawSubtitleItem[]> {
+  // 1. Compilation Video Tracklist Description Fallback Engine FIRST (Fastest & highest precision for music mixes like aZGCSLa3GLk)
+  if (videoId) {
+    const compilationLyrics = await fetchCompilationTracklistLyrics(videoId);
+    if (compilationLyrics.length > 0) {
+      return compilationLyrics;
+    }
+  }
+
   const { trackName, artistName } = parseArtistAndTrackFromTitle(videoTitle, authorName);
+  const searchQueries: string[] = [];
 
   if (trackName) {
-    const searchQuery = artistName ? `${trackName} ${artistName}` : trackName;
+    searchQueries.push(artistName ? `${trackName} ${artistName}` : trackName);
+  }
 
-    // 1. Single Song Search API
+  // Also add cleaned title candidates
+  const cleanCandidates = cleanCompilationVideoTitle(videoTitle);
+  cleanCandidates.forEach((cand) => {
+    if (!searchQueries.includes(cand)) searchQueries.push(cand);
+  });
+
+  // 2. Single Song Search API across query candidates
+  for (const searchQuery of searchQueries.slice(0, 3)) {
     try {
       const searchUrl = `https://lrclib.net/api/search?q=${encodeURIComponent(searchQuery)}`;
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 4000);
+      const timeoutId = setTimeout(() => controller.abort(), 3500);
 
       const res = await fetch(searchUrl, {
         headers: { "User-Agent": "XP-Voca-Music-Lyrics-Engine/1.0" },
@@ -343,14 +411,6 @@ export async function fetchLrclibSyncedLyrics(videoTitle: string, authorName?: s
       }
     } catch (e: any) {
       console.warn("[LRCLIB Search Engine] Fetch warning:", e?.message || e);
-    }
-  }
-
-  // 2. Compilation Video Tracklist Description Fallback Engine
-  if (videoId) {
-    const compilationLyrics = await fetchCompilationTracklistLyrics(videoId);
-    if (compilationLyrics.length > 0) {
-      return compilationLyrics;
     }
   }
 

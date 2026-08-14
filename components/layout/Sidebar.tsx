@@ -249,7 +249,7 @@ function SidebarNavInner({
 
         {/* 2. NAVIGATION LINKS */}
         <div
-          className={`sidebar-nav flex-1 overflow-y-auto px-2.5 ${
+          className={`sidebar-nav flex-1 overflow-y-auto px-2.5 pb-20 lg:pb-3 ${
             sidebarCollapsed ? "py-3 space-y-2.5" : "py-3 space-y-4"
           } no-scrollbar`}
         >
@@ -271,40 +271,60 @@ function SidebarNavInner({
                     (link.path !== "/" && pathname.startsWith(link.path));
 
                   return (
-                    <Link
-                      key={link.path}
-                      href={link.path}
-                      title={sidebarCollapsed ? link.name : undefined}
-                      aria-current={isActive ? "page" : undefined}
-                      onClick={() => sidebarOpen && toggleSidebar()}
-                      className={`sidebar-link ${
-                        isActive
-                          ? "active bg-[#e8edf5] text-slate-900 dark:bg-slate-800 dark:text-white font-extrabold shadow-2xs"
-                          : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-900/60 font-semibold"
-                      } transition-all duration-200 flex items-center ${
-                        sidebarCollapsed
-                          ? "justify-center px-0 py-2"
-                          : "justify-between px-3 py-2"
-                      } w-full rounded`}
-                    >
-                      <div
-                        className={`flex items-center ${sidebarCollapsed ? "justify-center" : "gap-3"} min-w-0`}
+                    <React.Fragment key={link.path}>
+                      <Link
+                        href={link.path}
+                        title={sidebarCollapsed ? link.name : undefined}
+                        aria-current={isActive ? "page" : undefined}
+                        onClick={() => sidebarOpen && toggleSidebar()}
+                        className={`sidebar-link ${
+                          isActive
+                            ? "active bg-[#e8edf5] text-slate-900 dark:bg-slate-800 dark:text-white font-extrabold shadow-2xs"
+                            : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-900/60 font-semibold"
+                        } transition-all duration-200 flex items-center ${
+                          sidebarCollapsed
+                            ? "justify-center px-0 py-2"
+                            : "justify-between px-3 py-2"
+                        } w-full rounded`}
                       >
-                        <span className="sidebar-link-icon text-current shrink-0">
-                          {link.icon}
-                        </span>
-                        {!sidebarCollapsed && (
-                          <span className="font-bold text-[13px] truncate">
-                            {link.name}
+                        <div
+                          className={`flex items-center ${sidebarCollapsed ? "justify-center" : "gap-3"} min-w-0`}
+                        >
+                          <span className="sidebar-link-icon text-current shrink-0">
+                            {link.icon}
                           </span>
-                        )}
-                        {!sidebarCollapsed && link.badge && (
-                          <span className="px-1.5 py-0.2 rounded-full text-[9px] font-black bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-xs shrink-0">
-                            {link.badge}
-                          </span>
-                        )}
-                      </div>
-                    </Link>
+                          {!sidebarCollapsed && (
+                            <span className="font-bold text-[13px] truncate">
+                              {link.name}
+                            </span>
+                          )}
+                          {!sidebarCollapsed && link.badge && (
+                            <span className="px-1.5 py-0.2 rounded-full text-[9px] font-black bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-xs shrink-0">
+                              {link.badge}
+                            </span>
+                          )}
+                        </div>
+                      </Link>
+
+                      {/* Inline Premium Upgrade Link directly under Xếp hạng matching sidebar link style (Mobile ONLY) */}
+                      {link.name === "Xếp hạng" && !sidebarCollapsed && (
+                        <Link
+                          href="/shop"
+                          onClick={() => sidebarOpen && toggleSidebar()}
+                          className="sidebar-link text-blue-600 dark:text-sky-400 hover:bg-blue-50/70 dark:hover:bg-blue-950/40 font-bold transition-all duration-200 flex items-center justify-between px-3 py-2 w-full rounded lg:hidden"
+                        >
+                          <div className="flex items-center gap-3 min-w-0">
+                            <span className="sidebar-link-icon shrink-0">
+                              <Sparkles className="w-[18px] h-[18px] text-amber-500 fill-amber-500" strokeWidth={1.8} />
+                            </span>
+                            <span className="font-bold text-[13px] truncate">
+                              Nâng cấp Premium
+                            </span>
+                          </div>
+                          <span className="shrink-0 text-blue-500 dark:text-sky-400 font-bold">➔</span>
+                        </Link>
+                      )}
+                    </React.Fragment>
                   );
                 })}
               </div>
@@ -354,8 +374,8 @@ function SidebarNavInner({
           )}
         </div>
 
-        {/* 3. SIDEBAR FOOTER: PREMIUM & PROFILE */}
-        <div className="sidebar-footer p-3 border-t border-slate-100 dark:border-white/5 space-y-2.5 shrink-0">
+        {/* 3. SIDEBAR FOOTER: PREMIUM & PROFILE ON DESKTOP ONLY */}
+        <div className="sidebar-footer p-3 border-t border-slate-100 dark:border-white/5 space-y-2.5 shrink-0 hidden lg:block">
           {!sidebarCollapsed && (
             <Link
               href="/shop"

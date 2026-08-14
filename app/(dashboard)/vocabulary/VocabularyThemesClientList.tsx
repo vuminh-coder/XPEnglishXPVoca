@@ -423,7 +423,7 @@ export default function VocabularyThemesClientList({
                           {t.name}
                         </h3>
                         <p className="text-[10px] sm:text-xs font-medium text-slate-400 truncate">
-                          {hasEnglishSubtitle ? `${t.nameEn} · ` : ""}{t.totalVocabs} từ vựng
+                          {t.totalVocabs} từ vựng
                         </p>
                       </div>
                     </div>

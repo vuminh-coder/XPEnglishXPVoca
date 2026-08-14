@@ -5,7 +5,7 @@
  */
 
 import { SubtitleSentence } from "@/lib/store/videoStore";
-import { extractDictationWord } from "@/lib/services/youtubeSubtitleParser";
+import { extractDictationWord, shiftTimestampSec } from "@/lib/services/youtubeSubtitleParser";
 
 /** Raw parsed cue before conversion */
 interface RawSrtCue {
@@ -121,8 +121,8 @@ export function parseSrtContent(srtText: string, videoId?: string): SubtitleSent
     const tsMatch = timestampPattern.exec(lines[timestampLineIdx]);
     if (!tsMatch) continue;
 
-    const startTime = parseSrtTimestamp(tsMatch[1]);
-    const endTime = parseSrtTimestamp(tsMatch[2]);
+    const startTime = shiftTimestampSec(parseSrtTimestamp(tsMatch[1]));
+    const endTime = shiftTimestampSec(parseSrtTimestamp(tsMatch[2]));
 
     // Text lines come after the timestamp line
     const textLines = lines.slice(timestampLineIdx + 1).map(cleanSubtitleText).filter((l) => l.length > 0);
@@ -177,15 +177,13 @@ export function parseSrtContent(srtText: string, videoId?: string): SubtitleSent
 
     const dictationWord = textEn ? extractDictationWord(textEn) : "vocabulary";
 
-    // Bridge gap to next cue so subtitles stay visible continuously
+    // Bridge small timing gaps (<= 0.6s) to next cue so continuous speech transitions smoothly
     const nextCue = rawCues[idx + 1];
     let adjustedEndTime = cue.endTime;
-    if (nextCue && nextCue.startTime > cue.startTime) {
-      const gap = nextCue.startTime - cue.startTime;
-      if (gap <= 6.0) {
+    if (nextCue && nextCue.startTime > cue.endTime) {
+      const silenceGap = nextCue.startTime - cue.endTime;
+      if (silenceGap <= 0.6) {
         adjustedEndTime = nextCue.startTime;
-      } else {
-        adjustedEndTime = Math.min(nextCue.startTime, Math.max(cue.endTime, cue.startTime + 3.5));
       }
     }
 

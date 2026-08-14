@@ -40,16 +40,16 @@ export default function AiTutorLoading() {
           <div className="p-2.5 sm:p-3.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex flex-col min-w-0 lg:min-h-0 lg:flex-1 space-y-3">
             
             {/* Header Title Bar */}
-            <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded-xs bg-blue-600/30 dark:bg-blue-400/20" />
-                <div className="h-4 w-52 sm:w-64 rounded-xs bg-slate-200 dark:bg-slate-800" />
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2 gap-2">
+              <div className="flex items-center gap-2 min-w-0 flex-1">
+                <div className="w-4 h-4 rounded-xs bg-blue-600/30 dark:bg-blue-400/20 shrink-0" />
+                <div className="h-4 w-44 sm:w-64 rounded-xs bg-slate-200 dark:bg-slate-800" />
               </div>
-              <div className="h-5 w-20 rounded-xs bg-emerald-500/20 dark:bg-emerald-500/10" />
+              <div className="h-5 w-16 sm:w-20 rounded-xs bg-emerald-500/20 dark:bg-emerald-500/10 shrink-0 whitespace-nowrap" />
             </div>
 
-            {/* Scrollable Chat Stream Stream Box */}
-            <div className="h-[55svh] min-h-[360px] sm:min-h-[400px] lg:h-auto lg:min-h-[440px] lg:flex-1 space-y-3.5 p-1">
+            {/* Scrollable Chat Stream Box */}
+            <div className="max-h-[50svh] min-h-[240px] sm:min-h-[420px] lg:h-auto lg:min-h-[460px] lg:flex-1 space-y-3.5 p-1">
               
               {/* Message 1 (AI Bot Left) */}
               <div className="flex items-start gap-2.5 justify-start">

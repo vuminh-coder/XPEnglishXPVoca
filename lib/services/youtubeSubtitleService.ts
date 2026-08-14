@@ -9,6 +9,7 @@ import {
   formatTimestampMs,
   formatSrtTimestamp,
   wrapTextTo42Chars,
+  shiftTimestampSec,
 } from "@/lib/services/youtubeSubtitleParser";
 import { fetchLrclibSyncedLyrics } from "@/lib/services/lrclibLyricsService";
 
@@ -97,9 +98,11 @@ export async function processHighPrecisionSubtitles(
 
   rawSentences.forEach((item: RawSubtitleItem, index: number) => {
     const id = index + 1;
-    const startMsStr = formatTimestampMs(item.startTime);
-    const endMsStr = formatTimestampMs(item.endTime);
-    const duration = parseFloat((item.endTime - item.startTime).toFixed(3));
+    const shiftedStart = shiftTimestampSec(item.startTime);
+    const shiftedEnd = shiftTimestampSec(item.endTime);
+    const duration = parseFloat((shiftedEnd - shiftedStart).toFixed(3));
+    const startMsStr = formatTimestampMs(shiftedStart);
+    const endMsStr = formatTimestampMs(shiftedEnd);
 
     const cleanEn = item.textEn;
     const formattedEnForExport = wrapTextTo42Chars(cleanEn);
@@ -116,10 +119,10 @@ export async function processHighPrecisionSubtitles(
       english: cleanEn,
       vietnamese: formattedVn,
       dictationWord: item.dictationWord,
-      startSeconds: item.startTime,
+      startSeconds: shiftedStart,
     });
 
-    srtAcc += `${id}\n${formatSrtTimestamp(item.startTime)} --> ${formatSrtTimestamp(item.endTime)}\n${formattedEnForExport}\n${formattedVn}\n\n`;
+    srtAcc += `${id}\n${formatSrtTimestamp(shiftedStart)} --> ${formatSrtTimestamp(shiftedEnd)}\n${formattedEnForExport}\n${formattedVn}\n\n`;
     vttAcc += `${startMsStr} --> ${endMsStr}\n${formattedEnForExport}\n${formattedVn}\n\n`;
   });
 

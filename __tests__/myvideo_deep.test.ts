@@ -169,29 +169,30 @@ describe("decodeXmlEntities", () => {
 // ============================================================
 describe("parseTimedTextXml", () => {
   it("parses standard XML timed text with start and dur", () => {
-    const xml = `<transcript>
-      <text start="5.5" dur="3.0">Hello world</text>
-      <text start="10.5" dur="3.2">Second line</text>
+    const xml = `<?xml version="1.0"?>
+    <transcript>
+      <text start="0" dur="5.5">Hello world</text>
+      <text start="5.5" dur="3.2">Second line</text>
     </transcript>`;
 
     const result = parseTimedTextXml(xml);
     expect(result).toHaveLength(2);
-    expect(result[0].startTime).toBe(3.7); // 5.5 - 1.8 = 3.7s
-    expect(result[0].endTime).toBe(6.7);
+    expect(result[0].startTime).toBe(0);
+    expect(result[0].endTime).toBe(5.5);
     expect(result[0].textEn).toBe("Hello world");
-    expect(result[1].startTime).toBe(8.7); // 10.5 - 1.8 = 8.7s
+    expect(result[1].startTime).toBe(5.5);
   });
 
   it("handles XML with no dur attribute (calculates from next item)", () => {
     const xml = `<transcript>
-      <text start="10.0">First sentence</text>
-      <text start="14.5">Second sentence</text>
+      <text start="0">First sentence</text>
+      <text start="4.5">Second sentence</text>
     </transcript>`;
 
     const result = parseTimedTextXml(xml);
     expect(result).toHaveLength(2);
-    expect(result[0].startTime).toBe(8.2); // 10.0 - 1.8 = 8.2s
-    expect(result[0].endTime).toBe(11.7);
+    // When no dur, uses gap to next item, but capped at 3.5s max
+    expect(result[0].endTime).toBe(3.5); // 0 + 3.5 (max cap since gap 4.5 > 3.5)
   });
 
   it("handles XML with entities in text content", () => {
@@ -205,12 +206,12 @@ describe("parseTimedTextXml", () => {
 
   it("handles single-quoted attributes", () => {
     const xml = `<transcript>
-      <text start='5.0' dur='2.3'>Single quotes</text>
+      <text start='1.5' dur='2.3'>Single quotes</text>
     </transcript>`;
 
     const result = parseTimedTextXml(xml);
     expect(result).toHaveLength(1);
-    expect(result[0].startTime).toBe(3.2); // 5.0 - 1.8 = 3.2s
+    expect(result[0].startTime).toBe(1.5);
   });
 
   it("returns empty array for empty/null input", () => {
@@ -224,8 +225,8 @@ describe("parseTimedTextXml", () => {
 
   it("sorts by startTime even if XML is out of order", () => {
     const xml = `<transcript>
-      <text start="10.0" dur="2">Second</text>
-      <text start="5.0" dur="3">First</text>
+      <text start="5.0" dur="2">Second</text>
+      <text start="0" dur="3">First</text>
     </transcript>`;
 
     const result = parseTimedTextXml(xml);
@@ -246,11 +247,11 @@ describe("parseTimedTextXml", () => {
 
   it("handles decimal startTime values correctly", () => {
     const xml = `<transcript>
-      <text start="5.0" dur="2.567">Precise timing</text>
+      <text start="1.234" dur="2.567">Precise timing</text>
     </transcript>`;
 
     const result = parseTimedTextXml(xml);
-    expect(result[0].startTime).toBe(3.2);
+    expect(result[0].startTime).toBe(1.234);
     expect(result[0].duration).toBeCloseTo(2.567, 2);
   });
 });
@@ -262,17 +263,17 @@ describe("parseTimedTextJson3", () => {
   it("parses standard JSON3 format", () => {
     const json3 = {
       events: [
-        { tStartMs: 5000, dDurationMs: 2000, segs: [{ utf8: "Hello" }] },
-        { tStartMs: 8000, dDurationMs: 3000, segs: [{ utf8: "World" }] },
+        { tStartMs: 1000, dDurationMs: 2000, segs: [{ utf8: "Hello" }] },
+        { tStartMs: 4000, dDurationMs: 3000, segs: [{ utf8: "World" }] },
       ],
     };
 
     const result = parseTimedTextJson3(json3);
     expect(result).toHaveLength(2);
-    expect(result[0].startTime).toBe(3.2); // 5.0 - 1.8 = 3.2s
-    expect(result[0].endTime).toBe(5.2);
+    expect(result[0].startTime).toBe(1);
+    expect(result[0].endTime).toBe(3);
     expect(result[0].textEn).toBe("Hello");
-    expect(result[1].startTime).toBe(6.2); // 8.0 - 1.8 = 6.2s
+    expect(result[1].startTime).toBe(4);
   });
 
   it("joins multiple segments in a single event", () => {
@@ -290,7 +291,7 @@ describe("parseTimedTextJson3", () => {
     const json3 = {
       events: [
         { tStartMs: 0, dDurationMs: 1000 }, // no segs
-        { tStartMs: 5000, dDurationMs: 3000, segs: [{ utf8: "Valid" }] },
+        { tStartMs: 2000, dDurationMs: 3000, segs: [{ utf8: "Valid" }] },
       ],
     };
 
@@ -303,7 +304,7 @@ describe("parseTimedTextJson3", () => {
     const json3 = {
       events: [
         { tStartMs: 0, dDurationMs: 1000, segs: [{ utf8: "\n" }] },
-        { tStartMs: 5000, dDurationMs: 1000, segs: [{ utf8: "Real text" }] },
+        { tStartMs: 2000, dDurationMs: 1000, segs: [{ utf8: "Real text" }] },
       ],
     };
 
@@ -318,7 +319,7 @@ describe("parseTimedTextJson3", () => {
 
     const result = parseTimedTextJson3(jsonStr);
     expect(result).toHaveLength(1);
-    expect(result[0].startTime).toBe(3.2); // 5.0 - 1.8 = 3.2s
+    expect(result[0].startTime).toBe(5);
   });
 
   it("returns empty array for invalid JSON string", () => {
@@ -333,15 +334,14 @@ describe("parseTimedTextJson3", () => {
   it("handles missing dDurationMs (calculates from next event)", () => {
     const json3 = {
       events: [
-        { tStartMs: 5000, segs: [{ utf8: "No dur" }] },
-        { tStartMs: 8000, dDurationMs: 2000, segs: [{ utf8: "Has dur" }] },
+        { tStartMs: 0, segs: [{ utf8: "No dur" }] },
+        { tStartMs: 3000, dDurationMs: 2000, segs: [{ utf8: "Has dur" }] },
       ],
     };
 
     const result = parseTimedTextJson3(json3);
     expect(result).toHaveLength(2);
-    expect(result[0].startTime).toBe(3.2);
-    expect(result[0].endTime).toBe(6.2); // Uses next item's start (8.0 - 1.8 = 6.2s)
+    expect(result[0].endTime).toBe(3); // Should use next item's start
   });
 });
 
@@ -637,19 +637,19 @@ describe("Full subtitle pipeline integration", () => {
   it("JSON3 → parse → format timestamps correctly", () => {
     const json3Str = JSON.stringify({
       events: [
-        { tStartMs: 5000, dDurationMs: 3500, segs: [{ utf8: "First segment" }] },
-        { tStartMs: 9000, dDurationMs: 3000, segs: [{ utf8: "Second segment" }] },
+        { tStartMs: 1500, dDurationMs: 3500, segs: [{ utf8: "Welcome everyone" }] },
+        { tStartMs: 5200, dDurationMs: 4000, segs: [{ utf8: "to this lesson" }] },
       ],
     });
 
     const parsed = parseTimedTextAny(json3Str);
     expect(parsed).toHaveLength(2);
-    expect(parsed[0].startTime).toBe(3.2); // 5.0 - 1.8 = 3.2s
-    expect(parsed[0].endTime).toBe(6.7);
+    expect(parsed[0].startTime).toBe(1.5);
+    expect(parsed[0].endTime).toBe(5);
 
     // Format timestamps
-    expect(formatTimestampMs(parsed[0].startTime)).toBe("00:00:03.200");
-    expect(formatSrtTimestamp(parsed[0].startTime)).toBe("00:00:03,200");
+    expect(formatTimestampMs(parsed[0].startTime)).toBe("00:00:01.500");
+    expect(formatSrtTimestamp(parsed[0].startTime)).toBe("00:00:01,500");
   });
 });
 

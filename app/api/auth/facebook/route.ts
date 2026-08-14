@@ -27,6 +27,7 @@ export async function GET(req: NextRequest) {
             fullName: mockName,
             username: username,
             avatarEmoji: "🔥",
+            avatarUrl: mockAvatar,
             level: 3,
             totalXp: 850,
             currentStreak: 3,
@@ -36,6 +37,11 @@ export async function GET(req: NextRequest) {
             coins: 150,
             streakFreezes: 0,
           },
+        });
+      } else if (!profile.avatarUrl) {
+        profile = await prisma.profile.update({
+          where: { id: profile.id },
+          data: { avatarUrl: mockAvatar },
         });
       }
 

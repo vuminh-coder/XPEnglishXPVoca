@@ -271,9 +271,12 @@ const EXTERNAL_PROXIES = [
  * Tier 0: Direct fetch. Tier 1-4: External proxy services.
  */
 async function fetchWithProxyChain(url: string, options?: RequestInit): Promise<{ text: string; tier: string } | null> {
-  // Tier 0: Direct fetch
+  // Tier 0: Direct fetch with 2.5s timeout
   try {
-    const res = await fetch(url, { ...options, cache: "no-store" });
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2500);
+    const res = await fetch(url, { ...options, signal: controller.signal, cache: "no-store" });
+    clearTimeout(timeoutId);
     if (res.ok) {
       const text = await res.text();
       if (text && text.trim().length > 30 && !isRateLimitedHtml(text)) {
@@ -285,13 +288,13 @@ async function fetchWithProxyChain(url: string, options?: RequestInit): Promise<
     console.warn(`[ProxyChain Tier 0] Direct fetch failed: ${e?.message}`);
   }
 
-  // Tier 1-4: External proxy services
+  // Tier 1-4: External proxy services with 2.5s timeout each
   for (let i = 0; i < EXTERNAL_PROXIES.length; i++) {
     const proxy = EXTERNAL_PROXIES[i];
     try {
       const proxyUrl = proxy.buildUrl(url);
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 6000);
+      const timeoutId = setTimeout(() => controller.abort(), 2500);
       const res = await fetch(proxyUrl, { signal: controller.signal, cache: "no-store" });
       clearTimeout(timeoutId);
       if (res.ok) {
@@ -307,11 +310,8 @@ async function fetchWithProxyChain(url: string, options?: RequestInit): Promise<
           console.log(`[ProxyChain Tier ${i + 1}] ${proxy.name} SUCCESS (${text.length} chars)`);
           return { text, tier: proxy.name };
         }
-        console.warn(`[ProxyChain Tier ${i + 1}] ${proxy.name} returned invalid/rate-limited content`);
       }
-    } catch (e: any) {
-      console.warn(`[ProxyChain Tier ${i + 1}] ${proxy.name} failed: ${e?.message}`);
-    }
+    } catch (e: any) {}
   }
 
   return null;
@@ -329,25 +329,17 @@ async function fetchInnertubeCaptionTracks(videoId: string): Promise<any[]> {
       clientVersion: "7.20230405.08.01",
     },
     {
-      userAgent: "com.google.android.youtube/19.02.39 (Linux; U; Android 14; US) gzip",
-      clientName: "ANDROID",
-      clientVersion: "19.02.39",
-    },
-    {
-      userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4.1 Mobile/15E148 Safari/604.1",
-      clientName: "MWEB",
-      clientVersion: "2.20240501.00.00",
-    },
-    {
       userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
       clientName: "WEB",
       clientVersion: "2.20240501.00.00",
     },
   ];
 
-  // Strategy 1: Direct Innertube POST calls (TVHTML5 first)
+  // Strategy 1: Direct Innertube POST calls with 2.5s AbortController timeout
   for (const clientConfig of clients) {
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 2500);
       const res = await fetch("https://www.youtube.com/youtubei/v1/player", {
         method: "POST",
         headers: {
@@ -365,8 +357,10 @@ async function fetchInnertubeCaptionTracks(videoId: string): Promise<any[]> {
             },
           },
         }),
+        signal: controller.signal,
         cache: "no-store",
       });
+      clearTimeout(timeoutId);
 
       if (res.ok) {
         const data = await res.json();
@@ -376,13 +370,10 @@ async function fetchInnertubeCaptionTracks(videoId: string): Promise<any[]> {
           return tracks;
         }
       }
-    } catch (e) {
-      console.warn(`[Innertube Direct] ${clientConfig.clientName} failed:`, e);
-    }
+    } catch (e) {}
   }
 
   // Strategy 2: Innertube via Watch Page HTML through external proxies
-  console.log(`[Innertube] All direct calls failed. Trying Watch Page via external proxies...`);
   const watchUrl = `https://www.youtube.com/watch?v=${videoId}`;
   const proxyResult = await fetchWithProxyChain(watchUrl, {
     headers: {
@@ -399,7 +390,6 @@ async function fetchInnertubeCaptionTracks(videoId: string): Promise<any[]> {
     }
   }
 
-  console.warn(`[Innertube] ALL strategies failed for videoId ${videoId}`);
   return [];
 }
 
@@ -595,36 +585,41 @@ async function fetchSubtitlesOrTracksOnServer(videoId: string): Promise<{
     }
   }
 
-  // 3. Direct timedtext API candidates (no watch page needed)
+  // 3. Fast direct timedtext API check (1.5s timeout, no proxy chain loop)
   let xmlEn = "";
-  const candidateUrlsEn = [
-    `https://www.youtube.com/api/timedtext?v=${videoId}&lang=en&fmt=json3`,
-    `https://www.youtube.com/api/timedtext?v=${videoId}&lang=en`,
-    `https://www.youtube.com/api/timedtext?v=${videoId}&lang=en&kind=asr`,
-    `https://www.youtube.com/api/timedtext?v=${videoId}&lang=en&kind=asr&fmt=json3`,
-  ];
-
-  for (const url of candidateUrlsEn) {
-    const result = await fetchWithProxyChain(url, { headers });
-    if (result && result.text.trim().length > 50) {
-      xmlEn = result.text;
-      console.log(`[Server Direct TimedText EN] Fetched via ${result.tier} (${xmlEn.length} chars)`);
-      break;
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 1500);
+    const directRes = await fetch(
+      `https://www.youtube.com/api/timedtext?v=${videoId}&lang=en&fmt=json3`,
+      { headers, signal: controller.signal, cache: "no-store" }
+    );
+    clearTimeout(timeoutId);
+    if (directRes.ok) {
+      const text = await directRes.text();
+      if (text && text.trim().length > 50 && !isRateLimitedHtml(text)) {
+        xmlEn = text;
+      }
     }
-  }
+  } catch (e) {}
 
   if (xmlEn) {
     const parsedEn = parseTimedTextAny(xmlEn);
     if (parsedEn.length > 0) {
       let xmlVn = "";
-      const vnDirectResult = await fetchWithProxyChain(
-        `https://www.youtube.com/api/timedtext?v=${videoId}&lang=vi`,
-        { headers }
-      );
-      if (vnDirectResult && vnDirectResult.text.trim().length > 30) {
-        xmlVn = vnDirectResult.text;
-        console.log(`[Server Direct TimedText VN] Fetched via ${vnDirectResult.tier}`);
-      }
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 1500);
+        const vnRes = await fetch(
+          `https://www.youtube.com/api/timedtext?v=${videoId}&lang=vi`,
+          { headers, signal: controller.signal, cache: "no-store" }
+        );
+        clearTimeout(timeoutId);
+        if (vnRes.ok) {
+          const text = await vnRes.text();
+          if (text && text.trim().length > 30) xmlVn = text;
+        }
+      } catch (e) {}
 
       const parsedVn = xmlVn ? parseVnTimedTextAny(xmlVn) : [];
       const aligned = alignBilingualSubtitles(parsedEn, parsedVn);
@@ -647,7 +642,10 @@ async function fetchSubtitlesOrTracksOnServer(videoId: string): Promise<{
   // 4. Server LRCLIB Synced Lyrics Fallback Engine (For music/acoustic/compilation videos like aZGCSLa3GLk)
   try {
     let videoTitle = "";
-    const oembedRes = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`, { cache: "no-store" });
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2000);
+    const oembedRes = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`, { signal: controller.signal, cache: "no-store" });
+    clearTimeout(timeoutId);
     if (oembedRes.ok) {
       const oembed = await oembedRes.json();
       videoTitle = oembed.title || "";

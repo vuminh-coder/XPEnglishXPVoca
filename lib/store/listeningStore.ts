@@ -47,7 +47,7 @@ interface ListeningStore {
 export const useListeningStore = create<ListeningStore>()(
   persist(
     (set, get) => ({
-      currentLessonId: MOCK_LESSONS_DATA[0]?.id || "toeic-listening-01",
+      currentLessonId: (Array.isArray(MOCK_LESSONS_DATA) && MOCK_LESSONS_DATA[0]?.id) || "listen_001",
       completedLessonIds: [],
       completedRoleplayGoalIds: [],
       userAttempts: [],

@@ -8,8 +8,10 @@ import {
   calculateCharacterWeightedWordIndex,
   extractDictationWord,
   formatTimestampMs,
+  shiftTimestampSec,
   ParsedXmlItem,
 } from "@/lib/services/youtubeSubtitleParser";
+import { parseSrtContent } from "@/lib/services/srtParser";
 
 // Helper simulating binary search matching logic from app/(dashboard)/myvideo/page.tsx
 function binarySearchSubtitleIndex(
@@ -43,6 +45,8 @@ function binarySearchSubtitleIndex(
       matchedIdx = lo;
     } else if (subs.length > 0 && effectiveTime < subs[0].startTime) {
       matchedIdx = 0;
+    } else if (lo < subs.length && lo >= 0) {
+      matchedIdx = lo;
     }
   }
 
@@ -75,9 +79,9 @@ describe("MyVideo 100% Timeline Precision & Edge Case Suite", () => {
       expect(binarySearchSubtitleIndex(cues, 5.65)).toBe(1);
     });
 
-    it("handles large gap (> 1.0s lookahead, > 0.5s lookback) cleanly", () => {
-      // 10.0s is 1.0s past Cue 1 end (9.0) and 2.0s before Cue 2 start (12.0)
-      expect(binarySearchSubtitleIndex(cues, 10.0)).toBe(-1);
+    it("handles large gap (> 1.0s lookahead, > 0.5s lookback) by previewing upcoming cue", () => {
+      // 10.0s is 1.0s past Cue 1 end (9.0) and 2.0s before Cue 2 start (12.0) -> previews Cue 2 (index 2)
+      expect(binarySearchSubtitleIndex(cues, 10.0)).toBe(2);
     });
 
     it("handles before-first-cue timestamp by defaulting to first cue", () => {
@@ -89,29 +93,27 @@ describe("MyVideo 100% Timeline Precision & Edge Case Suite", () => {
     it("ensures XML cues with long durations never overlap into next cue start time", () => {
       const xmlStr = `
         <xml>
-          <text start="10.0" dur="5.0">First sentence</text>
-          <text start="12.0" dur="2.0">Second sentence</text>
+          <text start="1.0" dur="5.0">First sentence</text>
+          <text start="3.0" dur="2.0">Second sentence</text>
         </xml>
       `;
       const parsed = parseTimedTextXml(xmlStr);
       expect(parsed).toHaveLength(2);
       expect(parsed[0].endTime).toBeLessThanOrEqual(parsed[1].startTime);
-      expect(parsed[0].startTime).toBe(8.2); // 10.0 - 1.8 = 8.2s
-      expect(parsed[0].endTime).toBe(10.2); // 12.0 - 1.8 = 10.2s
+      expect(parsed[0].endTime).toBe(3.0);
     });
 
     it("ensures JSON3 cues with tight gaps never overlap", () => {
       const jsonStr = JSON.stringify({
         events: [
-          { tStartMs: 10000, dDurationMs: 3000, segs: [{ utf8: "Hello world" }] },
-          { tStartMs: 11200, dDurationMs: 2000, segs: [{ utf8: "How are you" }] },
+          { tStartMs: 1000, dDurationMs: 3000, segs: [{ utf8: "Hello world" }] },
+          { tStartMs: 2200, dDurationMs: 2000, segs: [{ utf8: "How are you" }] },
         ],
       });
       const parsed = parseTimedTextJson3(jsonStr);
       expect(parsed).toHaveLength(2);
       expect(parsed[0].endTime).toBeLessThanOrEqual(parsed[1].startTime);
-      expect(parsed[0].startTime).toBe(8.2); // 10.0 - 1.8 = 8.2s
-      expect(parsed[0].endTime).toBe(9.4);  // 11.2 - 1.8 = 9.4s
+      expect(parsed[0].endTime).toBe(2.2);
     });
   });
 
@@ -153,6 +155,26 @@ describe("MyVideo 100% Timeline Precision & Edge Case Suite", () => {
     it("preserves contractions and excludes stop words", () => {
       expect(extractDictationWord("Don't give up on your dreams")).toBe("dreams");
       expect(extractDictationWord("It's a beautiful afternoon")).toBe("beautiful");
+    });
+  });
+
+  describe("Subtitle Time Shift Engine (shiftTimestampSec)", () => {
+    it("preserves exact 100% audio alignment when default shift is 0s", () => {
+      expect(shiftTimestampSec(20.0)).toBe(20.0);
+      expect(shiftTimestampSec(25.5)).toBe(25.5);
+    });
+
+    it("supports custom shift reduction values cleanly", () => {
+      expect(shiftTimestampSec(20.0, 2.2)).toBe(17.8);
+      expect(shiftTimestampSec(1.5, 2.2)).toBe(0);
+    });
+
+    it("parses SRT cue lines with 100% exact timing precision", () => {
+      const srtSample = `1\n00:00:20,000 --> 00:00:25,000\nTest subtitle 20s audio sync\n\n`;
+      const parsed = parseSrtContent(srtSample);
+      expect(parsed).toHaveLength(1);
+      expect(parsed[0].startTime).toBe(20.0);
+      expect(parsed[0].endTime).toBe(25.0);
     });
   });
 });

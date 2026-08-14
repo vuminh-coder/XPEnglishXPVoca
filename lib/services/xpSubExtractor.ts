@@ -13,6 +13,7 @@ import {
   formatSrtTimestamp,
   wrapTextTo42Chars,
   alignBilingualSubtitles,
+  shiftTimestampSec,
   ParsedXmlItem,
   ParsedVnItem,
 } from "@/lib/services/youtubeSubtitleParser";
@@ -444,14 +445,18 @@ export async function extractSubtitlesFromTrackUrl(
 
   if (parsedEn.length > 0) {
     const aligned = alignBilingualSubtitles(parsedEn, parsedVn);
-    return aligned.map((item, index) => ({
-      id: `xpsub_${videoId}_${index + 1}`,
-      startTime: item.startTime,
-      endTime: item.endTime,
-      textEn: item.textEn,
-      textVn: isBilingual ? item.textVn : "",
-      dictationWord: extractDictationWord(item.textEn),
-    }));
+    return aligned.map((item, index) => {
+      const shiftedStart = shiftTimestampSec(item.startTime);
+      const shiftedEnd = shiftTimestampSec(item.endTime);
+      return {
+        id: `xpsub_${videoId}_${index + 1}`,
+        startTime: shiftedStart,
+        endTime: shiftedEnd,
+        textEn: item.textEn,
+        textVn: isBilingual ? item.textVn : "",
+        dictationWord: extractDictationWord(item.textEn),
+      };
+    });
   }
 
   return [];

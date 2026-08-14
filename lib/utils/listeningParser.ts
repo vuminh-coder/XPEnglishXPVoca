@@ -4,7 +4,7 @@ export interface WordAlignment {
 }
 
 export interface TranscriptSentence {
-  sentenceId: string;
+  sentenceId?: string;
   id?: number | string;
   startTime: number; // in seconds
   endTime: number; // in seconds
@@ -12,7 +12,9 @@ export interface TranscriptSentence {
   vietnamese: string;
   translation?: string;
   ipa?: string;
+  speaker?: string;
   words?: WordAlignment[];
+  wordTimings?: { word: string; start: number; end: number }[];
 }
 
 export interface VocabularyItem {
@@ -21,11 +23,12 @@ export interface VocabularyItem {
   pos?: string;
   vietnamese: string;
   meaning?: string;
+  englishDef?: string;
   example?: string;
 }
 
 export interface ListeningQuiz {
-  id: string;
+  id?: string;
   question: string;
   options: string[];
   correctIndex: number;
@@ -36,6 +39,7 @@ export interface ListeningLesson {
   id: string;
   title: string;
   audioUrl?: string;
+  audio_url?: string;
   imageUrl?: string;
   level?: string;
   accent?: string;
@@ -44,11 +48,12 @@ export interface ListeningLesson {
   duration?: string;
   category?: string;
   tags?: string[];
-  vocabularyList: VocabularyItem[];
+  vocabularyList?: VocabularyItem[];
   vocabList?: VocabularyItem[];
   vocabulary?: VocabularyItem[];
-  transcript: TranscriptSentence[];
-  quizzes: ListeningQuiz[];
+  transcript?: TranscriptSentence[];
+  quizzes?: ListeningQuiz[];
+  quizList?: ListeningQuiz[];
 }
 
 /**
@@ -87,6 +92,10 @@ export function parseListeningMarkdown(markdownText: string): ListeningLesson {
     transcript: [],
     quizzes: []
   };
+
+  const transcript = lesson.transcript!;
+  const vocabularyList = lesson.vocabularyList!;
+  const quizzes = lesson.quizzes!;
 
   let currentSection = "";
   let frontmatterLines: string[] = [];
@@ -151,14 +160,14 @@ export function parseListeningMarkdown(markdownText: string): ListeningLesson {
         currentSection = "TRANSCRIPT";
         // finalize any trailing sentence
         if (currentSentence) {
-          lesson.transcript.push(currentSentence as TranscriptSentence);
+          transcript.push(currentSentence as TranscriptSentence);
           currentSentence = null;
         }
       } else if (secName.includes("QUIZ")) {
         currentSection = "QUIZ";
         // finalize any trailing sentence
         if (currentSentence) {
-          lesson.transcript.push(currentSentence as TranscriptSentence);
+          transcript.push(currentSentence as TranscriptSentence);
           currentSentence = null;
         }
       }
@@ -174,7 +183,7 @@ export function parseListeningMarkdown(markdownText: string): ListeningLesson {
         const vocReg = /^-\s*([^(/\s:][^(/\s]*?)\s*(?:\/([^/]+)\/)?\s*(?:\(([^)]+)\))?\s*:\s*(.*?)(?:\s*E\.g\.,?\s*(.*))?$/;
         const match = line.match(vocReg);
         if (match) {
-          lesson.vocabularyList.push({
+          vocabularyList.push({
             word: match[1].trim(),
             ipa: match[2]?.trim(),
             pos: match[3]?.trim(),
@@ -192,7 +201,7 @@ export function parseListeningMarkdown(markdownText: string): ListeningLesson {
       if (tsMatch) {
         // Finalize previous sentence
         if (currentSentence) {
-          lesson.transcript.push(currentSentence as TranscriptSentence);
+          transcript.push(currentSentence as TranscriptSentence);
         }
 
         const timestampStr = tsMatch[1];
@@ -217,7 +226,7 @@ export function parseListeningMarkdown(markdownText: string): ListeningLesson {
         }
 
         currentSentence = {
-          sentenceId: `s_${lesson.transcript.length + 1}`,
+          sentenceId: `s_${transcript.length + 1}`,
           startTime,
           endTime: startTime + 4, // placeholder, will adjust below
           text,
@@ -243,10 +252,10 @@ export function parseListeningMarkdown(markdownText: string): ListeningLesson {
       if (qMatch) {
         // Finalize previous quiz
         if (currentQuiz) {
-          lesson.quizzes.push(currentQuiz as ListeningQuiz);
+          quizzes.push(currentQuiz as ListeningQuiz);
         }
         currentQuiz = {
-          id: `q_${lesson.quizzes.length + 1}`,
+          id: `q_${quizzes.length + 1}`,
           question: qMatch[1].trim(),
           options: [],
           correctIndex: 0
@@ -276,17 +285,17 @@ export function parseListeningMarkdown(markdownText: string): ListeningLesson {
 
   // Push final items
   if (currentSentence) {
-    lesson.transcript.push(currentSentence as TranscriptSentence);
+    transcript.push(currentSentence as TranscriptSentence);
   }
   if (currentQuiz) {
-    lesson.quizzes.push(currentQuiz as ListeningQuiz);
+    quizzes.push(currentQuiz as ListeningQuiz);
   }
 
   // Post-process sentence end times
-  for (let idx = 0; idx < lesson.transcript.length; idx++) {
-    const currentSent = lesson.transcript[idx];
-    if (idx < lesson.transcript.length - 1) {
-      currentSent.endTime = lesson.transcript[idx + 1].startTime;
+  for (let idx = 0; idx < transcript.length; idx++) {
+    const currentSent = transcript[idx];
+    if (idx < transcript.length - 1) {
+      currentSent.endTime = transcript[idx + 1].startTime;
     } else {
       const wordCount = currentSent.text.split(/\s+/).length;
       currentSent.endTime = currentSent.startTime + Math.max(2.5, wordCount * 0.35 + 1.2);
