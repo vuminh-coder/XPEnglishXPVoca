@@ -254,17 +254,26 @@ export default function RoadmapPage() {
   };
 
   const handleToggleTaskCompleted = (taskId: string) => {
-    let xpAwarded = 20;
+    let xpAwarded = 25;
+    let isNowCompleted = false;
+    let taskTitle = "";
+
     setPhases(prev => prev.map(phase => ({
       ...phase,
       tasks: phase.tasks.map(t => {
         if (t.id === taskId) {
-          const nextCompleted = !t.isCompleted;
+          isNowCompleted = !t.isCompleted;
           xpAwarded = t.xpReward;
-          if (nextCompleted) {
+          taskTitle = t.title;
+          if (isNowCompleted) {
             useAuthStore.getState().awardXp(xpAwarded);
+            useNotificationStore.getState().addToast({
+              type: "success",
+              title: `🎉 +${xpAwarded} XP BÀI HỌC HOÀN THÀNH!`,
+              message: `Đã tích chọn hoàn thành bài học "Ngày ${t.dayNum}: ${t.title}".`,
+            });
           }
-          return { ...t, isCompleted: nextCompleted };
+          return { ...t, isCompleted: isNowCompleted };
         }
         return t;
       })
@@ -658,20 +667,23 @@ export default function RoadmapPage() {
 
                     return (
                       <div key={task.id} className="space-y-2">
-                        <div
+                        <motion.div
                           onClick={() => setSelectedTask(task)}
-                          className={`p-2.5 sm:p-3 rounded-xs border cursor-pointer transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 ${
+                          whileHover={{ scale: 1.002 }}
+                          whileTap={{ scale: 0.998 }}
+                          className={`p-2.5 sm:p-3 rounded-xs border cursor-pointer transition-all duration-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 ${
                             isSelected
                               ? "bg-sky-50/80 dark:bg-sky-950/40 border-[#0059bb] dark:border-sky-400 shadow-2xs ring-1 ring-[#0059bb]/20"
                               : task.isCompleted
-                              ? "bg-slate-50 dark:bg-slate-800/40 border-slate-200 dark:border-white/5 opacity-85 hover:opacity-100"
+                              ? "bg-emerald-50/70 dark:bg-emerald-950/20 border-emerald-500/40 text-slate-800 dark:text-emerald-100 shadow-2xs"
                               : "bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 hover:border-[#0059bb]/50"
                           }`}
                         >
                           <div className="flex items-start sm:items-center gap-2.5 min-w-0 w-full sm:w-auto">
                             {/* Checkbox toggle */}
-                            <button
+                            <motion.button
                               type="button"
+                              whileTap={{ scale: 0.8 }}
                               onClick={(e) => {
                                 e.stopPropagation();
                                 handleToggleTaskCompleted(task.id);
@@ -679,11 +691,11 @@ export default function RoadmapPage() {
                               className="shrink-0 mt-0.5 sm:mt-0 cursor-pointer"
                             >
                               {task.isCompleted ? (
-                                <CheckCircle2 className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-emerald-500" />
+                                <CheckCircle2 className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-emerald-500 fill-emerald-500/20" />
                               ) : (
-                                <div className="w-4.5 h-4.5 sm:w-5 sm:h-5 rounded-full border-2 border-slate-300 dark:border-slate-600 hover:border-[#0059bb]" />
+                                <div className="w-4.5 h-4.5 sm:w-5 sm:h-5 rounded-full border-2 border-slate-300 dark:border-slate-600 hover:border-[#0059bb] transition-colors" />
                               )}
-                            </button>
+                            </motion.button>
 
                             <div className="space-y-0.5 sm:space-y-1 min-w-0 flex-1">
                               <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
@@ -716,7 +728,7 @@ export default function RoadmapPage() {
                               </Button>
                             </Link>
                           </div>
-                        </div>
+                        </motion.div>
 
                         {/* MOBILE INLINE GUIDANCE DRAWER (Shown when selected on mobile) */}
                         {isSelected && (
