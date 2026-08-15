@@ -8,6 +8,7 @@ import { useNotificationStore } from "@/lib/store/notificationStore";
 import { useListeningStore } from "@/lib/store/listeningStore";
 import { safeSpeakText } from "@/lib/utils/mobileAudio";
 import { stopTTS } from "@/lib/utils/ttsEngine";
+import { LessonCoverImage } from "@/components/shared/LessonCoverImage";
 
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -661,19 +662,9 @@ export default function ShadowingPage() {
                   className="p-2 sm:p-2.5 rounded-xs border transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between bg-white dark:bg-slate-900 border-slate-200/80 dark:border-white/10 hover:border-[#1d6ee6] hover:ring-2 hover:ring-[#1d6ee6]/20 shadow-2xs"
                 >
                   <div className="relative w-full h-16 sm:h-24 rounded-xs overflow-hidden shrink-0">
-                    {lesson.imageUrl ? (
-                      <img
-                        src={lesson.imageUrl}
-                        alt={lesson.title}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className={`w-full h-full bg-gradient-to-br ${gradient} text-white font-black text-2xl sm:text-3xl flex items-center justify-center shadow-inner`}>
-                        {firstChar}
-                      </div>
-                    )}
+                    <LessonCoverImage lesson={lesson} className="w-full h-full" showBadge={false} />
 
-                    <span className="absolute top-1 left-1 sm:top-1.5 sm:left-1.5 px-1 py-0.2 rounded-xs text-[8px] sm:text-[9px] font-black bg-slate-900/80 text-white backdrop-blur-xs">
+                    <span className="absolute top-1 left-1 sm:top-1.5 sm:left-1.5 px-1 py-0.2 rounded-xs text-[8px] sm:text-[9px] font-black bg-slate-900/80 text-white backdrop-blur-xs z-20">
                       {lesson.level || "Intermediate"}
                     </span>
 
@@ -798,17 +789,7 @@ export default function ShadowingPage() {
                         <div className="flex items-center gap-3 min-w-0">
                           {/* Thumbnail / Avatar */}
                           <div className="w-10 h-10 rounded-xs overflow-hidden shrink-0">
-                            {lesson.imageUrl ? (
-                              <img
-                                src={lesson.imageUrl}
-                                alt={lesson.title}
-                                className="w-full h-full object-cover"
-                              />
-                            ) : (
-                              <div className={`w-full h-full bg-gradient-to-br ${gradient} text-white font-black text-sm flex items-center justify-center`}>
-                                {firstChar}
-                              </div>
-                            )}
+                            <LessonCoverImage lesson={lesson} className="w-full h-full" showBadge={false} />
                           </div>
 
                           <div className="space-y-0.5 min-w-0">

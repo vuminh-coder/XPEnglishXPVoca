@@ -9,6 +9,7 @@ import { useNotificationStore } from "@/lib/store/notificationStore";
 import { useListeningStore } from "@/lib/store/listeningStore";
 import { motion, AnimatePresence } from "framer-motion";
 import { speakLessonText, stopTTS } from "@/lib/utils/ttsEngine";
+import { LessonCoverImage } from "@/components/shared/LessonCoverImage";
 
 
 import {
