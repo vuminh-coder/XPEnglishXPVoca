@@ -1154,21 +1154,9 @@ export default function ListeningPage() {
                     }`}
                   >
                     <div className="relative w-full h-24 rounded-xs overflow-hidden shrink-0">
-                      {lesson.imageUrl ? (
-                        <img
-                          src={lesson.imageUrl}
-                          alt={lesson.title}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <div
-                          className={`w-full h-full bg-gradient-to-br ${gradient} text-white font-black text-3xl flex items-center justify-center shadow-inner`}
-                        >
-                          {firstChar}
-                        </div>
-                      )}
+                      <LessonCoverImage lesson={lesson} className="w-full h-full" showBadge={false} />
 
-                      <span className="absolute top-1.5 left-1.5 px-1.5 py-0.2 rounded-xs text-[9px] font-black bg-slate-900/80 text-white backdrop-blur-xs">
+                      <span className="absolute top-1.5 left-1.5 px-1.5 py-0.2 rounded-xs text-[9px] font-black bg-slate-900/80 text-white backdrop-blur-xs z-20">
                         {lesson.level || "B1"}
                       </span>
 
