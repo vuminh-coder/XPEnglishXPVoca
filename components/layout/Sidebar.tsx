@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Home,
   BookOpen,
+  FileText,
   Layers,
   PenLine,
   MessageSquare,
@@ -102,6 +103,12 @@ const sections = [
         path: "/study/practice",
         icon: <BookOpen className="w-[18px] h-[18px]" strokeWidth={1.8} />,
         page: "practice",
+      },
+      {
+        name: "Thi thử đề",
+        path: "/study/exam-prep",
+        icon: <FileText className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        page: "examprep",
       },
     ],
   },

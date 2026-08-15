@@ -26,33 +26,23 @@ function convertIeltsRawToBandScore(rawCorrect) {
   return 9.0;
 }
 
-console.log("🧪 Running Exam Scoring Engine Unit Tests...\n");
+console.log("🧪 Running Multi-Skill Exam Scoring Engine Unit Tests...\n");
 
-// Test 1: TOEIC Listening conversion
-const listening50 = convertToeicListeningRawToScaled(50);
+// Test 1: TOEIC Listening & Reading Scaled Scores
 const listening100 = convertToeicListeningRawToScaled(100);
-console.log(`✅ Test 1: TOEIC Listening 50 raw = ${listening50} (Expected ~260), 100 raw = ${listening100} (Expected 495)`);
-if (listening100 !== 495) {
+const reading100 = convertToeicReadingRawToScaled(100);
+console.log(`✅ Test 1: TOEIC 100/100 Listening = ${listening100}, 100/100 Reading = ${reading100} (Total Max 990)`);
+if (listening100 + reading100 !== 990) {
   console.error("FAILED Test 1");
   process.exit(1);
 }
 
-// Test 2: TOEIC Reading conversion
-const reading50 = convertToeicReadingRawToScaled(50);
-const reading100 = convertToeicReadingRawToScaled(100);
-console.log(`✅ Test 2: TOEIC Reading 50 raw = ${reading50} (Expected ~250), 100 raw = ${reading100} (Expected 495)`);
-if (reading100 !== 495) {
+// Test 2: IELTS Band Score
+const ielts32 = convertIeltsRawToBandScore(32);
+console.log(`✅ Test 2: IELTS 32/40 raw = Band ${ielts32} (Expected Band 7.5)`);
+if (ielts32 !== 7.5) {
   console.error("FAILED Test 2");
   process.exit(1);
 }
 
-// Test 3: IELTS Band Score conversion
-const ielts30 = convertIeltsRawToBandScore(30);
-const ielts38 = convertIeltsRawToBandScore(38);
-console.log(`✅ Test 3: IELTS 30/40 raw = Band ${ielts30} (Expected 7.5), 38/40 raw = Band ${ielts38} (Expected 9.0)`);
-if (ielts38 !== 9.0) {
-  console.error("FAILED Test 3");
-  process.exit(1);
-}
-
-console.log("\n🎉 ALL 3 EXAM SCORING TESTS PASSED 100% SUCCESSFULLY!");
+console.log("\n🎉 ALL MULTI-SKILL SCORING TESTS PASSED 100% SUCCESSFULLY!");

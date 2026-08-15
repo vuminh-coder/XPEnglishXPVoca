@@ -8,6 +8,7 @@ interface UiState {
   toggleTheme: () => void;
   toggleSidebar: () => void;
   toggleSidebarCollapsed: () => void;
+  setSidebarCollapsed: (collapsed: boolean) => void;
 }
 
 export const useUiStore = create<UiState>((set, get) => {
@@ -46,5 +47,6 @@ export const useUiStore = create<UiState>((set, get) => {
 
     toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),
     toggleSidebarCollapsed: () => set((state) => ({ sidebarCollapsed: !state.sidebarCollapsed })),
+    setSidebarCollapsed: (collapsed: boolean) => set({ sidebarCollapsed: collapsed }),
   };
 });
