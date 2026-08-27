@@ -6,6 +6,11 @@ const ITEM_COSTS: Record<string, number> = {
   streak_freeze: 50,
   double_xp: 100,
   premium_owl: 250,
+  energy_boost: 75,
+  super_streak_shield: 120,
+  cyber_glasses: 200,
+  golden_badge: 300,
+  ielts_champion_cape: 350,
 };
 
 export async function POST(request: Request) {

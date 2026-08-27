@@ -20,6 +20,7 @@ export function ReadingWorkspace({
   onSelectAnswer
 }: ReadingWorkspaceProps) {
   const [activePassageTab, setActivePassageTab] = useState<number>(1);
+  const [isPassageExpandedMobile, setIsPassageExpandedMobile] = useState<boolean>(true);
 
   const samplePassageText = question.passageText || `[A] Climate change and global warming have emerged as the most pressingly formidable environmental challenges of the twenty-first century. Academic researchers across international institutes continuously monitor atmospheric carbon dioxide concentrations to project long-term weather anomaly patterns.
 
@@ -30,15 +31,23 @@ export function ReadingWorkspace({
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 items-start">
       
-      {/* LEFT COLUMN (6/12): ALWAYS-VISIBLE READING PASSAGE PANEL */}
-      <div className="lg:col-span-6 p-3.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-2.5">
+      {/* LEFT COLUMN (6/12 ON DESKTOP): READING PASSAGE PANEL */}
+      <div className="lg:col-span-6 p-3 sm:p-3.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-2.5">
         
-        {/* Header Title */}
+        {/* Header Title with Mobile Collapse Toggle */}
         <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
           <div className="flex items-center gap-1.5 text-xs font-black uppercase font-display text-slate-900 dark:text-white">
             <BookOpen className="w-3.5 h-3.5 text-emerald-500" strokeWidth={1.8} />
             <span>Bài Đọc ({question.partTitle})</span>
           </div>
+
+          {/* Mobile-only toggle button */}
+          <button
+            onClick={() => setIsPassageExpandedMobile(!isPassageExpandedMobile)}
+            className="lg:hidden px-2 py-0.5 rounded-xs bg-slate-100 dark:bg-slate-800 text-[11px] font-bold text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-white/10 cursor-pointer"
+          >
+            {isPassageExpandedMobile ? "Thu gọn ▲" : "Xem bài đọc ▼"}
+          </button>
         </div>
 
         {/* TOEIC Part 7 Multi-Passage Tabs */}
@@ -63,8 +72,10 @@ export function ReadingWorkspace({
           </div>
         )}
 
-        {/* Passage Text Box */}
-        <div className="p-3.5 rounded-xs bg-slate-50/80 dark:bg-slate-950/80 text-slate-900 dark:text-slate-100 text-sm sm:text-[15px] font-medium leading-relaxed whitespace-pre-line max-h-[60vh] overflow-y-auto border border-slate-200/70 dark:border-white/10 tracking-normal antialiased select-text">
+        {/* Passage Text Box (Collapsible on mobile, always visible on desktop) */}
+        <div className={`p-3 sm:p-3.5 rounded-xs bg-slate-50/80 dark:bg-slate-950/80 text-slate-900 dark:text-slate-100 text-sm sm:text-[15px] font-medium leading-relaxed whitespace-pre-line max-h-[35vh] sm:max-h-[45vh] lg:max-h-[60vh] overflow-y-auto border border-slate-200/70 dark:border-white/10 tracking-normal antialiased select-text font-sans ${
+          !isPassageExpandedMobile ? "hidden lg:block" : "block"
+        }`}>
           {samplePassageText}
         </div>
       </div>
@@ -90,7 +101,7 @@ export function ReadingWorkspace({
               <button
                 key={opt.key}
                 onClick={() => onSelectAnswer(opt.key)}
-                className={`w-full p-2.5 rounded-xs border text-left text-xs font-bold transition-all cursor-pointer flex items-center justify-between ${
+                className={`w-full p-2.5 sm:p-3 rounded-xs border text-left text-xs sm:text-[13px] font-bold transition-all cursor-pointer flex items-center justify-between ${
                   isSelected
                     ? "bg-[#0059bb] text-white border-[#0059bb] shadow-2xs font-extrabold"
                     : "bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-200 border-slate-200 dark:border-white/10 hover:border-[#0059bb]"
@@ -102,9 +113,9 @@ export function ReadingWorkspace({
                   }`}>
                     {opt.key}
                   </span>
-                  <span>{opt.text}</span>
+                  <span className="leading-snug">{opt.text}</span>
                 </div>
-                {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
+                {isSelected && <Check className="w-3.5 h-3.5 stroke-[3] shrink-0" />}
               </button>
             );
           })}

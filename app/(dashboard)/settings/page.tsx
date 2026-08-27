@@ -95,7 +95,7 @@ export default function SettingsPage() {
     addToast({ type: "info", title: "Đã đăng xuất!" });
   };
 
-  const inputClass = "w-full py-2.5 px-4 text-xs font-bold rounded-xl bg-neutral-50/60 dark:bg-neutral-900/40 border border-black/10 dark:border-white/10 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition-all";
+  const inputClass = "w-full py-2.5 px-4 text-xs font-bold rounded-xs bg-neutral-50/60 dark:bg-neutral-900/40 border border-black/10 dark:border-white/10 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition-all";
 
   return (
     <PageEntranceWrapper className="max-w-2xl mx-auto space-y-6 pb-20 md:pb-6">
@@ -108,8 +108,8 @@ export default function SettingsPage() {
       </MotionItem>
 
       {/* Section 1: Profile (Rule 10: Double Bezel Concentric radius math) */}
-      <MotionItem className="bezel-outer p-1.5 bg-slate-200/50 dark:bg-white/5 rounded-[2rem]">
-        <div className="bezel-inner rounded-[calc(2rem-6px)] bg-white dark:bg-[#0c0c0e] p-6 space-y-5">
+      <MotionItem className="bezel-outer p-1.5 bg-slate-200/50 dark:bg-white/5 rounded-md">
+        <div className="bezel-inner rounded-xs bg-white dark:bg-[#0c0c0e] p-6 space-y-5">
           <h3 className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest flex items-center gap-1.5 border-b border-slate-100 dark:border-neutral-850 pb-2">
             <User className="w-3.5 h-3.5" strokeWidth={1.3} /> Hồ sơ công khai
           </h3>
@@ -137,8 +137,8 @@ export default function SettingsPage() {
       </MotionItem>
 
       {/* Section 2: Study Goals (Rule 10: Double Bezel Concentric radius math) */}
-      <div className="bezel-outer p-1.5 bg-slate-200/50 dark:bg-white/5 rounded-[2rem]">
-        <div className="bezel-inner rounded-[calc(2rem-6px)] bg-white dark:bg-[#0c0c0e] p-6 space-y-5">
+      <div className="bezel-outer p-1.5 bg-slate-200/50 dark:bg-white/5 rounded-md">
+        <div className="bezel-inner rounded-xs bg-white dark:bg-[#0c0c0e] p-6 space-y-5">
           <h3 className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest flex items-center gap-1.5 border-b border-slate-100 dark:border-neutral-850 pb-2">
             <Target className="w-3.5 h-3.5" strokeWidth={1.3} /> Mục tiêu học tập
           </h3>
@@ -177,8 +177,8 @@ export default function SettingsPage() {
       </div>
 
       {/* Section 3: Notifications (Rule 10: Double Bezel Concentric radius math) */}
-      <div className="bezel-outer p-1.5 bg-slate-200/50 dark:bg-white/5 rounded-[2rem]">
-        <div className="bezel-inner rounded-[calc(2rem-6px)] bg-white dark:bg-[#0c0c0e] p-6 space-y-5">
+      <div className="bezel-outer p-1.5 bg-slate-200/50 dark:bg-white/5 rounded-md">
+        <div className="bezel-inner rounded-xs bg-white dark:bg-[#0c0c0e] p-6 space-y-5">
           <h3 className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest flex items-center gap-1.5 border-b border-slate-100 dark:border-neutral-850 pb-2">
             <Bell className="w-3.5 h-3.5" strokeWidth={1.3} /> Cài đặt thông báo
           </h3>
@@ -188,7 +188,7 @@ export default function SettingsPage() {
               { key: "notifyChallenge" as const, label: "Nhiệm vụ hàng ngày", desc: "Nhắc nhở khi có nhiệm vụ mới hoặc hoàn thành nhiệm vụ" },
               { key: "notifyStreak" as const, label: "Nhắc streak", desc: "Cảnh báo khi sắp mất chuỗi ngày học liên tục" },
             ].map((item) => (
-              <div key={item.key} className="flex items-center justify-between gap-4 p-3 rounded-xl bg-slate-50/50 dark:bg-neutral-800/30">
+              <div key={item.key} className="flex items-center justify-between gap-4 p-3 rounded-xs bg-slate-50/50 dark:bg-neutral-800/30">
                 <div>
                   <div className="text-xs font-bold text-slate-800 dark:text-slate-200">{item.label}</div>
                   <div className="text-[11px] text-slate-400 mt-0.5">{item.desc}</div>
@@ -213,12 +213,12 @@ export default function SettingsPage() {
       </div>
 
       {/* Section 4: Appearance (Rule 10: Double Bezel Concentric radius math) */}
-      <div className="bezel-outer p-1.5 bg-slate-200/50 dark:bg-white/5 rounded-[2rem]">
-        <div className="bezel-inner rounded-[calc(2rem-6px)] bg-white dark:bg-[#0c0c0e] p-6 space-y-5">
+      <div className="bezel-outer p-1.5 bg-slate-200/50 dark:bg-white/5 rounded-md">
+        <div className="bezel-inner rounded-xs bg-white dark:bg-[#0c0c0e] p-6 space-y-5">
           <h3 className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest flex items-center gap-1.5 border-b border-slate-100 dark:border-neutral-850 pb-2">
             <Palette className="w-3.5 h-3.5" strokeWidth={1.3} /> Giao diện
           </h3>
-          <div className="flex items-center justify-between gap-4 p-3 rounded-xl bg-slate-50/50 dark:bg-neutral-800/30">
+          <div className="flex items-center justify-between gap-4 p-3 rounded-xs bg-slate-50/50 dark:bg-neutral-800/30">
             <div className="flex items-center gap-3">
               {settings.darkMode ? <Moon className="h-5 w-5 text-indigo-400" strokeWidth={1.3} /> : <Sun className="h-5 w-5 text-amber-500" strokeWidth={1.3} />}
               <div>
@@ -246,8 +246,8 @@ export default function SettingsPage() {
       </div>
 
       {/* Section 5: Account Actions (Rule 10: Double Bezel Concentric radius math) */}
-      <div className="bezel-outer p-1.5 bg-slate-200/50 dark:bg-white/5 rounded-[2rem]">
-        <div className="bezel-inner rounded-[calc(2rem-6px)] bg-white dark:bg-[#0c0c0e] p-6 space-y-4">
+      <div className="bezel-outer p-1.5 bg-slate-200/50 dark:bg-white/5 rounded-md">
+        <div className="bezel-inner rounded-xs bg-white dark:bg-[#0c0c0e] p-6 space-y-4">
           <h3 className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest flex items-center gap-1.5 border-b border-slate-100 dark:border-neutral-850 pb-2">
             <Shield className="w-3.5 h-3.5" strokeWidth={1.3} /> Tài khoản & Dữ liệu
           </h3>

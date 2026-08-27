@@ -102,12 +102,7 @@ export default function ProfilePage() {
 
   const handleSaveProfile = (e: React.FormEvent) => {
     e.preventDefault();
-    updateProfile(fullName, bio);
-    if (selectedEmoji !== user.avatarEmoji) {
-      useAuthStore.setState((state) => ({
-        user: state.user ? { ...state.user, avatarEmoji: selectedEmoji } : null,
-      }));
-    }
+    updateProfile(fullName, bio, user?.imageUrl || user?.avatarUrl, selectedEmoji);
     setIsEditing(false);
     addToast({
       type: "success",

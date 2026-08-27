@@ -1,12 +1,14 @@
 "use client";
 import React, { use, useState, useMemo, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { MOCK_THEMES } from "@/lib/constants";
+import { BASIC_VOCABULARY_THEMES, BASIC_VOCABULARIES } from "@/lib/data/basicVocabularies";
+import { ADVANCED_VOCABULARY_THEMES, ADVANCED_VOCABULARIES } from "@/lib/data/advancedVocabularies";
 import { getSemanticThemeIcon } from "../VocabularyThemesClientList";
 import { useVocabularyStore } from "@/lib/store/vocabularyStore";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useUserStore, recordSkillPractice } from "@/lib/store/userStore";
 import { useDailyChallengeStore } from "@/lib/store/dailyChallengeStore";
+import { useUiStore } from "@/lib/store/uiStore";
 import { safeSpeakText } from "@/lib/utils/mobileAudio";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -54,11 +56,14 @@ export default function ThemeDetailPage({
   const [isLoading, setIsLoading] = useState(true);
   const { toggleFavorite, learned, practiceWord } = useVocabularyStore();
   const { awardXp } = useAuthStore();
+  const { setSidebarCollapsed } = useUiStore();
 
-  // Find theme metadata or fallback
+  // Find theme metadata from basic or advanced data files
   const theme = useMemo(() => {
-    const found = MOCK_THEMES.find((t) => t.id === id);
-    if (found) return found;
+    const basicFound = BASIC_VOCABULARY_THEMES.find((t) => t.id === id);
+    if (basicFound) return basicFound;
+    const advancedFound = ADVANCED_VOCABULARY_THEMES.find((t) => t.id === id);
+    if (advancedFound) return advancedFound;
     return {
       id,
       name: `Chủ đề ${id.toUpperCase()}`,
@@ -86,6 +91,18 @@ export default function ThemeDetailPage({
   // Page States
   const [toast, setToast] = useState<{ title: string; body: string } | null>(null);
   const [viewMode, setViewMode] = useState<"flashcard" | "list" | "quiz" | "ai">("flashcard");
+
+  // Automatically manage sidebar collapse when in interactive vocabulary study/quiz mode
+  useEffect(() => {
+    if (viewMode === "flashcard" || viewMode === "quiz" || viewMode === "ai") {
+      setSidebarCollapsed(true);
+    } else {
+      setSidebarCollapsed(false);
+    }
+    return () => {
+      setSidebarCollapsed(false);
+    };
+  }, [viewMode, setSidebarCollapsed]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
 

@@ -80,7 +80,7 @@ export default function OnboardingPage() {
     const levelInfo = getLevel();
     return (
       <div className="animate-fade-in max-w-lg mx-auto flex flex-col items-center justify-center min-h-[60vh] space-y-6 pb-20 md:pb-6">
-        <div className={`h-24 w-24 rounded-3xl ${levelInfo.bg} flex items-center justify-center text-5xl`}>
+        <div className={`h-24 w-24 rounded-md ${levelInfo.bg} flex items-center justify-center text-5xl`}>
           {levelInfo.emoji}
         </div>
         <div className="text-center space-y-2">
@@ -133,7 +133,7 @@ export default function OnboardingPage() {
     <div className="animate-fade-in max-w-lg mx-auto space-y-6 pb-20 md:pb-6">
       {/* Header */}
       <div className="text-center space-y-2">
-        <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white mx-auto">
+        <div className="h-14 w-14 rounded-md bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white mx-auto">
           <GraduationCap className="h-7 w-7" />
         </div>
         <h1 className="text-xl font-black tracking-tight text-slate-900 dark:text-white">Bài kiểm tra xếp lớp</h1>
@@ -171,7 +171,7 @@ export default function OnboardingPage() {
               <button
                 key={i}
                 onClick={() => selectAnswer(i)}
-                className={`w-full p-3.5 rounded-xl text-xs font-bold text-left transition-all border ${
+                className={`w-full p-3.5 rounded-xs text-xs font-bold text-left transition-all border ${
                   isSelected
                     ? "border-indigo-400 bg-indigo-50 text-indigo-700 dark:bg-indigo-950/30 dark:text-indigo-300 dark:border-indigo-600"
                     : "border-slate-200 dark:border-neutral-700 hover:border-slate-300 dark:hover:border-neutral-600 text-slate-700 dark:text-slate-300"

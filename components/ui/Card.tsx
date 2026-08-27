@@ -9,7 +9,7 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, variant = "default", hoverable = false, children, ...props }, ref) => {
-    const baseStyles = "rounded-[20px] transition-all duration-300 relative overflow-hidden";
+    const baseStyles = "rounded-xl transition-all duration-300 relative overflow-hidden";
 
     const variants = {
       default:

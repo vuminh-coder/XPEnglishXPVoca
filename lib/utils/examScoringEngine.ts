@@ -82,6 +82,34 @@ export function convertToeicReadingRawToScaled(rawCorrect: number): number {
 }
 
 /**
+ * Converts TOEIC Speaking completed tasks count (0-11) to Scaled Score (0-200 PTS).
+ */
+export function convertToeicSpeakingRawToScaled(speakingAnswered: number, totalSpeaking: number = 11): number {
+  if (speakingAnswered <= 0) return 0;
+  const ratio = speakingAnswered / Math.max(1, totalSpeaking);
+  if (ratio >= 0.95) return 190; // Level 8 (190-200)
+  if (ratio >= 0.80) return 160 + Math.round((ratio - 0.80) * 150); // Level 7 (160-180)
+  if (ratio >= 0.60) return 130 + Math.round((ratio - 0.60) * 150); // Level 6 (130-150)
+  if (ratio >= 0.40) return 100 + Math.round((ratio - 0.40) * 150); // Level 5 (100-120)
+  if (ratio >= 0.20) return 60 + Math.round((ratio - 0.20) * 200);  // Level 3-4 (60-90)
+  return Math.round(ratio * 300);
+}
+
+/**
+ * Converts TOEIC Writing completed tasks count (0-8) to Scaled Score (0-200 PTS).
+ */
+export function convertToeicWritingRawToScaled(writingAnswered: number, totalWriting: number = 8): number {
+  if (writingAnswered <= 0) return 0;
+  const ratio = writingAnswered / Math.max(1, totalWriting);
+  if (ratio >= 0.95) return 190; // Level 8-9 (190-200)
+  if (ratio >= 0.80) return 160 + Math.round((ratio - 0.80) * 150); // Level 7 (160-180)
+  if (ratio >= 0.60) return 130 + Math.round((ratio - 0.60) * 150); // Level 6 (130-150)
+  if (ratio >= 0.40) return 100 + Math.round((ratio - 0.40) * 150); // Level 5 (100-120)
+  if (ratio >= 0.20) return 60 + Math.round((ratio - 0.20) * 200);  // Level 3-4 (60-90)
+  return Math.round(ratio * 300);
+}
+
+/**
  * Converts IELTS Reading/Listening raw correct count (0-40) to Band Score (1.0 - 9.0).
  */
 export function convertIeltsRawToBandScore(rawCorrect: number): number {
@@ -123,6 +151,10 @@ export function calculateExamResult(
 
   let listeningCorrect = 0;
   let readingCorrect = 0;
+  let speakingAnswered = 0;
+  let writingAnswered = 0;
+  let totalSpeakingTasks = 0;
+  let totalWritingTasks = 0;
 
   const partMap: Record<number, { title: string; total: number; correct: number }> = {};
   const questionResults: QuestionResultDetail[] = [];
@@ -133,6 +165,15 @@ export function calculateExamResult(
     const isCorrect = !isSkipped && userChoice === q.correctAnswer;
     const isFlagged = !!(flaggedQuestions && flaggedQuestions[q.id]);
     
+    if (q.section === "SPEAKING") {
+      totalSpeakingTasks += 1;
+      if (!isSkipped) speakingAnswered += 1;
+    }
+    if (q.section === "WRITING") {
+      totalWritingTasks += 1;
+      if (!isSkipped) writingAnswered += 1;
+    }
+
     if (!partMap[q.partNumber]) {
       partMap[q.partNumber] = { title: q.partTitle, total: 0, correct: 0 };
     }
@@ -175,18 +216,73 @@ export function calculateExamResult(
   let scaledScore = 0;
   let listeningScore: number | undefined;
   let readingScore: number | undefined;
-  let speakingScore: number | undefined = 170; // Sample Speaking AI Score (0-200)
-  let writingScore: number | undefined = 160;  // Sample Writing AI Score (0-200)
+  let speakingScore: number | undefined;
+  let writingScore: number | undefined;
 
-  if (exam.type.includes("TOEIC")) {
+  if (exam.type === "TOEIC_LR" || exam.type === "TOEIC_MINI") {
     listeningScore = convertToeicListeningRawToScaled(listeningCorrect);
     readingScore = convertToeicReadingRawToScaled(readingCorrect);
     scaledScore = listeningScore + readingScore;
-    if (exam.type === "TOEIC_SPEAKING_WRITING") {
-      scaledScore = speakingScore + writingScore;
-    }
+  } else if (exam.type === "TOEIC_SPEAKING_WRITING") {
+    speakingScore = convertToeicSpeakingRawToScaled(speakingAnswered, totalSpeakingTasks || 11);
+    writingScore = convertToeicWritingRawToScaled(writingAnswered, totalWritingTasks || 8);
+    scaledScore = speakingScore + writingScore;
+  } else if (exam.type === "TOEIC_FULL") {
+    listeningScore = convertToeicListeningRawToScaled(listeningCorrect);
+    readingScore = convertToeicReadingRawToScaled(readingCorrect);
+    speakingScore = convertToeicSpeakingRawToScaled(speakingAnswered, totalSpeakingTasks || 11);
+    writingScore = convertToeicWritingRawToScaled(writingAnswered, totalWritingTasks || 8);
+    scaledScore = listeningScore + readingScore;
   } else if (exam.type.includes("IELTS")) {
-    scaledScore = convertIeltsRawToBandScore(correctCount);
+    const listBand = convertIeltsRawToBandScore(listeningCorrect);
+    const readBand = convertIeltsRawToBandScore(readingCorrect);
+    const speakBand = speakingAnswered > 0 ? 8.0 : 0;
+    const writeBand = writingAnswered > 0 ? 7.5 : 0;
+
+    listeningScore = listBand;
+    readingScore = readBand;
+    speakingScore = speakBand;
+    writingScore = writeBand;
+
+    // Cambridge IELTS Overall Band Calculation (rounded to nearest 0.5)
+    if (exam.type === "IELTS_FULL") {
+      const activeBands: number[] = [];
+      if (listeningScore > 0) activeBands.push(listeningScore);
+      if (readingScore > 0) activeBands.push(readingScore);
+      if (speakingScore > 0) activeBands.push(speakingScore);
+      if (writingScore > 0) activeBands.push(writingScore);
+      
+      const avg = activeBands.length > 0
+        ? activeBands.reduce((a, b) => a + b, 0) / activeBands.length
+        : convertIeltsRawToBandScore(correctCount);
+      scaledScore = Math.round(avg * 2) / 2;
+    } else if (exam.type === "IELTS_SPEAKING") {
+      speakingScore = speakingAnswered > 0 ? 8.5 : 0;
+      scaledScore = speakingScore;
+      listeningScore = undefined;
+      readingScore = undefined;
+      writingScore = undefined;
+    } else if (exam.type === "IELTS_WRITING") {
+      writingScore = writingAnswered > 0 ? 8.0 : 0;
+      scaledScore = writingScore;
+      listeningScore = undefined;
+      readingScore = undefined;
+      speakingScore = undefined;
+    } else if (exam.type === "IELTS_LISTENING") {
+      listeningScore = convertIeltsRawToBandScore(listeningCorrect);
+      scaledScore = listeningScore;
+      readingScore = undefined;
+      speakingScore = undefined;
+      writingScore = undefined;
+    } else if (exam.type === "IELTS_READING") {
+      readingScore = convertIeltsRawToBandScore(readingCorrect);
+      scaledScore = readingScore;
+      listeningScore = undefined;
+      speakingScore = undefined;
+      writingScore = undefined;
+    } else {
+      scaledScore = convertIeltsRawToBandScore(correctCount);
+    }
   } else {
     scaledScore = Math.round((correctCount / (totalQuestions || 1)) * exam.maxScore);
   }
@@ -219,7 +315,82 @@ export function calculateExamResult(
   const weaknesses: ExamResultSummary["weaknesses"] = [];
   const recommendations: string[] = [];
 
-  const getPartDiagnosticAdvice = (partNum: number, accuracy: number, correct: number, total: number) => {
+  const getPartDiagnosticAdvice = (partNum: number, partTitle: string, accuracy: number, correct: number, total: number) => {
+    const titleLower = partTitle.toLowerCase();
+    
+    // IELTS Listening Sections 1-4
+    if (titleLower.includes("listening section 1")) {
+      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần chú trọng bắt chính xác tên riêng (spelling), mã số định danh, số tiền, ngày tháng và địa chỉ thường gặp trong giao tiếp đời sống.`;
+    }
+    if (titleLower.includes("listening section 2")) {
+      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần rèn kỹ năng định hướng bản đồ (map labeling), nghe chỉ đường và nắm bắt các mốc thời gian của bài hướng dẫn tham quan.`;
+    }
+    if (titleLower.includes("listening section 3")) {
+      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần theo dõi sát mạch thảo luận học thuật giữa giáo sư và sinh viên, phân biệt quan điểm từng người nói và phân công nghiên cứu.`;
+    }
+    if (titleLower.includes("listening section 4")) {
+      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần luyện nghe bài giảng độc thoại học thuật tốc độ cao, bắt từ khóa chuyên ngành, số liệu thực nghiệm và kết luận then chốt.`;
+    }
+
+    // IELTS Reading Passages 1-3
+    if (titleLower.includes("reading passage 1")) {
+      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần tăng tốc độ đọc quét (Scanning) thông tin khoa học tự nhiên, tra cứu số liệu % và định vị chính xác định nghĩa thuật ngữ.`;
+    }
+    if (titleLower.includes("reading passage 2")) {
+      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần rèn kỹ năng đọc hiểu chuyên sâu tài liệu tâm lý/thần kinh học thuật, giải mã mối quan hệ nhân - quả và so sánh giả thuyết.`;
+    }
+    if (titleLower.includes("reading passage 3")) {
+      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần nâng cao khả năng xử lý bài đọc lịch sử - khảo cổ dài, xác định mốc thời gian cách mạng công nghiệp và phân tích tác động xã hội.`;
+    }
+
+    // IELTS Speaking Parts 1-3
+    if (titleLower.includes("ielts speaking part 1")) {
+      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần trả lời trực tiếp và mở rộng 4-5 câu mạch lạc, sử dụng các collocations tự nhiên về môi trường và phát âm rõ âm đuôi.`;
+    }
+    if (titleLower.includes("ielts speaking part 2")) {
+      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần tận dụng tối đa 1 phút ghi chú theo 4 gạch đầu dòng Cue Card và duy trì bài nói liên tục 2 phút không ngập ngừng (fluency).`;
+    }
+    if (titleLower.includes("ielts speaking part 3")) {
+      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần phát triển câu trả lời học thuật 2 chiều (balanced view), dùng câu điều kiện, câu nhượng bộ và từ vựng trừu tượng C1/C2.`;
+    }
+
+    // IELTS Writing Tasks 1-2
+    if (titleLower.includes("ielts writing task 1")) {
+      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần viết báo cáo 150+ từ có đoạn Overview nêu bật xu hướng chính, gom nhóm dữ liệu biểu đồ năng lượng tái tạo logic và so sánh chuẩn xác.`;
+    }
+    if (titleLower.includes("ielts writing task 2")) {
+      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần viết bài luận 250+ từ thảo luận 2 quan điểm (học phí vs miễn phí đại học), lập luận chặt chẽ với từ vựng học thuật C2 và nêu rõ lập trường cá nhân.`;
+    }
+
+    // TOEIC Speaking Parts
+    if (titleLower.includes("read a text aloud")) {
+      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần chú trọng phát âm chuẩn các âm đuôi /s/, /z/, /t/, /d/, nhấn trọng âm từ khóa và ngắt hơi theo cụm nghĩa (chunking).`;
+    }
+    if (titleLower.includes("describe a picture")) {
+      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần áp dụng cấu trúc nói 4 bước: 1. Khái quát bức tranh ➔ 2. Hành động trọng tâm ➔ 3. Hậu cảnh & chi tiết ➔ 4. Cảm nhận chung.`;
+    }
+    if (titleLower.includes("respond to questions") && !titleLower.includes("information")) {
+      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần phản xạ trả lời trực diện không ậm ừ trong 15s cho Q5/Q6 và phát triển 2 luận điểm kèm ví dụ trong 30s cho Q7.`;
+    }
+    if (titleLower.includes("information provided") || titleLower.includes("respond using")) {
+      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần quét nhanh lịch trình/bảng biểu, trích xuất chuẩn xác thời gian, địa điểm, diễn giả và đính chính hiểu lầm một cách lịch sự.`;
+    }
+    if (titleLower.includes("express an opinion") && !titleLower.includes("writing")) {
+      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần lập dàn ý 60s điểm cao: Mở bài nêu lập trường ➔ 2 Luận cứ với từ vựng C1 ➔ Ví dụ thực tế ➔ Kết bài khẳng định lợi ích.`;
+    }
+
+    // TOEIC Writing Parts
+    if (titleLower.includes("write a sentence")) {
+      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần đảm bảo đủ 2 từ khóa cho sẵn, chia đúng thì Hiện tại tiếp diễn / đơn, hòa hợp chủ-vị và tránh bẫy ngoại động từ (discuss, explain).`;
+    }
+    if (titleLower.includes("written request") || titleLower.includes("respond to a written")) {
+      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần cấu trúc Email thương mại trang trọng (Dear/Sincerely), giải quyết triệt để 2 yêu cầu của khách hàng và duy trì giọng văn lịch sự.`;
+    }
+    if (titleLower.includes("opinion essay") || titleLower.includes("write an opinion essay")) {
+      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần viết bài luận 300+ từ với cấu trúc 5 đoạn: Mở bài, 2 Thân bài lập luận, Đoạn phản biện (Counter-argument & Rebuttal) và Kết luận.`;
+    }
+
+    // TOEIC Listening & Reading Parts 1-7
     switch (partNum) {
       case 1:
         return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần luyện kỹ năng quan sát tranh, bắt động từ mô tả hành động và tránh bẫy thì hiện tại tiếp diễn / bị động.`;
@@ -247,7 +418,7 @@ export function calculateExamResult(
       weaknesses.push({
         partNumber: p.partNumber,
         partTitle: p.partTitle,
-        issue: getPartDiagnosticAdvice(p.partNumber, p.accuracyPercent, p.correctCount, p.totalQuestions),
+        issue: getPartDiagnosticAdvice(p.partNumber, p.partTitle, p.accuracyPercent, p.correctCount, p.totalQuestions),
         priority: "HIGH",
         accuracyPercent: p.accuracyPercent,
         correctCount: p.correctCount,
@@ -257,7 +428,7 @@ export function calculateExamResult(
       weaknesses.push({
         partNumber: p.partNumber,
         partTitle: p.partTitle,
-        issue: getPartDiagnosticAdvice(p.partNumber, p.accuracyPercent, p.correctCount, p.totalQuestions),
+        issue: getPartDiagnosticAdvice(p.partNumber, p.partTitle, p.accuracyPercent, p.correctCount, p.totalQuestions),
         priority: "MEDIUM",
         accuracyPercent: p.accuracyPercent,
         correctCount: p.correctCount,

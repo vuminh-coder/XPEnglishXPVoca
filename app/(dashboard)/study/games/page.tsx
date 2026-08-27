@@ -161,15 +161,15 @@ function WordScrambleGame({ pool, onBack }: { pool: any[]; onBack: () => void })
 
   if (gameOver) {
     return (
-      <Card variant="bezel" className="p-8 text-center space-y-5 bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-[calc(var(--radius-3xl)-6px)] animate-fade-in">
+      <Card variant="bezel" className="p-8 text-center space-y-5 bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-md animate-fade-in">
         <Trophy className="h-12 w-12 text-amber-500 mx-auto animate-bounce" />
         <div className="text-3xl font-black text-slate-900 dark:text-white font-display">{score} điểm</div>
         <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 font-bold">Bạn đã hoàn thành {words.length} từ!</p>
         <div className="flex gap-3 justify-center pt-2">
-          <Button variant="secondary" size="sm" className="rounded-xl font-bold cursor-pointer" onClick={onBack}>
+          <Button variant="secondary" size="sm" className="rounded-xs font-bold cursor-pointer" onClick={onBack}>
             <ArrowLeft className="h-3.5 w-3.5 mr-1" /> Quay lại
           </Button>
-          <Button variant="primary" size="sm" className="rounded-xl font-bold cursor-pointer text-white dark:text-white" onClick={handleRestart}>
+          <Button variant="primary" size="sm" className="rounded-xs font-bold cursor-pointer text-white dark:text-white" onClick={handleRestart}>
             <RotateCcw className="h-3.5 w-3.5 mr-1" /> Chơi lại
           </Button>
         </div>
@@ -182,7 +182,7 @@ function WordScrambleGame({ pool, onBack }: { pool: any[]; onBack: () => void })
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between">
-        <Button variant="secondary" size="sm" className="rounded-xl font-bold cursor-pointer" onClick={onBack}>
+        <Button variant="secondary" size="sm" className="rounded-xs font-bold cursor-pointer" onClick={onBack}>
           <ArrowLeft className="h-3.5 w-3.5 mr-1" /> Quay lại
         </Button>
         <div className="flex items-center gap-3">
@@ -210,7 +210,7 @@ function WordScrambleGame({ pool, onBack }: { pool: any[]; onBack: () => void })
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ type: "spring", stiffness: 95, damping: 16 }}
           >
-            <Card variant="bezel" className={`p-8 text-center space-y-6 bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-[calc(var(--radius-3xl)-6px)] transition-all ${
+            <Card variant="bezel" className={`p-8 text-center space-y-6 bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-md transition-all ${
               feedback === "correct" 
                 ? "ring-2 ring-emerald-400" 
                 : feedback === "wrong" 
@@ -220,7 +220,7 @@ function WordScrambleGame({ pool, onBack }: { pool: any[]; onBack: () => void })
               <p className="text-xs text-slate-400 dark:text-slate-400 font-bold uppercase tracking-wide">Sắp xếp lại các chữ cái</p>
               <div className="flex flex-wrap justify-center gap-2">
                 {currentWord.scrambled.split("").map((ch, i) => (
-                  <span key={i} className="h-11 w-11 rounded-xl bg-indigo-100 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-850 flex items-center justify-center text-lg font-black text-indigo-700 dark:text-indigo-300 font-display">
+                  <span key={i} className="h-11 w-11 rounded-xs bg-indigo-100 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-850 flex items-center justify-center text-lg font-black text-indigo-700 dark:text-indigo-300 font-display">
                     {ch}
                   </span>
                 ))}
@@ -229,7 +229,7 @@ function WordScrambleGame({ pool, onBack }: { pool: any[]; onBack: () => void })
               
               <input
                 type="text"
-                className="w-full max-w-xs mx-auto py-3 px-4 text-center text-sm font-bold rounded-xl bg-slate-50 dark:bg-neutral-950 border border-slate-200/40 dark:border-neutral-850 focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-300/30 uppercase"
+                className="w-full max-w-xs mx-auto py-3 px-4 text-center text-sm font-bold rounded-xs bg-slate-50 dark:bg-neutral-950 border border-slate-200/40 dark:border-neutral-850 focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-300/30 uppercase"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
@@ -237,8 +237,8 @@ function WordScrambleGame({ pool, onBack }: { pool: any[]; onBack: () => void })
                 autoFocus
               />
               <div className="flex gap-3 justify-center pt-2">
-                <Button variant="secondary" size="sm" className="rounded-xl font-bold cursor-pointer text-xs" onClick={handleSkip}>Bỏ qua</Button>
-                <Button variant="primary" size="sm" className="rounded-xl font-bold cursor-pointer text-xs shadow-glow text-white dark:text-white" onClick={handleSubmit} disabled={!input}>Xác nhận</Button>
+                <Button variant="secondary" size="sm" className="rounded-xs font-bold cursor-pointer text-xs" onClick={handleSkip}>Bỏ qua</Button>
+                <Button variant="primary" size="sm" className="rounded-xs font-bold cursor-pointer text-xs shadow-glow text-white dark:text-white" onClick={handleSubmit} disabled={!input}>Xác nhận</Button>
               </div>
             </Card>
           </motion.div>
@@ -340,15 +340,15 @@ function MemoryMatchGame({ pool, onBack }: { pool: any[]; onBack: () => void }) 
 
   if (gameOver) {
     return (
-      <Card variant="bezel" className="p-8 text-center space-y-5 bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-[calc(var(--radius-3xl)-6px)] animate-fade-in">
+      <Card variant="bezel" className="p-8 text-center space-y-5 bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-md animate-fade-in">
         <Trophy className="h-12 w-12 text-amber-500 mx-auto animate-bounce" />
         <div className="text-3xl font-black text-slate-900 dark:text-white font-display">Hoàn thành!</div>
         <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 font-bold">Ghép {totalPairs} cặp trong {moves} lượt lật</p>
         <div className="flex gap-3 justify-center pt-2">
-          <Button variant="secondary" size="sm" className="rounded-xl font-bold cursor-pointer" onClick={onBack}>
+          <Button variant="secondary" size="sm" className="rounded-xs font-bold cursor-pointer" onClick={onBack}>
             <ArrowLeft className="h-3.5 w-3.5 mr-1" /> Quay lại
           </Button>
-          <Button variant="primary" size="sm" className="rounded-xl font-bold cursor-pointer shadow-glow text-white dark:text-white" onClick={resetGame}>
+          <Button variant="primary" size="sm" className="rounded-xs font-bold cursor-pointer shadow-glow text-white dark:text-white" onClick={resetGame}>
             <RotateCcw className="h-3.5 w-3.5 mr-1" /> Chơi lại
           </Button>
         </div>
@@ -359,7 +359,7 @@ function MemoryMatchGame({ pool, onBack }: { pool: any[]; onBack: () => void }) 
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between">
-        <Button variant="secondary" size="sm" className="rounded-xl font-bold cursor-pointer" onClick={onBack}>
+        <Button variant="secondary" size="sm" className="rounded-xs font-bold cursor-pointer" onClick={onBack}>
           <ArrowLeft className="h-3.5 w-3.5 mr-1" /> Quay lại
         </Button>
         <div className="flex items-center gap-3">
@@ -376,7 +376,7 @@ function MemoryMatchGame({ pool, onBack }: { pool: any[]; onBack: () => void }) 
               whileTap={{ scale: 0.95 }}
               key={card.id}
               onClick={() => flipCard(card.id)}
-              className={`h-20 sm:h-24 rounded-2xl text-[10px] sm:text-xs font-black transition-all duration-300 border leading-relaxed px-2.5 flex items-center justify-center text-center cursor-pointer ${
+              className={`h-20 sm:h-24 rounded-md text-[10px] sm:text-xs font-black transition-all duration-300 border leading-relaxed px-2.5 flex items-center justify-center text-center cursor-pointer ${
                 card.matched
                   ? "bg-emerald-50 dark:bg-emerald-950/20 border-emerald-300 dark:border-emerald-800/30 text-emerald-700 dark:text-emerald-400 scale-95"
                   : card.flipped
@@ -419,8 +419,8 @@ export default function GamesPage() {
         <div className="h-8 w-48 rounded bg-slate-200 dark:bg-neutral-850" />
         <div className="h-4 w-72 rounded bg-slate-200 dark:bg-neutral-850 mt-2" />
         <div className="grid gap-5 sm:grid-cols-2 mt-6">
-          <div className="h-[220px] rounded-[2rem] bg-slate-100/40 dark:bg-white/5 border border-slate-200/20 dark:border-neutral-800/25" />
-          <div className="h-[220px] rounded-[2rem] bg-slate-100/40 dark:bg-white/5 border border-slate-200/20 dark:border-neutral-800/25" />
+          <div className="h-[220px] rounded-md bg-slate-100/40 dark:bg-white/5 border border-slate-200/20 dark:border-neutral-800/25" />
+          <div className="h-[220px] rounded-md bg-slate-100/40 dark:bg-white/5 border border-slate-200/20 dark:border-neutral-800/25" />
         </div>
       </div>
     );
@@ -479,9 +479,9 @@ export default function GamesPage() {
                 onClick={() => setActiveGame("scramble")}
                 className="cursor-pointer"
               >
-                <Card variant="bezel" className="p-6 flex flex-col justify-between h-[220px] bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-[calc(var(--radius-3xl)-6px)] relative overflow-hidden group">
+                <Card variant="bezel" className="p-6 flex flex-col justify-between h-[220px] bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-md relative overflow-hidden group">
                   <div>
-                    <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-cyan-500 to-sky-600 flex items-center justify-center text-white mb-4 group-hover:scale-105 transition-transform duration-300">
+                    <div className="h-14 w-14 rounded-md bg-gradient-to-br from-cyan-500 to-sky-600 flex items-center justify-center text-white mb-4 group-hover:scale-105 transition-transform duration-300">
                       <Shuffle className="h-7 w-7" />
                     </div>
                     <h3 className="text-base font-black text-slate-800 dark:text-white font-display">Word Scramble</h3>
@@ -501,9 +501,9 @@ export default function GamesPage() {
                 onClick={() => setActiveGame("memory")}
                 className="cursor-pointer"
               >
-                <Card variant="bezel" className="p-6 flex flex-col justify-between h-[220px] bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-[calc(var(--radius-3xl)-6px)] relative overflow-hidden group">
+                <Card variant="bezel" className="p-6 flex flex-col justify-between h-[220px] bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-md relative overflow-hidden group">
                   <div>
-                    <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white mb-4 group-hover:scale-105 transition-transform duration-300">
+                    <div className="h-14 w-14 rounded-md bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white mb-4 group-hover:scale-105 transition-transform duration-300">
                       <Layers className="h-7 w-7" />
                     </div>
                     <h3 className="text-base font-black text-slate-800 dark:text-white font-display">Memory Match</h3>

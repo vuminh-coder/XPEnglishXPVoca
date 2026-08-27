@@ -28,8 +28,13 @@ export async function POST(request: Request) {
     } else if (itemId.includes("bubble")) {
       updateField = { activeChatBubble: equip ? itemId : null };
     } else if (itemId === "premium_owl") {
-      // General custom theme or cosmetic
       updateField = { avatarEmoji: equip ? "🎓" : "🦉" };
+    } else if (itemId === "cyber_glasses") {
+      updateField = { avatarEmoji: equip ? "🕶️" : "🦉" };
+    } else if (itemId === "golden_badge") {
+      updateField = { avatarEmoji: equip ? "👑" : "🦉" };
+    } else if (itemId === "ielts_champion_cape") {
+      updateField = { avatarEmoji: equip ? "🦸" : "🦉" };
     } else {
       return NextResponse.json({ error: "Item cannot be equipped" }, { status: 400 });
     }

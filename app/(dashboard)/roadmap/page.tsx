@@ -279,12 +279,7 @@ export default function RoadmapPage() {
       })
     })));
 
-    if (plan && plan.dailyTasks) {
-      const matched = plan.dailyTasks.find((t: any) => t.id === taskId);
-      if (matched) {
-        matched.isCompleted = !matched.isCompleted;
-      }
-    }
+    useStudyPlanStore.getState().toggleTask(taskId, isNowCompleted);
   };
 
   if (isLoading) {

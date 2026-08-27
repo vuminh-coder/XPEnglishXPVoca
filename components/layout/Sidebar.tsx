@@ -37,7 +37,7 @@ import {
 } from "lucide-react";
 
 const SpeakingIcon = ({
-  className = "w-[18px] h-[18px]",
+  className = "w-[21px] h-[21px]",
 }: {
   className?: string;
 }) => (
@@ -45,7 +45,7 @@ const SpeakingIcon = ({
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth="1.8"
+    strokeWidth="1.9"
     strokeLinecap="round"
     strokeLinejoin="round"
     className={className}
@@ -64,7 +64,7 @@ const sections = [
       {
         name: "Trang chủ",
         path: "/dashboard",
-        icon: <Home className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        icon: <Home className="w-[21px] h-[21px]" strokeWidth={1.9} />,
         page: "dashboard",
       },
     ],
@@ -75,39 +75,39 @@ const sections = [
       {
         name: "Dictation",
         path: "/study/listening",
-        icon: <Headphones className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        icon: <Headphones className="w-[21px] h-[21px]" strokeWidth={1.9} />,
         page: "dictation",
       },
       {
         name: "Shadowing",
         path: "/study/shadowing",
-        icon: <Mic className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        icon: <Mic className="w-[21px] h-[21px]" strokeWidth={1.9} />,
         page: "shadowing",
       },
       {
         name: "Luyện nói",
         path: "/ai/tutor",
-        icon: <SpeakingIcon className="w-[18px] h-[18px]" />,
+        icon: <SpeakingIcon className="w-[21px] h-[21px]" />,
         page: "aitutor",
         badge: "AI",
       },
       {
         name: "Luyện viết",
         path: "/ai/conversation",
-        icon: <Wand2 className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        icon: <Wand2 className="w-[21px] h-[21px]" strokeWidth={1.9} />,
         page: "aichat",
         badge: "AI",
       },
       {
         name: "Luyện từ vựng",
         path: "/study/practice",
-        icon: <BookOpen className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        icon: <BookOpen className="w-[21px] h-[21px]" strokeWidth={1.9} />,
         page: "practice",
       },
       {
         name: "Thi thử đề",
         path: "/study/exam-prep",
-        icon: <FileText className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        icon: <FileText className="w-[21px] h-[21px]" strokeWidth={1.9} />,
         page: "examprep",
       },
     ],
@@ -118,20 +118,19 @@ const sections = [
       {
         name: "Video của tôi",
         path: "/myvideo",
-        icon: <Star className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        icon: <Star className="w-[21px] h-[21px]" strokeWidth={1.9} />,
         page: "myvideo",
       },
       {
         name: "Danh sách từ",
         path: "/vocabulary",
-        icon: <ListOrdered className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        icon: <ListOrdered className="w-[21px] h-[21px]" strokeWidth={1.9} />,
         page: "vocabulary",
-        badge: "0",
       },
       {
         name: "Ngữ pháp AI",
         path: "/study/grammar",
-        icon: <BookMarked className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        icon: <BookMarked className="w-[21px] h-[21px]" strokeWidth={1.9} />,
         page: "grammar",
       },
     ],
@@ -142,20 +141,20 @@ const sections = [
       {
         name: "Lộ trình",
         path: "/roadmap",
-        icon: <Compass className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        icon: <Compass className="w-[21px] h-[21px]" strokeWidth={1.9} />,
         page: "roadmap",
         badge: "AI",
       },
       {
         name: "Thống kê",
         path: "/analytics",
-        icon: <BarChart3 className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        icon: <BarChart3 className="w-[21px] h-[21px]" strokeWidth={1.9} />,
         page: "analytics",
       },
       {
         name: "Xếp hạng",
         path: "/community",
-        icon: <Trophy className="w-[18px] h-[18px]" strokeWidth={1.8} />,
+        icon: <Trophy className="w-[21px] h-[21px]" strokeWidth={1.9} />,
         page: "community",
       },
     ],
@@ -208,70 +207,94 @@ function SidebarNavInner({
           sidebarOpen ? "open" : ""
         } ${sidebarCollapsed ? "collapsed" : ""}`}
       >
-        {/* 1. TOP BRAND HEADER */}
+        {/* 1. TOP BRAND HEADER (Preserves exact structural layout block & border on Mobile & Desktop) */}
         <div
           className={`flex items-center justify-between ${
             sidebarCollapsed
-              ? "px-2 py-3.5 min-h-[57px]"
-              : "px-3.5 py-4 min-h-[64px]"
-          } border-b border-slate-100 dark:border-white/5 shrink-0`}
+              ? "px-2 h-14"
+              : "px-3.5 min-h-[56px] lg:h-14"
+          } shrink-0`}
         >
-          {sidebarCollapsed ? (
-            /* Show collapsed clean icon when collapsed */
-            <Link
-              href="/dashboard"
-              className="mx-auto flex items-center justify-center w-8 h-8 transition-transform active:scale-95 my-[1.5px] py-[0.5px] select-none"
-              title="Trang chủ"
-            >
-              <img
-                src="/icons/icon-any-192x192.png"
-                alt="XP Logo"
-                className="w-full h-full object-contain block select-none pointer-events-none rounded-xs"
-              />
-            </Link>
-          ) : (
-            /* When expanded: Show brand text name + collapse button (No logo image) */
-            <>
+          {/* Desktop: Active brand text & collapse toggle button */}
+          <div className="hidden lg:flex items-center justify-between w-full">
+            {sidebarCollapsed ? (
+              /* Show collapsed clean icon when collapsed on Desktop */
               <Link
                 href="/dashboard"
-                className="flex items-center gap-1.5 group min-w-0"
+                className="mx-auto flex items-center justify-center w-8 h-8 transition-transform active:scale-95 my-[1.5px] py-[0.5px] select-none"
+                title="Trang chủ"
               >
-                <div className="text-base sm:text-lg font-black text-slate-900 dark:text-white flex items-center gap-1 truncate font-display leading-none tracking-tight select-none">
-                  <span className="text-[#0059bb]">XP</span> English
-                  <span className="text-amber-500 font-normal">|</span>
-                  <span className="text-amber-500">XP Voca</span>
-                </div>
+                <img
+                  src="/icons/icon-any-192x192.png"
+                  alt="XP Logo"
+                  className="w-full h-full object-contain block select-none pointer-events-none rounded-xs"
+                />
               </Link>
+            ) : (
+              /* When expanded on Desktop: Show brand text name + collapse button */
+              <>
+                <Link
+                  href="/dashboard"
+                  className="flex items-center gap-1.5 group min-w-0"
+                >
+                  <div className="text-base sm:text-lg font-black text-slate-900 dark:text-white flex items-center gap-1 truncate font-display leading-none tracking-tight select-none">
+                    <span className="text-[#0059bb]">XP</span> English
+                    <span className="text-amber-500 font-normal">|</span>
+                    <span className="text-amber-500">XP Voca</span>
+                  </div>
+                </Link>
 
-              <button
-                onClick={toggleSidebarCollapsed}
-                className="p-1.5 py-[7px] my-[1px] rounded hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer shrink-0"
-                title="Thu gọn thanh bên"
-              >
-                <PanelLeftClose className="w-5 h-5 stroke-[2]" />
-              </button>
-            </>
-          )}
+                <button
+                  onClick={toggleSidebarCollapsed}
+                  className="p-1.5 py-[7px] my-[1px] rounded hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer shrink-0"
+                  title="Thu gọn thanh bên"
+                >
+                  <PanelLeftClose className="w-5 h-5 stroke-[2]" />
+                </button>
+              </>
+            )}
+          </div>
+
+          {/* Mobile: Invisible structural block to keep original layout geometry & height */}
+          <div
+            className="flex lg:hidden items-center justify-between w-full invisible select-none pointer-events-none"
+            aria-hidden="true"
+          >
+            <div className="text-base sm:text-lg font-black flex items-center gap-1 truncate font-display leading-none tracking-tight">
+              <span>XP English | XP Voca</span>
+            </div>
+            <div className="w-8 h-8" />
+          </div>
         </div>
 
         {/* 2. NAVIGATION LINKS */}
         <div
-          className={`sidebar-nav flex-1 overflow-y-auto px-2.5 pb-20 lg:pb-3 ${
-            sidebarCollapsed ? "py-3 space-y-2.5" : "py-3 space-y-4"
-          } no-scrollbar`}
+          className={`sidebar-nav flex-1 overflow-y-auto px-2 pb-2 ${
+            sidebarCollapsed
+              ? "py-1.5 space-y-1 lg:space-y-0.5"
+              : "py-3 space-y-4"
+          } hide-scrollbar select-none`}
         >
           {sections.map((section, idx) => (
             <div key={idx} className="sidebar-section">
-              {!sidebarCollapsed && (
-                <div className="flex items-center gap-2 px-2 mb-2 select-none">
-                  <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 font-display shrink-0">
-                    {section.title}
-                  </span>
-                  <div className="h-[1px] flex-1 border-b border-dashed border-slate-200 dark:border-white/10" />
-                </div>
-              )}
+              <div
+                className={`items-center gap-2 px-2 mb-1.5 select-none ${
+                  sidebarCollapsed ? "flex lg:hidden" : "flex"
+                }`}
+              >
+                <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 font-display shrink-0">
+                  {section.title}
+                </span>
+                <div className="h-[1px] flex-1 border-b border-dashed border-slate-200 dark:border-white/10" />
+              </div>
 
-              <div className={sidebarCollapsed ? "space-y-1.5" : "space-y-0.5"}>
+              <div
+                className={
+                  sidebarCollapsed
+                    ? "space-y-0.5 lg:space-y-0.5"
+                    : "space-y-0.5"
+                }
+              >
                 {section.links.map((link) => {
                   const isActive =
                     pathname === link.path ||
@@ -286,27 +309,37 @@ function SidebarNavInner({
                         onClick={() => sidebarOpen && toggleSidebar()}
                         className={`sidebar-link ${
                           isActive
-                            ? "active bg-[#e8edf5] text-slate-900 dark:bg-slate-800 dark:text-white font-extrabold shadow-2xs"
+                            ? "active bg-[#e8edf5] text-slate-900 dark:bg-slate-800 dark:text-white font-extrabold"
                             : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-900/60 font-semibold"
                         } transition-all duration-200 flex items-center ${
                           sidebarCollapsed
-                            ? "justify-center px-0 py-2"
-                            : "justify-between px-3 py-2"
-                        } w-full rounded`}
+                            ? "justify-between px-3 py-2 lg:justify-center lg:px-0 lg:w-10 lg:h-9.5 lg:mx-auto lg:rounded-xl lg:before:!hidden"
+                            : "justify-between px-3 py-2 w-full rounded"
+                        } rounded relative`}
                       >
                         <div
-                          className={`flex items-center ${sidebarCollapsed ? "justify-center" : "gap-3"} min-w-0`}
+                          className={`flex items-center ${
+                            sidebarCollapsed
+                              ? "gap-3 lg:justify-center"
+                              : "gap-3"
+                          } min-w-0`}
                         >
-                          <span className="sidebar-link-icon text-current shrink-0">
+                          <span className="sidebar-link-icon text-current shrink-0 flex items-center justify-center">
                             {link.icon}
                           </span>
-                          {!sidebarCollapsed && (
-                            <span className="font-bold text-[13px] truncate">
-                              {link.name}
-                            </span>
-                          )}
-                          {!sidebarCollapsed && link.badge && (
-                            <span className="px-1.5 py-0.2 rounded-full text-[9px] font-black bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-xs shrink-0">
+                          <span
+                            className={`font-bold text-[13px] truncate ${
+                              sidebarCollapsed ? "inline-block lg:hidden" : "inline-block"
+                            }`}
+                          >
+                            {link.name}
+                          </span>
+                          {link.badge && (
+                            <span
+                              className={`px-1.5 py-0.2 rounded-full text-[9px] font-black bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-xs shrink-0 ${
+                                sidebarCollapsed ? "inline-block lg:hidden" : "inline-block"
+                              }`}
+                            >
                               {link.badge}
                             </span>
                           )}
@@ -314,7 +347,7 @@ function SidebarNavInner({
                       </Link>
 
                       {/* Inline Premium Upgrade Link directly under Xếp hạng matching sidebar link style (Mobile ONLY) */}
-                      {link.name === "Xếp hạng" && !sidebarCollapsed && (
+                      {link.name === "Xếp hạng" && (
                         <Link
                           href="/shop"
                           onClick={() => sidebarOpen && toggleSidebar()}
@@ -322,7 +355,7 @@ function SidebarNavInner({
                         >
                           <div className="flex items-center gap-3 min-w-0">
                             <span className="sidebar-link-icon shrink-0">
-                              <Sparkles className="w-[18px] h-[18px] text-amber-500 fill-amber-500" strokeWidth={1.8} />
+                              <Sparkles className="w-[21px] h-[21px] text-amber-500 fill-amber-500" strokeWidth={1.9} />
                             </span>
                             <span className="font-bold text-[13px] truncate">
                               Nâng cấp Premium
@@ -338,27 +371,21 @@ function SidebarNavInner({
             </div>
           ))}
 
-          {/* WHEN COLLAPSED: SHOW EXPAND BUTTON, LANGUAGES & THEME TOGGLE BUTTON */}
+          {/* WHEN COLLAPSED: NÚT MỞ RỘNG VÀ ĐỔI GIAO DIỆN NẰM NGAY DƯỚI XẾP HẠNG */}
           {sidebarCollapsed && (
-            <div className="pt-2 border-t border-slate-100 dark:border-white/5 flex flex-col items-center gap-1.5">
-              <button
-                onClick={toggleSidebarCollapsed}
-                className="w-9 h-9 my-[1.5px] py-[1.5px] rounded hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer flex items-center justify-center border-none outline-none"
-                title="Mở rộng thanh bên"
-              >
-                <PanelLeft className="w-5 h-5 stroke-[1.8]" />
-              </button>
+            <div className="pt-2 border-t border-slate-100 dark:border-white/5 flex flex-col items-center gap-1">
               <button
                 type="button"
-                className="w-9 h-9 rounded hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer flex items-center justify-center border-none outline-none"
-                title="Ngôn ngữ (Tiếng Việt)"
+                onClick={toggleSidebarCollapsed}
+                className="w-10 h-9.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer flex items-center justify-center border-none outline-none"
+                title="Mở rộng thanh bên"
               >
-                <Languages className="w-[18px] h-[18px]" strokeWidth={1.8} />
+                <PanelLeft className="w-[21px] h-[21px] stroke-[1.9]" />
               </button>
               <button
                 type="button"
                 onClick={toggleTheme}
-                className="w-9 h-9 rounded hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer flex items-center justify-center border-none outline-none"
+                className="w-10 h-9.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer flex items-center justify-center border-none outline-none"
                 title={
                   theme === "dark"
                     ? "Chuyển sang giao diện Sáng"
@@ -367,13 +394,13 @@ function SidebarNavInner({
               >
                 {theme === "dark" ? (
                   <Sun
-                    className="w-[18px] h-[18px] text-amber-400"
-                    strokeWidth={1.8}
+                    className="w-[21px] h-[21px] text-amber-400"
+                    strokeWidth={1.9}
                   />
                 ) : (
                   <Moon
-                    className="w-[18px] h-[18px] text-indigo-500"
-                    strokeWidth={1.8}
+                    className="w-[21px] h-[21px] text-indigo-500"
+                    strokeWidth={1.9}
                   />
                 )}
               </button>
@@ -381,8 +408,10 @@ function SidebarNavInner({
           )}
         </div>
 
-        {/* 3. SIDEBAR FOOTER: PREMIUM & PROFILE ON DESKTOP ONLY */}
-        <div className="sidebar-footer p-3 border-t border-slate-100 dark:border-white/5 space-y-2.5 shrink-0 hidden lg:block">
+        {/* 3. SIDEBAR FOOTER: PREMIUM & PROFILE (PINNED FIXED AT BOTTOM ON DESKTOP) */}
+        <div className={`sidebar-footer shrink-0 hidden lg:block ${
+          sidebarCollapsed ? "p-2.5 bg-white dark:bg-slate-900 z-20" : "p-3 space-y-2.5"
+        }`}>
           {!sidebarCollapsed && (
             <Link
               href="/shop"
@@ -545,34 +574,85 @@ function SidebarNavInner({
 
             {/* USER CARD TRIGGER (COLLAPSED VS EXPANDED - REDUCED RADIUS WITH CIRCLE AVATAR) */}
             {sidebarCollapsed ? (
-              <button
-                type="button"
-                onClick={() => setShowUserMenu(!showUserMenu)}
-                className="w-9 h-9 rounded-full bg-[#0059bb] text-white font-black text-sm flex items-center justify-center mx-auto shadow-2xs hover:opacity-90 transition-opacity cursor-pointer border-none outline-none overflow-hidden shrink-0"
-                title={userName}
-              >
-                {user?.imageUrl ||
-                (user as any)?.avatar ||
-                (user as any)?.avatarUrl ? (
-                  <img
-                    src={
-                      user.imageUrl ||
-                      (user as any).avatar ||
-                      (user as any).avatarUrl
-                    }
-                    alt={userName}
-                    className="w-full h-full object-cover"
+              <>
+                {/* Desktop Collapsed Compact Avatar */}
+                <button
+                  type="button"
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="hidden lg:flex w-10 h-10 rounded-full bg-[#0059bb] text-white font-black text-sm items-center justify-center mx-auto shadow-2xs hover:opacity-90 transition-opacity cursor-pointer border-none outline-none overflow-hidden shrink-0"
+                  title={userName}
+                >
+                  {user?.imageUrl ||
+                  (user as any)?.avatar ||
+                  (user as any)?.avatarUrl ? (
+                    <img
+                      src={
+                        user.imageUrl ||
+                        (user as any).avatar ||
+                        (user as any).avatarUrl
+                      }
+                      alt={userName}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : user?.avatarEmoji && user.avatarEmoji !== "🦉" ? (
+                    <span className="text-sm">{user.avatarEmoji}</span>
+                  ) : (
+                    <img
+                      src={`https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=0059bb&color=fff&font-size=0.4`}
+                      alt={userName}
+                      className="w-full h-full object-cover"
+                    />
+                  )}
+                </button>
+
+                {/* Mobile Full User Card (Always rich & readable on mobile drawer) */}
+                <button
+                  type="button"
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="flex lg:hidden w-full items-center justify-between p-2.5 rounded bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 transition-all cursor-pointer text-left shadow-2xs"
+                >
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="w-8.5 h-8.5 rounded-full bg-[#0059bb] text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-2xs overflow-hidden">
+                      {user?.imageUrl ||
+                      (user as any)?.avatar ||
+                      (user as any)?.avatarUrl ? (
+                        <img
+                          src={
+                            user.imageUrl ||
+                            (user as any).avatar ||
+                            (user as any).avatarUrl
+                          }
+                          alt={userName}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : user?.avatarEmoji && user.avatarEmoji !== "🦉" ? (
+                        <span className="text-sm">{user.avatarEmoji}</span>
+                      ) : (
+                        <img
+                          src={`https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=0059bb&color=fff&font-size=0.4`}
+                          alt={userName}
+                          className="w-full h-full object-cover"
+                        />
+                      )}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <span className="text-[13px] font-bold text-slate-900 dark:text-white truncate block">
+                        {userName}
+                      </span>
+                      <span className="text-[10px] font-medium text-slate-400 dark:text-slate-500 block truncate mt-0.5">
+                        {user?.email ||
+                          (user?.username
+                            ? `@${user.username}`
+                            : "Thành viên XP Voca")}
+                      </span>
+                    </div>
+                  </div>
+
+                  <ChevronDown
+                    className={`w-4 h-4 text-slate-400 shrink-0 stroke-[1.8] transition-transform duration-200 ${showUserMenu ? "rotate-180" : ""}`}
                   />
-                ) : user?.avatarEmoji && user.avatarEmoji !== "🦉" ? (
-                  <span className="text-sm">{user.avatarEmoji}</span>
-                ) : (
-                  <img
-                    src={`https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=0059bb&color=fff&font-size=0.4`}
-                    alt={userName}
-                    className="w-full h-full object-cover"
-                  />
-                )}
-              </button>
+                </button>
+              </>
             ) : (
               <button
                 type="button"

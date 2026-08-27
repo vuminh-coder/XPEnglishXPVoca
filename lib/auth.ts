@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { verifyAuthToken } from "@/lib/auth/jwt";
 
 export async function getAuthenticatedUserId(req?: Request): Promise<string | null> {
   try {
@@ -6,12 +7,17 @@ export async function getAuthenticatedUserId(req?: Request): Promise<string | nu
     const sessionCookie = cookieStore.get("xp_voca_session")?.value;
     
     if (sessionCookie) {
-      try {
-        const { userId } = JSON.parse(sessionCookie);
-        if (userId) return userId;
-      } catch (e) {
-        // Fallback
+      // 1. Verify JWT token
+      const jwtPayload = verifyAuthToken(sessionCookie);
+      if (jwtPayload?.userId) {
+        return jwtPayload.userId;
       }
+
+      // 2. Legacy JSON parse fallback
+      try {
+        const parsed = JSON.parse(sessionCookie);
+        if (parsed?.userId) return parsed.userId;
+      } catch (e) {}
     }
 
     const localUserId = cookieStore.get("local-user-id")?.value;

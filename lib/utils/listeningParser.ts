@@ -235,12 +235,11 @@ export function parseListeningMarkdown(markdownText: string): ListeningLesson {
         };
       } else if (line.startsWith("::")) {
         if (currentSentence) {
-          const transMatch = line.match(/^::\s*(?:[a-zA-Z]{2,3})?\s*:\s*(.*)$/);
-          if (transMatch) {
-            currentSentence.vietnamese = transMatch[1].trim();
-          } else {
-            currentSentence.vietnamese = line.replace(/^::\s*/, "").trim();
-          }
+          const transClean = line
+            .replace(/^::\s*(?:Việt|viet|vi|vn|Vietnamese|tiếng việt)?\s*:\s*/i, "")
+            .replace(/^::\s*/, "")
+            .trim();
+          currentSentence.vietnamese = transClean;
         }
       }
     }

@@ -108,7 +108,7 @@ export default function AdminPage() {
       {/* Page Header */}
       <div className="page-header animate-fade-in-down">
         <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white">
+          <div className="h-10 w-10 rounded-md bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white">
             <Database className="h-5 w-5" />
           </div>
           <div>

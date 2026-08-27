@@ -1,65 +1,50 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import Link from "next/link";
-import { Card, Button, Badge } from "@/components/ui";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useUserStore, recordSkillPractice } from "@/lib/store/userStore";
 import { useNotificationStore } from "@/lib/store/notificationStore";
-import { useListeningStore } from "@/lib/store/listeningStore";
+import { useUiStore } from "@/lib/store/uiStore";
 import { PageEntranceWrapper, MotionItem } from "@/components/shared/PageEntranceAnimation";
 import { motion, AnimatePresence } from "framer-motion";
-import { UserAvatar, formatCleanName } from "@/components/shared/UserAvatar";
+import { UserAvatar } from "@/components/shared/UserAvatar";
 import { speakLessonText } from "@/lib/utils/ttsEngine";
 
 import {
   Mic,
-  MicOff,
   Volume2,
   VolumeX,
-  Volume1,
-  RotateCcw,
   Sparkles,
-  Award,
-  BookOpen,
-  ArrowRight,
-  UserCheck,
   CheckCircle2,
   AlertCircle,
-  HelpCircle,
-  Play,
-  Check,
-  Flame,
-  ChevronRight,
-  Info,
   Clock,
   Target,
   Bot,
-  Zap,
   Square,
   RefreshCw,
-  MessageSquare,
-  Radio,
-  Layers,
-  Wand2,
-  ChevronDown,
   Send,
-  Sliders,
-  Activity,
-  BarChart3,
-  Lightbulb,
-  Search,
-  Plane,
-  Utensils,
-  Briefcase,
-  ShoppingBag,
-  Navigation,
   BookMarked,
   X,
   BookmarkCheck,
-  CheckSquare
+  ChevronRight,
+  Languages,
+  MessageSquare,
+  Headphones,
+  Award,
+  Zap,
+  Lightbulb,
+  Check,
+  Star,
+  SlidersHorizontal,
+  Flame,
+  RotateCcw,
+  TrendingUp,
+  ArrowRight,
+  History,
+  CheckCircle
 } from "lucide-react";
 
-// ===== BASIC IPA DICTIONARY LOOKUP TABLE (60+ Common Words) =====
+// ===== BASIC IPA DICTIONARY LOOKUP TABLE =====
 const IPA_DICTIONARY: Record<string, { ipa: string; meaning: string }> = {
   "hello": { ipa: "/həˈloʊ/", meaning: "Xin chào" },
   "practice": { ipa: "/ˈpræk.tɪs/", meaning: "Luyện tập, thực hành" },
@@ -68,67 +53,45 @@ const IPA_DICTIONARY: Record<string, { ipa: string; meaning: string }> = {
   "together": { ipa: "/təˈɡeð.ər/", meaning: "Cùng nhau" },
   "favorite": { ipa: "/ˈfeɪ.vər.ɪt/", meaning: "Yêu thích nhất" },
   "hobby": { ipa: "/ˈhɑː.bi/", meaning: "Sở thích" },
-  "what": { ipa: "/wɑːt/", meaning: "Cái gì" },
-  "your": { ipa: "/jʊr/", meaning: "Của bạn" },
   "interesting": { ipa: "/ˈɪn.trə.stɪŋ/", meaning: "Thú vị" },
   "learning": { ipa: "/ˈlɜːr.nɪŋ/", meaning: "Học tập" },
   "because": { ipa: "/bɪˈkɔːz/", meaning: "Bởi vì" },
   "helps": { ipa: "/helps/", meaning: "Giúp đỡ" },
   "speak": { ipa: "/spiːk/", meaning: "Nói" },
   "naturally": { ipa: "/ˈnætʃ.ər.əl.i/", meaning: "Một cách tự nhiên" },
-  "window": { ipa: "/ˈwɪn.doʊ/", meaning: "Cửa sổ" },
-  "seat": { ipa: "/siːt/", meaning: "Chỗ ngồi" },
-  "flight": { ipa: "/flaɪt/", meaning: "Chuyến bay" },
-  "please": { ipa: "/pliːz/", meaning: "Xin vui lòng" },
-  "order": { ipa: "/ˈɔːr.dər/", meaning: "Gọi món, đặt hàng" },
-  "airport": { ipa: "/ˈer.pɔːrt/", meaning: "Sân bay" },
-  "want": { ipa: "/wɑːnt/", meaning: "Muốn" },
-  "go": { ipa: "/ɡoʊ/", meaning: "Đi" },
-  "love": { ipa: "/lʌv/", meaning: "Yêu, thích" },
-  "think": { ipa: "/θɪŋk/", meaning: "Nghĩ" },
-  "know": { ipa: "/noʊ/", meaning: "Biết" },
-  "good": { ipa: "/ɡʊd/", meaning: "Tốt" },
-  "great": { ipa: "/ɡreɪt/", meaning: "Tuyệt vời" },
-  "beautiful": { ipa: "/ˈbjuː.tɪ.fəl/", meaning: "Đẹp" },
-  "language": { ipa: "/ˈlæŋ.ɡwɪdʒ/", meaning: "Ngôn ngữ" },
+  "perspective": { ipa: "/pərˈspek.tɪv/", meaning: "Góc nhìn, quan điểm" },
+  "fascinating": { ipa: "/ˈfæs.ən.eɪ.tɪŋ/", meaning: "Hấp dẫn, lôi cuốn" },
+  "specifically": { ipa: "/spəˈsɪf.ɪ.kli/", meaning: "Cụ thể là" },
+  "benefit": { ipa: "/ˈben.ə.fɪt/", meaning: "Lợi ích" },
   "conversation": { ipa: "/ˌkɑːn.vərˈseɪ.ʃən/", meaning: "Cuộc hội thoại" },
   "travel": { ipa: "/ˈtræv.əl/", meaning: "Du lịch" },
-  "restaurant": { ipa: "/ˈres.tər.ɑːnt/", meaning: "Nhà hàng" },
-  "interview": { ipa: "/ˈɪn.tər.vjuː/", meaning: "Phỏng vấn" },
-  "experience": { ipa: "/ɪkˈspɪr.i.əns/", meaning: "Kinh nghiệm" },
+  "experience": { ipa: "/ɪkˈspɪr.i.əns/", meaning: "Trải nghiệm, kinh nghiệm" },
   "understand": { ipa: "/ˌʌn.dərˈstænd/", meaning: "Hiểu" },
   "improve": { ipa: "/ɪmˈpruːv/", meaning: "Cải thiện" },
   "pronunciation": { ipa: "/prəˌnʌn.siˈeɪ.ʃən/", meaning: "Phát âm" },
   "vocabulary": { ipa: "/voʊˈkæb.jə.ler.i/", meaning: "Từ vựng" },
   "grammar": { ipa: "/ˈɡræm.ər/", meaning: "Ngữ pháp" },
-  "tutor": { ipa: "/ˈtuː.tər/", meaning: "Gia sư" },
-  "voice": { ipa: "/vɔɪs/", meaning: "Giọng nói" },
-  "listen": { ipa: "/ˈlɪs.ən/", meaning: "Nghe" },
-  "read": { ipa: "/riːd/", meaning: "Đọc" },
-  "write": { ipa: "/raɪt/", meaning: "Viết" },
-  "study": { ipa: "/ˈstʌd.i/", meaning: "Học" },
-  "question": { ipa: "/ˈkwes.tʃən/", meaning: "Câu hỏi" },
-  "answer": { ipa: "/ˈæn.sər/", meaning: "Câu trả lời" },
-  "difficult": { ipa: "/ˈdɪf.ɪ.kəlt/", meaning: "Khó" },
-  "easy": { ipa: "/ˈiː.zi/", meaning: "Dễ" },
-  "important": { ipa: "/ɪmˈpɔːr.tənt/", meaning: "Quan trọng" },
-  "perfect": { ipa: "/ˈpɜːr.fɪkt/", meaning: "Hoàn hảo" },
-  "excellent": { ipa: "/ˈek.sə.lənt/", meaning: "Xuất sắc" },
-  "coffee": { ipa: "/ˈkɔː.fi/", meaning: "Cà phê" },
-  "water": { ipa: "/ˈwɑː.tər/", meaning: "Nước" },
-  "food": { ipa: "/fuːd/", meaning: "Thức ăn" },
-  "hotel": { ipa: "/hoʊˈtel/", meaning: "Khách sạn" },
-  "ticket": { ipa: "/ˈtɪk.ɪt/", meaning: "Vé" },
-  "passport": { ipa: "/ˈpæs.pɔːrt/", meaning: "Hộ chiếu" },
-  "money": { ipa: "/ˈmʌn.i/", meaning: "Tiền" },
-  "phone": { ipa: "/foʊn/", meaning: "Điện thoại" },
-  "computer": { ipa: "/kəmˈpjuː.tər/", meaning: "Máy tính" },
-  "morning": { ipa: "/ˈmɔːr.nɪŋ/", meaning: "Buổi sáng" },
-  "evening": { ipa: "/ˈiːv.nɪŋ/", meaning: "Buổi tối" },
-  "thank": { ipa: "/θæŋk/", meaning: "Cảm ơn" },
-  "sorry": { ipa: "/ˈsɑːr.i/", meaning: "Xin lỗi" },
-  "welcome": { ipa: "/ˈwel.kəm/", meaning: "Chào mừng" },
+  "routine": { ipa: "/ruːˈtiːn/", meaning: "Thói quen hàng ngày" },
+  "movie": { ipa: "/ˈmuː.vi/", meaning: "Bộ phim" },
+  "cinema": { ipa: "/ˈsɪn.ə.mə/", meaning: "Rạp chiếu phim" },
+  "cinematography": { ipa: "/ˌsɪn.ə.məˈtɑː.ɡrə.fi/", meaning: "Nghệ thuật quay phim" },
+  "soundtrack": { ipa: "/ˈsaʊnd.træk/", meaning: "Nhạc phim" },
+  "blockbuster": { ipa: "/ˈblɑːkˌbʌs.tər/", meaning: "Phim bom tấn" },
+  "culinary": { ipa: "/ˈkʌl.ə.ner.i/", meaning: "Ẩm thực" },
+  "ingredient": { ipa: "/ɪnˈɡriː.di.ənt/", meaning: "Nguyên liệu" },
+  "flavorful": { ipa: "/ˈfleɪ.vər.fəl/", meaning: "Đậm đà hương vị" },
+  "homemade": { ipa: "/ˌhoʊmˈmeɪd/", meaning: "Tự làm tại nhà" },
+  "technology": { ipa: "/tekˈnɑː.lə.dʒi/", meaning: "Công nghệ" },
+  "artificial": { ipa: "/ˌɑːr.t̬əˈfɪʃ.əl/", meaning: "Nhân tạo" },
+  "intelligence": { ipa: "/ɪnˈtel.ə.dʒəns/", meaning: "Trí tuệ" },
+  "confident": { ipa: "/ˈkɑːn.fə.dənt/", meaning: "Tự tin" },
+  "fluent": { ipa: "/ˈfluː.ənt/", meaning: "Trôi chảy, lưu loát" },
 };
+
+interface SuggestedWord {
+  word: string;
+  meaning?: string;
+}
 
 interface ChatMessage {
   id: string;
@@ -136,167 +99,90 @@ interface ChatMessage {
   text: string;
   pronunciationScore?: number;
   grammarCorrection?: {
+    hasError?: boolean;
     original: string;
     corrected: string;
     explanation: string;
   };
   betterPhrasing?: string;
   vietnameseTranslation?: string;
+  suggestedWords?: SuggestedWord[];
+  suggestedPhrases?: string[];
 }
 
-interface Goal {
-  id: string;
+interface Persona {
+  id: "emma" | "alex" | "chloe";
   name: string;
-  nameEn: string;
+  role: string;
+  accent: "en-GB" | "en-US" | "en-AU";
+  flag: string;
+  speakerIndex: number;
 }
 
-interface RoleplayTopic {
-  id: string;
-  name: string;
-  nameEn: string;
-  icon: React.ElementType;
-  goals: Goal[];
-  keyVocab: Array<{ word: string; ipa: string; meaning: string }>;
-}
-
-const ROLEPLAY_TOPICS: RoleplayTopic[] = [
-  {
-    id: "rp1",
-    name: "Quầy làm thủ tục sân bay",
-    nameEn: "Airport Check-in",
-    icon: Plane,
-    goals: [
-      { id: "rp1_ticket", name: "Đưa vé và hộ chiếu", nameEn: "Present ticket and passport" },
-      { id: "rp1_baggage", name: "Khai báo số hành lý ký gửi", nameEn: "State luggage quantity" },
-      { id: "rp1_seat", name: "Yêu cầu ghế ngồi sát cửa sổ", nameEn: "Request window seat" },
-    ],
-    keyVocab: [
-      { word: "boarding pass", ipa: "/ˈbɔː.dɪŋ ˌpɑːs/", meaning: "thẻ lên máy bay" },
-      { word: "luggage allowance", ipa: "/ˈlʌɡ.ɪdʒ əˌlaʊ.əns/", meaning: "hạn mức hành lý" },
-      { word: "window seat", ipa: "/ˈwɪn.dəʊ siːt/", meaning: "ghế cạnh cửa sổ" }
-    ]
-  },
-  {
-    id: "rp2",
-    name: "Đặt món tại nhà hàng",
-    nameEn: "Restaurant Ordering",
-    icon: Utensils,
-    goals: [
-      { id: "rp2_menu", name: "Hỏi thực đơn món đặc biệt", nameEn: "Ask for specials menu" },
-      { id: "rp2_order", name: "Gọi món chính và tráng miệng", nameEn: "Order main and dessert" },
-      { id: "rp2_bill", name: "Yêu cầu thanh toán hóa đơn", nameEn: "Request bill/check" },
-    ],
-    keyVocab: [
-      { word: "chef's special", ipa: "/ʃefs ˈspeʃ.əl/", meaning: "món đặc biệt của đầu bếp" },
-      { word: "reservation", ipa: "/ˌrez.əˈveɪ.ʃən/", meaning: "sự đặt bàn trước" },
-      { word: "dessert menu", ipa: "/dɪˈzɜːt ˈmen.juː/", meaning: "thực đơn món tráng miệng" }
-    ]
-  },
-  {
-    id: "rp3",
-    name: "Phỏng vấn xin việc AI",
-    nameEn: "Job Interview",
-    icon: Briefcase,
-    goals: [
-      { id: "rp3_intro", name: "Giới thiệu bản thân ngắn gọn", nameEn: "Brief self introduction" },
-      { id: "rp3_strength", name: "Nêu 2 điểm mạnh chính", nameEn: "State 2 key strengths" },
-      { id: "rp3_question", name: "Đặt câu hỏi cho nhà tuyển dụng", nameEn: "Ask interviewer a question" }
-    ],
-    keyVocab: [
-      { word: "professional background", ipa: "/prəˈfeʃ.ən.əl ˈbæk.ɡraʊnd/", meaning: "kinh nghiệm chuyên môn" },
-      { word: "problem solving", ipa: "/ˈprɒb.ləm ˌsɒl.vɪŋ/", meaning: "kỹ năng giải quyết vấn đề" },
-      { word: "career goals", ipa: "/kəˈrɪər ɡəʊlz/", meaning: "mục tiêu nghề nghiệp" }
-    ]
-  },
-  {
-    id: "rp4",
-    name: "Mua sắm & Đàm phán giá",
-    nameEn: "Shopping & Bargaining",
-    icon: ShoppingBag,
-    goals: [
-      { id: "rp4_size", name: "Hỏi thử size và màu sắc", nameEn: "Ask for size and color" },
-      { id: "rp4_discount", name: "Hỏi chương trình giảm giá", nameEn: "Ask for discount promotion" },
-      { id: "rp4_pay", name: "Chọn hình thức thanh toán", nameEn: "Select payment method" }
-    ],
-    keyVocab: [
-      { word: "fitting room", ipa: "/ˈfɪt.ɪŋ ruːm/", meaning: "phòng thử đồ" },
-      { word: "special discount", ipa: "/ˈspeʃ.əl ˈdɪs.kaʊnt/", meaning: "ưu đãi giảm giá" },
-      { word: "contactless payment", ipa: "/kənˈtæk.ləs ˈpeɪ.mənt/", meaning: "thanh toán không tiếp xúc" }
-    ]
-  },
-  {
-    id: "rp5",
-    name: "Hỏi đường & Đặt xe",
-    nameEn: "Travel & Directions",
-    icon: Navigation,
-    goals: [
-      { id: "rp5_where", name: "Hỏi đường đến địa điểm", nameEn: "Ask directions to location" },
-      { id: "rp5_fare", name: "Hỏi cước phí di chuyển", nameEn: "Ask for transport fare" },
-      { id: "rp5_arrival", name: "Nhờ tài xế báo khi tới nơi", nameEn: "Ask driver to notify on arrival" }
-    ],
-    keyVocab: [
-      { word: "nearest landmark", ipa: "/ˈnɪə.rɪst ˈlænd.mɑːk/", meaning: "địa danh gần nhất" },
-      { word: "estimated fare", ipa: "/ˈes.tɪ.meɪ.tɪd feər/", meaning: "cước phí ước tính" },
-      { word: "turn left", ipa: "/tɜːn left/", meaning: "rẽ trái" }
-    ]
-  }
-];
-
-const DRILL_SENTENCES = [
-  "She sells seashells by the seashore.",
-  "Peter Piper picked a peck of pickled peppers.",
-  "How can a clam cram in a clean cream can?",
-  "I scream, you scream, we all scream for ice cream.",
-  "The thirty-three thieves thought that they thrilled the throne."
+const PERSONAS: Persona[] = [
+  { id: "emma", name: "Emma", role: "British IELTS Coach", accent: "en-GB", flag: "🇬🇧", speakerIndex: 0 },
+  { id: "alex", name: "Alex", role: "American Business Coach", accent: "en-US", flag: "🇺🇸", speakerIndex: 1 },
+  { id: "chloe", name: "Chloe", role: "Australian Friendly Tutor", accent: "en-AU", flag: "🇦🇺", speakerIndex: 2 }
 ];
 
 export default function VoiceTutorPage() {
   const { user, awardXp } = useAuthStore();
   const { addToast } = useNotificationStore();
-  const { markGoalCompleted } = useListeningStore();
-  
-  // Practice modes: freetalk, roleplay, drill
-  const [practiceMode, setPracticeMode] = useState<"freetalk" | "roleplay" | "drill">("freetalk");
-  
-  // Right Sidebar Active Tab: "goals" | "speech" | "coach"
-  const [sidebarTab, setSidebarTab] = useState<"goals" | "speech" | "coach">("goals");
+  const { setSidebarCollapsed } = useUiStore();
 
-  // ===== SMART WELCOME MESSAGE ENGINE =====
-  const getWelcomeMessage = (): ChatMessage => {
-    const welcomePool: { text: string; vi: string }[] = [
-      { text: "Hello! I'm your AI Voice Tutor. Tell me about your day so far — what have you been up to?", vi: "Xin chào! Tôi là AI Gia sư Giọng nói. Hãy kể cho tôi về ngày hôm nay của bạn — bạn đã làm gì?" },
-      { text: "Hi there! Let's warm up. Can you describe what you see around you right now in English?", vi: "Chào bạn! Hãy khởi động nhé. Bạn có thể mô tả những gì bạn đang nhìn thấy xung quanh bằng tiếng Anh không?" },
-      { text: "Welcome back! I'd love to hear about something interesting you learned recently.", vi: "Chào mừng trở lại! Tôi muốn nghe về điều thú vị mà bạn đã học gần đây." },
-      { text: "Good to see you! If you could travel anywhere tomorrow, where would you go and why?", vi: "Rất vui gặp bạn! Nếu bạn có thể đi du lịch bất kỳ đâu vào ngày mai, bạn sẽ đi đâu và tại sao?" },
-      { text: "Hey! Let's practice together. What's the most useful English phrase you've learned this week?", vi: "Này! Hãy cùng luyện tập. Cụm từ tiếng Anh hữu ích nhất mà bạn đã học trong tuần này là gì?" },
-    ];
-    // Deterministic index 0 for SSR Hydration safety
-    const pick = welcomePool[0];
-    return { id: "welcome", role: "ai", text: pick.text, vietnameseTranslation: pick.vi };
-  };
+  // Automatically manage sidebar collapse when in AI tutor practice session
+  useEffect(() => {
+    setSidebarCollapsed(true);
+    return () => {
+      setSidebarCollapsed(false);
+    };
+  }, [setSidebarCollapsed]);
 
-  const [messages, setMessages] = useState<ChatMessage[]>([getWelcomeMessage()]);
-  const [textInput, setTextInput] = useState("");
+  // Persona & Voice Settings
+  const [currentPersona, setCurrentPersona] = useState<"emma" | "alex" | "chloe">("emma");
+  const [speechSpeed, setSpeechSpeed] = useState<number>(1.0);
+  const [soundEnabled, setSoundEnabled] = useState(true);
+
+  // Initial Welcome Message
+  const initialWelcome = useMemo<ChatMessage>(() => ({
+    id: "welcome",
+    role: "ai",
+    text: "Hello! I'm Emma, your AI Voice Tutor. Feel free to talk about anything on your mind today — from your hobbies to your work or daily life!",
+    vietnameseTranslation: "Xin chào! Tôi là Emma, Gia sư Giọng nói AI của bạn. Hãy thoải mái trò chuyện về bất kỳ điều gì bạn muốn hôm nay — từ sở thích, công việc cho đến cuộc sống hàng ngày!",
+    suggestedWords: [
+      { word: "hobby", meaning: "sở thích" },
+      { word: "routine", meaning: "thói quen" },
+      { word: "experience", meaning: "trải nghiệm" }
+    ],
+    suggestedPhrases: [
+      "I'd love to tell you about...",
+      "To be honest, my favorite thing is..."
+    ]
+  }), []);
+
+  const [messages, setMessages] = useState<ChatMessage[]>([initialWelcome]);
+  
+  // Voice & Persistent Speech Recognition States
   const [isRecording, setIsRecording] = useState(false);
+  const [spokenText, setSpokenText] = useState("");
+  const isRecordingRef = useRef(false);
+  const accumulatedTextRef = useRef("");
+  const speechRecognitionRef = useRef<any>(null);
+
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [soundEnabled, setSoundEnabled] = useState(true);
   const [recordingTime, setRecordingTime] = useState(0);
   const [showTranslations, setShowTranslations] = useState<{ [key: string]: boolean }>({});
 
-  // Client-side mount welcome message randomizer (Hydration Safe)
-  useEffect(() => {
-    const welcomePool: { text: string; vi: string }[] = [
-      { text: "Hello! I'm your AI Voice Tutor. Tell me about your day so far — what have you been up to?", vi: "Xin chào! Tôi là AI Gia sư Giọng nói. Hãy kể cho tôi về ngày hôm nay của bạn — bạn đã làm gì?" },
-      { text: "Hi there! Let's warm up. Can you describe what you see around you right now in English?", vi: "Chào bạn! Hãy khởi động nhé. Bạn có thể mô tả những gì bạn đang nhìn thấy xung quanh bằng tiếng Anh không?" },
-      { text: "Welcome back! I'd love to hear about something interesting you learned recently.", vi: "Chào mừng trở lại! Tôi muốn nghe về điều thú vị mà bạn đã học gần đây." },
-      { text: "Good to see you! If you could travel anywhere tomorrow, where would you go and why?", vi: "Rất vui gặp bạn! Nếu bạn có thể đi du lịch bất kỳ đâu vào ngày mai, bạn sẽ đi đâu và tại sao?" },
-      { text: "Hey! Let's practice together. What's the most useful English phrase you've learned this week?", vi: "Này! Hãy cùng luyện tập. Cụm từ tiếng Anh hữu ích nhất mà bạn đã học trong tuần này là gì?" },
-    ];
-    const pick = welcomePool[Math.floor(Math.random() * welcomePool.length)];
-    setMessages([{ id: "welcome", role: "ai", text: pick.text, vietnameseTranslation: pick.vi }]);
-  }, []);
-  
+  // Active turn suggestions (Dynamic clean text suggestions)
+  const [currentSuggestions, setCurrentSuggestions] = useState<{
+    words: SuggestedWord[];
+    phrases: string[];
+  }>({
+    words: initialWelcome.suggestedWords || [],
+    phrases: initialWelcome.suggestedPhrases || []
+  });
+
   // Selected word modal state for 1-Click Interactive Dictionary
   const [selectedWordData, setSelectedWordData] = useState<{
     word: string;
@@ -305,11 +191,29 @@ export default function VoiceTutorPage() {
     example?: string;
   } | null>(null);
 
-  // Roleplay states
-  const activeTimeRef = useRef(0);
+  // In-Place Completion & Scorecard State (No popup floating modal)
+  const [isSessionCompleted, setIsSessionCompleted] = useState(false);
+  const [showChatHistoryInSummary, setShowChatHistoryInSummary] = useState(false);
 
+  // Practice timer state (seconds elapsed)
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const activeTimeRef = useRef(0);
+  const chatBottomRef = useRef<HTMLDivElement>(null);
+  const recordingTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Audio Spectrum Visualizer
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const analyserRef = useRef<AnalyserNode | null>(null);
+  const micStreamRef = useRef<MediaStream | null>(null);
+  const [audioFrequencies, setAudioFrequencies] = useState<number[]>(new Array(16).fill(10));
+  const animationFrameRef = useRef<number | null>(null);
+
+  // Auto-track study time
   useEffect(() => {
+    if (isSessionCompleted) return;
+
     const timer = setInterval(() => {
+      setElapsedTime((prev) => prev + 1);
       activeTimeRef.current += 1;
     }, 1000);
 
@@ -321,40 +225,16 @@ export default function VoiceTutorPage() {
         activeTimeRef.current = 0;
       }
     };
-  }, []);
-  
-  const [currentRoleplayTopic, setCurrentRoleplayTopic] = useState<string>("rp1");
-  const [completedGoalIds, setCompletedGoalIds] = useState<string[]>([]);
-  
-  // Drill states
-  const [drillIndex, setDrillIndex] = useState(0);
+  }, [isSessionCompleted]);
 
-  // AI Speech Evaluation State (6 Criteria)
-  const [lastSpeechScore, setLastSpeechScore] = useState<{
-    overallScore: number;
-    fluencyScore: number;
-    pronunciationScore: number;
-    intonationScore: number;
-    completenessScore: number;
-    speedWpm: number;
-    stressScore: number;
-  } | null>(null);
-
-  // Practice timer state (seconds elapsed)
-  const [elapsedTime, setElapsedTime] = useState(0);
-  const chatBottomRef = useRef<HTMLDivElement>(null);
-  const recordingTimerRef = useRef<NodeJS.Timeout | null>(null);
-
+  // Auto-scroll chat
   useEffect(() => {
-    const timer = setInterval(() => {
-      setElapsedTime((prev) => prev + 1);
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
+    if (!isSessionCompleted || showChatHistoryInSummary) {
+      chatBottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages, spokenText, loading, isSessionCompleted, showChatHistoryInSummary]);
 
-  useEffect(() => {
-    chatBottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  const activePersonaObj = PERSONAS.find((p) => p.id === currentPersona) || PERSONAS[0];
 
   const formatElapsedTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -366,34 +246,31 @@ export default function VoiceTutorPage() {
     setShowTranslations((prev) => ({ ...prev, [msgId]: !prev[msgId] }));
   };
 
-  const speakText = (text: string) => {
-
-    if (!soundEnabled) return;
+  const speakText = (text: string, customSpeed?: number) => {
+    if (!soundEnabled || !text) return;
     setIsSpeaking(true);
     speakLessonText(text, {
-      lessonId: "ai_tutor_session",
-      speakerIndex: 1, // Tutor voice
-      rate: 1.0,
+      lessonId: `ai_tutor_${currentPersona}`,
+      speakerIndex: activePersonaObj.speakerIndex,
+      accent: activePersonaObj.accent,
+      rate: customSpeed || speechSpeed,
       onEnd: () => setIsSpeaking(false),
       onError: () => setIsSpeaking(false),
     });
   };
 
-
   const handleWordClick = (rawWord: string) => {
     const cleanWord = rawWord.replace(/[^a-zA-Z]/g, "").toLowerCase();
     if (!cleanWord || cleanWord.length < 2) return;
 
-    // Speak the clicked word
     speakText(cleanWord);
 
-    // Dictionary lookup with IPA table fallback
     const dictEntry = IPA_DICTIONARY[cleanWord];
     setSelectedWordData({
       word: cleanWord,
       ipa: dictEntry?.ipa || `/${cleanWord}/`,
       meaning: dictEntry?.meaning || `Nghĩa Tiếng Việt của từ "${cleanWord}"`,
-      example: `Example sentence with "${cleanWord}" used naturally in conversation.`
+      example: `Used naturally in speech: "${cleanWord}"`
     });
   };
 
@@ -408,185 +285,240 @@ export default function VoiceTutorPage() {
     setSelectedWordData(null);
   };
 
-  const handleNewUserSpeech = async (speechText: string, confidence: number) => {
-    if (!speechText.trim()) return;
+  // Audio Visualizer Loop
+  const startAudioVisualizer = async () => {
+    try {
+      if (!audioContextRef.current) {
+        const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+        if (AudioContextClass) {
+          audioContextRef.current = new AudioContextClass();
+        }
+      }
 
-    const score = confidence || Math.floor(Math.random() * 10) + 90;
-    
-    // Simulate AI Grammar Check
+      if (audioContextRef.current?.state === "suspended") {
+        await audioContextRef.current.resume();
+      }
+
+      if (!micStreamRef.current && navigator.mediaDevices?.getUserMedia) {
+        micStreamRef.current = await navigator.mediaDevices.getUserMedia({ audio: true });
+      }
+
+      if (audioContextRef.current && micStreamRef.current) {
+        const source = audioContextRef.current.createMediaStreamSource(micStreamRef.current);
+        const analyser = audioContextRef.current.createAnalyser();
+        analyser.fftSize = 64;
+        source.connect(analyser);
+        analyserRef.current = analyser;
+
+        const updateFrequencies = () => {
+          if (analyserRef.current) {
+            const dataArray = new Uint8Array(analyserRef.current.frequencyBinCount);
+            analyserRef.current.getByteFrequencyData(dataArray);
+            const freqs = Array.from(dataArray.slice(0, 16)).map((v) => Math.max(10, Math.min(100, Math.round((v / 255) * 100))));
+            setAudioFrequencies(freqs);
+          }
+          animationFrameRef.current = requestAnimationFrame(updateFrequencies);
+        };
+        updateFrequencies();
+      }
+    } catch (err) {
+      console.warn("Audio visualizer notice:", err);
+      const synthetic = () => {
+        setAudioFrequencies(Array.from({ length: 16 }).map(() => Math.floor(Math.random() * 70) + 20));
+        animationFrameRef.current = requestAnimationFrame(synthetic);
+      };
+      synthetic();
+    }
+  };
+
+  const stopAudioVisualizer = () => {
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current);
+      animationFrameRef.current = null;
+    }
+    if (micStreamRef.current) {
+      micStreamRef.current.getTracks().forEach((t) => t.stop());
+      micStreamRef.current = null;
+    }
+    setAudioFrequencies(new Array(16).fill(10));
+  };
+
+  // Continuous Persistent Web Speech Recognition (Voice-First Stream)
+  const startRecording = () => {
+    const SpeechRecognitionClass =
+      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+
+    if (!SpeechRecognitionClass) {
+      addToast({
+        type: "warning",
+        title: "Trình duyệt chưa hỗ trợ 🎙️",
+        message: "Vui lòng sử dụng Google Chrome, Edge hoặc Safari để trải nghiệm nhận diện giọng nói tốt nhất!"
+      });
+      return;
+    }
+
+    isRecordingRef.current = true;
+    setIsRecording(true);
+    setRecordingTime(0);
+
+    if (recordingTimerRef.current) {
+      clearInterval(recordingTimerRef.current);
+    }
+    recordingTimerRef.current = setInterval(() => {
+      setRecordingTime((prev) => prev + 1);
+    }, 1000);
+
+    startAudioVisualizer();
+
+    try {
+      const recognition = new SpeechRecognitionClass();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = 'en-US';
+
+      recognition.onresult = (event: any) => {
+        let interim = "";
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const transcript = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            const cleaned = transcript.trim();
+            if (cleaned) {
+              accumulatedTextRef.current = (accumulatedTextRef.current ? accumulatedTextRef.current + " " : "") + cleaned;
+            }
+          } else {
+            interim += transcript;
+          }
+        }
+
+        const combined = (accumulatedTextRef.current ? accumulatedTextRef.current + " " : "") + interim;
+        setSpokenText(combined.trim());
+      };
+
+      // Seamless Auto-restart on silent pauses as long as user hasn't clicked Stop or Send
+      recognition.onend = () => {
+        if (isRecordingRef.current) {
+          try {
+            recognition.start();
+          } catch (err) {
+            console.warn("Recognition restart buffer:", err);
+          }
+        }
+      };
+
+      recognition.onerror = (e: any) => {
+        if (e.error === 'not-allowed') {
+          addToast({
+            type: "error",
+            title: "Chưa cấp quyền Microphone 🎙️",
+            message: "Vui lòng cấp quyền Micro trong cài đặt trình duyệt để tiếp tục luyện nói."
+          });
+          stopRecordingOnly();
+          return;
+        }
+        console.warn("Speech recognition event:", e);
+        if (isRecordingRef.current) {
+          try {
+            recognition.start();
+          } catch (err) {}
+        }
+      };
+
+      speechRecognitionRef.current = recognition;
+      recognition.start();
+    } catch (err) {
+      console.warn("Speech recognition initialization error:", err);
+      stopRecordingOnly();
+    }
+  };
+
+  const stopRecordingOnly = () => {
+    isRecordingRef.current = false;
+    setIsRecording(false);
+    if (recordingTimerRef.current) {
+      clearInterval(recordingTimerRef.current);
+      recordingTimerRef.current = null;
+    }
+
+    if (speechRecognitionRef.current) {
+      try {
+        speechRecognitionRef.current.stop();
+      } catch (e) {}
+      speechRecognitionRef.current = null;
+    }
+
+    stopAudioVisualizer();
+  };
+
+  const handleResetSpeech = () => {
+    accumulatedTextRef.current = "";
+    setSpokenText("");
+    if (isRecording) {
+      stopRecordingOnly();
+    }
+    addToast({
+      type: "info",
+      title: "Đã làm mới ô nói 🔄",
+      message: "Nhấn nút Micro để nói lại từ đầu."
+    });
+  };
+
+  // Submit User Speech (Only when user explicitly clicks "Gửi")
+  const handleSendSpokenSpeech = async () => {
+    const textToSend = spokenText.trim();
+    if (!textToSend || loading) return;
+
+    // Stop recording first
+    stopRecordingOnly();
+
+    accumulatedTextRef.current = "";
+    setSpokenText("");
+
+    const score = Math.floor(Math.random() * 8) + 92;
+
     let grammarFix: ChatMessage["grammarCorrection"] = undefined;
     let naturalWay: string | undefined = undefined;
 
-    const lowerText = speechText.toLowerCase();
-    if (lowerText.includes("i love")) {
-      naturalWay = "I'm really passionate about this topic!";
+    const lowerText = textToSend.toLowerCase();
+    if (lowerText.includes("i love") && !lowerText.includes("passionate")) {
+      naturalWay = "I'm genuinely passionate about this!";
     } else if (lowerText.includes("want go")) {
       grammarFix = {
-        original: speechText,
-        corrected: speechText.replace(/want go/i, "want to go"),
-        explanation: "Động từ 'want' yêu cầu theo sau bởi 'to + V-infinitive'."
+        hasError: true,
+        original: textToSend,
+        corrected: textToSend.replace(/want go/i, "want to go"),
+        explanation: "Dùng 'want to + V' thay vì 'want + V'."
       };
-      // Context-aware better phrasing based on what user said
-      if (lowerText.includes("airport")) {
-        naturalWay = "Could you take me to the airport, please?";
-      } else if (lowerText.includes("hotel")) {
-        naturalWay = "I'd like to get to the hotel, please.";
-      } else if (lowerText.includes("restaurant")) {
-        naturalWay = "I'd love to go to the restaurant.";
-      } else {
-        naturalWay = speechText.replace(/want go/i, "would like to go");
-      }
+      naturalWay = textToSend.replace(/want go/i, "would love to go");
     } else if (lowerText.includes("i am go") || lowerText.includes("i am go to")) {
       grammarFix = {
-        original: speechText,
-        corrected: speechText.replace(/i am go/i, "I am going"),
-        explanation: "Cần dùng 'am going' (present continuous) thay vì 'am go'."
+        hasError: true,
+        original: textToSend,
+        corrected: textToSend.replace(/i am go/i, "I am going"),
+        explanation: "Dùng 'am going' (thì tiếp diễn) thay vì 'am go'."
       };
-      naturalWay = speechText.replace(/i am go/i, "I'm heading");
+      naturalWay = textToSend.replace(/i am go/i, "I'm heading");
     }
 
     const userMsg: ChatMessage = {
       id: `user_${Date.now()}`,
       role: "user",
-      text: speechText,
+      text: textToSend,
       pronunciationScore: score,
       grammarCorrection: grammarFix,
       betterPhrasing: naturalWay
     };
 
     setMessages((prev) => [...prev, userMsg]);
-    setTextInput("");
     setLoading(true);
-
-    // Update 6 Criteria Speech Evaluation Board
-    setLastSpeechScore({
-      overallScore: score,
-      fluencyScore: Math.min(100, score + 2),
-      pronunciationScore: Math.min(100, score + 1),
-      intonationScore: Math.min(100, score - 1),
-      completenessScore: 97,
-      speedWpm: 145,
-      stressScore: 94,
-    });
 
     useUserStore.getState().addPracticeTime(2, "speaking");
     useUserStore.getState().awardXp(15, "speaking");
     recordSkillPractice(user?.id, "Nói", 2, 15);
 
-    // ===== SMART CONTEXT-AWARE FALLBACK ENGINE =====
-    const generateSmartFallback = (userText: string): { text: string; vi: string } => {
-      const lower = userText.toLowerCase();
-      const wordCount = userText.split(/\s+/).length;
-      const prevAiMessages = messages.filter(m => m.role === "ai");
-      const turnNumber = prevAiMessages.length;
-
-      // --- Detect Topic Keywords ---
-      const topicResponses: { keywords: string[]; responses: { text: string; vi: string }[] }[] = [
-        {
-          keywords: ["airport", "flight", "plane", "boarding", "luggage", "passport", "travel"],
-          responses: [
-            { text: "Which airline are you flying with? Do you have a seat preference — window or aisle?", vi: "Bạn đi hãng hàng không nào? Bạn thích ngồi ghế cửa sổ hay ghế ngoài?" },
-            { text: "Have you checked in online yet, or would you prefer to do it at the counter?", vi: "Bạn đã check-in online chưa, hay bạn muốn làm ở quầy?" },
-            { text: "International flights usually require you to arrive 3 hours early. Are you prepared?", vi: "Chuyến bay quốc tế thường yêu cầu đến trước 3 tiếng. Bạn đã chuẩn bị chưa?" },
-          ]
-        },
-        {
-          keywords: ["restaurant", "food", "eat", "menu", "order", "dinner", "lunch", "breakfast", "coffee", "drink"],
-          responses: [
-            { text: "What kind of food do you enjoy most — local cuisine or international dishes?", vi: "Bạn thích loại đồ ăn nào nhất — ẩm thực địa phương hay món quốc tế?" },
-            { text: "Would you like to start with an appetizer, or go straight to the main course?", vi: "Bạn muốn bắt đầu với món khai vị, hay đi thẳng vào món chính?" },
-            { text: "Do you have any dietary restrictions the waiter should know about?", vi: "Bạn có chế độ ăn kiêng nào mà người phục vụ nên biết không?" },
-          ]
-        },
-        {
-          keywords: ["job", "interview", "work", "company", "career", "resume", "hire", "experience", "salary"],
-          responses: [
-            { text: "Tell me about your biggest professional achievement. How would you present it in an interview?", vi: "Hãy kể về thành tựu nghề nghiệp lớn nhất của bạn. Bạn sẽ trình bày nó thế nào trong phỏng vấn?" },
-            { text: "What makes you the best candidate for this position? Practice saying it confidently.", vi: "Điều gì khiến bạn là ứng viên tốt nhất cho vị trí này? Hãy tập nói một cách tự tin." },
-            { text: "Great answer! Now, what questions would you ask the interviewer at the end?", vi: "Câu trả lời tuyệt vời! Bây giờ, bạn sẽ hỏi nhà tuyển dụng câu gì ở cuối?" },
-          ]
-        },
-        {
-          keywords: ["shop", "buy", "price", "discount", "store", "mall", "money", "pay", "expensive", "cheap"],
-          responses: [
-            { text: "Are you looking for something specific, or just browsing? Try asking the shopkeeper.", vi: "Bạn đang tìm thứ gì cụ thể, hay chỉ xem thôi? Hãy thử hỏi người bán hàng." },
-            { text: "That's a good choice! How would you negotiate a better price politely in English?", vi: "Lựa chọn tốt! Bạn sẽ đàm phán giá tốt hơn một cách lịch sự bằng tiếng Anh thế nào?" },
-            { text: "Would you like to pay by card or cash? Practice asking about payment options.", vi: "Bạn muốn thanh toán bằng thẻ hay tiền mặt? Hãy tập hỏi về các hình thức thanh toán." },
-          ]
-        },
-        {
-          keywords: ["direction", "map", "lost", "where", "find", "turn", "left", "right", "straight", "taxi", "bus", "train"],
-          responses: [
-            { text: "Can you describe where you need to go? I'll help you practice asking for directions.", vi: "Bạn có thể mô tả nơi bạn cần đến không? Tôi sẽ giúp bạn tập hỏi đường." },
-            { text: "Imagine you're lost downtown. How would you ask a stranger for help?", vi: "Hãy tưởng tượng bạn đang lạc ở trung tâm thành phố. Bạn sẽ hỏi người lạ thế nào?" },
-            { text: "Good attempt! You could also say: 'Excuse me, could you point me to the nearest subway station?'", vi: "Tốt lắm! Bạn cũng có thể nói: 'Xin lỗi, bạn có thể chỉ tôi trạm tàu điện ngầm gần nhất không?'" },
-          ]
-        },
-        {
-          keywords: ["hobby", "like", "enjoy", "fun", "free time", "weekend", "music", "movie", "book", "game", "sport"],
-          responses: [
-            { text: "That sounds fun! How often do you do that? Can you describe a typical session?", vi: "Nghe vui đấy! Bạn làm điều đó thường xuyên không? Hãy mô tả một buổi điển hình." },
-            { text: "Have you tried sharing this hobby with friends? How would you invite someone to join you?", vi: "Bạn đã thử chia sẻ sở thích này với bạn bè chưa? Bạn sẽ mời ai đó tham gia thế nào?" },
-            { text: "Nice! If you had to explain why you love this to a stranger, what would you say?", vi: "Tuyệt! Nếu bạn phải giải thích tại sao bạn thích điều này cho người lạ, bạn sẽ nói gì?" },
-          ]
-        },
-        {
-          keywords: ["learn", "english", "study", "practice", "improve", "difficult", "easy", "grammar", "vocabulary"],
-          responses: [
-            { text: "What's the hardest part of learning English for you — speaking, listening, or grammar?", vi: "Phần khó nhất khi học tiếng Anh với bạn là gì — nói, nghe, hay ngữ pháp?" },
-            { text: "How many hours a week do you practice English? Consistency is the key to fluency!", vi: "Bạn luyện tiếng Anh bao nhiêu giờ mỗi tuần? Kiên trì là chìa khóa để nói lưu loát!" },
-            { text: "That's a great mindset! Can you set a specific goal for this month? For example: 'I want to hold a 5-minute conversation.'", vi: "Đó là tư duy tuyệt vời! Bạn có thể đặt mục tiêu cụ thể cho tháng này không? Ví dụ: 'Tôi muốn duy trì cuộc hội thoại 5 phút.'" },
-          ]
-        },
-      ];
-
-      // Check each topic group for keyword match
-      for (const group of topicResponses) {
-        if (group.keywords.some(kw => lower.includes(kw))) {
-          const pick = group.responses[turnNumber % group.responses.length];
-          return pick;
-        }
-      }
-
-      // --- Sentence Length Analysis (encouragement/challenge) ---
-      if (wordCount <= 3) {
-        const shortResponses = [
-          { text: "Good start! Can you try expanding that into a full sentence? For example, add 'because' and give a reason.", vi: "Khởi đầu tốt! Bạn có thể thử mở rộng thành câu hoàn chỉnh không? Ví dụ, thêm 'because' và đưa ra lý do." },
-          { text: "I see! Try saying a bit more — aim for at least 8 words. The more you speak, the more natural it becomes.", vi: "Tôi hiểu! Hãy thử nói thêm — hãy nhắm ít nhất 8 từ. Bạn nói càng nhiều, càng tự nhiên hơn." },
-          { text: "Short and clear! Now challenge yourself: can you rephrase that using a different structure?", vi: "Ngắn gọn và rõ ràng! Bây giờ hãy thử thách bản thân: bạn có thể diễn đạt lại bằng cấu trúc khác không?" },
-        ];
-        return shortResponses[turnNumber % shortResponses.length];
-      }
-
-      if (wordCount >= 15) {
-        const longResponses = [
-          { text: "Impressive! You're building great fluency. Now try using a connector like 'however' or 'moreover' to link your ideas.", vi: "Ấn tượng! Bạn đang phát triển sự lưu loát rất tốt. Hãy thử dùng liên từ như 'however' hay 'moreover' để liên kết ý tưởng." },
-          { text: "Excellent sentence structure! Can you summarize what you just said in only 5 words? It's a great skill to practice.", vi: "Cấu trúc câu xuất sắc! Bạn có thể tóm tắt những gì vừa nói trong chỉ 5 từ không? Đó là kỹ năng rất tốt để luyện." },
-        ];
-        return longResponses[turnNumber % longResponses.length];
-      }
-
-      // --- General Contextual Follow-ups (when no keywords match) ---
-      const generalResponses = [
-        { text: "Interesting point! Can you give me a specific example to support what you just said?", vi: "Ý hay đấy! Bạn có thể cho tôi ví dụ cụ thể để minh họa cho điều vừa nói không?" },
-        { text: "I like how you expressed that. Now, what would you say if someone disagreed with you?", vi: "Tôi thích cách bạn diễn đạt. Bây giờ, bạn sẽ nói gì nếu ai đó không đồng ý với bạn?" },
-        { text: "Great job! Let's switch gears — can you ask ME a question about any topic you're curious about?", vi: "Giỏi lắm! Hãy đổi vai — bạn có thể hỏi TÔI một câu hỏi về bất kỳ chủ đề nào bạn tò mò?" },
-        { text: "Well said! How would you explain the same thing to a 5-year-old child? Try using simpler words.", vi: "Nói hay lắm! Bạn sẽ giải thích điều tương tự cho trẻ 5 tuổi thế nào? Hãy thử dùng từ đơn giản hơn." },
-        { text: "You're making real progress! Let's try a 'what if' scenario — what if you had to give a speech about this topic?", vi: "Bạn đang tiến bộ thật sự! Hãy thử kịch bản 'what if' — nếu bạn phải phát biểu về chủ đề này thì sao?" },
-        { text: "Nice! Now try rephrasing what you said, but this time use the past tense. It's great tense practice.", vi: "Tuyệt! Bây giờ hãy diễn đạt lại, nhưng lần này dùng thì quá khứ. Đây là bài tập thì rất tốt." },
-        { text: "I understand you perfectly. If you were writing this in an email to your boss, how would you make it more formal?", vi: "Tôi hiểu bạn hoàn toàn. Nếu bạn viết điều này trong email cho sếp, bạn sẽ làm nó trang trọng hơn thế nào?" },
-        { text: "Good effort! Here's a challenge: can you say the same thing using a question instead of a statement?", vi: "Cố gắng tốt! Đây là thử thách: bạn có thể nói điều tương tự dưới dạng câu hỏi thay vì câu khẳng định không?" },
-      ];
-      // Pick based on turn + hash of user text to ensure variety
-      const hash = userText.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
-      return generalResponses[(turnNumber + hash) % generalResponses.length];
-    };
-
     try {
-      // Build correct messages array for the API (must be array of {role, text})
       const apiMessages = [
         ...messages.map((m) => ({ role: m.role, text: m.text })),
-        { role: "user" as const, text: speechText },
+        { role: "user" as const, text: textToSend },
       ];
 
       const res = await fetch("/api/ai/tutor", {
@@ -594,8 +526,8 @@ export default function VoiceTutorPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           messages: apiMessages,
-          mode: practiceMode,
-          topicId: currentRoleplayTopic,
+          persona: currentPersona,
+          speed: speechSpeed,
         }),
       });
 
@@ -605,647 +537,952 @@ export default function VoiceTutorPage() {
           id: `ai_${Date.now()}`,
           role: "ai",
           text: data.reply,
-          vietnameseTranslation: data.vietnameseTranslation || data.translation || "",
+          vietnameseTranslation: data.vietnameseTranslation || "",
+          grammarCorrection: data.grammarCorrection || userMsg.grammarCorrection,
+          betterPhrasing: data.betterPhrasing || userMsg.betterPhrasing,
+          suggestedWords: (data.suggestedWords || []).slice(0, 3).map((w: any) => ({ word: w.word, meaning: w.meaning })),
+          suggestedPhrases: (data.suggestedPhrases || []).slice(0, 2)
         };
+
         setMessages((prev) => [...prev, aiMsg]);
         speakText(data.reply);
 
-        if (practiceMode === "roleplay" && data.completedGoals) {
-          data.completedGoals.forEach((gId: string) => {
-            if (!completedGoalIds.includes(gId)) {
-              setCompletedGoalIds((prev) => [...prev, gId]);
-              markGoalCompleted(gId);
-            }
+        if (aiMsg.suggestedWords && aiMsg.suggestedWords.length > 0) {
+          setCurrentSuggestions({
+            words: aiMsg.suggestedWords,
+            phrases: aiMsg.suggestedPhrases || []
           });
         }
 
         awardXp(15);
-        addToast({
-          type: "success",
-          title: "AI Voice Tutor Đã Trả Lời!",
-          message: "+15 XP cho lượt giao tiếp!",
-        });
-      } else {
-        // Smart fallback if API returns no reply
-        const fallback = generateSmartFallback(speechText);
-        const aiMsg: ChatMessage = {
-          id: `ai_${Date.now()}`,
-          role: "ai",
-          text: fallback.text,
-          vietnameseTranslation: fallback.vi,
-        };
-        setMessages((prev) => [...prev, aiMsg]);
-        speakText(fallback.text);
       }
     } catch (e) {
       console.error(e);
-      // Smart fallback on network error
-      const fallback = generateSmartFallback(speechText);
+      const fallbackReply = `That sounds really interesting! Tell me more about what you think.`;
+      const fallbackVi = `Nghe thật thú vị! Hãy kể thêm cho tôi nghe về suy nghĩ của bạn nhé.`;
+
       const aiMsg: ChatMessage = {
         id: `ai_${Date.now()}`,
         role: "ai",
-        text: fallback.text,
-        vietnameseTranslation: fallback.vi,
+        text: fallbackReply,
+        vietnameseTranslation: fallbackVi,
+        suggestedWords: [
+          { word: "perspective", meaning: "góc nhìn" },
+          { word: "experience", meaning: "trải nghiệm" },
+          { word: "specifically", meaning: "cụ thể là" }
+        ],
+        suggestedPhrases: [
+          "From my point of view...",
+          "The main reason is that..."
+        ]
       };
       setMessages((prev) => [...prev, aiMsg]);
-      speakText(fallback.text);
+      speakText(fallbackReply);
+      setCurrentSuggestions({
+        words: aiMsg.suggestedWords || [],
+        phrases: aiMsg.suggestedPhrases || []
+      });
     } finally {
       setLoading(false);
     }
   };
 
-  const startRecording = () => {
-    setIsRecording(true);
-    setRecordingTime(0);
-    recordingTimerRef.current = setInterval(() => {
-      setRecordingTime((prev) => prev + 1);
-    }, 1000);
+  // Session Statistics & Dynamic Voice Evaluation Computation
+  const userMessages = useMemo(() => messages.filter((m) => m.role === "user"), [messages]);
+  const userTurnsCount = userMessages.length;
+  const grammarCorrections = useMemo(() => {
+    return messages
+      .filter((m) => m.grammarCorrection?.hasError || m.betterPhrasing)
+      .map((m) => ({
+        original: m.grammarCorrection?.original || m.text,
+        corrected: m.grammarCorrection?.corrected,
+        explanation: m.grammarCorrection?.explanation,
+        betterPhrasing: m.betterPhrasing
+      }));
+  }, [messages]);
+
+  const allSuggestedWords = useMemo(() => {
+    const map = new Map<string, string>();
+    messages.forEach((m) => {
+      m.suggestedWords?.forEach((w) => {
+        if (w.word && !map.has(w.word)) {
+          map.set(w.word, w.meaning || "");
+        }
+      });
+    });
+    return Array.from(map.entries()).map(([word, meaning]) => ({ word, meaning }));
+  }, [messages]);
+
+  const sessionEvaluation = useMemo(() => {
+    if (userTurnsCount === 0) {
+      return {
+        overallScore: 0,
+        pronunciationScore: 0,
+        fluencyScore: 0,
+        intonationScore: 0,
+        grammarScore: 0,
+        grade: "C",
+        label: "Chưa Đánh Giá",
+        color: "text-slate-600 bg-slate-500/10 border-slate-500/20",
+        xpAward: 0,
+        coachFeedback: "Hãy bắt đầu trò chuyện để nhận đánh giá chi tiết nhé!",
+      };
+    }
+
+    const scores = userMessages.map((m) => m.pronunciationScore || 92);
+    const avgPronunciation = scores.length > 0 ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : 92;
+
+    const errorsCount = grammarCorrections.filter((g) => g.corrected).length;
+    const grammarScore = Math.max(50, Math.min(100, 100 - (errorsCount * 15)));
+    const fluencyScore = Math.min(100, Math.max(70, 75 + userTurnsCount * 6));
+    const intonationScore = Math.min(100, Math.max(75, avgPronunciation - 3));
+
+    const overallScore = Math.round(
+      0.35 * avgPronunciation +
+      0.25 * fluencyScore +
+      0.20 * intonationScore +
+      0.20 * grammarScore
+    );
+
+    let grade = "C";
+    let label = "Cần Cố Gắng";
+    let color = "text-amber-600 dark:text-amber-400 bg-amber-500/10 border-amber-500/20";
+    let xpAward = 15;
+
+    if (overallScore >= 90) {
+      grade = "S";
+      label = "Xuất Sắc";
+      color = "text-purple-600 dark:text-purple-400 bg-purple-500/10 border-purple-500/20";
+      xpAward = 45;
+    } else if (overallScore >= 80) {
+      grade = "A";
+      label = "Thành Thạo";
+      color = "text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border-emerald-500/20";
+      xpAward = 35;
+    } else if (overallScore >= 70) {
+      grade = "B";
+      label = "Khá Tốt";
+      color = "text-[#0059bb] dark:text-sky-400 bg-[#0059bb]/10 border-[#0059bb]/20";
+      xpAward = 25;
+    }
+
+    // Persona-tailored feedback
+    let coachFeedback = "";
+    if (activePersonaObj.id === "emma") {
+      coachFeedback = overallScore >= 85
+        ? "Excellent speaking flow and natural British rhythm! Your articulation was clear and vocabulary choice was sophisticated."
+        : "Good effort! Try focusing on sentence connection and linking words smoothly to elevate your fluency.";
+    } else if (activePersonaObj.id === "alex") {
+      coachFeedback = overallScore >= 85
+        ? "Awesome energy! Your spoken responses were sharp, direct, and sound very natural in a professional conversational setting."
+        : "Keep it up! Try to expand on your thoughts by giving one more example or reason in each turn.";
+    } else {
+      coachFeedback = overallScore >= 85
+        ? "Brilliant chat today! You spoke so freely and with wonderful confidence. Love your natural expressions!"
+        : "You did great today! Remember that making mistakes is part of the journey. Keep practicing with me anytime!";
+    }
+
+    return {
+      overallScore,
+      pronunciationScore: avgPronunciation,
+      fluencyScore,
+      intonationScore,
+      grammarScore,
+      grade,
+      label,
+      color,
+      xpAward,
+      coachFeedback,
+    };
+  }, [userTurnsCount, userMessages, grammarCorrections, activePersonaObj.id]);
+
+  // In-Place Finish & Scorecard Handler (Replaces the chat stream in-place, No floating modal)
+  const handleFinishConversation = () => {
+    if (userTurnsCount === 0) {
+      addToast({
+        type: "warning",
+        title: "Chưa có dữ liệu trò chuyện 🎙️",
+        message: "Bạn hãy nói ít nhất 1 câu để Huấn luyện viên có dữ liệu đánh giá và chấm điểm nhé!",
+      });
+      return;
+    }
+
+    if (isRecording) {
+      stopRecordingOnly();
+    }
+    setIsSessionCompleted(true);
+    awardXp(sessionEvaluation.xpAward);
+    addToast({
+      type: "success",
+      title: `Hoàn Thành Buổi Luyện Nói (Hạng ${sessionEvaluation.grade})! 🎉`,
+      message: `+${sessionEvaluation.xpAward} XP cùng Huấn luyện viên ${activePersonaObj.name}!`,
+    });
   };
 
-  const stopRecording = () => {
-    setIsRecording(false);
-    if (recordingTimerRef.current) clearInterval(recordingTimerRef.current);
-
-    const demoPhrases = [
-      "I love learning English with AI because it helps me speak naturally.",
-      "Can I get a window seat on my flight to New York please?",
-      "I would like to order the grilled salmon with a fresh salad.",
-      "Could you please check my luggage quantity for check-in?"
-    ];
-    const speech = demoPhrases[Math.floor(Math.random() * demoPhrases.length)];
-    const confidence = Math.floor(Math.random() * 8) + 92;
-    handleNewUserSpeech(speech, confidence);
+  const handleRestartNewSession = () => {
+    setIsSessionCompleted(false);
+    setShowChatHistoryInSummary(false);
+    setMessages([initialWelcome]);
+    setElapsedTime(0);
+    activeTimeRef.current = 0;
+    setCurrentSuggestions({
+      words: initialWelcome.suggestedWords || [],
+      phrases: initialWelcome.suggestedPhrases || []
+    });
+    addToast({
+      type: "info",
+      title: "Bắt đầu buổi nói mới! 🎙️",
+      message: `Đang trò chuyện cùng ${activePersonaObj.name}`,
+    });
   };
 
-  const currentTopicData = ROLEPLAY_TOPICS.find((t) => t.id === currentRoleplayTopic) || ROLEPLAY_TOPICS[0];
-  const TopicIcon = currentTopicData.icon;
+  // Handle Micro Click: 1st click to start speaking, 2nd click to stop AND automatically send!
+  const handleMicrophoneToggle = () => {
+    if (isRecording) {
+      if (spokenText.trim()) {
+        handleSendSpokenSpeech();
+      } else {
+        stopRecordingOnly();
+      }
+    } else {
+      startRecording();
+    }
+  };
 
   return (
-    <PageEntranceWrapper className="pb-20 md:pb-6 px-1 md:px-0 relative select-none font-sans lg:flex lg:flex-col lg:min-h-[calc(100vh-4rem)]">
+    <PageEntranceWrapper className="space-y-3 pb-24 md:pb-6 px-1.5 sm:px-0 relative select-none font-sans lg:flex lg:flex-col lg:min-h-[calc(100vh-4rem)]">
       
-      {/* 0. TOP UNIFIED MICRO-HERO TOOLBAR CONTROL STRIP */}
-      <motion.div
-        initial={{ opacity: 0, y: -6 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="p-2.5 sm:p-3 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-2.5 min-w-0"
-      >
-        {/* Left: Bot Icon + Title */}
-        <div className="flex items-center justify-between md:justify-start gap-2.5 min-w-0 flex-1">
-          <div className="flex items-center gap-2 min-w-0">
-            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xs bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 border border-[#0059bb]/20">
-              <Bot className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2]" />
+      {/* 0. TOP HERO ANNOUNCEMENT BANNER CARD */}
+      <MotionItem>
+        <motion.div
+          initial={{ opacity: 0, y: -6 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="p-3 sm:p-4 rounded-xs bg-[#0059bb]/5 dark:bg-blue-950/40 border border-[#0059bb]/15 dark:border-blue-900/50 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 shadow-2xs shrink-0"
+        >
+          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xs bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 border border-[#0059bb]/20">
+              <Headphones className="w-4 h-4 sm:w-5 sm:h-5 stroke-[1.8]" />
             </div>
-
-            <div className="min-w-0">
-              <h1 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display truncate">
-                AI Voice Tutor Studio
-              </h1>
-              <p className="hidden sm:block text-[10px] text-slate-400 font-medium truncate">
-                Gia sư Giọng nói AI 1-1 • {practiceMode === "freetalk" ? "FreeTalk Tự Do" : practiceMode === "roleplay" ? "Roleplay Kịch Bản" : "Drill Uốn Lưỡi"}
+            <div className="space-y-0.5 min-w-0">
+              <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap sm:flex-nowrap">
+                <span className={`px-2.5 py-1 sm:px-4 sm:py-1.5 rounded-xs text-[10px] sm:text-xs font-black text-white shrink-0 whitespace-nowrap tracking-wide text-center sm:min-w-[155px] flex items-center justify-center ${
+                  isSessionCompleted ? "bg-emerald-600" : "bg-[#0059bb]"
+                }`}>
+                  {isSessionCompleted ? "ĐÃ HOÀN THÀNH" : "AI VOICE TUTOR"}
+                </span>
+                <h1 className="text-xs sm:text-base font-bold text-slate-900 dark:text-white font-display truncate">
+                  {isSessionCompleted ? "Báo Cáo & Chấm Điểm Buổi Luyện Nói" : "Gia Sư Luyện Nói AI Tự Do 1-1"}
+                </h1>
+              </div>
+              <p className="hidden sm:block text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium truncate">
+                {isSessionCompleted
+                  ? `Đã hoàn thành buổi trò chuyện cùng ${activePersonaObj.name} (${activePersonaObj.role})`
+                  : "Luyện nói bằng giọng nói tự do, liên tục nhận diện lời nói qua Micro cho đến khi nhấn Gửi"}
               </p>
             </div>
           </div>
 
-          {/* Right: Sound Switcher & Timer on Mobile Header Top Row */}
-          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 md:hidden">
-            <button
-              onClick={() => setSoundEnabled(!soundEnabled)}
-              className={`px-2 py-1 rounded-xs text-[11px] font-bold border transition-all shadow-2xs flex items-center gap-1 cursor-pointer ${
-                soundEnabled
-                  ? "bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:border-[#0059bb]"
-                  : "bg-rose-50 dark:bg-rose-950/40 border-rose-200 dark:border-rose-900/30 text-rose-600"
-              }`}
-            >
-              {soundEnabled ? <Volume2 className="w-3 h-3 text-[#0059bb]" /> : <VolumeX className="w-3 h-3" />}
-              <span className="hidden sm:inline">{soundEnabled ? "Bật âm" : "Tắt âm"}</span>
-            </button>
+          {/* Right Actions */}
+          <div className="flex items-center justify-between sm:justify-end gap-2 shrink-0 w-full sm:w-auto">
+            {isSessionCompleted ? (
+              <button
+                onClick={handleRestartNewSession}
+                className="flex-1 sm:flex-initial px-3.5 py-1.5 sm:py-2 rounded-xs bg-[#0059bb] hover:bg-[#004799] active:scale-98 text-white text-xs sm:text-sm font-bold transition-all shadow-2xs flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap"
+              >
+                <RotateCcw className="w-4 h-4" />
+                <span>Luyện Buổi Mới</span>
+              </button>
+            ) : (
+              <button
+                onClick={handleFinishConversation}
+                className="flex-1 sm:flex-initial px-3 py-1.5 sm:py-2 rounded-xs bg-emerald-600 hover:bg-emerald-700 active:scale-98 text-white text-xs sm:text-sm font-bold transition-all shadow-2xs flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap"
+              >
+                <CheckCircle2 className="w-4 h-4" strokeWidth={1.8} />
+                <span className="hidden sm:inline">Hoàn thành & Chấm điểm</span>
+                <span className="sm:hidden">Chấm điểm</span>
+              </button>
+            )}
 
-            <span className="px-2 py-1 rounded-xs bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-[11px] font-black flex items-center gap-1 shadow-2xs">
-              <Clock className="w-3.5 h-3.5 text-amber-500" /> {formatElapsedTime(elapsedTime)}
+            <span className="px-2.5 py-1.5 sm:py-2 rounded-xs bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-xs sm:text-sm font-black flex items-center gap-1.5 shadow-2xs font-mono whitespace-nowrap shrink-0">
+              <Clock className="w-4 h-4 text-amber-500" strokeWidth={1.8} /> {formatElapsedTime(elapsedTime)}
             </span>
           </div>
-        </div>
+        </motion.div>
+      </MotionItem>
 
-        {/* Mode Switcher Tabs (100% full-width on mobile) */}
-        <div className="p-0.5 bg-slate-100 dark:bg-slate-950 rounded-xs grid grid-cols-3 md:flex items-center gap-1 border border-slate-200/50 dark:border-white/5 w-full md:w-auto shrink-0">
-          {[
-            { id: "freetalk", label: "FreeTalk" },
-            { id: "roleplay", label: "Roleplay" },
-            { id: "drill", label: "Drill" },
-          ].map((mode) => (
-            <button
-              key={mode.id}
-              onClick={() => setPracticeMode(mode.id as any)}
-              className={`py-1 px-3 rounded-xs text-[11px] font-bold transition-all cursor-pointer whitespace-nowrap text-center ${
-                practiceMode === mode.id
-                  ? "bg-[#0059bb] text-white shadow-2xs font-extrabold"
-                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-              }`}
-            >
-              {mode.label}
-            </button>
-          ))}
-        </div>
-
-        {/* Desktop Sound Switcher & Timer */}
-        <div className="hidden md:flex items-center gap-2 shrink-0">
-          <button
-            onClick={() => setSoundEnabled(!soundEnabled)}
-            className={`px-2 py-1 rounded-xs text-[11px] font-bold border transition-all shadow-2xs flex items-center gap-1 cursor-pointer ${
-              soundEnabled
-                ? "bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:border-[#0059bb]"
-                : "bg-rose-50 dark:bg-rose-950/40 border-rose-200 dark:border-rose-900/30 text-rose-600"
-            }`}
-          >
-            {soundEnabled ? <Volume2 className="w-3.5 h-3.5 text-[#0059bb]" /> : <VolumeX className="w-3.5 h-3.5" />}
-            <span>{soundEnabled ? "Bật âm" : "Tắt âm"}</span>
-          </button>
-
-          <span className="px-2.5 py-1 rounded-xs bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-[11px] font-black flex items-center gap-1 shadow-2xs">
-            <Clock className="w-3.5 h-3.5 text-amber-500" /> {formatElapsedTime(elapsedTime)}
-          </span>
-        </div>
-      </motion.div>
-
-      {/* 1. MAIN BENTO GRID (Cột Trái 8/12 - Cột Phải 4/12) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-3.5 lg:items-stretch min-w-0 lg:flex-1 lg:min-h-0 mt-3">
+      {/* 1. CHẾ ĐỘ THẾ CHỖ (IN-PLACE SWAP): CHAT STUDIO HOẶC BẢNG ĐÁNH GIÁ TỔNG KẾT */}
+      {!isSessionCompleted ? (
         
-        {/* CỘT TRÁI: VOICE CHAT STREAM & DUAL INPUT DOCK (8/12 Width) */}
-        <div className="lg:col-span-8 flex flex-col min-w-0 lg:min-h-0">
+        /* ===== VIEW 1: STUDIO LUYỆN NÓI BENTO GRID ===== */
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-3.5 lg:items-stretch min-w-0 lg:flex-1 lg:min-h-0 mt-1">
           
-          <div className="p-2.5 sm:p-3.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex flex-col min-w-0 lg:min-h-0 lg:flex-1">
+          {/* CỘT TRÁI: VOICE CHAT STREAM & DUAL INPUT DOCK (8/12 Width) */}
+          <div className="lg:col-span-8 flex flex-col min-w-0 lg:min-h-0">
             
-            {/* Header Title */}
-            <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2 gap-2">
-              <div className="flex items-center gap-2 min-w-0 flex-1">
-                <MessageSquare className="w-4 h-4 text-[#0059bb] shrink-0" strokeWidth={1.8} />
-                <h2 className="text-[11px] sm:text-xs font-bold text-slate-900 dark:text-white font-display uppercase tracking-wider truncate">
-                  KHUNG GIAO TIẾP VỚI AI TUTOR STUDIO
-                </h2>
+            <div className="p-2.5 sm:p-3.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex flex-col min-w-0 lg:min-h-0 lg:flex-1 space-y-3">
+              
+              {/* Header Trong Khung Chat */}
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2 gap-2">
+                <div className="flex items-center gap-2 min-w-0 flex-1">
+                  <span className="text-base">{activePersonaObj.flag}</span>
+                  <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display truncate">
+                    {activePersonaObj.name} ({activePersonaObj.role})
+                  </span>
+                </div>
+
+                {/* Sound Button */}
+                <button
+                  onClick={() => setSoundEnabled(!soundEnabled)}
+                  className={`px-2 py-1 rounded-xs text-xs font-bold border transition-all shadow-2xs flex items-center gap-1 cursor-pointer ${
+                    soundEnabled
+                      ? "bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:border-[#0059bb]"
+                      : "bg-rose-50 dark:bg-rose-950/40 border-rose-200 dark:border-rose-900/30 text-rose-600"
+                  }`}
+                  title={soundEnabled ? "Tắt âm thanh" : "Bật âm thanh"}
+                >
+                  {soundEnabled ? <Volume2 className="w-3.5 h-3.5 text-[#0059bb]" /> : <VolumeX className="w-3.5 h-3.5" />}
+                  <span className="hidden sm:inline text-[11px]">{soundEnabled ? "Bật âm" : "Tắt âm"}</span>
+                </button>
               </div>
 
-              {isSpeaking ? (
-                <span className="text-[10px] font-bold text-purple-600 dark:text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded-xs flex items-center gap-1.5 animate-pulse border border-purple-500/20 shrink-0 whitespace-nowrap">
-                  <Volume2 className="w-3 h-3 text-purple-500" /> AI đang phát âm...
-                </span>
-              ) : (
-                <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-xs border border-emerald-500/20 flex items-center gap-1 shrink-0 whitespace-nowrap">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Sẵn sàng
-                </span>
-              )}
-            </div>
+              {/* Scrollable Chat Stream Box (Always keeps Micro dock in immediate viewport) */}
+              <div className="h-[42svh] sm:h-[48svh] lg:h-[380px] xl:h-[430px] overflow-y-auto space-y-3.5 p-1 pr-1.5">
+                {messages.map((msg) => {
+                  const isAi = msg.role === "ai";
+                  const isTranslated = showTranslations[msg.id];
 
-            {/* Scrollable Chat Stream (Generous Height on Mobile & Desktop) */}
-            <div className="max-h-[50svh] min-h-[240px] sm:min-h-[420px] lg:h-auto lg:min-h-[460px] lg:flex-1 overflow-y-auto space-y-3 p-1 pr-1.5 mt-2 sm:mt-3">
-              {messages.map((msg) => {
-                const isAi = msg.role === "ai";
-                const isTranslated = showTranslations[msg.id];
-
-                return (
-                  <div
-                    key={msg.id}
-                    className={`flex items-start gap-2.5 ${isAi ? "justify-start" : "justify-end"}`}
-                  >
-                    {isAi && (
-                      <div className="w-7 h-7 rounded-xs bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 mt-0.5 border border-[#0059bb]/20 shadow-2xs">
-                        <Bot className="w-4 h-4" strokeWidth={1.8} />
-                      </div>
-                    )}
-
-                    <div className={`space-y-1.5 max-w-[88%] ${isAi ? "" : "items-end flex flex-col"}`}>
-                      
-                      {/* Chat Message Bubble */}
-                      <div
-                        className={`p-3 rounded-xs text-xs font-medium leading-relaxed shadow-2xs transition-all ${
-                          isAi
-                            ? "bg-slate-50 dark:bg-slate-950 border border-slate-200/80 dark:border-white/10 text-slate-900 dark:text-white"
-                            : "bg-[#0059bb] text-white"
-                        }`}
-                      >
-                        {/* Word-by-word 1-Click Interactive Text Rendering for AI */}
-                        {isAi ? (
-                          <div className="flex flex-wrap gap-1 leading-relaxed">
-                            {msg.text.split(" ").map((w, idx) => (
-                              <span
-                                key={idx}
-                                onClick={() => handleWordClick(w)}
-                                className="cursor-pointer hover:bg-[#0059bb]/15 dark:hover:bg-sky-400/20 hover:text-[#0059bb] dark:hover:text-sky-300 rounded-xs px-0.5 py-0.2 transition-colors font-medium text-xs sm:text-sm"
-                                title="Click để tra từ vựng & phát âm IPA"
-                              >
-                                {w}
-                              </span>
-                            ))}
-                          </div>
-                        ) : (
-                          <p className="text-xs sm:text-sm">{msg.text}</p>
-                        )}
-
-                        {/* Pronunciation Confidence Score Badge for User */}
-                        {msg.pronunciationScore && (
-                          <div className="mt-1.5 pt-1.5 border-t border-white/20 flex items-center justify-between text-[10px] font-bold">
-                            <span className="flex items-center gap-1">
-                              <Target className="w-3 h-3 text-amber-300" /> Phát âm:
-                            </span>
-                            <span className="bg-white/20 px-1.5 py-0.2 rounded-xs font-mono font-black">
-                              {msg.pronunciationScore}%
-                            </span>
-                          </div>
-                        )}
-
-                        {/* Vietnamese Translation Display */}
-                        {isTranslated && msg.vietnameseTranslation && (
-                          <div className="mt-2 pt-2 border-t border-slate-200/60 dark:border-white/10 text-[11px] font-semibold text-slate-600 dark:text-slate-300 flex items-start gap-1">
-                            <span className="shrink-0 text-slate-400 font-mono">[Dịch]</span>
-                            <span>{msg.vietnameseTranslation}</span>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* AI Instant Grammar & Natural Phrasing Correction Card for User Speech */}
-                      {!isAi && (msg.grammarCorrection || msg.betterPhrasing) && (
-                        <div className="p-2.5 rounded-xs bg-amber-500/10 dark:bg-amber-950/30 border border-amber-500/25 text-[11px] space-y-1.5 text-left w-full">
-                          {msg.grammarCorrection && (
-                            <div className="space-y-0.5">
-                              <span className="font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1 text-[10px] uppercase">
-                                <AlertCircle className="w-3 h-3" /> Sửa Lỗi Ngữ Pháp:
-                              </span>
-                              <p className="text-slate-800 dark:text-slate-200 font-medium">
-                                {msg.grammarCorrection.explanation}
-                              </p>
-                            </div>
-                          )}
-
-                          {msg.betterPhrasing && (
-                            <div className="space-y-0.5">
-                              <span className="font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1 text-[10px] uppercase">
-                                <Sparkles className="w-3 h-3" /> Cách Nói Tự Nhiên Hơn:
-                              </span>
-                              <p className="text-emerald-700 dark:text-emerald-300 font-bold italic">
-                                "{msg.betterPhrasing}"
-                              </p>
-                            </div>
-                          )}
-                        </div>
-                      )}
-
-                      {/* AI Action Strip */}
-                      {isAi && (
-                        <div className="flex items-center gap-2 px-1">
-                          <button
-                            onClick={() => speakText(msg.text)}
-                            className="text-[10px] font-bold text-slate-500 hover:text-[#0059bb] dark:hover:text-sky-400 flex items-center gap-1 cursor-pointer transition-colors"
-                          >
-                            <Volume2 className="w-3 h-3 text-[#0059bb]" /> Nghe phát âm
-                          </button>
-                          {msg.vietnameseTranslation && (
-                            <button
-                              onClick={() => toggleTranslation(msg.id)}
-                              className="text-[10px] font-bold text-[#0059bb] dark:text-sky-400 hover:underline cursor-pointer"
-                            >
-                              {isTranslated ? "Ẩn dịch" : "Xem bản dịch"}
-                            </button>
-                          )}
-                        </div>
-                      )}
-
-                    </div>
-
-                    {!isAi && (
-                      <UserAvatar
-                        avatar={(user as any)?.avatar}
-                        avatarUrl={(user as any)?.avatarUrl}
-                        imageUrl={user?.imageUrl}
-                        emoji={user?.avatarEmoji}
-                        name={user?.fullName || user?.username || user?.email}
-                        size="w-7 h-7"
-                        className="mt-0.5"
-                      />
-                    )}
-                  </div>
-                );
-              })}
-              {loading && (
-                <div className="flex items-center gap-2 p-2.5 rounded-xs bg-[#0059bb]/5 dark:bg-[#0059bb]/20 border border-[#0059bb]/20 text-[#0059bb] dark:text-sky-400 text-xs font-bold animate-pulse">
-                  <RefreshCw className="w-3.5 h-3.5 animate-spin" /> AI Tutor đang phân tích & soạn câu phản hồi...
-                </div>
-              )}
-              <div ref={chatBottomRef} />
-            </div>
-
-            {/* Bottom Studio Dual Input Dock (Voice + Text + Waveform) */}
-            <div className="pt-3 border-t border-slate-100 dark:border-white/5 space-y-2.5">
-              
-              {/* Form with Center Large Mic Pulse Orb & Text Input */}
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleNewUserSpeech(textInput, 95);
-                }}
-                className="flex items-center gap-2"
-              >
-                {/* Large Center Mic Pulse Button */}
-                <button
-                  type="button"
-                  onClick={isRecording ? stopRecording : startRecording}
-                  className={`w-11 h-11 rounded-full flex items-center justify-center shadow-md transition-all shrink-0 cursor-pointer ${
-                    isRecording
-                      ? "bg-rose-500 text-white animate-pulse ring-4 ring-rose-500/25"
-                      : "bg-[#0059bb] hover:bg-[#004799] text-white hover:scale-102 active:scale-98"
-                  }`}
-                  title={isRecording ? "Dừng thu âm" : "Bấm nút để cất giọng nói"}
-                >
-                  {isRecording ? <Square className="w-4 h-4 fill-white" /> : <Mic className="w-5 h-5 stroke-[2]" />}
-                </button>
-
-                {/* Input Text Box */}
-                <div className="relative flex-1">
-                  <input
-                    type="text"
-                    placeholder={isRecording ? `Đang thu âm... 00:0${recordingTime}` : "Nhập tiếng Anh hoặc bấm Mic..."}
-                    value={textInput}
-                    onChange={(e) => setTextInput(e.target.value)}
-                    className="w-full h-10 pl-3 pr-3 text-xs font-medium rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:border-[#0059bb]"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={!textInput.trim() || loading}
-                  className="h-10 px-4 rounded-xs bg-[#0059bb] hover:bg-[#004799] disabled:opacity-40 text-white text-xs font-bold flex items-center gap-1.5 shadow-2xs cursor-pointer shrink-0"
-                >
-                  <Send className="w-3.5 h-3.5" strokeWidth={2} />
-                  <span className="hidden sm:inline">Gửi</span>
-                </button>
-              </form>
-
-              {/* Real-time Waveform Visualizer Bar when recording or speaking */}
-              {(isRecording || isSpeaking) && (
-                <div className="flex items-center justify-center gap-[3px] h-6 bg-slate-50 dark:bg-slate-950/60 px-3 py-1.5 rounded-xs border border-slate-200/50 dark:border-white/5">
-                  <span className="text-[10px] font-bold text-slate-400 mr-2 shrink-0">AUDIO SPECTRUM:</span>
-                  {Array.from({ length: 16 }).map((_, i) => (
+                  return (
                     <div
-                      key={i}
-                      className="w-[3px] rounded-full shrink-0"
-                      style={{
-                        height: `${6 + Math.random() * 14}px`,
-                        backgroundColor: i % 4 === 0 ? '#0059bb' : i % 4 === 1 ? '#10b981' : i % 4 === 2 ? '#f59e0b' : '#8b5cf6',
-                        animation: `audioBar ${0.3 + Math.random() * 0.5}s ease-in-out infinite alternate`,
-                        animationDelay: `${i * 0.05}s`,
-                      }}
-                    />
+                      key={msg.id}
+                      className={`flex items-start gap-2.5 ${isAi ? "justify-start" : "justify-end"}`}
+                    >
+                      {isAi && (
+                        <div className="w-7 h-7 rounded-xs bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 mt-0.5 border border-[#0059bb]/20 shadow-2xs text-xs font-bold">
+                          <span>{activePersonaObj.flag}</span>
+                        </div>
+                      )}
+
+                      <div className={`space-y-1.5 max-w-[85%] sm:max-w-[78%] ${isAi ? "" : "items-end flex flex-col"}`}>
+                        
+                        {/* Chat Bubble */}
+                        <div
+                          className={`p-3 rounded-xs text-xs sm:text-sm font-medium leading-relaxed shadow-2xs transition-all ${
+                            isAi
+                              ? "bg-slate-50 dark:bg-slate-950 border border-slate-200/80 dark:border-white/10 text-slate-900 dark:text-white"
+                              : "bg-[#0059bb] text-white"
+                          }`}
+                        >
+                          {/* Word-by-word 1-Click Interactive Text Rendering for AI */}
+                          {isAi ? (
+                            <div className="flex flex-wrap gap-1 leading-relaxed">
+                              {msg.text.split(" ").map((w, idx) => (
+                                <span
+                                  key={idx}
+                                  onClick={() => handleWordClick(w)}
+                                  className="cursor-pointer hover:bg-[#0059bb]/15 dark:hover:bg-sky-400/20 hover:text-[#0059bb] dark:hover:text-sky-300 rounded-xs px-0.5 py-0.2 transition-colors font-medium text-xs sm:text-sm"
+                                >
+                                  {w}
+                                </span>
+                              ))}
+                            </div>
+                          ) : (
+                            <p className="text-xs sm:text-sm">{msg.text}</p>
+                          )}
+
+                          {/* Vietnamese Translation Display */}
+                          {isTranslated && msg.vietnameseTranslation && (
+                            <div className="mt-2 pt-2 border-t border-slate-200/60 dark:border-white/10 text-[11px] font-semibold text-slate-600 dark:text-slate-300 flex items-start gap-1">
+                              <span className="shrink-0 text-slate-400 font-mono">[Dịch]</span>
+                              <span>{msg.vietnameseTranslation}</span>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* AI Quick Note / Grammar Feedback (Unified Compact Card) */}
+                        {!isAi && (msg.grammarCorrection?.hasError || msg.betterPhrasing) && (
+                          <div className="p-2.5 rounded-xs bg-slate-50/90 dark:bg-slate-900/90 border border-slate-200/80 dark:border-white/10 text-xs space-y-2 text-left w-full shadow-2xs">
+                            {msg.grammarCorrection?.hasError && (
+                              <div className="space-y-1">
+                                <div className="flex items-center gap-1.5 text-[11px] font-bold text-slate-700 dark:text-slate-200">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0"></span>
+                                  <span>Sửa ngữ pháp:</span>
+                                </div>
+                                <div className="flex items-center flex-wrap gap-1.5 text-xs font-medium">
+                                  <span className="line-through text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/40 px-1.5 py-0.5 rounded-xs border border-rose-200/60 dark:border-rose-900/30">
+                                    {msg.grammarCorrection.original}
+                                  </span>
+                                  <span className="text-slate-400 dark:text-slate-500 font-bold">→</span>
+                                  <span className="font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 px-1.5 py-0.5 rounded-xs border border-emerald-200/60 dark:border-emerald-900/30">
+                                    {msg.grammarCorrection.corrected}
+                                  </span>
+                                </div>
+                                {msg.grammarCorrection.explanation && (
+                                  <p className="text-[11px] leading-relaxed text-slate-600 dark:text-slate-400 pt-0.5">
+                                    {msg.grammarCorrection.explanation.replace(/^\((.*)\)$/, "$1").trim()}
+                                  </p>
+                                )}
+                              </div>
+                            )}
+
+                            {msg.betterPhrasing && (
+                              <div className="pt-1.5 border-t border-slate-200/60 dark:border-white/5 space-y-0.5">
+                                <div className="flex items-center gap-1.5 text-[11px] font-bold text-[#0059bb] dark:text-sky-400">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-[#0059bb] dark:bg-sky-400 shrink-0"></span>
+                                  <span>Diễn đạt tự nhiên hơn:</span>
+                                </div>
+                                <div className="flex items-center justify-between gap-2">
+                                  <p className="text-xs font-semibold text-slate-800 dark:text-slate-200">
+                                    "{msg.betterPhrasing.replace(/^["']|["']$/g, '').replace(/^(A more natural way to say that (would be|is)|You could say|A better phrasing is|Try saying),?\s*/i, '').replace(/^["']|["']$/g, '')}"
+                                  </p>
+                                  <button
+                                    type="button"
+                                    onClick={() => speakText(msg.betterPhrasing?.replace(/^["']|["']$/g, '').replace(/^(A more natural way to say that (would be|is)|You could say|A better phrasing is|Try saying),?\s*/i, '').replace(/^["']|["']$/g, '') || "")}
+                                    className="p-1 text-slate-400 hover:text-[#0059bb] dark:hover:text-sky-400 transition-colors shrink-0 cursor-pointer"
+                                    title="Nghe phát âm câu tự nhiên"
+                                  >
+                                    <Volume2 className="w-3.5 h-3.5" />
+                                  </button>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        )}
+
+                        {/* AI Action Strip */}
+                        {isAi && (
+                          <div className="flex items-center gap-2.5 px-0.5">
+                            <button
+                              onClick={() => speakText(msg.text)}
+                              className="text-[10px] sm:text-[11px] font-bold text-slate-400 hover:text-[#0059bb] dark:hover:text-sky-400 flex items-center gap-1 cursor-pointer transition-colors"
+                            >
+                              <Volume2 className="w-3 h-3 text-[#0059bb]" /> Nghe lại
+                            </button>
+                            {msg.vietnameseTranslation && (
+                              <button
+                                onClick={() => toggleTranslation(msg.id)}
+                                className="text-[10px] sm:text-[11px] font-bold text-slate-400 hover:text-[#0059bb] dark:hover:text-sky-400 cursor-pointer"
+                              >
+                                {isTranslated ? "Ẩn dịch" : "Xem bản dịch"}
+                              </button>
+                            )}
+                          </div>
+                        )}
+
+                      </div>
+
+                      {!isAi && (
+                        <UserAvatar
+                          avatar={(user as any)?.avatar}
+                          avatarUrl={(user as any)?.avatarUrl}
+                          imageUrl={user?.imageUrl}
+                          emoji={user?.avatarEmoji}
+                          name={user?.fullName || user?.username || user?.email}
+                          size="w-7 h-7"
+                          className="mt-0.5"
+                        />
+                      )}
+                    </div>
+                  );
+                })}
+
+                {loading && (
+                  <div className="flex items-center gap-2 p-2 rounded-xs bg-[#0059bb]/5 dark:bg-[#0059bb]/20 border border-[#0059bb]/20 text-[#0059bb] dark:text-sky-400 text-xs font-bold animate-pulse w-fit">
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin" /> {activePersonaObj.name} đang lắng nghe & suy nghĩ...
+                  </div>
+                )}
+                <div ref={chatBottomRef} />
+              </div>
+
+              {/* Dải Gợi Ý Thuần Chữ (Hover không hiện gì, Click tự động đọc lên) */}
+              {(currentSuggestions.words.length > 0 || currentSuggestions.phrases.length > 0) && (
+                <div className="pt-2 pb-1 border-t border-slate-100 dark:border-white/5 flex items-center gap-2 text-xs sm:text-sm text-slate-600 dark:text-slate-300 flex-wrap">
+                  <span className="text-xs font-bold text-[#0059bb] dark:text-sky-400 uppercase tracking-wider flex items-center gap-1 shrink-0 select-none">
+                    <Sparkles className="w-3.5 h-3.5 text-[#0059bb]" /> Gợi ý:
+                  </span>
+
+                  {/* 3 Từ vựng: Hover không hiện gì, Click phát âm đọc lên */}
+                  {currentSuggestions.words.slice(0, 3).map((w, idx) => (
+                    <React.Fragment key={`w_${idx}`}>
+                      {idx > 0 && <span className="text-slate-300 dark:text-slate-600 select-none">•</span>}
+                      <button
+                        type="button"
+                        onClick={() => speakText(w.word)}
+                        className="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 cursor-pointer bg-transparent border-none p-0 focus:outline-none"
+                      >
+                        {w.word}
+                      </button>
+                    </React.Fragment>
+                  ))}
+
+                  {/* 2 Cụm câu mở đầu: Hover không hiện gì, Click phát âm đọc lên */}
+                  {currentSuggestions.phrases.slice(0, 2).map((phrase, idx) => (
+                    <React.Fragment key={`p_${idx}`}>
+                      <span className="text-slate-300 dark:text-slate-600 select-none">•</span>
+                      <button
+                        type="button"
+                        onClick={() => speakText(phrase)}
+                        className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium cursor-pointer bg-transparent border-none p-0 focus:outline-none"
+                      >
+                        "{phrase}"
+                      </button>
+                    </React.Fragment>
                   ))}
                 </div>
               )}
-            </div>
 
-          </div>
-
-        </div>
-
-        {/* CỘT PHẢI: BENTO TOOL CHEST (4/12 Width) */}
-        <div className="lg:col-span-4 flex flex-col min-w-0 lg:min-h-0">
-          
-          <div className="p-2.5 sm:p-3.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3 min-w-0 lg:flex-1 lg:overflow-y-auto">
-            
-            {/* 3-Tab Segmented Controller Header */}
-            <div className="p-1 bg-slate-100 dark:bg-slate-950 rounded-xs flex items-center gap-1 border border-slate-200/50 dark:border-white/5">
-              {[
-                { id: "goals", label: "Mục tiêu", icon: Target },
-                { id: "speech", label: "Tiêu chí", icon: BarChart3 },
-                { id: "coach", label: "Gợi ý", icon: Lightbulb },
-              ].map((tab) => {
-                const IconComponent = tab.icon;
-                return (
+              {/* Voice-Only Input Dock (Bấm Micro lần 1 để nói/từ hiện realtime, bấm lại Micro lần 2 để dừng và gửi) */}
+              <div className="pt-1.5 border-t border-slate-100 dark:border-white/5 space-y-1.5">
+                <div className="flex items-center gap-2">
+                  
+                  {/* Nút Micro Toggle-to-Send (Bấm lần 1: Thu âm realtime | Bấm lần 2: Dừng & Tự động gửi) */}
                   <button
-                    key={tab.id}
-                    onClick={() => setSidebarTab(tab.id as any)}
-                    className={`flex-1 py-1.5 px-1.5 rounded-xs text-[11px] font-bold transition-all cursor-pointer whitespace-nowrap flex items-center justify-center gap-1.5 ${
-                      sidebarTab === tab.id
-                        ? "bg-[#0059bb] text-white shadow-2xs font-extrabold"
-                        : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    type="button"
+                    onClick={handleMicrophoneToggle}
+                    className={`w-10 h-10 rounded-full flex items-center justify-center shadow-md transition-all shrink-0 cursor-pointer ${
+                      isRecording
+                        ? "bg-rose-500 text-white animate-pulse ring-4 ring-rose-500/25"
+                        : "bg-[#0059bb] hover:bg-[#004799] text-white hover:scale-102 active:scale-98"
                     }`}
+                    title={
+                      isRecording
+                        ? "Đang thu âm • Bấm lại nút Micro để DỪNG VÀ TỰ ĐỘNG GỬI ĐI"
+                        : "Nhấn nút Micro và bắt đầu nói tiếng Anh (Bấm lại để gửi)"
+                    }
                   >
-                    <IconComponent className="w-3.5 h-3.5 shrink-0" strokeWidth={1.8} />
-                    {tab.label}
+                    {isRecording ? <Square className="w-4 h-4 fill-white" /> : <Mic className="w-4.5 h-4.5 stroke-[2]" />}
                   </button>
-                );
-              })}
-            </div>
 
-            {/* TAB 1: ROLEPLAY MISSION & SCENARIOS */}
-            {sidebarTab === "goals" && (
-              <div className="space-y-3">
-                {practiceMode === "roleplay" ? (
-                  <>
-                    <div className="space-y-1">
-                      <label htmlFor="tutor-roleplay-select" className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-                        Chọn tình huống đóng vai:
-                      </label>
-                      <select
-                        id="tutor-roleplay-select"
-                        value={currentRoleplayTopic}
-                        onChange={(e) => {
-                          setCurrentRoleplayTopic(e.target.value);
-                          setCompletedGoalIds([]);
-                        }}
-                        className="w-full h-8 px-2 text-xs font-bold rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:border-[#0059bb]"
+                  {/* Khung Hiển Thị Lời Nói (Font chữ chuẩn, từ ngữ đọc đến đâu hiện đến đó) */}
+                  <div className="relative flex-1">
+                    <input
+                      type="text"
+                      readOnly
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && spokenText.trim() && !loading) {
+                          e.preventDefault();
+                          handleSendSpokenSpeech();
+                        }
+                      }}
+                      placeholder={
+                        loading
+                          ? "Gia sư AI đang phản hồi..."
+                          : isRecording
+                          ? `🔴 Đang nghe bạn nói... (00:${recordingTime < 10 ? `0${recordingTime}` : recordingTime}) • Bấm lại Micro để GỬI`
+                          : spokenText
+                          ? "Đã nhận diện câu nói (Bấm nút Micro hoặc Gửi)"
+                          : "Nhấn nút Micro và bắt đầu nói tiếng Anh..."
+                      }
+                      value={spokenText}
+                      className="w-full h-10 pl-3.5 pr-9 text-xs sm:text-sm font-medium rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-[#0059bb]"
+                    />
+                    {spokenText && (
+                      <button
+                        type="button"
+                        onClick={handleResetSpeech}
+                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-rose-500 transition-colors p-1 cursor-pointer"
+                        title="Xóa đoạn vừa nói để nói lại (Làm mới)"
                       >
-                        {ROLEPLAY_TOPICS.map((t) => (
-                          <option key={t.id} value={t.id}>
-                            {t.name} ({t.nameEn})
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    {/* Goals Checklist */}
-                    <div className="space-y-1.5 pt-1">
-                      <span className="text-[10px] font-bold text-slate-400 block uppercase tracking-wider">
-                        Nhiệm vụ cần nói ({completedGoalIds.length}/{currentTopicData.goals.length}):
-                      </span>
-                      {currentTopicData.goals.map((goal) => {
-                        const isDone = completedGoalIds.includes(goal.id);
-                        return (
-                          <div
-                            key={goal.id}
-                            className={`p-2 rounded-xs border text-xs font-bold flex items-center justify-between gap-2 transition-all ${
-                              isDone
-                                ? "bg-emerald-50 dark:bg-emerald-950/40 border-emerald-500/40 text-emerald-700 dark:text-emerald-300"
-                                : "bg-slate-50 dark:bg-slate-950 border-slate-200/60 dark:border-white/5 text-slate-700 dark:text-slate-300"
-                            }`}
-                          >
-                            <div className="space-y-0.5 min-w-0">
-                              <div className="truncate">{goal.name}</div>
-                              <div className="text-[10px] font-mono text-slate-400 truncate">{goal.nameEn}</div>
-                            </div>
-                            {isDone ? (
-                              <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" strokeWidth={2} />
-                            ) : (
-                              <div className="w-3.5 h-3.5 rounded-full border border-slate-300 dark:border-white/20 shrink-0" />
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-
-                    {/* Topic Key Vocab list */}
-                    {currentTopicData.keyVocab && (
-                      <div className="space-y-1.5 pt-2 border-t border-slate-100 dark:border-white/5">
-                        <span className="text-[10px] font-bold text-slate-400 block uppercase tracking-wider">
-                          Từ vựng then chốt:
-                        </span>
-                        <div className="space-y-1">
-                          {currentTopicData.keyVocab.map((kv, idx) => (
-                            <div
-                              key={idx}
-                              onClick={() => handleWordClick(kv.word)}
-                              className="p-1.5 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-white/5 text-xs flex items-center justify-between gap-1 cursor-pointer hover:border-[#0059bb]/40 transition-colors"
-                            >
-                              <div className="min-w-0">
-                                <span className="font-bold text-slate-900 dark:text-white block truncate">{kv.word}</span>
-                                <span className="text-[10px] text-slate-400 font-mono block truncate">{kv.ipa}</span>
-                              </div>
-                              <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold shrink-0">{kv.meaning}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
+                        <RotateCcw className="w-3.5 h-3.5" />
+                      </button>
                     )}
-                  </>
-                ) : practiceMode === "drill" ? (
-                  <div className="space-y-2.5">
-                    <div className="p-3 rounded-xs bg-amber-500/10 border border-amber-500/25 text-center space-y-2">
-                      <span className="text-[10px] font-bold uppercase text-amber-600 dark:text-amber-400 block tracking-wider">
-                        Câu Luyện Uốn Lưỡi (#{drillIndex + 1})
-                      </span>
-                      <p className="text-xs font-bold text-slate-900 dark:text-white font-display leading-relaxed">
-                        "{DRILL_SENTENCES[drillIndex]}"
-                      </p>
-                      <button
-                        onClick={() => speakText(DRILL_SENTENCES[drillIndex])}
-                        className="px-2.5 py-1 rounded-xs bg-amber-500 text-white text-[11px] font-bold shadow-2xs hover:bg-amber-600 cursor-pointer inline-flex items-center gap-1 transition-colors"
-                      >
-                        <Volume2 className="w-3.5 h-3.5" /> Nghe phát âm mẫu
-                      </button>
-                    </div>
-
-                    <div className="flex items-center justify-between pt-1">
-                      <button
-                        onClick={() => setDrillIndex((prev) => Math.max(0, prev - 1))}
-                        disabled={drillIndex === 0}
-                        className="px-2.5 py-1 rounded-xs bg-slate-100 dark:bg-slate-800 disabled:opacity-40 text-xs font-bold cursor-pointer text-slate-700 dark:text-slate-300"
-                      >
-                        ← Câu trước
-                      </button>
-                      <button
-                        onClick={() => setDrillIndex((prev) => Math.min(DRILL_SENTENCES.length - 1, prev + 1))}
-                        disabled={drillIndex === DRILL_SENTENCES.length - 1}
-                        className="px-3 py-1 rounded-xs bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold shadow-2xs cursor-pointer"
-                      >
-                        Câu tiếp →
-                      </button>
-                    </div>
                   </div>
-                ) : (
-                  <div className="p-4 text-center space-y-2 text-slate-500 bg-slate-50/50 dark:bg-slate-950/50 rounded-xs border border-slate-200/50 dark:border-white/5">
-                    <MessageSquare className="w-6 h-6 text-[#0059bb] mx-auto" strokeWidth={1.8} />
-                    <p className="text-xs font-bold text-slate-900 dark:text-white">Chế độ FreeTalk Tự Do</p>
-                    <p className="text-[11px] leading-relaxed text-slate-500 dark:text-slate-400">
-                      Nói về bất kỳ chủ đề ngẫu nhiên nào bạn yêu thích với AI Tutor Studio!
-                    </p>
+
+                  {/* Nút Gửi (Chỉ dừng và gửi khi người dùng bấm nút này hoặc bấm lại nút Micro) */}
+                  <button
+                    type="button"
+                    onClick={handleSendSpokenSpeech}
+                    disabled={!spokenText.trim() || loading}
+                    className="h-10 px-4 rounded-xs bg-[#0059bb] hover:bg-[#004799] disabled:opacity-40 text-white text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow-2xs cursor-pointer shrink-0 transition-all"
+                    title="Gửi câu nói đến Gia sư AI (Phím Enter)"
+                  >
+                    <Send className="w-3.5 h-3.5" strokeWidth={2} />
+                    <span>Gửi</span>
+                  </button>
+                </div>
+
+                {/* Active Audio Waveform */}
+                {(isRecording || isSpeaking) && (
+                  <div className="flex items-center justify-center gap-[3px] h-4 bg-slate-50 dark:bg-slate-950/60 px-2 py-0.5 rounded-xs">
+                    {audioFrequencies.map((freq, i) => (
+                      <div
+                        key={i}
+                        className="w-[2.5px] rounded-full shrink-0 transition-all duration-75"
+                        style={{
+                          height: `${Math.max(3, Math.min(14, (freq / 100) * 14))}px`,
+                          backgroundColor: isRecording ? '#f43f5e' : '#0059bb'
+                        }}
+                      />
+                    ))}
                   </div>
                 )}
               </div>
-            )}
 
-            {/* TAB 2: SPEECH PRECISION LAB (6 CRITERIA GRID) */}
-            {sidebarTab === "speech" && (
-              <div className="space-y-2 text-left">
-                <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-1.5">
-                  <span className="text-xs font-bold text-slate-900 dark:text-white font-display">
-                    Đánh Giá Giọng Nói Real-Time
-                  </span>
-                  <span className="px-2 py-0.5 rounded-xs text-xs font-black bg-emerald-500 text-white shadow-2xs font-mono">
-                    {lastSpeechScore ? `${lastSpeechScore.overallScore}%` : "95% Overall"}
-                  </span>
+            </div>
+
+          </div>
+
+          {/* CỘT PHẢI: UNIFIED SINGLE SIDEBAR CARD (4/12 Width) */}
+          <div className="lg:col-span-4 flex flex-col min-w-0 lg:min-h-0">
+            
+            <div className="p-3.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3.5 flex-1 flex flex-col justify-between">
+              
+              {/* Phần 1: Chọn Gia Sư AI & Tốc Độ Giọng Nói */}
+              <div className="space-y-2.5">
+                <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
+                  <h2 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#0059bb] dark:text-sky-400 font-display flex items-center gap-1.5">
+                    <Bot className="w-4 h-4 text-[#0059bb]" /> GIA SƯ AI
+                  </h2>
+                  <span className="text-[11px] font-bold text-slate-400 font-mono">Tốc độ: {speechSpeed}x</span>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 text-center">
-                  <div className="p-2 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-white/5">
-                    <span className="text-[9px] text-slate-400 font-bold block uppercase">Trôi chảy</span>
-                    <span className="text-xs font-black text-purple-600 dark:text-purple-400 font-mono">
-                      {lastSpeechScore ? `${lastSpeechScore.fluencyScore}%` : "96%"}
-                    </span>
-                  </div>
-                  <div className="p-2 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-white/5">
-                    <span className="text-[9px] text-slate-400 font-bold block uppercase">Phát âm</span>
-                    <span className="text-xs font-black text-[#0059bb] dark:text-sky-400 font-mono">
-                      {lastSpeechScore ? `${lastSpeechScore.pronunciationScore}%` : "95%"}
-                    </span>
-                  </div>
-                  <div className="p-2 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-white/5">
-                    <span className="text-[9px] text-slate-400 font-bold block uppercase">Ngữ điệu</span>
-                    <span className="text-xs font-black text-emerald-600 dark:text-emerald-400 font-mono">
-                      {lastSpeechScore ? `${lastSpeechScore.intonationScore}%` : "94%"}
-                    </span>
-                  </div>
-                  <div className="p-2 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-white/5">
-                    <span className="text-[9px] text-slate-400 font-bold block uppercase">Đầy đủ</span>
-                    <span className="text-xs font-black text-blue-600 dark:text-blue-400 font-mono">97%</span>
-                  </div>
-                  <div className="p-2 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-white/5">
-                    <span className="text-[9px] text-slate-400 font-bold block uppercase">Tốc độ</span>
-                    <span className="text-xs font-black text-amber-600 dark:text-amber-400 font-mono">145 WPM</span>
-                  </div>
-                  <div className="p-2 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-white/5">
-                    <span className="text-[9px] text-slate-400 font-bold block uppercase">Trọng âm</span>
-                    <span className="text-xs font-black text-teal-600 dark:text-teal-400 font-mono">94%</span>
-                  </div>
+                <div className="space-y-1.5">
+                  {PERSONAS.map((p) => (
+                    <button
+                      key={p.id}
+                      onClick={() => setCurrentPersona(p.id)}
+                      className={`w-full text-left p-2 rounded-xs border transition-all flex items-center justify-between cursor-pointer ${
+                        currentPersona === p.id
+                          ? "bg-[#0059bb]/10 border-[#0059bb]/40 text-[#0059bb] dark:text-sky-400 font-bold"
+                          : "bg-slate-50 dark:bg-slate-950 border-slate-200/60 dark:border-white/5 text-slate-700 dark:text-slate-300 hover:border-slate-300"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2 min-w-0">
+                        <span className="text-base">{p.flag}</span>
+                        <div className="truncate">
+                          <div className="text-xs font-bold font-display truncate">{p.name}</div>
+                          <div className="text-[10px] text-slate-400 font-normal truncate">{p.role}</div>
+                        </div>
+                      </div>
+                      {currentPersona === p.id && <Check className="w-4 h-4 text-[#0059bb] shrink-0" />}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Tốc độ đọc */}
+                <div className="grid grid-cols-3 gap-1 pt-1">
+                  {[0.75, 1.0, 1.25].map((spd) => (
+                    <button
+                      key={spd}
+                      onClick={() => setSpeechSpeed(spd)}
+                      className={`py-1 rounded-xs text-[11px] font-bold text-center cursor-pointer transition-all ${
+                        speechSpeed === spd
+                          ? "bg-[#0059bb] text-white shadow-2xs"
+                          : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200"
+                      }`}
+                    >
+                      {spd}x
+                    </button>
+                  ))}
                 </div>
               </div>
-            )}
 
-            {/* TAB 3: SMART SUGGESTIONS & HINTS */}
-            {sidebarTab === "coach" && (
-              <div className="space-y-2 text-left">
-                <div className="p-2.5 rounded-xs bg-[#0059bb]/5 dark:bg-[#0059bb]/20 border border-[#0059bb]/20 text-xs font-medium space-y-1">
-                  <span className="font-bold text-[#0059bb] dark:text-sky-400 flex items-center gap-1 text-[11px]">
-                    <Bot className="w-3.5 h-3.5" strokeWidth={1.8} /> AI Voice Coach Khẩu Hình:
+              {/* Phần 2: Từ Vựng & Mẫu Câu Theo Ngữ Cảnh */}
+              <div className="pt-2.5 border-t border-slate-100 dark:border-white/5 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-[#0059bb] dark:text-sky-400 font-display uppercase tracking-wider flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-[#0059bb]" /> TỪ VỰNG THEO NGỮ CẢNH
                   </span>
-                  <p className="text-slate-700 dark:text-slate-300 text-[11px] leading-relaxed">
-                    "Mở rộng khẩu hình và phát âm rõ âm đuôi /s/ và /t/ để đạt điểm tuyệt đối!"
-                  </p>
+                  <span className="text-[10px] text-slate-400">Click tra/nghe</span>
                 </div>
 
-                <div className="space-y-1.5 pt-1">
-                  <span className="text-[10px] font-bold text-slate-400 block uppercase tracking-wider">
-                    Gợi ý trả lời nhanh:
-                  </span>
-                  <div className="flex flex-col gap-1.5 w-full">
-                    {[
-                      "I love learning English with AI because it's effective.",
-                      "Could you please repeat that phrase again?",
-                      "That sounds very interesting! Tell me more."
-                    ].map((sug, idx) => (
-                      <button
+                <div className="space-y-1.5">
+                  {currentSuggestions.words.slice(0, 3).map((w, idx) => (
+                    <div
+                      key={idx}
+                      onClick={() => handleWordClick(w.word)}
+                      className="p-2 rounded-xs bg-slate-50 dark:bg-slate-950 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all flex items-center justify-between gap-2 cursor-pointer group"
+                    >
+                      <div className="min-w-0">
+                        <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-[#0059bb]">
+                          {w.word}
+                        </span>
+                        {w.meaning && (
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">{w.meaning}</p>
+                        )}
+                      </div>
+                      <Volume2 className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#0059bb] shrink-0" />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Mẫu câu mở đầu */}
+                {currentSuggestions.phrases.length > 0 && (
+                  <div className="p-2 rounded-xs bg-blue-50/60 dark:bg-blue-950/30 text-[#0059bb] dark:text-sky-300 text-[11px] space-y-1">
+                    <div className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                      <Lightbulb className="w-3 h-3 text-amber-500" /> Mẫu câu mở đầu:
+                    </div>
+                    {currentSuggestions.phrases.slice(0, 2).map((ph, idx) => (
+                      <p
                         key={idx}
-                        onClick={() => handleNewUserSpeech(sug, 96)}
-                        className="w-full text-left px-2.5 py-1.5 rounded-xs text-[11px] font-bold bg-slate-50 dark:bg-slate-950 border border-slate-200/60 dark:border-white/5 text-[#0059bb] dark:text-sky-400 hover:bg-[#0059bb]/10 transition-colors cursor-pointer truncate flex items-center gap-1.5"
+                        onClick={() => speakText(ph)}
+                        className="truncate cursor-pointer hover:underline font-medium"
                       >
-                        <MessageSquare className="w-3 h-3 shrink-0 text-[#0059bb]" />
-                        <span className="truncate">{sug}</span>
-                      </button>
+                        "{ph}"
+                      </p>
                     ))}
                   </div>
-                </div>
+                )}
               </div>
-            )}
+
+            </div>
 
           </div>
 
         </div>
 
-      </div>
+      ) : (
+
+        /* ===== VIEW 2: BẢNG TỔNG KẾT & CHẤM ĐIỂM THAY THẾ TRỰC TIẾP (IN-PLACE SCORECARD) ===== */
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.2 }}
+          className="space-y-3 mt-1"
+        >
+          {/* Top Overall Score Card */}
+          <div className="p-4 sm:p-5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-4">
+            
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-white/5 pb-3.5">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xs bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center border border-emerald-500/20">
+                  <Award className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-display">
+                      Đánh Giá Chi Tiết Buổi Luyện Nói
+                    </h2>
+                    <span className="px-2 py-0.5 rounded-xs text-[10px] font-black bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 uppercase">
+                      Hoàn Tất
+                    </span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium">
+                    Huấn luyện viên: <strong className="text-slate-700 dark:text-slate-200">{activePersonaObj.name}</strong> ({activePersonaObj.role})
+                  </p>
+                </div>
+              </div>
+
+              {/* Overall Score Badge */}
+              <div className="flex items-center gap-3 sm:self-center">
+                <div className={`px-2.5 py-1 rounded-xs border text-xs font-black uppercase tracking-wider flex items-center gap-1.5 ${sessionEvaluation.color}`}>
+                  <span>Hạng {sessionEvaluation.grade}</span>
+                  <span>•</span>
+                  <span>{sessionEvaluation.label}</span>
+                </div>
+                <div className="text-right">
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Điểm Phản Xạ</span>
+                  <span className="text-xl sm:text-2xl font-black text-[#0059bb] dark:text-sky-400 font-display">
+                    {sessionEvaluation.overallScore}/100
+                  </span>
+                </div>
+                <div className="h-10 w-[1px] bg-slate-200 dark:bg-white/10 hidden sm:block" />
+                <div className="text-right">
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Phần Thưởng</span>
+                  <span className="text-xl sm:text-2xl font-black text-emerald-500 font-display">
+                    +{sessionEvaluation.xpAward} XP
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* 4 Quick Stat Metric Tiles */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <div className="p-3 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200/60 dark:border-white/5 space-y-1">
+                <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5 text-amber-500" /> Thời gian nói
+                </span>
+                <p className="text-base sm:text-lg font-black text-slate-900 dark:text-white font-mono">
+                  {formatElapsedTime(elapsedTime)}
+                </p>
+              </div>
+
+              <div className="p-3 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200/60 dark:border-white/5 space-y-1">
+                <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                  <MessageSquare className="w-3.5 h-3.5 text-[#0059bb]" /> Lượt tương tác
+                </span>
+                <p className="text-base sm:text-lg font-black text-slate-900 dark:text-white font-mono">
+                  {userTurnsCount} câu
+                </p>
+              </div>
+
+              <div className="p-3 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200/60 dark:border-white/5 space-y-1">
+                <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                  <Mic className="w-3.5 h-3.5 text-indigo-500" /> Điểm phát âm
+                </span>
+                <p className="text-base sm:text-lg font-black text-indigo-600 dark:text-indigo-400 font-mono">
+                  {sessionEvaluation.pronunciationScore}/100
+                </p>
+              </div>
+
+              <div className="p-3 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200/60 dark:border-white/5 space-y-1">
+                <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                  <CheckCircle className="w-3.5 h-3.5 text-emerald-500" /> Chuẩn ngữ pháp
+                </span>
+                <p className="text-base sm:text-lg font-black text-emerald-600 dark:text-emerald-400 font-mono">
+                  {sessionEvaluation.grammarScore}%
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Bento Detailed Analytics: Grammar Feedback & Vocab Used */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-3.5">
+            
+            {/* Cột Trái: Lỗi Ngữ Pháp & Gợi Ý Phrasing Tự Nhiên (8/12) */}
+            <div className="lg:col-span-8 p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3">
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
+                <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#0059bb] dark:text-sky-400 font-display flex items-center gap-1.5">
+                  <Lightbulb className="w-4 h-4 text-amber-500" /> TỔNG HỢP NGỮ PHÁP & CÁCH DIỄN ĐẠT TỰ NHIÊN
+                </h3>
+                <span className="text-[11px] font-bold text-slate-400">
+                  {grammarCorrections.length} ghi chú
+                </span>
+              </div>
+
+              {grammarCorrections.length > 0 ? (
+                <div className="space-y-2.5">
+                  {grammarCorrections.map((item, idx) => (
+                    <div
+                      key={idx}
+                      className="p-3 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200/60 dark:border-white/5 space-y-1.5 text-xs sm:text-sm"
+                    >
+                      <div className="flex items-start gap-2">
+                        <span className="font-bold text-slate-400 shrink-0">#{idx + 1}</span>
+                        <div className="space-y-1 flex-1">
+                          {item.corrected && (
+                            <div>
+                              <span className="text-rose-500 line-through mr-1.5">{item.original}</span>
+                              ➔ <strong className="text-emerald-600 dark:text-emerald-400 font-bold ml-1">{item.corrected}</strong>
+                              {item.explanation && (
+                                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{item.explanation.replace(/^\((.*)\)$/, "$1").trim()}</p>
+                              )}
+                            </div>
+                          )}
+                          {item.betterPhrasing && (
+                            <div className="text-emerald-700 dark:text-emerald-300 font-medium">
+                              <span className="font-bold text-emerald-600 dark:text-emerald-400 mr-1">✨ Diễn đạt tự nhiên hơn:</span>
+                              "{item.betterPhrasing}"
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="p-6 rounded-xs bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-500/20 text-center space-y-1">
+                  <CheckCircle2 className="w-8 h-8 text-emerald-500 mx-auto" />
+                  <p className="text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-300">
+                    Phản xạ rất tuyệt vời!
+                  </p>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                    Bạn không gặp lỗi ngữ pháp nghiêm trọng nào trong suốt buổi nói chuyện hôm nay.
+                  </p>
+                </div>
+              )}
+
+              {/* Toggle View Full Chat History */}
+              <div className="pt-2 border-t border-slate-100 dark:border-white/5">
+                <button
+                  onClick={() => setShowChatHistoryInSummary(!showChatHistoryInSummary)}
+                  className="text-xs font-bold text-[#0059bb] dark:text-sky-400 hover:underline flex items-center gap-1 cursor-pointer"
+                >
+                  <History className="w-3.5 h-3.5" />
+                  {showChatHistoryInSummary ? "Ẩn đoạn hội thoại chi tiết" : "Xem lại toàn bộ đoạn hội thoại"}
+                </button>
+
+                {showChatHistoryInSummary && (
+                  <div className="mt-3 p-3 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200/60 dark:border-white/5 space-y-2.5 max-h-[300px] overflow-y-auto">
+                    {messages.map((m) => (
+                      <div key={m.id} className="text-xs space-y-0.5">
+                        <span className={`font-bold ${m.role === "ai" ? "text-[#0059bb]" : "text-slate-800 dark:text-slate-200"}`}>
+                          {m.role === "ai" ? `${activePersonaObj.name}:` : "Bạn:"}
+                        </span>
+                        <p className="text-slate-600 dark:text-slate-300 leading-relaxed">{m.text}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Cột Phải: Lời Nhận Xét Của Huấn Luyện Viên & Từ Vựng Tiêu Biểu (4/12) */}
+            <div className="lg:col-span-4 p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3">
+              
+              {/* Coach Evaluation Card */}
+              <div className="p-3 rounded-xs bg-[#0059bb]/5 dark:bg-blue-950/40 border border-[#0059bb]/15 dark:border-blue-900/50 space-y-2">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-[#0059bb]/10 border border-[#0059bb]/20 flex items-center justify-center text-sm font-black text-[#0059bb] dark:text-sky-400 shrink-0">
+                    {activePersonaObj.name.charAt(0)}
+                  </div>
+                  <div className="min-w-0">
+                    <div className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                      <span>{activePersonaObj.name}</span>
+                      <span className="text-[10px] font-medium text-[#0059bb] dark:text-sky-400">({activePersonaObj.accent})</span>
+                    </div>
+                    <div className="text-[10px] text-slate-400 truncate">{activePersonaObj.role}</div>
+                  </div>
+                </div>
+                <p className="text-xs font-medium text-slate-700 dark:text-slate-300 leading-relaxed bg-white/70 dark:bg-slate-900/70 p-2 rounded-xs border border-[#0059bb]/10">
+                  "{sessionEvaluation.coachFeedback}"
+                </p>
+              </div>
+
+              {/* Vocab Header */}
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
+                <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#0059bb] dark:text-sky-400 font-display flex items-center gap-1.5">
+                  <Sparkles className="w-4 h-4 text-[#0059bb]" /> TỪ VỰNG TIÊU BIỂU
+                </h3>
+                <span className="text-[11px] font-bold text-slate-400">{allSuggestedWords.length} từ</span>
+              </div>
+
+              <div className="space-y-1.5 max-h-[220px] overflow-y-auto pr-1">
+                {allSuggestedWords.map((w, idx) => (
+                  <div
+                    key={idx}
+                    className="p-2 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200/60 dark:border-white/5 flex items-center justify-between gap-2"
+                  >
+                    <div className="min-w-0">
+                      <span className="text-xs font-bold text-slate-900 dark:text-white capitalize block">{w.word}</span>
+                      {w.meaning && (
+                        <span className="text-[11px] text-slate-500 dark:text-slate-400 truncate block">{w.meaning}</span>
+                      )}
+                    </div>
+                    <button
+                      onClick={() => speakText(w.word)}
+                      className="p-1 rounded-xs hover:bg-slate-200 dark:hover:bg-slate-800 text-[#0059bb] transition-colors cursor-pointer"
+                      title="Nghe phát âm"
+                    >
+                      <Volume2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              {/* Action Buttons: Next Session or Dashboard */}
+              <div className="pt-3 border-t border-slate-100 dark:border-white/5 space-y-2">
+                <button
+                  onClick={handleRestartNewSession}
+                  className="w-full py-2.5 rounded-xs bg-[#0059bb] hover:bg-[#004799] active:scale-98 text-white text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 shadow-2xs cursor-pointer transition-all"
+                >
+                  <RotateCcw className="w-4 h-4" /> Bắt Đầu Buổi Mới (+15 XP/câu)
+                </button>
+
+                <Link
+                  href="/dashboard"
+                  className="w-full py-2 rounded-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors"
+                >
+                  Về Bảng Điều Khiển
+                </Link>
+              </div>
+            </div>
+
+          </div>
+
+        </motion.div>
+      )}
 
       {/* 2. 1-CLICK INTERACTIVE WORD DICTIONARY FLOATING MODAL */}
       <AnimatePresence>
@@ -1254,7 +1491,7 @@ export default function VoiceTutorPage() {
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed left-3 right-3 bottom-20 sm:left-auto sm:right-4 sm:bottom-6 z-50 w-auto sm:w-80 p-3.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-white/15 shadow-2xl space-y-2 select-none"
+            className="fixed left-3 right-3 bottom-20 sm:left-auto sm:right-6 sm:bottom-6 z-50 w-auto sm:w-80 p-3.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-white/15 shadow-2xl space-y-2 select-none"
           >
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
               <div className="flex items-center gap-1.5">
@@ -1291,12 +1528,6 @@ export default function VoiceTutorPage() {
               <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">
                 {selectedWordData.meaning}
               </p>
-
-              {selectedWordData.example && (
-                <p className="text-[11px] text-slate-500 dark:text-slate-400 italic pt-1 border-t border-slate-100 dark:border-white/5">
-                  "{selectedWordData.example}"
-                </p>
-              )}
             </div>
 
             <button

@@ -363,6 +363,53 @@ export function ensureExtendedLesson(lesson: ListeningLesson): ListeningLesson {
     paragraph: Math.floor(idx / 4) + 1,
   }));
 
+  // Ensure every lesson has at least 2-3 high quality quizzes
+  let quizzes = lesson.quizzes && lesson.quizzes.length > 0 ? lesson.quizzes : [];
+  if (quizzes.length === 0 && fullTranscript.length > 0) {
+    const s1 = fullTranscript[0]?.text || "The operational brief today";
+    const s2 = fullTranscript[Math.min(1, fullTranscript.length - 1)]?.text || "Specific steps are being taken";
+    const s3 = fullTranscript[fullTranscript.length - 1]?.text || "Thank you for your cooperation";
+
+    quizzes = [
+      {
+        id: `q_gen_${lesson.id}_1`,
+        question: `What is the main topic of this announcement regarding "${lesson.title}"?`,
+        options: [
+          `Key updates and coordination on ${lesson.title}`,
+          `Budget cuts in external operations`,
+          `Cancelation of international transport`,
+          `Introduction of new personal policies`
+        ],
+        correctIndex: 0,
+        explanation: `The speaker opens with: "${s1}"`
+      },
+      {
+        id: `q_gen_${lesson.id}_2`,
+        question: `According to the speaker, what detail is specifically highlighted?`,
+        options: [
+          `Postponing all project milestones indefinitely`,
+          s2.length > 60 ? s2.slice(0, 60) + "..." : s2,
+          `Replacing the entire management committee`,
+          `Refusing partner feedback requests`
+        ],
+        correctIndex: 1,
+        explanation: `The transcript states: "${s2}"`
+      },
+      {
+        id: `q_gen_${lesson.id}_3`,
+        question: `What conclusion or next step is emphasized by the speaker?`,
+        options: [
+          `Closing the facility immediately`,
+          `Dismissing staff without notice`,
+          s3.length > 60 ? s3.slice(0, 60) + "..." : s3,
+          `Decreasing operational standards`
+        ],
+        correctIndex: 2,
+        explanation: `The final sentence confirms: "${s3}"`
+      }
+    ];
+  }
+
   const lastSentence = fullTranscript.length > 0 ? fullTranscript[fullTranscript.length - 1] : null;
   const lastEndTime = lastSentence ? lastSentence.endTime || 60 : 60;
   const mins = Math.max(2, Math.ceil(lastEndTime / 60));
@@ -371,6 +418,7 @@ export function ensureExtendedLesson(lesson: ListeningLesson): ListeningLesson {
     ...lesson,
     duration: `${mins}:${(fullTranscript.length * 4) % 60 < 10 ? '0' : ''}${(fullTranscript.length * 4) % 60}`,
     transcript: fullTranscript,
+    quizzes,
   };
 }
 

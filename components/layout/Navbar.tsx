@@ -24,6 +24,11 @@ import {
   CheckCheck,
   BellOff,
   Laptop,
+  Swords,
+  Flame,
+  Trophy,
+  BookOpen,
+  Users,
 } from "lucide-react";
 
 
@@ -100,6 +105,74 @@ interface NotificationCenterDropdownProps {
   setIsOpen: (open: boolean) => void;
 }
 
+function NotificationIconBadge({
+  notification,
+}: {
+  notification: AppNotification;
+}) {
+  const { type, icon, title } = notification;
+
+  if (
+    icon === "swords" ||
+    icon === "⚔️" ||
+    title.toLowerCase().includes("pvp") ||
+    title.toLowerCase().includes("thách đấu")
+  ) {
+    return (
+      <div className="w-8 h-8 rounded-xs bg-purple-500/10 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center justify-center shrink-0">
+        <Swords className="w-4 h-4" strokeWidth={1.8} />
+      </div>
+    );
+  }
+
+  if (
+    icon === "flame" ||
+    icon === "🔥" ||
+    title.toLowerCase().includes("chuỗi") ||
+    title.toLowerCase().includes("streak")
+  ) {
+    return (
+      <div className="w-8 h-8 rounded-xs bg-amber-500/10 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-500/20 flex items-center justify-center shrink-0">
+        <Flame className="w-4 h-4" strokeWidth={1.8} />
+      </div>
+    );
+  }
+
+  if (
+    icon === "trophy" ||
+    icon === "🏆" ||
+    title.toLowerCase().includes("thành tựu") ||
+    title.toLowerCase().includes("level") ||
+    title.toLowerCase().includes("hạng")
+  ) {
+    return (
+      <div className="w-8 h-8 rounded-xs bg-yellow-500/10 dark:bg-yellow-950/40 text-yellow-600 dark:text-yellow-400 border border-yellow-500/20 flex items-center justify-center shrink-0">
+        <Trophy className="w-4 h-4" strokeWidth={1.8} />
+      </div>
+    );
+  }
+
+  if (
+    icon === "social" ||
+    icon === "👋" ||
+    type === "social" ||
+    title.toLowerCase().includes("bạn bè") ||
+    title.toLowerCase().includes("kết bạn")
+  ) {
+    return (
+      <div className="w-8 h-8 rounded-xs bg-emerald-500/10 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0">
+        <Users className="w-4 h-4" strokeWidth={1.8} />
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-8 h-8 rounded-xs bg-[#0059bb]/10 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-400 border border-[#0059bb]/20 flex items-center justify-center shrink-0">
+      <BookOpen className="w-4 h-4" strokeWidth={1.8} />
+    </div>
+  );
+}
+
 function NotificationCenterDropdown({
   isOpen,
   setIsOpen,
@@ -134,131 +207,176 @@ function NotificationCenterDropdown({
     deleteNotification(id);
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed right-2.5 sm:right-0 top-[54px] sm:top-full sm:mt-2 w-[calc(100vw-1.25rem)] max-w-[340px] sm:w-80 md:w-96 overflow-hidden shadow-2xl rounded-xs border border-slate-200/90 dark:border-neutral-850/80 bg-white dark:bg-neutral-900 z-50 transition-all">
-      {/* Category Tabs: 2 Tabs (Tất cả & Học tập) */}
-      <div className="p-1.5 border-b border-slate-100 dark:border-neutral-850/50 bg-slate-50/50 dark:bg-neutral-900/50">
-        <div className="grid grid-cols-2 gap-1 bg-slate-100 dark:bg-neutral-950 p-0.5 rounded-xs text-center">
-          <button
-            type="button"
-            onClick={() => setActiveTab("all")}
-            className={`py-1 text-[11px] font-black uppercase tracking-wider rounded-xs cursor-pointer transition-all ${
-              activeTab === "all"
-                ? "bg-white dark:bg-neutral-850 text-cyan-600 dark:text-cyan-400 shadow-2xs font-extrabold"
-                : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
-            }`}
-          >
-            Tất cả
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab("study")}
-            className={`py-1 text-[11px] font-black uppercase tracking-wider rounded-xs cursor-pointer transition-all ${
-              activeTab === "study"
-                ? "bg-white dark:bg-neutral-850 text-cyan-600 dark:text-cyan-400 shadow-2xs font-extrabold"
-                : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
-            }`}
-          >
-            Học tập
-          </button>
-        </div>
-      </div>
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          {/* Transparent Click-away Overlay (không làm mờ hay nhòe navbar) */}
+          <div
+            className="fixed inset-0 z-40 cursor-default"
+            onClick={() => setIsOpen(false)}
+          />
 
-      {/* Action Header controls */}
-      <div className="px-3 py-2 font-bold text-xs border-b border-slate-100 dark:border-neutral-850/50 flex justify-between items-center bg-white dark:bg-neutral-900">
-        <span className="text-slate-400 font-extrabold text-[10.5px] uppercase tracking-wide truncate">
-          Hộp thông báo ({filteredNotifs.length})
-        </span>
-        {filteredNotifs.length > 0 && (
-          <div className="flex items-center gap-2 shrink-0">
-            <button
-              type="button"
-              onClick={markAllAsRead}
-              className="flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-cyan-600 dark:text-cyan-400 hover:opacity-80 cursor-pointer"
-            >
-              <CheckCheck className="w-3.5 h-3.5" /> Đọc hết
-            </button>
-            <button
-              type="button"
-              onClick={clearAll}
-              className="flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-rose-500 hover:opacity-80 cursor-pointer"
-            >
-              <Trash2 className="w-3.5 h-3.5" /> Xóa hết
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* Notification List Scroll box */}
-      <div
-        className="notification-list divide-y divide-slate-100/50 dark:divide-neutral-850/30 bg-white dark:bg-neutral-900"
-        style={{ maxHeight: "320px", overflowY: "auto" }}
-      >
-        {filteredNotifs.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-10 px-6 text-center select-none">
-            <BellOff
-              className="w-9 h-9 text-slate-300 dark:text-neutral-700 mb-3"
-              strokeWidth={1.2}
-            />
-            <span className="text-xs font-black text-slate-800 dark:text-white">
-              Không có thông báo nào
-            </span>
-            <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1 font-semibold max-w-[220px] leading-relaxed">
-              Các thông báo nhắc nhở và sự kiện học tập sẽ xuất hiện tại đây khi
-              phát sinh.
-            </p>
-          </div>
-        ) : (
-          filteredNotifs.map((n) => (
-            <div
-              key={n.id}
-              onClick={() => handleItemClick(n)}
-              className={`dropdown-item flex items-start justify-between gap-2.5 p-2.5 sm:p-3 cursor-pointer hover:bg-slate-50/70 dark:hover:bg-neutral-850/30 transition-colors relative group ${
-                n.isRead ? "" : "bg-cyan-50/15 dark:bg-cyan-950/10"
-              }`}
-              style={{ whiteSpace: "normal" }}
-            >
-              <div className="flex items-start gap-2.5 flex-1 min-w-0">
-                <span className="text-base sm:text-lg shrink-0 mt-0.5 select-none">
-                  {n.icon}
+          {/* Notification Popover Card - Nằm sát rìa phải */}
+          <motion.div
+            initial={{ opacity: 0, y: -6, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -6, scale: 0.98 }}
+            transition={{ type: "spring", stiffness: 400, damping: 28 }}
+            className="fixed right-2.5 sm:right-0 top-[54px] sm:top-full sm:mt-2 w-[calc(100vw-1.25rem)] max-w-[360px] sm:w-80 md:w-96 overflow-hidden shadow-2xl rounded-xs border border-slate-200/90 dark:border-white/15 bg-white dark:bg-neutral-900 z-50 select-none font-sans"
+          >
+            {/* Compact Header: Title + Tab Pills + Actions */}
+            <div className="p-2.5 border-b border-slate-100 dark:border-white/5 bg-slate-50/70 dark:bg-neutral-950/70 flex items-center justify-between gap-2">
+              <div className="flex items-center gap-1.5 min-w-0">
+                <span className="text-xs font-bold text-slate-900 dark:text-white font-display uppercase tracking-wide">
+                  Thông báo
                 </span>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center justify-between gap-1.5">
-                    <span className="font-extrabold text-[11.5px] sm:text-xs text-slate-800 dark:text-white truncate">
-                      {n.title}
-                    </span>
-                    {!n.isRead && (
-                      <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 shrink-0" />
-                    )}
-                  </div>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-normal font-semibold mt-0.5 whitespace-normal break-words">
-                    {n.body}
-                  </p>
-                  <span className="text-[8.5px] font-bold text-slate-400 dark:text-neutral-500 block mt-1 uppercase tracking-wide">
-                    {new Date(n.createdAt).toLocaleTimeString("vi-VN", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
+                {unreadCount > 0 && (
+                  <span className="px-1.5 py-0.2 rounded-full bg-rose-500 text-[10px] font-bold text-white leading-tight">
+                    {unreadCount > 99 ? "99+" : unreadCount}
                   </span>
-                </div>
+                )}
               </div>
 
-              {/* Trash button to delete notification */}
-              <button
-                type="button"
-                onClick={(e) => handleItemDelete(e, n.id)}
-                className="opacity-100 sm:opacity-0 group-hover:opacity-100 w-6 h-6 rounded text-slate-400 hover:text-rose-500 hover:bg-rose-500/10 flex items-center justify-center cursor-pointer transition-all self-center shrink-0"
-                title="Xóa thông báo"
-              >
-                <Trash2 className="w-3.5 h-3.5" />
-              </button>
+              {/* Segmented Filter Pills */}
+              <div className="flex items-center bg-slate-200/70 dark:bg-neutral-800 p-0.5 rounded-xs text-[11px] font-bold">
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("all")}
+                  className={`px-2 py-0.5 rounded-xs transition-all cursor-pointer ${
+                    activeTab === "all"
+                      ? "bg-white dark:bg-neutral-900 text-[#0059bb] dark:text-sky-400 shadow-2xs font-extrabold"
+                      : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white"
+                  }`}
+                >
+                  Tất cả
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("study")}
+                  className={`px-2 py-0.5 rounded-xs transition-all cursor-pointer ${
+                    activeTab === "study"
+                      ? "bg-white dark:bg-neutral-900 text-[#0059bb] dark:text-sky-400 shadow-2xs font-extrabold"
+                      : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white"
+                  }`}
+                >
+                  Học tập
+                </button>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex items-center gap-1 shrink-0">
+                {filteredNotifs.length > 0 && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={markAllAsRead}
+                      className="p-1 rounded-xs hover:bg-slate-200/80 dark:hover:bg-neutral-800 text-[#0059bb] dark:text-sky-400 transition-colors cursor-pointer"
+                      title="Đánh dấu đọc tất cả"
+                    >
+                      <CheckCheck className="w-3.5 h-3.5" strokeWidth={2} />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={clearAll}
+                      className="p-1 rounded-xs hover:bg-rose-500/10 text-slate-400 hover:text-rose-500 transition-colors cursor-pointer"
+                      title="Xóa tất cả"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" strokeWidth={1.8} />
+                    </button>
+                  </>
+                )}
+                <button
+                  type="button"
+                  onClick={() => setIsOpen(false)}
+                  className="p-1 rounded-xs hover:bg-slate-200/80 dark:hover:bg-neutral-800 text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors cursor-pointer sm:hidden"
+                  title="Đóng"
+                >
+                  <X className="w-3.5 h-3.5" strokeWidth={1.8} />
+                </button>
+              </div>
             </div>
-          ))
-        )}
-      </div>
-    </div>
+
+            {/* Notification List Scroll box: Tối đa hiển thị 3 tin nhắn lướt cuộn */}
+            <div className="divide-y divide-slate-100 dark:divide-white/5 max-h-[225px] sm:max-h-[235px] overflow-y-auto overscroll-contain scroll-smooth [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-slate-300 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-700 hover:[&::-webkit-scrollbar-thumb]:bg-slate-400">
+              {filteredNotifs.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-10 px-6 text-center select-none">
+                  <BellOff
+                    className="w-9 h-9 text-slate-300 dark:text-neutral-700 mb-2.5"
+                    strokeWidth={1.2}
+                  />
+                  <span className="text-xs font-bold text-slate-800 dark:text-white">
+                    Không có thông báo nào
+                  </span>
+                  <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-1 max-w-[220px] leading-relaxed">
+                    Các sự kiện học tập và nhắc nhở sẽ xuất hiện tại đây khi phát sinh.
+                  </p>
+                </div>
+              ) : (
+                filteredNotifs.map((n) => (
+                  <div
+                    key={n.id}
+                    onClick={() => handleItemClick(n)}
+                    className={`flex items-start justify-between gap-2.5 p-2.5 sm:p-3 cursor-pointer hover:bg-slate-50 dark:hover:bg-neutral-800/40 transition-colors relative group ${
+                      n.isRead
+                        ? ""
+                        : "bg-[#0059bb]/5 dark:bg-blue-950/20 border-l-2 border-[#0059bb]"
+                    }`}
+                  >
+                    <div className="flex items-start gap-2.5 flex-1 min-w-0">
+                      <NotificationIconBadge notification={n} />
+                      <div className="min-w-0 flex-1 space-y-0.5">
+                        <div className="flex items-center justify-between gap-1.5">
+                          <span
+                            className={`text-xs truncate ${
+                              !n.isRead
+                                ? "font-bold text-slate-900 dark:text-white"
+                                : "font-medium text-slate-700 dark:text-slate-300"
+                            }`}
+                          >
+                            {n.title}
+                          </span>
+                          {!n.isRead && (
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#0059bb] dark:bg-sky-400 shrink-0" />
+                          )}
+                        </div>
+                        <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed break-words line-clamp-2">
+                          {n.body}
+                        </p>
+                        <span className="text-[9px] font-semibold text-slate-400 dark:text-neutral-500 block pt-0.5">
+                          {new Date(n.createdAt).toLocaleTimeString("vi-VN", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Trash button to delete notification */}
+                    <button
+                      type="button"
+                      onClick={(e) => handleItemDelete(e, n.id)}
+                      className="opacity-70 sm:opacity-0 group-hover:opacity-100 p-1 rounded hover:text-rose-500 hover:bg-rose-500/10 text-slate-400 cursor-pointer transition-all self-center shrink-0"
+                      title="Xóa thông báo này"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                ))
+              )}
+            </div>
+
+            {/* Thanh báo hiệu lướt khi có nhiều hơn 3 thông báo */}
+            {filteredNotifs.length > 3 && (
+              <div className="px-3 py-1.5 bg-slate-50/90 dark:bg-neutral-950/90 border-t border-slate-100 dark:border-white/5 text-[10.5px] text-slate-400 dark:text-neutral-500 font-bold flex items-center justify-between select-none">
+                <span>Cuộn lướt xem thêm ({filteredNotifs.length} thông báo)</span>
+                <span className="text-[#0059bb] dark:text-sky-400 font-extrabold text-xs animate-bounce">↓</span>
+              </div>
+            )}
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
   );
 }
 
@@ -381,7 +499,9 @@ function LocalNavbar() {
             <Bell className="w-[18px] h-[18px]" strokeWidth={1.8} />
             {unreadCount > 0 && (
               <>
-                <span className="notification-dot">{unreadCount}</span>
+                <span className="notification-dot">
+                  {unreadCount > 99 ? "99+" : unreadCount}
+                </span>
                 <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-rose-500/30 animate-ping pointer-events-none animate-duration-1000" />
               </>
             )}
@@ -514,7 +634,7 @@ export default function Navbar() {
       const rand = Math.random();
       if (rand < 0.15) {
         store.addNotification({
-          icon: "⚔️",
+          icon: "swords",
           title: "Thách đấu PvP!",
           body: "Học viên MinhAnh vừa gửi lời mời thách đấu từ vựng.",
           type: "social",
@@ -522,7 +642,7 @@ export default function Navbar() {
         });
       } else if (rand < 0.3) {
         store.addNotification({
-          icon: "🔥",
+          icon: "flame",
           title: "Chuỗi học tập!",
           body: "Hãy ôn tập 5 từ vựng hôm nay để duy trì chuỗi học tập hàng ngày.",
           type: "study",

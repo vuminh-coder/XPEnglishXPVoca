@@ -9,19 +9,21 @@ export interface RoomQuizQuestion {
 }
 
 export const ROOM_QUIZ_TEST_BANK: RoomQuizQuestion[] = [
-  // --- TOEIC ---
+  // ==========================================
+  // --- TOEIC (Business & Workplace) ---
+  // ==========================================
   {
-    id: "t_01",
-    question: "Từ nào đồng nghĩa với 'innovative'?",
+    id: "toeic_01",
+    question: "Từ nào đồng nghĩa với 'innovative' trong ngữ cảnh kinh doanh?",
     options: ["Traditional", "Creative", "Obsolete", "Passive"],
     correct: 1,
-    explanation: "'Innovative' và 'Creative' đều mang nghĩa sáng tạo, đổi mới.",
+    explanation: "'Innovative' và 'Creative' đều mang nghĩa sáng tạo, đổi mới phương thức làm việc.",
     category: "TOEIC",
     level: "Trung cấp",
   },
   {
-    id: "t_02",
-    question: "Điền từ: 'The manager decided to _____ the meeting until next Monday.'",
+    id: "toeic_02",
+    question: "Điền từ: 'The executive committee decided to _____ the merger until next quarter.'",
     options: ["postpone", "cancel", "resume", "accelerate"],
     correct: 0,
     explanation: "'Postpone' nghĩa là hoãn lại đến một thời điểm sau.",
@@ -29,113 +31,494 @@ export const ROOM_QUIZ_TEST_BANK: RoomQuizQuestion[] = [
     level: "Trung cấp",
   },
   {
-    id: "t_03",
+    id: "toeic_03",
     question: "Từ nào trái nghĩa với 'diligent'?",
     options: ["Hardworking", "Lazy", "Attentive", "Eager"],
     correct: 1,
-    explanation: "'Diligent' là siêng năng, trái nghĩa với 'Lazy' (lười biếng).",
+    explanation: "'Diligent' là siêng năng, cần cù, trái nghĩa với 'Lazy' (lười biếng).",
     category: "TOEIC",
     level: "Cơ bản",
   },
   {
-    id: "t_04",
-    question: "Điền giới từ: 'She is capable _____ solving this complex problem.'",
+    id: "toeic_04",
+    question: "Điền giới từ: 'The engineering team is capable _____ resolving complex network latency.'",
     options: ["of", "to", "with", "for"],
     correct: 0,
-    explanation: "Cấu trúc: be capable of + V-ing/N (có khả năng làm gì).",
+    explanation: "Cấu trúc: 'be capable of + V-ing/N' (có năng lực làm gì).",
     category: "TOEIC",
     level: "Cơ bản",
   },
   {
-    id: "t_05",
-    question: "Chọn từ đúng: 'All employees are required to _____ with safety regulations.'",
+    id: "toeic_05",
+    question: "Chọn từ đúng: 'All personnel must _____ with international safety regulations.'",
     options: ["comply", "obey", "adhere", "conform"],
     correct: 0,
-    explanation: "Cấu trúc: comply with + regulations/rules (tuân thủ quy định).",
+    explanation: "Cấu trúc: 'comply with + rules/regulations' (tuân thủ quy định).",
     category: "TOEIC",
     level: "Nâng cao",
   },
-
-  // --- IELTS ---
   {
-    id: "i_01",
+    id: "toeic_06",
+    question: "Chọn dạng đúng của từ: 'Ms. Vance presented a _____ summary of the quarterly financial audit.'",
+    options: ["comprehend", "comprehensive", "comprehension", "comprehensively"],
+    correct: 1,
+    explanation: "Cần tính từ 'comprehensive' (toàn diện, sâu rộng) bổ nghĩa cho danh từ 'summary'.",
+    category: "TOEIC",
+    level: "Trung cấp",
+  },
+  {
+    id: "toeic_07",
+    question: "Điền liên từ: '_____ the supply chain disruption, the factory met its Q3 production target.'",
+    options: ["Although", "Despite", "Because", "Even"],
+    correct: 1,
+    explanation: "'Despite' đứng trước cụm danh từ ('the supply chain disruption') thể hiện sự tương phản.",
+    category: "TOEIC",
+    level: "Cơ bản",
+  },
+  {
+    id: "toeic_08",
+    question: "Từ nào đồng nghĩa với 'remuneration'?",
+    options: ["Compensation", "Deduction", "Penalty", "Taxation"],
+    correct: 0,
+    explanation: "'Remuneration' đồng nghĩa với 'Compensation' (thù lao, tiền lương thưởng).",
+    category: "TOEIC",
+    level: "Nâng cao",
+  },
+  {
+    id: "toeic_09",
+    question: "Điền từ: 'All expense reimbursement receipts must be submitted _____ 5:00 PM on Friday.'",
+    options: ["by", "until", "for", "during"],
+    correct: 0,
+    explanation: "'By' dùng để chỉ mốc thời hạn chót phải hoàn thành hành động.",
+    category: "TOEIC",
+    level: "Cơ bản",
+  },
+  {
+    id: "toeic_10",
+    question: "Chọn cụm từ đúng: 'The new employee benefits package is contingent _____ board approval.'",
+    options: ["upon", "into", "from", "at"],
+    correct: 0,
+    explanation: "Cụm cố định 'contingent upon/on' nghĩa là tùy thuộc vào, phụ thuộc vào.",
+    category: "TOEIC",
+    level: "Nâng cao",
+  },
+  {
+    id: "toeic_11",
+    question: "Điền từ: 'The company will _____ a survey to evaluate customer satisfaction.'",
+    options: ["conduct", "perform", "behave", "contain"],
+    correct: 0,
+    explanation: "Collocation chuẩn thương mại: 'conduct a survey' (tiến hành cuộc khảo sát).",
+    category: "TOEIC",
+    level: "Cơ bản",
+  },
+  {
+    id: "toeic_12",
+    question: "Từ 'confidential' đồng nghĩa với từ nào sau đây?",
+    options: ["Public", "Secret", "Ordinary", "Available"],
+    correct: 1,
+    explanation: "'Confidential' nghĩa là bảo mật, bí mật (Secret).",
+    category: "TOEIC",
+    level: "Cơ bản",
+  },
+  {
+    id: "toeic_13",
+    question: "Chọn từ đúng: 'Mr. Tanaka's flight was delayed due to _____ weather conditions.'",
+    options: ["adverse", "reverse", "diverse", "perverse"],
+    correct: 0,
+    explanation: "'Adverse weather conditions' là cụm cố định chỉ điều kiện thời tiết bất lợi/khắc nghiệt.",
+    category: "TOEIC",
+    level: "Trung cấp",
+  },
+  {
+    id: "toeic_14",
+    question: "Điền từ: 'The board praised the IT division for resolving the security breach _____.'",
+    options: ["promptly", "prompt", "promptness", "prompting"],
+    correct: 0,
+    explanation: "Cần trạng từ 'promptly' (kịp thời, nhanh chóng) bổ nghĩa cho hành động 'resolving'.",
+    category: "TOEIC",
+    level: "Trung cấp",
+  },
+  {
+    id: "toeic_15",
+    question: "Từ nào mô tả người thuê văn phòng/nhà đất trong hợp đồng thương mại?",
+    options: ["Landlord", "Tenant", "Realtor", "Vendor"],
+    correct: 1,
+    explanation: "'Tenant' nghĩa là người thuê nhà/người thuê mặt bằng kinh doanh.",
+    category: "TOEIC",
+    level: "Trung cấp",
+  },
+
+  // ==========================================
+  // --- IELTS (Academic & Analytical) ---
+  // ==========================================
+  {
+    id: "ielts_01",
     question: "Từ nào mô tả sự gia tăng đột biến trong biểu đồ Task 1?",
     options: ["Fluctuate", "Surge", "Plummet", "Stagnate"],
     correct: 1,
-    explanation: "'Surge' thể hiện sự tăng vọt, tăng mạnh.",
+    explanation: "'Surge' thể hiện sự tăng vọt, tăng mạnh đột biến.",
     category: "IELTS",
     level: "Nâng cao",
   },
   {
-    id: "i_02",
-    question: "'Ubiquitous' mang ý nghĩa gì?",
+    id: "ielts_02",
+    question: "Từ 'ubiquitous' mang ý nghĩa gì?",
     options: ["Rare and precious", "Present everywhere", "Highly dangerous", "Ancient"],
     correct: 1,
-    explanation: "'Ubiquitous' = phổ biến, có mặt ở khắp mọi nơi.",
+    explanation: "'Ubiquitous' = phổ biến, hiện diện ở khắp mọi nơi (omnipresent).",
     category: "IELTS",
     level: "Nâng cao",
   },
   {
-    id: "i_03",
-    question: "Chọn từ nối biểu thị sự nhượng bộ (Concession):",
+    id: "ielts_03",
+    question: "Chọn từ nối biểu thị sự nhượng bộ (Concession) học thuật Band 8+:",
     options: ["Furthermore", "Notwithstanding", "Consequently", "Hence"],
     correct: 1,
-    explanation: "'Notwithstanding' = mặc dù, bất chấp (dùng trong IELTS Writing Band 8+).",
+    explanation: "'Notwithstanding' = mặc dù, bất chấp (liên từ nhượng bộ trang trọng).",
+    category: "IELTS",
+    level: "Nâng cao",
+  },
+  {
+    id: "ielts_04",
+    question: "Từ nào đồng nghĩa với 'mitigate' trong nghị luận môi trường?",
+    options: ["Alleviate", "Aggravate", "Accelerate", "Amplify"],
+    correct: 0,
+    explanation: "'Mitigate' và 'Alleviate' đều có nghĩa là làm giảm nhẹ mức độ nghiêm trọng.",
+    category: "IELTS",
+    level: "Nâng cao",
+  },
+  {
+    id: "ielts_05",
+    question: "Điền từ: 'The widespread adoption of AI has triggered a fundamental _____ in education.'",
+    options: ["paradigm shift", "routine check", "trivial change", "minor glitch"],
+    correct: 0,
+    explanation: "'Paradigm shift' nghĩa là sự chuyển biến mang tính căn bản/bước ngoặt.",
+    category: "IELTS",
+    level: "Nâng cao",
+  },
+  {
+    id: "ielts_06",
+    question: "Từ 'deleterious' đồng nghĩa với từ nào sau đây?",
+    options: ["Beneficial", "Harmful", "Delicious", "Durable"],
+    correct: 1,
+    explanation: "'Deleterious' (gây hại, nguy hại) đồng nghĩa với 'Harmful'.",
+    category: "IELTS",
+    level: "Nâng cao",
+  },
+  {
+    id: "ielts_07",
+    question: "Từ nào dùng để miêu tả sự dao động lên xuống không ngừng trên biểu đồ?",
+    options: ["Stabilize", "Fluctuate", "Peak", "Level off"],
+    correct: 1,
+    explanation: "'Fluctuate' là dao động biến thiên liên tục qua thời gian.",
+    category: "IELTS",
+    level: "Trung cấp",
+  },
+  {
+    id: "ielts_08",
+    question: "Chọn cụm từ học thuật: 'Children often learn by _____ their parents' behaviors.'",
+    options: ["emulating", "evaporating", "eradicating", "escalating"],
+    correct: 0,
+    explanation: "'Emulate' nghĩa là noi gương, bắt chước theo hướng tích cực.",
+    category: "IELTS",
+    level: "Nâng cao",
+  },
+  {
+    id: "ielts_09",
+    question: "Từ 'plausible' mang nghĩa gì?",
+    options: ["Unbelievable", "Reasonable and likely true", "Extremely loud", "Flexible"],
+    correct: 1,
+    explanation: "'Plausible' nghĩa là hợp lý, đáng tin cậy, có cơ sở xác thực.",
+    category: "IELTS",
+    level: "Nâng cao",
+  },
+  {
+    id: "ielts_10",
+    question: "Trong IELTS Writing Task 2, từ nào tốt nhất để mở đầu đoạn phản biện?",
+    options: ["Opponents argue that", "I say that", "People think bad that", "My friends think"],
+    correct: 0,
+    explanation: "'Opponents argue that...' là cấu trúc học thuật khách quan chuẩn mực.",
+    category: "IELTS",
+    level: "Trung cấp",
+  },
+  {
+    id: "ielts_11",
+    question: "Từ 'ephemeral' đồng nghĩa với từ nào sau đây?",
+    options: ["Permanent", "Transitory", "Eternal", "Enduring"],
+    correct: 1,
+    explanation: "'Ephemeral' và 'Transitory' đều mang nghĩa phù du, ngắn ngủi, nhất thời.",
+    category: "IELTS",
+    level: "Nâng cao",
+  },
+  {
+    id: "ielts_12",
+    question: "Điền từ: 'Deforestation poses an _____ threat to biodiversity worldwide.'",
+    options: ["existential", "exotic", "expensive", "extensive"],
+    correct: 0,
+    explanation: "'Existential threat' là cụm cố định chỉ mối đe dọa mang tính sinh tồn/tồn vong.",
     category: "IELTS",
     level: "Nâng cao",
   },
 
-  // --- GIAO TIẾP ---
+  // ==========================================
+  // --- GIAO TIẾP (Communication & Idioms) ---
+  // ==========================================
   {
-    id: "c_01",
+    id: "comm_01",
     question: "Thành ngữ 'Break a leg!' có nghĩa là gì?",
     options: ["Tự làm đau bản thân", "Chúc may mắn", "Hãy cẩn thận", "Nghỉ ngơi đi"],
     correct: 1,
-    explanation: "'Break a leg!' là lời chúc may mắn thường dùng trước giờ biểu diễn/thi đấu.",
+    explanation: "'Break a leg!' là lời chúc may mắn quen thuộc trước buổi diễn hoặc kỳ thi.",
     category: "Giao tiếp",
     level: "Cơ bản",
   },
   {
-    id: "c_02",
-    question: "Khi người khác cảm ơn bạn, đáp lại thân thiện nhất là:",
+    id: "comm_02",
+    question: "Khi người khác nói 'Thank you so much!', câu đáp lại tự nhiên nhất là:",
     options: ["No problem!", "You're welcome!", "Don't mention it!", "Tất cả các đáp án trên"],
     correct: 3,
-    explanation: "Cả 3 câu đều là cách đáp lại lời cảm ơn tự nhiên trong tiếng Anh.",
+    explanation: "Cả 3 cách diễn đạt trên đều là lời đáp tự nhiên, lịch sự trong giao tiếp hàng ngày.",
     category: "Giao tiếp",
     level: "Cơ bản",
   },
   {
-    id: "c_03",
-    question: "Cụm từ 'Under the weather' có nghĩa là gì?",
-    options: ["Thời tiết xấu", "Cảm thấy bị ốm nhẹ", "Đang đi du lịch", "Che ô đi mưa"],
+    id: "comm_03",
+    question: "Cụm thành ngữ 'Under the weather' có nghĩa là gì?",
+    options: ["Thời tiết giông bão", "Cảm thấy bị ốm nhẹ", "Đang đi du lịch", "Che ô đi mưa"],
     correct: 1,
-    explanation: "'Feel under the weather' = cảm thấy không được khỏe.",
+    explanation: "'Feel under the weather' nghĩa là cảm thấy hơi mệt mỏi, không khỏe trong người.",
     category: "Giao tiếp",
     level: "Cơ bản",
   },
+  {
+    id: "comm_04",
+    question: "Thành ngữ 'Call it a day' có ý nghĩa gì trong công sở?",
+    options: ["Bắt đầu ngày mới", "Dừng công việc lại để nghỉ", "Gọi điện cả ngày", "Đặt tên cho dự án"],
+    correct: 1,
+    explanation: "'Call it a day' nghĩa là hoàn thành công việc của ngày hôm nay và kết thúc.",
+    category: "Giao tiếp",
+    level: "Cơ bản",
+  },
+  {
+    id: "comm_05",
+    question: "Khi ai đó nói 'See eye to eye with someone', nghĩa là họ:",
+    options: ["Tranh cãi gay gắt", "Nhìn chằm chằm vào mắt", "Đồng quan điểm với nhau", "Đang đeo kính"],
+    correct: 2,
+    explanation: "'See eye to eye' là thành ngữ chỉ sự đồng thuận, nhất trí về quan điểm.",
+    category: "Giao tiếp",
+    level: "Trung cấp",
+  },
+  {
+    id: "comm_06",
+    question: "Cụm từ 'Bite the bullet' có nghĩa là gì?",
+    options: ["Ăn một bữa ngon", "Cắn chặt răng chịu đựng khó khăn", "Bắn súng", "Bỏ cuộc giữa chừng"],
+    correct: 1,
+    explanation: "'Bite the bullet' nghĩa là chấp nhận đương đầu với một tình huống khó khăn/đau đớn.",
+    category: "Giao tiếp",
+    level: "Trung cấp",
+  },
+  {
+    id: "comm_07",
+    question: "Khi đối tác nói 'Let's touch base next week', họ muốn:",
+    options: ["Chơi bóng chày", "Liên lạc trao đổi lại", "Ký hợp đồng ngay", "Hủy cuộc họp"],
+    correct: 1,
+    explanation: "'Touch base' là thuật ngữ công sở chỉ việc kết nối lại để cập nhật tiến độ.",
+    category: "Giao tiếp",
+    level: "Trung cấp",
+  },
+  {
+    id: "comm_08",
+    question: "Thành ngữ 'Hit the nail on the head' nghĩa là gì?",
+    options: ["Đóng đinh vào tường", "Bị đau đầu", "Nói trúng tim đen / nói rất chính xác", "Làm hỏng việc"],
+    correct: 2,
+    explanation: "'Hit the nail on the head' nghĩa là nói cực kỳ chính xác vấn đề cốt lõi.",
+    category: "Giao tiếp",
+    level: "Trung cấp",
+  },
+  {
+    id: "comm_09",
+    question: "Khi bạn muốn lịch sự ngắt lời ai đó trong cuộc họp:",
+    options: ["Stop talking!", "Sorry to interrupt, but...", "Be quiet please!", "Listen to me!"],
+    correct: 1,
+    explanation: "'Sorry to interrupt, but...' là câu mở đầu lịch sự và chuyên nghiệp nhất.",
+    category: "Giao tiếp",
+    level: "Cơ bản",
+  },
+  {
+    id: "comm_10",
+    question: "Cụm 'Cut corners' trong sản xuất/kinh doanh có nghĩa là gì?",
+    options: ["Cắt góc giấy", "Đi đường tắt địa lý", "Làm dối/tiết kiệm chi phí bằng cách bỏ bớt quy trình", "Mua sắm thiết bị"],
+    correct: 2,
+    explanation: "'Cut corners' nghĩa là làm tắt, bớt xén chi phí/công đoạn dẫn đến chất lượng kém.",
+    category: "Giao tiếp",
+    level: "Trung cấp",
+  },
+
+  // ==========================================
+  // --- TỔNG QUÁT (Grammar & Vocabulary Core) ---
+  // ==========================================
+  {
+    id: "gen_01",
+    question: "Điền dạng đúng của động từ: 'If I _____ you, I would consult a financial advisor.'",
+    options: ["am", "was", "were", "had been"],
+    correct: 2,
+    explanation: "Câu điều kiện loại 2 giả định trái ngược hiện tại: dùng 'were' cho tất cả các ngôi.",
+    category: "Tổng quát",
+    level: "Cơ bản",
+  },
+  {
+    id: "gen_02",
+    question: "Chọn câu viết đúng ngữ pháp đảo ngữ:",
+    options: [
+      "Hardly I had arrived when it began to rain.",
+      "Hardly had I arrived when it began to rain.",
+      "Hardly did I arrive than it began to rain.",
+      "Hardly I arrived when it began to rain."
+    ],
+    correct: 1,
+    explanation: "Cấu trúc đảo ngữ: 'Hardly + had + S + V3/ed + when + S + V2/ed'.",
+    category: "Tổng quát",
+    level: "Nâng cao",
+  },
+  {
+    id: "gen_03",
+    question: "Điền từ: 'Neither the manager nor his assistants _____ present at the session.'",
+    options: ["was", "were", "is", "has been"],
+    correct: 1,
+    explanation: "Với cấu trúc 'Neither... nor...', động từ hòa hợp với chủ ngữ gần nó nhất ('assistants' số nhiều -> 'were').",
+    category: "Tổng quát",
+    level: "Trung cấp",
+  },
+  {
+    id: "gen_04",
+    question: "Chọn giới từ đúng: 'The team succeeded _____ deploying the new algorithm.'",
+    options: ["at", "in", "on", "for"],
+    correct: 1,
+    explanation: "Cấu trúc cố định: 'succeed in + V-ing' (thành công trong việc gì).",
+    category: "Tổng quát",
+    level: "Cơ bản",
+  },
+  {
+    id: "gen_05",
+    question: "Từ nào là danh từ không đếm được (Uncountable Noun)?",
+    options: ["Information", "Suggestion", "Report", "Idea"],
+    correct: 0,
+    explanation: "'Information' là danh từ không đếm được, không bao giờ dùng ở dạng số nhiều có 's'.",
+    category: "Tổng quát",
+    level: "Cơ bản",
+  },
+  {
+    id: "gen_06",
+    question: "Điền từ: 'She suggested that he _____ a doctor immediately.'",
+    options: ["see", "sees", "saw", "will see"],
+    correct: 0,
+    explanation: "Thể giả định (Subjunctive): 'suggest that S + V-infinitive (bare)' -> dùng 'see'.",
+    category: "Tổng quát",
+    level: "Nâng cao",
+  },
+  {
+    id: "gen_07",
+    question: "Cụm 'The more you practice, _____ you become.' điền vế sau là:",
+    options: ["the more confident", "more confident", "the most confident", "as confident"],
+    correct: 0,
+    explanation: "Cấu trúc so sánh kép song song: 'The more + S1 + V1, the more + S2 + V2'.",
+    category: "Tổng quát",
+    level: "Trung cấp",
+  },
+  {
+    id: "gen_08",
+    question: "Chọn dạng rút gọn phân từ đúng: '_____ by the noise, the baby woke up crying.'",
+    options: ["Frightening", "Frightened", "Frighten", "To frighten"],
+    correct: 1,
+    explanation: "Rút gọn mệnh đề bị động (Because the baby was frightened -> Frightened by the noise).",
+    category: "Tổng quát",
+    level: "Trung cấp",
+  },
+  {
+    id: "gen_09",
+    question: "Từ 'reluctant' trái nghĩa với từ nào sau đây?",
+    options: ["Hesitant", "Willing", "Uncertain", "Cautious"],
+    correct: 1,
+    explanation: "'Reluctant' nghĩa là miễn cưỡng/lưỡng lự, trái nghĩa với 'Willing' (sẵn lòng/hăng hái).",
+    category: "Tổng quát",
+    level: "Trung cấp",
+  },
+  {
+    id: "gen_10",
+    question: "Chọn câu đúng ngữ pháp:",
+    options: [
+      "I look forward to hear from you.",
+      "I look forward to hearing from you.",
+      "I look forward hearing from you.",
+      "I am look forward to hearing from you."
+    ],
+    correct: 1,
+    explanation: "Cấu trúc cố định: 'look forward to + V-ing/N' (mong chờ điều gì).",
+    category: "Tổng quát",
+    level: "Cơ bản",
+  },
+  {
+    id: "gen_11",
+    question: "Điền mạo từ thích hợp: 'He is _____ honest man with high moral standards.'",
+    options: ["a", "an", "the", "không cần mạo từ"],
+    correct: 1,
+    explanation: "'Honest' bắt đầu bằng âm nguyên âm /'Q.nIst/ (h câm), do đó dùng mạo từ 'an'.",
+    category: "Tổng quát",
+    level: "Cơ bản",
+  },
+  {
+    id: "gen_12",
+    question: "Từ 'meticulous' đồng nghĩa với từ nào sau đây?",
+    options: ["Careless", "Thorough and careful", "Fast and hasty", "Aggressive"],
+    correct: 1,
+    explanation: "'Meticulous' nghĩa là tỉ mỉ, cẩn thận chi tiết (Thorough and careful).",
+    category: "Tổng quát",
+    level: "Trung cấp",
+  },
+  {
+    id: "gen_13",
+    question: "Điền đại từ phản thân: 'The students organized the academic symposium by _____.'",
+    options: ["themselves", "themself", "theirselves", "theirs"],
+    correct: 0,
+    explanation: "Đại từ phản thân số nhiều ngôi thứ 3 là 'themselves' ('by themselves' = tự mình làm).",
+    category: "Tổng quát",
+    level: "Cơ bản",
+  },
+  {
+    id: "gen_14",
+    question: "Chọn từ đúng: 'Despite studying hard, he was _____ to pass the advanced calculus test.'",
+    options: ["unable", "enable", "disable", "capable"],
+    correct: 0,
+    explanation: "Cấu trúc: 'be unable to + V' (không thể làm gì), phù hợp với nghĩa tương phản của 'Despite'.",
+    category: "Tổng quát",
+    level: "Cơ bản",
+  },
+  {
+    id: "gen_15",
+    question: "Từ 'lucid' trong miêu tả bài thuyết trình/văn bản có nghĩa là gì?",
+    options: ["Confusing and dark", "Clear and easy to understand", "Long and boring", "Very loud"],
+    correct: 1,
+    explanation: "'Lucid' nghĩa là rõ ràng, mạch lạc, dễ hiểu (clear and coherent).",
+    category: "Tổng quát",
+    level: "Nâng cao",
+  }
 ];
 
-// Generate 100 questions pool dynamically with variations
-export function getRoom100Questions(category?: string): RoomQuizQuestion[] {
+/**
+ * Get a tailored subset of quiz questions for a study room
+ * Returns a randomized, non-repeating array of questions up to the requested count
+ */
+export function getRoom100Questions(category?: string, count: number = 30): RoomQuizQuestion[] {
   const basePool = category && category !== "Tổng quát"
     ? ROOM_QUIZ_TEST_BANK.filter(q => q.category === category || q.category === "Tổng quát")
     : ROOM_QUIZ_TEST_BANK;
 
-  const result: RoomQuizQuestion[] = [];
-  let index = 1;
-
-  // Repeat & adapt base pool to create 100 high quality test items
-  while (result.length < 100) {
-    for (const item of basePool) {
-      if (result.length >= 100) break;
-      result.push({
-        ...item,
-        id: `q_100_${index}`,
-        question: `[Q${index}] ${item.question}`,
-      });
-      index++;
-    }
+  // Shuffle the pool using Fisher-Yates
+  const shuffled = [...basePool];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
 
-  return result;
+  return shuffled.slice(0, Math.min(count, shuffled.length));
 }

@@ -4,11 +4,20 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, BookOpen, PenLine, Bot, Users, User } from "lucide-react";
 
+import { useUiStore } from "@/lib/store/uiStore";
+
 export default function BottomNav() {
   const pathname = usePathname();
+  const { sidebarCollapsed } = useUiStore();
 
-  // Hide BottomNav on active exam screen
-  const isExamActivePage = pathname.match(/\/study\/exams\/[a-zA-Z0-9_-]+$/);
+  // Hide BottomNav on active exam screen or active exam-prep test workspace or active studio listening/shadowing workspace
+  const isStudioWorkspace =
+    pathname?.startsWith("/study/listening") ||
+    pathname?.startsWith("/study/shadowing");
+  const isExamActivePage =
+    pathname.match(/\/study\/exams\/[a-zA-Z0-9_-]+$/) ||
+    (pathname.startsWith("/study/exam-prep") && sidebarCollapsed) ||
+    isStudioWorkspace;
   if (isExamActivePage) return null;
 
   const tabs = [

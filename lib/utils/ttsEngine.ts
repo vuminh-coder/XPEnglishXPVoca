@@ -2,7 +2,7 @@
  * XP English / XP Voca - Smart Multi-Voice TTS Engine
  * Provides deterministic seed-based voice randomization per lesson/card,
  * accent filtering (US, UK, AU), multi-speaker dialogue support,
- * cancel protection, and mobile-safe fallbacks.
+ * cancel protection, and mobile-safe fallbacks via /api/tts.
  */
 
 import { unlockMobileAudio } from "./mobileAudio";
@@ -30,6 +30,8 @@ export interface SpeakOptions {
   rate?: number;
   pitch?: number;
   volume?: number;
+  delayMs?: number; // Pre-speech silence pause (default: 300ms for clear listening)
+  onWordBoundary?: (charIndex: number, wordIndex: number) => void;
   onEnd?: () => void;
   onError?: (err: any) => void;
 }
@@ -106,7 +108,22 @@ export function stringToSeed(str: string): number {
 export function stopTTS() {
   if (typeof window === "undefined") return;
 
-  // 1. Mark active utterance as canceled & remove handlers
+  // 1. Clear any pending pre-speech 0.3s silence delay timer
+  if ((window as any)._speechDelayTimer) {
+    try {
+      clearTimeout((window as any)._speechDelayTimer);
+    } catch (e) {}
+    (window as any)._speechDelayTimer = null;
+  }
+
+  // 2. Immediately cancel and silence browser SpeechSynthesis
+  if ("speechSynthesis" in window) {
+    try {
+      window.speechSynthesis.cancel();
+    } catch (e) {}
+  }
+
+  // 3. Mark active utterance as canceled & remove handlers
   if ((window as any)._activeUtterance) {
     try {
       const activeUtterance = (window as any)._activeUtterance;
@@ -117,20 +134,12 @@ export function stopTTS() {
     (window as any)._activeUtterance = null;
   }
 
-  // 2. Cancel browser SpeechSynthesis
-  if ("speechSynthesis" in window) {
-    try {
-      window.speechSynthesis.cancel();
-    } catch (e) {}
-  }
-
-  // 3. Stop active fallback HTML5 Audio
+  // 4. Stop active fallback HTML5 Audio
   if ((window as any)._activeAudio) {
     try {
       const activeAudio = (window as any)._activeAudio as HTMLAudioElement;
       (activeAudio as any)._isCanceled = true;
       activeAudio.onended = null;
-
       activeAudio.onerror = null;
       activeAudio.pause();
       activeAudio.currentTime = 0;
@@ -145,6 +154,9 @@ if (typeof window !== "undefined") {
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
       stopTTS();
+      if ("speechSynthesis" in window) {
+        try { window.speechSynthesis.cancel(); } catch (e) {}
+      }
     }
   });
   window.addEventListener("pagehide", stopTTS);
@@ -244,7 +256,7 @@ export function selectVoiceForContext(lessonId?: string, speakerIndex: number = 
 }
 
 /**
- * Central speak function with seed-based voice randomization, cancel protection, and fallback
+ * Central speak function with seed-based voice randomization, cancel protection, 0.3s pre-speech silence pause, and mobile fallback
  */
 export function speakLessonText(text: string, options: SpeakOptions = {}) {
   if (typeof window === "undefined") return;
@@ -255,12 +267,21 @@ export function speakLessonText(text: string, options: SpeakOptions = {}) {
     return;
   }
 
-  // Stop prior audio cleanly & remove stale callbacks
+  // Stop prior audio cleanly
   stopTTS();
 
   // 1. Unlock mobile audio synchronously
   unlockMobileAudio();
 
+  const delayMs = options.delayMs ?? 300; // 0.3s pre-speech silence pause for clear listening
+
+  (window as any)._speechDelayTimer = setTimeout(() => {
+    (window as any)._speechDelayTimer = null;
+    executeSpeech(cleanText, options);
+  }, delayMs);
+}
+
+function executeSpeech(cleanText: string, options: SpeakOptions) {
   const settings = getTTSSettings();
   const effectiveRate = options.rate ?? settings.speed;
 
@@ -294,13 +315,32 @@ export function speakLessonText(text: string, options: SpeakOptions = {}) {
       // Prevent GC purge on Mobile Safari
       (window as any)._activeUtterance = utterance;
 
+      utterance.onboundary = (event: any) => {
+        if (event.name === "word" || event.name === "") {
+          const textBefore = cleanText.substring(0, event.charIndex);
+          const wordIdx = textBefore.trim().split(/\s+/).filter(Boolean).length;
+          options.onWordBoundary?.(event.charIndex, wordIdx);
+        }
+      };
+
+      // Watchdog timer to auto-cleanup in case mobile browser hangs onend
+      const estimatedDurationMs = Math.max(1500, (cleanText.length / 10) * 1000 + 1000);
+      const watchdog = setTimeout(() => {
+        if ((window as any)._activeUtterance === utterance) {
+          (window as any)._activeUtterance = null;
+          options.onEnd?.();
+        }
+      }, estimatedDurationMs);
+
       utterance.onend = () => {
+        clearTimeout(watchdog);
         if ((utterance as any)._isCanceled) return;
         (window as any)._activeUtterance = null;
         options.onEnd?.();
       };
 
       utterance.onerror = (err: any) => {
+        clearTimeout(watchdog);
         if ((utterance as any)._isCanceled) return;
         (window as any)._activeUtterance = null;
 
@@ -309,23 +349,23 @@ export function speakLessonText(text: string, options: SpeakOptions = {}) {
           return;
         }
 
-        console.warn("WebSpeech error, falling back to stream:", err);
+        console.warn("WebSpeech error, falling back to server TTS stream:", err);
         fallbackStreamAudio(cleanText, options, settings);
       };
 
       synth.speak(utterance);
       return;
     } catch (err) {
-      console.warn("Speech synthesis error, fallback to stream:", err);
+      console.warn("Speech synthesis error, fallback to server TTS stream:", err);
     }
   }
 
-  // 3. Fallback to Google Audio Stream with selected accent
+  // 3. Fallback to Server-Side Audio Stream with selected accent
   fallbackStreamAudio(cleanText, options, settings);
 }
 
 /**
- * Fallback MP3 audio stream player using Google TTS with normalized accent parameters
+ * Fallback MP3 audio stream player using high-res Server TTS Proxy with normalized accent parameters
  */
 function fallbackStreamAudio(text: string, options: SpeakOptions, settings: TTSSettings) {
   try {
@@ -334,8 +374,8 @@ function fallbackStreamAudio(text: string, options: SpeakOptions, settings: TTSS
     if (settings.mode === "uk") targetLang = "en-GB";
     if (settings.mode === "au") targetLang = "en-AU";
 
-    const encodedText = encodeURIComponent(text.slice(0, 200));
-    const streamUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodedText}&tl=${targetLang}&client=tw-ob`;
+    // Use our ultra-reliable, CORS-free Next.js TTS proxy
+    const streamUrl = `/api/tts?text=${encodeURIComponent(text.slice(0, 300))}&lang=${targetLang}`;
 
     const audio = new Audio(streamUrl);
     audio.playbackRate = Math.max(0.7, Math.min(options.rate ?? settings.speed, 1.5));
@@ -357,7 +397,7 @@ function fallbackStreamAudio(text: string, options: SpeakOptions, settings: TTSS
 
     audio.play().catch((err) => {
       if ((audio as any)._isCanceled) return;
-      console.warn("Audio stream playback failed:", err);
+      console.warn("Server audio stream playback failed:", err);
       (window as any)._activeAudio = null;
     });
   } catch (err) {

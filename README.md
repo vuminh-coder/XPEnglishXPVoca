@@ -28,6 +28,15 @@
 - **Tối Ưu Hiệu Năng Full-Stack**:
   - **0ms Optimistic UI Updates**: Cập nhật tức thì điểm XP, Số phút học, Từ vựng đã lưu, Điểm danh, Thích, Đăng bài & Bình luận.
   - Đồng bộ liên tục giữa Zustand State, LocalStorage và Cơ sở dữ liệu PostgreSQL via Prisma ORM API.
+- **Kiến Trúc Backend & Hạ Tầng Đám Mây 0 Đồng (Zero-Cost Free Tier Architecture)**:
+  - **Serverless API Routes (Next.js trên Vercel)**: Chạy 100% miễn phí trên gói Vercel Hobby, tự động cấp HTTPS SSL, mở rộng không giới hạn và không tốn phí duy trì máy chủ.
+  - **Cơ Sở Dữ Liệu PostgreSQL (Prisma ORM)**: Tích hợp gói Free Tier đám mây (Supabase / Neon / Render) dung lượng 500MB - 1GB, lưu trữ hàng chục nghìn người dùng và hàng triệu bản ghi bài tập/lịch sử học tập.
+  - **Trợ Lý AI & Gia Sư Trực Tuyến**: Khai thác gói Google Gemini API Free Tier (15 lượt gọi/phút, 1.500 lượt gọi/ngày) phục vụ giải thích ngữ pháp, chấm bài viết và hội thoại thông minh.
+  - **Đồng Bộ Dữ Liệu Toàn Diện (Full-Stack Data Persistence)**:
+    - **Spaced Repetition SM-2 (`/review` & `/myvocab`)**: Đồng bộ hàng đợi ôn tập, chu kỳ lặp lại ngắt quãng, điểm số thành thạo và từ yêu thích về bảng `user_vocabulary` qua `/api/user/vocab` & `/api/user/vocab/review-submit`.
+    - **Phòng Học Nhóm & Pomodoro Realtime (`/study/rooms`)**: Xây dựng sảnh phòng học nhóm đa danh mục, đồng hồ Pomodoro 25:00 / 5:00, danh sách thành viên trực tuyến và khung trò chuyện trực tiếp hỗ trợ gọi `@AI Mentor` qua `/api/study-rooms`.
+    - **Hồ Sơ & Cài Đặt (`/profile` & `/settings`)**: Lưu vĩnh viễn Họ tên, Bio, Avatar Emoji/URL và Mục tiêu điểm số vào bảng `profiles` qua `PATCH /api/user/profile`.
+    - **Lộ Trình & Kế Hoạch Học Tập (`/roadmap` & `/study/plan`)**: Đồng bộ trạng thái hoàn thành nhiệm vụ từng ngày và tự động cộng thưởng XP qua `/api/study-plan/task-complete`.
 - **Favicon & Icon Brand Assets**: Toàn bộ icon thương hiệu (`/favicon.ico`, `/icons/favicon-32x32.png`, `/icons/icon-any-192x192.png`, `/icons/icon-any-512x512.png`, `/app-icon-horizontal-brand.png`) đã được tách bỏ nền trắng (nền trong suốt Transparent RGBA) và phóng to kích thước hình vẽ logo lên **92% diện tích khung chứa**. Tiêu đề hiển thị trên Tab trình duyệt ([layout.tsx](file:///e:/XP%20English%20%20XP%20Voca/app/layout.tsx)) được chuẩn hóa thành **"English | Voca - Cộng Đồng Học Từ Vựng Tiếng Anh Thông Minh"**.
 
 ---
@@ -58,7 +67,12 @@
   - **Phút Luyện Tập 7 Ngày Theo Từng Kỹ Năng (Per-Skill Analytics)**: Biểu đồ SVG đường mỏng uốn mượt 7 ngày độc lập 100% cho 5 tab kỹ năng (**Dictation** `/study/listening`, **Shadowing** `/study/shadowing`, **Luyện nói** `/ai/tutor`, **Từ vựng** `/study/practice` & `/vocabulary/[id]`, **Luyện viết** `/ai/conversation` & `/study/grammar`). Trục thời gian tự động cuộn linh hoạt **7 Ngày Rolling Window (4 ngày trước ➔ HÔM NAY tại Index 4 ➔ 2 ngày sau)** định dạng Ngày Tháng (`27 Th7, 28 Th7, 29 Th7, 30 Th7, 31 Th7, 1 Th8, 2 Th8`). Căn chỉnh ma trận tọa độ X (`50 + i * 100`) và layout `grid-cols-7` giúp chấm tròn kết nối và đường chỉ dẫn nét đứt **nằm chính xác 100% ở tâm giữa của chữ ngày tháng** bên dưới. Tự động **mặc định chọn Hôm nay** khi mở ứng dụng, đường uốn **100% Full-Width (Edge-to-Edge `x = 0 ➔ 700`)**, Badge nổi hộp bo góc phẳng (`rounded-xs`, `bg-white/95 border-slate-200/80 shadow-sm`), nét dọc đứt đoạn mảnh `1.2px` và chấm tròn phát sáng. Chuẩn hóa ngày địa phương **`getLocalDateString`**, **Continuous Path Morphing** 60fps, mốc tối đa **10 phút** và chiều cao `h-28 sm:h-36`. Đồng bộ dữ liệu qua `lib/store/skillChartStore.ts` & `userStore.ts`, bảo chứng bởi 200+ kịch bản test tự động (`scripts/run_skill_chart_200_tests.js`) đạt 100% Pass.
   - **Điểm Danh Tuần Này**: Lộ trình 7 mốc kết nối fluid chuẩn agency với **Chấm tròn nối tâm hoàn hảo (`rounded-full`)**, viền phát sáng gradient màu cam hổ phách (`shadow-[0_2px_8px_rgba(245,158,11,0.35)]`), tách lập trình 3 hàng độc lập giúp đường chỉ dẫn tiến trình **nằm chính xác 100% ở đúng tâm trục hoành (Y-axis center `top-1/2 -translate-y-1/2`) của các hình tròn**. Nút điểm danh tự động đưa xuống hàng full-width trên mobile, bấm thưởng +15 XP, +20 Vàng, +5m học, bảo vệ khóa chống điểm danh trùng theo `userId` và sync ngầm về Database.
   - **Tối Ưu Typography & Văn Bản Trực Quan**: Rút gọn văn bản hiển thị trên màn hình di động (< sm) như thông báo top banner ("Writing AI đã có mặt!"), nút hành động ("Video/Audio", "Góp ý"), nhãn chỉ số phụ ("Chuỗi Streak", "Thời gian học"), thanh tab kỹ năng (cỡ chữ `10.5px` vừa vặn), loại bỏ chữ nhỏ tiếng Anh bên dưới tên chủ đề trên tất cả giao diện (VD: ẩn "Present Simple" dưới "Thì Hiện tại đơn" trên cả Mobile và Desktop), nâng kích thước tiêu đề thương hiệu **`XP English | XP Voca`** trên Header Mobile ([Navbar.tsx](file:///e:/XP%20English%20%20XP%20Voca/components/layout/Navbar.tsx)) lên **`text-base sm:text-lg font-black`** hiển thị to rõ, cân đối và thẩm mỹ.
-  - **Hộp Thông Báo Navbar Tối Ưu Mobile (Notification Center Dropdown)**: Tinh gọn chỉ còn **2 Tab duy nhất ("Tất cả" & "Học tập")**, căn chỉnh vị trí khối thông báo nằm sát lề phải màn hình Mobile (`fixed right-2.5 top-[54px] w-[calc(100vw-1.25rem)] max-w-[340px] z-50`), hiển thị vuông vắn, thẳng lề hoàn hảo.
+  - **Hộp Thông Báo Navbar Zen Studio Tối Ưu Mobile & Desktop (Notification Center)**: 
+    - **Tự Động Co Giãn Badge (`99+`)**: Hỗ trợ hiển thị số lượng chưa đọc linh hoạt `min-w-[18px] px-1`, tự động chuyển thành `99+` khi vượt quá 99 thông báo, chống méo viền hoàn hảo.
+    - **Trải Nghiệm Mobile Chuẩn Zen Studio**: Bổ sung **Backdrop Overlay** làm mờ nền (`fixed inset-0 bg-slate-900/30 backdrop-blur-xs`), khối popover căn giữa cân đối `fixed left-2.5 right-2.5 top-[56px] max-w-[400px] mx-auto` với bóng đổ `shadow-2xl` và hiệu ứng xuất hiện `framer-motion` mượt mà.
+    - **Header Hợp Nhất 1 Hàng Tinh Gọn**: Gộp tiêu đề `"Thông báo"` + 2 Tab Pill (`Tất cả`, `Học tập`) + Nút `Đọc hết` & `Xóa hết` dạng Ghost Button tinh tế.
+    - **100% Vector Icon Lucide Sắc Nét**: Thay thế toàn bộ emoji thô (`⚔️`, `🔥`, `🏆`, `👋`, `📚`) bằng các biểu tượng vector Lucide (`Swords`, `Flame`, `Trophy`, `BookOpen`, `Users`) đặt trong khung nền bo góc `rounded-xs` tương ứng với từng phân loại.
+    - **Cấu Trúc Item Double-Bezel & Zero-Italic**: Vạch phát sáng mỏng bên trái cho thông báo chưa đọc (`border-l-2 border-[#0059bb]`), hiển thị giờ gửi sắc nét và nút xóa nhanh khi rê chuột.
   - **Hỏi Đáp AI Tutor Nhanh**: Ô nhập thắc mắc ngữ pháp/từ vựng nâng tap-target `h-10` chuẩn di động, nhận lời giải từ AI Tutor và cộng ngay +10 XP.
   - **Phím Tắt Nhanh & Khối Thẻ Chỉ Số (Status Chips & Quick Actions)**: Giảm mạnh độ cong bo góc của tất cả các khối badge, phím tắt nhanh, thẻ đếm câu hỏi (`Câu 1/20`), badge thưởng XP (`+0 XP`) và đồng hồ bấm giờ (`00:20`) trên toàn bộ trang học/luyện tập xuống phẳng siêu sắc nét **`rounded-xs` (2px)** chuẩn Micro-Sharp UI, mang lại cảm giác tinh gọn, hiện đại và đồng bộ tuyệt đối trên toàn website.
   - **Đồng Bộ Avatar & Nâng Cấp Chuyên Sâu Đấu Trường PvP (`/study/pvp`)**: Chuẩn hóa hiển thị Avatar ảnh đại diện thực tế (`user.imageUrl` / `user.avatar`) cho người dùng tại tất cả 4 khu vực giao diện Đấu trường PvP ([pvp/page.tsx](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/study/pvp/page.tsx)) gồm: Thẻ Hồ sơ Đấu sĩ (Gladiator Profile), Thẻ Ghép trận 1v1 (Matchmaking), Thanh Header Thi đấu Trực tiếp (Battle Bar) và Bảng Tổng kết Kết quả Trận đấu (Match Scorecard).
@@ -100,62 +114,225 @@
 - **`/community/groups`**: Câu lạc bộ & Nhóm học tập (Khởi tạo nhóm Cấp 15+).
 
 ### 5. Học Từ Vựng & Luyện Nghe (`/vocabulary` & `/listening`)
-- **`/vocabulary`**: Kho 3,900+ từ vựng phân theo chủ đề (TOEIC, IELTS, VSTEP, Giao tiếp).
+- **`/vocabulary`**: Kho Từ Vựng Tiếng Anh Toàn Diện (Bao gồm Kho Cơ Bản A1-A2 & Kho Trung/Cao Cấp B1-C2).
+  - **Kho Từ Vựng Cơ Bản Nhất Hàng Ngày (`lib/data/basicVocabularies.ts`)**: Cung cấp **1.248+ từ vựng nền tảng A1-A2 thiết yếu nhất** phân bổ tối đa qua **60 Chủ Đề Cơ Bản Nhất Hàng Ngày**:
+    1. *Chào hỏi & Giao tiếp xã giao* (`t_basic_greetings`) - 30 từ
+    2. *Giới thiệu bản thân & Đại từ* (`t_basic_introductions`) - 35 từ
+    3. *Số đếm & Số thứ tự* (`t_basic_numbers`) - 25 từ
+    4. *Màu sắc & Hình khối* (`t_basic_colors_shapes`) - 21 từ
+    5. *Gia đình & Người thân* (`t_basic_family`) - 20 từ
+    6. *Nhà cửa & Đồ dùng sinh hoạt* (`t_basic_home_objects`) - 24 từ
+    7. *Hành động & Động từ hàng ngày* (`t_basic_daily_verbs`) - 20 từ
+    8. *Ăn uống & Thực phẩm* (`t_basic_food_drinks`) - 23 từ
+    9. *Cảm xúc & Tính từ thông dụng* (`t_basic_emotions_adjectives`) - 22 từ
+    10. *Thời gian, Ngày tháng & Mùa* (`t_basic_time_calendar`) - 22 từ
+    11. *Động vật quen thuộc* (`t_basic_animals`) - 22 từ
+    12. *Bộ phận cơ thể* (`t_basic_body_parts`) - 22 từ
+    13. *Trang phục cơ bản* (`t_basic_clothes`) - 20 từ
+    14. *Địa điểm & Chỉ đường* (`t_basic_places_directions`) - 22 từ
+    15. *Thời tiết & Thiên nhiên* (`t_basic_weather_nature`) - 20 từ
+    16. *Nghề nghiệp & Việc làm* (`t_basic_jobs_occupations`) - 20 từ
+    17. *Phương tiện giao thông* (`t_basic_transportation`) - 20 từ
+    18. *Trường học & Dụng cụ học tập* (`t_basic_school_stationery`) - 20 từ
+    19. *Sở thích & Thể thao* (`t_basic_hobbies_sports`) - 20 từ
+    20. *Mua sắm & Tiền tệ* (`t_basic_shopping_money`) - 20 từ
+    21. *Cây cối & Hoa quả* (`t_basic_plants_fruits`) - 20 từ
+    22. *Sức khỏe & Y tế* (`t_basic_health_medical`) - 20 từ
+    23. *Dụng cụ nhà bếp & Nấu ăn* (`t_basic_kitchen_utensils`) - 20 từ
+    24. *Văn phòng & Công nghệ cơ bản* (`t_basic_office_tech`) - 20 từ
+    25. *Thành phố & Công trình* (`t_basic_city_buildings`) - 20 từ
+    26. *Tính cách & Phẩm chất* (`t_basic_personality_traits`) - 20 từ
+    27. *Giới từ & Vị trí không gian* (`t_basic_prepositions_positions`) - 20 từ
+    28. *Giác quan & Cảm nhận* (`t_basic_senses_perceptions`) - 20 từ
+    29. *Kỳ nghỉ & Du lịch* (`t_basic_vacation_tourism`) - 20 từ
+    30. *Giải trí & Nghệ thuật* (`t_basic_entertainment_arts`) - 20 từ
+    31. *Đo lường & Kích cỡ* (`t_basic_measurements_sizes`) - 20 từ
+    32. *Dụng cụ & Sửa chữa* (`t_basic_tools_repair`) - 20 từ
+    33. *Thiên tai & Thời tiết xấu* (`t_basic_severe_weather`) - 20 từ
+    34. *Địa hình & Cảnh quan* (`t_basic_landforms_landscapes`) - 20 từ
+    35. *Sinh vật biển & Đại dương* (`t_basic_marine_life`) - 20 từ
+    36. *Côn trùng & Sâu bọ* (`t_basic_insects_bugs`) - 20 từ
+    37. *Gia vị & Hương vị* (`t_basic_spices_herbs`) - 20 từ
+    38. *Bánh ngọt & Tráng miệng* (`t_basic_bakery_desserts`) - 20 từ
+    39. *Đồ uống & Trà sữa* (`t_basic_drinks_beverages`) - 20 từ
+    40. *Dọn dẹp & Việc nhà* (`t_basic_cleaning_chores`) - 20 từ
+    41. *Phụ kiện thời trang* (`t_basic_fashion_accessories`) - 20 từ
+    42. *Phòng ngủ & Giấc ngủ* (`t_basic_bedroom_sleep`) - 20 từ
+    43. *Phòng tắm & Vệ sinh* (`t_basic_bathroom_toiletries`) - 20 từ
+    44. *Cảm giác cơ thể* (`t_basic_bodily_sensations`) - 20 từ
+    45. *Cảm xúc & Thái độ sống* (`t_basic_feelings_attitudes`) - 20 từ
+    46. *Mối quan hệ & Xã hội* (`t_basic_relationships_social`) - 20 từ
+    47. *Giao tiếp & Thư tín* (`t_basic_conversation_communication`) - 20 từ
+    48. *Hình học & Họa tiết* (`t_basic_geometry_patterns`) - 20 từ
+    49. *Chất liệu & Vật liệu* (`t_basic_materials_substances`) - 20 từ
+    50. *Âm thanh & Nhạc cụ* (`t_basic_sounds_instruments`) - 20 từ
+    51. *Ánh sáng & Thị giác* (`t_basic_light_visual_effects`) - 20 từ
+    52. *Vận động cơ thể & Thể dục* (`t_basic_body_movements`) - 20 từ
+    53. *Dịch vụ & Tiện ích công* (`t_basic_convenience_services`) - 20 từ
+    54. *Sân bay & Nhà ga* (`t_basic_airport_station_travel`) - 20 từ
+    55. *Khách sạn & Lưu trú* (`t_basic_hotel_accommodation`) - 20 từ
+    56. *Ẩm thực đường phố & Ăn vặt* (`t_basic_street_food_snacks`) - 20 từ
+    57. *Giai đoạn cuộc đời & Tuổi tác* (`t_basic_life_stages_age`) - 20 từ
+    58. *Lễ hội & Phong tục* (`t_basic_holidays_customs`) - 20 từ
+    59. *An toàn & Luật lệ* (`t_basic_safety_warnings_rules`) - 20 từ
+    60. *Thiết bị điện tử & Gia dụng* (`t_basic_appliances_gadgets`) - 20 từ
+  - **Hệ Thống Phân Cấp 2 Kho Từ Vựng Riêng Biệt (Dual Vocabulary Bank)**:
+    - **Nút 1: "Từ vựng cơ bản" (A1 - A2)**: Nạp trực tiếp từ `lib/data/basicVocabularies.ts` gồm **60 Chủ đề cơ bản hàng ngày (1.248+ từ vựng thiết yếu)** đầy đủ phiên âm IPA quốc tế, từ loại và 2 câu ví dụ song ngữ thực tế cho mỗi từ.
+    - **Nút 2: "Từ vựng nâng cao" (B1 - C2)**: Nạp trực tiếp từ `lib/data/advancedVocabularies.ts` gồm **155 Chủ đề nâng cao, học thuật, TOEIC, IELTS & chuyên ngành (8.900+ từ vựng)**.
+    - **Bộ Chuyển Đổi Tab 2 Nút (Segmented Level Switcher)**: Thiết kế tối giản, sắc nét với icon Lucide chuẩn Dashboard (`BookOpen` & `GraduationCap`), cho phép chuyển đổi tức thời giữa 2 kho từ vựng từ 2 file riêng biệt mà không cần tải lại trang.
+  - **Tích hợp API & UI 0ms**: Toàn bộ từ vựng được liên kết trực tiếp vào API `/api/vocabulary`, hỗ trợ học qua Flashcard 3D, Luyện Quiz trắc nghiệm, Nghe phát âm chuẩn IPA và tra từ điển chi tiết.
   - **Mobile Layout Optimize**: Ô tìm kiếm nổi bật ngay dưới Mobile Header Bar không bị lấp khuất, ẩn subtext rườm rà `hidden sm:block`.
-  - **4 Bento Stats Cards**: Format gọn 1 hàng (`12 từ/ngày`, `8 phút/buổi`, `86% SRS`), không bị rớt chữ.
+  - **4 Bento Stats Cards**: Tự động hiển thị các chỉ số tương ứng theo cấp độ (Cơ bản: 60 bộ từ / 1.248+ từ; Nâng cao: 155 bộ từ / 8.900+ từ).
   - **Theme Cards Grid**: Thu nhỏ độ cao thẻ 35% trên mobile, gộp Icon + Title trên 1 hàng flex ngang, gộp Độ khó & Tiến trình trên 1 hàng chân thẻ. Căn giữa nút "Khám phá thêm" full-width trên mobile.
 - **`/vocabulary/[id]`**: Thẻ học Flashcard thông minh, tích hợp âm thanh & lưu từ yêu thích (`toggleFavorite`).
-- **`/study/listening`**: Phòng Luyện Nghe Dictation & Bóc Tách Phụ Đề AI (Thiết kế Agency Dashboard Tier).
-  - **Luyện 3 Câu Một Lượt (Chunk3 Mode)**: Gõ từ phân tách theo thời gian thực (Instant Word Matching), tự động kiểm tra từ và mở chữ ẩn kèm viền xanh lá lá (`border-emerald-500`). Khóa chặt nút chuyển sang 3 câu tiếp theo (`🔒 Hoàn thành 3 câu này để chuyển tiếp`) cho đến khi hoàn thành đúng hết 3 câu hiện tại.
-  - **Cơ Chế Phím Tắt Space Bật/Tắt Audio (Space Key Toggle Play/Pause)**:
-    - Bấm vào thẻ câu: Chỉ chọn và mở ô nhập từ, không tự động phát âm.
-    - Bấm phím **Space**: Bật/Tạm dừng luân phiên âm thanh đang phát của câu chọn (Miễn trừ tự động khi con trỏ ở trong các ô `<input>`, `<textarea>`).
-  - **Tách Từ Tuần Tự Chuẩn Xác (Sequential First Unmatched Word Index)**: Tìm vị trí từ chưa mở đầu tiên từ trái sang phải theo chuỗi câu. Kiểm tra khớp từ chỉ khi nhấn **Space** hoặc **Enter** (`onKeyDown`), tránh kiểm tra dở dang khi đang gõ.
-  - **Popup Tra Từ Hover Trên Desktop (Desktop Hover Word Tooltip)**: Di chuột (hover) vào từ vựng gõ đúng (viền xanh `isMatchedGreen`) ➔ Hiện thẻ Popover thông tin từ vựng (Tên từ + Phiên âm IPA + Bản dịch Tiếng Việt), tự động chuyển đổi màu tương phản theo Chế độ Sáng/Tối (`rect.top - 76px`).
-  - **Reset Trạng Thái 100% Khi Quay Lại / Đổi Bài (`resetLessonState`)**: Tắt toàn bộ âm thanh TTS & HTML5, xóa từ đã mở, reset ô nhập liệu, Quiz trắc nghiệm và bộ đếm giờ khi nhấn nút "Quay lại" hoặc chọn bất kỳ bài học mới nào.
-  - **Layout Desktop 8/4 & Framer Motion Tab Transitions**: Khối làm bài 8/4 cân bằng thị giác, hiệu ứng chuyển tab mượt mà (`AnimatePresence` `opacity: 0->1`, `y: 8->0`), nút CTA Shadowing 1 dòng tinh gọn.
-  - **Giảm Mạnh Bo Góc (Micro-Sharp UI `rounded-xs`)**: Giảm mạnh 100% độ cong bo góc của toàn bộ các card Quiz trắc nghiệm, các nút đáp án A B C D, Tab Switcher, ô nhập từ, sổ tay ghi chú và các khối container bên cột trái/phải thành phẳng **`rounded-xs` (2px)** siêu sắc nét và tinh tế.
-  - **Tích hợp Innertube API**: Bóc tách phụ đề tiếng Anh & Việt chính xác 100% theo mốc mili-giây thời gian thực của video YouTube.
+- **`/study/listening`**: Phòng Luyện Nghe Dictation & Chép Chính Tả Từng Câu AI (Thiết kế Single-Sentence Focus Dictation Studio Chuẩn Bento).
+  - **Đồng Bộ Nền Canvas Xám Nhạt Cao Cấp (`bg-[#f8fafc] dark:bg-[#050505]`)**: Toàn bộ hệ thống bento cards màu trắng tinh khôi (`bg-white dark:bg-slate-900`) nổi bật tự nhiên với độ sâu thị giác (visual depth), viền hairline mềm mại và bóng đổ nhẹ `shadow-sm`, loại bỏ hiện tượng trắng bẹt hòa lẫn nền.
+  - **Hệ Thống Điều Hướng URL Theo ID (`/study/listening?id=36` hoặc `?id=N`)**: Tự động nhận diện tham số ID trên URL để nạp bài học tương ứng, tự động thu gọn Sidebar khi vào làm bài và mở rộng lại khi bấm Quay lại.
+  - **Thanh Đỉnh Thống Nhất Tràn Viền (`StudioTopHeader.tsx`)**: Header chuẩn hoá cho cả 2 trang với thanh bar ngang phẳng `w-full px-5 sm:px-6 py-2 bg-white dark:bg-slate-900 border-b border-slate-200/90 dark:border-slate-800`, gồm nút Quay lại `←`, Tiêu đề bài học nổi bật to rõ (`font-display`), Nút Bookmark `☆`, Segmented Switcher `[🎙️ Shadowing]` ⟷ `[🎧 Dictation]` nằm ngay cạnh tiêu đề, cùng cụm nút công cụ phòng thu bên phải (`Layout`, `Columns`, `Rows`, `Maximize`, `Keyboard Shortcuts`). Đã loại bỏ hoàn toàn khối badge cấp độ (`INTERMEDIATE` / `B2`) giúp thanh header tinh gọn và tập trung tối đa vào nội dung bài học.
+  - **Bố Cục 100vh Zero-Scroll Studio (Không Cần Cuộn Trang)**: Toàn bộ không gian làm bài (`?id=...`) được khóa cố định theo chiều cao màn hình `100dvh` (`h-screen max-h-screen overflow-hidden`), bám sát lề thanh Sidebar thu gọn (72px) và mép phải màn hình. Tất cả 4 khối làm việc được tính toán padding tinh gọn để hiển thị trọn vẹn trong một màn hình duy nhất, chỉ để lại khoảng thở tự nhiên (~25px-30px) ở đáy mà không gây thanh cuộn trang.
+  - **Bố Cục 2 Cột Liền Mạch Ngăn Cách Bằng Vạch Đứng (`border-l`)**:
+    - **Cột Trái (Flex 1 - Main Dictation Workspace)**:
+      - **Khối Audio Waveform Studio (`StudioWaveformCard.tsx`)**: Khung card `rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 shadow-sm p-3.5 sm:p-4 space-y-2.5`, bố cục 2 góc rìa trên (Trái: Trạng thái Sóng âm câu + chấm nhịp điệu phát sáng, Phải: Đồng hồ số điện tử `00:09 / 00:23` dạng pill `font-mono tabular-nums text-xs sm:text-sm`), phổ sóng âm 41 thanh Pinned Caps căn giữa với hiệu ứng Fluid Harmonic Wave `h-11 sm:h-12`, hàng 5 nút điều khiển (`|◁`, `↺` có số 5, Master Play Button hình tròn nổi bật viền phản quang `w-11 h-11 sm:w-12 sm:h-12`, `↻` có số 5, `▷|`), và dock chọn tốc độ viên nang `rounded-full p-0.5 [0.5x  0.75x  1x  1.25x  1.5x]`.
+      - **Dòng Meta Phản Xạ & Thanh Tiện Ích**: `#2  0/13 từ  Khớp: 0%  [Enter] [Ctrl]`, Thanh công cụ tiện ích `rounded-xl px-3.5 py-2` (`Lưu câu`, `Báo cáo`, `-A/+A` chỉnh cỡ chữ 4 cấp, switch `Tự động tiếp`, switch `Ẩn dịch (i)`).
+      - **Trình Nhập Liệu Chép Chính Tả (`DictationWorkspace.tsx`)**: Bố cục trực quan công thái học mới: Dải từ vựng (`Word Tokens Track`) được đặt ở phía trên (`rounded-xl`), hiển thị toàn bộ token từ của câu trên 1 hàng ngang duy nhất cuộn mượt tự động theo tiến trình gõ; Ô nhập liệu chép chính tả (`Điền câu đã nghe...`) đặt ngay phía dưới (`rounded-xl`), đi kèm hàng nút công cụ tiện ích (`✨ Chữ cái đầu Alt+H`, `👁 Xem từ Alt+R`, `👁 Xem dịch`, `↺ Làm lại`).
+      - **Hệ Thống Skeleton Loading 4 Trạng Thái Chuyên Biệt**: Tự động phân nhánh hiển thị Skeleton Loading khớp 100% tỷ lệ thực tế cho cả 4 trường hợp:
+        1. `/study/listening` (Listing mode - Khung xương lưới danh sách bài học).
+        2. `/study/listening?id=...` (Studio mode - Khung xương Sóng âm + Khối từ + Ô nhập + Danh sách phụ đề).
+        3. `/study/shadowing` (Listing mode - Khung xương lưới danh sách bài học kèm chủ đề).
+        4. `/study/shadowing?id=...` (Studio mode - Khung xương Sóng âm + Thẻ câu 1 hàng + Nút thu âm/chấm điểm + Danh sách phụ đề).
+        - Trạng thái **Zero-Scroll (100vh Viewport-Fill)** tuyệt đối không có thanh cuộn ngoài trang, thanh chuyển tab mobile tự động ẩn hoàn toàn.
+      - **Màn Hình Mobile & Tablet (`< lg`, < 1024px)**:
+        - **Chế độ Studio Immersion**: Tự động ẩn `BottomNav` và `Navbar` chung để giải phóng trọn vẹn ~120px không gian chiều dọc cho bài học.
+        - **Header & Mobile Switcher Scale Chuẩn Công Thái Học**:
+          - Thanh `StudioTopHeader` được tăng độ thoáng (`py-2.5 sm:py-3`), tiêu đề rõ nét (`text-sm sm:text-base font-bold`), nút quay lại và pill chế độ `[ 🎤 Nói ] [ 🎧 Nghe ]` dễ thao tác.
+          - Thanh chuyển tab Mobile `🎧 Luyện chép (1/14)` và `📑 Danh sách phụ đề (14)` nâng cấp font `text-sm sm:text-[15px] font-bold`, icon `w-4 h-4` và đường gạch chân bo tròn `h-[2.5px] bg-blue-600 rounded-t-full` cân đối hoàn hảo với toàn trang.
+          - `🎧 Luyện chép (1/14)`: Tối ưu 100% không gian cho khối Sóng âm + Khung nhập liệu + Token từ vựng + 4 nút thao tác đáy (hỗ trợ touch target ≥ 42px).
+          - `📑 Danh sách phụ đề (14)`: Hiển thị đầy đủ danh sách câu, tiến độ và gợi ý từ vựng. Khi chạm vào bất kỳ câu nào, hệ thống tự động chuyển mượt về tab luyện chép câu đó.
+        - Tự động ẩn phím tắt bàn phím vật lý (`[Alt+H]`, `[Alt+R]`, `Enter`, `Ctrl`) trên thiết bị cảm ứng, giữ giao diện tinh gọn và tập trung.
+  - **Tra Từ Điển Popover & Mobile Word Dictionary Modal (`selectedWord`)**: Chạm vào bất kỳ từ vựng nào để mở modal tra nghĩa, phát âm IPA và ví dụ.
 
 - **`/study/practice`**: Phòng luyện tập 4 kỹ năng (Quiz, Flashcard 3D, Writing, Speaking AI).
   - **Mobile Layout Optimize**: Ẩn phụ đề rườm rà `hidden sm:block`, rút gọn tên 4 tab chế độ trên mobile (`Quiz`, `Flashcard`, `Writing`, `Nói AI`) kèm cuộn mượt `overflow-x-auto`.
   - **Khung Thẻ Câu Hỏi & Đáp Án**: Tối ưu padding `p-3 sm:p-4`, hiển thị vừa trọn 1 màn hình di động không rớt dòng. Nút "Câu tiếp theo" căn giữa full-width trên mobile.
-- **`/study/shadowing`**: Trang Luyện Nói & Nhại Giọng Bản Xứ (Real-time Speech Recognition + AI Speech Scoring + Instant Color Coding + Mobile Dictionary Modal).
-  - **Live Real-time Speech-to-Text & Color Coding (Xanh/Đỏ)**: Chấm từ phát âm đúng/sai ngay lập tức khi cất giọng đọc (**XANH LÁ**: `text-emerald-700 bg-emerald-50 border-emerald-500`, **ĐỎ**: `text-rose-700 bg-rose-50 border-rose-400`).
-  - **Ngưỡng Vượt Qua 80% (PASS ≥ 80%)**: Đạt `≥ 80%` ➔ Coi như VƯỢT QUA (PASS 🎉), phát hiệu ứng chúc mừng và cộng thưởng **+20 XP**.
-  - **Icon Con Mắt `<Eye />` Xem Bản Dịch Tiếng Việt**: Nút bật/tắt hiển thị Khung Bản Dịch Tiếng Việt Chuyên Sâu.
-  - **Tương Tác Click Tra Từ Vựng 0ms & Mobile Word Dictionary Modal**: Chạm/Click từ vựng ➔ Mở chiếc Word Dictionary Modal ở góc dưới bên phải (`right-4 bottom-[72px]`, `sm:w-[400px]`) với phát âm IPA chuẩn, audio giọng bản xứ, bản dịch Tiếng Việt phong phú sát nghĩa phân tách phẩy/chấm phẩy, định nghĩa Tiếng Anh và câu ví dụ minh họa.
-  - **Khắc phục âm thanh trên Mobile Web (iOS Safari / Android Chrome)**: Tích hợp bộ giải pháp [lib/utils/mobileAudio.ts](file:///e:/XP%20English%20%20XP%20Voca/lib/utils/mobileAudio.ts) (`unlockMobileAudio` & `safeSpeakText`), mở khóa Web Audio Context và SpeechSynthesis khi chạm nhẹ, tự động phát âm thanh rõ ràng 100% không bị đứng im trên điện thoại.
-  - **Zero-Shift Guarantee**: Giữ nguyên 100% bố cục và câu chữ đầy đủ trên màn hình Desktop.
-- **`/study/shadowing`**: Luyện Nói Nhại Giọng Chuyên Sâu (Shadowing Studio).
-  - **Mở Rộng 100+ Bài Học Đồng Bộ Cho Cả 2 Trang (/study/listening & /study/shadowing)**: Tự động nâng cấp toàn bộ 100+ bài học trong hệ thống `MOCK_LESSONS_DATA` lên 12–20 câu cho mỗi bài học qua `extendedTranscriptEngine.ts`, đảm bảo bài học kéo dài 3–5 phút với bản dịch Tiếng Việt chuyên sâu, mốc thời gian và chia đoạn văn/vai thoại.
-  - **Tự Động Lưu Tiến Độ Đang Luyện (LocalStorage Persistence)**: Tự động lưu bài học dài gần nhất và chỉ số câu đang học dở (`xp_voca_last_sentence_X`) để khi mở lại trang sẽ tiếp tục đúng câu đang làm.
-  - **Quy Trình Luyện Tập 4 Bước Chuyên Sâu**: Bước 1 (Từ vựng Warm-up & IPA) ➔ Bước 2 (Luyện từng câu với WebRTC 0ms) ➔ Bước 3 (Luyện cả đoạn & Nhập vai hội thoại) ➔ Bước 4 (Báo cáo AI 5 chỉ số: Trôi chảy, Phát âm, Ngữ điệu Pitch, WPM, Trọng âm).
-  - **Bộ Công Cụ Luyện Tập Nâng Cao**: Thanh chuyển câu nhanh (Sentence Navigator), Chế độ lặp đoạn A-B (A-B Segment Looping), Chế độ Nhập vai phân vai (Roleplay Speaker A / Speaker B), và Chỉnh tốc độ phát âm (0.5x, 0.75x, 1.0x, 1.25x, 1.5x).
+
+- **`/study/shadowing`**: Phòng Luyện Nói & Nhại Giọng Bản Xứ AI (Studio AI Speaking & Shadowing Bento 2 Cột).
+  - **Đồng Bộ Nền Canvas Xám Nhạt Cao Cấp (`bg-[#f8fafc] dark:bg-[#050505]`)**: Các khối Bento Card trắng tinh khôi nổi bật tự nhiên trên nền canvas với chiều sâu và bóng đổ mềm mại `shadow-sm`.
+  - **Hero Announcement Banner**: Thiết kế gradient `rounded-2xl bg-gradient-to-r from-blue-50/90 to-indigo-50/60 dark:from-slate-900 dark:to-blue-950/30 border border-blue-200/70 shadow-sm`, icon well bo góc `rounded-xl`, badge tròn `rounded-full` và nút khám phá `rounded-xl`.
+  - **Danh Sách 10 Bài Đọc Nằm Ngang**: Thẻ Bento Cards `rounded-2xl border-slate-200/90 hover:border-blue-500 hover:shadow-md`, ảnh bìa `rounded-xl`, các huy hiệu cấp độ & hoàn thành dạng pill `rounded-full`.
+  - **Modal Khám Phá 100+ Bài Học**: Container bo góc lớn `rounded-3xl shadow-2xl`, ô tìm kiếm `rounded-xl`, bộ lọc cấp độ dạng viên nang `rounded-full`, từng dòng bài học `rounded-xl` với thumbnail `rounded-xl`.
+  - **Thanh Đỉnh Thống Nhất (`StudioTopHeader.tsx`)**: Đồng bộ 100% với trang Listening gồm Back `←`, Level Badge, Tiêu đề bài học, Bookmark `☆`, Đồng hồ bấm giờ học tập `00:00` và Mode Switcher `[🎙️ Shadowing (Active)]` ⟷ `[🎧 Dictation]`.
+  - **Bento Grid 2 Cột Đối Xứng (Cột Trái 5/12 + Cột Phải 7/12)**:
+    - **Cột Trái (5/12 - Audio & Phụ Đề)**:
+      - `<StudioWaveformCard>` ở trên (Bố cục Studio Bento 2 tầng: Trạng thái âm thanh và đồng hồ thời gian đặt ở 2 góc rìa trên cùng của Card, phổ sóng âm giọng nói tự nhiên Pinned Pill Caps 41 thanh acoustic với 5 thanh ngắn nhỏ đều nhau ở 2 đầu rìa chuẩn ảnh mẫu, căn giữa thuần nổi không khối nền không border, bảng màu tối thanh lịch Monochrome Slate `bg-slate-800 dark:bg-slate-100` khi phát kết hợp hoạt ảnh Fluid Harmonic Wave lượn sóng mạnh mẽ nhưng siêu mượt mà dạng dòng nước, Master Play Button viền phản quang `w-14 h-14 sm:w-16 sm:h-16`, 4 nút phụ bo tròn và speed pill dock `rounded-full`).
+      - `<InteractiveTranscriptSidebar>` ở dưới (Giao diện tối giản, trực quan: Tab `Phụ đề` / `Gợi ý từ vựng`, thanh tiến độ mỏng thanh lịch, toggle ẩn/hiện chữ, danh sách thẻ câu gọn gàng với thẻ active viền xanh nổi bật, thẻ hoàn thành tích xanh ngọc bích, và các thẻ từ vựng then chốt có nút phát âm riêng từng từ).
+    - **Cột Phải (7/12 - AI Speaking Studio)**:
+      - **Header Meta & Actions Card**: Khung `rounded-2xl` `#1  8 từ  [ 🗣️ Ghép câu kế tiếp (0/2) ⓘ ]`, `[Lưu câu]`, `[Báo cáo]`.
+      - **Khung Câu Trọng Tâm (Focus Sentence Card)**: Khung `rounded-2xl` với 3 chip toggles `rounded-lg`, câu tiếng Anh chữ to rõ nét hỗ trợ realtime color coding + nhấp tra từ điển tức thì; dòng phiên âm IPA chi tiết dưới từng từ; khung bản dịch tiếng Việt chuyên sâu; helper `ⓘ Nhấn vào từ để tra nghĩa`.
+      - **Microphone Device Picker & Master Recording Capsule**: Bộ chọn Micro thiết bị `🎙️ Micro: Default... ⌄`, Nút ghi âm capsule lớn `rounded-2xl` `[ 🎙️ Nhấn để bắt đầu ghi âm (Tối đa 30 giây) ]` (khi đang thu chuyển viền đỏ nhấp nháy kèm sóng âm live).
+      - **So Sánh Dual-Track & AI Speech Assessment 6 Chỉ Số**: So sánh Giọng mẫu vs Giọng của bạn; Chấm điểm 6 tiêu chí AI trong khung card `rounded-xl` phân cấp rõ ràng (Overall Score, Fluency, Pronunciation, Intonation, Completeness, Speed WPM, Stress); Thẻ nhận xét từ AI Voice Coach.
+      - **Thanh Luyện Tập Phụ Dưới Đáy (Bottom Practice Sub-bar)**: Khung `rounded-2xl` với Prompt `"Nghe và lặp lại câu trên"`, dải word mask tokens preview `[ •• ] [ •••••••• ] ...`, bộ điều khiển mini `[|<] (▶) 0.5x 0.75x [1x] 1.5x`, và nút `Tiếp theo ➔`.
+  - **Tương Tác Click Tra Từ Vựng 0ms & Mobile Word Audio Trigger**: 
+    - **Trên Mobile (`< 768px`)**: Chạm/nhấn trực tiếp vào bất kỳ từ vựng nào sẽ tự động kích hoạt **phát âm chuẩn bản xứ của từ đó tức thì (0ms TTS)** mà không gây che khuất màn hình hay nổi khối popover.
+    - **Trên Desktop/Tablet**: Mở Word Dictionary Modal ở góc phải với cấu trúc `rounded-2xl shadow-2xl`, hiển thị nghĩa, giải thích chi tiết, câu ví dụ với font chữ đứng thẳng (`not-italic`), phát âm IPA chuẩn.
+    - **Khắc Phục Hoàn Toàn Border Clipping**: Bổ sung padding dọc `py-1.5 sm:py-2 px-1` cho thanh cuộn ngang token giúp các khối từ khi hover hiển thị trọn vẹn 100% viền bao quanh không bị lẹm.
+  - **Khắc phục âm thanh trên Mobile Web (iOS Safari / Android Chrome)**: Tích hợp `mobileAudio.ts` (`unlockMobileAudio` & `safeSpeakText`), mở khóa Web Audio Context 100% không bị treo tiếng.
+  - **Đồng Bộ Màu Sắc Thương Hiệu Toàn Diện**: Chuyển đổi 100% các thành phần màu `indigo` cũ sang **Royal Blue (`blue-600`, `sky-400`, `bg-blue-50`)** đồng bộ với toàn bộ ứng dụng.
+  - **📐 Quy Chuẩn Bo Góc Cân Đối & Tinh Gọn (`app/globals.css` `@theme` & `:root`)**:
+    - `rounded-xl`: `10px` (Khung Player Studio, Dictation Workspace, Transcript Sidebar, Header điều hướng, Thẻ bài học Listing).
+    - `rounded-lg`: `8px` (Ô nhập câu chép chính tả, Thumbnail bài đọc, Hộp danh từ riêng, Dải đệm tokens từ).
+    - `rounded-md`: `6px` (Thẻ Timer `00:10`, Thẻ từ Token `...`, Nút chức năng `Chữ cái đầu`/`Xem từ`, Nút chuyển câu, Buttons, Badges cấp độ).
+    - `rounded-sm`: `4px` & `rounded-xs`: `2px` (Phím tắt KBD `Alt+H`/`Alt+R`, Tooltips).
+    - `rounded-full`: `9999px` (Nút Master Play tròn đen, Capsule speed dock, Pill switches).
+  - **🔤 Thang Phân Cấp Cỡ Chữ 5 Tầng (Typography Hierarchy Scale)**:
+    - `Tier 1 (16px - 18px / Bold)`: Câu tiếng Anh đang học, Từ vựng chính, Tiêu đề bài học đỉnh.
+    - `Tier 2 (13px - 14px / Bold-Mono)`: Đồng hồ số Timer `00:10 / 00:23`, Tiến độ `2/9` và `22%`, Bản dịch câu, Nút CTA `Câu tiếp theo ➔`.
+    - `Tier 3 (12px / Semi-bold)`: Tab `Phụ đề` / `Gợi ý bài học`, Nút tiện ích `Lưu câu`/`Báo cáo`/`Chữ cái đầu`/`Xem từ`.
+    - `Tier 4 (11px / Medium-Mono)`: Nhãn `"Tiến độ"`, `"Hiện"`, Phiên âm IPA, Loại từ `(n)/(v)`.
+    - `Tier 5 (9px - 10px / Mono-Bold)`: Phím tắt `<kbd>Alt+H</kbd>`, `<kbd>Enter</kbd>`, Badge `[ ĐANG HỌC ]`, số 5s tua nhanh.
 - **`/study/pvp`**: Đấu trường so tài từ vựng PvP Realtime (Thiết kế Agency Dashboard Tier).
   - **Spotlight Hero Banner**: Gradient Xanh Hoàng Gia sang trọng kèm hiệu ứng ánh kim.
   - **Bento Grid 7/12 & 5/12**: Cột trái lựa chọn 3 chế độ (Trắc nghiệm, Đồ chữ, Âm thanh) và 3 cấp độ (Dễ, Trung bình, Khó). Cột phải hiển thị Hồ sơ Đấu sĩ & Bảng Vàng Top 3 Đấu Trường.
   - **Trận Đấu PvP 1v1**: Giao diện đấu thời gian thực sắc nét, đồng hồ đếm ngược, AI thông minh và báo cáo kết quả thưởng XP.
 - **`/study/exam-prep`**: Đấu Trường Thi Thử Đề Thực Tế (Unified Exam Configurator Studio for TOEIC & IELTS 4 Skills).
   - **Tích hợp thanh điều hướng Sidebar (`components/layout/Sidebar.tsx`)**: Đã bổ sung mục **"Thi thử đề" (`/study/exam-prep`)** dưới danh mục LUYỆN TẬP.
-  - **Kho Đề Thi Chuẩn Quốc Tế 2026 (3,870+ Dòng Dữ Liệu Thực Chiến & 800+ Câu Hỏi)**: Đã rà soát và biên soạn 10 bộ đề thi chính thức chuẩn ETS 2026 & Cambridge IELTS Band 9.0 không lặp câu, tích hợp bẫy logic, phân tích đáp án Tiếng Việt chuyên sâu:
-    1. `toeic_lr_2026_01` (ETS TOEIC 2026 Official Test #01): 200 câu hỏi chuẩn ETS Parts 1-7.
-    2. `toeic_lr_2026_02` (ETS TOEIC 2026 Official Test #02): 200 câu hỏi có bẫy logic nâng cao Parts 1-7.
-    3. `toeic_lr_2026_03` (ETS TOEIC 2026 Official Test #03): 200 câu hỏi chuyên sâu thương mại quốc tế & chuỗi cung ứng Parts 1-7.
-    4. `toeic_sw_2026_01` (TOEIC Speaking & Writing AI Studio #01): 19 câu Speaking (Q1-11) & Writing (Q1-8) tích hợp AI chấm WebRTC & Gemini.
-    5. `toeic_full_4k_01` (TOEIC Master 4-Skills Simulation #01): 219 câu hỏi trọn bộ 4 Kỹ năng (100 Nghe, 100 Đọc, 11 Nói AI, 8 Viết AI).
-    6. `ielts_academic_4k_01` (IELTS Academic Official Test #01): 85 câu hỏi Cambridge (40 Listening, 40 Reading [San hô, Giấc ngủ, Khảo cổ dệt may], 3 Speaking, 2 Writing).
-    7. `ielts_academic_4k_02` (IELTS Academic Official Test #02): 85 câu hỏi Cambridge (40 Listening, 40 Reading [Điện toán lượng tử, Kiến trúc Gothic, Con đường Tơ lụa trên biển], 3 Speaking, 2 Writing).
-    8. `ielts_academic_4k_03` (IELTS Academic Official Test #03): 85 câu hỏi Cambridge (40 Listening, 40 Reading [Thủy lợi Angkor, Rác thải vi nhựa, Tranh khắc hang động], 3 Speaking, 2 Writing).
-    9. `ielts_speaking_pro_01` (IELTS Speaking Studio #01): 3 full parts với cue cards và kịch bản mẫu Band 8.5+.
-    10. `ielts_writing_master_01` (IELTS Writing Studio #01): Task 1 Phân tích biểu đồ cột + Task 2 Luận xã hội Giáo dục Đại học miễn phí kèm bài mẫu Band 9.0.
-    11. `toeic_mini_speed_01` (TOEIC Speed Sprint Test 2026 #01): 50 câu hỏi tốc độ 35 phút (20 Listening + 30 Reading).
+  - **Kho Đề Thi Chuẩn Quốc Tế 2026 (Cấu Trúc Mô-đun Tách File Riêng Biệt `lib/data/exam-papers/`)**: Đã tách và tổ chức toàn bộ kho đề thi thành các file độc lập đặt trong thư mục chuyên biệt `lib/data/exam-papers/`, mỗi đề thi là một file `.ts` riêng biệt tương ứng với mã đề, tự động tổng hợp qua `index.ts` và bảo toàn 100% đường dẫn URL dạng `http://localhost:3000/study/exam-prep?id=1` (hoặc `?id=N` / `?id=toeic_lr_2026_01`):
+    1. [`toeic_lr_2026_01.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/toeic_lr_2026_01.ts) (`toeic_lr_2026_01`): ETS TOEIC 2026 Official Test #01 (200 câu hỏi chuẩn ETS Parts 1-7).
+    2. [`toeic_lr_2026_02.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/toeic_lr_2026_02.ts) (`toeic_lr_2026_02`): ETS TOEIC 2026 Official Test #02 (200 câu hỏi chuẩn ETS Parts 1-7 tích hợp hệ thống phân tích lời giải chuyên sâu 4 tầng: 🎯 Đáp án & Dẫn chứng, 🔍 Dịch nghĩa trọn vẹn, ⚠️ Phân tích bẫy thi ETS Trap Alert, 💡 Từ vựng & Điểm ngữ pháp then chốt).
+    3. [`toeic_sw_2026_01.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/toeic_sw_2026_01.ts) (`toeic_sw_2026_01`): TOEIC Speaking & Writing AI Studio #01 (19 câu Speaking Q1-11 & Writing Q1-8 tích hợp AI Studio chấm điểm phát âm WebRTC, bài nói mẫu 4 bước Band 8, kỹ thuật nối âm/ngắt cụm hơi, câu viết mẫu 3/3, email công sở 4/4 và bài luận Opinion Essay 350+ từ C1/C2 chấm điểm Gemini AI).
+    4. [`toeic_full_4k_01.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/toeic_full_4k_01.ts) (`toeic_full_4k_01`): TOEIC Master 4-Skills Simulation #01 (Trọn bộ 219 câu hỏi 4 Kỹ năng: 100 câu Nghe Parts 1-4, 100 câu Đọc Parts 5-7, 11 câu Nói AI Q201-211 và 8 câu Viết AI Q212-219 tích hợp hệ thống chuyển giao kỹ năng mượt mà, phiếu trả lời 219 câu tối ưu cuộn và báo cáo điểm số 4 kỹ năng toàn diện).
+    5. [`ielts_academic_4k_01.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/ielts_academic_4k_01.ts) (`ielts_academic_4k_01`): IELTS Academic Official Test #01 (85 câu hỏi chuẩn Cambridge Academic: 40 câu Listening 4 Sections, 40 câu Reading 3 Passage học thuật chuyên sâu về Rạn san hô / Giấc ngủ & Trí nhớ / Khảo cổ học Dệt may, 3 Phần Speaking AI và 2 Task Writing AI Task 1 & Task 2 với thang tính điểm chuẩn Cambridge Band 1.0 - 9.0).
+    6. [`ielts_speaking_pro_01.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/ielts_speaking_pro_01.ts) (`ielts_speaking_pro_01`): IELTS Speaking AI Studio #01 (Trọn bộ 3 Parts chuẩn Cambridge: Part 1 Personal Interview về Công nghệ & Thói quen kỹ thuật số, Part 2 Cue Card 2 phút về Đột phá Chỉnh sửa gen CRISPR-Cas9 kèm chiến lược ghi chú 4-Box, Part 3 In-Depth Discussion về Đạo đức AI & Thị trường lao động với bài mẫu Band 9.0, phiên âm IPA và phân tích 4 tiêu chí quốc tế).
+    7. [`ielts_writing_master_01.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/ielts_writing_master_01.ts) (`ielts_writing_master_01`): IELTS Academic Writing Task 1 & Task 2 #01 (Chuyên sâu Task 1 Biểu đồ Năng lượng tái tạo 4 nước 2015-2025 với báo cáo mẫu Band 9.0 195 từ và Task 2 Bài luận Nghị luận Xã hội 350+ từ C2 về Giáo dục Đại học Miễn phí vs Học phí tích hợp Gemini AI chấm 4 tiêu chí Cambridge).
+    8. [`ielts_academic_4k_02.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/ielts_academic_4k_02.ts) (`ielts_academic_4k_02`): IELTS Academic Official Test #02 (Trọn bộ 85 câu hỏi Cambridge: 40 câu Listening về Trung tâm thể thao / Bảo tàng hàng hải / Đảo nhiệt đô thị London / Định vị sóng âm cá voi, 40 câu Reading về Tính toán lượng tử trong y dược / Kỹ thuật Nhà thờ Gothic / Con đường tơ lụa trên biển, 3 Phần Speaking AI và 2 Task Writing AI Task 1 Quy trình khử mặn nước biển & Task 2 Triết học AI vs Nghệ thuật nhân loại).
+    9. [`toeic_lr_2026_03.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/toeic_lr_2026_03.ts) (`toeic_lr_2026_03`): ETS TOEIC 2026 Official Test #03 (Trọn bộ 200 câu hỏi Nghe & Đọc: 100 câu Listening Parts 1-4 về Đàm phán phần mềm CRM / Vaccine nhạy nhiệt Zurich / Năng lượng mặt trời Austin / Phòng sạch kính hiển vi Cambridge và 100 câu Reading Parts 5-7 bao quát báo cáo bền vững ESG khách sạn / Hội nghị thượng đỉnh AI San Francisco / Báo giá tủ máy chủ Dallas / Hợp đồng thuê thiết bị công trình Phoenix với phiếu làm bài 200 câu chuẩn ETS).
+    10. [`ielts_academic_4k_03.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/ielts_academic_4k_03.ts) (`ielts_academic_4k_03`): IELTS Academic Official Test #03 (Trọn bộ 85 câu hỏi Cambridge: 40 câu Listening về Đăng ký Homestay Melbourne / Vườn thực vật bảo tồn Alpine / Viễn thám radar sông băng Patagonia / Cắt tỉa khớp thần kinh não bộ, 40 câu Reading về Nền văn minh thủy lực Angkor Wat / Địa hóa vi nhựa kỷ Anthropocene / Nghệ thuật biểu tượng hang động tiền sử Franco-Cantabria, 3 Phần Speaking AI và 2 Task Writing AI Task 1 Biểu đồ rác thải nhựa toàn cầu & Task 2 Cấm đồ nhựa dùng 1 lần vs Trợ cấp vật liệu sinh học).
+    11. [`toeic_mini_speed_01.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/toeic_mini_speed_01.ts) (`toeic_mini_speed_01`): TOEIC Speed Sprint Test 2026 #01 (50 câu hỏi phản xạ tốc độ trong 35 phút: 20 câu Listening Parts 1-4 về Bàn họp hiện đại / Kính hiển vi phòng lab / Kiểm tra an toàn kho số 4 / Thông báo chuyến bay San Francisco và 30 câu Reading Parts 5-7 bao quát Nâng cấp máy chủ mạng công ty / Trụ sở an ninh mạng Apex Dublin / Báo giá tiệc Gala sinh học NovaBiotech).
+    12. [`ielts_academic_4k_04.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/ielts_academic_4k_04.ts) (`ielts_academic_4k_04`): IELTS Academic Official Test #04 (Trọn bộ 85 câu hỏi Cambridge: 40 câu Listening về Điện mặt trời cộng đồng / Kính thiên văn không gian James Webb / Tài chính vi mô M-Pesa Kenya / Phát quang sinh học đáy biển sâu, 40 câu Reading về Kinh tế chú ý & Thần kinh học tập trung sâu / Kỹ thuật đường hầm chìm đáy biển Fehmarnbelt / Công nghệ nano phỏng sinh học Biomimicry, 3 Phần Speaking AI và 2 Task Writing AI Task 1 Cơ cấu năng lượng điện toàn cầu 2010 vs 2025 & Task 2 Bài luận 360+ từ C2 Thám hiểm vũ trụ vs Giải quyết khủng hoảng Trái Đất).
+    13. [`toeic_sw_2026_02.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/toeic_sw_2026_02.ts) (`toeic_sw_2026_02`): TOEIC Speaking & Writing AI Studio #02 (Chuyên sâu chủ đề Chuỗi cung ứng Công nghệ cao & AI Doanh nghiệp: 11 câu Speaking AI gồm Lễ khởi công nhà máy vi mạch 2nm / An ninh mạng đám mây / Kho hậu cần tự động / Phỏng vấn giao thực phẩm thông minh / Lịch trình hội nghị FinTech & AI / Bài nói quan điểm làm việc từ xa và 8 câu Writing AI gồm 5 câu viết theo ảnh công nghệ / 2 Email phản hồi khiếu nại giao hàng chip y tế & chính sách phúc lợi HR / 1 Bài luận nghị luận 300+ từ Tự động hóa AI vs Đào tạo nâng cao nhân sự).
+    14. [`ielts_academic_4k_05.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/ielts_academic_4k_05.ts) (`ielts_academic_4k_05`): IELTS Academic Official Test #05 (Trọn bộ 85 câu hỏi Cambridge chuẩn Band 9.0: 40 câu Listening về Tình nguyện viên bảo tồn cá voi New Zealand / Trung tâm điện toán lượng tử siêu hàn Cavendish / Nông nghiệp khí canh Aeroponics khép kín / Miệng phun thủy nhiệt đáy biển sâu & Sinh vật hóa tự dưỡng, 40 câu Reading về Kiến trúc gỗ khối lớn CLT & Khử carbon / Trục Não - Ruột - Hệ vi sinh vật & Thuốc tâm sinh học Psychobiotics / Quản lý bức xạ mặt trời & Bơm Sol khí tầng bình lưu, 3 Phần Speaking AI Kiến trúc bền vững & Cầu dây văng Millau Viaduct và 2 Task Writing AI Task 1 Quy trình sản xuất gỗ CLT & Cân bằng carbon vs Task 2 Bài luận C2 360+ từ Địa kỹ thuật làm mát Trái Đất vs Cắt giảm khí thải triệt để).
+    15. [`ielts_general_4k_01.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/ielts_general_4k_01.ts) (`ielts_general_4k_01`): IELTS General Training Official Test #01 (Trọn bộ 85 câu hỏi chuẩn Định cư & Việc làm quốc tế: 40 câu Listening về Hợp đồng thuê chung cư Vancouver / Khu thể thao phục hồi chức năng Gold Coast / Học nghề An ninh mạng đám mây CompTIA / Lịch sử đèn biển Fresnel & định vị hàng hải, 40 câu Reading chuẩn General về Giao thông thẻ PRESTO & Bảo hiểm y tế OHIP Toronto / Công thái học văn phòng & Quy trình khiếu nại nhân sự / Kinh tế đô thị ban đêm 24-Hour City & Quy hoạch Agent of Change, 3 Phần Speaking AI và 2 Task Writing AI Task 1 Viết thư trang trọng khiếu nại chủ nhà sửa chữa thiết bị vs Task 2 Bài luận xã hội Nhập cư lao động tay nghề cao vs Đào tạo nội địa).
+    16. [`toeic_lr_2026_04.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/toeic_lr_2026_04.ts) (`toeic_lr_2026_04`): ETS TOEIC 2026 Official Test #04 (Trọn bộ 200 câu hỏi Nghe & Đọc: 100 câu Listening Parts 1-4 về Trạm sạc xe tải điện cảng Rotterdam / Phòng sạch vi mạch quang học / Khảo sát trang trại điện gió / Nâng cấp tản nhiệt chất lỏng trung tâm dữ liệu AI Dublin / Đàm phán sảnh hội chợ y sinh Basel và 100 câu Reading Parts 5-7 bao quát Chuyển đổi nền tảng ERP SAP S/4HANA đám mây / Hóa đơn vận tải biển quang học / Đấu thầu thiết bị quang khắc vi mạch EUV bán dẫn Dresden 210 triệu Euro với phiếu làm bài 200 câu chuẩn ETS).
+    17. [`ielts_academic_4k_06.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/ielts_academic_4k_06.ts) (`ielts_academic_4k_06`): IELTS Academic Official Test #06 (Trọn bộ 85 câu hỏi Cambridge chuẩn Band 9.0: 40 câu Listening về Tình nguyện viên bảo tồn san hô Great Barrier Cairns / Tham quan lò phản ứng nhiệt hạch từ trường Tokamak Culham CCFE / Đồ án Thạc sĩ liệu pháp tế bào miễn dịch CAR-T King's College / Khảo cổ học thiên văn Vòng tròn đá Stonehenge, 40 câu Reading về Nhà máy nhiệt điện mặt trời tháp tập trung CSP & Pin muối nóng chảy 565°C / Thần kinh học về Hội chứng Siêu trí nhớ tự thuật HSAM / Bí ẩn đại hạn hán 200 năm dẫn đến sự sụp đổ văn minh Indus, 3 Phần Speaking AI và 2 Task Writing AI Task 1 Sơ đồ chu trình tạo năng lượng nhiệt hạch Tokamak vs Task 2 Bài luận C2 360+ từ An toàn Trí tuệ Nhân tạo Tổng quát AGI & Hiệp ước quốc tế).
+    18. [`ielts_listening_sprint_01.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/ielts_listening_sprint_01.ts) (`ielts_listening_sprint_01`): IELTS Listening Sprint Intensive #01 (Chuyên sâu 40 câu hỏi Nghe Sections 1-4 trong 35 phút: Đặt chỗ cắm trại Banff, Bảo tàng hàng không Smithsonian, Rừng tảo bẹ Tasmania và Ruộng bậc thang Inca Moray).
+    19. [`toeic_listening_master_01.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/toeic_listening_master_01.ts) (`toeic_listening_master_01`): TOEIC Listening Master 100 #01 (Chuyên sâu 100 câu hỏi Nghe Parts 1-4 chuẩn ETS 2026 trong 45 phút: Chuỗi cung ứng chip 3nm Tokyo, tự động hóa kho AGV, ký kết hợp tác quốc tế, và hội nghị chuyển đổi số Frankfurt).
+    20. [`ielts_reading_sprint_01.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/ielts_reading_sprint_01.ts) (`ielts_reading_sprint_01`): IELTS Academic Reading Master #01 (Chuyên sâu 40 câu hỏi Đọc Passages 1-3 trong 60 phút: Mảng kính thiên văn vô tuyến SKA 1km², Tâm lý học nhận thức Hội chứng Kẻ giả mạo Impostor Syndrome và Kỹ thuật đập cự thạch Marib Ả Rập).
+    21. [`toeic_reading_master_01.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/toeic_reading_master_01.ts) (`toeic_reading_master_01`): TOEIC Reading Master 100 #01 (Chuyên sâu 100 câu hỏi Đọc Parts 5-7 chuẩn ETS 2026 trong 75 phút: Mệnh đề quan hệ rút gọn, bảo mật đám mây, hóa đơn cảng Hamburg và đấu thầu quang điện mặt trời Nevada 52.5 triệu USD).
+    22. [`ielts_speaking_pro_02.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/ielts_speaking_pro_02.ts) (`ielts_speaking_pro_02`): IELTS Speaking AI Studio #02 (Chuyên sâu 3 Phần Nói chuẩn Cambridge chấm điểm AI: Không gian xanh đô thị, Cue Card phát minh của Nikola Tesla, Xe tự hành & Giáo dục liên ngành STEAM).
+    23. [`toeic_speaking_pro_01.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/toeic_speaking_pro_01.ts) (`toeic_speaking_pro_01`): TOEIC Speaking AI Intensive #01 (Chuyên sâu 11 câu hỏi Nói chuẩn ETS: Đọc to phát âm, miêu tả tranh kho vận/hội đồng, xử lý lịch trình hội thảo AI Silicon Valley và bài nói quan điểm 60s về tuần làm việc 4 ngày).
+    24. [`ielts_writing_master_02.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/ielts_writing_master_02.ts) (`ielts_writing_master_02`): IELTS Academic Writing Master #02 (Chuyên sâu 2 Task Viết chuẩn Cambridge: Task 1 Biểu đồ kết hợp Mixed Charts khí thải & năng lượng tái tạo vs Task 2 Bài luận Trách nhiệm tái chế rác thải điện tử E-waste của tập đoàn công nghệ).
+    25. [`toeic_writing_pro_01.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/toeic_writing_pro_01.ts) (`toeic_writing_pro_01`): TOEIC Writing AI Intensive #01 (Chuyên sâu 8 câu hỏi Viết chuẩn ETS: 5 câu viết theo ảnh công sở/công nghệ, 2 email phản hồi sự cố đám mây & đàm phán hợp đồng, 1 bài luận quan điểm 300+ từ về tài trợ học tập trọn đời).
+    26. [`toeic_lr_sprint_01.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/toeic_lr_sprint_01.ts) (`toeic_lr_sprint_01`): TOEIC LR Speed Sprint #02 (100 câu Nghe & Đọc trong 60 phút: 50 câu Listening Parts 1-4 và 50 câu Reading Parts 5-7 bao quát chuỗi cung ứng FinTech Singapore và xe điện tự hành Austin).
+    27. [`ielts_lr_combo_01.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/ielts_lr_combo_01.ts) (`ielts_lr_combo_01`): IELTS Academic L&R Master #01 (80 câu Nghe & Đọc học thuật trong 95 phút: 40 câu Listening Trạm nghiên cứu Svalbard / Robot hang động và 40 câu Reading Đô thị bọt biển Sponge Cities / Giấc ngủ REM / Văn minh Minoan Crete).
+    28. [`toeic_sw_2026_03.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/toeic_sw_2026_03.ts) (`toeic_sw_2026_03`): TOEIC Speaking & Writing AI #03 (19 câu Nói & Viết AI trong 80 phút: 11 câu Speaking AI Trung tâm dữ liệu AI / Lễ khánh tiết và 8 câu Writing AI hợp đồng máy chủ & bài luận văn hóa đổi mới).
+    29. [`ielts_sw_combo_01.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/ielts_sw_combo_01.ts) (`ielts_sw_combo_01`): IELTS Academic S&W Master #01 (5 câu Nói & Viết học thuật trong 75 phút: 3 Phần Speaking AI Nông nghiệp thông minh / Dự án môi trường và 2 Task Writing AI Sơ đồ xử lý nước thải khép kín vs Bài luận Lò phản ứng hạt nhân SMR).
+    30. [`ielts_ls_interactive_01.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/ielts_ls_interactive_01.ts) (`ielts_ls_interactive_01`): IELTS Listening & Speaking AI #01 (43 câu Nghe & Nói AI trong 50 phút: 40 câu Listening Bảo tồn động vật Serengeti và 3 Phần Speaking AI Du lịch sinh thái bền vững).
+    31. [`toeic_ls_interactive_01.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/toeic_ls_interactive_01.ts) (`toeic_ls_interactive_01`): TOEIC Listening & Speaking AI #01 (61 câu Nghe & Nói AI trong 50 phút: 50 câu Listening Cảng container Busan và 11 câu Speaking AI Tự động hóa cảng biển).
+    32. [`ielts_rw_synthesis_01.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/ielts_rw_synthesis_01.ts) (`ielts_rw_synthesis_01`): IELTS Academic R&W Master #01 (42 câu Đọc & Viết học thuật trong 120 phút: 40 câu Reading Trồng rừng Miyawaki / Siêu dẫn nhiệt độ phòng và 2 Task Writing AI Sơ đồ trồng rừng vs Bài luận Bằng sáng chế y sinh).
+    33. [`toeic_rw_business_01.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/toeic_rw_business_01.ts) (`toeic_rw_business_01`): TOEIC Reading & Writing Business #01 (58 câu Đọc & Viết AI trong 90 phút: 50 câu Reading Hợp đồng thương mại điện tử / Đấu thầu trạm biến áp và 8 câu Writing AI Cung ứng cảm biến MEMS).
+    34. [`ielts_lw_studio_01.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/ielts_lw_studio_01.ts) (`ielts_lw_studio_01`): IELTS Listening & Writing Integration #01 (42 câu Nghe & Viết học thuật trong 95 phút: 40 câu Listening Kính thiên văn vi sóng Hawaii và 2 Task Writing AI Quang phổ CMB vs Bài luận Thám hiểm không gian sâu).
+    35. [`toeic_lw_workplace_01.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/toeic_lw_workplace_01.ts) (`toeic_lw_workplace_01`): TOEIC Listening & Writing Corporate #01 (58 câu Nghe & Viết AI trong 75 phút: 50 câu Listening Báo cáo tài chính R&D y tế Basel và 8 câu Writing AI Đàm phán bằng sáng chế dược phẩm).
+    36. [`ielts_rs_studio_01.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/ielts_rs_studio_01.ts) (`ielts_rs_studio_01`): IELTS Reading & Speaking Academic #01 (43 câu Đọc & Nói AI trong 75 phút: 40 câu Reading Dòng hải lưu Atlantic AMOC / Siêu thành phố nổi Oceanix và 3 Phần Speaking AI Tái định cư ven biển).
+    37. [`toeic_rs_business_01.ts`](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/toeic_rs_business_01.ts) (`toeic_rs_business_01`): TOEIC Reading & Speaking Professional #01 (61 câu Đọc & Nói AI trong 65 phút: 50 câu Reading Báo cáo ESG chuỗi cung ứng xanh và 11 câu Speaking AI Điện mặt trời áp mái doanh nghiệp).
   - **Chuẩn Hóa Layout & Micro-Hero Toolbar Đồng Bộ ([PageEntranceWrapper](file:///e:/XP%20English%20%20XP%20Voca/components/shared/PageEntranceAnimation.tsx))**: Loại bỏ các thẻ bao bọc lồng nhau và margin/padding lệch chuẩn; đồng bộ 100% không gian làm bài thi và danh sách đề thi theo phong cách **Agency Micro-Hero Toolbar (`bg-[#ebf3fe] dark:bg-blue-950/40 border-[#d5e5fe]`)** đồng nhất với các phòng học khác (`/study/practice`, `/study/listening`, `/study/shadowing`).
-  - **Tự Động Thu Gọn Sidebar Khi Vào Bài Thi (Auto-Collapse Sidebar Workspace)**: Tự động kích hoạt cơ chế thu gọn thanh bên `setSidebarCollapsed(true)` ngay khi người dùng nhấn **"Vào thi"** hoặc chuyển sang chế độ làm bài trực tiếp (`activeMode === "WORKSPACE"`), tối đa hóa diện tích hiển thị bài đọc và câu hỏi mà không làm mất trạng thái tương tác mở rộng lại của Sidebar.
+  - **Tự Động Thu Gọn Sidebar Khi Vào Luyện Tập/Làm Bài (Global Auto-Collapse Sidebar Workspace)**: Tự động kích hoạt cơ chế thu gọn thanh bên `setSidebarCollapsed(true)` trên **tất cả các trang luyện tập và thi cử** (`/study/exam-prep`, `/study/listening`, `/study/shadowing`, `/ai/tutor`, `/ai/conversation`, `/study/rooms`, `/vocabulary/[id]`), tối đa hóa diện tích hiển thị nội dung, tập trung cao độ vào bài làm mà không làm mất khả năng mở lại Sidebar khi cần.
+  - **Tối Ưu & Nâng Cấp Thẻ Danh Mục Đề Thi ([Exam Cards Grid](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/study/exam-prep/page.tsx))**:
+    - **Hệ Thống Badge Phân Loại Màu Sắc Theo Định Dạng**: Tự động áp dụng bảng màu chuyên biệt cho từng nhóm đề thi (IELTS Academic: Sky Blue, 4-Skills Master: Royal Purple, Speaking & Writing: Hổ phách Amber, IELTS Speaking: Emerald, IELTS Writing: Indigo, TOEIC LR: Corporate Blue).
+    - **Cân Bằng Đường Cơ Sở Tiêu Đề (Baseline Vertical Alignment)**: Thiết lập `line-clamp-2 min-h-[2.4rem]` giúp toàn bộ 3 cột thẻ trên lưới giữ nguyên chiều cao thẳng hàng, chống thụt thò khi tên đề thi dài ngắn khác nhau.
+    - **Hiệu Ứng Nâng Thẻ & Tương Tác**: Bổ sung viền hover tinh tế `hover:border-[#0059bb]/40 hover:shadow-xs`, nút *"Vào thi"* phản hồi cảm ứng mượt mà `active:scale-95`.
+    - **Bộ Lọc Phân Khúc 5 Nhóm Thông Minh**: Lọc nhanh *Tất cả bộ đề, IELTS Academic, TOEIC Nghe & Đọc, TOEIC Nói & Viết, TOEIC Full 4K*.
   - **Nút Bật/Tắt Ẩn/Mở Phiếu Trả Lời (`showAnswerSheet`)**: Cho phép ẩn Phiếu trả lời để mở rộng màn hình bài thi **Full Width 12/12 (`col-span-12`)** siêu thoáng mắt. Phiếu trả lời thiết kế chuẩn **6 cột 1 hàng (`grid-cols-6`)** với chữ số to đậm `text-sm font-black`.
-  - **Loại bỏ chữ phím tắt thừa**: Triệt tiêu văn bản phím tắt rườm rà, giữ lại giao diện chuyển câu tinh gọn.
+  - **Tối Ưu Giao Diện Xem Lại Lời Giải Trên Mobile (Mobile Review & Explanation Optimization)**:
+    - **Thanh Điều Khiển Audio & Lời Thoại Toàn Năng (Mobile-First Audio & Transcript Engine)**: Tối ưu hoá bố cục linh hoạt `flex-col sm:flex-row`, chống co ép vỡ dòng chữ trên màn hình hẹp, tự động rút gọn nhãn nút trên di động (`"Lời Thoại"` / `"Phát Audio"` trên mobile, `"Xem Lời Thoại (Transcript)"` / `"Phát Lại Audio"` trên desktop). Tích hợp bộ chuyển tốc độ phát âm (`0.8x`, `1.0x`, `1.25x`), cơ chế tự động dừng phát khi chuyển câu (`selectedReviewQIndex`), giải pháp phát âm đa tầng (Audio MP3 -> Tự động Fallback sang Smart TTS Speech `speakLessonText`), nút 1-click sao chép transcript (`navigator.clipboard`) kèm Toast thông báo và drawer hiển thị lời thoại có giới hạn chiều cao `max-h-56 overflow-y-auto` tinh tế không che khuất phần câu hỏi và lời giải chuyên sâu.
+    - **Chuẩn Hóa Toàn Diện Dữ Liệu Toàn Bộ 37 Đề Thi Chuẩn ETS & Cambridge ([exam-papers](file:///e:/XP%20English%20%20XP%20Voca/lib/data/exam-papers/))**:
+      - **Khớp Hình Ảnh Part 1 Đạt 98% – 100%**: Kiểm duyệt và cập nhật 84/84 hình ảnh HD `w=800` trên toàn bộ kho đề sát thực 100% với hành động câu hỏi và phương án đúng (họp nhóm, gõ laptop văn phòng, bản vẽ công trình, trạm sạc xe điện, ký thỏa thuận, tàu cao tốc, phòng hội đồng, kính hiển vi, cao ốc, xe nâng kho bãi, phiến bán dẫn, thuyết trình số liệu, lắp ráp robot, tàu container cập cảng, tuabin gió và quầy lễ tân khách sạn).
+      - **Đồng Bộ Kịch Bản Thoại Transcript & Âm Thanh Phát Lại (Review Listening Engine)**: Cấu trúc đầy đủ trường `passageText` chứa trọn vẹn câu hỏi và các phương án `(A), (B), (C), (D)` cho toàn bộ các phần nghe; tích hợp giọng đọc AI bản xứ chuẩn ETS/Cambridge khi học viên bấm phát lại lời thoại.
+      - **Hệ Thống Lời Giải Chuyên Sâu 4 Tầng & Zero Italic**: Nâng cấp toàn diện lời giải 4 tầng (🎯 Đáp án đúng & Dẫn chứng, 🔍 Dịch nghĩa trọn vẹn, ⚠️ Phân tích bẫy thi ETS, 💡 Từ vựng & Ngữ pháp trọng tâm), đồng bộ chính xác 100% nhãn đáp án, tuân thủ tuyệt đối quy tắc không dùng chữ nghiêng.
+    - **Chuẩn Hóa, Gộp & Khử Trùng Lặp Toàn Diện Kho Từ Vựng Nền Tảng & Nâng Cao ([basicVocabularies](file:///e:/XP%20English%20%20XP%20Voca/lib/data/basicVocabularies.ts) & [advancedVocabularies](file:///e:/XP%20English%20%20XP%20Voca/lib/data/advancedVocabularies.ts))**:
+      - **Khử 100% Từ Vựng Lỗi Hậu Tố Số Đếm & Khử Trùng Lặp Intra-Theme**: Loại bỏ triệt để toàn bộ 4.946 từ nhân tạo bị nối số thừa (như `revenue 17`, `algorithm 2`, `database 3`, `cybersecurity 4`); thực hiện gộp và khử trùng lặp các từ trong từng chủ đề (0 duplicate words per theme), bảo toàn 5.240 từ vựng tiếng Anh độc nhất đạt chuẩn học thuật.
+      - **Quy Hoạch & Chuẩn Hóa 155 Danh Mục Chủ Đề Ngữ Nghĩa**: Tái cấu trúc 155 chủ đề từ vựng nâng cao với tên gọi tiếng Việt và tiếng Anh chuẩn mực, icon sinh động, phân loại độ khó thực tế và số lượng từ vựng hiển thị trung thực theo đúng dữ liệu thực tế.
+      - **Tối Ưu Đồng Bộ Constants & API Zero-Latency**: Đồng bộ `MOCK_THEMES` trong [lib/constants/index.ts](file:///e:/XP%20English%20%20XP%20Voca/lib/constants/index.ts) trực tiếp từ nguồn dữ liệu chuẩn, đảm bảo tốc độ phản hồi 0ms trên giao diện và API `/api/vocabulary`.
+    - **Kiến Trúc Tự Phục Hồi Kết Nối Cơ Sở Dữ Liệu PostgreSQL ([lib/prisma.ts](file:///e:/XP%20English%20%20XP%20Voca/lib/prisma.ts))**:
+      - **Tự Động Bổ Sung Tham Số Connection Pooling Tối Ưu**: Tự động cấu hình `connection_limit=10`, `pool_timeout=20`, `connect_timeout=15` vào chuỗi kết nối PostgreSQL nhằm ngăn ngừa tình trạng cạn kiệt socket hoặc nghẽn kết nối nhàn rỗi.
+      - **Universal Query Auto-Healing Extension (`$extends`)**: Bọc toàn bộ các thao tác truy vấn của mọi Model (`$allModels.$allOperations`) bằng cơ chế bắt lỗi ngắt socket (`10054 ConnectionReset`, `ECONNRESET`, `Closed`, `P1001`), tự động đóng socket hỏng, kết nối lại và retry với thuật toán Exponential Backoff 3 lần, đảm bảo 100% không bao giờ làm gián đoạn hay crash API của người dùng.
+    - **Bộ Phân Tích Định Dạng & Ngắt Dòng Lời Giải Tự Động ([FormattedExplanation](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/study/exam-prep/components/FormattedExplanation.tsx))**: Tự động phân tách cấu trúc dòng, chuyển đổi các ký tự markdown `**in đậm**`, các câu trích dẫn mẫu (thành khối quote viền hổ phách `border-l-2 border-amber-400 bg-white/70`), mã từ vựng `` `từ vựng` `` (thành pill badge bo tròn viền hổ phách), danh sách gạch đầu dòng `- ` (thành bullet dot tròn cam), danh sách số `1. 2.`, và tự động ngắt dòng/giãn cách phân tầng giữa các đề mục emoji (`🎯`, `🗣️`, `🔍`, `💡`), loại bỏ hoàn toàn các ký tự `**` thô rườm rà.
+    - **Header Hộp Lời Giải Chuyên Sâu**: Thiết kế `flex-col sm:flex-row` chống vỡ dòng chữ tiêu đề "Lý Do & Lời Giải Chuyên Sâu" trên màn hình hẹp, nút "Hỏi AI Giải Thích Thêm" kéo dãn toàn chiều ngang màn hình di động dễ bấm với ngón tay cái, giữ nguyên layout cạnh nhau trên Desktop (`sm:flex-row`).
+    - **Thanh Chuyển Câu Stepper Xem Lại**: Nút `[ < Trước ]` và `[ Tiếp > ]` chống ngắt dòng chữ (`whitespace-nowrap min-w-[76px]`), ẩn chỉ dẫn bàn phím `(Dùng phím ← / →...)` trên thiết bị di động (`hidden sm:block`) và giữ nguyên đầy đủ chữ "Câu Trước", "Câu Tiếp Theo" trên Desktop.
+  - **Khối Điều Hướng Desktop Tiện Dụng**: Nút `[ ★ Đánh Dấu Câu ]` được đặt sát cạnh nút `[ Câu tiếp > ]` bên góc phải màn hình, tạo thành cụm thao tác tiến câu hỏi và gắn cờ trực quan, trong khi nút `[ < Câu trước ]` nằm cố định bên trái.
   - **Specialized Workspace Engine Cho 4 Kỹ Năng**:
-    - **`ListeningWorkspace`**: Động Cơ Phát Âm AI Tự Động (`AI Speech Engine`) hỗ trợ phím tắt **Space (Phím cách)** để Bật/Tạm dừng, chuẩn hóa quy tắc thi ETS 2026, làm sạch văn bản và hiển thị khung Kịch Bản Lời Thoại chữ to đậm `text-sm font-bold`.
+    - **`ListeningWorkspace` & Động Cơ Âm Thanh Mobile Toàn Năng ([mobileAudio.ts](file:///e:/XP%20English%20%20XP%20Voca/lib/utils/mobileAudio.ts) & [ttsEngine.ts](file:///e:/XP%20English%20%20XP%20Voca/lib/utils/ttsEngine.ts))**:
+      - **Micro-Silent Buffer Hardware Unlock**: Tự động mở khóa phần cứng âm thanh DAC trên iOS/Android ngay từ lần chạm đầu tiên của người dùng bằng buffer siêu ngắn 1ms, xử lý triệt để chính sách Autoplay Policy của trình duyệt di động.
+      - **Server-Side TTS Audio Streaming Proxy ([/api/tts](file:///e:/XP%20English%20%20XP%20Voca/app/api/tts/route.ts))**: Phát âm thanh trực tiếp từ backend Next.js với định dạng chuẩn `audio/mpeg`, loại bỏ 100% các lỗi 403 Forbidden, CORS và hạn chế cross-origin trên toàn bộ trình duyệt di động (iOS Safari, Android Chrome, Samsung Internet, Webview).
+      - **Cơ Chế Watchdog Chống Treo Tiếng**: Bổ sung bộ đếm thời gian giám sát tự động dọn sạch tiến trình âm thanh treo trên Safari di động, đảm bảo âm thanh phát mượt mà, đồng bộ và liên tục trên mọi trang.
+      - **Tối Ưu & Phân Tách Trạng Thái Sidebar Mobile / Desktop Hoàn Toàn ([Sidebar.tsx](file:///e:/XP%20English%20%20XP%20Voca/components/layout/Sidebar.tsx))**:
+        - **Duy Trì Khối Header Chuẩn & Ẩn Nội Dung Trực Quan Trên Mobile (`invisible lg:visible`)**: Giữ nguyên vẹn 100% khối container header phía trên cùng (`min-h-[57px]` kèm đường kẻ phân tách `border-b`) nhằm bảo toàn cấu trúc hình học và khoảng cách bố cục nguyên bản của Sidebar; đồng thời ẩn các phần tử chữ "XP English | XP Voca" và nút `[|<]` trên Mobile để ngăn chặn người dùng vô tình bấm làm thay đổi trạng thái Desktop.
+        - **Bảo Toàn Giao Diện Menu Mobile Đầy Đủ (Drawer Full Width)**: Khi người dùng mở thanh bên trên Mobile, giao diện luôn hiển thị đầy đủ tên danh mục, tiêu đề phân mục và thẻ thông tin tài khoản người dùng trực quan, ngay cả khi phiên làm việc trên Desktop đang ở chế độ thu gọn 72px.
+      - **Header 2 Dòng Responsive**: Tách nút Thoát, Đồng Hồ Đếm Ngược, Nộp Bài lên dòng 1; Tên đề thi & Badge xuống dòng 2; bảo toàn 100% Header 1 dòng trên Desktop.
+      - **Part 1 Photographs Mobile Adaptive Frame**: Khung ảnh tự động co giãn thông minh (`h-52 sm:h-64 md:h-full max-h-[340px]`), loại bỏ hiện tượng co giật và vỡ layout; hỗ trợ cơ chế tự động Fallback `onError` đảm bảo 100% không bao giờ gặp biểu tượng ảnh lỗi; các thẻ đáp án A/B/C/D tự động ngắt dòng `break-words` và đạt chuẩn vùng chạm ngón tay cái `min-h-[44px]` thân thiện cho di động.
+      - **Khử Hoàn Toàn Khoảng Trắng Lề Trái 72px**: Tách biệt CSS `.main-content.sidebar-collapsed` chỉ áp dụng `margin-left: 72px` trên Desktop (`>= 1024px`), đặt `margin-left: 0` trên Mobile.
+      - **Thanh Điều Hướng Ghim Cố Định Đáy Màn Hình (Fixed Pinned Bottom Bar)**: Thanh điều hướng câu hỏi di động được căn chỉnh bố cục 3 phần hoàn hảo: Nút `[ < Trước ]` bám sát rìa trái, Nút `[ Tiếp > ]` bám sát rìa phải, cụm `[ ★ Ghim ]` và `[ 📋 1/200 ]` được gom nhóm căn chính xác vào tâm giữa màn hình (`justify-between`), ghim cố định vững chắc sát đáy (`fixed bottom-0 left-0 right-0 z-40 lg:hidden p-2.5 px-3 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md shadow-2xl`), tối ưu thao tác ngón cái (Thumb-zone) và không bao giờ bị trôi khi cuộn câu hỏi; trong khi **Desktop sử dụng khối nút điều hướng in-flow bên trong thẻ câu hỏi mà không có thanh fixed đáy**.
+      - **Phiếu Trả Lời Dạng Bottom Sheet Drawer**: Chuyển ma trận 200 nút trả lời cồng kềnh trên mobile thành Modal Bottom Sheet tiện lợi khi chạm vào nút `[ 📋 1/200 ]`.
+      - **Trau Chuốt & Rút Gọn Chữ Thừa Trên Mobile Hub**: Rút gọn các nút chuyển tab `Đề Chuẩn` / `Tạo Đề AI`, 4 nhãn kỹ năng `Nghe` / `Đọc` / `Nói AI` / `Viết AI` (ẩn phần tiếng Anh trong ngoặc), và 5 tab danh mục chuyển sang định dạng lưới **`grid grid-cols-5 gap-1 w-full`** (`Tất cả` / `TOEIC 4K` / `Nói+Viết` / `IELTS Nói` / `IELTS Viết`) vừa vặn 100% bề ngang màn hình điện thoại, **triệt tiêu hoàn toàn thanh cuộn ngang/lướt ngang (Zero Horizontal Scroll)**; trong khi **Desktop sử dụng dấu chấm phân cách hiện đại `Nghe • Listening`, `Đọc • Reading` với khoảng cách rộng rãi, loại bỏ hoàn toàn dấu ngoặc đơn dính chữ**.
+    - **Đồng Bộ Hóa URL Đề Thi (`?id=1` / `?id=N`)**: Khi người dùng bắt đầu thi đề số 1 (hoặc bất kỳ đề nào), hệ thống tự động gán tham số ID lên thanh địa chỉ (ví dụ: `http://localhost:3000/study/exam-prep?id=1`). Cho phép truy cập trực tiếp qua liên kết hoặc chia sẻ URL để tự động mở thẳng bài thi vào phòng thi tương ứng. Khi quay lại danh sách đề, URL được dọn sạch về `/study/exam-prep`.
     - **`ReadingWorkspace`**: Cam kết bài đọc luôn luôn hiển thị sóng đôi bên trái (Always-Visible Passage Split View) + Dòng câu hỏi bên phải. Tối ưu typography chuẩn đọc báo quốc tế (loại bỏ nút `-A A A+` rườm rà, tăng kích cỡ chữ `text-sm sm:text-[15px]` và làm đậm nét chữ `font-medium text-slate-900 dark:text-slate-100` rõ ràng, êm mắt).
     - **`SpeakingStudioWorkspace`**: Quy trình 3 Phase Stepper Studio (Prep timer 45s/60s ➔ Micro pulse 60fps + STT Live Transcript 0ms ➔ Báo cáo AI 5 chỉ số).
     - **`WritingStudioWorkspace`**: Distraction-Free Essay Editor + Live Word Counter + Gemini AI Evaluator chấm 4 tiêu chí chuẩn Cambridge.
@@ -163,34 +340,78 @@
   - **Unified Control Panel Studio**: Gộp 100% hai khối rời rạc cũ thành duy nhất 1 Bảng Điều Khiển Hợp Nhất, hỗ trợ chuyển đổi linh hoạt giữa Chế độ Đề thi chuẩn ETS/Cambridge và Chế độ Tạo đề AI Gemini.
   - **Visual 5-Star Difficulty Rating**: Loại bỏ đoạn chữ Max pts rườm rà, thay bằng hệ thống 5 ngôi sao đánh giá độ khó visual màu vàng hổ phách.
   - **Hệ Thống Chấm Điểm & Phân Tích Lời Giải Chuyên Sâu Master-Detail Bento Split Studio ([examScoringEngine.ts](file:///e:/XP%20English%20%20XP%20Voca/lib/utils/examScoringEngine.ts))**:
-    - **Đồng Bộ Chiều Rộng Full-Width (`w-full space-y-3.5`) & Auto-Restore Sidebar**: Đồng bộ 100% khoảng cách lề và padding thanh Micro-Hero (`p-3 sm:p-3.5`) với các phòng học khác (`/study/practice`, `/study/listening`), tự động khôi phục Sidebar mở rộng khi chuyển sang màn hình Báo cáo & Danh sách đề.
-    - **Đồng Bộ Typography Chuẩn Hệ Thống (`Be Vietnam Pro` `font-sans` / `font-display`)**: Loại bỏ hoàn toàn các phông chữ lạ như `font-serif` (Times New Roman) và `font-mono` lạm dụng; đồng bộ 100% toàn bộ tiêu đề, phụ đề, nội dung câu hỏi, bài đọc, transcript, lựa chọn đáp án và các thẻ chỉ số sang phông chữ chuẩn thống nhất của nền tảng (`Be Vietnam Pro`).
-    - **Tab 1: Bento Score & Performance Dashboard**: Thẻ vinh danh kết quả với vòng tròn đo điểm **SVG Radial Score Gauge** phát sáng đa sắc, 2 thẻ kính con cho điểm Nghe/Đọc (/495), 4 thẻ chỉ số nhanh Double-Bezel (Câu Đúng, Câu Sai, Bỏ Qua, Tốc độ trung bình giây/câu) và danh sách Part có xếp hạng Grade (A+/B/C/D) kèm nút nhảy nhanh. Căn chỉnh các thanh tiến trình (progress bars) thẳng hàng 100% theo trục dọc bằng CSS Grid (`grid-cols-12`).
-    - **Tab 2: Master-Detail Bento Review Studio (Giải Quyết 100% Cuộn Chuột)**: 
+    - **Thuật Toán Quy Đổi Điểm Chuẩn Quốc Tế Cho 3 Đề Thi Đầu**:
+      - **Đề 1 & Đề 2 (TOEIC L&R 200 câu)**: Quy đổi chính xác theo thang điểm ETS TOEIC `Listening (5 - 495 PTS)` + `Reading (5 - 495 PTS)` = `Tổng Điểm (10 - 990 PTS)` kèm ma trận chuẩn đoán 7 Part.
+      - **Đề 3 (TOEIC Speaking & Writing AI Studio 19 câu)**: Quy đổi chính xác theo thang điểm chuẩn ETS quốc tế `Speaking (0 - 200 PTS / Level 1-8)` + `Writing (0 - 200 PTS / Level 1-9)` = `Tổng Điểm (0 - 400 PTS)` kèm hệ thống chuẩn đoán chuyên sâu cho 5 task Nói (Read Aloud, Describe Picture, Respond Questions, Info Provided, Opinion) và 3 task Viết (Write Sentence, Email Request, Opinion Essay 300+ words).
+      - **Đề 4 (TOEIC 4 Kỹ Năng)** & **Đề IELTS (Cambridge Band 1.0 - 9.0)**: Tích hợp đầy đủ sub-scores Listening, Reading, Speaking AI, Writing AI trên thanh Banner kết quả Glassmorphism.
+    - **Hệ Thống Typography Chuẩn Hóa & Đồng Bộ Toàn Trang**:
+      - Toàn bộ văn bản giao diện (tiêu đề, nhãn, nút bấm, hướng dẫn, câu tiếng Anh và bản dịch tiếng Việt) sử dụng font chuẩn **`Be Vietnam Pro`** (`font-sans`), đồng bộ tỉ lệ và khoảng cách chữ tự nhiên.
+      - Font monospace (`font-mono`) chỉ dùng chuẩn mực cho các thành phần số đo kỹ thuật: Bộ đếm thời gian `00:00 / 00:07`, nấc tốc độ `1x`, chuỗi dấu chấm ẩn từ `••••`, và các phím tắt `Enter`, `Ctrl`, `Alt+H`, `Alt+R`.
+      - **Khung bản dịch câu**: Tiêu đề sử dụng định dạng tự nhiên `Bản dịch câu:` (`text-xs font-semibold font-sans`) đi cùng icon `Languages`, không bị in hoa thô cứng, kèm văn bản dịch tiếng Việt mượt mà không bị lặp tiền tố `Việt:`.
+    - **Tab 1: Bento Score & Performance Dashboard**: Thẻ vinh danh kết quả với vòng tròn đo điểm **SVG Radial Score Gauge** phát sáng đa sắc được tối ưu tỷ lệ hoàn hảo trên Mobile (`w-[88px] h-[88px]` to rõ, cân xứng với cụm điểm số bên cạnh) và Desktop (`sm:w-24 sm:h-24`), 2 thẻ kính con cho điểm Nghe/Đọc (/495), 4 thẻ chỉ số nhanh Double-Bezel (Câu Đúng, Câu Sai, Bỏ Qua, Tốc độ trung bình giây/câu) và danh sách Part có tiêu đề tinh gọn kèm icon `TrendingUp` nổi bật (loại bỏ chữ tiếng Anh thừa `ETS Standard Benchmark`), căn chỉnh các thanh tiến trình thẳng hàng 100% theo trục dọc bằng CSS Grid (`grid-cols-12`). Nút hành động chính `Xem Chi Tiết Từng Câu` kéo dài **Full-width (`w-full`)** trên Mobile, đi kèm 2 nút chân trang chia đều **48% mỗi bên (`w-[48%]`)** nằm sát mép trái/phải cực kỳ tiện dụng; trong khi **Desktop giữ nguyên nút chính căn giữa và nút chân trang rộng rãi**.
+    - **Tab 2: Master-Detail Bento Review Studio (Giải Quyết 100% Cuộn Chuột)**: Huy hiệu đếm số lượng câu hỏi (`200`) được ẩn trên Mobile (`hidden sm:inline-block`) giúp 3 Tab hiển thị gọn gàng trên đúng 1 dòng duy nhất (`1. Điểm số`, `2. Lời giải`, `3. Lộ trình AI`), hiển thị đầy đủ trên Desktop.
       - **Cột Trái (3.8/12 — Sticky Question Navigator)**: Ghim cố định khi cuộn trang, tích hợp bộ lưới lọc trạng thái 5 thẻ gọn gàng (`Tất cả`, `Đúng`, `Sai`, `Bỏ qua`, `Đánh dấu`) kèm chấm màu và số lượng cụ thể; dropdown chọn Part có icon định hướng; ma trận bảng số 6 cột chuẩn ETS với trạng thái màu dịu mắt khi chưa chọn (`emerald/15`, `rose/15`, `amber/20`, `white`) và **nổi bật rực rỡ kèm viền sáng khi đang chọn xem**; thanh trạng thái chân trang hiển thị câu đang xem.
       - **Cột Phải (8.2/12 — Rich Question Inspector)**: Thanh phát Audio Waveform có nút bật/tắt Lời thoại (Transcript), đoạn văn đọc hiểu báo chí, so sánh 4 đáp án A/B/C/D với viền sáng màu phân biệt tuyệt đối (`✓ ĐÁP ÁN CHÍNH XÁC` vs `✗ BẠN ĐÃ CHỌN`), kèm **Khung Lời Giải Chuyên Sâu** phân tích dẫn chứng và bẫy đề thi.
       - **Nút "🤖 Hỏi AI Coach Giải Thích Thêm"** kết nối API `/api/ai/exam-explain` sử dụng Gemini AI phân tích ngữ pháp, từ vựng và mẹo làm bài theo thời gian thực.
       - Hỗ trợ phím tắt bàn phím `ArrowLeft` / `ArrowRight` để chuyển câu tức thì.
     - **Tab 3: AI Chẩn Đoán & Action Studio**: Báo cáo phân loại Điểm mạnh (`Mastered Competencies`) vs Lỗ hổng trọng yếu cần củng cố (`Priority Areas`). Từng thẻ lỗ hổng được trang bị **Huy hiệu Khẩn Cấp / Cần Lưu Ý** dạng Soft Pill với chấm trạng thái phát sáng (`animate-pulse`), độ chính xác chi tiết cho từng Part, phân tích lời khuyên chuyên biệt và nút 1-Click `"Xem lại Part này →"` nhảy thẳng sang Tab 2; kết hợp 3 thẻ hành động Studio 1-Click chuyển nhanh sang Dictation (+50 XP), Ôn Từ Vựng SRS (+30 Vàng), hoặc Phòng Luyện Ngữ Pháp AI (+40 XP).
+  - **Hệ Thống Backend Persistence & Đồng Bộ PostgreSQL (`/api/exams/attempts`, `/api/exams/stats`)**:
+    - **`POST /api/exams/attempts`**: Xác thực học viên qua `getAuthenticatedUserId()`. Lưu trữ toàn bộ kết quả bài thi (`ExamAttempt`, `QuestionAnswer`) vào PostgreSQL thông qua Prisma transaction an toàn, tự động liên kết `ExamType` & `Exam`, đồng thời cộng điểm XP, Vàng và số phút học vào hồ sơ học viên.
+    - **`GET /api/exams/attempts`**: Truy vấn 10 lượt thi gần nhất kèm điểm số chi tiết từng kỹ năng.
+    - **`GET /api/exams/stats`**: Tổng hợp thống kê tổng số đề đã hoàn thành, điểm TOEIC cao nhất, Band IELTS cao nhất, tỷ lệ chính xác trung bình và biểu đồ tiến độ điểm số 7 ngày.
+  - **Cơ Chế LocalStorage Auto-Save Session & Phục Hồi Khi Tải Lại Trang (Crash Recovery Engine)**: Tự động lưu tiến trình làm bài (`userAnswers`, `secondsRemaining`, `flaggedQuestions`, `currentQuestionIndex`) vào `localStorage` trong suốt quá trình làm bài, tự động dọn dẹp khi nộp bài hoặc thoát đề; đi kèm Modal xác nhận nộp bài hiển thị chi tiết 3 badge thống kê: *Đã làm*, *Chưa làm*, *Đánh dấu ghim*.
+  - **Cân Bằng Phân Bổ Đáp Án Chuẩn Quốc Tế Cho Toàn Bộ 37 Bộ Đề Thi (Answer Key Equalizer)**: Áp dụng thuật toán hoán vị lựa chọn đưa tỷ lệ phân bổ đáp án của 100% đề thi trắc nghiệm về mức chuẩn tự nhiên: **~25% A, ~25% B, ~25% C, ~25% D** (Part 2 TOEIC 3 lựa chọn đạt ~30-36%), đồng bộ hóa câu giải thích tiếng Việt `explanation` trỏ đúng vào phương án đúng mới; bảo chứng bởi bộ kiểm thử tự động `__tests__/exam_bank_audit.test.ts` (100% Pass across all 37 papers).
   - **Trình Tạo Đề Thi AI (`/api/ai/exam-generate`) & API Phân Tích Lời Giải AI (`/api/ai/exam-explain`)**: Kết nối Google Gemini API tự động sinh đề thi mới và phân tích chuyên sâu lý do Đúng/Sai cho từng câu hỏi.
-- **`/ai/tutor`**: AI Voice Tutor Studio — Phòng Luyện Nói & Giao Tiếp Giọng Nói AI Đỉnh Cao (Bento Grid 8/4 Layout Tier).
-  - **Bento Grid 8/4 Studio Layout & Mobile Responsive**: Cột trái 8/12 Không gian luyện thoại Voice-First rộng rãi; Cột phải 4/12 Bộ công cụ hỗ trợ Gia sư. Tự động tương thích hoàn hảo trên thiết bị di động (Mobile `60svh` chat container, cuộn trang tự nhiên, floating dictionary modal chuẩn khớp trên thanh BottomNav).
-  - **Smart Context-Aware Conversation Engine**: AI xử lý ngữ cảnh sâu, tự động thay đổi câu chào mừng ngẫu nhiên, phân tích từ khóa chủ đề (sân bay, nhà hàng, phỏng vấn, mua sắm...) và độ dài câu để phản hồi tự nhiên, biến hóa linh hoạt.
-  - **Audio Spectrum Waveform Visualizer**: Trạm 16 sóng âm nhấp nháy phát sáng đa sắc màu với CSS keyframe animation 60fps khi AI phát âm hoặc Học viên cất giọng nói qua Micro.
-  - **AI Instant Grammar & Natural Phrasing Coach**: Tự động sửa lỗi ngữ pháp (*Grammar Check*) và gợi ý cách diễn đạt tự nhiên chuẩn người bản xứ (*Better Natural Way*) theo đúng ngữ cảnh thực tế của câu nói.
-  - **1-Click Tra Từ & Lưu Từ Vựng 0ms (Interactive Dictionary Floating Modal)**: Tích hợp bảng tra 60+ từ chuẩn IPA & nghĩa Tiếng Việt. Nhấp vào bất kỳ từ nào ➔ Mở Modal Tra từ nhanh floating trên mobile (IPA, Audio giọng đọc bản xứ, dịch Tiếng Việt sát nghĩa và nút **"💾 Lưu vào Sổ tay từ vựng (+5 XP)"**).
-  - **Kịch Bản Giao Tiếp Thực Tế (6 Scenarios)**: Check-in sân bay (<Plane />), Đặt bàn nhà hàng (<Utensils />), Phỏng vấn xin việc (<Briefcase />), Mua sắm (<ShoppingBag />), Hỏi đường (<Navigation />), FreeTalk (<MessageSquare />) kèm Checklist mục tiêu hoàn thành.
-  - **Chuẩn hóa Vector Icons & Micro-Sharp UI**: Loại bỏ 100% icon emoji, sử dụng Lucide vector icons sắc nét (`strokeWidth={1.8}`) và thiết kế phẳng `rounded-xs` (2px-3px) đồng bộ toàn dự án.
-  - **Multi-Model Fallback Loop**: Tự động chuyển đổi mô hình AI (`gemini-2.5-flash` ➔ `gemini-1.5-flash` ➔ `gemini-2.0-flash`) đảm bảo 100% không bị ngắt kết nối.
-- **`/ai/conversation`**: Phòng hội thoại giao tiếp tiếng Anh AI thực tế (Bento Grid 8/4 Layout Tier).
-  - **Bento Grid 8/4 Layout & Mobile Responsive**: Cột trái 8/12 Không gian luyện hội thoại Voice/Text rộng rãi (`55svh` trên di động, cuộn mượt); Cột phải 4/12 Bộ công cụ theo dõi mục tiêu và lời khuyên giao tiếp.
-  - **Chuẩn hóa Vector Icons & Micro-Sharp UI**: 100% Lucide vector icons (`strokeWidth={1.8}`), màu xanh chủ đạo `#0059bb`, phẳng `rounded-xs` (2px-3px), loại bỏ hoàn toàn icon emoji.
-  - **Real-Time Goal Completion Tracking**: Tự động phát hiện từ khóa mục tiêu trong câu nói của học viên hoặc phản hồi Gemini ➔ Đánh dấu tick xanh mục tiêu (<CheckCircle2 />), cộng XP và phát Toast thông báo tức thì.
-  - **1-Click Tra Từ & Lưu Từ Vựng 0ms (Interactive Dictionary Floating Modal)**: Nhấp bất kỳ từ nào trong câu thoại AI ➔ Mở Modal Tra từ nhanh (IPA, Audio đọc bản xứ, nghĩa Tiếng Việt và nút **"💾 Lưu vào Sổ tay từ vựng (+5 XP)"**).
-  - **Multi-Topic Switching (6 Scenarios)**: Gọi đồ ăn (<Utensils />), Phỏng vấn xin việc (<Briefcase />), Du lịch & Khách sạn (<Plane />), Thảo luận công nghệ (<Cpu />), Mua sắm & Đàm phán (<ShoppingBag />), Check-in Sân bay (<Navigation />) kèm gợi ý phản hồi và lời khuyên linh hoạt theo từng chủ đề.
-  - **Multi-Model Fallback Loop & Safe JSON**: Tự động thử nghiệm đa mô hình Gemini và làm sạch chuỗi JSON (`strip Markdown backticks`) phòng chống lỗi parse.
-  - **Tối ưu hóa Chiều cao Khung Chat (Generous Height Sizing)**: Tăng chiều cao tối thiểu của khung chat lên `460px` trên Desktop và `62svh` (tối thiểu `380px`) trên Mobile, giúp hiển thị thoải mái 4-6 lượt thoại cùng lúc mà không bị nén chật chẹp.
-  - **Tối ưu hóa Cỡ chữ Typography (Desktop & Mobile)**: Loại bỏ các cỡ chữ siêu nhỏ (`8px` - `9px`), nâng cấp hệ thống font scale chuẩn ứng dụng (`text-xs sm:text-sm` cho bong bóng chat, tiêu đề card và gợi ý phản hồi), giúp trải nghiệm đọc sắc nét, dễ chịu trên cả máy tính và màn hình di động.
+- **`/ai/tutor`**: AI Voice Tutor Studio — Phòng Thu Luyện Nói & Giao Tiếp Giọng Nói AI Tự Do 1-1 (Agency Zen Studio Bento 8/4 Tier).
+  - **Bố Cục Bento Grid 8/4 Tinh Gọn & Micro-Hero Banner**: Đồng bộ 100% với ngôn ngữ thiết kế toàn hệ thống. Banner trên cùng tích hợp badge `AI VOICE TUTOR` kéo dài đĩnh đạc trên Desktop (`sm:min-w-[155px]`), nút *"Hoàn thành & Chấm điểm"* màu xanh emerald và đồng hồ đếm thời gian thực.
+  - **Cột Trái (8/12 - Voice Chat Studio Rộng Rãi)**: Tối ưu không gian luyện thoại Voice-First (`h-[42svh] sm:h-[48svh] lg:h-[380px] xl:h-[430px]`), bong bóng chat song ngữ tinh tế, dải gợi ý thuần chữ to rõ (Click phát âm ngay), dock thu âm liên tục (Voice-Only) không đứt quãng với nút Micro tròn lớn, cơ chế **Toggle-to-Send** thông minh (Bấm lần 1 để nói, bấm lần 2 để dừng và tự động gửi).
+  - **Hệ Thống Đánh Giá & Chấm Điểm Động 4 Trụ Cột (Dynamic Voice Evaluation Engine)**:
+    - **Guard Check chống hoàn thành rỗng**: Bắt buộc học viên tương tác ít nhất 1 câu để AI có dữ liệu chấm điểm thực tế.
+    - **4 Thước đo giọng nói**: Phát âm (`Pronunciation Score`), Tương tác (`Turns`), Thời gian luyện tập và Độ chuẩn xác ngữ pháp (`Grammar Accuracy`).
+    - **Hệ thống Xếp Hạng & Thưởng XP Động**: `Hạng S (90-100 pts) ➔ +45 XP`, `Hạng A (80-89 pts) ➔ +35 XP`, `Hạng B (70-79 pts) ➔ +25 XP`, `Hạng C (<70 pts) ➔ +15 XP`.
+    - **Lời Nhận Xét Cá Nhân Hóa Theo 3 Huấn Luyện Viên**:
+      - **Emma (🇬🇧 IELTS Coach)**: Phân tích ngữ điệu Anh-Anh, độ liên kết và sự mạch lạc trong câu.
+      - **Alex (🇺🇸 Tech & Business Coach)**: Nhận xét phản xạ nhanh, tính trực diện và từ vựng thực tế.
+      - **Chloe (🇦🇺 Friendly Tutor)**: Lời động viên ấm áp, khen ngợi sự tự tin và phản xạ tự nhiên.
+  - **Quy Chuẩn Phông Chữ Đứng Thẳng Đồng Bộ Toàn Diện (Zero-Italic Typography Policy)**: Loại bỏ 100% định dạng chữ nghiêng (`italic`), toàn bộ nội dung từ gợi ý diễn đạt, nhận xét của Huấn luyện viên, mẹo chủ đề đến bong bóng chat đều sử dụng phông chữ đứng chuẩn hệ thống `Be Vietnam Pro` (`font-sans` / `font-display`) sắc nét, phẳng và hiện đại.
+  - **Hộp Sửa Lỗi Ngữ Pháp Chuẩn Hóa**: Khung Double-bezel xám đá cao cấp (`slate-50/dark:slate-900`), badge so sánh lỗi đỏ-xanh, loại bỏ 100% dấu ngoặc đơn `()` bọc ngoài phần giải thích, kèm nút Loa nghe phát âm câu diễn đạt tự nhiên chuẩn bản xứ.
+  - **Hoàn Thành & Chấm Điểm Thế Chỗ Trực Tiếp (In-Place Screen Replacement)**: Thay thế trực tiếp khung chat bằng Scorecard Bento Grid 8/4 toàn diện (Huy hiệu Hạng, Điểm Phản Xạ thực tế, 4 Ô chỉ số nhanh, Lời nhận xét của Coach, Từ vựng tiêu biểu, Lịch sử chat đóng mở mượt mà và nút *"Luyện Buổi Mới"*).
+- **`/ai/conversation`**: AI Conversation Studio — Phòng Luyện Giao Tiếp AI 1-1 Theo Chủ Đề (Agency Zen Studio Bento 8/4 Tier).
+  - **Bento Grid 8/4 Layout & Bộ Chọn Chủ Đề Tối Giản Mở Rộng**: Dropdown chọn chủ đề nhanh `[ 🍔 Nhà hàng & Gọi món ▾ ]` kéo dài mở rộng trên Desktop (`sm:min-w-[220px] md:min-w-[250px]`) cùng badge `AI CONVERSATION` (`sm:min-w-[155px]`), giải phóng 100% diện tích màn hình cho không gian hội thoại chính.
+  - **Nhập Liệu Viết Bàn Phím Tự Do & Dải Gợi Ý Thuần Chữ**: Cho phép gõ bàn phím tự do (`readOnly={false}`), hỗ trợ phím **Enter** gửi nhanh; hiển thị 3 từ vựng trọng tâm + 2 cụm câu mở đầu to rõ (`text-xs sm:text-sm`), không viền hộp, hover tĩnh lặng và nhấp chuột phát âm ngay lập tức.
+  - **Quy Chuẩn Phông Chữ Đứng Thẳng Đồng Bộ (Zero-Italic Typography Policy)**: Loại bỏ hoàn toàn chữ nghiêng ở câu gợi ý diễn đạt và mẹo chủ đề, đồng bộ 100% phông chữ đứng chuẩn `Be Vietnam Pro`.
+  - **Backend Logic Gợi Ý Động & Nhận Diện Mục Tiêu (`/api/ai/chat`)**: Tích hợp Gemini AI với prompt cấu trúc chặt chẽ và kho từ điển Fallback 6 chủ đề chính, tự động phân tích ngữ pháp, gợi ý diễn đạt tự nhiên sạch sẽ, sinh đúng **3 từ vựng trọng tâm** + **2 câu gợi ý mở đầu** và tự động tick hoàn thành mục tiêu hội thoại.
+  - **Thuật Toán Chấm Điểm Theo Chủ Đề & Tình Huống (Goal-Oriented Dynamic Scoring)**:
+    - **Công thức trọng số khoa học**: $\text{Score} = (40\% \times \text{Mục tiêu}) + (30\% \times \text{Ngữ pháp}) + (20\% \times \text{Tương tác}) + (10\% \times \text{Vốn từ})$.
+    - **Xếp hạng S/A/B/C & Thưởng XP động**: Tự động phân cấp từ `+15 XP` đến `+45 XP` theo thành tích thực tế của buổi nói chuyện.
+  - **Cột Phải Hợp Nhất (Unified Single Sidebar Card)**: Tích hợp 2 phân đoạn sạch sẽ: Checklist Mục tiêu nói (Tick xanh realtime) + Danh sách từ vựng then chốt & Mẹo giao tiếp 1 câu ngắn gọn.
+  - **Hoàn Thành & Chấm Điểm Thế Chỗ Trực Tiếp (In-Place Screen Replacement)**: Thay thế trực tiếp khung chat bằng Bảng Báo Cáo & Chấm Điểm Buổi Hội Thoại Toàn Diện (Huy hiệu Hạng, Điểm phản xạ thực tế, % hoàn thành mục tiêu, chuẩn ngữ pháp, xem lại lịch sử chat, nút *"Luyện Buổi Mới"*).
+  - **Skeleton Loading Đạt Chuẩn (Quy Tắc 1 UI/UX)**: Khớp 100% tỷ lệ và bố cục Bento 8/4 của giao diện thực tế.
+- **`/study/listening`**: Studio Luyện Nghe & Chép Chính Tả Chuyên Sâu (Dictation Workspace Studio - Single-Sentence Focus Flow).
+  - **Đồng Bộ Hóa URL Trực Tiếp (`/study/listening?id=1` hoặc `?id=9`)**: Tự động nhận diện và phân giải tham số `?id=1`, `?id=9`, ... (hoặc mã bài học `listen_001`), tự động đồng bộ đường dẫn trên trình duyệt và tự động thu gọn Sidebar khi vào không gian học.
+  - **Khối Điều Khiển Sóng Âm Acoustic Studio Siêu Mảnh Nhấp Nhô Bất Chợt (`StudioWaveformCard.tsx`)**:
+    - **Dải Sóng Âm Phổ Thực Tế Nhấp Nhô Bất Chợt (`JAGGED_ACOUSTIC_SPEECH_SPIKES_95`)**: 95 vạch sóng siêu mảnh `1.2px - 1.8px` đặt siêu sát nhau (`gap: 1px - 1.5px`), tái lập độ tương phản cao với các đỉnh nhọn bất chợt lên xuống tự nhiên của âm thanh giọng nói; hiệu ứng dao động 60fps mượt mà, tự nhiên theo nhịp thở âm học (0.7s - 1.1s, `easeInOut`), loại bỏ hoàn toàn cảm giác giật/khựng.
+    - **Typography & Icon Mở Rộng Sắc Nét & Dock Tốc Độ Hiệu Ứng Trượt (Spring LayoutId)**: Tiêu đề in đậm `text-sm font-bold`, biểu tượng `Volume2 w-4.5`, đồng hồ kỹ thuật số `text-[15px] font-extrabold`, cụm nút `Play/Pause w-14` (Rule 18), `Tua 5s w-10.5` với icon `w-5.5` to rõ; **dock chọn tốc độ `[0.5x, 0.75x, 1x, 1.25x, 1.5x]` tích hợp hiệu ứng con trượt mượt mà (Framer Motion `layoutId="activeSpeedPillIndicator"`)** lướt chuẩn vật lý khi chuyển đổi.
+    - **Bộ Phím Tắt Điều Khiển Studio Đa Dạng**: `Space` (Phát/Tạm dừng), `Ctrl` (Nghe lại từ đầu câu), `Enter` (Sang câu tiếp theo), `← / →` (Tua lùi/nhanh 5s), `Alt+H` (Gợi ý chữ đầu), `Alt+R` (Mở trọn vẹn từ).
+  - **Thanh Tiện Ích Đầy Đủ (Sentence Utility Toolbar)**:
+    - **Lưu câu (Bookmark)**: Lưu câu vào sổ tay luyện tập cá nhân `localStorage`, thưởng ngay +5 XP và cập nhật icon vàng nổi bật.
+    - **Báo cáo (Report)**: Toast ghi nhận đóng góp phản hồi về câu đọc/bản dịch.
+    - **Bộ Điều Chỉnh Cỡ Chữ (`-A / +A`)**: 4 nấc kích thước font chữ (Tiêu chuẩn 14px ➔ 16px ➔ 18px ➔ Rất lớn 20px) lưu theo phiên người dùng.
+    - **Công Tắc Tự Động Tiếp & Ẩn Bản Dịch**: Switch pill trực quan cho phép tự động nhảy câu tiếp theo khi gõ đúng 100% hoặc ẩn dịch để tối đa hóa sự tập trung.
+  - **Ô Nhập Liệu Chuẩn Studio (`DictationWorkspace.tsx`)**: Hỗ trợ gõ trực tiếp câu/từ nghe được theo thời gian thực (real-time typing matching: gõ từ + Space/Enter ➔ tự động đối chiếu, chuyển trạng thái từ sang màu Xanh Ngọc Emerald, phát hiệu ứng haptic phản hồi và cộng +5 XP).
+  - **Thanh Nhận Diện Danh Từ Riêng (Proper Noun Pill Bar)**: Tự động trích xuất các tên riêng/địa danh (`ⓘ Danh từ riêng: [ IT ] [ London ] ...`) giúp người học không bị tắc nghẽn vô cớ khi nghe các danh từ riêng khó đánh vần.
+  - **Mạng Lưới Khối Từ Che Thích Ứng & Tự Động Định Tâm (Auto-Centering Word Mask Track)**:
+    - Số lượng dấu chấm `•` thể hiện **chính xác 1:1 theo độ dài ký tự** của từng từ (VD: `I` ➔ `•`, `have` ➔ `••••`, `renovation` ➔ `••••••••••`), bảo toàn dấu câu gốc.
+    - **Khi Thu Gọn Sidebar (`sidebarCollapsed = true`)**: Tự động chuyển đổi thành 1 hàng ngang **ẩn hoàn toàn thanh cuộn xám (`hide-scrollbar`)**; tích hợp cơ chế **tự động cuộn định tâm từ tiếp theo (`scrollIntoView({ inline: 'center' })`)** ngay khi học viên gõ đúng từ, người học không cần phải chạm tay hay lướt chuột thủ công.
+    - **Khi Mở Sidebar (`sidebarCollapsed = false`)**: Giữ nguyên bố cục nhiều hàng tự nhiên (`flex-wrap`).
+  - **Khối Phụ Đề & Không Gian Chuyên Biệt Gợi Ý Bài Học (`InteractiveTranscriptSidebar.tsx`)**:
+    - **Tab 1: Phụ Đề Tương Tác**: Thẻ câu đang học nổi bật với viền Emerald 2 lớp và huy hiệu `ĐANG HỌC` rực rỡ; thẻ hoàn thành với tích xanh thanh lịch; câu chưa học dạng danh sách tối giản.
+    - **Tab 2: Chuyên Biệt Gợi Ý Bài Học (Dedicated Lesson Recommendations)**: Hiển thị danh sách các bài học đề xuất thông minh cùng trình độ / chủ đề với ảnh thumbnail, huy hiệu cấp độ, số câu, thời lượng và nút *"Học ngay ➔"* chuyển bài trực tiếp 1-click kèm nút *"Đổi gợi ý ↺"*.
+  - **Màn Hình Tổng Kết & Xem Lại Toàn Bộ Bài Song Ngữ Khi Hoàn Thành (`isLessonFinished = true`)**:
+    - **Bento Summary Card**: Điểm thưởng +50 XP, tổng thời gian học mm:ss, số câu chép đúng 100%, xếp hạng thành tích.
+    - **Đoạn Văn Hoàn Chỉnh & Bản Dịch Toàn Bài**: Xem lại toàn bộ transcript song ngữ với nút nghe từng câu riêng biệt.
+    - **Bộ Câu Hỏi Quiz Trắc Nghiệm**: Kiểm tra mức độ hiểu bài, đồng bộ điểm thưởng XP qua API `/api/listening/progress`.
+    - **Thanh Hành Động Tiếp Bước**: Luyện lại từ đầu, chuyển sang Shadowing AI, làm bài Quiz hoặc sang bài học tiếp theo.
 - **`/vocabulary` & `/vocabulary/[id]`**: Kho Từ Vựng Tiếng Anh Theo Chủ Đề (155 Chủ Đề & 8,948 Từ Vựng Thực Tế).
   - **Tự động cập nhật 155 Chủ đề**: Bao gồm 10 chủ đề mới chuyên ngành tên ngắn gọn (`CNTT & AI`, `Y tế`, `Tài chính`, `Luật pháp`, `Môi trường`, `Marketing`, `Du lịch`, `Khoa học`, `Nghệ thuật`, `Thể thao`) kèm icon Lucide sắc nét.
   - **Dữ liệu 8,948 từ vựng thực tế**: Liên kết tự động qua API `/api/vocabulary`, hiển thị đầy đủ phát âm IPA, loại từ Tiếng Việt, nghĩa Tiếng Việt phong phú sát nghĩa và ví dụ câu minh họa.
@@ -259,10 +480,81 @@
 
 ---
 
+## 🎯 Đấu Trường Thi Thử Quốc Tế & Ngân Hàng 37 Đề Chuẩn ETS/IELTS (`/study/exam-prep`)
+
+- **Bố Cục 3 Chế Độ (3-Mode Bento Architecture)**:
+  - **Chế độ 1: Exam Hub / Test Bank**: Bộ cấu hình 4 kỹ năng độc lập (Nghe, Đọc, Nói AI, Viết AI), tích hợp AI Exam Generator (`Gemini 2.5`), phân loại độ khó 5 sao và bộ lọc preset 1-click.
+  - **Chế độ 2: Live Test Workspace**: Dual-panel Split View (60/40), thanh toolbar đếm giờ chuẩn xác, tự động thu gọn Sidebar khi thi, tích hợp AI Text-to-Speech đa giọng bản xứ (US/UK/AU), Web Speech STT chấm phát âm Speaking thời gian thực và AI Essay Writing Grader.
+  - **Chế độ 3: Master-Detail Bento Review Studio**:
+    - **Tab 1 - Bento Score Dashboard**: Đồng hồ SVG Radial Gauge, 4 thẻ Double-Bezel Metrics và bảng phân tích Part căn gióng thẳng hàng 100%.
+    - **Tab 2 - Lời Giải Chuyên Sâu**: Split screen 2 cột (Desktop) và Mobile Swipe Carousel + Bottom Sheet Drawer (Mobile) điều hướng 200 câu hỏi, so sánh đáp án A/B/C/D, bóc tách bẫy đề thi và mẹo ngữ pháp độc quyền.
+    - **Tab 3 - AI Diagnostic Studio**: Phân tích điểm mạnh, Soft Pill Badges phát sáng (`animate-pulse`) cảnh báo lỗ hổng Khẩn Cấp / Cần Lưu Ý kèm nút 1-click chuyển đến Part cần ôn luyện.
+- **Tối Ưu Tương Thích Màn Hình Mobile (Multi-Device Mobile Optimization)**:
+  - **Tuyệt đối 100% không ảnh hưởng Desktop**: Toàn bộ thay đổi bọc trong Tailwind responsive utility classes (`hidden lg:block`, `lg:hidden`, `sm:`, `md:`).
+  - **Thumb-Zone Floating Navigation Bar**: Thanh điều hướng nổi ngón tay cái dưới đáy màn hình trên mobile (`[Trước]`, `[Ghim ⭐]`, `[Phiếu 📋]`, `[Tiếp]`).
+  - **Mobile Question Carousel & Bottom Sheet Drawer**: Dải số câu vuốt ngang trên mobile kết hợp Bottom Sheet trượt mở bảng 200 câu mà không làm che khuất đề bài.
+  - **Mobile Collapsible Passage**: Cho phép thu gọn/mở rộng bài đọc Reading linh hoạt trên màn hình hẹp.
+
+### 📚 Danh Mục Ngân Hàng 37 Đề Thi Chuẩn Hóa 100% (Unique Question Bank)
+Toàn bộ 37 đề thi trong thư mục `lib/data/exam-papers/` đã được rà soát và tái thiết kế 100%, loại bỏ hoàn toàn mã lặp loop-fills/clone placeholders, phân bổ đồng đều xác suất đáp án A/B/C/D (25% mỗi key) và biên soạn ngữ liệu học thuật/thương mại C1/C2 chân thực:
+
+1. **TOEIC Full L&R 200-Câu (Exams 1, 2, 9, 16)**: `toeic_lr_2026_01` (200Q), `toeic_lr_2026_02` (200Q), `toeic_lr_2026_03` (200Q), `toeic_lr_2026_04` (200Q) — Đầy đủ 100 câu Listening (6 Photos, 25 Q&A, 39 Conversations/13 hội thoại, 30 Talks/10 bài nói) + 100 câu Reading (30 Part 5, 16 Part 6/4 memos, 54 Part 7 Single/Double/Triple Passages).
+2. **IELTS Academic 4-Skills 85-Câu (Exams 4, 8, 10, 12, 14, 17)**: `ielts_academic_4k_01` đến `06` (85Q mỗi đề: 40 Listening, 40 Reading, 3 Speaking Parts, 2 Writing Tasks).
+3. **IELTS General Training 4-Skills (Exam 15)**: `ielts_general_4k_01` (85Q).
+4. **TOEIC Speaking & Writing AI Studio (Exams 3, 13, 28, 23, 25)**: `toeic_sw_2026_01` (19Q), `toeic_sw_2026_02` (19Q), `toeic_sw_2026_03` (19Q), `toeic_speaking_pro_01` (11Q), `toeic_writing_pro_01` (8Q).
+5. **IELTS Speaking & Writing Pro (Exams 6, 7, 22, 24, 29)**: `ielts_speaking_pro_01` (3Q), `ielts_speaking_pro_02` (3Q), `ielts_writing_master_01` (2Q), `ielts_writing_master_02` (2Q), `ielts_sw_combo_01` (5Q).
+6. **Kỹ Năng Đơn Tốc Độ (Exams 11, 18, 19, 20, 21)**: `toeic_mini_speed_01` (50Q), `ielts_listening_sprint_01` (40Q), `toeic_listening_master_01` (100Q), `ielts_reading_sprint_01` (40Q), `toeic_reading_master_01` (100Q).
+7. **Combo 2 Kỹ Năng Độc Đáo (Exams 26, 27, 30, 31, 32, 33, 34, 35, 36, 37)**:
+   - `toeic_lr_sprint_01` (100Q - 50L + 50R)
+   - `ielts_lr_combo_01` (80Q - 40L + 40R)
+   - `ielts_ls_interactive_01` (43Q - 40L + 3S)
+   - `toeic_ls_interactive_01` (61Q - 50L + 11S)
+   - `ielts_rw_synthesis_01` (42Q - 40R + 2W)
+   - `toeic_rw_business_01` (58Q - 50R + 8W)
+   - `ielts_lw_studio_01` (42Q - 40L + 2W)
+   - `toeic_lw_workplace_01` (58Q - 50L + 8W)
+   - `ielts_rs_studio_01` (43Q - 40R + 3S)
+   - `toeic_rs_business_01` (61Q - 50R + 11S)
+8. **Master 4-Skills All-in-One (Exam 5)**: `toeic_full_4k_01` (219Q).
+
+---
+
+## 📖, 🎧 & 🎙️ Smart Audio & Reading Studios (`/study/reading`, `/study/listening` & `/study/shadowing`)
+
+1. **Studio-Aligned Continuous Top Bar Header (`h-14` / 56px Baseline)**:
+   - Chiều cao chuẩn `h-14` (56px) với viền đáy `border-b border-slate-200/90 dark:border-slate-800` chạy thẳng tắp mép-sang-mép (Edge-to-Edge), khớp 100% với Header Sidebar và Top Header của Studio Workspace (`?id=...`).
+   - Tích hợp **Tri-Mode Switcher Pill** trực quan (`[ 📖 Luyện Đọc ] [ 🎧 Luyện Nghe ] [ 🎙️ Luyện Nói ]`) có kiểu dáng đồng nhất hoàn toàn giữa chế độ danh sách và phòng học đơn câu/bài đọc, mang lại trải nghiệm không giật nảy màn hình (Zero Layout Shift).
+   - Thanh tìm kiếm nhanh `h-9 rounded-xl` (`w-44 xs:w-56 sm:w-72`) và nút hành động chính (Tạo bài AI / Khám phá 100+ bài).
+
+2. **Spacious Zero-Clutter Studio Canvas**:
+   - Loại bỏ các khối hộp thông số rườm rà chiếm diện tích, tạo không gian thoáng đãng tập trung trực diện vào bài học.
+   - Canvas nền `bg-slate-50/60 dark:bg-slate-950` sạch sẽ, phân tách hai hàng bài học rõ ràng:
+     - **A1 - A2 Cơ bản**: Mẫu câu ngắn, giao tiếp nền tảng, Email/Thông báo (8 bài / 2 hàng × 4 cột).
+     - **B1 - C2 Nâng cao**: Phỏng vấn, diễn thuyết & Báo chí/Khoa học (8 bài / 2 hàng × 4 cột).
+
+3. **Thẻ Bài Học Studio Double-Bezel (Nested Architecture)**:
+   - **Khung ngoài:** `rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-emerald-500 hover:shadow-md shadow-2xs transition-all`.
+   - **Ảnh Thumbnail:** `rounded-lg aspect-[16/10]` lồng bên trong card, kèm badge Level (`A1-A2`, `B1-B2`, `C1-C2`) và badge `Đã học` bo góc `rounded-md` (6px).
+   - **Tiêu đề bài học:** `text-xs sm:text-[13px] font-semibold font-sans leading-snug line-clamp-2`.
+   - **Footer Meta Digital:** 2 pill thông số kỹ thuật số `font-mono tabular-nums text-[11px]` hiển thị thời lượng, số từ và số câu hỏi.
+
+4. **Interactive Dual-Pane Reading Studio (`/study/reading?id=...`)**:
+   - **Cột Trái (60%)**: Văn bản đọc tương tác với tính năng tra cứu từ điển tức thì khi bấm vào từ bất kỳ (kèm IPA, phát âm, từ loại và nghĩa tiếng Việt), bản dịch toàn bài có thể ẩn/hiện, và giá từ vựng quan trọng (Vocabulary Shelf).
+   - **Cột Phải (40%)**: Bộ câu hỏi trắc nghiệm tương tác với chấm điểm tức thì, giải thích chi tiết đáp án và phần thưởng +20 XP/câu.
+   - **Tự động thu gọn Sidebar (`setSidebarCollapsed(true)`)** khi truy cập trực tiếp bằng URL `?id=...` hoặc chọn bài đọc.
+
+5. **Single-Sentence Shadowing Focus Studio (`/study/shadowing?id=...`)**:
+   - **Cột Trái (65%)**: `StudioWaveformCard` chuẩn âm thanh bản xứ với sóng âm 44-bar, tốc độ 0.75x-1.5x, tua 5s; Thanh tiện ích câu (`-A / +A`, Tự động tiếp, Ẩn dịch, Lưu câu, Báo cáo); Khung thu âm & Chấm điểm phát âm AI cao cấp (Nút Mic động, nhận diện giọng nói thời gian thực, bảng điểm AI 6 tiêu chí: Fluency, Pronunciation, Intonation, Completeness, WPM, Stress).
+   - **Cột Phải (35%)**: `InteractiveTranscriptSidebar` hiển thị toàn bộ câu trong bài, trạng thái hoàn thành, vai nói Speaker A/B và nhảy câu tức thì.
+   - **Màn hình Hoàn thành 1 khối (Unified 1-Block Screen)**: Chúc mừng hoàn thành bài +50 XP, xem lại toàn bộ transcript có nút nghe từng câu, nút Luyện lại và nút chuyển nhanh sang Bài tiếp theo.
+
+---
+
 ## 🌐 Production Deployment Status
 
 - **Live Production App URL (Vercel)**: [https://xpenglishvoca.vercel.app](https://xpenglishvoca.vercel.app)
-- **Status**: **100% Build SUCCESS** (85/85 static & dynamic routes compiled)
+- **Status**: **100% Build SUCCESS** (90/90 static & dynamic routes compiled)
+
 
 
 

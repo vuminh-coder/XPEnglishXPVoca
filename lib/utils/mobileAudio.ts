@@ -1,31 +1,41 @@
 /**
  * Ultimate Mobile Web Audio & Speech Synthesis Engine
- * Solves iOS Safari Garbage Collection bug, User Gesture Token Loss, and WebSpeech freezes.
+ * Solves iOS Safari Silent Switch, Web Audio Context suspension,
+ * Garbage Collection bug, User Gesture Token Loss, and WebSpeech freezes.
  */
 
 let isAudioUnlocked = false;
 
-/**
- * Global reference to prevent iOS Safari Garbage Collection from destroying active utterance
- */
+// Global reference to prevent iOS Safari Garbage Collection from destroying active utterance
 if (typeof window !== "undefined") {
   (window as any)._activeUtterance = null;
+  (window as any)._activeAudio = null;
 }
 
 /**
- * Unlock Web Audio & SpeechSynthesis synchronously on user tap
+ * Unlock Web Audio & SpeechSynthesis synchronously on user tap.
+ * Plays a micro-silent 0.01s buffer to unlock physical hardware speaker on iOS/Android.
  */
 export function unlockMobileAudio() {
   if (typeof window === "undefined" || isAudioUnlocked) return;
 
   try {
-    // 1. Resume Web Audio Context
+    // 1. Resume Web Audio Context & play silent buffer
     const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
     if (AudioCtx) {
       const ctx = new AudioCtx();
       if (ctx.state === "suspended") {
-        ctx.resume();
+        ctx.resume().catch(() => {});
       }
+
+      // Play 1ms silent buffer to wake up DAC
+      try {
+        const buffer = ctx.createBuffer(1, 1, 22050);
+        const source = ctx.createBufferSource();
+        source.buffer = buffer;
+        source.connect(ctx.destination);
+        source.start(0);
+      } catch (e) {}
     }
 
     // 2. Unlock iOS SpeechSynthesis
@@ -34,6 +44,8 @@ export function unlockMobileAudio() {
       if (synth.paused) {
         synth.resume();
       }
+      // Warm up voices cache
+      synth.getVoices();
     }
 
     isAudioUnlocked = true;
@@ -42,17 +54,28 @@ export function unlockMobileAudio() {
   }
 }
 
-/**
- * Ultimate Safe Speak function for Mobile Safari & Android Chrome
- * 1. Executes SYNCHRONOUSLY to preserve User Gesture Token (No setTimeout delay!)
- * 2. Prevents iOS Garbage Collection via global reference
- * 3. Falls back to Google Audio TTS Stream if SpeechSynthesis fails
- */
+// Attach early global tap listener to unlock audio on first user touch anywhere
+if (typeof window !== "undefined") {
+  const handleFirstInteraction = () => {
+    unlockMobileAudio();
+    if ("speechSynthesis" in window) {
+      window.speechSynthesis.getVoices();
+      window.speechSynthesis.resume();
+    }
+  };
+
+  document.addEventListener("touchstart", handleFirstInteraction, { passive: true, once: true });
+  document.addEventListener("pointerdown", handleFirstInteraction, { passive: true, once: true });
+  document.addEventListener("click", handleFirstInteraction, { passive: true, once: true });
+}
+
 import { speakLessonText, stopTTS, SpeakOptions } from "./ttsEngine";
 export { stopTTS };
 
-
-export function safeSpeakText(text: string, options: { lang?: string; rate?: number; volume?: number; lessonId?: string; speakerIndex?: number } = {}) {
+export function safeSpeakText(
+  text: string,
+  options: { lang?: string; rate?: number; volume?: number; lessonId?: string; speakerIndex?: number } = {}
+) {
   const { lang, rate, volume, lessonId, speakerIndex } = options;
   speakLessonText(text, {
     lessonId,
@@ -63,24 +86,8 @@ export function safeSpeakText(text: string, options: { lang?: string; rate?: num
   });
 }
 
-
 /**
- * Fallback MP3 Stream player using Google TTS engine
- */
-function fallbackGoogleAudio(text: string, lang: string) {
-  try {
-    const targetLang = lang.startsWith("en") ? "en" : lang;
-    const encodedText = encodeURIComponent(text.slice(0, 200));
-    const googleTtsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodedText}&tl=${targetLang}&client=tw-ob`;
-
-    safePlayAudio(googleTtsUrl);
-  } catch (err) {
-    console.warn("Google TTS fallback failed:", err);
-  }
-}
-
-/**
- * Mobile-safe HTML5 Audio Playback with catch error prevention
+ * Mobile-safe HTML5 Audio Playback with catch error prevention & stream fallback
  */
 export function safePlayAudio(audioUrl: string): Promise<void> {
   return new Promise((resolve) => {

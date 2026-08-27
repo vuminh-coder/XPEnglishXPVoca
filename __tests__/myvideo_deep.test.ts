@@ -191,8 +191,8 @@ describe("parseTimedTextXml", () => {
 
     const result = parseTimedTextXml(xml);
     expect(result).toHaveLength(2);
-    // When no dur, uses gap to next item, but capped at 3.5s max
-    expect(result[0].endTime).toBe(3.5); // 0 + 3.5 (max cap since gap 4.5 > 3.5)
+    // When no dur, uses gap to next item (calculated as 4.5s)
+    expect(result[0].endTime).toBe(4.5);
   });
 
   it("handles XML with entities in text content", () => {

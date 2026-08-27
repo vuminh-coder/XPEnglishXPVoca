@@ -83,13 +83,68 @@ export default function ShopPage() {
       tag: "Vật phẩm Hỗ trợ",
     },
     {
+      id: "energy_boost",
+      name: "Bình Tăng Tốc Năng Lượng (Energy Boost)",
+      desc: "Hồi phục toàn bộ năng lượng luyện tập lập tức, mở khóa không giới hạn lượt làm bài thi trong ngày.",
+      cost: 75,
+      icon: <Coins className="w-5 h-5 text-emerald-500 stroke-[2.2]" />,
+      accentBg: "bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200/50 dark:border-emerald-900/40",
+      accentText: "text-emerald-600 dark:text-emerald-400",
+      category: "consumable",
+      tag: "Vật phẩm Hỗ trợ",
+    },
+    {
+      id: "super_streak_shield",
+      name: "Khiên Kim Cương (Streak Shield 3 Ngày)",
+      desc: "Khiên phòng thủ tối thượng bảo vệ chuỗi Streak liên tục trong 3 ngày vắng mặt không bị mất điểm.",
+      cost: 120,
+      icon: <ShieldCheck className="w-5 h-5 text-sky-500 stroke-[2.2]" />,
+      accentBg: "bg-sky-50 dark:bg-sky-950/40 border-sky-200/50 dark:border-sky-900/40",
+      accentText: "text-sky-600 dark:text-sky-400",
+      category: "consumable",
+      tag: "Vật phẩm Hỗ trợ",
+    },
+    {
       id: "premium_owl",
       name: "Trang Phục Cú Tốt Nghiệp",
-      desc: "Đội chiếc mũ tốt nghiệp cử nhân uy phong cho Avatar Cú, khẳng định đẳng cấp học viên xuất sắc.",
+      desc: "Đội chiếc mũ cử nhân uy phong cho Avatar Cú, khẳng định đẳng cấp học viên xuất sắc.",
       cost: 250,
       icon: <Sparkles className="w-5 h-5 text-purple-500 stroke-[2.2]" />,
       accentBg: "bg-purple-50 dark:bg-purple-950/40 border-purple-200/50 dark:border-purple-900/40",
       accentText: "text-purple-600 dark:text-purple-400",
+      category: "cosmetic",
+      tag: "Trang phục Avatar",
+    },
+    {
+      id: "cyber_glasses",
+      name: "Kính Cyberpunk Tương Lai",
+      desc: "Trang bị kính thực tế ảo Cyberpunk công nghệ cao cực chất cho Avatar học viên.",
+      cost: 200,
+      icon: <Shirt className="w-5 h-5 text-cyan-500 stroke-[2.2]" />,
+      accentBg: "bg-cyan-50 dark:bg-cyan-950/40 border-cyan-200/50 dark:border-cyan-900/40",
+      accentText: "text-cyan-600 dark:text-cyan-400",
+      category: "cosmetic",
+      tag: "Trang phục Avatar",
+    },
+    {
+      id: "golden_badge",
+      name: "Vương Miện Hoàng Gia (Royal Crown)",
+      desc: "Đội vương miện hoàng gia tỏa ánh kim chói lóa, nâng tầm vị thế dẫn đầu bảng xếp hạng Leaderboard.",
+      cost: 300,
+      icon: <Crown className="w-5 h-5 text-amber-500 stroke-[2.2]" />,
+      accentBg: "bg-amber-50 dark:bg-amber-950/40 border-amber-200/50 dark:border-amber-900/40",
+      accentText: "text-amber-600 dark:text-amber-400",
+      category: "cosmetic",
+      tag: "Trang phục Avatar",
+    },
+    {
+      id: "ielts_champion_cape",
+      name: "Áo Choàng Quán Quân IELTS 8.5+",
+      desc: "Khoác lên mình áo choàng siêu anh hùng danh giá dành riêng cho các chiến binh IELTS đỉnh cao.",
+      cost: 350,
+      icon: <Trophy className="w-5 h-5 text-rose-500 stroke-[2.2]" />,
+      accentBg: "bg-rose-50 dark:bg-rose-950/40 border-rose-200/50 dark:border-rose-900/40",
+      accentText: "text-rose-600 dark:text-rose-400",
       category: "cosmetic",
       tag: "Trang phục Avatar",
     },
@@ -168,6 +223,13 @@ export default function ShopPage() {
     }
   };
 
+  const itemEmojiMap: Record<string, { emoji: string; name: string }> = {
+    premium_owl: { emoji: "🎓", name: "Mũ tốt nghiệp cử nhân" },
+    cyber_glasses: { emoji: "🕶️", name: "Kính Cyberpunk tương lai" },
+    golden_badge: { emoji: "👑", name: "Vương miện hoàng gia" },
+    ielts_champion_cape: { emoji: "🦸", name: "Áo choàng quán quân IELTS" },
+  };
+
   const handleEquip = async (itemId: string, equip: boolean) => {
     if (!user) return;
     setIsEquipping(itemId);
@@ -180,18 +242,19 @@ export default function ShopPage() {
       });
       const data = await res.json();
       if (data.success) {
+        const itemInfo = itemEmojiMap[itemId] || { emoji: "🦉", name: "Vật phẩm" };
         addToast({
           type: "success",
-          title: equip ? "Trang bị thành công! 🎓" : "Đã tháo trang bị",
+          title: equip ? `Trang bị thành công! ${itemInfo.emoji}` : "Đã tháo trang bị",
           message: equip
-            ? "Mũ tốt nghiệp cử nhân đã được trang bị cho Avatar Cú của bạn."
-            : "Đã khôi phục Avatar Cú mặc định.",
+            ? `${itemInfo.name} đã được trang bị cho Avatar của bạn.`
+            : "Đã khôi phục Avatar mặc định.",
         });
 
         useAuthStore.setState({
           user: {
             ...user,
-            avatarEmoji: equip ? "🎓" : "🦉",
+            avatarEmoji: equip ? itemInfo.emoji : "🦉",
           },
         });
       } else {
@@ -314,7 +377,7 @@ export default function ShopPage() {
               const isSuccess = successId === item.id;
               const canAfford = (user?.coins ?? 0) >= item.cost;
               const isPurchased = purchasedItems.has(item.id);
-              const isEquipped = isOwlEquipped && item.id === "premium_owl";
+              const isEquipped = item.id in itemEmojiMap && user?.avatarEmoji === itemEmojiMap[item.id].emoji;
 
               return (
                 <div
@@ -425,29 +488,53 @@ export default function ShopPage() {
             </div>
 
             {/* Current Equipped Avatar Box */}
-            <div className="p-3 rounded-md bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-white/5 flex items-center justify-between gap-3">
-              <div className="flex items-center gap-2.5">
-                <div className="w-10 h-10 rounded-full bg-[#0059bb] text-white flex items-center justify-center font-black text-lg shrink-0 shadow-2xs font-display">
-                  {user?.avatarEmoji || "🦉"}
-                </div>
-                <div>
-                  <h4 className="text-xs font-bold text-slate-900 dark:text-white font-display">
-                    Avatar Hiện Tại
-                  </h4>
-                  <p className="text-[10px] font-medium text-slate-500 dark:text-slate-400">
-                    {isOwlEquipped ? "Cú Tốt Nghiệp 🎓" : "Avatar Mặc Định 🦉"}
-                  </p>
+            <div className="p-3 rounded-md bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-white/5 space-y-2.5">
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-10 h-10 rounded-full bg-[#0059bb] text-white flex items-center justify-center font-black text-lg shrink-0 shadow-2xs font-display">
+                    {user?.avatarEmoji || "🦉"}
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-bold text-slate-900 dark:text-white font-display">
+                      Avatar Hiện Tại
+                    </h4>
+                    <p className="text-[10px] font-medium text-slate-500 dark:text-slate-400">
+                      {user?.avatarEmoji === "🎓" ? "Cú Tốt Nghiệp 🎓"
+                        : user?.avatarEmoji === "🕶️" ? "Kính Cyberpunk 🕶️"
+                        : user?.avatarEmoji === "👑" ? "Vương Miện Hoàng Gia 👑"
+                        : user?.avatarEmoji === "🦸" ? "Áo Choàng IELTS 8.5+ 🦸"
+                        : "Avatar Mặc Định 🦉"}
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              {purchasedItems.has("premium_owl") && (
-                <button
-                  onClick={() => handleEquip("premium_owl", !isOwlEquipped)}
-                  disabled={isEquipping === "premium_owl"}
-                  className="px-2.5 py-1 rounded bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-100 transition-all shadow-2xs cursor-pointer shrink-0 font-display"
-                >
-                  {isOwlEquipped ? "Tháo nón" : "Đội nón"}
-                </button>
+              {/* Purchased cosmetics quick equip list */}
+              {Array.from(purchasedItems).filter(id => id in itemEmojiMap).length > 0 && (
+                <div className="pt-2 border-t border-slate-200/40 dark:border-white/5 space-y-1.5">
+                  <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">Trang phục đã sở hữu:</span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {Array.from(purchasedItems).filter(id => id in itemEmojiMap).map((itemId) => {
+                      const item = itemEmojiMap[itemId];
+                      const isEquipped = user?.avatarEmoji === item.emoji;
+                      return (
+                        <button
+                          key={itemId}
+                          onClick={() => handleEquip(itemId, !isEquipped)}
+                          disabled={isEquipping === itemId}
+                          className={`px-2 py-1 rounded text-[10px] font-bold transition-all flex items-center gap-1 cursor-pointer border ${
+                            isEquipped
+                              ? "bg-[#0059bb] text-white border-[#0059bb] shadow-2xs"
+                              : "bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:bg-slate-100"
+                          }`}
+                        >
+                          <span>{item.emoji}</span>
+                          <span>{isEquipped ? "Đang mặc" : "Mặc"}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
               )}
             </div>
 

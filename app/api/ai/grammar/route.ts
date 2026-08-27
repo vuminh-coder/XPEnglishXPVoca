@@ -149,17 +149,36 @@ Rules:
         const sentencePattern = new RegExp(`\\b${ex.highlight.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, "i");
         const blankSentence = ex.en.replace(sentencePattern, "___");
 
-        const distractors = [
-          ex.highlight + "ing",
-          ex.highlight + "ed",
-          "to " + ex.highlight,
-          ex.highlight + "s",
-        ].filter((d) => d.toLowerCase() !== ex.highlight.toLowerCase());
+        const root = ex.highlight.replace(/(?:ing|ed|s|es|ly|tion|ment)$/i, "") || ex.highlight;
+        const potentialDistractors = [
+          root,
+          root + "s",
+          root + "es",
+          root + "ed",
+          root + "ing",
+          root + "ly",
+          root + "tion",
+          "to " + root,
+          "is " + root,
+          "has " + root + "ed",
+        ].filter((d) => d.toLowerCase() !== ex.highlight.toLowerCase() && d.length > 2);
 
-        const options = Array.from(new Set([ex.highlight, ...distractors])).slice(0, 4);
-        while (options.length < 4) {
-          options.push(ex.highlight + "_" + (options.length + 1));
+        const optionsSet = new Set<string>([ex.highlight]);
+        for (const d of potentialDistractors) {
+          if (optionsSet.size >= 4) break;
+          optionsSet.add(d);
         }
+
+        // Guaranteed fallback distractor words if root derivation is short
+        const fallbackWords = ["being", "having", "done", "will be", "to have", "which"];
+        for (const fw of fallbackWords) {
+          if (optionsSet.size >= 4) break;
+          if (fw.toLowerCase() !== ex.highlight.toLowerCase()) {
+            optionsSet.add(fw);
+          }
+        }
+
+        const options = Array.from(optionsSet).slice(0, 4);
         options.sort(() => 0.5 - Math.random());
 
         return {

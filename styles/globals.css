@@ -1397,6 +1397,9 @@ textarea.input-field {
   background: #0059bb;
   border-radius: var(--radius-full);
 }
+.left-sidebar.collapsed .sidebar-link.active::before {
+  display: none !important;
+}
 .sidebar-link-icon {
   font-size: 1.125rem;
   width: 22px;

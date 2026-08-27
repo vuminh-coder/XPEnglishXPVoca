@@ -3,7 +3,8 @@ const OFFLINE_URL = "/dashboard";
 
 const ASSETS_TO_CACHE = [
   "/dashboard",
-  "/owl.svg"
+  "/mascot.png",
+  "/favicon.ico"
 ];
 
 self.addEventListener("install", (event) => {

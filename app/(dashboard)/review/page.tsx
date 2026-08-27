@@ -367,7 +367,7 @@ export default function ReviewPage() {
                     const dueCount = getDueCountForDate(cellDate);
                     const isCompleted = isDateCompleted(cellDate);
 
-                    let dayStyle = "aspect-square lg:aspect-auto lg:h-full rounded-2xl flex flex-col items-center justify-center text-xs font-black relative select-none cursor-pointer transition-all duration-200 border ";
+                    let dayStyle = "aspect-square lg:aspect-auto lg:h-full rounded-md flex flex-col items-center justify-center text-xs font-black relative select-none cursor-pointer transition-all duration-200 border ";
                     
                     if (isToday) {
                       dayStyle += "bg-gradient-to-tr from-cyan-400 to-indigo-500 text-white border-transparent shadow-sm ring-2 ring-offset-2 ring-cyan-400 dark:ring-offset-neutral-900 scale-102";
@@ -594,7 +594,7 @@ export default function ReviewPage() {
 
           {/* Filtering bar */}
           {rawSelectedDateVocabs.length > 0 && (
-            <div className="grid grid-cols-2 sm:flex sm:flex-row gap-3 mb-6 bg-slate-50/50 dark:bg-neutral-950/20 p-3 rounded-2xl border border-slate-100/60 dark:border-neutral-850/50">
+            <div className="grid grid-cols-2 sm:flex sm:flex-row gap-3 mb-6 bg-slate-50/50 dark:bg-neutral-950/20 p-3 rounded-md border border-slate-100/60 dark:border-neutral-850/50">
               
               {/* Search text input */}
               <div className="col-span-2 sm:flex-1 relative">
