@@ -1,11 +1,11 @@
-/**
+﻿/**
  * MyVideo Deep Testing Suite - Fresh comprehensive tests
  * Tests ALL utility functions used by /myvideo page
  */
 import { describe, it, expect, beforeEach, vi } from "vitest";
 
 // Import functions under test
-import { extractYouTubeId } from "@/lib/store/videoStore";
+import { extractYouTubeId } from "@/stores/videoStore";
 import {
   parseTimedTextXml,
   parseTimedTextJson3,
@@ -20,9 +20,9 @@ import {
   mergeFragmentedSubtitlesIntoSentences,
   bridgeSubtitleGaps,
   calculateCharacterWeightedWordIndex,
-} from "@/lib/services/youtubeSubtitleParser";
-import { safeDbExecute } from "@/lib/prisma";
-import { validateAndSanitizeCompilationLyrics } from "@/lib/services/lrclibLyricsService";
+} from "@/features/listening/services/youtubeSubtitleParser";
+import { safeDbExecute } from "@/infrastructure/database/prisma";
+import { validateAndSanitizeCompilationLyrics } from "@/features/listening/services/lrclibLyricsService";
 
 // ============================================================
 // 1. extractYouTubeId() — 20 URL format tests

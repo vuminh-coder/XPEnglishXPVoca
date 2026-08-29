@@ -47,27 +47,32 @@ import {
   ExamPaper,
   ExamQuestion,
   SkillType,
-} from "@/lib/data/examPrepData";
+} from "@/features/exam-prep";
 import {
   calculateExamResult,
   ExamResultSummary,
   UserExamAnswers,
   QuestionResultDetail,
-} from "@/lib/utils/examScoringEngine";
-import { useUserStore } from "@/lib/store/userStore";
-import { useNotificationStore } from "@/lib/store/notificationStore";
-import { useUiStore } from "@/lib/store/uiStore";
+} from "@/features/exam-prep/utils/examScoringEngine";
+import { useUserStore } from "@/stores/userStore";
+import { useNotificationStore } from "@/stores/notificationStore";
+import { useUiStore } from "@/stores/uiStore";
 import {
   PageEntranceWrapper,
   MotionItem,
-} from "@/components/shared/PageEntranceAnimation";
+} from "@/shared/components/feedback/PageEntranceAnimation";
+import {
+  AppTopHeader,
+  HeaderPillContainer,
+  HeaderPillItem,
+} from "@/shared/components/layout/AppTopHeader";
 import { ListeningWorkspace } from "./components/ListeningWorkspace";
 import { ReadingWorkspace } from "./components/ReadingWorkspace";
 import { SpeakingStudioWorkspace } from "./components/SpeakingStudioWorkspace";
 import { WritingStudioWorkspace } from "./components/WritingStudioWorkspace";
 import { FormattedExplanation } from "./components/FormattedExplanation";
-import { speakLessonText, stopTTS } from "@/lib/utils/ttsEngine";
-import { unlockMobileAudio } from "@/lib/utils/mobileAudio";
+import { speakLessonText, stopTTS } from "@/shared/utils/ttsEngine";
+import { unlockMobileAudio } from "@/shared/utils/mobileAudio";
 
 function ExamPrepContent() {
   const { user, awardXp, awardCoins, addPracticeTime } = useUserStore();
@@ -799,492 +804,428 @@ function ExamPrepContent() {
       {/* MODE 1: EXAM HUB / TEST PICKER LIST */}
       {/* ========================================================================= */}
       {activeMode === "HUB" && (
-        <div className="space-y-3.5">
-          {/* 0. TOP MICRO-HERO TOOLBAR CARD (Dashboard / Practice Agency Style) */}
-          <motion.div
-            initial={{ opacity: 0, y: -6 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="p-3 sm:p-3.5 rounded-xs bg-[#ebf3fe] dark:bg-blue-950/40 border border-[#d5e5fe] dark:border-blue-900/50 flex flex-col md:flex-row md:items-center justify-between gap-2.5 shadow-2xs"
-          >
-            <div className="flex items-center gap-2.5 min-w-0">
-              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xs bg-[#1d6ee6]/10 text-[#1d6ee6] dark:text-sky-400 flex items-center justify-center shrink-0">
-                <FileText className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2]" />
-              </div>
-              <div className="space-y-0.5 min-w-0">
-                <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
-                  <span className="px-1.5 sm:px-2 py-0.5 rounded-xs text-[9px] font-black bg-[#1d6ee6] text-white shadow-2xs shrink-0">
-                    EXAM PREP STUDIO
-                  </span>
-                  <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display truncate">
-                    Đấu Trường Thi Thử Quốc Tế 2026
-                  </h3>
-                </div>
-                <p className="hidden sm:block text-[11px] text-slate-600 dark:text-slate-300 font-medium truncate">
-                  Luyện đề TOEIC ETS 2026 & Cambridge IELTS Band 9.0 • Tự chọn
-                  kỹ năng • Chấm điểm AI thời gian thực
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2 shrink-0">
+        <div className="space-y-4">
+          {/* 0. BRAND TOP HEADER (56px h-14 Baseline) */}
+          <AppTopHeader
+            rightDesktopContent={
               <button
-                onClick={() =>
-                  setConfigMode((prev) =>
-                    prev === "AI_GEN" ? "PRESET" : "AI_GEN",
-                  )
-                }
-                className="px-3 sm:px-3.5 py-1.5 rounded-xs bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-black transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer font-display"
+                type="button"
+                onClick={() => setConfigMode((prev) => (prev === "AI_GEN" ? "PRESET" : "AI_GEN"))}
+                className="h-9 px-3.5 sm:px-4 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-slate-950 text-xs font-black transition-all shadow-xs flex items-center gap-1.5 cursor-pointer active:scale-95 shrink-0"
               >
                 <Sparkles className="w-3.5 h-3.5 fill-slate-950" />
-                <span>
-                  {configMode === "AI_GEN"
-                    ? "Chế Độ Đề Chuẩn"
-                    : "Tạo Đề Mới AI"}
-                </span>
+                <span>{configMode === "AI_GEN" ? "Chế độ Đề Chuẩn" : "Tạo Đề Mới AI"}</span>
               </button>
-            </div>
-          </motion.div>
+            }
+          >
+            <HeaderPillContainer>
+              <HeaderPillItem
+                active
+                icon={<FileText className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400" />}
+                label="Thi thử đề"
+              />
+              <HeaderPillItem
+                href="/study/practice"
+                icon={<BookOpen className="w-3.5 h-3.5" />}
+                label="Luyện từ vựng"
+              />
+              <HeaderPillItem
+                href="/study/listening"
+                icon={<Headphones className="w-3.5 h-3.5" />}
+                label="Dictation"
+              />
+              <HeaderPillItem
+                href="/study/shadowing"
+                icon={<Mic className="w-3.5 h-3.5" />}
+                label="Shadowing"
+              />
+            </HeaderPillContainer>
+          </AppTopHeader>
 
-          {/* UNIFIED EXAM CONFIGURATOR STUDIO */}
-          <div className="p-3.5 sm:p-5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3 sm:space-y-4">
-            {/* Mode Switcher Tabs */}
-            <div className="flex items-center justify-between gap-2 border-b border-slate-100 dark:border-white/5 pb-2.5 sm:pb-3">
-              <div className="flex items-center gap-1 sm:gap-1.5 p-1 rounded-xs bg-slate-100 dark:bg-slate-800/80 w-full sm:w-auto">
-                <button
-                  onClick={() => setConfigMode("PRESET")}
-                  className={`flex-1 sm:flex-initial px-2.5 sm:px-3 py-1.5 rounded-xs text-[11.5px] sm:text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
-                    configMode === "PRESET"
-                      ? "bg-[#0059bb] text-white shadow-2xs font-extrabold"
-                      : "text-slate-600 dark:text-slate-400 hover:text-slate-900"
-                  }`}
-                >
-                  <BookOpen className="w-3.5 h-3.5" strokeWidth={1.8} />
-                  <span className="sm:hidden">Đề Chuẩn</span>
-                  <span className="hidden sm:inline">
-                    Đề Thi Chuẩn ETS / Cambridge
-                  </span>
-                </button>
+          {/* MAIN CONTAINER */}
+          <div className="w-full max-w-7xl mx-auto px-3 sm:px-5 lg:px-6 space-y-4 pt-1">
+            
+            {/* 1. HERO BENTO BANNER & CONFIGURATOR STUDIO */}
+            <div className="p-3.5 sm:p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm relative overflow-hidden space-y-3 sm:space-y-4">
+              {/* Top ambient rose glow line */}
+              <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-rose-500/60 to-transparent" />
 
-                <button
-                  onClick={() => setConfigMode("AI_GEN")}
-                  className={`flex-1 sm:flex-initial px-2.5 sm:px-3 py-1.5 rounded-xs text-[11.5px] sm:text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
-                    configMode === "AI_GEN"
-                      ? "bg-amber-400 text-slate-950 shadow-2xs font-black"
-                      : "text-slate-600 dark:text-slate-400 hover:text-slate-900"
-                  }`}
-                >
-                  <Sparkles className="w-3.5 h-3.5 fill-current" />
-                  <span className="sm:hidden">Tạo Đề AI</span>
-                  <span className="hidden sm:inline">
-                    Tạo Đề Đột Phá Bằng AI
-                  </span>
-                </button>
+              {/* Header Row: Title & Mode Switcher */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800/80 pb-3 sm:pb-3.5">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 border border-rose-200/80 dark:border-rose-800/60 shadow-2xs whitespace-nowrap shrink-0">
+                      🎯 Phòng Thi Chuẩn
+                    </span>
+                    <h2 className="text-base sm:text-xl font-black text-slate-900 dark:text-white font-display tracking-tight leading-snug">
+                      Đấu Trường Thi Thử 2026
+                    </h2>
+                  </div>
+                  <p className="text-xs text-slate-600 dark:text-slate-300 font-medium">
+                    <span className="sm:hidden">37 bộ đề chuẩn ETS & Cambridge • Chấm điểm AI</span>
+                    <span className="hidden sm:inline">Ngân hàng 37 đề chuẩn hóa ETS & Cambridge • Tự chọn kỹ năng độc lập • Chấm điểm AI thời gian thực</span>
+                  </p>
+                </div>
+
+                {/* Mode Switcher Tabs - Grid 2 cols on mobile (100% width, balanced 50/50), flex on desktop */}
+                <div className="grid grid-cols-2 sm:flex sm:items-center gap-1 p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 shrink-0 w-full sm:w-auto">
+                  <button
+                    type="button"
+                    onClick={() => setConfigMode("PRESET")}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                      configMode === "PRESET"
+                        ? "bg-[#0059bb] text-white shadow-2xs font-extrabold"
+                        : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    }`}
+                  >
+                    <BookOpen className="w-3.5 h-3.5 shrink-0" />
+                    <span className="truncate">Đề Chuẩn Preset</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setConfigMode("AI_GEN")}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                      configMode === "AI_GEN"
+                        ? "bg-amber-400 text-slate-950 shadow-2xs font-black"
+                        : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    }`}
+                  >
+                    <Sparkles className="w-3.5 h-3.5 fill-current shrink-0" />
+                    <span className="truncate">Tạo Đề Mới AI</span>
+                  </button>
+                </div>
               </div>
 
-              <span className="hidden sm:block text-xs font-bold text-slate-500 font-sans">
-                {configMode === "AI_GEN"
-                  ? "✨ Gemini AI Generator Mode"
-                  : "📚 ETS & Cambridge Exam Bank Mode"}
-              </span>
-            </div>
-
-            {/* Centerpiece Skill Selector Grid (4 Skills) */}
-            <div className="space-y-2">
-              <div className="flex items-center justify-between text-xs font-bold text-slate-700 dark:text-slate-300">
-                <span>
-                  <span className="sm:hidden">
-                    Kỹ năng ({activeSkills.length}/4):
+              {/* 4-Skill Matrix Selector */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between text-xs font-bold text-slate-700 dark:text-slate-300">
+                  <span>Tùy chọn kỹ năng làm bài ({activeSkills.length}/4 đã chọn):</span>
+                  <span className="hidden sm:inline text-slate-400 dark:text-slate-500 text-[11px] font-medium">
+                    Tự động lọc danh sách đề thi phù hợp
                   </span>
-                  <span className="hidden sm:inline">
-                    Tùy chọn kỹ năng làm bài ({activeSkills.length}/4 đã chọn):
-                  </span>
-                </span>
-                <span className="hidden sm:inline text-slate-400 text-[11px]">
-                  Tự động lọc danh sách đề thi phù hợp
-                </span>
-              </div>
+                </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2">
-                {[
-                  {
-                    id: "LISTENING" as SkillType,
-                    labelMobile: "Nghe",
-                    labelPrimary: "Nghe",
-                    labelEn: "Listening",
-                    icon: Headphones,
-                    color: "text-[#0059bb]",
-                    border: "border-[#0059bb]",
-                  },
-                  {
-                    id: "READING" as SkillType,
-                    labelMobile: "Đọc",
-                    labelPrimary: "Đọc",
-                    labelEn: "Reading",
-                    icon: BookOpen,
-                    color: "text-emerald-500",
-                    border: "border-emerald-500",
-                  },
-                  {
-                    id: "SPEAKING" as SkillType,
-                    labelMobile: "Nói AI",
-                    labelPrimary: "Nói AI",
-                    labelEn: "Speaking",
-                    icon: Mic,
-                    color: "text-amber-500",
-                    border: "border-amber-500",
-                  },
-                  {
-                    id: "WRITING" as SkillType,
-                    labelMobile: "Viết AI",
-                    labelPrimary: "Viết AI",
-                    labelEn: "Writing",
-                    icon: Wand2,
-                    color: "text-purple-500",
-                    border: "border-purple-500",
-                  },
-                ].map((skillItem) => {
-                  const Icon = skillItem.icon;
-                  const isChecked = activeSkills.includes(skillItem.id);
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5">
+                  {[
+                    {
+                      id: "LISTENING" as SkillType,
+                      labelPrimary: "Nghe",
+                      labelEn: "Listening",
+                      icon: Headphones,
+                      activeColor: "bg-blue-50 dark:bg-blue-950/60 border-blue-300 dark:border-blue-700 text-[#0059bb] dark:text-sky-300",
+                      iconColor: "text-[#0059bb] dark:text-sky-300",
+                    },
+                    {
+                      id: "READING" as SkillType,
+                      labelPrimary: "Đọc",
+                      labelEn: "Reading",
+                      icon: BookOpen,
+                      activeColor: "bg-emerald-50 dark:bg-emerald-950/60 border-emerald-300 dark:border-emerald-700 text-emerald-700 dark:text-emerald-300",
+                      iconColor: "text-emerald-600 dark:text-emerald-400",
+                    },
+                    {
+                      id: "SPEAKING" as SkillType,
+                      labelPrimary: "Nói AI",
+                      labelEn: "Speaking",
+                      icon: Mic,
+                      activeColor: "bg-amber-50 dark:bg-amber-950/60 border-amber-300 dark:border-amber-700 text-amber-800 dark:text-amber-300",
+                      iconColor: "text-amber-600 dark:text-amber-400",
+                    },
+                    {
+                      id: "WRITING" as SkillType,
+                      labelPrimary: "Viết AI",
+                      labelEn: "Writing",
+                      icon: Wand2,
+                      activeColor: "bg-purple-50 dark:bg-purple-950/60 border-purple-300 dark:border-purple-700 text-purple-800 dark:text-purple-300",
+                      iconColor: "text-purple-600 dark:text-purple-400",
+                    },
+                  ].map((skillItem) => {
+                    const Icon = skillItem.icon;
+                    const isChecked = activeSkills.includes(skillItem.id);
 
-                  return (
-                    <button
-                      key={skillItem.id}
-                      onClick={() => handleToggleSkill(skillItem.id)}
-                      className={`p-2 sm:p-2.5 rounded-xs border text-left text-xs font-bold transition-all cursor-pointer flex items-center justify-between ${
-                        isChecked
-                          ? `bg-slate-50 dark:bg-slate-800 ${skillItem.border} shadow-2xs font-extrabold`
-                          : "bg-white dark:bg-slate-950 border-slate-200 dark:border-white/10 text-slate-400 opacity-50"
-                      }`}
-                    >
-                      <div className="flex items-center gap-2 min-w-0">
-                        <Icon
-                          className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${skillItem.color} shrink-0`}
-                          strokeWidth={1.8}
-                        />
-                        <span className="text-slate-900 dark:text-white truncate">
-                          <span className="sm:hidden">
-                            {skillItem.labelMobile}
-                          </span>
-                          <span className="hidden sm:inline-flex items-center gap-1.5 font-bold">
-                            <span>{skillItem.labelPrimary}</span>
-                            <span className="text-slate-400 dark:text-slate-500 font-medium text-[11px]">
-                              • {skillItem.labelEn}
-                            </span>
-                          </span>
-                        </span>
-                      </div>
-                      <div
-                        className={`w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-xs border flex items-center justify-center shrink-0 ${
+                    return (
+                      <button
+                        key={skillItem.id}
+                        type="button"
+                        onClick={() => handleToggleSkill(skillItem.id)}
+                        className={`p-2.5 sm:p-3 rounded-xl border text-left text-xs font-bold transition-all cursor-pointer flex items-center justify-between shadow-2xs active:scale-98 ${
                           isChecked
-                            ? "bg-[#0059bb] border-[#0059bb] text-white"
-                            : "border-slate-300"
+                            ? `${skillItem.activeColor} shadow-xs font-extrabold`
+                            : "bg-slate-50/70 dark:bg-slate-950/50 border-slate-200/80 dark:border-slate-800 text-slate-500 dark:text-slate-400 opacity-60 hover:opacity-90"
                         }`}
                       >
-                        {isChecked && (
-                          <Check className="w-2.5 h-2.5 sm:w-3 sm:h-3 stroke-[3]" />
-                        )}
-                      </div>
-                    </button>
-                  );
-                })}
+                        <div className="flex items-center gap-2 min-w-0">
+                          <Icon className={`w-4 h-4 ${skillItem.iconColor} shrink-0`} strokeWidth={2} />
+                          <span className="truncate">
+                            <strong className="font-extrabold">{skillItem.labelPrimary}</strong>
+                            <span className="hidden sm:inline text-[11px] font-normal opacity-70"> • {skillItem.labelEn}</span>
+                          </span>
+                        </div>
+                        <div
+                          className={`w-4 h-4 rounded-md border flex items-center justify-center shrink-0 transition-colors ${
+                            isChecked
+                              ? "bg-[#0059bb] border-[#0059bb] text-white"
+                              : "border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900"
+                          }`}
+                        >
+                          {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
 
-            {/* Conditional Panel for AI Mode */}
-            {configMode === "AI_GEN" && (
-              <div className="p-3.5 rounded-xs bg-amber-500/10 border border-amber-300/60 dark:border-amber-500/20 space-y-3 pt-3">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  {/* Topic Input */}
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1">
-                      <BookOpen
-                        className="w-3.5 h-3.5 text-[#0059bb]"
-                        strokeWidth={1.8}
-                      />{" "}
-                      Chủ đề bài thi:
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="VD: Business, Travel, AI, Healthcare..."
-                      value={aiTopic}
-                      onChange={(e) => setAiTopic(e.target.value)}
-                      className="w-full h-8 px-3 text-xs font-medium rounded-xs bg-white dark:bg-slate-950 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:border-[#0059bb]"
-                    />
-                    <div className="flex items-center gap-1 overflow-x-auto pt-0.5 no-scrollbar">
-                      {["Kinh doanh", "Du lịch", "Y tế", "Công nghệ"].map(
-                        (chipTopic) => (
+              {/* Conditional Panel for AI Mode */}
+              {configMode === "AI_GEN" && (
+                <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-300/60 dark:border-amber-500/20 space-y-3">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    {/* Topic Input */}
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1">
+                        <BookOpen className="w-3.5 h-3.5 text-[#0059bb]" strokeWidth={1.8} />
+                        <span>Chủ đề bài thi:</span>
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="VD: Business, Travel, AI, Healthcare..."
+                        value={aiTopic}
+                        onChange={(e) => setAiTopic(e.target.value)}
+                        className="w-full h-9 px-3 text-xs font-medium rounded-xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-[#0059bb]"
+                      />
+                      <div className="flex items-center gap-1 overflow-x-auto pt-0.5 no-scrollbar">
+                        {["Kinh doanh", "Du lịch", "Y tế", "Công nghệ"].map((chipTopic) => (
                           <button
                             key={chipTopic}
                             type="button"
                             onClick={() => setAiTopic(chipTopic)}
-                            className="px-2 py-0.5 rounded-xs text-[10px] font-bold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 shrink-0 cursor-pointer border"
+                            className="px-2 py-0.5 rounded-lg text-[10px] font-bold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 shrink-0 cursor-pointer border border-slate-200 dark:border-slate-700"
                           >
                             {chipTopic}
                           </button>
-                        ),
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Target Score */}
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1">
+                        <Award className="w-3.5 h-3.5 text-amber-500" strokeWidth={1.8} />
+                        <span>Thang điểm mục tiêu:</span>
+                      </label>
+                      <div className="grid grid-cols-3 gap-1">
+                        {[
+                          { id: "500+", label: "500+ (Dễ)" },
+                          { id: "700+", label: "700+ (Vừa)" },
+                          { id: "900+", label: "900+ (Khó)" },
+                        ].map((scoreOpt) => (
+                          <button
+                            key={scoreOpt.id}
+                            type="button"
+                            onClick={() => setAiTargetScore(scoreOpt.id)}
+                            className={`h-9 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                              aiTargetScore === scoreOpt.id
+                                ? "bg-[#0059bb] text-white font-black"
+                                : "bg-white dark:bg-slate-950 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800"
+                            }`}
+                          >
+                            {scoreOpt.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Question Count */}
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1">
+                        <Clock className="w-3.5 h-3.5 text-purple-500" strokeWidth={1.8} />
+                        <span>Số câu & thời gian:</span>
+                      </label>
+                      <div className="grid grid-cols-3 gap-1">
+                        {[
+                          { count: 10, label: "10 câu (8m)" },
+                          { count: 20, label: "20 câu (16m)" },
+                          { count: 50, label: "50 câu (30m)" },
+                        ].map((qOpt) => (
+                          <button
+                            key={qOpt.count}
+                            type="button"
+                            onClick={() => setAiQuestionCount(qOpt.count)}
+                            className={`h-9 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                              aiQuestionCount === qOpt.count
+                                ? "bg-[#0059bb] text-white font-black"
+                                : "bg-white dark:bg-slate-950 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800"
+                            }`}
+                          >
+                            {qOpt.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="pt-2 border-t border-amber-200/80 dark:border-amber-900/40 flex items-center justify-between gap-3">
+                    <span className="text-[11px] text-slate-600 dark:text-slate-300 font-medium hidden sm:inline">
+                      💡 Gemini AI sẽ sinh bài thi thời gian thực theo đúng các kỹ năng đã chọn.
+                    </span>
+
+                    <button
+                      type="button"
+                      disabled={isAiGenerating}
+                      onClick={handleGenerateAiExam}
+                      className="w-full sm:w-auto px-5 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-black shadow-xs flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-95 font-display ml-auto"
+                    >
+                      {isAiGenerating ? (
+                        <>
+                          <RefreshCw className="w-4 h-4 animate-spin text-slate-950" />
+                          <span>Đang sinh đề thi...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles className="w-4 h-4 fill-slate-950" />
+                          <span>Bắt Đầu Sinh Đề AI</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* 2. SEARCH & FILTER BAR */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 pt-1">
+              {/* Filter Segmented Control */}
+              <div className="grid grid-cols-5 gap-1 w-full sm:w-auto sm:flex sm:items-center sm:gap-1 p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60">
+                {[
+                  { id: "ALL", labelMobile: "Tất cả", labelDesktop: "Tất cả bộ đề" },
+                  { id: "IELTS_FULL", labelMobile: "IELTS 4K", labelDesktop: "IELTS Academic" },
+                  { id: "TOEIC_LR", labelMobile: "TOEIC L&R", labelDesktop: "TOEIC Nghe & Đọc" },
+                  { id: "TOEIC_SPEAKING_WRITING", labelMobile: "Nói+Viết", labelDesktop: "TOEIC Nói + Viết" },
+                  { id: "TOEIC_FULL", labelMobile: "TOEIC 4K", labelDesktop: "TOEIC Full 4K" },
+                ].map((tab) => (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    onClick={() => setFilterType(tab.id)}
+                    className={`px-2 sm:px-3 py-1.5 rounded-lg text-xs font-bold text-center transition-all cursor-pointer truncate ${
+                      filterType === tab.id
+                        ? "bg-[#0059bb] text-white shadow-2xs font-black"
+                        : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    }`}
+                  >
+                    <span className="sm:hidden">{tab.labelMobile}</span>
+                    <span className="hidden sm:inline">{tab.labelDesktop}</span>
+                  </button>
+                ))}
+              </div>
+
+              {/* Search Input */}
+              <div className="relative w-full sm:w-64 shrink-0">
+                <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" strokeWidth={2} />
+                <input
+                  type="text"
+                  placeholder="Tìm tên đề thi..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full h-9 pl-9 pr-3 text-xs font-medium rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-[#0059bb] shadow-2xs"
+                />
+              </div>
+            </div>
+
+            {/* 3. EXAM CARDS GRID (37 Standardized Exams) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 pt-1">
+              {filteredExams.map((exam) => (
+                <motion.div
+                  whileHover={{ y: -2 }}
+                  key={exam.id}
+                  className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 hover:border-[#0059bb]/50 dark:hover:border-sky-500/50 hover:shadow-md shadow-xs flex flex-col justify-between space-y-3 relative group transition-all"
+                >
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between gap-2">
+                      <span
+                        className={`px-2.5 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider border font-mono ${getCategoryBadgeStyle(
+                          exam.categoryBadge,
+                          exam.type,
+                        )}`}
+                      >
+                        {exam.categoryBadge}
+                      </span>
+                      {/* 5-Star Visual Difficulty Rating */}
+                      <div className="flex items-center gap-0.5" title={`Độ khó: ${exam.level}`}>
+                        {Array.from({ length: 5 }).map((_, starIdx) => {
+                          const starCount =
+                            exam.level === "Beginner" ? 2 : exam.level === "Intermediate" ? 3 : 5;
+                          const isFilled = starIdx < starCount;
+                          return (
+                            <Star
+                              key={starIdx}
+                              className={`w-3 h-3 ${
+                                isFilled ? "fill-amber-400 text-amber-400" : "text-slate-200 dark:text-slate-700"
+                              }`}
+                              strokeWidth={1.5}
+                            />
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <h3 className="text-sm sm:text-base font-black font-display text-slate-900 dark:text-white group-hover:text-[#0059bb] dark:group-hover:text-sky-400 transition-colors leading-snug line-clamp-2 min-h-[2.5rem] flex items-center">
+                      {exam.title}
+                    </h3>
+
+                    {/* Supported Skill Icons Row */}
+                    <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+                      {exam.supportedSkills.includes("LISTENING") && (
+                        <span className="px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 text-xs font-bold flex items-center gap-1 border border-blue-200/60 dark:border-blue-800/40">
+                          <Headphones className="w-3 h-3" strokeWidth={2} /> Nghe
+                        </span>
+                      )}
+                      {exam.supportedSkills.includes("READING") && (
+                        <span className="px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 text-xs font-bold flex items-center gap-1 border border-emerald-200/60 dark:border-emerald-800/40">
+                          <BookOpen className="w-3 h-3" strokeWidth={2} /> Đọc
+                        </span>
+                      )}
+                      {exam.supportedSkills.includes("SPEAKING") && (
+                        <span className="px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 text-xs font-bold flex items-center gap-1 border border-amber-200/60 dark:border-amber-800/40">
+                          <Mic className="w-3 h-3" strokeWidth={2} /> Nói AI
+                        </span>
+                      )}
+                      {exam.supportedSkills.includes("WRITING") && (
+                        <span className="px-2 py-0.5 rounded-md bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 text-xs font-bold flex items-center gap-1 border border-purple-200/60 dark:border-purple-800/40">
+                          <Wand2 className="w-3 h-3" strokeWidth={2} /> Viết AI
+                        </span>
                       )}
                     </div>
                   </div>
 
-                  {/* Target Score */}
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1">
-                      <Award
-                        className="w-3.5 h-3.5 text-amber-500"
-                        strokeWidth={1.8}
-                      />{" "}
-                      Thang điểm mục tiêu:
-                    </label>
-                    <div className="grid grid-cols-3 gap-1">
-                      {[
-                        { id: "500+", label: "500+ (Dễ)" },
-                        { id: "700+", label: "700+ (Vừa)" },
-                        { id: "900+", label: "900+ (Khó)" },
-                      ].map((scoreOpt) => (
-                        <button
-                          key={scoreOpt.id}
-                          type="button"
-                          onClick={() => setAiTargetScore(scoreOpt.id)}
-                          className={`h-8 rounded-xs text-xs font-bold transition-all cursor-pointer ${
-                            aiTargetScore === scoreOpt.id
-                              ? "bg-[#0059bb] text-white font-black"
-                              : "bg-white dark:bg-slate-950 text-slate-700 dark:text-slate-300 border border-slate-200"
-                          }`}
-                        >
-                          {scoreOpt.label}
-                        </button>
-                      ))}
+                  {/* Visual Meta Chips & Action Button */}
+                  <div className="pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2 text-xs font-bold text-slate-500 dark:text-slate-400 font-sans">
+                      <span className="flex items-center gap-1">
+                        <FileText className="w-3.5 h-3.5 text-[#0059bb]" strokeWidth={2} />
+                        <span>{exam.totalQuestions} câu</span>
+                      </span>
+                      <span>•</span>
+                      <span className="flex items-center gap-1">
+                        <Clock className="w-3.5 h-3.5 text-slate-400" strokeWidth={2} />
+                        <span>{exam.timeLimitMinutes}m</span>
+                      </span>
                     </div>
+
+                    <button
+                      type="button"
+                      onClick={() => handleStartExam(exam)}
+                      className="px-3.5 py-2 rounded-xl bg-[#0059bb] hover:bg-[#004899] active:scale-95 text-white text-xs font-black transition-all shadow-xs flex items-center gap-1.5 cursor-pointer font-display"
+                    >
+                      <span>Bắt đầu</span>
+                      <ChevronRight className="w-3.5 h-3.5" />
+                    </button>
                   </div>
-
-                  {/* Question Count */}
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1">
-                      <Clock
-                        className="w-3.5 h-3.5 text-purple-500"
-                        strokeWidth={1.8}
-                      />{" "}
-                      Số câu & thời gian:
-                    </label>
-                    <div className="grid grid-cols-3 gap-1">
-                      {[
-                        { count: 10, label: "10 câu (8m)" },
-                        { count: 20, label: "20 câu (16m)" },
-                        { count: 50, label: "50 câu (30m)" },
-                      ].map((qOpt) => (
-                        <button
-                          key={qOpt.count}
-                          type="button"
-                          onClick={() => setAiQuestionCount(qOpt.count)}
-                          className={`h-8 rounded-xs text-xs font-bold transition-all cursor-pointer ${
-                            aiQuestionCount === qOpt.count
-                              ? "bg-[#0059bb] text-white font-black"
-                              : "bg-white dark:bg-slate-950 text-slate-700 dark:text-slate-300 border border-slate-200"
-                          }`}
-                        >
-                          {qOpt.label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="pt-2 border-t border-amber-200 dark:border-white/10 flex items-center justify-between gap-3">
-                  <span className="text-[11px] text-slate-500 font-medium hidden sm:inline">
-                    💡 Gemini AI sẽ sinh bài thi thời gian thực theo đúng các kỹ
-                    năng đã chọn.
-                  </span>
-
-                  <button
-                    disabled={isAiGenerating}
-                    onClick={handleGenerateAiExam}
-                    className="w-full sm:w-auto px-5 py-2 rounded-xs bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-black shadow-md flex items-center justify-center gap-2 cursor-pointer transition-all font-display ml-auto"
-                  >
-                    {isAiGenerating ? (
-                      <>
-                        <RefreshCw className="w-4 h-4 animate-spin text-slate-950" />
-                        <span>Đang sinh đề thi...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Sparkles className="w-4 h-4 fill-slate-950" />
-                        <span>Bắt Đầu Sinh Đề AI</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Search & Filter Bar */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 sm:gap-2.5 pt-1">
-            {/* Filter Segmented Control - 100% Fit On Mobile (No Scroll), Full Flex On Desktop */}
-            <div className="grid grid-cols-5 gap-1 w-full sm:w-auto sm:flex sm:items-center sm:gap-1">
-              {[
-                {
-                  id: "ALL",
-                  labelMobile: "Tất cả",
-                  labelDesktop: "Tất cả bộ đề",
-                },
-                {
-                  id: "IELTS_FULL",
-                  labelMobile: "IELTS 4K",
-                  labelDesktop: "IELTS Academic",
-                },
-                {
-                  id: "TOEIC_LR",
-                  labelMobile: "TOEIC L&R",
-                  labelDesktop: "TOEIC Nghe & Đọc",
-                },
-                {
-                  id: "TOEIC_SPEAKING_WRITING",
-                  labelMobile: "Nói+Viết",
-                  labelDesktop: "TOEIC Nói + Viết",
-                },
-                {
-                  id: "TOEIC_FULL",
-                  labelMobile: "TOEIC 4K",
-                  labelDesktop: "TOEIC Full 4K",
-                },
-              ].map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setFilterType(tab.id)}
-                  className={`px-1 sm:px-3 py-1 sm:py-1.5 rounded-xs text-[10px] sm:text-xs font-bold text-center transition-all cursor-pointer truncate ${
-                    filterType === tab.id
-                      ? "bg-[#0059bb] text-white shadow-2xs font-black"
-                      : "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/60 dark:border-white/10"
-                  }`}
-                >
-                  <span className="sm:hidden">{tab.labelMobile}</span>
-                  <span className="hidden sm:inline">{tab.labelDesktop}</span>
-                </button>
+                </motion.div>
               ))}
             </div>
 
-            {/* Search Input */}
-            <div className="relative w-full sm:w-56 shrink-0">
-              <Search
-                className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2 sm:top-2.5"
-                strokeWidth={1.8}
-              />
-              <input
-                type="text"
-                placeholder="Tìm tên đề thi..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full h-7.5 sm:h-8 pl-8 pr-2.5 text-xs font-medium rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:border-[#0059bb]"
-              />
-            </div>
-          </div>
-
-          {/* De-cluttered Exam Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pt-1">
-            {filteredExams.map((exam) => (
-              <motion.div
-                whileHover={{ y: -2 }}
-                key={exam.id}
-                className="p-3 sm:p-3.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 hover:border-[#0059bb]/40 dark:hover:border-sky-500/40 hover:shadow-xs shadow-2xs flex flex-col justify-between space-y-2.5 sm:space-y-3 relative group transition-all"
-              >
-                <div className="space-y-1.5 sm:space-y-2">
-                  <div className="flex items-center justify-between gap-2">
-                    <span
-                      className={`px-2 py-0.5 rounded-xs text-[9px] sm:text-[9.5px] font-black uppercase tracking-wider border font-display ${getCategoryBadgeStyle(
-                        exam.categoryBadge,
-                        exam.type,
-                      )}`}
-                    >
-                      {exam.categoryBadge}
-                    </span>
-                    {/* 5-Star Visual Difficulty Rating (No text, pure vector stars) */}
-                    <div
-                      className="flex items-center gap-0.5"
-                      title={`Độ khó: ${exam.level}`}
-                    >
-                      {Array.from({ length: 5 }).map((_, starIdx) => {
-                        const starCount =
-                          exam.level === "Beginner"
-                            ? 2
-                            : exam.level === "Intermediate"
-                              ? 3
-                              : 5;
-                        const isFilled = starIdx < starCount;
-                        return (
-                          <Star
-                            key={starIdx}
-                            className={`w-3 h-3 ${
-                              isFilled
-                                ? "fill-amber-400 text-amber-400"
-                                : "text-slate-200 dark:text-slate-700"
-                            }`}
-                            strokeWidth={1.5}
-                          />
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  <h3 className="text-[13px] sm:text-sm font-bold font-display text-slate-900 dark:text-white group-hover:text-[#0059bb] transition-colors leading-snug line-clamp-2 min-h-[2.4rem] flex items-center">
-                    {exam.title}
-                  </h3>
-
-                  {/* Supported Skill Icons Row */}
-                  <div className="flex flex-wrap items-center gap-1 pt-0.5">
-                    {exam.supportedSkills.includes("LISTENING") && (
-                      <span className="px-1.5 py-0.5 rounded-xs bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 text-[9.5px] sm:text-[10px] font-bold flex items-center gap-1 border border-blue-200/60 dark:border-blue-800/40">
-                        <Headphones className="w-3 h-3" strokeWidth={1.8} />{" "}
-                        Nghe
-                      </span>
-                    )}
-                    {exam.supportedSkills.includes("READING") && (
-                      <span className="px-1.5 py-0.5 rounded-xs bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 text-[9.5px] sm:text-[10px] font-bold flex items-center gap-1 border border-emerald-200/60 dark:border-emerald-800/40">
-                        <BookOpen className="w-3 h-3" strokeWidth={1.8} /> Đọc
-                      </span>
-                    )}
-                    {exam.supportedSkills.includes("SPEAKING") && (
-                      <span className="px-1.5 py-0.5 rounded-xs bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 text-[9.5px] sm:text-[10px] font-bold flex items-center gap-1 border border-amber-200/60 dark:border-amber-800/40">
-                        <Mic className="w-3 h-3" strokeWidth={1.8} /> Nói AI
-                      </span>
-                    )}
-                    {exam.supportedSkills.includes("WRITING") && (
-                      <span className="px-1.5 py-0.5 rounded-xs bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 text-[9.5px] sm:text-[10px] font-bold flex items-center gap-1 border border-purple-200/60 dark:border-purple-800/40">
-                        <Wand2 className="w-3 h-3" strokeWidth={1.8} /> Viết AI
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                {/* Visual Meta Chips & Action Button */}
-                <div className="pt-2.5 border-t border-slate-100 dark:border-white/5 flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-2 text-[11px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 font-sans">
-                    <span className="flex items-center gap-1">
-                      <FileText
-                        className="w-3.5 h-3.5 text-[#0059bb]"
-                        strokeWidth={1.8}
-                      />{" "}
-                      {exam.totalQuestions} câu
-                    </span>
-                    <span>•</span>
-                    <span className="flex items-center gap-1">
-                      <Clock
-                        className="w-3.5 h-3.5 text-slate-400"
-                        strokeWidth={1.8}
-                      />{" "}
-                      {exam.timeLimitMinutes}m
-                    </span>
-                  </div>
-
-                  <button
-                    onClick={() => handleStartExam(exam)}
-                    className="px-2.5 sm:px-3 py-1.5 rounded-xs bg-[#0059bb] hover:bg-[#004799] active:scale-95 text-white text-xs font-black transition-all shadow-2xs flex items-center gap-1 cursor-pointer font-display"
-                  >
-                    <span>Vào thi</span>
-                    <ChevronRight className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </motion.div>
-            ))}
           </div>
         </div>
       )}
@@ -1298,26 +1239,26 @@ function ExamPrepContent() {
           <motion.div
             initial={{ opacity: 0, y: -6 }}
             animate={{ opacity: 1, y: 0 }}
-            className="p-2.5 sm:p-3 rounded-xs bg-[#ebf3fe] dark:bg-blue-950/40 border border-[#d5e5fe] dark:border-blue-900/50 shadow-2xs space-y-2"
+            className="p-2.5 sm:p-3 rounded-xl bg-white dark:bg-slate-900 dark:bg-blue-950/40 border border-slate-200/90 dark:border-slate-800 dark:border-blue-900/50 shadow-2xs space-y-2"
           >
             {/* DESKTOP TOOLBAR (sm:flex) - 100% UNTOUCHED ORIGINAL LAYOUT */}
             <div className="hidden sm:flex items-center justify-between gap-2.5">
               <div className="flex items-center gap-2.5 min-w-0">
                 <button
                   onClick={() => setShowSubmitConfirmModal(true)}
-                  className="px-2.5 py-1 rounded-xs bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-bold text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-white/10 shrink-0 cursor-pointer shadow-2xs flex items-center gap-1 transition-all active:scale-95"
+                  className="px-2.5 py-1 rounded-md bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-bold text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-white/10 shrink-0 cursor-pointer shadow-2xs flex items-center gap-1 transition-all active:scale-95"
                   title="Thoát khỏi bài thi và quay lại danh sách đề"
                 >
                   <ChevronLeft className="w-3.5 h-3.5" />
                   <span>Thoát bài thi</span>
                 </button>
 
-                <div className="w-8 h-8 rounded-xs bg-[#1d6ee6]/10 text-[#1d6ee6] dark:text-sky-400 flex items-center justify-center shrink-0">
+                <div className="w-8 h-8 rounded-xl bg-[#1d6ee6]/10 text-[#1d6ee6] dark:text-sky-400 flex items-center justify-center shrink-0">
                   <FileText className="w-4 h-4 stroke-[2]" />
                 </div>
 
                 <div className="min-w-0 flex items-center gap-2">
-                  <span className="px-2 py-0.5 rounded-xs text-[9px] font-black bg-[#0059bb] text-white shadow-2xs shrink-0">
+                  <span className="px-2 py-0.5 rounded-md text-[9px] font-black bg-[#0059bb] text-white shadow-2xs shrink-0">
                     {selectedExam.categoryBadge || "EXAM"}
                   </span>
                   <h2 className="text-sm font-bold text-slate-900 dark:text-white font-display truncate">
@@ -1330,7 +1271,7 @@ function ExamPrepContent() {
                 {/* Toggle Answer Sheet Panel Button (Desktop) */}
                 <button
                   onClick={() => setShowAnswerSheet((prev) => !prev)}
-                  className={`px-2.5 py-1 rounded-xs text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                  className={`px-2.5 py-1 rounded-md text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
                     showAnswerSheet
                       ? "bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200/80 dark:border-white/10 shadow-2xs"
                       : "bg-amber-400 text-slate-950 font-black shadow-2xs"
@@ -1347,7 +1288,7 @@ function ExamPrepContent() {
 
                 {/* Timer Countdown Badge */}
                 <div
-                  className={`px-3 py-1 rounded-xs border text-xs font-black font-sans flex items-center gap-1 shadow-2xs ${
+                  className={`px-3 py-1 rounded-xl border text-xs font-black font-sans flex items-center gap-1 shadow-2xs ${
                     secondsRemaining <= 300
                       ? "bg-rose-50 dark:bg-rose-950/60 text-rose-600 border-rose-300 animate-pulse"
                       : "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 border-slate-200/80 dark:border-white/10"
@@ -1359,7 +1300,7 @@ function ExamPrepContent() {
 
                 <button
                   onClick={() => setShowSubmitConfirmModal(true)}
-                  className="px-3.5 py-1.5 rounded-xs bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-black transition-all shadow-2xs cursor-pointer font-display"
+                  className="px-3.5 py-1.5 rounded-xl bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-black transition-all shadow-2xs cursor-pointer font-display"
                 >
                   Nộp bài ngay
                 </button>
@@ -1371,7 +1312,7 @@ function ExamPrepContent() {
               <div className="flex items-center justify-between gap-2">
                 <button
                   onClick={() => setShowSubmitConfirmModal(true)}
-                  className="px-2.5 py-1 rounded-xs bg-white dark:bg-slate-900 text-xs font-bold text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-white/10 shrink-0 cursor-pointer shadow-2xs flex items-center gap-1 active:scale-95"
+                  className="px-2.5 py-1 rounded-md bg-white dark:bg-slate-900 text-xs font-bold text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-white/10 shrink-0 cursor-pointer shadow-2xs flex items-center gap-1 active:scale-95"
                 >
                   <ChevronLeft className="w-3.5 h-3.5" />
                   <span>Thoát</span>
@@ -1379,7 +1320,7 @@ function ExamPrepContent() {
 
                 {/* Prominent Center Timer */}
                 <div
-                  className={`px-2.5 py-1 rounded-xs border text-xs font-black font-sans flex items-center gap-1 shadow-2xs ${
+                  className={`px-2.5 py-1 rounded-md border text-xs font-black font-sans flex items-center gap-1 shadow-2xs ${
                     secondsRemaining <= 300
                       ? "bg-rose-50 dark:bg-rose-950/60 text-rose-600 border-rose-300 animate-pulse"
                       : "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 border-slate-200/80 dark:border-white/10"
@@ -1391,7 +1332,7 @@ function ExamPrepContent() {
 
                 <button
                   onClick={() => setShowSubmitConfirmModal(true)}
-                  className="px-3 py-1 rounded-xs bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-black shadow-2xs cursor-pointer active:scale-95"
+                  className="px-3 py-1 rounded-xl bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-black shadow-2xs cursor-pointer active:scale-95"
                 >
                   Nộp bài
                 </button>
@@ -1399,7 +1340,7 @@ function ExamPrepContent() {
 
               {/* Sub line: Exam Badge & Title */}
               <div className="flex items-center gap-1.5 px-0.5">
-                <span className="px-1.5 py-0.2 rounded-xs text-[9px] font-black bg-[#0059bb] text-white shadow-2xs shrink-0">
+                <span className="px-1.5 py-0.2 rounded-md text-[9px] font-black bg-[#0059bb] text-white shadow-2xs shrink-0">
                   {selectedExam.categoryBadge || "EXAM"}
                 </span>
                 <span className="text-xs font-bold text-slate-900 dark:text-white truncate font-display">
@@ -1472,7 +1413,7 @@ function ExamPrepContent() {
                     )}
 
                     {/* Desktop-Only In-flow Navigation Buttons */}
-                    <div className="hidden lg:flex p-3 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 items-center justify-between">
+                    <div className="hidden lg:flex p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 items-center justify-between">
                       <button
                         disabled={currentQuestionIndex === 0}
                         onClick={() =>
@@ -1480,7 +1421,7 @@ function ExamPrepContent() {
                             Math.max(0, prev - 1),
                           )
                         }
-                        className="px-3.5 py-1.5 rounded-xs bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold disabled:opacity-40 cursor-pointer flex items-center gap-1 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all shadow-2xs"
+                        className="px-3.5 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold disabled:opacity-40 cursor-pointer flex items-center gap-1 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all shadow-2xs"
                       >
                         <ChevronLeft className="w-4 h-4" /> Câu trước
                       </button>
@@ -1489,7 +1430,7 @@ function ExamPrepContent() {
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => handleToggleFlag(q.id)}
-                          className={`px-3.5 py-1.5 rounded-xs text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 border shadow-2xs ${
+                          className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 border shadow-2xs ${
                             flaggedQuestions[q.id]
                               ? "bg-amber-400 text-slate-950 border-amber-500 font-black"
                               : "bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-slate-700"
@@ -1513,7 +1454,7 @@ function ExamPrepContent() {
                               Math.min(filteredQuestions.length - 1, prev + 1),
                             )
                           }
-                          className="px-3.5 py-1.5 rounded-xs bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold disabled:opacity-40 cursor-pointer flex items-center gap-1 shadow-2xs font-display transition-all"
+                          className="px-3.5 py-1.5 rounded-xl bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold disabled:opacity-40 cursor-pointer flex items-center gap-1 shadow-2xs font-display transition-all"
                         >
                           Câu tiếp <ChevronRight className="w-4 h-4" />
                         </button>
@@ -1526,7 +1467,7 @@ function ExamPrepContent() {
 
             {/* RIGHT PANEL (4/12): DESKTOP ONLY SIDE-BY-SIDE ANSWER SHEET */}
             {showAnswerSheet && (
-              <div className="hidden lg:block lg:col-span-4 p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3.5">
+              <div className="hidden lg:block lg:col-span-4 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3.5">
                 <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
                   <h3 className="text-xs font-black uppercase tracking-wider text-slate-900 dark:text-white font-display flex items-center gap-1.5">
                     <Layers className="w-3.5 h-3.5 text-[#0059bb]" /> Phiếu Trả
@@ -1541,14 +1482,14 @@ function ExamPrepContent() {
                 {/* Status Legend */}
                 <div className="flex items-center gap-3 text-[10.5px] font-bold text-slate-500 border-b border-slate-100 dark:border-white/5 pb-2">
                   <span className="flex items-center gap-1">
-                    <span className="w-3 h-3 rounded-xs bg-[#0059bb]" /> Đã làm
+                    <span className="w-3 h-3 rounded-xl bg-[#0059bb]" /> Đã làm
                   </span>
                   <span className="flex items-center gap-1">
-                    <span className="w-3 h-3 rounded-xs bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-white/10" />{" "}
+                    <span className="w-3 h-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-white/10" />{" "}
                     Chưa làm
                   </span>
                   <span className="flex items-center gap-1">
-                    <span className="w-3 h-3 rounded-xs bg-amber-400" /> Xem lại
+                    <span className="w-3 h-3 rounded-xl bg-amber-400" /> Xem lại
                   </span>
                 </div>
 
@@ -1573,7 +1514,7 @@ function ExamPrepContent() {
                       <button
                         key={q.id}
                         onClick={() => setCurrentQuestionIndex(idx)}
-                        className={`h-9 rounded-xs text-sm font-black font-sans transition-all cursor-pointer flex items-center justify-center border ${btnStyle} ${
+                        className={`h-9 rounded-xl text-sm font-black font-sans transition-all cursor-pointer flex items-center justify-center border ${btnStyle} ${
                           isCurrent
                             ? "ring-2 ring-blue-500 shadow-md scale-105"
                             : ""
@@ -1597,7 +1538,7 @@ function ExamPrepContent() {
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: "100%", opacity: 0 }}
                   transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                  className="w-full max-w-lg max-h-[80vh] overflow-y-auto bg-white dark:bg-slate-900 rounded-t-xl sm:rounded-xs border border-slate-200 dark:border-white/10 shadow-2xl p-4 space-y-3.5"
+                  className="w-full max-w-lg max-h-[80vh] overflow-y-auto bg-white dark:bg-slate-900 rounded-t-xl sm:rounded-xl border border-slate-200 dark:border-white/10 shadow-2xl p-4 space-y-3.5"
                 >
                   <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5">
                     <div className="flex items-center gap-1.5">
@@ -1609,7 +1550,7 @@ function ExamPrepContent() {
                     </div>
                     <button
                       onClick={() => setShowMobileWorkspaceSheet(false)}
-                      className="p-1 rounded-xs bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white cursor-pointer border border-slate-200 dark:border-white/10"
+                      className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white cursor-pointer border border-slate-200 dark:border-white/10"
                     >
                       <X className="w-4 h-4" />
                     </button>
@@ -1618,21 +1559,21 @@ function ExamPrepContent() {
                   {/* Status Legend */}
                   <div className="flex items-center gap-3 text-[10.5px] font-bold text-slate-500 border-b border-slate-100 dark:border-white/5 pb-2">
                     <span className="flex items-center gap-1">
-                      <span className="w-3 h-3 rounded-xs bg-[#0059bb]" /> Đã
+                      <span className="w-3 h-3 rounded-xl bg-[#0059bb]" /> Đã
                       làm
                     </span>
                     <span className="flex items-center gap-1">
-                      <span className="w-3 h-3 rounded-xs bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-white/10" />{" "}
+                      <span className="w-3 h-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-white/10" />{" "}
                       Chưa làm
                     </span>
                     <span className="flex items-center gap-1">
-                      <span className="w-3 h-3 rounded-xs bg-amber-400" /> Xem
+                      <span className="w-3 h-3 rounded-xl bg-amber-400" /> Xem
                       lại
                     </span>
                   </div>
 
                   {/* Answer Grid: Exactly 6 Columns per row */}
-                  <div className="grid grid-cols-6 gap-1.5 max-h-[50vh] overflow-y-auto p-1 bg-slate-50 dark:bg-slate-950/60 rounded-xs border border-slate-200/60 dark:border-white/5">
+                  <div className="grid grid-cols-6 gap-1.5 max-h-[50vh] overflow-y-auto p-1 bg-slate-50 dark:bg-slate-950/60 rounded-xl border border-slate-200/60 dark:border-white/5">
                     {filteredQuestions.map((q, idx) => {
                       const isCurrent = idx === currentQuestionIndex;
                       const isAnswered = !!userAnswers[q.id];
@@ -1655,7 +1596,7 @@ function ExamPrepContent() {
                             setCurrentQuestionIndex(idx);
                             setShowMobileWorkspaceSheet(false);
                           }}
-                          className={`h-9 rounded-xs text-sm font-black font-sans transition-all cursor-pointer flex items-center justify-center border ${btnStyle} ${
+                          className={`h-9 rounded-xl text-sm font-black font-sans transition-all cursor-pointer flex items-center justify-center border ${btnStyle} ${
                             isCurrent
                               ? "ring-2 ring-blue-500 shadow-md scale-105"
                               : ""
@@ -1685,7 +1626,7 @@ function ExamPrepContent() {
                   onClick={() =>
                     setCurrentQuestionIndex((prev) => Math.max(0, prev - 1))
                   }
-                  className="px-3 py-2 rounded-xs bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-bold disabled:opacity-40 flex items-center justify-center gap-1 cursor-pointer transition-all active:scale-95 shadow-2xs shrink-0 min-w-[72px]"
+                  className="px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-bold disabled:opacity-40 flex items-center justify-center gap-1 cursor-pointer transition-all active:scale-95 shadow-2xs shrink-0 min-w-[72px]"
                 >
                   <ChevronLeft className="w-4 h-4" /> <span>Trước</span>
                 </button>
@@ -1694,7 +1635,7 @@ function ExamPrepContent() {
                 <div className="flex items-center justify-center gap-2">
                   <button
                     onClick={() => handleToggleFlag(currentQ.id)}
-                    className={`py-2 px-3 rounded-xs text-xs font-bold flex items-center gap-1 cursor-pointer border transition-all active:scale-95 shadow-2xs ${
+                    className={`py-2 px-3 rounded-xl text-xs font-bold flex items-center gap-1 cursor-pointer border transition-all active:scale-95 shadow-2xs ${
                       isFlagged
                         ? "bg-amber-400 text-slate-950 border-amber-500 font-black"
                         : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-white/10"
@@ -1707,7 +1648,7 @@ function ExamPrepContent() {
 
                   <button
                     onClick={() => setShowMobileWorkspaceSheet(true)}
-                    className="py-2 px-3 rounded-xs bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 text-xs font-black border border-blue-200 dark:border-blue-800/40 flex items-center gap-1.5 cursor-pointer transition-all active:scale-95 shadow-2xs"
+                    className="py-2 px-3 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 text-xs font-black border border-blue-200 dark:border-blue-800/40 flex items-center gap-1.5 cursor-pointer transition-all active:scale-95 shadow-2xs"
                     title="Mở bảng phiếu trả lời"
                   >
                     <Layers className="w-3.5 h-3.5" />
@@ -1727,7 +1668,7 @@ function ExamPrepContent() {
                       Math.min(filteredQuestions.length - 1, prev + 1),
                     )
                   }
-                  className="px-3 py-2 rounded-xs bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold disabled:opacity-40 flex items-center justify-center gap-1 cursor-pointer transition-all active:scale-95 shadow-2xs shrink-0 min-w-[72px]"
+                  className="px-3 py-2 rounded-xl bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold disabled:opacity-40 flex items-center justify-center gap-1 cursor-pointer transition-all active:scale-95 shadow-2xs shrink-0 min-w-[72px]"
                 >
                   <span>Tiếp</span> <ChevronRight className="w-4 h-4" />
                 </button>
@@ -1743,10 +1684,10 @@ function ExamPrepContent() {
       {activeMode === "REPORT" && examResult && (
         <div className="space-y-3.5 w-full">
           {/* 0. AGENCY MICRO-HERO BAR WITH SEGMENTED TABS */}
-          <div className="p-3 sm:p-3.5 rounded-xs bg-[#ebf3fe] dark:bg-blue-950/40 border border-[#d5e5fe] dark:border-blue-900/50 shadow-2xs space-y-2.5">
+          <div className="p-3 sm:p-3.5 rounded-xl bg-white dark:bg-slate-900 dark:bg-blue-950/40 border border-slate-200/90 dark:border-slate-800 dark:border-blue-900/50 shadow-2xs space-y-2.5">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
               <div className="flex items-center gap-2 min-w-0">
-                <div className="w-8 h-8 rounded-xs bg-[#0059bb] text-white flex items-center justify-center shadow-2xs shrink-0">
+                <div className="w-8 h-8 rounded-xl bg-[#0059bb] text-white flex items-center justify-center shadow-2xs shrink-0">
                   <Award className="w-4 h-4" strokeWidth={1.8} />
                 </div>
                 <div className="min-w-0">
@@ -1763,14 +1704,14 @@ function ExamPrepContent() {
               <div className="grid grid-cols-2 gap-2 w-full sm:flex sm:items-center sm:w-auto">
                 <button
                   onClick={() => setActiveMode("HUB")}
-                  className="px-3 py-1.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 text-xs font-bold hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-all shadow-2xs flex items-center justify-center text-center"
+                  className="px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 text-xs font-bold hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-all shadow-2xs flex items-center justify-center text-center"
                 >
                   ← Danh Sách Đề
                 </button>
                 {selectedExam && (
                   <button
                     onClick={() => handleStartExam(selectedExam)}
-                    className="px-3 py-1.5 rounded-xs bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold shadow-2xs flex items-center justify-center gap-1.5 cursor-pointer font-display text-center"
+                    className="px-3 py-1.5 rounded-xl bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold shadow-2xs flex items-center justify-center gap-1.5 cursor-pointer font-display text-center"
                   >
                     <RotateCcw className="w-3.5 h-3.5 shrink-0" strokeWidth={1.8} />
                     <span>Thi Lại</span>
@@ -1780,10 +1721,10 @@ function ExamPrepContent() {
             </div>
 
             {/* Segmented Sliding Tabs */}
-            <div className="p-1 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xs rounded-xs flex items-center gap-1 border border-slate-200/80 dark:border-white/10 shadow-2xs">
+            <div className="p-1 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xs rounded-xl flex items-center gap-1 border border-slate-200/80 dark:border-white/10 shadow-2xs">
               <button
                 onClick={() => setReportTab("OVERVIEW")}
-                className={`flex-1 py-2 px-1.5 sm:px-3 rounded-xs text-[11px] sm:text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1 sm:gap-1.5 ${
+                className={`flex-1 py-2 px-1.5 sm:px-3 rounded-md text-[11px] sm:text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1 sm:gap-1.5 ${
                   reportTab === "OVERVIEW"
                     ? "bg-[#0059bb] text-white shadow-2xs font-black"
                     : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
@@ -1796,7 +1737,7 @@ function ExamPrepContent() {
 
               <button
                 onClick={() => setReportTab("REVIEW")}
-                className={`flex-1 py-2 px-1.5 sm:px-3 rounded-xs text-[11px] sm:text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1 sm:gap-1.5 ${
+                className={`flex-1 py-2 px-1.5 sm:px-3 rounded-md text-[11px] sm:text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1 sm:gap-1.5 ${
                   reportTab === "REVIEW"
                     ? "bg-[#0059bb] text-white shadow-2xs font-black"
                     : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
@@ -1805,14 +1746,14 @@ function ExamPrepContent() {
                 <BookOpen className="w-3.5 h-3.5 shrink-0" strokeWidth={1.8} />
                 <span className="sm:hidden">2. Lời giải</span>
                 <span className="hidden sm:inline">2. Lời Giải Chuyên Sâu</span>
-                <span className="hidden sm:inline-block px-1.5 py-0.2 rounded-xs bg-amber-400 text-slate-950 text-[10px] font-black ml-0.5 font-sans shrink-0">
+                <span className="hidden sm:inline-block px-1.5 py-0.2 rounded-md bg-amber-400 text-slate-950 text-[10px] font-black ml-0.5 font-sans shrink-0">
                   {examResult.questionResults.length}
                 </span>
               </button>
 
               <button
                 onClick={() => setReportTab("DIAGNOSTIC")}
-                className={`flex-1 py-2 px-1.5 sm:px-3 rounded-xs text-[11px] sm:text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1 sm:gap-1.5 ${
+                className={`flex-1 py-2 px-1.5 sm:px-3 rounded-md text-[11px] sm:text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1 sm:gap-1.5 ${
                   reportTab === "DIAGNOSTIC"
                     ? "bg-[#0059bb] text-white shadow-2xs font-black"
                     : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
@@ -1837,7 +1778,7 @@ function ExamPrepContent() {
               <motion.div
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="p-3.5 sm:p-5 rounded-xs bg-gradient-to-br from-[#0059bb] via-[#004799] to-slate-950 text-white shadow-lg relative overflow-hidden border border-blue-400/20"
+                className="p-3.5 sm:p-5 rounded-xl bg-gradient-to-br from-[#0059bb] via-[#004799] to-slate-950 text-white shadow-lg relative overflow-hidden border border-blue-400/20"
               >
                 <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 sm:gap-5">
                   {/* Left: Score Gauge */}
@@ -1898,7 +1839,7 @@ function ExamPrepContent() {
 
                     {/* Score Numbers */}
                     <div className="space-y-1 min-w-0 flex-1">
-                      <span className="inline-block px-2 py-0.5 rounded-xs text-[9px] sm:text-[10px] font-black uppercase tracking-wider bg-amber-400 text-slate-950 font-display">
+                      <span className="inline-block px-2 py-0.5 rounded-md text-[9px] sm:text-[10px] font-black uppercase tracking-wider bg-amber-400 text-slate-950 font-display">
                         KẾT QUẢ QUY ĐỔI CHÍNH THỨC
                       </span>
                       <div className="text-2xl sm:text-3xl font-black font-display text-white tracking-tight leading-tight">
@@ -1930,7 +1871,7 @@ function ExamPrepContent() {
                   <div className="flex flex-col gap-2 sm:gap-2.5 w-full md:w-auto">
                     <div className="grid grid-cols-2 gap-2 md:flex md:items-center">
                       {examResult.listeningScore !== undefined && (
-                        <div className="md:w-44 px-2.5 py-1.5 sm:p-2 rounded-xs bg-white/10 backdrop-blur-md border border-white/15 flex items-center justify-between text-[10.5px] sm:text-[11px]">
+                        <div className="md:w-44 px-2.5 py-1.5 sm:p-2 rounded-md bg-white/10 backdrop-blur-md border border-white/15 flex items-center justify-between text-[10.5px] sm:text-[11px]">
                           <div className="flex items-center gap-1.5">
                             <Headphones
                               className="w-3.5 h-3.5 text-sky-300"
@@ -1949,7 +1890,7 @@ function ExamPrepContent() {
                         </div>
                       )}
                       {examResult.readingScore !== undefined && (
-                        <div className="md:w-44 px-2.5 py-1.5 sm:p-2 rounded-xs bg-white/10 backdrop-blur-md border border-white/15 flex items-center justify-between text-[10.5px] sm:text-[11px]">
+                        <div className="md:w-44 px-2.5 py-1.5 sm:p-2 rounded-md bg-white/10 backdrop-blur-md border border-white/15 flex items-center justify-between text-[10.5px] sm:text-[11px]">
                           <div className="flex items-center gap-1.5">
                             <BookOpen
                               className="w-3.5 h-3.5 text-emerald-300"
@@ -1968,7 +1909,7 @@ function ExamPrepContent() {
                         </div>
                       )}
                       {examResult.speakingScore !== undefined && (
-                        <div className="md:w-44 px-2.5 py-1.5 sm:p-2 rounded-xs bg-white/10 backdrop-blur-md border border-white/15 flex items-center justify-between text-[10.5px] sm:text-[11px]">
+                        <div className="md:w-44 px-2.5 py-1.5 sm:p-2 rounded-md bg-white/10 backdrop-blur-md border border-white/15 flex items-center justify-between text-[10.5px] sm:text-[11px]">
                           <div className="flex items-center gap-1.5">
                             <Mic
                               className="w-3.5 h-3.5 text-amber-300"
@@ -1987,7 +1928,7 @@ function ExamPrepContent() {
                         </div>
                       )}
                       {examResult.writingScore !== undefined && (
-                        <div className="md:w-44 px-2.5 py-1.5 sm:p-2 rounded-xs bg-white/10 backdrop-blur-md border border-white/15 flex items-center justify-between text-[10.5px] sm:text-[11px]">
+                        <div className="md:w-44 px-2.5 py-1.5 sm:p-2 rounded-md bg-white/10 backdrop-blur-md border border-white/15 flex items-center justify-between text-[10.5px] sm:text-[11px]">
                           <div className="flex items-center gap-1.5">
                             <Wand2
                               className="w-3.5 h-3.5 text-purple-300"
@@ -2008,11 +1949,11 @@ function ExamPrepContent() {
                     </div>
 
                     <div className="grid grid-cols-2 gap-2 md:flex md:items-center">
-                      <div className="flex-1 md:w-44 px-2.5 py-1.5 sm:p-2 rounded-xs bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-[10.5px] sm:text-xs font-black flex items-center justify-center gap-1.5">
+                      <div className="flex-1 md:w-44 px-2.5 py-1.5 sm:p-2 rounded-md bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-[10.5px] sm:text-xs font-black flex items-center justify-center gap-1.5">
                         <Sparkles className="w-3.5 h-3.5" strokeWidth={1.8} /> +
                         {examResult.xpAwarded} XP Thưởng
                       </div>
-                      <div className="flex-1 md:w-44 px-2.5 py-1.5 sm:p-2 rounded-xs bg-amber-500/20 border border-amber-400/30 text-amber-300 text-[10.5px] sm:text-xs font-black flex items-center justify-center gap-1.5">
+                      <div className="flex-1 md:w-44 px-2.5 py-1.5 sm:p-2 rounded-md bg-amber-500/20 border border-amber-400/30 text-amber-300 text-[10.5px] sm:text-xs font-black flex items-center justify-center gap-1.5">
                         <Award className="w-3.5 h-3.5" strokeWidth={1.8} /> +
                         {examResult.coinsAwarded} Vàng Thưởng
                       </div>
@@ -2023,8 +1964,8 @@ function ExamPrepContent() {
 
               {/* 4 Double-Bezel Metric Cards */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5">
-                <div className="p-2.5 sm:p-3 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-xs bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+                <div className="p-2.5 sm:p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
                     <CheckCircle2 className="w-4 h-4" strokeWidth={1.8} />
                   </div>
                   <div>
@@ -2041,8 +1982,8 @@ function ExamPrepContent() {
                   </div>
                 </div>
 
-                <div className="p-2.5 sm:p-3 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-xs bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-800/40 text-rose-600 dark:text-rose-400 flex items-center justify-center shrink-0">
+                <div className="p-2.5 sm:p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-800/40 text-rose-600 dark:text-rose-400 flex items-center justify-center shrink-0">
                     <XCircle className="w-4 h-4" strokeWidth={1.8} />
                   </div>
                   <div>
@@ -2064,8 +2005,8 @@ function ExamPrepContent() {
                   </div>
                 </div>
 
-                <div className="p-2.5 sm:p-3 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-xs bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 flex items-center justify-center shrink-0">
+                <div className="p-2.5 sm:p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 flex items-center justify-center shrink-0">
                     <AlertCircle className="w-4 h-4" strokeWidth={1.8} />
                   </div>
                   <div>
@@ -2087,8 +2028,8 @@ function ExamPrepContent() {
                   </div>
                 </div>
 
-                <div className="p-2.5 sm:p-3 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-xs bg-blue-50 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-800/40 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0">
+                <div className="p-2.5 sm:p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-blue-50 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-800/40 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0">
                     <Clock className="w-4 h-4" strokeWidth={1.8} />
                   </div>
                   <div>
@@ -2106,7 +2047,7 @@ function ExamPrepContent() {
               </div>
 
               {/* Part Analysis Breakdown Cards */}
-              <div className="p-3 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-2.5">
+              <div className="p-3 sm:p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-2.5">
                 <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5">
                   <h3 className="text-xs sm:text-[13px] font-bold uppercase tracking-wider text-slate-900 dark:text-white font-display flex items-center gap-2">
                     <TrendingUp
@@ -2121,12 +2062,12 @@ function ExamPrepContent() {
                   {examResult.partAnalysis.map((part) => (
                     <div
                       key={part.partNumber}
-                      className="p-2.5 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200/70 dark:border-white/5 grid grid-cols-1 md:grid-cols-12 items-center gap-2.5 hover:border-slate-300 dark:hover:border-white/15 transition-all"
+                      className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200/70 dark:border-white/5 grid grid-cols-1 md:grid-cols-12 items-center gap-2.5 hover:border-slate-300 dark:hover:border-white/15 transition-all"
                     >
                       {/* Column 1: Grade & Title (Fixed md:col-span-4) */}
                       <div className="md:col-span-4 flex items-center gap-2.5 min-w-0">
                         <span
-                          className={`w-16 py-0.5 rounded-xs text-[10px] font-black font-sans uppercase text-center shrink-0 ${
+                          className={`w-16 py-0.5 rounded-xl text-[10px] font-black font-sans uppercase text-center shrink-0 ${
                             part.grade === "A+" || part.grade === "A"
                               ? "bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30"
                               : part.grade === "B"
@@ -2145,7 +2086,7 @@ function ExamPrepContent() {
 
                       {/* Column 2: Progress Bar (Fixed md:col-span-5) -> 100% PERFECTLY STRAIGHT ALIGNED */}
                       <div className="md:col-span-5 w-full">
-                        <div className="w-full h-2 rounded-xs bg-slate-200 dark:bg-slate-800 overflow-hidden">
+                        <div className="w-full h-2 rounded-xl bg-slate-200 dark:bg-slate-800 overflow-hidden">
                           <div
                             className={`h-full transition-all duration-700 ${
                               part.accuracyPercent >= 75
@@ -2172,7 +2113,7 @@ function ExamPrepContent() {
                             setReportTab("REVIEW");
                             setReviewPartFilter(part.partNumber);
                           }}
-                          className="px-2.5 py-1 rounded-xs bg-white dark:bg-slate-900 hover:bg-[#0059bb] hover:text-white text-[#0059bb] dark:text-sky-400 text-[11px] font-bold border border-slate-200 dark:border-white/10 shadow-2xs transition-all cursor-pointer flex items-center gap-1 shrink-0"
+                          className="px-2.5 py-1 rounded-md bg-white dark:bg-slate-900 hover:bg-[#0059bb] hover:text-white text-[#0059bb] dark:text-sky-400 text-[11px] font-bold border border-slate-200 dark:border-white/10 shadow-2xs transition-all cursor-pointer flex items-center gap-1 shrink-0"
                         >
                           Xem Part này <ChevronRight className="w-3 h-3" />
                         </button>
@@ -2186,13 +2127,13 @@ function ExamPrepContent() {
               <div className="pt-2 flex items-center justify-center w-full">
                 <button
                   onClick={() => setReportTab("REVIEW")}
-                  className="w-full sm:w-auto px-4 sm:px-5 py-2 sm:py-2.5 rounded-xs bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold shadow-md flex items-center justify-center gap-2 cursor-pointer font-display transition-all active:scale-95 group"
+                  className="w-full sm:w-auto px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold shadow-md flex items-center justify-center gap-2 cursor-pointer font-display transition-all active:scale-95 group"
                 >
                   <BookOpen className="w-4 h-4 shrink-0" strokeWidth={1.8} />
                   <span className="truncate">
                     Xem Chi Tiết Từng Câu & Lời Giải Chuyên Sâu
                   </span>
-                  <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-xs bg-white/20 flex items-center justify-center group-hover:translate-x-1 transition-transform shrink-0">
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-xl bg-white/20 flex items-center justify-center group-hover:translate-x-1 transition-transform shrink-0">
                     <ArrowRight className="w-3.5 h-3.5" />
                   </div>
                 </button>
@@ -2204,10 +2145,10 @@ function ExamPrepContent() {
           {reportTab === "REVIEW" && (
             <div className="space-y-3.5">
               {/* 📱 MOBILE QUICK QUESTION NAVIGATOR BAR (< 1024px) */}
-              <div className="lg:hidden p-3 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-2.5">
+              <div className="lg:hidden p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-2.5">
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-1.5 min-w-0">
-                    <span className="px-2 py-0.5 rounded-xs bg-[#0059bb] text-white text-[11px] font-black shrink-0 font-sans">
+                    <span className="px-2 py-0.5 rounded-md bg-[#0059bb] text-white text-[11px] font-black shrink-0 font-sans">
                       Câu {selectedReviewQIndex + 1}/{examResult.totalQuestions}
                     </span>
                     <span className="text-xs font-bold text-slate-700 dark:text-slate-300 truncate font-display">
@@ -2224,7 +2165,7 @@ function ExamPrepContent() {
                       onClick={() =>
                         setSelectedReviewQIndex((prev) => Math.max(0, prev - 1))
                       }
-                      className="w-7 h-7 rounded-xs bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold disabled:opacity-40 flex items-center justify-center cursor-pointer border border-slate-200 dark:border-white/10"
+                      className="w-7 h-7 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold disabled:opacity-40 flex items-center justify-center cursor-pointer border border-slate-200 dark:border-white/10"
                       title="Câu trước"
                     >
                       <ChevronLeft className="w-3.5 h-3.5" />
@@ -2242,14 +2183,14 @@ function ExamPrepContent() {
                           ),
                         )
                       }
-                      className="w-7 h-7 rounded-xs bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold disabled:opacity-40 flex items-center justify-center cursor-pointer border border-slate-200 dark:border-white/10"
+                      className="w-7 h-7 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold disabled:opacity-40 flex items-center justify-center cursor-pointer border border-slate-200 dark:border-white/10"
                       title="Câu tiếp theo"
                     >
                       <ChevronRight className="w-3.5 h-3.5" />
                     </button>
                     <button
                       onClick={() => setShowMobileReviewSheet(true)}
-                      className="px-2.5 py-1 rounded-xs bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-black shadow-2xs flex items-center gap-1 cursor-pointer transition-all active:scale-95"
+                      className="px-2.5 py-1 rounded-md bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-black shadow-2xs flex items-center gap-1 cursor-pointer transition-all active:scale-95"
                     >
                       <Layers className="w-3.5 h-3.5" />
                       <span>Bảng câu</span>
@@ -2292,7 +2233,7 @@ function ExamPrepContent() {
                       <button
                         key={qRes.questionId}
                         onClick={() => setSelectedReviewQIndex(idx)}
-                        className={`w-7 h-7 rounded-xs text-xs font-black shrink-0 transition-all cursor-pointer flex items-center justify-center font-sans ${chipStyle}`}
+                        className={`w-7 h-7 rounded-xl text-xs font-black shrink-0 transition-all cursor-pointer flex items-center justify-center font-sans ${chipStyle}`}
                       >
                         {idx + 1}
                       </button>
@@ -2314,7 +2255,7 @@ function ExamPrepContent() {
                         damping: 25,
                         stiffness: 300,
                       }}
-                      className="w-full max-w-lg max-h-[85vh] overflow-y-auto bg-white dark:bg-slate-900 rounded-t-xl sm:rounded-xs border border-slate-200 dark:border-white/10 shadow-2xl p-4 space-y-3.5"
+                      className="w-full max-w-lg max-h-[85vh] overflow-y-auto bg-white dark:bg-slate-900 rounded-t-xl sm:rounded-xl border border-slate-200 dark:border-white/10 shadow-2xl p-4 space-y-3.5"
                     >
                       {/* Drawer Header */}
                       <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5">
@@ -2328,7 +2269,7 @@ function ExamPrepContent() {
                         </span>
                         <button
                           onClick={() => setShowMobileReviewSheet(false)}
-                          className="p-1 rounded-xs bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white cursor-pointer border border-slate-200 dark:border-white/10"
+                          className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white cursor-pointer border border-slate-200 dark:border-white/10"
                         >
                           <X className="w-4 h-4" />
                         </button>
@@ -2379,7 +2320,7 @@ function ExamPrepContent() {
                               <button
                                 key={f.id}
                                 onClick={() => setReviewFilter(f.id as any)}
-                                className={`px-2 py-1.5 rounded-xs text-[11px] font-bold transition-all cursor-pointer flex items-center justify-between border ${
+                                className={`px-2 py-1.5 rounded-md text-[11px] font-bold transition-all cursor-pointer flex items-center justify-between border ${
                                   isActive
                                     ? "bg-[#0059bb] text-white border-[#0059bb] shadow-2xs font-black"
                                     : "bg-slate-50 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 border-slate-200/80 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-slate-700"
@@ -2392,7 +2333,7 @@ function ExamPrepContent() {
                                   <span className="truncate">{f.label}</span>
                                 </div>
                                 <span
-                                  className={`text-[10px] font-black px-1.5 py-0.2 rounded-xs ${
+                                  className={`text-[10px] font-black px-1.5 py-0.2 rounded-md ${
                                     isActive
                                       ? "bg-white/20 text-white"
                                       : "bg-slate-200/70 dark:bg-slate-700 text-slate-600 dark:text-slate-400"
@@ -2421,7 +2362,7 @@ function ExamPrepContent() {
                                   : Number(e.target.value),
                               )
                             }
-                            className="w-full px-3 py-2 rounded-xs bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-white/10 text-xs font-bold text-slate-800 dark:text-slate-200 cursor-pointer outline-none focus:ring-1 focus:ring-[#0059bb] transition-all appearance-none pr-8 font-sans"
+                            className="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-white/10 text-xs font-bold text-slate-800 dark:text-slate-200 cursor-pointer outline-none focus:ring-1 focus:ring-[#0059bb] transition-all appearance-none pr-8 font-sans"
                           >
                             <option value="ALL">
                               Tất cả các Part ({examResult.totalQuestions} câu)
@@ -2457,7 +2398,7 @@ function ExamPrepContent() {
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-6 gap-1.5 max-h-[300px] overflow-y-auto p-1.5 bg-slate-50/80 dark:bg-slate-950/80 rounded-xs border border-slate-200/60 dark:border-white/5">
+                        <div className="grid grid-cols-6 gap-1.5 max-h-[300px] overflow-y-auto p-1.5 bg-slate-50/80 dark:bg-slate-950/80 rounded-xl border border-slate-200/60 dark:border-white/5">
                           {examResult.questionResults
                             .filter((q) => {
                               const matchesStatus =
@@ -2518,7 +2459,7 @@ function ExamPrepContent() {
                                     );
                                     setShowMobileReviewSheet(false);
                                   }}
-                                  className={`h-8 rounded-xs text-xs font-sans transition-all cursor-pointer flex items-center justify-center ${statusStyle}`}
+                                  className={`h-8 rounded-xl text-xs font-sans transition-all cursor-pointer flex items-center justify-center ${statusStyle}`}
                                   title={`Câu ${qRes.questionNumber}: ${qRes.isCorrect ? "Đúng" : qRes.isSkipped ? "Bỏ qua" : "Sai"}`}
                                 >
                                   {qRes.questionNumber}
@@ -2538,7 +2479,7 @@ function ExamPrepContent() {
                 {/* LEFT COLUMN: STICKY QUESTION NAVIGATOR (DESKTOP ONLY) */}
                 {/* ========================================================= */}
                 <div className="hidden lg:block lg:col-span-4 lg:sticky lg:top-4 max-h-[calc(100vh-80px)] overflow-y-auto space-y-3 pr-0.5">
-                  <div className="p-3.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3">
+                  <div className="p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3">
                     {/* Navigator Header */}
                     <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
                       <span className="text-xs font-black uppercase tracking-wider text-slate-800 dark:text-slate-200 font-display flex items-center gap-1.5">
@@ -2548,7 +2489,7 @@ function ExamPrepContent() {
                         />{" "}
                         Điều Hướng Câu Hỏi
                       </span>
-                      <span className="px-2 py-0.5 rounded-xs bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 text-[10.5px] font-sans font-black border border-blue-200 dark:border-blue-900/40">
+                      <span className="px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 text-[10.5px] font-sans font-black border border-blue-200 dark:border-blue-900/40">
                         {examResult.questionResults.length} câu
                       </span>
                     </div>
@@ -2598,7 +2539,7 @@ function ExamPrepContent() {
                             <button
                               key={f.id}
                               onClick={() => setReviewFilter(f.id as any)}
-                              className={`px-2 py-1.5 rounded-xs text-[11px] font-bold transition-all cursor-pointer flex items-center justify-between border ${
+                              className={`px-2 py-1.5 rounded-md text-[11px] font-bold transition-all cursor-pointer flex items-center justify-between border ${
                                 isActive
                                   ? "bg-[#0059bb] text-white border-[#0059bb] shadow-2xs font-black"
                                   : "bg-slate-50 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 border-slate-200/80 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-slate-700"
@@ -2611,7 +2552,7 @@ function ExamPrepContent() {
                                 <span className="truncate">{f.label}</span>
                               </div>
                               <span
-                                className={`text-[10px] font-black px-1.5 py-0.2 rounded-xs ${
+                                className={`text-[10px] font-black px-1.5 py-0.2 rounded-md ${
                                   isActive
                                     ? "bg-white/20 text-white"
                                     : "bg-slate-200/70 dark:bg-slate-700 text-slate-600 dark:text-slate-400"
@@ -2640,7 +2581,7 @@ function ExamPrepContent() {
                                 : Number(e.target.value),
                             )
                           }
-                          className="w-full px-3 py-2 rounded-xs bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-white/10 text-xs font-bold text-slate-800 dark:text-slate-200 cursor-pointer outline-none focus:ring-1 focus:ring-[#0059bb] transition-all appearance-none pr-8"
+                          className="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-white/10 text-xs font-bold text-slate-800 dark:text-slate-200 cursor-pointer outline-none focus:ring-1 focus:ring-[#0059bb] transition-all appearance-none pr-8"
                         >
                           <option value="ALL">
                             Tất cả các Part ({examResult.totalQuestions} câu)
@@ -2676,7 +2617,7 @@ function ExamPrepContent() {
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-6 gap-1.5 max-h-[340px] overflow-y-auto p-1.5 bg-slate-50/80 dark:bg-slate-950/80 rounded-xs border border-slate-200/60 dark:border-white/5">
+                      <div className="grid grid-cols-6 gap-1.5 max-h-[340px] overflow-y-auto p-1.5 bg-slate-50/80 dark:bg-slate-950/80 rounded-xl border border-slate-200/60 dark:border-white/5">
                         {examResult.questionResults
                           .filter((q) => {
                             const matchesStatus =
@@ -2735,7 +2676,7 @@ function ExamPrepContent() {
                                     qRes.questionNumber - 1,
                                   )
                                 }
-                                className={`h-8 rounded-xs text-xs font-sans transition-all cursor-pointer flex items-center justify-center ${statusStyle}`}
+                                className={`h-8 rounded-xl text-xs font-sans transition-all cursor-pointer flex items-center justify-center ${statusStyle}`}
                                 title={`Câu ${qRes.questionNumber}: ${qRes.isCorrect ? "Đúng" : qRes.isSkipped ? "Bỏ qua" : "Sai"}`}
                               >
                                 {qRes.questionNumber}
@@ -2746,11 +2687,11 @@ function ExamPrepContent() {
                     </div>
 
                     {/* Footer Status Pill */}
-                    <div className="p-2 rounded-xs bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5 flex items-center justify-between text-[11px] font-sans">
+                    <div className="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5 flex items-center justify-between text-[11px] font-sans">
                       <span className="text-slate-500 font-medium">
                         Đang chọn xem:
                       </span>
-                      <span className="font-bold text-[#0059bb] dark:text-sky-400 bg-blue-50 dark:bg-blue-950/60 px-2 py-0.5 rounded-xs border border-blue-200 dark:border-blue-900/40">
+                      <span className="font-bold text-[#0059bb] dark:text-sky-400 bg-blue-50 dark:bg-blue-950/60 px-2 py-0.5 rounded-md border border-blue-200 dark:border-blue-900/40">
                         Câu {selectedReviewQIndex + 1} /{" "}
                         {examResult.totalQuestions}
                       </span>
@@ -2771,22 +2712,22 @@ function ExamPrepContent() {
                     const aiExplain = aiExplainMap[q.id];
 
                     return (
-                      <div className="p-4 sm:p-6 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-4">
+                      <div className="p-4 sm:p-6 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-4">
                         {/* Header: Question Status Strip */}
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-slate-100 dark:border-white/5 pb-3">
                           <div className="flex items-center gap-2 flex-wrap">
-                            <span className="px-3 py-1 rounded-xs bg-[#0059bb] text-white text-xs font-black font-sans">
+                            <span className="px-3 py-1 rounded-xl bg-[#0059bb] text-white text-xs font-black font-sans">
                               CÂU {currentQRes.questionNumber} /{" "}
                               {examResult.totalQuestions}
                             </span>
-                            <span className="px-2.5 py-1 rounded-xs bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs font-bold font-sans">
+                            <span className="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs font-bold font-sans">
                               {currentQRes.partTitle}
                             </span>
-                            <span className="px-2 py-0.5 rounded-xs bg-blue-50 dark:bg-blue-950/50 text-[#0059bb] dark:text-sky-400 border border-blue-200 dark:border-blue-900/30 text-[10px] font-black font-sans uppercase">
+                            <span className="px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/50 text-[#0059bb] dark:text-sky-400 border border-blue-200 dark:border-blue-900/30 text-[10px] font-black font-sans uppercase">
                               {currentQRes.section}
                             </span>
                             {currentQRes.isFlagged && (
-                              <span className="px-2 py-0.5 rounded-xs bg-amber-400/20 text-amber-600 dark:text-amber-300 border border-amber-400/30 text-xs font-bold flex items-center gap-1">
+                              <span className="px-2 py-0.5 rounded-md bg-amber-400/20 text-amber-600 dark:text-amber-300 border border-amber-400/30 text-xs font-bold flex items-center gap-1">
                                 ⭐ Đã đánh dấu
                               </span>
                             )}
@@ -2795,17 +2736,17 @@ function ExamPrepContent() {
                           {/* Result Tag */}
                           <div>
                             {currentQRes.isCorrect ? (
-                              <span className="px-3 py-1 rounded-xs bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/40 text-xs font-black flex items-center gap-1.5 shadow-2xs">
+                              <span className="px-3 py-1 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/40 text-xs font-black flex items-center gap-1.5 shadow-2xs">
                                 <CheckCircle2 className="w-4 h-4" /> CHÍNH XÁC
                                 (+5 Điểm)
                               </span>
                             ) : currentQRes.isSkipped ? (
-                              <span className="px-3 py-1 rounded-xs bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/10 text-xs font-bold flex items-center gap-1.5">
+                              <span className="px-3 py-1 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/10 text-xs font-bold flex items-center gap-1.5">
                                 <AlertCircle className="w-4 h-4" /> CHƯA TRẢ LỜI
                                 (0 Điểm)
                               </span>
                             ) : (
-                              <span className="px-3 py-1 rounded-xs bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800/40 text-xs font-black flex items-center gap-1.5 shadow-2xs">
+                              <span className="px-3 py-1 rounded-xl bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800/40 text-xs font-black flex items-center gap-1.5 shadow-2xs">
                                 <XCircle className="w-4 h-4" /> CHƯA CHÍNH XÁC
                               </span>
                             )}
@@ -2814,17 +2755,17 @@ function ExamPrepContent() {
 
                         {/* Image Preview if available */}
                         {q.imageUrl && (
-                          <div className="max-w-md mx-auto aspect-[4/3] max-h-[260px] sm:max-h-[300px] rounded-xs overflow-hidden border border-slate-200/90 dark:border-white/10 shadow-2xs bg-slate-100 dark:bg-slate-900/90 p-1 sm:p-1.5 flex items-center justify-center relative">
+                          <div className="max-w-md mx-auto aspect-[4/3] max-h-[260px] sm:max-h-[300px] rounded-xl overflow-hidden border border-slate-200/90 dark:border-white/10 shadow-2xs bg-slate-100 dark:bg-slate-900/90 p-1 sm:p-1.5 flex items-center justify-center relative">
                             <img
                               src={q.imageUrl}
                               alt="Exam illustration"
-                              className="w-full h-full object-contain object-center rounded-xs transition-all duration-200"
+                              className="w-full h-full object-contain object-center rounded-xl transition-all duration-200"
                               onError={(e) => {
                                 e.currentTarget.onerror = null;
                                 e.currentTarget.src = "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=80";
                               }}
                             />
-                            <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded-xs bg-slate-950/75 backdrop-blur-xs text-[10px] font-bold text-white tracking-wider uppercase font-sans shadow-xs pointer-events-none">
+                            <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded-md bg-slate-950/75 backdrop-blur-xs text-[10px] font-bold text-white tracking-wider uppercase font-sans shadow-xs pointer-events-none">
                               Ảnh Câu {currentQRes.questionNumber}
                             </div>
                           </div>
@@ -2832,13 +2773,13 @@ function ExamPrepContent() {
 
                         {/* Audio Player Studio with Waveform & Transcript Toggle */}
                         {q.audioUrl && (
-                          <div className="p-3 sm:p-3.5 rounded-xs bg-[#ebf3fe] dark:bg-blue-950/40 border border-[#d5e5fe] dark:border-blue-900/50 space-y-2.5">
+                          <div className="p-3 sm:p-3.5 rounded-xl bg-white dark:bg-slate-900 dark:bg-blue-950/40 border border-slate-200/90 dark:border-slate-800 dark:border-blue-900/50 space-y-2.5">
                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3">
                               {/* Left Title & Speed Selector */}
                               <div className="flex items-center justify-between sm:justify-start gap-2.5 min-w-0">
                                 <div className="flex items-center gap-2 min-w-0">
                                   <div
-                                    className={`w-7 h-7 rounded-xs flex items-center justify-center shrink-0 shadow-2xs transition-all ${
+                                    className={`w-7 h-7 rounded-xl flex items-center justify-center shrink-0 shadow-2xs transition-all ${
                                       playingAudioId === q.id
                                         ? "bg-[#0059bb] text-white animate-pulse"
                                         : "bg-blue-100 dark:bg-blue-900/50 text-[#0059bb] dark:text-sky-400"
@@ -2856,7 +2797,7 @@ function ExamPrepContent() {
                                 </div>
 
                                 {/* Speed Chips */}
-                                <div className="flex items-center gap-1 bg-white/80 dark:bg-slate-900/80 p-0.5 rounded-xs border border-blue-200/50 dark:border-blue-900/40">
+                                <div className="flex items-center gap-1 bg-white/80 dark:bg-slate-900/80 p-0.5 rounded-xl border border-blue-200/50 dark:border-blue-900/40">
                                   {[0.8, 1.0, 1.25].map((speed) => (
                                     <button
                                       key={speed}
@@ -2864,7 +2805,7 @@ function ExamPrepContent() {
                                       onClick={() =>
                                         handleReviewSpeedChange(speed, q)
                                       }
-                                      className={`px-1.5 py-0.5 rounded-xs text-[10px] font-black cursor-pointer transition-all ${
+                                      className={`px-1.5 py-0.5 rounded-md text-[10px] font-black cursor-pointer transition-all ${
                                         reviewAudioSpeed === speed
                                           ? "bg-[#0059bb] text-white shadow-2xs"
                                           : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
@@ -2885,7 +2826,7 @@ function ExamPrepContent() {
                                       !showReviewTranscript,
                                     )
                                   }
-                                  className={`flex-1 sm:flex-none px-3 py-1.5 rounded-xs text-xs font-bold border cursor-pointer shadow-2xs transition-all flex items-center justify-center gap-1.5 active:scale-95 ${
+                                  className={`flex-1 sm:flex-none px-3 py-1.5 rounded-xl text-xs font-bold border cursor-pointer shadow-2xs transition-all flex items-center justify-center gap-1.5 active:scale-95 ${
                                     showReviewTranscript
                                       ? "bg-blue-600 text-white border-blue-600 hover:bg-blue-700"
                                       : "bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-slate-800"
@@ -2918,7 +2859,7 @@ function ExamPrepContent() {
                                       q.partNumber,
                                     )
                                   }
-                                  className={`flex-1 sm:flex-none px-3.5 py-1.5 rounded-xs text-white text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs transition-all active:scale-95 ${
+                                  className={`flex-1 sm:flex-none px-3.5 py-1.5 rounded-xl text-white text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs transition-all active:scale-95 ${
                                     playingAudioId === q.id
                                       ? "bg-amber-500 hover:bg-amber-600 text-slate-950"
                                       : "bg-[#0059bb] hover:bg-[#004799]"
@@ -2949,7 +2890,7 @@ function ExamPrepContent() {
 
                             {/* Transcript Collapsible Drawer */}
                             {showReviewTranscript && (
-                              <div className="p-3 sm:p-3.5 rounded-xs bg-white/95 dark:bg-slate-900/95 border border-blue-200/70 dark:border-blue-900/50 text-xs sm:text-[13px] font-sans text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-line max-h-56 overflow-y-auto shadow-2xs space-y-2">
+                              <div className="p-3 sm:p-3.5 rounded-xl bg-white/95 dark:bg-slate-900/95 border border-blue-200/70 dark:border-blue-900/50 text-xs sm:text-[13px] font-sans text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-line max-h-56 overflow-y-auto shadow-2xs space-y-2">
                                 <div className="flex items-center justify-between pb-1.5 border-b border-slate-100 dark:border-slate-800 text-[10px] font-bold uppercase tracking-wider text-[#0059bb] dark:text-sky-400 font-sans">
                                   <div className="flex items-center gap-1.5">
                                     <FileText className="w-3 h-3 shrink-0" /> Lời
@@ -2976,7 +2917,7 @@ function ExamPrepContent() {
                                           });
                                         }
                                       }}
-                                      className="flex items-center gap-1 px-1.5 py-0.5 rounded-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 normal-case text-[10px] font-bold transition-all cursor-pointer"
+                                      className="flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 normal-case text-[10px] font-bold transition-all cursor-pointer"
                                     >
                                       {copiedTranscript ? (
                                         <>
@@ -3009,7 +2950,7 @@ function ExamPrepContent() {
 
                         {/* Reading Passage View if available */}
                         {q.passageText && !q.audioUrl && (
-                          <div className="p-4 rounded-xs bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-white/10 space-y-1.5">
+                          <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-white/10 space-y-1.5">
                             <span className="text-[11px] font-black uppercase text-slate-400 tracking-wider font-sans">
                               Đoạn văn đọc hiểu / Văn bản tham chiếu:
                             </span>
@@ -3054,10 +2995,10 @@ function ExamPrepContent() {
                               return (
                                 <div
                                   key={opt.key}
-                                  className={`p-3.5 rounded-xs border text-xs sm:text-[13px] leading-relaxed flex items-start gap-3 transition-all ${cardStyle}`}
+                                  className={`p-3.5 rounded-xl border text-xs sm:text-[13px] leading-relaxed flex items-start gap-3 transition-all ${cardStyle}`}
                                 >
                                   <span
-                                    className={`w-6 h-6 rounded-xs font-sans font-black text-xs flex items-center justify-center shrink-0 shadow-2xs ${
+                                    className={`w-6 h-6 rounded-xl font-sans font-black text-xs flex items-center justify-center shrink-0 shadow-2xs ${
                                       isCorrectOpt
                                         ? "bg-emerald-600 text-white"
                                         : isUserPicked
@@ -3071,12 +3012,12 @@ function ExamPrepContent() {
                                   <div className="flex-1 min-w-0">
                                     <p className="font-medium">{opt.text}</p>
                                     {isCorrectOpt && (
-                                      <span className="inline-block mt-1.5 px-2 py-0.5 rounded-xs bg-emerald-600 text-white text-[10px] font-black tracking-wider font-sans">
+                                      <span className="inline-block mt-1.5 px-2 py-0.5 rounded-md bg-emerald-600 text-white text-[10px] font-black tracking-wider font-sans">
                                         ✓ ĐÁP ÁN CHÍNH XÁC
                                       </span>
                                     )}
                                     {isUserPicked && !isCorrectOpt && (
-                                      <span className="inline-block mt-1.5 px-2 py-0.5 rounded-xs bg-rose-600 text-white text-[10px] font-black tracking-wider font-sans">
+                                      <span className="inline-block mt-1.5 px-2 py-0.5 rounded-md bg-rose-600 text-white text-[10px] font-black tracking-wider font-sans">
                                         ✗ BẠN ĐÃ CHỌN
                                       </span>
                                     )}
@@ -3088,7 +3029,7 @@ function ExamPrepContent() {
                         </div>
 
                         {/* DEEP EXPLANATION VAULT */}
-                        <div className="p-4 sm:p-5 rounded-xs bg-amber-50/80 dark:bg-amber-950/30 border border-amber-300/80 dark:border-amber-500/30 space-y-3">
+                        <div className="p-4 sm:p-5 rounded-xl bg-amber-50/80 dark:bg-amber-950/30 border border-amber-300/80 dark:border-amber-500/30 space-y-3">
                           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-2">
                             <div className="flex items-center gap-2 min-w-0">
                               <Sparkles className="w-4 h-4 text-amber-500 shrink-0" />
@@ -3106,7 +3047,7 @@ function ExamPrepContent() {
                                 )
                               }
                               disabled={aiExplain?.loading}
-                              className="w-full sm:w-auto px-3 py-1.5 rounded-xs bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-black shadow-2xs flex items-center justify-center gap-1.5 cursor-pointer transition-all active:scale-95 disabled:opacity-50 font-sans whitespace-nowrap shrink-0"
+                              className="w-full sm:w-auto px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-black shadow-2xs flex items-center justify-center gap-1.5 cursor-pointer transition-all active:scale-95 disabled:opacity-50 font-sans whitespace-nowrap shrink-0"
                             >
                               {aiExplain?.loading ? (
                                 <>
@@ -3124,11 +3065,11 @@ function ExamPrepContent() {
 
                           {/* Sample Essay / Model Response if available */}
                           {q.sampleEssay && (
-                            <div className="p-3.5 rounded-xs bg-white dark:bg-slate-900 border border-purple-200 dark:border-purple-900/40 space-y-1.5 shadow-2xs">
+                            <div className="p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-purple-200 dark:border-purple-900/40 space-y-1.5 shadow-2xs">
                               <span className="text-[11px] font-black uppercase text-purple-700 dark:text-purple-300 tracking-wider font-display flex items-center gap-1.5">
                                 <BookOpen className="w-3.5 h-3.5" /> Bài Viết / Câu Trả Lời Mẫu Đạt Điểm Tuyệt Đối (ETS Sample):
                               </span>
-                              <div className="text-xs sm:text-[13px] text-slate-800 dark:text-slate-200 font-sans leading-relaxed whitespace-pre-line bg-purple-50/40 dark:bg-purple-950/20 p-2.5 rounded-xs border border-purple-100 dark:border-purple-900/30">
+                              <div className="text-xs sm:text-[13px] text-slate-800 dark:text-slate-200 font-sans leading-relaxed whitespace-pre-line bg-purple-50/40 dark:bg-purple-950/20 p-2.5 rounded-xl border border-purple-100 dark:border-purple-900/30">
                                 {q.sampleEssay}
                               </div>
                             </div>
@@ -3144,7 +3085,7 @@ function ExamPrepContent() {
                           {/* AI Enhanced Breakdown View if loaded */}
                           {aiExplain?.data && (
                             <div className="mt-3 pt-3 border-t border-amber-300/60 dark:border-white/10 space-y-2 text-xs">
-                              <div className="p-3 rounded-xs bg-white dark:bg-slate-900 border border-amber-200 dark:border-white/10 space-y-1">
+                              <div className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-amber-200 dark:border-white/10 space-y-1">
                                 <span className="font-bold text-[#0059bb] dark:text-sky-400 block font-sans">
                                   ✨ Dẫn chứng & Nguyên lý cốt lõi:
                                 </span>
@@ -3154,7 +3095,7 @@ function ExamPrepContent() {
                               </div>
 
                               {aiExplain.data.trapAnalysis && (
-                                <div className="p-3 rounded-xs bg-rose-50/70 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/40 space-y-1">
+                                <div className="p-3 rounded-xl bg-rose-50/70 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/40 space-y-1">
                                   <span className="font-bold text-rose-600 dark:text-rose-400 block font-sans">
                                     ⚠️ Cảnh báo bẫy thi & Phương án gây nhiễu:
                                   </span>
@@ -3165,7 +3106,7 @@ function ExamPrepContent() {
                               )}
 
                               {aiExplain.data.grammarTip && (
-                                <div className="p-3 rounded-xs bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/40 space-y-1">
+                                <div className="p-3 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/40 space-y-1">
                                   <span className="font-bold text-emerald-600 dark:text-emerald-400 block font-sans">
                                     💡 Mẹo làm bài nhanh & Công thức ghi nhớ:
                                   </span>
@@ -3187,7 +3128,7 @@ function ExamPrepContent() {
                                 Math.max(0, prev - 1),
                               )
                             }
-                            className="px-2.5 sm:px-4 py-2 rounded-xs bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 cursor-pointer disabled:opacity-40 flex items-center justify-center gap-1 sm:gap-1.5 transition-all shadow-2xs font-sans whitespace-nowrap shrink-0 min-w-[76px] sm:min-w-fit"
+                            className="px-2.5 sm:px-4 py-2 rounded-md bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 cursor-pointer disabled:opacity-40 flex items-center justify-center gap-1 sm:gap-1.5 transition-all shadow-2xs font-sans whitespace-nowrap shrink-0 min-w-[76px] sm:min-w-fit"
                           >
                             <ChevronLeft className="w-4 h-4 shrink-0" />
                             <span className="sm:hidden">Trước</span>
@@ -3217,7 +3158,7 @@ function ExamPrepContent() {
                                 ),
                               )
                             }
-                            className="px-2.5 sm:px-4 py-2 rounded-xs bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold shadow-2xs cursor-pointer disabled:opacity-40 flex items-center justify-center gap-1 sm:gap-1.5 transition-all font-sans whitespace-nowrap shrink-0 min-w-[76px] sm:min-w-fit"
+                            className="px-2.5 sm:px-4 py-2 rounded-md bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold shadow-2xs cursor-pointer disabled:opacity-40 flex items-center justify-center gap-1 sm:gap-1.5 transition-all font-sans whitespace-nowrap shrink-0 min-w-[76px] sm:min-w-fit"
                           >
                             <span className="sm:hidden">Tiếp</span>
                             <span className="hidden sm:inline">Câu Tiếp Theo</span>
@@ -3237,7 +3178,7 @@ function ExamPrepContent() {
             <div className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Mastered Competencies Card */}
-                <div className="p-4 sm:p-5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3">
+                <div className="p-4 sm:p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3">
                   <h3 className="text-xs sm:text-[13px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-display flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4" strokeWidth={1.8} /> Điểm
                     Mạnh & Kỹ Năng Đã Làm Chủ
@@ -3246,9 +3187,9 @@ function ExamPrepContent() {
                     {examResult.strengths.map((s, idx) => (
                       <div
                         key={idx}
-                        className="p-3.5 rounded-xs bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/30 text-xs font-medium text-emerald-950 dark:text-emerald-200 flex items-start gap-2.5 font-sans shadow-2xs"
+                        className="p-3.5 rounded-xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/30 text-xs font-medium text-emerald-950 dark:text-emerald-200 flex items-start gap-2.5 font-sans shadow-2xs"
                       >
-                        <span className="w-5 h-5 rounded-xs bg-emerald-600 text-white font-black flex items-center justify-center shrink-0 text-[11px] shadow-2xs">
+                        <span className="w-5 h-5 rounded-xl bg-emerald-600 text-white font-black flex items-center justify-center shrink-0 text-[11px] shadow-2xs">
                           ✓
                         </span>
                         <span className="leading-relaxed">{s}</span>
@@ -3258,7 +3199,7 @@ function ExamPrepContent() {
                 </div>
 
                 {/* Priority Improvement Areas Card */}
-                <div className="p-4 sm:p-5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3">
+                <div className="p-4 sm:p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3">
                   <h3 className="text-xs sm:text-[13px] font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400 font-display flex items-center gap-2">
                     <AlertCircle className="w-4 h-4" strokeWidth={1.8} /> Lỗ
                     Hổng Kiến Thức Cần Củng Cố
@@ -3267,11 +3208,11 @@ function ExamPrepContent() {
                     {examResult.weaknesses.slice(0, 4).map((w, idx) => (
                       <div
                         key={idx}
-                        className="p-3.5 rounded-xs bg-slate-50/70 dark:bg-slate-950/60 border border-slate-200/80 dark:border-white/10 hover:border-rose-300 dark:hover:border-rose-900/50 transition-all space-y-2 font-sans shadow-2xs"
+                        className="p-3.5 rounded-xl bg-slate-50/70 dark:bg-slate-950/60 border border-slate-200/80 dark:border-white/10 hover:border-rose-300 dark:hover:border-rose-900/50 transition-all space-y-2 font-sans shadow-2xs"
                       >
                         <div className="flex items-center justify-between gap-2">
                           <div className="flex items-center gap-2 min-w-0">
-                            <span className="w-6 h-6 rounded-xs bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-900/40 text-xs font-black flex items-center justify-center shrink-0">
+                            <span className="w-6 h-6 rounded-xl bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-900/40 text-xs font-black flex items-center justify-center shrink-0">
                               P{w.partNumber || idx + 1}
                             </span>
                             <span className="font-bold text-slate-900 dark:text-white text-xs sm:text-[13px] truncate">
@@ -3281,12 +3222,12 @@ function ExamPrepContent() {
 
                           {/* Polished Priority Pill Badge */}
                           {w.priority === "HIGH" ? (
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-xs text-[10px] font-black tracking-wider uppercase font-sans bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800/80 shadow-2xs shrink-0">
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[10px] font-black tracking-wider uppercase font-sans bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800/80 shadow-2xs shrink-0">
                               <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse shrink-0" />
                               <span>Khẩn Cấp</span>
                             </span>
                           ) : (
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-xs text-[10px] font-black tracking-wider uppercase font-sans bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800/80 shadow-2xs shrink-0">
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[10px] font-black tracking-wider uppercase font-sans bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800/80 shadow-2xs shrink-0">
                               <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
                               <span>Cần Lưu Ý</span>
                             </span>
@@ -3326,7 +3267,7 @@ function ExamPrepContent() {
               </div>
 
               {/* 3 Interactive Action Studio Cards */}
-              <div className="p-5 rounded-xs bg-gradient-to-r from-blue-50/80 to-indigo-50/80 dark:from-slate-900 dark:to-slate-900 border border-blue-200/80 dark:border-white/10 shadow-2xs space-y-3.5">
+              <div className="p-5 rounded-xl bg-gradient-to-r from-blue-50/80 to-indigo-50/80 dark:from-slate-900 dark:to-slate-900 border border-blue-200/80 dark:border-white/10 shadow-2xs space-y-3.5">
                 <div className="flex items-center justify-between">
                   <h3 className="text-xs sm:text-[13px] font-bold uppercase tracking-wider text-[#0059bb] dark:text-sky-400 font-display flex items-center gap-2">
                     <Brain className="w-4 h-4" strokeWidth={1.8} /> Lộ Trình &
@@ -3341,7 +3282,7 @@ function ExamPrepContent() {
                   {examResult.recommendations.map((r, idx) => (
                     <div
                       key={idx}
-                      className="p-2.5 rounded-xs bg-white dark:bg-slate-950 border border-blue-100 dark:border-white/5 text-xs text-slate-800 dark:text-slate-200 font-medium flex items-start gap-2.5 font-sans"
+                      className="p-2.5 rounded-xl bg-white dark:bg-slate-950 border border-blue-100 dark:border-white/5 text-xs text-slate-800 dark:text-slate-200 font-medium flex items-start gap-2.5 font-sans"
                     >
                       <span className="text-amber-500 font-black">★</span>
                       <span>{r}</span>
@@ -3352,12 +3293,12 @@ function ExamPrepContent() {
                 {/* 3 Studio Direct Launchers */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
                   <Link href="/study/listening" className="block">
-                    <div className="p-3.5 rounded-xs bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 hover:border-[#0059bb] dark:hover:border-sky-400 shadow-2xs hover:shadow-md transition-all group cursor-pointer space-y-1.5">
+                    <div className="p-3.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 hover:border-[#0059bb] dark:hover:border-sky-400 shadow-2xs hover:shadow-md transition-all group cursor-pointer space-y-1.5">
                       <div className="flex items-center justify-between">
-                        <div className="w-8 h-8 rounded-xs bg-blue-50 dark:bg-blue-950 text-[#0059bb] dark:text-sky-400 flex items-center justify-center">
+                        <div className="w-8 h-8 rounded-xl bg-blue-50 dark:bg-blue-950 text-[#0059bb] dark:text-sky-400 flex items-center justify-center">
                           <Headphones className="w-4 h-4" />
                         </div>
-                        <span className="px-1.5 py-0.5 rounded-xs bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-[10px] font-black font-sans">
+                        <span className="px-1.5 py-0.5 rounded-md bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-[10px] font-black font-sans">
                           +50 XP
                         </span>
                       </div>
@@ -3371,12 +3312,12 @@ function ExamPrepContent() {
                   </Link>
 
                   <Link href="/study/practice" className="block">
-                    <div className="p-3.5 rounded-xs bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 hover:border-[#0059bb] dark:hover:border-sky-400 shadow-2xs hover:shadow-md transition-all group cursor-pointer space-y-1.5">
+                    <div className="p-3.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 hover:border-[#0059bb] dark:hover:border-sky-400 shadow-2xs hover:shadow-md transition-all group cursor-pointer space-y-1.5">
                       <div className="flex items-center justify-between">
-                        <div className="w-8 h-8 rounded-xs bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+                        <div className="w-8 h-8 rounded-xl bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center">
                           <BookOpen className="w-4 h-4" />
                         </div>
-                        <span className="px-1.5 py-0.5 rounded-xs bg-amber-500/20 text-amber-600 dark:text-amber-400 text-[10px] font-black font-sans">
+                        <span className="px-1.5 py-0.5 rounded-md bg-amber-500/20 text-amber-600 dark:text-amber-400 text-[10px] font-black font-sans">
                           +30 Vàng
                         </span>
                       </div>
@@ -3390,12 +3331,12 @@ function ExamPrepContent() {
                   </Link>
 
                   <Link href="/study/grammar" className="block">
-                    <div className="p-3.5 rounded-xs bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 hover:border-[#0059bb] dark:hover:border-sky-400 shadow-2xs hover:shadow-md transition-all group cursor-pointer space-y-1.5">
+                    <div className="p-3.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 hover:border-[#0059bb] dark:hover:border-sky-400 shadow-2xs hover:shadow-md transition-all group cursor-pointer space-y-1.5">
                       <div className="flex items-center justify-between">
-                        <div className="w-8 h-8 rounded-xs bg-purple-50 dark:bg-purple-950 text-purple-600 dark:text-purple-400 flex items-center justify-center">
+                        <div className="w-8 h-8 rounded-xl bg-purple-50 dark:bg-purple-950 text-purple-600 dark:text-purple-400 flex items-center justify-center">
                           <Sparkles className="w-4 h-4" />
                         </div>
-                        <span className="px-1.5 py-0.5 rounded-xs bg-purple-500/20 text-purple-600 dark:text-purple-400 text-[10px] font-black font-sans">
+                        <span className="px-1.5 py-0.5 rounded-md bg-purple-500/20 text-purple-600 dark:text-purple-400 text-[10px] font-black font-sans">
                           +40 XP
                         </span>
                       </div>
@@ -3417,7 +3358,7 @@ function ExamPrepContent() {
           <div className="flex items-center justify-between gap-2.5 sm:gap-3 pt-3 border-t border-slate-200 dark:border-white/10 w-full">
             <button
               onClick={handleReturnToHub}
-              className="w-[48%] sm:w-auto px-2.5 sm:px-4 py-2 rounded-xs bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs font-bold hover:bg-slate-300 cursor-pointer shadow-2xs text-center truncate"
+              className="w-[48%] sm:w-auto px-2.5 sm:px-4 py-2 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs font-bold hover:bg-slate-300 cursor-pointer shadow-2xs text-center truncate"
             >
               <span className="sm:hidden">← Danh Sách Đề</span>
               <span className="hidden sm:inline">← Quay Lại Danh Sách Đề</span>
@@ -3426,7 +3367,7 @@ function ExamPrepContent() {
             {selectedExam && (
               <button
                 onClick={() => handleStartExam(selectedExam)}
-                className="w-[48%] sm:w-auto px-2.5 sm:px-4 py-2 rounded-xs bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold shadow-2xs flex items-center justify-center gap-1.5 cursor-pointer font-display text-center truncate"
+                className="w-[48%] sm:w-auto px-2.5 sm:px-4 py-2 rounded-md bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold shadow-2xs flex items-center justify-center gap-1.5 cursor-pointer font-display text-center truncate"
               >
                 <RotateCcw className="w-4 h-4 shrink-0" strokeWidth={1.8} />
                 <span className="sm:hidden">Thi Lại Đề Này</span>
@@ -3440,9 +3381,9 @@ function ExamPrepContent() {
       {/* SUBMIT & EXIT CONFIRMATION MODAL */}
       {showSubmitConfirmModal && (
         <div className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="w-full max-w-md p-4 sm:p-5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 shadow-2xl space-y-3.5">
+          <div className="w-full max-w-md p-4 sm:p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 shadow-2xl space-y-3.5">
             <div className="flex items-center gap-2 border-b border-slate-100 dark:border-white/5 pb-2.5">
-              <div className="w-7 h-7 rounded-xs bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 flex items-center justify-center">
+              <div className="w-7 h-7 rounded-xl bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 flex items-center justify-center">
                 <Layers className="w-4 h-4" strokeWidth={2} />
               </div>
               <h3 className="text-sm font-bold font-display text-slate-900 dark:text-white">
@@ -3456,14 +3397,14 @@ function ExamPrepContent() {
 
             {/* Statistics Summary Chips */}
             <div className="grid grid-cols-3 gap-2">
-              <div className="p-2 rounded-xs bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/40 text-center">
+              <div className="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/40 text-center">
                 <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 block uppercase">Đã Làm</span>
                 <span className="text-sm font-black text-emerald-700 dark:text-emerald-300 font-sans">
                   {Object.keys(userAnswers).length}/{filteredQuestions.length}
                 </span>
               </div>
 
-              <div className={`p-2 rounded-xs border text-center ${
+              <div className={`p-2 rounded-xl border text-center ${
                 filteredQuestions.length - Object.keys(userAnswers).length > 0
                   ? "bg-amber-50 dark:bg-amber-950/40 border-amber-300 dark:border-amber-900/40 text-amber-700 dark:text-amber-300"
                   : "bg-slate-50 dark:bg-slate-800/40 border-slate-200 dark:border-white/10 text-slate-500"
@@ -3474,7 +3415,7 @@ function ExamPrepContent() {
                 </span>
               </div>
 
-              <div className="p-2 rounded-xs bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900/40 text-center">
+              <div className="p-2 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900/40 text-center">
                 <span className="text-[10px] font-bold text-[#0059bb] dark:text-sky-400 block uppercase">Đánh Dấu</span>
                 <span className="text-sm font-black text-[#0059bb] dark:text-sky-300 font-sans">
                   {Object.values(flaggedQuestions).filter(Boolean).length}
@@ -3485,19 +3426,19 @@ function ExamPrepContent() {
             <div className="pt-2 flex items-center justify-end gap-2 border-t border-slate-100 dark:border-white/5">
               <button
                 onClick={() => setShowSubmitConfirmModal(false)}
-                className="px-3.5 py-1.5 rounded-xs bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold hover:bg-slate-200 cursor-pointer shadow-2xs transition-all"
+                className="px-3.5 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold hover:bg-slate-200 cursor-pointer shadow-2xs transition-all"
               >
                 Làm tiếp
               </button>
               <button
                 onClick={handleReturnToHub}
-                className="px-3.5 py-1.5 rounded-xs bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-900/50 text-xs font-bold hover:bg-rose-100 cursor-pointer shadow-2xs transition-all"
+                className="px-3.5 py-1.5 rounded-xl bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-900/50 text-xs font-bold hover:bg-rose-100 cursor-pointer shadow-2xs transition-all"
               >
                 Thoát bài thi
               </button>
               <button
                 onClick={handleSubmitExam}
-                className="px-4 py-1.5 rounded-xs bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-black shadow-2xs cursor-pointer font-display transition-all"
+                className="px-4 py-1.5 rounded-xl bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-black shadow-2xs cursor-pointer font-display transition-all"
               >
                 Nộp bài ngay
               </button>

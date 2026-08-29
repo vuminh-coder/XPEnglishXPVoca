@@ -1,8 +1,8 @@
-import { getAuthenticatedUserId } from "@/lib/auth";
+﻿import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { LEVEL_TITLES } from "@/lib/constants";
-import { calculateXp, MatchResult, VALID_RESULTS } from "@/lib/utils/xp";
+import { prisma } from "@/infrastructure/database/prisma";
+import { LEVEL_TITLES } from "@/shared/constants";
+import { calculateXp, MatchResult, VALID_RESULTS } from "@/shared/utils/xp";
 
 const LEVEL_XP = [
   0, 100, 250, 450, 700, 1000, 1400, 1900, 2500, 3200, 4000, 5000, 6200,

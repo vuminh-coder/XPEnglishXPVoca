@@ -1,8 +1,8 @@
-"use client";
+﻿"use client";
 import React, { useState, useEffect } from "react";
-import { PageEntranceWrapper, MotionItem } from "@/components/shared/PageEntranceAnimation";
-import { useAuthStore } from "@/lib/store/authStore";
-import { useNotificationStore } from "@/lib/store/notificationStore";
+import { PageEntranceWrapper, MotionItem } from "@/shared/components/feedback/PageEntranceAnimation";
+import { useAuthStore } from "@/stores/authStore";
+import { useNotificationStore } from "@/stores/notificationStore";
 import {
   User,
   FileText,
@@ -17,7 +17,7 @@ import {
   LogOut,
   Clock,
 } from "lucide-react";
-import { Button, Badge } from "@/components/ui";
+import { Button, Badge } from "@/shared/components/ui";
 
 interface UserSettings {
   dailyGoal: number;

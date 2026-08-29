@@ -1,6 +1,6 @@
-"use client";
+﻿"use client";
 import React from "react";
-import { ListeningListingSkeleton } from "@/components/study/listening/LoadingSkeletons";
+import { ListeningListingSkeleton } from "@/features/listening/components/LoadingSkeletons";
 
 /**
  * Next.js loading.tsx — hiển thị Listing skeleton mặc định.

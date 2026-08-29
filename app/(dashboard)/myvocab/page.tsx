@@ -1,12 +1,12 @@
-"use client";
+﻿"use client";
 import React, { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
-import { useVocabularyStore } from "@/lib/store/vocabularyStore";
-import { useAuthStore } from "@/lib/store/authStore";
-import { PageEntranceWrapper, MotionItem } from "@/components/shared/PageEntranceAnimation";
+import { useVocabularyStore } from "@/stores/vocabularyStore";
+import { useAuthStore } from "@/stores/authStore";
+import { PageEntranceWrapper, MotionItem } from "@/shared/components/feedback/PageEntranceAnimation";
 import { motion, AnimatePresence } from "framer-motion";
-import { speakLessonText } from "@/lib/utils/ttsEngine";
-import { Button } from "@/components/ui";
+import { speakLessonText } from "@/shared/utils/ttsEngine";
+import { Button } from "@/shared/components/ui";
 
 import {
   FolderOpen,

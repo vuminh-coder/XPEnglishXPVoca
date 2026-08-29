@@ -3,20 +3,26 @@
 import React, { useState, useEffect, useRef, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Card, Button, Badge } from "@/components/ui";
-import { useAuthStore } from "@/lib/store/authStore";
-import { useUserStore } from "@/lib/store/userStore";
-import { useNotificationStore } from "@/lib/store/notificationStore";
-import { useListeningStore } from "@/lib/store/listeningStore";
-import { useUiStore } from "@/lib/store/uiStore";
+import { Card, Button, Badge } from "@/shared/components/ui";
+import { useAuthStore } from "@/stores/authStore";
+import { useUserStore } from "@/stores/userStore";
+import { useNotificationStore } from "@/stores/notificationStore";
+import { useListeningStore } from "@/stores/listeningStore";
+import { useUiStore } from "@/stores/uiStore";
 import { motion, AnimatePresence } from "framer-motion";
-import { speakLessonText, stopTTS } from "@/lib/utils/ttsEngine";
-import { LessonCoverImage } from "@/components/shared/LessonCoverImage";
-import { DictationWorkspace } from "@/components/study/listening/DictationWorkspace";
-import { StudioTopHeader } from "@/components/study/listening/StudioTopHeader";
-import { StudioWaveformCard } from "@/components/study/listening/StudioWaveformCard";
-import { InteractiveTranscriptSidebar } from "@/components/study/listening/InteractiveTranscriptSidebar";
-import { ListeningListingSkeleton, ListeningStudioSkeleton } from "@/components/study/listening/LoadingSkeletons";
+import { speakLessonText, stopTTS } from "@/shared/utils/ttsEngine";
+import { LessonCoverImage } from "@/shared/components/feedback/LessonCoverImage";
+import { DictationWorkspace } from "@/features/listening/components/DictationWorkspace";
+import { StudioTopHeader } from "@/features/listening/components/StudioTopHeader";
+import { StudioWaveformCard } from "@/features/listening/components/StudioWaveformCard";
+import { InteractiveTranscriptSidebar } from "@/features/listening/components/InteractiveTranscriptSidebar";
+import { ListeningListingSkeleton, ListeningStudioSkeleton } from "@/features/listening/components/LoadingSkeletons";
+import {
+  AppTopHeader,
+  HeaderPillContainer,
+  HeaderPillItem,
+} from "@/shared/components/layout/AppTopHeader";
+import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 import {
   Headphones,
   Play,
@@ -59,9 +65,9 @@ import {
   Zap,
   Keyboard,
 } from "lucide-react";
-import { MOCK_LESSONS_DATA } from "@/lib/data/listeningMockData";
-import { lookupWordDeep, DeepWordDefinition } from "@/lib/utils/deepDictionary";
-import { pick10RandomLessons } from "@/lib/utils/randomLessonPicker";
+import { MOCK_LESSONS_DATA } from "@/features/listening/data/listeningMockData";
+import { lookupWordDeep, DeepWordDefinition } from "@/features/vocabulary/data/deepDictionary";
+import { pick10RandomLessons } from "@/features/listening/utils/randomLessonPicker";
 
 // Curated 44-bar acoustic waveform profile for realistic speech audio visualization
 const SPEECH_WAVE_AMPLITUDES = [
@@ -124,7 +130,7 @@ function ListeningPageContent() {
     markLessonCompleted,
     completedLessonIds,
   } = useListeningStore();
-  const { setSidebarCollapsed } = useUiStore();
+  const { setSidebarCollapsed, setHideBottomNav } = useUiStore();
 
   // Lessons list state (combines mock data + user generated lessons)
   const [lessonsList, setLessonsList] = useState<any[]>(MOCK_LESSONS_DATA);
@@ -285,6 +291,11 @@ function ListeningPageContent() {
     elapsedTimeRef.current = elapsedTime;
   }, [elapsedTime]);
 
+  // Real-time backend practice time tracker for Dictation / Listening
+  useStudyTimeTracker("dictation", {
+    activeCondition: !!selectedLessonId,
+  });
+
   // Timer: Runs continuously during practice
   useEffect(() => {
     if (!selectedLessonId) return;
@@ -340,8 +351,16 @@ function ListeningPageContent() {
   useEffect(() => {
     if (selectedLessonId) {
       setSidebarCollapsed(true);
+      setHideBottomNav(true);
+    } else {
+      setHideBottomNav(false);
     }
-  }, [selectedLessonId, setSidebarCollapsed]);
+  }, [selectedLessonId, setSidebarCollapsed, setHideBottomNav]);
+
+  // Cleanup: restore BottomNav when leaving the page
+  useEffect(() => {
+    return () => setHideBottomNav(false);
+  }, [setHideBottomNav]);
 
   const [listingSearch, setListingSearch] = useState("");
 
@@ -685,49 +704,56 @@ function ListeningPageContent() {
       {/* 1. TOP HEADER & EXPLORER (WHEN IN LISTING MODE) */}
       {!selectedLessonId && (
         <>
-          {/* 1.1 CONTINUOUS FULL-WIDTH TOP BAR (h-14 / 56px Baseline - Edge-to-Edge matching Sidebar Header) */}
-          <div className="w-full h-14 bg-white dark:bg-slate-900 border-b border-slate-200/90 dark:border-slate-800 px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4 sticky top-0 z-30 select-none shrink-0 shadow-2xs">
-            {/* Left: Mode Switcher Pill */}
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-0.5 shrink-0">
-                <span className="px-3 py-1 rounded-lg text-xs sm:text-sm font-bold bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xs flex items-center gap-1.5 cursor-default select-none">
-                  <Headphones className="w-3.5 h-3.5 text-blue-600 dark:text-sky-400" />
-                  <span>Luyện Nghe</span>
-                </span>
-                <Link
-                  href="/study/shadowing"
-                  className="px-3 py-1 rounded-lg text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1.5 transition-colors cursor-pointer select-none"
+          {/* 1.1 CONTINUOUS FULL-WIDTH TOP BAR (AppTopHeader) */}
+          <AppTopHeader
+            rightDesktopContent={
+              <div className="flex items-center gap-2.5 shrink-0">
+                <div className="relative w-44 xs:w-56 sm:w-72">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm bài nghe..."
+                    value={listingSearch}
+                    onChange={(e) => setListingSearch(e.target.value)}
+                    className="w-full h-9 pl-9 pr-3 text-xs sm:text-sm font-medium rounded-xl bg-slate-100/80 dark:bg-slate-800/80 border border-slate-200/90 dark:border-slate-700/80 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:bg-white dark:focus:bg-slate-900 focus:border-blue-500 transition-all"
+                  />
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setShowCreateForm((prev) => !prev)}
+                  className="h-9 px-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-bold shadow-xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0"
                 >
-                  <Mic className="w-3.5 h-3.5" />
-                  <span>Luyện Nói</span>
-                </Link>
+                  <Plus className="w-4 h-4 stroke-[2.5]" />
+                  <span className="hidden sm:inline">{showCreateForm ? "Đóng tạo bài" : "Tạo bài AI"}</span>
+                  <span className="sm:hidden">{showCreateForm ? "Đóng" : "Tạo bài"}</span>
+                </button>
               </div>
-            </div>
-
-            {/* Right: Quick Search & Create Button */}
-            <div className="flex items-center gap-2.5 shrink-0">
-              <div className="relative w-44 xs:w-56 sm:w-72">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                <input
-                  type="text"
-                  placeholder="Tìm kiếm bài nghe..."
-                  value={listingSearch}
-                  onChange={(e) => setListingSearch(e.target.value)}
-                  className="w-full h-9 pl-9 pr-3 text-xs sm:text-sm font-medium rounded-xl bg-slate-100/80 dark:bg-slate-800/80 border border-slate-200/90 dark:border-slate-700/80 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:bg-white dark:focus:bg-slate-900 focus:border-blue-500 transition-all"
-                />
-              </div>
-
-              <button
-                type="button"
-                onClick={() => setShowCreateForm((prev) => !prev)}
-                className="h-9 px-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-bold shadow-xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0"
-              >
-                <Plus className="w-4 h-4 stroke-[2.5]" />
-                <span className="hidden sm:inline">{showCreateForm ? "Đóng tạo bài" : "Tạo bài AI"}</span>
-                <span className="sm:hidden">{showCreateForm ? "Đóng" : "Tạo bài"}</span>
-              </button>
-            </div>
-          </div>
+            }
+          >
+            <HeaderPillContainer>
+              <HeaderPillItem
+                active
+                icon={<Headphones className="w-3.5 h-3.5 text-blue-600 dark:text-sky-400" />}
+                label="Dictation"
+              />
+              <HeaderPillItem
+                href="/study/shadowing"
+                icon={<Mic className="w-3.5 h-3.5" />}
+                label="Shadowing"
+              />
+              <HeaderPillItem
+                href="/study/practice"
+                icon={<BookOpen className="w-3.5 h-3.5" />}
+                label="Luyện từ vựng"
+              />
+              <HeaderPillItem
+                href="/study/exam-prep"
+                icon={<FileText className="w-3.5 h-3.5" />}
+                label="Thi thử đề"
+              />
+            </HeaderPillContainer>
+          </AppTopHeader>
 
           {/* 1.2 MAIN LISTING CONTENT CANVAS */}
           <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-6 space-y-7 pb-20">
@@ -866,7 +892,7 @@ function ListeningPageContent() {
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
                 {displayedBasicLessons.map((lesson) => {
                   const isSelected = lesson.id === selectedLessonId;
                   const isCompleted = completedLessonIds.includes(lesson.id);
@@ -877,36 +903,41 @@ function ListeningPageContent() {
                       whileTap={{ scale: 0.98 }}
                       key={lesson.id}
                       onClick={() => handleSelectLesson(lesson.id)}
-                      className={`p-3 rounded-xl border transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between group ${
+                      className={`p-2.5 sm:p-3 rounded-xl border transition-all cursor-pointer relative overflow-hidden flex flex-row sm:flex-col gap-3 sm:gap-0 group ${
                         isSelected
                           ? "bg-white dark:bg-slate-900 border-blue-500 ring-2 ring-blue-500/20 shadow-md"
                           : "bg-white dark:bg-slate-900 border-slate-200/90 dark:border-slate-800 hover:border-blue-500 hover:shadow-md shadow-2xs"
                       }`}
                     >
-                      <div className="relative w-full aspect-[16/10] rounded-lg overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800 border border-slate-200/50 dark:border-slate-700/50">
+                      <div className="relative w-[47%] aspect-[16/10] sm:w-full sm:aspect-[16/10] rounded-lg overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800 border border-slate-200/50 dark:border-slate-700/50">
                         <LessonCoverImage lesson={lesson} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" showBadge={false} />
 
-                        <span className="absolute top-2 left-2 px-2.5 py-0.5 rounded-md text-[10px] font-mono font-bold bg-slate-900/80 text-white backdrop-blur-xs z-20 shadow-2xs border border-white/10">
+                        <span className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 px-1.5 sm:px-2.5 py-0.5 rounded sm:rounded-md text-[9.5px] sm:text-[10px] font-mono font-bold bg-slate-900/80 text-white backdrop-blur-xs z-20 shadow-2xs border border-white/10">
                           {getLevelLabel(lesson.level)}
                         </span>
 
                         {isCompleted && (
-                          <span className="absolute top-2 right-2 px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-emerald-600 text-white flex items-center gap-1 shadow-2xs">
-                            <Check className="w-3 h-3 stroke-[3]" /> <span>Đã học</span>
+                          <span className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 px-1.5 sm:px-2.5 py-0.5 rounded sm:rounded-md text-[9.5px] sm:text-[10px] font-bold bg-emerald-600 text-white flex items-center gap-0.5 sm:gap-1 shadow-2xs">
+                            <Check className="w-3 h-3 stroke-[3]" /> <span className="hidden xs:inline sm:inline">Đã học</span>
                           </span>
                         )}
 
                         {isSelected && (
-                          <span className="absolute bottom-2 right-2 px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-blue-600 text-white flex items-center gap-1 shadow-2xs">
+                          <span className="absolute bottom-2 right-2 px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-blue-600 text-white hidden sm:flex items-center gap-1 shadow-2xs">
                             <Play className="w-3 h-3 fill-white" /> Đang chọn
                           </span>
                         )}
                       </div>
 
-                      <div className="mt-2.5 space-y-1.5 flex-1 flex flex-col justify-between">
+                      <div className="py-0.5 sm:py-0 sm:mt-2.5 space-y-1.5 flex-1 flex flex-col justify-between min-w-0">
                         <div>
+                          {lesson.category && (
+                            <span className="text-[10.5px] font-extrabold uppercase tracking-wider text-blue-600 dark:text-sky-400 block truncate mb-1 sm:hidden">
+                              {lesson.category}
+                            </span>
+                          )}
                           <h3
-                            className={`text-xs sm:text-[13px] font-semibold font-sans line-clamp-2 leading-snug transition-colors ${
+                            className={`text-[14.5px] xs:text-[15.5px] sm:text-[13px] font-bold sm:font-semibold font-sans line-clamp-2 leading-snug transition-colors ${
                               isSelected
                                 ? "text-blue-600 dark:text-sky-400"
                                 : "text-slate-900 dark:text-white group-hover:text-blue-600"
@@ -916,12 +947,12 @@ function ListeningPageContent() {
                           </h3>
                         </div>
 
-                        <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-medium pt-2 border-t border-slate-100 dark:border-slate-800">
-                          <span className="flex items-center gap-1.5 font-mono tabular-nums text-[11px]">
-                            <Clock className="w-3.5 h-3.5 text-slate-400" />{" "}
+                        <div className="flex items-center justify-between pt-1 sm:pt-2 sm:border-t border-slate-100 dark:border-slate-800">
+                          <span className="flex items-center gap-1.5 font-bold font-mono tabular-nums text-xs xs:text-[13px] sm:text-[11px] text-slate-700 dark:text-slate-200">
+                            <Clock className="w-4 h-4 text-blue-600 dark:text-sky-400 stroke-[2.5] shrink-0" />{" "}
                             {lesson.duration || "5 min"}
                           </span>
-                          <span className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold text-[11px] font-mono tabular-nums">
+                          <span className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 font-bold text-xs xs:text-[12.5px] sm:text-[11px] font-mono tabular-nums border border-slate-200/80 dark:border-slate-700/80 shadow-2xs">
                             {lesson.transcript?.length || 10} câu
                           </span>
                         </div>
@@ -954,7 +985,7 @@ function ListeningPageContent() {
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
                 {displayedAdvancedLessons.map((lesson) => {
                   const isSelected = lesson.id === selectedLessonId;
                   const isCompleted = completedLessonIds.includes(lesson.id);
@@ -965,36 +996,41 @@ function ListeningPageContent() {
                       whileTap={{ scale: 0.98 }}
                       key={lesson.id}
                       onClick={() => handleSelectLesson(lesson.id)}
-                      className={`p-3 rounded-xl border transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between group ${
+                      className={`p-2.5 sm:p-3 rounded-xl border transition-all cursor-pointer relative overflow-hidden flex flex-row sm:flex-col gap-3 sm:gap-0 group ${
                         isSelected
                           ? "bg-white dark:bg-slate-900 border-blue-500 ring-2 ring-blue-500/20 shadow-md"
                           : "bg-white dark:bg-slate-900 border-slate-200/90 dark:border-slate-800 hover:border-purple-500 hover:shadow-md shadow-2xs"
                       }`}
                     >
-                      <div className="relative w-full aspect-[16/10] rounded-lg overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800 border border-slate-200/50 dark:border-slate-700/50">
+                      <div className="relative w-[47%] aspect-[16/10] sm:w-full sm:aspect-[16/10] rounded-lg overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800 border border-slate-200/50 dark:border-slate-700/50">
                         <LessonCoverImage lesson={lesson} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" showBadge={false} />
 
-                        <span className="absolute top-2 left-2 px-2.5 py-0.5 rounded-md text-[10px] font-mono font-bold bg-slate-900/80 text-white backdrop-blur-xs z-20 shadow-2xs border border-white/10">
+                        <span className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 px-1.5 sm:px-2.5 py-0.5 rounded sm:rounded-md text-[9.5px] sm:text-[10px] font-mono font-bold bg-slate-900/80 text-white backdrop-blur-xs z-20 shadow-2xs border border-white/10">
                           {getLevelLabel(lesson.level)}
                         </span>
 
                         {isCompleted && (
-                          <span className="absolute top-2 right-2 px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-emerald-600 text-white flex items-center gap-1 shadow-2xs">
-                            <Check className="w-3 h-3 stroke-[3]" /> <span>Đã học</span>
+                          <span className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 px-1.5 sm:px-2.5 py-0.5 rounded sm:rounded-md text-[9.5px] sm:text-[10px] font-bold bg-emerald-600 text-white flex items-center gap-0.5 sm:gap-1 shadow-2xs">
+                            <Check className="w-3 h-3 stroke-[3]" /> <span className="hidden xs:inline sm:inline">Đã học</span>
                           </span>
                         )}
 
                         {isSelected && (
-                          <span className="absolute bottom-2 right-2 px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-blue-600 text-white flex items-center gap-1 shadow-2xs">
+                          <span className="absolute bottom-2 right-2 px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-blue-600 text-white hidden sm:flex items-center gap-1 shadow-2xs">
                             <Play className="w-3 h-3 fill-white" /> Đang chọn
                           </span>
                         )}
                       </div>
 
-                      <div className="mt-2.5 space-y-1.5 flex-1 flex flex-col justify-between">
+                      <div className="py-0.5 sm:py-0 sm:mt-2.5 space-y-1.5 flex-1 flex flex-col justify-between min-w-0">
                         <div>
+                          {lesson.category && (
+                            <span className="text-[10.5px] font-extrabold uppercase tracking-wider text-purple-600 dark:text-purple-400 block truncate mb-1 sm:hidden">
+                              {lesson.category}
+                            </span>
+                          )}
                           <h3
-                            className={`text-xs sm:text-[13px] font-semibold font-sans line-clamp-2 leading-snug transition-colors ${
+                            className={`text-[14.5px] xs:text-[15.5px] sm:text-[13px] font-bold sm:font-semibold font-sans line-clamp-2 leading-snug transition-colors ${
                               isSelected
                                 ? "text-blue-600 dark:text-sky-400"
                                 : "text-slate-900 dark:text-white group-hover:text-purple-600"
@@ -1004,12 +1040,12 @@ function ListeningPageContent() {
                           </h3>
                         </div>
 
-                        <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-medium pt-2 border-t border-slate-100 dark:border-slate-800">
-                          <span className="flex items-center gap-1.5 font-mono tabular-nums text-[11px]">
-                            <Clock className="w-3.5 h-3.5 text-slate-400" />{" "}
+                        <div className="flex items-center justify-between pt-1 sm:pt-2 sm:border-t border-slate-100 dark:border-slate-800">
+                          <span className="flex items-center gap-1.5 font-bold font-mono tabular-nums text-xs xs:text-[13px] sm:text-[11px] text-slate-700 dark:text-slate-200">
+                            <Clock className="w-4 h-4 text-purple-600 dark:text-purple-400 stroke-[2.5] shrink-0" />{" "}
                             {lesson.duration || "5 min"}
                           </span>
-                          <span className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold text-[11px] font-mono tabular-nums">
+                          <span className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 font-bold text-xs xs:text-[12.5px] sm:text-[11px] font-mono tabular-nums border border-slate-200/80 dark:border-slate-700/80 shadow-2xs">
                             {lesson.transcript?.length || 10} câu
                           </span>
                         </div>

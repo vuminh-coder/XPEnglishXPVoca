@@ -1,11 +1,11 @@
-'use client';
+﻿'use client';
 import React, { useState, useMemo, useEffect } from 'react';
-import { speakLessonText } from '@/lib/utils/ttsEngine';
+import { speakLessonText } from '@/shared/utils/ttsEngine';
 
 import Link from 'next/link';
-import { useVocabularyStore } from '@/lib/store/vocabularyStore';
-import { useAuthStore } from '@/lib/store/authStore';
-import { useNotificationStore } from '@/lib/store/notificationStore';
+import { useVocabularyStore } from '@/stores/vocabularyStore';
+import { useAuthStore } from '@/stores/authStore';
+import { useNotificationStore } from '@/stores/notificationStore';
 import {
   Calendar as CalendarIcon,
   Zap,
@@ -27,7 +27,7 @@ import {
   Smile,
   Compass,
 } from 'lucide-react';
-import { Button } from '@/components/ui';
+import { Button } from '@/shared/components/ui';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const BOOKMARK_KEY = "xp_bookmarked_words";

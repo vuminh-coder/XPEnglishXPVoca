@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
-import { memoryRateLimiter } from "../lib/security/rateLimiter";
-import { sanitizeInput, isValidEmail, isPayloadTooLarge } from "../lib/security/validation";
-import { signAuthToken, verifyAuthToken } from "../lib/auth/jwt";
-import { hashPassword, comparePassword } from "../lib/auth/password";
+import { memoryRateLimiter } from "@/infrastructure/security/rateLimiter";
+import { sanitizeInput, isValidEmail, isPayloadTooLarge } from "@/infrastructure/security/validation";
+import { signAuthToken, verifyAuthToken } from "@/infrastructure/auth/jwt";
+import { hashPassword, comparePassword } from "@/infrastructure/auth/password";
 
 describe("Security Modules Deep Audit & Unit Tests", () => {
   describe("1. Rate Limiter (lib/security/rateLimiter.ts)", () => {

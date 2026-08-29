@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
-import { lookupWordDeep } from "@/lib/utils/deepDictionary";
+﻿import { NextResponse } from "next/server";
+import { lookupWordDeep } from "@/features/vocabulary/data/deepDictionary";
 
 export async function GET(request: Request) {
   try {

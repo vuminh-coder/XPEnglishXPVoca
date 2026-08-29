@@ -1,6 +1,6 @@
-import { getAuthenticatedUserId } from "@/lib/auth";
+﻿import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/infrastructure/database/prisma";
 
 // Prepopulate groups if database is empty (called only when group table is empty)
 async function ensureDefaultGroups() {

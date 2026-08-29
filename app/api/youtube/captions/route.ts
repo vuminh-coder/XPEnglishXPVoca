@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+﻿import { NextRequest, NextResponse } from "next/server";
 import {
   parseTimedTextXml,
   parseVnTimedTextXml,
@@ -7,8 +7,8 @@ import {
   alignBilingualSubtitles,
   extractDictationWord,
   formatTimestampMs,
-} from "@/lib/services/youtubeSubtitleParser";
-import { fetchLrclibSyncedLyrics } from "@/lib/services/lrclibLyricsService";
+} from "@/features/listening/services/youtubeSubtitleParser";
+import { fetchLrclibSyncedLyrics } from "@/features/listening/services/lrclibLyricsService";
 
 export interface SubtitleItem {
   id: number;

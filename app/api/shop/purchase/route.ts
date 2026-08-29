@@ -1,6 +1,6 @@
-import { getAuthenticatedUserId } from "@/lib/auth";
+﻿import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/infrastructure/database/prisma";
 
 const ITEM_COSTS: Record<string, number> = {
   streak_freeze: 50,

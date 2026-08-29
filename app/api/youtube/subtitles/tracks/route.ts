@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
-import { fetchInnertubeCaptionTracks } from "@/lib/services/xpSubExtractor";
+﻿import { NextRequest, NextResponse } from "next/server";
+import { fetchInnertubeCaptionTracks } from "@/features/listening/services/xpSubExtractor";
 
 /**
  * GET /api/youtube/subtitles/tracks?videoId={videoId}

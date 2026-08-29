@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+﻿import { describe, it, expect } from "vitest";
 import {
   parseTimedTextXml,
   parseTimedTextJson3,
@@ -10,9 +10,9 @@ import {
   formatTimestampMs,
   shiftTimestampSec,
   ParsedXmlItem,
-} from "@/lib/services/youtubeSubtitleParser";
-import { parseSrtContent, parseSrtTimestamp, validateSrtContent } from "@/lib/services/srtParser";
-import { SubtitleSentence } from "@/lib/store/videoStore";
+} from "@/features/listening/services/youtubeSubtitleParser";
+import { parseSrtContent, parseSrtTimestamp, validateSrtContent } from "@/features/listening/services/srtParser";
+import { SubtitleSentence } from "@/stores/videoStore";
 
 /**
  * Simulates the binary search subtitle matching engine from app/(dashboard)/myvideo/page.tsx

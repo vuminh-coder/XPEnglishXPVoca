@@ -1,8 +1,8 @@
-"use client";
+﻿"use client";
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useAuthStore } from "@/lib/store/authStore";
+import { useAuthStore } from "@/stores/authStore";
 import "../auth.css";
 import {
   BookOpen,

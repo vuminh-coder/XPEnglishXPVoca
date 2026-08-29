@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { calculateXp } from "../lib/utils/xp";
+import { calculateXp } from "@/shared/utils/xp";
 
 describe("PVP Match XP Calculation", () => {
   it("should calculate correct XP for WIN with various margin bounds", () => {

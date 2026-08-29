@@ -1,4 +1,4 @@
-import { SkeletonChat } from "@/components/shared/SkeletonLoaders";
+﻿import { SkeletonChat } from "@/shared/components/feedback/SkeletonLoaders";
 
 export default function AiLoading() {
   return (

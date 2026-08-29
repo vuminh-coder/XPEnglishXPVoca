@@ -1,4 +1,4 @@
-import { MOCK_LESSONS_DATA } from "../lib/data/listeningMockData";
+import { MOCK_LESSONS_DATA } from "@/features/listening/data/listeningMockData";
 
 console.log("=== VERIFYING ALL 100+ LESSONS IN MOCK_LESSONS_DATA ===");
 console.log("Total Lessons Count:", MOCK_LESSONS_DATA.length);

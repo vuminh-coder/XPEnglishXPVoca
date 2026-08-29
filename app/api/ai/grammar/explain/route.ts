@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getAuthenticatedUserId } from "@/lib/auth";
-import { getGrammarLesson } from "@/lib/data/grammarContent";
+﻿import { NextRequest, NextResponse } from "next/server";
+import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { getGrammarLesson } from "@/features/grammar/data/grammarContent";
 import fs from "fs";
 import path from "path";
 

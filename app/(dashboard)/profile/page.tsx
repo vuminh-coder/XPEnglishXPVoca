@@ -1,11 +1,11 @@
-"use client";
+﻿"use client";
 import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
-import { useAuthStore } from "@/lib/store/authStore";
-import { useUserStore } from "@/lib/store/userStore";
-import { useNotificationStore } from "@/lib/store/notificationStore";
-import { getXpProgress } from "@/lib/utils/calculateXP";
-import { LEVEL_TITLES } from "@/lib/constants";
+import { useAuthStore } from "@/stores/authStore";
+import { useUserStore } from "@/stores/userStore";
+import { useNotificationStore } from "@/stores/notificationStore";
+import { getXpProgress } from "@/shared/utils/calculateXP";
+import { LEVEL_TITLES } from "@/shared/constants";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   GraduationCap,
@@ -35,9 +35,9 @@ import {
   Crown,
   Heart,
 } from "lucide-react";
-import { Button, Badge } from "@/components/ui";
+import { Button, Badge } from "@/shared/components/ui";
 
-import { containerVariants, itemVariants } from "@/components/shared/PageEntranceAnimation";
+import { containerVariants, itemVariants } from "@/shared/components/feedback/PageEntranceAnimation";
 
 export default function ProfilePage() {
   const { user, updateProfile, awardXp } = useAuthStore();

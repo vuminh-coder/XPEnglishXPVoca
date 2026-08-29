@@ -1,8 +1,8 @@
-'use client';
+﻿'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { useAuthStore } from '@/lib/store/authStore';
-import { useNotificationStore } from '@/lib/store/notificationStore';
+import { useAuthStore } from '@/stores/authStore';
+import { useNotificationStore } from '@/stores/notificationStore';
 import { 
   Users, 
   UserPlus, 
@@ -17,8 +17,8 @@ import {
   Flame,
   ArrowRight
 } from 'lucide-react';
-import { Button } from '@/components/ui';
-import { UserAvatar, formatCleanName } from '@/components/shared/UserAvatar';
+import { Button } from '@/shared/components/ui';
+import { UserAvatar, formatCleanName } from '@/shared/components/feedback/UserAvatar';
 
 export default function FriendsPage() {
   const { user, awardXp } = useAuthStore();

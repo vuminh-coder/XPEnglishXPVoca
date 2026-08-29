@@ -1,11 +1,11 @@
-"use client";
+﻿"use client";
 import React, { useEffect, useState } from "react";
-import { useStudyPlanStore, DailyTask } from "@/lib/store/studyPlanStore";
-import { useAuthStore } from "@/lib/store/authStore";
-import { Button, Badge } from "@/components/ui";
-import { useNotificationStore } from "@/lib/store/notificationStore";
+import { useStudyPlanStore, DailyTask } from "@/stores/studyPlanStore";
+import { useAuthStore } from "@/stores/authStore";
+import { Button, Badge } from "@/shared/components/ui";
+import { useNotificationStore } from "@/stores/notificationStore";
 import { motion, AnimatePresence } from "framer-motion";
-import { PageEntranceWrapper, MotionItem } from "@/components/shared/PageEntranceAnimation";
+import { PageEntranceWrapper, MotionItem } from "@/shared/components/feedback/PageEntranceAnimation";
 import {
   Sparkles,
   BookOpen,

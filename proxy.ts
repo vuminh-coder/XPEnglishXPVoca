@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { memoryRateLimiter } from "./lib/security/rateLimiter";
-import { isPayloadTooLarge } from "./lib/security/validation";
+import { memoryRateLimiter } from "@/infrastructure/security/rateLimiter";
+import { isPayloadTooLarge } from "@/infrastructure/security/validation";
 
 const PUBLIC_PREFIXES = [
   "/",
@@ -12,10 +12,21 @@ const PUBLIC_PREFIXES = [
   "/sign-up",
   "/privacy",
   "/terms",
-  "/api/auth",
-  "/api/youtube",
-  "/api/tts",
-  "/api/dictionary",
+  "/dashboard",
+  "/study",
+  "/roadmap",
+  "/vocabulary",
+  "/analytics",
+  "/profile",
+  "/community",
+  "/myvideo",
+  "/myvocab",
+  "/review",
+  "/shop",
+  "/settings",
+  "/onboarding",
+  "/ai",
+  "/api",
   "/fonts",
   "/icons",
   "/images",

@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { MOCK_THEMES } from "../lib/constants";
+import { MOCK_THEMES } from "@/shared/constants";
 import { MOCK_VOCABULARIES } from "./mock-vocabularies";
 
 const prisma = new PrismaClient();

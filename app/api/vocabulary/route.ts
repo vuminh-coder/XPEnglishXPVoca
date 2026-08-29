@@ -1,7 +1,7 @@
-import { NextResponse } from "next/server";
-import { prisma, handlePrismaError } from "@/lib/prisma";
-import { BASIC_VOCABULARIES } from "@/lib/data/basicVocabularies";
-import { ADVANCED_VOCABULARIES } from "@/lib/data/advancedVocabularies";
+﻿import { NextResponse } from "next/server";
+import { prisma, handlePrismaError } from "@/infrastructure/database/prisma";
+import { BASIC_VOCABULARIES } from "@/features/vocabulary/data/basicVocabularies";
+import { ADVANCED_VOCABULARIES } from "@/features/vocabulary/data/advancedVocabularies";
 
 const FORMATTED_BASIC_VOCABS = BASIC_VOCABULARIES.map((bv) => ({
   id: bv.id,

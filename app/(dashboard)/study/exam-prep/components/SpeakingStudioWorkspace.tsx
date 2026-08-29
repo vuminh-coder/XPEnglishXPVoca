@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Mic, Volume2, RotateCcw, Award, Sparkles, Check, Square, VolumeX } from "lucide-react";
-import { ExamQuestion } from "@/lib/data/examPrepData";
-import { safeSpeakText, stopTTS, unlockMobileAudio } from "@/lib/utils/mobileAudio";
+import { ExamQuestion } from "@/features/exam-prep";
+import { safeSpeakText, stopTTS, unlockMobileAudio } from "@/shared/utils/mobileAudio";
 
 interface SpeakingStudioWorkspaceProps {
   question: ExamQuestion;
@@ -155,23 +155,23 @@ export function SpeakingStudioWorkspace({
   };
 
   return (
-    <div className="p-3.5 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3.5">
+    <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-4">
       {/* Studio Header Bar */}
-      <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2.5">
-        <div className="flex items-center gap-2 min-w-0">
-          <div className="w-6 h-6 rounded-full bg-amber-500/15 flex items-center justify-center shrink-0">
-            <Mic className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" strokeWidth={2} />
+      <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div className="w-7 h-7 rounded-lg bg-amber-500/15 flex items-center justify-center shrink-0">
+            <Mic className="w-4 h-4 text-amber-600 dark:text-amber-400" strokeWidth={2} />
           </div>
-          <h3 className="text-xs font-black uppercase font-display text-slate-900 dark:text-white truncate">
+          <h3 className="text-xs sm:text-sm font-bold uppercase font-display text-slate-900 dark:text-white truncate">
             Speaking AI Studio — {question.partTitle}
           </h3>
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
           <span
-            className={`px-2.5 py-0.5 rounded-xs text-[10px] font-black uppercase font-sans tracking-wide ${
+            className={`px-2.5 py-0.5 rounded-md text-[10px] font-black uppercase font-mono tracking-wide ${
               phase === "PREP"
-                ? "bg-amber-400 text-slate-950 font-bold"
+                ? "bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-700"
                 : phase === "RECORDING"
                 ? "bg-rose-500 text-white animate-pulse"
                 : "bg-emerald-500 text-white"
@@ -183,21 +183,22 @@ export function SpeakingStudioWorkspace({
       </div>
 
       {/* Prompt Card with Image & Text */}
-      <div className="p-3 sm:p-3.5 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200/60 dark:border-white/5 space-y-2.5">
+      <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 space-y-3">
         {/* Speaking Task Prompt */}
-        <div className="flex items-start justify-between gap-2">
-          <p className="text-xs sm:text-[13px] text-slate-800 dark:text-slate-200 font-bold leading-relaxed">
+        <div className="flex items-start justify-between gap-3">
+          <p className="text-xs sm:text-sm text-slate-800 dark:text-slate-200 font-bold leading-relaxed">
             {question.speakingPrompt || question.questionText}
           </p>
 
           {/* Native Audio Guide Button */}
           <button
+            type="button"
             onClick={handlePlayNativeGuide}
             title={isPlayingGuide ? "Dừng đọc" : "Nghe phát âm mẫu bản xứ"}
-            className={`px-2.5 py-1 rounded-xs text-[11px] font-bold cursor-pointer transition-all shrink-0 flex items-center gap-1.5 border ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold cursor-pointer transition-all shrink-0 flex items-center gap-1.5 border shadow-2xs ${
               isPlayingGuide
                 ? "bg-rose-50 border-rose-300 text-rose-600 dark:bg-rose-950/50"
-                : "bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-[#0059bb] hover:border-[#0059bb]"
+                : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-[#0059bb] hover:border-[#0059bb]"
             }`}
           >
             {isPlayingGuide ? (
@@ -216,18 +217,18 @@ export function SpeakingStudioWorkspace({
 
         {/* Question Image (for Part 2: Describe a Picture) */}
         {question.imageUrl && (
-          <div className="w-full max-w-md mx-auto aspect-[4/3] max-h-[240px] sm:max-h-[280px] rounded-xs overflow-hidden border border-slate-200/90 dark:border-white/10 shadow-2xs bg-slate-100 dark:bg-slate-900/90 p-1 sm:p-1.5 flex items-center justify-center relative">
+          <div className="w-full max-w-md mx-auto aspect-[4/3] max-h-[240px] sm:max-h-[280px] rounded-2xl overflow-hidden border border-slate-200/90 dark:border-slate-800 shadow-sm bg-slate-100 dark:bg-slate-900/90 p-1.5 flex items-center justify-center relative">
             <img
               src={question.imageUrl}
               alt="Speaking Task Picture"
-              className="w-full h-full object-contain object-center rounded-xs select-none transition-all duration-200"
+              className="w-full h-full object-contain object-center rounded-xl select-none transition-all duration-200"
               onError={(e) => {
                 e.currentTarget.onerror = null;
                 e.currentTarget.src =
                   "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=80";
               }}
             />
-            <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded-xs bg-slate-950/75 backdrop-blur-xs text-[10px] font-bold text-white tracking-wider uppercase font-sans shadow-xs pointer-events-none">
+            <div className="absolute bottom-2 left-2 px-2.5 py-0.5 rounded-md bg-slate-950/75 backdrop-blur-xs text-[10px] font-bold text-white tracking-wider uppercase font-mono shadow-xs pointer-events-none">
               Ảnh Nói Câu {currentQuestionIndex + 1}
             </div>
           </div>
@@ -235,7 +236,7 @@ export function SpeakingStudioWorkspace({
 
         {/* Passage Text (for Part 1 Reading Aloud & Part 4 Schedule) */}
         {question.passageText && (
-          <div className="p-3 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 text-xs sm:text-sm font-medium leading-relaxed text-slate-900 dark:text-slate-100 whitespace-pre-line select-text font-sans">
+          <div className="p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 text-xs sm:text-sm font-normal leading-relaxed text-slate-900 dark:text-slate-100 whitespace-pre-line select-text font-sans">
             {question.passageText}
           </div>
         )}
@@ -243,7 +244,7 @@ export function SpeakingStudioWorkspace({
 
       {/* PHASE 1: PREPARATION COUNTDOWN CONSOLE */}
       {phase === "PREP" && (
-        <div className="max-w-xl mx-auto w-full p-4 sm:p-6 rounded-xs bg-amber-50/70 dark:bg-amber-950/20 border border-amber-200/90 dark:border-amber-500/25 space-y-4 shadow-2xs">
+        <div className="max-w-xl mx-auto w-full p-5 sm:p-6 rounded-2xl bg-amber-50/70 dark:bg-amber-950/20 border border-amber-200/90 dark:border-amber-500/25 space-y-4 shadow-sm">
           {/* Header Status */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -251,12 +252,12 @@ export function SpeakingStudioWorkspace({
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500"></span>
               </span>
-              <span className="text-[10.5px] sm:text-xs font-black uppercase text-amber-800 dark:text-amber-300 font-sans tracking-wider">
+              <span className="text-[11px] sm:text-xs font-black uppercase text-amber-800 dark:text-amber-300 font-mono tracking-wider">
                 Giai Đoạn Chuẩn Bị Bài Nói
               </span>
             </div>
 
-            <span className="px-2 py-0.5 rounded-xs bg-amber-400/20 dark:bg-amber-400/10 text-amber-800 dark:text-amber-300 text-[10px] font-bold border border-amber-300/50">
+            <span className="px-2.5 py-0.5 rounded-md bg-amber-400/20 dark:bg-amber-400/10 text-amber-800 dark:text-amber-300 text-[10px] font-bold border border-amber-300/50 font-mono">
               Chuẩn ETS
             </span>
           </div>
@@ -264,7 +265,7 @@ export function SpeakingStudioWorkspace({
           {/* Centerpiece Countdown Dial */}
           <div className="flex flex-col items-center justify-center py-2 space-y-1.5">
             <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white dark:bg-slate-900 border-2 border-amber-400/80 dark:border-amber-400/60 shadow-md flex flex-col items-center justify-center relative">
-              <span className="text-2xl sm:text-3xl font-black font-sans text-amber-600 dark:text-amber-400 leading-none">
+              <span className="text-2xl sm:text-3xl font-black font-mono text-amber-600 dark:text-amber-400 leading-none">
                 {prepSecondsRemaining}s
               </span>
               <span className="text-[9.5px] font-bold text-slate-400 uppercase tracking-tight mt-0.5">
@@ -289,15 +290,16 @@ export function SpeakingStudioWorkspace({
           </div>
 
           {/* Pro-Tip Advice Banner */}
-          <div className="p-2.5 rounded-xs bg-white/90 dark:bg-slate-900/90 border border-amber-200/60 dark:border-white/5 text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 font-sans leading-relaxed text-center">
+          <div className="p-3 rounded-xl bg-white/90 dark:bg-slate-900/90 border border-amber-200/60 dark:border-amber-800/30 text-xs text-slate-600 dark:text-slate-300 font-sans leading-relaxed text-center">
             💡 <span className="font-bold text-slate-900 dark:text-white">Chiến thuật 45s:</span> Đọc lướt nhanh nội dung, xác định các từ khóa trọng tâm, ngắt cụm hơi và sẵn sàng mở giọng tự tin.
           </div>
 
           {/* Primary Action Button */}
           <div className="flex justify-center pt-1">
             <button
+              type="button"
               onClick={startRecording}
-              className="w-full sm:w-auto px-6 py-2.5 min-h-[44px] rounded-xs bg-amber-400 hover:bg-amber-300 active:scale-95 text-slate-950 text-xs sm:text-sm font-black cursor-pointer font-display inline-flex items-center justify-center gap-2 shadow-md transition-all"
+              className="w-full sm:w-auto px-6 py-2.5 min-h-[44px] rounded-xl bg-amber-400 hover:bg-amber-300 active:scale-95 text-slate-950 text-xs sm:text-sm font-black cursor-pointer font-display inline-flex items-center justify-center gap-2 shadow-md transition-all"
             >
               <Mic className="w-4 h-4 stroke-[2.5]" />
               <span>Nói Ngay (Bắt Đầu Thu Âm)</span>
@@ -308,7 +310,7 @@ export function SpeakingStudioWorkspace({
 
       {/* PHASE 2: LIVE RECORDING STUDIO CONSOLE */}
       {phase === "RECORDING" && (
-        <div className="max-w-xl mx-auto w-full p-4 sm:p-6 rounded-xs bg-rose-50/70 dark:bg-rose-950/20 border border-rose-200/90 dark:border-rose-500/25 space-y-4 shadow-2xs">
+        <div className="max-w-xl mx-auto w-full p-5 sm:p-6 rounded-2xl bg-rose-50/70 dark:bg-rose-950/20 border border-rose-200/90 dark:border-rose-500/25 space-y-4 shadow-sm">
           {/* Header Status & Live Radar Ping */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -316,12 +318,12 @@ export function SpeakingStudioWorkspace({
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-600"></span>
               </span>
-              <span className="text-[10.5px] sm:text-xs font-black uppercase text-rose-700 dark:text-rose-300 font-sans tracking-wider">
+              <span className="text-[11px] sm:text-xs font-black uppercase text-rose-700 dark:text-rose-300 font-mono tracking-wider">
                 Đang Ghi Âm Trực Tiếp (Live Studio)
               </span>
             </div>
 
-            <span className="px-2 py-0.5 rounded-xs bg-rose-600 text-white text-[10px] font-black uppercase tracking-wider animate-pulse">
+            <span className="px-2.5 py-0.5 rounded-md bg-rose-600 text-white text-[10px] font-black uppercase tracking-wider animate-pulse font-mono">
               REC
             </span>
           </div>
@@ -329,7 +331,7 @@ export function SpeakingStudioWorkspace({
           {/* Centerpiece Countdown Dial & Equalizer */}
           <div className="flex flex-col items-center justify-center py-1 space-y-2">
             <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white dark:bg-slate-900 border-2 border-rose-500/80 dark:border-rose-400/60 shadow-md flex flex-col items-center justify-center relative">
-              <span className="text-2xl sm:text-3xl font-black font-sans text-rose-600 dark:text-rose-400 leading-none">
+              <span className="text-2xl sm:text-3xl font-black font-mono text-rose-600 dark:text-rose-400 leading-none">
                 {speechSecondsRemaining}s
               </span>
               <span className="text-[9.5px] font-bold text-slate-400 uppercase tracking-tight mt-0.5">
@@ -358,12 +360,12 @@ export function SpeakingStudioWorkspace({
           </div>
 
           {/* Live Speech Recognition Teleprompter Console */}
-          <div className="p-3 sm:p-3.5 rounded-xs bg-white dark:bg-slate-950 border border-rose-200 dark:border-rose-900/40 space-y-1.5 shadow-xs">
+          <div className="p-3.5 sm:p-4 rounded-xl bg-white dark:bg-slate-950 border border-rose-200 dark:border-rose-900/40 space-y-1.5 shadow-xs">
             <div className="flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase tracking-wider">
               <span className="flex items-center gap-1 text-rose-600 dark:text-rose-400">
                 <Mic className="w-3 h-3" /> Lời thoại nhận diện trực tiếp:
               </span>
-              <span className="text-slate-400">Web Speech API</span>
+              <span className="text-slate-400 font-mono">Web Speech API</span>
             </div>
             <div className="text-xs sm:text-[13.5px] text-slate-800 dark:text-slate-200 leading-relaxed font-sans min-h-[48px] max-h-[120px] overflow-y-auto">
               {transcriptText ? (
@@ -381,8 +383,9 @@ export function SpeakingStudioWorkspace({
           {/* Primary Action Button */}
           <div className="flex justify-center pt-1">
             <button
+              type="button"
               onClick={finishRecording}
-              className="w-full sm:w-auto px-6 py-2.5 min-h-[44px] rounded-xs bg-rose-600 hover:bg-rose-500 active:scale-95 text-white text-xs sm:text-sm font-black cursor-pointer shadow-md transition-all flex items-center justify-center gap-2 font-display"
+              className="w-full sm:w-auto px-6 py-2.5 min-h-[44px] rounded-xl bg-rose-600 hover:bg-rose-500 active:scale-95 text-white text-xs sm:text-sm font-black cursor-pointer shadow-md transition-all flex items-center justify-center gap-2 font-display"
             >
               <Square className="w-3.5 h-3.5 fill-current" />
               <span>Hoàn Thành Bài Nói (Nộp Bài)</span>
@@ -393,50 +396,50 @@ export function SpeakingStudioWorkspace({
 
       {/* PHASE 3: AI SPEECH FEEDBACK REPORT */}
       {phase === "FEEDBACK" && (
-        <div className="max-w-xl mx-auto w-full p-4 sm:p-5 rounded-xs bg-emerald-50/70 dark:bg-emerald-950/20 border border-emerald-300/80 dark:border-emerald-500/30 text-xs space-y-3.5 shadow-2xs">
-          <div className="flex items-center justify-between border-b border-emerald-200 dark:border-emerald-800/40 pb-2.5">
+        <div className="max-w-xl mx-auto w-full p-5 rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/20 border border-emerald-300/80 dark:border-emerald-500/30 text-xs space-y-4 shadow-sm">
+          <div className="flex items-center justify-between border-b border-emerald-200 dark:border-emerald-800/40 pb-3">
             <div className="flex items-center gap-2">
               <Award className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
               <span className="font-black text-emerald-800 dark:text-emerald-300 font-display text-xs sm:text-sm">
                 Báo Cáo Giọng Nói AI Chuẩn ETS
               </span>
             </div>
-            <span className="px-2.5 py-0.5 rounded-xs bg-emerald-600 text-white font-black text-xs font-sans shadow-2xs">
+            <span className="px-2.5 py-0.5 rounded-md bg-emerald-600 text-white font-black text-xs font-mono shadow-2xs">
               Band 8.0 / 200 PTS
             </span>
           </div>
 
           {/* 4 ETS Criteria Rubrics */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
-            <div className="p-2.5 rounded-xs bg-white dark:bg-slate-900 border border-emerald-200 dark:border-emerald-900/30 shadow-2xs">
-              <span className="text-[10px] font-bold text-slate-400 block uppercase tracking-wider">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center">
+            <div className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-emerald-200 dark:border-emerald-900/30 shadow-2xs">
+              <span className="text-[10px] font-bold text-slate-400 block uppercase tracking-wider font-sans">
                 Độ Trôi Chảy
               </span>
-              <span className="font-black text-sm sm:text-base text-emerald-600 font-sans">
+              <span className="font-black text-sm sm:text-base text-emerald-600 font-mono">
                 8.5
               </span>
             </div>
-            <div className="p-2.5 rounded-xs bg-white dark:bg-slate-900 border border-emerald-200 dark:border-emerald-900/30 shadow-2xs">
-              <span className="text-[10px] font-bold text-slate-400 block uppercase tracking-wider">
+            <div className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-emerald-200 dark:border-emerald-900/30 shadow-2xs">
+              <span className="text-[10px] font-bold text-slate-400 block uppercase tracking-wider font-sans">
                 Phát Âm & Ngữ Điệu
               </span>
-              <span className="font-black text-sm sm:text-base text-emerald-600 font-sans">
+              <span className="font-black text-sm sm:text-base text-emerald-600 font-mono">
                 8.0
               </span>
             </div>
-            <div className="p-2.5 rounded-xs bg-white dark:bg-slate-900 border border-emerald-200 dark:border-emerald-900/30 shadow-2xs">
-              <span className="text-[10px] font-bold text-slate-400 block uppercase tracking-wider">
+            <div className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-emerald-200 dark:border-emerald-900/30 shadow-2xs">
+              <span className="text-[10px] font-bold text-slate-400 block uppercase tracking-wider font-sans">
                 Vốn Từ & Cấu Trúc
               </span>
-              <span className="font-black text-sm sm:text-base text-emerald-600 font-sans">
+              <span className="font-black text-sm sm:text-base text-emerald-600 font-mono">
                 7.5
               </span>
             </div>
-            <div className="p-2.5 rounded-xs bg-white dark:bg-slate-900 border border-emerald-200 dark:border-emerald-900/30 shadow-2xs">
-              <span className="text-[10px] font-bold text-slate-400 block uppercase tracking-wider">
+            <div className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-emerald-200 dark:border-emerald-900/30 shadow-2xs">
+              <span className="text-[10px] font-bold text-slate-400 block uppercase tracking-wider font-sans">
                 Ngữ Pháp & Chuẩn Xác
               </span>
-              <span className="font-black text-sm sm:text-base text-emerald-600 font-sans">
+              <span className="font-black text-sm sm:text-base text-emerald-600 font-mono">
                 8.0
               </span>
             </div>
@@ -444,11 +447,11 @@ export function SpeakingStudioWorkspace({
 
           {/* User Recorded Transcript */}
           {transcriptText && (
-            <div className="p-3 rounded-xs bg-white dark:bg-slate-950 border border-slate-200 dark:border-white/10 text-slate-800 dark:text-slate-200 font-sans text-xs space-y-1">
-              <span className="font-bold text-slate-500 block text-[11px] uppercase tracking-wider">
+            <div className="p-3.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 font-sans text-xs space-y-1">
+              <span className="font-bold text-slate-500 block text-[11px] uppercase tracking-wider font-mono">
                 Lời nói đã ghi âm:
               </span>
-              <p className="leading-relaxed text-slate-900 dark:text-slate-100">
+              <p className="leading-relaxed text-slate-900 dark:text-slate-100 font-medium">
                 "{transcriptText}"
               </p>
             </div>
@@ -457,8 +460,9 @@ export function SpeakingStudioWorkspace({
           {/* Re-try Button */}
           <div className="flex justify-center sm:justify-end pt-1">
             <button
+              type="button"
               onClick={handleRestart}
-              className="w-full sm:w-auto px-4 py-2 min-h-[44px] rounded-xs bg-white dark:bg-slate-900 border border-slate-300 dark:border-white/20 hover:border-amber-500 text-slate-700 dark:text-slate-200 text-xs font-bold cursor-pointer transition-all flex items-center justify-center gap-1.5 shadow-2xs"
+              className="w-full sm:w-auto px-4 py-2 min-h-[44px] rounded-xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 hover:border-amber-500 text-slate-700 dark:text-slate-200 text-xs font-bold cursor-pointer transition-all flex items-center justify-center gap-1.5 shadow-2xs"
             >
               <RotateCcw className="w-3.5 h-3.5 text-amber-500" />
               <span>Nói Lại Từ Đầu</span>

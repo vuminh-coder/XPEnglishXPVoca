@@ -1,11 +1,11 @@
-"use client";
+﻿"use client";
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { useAuthStore } from "@/lib/store/authStore";
-import { useDailyChallengeStore } from "@/lib/store/dailyChallengeStore";
-import { Button, Badge } from "@/components/ui";
-import { PageEntranceWrapper, MotionItem } from "@/components/shared/PageEntranceAnimation";
+import { useAuthStore } from "@/stores/authStore";
+import { useDailyChallengeStore } from "@/stores/dailyChallengeStore";
+import { Button, Badge } from "@/shared/components/ui";
+import { PageEntranceWrapper, MotionItem } from "@/shared/components/feedback/PageEntranceAnimation";
 import { motion, AnimatePresence } from "framer-motion";
-import { speakLessonText } from "@/lib/utils/ttsEngine";
+import { speakLessonText } from "@/shared/utils/ttsEngine";
 
 import {
   Swords,

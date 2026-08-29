@@ -1,4 +1,4 @@
-import { BASIC_VOCABULARIES, BASIC_VOCABULARY_THEMES } from '../lib/data/basicVocabularies';
+import { BASIC_VOCABULARIES, BASIC_VOCABULARY_THEMES } from '@/features/vocabulary/data/basicVocabularies';
 
 console.log(`Themes count: ${BASIC_VOCABULARY_THEMES.length}`);
 console.log(`Vocabularies count: ${BASIC_VOCABULARIES.length}`);

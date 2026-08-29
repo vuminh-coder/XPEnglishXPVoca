@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { hashPassword } from "@/lib/auth/password";
-import { signAuthToken } from "@/lib/auth/jwt";
-import { sanitizeInput, isValidEmail } from "@/lib/security/validation";
+﻿import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/infrastructure/database/prisma";
+import { hashPassword } from "@/infrastructure/auth/password";
+import { signAuthToken } from "@/infrastructure/auth/jwt";
+import { sanitizeInput, isValidEmail } from "@/infrastructure/security/validation";
 
 export async function POST(req: NextRequest) {
   try {

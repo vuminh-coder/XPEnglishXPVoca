@@ -1,6 +1,6 @@
-import { getAuthenticatedUserId } from "@/lib/auth";
+﻿import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/infrastructure/database/prisma";
 
 // GET /api/friends/requests - Get incoming and outgoing pending friend requests
 export async function GET() {

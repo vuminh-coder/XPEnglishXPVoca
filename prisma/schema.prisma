@@ -50,6 +50,7 @@ model Profile {
   roomMessages        RoomMessage[]
   listeningProgresses ListeningProgress[]
   listeningNotes      ListeningNote[]
+  dailySkillPractices DailySkillPractice[]
 
   @@index([totalXp(sort: Desc)])
   @@map("profiles")
@@ -514,4 +515,24 @@ model ListeningNote {
   @@unique([userId, lessonId])
   @@index([userId])
   @@map("listening_notes")
+}
+
+// === DAILY SKILL PRACTICE LOGS ===
+
+model DailySkillPractice {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id") @db.VarChar(255)
+  skill      String   @db.VarChar(50) // "dictation", "shadowing", "speaking", "vocab", "writing"
+  date       String   @db.VarChar(10) // "YYYY-MM-DD" local format
+  minutes    Int      @default(0)     // minutes studied
+  xpEarned   Int      @default(0) @map("xp_earned")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @default(now()) @updatedAt @map("updated_at")
+
+  user       Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, skill, date])
+  @@index([userId, date])
+  @@index([userId, skill])
+  @@map("daily_skill_practice")
 }

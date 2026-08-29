@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+﻿import { describe, it, expect } from "vitest";
 import {
   parseTimedTextXml,
   parseTimedTextJson3,
@@ -10,8 +10,8 @@ import {
   formatTimestampMs,
   shiftTimestampSec,
   ParsedXmlItem,
-} from "@/lib/services/youtubeSubtitleParser";
-import { parseSrtContent } from "@/lib/services/srtParser";
+} from "@/features/listening/services/youtubeSubtitleParser";
+import { parseSrtContent } from "@/features/listening/services/srtParser";
 
 // Helper simulating binary search matching logic from app/(dashboard)/myvideo/page.tsx
 function binarySearchSubtitleIndex(

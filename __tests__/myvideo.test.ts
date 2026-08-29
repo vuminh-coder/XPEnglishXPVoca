@@ -1,11 +1,11 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
+﻿import { describe, it, expect, beforeEach, vi } from "vitest";
 import {
   useVideoStore,
   extractYouTubeId,
   PRESET_YOUTUBE_VIDEOS,
   YouTubeVideoItem,
   SubtitleSentence,
-} from "@/lib/store/videoStore";
+} from "@/stores/videoStore";
 import {
   decodeXmlEntities,
   parseTimedTextXml,
@@ -15,7 +15,7 @@ import {
   formatTimestampMs,
   formatSrtTimestamp,
   wrapTextTo42Chars,
-} from "@/lib/services/youtubeSubtitleParser";
+} from "@/features/listening/services/youtubeSubtitleParser";
 
 // --- Mocking LocalStorage for Vitest Node Environment ---
 const localStorageMock = (() => {

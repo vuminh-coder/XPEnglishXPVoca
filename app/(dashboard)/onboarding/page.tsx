@@ -1,9 +1,9 @@
-"use client";
+﻿"use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Card, Button, Badge } from "@/components/ui";
-import { useAuthStore } from "@/lib/store/authStore";
-import { useNotificationStore } from "@/lib/store/notificationStore";
+import { Card, Button, Badge } from "@/shared/components/ui";
+import { useAuthStore } from "@/stores/authStore";
+import { useNotificationStore } from "@/stores/notificationStore";
 import { ArrowRight, CheckCircle, Sparkles, GraduationCap } from "lucide-react";
 
 interface Question {

@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { getAuthenticatedUserId } from "@/lib/auth";
+﻿import { NextResponse } from "next/server";
+import { prisma } from "@/infrastructure/database/prisma";
+import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 
 export async function POST(
   req: Request,

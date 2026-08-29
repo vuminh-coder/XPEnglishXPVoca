@@ -1,7 +1,7 @@
-import { getAuthenticatedUserId } from "@/lib/auth";
+﻿import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { LEVEL_TITLES } from "@/lib/constants";
+import { prisma } from "@/infrastructure/database/prisma";
+import { LEVEL_TITLES } from "@/shared/constants";
 
 // Helper to calculate level and title from XP
 function calculateLevelAndTitle(xp: number, currentLevel: number) {

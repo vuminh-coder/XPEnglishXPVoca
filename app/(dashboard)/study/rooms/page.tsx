@@ -1,8 +1,8 @@
-"use client";
+﻿"use client";
 import React, { useState, useEffect, useRef } from "react";
-import { useAuthStore } from "@/lib/store/authStore";
-import { useNotificationStore } from "@/lib/store/notificationStore";
-import { useUiStore } from "@/lib/store/uiStore";
+import { useAuthStore } from "@/stores/authStore";
+import { useNotificationStore } from "@/stores/notificationStore";
+import { useUiStore } from "@/stores/uiStore";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Users,
@@ -29,7 +29,7 @@ import {
   Copy,
   Check
 } from "lucide-react";
-import { Button, Badge } from "@/components/ui";
+import { Button, Badge } from "@/shared/components/ui";
 
 interface StudyRoomMember {
   id: string;

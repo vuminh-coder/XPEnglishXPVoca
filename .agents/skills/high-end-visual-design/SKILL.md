@@ -83,10 +83,22 @@ When generating UI code, follow this exact sequence:
 4. **[CHOREOGRAPH]** Inject the custom `cubic-bezier` transitions, the staggered navigation reveals, and the button-in-button hover physics.
 5. **[OUTPUT]** Deliver flawless, pixel-perfect React/Tailwind/HTML code. Do not include basic, generic fallbacks.
 
-## 8. PRE-OUTPUT CHECKLIST
+## 9. COLOR HARMONY & SEMANTIC ACCENT ARCHITECTURE (60-30-10 RULE)
+Never use high-arousal colors (Cherry Red, Pink, Hot Orange) across wide layout surfaces, cards, or background grids. Strictly adhere to the Golden 60-30-10 Ratio:
+- **60% Structural Canvas (Nền & Cấu trúc):** Pure White (`#ffffff`) or Deep Slate (`#090a0f` / `#0f172a`) with subtle 1px border lines (`border-slate-200/90` / `border-slate-800`). Keeps cognitive load minimal for long study/reading sessions.
+- **30% Brand & Main Interactive Surfaces:** Primary Brand Royal Blue (`#0059bb`) for primary CTA buttons, active tabs, and identity anchors.
+- **10% Semantic Functional Accents (Strict Contextual Triggers Only):**
+  - **🟡 Amber Gold (`#f59e0b`):** Gamification, Streak Flames, Rank 1 Badges, Coin Rewards.
+  - **🟢 Emerald Green (`#10b981`):** XP Rewards, Correct Answers, Mastered Vocabulary, Success Alerts.
+  - **🟣 Indigo / Purple (`#8b5cf6`):** Gemini AI Tutor, Grammar Engine, Smart Explanations.
+  - **🔴 Cherry Red / Rose (`#f43f5e` / `#e11d48`):** High-stakes testing (TOEIC/IELTS Exam Prep), Time-sensitive Countdown, Mistake/Error Correction, PvP Arena Lives/Hearts.
+  - **🌸 Soft Pink (`#ec4899`):** Strictly for specialized lifestyle/fashion/art themed categories or special shop gift tiers. Never use as generic UI tint.
+
+## 10. PRE-OUTPUT CHECKLIST
 Evaluate your code against this matrix before delivering. This is the last filter.
 - [ ] No banned fonts, icons, borders, shadows, layouts, or motion patterns from Section 2 are present
 - [ ] A Vibe Archetype and Layout Archetype from Section 3 were consciously selected and applied
+- [ ] Color Palette adheres to the 60-30-10 Rule (Cherry Red / Rose strictly confined to 10% semantic accents)
 - [ ] All major cards and containers use the Double-Bezel nested architecture (outer shell + inner core)
 - [ ] CTA buttons use the Button-in-Button trailing icon pattern where applicable
 - [ ] Section padding is at minimum `py-24` — the layout breathes heavily
@@ -96,3 +108,4 @@ Evaluate your code against this matrix before delivering. This is the last filte
 - [ ] All animations use only `transform` and `opacity` — no layout-triggering properties
 - [ ] `backdrop-blur` is only applied to fixed/sticky elements, never to scrolling content
 - [ ] The overall impression reads as "$150k agency build", not "template with nice fonts"
+

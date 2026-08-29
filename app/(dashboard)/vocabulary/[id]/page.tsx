@@ -1,16 +1,17 @@
 "use client";
 import React, { use, useState, useMemo, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { BASIC_VOCABULARY_THEMES, BASIC_VOCABULARIES } from "@/lib/data/basicVocabularies";
-import { ADVANCED_VOCABULARY_THEMES, ADVANCED_VOCABULARIES } from "@/lib/data/advancedVocabularies";
+import { BASIC_VOCABULARY_THEMES, BASIC_VOCABULARIES } from "@/features/vocabulary/data/basicVocabularies";
+import { ADVANCED_VOCABULARY_THEMES, ADVANCED_VOCABULARIES } from "@/features/vocabulary/data/advancedVocabularies";
 import { getSemanticThemeIcon } from "../VocabularyThemesClientList";
-import { useVocabularyStore } from "@/lib/store/vocabularyStore";
-import { useAuthStore } from "@/lib/store/authStore";
-import { useUserStore, recordSkillPractice } from "@/lib/store/userStore";
-import { useDailyChallengeStore } from "@/lib/store/dailyChallengeStore";
-import { useUiStore } from "@/lib/store/uiStore";
-import { safeSpeakText } from "@/lib/utils/mobileAudio";
+import { useVocabularyStore } from "@/stores/vocabularyStore";
+import { useAuthStore } from "@/stores/authStore";
+import { useUserStore, recordSkillPractice } from "@/stores/userStore";
+import { useDailyChallengeStore } from "@/stores/dailyChallengeStore";
+import { useUiStore } from "@/stores/uiStore";
+import { safeSpeakText } from "@/shared/utils/mobileAudio";
 import { motion, AnimatePresence } from "framer-motion";
+import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 import {
   ArrowLeft,
   Layers,
@@ -43,7 +44,7 @@ import {
   VolumeX,
 } from "lucide-react";
 
-import { containerVariants, itemVariants } from "@/components/shared/PageEntranceAnimation";
+import { containerVariants, itemVariants } from "@/shared/components/feedback/PageEntranceAnimation";
 
 export default function ThemeDetailPage({
   params,
@@ -52,8 +53,15 @@ export default function ThemeDetailPage({
 }) {
   const { id } = use(params);
 
-  const [vocabs, setVocabs] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  // Instant local dataset fallback for 0ms instant render
+  const localInitialVocabs = useMemo(() => {
+    const basicList = BASIC_VOCABULARIES.filter((v) => v.themeId === id);
+    if (basicList.length > 0) return basicList;
+    return ADVANCED_VOCABULARIES.filter((v) => v.themeId === id);
+  }, [id]);
+
+  const [vocabs, setVocabs] = useState<any[]>(localInitialVocabs);
+  const [isLoading, setIsLoading] = useState(localInitialVocabs.length === 0);
   const { toggleFavorite, learned, practiceWord } = useVocabularyStore();
   const { awardXp } = useAuthStore();
   const { setSidebarCollapsed } = useUiStore();
@@ -76,16 +84,21 @@ export default function ThemeDetailPage({
   }, [id, vocabs.length]);
 
   useEffect(() => {
-    setIsLoading(true);
+    let isMounted = true;
     fetch(`/api/vocabulary?themeId=${id}`)
       .then((res) => res.json())
       .then((res) => {
-        if (res.success && res.data) {
+        if (isMounted && res.success && res.data && res.data.length > 0) {
           setVocabs(res.data);
         }
       })
       .catch((err) => console.error("Error fetching vocabs:", err))
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        if (isMounted) setIsLoading(false);
+      });
+    return () => {
+      isMounted = false;
+    };
   }, [id]);
 
   // Page States
@@ -161,6 +174,11 @@ export default function ThemeDetailPage({
   const isCurrentBookmarked = activeVocab ? bookmarkedIds.includes(activeVocab.id) : false;
 
   const activeTimeRef = React.useRef(0);
+
+  // Real-time backend practice time tracker for Vocabulary
+  useStudyTimeTracker("vocab", {
+    activeCondition: !!activeVocab,
+  });
 
   useEffect(() => {
     const timer = setInterval(() => {

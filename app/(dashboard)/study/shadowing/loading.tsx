@@ -1,6 +1,6 @@
-"use client";
+﻿"use client";
 import React from "react";
-import { ShadowingListingSkeleton } from "@/components/study/shadowing/LoadingSkeletons";
+import { ShadowingListingSkeleton } from "@/features/shadowing/components/LoadingSkeletons";
 
 /**
  * Next.js loading.tsx — hiển thị Listing skeleton mặc định.

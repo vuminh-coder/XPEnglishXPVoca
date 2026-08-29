@@ -1,16 +1,16 @@
-import { describe, it, expect } from "vitest";
+﻿import { describe, it, expect } from "vitest";
 import {
   BASIC_VOCABULARY_THEMES,
   BASIC_VOCABULARIES,
   getBasicVocabulariesByTheme,
   searchBasicVocabularies,
-} from "@/lib/data/basicVocabularies";
+} from "@/features/vocabulary/data/basicVocabularies";
 import {
   ADVANCED_VOCABULARY_THEMES,
   ADVANCED_VOCABULARIES,
   getAdvancedVocabulariesByTheme,
   searchAdvancedVocabularies,
-} from "@/lib/data/advancedVocabularies";
+} from "@/features/vocabulary/data/advancedVocabularies";
 
 describe("Essential Basic & Daily Vocabulary Bank Audit (A1-A2 - 60 Comprehensive Themes)", () => {
   it("verifies all 60 core daily beginner themes are properly defined", () => {

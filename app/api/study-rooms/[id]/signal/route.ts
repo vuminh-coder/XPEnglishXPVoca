@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
-import { getAuthenticatedUserId } from "@/lib/auth";
+﻿import { NextResponse } from "next/server";
+import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 
 // In-memory queue for WebRTC signaling messages
 // Key: `${roomId}:${targetId}` -> Array of signals

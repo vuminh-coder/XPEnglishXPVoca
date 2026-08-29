@@ -1,5 +1,5 @@
-import { BASIC_VOCABULARY_THEMES } from "@/lib/data/basicVocabularies";
-import { ADVANCED_VOCABULARY_THEMES } from "@/lib/data/advancedVocabularies";
+﻿import { BASIC_VOCABULARY_THEMES } from "@/features/vocabulary/data/basicVocabularies";
+import { ADVANCED_VOCABULARY_THEMES } from "@/features/vocabulary/data/advancedVocabularies";
 import VocabularyThemesClientList from "./VocabularyThemesClientList";
 
 // Render at request-time so Prisma is never invoked during `next build`

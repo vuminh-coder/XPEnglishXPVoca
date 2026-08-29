@@ -1,4 +1,4 @@
-import { SkeletonExercise } from "@/components/shared/SkeletonLoaders";
+﻿import { SkeletonExercise } from "@/shared/components/feedback/SkeletonLoaders";
 
 export default function StudyLoading() {
   return (

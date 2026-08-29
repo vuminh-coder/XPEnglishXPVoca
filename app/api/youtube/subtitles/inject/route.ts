@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
-import { extractSubtitlesFromTrackUrl } from "@/lib/services/xpSubExtractor";
+﻿import { NextRequest, NextResponse } from "next/server";
+import { extractSubtitlesFromTrackUrl } from "@/features/listening/services/xpSubExtractor";
 
 /**
  * POST /api/youtube/subtitles/inject

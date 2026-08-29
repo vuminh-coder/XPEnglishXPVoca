@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { MOCK_EXAM_PAPERS } from "@/lib/data/exam-papers";
+import { MOCK_EXAM_PAPERS } from "@/features/exam-prep";
 
 describe("Comprehensive 37-Exam Bank Deep Audit", () => {
   it("contains exactly 37 standardized exam papers", () => {

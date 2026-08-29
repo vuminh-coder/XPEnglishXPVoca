@@ -27,4 +27,13 @@ These rules are based on Wadhah Aloui's 19 UI/UX rules and MUST be followed for 
 17. **Màu sắc ở chế độ tối (Dark mode):** Giảm độ bão hòa (saturation) của các màu nhấn để chống mỏi mắt.
 18. **Số lượng nút chính (Primary button):** Chỉ dùng duy nhất một nút primary nổi bật, các nút còn lại là secondary/ghost.
 19. **Văn bản trên nút:** Dùng động từ hành động rõ ràng (ví dụ: "Submit", "Cancel", "Confirm") thay vì mơ hồ.
+20. **Quy tắc phối màu 60 - 30 - 10 & Điểm nhấn ngữ nghĩa (Semantic Accents):**
+    - **60% Nền & Cấu trúc:** Trắng sáng / Xám Slate tối giản để giữ sự tập trung tối đa cho người học, không gây mỏi mắt.
+    - **30% Thương hiệu:** Xanh hoàng gia `#0059bb` cho các nút Primary, Icon nhận diện và Tab chính.
+    - **10% Điểm nhấn chức năng:** 
+      - Vàng Amber (`#f59e0b`): Gamification, Chuỗi Streak, Top 1, Thưởng Vàng.
+      - Xanh Emerald (`#10b981`): Đáp án đúng, Thành tích XP, Từ đã thuộc.
+      - Tím AI (`#8b5cf6`): Gemini AI Tutor, Ngữ pháp AI.
+      - **Đỏ Cherry / Rose (`#f43f5e` / `#e11d48`):** Dùng có chọn lọc cho Phòng Thi Thử Đề Chuẩn (`/study/exam-prep`), Đếm ngược thời gian gấp gáp, Báo lỗi sai cần sửa và Trái tim sinh mệnh PvP Arena (Không dùng tràn lan làm màu nền hoặc màu trang trí chung).
+      - **Hồng Soft Pink (`#ec4899`):** Giới hạn cho chủ đề Thời trang/Làm đẹp hoặc Quà tặng đặc biệt.
 

@@ -1,8 +1,8 @@
-"use client";
+﻿"use client";
 import React from "react";
 import Link from "next/link";
-import { useAuthStore } from "@/lib/store/authStore";
-import { Card, Badge, Button } from "@/components/ui";
+import { useAuthStore } from "@/stores/authStore";
+import { Card, Badge, Button } from "@/shared/components/ui";
 import { ArrowLeft, Lock, CheckCircle, Sparkles } from "lucide-react";
 
 interface Achievement {

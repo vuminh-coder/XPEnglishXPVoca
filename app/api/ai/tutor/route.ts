@@ -1,5 +1,5 @@
-import { getAuthenticatedUserId } from "@/lib/auth";
-import { isRateLimited } from "@/lib/rateLimit";
+﻿import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { isRateLimited } from "@/infrastructure/security/rateLimit";
 import { NextResponse } from "next/server";
 
 // Fallback topic suggestion banks for Voice Tutor

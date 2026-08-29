@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { 
@@ -18,10 +18,10 @@ import {
   CheckCircle,
   Award
 } from 'lucide-react';
-import { useAuthStore } from "@/lib/store/authStore";
-import { useNotificationStore } from "@/lib/store/notificationStore";
-import { Button } from '@/components/ui';
-import { UserAvatar, formatCleanName } from '@/components/shared/UserAvatar';
+import { useAuthStore } from "@/stores/authStore";
+import { useNotificationStore } from "@/stores/notificationStore";
+import { Button } from '@/shared/components/ui';
+import { UserAvatar, formatCleanName } from '@/shared/components/feedback/UserAvatar';
 
 const GROUP_ICONS: Record<string, React.ReactNode> = {
   'g1': <Target className="w-5 h-5 text-[#0059bb]" />,

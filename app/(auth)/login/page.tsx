@@ -1,9 +1,9 @@
-"use client";
+﻿"use client";
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useAuthStore } from "@/lib/store/authStore";
-import { PageEntranceWrapper, MotionItem } from "@/components/shared/PageEntranceAnimation";
+import { useAuthStore } from "@/stores/authStore";
+import { PageEntranceWrapper, MotionItem } from "@/shared/components/feedback/PageEntranceAnimation";
 import "../auth.css";
 import {
   BookOpen,

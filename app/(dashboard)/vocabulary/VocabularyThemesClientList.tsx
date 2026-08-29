@@ -2,7 +2,7 @@
 import React, { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { PageEntranceWrapper, MotionItem } from "@/components/shared/PageEntranceAnimation";
+import { PageEntranceWrapper, MotionItem } from "@/shared/components/feedback/PageEntranceAnimation";
 import {
   Search,
   BookOpen,
@@ -50,8 +50,8 @@ import {
   CheckCircle2,
   Flame,
 } from "lucide-react";
-import { BASIC_VOCABULARY_THEMES } from "@/lib/data/basicVocabularies";
-import { ADVANCED_VOCABULARY_THEMES } from "@/lib/data/advancedVocabularies";
+import { BASIC_VOCABULARY_THEMES } from "@/features/vocabulary/data/basicVocabularies";
+import { ADVANCED_VOCABULARY_THEMES } from "@/features/vocabulary/data/advancedVocabularies";
 
 export interface ClientTheme {
   id: string;
@@ -177,17 +177,17 @@ function getRandomSample<T>(arr: T[], limit: number): T[] {
 export default function VocabularyThemesClientList({
   initialBasicThemes,
   initialAdvancedThemes,
-  initialThemes,
 }: {
   initialBasicThemes?: ClientTheme[];
   initialAdvancedThemes?: ClientTheme[];
   initialThemes?: ClientTheme[];
 }) {
-  // Vocabulary Level Mode: "basic" (A1-A2, file 1) or "advanced" (B1-C2, file 2)
+  // Vocabulary Level Mode: "basic" (A1-A2) or "advanced" (B1-C2)
   const [levelMode, setLevelMode] = useState<"basic" | "advanced">("basic");
   const [search, setSearch] = useState("");
+  const [displayedCount, setDisplayedCount] = useState(12);
 
-  // Source 1: Basic themes from lib/data/basicVocabularies.ts
+  // Source 1: Basic themes
   const basicThemesList: ClientTheme[] = useMemo(() => {
     if (initialBasicThemes && initialBasicThemes.length > 0) return initialBasicThemes;
     return BASIC_VOCABULARY_THEMES.map((t) => ({
@@ -200,7 +200,7 @@ export default function VocabularyThemesClientList({
     }));
   }, [initialBasicThemes]);
 
-  // Source 2: Advanced themes from lib/data/advancedVocabularies.ts
+  // Source 2: Advanced themes
   const advancedThemesList: ClientTheme[] = useMemo(() => {
     if (initialAdvancedThemes && initialAdvancedThemes.length > 0) return initialAdvancedThemes;
     return ADVANCED_VOCABULARY_THEMES.map((t) => ({
@@ -213,29 +213,19 @@ export default function VocabularyThemesClientList({
     }));
   }, [initialAdvancedThemes]);
 
-  // Active themes based on selected mode
+  // Active themes pool based on selected level
   const currentThemesPool = useMemo(() => {
     return levelMode === "basic" ? basicThemesList : advancedThemesList;
   }, [levelMode, basicThemesList, advancedThemesList]);
 
-  // Displayed theme IDs for progressive pagination (Default initial: 12 themes)
-  const [displayedIds, setDisplayedIds] = useState<string[]>(() => {
-    return basicThemesList.slice(0, 12).map((t) => t.id);
-  });
-
-  // Reset pagination when levelMode changes (Always 12 initial themes)
-  useEffect(() => {
-    const initialLimit = 12;
-    setDisplayedIds(getRandomSample(currentThemesPool, initialLimit).map((t) => t.id));
+  const handleLevelChange = (mode: "basic" | "advanced") => {
+    setLevelMode(mode);
+    setDisplayedCount(12);
     setSearch("");
-  }, [levelMode, currentThemesPool]);
+  };
 
   const loadMoreThemes = () => {
-    const remaining = currentThemesPool.filter((t) => !displayedIds.includes(t.id));
-    if (remaining.length > 0) {
-      const nextBatch = getRandomSample(remaining, 4).map((t) => t.id);
-      setDisplayedIds((prev) => [...prev, ...nextBatch]);
-    }
+    setDisplayedCount((prev) => prev + 8);
   };
 
   const filteredThemes = useMemo(() => {
@@ -248,10 +238,8 @@ export default function VocabularyThemesClientList({
           t.nameEn.toLowerCase().includes(q)
       );
     }
-    return displayedIds
-      .map((id) => currentThemesPool.find((t) => t.id === id))
-      .filter((t): t is ClientTheme => !!t);
-  }, [search, displayedIds, currentThemesPool]);
+    return list.slice(0, displayedCount);
+  }, [search, displayedCount, currentThemesPool]);
 
   const totalVocabsCount = useMemo(() => {
     if (levelMode === "basic") {
@@ -314,7 +302,7 @@ export default function VocabularyThemesClientList({
               {/* NÚT 1: TỪ VỰNG CƠ BẢN */}
               <button
                 type="button"
-                onClick={() => setLevelMode("basic")}
+                onClick={() => handleLevelChange("basic")}
                 className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-xs text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98] ${
                   levelMode === "basic"
                     ? "bg-[#1d6ee6] text-white shadow-2xs font-black"
@@ -328,7 +316,7 @@ export default function VocabularyThemesClientList({
               {/* NÚT 2: TỪ VỰNG NÂNG CAO */}
               <button
                 type="button"
-                onClick={() => setLevelMode("advanced")}
+                onClick={() => handleLevelChange("advanced")}
                 className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-xs text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98] ${
                   levelMode === "advanced"
                     ? "bg-[#1d6ee6] text-white shadow-2xs font-black"
@@ -499,7 +487,7 @@ export default function VocabularyThemesClientList({
       )}
 
       {/* Load More Button */}
-      {search === "" && displayedIds.length < currentThemesPool.length && (
+      {search === "" && displayedCount < currentThemesPool.length && (
         <MotionItem className="flex justify-center sm:justify-end pt-2 pb-1">
           <button
             onClick={loadMoreThemes}

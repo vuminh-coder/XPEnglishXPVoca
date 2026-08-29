@@ -1,9 +1,10 @@
 "use client";
 import React, { useState, useCallback, useMemo, useRef, useEffect } from "react";
-import { useAuthStore } from "@/lib/store/authStore";
-import { useUserStore, recordSkillPractice } from "@/lib/store/userStore";
-import { useNotificationStore } from "@/lib/store/notificationStore";
+import { useAuthStore } from "@/stores/authStore";
+import { useUserStore, recordSkillPractice } from "@/stores/userStore";
+import { useNotificationStore } from "@/stores/notificationStore";
 import { motion, AnimatePresence } from "framer-motion";
+import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 import {
   BookOpen,
   Sparkles,
@@ -82,7 +83,7 @@ import {
   Pin,
   Rocket,
 } from "lucide-react";
-import { getGrammarLesson, type GrammarLesson } from "@/lib/data/grammarContent";
+import { getGrammarLesson, type GrammarLesson } from "@/features/grammar/data/grammarContent";
 
 function getGrammarTopicIcon(topicId: string) {
   switch (topicId) {
@@ -301,7 +302,7 @@ const GRAMMAR_TOPICS: GrammarTopic[] = [
   { id: "emphatic_fronting", name: "Cấu trúc nhấn mạnh bổ trợ (Fronting)", nameEn: "Emphatic Structures & Fronting", icon: "🚀", desc: "Đảo ngữ hoặc đảo thành tố câu lên đầu câu để tạo hiệu ứng tu từ mạnh mẽ.", level: "advanced", focus: "IELTS Writing & Speaking (Band 8.0+)" }
 ];
 
-import { containerVariants, itemVariants } from "@/components/shared/PageEntranceAnimation";
+import { containerVariants, itemVariants } from "@/shared/components/feedback/PageEntranceAnimation";
 
 export default function AiGrammarPage() {
   const { awardXp } = useAuthStore();
@@ -315,6 +316,11 @@ export default function AiGrammarPage() {
   const [lessonData, setLessonData] = useState<GrammarLesson | null>(null);
 
   const activeTimeRef = useRef(0);
+
+  // Real-time backend practice time tracker for Grammar / Writing
+  useStudyTimeTracker("writing", {
+    activeCondition: !!selectedTopic,
+  });
 
   useEffect(() => {
     const timer = setInterval(() => {

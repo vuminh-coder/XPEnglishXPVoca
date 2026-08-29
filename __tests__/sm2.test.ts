@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { calculateSM2 } from "../lib/utils/sm2";
+import { calculateSM2 } from "@/shared/utils/sm2";
 
 describe("SM-2 Spaced Repetition Algorithm", () => {
   it("should reset repetitions and interval to 1 on quality < 3 (incorrect response)", () => {

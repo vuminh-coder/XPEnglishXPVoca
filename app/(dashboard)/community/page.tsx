@@ -1,8 +1,8 @@
-'use client';
+﻿'use client';
 import React, { useState, useCallback } from 'react';
 import Link from 'next/link';
-import { useAuthStore } from '@/lib/store/authStore';
-import { useNotificationStore } from '@/lib/store/notificationStore';
+import { useAuthStore } from '@/stores/authStore';
+import { useNotificationStore } from '@/stores/notificationStore';
 import { 
   Heart, 
   MessageCircle, 
@@ -16,8 +16,8 @@ import {
   ArrowRight,
   MessageSquare
 } from 'lucide-react';
-import { Button } from '@/components/ui';
-import { UserAvatar, formatCleanName } from '@/components/shared/UserAvatar';
+import { Button } from '@/shared/components/ui';
+import { UserAvatar, formatCleanName } from '@/shared/components/feedback/UserAvatar';
 
 const INITIAL_COMMENTS = 3;
 const LOAD_MORE_COMMENTS = 5;

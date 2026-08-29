@@ -1,6 +1,6 @@
-import { getAuthenticatedUserId } from "@/lib/auth";
+﻿import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
-import { prisma, handlePrismaError } from "@/lib/prisma";
+import { prisma, handlePrismaError } from "@/infrastructure/database/prisma";
 
 export async function GET() {
   try {

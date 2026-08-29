@@ -1,7 +1,7 @@
-import { getAuthenticatedUserId } from "@/lib/auth";
+﻿import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { LEVEL_TITLES } from "@/lib/constants";
+import { prisma } from "@/infrastructure/database/prisma";
+import { LEVEL_TITLES } from "@/shared/constants";
 
 function calculateLevelAndTitle(xp: number, currentLevel: number) {
   const LEVEL_XP = [

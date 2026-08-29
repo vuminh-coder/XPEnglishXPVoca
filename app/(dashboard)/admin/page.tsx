@@ -1,9 +1,9 @@
-"use client";
+﻿"use client";
 import React, { useState } from "react";
-import { MOCK_THEMES } from "@/lib/constants";
-import { useAuthStore } from "@/lib/store/authStore";
-import { useNotificationStore } from "@/lib/store/notificationStore";
-import { Card, Button, Badge } from "@/components/ui";
+import { MOCK_THEMES } from "@/shared/constants";
+import { useAuthStore } from "@/stores/authStore";
+import { useNotificationStore } from "@/stores/notificationStore";
+import { Card, Button, Badge } from "@/shared/components/ui";
 import {
   Users,
   BookOpen,

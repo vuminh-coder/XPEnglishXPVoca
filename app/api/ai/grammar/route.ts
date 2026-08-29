@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getGrammarLesson } from "@/lib/data/grammarContent";
+﻿import { NextRequest, NextResponse } from "next/server";
+import { getGrammarLesson } from "@/features/grammar/data/grammarContent";
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
 

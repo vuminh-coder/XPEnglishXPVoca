@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import {
@@ -7,17 +7,17 @@ import {
   extractYouTubeId,
   extractYouTubeStartTimestamp,
   SubtitleSentence,
-} from "@/lib/store/videoStore";
-import { processHighPrecisionSubtitles, SubtitleExtractionResult } from "@/lib/services/youtubeSubtitleService";
-import { parseSrtContent, validateSrtContent } from "@/lib/services/srtParser";
-import { calculateCharacterWeightedWordIndex } from "@/lib/services/youtubeSubtitleParser";
-import { CaptionTrackInfo, TranslationLanguageInfo } from "@/lib/services/xpSubExtractor";
-import { useAuthStore } from "@/lib/store/authStore";
-import { useNotificationStore } from "@/lib/store/notificationStore";
-import { PageEntranceWrapper, MotionItem } from "@/components/shared/PageEntranceAnimation";
+} from "@/stores/videoStore";
+import { processHighPrecisionSubtitles, SubtitleExtractionResult } from "@/features/listening/services/youtubeSubtitleService";
+import { parseSrtContent, validateSrtContent } from "@/features/listening/services/srtParser";
+import { calculateCharacterWeightedWordIndex } from "@/features/listening/services/youtubeSubtitleParser";
+import { CaptionTrackInfo, TranslationLanguageInfo } from "@/features/listening/services/xpSubExtractor";
+import { useAuthStore } from "@/stores/authStore";
+import { useNotificationStore } from "@/stores/notificationStore";
+import { PageEntranceWrapper, MotionItem } from "@/shared/components/feedback/PageEntranceAnimation";
 import { motion, AnimatePresence } from "framer-motion";
-import { speakLessonText } from "@/lib/utils/ttsEngine";
-import { backgroundWebSpeechTranscriber } from "@/lib/services/webSpeechTranscriber";
+import { speakLessonText } from "@/shared/utils/ttsEngine";
+import { backgroundWebSpeechTranscriber } from "@/features/shadowing/services/webSpeechTranscriber";
 
 import {
   Video,

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Sparkles, ArrowRight, Clock } from "lucide-react";
-import { SkillType } from "@/lib/data/examPrepData";
+import { SkillType } from "@/features/exam-prep";
 
 interface SkillTransitionBridgeProps {
   completedSkill: SkillType;
@@ -38,26 +38,26 @@ export function SkillTransitionBridge({
   };
 
   return (
-    <div className="max-w-xl mx-auto my-4 sm:my-12 p-4 sm:p-8 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xl text-center space-y-4 sm:space-y-5">
-      <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-500 mx-auto flex items-center justify-center font-black">
-        <Sparkles className="w-6 h-6" />
+    <div className="max-w-xl mx-auto my-4 sm:my-12 p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xl text-center space-y-4 sm:space-y-5">
+      <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center font-black shadow-xs">
+        <Sparkles className="w-7 h-7" />
       </div>
 
-      <div className="space-y-1.5">
-        <span className="px-3 py-1 rounded-xs text-xs font-black uppercase tracking-wider bg-emerald-500 text-white font-display">
+      <div className="space-y-2">
+        <span className="px-3 py-1 rounded-md text-xs font-black uppercase tracking-wider bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-mono">
           ĐÃ HOÀN THÀNH {skillNames[completedSkill]}
         </span>
-        <h2 className="text-base sm:text-xl font-black font-display text-slate-900 dark:text-white pt-2">
+        <h2 className="text-lg sm:text-2xl font-black font-display text-slate-900 dark:text-white pt-2 leading-tight">
           Chuẩn bị bước vào phần thi {skillNames[nextSkill]}
         </h2>
-        <p className="text-xs sm:text-[13px] text-slate-500 dark:text-slate-400 font-medium">
+        <p className="text-xs sm:text-[13px] text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
           Hãy dành ít giây nghỉ ngơi để thả lỏng tinh thần trước khi bắt đầu phần thi tiếp theo.
         </p>
       </div>
 
       {/* Rest Countdown */}
       <div className="py-2">
-        <div className="text-3xl sm:text-4xl font-black font-display text-[#0059bb]">
+        <div className="text-3xl sm:text-4xl font-black font-mono text-[#0059bb] dark:text-sky-400">
           {restSeconds}s
         </div>
         <span className="text-[11px] text-slate-400 font-medium flex items-center justify-center gap-1 mt-1 font-sans">
@@ -66,8 +66,9 @@ export function SkillTransitionBridge({
       </div>
 
       <button
+        type="button"
         onClick={onProceed}
-        className="w-full py-3 rounded-xs bg-[#0059bb] hover:bg-[#004799] text-white text-xs sm:text-sm font-black transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer font-display"
+        className="w-full py-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] active:scale-98 text-white text-xs sm:text-sm font-black transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer font-display"
       >
         <span>Bắt Đầu Phần Thi {skillNames[nextSkill]} Ngay</span>
         <ArrowRight className="w-4 h-4" />

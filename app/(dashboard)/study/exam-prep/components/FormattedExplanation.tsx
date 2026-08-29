@@ -37,7 +37,7 @@ function parseInlineFormatting(text: string): React.ReactNode[] {
       return (
         <code
           key={index}
-          className="px-1.5 py-0.5 rounded-xs bg-amber-200/80 dark:bg-amber-900/60 text-amber-950 dark:text-amber-200 font-mono text-[11px] sm:text-xs font-semibold border border-amber-300/80 dark:border-amber-700/50 select-text inline align-baseline"
+          className="px-1.5 py-0.5 rounded-md bg-amber-200/80 dark:bg-amber-900/60 text-amber-950 dark:text-amber-200 font-mono text-[11px] sm:text-xs font-semibold border border-amber-300/80 dark:border-amber-700/50 select-text inline align-baseline"
         >
           {inner}
         </code>
@@ -62,7 +62,7 @@ function parseInlineFormatting(text: string): React.ReactNode[] {
       return (
         <span
           key={index}
-          className="text-slate-800 dark:text-slate-200 font-medium px-1 bg-amber-100/50 dark:bg-amber-950/40 rounded-xs border border-amber-200/60 dark:border-amber-900/30 inline"
+          className="text-slate-800 dark:text-slate-200 font-medium px-1 bg-amber-100/50 dark:bg-amber-950/40 rounded-md border border-amber-200/60 dark:border-amber-900/30 inline"
         >
           &ldquo;{inner}&rdquo;
         </span>
@@ -118,7 +118,7 @@ export function FormattedExplanation({
           return (
             <div
               key={idx}
-              className="my-1.5 pl-3 py-1.5 border-l-2 border-amber-400 bg-white/70 dark:bg-slate-900/70 rounded-r-xs text-xs sm:text-[13px] text-slate-900 dark:text-slate-100 font-medium shadow-2xs leading-relaxed"
+              className="my-1.5 pl-3 py-1.5 border-l-2 border-amber-400 bg-white/70 dark:bg-slate-900/70 rounded-r-md text-xs sm:text-[13px] text-slate-900 dark:text-slate-100 font-medium shadow-2xs leading-relaxed"
             >
               &ldquo;{cleanQuote}&rdquo;
             </div>

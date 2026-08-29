@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import { Wand2, Send, RefreshCw, BookOpen, ChevronDown, ChevronUp, Award } from "lucide-react";
-import { ExamQuestion } from "@/lib/data/examPrepData";
-import { useNotificationStore } from "@/lib/store/notificationStore";
+import { ExamQuestion } from "@/features/exam-prep";
+import { useNotificationStore } from "@/stores/notificationStore";
 
 interface WritingStudioWorkspaceProps {
   question: ExamQuestion;
@@ -70,35 +70,35 @@ export function WritingStudioWorkspace({
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 items-start">
       {/* LEFT COLUMN (6/12): PROMPT, VISUAL & INCOMING PASSAGE */}
-      <div className="lg:col-span-6 p-3.5 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3">
-        <div className="flex items-center gap-2 border-b border-slate-100 dark:border-white/5 pb-2">
-          <div className="w-6 h-6 rounded-full bg-purple-500/15 flex items-center justify-center shrink-0">
-            <Wand2 className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" strokeWidth={2} />
+      <div className="lg:col-span-6 p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-3.5">
+        <div className="flex items-center gap-2.5 border-b border-slate-100 dark:border-slate-800 pb-2.5">
+          <div className="w-7 h-7 rounded-lg bg-purple-500/15 flex items-center justify-center shrink-0">
+            <Wand2 className="w-4 h-4 text-purple-600 dark:text-purple-400" strokeWidth={2} />
           </div>
-          <h3 className="text-xs font-black uppercase font-display text-slate-900 dark:text-white truncate">
+          <h3 className="text-xs sm:text-sm font-bold uppercase font-display text-slate-900 dark:text-white truncate">
             Writing AI Studio — {question.partTitle}
           </h3>
         </div>
 
         {/* Prompt Instruction */}
-        <p className="text-xs sm:text-[13px] text-slate-800 dark:text-slate-200 font-bold leading-relaxed">
+        <p className="text-xs sm:text-sm text-slate-800 dark:text-slate-200 font-bold leading-relaxed">
           {question.writingPrompt || question.questionText}
         </p>
 
         {/* Task Image (Writing Part 1) */}
         {question.imageUrl && (
-          <div className="w-full max-w-md mx-auto aspect-[4/3] max-h-[240px] sm:max-h-[280px] rounded-xs overflow-hidden border border-slate-200/90 dark:border-white/10 shadow-2xs bg-slate-100 dark:bg-slate-900/90 p-1 sm:p-1.5 flex items-center justify-center relative">
+          <div className="w-full max-w-md mx-auto aspect-[4/3] max-h-[240px] sm:max-h-[280px] rounded-2xl overflow-hidden border border-slate-200/90 dark:border-slate-800 shadow-sm bg-slate-100 dark:bg-slate-900/90 p-1.5 flex items-center justify-center relative">
             <img
               src={question.imageUrl}
               alt="Writing Task Image"
-              className="w-full h-full object-contain object-center rounded-xs select-none transition-all duration-200"
+              className="w-full h-full object-contain object-center rounded-xl select-none transition-all duration-200"
               onError={(e) => {
                 e.currentTarget.onerror = null;
                 e.currentTarget.src =
                   "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=80";
               }}
             />
-            <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded-xs bg-slate-950/75 backdrop-blur-xs text-[10px] font-bold text-white tracking-wider uppercase font-sans shadow-xs pointer-events-none">
+            <div className="absolute bottom-2 left-2 px-2.5 py-0.5 rounded-md bg-slate-950/75 backdrop-blur-xs text-[10px] font-bold text-white tracking-wider uppercase font-mono shadow-xs pointer-events-none">
               Ảnh Bài Viết Câu {currentQuestionIndex + 1}
             </div>
           </div>
@@ -106,27 +106,28 @@ export function WritingStudioWorkspace({
 
         {/* Incoming Email / Text Passage (Writing Part 2) */}
         {question.passageText && (
-          <div className="p-3.5 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/10 text-xs sm:text-[13px] font-mono leading-relaxed text-slate-900 dark:text-slate-100 whitespace-pre-line select-text">
+          <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 text-xs sm:text-sm font-mono leading-relaxed text-slate-900 dark:text-slate-100 whitespace-pre-line select-text">
             {question.passageText}
           </div>
         )}
 
         {/* Sample Essay / Model Answer Accordion */}
         {question.sampleEssay && (
-          <div className="rounded-xs border border-purple-200 dark:border-purple-900/40 bg-purple-50/50 dark:bg-purple-950/20 overflow-hidden">
+          <div className="rounded-xl border border-purple-200 dark:border-purple-900/40 bg-purple-50/50 dark:bg-purple-950/20 overflow-hidden">
             <button
+              type="button"
               onClick={() => setShowSample(!showSample)}
-              className="w-full p-2.5 px-3 flex items-center justify-between text-xs font-bold text-purple-700 dark:text-purple-300 cursor-pointer hover:bg-purple-100/50 dark:hover:bg-purple-900/30 transition-all"
+              className="w-full p-3 px-3.5 flex items-center justify-between text-xs font-bold text-purple-700 dark:text-purple-300 cursor-pointer hover:bg-purple-100/50 dark:hover:bg-purple-900/30 transition-all"
             >
-              <span className="flex items-center gap-1.5">
-                <BookOpen className="w-3.5 h-3.5" />
+              <span className="flex items-center gap-2">
+                <BookOpen className="w-4 h-4" />
                 <span>Tham Khảo Bài Mẫu Điểm Tuyệt Đối (ETS Sample)</span>
               </span>
               {showSample ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
             </button>
 
             {showSample && (
-              <div className="p-3 border-t border-purple-200 dark:border-purple-900/30 bg-white dark:bg-slate-950 text-xs text-slate-800 dark:text-slate-200 whitespace-pre-line leading-relaxed font-sans">
+              <div className="p-4 border-t border-purple-200 dark:border-purple-900/30 bg-white dark:bg-slate-950 text-xs sm:text-[13px] text-slate-800 dark:text-slate-200 whitespace-pre-line leading-relaxed font-sans">
                 {question.sampleEssay}
               </div>
             )}
@@ -135,14 +136,14 @@ export function WritingStudioWorkspace({
       </div>
 
       {/* RIGHT COLUMN (6/12): ESSAY EDITOR & LIVE METRICS */}
-      <div className="lg:col-span-6 p-3.5 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-3">
+      <div className="lg:col-span-6 p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-3.5">
         {/* Word Count Progress Bar */}
-        <div className="space-y-1.5">
+        <div className="space-y-2">
           <div className="flex items-center justify-between text-xs font-bold font-sans">
             <span className="text-slate-700 dark:text-slate-300">
-              Số từ: <span className="text-purple-600 dark:text-purple-400 font-black">{wordCount}</span> / {targetWordCount} từ
+              Số từ: <span className="text-purple-600 dark:text-purple-400 font-black font-mono">{wordCount}</span> / {targetWordCount} từ
             </span>
-            <span className="text-[11px] text-slate-400 font-medium">
+            <span className="text-[11px] text-slate-400 font-medium font-mono">
               {progressPercent}% chỉ tiêu
             </span>
           </div>
@@ -164,19 +165,20 @@ export function WritingStudioWorkspace({
             setEssayText(e.target.value);
             onSelectAnswer("A");
           }}
-          className="w-full p-3 text-xs sm:text-sm font-sans rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500/30 leading-relaxed min-h-[160px] sm:min-h-[220px]"
+          className="w-full p-3.5 text-xs sm:text-sm font-sans rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200/90 dark:border-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500/30 leading-relaxed min-h-[160px] sm:min-h-[220px]"
         />
 
         {/* Evaluation Action Button */}
         <div className="flex items-center justify-between pt-0.5">
-          <span className="text-[11px] text-slate-400 font-sans hidden sm:inline">
+          <span className="text-xs text-slate-400 font-sans hidden sm:inline">
             Tự động lưu câu trả lời khi nhập
           </span>
 
           <button
+            type="button"
             disabled={isEvaluating}
             onClick={handleEvaluate}
-            className="px-4 py-2 rounded-xs bg-purple-600 hover:bg-purple-500 active:scale-95 text-white text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 shadow-xs ml-auto"
+            className="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 active:scale-95 text-white text-xs font-bold transition-all cursor-pointer flex items-center gap-2 shadow-xs ml-auto"
           >
             {isEvaluating ? (
               <>
@@ -194,43 +196,43 @@ export function WritingStudioWorkspace({
 
         {/* AI Evaluation Report Card */}
         {evaluation && (
-          <div className="p-3.5 rounded-xs bg-purple-50 dark:bg-purple-950/40 border border-purple-300 dark:border-purple-500/30 text-xs space-y-2.5">
-            <div className="flex items-center justify-between border-b border-purple-200 dark:border-purple-800/40 pb-1.5">
-              <div className="flex items-center gap-1.5">
+          <div className="p-4 sm:p-5 rounded-2xl bg-purple-50/70 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-800/40 text-xs space-y-3">
+            <div className="flex items-center justify-between border-b border-purple-200/80 dark:border-purple-800/40 pb-2.5">
+              <div className="flex items-center gap-2">
                 <Award className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-                <span className="font-black text-purple-800 dark:text-purple-300 font-display text-xs sm:text-sm">
+                <span className="font-bold text-purple-900 dark:text-purple-300 font-display text-xs sm:text-sm">
                   Báo Cáo Điểm Viết AI Chuẩn ETS
                 </span>
               </div>
-              <span className="px-2.5 py-0.5 rounded-xs bg-purple-600 text-white font-black text-xs font-sans">
+              <span className="px-2.5 py-0.5 rounded-md bg-purple-600 text-white font-black text-xs font-mono shadow-2xs">
                 Band {evaluation.overallBand || "7.5"}
               </span>
             </div>
 
             {/* Criteria Score Metrics */}
             {evaluation.criteria && (
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 text-center">
-                <div className="p-1.5 rounded-xs bg-white dark:bg-slate-900 border border-purple-200 dark:border-purple-900/30">
-                  <span className="text-[10px] font-bold text-slate-400 block">Nội Dung / Đề Bài</span>
-                  <span className="font-black text-xs sm:text-sm text-purple-600 font-sans">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+                <div className="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-purple-200/80 dark:border-purple-900/30 shadow-2xs">
+                  <span className="text-[10px] font-bold text-slate-400 block font-sans">Nội Dung / Đề Bài</span>
+                  <span className="font-black text-xs sm:text-sm text-purple-600 font-mono">
                     {evaluation.criteria.taskAchievement || 7.5}
                   </span>
                 </div>
-                <div className="p-1.5 rounded-xs bg-white dark:bg-slate-900 border border-purple-200 dark:border-purple-900/30">
-                  <span className="text-[10px] font-bold text-slate-400 block">Liên Kết Đoạn</span>
-                  <span className="font-black text-xs sm:text-sm text-purple-600 font-sans">
+                <div className="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-purple-200/80 dark:border-purple-900/30 shadow-2xs">
+                  <span className="text-[10px] font-bold text-slate-400 block font-sans">Liên Kết Đoạn</span>
+                  <span className="font-black text-xs sm:text-sm text-purple-600 font-mono">
                     {evaluation.criteria.coherenceCohesion || 7.0}
                   </span>
                 </div>
-                <div className="p-1.5 rounded-xs bg-white dark:bg-slate-900 border border-purple-200 dark:border-purple-900/30">
-                  <span className="text-[10px] font-bold text-slate-400 block">Từ Vựng C1/C2</span>
-                  <span className="font-black text-xs sm:text-sm text-purple-600 font-sans">
+                <div className="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-purple-200/80 dark:border-purple-900/30 shadow-2xs">
+                  <span className="text-[10px] font-bold text-slate-400 block font-sans">Từ Vựng C1/C2</span>
+                  <span className="font-black text-xs sm:text-sm text-purple-600 font-mono">
                     {evaluation.criteria.lexicalResource || 8.0}
                   </span>
                 </div>
-                <div className="p-1.5 rounded-xs bg-white dark:bg-slate-900 border border-purple-200 dark:border-purple-900/30">
-                  <span className="text-[10px] font-bold text-slate-400 block">Ngữ Pháp</span>
-                  <span className="font-black text-xs sm:text-sm text-purple-600 font-sans">
+                <div className="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-purple-200/80 dark:border-purple-900/30 shadow-2xs">
+                  <span className="text-[10px] font-bold text-slate-400 block font-sans">Ngữ Pháp</span>
+                  <span className="font-black text-xs sm:text-sm text-purple-600 font-mono">
                     {evaluation.criteria.grammaticalAccuracy || 7.5}
                   </span>
                 </div>

@@ -1,10 +1,10 @@
-"use client";
+﻿"use client";
 import React, { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { PageEntranceWrapper, MotionItem } from "@/components/shared/PageEntranceAnimation";
-import { useUserStore } from "@/lib/store/userStore";
-import { useVocabularyStore } from "@/lib/store/vocabularyStore";
-import { UserAvatar } from "@/components/shared/UserAvatar";
+import { PageEntranceWrapper, MotionItem } from "@/shared/components/feedback/PageEntranceAnimation";
+import { useUserStore } from "@/stores/userStore";
+import { useVocabularyStore } from "@/stores/vocabularyStore";
+import { UserAvatar } from "@/shared/components/feedback/UserAvatar";
 import Link from "next/link";
 import {
   Flame,
@@ -26,7 +26,7 @@ import {
 import {
   get30DaySkillAnalytics,
   get6MonthHeatmapAnalytics,
-} from "@/lib/store/skillChartStore";
+} from "@/stores/skillChartStore";
 
 export default function AnalyticsPage() {
   const { user } = useUserStore();

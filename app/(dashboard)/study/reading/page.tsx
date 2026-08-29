@@ -34,16 +34,25 @@ import {
   ChevronRight,
   Share2,
 } from "lucide-react";
-import { useUserStore } from "@/lib/store/userStore";
-import { useNotificationStore } from "@/lib/store/notificationStore";
-import { useUiStore } from "@/lib/store/uiStore";
-import { safeSpeakText } from "@/lib/utils/mobileAudio";
-import { stopTTS } from "@/lib/utils/ttsEngine";
+import { useUserStore } from "@/stores/userStore";
+import { useNotificationStore } from "@/stores/notificationStore";
+import { useUiStore } from "@/stores/uiStore";
+import { safeSpeakText } from "@/shared/utils/mobileAudio";
+import { stopTTS } from "@/shared/utils/ttsEngine";
+import {
+  AppTopHeader,
+  HeaderPillContainer,
+  HeaderPillItem,
+} from "@/shared/components/layout/AppTopHeader";
 import {
   READING_PASSAGES_DATA,
   ReadingPassage,
   ReadingVocab,
-} from "@/lib/data/readingMockData";
+} from "@/features/reading/data/readingMockData";
+import {
+  ReadingListingSkeleton,
+  ReadingStudioSkeleton,
+} from "@/features/reading/components/LoadingSkeletons";
 
 function ReadingStudioContent() {
   const searchParams = useSearchParams();
@@ -76,6 +85,21 @@ function ReadingStudioContent() {
       }
     }
   }, [rawIdFromUrl]);
+
+  // Synchronize BottomNav & Sidebar when in studio mode
+  useEffect(() => {
+    if (selectedPassageId) {
+      useUiStore.getState().setSidebarCollapsed(true);
+      useUiStore.getState().setHideBottomNav(true);
+    } else {
+      useUiStore.getState().setHideBottomNav(false);
+    }
+  }, [selectedPassageId]);
+
+  // Cleanup: restore BottomNav when leaving the page
+  useEffect(() => {
+    return () => useUiStore.getState().setHideBottomNav(false);
+  }, []);
 
   // Current Active Passage Object
   const currentPassage = useMemo(() => {
@@ -292,140 +316,134 @@ function ReadingStudioContent() {
     };
   }, [currentPassage, isSubmitted, answers]);
 
+  if (rawIdFromUrl && !currentPassage) {
+    return <ReadingStudioSkeleton />;
+  }
+
   return (
     <div
-      className={`w-full min-w-0 max-w-none font-sans relative select-none ${
+      className={`w-full min-w-0 max-w-none font-sans relative ${
         selectedPassageId
           ? "h-full max-h-screen overflow-hidden p-0"
           : "min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col"
       }`}
     >
-      {/* 1. TOP HEADER (EDGE-TO-EDGE 56PX / h-14) */}
-      <div className="w-full h-14 bg-white dark:bg-slate-900 border-b border-slate-200/90 dark:border-slate-800 px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4 sticky top-0 z-30 select-none shrink-0 shadow-2xs">
-        {/* Left: Mode Switcher Pill or Back Button */}
-        <div className="flex items-center gap-3 min-w-0">
-          {selectedPassageId ? (
-            <button
-              onClick={handleBackToListing}
-              className="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-1.5 cursor-pointer transition-colors shadow-2xs shrink-0"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span className="hidden sm:inline">Danh sách bài đọc</span>
-              <span className="sm:hidden">Quay lại</span>
-            </button>
-          ) : (
-            <div className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-0.5 shrink-0">
-              <span className="px-3 py-1 rounded-lg text-xs sm:text-sm font-bold bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xs flex items-center gap-1.5 cursor-default select-none">
-                <BookOpen className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                <span>Luyện Đọc</span>
-              </span>
-              <Link
-                href="/study/listening"
-                className="px-3 py-1 rounded-lg text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1.5 transition-colors cursor-pointer select-none"
-              >
-                <Headphones className="w-3.5 h-3.5" />
-                <span>Luyện Nghe</span>
-              </Link>
-              <Link
-                href="/study/shadowing"
-                className="px-3 py-1 rounded-lg text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1.5 transition-colors cursor-pointer select-none"
-              >
-                <Mic className="w-3.5 h-3.5" />
-                <span>Luyện Nói</span>
-              </Link>
-            </div>
-          )}
+      {/* 1. TOP HEADER (AppTopHeader) */}
+      {selectedPassageId ? (
+        <AppTopHeader
+          onBack={handleBackToListing}
+          leftContent={
+            currentPassage ? (
+              <div className="flex items-center gap-2 truncate">
+                <span className="px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 font-mono font-bold text-xs border border-emerald-200/60 dark:border-emerald-800/40">
+                  {getLevelLabel(currentPassage.level)}
+                </span>
+                <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display truncate max-w-xs xl:max-w-md">
+                  {currentPassage.title}
+                </h2>
+              </div>
+            ) : null
+          }
+          rightDesktopContent={
+            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+              {/* Digital Timer */}
+              <div className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700 text-xs font-mono font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                <Clock className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                <span>{formatTimer(elapsedSeconds)}</span>
+              </div>
 
-          {selectedPassageId && currentPassage && (
-            <div className="hidden md:flex items-center gap-2 truncate">
-              <span className="px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 font-mono font-bold text-xs border border-emerald-200/60 dark:border-emerald-800/40">
-                {getLevelLabel(currentPassage.level)}
-              </span>
-              <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display truncate max-w-xs xl:max-w-md">
-                {currentPassage.title}
-              </h2>
-            </div>
-          )}
-        </div>
+              {/* Font Size Zoomer */}
+              <div className="hidden sm:flex items-center rounded-lg border border-slate-200/90 dark:border-slate-800 overflow-hidden bg-white dark:bg-slate-900 p-0.5">
+                <button
+                  onClick={() => setFontSizeLevel("sm")}
+                  className={`px-2 py-0.5 text-xs font-bold rounded ${
+                    fontSizeLevel === "sm" ? "bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white" : "text-slate-500"
+                  }`}
+                  title="Cỡ chữ nhỏ"
+                >
+                  A-
+                </button>
+                <button
+                  onClick={() => setFontSizeLevel("base")}
+                  className={`px-2 py-0.5 text-xs font-bold rounded ${
+                    fontSizeLevel === "base" ? "bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white" : "text-slate-500"
+                  }`}
+                  title="Cỡ chữ chuẩn"
+                >
+                  A
+                </button>
+                <button
+                  onClick={() => setFontSizeLevel("lg")}
+                  className={`px-2 py-0.5 text-xs font-bold rounded ${
+                    fontSizeLevel === "lg" ? "bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white" : "text-slate-500"
+                  }`}
+                  title="Cỡ chữ lớn"
+                >
+                  A+
+                </button>
+              </div>
 
-        {/* Right: Studio Controls (When in Studio) or Search Bar (When in Listing) */}
-        {selectedPassageId ? (
-          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-            {/* Digital Timer */}
-            <div className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700 text-xs font-mono font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-              <Clock className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-              <span>{formatTimer(elapsedSeconds)}</span>
-            </div>
-
-            {/* Font Size Zoomer */}
-            <div className="hidden sm:flex items-center rounded-lg border border-slate-200/90 dark:border-slate-800 overflow-hidden bg-white dark:bg-slate-900 p-0.5">
+              {/* Toggle Full Translation */}
               <button
-                onClick={() => setFontSizeLevel("sm")}
-                className={`px-2 py-0.5 text-xs font-bold rounded ${
-                  fontSizeLevel === "sm" ? "bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white" : "text-slate-500"
+                onClick={() => setShowFullTranslation((prev) => !prev)}
+                className={`h-8.5 px-3 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                  showFullTranslation
+                    ? "bg-emerald-50 dark:bg-emerald-950/60 border-emerald-300 text-emerald-700 dark:text-emerald-300"
+                    : "bg-white dark:bg-slate-900 border-slate-200/90 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50"
                 }`}
-                title="Cỡ chữ nhỏ"
               >
-                A-
-              </button>
-              <button
-                onClick={() => setFontSizeLevel("base")}
-                className={`px-2 py-0.5 text-xs font-bold rounded ${
-                  fontSizeLevel === "base" ? "bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white" : "text-slate-500"
-                }`}
-                title="Cỡ chữ chuẩn"
-              >
-                A
-              </button>
-              <button
-                onClick={() => setFontSizeLevel("lg")}
-                className={`px-2 py-0.5 text-xs font-bold rounded ${
-                  fontSizeLevel === "lg" ? "bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white" : "text-slate-500"
-                }`}
-                title="Cỡ chữ lớn"
-              >
-                A+
+                {showFullTranslation ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                <span className="hidden sm:inline">{showFullTranslation ? "Ẩn dịch" : "Dịch toàn bài"}</span>
               </button>
             </div>
+          }
+        />
+      ) : (
+        <AppTopHeader
+          rightDesktopContent={
+            <div className="flex items-center gap-2.5 shrink-0">
+              <div className="relative w-44 xs:w-56 sm:w-72">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <input
+                  type="text"
+                  placeholder="Tìm bài đọc theo tên, chủ đề..."
+                  value={listingSearch}
+                  onChange={(e) => setListingSearch(e.target.value)}
+                  className="w-full h-9 pl-9 pr-3 text-xs sm:text-sm font-medium rounded-xl bg-slate-100/80 dark:bg-slate-800/80 border border-slate-200/90 dark:border-slate-700/80 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:bg-white dark:focus:bg-slate-900 focus:border-emerald-500 transition-all"
+                />
+              </div>
 
-            {/* Toggle Full Translation */}
-            <button
-              onClick={() => setShowFullTranslation((prev) => !prev)}
-              className={`h-8.5 px-3 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
-                showFullTranslation
-                  ? "bg-emerald-50 dark:bg-emerald-950/60 border-emerald-300 text-emerald-700 dark:text-emerald-300"
-                  : "bg-white dark:bg-slate-900 border-slate-200/90 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50"
-              }`}
-            >
-              {showFullTranslation ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
-              <span className="hidden sm:inline">{showFullTranslation ? "Ẩn dịch" : "Dịch toàn bài"}</span>
-            </button>
-          </div>
-        ) : (
-          <div className="flex items-center gap-2.5 shrink-0">
-            <div className="relative w-44 xs:w-56 sm:w-72">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-              <input
-                type="text"
-                placeholder="Tìm bài đọc theo tên, chủ đề..."
-                value={listingSearch}
-                onChange={(e) => setListingSearch(e.target.value)}
-                className="w-full h-9 pl-9 pr-3 text-xs sm:text-sm font-medium rounded-xl bg-slate-100/80 dark:bg-slate-800/80 border border-slate-200/90 dark:border-slate-700/80 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:bg-white dark:focus:bg-slate-900 focus:border-emerald-500 transition-all"
-              />
+              <button
+                type="button"
+                onClick={() => setShowLessonModal(true)}
+                className="h-9 px-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold shadow-xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0"
+              >
+                <BookOpen className="w-4 h-4" />
+                <span className="hidden sm:inline">Khám phá 100+ bài</span>
+                <span className="sm:hidden">100+ bài</span>
+              </button>
             </div>
-
-            <button
-              type="button"
-              onClick={() => setShowLessonModal(true)}
-              className="h-9 px-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold shadow-xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0"
-            >
-              <BookOpen className="w-4 h-4" />
-              <span className="hidden sm:inline">Khám phá 100+ bài</span>
-              <span className="sm:hidden">100+ bài</span>
-            </button>
-          </div>
-        )}
-      </div>
+          }
+        >
+          <HeaderPillContainer>
+            <HeaderPillItem
+              active
+              icon={<BookOpen className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />}
+              label="Luyện Đọc"
+            />
+            <HeaderPillItem
+              href="/study/listening"
+              icon={<Headphones className="w-3.5 h-3.5" />}
+              label="Dictation"
+            />
+            <HeaderPillItem
+              href="/study/shadowing"
+              icon={<Mic className="w-3.5 h-3.5" />}
+              label="Shadowing"
+            />
+          </HeaderPillContainer>
+        </AppTopHeader>
+      )}
 
       {/* 2. EXPLORER LISTING MODE (WHEN NOT IN A PASSAGE) */}
       {!selectedPassageId && (
@@ -452,7 +470,7 @@ function ReadingStudioContent() {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
               {displayedBasicPassages.map((passage) => {
                 const isSelected = passage.id === selectedPassageId;
                 const isCompleted = completedPassageIds.includes(passage.id);
@@ -463,13 +481,13 @@ function ReadingStudioContent() {
                     whileTap={{ scale: 0.98 }}
                     key={passage.id}
                     onClick={() => handleSelectPassage(passage.id)}
-                    className={`p-3 rounded-xl border transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between group ${
+                    className={`p-2.5 sm:p-3 rounded-xl border transition-all cursor-pointer relative overflow-hidden flex flex-row sm:flex-col gap-3 sm:gap-0 group ${
                       isSelected
                         ? "bg-white dark:bg-slate-900 border-emerald-500 ring-2 ring-emerald-500/20 shadow-md"
                         : "bg-white dark:bg-slate-900 border-slate-200/90 dark:border-slate-800 hover:border-emerald-500 hover:shadow-md shadow-2xs"
                     }`}
                   >
-                    <div className="relative w-full aspect-[16/10] rounded-lg overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800 border border-slate-200/50 dark:border-slate-700/50">
+                    <div className="relative w-[47%] aspect-[16/10] sm:w-full sm:aspect-[16/10] rounded-lg overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800 border border-slate-200/50 dark:border-slate-700/50">
                       {passage.coverImage ? (
                         <img
                           src={passage.coverImage}
@@ -482,21 +500,26 @@ function ReadingStudioContent() {
                         </div>
                       )}
 
-                      <span className="absolute top-2 left-2 px-2.5 py-0.5 rounded-md text-[10px] font-mono font-bold bg-slate-900/80 text-white backdrop-blur-xs z-20 shadow-2xs border border-white/10">
+                      <span className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 px-1.5 sm:px-2.5 py-0.5 rounded sm:rounded-md text-[9.5px] sm:text-[10px] font-mono font-bold bg-slate-900/80 text-white backdrop-blur-xs z-20 shadow-2xs border border-white/10">
                         {getLevelLabel(passage.level)}
                       </span>
 
                       {isCompleted && (
-                        <span className="absolute top-2 right-2 px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-emerald-600 text-white flex items-center gap-1 shadow-2xs">
-                          <Check className="w-3 h-3 stroke-[3]" /> <span>Đã đọc</span>
+                        <span className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 px-1.5 sm:px-2.5 py-0.5 rounded sm:rounded-md text-[9.5px] sm:text-[10px] font-bold bg-emerald-600 text-white flex items-center gap-0.5 sm:gap-1 shadow-2xs">
+                          <Check className="w-3 h-3 stroke-[3]" /> <span className="hidden xs:inline sm:inline">Đã đọc</span>
                         </span>
                       )}
                     </div>
 
-                    <div className="mt-2.5 space-y-1.5 flex-1 flex flex-col justify-between">
+                    <div className="py-0.5 sm:py-0 sm:mt-2.5 space-y-1.5 flex-1 flex flex-col justify-between min-w-0">
                       <div>
+                        {passage.category && (
+                          <span className="text-[10.5px] font-extrabold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 block truncate mb-1 sm:hidden">
+                            {passage.category}
+                          </span>
+                        )}
                         <h3
-                          className={`text-xs sm:text-[13px] font-semibold font-sans line-clamp-2 leading-snug transition-colors ${
+                          className={`text-[14.5px] xs:text-[15.5px] sm:text-[13px] font-bold sm:font-semibold font-sans line-clamp-2 leading-snug transition-colors ${
                             isSelected
                               ? "text-emerald-600 dark:text-emerald-400"
                               : "text-slate-900 dark:text-white group-hover:text-emerald-600"
@@ -506,13 +529,13 @@ function ReadingStudioContent() {
                         </h3>
                       </div>
 
-                      <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-medium pt-2 border-t border-slate-100 dark:border-slate-800">
-                        <span className="flex items-center gap-1.5 font-mono tabular-nums text-[11px]">
-                          <Clock className="w-3.5 h-3.5 text-slate-400" />{" "}
+                      <div className="flex items-center justify-between pt-1 sm:pt-2 sm:border-t border-slate-100 dark:border-slate-800">
+                        <span className="flex items-center gap-1.5 font-bold font-mono tabular-nums text-xs xs:text-[13px] sm:text-[11px] text-slate-700 dark:text-slate-200">
+                          <Clock className="w-4 h-4 text-emerald-600 dark:text-emerald-400 stroke-[2.5] shrink-0" />{" "}
                           {passage.duration || "4 min"}
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold text-[11px] font-mono tabular-nums">
-                          {passage.wordCount} từ · {passage.questions?.length || 3} câu hỏi
+                        <span className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 font-bold text-xs xs:text-[12.5px] sm:text-[11px] font-mono tabular-nums border border-slate-200/80 dark:border-slate-700/80 shadow-2xs">
+                          {passage.wordCount} từ · {passage.questions?.length || 3} câu
                         </span>
                       </div>
                     </div>
@@ -544,7 +567,7 @@ function ReadingStudioContent() {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
               {displayedAdvancedPassages.map((passage) => {
                 const isSelected = passage.id === selectedPassageId;
                 const isCompleted = completedPassageIds.includes(passage.id);
@@ -555,13 +578,13 @@ function ReadingStudioContent() {
                     whileTap={{ scale: 0.98 }}
                     key={passage.id}
                     onClick={() => handleSelectPassage(passage.id)}
-                    className={`p-3 rounded-xl border transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between group ${
+                    className={`p-2.5 sm:p-3 rounded-xl border transition-all cursor-pointer relative overflow-hidden flex flex-row sm:flex-col gap-3 sm:gap-0 group ${
                       isSelected
                         ? "bg-white dark:bg-slate-900 border-purple-500 ring-2 ring-purple-500/20 shadow-md"
                         : "bg-white dark:bg-slate-900 border-slate-200/90 dark:border-slate-800 hover:border-purple-500 hover:shadow-md shadow-2xs"
                     }`}
                   >
-                    <div className="relative w-full aspect-[16/10] rounded-lg overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800 border border-slate-200/50 dark:border-slate-700/50">
+                    <div className="relative w-[47%] aspect-[16/10] sm:w-full sm:aspect-[16/10] rounded-lg overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800 border border-slate-200/50 dark:border-slate-700/50">
                       {passage.coverImage ? (
                         <img
                           src={passage.coverImage}
@@ -574,21 +597,26 @@ function ReadingStudioContent() {
                         </div>
                       )}
 
-                      <span className="absolute top-2 left-2 px-2.5 py-0.5 rounded-md text-[10px] font-mono font-bold bg-slate-900/80 text-white backdrop-blur-xs z-20 shadow-2xs border border-white/10">
+                      <span className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 px-1.5 sm:px-2.5 py-0.5 rounded sm:rounded-md text-[9.5px] sm:text-[10px] font-mono font-bold bg-slate-900/80 text-white backdrop-blur-xs z-20 shadow-2xs border border-white/10">
                         {getLevelLabel(passage.level)}
                       </span>
 
                       {isCompleted && (
-                        <span className="absolute top-2 right-2 px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-emerald-600 text-white flex items-center gap-1 shadow-2xs">
-                          <Check className="w-3 h-3 stroke-[3]" /> <span>Đã đọc</span>
+                        <span className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 px-1.5 sm:px-2.5 py-0.5 rounded sm:rounded-md text-[9.5px] sm:text-[10px] font-bold bg-emerald-600 text-white flex items-center gap-0.5 sm:gap-1 shadow-2xs">
+                          <Check className="w-3 h-3 stroke-[3]" /> <span className="hidden xs:inline sm:inline">Đã đọc</span>
                         </span>
                       )}
                     </div>
 
-                    <div className="mt-2.5 space-y-1.5 flex-1 flex flex-col justify-between">
+                    <div className="py-0.5 sm:py-0 sm:mt-2.5 space-y-1.5 flex-1 flex flex-col justify-between min-w-0">
                       <div>
+                        {passage.category && (
+                          <span className="text-[10.5px] font-extrabold uppercase tracking-wider text-purple-600 dark:text-purple-400 block truncate mb-1 sm:hidden">
+                            {passage.category}
+                          </span>
+                        )}
                         <h3
-                          className={`text-xs sm:text-[13px] font-semibold font-sans line-clamp-2 leading-snug transition-colors ${
+                          className={`text-[14.5px] xs:text-[15.5px] sm:text-[13px] font-bold sm:font-semibold font-sans line-clamp-2 leading-snug transition-colors ${
                             isSelected
                               ? "text-purple-600 dark:text-purple-400"
                               : "text-slate-900 dark:text-white group-hover:text-purple-600"
@@ -598,13 +626,13 @@ function ReadingStudioContent() {
                         </h3>
                       </div>
 
-                      <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-medium pt-2 border-t border-slate-100 dark:border-slate-800">
-                        <span className="flex items-center gap-1.5 font-mono tabular-nums text-[11px]">
-                          <Clock className="w-3.5 h-3.5 text-slate-400" />{" "}
+                      <div className="flex items-center justify-between pt-1 sm:pt-2 sm:border-t border-slate-100 dark:border-slate-800">
+                        <span className="flex items-center gap-1.5 font-bold font-mono tabular-nums text-xs xs:text-[13px] sm:text-[11px] text-slate-700 dark:text-slate-200">
+                          <Clock className="w-4 h-4 text-purple-600 dark:text-purple-400 stroke-[2.5] shrink-0" />{" "}
                           {passage.duration || "5 min"}
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold text-[11px] font-mono tabular-nums">
-                          {passage.wordCount} từ · {passage.questions?.length || 3} câu hỏi
+                        <span className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 font-bold text-xs xs:text-[12.5px] sm:text-[11px] font-mono tabular-nums border border-slate-200/80 dark:border-slate-700/80 shadow-2xs">
+                          {passage.wordCount} từ · {passage.questions?.length || 3} câu
                         </span>
                       </div>
                     </div>
@@ -1049,13 +1077,7 @@ function ReadingStudioContent() {
 
 export default function ReadingPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex items-center justify-center">
-          <div className="w-8 h-8 rounded-full border-2 border-emerald-600 border-t-transparent animate-spin" />
-        </div>
-      }
-    >
+    <Suspense fallback={<ReadingListingSkeleton />}>
       <ReadingStudioContent />
     </Suspense>
   );

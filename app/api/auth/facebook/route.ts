@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { signAuthToken } from "@/lib/auth/jwt";
+﻿import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/infrastructure/database/prisma";
+import { signAuthToken } from "@/infrastructure/auth/jwt";
 
 export async function GET(req: NextRequest) {
   const appId = process.env.FACEBOOK_APP_ID;

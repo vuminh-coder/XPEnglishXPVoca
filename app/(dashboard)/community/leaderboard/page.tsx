@@ -1,9 +1,9 @@
-'use client';
+﻿'use client';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { PageEntranceWrapper, MotionItem } from "@/components/shared/PageEntranceAnimation";
-import { useAuthStore } from '@/lib/store/authStore';
+import { PageEntranceWrapper, MotionItem } from "@/shared/components/feedback/PageEntranceAnimation";
+import { useAuthStore } from '@/stores/authStore';
 import { 
   Crown, 
   Medal, 
@@ -27,8 +27,8 @@ import {
   Lock,
   ArrowUp
 } from 'lucide-react';
-import { Button, Badge } from '@/components/ui';
-import { UserAvatar, formatCleanName } from '@/components/shared/UserAvatar';
+import { Button, Badge } from '@/shared/components/ui';
+import { UserAvatar, formatCleanName } from '@/shared/components/feedback/UserAvatar';
 
 // Specialized Rank Avatar component for Leaderboard Podium Champions (1 = Gold, 2 = Silver, 3 = Bronze)
 const RankAvatar = ({
