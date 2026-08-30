@@ -497,7 +497,7 @@ export default function AiConversationPage() {
 
   const handleSaveWordToVocab = () => {
     if (!selectedWordData) return;
-    awardXp(5);
+    awardXp(5, "vocab");
     addToast({
       type: 'success',
       title: 'Đã lưu vào Sổ tay từ vựng! 💾',
@@ -806,7 +806,7 @@ export default function AiConversationPage() {
           phrases: dynamicPhrases
         });
 
-        awardXp(15);
+        awardXp(15, "speaking");
       }
     } catch (err) {
       console.error(err);
@@ -936,7 +936,7 @@ export default function AiConversationPage() {
       stopRecordingOnly();
     }
     setIsSessionCompleted(true);
-    awardXp(sessionEvaluation.xpAward);
+    awardXp(sessionEvaluation.xpAward, "speaking");
     addToast({
       type: "success",
       title: `Hoàn Thành Bài Luyện Viết (Hạng ${sessionEvaluation.grade})! 🎉`,

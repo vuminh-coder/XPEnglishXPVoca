@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import {
@@ -24,6 +24,7 @@ import {
   Play,
   Pause,
   ArrowLeft,
+  ArrowRight,
   Plus,
   Search,
   Star,
@@ -33,8 +34,10 @@ import {
   Sparkles,
   Volume2,
   BookmarkPlus,
+  BookmarkCheck,
   BookOpen,
   Mic,
+  Headphones,
   RotateCcw,
   Link as LinkIcon,
   Loader2,
@@ -55,6 +58,7 @@ import {
   List,
   Keyboard,
   Upload,
+  ListOrdered,
   ExternalLink,
   FileText,
   AlertTriangle,
@@ -68,7 +72,14 @@ import {
   SkipForward,
   Repeat,
   Repeat1,
+  Layout,
+  Trophy,
 } from "lucide-react";
+import {
+  AppTopHeader,
+  HeaderPillContainer,
+  HeaderPillItem,
+} from "@/shared/components/layout/AppTopHeader";
 
 /** Helper to trigger text file download in browser */
 function downloadTextFile(content: string, filename: string, mimeType: string) {
@@ -159,6 +170,9 @@ export default function MyVideoPage() {
 
   // SRT Import Modal State
   const [showSrtImportModal, setShowSrtImportModal] = useState(false);
+  const [exportFontSize, setExportFontSize] = useState<"sm" | "base" | "lg">("base");
+  const [srtImportTab, setSrtImportTab] = useState<"file" | "paste">("file");
+  const [srtFileName, setSrtFileName] = useState("");
   const [srtPasteContent, setSrtPasteContent] = useState("");
   const [srtImportError, setSrtImportError] = useState<string | null>(null);
   const [srtPreviewCount, setSrtPreviewCount] = useState(0);
@@ -1084,6 +1098,7 @@ export default function MyVideoPage() {
       const content = ev.target?.result as string;
       if (content) {
         setSrtPasteContent(content);
+        setSrtFileName(file.name);
         setSrtImportError(null);
         // Preview count
         const preview = parseSrtContent(content);
@@ -1184,1023 +1199,1187 @@ export default function MyVideoPage() {
     (acc, v) => acc + (parseInt(v.duration.split(":")[0]) || 3),
     0
   );
+  const totalSubtitlesCount = savedVideos.reduce(
+    (acc, v) => acc + (v.subtitles?.length || 0),
+    0
+  );
+  const favoriteCount = savedVideos.filter((v) => v.isFavorite).length;
+  const avgProgress = savedVideos.length > 0
+    ? Math.round(savedVideos.reduce((acc, v) => acc + (v.progressPercent || 0), 0) / savedVideos.length)
+    : 0;
 
   return (
-    <PageEntranceWrapper className="space-y-4 sm:space-y-5 pb-20 md:pb-8 select-none font-sans" style={{ opacity: 1 }}>
-      {!showExportModal ? (
-        <>
-          {/* 1. HERO SPOTLIGHT BANNER */}
-      <MotionItem className="p-4 sm:p-5 rounded-xs bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-xs relative overflow-hidden">
-        <div className="absolute -right-10 -bottom-10 w-44 sm:w-52 h-44 sm:h-52 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-3.5 sm:gap-4">
-          <div className="space-y-1 max-w-2xl">
-            <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
-              <span className="px-2 py-0.5 rounded-xs text-[10px] font-black uppercase tracking-wider bg-amber-400/20 text-amber-200 border border-amber-300/30 flex items-center gap-1 font-display">
-                <Video className="w-3.5 h-3.5 text-rose-400" /> YouTube Video Hub
-              </span>
-              <span className="px-2 py-0.5 rounded-xs text-[10px] font-bold bg-white/15 text-white border border-white/20 font-mono">
-                Chuẩn 12 Tiêu Chí · Phụ đề 1-Click · Dictation AI
-              </span>
-            </div>
-
-            <h1 className="text-base sm:text-xl font-black font-display tracking-tight text-white flex items-center gap-2 pt-0.5">
-              Thư Viện Video Của Tôi
-              <Sparkles className="w-4 h-4 text-amber-300" />
-            </h1>
-            <p className="text-[11px] sm:text-xs text-blue-100/90 max-w-2xl font-medium leading-relaxed">
-              Dán link YouTube bất kỳ để học tương tác trên giao diện 2 cột Master-Detail chuẩn Coursera & TED-Ed!
-            </p>
-          </div>
-
-          {/* Quick Stats Chips (Rule 8 Info Hierarchy) */}
-          <div className="grid grid-cols-3 gap-2 w-full md:w-auto shrink-0 pt-1 md:pt-0">
-            <div className="p-2 rounded-xs bg-white/10 border border-white/15 text-center">
-              <span className="text-[9px] font-bold uppercase text-blue-100 block">Đã Lưu</span>
-              <span className="text-xs sm:text-sm font-black font-mono text-amber-300">{savedVideos.length} Video</span>
-            </div>
-            <div className="p-2 rounded-xs bg-white/10 border border-white/15 text-center">
-              <span className="text-[9px] font-bold uppercase text-blue-100 block">Đã Luyện</span>
-              <span className="text-xs sm:text-sm font-black font-mono text-emerald-300">{totalMinutes} phút</span>
-            </div>
-            <div className="p-2 rounded-xs bg-white/10 border border-white/15 text-center">
-              <span className="text-[9px] font-bold uppercase text-blue-100 block">Yêu Thích</span>
-              <span className="text-xs sm:text-sm font-black font-mono text-sky-300 flex items-center justify-center gap-1">
-                {savedVideos.filter((v) => v.isFavorite).length} <Star className="w-3.5 h-3.5 fill-amber-300 text-amber-300" />
-              </span>
-            </div>
-          </div>
-        </div>
-      </MotionItem>
-
-      {/* 2. YOUTUBE PASTE LINK IMPORT BOX WITH CATEGORY & LEVEL SELECTORS */}
-      <div className="p-4 sm:p-5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3">
-        <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-2">
-          <label className="text-xs font-bold uppercase tracking-wider text-[#0059bb] dark:text-sky-400 flex items-center gap-1.5 font-display">
-            <LinkIcon className="w-3.5 h-3.5 stroke-[2.2]" /> DÁN LINK VIDEO YOUTUBE ĐỂ HỌC TƯƠNG TÁC
-          </label>
-          <span className="text-[10px] font-bold text-slate-400">Tự động đẩy phụ đề vào Tab Phụ Đề Tra Từ</span>
-        </div>
-
-        <form onSubmit={handleImportYouTube} className="space-y-3">
-          <div className="flex flex-col sm:flex-row gap-2">
-            <div className="relative flex-1">
-              <input
-                type="url"
-                value={youtubeInput}
-                onChange={(e) => {
-                  setYoutubeInput(e.target.value);
-                  setImportError(null);
-                }}
-                placeholder="Dán link YouTube (VD: https://www.youtube.com/watch?v=gN78u1P3j9Y)..."
-                className="w-full p-2.5 sm:p-3 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-white/15 text-slate-900 dark:text-white text-xs font-bold focus:border-[#0059bb] focus:outline-hidden transition-all pr-8"
-              />
-              {youtubeInput && (
-                <button
-                  type="button"
-                  onClick={() => setYoutubeInput("")}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              )}
-            </div>
-
+    <div className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none pb-24 md:pb-12">
+      {/* 0. UNIVERSAL 56PX (h-14) TOP ACTION & NAVIGATION HEADER BAR */}
+      <AppTopHeader
+        hideThemeAndAvatarOnDesktop={true}
+        rightDesktopContent={
+          <div className="flex items-center gap-2 shrink-0">
             <button
-              type="submit"
-              disabled={isImporting || !youtubeInput.trim()}
-              className="py-2.5 px-5 rounded-xs bg-[#0059bb] hover:bg-[#004799] disabled:opacity-50 text-white text-xs font-bold transition-all shadow-2xs flex items-center justify-center gap-2 cursor-pointer font-display shrink-0"
+              type="button"
+              onClick={() => setShowSrtImportModal(true)}
+              className="h-8 px-3 rounded-xl bg-slate-100 dark:bg-slate-800/90 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700/60 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs active:scale-95"
+              title="Nhập file phụ đề .SRT hoặc .VTT"
             >
-              {isImporting ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Đang tải phụ đề...</span>
-                </>
-              ) : (
-                <>
-                  <Plus className="w-4 h-4" />
-                  <span>Nhập Video YouTube</span>
-                </>
-              )}
+              <Upload className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
+              <span>Nhập SRT</span>
             </button>
-          </div>
-
-          {/* Category & Level Selectors for Imported Videos */}
-          <div className="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-slate-100 dark:border-white/5 text-xs font-medium">
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] font-bold uppercase text-slate-400">Phân loại bài học:</span>
-              <select
-                value={importCategory}
-                onChange={(e) => setImportCategory(e.target.value as any)}
-                className="py-1 px-2.5 rounded-xs bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-white/10 text-xs font-bold text-slate-800 dark:text-slate-200 cursor-pointer"
+            {activeVideo && (
+              <button
+                type="button"
+                onClick={handleOpenXpSubExtractor}
+                className="h-8 px-3 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 text-purple-700 dark:text-purple-300 border border-purple-500/25 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs active:scale-95"
+                title="Trích xuất phụ đề thông minh bằng XP-Sub AI Engine"
               >
-                <option value="Communication">Giao tiếp (Communication)</option>
-                <option value="Business">Kinh doanh (Business)</option>
-                <option value="TED Talks">TED Talks</option>
-                <option value="Movies">Phim ảnh (Movies)</option>
-                <option value="News">Tin tức (News)</option>
-                <option value="IELTS/TOEIC">IELTS/TOEIC</option>
-                <option value="General">Tổng hợp (General)</option>
-              </select>
-
-              <select
-                value={importLevel}
-                onChange={(e) => setImportLevel(e.target.value as any)}
-                className="py-1 px-2.5 rounded-xs bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-white/10 text-xs font-bold text-slate-800 dark:text-slate-200 cursor-pointer"
-              >
-                <option value="Easy">Dễ (Easy)</option>
-                <option value="Medium">Trung bình (Medium)</option>
-                <option value="Hard">Khó (Hard)</option>
-              </select>
-            </div>
-
+                <Sparkles className="w-3.5 h-3.5 fill-purple-500/40 text-purple-600 dark:text-purple-400" />
+                <span>XP-Sub AI Engine</span>
+              </button>
+            )}
             {activeSubtitleResult && (
               <button
                 type="button"
                 onClick={() => setShowExportModal(true)}
-                className="px-2.5 py-1 rounded-xs bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 text-[11px] font-bold flex items-center gap-1 cursor-pointer font-display"
+                className="h-8 px-3 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/25 text-xs font-bold flex items-center gap-1.5 transition-all shadow-2xs cursor-pointer active:scale-95"
+                title="Xem báo cáo và tải file phụ đề song ngữ"
               >
-                <FileCode className="w-3.5 h-3.5" /> Xuất JSON / SRT / WEBVTT & Thống Kê
+                <FileCode className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                <span>Xuất Subtitles</span>
               </button>
             )}
           </div>
-        </form>
+        }
+      >
+        <HeaderPillContainer>
+          <HeaderPillItem
+            active
+            icon={<Video className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />}
+            label="Video của tôi"
+          />
+          <HeaderPillItem
+            href="/study/listening"
+            icon={<Headphones className="w-3.5 h-3.5" />}
+            label="Dictation"
+          />
+          <HeaderPillItem
+            href="/study/shadowing"
+            icon={<Mic className="w-3.5 h-3.5" />}
+            label="Shadowing"
+          />
+          <HeaderPillItem
+            href="/vocabulary"
+            icon={<ListOrdered className="w-3.5 h-3.5" />}
+            label="Danh sách từ"
+          />
+        </HeaderPillContainer>
+      </AppTopHeader>
 
-        {importError && (
-          <div className="p-2.5 rounded-xs bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/40 text-rose-600 dark:text-rose-400 text-xs font-medium flex items-center gap-1.5">
-            <HelpCircle className="w-4 h-4 text-rose-500 shrink-0" />
-            <span>{importError}</span>
-          </div>
-        )}
-      </div>
+      {/* MAIN DASHBOARD CANVAS */}
+      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-3.5 sm:py-6 pb-24 sm:pb-8 space-y-4 sm:space-y-6">
+        {!showExportModal ? (
+          <>
+            {/* 1. HERO SPOTLIGHT & 4 MICRO-METRIC DOUBLE-BEZEL CARDS */}
+            <div className="p-4 sm:p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-4">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="space-y-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="px-2.5 py-1 rounded-md bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 font-mono font-bold text-xs border border-blue-200/60 dark:border-blue-800/40 flex items-center gap-1.5 shadow-2xs">
+                      <Sparkles className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                      <span>YOUTUBE VIDEO & AUDIO STUDIO</span>
+                    </span>
+                    <span className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-semibold font-mono border border-slate-200/70 dark:border-slate-700/60">
+                      Chuẩn 12 Tiêu Chí · Phụ đề 1-Click · Dictation AI
+                    </span>
+                  </div>
+                  <h1 className="text-base sm:text-xl font-bold tracking-tight text-slate-900 dark:text-white font-display">
+                    Thư Viện Video & Phòng Luyện Nghe Tương Tác
+                  </h1>
+                  <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                    Dán link YouTube bất kỳ để học tương tác với phụ đề song ngữ, tra từ 1-click và luyện nói Shadowing AI!
+                  </p>
+                </div>
 
-      {/* 3. MASTER-DETAIL 2-COLUMN SPLIT WORKSPACE (OPTION 1: controls=0 CLEAN MODE WITH POSTMESSAGE ENGINE) */}
-      {activeVideo && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
-          
-          {/* CỘT TRÁI (LEFT MAIN COLUMN - lg:col-span-7 / 60%): CLEAN PLAYER WITHOUT TITLE OR EXTRA BARS */}
-          <div className="lg:col-span-7 flex flex-col">
-            <div className="rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-sm overflow-hidden flex flex-col h-full">
-              {/* Clean Player Container: controls=1 ensures 100% video playback without "Video không có sẵn" embed errors */}
-              <div
-                className="relative aspect-video w-full max-h-[300px] sm:max-h-[340px] lg:max-h-[360px] bg-slate-950 overflow-hidden shrink-0 group flex items-center justify-center"
-              >
-                <iframe
-                  ref={iframeRef}
-                  src={`https://www.youtube.com/embed/${activeVideo.id}?enablejsapi=1&controls=1&rel=0&playsinline=1${extractYouTubeStartTimestamp(activeVideo.youtubeUrl) > 0 ? `&start=${extractYouTubeStartTimestamp(activeVideo.youtubeUrl)}` : ''}&origin=${encodeURIComponent(typeof window !== 'undefined' ? window.location.origin : '')}`}
-                  title={activeVideo.title}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="w-full h-full border-0"
-                />
-
-                {/* Synchronized Center Play Button Overlay on Video */}
-                {!isPlaying && (
-                  <div
-                    onClick={togglePlayPause}
-                    className="absolute inset-0 bg-slate-950/35 backdrop-blur-[1px] flex items-center justify-center cursor-pointer transition-all hover:bg-slate-950/20 group/playbtn z-10"
+                {/* Quick Action Buttons (Mobile / Tablet fallback) */}
+                <div className="lg:hidden flex items-center gap-2 shrink-0 flex-wrap">
+                  <button
+                    type="button"
+                    onClick={() => setShowSrtImportModal(true)}
+                    className="px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-200 text-xs font-bold flex items-center gap-1.5 transition-all shadow-2xs cursor-pointer active:scale-95 border border-slate-200/70 dark:border-slate-700/60"
                   >
+                    <Upload className="w-4 h-4 text-slate-500" />
+                    <span>Nhập SRT</span>
+                  </button>
+                  {activeSubtitleResult && (
                     <button
                       type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        togglePlayPause();
-                      }}
-                      className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#0059bb] hover:bg-[#004799] dark:bg-blue-600 dark:hover:bg-blue-500 text-white shadow-xl flex items-center justify-center transition-all hover:scale-110 active:scale-95 cursor-pointer border-2 border-white/20"
-                      title="Phát video (Play)"
+                      onClick={() => setShowExportModal(true)}
+                      className="px-3 py-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200/80 dark:border-emerald-800/40 hover:bg-emerald-100 text-emerald-700 dark:text-emerald-300 text-xs font-bold flex items-center gap-1.5 transition-all shadow-2xs cursor-pointer active:scale-95"
                     >
-                      <Play className="w-7 h-7 sm:w-8 sm:h-8 fill-current ml-1" />
+                      <FileCode className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                      <span>Xuất Subtitles</span>
                     </button>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
 
-              {/* Sleek Ultra-Compact Media Control Bar directly below video iframe */}
-              <div className="py-1.5 px-3 bg-slate-100/90 dark:bg-slate-950/95 border-y border-slate-200/80 dark:border-white/10 flex items-center justify-center sm:justify-between gap-2 shrink-0 select-none shadow-2xs">
+              <div className="h-px bg-slate-100 dark:bg-slate-800 w-full" />
 
-                {/* Center: 5 Audio/Video Control Buttons with Micro Border-Radius */}
-                <div className="flex items-center gap-1.5 sm:gap-3">
-                  {/* Nút 1: Shuffle / Tráo câu ngẫu nhiên */}
-                  <button
-                    type="button"
-                    onClick={jumpToRandomSubtitle}
-                    className="p-1 sm:p-1.5 rounded-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/80 dark:hover:bg-slate-800/80 transition-all cursor-pointer"
-                    title="Tráo câu ngẫu nhiên (Shuffle Subtitle)"
-                  >
-                    <Shuffle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                  </button>
+              {/* 4 Metric Cards Grid */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                {/* Metric 1: Total Saved Videos (Amber) */}
+                <div className="p-3 sm:p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 flex items-center gap-3 transition-all hover:border-amber-300 dark:hover:border-amber-800/60 shadow-2xs group">
+                  <div className="w-10 h-10 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+                    <Video className="w-5 h-5 stroke-[2.2]" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white tabular-nums truncate">
+                      {savedVideos.length}{" "}
+                      <span className="text-xs font-bold text-slate-500 dark:text-slate-400 font-sans">video</span>
+                    </div>
+                    <div className="text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate mt-0.5">
+                      Bộ sưu tập bài học
+                    </div>
+                  </div>
+                </div>
 
-                  {/* Nút 2: Skip Back / Lùi 5s / Câu trước */}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const currentIdx = activeSubIndex >= 0 ? activeSubIndex : currentSubIndex;
-                      const prevIdx = Math.max(0, currentIdx - 1);
-                      jumpToSubtitleIndex(prevIdx);
-                    }}
-                    className="p-1 sm:p-1.5 rounded-xs text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-slate-200/80 dark:hover:bg-slate-800/80 transition-all cursor-pointer"
-                    title="Câu trước / Lùi 5 giây (Previous Cue)"
-                  >
-                    <SkipBack className="w-4 h-4 sm:w-4.5 sm:h-4.5 fill-current" />
-                  </button>
+                {/* Metric 2: Total Practice Time (Sky Blue) */}
+                <div className="p-3 sm:p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 flex items-center gap-3 transition-all hover:border-sky-300 dark:hover:border-sky-800/60 shadow-2xs group">
+                  <div className="w-10 h-10 rounded-lg bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20 flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+                    <Clock className="w-5 h-5 stroke-[2.2]" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white tabular-nums truncate">
+                      {totalMinutes}{" "}
+                      <span className="text-xs font-bold text-slate-500 dark:text-slate-400 font-sans">phút</span>
+                    </div>
+                    <div className="text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate mt-0.5">
+                      Thời lượng video
+                    </div>
+                  </div>
+                </div>
 
-                  {/* Nút 3: Central Main Play / Pause Square Button (Ultra Compact rounded-xs) */}
-                  <button
-                    type="button"
-                    onClick={togglePlayPause}
-                    className="w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-xs bg-[#0059bb] hover:bg-[#004799] dark:bg-blue-600 dark:hover:bg-blue-500 text-white shadow-2xs flex items-center justify-center transition-all hover:scale-105 active:scale-95 cursor-pointer shrink-0 border border-blue-400/20"
-                    title={isPlaying ? "Tạm dừng video (Pause)" : "Phát video (Play)"}
-                  >
-                    {isPlaying ? (
-                      <Pause className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current" />
-                    ) : (
-                      <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current ml-0.5" />
+                {/* Metric 3: Subtitles / Sentences (Emerald Green) */}
+                <div className="p-3 sm:p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 flex items-center gap-3 transition-all hover:border-emerald-300 dark:hover:border-emerald-800/60 shadow-2xs group">
+                  <div className="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+                    <Layers className="w-5 h-5 stroke-[2.2]" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white tabular-nums truncate">
+                      {totalSubtitlesCount}{" "}
+                      <span className="text-xs font-bold text-slate-500 dark:text-slate-400 font-sans">câu</span>
+                    </div>
+                    <div className="text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate mt-0.5">
+                      Phụ đề tương tác
+                    </div>
+                  </div>
+                </div>
+
+                {/* Metric 4: Favorites & Progress (Royal Blue) */}
+                <div className="p-3 sm:p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 flex items-center gap-3 transition-all hover:border-blue-300 dark:hover:border-blue-800/60 shadow-2xs group">
+                  <div className="w-10 h-10 rounded-lg bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 border border-[#0059bb]/20 flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+                    <Star className="w-5 h-5 stroke-[2.2] fill-amber-400 text-amber-400" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center justify-between gap-1">
+                      <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white tabular-nums truncate">
+                        {favoriteCount}{" "}
+                        <span className="text-xs font-bold text-[#0059bb] dark:text-sky-400 font-sans">yêu thích</span>
+                      </div>
+                      <span className="px-1.5 py-0.2 rounded-md bg-blue-100 dark:bg-blue-950 text-[#0059bb] dark:text-sky-300 font-mono font-bold text-[9.5px] shrink-0">
+                        {avgProgress}%
+                      </span>
+                    </div>
+                    <div className="w-full mt-0.5">
+                      <div className="h-1.5 w-full rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
+                        <div
+                          className="h-full rounded-full bg-gradient-to-r from-[#0059bb] via-indigo-600 to-sky-400 transition-all duration-500"
+                          style={{ width: `${avgProgress}%` }}
+                        />
+                      </div>
+                      <div className="text-[10px] font-medium text-slate-500 dark:text-slate-400 truncate mt-0.5">
+                        Tiến độ hoàn thành trung bình
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 2. YOUTUBE IMPORT STUDIO DECK */}
+            <div className="p-4 sm:p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3.5">
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5">
+                <div className="flex items-center gap-2">
+                  <span className="px-2.5 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 font-mono font-bold text-xs border border-blue-200/60 dark:border-blue-800/40">
+                    1-CLICK IMPORT
+                  </span>
+                  <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display flex items-center gap-1.5">
+                    <LinkIcon className="w-4 h-4 text-[#0059bb]" />
+                    Dán link YouTube để trích xuất phụ đề tự động
+                  </h3>
+                </div>
+                <span className="text-[11px] font-medium text-slate-400 hidden sm:block">
+                  Hỗ trợ phụ đề Song Ngữ Anh - Việt & Tra từ thông minh
+                </span>
+              </div>
+
+              <form onSubmit={handleImportYouTube} className="space-y-3">
+                <div className="flex flex-col sm:flex-row gap-2.5">
+                  <div className="relative flex-1">
+                    <input
+                      type="url"
+                      value={youtubeInput}
+                      onChange={(e) => {
+                        setYoutubeInput(e.target.value);
+                        setImportError(null);
+                      }}
+                      placeholder="Dán link YouTube (VD: https://www.youtube.com/watch?v=gN78u1P3j9Y)..."
+                      className="w-full p-2.5 sm:p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-xs font-semibold focus:border-[#0059bb] focus:ring-1 focus:ring-[#0059bb] focus:outline-hidden transition-all pr-8"
+                    />
+                    {youtubeInput && (
+                      <button
+                        type="button"
+                        onClick={() => setYoutubeInput("")}
+                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1 cursor-pointer"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
                     )}
-                  </button>
+                  </div>
 
-                  {/* Nút 4: Skip Forward / Tiến 5s / Câu sau */}
                   <button
-                    type="button"
-                    onClick={() => {
-                      const currentIdx = activeSubIndex >= 0 ? activeSubIndex : currentSubIndex;
-                      const nextIdx = Math.min(activeVideo.subtitles.length - 1, currentIdx + 1);
-                      jumpToSubtitleIndex(nextIdx);
-                    }}
-                    className="p-1 sm:p-1.5 rounded-xs text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-slate-200/80 dark:hover:bg-slate-800/80 transition-all cursor-pointer"
-                    title="Câu sau / Tiến 5 giây (Next Cue)"
+                    type="submit"
+                    disabled={isImporting || !youtubeInput.trim()}
+                    className="py-2.5 px-5 rounded-xl bg-[#0059bb] hover:bg-[#004899] disabled:opacity-50 text-white text-xs font-bold transition-all shadow-md shadow-[#0059bb]/20 flex items-center justify-center gap-2 cursor-pointer font-sans shrink-0 active:scale-95"
                   >
-                    <SkipForward className="w-4 h-4 sm:w-4.5 sm:h-4.5 fill-current" />
-                  </button>
-
-                  {/* Nút 5: Loop Sentence / Lặp lại câu hiện tại */}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIsLoopingSentence(!isLoopingSentence);
-                      addToast({
-                        type: "info",
-                        title: !isLoopingSentence ? "Đã bật lặp câu!" : "Tắt lặp câu",
-                        message: !isLoopingSentence ? "Video sẽ tự động phát lặp đi lặp lại câu hiện tại." : "Phát video bình thường.",
-                      });
-                    }}
-                    className={`p-1 sm:p-1.5 rounded-xs transition-all cursor-pointer ${
-                      isLoopingSentence
-                        ? "text-amber-700 dark:text-amber-300 bg-amber-100 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-800/60"
-                        : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/80 dark:hover:bg-slate-800/80"
-                    }`}
-                    title={isLoopingSentence ? "Đang bật Lặp Câu (Sentence Loop ON)" : "Bật Lặp Câu (Sentence Loop OFF)"}
-                  >
-                    {isLoopingSentence ? <Repeat1 className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> : <Repeat className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
+                    {isImporting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Đang tải phụ đề...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Plus className="w-4 h-4 stroke-[2.5]" />
+                        <span>Nhập Video YouTube</span>
+                      </>
+                    )}
                   </button>
                 </div>
 
-                {/* Right: Horizontal Playback Speed Selector with ultra-compact height */}
-                <div className="flex items-center p-0.5 rounded-xs bg-slate-200/80 dark:bg-slate-950/80 border border-slate-300/80 dark:border-white/10 gap-0.5 shrink-0">
-                  {[0.75, 1.0, 1.25, 1.5].map((speed) => (
+                {/* Category & Level Selectors */}
+                <div className="flex flex-wrap items-center justify-between gap-2.5 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-[11px] font-bold text-slate-400">Phân loại:</span>
+                    <select
+                      value={importCategory}
+                      onChange={(e) => setImportCategory(e.target.value as any)}
+                      className="py-1 px-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-800 dark:text-slate-200 cursor-pointer focus:outline-hidden"
+                    >
+                      <option value="Communication">Giao tiếp (Communication)</option>
+                      <option value="Business">Kinh doanh (Business)</option>
+                      <option value="TED Talks">TED Talks</option>
+                      <option value="Movies">Phim ảnh (Movies)</option>
+                      <option value="News">Tin tức (News)</option>
+                      <option value="IELTS/TOEIC">IELTS/TOEIC</option>
+                      <option value="General">Tổng hợp (General)</option>
+                    </select>
+
+                    <select
+                      value={importLevel}
+                      onChange={(e) => setImportLevel(e.target.value as any)}
+                      className="py-1 px-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-800 dark:text-slate-200 cursor-pointer focus:outline-hidden"
+                    >
+                      <option value="Easy">Dễ (Easy)</option>
+                      <option value="Medium">Trung bình (Medium)</option>
+                      <option value="Hard">Khó (Hard)</option>
+                    </select>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    {activeVideo && (
+                      <button
+                        type="button"
+                        onClick={handleOpenXpSubExtractor}
+                        className="px-2.5 py-1 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 text-purple-700 dark:text-purple-300 border border-purple-500/25 text-[11px] font-bold flex items-center gap-1 cursor-pointer transition-all active:scale-95 shadow-2xs"
+                        title="Mở bảng điều khiển trích xuất phụ đề thông minh"
+                      >
+                        <Sparkles className="w-3.5 h-3.5 fill-purple-500/40 text-purple-600 dark:text-purple-400" />
+                        <span>XP-Sub AI Engine</span>
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </form>
+
+              {importError && (
+                <div className="p-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/40 text-rose-600 dark:text-rose-400 text-xs font-medium flex items-center gap-1.5">
+                  <HelpCircle className="w-4 h-4 text-rose-500 shrink-0" />
+                  <span>{importError}</span>
+                </div>
+              )}
+            </div>
+
+            {/* 3. MASTER-DETAIL 2-COLUMN SPLIT WORKSPACE (BENTO GRID TỶ LỆ VÀNG 1.62fr : 1fr) */}
+            {activeVideo && (
+              <div className="grid grid-cols-1 lg:grid-cols-[1.62fr_1fr] gap-5 sm:gap-6 items-stretch">
+                
+                {/* CỘT TRÁI (LEFT MAIN COLUMN - 1.62fr / ~60%): PLAYER STUDIO WITH DOUBLE-BEZEL HARDWARE FRAME */}
+                <div className="flex flex-col">
+                  <div className="rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 overflow-hidden flex flex-col h-full">
+                    {/* Double-Bezel Hardware Tray */}
+                    <div className="p-2 bg-slate-900 dark:bg-slate-950 border-b border-slate-800">
+                      <div className="relative aspect-video w-full max-h-[300px] sm:max-h-[340px] lg:max-h-[380px] rounded-xl bg-black overflow-hidden group flex items-center justify-center border border-slate-800/80">
+                        <iframe
+                          ref={iframeRef}
+                          src={`https://www.youtube.com/embed/${activeVideo.id}?enablejsapi=1&controls=1&rel=0&playsinline=1${extractYouTubeStartTimestamp(activeVideo.youtubeUrl) > 0 ? `&start=${extractYouTubeStartTimestamp(activeVideo.youtubeUrl)}` : ''}&origin=${encodeURIComponent(typeof window !== 'undefined' ? window.location.origin : '')}`}
+                          title={activeVideo.title}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                          className="w-full h-full border-0"
+                        />
+
+                        {/* Center Play Button Overlay on Video */}
+                        {!isPlaying && (
+                          <div
+                            onClick={togglePlayPause}
+                            className="absolute inset-0 bg-slate-950/40 backdrop-blur-[1px] flex items-center justify-center cursor-pointer transition-all hover:bg-slate-950/20 group/playbtn z-10"
+                          >
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                togglePlayPause();
+                              }}
+                              className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#0059bb] hover:bg-[#004899] text-white shadow-xl flex items-center justify-center transition-all hover:scale-110 active:scale-95 cursor-pointer border-2 border-white/20"
+                              title="Phát video (Play)"
+                            >
+                              <Play className="w-7 h-7 sm:w-8 sm:h-8 fill-current ml-1" />
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Media Control Dock */}
+                    <div className="py-2 px-3.5 bg-slate-50 dark:bg-slate-950 border-b border-slate-200/80 dark:border-slate-800 flex items-center justify-between gap-2 shrink-0 select-none">
+                      {/* Left: 5 Audio/Video Control Buttons */}
+                      <div className="flex items-center gap-1 sm:gap-2">
+                        {/* Nút 1: Shuffle */}
+                        <button
+                          type="button"
+                          onClick={jumpToRandomSubtitle}
+                          className="p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/80 dark:hover:bg-slate-800 transition-all cursor-pointer"
+                          title="Tráo câu ngẫu nhiên (Shuffle Subtitle)"
+                        >
+                          <Shuffle className="w-4 h-4" />
+                        </button>
+
+                        {/* Nút 2: Skip Back */}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const currentIdx = activeSubIndex >= 0 ? activeSubIndex : currentSubIndex;
+                            const prevIdx = Math.max(0, currentIdx - 1);
+                            jumpToSubtitleIndex(prevIdx);
+                          }}
+                          className="p-2 rounded-lg text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-slate-200/80 dark:hover:bg-slate-800 transition-all cursor-pointer"
+                          title="Câu trước / Lùi 5 giây (Previous Cue)"
+                        >
+                          <SkipBack className="w-4 h-4 fill-current" />
+                        </button>
+
+                        {/* Nút 3: Central Main Play / Pause */}
+                        <button
+                          type="button"
+                          onClick={togglePlayPause}
+                          className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-[#0059bb] hover:bg-[#004899] text-white shadow-md shadow-[#0059bb]/20 flex items-center justify-center transition-all hover:scale-105 active:scale-95 cursor-pointer shrink-0 border border-blue-400/20"
+                          title={isPlaying ? "Tạm dừng video (Pause)" : "Phát video (Play)"}
+                        >
+                          {isPlaying ? (
+                            <Pause className="w-4 h-4 fill-current" />
+                          ) : (
+                            <Play className="w-4 h-4 fill-current ml-0.5" />
+                          )}
+                        </button>
+
+                        {/* Nút 4: Skip Forward */}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const currentIdx = activeSubIndex >= 0 ? activeSubIndex : currentSubIndex;
+                            const nextIdx = Math.min(activeVideo.subtitles.length - 1, currentIdx + 1);
+                            jumpToSubtitleIndex(nextIdx);
+                          }}
+                          className="p-2 rounded-lg text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-slate-200/80 dark:hover:bg-slate-800 transition-all cursor-pointer"
+                          title="Câu sau / Tiến 5 giây (Next Cue)"
+                        >
+                          <SkipForward className="w-4 h-4 fill-current" />
+                        </button>
+
+                        {/* Nút 5: Loop Sentence */}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsLoopingSentence(!isLoopingSentence);
+                            addToast({
+                              type: "info",
+                              title: !isLoopingSentence ? "Đã bật lặp câu!" : "Tắt lặp câu",
+                              message: !isLoopingSentence ? "Video sẽ tự động phát lặp lại câu hiện tại." : "Phát video bình thường.",
+                            });
+                          }}
+                          className={`p-2 rounded-lg transition-all cursor-pointer ${
+                            isLoopingSentence
+                              ? "text-amber-700 dark:text-amber-300 bg-amber-100 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-800/60 shadow-2xs"
+                              : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/80 dark:hover:bg-slate-800"
+                          }`}
+                          title={isLoopingSentence ? "Đang bật Lặp Câu" : "Bật Lặp Câu"}
+                        >
+                          {isLoopingSentence ? <Repeat1 className="w-4 h-4" /> : <Repeat className="w-4 h-4" />}
+                        </button>
+                      </div>
+
+                      {/* Right: Speed Switcher Dock */}
+                      <div className="flex items-center p-0.5 rounded-lg bg-slate-200/80 dark:bg-slate-900 border border-slate-300/80 dark:border-slate-700/60 gap-0.5 shrink-0">
+                        {[0.75, 1.0, 1.25, 1.5].map((speed) => (
+                          <button
+                            key={speed}
+                            type="button"
+                            onClick={() => changePlaybackSpeed(speed)}
+                            className={`px-2 py-1 rounded-md text-[11px] font-bold font-mono transition-all cursor-pointer ${
+                              playbackSpeed === speed
+                                ? "bg-[#0059bb] text-white shadow-2xs"
+                                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
+                            }`}
+                          >
+                            {speed}x
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Video Info Bar */}
+                    <div className="p-4 sm:p-5 space-y-3 flex-1 flex flex-col justify-between">
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between gap-2 flex-wrap">
+                          <div className="flex items-center gap-2">
+                            <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 border border-blue-200 dark:border-blue-800">
+                              {activeVideo.category}
+                            </span>
+                            <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
+                              {activeVideo.level}
+                            </span>
+                          </div>
+
+                          <div className="flex items-center gap-1.5">
+                            <a
+                              href={`https://www.youtube.com/watch?v=${activeVideo.id}`}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="p-1.5 px-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-[#0059bb] dark:hover:text-sky-400 transition-all cursor-pointer flex items-center gap-1 text-[11px] font-bold border border-slate-200/70 dark:border-slate-700/60"
+                              title="Mở video trên YouTube gốc"
+                            >
+                              <ExternalLink className="w-3.5 h-3.5" />
+                              <span className="hidden sm:inline">YouTube</span>
+                            </a>
+                            <button
+                              type="button"
+                              onClick={() => toggleFavorite(activeVideo.id)}
+                              className={`p-1.5 px-2.5 rounded-lg text-[11px] font-bold transition-all cursor-pointer flex items-center gap-1 border ${
+                                activeVideo.isFavorite
+                                  ? "bg-amber-50 dark:bg-amber-950 text-amber-600 border-amber-300"
+                                  : "bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900 border-slate-200/70 dark:border-slate-700/60"
+                              }`}
+                            >
+                              <Star className={`w-3.5 h-3.5 ${activeVideo.isFavorite ? "fill-current text-amber-500" : ""}`} />
+                              <span className="hidden sm:inline">Yêu thích</span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const nextVideos = savedVideos.filter((v) => v.id !== activeVideo.id);
+                                removeVideo(activeVideo.id);
+                                if (nextVideos.length > 0) {
+                                  selectVideoAndOpenSubtitles(nextVideos[0]);
+                                } else {
+                                  setActiveVideo(null);
+                                }
+                              }}
+                              className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-all cursor-pointer border border-slate-200/70 dark:border-slate-700/60"
+                              title="Xóa video"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        </div>
+
+                        <h2 className="text-sm sm:text-base font-bold font-display text-slate-900 dark:text-white leading-snug">
+                          {activeVideo.title}
+                        </h2>
+                      </div>
+
+                      <div className="space-y-1.5 pt-2 border-t border-slate-100 dark:border-slate-800">
+                        <div className="flex items-center justify-between text-xs text-slate-500">
+                          <span className="font-medium truncate">Kênh: {activeVideo.authorName}</span>
+                          <span className="font-mono text-[#0059bb] dark:text-sky-400 font-bold">{activeVideo.progressPercent}% Hoàn thành</span>
+                        </div>
+
+                        {/* Animated Gradient Progress Bar */}
+                        <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                          <div
+                            className="h-full rounded-full bg-gradient-to-r from-[#0059bb] via-indigo-600 to-sky-400 transition-all duration-500 shadow-sm"
+                            style={{ width: `${activeVideo.progressPercent}%` }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* CỘT PHẢI (RIGHT PANEL - 1fr / ~40%): INTERACTIVE MULTI-TAB DOCK */}
+                <div className="flex flex-col">
+                  <div className="rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 overflow-hidden flex flex-col h-full min-h-0">
+                    
+                    {/* Header Tabs Segmented Dock */}
+                    <div className="p-1.5 bg-slate-100 dark:bg-slate-800/80 border-b border-slate-200/80 dark:border-slate-800 grid grid-cols-3 gap-1 shrink-0">
+                      <button
+                        type="button"
+                        onClick={() => setRightPanelTab("subtitles")}
+                        className={`py-2 rounded-lg text-xs font-bold font-display transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                          rightPanelTab === "subtitles"
+                            ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-sm"
+                            : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                        }`}
+                      >
+                        <BookOpen className="w-3.5 h-3.5" /> Phụ Đề Tra Từ
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setRightPanelTab("dictation")}
+                        className={`py-2 rounded-lg text-xs font-bold font-display transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                          rightPanelTab === "dictation"
+                            ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-sm"
+                            : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                        }`}
+                      >
+                        <Brain className="w-3.5 h-3.5 text-purple-500" /> Dictation AI
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setRightPanelTab("playlist")}
+                        className={`py-2 rounded-lg text-xs font-bold font-display transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                          rightPanelTab === "playlist"
+                            ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-sm"
+                            : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                        }`}
+                      >
+                        <ListVideo className="w-3.5 h-3.5" /> Playlist ({savedVideos.length})
+                      </button>
+                    </div>
+
+                    {/* Scrollable Content Container */}
+                    <div className="p-3.5 sm:p-4 space-y-3 overflow-y-auto flex-1 min-h-0">
+
+                      {/* TAB 1: PHỤ ĐỀ SONG NGỮ 1-CLICK TRA TỪ */}
+                      {rightPanelTab === "subtitles" && (
+                        <div className="space-y-3">
+                          {/* Word Lookup Popup Card */}
+                          <AnimatePresence>
+                            {wordLookupData && (
+                              <motion.div
+                                initial={{ opacity: 0, y: -10, scale: 0.98 }}
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                exit={{ opacity: 0, y: -10, scale: 0.98 }}
+                                className="sticky top-0 z-10 p-3.5 rounded-xl bg-[#0059bb] text-white shadow-lg space-y-2 border border-sky-400/20"
+                              >
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-center gap-2">
+                                    <h4 className="text-sm font-black tracking-wide font-display text-white flex items-center gap-1.5">
+                                      <BookOpen className="w-4 h-4 text-amber-300" /> {wordLookupData.word}
+                                    </h4>
+                                    <span className="text-[11px] font-mono opacity-90 px-1.5 py-0.5 rounded bg-white/20">
+                                      {wordLookupData.phonetic}
+                                    </span>
+                                    <button
+                                      type="button"
+                                      onClick={() => handleWordClick(wordLookupData.word)}
+                                      className="p-1 rounded-full bg-white/20 hover:bg-white/30 text-white cursor-pointer transition-all"
+                                      title="Phát âm từ này"
+                                    >
+                                      <Volume2 className="w-3.5 h-3.5" />
+                                    </button>
+                                  </div>
+
+                                  <div className="flex items-center gap-1.5">
+                                    <button
+                                      type="button"
+                                      onClick={handleSaveWordToNotebook}
+                                      className="px-2.5 py-1 rounded-lg bg-white text-[#0059bb] hover:bg-sky-50 text-[11px] font-black transition-all flex items-center gap-1 shadow-2xs cursor-pointer font-sans"
+                                    >
+                                      <BookmarkPlus className="w-3.5 h-3.5" /> + Lưu Notebook
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setWordLookupData(null);
+                                        setSelectedWord(null);
+                                      }}
+                                      className="p-1 rounded bg-white/20 hover:bg-white/30 text-white cursor-pointer"
+                                      title="Đóng tra từ"
+                                    >
+                                      <X className="w-3.5 h-3.5" />
+                                    </button>
+                                  </div>
+                                </div>
+                                <p className="text-xs font-bold opacity-95">
+                                  Nghĩa: {wordLookupData.definitionVn}
+                                </p>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+
+                          {/* Subtitle Mode Switcher Header */}
+                          <div className="flex items-center justify-between">
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                              CLICK CÂU ĐỂ NHẢY VIDEO · CLICK TỪ ĐỂ TRA VÀ LƯU
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => setSubViewMode(subViewMode === "rolling" ? "full" : "rolling")}
+                              className="px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-[#0059bb] text-[10px] font-bold flex items-center gap-1 cursor-pointer transition-all border border-slate-200 dark:border-slate-700"
+                              title={subViewMode === "rolling" ? "Xem toàn bộ phụ đề" : "Chế độ focus 3 câu"}
+                            >
+                              {subViewMode === "rolling" ? (
+                                <><List className="w-3 h-3" /> Xem Tất Cả</>
+                              ) : (
+                                <><Eye className="w-3 h-3" /> Focus 3 Câu</>
+                              )}
+                            </button>
+                          </div>
+
+                          {/* MODE 1: 3-SENTENCE ROLLING VIEWPORT */}
+                          {subViewMode === "rolling" && (
+                            <div className="space-y-3 relative min-h-[320px] p-0.5">
+                              <AnimatePresence mode="popLayout">
+                                {[activeSubIndex, activeSubIndex + 1, activeSubIndex + 2].map((cueIndex, pos) => {
+                                  const sub = activeVideo.subtitles[cueIndex];
+                                  if (!sub) return null;
+
+                                  const isActive = pos === 0;
+                                  const isNext1 = pos === 1;
+
+                                  return (
+                                    <motion.div
+                                      key={sub.id}
+                                      initial={{ opacity: 0, y: 15 }}
+                                      animate={{
+                                        opacity: isActive ? 1 : isNext1 ? 0.72 : 0.48,
+                                        scale: isActive ? 1 : isNext1 ? 0.98 : 0.96,
+                                        y: 0,
+                                      }}
+                                      exit={{ opacity: 0, y: -15 }}
+                                      transition={{ duration: 0.22, ease: [0.25, 1, 0.5, 1] }}
+                                      onClick={() => handleSeekTo(sub.startTime, cueIndex)}
+                                      className={`p-3.5 sm:p-4 rounded-xl border transition-all cursor-pointer space-y-2 ${
+                                        isActive
+                                          ? "bg-blue-50/80 dark:bg-blue-950/50 border-[#0059bb] ring-1 ring-[#0059bb]/20 shadow-sm"
+                                          : "bg-slate-50/70 dark:bg-slate-950/40 border-slate-200/60 dark:border-slate-800 hover:border-slate-300"
+                                      }`}
+                                    >
+                                      <div className="flex items-center justify-between text-xs sm:text-sm font-mono border-b border-slate-200/40 dark:border-slate-800 pb-1.5">
+                                        <span className="flex items-center gap-1.5 font-bold text-slate-600 dark:text-slate-300">
+                                          <Clock className="w-4 h-4 text-[#0059bb]" /> {formatSubTime(sub.startTime)}
+                                        </span>
+                                        {isActive ? (
+                                          <span className="p-1 rounded-md bg-blue-100 dark:bg-blue-900/40 border border-[#0059bb]/30 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shadow-2xs">
+                                            <Play className="w-3.5 h-3.5 fill-current text-[#0059bb] dark:text-sky-400" />
+                                          </span>
+                                        ) : (
+                                          <span className="text-[10px] font-bold text-slate-400">
+                                            {isNext1 ? "[CÂU TIẾP THEO 1]" : "[CÂU TIẾP THEO 2]"}
+                                          </span>
+                                        )}
+                                      </div>
+
+                                      {/* Karaoke Words Line with Amber Glow Highlight */}
+                                      <div className="flex flex-wrap items-center gap-1 sm:gap-1.5 pt-0.5">
+                                        {sub.textEn.split(/\s+/).filter(Boolean).map((word, wordIdx) => {
+                                          const isKaraokeFocused = isActive && wordIdx === activeWordIndex;
+                                          const isPastWord = isActive && wordIdx < activeWordIndex;
+
+                                          return (
+                                            <button
+                                              key={wordIdx}
+                                              type="button"
+                                              onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleWordClick(word);
+                                              }}
+                                              className={`px-1.5 py-0.5 rounded-md text-xs sm:text-sm transition-all cursor-pointer font-sans ${
+                                                isKaraokeFocused
+                                                  ? "bg-amber-400 text-slate-950 font-black shadow-md ring-2 ring-amber-300/60 scale-105"
+                                                  : isPastWord
+                                                  ? "text-[#0059bb] dark:text-sky-400 font-bold"
+                                                  : "text-slate-900 dark:text-white font-semibold hover:bg-blue-100"
+                                              }`}
+                                            >
+                                              {word}
+                                            </button>
+                                          );
+                                        })}
+                                      </div>
+
+                                      <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium pt-0.5">
+                                        {sub.textVn}
+                                      </p>
+                                    </motion.div>
+                                  );
+                                })}
+                              </AnimatePresence>
+                            </div>
+                          )}
+
+                          {/* MODE 2: FULL SUBTITLE LIST VIEW */}
+                          {subViewMode === "full" && (
+                            <div className="space-y-3">
+                              {activeVideo.subtitles.map((sub, i) => (
+                                <div
+                                  key={sub.id}
+                                  ref={(el) => { subItemRefs.current[i] = el; }}
+                                  onClick={() => handleSeekTo(sub.startTime, i)}
+                                  className={`p-3.5 sm:p-4 rounded-xl border transition-all cursor-pointer space-y-2 ${
+                                    activeSubIndex === i
+                                      ? "bg-blue-50/80 dark:bg-blue-950/40 border-[#0059bb] ring-1 ring-[#0059bb]/20 shadow-sm"
+                                      : "bg-slate-50 dark:bg-slate-950 border-slate-200/60 dark:border-slate-800 hover:border-slate-300"
+                                  }`}
+                                >
+                                  <div className="flex items-center justify-between text-xs sm:text-sm font-mono border-b border-slate-200/40 dark:border-slate-800 pb-1.5">
+                                    <span className="flex items-center gap-1.5 font-bold text-slate-600 dark:text-slate-300">
+                                      <Clock className="w-4 h-4 text-[#0059bb] dark:text-sky-400" /> {formatSubTime(sub.startTime)}
+                                    </span>
+                                    {activeSubIndex === i && (
+                                      <span className="p-1 rounded-md bg-blue-100/80 dark:bg-blue-900/40 border border-[#0059bb]/30 text-[#0059bb] dark:text-sky-400 flex items-center justify-center">
+                                        <Play className="w-3.5 h-3.5 fill-current text-[#0059bb] dark:text-sky-400" />
+                                      </span>
+                                    )}
+                                  </div>
+
+                                  <div className="flex flex-wrap items-center gap-1 sm:gap-1.5 pt-0.5">
+                                    {sub.textEn.split(/\s+/).filter(Boolean).map((w, idx) => (
+                                      <button
+                                        key={idx}
+                                        type="button"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleWordClick(w);
+                                        }}
+                                        className="px-1.5 py-0.5 rounded-md hover:bg-blue-100 dark:hover:bg-blue-950 hover:text-[#0059bb] text-slate-900 dark:text-white text-xs sm:text-sm font-semibold transition-all cursor-pointer"
+                                      >
+                                        {w}
+                                      </button>
+                                    ))}
+                                  </div>
+
+                                  <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium pt-0.5">
+                                    {sub.textVn}
+                                  </p>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {/* TAB 2: DICTATION & SHADOWING AI */}
+                      {rightPanelTab === "dictation" && (
+                        <div className="space-y-3.5">
+                          <div className="flex items-center justify-between text-[11px] font-bold text-slate-400 font-mono">
+                            <span>CÂU HỎI {currentSubIndex + 1} / {activeVideo.subtitles.length}</span>
+                            {currentSubIndex !== activeSubIndex && (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setCurrentSubIndex(activeSubIndex);
+                                  setDictationInput("");
+                                  setDictationAnswered(false);
+                                  setDictationCorrect(null);
+                                  setShowHint(false);
+                                }}
+                                className="text-[11px] font-bold text-[#0059bb] dark:text-sky-400 hover:underline flex items-center gap-1 cursor-pointer"
+                              >
+                                <Target className="w-3 h-3 text-[#0059bb] dark:text-sky-400" /> Nhảy tới câu đang phát (#{activeSubIndex + 1})
+                              </button>
+                            )}
+                          </div>
+
+                          <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 space-y-2 text-center shadow-2xs">
+                            <p className="text-sm font-bold text-slate-900 dark:text-white font-display leading-relaxed">
+                              “{maskDictationWord(
+                                activeVideo.subtitles[currentSubIndex]?.textEn || "",
+                                activeVideo.subtitles[currentSubIndex]?.dictationWord || ""
+                              )}”
+                            </p>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                              Dịch: {activeVideo.subtitles[currentSubIndex]?.textVn}
+                            </p>
+                          </div>
+
+                          <div className="space-y-2.5">
+                            <label className="text-[10.5px] font-bold uppercase text-slate-400 dark:text-slate-500 block tracking-wider font-sans">
+                              Điền từ còn thiếu vào ô bên dưới:
+                            </label>
+                            <div className="flex gap-2">
+                              <input
+                                type="text"
+                                value={dictationInput}
+                                onChange={(e) => setDictationInput(e.target.value)}
+                                disabled={dictationAnswered}
+                                autoComplete="off"
+                                spellCheck={false}
+                                placeholder="Gõ từ còn thiếu vào đây..."
+                                className="flex-1 p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs font-bold text-center text-slate-900 dark:text-white focus:border-[#0059bb] focus:ring-1 focus:ring-[#0059bb] focus:outline-hidden"
+                              />
+                              <button
+                                type="button"
+                                onClick={() => setShowHint(!showHint)}
+                                className="p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-600 border border-amber-200 dark:border-amber-800 text-xs font-bold cursor-pointer transition-all hover:bg-amber-100"
+                                title="Gợi ý ký tự đầu"
+                              >
+                                <HelpCircle className="w-4 h-4" />
+                              </button>
+                            </div>
+
+                            {showHint && activeVideo.subtitles[currentSubIndex] && (
+                              <div className="p-2.5 rounded-xl bg-amber-50/90 text-amber-800 text-xs font-mono font-bold text-center flex items-center justify-center gap-1.5 border border-amber-200">
+                                <Sparkles className="w-4 h-4 text-amber-600 shrink-0" /> Gợi ý: Bắt đầu bằng chữ cái &quot;{activeVideo.subtitles[currentSubIndex].dictationWord.charAt(0).toUpperCase()}&quot; (Độ dài: {activeVideo.subtitles[currentSubIndex].dictationWord.length} ký tự)
+                              </div>
+                            )}
+
+                            {!dictationAnswered ? (
+                              <button
+                                type="button"
+                                onClick={handleCheckDictation}
+                                disabled={!dictationInput.trim()}
+                                className="w-full py-2.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] disabled:opacity-50 text-white text-xs font-bold transition-all shadow-md shadow-[#0059bb]/20 cursor-pointer font-sans active:scale-95"
+                              >
+                                Kiểm Tra Đáp Án (+20 XP)
+                              </button>
+                            ) : (
+                              <div className="space-y-2">
+                                <div className={`p-2.5 rounded-xl text-xs font-bold text-center ${
+                                  dictationCorrect
+                                    ? "bg-emerald-50 text-emerald-700 border border-emerald-300"
+                                    : "bg-rose-50 text-rose-700 border border-rose-300"
+                                }`}>
+                                  {dictationCorrect
+                                    ? "✓ Đúng rồi! Bạn bắt âm rất chuẩn."
+                                    : `✗ Chưa đúng. Đáp án: "${activeVideo.subtitles[currentSubIndex]?.dictationWord}"`}
+                                </div>
+
+                                <button
+                                  type="button"
+                                  onClick={handleNextDictation}
+                                  className="w-full py-2.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold transition-all shadow-md shadow-[#0059bb]/20 cursor-pointer font-sans active:scale-95"
+                                >
+                                  Câu tiếp theo ➔
+                                </button>
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Shadowing AI Waveform Simulator Box */}
+                          <div className="pt-3 border-t border-slate-100 dark:border-slate-800 text-center space-y-2.5">
+                            <span className="text-[10.5px] font-bold uppercase tracking-wider text-slate-400 flex items-center justify-center gap-1.5">
+                              <Mic className="w-3.5 h-3.5 text-rose-500" /> LUYỆN NHẠI GIỌNG SHADOWING AI
+                            </span>
+
+                            {/* Waveform visualizer */}
+                            <div className="flex items-center justify-center gap-1 h-8">
+                              {waveformBars.map((h, i) => (
+                                <div
+                                  key={i}
+                                  className={`w-1 rounded-full transition-all duration-150 ${
+                                    isRecording ? "bg-rose-500" : "bg-slate-300 dark:bg-slate-700"
+                                  }`}
+                                  style={{ height: `${isRecording ? h : 20}%` }}
+                                />
+                              ))}
+                            </div>
+
+                            <button
+                              type="button"
+                              onClick={toggleShadowingRecord}
+                              className={`w-11 h-11 rounded-xl mx-auto flex items-center justify-center text-white cursor-pointer transition-all shadow-md ${
+                                isRecording ? "bg-rose-600 animate-pulse shadow-rose-500/30" : "bg-[#0059bb] hover:bg-[#004899] shadow-[#0059bb]/20"
+                              }`}
+                            >
+                              <Mic className="w-5 h-5" />
+                            </button>
+
+                            {shadowingScore !== null && (
+                              <div className="p-2.5 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-700 text-xs font-bold flex items-center justify-center gap-1.5">
+                                <Award className="w-4 h-4" /> AI Chấm Phát Âm: {shadowingScore}/100! (+15 XP)
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* TAB 3: PLAYLIST VIDEO ĐÃ LƯU */}
+                      {rightPanelTab === "playlist" && (
+                        <div className="space-y-2">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block pb-1">
+                            DANH SÁCH BÀI HỌC CỦA BẠN ({savedVideos.length})
+                          </span>
+
+                          {savedVideos.map((vid) => (
+                            <button
+                              key={vid.id}
+                              type="button"
+                              onClick={() => selectVideoAndOpenSubtitles(vid)}
+                              className={`w-full p-2.5 rounded-xl border text-left flex items-center gap-3 transition-all cursor-pointer hover:-translate-y-0.5 ${
+                                activeVideo.id === vid.id
+                                  ? "bg-blue-50/80 dark:bg-blue-950/40 border-[#0059bb] text-[#0059bb] dark:text-sky-400 shadow-sm"
+                                  : "bg-slate-50 dark:bg-slate-950 border-slate-200/70 dark:border-slate-800 hover:border-slate-300 text-slate-800 dark:text-slate-200"
+                              }`}
+                            >
+                              <img
+                                src={vid.thumbnailUrl}
+                                alt={vid.title}
+                                className="w-16 aspect-video object-cover rounded-lg shrink-0 border border-slate-200/50 dark:border-slate-700/50"
+                              />
+                              <div className="min-w-0 flex-1 space-y-1">
+                                <h4 className="text-xs font-bold truncate font-display leading-tight">
+                                  {vid.title}
+                                </h4>
+                                <div className="flex items-center gap-2 text-[10px] text-slate-400 font-mono">
+                                  <span className="flex items-center gap-0.5"><Clock className="w-3 h-3 text-slate-400" /> {vid.duration}</span>
+                                  <span>• {vid.progressPercent}%</span>
+                                </div>
+                              </div>
+                              {activeVideo.id === vid.id && (
+                                <Play className="w-4 h-4 fill-current text-[#0059bb] dark:text-sky-400 shrink-0" />
+                              )}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            )}
+
+            {/* 4. SEARCH & CATEGORY FILTER BAR */}
+            <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3.5">
+              <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+                {/* Search Box */}
+                <div className="relative flex-1 min-w-0">
+                  <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Tìm kiếm theo tiêu đề video hoặc tên kênh..."
+                    className="w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-900 dark:text-white focus:border-[#0059bb] focus:ring-1 focus:ring-[#0059bb] focus:outline-hidden"
+                  />
+                </div>
+
+                {/* Progress Filter Pills */}
+                <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 shrink-0">
+                  {[
+                    { id: "all" as const, label: "Tất cả" },
+                    { id: "learning" as const, label: "Đang học" },
+                    { id: "done" as const, label: "Đã xong" },
+                    { id: "favorite" as const, label: "Yêu thích", isFav: true },
+                  ].map((f) => (
                     <button
-                      key={speed}
+                      key={f.id}
                       type="button"
-                      onClick={() => changePlaybackSpeed(speed)}
-                      className={`px-1.5 py-0.5 sm:px-2 sm:py-0.5 rounded-xs text-[10px] font-bold font-mono transition-all cursor-pointer ${
-                        playbackSpeed === speed
-                          ? "bg-[#0059bb] dark:bg-blue-600 text-white shadow-2xs"
-                          : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-300/50 dark:hover:bg-slate-800/50"
+                      onClick={() => setSelectedFilter(f.id)}
+                      className={`px-3.5 py-2 rounded-xl text-xs font-bold cursor-pointer transition-all whitespace-nowrap flex items-center gap-1.5 ${
+                        selectedFilter === f.id
+                          ? "bg-[#0059bb] text-white shadow-md shadow-[#0059bb]/20"
+                          : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700"
                       }`}
                     >
-                      {speed}x
+                      <span>{f.label}</span>
+                      {f.isFav && <Star className={`w-3.5 h-3.5 ${selectedFilter === "favorite" ? "fill-amber-300 text-amber-300" : "fill-amber-400 text-amber-400"}`} />}
                     </button>
                   ))}
                 </div>
               </div>
 
-              {/* Video Info Bar directly below player */}
-              <div className="p-3.5 sm:p-4 space-y-2.5 flex-1 flex flex-col justify-between">
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between gap-2 flex-wrap">
-                    <div className="flex items-center gap-2">
-                      <span className="px-2 py-0.5 rounded-xs text-[9px] font-bold bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
-                        {activeVideo.category}
-                      </span>
-                      <span className="px-2 py-0.5 rounded-xs text-[9px] font-bold bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
-                        {activeVideo.level}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center gap-1.5">
-                      <a
-                        href={`https://www.youtube.com/watch?v=${activeVideo.id}`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="p-1.5 rounded-xs bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/40 transition-all cursor-pointer flex items-center gap-1 text-[10px] font-bold"
-                        title="Mở video trên YouTube gốc"
-                      >
-                        <ExternalLink className="w-3.5 h-3.5" />
-                        <span className="hidden sm:inline">Xem trên YouTube</span>
-                      </a>
-                      <button
-                        type="button"
-                        onClick={() => toggleFavorite(activeVideo.id)}
-                        className={`p-1.5 rounded-xs text-xs font-bold transition-all cursor-pointer flex items-center gap-1 ${
-                          activeVideo.isFavorite
-                            ? "bg-amber-100 dark:bg-amber-950 text-amber-600 border border-amber-300"
-                            : "bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900"
-                        }`}
-                      >
-                        <Star className={`w-3.5 h-3.5 ${activeVideo.isFavorite ? "fill-current" : ""}`} />
-                        <span className="text-[10px] hidden sm:inline">Yêu thích</span>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          // FIX BUG #5: Clear activeVideo if removing the currently active one
-                          const nextVideos = savedVideos.filter((v) => v.id !== activeVideo.id);
-                          removeVideo(activeVideo.id);
-                          if (nextVideos.length > 0) {
-                            selectVideoAndOpenSubtitles(nextVideos[0]);
-                          } else {
-                            setActiveVideo(null);
-                          }
-                        }}
-                        className="p-1.5 rounded-xs bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-all cursor-pointer"
-                        title="Xóa video"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  </div>
-
-                  <h2 className="text-sm sm:text-base font-bold font-display text-slate-900 dark:text-white leading-snug">
-                    {activeVideo.title}
-                  </h2>
-                </div>
-
-                <div className="space-y-1.5 pt-2 border-t border-slate-100 dark:border-white/5">
-                  <div className="flex items-center justify-between text-xs text-slate-500">
-                    <span className="font-medium truncate">Kênh: {activeVideo.authorName}</span>
-                    <span className="font-mono text-[#0059bb] dark:text-sky-400 font-bold">{activeVideo.progressPercent}% Hoàn thành</span>
-                  </div>
-
-                  {/* Progress Bar */}
-                  <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-[#0059bb] dark:bg-sky-400 transition-all duration-300"
-                      style={{ width: `${activeVideo.progressPercent}%` }}
-                    />
-                  </div>
-                </div>
+              {/* Category Segmented Scroll Dock */}
+              <div className="flex items-center gap-1.5 overflow-x-auto pt-2 border-t border-slate-100 dark:border-slate-800 scrollbar-none no-scrollbar">
+                {["Tất cả", "Communication", "TED Talks", "Business", "Movies", "News", "IELTS/TOEIC", "General"].map((cat) => (
+                  <button
+                    key={cat}
+                    type="button"
+                    onClick={() => setSelectedCategory(cat)}
+                    className={`px-3 py-1.5 rounded-lg text-[11px] font-bold transition-all whitespace-nowrap cursor-pointer ${
+                      selectedCategory === cat
+                        ? "bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 border border-blue-200 dark:border-blue-800 shadow-2xs"
+                        : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
+                    }`}
+                  >
+                    {cat === "Communication" ? "Giao tiếp" : cat === "General" ? "Tổng hợp" : cat}
+                  </button>
+                ))}
               </div>
             </div>
-          </div>
 
-          {/* CỘT PHẢI (RIGHT PANEL - lg:col-span-5 / 40%): HEIGHT CAO BẰNG CHÍNH XÁC KHỐI VIDEO BÊN CẠNH */}
-          <div className="lg:col-span-5 flex flex-col">
-            <div className="rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-sm overflow-hidden flex flex-col h-full min-h-0">
-              
-              {/* Header Tabs */}
-              <div className="p-1 bg-slate-100 dark:bg-slate-800 border-b border-slate-200 dark:border-white/10 grid grid-cols-3 gap-1 shrink-0">
-                <button
-                  type="button"
-                  onClick={() => setRightPanelTab("subtitles")}
-                  className={`py-2 rounded-xs text-[10.5px] sm:text-xs font-bold font-display transition-all cursor-pointer flex items-center justify-center gap-1 ${
-                    rightPanelTab === "subtitles"
-                      ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-2xs"
-                      : "text-slate-600 dark:text-slate-400 hover:text-slate-900"
-                  }`}
-                >
-                  <BookOpen className="w-3.5 h-3.5" /> Phụ Đề Tra Từ
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setRightPanelTab("dictation")}
-                  className={`py-2 rounded-xs text-[10.5px] sm:text-xs font-bold font-display transition-all cursor-pointer flex items-center justify-center gap-1 ${
-                    rightPanelTab === "dictation"
-                      ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-2xs"
-                      : "text-slate-600 dark:text-slate-400 hover:text-slate-900"
-                  }`}
-                >
-                  <Brain className="w-3.5 h-3.5 text-amber-500" /> Dictation AI
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setRightPanelTab("playlist")}
-                  className={`py-2 rounded-xs text-[10.5px] sm:text-xs font-bold font-display transition-all cursor-pointer flex items-center justify-center gap-1 ${
-                    rightPanelTab === "playlist"
-                      ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-2xs"
-                      : "text-slate-600 dark:text-slate-400 hover:text-slate-900"
-                  }`}
-                >
-                  <ListVideo className="w-3.5 h-3.5 text-emerald-500" /> Playlist ({savedVideos.length})
-                </button>
+            {/* 5. VIDEO BENTO GRID CARDS */}
+            {filteredVideos.length === 0 ? (
+              <div className="p-8 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md text-center space-y-3 max-w-md mx-auto">
+                <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 flex items-center justify-center mx-auto">
+                  <Video className="w-6 h-6" />
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white font-display">
+                    Không tìm thấy video nào
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    Hãy thử tìm kiếm với từ khóa khác hoặc dán link YouTube mới ở trên!
+                  </p>
+                </div>
               </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+                {filteredVideos.map((video) => (
+                  <div
+                    key={video.id}
+                    className={`rounded-xl bg-white dark:bg-slate-900 border transition-all overflow-hidden flex flex-col justify-between group hover:-translate-y-1 hover:shadow-xl duration-300 ${
+                      activeVideo?.id === video.id
+                        ? "border-[#0059bb] ring-2 ring-[#0059bb]/20 shadow-md"
+                        : "border-slate-200/90 dark:border-slate-800 hover:border-[#0059bb]/60 shadow-md shadow-slate-200/40 dark:shadow-black/30"
+                    }`}
+                  >
+                    <div>
+                      {/* Thumbnail HD */}
+                      <div className="relative aspect-video bg-slate-950 overflow-hidden">
+                        <img
+                          src={video.thumbnailUrl}
+                          alt={video.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-90 group-hover:opacity-100"
+                        />
+                        <div className="absolute inset-0 bg-slate-950/20 group-hover:bg-slate-950/10 transition-colors" />
 
-              {/* Scrollable Content Container Matching Exact Height of Left Video Block */}
-              <div className="p-3.5 space-y-3 overflow-y-auto flex-1 min-h-0">
-
-                {/* TAB 1: PHỤ ĐỀ SONG NGỮ 1-CLICK TRA TỪ WITH YOUTUBE SEEKTO SYNC */}
-                {rightPanelTab === "subtitles" && (
-                  <div className="space-y-2.5">
-                    {/* Word Lookup Popup Card (Sticky Top Overlay with Audio & Notebook Save) */}
-                    <AnimatePresence>
-                      {wordLookupData && (
-                        <motion.div
-                          initial={{ opacity: 0, y: -10, scale: 0.98 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          exit={{ opacity: 0, y: -10, scale: 0.98 }}
-                          className="sticky top-0 z-10 p-3.5 rounded-xs bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 text-white shadow-lg space-y-2"
-                        >
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <h4 className="text-sm font-black tracking-wide font-display text-white flex items-center gap-1.5">
-                                <BookOpen className="w-4 h-4 text-amber-300" /> {wordLookupData.word}
-                              </h4>
-                              <span className="text-[11px] font-mono opacity-90 px-1.5 py-0.5 rounded bg-white/20">
-                                {wordLookupData.phonetic}
-                              </span>
-                              <button
-                                type="button"
-                                onClick={() => handleWordClick(wordLookupData.word)}
-                                className="p-1 rounded-full bg-white/20 hover:bg-white/30 text-white cursor-pointer transition-all"
-                                title="Phát âm từ này"
-                              >
-                                <Volume2 className="w-3.5 h-3.5" />
-                              </button>
-                            </div>
-
-                            <div className="flex items-center gap-1.5">
-                              <button
-                                type="button"
-                                onClick={handleSaveWordToNotebook}
-                                className="px-2.5 py-1 rounded-xs bg-white text-[#0059bb] hover:bg-sky-50 text-[11px] font-black transition-all flex items-center gap-1 shadow-2xs cursor-pointer font-display"
-                              >
-                                <BookmarkPlus className="w-3.5 h-3.5" /> + Lưu Notebook
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setWordLookupData(null);
-                                  setSelectedWord(null);
-                                }}
-                                className="p-1 rounded bg-white/20 hover:bg-white/30 text-white cursor-pointer"
-                                title="Đóng tra từ"
-                              >
-                                <X className="w-3.5 h-3.5" />
-                              </button>
-                            </div>
-                          </div>
-                          <p className="text-xs font-bold opacity-95">
-                            Nghĩa: {wordLookupData.definitionVn}
-                          </p>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-
-
-
-
-                    {/* FIX BUG #15: Toggle between Rolling and Full subtitle view */}
-                    <div className="flex items-center justify-between">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                        CLICK CÂU ĐỂ NHẢY VIDEO · CLICK TỪ ĐỂ TRA VÀ LƯU NOTEBOOK
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => setSubViewMode(subViewMode === "rolling" ? "full" : "rolling")}
-                        className="px-2 py-1 rounded-xs bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-[#0059bb] text-[10px] font-bold flex items-center gap-1 cursor-pointer transition-all border border-slate-200 dark:border-white/10"
-                        title={subViewMode === "rolling" ? "Xem toàn bộ phụ đề" : "Chế độ lướt 3 câu"}
-                      >
-                        {subViewMode === "rolling" ? (
-                          <><List className="w-3 h-3" /> Xem Tất Cả</>
-                        ) : (
-                          <><Eye className="w-3 h-3" /> Focus 3 Câu</>
-                        )}
-                      </button>
-                    </div>
-
-                    {/* MODE 1: 3-SENTENCE ROLLING VIEWPORT (FOCUS MODE - DEFAULT) */}
-                    {subViewMode === "rolling" && (
-                      <div className="space-y-3 relative min-h-[320px] p-0.5">
-                        <AnimatePresence mode="popLayout">
-                          {[activeSubIndex, activeSubIndex + 1, activeSubIndex + 2].map((cueIndex, pos) => {
-                            const sub = activeVideo.subtitles[cueIndex];
-                            if (!sub) return null;
-
-                            const isActive = pos === 0;
-                            const isNext1 = pos === 1;
-
-                            return (
-                              <motion.div
-                                key={sub.id}
-                                initial={{ opacity: 0, y: 15 }}
-                                animate={{
-                                  opacity: isActive ? 1 : isNext1 ? 0.72 : 0.48,
-                                  scale: isActive ? 1 : isNext1 ? 0.98 : 0.96,
-                                  y: 0,
-                                }}
-                                exit={{ opacity: 0, y: -15 }}
-                                transition={{ duration: 0.22, ease: [0.25, 1, 0.5, 1] }}
-                                onClick={() => handleSeekTo(sub.startTime, cueIndex)}
-                                className={`p-3.5 sm:p-4 rounded-xs border transition-all cursor-pointer space-y-2 ${
-                                  isActive
-                                    ? "bg-blue-50/95 dark:bg-blue-950/60 border-[#0059bb] ring-2 ring-[#0059bb]/30 shadow-md"
-                                    : "bg-slate-50/70 dark:bg-slate-950/40 border-slate-200/60 dark:border-white/5 hover:border-slate-300"
-                                }`}
-                              >
-                                {/* Subtitle Header Row */}
-                                <div className="flex items-center justify-between text-xs sm:text-sm font-mono border-b border-slate-200/40 dark:border-white/5 pb-1.5">
-                                  <span className="flex items-center gap-1.5 font-bold text-slate-600 dark:text-slate-300">
-                                    <Clock className="w-4 h-4 text-[#0059bb]" /> {formatSubTime(sub.startTime)}
-                                  </span>
-                                  {isActive ? (
-                                    <span className="p-1 rounded-xs bg-blue-100 dark:bg-blue-900/40 border border-[#0059bb]/30 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shadow-2xs">
-                                      <Play className="w-3.5 h-3.5 fill-current text-[#0059bb] dark:text-sky-400 animate-pulse" />
-                                    </span>
-                                  ) : (
-                                    <span className="text-[10px] font-bold text-slate-400">
-                                      {isNext1 ? "[CÂU TIẾP THEO 1]" : "[CÂU TIẾP THEO 2]"}
-                                    </span>
-                                  )}
-                                </div>
-
-                                {/* Karaoke Words Line with Real-time Golden Glow */}
-                                <div className="flex flex-wrap items-center gap-1 sm:gap-1.5 pt-0.5">
-                                  {sub.textEn.split(/\s+/).filter(Boolean).map((word, wordIdx) => {
-                                    const isKaraokeFocused = isActive && wordIdx === activeWordIndex;
-                                    const isPastWord = isActive && wordIdx < activeWordIndex;
-
-                                    return (
-                                      <button
-                                        key={wordIdx}
-                                        type="button"
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          handleWordClick(word);
-                                        }}
-                                        className={`px-1.5 py-0.5 rounded-xs text-xs sm:text-sm transition-all cursor-pointer font-display ${
-                                          isKaraokeFocused
-                                            ? "bg-amber-400 text-slate-950 font-black shadow-md ring-2 ring-amber-300 scale-105 animate-pulse"
-                                            : isPastWord
-                                            ? "text-[#0059bb] dark:text-sky-400 font-black"
-                                            : "text-slate-900 dark:text-white font-bold hover:bg-blue-100"
-                                        }`}
-                                      >
-                                        {word}
-                                      </button>
-                                    );
-                                  })}
-                                </div>
-
-                                {/* Vietnamese Translation */}
-                                <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium italic pt-0.5">
-                                  {sub.textVn}
-                                </p>
-                              </motion.div>
-                            );
-                          })}
-                        </AnimatePresence>
-                      </div>
-                    )}
-
-                    {/* MODE 2: FULL SUBTITLE LIST VIEW */}
-                    {subViewMode === "full" && (
-                      <div className="space-y-3">
-                        {activeVideo.subtitles.map((sub, i) => (
-                          <div
-                            key={sub.id}
-                            ref={(el) => { subItemRefs.current[i] = el; }}
-                            onClick={() => handleSeekTo(sub.startTime, i)}
-                            className={`p-3.5 sm:p-4 rounded-xs border transition-all cursor-pointer space-y-2 ${
-                              activeSubIndex === i
-                                ? "bg-blue-50/90 dark:bg-blue-950/40 border-[#0059bb] ring-2 ring-[#0059bb]/20 shadow-xs"
-                                : "bg-slate-50 dark:bg-slate-950 border-slate-200/60 dark:border-white/5 hover:border-slate-300"
-                            }`}
-                          >
-                            <div className="flex items-center justify-between text-xs sm:text-sm font-mono border-b border-slate-200/40 dark:border-white/5 pb-1.5">
-                              <span className="flex items-center gap-1.5 font-bold text-slate-600 dark:text-slate-300">
-                                <Clock className="w-4 h-4 text-[#0059bb] dark:text-sky-400" /> {formatSubTime(sub.startTime)}
-                              </span>
-                              {activeSubIndex === i && (
-                                <span className="p-1 rounded-xs bg-blue-100/80 dark:bg-blue-900/40 border border-[#0059bb]/30 text-[#0059bb] dark:text-sky-400 flex items-center justify-center">
-                                  <Play className="w-3.5 h-3.5 fill-current text-[#0059bb] dark:text-sky-400 animate-pulse" />
-                                </span>
-                              )}
-                            </div>
-
-                            <div className="flex flex-wrap items-center gap-1 sm:gap-1.5 pt-0.5">
-                              {sub.textEn.split(/\s+/).filter(Boolean).map((w, idx) => (
-                                <button
-                                  key={idx}
-                                  type="button"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleWordClick(w);
-                                  }}
-                                  className="px-1.5 py-0.5 rounded-xs hover:bg-blue-100 dark:hover:bg-blue-950 hover:text-[#0059bb] text-slate-900 dark:text-white text-xs sm:text-sm font-bold transition-all cursor-pointer font-display"
-                                >
-                                  {w}
-                                </button>
-                              ))}
-                            </div>
-
-                            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium italic pt-0.5">
-                              {sub.textVn}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {/* TAB 2: DICTATION & SHADOWING AI */}
-                {rightPanelTab === "dictation" && (
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between text-[10px] font-bold text-slate-400 font-mono">
-                      <span>CÂU HỎI {currentSubIndex + 1} / {activeVideo.subtitles.length}</span>
-                      {currentSubIndex !== activeSubIndex && (
+                        {/* Play Overlay Button */}
                         <button
                           type="button"
                           onClick={() => {
-                            setCurrentSubIndex(activeSubIndex);
-                            setDictationInput("");
-                            setDictationAnswered(false);
-                            setDictationCorrect(null);
-                            setShowHint(false);
+                            selectVideoAndOpenSubtitles(video);
+                            window.scrollTo({ top: 220, behavior: "smooth" });
                           }}
-                          className="text-[10px] font-bold text-[#0059bb] dark:text-sky-400 hover:underline flex items-center gap-1 cursor-pointer"
+                          className="absolute inset-0 flex items-center justify-center cursor-pointer"
                         >
-                          <Target className="w-3 h-3 text-[#0059bb] dark:text-sky-400" /> Nhảy tới câu đang phát (#{activeSubIndex + 1})
+                          <div className="w-12 h-12 rounded-full bg-[#0059bb]/90 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                            <Play className="w-5 h-5 fill-current ml-0.5" />
+                          </div>
                         </button>
-                      )}
-                    </div>
 
-                    <div className="p-3.5 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200/60 dark:border-white/5 space-y-1.5 text-center">
-                      <p className="text-xs font-bold text-slate-900 dark:text-white font-display">
-                        “{maskDictationWord(
-                          activeVideo.subtitles[currentSubIndex]?.textEn || "",
-                          activeVideo.subtitles[currentSubIndex]?.dictationWord || ""
-                        )}”
-                      </p>
-                      <p className="text-[11px] text-slate-500 font-medium">
-                        Dịch: {activeVideo.subtitles[currentSubIndex]?.textVn}
-                      </p>
-                    </div>
+                        {/* Duration Badge */}
+                        <span className="absolute right-2.5 bottom-2.5 px-2 py-0.5 rounded-md bg-slate-950/80 text-white text-[10px] font-mono font-bold backdrop-blur-xs">
+                          {video.duration}
+                        </span>
 
-                    <div className="space-y-2">
-                      <div className="flex gap-1.5">
-                        <input
-                          type="text"
-                          value={dictationInput}
-                          onChange={(e) => setDictationInput(e.target.value)}
-                          disabled={dictationAnswered}
-                          autoComplete="off"
-                          spellCheck={false}
-                          placeholder="Gõ từ còn thiếu vào đây..."
-                          className="flex-1 p-2.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-300 dark:border-white/15 text-xs font-bold text-center text-slate-900 dark:text-white"
-                        />
+                        {/* Favorite Star */}
                         <button
                           type="button"
-                          onClick={() => setShowHint(!showHint)}
-                          className="p-2.5 rounded-xs bg-amber-50 dark:bg-amber-950/40 text-amber-600 border border-amber-200 dark:border-amber-900/40 text-xs font-bold cursor-pointer"
-                          title="Gợi ý ký tự đầu"
+                          onClick={() => toggleFavorite(video.id)}
+                          className="absolute left-2.5 top-2.5 p-1.5 rounded-lg bg-slate-950/60 hover:bg-slate-950/90 text-amber-400 transition-all cursor-pointer backdrop-blur-xs"
                         >
-                          <HelpCircle className="w-4 h-4" />
+                          <Star className={`w-4 h-4 ${video.isFavorite ? "fill-current" : ""}`} />
                         </button>
                       </div>
 
-                      {showHint && activeVideo.subtitles[currentSubIndex] && (
-                        <div className="p-2 rounded-xs bg-amber-50/80 text-amber-800 text-[10px] font-mono font-bold text-center flex items-center justify-center gap-1">
-                          <Sparkles className="w-3.5 h-3.5 text-amber-600 shrink-0" /> Gợi ý: Bắt đầu bằng chữ cái &quot;{activeVideo.subtitles[currentSubIndex].dictationWord.charAt(0).toUpperCase()}&quot; (Độ dài: {activeVideo.subtitles[currentSubIndex].dictationWord.length} ký tự)
+                      {/* Info Card */}
+                      <div className="p-4 space-y-2.5">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="px-2 py-0.5 rounded-md text-[9.5px] font-bold bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 border border-blue-200 dark:border-blue-800">
+                            {video.category}
+                          </span>
+                          <span className="text-[10px] font-mono text-slate-400">{video.savedAt}</span>
                         </div>
-                      )}
 
-                      {!dictationAnswered ? (
-                        <button
-                          type="button"
-                          onClick={handleCheckDictation}
-                          disabled={!dictationInput.trim()}
-                          className="w-full py-2 rounded-xs bg-[#0059bb] hover:bg-[#004799] disabled:opacity-50 text-white text-xs font-bold transition-all shadow-2xs cursor-pointer font-display"
-                        >
-                          Kiểm Tra Đáp Án (+20 XP)
-                        </button>
-                      ) : (
-                        <div className="space-y-2">
-                          <div className={`p-2 rounded-xs text-[11px] font-bold text-center ${
-                            dictationCorrect
-                              ? "bg-emerald-50 text-emerald-700 border border-emerald-300"
-                              : "bg-rose-50 text-rose-700 border border-rose-300"
-                          }`}>
-                            {dictationCorrect
-                              ? "✓ Đúng rồi! Bạn bắt âm rất chuẩn."
-                              : `✗ Chưa đúng. Đáp án: "${activeVideo.subtitles[currentSubIndex]?.dictationWord}"`}
+                        <h3 className="text-sm font-bold text-slate-900 dark:text-white font-display line-clamp-2 leading-snug">
+                          {video.title}
+                        </h3>
+
+                        <p className="text-xs text-slate-500 font-medium truncate">
+                          Kênh: {video.authorName}
+                        </p>
+
+                        {/* Progress Bar */}
+                        <div className="space-y-1 pt-1">
+                          <div className="flex justify-between text-[11px] font-bold">
+                            <span className="text-slate-400">Tiến độ bài học</span>
+                            <span className="text-[#0059bb] dark:text-sky-400 font-mono">{video.progressPercent}%</span>
                           </div>
-
-                          <button
-                            type="button"
-                            onClick={handleNextDictation}
-                            className="w-full py-2 rounded-xs bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold transition-all shadow-2xs cursor-pointer font-display"
-                          >
-                            Câu tiếp theo ➔
-                          </button>
+                          <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                            <div
+                              className="h-full bg-gradient-to-r from-[#0059bb] to-sky-400 transition-all duration-300"
+                              style={{ width: `${video.progressPercent}%` }}
+                            />
+                          </div>
                         </div>
-                      )}
-                    </div>
-
-                    {/* Shadowing AI Waveform Simulator Box */}
-                    <div className="pt-3 border-t border-slate-100 dark:border-white/5 text-center space-y-2">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center justify-center gap-1">
-                        <Mic className="w-3.5 h-3.5 text-rose-500" /> LUYỆN NHẠI GIỌNG SHADOWING AI
-                      </span>
-
-                      {/* Waveform visualizer */}
-                      <div className="flex items-center justify-center gap-1 h-8">
-                        {waveformBars.map((h, i) => (
-                          <div
-                            key={i}
-                            className={`w-1 rounded-full transition-all duration-150 ${
-                              isRecording ? "bg-rose-500" : "bg-slate-300 dark:bg-slate-700"
-                            }`}
-                            style={{ height: `${isRecording ? h : 20}%` }}
-                          />
-                        ))}
                       </div>
+                    </div>
+
+                    {/* Actions Footer */}
+                    <div className="p-3.5 bg-slate-50 dark:bg-slate-950/50 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                      <button
+                        type="button"
+                        onClick={() => removeVideo(video.id)}
+                        className="p-2 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-all cursor-pointer"
+                        title="Xóa khỏi danh sách"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
 
                       <button
                         type="button"
-                        onClick={toggleShadowingRecord}
-                        className={`w-10 h-10 rounded-xs mx-auto flex items-center justify-center text-white cursor-pointer transition-all ${
-                          isRecording ? "bg-rose-600 animate-pulse" : "bg-emerald-600 hover:bg-emerald-700"
-                        }`}
+                        onClick={() => {
+                          selectVideoAndOpenSubtitles(video);
+                          window.scrollTo({ top: 220, behavior: "smooth" });
+                        }}
+                        className="px-4 py-2 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold transition-all shadow-md shadow-[#0059bb]/20 flex items-center gap-1.5 cursor-pointer font-sans active:scale-95"
                       >
-                        <Mic className="w-5 h-5" />
+                        <Play className="w-3.5 h-3.5 fill-current" /> Luyện tập ngay
                       </button>
-
-                      {shadowingScore !== null && (
-                        <div className="p-2 rounded-xs bg-emerald-50 border border-emerald-300 text-emerald-700 text-[11px] font-bold flex items-center justify-center gap-1">
-                          <Award className="w-3.5 h-3.5" /> AI Chấm Phát Âm: {shadowingScore}/100! (+15 XP)
-                        </div>
-                      )}
                     </div>
                   </div>
-                )}
-
-                {/* TAB 3: PLAYLIST VIDEO ĐÃ LƯU (Instant 1-Click Switch) */}
-                {rightPanelTab === "playlist" && (
-                  <div className="space-y-2">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
-                      DANH SÁCH VIDEO CỦA TÔI ({savedVideos.length})
-                    </span>
-
-                    {savedVideos.map((vid) => (
-                      <button
-                        key={vid.id}
-                        type="button"
-                        onClick={() => selectVideoAndOpenSubtitles(vid)}
-                        className={`w-full p-2 rounded-xs border text-left flex items-center gap-2.5 transition-all cursor-pointer ${
-                          activeVideo.id === vid.id
-                            ? "bg-blue-50/80 dark:bg-blue-950/40 border-[#0059bb] text-[#0059bb] dark:text-sky-400"
-                            : "bg-slate-50 dark:bg-slate-950 border-slate-200/60 dark:border-white/5 hover:border-slate-300 text-slate-800 dark:text-slate-200"
-                        }`}
-                      >
-                        <img
-                          src={vid.thumbnailUrl}
-                          alt={vid.title}
-                          className="w-16 aspect-video object-cover rounded-xs shrink-0"
-                        />
-                        <div className="min-w-0 flex-1 space-y-0.5">
-                          <h4 className="text-[11px] font-bold truncate font-display leading-tight">
-                            {vid.title}
-                          </h4>
-                          <div className="flex items-center gap-2 text-[9px] text-slate-400 font-mono">
-                            <span className="flex items-center gap-0.5"><Clock className="w-2.5 h-2.5 text-slate-400" /> {vid.duration}</span>
-                            <span>• {vid.progressPercent}%</span>
-                          </div>
-                        </div>
-                        {activeVideo.id === vid.id && (
-                          <Play className="w-3.5 h-3.5 fill-current text-[#0059bb] dark:text-sky-400 shrink-0" />
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                )}
-
+                ))}
               </div>
-            </div>
-          </div>
-
-        </div>
-      )}
-
-      {/* 4. SEARCH & CATEGORY FILTER BAR */}
-      <div className="p-3.5 sm:p-4 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3">
-        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2.5">
-          {/* Search Box */}
-          <div className="relative flex-1 min-w-0">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Tìm kiếm theo tiêu đề video hoặc tên kênh..."
-              className="w-full pl-9 pr-3 py-2 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/10 text-xs font-medium text-slate-900 dark:text-white"
-            />
-          </div>
-
-          {/* Progress Filters */}
-          <div className="flex items-center gap-1 overflow-x-auto pb-1 md:pb-0 shrink-0">
-            {[
-              { id: "all" as const, label: "Tất cả" },
-              { id: "learning" as const, label: "Đang học" },
-              { id: "done" as const, label: "Đã xong" },
-              { id: "favorite" as const, label: "Yêu thích", isFav: true },
-            ].map((f) => (
-              <button
-                key={f.id}
-                type="button"
-                onClick={() => setSelectedFilter(f.id)}
-                className={`px-3 py-1.5 rounded-xs text-[11px] font-bold cursor-pointer transition-all whitespace-nowrap flex items-center gap-1 ${
-                  selectedFilter === f.id
-                    ? "bg-[#0059bb] text-white"
-                    : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200"
-                }`}
-              >
-                <span>{f.label}</span>
-                {f.isFav && <Star className={`w-3 h-3 ${selectedFilter === "favorite" ? "fill-amber-300 text-amber-300" : "fill-amber-400 text-amber-400"}`} />}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Category Tabs */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pt-1 border-t border-slate-100 dark:border-white/5">
-          {["Tất cả", "Communication", "TED Talks", "Business", "Movies", "News", "IELTS/TOEIC", "General"].map((cat) => (
-            <button
-              key={cat}
-              type="button"
-              onClick={() => setSelectedCategory(cat)}
-              className={`px-2.5 py-1 rounded-xs text-[10px] font-bold transition-all whitespace-nowrap cursor-pointer ${
-                selectedCategory === cat
-                  ? "bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800"
-                  : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
-              }`}
-            >
-              {cat === "Communication" ? "Giao tiếp" : cat === "General" ? "Tổng hợp" : cat}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* 5. MY VIDEO BENTO GRID */}
-      {filteredVideos.length === 0 ? (
-        <div className="p-8 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs text-center space-y-3 max-w-md mx-auto">
-          <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 flex items-center justify-center mx-auto">
-            <Video className="w-6 h-6" />
-          </div>
-          <div className="space-y-1">
-            <h3 className="text-sm font-bold text-slate-900 dark:text-white font-display">
-              Không tìm thấy video nào
-            </h3>
-            <p className="text-xs text-slate-500">
-              Hãy thử tìm kiếm với từ khóa khác hoặc dán link YouTube mới ở trên!
-            </p>
-          </div>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-          {filteredVideos.map((video) => (
-            <div
-              key={video.id}
-              className={`rounded-xs bg-white dark:bg-slate-900 border transition-all overflow-hidden flex flex-col justify-between group ${
-                activeVideo?.id === video.id
-                  ? "border-[#0059bb] ring-2 ring-[#0059bb]/20 shadow-md"
-                  : "border-slate-200/80 dark:border-white/10 hover:border-[#0059bb] shadow-xs"
-              }`}
-            >
-              <div>
-                {/* Thumbnail HD */}
-                <div className="relative aspect-video bg-slate-950 overflow-hidden">
-                  <img
-                    src={video.thumbnailUrl}
-                    alt={video.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-90 group-hover:opacity-100"
-                  />
-                  <div className="absolute inset-0 bg-slate-950/20 group-hover:bg-slate-950/10 transition-colors" />
-
-                  {/* Play Overlay Button */}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      selectVideoAndOpenSubtitles(video);
-                      window.scrollTo({ top: 220, behavior: "smooth" });
-                    }}
-                    className="absolute inset-0 flex items-center justify-center cursor-pointer"
-                  >
-                    <div className="w-11 h-11 rounded-xs bg-[#0059bb]/90 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                      <Play className="w-5 h-5 fill-current ml-0.5" />
-                    </div>
-                  </button>
-
-                  {/* Duration Badge */}
-                  <span className="absolute right-2 bottom-2 px-1.5 py-0.5 rounded-xs bg-slate-950/80 text-white text-[10px] font-mono font-bold backdrop-blur-xs">
-                    {video.duration}
-                  </span>
-
-                  {/* Favorite Star */}
-                  <button
-                    type="button"
-                    onClick={() => toggleFavorite(video.id)}
-                    className="absolute left-2 top-2 p-1.5 rounded-xs bg-[#0059bb]/80 text-amber-300 hover:bg-[#0059bb] transition-all cursor-pointer"
-                  >
-                    <Star className={`w-3.5 h-3.5 ${video.isFavorite ? "fill-current" : ""}`} />
-                  </button>
-                </div>
-
-                {/* Info Card */}
-                <div className="p-3.5 space-y-2">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="px-1.5 py-0.5 rounded-xs text-[9px] font-bold bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
-                      {video.category}
-                    </span>
-                    <span className="text-[10px] font-mono text-slate-400">{video.savedAt}</span>
-                  </div>
-
-                  <h3 className="text-xs font-bold text-slate-900 dark:text-white font-display line-clamp-2 leading-snug">
-                    {video.title}
-                  </h3>
-
-                  <p className="text-[10px] text-slate-500 font-medium truncate">
-                    Kênh: {video.authorName}
-                  </p>
-
-                  {/* Progress Bar */}
-                  <div className="space-y-1 pt-1">
-                    <div className="flex justify-between text-[10px] font-bold">
-                      <span className="text-slate-400">Tiến độ bài học</span>
-                      <span className="text-[#0059bb] dark:text-sky-400 font-mono">{video.progressPercent}%</span>
-                    </div>
-                    <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-[#0059bb] dark:bg-sky-400 transition-all duration-300"
-                        style={{ width: `${video.progressPercent}%` }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Actions Footer */}
-              <div className="p-3 bg-slate-50 dark:bg-slate-950/50 border-t border-slate-100 dark:border-white/5 flex items-center justify-between">
-                <button
-                  type="button"
-                  onClick={() => removeVideo(video.id)}
-                  className="p-1.5 rounded-xs text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-all cursor-pointer"
-                  title="Xóa khỏi danh sách"
-                >
-                  <Trash2 className="w-3.5 h-3.5" />
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    selectVideoAndOpenSubtitles(video);
-                    window.scrollTo({ top: 220, behavior: "smooth" });
-                  }}
-                  className="px-3 py-1.5 rounded-xs bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold transition-all shadow-2xs flex items-center gap-1 cursor-pointer font-display"
-                >
-                  <Play className="w-3 h-3 fill-current" /> Luyện tập ngay
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-        </>
-      ) : (
+            )}
+          </>
+        ) : (
         <AnimatePresence>
           {activeSubtitleResult && (
             <motion.div
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-              className="w-full rounded-xs bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border border-slate-200/80 dark:border-white/10 shadow-xs p-4 sm:p-5 space-y-5 select-none font-sans"
+              exit={{ opacity: 0, y: 12 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              className="w-full rounded-2xl bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border border-slate-200/90 dark:border-slate-800 shadow-xl p-5 sm:p-7 space-y-6 select-none font-sans"
             >
               {/* Header */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-3.5 border-b border-slate-100 dark:border-white/5">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-xs bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800/60 text-[#0059bb] dark:text-sky-400">
-                    <FileCode className="w-5 h-5" />
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-slate-100 dark:border-slate-800">
+                <div className="flex items-center gap-3.5 min-w-0">
+                  <div className="w-11 h-11 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0 shadow-2xs">
+                    <FileCode className="w-6 h-6 stroke-[2]" />
                   </div>
-                  <div>
-                    <div className="flex items-center gap-2">
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <h2 className="text-base sm:text-lg font-bold font-display tracking-tight text-slate-900 dark:text-white">
-                        Bảng Trích Xuất & Báo Cáo Phụ Đề Song Ngữ
+                        Báo Cáo & Xuất Phụ Đề Song Ngữ
                       </h2>
-                      <span className="px-2 py-0.5 rounded-xs bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 text-[10px] font-bold flex items-center gap-1 font-display">
-                        <Sparkles className="w-3 h-3" /> Verified 100%
+                      <span className="px-2.5 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-300/80 dark:border-emerald-800/60 text-[10.5px] font-mono font-bold flex items-center gap-1 shadow-2xs">
+                        <Sparkles className="w-3 h-3" /> VERIFIED 100%
                       </span>
                     </div>
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400 font-mono truncate max-w-md">
-                      Video: {activeVideo?.title || "YouTube Extraction Target"}
+                    <p className="text-xs font-medium text-slate-500 dark:text-slate-400 truncate mt-0.5">
+                      Video: {activeVideo?.title || "YouTube Subtitle Target"}
                     </p>
                   </div>
                 </div>
@@ -2217,9 +2396,10 @@ export default function MyVideoPage() {
                       );
                       addToast({ type: "success", title: "Đã tải file JSON!", message: "File JSON đã được tải về máy thành công." });
                     }}
-                    className="px-2.5 py-1.5 rounded-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 text-xs font-bold font-display flex items-center gap-1.5 transition-all cursor-pointer"
+                    className="h-9 px-3.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700/60 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs active:scale-95"
                   >
-                    <Download className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" /> Tải JSON
+                    <Download className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                    <span>.JSON</span>
                   </button>
                   <button
                     type="button"
@@ -2231,9 +2411,10 @@ export default function MyVideoPage() {
                       );
                       addToast({ type: "success", title: "Đã tải file SRT!", message: "File SRT Song Ngữ đã tải về máy." });
                     }}
-                    className="px-2.5 py-1.5 rounded-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 text-xs font-bold font-display flex items-center gap-1.5 transition-all cursor-pointer"
+                    className="h-9 px-3.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700/60 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs active:scale-95"
                   >
-                    <Download className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" /> Tải SRT
+                    <Download className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
+                    <span>.SRT</span>
                   </button>
                   <button
                     type="button"
@@ -2245,189 +2426,215 @@ export default function MyVideoPage() {
                       );
                       addToast({ type: "success", title: "Đã tải file WEBVTT!", message: "File WEBVTT Song Ngữ đã tải về máy." });
                     }}
-                    className="px-2.5 py-1.5 rounded-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 text-xs font-bold font-display flex items-center gap-1.5 transition-all cursor-pointer"
+                    className="h-9 px-3.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700/60 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs active:scale-95"
                   >
-                    <Download className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" /> Tải WEBVTT
+                    <Download className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+                    <span>.VTT</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => setShowExportModal(false)}
-                    className="px-3.5 py-1.5 rounded-xs bg-[#0059bb] hover:bg-[#004799] dark:bg-blue-600 dark:hover:bg-blue-500 text-white text-xs font-bold font-display shadow-2xs flex items-center gap-1.5 transition-all cursor-pointer border border-blue-400/20"
+                    className="h-9 px-4 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold shadow-md shadow-[#0059bb]/20 flex items-center gap-1.5 transition-all cursor-pointer active:scale-95"
                   >
-                    <X className="w-4 h-4" /> Đóng Cửa Sổ (ESC)
+                    <X className="w-4 h-4" />
+                    <span>Quay Lại (ESC)</span>
                   </button>
                 </div>
               </div>
 
-              {/* Section A: Bento Stats Report Cards */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-                <div className="p-3 rounded-xs bg-slate-50 dark:bg-slate-950/40 border border-slate-200/80 dark:border-white/10 flex flex-col justify-between shadow-2xs">
-                  <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs font-medium">
+              {/* Section A: 4 Double-Bezel Metric Cards */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                <div className="p-4 rounded-2xl bg-slate-50/80 dark:bg-slate-950/80 border border-slate-200/80 dark:border-slate-800/80 flex flex-col justify-between shadow-2xs">
+                  <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs font-bold">
                     <span>Tổng thời lượng</span>
-                    <Clock className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />
+                    <div className="w-7 h-7 rounded-lg bg-blue-500/10 text-[#0059bb] dark:text-sky-400 flex items-center justify-center">
+                      <Clock className="w-4 h-4" />
+                    </div>
                   </div>
-                  <div className="mt-2">
-                    <span className="text-xl font-bold font-mono text-[#0059bb] dark:text-sky-400">
+                  <div className="mt-3">
+                    <span className="text-2xl font-black font-mono tracking-tight text-[#0059bb] dark:text-sky-400">
                       {activeSubtitleResult.stats.totalDurationStr}
                     </span>
-                    <span className="text-[10px] text-slate-400 dark:text-slate-500 block mt-0.5 font-mono">Chuẩn ISO/LRC</span>
+                    <span className="text-[10.5px] text-slate-400 dark:text-slate-500 block mt-1 font-mono">Chuẩn ISO/LRC</span>
                   </div>
                 </div>
 
-                <div className="p-3 rounded-xs bg-slate-50 dark:bg-slate-950/40 border border-slate-200/80 dark:border-white/10 flex flex-col justify-between shadow-2xs">
-                  <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs font-medium">
-                    <span>Tổng số câu EN</span>
-                    <Layers className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <div className="p-4 rounded-2xl bg-slate-50/80 dark:bg-slate-950/80 border border-slate-200/80 dark:border-slate-800/80 flex flex-col justify-between shadow-2xs">
+                  <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs font-bold">
+                    <span>Tổng số câu EN/VN</span>
+                    <div className="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                      <Layers className="w-4 h-4" />
+                    </div>
                   </div>
-                  <div className="mt-2">
-                    <span className="text-xl font-bold font-mono text-emerald-600 dark:text-emerald-400">
-                      {activeSubtitleResult.stats.totalEnglishSentences} <span className="text-xs font-normal text-slate-500">câu</span>
+                  <div className="mt-3">
+                    <span className="text-2xl font-black font-mono tracking-tight text-emerald-600 dark:text-emerald-400">
+                      {activeSubtitleResult.stats.totalEnglishSentences} <span className="text-xs font-bold text-slate-400">câu</span>
                     </span>
-                    <span className="text-[10px] text-slate-400 dark:text-slate-500 block mt-0.5 font-mono">Phân đoạn tự nhiên</span>
+                    <span className="text-[10.5px] text-slate-400 dark:text-slate-500 block mt-1 font-mono">Phân đoạn tự nhiên</span>
                   </div>
                 </div>
 
-                <div className="p-3 rounded-xs bg-slate-50 dark:bg-slate-950/40 border border-slate-200/80 dark:border-white/10 flex flex-col justify-between shadow-2xs">
-                  <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs font-medium">
+                <div className="p-4 rounded-2xl bg-slate-50/80 dark:bg-slate-950/80 border border-slate-200/80 dark:border-slate-800/80 flex flex-col justify-between shadow-2xs">
+                  <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs font-bold">
                     <span>Tổng từ Tiếng Anh</span>
-                    <FileText className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                    <div className="w-7 h-7 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+                      <FileText className="w-4 h-4" />
+                    </div>
                   </div>
-                  <div className="mt-2">
-                    <span className="text-xl font-bold font-mono text-amber-600 dark:text-amber-400">
-                      {activeSubtitleResult.stats.totalEnglishWords} <span className="text-xs font-normal text-slate-500">từ</span>
+                  <div className="mt-3">
+                    <span className="text-2xl font-black font-mono tracking-tight text-amber-600 dark:text-amber-400">
+                      {activeSubtitleResult.stats.totalEnglishWords} <span className="text-xs font-bold text-slate-400">từ</span>
                     </span>
-                    <span className="text-[10px] text-slate-400 dark:text-slate-500 block mt-0.5 font-mono">Kho từ vựng AI</span>
+                    <span className="text-[10.5px] text-slate-400 dark:text-slate-500 block mt-1 font-mono">Kho từ vựng trích xuất</span>
                   </div>
                 </div>
 
-                <div className="p-3 rounded-xs bg-slate-50 dark:bg-slate-950/40 border border-slate-200/80 dark:border-white/10 flex flex-col justify-between shadow-2xs">
-                  <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs font-medium">
+                <div className="p-4 rounded-2xl bg-slate-50/80 dark:bg-slate-950/80 border border-slate-200/80 dark:border-slate-800/80 flex flex-col justify-between shadow-2xs">
+                  <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs font-bold">
                     <span>Tỷ lệ dịch chuẩn</span>
-                    <CheckCircle2 className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />
+                    <div className="w-7 h-7 rounded-lg bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center">
+                      <CheckCircle2 className="w-4 h-4" />
+                    </div>
                   </div>
-                  <div className="mt-2">
-                    <span className="text-xl font-bold font-mono text-[#0059bb] dark:text-sky-400">
+                  <div className="mt-3">
+                    <span className="text-2xl font-black font-mono tracking-tight text-purple-600 dark:text-purple-400">
                       {activeSubtitleResult.stats.translationSuccessRate}
                     </span>
-                    <span className="text-[10px] text-slate-400 dark:text-slate-500 block mt-0.5 font-mono">Google Server Translation</span>
+                    <span className="text-[10.5px] text-slate-400 dark:text-slate-500 block mt-1 font-mono">Google Server Neural API</span>
                   </div>
                 </div>
               </div>
 
               {/* Technical Audit Badge Notice */}
-              <div className="p-3 rounded-xs bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/40 text-emerald-800 dark:text-emerald-300 font-mono text-xs flex items-center justify-between">
+              <div className="p-3.5 rounded-xl bg-emerald-50/80 dark:bg-emerald-950/30 border border-emerald-200/80 dark:border-emerald-800/60 text-emerald-800 dark:text-emerald-300 font-sans text-xs flex items-center justify-between shadow-2xs">
                 <div className="flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                   <span><strong>BÁO CÁO KIỂM THỬ KỸ THUẬT:</strong> {activeSubtitleResult.errorReport[0]}</span>
                 </div>
-                <span className="text-[10px] text-emerald-700 dark:text-emerald-400 font-sans uppercase font-bold tracking-wider">Zero Overlap Checked</span>
+                <span className="text-[10px] text-emerald-700 dark:text-emerald-400 font-mono uppercase font-bold tracking-wider hidden sm:inline-block">
+                  ZERO OVERLAP CHECKED
+                </span>
               </div>
 
               {/* Section B: Tab Navigation & Code Inspector Views */}
-              <div className="space-y-3.5">
-                <div className="flex items-center gap-1.5 border-b border-slate-100 dark:border-white/5 pb-2.5 overflow-x-auto">
-                  <button
-                    type="button"
-                    onClick={() => setExportActiveTab("json")}
-                    className={`px-3 py-1.5 rounded-xs text-xs font-bold transition-all cursor-pointer font-display ${
-                      exportActiveTab === "json"
-                        ? "bg-[#0059bb] dark:bg-blue-600 text-white shadow-2xs"
-                        : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200/80 dark:border-white/10"
-                    }`}
-                  >
-                    1. JSON Data (Mili-giây)
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setExportActiveTab("srt")}
-                    className={`px-3 py-1.5 rounded-xs text-xs font-bold transition-all cursor-pointer font-display ${
-                      exportActiveTab === "srt"
-                        ? "bg-[#0059bb] dark:bg-blue-600 text-white shadow-2xs"
-                        : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200/80 dark:border-white/10"
-                    }`}
-                  >
-                    2. SRT Song Ngữ
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setExportActiveTab("webvtt")}
-                    className={`px-3 py-1.5 rounded-xs text-xs font-bold transition-all cursor-pointer font-display ${
-                      exportActiveTab === "webvtt"
-                        ? "bg-[#0059bb] dark:bg-blue-600 text-white shadow-2xs"
-                        : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200/80 dark:border-white/10"
-                    }`}
-                  >
-                    3. WEBVTT Song Ngữ
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setExportActiveTab("all")}
-                    className={`px-3 py-1.5 rounded-xs text-xs font-bold transition-all cursor-pointer font-display ${
-                      exportActiveTab === "all"
-                        ? "bg-[#0059bb] dark:bg-blue-600 text-white shadow-2xs"
-                        : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200/80 dark:border-white/10"
-                    }`}
-                  >
-                    4. Xem Tất Cả (Full View)
-                  </button>
+              <div className="space-y-4">
+                <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2.5">
+                  <div className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 flex items-center gap-1 overflow-x-auto">
+                    <button
+                      type="button"
+                      onClick={() => setExportActiveTab("srt")}
+                      className={`h-8 px-3.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 shrink-0 ${
+                        exportActiveTab === "srt"
+                          ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-300 shadow-2xs"
+                          : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                      }`}
+                    >
+                      <FileText className="w-3.5 h-3.5" />
+                      <span>1. File .SRT Song Ngữ</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setExportActiveTab("webvtt")}
+                      className={`h-8 px-3.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 shrink-0 ${
+                        exportActiveTab === "webvtt"
+                          ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-300 shadow-2xs"
+                          : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                      }`}
+                    >
+                      <Globe className="w-3.5 h-3.5" />
+                      <span>2. File .WebVTT Song Ngữ</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setExportActiveTab("json")}
+                      className={`h-8 px-3.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 shrink-0 ${
+                        exportActiveTab === "json"
+                          ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-300 shadow-2xs"
+                          : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                      }`}
+                    >
+                      <Code2 className="w-3.5 h-3.5" />
+                      <span>3. Dữ Liệu .JSON (Mili-giây)</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setExportActiveTab("all")}
+                      className={`h-8 px-3.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 shrink-0 ${
+                        exportActiveTab === "all"
+                          ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-300 shadow-2xs"
+                          : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                      }`}
+                    >
+                      <Layers className="w-3.5 h-3.5" />
+                      <span>4. Xem Tất Cả (Full View)</span>
+                    </button>
+                  </div>
+
+                  {/* Font Size Adjuster Toolbar */}
+                  <div className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 flex items-center gap-1 self-start md:self-auto">
+                    <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 px-2 uppercase font-mono">
+                      Cỡ chữ:
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setExportFontSize("sm")}
+                      className={`h-7 px-2.5 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
+                        exportFontSize === "sm"
+                          ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-2xs"
+                          : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                      }`}
+                    >
+                      12px
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setExportFontSize("base")}
+                      className={`h-7 px-2.5 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
+                        exportFontSize === "base"
+                          ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-2xs"
+                          : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                      }`}
+                    >
+                      14.5px (Chuẩn)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setExportFontSize("lg")}
+                      className={`h-7 px-2.5 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
+                        exportFontSize === "lg"
+                          ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-2xs"
+                          : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                      }`}
+                    >
+                      17px (Lớn)
+                    </button>
+                  </div>
                 </div>
 
-                {/* Tab Views */}
-                {(exportActiveTab === "json" || exportActiveTab === "all") && (
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-slate-700 dark:text-slate-200 font-display flex items-center gap-1.5">
-                        <Code2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" /> DỮ LIỆU JSON CẤU TRÚC (MỐC MILI GIÂY)
-                      </span>
-                      <div className="flex items-center gap-1.5">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            navigator.clipboard.writeText(JSON.stringify(activeSubtitleResult.json, null, 2));
-                            addToast({ type: "success", title: "Đã copy JSON!", message: "Dữ liệu JSON đã lưu vào clipboard." });
-                          }}
-                          className="px-2.5 py-1 rounded-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-white/10 text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1 cursor-pointer font-display"
-                        >
-                          <Copy className="w-3.5 h-3.5 text-slate-500" /> Copy JSON
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            downloadTextFile(
-                              JSON.stringify(activeSubtitleResult.json, null, 2),
-                              `${activeVideo?.title || "subtitles"}.json`,
-                              "application/json"
-                            );
-                            addToast({ type: "success", title: "Đã tải JSON!", message: "Tải file .json về máy thành công." });
-                          }}
-                          className="px-2.5 py-1 rounded-xs bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-800 text-xs font-bold text-emerald-700 dark:text-emerald-300 flex items-center gap-1 cursor-pointer font-display"
-                        >
-                          <Download className="w-3.5 h-3.5" /> Tải File .json
-                        </button>
-                      </div>
-                    </div>
-                    <pre className="p-3.5 rounded-xs bg-slate-50 dark:bg-slate-950 text-emerald-800 dark:text-emerald-300 font-mono text-[11px] max-h-80 overflow-y-auto border border-slate-200 dark:border-slate-800 shadow-2xs selection:bg-emerald-500/20 selection:text-emerald-900 dark:selection:text-emerald-200">
-                      {JSON.stringify(activeSubtitleResult.json, null, 2)}
-                    </pre>
-                  </div>
-                )}
-
+                {/* 1. SRT Tab View */}
                 {(exportActiveTab === "srt" || exportActiveTab === "all") && (
-                  <div className="space-y-2 pt-1">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-slate-700 dark:text-slate-200 font-display flex items-center gap-1.5">
-                        <FileText className="w-4 h-4 text-[#0059bb] dark:text-sky-400" /> NỘI DUNG FILE SRT SONG NGỮ (SUBRIP)
-                      </span>
-                      <div className="flex items-center gap-1.5">
+                  <div className="space-y-2.5 rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-950/60 p-4 sm:p-5">
+                    <div className="flex items-center justify-between flex-wrap gap-2">
+                      <div className="flex items-center gap-2">
+                        <FileText className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />
+                        <span className="text-xs font-bold text-slate-800 dark:text-slate-200 font-display">
+                          NỘI DUNG FILE .SRT SONG NGỮ (SUBRIP FORMAT)
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950 text-[#0059bb] dark:text-sky-400 text-[10.5px] font-mono font-bold border border-blue-200/60 dark:border-blue-900/40">
+                          {activeSubtitleResult.stats.totalEnglishSentences} CÂU
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
                         <button
                           type="button"
                           onClick={() => {
                             navigator.clipboard.writeText(activeSubtitleResult.srtBilingual);
                             addToast({ type: "success", title: "Đã copy SRT!", message: "Nội dung SRT đã lưu vào clipboard." });
                           }}
-                          className="px-2.5 py-1 rounded-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-white/10 text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1 cursor-pointer font-display"
+                          className="h-8 px-3.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5 cursor-pointer shadow-2xs transition-all active:scale-95"
                         >
-                          <Copy className="w-3.5 h-3.5 text-slate-500" /> Copy SRT
+                          <Copy className="w-3.5 h-3.5 text-slate-400" />
+                          <span>Copy SRT</span>
                         </button>
                         <button
                           type="button"
@@ -2439,34 +2646,51 @@ export default function MyVideoPage() {
                             );
                             addToast({ type: "success", title: "Đã tải SRT!", message: "Tải file .srt về máy thành công." });
                           }}
-                          className="px-2.5 py-1 rounded-xs bg-blue-50 dark:bg-blue-950/60 border border-blue-300 dark:border-blue-800 text-xs font-bold text-[#0059bb] dark:text-sky-300 flex items-center gap-1 cursor-pointer font-display"
+                          className="h-8 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-md shadow-[#0059bb]/20 transition-all active:scale-95"
                         >
-                          <Download className="w-3.5 h-3.5" /> Tải File .srt
+                          <Download className="w-3.5 h-3.5" />
+                          <span>Tải .SRT</span>
                         </button>
                       </div>
                     </div>
-                    <pre className="p-3.5 rounded-xs bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-sky-300 font-mono text-[11px] max-h-80 overflow-y-auto border border-slate-200 dark:border-slate-800 shadow-2xs whitespace-pre-wrap selection:bg-blue-500/20 selection:text-blue-900 dark:selection:text-sky-100">
+                    <pre
+                      className={`p-4 sm:p-5 rounded-xl bg-white dark:bg-slate-950 text-slate-800 dark:text-sky-300 font-mono max-h-96 overflow-y-auto border border-slate-200/80 dark:border-slate-800 shadow-inner whitespace-pre-wrap selection:bg-blue-500/20 selection:text-blue-900 dark:selection:text-sky-100 ${
+                        exportFontSize === "sm"
+                          ? "text-xs leading-relaxed"
+                          : exportFontSize === "lg"
+                          ? "text-base sm:text-[17px] leading-loose"
+                          : "text-sm sm:text-[14.5px] leading-relaxed font-medium"
+                      }`}
+                    >
                       {activeSubtitleResult.srtBilingual}
                     </pre>
                   </div>
                 )}
 
+                {/* 2. WebVTT Tab View */}
                 {(exportActiveTab === "webvtt" || exportActiveTab === "all") && (
-                  <div className="space-y-2 pt-1">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-slate-700 dark:text-slate-200 font-display flex items-center gap-1.5">
-                        <Globe className="w-4 h-4 text-amber-600 dark:text-amber-400" /> NỘI DUNG FILE WEBVTT SONG NGỮ (WEB VIDEO TEXT TRACKS)
-                      </span>
-                      <div className="flex items-center gap-1.5">
+                  <div className="space-y-2.5 rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-950/60 p-4 sm:p-5">
+                    <div className="flex items-center justify-between flex-wrap gap-2">
+                      <div className="flex items-center gap-2">
+                        <Globe className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                        <span className="text-xs font-bold text-slate-800 dark:text-slate-200 font-display">
+                          NỘI DUNG FILE .VTT SONG NGỮ (WEB VIDEO TEXT TRACKS)
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950 text-amber-700 dark:text-amber-300 text-[10.5px] font-mono font-bold border border-amber-200/60 dark:border-amber-900/40">
+                          HTML5 TRACK
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
                         <button
                           type="button"
                           onClick={() => {
                             navigator.clipboard.writeText(activeSubtitleResult.webvttBilingual);
                             addToast({ type: "success", title: "Đã copy WEBVTT!", message: "Nội dung WEBVTT đã lưu vào clipboard." });
                           }}
-                          className="px-2.5 py-1 rounded-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-white/10 text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1 cursor-pointer font-display"
+                          className="h-8 px-3.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5 cursor-pointer shadow-2xs transition-all active:scale-95"
                         >
-                          <Copy className="w-3.5 h-3.5 text-slate-500" /> Copy WEBVTT
+                          <Copy className="w-3.5 h-3.5 text-slate-400" />
+                          <span>Copy WEBVTT</span>
                         </button>
                         <button
                           type="button"
@@ -2478,14 +2702,79 @@ export default function MyVideoPage() {
                             );
                             addToast({ type: "success", title: "Đã tải WEBVTT!", message: "Tải file .vtt về máy thành công." });
                           }}
-                          className="px-2.5 py-1 rounded-xs bg-amber-50 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-800 text-xs font-bold text-amber-700 dark:text-amber-300 flex items-center gap-1 cursor-pointer font-display"
+                          className="h-8 px-3.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-md shadow-amber-600/20 transition-all active:scale-95"
                         >
-                          <Download className="w-3.5 h-3.5" /> Tải File .vtt
+                          <Download className="w-3.5 h-3.5" />
+                          <span>Tải .VTT</span>
                         </button>
                       </div>
                     </div>
-                    <pre className="p-3.5 rounded-xs bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-amber-300 font-mono text-[11px] max-h-80 overflow-y-auto border border-slate-200 dark:border-slate-800 shadow-2xs whitespace-pre-wrap selection:bg-amber-500/20 selection:text-amber-900 dark:selection:text-amber-100">
+                    <pre
+                      className={`p-4 sm:p-5 rounded-xl bg-white dark:bg-slate-950 text-slate-800 dark:text-amber-300 font-mono max-h-96 overflow-y-auto border border-slate-200/80 dark:border-slate-800 shadow-inner whitespace-pre-wrap selection:bg-amber-500/20 selection:text-amber-900 dark:selection:text-amber-100 ${
+                        exportFontSize === "sm"
+                          ? "text-xs leading-relaxed"
+                          : exportFontSize === "lg"
+                          ? "text-base sm:text-[17px] leading-loose"
+                          : "text-sm sm:text-[14.5px] leading-relaxed font-medium"
+                      }`}
+                    >
                       {activeSubtitleResult.webvttBilingual}
+                    </pre>
+                  </div>
+                )}
+
+                {/* 3. JSON Tab View */}
+                {(exportActiveTab === "json" || exportActiveTab === "all") && (
+                  <div className="space-y-2.5 rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-950/60 p-4 sm:p-5">
+                    <div className="flex items-center justify-between flex-wrap gap-2">
+                      <div className="flex items-center gap-2">
+                        <Code2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                        <span className="text-xs font-bold text-slate-800 dark:text-slate-200 font-display">
+                          DỮ LIỆU .JSON CẤU TRÚC (MỐC MILI-GIÂY CHÍNH XÁC)
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 text-[10.5px] font-mono font-bold border border-emerald-200/60 dark:border-emerald-900/40">
+                          PARSED OBJECTS
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            navigator.clipboard.writeText(JSON.stringify(activeSubtitleResult.json, null, 2));
+                            addToast({ type: "success", title: "Đã copy JSON!", message: "Dữ liệu JSON đã lưu vào clipboard." });
+                          }}
+                          className="h-8 px-3.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5 cursor-pointer shadow-2xs transition-all active:scale-95"
+                        >
+                          <Copy className="w-3.5 h-3.5 text-slate-400" />
+                          <span>Copy JSON</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            downloadTextFile(
+                              JSON.stringify(activeSubtitleResult.json, null, 2),
+                              `${activeVideo?.title || "subtitles"}.json`,
+                              "application/json"
+                            );
+                            addToast({ type: "success", title: "Đã tải JSON!", message: "Tải file .json về máy thành công." });
+                          }}
+                          className="h-8 px-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-md shadow-emerald-600/20 transition-all active:scale-95"
+                        >
+                          <Download className="w-3.5 h-3.5" />
+                          <span>Tải .JSON</span>
+                        </button>
+                      </div>
+                    </div>
+                    <pre
+                      className={`p-4 sm:p-5 rounded-xl bg-white dark:bg-slate-950 text-emerald-800 dark:text-emerald-300 font-mono max-h-96 overflow-y-auto border border-slate-200/80 dark:border-slate-800 shadow-inner selection:bg-emerald-500/20 selection:text-emerald-900 dark:selection:text-emerald-200 ${
+                        exportFontSize === "sm"
+                          ? "text-xs leading-relaxed"
+                          : exportFontSize === "lg"
+                          ? "text-base sm:text-[17px] leading-loose"
+                          : "text-sm sm:text-[14.5px] leading-relaxed font-medium"
+                      }`}
+                    >
+                      {JSON.stringify(activeSubtitleResult.json, null, 2)}
                     </pre>
                   </div>
                 )}
@@ -2495,52 +2784,107 @@ export default function MyVideoPage() {
         </AnimatePresence>
       )}
 
-      {/* ========== SRT IMPORT MODAL (DownSub.com Integration) ========== */}
+      {/* ========== SRT / VTT IMPORT MODAL (PREMIUM REDESIGN) ========== */}
       <AnimatePresence>
-        {showSrtImportModal && activeVideo && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs" onClick={() => setShowSrtImportModal(false)}>
+        {showSrtImportModal && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/70 backdrop-blur-md"
+            onClick={() => setShowSrtImportModal(false)}
+          >
             <motion.div
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.96 }}
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-lg bg-white dark:bg-slate-900 rounded-xs border border-slate-200 dark:border-white/10 shadow-xl overflow-hidden flex flex-col max-h-[85vh]"
+              className="w-full max-w-2xl bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
             >
               {/* Modal Header */}
-              <div className="p-4 bg-gradient-to-r from-[#0059bb] to-[#004799] text-white flex items-center justify-between shrink-0">
-                <div className="flex items-center gap-2">
-                  <FileText className="w-5 h-5 text-amber-300" />
-                  <h3 className="text-sm font-bold font-display">Nhập Phụ Đề .SRT / .VTT</h3>
+              <div className="p-4 sm:p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between shrink-0 bg-white dark:bg-slate-900">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-10 h-10 rounded-xl bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 border border-[#0059bb]/20 flex items-center justify-center shrink-0 shadow-2xs">
+                    <Upload className="w-5 h-5 stroke-[2.2]" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h3 className="text-base font-bold font-display text-slate-900 dark:text-white">
+                        Nhập Phụ Đề Song Ngữ
+                      </h3>
+                      <span className="px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 text-[10px] font-mono font-bold border border-blue-200/60 dark:border-blue-800/40">
+                        .SRT / .VTT / .TXT
+                      </span>
+                    </div>
+                    <p className="text-xs font-medium text-slate-500 dark:text-slate-400 truncate mt-0.5">
+                      {activeVideo
+                        ? `Áp dụng vào video: ${activeVideo.title}`
+                        : "Tự động đồng bộ mốc thời gian mili-giây chuẩn xác 100%"}
+                    </p>
+                  </div>
                 </div>
                 <button
                   type="button"
                   onClick={() => setShowSrtImportModal(false)}
-                  className="p-1 rounded-xs hover:bg-white/10 text-slate-300 hover:text-white transition-colors cursor-pointer"
+                  className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-400 hover:text-slate-700 dark:hover:text-white transition-all cursor-pointer"
+                  title="Đóng cửa sổ"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-4 h-4" />
                 </button>
               </div>
 
               {/* Modal Body */}
-              <div className="p-4 space-y-3 overflow-y-auto flex-1 min-h-0">
-                {/* Dynamic Direct Web Injection Guide */}
-                <div className="p-3 rounded-xs bg-blue-50/80 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800/40 space-y-1.5">
-                  <p className="text-xs font-bold text-[#0059bb] dark:text-sky-400 flex items-center gap-1.5 font-display">
-                    <Sparkles className="w-3.5 h-3.5" /> Nạp & Cập Nhật Phụ Đề Trực Tiếp Vào Web
-                  </p>
-                  <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
-                    Dán nội dung phụ đề hoặc Upload file `.srt` / `.vtt`. Hệ thống sẽ tự động cập nhật mốc timeline mốc mili-giây chuẩn 100% trực tiếp vào bài học!
-                  </p>
+              <div className="p-4 sm:p-5 space-y-4 overflow-y-auto flex-1 min-h-0">
+                {/* 1. Target Video Indicator Banner */}
+                {activeVideo && (
+                  <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800/80 flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div className="w-8 h-8 rounded-lg bg-blue-600/10 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0">
+                        <Video className="w-4 h-4" />
+                      </div>
+                      <div className="min-w-0">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                          Video Đích Nhận Phụ Đề
+                        </span>
+                        <p className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">
+                          {activeVideo.title}
+                        </p>
+                      </div>
+                    </div>
+                    <span className="px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold border border-emerald-500/20 shrink-0">
+                      Đang chọn
+                    </span>
+                  </div>
+                )}
+
+                {/* 2. Modern 2-Tab Switcher */}
+                <div className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 grid grid-cols-2 gap-1">
+                  <button
+                    type="button"
+                    onClick={() => setSrtImportTab("file")}
+                    className={`py-2 rounded-lg text-xs font-bold font-display transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                      srtImportTab === "file"
+                        ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-300 shadow-2xs font-bold"
+                        : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    }`}
+                  >
+                    <Upload className="w-3.5 h-3.5" />
+                    <span>Tải File Từ Thiết Bị</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSrtImportTab("paste")}
+                    className={`py-2 rounded-lg text-xs font-bold font-display transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                      srtImportTab === "paste"
+                        ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-300 shadow-2xs font-bold"
+                        : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    }`}
+                  >
+                    <Copy className="w-3.5 h-3.5" />
+                    <span>Dán Nội Dung SRT / VTT</span>
+                  </button>
                 </div>
 
-                {/* Paste or Upload */}
-                <div className="space-y-2">
-                  <p className="text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5 font-display">
-                    <FileText className="w-3.5 h-3.5 text-amber-500" /> Dán nội dung .SRT hoặc Upload file
-                  </p>
-
-                  {/* File Upload Button */}
-                  <div className="flex items-center gap-2">
+                {/* 3. Tab Content */}
+                {srtImportTab === "file" ? (
+                  <div className="space-y-3">
                     <input
                       ref={srtFileInputRef}
                       type="file"
@@ -2548,71 +2892,194 @@ export default function MyVideoPage() {
                       onChange={handleSrtFileUpload}
                       className="hidden"
                     />
-                    <button
-                      type="button"
+
+                    {/* Drag & Drop Card */}
+                    <div
                       onClick={() => srtFileInputRef.current?.click()}
-                      className="py-2 px-3 rounded-xs bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold flex items-center gap-1.5 cursor-pointer transition border border-slate-200 dark:border-slate-700"
+                      onDragOver={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                      }}
+                      onDrop={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const file = e.dataTransfer.files?.[0];
+                        if (file) {
+                          const ext = file.name.split(".").pop()?.toLowerCase();
+                          if (ext === "srt" || ext === "vtt" || ext === "txt") {
+                            const reader = new FileReader();
+                            reader.onload = (ev) => {
+                              const content = ev.target?.result as string;
+                              if (content) {
+                                setSrtPasteContent(content);
+                                setSrtFileName(file.name);
+                                setSrtImportError(null);
+                                const preview = parseSrtContent(content);
+                                setSrtPreviewCount(preview.length);
+                              }
+                            };
+                            reader.readAsText(file, "UTF-8");
+                          } else {
+                            setSrtImportError("Chỉ hỗ trợ file có đuôi .srt, .vtt hoặc .txt");
+                          }
+                        }
+                      }}
+                      className="border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-[#0059bb] dark:hover:border-sky-400 bg-slate-50/60 dark:bg-slate-950/40 hover:bg-blue-50/30 dark:hover:bg-blue-950/20 rounded-2xl p-6 sm:p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-all group"
                     >
-                      <Upload className="w-3.5 h-3.5" />
-                      Upload File .SRT
-                    </button>
-                    <span className="text-[10px] text-slate-400">Hỗ trợ: .srt, .vtt, .txt</span>
+                      <div className="w-12 h-12 rounded-2xl bg-blue-500/10 text-[#0059bb] dark:text-sky-400 flex items-center justify-center group-hover:scale-110 transition-transform mb-3 shadow-2xs">
+                        <Upload className="w-6 h-6 stroke-[2]" />
+                      </div>
+                      <h4 className="text-sm font-bold font-display text-slate-900 dark:text-white">
+                        Kéo thả file .SRT hoặc .VTT vào đây
+                      </h4>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-sm">
+                        Hoặc bấm vào khung để mở trình duyệt file trên máy tính của bạn
+                      </p>
+                      <div className="mt-3.5 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white dark:bg-slate-800 text-[#0059bb] dark:text-sky-300 text-xs font-bold border border-slate-200 dark:border-slate-700 shadow-2xs group-hover:bg-[#0059bb] group-hover:text-white transition-all">
+                        <Upload className="w-3.5 h-3.5" />
+                        <span>Chọn File từ máy tính</span>
+                      </div>
+                      <span className="text-[10px] text-slate-400 mt-2 font-mono">
+                        Định dạng hỗ trợ: .srt (SubRip), .vtt (WebVTT), .txt
+                      </span>
+                    </div>
+
+                    {/* Selected File Badge */}
+                    {srtFileName && (
+                      <div className="p-3 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-800/60 flex items-center justify-between">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <FileText className="w-4 h-4 text-[#0059bb] dark:text-sky-400 shrink-0" />
+                          <span className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">
+                            {srtFileName}
+                          </span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSrtFileName("");
+                            setSrtPasteContent("");
+                            setSrtPreviewCount(0);
+                          }}
+                          className="p-1 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-700 transition-colors"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    )}
                   </div>
-
-                  {/* Paste Textarea */}
-                  <textarea
-                    value={srtPasteContent}
-                    onChange={(e) => {
-                      setSrtPasteContent(e.target.value);
-                      setSrtImportError(null);
-                      // Live preview count
-                      if (e.target.value.trim().length > 20) {
-                        const preview = parseSrtContent(e.target.value);
-                        setSrtPreviewCount(preview.length);
-                      } else {
-                        setSrtPreviewCount(0);
-                      }
-                    }}
-                    placeholder={`Dán nội dung file .SRT vào đây...\n\nVí dụ:\n1\n00:00:01,000 --> 00:00:05,000\nWelcome to this English lesson.\n\n2\n00:00:06,000 --> 00:00:10,500\nToday we will learn about vocabulary.`}
-                    className="w-full h-40 p-3 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/10 text-xs font-mono text-slate-800 dark:text-slate-200 resize-none focus:border-[#0059bb] focus:outline-hidden transition-all"
-                    spellCheck={false}
-                  />
-
-                  {/* Preview Counter */}
-                  {srtPreviewCount > 0 && (
-                    <div className="flex items-center gap-1.5 text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
-                      <CheckCircle2 className="w-3.5 h-3.5" />
-                      Đã nhận diện {srtPreviewCount} câu phụ đề hợp lệ — sẵn sàng nhập!
+                ) : (
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <label
+                        htmlFor="srt-textarea-input"
+                        className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5 font-display"
+                      >
+                        <FileText className="w-3.5 h-3.5 text-purple-500" />
+                        Nội dung phụ đề SubRip / WebVTT
+                      </label>
+                      {srtPasteContent && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSrtPasteContent("");
+                            setSrtPreviewCount(0);
+                          }}
+                          className="text-[11px] font-bold text-rose-500 hover:underline cursor-pointer"
+                        >
+                          Xóa trắng
+                        </button>
+                      )}
                     </div>
-                  )}
 
-                  {/* Error Message */}
-                  {srtImportError && (
-                    <div className="p-2.5 rounded-xs bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800/40 text-rose-600 dark:text-rose-400 text-[11px] font-medium flex items-center gap-1.5">
-                      <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
-                      {srtImportError}
+                    <textarea
+                      id="srt-textarea-input"
+                      value={srtPasteContent}
+                      onChange={(e) => {
+                        setSrtPasteContent(e.target.value);
+                        setSrtImportError(null);
+                        if (e.target.value.trim().length > 20) {
+                          const preview = parseSrtContent(e.target.value);
+                          setSrtPreviewCount(preview.length);
+                        } else {
+                          setSrtPreviewCount(0);
+                        }
+                      }}
+                      placeholder={`1\n00:00:01,000 --> 00:00:04,500\nWelcome to this English lesson.\n\n2\n00:00:05,000 --> 00:00:09,200\nToday we will learn key business vocabulary.`}
+                      className="w-full h-44 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200/90 dark:border-slate-800 text-xs font-mono text-slate-800 dark:text-slate-200 resize-none focus:ring-2 focus:ring-[#0059bb]/20 focus:border-[#0059bb] focus:outline-hidden transition-all placeholder:text-slate-400"
+                      spellCheck={false}
+                    />
+                  </div>
+                )}
+
+                {/* 4. Live Parser Success & Preview Box */}
+                {srtPreviewCount > 0 && (
+                  <div className="p-3.5 rounded-xl bg-emerald-50/80 dark:bg-emerald-950/30 border border-emerald-200/80 dark:border-emerald-800/60 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2 text-xs font-bold text-emerald-700 dark:text-emerald-300">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                        <span>Đã nhận diện thành công {srtPreviewCount} câu phụ đề hợp lệ!</span>
+                      </div>
+                      <span className="px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 text-[10px] font-mono font-bold border border-emerald-500/20">
+                        Sẵn sàng nạp
+                      </span>
                     </div>
-                  )}
-                </div>
+
+                    {/* Preview first 2 cues */}
+                    <div className="space-y-1.5 pt-1">
+                      {parseSrtContent(srtPasteContent)
+                        .slice(0, 2)
+                        .map((cue, idx) => (
+                          <div
+                            key={idx}
+                            className="p-2.5 rounded-lg bg-white/80 dark:bg-slate-900/80 border border-emerald-200/50 dark:border-emerald-900/40 text-[11px] font-sans flex items-start gap-2"
+                          >
+                            <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400 shrink-0">
+                              #{idx + 1}
+                            </span>
+                            <div className="min-w-0 flex-1">
+                              <p className="text-slate-800 dark:text-slate-200 font-bold truncate">
+                                {cue.textEn}
+                              </p>
+                              <span className="text-[10px] font-mono text-slate-400">
+                                {formatSubTime(cue.startTime)} ➔ {formatSubTime(cue.endTime)}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* 5. Error Alert */}
+                {srtImportError && (
+                  <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 text-rose-700 dark:text-rose-300 text-xs font-medium flex items-center gap-2">
+                    <AlertTriangle className="w-4 h-4 text-rose-500 shrink-0" />
+                    <span>{srtImportError}</span>
+                  </div>
+                )}
               </div>
 
               {/* Modal Footer */}
-              <div className="p-3 bg-slate-100 dark:bg-slate-800 border-t border-slate-200 dark:border-white/10 flex items-center justify-between shrink-0">
+              <div className="p-4 sm:p-5 bg-slate-50 dark:bg-slate-950 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3 shrink-0 rounded-b-2xl">
                 <button
                   type="button"
                   onClick={() => setShowSrtImportModal(false)}
-                  className="px-4 py-1.5 rounded-xs bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-200 text-xs font-bold border border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600 transition cursor-pointer"
+                  className="h-9 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold transition-all cursor-pointer"
                 >
                   Hủy Bỏ
                 </button>
+
                 <button
                   type="button"
                   onClick={handleImportSrt}
                   disabled={srtPasteContent.trim().length < 20}
-                  className="px-5 py-1.5 rounded-xs bg-[#0059bb] hover:bg-[#004799] disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs font-bold transition-all cursor-pointer font-display flex items-center gap-1.5 shadow-2xs"
+                  className="h-9 px-5 rounded-xl bg-[#0059bb] hover:bg-[#004899] disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs font-bold shadow-md shadow-[#0059bb]/20 flex items-center gap-2 transition-all cursor-pointer font-display active:scale-95"
                 >
-                  <Download className="w-3.5 h-3.5" />
-                  Nhập {srtPreviewCount > 0 ? `${srtPreviewCount} Câu` : "Phụ Đề"}
+                  <Download className="w-4 h-4" />
+                  <span>
+                    Nạp {srtPreviewCount > 0 ? `${srtPreviewCount} Câu Phụ Đề` : "Vào Bài Học"}
+                  </span>
                 </button>
               </div>
             </motion.div>
@@ -2620,64 +3087,70 @@ export default function MyVideoPage() {
         )}
       </AnimatePresence>
 
-      {/* ========== XP-SUB EXTRACTOR ENTERPRISE MODAL ========== */}
+      {/* ========== XP-SUB EXTRACTOR AI MODAL (PREMIUM REDESIGN) ========== */}
       <AnimatePresence>
         {showXpSubModal && activeVideo && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs" onClick={() => setShowXpSubModal(false)}>
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/70 backdrop-blur-md"
+            onClick={() => setShowXpSubModal(false)}
+          >
             <motion.div
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.96 }}
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-3xl bg-white dark:bg-slate-900 rounded-xs border border-slate-200 dark:border-white/10 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+              className="w-full max-w-3xl bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
             >
               {/* Modal Header */}
-              <div className="p-3.5 sm:p-4 bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white flex items-center justify-between shrink-0 shadow-xs">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xs bg-amber-400/20 border border-amber-300/30 flex items-center justify-center text-amber-300 shrink-0">
-                    <Zap className="w-4 h-4 fill-current" />
+              <div className="p-4 sm:p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between shrink-0 bg-white dark:bg-slate-900">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center justify-center shrink-0 shadow-2xs">
+                    <Sparkles className="w-5 h-5 fill-purple-500/30 text-purple-600 dark:text-purple-400 stroke-[2]" />
                   </div>
-                  <div>
-                    <h3 className="text-sm sm:text-base font-bold font-display flex items-center gap-1.5">
-                      XP-Sub Extractor Engine
-                      <span className="text-[9px] font-mono font-bold uppercase px-1.5 py-0.2 rounded-xs bg-amber-400 text-slate-950">
-                        IN-HOUSE ENTERPRISE
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h3 className="text-base font-bold font-display text-slate-900 dark:text-white">
+                        XP-Sub AI Extractor Engine
+                      </h3>
+                      <span className="px-2 py-0.5 rounded-md bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 text-[10px] font-mono font-bold border border-purple-200/60 dark:border-purple-800/40">
+                        AI ENGINE
                       </span>
-                    </h3>
-                    <p className="text-[10.5px] text-blue-100/90 font-medium truncate max-w-md">
-                      Trích xuất & tải phụ đề tự chủ 100% cho video: {activeVideo.title}
+                    </div>
+                    <p className="text-xs font-medium text-slate-500 dark:text-slate-400 truncate mt-0.5">
+                      Trích xuất & đồng bộ phụ đề song ngữ tự động cho video: {activeVideo.title}
                     </p>
                   </div>
                 </div>
                 <button
                   type="button"
                   onClick={() => setShowXpSubModal(false)}
-                  className="p-1.5 rounded-xs hover:bg-white/10 text-slate-300 hover:text-white transition-colors cursor-pointer"
+                  className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-400 hover:text-slate-700 dark:hover:text-white transition-all cursor-pointer"
+                  title="Đóng cửa sổ"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-4 h-4" />
                 </button>
               </div>
 
               {/* Modal Body */}
-              <div className="p-3.5 sm:p-4 space-y-4 overflow-y-auto flex-1 min-h-0 text-xs">
+              <div className="p-4 sm:p-5 space-y-4 overflow-y-auto flex-1 min-h-0 text-xs">
                 {/* Stage 1: Track & Translation Selection Controls */}
-                <div className="p-3.5 rounded-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-white/10 space-y-3">
-                  <div className="flex items-center justify-between border-b border-slate-200/60 dark:border-white/5 pb-2">
-                    <span className="font-bold uppercase tracking-wider text-[#0059bb] dark:text-sky-400 text-[10.5px] flex items-center gap-1.5 font-display">
-                      <Settings2 className="w-3.5 h-3.5" /> BƯỚC 1: CHỌN NGUỒN PHỤ ĐỀ & NGÔN NGỮ DỊCH
+                <div className="p-4 rounded-xl bg-slate-50/90 dark:bg-slate-950/90 border border-slate-200/80 dark:border-slate-800/80 space-y-3.5 shadow-2xs">
+                  <div className="flex items-center justify-between border-b border-slate-200/60 dark:border-slate-800/80 pb-2.5">
+                    <span className="font-bold uppercase tracking-wider text-purple-700 dark:text-purple-300 text-[11px] flex items-center gap-1.5 font-display">
+                      <Settings2 className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" /> BƯỚC 1: CHỌN NGUỒN PHỤ ĐỀ & NGÔN NGỮ DỊCH
                     </span>
                     {isFetchingTracks && (
-                      <span className="text-[11px] font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1 animate-pulse">
+                      <span className="text-[11px] font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1.5 animate-pulse">
                         <Loader2 className="w-3.5 h-3.5 animate-spin" /> Đang tải dữ liệu từ YouTube...
                       </span>
                     )}
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
                     {/* Track Selection */}
                     <div className="space-y-1.5">
                       <label className="font-bold text-slate-700 dark:text-slate-200 block text-[11px]">
-                        1. Phụ đề gốc từ Video YouTube ({xpSubTracks.length} bản khả dụng):
+                        1. Phụ đề gốc từ YouTube ({xpSubTracks.length} bản khả dụng):
                       </label>
                       <select
                         value={selectedTrackUrl}
@@ -2686,7 +3159,7 @@ export default function MyVideoPage() {
                           fetchPreviewSubtitles(e.target.value, selectedTargetLang, isBilingual);
                         }}
                         disabled={isFetchingTracks || xpSubTracks.length === 0}
-                        className="w-full p-2 rounded-xs bg-white dark:bg-slate-900 border border-slate-300 dark:border-white/15 text-slate-900 dark:text-white font-bold text-xs focus:border-[#0059bb] focus:outline-hidden"
+                        className="w-full p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-bold text-xs shadow-2xs focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 focus:outline-hidden transition-all"
                       >
                         {xpSubTracks.length === 0 ? (
                           <option value="">-- Đang tìm phụ đề khả dụng --</option>
@@ -2704,9 +3177,9 @@ export default function MyVideoPage() {
                     <div className="space-y-1.5">
                       <div className="flex items-center justify-between">
                         <label className="font-bold text-slate-700 dark:text-slate-200 block text-[11px]">
-                          2. Tự động dịch sang Tiếng Việt (Bilingual):
+                          2. Tự động dịch sang Tiếng Việt:
                         </label>
-                        <label className="flex items-center gap-1.5 cursor-pointer">
+                        <label className="inline-flex items-center gap-1.5 cursor-pointer select-none">
                           <input
                             type="checkbox"
                             checked={isBilingual}
@@ -2714,9 +3187,9 @@ export default function MyVideoPage() {
                               setIsBilingual(e.target.checked);
                               fetchPreviewSubtitles(selectedTrackUrl, selectedTargetLang, e.target.checked);
                             }}
-                            className="rounded-xs text-[#0059bb] focus:ring-0 cursor-pointer"
+                            className="rounded-md border-slate-300 text-purple-600 focus:ring-purple-500 cursor-pointer"
                           />
-                          <span className="text-[11px] font-bold text-[#0059bb] dark:text-sky-400">Song ngữ</span>
+                          <span className="text-[11px] font-bold text-purple-700 dark:text-purple-300">Song ngữ</span>
                         </label>
                       </div>
 
@@ -2727,7 +3200,7 @@ export default function MyVideoPage() {
                           fetchPreviewSubtitles(selectedTrackUrl, e.target.value, isBilingual);
                         }}
                         disabled={!isBilingual || isFetchingTracks}
-                        className="w-full p-2 rounded-xs bg-white dark:bg-slate-900 border border-slate-300 dark:border-white/15 text-slate-900 dark:text-white font-bold text-xs focus:border-[#0059bb] focus:outline-hidden disabled:opacity-50"
+                        className="w-full p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-bold text-xs shadow-2xs focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 focus:outline-hidden disabled:opacity-50 transition-all"
                       >
                         <option value="vi">🇻🇳 Tiếng Việt (Vietnamese)</option>
                         {xpSubTranslations.map((l) => (
@@ -2740,44 +3213,44 @@ export default function MyVideoPage() {
                   </div>
                 </div>
 
-                {/* Stage 2: Interactive Live Preview Table */}
-                <div className="space-y-2">
+                {/* Stage 2: Interactive Live Preview Terminal */}
+                <div className="space-y-2.5">
                   <div className="flex items-center justify-between flex-wrap gap-2">
-                    <span className="font-bold uppercase tracking-wider text-slate-500 text-[10.5px] flex items-center gap-1.5">
+                    <span className="font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 text-[11px] flex items-center gap-1.5 font-display">
                       <Eye className="w-3.5 h-3.5 text-emerald-500" /> BƯỚC 2: XEM TRƯỚC VÀ KIỂM TRA PHỤ ĐỀ (LIVE PREVIEW)
                     </span>
 
                     <div className="flex items-center gap-2">
                       <div className="relative">
-                        <Search className="w-3.5 h-3.5 absolute left-2 top-1/2 -translate-y-1/2 text-slate-400" />
+                        <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400" />
                         <input
                           type="text"
                           value={searchPreviewQuery}
                           onChange={(e) => setSearchPreviewQuery(e.target.value)}
                           placeholder="Lọc từ vựng..."
-                          className="py-1 pl-6 pr-2 rounded-xs bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-white/10 text-[11px] font-bold focus:outline-hidden w-36"
+                          className="h-8 pl-8 pr-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 text-xs font-bold focus:outline-hidden focus:ring-2 focus:ring-purple-500/20 w-40"
                         />
                       </div>
-                      <span className="px-2 py-0.5 rounded-xs bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-300 font-mono text-[11px] font-bold border border-emerald-200 dark:border-emerald-800">
+                      <span className="px-2.5 py-1 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 font-mono text-[11px] font-bold border border-emerald-200/80 dark:border-emerald-800/60 shadow-2xs">
                         {xpSubPreviewSentences.length} Câu
                       </span>
                     </div>
                   </div>
 
-                  {/* Preview Container with Skeleton Loading (Rule 1 UI/UX Standard) */}
-                  <div className="border border-slate-200 dark:border-white/10 rounded-xs max-h-52 overflow-y-auto bg-slate-950 text-slate-200 p-2 font-mono text-[11px] space-y-1.5">
+                  {/* Preview Container */}
+                  <div className="border border-slate-200/90 dark:border-slate-800 rounded-xl max-h-56 overflow-y-auto bg-slate-50/70 dark:bg-slate-950/70 p-3 font-sans text-xs space-y-2">
                     {isExtractingPreview ? (
-                      <div className="space-y-2 p-2">
-                        {[1, 2, 3, 4].map((n) => (
-                          <div key={n} className="p-2.5 rounded-xs bg-slate-900/80 border border-slate-800 space-y-1.5 animate-pulse">
-                            <div className="h-3 bg-slate-800 rounded-xs w-1/4" />
-                            <div className="h-3.5 bg-slate-700/80 rounded-xs w-3/4" />
-                            <div className="h-3 bg-slate-800/60 rounded-xs w-1/2" />
+                      <div className="space-y-2.5">
+                        {[1, 2, 3].map((n) => (
+                          <div key={n} className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 space-y-2 animate-pulse">
+                            <div className="h-3.5 bg-slate-200 dark:bg-slate-800 rounded-md w-20" />
+                            <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded-md w-3/4" />
+                            <div className="h-3.5 bg-slate-100 dark:bg-slate-800 rounded-md w-1/2" />
                           </div>
                         ))}
                       </div>
                     ) : xpSubPreviewSentences.length === 0 ? (
-                      <div className="py-8 text-center text-slate-500 font-sans">
+                      <div className="py-10 text-center text-slate-400 font-medium">
                         Chưa chọn track phụ đề. Vui lòng chọn track từ danh sách ở Bước 1.
                       </div>
                     ) : (
@@ -2791,17 +3264,17 @@ export default function MyVideoPage() {
                         .map((s, idx) => (
                           <div
                             key={idx}
-                            className="p-2 rounded-xs bg-slate-900/90 hover:bg-slate-900 border border-slate-800 flex items-start gap-2 group transition-colors"
+                            className="p-3 rounded-xl bg-white dark:bg-slate-900 hover:bg-purple-50/30 dark:hover:bg-purple-950/20 border border-slate-200/80 dark:border-slate-800/80 flex items-start gap-3 group transition-all shadow-2xs"
                           >
-                            <span className="text-[10px] font-mono text-[#0059bb] dark:text-sky-400 shrink-0 pt-0.5 font-bold">
+                            <span className="px-2 py-0.5 rounded-md bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border border-purple-200/60 dark:border-purple-800/40 text-[10.5px] font-mono font-bold shrink-0">
                               {formatSubTime(s.startTime)}
                             </span>
                             <div className="space-y-0.5 flex-1 min-w-0">
-                              <p className="text-slate-100 font-sans font-bold leading-snug break-words">
+                              <p className="text-slate-900 dark:text-slate-100 font-bold leading-snug break-words">
                                 {s.textEn}
                               </p>
                               {s.textVn && (
-                                <p className="text-slate-400 font-sans italic text-[10.5px]">
+                                <p className="text-slate-500 dark:text-slate-400 text-[11px] font-medium leading-relaxed">
                                   {s.textVn}
                                 </p>
                               )}
@@ -2809,24 +3282,32 @@ export default function MyVideoPage() {
                             <button
                               type="button"
                               onClick={() => speakLessonText(s.textEn)}
-                              className="p-1 rounded-xs hover:bg-slate-800 text-slate-400 hover:text-white transition cursor-pointer shrink-0 opacity-60 group-hover:opacity-100"
+                              className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors cursor-pointer shrink-0 opacity-60 group-hover:opacity-100"
                               title="Nghe thử âm thanh"
                             >
-                              <Volume2 className="w-3.5 h-3.5" />
+                              <Volume2 className="w-4 h-4" />
                             </button>
                           </div>
                         ))
                     )}
                   </div>
                 </div>
+
+                {/* Error Alert */}
+                {xpSubError && (
+                  <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 text-rose-700 dark:text-rose-300 text-xs font-medium flex items-center gap-2">
+                    <AlertTriangle className="w-4 h-4 text-rose-500 shrink-0" />
+                    <span>{xpSubError}</span>
+                  </div>
+                )}
               </div>
 
               {/* Modal Footer & Action Toolbar */}
-              <div className="p-3.5 bg-slate-100 dark:bg-slate-800 border-t border-slate-200 dark:border-white/10 flex flex-wrap items-center justify-between gap-2 shrink-0">
+              <div className="p-4 sm:p-5 bg-slate-50 dark:bg-slate-950 border-t border-slate-100 dark:border-slate-800 flex flex-wrap items-center justify-between gap-2.5 shrink-0 rounded-b-2xl">
                 <button
                   type="button"
                   onClick={() => setShowXpSubModal(false)}
-                  className="px-3.5 py-1.5 rounded-xs bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-200 text-xs font-bold border border-slate-200 dark:border-slate-600 hover:bg-slate-50 transition cursor-pointer"
+                  className="h-9 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold transition-all cursor-pointer"
                 >
                   Đóng
                 </button>
@@ -2836,37 +3317,40 @@ export default function MyVideoPage() {
                     type="button"
                     onClick={() => handleDownloadXpSubtitle("txt")}
                     disabled={xpSubPreviewSentences.length === 0}
-                    className="py-1.5 px-3 rounded-xs bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 text-slate-800 dark:text-slate-200 text-[11px] font-bold transition cursor-pointer flex items-center gap-1"
+                    className="h-9 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold border border-slate-200/80 dark:border-slate-700/60 transition-all cursor-pointer flex items-center gap-1.5 disabled:opacity-40"
                   >
-                    <FileText className="w-3.5 h-3.5" /> .TXT
+                    <FileText className="w-3.5 h-3.5 text-slate-500" />
+                    <span>.TXT</span>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => handleDownloadXpSubtitle("vtt")}
                     disabled={xpSubPreviewSentences.length === 0}
-                    className="py-1.5 px-3 rounded-xs bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 text-slate-800 dark:text-slate-200 text-[11px] font-bold transition cursor-pointer flex items-center gap-1"
+                    className="h-9 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold border border-slate-200/80 dark:border-slate-700/60 transition-all cursor-pointer flex items-center gap-1.5 disabled:opacity-40"
                   >
-                    <FileCode className="w-3.5 h-3.5 text-amber-500" /> .VTT
+                    <FileCode className="w-3.5 h-3.5 text-amber-500" />
+                    <span>.VTT</span>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => handleDownloadXpSubtitle("srt")}
                     disabled={xpSubPreviewSentences.length === 0}
-                    className="py-1.5 px-3 rounded-xs bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold transition cursor-pointer flex items-center gap-1 shadow-2xs"
+                    className="h-9 px-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 shadow-2xs disabled:opacity-40"
                   >
-                    <Download className="w-3.5 h-3.5" /> Tải .SRT
+                    <Download className="w-3.5 h-3.5" />
+                    <span>Tải .SRT</span>
                   </button>
 
                   <button
                     type="button"
                     onClick={handleInjectXpSubtitles}
                     disabled={xpSubPreviewSentences.length === 0}
-                    className="py-1.5 px-4 rounded-xs bg-[#0059bb] hover:bg-[#004799] disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs font-bold transition-all cursor-pointer font-display flex items-center gap-1.5 shadow-2xs"
+                    className="h-9 px-5 rounded-xl bg-[#0059bb] hover:bg-[#004899] disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs font-bold shadow-md shadow-[#0059bb]/20 flex items-center gap-2 transition-all cursor-pointer font-display active:scale-95"
                   >
-                    <Zap className="w-3.5 h-3.5 text-amber-300 fill-amber-300" />
-                    1-Click Nhập Vào Video (0ms)
+                    <Sparkles className="w-4 h-4 text-sky-200 fill-sky-200/40" />
+                    <span>1-Click Nạp Vào Video (0ms)</span>
                   </button>
                 </div>
               </div>
@@ -2875,7 +3359,8 @@ export default function MyVideoPage() {
         )}
       </AnimatePresence>
 
-    </PageEntranceWrapper>
+      </div>
+    </div>
   );
 }
 

@@ -1,6 +1,6 @@
-﻿import { create } from 'zustand';
+import { create } from 'zustand';
 import { Vocabulary, LearnedVocabulary } from '@/shared/types';
-import { useAuthStore } from './authStore';
+import { useUserStore } from './userStore';
 import { useDailyChallengeStore } from './dailyChallengeStore';
 
 interface VocabularyState {
@@ -71,7 +71,7 @@ export const useVocabularyStore = create<VocabularyState>((set, get) => ({
   },
   toggleFavorite: (vocabId) => {
     const list = get().learned;
-    const user = useAuthStore.getState().user;
+    const user = useUserStore.getState().user;
     const userId = user?.id || 'u1';
     const item = list.find(l => l.vocabId === vocabId && (l.userId === userId || l.userId === 'local_user'));
     let updatedList = [];
@@ -85,7 +85,7 @@ export const useVocabularyStore = create<VocabularyState>((set, get) => ({
 
     if (user) {
       const activeSavedCount = updatedList.filter(l => (l.userId === user.id || l.userId === 'local_user') && (l.isFavorite || (l.proficiency && l.proficiency > 0))).length;
-      useAuthStore.setState({ user: { ...user, wordsLearned: activeSavedCount } });
+      useUserStore.setState({ user: { ...user, wordsLearned: activeSavedCount } });
       if (typeof window !== 'undefined') {
         localStorage.setItem(`xp_voca_user_${user.id}`, JSON.stringify({ ...user, wordsLearned: activeSavedCount }));
       }
@@ -119,7 +119,7 @@ export const useVocabularyStore = create<VocabularyState>((set, get) => ({
   },
   practiceWord: (vocabId, isCorrect) => {
     const list = get().learned;
-    const user = useAuthStore.getState().user;
+    const user = useUserStore.getState().user;
     const userId = user?.id || 'u1';
     const item = list.find(l => l.vocabId === vocabId && (l.userId === userId || l.userId === 'local_user'));
     let updatedList = [];
@@ -141,7 +141,7 @@ export const useVocabularyStore = create<VocabularyState>((set, get) => ({
 
     if (user) {
       const activeSavedCount = updatedList.filter(l => (l.userId === user.id || l.userId === 'local_user') && (l.isFavorite || (l.proficiency && l.proficiency > 0))).length;
-      useAuthStore.setState({ user: { ...user, wordsLearned: activeSavedCount } });
+      useUserStore.setState({ user: { ...user, wordsLearned: activeSavedCount } });
       if (typeof window !== 'undefined') {
         localStorage.setItem(`xp_voca_user_${user.id}`, JSON.stringify({ ...user, wordsLearned: activeSavedCount }));
       }
@@ -175,7 +175,7 @@ export const useVocabularyStore = create<VocabularyState>((set, get) => ({
   },
   submitReview: async (vocabId, quality) => {
     const list = get().learned;
-    const user = useAuthStore.getState().user;
+    const user = useUserStore.getState().user;
     const userId = user?.id || 'u1';
     
     const json = await safeFetch("/api/user/vocab/review-submit", {

@@ -24,6 +24,7 @@ import {
   ChevronRight,
   Sparkles,
   Star,
+  Video,
   ListOrdered,
   BookMarked,
   BarChart3,
@@ -119,7 +120,7 @@ const sections = [
       {
         name: "Video của tôi",
         path: "/myvideo",
-        icon: <Star className="w-[21px] h-[21px]" strokeWidth={1.9} />,
+        icon: <Video className="w-[21px] h-[21px]" strokeWidth={1.9} />,
         page: "myvideo",
       },
       {
@@ -329,8 +330,8 @@ function SidebarNavInner({
                         } transition-all duration-200 flex items-center ${
                           sidebarCollapsed
                             ? "justify-between px-3 py-2 lg:justify-center lg:px-0 lg:w-10 lg:h-9.5 lg:mx-auto lg:rounded-xl lg:before:!hidden"
-                            : "justify-between px-3 py-2 w-full rounded"
-                        } rounded relative`}
+                            : "justify-between px-3 py-2 w-full rounded-xl"
+                        } rounded-xl relative`}
                       >
                         <div
                           className={`flex items-center ${
@@ -430,7 +431,7 @@ function SidebarNavInner({
           {!sidebarCollapsed && (
             <Link
               href="/shop"
-              className="w-full py-2.5 px-3.5 rounded bg-blue-50 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-800/40 text-blue-600 dark:text-sky-400 text-xs font-black flex items-center justify-between hover:bg-blue-100/80 transition-colors shadow-2xs"
+              className="w-full py-2.5 px-3.5 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-800/40 text-blue-600 dark:text-sky-400 text-xs font-black flex items-center justify-between hover:bg-blue-100/80 transition-colors shadow-2xs"
             >
               <span className="flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />{" "}
@@ -461,7 +462,7 @@ function SidebarNavInner({
                       : { opacity: 0, y: 6, scale: 0.97 }
                   }
                   transition={{ duration: 0.15, ease: "easeOut" }}
-                  className={`absolute z-[9999] p-1 rounded bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 shadow-xl shadow-slate-300/40 dark:shadow-black/70 space-y-0.5 select-none ${
+                  className={`absolute z-[9999] p-1.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 shadow-xl shadow-slate-300/40 dark:shadow-black/70 space-y-0.5 select-none ${
                     sidebarCollapsed
                       ? "left-full ml-3 bottom-0 w-44"
                       : "bottom-full mb-2 left-0 right-0"
@@ -471,7 +472,7 @@ function SidebarNavInner({
                   <Link
                     href="/profile"
                     onClick={() => setShowUserMenu(false)}
-                    className="flex items-center gap-3 px-3 py-2 rounded-xs font-medium text-[13px] text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                    className="flex items-center gap-3 px-3 py-2 rounded-xl font-medium text-[13px] text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
                   >
                     <User className="w-4 h-4 text-slate-700 dark:text-slate-200 stroke-[1.8]" />
                     <span>Hồ sơ</span>
@@ -486,7 +487,7 @@ function SidebarNavInner({
                         <button
                           type="button"
                           onClick={() => setShowThemeSubmenu(!showThemeSubmenu)}
-                          className="w-full flex items-center justify-between px-3 py-2 rounded-xs font-medium text-[13px] text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                          className="w-full flex items-center justify-between px-3 py-2 rounded-xl font-medium text-[13px] text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
                         >
                           <div className="flex items-center gap-3">
                             {theme === "dark" ? (
@@ -526,7 +527,7 @@ function SidebarNavInner({
                                   e.stopPropagation();
                                   setTheme("light");
                                 }}
-                                className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-xs text-xs font-medium transition-all cursor-pointer ${
+                                className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                                   theme === "light"
                                     ? "bg-slate-100 dark:bg-slate-800 text-[#0059bb] dark:text-sky-400 font-bold"
                                     : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
@@ -547,7 +548,7 @@ function SidebarNavInner({
                                   e.stopPropagation();
                                   setTheme("dark");
                                 }}
-                                className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-xs text-xs font-medium transition-all cursor-pointer ${
+                                className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                                   theme === "dark"
                                     ? "bg-slate-100 dark:bg-slate-800 text-[#0059bb] dark:text-sky-400 font-bold"
                                     : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
@@ -578,7 +579,7 @@ function SidebarNavInner({
                       setShowUserMenu(false);
                       onLogout();
                     }}
-                    className="w-full flex items-center gap-3 px-3 py-2 rounded-xs font-medium text-[13px] text-[#f04438] dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors cursor-pointer"
+                    className="w-full flex items-center gap-3 px-3 py-2 rounded-xl font-medium text-[13px] text-[#f04438] dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors cursor-pointer"
                   >
                     <LogOut className="w-4 h-4 text-[#f04438] dark:text-rose-400 stroke-[1.8]" />
                     <span>Đăng xuất</span>
@@ -624,7 +625,7 @@ function SidebarNavInner({
                 <button
                   type="button"
                   onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex lg:hidden w-full items-center justify-between p-2.5 rounded bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 transition-all cursor-pointer text-left shadow-2xs"
+                  className="flex lg:hidden w-full items-center justify-between p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 transition-all cursor-pointer text-left shadow-2xs"
                 >
                   <div className="flex items-center gap-2.5 min-w-0">
                     <div className="w-8.5 h-8.5 rounded-full bg-[#0059bb] text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-2xs overflow-hidden">
@@ -672,7 +673,7 @@ function SidebarNavInner({
               <button
                 type="button"
                 onClick={() => setShowUserMenu(!showUserMenu)}
-                className="w-full flex items-center justify-between p-2.5 rounded bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 transition-all cursor-pointer text-left shadow-2xs"
+                className="w-full flex items-center justify-between p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 transition-all cursor-pointer text-left shadow-2xs"
               >
                 <div className="flex items-center gap-2.5 min-w-0">
                   <div className="w-8.5 h-8.5 rounded-full bg-[#0059bb] text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-2xs overflow-hidden">
@@ -728,23 +729,99 @@ function SidebarNavInner({
   );
 }
 
+export function SidebarSkeleton({ collapsed = false }: { collapsed?: boolean }) {
+  return (
+    <div
+      className={`left-sidebar select-none animate-pulse ${
+        collapsed ? "collapsed" : ""
+      }`}
+    >
+      {/* 1. TOP BRAND HEADER SKELETON */}
+      <div
+        className={`flex items-center justify-between ${
+          collapsed ? "px-2 h-14" : "px-3.5 min-h-[56px] lg:h-14"
+        } shrink-0`}
+      >
+        {collapsed ? (
+          <div className="w-8 h-8 rounded-lg bg-slate-200 dark:bg-slate-800 mx-auto" />
+        ) : (
+          <div className="flex items-center justify-between w-full">
+            <div className="h-5 w-32 rounded-lg bg-slate-200 dark:bg-slate-800" />
+            <div className="w-7 h-7 rounded-lg bg-slate-200 dark:bg-slate-800" />
+          </div>
+        )}
+      </div>
+
+      {/* 2. NAVIGATION SKELETON */}
+      <div
+        className={`sidebar-nav flex-1 overflow-y-auto px-2 pb-2 ${
+          collapsed ? "py-1.5 space-y-2" : "py-3 space-y-4"
+        } hide-scrollbar select-none`}
+      >
+        {[1, 2, 3, 4].map((section) => (
+          <div key={section} className="space-y-1.5">
+            {!collapsed && (
+              <div className="h-3 w-16 rounded bg-slate-200/80 dark:bg-slate-800/60 ml-2 mb-2" />
+            )}
+            {[1, 2, 3].map((item) => (
+              <div
+                key={item}
+                className={`flex items-center rounded-xl bg-slate-100/70 dark:bg-slate-800/40 ${
+                  collapsed
+                    ? "w-10 h-9.5 mx-auto justify-center"
+                    : "px-3 py-2.5 gap-3 w-full"
+                }`}
+              >
+                <div className="w-5 h-5 rounded-lg bg-slate-200 dark:bg-slate-700 shrink-0" />
+                {!collapsed && (
+                  <div className="h-3.5 w-24 rounded bg-slate-200 dark:bg-slate-700" />
+                )}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      {/* 3. USER CARD SKELETON */}
+      <div className="p-2 border-t border-slate-100 dark:border-white/10 shrink-0">
+        {collapsed ? (
+          <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800 mx-auto" />
+        ) : (
+          <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 flex items-center gap-2.5">
+            <div className="w-8.5 h-8.5 rounded-full bg-slate-200 dark:bg-slate-700 shrink-0" />
+            <div className="space-y-1 flex-1 min-w-0">
+              <div className="h-3.5 w-20 rounded bg-slate-200 dark:bg-slate-700" />
+              <div className="h-2.5 w-28 rounded bg-slate-100 dark:bg-slate-800" />
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function Sidebar() {
   const [mounted, setMounted] = useState(false);
   const { user, logout } = useAuthStore();
+  const { sidebarCollapsed } = useUiStore();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setMounted(true);
-    }, 0);
-    return () => clearTimeout(timer);
+    setMounted(true);
   }, []);
 
-  if (!mounted || !user) return <div className="left-sidebar"></div>;
+  if (!mounted) {
+    return <SidebarSkeleton collapsed={sidebarCollapsed} />;
+  }
+
+  const currentUser = user || {
+    fullName: "Học viên XP Voca",
+    username: "learner",
+  };
 
   return (
     <SidebarNavInner
-      userName={user.fullName || user.username || "Học viên XP Voca"}
-      user={user}
+      userName={currentUser.fullName || currentUser.username || "Học viên XP Voca"}
+      user={currentUser}
       onLogout={logout}
     />
   );

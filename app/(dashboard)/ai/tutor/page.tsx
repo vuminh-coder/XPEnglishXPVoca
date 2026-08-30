@@ -312,7 +312,7 @@ export default function VoiceTutorPage() {
 
   const handleSaveWordToVocab = () => {
     if (!selectedWordData) return;
-    awardXp(5);
+    awardXp(5, "vocab");
     addToast({
       type: "success",
       title: "Đã lưu vào Sổ tay từ vựng! 💾",
@@ -554,7 +554,7 @@ export default function VoiceTutorPage() {
           });
         }
 
-        awardXp(15);
+        awardXp(15, "speaking");
       }
     } catch (e) {
       console.error(e);
@@ -709,7 +709,7 @@ export default function VoiceTutorPage() {
       stopRecordingOnly();
     }
     setIsSessionCompleted(true);
-    awardXp(sessionEvaluation.xpAward);
+    awardXp(sessionEvaluation.xpAward, "speaking");
     addToast({
       type: "success",
       title: `Hoàn Thành Buổi Luyện Nói (Hạng ${sessionEvaluation.grade})! 🎉`,

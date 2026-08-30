@@ -315,110 +315,110 @@ export function calculateExamResult(
   const weaknesses: ExamResultSummary["weaknesses"] = [];
   const recommendations: string[] = [];
 
-  const getPartDiagnosticAdvice = (partNum: number, partTitle: string, accuracy: number, correct: number, total: number) => {
+  const getPartDiagnosticAdvice = (partNum: number, partTitle: string) => {
     const titleLower = partTitle.toLowerCase();
     
     // IELTS Listening Sections 1-4
     if (titleLower.includes("listening section 1")) {
-      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần chú trọng bắt chính xác tên riêng (spelling), mã số định danh, số tiền, ngày tháng và địa chỉ thường gặp trong giao tiếp đời sống.`;
+      return `Cần chú trọng bắt chính xác tên riêng (spelling), mã số định danh, số tiền, ngày tháng và địa chỉ thường gặp trong giao tiếp đời sống.`;
     }
     if (titleLower.includes("listening section 2")) {
-      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần rèn kỹ năng định hướng bản đồ (map labeling), nghe chỉ đường và nắm bắt các mốc thời gian của bài hướng dẫn tham quan.`;
+      return `Cần rèn kỹ năng định hướng bản đồ (map labeling), nghe chỉ đường và nắm bắt các mốc thời gian của bài hướng dẫn tham quan.`;
     }
     if (titleLower.includes("listening section 3")) {
-      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần theo dõi sát mạch thảo luận học thuật giữa giáo sư và sinh viên, phân biệt quan điểm từng người nói và phân công nghiên cứu.`;
+      return `Cần theo dõi sát mạch thảo luận học thuật giữa giáo sư và sinh viên, phân biệt quan điểm từng người nói và phân công nghiên cứu.`;
     }
     if (titleLower.includes("listening section 4")) {
-      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần luyện nghe bài giảng độc thoại học thuật tốc độ cao, bắt từ khóa chuyên ngành, số liệu thực nghiệm và kết luận then chốt.`;
+      return `Cần luyện nghe bài giảng độc thoại học thuật tốc độ cao, bắt từ khóa chuyên ngành, số liệu thực nghiệm và kết luận then chốt.`;
     }
 
     // IELTS Reading Passages 1-3
     if (titleLower.includes("reading passage 1")) {
-      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần tăng tốc độ đọc quét (Scanning) thông tin khoa học tự nhiên, tra cứu số liệu % và định vị chính xác định nghĩa thuật ngữ.`;
+      return `Cần tăng tốc độ đọc quét (Scanning) thông tin khoa học tự nhiên, tra cứu số liệu và định vị chính xác định nghĩa thuật ngữ.`;
     }
     if (titleLower.includes("reading passage 2")) {
-      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần rèn kỹ năng đọc hiểu chuyên sâu tài liệu tâm lý/thần kinh học thuật, giải mã mối quan hệ nhân - quả và so sánh giả thuyết.`;
+      return `Cần rèn kỹ năng đọc hiểu chuyên sâu tài liệu tâm lý/thần kinh học thuật, giải mã mối quan hệ nhân - quả và so sánh giả thuyết.`;
     }
     if (titleLower.includes("reading passage 3")) {
-      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần nâng cao khả năng xử lý bài đọc lịch sử - khảo cổ dài, xác định mốc thời gian cách mạng công nghiệp và phân tích tác động xã hội.`;
+      return `Cần nâng cao khả năng xử lý bài đọc lịch sử - khảo cổ dài, xác định mốc thời gian cách mạng công nghiệp và phân tích tác động xã hội.`;
     }
 
     // IELTS Speaking Parts 1-3
     if (titleLower.includes("ielts speaking part 1")) {
-      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần trả lời trực tiếp và mở rộng 4-5 câu mạch lạc, sử dụng các collocations tự nhiên về môi trường và phát âm rõ âm đuôi.`;
+      return `Cần trả lời trực tiếp và mở rộng 4-5 câu mạch lạc, sử dụng các collocations tự nhiên về môi trường và phát âm rõ âm đuôi.`;
     }
     if (titleLower.includes("ielts speaking part 2")) {
-      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần tận dụng tối đa 1 phút ghi chú theo 4 gạch đầu dòng Cue Card và duy trì bài nói liên tục 2 phút không ngập ngừng (fluency).`;
+      return `Cần tận dụng tối đa 1 phút ghi chú theo 4 gạch đầu dòng Cue Card và duy trì bài nói liên tục 2 phút không ngập ngừng (fluency).`;
     }
     if (titleLower.includes("ielts speaking part 3")) {
-      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần phát triển câu trả lời học thuật 2 chiều (balanced view), dùng câu điều kiện, câu nhượng bộ và từ vựng trừu tượng C1/C2.`;
+      return `Cần phát triển câu trả lời học thuật 2 chiều (balanced view), dùng câu điều kiện, câu nhượng bộ và từ vựng trừu tượng C1/C2.`;
     }
 
     // IELTS Writing Tasks 1-2
     if (titleLower.includes("ielts writing task 1")) {
-      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần viết báo cáo 150+ từ có đoạn Overview nêu bật xu hướng chính, gom nhóm dữ liệu biểu đồ năng lượng tái tạo logic và so sánh chuẩn xác.`;
+      return `Cần viết báo cáo 150+ từ có đoạn Overview nêu bật xu hướng chính, gom nhóm dữ liệu biểu đồ năng lượng tái tạo logic và so sánh chuẩn xác.`;
     }
     if (titleLower.includes("ielts writing task 2")) {
-      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần viết bài luận 250+ từ thảo luận 2 quan điểm (học phí vs miễn phí đại học), lập luận chặt chẽ với từ vựng học thuật C2 và nêu rõ lập trường cá nhân.`;
+      return `Cần viết bài luận 250+ từ thảo luận 2 quan điểm (học phí vs miễn phí đại học), lập luận chặt chẽ với từ vựng học thuật C2 và nêu rõ lập trường cá nhân.`;
     }
 
     // TOEIC Speaking Parts
     if (titleLower.includes("read a text aloud")) {
-      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần chú trọng phát âm chuẩn các âm đuôi /s/, /z/, /t/, /d/, nhấn trọng âm từ khóa và ngắt hơi theo cụm nghĩa (chunking).`;
+      return `Cần chú trọng phát âm chuẩn các âm đuôi /s/, /z/, /t/, /d/, nhấn trọng âm từ khóa và ngắt hơi theo cụm nghĩa (chunking).`;
     }
     if (titleLower.includes("describe a picture")) {
-      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần áp dụng cấu trúc nói 4 bước: 1. Khái quát bức tranh ➔ 2. Hành động trọng tâm ➔ 3. Hậu cảnh & chi tiết ➔ 4. Cảm nhận chung.`;
+      return `Cần áp dụng cấu trúc nói 4 bước: 1. Khái quát bức tranh ➔ 2. Hành động trọng tâm ➔ 3. Hậu cảnh & chi tiết ➔ 4. Cảm nhận chung.`;
     }
     if (titleLower.includes("respond to questions") && !titleLower.includes("information")) {
-      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần phản xạ trả lời trực diện không ậm ừ trong 15s cho Q5/Q6 và phát triển 2 luận điểm kèm ví dụ trong 30s cho Q7.`;
+      return `Cần phản xạ trả lời trực diện không ậm ừ trong 15s cho Q5/Q6 và phát triển 2 luận điểm kèm ví dụ trong 30s cho Q7.`;
     }
     if (titleLower.includes("information provided") || titleLower.includes("respond using")) {
-      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần quét nhanh lịch trình/bảng biểu, trích xuất chuẩn xác thời gian, địa điểm, diễn giả và đính chính hiểu lầm một cách lịch sự.`;
+      return `Cần quét nhanh lịch trình/bảng biểu, trích xuất chuẩn xác thời gian, địa điểm, diễn giả và đính chính hiểu lầm một cách lịch sự.`;
     }
     if (titleLower.includes("express an opinion") && !titleLower.includes("writing")) {
-      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần lập dàn ý 60s điểm cao: Mở bài nêu lập trường ➔ 2 Luận cứ với từ vựng C1 ➔ Ví dụ thực tế ➔ Kết bài khẳng định lợi ích.`;
+      return `Cần lập dàn ý 60s điểm cao: Mở bài nêu lập trường ➔ 2 Luận cứ với từ vựng C1 ➔ Ví dụ thực tế ➔ Kết bài khẳng định lợi ích.`;
     }
 
     // TOEIC Writing Parts
     if (titleLower.includes("write a sentence")) {
-      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần đảm bảo đủ 2 từ khóa cho sẵn, chia đúng thì Hiện tại tiếp diễn / đơn, hòa hợp chủ-vị và tránh bẫy ngoại động từ (discuss, explain).`;
+      return `Cần đảm bảo đủ 2 từ khóa cho sẵn, chia đúng thì Hiện tại tiếp diễn / đơn, hòa hợp chủ-vị và tránh bẫy ngoại động từ (discuss, explain).`;
     }
     if (titleLower.includes("written request") || titleLower.includes("respond to a written")) {
-      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần cấu trúc Email thương mại trang trọng (Dear/Sincerely), giải quyết triệt để 2 yêu cầu của khách hàng và duy trì giọng văn lịch sự.`;
+      return `Cần cấu trúc Email thương mại trang trọng (Dear/Sincerely), giải quyết triệt để 2 yêu cầu của khách hàng và duy trì giọng văn lịch sự.`;
     }
     if (titleLower.includes("opinion essay") || titleLower.includes("write an opinion essay")) {
-      return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần viết bài luận 300+ từ với cấu trúc 5 đoạn: Mở bài, 2 Thân bài lập luận, Đoạn phản biện (Counter-argument & Rebuttal) và Kết luận.`;
+      return `Cần viết bài luận 300+ từ với cấu trúc 5 đoạn: Mở bài, 2 Thân bài lập luận, Đoạn phản biện (Counter-argument & Rebuttal) và Kết luận.`;
     }
 
     // TOEIC Listening & Reading Parts 1-7
     switch (partNum) {
       case 1:
-        return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần luyện kỹ năng quan sát tranh, bắt động từ mô tả hành động và tránh bẫy thì hiện tại tiếp diễn / bị động.`;
+        return `Cần luyện kỹ năng quan sát tranh, bắt động từ mô tả hành động và tránh bẫy thì hiện tại tiếp diễn / bị động.`;
       case 2:
-        return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần luyện phản xạ bẫy từ đồng âm (same-sound), câu hỏi gián tiếp và câu trả lời gợi ý trá hình.`;
+        return `Cần luyện phản xạ bẫy từ đồng âm (same-sound), câu hỏi gián tiếp và câu trả lời gợi ý trá hình.`;
       case 3:
-        return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần đọc trước câu hỏi 30s, nắm bắt vai trò người nói (Who/Where/Next action) và ngữ cảnh hội thoại.`;
+        return `Cần đọc trước câu hỏi 30s, nắm bắt vai trò người nói (Who/Where/Next action) và ngữ cảnh hội thoại.`;
       case 4:
-        return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần luyện nghe đoạn độc thoại dài, bắt ý chính mở đầu và thông tin chi tiết quan trọng.`;
+        return `Cần luyện nghe đoạn độc thoại dài, bắt ý chính mở đầu và thông tin chi tiết quan trọng.`;
       case 5:
-        return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần củng cố ngữ pháp cốt lõi (từ loại N/V/Adj/Adv, đại từ quan hệ, thì động từ và liên từ).`;
+        return `Cần củng cố ngữ pháp cốt lõi (từ loại N/V/Adj/Adv, đại từ quan hệ, thì động từ và liên từ).`;
       case 6:
-        return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần luyện kỹ năng liên kết ngữ cảnh toàn văn và câu điền nguyên câu văn logic.`;
+        return `Cần luyện kỹ năng liên kết ngữ cảnh toàn văn và câu điền nguyên câu văn logic.`;
       case 7:
-        return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần nâng cao tốc độ đọc quét (Skimming & Scanning) và xử lý bài đọc đôi/ba (Multiple Passages).`;
+        return `Cần nâng cao tốc độ đọc quét (Skimming & Scanning) và xử lý bài đọc đôi/ba (Multiple Passages).`;
       default:
-        return `Đạt ${accuracy}% (${correct}/${total} câu) • Cần củng cố kỹ năng và phương pháp làm bài chuyên sâu cho phần thi này.`;
+        return `Cần củng cố kỹ năng và phương pháp làm bài chuyên sâu cho phần thi này.`;
     }
   };
 
   partAnalysis.forEach((p) => {
     if (p.accuracyPercent >= 75) {
-      strengths.push(`${p.partTitle} (Độ chính xác ấn tượng: ${p.accuracyPercent}%)`);
+      strengths.push(`${p.partTitle} (Đạt ${p.correctCount}/${p.totalQuestions} câu)`);
     } else if (p.accuracyPercent <= 40) {
       weaknesses.push({
         partNumber: p.partNumber,
         partTitle: p.partTitle,
-        issue: getPartDiagnosticAdvice(p.partNumber, p.partTitle, p.accuracyPercent, p.correctCount, p.totalQuestions),
+        issue: getPartDiagnosticAdvice(p.partNumber, p.partTitle),
         priority: "HIGH",
         accuracyPercent: p.accuracyPercent,
         correctCount: p.correctCount,
@@ -428,7 +428,7 @@ export function calculateExamResult(
       weaknesses.push({
         partNumber: p.partNumber,
         partTitle: p.partTitle,
-        issue: getPartDiagnosticAdvice(p.partNumber, p.partTitle, p.accuracyPercent, p.correctCount, p.totalQuestions),
+        issue: getPartDiagnosticAdvice(p.partNumber, p.partTitle),
         priority: "MEDIUM",
         accuracyPercent: p.accuracyPercent,
         correctCount: p.correctCount,

@@ -1,5 +1,5 @@
-﻿"use client";
-import React, { useState, useEffect, useMemo } from "react";
+"use client";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { PageEntranceWrapper, MotionItem } from "@/shared/components/feedback/PageEntranceAnimation";
 import { useUserStore } from "@/stores/userStore";
@@ -8,7 +8,6 @@ import { UserAvatar } from "@/shared/components/feedback/UserAvatar";
 import Link from "next/link";
 import {
   Flame,
-  BookOpen,
   BookmarkCheck,
   Clock,
   Target,
@@ -22,11 +21,78 @@ import {
   Medal,
   Award,
   Loader2,
+  Sparkles,
+  Zap,
+  ChevronRight,
+  TrendingUp,
+  Calendar,
+  BookOpen,
+  Wand2,
 } from "lucide-react";
 import {
   get30DaySkillAnalytics,
   get6MonthHeatmapAnalytics,
+  modeNameToSkillType,
+  hydrateSkillMinutesFromBackend,
 } from "@/stores/skillChartStore";
+import {
+  AppTopHeader,
+  HeaderPillContainer,
+  HeaderPillItem,
+} from "@/shared/components/layout/AppTopHeader";
+
+const SpeakingIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M14 15a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v2" />
+    <circle cx="9" cy="7" r="3" />
+    <path d="M17 9a3 3 0 0 1 0 6" />
+    <path d="M20 7a6 6 0 0 1 0 10" />
+  </svg>
+);
+
+const SKILL_THEMES: Record<
+  string,
+  { label: string; color: string; gradientId: string; Icon: any }
+> = {
+  Dictation: {
+    label: "Dictation",
+    color: "#0059bb",
+    gradientId: "dictationAnalyticsGradient",
+    Icon: Headphones,
+  },
+  Shadowing: {
+    label: "Shadowing",
+    color: "#8b5cf6",
+    gradientId: "shadowingAnalyticsGradient",
+    Icon: Mic,
+  },
+  "Nói": {
+    label: "Nói (AI)",
+    color: "#10b981",
+    gradientId: "speakingAnalyticsGradient",
+    Icon: SpeakingIcon,
+  },
+  "Từ vựng": {
+    label: "Từ vựng",
+    color: "#f59e0b",
+    gradientId: "vocabAnalyticsGradient",
+    Icon: BookOpen,
+  },
+  "Viết": {
+    label: "Viết (AI)",
+    color: "#ec4899",
+    gradientId: "writingAnalyticsGradient",
+    Icon: Wand2,
+  },
+};
 
 export default function AnalyticsPage() {
   const { user } = useUserStore();
@@ -56,16 +122,8 @@ export default function AnalyticsPage() {
     }
   }, [activeTab, leaderboardData.length]);
 
-  // Active hover & persistent clicked selection index for 30-day line charts
-  const [hoveredChartIndex, setHoveredChartIndex] = useState<{
-    chart: "MINUTES" | "XP";
-    index: number;
-  } | null>(null);
-
-  const [selectedChartIndex, setSelectedChartIndex] = useState<{
-    chart: "MINUTES" | "XP";
-    index: number;
-  } | null>(null);
+  // Active day index for 30-day line charts (default to index 4 - "Hôm nay")
+  const [selectedDayIndex, setSelectedDayIndex] = useState<number | null>(4);
 
   // Active hover tile for 6-month heatmap
   const [hoveredHeatmapTile, setHoveredHeatmapTile] = useState<{
@@ -85,32 +143,37 @@ export default function AnalyticsPage() {
   }, [learned, user]);
 
   const longestStreak = user?.longestStreak ?? user?.currentStreak ?? 1;
-  const minutesStudied = user?.minutesStudied !== undefined ? `${user.minutesStudied}m` : "6m";
-  const totalXp = user?.totalXp !== undefined ? `${user.totalXp} XP` : "10 XP";
+  const minutesStudied = user?.minutesStudied !== undefined ? `${user.minutesStudied}m` : "0m";
+  const totalXp = user?.totalXp !== undefined ? `${user.totalXp} XP` : "0 XP";
   const weeklyRank = apiRank;
 
-  // Dynamic 30-day date generator & backend API sync (Exactly 8 time milestones)
   const [dates, setDates] = useState<string[]>([
-    "26 thg 7",
-    "31 thg 7",
-    "5 thg 8",
-    "10 thg 8",
+    "26/7",
+    "31/7",
+    "5/8",
+    "10/8",
     "Hôm nay",
-    "17 thg 8",
-    "20 thg 8",
-    "24 thg 8",
+    "17/8",
+    "20/8",
+    "24/8",
   ]);
 
-  const [minutesValues, setMinutesValues] = useState<number[]>([0, 0, 0, 0, 6, 0, 0, 0]);
-  const [xpValues, setXpValues] = useState<number[]>([0, 0, 0, 0, 10, 0, 0, 0]);
+  const [minutesValues, setMinutesValues] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0]);
+  const [xpValues, setXpValues] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0]);
+  const [apiPerSkillData, setApiPerSkillData] = useState<any>(null);
+  const [apiHeatmapData, setApiHeatmapData] = useState<{ weeks: any[][]; totalActivities: number } | null>(null);
 
   // Fetch backend API analytics data & sync with localStorage
   useEffect(() => {
+    if (user?.id) {
+      hydrateSkillMinutesFromBackend(user.id);
+    }
+
     fetch("/api/user/analytics")
       .then((res) => res.json())
       .then((res) => {
         if (res.success && res.data) {
-          const { stats, series } = res.data;
+          const { stats, series, perSkill, heatmap } = res.data;
           if (stats?.weeklyRank) {
             setApiRank(stats.weeklyRank);
           }
@@ -119,26 +182,52 @@ export default function AnalyticsPage() {
             if (series.minutesSeries) setMinutesValues(series.minutesSeries);
             if (series.xpSeries) setXpValues(series.xpSeries);
           }
+          if (perSkill) {
+            setApiPerSkillData(perSkill);
+          }
+          if (heatmap && Array.isArray(heatmap.weeks) && heatmap.weeks.length > 0) {
+            setApiHeatmapData(heatmap);
+          }
         }
       })
       .catch((err) => console.error("Error loading analytics API:", err));
   }, [user]);
 
-  // Skill-Specific Analytics Computation for modeFilter ("Dictation" | "Shadowing" | "Nói" | "Từ vựng" | "Viết")
+  // Skill-Specific Analytics Computation for modeFilter merging DB + Local Cache
   const activeSkillData = useMemo(() => {
-    const data = get30DaySkillAnalytics(user?.id, modeFilter);
-    if (data.dates.length > 0) {
-      return { minutes: data.minutes, xp: data.xp };
+    const skillKey = modeNameToSkillType(modeFilter);
+    const localData = get30DaySkillAnalytics(user?.id, modeFilter);
+
+    const dbSkill = apiPerSkillData?.[skillKey];
+    if (dbSkill && Array.isArray(dbSkill.minutes) && dbSkill.minutes.length > 0) {
+      const mergedMins = dbSkill.minutes.map((dbMin: number, i: number) =>
+        Math.max(dbMin || 0, localData.minutes[i] || 0)
+      );
+      const mergedXp = (dbSkill.xp || []).map((dbXp: number, i: number) =>
+        Math.max(dbXp || 0, localData.xp[i] || 0)
+      );
+      return { minutes: mergedMins, xp: mergedXp };
     }
-    return { minutes: minutesValues, xp: xpValues };
-  }, [modeFilter, user, minutesValues, xpValues]);
 
-  // Dynamic 6-Month Heatmap Data Generator
-  const { weeks: heatmapWeeks, totalActivities } = useMemo(() => {
-    return get6MonthHeatmapAnalytics(user?.id);
-  }, [user]);
+    return { minutes: localData.minutes, xp: localData.xp };
+  }, [modeFilter, user, apiPerSkillData]);
 
-  // Memoized Leaderboard Data Processor (Optimized Performance O(N))
+  // Dynamic 6-Month Heatmap Data Generator merging DB + Local Cache
+  const { heatmapWeeks, totalActivities } = useMemo(() => {
+    if (apiHeatmapData && apiHeatmapData.weeks && apiHeatmapData.weeks.length > 0) {
+      return {
+        heatmapWeeks: apiHeatmapData.weeks,
+        totalActivities: apiHeatmapData.totalActivities,
+      };
+    }
+    const localHeatmap = get6MonthHeatmapAnalytics(user?.id);
+    return {
+      heatmapWeeks: localHeatmap.weeks,
+      totalActivities: localHeatmap.totalActivities,
+    };
+  }, [user, apiHeatmapData]);
+
+  // Memoized Leaderboard Data Processor
   const processedLeaderboard = useMemo(() => {
     if (!leaderboardData || leaderboardData.length === 0) return [];
 
@@ -172,10 +261,10 @@ export default function AnalyticsPage() {
     });
   }, [leaderboardData, user]);
 
-  // Dynamic Rolling 6-Month Heatmap Month Headers (Auto-shifts relative to current date)
+  // Dynamic Rolling 6-Month Heatmap Month Headers
   const monthList = useMemo(() => {
     const today = new Date();
-    const shortMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const shortMonths = ["Th 1", "Th 2", "Th 3", "Th 4", "Th 5", "Th 6", "Th 7", "Th 8", "Th 9", "Th 10", "Th 11", "Th 12"];
     const list: { name: string; startIndex: number }[] = [];
 
     for (let i = 5; i >= 0; i--) {
@@ -188,52 +277,57 @@ export default function AnalyticsPage() {
     return list;
   }, []);
 
-  // Helper to render SVG line chart with Dynamic Scaled Y-Axis & Clamped Canvas (NO OVERFLOW SPIKES)
-  const renderExactSvgChart = (
+  const currentTheme = SKILL_THEMES[modeFilter] || SKILL_THEMES.Dictation;
+
+  // Render Dashboard-Exact High-DPI Waveform Chart
+  const renderDashboardStyledChart = (
     title: string,
-    defaultYSteps: number[],
     values: number[],
     chartType: "MINUTES" | "XP",
-    strokeColor: string,
-    gradientId: string
+    themeColor: string,
+    gradientId: string,
+    unit: string
   ) => {
-    const svgW = 460;
-    const svgH = 160;
-    const padLeft = 30;
-    const padRight = 15;
-    const padTop = 15;
-    const padBottom = 32;
+    const svgW = 700;
+    const svgH = 210;
+    const padLeft = 52;
+    const padRight = 10;
+    const padTop = 24;
+    const padBottom = 10; // y=200 is baseline
 
-    // DYNAMICALLY SCALE Y-AXIS BASED ON MAXIMUM DATA VALUE TO PREVENT OVERFLOW SPIKES
     const maxDataVal = Math.max(...values, 0);
-    const defaultMax = Math.max(...defaultYSteps, 1);
-    const dynamicMaxY = maxDataVal > defaultMax ? Math.ceil(maxDataVal / 10) * 10 : defaultMax;
+    const defaultMax = chartType === "XP" ? 12 : 4;
+    const dynamicMax = maxDataVal > defaultMax ? Math.ceil(maxDataVal / 4) * 4 : defaultMax;
 
-    // Generate dynamic 5 Y-axis steps
-    const yAxisValues = maxDataVal > defaultMax
-      ? [
-          dynamicMaxY,
-          Math.round(dynamicMaxY * 0.75),
-          Math.round(dynamicMaxY * 0.5),
-          Math.round(dynamicMaxY * 0.25),
-          0,
-        ]
-      : defaultYSteps;
+    const ySteps = [
+      dynamicMax,
+      Math.round(dynamicMax * 0.75),
+      Math.round(dynamicMax * 0.5),
+      Math.round(dynamicMax * 0.25),
+      0,
+    ];
 
-    // Safe Y-coordinate calculation clamped strictly inside padTop -> svgH - padBottom
+    const yCoords = [24, 68, 112, 156, 200];
+
+    const colWidth = (svgW - padLeft - padRight) / values.length;
     const points = values.map((val, idx) => {
-      const clampedVal = Math.min(val, dynamicMaxY);
-      const x = padLeft + (idx / (values.length - 1)) * (svgW - padLeft - padRight);
-      const rawY = svgH - padBottom - (clampedVal / dynamicMaxY) * (svgH - padTop - padBottom);
-      const y = Math.max(padTop, Math.min(svgH - padBottom, rawY));
+      const x = padLeft + (idx + 0.5) * colWidth;
+      const clampedVal = Math.max(0, Math.min(val, dynamicMax));
+      const ratio = dynamicMax > 0 ? clampedVal / dynamicMax : 0;
+      const y = 200 - ratio * (200 - padTop);
       return { x, y, val, date: dates[idx] || "" };
     });
 
-    // Smooth Bezier path string
-    let pathD = `M ${points[0].x},${points[0].y}`;
-    for (let i = 0; i < points.length - 1; i++) {
-      const p0 = points[i];
-      const p1 = points[i + 1];
+    const fullCurvePoints = [
+      { x: padLeft, y: points[0]?.y ?? 200 },
+      ...points,
+      { x: svgW - padRight, y: points[points.length - 1]?.y ?? 200 },
+    ];
+
+    let pathD = `M ${fullCurvePoints[0].x},${fullCurvePoints[0].y}`;
+    for (let i = 0; i < fullCurvePoints.length - 1; i++) {
+      const p0 = fullCurvePoints[i];
+      const p1 = fullCurvePoints[i + 1];
       const cp1x = p0.x + (p1.x - p0.x) / 2;
       const cp1y = p0.y;
       const cp2x = p0.x + (p1.x - p0.x) / 2;
@@ -241,695 +335,704 @@ export default function AnalyticsPage() {
       pathD += ` C ${cp1x},${cp1y} ${cp2x},${cp2y} ${p1.x},${p1.y}`;
     }
 
-    const fillD = `${pathD} L ${svgW - padRight},${svgH - padBottom} L ${padLeft},${svgH - padBottom} Z`;
+    const areaD = `${pathD} L ${svgW - padRight},200 L ${padLeft},200 Z`;
 
-    const isCurrentHovered = hoveredChartIndex?.chart === chartType;
-    const isCurrentSelected = selectedChartIndex?.chart === chartType;
-
-    // Active point index: Hover preview takes priority if hovering; otherwise fallback to clicked selected index
-    const activePointIndex = isCurrentHovered && hoveredChartIndex
-      ? hoveredChartIndex.index
-      : (isCurrentSelected && selectedChartIndex ? selectedChartIndex.index : null);
-
-    const activePoint = activePointIndex !== null ? points[activePointIndex] : null;
+    const activeIdx = selectedDayIndex !== null && selectedDayIndex < points.length ? selectedDayIndex : 4;
+    const activePoint = points[activeIdx] || points[0];
 
     return (
-      <div className="space-y-2 sm:space-y-3 flex-1 min-w-0">
-        <h3 className="text-[11px] sm:text-xs font-semibold text-slate-500 font-display">
-          {title}
-        </h3>
+      <div className="flex-1 space-y-3 min-w-0">
+        <div className="flex items-center justify-between">
+          <div className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full shadow-2xs" style={{ backgroundColor: themeColor }} />
+            <span>{title}</span>
+          </div>
 
-        {/* OVERFLOW-HIDDEN CONTAINER TO GUARANTEE ZERO CANVAS LEAKS */}
-        <div className="relative overflow-hidden rounded-xs border border-slate-100 dark:border-white/5 p-1 bg-slate-50/30 dark:bg-slate-900/30">
-          <svg
-            viewBox={`0 0 ${svgW} ${svgH}`}
-            className="w-full h-36 sm:h-48 overflow-hidden cursor-pointer"
-            onMouseLeave={() => setHoveredChartIndex(null)}
+          <span
+            className="px-2.5 py-0.5 rounded-md font-mono font-bold text-xs shadow-2xs border"
+            style={{
+              backgroundColor: `${themeColor}15`,
+              borderColor: `${themeColor}35`,
+              color: themeColor,
+            }}
           >
-            <defs>
-              <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={strokeColor} stopOpacity="0.25" />
-                <stop offset="100%" stopColor={strokeColor} stopOpacity="0.0" />
-              </linearGradient>
-            </defs>
+            {activePoint ? `${activePoint.date}: ${activePoint.val} ${unit}` : `${values.reduce((a, b) => a + b, 0)} ${unit}`}
+          </span>
+        </div>
 
-            {/* Dashed Horizontal Gridlines & Dynamic Y-Axis Labels */}
-            {yAxisValues.map((yVal, i) => {
-              const y = padTop + (i / (yAxisValues.length - 1)) * (svgH - padTop - padBottom);
-              return (
-                <g key={i}>
-                  <text
-                    x="10"
-                    y={y + 3.5}
-                    className="fill-slate-500 dark:fill-slate-400 text-[10px] sm:text-[11.5px] font-mono font-bold"
-                  >
-                    {yVal}
-                  </text>
-                  <line
-                    x1={padLeft}
-                    y1={y}
-                    x2={svgW - padRight}
-                    y2={y}
-                    stroke="currentColor"
-                    className="text-slate-200 dark:text-slate-800"
-                    strokeDasharray="3 3"
-                    strokeWidth="1"
-                  />
-                </g>
-              );
-            })}
+        {/* High-DPI Waveform Canvas */}
+        <div className="relative pt-1.5 pb-0 bg-slate-50/70 dark:bg-slate-950/70 rounded-xl border border-slate-200/70 dark:border-slate-800/80 overflow-hidden shadow-2xs">
+          <div className="w-full relative">
+            <svg
+              viewBox={`0 0 ${svgW} ${svgH}`}
+              className="w-full h-auto overflow-visible select-none"
+            >
+              <defs>
+                <linearGradient id={gradientId} x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor={themeColor} stopOpacity="0.25" />
+                  <stop offset="60%" stopColor={themeColor} stopOpacity="0.08" />
+                  <stop offset="100%" stopColor={themeColor} stopOpacity="0.00" />
+                </linearGradient>
+              </defs>
 
-            {/* Soft Gradient Fill */}
-            <motion.path
-              key={`fill-${modeFilter}-${chartType}`}
-              d={fillD}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.35, ease: "easeOut" }}
-              fill={`url(#${gradientId})`}
-            />
-
-            {/* SLEEK ULTRA-FINE THIN LINE STROKE WITH SMOOTH PATHLENGTH DRAW */}
-            <motion.path
-              key={`line-${modeFilter}-${chartType}`}
-              d={pathD}
-              initial={{ pathLength: 0, opacity: 0.2 }}
-              animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ duration: 0.45, ease: "easeOut" }}
-              fill="none"
-              stroke={strokeColor}
-              strokeWidth="1"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-
-            {/* Interactive Points Hover & Click Selection Targets */}
-            {points.map((p, idx) => {
-              const isPointActive = activePointIndex === idx;
-
-              return (
-                <g
-                  key={idx}
-                  onMouseEnter={() => setHoveredChartIndex({ chart: chartType, index: idx })}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedChartIndex({ chart: chartType, index: idx });
-                    setHoveredChartIndex({ chart: chartType, index: idx });
-                  }}
-                  onTouchStart={() => {
-                    setSelectedChartIndex({ chart: chartType, index: idx });
-                    setHoveredChartIndex({ chart: chartType, index: idx });
-                  }}
-                  className="cursor-pointer"
-                >
-                  <rect
-                    x={p.x - 15}
-                    y={padTop}
-                    width="30"
-                    height={svgH - padTop - padBottom}
-                    fill="transparent"
-                  />
-
-                  {isPointActive && (
-                    <g>
-                      {p.y < svgH - padBottom && (
-                        <line
-                          x1={p.x}
-                          y1={p.y + 3}
-                          x2={p.x}
-                          y2={svgH - padBottom}
-                          stroke="#cbd5e1"
-                          strokeWidth="1"
-                          strokeDasharray="2 2"
-                        />
-                      )}
-                      <motion.circle
-                        cx={p.x}
-                        cy={p.y}
-                        animate={{ cx: p.x, cy: p.y }}
-                        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                        r="3"
-                        fill="white"
-                        stroke={strokeColor}
-                        strokeWidth="2"
-                      />
-                    </g>
-                  )}
-                </g>
-              );
-            })}
-
-            {/* Vertical Reference Guideline for TODAY (Origin Anchor - Starts from below circle point downwards) */}
-            {points.map((p, idx) => {
-              const isToday = p.date === "Hôm nay" || p.date.includes("Hôm nay");
-              if (!isToday) return null;
-              const lineY1 = Math.min(p.y + 3, svgH - padBottom);
-              return (
-                <g key={`today-anchor-${idx}`}>
-                  {lineY1 < svgH - padBottom && (
+              {/* 5 Horizontal Grid Lines & Y-Axis Labels matching Dashboard */}
+              {ySteps.map((step, sIdx) => {
+                const y = yCoords[sIdx];
+                const isBaseline = sIdx === 4;
+                return (
+                  <g key={sIdx}>
                     <line
-                      x1={p.x}
-                      y1={lineY1}
-                      x2={p.x}
-                      y2={svgH - padBottom}
-                      stroke="#0059bb"
-                      strokeWidth="1"
-                      strokeDasharray="3 3"
-                      opacity="0.6"
+                      x1={padLeft}
+                      y1={y}
+                      x2={svgW - padRight}
+                      y2={y}
+                      stroke="currentColor"
+                      className={
+                        isBaseline
+                          ? "text-slate-200/90 dark:text-slate-800"
+                          : "text-slate-200/60 dark:text-slate-800"
+                      }
+                      strokeDasharray={isBaseline ? undefined : "3 3"}
                     />
-                  )}
-                  <circle cx={p.x} cy={p.y} r="3" fill="#0059bb" />
-                </g>
-              );
-            })}
+                    <text
+                      x="42"
+                      y={y}
+                      textAnchor="end"
+                      dominantBaseline="central"
+                      className="fill-slate-500 dark:fill-slate-400 font-mono text-[22px] sm:text-[17px] font-extrabold"
+                    >
+                      {step}{unit === "phút" ? "m" : ""}
+                    </text>
+                  </g>
+                );
+              })}
 
-            {/* X-Axis Date Labels */}
-            {points.map((p, idx) => {
-              const isToday = p.date === "Hôm nay" || p.date.includes("Hôm nay");
-              return (
-                <text
-                  key={idx}
-                  x={p.x}
-                  y={svgH - 5}
-                  textAnchor="middle"
-                  className={`text-[10.5px] sm:text-[11px] font-mono ${
-                    isToday
-                      ? "fill-[#0059bb] font-black"
-                      : "fill-slate-500 dark:fill-slate-400 font-semibold"
-                  }`}
-                >
-                  {p.date}
-                </text>
-              );
-            })}
+              {/* Gradient Area Fill */}
+              <path d={areaD} fill={`url(#${gradientId})`} className="transition-all duration-300" />
 
-            {/* FRAMELESS VALUE LABEL DIRECTLY ABOVE HOVERED POINT (~8.5px SPACING ABOVE POINT EVEN AT 0 VAL) */}
-            {activePoint && (
-              <g className="pointer-events-none">
+              {/* Smooth Bezier Line (1.8px) */}
+              <path
+                d={pathD}
+                fill="none"
+                stroke={themeColor}
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="transition-colors duration-300"
+              />
+
+              {/* Floating Text trực tiếp trên biểu đồ cách dọc 12px khớp 100% Dashboard */}
+              {activePoint && (
                 <text
                   x={activePoint.x}
-                  y={Math.max(8.5, activePoint.y - 8.5)}
+                  y={Math.max(18, activePoint.y - 12)}
                   textAnchor="middle"
-                  fill={strokeColor}
-                  className="text-[11px] sm:text-[12.5px] font-mono font-extrabold drop-shadow-2xs select-none"
+                  fill={themeColor}
+                  className="font-mono text-[21px] sm:text-[16px] font-black tracking-tight select-none pointer-events-none"
                 >
-                  {chartType === "XP" ? `${activePoint.val} XP` : `${activePoint.val}m`}
+                  {activePoint.val} {unit}
                 </text>
-              </g>
-            )}
-          </svg>
+              )}
+
+              {/* Invisible Column Hitboxes for Click & Touch */}
+              {points.map((p, idx) => (
+                <rect
+                  key={`col-hitbox-${idx}`}
+                  x={padLeft + idx * colWidth}
+                  y="0"
+                  width={colWidth}
+                  height={svgH}
+                  fill="transparent"
+                  className="cursor-pointer"
+                  onClick={() => setSelectedDayIndex(idx)}
+                />
+              ))}
+            </svg>
+          </div>
+
+          {/* Interactive Date Column Buttons */}
+          <div
+            style={{ paddingLeft: "7.43%", paddingRight: "1.43%" }}
+            className="grid grid-cols-8 text-center pt-0 pb-1.5 gap-0 border-t border-slate-100 dark:border-slate-800"
+          >
+            {dates.map((dateLabel, i) => {
+              const isSelected = activeIdx === i;
+              const isToday = dateLabel === "Hôm nay" || i === 4;
+
+              return (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => setSelectedDayIndex(i)}
+                  className={`py-1.5 px-0.5 rounded-t-lg text-center transition-all cursor-pointer font-mono text-[10.5px] sm:text-xs ${
+                    isSelected
+                      ? isToday
+                        ? "text-amber-600 dark:text-amber-400 font-black border-b-2 border-amber-500 bg-amber-50/60 dark:bg-amber-950/30"
+                        : "text-[#0059bb] dark:text-sky-400 font-black border-b-2 border-[#0059bb] dark:border-sky-400 bg-blue-50/60 dark:bg-blue-950/30"
+                      : isToday
+                      ? "text-amber-600 dark:text-amber-400 font-black border-b-2 border-transparent hover:bg-slate-100/50 dark:hover:bg-slate-800/40"
+                      : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-bold border-b-2 border-transparent"
+                  }`}
+                >
+                  <span className="leading-tight block font-extrabold truncate">
+                    {dateLabel}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
     );
   };
 
   return (
-    <PageEntranceWrapper className="space-y-4 sm:space-y-6 pb-16 md:pb-6 select-none font-sans max-w-6xl mx-auto" suppressHydrationWarning>
+    <PageEntranceWrapper className="space-y-4 pb-16 md:pb-8 px-0 relative select-none font-sans" suppressHydrationWarning>
       
-      {/* 1. PAGE HEADER */}
-      <MotionItem className="space-y-0.5 sm:space-y-1">
-        <h1 className="text-sm sm:text-base font-bold font-display tracking-tight text-slate-900 dark:text-white">
-          Tiến trình học tập
-        </h1>
-        <p className="hidden sm:block text-[10px] sm:text-xs text-slate-500 font-medium">
-          Theo dõi hoạt động hàng ngày, chuỗi ngày học và thứ hạng của bạn so với người học khác.
-        </p>
-      </MotionItem>
+      {/* 1. APP TOP HEADER INTEGRATION */}
+      <AppTopHeader
+        rightDesktopContent={
+          <Link
+            href="/study/practice"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#0059bb] hover:bg-[#004ba0] text-white font-bold text-xs shadow-xs transition-all active:scale-95 cursor-pointer shrink-0"
+          >
+            <Zap className="w-3.5 h-3.5 fill-current text-amber-300" />
+            <span>Luyện Tập Ngay +15 XP</span>
+          </Link>
+        }
+      >
+        <HeaderPillContainer>
+          <HeaderPillItem
+            active={activeTab === "ACTIVITIES"}
+            onClick={() => setActiveTab("ACTIVITIES")}
+            icon={<BarChart3 className="w-3.5 h-3.5" />}
+            label="Hoạt Động Của Tôi"
+          />
+          <HeaderPillItem
+            active={activeTab === "LEADERBOARD"}
+            onClick={() => setActiveTab("LEADERBOARD")}
+            icon={<Trophy className="w-3.5 h-3.5 text-amber-500" />}
+            label="Bảng Xếp Hạng XP"
+          />
+        </HeaderPillContainer>
+      </AppTopHeader>
 
-      {/* 2. TOP 5 STAT CARDS (MICRO-GRID 2x2 + 1 FULL WIDTH ON MOBILE) */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-4">
-        
-        {/* CARD 1: STREAK */}
-        <div className="p-2.5 sm:p-3.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center gap-2.5 sm:gap-3">
-          <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xs bg-orange-50 dark:bg-orange-950/40 text-orange-500 flex items-center justify-center shrink-0">
-            <Flame className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-orange-400" />
-          </div>
-          <div className="min-w-0">
-            <div className="text-xs sm:text-base font-bold font-mono text-slate-900 dark:text-white leading-tight">
-              {longestStreak} <span className="text-[10px] sm:text-xs font-normal text-slate-500">ngày</span>
-            </div>
-            <div className="text-[10px] sm:text-[11px] text-slate-400 font-medium truncate">Chuỗi dài nhất</div>
-          </div>
-        </div>
+      {/* 2. MAIN CONTAINER */}
+      <div className="w-full max-w-7xl mx-auto px-3 sm:px-5 lg:px-6 space-y-4 pt-1">
 
-        {/* CARD 2: SAVED WORDS */}
-        <div className="p-2.5 sm:p-3.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center gap-2.5 sm:gap-3">
-          <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xs bg-emerald-50 dark:bg-emerald-950/40 text-emerald-500 flex items-center justify-center shrink-0">
-            <BookmarkCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-          </div>
-          <div className="min-w-0">
-            <div className="text-xs sm:text-base font-bold font-mono text-slate-900 dark:text-white leading-tight">
-              {savedWords}
-            </div>
-            <div className="text-[10px] sm:text-[11px] text-slate-400 font-medium truncate">Từ đã lưu</div>
-          </div>
-        </div>
-
-        {/* CARD 3: PRACTICE TIME */}
-        <div className="p-2.5 sm:p-3.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center gap-2.5 sm:gap-3">
-          <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xs bg-sky-50 dark:bg-sky-950/40 text-sky-500 flex items-center justify-center shrink-0">
-            <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-          </div>
-          <div className="min-w-0">
-            <div className="text-xs sm:text-base font-bold font-mono text-slate-900 dark:text-white leading-tight">
-              {minutesStudied}
-            </div>
-            <div className="text-[10px] sm:text-[11px] text-slate-400 font-medium truncate">Thời gian luyện tập</div>
-          </div>
-        </div>
-
-        {/* CARD 4: TOTAL XP */}
-        <div className="p-2.5 sm:p-3.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center gap-2.5 sm:gap-3">
-          <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xs bg-indigo-50 dark:bg-indigo-950/40 text-indigo-500 flex items-center justify-center shrink-0">
-            <Target className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-          </div>
-          <div className="min-w-0">
-            <div className="text-xs sm:text-base font-bold font-mono text-slate-900 dark:text-white leading-tight">
-              {totalXp}
-            </div>
-            <div className="text-[10px] sm:text-[11px] text-slate-400 font-medium truncate">Tổng XP</div>
-          </div>
-        </div>
-
-        {/* CARD 5: WEEKLY RANK (Spans 2 cols on mobile for balance) */}
-        <div className="col-span-2 sm:col-span-1 p-2.5 sm:p-3.5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs flex items-center justify-between sm:justify-start gap-2.5 sm:gap-3">
-          <div className="flex items-center gap-2.5 sm:gap-3">
-            <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xs bg-amber-50 dark:bg-amber-950/40 text-amber-500 flex items-center justify-center shrink-0">
-              <Trophy className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+        {/* HERO TOP 5 METRIC CARDS BENTO GRID */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3.5">
+          
+          {/* CARD 1: STREAK */}
+          <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex items-center gap-3 transition-all hover:border-amber-300 dark:hover:border-amber-700/50">
+            <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-500 flex items-center justify-center shrink-0 shadow-2xs">
+              <Flame className="w-5 h-5 fill-amber-400 text-amber-500" />
             </div>
             <div className="min-w-0">
-              <div className="text-xs sm:text-base font-bold font-mono text-slate-900 dark:text-white leading-tight">
-                {weeklyRank} <span className="text-[10px] sm:text-xs font-normal text-slate-500">Tuần</span>
+              <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white leading-tight tabular-nums">
+                {longestStreak} <span className="text-xs font-bold text-slate-500 font-sans">ngày</span>
               </div>
-              <div className="text-[10px] sm:text-[11px] text-slate-400 font-medium truncate">Hạng của bạn</div>
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 font-bold truncate mt-0.5">Chuỗi dài nhất</div>
             </div>
           </div>
+
+          {/* CARD 2: SAVED WORDS */}
+          <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex items-center gap-3 transition-all hover:border-emerald-300 dark:hover:border-emerald-700/50">
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-500 flex items-center justify-center shrink-0 shadow-2xs">
+              <BookmarkCheck className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+            </div>
+            <div className="min-w-0">
+              <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white leading-tight tabular-nums">
+                {savedWords} <span className="text-xs font-bold text-slate-500 font-sans">từ</span>
+              </div>
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 font-bold truncate mt-0.5">Vốn từ đã tích lũy</div>
+            </div>
+          </div>
+
+          {/* CARD 3: PRACTICE TIME */}
+          <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex items-center gap-3 transition-all hover:border-blue-300 dark:hover:border-blue-700/50">
+            <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 shadow-2xs">
+              <Clock className="w-5 h-5" />
+            </div>
+            <div className="min-w-0">
+              <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white leading-tight tabular-nums">
+                {minutesStudied}
+              </div>
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 font-bold truncate mt-0.5">Thời gian học</div>
+            </div>
+          </div>
+
+          {/* CARD 4: TOTAL XP */}
+          <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex items-center gap-3 transition-all hover:border-purple-300 dark:hover:border-purple-700/50">
+            <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0 shadow-2xs">
+              <Target className="w-5 h-5" />
+            </div>
+            <div className="min-w-0">
+              <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white leading-tight tabular-nums">
+                {totalXp}
+              </div>
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 font-bold truncate mt-0.5">Tổng điểm tích lũy</div>
+            </div>
+          </div>
+
+          {/* CARD 5: WEEKLY RANK */}
+          <div className="col-span-2 sm:col-span-1 p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex items-center gap-3 transition-all hover:border-amber-300 dark:hover:border-amber-700/50">
+            <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 shadow-2xs">
+              <Trophy className="w-5 h-5 text-amber-500 fill-amber-400" />
+            </div>
+            <div className="min-w-0">
+              <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white leading-tight tabular-nums">
+                {weeklyRank} <span className="text-xs font-bold text-slate-500 font-sans">Tuần</span>
+              </div>
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 font-bold truncate mt-0.5">Hạng của bạn</div>
+            </div>
+          </div>
+
         </div>
 
-      </div>
-
-      {/* 3. SUB-NAV TABS UNDER TOP CARDS BAR */}
-      <div className="border-b border-slate-200/80 dark:border-white/10 flex items-center gap-6 sm:gap-8 text-xs sm:text-sm font-medium">
-        <button
-          onClick={() => setActiveTab("ACTIVITIES")}
-          className={`pb-2.5 sm:pb-3 relative font-bold transition-colors cursor-pointer ${
-            activeTab === "ACTIVITIES"
-              ? "text-slate-900 dark:text-white"
-              : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
-          }`}
-        >
-          Hoạt động của tôi
-          {activeTab === "ACTIVITIES" && (
-            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-slate-900 dark:bg-white rounded-xs" />
-          )}
-        </button>
-
-        <button
-          onClick={() => setActiveTab("LEADERBOARD")}
-          className={`pb-2.5 sm:pb-3 relative font-bold transition-colors cursor-pointer ${
-            activeTab === "LEADERBOARD"
-              ? "text-slate-900 dark:text-white"
-              : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
-          }`}
-        >
-          Bảng xếp hạng
-          {activeTab === "LEADERBOARD" && (
-            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-slate-900 dark:bg-white rounded-xs" />
-          )}
-        </button>
-      </div>
-
-      {/* 4. SECTION 1: TỔNG QUAN HOẠT ĐỘNG / BẢNG XẾP HẠNG 2 CỘT */}
-      <AnimatePresence mode="wait">
-        {activeTab === "LEADERBOARD" ? (
-          <motion.div
-            key="leaderboard-container"
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -14 }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="p-3.5 sm:p-6 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-4"
-          >
-            <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-3">
-              <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display flex items-center gap-2">
-                <Trophy className="w-4 h-4 text-amber-500 shrink-0" />
-                Bảng xếp hạng thành tích XP
-              </h2>
-              <span className="text-[10px] sm:text-[11px] font-mono text-slate-400 font-medium">
-                Cập nhật trực tiếp từ hệ thống
-              </span>
-            </div>
-
-            {isLoadingLeaderboard && leaderboardData.length === 0 ? (
-              <div className="flex items-center justify-center py-12 text-slate-400 gap-2 font-medium text-xs">
-                <Loader2 className="w-4 h-4 animate-spin text-[#0059bb]" />
-                Đang tải bảng xếp hạng...
+        {/* 3. TAB VIEWS (ACTIVITIES vs LEADERBOARD) */}
+        <AnimatePresence mode="wait">
+          {activeTab === "LEADERBOARD" ? (
+            <motion.div
+              key="leaderboard-container"
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -14 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              className="p-4 sm:p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-5"
+            >
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3.5">
+                <div>
+                  <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display flex items-center gap-2">
+                    <Trophy className="w-4 h-4 text-amber-500 shrink-0" />
+                    Bảng Xếp Hạng Thành Tích XP
+                  </h2>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    Xếp hạng dựa trên tổng điểm kinh nghiệm kiếm được qua các hoạt động học tập
+                  </p>
+                </div>
+                <div className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-blue-50/90 dark:bg-blue-950/60 border border-blue-200/80 dark:border-blue-800/60 text-[#0059bb] dark:text-sky-300 font-mono font-bold text-xs shrink-0 self-start sm:self-auto shadow-2xs">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span>Cập nhật thời gian thực</span>
+                </div>
               </div>
-            ) : (
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-stretch">
-                {/* LEFT COLUMN: TOP 3 BENTO PODIUM ISOSCELES TRAPEZOID (lg:col-span-5) */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.97, y: 10 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-                  className="lg:col-span-5 flex flex-col justify-between p-3.5 sm:p-4 rounded-t-xs [clip-path:polygon(2%_0%,98%_0%,100%_100%,0%_100%)] bg-gradient-to-b from-amber-500/10 via-amber-500/5 to-slate-50/40 dark:from-amber-500/15 dark:to-slate-900/40 space-y-3 border-b-2 border-amber-500/30"
-                >
-                  <div className="text-center text-xs font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider font-display flex items-center justify-center gap-1.5">
-                    <Crown className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
-                    Top 3 Học Viên Đứng Đầu
+
+              {isLoadingLeaderboard && leaderboardData.length === 0 ? (
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-stretch animate-pulse">
+                  {/* Left Column: Podium Skeleton */}
+                  <div className="lg:col-span-5 flex flex-col justify-between p-4 sm:p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-800 space-y-4">
+                    <div className="h-4 w-36 mx-auto rounded bg-slate-200 dark:bg-slate-700" />
+                    <div className="grid grid-cols-3 gap-2.5 items-end pt-3 pb-1">
+                      {/* Top 2 Skeleton */}
+                      <div className="flex flex-col items-center p-2.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 space-y-2">
+                        <div className="h-4 w-10 rounded-full bg-slate-200 dark:bg-slate-700" />
+                        <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700" />
+                        <div className="h-3 w-16 rounded bg-slate-200 dark:bg-slate-700" />
+                        <div className="h-6 w-full rounded-lg bg-slate-200 dark:bg-slate-700" />
+                      </div>
+                      {/* Top 1 Skeleton */}
+                      <div className="flex flex-col items-center p-3 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border-2 border-amber-200 dark:border-amber-800/50 space-y-2 relative -top-2">
+                        <div className="h-4 w-14 rounded-full bg-amber-200 dark:bg-amber-800" />
+                        <div className="w-12 h-12 rounded-full bg-amber-200 dark:bg-amber-800" />
+                        <div className="h-3.5 w-20 rounded bg-amber-200 dark:bg-amber-800" />
+                        <div className="h-7 w-full rounded-lg bg-amber-300 dark:bg-amber-700" />
+                      </div>
+                      {/* Top 3 Skeleton */}
+                      <div className="flex flex-col items-center p-2.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 space-y-2">
+                        <div className="h-4 w-10 rounded-full bg-slate-200 dark:bg-slate-700" />
+                        <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700" />
+                        <div className="h-3 w-16 rounded bg-slate-200 dark:bg-slate-700" />
+                        <div className="h-6 w-full rounded-lg bg-slate-200 dark:bg-slate-700" />
+                      </div>
+                    </div>
                   </div>
 
-                  {/* PODIUM 3 ISOSCELES TRAPEZOID PILLARS */}
-                  <div className="grid grid-cols-3 gap-2 items-end pt-2 pb-1">
-                    {/* TOP 2 (SILVER ISOSCELES TRAPEZOID) */}
-                    {processedLeaderboard[1] && (() => {
-                      const top2 = processedLeaderboard[1];
-                      return (
-                        <motion.div
-                          initial={{ opacity: 0, y: 14 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.35, delay: 0.1 }}
-                          className="flex flex-col items-center p-2 rounded-t-xs [clip-path:polygon(6%_0%,94%_0%,100%_100%,0%_100%)] bg-gradient-to-b from-slate-200/80 via-slate-100/60 to-white/90 dark:from-slate-700/80 dark:to-slate-800/90 text-center space-y-1.5 shadow-2xs border-t-2 border-slate-300"
-                        >
-                          <span className="text-[10px] font-bold text-slate-600 dark:text-slate-300 px-2.5 py-0.5 [clip-path:polygon(12%_0%,88%_0%,100%_100%,0%_100%)] bg-white/80 dark:bg-slate-700/80 flex items-center gap-1">
-                            <Medal className="w-3 h-3 text-slate-400 fill-slate-300" /> #2
-                          </span>
-                          <UserAvatar
-                            avatarUrl={top2.avatarUrl}
-                            emoji={top2.avatarEmoji}
-                            name={top2.fullName}
-                            size="w-9 h-9 sm:w-11 sm:h-11"
-                          />
-                          <div className="min-w-0 w-full flex flex-col items-center">
-                            <div className="text-[11px] font-bold text-slate-800 dark:text-white truncate font-display w-full">
-                              {top2.fullName}
-                            </div>
-                            <div className="w-full mt-1.5 py-1 sm:py-1.5 [clip-path:polygon(6%_0%,94%_0%,100%_100%,0%_100%)] bg-slate-700 dark:bg-slate-800 text-white font-mono font-bold text-[10px] sm:text-[11px] shadow-2xs text-center truncate">
-                              {top2.xp?.toLocaleString()} XP
-                            </div>
+                  {/* Right Column: List Skeleton */}
+                  <div className="lg:col-span-7 space-y-2">
+                    <div className="h-3.5 w-32 rounded bg-slate-200 dark:bg-slate-700 mb-2.5" />
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <div
+                        key={i}
+                        className="flex items-center justify-between p-3 rounded-xl bg-slate-50/70 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-800"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="h-4 w-5 rounded bg-slate-200 dark:bg-slate-700" />
+                          <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700" />
+                          <div className="space-y-1">
+                            <div className="h-3.5 w-24 rounded bg-slate-200 dark:bg-slate-700" />
+                            <div className="h-2.5 w-16 rounded bg-slate-100 dark:bg-slate-800" />
                           </div>
-                        </motion.div>
-                      );
-                    })()}
-
-                    {/* TOP 1 (GOLD CENTER ISOSCELES TRAPEZOID - TALLER & SHINY) */}
-                    {processedLeaderboard[0] && (() => {
-                      const top1 = processedLeaderboard[0];
-                      return (
-                        <motion.div
-                          initial={{ opacity: 0, y: 18, scale: 0.95 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          transition={{ duration: 0.4, delay: 0.15 }}
-                          className="flex flex-col items-center p-2.5 rounded-t-xs [clip-path:polygon(6%_0%,94%_0%,100%_100%,0%_100%)] bg-gradient-to-b from-amber-200/90 via-amber-100/70 to-white dark:from-amber-900/90 dark:to-slate-800/90 text-center space-y-1.5 shadow-xs relative -top-1 border-t-2 border-amber-400"
-                        >
-                          <span className="text-[10px] font-extrabold text-amber-700 dark:text-amber-300 px-3 py-0.5 [clip-path:polygon(12%_0%,88%_0%,100%_100%,0%_100%)] bg-amber-200/80 dark:bg-amber-900/90 flex items-center gap-1">
-                            <Crown className="w-3.5 h-3.5 text-amber-600 fill-amber-400" /> TOP 1
-                          </span>
-                          <UserAvatar
-                            avatarUrl={top1.avatarUrl}
-                            emoji={top1.avatarEmoji}
-                            name={top1.fullName}
-                            size="w-11 h-11 sm:w-13 sm:h-13"
-                          />
-                          <div className="min-w-0 w-full flex flex-col items-center">
-                            <div className="text-xs font-bold text-amber-950 dark:text-amber-200 truncate font-display w-full">
-                              {top1.fullName}
-                            </div>
-                            <div className="w-full mt-1.5 py-1 sm:py-1.5 [clip-path:polygon(6%_0%,94%_0%,100%_100%,0%_100%)] bg-amber-500 text-slate-950 font-mono font-extrabold text-[11px] sm:text-xs shadow-md border-t border-amber-300 text-center truncate">
-                              {top1.xp?.toLocaleString()} XP
-                            </div>
-                          </div>
-                        </motion.div>
-                      );
-                    })()}
-
-                    {/* TOP 3 (BRONZE ISOSCELES TRAPEZOID) */}
-                    {processedLeaderboard[2] && (() => {
-                      const top3 = processedLeaderboard[2];
-                      return (
-                        <motion.div
-                          initial={{ opacity: 0, y: 14 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.35, delay: 0.2 }}
-                          className="flex flex-col items-center p-2 rounded-t-xs [clip-path:polygon(6%_0%,94%_0%,100%_100%,0%_100%)] bg-gradient-to-b from-amber-900/25 via-amber-800/15 to-amber-50/50 dark:from-amber-900/50 dark:to-slate-800/90 text-center space-y-1.5 shadow-2xs border-t-2 border-amber-600/60"
-                        >
-                          <span className="text-[10px] font-bold text-amber-800 dark:text-amber-400 px-2.5 py-0.5 [clip-path:polygon(12%_0%,88%_0%,100%_100%,0%_100%)] bg-amber-100/80 dark:bg-amber-900/60 flex items-center gap-1">
-                            <Award className="w-3 h-3 text-amber-700 fill-amber-600" /> #3
-                          </span>
-                          <UserAvatar
-                            avatarUrl={top3.avatarUrl}
-                            emoji={top3.avatarEmoji}
-                            name={top3.fullName}
-                            size="w-9 h-9 sm:w-11 sm:h-11"
-                          />
-                          <div className="min-w-0 w-full flex flex-col items-center">
-                            <div className="text-[11px] font-bold text-slate-800 dark:text-white truncate font-display w-full">
-                              {top3.fullName}
-                            </div>
-                            <div className="w-full mt-1.5 py-1 sm:py-1.5 [clip-path:polygon(6%_0%,94%_0%,100%_100%,0%_100%)] bg-amber-800 text-amber-100 font-mono font-bold text-[10px] sm:text-[11px] shadow-2xs text-center truncate">
-                              {top3.xp?.toLocaleString()} XP
-                            </div>
-                          </div>
-                        </motion.div>
-                      );
-                    })()}
+                        </div>
+                        <div className="h-4 w-16 rounded bg-slate-200 dark:bg-slate-700" />
+                      </div>
+                    ))}
                   </div>
-                </motion.div>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-stretch">
+                  
+                  {/* LEFT COLUMN: PODIUM TOP 3 (lg:col-span-5) */}
+                  <div className="lg:col-span-5 flex flex-col justify-between p-4 sm:p-5 rounded-2xl bg-gradient-to-b from-amber-500/10 via-amber-500/5 to-slate-50/60 dark:from-amber-500/15 dark:to-slate-900/40 border border-amber-300/40 dark:border-amber-500/20 shadow-2xs space-y-4">
+                    <div className="text-center text-xs font-black text-amber-600 dark:text-amber-400 uppercase tracking-wider font-display flex items-center justify-center gap-1.5">
+                      <Crown className="w-4 h-4 fill-amber-400 text-amber-500" />
+                      Top 3 Học Viên Dẫn Đầu
+                    </div>
 
-                {/* RIGHT COLUMN: TOP 4+ SCROLLABLE LIST VIEW (lg:col-span-7) */}
-                <div className="lg:col-span-7 flex flex-col min-w-0">
-                  <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 font-display">
-                    Thứ hạng Top 4 trở đi (Cuộn để xem tiếp)
-                  </div>
-
-                  <div
-                    onScroll={(e) => {
-                      const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
-                      if (scrollTop + clientHeight >= scrollHeight - 20) {
-                        if (visibleLeaderboardCount < processedLeaderboard.length) {
-                          setVisibleLeaderboardCount((prev) => Math.min(processedLeaderboard.length, prev + 8));
-                        }
-                      }
-                    }}
-                    className="max-h-[300px] sm:max-h-[320px] overflow-y-auto pr-1.5 space-y-1.5 no-scrollbar"
-                  >
-                    {processedLeaderboard.slice(3, 3 + visibleLeaderboardCount).map((item, idx) => {
-                      return (
-                        <motion.div
-                          key={item.id}
-                          initial={{ opacity: 0, x: 12 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.25, delay: 0.03 * Math.min(idx, 8) }}
-                          className={`flex items-center justify-between p-2 sm:p-2.5 rounded-xs border transition-all text-xs ${
-                            item.isSelf
-                              ? "bg-[#0059bb]/10 border-[#0059bb]/40 font-bold"
-                              : "bg-slate-50/60 dark:bg-slate-800/40 border-slate-200/60 dark:border-white/5 hover:border-slate-300"
-                          }`}
-                        >
-                          <div className="flex items-center gap-2.5 min-w-0">
-                            <span className="w-6 text-center font-mono font-bold text-slate-400 shrink-0 text-[11px]">
-                              #{item.rank}
+                    {/* 3 PODIUM PILLARS */}
+                    <div className="grid grid-cols-3 gap-2.5 items-end pt-3 pb-1">
+                      
+                      {/* TOP 2: SILVER */}
+                      {processedLeaderboard[1] && (() => {
+                        const top2 = processedLeaderboard[1];
+                        return (
+                          <div className="flex flex-col items-center p-2.5 rounded-2xl bg-white/90 dark:bg-slate-800/90 text-center space-y-2 shadow-2xs border border-slate-200/90 dark:border-slate-700">
+                            <span className="text-[10px] font-bold text-slate-600 dark:text-slate-300 px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center gap-1">
+                              <Medal className="w-3 h-3 text-slate-400 fill-slate-300" /> #2
                             </span>
                             <UserAvatar
-                              avatarUrl={item.avatarUrl}
-                              emoji={item.avatarEmoji}
-                              name={item.fullName}
-                              size="w-7 h-7"
+                              avatarUrl={top2.avatarUrl}
+                              emoji={top2.avatarEmoji}
+                              name={top2.fullName}
+                              size="w-10 h-10 sm:w-12 sm:h-12"
                             />
-                            <div className="min-w-0">
-                              <div className="font-bold text-slate-800 dark:text-white truncate font-display flex items-center gap-1.5 text-xs">
-                                {item.fullName}
-                                {item.isSelf && (
-                                  <span className="text-[9px] px-1 py-0.2 rounded-xs bg-[#0059bb] text-white">Bạn</span>
-                                )}
+                            <div className="min-w-0 w-full flex flex-col items-center">
+                              <div className="text-xs font-bold text-slate-800 dark:text-white truncate font-display w-full">
+                                {top2.fullName}
                               </div>
-                              <div className="text-[10px] text-slate-400 font-mono">
-                                Lv.{item.level || 1} • {item.title || "Học viên"}
+                              <div className="w-full mt-1.5 py-1 rounded-lg bg-slate-700 dark:bg-slate-850 text-white font-mono font-bold text-[10px] sm:text-[11px] shadow-2xs text-center truncate">
+                                {top2.xp?.toLocaleString()} XP
                               </div>
                             </div>
                           </div>
+                        );
+                      })()}
 
-                          <div className="font-bold font-mono text-[#0059bb] dark:text-sky-400 text-xs shrink-0 pl-2">
-                            {item.xp?.toLocaleString()} XP
-                          </div>
-                        </motion.div>
-                      );
-                    })}
-
-                    {visibleLeaderboardCount < leaderboardData.length - 3 && (
-                      <button
-                        onClick={() => setVisibleLeaderboardCount((prev) => Math.min(leaderboardData.length, prev + 8))}
-                        className="w-full py-2 text-center text-[11px] font-bold text-[#0059bb] hover:underline cursor-pointer font-display"
-                      >
-                        Cuộn hoặc bấm để tải thêm thứ hạng tiếp theo...
-                      </button>
-                    )}
-                  </div>
-                </div>
-              </div>
-            )}
-          </motion.div>
-        ) : (
-          <motion.div
-            key="activities-tab"
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -14 }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="p-3.5 sm:p-6 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-3 sm:space-y-4"
-          >
-          <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
-            Tổng quan hoạt động (6 tháng gần đây)
-          </h2>
-
-          <div className="relative w-full overflow-hidden sm:overflow-x-auto sm:no-scrollbar pb-2">
-            
-            {/* Main Matrix Container */}
-            <div className="w-full sm:min-w-[520px] space-y-1.5 sm:space-y-2">
-              
-              {/* TOP MONTH LABELS */}
-              <div className="flex items-center pl-5 sm:pl-8 text-[9px] sm:text-[11px] font-bold text-slate-400 font-display">
-                {monthList.map((m, mIdx) => (
-                  <div key={mIdx} className="w-[48px] sm:w-[68px] text-center shrink-0">
-                    {m.name}
-                  </div>
-                ))}
-              </div>
-
-              {/* MATRIX GRID WITH VERTICAL DAY LABELS */}
-              <div className="flex items-start gap-2 sm:gap-3.5">
-                
-                <div className="relative w-5 sm:w-6 pr-1 sm:pr-1.5 h-[78px] sm:h-[102px] shrink-0 text-[9px] sm:text-[10px] font-bold text-slate-400 font-display">
-                  <span className="absolute top-[8px] sm:top-[13px] left-0 leading-none">Mon</span>
-                  <span className="absolute top-[30px] sm:top-[43px] left-0 leading-none">Wed</span>
-                  <span className="absolute top-[52px] sm:top-[73px] left-0 leading-none">Fri</span>
-                </div>
-
-                <div className="flex items-center gap-1.5 sm:gap-3">
-                  {monthList.map((mGroup, mIdx) => (
-                    <div key={mIdx} className="flex items-center gap-0.5 sm:gap-1">
-                      {Array.from({ length: 4 }).map((_, wInMonth) => {
-                        const globalWeekIdx = mIdx * 4 + wInMonth;
-                        const weekTiles = heatmapWeeks[globalWeekIdx] || [];
-
+                      {/* TOP 1: GOLD */}
+                      {processedLeaderboard[0] && (() => {
+                        const top1 = processedLeaderboard[0];
                         return (
-                          <div key={wInMonth} className="flex flex-col gap-0.5 sm:gap-1">
-                            {weekTiles.map((tile, dIdx) => {
-                              const tileBg =
-                                tile.intensity === 3
-                                  ? "bg-[#0059bb] dark:bg-sky-400"
-                                  : tile.intensity === 2
-                                  ? "bg-[#0059bb]/70 dark:bg-sky-500/70"
-                                  : tile.intensity === 1
-                                  ? "bg-[#0059bb]/35 dark:bg-sky-600/40"
-                                  : "bg-slate-100 dark:bg-slate-800/60";
+                          <div className="flex flex-col items-center p-3 rounded-2xl bg-gradient-to-b from-amber-100/90 via-amber-50/80 to-white dark:from-amber-950/80 dark:to-slate-800/95 text-center space-y-2 shadow-md border-2 border-amber-400/80 relative -top-2">
+                            <span className="text-[10px] font-black text-amber-800 dark:text-amber-300 px-3 py-0.5 rounded-full bg-amber-200/90 dark:bg-amber-900/90 flex items-center gap-1 shadow-2xs">
+                              <Crown className="w-3.5 h-3.5 text-amber-600 fill-amber-400" /> TOP 1
+                            </span>
+                            <UserAvatar
+                              avatarUrl={top1.avatarUrl}
+                              emoji={top1.avatarEmoji}
+                              name={top1.fullName}
+                              size="w-12 h-12 sm:w-14 sm:h-14"
+                            />
+                            <div className="min-w-0 w-full flex flex-col items-center">
+                              <div className="text-xs font-black text-amber-950 dark:text-amber-100 truncate font-display w-full">
+                                {top1.fullName}
+                              </div>
+                              <div className="w-full mt-1.5 py-1.5 rounded-lg bg-amber-500 text-slate-950 font-mono font-black text-xs shadow-md border-t border-amber-300 text-center truncate">
+                                {top1.xp?.toLocaleString()} XP
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })()}
 
-                              return (
-                                <div
-                                  key={dIdx}
-                                  onMouseEnter={() => setHoveredHeatmapTile({ dateStr: tile.dateStr, count: tile.count })}
-                                  onMouseLeave={() => setHoveredHeatmapTile(null)}
-                                  className={`w-[9px] h-[9px] sm:w-3 sm:h-3 rounded-xs cursor-pointer transition-all hover:scale-125 ${tileBg}`}
-                                />
-                              );
-                            })}
+                      {/* TOP 3: BRONZE */}
+                      {processedLeaderboard[2] && (() => {
+                        const top3 = processedLeaderboard[2];
+                        return (
+                          <div className="flex flex-col items-center p-2.5 rounded-2xl bg-white/90 dark:bg-slate-800/90 text-center space-y-2 shadow-2xs border border-amber-200/80 dark:border-amber-900/50">
+                            <span className="text-[10px] font-bold text-amber-800 dark:text-amber-400 px-2.5 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/60 flex items-center gap-1">
+                              <Award className="w-3 h-3 text-amber-700 fill-amber-600" /> #3
+                            </span>
+                            <UserAvatar
+                              avatarUrl={top3.avatarUrl}
+                              emoji={top3.avatarEmoji}
+                              name={top3.fullName}
+                              size="w-10 h-10 sm:w-12 sm:h-12"
+                            />
+                            <div className="min-w-0 w-full flex flex-col items-center">
+                              <div className="text-xs font-bold text-slate-800 dark:text-white truncate font-display w-full">
+                                {top3.fullName}
+                              </div>
+                              <div className="w-full mt-1.5 py-1 rounded-lg bg-amber-800 text-amber-100 font-mono font-bold text-[10px] sm:text-[11px] shadow-2xs text-center truncate">
+                                {top3.xp?.toLocaleString()} XP
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })()}
+
+                    </div>
+                  </div>
+
+                  {/* RIGHT COLUMN: SCROLLABLE TOP 4+ LIST (lg:col-span-7) */}
+                  <div className="lg:col-span-7 flex flex-col min-w-0">
+                    <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5 font-display">
+                      Danh Sách Học Viên Khác
+                    </div>
+
+                    <div
+                      onScroll={(e) => {
+                        const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+                        if (scrollTop + clientHeight >= scrollHeight - 20) {
+                          if (visibleLeaderboardCount < processedLeaderboard.length) {
+                            setVisibleLeaderboardCount((prev) => Math.min(processedLeaderboard.length, prev + 8));
+                          }
+                        }
+                      }}
+                      className="max-h-[320px] sm:max-h-[350px] overflow-y-auto pr-1.5 space-y-2 no-scrollbar"
+                    >
+                      {processedLeaderboard.slice(3, 3 + visibleLeaderboardCount).map((item, idx) => {
+                        return (
+                          <div
+                            key={item.id}
+                            className={`flex items-center justify-between p-3 rounded-xl border transition-all text-xs ${
+                              item.isSelf
+                                ? "bg-[#0059bb]/10 border-[#0059bb]/40 font-bold shadow-2xs"
+                                : "bg-slate-50/70 dark:bg-slate-800/40 border-slate-200/80 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700"
+                            }`}
+                          >
+                            <div className="flex items-center gap-3 min-w-0">
+                              <span className="w-6 text-center font-mono font-black text-slate-400 shrink-0 text-xs">
+                                #{item.rank}
+                              </span>
+                              <UserAvatar
+                                avatarUrl={item.avatarUrl}
+                                emoji={item.avatarEmoji}
+                                name={item.fullName}
+                                size="w-8 h-8"
+                              />
+                              <div className="min-w-0">
+                                <div className="font-extrabold text-slate-900 dark:text-white truncate font-display flex items-center gap-1.5 text-xs sm:text-sm">
+                                  {item.fullName}
+                                  {item.isSelf && (
+                                    <span className="text-[9.5px] px-1.5 py-0.5 rounded-full bg-[#0059bb] text-white font-black shadow-2xs">Bạn</span>
+                                  )}
+                                </div>
+                                <div className="flex items-center gap-1.5 mt-0.5 text-xs font-semibold text-slate-600 dark:text-slate-300">
+                                  <span className="px-1.5 py-0.2 rounded-md bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 font-mono font-extrabold text-[11px] border border-blue-200/60 dark:border-blue-800/40">
+                                    Lv.{item.level || 1}
+                                  </span>
+                                  <span className="text-slate-300 dark:text-slate-700">•</span>
+                                  <span className="truncate">{item.title || "Học viên"}</span>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="font-black font-mono text-[#0059bb] dark:text-sky-400 text-xs shrink-0 pl-2">
+                              {item.xp?.toLocaleString()} XP
+                            </div>
                           </div>
                         );
                       })}
+
+                      {visibleLeaderboardCount < leaderboardData.length - 3 && (
+                        <button
+                          onClick={() => setVisibleLeaderboardCount((prev) => Math.min(leaderboardData.length, prev + 8))}
+                          className="w-full py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-800 text-center text-xs font-bold text-[#0059bb] hover:bg-blue-50 dark:hover:bg-slate-800 cursor-pointer font-display transition-colors"
+                        >
+                          Tải thêm thứ hạng tiếp theo...
+                        </button>
+                      )}
                     </div>
-                  ))}
-                </div>
-
-              </div>
-
-              {/* FOOTER LEGEND & DYNAMIC TOOLTIP */}
-              <div className="flex items-center justify-between gap-1 text-[9px] sm:text-[11px] font-medium text-slate-400 pt-2 pl-5 sm:pl-8 border-t border-slate-100 dark:border-white/5">
-                <span className="font-mono truncate">
-                  {hoveredHeatmapTile
-                    ? `${hoveredHeatmapTile.dateStr}: ${hoveredHeatmapTile.count} hoạt động`
-                    : `${totalActivities} hoạt động trong 6 tháng qua`}
-                </span>
-
-                <div className="flex items-center gap-1 sm:gap-1.5 font-display shrink-0">
-                  <span>Less</span>
-                  <div className="flex items-center gap-1">
-                    <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-xs bg-slate-100 dark:bg-slate-800" />
-                    <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-xs bg-[#0059bb]/35 dark:bg-sky-600/40" />
-                    <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-xs bg-[#0059bb]/70 dark:bg-sky-500/70" />
-                    <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-xs bg-[#0059bb] dark:bg-sky-400" />
                   </div>
-                  <span>More</span>
+
+                </div>
+              )}
+            </motion.div>
+          ) : (
+            <motion.div
+              key="activities-tab"
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -14 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              className="space-y-4"
+            >
+              {/* SECTION 1: 6-MONTH HEATMAP MATRIX */}
+              <div className="p-4 sm:p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3.5">
+                <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="px-2.5 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 font-mono font-bold text-xs border border-blue-200/60 dark:border-blue-800/40">
+                      6 THÁNG
+                    </span>
+                    <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display">
+                      Ma trận hoạt động học tập
+                    </h3>
+                  </div>
+
+                  <span className="px-2.5 py-1 rounded-lg text-xs font-bold font-mono shadow-2xs border bg-blue-50/80 dark:bg-blue-950/50 border-blue-200/80 dark:border-blue-800/60 text-[#0059bb] dark:text-sky-400">
+                    Tổng: {totalActivities} hoạt động
+                  </span>
+                </div>
+
+                <div className="relative w-full overflow-x-auto no-scrollbar pb-2">
+                  <div className="min-w-[540px] space-y-2">
+                    
+                    {/* TOP MONTH LABELS */}
+                    <div className="flex items-center pl-6 sm:pl-8 text-[10px] sm:text-[11px] font-bold text-slate-400 font-display">
+                      {monthList.map((m, mIdx) => (
+                        <div key={mIdx} className="w-[52px] sm:w-[72px] text-center shrink-0">
+                          {m.name}
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* MATRIX GRID WITH VERTICAL DAY LABELS */}
+                    <div className="flex items-start gap-2.5 sm:gap-3.5">
+                      
+                      <div className="relative w-5 sm:w-6 pr-1 sm:pr-1.5 h-[84px] sm:h-[108px] shrink-0 text-[10px] font-bold text-slate-400 font-display">
+                        <span className="absolute top-[8px] sm:top-[14px] left-0 leading-none">T2</span>
+                        <span className="absolute top-[32px] sm:top-[46px] left-0 leading-none">T4</span>
+                        <span className="absolute top-[56px] sm:top-[78px] left-0 leading-none">T6</span>
+                      </div>
+
+                      <div className="flex items-center gap-1.5 sm:gap-3">
+                        {monthList.map((mGroup, mIdx) => (
+                          <div key={mIdx} className="flex items-center gap-1">
+                            {Array.from({ length: 4 }).map((_, wInMonth) => {
+                              const globalWeekIdx = mIdx * 4 + wInMonth;
+                              const weekTiles = heatmapWeeks[globalWeekIdx] || [];
+
+                              return (
+                                <div key={wInMonth} className="flex flex-col gap-1">
+                                  {weekTiles.map((tile, dIdx) => {
+                                    const tileBg =
+                                      tile.intensity === 3
+                                        ? "bg-[#0059bb] dark:bg-sky-400"
+                                        : tile.intensity === 2
+                                        ? "bg-[#0059bb]/70 dark:bg-sky-500/70"
+                                        : tile.intensity === 1
+                                        ? "bg-[#0059bb]/35 dark:bg-sky-600/40"
+                                        : "bg-slate-100 dark:bg-slate-800/70";
+
+                                    return (
+                                      <div
+                                        key={dIdx}
+                                        onMouseEnter={() => setHoveredHeatmapTile({ dateStr: tile.dateStr, count: tile.count })}
+                                        onMouseLeave={() => setHoveredHeatmapTile(null)}
+                                        className={`w-[10px] h-[10px] sm:w-3.5 sm:h-3.5 rounded-sm cursor-pointer transition-all hover:scale-125 ${tileBg}`}
+                                      />
+                                    );
+                                  })}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        ))}
+                      </div>
+
+                    </div>
+
+                    {/* FOOTER LEGEND & DYNAMIC TOOLTIP */}
+                    <div className="flex items-center justify-between gap-2 text-xs font-medium text-slate-500 dark:text-slate-400 pt-3 pl-6 sm:pl-8 border-t border-slate-100 dark:border-slate-800">
+                      <span className="font-mono text-xs truncate">
+                        {hoveredHeatmapTile
+                          ? `${hoveredHeatmapTile.dateStr}: ${hoveredHeatmapTile.count} hoạt động hoàn thành`
+                          : `${totalActivities} hoạt động đã hoàn thành trong 6 tháng qua`}
+                      </span>
+
+                      <div className="flex items-center gap-1.5 font-display shrink-0 text-xs">
+                        <span>Ít</span>
+                        <div className="flex items-center gap-1">
+                          <span className="w-3 h-3 rounded-sm bg-slate-100 dark:bg-slate-800" />
+                          <span className="w-3 h-3 rounded-sm bg-[#0059bb]/35 dark:bg-sky-600/40" />
+                          <span className="w-3 h-3 rounded-sm bg-[#0059bb]/70 dark:bg-sky-500/70" />
+                          <span className="w-3 h-3 rounded-sm bg-[#0059bb] dark:bg-sky-400" />
+                        </div>
+                        <span>Nhiều</span>
+                      </div>
+                    </div>
+
+                  </div>
                 </div>
               </div>
 
-            </div>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+              {/* SECTION 2: 30-DAY PRACTICE WITH SKILL SWITCHER & LINE CHARTS */}
+              <div className="p-4 sm:p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3.5">
+                
+                {/* CARD HEADER & SKILL SWITCHER PILLS (Speed Dock Style matching Dashboard) */}
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="px-2.5 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 font-mono font-bold text-xs border border-blue-200/60 dark:border-blue-800/40">
+                      30 NGÀY
+                    </span>
+                    <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display">
+                      Phân tích thời lượng & XP theo kỹ năng
+                    </h3>
+                  </div>
 
-      {/* 5. SECTION 2: MODE SWITCHER PILLS & DYNAMIC REALTTIME LINE CHARTS */}
-      <div className="p-3.5 sm:p-6 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-xs space-y-4 sm:space-y-6">
-        
-        {/* CARD TOP HEADER: TITLE LEFT + MODE PILLS RIGHT */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 sm:gap-3">
-          <h2 className="text-xs sm:text-base font-bold text-slate-900 dark:text-white font-display">
-            Luyện tập hàng ngày (30 ngày gần đây)
-          </h2>
+                  {/* Mode Switcher Pill Strip matching Dashboard */}
+                  <div
+                    role="tablist"
+                    aria-label="Lựa chọn kỹ năng phân tích biểu đồ"
+                    className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 flex items-center gap-1 overflow-x-auto scrollbar-none no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden max-w-full shrink-0"
+                  >
+                    {(
+                      [
+                        { id: "Dictation" as const, label: "Dictation", Icon: Headphones },
+                        { id: "Shadowing" as const, label: "Shadowing", Icon: Mic },
+                        { id: "Nói" as const, label: "Nói (AI)", Icon: SpeakingIcon },
+                        { id: "Từ vựng" as const, label: "Từ vựng", Icon: BookOpen },
+                        { id: "Viết" as const, label: "Viết (AI)", Icon: Wand2 },
+                      ] as const
+                    ).map((tab) => {
+                      const isActive = modeFilter === tab.id;
+                      const Icon = tab.Icon;
+                      return (
+                        <button
+                          key={tab.id}
+                          type="button"
+                          role="tab"
+                          aria-selected={isActive}
+                          onClick={() => setModeFilter(tab.id)}
+                          className={`relative flex-1 py-1.5 px-2 sm:px-3 rounded-lg text-[11px] sm:text-xs font-bold transition-all duration-200 cursor-pointer whitespace-nowrap flex items-center justify-center gap-1 sm:gap-1.5 z-10 select-none ${
+                            isActive
+                              ? "text-slate-900 dark:text-white shadow-2xs font-extrabold"
+                              : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium"
+                          }`}
+                        >
+                          {isActive && (
+                            <motion.div
+                              layoutId="activeSkillAnalyticsIndicator"
+                              transition={{
+                                type: "spring",
+                                stiffness: 500,
+                                damping: 35,
+                              }}
+                              className="absolute inset-0 bg-white dark:bg-slate-900 rounded-lg -z-10 shadow-xs border border-slate-200/60 dark:border-slate-700/60"
+                            />
+                          )}
+                          <Icon className="w-3.5 h-3.5 shrink-0" />
+                          <span>{tab.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
 
-          {/* Top Right Mode Switcher (1 Single Line Scrollable Strip on Mobile) */}
-          <div className="p-1 rounded-xs bg-slate-100 dark:bg-slate-800/80 flex items-center gap-1 text-xs font-medium border border-slate-200/60 dark:border-white/5 overflow-x-auto no-scrollbar whitespace-nowrap max-w-full shrink-0">
-            {[
-              { id: "Dictation" as const, label: "Dictation" },
-              { id: "Shadowing" as const, label: "Shadowing" },
-              { id: "Nói" as const, label: "Nói" },
-              { id: "Từ vựng" as const, label: "Từ vựng" },
-              { id: "Viết" as const, label: "Viết" },
-            ].map((mode) => {
-              const isSelected = modeFilter === mode.id;
-              return (
-                <button
-                  key={mode.id}
-                  type="button"
-                  onClick={() => setModeFilter(mode.id)}
-                  className={`relative px-2.5 py-1 rounded-xs text-[11px] sm:text-xs transition-colors cursor-pointer select-none font-display shrink-0 ${
-                    isSelected ? "text-white font-bold" : "text-slate-600 dark:text-slate-400 hover:text-slate-900"
-                  }`}
-                >
-                  {isSelected && (
-                    <motion.div
-                      layoutId="activeSkillTabPill"
-                      transition={{ type: "spring", stiffness: 450, damping: 32 }}
-                      className="absolute inset-0 bg-[#0059bb] rounded-xs shadow-2xs -z-0"
-                    />
+                {/* DUAL HIGH-DPI DASHBOARD WAVEFORM LINE CHARTS */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-1">
+                  {renderDashboardStyledChart(
+                    `Thời lượng luyện tập (${modeFilter})`,
+                    activeSkillData.minutes,
+                    "MINUTES",
+                    currentTheme.color,
+                    currentTheme.gradientId,
+                    "phút"
                   )}
-                  <span className="relative z-10">{mode.label}</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
 
-        {/* INNER 2 SIDE-BY-SIDE DYNAMIC LINE CHARTS */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 pt-1 sm:pt-2">
-          {renderExactSvgChart(
-            `Phút luyện tập (${modeFilter})`,
-            [4, 3, 2, 1, 0],
-            activeSkillData.minutes,
-            "MINUTES",
-            "#0059bb",
-            "minutesGradientBigCard"
-          )}
+                  {renderDashboardStyledChart(
+                    `Điểm XP tích lũy (${modeFilter})`,
+                    activeSkillData.xp,
+                    "XP",
+                    "#10b981",
+                    "xpAnalyticsGradientBig",
+                    "XP"
+                  )}
+                </div>
 
-          {renderExactSvgChart(
-            `XP kiếm được (${modeFilter})`,
-            [12, 9, 6, 3, 0],
-            activeSkillData.xp,
-            "XP",
-            "#10b981",
-            "xpGradientBigCard"
+              </div>
+            </motion.div>
           )}
-        </div>
+        </AnimatePresence>
 
       </div>
 

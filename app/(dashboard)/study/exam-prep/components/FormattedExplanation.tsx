@@ -44,12 +44,12 @@ function parseInlineFormatting(text: string): React.ReactNode[] {
       );
     }
 
-    // Phonetic transcription: (/.../) -> keep strictly on the same line without breaking
+    // Phonetic transcription: (/.../) -> keep strictly on the same line without breaking, with bold/semibold weight
     if (part.startsWith("(/") && part.endsWith("/)")) {
       return (
         <span
           key={index}
-          className="whitespace-nowrap text-slate-600 dark:text-slate-400 font-sans text-[11.5px] sm:text-xs ml-1"
+          className="whitespace-nowrap text-slate-800 dark:text-slate-200 font-semibold font-sans text-xs ml-1"
         >
           {part}
         </span>

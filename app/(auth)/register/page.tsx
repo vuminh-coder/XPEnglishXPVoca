@@ -1,8 +1,9 @@
-﻿"use client";
+"use client";
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/stores/authStore";
+import { PageEntranceWrapper, MotionItem } from "@/shared/components/feedback/PageEntranceAnimation";
 import "../auth.css";
 import {
   BookOpen,
@@ -20,6 +21,8 @@ import {
   CheckCircle2,
   Globe,
   ChevronDown,
+  Sparkles,
+  Trophy,
 } from "lucide-react";
 
 export default function RegisterPage() {
@@ -108,22 +111,26 @@ export default function RegisterPage() {
 
   return (
     <div
-      className="mobile-locked-container min-h-screen text-slate-800 dark:text-slate-200 flex flex-col justify-between bg-[#f8fafc] dark:bg-[#09090b] relative w-full font-sans antialiased select-text"
+      className="mobile-locked-container min-h-screen text-slate-800 dark:text-slate-200 flex flex-col justify-between bg-slate-50 dark:bg-[#070709] relative w-full font-sans antialiased select-text"
       onClick={handleContainerClick}
       suppressHydrationWarning
     >
+      {/* Background Mesh Gradients */}
+      <div className="hidden md:block absolute top-[-5%] left-[-5%] w-[45vw] h-[45vw] rounded-full bg-[#0059bb]/10 dark:bg-[#0059bb]/15 blur-[120px] pointer-events-none z-0" />
+      <div className="hidden md:block absolute bottom-[15%] right-[-5%] w-[40vw] h-[40vw] rounded-full bg-amber-500/10 dark:bg-amber-500/15 blur-[120px] pointer-events-none z-0" />
+
       {/* Mobile Orientation Overlay */}
-      <div className="hidden max-lg:landscape:flex fixed inset-0 bg-white dark:bg-[#09090b] z-50 flex-col items-center justify-center p-6 text-center select-none" aria-hidden="true">
-        <Smartphone className="h-10 w-10 text-[#0059bb] dark:text-blue-400 animate-bounce mb-3 rotate-90" />
+      <div className="hidden max-lg:landscape:flex fixed inset-0 bg-white dark:bg-[#070709] z-50 flex-col items-center justify-center p-6 text-center select-none" aria-hidden="true">
+        <Smartphone className="h-10 w-10 text-[#0059bb] dark:text-sky-400 animate-bounce mb-3 rotate-90" />
         <h3 className="text-sm font-black text-slate-900 dark:text-white font-display">Vui lòng xoay dọc điện thoại</h3>
-        <p className="text-[11px] text-slate-500 dark:text-slate-400 font-bold mt-1">XP English hoạt động tốt nhất ở chế độ màn hình dọc.</p>
+        <p className="text-xs text-slate-500 dark:text-slate-400 font-bold mt-1">XP English hoạt động tốt nhất ở chế độ màn hình dọc.</p>
       </div>
 
       {/* Header Bar - Mobile Only (Top Left: Website Title, Top Right: Language Selector) */}
-      <header className="lg:hidden w-full px-4 sm:px-8 py-3 flex justify-between items-center bg-white/80 dark:bg-[#09090b]/80 border-b border-slate-200/80 dark:border-white/10 backdrop-blur-md sticky top-0 z-30 select-none">
+      <header className="lg:hidden w-full h-14 px-4 sm:px-6 flex justify-between items-center bg-white/90 dark:bg-[#08080b]/90 border-b border-slate-200/90 dark:border-slate-800 backdrop-blur-md sticky top-0 z-30 select-none shadow-2xs">
         <div className="flex items-center gap-2">
-          <Link href="/" className="text-base sm:text-lg font-black text-slate-900 dark:text-white flex items-center gap-1.5 font-display tracking-tight hover:opacity-90 transition-opacity">
-            <span className="text-[#0059bb] dark:text-blue-400">XP</span> English
+          <Link href="/" className="text-lg font-black text-slate-900 dark:text-white flex items-center gap-1.5 font-display tracking-tight hover:opacity-90 transition-opacity">
+            <span className="text-[#0059bb] dark:text-sky-400">XP</span> English
             <span className="text-amber-500 font-normal">|</span>
             <span className="text-amber-500">XP Voca</span>
           </Link>
@@ -134,26 +141,26 @@ export default function RegisterPage() {
           <button
             type="button"
             onClick={() => setIsLangOpen(!isLangOpen)}
-            className="h-8 px-2.5 rounded-xs border border-slate-200/90 dark:border-white/10 bg-slate-50 dark:bg-[#18191c] hover:bg-slate-100 dark:hover:bg-slate-800 transition-all text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5 cursor-pointer shadow-2xs"
+            className="h-9 px-3 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5 cursor-pointer shadow-2xs"
           >
-            <Globe className="w-3.5 h-3.5 text-[#0059bb] dark:text-blue-400" />
+            <Globe className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
             <span>{currentLang === "vi" ? "🇻🇳 Tiếng Việt" : "🇺🇸 English"}</span>
             <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
           </button>
 
           {isLangOpen && (
-            <div className="absolute right-0 mt-1 w-36 bg-white dark:bg-[#121316] border border-slate-200 dark:border-white/10 rounded-xs shadow-lg py-1 z-50">
+            <div className="absolute right-0 mt-1.5 w-40 bg-white dark:bg-[#0c0c0f] border border-slate-200/90 dark:border-slate-800 rounded-xl shadow-lg py-1.5 z-50 animate-in fade-in slide-in-from-top-1">
               <button
                 type="button"
                 onClick={() => { setCurrentLang("vi"); setIsLangOpen(false); }}
-                className={`w-full px-3 py-1.5 text-left text-xs font-bold flex items-center gap-2 transition-colors ${currentLang === "vi" ? "bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-blue-400" : "text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800"}`}
+                className={`w-full px-3.5 py-2 text-left text-xs font-bold flex items-center gap-2 transition-colors ${currentLang === "vi" ? "bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400" : "text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/60"}`}
               >
                 <span>🇻🇳</span> Tiếng Việt
               </button>
               <button
                 type="button"
                 onClick={() => { setCurrentLang("en"); setIsLangOpen(false); }}
-                className={`w-full px-3 py-1.5 text-left text-xs font-bold flex items-center gap-2 transition-colors ${currentLang === "en" ? "bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-blue-400" : "text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800"}`}
+                className={`w-full px-3.5 py-2 text-left text-xs font-bold flex items-center gap-2 transition-colors ${currentLang === "en" ? "bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400" : "text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/60"}`}
               >
                 <span>🇺🇸</span> English
               </button>
@@ -163,38 +170,46 @@ export default function RegisterPage() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col justify-center items-center p-4 py-8 md:p-6 lg:py-12 w-full max-w-[1280px] mx-auto z-10" suppressHydrationWarning>
+      <PageEntranceWrapper className="flex-1 flex flex-col justify-center items-center p-4 py-8 md:p-6 lg:py-12 w-full max-w-7xl mx-auto z-10" suppressHydrationWarning>
         <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          
           {/* Left Column: Branding & Feature Cards (Desktop Only) */}
-          <div className="hidden lg:flex lg:col-span-7 flex-col items-start gap-6 animate-fade-in-up text-left select-none">
+          <div className="hidden lg:flex lg:col-span-7 flex-col items-start gap-6 text-left select-none">
             {/* Desktop Brand Header */}
             <div className="flex items-center justify-start gap-2.5 w-full">
-              <h1 className="text-2xl lg:text-3xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-2 font-display">
-                <span className="text-[#0059bb] dark:text-blue-400">XP</span> English
-                <span className="text-amber-500 font-normal">|</span>
-                <span className="text-amber-500">XP Voca</span>
-              </h1>
+              <Link href="/" className="inline-flex items-center gap-2 group">
+                <span className="text-2xl lg:text-3xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-2 font-display">
+                  <span className="text-[#0059bb] dark:text-sky-400">XP</span> English
+                  <span className="text-amber-500 font-normal">|</span>
+                  <span className="text-amber-500">XP Voca</span>
+                </span>
+              </Link>
             </div>
+
             {/* Hero Text */}
             <div className="space-y-2">
+              <div className="inline-flex items-center gap-1.5 bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-[#0059bb] dark:text-sky-400 rounded-lg px-3 py-1 text-xs font-bold uppercase tracking-wide shadow-2xs">
+                <Sparkles className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                <span>Tham Gia Cộng Đồng Học Viên Thông Minh</span>
+              </div>
               <h2 className="text-3xl lg:text-4xl font-black leading-tight text-slate-900 dark:text-white tracking-tight font-display">
                 Tạo tài khoản miễn phí ✨
                 <br />
-                <span className="text-[#0059bb] dark:text-blue-400">Bắt đầu học ngay hôm nay</span>
+                <span className="text-[#0059bb] dark:text-sky-400">Bắt đầu học ngay hôm nay</span>
               </h2>
-              <p className="text-sm text-slate-500 dark:text-slate-400 max-w-md font-medium leading-relaxed">
-                Tham gia cộng đồng học viên thông minh, chinh phục 8,900+ từ vựng và luyện tập cùng AI Tutor.
+              <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-md font-medium leading-relaxed">
+                Chinh phục 8,900+ từ vựng, Spaced Repetition thông minh, thi đấu PvP và đồng hành cùng AI Tutor 24/7.
               </p>
             </div>
 
-            {/* Features Grid */}
-            <div className="grid grid-cols-2 gap-3 w-full max-w-lg">
-              <div className="rounded-xs p-3 flex items-center gap-3 bg-white dark:bg-[#121316] border border-slate-200 dark:border-white/10 shadow-2xs">
-                <div className="w-8 h-8 rounded-xs bg-blue-50 dark:bg-blue-950/60 border border-blue-200/50 dark:border-blue-900/40 flex items-center justify-center text-[#0059bb] dark:text-blue-400 shrink-0">
-                  <CheckCircle2 className="w-3.5 h-3.5" strokeWidth={2} />
+            {/* Features Grid - 4 Feature Cards */}
+            <div className="grid grid-cols-2 gap-4 w-full max-w-lg">
+              <div className="rounded-2xl p-4 flex items-center gap-3.5 bg-white dark:bg-[#0c0c0f] border border-slate-200/90 dark:border-slate-800 shadow-2xs">
+                <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/60 border border-blue-200/80 dark:border-blue-800 flex items-center justify-center text-[#0059bb] dark:text-sky-400 shrink-0 shadow-2xs">
+                  <CheckCircle2 className="w-4 h-4" strokeWidth={2.2} />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-slate-900 dark:text-white">
+                  <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
                     Miễn phí 100%
                   </h4>
                   <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
@@ -203,12 +218,12 @@ export default function RegisterPage() {
                 </div>
               </div>
 
-              <div className="rounded-xs p-3 flex items-center gap-3 bg-white dark:bg-[#121316] border border-slate-200 dark:border-white/10 shadow-2xs">
-                <div className="w-8 h-8 rounded-xs bg-amber-50 dark:bg-amber-950/60 border border-amber-200/50 dark:border-amber-900/40 flex items-center justify-center text-amber-600 dark:text-amber-400 shrink-0">
-                  <Gamepad2 className="w-3.5 h-3.5" strokeWidth={2} />
+              <div className="rounded-2xl p-4 flex items-center gap-3.5 bg-white dark:bg-[#0c0c0f] border border-slate-200/90 dark:border-slate-800 shadow-2xs">
+                <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/60 border border-amber-200/80 dark:border-amber-800 flex items-center justify-center text-amber-600 dark:text-amber-400 shrink-0 shadow-2xs">
+                  <Gamepad2 className="w-4 h-4" strokeWidth={2.2} />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-slate-900 dark:text-white">
+                  <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
                     PvP Thách Đấu
                   </h4>
                   <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
@@ -217,12 +232,26 @@ export default function RegisterPage() {
                 </div>
               </div>
 
-              <div className="rounded-xs p-3 flex items-center gap-3 bg-white dark:bg-[#121316] border border-slate-200 dark:border-white/10 shadow-2xs">
-                <div className="w-8 h-8 rounded-xs bg-purple-50 dark:bg-purple-950/60 border border-purple-200/50 dark:border-purple-900/40 flex items-center justify-center text-purple-600 dark:text-purple-400 shrink-0">
-                  <Headphones className="w-3.5 h-3.5" strokeWidth={2} />
+              <div className="rounded-2xl p-4 flex items-center gap-3.5 bg-white dark:bg-[#0c0c0f] border border-slate-200/90 dark:border-slate-800 shadow-2xs">
+                <div className="w-10 h-10 rounded-xl bg-sky-50 dark:bg-sky-950/60 border border-sky-200/80 dark:border-sky-800 flex items-center justify-center text-sky-600 dark:text-sky-400 shrink-0 shadow-2xs">
+                  <Bot className="w-4 h-4" strokeWidth={2.2} />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-slate-900 dark:text-white">
+                  <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
+                    AI Tutor 24/7
+                  </h4>
+                  <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                    Sửa lỗi & chấm bài
+                  </p>
+                </div>
+              </div>
+
+              <div className="rounded-2xl p-4 flex items-center gap-3.5 bg-white dark:bg-[#0c0c0f] border border-slate-200/90 dark:border-slate-800 shadow-2xs">
+                <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-950/60 border border-purple-200/80 dark:border-purple-800 flex items-center justify-center text-purple-600 dark:text-purple-400 shrink-0 shadow-2xs">
+                  <Trophy className="w-4 h-4" strokeWidth={2.2} />
+                </div>
+                <div>
+                  <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
                     Bảng Xếp Hạng Tuần
                   </h4>
                   <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
@@ -233,21 +262,21 @@ export default function RegisterPage() {
             </div>
           </div>
 
-          {/* Right Column: Custom Register Card */}
-          <div className="lg:col-span-5 w-full animate-fade-in-right flex justify-center items-center">
-            <div className="w-full max-w-[420px] bg-white dark:bg-[#121316] border border-slate-200/90 dark:border-white/10 rounded-xs p-6 sm:p-8 shadow-md shadow-slate-200/40 dark:shadow-none relative">
+          {/* Right Column: Custom Register Card (Agency Tier) */}
+          <div className="lg:col-span-5 w-full flex justify-center items-center">
+            <div className="w-full max-w-[440px] bg-white dark:bg-[#0c0c0f] border border-slate-200/90 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-md shadow-slate-900/5 relative">
               <div className="mb-6 text-center">
-                <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight font-display">
+                <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight font-display">
                   Đăng Ký
                 </h3>
-                <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">
+                <p className="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">
                   Tạo tài khoản học tập miễn phí ngay hôm nay
                 </p>
               </div>
 
               {/* Error Banner */}
               {errorMsg && (
-                <div className="mb-4 p-3 rounded-xs bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 flex items-center gap-2.5 text-xs font-bold text-rose-600 dark:text-rose-400">
+                <div className="mb-4 p-3.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 flex items-center gap-2.5 text-xs font-bold text-rose-600 dark:text-rose-400 animate-in fade-in">
                   <AlertCircle className="w-4 h-4 shrink-0" />
                   <span>{errorMsg}</span>
                 </div>
@@ -259,7 +288,7 @@ export default function RegisterPage() {
                   type="button"
                   onClick={handleGoogleAuth}
                   disabled={isLoading}
-                  className="h-10 border border-slate-200/90 dark:border-white/10 rounded-xs bg-slate-50 dark:bg-[#18191c] hover:bg-slate-100 dark:hover:bg-slate-800 transition-all text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center justify-center gap-2 shadow-2xs disabled:opacity-50 cursor-pointer"
+                  className="h-11 border border-slate-200/90 dark:border-slate-800 rounded-xl bg-slate-50 dark:bg-slate-800/40 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center justify-center gap-2 shadow-2xs active:scale-95 disabled:opacity-50 cursor-pointer"
                 >
                   <svg className="w-4 h-4" viewBox="0 0 24 24">
                     <path
@@ -285,7 +314,7 @@ export default function RegisterPage() {
                   type="button"
                   onClick={handleFacebookAuth}
                   disabled={isLoading}
-                  className="h-10 border border-slate-200/90 dark:border-white/10 rounded-xs bg-slate-50 dark:bg-[#18191c] hover:bg-slate-100 dark:hover:bg-slate-800 transition-all text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center justify-center gap-2 shadow-2xs disabled:opacity-50 cursor-pointer"
+                  className="h-11 border border-slate-200/90 dark:border-slate-800 rounded-xl bg-slate-50 dark:bg-slate-800/40 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center justify-center gap-2 shadow-2xs active:scale-95 disabled:opacity-50 cursor-pointer"
                 >
                   <svg className="w-4 h-4 text-[#1877F2]" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
@@ -296,28 +325,28 @@ export default function RegisterPage() {
 
               {/* Separator */}
               <div className="flex items-center gap-3 my-4">
-                <div className="h-px flex-1 bg-slate-200/80 dark:bg-white/10"></div>
+                <div className="h-px flex-1 bg-slate-200/90 dark:border-slate-800"></div>
                 <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
                   Hoặc bằng email
                 </span>
-                <div className="h-px flex-1 bg-slate-200/80 dark:bg-white/10"></div>
+                <div className="h-px flex-1 bg-slate-200/90 dark:border-slate-800"></div>
               </div>
 
               {/* Register Form */}
               <form onSubmit={handleRegisterSubmit} className="space-y-3.5">
                 {/* Field 1: Full Name */}
                 <div>
-                  <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">
+                  <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
                     Họ và tên
                   </label>
                   <div className="relative">
-                    <UserIcon className="w-4 h-4 absolute left-3 top-3 text-slate-400 dark:text-slate-500" />
+                    <UserIcon className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-400 dark:text-slate-500" />
                     <input
                       type="text"
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
                       placeholder="Nguyễn Văn A"
-                      className="w-full h-10 pl-9 pr-3.5 rounded-xs border border-slate-200/90 dark:border-white/10 bg-slate-50/80 dark:bg-[#18191c] text-slate-900 dark:text-white placeholder:text-slate-400 text-xs font-medium focus:border-[#0059bb] focus:bg-white dark:focus:bg-[#0c0d0e] focus:ring-2 focus:ring-[#0059bb]/20 focus:outline-none transition-all"
+                      className="w-full h-11 pl-10 pr-4 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/60 dark:bg-[#121316] text-slate-900 dark:text-white placeholder:text-slate-400 text-xs sm:text-sm font-medium focus:border-[#0059bb] focus:bg-white dark:focus:bg-[#0c0d0e] focus:ring-2 focus:ring-[#0059bb]/20 focus:outline-none transition-all"
                       required
                     />
                   </div>
@@ -325,17 +354,17 @@ export default function RegisterPage() {
 
                 {/* Field 2: Email */}
                 <div>
-                  <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">
+                  <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
                     Email
                   </label>
                   <div className="relative">
-                    <Mail className="w-4 h-4 absolute left-3 top-3 text-slate-400 dark:text-slate-500" />
+                    <Mail className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-400 dark:text-slate-500" />
                     <input
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="user@example.com"
-                      className="w-full h-10 pl-9 pr-3.5 rounded-xs border border-slate-200/90 dark:border-white/10 bg-slate-50/80 dark:bg-[#18191c] text-slate-900 dark:text-white placeholder:text-slate-400 text-xs font-medium focus:border-[#0059bb] focus:bg-white dark:focus:bg-[#0c0d0e] focus:ring-2 focus:ring-[#0059bb]/20 focus:outline-none transition-all"
+                      className="w-full h-11 pl-10 pr-4 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/60 dark:bg-[#121316] text-slate-900 dark:text-white placeholder:text-slate-400 text-xs sm:text-sm font-medium focus:border-[#0059bb] focus:bg-white dark:focus:bg-[#0c0d0e] focus:ring-2 focus:ring-[#0059bb]/20 focus:outline-none transition-all"
                       required
                     />
                   </div>
@@ -343,23 +372,23 @@ export default function RegisterPage() {
 
                 {/* Field 3: Password */}
                 <div>
-                  <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">
+                  <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
                     Mật khẩu
                   </label>
                   <div className="relative">
-                    <Lock className="w-4 h-4 absolute left-3 top-3 text-slate-400 dark:text-slate-500" />
+                    <Lock className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-400 dark:text-slate-500" />
                     <input
                       type={showPassword ? "text" : "password"}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="Tối thiểu 6 ký tự"
-                      className="w-full h-10 pl-9 pr-9 rounded-xs border border-slate-200/90 dark:border-white/10 bg-slate-50/80 dark:bg-[#18191c] text-slate-900 dark:text-white placeholder:text-slate-400 text-xs font-medium focus:border-[#0059bb] focus:bg-white dark:focus:bg-[#0c0d0e] focus:ring-2 focus:ring-[#0059bb]/20 focus:outline-none transition-all"
+                      className="w-full h-11 pl-10 pr-10 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/60 dark:bg-[#121316] text-slate-900 dark:text-white placeholder:text-slate-400 text-xs sm:text-sm font-medium focus:border-[#0059bb] focus:bg-white dark:focus:bg-[#0c0d0e] focus:ring-2 focus:ring-[#0059bb]/20 focus:outline-none transition-all"
                       required
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors p-0.5"
+                      className="absolute right-3.5 top-3 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors p-0.5 cursor-pointer"
                     >
                       {showPassword ? (
                         <EyeOff className="w-4 h-4" />
@@ -372,26 +401,27 @@ export default function RegisterPage() {
 
                 {/* Field 4: Confirm Password */}
                 <div>
-                  <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">
+                  <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
                     Xác nhận mật khẩu
                   </label>
                   <div className="relative">
-                    <Lock className="w-4 h-4 absolute left-3 top-3 text-slate-400 dark:text-slate-500" />
+                    <Lock className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-400 dark:text-slate-500" />
                     <input
                       type={showPassword ? "text" : "password"}
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       placeholder="Nhập lại mật khẩu"
-                      className="w-full h-10 pl-9 pr-3.5 rounded-xs border border-slate-200/90 dark:border-white/10 bg-slate-50/80 dark:bg-[#18191c] text-slate-900 dark:text-white placeholder:text-slate-400 text-xs font-medium focus:border-[#0059bb] focus:bg-white dark:focus:bg-[#0c0d0e] focus:ring-2 focus:ring-[#0059bb]/20 focus:outline-none transition-all"
+                      className="w-full h-11 pl-10 pr-10 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/60 dark:bg-[#121316] text-slate-900 dark:text-white placeholder:text-slate-400 text-xs sm:text-sm font-medium focus:border-[#0059bb] focus:bg-white dark:focus:bg-[#0c0d0e] focus:ring-2 focus:ring-[#0059bb]/20 focus:outline-none transition-all"
                       required
                     />
                   </div>
                 </div>
 
+                {/* Single Primary Action Button */}
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full h-10 mt-2 bg-[#0059bb] hover:bg-blue-700 active:scale-[0.99] text-white font-bold rounded-xs text-xs shadow-sm flex items-center justify-center gap-2 transition-all disabled:opacity-50 cursor-pointer"
+                  className="w-full h-11 mt-2 bg-[#0059bb] hover:bg-[#004ba0] active:scale-95 text-white font-bold rounded-xl text-xs sm:text-sm shadow-xs flex items-center justify-center gap-2 transition-all disabled:opacity-50 cursor-pointer"
                 >
                   {isLoading ? (
                     <span className="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
@@ -405,11 +435,11 @@ export default function RegisterPage() {
               </form>
 
               {/* Bottom Switch Link */}
-              <div className="mt-6 text-center text-xs font-semibold text-slate-500 dark:text-slate-400">
+              <div className="mt-6 text-center text-xs font-medium text-slate-500 dark:text-slate-400">
                 Đã có tài khoản?{" "}
                 <Link
                   href="/login"
-                  className="font-bold text-[#0059bb] dark:text-blue-400 hover:underline"
+                  className="font-bold text-[#0059bb] dark:text-sky-400 hover:underline"
                 >
                   Đăng nhập tại đây
                 </Link>
@@ -417,18 +447,18 @@ export default function RegisterPage() {
             </div>
           </div>
         </div>
-      </main>
+      </PageEntranceWrapper>
 
       {/* Website Footer */}
-      <footer className="w-full flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-0 px-4 sm:px-8 md:px-12 py-3.5 sm:py-4 border-t border-slate-200/80 dark:border-white/10 bg-white/80 dark:bg-[#09090b]/80 backdrop-blur-md z-10 text-center sm:text-left select-none">
+      <footer className="w-full flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-0 px-4 sm:px-8 md:px-12 py-4 border-t border-slate-200/90 dark:border-slate-800 bg-white/90 dark:bg-[#08080b]/90 backdrop-blur-md z-10 text-center sm:text-left select-none">
         <div className="hidden sm:flex items-center gap-2">
           <div className="text-xs sm:text-sm font-black text-slate-900 dark:text-white flex items-center gap-1 font-display tracking-tight">
-            <span className="text-[#0059bb] dark:text-blue-400">XP</span> English
+            <span className="text-[#0059bb] dark:text-sky-400">XP</span> English
             <span className="text-amber-500 font-normal">|</span>
             <span className="text-amber-500">XP Voca</span>
           </div>
         </div>
-        <p className="text-[11px] sm:text-xs font-semibold text-slate-500 dark:text-slate-400 w-full sm:w-auto text-center sm:text-right">
+        <p className="text-xs font-medium text-slate-500 dark:text-slate-400 w-full sm:w-auto text-center sm:text-right">
           © 2026 XP English / XP Voca. Đã bảo lưu mọi quyền.
         </p>
       </footer>

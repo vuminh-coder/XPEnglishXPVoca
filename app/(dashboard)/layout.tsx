@@ -14,9 +14,28 @@ export default function DashboardLayout({
 }) {
   const { sidebarCollapsed, hideBottomNav } = useUiStore();
   const pathname = usePathname();
-  const isExamWorkspaceActive = (pathname?.startsWith("/study/exam-prep") || pathname?.startsWith("/study/exams")) && sidebarCollapsed;
+  const isExamWorkspaceActive = (pathname === "/study/exam-prep" || pathname?.startsWith("/study/exams")) && sidebarCollapsed;
   const isStudioWorkspaceActive = (pathname?.startsWith("/study/listening") || pathname?.startsWith("/study/shadowing") || pathname?.startsWith("/study/reading")) && hideBottomNav;
-  const isHeaderIntegratedActive = pathname === "/dashboard" || pathname?.startsWith("/study/listening") || pathname?.startsWith("/study/shadowing") || pathname?.startsWith("/study/reading") || pathname?.startsWith("/study/practice") || pathname?.startsWith("/study/exam-prep") || pathname?.startsWith("/ai/tutor") || pathname?.startsWith("/ai/conversation");
+  const isHeaderIntegratedActive =
+    pathname === "/dashboard" ||
+    pathname === "/myvideo" ||
+    pathname?.startsWith("/myvideo") ||
+    pathname === "/vocabulary" ||
+    pathname?.startsWith("/vocabulary") ||
+    pathname?.startsWith("/study/grammar") ||
+    pathname?.startsWith("/study/listening") ||
+    pathname?.startsWith("/study/shadowing") ||
+    pathname?.startsWith("/study/reading") ||
+    pathname?.startsWith("/study/practice") ||
+    pathname?.startsWith("/study/exam-prep") ||
+    pathname === "/analytics" ||
+    pathname?.startsWith("/analytics") ||
+    pathname === "/community" ||
+    pathname?.startsWith("/community") ||
+    pathname === "/roadmap" ||
+    pathname?.startsWith("/roadmap") ||
+    pathname?.startsWith("/ai/tutor") ||
+    pathname?.startsWith("/ai/conversation");
 
   return (
     <>

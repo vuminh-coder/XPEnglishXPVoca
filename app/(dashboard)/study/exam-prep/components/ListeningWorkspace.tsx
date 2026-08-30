@@ -266,8 +266,9 @@ export function ListeningWorkspace({
                   e.currentTarget.src = "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=80";
                 }}
               />
-              <div className="absolute bottom-2 left-2 px-2.5 py-0.5 rounded-md bg-slate-950/75 backdrop-blur-xs text-[10px] font-bold text-white tracking-wider uppercase font-mono shadow-xs pointer-events-none">
-                Ảnh Câu {currentQuestionIndex + 1}
+              <div className="absolute bottom-2.5 left-2.5 px-2.5 py-1 rounded-lg bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200/80 dark:border-slate-700/80 text-[11px] font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5 shadow-sm pointer-events-none font-sans">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#0059bb] shrink-0" />
+                <span>Hình ảnh câu {currentQuestionIndex + 1}</span>
               </div>
             </div>
 

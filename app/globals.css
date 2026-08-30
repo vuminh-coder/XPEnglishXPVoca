@@ -2039,26 +2039,13 @@ input,
 
   .main-content.exam-workspace-active {
     margin-left: 0 !important;
-    padding-top: var(--space-2) !important;
-    padding-bottom: var(--space-3) !important;
-    padding-left: var(--space-2) !important;
-    padding-right: var(--space-2) !important;
-  }
-
-  @media (min-width: 640px) {
-    .main-content.exam-workspace-active {
-      padding-left: var(--space-4) !important;
-      padding-right: var(--space-4) !important;
-    }
+    padding: 0 !important;
   }
 
   @media (min-width: 1024px) {
     .main-content.exam-workspace-active {
       margin-left: 72px !important;
-      padding-top: var(--space-4) !important;
-      padding-bottom: var(--space-6) !important;
-      padding-left: var(--space-8) !important;
-      padding-right: var(--space-8) !important;
+      padding: 0 !important;
     }
   }
 

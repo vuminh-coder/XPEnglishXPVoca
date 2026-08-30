@@ -16,7 +16,7 @@ export default function BottomNav() {
   // Hide BottomNav on active exam screen or when studio pages explicitly request it
   const isExamActivePage =
     pathname?.match(/\/study\/exams\/[a-zA-Z0-9_-]+$/) ||
-    (pathname?.startsWith("/study/exam-prep") && sidebarCollapsed);
+    (pathname === "/study/exam-prep" && sidebarCollapsed);
 
   if (isExamActivePage || hideBottomNav) return null;
 

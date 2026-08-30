@@ -198,7 +198,10 @@ export function addSkillPracticeSession(
       store.setItem(genMinKey, JSON.stringify(genMinMap));
 
       // Also update Legacy skillChartStore key
-      addSkillPracticeMinutes(validUserId, skillType, minutes, store);
+      const legacyKey = `xp_voca_skill_minutes_${validUserId}_${skillType}`;
+      const legacyMap = sanitizeMinutesMap(store.getItem(legacyKey));
+      legacyMap[todayStr] = Math.min(1440, (legacyMap[todayStr] || 0) + Math.round(minutes));
+      store.setItem(legacyKey, JSON.stringify(legacyMap));
     }
 
     // 2. Update skill-specific XP
@@ -211,6 +214,29 @@ export function addSkillPracticeSession(
       const genXpMap = sanitizeMinutesMap(store.getItem(genXpKey));
       genXpMap[todayStr] = Math.min(10000, (genXpMap[todayStr] || 0) + Math.round(xp));
       store.setItem(genXpKey, JSON.stringify(genXpMap));
+    }
+
+    // 3. Sync to PostgreSQL Neon DB in background if user is authenticated
+    if (
+      typeof window !== "undefined" &&
+      validUserId !== "guest" &&
+      validUserId !== "local_user" &&
+      !validUserId.startsWith("local_user")
+    ) {
+      const payload: { skill: string; minutes?: number; xp?: number; date: string } = {
+        skill: skillType,
+        date: todayStr,
+      };
+      if (typeof minutes === "number" && minutes > 0) payload.minutes = Math.round(minutes);
+      if (typeof xp === "number" && xp > 0) payload.xp = Math.round(xp);
+
+      if (payload.minutes || payload.xp) {
+        fetch("/api/user/skill-practice", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }).catch((err) => console.error("Error syncing skill practice to DB:", err));
+      }
     }
   } catch (e) {
     console.error(`Error saving skill practice session for ${skillType}:`, e);
@@ -226,38 +252,11 @@ export function addSkillPracticeMinutes(
   minutes: number,
   storageProvider?: Storage
 ): void {
-  if (typeof minutes !== "number" || isNaN(minutes) || !isFinite(minutes) || minutes <= 0) return;
-  const todayStr = getLocalDateString(new Date());
-  const key = `xp_voca_skill_minutes_${userId || "guest"}_${skill}`;
-
-  try {
-    const store = storageProvider || (typeof window !== "undefined" ? localStorage : null);
-    if (store) {
-      const skillMap = sanitizeMinutesMap(store.getItem(key));
-      const currentMins = skillMap[todayStr] || 0;
-      skillMap[todayStr] = Math.min(1440, currentMins + Math.round(minutes));
-      store.setItem(key, JSON.stringify(skillMap));
-    }
-
-    // Sync to PostgreSQL DB Backend in background
-    if (typeof window !== "undefined" && userId && userId !== "local_user" && !userId.startsWith("local_user")) {
-      fetch("/api/user/skill-practice", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          skill,
-          minutes: Math.round(minutes),
-          date: todayStr,
-        }),
-      }).catch((err) => console.error("Error syncing skill practice to DB:", err));
-    }
-  } catch (e) {
-    console.error(`Error saving skill practice minutes for ${skill}:`, e);
-  }
+  addSkillPracticeSession(userId, skill, minutes, 0, storageProvider);
 }
 
 /**
- * Hydrates 7-day skill practice minutes from backend database into LocalStorage
+ * Hydrates skill practice minutes & XP from backend database into LocalStorage
  */
 export async function hydrateSkillMinutesFromBackend(userId: string | undefined): Promise<void> {
   if (typeof window === "undefined" || !userId || userId === "local_user" || userId.startsWith("local_user")) return;
@@ -266,22 +265,46 @@ export async function hydrateSkillMinutesFromBackend(userId: string | undefined)
     const res = await fetch("/api/user/skill-practice", { method: "GET" });
     if (!res.ok) return;
     const json = await res.json();
-    if (!json.success || !json.data?.skills) return;
+    if (!json.success || !json.data) return;
 
-    const skillsMap = json.data.skills as Record<SkillType, Record<string, number>>;
-    for (const skillKey of Object.keys(skillsMap) as SkillType[]) {
-      const dbDateMap = skillsMap[skillKey];
-      const localKey = `xp_voca_skill_minutes_${userId}_${skillKey}`;
-      const localMap = sanitizeMinutesMap(localStorage.getItem(localKey));
+    // 1. Hydrate Minutes
+    if (json.data.skills) {
+      const skillsMap = json.data.skills as Record<SkillType, Record<string, number>>;
+      for (const skillKey of Object.keys(skillsMap) as SkillType[]) {
+        const dbDateMap = skillsMap[skillKey];
+        const localKey = `xp_voca_skill_minutes_${userId}_${skillKey}`;
+        const dailyMinKey = `xp_voca_daily_minutes_${userId}_${skillKey}`;
 
-      // Merge DB values with local values (DB takes precedence if > 0)
-      const mergedMap: Record<string, number> = { ...localMap };
-      for (const [dt, mins] of Object.entries(dbDateMap)) {
-        if (mins > (mergedMap[dt] || 0)) {
-          mergedMap[dt] = mins;
+        const localMap = sanitizeMinutesMap(localStorage.getItem(localKey));
+        const dailyMap = sanitizeMinutesMap(localStorage.getItem(dailyMinKey));
+
+        const mergedMap: Record<string, number> = { ...localMap };
+        for (const [dt, mins] of Object.entries(dbDateMap)) {
+          if (mins > (mergedMap[dt] || 0)) {
+            mergedMap[dt] = mins;
+          }
         }
+        localStorage.setItem(localKey, JSON.stringify(mergedMap));
+        localStorage.setItem(dailyMinKey, JSON.stringify(mergedMap));
       }
-      localStorage.setItem(localKey, JSON.stringify(mergedMap));
+    }
+
+    // 2. Hydrate XP
+    if (json.data.xpSkills) {
+      const xpSkillsMap = json.data.xpSkills as Record<SkillType, Record<string, number>>;
+      for (const skillKey of Object.keys(xpSkillsMap) as SkillType[]) {
+        const dbDateMap = xpSkillsMap[skillKey];
+        const dailyXpKey = `xp_voca_daily_xp_${userId}_${skillKey}`;
+        const localMap = sanitizeMinutesMap(localStorage.getItem(dailyXpKey));
+
+        const mergedMap: Record<string, number> = { ...localMap };
+        for (const [dt, xpVal] of Object.entries(dbDateMap)) {
+          if (xpVal > (mergedMap[dt] || 0)) {
+            mergedMap[dt] = xpVal;
+          }
+        }
+        localStorage.setItem(dailyXpKey, JSON.stringify(mergedMap));
+      }
     }
   } catch (e) {
     console.error("Error hydrating skill minutes from backend:", e);
