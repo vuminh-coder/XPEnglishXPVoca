@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import React, { useState, useEffect } from "react";
 import { PageEntranceWrapper, MotionItem } from "@/shared/components/feedback/PageEntranceAnimation";
 import { useAuthStore } from "@/stores/authStore";
@@ -16,8 +16,13 @@ import {
   Trash2,
   LogOut,
   Clock,
+  Settings as SettingsIcon,
 } from "lucide-react";
-import { Button, Badge } from "@/shared/components/ui";
+import {
+  AppTopHeader,
+  HeaderPillContainer,
+  HeaderPillItem,
+} from "@/shared/components/layout/AppTopHeader";
 
 interface UserSettings {
   dailyGoal: number;
@@ -65,7 +70,15 @@ export default function SettingsPage() {
   }, [user]);
 
   if (!mounted || !user) {
-    return <div className="p-8 text-center text-xs font-bold text-muted">Đang tải...</div>;
+    return (
+      <div className="space-y-6 pb-20 font-sans animate-pulse">
+        <div className="h-14 w-full bg-white dark:bg-[#0c0c0f] rounded-xl border border-slate-200 dark:border-slate-800" />
+        <div className="max-w-3xl mx-auto space-y-6">
+          <div className="h-48 bg-white dark:bg-[#0c0c0f] rounded-2xl border border-slate-200 dark:border-slate-800" />
+          <div className="h-48 bg-white dark:bg-[#0c0c0f] rounded-2xl border border-slate-200 dark:border-slate-800" />
+        </div>
+      </div>
+    );
   }
 
   const updateSetting = <K extends keyof UserSettings>(key: K, value: UserSettings[K]) => {
@@ -95,58 +108,78 @@ export default function SettingsPage() {
     addToast({ type: "info", title: "Đã đăng xuất!" });
   };
 
-  const inputClass = "w-full py-2.5 px-4 text-xs font-bold rounded-xs bg-neutral-50/60 dark:bg-neutral-900/40 border border-black/10 dark:border-white/10 text-gray-900 dark:text-gray-100 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition-all";
+  const inputClass = "w-full h-11 px-4 text-xs sm:text-sm font-medium rounded-xl bg-slate-50/80 dark:bg-slate-800/40 border border-slate-200/90 dark:border-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20 transition-all";
 
   return (
-    <PageEntranceWrapper className="max-w-2xl mx-auto space-y-6 pb-20 md:pb-6">
-      {/* Page Header */}
-      <MotionItem className="page-header text-center mb-6">
-        <h1 className="page-title text-3xl font-extrabold tracking-tight">Cài đặt cấu hình</h1>
-        <p className="page-subtitle text-slate-500 dark:text-slate-400 mt-1.5 max-w-xl mx-auto text-xs md:text-sm font-medium">
-          Quản lý hồ sơ cá nhân, thiết lập học tập và tùy chỉnh chế độ hiển thị.
-        </p>
-      </MotionItem>
+    <div className="space-y-6 pb-20 font-sans antialiased text-slate-800 dark:text-slate-200" suppressHydrationWarning>
+      {/* ─── APP TOP HEADER (56px Baseline) ─── */}
+      <AppTopHeader
+        rightDesktopContent={
+          <HeaderPillContainer>
+            <HeaderPillItem
+              label="Lưu Cài Đặt"
+              icon={<Save className="w-4 h-4 text-emerald-500" />}
+              onClick={handleSaveSettings}
+            />
+          </HeaderPillContainer>
+        }
+      >
+        <HeaderPillContainer>
+          <HeaderPillItem
+            label="Cài Đặt Cấu Hình"
+            icon={<SettingsIcon className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />}
+            active
+          />
+          <HeaderPillItem
+            label="Hồ Sơ Cá Nhân"
+            icon={<User className="w-4 h-4 text-slate-500" />}
+            href="/profile"
+          />
+        </HeaderPillContainer>
+      </AppTopHeader>
 
-      {/* Section 1: Profile (Rule 10: Double Bezel Concentric radius math) */}
-      <MotionItem className="bezel-outer p-1.5 bg-slate-200/50 dark:bg-white/5 rounded-md">
-        <div className="bezel-inner rounded-xs bg-white dark:bg-[#0c0c0e] p-6 space-y-5">
-          <h3 className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest flex items-center gap-1.5 border-b border-slate-100 dark:border-neutral-850 pb-2">
-            <User className="w-3.5 h-3.5" strokeWidth={1.3} /> Hồ sơ công khai
+      <PageEntranceWrapper className="max-w-3xl mx-auto space-y-6">
+        {/* Section 1: Profile */}
+        <div className="p-6 sm:p-7 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-slate-200/90 dark:border-slate-800 shadow-md space-y-5">
+          <h3 className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3 font-display">
+            <User className="w-4 h-4 text-[#0059bb] dark:text-sky-400" /> Hồ Sơ Cá Nhân
           </h3>
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider">Họ và tên</label>
+              <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Họ và tên</label>
               <input type="text" className={inputClass} value={fullName} onChange={(e) => setFullName(e.target.value)} />
             </div>
             <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                <FileText className="w-3.5 h-3.5" strokeWidth={1.3} /> Tiểu sử ngắn (Bio)
+              <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                <FileText className="w-3.5 h-3.5" /> Tiểu sử ngắn (Bio)
               </label>
               <textarea
-                className={`${inputClass} resize-none min-h-[80px] font-medium`}
+                className="w-full p-4 text-xs sm:text-sm font-medium rounded-xl bg-slate-50/80 dark:bg-slate-800/40 border border-slate-200/90 dark:border-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20 transition-all resize-none min-h-[90px]"
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
-                placeholder="Viết vài dòng giới thiệu về bản thân..."
+                placeholder="Viết vài dòng giới thiệu về bản thân và mục tiêu học tiếng Anh..."
               />
             </div>
-            <Button variant="primary" size="sm" onClick={handleSaveProfile} className="w-full font-bold text-white dark:text-white">
-              <Save className="w-3.5 h-3.5 mr-1.5" strokeWidth={1.3} /> Lưu hồ sơ
-            </Button>
+            <button
+              type="button"
+              onClick={handleSaveProfile}
+              className="h-11 px-5 bg-[#0059bb] hover:bg-[#004ba0] text-white text-xs sm:text-sm font-bold rounded-xl active:scale-95 transition-all shadow-xs cursor-pointer flex items-center justify-center gap-1.5"
+            >
+              <Save className="w-4 h-4" /> Lưu hồ sơ cá nhân
+            </button>
           </div>
         </div>
-      </MotionItem>
 
-      {/* Section 2: Study Goals (Rule 10: Double Bezel Concentric radius math) */}
-      <div className="bezel-outer p-1.5 bg-slate-200/50 dark:bg-white/5 rounded-md">
-        <div className="bezel-inner rounded-xs bg-white dark:bg-[#0c0c0e] p-6 space-y-5">
-          <h3 className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest flex items-center gap-1.5 border-b border-slate-100 dark:border-neutral-850 pb-2">
-            <Target className="w-3.5 h-3.5" strokeWidth={1.3} /> Mục tiêu học tập
+        {/* Section 2: Study Goals */}
+        <div className="p-6 sm:p-7 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-slate-200/90 dark:border-slate-800 shadow-md space-y-5">
+          <h3 className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3 font-display">
+            <Target className="w-4 h-4 text-[#0059bb] dark:text-sky-400" /> Mục Tiêu Học Tập
           </h3>
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider">Mục tiêu từ vựng / ngày</label>
+              <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Mục tiêu từ vựng / ngày</label>
               <select
-                className={`${inputClass} cursor-pointer`}
+                className={`${inputClass} cursor-pointer font-bold`}
                 value={settings.dailyGoal}
                 onChange={(e) => updateSetting("dailyGoal", Number(e.target.value))}
               >
@@ -157,11 +190,11 @@ export default function SettingsPage() {
               </select>
             </div>
             <div className="flex flex-col gap-1.5">
-              <label className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                <Clock className="w-3.5 h-3.5" strokeWidth={1.3} /> Thời gian học / ngày
+              <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                <Clock className="w-3.5 h-3.5" /> Thời gian học / ngày
               </label>
               <select
-                className={`${inputClass} cursor-pointer`}
+                className={`${inputClass} cursor-pointer font-bold`}
                 value={settings.dailyMinutes}
                 onChange={(e) => updateSetting("dailyMinutes", Number(e.target.value))}
               >
@@ -174,35 +207,33 @@ export default function SettingsPage() {
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Section 3: Notifications (Rule 10: Double Bezel Concentric radius math) */}
-      <div className="bezel-outer p-1.5 bg-slate-200/50 dark:bg-white/5 rounded-md">
-        <div className="bezel-inner rounded-xs bg-white dark:bg-[#0c0c0e] p-6 space-y-5">
-          <h3 className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest flex items-center gap-1.5 border-b border-slate-100 dark:border-neutral-850 pb-2">
-            <Bell className="w-3.5 h-3.5" strokeWidth={1.3} /> Cài đặt thông báo
+        {/* Section 3: Notifications */}
+        <div className="p-6 sm:p-7 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-slate-200/90 dark:border-slate-800 shadow-md space-y-5">
+          <h3 className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3 font-display">
+            <Bell className="w-4 h-4 text-[#0059bb] dark:text-sky-400" /> Cài Đặt Thông Báo
           </h3>
           <div className="space-y-3">
             {[
-              { key: "notifyXp" as const, label: "Thông báo nhận XP", desc: "Hiển thị popup khi bạn kiếm được điểm kinh nghiệm" },
-              { key: "notifyChallenge" as const, label: "Nhiệm vụ hàng ngày", desc: "Nhắc nhở khi có nhiệm vụ mới hoặc hoàn thành nhiệm vụ" },
-              { key: "notifyStreak" as const, label: "Nhắc streak", desc: "Cảnh báo khi sắp mất chuỗi ngày học liên tục" },
+              { key: "notifyXp" as const, label: "Thông báo nhận XP", desc: "Hiển thị thông báo khi bạn hoàn thành bài học và nhận điểm thưởng" },
+              { key: "notifyChallenge" as const, label: "Nhiệm vụ hàng ngày", desc: "Nhắc nhở khi có nhiệm vụ mới hoặc hoàn thành thử thách ngày" },
+              { key: "notifyStreak" as const, label: "Nhắc nhở Chuỗi Streak", desc: "Cảnh báo trước khi ngọn lửa Streak bị đóng băng do quên học" },
             ].map((item) => (
-              <div key={item.key} className="flex items-center justify-between gap-4 p-3 rounded-xs bg-slate-50/50 dark:bg-neutral-800/30">
+              <div key={item.key} className="flex items-center justify-between gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-800">
                 <div>
-                  <div className="text-xs font-bold text-slate-800 dark:text-slate-200">{item.label}</div>
-                  <div className="text-[11px] text-slate-400 mt-0.5">{item.desc}</div>
+                  <div className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">{item.label}</div>
+                  <div className="text-xs text-slate-400 mt-0.5 font-medium">{item.desc}</div>
                 </div>
                 <button
                   onClick={() => updateSetting(item.key, !settings[item.key])}
-                  className={`relative w-11 h-6 rounded-full transition-colors ${
-                    settings[item.key] ? "bg-emerald-500" : "bg-slate-300 dark:bg-neutral-700"
+                  className={`relative w-12 h-6 rounded-full transition-colors cursor-pointer shrink-0 ${
+                    settings[item.key] ? "bg-[#0059bb]" : "bg-slate-300 dark:bg-slate-700"
                   }`}
                   aria-label={`Toggle ${item.label}`}
                 >
                   <span
                     className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow-sm transition-transform ${
-                      settings[item.key] ? "translate-x-5" : "translate-x-0"
+                      settings[item.key] ? "translate-x-6" : "translate-x-0"
                     }`}
                   />
                 </button>
@@ -210,60 +241,59 @@ export default function SettingsPage() {
             ))}
           </div>
         </div>
-      </div>
 
-      {/* Section 4: Appearance (Rule 10: Double Bezel Concentric radius math) */}
-      <div className="bezel-outer p-1.5 bg-slate-200/50 dark:bg-white/5 rounded-md">
-        <div className="bezel-inner rounded-xs bg-white dark:bg-[#0c0c0e] p-6 space-y-5">
-          <h3 className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest flex items-center gap-1.5 border-b border-slate-100 dark:border-neutral-850 pb-2">
-            <Palette className="w-3.5 h-3.5" strokeWidth={1.3} /> Giao diện
+        {/* Section 4: Appearance */}
+        <div className="p-6 sm:p-7 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-slate-200/90 dark:border-slate-800 shadow-md space-y-5">
+          <h3 className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3 font-display">
+            <Palette className="w-4 h-4 text-[#0059bb] dark:text-sky-400" /> Chế Độ Hiển Thị
           </h3>
-          <div className="flex items-center justify-between gap-4 p-3 rounded-xs bg-slate-50/50 dark:bg-neutral-800/30">
+          <div className="flex items-center justify-between gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-800">
             <div className="flex items-center gap-3">
-              {settings.darkMode ? <Moon className="h-5 w-5 text-indigo-400" strokeWidth={1.3} /> : <Sun className="h-5 w-5 text-amber-500" strokeWidth={1.3} />}
+              {settings.darkMode ? <Moon className="h-5 w-5 text-indigo-400" /> : <Sun className="h-5 w-5 text-amber-500" />}
               <div>
-                <div className="text-xs font-bold text-slate-800 dark:text-slate-200">
+                <div className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
                   {settings.darkMode ? "Chế độ tối (Dark Mode)" : "Chế độ sáng (Light Mode)"}
                 </div>
-                <div className="text-[11px] text-slate-400 mt-0.5">Chuyển đổi giao diện sáng / tối</div>
+                <div className="text-xs text-slate-400 mt-0.5 font-medium">Chuyển đổi giao diện sáng / tối để bảo vệ mắt</div>
               </div>
             </div>
             <button
               onClick={() => updateSetting("darkMode", !settings.darkMode)}
-              className={`relative w-11 h-6 rounded-full transition-colors ${
-                settings.darkMode ? "bg-indigo-500" : "bg-slate-300 dark:bg-neutral-700"
+              className={`relative w-12 h-6 rounded-full transition-colors cursor-pointer shrink-0 ${
+                settings.darkMode ? "bg-indigo-600" : "bg-slate-300 dark:bg-slate-700"
               }`}
               aria-label="Toggle Dark Mode"
             >
               <span
                 className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow-sm transition-transform ${
-                  settings.darkMode ? "translate-x-5" : "translate-x-0"
+                  settings.darkMode ? "translate-x-6" : "translate-x-0"
                 }`}
               />
             </button>
           </div>
         </div>
-      </div>
 
-      {/* Section 5: Account Actions (Rule 10: Double Bezel Concentric radius math) */}
-      <div className="bezel-outer p-1.5 bg-slate-200/50 dark:bg-white/5 rounded-md">
-        <div className="bezel-inner rounded-xs bg-white dark:bg-[#0c0c0e] p-6 space-y-4">
-          <h3 className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest flex items-center gap-1.5 border-b border-slate-100 dark:border-neutral-850 pb-2">
-            <Shield className="w-3.5 h-3.5" strokeWidth={1.3} /> Tài khoản & Dữ liệu
+        {/* Section 5: Account Actions */}
+        <div className="p-6 sm:p-7 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-slate-200/90 dark:border-slate-800 shadow-md space-y-4">
+          <h3 className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3 font-display">
+            <Shield className="w-4 h-4 text-[#0059bb] dark:text-sky-400" /> Tài Khoản & Dữ Liệu
           </h3>
-          <div className="space-y-3">
-            <Button variant="bezel" size="sm" onClick={handleSaveSettings} className="w-full justify-center font-bold">
-              <Save className="w-3.5 h-3.5 mr-1.5" strokeWidth={1.3} /> Lưu tất cả cài đặt
-            </Button>
-            <Button variant="secondary" size="sm" onClick={handleClearCache} className="w-full justify-center font-bold">
-              <Trash2 className="w-3.5 h-3.5 mr-1.5" strokeWidth={1.3} /> Xóa dữ liệu cache
-            </Button>
-            <Button variant="danger" size="sm" onClick={handleLogout} className="w-full justify-center font-bold text-white dark:text-white">
-              <LogOut className="w-3.5 h-3.5 mr-1.5" strokeWidth={1.3} /> Đăng xuất
-            </Button>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+            <button
+              onClick={handleClearCache}
+              className="h-11 px-4 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2 active:scale-95 shadow-2xs"
+            >
+              <Trash2 className="w-4 h-4 text-slate-500" /> Xóa dữ liệu cache
+            </button>
+            <button
+              onClick={handleLogout}
+              className="h-11 px-4 rounded-xl border border-rose-200 dark:border-rose-900/50 bg-rose-50 dark:bg-rose-950/30 hover:bg-rose-100 dark:hover:bg-rose-900/50 text-rose-600 dark:text-rose-400 text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2 active:scale-95 shadow-2xs"
+            >
+              <LogOut className="w-4 h-4" /> Đăng xuất tài khoản
+            </button>
           </div>
         </div>
-      </div>
-    </PageEntranceWrapper>
+      </PageEntranceWrapper>
+    </div>
   );
 }

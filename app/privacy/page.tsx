@@ -9,11 +9,11 @@ export const metadata = {
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white py-12 px-4 sm:px-6 lg:px-8 font-sans">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#070709] text-slate-800 dark:text-slate-200 py-12 px-4 sm:px-6 lg:px-8 font-sans antialiased">
       <div className="max-w-4xl mx-auto space-y-8">
         
         {/* Top Header */}
-        <div className="flex items-center justify-between pb-6 border-b border-slate-200 dark:border-slate-800">
+        <div className="flex items-center justify-between pb-6 border-b border-slate-200/90 dark:border-slate-800">
           <Link
             href="/"
             className="inline-flex items-center gap-2 text-xs font-bold text-[#0059bb] dark:text-sky-400 hover:underline cursor-pointer"
@@ -24,23 +24,23 @@ export default function PrivacyPolicyPage() {
         </div>
 
         {/* Title */}
-        <div className="space-y-2">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-sky-400 rounded-xs text-xs font-bold border border-blue-200/50 dark:border-blue-900/40">
+        <div className="space-y-3">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 rounded-xl text-xs font-bold border border-blue-200/80 dark:border-blue-800 shadow-2xs">
             <ShieldCheck className="w-4 h-4" /> Chính Sách Bảo Mật Quyền Riêng Tư
           </div>
           <h1 className="text-2xl sm:text-3xl font-black font-display tracking-tight text-slate-900 dark:text-white">
             Chính Sách Quyền Riêng Tư (Privacy Policy)
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
             XP English | XP Voca cam kết tôn trọng và bảo vệ tuyệt đối quyền riêng tư cũng như dữ liệu cá nhân của mọi học viên trên toàn cầu.
           </p>
         </div>
 
-        {/* Content sections in Micro-Sharp Card */}
-        <div className="p-6 sm:p-8 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 rounded-xs shadow-2xs space-y-6 text-xs sm:text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+        {/* Content sections in Agency Stage Card */}
+        <div className="p-6 sm:p-8 bg-white dark:bg-[#0c0c0f] border border-slate-200/90 dark:border-slate-800 rounded-2xl shadow-md space-y-6 text-xs sm:text-sm leading-relaxed text-slate-700 dark:text-slate-300">
           <section className="space-y-2">
             <h2 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2 font-display">
-              <span className="w-2 h-2 rounded-full bg-[#0059bb]" /> 1. Dữ Liệu Thu Thập Khi Đăng Nhập
+              <span className="w-2.5 h-2.5 rounded-full bg-[#0059bb]" /> 1. Dữ Liệu Thu Thập Khi Đăng Nhập
             </h2>
             <p>
               Khi bạn sử dụng tính năng Đăng nhập bằng Google hoặc Facebook trên XP English, hệ thống chỉ thu thập các thông tin công khai cơ bản được bạn đồng ý cấp quyền: Họ tên, Địa chỉ Email công khai và Ảnh đại diện (Avatar) để thiết lập hồ sơ học tập cá nhân.
@@ -49,12 +49,12 @@ export default function PrivacyPolicyPage() {
 
           <section className="space-y-2">
             <h2 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2 font-display">
-              <span className="w-2 h-2 rounded-full bg-[#0059bb]" /> 2. Mục Đích Sử Dụng Dữ Liệu
+              <span className="w-2.5 h-2.5 rounded-full bg-[#0059bb]" /> 2. Mục Đích Sử Dụng Dữ Liệu
             </h2>
             <p>
               Dữ liệu của bạn được thu thập nhằm mục đích phục vụ trực tiếp quá trình học tập:
             </p>
-            <div className="p-3.5 bg-slate-50 dark:bg-slate-950/60 rounded-xs border border-slate-200/60 dark:border-white/5 space-y-1.5 text-xs font-medium text-slate-600 dark:text-slate-300">
+            <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200/80 dark:border-slate-800 space-y-2 text-xs font-medium text-slate-600 dark:text-slate-300">
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
                 <span>Lưu trữ tiến độ từ vựng Spaced Repetition, kết quả luyện thi TOEIC/IELTS và điểm thưởng XP.</span>
@@ -72,7 +72,7 @@ export default function PrivacyPolicyPage() {
 
           <section className="space-y-2">
             <h2 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2 font-display">
-              <span className="w-2 h-2 rounded-full bg-[#0059bb]" /> 3. Cam Kết Bảo Mật & Không Chia Sẻ Dữ Liệu
+              <span className="w-2.5 h-2.5 rounded-full bg-[#0059bb]" /> 3. Cam Kết Bảo Mật & Không Chia Sẻ Dữ Liệu
             </h2>
             <p>
               Chúng tôi cam kết tuyệt đối không bán, cho thuê hoặc chia sẻ dữ liệu cá nhân của học viên cho bất kỳ bên thứ ba nào vì mục đích quảng cáo hoặc tiếp thị. Toàn bộ mật khẩu được mã hóa một chiều bằng thuật toán PBKDF2 (HMAC-SHA512) và token JWT được lưu trữ an toàn trong HTTP-Only Cookie.
@@ -81,7 +81,7 @@ export default function PrivacyPolicyPage() {
 
           <section className="space-y-2">
             <h2 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2 font-display">
-              <span className="w-2 h-2 rounded-full bg-[#0059bb]" /> 4. Quyền Kiểm Soát & Yêu Cầu Xóa Dữ Liệu (Data Deletion)
+              <span className="w-2.5 h-2.5 rounded-full bg-[#0059bb]" /> 4. Quyền Kiểm Soát & Yêu Cầu Xóa Dữ Liệu (Data Deletion)
             </h2>
             <p>
               Bạn có toàn quyền kiểm tra, chỉnh sửa hoặc yêu cầu xóa vĩnh viễn toàn bộ dữ liệu tài khoản bất kỳ lúc nào tại mục Cài đặt hoặc gửi yêu cầu xóa dữ liệu tới địa chỉ email: <strong className="text-[#0059bb] dark:text-sky-400">privacy@xpenglish.com</strong>.
@@ -90,7 +90,7 @@ export default function PrivacyPolicyPage() {
         </div>
 
         {/* Footer */}
-        <div className="text-center text-xs text-slate-400">
+        <div className="text-center text-xs text-slate-400 font-medium">
           © 2026 XP English | XP Voca. Đã bảo lưu mọi quyền.
         </div>
 

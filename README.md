@@ -607,10 +607,34 @@ Chi tiết xem tại tài liệu kiến trúc chuyên sâu: [ARCHITECTURE.md](fi
     - **Cột Phải (4/12)**: Phân tích Cấp độ & Danh hiệu tiến bước, Lối tắt ứng dụng đến Thống Kê, Đấu Trường PvP, Cửa Hàng Shop và Bảng Xếp Hạng.
   - **Mobile Layout Optimize**: Avatar thu nhỏ `w-16 h-16`, ẩn bio & subtext `hidden sm:block`, 4 cards xếp 2x2 grid compact, tab filter rút gọn nhãn, ẩn progress bar & mô tả phụ trên mobile.
   - **Form Cài Đặt Hồ Sơ Mượt Mà**: Trượt mở với Framer Motion, nhãn ngoài float label (Rule 6), nút Primary "Lưu thay đổi" (Rule 18 & 19).
-- **`/shop`**: Cửa hàng Gamification & Vật phẩm ảo (Thiết kế Agency Dashboard Tier).
-  - **Spotlight Hero Banner**: Gradient Xanh Hoàng Gia sang trọng tích hợp Widget hiển thị số Vàng tích lũy realtime.
-  - **Bento Grid 7/12 & 5/12**: Cột trái phân loại danh mục (Vật phẩm hỗ trợ, Trang phục Avatar) với các thẻ vật phẩm sắc nét (`Bảo Hộ Lửa`, `Nhân Đôi XP`, `Cú Tốt Nghiệp`). Cột phải hiển thị Tủ Đồ Cá Nhân & Mẹo Tích Lũy Vàng.
+- **`/myvocab`**: Bộ Từ Vựng Của Tôi (Agency Dashboard Tier).
+  - **Đồng Bộ Header Đỉnh Thống Nhất (`AppTopHeader` 56px Baseline)**: Cụm nút chuyển đổi chế độ và lối tắt vào Lịch Ôn Tập SM-2 (`/review`).
+  - **4 Thẻ Bento Stats Cao Cấp**: Tổng số từ (`FolderOpen`), Yêu thích (`Heart`), Đang học (`RefreshCw`), Đã làm chủ (`Crown`).
+  - **Khối Tìm Kiếm & Bộ Lọc Đa Tầng**: Ô tìm kiếm real-time hỗ trợ tìm theo từ tiếng Anh hoặc nghĩa tiếng Việt, kết hợp bộ lọc 4 Tab (`Tất cả`, `Yêu thích`, `Đang học`, `Đã thuộc`).
+  - **Lưới Thẻ Từ Vựng Chuẩn Agency (`rounded-2xl`)**: Hiển thị phiên âm IPA, loại từ, nghĩa tiếng Việt, câu ví dụ, 5 chấm tròn biểu thị độ thuần thục SM-2, nút nghe phát âm TTS và nút ôn tập nhận ngay `+15 XP`.
+  - **Skeleton Loading Khớp 100% Hình Học (`loading.tsx`)**: Triệt tiêu hoàn toàn giật nhảy layout.
+
+- **`/shop`**: Cửa hàng Gamification & Vật phẩm ảo (Agency Dashboard Tier).
+  - **Đồng Bộ Header Đỉnh Thống Nhất (`AppTopHeader` 56px Baseline)**: Hiển thị số dư Vàng realtime và số lượng Khiên Bảo Hộ Lửa.
+  - **Bento Grid 7/12 & 5/12**:
+    - **Cột Trái (7/12)**: Danh mục 8 vật phẩm phong phú phân loại theo *Vật phẩm hỗ trợ* (Bảo hộ lửa Streak Freeze, Thẻ nhân đôi XP 30 phút, Bình tăng tốc năng lượng, Khiên kim cương 3 ngày) và *Trang phục Avatar* (Mũ cử nhân Cú vàng, Kính Cyberpunk Neon, Vương miện Hoàng gia, Áo choàng quán quân IELTS 8.5+).
+    - **Cột Phải (5/12)**: Tủ đồ & Vật phẩm sở hữu, quản lý trang bị Avatar tức thì và Bảng mẹo tích lũy Vàng từ các hoạt động học tập.
   - **Full-Stack Equip & Purchase**: Mua & trang bị/tháo nón Cú cử nhân trực tiếp sync ngầm với PostgreSQL API `/api/shop/purchase` và `/api/shop/equip`.
+  - **Skeleton Loading Khớp 100% Hình Học (`loading.tsx`)**: Tái hiện chuẩn xác bố cục Bento 7/12 & 5/12.
+
+- **`/study/rooms`**: Phòng Học Nhóm Trực Tuyến & Pomodoro Focus (Agency Dashboard Tier).
+  - **Đồng Bộ Header Đỉnh Thống Nhất (`AppTopHeader` 56px Baseline)**: Cụm điều hướng nhanh và nút tạo phòng mới `[ + Tạo Phòng Mới ]`.
+  - **Lobby View (Sảnh Phòng Học)**: Bộ lọc 5 danh mục (`Tất cả`, `TOEIC 4K`, `IELTS Academic`, `Luyện Nói AI`, `Từ Vựng & Phản Xạ`), lưới thẻ phòng học `rounded-2xl` hiển thị số lượng học viên trực tuyến, trạng thái Công khai/Riêng tư và nút tham gia 1-Click.
+  - **Active Workspace View (Không Gian Phòng Học)**: Đồng hồ Pomodoro 25:00 tập trung / 5:00 giải lao, danh sách thành viên trong phòng có trạng thái hoạt động realtime, khung trò chuyện trực tiếp hỗ trợ gọi `@AI Mentor` giải thích từ vựng/ngữ pháp và tự động thu gọn Sidebar tối ưu không gian làm việc.
+  - **Skeleton Loading Khớp 100% Hình Học (`loading.tsx`)**: Tái hiện toàn bộ sảnh phòng học và thẻ phòng.
+
+- **`/settings`**: Cài Đặt Cấu Hình & Quản Trị Hệ Thống (Agency Dashboard Tier).
+  - **Đồng Bộ Header Đỉnh Thống Nhất (`AppTopHeader` 56px Baseline)**: Nút thao tác nhanh `[ 💾 Lưu Cài Đặt ]`.
+  - **5 Phân Hệ Cài Đặt Chuẩn Hóa (`rounded-2xl`)**: Hồ sơ cá nhân (Họ tên, Bio), Mục tiêu học tập (Từ vựng/ngày, Phút học/ngày), Cài đặt thông báo (Nhận XP, Nhiệm vụ ngày, Nhắc Streak), Chế độ hiển thị (Dark Mode / Light Mode), và Quản lý tài khoản (Xóa cache tạm, Đăng xuất an toàn).
+  - **Skeleton Loading Khớp 100% Hình Học (`loading.tsx`)**: Tái hiện chuẩn xác 5 khối cài đặt.
+
+- **`/privacy` & `/terms`**: Chính Sách Quyền Riêng Tư & Điều Khoản Dịch Vụ (Agency Dashboard Tier).
+  - Thiết kế Stage Card `rounded-2xl` tinh gọn, chuẩn phân cấp thông tin, hỗ trợ Dark Mode và bảo vệ dữ liệu học viên theo chuẩn quốc tế.
 
 ---
 
