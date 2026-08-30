@@ -6,26 +6,27 @@ export default function DashboardLoading() {
   return (
     <div className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none pb-24 sm:pb-12 animate-pulse">
       {/* 0. TOP BAR SKELETON (h-14 Baseline Sticky) */}
-      <div className="w-full h-14 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200/90 dark:border-slate-800 px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4 sticky top-0 z-30 shadow-2xs">
-        {/* Left: Hamburger & 3 Mode Pill Buttons */}
+      <div className="w-full h-14 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200/90 dark:border-slate-800 px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-4 sticky top-0 z-30 shadow-2xs">
+        {/* Left: Hamburger & Navigation Pill Buttons */}
         <div className="flex items-center gap-2">
           <div className="lg:hidden w-8 h-8 rounded-xl bg-slate-200 dark:bg-slate-800 shrink-0" />
           <div className="flex items-center p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/50 gap-1">
-            <div className="h-7 w-24 sm:w-28 rounded-lg bg-white dark:bg-slate-700 shadow-xs" />
-            <div className="h-7 w-22 rounded-lg bg-slate-200/60 dark:bg-slate-800 hidden sm:block" />
-            <div className="h-7 w-26 rounded-lg bg-slate-200/60 dark:bg-slate-800 hidden md:block" />
+            <div className="h-7 w-28 rounded-lg bg-white dark:bg-slate-700 shadow-xs" />
+            <div className="h-7 w-24 rounded-lg bg-slate-200/60 dark:bg-slate-800 hidden sm:block" />
+            <div className="h-7 w-20 rounded-lg bg-slate-200/60 dark:bg-slate-800 hidden md:block" />
+            <div className="h-7 w-24 rounded-lg bg-slate-200/60 dark:bg-slate-800 hidden lg:block" />
           </div>
         </div>
 
-        {/* Right: Daily Quote Chip, Theme Toggle & User Avatar Skeleton */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100/90 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/40">
-            <div className="w-4 h-4 rounded-full bg-slate-300 dark:bg-slate-700" />
-            <div className="h-3.5 w-48 lg:w-64 rounded bg-slate-200 dark:bg-slate-700" />
-            <div className="w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-700 ml-1" />
+        {/* Right: Quick Streak, Coins & Check-in Button Skeletons */}
+        <div className="flex items-center gap-2">
+          <div className="hidden sm:flex items-center gap-2">
+            <div className="h-9 w-20 rounded-xl bg-amber-500/15 dark:bg-amber-950/60 border border-amber-200/60 dark:border-amber-800/50" />
+            <div className="h-9 w-20 rounded-xl bg-orange-500/15 dark:bg-orange-950/60 border border-orange-200/60 dark:border-orange-800/50" />
+            <div className="h-9 w-32 rounded-xl bg-[#0059bb]/30 dark:bg-[#0059bb]/40" />
           </div>
-          <div className="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-xl bg-slate-200 dark:bg-slate-800 shrink-0" />
-          <div className="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full bg-slate-200 dark:bg-slate-800 shrink-0" />
+          <div className="lg:hidden w-8 h-8 rounded-xl bg-slate-200 dark:bg-slate-800 shrink-0" />
+          <div className="lg:hidden w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 shrink-0" />
         </div>
       </div>
 

@@ -573,22 +573,65 @@ export default function DashboardPage() {
   return (
     <div className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none pb-24 md:pb-12">
       {/* 0. UNIVERSAL 56PX (h-14) TOP ACTION & NAVIGATION HEADER BAR */}
-      <AppTopHeader>
+      <AppTopHeader
+        rightDesktopContent={
+          <div className="flex items-center gap-2">
+            <Link
+              href="/shop"
+              className="h-9 px-3 rounded-xl bg-amber-50 dark:bg-amber-950/60 border border-amber-200/80 dark:border-amber-800 text-amber-700 dark:text-amber-300 font-bold text-xs flex items-center gap-1.5 shadow-2xs hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-all cursor-pointer"
+              title="Cửa hàng vật phẩm & Số Vàng"
+            >
+              <Coins className="w-4 h-4 text-amber-500" />
+              <span>{user?.coins ?? 0} <span className="font-medium text-[11px] text-amber-600/80 dark:text-amber-400/80">Vàng</span></span>
+            </Link>
+
+            <Link
+              href="/analytics"
+              className="h-9 px-3 rounded-xl bg-orange-50 dark:bg-orange-950/60 border border-orange-200/80 dark:border-orange-800 text-orange-600 dark:text-orange-400 font-bold text-xs flex items-center gap-1.5 shadow-2xs hover:bg-orange-100 dark:hover:bg-orange-900/40 transition-all cursor-pointer"
+              title="Xem chuỗi ngày học liên tục"
+            >
+              <Flame className="w-4 h-4 text-orange-500 fill-orange-500" />
+              <span>{user?.currentStreak || 1} <span className="font-medium text-[11px] text-orange-500/80">Ngày</span></span>
+            </Link>
+
+            <Link
+              href="/study/listening"
+              className="h-9 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004ba0] text-white text-xs font-bold shadow-md shadow-[#0059bb]/20 flex items-center gap-1.5 transition-all cursor-pointer active:scale-95 shrink-0 font-display"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-sky-200" />
+              <span>Luyện Bài Mới</span>
+            </Link>
+          </div>
+        }
+      >
         <HeaderPillContainer>
           <HeaderPillItem
             active
-            icon={<Layout className="w-3.5 h-3.5 text-[#0059bb]" />}
-            label="Tổng quan"
+            icon={<Layout className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />}
+            label="Bảng Điều Khiển"
           />
           <HeaderPillItem
             href="/roadmap"
-            icon={<Target className="w-3.5 h-3.5" />}
-            label="Lộ trình"
+            icon={<Target className="w-3.5 h-3.5 text-amber-500" />}
+            label="Lộ Trình AI"
+          />
+          <HeaderPillItem
+            href="/vocabulary"
+            icon={<BookOpen className="w-3.5 h-3.5 text-emerald-500" />}
+            label="Từ Vựng"
+            hideOnSmall
           />
           <HeaderPillItem
             href="/study/listening"
-            icon={<Headphones className="w-3.5 h-3.5" />}
-            label="Dictation"
+            icon={<Headphones className="w-3.5 h-3.5 text-indigo-500" />}
+            label="Luyện Nghe"
+            hideOnSmall
+          />
+          <HeaderPillItem
+            href="/study/pvp"
+            icon={<Swords className="w-3.5 h-3.5 text-rose-500" />}
+            label="Đấu Trường"
+            hideOnMedium
           />
         </HeaderPillContainer>
       </AppTopHeader>

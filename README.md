@@ -599,14 +599,15 @@ Chi tiết xem tại tài liệu kiến trúc chuyên sâu: [ARCHITECTURE.md](fi
   - **Lược Bỏ Subtext Rườm Rà**: Ẩn đoạn văn bản mô tả 2 dòng phụ ở Hero Banner `hidden sm:block text-xs text-blue-100/90`.
   - **Giảm Border Radius (Rule 10)**: Khung ngoài `rounded-md`, khung phần tử con (nút bấm, ô nhập, badges, pills) `rounded-sm` / `rounded-full`.
   - **Zero-Shift Guarantee**: Bảo tồn 100% bố cục và nội dung hiển thị trên Desktop.
-- **`/profile`**: Hồ sơ cá nhân học viên (Thiết kế Agency Dashboard Tier).
-  - **Spotlight Hero Profile Banner**: Gradient Xanh Hoàng Gia sang trọng (`from-[#0059bb] via-[#004799] to-[#002b5b]`), vành khung Avatar danh hiệu nổi bật (`🎓`, `👑`, `🛡️`), huy hiệu Cấp độ `LV.x`, số ngày Streak rực rỡ và số dư Vàng live.
-  - **4 High-Contrast Bento Metric Cards**: Từ vựng tích lũy (`BookOpen`), Chuỗi Streak (`Flame`), Kinh nghiệm XP & Level (`Zap`), Vàng & Bảo Hộ Streak (`Coins`).
+- **`/profile`**: Hồ sơ cá nhân học viên (Agency Dashboard Tier).
+  - **Đồng Bộ Header Đỉnh Thống Nhất (`AppTopHeader` 56px Baseline)**: Cụm Navigation Pills (`[ 👤 Hồ Sơ Cá Nhân ]`, `[ ⚙️ Cài Đặt ]`, `[ 📊 Thống Kê ]`, `[ 🛍️ Shop ]`) kết hợp nút Sao chép liên kết chia sẻ hồ sơ và nút chuyển đổi Cài đặt thông tin.
+  - **Spotlight Hero Profile Stage Card (`rounded-2xl`)**: Gradient Xanh Hoàng Gia sang trọng (`from-[#0059bb] via-[#004799] to-[#002b5b]`), vành khung Avatar danh hiệu concentric double bezel (`🎓`, `👑`, `🛡️`), huy hiệu Cấp độ `LV.x`, số ngày Streak rực rỡ và số dư Vàng live.
+  - **4 High-Contrast Bento Metric Cards (`rounded-2xl`)**: Từ vựng tích lũy (`BookOpen`), Chuỗi Streak (`Flame`), Kinh nghiệm XP & Level (`Zap`), Vàng & Bảo Hộ Streak (`Coins`).
   - **Bento Grid 8/12 & 4/12**:
-    - **Cột Trái (8/12)**: Mini Skill Activity Meters (Tóm tắt tiến độ 5 kỹ năng *Từ vựng*, *Viết*, *Nói*, *Dictation*, *Shadowing*), Kho Huy Hiệu Thành Tích với bộ lọc tab (*Tất cả*, *Đã đạt*, *Chưa mở*), Tủ Vật Phẩm Trang Bị & Trang Phục Cử Nhân (`🎓 Cú Tốt Nghiệp`).
+    - **Cột Trái (8/12)**: Mini Skill Activity Meters (Tóm tắt tiến độ 5 kỹ năng *Từ vựng*, *Viết*, *Nói*, *Dictation*, *Shadowing*), Kho Huy Hiệu Thành Tích với bộ lọc 3 tab (*Tất cả*, *Đã đạt*, *Chưa mở*), Rương Vật Phẩm Trang Bị & Trang Phục Cử Nhân (`🎓 Cú Tốt Nghiệp`).
     - **Cột Phải (4/12)**: Phân tích Cấp độ & Danh hiệu tiến bước, Lối tắt ứng dụng đến Thống Kê, Đấu Trường PvP, Cửa Hàng Shop và Bảng Xếp Hạng.
-  - **Mobile Layout Optimize**: Avatar thu nhỏ `w-16 h-16`, ẩn bio & subtext `hidden sm:block`, 4 cards xếp 2x2 grid compact, tab filter rút gọn nhãn, ẩn progress bar & mô tả phụ trên mobile.
-  - **Form Cài Đặt Hồ Sơ Mượt Mà**: Trượt mở với Framer Motion, nhãn ngoài float label (Rule 6), nút Primary "Lưu thay đổi" (Rule 18 & 19).
+  - **Form Cài Đặt Hồ Sơ Mượt Mà (`rounded-2xl`)**: Mở rộng mượt mà với Framer Motion, nhãn ngoài float label (Rule 6), ô nhập viền hoàn chỉnh `rounded-xl` (Rule 15), bộ chọn Avatar Emoji và nút Primary duy nhất "Lưu thay đổi" (Rule 18 & 19).
+  - **Skeleton Loading Khớp 100% Hình Học (`loading.tsx`)**: Triệt tiêu hoàn toàn giật nhảy layout (Zero CLS).
 - **`/myvocab`**: Bộ Từ Vựng Của Tôi (Agency Dashboard Tier).
   - **Đồng Bộ Header Đỉnh Thống Nhất (`AppTopHeader` 56px Baseline)**: Cụm nút chuyển đổi chế độ và lối tắt vào Lịch Ôn Tập SM-2 (`/review`).
   - **4 Thẻ Bento Stats Cao Cấp**: Tổng số từ (`FolderOpen`), Yêu thích (`Heart`), Đang học (`RefreshCw`), Đã làm chủ (`Crown`).
