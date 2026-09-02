@@ -16,6 +16,7 @@ import {
   Trophy,
   ArrowRight,
   UserCheck,
+  User,
   PackageCheck,
   HelpCircle,
 } from "lucide-react";
@@ -303,13 +304,18 @@ export default function ShopPage() {
       >
         <HeaderPillContainer>
           <HeaderPillItem
-            label="Cửa Hàng Vật Phẩm"
-            icon={<ShoppingBag className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />}
+            label="Cửa hàng vật phẩm"
+            icon={<ShoppingBag className="w-4 h-4 text-purple-500" />}
             active
           />
           <HeaderPillItem
-            label="Tủ Đồ Cá Nhân"
-            icon={<PackageCheck className="w-4 h-4 text-emerald-500" />}
+            label="Nâng cấp Premium"
+            icon={<Sparkles className="w-4 h-4 text-amber-500 fill-amber-500" />}
+            href="/premium"
+          />
+          <HeaderPillItem
+            label="Hồ sơ"
+            icon={<User className="w-4 h-4 text-slate-500" />}
             href="/profile"
           />
         </HeaderPillContainer>

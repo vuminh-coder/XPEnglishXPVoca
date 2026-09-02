@@ -1,8 +1,22 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { Menu, Sun, Moon, Quote, Volume2, Shuffle, ArrowLeft } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Menu,
+  Sun,
+  Moon,
+  Quote,
+  Volume2,
+  Shuffle,
+  ArrowLeft,
+  User,
+  LogOut,
+  Check,
+  ChevronRight,
+} from "lucide-react";
 import { useUiStore } from "@/stores/uiStore";
 import { useUserStore } from "@/stores/userStore";
 import { UserAvatar } from "@/shared/components/feedback/UserAvatar";
@@ -151,8 +165,46 @@ export function AppTopHeader({
   sticky = true,
   className = "",
 }: AppTopHeaderProps) {
-  const { toggleSidebar, theme, toggleTheme } = useUiStore();
+  const pathname = usePathname();
+  const { toggleSidebar, theme, setTheme } = useUiStore();
   const user = useUserStore((s) => s.user);
+  const logout = useUserStore((s) => s.logout);
+
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showThemeSubmenu, setShowThemeSubmenu] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+
+  // Close user menu on outside click
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setShowUserMenu(false);
+        setShowThemeSubmenu(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Close user menu on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setShowUserMenu(false);
+        setShowThemeSubmenu(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  // Close user menu on route change
+  useEffect(() => {
+    setShowUserMenu(false);
+    setShowThemeSubmenu(false);
+  }, [pathname]);
+
+  const userName = user?.fullName || user?.username || "Học viên XP Voca";
 
   const shouldHideThemeAndAvatarOnDesktop =
     hideThemeAndAvatarOnDesktop ?? Boolean(rightDesktopContent);
@@ -256,34 +308,154 @@ export function AppTopHeader({
         {/* Custom Extra Actions (if any) */}
         {rightExtraActions}
 
-        {/* Theme Toggle Button (Light / Dark) */}
-        <button
-          type="button"
-          onClick={toggleTheme}
-          className={`p-2 sm:p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white border border-slate-200/80 dark:border-slate-700/60 shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-95 shrink-0 ${themeAvatarResponsiveClass}`}
-          title="Đổi chế độ sáng / tối"
-          aria-label="Đổi chế độ sáng tối"
-        >
-          {theme === "dark" ? (
-            <Moon className="w-4 h-4 text-indigo-400 stroke-[2.2]" />
-          ) : (
-            <Sun className="w-4 h-4 text-amber-500 stroke-[2.2]" />
-          )}
-        </button>
+        {/* User Avatar with Interactive Floating Popover Menu */}
+        <div className={`relative shrink-0 ${themeAvatarResponsiveClass}`} ref={userMenuRef}>
+          <button
+            type="button"
+            onClick={() => {
+              setShowUserMenu(!showUserMenu);
+              setShowThemeSubmenu(false);
+            }}
+            className={`flex items-center gap-1.5 p-0.5 rounded-full hover:ring-2 hover:ring-[#0059bb]/30 transition-all cursor-pointer active:scale-95 shrink-0 ${
+              showUserMenu ? "ring-2 ring-[#0059bb]" : ""
+            }`}
+            title="Menu tài khoản"
+            aria-expanded={showUserMenu}
+            aria-haspopup="menu"
+          >
+            <UserAvatar
+              avatarUrl={user?.avatarUrl}
+              name={userName}
+              size="w-8 h-8 sm:w-8.5 sm:h-8.5"
+              className="ring-1.5 ring-slate-200/90 dark:ring-slate-700"
+            />
+          </button>
 
-        {/* User Avatar linking to Profile */}
-        <Link
-          href="/profile"
-          className={`flex items-center gap-1.5 p-0.5 rounded-full hover:ring-2 hover:ring-[#0059bb]/30 transition-all cursor-pointer active:scale-95 shrink-0 ${themeAvatarResponsiveClass}`}
-          title="Trang cá nhân"
-        >
-          <UserAvatar
-            avatarUrl={user?.avatarUrl}
-            name={user?.fullName || user?.username || "Học viên"}
-            size="w-8 h-8 sm:w-8.5 sm:h-8.5"
-            className="ring-1.5 ring-slate-200/90 dark:ring-slate-700"
-          />
-        </Link>
+          {/* Floating Dropdown Popover */}
+          <AnimatePresence>
+            {showUserMenu && (
+              <motion.div
+                initial={{ opacity: 0, y: 6, scale: 0.96 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 6, scale: 0.96 }}
+                transition={{ duration: 0.15, ease: "easeOut" }}
+                className="absolute right-0 top-full mt-2 w-48 p-1.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 shadow-xl shadow-slate-300/40 dark:shadow-black/70 space-y-0.5 select-none z-[9999]"
+              >
+                {/* 1. Hồ sơ */}
+                <Link
+                  href="/profile"
+                  onClick={() => setShowUserMenu(false)}
+                  className="flex items-center gap-3 px-3 py-2 rounded-xl font-medium text-[13px] text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                >
+                  <User className="w-4 h-4 text-slate-700 dark:text-slate-200 stroke-[1.8]" />
+                  <span>Hồ sơ</span>
+                </Link>
+
+                {/* Divider */}
+                <div className="my-1 border-t border-slate-100 dark:border-white/10" />
+
+                {/* 2. Giao diện Sáng/Tối */}
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={() => setShowThemeSubmenu(!showThemeSubmenu)}
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl font-medium text-[13px] text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                  >
+                    <div className="flex items-center gap-3">
+                      {theme === "dark" ? (
+                        <Moon className="w-4 h-4 text-slate-700 dark:text-slate-200 stroke-[1.8]" />
+                      ) : (
+                        <Sun className="w-4 h-4 text-slate-700 dark:text-slate-200 stroke-[1.8]" />
+                      )}
+                      <span>Giao diện</span>
+                    </div>
+
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
+                        {theme === "dark" ? "Tối" : "Sáng"}
+                      </span>
+                      <ChevronRight
+                        className={`w-4 h-4 text-slate-400 stroke-[1.8] transition-transform duration-200 ${
+                          showThemeSubmenu ? "rotate-90 text-[#0059bb]" : ""
+                        }`}
+                      />
+                    </div>
+                  </button>
+
+                  <AnimatePresence>
+                    {showThemeSubmenu && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0, y: -2 }}
+                        animate={{ opacity: 1, height: "auto", y: 0 }}
+                        exit={{ opacity: 0, height: 0, y: -2 }}
+                        transition={{ duration: 0.15 }}
+                        className="my-1 ml-3 pl-2 border-l-2 border-slate-200 dark:border-slate-800 space-y-0.5 overflow-hidden"
+                      >
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setTheme("light");
+                          }}
+                          className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+                            theme === "light"
+                              ? "bg-slate-100 dark:bg-slate-800 text-[#0059bb] dark:text-sky-400 font-bold"
+                              : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+                          }`}
+                        >
+                          <div className="flex items-center gap-2">
+                            <Sun className="w-3.5 h-3.5 text-slate-700 dark:text-slate-200 stroke-[1.8]" />
+                            <span>Sáng</span>
+                          </div>
+                          {theme === "light" && (
+                            <Check className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
+                          )}
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setTheme("dark");
+                          }}
+                          className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+                            theme === "dark"
+                              ? "bg-slate-100 dark:bg-slate-800 text-[#0059bb] dark:text-sky-400 font-bold"
+                              : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+                          }`}
+                        >
+                          <div className="flex items-center gap-2">
+                            <Moon className="w-3.5 h-3.5 text-slate-700 dark:text-slate-200 stroke-[1.8]" />
+                            <span>Tối</span>
+                          </div>
+                          {theme === "dark" && (
+                            <Check className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
+                          )}
+                        </button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                {/* Divider */}
+                <div className="my-1 border-t border-slate-100 dark:border-white/10" />
+
+                {/* 4. Logout Action */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowUserMenu(false);
+                    logout();
+                  }}
+                  className="w-full flex items-center gap-3 px-3 py-2 rounded-xl font-medium text-[13px] text-[#f04438] dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors cursor-pointer"
+                >
+                  <LogOut className="w-4 h-4 text-[#f04438] dark:text-rose-400 stroke-[1.8]" />
+                  <span>Đăng xuất</span>
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
     </div>
   );

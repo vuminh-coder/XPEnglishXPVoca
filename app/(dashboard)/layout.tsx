@@ -1,10 +1,10 @@
 "use client";
-import React from "react";
-import Navbar from "@/shared/components/layout/Navbar";
+import React, { useEffect } from "react";
 import Sidebar from "@/shared/components/layout/Sidebar";
 import BottomNav from "@/shared/components/layout/BottomNav";
 import { ToastContainer } from "@/shared/components/ui/Toast";
 import { useUiStore } from "@/stores/uiStore";
+import { useUserStore } from "@/stores/userStore";
 import { usePathname } from "next/navigation";
 
 export default function DashboardLayout({
@@ -14,6 +14,11 @@ export default function DashboardLayout({
 }) {
   const { sidebarCollapsed, hideBottomNav } = useUiStore();
   const pathname = usePathname();
+
+  useEffect(() => {
+    useUserStore.getState().checkSession();
+  }, []);
+
   const isExamWorkspaceActive = (pathname === "/study/exam-prep" || pathname?.startsWith("/study/exams")) && sidebarCollapsed;
   const isStudioWorkspaceActive = (pathname?.startsWith("/study/listening") || pathname?.startsWith("/study/shadowing") || pathname?.startsWith("/study/reading")) && hideBottomNav;
 

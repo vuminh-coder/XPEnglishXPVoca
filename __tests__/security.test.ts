@@ -3,9 +3,26 @@ import { memoryRateLimiter } from "@/infrastructure/security/rateLimiter";
 import { sanitizeInput, isValidEmail, isPayloadTooLarge } from "@/infrastructure/security/validation";
 import { signAuthToken, verifyAuthToken } from "@/infrastructure/auth/jwt";
 import { hashPassword, comparePassword } from "@/infrastructure/auth/password";
+import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+
+const { mockCookieStore } = vi.hoisted(() => ({
+  mockCookieStore: { data: {} as Record<string, string> }
+}));
+
+vi.mock("next/headers", () => ({
+  cookies: async () => ({
+    get: (name: string) => {
+      const val = mockCookieStore.data[name];
+      return val ? { value: val } : undefined;
+    },
+    set: (name: string, value: string) => {
+      mockCookieStore.data[name] = value;
+    },
+  }),
+}));
 
 describe("Security Modules Deep Audit & Unit Tests", () => {
-  describe("1. Rate Limiter (lib/security/rateLimiter.ts)", () => {
+  describe("1. Rate Limiter (infrastructure/security/rateLimiter.ts)", () => {
     const testKey = "test_ip_192.168.1.100";
 
     beforeEach(() => {
@@ -79,7 +96,7 @@ describe("Security Modules Deep Audit & Unit Tests", () => {
     });
   });
 
-  describe("2. Input Validation & Sanitization (lib/security/validation.ts)", () => {
+  describe("2. Input Validation & Sanitization (infrastructure/security/validation.ts)", () => {
     describe("sanitizeInput", () => {
       it("should sanitize dangerous HTML tags and XSS attack patterns", () => {
         const xssPayload = '<script>alert("XSS")</script>';
@@ -138,7 +155,7 @@ describe("Security Modules Deep Audit & Unit Tests", () => {
     });
   });
 
-  describe("3. JWT Authentication (lib/auth/jwt.ts)", () => {
+  describe("3. JWT Authentication (infrastructure/auth/jwt.ts)", () => {
     it("should sign and verify valid JWT tokens", () => {
       const payload = { userId: "user-123", email: "test@example.com", username: "testuser" };
       const token = signAuthToken(payload);
@@ -185,7 +202,7 @@ describe("Security Modules Deep Audit & Unit Tests", () => {
     });
   });
 
-  describe("4. Password Hashing (lib/auth/password.ts)", () => {
+  describe("4. Password Hashing (infrastructure/auth/password.ts)", () => {
     it("should hash password with PBKDF2 format", () => {
       const rawPassword = "SecurePassword123!";
       const hash = hashPassword(rawPassword);
@@ -216,6 +233,55 @@ describe("Security Modules Deep Audit & Unit Tests", () => {
       expect(comparePassword("Password123", "")).toBe(false);
       // @ts-expect-error testing invalid type
       expect(comparePassword("Password123", null)).toBe(false);
+    });
+  });
+
+  describe("5. Authentication Session Hardening (infrastructure/auth/auth.ts)", () => {
+    beforeEach(() => {
+      mockCookieStore.data = {};
+    });
+
+    it("should successfully authenticate valid JWT session token in cookies", async () => {
+      const token = signAuthToken({ userId: "auth_user_456" });
+      mockCookieStore.data["xp_voca_session"] = token;
+
+      const userId = await getAuthenticatedUserId();
+      expect(userId).toBe("auth_user_456");
+    });
+
+    it("should authenticate valid Bearer Authorization header in request", async () => {
+      const token = signAuthToken({ userId: "bearer_user_789" });
+      const req = new Request("https://api.xpvoca.com/api/user/profile", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const userId = await getAuthenticatedUserId(req);
+      expect(userId).toBe("bearer_user_789");
+    });
+
+    it("should REJECT unauthenticated client attempts to spoof x-user-id header", async () => {
+      const fakeReq = new Request("https://api.xpvoca.com/api/user/profile", {
+        headers: {
+          "x-user-id": "hacker_target_victim_id",
+        },
+      });
+
+      const userId = await getAuthenticatedUserId(fakeReq);
+      expect(userId).toBeNull();
+    });
+
+    it("should return null when session cookie contains invalid or tampered token", async () => {
+      mockCookieStore.data["xp_voca_session"] = "invalid.tampered.token";
+
+      const userId = await getAuthenticatedUserId();
+      expect(userId).toBeNull();
+    });
+
+    it("should return null for completely unauthenticated guest requests", async () => {
+      const userId = await getAuthenticatedUserId();
+      expect(userId).toBeNull();
     });
   });
 });

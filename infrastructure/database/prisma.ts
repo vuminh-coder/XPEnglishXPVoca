@@ -66,6 +66,11 @@ export async function withPrismaRetry<T>(
     try {
       return await operation();
     } catch (error: any) {
+      // Never retry schema/data constraint violations (P2002 Unique, P2003 FK, P2025 Not Found, etc.)
+      if (error?.code && typeof error.code === "string" && error.code.startsWith("P2")) {
+        throw error;
+      }
+
       attempt++;
       const msg = String(error?.message || error?.stack || error || "");
       const isClosedOrResetError =
@@ -81,15 +86,16 @@ export async function withPrismaRetry<T>(
         msg.includes("Broken pipe") ||
         msg.includes("Connection refused") ||
         msg.includes("EngineClosed") ||
+        msg.includes("Engine is not yet connected") ||
+        msg.includes("Response from the Engine was empty") ||
         msg.includes("Io") ||
         error?.code === "P1001" ||
         error?.code === "P1017";
 
       if (isClosedOrResetError && attempt < maxRetries) {
-        const backoffMs = Math.min(150 * Math.pow(2, attempt), 1000);
-        console.warn(`[Prisma Connection Resilience] Connection reset/closed detected (code: 10054/closed/idle). Auto-reconnecting in ${backoffMs}ms (Attempt ${attempt}/${maxRetries})...`);
+        const backoffMs = Math.min(100 * Math.pow(2, attempt), 600);
+        console.warn(`[Prisma Connection Resilience] Connection reset/closed detected (code: 10054/closed/idle). Reconnecting in ${backoffMs}ms (Attempt ${attempt}/${maxRetries})...`);
         try {
-          await basePrisma.$disconnect().catch(() => {});
           await new Promise((r) => setTimeout(r, backoffMs));
           await basePrisma.$connect().catch(() => {});
         } catch (reconnectErr) {

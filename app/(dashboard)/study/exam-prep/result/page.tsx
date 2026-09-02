@@ -358,19 +358,19 @@ Yêu cầu phân tích chi tiết:
           <HeaderPillItem
             active={reportTab === "OVERVIEW"}
             onClick={() => setReportTab("OVERVIEW")}
-            icon={<BarChart3 className="w-3.5 h-3.5" />}
+            icon={<BarChart3 className="w-3.5 h-3.5 text-blue-500" />}
             label="1. Điểm Số"
           />
           <HeaderPillItem
             active={reportTab === "REVIEW"}
             onClick={() => setReportTab("REVIEW")}
-            icon={<BookOpen className="w-3.5 h-3.5" />}
+            icon={<BookOpen className="w-3.5 h-3.5 text-emerald-500" />}
             label={`2. Lời Giải (${examResult.questionResults.length})`}
           />
           <HeaderPillItem
             active={reportTab === "DIAGNOSTIC"}
             onClick={() => setReportTab("DIAGNOSTIC")}
-            icon={<Brain className="w-3.5 h-3.5 text-purple-400" />}
+            icon={<Brain className="w-3.5 h-3.5 text-purple-500" />}
             label="3. Lộ Trình AI"
           />
         </HeaderPillContainer>

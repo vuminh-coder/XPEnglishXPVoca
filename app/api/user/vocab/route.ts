@@ -1,4 +1,4 @@
-﻿import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma, handlePrismaError } from "@/infrastructure/database/prisma";
 
@@ -61,11 +61,78 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Missing vocabId" }, { status: 400 });
     }
 
+    const isLocalUser =
+      userId === "guest_user" ||
+      userId === "local_user" ||
+      userId.startsWith("local_user");
+
+    if (isLocalUser) {
+      return NextResponse.json({
+        success: true,
+        data: {
+          userId,
+          vocabId,
+          proficiency: proficiency ?? 0,
+          isFavorite: Boolean(isFavorite),
+          lastPracticed: lastPracticed || new Date().toISOString(),
+          nextReview: nextReview || null,
+          isLocal: true,
+        },
+      });
+    }
+
+    const profile = await prisma.profile.findUnique({
+      where: { id: userId },
+      select: { id: true },
+    });
+
+    if (!profile) {
+      return NextResponse.json({
+        success: true,
+        data: {
+          userId,
+          vocabId,
+          proficiency: proficiency ?? 0,
+          isFavorite: Boolean(isFavorite),
+          lastPracticed: lastPracticed || new Date().toISOString(),
+          nextReview: nextReview || null,
+          isLocal: true,
+        },
+      });
+    }
+
+    let targetVocab = await prisma.vocabulary.findUnique({
+      where: { id: vocabId },
+      select: { id: true },
+    });
+
+    if (!targetVocab) {
+      targetVocab = await prisma.vocabulary.findFirst({
+        where: { word: { equals: vocabId, mode: "insensitive" } },
+        select: { id: true },
+      });
+    }
+
+    if (!targetVocab) {
+      return NextResponse.json({
+        success: true,
+        data: {
+          userId,
+          vocabId,
+          proficiency: proficiency ?? 0,
+          isFavorite: Boolean(isFavorite),
+          lastPracticed: lastPracticed || new Date().toISOString(),
+          nextReview: nextReview || null,
+          isLocal: true,
+        },
+      });
+    }
+
     const upsertedVocab = await prisma.userVocabulary.upsert({
       where: {
         userId_vocabId: {
           userId: userId,
-          vocabId: vocabId,
+          vocabId: targetVocab.id,
         },
       },
       update: {
@@ -76,7 +143,7 @@ export async function POST(request: Request) {
       },
       create: {
         userId: userId,
-        vocabId: vocabId,
+        vocabId: targetVocab.id,
         proficiency: proficiency !== undefined ? proficiency : 0,
         isFavorite: isFavorite !== undefined ? isFavorite : false,
         lastPracticed: lastPracticed ? new Date(lastPracticed) : null,

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -208,7 +208,7 @@ export function InteractiveTranscriptSidebar({
               const isCurrent = idx === currentIndex;
               const isCompleted = !!completedSentences[idx];
 
-              // 1. THẺ CÂU ĐANG HỌC (#3 ĐANG HỌC - Tươi sáng, viền Emerald nổi bật, badge xanh ngọc, icon to rõ)
+              // 1. THẺ CÂU ĐANG HỌC (isCurrent)
               if (isCurrent) {
                 return (
                   <motion.div
@@ -218,29 +218,56 @@ export function InteractiveTranscriptSidebar({
                     }}
                     initial={{ opacity: 0, scale: 0.99 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="p-4 sm:p-4.5 rounded-2xl bg-emerald-50/40 dark:bg-emerald-950/25 border-2 border-emerald-500 dark:border-emerald-500/80 shadow-xs space-y-2 transition-all select-none"
+                    className={`p-4 sm:p-4.5 rounded-2xl border-2 shadow-xs space-y-2 transition-all select-none ${
+                      isCompleted
+                        ? "bg-emerald-50/40 dark:bg-emerald-950/25 border-emerald-500 dark:border-emerald-500/80"
+                        : "bg-blue-50/40 dark:bg-blue-950/25 border-blue-500 dark:border-sky-500/80"
+                    }`}
                   >
-                    {/* Header: [ (✓) #idx ĐANG HỌC ] bên trái, [ ↺ > ] bên phải */}
+                    {/* Header: [ (✓ / 🎧) #idx ĐANG HỌC ] bên trái, [ ↺ > ] bên phải */}
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2.5">
-                        {/* Vòng tròn xanh lá viền mỏng tích checkmark w-6 h-6 */}
-                        <div className="w-6 h-6 rounded-full border-2 border-emerald-500 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0 shadow-2xs">
-                          <Check className="w-3.5 h-3.5 stroke-[2.5]" />
-                        </div>
+                        {isCompleted ? (
+                          <div className="w-6 h-6 rounded-full border-2 border-emerald-500 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0 shadow-2xs bg-emerald-50 dark:bg-emerald-950/50">
+                            <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                          </div>
+                        ) : (
+                          <div className="w-6 h-6 rounded-full border-2 border-blue-500 dark:border-sky-400 flex items-center justify-center text-blue-600 dark:text-sky-400 shrink-0 shadow-2xs bg-blue-50 dark:bg-blue-950/50">
+                            <Headphones className="w-3.5 h-3.5 stroke-[2.2]" />
+                          </div>
+                        )}
 
                         {/* Số thứ tự câu #idx */}
-                        <span className="text-[14.5px] sm:text-base font-bold text-emerald-950 dark:text-emerald-200">
+                        <span
+                          className={`text-[14.5px] sm:text-base font-bold ${
+                            isCompleted
+                              ? "text-emerald-950 dark:text-emerald-200"
+                              : "text-blue-950 dark:text-sky-200"
+                          }`}
+                        >
                           #{idx + 1}
                         </span>
 
-                        {/* Huy hiệu ĐANG HỌC xanh ngọc tươi sáng */}
-                        <span className="px-2.5 py-0.5 rounded-[5px] bg-emerald-600 dark:bg-emerald-500 text-white font-extrabold text-[10.5px] tracking-wide uppercase shadow-2xs">
-                          ĐANG HỌC
-                        </span>
+                        {/* Huy hiệu trạng thái */}
+                        {isCompleted ? (
+                          <span className="px-2.5 py-0.5 rounded-[5px] bg-emerald-600 dark:bg-emerald-500 text-white font-extrabold text-[10.5px] tracking-wide uppercase shadow-2xs">
+                            ĐÃ CHÉP ĐÚNG
+                          </span>
+                        ) : (
+                          <span className="px-2.5 py-0.5 rounded-[5px] bg-blue-600 dark:bg-sky-500 text-white font-extrabold text-[10.5px] tracking-wide uppercase shadow-2xs">
+                            ĐANG HỌC
+                          </span>
+                        )}
                       </div>
 
                       {/* Nút hành động góc phải: [ ↺ ] và [ > ] */}
-                      <div className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-300">
+                      <div
+                        className={`flex items-center gap-1.5 ${
+                          isCompleted
+                            ? "text-emerald-700 dark:text-emerald-300"
+                            : "text-blue-700 dark:text-sky-300"
+                        }`}
+                      >
                         {onReplaySentence && (
                           <button
                             type="button"
@@ -248,13 +275,23 @@ export function InteractiveTranscriptSidebar({
                               e.stopPropagation();
                               onReplaySentence(idx);
                             }}
-                            className="p-1.5 rounded-lg hover:text-emerald-950 dark:hover:text-white hover:bg-emerald-100/60 dark:hover:bg-emerald-950/50 hover:scale-110 active:scale-95 transition-all cursor-pointer"
+                            className={`p-1.5 rounded-lg hover:scale-110 active:scale-95 transition-all cursor-pointer ${
+                              isCompleted
+                                ? "hover:text-emerald-950 dark:hover:text-white hover:bg-emerald-100/60 dark:hover:bg-emerald-950/50"
+                                : "hover:text-blue-950 dark:hover:text-white hover:bg-blue-100/60 dark:hover:bg-blue-950/50"
+                            }`}
                             title="Nghe lại câu này"
                           >
                             <RotateCcw className="w-4.5 h-4.5 stroke-[2]" />
                           </button>
                         )}
-                        <div className="p-1.5 text-emerald-600 dark:text-emerald-400">
+                        <div
+                          className={`p-1.5 ${
+                            isCompleted
+                              ? "text-emerald-600 dark:text-emerald-400"
+                              : "text-blue-600 dark:text-sky-400"
+                          }`}
+                        >
                           <ChevronRight className="w-4.5 h-4.5 stroke-[2]" />
                         </div>
                       </div>

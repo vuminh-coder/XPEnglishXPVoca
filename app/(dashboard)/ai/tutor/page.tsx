@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { UserAvatar, formatCleanName } from "@/shared/components/feedback/UserAvatar";
 import { speakLessonText } from "@/shared/utils/ttsEngine";
 import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
+import { lookupWordDeep } from "@/features/vocabulary/data/deepDictionary";
 import {
   AppTopHeader,
   HeaderPillContainer,
@@ -73,50 +74,6 @@ const SpeakingIcon = ({
   </svg>
 );
 
-// ===== BASIC IPA DICTIONARY LOOKUP TABLE =====
-const IPA_DICTIONARY: Record<string, { ipa: string; meaning: string }> = {
-  hello: { ipa: "/həˈloʊ/", meaning: "Xin chào" },
-  practice: { ipa: "/ˈpræk.tɪs/", meaning: "Luyện tập, thực hành" },
-  speaking: { ipa: "/ˈspiː.kɪŋ/", meaning: "Nói, phát biểu" },
-  english: { ipa: "/ˈɪŋ.ɡlɪʃ/", meaning: "Tiếng Anh" },
-  together: { ipa: "/təˈɡeð.ər/", meaning: "Cùng nhau" },
-  favorite: { ipa: "/ˈfeɪ.vər.ɪt/", meaning: "Yêu thích nhất" },
-  hobby: { ipa: "/ˈhɑː.bi/", meaning: "Sở thích" },
-  interesting: { ipa: "/ˈɪn.trə.stɪŋ/", meaning: "Thú vị" },
-  learning: { ipa: "/ˈlɜːr.nɪŋ/", meaning: "Học tập" },
-  because: { ipa: "/bɪˈkɔːz/", meaning: "Bởi vì" },
-  helps: { ipa: "/helps/", meaning: "Giúp đỡ" },
-  speak: { ipa: "/spiːk/", meaning: "Nói" },
-  naturally: { ipa: "/ˈnætʃ.ər.əl.i/", meaning: "Một cách tự nhiên" },
-  perspective: { ipa: "/pərˈspek.tɪv/", meaning: "Góc nhìn, quan điểm" },
-  fascinating: { ipa: "/ˈfæs.ən.eɪ.tɪŋ/", meaning: "Hấp dẫn, lôi cuốn" },
-  specifically: { ipa: "/spəˈsɪf.ɪ.kli/", meaning: "Cụ thể là" },
-  benefit: { ipa: "/ˈben.ə.fɪt/", meaning: "Lợi ích" },
-  conversation: { ipa: "/ˌkɑːn.vərˈseɪ.ʃən/", meaning: "Cuộc hội thoại" },
-  travel: { ipa: "/ˈtræv.əl/", meaning: "Du lịch" },
-  experience: { ipa: "/ɪkˈspɪr.i.əns/", meaning: "Trải nghiệm, kinh nghiệm" },
-  understand: { ipa: "/ˌʌn.dərˈstænd/", meaning: "Hiểu" },
-  improve: { ipa: "/ɪmˈpruːv/", meaning: "Cải thiện" },
-  pronunciation: { ipa: "/prəˌnʌn.siˈeɪ.ʃən/", meaning: "Phát âm" },
-  vocabulary: { ipa: "/voʊˈkæb.jə.ler.i/", meaning: "Từ vựng" },
-  grammar: { ipa: "/ˈɡræm.ər/", meaning: "Ngữ pháp" },
-  routine: { ipa: "/ruːˈtiːn/", meaning: "Thói quen hàng ngày" },
-  movie: { ipa: "/ˈmuː.vi/", meaning: "Bộ phim" },
-  cinema: { ipa: "/ˈsɪn.ə.mə/", meaning: "Rạp chiếu phim" },
-  cinematography: { ipa: "/ˌsɪn.ə.məˈtɑː.ɡrə.fi/", meaning: "Nghệ thuật quay phim" },
-  soundtrack: { ipa: "/ˈsaʊnd.træk/", meaning: "Nhạc phim" },
-  blockbuster: { ipa: "/ˈblɑːkˌbʌs.tər/", meaning: "Phim bom tấn" },
-  culinary: { ipa: "/ˈkʌl.ə.ner.i/", meaning: "Ẩm thực" },
-  ingredient: { ipa: "/ɪnˈɡriː.di.ənt/", meaning: "Nguyên liệu" },
-  flavorful: { ipa: "/ˈfleɪ.vər.fəl/", meaning: "Đậm đà hương vị" },
-  homemade: { ipa: "/ˌhoʊmˈmeɪd/", meaning: "Tự làm tại nhà" },
-  technology: { ipa: "/tekˈnɑː.lə.dʒi/", meaning: "Công nghệ" },
-  artificial: { ipa: "/ˌɑːr.t̬əˈfɪʃ.əl/", meaning: "Nhân tạo" },
-  intelligence: { ipa: "/ɪnˈtel.ə.dʒəns/", meaning: "Trí tuệ" },
-  confident: { ipa: "/ˈkɑːn.fə.dənt/", meaning: "Tự tin" },
-  fluent: { ipa: "/ˈfluː.ənt/", meaning: "Trôi chảy, lưu loát" },
-};
-
 interface SuggestedWord {
   word: string;
   meaning?: string;
@@ -151,15 +108,51 @@ interface Persona {
 }
 
 const PERSONAS: Persona[] = [
-  { id: "emma", name: "Emma", role: "British IELTS Coach", accent: "en-GB", countryCode: "UK", countryName: "Anh Quốc", flag: "🇬🇧", speakerIndex: 0 },
-  { id: "alex", name: "Alex", role: "American Business Coach", accent: "en-US", countryCode: "US", countryName: "Hoa Kỳ", flag: "🇺🇸", speakerIndex: 1 },
-  { id: "chloe", name: "Chloe", role: "Australian Friendly Tutor", accent: "en-AU", countryCode: "AU", countryName: "Úc", flag: "🇦🇺", speakerIndex: 2 }
+  {
+    id: "emma",
+    name: "Emma",
+    role: "British IELTS Coach",
+    accent: "en-GB",
+    countryCode: "UK",
+    countryName: "Anh Quốc",
+    flag: "🇬🇧",
+    speakerIndex: 0,
+  },
+  {
+    id: "alex",
+    name: "Alex",
+    role: "American Business Coach",
+    accent: "en-US",
+    countryCode: "US",
+    countryName: "Hoa Kỳ",
+    flag: "🇺🇸",
+    speakerIndex: 1,
+  },
+  {
+    id: "chloe",
+    name: "Chloe",
+    role: "Australian Friendly Tutor",
+    accent: "en-AU",
+    countryCode: "AU",
+    countryName: "Úc",
+    flag: "🇦🇺",
+    speakerIndex: 2,
+  },
 ];
 
 export default function VoiceTutorPage() {
   const { user, awardXp } = useAuthStore();
   const { addToast } = useNotificationStore();
   const { setSidebarCollapsed } = useUiStore();
+
+  // Session ID for current practice turn
+  const [sessionId, setSessionId] = useState<string>(
+    () => `ai_tutor_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`
+  );
+  const [isHistoryDrawerOpen, setIsHistoryDrawerOpen] = useState(false);
+  const [pastSessions, setPastSessions] = useState<any[]>([]);
+  const [selectedPastSession, setSelectedPastSession] = useState<any | null>(null);
+  const [isLoadingHistory, setIsLoadingHistory] = useState(false);
 
   // Auto collapse sidebar when entering AI Tutor
   useEffect(() => {
@@ -169,30 +162,85 @@ export default function VoiceTutorPage() {
     };
   }, [setSidebarCollapsed]);
 
-  // Persona & Voice Settings
+  // Fetch past session history from API / local fallback
+  const fetchSessionHistory = async () => {
+    setIsLoadingHistory(true);
+    try {
+      const res = await fetch("/api/ai/sessions?mode=tutor");
+      const data = await res.json();
+      if (data.success && Array.isArray(data.sessions)) {
+        setPastSessions(data.sessions);
+      }
+    } catch (err) {
+      console.warn("Could not fetch session history:", err);
+    } finally {
+      setIsLoadingHistory(false);
+    }
+  };
+
+  const handleOpenHistoryDrawer = () => {
+    setIsHistoryDrawerOpen(true);
+    fetchSessionHistory();
+  };
+
+  // Persona & Voice Settings (Hydrated from localStorage)
   const [currentPersona, setCurrentPersona] = useState<"emma" | "alex" | "chloe">("emma");
   const [speechSpeed, setSpeechSpeed] = useState<number>(1.0);
   const [soundEnabled, setSoundEnabled] = useState(true);
 
+  useEffect(() => {
+    try {
+      const savedPersona = localStorage.getItem("xp_voca_ai_tutor_persona");
+      if (savedPersona === "emma" || savedPersona === "alex" || savedPersona === "chloe") {
+        setCurrentPersona(savedPersona);
+      }
+      const savedSpeed = localStorage.getItem("xp_voca_ai_tutor_speed");
+      if (savedSpeed) {
+        const num = parseFloat(savedSpeed);
+        if (!isNaN(num) && num >= 0.5 && num <= 2.0) {
+          setSpeechSpeed(num);
+        }
+      }
+    } catch {}
+  }, []);
+
+  const handleSelectPersona = (id: "emma" | "alex" | "chloe") => {
+    setCurrentPersona(id);
+    try {
+      localStorage.setItem("xp_voca_ai_tutor_persona", id);
+    } catch {}
+  };
+
+  const handleSelectSpeed = (spd: number) => {
+    setSpeechSpeed(spd);
+    try {
+      localStorage.setItem("xp_voca_ai_tutor_speed", String(spd));
+    } catch {}
+  };
+
   // Initial Welcome Message
-  const initialWelcome = useMemo<ChatMessage>(() => ({
-    id: "welcome",
-    role: "ai",
-    text: "Hello! I'm Emma, your AI Voice Tutor. Feel free to talk about anything on your mind today — from your hobbies to your work or daily life!",
-    vietnameseTranslation: "Xin chào! Tôi là Emma, Gia sư Giọng nói AI của bạn. Hãy thoải mái trò chuyện về bất kỳ điều gì bạn muốn hôm nay — từ sở thích, công việc cho đến cuộc sống hàng ngày!",
-    suggestedWords: [
-      { word: "hobby", meaning: "sở thích" },
-      { word: "routine", meaning: "thói quen" },
-      { word: "experience", meaning: "trải nghiệm" }
-    ],
-    suggestedPhrases: [
-      "I'd love to tell you about...",
-      "To be honest, my favorite thing is..."
-    ]
-  }), []);
+  const initialWelcome = useMemo<ChatMessage>(
+    () => ({
+      id: "welcome",
+      role: "ai",
+      text: "Hello! I'm Emma, your AI Voice Tutor. Feel free to talk about anything on your mind today — from your hobbies to your work or daily life!",
+      vietnameseTranslation:
+        "Xin chào! Tôi là Emma, Gia sư Giọng nói AI của bạn. Hãy thoải mái trò chuyện về bất kỳ điều gì bạn muốn hôm nay — từ sở thích, công việc cho đến cuộc sống hàng ngày!",
+      suggestedWords: [
+        { word: "hobby", meaning: "sở thích" },
+        { word: "routine", meaning: "thói quen" },
+        { word: "experience", meaning: "trải nghiệm" },
+      ],
+      suggestedPhrases: [
+        "I'd love to tell you about...",
+        "To be honest, my favorite thing is...",
+      ],
+    }),
+    []
+  );
 
   const [messages, setMessages] = useState<ChatMessage[]>([initialWelcome]);
-  
+
   // Voice & Persistent Speech Recognition States
   const [isRecording, setIsRecording] = useState(false);
   const [spokenText, setSpokenText] = useState("");
@@ -211,10 +259,10 @@ export default function VoiceTutorPage() {
     phrases: string[];
   }>({
     words: initialWelcome.suggestedWords || [],
-    phrases: initialWelcome.suggestedPhrases || []
+    phrases: initialWelcome.suggestedPhrases || [],
   });
 
-  // Selected word modal state for 1-Click Interactive Dictionary
+  // Selected word modal state for 1-Click Interactive Deep Dictionary
   const [selectedWordData, setSelectedWordData] = useState<{
     word: string;
     ipa?: string;
@@ -236,7 +284,9 @@ export default function VoiceTutorPage() {
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
   const micStreamRef = useRef<MediaStream | null>(null);
-  const [audioFrequencies, setAudioFrequencies] = useState<number[]>(new Array(16).fill(10));
+  const [audioFrequencies, setAudioFrequencies] = useState<number[]>(
+    new Array(16).fill(10)
+  );
   const animationFrameRef = useRef<number | null>(null);
 
   // Real-time backend practice time tracker
@@ -270,12 +320,15 @@ export default function VoiceTutorPage() {
     }
   }, [messages, spokenText, loading, isSessionCompleted, showChatHistoryInSummary]);
 
-  const activePersonaObj = PERSONAS.find((p) => p.id === currentPersona) || PERSONAS[0];
+  const activePersonaObj =
+    PERSONAS.find((p) => p.id === currentPersona) || PERSONAS[0];
 
   const formatElapsedTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+    return `${mins.toString().padStart(2, "0")}:${secs
+      .toString()
+      .padStart(2, "0")}`;
   };
 
   const toggleTranslation = (msgId: string) => {
@@ -295,22 +348,24 @@ export default function VoiceTutorPage() {
     });
   };
 
+  // 1-Click Interactive Dictionary with lookupWordDeep
   const handleWordClick = (rawWord: string) => {
     const cleanWord = rawWord.replace(/[^a-zA-Z]/g, "").toLowerCase();
     if (!cleanWord || cleanWord.length < 2) return;
 
     speakText(cleanWord);
 
-    const dictEntry = IPA_DICTIONARY[cleanWord];
+    const deepDef = lookupWordDeep(cleanWord);
     setSelectedWordData({
       word: cleanWord,
-      ipa: dictEntry?.ipa || `/${cleanWord}/`,
-      meaning: dictEntry?.meaning || `Nghĩa Tiếng Việt của từ "${cleanWord}"`,
-      example: `Used naturally in speech: "${cleanWord}"`
+      ipa: deepDef.ipa || `/${cleanWord}/`,
+      meaning: deepDef.meaning || `Nghĩa Tiếng Việt của từ "${cleanWord}"`,
+      example:
+        deepDef.example || `Used naturally in speech: "${cleanWord}"`,
     });
   };
 
-  const handleSaveWordToVocab = () => {
+  const handleSaveWordToVocab = async () => {
     if (!selectedWordData) return;
     awardXp(5, "vocab");
     addToast({
@@ -318,6 +373,18 @@ export default function VoiceTutorPage() {
       title: "Đã lưu vào Sổ tay từ vựng! 💾",
       message: `+5 XP cho từ "${selectedWordData.word}"`,
     });
+
+    try {
+      await fetch("/api/user/vocab", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          vocabId: selectedWordData.word.toLowerCase(),
+          isFavorite: true,
+        }),
+      });
+    } catch {}
+
     setSelectedWordData(null);
   };
 
@@ -325,7 +392,8 @@ export default function VoiceTutorPage() {
   const startAudioVisualizer = async () => {
     try {
       if (!audioContextRef.current) {
-        const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+        const AudioContextClass =
+          window.AudioContext || (window as any).webkitAudioContext;
         if (AudioContextClass) {
           audioContextRef.current = new AudioContextClass();
         }
@@ -336,11 +404,15 @@ export default function VoiceTutorPage() {
       }
 
       if (!micStreamRef.current && navigator.mediaDevices?.getUserMedia) {
-        micStreamRef.current = await navigator.mediaDevices.getUserMedia({ audio: true });
+        micStreamRef.current = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+        });
       }
 
       if (audioContextRef.current && micStreamRef.current) {
-        const source = audioContextRef.current.createMediaStreamSource(micStreamRef.current);
+        const source = audioContextRef.current.createMediaStreamSource(
+          micStreamRef.current
+        );
         const analyser = audioContextRef.current.createAnalyser();
         analyser.fftSize = 64;
         source.connect(analyser);
@@ -348,9 +420,13 @@ export default function VoiceTutorPage() {
 
         const updateFrequencies = () => {
           if (analyserRef.current) {
-            const dataArray = new Uint8Array(analyserRef.current.frequencyBinCount);
+            const dataArray = new Uint8Array(
+              analyserRef.current.frequencyBinCount
+            );
             analyserRef.current.getByteFrequencyData(dataArray);
-            const freqs = Array.from(dataArray.slice(0, 16)).map((v) => Math.max(10, Math.min(100, Math.round((v / 255) * 100))));
+            const freqs = Array.from(dataArray.slice(0, 16)).map((v) =>
+              Math.max(10, Math.min(100, Math.round((v / 255) * 100)))
+            );
             setAudioFrequencies(freqs);
           }
           animationFrameRef.current = requestAnimationFrame(updateFrequencies);
@@ -360,7 +436,11 @@ export default function VoiceTutorPage() {
     } catch (err) {
       console.warn("Audio visualizer notice:", err);
       const synthetic = () => {
-        setAudioFrequencies(Array.from({ length: 16 }).map(() => Math.floor(Math.random() * 70) + 20));
+        setAudioFrequencies(
+          Array.from({ length: 16 }).map(
+            () => Math.floor(Math.random() * 70) + 20
+          )
+        );
         animationFrameRef.current = requestAnimationFrame(synthetic);
       };
       synthetic();
@@ -381,19 +461,24 @@ export default function VoiceTutorPage() {
 
   // Continuous Speech Recognition Engine
   const startRecording = () => {
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    const SpeechRecognition =
+      (window as any).SpeechRecognition ||
+      (window as any).webkitSpeechRecognition;
     if (!SpeechRecognition) {
       addToast({
         type: "error",
         title: "Trình duyệt không hỗ trợ Web Speech API",
-        message: "Vui lòng sử dụng Google Chrome, Edge hoặc Safari để luyện nói trực tiếp qua Micro.",
+        message:
+          "Vui lòng sử dụng Google Chrome, Edge hoặc Safari để luyện nói trực tiếp qua Micro.",
       });
       return;
     }
 
     try {
       if (speechRecognitionRef.current) {
-        try { speechRecognitionRef.current.stop(); } catch (e) {}
+        try {
+          speechRecognitionRef.current.stop();
+        } catch (e) {}
       }
 
       const recognition = new SpeechRecognition();
@@ -401,7 +486,9 @@ export default function VoiceTutorPage() {
       recognition.continuous = true;
       recognition.interimResults = true;
 
-      accumulatedTextRef.current = spokenText.trim() ? spokenText.trim() + " " : "";
+      accumulatedTextRef.current = spokenText.trim()
+        ? spokenText.trim() + " "
+        : "";
 
       recognition.onstart = () => {
         setIsRecording(true);
@@ -430,7 +517,9 @@ export default function VoiceTutorPage() {
           accumulatedTextRef.current += newFinals;
         }
 
-        const fullRecognized = (accumulatedTextRef.current + currentInterim).trim();
+        const fullRecognized = (
+          accumulatedTextRef.current + currentInterim
+        ).trim();
         setSpokenText(fullRecognized);
       };
 
@@ -457,7 +546,8 @@ export default function VoiceTutorPage() {
       addToast({
         type: "error",
         title: "Không thể kích hoạt Micro",
-        message: "Hãy cấp quyền Micro trong trình duyệt của bạn để trò chuyện cùng Gia sư AI.",
+        message:
+          "Hãy cấp quyền Micro trong trình duyệt của bạn để trò chuyện cùng Gia sư AI.",
       });
     }
   };
@@ -483,7 +573,7 @@ export default function VoiceTutorPage() {
     setSpokenText("");
   };
 
-  // Send User Message & Trigger AI
+  // Send User Message & Trigger Real Gemini AI
   const handleSendSpokenSpeech = async () => {
     const textToSend = spokenText.trim();
     if (!textToSend || loading) return;
@@ -500,7 +590,8 @@ export default function VoiceTutorPage() {
       pronunciationScore: Math.floor(Math.random() * 8) + 90,
     };
 
-    setMessages((prev) => [...prev, userMessage]);
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
     setLoading(true);
 
     try {
@@ -510,6 +601,7 @@ export default function VoiceTutorPage() {
         body: JSON.stringify({
           message: textToSend,
           persona: currentPersona,
+          speed: speechSpeed,
           history: messages.slice(-6).map((m) => ({ role: m.role, text: m.text })),
         }),
       });
@@ -588,7 +680,10 @@ export default function VoiceTutorPage() {
   };
 
   // Session Statistics & Dynamic Voice Evaluation
-  const userMessages = useMemo(() => messages.filter((m) => m.role === "user"), [messages]);
+  const userMessages = useMemo(
+    () => messages.filter((m) => m.role === "user"),
+    [messages]
+  );
   const userTurnsCount = userMessages.length;
   const grammarCorrections = useMemo(() => {
     return messages
@@ -610,7 +705,10 @@ export default function VoiceTutorPage() {
         }
       });
     });
-    return Array.from(map.entries()).map(([word, meaning]) => ({ word, meaning }));
+    return Array.from(map.entries()).map(([word, meaning]) => ({
+      word,
+      meaning,
+    }));
   }, [messages]);
 
   const sessionEvaluation = useMemo(() => {
@@ -623,14 +721,18 @@ export default function VoiceTutorPage() {
         grammarScore: 0,
         grade: "C",
         label: "Chưa Đánh Giá",
-        color: "text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700",
+        color:
+          "text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700",
         xpAward: 0,
         coachFeedback: "Hãy bắt đầu trò chuyện để nhận đánh giá chi tiết nhé!",
       };
     }
 
     const scores = userMessages.map((m) => m.pronunciationScore || 92);
-    const avgPronunciation = scores.length > 0 ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : 92;
+    const avgPronunciation =
+      scores.length > 0
+        ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
+        : 92;
 
     const errorsCount = grammarCorrections.filter((g) => g.corrected).length;
     const grammarScore = Math.max(50, Math.min(100, 100 - errorsCount * 15));
@@ -639,25 +741,28 @@ export default function VoiceTutorPage() {
 
     const overallScore = Math.round(
       0.35 * avgPronunciation +
-      0.25 * fluencyScore +
-      0.20 * intonationScore +
-      0.20 * grammarScore
+        0.25 * fluencyScore +
+        0.2 * intonationScore +
+        0.2 * grammarScore
     );
 
     let grade = "C";
     let label = "Cần Cố Gắng";
-    let color = "text-amber-700 dark:text-amber-300 bg-amber-500/10 border-amber-500/30";
+    let color =
+      "text-amber-700 dark:text-amber-300 bg-amber-500/10 border-amber-500/30";
     let xpAward = 15;
 
     if (overallScore >= 90) {
       grade = "S";
       label = "Xuất Sắc";
-      color = "text-purple-700 dark:text-purple-300 bg-purple-500/10 border-purple-500/30";
+      color =
+        "text-purple-700 dark:text-purple-300 bg-purple-500/10 border-purple-500/30";
       xpAward = 45;
     } else if (overallScore >= 80) {
       grade = "A";
       label = "Thành Thạo";
-      color = "text-emerald-700 dark:text-emerald-300 bg-emerald-500/10 border-emerald-500/30";
+      color =
+        "text-emerald-700 dark:text-emerald-300 bg-emerald-500/10 border-emerald-500/30";
       xpAward = 35;
     } else if (overallScore >= 70) {
       grade = "B";
@@ -668,17 +773,20 @@ export default function VoiceTutorPage() {
 
     let coachFeedback = "";
     if (activePersonaObj.id === "emma") {
-      coachFeedback = overallScore >= 85
-        ? "Excellent speaking flow and natural British rhythm! Your articulation was clear and vocabulary choice was sophisticated."
-        : "Good effort! Try focusing on sentence connection and linking words smoothly to elevate your fluency.";
+      coachFeedback =
+        overallScore >= 85
+          ? "Excellent speaking flow and natural British rhythm! Your articulation was clear and vocabulary choice was sophisticated."
+          : "Good effort! Try focusing on sentence connection and linking words smoothly to elevate your fluency.";
     } else if (activePersonaObj.id === "alex") {
-      coachFeedback = overallScore >= 85
-        ? "Awesome energy! Your spoken responses were sharp, direct, and sound very natural in a professional conversational setting."
-        : "Keep it up! Try to expand on your thoughts by giving one more example or reason in each turn.";
+      coachFeedback =
+        overallScore >= 85
+          ? "Awesome energy! Your spoken responses were sharp, direct, and sound very natural in a professional conversational setting."
+          : "Keep it up! Try to expand on your thoughts by giving one more example or reason in each turn.";
     } else {
-      coachFeedback = overallScore >= 85
-        ? "Brilliant chat today! You spoke so freely and with wonderful confidence. Love your natural expressions!"
-        : "You did great today! Remember that making mistakes is part of the journey. Keep practicing with me anytime!";
+      coachFeedback =
+        overallScore >= 85
+          ? "Brilliant chat today! You spoke so freely and with wonderful confidence. Love your natural expressions!"
+          : "You did great today! Remember that making mistakes is part of the journey. Keep practicing with me anytime!";
     }
 
     return {
@@ -695,12 +803,13 @@ export default function VoiceTutorPage() {
     };
   }, [userTurnsCount, userMessages, grammarCorrections, activePersonaObj.id]);
 
-  const handleFinishConversation = () => {
+  const handleFinishConversation = async () => {
     if (userTurnsCount === 0) {
       addToast({
         type: "warning",
         title: "Chưa có dữ liệu trò chuyện 🎙️",
-        message: "Bạn hãy nói ít nhất 1 câu để Huấn luyện viên có dữ liệu đánh giá và chấm điểm nhé!",
+        message:
+          "Bạn hãy nói ít nhất 1 câu để Huấn luyện viên có dữ liệu đánh giá và chấm điểm nhé!",
       });
       return;
     }
@@ -715,9 +824,38 @@ export default function VoiceTutorPage() {
       title: `Hoàn Thành Buổi Luyện Nói (Hạng ${sessionEvaluation.grade})! 🎉`,
       message: `+${sessionEvaluation.xpAward} XP cùng Huấn luyện viên ${activePersonaObj.name}!`,
     });
+
+    // Persist full practice transcript & scorecard to PostgreSQL Neon ai_practice_sessions
+    try {
+      await fetch("/api/ai/sessions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sessionId,
+          mode: "tutor",
+          personaId: currentPersona,
+          messages,
+          overallScore: sessionEvaluation.overallScore,
+          grade: sessionEvaluation.grade,
+          evaluationMetrics: {
+            pronunciationScore: sessionEvaluation.pronunciationScore,
+            fluencyScore: sessionEvaluation.fluencyScore,
+            intonationScore: sessionEvaluation.intonationScore,
+            grammarScore: sessionEvaluation.grammarScore,
+            coachFeedback: sessionEvaluation.coachFeedback,
+          },
+          timeSpentSeconds: elapsedTime,
+          xpEarned: sessionEvaluation.xpAward,
+          status: "COMPLETED",
+        }),
+      });
+    } catch (err) {
+      console.warn("Could not save session to server:", err);
+    }
   };
 
   const handleRestartNewSession = () => {
+    setSessionId(`ai_tutor_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`);
     setIsSessionCompleted(false);
     setShowChatHistoryInSummary(false);
     setMessages([initialWelcome]);
@@ -751,7 +889,18 @@ export default function VoiceTutorPage() {
       {/* 1. APP TOP HEADER (FIXED 56PX) */}
       <AppTopHeader
         rightDesktopContent={
-          <div className="flex items-center gap-2.5 shrink-0">
+          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+            {/* Lịch Sử Buổi Học Button */}
+            <button
+              type="button"
+              onClick={handleOpenHistoryDrawer}
+              className="h-9 px-3 rounded-xl bg-slate-100 hover:bg-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700/80 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-bold border border-slate-200/80 dark:border-slate-700 shadow-2xs flex items-center gap-1.5 cursor-pointer transition-all active:scale-95 shrink-0"
+              title="Xem lại lịch sử các buổi học trước"
+            >
+              <History className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
+              <span className="hidden sm:inline">Lịch sử</span>
+            </button>
+
             <span className="px-3 py-1.5 rounded-xl bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-xs font-bold font-mono tabular-nums flex items-center gap-1.5 shadow-2xs">
               <Clock className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
               <span>{formatElapsedTime(elapsedTime)}</span>
@@ -782,12 +931,12 @@ export default function VoiceTutorPage() {
         <HeaderPillContainer>
           <HeaderPillItem
             active
-            icon={<SpeakingIcon className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />}
+            icon={<SpeakingIcon className="w-3.5 h-3.5 text-purple-500" />}
             label="Luyện nói"
           />
           <HeaderPillItem
             href="/ai/conversation"
-            icon={<Wand2 className="w-3.5 h-3.5" />}
+            icon={<Wand2 className="w-3.5 h-3.5 text-fuchsia-500" />}
             label="Luyện viết"
           />
         </HeaderPillContainer>
@@ -795,7 +944,6 @@ export default function VoiceTutorPage() {
 
       {/* 2. MAIN DASHBOARD-STYLE VIEWPORT CANVAS (FITS IN 1 SCREEN ON DESKTOP) */}
       <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-5 lg:px-6 py-2.5 sm:py-3.5 lg:py-3 flex flex-col min-h-0 lg:overflow-hidden space-y-2.5 sm:space-y-3 pb-24 lg:pb-3">
-        
         {/* 2.1. SLIM HERO STATUS STRIP (DASHBOARD BENTO STYLE) */}
         <div className="p-2.5 sm:p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 shrink-0">
           <div className="flex items-center gap-2.5 min-w-0">
@@ -809,7 +957,9 @@ export default function VoiceTutorPage() {
             <div className="min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
-                  {isSessionCompleted ? "Báo Cáo Buổi Luyện Nói" : `Đang trò chuyện cùng ${activePersonaObj.name}`}
+                  {isSessionCompleted
+                    ? "Báo Cáo Buổi Luyện Nói"
+                    : `Đang trò chuyện cùng ${activePersonaObj.name}`}
                 </span>
                 <span className="px-2.5 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 text-xs font-bold font-mono border border-blue-200/60 dark:border-blue-800/40 shadow-2xs">
                   {activePersonaObj.role}
@@ -854,14 +1004,11 @@ export default function VoiceTutorPage() {
 
         {/* 2.2. MAIN BENTO GRID: FITS STRICTLY IN DESKTOP VIEWPORT */}
         {!isSessionCompleted ? (
-          
           /* ===== VIEW 1: STUDIO BENTO GRID (8/12 - 4/12) ===== */
           <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-3.5 items-stretch min-w-0">
-            
             {/* CỘT TRÁI: VOICE CHAT STREAM & INPUT DOCK (8/12) */}
             <div className="lg:col-span-8 flex flex-col min-w-0 lg:h-full lg:min-h-0">
               <div className="p-3 sm:p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col min-w-0 flex-1 lg:h-full lg:min-h-0 space-y-2.5">
-                
                 {/* Header Trong Khung Chat */}
                 <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2 gap-2 shrink-0">
                   <div className="flex items-center gap-2 min-w-0">
@@ -884,8 +1031,14 @@ export default function VoiceTutorPage() {
                     }`}
                     title={soundEnabled ? "Tắt âm thanh" : "Bật âm thanh"}
                   >
-                    {soundEnabled ? <Volume2 className="w-3.5 h-3.5 text-[#0059bb]" /> : <VolumeX className="w-3.5 h-3.5" />}
-                    <span className="hidden sm:inline">{soundEnabled ? "Bật âm" : "Tắt âm"}</span>
+                    {soundEnabled ? (
+                      <Volume2 className="w-3.5 h-3.5 text-[#0059bb]" />
+                    ) : (
+                      <VolumeX className="w-3.5 h-3.5" />
+                    )}
+                    <span className="hidden sm:inline">
+                      {soundEnabled ? "Bật âm" : "Tắt âm"}
+                    </span>
                   </button>
                 </div>
 
@@ -898,7 +1051,9 @@ export default function VoiceTutorPage() {
                     return (
                       <div
                         key={msg.id}
-                        className={`flex items-start gap-2.5 ${isAi ? "justify-start" : "justify-end"}`}
+                        className={`flex items-start gap-2.5 ${
+                          isAi ? "justify-start" : "justify-end"
+                        }`}
                       >
                         {isAi && (
                           <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 mt-0.5 border border-blue-200/80 dark:border-blue-800/50 shadow-2xs text-xs font-mono font-bold">
@@ -906,8 +1061,11 @@ export default function VoiceTutorPage() {
                           </div>
                         )}
 
-                        <div className={`space-y-1.5 max-w-[88%] sm:max-w-[82%] ${isAi ? "" : "items-end flex flex-col"}`}>
-                          
+                        <div
+                          className={`space-y-1.5 max-w-[88%] sm:max-w-[82%] ${
+                            isAi ? "" : "items-end flex flex-col"
+                          }`}
+                        >
                           {/* Chat Bubble */}
                           <div
                             className={`p-3 rounded-xl text-xs sm:text-sm font-medium leading-relaxed shadow-2xs transition-all ${
@@ -936,61 +1094,87 @@ export default function VoiceTutorPage() {
                             {/* Vietnamese Translation Display */}
                             {isTranslated && msg.vietnameseTranslation && (
                               <div className="mt-2 pt-2 border-t border-slate-200/60 dark:border-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-200 flex items-start gap-1.5">
-                                <span className="shrink-0 text-[#0059bb] dark:text-sky-400 font-bold font-mono">[Dịch]</span>
+                                <span className="shrink-0 text-[#0059bb] dark:text-sky-400 font-bold font-mono">
+                                  [Dịch]
+                                </span>
                                 <span>{msg.vietnameseTranslation}</span>
                               </div>
                             )}
                           </div>
 
                           {/* AI Grammar Correction Card */}
-                          {!isAi && (msg.grammarCorrection?.hasError || msg.betterPhrasing) && (
-                            <div className="p-3 rounded-xl bg-slate-100/90 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 text-xs space-y-2 text-left w-full shadow-2xs">
-                              {msg.grammarCorrection?.hasError && (
-                                <div className="space-y-1">
-                                  <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800 dark:text-slate-100">
-                                    <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0" />
-                                    <span>Sửa ngữ pháp:</span>
+                          {!isAi &&
+                            (msg.grammarCorrection?.hasError ||
+                              msg.betterPhrasing) && (
+                              <div className="p-3 rounded-xl bg-slate-100/90 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 text-xs space-y-2 text-left w-full shadow-2xs">
+                                {msg.grammarCorrection?.hasError && (
+                                  <div className="space-y-1">
+                                    <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800 dark:text-slate-100">
+                                      <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0" />
+                                      <span>Sửa ngữ pháp:</span>
+                                    </div>
+                                    <div className="flex items-center flex-wrap gap-1.5 text-xs font-semibold">
+                                      <span className="line-through text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/40 px-2 py-0.5 rounded-md border border-rose-200/60 dark:border-rose-900/30">
+                                        {msg.grammarCorrection.original}
+                                      </span>
+                                      <span className="text-slate-400 dark:text-slate-500 font-bold">
+                                        ➔
+                                      </span>
+                                      <span className="font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-md border border-emerald-200/60 dark:border-emerald-900/30">
+                                        {msg.grammarCorrection.corrected}
+                                      </span>
+                                    </div>
+                                    {msg.grammarCorrection.explanation && (
+                                      <p className="text-xs leading-relaxed text-slate-600 dark:text-slate-300 pt-0.5">
+                                        {msg.grammarCorrection.explanation
+                                          .replace(/^\((.*)\)$/, "$1")
+                                          .trim()}
+                                      </p>
+                                    )}
                                   </div>
-                                  <div className="flex items-center flex-wrap gap-1.5 text-xs font-semibold">
-                                    <span className="line-through text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/40 px-2 py-0.5 rounded-md border border-rose-200/60 dark:border-rose-900/30">
-                                      {msg.grammarCorrection.original}
-                                    </span>
-                                    <span className="text-slate-400 dark:text-slate-500 font-bold">➔</span>
-                                    <span className="font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-md border border-emerald-200/60 dark:border-emerald-900/30">
-                                      {msg.grammarCorrection.corrected}
-                                    </span>
-                                  </div>
-                                  {msg.grammarCorrection.explanation && (
-                                    <p className="text-xs leading-relaxed text-slate-600 dark:text-slate-300 pt-0.5">
-                                      {msg.grammarCorrection.explanation.replace(/^\((.*)\)$/, "$1").trim()}
-                                    </p>
-                                  )}
-                                </div>
-                              )}
+                                )}
 
-                              {msg.betterPhrasing && (
-                                <div className="pt-2 border-t border-slate-200/60 dark:border-slate-700 space-y-1">
-                                  <div className="flex items-center gap-1 text-xs font-bold text-[#0059bb] dark:text-sky-400">
-                                    <Sparkles className="w-3.5 h-3.5 text-[#0059bb]" />
-                                    <span>Diễn đạt tự nhiên hơn:</span>
+                                {msg.betterPhrasing && (
+                                  <div className="pt-2 border-t border-slate-200/60 dark:border-slate-700 space-y-1">
+                                    <div className="flex items-center gap-1 text-xs font-bold text-[#0059bb] dark:text-sky-400">
+                                      <Sparkles className="w-3.5 h-3.5 text-[#0059bb]" />
+                                      <span>Diễn đạt tự nhiên hơn:</span>
+                                    </div>
+                                    <div className="flex items-center justify-between gap-2">
+                                      <p className="text-xs font-bold text-slate-900 dark:text-slate-100">
+                                        "
+                                        {msg.betterPhrasing
+                                          .replace(/^["']|["']$/g, "")
+                                          .replace(
+                                            /^(A more natural way to say that (would be|is)|You could say|A better phrasing is|Try saying),?\s*/i,
+                                            ""
+                                          )
+                                          .replace(/^["']|["']$/g, "")}
+                                        "
+                                      </p>
+                                      <button
+                                        type="button"
+                                        onClick={() =>
+                                          speakText(
+                                            msg.betterPhrasing
+                                              ?.replace(/^["']|["']$/g, "")
+                                              .replace(
+                                                /^(A more natural way to say that (would be|is)|You could say|A better phrasing is|Try saying),?\s*/i,
+                                                ""
+                                              )
+                                              .replace(/^["']|["']$/g, "") || ""
+                                          )
+                                        }
+                                        className="p-1 rounded text-slate-400 hover:text-[#0059bb] dark:hover:text-sky-400 transition-colors shrink-0 cursor-pointer"
+                                        title="Nghe phát âm câu tự nhiên"
+                                      >
+                                        <Volume2 className="w-3.5 h-3.5" />
+                                      </button>
+                                    </div>
                                   </div>
-                                  <div className="flex items-center justify-between gap-2">
-                                    <p className="text-xs font-bold text-slate-900 dark:text-slate-100">
-                                      "{msg.betterPhrasing.replace(/^["']|["']$/g, '').replace(/^(A more natural way to say that (would be|is)|You could say|A better phrasing is|Try saying),?\s*/i, '').replace(/^["']|["']$/g, '')}"
-                                    </p>
-                                    <button
-                                      type="button"
-                                      onClick={() => speakText(msg.betterPhrasing?.replace(/^["']|["']$/g, '').replace(/^(A more natural way to say that (would be|is)|You could say|A better phrasing is|Try saying),?\s*/i, '').replace(/^["']|["']$/g, '') || "")}
-                                      className="p-1 rounded text-slate-400 hover:text-[#0059bb] dark:hover:text-sky-400 transition-colors shrink-0 cursor-pointer"
-                                      title="Nghe phát âm câu tự nhiên"
-                                    >
-                                      <Volume2 className="w-3.5 h-3.5" />
-                                    </button>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                          )}
+                                )}
+                              </div>
+                            )}
 
                           {/* AI Action Strip */}
                           {isAi && (
@@ -1013,7 +1197,6 @@ export default function VoiceTutorPage() {
                               )}
                             </div>
                           )}
-
                         </div>
 
                         {!isAi && (
@@ -1022,7 +1205,11 @@ export default function VoiceTutorPage() {
                             avatarUrl={(user as any)?.avatarUrl}
                             imageUrl={user?.imageUrl}
                             emoji={user?.avatarEmoji}
-                            name={user?.fullName || user?.username || user?.email}
+                            name={
+                              user?.fullName ||
+                              user?.username ||
+                              user?.email
+                            }
                             size="w-8 h-8"
                             className="mt-0.5 shrink-0"
                           />
@@ -1033,14 +1220,16 @@ export default function VoiceTutorPage() {
 
                   {loading && (
                     <div className="flex items-center gap-2 p-2.5 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200/60 dark:border-blue-800/40 text-[#0059bb] dark:text-sky-300 text-xs font-bold animate-pulse w-fit shadow-2xs">
-                      <RefreshCw className="w-4 h-4 animate-spin" /> {activePersonaObj.name} đang lắng nghe & suy nghĩ...
+                      <RefreshCw className="w-4 h-4 animate-spin" />{" "}
+                      {activePersonaObj.name} đang lắng nghe & suy nghĩ...
                     </div>
                   )}
                   <div ref={chatBottomRef} />
                 </div>
 
                 {/* Dải Gợi Ý Thuần Chữ (Shrink-0) */}
-                {(currentSuggestions.words.length > 0 || currentSuggestions.phrases.length > 0) && (
+                {(currentSuggestions.words.length > 0 ||
+                  currentSuggestions.phrases.length > 0) && (
                   <div className="pt-2 pb-0.5 border-t border-slate-100 dark:border-slate-800 flex items-center gap-2 text-xs text-slate-700 dark:text-slate-300 flex-wrap shrink-0">
                     <span className="text-xs font-bold text-[#0059bb] dark:text-sky-400 uppercase tracking-wider flex items-center gap-1 shrink-0 select-none">
                       <Sparkles className="w-3.5 h-3.5 text-[#0059bb]" /> Gợi ý:
@@ -1048,7 +1237,11 @@ export default function VoiceTutorPage() {
 
                     {currentSuggestions.words.slice(0, 3).map((w, idx) => (
                       <React.Fragment key={`w_${idx}`}>
-                        {idx > 0 && <span className="text-slate-300 dark:text-slate-600 select-none">•</span>}
+                        {idx > 0 && (
+                          <span className="text-slate-300 dark:text-slate-600 select-none">
+                            •
+                          </span>
+                        )}
                         <button
                           type="button"
                           onClick={() => speakText(w.word)}
@@ -1061,7 +1254,9 @@ export default function VoiceTutorPage() {
 
                     {currentSuggestions.phrases.slice(0, 2).map((phrase, idx) => (
                       <React.Fragment key={`p_${idx}`}>
-                        <span className="text-slate-300 dark:text-slate-600 select-none">•</span>
+                        <span className="text-slate-300 dark:text-slate-600 select-none">
+                          •
+                        </span>
                         <button
                           type="button"
                           onClick={() => speakText(phrase)}
@@ -1077,7 +1272,6 @@ export default function VoiceTutorPage() {
                 {/* Voice Input Dock (Pinned to bottom of left card) */}
                 <div className="pt-1.5 border-t border-slate-100 dark:border-slate-800 space-y-1.5 shrink-0">
                   <div className="flex items-center gap-2 p-1.5 sm:p-2 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800">
-                    
                     {/* Nút Micro Toggle-to-Send */}
                     <button
                       type="button"
@@ -1093,7 +1287,11 @@ export default function VoiceTutorPage() {
                           : "Nhấn nút Micro và bắt đầu nói tiếng Anh (Bấm lại để gửi)"
                       }
                     >
-                      {isRecording ? <Square className="w-4 h-4 fill-white" /> : <Mic className="w-4.5 h-4.5 stroke-[2]" />}
+                      {isRecording ? (
+                        <Square className="w-4 h-4 fill-white" />
+                      ) : (
+                        <Mic className="w-4.5 h-4.5 stroke-[2]" />
+                      )}
                     </button>
 
                     {/* Khung Hiển Thị Lời Nói */}
@@ -1103,7 +1301,11 @@ export default function VoiceTutorPage() {
                         readOnly
                         tabIndex={0}
                         onKeyDown={(e) => {
-                          if (e.key === "Enter" && spokenText.trim() && !loading) {
+                          if (
+                            e.key === "Enter" &&
+                            spokenText.trim() &&
+                            !loading
+                          ) {
                             e.preventDefault();
                             handleSendSpokenSpeech();
                           }
@@ -1112,7 +1314,11 @@ export default function VoiceTutorPage() {
                           loading
                             ? "Gia sư AI đang phản hồi..."
                             : isRecording
-                            ? `🔴 Đang nghe bạn nói... (00:${recordingTime < 10 ? `0${recordingTime}` : recordingTime}) • Bấm lại Micro để GỬI`
+                            ? `🔴 Đang nghe bạn nói... (00:${
+                                recordingTime < 10
+                                  ? `0${recordingTime}`
+                                  : recordingTime
+                              }) • Bấm lại Micro để GỬI`
                             : spokenText
                             ? "Đã nhận diện câu nói (Bấm nút Micro hoặc Gửi)"
                             : "Nhấn nút Micro và bắt đầu nói tiếng Anh..."
@@ -1153,22 +1359,25 @@ export default function VoiceTutorPage() {
                           key={i}
                           className="w-[2.5px] rounded-full shrink-0 transition-all duration-75"
                           style={{
-                            height: `${Math.max(3, Math.min(12, (freq / 100) * 12))}px`,
-                            backgroundColor: isRecording ? "#f43f5e" : "#0059bb",
+                            height: `${Math.max(
+                              3,
+                              Math.min(12, (freq / 100) * 12)
+                            )}px`,
+                            backgroundColor: isRecording
+                              ? "#f43f5e"
+                              : "#0059bb",
                           }}
                         />
                       ))}
                     </div>
                   )}
                 </div>
-
               </div>
             </div>
 
             {/* CỘT PHẢI: HIGH-END HARMONIOUS SIDEBAR (4/12) */}
             <div className="lg:col-span-4 flex flex-col min-w-0 lg:h-full lg:min-h-0">
               <div className="p-3 sm:p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col justify-between gap-2.5 lg:h-full lg:min-h-0 overflow-y-auto">
-                
                 {/* 1. KHỐI CHỌN GIA SƯ AI & SPEED DOCK TRÊN CÙNG */}
                 <div className="space-y-2 shrink-0">
                   <div className="flex items-center justify-between pb-1">
@@ -1181,7 +1390,7 @@ export default function VoiceTutorPage() {
                         <button
                           key={spd}
                           type="button"
-                          onClick={() => setSpeechSpeed(spd)}
+                          onClick={() => handleSelectSpeed(spd)}
                           className={`px-2.5 py-0.5 rounded-md text-xs font-bold transition-all cursor-pointer ${
                             speechSpeed === spd
                               ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-300 shadow-2xs font-extrabold"
@@ -1202,7 +1411,7 @@ export default function VoiceTutorPage() {
                         <button
                           key={p.id}
                           type="button"
-                          onClick={() => setCurrentPersona(p.id)}
+                          onClick={() => handleSelectPersona(p.id)}
                           className={`w-full text-left px-3 py-2.5 rounded-xl border transition-all flex items-center justify-between cursor-pointer ${
                             isActive
                               ? "bg-blue-50/80 dark:bg-blue-950/50 border-[#0059bb] text-[#0059bb] dark:text-sky-300 font-bold shadow-2xs"
@@ -1210,22 +1419,30 @@ export default function VoiceTutorPage() {
                           }`}
                         >
                           <div className="flex items-center gap-2.5 min-w-0">
-                            <span className={`w-8 h-8 rounded-lg flex items-center justify-center font-mono font-bold text-xs shrink-0 border ${
-                              isActive
-                                ? "bg-[#0059bb] text-white border-[#0059bb]"
-                                : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700"
-                            }`}>
+                            <span
+                              className={`w-8 h-8 rounded-lg flex items-center justify-center font-mono font-bold text-xs shrink-0 border ${
+                                isActive
+                                  ? "bg-[#0059bb] text-white border-[#0059bb]"
+                                  : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700"
+                              }`}
+                            >
                               {p.countryCode}
                             </span>
                             <div className="truncate">
                               <div className="text-xs sm:text-sm font-bold font-display truncate text-slate-900 dark:text-white flex items-center gap-1.5">
                                 <span>{p.name}</span>
-                                <span className="text-xs font-medium text-slate-500 dark:text-slate-400">({p.countryName})</span>
+                                <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                                  ({p.countryName})
+                                </span>
                               </div>
-                              <div className="text-xs text-slate-600 dark:text-slate-300 font-medium truncate">{p.role}</div>
+                              <div className="text-xs text-slate-600 dark:text-slate-300 font-medium truncate">
+                                {p.role}
+                              </div>
                             </div>
                           </div>
-                          {isActive && <Check className="w-4 h-4 text-[#0059bb] dark:text-sky-400 shrink-0 stroke-[3]" />}
+                          {isActive && (
+                            <Check className="w-4 h-4 text-[#0059bb] dark:text-sky-400 shrink-0 stroke-[3]" />
+                          )}
                         </button>
                       );
                     })}
@@ -1238,7 +1455,9 @@ export default function VoiceTutorPage() {
                     <span className="text-xs font-bold text-[#0059bb] dark:text-sky-400 font-display uppercase tracking-wider flex items-center gap-1.5">
                       <Sparkles className="w-3.5 h-3.5 text-[#0059bb]" /> TỪ VỰNG NGỮ CẢNH
                     </span>
-                    <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Click tra/nghe</span>
+                    <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                      Click tra/nghe
+                    </span>
                   </div>
 
                   <div className="space-y-1.5">
@@ -1253,7 +1472,9 @@ export default function VoiceTutorPage() {
                             {w.word}
                           </span>
                           {w.meaning && (
-                            <p className="text-xs text-slate-600 dark:text-slate-300 truncate font-medium">{w.meaning}</p>
+                            <p className="text-xs text-slate-600 dark:text-slate-300 truncate font-medium">
+                              {w.meaning}
+                            </p>
                           )}
                         </div>
                         <div className="w-7 h-7 rounded-lg bg-white dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700 flex items-center justify-center group-hover:bg-[#0059bb] group-hover:text-white group-hover:border-[#0059bb] transition-all shrink-0">
@@ -1271,7 +1492,9 @@ export default function VoiceTutorPage() {
                       <span className="text-xs font-bold uppercase tracking-wider text-amber-700 dark:text-amber-300 flex items-center gap-1.5">
                         <Lightbulb className="w-3.5 h-3.5 text-amber-500" /> MẪU CÂU MỞ ĐẦU
                       </span>
-                      <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Click nghe mẫu</span>
+                      <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                        Click nghe mẫu
+                      </span>
                     </div>
 
                     <div className="space-y-1.5">
@@ -1291,14 +1514,10 @@ export default function VoiceTutorPage() {
                     </div>
                   </div>
                 )}
-
               </div>
             </div>
-
           </div>
-
         ) : (
-
           /* ===== VIEW 2: IN-PLACE SCORECARD & SUMMARY (COMPACT & FITS IN VIEWPORT) ===== */
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
@@ -1308,7 +1527,6 @@ export default function VoiceTutorPage() {
           >
             {/* Top Overall Score Card */}
             <div className="p-3.5 sm:p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs space-y-3">
-              
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-slate-100 dark:border-slate-800 pb-2.5">
                 <div className="flex items-center gap-3">
                   <div className="w-11 h-11 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center border border-emerald-500/20 shadow-2xs shrink-0">
@@ -1324,27 +1542,37 @@ export default function VoiceTutorPage() {
                       </span>
                     </div>
                     <p className="text-xs text-slate-600 dark:text-slate-300 font-medium">
-                      Huấn luyện viên: <strong className="text-slate-900 dark:text-white">{activePersonaObj.name}</strong> ({activePersonaObj.role})
+                      Huấn luyện viên:{" "}
+                      <strong className="text-slate-900 dark:text-white">
+                        {activePersonaObj.name}
+                      </strong>{" "}
+                      ({activePersonaObj.role})
                     </p>
                   </div>
                 </div>
 
                 {/* Overall Score Badge */}
                 <div className="flex items-center gap-3 sm:self-center">
-                  <div className={`px-3 py-1 rounded-lg border text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-2xs ${sessionEvaluation.color}`}>
+                  <div
+                    className={`px-3 py-1 rounded-lg border text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-2xs ${sessionEvaluation.color}`}
+                  >
                     <span>Hạng {sessionEvaluation.grade}</span>
                     <span>•</span>
                     <span>{sessionEvaluation.label}</span>
                   </div>
                   <div className="text-right">
-                    <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Điểm Phản Xạ</span>
+                    <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
+                      Điểm Phản Xạ
+                    </span>
                     <span className="text-lg sm:text-xl font-black text-[#0059bb] dark:text-sky-400 font-display tabular-nums">
                       {sessionEvaluation.overallScore}/100
                     </span>
                   </div>
                   <div className="h-8 w-px bg-slate-200 dark:bg-slate-800 hidden sm:block" />
                   <div className="text-right">
-                    <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Phần Thưởng</span>
+                    <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
+                      Phần Thưởng
+                    </span>
                     <span className="text-lg sm:text-xl font-black text-emerald-600 dark:text-emerald-400 font-display tabular-nums">
                       +{sessionEvaluation.xpAward} XP
                     </span>
@@ -1390,12 +1618,10 @@ export default function VoiceTutorPage() {
                   </p>
                 </div>
               </div>
-
             </div>
 
             {/* Bento Detailed Analytics */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-3">
-              
               {/* Cột Trái: Lỗi Ngữ Pháp & Gợi Ý Phrasing Tự Nhiên (8/12) */}
               <div className="lg:col-span-8 p-3.5 sm:p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs space-y-3">
                 <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
@@ -1415,20 +1641,33 @@ export default function VoiceTutorPage() {
                         className="p-3 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-1.5 text-xs sm:text-sm"
                       >
                         <div className="flex items-start gap-2">
-                          <span className="font-bold text-slate-400 shrink-0 font-mono text-xs">#{idx + 1}</span>
+                          <span className="font-bold text-slate-400 shrink-0 font-mono text-xs">
+                            #{idx + 1}
+                          </span>
                           <div className="space-y-1 flex-1">
                             {item.corrected && (
                               <div>
-                                <span className="text-rose-600 dark:text-rose-400 line-through mr-1 font-semibold">{item.original}</span>
-                                ➔ <strong className="text-emerald-700 dark:text-emerald-300 font-bold ml-1">{item.corrected}</strong>
+                                <span className="text-rose-600 dark:text-rose-400 line-through mr-1 font-semibold">
+                                  {item.original}
+                                </span>
+                                ➔{" "}
+                                <strong className="text-emerald-700 dark:text-emerald-300 font-bold ml-1">
+                                  {item.corrected}
+                                </strong>
                                 {item.explanation && (
-                                  <p className="text-xs text-slate-600 dark:text-slate-300 mt-1">{item.explanation.replace(/^\((.*)\)$/, "$1").trim()}</p>
+                                  <p className="text-xs text-slate-600 dark:text-slate-300 mt-1">
+                                    {item.explanation
+                                      .replace(/^\((.*)\)$/, "$1")
+                                      .trim()}
+                                  </p>
                                 )}
                               </div>
                             )}
                             {item.betterPhrasing && (
                               <div className="text-emerald-800 dark:text-emerald-200 font-medium pt-1">
-                                <span className="font-bold text-emerald-700 dark:text-emerald-300 mr-1.5">✨ Diễn đạt tự nhiên:</span>
+                                <span className="font-bold text-emerald-700 dark:text-emerald-300 mr-1.5">
+                                  ✨ Diễn đạt tự nhiên:
+                                </span>
                                 "{item.betterPhrasing}"
                               </div>
                             )}
@@ -1453,21 +1692,37 @@ export default function VoiceTutorPage() {
                 <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
                   <button
                     type="button"
-                    onClick={() => setShowChatHistoryInSummary(!showChatHistoryInSummary)}
+                    onClick={() =>
+                      setShowChatHistoryInSummary(!showChatHistoryInSummary)
+                    }
                     className="text-xs font-bold text-[#0059bb] dark:text-sky-400 hover:underline flex items-center gap-1.5 cursor-pointer"
                   >
                     <History className="w-3.5 h-3.5" />
-                    <span>{showChatHistoryInSummary ? "Ẩn đoạn hội thoại chi tiết" : "Xem lại toàn bộ đoạn hội thoại"}</span>
+                    <span>
+                      {showChatHistoryInSummary
+                        ? "Ẩn đoạn hội thoại chi tiết"
+                        : "Xem lại toàn bộ đoạn hội thoại"}
+                    </span>
                   </button>
 
                   {showChatHistoryInSummary && (
                     <div className="mt-2 p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 space-y-2 max-h-[200px] overflow-y-auto">
                       {messages.map((m) => (
                         <div key={m.id} className="text-xs space-y-0.5">
-                          <span className={`font-bold ${m.role === "ai" ? "text-[#0059bb] dark:text-sky-400" : "text-slate-900 dark:text-white"}`}>
-                            {m.role === "ai" ? `${activePersonaObj.name}:` : "Bạn:"}
+                          <span
+                            className={`font-bold ${
+                              m.role === "ai"
+                                ? "text-[#0059bb] dark:text-sky-400"
+                                : "text-slate-900 dark:text-white"
+                            }`}
+                          >
+                            {m.role === "ai"
+                              ? `${activePersonaObj.name}:`
+                              : "Bạn:"}
                           </span>
-                          <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-xs sm:text-sm">{m.text}</p>
+                          <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-xs sm:text-sm">
+                            {m.text}
+                          </p>
                         </div>
                       ))}
                     </div>
@@ -1477,7 +1732,6 @@ export default function VoiceTutorPage() {
 
               {/* Cột Phải: Lời Nhận Xét Của Huấn Luyện Viên (4/12) */}
               <div className="lg:col-span-4 p-3.5 sm:p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs space-y-3">
-                
                 {/* Coach Evaluation Card */}
                 <div className="p-3 rounded-xl bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-900/40 space-y-2">
                   <div className="flex items-center gap-2.5">
@@ -1487,9 +1741,13 @@ export default function VoiceTutorPage() {
                     <div className="min-w-0">
                       <div className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                         <span>{activePersonaObj.name}</span>
-                        <span className="text-xs font-medium text-[#0059bb] dark:text-sky-400">({activePersonaObj.accent})</span>
+                        <span className="text-xs font-medium text-[#0059bb] dark:text-sky-400">
+                          ({activePersonaObj.accent})
+                        </span>
                       </div>
-                      <div className="text-xs text-slate-600 dark:text-slate-300 truncate font-medium">{activePersonaObj.role}</div>
+                      <div className="text-xs text-slate-600 dark:text-slate-300 truncate font-medium">
+                        {activePersonaObj.role}
+                      </div>
                     </div>
                   </div>
                   <p className="text-xs sm:text-sm font-medium text-slate-800 dark:text-slate-200 leading-relaxed bg-white/80 dark:bg-slate-900/80 p-2.5 rounded-lg border border-blue-200/60 dark:border-blue-900/30">
@@ -1515,15 +1773,12 @@ export default function VoiceTutorPage() {
                   </Link>
                 </div>
               </div>
-
             </div>
-
           </motion.div>
         )}
-
       </div>
 
-      {/* 3. 1-CLICK INTERACTIVE WORD DICTIONARY FLOATING MODAL */}
+      {/* 3. 1-CLICK INTERACTIVE DEEP WORD DICTIONARY FLOATING MODAL */}
       <AnimatePresence>
         {selectedWordData && (
           <motion.div
@@ -1563,12 +1818,20 @@ export default function VoiceTutorPage() {
               </div>
 
               {selectedWordData.ipa && (
-                <p className="text-xs font-mono text-slate-600 dark:text-slate-400 font-bold">{selectedWordData.ipa}</p>
+                <p className="text-xs font-mono text-slate-600 dark:text-slate-400 font-bold">
+                  {selectedWordData.ipa}
+                </p>
               )}
 
               <p className="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200">
                 {selectedWordData.meaning}
               </p>
+
+              {selectedWordData.example && (
+                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed pt-1 border-t border-slate-100 dark:border-slate-800">
+                  {selectedWordData.example}
+                </p>
+              )}
             </div>
 
             <button
@@ -1580,6 +1843,161 @@ export default function VoiceTutorPage() {
               <span>Lưu vào Sổ tay từ vựng (+5 XP)</span>
             </button>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* 4. SESSION HISTORY DRAWER & TRANSCRIPT PREVIEW */}
+      <AnimatePresence>
+        {isHistoryDrawerOpen && (
+          <div className="fixed inset-0 z-50 flex justify-end bg-slate-950/40 backdrop-blur-xs">
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="w-full max-w-md h-full bg-white dark:bg-slate-900 border-l border-slate-200/90 dark:border-slate-800 shadow-2xl flex flex-col min-h-0"
+            >
+              {/* Drawer Header */}
+              <div className="p-3.5 sm:p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center border border-blue-200/60">
+                    <History className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-slate-900 dark:text-white font-display">
+                      Lịch Sử Luyện Nói AI
+                    </h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      {pastSessions.length} buổi học đã lưu
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsHistoryDrawerOpen(false);
+                    setSelectedPastSession(null);
+                  }}
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Drawer Body */}
+              <div className="flex-1 overflow-y-auto p-3.5 sm:p-4 space-y-3">
+                {isLoadingHistory ? (
+                  <div className="flex items-center justify-center py-12 gap-2 text-xs font-bold text-slate-500">
+                    <RefreshCw className="w-4 h-4 animate-spin text-[#0059bb]" />
+                    <span>Đang tải lịch sử...</span>
+                  </div>
+                ) : selectedPastSession ? (
+                  /* Detail View of a Selected Past Session */
+                  <div className="space-y-3">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedPastSession(null)}
+                      className="text-xs font-bold text-[#0059bb] dark:text-sky-400 hover:underline flex items-center gap-1 cursor-pointer"
+                    >
+                      ← Quay lại danh sách buổi học
+                    </button>
+
+                    <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold uppercase text-slate-500">
+                          {selectedPastSession.createdAt ? new Date(selectedPastSession.createdAt).toLocaleString("vi-VN") : "Gần đây"}
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md text-xs font-bold bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-300 font-mono">
+                          Hạng {selectedPastSession.grade || "A"} • {selectedPastSession.overallScore || 85}/100
+                        </span>
+                      </div>
+                      <p className="text-xs font-bold text-slate-900 dark:text-white">
+                        Huấn luyện viên: {selectedPastSession.personaId?.toUpperCase() || "EMMA"}
+                      </p>
+                    </div>
+
+                    {/* Message Transcript */}
+                    <div className="space-y-2 pt-1">
+                      <div className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                        Kịch bản đối thoại ({selectedPastSession.messages?.length || 0} câu):
+                      </div>
+                      {selectedPastSession.messages?.map((m: any, idx: number) => (
+                        <div
+                          key={idx}
+                          className={`p-2.5 rounded-xl text-xs space-y-1 ${
+                            m.role === "ai"
+                              ? "bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200/60 dark:border-blue-900/40 text-slate-900 dark:text-white"
+                              : "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white"
+                          }`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="font-bold text-[#0059bb] dark:text-sky-400">
+                              {m.role === "ai" ? "AI Coach" : "Bạn"}
+                            </span>
+                            {m.pronunciationScore && (
+                              <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400">
+                                {m.pronunciationScore} pts
+                              </span>
+                            )}
+                          </div>
+                          <p className="leading-relaxed">{m.text}</p>
+                          {m.vietnameseTranslation && (
+                            <p className="text-xs text-slate-500 dark:text-slate-400 pt-0.5 border-t border-slate-200/60 dark:border-slate-800">
+                              [Dịch] {m.vietnameseTranslation}
+                            </p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : pastSessions.length > 0 ? (
+                  /* List View of All Past Sessions */
+                  <div className="space-y-2.5">
+                    {pastSessions.map((session, idx) => (
+                      <div
+                        key={session.sessionId || idx}
+                        onClick={() => setSelectedPastSession(session)}
+                        className="p-3 rounded-xl bg-white dark:bg-slate-800/90 border border-slate-200/90 dark:border-slate-700 hover:border-[#0059bb] dark:hover:border-sky-500 shadow-2xs cursor-pointer transition-all space-y-2 group"
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-1.5">
+                            <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                            <span className="text-xs font-bold text-slate-900 dark:text-white font-display">
+                              Huấn luyện viên {session.personaId?.toUpperCase() || "EMMA"}
+                            </span>
+                          </div>
+                          <span className="px-2 py-0.5 rounded-md text-xs font-bold font-mono bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 border border-blue-200/60">
+                            {session.overallScore || 85}/100 (Hạng {session.grade || "A"})
+                          </span>
+                        </div>
+
+                        <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 pt-1 border-t border-slate-100 dark:border-slate-700/60">
+                          <span className="flex items-center gap-1">
+                            <Clock className="w-3 h-3" />
+                            {session.timeSpentSeconds ? `${Math.ceil(session.timeSpentSeconds / 60)} phút` : "1 phút"}
+                          </span>
+                          <span>+{session.xpEarned || 35} XP</span>
+                          <span className="text-slate-400">
+                            {session.createdAt ? new Date(session.createdAt).toLocaleDateString("vi-VN") : "Hôm nay"}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center py-16 text-center space-y-2 text-slate-400">
+                    <History className="w-8 h-8 stroke-1 text-slate-300 dark:text-slate-600" />
+                    <p className="text-xs font-bold text-slate-600 dark:text-slate-300">
+                      Chưa có lịch sử buổi học
+                    </p>
+                    <p className="text-xs text-slate-400 max-w-xs">
+                      Khi bạn hoàn thành và bấm "Chấm điểm" một buổi luyện nói, toàn bộ kịch bản sẽ được lưu tại đây.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
 

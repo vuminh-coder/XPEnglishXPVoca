@@ -4,17 +4,18 @@ import React, { useState, useEffect, useRef, useMemo, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useAuthStore } from "@/stores/authStore";
-import { useUserStore } from "@/stores/userStore";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { useListeningStore } from "@/stores/listeningStore";
 import { useUiStore } from "@/stores/uiStore";
 import { speakLessonText, stopTTS } from "@/shared/utils/ttsEngine";
-import { safeSpeakText } from "@/shared/utils/mobileAudio";
 import { LessonCoverImage } from "@/shared/components/feedback/LessonCoverImage";
 import { StudioTopHeader } from "@/features/listening/components/StudioTopHeader";
 import { StudioWaveformCard } from "@/features/listening/components/StudioWaveformCard";
 import { InteractiveTranscriptSidebar } from "@/features/listening/components/InteractiveTranscriptSidebar";
-import { ShadowingListingSkeleton, ShadowingStudioSkeleton } from "@/features/shadowing/components/LoadingSkeletons";
+import {
+  ShadowingListingSkeleton,
+  ShadowingStudioSkeleton,
+} from "@/features/shadowing/components/LoadingSkeletons";
 import {
   AppTopHeader,
   HeaderPillContainer,
@@ -26,62 +27,38 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Mic,
   Play,
-  Pause,
   RotateCcw,
-  Repeat,
   Volume2,
-  Sparkles,
-  CheckCircle2,
   Trophy,
-  Zap,
-  Globe,
   BookOpen,
   ChevronRight,
   ArrowLeft,
-  AudioWaveform,
-  Radio,
   Square,
-  Award,
   RefreshCw,
-  Sliders,
   Check,
   Headphones,
-  Bot,
-  Flame,
   Activity,
-  Layers,
-  ChevronLeft,
-  HelpCircle,
-  BarChart3,
-  Lightbulb,
-  Wand2,
   Search,
   X,
-  ChevronDown,
-  Filter,
   Clock,
   Eye,
   EyeOff,
   GraduationCap,
   FileText,
-  XCircle,
   BookmarkPlus,
   Flag,
   ListOrdered,
   ArrowRight,
-  ShieldCheck,
-  ThumbsUp,
   Info,
   Languages,
 } from "lucide-react";
-import { MOCK_LESSONS_DATA } from "@/features/listening/data/listeningMockData";
 import { pick10RandomLessons } from "@/features/listening/utils/randomLessonPicker";
 import { lookupWordDeep, DeepWordDefinition } from "@/features/vocabulary/data/deepDictionary";
 
-// Helper to resolve query id (e.g. ?id=37 -> 37th lesson or listen_037)
+// Helper to resolve query id (e.g. ?id=52 -> 52nd lesson or listen_052)
 const resolveLessonId = (
   queryId: string | null | undefined,
-  list: any[],
+  list: any[]
 ): string | null => {
   if (!queryId || !list || list.length === 0) return null;
 
@@ -89,7 +66,7 @@ const resolveLessonId = (
   const exact = list.find((l) => l.id === queryId);
   if (exact) return exact.id;
 
-  // 2. Numeric match (e.g. ?id=37 -> 37th lesson or listen_037)
+  // 2. Numeric match (e.g. ?id=52 -> 52nd lesson or listen_052)
   const num = parseInt(queryId, 10);
   if (!isNaN(num)) {
     if (num >= 1 && num <= list.length) {
@@ -118,21 +95,77 @@ function ShadowingStudioContent() {
   const { user, awardXp } = useAuthStore();
   const { addToast } = useNotificationStore();
   const {
-    currentLessonId,
     setCurrentLessonId,
-    activeMode,
-    setActiveMode,
-    addAttempt,
-    markLessonCompleted,
     completedLessonIds,
   } = useListeningStore();
   const { setSidebarCollapsed, setHideBottomNav } = useUiStore();
 
-  const [lessonsList] = useState<any[]>(MOCK_LESSONS_DATA);
+  // 1. Database-backed lessons state
+  const [lessonsList, setLessonsList] = useState<any[]>([]);
+  const [isLoadingLessons, setIsLoadingLessons] = useState<boolean>(true);
+  const [singleLessonDb, setSingleLessonDb] = useState<any | null>(null);
 
-  const [selectedLessonId, setSelectedLessonId] = useState<string | null>(() => {
-    return resolveLessonId(rawIdParam, MOCK_LESSONS_DATA);
-  });
+  // 2. Selected lesson state
+  const [selectedLessonId, setSelectedLessonId] = useState<string | null>(null);
+
+  // Fetch all lessons from PostgreSQL database
+  useEffect(() => {
+    let isMounted = true;
+    async function fetchLessons() {
+      try {
+        setIsLoadingLessons(true);
+        const res = await fetch(`/api/listening/lessons?userId=${user?.id || ""}`);
+        const json = await res.json();
+        if (isMounted && json.success && Array.isArray(json.data)) {
+          setLessonsList(json.data);
+        }
+      } catch (err) {
+        console.error("Failed to load lessons from database:", err);
+      } finally {
+        if (isMounted) setIsLoadingLessons(false);
+      }
+    }
+    fetchLessons();
+    return () => {
+      isMounted = false;
+    };
+  }, [user?.id]);
+
+  // Sync URL ?id= param with database lessons
+  useEffect(() => {
+    if (!rawIdParam) {
+      setSelectedLessonId(null);
+      setCurrentLessonId("");
+      return;
+    }
+
+    if (lessonsList.length > 0) {
+      const resolved = resolveLessonId(rawIdParam, lessonsList);
+      if (resolved) {
+        setSelectedLessonId(resolved);
+        setCurrentLessonId(resolved);
+        setSidebarCollapsed(true);
+      }
+    }
+
+    // Fetch individual lesson if not found or directly via param
+    async function fetchSingle() {
+      try {
+        const res = await fetch(`/api/listening/lessons/${rawIdParam}?userId=${user?.id || ""}`);
+        const json = await res.json();
+        if (json.success && json.data) {
+          setSingleLessonDb(json.data);
+          setSelectedLessonId(json.data.id);
+          setCurrentLessonId(json.data.id);
+          setSidebarCollapsed(true);
+        }
+      } catch (e) {
+        console.error("Error fetching single lesson:", e);
+      }
+    }
+
+    fetchSingle();
+  }, [rawIdParam, lessonsList, setCurrentLessonId, setSidebarCollapsed, user?.id]);
 
   // Automatically ensure sidebar is collapsed when in studio workspace
   useEffect(() => {
@@ -150,8 +183,11 @@ function ShadowingStudioContent() {
   }, [setHideBottomNav]);
 
   const currentLesson = useMemo(() => {
-    return lessonsList.find((l) => l.id === selectedLessonId) || null;
-  }, [lessonsList, selectedLessonId]);
+    if (singleLessonDb && singleLessonDb.id === selectedLessonId) {
+      return singleLessonDb;
+    }
+    return lessonsList.find((l) => l.id === selectedLessonId) || singleLessonDb || null;
+  }, [lessonsList, selectedLessonId, singleLessonDb]);
 
   // Practice state
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
@@ -180,24 +216,36 @@ function ShadowingStudioContent() {
   }, [selectedLessonId, isLessonFinished]);
 
   // Sentence Utility Toolbar States
-  const [savedSentenceKeys, setSavedSentenceKeys] = useState<string[]>(() => {
-    if (typeof window === "undefined") return [];
-    try {
-      const raw = localStorage.getItem("xp_shadowing_saved_sentences");
-      return raw ? JSON.parse(raw) : [];
-    } catch {
-      return [];
-    }
-  });
-
+  const [savedSentenceKeys, setSavedSentenceKeys] = useState<string[]>([]);
   const [fontSizeLevel, setFontSizeLevel] = useState<number>(0);
   const [autoNextSentence, setAutoNextSentence] = useState<boolean>(true);
   const [hideTranslation, setHideTranslation] = useState<boolean>(false);
 
+  // Sync user progress from DB when lesson loads
+  useEffect(() => {
+    if (currentLesson?.userProgress) {
+      const p = currentLesson.userProgress;
+      if (Array.isArray(p.completedSentences)) {
+        const completedMap: { [idx: number]: boolean } = {};
+        p.completedSentences.forEach((idx: number) => {
+          completedMap[idx] = true;
+        });
+        setCompletedSentences(completedMap);
+      }
+      if (Array.isArray(p.bookmarkedSentences)) {
+        setSavedSentenceKeys(p.bookmarkedSentences);
+      }
+    }
+  }, [currentLesson]);
+
   // Custom Lesson Selection Modal & Search
   const [showLessonModal, setShowLessonModal] = useState(false);
   const [listingSearch, setListingSearch] = useState("");
-  const [levelFilter, setLevelFilter] = useState<string>("ALL");
+
+  // Sentence Report Modal State
+  const [showReportModal, setShowReportModal] = useState(false);
+  const [reportReason, setReportReason] = useState<string>("spelling");
+  const [reportDescription, setReportDescription] = useState<string>("");
 
   // Real WebRTC MediaRecorder States
   const [isRecording, setIsRecording] = useState(false);
@@ -229,7 +277,6 @@ function ShadowingStudioContent() {
 
   // Live Speech Recognition States
   const [liveRecognizedWords, setLiveRecognizedWords] = useState<{ word: string; status: "perfect" | "needs_work" }[]>([]);
-  const [liveScorePercent, setLiveScorePercent] = useState<number | null>(null);
   const speechRecognitionRef = useRef<any>(null);
 
   // Single-Row Horizontal Word Track Auto-Scroll Refs & Playback Tracking
@@ -237,11 +284,7 @@ function ShadowingStudioContent() {
   const wordTokenRefs = useRef<(HTMLElement | null)[]>([]);
   const [activePlaybackWordIndex, setActivePlaybackWordIndex] = useState<number | null>(null);
 
-  // Roleplay & Looping
-  const [roleplayFilter, setRoleplayFilter] = useState<"ALL" | "Speaker A" | "Speaker B">("ALL");
-  const [sentenceScores, setSentenceScores] = useState<Record<number, number>>({});
-
-  // Direct Word Lookup (Mobile: speak immediately without modal, Desktop: open dictionary modal)
+  // Direct Word Lookup
   const handleWordClick = (rawWord: string) => {
     const clean = rawWord.replace(/[.,/#!$%^&*;:{}=\-_`~()?]/g, "").trim();
     if (!clean) return;
@@ -262,7 +305,7 @@ function ShadowingStudioContent() {
     null;
   const totalSentencesCount = currentLesson?.transcript?.length || 0;
 
-  // 1. Auto-scroll word track during speech recognition (Bên Thu âm / Nói)
+  // 1. Auto-scroll word track during speech recognition
   useEffect(() => {
     if (!isRecording) return;
     const targetIdx = Math.max(
@@ -282,7 +325,7 @@ function ShadowingStudioContent() {
     }
   }, [isRecording, liveRecognizedWords.length, currentSentence?.text]);
 
-  // 2. Real-time speech progress simulation during recording for universal browser support
+  // 2. Real-time speech progress simulation during recording
   useEffect(() => {
     if (!isRecording || !currentSentence) return;
     const words = currentSentence.text.trim().split(/\s+/);
@@ -306,7 +349,7 @@ function ShadowingStudioContent() {
     return () => clearInterval(interval);
   }, [isRecording, currentSentence]);
 
-  // 3. Auto-scroll word track during sample audio playback (Bên Đọc / Nghe mẫu)
+  // 3. Auto-scroll word track during sample audio playback
   useEffect(() => {
     if (activePlaybackWordIndex === null) return;
     const targetEl = wordTokenRefs.current[activePlaybackWordIndex];
@@ -355,74 +398,101 @@ function ShadowingStudioContent() {
   useEffect(() => {
     const easyPool = lessonsList.filter((l) => BASIC_LEVELS.has(l.level));
     const hardPool = lessonsList.filter((l) => ADVANCED_LEVELS.has(l.level));
-    const midPool = lessonsList.filter((l) => l.level === "Intermediate" || l.level === "B1" || l.level === "B2");
+    const midPool = lessonsList.filter(
+      (l) => l.level === "Intermediate" || l.level === "B1" || l.level === "B2"
+    );
     const midHalf = Math.ceil(midPool.length / 2);
 
     const basicPool = [...easyPool, ...midPool.slice(0, midHalf)];
     const advPool = [...hardPool, ...midPool.slice(midHalf)];
 
-    const safeBasic = basicPool.length > 0 ? basicPool : lessonsList.slice(0, Math.ceil(lessonsList.length / 2));
-    const safeAdv = advPool.length > 0 ? advPool : lessonsList.slice(Math.ceil(lessonsList.length / 2));
+    const safeBasic =
+      basicPool.length > 0 ? basicPool : lessonsList.slice(0, Math.ceil(lessonsList.length / 2));
+    const safeAdv =
+      advPool.length > 0 ? advPool : lessonsList.slice(Math.ceil(lessonsList.length / 2));
 
     if (listingSearch.trim()) {
       const q = listingSearch.toLowerCase();
       setDisplayedBasicLessons(
-        safeBasic.filter((l) => l.title.toLowerCase().includes(q) || l.category?.toLowerCase().includes(q)).slice(0, 8)
+        safeBasic
+          .filter((l) => l.title.toLowerCase().includes(q) || l.category?.toLowerCase().includes(q))
+          .slice(0, 8)
       );
       setDisplayedAdvancedLessons(
-        safeAdv.filter((l) => l.title.toLowerCase().includes(q) || l.category?.toLowerCase().includes(q)).slice(0, 8)
+        safeAdv
+          .filter((l) => l.title.toLowerCase().includes(q) || l.category?.toLowerCase().includes(q))
+          .slice(0, 8)
       );
     } else {
-      setDisplayedBasicLessons(pick10RandomLessons(safeBasic).slice(0, 8));
-      setDisplayedAdvancedLessons(pick10RandomLessons(safeAdv).slice(0, 8));
+      setDisplayedBasicLessons(pick10RandomLessons(safeBasic, completedLessonIds || []).slice(0, 8));
+      setDisplayedAdvancedLessons(pick10RandomLessons(safeAdv, completedLessonIds || []).slice(0, 8));
     }
-  }, [lessonsList, listingSearch]);
+  }, [lessonsList, completedLessonIds, listingSearch]);
 
   const handleShuffleBasic = () => {
     const easyPool = lessonsList.filter((l) => BASIC_LEVELS.has(l.level));
-    const midPool = lessonsList.filter((l) => l.level === "Intermediate" || l.level === "B1" || l.level === "B2");
+    const midPool = lessonsList.filter(
+      (l) => l.level === "Intermediate" || l.level === "B1" || l.level === "B2"
+    );
     const basicPool = [...easyPool, ...midPool.slice(0, Math.ceil(midPool.length / 2))];
-    const safeBasic = basicPool.length > 0 ? basicPool : lessonsList.slice(0, Math.ceil(lessonsList.length / 2));
-    setDisplayedBasicLessons(pick10RandomLessons(safeBasic).slice(0, 8));
-    addToast({ type: "info", title: "Đã đổi 8 bài học cơ bản ngẫu nhiên mới!" });
+    const safeBasic =
+      basicPool.length > 0 ? basicPool : lessonsList.slice(0, Math.ceil(lessonsList.length / 2));
+    setDisplayedBasicLessons(pick10RandomLessons(safeBasic, completedLessonIds || []).slice(0, 8));
+    addToast({ type: "info", title: "Đã đổi 8 bài học cơ bản ngẫu nhiên mới! ↺" });
   };
 
   const handleShuffleAdvanced = () => {
     const hardPool = lessonsList.filter((l) => ADVANCED_LEVELS.has(l.level));
-    const midPool = lessonsList.filter((l) => l.level === "Intermediate" || l.level === "B1" || l.level === "B2");
+    const midPool = lessonsList.filter(
+      (l) => l.level === "Intermediate" || l.level === "B1" || l.level === "B2"
+    );
     const advPool = [...hardPool, ...midPool.slice(Math.ceil(midPool.length / 2))];
-    const safeAdv = advPool.length > 0 ? advPool : lessonsList.slice(Math.ceil(lessonsList.length / 2));
-    setDisplayedAdvancedLessons(pick10RandomLessons(safeAdv).slice(0, 8));
-    addToast({ type: "info", title: "Đã đổi 8 bài học nâng cao ngẫu nhiên mới!" });
+    const safeAdv =
+      advPool.length > 0 ? advPool : lessonsList.slice(Math.ceil(lessonsList.length / 2));
+    setDisplayedAdvancedLessons(pick10RandomLessons(safeAdv, completedLessonIds || []).slice(0, 8));
+    addToast({ type: "info", title: "Đã đổi 8 bài học nâng cao ngẫu nhiên mới! ↺" });
   };
 
-  const handleSelectLesson = (lessonId: string) => {
-    setSelectedLessonId(lessonId);
-    setCurrentLessonId(lessonId);
+  // Select lesson with Router sync
+  const handleSelectLesson = (lessonId: string | number) => {
+    const strId = String(lessonId);
+    stopTTS();
+    setPlayingSentenceText(null);
+    setSelectedLessonId(strId);
+    setCurrentLessonId(strId);
     setCurrentSentenceIndex(0);
     setSentencePlaybackTime(0);
     setIsLessonFinished(false);
     setAiAnalysisResult(null);
     setUserAudioUrl(null);
     setCompletedSentences({});
-
-    const newUrl = `/study/shadowing?id=${lessonId}`;
-    window.history.pushState({ path: newUrl }, "", newUrl);
     setSidebarCollapsed(true);
+
+    const lessonIdx = lessonsList.findIndex((l) => l.id === strId);
+    if (lessonIdx !== -1) {
+      router.push(`/study/shadowing?id=${lessonIdx + 1}`);
+    } else {
+      router.push(`/study/shadowing?id=${strId}`);
+    }
   };
 
+  // Back to listing with Router sync
   const handleBackToListing = () => {
-    setSelectedLessonId(null);
-    setIsLessonFinished(false);
     stopTTS();
-    window.history.pushState({}, "", "/study/shadowing");
+    setPlayingSentenceText(null);
+    setSelectedLessonId(null);
+    setCurrentLessonId("");
+    setIsLessonFinished(false);
+    setSentencePlaybackTime(0);
+    setSidebarCollapsed(false);
+    router.push("/study/shadowing");
   };
 
-  // Sentence Bookmark
+  // Sentence Bookmark with Database Persistence
   const currentSentenceKey = `${selectedLessonId || "lesson"}_${currentSentenceIndex}`;
   const isCurrentSentenceBookmarked = savedSentenceKeys.includes(currentSentenceKey);
 
-  const handleToggleBookmark = () => {
+  const handleToggleBookmark = async () => {
     let nextKeys: string[];
     if (isCurrentSentenceBookmarked) {
       nextKeys = savedSentenceKeys.filter((k) => k !== currentSentenceKey);
@@ -439,16 +509,34 @@ function ShadowingStudioContent() {
       });
     }
     setSavedSentenceKeys(nextKeys);
-    if (typeof window !== "undefined") {
-      localStorage.setItem("xp_shadowing_saved_sentences", JSON.stringify(nextKeys));
+
+    if (currentLesson) {
+      try {
+        await fetch("/api/listening/progress", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId: user?.id || "guest_user",
+            lessonId: currentLesson.id,
+            bookmarkedSentences: nextKeys,
+            skill: "shadowing",
+          }),
+        });
+      } catch (e) {
+        console.error("Error persisting bookmark to DB:", e);
+      }
     }
   };
 
-  const handleReportSentence = () => {
+  // Sentence Report Modal submission
+  const handleSubmitReport = (e: React.FormEvent) => {
+    e.preventDefault();
+    setShowReportModal(false);
+    setReportDescription("");
     addToast({
-      type: "info",
-      title: "🚩 Đã ghi nhận báo cáo!",
-      message: "Cảm ơn bạn đã gửi phản ánh về câu này cho ban biên tập XP English.",
+      type: "success",
+      title: "🚩 Đã gửi phản ánh thành công!",
+      message: "Cảm ơn bạn đã đóng góp! Ban biên tập sẽ kiểm tra và cập nhật câu trong 24h.",
     });
   };
 
@@ -474,7 +562,6 @@ function ShadowingStudioContent() {
       setUserAudioUrl(null);
       setAiAnalysisResult(null);
       setLiveRecognizedWords([]);
-      setLiveScorePercent(null);
 
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const mediaRecorder = new MediaRecorder(stream);
@@ -534,7 +621,7 @@ function ShadowingStudioContent() {
         title: "🎙️ Đang ghi âm...",
         message: "Hãy phát âm to và rõ ràng câu tiếng Anh này nhé!",
       });
-    } catch (err: any) {
+    } catch {
       addToast({
         type: "error",
         title: "Không thể truy cập Micro",
@@ -566,7 +653,9 @@ function ShadowingStudioContent() {
 
     const evaluated = targetWords.map((target: string) => {
       const cleanTarget = target.replace(/[^a-zA-Z]/g, "");
-      const isMatched = spokenWords.some((spk: string) => spk.replace(/[^a-zA-Z]/g, "") === cleanTarget);
+      const isMatched = spokenWords.some(
+        (spk: string) => spk.replace(/[^a-zA-Z]/g, "") === cleanTarget
+      );
       return {
         word: target,
         status: isMatched ? ("perfect" as const) : ("needs_work" as const),
@@ -574,27 +663,32 @@ function ShadowingStudioContent() {
     });
 
     setLiveRecognizedWords(evaluated);
-    const matchedCount = evaluated.filter((w: { word: string; status: "perfect" | "needs_work" }) => w.status === "perfect").length;
-    const pct = Math.round((matchedCount / targetWords.length) * 100);
-    setLiveScorePercent(pct);
   };
 
+  // AI Speech Analysis & Database Progress Sync
   const simulateAiSpeechAnalysis = () => {
     setIsAnalyzing(true);
-    setTimeout(() => {
+    setTimeout(async () => {
       setIsAnalyzing(false);
       if (!currentSentence?.text) return;
 
       const words = currentSentence.text.split(/\s+/);
       const wordAccuracy = words.map((word: string) => {
         const rand = Math.random();
-        const status = rand > 0.15 ? ("perfect" as const) : rand > 0.05 ? ("good" as const) : ("needs_work" as const);
+        const status =
+          rand > 0.15 ? ("perfect" as const) : rand > 0.05 ? ("good" as const) : ("needs_work" as const);
         const score = status === "perfect" ? 95 : status === "good" ? 80 : 55;
         return { word, score, status };
       });
 
-      const correctCount = wordAccuracy.filter((w: { word: string; score: number; status: "perfect" | "good" | "needs_work" }) => w.status !== "needs_work").length;
-      const finalScore = Math.min(100, Math.max(65, Math.round((correctCount / words.length) * 100) + Math.floor(Math.random() * 8)));
+      const correctCount = wordAccuracy.filter(
+        (w: { word: string; score: number; status: "perfect" | "good" | "needs_work" }) =>
+          w.status !== "needs_work"
+      ).length;
+      const finalScore = Math.min(
+        100,
+        Math.max(65, Math.round((correctCount / words.length) * 100) + Math.floor(Math.random() * 8))
+      );
 
       const overall = finalScore;
       const fluency = Math.min(100, Math.max(70, finalScore + Math.floor(Math.random() * 6 - 3)));
@@ -621,8 +715,36 @@ function ShadowingStudioContent() {
         wordAccuracy,
       });
 
-      setSentenceScores((prev) => ({ ...prev, [currentSentenceIndex]: overall }));
-      setCompletedSentences((prev) => ({ ...prev, [currentSentenceIndex]: true }));
+      const nextCompleted = { ...completedSentences, [currentSentenceIndex]: true };
+      setCompletedSentences(nextCompleted);
+
+      // Save progress to PostgreSQL Neon
+      if (currentLesson) {
+        const completedIndices = Object.keys(nextCompleted)
+          .filter((k) => nextCompleted[Number(k)])
+          .map(Number);
+        const isAllDone = totalSentencesCount > 0 && completedIndices.length >= totalSentencesCount;
+
+        try {
+          await fetch("/api/listening/progress", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              userId: user?.id || "guest_user",
+              lessonId: currentLesson.id,
+              status: isAllDone ? "COMPLETED" : "IN_PROGRESS",
+              completedSentences: completedIndices,
+              bookmarkedSentences: savedSentenceKeys,
+              inlineAiScores: { [currentSentenceIndex]: overall },
+              timeSpent: Math.max(15, elapsedTime),
+              xpEarned: overall >= 80 ? 15 : 5,
+              skill: "shadowing",
+            }),
+          });
+        } catch (e) {
+          console.error("Failed to sync shadowing progress to database:", e);
+        }
+      }
 
       if (overall >= 80) {
         awardXp(15, "shadowing");
@@ -647,7 +769,7 @@ function ShadowingStudioContent() {
     }, 800);
   };
 
-  // Reusable Sample Audio Player with Word Boundary Tracking
+  // Reusable Sample Audio Player
   const handlePlaySampleAudio = () => {
     if (!currentSentence) return;
     if (playingSentenceText === currentSentence.text) {
@@ -673,7 +795,7 @@ function ShadowingStudioContent() {
     }
   };
 
-  const handleNextSentence = () => {
+  const handleNextSentence = async () => {
     stopTTS();
     setPlayingSentenceText(null);
     setSentencePlaybackTime(0);
@@ -686,8 +808,26 @@ function ShadowingStudioContent() {
     } else {
       setIsLessonFinished(true);
       if (currentLesson) {
-        markLessonCompleted(currentLesson.id);
         awardXp(50, "shadowing");
+        const completedIndices = Array.from({ length: totalSentencesCount }, (_, i) => i);
+        try {
+          await fetch("/api/listening/progress", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              userId: user?.id || "guest_user",
+              lessonId: currentLesson.id,
+              status: "COMPLETED",
+              completedSentences: completedIndices,
+              bookmarkedSentences: savedSentenceKeys,
+              timeSpent: Math.max(30, elapsedTime),
+              xpEarned: 50,
+              skill: "shadowing",
+            }),
+          });
+        } catch (e) {
+          console.error("Error updating lesson completion in database:", e);
+        }
       }
       addToast({
         type: "success",
@@ -709,7 +849,7 @@ function ShadowingStudioContent() {
     }
   };
 
-  // Keyboard Shortcuts Listener (Enter để sang câu tiếp theo, Ctrl để nghe lại)
+  // Keyboard Shortcuts Listener
   useEffect(() => {
     if (!selectedLessonId || isLessonFinished) return;
 
@@ -759,6 +899,12 @@ function ShadowingStudioContent() {
     isRecording,
   ]);
 
+  // If loading listing mode
+  if (isLoadingLessons && !selectedLessonId) {
+    return <ShadowingListingSkeleton />;
+  }
+
+  // If loading studio mode with param
   if (rawIdParam && !currentLesson) {
     return <ShadowingStudioSkeleton />;
   }
@@ -804,29 +950,29 @@ function ShadowingStudioContent() {
             <HeaderPillContainer>
               <HeaderPillItem
                 active
-                icon={<Mic className="w-3.5 h-3.5 text-blue-600 dark:text-sky-400" />}
+                icon={<Mic className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />}
                 label="Shadowing"
               />
               <HeaderPillItem
                 href="/study/listening"
-                icon={<Headphones className="w-3.5 h-3.5" />}
+                icon={<Headphones className="w-3.5 h-3.5 text-indigo-500" />}
                 label="Dictation"
               />
               <HeaderPillItem
                 href="/study/practice"
-                icon={<BookOpen className="w-3.5 h-3.5" />}
+                icon={<BookOpen className="w-3.5 h-3.5 text-emerald-500" />}
                 label="Luyện từ vựng"
               />
               <HeaderPillItem
                 href="/study/exam-prep"
-                icon={<FileText className="w-3.5 h-3.5" />}
+                icon={<FileText className="w-3.5 h-3.5 text-rose-500" />}
                 label="Thi thử đề"
               />
             </HeaderPillContainer>
           </AppTopHeader>
 
           {/* MAIN LISTING CONTENT CANVAS */}
-          <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-6 space-y-7 pb-20">
+          <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-5 sm:py-6 space-y-7 pb-20">
             {/* HÀNG 1: BÀI HỌC CƠ BẢN (A1 - A2) */}
             <div className="space-y-4">
               <div className="flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-slate-800">
@@ -835,7 +981,10 @@ function ShadowingStudioContent() {
                     A1 - A2
                   </span>
                   <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-display tracking-tight">
-                    Bài học cơ bản <span className="text-slate-400 font-normal text-xs ml-1 hidden sm:inline">(Mẫu câu ngắn, giao tiếp nền tảng)</span>
+                    Bài học cơ bản{" "}
+                    <span className="text-slate-400 font-normal text-xs ml-1 hidden sm:inline">
+                      (Mẫu câu ngắn, giao tiếp nền tảng)
+                    </span>
                   </h2>
                 </div>
 
@@ -852,7 +1001,10 @@ function ShadowingStudioContent() {
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
                 {displayedBasicLessons.map((lesson) => {
                   const isSelected = lesson.id === selectedLessonId;
-                  const isCompleted = completedLessonIds.includes(lesson.id);
+                  const isCompleted =
+                    lesson.userStatus === "COMPLETED" ||
+                    completedLessonIds.includes(lesson.id) ||
+                    completedLessonIds.includes(String(lesson.id));
 
                   return (
                     <motion.div
@@ -867,7 +1019,11 @@ function ShadowingStudioContent() {
                       }`}
                     >
                       <div className="relative w-[47%] aspect-[16/10] sm:w-full sm:aspect-[16/10] rounded-lg overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800 border border-slate-200/50 dark:border-slate-700/50">
-                        <LessonCoverImage lesson={lesson} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" showBadge={false} />
+                        <LessonCoverImage
+                          lesson={lesson}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          showBadge={false}
+                        />
 
                         <span className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 px-1.5 sm:px-2.5 py-0.5 rounded sm:rounded-md text-[9.5px] sm:text-[10px] font-mono font-bold bg-slate-900/80 text-white backdrop-blur-xs z-20 shadow-2xs border border-white/10">
                           {getLevelLabel(lesson.level)}
@@ -875,7 +1031,8 @@ function ShadowingStudioContent() {
 
                         {isCompleted && (
                           <span className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 px-1.5 sm:px-2.5 py-0.5 rounded sm:rounded-md text-[9.5px] sm:text-[10px] font-bold bg-emerald-600 text-white flex items-center gap-0.5 sm:gap-1 shadow-2xs">
-                            <Check className="w-3 h-3 stroke-[3]" /> <span className="hidden xs:inline sm:inline">Đã học</span>
+                            <Check className="w-3 h-3 stroke-[3]" />{" "}
+                            <span className="hidden xs:inline sm:inline">Đã học</span>
                           </span>
                         )}
 
@@ -910,7 +1067,7 @@ function ShadowingStudioContent() {
                             {lesson.duration || "5 min"}
                           </span>
                           <span className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 font-bold text-xs xs:text-[12.5px] sm:text-[11px] font-mono tabular-nums border border-slate-200/80 dark:border-slate-700/80 shadow-2xs">
-                            {lesson.transcript?.length || 10} câu
+                            {lesson.totalSentences || lesson.transcript?.length || 10} câu
                           </span>
                         </div>
                       </div>
@@ -928,7 +1085,10 @@ function ShadowingStudioContent() {
                     B1 - C2
                   </span>
                   <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-display tracking-tight">
-                    Bài học nâng cao <span className="text-slate-400 font-normal text-xs ml-1 hidden sm:inline">(Phỏng vấn & Diễn thuyết)</span>
+                    Bài học nâng cao{" "}
+                    <span className="text-slate-400 font-normal text-xs ml-1 hidden sm:inline">
+                      (Phỏng vấn & Diễn thuyết)
+                    </span>
                   </h2>
                 </div>
 
@@ -945,7 +1105,10 @@ function ShadowingStudioContent() {
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
                 {displayedAdvancedLessons.map((lesson) => {
                   const isSelected = lesson.id === selectedLessonId;
-                  const isCompleted = completedLessonIds.includes(lesson.id);
+                  const isCompleted =
+                    lesson.userStatus === "COMPLETED" ||
+                    completedLessonIds.includes(lesson.id) ||
+                    completedLessonIds.includes(String(lesson.id));
 
                   return (
                     <motion.div
@@ -960,7 +1123,11 @@ function ShadowingStudioContent() {
                       }`}
                     >
                       <div className="relative w-[47%] aspect-[16/10] sm:w-full sm:aspect-[16/10] rounded-lg overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800 border border-slate-200/50 dark:border-slate-700/50">
-                        <LessonCoverImage lesson={lesson} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" showBadge={false} />
+                        <LessonCoverImage
+                          lesson={lesson}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          showBadge={false}
+                        />
 
                         <span className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 px-1.5 sm:px-2.5 py-0.5 rounded sm:rounded-md text-[9.5px] sm:text-[10px] font-mono font-bold bg-slate-900/80 text-white backdrop-blur-xs z-20 shadow-2xs border border-white/10">
                           {getLevelLabel(lesson.level)}
@@ -968,7 +1135,8 @@ function ShadowingStudioContent() {
 
                         {isCompleted && (
                           <span className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 px-1.5 sm:px-2.5 py-0.5 rounded sm:rounded-md text-[9.5px] sm:text-[10px] font-bold bg-emerald-600 text-white flex items-center gap-0.5 sm:gap-1 shadow-2xs">
-                            <Check className="w-3 h-3 stroke-[3]" /> <span className="hidden xs:inline sm:inline">Đã học</span>
+                            <Check className="w-3 h-3 stroke-[3]" />{" "}
+                            <span className="hidden xs:inline sm:inline">Đã học</span>
                           </span>
                         )}
 
@@ -1003,7 +1171,7 @@ function ShadowingStudioContent() {
                             {lesson.duration || "5 min"}
                           </span>
                           <span className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 font-bold text-xs xs:text-[12.5px] sm:text-[11px] font-mono tabular-nums border border-slate-200/80 dark:border-slate-700/80 shadow-2xs">
-                            {lesson.transcript?.length || 10} câu
+                            {lesson.totalSentences || lesson.transcript?.length || 10} câu
                           </span>
                         </div>
                       </div>
@@ -1061,11 +1229,15 @@ function ShadowingStudioContent() {
                         🎉 Chúc Mừng! Bạn Đã Hoàn Thành Toàn Bộ Bài Luyện Nói Shadowing!
                       </h3>
                       <div className="flex items-center gap-3 mt-1 flex-wrap text-xs font-medium text-slate-600 dark:text-slate-300">
-                        <span>✓ Đã luyện nói <strong>{totalSentencesCount}/{totalSentencesCount}</strong> câu</span>
+                        <span>
+                          ✓ Đã luyện nói <strong>{totalSentencesCount}/{totalSentencesCount}</strong> câu
+                        </span>
                         <span>•</span>
                         <span className="text-amber-600 dark:text-amber-400 font-bold">⭐ +50 XP</span>
                         <span>•</span>
-                        <span className="text-emerald-600 dark:text-emerald-400 font-bold">🎯 Trôi chảy & Ngữ điệu chuẩn</span>
+                        <span className="text-emerald-600 dark:text-emerald-400 font-bold">
+                          🎯 Trôi chảy & Ngữ điệu chuẩn
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -1095,7 +1267,9 @@ function ShadowingStudioContent() {
                       >
                         <div className="flex items-start justify-between gap-3">
                           <p className="text-xs sm:text-sm font-semibold text-slate-900 dark:text-white font-sans leading-relaxed">
-                            <span className="text-blue-600 dark:text-sky-400 mr-2 font-mono font-bold">#{sIdx + 1}</span>
+                            <span className="text-blue-600 dark:text-sky-400 mr-2 font-mono font-bold">
+                              #{sIdx + 1}
+                            </span>
                             {sentence.text}
                           </p>
                           <button
@@ -1179,12 +1353,12 @@ function ShadowingStudioContent() {
               id="active-shadowing-workspace"
               className="w-full h-full max-h-full flex flex-col overflow-hidden select-none"
             >
-              {/* Top Unified Studio Navigation Bar (Border-Bottom Full-Width) */}
+              {/* Top Unified Studio Navigation Bar */}
               <StudioTopHeader
                 title={currentLesson.title}
                 level={getLevelLabel(currentLesson.level)}
                 currentMode="shadowing"
-                lessonQueryId={rawIdParam || selectedLessonId || "37"}
+                lessonQueryId={rawIdParam || selectedLessonId || "1"}
                 isBookmarked={isCurrentSentenceBookmarked}
                 onToggleBookmark={handleToggleBookmark}
                 onBack={handleBackToListing}
@@ -1239,7 +1413,7 @@ function ShadowingStudioContent() {
 
               {/* 2-Column Responsive Workspace: Left Main Shadowing & Right Transcript Panel */}
               <div className="flex-1 flex flex-col lg:flex-row items-stretch min-h-0 overflow-y-auto lg:overflow-hidden">
-                {/* CỘT TRÁI: SINGLE-SENTENCE FOCUS SHADOWING WORKSPACE (ZERO-SCROLL 100%) */}
+                {/* CỘT TRÁI: SINGLE-SENTENCE FOCUS SHADOWING WORKSPACE */}
                 <div
                   className={`flex-1 min-w-0 p-2.5 sm:p-3 lg:p-3.5 space-y-2.5 overflow-y-auto hide-scrollbar ${
                     mobileStudioTab === "practice" ? "block" : "hidden lg:block"
@@ -1247,12 +1421,15 @@ function ShadowingStudioContent() {
                 >
                   {currentSentence && (
                     <div className="space-y-2.5 w-full">
-                      {/* 1. DEDICATED SENTENCE AUDIO STUDIO BLOCK WITH 44-BAR ACOUSTIC SOUNDWAVE */}
+                      {/* 1. DEDICATED SENTENCE AUDIO STUDIO BLOCK WITH 95-BAR ACOUSTIC SOUNDWAVE */}
                       <StudioWaveformCard
                         segmentIndex={currentSentenceIndex}
                         totalSegments={totalSentencesCount}
                         playbackTime={sentencePlaybackTime}
-                        duration={Math.max(3, Math.ceil((currentSentence.text.trim().split(/\s+/).length / (2.2 * playbackSpeed))))}
+                        duration={Math.max(
+                          3,
+                          Math.ceil(currentSentence.text.trim().split(/\s+/).length / (2.2 * playbackSpeed))
+                        )}
                         isPlaying={playingSentenceText === currentSentence.text}
                         playbackSpeed={playbackSpeed}
                         onTogglePlay={handlePlaySampleAudio}
@@ -1282,7 +1459,7 @@ function ShadowingStudioContent() {
                         isPrevDisabled={currentSentenceIndex === 0}
                       />
 
-                      {/* 1.2 META STATUS ROW (ĐỒNG BỘ 100% THEO PHONG CÁCH TỪ ẢNH CHỤP) */}
+                      {/* 1.2 META STATUS ROW */}
                       <div className="flex items-center justify-between px-1 text-xs font-medium text-slate-600 dark:text-slate-400 flex-wrap gap-2">
                         <div className="flex items-center gap-2">
                           <span className="px-2.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-mono font-bold border border-slate-200/90 dark:border-slate-700/80 shadow-2xs">
@@ -1307,7 +1484,7 @@ function ShadowingStudioContent() {
                         </div>
                       </div>
 
-                      {/* 1.3 SENTENCE UTILITY TOOLBAR (ĐỒNG BỘ 100% THEO ẢNH CHỤP) */}
+                      {/* 1.3 SENTENCE UTILITY TOOLBAR */}
                       <div className="w-full px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-wrap items-center justify-between gap-2 sm:gap-3 text-xs font-medium">
                         {/* Left Group: Lưu câu & Báo cáo */}
                         <div className="flex items-center gap-1.5 sm:gap-3">
@@ -1337,7 +1514,7 @@ function ShadowingStudioContent() {
                           {/* 2. Báo cáo */}
                           <button
                             type="button"
-                            onClick={handleReportSentence}
+                            onClick={() => setShowReportModal(true)}
                             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-all cursor-pointer select-none active:scale-95"
                             title="Báo cáo lỗi câu này"
                           >
@@ -1425,7 +1602,7 @@ function ShadowingStudioContent() {
                         </div>
                       </div>
 
-                      {/* 2. SHADOWING CORE SENTENCE CARD (ĐỒNG BỘ 100% THEO PHONG CÁCH LISTENING STUDIO) */}
+                      {/* 2. SHADOWING CORE SENTENCE CARD */}
                       <div className="space-y-1.5 pt-0">
                         {/* Sub-bar: [ⓘ Nhấn vào từ để tra từ điển] on left and [👁 Xem/Ẩn dịch] on right */}
                         <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 px-1">
@@ -1465,7 +1642,8 @@ function ShadowingStudioContent() {
                             {currentSentence.text.split(" ").map((word: string, wIdx: number) => {
                               const clean = word.replace(/[.,/#!$%^&*;:{}=\-_`~()?]/g, "").toLowerCase();
                               const wordEval = aiAnalysisResult?.wordAccuracy?.find(
-                                (item) => item.word.replace(/[.,/#!$%^&*;:{}=\-_`~()?]/g, "").toLowerCase() === clean
+                                (item) =>
+                                  item.word.replace(/[.,/#!$%^&*;:{}=\-_`~()?]/g, "").toLowerCase() === clean
                               );
 
                               // Word highlight during sample reading or live recording
@@ -1538,7 +1716,7 @@ function ShadowingStudioContent() {
                         </div>
                       </div>
 
-                      {/* 3. ACTION SHORTCUT BUTTONS BAR (ĐỒNG BỘ 100% VỚI LISTENING STUDIO) */}
+                      {/* 3. ACTION SHORTCUT BUTTONS BAR */}
                       <div className="flex flex-wrap items-center justify-between gap-2.5 px-1 pt-0.5">
                         <div className="flex items-center gap-2 sm:gap-2.5 flex-1 sm:flex-initial flex-wrap">
                           {/* Nút Thu Âm Studio Mic */}
@@ -1644,7 +1822,7 @@ function ShadowingStudioContent() {
                         />
                       )}
 
-                      {/* Live Speech Recognition Tokens (While recording) */}
+                      {/* Live Speech Recognition Tokens */}
                       {isRecording && liveRecognizedWords.length > 0 && (
                         <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/90 dark:border-slate-700 space-y-1.5">
                           <span className="text-[11px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5 font-display uppercase tracking-wider">
@@ -1777,7 +1955,25 @@ function ShadowingStudioContent() {
                         });
                       }
                     }}
-                    keyVocabularies={currentLesson.vocabulary || currentLesson.vocabularyList || []}
+                    onResetProgress={() => {
+                      setCompletedSentences({});
+                      setCurrentSentenceIndex(0);
+                      setSentencePlaybackTime(0);
+                      addToast({
+                        type: "info",
+                        title: "Đã đặt lại tiến độ bài học này ↺",
+                      });
+                    }}
+                    recommendedLessons={lessonsList.filter((l) => l.id !== currentLesson.id).slice(0, 5)}
+                    onSelectLesson={handleSelectLesson}
+                    onShuffleRecommendations={() => {
+                      setLessonsList((prev) => [...prev].sort(() => 0.5 - Math.random()));
+                      addToast({
+                        type: "info",
+                        title: "Đã làm mới danh sách gợi ý bài học! ↺",
+                      });
+                    }}
+                    keyVocabularies={currentLesson.vocabulary || currentLesson.vocabList || []}
                     onWordClick={handleWordClick}
                     isPlaying={playingSentenceText !== null}
                     className="h-full"
@@ -1865,7 +2061,82 @@ function ShadowingStudioContent() {
         )}
       </AnimatePresence>
 
-      {/* 4. EXPLORE ALL LESSONS MODAL */}
+      {/* 4. SENTENCE REPORT MODAL */}
+      <AnimatePresence>
+        {showReportModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 8 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 8 }}
+              className="w-full max-w-md p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xl space-y-4 font-sans"
+            >
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+                <div className="flex items-center gap-2 text-slate-900 dark:text-white font-bold text-sm sm:text-base font-display">
+                  <Flag className="w-4 h-4 text-rose-500" />
+                  <span>Báo Cáo Lỗi Câu #{currentSentenceIndex + 1}</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowReportModal(false)}
+                  className="p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <form onSubmit={handleSubmitReport} className="space-y-3 text-xs">
+                <div>
+                  <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+                    1. Vấn đề bạn gặp phải:
+                  </label>
+                  <select
+                    value={reportReason}
+                    onChange={(e) => setReportReason(e.target.value)}
+                    className="w-full h-10 px-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-medium outline-none focus:border-blue-500"
+                  >
+                    <option value="spelling">Lỗi chính tả / dấu câu trong text</option>
+                    <option value="audio">Lỗi phát âm / audio không khớp</option>
+                    <option value="translation">Bản dịch tiếng Việt chưa chuẩn</option>
+                    <option value="other">Vấn đề khác</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+                    2. Mô tả chi tiết (Tùy chọn):
+                  </label>
+                  <textarea
+                    rows={3}
+                    value={reportDescription}
+                    onChange={(e) => setReportDescription(e.target.value)}
+                    placeholder="Mô tả cụ thể lỗi bạn thấy để ban biên tập sửa nhanh hơn..."
+                    className="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-medium outline-none focus:border-blue-500 placeholder:text-slate-400"
+                  />
+                </div>
+
+                <div className="flex items-center justify-end gap-2 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowReportModal(false)}
+                    className="px-4 py-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold transition-colors cursor-pointer"
+                  >
+                    Hủy bỏ
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold transition-all shadow-xs active:scale-95 cursor-pointer"
+                  >
+                    Gửi Báo Cáo 🚩
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* 5. EXPLORE ALL LESSONS MODAL */}
       <AnimatePresence>
         {showLessonModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/60 backdrop-blur-xs">
@@ -1886,7 +2157,7 @@ function ShadowingStudioContent() {
                       Tất Cả Bài Luyện Nói (Shadowing Lessons)
                     </h3>
                     <p className="text-xs text-slate-500 font-medium">
-                      Tổng số: {MOCK_LESSONS_DATA.length} bài nghe & nói chuẩn TOEIC Part 3 & Part 4
+                      Tổng số: {lessonsList.length} bài nghe & nói chuẩn TOEIC Part 3 & Part 4
                     </p>
                   </div>
                 </div>
@@ -1900,7 +2171,7 @@ function ShadowingStudioContent() {
 
               {/* Scrollable List */}
               <div className="p-4 overflow-y-auto max-h-[55vh] space-y-2">
-                {MOCK_LESSONS_DATA.map((lesson) => {
+                {lessonsList.map((lesson) => {
                   const isSelected = lesson.id === selectedLessonId;
                   return (
                     <div
@@ -1921,7 +2192,11 @@ function ShadowingStudioContent() {
                     >
                       <div className="flex items-center gap-3 min-w-0">
                         <div className="w-12 h-12 rounded-lg overflow-hidden shrink-0 border border-slate-200/60 dark:border-slate-700">
-                          <LessonCoverImage lesson={lesson} className="w-full h-full object-cover" showBadge={false} />
+                          <LessonCoverImage
+                            lesson={lesson}
+                            className="w-full h-full object-cover"
+                            showBadge={false}
+                          />
                         </div>
                         <div className="space-y-1 min-w-0">
                           <div className="flex items-center gap-2">
@@ -1929,7 +2204,8 @@ function ShadowingStudioContent() {
                               {getLevelLabel(lesson.level)}
                             </span>
                             <span className="text-xs font-mono text-slate-400">
-                              {lesson.transcript?.length || 10} câu · {lesson.duration || "5 min"}
+                              {lesson.totalSentences || lesson.transcript?.length || 10} câu ·{" "}
+                              {lesson.duration || "5 min"}
                             </span>
                           </div>
                           <h4 className="text-xs sm:text-sm font-bold font-sans truncate text-slate-900 dark:text-white">

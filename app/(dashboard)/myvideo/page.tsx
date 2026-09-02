@@ -1257,17 +1257,17 @@ export default function MyVideoPage() {
           />
           <HeaderPillItem
             href="/study/listening"
-            icon={<Headphones className="w-3.5 h-3.5" />}
+            icon={<Headphones className="w-3.5 h-3.5 text-indigo-500" />}
             label="Dictation"
           />
           <HeaderPillItem
             href="/study/shadowing"
-            icon={<Mic className="w-3.5 h-3.5" />}
+            icon={<Mic className="w-3.5 h-3.5 text-sky-500" />}
             label="Shadowing"
           />
           <HeaderPillItem
             href="/vocabulary"
-            icon={<ListOrdered className="w-3.5 h-3.5" />}
+            icon={<ListOrdered className="w-3.5 h-3.5 text-emerald-500" />}
             label="Danh sách từ"
           />
         </HeaderPillContainer>

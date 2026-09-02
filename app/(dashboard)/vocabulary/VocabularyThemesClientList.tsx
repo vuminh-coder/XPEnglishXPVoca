@@ -18,6 +18,7 @@ import {
   Sparkles,
   Clock,
   Target,
+  FileText,
   Layers,
   Users,
   Home,
@@ -259,21 +260,21 @@ export default function VocabularyThemesClientList({
           />
           <HeaderPillItem
             href="/study/practice"
-            icon={<Target className="w-3.5 h-3.5" />}
-            label="Luyện Từ Vựng"
+            icon={<BookOpen className="w-3.5 h-3.5 text-emerald-500" />}
+            label="Luyện từ vựng"
             hideOnSmall
           />
           <HeaderPillItem
             href="/study/exam-prep"
-            icon={<Award className="w-3.5 h-3.5" />}
-            label="Thi Thử Đề"
+            icon={<FileText className="w-3.5 h-3.5 text-rose-500" />}
+            label="Thi thử đề"
             hideOnMedium
           />
         </HeaderPillContainer>
       </AppTopHeader>
 
       {/* MAIN CONTAINER */}
-      <div className="w-full max-w-7xl mx-auto px-3 sm:px-5 lg:px-6 space-y-4 pt-1">
+      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 pt-1">
         
         {/* 1. HERO STUDIO TOOLBAR & LEVEL SELECTOR */}
         <MotionItem>

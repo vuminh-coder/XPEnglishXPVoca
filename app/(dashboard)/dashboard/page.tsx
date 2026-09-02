@@ -3,7 +3,8 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useAuthStore } from "@/stores/authStore";
-import { useUserStore } from "@/stores/userStore";
+import { useUserStore, DEFAULT_LEARNER_USER } from "@/stores/userStore";
+import DashboardLoading from "./loading";
 import { useDailyChallengeStore } from "@/stores/dailyChallengeStore";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { useVocabularyStore } from "@/stores/vocabularyStore";
@@ -51,6 +52,9 @@ import {
   Menu,
   Sun,
   Moon,
+  Home,
+  Compass,
+  ListOrdered,
 } from "lucide-react";
 import { getXpProgress } from "@/shared/utils/calculateXP";
 import { LEVEL_TITLES } from "@/shared/constants";
@@ -68,6 +72,7 @@ import {
 } from "@/shared/components/layout/AppTopHeader";
 import { UserAvatar, formatCleanName } from "@/shared/components/feedback/UserAvatar";
 import { speakLessonText } from "@/shared/utils/ttsEngine";
+import { FormattedAiText } from "@/shared/components/FormattedAiText";
 
 const SpeakingIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
   <svg
@@ -153,7 +158,9 @@ function useInterpolatedYPoints(targetYPoints: number[], duration = 320) {
 }
 
 export default function DashboardPage() {
-  const { user, awardXp, awardCoins } = useAuthStore();
+  const { user: authUser, awardXp, awardCoins } = useAuthStore();
+  const storeUser = useUserStore((s) => s.user);
+  const user = authUser || storeUser || DEFAULT_LEARNER_USER;
   const { challenges, initChallenges } = useDailyChallengeStore();
   const { addToast } = useNotificationStore();
   const { learned } = useVocabularyStore();
@@ -173,6 +180,15 @@ export default function DashboardPage() {
   const [leaderboardCriterion, setLeaderboardCriterion] = useState<
     "time" | "xp"
   >("time");
+
+  // Database-driven States
+  const [isCheckedInToday, setIsCheckedInToday] = useState(false);
+  const [activeDaysInWeek, setActiveDaysInWeek] = useState<string[]>([]);
+  const [isLoadingCheckin, setIsLoadingCheckin] = useState(true);
+  const [isCheckingIn, setIsCheckingIn] = useState(false);
+  const [serverChallenges, setServerChallenges] = useState<any[]>([]);
+  const [isLoadingChallenges, setIsLoadingChallenges] = useState(true);
+  const [claimingChallengeId, setClaimingChallengeId] = useState<string | null>(null);
 
   useEffect(() => {
     // 1. Handle OAuth user payload from Google/Facebook redirect
@@ -195,24 +211,41 @@ export default function DashboardPage() {
     }
 
     initChallenges();
-    if (typeof window !== "undefined") {
-      const todayStr = new Date().toISOString().slice(0, 10);
-      const storedDate = localStorage.getItem("xp_claimed_challenges_date");
-      if (storedDate !== todayStr) {
-        localStorage.setItem("xp_claimed_challenges_date", todayStr);
-        localStorage.removeItem("xp_claimed_challenges");
-        setClaimedList([]);
-      } else {
-        const stored = localStorage.getItem("xp_claimed_challenges");
-        if (stored) {
-          try {
-            setClaimedList(JSON.parse(stored));
-          } catch (e) {
-            console.error(e);
-          }
+
+    // 2. Fetch Live Daily Checkin Status from PostgreSQL
+    const fetchCheckinStatus = async () => {
+      try {
+        setIsLoadingCheckin(true);
+        const res = await fetch("/api/user/daily-checkin");
+        const json = await res.json();
+        if (json.success && json.data) {
+          setIsCheckedInToday(Boolean(json.data.isCheckedInToday));
+          setActiveDaysInWeek(json.data.activeDaysInWeek || []);
         }
+      } catch (e) {
+        console.error("Error fetching live checkin status:", e);
+      } finally {
+        setIsLoadingCheckin(false);
       }
-    }
+    };
+    fetchCheckinStatus();
+
+    // 3. Fetch Live Daily Challenges from PostgreSQL
+    const fetchChallenges = async () => {
+      try {
+        setIsLoadingChallenges(true);
+        const res = await fetch("/api/user/challenges");
+        const json = await res.json();
+        if (json.success && json.data?.challenges) {
+          setServerChallenges(json.data.challenges);
+        }
+      } catch (e) {
+        console.error("Error fetching live challenges:", e);
+      } finally {
+        setIsLoadingChallenges(false);
+      }
+    };
+    fetchChallenges();
   }, [initChallenges]);
 
   const [leaderboardData, setLeaderboardData] = useState<any[]>([]);
@@ -272,21 +305,6 @@ export default function DashboardPage() {
     }).length;
   }, [learned, user]);
 
-  // Sync learn_words daily challenge progress automatically based on wordsPracticedToday
-  useEffect(() => {
-    if (wordsPracticedToday > 0) {
-      const learnChallenge = challenges.find((c) => c.id === "learn_words");
-      if (learnChallenge && learnChallenge.progress !== wordsPracticedToday) {
-        const diff = wordsPracticedToday - learnChallenge.progress;
-        if (diff > 0) {
-          useDailyChallengeStore
-            .getState()
-            .incrementProgress("learn_words", diff);
-        }
-      }
-    }
-  }, [wordsPracticedToday, challenges]);
-
   const [chartDataVersion, setChartDataVersion] = useState(0);
 
   // Hydrate 7-day skill practice minutes from backend database on mount
@@ -322,20 +340,13 @@ export default function DashboardPage() {
 
   const animatedYPoints = useInterpolatedYPoints(targetYPoints, 320);
 
+  // Database-Synced 7-Day Stepper
   const weekDays = useMemo(() => {
     const today = new Date();
     const currentDayOfWeek = today.getDay();
     const dayDiff = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek;
     const startOfWeek = new Date(today);
     startOfWeek.setDate(today.getDate() + dayDiff);
-
-    let activeDates: string[] = [];
-    if (typeof window !== "undefined" && user) {
-      try {
-        const stored = localStorage.getItem(`xp_voca_active_dates_${user.id}`);
-        activeDates = stored ? JSON.parse(stored) : [];
-      } catch (e) {}
-    }
 
     const labels = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
     return labels.map((label, index) => {
@@ -347,7 +358,7 @@ export default function DashboardPage() {
       let status: "learned" | "missed" | "current" | "pending" = "pending";
       const isPast = dateStr < todayStr;
       const isToday = dateStr === todayStr;
-      const hasLearned = activeDates.includes(dateStr);
+      const hasLearned = activeDaysInWeek.includes(dateStr) || (isToday && isCheckedInToday);
 
       if (hasLearned) {
         status = "learned";
@@ -359,9 +370,9 @@ export default function DashboardPage() {
         status = "pending";
       }
 
-      return { day: label, status };
+      return { day: label, status, dateStr };
     });
-  }, [user]);
+  }, [activeDaysInWeek, isCheckedInToday]);
 
   const savedWordsCount = useMemo(() => {
     if (!user) return 0;
@@ -402,16 +413,36 @@ export default function DashboardPage() {
     ];
   }, [leaderboardData]);
 
-  if (!user) return null;
-
   const { percent: xpPercent } = getXpProgress(user.level, user.totalXp);
-  const completedChallenges = challenges.filter(
-    (c) =>
-      (c.progress >= c.target || c.isCompleted) && claimedList.includes(c.id)
+
+  // Computed Challenge display: priority to serverChallenges if available, else local store
+  const displayChallenges = useMemo(() => {
+    if (serverChallenges.length > 0) {
+      return serverChallenges;
+    }
+    return challenges.map((c) => ({
+      ...c,
+      isClaimed: claimedList.includes(c.id),
+    }));
+  }, [serverChallenges, challenges, claimedList]);
+
+  const completedChallenges = displayChallenges.filter(
+    (c) => (c.progress >= c.target || c.isCompleted) && c.isClaimed
   ).length;
+
   const remainingWords = Math.max(0, 10 - wordsPracticedToday);
   const userTitle =
     LEVEL_TITLES[user.level] || user.title || "Vocabulary Builder";
+
+  // Dynamic routing based on study task
+  const studyPlanTargetUrl = useMemo(() => {
+    if (!currentTask) return "/study/practice";
+    const t = currentTask.toLowerCase();
+    if (t.includes("nghe") || t.includes("dictation") || t.includes("listening")) return "/study/listening";
+    if (t.includes("nói") || t.includes("shadowing") || t.includes("speaking") || t.includes("phát âm")) return "/study/shadowing";
+    if (t.includes("đề") || t.includes("exam") || t.includes("toeic") || t.includes("ielts")) return "/study/exam-prep";
+    return "/study/practice";
+  }, [currentTask]);
 
   const quickActions = [
     {
@@ -460,72 +491,101 @@ export default function DashboardPage() {
     },
   ];
 
-  const handleClaimChallenge = (id: string, xp: number, coins: number) => {
-    if (claimedList.includes(id)) return;
-    const updated = [...claimedList, id];
-    setClaimedList(updated);
-    if (typeof window !== "undefined") {
-      localStorage.setItem("xp_claimed_challenges", JSON.stringify(updated));
+  const handleClaimChallenge = async (id: string, xp: number, coins: number) => {
+    if (claimingChallengeId) return;
+    setClaimingChallengeId(id);
+
+    try {
+      const res = await fetch("/api/user/challenges/claim", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ challengeId: id }),
+      });
+      const json = await res.json();
+
+      if (json.success) {
+        awardXp(xp);
+        awardCoins(coins);
+        useUserStore.getState().addPracticeTime(5);
+        setServerChallenges((prev) =>
+          prev.map((c) => (c.id === id ? { ...c, isClaimed: true } : c))
+        );
+        addToast({
+          type: "success",
+          title: "Nhận thưởng thành công!",
+          message: `+${xp} XP và +${coins} Vàng đã được cộng vào tài khoản!`,
+          duration: 3000,
+        });
+      } else {
+        // Fallback for local
+        const updated = [...claimedList, id];
+        setClaimedList(updated);
+        awardXp(xp);
+        awardCoins(coins);
+        addToast({
+          type: "success",
+          title: "Nhận thưởng thành công!",
+          message: `+${xp} XP và +${coins} Vàng đã được cộng vào tài khoản!`,
+          duration: 3000,
+        });
+      }
+    } catch (err) {
+      console.error("Error claiming challenge:", err);
+    } finally {
+      setClaimingChallengeId(null);
     }
-
-    awardXp(xp);
-    awardCoins(coins);
-    useUserStore.getState().addPracticeTime(5);
-
-    addToast({
-      type: "success",
-      title: "Nhận thưởng thành công!",
-      message: `+${xp} XP, +${coins} Vàng và +5m luyện tập đã được cộng vào tài khoản!`,
-      duration: 3000,
-    });
   };
 
-  const handleCheckIn = () => {
-    const todayStr = new Date().toISOString().slice(0, 10);
-    const userKey = user ? user.id : "guest";
-    const checkinKey = `daily_checkin_${userKey}_${todayStr}`;
-
-    if (claimedList.includes(checkinKey)) {
+  const handleCheckIn = async () => {
+    if (isCheckingIn || isCheckedInToday) {
       addToast({
         type: "info",
         title: "Đã điểm danh hôm nay",
-        message:
-          "Bạn đã hoàn thành điểm danh hôm nay. Hãy tiếp tục duy trì chuỗi nhé!",
+        message: "Bạn đã hoàn thành điểm danh hôm nay. Hãy tiếp tục duy trì chuỗi nhé!",
         duration: 3000,
       });
       return;
     }
 
-    const updated = [...claimedList, checkinKey];
-    setClaimedList(updated);
-    if (typeof window !== "undefined") {
-      localStorage.setItem("xp_claimed_challenges", JSON.stringify(updated));
+    setIsCheckingIn(true);
+    try {
+      const res = await fetch("/api/user/daily-checkin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+      const json = await res.json();
 
-      // Persist today's date to activeDates for streak track progress bar
-      try {
-        const activeDatesKey = `xp_voca_active_dates_${userKey}`;
-        const storedDates = localStorage.getItem(activeDatesKey);
-        const activeDates: string[] = storedDates ? JSON.parse(storedDates) : [];
-        if (!activeDates.includes(todayStr)) {
-          activeDates.push(todayStr);
-          localStorage.setItem(activeDatesKey, JSON.stringify(activeDates));
-        }
-      } catch (e) {
-        console.error("Error persisting active dates:", e);
+      if (json.success) {
+        setIsCheckedInToday(true);
+        const todayStr = new Date().toISOString().slice(0, 10);
+        setActiveDaysInWeek((prev) => Array.from(new Set([...prev, todayStr])));
+        awardXp(15);
+        awardCoins(20);
+        useUserStore.getState().addPracticeTime(5);
+
+        addToast({
+          type: "success",
+          title: "Điểm danh thành công!",
+          message: "+15 XP, +20 Vàng và +5 phút luyện tập đã được cộng vào tài khoản!",
+          duration: 3000,
+        });
+      } else {
+        addToast({
+          type: "info",
+          title: "Thông báo",
+          message: json.error || "Bạn đã điểm danh hôm nay rồi!",
+        });
       }
+    } catch (e) {
+      console.error("Checkin error:", e);
+      addToast({
+        type: "error",
+        title: "Lỗi kết nối",
+        message: "Không thể kết nối máy chủ để điểm danh.",
+      });
+    } finally {
+      setIsCheckingIn(false);
     }
-
-    awardXp(15);
-    awardCoins(20);
-    useUserStore.getState().addPracticeTime(5);
-
-    addToast({
-      type: "success",
-      title: "Điểm danh thành công!",
-      message:
-        "+15 XP, +20 Vàng và +5 phút luyện tập đã được cộng vào tài khoản!",
-      duration: 3000,
-    });
   };
 
   const handleQuickAskSubmit = async (e: React.FormEvent) => {
@@ -540,10 +600,11 @@ export default function DashboardPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          mode: "quick_ask",
           messages: [
             {
               role: "user",
-              text: `Giải đáp ngắn gọn câu hỏi sau bằng tiếng Việt: ${aiQuestion}`,
+              text: aiQuestion,
             },
           ],
         }),
@@ -551,16 +612,15 @@ export default function DashboardPage() {
       const data = await res.json();
       if (data.success && data.reply) {
         setAiAnswer(data.reply);
-        awardXp(10);
+        const xpEarned = data.xpAwarded || 10;
+        awardXp(xpEarned);
         addToast({
           type: "success",
           title: "AI Tutor đã trả lời",
-          message: "+10 XP cho tinh thần chủ động học hỏi.",
+          message: `+${xpEarned} XP cho tinh thần chủ động học hỏi.`,
         });
       } else {
-        setAiAnswer(
-          "AI Tutor đang bận. Vui lòng gửi lại câu hỏi sau giây lát."
-        );
+        setAiAnswer("AI Tutor đang bận. Vui lòng gửi lại câu hỏi sau giây lát.");
       }
     } catch (e) {
       console.error(e);
@@ -607,30 +667,30 @@ export default function DashboardPage() {
         <HeaderPillContainer>
           <HeaderPillItem
             active
-            icon={<Layout className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />}
-            label="Bảng Điều Khiển"
+            icon={<Home className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />}
+            label="Trang chủ"
           />
           <HeaderPillItem
             href="/roadmap"
-            icon={<Target className="w-3.5 h-3.5 text-amber-500" />}
-            label="Lộ Trình AI"
+            icon={<Compass className="w-3.5 h-3.5 text-amber-500" />}
+            label="Lộ trình"
           />
           <HeaderPillItem
             href="/vocabulary"
-            icon={<BookOpen className="w-3.5 h-3.5 text-emerald-500" />}
-            label="Từ Vựng"
+            icon={<ListOrdered className="w-3.5 h-3.5 text-emerald-500" />}
+            label="Danh sách từ"
             hideOnSmall
           />
           <HeaderPillItem
             href="/study/listening"
             icon={<Headphones className="w-3.5 h-3.5 text-indigo-500" />}
-            label="Luyện Nghe"
+            label="Dictation"
             hideOnSmall
           />
           <HeaderPillItem
             href="/study/pvp"
             icon={<Swords className="w-3.5 h-3.5 text-rose-500" />}
-            label="Đấu Trường"
+            label="Đấu trường"
             hideOnMedium
           />
         </HeaderPillContainer>
@@ -896,7 +956,7 @@ export default function DashboardPage() {
                   </div>
                 </div>
 
-                <Link href="/study/practice" className="shrink-0">
+                <Link href={studyPlanTargetUrl} className="shrink-0">
                   <button
                     type="button"
                     className="px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-white hover:bg-blue-50 text-[#0059bb] font-extrabold text-xs sm:text-sm shadow-md flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer active:scale-95 transition-all group whitespace-nowrap"
@@ -1287,29 +1347,50 @@ export default function DashboardPage() {
               </form>
 
               <AnimatePresence>
-                {aiAnswer && (
+                {isAiLoading && (
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 text-xs sm:text-sm font-medium text-slate-800 dark:text-slate-200 leading-relaxed shadow-inner space-y-2"
+                    className="p-4 rounded-xl bg-slate-50/90 dark:bg-slate-950/90 border border-slate-200/90 dark:border-slate-800 space-y-2.5 shadow-inner"
                   >
-                    <div className="flex items-center justify-between border-b border-slate-200/60 dark:border-slate-800 pb-1.5">
-                      <span className="font-bold text-blue-600 dark:text-sky-400 flex items-center gap-1.5 text-xs font-display">
-                        <Bot className="w-3.5 h-3.5" /> Phản hồi từ AI Tutor:
+                    <div className="flex items-center gap-2">
+                      <Bot className="w-4 h-4 text-[#0059bb] dark:text-sky-400 animate-pulse" />
+                      <span className="text-xs font-bold text-[#0059bb] dark:text-sky-400 font-display">
+                        AI Tutor đang tư duy & giải nghĩa...
+                      </span>
+                    </div>
+                    <div className="space-y-2 pt-1">
+                      <div className="h-3.5 w-full rounded-md bg-slate-200/80 dark:bg-slate-800/80 animate-pulse" />
+                      <div className="h-3.5 w-4/5 rounded-md bg-slate-200/80 dark:bg-slate-800/80 animate-pulse" />
+                      <div className="h-3.5 w-2/3 rounded-md bg-slate-200/80 dark:bg-slate-800/80 animate-pulse" />
+                    </div>
+                  </motion.div>
+                )}
+
+                {aiAnswer && !isAiLoading && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="p-4 rounded-xl bg-slate-50/90 dark:bg-slate-950/90 border border-slate-200/90 dark:border-slate-800 text-xs sm:text-sm font-medium text-slate-800 dark:text-slate-200 leading-relaxed shadow-inner space-y-2.5"
+                  >
+                    <div className="flex items-center justify-between border-b border-slate-200/70 dark:border-slate-800/80 pb-2">
+                      <span className="font-extrabold text-[#0059bb] dark:text-sky-400 flex items-center gap-1.5 text-xs font-display">
+                        <Bot className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
+                        <span>Phản hồi từ AI Tutor</span>
                       </span>
                       <button
                         type="button"
                         onClick={() => speakLessonText(aiAnswer, { rate: 1.0 })}
-                        className="p-1 rounded-md text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors cursor-pointer"
+                        className="px-2 py-1 rounded-md text-slate-500 dark:text-slate-400 hover:text-[#0059bb] dark:hover:text-white bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-800 text-[11px] font-bold flex items-center gap-1 transition-all cursor-pointer shadow-2xs"
                         title="Nghe phát âm"
                       >
                         <Volume2 className="w-3.5 h-3.5" />
+                        <span>Nghe</span>
                       </button>
                     </div>
-                    <div className="text-slate-700 dark:text-slate-300">
-                      {aiAnswer}
-                    </div>
+                    <FormattedAiText content={aiAnswer} />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -1345,47 +1426,58 @@ export default function DashboardPage() {
                 </div>
               </div>
 
-              {/* 3. Minimalist 7-Day Circle Stepper */}
-              <div className="grid grid-cols-7 gap-1 sm:gap-2 text-center pt-1">
-                {weekDays.map((wd, i) => {
-                  const isToday = wd.status === "current";
-                  const isLearned = wd.status === "learned";
-
-                  return (
+              {/* 3. Minimalist 7-Day Circle Stepper (With Loading Skeleton) */}
+              {isLoadingCheckin ? (
+                <div className="grid grid-cols-7 gap-1 sm:gap-2 text-center pt-1 animate-pulse">
+                  {[1, 2, 3, 4, 5, 6, 7].map((i) => (
                     <div key={i} className="flex flex-col items-center gap-1.5">
-                      {/* Day Label */}
-                      <span
-                        className={`text-[11px] font-mono font-bold ${
-                          isToday
-                            ? "text-amber-600 dark:text-amber-400 font-black"
-                            : isLearned
-                            ? "text-slate-800 dark:text-slate-200"
-                            : "text-slate-500 dark:text-slate-400 font-semibold"
-                        }`}
-                      >
-                        {wd.day}
-                      </span>
-
-                      {/* Circle Dot with 3D Material */}
-                      <div
-                        className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all ${
-                          isLearned
-                            ? "bg-gradient-to-tr from-amber-500 to-orange-400 text-white shadow-xs shadow-orange-500/25 ring-1 ring-amber-400/20"
-                            : isToday
-                            ? "bg-gradient-to-tr from-amber-500 to-orange-500 text-white ring-4 ring-amber-400/35 shadow-md shadow-amber-500/35 animate-pulse"
-                            : "bg-slate-100 dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700/80"
-                        }`}
-                      >
-                        {isLearned ? (
-                          <Check className="w-3.5 h-3.5 stroke-[3]" />
-                        ) : isToday ? (
-                          <Flame className="w-3.5 h-3.5 fill-white stroke-none" />
-                        ) : null}
-                      </div>
+                      <div className="h-3 w-5 rounded bg-slate-200 dark:bg-slate-800" />
+                      <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-200 dark:bg-slate-800" />
                     </div>
-                  );
-                })}
-              </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="grid grid-cols-7 gap-1 sm:gap-2 text-center pt-1">
+                  {weekDays.map((wd, i) => {
+                    const isToday = wd.status === "current";
+                    const isLearned = wd.status === "learned";
+
+                    return (
+                      <div key={i} className="flex flex-col items-center gap-1.5">
+                        {/* Day Label */}
+                        <span
+                          className={`text-[11px] font-mono font-bold ${
+                            isToday
+                              ? "text-amber-600 dark:text-amber-400 font-black"
+                              : isLearned
+                              ? "text-slate-800 dark:text-slate-200"
+                              : "text-slate-500 dark:text-slate-400 font-semibold"
+                          }`}
+                        >
+                          {wd.day}
+                        </span>
+
+                        {/* Circle Dot with 3D Material */}
+                        <div
+                          className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all ${
+                            isLearned
+                              ? "bg-gradient-to-tr from-amber-500 to-orange-400 text-white shadow-xs shadow-orange-500/25 ring-1 ring-amber-400/20"
+                              : isToday
+                              ? "bg-gradient-to-tr from-amber-500 to-orange-500 text-white ring-4 ring-amber-400/35 shadow-md shadow-amber-500/35 animate-pulse"
+                              : "bg-slate-100 dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700/80"
+                          }`}
+                        >
+                          {isLearned ? (
+                            <Check className="w-3.5 h-3.5 stroke-[3]" />
+                          ) : isToday ? (
+                            <Flame className="w-3.5 h-3.5 fill-white stroke-none" />
+                          ) : null}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
 
               {/* 4. Milestone Reward Banner */}
               <div className="p-3 rounded-xl bg-amber-50/50 dark:bg-amber-950/20 border border-amber-200/60 dark:border-amber-900/40 flex items-center justify-between gap-3 shadow-2xs">
@@ -1415,7 +1507,7 @@ export default function DashboardPage() {
 
               {/* 5. Full-Width Energetic Action Button (QUYẾT TÂM) */}
               <div className="pt-0.5">
-                {claimedList.includes(`daily_checkin_${user ? user.id : "guest"}_${new Date().toISOString().slice(0, 10)}`) ? (
+                {isCheckedInToday ? (
                   <button
                     type="button"
                     disabled
@@ -1428,10 +1520,15 @@ export default function DashboardPage() {
                   <button
                     type="button"
                     onClick={handleCheckIn}
-                    className="w-full py-2.5 sm:py-3 rounded-xl bg-gradient-to-r from-[#0059bb] to-blue-600 hover:from-[#004fba] hover:to-blue-700 text-white font-extrabold text-xs sm:text-sm tracking-wider uppercase shadow-md shadow-blue-500/20 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer border-t border-white/20"
+                    disabled={isCheckingIn || isLoadingCheckin}
+                    className="w-full py-2.5 sm:py-3 rounded-xl bg-gradient-to-r from-[#0059bb] to-blue-600 hover:from-[#004fba] hover:to-blue-700 text-white font-extrabold text-xs sm:text-sm tracking-wider uppercase shadow-md shadow-blue-500/20 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer border-t border-white/20 disabled:opacity-60"
                   >
-                    <Flame className="w-4 h-4 fill-white stroke-none" />
-                    <span>ĐIỂM DANH (+15 XP)</span>
+                    {isCheckingIn ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <Flame className="w-4 h-4 fill-white stroke-none" />
+                    )}
+                    <span>{isCheckingIn ? "Đang điểm danh..." : "ĐIỂM DANH (+15 XP)"}</span>
                   </button>
                 )}
               </div>
@@ -1509,75 +1606,94 @@ export default function DashboardPage() {
 
               {/* Leaderboard Rows */}
               <div className="space-y-2 pt-1">
-                {/* User Row (Live Synced) */}
-                <div className="flex items-center justify-between p-2.5 rounded-xl bg-blue-50/90 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-800/60 shadow-2xs">
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    <span className="text-xs font-black text-blue-600 dark:text-sky-400 font-mono shrink-0">
-                      #{userRankInLeaderboard}
-                    </span>
-                    <UserAvatar
-                      avatar={(user as any)?.avatarUrl || user?.imageUrl || (user as any)?.avatar}
-                      imageUrl={user?.imageUrl}
-                      emoji={user?.avatarEmoji}
-                      name={user?.fullName || user?.username || "Bạn"}
-                      size="w-6 h-6"
-                    />
-                    <span className="text-xs font-bold text-slate-900 dark:text-white truncate">
-                      Bạn (Hiện tại)
-                    </span>
+                {isLoadingLeaderboard ? (
+                  <div className="space-y-2">
+                    {[1, 2, 3, 4].map((i) => (
+                      <div
+                        key={i}
+                        className="p-2.5 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/60 dark:border-slate-800 flex items-center justify-between animate-pulse"
+                      >
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-800 shrink-0" />
+                          <div className="h-3.5 w-28 rounded bg-slate-200 dark:bg-slate-800" />
+                        </div>
+                        <div className="h-4 w-12 rounded bg-slate-200 dark:bg-slate-800" />
+                      </div>
+                    ))}
                   </div>
-                  <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-blue-600 text-white shadow-2xs">
-                    {leaderboardCriterion === "xp"
-                      ? `${user?.totalXp || 0} XP`
-                      : `${user?.minutesStudied || 0}m`}
-                  </span>
-                </div>
-
-                {/* Top 3 Leaders */}
-                {topLeaders.map((leader: any, idx: number) => {
-                  const displayScore =
-                    leaderboardCriterion === "xp"
-                      ? `${leader.xp} XP`
-                      : `${leader.minutesStudied ?? Math.max(5, Math.round(leader.xp / 10))}m`;
-
-                  return (
-                    <div
-                      key={leader.id || idx}
-                      className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/60 dark:border-slate-800 shadow-2xs"
-                    >
+                ) : (
+                  <>
+                    {/* User Row (Live Synced) */}
+                    <div className="flex items-center justify-between p-2.5 rounded-xl bg-blue-50/90 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-800/60 shadow-2xs">
                       <div className="flex items-center gap-2.5 min-w-0">
-                        <span
-                          className={`shrink-0 flex items-center justify-center w-5 h-5 rounded-md text-[11px] font-mono font-black shadow-2xs ${
-                            idx === 0
-                              ? "bg-amber-400/20 text-amber-600 dark:text-amber-400 border border-amber-400/30"
-                              : idx === 1
-                              ? "bg-slate-200/60 dark:bg-slate-700/50 text-slate-700 dark:text-slate-300 border border-slate-300/40"
-                              : "bg-amber-600/15 text-amber-700 dark:text-amber-500 border border-amber-600/30"
-                          }`}
-                        >
-                          {idx + 1}
+                        <span className="text-xs font-black text-blue-600 dark:text-sky-400 font-mono shrink-0">
+                          #{userRankInLeaderboard}
                         </span>
                         <UserAvatar
-                          avatar={leader.avatarUrl || leader.imageUrl || leader.avatar}
-                          imageUrl={leader.imageUrl}
-                          emoji={leader.avatarEmoji}
-                          name={leader.fullName || leader.username || "Học viên"}
+                          avatar={(user as any)?.avatarUrl || user?.imageUrl || (user as any)?.avatar}
+                          imageUrl={user?.imageUrl}
+                          emoji={user?.avatarEmoji}
+                          name={user?.fullName || user?.username || "Bạn"}
                           size="w-6 h-6"
                         />
-                        <span className="text-xs font-semibold text-slate-800 dark:text-slate-200 truncate">
-                          {leader.fullName}
+                        <span className="text-xs font-bold text-slate-900 dark:text-white truncate">
+                          Bạn (Hiện tại)
                         </span>
                       </div>
-                      <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
-                        {displayScore}
+                      <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-blue-600 text-white shadow-2xs">
+                        {leaderboardCriterion === "xp"
+                          ? `${user?.totalXp || 0} XP`
+                          : `${user?.minutesStudied || 0}m`}
                       </span>
                     </div>
-                  );
-                })}
+
+                    {/* Top 3 Leaders */}
+                    {topLeaders.map((leader: any, idx: number) => {
+                      const displayScore =
+                        leaderboardCriterion === "xp"
+                          ? `${leader.xp} XP`
+                          : `${leader.minutesStudied ?? Math.max(5, Math.round(leader.xp / 10))}m`;
+
+                      return (
+                        <div
+                          key={leader.id || idx}
+                          className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/60 dark:border-slate-800 shadow-2xs"
+                        >
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <span
+                              className={`shrink-0 flex items-center justify-center w-5 h-5 rounded-md text-[11px] font-mono font-black shadow-2xs ${
+                                idx === 0
+                                  ? "bg-amber-400/20 text-amber-600 dark:text-amber-400 border border-amber-400/30"
+                                  : idx === 1
+                                  ? "bg-slate-200/60 dark:bg-slate-700/50 text-slate-700 dark:text-slate-300 border border-slate-300/40"
+                                  : "bg-amber-600/15 text-amber-700 dark:text-amber-500 border border-amber-600/30"
+                              }`}
+                            >
+                              {idx + 1}
+                            </span>
+                            <UserAvatar
+                              avatar={leader.avatarUrl || leader.imageUrl || leader.avatar}
+                              imageUrl={leader.imageUrl}
+                              emoji={leader.avatarEmoji}
+                              name={leader.fullName || leader.username || "Học viên"}
+                              size="w-6 h-6"
+                            />
+                            <span className="text-xs font-semibold text-slate-800 dark:text-slate-200 truncate">
+                              {leader.fullName}
+                            </span>
+                          </div>
+                          <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                            {displayScore}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </>
+                )}
               </div>
             </div>
 
-            {/* 3.6. NHIỆM VỤ HÀNG NGÀY (DAILY QUESTS) */}
+            {/* 3.6. NHIỆM VỤ HÀNG NGÀY (DAILY QUESTS - DATABASE SYNCED) */}
             <div className="p-4 sm:p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3.5">
               <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
                 <div className="flex items-center gap-2">
@@ -1587,16 +1703,16 @@ export default function DashboardPage() {
                   </h3>
                 </div>
                 <span className="px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 font-mono font-bold text-xs border border-blue-200 dark:border-blue-800">
-                  {completedChallenges}/{challenges.length} ĐÃ XONG
+                  {completedChallenges}/{displayChallenges.length} ĐÃ XONG
                 </span>
               </div>
 
               <div className="space-y-2">
-                {challenges.map((ch) => {
-                  const hasReachedGoal =
-                    ch.progress >= ch.target || ch.isCompleted;
-                  const isClaimed = claimedList.includes(ch.id);
+                {displayChallenges.map((ch) => {
+                  const hasReachedGoal = ch.progress >= ch.target || ch.isCompleted;
+                  const isClaimed = Boolean(ch.isClaimed);
                   const isTaskFullyCompleted = hasReachedGoal && isClaimed;
+                  const isClaiming = claimingChallengeId === ch.id;
 
                   return (
                     <div
@@ -1639,6 +1755,8 @@ export default function DashboardPage() {
                           </span>
                         ) : hasReachedGoal ? (
                           <button
+                            type="button"
+                            disabled={isClaiming}
                             onClick={() =>
                               handleClaimChallenge(
                                 ch.id,
@@ -1646,9 +1764,9 @@ export default function DashboardPage() {
                                 ch.coinReward
                               )
                             }
-                            className="px-2.5 py-1 text-[10px] font-mono font-black bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg shadow-2xs active:scale-95 transition-transform uppercase cursor-pointer whitespace-nowrap"
+                            className="px-2.5 py-1 text-[10px] font-mono font-black bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg shadow-2xs active:scale-95 transition-transform uppercase cursor-pointer whitespace-nowrap disabled:opacity-60"
                           >
-                            Nhận +{ch.xpReward} XP
+                            {isClaiming ? "Đang nhận..." : `Nhận +${ch.xpReward} XP`}
                           </button>
                         ) : (
                           <span className="px-2 py-0.5 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-mono font-bold text-[10px]">

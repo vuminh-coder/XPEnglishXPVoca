@@ -23,6 +23,8 @@ const PUBLIC_PREFIXES = [
   "/myvocab",
   "/review",
   "/shop",
+  "/premium",
+  "/premium/checkout",
   "/settings",
   "/onboarding",
   "/ai",
@@ -73,7 +75,7 @@ function applySecurityHeaders(response: NextResponse): NextResponse {
   return response;
 }
 
-export default function middleware(request: NextRequest) {
+export default function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const ip = getClientIp(request);
 
@@ -93,10 +95,9 @@ export default function middleware(request: NextRequest) {
     return applySecurityHeaders(errorResponse);
   }
 
-  // ─── 2. STRICT AUTH RATE LIMITING (Task 1: Max 5 attempts per 15-10 mins) ───
+  // ─── 2. STRICT AUTH RATE LIMITING (Max 5 attempts per 15 mins) ───
   if (AUTH_RATE_LIMITED_PATHS.some((p) => pathname.startsWith(p))) {
     const rateKey = `auth_limit_${ip}_${pathname}`;
-    // 5 requests allowed per 15 minutes (15 * 60 * 1000 ms)
     const rateCheck = memoryRateLimiter.check(rateKey, 5, 15 * 60 * 1000);
 
     if (!rateCheck.allowed) {
@@ -134,8 +135,7 @@ export default function middleware(request: NextRequest) {
 
   // ─── 3. AUTHENTICATION & ROUTE ACCESS CONTROL ───
   const sessionCookie = request.cookies.get("xp_voca_session")?.value;
-  const localUserId = request.cookies.get("local-user-id")?.value;
-  const isAuthenticated = !!(sessionCookie || localUserId);
+  const isAuthenticated = !!sessionCookie;
 
   // Redirect authenticated user away from login/register
   if (isAuthenticated && (pathname === "/login" || pathname === "/register")) {

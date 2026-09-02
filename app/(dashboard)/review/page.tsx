@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import React, { useState, useMemo, useEffect } from 'react';
 import { speakLessonText } from '@/shared/utils/ttsEngine';
 
@@ -29,6 +29,11 @@ import {
 } from 'lucide-react';
 import { Button } from '@/shared/components/ui';
 import { motion, AnimatePresence } from 'framer-motion';
+import {
+  AppTopHeader,
+  HeaderPillContainer,
+  HeaderPillItem,
+} from "@/shared/components/layout/AppTopHeader";
 
 const BOOKMARK_KEY = "xp_bookmarked_words";
 
@@ -281,22 +286,72 @@ export default function ReviewPage() {
   }, [rawSelectedDateVocabs]);
 
   return (
-    <div className="space-y-8 pb-24 md:pb-8 font-sans antialiased" suppressHydrationWarning>
+    <div className="space-y-4 pb-24 md:pb-8 font-sans antialiased" suppressHydrationWarning>
       
-      {/* ─── Page Header ─── */}
-      <motion.div
-        initial={{ opacity: 0, y: -15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 85, damping: 15 }}
-        className="page-header"
-      >
-        <h1 className="text-2xl md:text-3xl font-black tracking-tight text-slate-900 dark:text-white font-display">
-          Lịch ôn tập định kỳ
-        </h1>
-        <p className="text-xs md:text-sm text-slate-500 dark:text-slate-300 mt-1 font-semibold max-w-2xl leading-relaxed">
-          Phân tích tần suất và lên lịch trình ôn tập từ vựng khoa học dựa trên thuật toán Spaced Repetition (Lặp lại ngắt quãng) tối ưu trí nhớ.
-        </p>
-      </motion.div>
+      {/* ─── 1. STANDARDIZED APPTOPHEADER ─── */}
+      <AppTopHeader>
+        <HeaderPillContainer>
+          <HeaderPillItem
+            active
+            icon={<CalendarIcon className="w-3.5 h-3.5 text-[#0059bb]" />}
+            label="Lịch Ôn Tập SM-2"
+          />
+          <HeaderPillItem
+            href="/study/practice"
+            icon={<Zap className="w-3.5 h-3.5" />}
+            label="Luyện Tập Ngay"
+          />
+          <HeaderPillItem
+            href="/myvocab"
+            icon={<Bookmark className="w-3.5 h-3.5" />}
+            label="Sổ Tay Từ Vựng"
+            hideOnSmall
+          />
+        </HeaderPillContainer>
+      </AppTopHeader>
+
+      {/* ─── 2. FLUID ULTRA-WIDE MAIN CONTAINER ─── */}
+      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 sm:space-y-6 pt-1">
+        
+        {/* HERO SPOTLIGHT STAGE */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ type: "spring", stiffness: 85, damping: 15 }}
+          className="p-4 sm:p-6 rounded-2xl bg-linear-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-md shadow-[#0059bb]/15 relative overflow-hidden"
+        >
+          <div className="absolute -right-10 -bottom-10 w-48 sm:w-60 h-48 sm:h-60 bg-sky-400/15 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px] opacity-15 pointer-events-none" />
+
+          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="space-y-1.5 max-w-2xl">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-white/20 text-white border border-white/30 backdrop-blur-md shadow-2xs">
+                  Spaced Repetition SM-2
+                </span>
+                <span className="text-[11px] font-semibold text-blue-100/80">
+                  Lặp lại ngắt quãng theo đường cong lãng quên Ebbinghaus
+                </span>
+              </div>
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-black tracking-tight text-white font-display">
+                Lịch Ôn Tập Định Kỳ Khoa Học
+              </h1>
+              <p className="text-xs sm:text-sm text-blue-100/90 leading-relaxed font-normal">
+                Tự động tính toán chu kỳ ôn tập tối ưu cho từng từ vựng dựa trên tần suất học và mức độ thành thạo, giúp chuyển từ vựng vào trí nhớ dài hạn.
+              </p>
+            </div>
+
+            <div className="hidden lg:flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-3 shrink-0">
+              <div className="w-10 h-10 rounded-lg bg-amber-400/20 border border-amber-400/30 flex items-center justify-center text-amber-300">
+                <Zap className="w-5 h-5" />
+              </div>
+              <div className="space-y-0.5">
+                <div className="text-xs font-bold text-white uppercase tracking-wider">Học Đúng Thời Điểm</div>
+                <div className="text-[11px] text-blue-100">Ghi nhớ x3 lần</div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
 
       {/* ─── Bento Grid Layout ─── */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
@@ -808,6 +863,7 @@ export default function ReviewPage() {
 
         </div>
       </motion.div>
+      </div>
 
     </div>
   );

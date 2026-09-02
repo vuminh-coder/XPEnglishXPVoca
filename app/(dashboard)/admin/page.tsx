@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import React, { useState } from "react";
 import { MOCK_THEMES } from "@/shared/constants";
 import { useAuthStore } from "@/stores/authStore";
@@ -14,7 +14,13 @@ import {
   Plus,
   BarChart3,
   Layers,
+  ShieldAlert,
 } from "lucide-react";
+import {
+  AppTopHeader,
+  HeaderPillContainer,
+  HeaderPillItem,
+} from "@/shared/components/layout/AppTopHeader";
 
 export default function AdminPage() {
   const { awardXp } = useAuthStore();
@@ -104,19 +110,66 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="animate-fade-in space-y-6 pb-20 md:pb-6">
-      {/* Page Header */}
-      <div className="page-header animate-fade-in-down">
-        <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-md bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white">
-            <Database className="h-5 w-5" />
-          </div>
-          <div>
-            <h1 className="page-title text-2xl font-extrabold tracking-tight">Bảng quản trị</h1>
-            <p className="page-subtitle text-muted mt-0.5">Tổng quan nền tảng và quản lý nội dung.</p>
+    <div className="space-y-4 pb-20 md:pb-6 font-sans antialiased" suppressHydrationWarning>
+      {/* ─── 1. STANDARDIZED APPTOPHEADER ─── */}
+      <AppTopHeader>
+        <HeaderPillContainer>
+          <HeaderPillItem
+            active
+            icon={<Database className="w-3.5 h-3.5 text-indigo-500" />}
+            label="Bảng Quản Trị"
+          />
+          <HeaderPillItem
+            href="/vocabulary"
+            icon={<BookOpen className="w-3.5 h-3.5" />}
+            label="Từ Vựng Hệ Thống"
+          />
+          <HeaderPillItem
+            href="/analytics"
+            icon={<BarChart3 className="w-3.5 h-3.5" />}
+            label="Thống Kê Platform"
+            hideOnSmall
+          />
+        </HeaderPillContainer>
+      </AppTopHeader>
+
+      {/* ─── 2. FLUID ULTRA-WIDE MAIN CONTAINER ─── */}
+      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 sm:space-y-6 pt-1">
+        
+        {/* HERO STAGE */}
+        <div className="p-4 sm:p-6 rounded-2xl bg-linear-to-r from-indigo-700 via-indigo-600 to-slate-900 text-white shadow-md shadow-indigo-500/15 relative overflow-hidden">
+          <div className="absolute -right-10 -bottom-10 w-48 sm:w-60 h-48 sm:h-60 bg-indigo-400/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px] opacity-15 pointer-events-none" />
+
+          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="space-y-1.5 max-w-2xl">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-white/20 text-white border border-white/30 backdrop-blur-md shadow-2xs">
+                  Administrator Portal
+                </span>
+                <span className="text-[11px] font-semibold text-indigo-100/90">
+                  Quản trị hệ thống & Giám sát vận hành
+                </span>
+              </div>
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-black tracking-tight text-white font-display">
+                Bảng Quản Trị Hệ Thống
+              </h1>
+              <p className="text-xs sm:text-sm text-indigo-100/90 leading-relaxed font-normal">
+                Theo dõi người dùng hoạt động theo thời gian thực, quản lý kho từ vựng và cấp phát nội dung học tập toàn nền tảng.
+              </p>
+            </div>
+
+            <div className="hidden lg:flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-3 shrink-0">
+              <div className="w-10 h-10 rounded-lg bg-indigo-400/20 border border-indigo-400/30 flex items-center justify-center text-indigo-200">
+                <Database className="w-5 h-5" />
+              </div>
+              <div className="space-y-0.5">
+                <div className="text-xs font-bold text-white uppercase tracking-wider">Hệ Thống Trực Tuyến</div>
+                <div className="text-[11px] text-indigo-100">API Gateway 99.9% Uptime</div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
       {/* Platform Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -262,6 +315,7 @@ export default function AdminPage() {
             </table>
           </div>
         </Card>
+      </div>
       </div>
     </div>
   );

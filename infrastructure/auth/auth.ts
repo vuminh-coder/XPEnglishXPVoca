@@ -1,40 +1,42 @@
-﻿import { cookies } from "next/headers";
+import { cookies } from "next/headers";
 import { verifyAuthToken } from "@/infrastructure/auth/jwt";
 
+/**
+ * Secure Server-Side User Authentication Resolver.
+ * Cryptographically verifies JWT session cookies or Bearer Authorization headers.
+ * NEVER trusts unauthenticated client headers (e.g. x-user-id) to prevent identity spoofing.
+ */
 export async function getAuthenticatedUserId(req?: Request): Promise<string | null> {
   try {
+    // 1. Try reading secure HttpOnly session cookie
     const cookieStore = await cookies();
-    const sessionCookie = cookieStore.get("xp_voca_session")?.value;
-    
-    if (sessionCookie) {
-      // 1. Verify JWT token
-      const jwtPayload = verifyAuthToken(sessionCookie);
+    const sessionToken =
+      cookieStore.get("xp_voca_session")?.value ||
+      cookieStore.get("auth-token")?.value;
+
+    if (sessionToken) {
+      const jwtPayload = verifyAuthToken(sessionToken);
       if (jwtPayload?.userId) {
         return jwtPayload.userId;
       }
-
-      // 2. Legacy JSON parse fallback
-      try {
-        const parsed = JSON.parse(sessionCookie);
-        if (parsed?.userId) return parsed.userId;
-      } catch (e) {}
     }
 
-    const localUserId = cookieStore.get("local-user-id")?.value;
-    if (localUserId) return localUserId;
-
+    // 2. Try reading Bearer Authorization header if request is provided
     if (req) {
-      const headerUserId = req.headers.get("x-user-id");
-      if (headerUserId) return headerUserId;
+      const authHeader = req.headers.get("authorization");
+      if (authHeader && authHeader.startsWith("Bearer ")) {
+        const bearerToken = authHeader.substring(7).trim();
+        const jwtPayload = verifyAuthToken(bearerToken);
+        if (jwtPayload?.userId) {
+          return jwtPayload.userId;
+        }
+      }
     }
 
-    return "guest_user";
-  } catch (e) {
-    console.error("Session lookup failed on server:", e);
-    if (req) {
-      const headerUserId = req.headers.get("x-user-id");
-      if (headerUserId) return headerUserId;
-    }
-    return "guest_user";
+    // Unauthenticated request
+    return null;
+  } catch (error) {
+    console.error("[Auth Resolver Error]:", error);
+    return null;
   }
 }

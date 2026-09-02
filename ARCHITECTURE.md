@@ -25,8 +25,8 @@ e:\XP English  XP Voca\
 │   │   ├── community/                # Leaderboard & social hub
 │   │   ├── profile/                  # User profile & achievements
 │   │   ├── shop/                     # Gamified item shop & themes
-│   │   └── settings/                 # App settings & preferences
-│   ├── api/                          # Backend API route handlers
+│   ├── api/                          # Backend API route handlers (auth, exams, pvp, ai, cron...)
+│   │   └── cron/                     # Scheduled Automation Cron (streak protection, maintenance)
 │   ├── globals.css                   # Core Design System tokens & global styles
 │   ├── layout.tsx                    # Root HTML layout & font declarations
 │   └── page.tsx                      # Landing page orchestrator
@@ -65,17 +65,24 @@ e:\XP English  XP Voca\
 │   ├── gamification/                 # Quests, Streaks, Levels & Games
 │   │   ├── components/               # SpeedMatchGame, AchievementCard, StreakCounter...
 │   │   └── index.ts
-│   ├── community/                    # Posts, Groups & Friends
-│   │   └── components/               # PostCard, GroupCard, FriendList...
+│   ├── community/                    # Posts, Groups & Comments
+│   │   ├── components/               # PostCard, CreatePostBox, CommunitySidebar
+│   │   ├── types.ts                  # Post, Comment interfaces
+│   │   └── index.ts                  # Barrel export
 │   ├── ai-tutor/                     # 1-on-1 AI Tutor & Pronunciation Coach
 │   │   └── components/               # ChatInterface, MessageBubble...
 │   ├── video/                        # Video Learning Studio
-│   └── pvp/                          # Realtime 1v1 PvP Arena
+│   └── pvp/                          # Realtime 1v1 PvP Arena & Gamified Battles
+│       ├── components/               # PvPLobby, PvPMatchmaking, PvPArena, PvPResults
+│       ├── hooks/                    # usePvPBattle
+│       ├── data/                     # pvpData (opponents, difficulty tiers, question bank)
+│       ├── types.ts                  # PvP types & match state
+│       └── index.ts                  # Barrel export
 │
 ├── shared/                           # 🌐 TRULY SHARED CODE (Cross-Feature Reusables)
 │   ├── components/
 │   │   ├── ui/                       # Button, Badge, Card, DoubleBezelCard, Toast, TTSSettingsModal...
-│   │   ├── layout/                   # Sidebar, Navbar, BottomNav, Footer, RightSidebar
+│   │   ├── layout/                   # Sidebar, AppTopHeader, BottomNav, Footer, RightSidebar
 │   │   ├── feedback/                 # UserAvatar, SkeletonLoaders, ErrorBoundary, PageEntranceAnimation...
 │   │   └── providers/                # ClientClerkWrapper, Context Providers
 │   ├── utils/                        # formatDate, formatName, calculateXP, xp, sm2, ttsEngine, cn...
@@ -119,7 +126,8 @@ e:\XP English  XP Voca\
 ├── tests/                            # 🎭 E2E TESTS (Playwright)
 │   └── voice-channel.spec.ts
 │
-├── proxy.ts                          # Next.js 16 Proxy / Request Interceptor
+├── middleware.ts                     # Next.js 16 Edge Security & Rate Limiting Middleware
+├── proxy.ts                          # Legacy Proxy compatibility re-export
 └── public/                           # Static assets (mascot, icons, badges)
 ```
 
@@ -172,7 +180,7 @@ shared / stores / infrastructure
 |:---|:---|:---|
 | **Stores** | `@/stores/<storeName>` hoặc `@/stores` | `import { useUserStore } from "@/stores/userStore";` |
 | **Shared UI** | `@/shared/components/ui` | `import { Button, Badge } from "@/shared/components/ui";` |
-| **Shared Layout** | `@/shared/components/layout` | `import { Sidebar, Navbar } from "@/shared/components/layout";` |
+| **Shared Layout** | `@/shared/components/layout` | `import { Sidebar, AppTopHeader } from "@/shared/components/layout";` |
 | **Shared Feedback** | `@/shared/components/feedback` | `import { UserAvatar, SkeletonLoader } from "@/shared/components/feedback";` |
 | **Shared Utils** | `@/shared/utils/<utilName>` | `import { formatDate } from "@/shared/utils/formatDate";` |
 | **Shared Types** | `@/shared/types` | `import { User, Vocabulary } from "@/shared/types";` |

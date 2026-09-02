@@ -348,7 +348,7 @@ export default function GrammarCatalogPage() {
       </AppTopHeader>
 
       {/* Main Hub Container */}
-      <div className="w-full max-w-7xl mx-auto px-3 sm:px-5 lg:px-6 space-y-4 pt-1">
+      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 pt-1">
         {/* 1. Compact Hero Studio Banner & 4 Inline Metrics */}
         <motion.div
           initial={{ opacity: 0, y: -6 }}

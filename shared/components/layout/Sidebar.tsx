@@ -9,13 +9,9 @@ import {
   Home,
   BookOpen,
   FileText,
-  Layers,
-  PenLine,
-  MessageSquare,
   LogOut,
   Compass,
   Trophy,
-  Brain,
   Headphones,
   Mic,
   PanelLeftClose,
@@ -23,19 +19,16 @@ import {
   ChevronDown,
   ChevronRight,
   Sparkles,
-  Star,
+  Crown,
   Video,
   ListOrdered,
   BookMarked,
   BarChart3,
   Wand2,
-  Languages,
   Sun,
   Moon,
   User,
-  Laptop,
   Check,
-  X,
 } from "lucide-react";
 
 const SpeakingIcon = ({
@@ -209,18 +202,16 @@ function SidebarNavInner({
           sidebarOpen ? "open" : ""
         } ${sidebarCollapsed ? "collapsed" : ""}`}
       >
-        {/* 1. TOP BRAND HEADER (Preserves exact structural layout block & border on Mobile & Desktop) */}
+        {/* 1. TOP BRAND HEADER */}
         <div
-          className={`flex items-center justify-between ${
-            sidebarCollapsed
-              ? "px-2 h-14"
-              : "px-3.5 min-h-[56px] lg:h-14"
-          } shrink-0`}
+          className={`flex items-center justify-between px-3.5 min-h-[56px] lg:h-14 shrink-0 ${
+            sidebarCollapsed ? "lg:px-2" : "lg:px-3.5"
+          }`}
         >
-          {/* Desktop: Active brand text & collapse toggle button */}
+          {/* Desktop View (>= 1024px) */}
           <div className="hidden lg:flex items-center justify-between w-full">
             {sidebarCollapsed ? (
-              /* Show collapsed clean icon when collapsed on Desktop */
+              /* Show compact logo icon when collapsed on Desktop */
               <Link
                 href="/dashboard"
                 className="mx-auto flex items-center justify-center w-8 h-8 transition-transform active:scale-95 my-[1.5px] py-[0.5px] select-none"
@@ -233,7 +224,7 @@ function SidebarNavInner({
                 />
               </Link>
             ) : (
-              /* When expanded on Desktop: Show brand text name + collapse button */
+              /* When expanded on Desktop: Brand Text + Collapse Toggle Button */
               <>
                 <Link
                   href="/dashboard"
@@ -247,9 +238,11 @@ function SidebarNavInner({
                 </Link>
 
                 <button
+                  type="button"
                   onClick={toggleSidebarCollapsed}
                   className="p-1.5 py-[7px] my-[1px] rounded hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer shrink-0"
                   title="Thu gọn thanh bên"
+                  aria-label="Thu gọn thanh bên"
                 >
                   <PanelLeftClose className="w-5 h-5 stroke-[2]" />
                 </button>
@@ -257,7 +250,7 @@ function SidebarNavInner({
             )}
           </div>
 
-          {/* Mobile View: Exact Brand Text & PanelLeftClose Button */}
+          {/* Mobile View (< 1024px): ALWAYS Expanded Brand Text & Close Drawer Button */}
           <div className="flex lg:hidden items-center justify-between w-full">
             <Link
               href="/dashboard"
@@ -285,17 +278,16 @@ function SidebarNavInner({
 
         {/* 2. NAVIGATION LINKS */}
         <div
-          className={`sidebar-nav flex-1 overflow-y-auto px-2 pb-2 ${
-            sidebarCollapsed
-              ? "py-1.5 space-y-1 lg:space-y-0.5"
-              : "py-3 space-y-4"
-          } hide-scrollbar select-none`}
+          className={`sidebar-nav flex-1 overflow-y-auto px-2 pb-8 lg:pb-2 py-3 space-y-4 hide-scrollbar select-none ${
+            sidebarCollapsed ? "lg:py-1.5 lg:space-y-0.5" : "lg:py-3 lg:space-y-4"
+          }`}
         >
           {sections.map((section, idx) => (
             <div key={idx} className="sidebar-section">
+              {/* Section Header Divider */}
               <div
-                className={`items-center gap-2 px-2 mb-1.5 select-none ${
-                  sidebarCollapsed ? "flex lg:hidden" : "flex"
+                className={`items-center gap-2 px-2 mb-1.5 select-none flex ${
+                  sidebarCollapsed ? "lg:hidden" : "lg:flex"
                 }`}
               >
                 <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 font-display shrink-0">
@@ -304,13 +296,8 @@ function SidebarNavInner({
                 <div className="h-[1px] flex-1 border-b border-dashed border-slate-200 dark:border-white/10" />
               </div>
 
-              <div
-                className={
-                  sidebarCollapsed
-                    ? "space-y-0.5 lg:space-y-0.5"
-                    : "space-y-0.5"
-                }
-              >
+              {/* Section Links */}
+              <div className="space-y-0.5">
                 {section.links.map((link) => {
                   const isActive =
                     pathname === link.path ||
@@ -327,33 +314,31 @@ function SidebarNavInner({
                           isActive
                             ? "active bg-[#e8edf5] text-slate-900 dark:bg-slate-800 dark:text-white font-extrabold"
                             : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-900/60 font-semibold"
-                        } transition-all duration-200 flex items-center ${
+                        } transition-all duration-200 flex items-center justify-between px-3 py-2 w-full rounded-xl relative ${
                           sidebarCollapsed
-                            ? "justify-between px-3 py-2 lg:justify-center lg:px-0 lg:w-10 lg:h-9.5 lg:mx-auto lg:rounded-xl lg:before:!hidden"
-                            : "justify-between px-3 py-2 w-full rounded-xl"
-                        } rounded-xl relative`}
+                            ? "lg:justify-center lg:px-0 lg:w-10 lg:h-9.5 lg:mx-auto lg:rounded-xl lg:before:!hidden"
+                            : "lg:justify-between lg:px-3 lg:py-2 lg:w-full lg:rounded-xl"
+                        }`}
                       >
                         <div
-                          className={`flex items-center ${
-                            sidebarCollapsed
-                              ? "gap-3 lg:justify-center"
-                              : "gap-3"
-                          } min-w-0`}
+                          className={`flex items-center gap-3 min-w-0 ${
+                            sidebarCollapsed ? "lg:justify-center" : ""
+                          }`}
                         >
                           <span className="sidebar-link-icon text-current shrink-0 flex items-center justify-center">
                             {link.icon}
                           </span>
                           <span
-                            className={`font-bold text-[13px] truncate ${
-                              sidebarCollapsed ? "inline-block lg:hidden" : "inline-block"
+                            className={`font-bold text-[13px] truncate inline-block ${
+                              sidebarCollapsed ? "lg:hidden" : "lg:inline-block"
                             }`}
                           >
                             {link.name}
                           </span>
                           {link.badge && (
                             <span
-                              className={`px-1.5 py-0.2 rounded-full text-[9px] font-black bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-xs shrink-0 ${
-                                sidebarCollapsed ? "inline-block lg:hidden" : "inline-block"
+                              className={`px-1.5 py-0.2 rounded-full text-[9px] font-black bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-xs shrink-0 inline-block ${
+                                sidebarCollapsed ? "lg:hidden" : "lg:inline-block"
                               }`}
                             >
                               {link.badge}
@@ -362,22 +347,22 @@ function SidebarNavInner({
                         </div>
                       </Link>
 
-                      {/* Inline Premium Upgrade Link directly under Xếp hạng matching sidebar link style (Mobile ONLY) */}
+                      {/* Inline Premium Upgrade Link under Xếp hạng (Mobile ONLY) */}
                       {link.name === "Xếp hạng" && (
                         <Link
-                          href="/shop"
+                          href="/premium"
                           onClick={() => sidebarOpen && toggleSidebar()}
-                          className="sidebar-link text-blue-600 dark:text-sky-400 hover:bg-blue-50/70 dark:hover:bg-blue-950/40 font-bold transition-all duration-200 flex items-center justify-between px-3 py-2 w-full rounded lg:hidden"
+                          className="sidebar-link text-[#0059bb] dark:text-sky-400 hover:bg-blue-50/70 dark:hover:bg-blue-950/40 font-bold transition-all duration-200 flex items-center justify-between px-3 py-2 w-full rounded-xl lg:hidden mt-1"
                         >
                           <div className="flex items-center gap-3 min-w-0">
                             <span className="sidebar-link-icon shrink-0">
-                              <Sparkles className="w-[21px] h-[21px] text-amber-500 fill-amber-500" strokeWidth={1.9} />
+                              <Crown className="w-[21px] h-[21px] text-amber-500" strokeWidth={1.8} />
                             </span>
                             <span className="font-bold text-[13px] truncate">
                               Nâng cấp Premium
                             </span>
                           </div>
-                          <span className="shrink-0 text-blue-500 dark:text-sky-400 font-bold">➔</span>
+                          <span className="shrink-0 text-[#0059bb] dark:text-sky-400 font-bold">➔</span>
                         </Link>
                       )}
                     </React.Fragment>
@@ -387,9 +372,9 @@ function SidebarNavInner({
             </div>
           ))}
 
-          {/* WHEN COLLAPSED: NÚT MỞ RỘNG VÀ ĐỔI GIAO DIỆN NẰM NGAY DƯỚI XẾP HẠNG */}
+          {/* DESKTOP ONLY: Expand Sidebar Button & Theme Switcher when Collapsed */}
           {sidebarCollapsed && (
-            <div className="pt-2 border-t border-slate-100 dark:border-white/5 flex flex-col items-center gap-1">
+            <div className="pt-2 border-t border-slate-100 dark:border-white/5 hidden lg:flex flex-col items-center gap-1">
               <button
                 type="button"
                 onClick={toggleSidebarCollapsed}
@@ -424,22 +409,27 @@ function SidebarNavInner({
           )}
         </div>
 
-        {/* 3. SIDEBAR FOOTER: PREMIUM & PROFILE (PINNED FIXED AT BOTTOM ON DESKTOP) */}
-        <div className={`sidebar-footer shrink-0 hidden lg:block ${
-          sidebarCollapsed ? "p-2.5 bg-white dark:bg-slate-900 z-20" : "p-3 space-y-2.5"
-        }`}>
-          {!sidebarCollapsed && (
+        {/* 3. SIDEBAR FOOTER: USER PROFILE & THEME TOGGLE (DESKTOP ONLY) */}
+        <div
+          className={`sidebar-footer shrink-0 hidden lg:block border-t border-slate-100 dark:border-slate-800/80 ${
+            sidebarCollapsed
+              ? "lg:p-2.5 lg:space-y-0 lg:bg-white dark:lg:bg-slate-900 lg:z-20"
+              : "lg:p-3 lg:space-y-2.5"
+          }`}
+        >
+          {/* Desktop Expanded Premium Card */}
+          <div className={`${sidebarCollapsed ? "hidden" : "hidden lg:block"}`}>
             <Link
-              href="/shop"
-              className="w-full py-2.5 px-3.5 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-800/40 text-blue-600 dark:text-sky-400 text-xs font-black flex items-center justify-between hover:bg-blue-100/80 transition-colors shadow-2xs"
+              href="/premium"
+              className="w-full py-2.5 px-3.5 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-800/40 text-[#0059bb] dark:text-sky-400 text-xs font-black flex items-center justify-between hover:bg-blue-100/80 transition-colors shadow-2xs"
             >
               <span className="flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />{" "}
+                <Crown className="w-3.5 h-3.5 text-amber-500" strokeWidth={2} />{" "}
                 Nâng cấp Premium
               </span>
               <span>➔</span>
             </Link>
-          )}
+          </div>
 
           <div ref={userMenuRef} className="relative">
             {/* FLOATING POPOVER DROPDOWN MENU */}
@@ -464,115 +454,111 @@ function SidebarNavInner({
                   transition={{ duration: 0.15, ease: "easeOut" }}
                   className={`absolute z-[9999] p-1.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 shadow-xl shadow-slate-300/40 dark:shadow-black/70 space-y-0.5 select-none ${
                     sidebarCollapsed
-                      ? "left-full ml-3 bottom-0 w-44"
+                      ? "bottom-full mb-2 left-0 right-0 lg:left-full lg:ml-3 lg:bottom-0 lg:w-48 lg:right-auto"
                       : "bottom-full mb-2 left-0 right-0"
                   }`}
                 >
                   {/* 1. Hồ sơ */}
                   <Link
                     href="/profile"
-                    onClick={() => setShowUserMenu(false)}
+                    onClick={() => {
+                      setShowUserMenu(false);
+                      sidebarOpen && toggleSidebar();
+                    }}
                     className="flex items-center gap-3 px-3 py-2 rounded-xl font-medium text-[13px] text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
                   >
                     <User className="w-4 h-4 text-slate-700 dark:text-slate-200 stroke-[1.8]" />
                     <span>Hồ sơ</span>
                   </Link>
 
-                  {/* 2. Giao diện (CHỈ HIỆN KHI SIDEBAR MỞ RỘNG) */}
-                  {!sidebarCollapsed && (
-                    <>
-                      <div className="my-1 border-t border-slate-100 dark:border-white/10" />
-
-                      <div className="relative">
-                        <button
-                          type="button"
-                          onClick={() => setShowThemeSubmenu(!showThemeSubmenu)}
-                          className="w-full flex items-center justify-between px-3 py-2 rounded-xl font-medium text-[13px] text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
-                        >
-                          <div className="flex items-center gap-3">
-                            {theme === "dark" ? (
-                              <Moon className="w-4 h-4 text-slate-700 dark:text-slate-200 stroke-[1.8]" />
-                            ) : (
-                              <Sun className="w-4 h-4 text-slate-700 dark:text-slate-200 stroke-[1.8]" />
-                            )}
-                            <span>Giao diện</span>
-                          </div>
-
-                          <div className="flex items-center gap-1.5">
-                            <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
-                              {theme === "dark" ? "Tối" : "Sáng"}
-                            </span>
-                            <ChevronRight
-                              className={`w-4 h-4 text-slate-400 stroke-[1.8] transition-transform duration-200 ${
-                                showThemeSubmenu
-                                  ? "rotate-90 text-[#0059bb]"
-                                  : ""
-                              }`}
-                            />
-                          </div>
-                        </button>
-
-                        <AnimatePresence>
-                          {showThemeSubmenu && (
-                            <motion.div
-                              initial={{ opacity: 0, height: 0, y: -2 }}
-                              animate={{ opacity: 1, height: "auto", y: 0 }}
-                              exit={{ opacity: 0, height: 0, y: -2 }}
-                              transition={{ duration: 0.15 }}
-                              className="my-1 ml-3 pl-2 border-l-2 border-slate-200 dark:border-slate-800 space-y-0.5 overflow-hidden"
-                            >
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setTheme("light");
-                                }}
-                                className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
-                                  theme === "light"
-                                    ? "bg-slate-100 dark:bg-slate-800 text-[#0059bb] dark:text-sky-400 font-bold"
-                                    : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
-                                }`}
-                              >
-                                <div className="flex items-center gap-2">
-                                  <Sun className="w-3.5 h-3.5 text-slate-700 dark:text-slate-200 stroke-[1.8]" />
-                                  <span>Sáng</span>
-                                </div>
-                                {theme === "light" && (
-                                  <Check className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
-                                )}
-                              </button>
-
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setTheme("dark");
-                                }}
-                                className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
-                                  theme === "dark"
-                                    ? "bg-slate-100 dark:bg-slate-800 text-[#0059bb] dark:text-sky-400 font-bold"
-                                    : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
-                                }`}
-                              >
-                                <div className="flex items-center gap-2">
-                                  <Moon className="w-3.5 h-3.5 text-slate-700 dark:text-slate-200 stroke-[1.8]" />
-                                  <span>Tối</span>
-                                </div>
-                                {theme === "dark" && (
-                                  <Check className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
-                                )}
-                              </button>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    </>
-                  )}
-
-                  {/* Thin Divider Line */}
+                  {/* 2. Giao diện Sáng/Tối */}
                   <div className="my-1 border-t border-slate-100 dark:border-white/10" />
 
+                  <div className="relative">
+                    <button
+                      type="button"
+                      onClick={() => setShowThemeSubmenu(!showThemeSubmenu)}
+                      className="w-full flex items-center justify-between px-3 py-2 rounded-xl font-medium text-[13px] text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                    >
+                      <div className="flex items-center gap-3">
+                        {theme === "dark" ? (
+                          <Moon className="w-4 h-4 text-slate-700 dark:text-slate-200 stroke-[1.8]" />
+                        ) : (
+                          <Sun className="w-4 h-4 text-slate-700 dark:text-slate-200 stroke-[1.8]" />
+                        )}
+                        <span>Giao diện</span>
+                      </div>
+
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
+                          {theme === "dark" ? "Tối" : "Sáng"}
+                        </span>
+                        <ChevronRight
+                          className={`w-4 h-4 text-slate-400 stroke-[1.8] transition-transform duration-200 ${
+                            showThemeSubmenu ? "rotate-90 text-[#0059bb]" : ""
+                          }`}
+                        />
+                      </div>
+                    </button>
+
+                    <AnimatePresence>
+                      {showThemeSubmenu && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0, y: -2 }}
+                          animate={{ opacity: 1, height: "auto", y: 0 }}
+                          exit={{ opacity: 0, height: 0, y: -2 }}
+                          transition={{ duration: 0.15 }}
+                          className="my-1 ml-3 pl-2 border-l-2 border-slate-200 dark:border-slate-800 space-y-0.5 overflow-hidden"
+                        >
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setTheme("light");
+                            }}
+                            className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+                              theme === "light"
+                                ? "bg-slate-100 dark:bg-slate-800 text-[#0059bb] dark:text-sky-400 font-bold"
+                                : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+                            }`}
+                          >
+                            <div className="flex items-center gap-2">
+                              <Sun className="w-3.5 h-3.5 text-slate-700 dark:text-slate-200 stroke-[1.8]" />
+                              <span>Sáng</span>
+                            </div>
+                            {theme === "light" && (
+                              <Check className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
+                            )}
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setTheme("dark");
+                            }}
+                            className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+                              theme === "dark"
+                                ? "bg-slate-100 dark:bg-slate-800 text-[#0059bb] dark:text-sky-400 font-bold"
+                                : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+                            }`}
+                          >
+                            <div className="flex items-center gap-2">
+                              <Moon className="w-3.5 h-3.5 text-slate-700 dark:text-slate-200 stroke-[1.8]" />
+                              <span>Tối</span>
+                            </div>
+                            {theme === "dark" && (
+                              <Check className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
+                            )}
+                          </button>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
                   {/* 3. Đăng xuất */}
+                  <div className="my-1 border-t border-slate-100 dark:border-white/10" />
+
                   <button
                     type="button"
                     onClick={() => {
@@ -588,10 +574,10 @@ function SidebarNavInner({
               )}
             </AnimatePresence>
 
-            {/* USER CARD TRIGGER (COLLAPSED VS EXPANDED - REDUCED RADIUS WITH CIRCLE AVATAR) */}
+            {/* USER CARD TRIGGER */}
             {sidebarCollapsed ? (
               <>
-                {/* Desktop Collapsed Compact Avatar */}
+                {/* Desktop Collapsed Compact Avatar Button */}
                 <button
                   type="button"
                   onClick={() => setShowUserMenu(!showUserMenu)}
@@ -621,7 +607,7 @@ function SidebarNavInner({
                   )}
                 </button>
 
-                {/* Mobile Full User Card (Always rich & readable on mobile drawer) */}
+                {/* Mobile Full User Card Button (Always full width & readable on Mobile Drawer) */}
                 <button
                   type="button"
                   onClick={() => setShowUserMenu(!showUserMenu)}
@@ -665,11 +651,14 @@ function SidebarNavInner({
                   </div>
 
                   <ChevronDown
-                    className={`w-4 h-4 text-slate-400 shrink-0 stroke-[1.8] transition-transform duration-200 ${showUserMenu ? "rotate-180" : ""}`}
+                    className={`w-4 h-4 text-slate-400 shrink-0 stroke-[1.8] transition-transform duration-200 ${
+                      showUserMenu ? "rotate-180" : ""
+                    }`}
                   />
                 </button>
               </>
             ) : (
+              /* Expanded Full User Card Button (Desktop & Mobile) */
               <button
                 type="button"
                 onClick={() => setShowUserMenu(!showUserMenu)}
@@ -713,7 +702,9 @@ function SidebarNavInner({
                 </div>
 
                 <ChevronDown
-                  className={`w-4 h-4 text-slate-400 shrink-0 stroke-[1.8] transition-transform duration-200 ${showUserMenu ? "rotate-180" : ""}`}
+                  className={`w-4 h-4 text-slate-400 shrink-0 stroke-[1.8] transition-transform duration-200 ${
+                    showUserMenu ? "rotate-180" : ""
+                  }`}
                 />
               </button>
             )}
@@ -738,54 +729,67 @@ export function SidebarSkeleton({ collapsed = false }: { collapsed?: boolean }) 
     >
       {/* 1. TOP BRAND HEADER SKELETON */}
       <div
-        className={`flex items-center justify-between ${
-          collapsed ? "px-2 h-14" : "px-3.5 min-h-[56px] lg:h-14"
-        } shrink-0`}
+        className={`flex items-center justify-between px-3.5 min-h-[56px] lg:h-14 shrink-0 ${
+          collapsed ? "lg:px-2" : "lg:px-3.5"
+        }`}
       >
         {collapsed ? (
-          <div className="w-8 h-8 rounded-lg bg-slate-200 dark:bg-slate-800 mx-auto" />
+          <div className="hidden lg:block w-8 h-8 rounded-lg bg-slate-200 dark:bg-slate-800 mx-auto" />
         ) : (
-          <div className="flex items-center justify-between w-full">
+          <div className="hidden lg:flex items-center justify-between w-full">
             <div className="h-5 w-32 rounded-lg bg-slate-200 dark:bg-slate-800" />
             <div className="w-7 h-7 rounded-lg bg-slate-200 dark:bg-slate-800" />
           </div>
         )}
+        <div className="flex lg:hidden items-center justify-between w-full">
+          <div className="h-5 w-32 rounded-lg bg-slate-200 dark:bg-slate-800" />
+          <div className="w-7 h-7 rounded-lg bg-slate-200 dark:bg-slate-800" />
+        </div>
       </div>
 
       {/* 2. NAVIGATION SKELETON */}
       <div
-        className={`sidebar-nav flex-1 overflow-y-auto px-2 pb-2 ${
-          collapsed ? "py-1.5 space-y-2" : "py-3 space-y-4"
-        } hide-scrollbar select-none`}
+        className={`sidebar-nav flex-1 overflow-y-auto px-2 pb-2 py-3 space-y-4 hide-scrollbar select-none ${
+          collapsed ? "lg:py-1.5 lg:space-y-2" : "lg:py-3 lg:space-y-4"
+        }`}
       >
         {[1, 2, 3, 4].map((section) => (
           <div key={section} className="space-y-1.5">
-            {!collapsed && (
-              <div className="h-3 w-16 rounded bg-slate-200/80 dark:bg-slate-800/60 ml-2 mb-2" />
-            )}
+            <div className={`h-3 w-16 rounded bg-slate-200/80 dark:bg-slate-800/60 ml-2 mb-2 ${
+              collapsed ? "lg:hidden" : ""
+            }`} />
             {[1, 2, 3].map((item) => (
               <div
                 key={item}
-                className={`flex items-center rounded-xl bg-slate-100/70 dark:bg-slate-800/40 ${
+                className={`flex items-center rounded-xl bg-slate-100/70 dark:bg-slate-800/40 px-3 py-2.5 gap-3 w-full ${
                   collapsed
-                    ? "w-10 h-9.5 mx-auto justify-center"
-                    : "px-3 py-2.5 gap-3 w-full"
+                    ? "lg:w-10 lg:h-9.5 lg:mx-auto lg:justify-center lg:px-0"
+                    : "lg:w-full"
                 }`}
               >
                 <div className="w-5 h-5 rounded-lg bg-slate-200 dark:bg-slate-700 shrink-0" />
-                {!collapsed && (
-                  <div className="h-3.5 w-24 rounded bg-slate-200 dark:bg-slate-700" />
-                )}
+                <div className={`h-3.5 w-24 rounded bg-slate-200 dark:bg-slate-700 ${
+                  collapsed ? "lg:hidden" : ""
+                }`} />
               </div>
             ))}
           </div>
         ))}
       </div>
 
-      {/* 3. USER CARD SKELETON */}
-      <div className="p-2 border-t border-slate-100 dark:border-white/10 shrink-0">
+      {/* 3. USER CARD SKELETON (DESKTOP ONLY) */}
+      <div className="hidden lg:block p-3 border-t border-slate-100 dark:border-slate-800/80 shrink-0">
         {collapsed ? (
-          <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800 mx-auto" />
+          <>
+            <div className="hidden lg:block w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800 mx-auto" />
+            <div className="flex lg:hidden p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 items-center gap-2.5">
+              <div className="w-8.5 h-8.5 rounded-full bg-slate-200 dark:bg-slate-700 shrink-0" />
+              <div className="space-y-1 flex-1 min-w-0">
+                <div className="h-3.5 w-20 rounded bg-slate-200 dark:bg-slate-700" />
+                <div className="h-2.5 w-28 rounded bg-slate-100 dark:bg-slate-800" />
+              </div>
+            </div>
+          </>
         ) : (
           <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 flex items-center gap-2.5">
             <div className="w-8.5 h-8.5 rounded-full bg-slate-200 dark:bg-slate-700 shrink-0" />

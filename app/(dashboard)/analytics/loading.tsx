@@ -18,8 +18,8 @@ export default function AnalyticsLoading() {
         </HeaderPillContainer>
       </AppTopHeader>
 
-      {/* 2. MAIN CONTAINER */}
-      <div className="w-full max-w-7xl mx-auto px-3 sm:px-5 lg:px-6 space-y-4 pt-1">
+      {/* 2. MAIN CONTAINER SKELETON */}
+      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 pt-1">
         
         {/* TOP 5 METRIC CARDS BENTO GRID SKELETON */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3.5">

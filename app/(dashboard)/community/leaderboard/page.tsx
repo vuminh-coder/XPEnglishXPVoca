@@ -155,39 +155,34 @@ export default function LeaderboardPage() {
         }
       >
         <HeaderPillContainer>
-          <Link href="/community">
-            <HeaderPillItem
-              active={false}
-              icon={<MessageSquare className="w-3.5 h-3.5" />}
-              label="Bảng Tin"
-            />
-          </Link>
-          <Link href="/community/leaderboard">
-            <HeaderPillItem
-              active={true}
-              icon={<Trophy className="w-3.5 h-3.5 text-amber-500" />}
-              label="Xếp Hạng"
-            />
-          </Link>
-          <Link href="/community/friends">
-            <HeaderPillItem
-              active={false}
-              icon={<UserPlus className="w-3.5 h-3.5 text-sky-500" />}
-              label="Bạn Bè"
-            />
-          </Link>
-          <Link href="/community/groups">
-            <HeaderPillItem
-              active={false}
-              icon={<Users className="w-3.5 h-3.5 text-indigo-500" />}
-              label="Nhóm Học"
-            />
-          </Link>
+          <HeaderPillItem
+            href="/community"
+            active={false}
+            icon={<MessageSquare className="w-3.5 h-3.5 text-blue-500" />}
+            label="Bảng Tin"
+          />
+          <HeaderPillItem
+            active={true}
+            icon={<Trophy className="w-3.5 h-3.5 text-amber-500" />}
+            label="Xếp Hạng"
+          />
+          <HeaderPillItem
+            href="/community/friends"
+            active={false}
+            icon={<UserPlus className="w-3.5 h-3.5 text-sky-500" />}
+            label="Bạn Bè"
+          />
+          <HeaderPillItem
+            href="/community/groups"
+            active={false}
+            icon={<Users className="w-3.5 h-3.5 text-indigo-500" />}
+            label="Nhóm Học"
+          />
         </HeaderPillContainer>
       </AppTopHeader>
 
       {/* 2. MAIN CONTAINER */}
-      <div className="w-full max-w-7xl mx-auto px-3 sm:px-5 lg:px-6 space-y-4 pt-1">
+      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 pt-1">
         
         {/* NAVIGATION BACK BUTTON (ONLY SHOWN WHEN NAVIGATING FROM ANALYTICS) */}
         {isFromAnalytics && (

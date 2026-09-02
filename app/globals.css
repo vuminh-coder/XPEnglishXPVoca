@@ -16,6 +16,19 @@
   --radius-3xl: 18px;
 }
 
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 1.8s infinite linear;
+}
+
 /* ============================================================
    XP ENGLISH / XP VOCA - Complete Design System
    Premium Vocabulary Learning Platform
@@ -230,6 +243,12 @@
 
 .shadow-glow {
   box-shadow: 0 0 20px rgba(0, 89, 187, 0.25) !important;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 /* Dark Mode */
@@ -1752,8 +1771,10 @@ input,
     flex-direction: column;
   }
 
-  .left-sidebar.collapsed {
-    width: 72px !important;
+  @media (min-width: 1024px) {
+    .left-sidebar.collapsed {
+      width: 72px !important;
+    }
   }
 
   .sidebar-profile {
@@ -4079,7 +4100,9 @@ input,
     display: flex;
   }
 
-  .left-sidebar {
+  .left-sidebar,
+  .left-sidebar.collapsed {
+    width: min(85vw, 290px) !important;
     transform: translateX(-100%);
     z-index: 120 !important;
   }
@@ -4087,8 +4110,11 @@ input,
     visibility: hidden;
     pointer-events: none;
   }
-  .left-sidebar.open {
-    transform: translateX(0);
+  .left-sidebar.open,
+  .left-sidebar.open.collapsed {
+    transform: translateX(0) !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
   }
   .sidebar-overlay {
     z-index: 110 !important;
@@ -4168,11 +4194,14 @@ input,
     gap: var(--space-1);
   }
 
-  .left-sidebar {
+  .left-sidebar,
+  .left-sidebar.collapsed {
+    width: min(85vw, 290px) !important;
     transform: translateX(-100%);
   }
-  .left-sidebar.open {
-    transform: translateX(0);
+  .left-sidebar.open,
+  .left-sidebar.open.collapsed {
+    transform: translateX(0) !important;
   }
   .sidebar-overlay.active {
     display: block;

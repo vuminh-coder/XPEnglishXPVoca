@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useAuthStore } from "@/stores/authStore";
+import { useUserStore, DEFAULT_LEARNER_USER } from "@/stores/userStore";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { getXpProgress } from "@/shared/utils/calculateXP";
 import { LEVEL_TITLES } from "@/shared/constants";
@@ -34,7 +35,7 @@ import {
   Crown,
   Heart,
   X,
-  ExternalLink,
+  Lock,
 } from "lucide-react";
 import { Button, Badge } from "@/shared/components/ui";
 import {
@@ -43,20 +44,26 @@ import {
   HeaderPillItem,
 } from "@/shared/components/layout/AppTopHeader";
 import { PageEntranceWrapper, MotionItem } from "@/shared/components/feedback/PageEntranceAnimation";
-import { UserAvatar, formatCleanName } from "@/shared/components/feedback/UserAvatar";
+import { formatCleanName } from "@/shared/components/feedback/UserAvatar";
 
 export default function ProfilePage() {
-  const { user, updateProfile, awardXp } = useAuthStore();
+  const { user: authUser, updateProfile, awardXp } = useAuthStore();
+  const storeUser = useUserStore((s) => s.user);
+  const user = authUser || storeUser || DEFAULT_LEARNER_USER;
   const { addToast } = useNotificationStore();
 
-  const [fullName, setFullName] = useState(user?.fullName || "");
-  const [bio, setBio] = useState(user?.bio || "");
-  const [selectedEmoji, setSelectedEmoji] = useState(user?.avatarEmoji || "🦉");
+  const [fullName, setFullName] = useState(user.fullName || user.username || "");
+  const [bio, setBio] = useState(user.bio || "");
+  const [selectedEmoji, setSelectedEmoji] = useState(user.avatarEmoji || "🦉");
   const [isEditing, setIsEditing] = useState(false);
   const [activeTab, setActiveTab] = useState<"all" | "unlocked" | "locked">("all");
 
   // Equipped cosmetic item states
   const [equippedHat, setEquippedHat] = useState(false);
+
+  useEffect(() => {
+    useUserStore.getState().checkSession();
+  }, []);
 
   useEffect(() => {
     if (user) {
@@ -95,8 +102,6 @@ export default function ProfilePage() {
       writing: readMinutes("Viết") || readMinutes("writing") || 18,
     };
   }, [user]);
-
-  if (!user) return null;
 
   const { current: xpCurrent, total: xpTotal, percent: xpPercent } = getXpProgress(
     user.level,
@@ -202,8 +207,8 @@ export default function ProfilePage() {
   const availableEmojis = ["🦉", "🦁", "🦊", "👑", "🎓", "🚀", "⚡", "💎"];
 
   return (
-    <div className="space-y-6 pb-20 font-sans antialiased text-slate-800 dark:text-slate-200" suppressHydrationWarning>
-      {/* ─── APP TOP HEADER (56px Baseline) ─── */}
+    <PageEntranceWrapper className="space-y-4 pb-16 md:pb-8 px-0 relative select-none font-sans" suppressHydrationWarning>
+      {/* ─── 0. APP TOP HEADER INTEGRATION (56px Baseline) ─── */}
       <AppTopHeader
         rightDesktopContent={
           <div className="flex items-center gap-2">
@@ -230,43 +235,44 @@ export default function ProfilePage() {
       >
         <HeaderPillContainer>
           <HeaderPillItem
-            label="Hồ Sơ Cá Nhân"
+            label="Hồ sơ"
             icon={<User className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />}
             active
           />
           <HeaderPillItem
-            label="Cài Đặt Cấu Hình"
-            icon={<Settings className="w-4 h-4 text-slate-500" />}
+            label="Cài đặt"
+            icon={<Settings className="w-4 h-4 text-indigo-500" />}
             href="/settings"
           />
           <HeaderPillItem
-            label="Thống Kê Kỹ Năng"
-            icon={<BarChart3 className="w-4 h-4 text-slate-500" />}
+            label="Thống kê"
+            icon={<BarChart3 className="w-4 h-4 text-emerald-500" />}
             href="/analytics"
             hideOnSmall
           />
           <HeaderPillItem
-            label="Cửa Hàng Vật Phẩm"
-            icon={<ShoppingBag className="w-4 h-4 text-slate-500" />}
-            href="/shop"
+            label="Nâng cấp Premium"
+            icon={<Sparkles className="w-4 h-4 text-amber-500 fill-amber-500" />}
+            href="/premium"
             hideOnMedium
           />
         </HeaderPillContainer>
       </AppTopHeader>
 
-      <PageEntranceWrapper className="max-w-6xl mx-auto px-4 sm:px-6 space-y-6">
-        {/* 1. HERO SPOTLIGHT BANNER (Stage Card rounded-2xl) */}
+      {/* ─── MAIN CONTAINER (Fluid Ultra-Wide Canvas) ─── */}
+      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 pt-1">
+        {/* 1. HERO SPOTLIGHT PROFILE STAGE CARD (rounded-2xl) */}
         <MotionItem>
-          <div className="p-5 sm:p-7 rounded-2xl bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-lg shadow-[#0059bb]/15 relative overflow-hidden">
+          <div className="p-4 sm:p-6 rounded-2xl bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-md shadow-[#0059bb]/15 relative overflow-hidden">
             <div className="absolute -right-12 -bottom-12 w-72 h-72 bg-white/10 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute inset-0 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px] opacity-15 pointer-events-none" />
 
-            <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-5">
               {/* Left Column: Avatar & User Identity */}
               <div className="flex items-center gap-4 sm:gap-5 min-w-0">
                 {/* Avatar with Double-Bezel Concentric Radii */}
                 <div className="relative shrink-0">
-                  <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-tr from-sky-400 via-indigo-400 to-amber-300 p-0.5 shadow-xl">
+                  <div className="w-18 h-18 sm:w-22 sm:h-22 rounded-2xl bg-gradient-to-tr from-sky-400 via-indigo-400 to-amber-300 p-0.5 shadow-xl">
                     <div className="w-full h-full bg-slate-900 rounded-[14px] flex items-center justify-center overflow-hidden relative">
                       {user.imageUrl || (user as any).avatar || (user as any).avatarUrl ? (
                         <img
@@ -284,7 +290,7 @@ export default function ProfilePage() {
                   </div>
 
                   {/* Level Badge at bottom */}
-                  <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-amber-500 text-slate-950 font-black text-[10px] leading-none px-2 py-1 rounded-lg border-2 border-[#004799] shadow-md whitespace-nowrap flex items-center gap-0.5">
+                  <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-amber-500 text-slate-950 font-black text-[10px] leading-none px-2 py-0.5 rounded-lg border-2 border-[#004799] shadow-md whitespace-nowrap flex items-center gap-0.5">
                     <Shield className="w-3 h-3 fill-slate-950 stroke-none" />
                     <span>LV.{user.level}</span>
                   </div>
@@ -292,7 +298,7 @@ export default function ProfilePage() {
 
                 {/* Identity Info */}
                 <div className="space-y-1 min-w-0 flex-1">
-                  <div className="flex items-center gap-2.5 flex-wrap">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <h1 className="text-lg sm:text-2xl font-black tracking-tight text-white font-display truncate">
                       {formatCleanName(user.fullName || user.username)}
                     </h1>
@@ -304,14 +310,14 @@ export default function ProfilePage() {
                     {user.bio || "Học viên xuất sắc tại XP English | XP Voca! 🚀"}
                   </p>
                   <div className="text-[11px] text-blue-200/80 font-mono">
-                    ID: {user.id ? `${user.id.slice(0, 8)}...` : "Học viên"} • Gia nhập 2026
+                    ID: {user.id ? `${user.id.slice(0, 8)}...` : "Học viên"} • Thành viên 2026
                   </div>
                 </div>
               </div>
 
               {/* Right Column: Live Stats Pills & Quick Mobile Actions */}
-              <div className="flex items-center gap-3 shrink-0">
-                <div className="flex items-center gap-3 bg-black/25 backdrop-blur-md px-4 py-2.5 rounded-xl border border-white/15 shadow-inner">
+              <div className="flex items-center gap-2.5 shrink-0">
+                <div className="flex items-center gap-3 bg-black/25 backdrop-blur-md px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl border border-white/15 shadow-inner">
                   <div className="text-center px-1">
                     <div className="text-[10px] text-blue-200 font-bold uppercase tracking-wider">Chuỗi Streak</div>
                     <div className="text-sm sm:text-base font-black text-amber-300 font-mono flex items-center justify-center gap-1 mt-0.5">
@@ -320,7 +326,7 @@ export default function ProfilePage() {
                     </div>
                   </div>
 
-                  <div className="w-px h-8 bg-white/20" />
+                  <div className="w-px h-7 bg-white/20" />
 
                   <div className="text-center px-1">
                     <div className="text-[10px] text-blue-200 font-bold uppercase tracking-wider">Số Dư Vàng</div>
@@ -335,7 +341,7 @@ export default function ProfilePage() {
                 <button
                   type="button"
                   onClick={shareProfile}
-                  className="sm:hidden w-10 h-10 rounded-xl bg-white/15 hover:bg-white/25 text-white border border-white/20 flex items-center justify-center cursor-pointer transition-colors shadow-2xs shrink-0"
+                  className="sm:hidden w-9 h-9 rounded-xl bg-white/15 hover:bg-white/25 text-white border border-white/20 flex items-center justify-center cursor-pointer transition-colors shadow-2xs shrink-0"
                   title="Chia sẻ hồ sơ"
                 >
                   <Share2 className="w-4 h-4" />
@@ -347,44 +353,44 @@ export default function ProfilePage() {
 
         {/* 2. TOP 4 BENTO METRIC STAGE CARDS */}
         <MotionItem>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3.5">
             {/* Card 1: Words Learned */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm flex flex-col justify-between space-y-3">
-              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800/80 pb-2.5">
-                <span className="text-xs font-bold text-slate-900 dark:text-white font-display">Từ Vựng Tích Lũy</span>
-                <div className="w-8 h-8 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-400 border border-blue-200/60 dark:border-blue-900/40 flex items-center justify-center shrink-0">
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-col justify-between space-y-2.5 hover:border-slate-300 dark:hover:border-slate-700 transition-all">
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800/80 pb-2">
+                <span className="text-xs font-bold text-slate-800 dark:text-slate-200 font-display">Từ Vựng Tích Lũy</span>
+                <div className="w-8 h-8 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-400 border border-blue-200/60 dark:border-blue-900/40 flex items-center justify-center shrink-0 shadow-2xs">
                   <BookOpen className="w-4 h-4" />
                 </div>
               </div>
               <div>
                 <div className="flex items-baseline gap-1.5">
-                  <span className="text-2xl sm:text-3xl font-black font-display tracking-tight text-slate-900 dark:text-white">{wordsCount}</span>
+                  <span className="text-2xl sm:text-3xl font-black font-display tracking-tight text-slate-900 dark:text-white tabular-nums">{wordsCount}</span>
                   <span className="text-xs font-bold text-slate-400 font-sans">/ 3,903 từ</span>
                 </div>
-                <div className="flex items-center justify-between text-[11px] font-bold text-slate-500 dark:text-slate-400 mt-2.5">
+                <div className="flex items-center justify-between text-[11px] font-bold text-slate-500 dark:text-slate-400 mt-2">
                   <span>Kho từ</span>
                   <span className="text-[#0059bb] dark:text-sky-400 font-mono font-black">{vocabPercent}%</span>
                 </div>
-                <div className="h-2 w-full rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden mt-1.5">
+                <div className="h-1.5 sm:h-2 w-full rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden mt-1.5">
                   <div className="h-full rounded-full bg-gradient-to-r from-[#0059bb] to-sky-400 transition-all duration-500" style={{ width: `${vocabPercent}%` }} />
                 </div>
               </div>
             </div>
 
             {/* Card 2: Streak */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm flex flex-col justify-between space-y-3">
-              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800/80 pb-2.5">
-                <span className="text-xs font-bold text-slate-900 dark:text-white font-display">Chuỗi Streak</span>
-                <div className="w-8 h-8 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-500 border border-amber-200/60 dark:border-amber-900/40 flex items-center justify-center shrink-0">
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-col justify-between space-y-2.5 hover:border-slate-300 dark:hover:border-slate-700 transition-all">
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800/80 pb-2">
+                <span className="text-xs font-bold text-slate-800 dark:text-slate-200 font-display">Chuỗi Streak</span>
+                <div className="w-8 h-8 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-500 border border-amber-200/60 dark:border-amber-900/40 flex items-center justify-center shrink-0 shadow-2xs">
                   <Flame className="w-4 h-4 fill-amber-500 stroke-none animate-pulse" />
                 </div>
               </div>
               <div>
                 <div className="flex items-baseline gap-1.5">
-                  <span className="text-2xl sm:text-3xl font-black font-display tracking-tight text-amber-500">{user.currentStreak || 1}</span>
+                  <span className="text-2xl sm:text-3xl font-black font-display tracking-tight text-amber-500 tabular-nums">{user.currentStreak || 1}</span>
                   <span className="text-xs font-bold text-slate-500 font-sans">ngày</span>
                 </div>
-                <div className="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-2.5 flex items-center justify-between">
+                <div className="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-2 flex items-center justify-between">
                   <span>Kỷ lục cao nhất:</span>
                   <span className="font-bold text-amber-600 dark:text-amber-400">{user.longestStreak || user.currentStreak || 1} ngày 🔥</span>
                 </div>
@@ -392,42 +398,42 @@ export default function ProfilePage() {
             </div>
 
             {/* Card 3: XP & Level */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm flex flex-col justify-between space-y-3">
-              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800/80 pb-2.5">
-                <span className="text-xs font-bold text-slate-900 dark:text-white font-display">Kinh Nghiệm (XP)</span>
-                <div className="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 text-indigo-500 border border-indigo-200/60 dark:border-indigo-900/40 flex items-center justify-center shrink-0">
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-col justify-between space-y-2.5 hover:border-slate-300 dark:hover:border-slate-700 transition-all">
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800/80 pb-2">
+                <span className="text-xs font-bold text-slate-800 dark:text-slate-200 font-display">Kinh Nghiệm (XP)</span>
+                <div className="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 text-indigo-500 border border-indigo-200/60 dark:border-indigo-900/40 flex items-center justify-center shrink-0 shadow-2xs">
                   <Zap className="w-4 h-4" />
                 </div>
               </div>
               <div>
                 <div className="flex items-baseline gap-1.5">
-                  <span className="text-2xl sm:text-3xl font-black font-display tracking-tight text-slate-900 dark:text-white">{user.totalXp || 0}</span>
+                  <span className="text-2xl sm:text-3xl font-black font-display tracking-tight text-slate-900 dark:text-white tabular-nums">{user.totalXp || 0}</span>
                   <span className="text-xs font-extrabold text-indigo-600 dark:text-indigo-400 font-sans">XP</span>
                 </div>
-                <div className="flex items-center justify-between text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-2.5">
+                <div className="flex items-center justify-between text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-2">
                   <span>Lên LV.{user.level + 1}</span>
                   <span className="text-indigo-600 dark:text-indigo-400 font-bold font-mono">{xpCurrent}/{xpTotal} XP</span>
                 </div>
-                <div className="h-2 w-full rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden mt-1.5">
+                <div className="h-1.5 sm:h-2 w-full rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden mt-1.5">
                   <div className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-500" style={{ width: `${xpPercent}%` }} />
                 </div>
               </div>
             </div>
 
             {/* Card 4: Gold & Streak Freeze */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm flex flex-col justify-between space-y-3">
-              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800/80 pb-2.5">
-                <span className="text-xs font-bold text-slate-900 dark:text-white font-display">Vàng & Bảo Hộ</span>
-                <div className="w-8 h-8 rounded-xl bg-yellow-50 dark:bg-yellow-950/40 text-yellow-600 dark:text-yellow-400 border border-yellow-200/60 dark:border-yellow-900/40 flex items-center justify-center shrink-0">
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-col justify-between space-y-2.5 hover:border-slate-300 dark:hover:border-slate-700 transition-all">
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800/80 pb-2">
+                <span className="text-xs font-bold text-slate-800 dark:text-slate-200 font-display">Vàng & Bảo Hộ</span>
+                <div className="w-8 h-8 rounded-xl bg-yellow-50 dark:bg-yellow-950/40 text-yellow-600 dark:text-yellow-400 border border-yellow-200/60 dark:border-yellow-900/40 flex items-center justify-center shrink-0 shadow-2xs">
                   <Coins className="w-4 h-4" />
                 </div>
               </div>
               <div>
                 <div className="flex items-baseline gap-1.5">
-                  <span className="text-2xl sm:text-3xl font-black font-display tracking-tight text-amber-500">{user.coins ?? 100}</span>
+                  <span className="text-2xl sm:text-3xl font-black font-display tracking-tight text-amber-500 tabular-nums">{user.coins ?? 100}</span>
                   <span className="text-xs font-bold text-slate-500 font-sans">Vàng</span>
                 </div>
-                <div className="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-2.5 flex items-center justify-between">
+                <div className="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-2 flex items-center justify-between">
                   <span>Bảo hộ Streak:</span>
                   <span className="font-bold text-amber-600 dark:text-amber-400">{user.streakFreezes ?? 0} vật phẩm 🛡️</span>
                 </div>
@@ -440,8 +446,8 @@ export default function ProfilePage() {
         <AnimatePresence>
           {isEditing && (
             <MotionItem>
-              <div className="p-5 sm:p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md space-y-5">
-                <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+              <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md space-y-4">
+                <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5">
                   <div className="flex items-center gap-2.5">
                     <div className="w-8 h-8 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-400 flex items-center justify-center">
                       <Settings className="w-4 h-4 stroke-[2.2]" />
@@ -470,7 +476,7 @@ export default function ProfilePage() {
                       <input
                         id="fullname-input"
                         type="text"
-                        className="w-full h-11 px-3.5 text-xs sm:text-sm font-medium rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/90 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#0059bb] transition-all"
+                        className="w-full h-10 px-3.5 text-xs sm:text-sm font-medium rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/90 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#0059bb] transition-all"
                         placeholder="Nhập họ và tên..."
                         value={fullName}
                         onChange={(e) => setFullName(e.target.value)}
@@ -484,7 +490,7 @@ export default function ProfilePage() {
                       <input
                         id="bio-input"
                         type="text"
-                        className="w-full h-11 px-3.5 text-xs sm:text-sm font-medium rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/90 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#0059bb] transition-all"
+                        className="w-full h-10 px-3.5 text-xs sm:text-sm font-medium rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/90 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#0059bb] transition-all"
                         placeholder="Viết một câu giới thiệu ngắn..."
                         value={bio}
                         onChange={(e) => setBio(e.target.value)}
@@ -493,17 +499,17 @@ export default function ProfilePage() {
                   </div>
 
                   {/* Avatar Emoji Selector */}
-                  <div className="space-y-2 pt-1">
+                  <div className="space-y-1.5 pt-1">
                     <label className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
                       <Sparkles className="w-3.5 h-3.5 text-purple-500" /> Chọn Avatar Biểu Tượng Emoji
                     </label>
-                    <div className="flex items-center gap-2.5 flex-wrap">
+                    <div className="flex items-center gap-2 flex-wrap">
                       {availableEmojis.map((emoji) => (
                         <button
                           key={emoji}
                           type="button"
                           onClick={() => setSelectedEmoji(emoji)}
-                          className={`w-10 h-10 rounded-xl text-xl flex items-center justify-center transition-all cursor-pointer ${
+                          className={`w-9 h-9 rounded-xl text-lg flex items-center justify-center transition-all cursor-pointer ${
                             selectedEmoji === emoji
                               ? "bg-[#0059bb] text-white shadow-md border-2 border-white dark:border-slate-700 scale-110"
                               : "bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800"
@@ -516,19 +522,19 @@ export default function ProfilePage() {
                   </div>
 
                   {/* Primary Action Button (Rule 18 & 19) */}
-                  <div className="flex justify-end gap-2.5 pt-3 border-t border-slate-100 dark:border-slate-800">
+                  <div className="flex justify-end gap-2 pt-2.5 border-t border-slate-100 dark:border-slate-800">
                     <Button
                       variant="ghost"
                       type="button"
                       onClick={() => setIsEditing(false)}
-                      className="h-10 px-4 text-xs font-bold rounded-xl"
+                      className="h-9 px-4 text-xs font-bold rounded-xl"
                     >
                       Hủy bỏ
                     </Button>
                     <Button
                       variant="primary"
                       type="submit"
-                      className="h-10 px-5 text-xs font-bold rounded-xl bg-[#0059bb] hover:bg-[#004ba0] text-white shadow-md shadow-[#0059bb]/20 flex items-center gap-1.5 cursor-pointer"
+                      className="h-9 px-5 text-xs font-bold rounded-xl bg-[#0059bb] hover:bg-[#004ba0] text-white shadow-md shadow-[#0059bb]/20 flex items-center gap-1.5 cursor-pointer"
                     >
                       <Save className="w-3.5 h-3.5" /> Lưu thay đổi
                     </Button>
@@ -540,19 +546,19 @@ export default function ProfilePage() {
         </AnimatePresence>
 
         {/* 4. BENTO GRID 8/12 & 4/12 MAIN CONTENT */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 sm:gap-4 items-start">
           {/* ─── LEFT COLUMN (8/12): SKILLS + ACHIEVEMENTS + INVENTORY ─── */}
-          <div className="lg:col-span-8 space-y-5 sm:space-y-6">
+          <div className="lg:col-span-8 space-y-3.5 sm:space-y-4">
             {/* 4.1. 5 SKILL ACTIVITY METERS */}
             <MotionItem>
-              <div className="p-5 sm:p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-400 flex items-center justify-center">
+              <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-3.5">
+                <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 shadow-2xs">
                       <BarChart3 className="w-4 h-4 stroke-[2.2]" />
                     </div>
                     <div>
-                      <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display">
+                      <h2 className="text-sm font-bold text-slate-900 dark:text-white font-display">
                         Phân Tích Tiến Độ 5 Kỹ Năng
                       </h2>
                       <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
@@ -562,14 +568,14 @@ export default function ProfilePage() {
                   </div>
                   <Link
                     href="/analytics"
-                    className="text-xs font-bold text-[#0059bb] dark:text-sky-400 hover:underline flex items-center gap-1"
+                    className="text-xs font-bold text-[#0059bb] dark:text-sky-400 hover:underline flex items-center gap-0.5"
                   >
                     <span>Biểu đồ chi tiết</span>
                     <ChevronRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 sm:gap-3 pt-1">
+                <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 sm:gap-2.5 pt-1">
                   {[
                     { icon: <BookOpen className="w-4 h-4" />, label: "Từ vựng", value: skillMinutes.vocab, color: "bg-blue-500/10 text-[#0059bb] dark:text-sky-400" },
                     { icon: <PenTool className="w-4 h-4" />, label: "Viết chính tả", value: skillMinutes.writing, color: "bg-indigo-500/10 text-indigo-500" },
@@ -579,15 +585,15 @@ export default function ProfilePage() {
                   ].map((skill) => (
                     <div
                       key={skill.label}
-                      className="p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-800/50 border border-slate-200/70 dark:border-slate-800 text-center space-y-2"
+                      className="p-3 rounded-xl bg-slate-50/80 dark:bg-slate-800/50 border border-slate-200/70 dark:border-slate-800 text-center space-y-1.5 hover:border-blue-300 dark:hover:border-slate-700 transition-all"
                     >
-                      <div className={`w-8 h-8 rounded-xl ${skill.color} mx-auto flex items-center justify-center`}>
+                      <div className={`w-7 h-7 rounded-xl ${skill.color} mx-auto flex items-center justify-center`}>
                         {skill.icon}
                       </div>
-                      <div className="text-xs font-bold text-slate-800 dark:text-slate-200 font-display">
+                      <div className="text-[11px] font-bold text-slate-800 dark:text-slate-200 font-display">
                         {skill.label}
                       </div>
-                      <div className="text-sm font-black font-display text-slate-900 dark:text-white font-mono">
+                      <div className="text-xs font-black font-display text-slate-900 dark:text-white font-mono">
                         {skill.value}m
                       </div>
                     </div>
@@ -598,14 +604,14 @@ export default function ProfilePage() {
 
             {/* 4.2. ACHIEVEMENT GALLERY WITH CATEGORY TABS */}
             <MotionItem>
-              <div className="p-5 sm:p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-4">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3.5">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-500 flex items-center justify-center">
+              <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-3.5">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-slate-100 dark:border-slate-800 pb-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-500 flex items-center justify-center shrink-0 shadow-2xs">
                       <Award className="w-4 h-4 stroke-[2.2]" />
                     </div>
                     <div>
-                      <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display">
+                      <h2 className="text-sm font-bold text-slate-900 dark:text-white font-display">
                         Kho Huy Hiệu Thành Tích ({unlockedCount}/{achievements.length})
                       </h2>
                       <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
@@ -653,19 +659,19 @@ export default function ProfilePage() {
                 </div>
 
                 {/* Achievement Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
                   {filteredAchievements.map((ach) => (
                     <div
                       key={ach.id}
-                      className={`p-4 rounded-xl border transition-all duration-300 flex flex-col justify-between gap-3 ${
+                      className={`p-3.5 rounded-xl border transition-all duration-200 flex flex-col justify-between gap-2.5 ${
                         ach.unlocked
                           ? "bg-white dark:bg-slate-900 border-slate-200/90 dark:border-slate-800 shadow-2xs hover:border-blue-400"
                           : "bg-slate-50/60 dark:bg-slate-950/40 border-slate-200/60 dark:border-slate-800/50 opacity-75"
                       }`}
                     >
-                      <div className="flex items-start justify-between gap-3">
+                      <div className="flex items-start justify-between gap-2.5">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 flex items-center justify-center shrink-0 shadow-2xs text-xl select-none">
+                          <div className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 flex items-center justify-center shrink-0 shadow-2xs text-lg select-none">
                             {ach.icon}
                           </div>
                           <div>
@@ -689,8 +695,8 @@ export default function ProfilePage() {
                         )}
                       </div>
 
-                      <div className="flex items-center justify-between border-t border-slate-100 dark:border-slate-800 pt-2.5 text-[11px] font-mono">
-                        <span className="px-2.5 py-0.5 rounded-lg bg-amber-500/10 text-amber-700 dark:text-amber-300 font-extrabold border border-amber-300/40">
+                      <div className="flex items-center justify-between border-t border-slate-100 dark:border-slate-800 pt-2 text-[11px] font-mono">
+                        <span className="px-2 py-0.5 rounded-lg bg-amber-500/10 text-amber-700 dark:text-amber-300 font-extrabold border border-amber-300/40">
                           +{ach.xpBonus} XP
                         </span>
                         {ach.progress && !ach.unlocked && (
@@ -707,14 +713,14 @@ export default function ProfilePage() {
 
             {/* 4.3. EQUIPPED INVENTORY & COSMETIC SHOP SHOWCASE */}
             <MotionItem>
-              <div className="p-5 sm:p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-xl bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 flex items-center justify-center">
+              <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-3.5">
+                <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-xl bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0 shadow-2xs">
                       <ShoppingBag className="w-4 h-4 stroke-[2.2]" />
                     </div>
                     <div>
-                      <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display">
+                      <h2 className="text-sm font-bold text-slate-900 dark:text-white font-display">
                         Rương Vật Phẩm & Trang Bị
                       </h2>
                       <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
@@ -724,18 +730,18 @@ export default function ProfilePage() {
                   </div>
                   <Link
                     href="/shop"
-                    className="text-xs font-bold text-purple-600 dark:text-purple-400 hover:underline flex items-center gap-1"
+                    className="text-xs font-bold text-purple-600 dark:text-purple-400 hover:underline flex items-center gap-0.5"
                   >
-                    <span>Vào Cửa Hàng Shop</span>
+                    <span>Vào Shop</span>
                     <ChevronRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 pt-1">
                   {/* Item 1: Streak Freeze */}
-                  <div className="p-4 rounded-xl bg-gradient-to-br from-amber-50/80 to-orange-50/40 dark:from-amber-950/30 dark:to-slate-900 border border-amber-200/60 dark:border-amber-900/40 flex items-center justify-between gap-3">
+                  <div className="p-3.5 rounded-xl bg-gradient-to-br from-amber-50/80 to-orange-50/40 dark:from-amber-950/30 dark:to-slate-900 border border-amber-200/60 dark:border-amber-900/40 flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3 min-w-0">
-                      <div className="w-11 h-11 rounded-xl bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 flex items-center justify-center text-2xl shrink-0 border border-amber-200 dark:border-amber-800/60 shadow-2xs">
+                      <div className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xl shrink-0 border border-amber-200 dark:border-amber-800/60 shadow-2xs">
                         🛡️
                       </div>
                       <div className="min-w-0">
@@ -748,15 +754,15 @@ export default function ProfilePage() {
                       </div>
                     </div>
 
-                    <span className="px-3 py-1 rounded-xl bg-amber-500 text-slate-950 text-[11px] font-mono font-black shadow-xs shrink-0">
+                    <span className="px-2.5 py-1 rounded-xl bg-amber-500 text-slate-950 text-[11px] font-mono font-black shadow-xs shrink-0">
                       {user.streakFreezes ?? 0} SẴN CÓ
                     </span>
                   </div>
 
                   {/* Item 2: Graduation Hat Avatar Cosmetic */}
-                  <div className="p-4 rounded-xl bg-gradient-to-br from-purple-50/80 to-indigo-50/40 dark:from-purple-950/30 dark:to-slate-900 border border-purple-200/60 dark:border-purple-900/40 flex items-center justify-between gap-3">
+                  <div className="p-3.5 rounded-xl bg-gradient-to-br from-purple-50/80 to-indigo-50/40 dark:from-purple-950/30 dark:to-slate-900 border border-purple-200/60 dark:border-purple-900/40 flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3 min-w-0">
-                      <div className="w-11 h-11 rounded-xl bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400 flex items-center justify-center text-2xl shrink-0 border border-purple-200 dark:border-purple-800/60 shadow-2xs">
+                      <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400 flex items-center justify-center text-xl shrink-0 border border-purple-200 dark:border-purple-800/60 shadow-2xs">
                         🎓
                       </div>
                       <div className="min-w-0">
@@ -779,7 +785,7 @@ export default function ProfilePage() {
                           message: equippedHat ? "Đã tháo nón cử nhân trên avatar" : "Avatar của bạn hiện có thêm nón cử nhân cực ngầu",
                         });
                       }}
-                      className={`px-3.5 py-1.5 rounded-xl text-xs font-bold cursor-pointer transition-all shadow-xs shrink-0 ${
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer transition-all shadow-xs shrink-0 ${
                         equippedHat
                           ? "bg-purple-600 text-white border border-purple-700 shadow-md"
                           : "bg-white dark:bg-slate-800 text-purple-700 dark:text-purple-300 border border-purple-300 dark:border-purple-700 hover:bg-purple-50"
@@ -794,16 +800,16 @@ export default function ProfilePage() {
           </div>
 
           {/* ─── RIGHT COLUMN (4/12): LEVEL PROGRESSION & QUICK LINKS ─── */}
-          <div className="lg:col-span-4 space-y-5 sm:space-y-6">
+          <div className="lg:col-span-4 space-y-3.5 sm:space-y-4">
             {/* 4.4. LEVEL & TITLE PROGRESSION CARD */}
             <MotionItem>
-              <div className="p-5 sm:p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-500 flex items-center justify-center">
+              <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-3.5">
+                <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-500 flex items-center justify-center shrink-0 shadow-2xs">
                       <Crown className="w-4 h-4 stroke-[2.2]" />
                     </div>
-                    <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display">
+                    <h2 className="text-sm font-bold text-slate-900 dark:text-white font-display">
                       Cấp Độ & Danh Hiệu
                     </h2>
                   </div>
@@ -812,7 +818,7 @@ export default function ProfilePage() {
                   </Badge>
                 </div>
 
-                <div className="space-y-2.5 text-xs font-medium">
+                <div className="space-y-2 text-xs font-medium">
                   <div className="p-3 rounded-xl bg-blue-50/80 dark:bg-blue-950/40 border border-blue-200/70 dark:border-blue-800/40 flex items-center justify-between">
                     <div className="flex items-center gap-2.5">
                       <span className="text-lg">🦉</span>
@@ -832,7 +838,10 @@ export default function ProfilePage() {
                         <div className="text-[10px] text-slate-500 dark:text-slate-400">Yêu cầu Cấp độ 20</div>
                       </div>
                     </div>
-                    <span className="text-[10px] font-bold text-slate-400">Khóa</span>
+                    <span className="text-[10px] font-bold text-slate-400 flex items-center gap-1">
+                      <Lock className="w-3 h-3" />
+                      <span>Khóa</span>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -840,15 +849,15 @@ export default function ProfilePage() {
 
             {/* 4.5. QUICK DASHBOARD NAVIGATION LINKS */}
             <MotionItem>
-              <div className="p-5 sm:p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-3.5">
-                <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display border-b border-slate-100 dark:border-slate-800 pb-3">
+              <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-3">
+                <h2 className="text-sm font-bold text-slate-900 dark:text-white font-display border-b border-slate-100 dark:border-slate-800 pb-2.5">
                   Lối Tắt Ứng Dụng
                 </h2>
 
-                <div className="space-y-2 text-xs font-bold">
+                <div className="space-y-1.5 text-xs font-bold">
                   <Link
                     href="/analytics"
-                    className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 flex items-center justify-between transition-all group"
+                    className="p-2.5 sm:p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 flex items-center justify-between transition-all group"
                   >
                     <div className="flex items-center gap-2.5">
                       <BarChart3 className="w-4 h-4 text-[#0059bb] dark:text-sky-400 group-hover:scale-110 transition-transform" />
@@ -859,7 +868,7 @@ export default function ProfilePage() {
 
                   <Link
                     href="/study/pvp"
-                    className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 flex items-center justify-between transition-all group"
+                    className="p-2.5 sm:p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 flex items-center justify-between transition-all group"
                   >
                     <div className="flex items-center gap-2.5">
                       <Swords className="w-4 h-4 text-amber-500 group-hover:scale-110 transition-transform" />
@@ -870,7 +879,7 @@ export default function ProfilePage() {
 
                   <Link
                     href="/shop"
-                    className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 flex items-center justify-between transition-all group"
+                    className="p-2.5 sm:p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 flex items-center justify-between transition-all group"
                   >
                     <div className="flex items-center gap-2.5">
                       <ShoppingBag className="w-4 h-4 text-purple-500 group-hover:scale-110 transition-transform" />
@@ -881,7 +890,7 @@ export default function ProfilePage() {
 
                   <Link
                     href="/community/leaderboard"
-                    className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 flex items-center justify-between transition-all group"
+                    className="p-2.5 sm:p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 flex items-center justify-between transition-all group"
                   >
                     <div className="flex items-center gap-2.5">
                       <Trophy className="w-4 h-4 text-emerald-500 group-hover:scale-110 transition-transform" />
@@ -894,7 +903,7 @@ export default function ProfilePage() {
             </MotionItem>
           </div>
         </div>
-      </PageEntranceWrapper>
-    </div>
+      </div>
+    </PageEntranceWrapper>
   );
 }

@@ -20,7 +20,7 @@ export default function VocabDetailLoading() {
       </div>
 
       {/* MAIN CONTAINER */}
-      <div className="w-full max-w-7xl mx-auto px-3 sm:px-5 lg:px-6 space-y-4 pt-1">
+      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 pt-1">
         
         {/* 1. COMPACT HERO BANNER & 4 INLINE METRICS SKELETON */}
         <div className="p-3 sm:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-2.5">

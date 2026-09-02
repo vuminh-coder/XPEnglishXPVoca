@@ -1,4 +1,4 @@
-﻿export * from "./Badge";
+export * from "./Badge";
 export * from "./Button";
 export * from "./Card";
 export * from "./DoubleBezelCard";
@@ -8,3 +8,4 @@ export * from "./SkeletonLoader";
 export * from "./Toast";
 export * from "./CEFRBadge";
 export * from "./TTSSettingsModal";
+export * from "./FlagIcons";

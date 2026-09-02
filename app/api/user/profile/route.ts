@@ -1,6 +1,7 @@
-﻿import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma, handlePrismaError } from "@/infrastructure/database/prisma";
+import { sanitizeInput } from "@/infrastructure/security/validation";
 
 export async function GET() {
   try {
@@ -15,8 +16,9 @@ export async function GET() {
 
     if (!profile) {
       // Fetch default user details if profile missing
-      let fullName = "User";
-      let username = "user_" + userId.substring(Math.max(0, userId.length - 8));
+      const safeSuffix = userId.substring(Math.max(0, userId.length - 8));
+      const fullName = "Học viên XP Voca";
+      const username = "user_" + safeSuffix;
 
       // Create a default profile if it doesn't exist
       profile = await prisma.profile.create({
@@ -27,10 +29,12 @@ export async function GET() {
           avatarEmoji: "🦉",
           level: 1,
           totalXp: 0,
-          currentStreak: 0,
-          longestStreak: 0,
+          currentStreak: 1,
+          longestStreak: 1,
           minutesStudied: 0,
-          title: "Newbie",
+          title: "Tân Binh",
+          coins: 100,
+          streakFreezes: 0,
         },
       });
     }
@@ -42,6 +46,11 @@ export async function GET() {
   }
 }
 
+/**
+ * Update User Profile (Metadata Only).
+ * Strictly prevents Mass-Assignment: totalXp, level, coins, and streak values are server-authoritative
+ * and CANNOT be modified directly via this endpoint.
+ */
 export async function POST(request: Request) {
   try {
     const userId = await getAuthenticatedUserId();
@@ -50,43 +59,51 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { fullName, username, avatarEmoji, avatarUrl, imageUrl, avatar, level, totalXp, currentStreak, longestStreak, minutesStudied, title, coins, streakFreezes } = body;
+    const {
+      fullName,
+      username,
+      avatarEmoji,
+      avatarUrl,
+      imageUrl,
+      avatar,
+      bio,
+      activeAvatarFrame,
+      activeChatBubble,
+    } = body;
 
     const finalAvatar = avatarUrl || imageUrl || avatar || undefined;
+    const sanitizedFullName = fullName ? sanitizeInput(String(fullName).trim().slice(0, 100)) : undefined;
+    const sanitizedUsername = username ? String(username).trim().toLowerCase().replace(/[^a-zA-Z0-9_]/g, "").slice(0, 30) : undefined;
+    const sanitizedAvatarEmoji = avatarEmoji ? String(avatarEmoji).trim().slice(0, 10) : undefined;
 
-    let defaultFullName = "User";
-    let defaultUsername = "user_" + userId.substring(Math.max(0, userId.length - 8));
+    const safeSuffix = userId.substring(Math.max(0, userId.length - 8));
+    const defaultFullName = "Học viên XP Voca";
+    const defaultUsername = "user_" + safeSuffix;
 
     const updatedProfile = await prisma.profile.upsert({
       where: { id: userId },
       update: {
-        fullName: fullName ?? undefined,
-        username: username ?? undefined,
-        avatarEmoji: avatarEmoji ?? undefined,
-        avatarUrl: finalAvatar ?? undefined,
-        level: level ?? undefined,
-        totalXp: totalXp ?? undefined,
-        currentStreak: currentStreak ?? undefined,
-        longestStreak: longestStreak ?? undefined,
-        minutesStudied: minutesStudied ?? undefined,
-        title: title ?? undefined,
-        coins: coins ?? undefined,
-        streakFreezes: streakFreezes ?? undefined,
+        ...(sanitizedFullName ? { fullName: sanitizedFullName } : {}),
+        ...(sanitizedUsername ? { username: sanitizedUsername } : {}),
+        ...(sanitizedAvatarEmoji ? { avatarEmoji: sanitizedAvatarEmoji } : {}),
+        ...(finalAvatar ? { avatarUrl: finalAvatar } : {}),
+        ...(activeAvatarFrame !== undefined ? { activeAvatarFrame } : {}),
+        ...(activeChatBubble !== undefined ? { activeChatBubble } : {}),
       },
       create: {
         id: userId,
-        fullName: fullName || defaultFullName,
-        username: username || defaultUsername,
-        avatarEmoji: avatarEmoji || "🦉",
-        avatarUrl: finalAvatar,
-        level: level || 1,
-        totalXp: totalXp || 0,
-        currentStreak: currentStreak || 0,
-        longestStreak: longestStreak || 0,
-        minutesStudied: minutesStudied || 0,
-        title: title || "Newbie",
-        coins: coins || 100,
-        streakFreezes: streakFreezes || 0,
+        fullName: sanitizedFullName || defaultFullName,
+        username: sanitizedUsername || defaultUsername,
+        avatarEmoji: sanitizedAvatarEmoji || "🦉",
+        avatarUrl: finalAvatar || null,
+        level: 1,
+        totalXp: 0,
+        currentStreak: 1,
+        longestStreak: 1,
+        minutesStudied: 0,
+        title: "Tân Binh",
+        coins: 100,
+        streakFreezes: 0,
       },
     });
 

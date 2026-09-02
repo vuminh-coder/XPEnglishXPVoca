@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import React, { useState, useEffect } from "react";
 import { Card, Button, Badge } from "@/shared/components/ui";
 import { useAuthStore } from "@/stores/authStore";
@@ -13,7 +13,13 @@ import {
   Timer,
   Zap,
   Gamepad2,
+  Sparkles,
 } from "lucide-react";
+import {
+  AppTopHeader,
+  HeaderPillContainer,
+  HeaderPillItem,
+} from "@/shared/components/layout/AppTopHeader";
 
 function scrambleWord(word: string): string {
   const arr = word.split("");
@@ -415,110 +421,195 @@ export default function GamesPage() {
 
   if (isLoading) {
     return (
-      <div className="space-y-6 pb-20 md:pb-6 select-none animate-pulse">
-        <div className="h-8 w-48 rounded bg-slate-200 dark:bg-neutral-850" />
-        <div className="h-4 w-72 rounded bg-slate-200 dark:bg-neutral-850 mt-2" />
-        <div className="grid gap-5 sm:grid-cols-2 mt-6">
-          <div className="h-[220px] rounded-md bg-slate-100/40 dark:bg-white/5 border border-slate-200/20 dark:border-neutral-800/25" />
-          <div className="h-[220px] rounded-md bg-slate-100/40 dark:bg-white/5 border border-slate-200/20 dark:border-neutral-800/25" />
+      <div className="space-y-4 pb-20 md:pb-6 select-none animate-pulse">
+        <header className="sticky top-0 z-40 w-full h-14 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-3">
+          <div className="w-8 h-8 rounded-lg bg-slate-200 dark:bg-slate-800" />
+          <div className="w-32 h-8 rounded-xl bg-blue-600/30 dark:bg-blue-500/30" />
+        </header>
+        <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 pt-1">
+          <div className="h-40 rounded-2xl bg-slate-200 dark:bg-slate-800" />
+          <div className="grid gap-5 sm:grid-cols-2">
+            <div className="h-[240px] rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800" />
+            <div className="h-[240px] rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800" />
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6 pb-20 md:pb-6" suppressHydrationWarning>
-      <AnimatePresence mode="wait">
-        {activeGame === "scramble" && (
-          <motion.div
-            key="scramble-panel"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
-            transition={{ type: "spring", stiffness: 85, damping: 15 }}
-            className="max-w-2xl mx-auto"
-          >
-            <WordScrambleGame pool={pool} onBack={() => setActiveGame(null)} />
-          </motion.div>
-        )}
+    <div className="space-y-4 pb-20 md:pb-6 font-sans antialiased" suppressHydrationWarning>
+      {/* ─── 1. STANDARDIZED APPTOPHEADER ─── */}
+      <AppTopHeader
+        onBack={activeGame ? () => setActiveGame(null) : undefined}
+      >
+        <HeaderPillContainer>
+          <HeaderPillItem
+            active={activeGame === null}
+            onClick={() => setActiveGame(null)}
+            icon={<Gamepad2 className="w-3.5 h-3.5 text-rose-500" />}
+            label="Tất Cả Games"
+          />
+          <HeaderPillItem
+            active={activeGame === "scramble"}
+            onClick={() => setActiveGame("scramble")}
+            icon={<Shuffle className="w-3.5 h-3.5" />}
+            label="Word Scramble"
+          />
+          <HeaderPillItem
+            active={activeGame === "memory"}
+            onClick={() => setActiveGame("memory")}
+            icon={<Layers className="w-3.5 h-3.5" />}
+            label="Memory Match"
+          />
+        </HeaderPillContainer>
+      </AppTopHeader>
 
-        {activeGame === "memory" && (
-          <motion.div
-            key="memory-panel"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
-            transition={{ type: "spring", stiffness: 85, damping: 15 }}
-            className="max-w-2xl mx-auto"
-          >
-            <MemoryMatchGame pool={pool} onBack={() => setActiveGame(null)} />
-          </motion.div>
-        )}
-
-        {activeGame === null && (
-          <motion.div
-            key="menu-panel"
-            variants={listContainerVariants}
-            initial="hidden"
-            animate="show"
-            exit="hidden"
-            className="space-y-6"
-          >
-            <motion.div variants={cardItemVariants} className="page-header">
-              <h1 className="text-2xl md:text-3xl font-black tracking-tight flex items-center gap-2 text-slate-900 dark:text-white font-display">
-                <Gamepad2 className="h-7 w-7 text-rose-500 animate-pulse" /> Mini Games từ vựng
-              </h1>
-              <p className="text-xs md:text-sm text-slate-555 dark:text-slate-300 mt-1 font-medium">Học từ vựng qua trò chơi tương tác — vui hơn, nhớ lâu hơn!</p>
+      {/* ─── 2. FLUID ULTRA-WIDE MAIN CONTAINER ─── */}
+      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 sm:space-y-6 pt-1">
+        
+        <AnimatePresence mode="wait">
+          {activeGame === "scramble" && (
+            <motion.div
+              key="scramble-panel"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ type: "spring", stiffness: 85, damping: 15 }}
+              className="max-w-2xl mx-auto"
+            >
+              <WordScrambleGame pool={pool} onBack={() => setActiveGame(null)} />
             </motion.div>
+          )}
 
-            <div className="grid gap-5 sm:grid-cols-2">
+          {activeGame === "memory" && (
+            <motion.div
+              key="memory-panel"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ type: "spring", stiffness: 85, damping: 15 }}
+              className="max-w-2xl mx-auto"
+            >
+              <MemoryMatchGame pool={pool} onBack={() => setActiveGame(null)} />
+            </motion.div>
+          )}
+
+          {activeGame === null && (
+            <motion.div
+              key="menu-panel"
+              variants={listContainerVariants}
+              initial="hidden"
+              animate="show"
+              exit="hidden"
+              className="space-y-4 sm:space-y-6"
+            >
+              {/* HERO SPOTLIGHT STAGE */}
               <motion.div
                 variants={cardItemVariants}
-                whileHover={{ translateY: -3 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => setActiveGame("scramble")}
-                className="cursor-pointer"
+                className="p-4 sm:p-6 rounded-2xl bg-linear-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-md shadow-[#0059bb]/15 relative overflow-hidden"
               >
-                <Card variant="bezel" className="p-6 flex flex-col justify-between h-[220px] bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-md relative overflow-hidden group">
-                  <div>
-                    <div className="h-14 w-14 rounded-md bg-gradient-to-br from-cyan-500 to-sky-600 flex items-center justify-center text-white mb-4 group-hover:scale-105 transition-transform duration-300">
-                      <Shuffle className="h-7 w-7" />
+                <div className="absolute -right-10 -bottom-10 w-48 sm:w-60 h-48 sm:h-60 bg-sky-400/15 rounded-full blur-3xl pointer-events-none" />
+                <div className="absolute inset-0 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px] opacity-15 pointer-events-none" />
+
+                <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div className="space-y-1.5 max-w-2xl">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-white/20 text-white border border-white/30 backdrop-blur-md shadow-2xs">
+                        Gamified Learning
+                      </span>
+                      <span className="text-[11px] font-semibold text-blue-100/80">
+                        Vừa chơi vừa nhớ từ vựng phản xạ cao
+                      </span>
                     </div>
-                    <h3 className="text-base font-black text-slate-800 dark:text-white font-display">Word Scramble</h3>
-                    <p className="text-xs text-slate-500 dark:text-slate-350 mt-1.5 leading-relaxed font-medium">Xáo trộn chữ cái — sắp xếp lại thành từ đúng. Timer 30s/từ, combo streak tăng điểm.</p>
+                    <h1 className="text-xl sm:text-2xl lg:text-3xl font-black tracking-tight text-white font-display">
+                      Mini Games Từ Vựng Tương Tác
+                    </h1>
+                    <p className="text-xs sm:text-sm text-blue-100/90 leading-relaxed font-normal">
+                      Kích hoạt phản xạ liên kết từ và nghĩa qua các trò chơi giải đố nhanh, nhận điểm thưởng XP và duy trì cảm hứng học tập mỗi ngày.
+                    </p>
                   </div>
-                  <div className="mt-4 flex items-center gap-2 pt-2 border-t border-slate-100/50 dark:border-neutral-850/50">
-                    <Badge variant="primary">8 từ</Badge>
-                    <Badge variant="neutral">~3 phút</Badge>
+
+                  <div className="hidden lg:flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-3 shrink-0">
+                    <div className="w-10 h-10 rounded-lg bg-amber-400/20 border border-amber-400/30 flex items-center justify-center text-amber-300">
+                      <Zap className="w-5 h-5" />
+                    </div>
+                    <div className="space-y-0.5">
+                      <div className="text-xs font-bold text-white uppercase tracking-wider">Thưởng XP Tức Thì</div>
+                      <div className="text-[11px] text-blue-100">+20 ~ 60 XP / Lượt</div>
+                    </div>
                   </div>
-                </Card>
+                </div>
               </motion.div>
 
-              <motion.div
-                variants={cardItemVariants}
-                whileHover={{ translateY: -3 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => setActiveGame("memory")}
-                className="cursor-pointer"
-              >
-                <Card variant="bezel" className="p-6 flex flex-col justify-between h-[220px] bg-white dark:bg-neutral-900 border border-slate-200/40 dark:border-neutral-850 rounded-md relative overflow-hidden group">
-                  <div>
-                    <div className="h-14 w-14 rounded-md bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white mb-4 group-hover:scale-105 transition-transform duration-300">
-                      <Layers className="h-7 w-7" />
+              {/* GAME CARDS GRID */}
+              <div className="grid gap-4 sm:gap-6 sm:grid-cols-2">
+                <motion.div
+                  variants={cardItemVariants}
+                  whileHover={{ translateY: -3 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => setActiveGame("scramble")}
+                  className="cursor-pointer h-full"
+                >
+                  <Card variant="bezel" className="p-6 flex flex-col justify-between h-[230px] bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 hover:border-[#0059bb] rounded-2xl relative overflow-hidden group shadow-2xs hover:shadow-lg transition-all">
+                    <div>
+                      <div className="h-12 w-12 rounded-xl bg-linear-to-br from-cyan-500 to-sky-600 flex items-center justify-center text-white mb-4 group-hover:scale-105 transition-transform duration-300 shadow-2xs">
+                        <Shuffle className="h-6 w-6" />
+                      </div>
+                      <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white font-display group-hover:text-[#0059bb] transition-colors">
+                        Word Scramble
+                      </h3>
+                      <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">
+                        Xáo trộn chữ cái — sắp xếp lại thành từ đúng. Timer 30s/từ, combo streak tăng điểm.
+                      </p>
                     </div>
-                    <h3 className="text-base font-black text-slate-800 dark:text-white font-display">Memory Match</h3>
-                    <p className="text-xs text-slate-500 dark:text-slate-355 mt-1.5 leading-relaxed font-medium">Lật thẻ nối từ tiếng Anh với nghĩa tiếng Việt. Ít lượt lật = nhiều XP hơn.</p>
-                  </div>
-                  <div className="mt-4 flex items-center gap-2 pt-2 border-t border-slate-100/50 dark:border-neutral-850/50">
-                    <Badge variant="primary">6 cặp</Badge>
-                    <Badge variant="neutral">~2 phút</Badge>
-                  </div>
-                </Card>
-              </motion.div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                    <div className="mt-4 flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-800/80">
+                      <div className="flex items-center gap-2">
+                        <Badge variant="primary">8 từ</Badge>
+                        <Badge variant="neutral">~3 phút</Badge>
+                      </div>
+                      <span className="text-xs font-bold text-[#0059bb] dark:text-sky-400 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                        Chơi ngay →
+                      </span>
+                    </div>
+                  </Card>
+                </motion.div>
+
+                <motion.div
+                  variants={cardItemVariants}
+                  whileHover={{ translateY: -3 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => setActiveGame("memory")}
+                  className="cursor-pointer h-full"
+                >
+                  <Card variant="bezel" className="p-6 flex flex-col justify-between h-[230px] bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 hover:border-purple-500 rounded-2xl relative overflow-hidden group shadow-2xs hover:shadow-lg transition-all">
+                    <div>
+                      <div className="h-12 w-12 rounded-xl bg-linear-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white mb-4 group-hover:scale-105 transition-transform duration-300 shadow-2xs">
+                        <Layers className="h-6 w-6" />
+                      </div>
+                      <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white font-display group-hover:text-purple-600 transition-colors">
+                        Memory Match
+                      </h3>
+                      <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">
+                        Lật thẻ nối từ tiếng Anh với nghĩa tiếng Việt. Càng ít lượt lật = càng nhiều XP thưởng.
+                      </p>
+                    </div>
+                    <div className="mt-4 flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-800/80">
+                      <div className="flex items-center gap-2">
+                        <Badge variant="legendary">6 cặp</Badge>
+                        <Badge variant="neutral">~2 phút</Badge>
+                      </div>
+                      <span className="text-xs font-bold text-purple-600 dark:text-purple-400 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                        Chơi ngay →
+                      </span>
+                    </div>
+                  </Card>
+                </motion.div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 }

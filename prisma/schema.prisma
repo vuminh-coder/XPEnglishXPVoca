@@ -476,6 +476,9 @@ model ListeningLesson {
 
   @@index([category])
   @@index([level])
+  @@index([orderIndex])
+  @@index([level, orderIndex])
+  @@index([category, orderIndex])
   @@map("listening_lessons")
 }
 
@@ -498,6 +501,8 @@ model ListeningProgress {
 
   @@unique([userId, lessonId])
   @@index([userId])
+  @@index([lessonId])
+  @@index([userId, status])
   @@map("listening_progress")
 }
 

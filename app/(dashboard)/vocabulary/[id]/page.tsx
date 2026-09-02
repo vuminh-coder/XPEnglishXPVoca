@@ -19,6 +19,7 @@ import {
 } from "@/shared/components/layout/AppTopHeader";
 import {
   ArrowLeft,
+  ListOrdered,
   Layers,
   List,
   Heart,
@@ -506,8 +507,8 @@ export default function ThemeDetailPage({
         <HeaderPillContainer>
           <HeaderPillItem
             href="/vocabulary"
-            icon={<ArrowLeft className="w-3.5 h-3.5" />}
-            label="Kho Từ"
+            icon={<ListOrdered className="w-3.5 h-3.5 text-emerald-500" />}
+            label="Danh sách từ"
           />
           <HeaderPillItem
             active={viewMode === "flashcard"}
@@ -537,7 +538,7 @@ export default function ThemeDetailPage({
       </AppTopHeader>
 
       {/* MAIN CONTAINER */}
-      <div className="w-full max-w-7xl mx-auto px-3 sm:px-5 lg:px-6 space-y-4 pt-1">
+      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 pt-1">
 
         {/* 1. COMPACT HERO STUDIO BANNER & 4 INLINE METRIC PILLS */}
         <motion.div

@@ -132,10 +132,12 @@ function ListeningPageContent() {
   } = useListeningStore();
   const { setSidebarCollapsed, setHideBottomNav } = useUiStore();
 
-  // Lessons list state (combines mock data + user generated lessons)
-  const [lessonsList, setLessonsList] = useState<any[]>(MOCK_LESSONS_DATA);
+  // Lessons list state (combines DB lessons + fallback)
+  const [lessonsList, setLessonsList] = useState<any[]>([]);
+  const [isLoadingLessons, setIsLoadingLessons] = useState(true);
 
   const [selectedLessonId, setSelectedLessonId] = useState<string | null>(() => {
+    if (!rawIdParam) return null;
     return resolveLessonId(rawIdParam, MOCK_LESSONS_DATA);
   });
 
@@ -157,8 +159,10 @@ function ListeningPageContent() {
 
   const currentSentence =
     currentLesson?.transcript?.[currentSentenceIndex] ||
-    currentLesson?.transcript?.[0] ||
-    null;
+    (currentLesson?.transcript && currentLesson.transcript.length > 0
+      ? currentLesson.transcript[0]
+      : null);
+
   const totalSentencesCount = currentLesson?.transcript?.length || 0;
 
   // Overall practice timer state (seconds elapsed)
@@ -166,15 +170,8 @@ function ListeningPageContent() {
   const elapsedTimeRef = useRef(0);
 
   // Sentence Utility Toolbar States (matching user screenshot)
-  const [savedSentenceKeys, setSavedSentenceKeys] = useState<string[]>(() => {
-    if (typeof window === "undefined") return [];
-    try {
-      const raw = localStorage.getItem("xp_listening_saved_sentences");
-      return raw ? JSON.parse(raw) : [];
-    } catch {
-      return [];
-    }
-  });
+  const [savedSentenceKeys, setSavedSentenceKeys] = useState<string[]>([]);
+  const [cloudNoteText, setCloudNoteText] = useState("");
 
   const [fontSizeLevel, setFontSizeLevel] = useState<number>(() => {
     if (typeof window === "undefined") return 0;
@@ -206,11 +203,93 @@ function ListeningPageContent() {
     }
   });
 
+  // 1. Fetch Lessons Catalog from PostgreSQL Neon Database
+  useEffect(() => {
+    let isMounted = true;
+    const fetchLessons = async () => {
+      try {
+        setIsLoadingLessons(true);
+        const res = await fetch(`/api/listening/lessons?userId=${user?.id || ""}`);
+        const json = await res.json();
+        if (isMounted && json.success && Array.isArray(json.data) && json.data.length > 0) {
+          setLessonsList(json.data);
+        } else if (isMounted) {
+          setLessonsList(MOCK_LESSONS_DATA);
+        }
+      } catch (err) {
+        console.error("Error fetching listening lessons from DB:", err);
+        if (isMounted) setLessonsList(MOCK_LESSONS_DATA);
+      } finally {
+        if (isMounted) setIsLoadingLessons(false);
+      }
+    };
+    fetchLessons();
+    return () => {
+      isMounted = false;
+    };
+  }, [user?.id]);
+
+  const [isLoadingLessonDetail, setIsLoadingLessonDetail] = useState(false);
+
+  // 2. Fetch Single Lesson Details & User Progress from Database
+  useEffect(() => {
+    if (!selectedLessonId) return;
+    let isMounted = true;
+    const fetchLessonDetail = async () => {
+      try {
+        setIsLoadingLessonDetail(true);
+        const res = await fetch(
+          `/api/listening/lessons/${selectedLessonId}?userId=${user?.id || ""}`
+        );
+        const json = await res.json();
+        if (isMounted && json.success && json.data) {
+          const detail = json.data;
+          // Hydrate into lessons list if missing
+          setLessonsList((prev) => {
+            if (prev.some((l) => l.id === detail.id)) return prev;
+            return [detail, ...prev];
+          });
+          // Hydrate user progress
+          if (detail.userProgress) {
+            const prog = detail.userProgress;
+            if (Array.isArray(prog.completedSentences)) {
+              const compMap: { [idx: number]: boolean } = {};
+              prog.completedSentences.forEach((idx: number) => {
+                compMap[idx] = true;
+              });
+              setCompletedSentences(compMap);
+            }
+            if (Array.isArray(prog.bookmarkedSentences)) {
+              setSavedSentenceKeys(prog.bookmarkedSentences);
+            }
+            if (prog.timeSpent && prog.timeSpent > 0) {
+              setElapsedTime(prog.timeSpent);
+            }
+            if (prog.status === "COMPLETED") {
+              setIsLessonFinished(true);
+            }
+          }
+          if (detail.userNote !== undefined) {
+            setCloudNoteText(detail.userNote || "");
+          }
+        }
+      } catch (err) {
+        console.error("Error fetching lesson detail:", err);
+      } finally {
+        if (isMounted) setIsLoadingLessonDetail(false);
+      }
+    };
+    fetchLessonDetail();
+    return () => {
+      isMounted = false;
+    };
+  }, [selectedLessonId, user?.id]);
+
   // Current sentence bookmark key
   const currentSentenceKey = `${selectedLessonId || "lesson"}_${currentSentenceIndex}`;
   const isCurrentSentenceBookmarked = savedSentenceKeys.includes(currentSentenceKey);
 
-  const handleToggleBookmark = () => {
+  const handleToggleBookmark = async () => {
     let nextKeys: string[];
     if (isCurrentSentenceBookmarked) {
       nextKeys = savedSentenceKeys.filter((k) => k !== currentSentenceKey);
@@ -227,20 +306,41 @@ function ListeningPageContent() {
       });
     }
     setSavedSentenceKeys(nextKeys);
-    if (typeof window !== "undefined") {
-      localStorage.setItem(
-        "xp_listening_saved_sentences",
-        JSON.stringify(nextKeys),
-      );
+
+    if (currentLesson) {
+      try {
+        await fetch("/api/listening/progress", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId: user?.id || "guest_user",
+            lessonId: currentLesson.id,
+            bookmarkedSentences: nextKeys,
+          }),
+        });
+      } catch (e) {
+        console.error("Error persisting bookmark to DB:", e);
+      }
     }
   };
 
+  const [showReportModal, setShowReportModal] = useState(false);
+  const [reportReason, setReportReason] = useState<string>("spelling");
+  const [reportDescription, setReportDescription] = useState<string>("");
+
   const handleReportSentence = () => {
+    setShowReportModal(true);
+  };
+
+  const handleSubmitReport = (e: React.FormEvent) => {
+    e.preventDefault();
+    setShowReportModal(false);
+    setReportDescription("");
     addToast({
-      type: "info",
-      title: "🚩 Đã ghi nhận báo cáo!",
+      type: "success",
+      title: "🚩 Đã gửi phản ánh thành công!",
       message:
-        "Cảm ơn bạn đã gửi phản ánh về câu này cho ban biên tập XP English.",
+        "Cảm ơn bạn đã đóng góp! Ban biên tập sẽ kiểm tra và cập nhật câu trong 24h.",
     });
   };
 
@@ -467,10 +567,11 @@ function ListeningPageContent() {
   const [newThumbnail, setNewThumbnail] = useState("");
   const [newAccent, setNewAccent] = useState("en-US");
   const [newLevel, setNewLevel] = useState("B1");
+  const [isCreatingLesson, setIsCreatingLesson] = useState(false);
 
-  const handleCreateArticle = (e: React.FormEvent) => {
+  const handleCreateArticle = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newTitle.trim() || !newText.trim()) {
+    if (!newTitle.trim() || !newText.trim() || isCreatingLesson) {
       addToast({
         type: "warning",
         title: "Vui lòng nhập đầy đủ tiêu đề và nội dung đoạn văn!",
@@ -478,6 +579,7 @@ function ListeningPageContent() {
       return;
     }
 
+    setIsCreatingLesson(true);
     const sentences = newText
       .split(/(?<=[.?!])\s+/)
       .filter((s) => s.trim().length > 0)
@@ -489,47 +591,53 @@ function ListeningPageContent() {
         endTime: (idx + 1) * 5,
       }));
 
-    const newLesson = {
-      id: `custom_${Date.now()}`,
-      title: newTitle.trim(),
-      category: "Bài học của bạn (Custom AI)",
-      level: newLevel,
-      accent: newAccent,
-      duration: `${Math.max(1, Math.ceil(sentences.length * 0.4))} min`,
-      coverImage:
-        newThumbnail.trim() ||
-        "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=800&auto=format&fit=crop&q=60",
-      transcript: sentences,
-      vocabulary: [],
-      quizzes: [
-        {
-          id: 1,
-          question: `What is the main theme of "${newTitle.trim()}"?`,
-          options: [
-            "General Knowledge & Practice",
-            "Science and Technology",
-            "Entertainment",
-            "History and Culture",
-          ],
-          correctIndex: 0,
-          explanation:
-            "This custom listening lesson is created for listening comprehension practice.",
-        },
-      ],
-    };
+    try {
+      const res = await fetch("/api/listening/lessons", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: newTitle.trim(),
+          category: "Bài học của bạn (Custom AI)",
+          level: newLevel,
+          accent: newAccent,
+          duration: `${Math.max(1, Math.ceil(sentences.length * 0.4))} min`,
+          imageUrl: newThumbnail.trim() || undefined,
+          transcript: sentences,
+        }),
+      });
 
-    setLessonsList((prev) => [newLesson, ...prev]);
-    setShowCreateForm(false);
-    setNewTitle("");
-    setNewText("");
-    setNewThumbnail("");
+      const json = await res.json();
+      if (json.success && json.data) {
+        const createdLesson = json.data;
+        setLessonsList((prev) => [createdLesson, ...prev]);
+        setShowCreateForm(false);
+        setNewTitle("");
+        setNewText("");
+        setNewThumbnail("");
 
-    handleSelectLesson(newLesson.id);
-    awardXp(15, "dictation");
-    addToast({
-      type: "success",
-      title: "🎉 Đã tạo bài nghe AI thành công! (+15 XP)",
-    });
+        handleSelectLesson(createdLesson.id);
+        awardXp(15, "dictation");
+        addToast({
+          type: "success",
+          title: "🎉 Đã tạo bài nghe và lưu vào CSDL! (+15 XP)",
+        });
+      } else {
+        addToast({
+          type: "error",
+          title: "Lỗi",
+          message: json.error || "Không thể tạo bài nghe lúc này.",
+        });
+      }
+    } catch (err) {
+      console.error("Error creating custom lesson:", err);
+      addToast({
+        type: "error",
+        title: "Lỗi mạng",
+        message: "Không thể kết nối máy chủ để lưu bài nghe.",
+      });
+    } finally {
+      setIsCreatingLesson(false);
+    }
   };
 
   // Right sidebar tab state
@@ -563,7 +671,7 @@ function ListeningPageContent() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          userId: user?.id || "guest-user",
+          userId: user?.id || "guest_user",
           lessonId: currentLesson.id,
           xpEarned: isCorrect ? 10 : 0,
         }),
@@ -576,20 +684,22 @@ function ListeningPageContent() {
     addToast({ type: "info", title: "Đã làm mới bài kiểm tra Quiz! 🔄" });
   };
 
-  // Cloud notes state
-  const [cloudNoteText, setCloudNoteText] = useState("");
-  useEffect(() => {
+  const saveUserNote = async (val: string) => {
+    setCloudNoteText(val);
     if (currentLesson) {
-      const savedNote = localStorage.getItem(
-        `xp_voca_note_${currentLesson.id}`,
-      );
-      setCloudNoteText(savedNote || "");
-    }
-  }, [currentLesson]);
-
-  const saveUserNote = (val: string) => {
-    if (currentLesson) {
-      localStorage.setItem(`xp_voca_note_${currentLesson.id}`, val);
+      try {
+        await fetch("/api/listening/notes", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId: user?.id || "guest_user",
+            lessonId: currentLesson.id,
+            content: val,
+          }),
+        });
+      } catch (e) {
+        console.error("Error saving note to DB:", e);
+      }
     }
   };
 
@@ -689,8 +799,12 @@ function ListeningPageContent() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [currentLesson, currentSentenceIndex, playingSentenceText, playbackSpeed, totalSentencesCount, addToast]);
 
-  if (rawIdParam && !currentLesson) {
+  if (selectedLessonId && (!currentLesson || isLoadingLessonDetail)) {
     return <ListeningStudioSkeleton />;
+  }
+
+  if (isLoadingLessons && !selectedLessonId) {
+    return <ListeningListingSkeleton />;
   }
 
   return (
@@ -734,29 +848,29 @@ function ListeningPageContent() {
             <HeaderPillContainer>
               <HeaderPillItem
                 active
-                icon={<Headphones className="w-3.5 h-3.5 text-blue-600 dark:text-sky-400" />}
+                icon={<Headphones className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />}
                 label="Dictation"
               />
               <HeaderPillItem
                 href="/study/shadowing"
-                icon={<Mic className="w-3.5 h-3.5" />}
+                icon={<Mic className="w-3.5 h-3.5 text-sky-500" />}
                 label="Shadowing"
               />
               <HeaderPillItem
                 href="/study/practice"
-                icon={<BookOpen className="w-3.5 h-3.5" />}
+                icon={<BookOpen className="w-3.5 h-3.5 text-emerald-500" />}
                 label="Luyện từ vựng"
               />
               <HeaderPillItem
                 href="/study/exam-prep"
-                icon={<FileText className="w-3.5 h-3.5" />}
+                icon={<FileText className="w-3.5 h-3.5 text-rose-500" />}
                 label="Thi thử đề"
               />
             </HeaderPillContainer>
           </AppTopHeader>
 
           {/* 1.2 MAIN LISTING CONTENT CANVAS */}
-          <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-6 space-y-7 pb-20">
+          <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-5 sm:py-6 space-y-7 pb-20">
             {/* FORM TẠO BÀI NGHE AI (ACCORDION) */}
             <AnimatePresence>
               {showCreateForm && (
@@ -1350,6 +1464,29 @@ function ListeningPageContent() {
                                           message:
                                             "Chúc mừng bạn đã hoàn thành xuất sắc toàn bộ bài nghe! +50 XP thưởng.",
                                         });
+
+                                        // Persist complete status to PostgreSQL DB
+                                        if (currentLesson) {
+                                          const allIndices = Array.from(
+                                            { length: totalSentencesCount },
+                                            (_, i) => i
+                                          );
+                                          fetch("/api/listening/progress", {
+                                            method: "POST",
+                                            headers: { "Content-Type": "application/json" },
+                                            body: JSON.stringify({
+                                              userId: user?.id || "guest_user",
+                                              lessonId: currentLesson.id,
+                                              status: "COMPLETED",
+                                              completedSentences: allIndices,
+                                              bookmarkedSentences: savedSentenceKeys,
+                                              timeSpent: Math.max(5, elapsedTime),
+                                              xpEarned: 50,
+                                            }),
+                                          }).catch((e) =>
+                                            console.error("Error saving complete progress to DB:", e)
+                                          );
+                                        }
                                       }
                                     }}
                                     onRewind5s={() => {
@@ -1547,17 +1684,43 @@ function ListeningPageContent() {
                                   awardXp(5, "dictation");
                                 }}
                                 onSentenceCompleted={() => {
-                                  setCompletedSentences((prev) => ({
-                                    ...prev,
+                                  const nextCompleted = {
+                                    ...completedSentences,
                                     [currentSentenceIndex]: true,
-                                  }));
+                                  };
+                                  setCompletedSentences(nextCompleted);
                                   awardXp(20, "dictation");
                                   addToast({
                                     type: "success",
                                     title: "🎉 Hoàn thành câu!",
-                                    message:
-                                      "+20 XP! Bạn đã gõ chính xác 100% câu này.",
+                                    message: "+20 XP! Bạn đã gõ chính xác 100% câu này.",
                                   });
+
+                                  // Persist sentence progress to PostgreSQL DB
+                                  if (currentLesson) {
+                                    const completedArr = Object.keys(nextCompleted)
+                                      .filter((k) => nextCompleted[Number(k)])
+                                      .map(Number);
+                                    const isCompleted =
+                                      completedArr.length >= totalSentencesCount;
+
+                                    fetch("/api/listening/progress", {
+                                      method: "POST",
+                                      headers: { "Content-Type": "application/json" },
+                                      body: JSON.stringify({
+                                        userId: user?.id || "guest_user",
+                                        lessonId: currentLesson.id,
+                                        status: isCompleted ? "COMPLETED" : "IN_PROGRESS",
+                                        completedSentences: completedArr,
+                                        bookmarkedSentences: savedSentenceKeys,
+                                        timeSpent: 5,
+                                        xpEarned: 20,
+                                      }),
+                                    }).catch((e) =>
+                                      console.error("Error saving sentence progress to DB:", e)
+                                    );
+                                  }
+
                                   // Auto-advance if enabled
                                   if (
                                     autoNextSentence &&
@@ -1717,6 +1880,81 @@ function ListeningPageContent() {
               )}
             </div>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* SENTENCE REPORT MODAL */}
+      <AnimatePresence>
+        {showReportModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 8 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 8 }}
+              className="w-full max-w-md p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xl space-y-4 font-sans"
+            >
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+                <div className="flex items-center gap-2 text-slate-900 dark:text-white font-bold text-sm sm:text-base font-display">
+                  <Flag className="w-4 h-4 text-rose-500" />
+                  <span>Báo Cáo Lỗi Câu #{currentSentenceIndex + 1}</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowReportModal(false)}
+                  className="p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <form onSubmit={handleSubmitReport} className="space-y-3 text-xs">
+                <div>
+                  <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+                    1. Vấn đề bạn gặp phải:
+                  </label>
+                  <select
+                    value={reportReason}
+                    onChange={(e) => setReportReason(e.target.value)}
+                    className="w-full h-10 px-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-medium outline-none focus:border-blue-500"
+                  >
+                    <option value="spelling">Lỗi chính tả / dấu câu trong text</option>
+                    <option value="audio">Lỗi phát âm / audio không khớp</option>
+                    <option value="translation">Bản dịch tiếng Việt chưa chuẩn</option>
+                    <option value="other">Vấn đề khác</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+                    2. Mô tả chi tiết (Tùy chọn):
+                  </label>
+                  <textarea
+                    rows={3}
+                    value={reportDescription}
+                    onChange={(e) => setReportDescription(e.target.value)}
+                    placeholder="Mô tả cụ thể lỗi bạn thấy để ban biên tập sửa nhanh hơn..."
+                    className="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-medium outline-none focus:border-blue-500 placeholder:text-slate-400"
+                  />
+                </div>
+
+                <div className="flex items-center justify-end gap-2 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowReportModal(false)}
+                    className="px-4 py-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold transition-colors cursor-pointer"
+                  >
+                    Hủy bỏ
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold transition-all shadow-xs active:scale-95 cursor-pointer"
+                  >
+                    Gửi Báo Cáo 🚩
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </div>

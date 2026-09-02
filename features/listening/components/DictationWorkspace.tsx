@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -250,42 +250,46 @@ export function DictationWorkspace({
     [isCompleted, hideTranslation, onSentenceCompleted]
   );
 
-  // Handle typing matching
+  // Handle typing matching (supports single word or multi-word continuous input)
   const handleCheckWord = useCallback(
     (val: string) => {
       const trimmed = val.trim();
       if (!trimmed) return;
 
-      // Extract latest typed word or full input
-      const parts = trimmed.split(/\s+/);
-      const targetWord = parts[parts.length - 1].replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+      const parts = trimmed
+        .split(/\s+/)
+        .map((p) => p.replace(/[^a-zA-Z0-9]/g, "").toLowerCase())
+        .filter(Boolean);
 
-      if (!targetWord) return;
+      if (parts.length === 0) return;
 
-      let matchFound = false;
-      let matchedIndex = -1;
+      let nextTokens = [...tokens];
+      let anyMatchFound = false;
 
-      const nextTokens = tokens.map((token, idx) => {
-        if (
-          !matchFound &&
-          (token.status === "masked" || token.status === "first-letter") &&
-          token.clean.toLowerCase() === targetWord
-        ) {
-          matchFound = true;
-          matchedIndex = idx;
-          return { ...token, status: "matched" as const };
-        }
-        return token;
-      });
+      // Check each typed word against available unsolved tokens
+      for (const typedWord of parts) {
+        let matched = false;
+        nextTokens = nextTokens.map((token, idx) => {
+          if (
+            !matched &&
+            (token.status === "masked" || token.status === "first-letter") &&
+            token.clean.toLowerCase() === typedWord
+          ) {
+            matched = true;
+            anyMatchFound = true;
+            if (onWordMatched) {
+              onWordMatched(token.clean, idx);
+            }
+            return { ...token, status: "matched" as const };
+          }
+          return token;
+        });
+      }
 
-      if (matchFound) {
+      if (anyMatchFound) {
         setTokens(nextTokens);
         setInputStatus("correct");
         setInputValue(""); // Clear input on successful match
-
-        if (onWordMatched) {
-          onWordMatched(tokens[matchedIndex].clean, matchedIndex);
-        }
 
         setTimeout(() => {
           setInputStatus("idle");

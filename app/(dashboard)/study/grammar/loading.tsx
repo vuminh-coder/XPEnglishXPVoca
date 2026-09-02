@@ -19,7 +19,7 @@ export default function GrammarLoading() {
         </HeaderPillContainer>
       </AppTopHeader>
 
-      <div className="w-full max-w-7xl mx-auto px-3 sm:px-5 lg:px-6 space-y-4 pt-1">
+      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 pt-1">
         {/* 1. Hero Compact Banner Skeleton */}
         <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-3">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">

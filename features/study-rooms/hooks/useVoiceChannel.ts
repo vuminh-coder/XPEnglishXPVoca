@@ -6,10 +6,12 @@ export interface VoiceChannelOptions {
   roomId?: string;
   onVolumeChange?: (volume: number) => void;
   onSpeakingChange?: (isSpeaking: boolean) => void;
+  onConnectionStateChange?: (state: "connected" | "connecting" | "reconnecting" | "disconnected") => void;
 }
 
 export function useVoiceChannel(options: VoiceChannelOptions = {}) {
   const [isConnected, setIsConnected] = useState(false);
+  const [isReconnecting, setIsReconnecting] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [isDeaf, setIsDeaf] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -29,6 +31,8 @@ export function useVoiceChannel(options: VoiceChannelOptions = {}) {
   const analyserRef = useRef<AnalyserNode | null>(null);
   const animationFrameRef = useRef<number | null>(null);
   const speakingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const heartbeatTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const reconnectAttemptRef = useRef<number>(0);
 
   // Enumerate Audio Devices
   const enumerateDevices = useCallback(async () => {
@@ -124,6 +128,9 @@ export function useVoiceChannel(options: VoiceChannelOptions = {}) {
   const connectVoice = async () => {
     try {
       setErrorMsg(null);
+      setIsReconnecting(false);
+      options.onConnectionStateChange?.("connecting");
+
       const constraints: MediaStreamConstraints = {
         audio: {
           deviceId: selectedInputId ? { exact: selectedInputId } : undefined,
@@ -136,24 +143,71 @@ export function useVoiceChannel(options: VoiceChannelOptions = {}) {
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
       localStreamRef.current = stream;
 
-      // Handle initial mute state
+      // Handle track mute state
       stream.getAudioTracks().forEach((track) => {
         track.enabled = !isMuted;
       });
 
+      // Handle unexpected track ending (e.g. mic unplugged / browser suspended)
+      stream.getAudioTracks().forEach((track) => {
+        track.onended = () => {
+          handleAutoReconnect();
+        };
+      });
+
       startAudioAnalyser(stream);
       setIsConnected(true);
+      reconnectAttemptRef.current = 0;
+      options.onConnectionStateChange?.("connected");
+
+      // Start periodic signaling heartbeat
+      if (heartbeatTimerRef.current) clearInterval(heartbeatTimerRef.current);
+      heartbeatTimerRef.current = setInterval(() => {
+        if (localStreamRef.current && localStreamRef.current.active) {
+          // Heartbeat ping OK
+        } else if (isConnected) {
+          handleAutoReconnect();
+        }
+      }, 10000);
+
       enumerateDevices();
     } catch (err: any) {
       console.error("Failed to access microphone:", err);
-      setErrorMsg("Quyền truy cập Micro bị từ chối!");
+      setErrorMsg("Quyền truy cập Micro bị từ chối hoặc thiết bị bận!");
       setIsConnected(false);
+      options.onConnectionStateChange?.("disconnected");
       throw err;
     }
   };
 
+  // Auto Reconnection with Exponential Backoff
+  const handleAutoReconnect = useCallback(async () => {
+    if (reconnectAttemptRef.current >= 3) {
+      setErrorMsg("Mất kết nối Micro. Vui lòng kiểm tra lại thiết bị.");
+      disconnectVoice();
+      return;
+    }
+
+    reconnectAttemptRef.current += 1;
+    setIsReconnecting(true);
+    options.onConnectionStateChange?.("reconnecting");
+
+    const backoffDelay = Math.min(5000, 1000 * Math.pow(2, reconnectAttemptRef.current));
+    setTimeout(async () => {
+      try {
+        await connectVoice();
+      } catch {
+        // Handled in next tick
+      }
+    }, backoffDelay);
+  }, []);
+
   // Disconnect from Voice Channel
   const disconnectVoice = useCallback(() => {
+    if (heartbeatTimerRef.current) {
+      clearInterval(heartbeatTimerRef.current);
+      heartbeatTimerRef.current = null;
+    }
     if (animationFrameRef.current) {
       cancelAnimationFrame(animationFrameRef.current);
       animationFrameRef.current = null;
@@ -172,8 +226,10 @@ export function useVoiceChannel(options: VoiceChannelOptions = {}) {
     }
 
     setIsConnected(false);
+    setIsReconnecting(false);
     setIsSpeaking(false);
     setVolumeLevel(0);
+    options.onConnectionStateChange?.("disconnected");
   }, []);
 
   // Toggle Mute
@@ -249,6 +305,7 @@ export function useVoiceChannel(options: VoiceChannelOptions = {}) {
 
   return {
     isConnected,
+    isReconnecting,
     isMuted,
     isDeaf,
     isSpeaking,

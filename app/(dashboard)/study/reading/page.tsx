@@ -429,16 +429,16 @@ function ReadingStudioContent() {
             <HeaderPillItem
               active
               icon={<BookOpen className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />}
-              label="Luyện Đọc"
+              label="Luyện đọc"
             />
             <HeaderPillItem
               href="/study/listening"
-              icon={<Headphones className="w-3.5 h-3.5" />}
+              icon={<Headphones className="w-3.5 h-3.5 text-indigo-500" />}
               label="Dictation"
             />
             <HeaderPillItem
               href="/study/shadowing"
-              icon={<Mic className="w-3.5 h-3.5" />}
+              icon={<Mic className="w-3.5 h-3.5 text-sky-500" />}
               label="Shadowing"
             />
           </HeaderPillContainer>
@@ -447,7 +447,7 @@ function ReadingStudioContent() {
 
       {/* 2. EXPLORER LISTING MODE (WHEN NOT IN A PASSAGE) */}
       {!selectedPassageId && (
-        <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-6 space-y-7 pb-20">
+        <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-5 sm:py-6 space-y-7 pb-20">
           {/* HÀNG 1: BÀI ĐỌC CƠ BẢN (A1 - A2) */}
           <div className="space-y-4">
             <div className="flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-slate-800">

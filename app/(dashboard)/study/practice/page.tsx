@@ -95,6 +95,19 @@ function toggleBookmark(wordId: string): boolean {
   }
 }
 
+// Deterministic pseudo-random number generator for SSR-safe consistent shuffling
+function getDeterministicRandom(seed: string) {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    hash = (hash << 5) - hash + seed.charCodeAt(i);
+    hash |= 0;
+  }
+  return () => {
+    hash = Math.imul(hash, 48271) + 1;
+    return ((hash >>> 0) % 1000) / 1000;
+  };
+}
+
 function PracticeQuizContent() {
   const searchParams = useSearchParams();
   const dateParam = searchParams.get("date");
@@ -118,6 +131,11 @@ function PracticeQuizContent() {
   const [isLoading, setIsLoading] = useState(true);
   const [hasInitialized, setHasInitialized] = useState(false);
   const [subMode, setSubMode] = useState<"quiz" | "flashcard" | "writing" | "speaking">("quiz");
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // Timer state
   const [elapsedTime, setElapsedTime] = useState(0);
@@ -333,38 +351,6 @@ function PracticeQuizContent() {
       setQuestionTimeLeft((prev) => {
         if (prev <= 1) {
           clearInterval(timer);
-          // Auto timeout handling
-          if (subMode === "quiz") {
-            setQIsAnswered(true);
-            setQIsCorrect(false);
-            submitReview(currentWord.id || currentWord.word, 1);
-            addToast({
-              type: "warning",
-              title: "Hết thời gian! ⏳",
-              message: `Đáp án đúng là: ${currentWord.meaning}`,
-            });
-          } else if (subMode === "writing") {
-            setWIsAnswered(true);
-            setWIsCorrect(false);
-            submitReview(currentWord.id || currentWord.word, 1);
-            playWordAudio(currentWord.word);
-            addToast({
-              type: "warning",
-              title: "Hết thời gian! ⏳",
-              message: `Từ vựng chính xác là: "${currentWord.word}"`,
-            });
-          } else if (subMode === "speaking") {
-            setSIsAnswered(true);
-            setSIsCorrect(false);
-            setSAccuracy(0);
-            submitReview(currentWord.id || currentWord.word, 1);
-            playWordAudio(currentWord.word);
-            addToast({
-              type: "warning",
-              title: "Hết thời gian! ⏳",
-              message: `Từ vựng chính xác là: "${currentWord.word}"`,
-            });
-          }
           return 0;
         }
         return prev - 1;
@@ -372,7 +358,53 @@ function PracticeQuizContent() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [subMode, qIsAnswered, wIsAnswered, sIsAnswered, isCompleted, currentWord, submitReview, addToast]);
+  }, [subMode, qIsAnswered, wIsAnswered, sIsAnswered, isCompleted]);
+
+  // Clean, isolated timeout effect - triggers only when questionTimeLeft reaches 0
+  useEffect(() => {
+    if (questionTimeLeft !== 0) return;
+    if (
+      (subMode !== "quiz" && subMode !== "writing" && subMode !== "speaking") ||
+      (subMode === "quiz" && qIsAnswered) ||
+      (subMode === "writing" && wIsAnswered) ||
+      (subMode === "speaking" && sIsAnswered) ||
+      isCompleted ||
+      !currentWord
+    )
+      return;
+
+    if (subMode === "quiz") {
+      setQIsAnswered(true);
+      setQIsCorrect(false);
+      submitReview(currentWord.id || currentWord.word, 1);
+      addToast({
+        type: "warning",
+        title: "Hết thời gian! ⏳",
+        message: `Đáp án đúng là: ${currentWord.meaning}`,
+      });
+    } else if (subMode === "writing") {
+      setWIsAnswered(true);
+      setWIsCorrect(false);
+      submitReview(currentWord.id || currentWord.word, 1);
+      playWordAudio(currentWord.word);
+      addToast({
+        type: "warning",
+        title: "Hết thời gian! ⏳",
+        message: `Từ vựng chính xác là: "${currentWord.word}"`,
+      });
+    } else if (subMode === "speaking") {
+      setSIsAnswered(true);
+      setSIsCorrect(false);
+      setSAccuracy(0);
+      submitReview(currentWord.id || currentWord.word, 1);
+      playWordAudio(currentWord.word);
+      addToast({
+        type: "warning",
+        title: "Hết thời gian! ⏳",
+        message: `Từ vựng chính xác là: "${currentWord.word}"`,
+      });
+    }
+  }, [questionTimeLeft, subMode, qIsAnswered, wIsAnswered, sIsAnswered, isCompleted, currentWord, submitReview, addToast]);
 
   useEffect(() => {
     if (subMode === "writing" && !wIsAnswered) {
@@ -390,14 +422,20 @@ function PracticeQuizContent() {
       isCorrect: true,
     };
     const otherVocabs = vocabs.filter((v) => (v.id || v.word) !== (currentWord.id || currentWord.word));
-    const shuffledOthers = [...otherVocabs].sort(() => 0.5 - Math.random()).slice(0, 3);
+    
+    // Deterministic shuffle based on word & index ensures exact same options on SSR and client hydration (0 hydration mismatch)
+    const seed = `${currentWord.id || currentWord.word}_${currentIndex}`;
+    const prng1 = getDeterministicRandom(seed + "_others");
+    const shuffledOthers = [...otherVocabs].sort(() => 0.5 - prng1()).slice(0, 3);
     const wrongOpts = shuffledOthers.map((v, i) => ({
       id: `wrong_${i}`,
       text: v.meaning,
       isCorrect: false,
     }));
-    return [correctOpt, ...wrongOpts].sort(() => 0.5 - Math.random());
-  }, [currentWord, vocabs]);
+    
+    const prng2 = getDeterministicRandom(seed + "_final");
+    return [correctOpt, ...wrongOpts].sort(() => 0.5 - prng2());
+  }, [currentWord, vocabs, currentIndex]);
 
   const handleSelectQuizOption = (opt: { id: string; text: string; isCorrect: boolean }) => {
     if (qIsAnswered) return;
@@ -708,6 +746,47 @@ function PracticeQuizContent() {
 
   const totalEarnedXp = qXp + fXp + wXp + sXp;
 
+  if (!isMounted) {
+    return (
+      <div className="w-full h-full min-h-screen lg:h-screen lg:min-h-0 bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none animate-pulse">
+        {/* Header Skeleton matching 56px baseline */}
+        <div className="w-full h-14 bg-white/95 dark:bg-slate-900/95 border-b border-slate-200/90 dark:border-slate-800 px-4 sm:px-8 flex items-center justify-between shrink-0 shadow-2xs">
+          <div className="flex items-center gap-2">
+            <div className="h-8 w-8 rounded-xl bg-slate-200 dark:bg-slate-800" />
+            <div className="h-7 w-32 rounded-lg bg-slate-200/70 dark:bg-slate-800" />
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="h-8 w-24 rounded-xl bg-slate-200/60 dark:bg-slate-800" />
+            <div className="h-8 w-20 rounded-xl bg-slate-200/60 dark:bg-slate-800" />
+            <div className="h-8 w-8 rounded-full bg-slate-200 dark:bg-slate-800" />
+          </div>
+        </div>
+
+        {/* Practice Canvas Skeleton */}
+        <div className="flex-1 max-w-5xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-6 flex flex-col justify-center">
+          <div className="flex items-center justify-between">
+            <div className="h-6 w-36 rounded-lg bg-slate-200 dark:bg-slate-800" />
+            <div className="h-6 w-24 rounded-lg bg-slate-200/60 dark:bg-slate-800" />
+          </div>
+
+          <div className="p-6 sm:p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md space-y-6">
+            <div className="space-y-3">
+              <div className="h-8 w-2/3 rounded-xl bg-slate-200 dark:bg-slate-800" />
+              <div className="h-5 w-1/3 rounded-lg bg-slate-100 dark:bg-slate-800/60" />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-4">
+              <div className="h-16 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/50" />
+              <div className="h-16 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/50" />
+              <div className="h-16 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/50" />
+              <div className="h-16 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/50" />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full h-full min-h-screen lg:h-screen lg:min-h-0 lg:overflow-hidden bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none">
       
@@ -763,17 +842,17 @@ function PracticeQuizContent() {
           />
           <HeaderPillItem
             href="/study/listening"
-            icon={<Headphones className="w-3.5 h-3.5" />}
+            icon={<Headphones className="w-3.5 h-3.5 text-indigo-500" />}
             label="Dictation"
           />
           <HeaderPillItem
             href="/study/shadowing"
-            icon={<Mic className="w-3.5 h-3.5" />}
+            icon={<Mic className="w-3.5 h-3.5 text-sky-500" />}
             label="Shadowing"
           />
           <HeaderPillItem
             href="/study/exam-prep"
-            icon={<FileText className="w-3.5 h-3.5" />}
+            icon={<FileText className="w-3.5 h-3.5 text-rose-500" />}
             label="Thi thử đề"
           />
         </HeaderPillContainer>

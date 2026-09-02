@@ -337,14 +337,14 @@ export default function StudyRoomsPage() {
       >
         <HeaderPillContainer>
           <HeaderPillItem
-            label="Phòng Học Nhóm"
+            label="Phòng học nhóm"
             icon={<Users className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />}
             active
           />
           <HeaderPillItem
-            label="Luyện Tập"
-            icon={<BookOpen className="w-4 h-4 text-slate-500" />}
-            href="/study"
+            label="Luyện từ vựng"
+            icon={<BookOpen className="w-4 h-4 text-emerald-500" />}
+            href="/study/practice"
           />
         </HeaderPillContainer>
       </AppTopHeader>

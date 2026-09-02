@@ -10,107 +10,151 @@ import {
   Headphones,
   CheckCircle2,
   Cpu,
+  Zap,
+  Mic,
+  PenTool,
 } from "lucide-react";
 import { PageEntranceWrapper, MotionItem } from "@/shared/components/feedback/PageEntranceAnimation";
 import { DoubleBezelCard } from "@/shared/components/ui/DoubleBezelCard";
 import { Badge } from "@/shared/components/ui/Badge";
+import {
+  AppTopHeader,
+  HeaderPillContainer,
+  HeaderPillItem,
+} from "@/shared/components/layout/AppTopHeader";
 
 const AI_MODULES = [
   {
     id: "tutor",
     title: "1-on-1 AI Speaking Tutor (Gia Sư AI)",
-    description: "Luyện phát âm, đối thoại trực tiếp theo chủ đề, chỉnh sửa lỗi ngữ pháp và nhận gợi ý từ vựng theo thời gian thực.",
+    subtitle: "Luyện phát âm & Phản xạ hội thoại 24/7",
+    description: "Đối thoại trực tiếp bằng giọng nói, chấm điểm phát âm IPA theo thời gian thực, sửa lỗi ngữ điệu và gợi ý câu trả lời tự nhiên.",
     href: "/ai/tutor",
     icon: Bot,
     badge: "Voice & Speech",
     badgeColor: "primary" as const,
-    highlights: ["Chấm điểm phát âm IPA", "Đối thoại tự nhiên 24/7", "Đa dạng chủ đề giao tiếp"],
+    highlights: ["Chấm điểm phát âm IPA chuẩn xác", "Đối thoại tự nhiên 24/7 theo ngữ cảnh", "Gợi ý từ vựng band điểm cao tức thì"],
+    cta: "Luyện nói ngay",
   },
   {
     id: "conversation",
     title: "AI Writing & Conversation Coach (Luyện Viết & Chat)",
-    description: "Trò chuyện tương tác, luyện viết câu/đoạn văn, nâng cấp từ vựng band điểm cao và giải thích chi tiết cấu trúc câu.",
+    subtitle: "Chỉnh sửa bài viết & Phân tích cấu trúc câu",
+    description: "Trò chuyện tương tác dạng văn bản, sửa lỗi ngữ pháp chi tiết từng câu, nâng cấp diễn đạt học thuật và giải thích ngữ cảnh.",
     href: "/ai/conversation",
     icon: MessageSquare,
     badge: "Writing & Chat",
     badgeColor: "legendary" as const,
-    highlights: ["Sửa lỗi ngữ pháp tức thì", "Gợi ý từ vựng nâng cao", "Hội thoại ngữ cảnh thực tế"],
+    highlights: ["Sửa lỗi ngữ pháp & dấu câu tức thì", "Nâng cấp từ vựng C1/C2 học thuật", "Hội thoại đa chủ đề đời sống & công việc"],
+    cta: "Luyện viết ngay",
   },
 ];
 
 export default function AIHubPage() {
   return (
     <PageEntranceWrapper className="min-h-screen pb-16">
-      {/* Top Header */}
-      <div className="h-14 border-b border-slate-200/90 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-20 flex items-center justify-between px-4 sm:px-6">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xs bg-purple-500/10 dark:bg-purple-500/20 flex items-center justify-center text-purple-600 dark:text-purple-400">
-            <Cpu className="w-4 h-4" />
-          </div>
-          <div>
-            <h1 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white tracking-tight">
-              Trung Tâm Trí Tuệ Nhân Tạo (AI Learning Hub)
-            </h1>
-          </div>
-        </div>
-        <Badge variant="primary" size="sm">
-          Gemini AI Powered
-        </Badge>
-      </div>
+      {/* ─── 1. STANDARDIZED APPTOPHEADER ─── */}
+      <AppTopHeader>
+        <HeaderPillContainer>
+          <HeaderPillItem
+            active
+            icon={<Cpu className="w-3.5 h-3.5 text-purple-500" />}
+            label="Trung Tâm AI"
+          />
+          <HeaderPillItem
+            href="/ai/tutor"
+            icon={<Mic className="w-3.5 h-3.5" />}
+            label="Gia Sư Speaking"
+          />
+          <HeaderPillItem
+            href="/ai/conversation"
+            icon={<PenTool className="w-3.5 h-3.5" />}
+            label="Writing Coach"
+          />
+        </HeaderPillContainer>
+      </AppTopHeader>
 
-      {/* Main Content */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-6">
-        <MotionItem className="mb-6">
-          <div className="p-4 sm:p-6 rounded-xs border border-purple-200/70 dark:border-purple-900/40 bg-linear-to-r from-purple-50/60 via-indigo-50/40 to-white dark:from-purple-950/20 dark:via-indigo-950/10 dark:to-slate-900">
-            <div className="flex items-center gap-2 text-purple-600 dark:text-purple-400 text-xs font-bold uppercase tracking-wider mb-1">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Gia Sư Ngôn Ngữ AI Cá Nhân Hóa</span>
+      {/* ─── 2. FLUID ULTRA-WIDE MAIN CONTAINER ─── */}
+      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 sm:space-y-6 pt-1">
+        
+        {/* HERO AI STAGE */}
+        <MotionItem>
+          <div className="p-4 sm:p-6 rounded-2xl bg-linear-to-r from-purple-700 via-indigo-700 to-slate-900 text-white shadow-md shadow-purple-500/15 relative overflow-hidden">
+            <div className="absolute -right-10 -bottom-10 w-48 sm:w-60 h-48 sm:h-60 bg-purple-400/20 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute inset-0 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px] opacity-15 pointer-events-none" />
+
+            <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6">
+              <div className="space-y-1.5 max-w-2xl">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-white/20 text-white border border-white/30 backdrop-blur-md shadow-2xs">
+                    Gemini AI 2.0 Engine
+                  </span>
+                  <span className="text-[11px] font-semibold text-purple-100/80">
+                    Gia sư tiếng Anh cá nhân hóa 24/7
+                  </span>
+                </div>
+                <h1 className="text-xl sm:text-2xl lg:text-3xl font-black tracking-tight text-white font-display">
+                  Trung Tâm Trí Tuệ Nhân Tạo (AI Hub)
+                </h1>
+                <p className="text-xs sm:text-sm text-purple-100/90 leading-relaxed font-normal">
+                  Luyện phản xạ giao tiếp tự nhiên và nâng cấp kỹ năng viết tiếng Anh với trợ lý ảo thông minh. Nhận phản hồi chuyên sâu từng âm tiết và cấu trúc ngữ pháp.
+                </p>
+              </div>
+
+              {/* Quick Summary Pill */}
+              <div className="hidden lg:flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-3 shrink-0">
+                <div className="w-10 h-10 rounded-lg bg-purple-400/20 border border-purple-400/30 flex items-center justify-center text-purple-300">
+                  <Sparkles className="w-5 h-5" />
+                </div>
+                <div className="space-y-0.5">
+                  <div className="text-xs font-bold text-white uppercase tracking-wider">AI Phản Hồi Tức Thì</div>
+                  <div className="text-[11px] text-purple-100">Speech & Text Analysis</div>
+                </div>
+              </div>
             </div>
-            <h2 className="text-base sm:text-xl font-bold text-slate-900 dark:text-white mb-1.5">
-              Học Tiếng Anh Thông Minh Cùng AI Mọi Lúc, Mọi Nơi
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-2xl">
-              Hệ thống trợ lý ảo thông minh giúp bạn luyện phát âm chuẩn, tăng tốc phản xạ giao tiếp và nâng cao kỹ năng viết với phản hồi tức thì.
-            </p>
           </div>
         </MotionItem>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {/* ─── 3. AI MODULES GRID ─── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           {AI_MODULES.map((mod) => {
             const Icon = mod.icon;
             return (
               <MotionItem key={mod.id}>
                 <Link href={mod.href} className="block group h-full">
-                  <DoubleBezelCard className="p-5 sm:p-6 h-full flex flex-col justify-between hover:border-purple-500 transition-all hover:shadow-lg">
+                  <DoubleBezelCard className="p-5 sm:p-6 h-full flex flex-col justify-between hover:border-purple-500/60 dark:hover:border-purple-500/60 transition-all hover:shadow-lg bg-white dark:bg-slate-900 border-slate-200/90 dark:border-slate-800">
                     <div>
                       <div className="flex items-center justify-between mb-4">
-                        <div className="w-12 h-12 rounded-xs bg-purple-50 dark:bg-purple-950/40 border border-purple-100 dark:border-purple-900/50 flex items-center justify-center text-purple-600 dark:text-purple-400 group-hover:bg-purple-600 group-hover:text-white transition-colors">
-                          <Icon className="w-6 h-6" />
+                        <div className="w-12 h-12 rounded-xl bg-purple-50 dark:bg-purple-950/60 border border-purple-200/70 dark:border-purple-800/60 flex items-center justify-center text-purple-600 dark:text-purple-400 group-hover:bg-purple-600 group-hover:text-white transition-colors duration-300 shadow-2xs">
+                          <Icon className="w-6 h-6" strokeWidth={2} />
                         </div>
                         <Badge variant={mod.badgeColor} size="sm">
                           {mod.badge}
                         </Badge>
                       </div>
 
-                      <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                      <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white mb-1 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
                         {mod.title}
                       </h3>
-                      <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                      <p className="text-xs font-semibold text-purple-600 dark:text-purple-400 mb-2.5">
+                        {mod.subtitle}
+                      </p>
+                      <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
                         {mod.description}
                       </p>
 
-                      <div className="space-y-1.5 pt-2 border-t border-slate-100 dark:border-slate-800/80">
+                      <div className="space-y-2 pt-3 border-t border-slate-100 dark:border-slate-800/80">
                         {mod.highlights.map((h, i) => (
-                          <div key={i} className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-300">
-                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                          <div key={i} className="flex items-center gap-2 text-xs text-slate-700 dark:text-slate-200">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
                             <span>{h}</span>
                           </div>
                         ))}
                       </div>
                     </div>
 
-                    <div className="mt-6 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs font-semibold text-purple-600 dark:text-purple-400">
-                      <span>Bắt đầu phiên học</span>
+                    <div className="mt-6 pt-3.5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs font-bold text-purple-600 dark:text-purple-400">
+                      <span>{mod.cta}</span>
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
                     </div>
                   </DoubleBezelCard>

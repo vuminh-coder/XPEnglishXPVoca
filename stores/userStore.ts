@@ -19,6 +19,28 @@ interface UserState {
   logout: () => void;
 }
 
+export const DEFAULT_LEARNER_USER: User = {
+  id: "local_user",
+  email: "learner@xpenglish.com",
+  username: "learner",
+  fullName: "Học viên XP Voca",
+  bio: "Học viên chăm chỉ tại XP Voca.",
+  level: 1,
+  title: "Tân Binh",
+  totalXp: 150,
+  currentStreak: 1,
+  longestStreak: 1,
+  streakFreezes: 0,
+  coins: 100,
+  minutesStudied: 15,
+  wordsLearned: 10,
+  wordsToReview: 0,
+  avatarEmoji: "🦉",
+  avatar: "",
+  imageUrl: "",
+  avatarUrl: "",
+};
+
 export const useUserStore = create<UserState>((set, get) => ({
   user: null,
   syncStreak: (hasCompletedActivity) => {
@@ -412,6 +434,7 @@ export const useUserStore = create<UserState>((set, get) => ({
           const localUser = JSON.parse(localData);
           const finalAvatar = localUser.imageUrl || localUser.avatar || localUser.avatarUrl || cachedAvatar || "";
           const fullUser: User = {
+            ...DEFAULT_LEARNER_USER,
             ...localUser,
             imageUrl: finalAvatar,
             avatar: finalAvatar,
@@ -422,10 +445,24 @@ export const useUserStore = create<UserState>((set, get) => ({
           
           // Validate streak status on local load
           get().syncStreak(false);
+          return;
         } catch (e) {
-          console.error(e);
+          console.error("Error parsing local user:", e);
         }
       }
+
+      // Default fallback if no local storage data exists yet
+      const fallbackUser: User = {
+        ...DEFAULT_LEARNER_USER,
+        id: activeUserId,
+      };
+      set({ user: fallbackUser });
+      try {
+        localStorage.setItem(`xp_voca_user_${activeUserId}`, JSON.stringify(fallbackUser));
+        localStorage.setItem("xp_voca_active_userId", activeUserId);
+      } catch (e) {}
+      useVocabularyStore.getState().loadLearnedWords(activeUserId);
+      get().syncStreak(false);
     }
   },
   buyStreakFreeze: async () => {

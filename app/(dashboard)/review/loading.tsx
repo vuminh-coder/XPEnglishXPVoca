@@ -3,30 +3,30 @@ import React from "react";
 
 export default function ReviewLoading() {
   return (
-    <div className="max-w-2xl mx-auto space-y-5 pb-16 md:pb-6 select-none animate-pulse">
-      {/* SRS Header Bar */}
-      <div className="p-4 sm:p-5 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs flex items-center justify-between">
-        <div className="space-y-1">
-          <div className="h-6 w-48 rounded-xs bg-slate-200 dark:bg-slate-800" />
-          <div className="h-3.5 w-64 rounded-xs bg-slate-100 dark:bg-slate-800/60" />
+    <div className="space-y-4 pb-16 md:pb-8 px-0 select-none font-sans animate-pulse">
+      {/* 1. APP TOP HEADER SKELETON */}
+      <header className="sticky top-0 z-40 w-full h-14 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-lg bg-slate-200 dark:bg-slate-800" />
+          <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80">
+            <div className="w-28 h-7 rounded-lg bg-blue-600/40" />
+            <div className="w-24 h-7 rounded-lg bg-slate-200 dark:bg-slate-700" />
+            <div className="w-24 h-7 rounded-lg bg-slate-200 dark:bg-slate-700" />
+          </div>
         </div>
-        <div className="h-8 w-24 rounded-full bg-emerald-500/20" />
-      </div>
+        <div className="w-32 h-8 rounded-xl bg-blue-600/30 dark:bg-blue-500/30 hidden sm:block" />
+      </header>
 
-      {/* SRS Word Card Skeleton */}
-      <div className="p-8 sm:p-10 rounded-xs bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-white/10 shadow-2xs space-y-4 text-center min-h-[260px] flex flex-col justify-center items-center">
-        <div className="h-4 w-28 rounded-xs bg-slate-100 dark:bg-slate-800/60" />
-        <div className="h-9 w-60 rounded-xs bg-slate-200 dark:bg-slate-800" />
-        <div className="h-4 w-40 rounded-xs bg-slate-100 dark:bg-slate-800/60" />
-        <div className="h-4 w-full max-w-md rounded-xs bg-slate-100 dark:bg-slate-800/40 mt-3" />
-      </div>
+      {/* 2. MAIN CONTAINER SKELETON */}
+      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 pt-1">
+        {/* Hero banner skeleton */}
+        <div className="h-40 rounded-2xl bg-slate-200 dark:bg-slate-800 p-6 flex flex-col justify-between" />
 
-      {/* 4 SRS Recall Confidence Buttons Skeleton */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="h-12 rounded-xs bg-rose-500/20 border border-rose-500/30" />
-        <div className="h-12 rounded-xs bg-amber-500/20 border border-amber-500/30" />
-        <div className="h-12 rounded-xs bg-blue-500/20 border border-blue-500/30" />
-        <div className="h-12 rounded-xs bg-emerald-500/20 border border-emerald-500/30" />
+        {/* Bento Grid Skeleton */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div className="lg:col-span-7 h-[420px] rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-6" />
+          <div className="lg:col-span-5 h-[420px] rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-6" />
+        </div>
       </div>
     </div>
   );

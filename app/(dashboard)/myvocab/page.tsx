@@ -20,6 +20,7 @@ import {
   Sparkles,
   CheckCircle2,
   Clock,
+  ListOrdered,
 } from "lucide-react";
 import {
   AppTopHeader,
@@ -128,13 +129,13 @@ export default function MyVocabularyPage() {
       >
         <HeaderPillContainer>
           <HeaderPillItem
-            label="Bộ Từ Vựng Của Tôi"
+            label="Sổ từ của tôi"
             icon={<BookOpen className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />}
             active
           />
           <HeaderPillItem
-            label="Khám Phá Từ Mới"
-            icon={<FolderOpen className="w-4 h-4 text-slate-500" />}
+            label="Danh sách từ"
+            icon={<ListOrdered className="w-4 h-4 text-emerald-500" />}
             href="/vocabulary"
           />
         </HeaderPillContainer>

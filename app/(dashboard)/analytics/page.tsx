@@ -505,7 +505,7 @@ export default function AnalyticsPage() {
           <HeaderPillItem
             active={activeTab === "ACTIVITIES"}
             onClick={() => setActiveTab("ACTIVITIES")}
-            icon={<BarChart3 className="w-3.5 h-3.5" />}
+            icon={<BarChart3 className="w-3.5 h-3.5 text-blue-500" />}
             label="Hoạt Động Của Tôi"
           />
           <HeaderPillItem
@@ -518,7 +518,7 @@ export default function AnalyticsPage() {
       </AppTopHeader>
 
       {/* 2. MAIN CONTAINER */}
-      <div className="w-full max-w-7xl mx-auto px-3 sm:px-5 lg:px-6 space-y-4 pt-1">
+      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 pt-1">
 
         {/* HERO TOP 5 METRIC CARDS BENTO GRID */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3.5">

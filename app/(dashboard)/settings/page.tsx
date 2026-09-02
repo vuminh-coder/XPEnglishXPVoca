@@ -126,13 +126,13 @@ export default function SettingsPage() {
       >
         <HeaderPillContainer>
           <HeaderPillItem
-            label="Cài Đặt Cấu Hình"
+            label="Cài đặt"
             icon={<SettingsIcon className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />}
             active
           />
           <HeaderPillItem
-            label="Hồ Sơ Cá Nhân"
-            icon={<User className="w-4 h-4 text-slate-500" />}
+            label="Hồ sơ"
+            icon={<User className="w-4 h-4 text-blue-500" />}
             href="/profile"
           />
         </HeaderPillContainer>

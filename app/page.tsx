@@ -53,7 +53,15 @@ export default function LandingPage() {
   const scrollToSection = (id: string) => {
     setIsMobileMenuOpen(false);
     const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+    if (el) {
+      const headerOffset = 70; // 56px sticky navbar + 14px comfortable breathing space
+      const elementPosition = el.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.scrollY - headerOffset;
+      window.scrollTo({
+        top: Math.max(0, offsetPosition),
+        behavior: "smooth",
+      });
+    }
   };
 
   const playAudioSample = () => {
@@ -163,6 +171,7 @@ export default function LandingPage() {
 
           {/* Mobile Hamburger Toggle */}
           <button
+            aria-label="Toggle Mobile Menu"
             className="md:hidden w-9 h-9 rounded-xl flex items-center justify-center bg-slate-100 dark:bg-slate-800/80 text-slate-800 dark:text-slate-200 cursor-pointer border border-slate-200/80 dark:border-slate-700/60 active:scale-95 transition-all"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
@@ -171,72 +180,110 @@ export default function LandingPage() {
         </div>
       </header>
 
-      {/* Mobile Drawer Menu */}
+      {/* Mobile Drawer Backdrop & Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.15 }}
-            className="fixed top-14 left-0 right-0 bg-white dark:bg-[#08080b] border-b border-slate-200/90 dark:border-slate-800 p-4 z-40 flex flex-col gap-3 shadow-xl backdrop-blur-md text-slate-900 dark:text-white"
-          >
-            <div className="flex flex-col gap-1">
-              <button
-                onClick={() => scrollToSection("features")}
-                className="flex items-center justify-between py-2.5 px-3 text-xs font-bold text-slate-800 dark:text-slate-100 border-b border-slate-100 dark:border-slate-800 w-full rounded-xl"
-              >
-                <span>Tính năng nổi bật</span>
-                <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
-              </button>
-              <button
-                onClick={() => scrollToSection("vocab-library")}
-                className="flex items-center justify-between py-2.5 px-3 text-xs font-bold text-slate-800 dark:text-slate-100 border-b border-slate-100 dark:border-slate-800 w-full rounded-xl"
-              >
-                <span>Kho từ vựng</span>
-                <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
-              </button>
-              <button
-                onClick={() => scrollToSection("ai-tutor")}
-                className="flex items-center justify-between py-2.5 px-3 text-xs font-bold text-slate-800 dark:text-slate-100 border-b border-slate-100 dark:border-slate-800 w-full rounded-xl"
-              >
-                <span>Gia sư AI 1-1</span>
-                <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
-              </button>
-              <button
-                onClick={() => scrollToSection("testimonials")}
-                className="flex items-center justify-between py-2.5 px-3 text-xs font-bold text-slate-800 dark:text-slate-100 w-full rounded-xl"
-              >
-                <span>Đánh giá học viên</span>
-                <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
-              </button>
-            </div>
+          <>
+            {/* Backdrop overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="fixed inset-0 top-14 bg-slate-900/40 dark:bg-black/60 backdrop-blur-xs z-35 md:hidden"
+            />
 
-            <div className="flex flex-col gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
-              {user ? (
-                <Link href="/dashboard" onClick={() => setIsMobileMenuOpen(false)}>
-                  <button className="w-full h-10 bg-[#0059bb] hover:bg-[#004ba0] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 shadow-2xs cursor-pointer">
-                    <span>Vào Dashboard</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
-                </Link>
-              ) : (
-                <>
-                  <Link href="/register" onClick={() => setIsMobileMenuOpen(false)}>
-                    <button className="w-full h-10 bg-[#0059bb] hover:bg-[#004ba0] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 shadow-2xs cursor-pointer">
-                      <span>Bắt đầu học miễn phí</span>
+            {/* Mobile Menu Panel */}
+            <motion.div
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.15 }}
+              className="fixed top-14 left-0 right-0 bg-white/95 dark:bg-[#09090d]/95 border-b border-slate-200/90 dark:border-slate-800 p-3.5 z-40 flex flex-col gap-2.5 shadow-2xl backdrop-blur-md text-slate-900 dark:text-white md:hidden"
+            >
+              <div className="flex flex-col gap-0.5">
+                <button
+                  onClick={() => scrollToSection("features")}
+                  className="flex items-center justify-between py-2.5 px-3 text-xs font-bold text-slate-700 dark:text-slate-200 hover:text-[#0059bb] dark:hover:text-sky-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 w-full rounded-xl transition-colors cursor-pointer group"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span className="w-6 h-6 rounded-lg bg-blue-50 dark:bg-blue-950/50 text-[#0059bb] dark:text-sky-400 flex items-center justify-center text-[13px] group-hover:scale-105 transition-transform">
+                      <Zap className="w-3.5 h-3.5" />
+                    </span>
+                    <span>Tính năng nổi bật</span>
+                  </div>
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#0059bb] dark:group-hover:text-sky-400 group-hover:translate-x-0.5 transition-all" />
+                </button>
+
+                <button
+                  onClick={() => scrollToSection("vocab-library")}
+                  className="flex items-center justify-between py-2.5 px-3 text-xs font-bold text-slate-700 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 w-full rounded-xl transition-colors cursor-pointer group"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span className="w-6 h-6 rounded-lg bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-[13px] group-hover:scale-105 transition-transform">
+                      <BookOpen className="w-3.5 h-3.5" />
+                    </span>
+                    <span>Kho từ vựng</span>
+                  </div>
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 group-hover:translate-x-0.5 transition-all" />
+                </button>
+
+                <button
+                  onClick={() => scrollToSection("ai-tutor")}
+                  className="flex items-center justify-between py-2.5 px-3 text-xs font-bold text-slate-700 dark:text-slate-200 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 w-full rounded-xl transition-colors cursor-pointer group"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span className="w-6 h-6 rounded-lg bg-purple-50 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400 flex items-center justify-center text-[13px] group-hover:scale-105 transition-transform">
+                      <Sparkles className="w-3.5 h-3.5" />
+                    </span>
+                    <span>Gia sư AI 1-1</span>
+                  </div>
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-purple-600 dark:group-hover:text-purple-400 group-hover:translate-x-0.5 transition-all" />
+                </button>
+
+                <button
+                  onClick={() => scrollToSection("testimonials")}
+                  className="flex items-center justify-between py-2.5 px-3 text-xs font-bold text-slate-700 dark:text-slate-200 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 w-full rounded-xl transition-colors cursor-pointer group"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span className="w-6 h-6 rounded-lg bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 flex items-center justify-center text-[13px] group-hover:scale-105 transition-transform">
+                      <Star className="w-3.5 h-3.5" />
+                    </span>
+                    <span>Đánh giá học viên</span>
+                  </div>
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-amber-600 dark:group-hover:text-amber-400 group-hover:translate-x-0.5 transition-all" />
+                </button>
+              </div>
+
+              <div className="flex flex-col gap-2 pt-2 border-t border-slate-100 dark:border-slate-800/80">
+                {user ? (
+                  <Link href="/dashboard" onClick={() => setIsMobileMenuOpen(false)}>
+                    <button className="w-full h-10 bg-[#0059bb] hover:bg-[#004ba0] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 shadow-2xs active:scale-[0.99] transition-all cursor-pointer">
+                      <span>Vào Dashboard</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                   </Link>
-                  <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                    <button className="w-full h-10 bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 text-slate-800 dark:text-slate-200 font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 cursor-pointer">
-                      <span>Đăng nhập</span>
-                    </button>
-                  </Link>
-                </>
-              )}
-            </div>
-          </motion.div>
+                ) : (
+                  <>
+                    <Link href="/register" onClick={() => setIsMobileMenuOpen(false)}>
+                      <button className="w-full h-10 bg-[#0059bb] hover:bg-[#004ba0] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 shadow-2xs active:scale-[0.99] transition-all cursor-pointer">
+                        <UserPlus className="w-3.5 h-3.5 text-amber-300" />
+                        <span>Bắt đầu học miễn phí</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </button>
+                    </Link>
+                    <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                      <button className="w-full h-10 bg-slate-100 hover:bg-slate-200/80 dark:bg-slate-800/80 dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 text-slate-800 dark:text-slate-200 font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 active:scale-[0.99] transition-all cursor-pointer">
+                        <LogIn className="w-3.5 h-3.5" />
+                        <span>Đăng nhập</span>
+                      </button>
+                    </Link>
+                  </>
+                )}
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
 
@@ -371,6 +418,7 @@ export default function LandingPage() {
                         : "bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 hover:bg-blue-100 dark:hover:bg-blue-900/60 border border-blue-200 dark:border-blue-800"
                     }`}
                     title="Phát âm IPA"
+                    aria-label="Phát âm từ vựng Wanderlust bằng giọng bản ngữ"
                   >
                     <Play className="w-3 h-3 fill-current ml-0.5" />
                   </button>
@@ -414,7 +462,7 @@ export default function LandingPage() {
       </section>
 
       {/* SECTION 2: BENTO GRID 5 ECOSYSTEM FEATURES */}
-      <section id="features" className="py-12 md:py-16 lg:py-24 px-4 md:px-6 max-w-7xl mx-auto w-full z-10">
+      <section id="features" className="scroll-mt-20 py-12 md:py-16 lg:py-24 px-4 md:px-6 max-w-7xl mx-auto w-full z-10">
         {/* Bento Section Header */}
         <div className="text-center max-w-4xl mx-auto mb-10 md:mb-16">
           <div className="inline-flex items-center gap-1.5 bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 text-[#0059bb] dark:text-sky-400 rounded-lg px-3.5 py-1 text-xs font-bold uppercase tracking-wider mb-3 shadow-2xs">
@@ -496,7 +544,7 @@ export default function LandingPage() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="rounded-2xl bg-white dark:bg-[#0c0c0f] border border-slate-200/90 dark:border-slate-800 p-5 md:p-7 shadow-2xs flex flex-col justify-between gap-5"
+            className="scroll-mt-24 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-slate-200/90 dark:border-slate-800 p-5 md:p-7 shadow-2xs flex flex-col justify-between gap-5"
           >
             <div>
               <div className="flex items-center gap-3 mb-2">
@@ -642,7 +690,7 @@ export default function LandingPage() {
       </section>
 
       {/* SECTION 3: SPOTLIGHT AI TUTOR 1-1 DEMO */}
-      <section id="ai-tutor" className="py-10 md:py-16 px-4 md:px-6 max-w-7xl mx-auto w-full z-10">
+      <section id="ai-tutor" className="scroll-mt-20 py-10 md:py-16 px-4 md:px-6 max-w-7xl mx-auto w-full z-10">
         <div className="rounded-2xl bg-white dark:bg-[#0c0c0f] border border-slate-200/90 dark:border-slate-800 p-6 md:p-8 shadow-sm flex flex-col md:flex-row justify-between gap-6 items-center">
           <div className="max-w-md text-left space-y-2">
             <div className="flex items-center gap-3">
@@ -719,7 +767,7 @@ export default function LandingPage() {
       </section>
 
       {/* SECTION 5: TESTIMONIALS */}
-      <section id="testimonials" className="py-12 md:py-16 lg:py-24 bg-slate-100/60 dark:bg-[#08080b] border-y border-slate-200/90 dark:border-slate-800 px-4 md:px-6 z-10">
+      <section id="testimonials" className="scroll-mt-20 py-12 md:py-16 lg:py-24 bg-slate-100/60 dark:bg-[#08080b] border-y border-slate-200/90 dark:border-slate-800 px-4 md:px-6 z-10">
         <div className="max-w-7xl mx-auto">
           {/* Testimonials Header */}
           <div className="text-center max-w-3xl mx-auto mb-10 md:mb-16">

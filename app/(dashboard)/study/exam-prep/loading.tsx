@@ -23,7 +23,7 @@ export default function ExamPrepLoading() {
       </header>
 
       {/* 2. MAIN WORKSPACE SKELETON GRID (SIDE-BY-SIDE BENTO) */}
-      <main className="flex-1 w-full max-w-7xl mx-auto px-3 sm:px-5 lg:px-6 py-3 sm:py-4 flex flex-col lg:flex-row gap-4">
+      <main className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-3 sm:py-4 flex flex-col lg:flex-row gap-4">
         {/* LEFT COLUMN: QUESTION CONTENT (7/12) */}
         <section className="w-full lg:w-7/12 flex flex-col gap-3">
           {/* Top Audio/Image/Passage Box Skeleton */}

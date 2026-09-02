@@ -17,6 +17,7 @@ import {
   containerVariants,
   itemVariants,
 } from "@/shared/components/feedback/PageEntranceAnimation";
+import { VietnamFlag } from "@/shared/components/ui";
 import {
   BookOpen,
   Sparkles,
@@ -605,7 +606,7 @@ export default function GrammarTopicDetailPage() {
         <HeaderPillContainer>
           <HeaderPillItem
             href="/study/grammar"
-            icon={<ArrowLeft className="w-3.5 h-3.5" />}
+            icon={<ArrowLeft className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />}
             label="Kho Ngữ Pháp"
           />
           <HeaderPillItem
@@ -629,7 +630,7 @@ export default function GrammarTopicDetailPage() {
       </AppTopHeader>
 
       {/* Main Studio Container */}
-      <div className="w-full max-w-7xl mx-auto px-3 sm:px-5 lg:px-6 space-y-4 pt-1">
+      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 pt-1">
         {/* 1. Hero Compact Topic Studio Banner */}
         <motion.div
           initial={{ opacity: 0, y: -6 }}
@@ -829,8 +830,8 @@ export default function GrammarTopicDetailPage() {
                         &quot;{ex.en}&quot;
                       </div>
 
-                      <div className="text-xs font-medium text-slate-500 dark:text-slate-400 pt-2 border-t border-slate-200/60 dark:border-slate-800/80">
-                        🇻🇳 {ex.vi}
+                      <div className="text-xs font-medium text-slate-500 dark:text-slate-400 pt-2 border-t border-slate-200/60 dark:border-slate-800/80 flex items-center gap-2">
+                        <VietnamFlag className="w-4.5 h-3 shrink-0" /> <span>{ex.vi}</span>
                       </div>
                     </div>
                   ))}

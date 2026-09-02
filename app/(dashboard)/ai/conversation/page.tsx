@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { UserAvatar } from "@/shared/components/feedback/UserAvatar";
 import { speakLessonText } from '@/shared/utils/ttsEngine';
 import { useStudyTimeTracker } from '@/shared/hooks/useStudyTimeTracker';
+import { lookupWordDeep } from '@/features/vocabulary/data/deepDictionary';
 import {
   AppTopHeader,
   HeaderPillContainer,
@@ -68,60 +69,6 @@ const SpeakingIcon = ({
     <path d="M20 7a6 6 0 0 1 0 10" />
   </svg>
 );
-
-// ===== BASIC IPA DICTIONARY LOOKUP TABLE =====
-const IPA_DICTIONARY: Record<string, { ipa: string; meaning: string }> = {
-  "hello": { ipa: "/həˈloʊ/", meaning: "Xin chào" },
-  "practice": { ipa: "/ˈpræk.tɪs/", meaning: "Luyện tập, thực hành" },
-  "speaking": { ipa: "/ˈspiː.kɪŋ/", meaning: "Nói, phát biểu" },
-  "english": { ipa: "/ˈɪŋ.ɡlɪʃ/", meaning: "Tiếng Anh" },
-  "together": { ipa: "/təˈɡeð.ər/", meaning: "Cùng nhau" },
-  "favorite": { ipa: "/ˈfeɪ.vər.ɪt/", meaning: "Yêu thích nhất" },
-  "hobby": { ipa: "/ˈhɑː.bi/", meaning: "Sở thích" },
-  "what": { ipa: "/wɑːt/", meaning: "Cái gì" },
-  "your": { ipa: "/jʊr/", meaning: "Của bạn" },
-  "interesting": { ipa: "/ˈɪn.trə.stɪŋ/", meaning: "Thú vị" },
-  "learning": { ipa: "/ˈlɜːr.nɪŋ/", meaning: "Học tập" },
-  "because": { ipa: "/bɪˈkɔːz/", meaning: "Bởi vì" },
-  "helps": { ipa: "/helps/", meaning: "Giúp đỡ" },
-  "speak": { ipa: "/spiːk/", meaning: "Nói" },
-  "naturally": { ipa: "/ˈnætʃ.ər.əl.i/", meaning: "Một cách tự nhiên" },
-  "window": { ipa: "/ˈwɪn.doʊ/", meaning: "Cửa sổ" },
-  "seat": { ipa: "/siːt/", meaning: "Chỗ ngồi" },
-  "flight": { ipa: "/flaɪt/", meaning: "Chuyến bay" },
-  "please": { ipa: "/pliːz/", meaning: "Xin vui lòng" },
-  "order": { ipa: "/ˈɔːr.dər/", meaning: "Gọi món, đặt hàng" },
-  "airport": { ipa: "/ˈer.pɔːrt/", meaning: "Sân bay" },
-  "want": { ipa: "/wɑːnt/", meaning: "Muốn" },
-  "go": { ipa: "/ɡoʊ/", meaning: "Đi" },
-  "love": { ipa: "/lʌv/", meaning: "Yêu, thích" },
-  "think": { ipa: "/θɪŋk/", meaning: "Nghĩ" },
-  "know": { ipa: "/noʊ/", meaning: "Biết" },
-  "good": { ipa: "/ɡʊd/", meaning: "Tốt" },
-  "great": { ipa: "/ɡreɪt/", meaning: "Tuyệt vời" },
-  "beautiful": { ipa: "/ˈbjuː.tɪ.fəl/", meaning: "Đẹp" },
-  "language": { ipa: "/ˈlæŋ.ɡwɪdʒ/", meaning: "Ngôn ngữ" },
-  "conversation": { ipa: "/ˌkɑːn.vərˈseɪ.ʃən/", meaning: "Cuộc hội thoại" },
-  "travel": { ipa: "/ˈtræv.əl/", meaning: "Du lịch" },
-  "restaurant": { ipa: "/ˈres.tər.ɑːnt/", meaning: "Nhà hàng" },
-  "interview": { ipa: "/ˈɪn.tər.vjuː/", meaning: "Phỏng vấn" },
-  "experience": { ipa: "/ɪkˈspɪr.i.əns/", meaning: "Kinh nghiệm" },
-  "understand": { ipa: "/ˌʌn.dərˈstænd/", meaning: "Hiểu" },
-  "improve": { ipa: "/ɪmˈpruːv/", meaning: "Cải thiện" },
-  "pronunciation": { ipa: "/prəˌnʌn.siˈeɪ.ʃən/", meaning: "Phát âm" },
-  "vocabulary": { ipa: "/voʊˈkæb.jə.ler.i/", meaning: "Từ vựng" },
-  "grammar": { ipa: "/ˈɡræm.ər/", meaning: "Ngữ pháp" },
-  "routine": { ipa: "/ruːˈtiːn/", meaning: "Thói quen" },
-  "salad": { ipa: "/ˈsæl.əd/", meaning: "Món salad" },
-  "juice": { ipa: "/dʒuːs/", meaning: "Nước ép" },
-  "delicious": { ipa: "/dɪˈlɪʃ.əs/", meaning: "Ngon miệng" },
-  "direction": { ipa: "/daɪˈrek.ʃən/", meaning: "Phương hướng" },
-  "reservation": { ipa: "/ˌrez.ərˈveɪ.ʃən/", meaning: "Đặt chỗ" },
-  "artificial": { ipa: "/ˌɑːr.t̬əˈfɪʃ.əl/", meaning: "Nhân tạo" },
-  "intelligence": { ipa: "/ɪnˈtel.ə.dʒəns/", meaning: "Trí tuệ" },
-  "discount": { ipa: "/ˈdɪs.kaʊnt/", meaning: "Giảm giá" },
-  "passport": { ipa: "/ˈpæs.pɔːrt/", meaning: "Hộ chiếu" },
-};
 
 interface Goal {
   id: string;
@@ -355,6 +302,46 @@ export default function AiConversationPage() {
   const [isTopicDropdownOpen, setIsTopicDropdownOpen] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // Session ID for current conversation turn
+  const [sessionId, setSessionId] = useState<string>(
+    () => `ai_conv_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`
+  );
+  const [isHistoryDrawerOpen, setIsHistoryDrawerOpen] = useState(false);
+  const [pastSessions, setPastSessions] = useState<any[]>([]);
+  const [selectedPastSession, setSelectedPastSession] = useState<any | null>(null);
+  const [isLoadingHistory, setIsLoadingHistory] = useState(false);
+
+  // Fetch past conversation history from API
+  const fetchSessionHistory = async () => {
+    setIsLoadingHistory(true);
+    try {
+      const res = await fetch("/api/ai/sessions?mode=conversation");
+      const data = await res.json();
+      if (data.success && Array.isArray(data.sessions)) {
+        setPastSessions(data.sessions);
+      }
+    } catch (err) {
+      console.warn("Could not fetch conversation session history:", err);
+    } finally {
+      setIsLoadingHistory(false);
+    }
+  };
+
+  const handleOpenHistoryDrawer = () => {
+    setIsHistoryDrawerOpen(true);
+    fetchSessionHistory();
+  };
+
+  // Hydrate selectedTopicId from localStorage
+  useEffect(() => {
+    try {
+      const savedTopic = localStorage.getItem("xp_voca_ai_conversation_topic");
+      if (savedTopic && aiTopics.some((t) => t.id === savedTopic)) {
+        setSelectedTopicId(savedTopic);
+      }
+    } catch {}
+  }, []);
+
   const currentTopic = useMemo(() => {
     return aiTopics.find((t) => t.id === selectedTopicId) || aiTopics[0];
   }, [selectedTopicId]);
@@ -480,22 +467,23 @@ export default function AiConversationPage() {
     });
   };
 
+  // 1-Click Interactive Deep Dictionary
   const handleWordClick = (rawWord: string) => {
     const cleanWord = rawWord.replace(/[^a-zA-Z]/g, '').toLowerCase();
     if (!cleanWord || cleanWord.length < 2) return;
 
     speakText(cleanWord);
 
-    const dictEntry = IPA_DICTIONARY[cleanWord];
+    const deepDef = lookupWordDeep(cleanWord);
     setSelectedWordData({
       word: cleanWord,
-      ipa: dictEntry?.ipa || `/${cleanWord}/`,
-      meaning: dictEntry?.meaning || `Nghĩa Tiếng Việt của từ "${cleanWord}"`,
-      example: `Used naturally: "${cleanWord}"`
+      ipa: deepDef.ipa || `/${cleanWord}/`,
+      meaning: deepDef.meaning || `Nghĩa Tiếng Việt của từ "${cleanWord}"`,
+      example: deepDef.example || `Used naturally in context: "${cleanWord}"`,
     });
   };
 
-  const handleSaveWordToVocab = () => {
+  const handleSaveWordToVocab = async () => {
     if (!selectedWordData) return;
     awardXp(5, "vocab");
     addToast({
@@ -503,6 +491,18 @@ export default function AiConversationPage() {
       title: 'Đã lưu vào Sổ tay từ vựng! 💾',
       message: `+5 XP cho từ "${selectedWordData.word}"`,
     });
+
+    try {
+      await fetch("/api/user/vocab", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          vocabId: selectedWordData.word.toLowerCase(),
+          isFavorite: true,
+        }),
+      });
+    } catch {}
+
     setSelectedWordData(null);
   };
 
@@ -664,6 +664,9 @@ export default function AiConversationPage() {
 
   const handleSelectTopic = (topic: Topic) => {
     setSelectedTopicId(topic.id);
+    try {
+      localStorage.setItem("xp_voca_ai_conversation_topic", topic.id);
+    } catch {}
     setIsTopicDropdownOpen(false);
     setIsSessionCompleted(false);
     setShowChatHistoryInSummary(false);
@@ -922,7 +925,7 @@ export default function AiConversationPage() {
     };
   }, [userTurnsCount, completedGoalsCount, currentTopic.goals.length, grammarCorrections]);
 
-  const handleFinishConversation = () => {
+  const handleFinishConversation = async () => {
     if (userTurnsCount === 0) {
       addToast({
         type: "warning",
@@ -942,9 +945,37 @@ export default function AiConversationPage() {
       title: `Hoàn Thành Bài Luyện Viết (Hạng ${sessionEvaluation.grade})! 🎉`,
       message: `+${sessionEvaluation.xpAward} XP cho chủ đề "${currentTopic.name}"!`,
     });
+
+    // Persist full practice transcript & scorecard to PostgreSQL Neon ai_practice_sessions
+    try {
+      await fetch("/api/ai/sessions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sessionId,
+          mode: "conversation",
+          topicId: selectedTopicId,
+          messages,
+          overallScore: sessionEvaluation.overallScore,
+          grade: sessionEvaluation.grade,
+          evaluationMetrics: {
+            goalsScore: sessionEvaluation.goalsScore,
+            grammarScore: sessionEvaluation.grammarScore,
+            interactionScore: sessionEvaluation.interactionScore,
+            vocabScore: sessionEvaluation.vocabScore,
+          },
+          timeSpentSeconds: elapsedTime,
+          xpEarned: sessionEvaluation.xpAward,
+          status: "COMPLETED",
+        }),
+      });
+    } catch (err) {
+      console.warn("Could not save conversation session to server:", err);
+    }
   };
 
   const handleRestartNewSession = () => {
+    setSessionId(`ai_conv_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`);
     setIsSessionCompleted(false);
     setShowChatHistoryInSummary(false);
     setMessages([
@@ -976,7 +1007,18 @@ export default function AiConversationPage() {
       {/* 1. APP TOP HEADER (FIXED 56PX) */}
       <AppTopHeader
         rightDesktopContent={
-          <div className="flex items-center gap-2.5 shrink-0">
+          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+            {/* Lịch Sử Buổi Học Button */}
+            <button
+              type="button"
+              onClick={handleOpenHistoryDrawer}
+              className="h-9 px-3 rounded-xl bg-slate-100 hover:bg-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700/80 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-bold border border-slate-200/80 dark:border-slate-700 shadow-2xs flex items-center gap-1.5 cursor-pointer transition-all active:scale-95 shrink-0"
+              title="Xem lại lịch sử các buổi luyện viết trước"
+            >
+              <History className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
+              <span className="hidden sm:inline">Lịch sử</span>
+            </button>
+
             <span className="px-3 py-1.5 rounded-xl bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-xs font-bold font-mono tabular-nums flex items-center gap-1.5 shadow-2xs">
               <Clock className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
               <span>{formatElapsedTime(elapsedTime)}</span>
@@ -1007,12 +1049,12 @@ export default function AiConversationPage() {
         <HeaderPillContainer>
           <HeaderPillItem
             href="/ai/tutor"
-            icon={<SpeakingIcon className="w-3.5 h-3.5" />}
+            icon={<SpeakingIcon className="w-3.5 h-3.5 text-purple-500" />}
             label="Luyện nói"
           />
           <HeaderPillItem
             active
-            icon={<Wand2 className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />}
+            icon={<Wand2 className="w-3.5 h-3.5 text-fuchsia-500" />}
             label="Luyện viết"
           />
         </HeaderPillContainer>
@@ -1778,7 +1820,7 @@ export default function AiConversationPage() {
 
       </div>
 
-      {/* 3. 1-CLICK INTERACTIVE WORD DICTIONARY FLOATING MODAL */}
+      {/* 3. 1-CLICK INTERACTIVE DEEP WORD DICTIONARY FLOATING MODAL */}
       <AnimatePresence>
         {selectedWordData && (
           <motion.div
@@ -1824,6 +1866,12 @@ export default function AiConversationPage() {
               <p className="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200">
                 {selectedWordData.meaning}
               </p>
+
+              {selectedWordData.example && (
+                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed pt-1 border-t border-slate-100 dark:border-slate-800">
+                  {selectedWordData.example}
+                </p>
+              )}
             </div>
 
             <button
@@ -1835,6 +1883,159 @@ export default function AiConversationPage() {
               <span>Lưu vào Sổ tay từ vựng (+5 XP)</span>
             </button>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* 4. SESSION HISTORY DRAWER & TRANSCRIPT PREVIEW */}
+      <AnimatePresence>
+        {isHistoryDrawerOpen && (
+          <div className="fixed inset-0 z-50 flex justify-end bg-slate-950/40 backdrop-blur-xs">
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="w-full max-w-md h-full bg-white dark:bg-slate-900 border-l border-slate-200/90 dark:border-slate-800 shadow-2xl flex flex-col min-h-0"
+            >
+              {/* Drawer Header */}
+              <div className="p-3.5 sm:p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-lg bg-fuchsia-50 dark:bg-fuchsia-950/60 text-fuchsia-600 dark:text-fuchsia-400 flex items-center justify-center border border-fuchsia-200/60">
+                    <History className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-slate-900 dark:text-white font-display">
+                      Lịch Sử Luyện Viết AI
+                    </h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      {pastSessions.length} buổi học đã lưu
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsHistoryDrawerOpen(false);
+                    setSelectedPastSession(null);
+                  }}
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Drawer Body */}
+              <div className="flex-1 overflow-y-auto p-3.5 sm:p-4 space-y-3">
+                {isLoadingHistory ? (
+                  <div className="flex items-center justify-center py-12 gap-2 text-xs font-bold text-slate-500">
+                    <RefreshCw className="w-4 h-4 animate-spin text-[#0059bb]" />
+                    <span>Đang tải lịch sử...</span>
+                  </div>
+                ) : selectedPastSession ? (
+                  /* Detail View of a Selected Past Session */
+                  <div className="space-y-3">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedPastSession(null)}
+                      className="text-xs font-bold text-[#0059bb] dark:text-sky-400 hover:underline flex items-center gap-1 cursor-pointer"
+                    >
+                      ← Quay lại danh sách buổi học
+                    </button>
+
+                    <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold uppercase text-slate-500">
+                          {selectedPastSession.createdAt ? new Date(selectedPastSession.createdAt).toLocaleString("vi-VN") : "Gần đây"}
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md text-xs font-bold bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-300 font-mono">
+                          Hạng {selectedPastSession.grade || "A"} • {selectedPastSession.overallScore || 85}/100
+                        </span>
+                      </div>
+                      <p className="text-xs font-bold text-slate-900 dark:text-white">
+                        Chủ đề: {selectedPastSession.topicId?.toUpperCase() || "NHÀ HÀNG"}
+                      </p>
+                    </div>
+
+                    {/* Message Transcript */}
+                    <div className="space-y-2 pt-1">
+                      <div className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                        Kịch bản đối thoại ({selectedPastSession.messages?.length || 0} câu):
+                      </div>
+                      {selectedPastSession.messages?.map((m: any, idx: number) => (
+                        <div
+                          key={idx}
+                          className={`p-2.5 rounded-xl text-xs space-y-1.5 ${
+                            m.role === "ai"
+                              ? "bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200/60 dark:border-blue-900/40 text-slate-900 dark:text-white"
+                              : "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white"
+                          }`}
+                        >
+                          <span className="font-bold text-[#0059bb] dark:text-sky-400">
+                            {m.role === "ai" ? "AI Tutor" : "Bạn"}
+                          </span>
+                          <p className="leading-relaxed">{m.text}</p>
+                          {m.vietnameseTranslation && (
+                            <p className="text-xs text-slate-500 dark:text-slate-400 pt-0.5 border-t border-slate-200/60 dark:border-slate-800">
+                              [Dịch] {m.vietnameseTranslation}
+                            </p>
+                          )}
+                          {m.grammarCorrection?.hasError && (
+                            <div className="p-2 rounded bg-amber-500/10 text-amber-900 dark:text-amber-200 text-xs">
+                              <strong>Sửa ngữ pháp:</strong> {m.grammarCorrection.corrected}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : pastSessions.length > 0 ? (
+                  /* List View of All Past Sessions */
+                  <div className="space-y-2.5">
+                    {pastSessions.map((session, idx) => (
+                      <div
+                        key={session.sessionId || idx}
+                        onClick={() => setSelectedPastSession(session)}
+                        className="p-3 rounded-xl bg-white dark:bg-slate-800/90 border border-slate-200/90 dark:border-slate-700 hover:border-[#0059bb] dark:hover:border-sky-500 shadow-2xs cursor-pointer transition-all space-y-2 group"
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-1.5">
+                            <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                            <span className="text-xs font-bold text-slate-900 dark:text-white font-display">
+                              Chủ đề {session.topicId?.toUpperCase() || "HỘI THOẠI"}
+                            </span>
+                          </div>
+                          <span className="px-2 py-0.5 rounded-md text-xs font-bold font-mono bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 border border-blue-200/60">
+                            {session.overallScore || 85}/100 (Hạng {session.grade || "A"})
+                          </span>
+                        </div>
+
+                        <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 pt-1 border-t border-slate-100 dark:border-slate-700/60">
+                          <span className="flex items-center gap-1">
+                            <Clock className="w-3 h-3" />
+                            {session.timeSpentSeconds ? `${Math.ceil(session.timeSpentSeconds / 60)} phút` : "1 phút"}
+                          </span>
+                          <span>+{session.xpEarned || 35} XP</span>
+                          <span className="text-slate-400">
+                            {session.createdAt ? new Date(session.createdAt).toLocaleDateString("vi-VN") : "Hôm nay"}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center py-16 text-center space-y-2 text-slate-400">
+                    <History className="w-8 h-8 stroke-1 text-slate-300 dark:text-slate-600" />
+                    <p className="text-xs font-bold text-slate-600 dark:text-slate-300">
+                      Chưa có lịch sử buổi học
+                    </p>
+                    <p className="text-xs text-slate-400 max-w-xs">
+                      Khi bạn hoàn thành và bấm "Chấm điểm" một buổi luyện viết, toàn bộ kịch bản sẽ được lưu tại đây.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
 

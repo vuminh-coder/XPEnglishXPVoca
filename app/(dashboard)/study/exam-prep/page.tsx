@@ -834,24 +834,24 @@ function ExamPrepContent() {
               />
               <HeaderPillItem
                 href="/study/practice"
-                icon={<BookOpen className="w-3.5 h-3.5" />}
+                icon={<BookOpen className="w-3.5 h-3.5 text-emerald-500" />}
                 label="Luyện từ vựng"
               />
               <HeaderPillItem
                 href="/study/listening"
-                icon={<Headphones className="w-3.5 h-3.5" />}
+                icon={<Headphones className="w-3.5 h-3.5 text-indigo-500" />}
                 label="Dictation"
               />
               <HeaderPillItem
                 href="/study/shadowing"
-                icon={<Mic className="w-3.5 h-3.5" />}
+                icon={<Mic className="w-3.5 h-3.5 text-sky-500" />}
                 label="Shadowing"
               />
             </HeaderPillContainer>
           </AppTopHeader>
 
           {/* MAIN CONTAINER */}
-          <div className="w-full max-w-7xl mx-auto px-3 sm:px-5 lg:px-6 space-y-4 pt-1">
+          <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 pt-1">
             
             {/* 1. HERO BENTO BANNER & CONFIGURATOR STUDIO */}
             <div className="p-3.5 sm:p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm relative overflow-hidden space-y-3 sm:space-y-4">

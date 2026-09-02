@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 import { comparePassword } from "@/infrastructure/auth/password";
 import { signAuthToken } from "@/infrastructure/auth/jwt";
@@ -35,15 +35,20 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Verify password if profile has a passwordHash
-    if (profile.passwordHash) {
-      const isPasswordValid = comparePassword(String(password), profile.passwordHash);
-      if (!isPasswordValid) {
-        return NextResponse.json(
-          { success: false, error: "Tài khoản hoặc mật khẩu không chính xác." },
-          { status: 401 }
-        );
-      }
+    // Strictly enforce password verification - NEVER bypass if passwordHash is missing
+    if (!profile.passwordHash || !profile.passwordHash.trim()) {
+      return NextResponse.json(
+        { success: false, error: "Tài khoản chưa thiết lập mật khẩu. Vui lòng đặt lại mật khẩu hoặc đăng nhập qua mạng xã hội." },
+        { status: 401 }
+      );
+    }
+
+    const isPasswordValid = comparePassword(String(password), profile.passwordHash);
+    if (!isPasswordValid) {
+      return NextResponse.json(
+        { success: false, error: "Tài khoản hoặc mật khẩu không chính xác." },
+        { status: 401 }
+      );
     }
 
     // Generate JWT Token

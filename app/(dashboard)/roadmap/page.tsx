@@ -314,28 +314,24 @@ export default function RoadmapPage() {
           <HeaderPillContainer>
             <HeaderPillItem
               active={true}
-              icon={<Compass className="w-3.5 h-3.5" />}
+              icon={<Compass className="w-3.5 h-3.5 text-amber-500" />}
               label="Lộ trình"
             />
-            <Link href="/analytics">
-              <HeaderPillItem
-                active={false}
-                icon={<BarChart3 className="w-3.5 h-3.5 text-amber-500" />}
-                label="Thống kê"
-              />
-            </Link>
-            <Link href="/community/leaderboard">
-              <HeaderPillItem
-                active={false}
-                icon={<Trophy className="w-3.5 h-3.5 text-amber-500" />}
-                label="Xếp hạng"
-              />
-            </Link>
+            <HeaderPillItem
+              href="/analytics"
+              icon={<BarChart3 className="w-3.5 h-3.5 text-blue-500" />}
+              label="Thống kê"
+            />
+            <HeaderPillItem
+              href="/community"
+              icon={<Trophy className="w-3.5 h-3.5 text-amber-500" />}
+              label="Xếp hạng"
+            />
           </HeaderPillContainer>
         </AppTopHeader>
 
         {/* UNIFIED 7XL CONTAINER */}
-        <div className="w-full max-w-7xl mx-auto px-3 sm:px-5 lg:px-6 space-y-4 pt-1">
+        <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 pt-1">
           
           {/* HERO DASHBOARD SPOTLIGHT BANNER */}
           <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#0059bb] via-[#004fba] to-[#00388a] text-white shadow-md shadow-blue-900/20 relative overflow-hidden">
@@ -678,28 +674,24 @@ export default function RoadmapPage() {
         <HeaderPillContainer>
           <HeaderPillItem
             active={true}
-            icon={<Compass className="w-3.5 h-3.5" />}
+            icon={<Compass className="w-3.5 h-3.5 text-amber-500" />}
             label="Lộ trình"
           />
-          <Link href="/analytics">
-            <HeaderPillItem
-              active={false}
-              icon={<BarChart3 className="w-3.5 h-3.5 text-amber-500" />}
-              label="Thống kê"
-            />
-          </Link>
-          <Link href="/community/leaderboard">
-            <HeaderPillItem
-              active={false}
-              icon={<Trophy className="w-3.5 h-3.5 text-amber-500" />}
-              label="Xếp hạng"
-            />
-          </Link>
+          <HeaderPillItem
+            href="/analytics"
+            icon={<BarChart3 className="w-3.5 h-3.5 text-blue-500" />}
+            label="Thống kê"
+          />
+          <HeaderPillItem
+            href="/community"
+            icon={<Trophy className="w-3.5 h-3.5 text-amber-500" />}
+            label="Xếp hạng"
+          />
         </HeaderPillContainer>
       </AppTopHeader>
 
-      {/* 2. UNIFIED 7XL MAIN CONTAINER */}
-      <div className="w-full max-w-7xl mx-auto px-3 sm:px-5 lg:px-6 space-y-4 pt-1">
+      {/* 2. UNIFIED MAIN CONTAINER */}
+      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 pt-1">
         
         {/* HERO SPOTLIGHT BANNER */}
         <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#0059bb] via-[#004fba] to-[#00388a] text-white shadow-md shadow-blue-900/20 relative overflow-hidden">
