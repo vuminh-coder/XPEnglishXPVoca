@@ -48,7 +48,7 @@ export function PostCard({
             avatarUrl={post.authorAvatar || post.avatar}
             emoji={post.avatarEmoji || "🦉"}
             name={post.author}
-            size="md"
+            size="w-10 h-10"
           />
           <div>
             <h3 className="font-bold text-xs sm:text-sm text-slate-900 dark:text-white leading-none">
@@ -110,7 +110,7 @@ export function PostCard({
                 avatarUrl={comment.avatar}
                 emoji={comment.avatarEmoji || "🦉"}
                 name={comment.author}
-                size="sm"
+                size="w-7 h-7"
               />
               <div className="flex-1 space-y-0.5">
                 <div className="flex items-center justify-between">
@@ -144,7 +144,7 @@ export function PostCard({
               avatarUrl={currentUserAvatar}
               emoji={user?.avatarEmoji || "🦉"}
               name={currentUserName}
-              size="sm"
+              size="w-7 h-7"
             />
             <input
               type="text"

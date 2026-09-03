@@ -57,11 +57,21 @@ export async function GET(request: Request) {
         select: {
           currentStreak: true,
           longestStreak: true,
+          totalXp: true,
+          coins: true,
+          minutesStudied: true,
           updatedAt: true,
         },
       });
 
-      // Query active days this week from DailySkillPractice
+      const wordsLearnedCount = await prisma.userVocabulary.count({
+        where: { userId, proficiency: { gt: 0 } },
+      });
+
+      const startOfWeekDate = new Date(`${startOfWeekStr}T00:00:00.000Z`);
+      const endOfWeekDate = new Date(`${endOfWeekStr}T23:59:59.999Z`);
+
+      // 1. Query active days this week from DailySkillPractice
       const practicesThisWeek = await prisma.dailySkillPractice.findMany({
         where: {
           userId,
@@ -76,9 +86,64 @@ export async function GET(request: Request) {
         },
       });
 
+      // 2. Query active days this week from ExamAttempt (Thi thử)
+      const examsThisWeek = await prisma.examAttempt.findMany({
+        where: {
+          userId,
+          startedAt: {
+            gte: startOfWeekDate,
+            lte: endOfWeekDate,
+          },
+        },
+        select: {
+          startedAt: true,
+        },
+      });
+
+      // 3. Query active days this week from ListeningProgress (Luyện nghe)
+      const listeningThisWeek = await prisma.listeningProgress.findMany({
+        where: {
+          userId,
+          lastPracticedAt: {
+            gte: startOfWeekDate,
+            lte: endOfWeekDate,
+          },
+        },
+        select: {
+          lastPracticedAt: true,
+        },
+      });
+
+      // 4. Query active days this week from UserVocabulary (Ôn tập từ vựng)
+      const vocabThisWeek = await prisma.userVocabulary.findMany({
+        where: {
+          userId,
+          lastPracticed: {
+            gte: startOfWeekDate,
+            lte: endOfWeekDate,
+          },
+        },
+        select: {
+          lastPracticed: true,
+        },
+      });
+
       const activeDaysSet = new Set<string>();
+
       practicesThisWeek.forEach((p) => {
         if (p.date) activeDaysSet.add(p.date);
+      });
+
+      examsThisWeek.forEach((e) => {
+        if (e.startedAt) activeDaysSet.add(getLocalDateString(new Date(e.startedAt)));
+      });
+
+      listeningThisWeek.forEach((l) => {
+        if (l.lastPracticedAt) activeDaysSet.add(getLocalDateString(new Date(l.lastPracticedAt)));
+      });
+
+      vocabThisWeek.forEach((v) => {
+        if (v.lastPracticed) activeDaysSet.add(getLocalDateString(new Date(v.lastPracticed)));
       });
 
       const isCheckedInToday = practicesThisWeek.some(
@@ -90,6 +155,10 @@ export async function GET(request: Request) {
         activeDaysInWeek: Array.from(activeDaysSet),
         currentStreak: profile?.currentStreak || 1,
         longestStreak: profile?.longestStreak || 1,
+        totalXp: profile?.totalXp || 0,
+        coins: profile?.coins || 0,
+        wordsLearned: wordsLearnedCount,
+        minutesStudied: profile?.minutesStudied || 0,
         todayStr,
       };
     }, "Daily Checkin Query");
@@ -101,6 +170,10 @@ export async function GET(request: Request) {
         activeDaysInWeek: [],
         currentStreak: 1,
         longestStreak: 1,
+        totalXp: 0,
+        coins: 0,
+        wordsLearned: 0,
+        minutesStudied: 0,
         todayStr,
       },
     });

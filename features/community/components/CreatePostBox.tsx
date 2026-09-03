@@ -33,14 +33,17 @@ export function CreatePostBox({
   return (
     <div className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl p-4 sm:p-5 shadow-2xs space-y-3">
       <div className="flex items-start gap-3">
-        <UserAvatar
-          avatarUrl={currentUserAvatar}
-          emoji={user?.avatarEmoji || "🦉"}
-          name={currentUserName}
-          size="md"
-        />
-        <div className="flex-1 space-y-2">
+        <div className="w-10 h-10 shrink-0 flex items-center justify-center">
+          <UserAvatar
+            avatarUrl={currentUserAvatar}
+            emoji={user?.avatarEmoji || "🦉"}
+            name={currentUserName}
+            size="w-10 h-10"
+          />
+        </div>
+        <div className="flex-1 space-y-2 min-w-0">
           <textarea
+            id="post-textarea"
             ref={textareaRef}
             rows={3}
             value={postText}

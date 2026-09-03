@@ -15,8 +15,8 @@ import { LessonCoverImage } from "@/shared/components/feedback/LessonCoverImage"
 import { DictationWorkspace } from "@/features/listening/components/DictationWorkspace";
 import { StudioTopHeader } from "@/features/listening/components/StudioTopHeader";
 import { StudioWaveformCard } from "@/features/listening/components/StudioWaveformCard";
-import { InteractiveTranscriptSidebar } from "@/features/listening/components/InteractiveTranscriptSidebar";
-import { ListeningListingSkeleton, ListeningStudioSkeleton } from "@/features/listening/components/LoadingSkeletons";
+import { InteractiveTranscriptSidebar, formatLevelBadge } from "@/features/listening/components/InteractiveTranscriptSidebar";
+import { ListeningListingSkeleton, ListeningStudioSkeleton, ShimmerBox } from "@/features/listening/components/LoadingSkeletons";
 import {
   AppTopHeader,
   HeaderPillContainer,
@@ -203,6 +203,23 @@ function ListeningPageContent() {
     }
   });
 
+  const [currentAccent, setCurrentAccent] = useState<string>("en-US");
+  const [currentVolume, setCurrentVolume] = useState<number>(() => {
+    if (typeof window === "undefined") return 1.0;
+    try {
+      const saved = localStorage.getItem("xp_listening_volume");
+      return saved ? parseFloat(saved) : 1.0;
+    } catch {
+      return 1.0;
+    }
+  });
+
+  useEffect(() => {
+    if (currentLesson?.accent) {
+      setCurrentAccent(currentLesson.accent);
+    }
+  }, [currentLesson?.accent]);
+
   // 1. Fetch Lessons Catalog from PostgreSQL Neon Database
   useEffect(() => {
     let isMounted = true;
@@ -230,6 +247,10 @@ function ListeningPageContent() {
   }, [user?.id]);
 
   const [isLoadingLessonDetail, setIsLoadingLessonDetail] = useState(false);
+  const [isSyncingDb, setIsSyncingDb] = useState(false);
+  const [isShufflingBasic, setIsShufflingBasic] = useState(false);
+  const [isShufflingAdvanced, setIsShufflingAdvanced] = useState(false);
+  const [isShufflingRecommendations, setIsShufflingRecommendations] = useState(false);
 
   // 2. Fetch Single Lesson Details & User Progress from Database
   useEffect(() => {
@@ -308,6 +329,7 @@ function ListeningPageContent() {
     setSavedSentenceKeys(nextKeys);
 
     if (currentLesson) {
+      setIsSyncingDb(true);
       try {
         await fetch("/api/listening/progress", {
           method: "POST",
@@ -320,6 +342,8 @@ function ListeningPageContent() {
         });
       } catch (e) {
         console.error("Error persisting bookmark to DB:", e);
+      } finally {
+        setIsSyncingDb(false);
       }
     }
   };
@@ -465,13 +489,17 @@ function ListeningPageContent() {
   const [listingSearch, setListingSearch] = useState("");
 
   // Level display label mapping (actual data → user-friendly badge text)
-  const getLevelLabel = (level?: string): string => {
+  const getLevelLabel = (level?: string, forceBasic?: boolean): string => {
+    if (forceBasic) {
+      if (level === "Beginner" || level === "A1") return "A1";
+      return "A2";
+    }
     const map: Record<string, string> = {
       "Easy": "A1-A2", "Beginner": "A1", "A1": "A1", "A2": "A2",
       "Intermediate": "B1-B2", "B1": "B1", "B2": "B2",
       "Hard": "C1-C2", "Advanced": "C1", "C1": "C1", "C2": "C2",
     };
-    return map[level || ""] || level || "A1";
+    return map[level || ""] || level || "B1";
   };
 
   // Dual Row Picker State: Row 1 Basic & Row 2 Advanced
@@ -509,21 +537,29 @@ function ListeningPageContent() {
   }, [lessonsList, completedLessonIds, listingSearch]);
 
   const handleShuffleBasic = () => {
-    const easyPool = lessonsList.filter((l) => BASIC_LEVELS.has(l.level));
-    const midPool = lessonsList.filter((l) => l.level === "Intermediate" || l.level === "B1" || l.level === "B2");
-    const basicPool = [...easyPool, ...midPool.slice(0, Math.ceil(midPool.length / 2))];
-    const safeBasic = basicPool.length > 0 ? basicPool : lessonsList.slice(0, Math.ceil(lessonsList.length / 2));
-    setDisplayedBasicLessons(pick10RandomLessons(safeBasic, completedLessonIds || []).slice(0, 8));
-    addToast({ type: "info", title: "Đã đổi 8 bài cơ bản ngẫu nhiên mới!" });
+    setIsShufflingBasic(true);
+    setTimeout(() => {
+      const easyPool = lessonsList.filter((l) => BASIC_LEVELS.has(l.level));
+      const midPool = lessonsList.filter((l) => l.level === "Intermediate" || l.level === "B1" || l.level === "B2");
+      const basicPool = [...easyPool, ...midPool.slice(0, Math.ceil(midPool.length / 2))];
+      const safeBasic = basicPool.length > 0 ? basicPool : lessonsList.slice(0, Math.ceil(lessonsList.length / 2));
+      setDisplayedBasicLessons(pick10RandomLessons(safeBasic, completedLessonIds || []).slice(0, 8));
+      setIsShufflingBasic(false);
+      addToast({ type: "info", title: "Đã đổi 8 bài cơ bản ngẫu nhiên mới!" });
+    }, 180);
   };
 
   const handleShuffleAdvanced = () => {
-    const hardPool = lessonsList.filter((l) => ADVANCED_LEVELS.has(l.level));
-    const midPool = lessonsList.filter((l) => l.level === "Intermediate" || l.level === "B1" || l.level === "B2");
-    const advPool = [...hardPool, ...midPool.slice(Math.ceil(midPool.length / 2))];
-    const safeAdv = advPool.length > 0 ? advPool : lessonsList.slice(Math.ceil(lessonsList.length / 2));
-    setDisplayedAdvancedLessons(pick10RandomLessons(safeAdv, completedLessonIds || []).slice(0, 8));
-    addToast({ type: "info", title: "Đã đổi 8 bài nâng cao ngẫu nhiên mới!" });
+    setIsShufflingAdvanced(true);
+    setTimeout(() => {
+      const hardPool = lessonsList.filter((l) => ADVANCED_LEVELS.has(l.level));
+      const midPool = lessonsList.filter((l) => l.level === "Intermediate" || l.level === "B1" || l.level === "B2");
+      const advPool = [...hardPool, ...midPool.slice(Math.ceil(midPool.length / 2))];
+      const safeAdv = advPool.length > 0 ? advPool : lessonsList.slice(Math.ceil(lessonsList.length / 2));
+      setDisplayedAdvancedLessons(pick10RandomLessons(safeAdv, completedLessonIds || []).slice(0, 8));
+      setIsShufflingAdvanced(false);
+      addToast({ type: "info", title: "Đã đổi 8 bài nâng cao ngẫu nhiên mới!" });
+    }, 180);
   };
 
   // Select lesson handler
@@ -562,15 +598,116 @@ function ListeningPageContent() {
 
   // Form State: Create New Article
   const [showCreateForm, setShowCreateForm] = useState(false);
+  const [createModeTab, setCreateModeTab] = useState<"text" | "youtube">("text");
   const [newTitle, setNewTitle] = useState("");
   const [newText, setNewText] = useState("");
   const [newThumbnail, setNewThumbnail] = useState("");
   const [newAccent, setNewAccent] = useState("en-US");
   const [newLevel, setNewLevel] = useState("B1");
   const [isCreatingLesson, setIsCreatingLesson] = useState(false);
+  const [youtubeUrl, setYoutubeUrl] = useState("");
+  const [isExtractingYoutube, setIsExtractingYoutube] = useState(false);
+
+  const extractYoutubeId = (url: string): string | null => {
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const match = url.match(regExp);
+    return match && match[2].length === 11 ? match[2] : null;
+  };
+
+  const handleExtractYoutubeSubtitles = async () => {
+    const videoId = extractYoutubeId(youtubeUrl);
+    if (!videoId) {
+      addToast({
+        type: "warning",
+        title: "Link YouTube không hợp lệ",
+        message: "Vui lòng nhập đường dẫn video YouTube hợp lệ (VD: https://www.youtube.com/watch?v=...)",
+      });
+      return;
+    }
+
+    try {
+      setIsExtractingYoutube(true);
+      addToast({
+        type: "info",
+        title: "Đang bóc tách phụ đề từ YouTube...",
+      });
+
+      const res = await fetch(`/api/youtube/captions?videoId=${videoId}`);
+      const json = await res.json();
+
+      if (json.hasCaptions && Array.isArray(json.subtitles) && json.subtitles.length > 0) {
+        const sentences = json.subtitles
+          .map((sub: any, idx: number) => ({
+            id: idx + 1,
+            text: sub.english || sub.text || "",
+            translation: sub.vietnamese || "Chưa có bản dịch song ngữ",
+            startTime: sub.startSeconds || idx * 5,
+            endTime: (sub.startSeconds || idx * 5) + (sub.duration || 5),
+          }))
+          .filter((s: any) => s.text.trim().length > 0);
+
+        if (sentences.length === 0) {
+          throw new Error("Không trích xuất được phụ đề văn bản");
+        }
+
+        const autoTitle = newTitle.trim() || `YouTube Dictation: ${videoId}`;
+        const autoThumbnail = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+
+        const createRes = await fetch("/api/listening/lessons", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: autoTitle,
+            category: "YouTube Dictation",
+            level: newLevel,
+            accent: newAccent,
+            duration: `${Math.max(1, Math.ceil(sentences.length * 0.3))} min`,
+            imageUrl: newThumbnail.trim() || autoThumbnail,
+            transcript: sentences,
+          }),
+        });
+
+        const createJson = await createRes.json();
+        if (createJson.success && createJson.data) {
+          setLessonsList((prev) => [createJson.data, ...prev]);
+          setShowCreateForm(false);
+          setYoutubeUrl("");
+          setNewTitle("");
+          handleSelectLesson(createJson.data.id);
+          awardXp(20, "dictation");
+          addToast({
+            type: "success",
+            title: "🎉 Đã tạo bài Dictation từ YouTube thành công! (+20 XP)",
+            message: `Đã bóc tách thành công ${sentences.length} câu phụ đề.`,
+          });
+        } else {
+          throw new Error(createJson.error || "Không thể lưu bài học");
+        }
+      } else {
+        addToast({
+          type: "warning",
+          title: "Không tìm thấy phụ đề",
+          message: "Video này không có phụ đề tiếng Anh có sẵn. Vui lòng chọn video khác có CC tiếng Anh.",
+        });
+      }
+    } catch (err: any) {
+      console.error("Error extracting YouTube captions:", err);
+      addToast({
+        type: "error",
+        title: "Lỗi trích xuất YouTube",
+        message: err.message || "Không thể tải phụ đề lúc này. Vui lòng thử lại.",
+      });
+    } finally {
+      setIsExtractingYoutube(false);
+    }
+  };
 
   const handleCreateArticle = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (createModeTab === "youtube") {
+      await handleExtractYoutubeSubtitles();
+      return;
+    }
     if (!newTitle.trim() || !newText.trim() || isCreatingLesson) {
       addToast({
         type: "warning",
@@ -750,7 +887,8 @@ function ListeningPageContent() {
               rate: playbackSpeed,
               lessonId: currentLesson.id,
               speakerIndex: currentSentenceIndex % 2,
-              accent: currentLesson.accent,
+              accent: currentAccent || currentLesson.accent,
+              volume: currentVolume,
               onEnd: () => {
                 setPlayingSentenceText(null);
                 setSentencePlaybackTime(0);
@@ -769,7 +907,8 @@ function ListeningPageContent() {
             rate: playbackSpeed,
             lessonId: currentLesson.id,
             speakerIndex: currentSentenceIndex % 2,
-            accent: currentLesson.accent,
+            accent: currentAccent || currentLesson.accent,
+            volume: currentVolume,
             onEnd: () => {
               setPlayingSentenceText(null);
               setSentencePlaybackTime(0);
@@ -799,7 +938,7 @@ function ListeningPageContent() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [currentLesson, currentSentenceIndex, playingSentenceText, playbackSpeed, totalSentencesCount, addToast]);
 
-  if (selectedLessonId && (!currentLesson || isLoadingLessonDetail)) {
+  if (selectedLessonId && !currentLesson) {
     return <ListeningStudioSkeleton />;
   }
 
@@ -882,104 +1021,226 @@ function ListeningPageContent() {
                   className="p-4 sm:p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-3.5 overflow-hidden"
                 >
                   <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5">
-                    <h3 className="text-xs font-bold uppercase text-blue-600 dark:text-sky-400 font-display flex items-center gap-1.5">
-                      <Sparkles className="w-3.5 h-3.5 text-amber-500" /> TẠO BÀI ĐỌC & BÓC TÁCH ÂM THANH MỚI
-                    </h3>
-                    <span className="text-xs font-medium text-slate-400">
-                      Tự động tách câu và sinh audio AI
+                    <div className="flex items-center gap-3">
+                      <button
+                        type="button"
+                        onClick={() => setCreateModeTab("text")}
+                        className={`text-xs font-bold uppercase font-display flex items-center gap-1.5 pb-1 border-b-2 transition-all cursor-pointer ${
+                          createModeTab === "text"
+                            ? "border-blue-600 text-blue-600 dark:text-sky-400"
+                            : "border-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                        }`}
+                      >
+                        <Sparkles className="w-3.5 h-3.5 text-amber-500" /> Tạo từ văn bản AI
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setCreateModeTab("youtube")}
+                        className={`text-xs font-bold uppercase font-display flex items-center gap-1.5 pb-1 border-b-2 transition-all cursor-pointer ${
+                          createModeTab === "youtube"
+                            ? "border-rose-600 text-rose-600 dark:text-rose-400"
+                            : "border-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                        }`}
+                      >
+                        <span className="w-2 h-2 rounded-full bg-rose-500" /> Nhập từ YouTube Subtitles
+                      </button>
+                    </div>
+                    <span className="text-xs font-medium text-slate-400 hidden sm:inline">
+                      {createModeTab === "text" ? "Tự động tách câu và sinh audio AI" : "Bóc tách phụ đề CC có sẵn từ link YouTube"}
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-                    <div className="space-y-1">
-                      <label
-                        htmlFor="new-article-title-input"
-                        className="text-xs font-bold text-slate-700 dark:text-slate-300"
-                      >
-                        1. Tiêu đề bài đọc (Title):
-                      </label>
-                      <input
-                        id="new-article-title-input"
-                        type="text"
-                        required
-                        className="w-full h-10 px-3.5 text-xs font-medium rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all"
-                        placeholder="VD: Daily Morning Routine in London..."
-                        value={newTitle}
-                        onChange={(e) => setNewTitle(e.target.value)}
-                      />
+                  {createModeTab === "youtube" ? (
+                    <div className="space-y-3.5 py-1">
+                      <div className="space-y-1">
+                        <label
+                          htmlFor="youtube-url-input"
+                          className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5"
+                        >
+                          <span className="text-rose-600">▶</span> Đường dẫn Video YouTube (YouTube Video URL):
+                        </label>
+                        <input
+                          id="youtube-url-input"
+                          type="url"
+                          required
+                          className="w-full h-10 px-3.5 text-xs font-medium rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-rose-500 focus:ring-4 focus:ring-rose-500/10 transition-all"
+                          placeholder="https://www.youtube.com/watch?v=... hoặc https://youtu.be/..."
+                          value={youtubeUrl}
+                          onChange={(e) => setYoutubeUrl(e.target.value)}
+                        />
+                        <p className="text-[11px] text-slate-500">
+                          Hệ thống sẽ tự động bóc tách toàn bộ phụ đề tiếng Anh và chia thành từng câu Dictation kèm thời gian chuẩn.
+                        </p>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                        <div className="space-y-1">
+                          <label
+                            htmlFor="youtube-custom-title-input"
+                            className="text-xs font-bold text-slate-700 dark:text-slate-300"
+                          >
+                            Tiêu đề bài học (Tùy chọn):
+                          </label>
+                          <input
+                            id="youtube-custom-title-input"
+                            type="text"
+                            className="w-full h-10 px-3.5 text-xs font-medium rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-rose-500 transition-all"
+                            placeholder="Để trống để dùng tiêu đề tự động..."
+                            value={newTitle}
+                            onChange={(e) => setNewTitle(e.target.value)}
+                          />
+                        </div>
+
+                        <div className="space-y-1">
+                          <label
+                            htmlFor="youtube-level-select"
+                            className="text-xs font-bold text-slate-700 dark:text-slate-300"
+                          >
+                            Độ khó bài học:
+                          </label>
+                          <select
+                            id="youtube-level-select"
+                            value={newLevel}
+                            onChange={(e) => setNewLevel(e.target.value)}
+                            className="w-full h-10 px-3 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white"
+                          >
+                            <option value="A1">Level A1 (Cơ bản)</option>
+                            <option value="A2">Level A2 (Sơ cấp)</option>
+                            <option value="B1">Level B1 (Trung cấp)</option>
+                            <option value="B2">Level B2 (Trung cấp khá)</option>
+                            <option value="C1">Level C1 (Nâng cao)</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col gap-2 pt-1">
+                        {isExtractingYoutube && (
+                          <div className="p-3 rounded-xl bg-rose-50/70 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/50 space-y-2 select-none">
+                            <div className="flex items-center justify-between text-xs font-semibold text-rose-700 dark:text-rose-300">
+                              <span className="flex items-center gap-1.5">
+                                <span className="w-2 h-2 rounded-full bg-rose-500 animate-ping" />
+                                Đang bóc tách phụ đề & mốc thời gian YouTube...
+                              </span>
+                              <span className="font-mono text-[11px] font-bold">3 Bước CSDL</span>
+                            </div>
+                            <div className="w-full h-1.5 rounded-full bg-rose-200 dark:bg-rose-900 overflow-hidden relative">
+                              <div className="absolute inset-0 bg-gradient-to-r from-rose-500 via-amber-400 to-rose-600 animate-[shimmer_1.5s_infinite]" />
+                            </div>
+                            <div className="flex justify-between text-[10.5px] font-medium text-slate-500 dark:text-slate-400 pt-0.5">
+                              <span>1. Kết nối YouTube CC</span>
+                              <span>2. Phân tách câu & thời gian</span>
+                              <span>3. Lưu vào Neon DB</span>
+                            </div>
+                          </div>
+                        )}
+
+                        <div className="flex justify-end">
+                          <Button
+                            variant="primary"
+                            type="submit"
+                            disabled={isExtractingYoutube}
+                            className="h-9 px-5 text-xs font-bold rounded-lg bg-rose-600 hover:bg-rose-700 text-white shadow-xs active:scale-95 transition-transform cursor-pointer"
+                          >
+                            {isExtractingYoutube ? "⏳ ĐANG BÓC TÁCH PHỤ ĐỀ..." : "🚀 BÓC TÁCH & TẠO BÀI DICTATION YOUTUBE"}
+                          </Button>
+                        </div>
+                      </div>
                     </div>
+                  ) : (
+                    <>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                        <div className="space-y-1">
+                          <label
+                            htmlFor="new-article-title-input"
+                            className="text-xs font-bold text-slate-700 dark:text-slate-300"
+                          >
+                            1. Tiêu đề bài đọc (Title):
+                          </label>
+                          <input
+                            id="new-article-title-input"
+                            type="text"
+                            required
+                            className="w-full h-10 px-3.5 text-xs font-medium rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all"
+                            placeholder="VD: Daily Morning Routine in London..."
+                            value={newTitle}
+                            onChange={(e) => setNewTitle(e.target.value)}
+                          />
+                        </div>
 
-                    <div className="space-y-1">
-                      <label
-                        htmlFor="new-article-thumbnail-input"
-                        className="text-xs font-bold text-slate-700 dark:text-slate-300"
-                      >
-                        2. Link ảnh Thumbnail (Không bắt buộc):
-                      </label>
-                      <input
-                        id="new-article-thumbnail-input"
-                        type="url"
-                        className="w-full h-10 px-3.5 text-xs font-medium rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all"
-                        placeholder="https://images.unsplash.com/..."
-                        value={newThumbnail}
-                        onChange={(e) => setNewThumbnail(e.target.value)}
-                      />
-                    </div>
-                  </div>
+                        <div className="space-y-1">
+                          <label
+                            htmlFor="new-article-thumbnail-input"
+                            className="text-xs font-bold text-slate-700 dark:text-slate-300"
+                          >
+                            2. Link ảnh Thumbnail (Không bắt buộc):
+                          </label>
+                          <input
+                            id="new-article-thumbnail-input"
+                            type="url"
+                            className="w-full h-10 px-3.5 text-xs font-medium rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all"
+                            placeholder="https://images.unsplash.com/..."
+                            value={newThumbnail}
+                            onChange={(e) => setNewThumbnail(e.target.value)}
+                          />
+                        </div>
+                      </div>
 
-                  <div className="space-y-1">
-                    <label
-                      htmlFor="new-article-text-textarea"
-                      className="text-xs font-bold text-slate-700 dark:text-slate-300"
-                    >
-                      3. Nội dung văn bản đoạn văn (English Text Content):
-                    </label>
-                    <textarea
-                      id="new-article-text-textarea"
-                      rows={3}
-                      required
-                      className="w-full p-3.5 text-xs font-medium rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all"
-                      placeholder="Today is a beautiful day. I really love learning English with AI..."
-                      value={newText}
-                      onChange={(e) => setNewText(e.target.value)}
-                    />
-                  </div>
+                      <div className="space-y-1">
+                        <label
+                          htmlFor="new-article-text-textarea"
+                          className="text-xs font-bold text-slate-700 dark:text-slate-300"
+                        >
+                          3. Nội dung văn bản đoạn văn (English Text Content):
+                        </label>
+                        <textarea
+                          id="new-article-text-textarea"
+                          rows={3}
+                          required
+                          className="w-full p-3.5 text-xs font-medium rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all"
+                          placeholder="Today is a beautiful day. I really love learning English with AI..."
+                          value={newText}
+                          onChange={(e) => setNewText(e.target.value)}
+                        />
+                      </div>
 
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <select
-                        aria-label="Chọn Accent"
-                        value={newAccent}
-                        onChange={(e) => setNewAccent(e.target.value)}
-                        className="h-8 px-3 text-xs font-semibold rounded-md bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white"
-                      >
-                        <option value="en-US">US Accent</option>
-                        <option value="en-UK">UK Accent</option>
-                        <option value="en-AU">AU Accent</option>
-                      </select>
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <select
+                            aria-label="Chọn Accent"
+                            value={newAccent}
+                            onChange={(e) => setNewAccent(e.target.value)}
+                            className="h-8 px-3 text-xs font-semibold rounded-md bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white"
+                          >
+                            <option value="en-US">US Accent</option>
+                            <option value="en-UK">UK Accent</option>
+                            <option value="en-AU">AU Accent</option>
+                          </select>
 
-                      <select
-                        aria-label="Chọn Trình độ Level"
-                        value={newLevel}
-                        onChange={(e) => setNewLevel(e.target.value)}
-                        className="h-8 px-3 text-xs font-semibold rounded-md bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white"
-                      >
-                        <option value="A1">Level A1</option>
-                        <option value="A2">Level A2</option>
-                        <option value="B1">Level B1</option>
-                        <option value="B2">Level B2</option>
-                        <option value="C1">Level C1</option>
-                      </select>
-                    </div>
+                          <select
+                            aria-label="Chọn Trình độ Level"
+                            value={newLevel}
+                            onChange={(e) => setNewLevel(e.target.value)}
+                            className="h-8 px-3 text-xs font-semibold rounded-md bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white"
+                          >
+                            <option value="A1">Level A1</option>
+                            <option value="A2">Level A2</option>
+                            <option value="B1">Level B1</option>
+                            <option value="B2">Level B2</option>
+                            <option value="C1">Level C1</option>
+                          </select>
+                        </div>
 
-                    <Button
-                      variant="primary"
-                      type="submit"
-                      className="h-9 px-5 text-xs font-bold rounded-lg bg-blue-600 hover:bg-blue-700 text-white shadow-xs active:scale-95 transition-transform cursor-pointer"
-                    >
-                      🚀 TẠO BÀI NGHE AI NGAY
-                    </Button>
-                  </div>
+                        <Button
+                          variant="primary"
+                          type="submit"
+                          disabled={isCreatingLesson}
+                          className="h-9 px-5 text-xs font-bold rounded-lg bg-blue-600 hover:bg-blue-700 text-white shadow-xs active:scale-95 transition-transform cursor-pointer"
+                        >
+                          {isCreatingLesson ? "⏳ Đang tạo..." : "🚀 TẠO BÀI NGHE AI NGAY"}
+                        </Button>
+                      </div>
+                    </>
+                  )}
                 </motion.form>
               )}
             </AnimatePresence>
@@ -1007,7 +1268,29 @@ function ListeningPageContent() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
-                {displayedBasicLessons.map((lesson) => {
+                {isShufflingBasic ? (
+                  Array.from({ length: 8 }, (_, i) => (
+                    <div
+                      key={i}
+                      className="p-3 sm:p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-row sm:flex-col gap-3 sm:gap-0 select-none"
+                    >
+                      <div className="relative w-[47%] aspect-[16/10] sm:w-full sm:aspect-[16/10] rounded-xl overflow-hidden shrink-0">
+                        <ShimmerBox className="w-full h-full rounded-xl" />
+                      </div>
+                      <div className="py-0.5 sm:py-0 sm:mt-3 space-y-2 flex-1 flex flex-col justify-between min-w-0">
+                        <div className="space-y-1.5">
+                          <ShimmerBox className="h-4 w-full rounded" />
+                          <ShimmerBox className="h-4 w-4/5 rounded" />
+                        </div>
+                        <div className="flex items-center justify-between pt-1 sm:pt-2 sm:border-t border-slate-100 dark:border-slate-800">
+                          <ShimmerBox className="h-3.5 w-16 rounded" />
+                          <ShimmerBox className="h-5 w-14 rounded-lg" />
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  displayedBasicLessons.map((lesson) => {
                   const isSelected = lesson.id === selectedLessonId;
                   const isCompleted = completedLessonIds.includes(lesson.id);
 
@@ -1017,44 +1300,44 @@ function ListeningPageContent() {
                       whileTap={{ scale: 0.98 }}
                       key={lesson.id}
                       onClick={() => handleSelectLesson(lesson.id)}
-                      className={`p-2.5 sm:p-3 rounded-xl border transition-all cursor-pointer relative overflow-hidden flex flex-row sm:flex-col gap-3 sm:gap-0 group ${
+                      className={`p-3 sm:p-3.5 rounded-2xl border transition-all cursor-pointer relative overflow-hidden flex flex-row sm:flex-col gap-3 sm:gap-0 group ${
                         isSelected
-                          ? "bg-white dark:bg-slate-900 border-blue-500 ring-2 ring-blue-500/20 shadow-md"
-                          : "bg-white dark:bg-slate-900 border-slate-200/90 dark:border-slate-800 hover:border-blue-500 hover:shadow-md shadow-2xs"
+                          ? "bg-white dark:bg-slate-900 border-[#0059bb] ring-2 ring-[#0059bb]/20 shadow-md"
+                          : "bg-white dark:bg-slate-900 border-slate-200/90 dark:border-slate-800 hover:border-[#0059bb]/70 hover:shadow-md shadow-2xs"
                       }`}
                     >
-                      <div className="relative w-[47%] aspect-[16/10] sm:w-full sm:aspect-[16/10] rounded-lg overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800 border border-slate-200/50 dark:border-slate-700/50">
+                      <div className="relative w-[47%] aspect-[16/10] sm:w-full sm:aspect-[16/10] rounded-xl overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800 border border-slate-200/50 dark:border-slate-700/50">
                         <LessonCoverImage lesson={lesson} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" showBadge={false} />
 
-                        <span className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 px-1.5 sm:px-2.5 py-0.5 rounded sm:rounded-md text-[9.5px] sm:text-[10px] font-mono font-bold bg-slate-900/80 text-white backdrop-blur-xs z-20 shadow-2xs border border-white/10">
-                          {getLevelLabel(lesson.level)}
+                        <span className="absolute bottom-2 left-2 px-2 sm:px-2.5 py-0.5 rounded-md text-[9.5px] sm:text-[10px] font-mono font-bold bg-slate-900/85 text-white backdrop-blur-xs z-20 shadow-2xs border border-white/15">
+                          {formatLevelBadge(lesson.level)}
                         </span>
 
                         {isCompleted && (
-                          <span className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 px-1.5 sm:px-2.5 py-0.5 rounded sm:rounded-md text-[9.5px] sm:text-[10px] font-bold bg-emerald-600 text-white flex items-center gap-0.5 sm:gap-1 shadow-2xs">
+                          <span className="absolute top-2 right-2 px-2 sm:px-2.5 py-0.5 rounded-md text-[9.5px] sm:text-[10px] font-bold bg-emerald-600/90 text-white flex items-center gap-0.5 sm:gap-1 shadow-2xs backdrop-blur-xs z-20 border border-emerald-400/20">
                             <Check className="w-3 h-3 stroke-[3]" /> <span className="hidden xs:inline sm:inline">Đã học</span>
                           </span>
                         )}
 
                         {isSelected && (
-                          <span className="absolute bottom-2 right-2 px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-blue-600 text-white hidden sm:flex items-center gap-1 shadow-2xs">
+                          <span className="absolute top-2 left-2 px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-[#0059bb] text-white hidden sm:flex items-center gap-1 shadow-2xs z-20">
                             <Play className="w-3 h-3 fill-white" /> Đang chọn
                           </span>
                         )}
                       </div>
 
-                      <div className="py-0.5 sm:py-0 sm:mt-2.5 space-y-1.5 flex-1 flex flex-col justify-between min-w-0">
+                      <div className="py-0.5 sm:py-0 sm:mt-3 space-y-1.5 flex-1 flex flex-col justify-between min-w-0">
                         <div>
                           {lesson.category && (
-                            <span className="text-[10.5px] font-extrabold uppercase tracking-wider text-blue-600 dark:text-sky-400 block truncate mb-1 sm:hidden">
+                            <span className="text-[10.5px] font-extrabold uppercase tracking-wider text-[#0059bb] dark:text-sky-400 block truncate mb-1 sm:hidden">
                               {lesson.category}
                             </span>
                           )}
                           <h3
                             className={`text-[14.5px] xs:text-[15.5px] sm:text-[13px] font-bold sm:font-semibold font-sans line-clamp-2 leading-snug transition-colors ${
                               isSelected
-                                ? "text-blue-600 dark:text-sky-400"
-                                : "text-slate-900 dark:text-white group-hover:text-blue-600"
+                                ? "text-[#0059bb] dark:text-sky-400"
+                                : "text-slate-900 dark:text-white group-hover:text-[#0059bb] dark:group-hover:text-sky-400"
                             }`}
                           >
                             {lesson.title}
@@ -1063,7 +1346,7 @@ function ListeningPageContent() {
 
                         <div className="flex items-center justify-between pt-1 sm:pt-2 sm:border-t border-slate-100 dark:border-slate-800">
                           <span className="flex items-center gap-1.5 font-bold font-mono tabular-nums text-xs xs:text-[13px] sm:text-[11px] text-slate-700 dark:text-slate-200">
-                            <Clock className="w-4 h-4 text-blue-600 dark:text-sky-400 stroke-[2.5] shrink-0" />{" "}
+                            <Clock className="w-4 h-4 text-[#0059bb] dark:text-sky-400 stroke-[2.5] shrink-0" />{" "}
                             {lesson.duration || "5 min"}
                           </span>
                           <span className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 font-bold text-xs xs:text-[12.5px] sm:text-[11px] font-mono tabular-nums border border-slate-200/80 dark:border-slate-700/80 shadow-2xs">
@@ -1073,7 +1356,8 @@ function ListeningPageContent() {
                       </div>
                     </motion.div>
                   );
-                })}
+                })
+                )}
               </div>
             </div>
 
@@ -1100,7 +1384,29 @@ function ListeningPageContent() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
-                {displayedAdvancedLessons.map((lesson) => {
+                {isShufflingAdvanced ? (
+                  Array.from({ length: 8 }, (_, i) => (
+                    <div
+                      key={i}
+                      className="p-3 sm:p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-row sm:flex-col gap-3 sm:gap-0 select-none"
+                    >
+                      <div className="relative w-[47%] aspect-[16/10] sm:w-full sm:aspect-[16/10] rounded-xl overflow-hidden shrink-0">
+                        <ShimmerBox className="w-full h-full rounded-xl" />
+                      </div>
+                      <div className="py-0.5 sm:py-0 sm:mt-3 space-y-2 flex-1 flex flex-col justify-between min-w-0">
+                        <div className="space-y-1.5">
+                          <ShimmerBox className="h-4 w-full rounded" />
+                          <ShimmerBox className="h-4 w-4/5 rounded" />
+                        </div>
+                        <div className="flex items-center justify-between pt-1 sm:pt-2 sm:border-t border-slate-100 dark:border-slate-800">
+                          <ShimmerBox className="h-3.5 w-16 rounded" />
+                          <ShimmerBox className="h-5 w-14 rounded-lg" />
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  displayedAdvancedLessons.map((lesson) => {
                   const isSelected = lesson.id === selectedLessonId;
                   const isCompleted = completedLessonIds.includes(lesson.id);
 
@@ -1110,33 +1416,33 @@ function ListeningPageContent() {
                       whileTap={{ scale: 0.98 }}
                       key={lesson.id}
                       onClick={() => handleSelectLesson(lesson.id)}
-                      className={`p-2.5 sm:p-3 rounded-xl border transition-all cursor-pointer relative overflow-hidden flex flex-row sm:flex-col gap-3 sm:gap-0 group ${
+                      className={`p-3 sm:p-3.5 rounded-2xl border transition-all cursor-pointer relative overflow-hidden flex flex-row sm:flex-col gap-3 sm:gap-0 group ${
                         isSelected
-                          ? "bg-white dark:bg-slate-900 border-blue-500 ring-2 ring-blue-500/20 shadow-md"
-                          : "bg-white dark:bg-slate-900 border-slate-200/90 dark:border-slate-800 hover:border-purple-500 hover:shadow-md shadow-2xs"
+                          ? "bg-white dark:bg-slate-900 border-purple-500 ring-2 ring-purple-500/20 shadow-md"
+                          : "bg-white dark:bg-slate-900 border-slate-200/90 dark:border-slate-800 hover:border-purple-500/70 hover:shadow-md shadow-2xs"
                       }`}
                     >
-                      <div className="relative w-[47%] aspect-[16/10] sm:w-full sm:aspect-[16/10] rounded-lg overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800 border border-slate-200/50 dark:border-slate-700/50">
+                      <div className="relative w-[47%] aspect-[16/10] sm:w-full sm:aspect-[16/10] rounded-xl overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800 border border-slate-200/50 dark:border-slate-700/50">
                         <LessonCoverImage lesson={lesson} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" showBadge={false} />
 
-                        <span className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 px-1.5 sm:px-2.5 py-0.5 rounded sm:rounded-md text-[9.5px] sm:text-[10px] font-mono font-bold bg-slate-900/80 text-white backdrop-blur-xs z-20 shadow-2xs border border-white/10">
-                          {getLevelLabel(lesson.level)}
+                        <span className="absolute bottom-2 left-2 px-2 sm:px-2.5 py-0.5 rounded-md text-[9.5px] sm:text-[10px] font-mono font-bold bg-slate-900/85 text-white backdrop-blur-xs z-20 shadow-2xs border border-white/15">
+                          {formatLevelBadge(lesson.level)}
                         </span>
 
                         {isCompleted && (
-                          <span className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 px-1.5 sm:px-2.5 py-0.5 rounded sm:rounded-md text-[9.5px] sm:text-[10px] font-bold bg-emerald-600 text-white flex items-center gap-0.5 sm:gap-1 shadow-2xs">
+                          <span className="absolute top-2 right-2 px-2 sm:px-2.5 py-0.5 rounded-md text-[9.5px] sm:text-[10px] font-bold bg-emerald-600/90 text-white flex items-center gap-0.5 sm:gap-1 shadow-2xs backdrop-blur-xs z-20 border border-emerald-400/20">
                             <Check className="w-3 h-3 stroke-[3]" /> <span className="hidden xs:inline sm:inline">Đã học</span>
                           </span>
                         )}
 
                         {isSelected && (
-                          <span className="absolute bottom-2 right-2 px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-blue-600 text-white hidden sm:flex items-center gap-1 shadow-2xs">
+                          <span className="absolute top-2 left-2 px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-purple-600 text-white hidden sm:flex items-center gap-1 shadow-2xs z-20">
                             <Play className="w-3 h-3 fill-white" /> Đang chọn
                           </span>
                         )}
                       </div>
 
-                      <div className="py-0.5 sm:py-0 sm:mt-2.5 space-y-1.5 flex-1 flex flex-col justify-between min-w-0">
+                      <div className="py-0.5 sm:py-0 sm:mt-3 space-y-1.5 flex-1 flex flex-col justify-between min-w-0">
                         <div>
                           {lesson.category && (
                             <span className="text-[10.5px] font-extrabold uppercase tracking-wider text-purple-600 dark:text-purple-400 block truncate mb-1 sm:hidden">
@@ -1146,7 +1452,7 @@ function ListeningPageContent() {
                           <h3
                             className={`text-[14.5px] xs:text-[15.5px] sm:text-[13px] font-bold sm:font-semibold font-sans line-clamp-2 leading-snug transition-colors ${
                               isSelected
-                                ? "text-blue-600 dark:text-sky-400"
+                                ? "text-purple-600 dark:text-purple-400"
                                 : "text-slate-900 dark:text-white group-hover:text-purple-600"
                             }`}
                           >
@@ -1166,7 +1472,8 @@ function ListeningPageContent() {
                       </div>
                     </motion.div>
                   );
-                })}
+                })
+                )}
               </div>
             </div>
           </div>
@@ -1177,118 +1484,129 @@ function ListeningPageContent() {
       {selectedLessonId && currentLesson && (
         <>
           {isLessonFinished ? (
-            /* UNIFIED 1-BLOCK LESSON COMPLETION SUMMARY SCREEN */
+            /* GAMIFICATION BENTO HUB - LESSON COMPLETION SCREEN */
             <motion.div
-              initial={{ opacity: 0, scale: 0.98, y: 8 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              className="w-full p-5 sm:p-8 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xl space-y-6 font-sans"
+              initial={{ opacity: 0, y: 12, scale: 0.99 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.35, ease: "easeOut" }}
+              className="w-full min-h-[calc(100vh-60px)] flex flex-col justify-between p-4 sm:p-6 lg:p-8 space-y-6 max-w-6xl mx-auto font-sans"
             >
-              {/* 1. Top Header: Back Button, Title, Timer */}
-              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4 gap-3 flex-wrap">
+              {/* 1. Top Navigation Bar */}
+              <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800 pb-4 gap-3 flex-wrap">
                 <div className="flex items-center gap-3 min-w-0">
                   <button
                     onClick={handleBackToListing}
-                    className="px-3.5 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-1.5 cursor-pointer transition-colors shadow-2xs shrink-0"
+                    className="px-3.5 py-2 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200/90 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5 cursor-pointer transition-colors shadow-2xs shrink-0 active:scale-95"
                   >
                     <ArrowLeft className="w-4 h-4" />
                     <span>Quay lại</span>
                   </button>
-                  <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display truncate">
+                  <span className="px-2.5 py-1 rounded-md text-[11px] font-mono font-bold bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 border border-blue-200/70 dark:border-blue-800/60 shadow-2xs">
+                    {formatLevelBadge(currentLesson.level)}
+                  </span>
+                  <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display truncate max-w-xl">
                     {currentLesson.title}
                   </h2>
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <span className="px-3 py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-xs font-bold flex items-center gap-1.5 shadow-2xs">
+                  <span className="px-3.5 py-1.5 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-xs font-bold font-mono flex items-center gap-1.5 shadow-2xs">
                     <Clock className="w-3.5 h-3.5" />
                     <span>{formatElapsedTime(elapsedTime)}</span>
                   </span>
                 </div>
               </div>
 
-              {/* 2. Celebration Header Card */}
-              <div className="p-5 sm:p-6 rounded-xl bg-gradient-to-r from-emerald-50 to-teal-50/60 dark:from-emerald-950/30 dark:to-teal-950/20 border border-emerald-200/70 dark:border-emerald-800/40 flex items-center justify-between flex-wrap gap-4 shadow-sm">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-emerald-600 text-white flex items-center justify-center shadow-xs shrink-0">
-                    <Trophy className="w-6 h-6" />
+              {/* 2. Center-Stage Hero Celebration Card */}
+              <div className="p-6 sm:p-8 lg:p-10 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xl flex flex-col items-center text-center relative overflow-hidden">
+                <div className="absolute top-0 inset-x-0 h-36 bg-gradient-to-b from-amber-500/10 via-emerald-500/5 to-transparent pointer-events-none" />
+
+                {/* Trophy with Radiant Aura */}
+                <div className="relative mb-3.5 flex items-center justify-center">
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-gradient-to-br from-amber-400 to-amber-500 text-white flex items-center justify-center shadow-lg shadow-amber-500/30 ring-8 ring-amber-500/10">
+                    <Trophy className="w-10 h-10 sm:w-12 sm:h-12 stroke-[2.2]" />
                   </div>
-                  <div>
-                    <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display">
-                      🎉 Chúc Mừng! Bạn Đã Hoàn Thành Toàn Bộ Bài Nghe!
-                    </h3>
-                    <div className="flex items-center gap-3 mt-1 flex-wrap text-xs font-medium text-slate-600 dark:text-slate-300">
-                      <span>✓ Đã chép đúng <strong>{totalSentencesCount}/{totalSentencesCount}</strong> câu</span>
-                      <span>•</span>
-                      <span className="text-amber-600 dark:text-amber-400 font-bold">⭐ +50 XP</span>
-                      <span>•</span>
-                      <span className="text-emerald-600 dark:text-emerald-400 font-bold">🎯 Độ chính xác: 100%</span>
-                    </div>
+                  <span className="absolute -top-1 -right-1 text-2xl select-none">✨</span>
+                </div>
+
+                {/* Celebration Title & Description */}
+                <h3 className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 dark:text-white font-display tracking-tight">
+                  🎉 Chúc Mừng! Bạn Đã Hoàn Thành Bài Nghe!
+                </h3>
+                <p className="text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-400 mt-1 max-w-md">
+                  Bạn đã nghe và gõ chính xác toàn bộ các câu trong bài học này.
+                </p>
+
+                {/* 4 Bento Metric Cards (Rule 8 Wadhah Aloui) */}
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 w-full max-w-3xl mt-6">
+                  {/* Metric 1: XP Reward */}
+                  <div className="p-4 rounded-2xl bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200/70 dark:border-amber-800/40 flex flex-col items-center justify-center shadow-2xs">
+                    <span className="text-2xl sm:text-3xl font-black font-mono text-amber-500 dark:text-amber-400 tabular-nums">
+                      +50 XP
+                    </span>
+                    <span className="text-[11.5px] font-bold text-amber-700 dark:text-amber-300 flex items-center gap-1 mt-1">
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>Thưởng kinh nghiệm</span>
+                    </span>
+                  </div>
+
+                  {/* Metric 2: Accuracy */}
+                  <div className="p-4 rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200/70 dark:border-emerald-800/40 flex flex-col items-center justify-center shadow-2xs">
+                    <span className="text-2xl sm:text-3xl font-black font-mono text-emerald-600 dark:text-emerald-400 tabular-nums">
+                      100%
+                    </span>
+                    <span className="text-[11.5px] font-bold text-emerald-700 dark:text-emerald-300 flex items-center gap-1 mt-1">
+                      <Target className="w-3.5 h-3.5" />
+                      <span>Độ chính xác</span>
+                    </span>
+                  </div>
+
+                  {/* Metric 3: Sentences Count */}
+                  <div className="p-4 rounded-2xl bg-blue-50/70 dark:bg-blue-950/30 border border-blue-200/70 dark:border-blue-800/40 flex flex-col items-center justify-center shadow-2xs">
+                    <span className="text-2xl sm:text-3xl font-black font-mono text-[#0059bb] dark:text-sky-400 tabular-nums">
+                      {totalSentencesCount}/{totalSentencesCount}
+                    </span>
+                    <span className="text-[11.5px] font-bold text-blue-700 dark:text-sky-300 flex items-center gap-1 mt-1">
+                      <CheckCircle className="w-3.5 h-3.5" />
+                      <span>Câu chép đúng</span>
+                    </span>
+                  </div>
+
+                  {/* Metric 4: Total Elapsed Time */}
+                  <div className="p-4 rounded-2xl bg-slate-100/70 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 flex flex-col items-center justify-center shadow-2xs">
+                    <span className="text-2xl sm:text-3xl font-black font-mono text-slate-800 dark:text-slate-100 tabular-nums">
+                      {formatElapsedTime(elapsedTime)}
+                    </span>
+                    <span className="text-[11.5px] font-bold text-slate-600 dark:text-slate-400 flex items-center gap-1 mt-1">
+                      <Clock className="w-3.5 h-3.5" />
+                      <span>Thời gian hoàn thành</span>
+                    </span>
                   </div>
                 </div>
-              </div>
 
-              {/* 3. Full Transcript Review Section */}
-              <div className="space-y-3.5">
-                <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5">
-                  <span className="text-xs font-bold uppercase text-slate-800 dark:text-slate-200 font-display flex items-center gap-1.5">
-                    <BookOpen className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" /> Toàn Bộ Bản Ghi Bài Học (Full Transcript)
-                  </span>
+                {/* Action Buttons (Strict Rule 18 & 20 Hierarchy) */}
+                <div className="flex items-center justify-center gap-3 pt-6 flex-wrap w-full">
                   <button
                     type="button"
-                    onClick={() => setRevealedFullParagraphTranslation((prev) => !prev)}
-                    className="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1.5 cursor-pointer transition-colors"
+                    onClick={() => {
+                      setIsLessonFinished(false);
+                      setCurrentSentenceIndex(0);
+                      setSentencePlaybackTime(0);
+                      setCompletedSentences({});
+                    }}
+                    className="px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-xs sm:text-sm shadow-2xs flex items-center gap-1.5 cursor-pointer transition-colors active:scale-95"
                   >
-                    <Eye className="w-3.5 h-3.5" />
-                    <span>{revealedFullParagraphTranslation ? "Ẩn dịch nghĩa" : "Xem dịch nghĩa toàn bài"}</span>
+                    <RotateCcw className="w-3.5 h-3.5" />
+                    <span>Luyện lại bài này</span>
                   </button>
-                </div>
 
-                <div className="space-y-2.5 max-h-[480px] overflow-y-auto pr-1">
-                  {currentLesson.transcript?.map((sentence: any, sIdx: number) => (
-                    <div
-                      key={sIdx}
-                      className="p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-800 space-y-1.5 transition-all hover:border-slate-400 dark:hover:border-slate-700 shadow-2xs"
-                    >
-                      <div className="flex items-start justify-between gap-3">
-                        <p className="text-xs sm:text-sm font-semibold text-slate-900 dark:text-white font-sans leading-relaxed">
-                          <span className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 mr-2 font-mono font-bold text-xs border border-slate-200/80 dark:border-slate-700">#{sIdx + 1}</span>
-                          {sentence.text}
-                        </p>
-                        <button
-                          type="button"
-                          onClick={() => speakLessonText(sentence.text, { rate: 1.0, lessonId: currentLesson.id, speakerIndex: sIdx % 2, accent: currentLesson.accent })}
-                          className="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 cursor-pointer shrink-0 transition-colors shadow-2xs"
-                          title="Nghe lại câu này"
-                        >
-                          <Volume2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                      {revealedFullParagraphTranslation && (
-                        <p className="text-xs font-medium text-slate-600 dark:text-slate-400 not-italic pl-6 border-l-2 border-slate-300 dark:border-slate-700">
-                          {sentence.translation || sentence.vietnamese}
-                        </p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
+                  <Link href={`/study/shadowing?lessonId=${currentLesson.id}`}>
+                    <button className="px-5 py-2.5 rounded-xl bg-blue-50 dark:bg-blue-950/60 hover:bg-blue-100 dark:hover:bg-blue-900/60 text-[#0059bb] dark:text-sky-400 border border-blue-200/80 dark:border-blue-800/60 font-bold text-xs sm:text-sm shadow-2xs flex items-center gap-1.5 cursor-pointer transition-all active:scale-95">
+                      <Mic className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />
+                      <span>Luyện Shadowing AI</span>
+                    </button>
+                  </Link>
 
-              {/* 4. Bottom Action Buttons */}
-              <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800 flex-wrap gap-3">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsLessonFinished(false);
-                    setCurrentSentenceIndex(0);
-                    setSentencePlaybackTime(0);
-                  }}
-                  className="px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs shadow-xs flex items-center gap-1.5 cursor-pointer transition-colors"
-                >
-                  <RotateCcw className="w-3.5 h-3.5" />
-                  <span>Luyện lại bài này</span>
-                </button>
-
-                <div className="flex items-center gap-2.5 flex-wrap">
                   {currentLesson.quizzes && currentLesson.quizzes.length > 0 && (
                     <button
                       type="button"
@@ -1296,10 +1614,10 @@ function ListeningPageContent() {
                         setIsLessonFinished(false);
                         setRightSidebarTab("quiz");
                       }}
-                      className="px-4 py-2.5 rounded-lg bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 hover:bg-purple-100 font-bold text-xs border border-purple-300 dark:border-purple-800/40 shadow-xs flex items-center gap-1.5 cursor-pointer"
+                      className="px-5 py-2.5 rounded-xl bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800/50 hover:bg-purple-100 font-bold text-xs sm:text-sm shadow-2xs flex items-center gap-1.5 cursor-pointer transition-all active:scale-95"
                     >
-                      <Brain className="w-3.5 h-3.5 text-purple-600" />
-                      <span>Làm Quiz kiểm tra ({currentLesson.quizzes.length} câu)</span>
+                      <Brain className="w-4 h-4 text-purple-600" />
+                      <span>Làm Quiz ({currentLesson.quizzes.length} câu)</span>
                     </button>
                   )}
 
@@ -1312,25 +1630,86 @@ function ListeningPageContent() {
                         handleSelectLesson(nextId);
                         setIsLessonFinished(false);
                         setCurrentSentenceIndex(0);
+                        setCompletedSentences({});
                         addToast({
                           type: "info",
                           title: `Đã chuyển sang Bài học #${nextIdx + 1}! 🎧`,
                         });
                       }}
-                      className="px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs flex items-center gap-1.5 cursor-pointer transition-all active:scale-98"
+                      className="px-6 py-2.5 rounded-xl bg-[#0059bb] hover:bg-blue-700 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg flex items-center gap-2 cursor-pointer transition-all active:scale-95"
                     >
                       <span>Bài học tiếp theo</span>
-                  <ChevronRight className="w-3.5 h-3.5" />
+                      <ArrowRight className="w-4 h-4 stroke-[2.5]" />
                     </button>
                   )}
+                </div>
+              </div>
 
-                  <Link href={`/study/shadowing?lessonId=${currentLesson.id}`}>
-                    <button className="px-4 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-xs flex items-center gap-1.5 cursor-pointer transition-all">
-                      <Mic className="w-3.5 h-3.5 text-white" />
-                      <span>Luyện Shadowing AI</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                  </Link>
+              {/* 3. Bottom Section: Next Recommended Lessons Grid */}
+              <div className="space-y-3 pt-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
+                    <Sparkles className="w-4 h-4 text-amber-500" />
+                    <span>Bài học đề xuất tiếp theo cho bạn:</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleBackToListing}
+                    className="text-xs font-semibold text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white flex items-center gap-1 transition-colors cursor-pointer"
+                  >
+                    <span>Xem tất cả danh mục</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4 w-full">
+                  {lessonsList
+                    .filter((l) => l.id !== currentLesson.id)
+                    .slice(0, 3)
+                    .map((recLesson) => (
+                      <motion.div
+                        key={recLesson.id}
+                        whileHover={{ y: -2 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => {
+                          handleSelectLesson(recLesson.id);
+                          setIsLessonFinished(false);
+                          setCurrentSentenceIndex(0);
+                          setCompletedSentences({});
+                        }}
+                        className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 hover:border-[#0059bb]/70 dark:hover:border-sky-500/70 transition-all cursor-pointer shadow-2xs hover:shadow-md group flex gap-3.5 items-center relative overflow-hidden"
+                      >
+                        <div className="w-[96px] h-[70px] shrink-0 rounded-xl overflow-hidden relative bg-slate-100 dark:bg-slate-800 border border-slate-200/70 dark:border-slate-700/60 shadow-2xs">
+                          <LessonCoverImage
+                            lesson={recLesson}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            showBadge={false}
+                          />
+                          <span className="absolute bottom-1 left-1 px-1.5 py-0.5 rounded text-[9.5px] font-mono font-bold bg-slate-900/90 text-white backdrop-blur-xs z-10 shadow-2xs border border-white/15">
+                            {formatLevelBadge(recLesson.level)}
+                          </span>
+                        </div>
+
+                        <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5 space-y-1">
+                          <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#0059bb] dark:text-sky-400 truncate">
+                            {recLesson.category || "Giao tiếp"}
+                          </span>
+                          <h4 className="text-xs sm:text-[13px] font-bold text-slate-900 dark:text-white group-hover:text-[#0059bb] dark:group-hover:text-sky-400 transition-colors line-clamp-1 leading-snug">
+                            {recLesson.title}
+                          </h4>
+                          <div className="flex items-center justify-between pt-1 border-t border-slate-100 dark:border-slate-800 text-[11px] font-mono text-slate-500 dark:text-slate-400">
+                            <span className="flex items-center gap-1">
+                              <Clock className="w-3 h-3 text-slate-400" />
+                              <span>{recLesson.duration || "3:00"}</span>
+                            </span>
+                            <div className="px-2.5 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 font-bold text-[11px] flex items-center gap-1 group-hover:bg-[#0059bb] group-hover:text-white transition-all shadow-2xs">
+                              <span>Học</span>
+                              <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
                 </div>
               </div>
             </motion.div>
@@ -1343,9 +1722,18 @@ function ListeningPageContent() {
               {/* Top Unified Studio Navigation Bar (Border-Bottom Full-Width) */}
               <StudioTopHeader
                 title={currentLesson.title}
+                level={currentLesson.level}
                 currentMode="listening"
                 lessonQueryId={rawIdParam || selectedLessonId || "36"}
                 isBookmarked={isCurrentSentenceBookmarked}
+                accent={currentAccent}
+                onAccentChange={(acc) => {
+                  setCurrentAccent(acc);
+                  addToast({
+                    type: "info",
+                    title: `Đã đổi giọng sang ${acc === "en-US" ? "Mỹ (US)" : acc === "en-GB" ? "Anh (UK)" : "Úc (AU)"}`,
+                  });
+                }}
                 onToggleBookmark={handleToggleBookmark}
                 onBack={handleBackToListing}
                 rightExtraActions={
@@ -1422,6 +1810,8 @@ function ListeningPageContent() {
                                     duration={sentenceDuration}
                                     isPlaying={playingSentenceText === currentSentence.text}
                                     playbackSpeed={playbackSpeed}
+                                    volume={currentVolume}
+                                    onVolumeChange={(vol) => setCurrentVolume(vol)}
                                     onTogglePlay={() => {
                                       if (playingSentenceText === currentSentence.text) {
                                         stopTTS();
@@ -1432,7 +1822,8 @@ function ListeningPageContent() {
                                           rate: playbackSpeed,
                                           lessonId: currentLesson.id,
                                           speakerIndex: currentSentenceIndex % 2,
-                                          accent: currentLesson.accent,
+                                          accent: currentAccent || currentLesson.accent,
+                                          volume: currentVolume,
                                           onEnd: () => {
                                             setPlayingSentenceText(null);
                                             setSentencePlaybackTime(0);
@@ -1511,7 +1902,8 @@ function ListeningPageContent() {
                                           rate: spd,
                                           lessonId: currentLesson.id,
                                           speakerIndex: currentSentenceIndex % 2,
-                                          accent: currentLesson.accent,
+                                          accent: currentAccent || currentLesson.accent,
+                                          volume: currentVolume,
                                           onEnd: () => {
                                             setPlayingSentenceText(null);
                                             setSentencePlaybackTime(0);
@@ -1704,21 +2096,56 @@ function ListeningPageContent() {
                                     const isCompleted =
                                       completedArr.length >= totalSentencesCount;
 
-                                    fetch("/api/listening/progress", {
-                                      method: "POST",
-                                      headers: { "Content-Type": "application/json" },
-                                      body: JSON.stringify({
-                                        userId: user?.id || "guest_user",
-                                        lessonId: currentLesson.id,
-                                        status: isCompleted ? "COMPLETED" : "IN_PROGRESS",
-                                        completedSentences: completedArr,
-                                        bookmarkedSentences: savedSentenceKeys,
-                                        timeSpent: 5,
-                                        xpEarned: 20,
-                                      }),
-                                    }).catch((e) =>
-                                      console.error("Error saving sentence progress to DB:", e)
-                                    );
+                                    if (isCompleted) {
+                                      // 1. Lưu ghi nhận hoàn thành vào Profile & DailySkill
+                                      fetch("/api/listening/progress", {
+                                        method: "POST",
+                                        headers: { "Content-Type": "application/json" },
+                                        body: JSON.stringify({
+                                          userId: user?.id || "guest_user",
+                                          lessonId: currentLesson.id,
+                                          status: "COMPLETED",
+                                          completedSentences: completedArr,
+                                          bookmarkedSentences: savedSentenceKeys,
+                                          timeSpent: 5,
+                                          xpEarned: 50,
+                                        }),
+                                      })
+                                        .then(() => {
+                                          // 2. Tự động xóa bản ghi tiến độ trong CSDL Neon PostgreSQL theo yêu cầu
+                                          fetch(
+                                            `/api/listening/progress?userId=${user?.id || "guest_user"}&lessonId=${currentLesson.id}`,
+                                            { method: "DELETE" }
+                                          ).catch((e) =>
+                                            console.error("Error auto-deleting progress record from DB:", e)
+                                          );
+                                        })
+                                        .catch((e) =>
+                                          console.error("Error saving final progress before delete:", e)
+                                        );
+
+                                      setTimeout(() => {
+                                        stopTTS();
+                                        setPlayingSentenceText(null);
+                                        setIsLessonFinished(true);
+                                      }, 1000);
+                                    } else {
+                                      fetch("/api/listening/progress", {
+                                        method: "POST",
+                                        headers: { "Content-Type": "application/json" },
+                                        body: JSON.stringify({
+                                          userId: user?.id || "guest_user",
+                                          lessonId: currentLesson.id,
+                                          status: "IN_PROGRESS",
+                                          completedSentences: completedArr,
+                                          bookmarkedSentences: savedSentenceKeys,
+                                          timeSpent: 5,
+                                          xpEarned: 20,
+                                        }),
+                                      }).catch((e) =>
+                                        console.error("Error saving sentence progress to DB:", e)
+                                      );
+                                    }
                                   }
 
                                   // Auto-advance if enabled
@@ -1750,6 +2177,8 @@ function ListeningPageContent() {
                     currentIndex={currentSentenceIndex}
                     completedSentences={completedSentences}
                     isPlaying={!!playingSentenceText}
+                    isLoadingSentences={isLoadingLessonDetail}
+                    isLoadingRecommendations={isShufflingRecommendations}
                     onSelectSentence={(idx) => {
                       stopTTS();
                       setPlayingSentenceText(null);
@@ -1766,7 +2195,8 @@ function ListeningPageContent() {
                           rate: playbackSpeed,
                           lessonId: currentLesson.id,
                           speakerIndex: idx % 2,
-                          accent: currentLesson.accent,
+                          accent: currentAccent || currentLesson.accent,
+                          volume: currentVolume,
                           onEnd: () => setPlayingSentenceText(null),
                         });
                       }
@@ -1793,11 +2223,15 @@ function ListeningPageContent() {
                     completedLessonIds={completedLessonIds}
                     onSelectLesson={(lessonId) => handleSelectLesson(String(lessonId))}
                     onShuffleRecommendations={() => {
-                      setLessonsList((prev) => [...prev].sort(() => 0.5 - Math.random()));
-                      addToast({
-                        type: "info",
-                        title: "Đã làm mới danh sách gợi ý bài học! ↺",
-                      });
+                      setIsShufflingRecommendations(true);
+                      setTimeout(() => {
+                        setLessonsList((prev) => [...prev].sort(() => 0.5 - Math.random()));
+                        setIsShufflingRecommendations(false);
+                        addToast({
+                          type: "info",
+                          title: "Đã làm mới danh sách gợi ý bài học! ↺",
+                        });
+                      }, 200);
                     }}
                   />
                 </div>

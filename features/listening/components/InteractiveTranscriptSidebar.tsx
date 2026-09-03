@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 
 import { LessonCoverImage } from "@/shared/components/feedback/LessonCoverImage";
+import { RecommendationCardsSkeleton, TranscriptSentencesSkeleton } from "./LoadingSkeletons";
 
 export interface TranscriptSentence {
   id?: number | string;
@@ -33,7 +34,18 @@ export interface KeyVocabItem {
   ipa?: string;
   meaning?: string;
   example?: string;
-  type?: string;
+}
+
+export function formatLevelBadge(level?: string): string {
+  if (!level) return "B1";
+  const upper = level.trim().toUpperCase();
+  if (upper.includes("INTERMEDIATE") || upper === "B1-B2" || upper === "B1") return "B1";
+  if (upper === "B2") return "B2";
+  if (upper.includes("BEGINNER") || upper.includes("EASY") || upper === "A1-A2" || upper === "A1") return "A1";
+  if (upper === "A2") return "A2";
+  if (upper.includes("ADVANCED") || upper.includes("HARD") || upper === "C1-C2" || upper === "C1") return "C1";
+  if (upper === "C2") return "C2";
+  return level.length > 5 ? level.slice(0, 4) : level;
 }
 
 interface InteractiveTranscriptSidebarProps {
@@ -52,6 +64,8 @@ interface InteractiveTranscriptSidebarProps {
   completedLessonIds?: (string | number)[];
   onSelectLesson?: (lessonId: string | number) => void;
   onShuffleRecommendations?: () => void;
+  isLoadingRecommendations?: boolean;
+  isLoadingSentences?: boolean;
 }
 
 export function InteractiveTranscriptSidebar({
@@ -70,6 +84,8 @@ export function InteractiveTranscriptSidebar({
   completedLessonIds = [],
   onSelectLesson,
   onShuffleRecommendations,
+  isLoadingRecommendations = false,
+  isLoadingSentences = false,
 }: InteractiveTranscriptSidebarProps) {
   const [activeTab, setActiveTab] = useState<"transcript" | "tips">("transcript");
   const [showAllTexts, setShowAllTexts] = useState(false);
@@ -204,9 +220,12 @@ export function InteractiveTranscriptSidebar({
 
           {/* DANH SÁCH CÁC CÂU TRONG BÀI — TƯƠI SÁNG, NỔI BẬT, ICON RÕ NÉT */}
           <div className="flex-1 overflow-y-auto hide-scrollbar space-y-3 px-5 pb-5">
-            {transcript.map((sentence, idx) => {
-              const isCurrent = idx === currentIndex;
-              const isCompleted = !!completedSentences[idx];
+            {isLoadingSentences ? (
+              <TranscriptSentencesSkeleton count={transcript.length || 6} />
+            ) : (
+              transcript.map((sentence, idx) => {
+                const isCurrent = idx === currentIndex;
+                const isCompleted = !!completedSentences[idx];
 
               // 1. THẺ CÂU ĐANG HỌC (isCurrent)
               if (isCurrent) {
@@ -220,8 +239,8 @@ export function InteractiveTranscriptSidebar({
                     animate={{ opacity: 1, scale: 1 }}
                     className={`p-4 sm:p-4.5 rounded-2xl border-2 shadow-xs space-y-2 transition-all select-none ${
                       isCompleted
-                        ? "bg-emerald-50/40 dark:bg-emerald-950/25 border-emerald-500 dark:border-emerald-500/80"
-                        : "bg-blue-50/40 dark:bg-blue-950/25 border-blue-500 dark:border-sky-500/80"
+                        ? "bg-emerald-50/30 dark:bg-emerald-950/20 border-emerald-500 dark:border-emerald-500/80"
+                        : "bg-white dark:bg-slate-900 border-blue-500/80 dark:border-sky-500/70 shadow-xs"
                     }`}
                   >
                     {/* Header: [ (✓ / 🎧) #idx ĐANG HỌC ] bên trái, [ ↺ > ] bên phải */}
@@ -232,7 +251,7 @@ export function InteractiveTranscriptSidebar({
                             <Check className="w-3.5 h-3.5 stroke-[2.5]" />
                           </div>
                         ) : (
-                          <div className="w-6 h-6 rounded-full border-2 border-blue-500 dark:border-sky-400 flex items-center justify-center text-blue-600 dark:text-sky-400 shrink-0 shadow-2xs bg-blue-50 dark:bg-blue-950/50">
+                          <div className="w-6 h-6 rounded-full border-2 border-blue-500 dark:border-sky-400 flex items-center justify-center text-blue-600 dark:text-sky-400 shrink-0 shadow-2xs bg-blue-50/60 dark:bg-blue-950/40">
                             <Headphones className="w-3.5 h-3.5 stroke-[2.2]" />
                           </div>
                         )}
@@ -241,8 +260,8 @@ export function InteractiveTranscriptSidebar({
                         <span
                           className={`text-[14.5px] sm:text-base font-bold ${
                             isCompleted
-                              ? "text-emerald-950 dark:text-emerald-200"
-                              : "text-blue-950 dark:text-sky-200"
+                              ? "text-emerald-700 dark:text-emerald-300"
+                              : "text-slate-900 dark:text-white"
                           }`}
                         >
                           #{idx + 1}
@@ -254,7 +273,7 @@ export function InteractiveTranscriptSidebar({
                             ĐÃ CHÉP ĐÚNG
                           </span>
                         ) : (
-                          <span className="px-2.5 py-0.5 rounded-[5px] bg-blue-600 dark:bg-sky-500 text-white font-extrabold text-[10.5px] tracking-wide uppercase shadow-2xs">
+                          <span className="px-2.5 py-0.5 rounded-[5px] bg-[#0059bb] dark:bg-sky-500 text-white font-extrabold text-[10.5px] tracking-wide uppercase shadow-2xs">
                             ĐANG HỌC
                           </span>
                         )}
@@ -265,7 +284,7 @@ export function InteractiveTranscriptSidebar({
                         className={`flex items-center gap-1.5 ${
                           isCompleted
                             ? "text-emerald-700 dark:text-emerald-300"
-                            : "text-blue-700 dark:text-sky-300"
+                            : "text-slate-400 dark:text-slate-500"
                         }`}
                       >
                         {onReplaySentence && (
@@ -278,7 +297,7 @@ export function InteractiveTranscriptSidebar({
                             className={`p-1.5 rounded-lg hover:scale-110 active:scale-95 transition-all cursor-pointer ${
                               isCompleted
                                 ? "hover:text-emerald-950 dark:hover:text-white hover:bg-emerald-100/60 dark:hover:bg-emerald-950/50"
-                                : "hover:text-blue-950 dark:hover:text-white hover:bg-blue-100/60 dark:hover:bg-blue-950/50"
+                                : "hover:text-blue-600 dark:hover:text-sky-400 hover:bg-slate-100 dark:hover:bg-slate-800"
                             }`}
                             title="Nghe lại câu này"
                           >
@@ -298,9 +317,23 @@ export function InteractiveTranscriptSidebar({
                     </div>
 
                     {/* Nội dung câu tiếng Anh */}
-                    <p className="text-sm sm:text-[14.5px] font-semibold text-slate-900 dark:text-white leading-relaxed pt-0.5">
-                      {sentence.text}
-                    </p>
+                    {isCompleted || showAllTexts ? (
+                      <p className="text-sm sm:text-[14.5px] font-semibold text-slate-900 dark:text-white leading-relaxed pt-0.5">
+                        {sentence.text}
+                      </p>
+                    ) : (
+                      <div className="pt-1 select-none">
+                        <div className="text-slate-300 dark:text-slate-600 text-xs sm:text-[13px] font-mono tracking-widest leading-loose">
+                          {sentence.text
+                            .split(" ")
+                            .map((word, wIdx) => (
+                              <span key={wIdx} className="mr-1.5 inline-block">
+                                {"•".repeat(Math.max(2, Math.min(8, word.length)))}
+                              </span>
+                            ))}
+                        </div>
+                      </div>
+                    )}
                   </motion.div>
                 );
               }
@@ -405,7 +438,8 @@ export function InteractiveTranscriptSidebar({
                   </div>
                 </div>
               );
-            })}
+            })
+            )}
           </div>
         </div>
       )}
@@ -414,9 +448,9 @@ export function InteractiveTranscriptSidebar({
       {activeTab === "tips" && (
         <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
           {/* Header gợi ý bài học */}
-          <div className="flex items-center justify-between px-4 pt-3 pb-2 border-b border-slate-100 dark:border-slate-800 shrink-0">
-            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900 dark:text-white">
-              <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+          <div className="flex items-center justify-between px-4 pt-3 pb-2.5 border-b border-slate-100 dark:border-slate-800 shrink-0">
+            <div className="flex items-center gap-2 text-[13px] font-bold text-slate-900 dark:text-white">
+              <Sparkles className="w-4 h-4 text-amber-500 shrink-0" />
               <span>Bài học đề xuất dành cho bạn:</span>
             </div>
 
@@ -424,18 +458,20 @@ export function InteractiveTranscriptSidebar({
               <button
                 type="button"
                 onClick={onShuffleRecommendations}
-                className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold text-[#0059bb] dark:text-sky-400 bg-blue-50/80 dark:bg-blue-950/40 hover:bg-blue-100 dark:hover:bg-blue-900/60 transition-colors cursor-pointer shadow-2xs active:scale-95"
                 title="Đổi danh sách gợi ý ngẫu nhiên"
               >
-                <RefreshCw className="w-3 h-3" />
+                <RefreshCw className="w-3.5 h-3.5 stroke-[2.5]" />
                 <span>Đổi gợi ý</span>
               </button>
             )}
           </div>
 
           {/* Danh sách thẻ bài học đề xuất dạng Horizontal Media Card chuẩn Rule 10 */}
-          <div className="flex-1 overflow-y-auto hide-scrollbar p-3.5 sm:p-4 space-y-2.5">
-            {recommendedLessons && recommendedLessons.length > 0 ? (
+          <div className="flex-1 overflow-y-auto hide-scrollbar p-3.5 sm:p-4 space-y-3">
+            {isLoadingRecommendations ? (
+              <RecommendationCardsSkeleton count={3} />
+            ) : recommendedLessons && recommendedLessons.length > 0 ? (
               recommendedLessons.map((lesson) => {
                 const isLessonCompleted =
                   completedLessonIds.includes(lesson.id) ||
@@ -447,19 +483,19 @@ export function InteractiveTranscriptSidebar({
                     whileHover={{ y: -2 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => onSelectLesson && onSelectLesson(lesson.id)}
-                    className="p-2.5 sm:p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 hover:border-emerald-500/70 dark:hover:border-emerald-500/60 transition-all cursor-pointer shadow-2xs hover:shadow-xs group select-none flex gap-2.5 sm:gap-3 items-center relative overflow-hidden"
+                    className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 hover:border-[#0059bb]/70 dark:hover:border-sky-500/70 transition-all cursor-pointer shadow-2xs hover:shadow-md group select-none flex gap-3.5 items-center relative overflow-hidden min-h-[96px]"
                   >
-                    {/* 1. Ảnh bìa bài học (LessonCoverImage) kích thước chuẩn tỷ lệ */}
-                    <div className="w-[88px] sm:w-[96px] h-[68px] sm:h-[72px] shrink-0 rounded-lg overflow-hidden relative bg-slate-100 dark:bg-slate-800 border border-slate-200/50 dark:border-slate-800">
+                    {/* 1. Ảnh bìa bài học (LessonCoverImage) kích thước chuẩn tỷ lệ 4:3 */}
+                    <div className="w-[102px] sm:w-[108px] h-[74px] sm:h-[78px] shrink-0 rounded-xl overflow-hidden relative bg-slate-100 dark:bg-slate-800 border border-slate-200/70 dark:border-slate-700/60 shadow-2xs">
                       <LessonCoverImage
                         lesson={lesson}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         showBadge={false}
                       />
 
-                      {/* Huy hiệu Cấp độ góc dưới */}
-                      <span className="absolute bottom-1 left-1 px-1.5 py-0.5 rounded-[4px] text-[9px] font-mono font-bold bg-slate-900/85 text-white backdrop-blur-xs z-20 shadow-2xs border border-white/10">
-                        {lesson.level || "A1 - A2"}
+                      {/* Huy hiệu Cấp độ rút gọn chuẩn CEFR: A1, A2, B1, B2, C1, C2 */}
+                      <span className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-slate-900/90 text-white backdrop-blur-xs z-20 shadow-xs border border-white/15 tracking-wide">
+                        {formatLevelBadge(lesson.level)}
                       </span>
                     </div>
 
@@ -467,44 +503,45 @@ export function InteractiveTranscriptSidebar({
                     <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5 space-y-1.5">
                       {/* Dòng 1: Danh mục & Trạng thái đã học/mới */}
                       <div className="flex items-center justify-between gap-1.5">
-                        <span className="text-[10.5px] font-medium text-slate-500 dark:text-slate-400 truncate">
+                        <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#0059bb] dark:text-sky-400 truncate">
                           {lesson.category || "Giao tiếp"}
                         </span>
 
                         {isLessonCompleted ? (
-                          <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[4px] text-[9.5px] font-bold bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/40 shrink-0">
-                            <Check className="w-2.5 h-2.5 stroke-[3]" />
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10.5px] font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-300/70 dark:border-emerald-700/60 shrink-0 shadow-2xs">
+                            <Check className="w-3 h-3 stroke-[3]" />
                             <span>Đã học</span>
                           </span>
                         ) : (
-                          <span className="px-1.5 py-0.5 rounded-[4px] text-[9.5px] font-bold bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200/60 dark:border-amber-800/40 shrink-0">
+                          <span className="px-2 py-0.5 rounded-full text-[10.5px] font-bold bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-300/70 dark:border-amber-700/60 shrink-0 shadow-2xs">
                             Mới
                           </span>
                         )}
                       </div>
 
                       {/* Dòng 2: Tiêu đề bài học */}
-                      <h4 className="text-xs sm:text-[13px] font-bold text-slate-800 dark:text-slate-100 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors line-clamp-2 leading-snug">
+                      <h4 className="text-[13.5px] sm:text-[14px] font-bold text-slate-900 dark:text-white group-hover:text-[#0059bb] dark:group-hover:text-sky-400 transition-colors line-clamp-2 leading-[1.35]">
                         {lesson.title}
                       </h4>
 
-                      {/* Dòng 3: Thông số & Nút Học ngay */}
-                      <div className="flex items-center justify-between pt-1 border-t border-slate-100 dark:border-slate-800/80 text-[10px] sm:text-[10.5px] text-slate-400 dark:text-slate-500 font-mono">
-                        <div className="flex items-center gap-2">
+                      {/* Dòng 3: Thông số & Nút Học Action Pill */}
+                      <div className="flex items-center justify-between pt-1 border-t border-slate-100 dark:border-slate-800/80 text-xs font-mono">
+                        <div className="flex items-center gap-2 tabular-nums text-slate-600 dark:text-slate-300 font-semibold">
                           <span className="flex items-center gap-1">
-                            <Clock className="w-3 h-3 text-slate-400" />
+                            <Clock className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 stroke-[2]" />
                             <span>{lesson.duration || "3:00"}</span>
                           </span>
-                          <span>•</span>
+                          <span className="text-slate-300 dark:text-slate-600">•</span>
                           <span className="flex items-center gap-1">
-                            <Headphones className="w-3 h-3 text-slate-400" />
+                            <Headphones className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 stroke-[2]" />
                             <span>{lesson.transcript?.length || 10} câu</span>
                           </span>
                         </div>
 
-                        <div className="flex items-center gap-0.5 font-semibold text-[11px] text-slate-600 dark:text-slate-300 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors shrink-0">
+                        {/* Nút Học Action Pill chuẩn Agency Tier */}
+                        <div className="px-3 py-1 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 text-xs font-bold flex items-center gap-1.5 group-hover:bg-[#0059bb] group-hover:text-white dark:group-hover:bg-blue-600 transition-all shadow-2xs shrink-0 active:scale-95">
                           <span>Học</span>
-                          <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                          <ArrowRight className="w-3.5 h-3.5 stroke-[2.5] group-hover:translate-x-0.5 transition-transform" />
                         </div>
                       </div>
                     </div>

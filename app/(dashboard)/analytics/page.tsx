@@ -40,6 +40,11 @@ import {
   HeaderPillContainer,
   HeaderPillItem,
 } from "@/shared/components/layout/AppTopHeader";
+import {
+  ShimmerBox,
+  ShimmerCircle,
+  ShimmerText,
+} from "@/shared/components/feedback/ShimmerSkeleton";
 
 const SpeakingIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
   <svg
@@ -106,11 +111,20 @@ export default function AnalyticsPage() {
   const [leaderboardData, setLeaderboardData] = useState<any[]>([]);
   const [isLoadingLeaderboard, setIsLoadingLeaderboard] = useState<boolean>(false);
   const [visibleLeaderboardCount, setVisibleLeaderboardCount] = useState<number>(8);
+  const [isLoadingAnalytics, setIsLoadingAnalytics] = useState<boolean>(true);
+  const [apiStats, setApiStats] = useState<{
+    currentStreak?: number;
+    longestStreak?: number;
+    wordsLearned?: number;
+    minutesStudied?: number;
+    totalXp?: number;
+    weeklyRank?: string;
+  } | null>(null);
 
   useEffect(() => {
     if (activeTab === "LEADERBOARD" && leaderboardData.length === 0) {
       setIsLoadingLeaderboard(true);
-      fetch("/api/leaderboard")
+      fetch("/api/leaderboard?period=week&limit=50")
         .then((res) => res.json())
         .then((res) => {
           if (res.success && Array.isArray(res.data)) {
@@ -133,19 +147,29 @@ export default function AnalyticsPage() {
 
   const { learned } = useVocabularyStore();
 
-  // Dynamic live savedWords & longestStreak computation
+  // Dynamic live savedWords & longestStreak computation with bidirectional DB + Store reconciliation
   const savedWords = useMemo(() => {
-    if (!user) return 0;
-    const count = learned.filter(
-      (item) => (item.userId === user.id || item.userId === "local_user") && (item.isFavorite || (item.proficiency && item.proficiency > 0))
+    const localCount = learned.filter(
+      (item) => (item.userId === user?.id || item.userId === "local_user") && (item.isFavorite || (item.proficiency && item.proficiency > 0))
     ).length;
-    return Math.max(count, user.wordsLearned || 0);
-  }, [learned, user]);
+    return Math.max(localCount, user?.wordsLearned || 0, apiStats?.wordsLearned || 0);
+  }, [learned, user, apiStats]);
 
-  const longestStreak = user?.longestStreak ?? user?.currentStreak ?? 1;
-  const minutesStudied = user?.minutesStudied !== undefined ? `${user.minutesStudied}m` : "0m";
-  const totalXp = user?.totalXp !== undefined ? `${user.totalXp} XP` : "0 XP";
-  const weeklyRank = apiRank;
+  const longestStreak = useMemo(() => {
+    return Math.max(user?.longestStreak || 0, user?.currentStreak || 0, apiStats?.longestStreak || 1);
+  }, [user, apiStats]);
+
+  const minutesStudied = useMemo(() => {
+    const mins = Math.max(user?.minutesStudied || 0, apiStats?.minutesStudied || 0);
+    return `${mins}m`;
+  }, [user, apiStats]);
+
+  const totalXp = useMemo(() => {
+    const xp = Math.max(user?.totalXp || 0, apiStats?.totalXp || 0);
+    return `${xp.toLocaleString()} XP`;
+  }, [user, apiStats]);
+
+  const weeklyRank = apiStats?.weeklyRank || apiRank || "#1";
 
   const [dates, setDates] = useState<string[]>([
     "26/7",
@@ -169,13 +193,17 @@ export default function AnalyticsPage() {
       hydrateSkillMinutesFromBackend(user.id);
     }
 
+    setIsLoadingAnalytics(true);
     fetch("/api/user/analytics")
       .then((res) => res.json())
       .then((res) => {
         if (res.success && res.data) {
           const { stats, series, perSkill, heatmap } = res.data;
-          if (stats?.weeklyRank) {
-            setApiRank(stats.weeklyRank);
+          if (stats) {
+            setApiStats(stats);
+            if (stats.weeklyRank) {
+              setApiRank(stats.weeklyRank);
+            }
           }
           if (series?.dates && series.dates.length > 0) {
             setDates(series.dates);
@@ -190,7 +218,8 @@ export default function AnalyticsPage() {
           }
         }
       })
-      .catch((err) => console.error("Error loading analytics API:", err));
+      .catch((err) => console.error("Error loading analytics API:", err))
+      .finally(() => setIsLoadingAnalytics(false));
   }, [user]);
 
   // Skill-Specific Analytics Computation for modeFilter merging DB + Local Cache
@@ -486,6 +515,82 @@ export default function AnalyticsPage() {
     );
   };
 
+  // High-Fidelity 1:1 Geometric Twin Waveform Skeleton (Clean Coordinate Grid & Shimmer Overlay, No Fake Demo Lines)
+  const renderWaveformChartSkeleton = (title: string, themeColor: string, unit: string) => {
+    const svgW = 700;
+    const svgH = 210;
+    const padLeft = 52;
+    const padRight = 10;
+    const padTop = 18;
+    const ySteps = unit === "phút" ? [20, 15, 10, 5, 0] : [200, 150, 100, 50, 0];
+    const yCoords = [padTop, 63, 108, 154, 200];
+
+    return (
+      <div className="flex-1 space-y-3 min-w-0">
+        <div className="flex items-center justify-between">
+          <div className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full shadow-2xs" style={{ backgroundColor: themeColor }} />
+            <span>{title}</span>
+          </div>
+          <ShimmerBox className="h-5 w-24 rounded-md" />
+        </div>
+
+        {/* Clean High-DPI Coordinate Canvas with Shimmer Sweep and No Fake Demo Lines */}
+        <div className="relative pt-1.5 pb-0 bg-slate-50/70 dark:bg-slate-950/70 rounded-xl border border-slate-200/70 dark:border-slate-800/80 overflow-hidden shadow-2xs before:absolute before:inset-0 before:-translate-x-full before:animate-shimmer before:bg-gradient-to-r before:from-transparent before:via-white/40 dark:before:via-white/10 before:to-transparent before:z-10 before:pointer-events-none">
+          <div className="w-full relative">
+            <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full h-auto overflow-visible select-none">
+              {/* 5 Horizontal Grid Lines & Y-Axis Labels matching Real Chart */}
+              {ySteps.map((step, sIdx) => {
+                const y = yCoords[sIdx];
+                const isBaseline = sIdx === 4;
+                return (
+                  <g key={sIdx}>
+                    <line
+                      x1={padLeft}
+                      y1={y}
+                      x2={svgW - padRight}
+                      y2={y}
+                      stroke="currentColor"
+                      className={
+                        isBaseline
+                          ? "text-slate-200/90 dark:text-slate-800"
+                          : "text-slate-200/60 dark:text-slate-800"
+                      }
+                      strokeDasharray={isBaseline ? undefined : "3 3"}
+                    />
+                    <text
+                      x="42"
+                      y={y}
+                      textAnchor="end"
+                      dominantBaseline="central"
+                      className="fill-slate-400/70 dark:fill-slate-500/70 font-mono text-[22px] sm:text-[17px] font-extrabold"
+                    >
+                      {step}{unit === "phút" ? "m" : ""}
+                    </text>
+                  </g>
+                );
+              })}
+            </svg>
+          </div>
+
+          {/* Interactive Date Column Buttons matching Real Chart */}
+          <div
+            style={{ paddingLeft: "7.43%", paddingRight: "1.43%" }}
+            className="grid grid-cols-8 text-center pt-0 pb-1.5 gap-0 border-t border-slate-100 dark:border-slate-800"
+          >
+            {dates.map((d, dIdx) => (
+              <div key={dIdx} className="py-1 px-0.5">
+                <span className="text-[11px] sm:text-xs font-mono font-bold text-slate-400/80">
+                  {d}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <PageEntranceWrapper className="space-y-4 pb-16 md:pb-8 px-0 relative select-none font-sans" suppressHydrationWarning>
       
@@ -528,10 +633,14 @@ export default function AnalyticsPage() {
             <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-500 flex items-center justify-center shrink-0 shadow-2xs">
               <Flame className="w-5 h-5 fill-amber-400 text-amber-500" />
             </div>
-            <div className="min-w-0">
-              <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white leading-tight tabular-nums">
-                {longestStreak} <span className="text-xs font-bold text-slate-500 font-sans">ngày</span>
-              </div>
+            <div className="min-w-0 flex-1">
+              {isLoadingAnalytics ? (
+                <ShimmerBox className="h-5 w-16 rounded-lg my-0.5" />
+              ) : (
+                <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white leading-tight tabular-nums">
+                  {longestStreak} <span className="text-xs font-bold text-slate-500 font-sans">ngày</span>
+                </div>
+              )}
               <div className="text-[11px] text-slate-500 dark:text-slate-400 font-bold truncate mt-0.5">Chuỗi dài nhất</div>
             </div>
           </div>
@@ -541,10 +650,14 @@ export default function AnalyticsPage() {
             <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-500 flex items-center justify-center shrink-0 shadow-2xs">
               <BookmarkCheck className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
             </div>
-            <div className="min-w-0">
-              <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white leading-tight tabular-nums">
-                {savedWords} <span className="text-xs font-bold text-slate-500 font-sans">từ</span>
-              </div>
+            <div className="min-w-0 flex-1">
+              {isLoadingAnalytics ? (
+                <ShimmerBox className="h-5 w-16 rounded-lg my-0.5" />
+              ) : (
+                <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white leading-tight tabular-nums">
+                  {savedWords} <span className="text-xs font-bold text-slate-500 font-sans">từ</span>
+                </div>
+              )}
               <div className="text-[11px] text-slate-500 dark:text-slate-400 font-bold truncate mt-0.5">Vốn từ đã tích lũy</div>
             </div>
           </div>
@@ -554,10 +667,14 @@ export default function AnalyticsPage() {
             <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 shadow-2xs">
               <Clock className="w-5 h-5" />
             </div>
-            <div className="min-w-0">
-              <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white leading-tight tabular-nums">
-                {minutesStudied}
-              </div>
+            <div className="min-w-0 flex-1">
+              {isLoadingAnalytics ? (
+                <ShimmerBox className="h-5 w-14 rounded-lg my-0.5" />
+              ) : (
+                <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white leading-tight tabular-nums">
+                  {minutesStudied}
+                </div>
+              )}
               <div className="text-[11px] text-slate-500 dark:text-slate-400 font-bold truncate mt-0.5">Thời gian học</div>
             </div>
           </div>
@@ -567,10 +684,14 @@ export default function AnalyticsPage() {
             <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0 shadow-2xs">
               <Target className="w-5 h-5" />
             </div>
-            <div className="min-w-0">
-              <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white leading-tight tabular-nums">
-                {totalXp}
-              </div>
+            <div className="min-w-0 flex-1">
+              {isLoadingAnalytics ? (
+                <ShimmerBox className="h-5 w-20 rounded-lg my-0.5" />
+              ) : (
+                <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white leading-tight tabular-nums">
+                  {totalXp}
+                </div>
+              )}
               <div className="text-[11px] text-slate-500 dark:text-slate-400 font-bold truncate mt-0.5">Tổng điểm tích lũy</div>
             </div>
           </div>
@@ -580,10 +701,14 @@ export default function AnalyticsPage() {
             <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 shadow-2xs">
               <Trophy className="w-5 h-5 text-amber-500 fill-amber-400" />
             </div>
-            <div className="min-w-0">
-              <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white leading-tight tabular-nums">
-                {weeklyRank} <span className="text-xs font-bold text-slate-500 font-sans">Tuần</span>
-              </div>
+            <div className="min-w-0 flex-1">
+              {isLoadingAnalytics ? (
+                <ShimmerBox className="h-5 w-16 rounded-lg my-0.5" />
+              ) : (
+                <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white leading-tight tabular-nums">
+                  {weeklyRank} <span className="text-xs font-bold text-slate-500 font-sans">Tuần</span>
+                </div>
+              )}
               <div className="text-[11px] text-slate-500 dark:text-slate-400 font-bold truncate mt-0.5">Hạng của bạn</div>
             </div>
           </div>
@@ -618,52 +743,52 @@ export default function AnalyticsPage() {
               </div>
 
               {isLoadingLeaderboard && leaderboardData.length === 0 ? (
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-stretch animate-pulse">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-stretch">
                   {/* Left Column: Podium Skeleton */}
                   <div className="lg:col-span-5 flex flex-col justify-between p-4 sm:p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-800 space-y-4">
-                    <div className="h-4 w-36 mx-auto rounded bg-slate-200 dark:bg-slate-700" />
+                    <ShimmerBox className="h-4 w-36 mx-auto rounded" />
                     <div className="grid grid-cols-3 gap-2.5 items-end pt-3 pb-1">
                       {/* Top 2 Skeleton */}
                       <div className="flex flex-col items-center p-2.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 space-y-2">
-                        <div className="h-4 w-10 rounded-full bg-slate-200 dark:bg-slate-700" />
-                        <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700" />
-                        <div className="h-3 w-16 rounded bg-slate-200 dark:bg-slate-700" />
-                        <div className="h-6 w-full rounded-lg bg-slate-200 dark:bg-slate-700" />
+                        <ShimmerBox className="h-4 w-10 rounded-full" />
+                        <ShimmerCircle size="w-10 h-10 sm:w-12 sm:h-12" />
+                        <ShimmerBox className="h-3 w-16 rounded" />
+                        <ShimmerBox className="h-6 w-full rounded-lg" />
                       </div>
                       {/* Top 1 Skeleton */}
-                      <div className="flex flex-col items-center p-3 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border-2 border-amber-200 dark:border-amber-800/50 space-y-2 relative -top-2">
-                        <div className="h-4 w-14 rounded-full bg-amber-200 dark:bg-amber-800" />
-                        <div className="w-12 h-12 rounded-full bg-amber-200 dark:bg-amber-800" />
-                        <div className="h-3.5 w-20 rounded bg-amber-200 dark:bg-amber-800" />
-                        <div className="h-7 w-full rounded-lg bg-amber-300 dark:bg-amber-700" />
+                      <div className="flex flex-col items-center p-3 rounded-2xl bg-gradient-to-b from-amber-50 to-white dark:from-amber-950/40 dark:to-slate-800 border-2 border-amber-300 dark:border-amber-700/60 space-y-2 relative -top-2">
+                        <ShimmerBox className="h-4 w-14 rounded-full bg-amber-200 dark:bg-amber-800" />
+                        <ShimmerCircle size="w-12 h-12 sm:w-14 sm:h-14" className="ring-2 ring-amber-300" />
+                        <ShimmerBox className="h-3.5 w-20 rounded bg-amber-200 dark:bg-amber-800" />
+                        <ShimmerBox className="h-7 w-full rounded-lg bg-amber-400/50" />
                       </div>
                       {/* Top 3 Skeleton */}
                       <div className="flex flex-col items-center p-2.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 space-y-2">
-                        <div className="h-4 w-10 rounded-full bg-slate-200 dark:bg-slate-700" />
-                        <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700" />
-                        <div className="h-3 w-16 rounded bg-slate-200 dark:bg-slate-700" />
-                        <div className="h-6 w-full rounded-lg bg-slate-200 dark:bg-slate-700" />
+                        <ShimmerBox className="h-4 w-10 rounded-full" />
+                        <ShimmerCircle size="w-10 h-10 sm:w-12 sm:h-12" />
+                        <ShimmerBox className="h-3 w-16 rounded" />
+                        <ShimmerBox className="h-6 w-full rounded-lg" />
                       </div>
                     </div>
                   </div>
 
                   {/* Right Column: List Skeleton */}
                   <div className="lg:col-span-7 space-y-2">
-                    <div className="h-3.5 w-32 rounded bg-slate-200 dark:bg-slate-700 mb-2.5" />
+                    <ShimmerBox className="h-3.5 w-32 rounded mb-2.5" />
                     {[1, 2, 3, 4, 5].map((i) => (
                       <div
                         key={i}
                         className="flex items-center justify-between p-3 rounded-xl bg-slate-50/70 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-800"
                       >
                         <div className="flex items-center gap-3">
-                          <div className="h-4 w-5 rounded bg-slate-200 dark:bg-slate-700" />
-                          <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700" />
+                          <ShimmerBox className="h-4 w-6 rounded" />
+                          <ShimmerCircle size="w-8 h-8" />
                           <div className="space-y-1">
-                            <div className="h-3.5 w-24 rounded bg-slate-200 dark:bg-slate-700" />
-                            <div className="h-2.5 w-16 rounded bg-slate-100 dark:bg-slate-800" />
+                            <ShimmerBox className="h-3.5 w-28 rounded" />
+                            <ShimmerBox className="h-2.5 w-20 rounded" />
                           </div>
                         </div>
-                        <div className="h-4 w-16 rounded bg-slate-200 dark:bg-slate-700" />
+                        <ShimmerBox className="h-4 w-16 rounded" />
                       </div>
                     ))}
                   </div>
@@ -863,86 +988,142 @@ export default function AnalyticsPage() {
                   </span>
                 </div>
 
-                <div className="relative w-full overflow-x-auto no-scrollbar pb-2">
-                  <div className="min-w-[540px] space-y-2">
-                    
-                    {/* TOP MONTH LABELS */}
-                    <div className="flex items-center pl-6 sm:pl-8 text-[10px] sm:text-[11px] font-bold text-slate-400 font-display">
-                      {monthList.map((m, mIdx) => (
-                        <div key={mIdx} className="w-[52px] sm:w-[72px] text-center shrink-0">
-                          {m.name}
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* MATRIX GRID WITH VERTICAL DAY LABELS */}
-                    <div className="flex items-start gap-2.5 sm:gap-3.5">
-                      
-                      <div className="relative w-5 sm:w-6 pr-1 sm:pr-1.5 h-[84px] sm:h-[108px] shrink-0 text-[10px] font-bold text-slate-400 font-display">
-                        <span className="absolute top-[8px] sm:top-[14px] left-0 leading-none">T2</span>
-                        <span className="absolute top-[32px] sm:top-[46px] left-0 leading-none">T4</span>
-                        <span className="absolute top-[56px] sm:top-[78px] left-0 leading-none">T6</span>
-                      </div>
-
-                      <div className="flex items-center gap-1.5 sm:gap-3">
-                        {monthList.map((mGroup, mIdx) => (
-                          <div key={mIdx} className="flex items-center gap-1">
-                            {Array.from({ length: 4 }).map((_, wInMonth) => {
-                              const globalWeekIdx = mIdx * 4 + wInMonth;
-                              const weekTiles = heatmapWeeks[globalWeekIdx] || [];
-
-                              return (
-                                <div key={wInMonth} className="flex flex-col gap-1">
-                                  {weekTiles.map((tile, dIdx) => {
-                                    const tileBg =
-                                      tile.intensity === 3
-                                        ? "bg-[#0059bb] dark:bg-sky-400"
-                                        : tile.intensity === 2
-                                        ? "bg-[#0059bb]/70 dark:bg-sky-500/70"
-                                        : tile.intensity === 1
-                                        ? "bg-[#0059bb]/35 dark:bg-sky-600/40"
-                                        : "bg-slate-100 dark:bg-slate-800/70";
-
-                                    return (
-                                      <div
-                                        key={dIdx}
-                                        onMouseEnter={() => setHoveredHeatmapTile({ dateStr: tile.dateStr, count: tile.count })}
-                                        onMouseLeave={() => setHoveredHeatmapTile(null)}
-                                        className={`w-[10px] h-[10px] sm:w-3.5 sm:h-3.5 rounded-sm cursor-pointer transition-all hover:scale-125 ${tileBg}`}
-                                      />
-                                    );
-                                  })}
-                                </div>
-                              );
-                            })}
+                {isLoadingAnalytics ? (
+                  <div className="relative w-full overflow-x-auto no-scrollbar pb-2">
+                    <div className="min-w-[540px] space-y-2">
+                      {/* 1. EXACT MONTH LABELS */}
+                      <div className="flex items-center pl-6 sm:pl-8 text-[10px] sm:text-[11px] font-bold text-slate-400 font-display">
+                        {monthList.map((m, mIdx) => (
+                          <div key={mIdx} className="w-[52px] sm:w-[72px] text-center shrink-0">
+                            {m.name}
                           </div>
                         ))}
                       </div>
 
-                    </div>
-
-                    {/* FOOTER LEGEND & DYNAMIC TOOLTIP */}
-                    <div className="flex items-center justify-between gap-2 text-xs font-medium text-slate-500 dark:text-slate-400 pt-3 pl-6 sm:pl-8 border-t border-slate-100 dark:border-slate-800">
-                      <span className="font-mono text-xs truncate">
-                        {hoveredHeatmapTile
-                          ? `${hoveredHeatmapTile.dateStr}: ${hoveredHeatmapTile.count} hoạt động hoàn thành`
-                          : `${totalActivities} hoạt động đã hoàn thành trong 6 tháng qua`}
-                      </span>
-
-                      <div className="flex items-center gap-1.5 font-display shrink-0 text-xs">
-                        <span>Ít</span>
-                        <div className="flex items-center gap-1">
-                          <span className="w-3 h-3 rounded-sm bg-slate-100 dark:bg-slate-800" />
-                          <span className="w-3 h-3 rounded-sm bg-[#0059bb]/35 dark:bg-sky-600/40" />
-                          <span className="w-3 h-3 rounded-sm bg-[#0059bb]/70 dark:bg-sky-500/70" />
-                          <span className="w-3 h-3 rounded-sm bg-[#0059bb] dark:bg-sky-400" />
+                      {/* 2. EXACT MATRIX GRID WITH VERTICAL DAY LABELS */}
+                      <div className="flex items-start gap-2.5 sm:gap-3.5">
+                        <div className="relative w-5 sm:w-6 pr-1 sm:pr-1.5 h-[84px] sm:h-[108px] shrink-0 text-[10px] font-bold text-slate-400 font-display">
+                          <span className="absolute top-[8px] sm:top-[14px] left-0 leading-none">T2</span>
+                          <span className="absolute top-[32px] sm:top-[46px] left-0 leading-none">T4</span>
+                          <span className="absolute top-[56px] sm:top-[78px] left-0 leading-none">T6</span>
                         </div>
-                        <span>Nhiều</span>
+
+                        <div className="flex items-center gap-1.5 sm:gap-3">
+                          {monthList.map((_, mIdx) => (
+                            <div key={mIdx} className="flex items-center gap-1">
+                              {Array.from({ length: 4 }).map((_, wInMonth) => (
+                                <div key={wInMonth} className="flex flex-col gap-1">
+                                  {Array.from({ length: 7 }).map((_, dIdx) => (
+                                    <div
+                                      key={dIdx}
+                                      className="w-[10px] h-[10px] sm:w-3.5 sm:h-3.5 rounded-sm relative overflow-hidden bg-slate-100 dark:bg-slate-800/70 before:absolute before:inset-0 before:-translate-x-full before:animate-shimmer before:bg-gradient-to-r before:from-transparent before:via-white/50 dark:before:via-white/10 before:to-transparent"
+                                    />
+                                  ))}
+                                </div>
+                              ))}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* 3. EXACT FOOTER LEGEND */}
+                      <div className="flex items-center justify-between gap-2 text-xs font-medium text-slate-400 pt-3 pl-6 sm:pl-8 border-t border-slate-100 dark:border-slate-800">
+                        <ShimmerBox className="h-3.5 w-60 rounded" />
+                        <div className="flex items-center gap-1.5 font-display shrink-0 text-xs">
+                          <span>Ít</span>
+                          <div className="flex items-center gap-1">
+                            <span className="w-3 h-3 rounded-sm bg-slate-100 dark:bg-slate-800" />
+                            <span className="w-3 h-3 rounded-sm bg-[#0059bb]/35 dark:bg-sky-600/40" />
+                            <span className="w-3 h-3 rounded-sm bg-[#0059bb]/70 dark:bg-sky-500/70" />
+                            <span className="w-3 h-3 rounded-sm bg-[#0059bb] dark:bg-sky-400" />
+                          </div>
+                          <span>Nhiều</span>
+                        </div>
                       </div>
                     </div>
-
                   </div>
-                </div>
+                ) : (
+                  <div className="relative w-full overflow-x-auto no-scrollbar pb-2">
+                    <div className="min-w-[540px] space-y-2">
+                      
+                      {/* TOP MONTH LABELS */}
+                      <div className="flex items-center pl-6 sm:pl-8 text-[10px] sm:text-[11px] font-bold text-slate-400 font-display">
+                        {monthList.map((m, mIdx) => (
+                          <div key={mIdx} className="w-[52px] sm:w-[72px] text-center shrink-0">
+                            {m.name}
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* MATRIX GRID WITH VERTICAL DAY LABELS */}
+                      <div className="flex items-start gap-2.5 sm:gap-3.5">
+                        
+                        <div className="relative w-5 sm:w-6 pr-1 sm:pr-1.5 h-[84px] sm:h-[108px] shrink-0 text-[10px] font-bold text-slate-400 font-display">
+                          <span className="absolute top-[8px] sm:top-[14px] left-0 leading-none">T2</span>
+                          <span className="absolute top-[32px] sm:top-[46px] left-0 leading-none">T4</span>
+                          <span className="absolute top-[56px] sm:top-[78px] left-0 leading-none">T6</span>
+                        </div>
+
+                        <div className="flex items-center gap-1.5 sm:gap-3">
+                          {monthList.map((mGroup, mIdx) => (
+                            <div key={mIdx} className="flex items-center gap-1">
+                              {Array.from({ length: 4 }).map((_, wInMonth) => {
+                                const globalWeekIdx = mIdx * 4 + wInMonth;
+                                const weekTiles = heatmapWeeks[globalWeekIdx] || [];
+
+                                return (
+                                  <div key={wInMonth} className="flex flex-col gap-1">
+                                    {weekTiles.map((tile, dIdx) => {
+                                      const tileBg =
+                                        tile.intensity === 3
+                                          ? "bg-[#0059bb] dark:bg-sky-400"
+                                          : tile.intensity === 2
+                                          ? "bg-[#0059bb]/70 dark:bg-sky-500/70"
+                                          : tile.intensity === 1
+                                          ? "bg-[#0059bb]/35 dark:bg-sky-600/40"
+                                          : "bg-slate-100 dark:bg-slate-800/70";
+
+                                      return (
+                                        <div
+                                          key={dIdx}
+                                          onMouseEnter={() => setHoveredHeatmapTile({ dateStr: tile.dateStr, count: tile.count })}
+                                          onMouseLeave={() => setHoveredHeatmapTile(null)}
+                                          className={`w-[10px] h-[10px] sm:w-3.5 sm:h-3.5 rounded-sm cursor-pointer transition-all hover:scale-125 ${tileBg}`}
+                                        />
+                                      );
+                                    })}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          ))}
+                        </div>
+
+                      </div>
+
+                      {/* FOOTER LEGEND & DYNAMIC TOOLTIP */}
+                      <div className="flex items-center justify-between gap-2 text-xs font-medium text-slate-500 dark:text-slate-400 pt-3 pl-6 sm:pl-8 border-t border-slate-100 dark:border-slate-800">
+                        <span className="font-mono text-xs truncate">
+                          {hoveredHeatmapTile
+                            ? `${hoveredHeatmapTile.dateStr}: ${hoveredHeatmapTile.count} hoạt động hoàn thành`
+                            : `${totalActivities} hoạt động đã hoàn thành trong 6 tháng qua`}
+                        </span>
+
+                        <div className="flex items-center gap-1.5 font-display shrink-0 text-xs">
+                          <span>Ít</span>
+                          <div className="flex items-center gap-1">
+                            <span className="w-3 h-3 rounded-sm bg-slate-100 dark:bg-slate-800" />
+                            <span className="w-3 h-3 rounded-sm bg-[#0059bb]/35 dark:bg-sky-600/40" />
+                            <span className="w-3 h-3 rounded-sm bg-[#0059bb]/70 dark:bg-sky-500/70" />
+                            <span className="w-3 h-3 rounded-sm bg-[#0059bb] dark:bg-sky-400" />
+                          </div>
+                          <span>Nhiều</span>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* SECTION 2: 30-DAY PRACTICE WITH SKILL SWITCHER & LINE CHARTS */}
@@ -1008,26 +1189,41 @@ export default function AnalyticsPage() {
                   </div>
                 </div>
 
-                {/* DUAL HIGH-DPI DASHBOARD WAVEFORM LINE CHARTS */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-1">
-                  {renderDashboardStyledChart(
-                    `Thời lượng luyện tập (${modeFilter})`,
-                    activeSkillData.minutes,
-                    "MINUTES",
-                    currentTheme.color,
-                    currentTheme.gradientId,
-                    "phút"
-                  )}
+                {/* DUAL HIGH-DPI DASHBOARD WAVEFORM LINE CHARTS WITH 1:1 GEOMETRIC TWIN SKELETON */}
+                {isLoadingAnalytics ? (
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-1">
+                    {renderWaveformChartSkeleton(
+                      `Thời lượng luyện tập (${modeFilter})`,
+                      currentTheme.color,
+                      "phút"
+                    )}
+                    {renderWaveformChartSkeleton(
+                      `Điểm XP tích lũy (${modeFilter})`,
+                      "#10b981",
+                      "XP"
+                    )}
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-1">
+                    {renderDashboardStyledChart(
+                      `Thời lượng luyện tập (${modeFilter})`,
+                      activeSkillData.minutes,
+                      "MINUTES",
+                      currentTheme.color,
+                      currentTheme.gradientId,
+                      "phút"
+                    )}
 
-                  {renderDashboardStyledChart(
-                    `Điểm XP tích lũy (${modeFilter})`,
-                    activeSkillData.xp,
-                    "XP",
-                    "#10b981",
-                    "xpAnalyticsGradientBig",
-                    "XP"
-                  )}
-                </div>
+                    {renderDashboardStyledChart(
+                      `Điểm XP tích lũy (${modeFilter})`,
+                      activeSkillData.xp,
+                      "XP",
+                      "#10b981",
+                      "xpAnalyticsGradientBig",
+                      "XP"
+                    )}
+                  </div>
+                )}
 
               </div>
             </motion.div>

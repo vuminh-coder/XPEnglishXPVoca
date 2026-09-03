@@ -10,6 +10,7 @@ interface UserState {
   addPracticeTime: (minutes: number, skill?: SkillType | string) => void;
   awardCoins: (amount: number) => void;
   updateProfile: (fullName: string, bio: string, avatarUrl?: string, avatarEmoji?: string) => void;
+  updateUserStats: (stats: Partial<User>) => void;
   setLocalUser: () => void;
   setUserPayload: (user: User) => void;
   checkSession: () => Promise<void>;
@@ -371,6 +372,16 @@ export const useUserStore = create<UserState>((set, get) => ({
             avatarEmoji: avatarEmoji !== undefined ? avatarEmoji : user.avatarEmoji,
           }),
         }).catch(err => console.error("Error updating profile in DB:", err));
+      }
+    }
+  },
+  updateUserStats: (stats) => {
+    const user = get().user;
+    if (user) {
+      const updatedUser: User = { ...user, ...stats };
+      set({ user: updatedUser });
+      if (typeof window !== "undefined") {
+        localStorage.setItem(`xp_voca_user_${user.id}`, JSON.stringify(updatedUser));
       }
     }
   },

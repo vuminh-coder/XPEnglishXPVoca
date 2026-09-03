@@ -30,7 +30,7 @@ export function CommunitySidebar() {
               Top Học Viên Tuần
             </h3>
           </div>
-          <Link href="/leaderboard" className="text-[11px] font-bold text-[#0059bb] dark:text-sky-400 hover:underline">
+          <Link href="/community/leaderboard" className="text-[11px] font-bold text-[#0059bb] dark:text-sky-400 hover:underline">
             Tất cả
           </Link>
         </div>

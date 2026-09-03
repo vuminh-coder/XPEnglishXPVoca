@@ -16,6 +16,7 @@ import {
   X,
   Zap,
   Languages,
+  PenLine,
 } from "lucide-react";
 import { useUiStore } from "@/stores/uiStore";
 
@@ -252,27 +253,27 @@ export function DictationWorkspace({
 
   // Handle typing matching (supports single word or multi-word continuous input)
   const handleCheckWord = useCallback(
-    (val: string) => {
+    (val: string): boolean => {
       const trimmed = val.trim();
-      if (!trimmed) return;
+      if (!trimmed) return false;
 
       const parts = trimmed
         .split(/\s+/)
         .map((p) => p.replace(/[^a-zA-Z0-9]/g, "").toLowerCase())
         .filter(Boolean);
 
-      if (parts.length === 0) return;
+      if (parts.length === 0) return false;
 
       let nextTokens = [...tokens];
       let anyMatchFound = false;
 
-      // Check each typed word against available unsolved tokens
+      // Check each typed word against available unsolved or revealed tokens
       for (const typedWord of parts) {
         let matched = false;
         nextTokens = nextTokens.map((token, idx) => {
           if (
             !matched &&
-            (token.status === "masked" || token.status === "first-letter") &&
+            (token.status === "masked" || token.status === "first-letter" || token.status === "revealed") &&
             token.clean.toLowerCase() === typedWord
           ) {
             matched = true;
@@ -296,12 +297,14 @@ export function DictationWorkspace({
         }, 800);
 
         checkCompletion(nextTokens);
+        return true;
       } else {
         // Shake feedback
         setInputStatus("shake");
         setTimeout(() => {
           setInputStatus("idle");
         }, 600);
+        return false;
       }
     },
     [tokens, onWordMatched, checkCompletion]
@@ -310,8 +313,10 @@ export function DictationWorkspace({
   // Handle key down in input
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === " " || e.key === "Enter") {
-      e.preventDefault();
-      handleCheckWord(inputValue);
+      const matched = handleCheckWord(inputValue);
+      if (matched || e.key === "Enter") {
+        e.preventDefault();
+      }
     }
   };
 
@@ -560,8 +565,11 @@ export function DictationWorkspace({
                 className="mt-2.5 pt-2.5 border-t border-slate-100 dark:border-slate-800 space-y-1.5 overflow-hidden"
               >
                 {ipa && (
-                  <p className="text-xs font-mono font-semibold text-purple-600 dark:text-purple-400">
-                    IPA: {ipa}
+                  <p className="text-[15px] sm:text-base font-medium text-slate-800 dark:text-slate-100 font-sans tracking-wide leading-relaxed py-1 select-text antialiased">
+                    <span className="font-bold text-sm sm:text-base font-sans text-[#0059bb] dark:text-sky-400 mr-2.5">
+                      IPA:
+                    </span>
+                    <span>{ipa.startsWith("/") ? ipa : `/${ipa}/`}</span>
                   </p>
                 )}
                 <div className="p-3 rounded-lg bg-slate-50/90 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-800 text-xs sm:text-sm font-medium text-slate-800 dark:text-slate-200 shadow-2xs leading-relaxed">
@@ -579,8 +587,21 @@ export function DictationWorkspace({
         </div>
       </div>
 
-      {/* 3. DICTATION INPUT FIELD (Đưa xuống dưới theo yêu cầu) */}
-      <div>
+      {/* 3. DICTATION INPUT FIELD (Tuân thủ Rule 6 Wadhah Aloui: Nhãn Ngoài Rõ Nét) */}
+      <div className="space-y-1.5">
+        <div className="flex items-center justify-between px-0.5 text-xs font-bold text-slate-700 dark:text-slate-200 select-none">
+          <label
+            htmlFor={`dictation-input-${sentenceId}`}
+            className="flex items-center gap-1.5 cursor-pointer hover:text-[#0059bb] dark:hover:text-sky-400 transition-colors"
+          >
+            <PenLine className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
+            <span>Nội dung nghe chép chính tả</span>
+          </label>
+          <span className="text-[11px] font-medium text-slate-400 dark:text-slate-500 hidden sm:inline">
+            Gõ phím Space để tự động chuyển từ
+          </span>
+        </div>
+
         <motion.div
           animate={
             inputStatus === "shake"
@@ -605,7 +626,7 @@ export function DictationWorkspace({
                 ? "border-2 border-emerald-500 bg-emerald-50/40 dark:bg-emerald-950/30 text-emerald-900 dark:text-emerald-200 ring-4 ring-emerald-500/10"
                 : inputStatus === "shake"
                 ? "border-2 border-rose-500 bg-rose-50/40 dark:bg-rose-950/30 text-rose-900 dark:text-rose-200 ring-4 ring-rose-500/10"
-                : "border-slate-200/90 dark:border-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-slate-900 dark:focus:border-white focus:ring-4 focus:ring-slate-900/10 dark:focus:ring-white/10 shadow-2xs"
+                : "border-slate-200/90 dark:border-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-[#0059bb] dark:focus:border-sky-500 focus:ring-4 focus:ring-[#0059bb]/15 dark:focus:ring-sky-500/15 shadow-2xs"
             }`}
           />
           {inputValue && (
@@ -657,11 +678,15 @@ export function DictationWorkspace({
             <button
               type="button"
               onClick={() => setShowTranslation((prev) => !prev)}
-              className="inline-flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-semibold text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800 shadow-2xs transition-colors cursor-pointer min-h-[34px] sm:min-h-[36px]"
+              className={`inline-flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-semibold transition-all cursor-pointer shadow-2xs min-h-[34px] sm:min-h-[36px] active:scale-95 ${
+                showTranslation
+                  ? "bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 border border-blue-200/80 dark:border-blue-800/60 font-bold"
+                  : "text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800"
+              }`}
             >
               {showTranslation ? (
                 <>
-                  <EyeOff className="w-3.5 h-3.5 shrink-0" />
+                  <EyeOff className="w-3.5 h-3.5 shrink-0 text-[#0059bb] dark:text-sky-400" />
                   <span>Ẩn dịch</span>
                 </>
               ) : (

@@ -19,6 +19,7 @@ const PUBLIC_PREFIXES = [
   "/analytics",
   "/profile",
   "/community",
+  "/leaderboard",
   "/myvideo",
   "/myvocab",
   "/review",

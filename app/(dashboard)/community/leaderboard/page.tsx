@@ -28,6 +28,7 @@ import {
   HeaderPillContainer,
   HeaderPillItem,
 } from '@/shared/components/layout/AppTopHeader';
+import { ShimmerBox, ShimmerCircle } from '@/shared/components/feedback/ShimmerSkeleton';
 
 export default function LeaderboardPage() {
   const router = useRouter();
@@ -224,7 +225,11 @@ export default function LeaderboardPage() {
               {/* Mobile-only compact rank badge */}
               <div className="sm:hidden px-3 py-1 rounded-lg bg-amber-400/20 border border-amber-300/30 text-amber-200 flex items-center gap-1.5 text-xs font-black font-display shrink-0">
                 <Trophy className="w-3.5 h-3.5 text-amber-300" />
-                <span>Hạng #{userRankNum}</span>
+                {loading ? (
+                  <span className="w-12 h-3.5 bg-amber-300/30 rounded animate-pulse" />
+                ) : (
+                  <span>Hạng #{userRankNum}</span>
+                )}
               </div>
             </div>
 
@@ -246,7 +251,11 @@ export default function LeaderboardPage() {
                 </div>
                 <div>
                   <div className="text-[10px] font-bold uppercase tracking-wider text-blue-200 font-display">Thứ hạng bạn</div>
-                  <div className="text-sm font-black font-display text-white font-mono">#{userRankNum} Tuần</div>
+                  {loading ? (
+                    <div className="w-16 h-4 bg-white/30 rounded animate-pulse mt-0.5" />
+                  ) : (
+                    <div className="text-sm font-black font-display text-white font-mono">#{userRankNum} Tuần</div>
+                  )}
                 </div>
               </div>
             </div>
@@ -260,13 +269,58 @@ export default function LeaderboardPage() {
           <div className="lg:col-span-8 space-y-4">
             
             {loading ? (
-              /* SKELETON LOADING STATE */
-              <div className="p-6 sm:p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-6 animate-pulse">
-                <div className="w-48 h-5 bg-slate-200 dark:bg-slate-800 rounded-md mx-auto" />
-                <div className="flex items-end justify-center gap-4 h-52 pt-4">
-                  <div className="w-28 h-36 bg-slate-100 dark:bg-slate-800/60 rounded-xl" />
-                  <div className="w-32 h-44 bg-amber-500/10 rounded-xl" />
-                  <div className="w-28 h-28 bg-slate-100 dark:bg-slate-800/60 rounded-xl" />
+              /* RICH SKELETON LOADING STATE: PODIUM + RANK 4-8 ROWS (ZERO CLS) */
+              <div className="space-y-4">
+                {/* 1. Top 3 Podium Skeleton */}
+                <div className="p-4 sm:p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-4">
+                  <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+                    <ShimmerBox className="h-4 w-44 rounded-md bg-amber-500/20" />
+                    <ShimmerBox className="h-3 w-28 rounded-md" />
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-2.5 sm:gap-4 items-end pt-2 pb-1">
+                    {/* Silver #2 */}
+                    <div className="p-3 sm:p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 text-center flex flex-col items-center justify-between space-y-2 h-44 sm:h-48">
+                      <ShimmerBox className="w-16 h-5 rounded-lg" />
+                      <ShimmerCircle size="w-10 h-10 sm:w-12 sm:h-12" />
+                      <ShimmerBox className="w-20 h-4 rounded-md" />
+                      <ShimmerBox className="w-full h-6 rounded-lg" />
+                    </div>
+                    {/* Gold #1 */}
+                    <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-b from-amber-50 to-white dark:from-amber-950/40 dark:to-slate-900 border-2 border-amber-300 dark:border-amber-700/60 text-center flex flex-col items-center justify-between space-y-2.5 relative -top-3 h-52 sm:h-56">
+                      <ShimmerBox className="w-20 h-6 rounded-lg bg-amber-300/60 dark:bg-amber-800/60" />
+                      <ShimmerCircle size="w-12 h-12 sm:w-14 sm:h-14" className="ring-2 ring-amber-300" />
+                      <ShimmerBox className="w-24 h-4 rounded-md bg-amber-200/60 dark:bg-amber-800/40" />
+                      <ShimmerBox className="w-full h-7 rounded-lg bg-amber-400/50" />
+                    </div>
+                    {/* Bronze #3 */}
+                    <div className="p-3 sm:p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 text-center flex flex-col items-center justify-between space-y-2 h-40 sm:h-44">
+                      <ShimmerBox className="w-16 h-5 rounded-lg" />
+                      <ShimmerCircle size="w-10 h-10 sm:w-12 sm:h-12" />
+                      <ShimmerBox className="w-20 h-4 rounded-md" />
+                      <ShimmerBox className="w-full h-6 rounded-lg" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2. Ranks 4-8 List Rows Skeleton */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-3">
+                  <ShimmerBox className="h-4 w-36 rounded-md mb-2" />
+                  <div className="space-y-2">
+                    {[4, 5, 6, 7, 8].map((rank) => (
+                      <div key={rank} className="p-3 rounded-xl bg-slate-50/70 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-800 flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-3">
+                          <ShimmerBox className="w-7 h-7 rounded-lg" />
+                          <ShimmerCircle size="w-9 h-9" />
+                          <div className="space-y-1">
+                            <ShimmerBox className="h-4 w-32 rounded-md" />
+                            <ShimmerBox className="h-3 w-20 rounded-md" />
+                          </div>
+                        </div>
+                        <ShimmerBox className="h-5 w-16 rounded-md bg-blue-500/20" />
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             ) : (

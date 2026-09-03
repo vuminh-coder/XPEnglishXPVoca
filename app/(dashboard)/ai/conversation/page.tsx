@@ -306,10 +306,115 @@ export default function AiConversationPage() {
   const [sessionId, setSessionId] = useState<string>(
     () => `ai_conv_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`
   );
+  const [elapsedTime, setElapsedTime] = useState(0);
   const [isHistoryDrawerOpen, setIsHistoryDrawerOpen] = useState(false);
   const [pastSessions, setPastSessions] = useState<any[]>([]);
   const [selectedPastSession, setSelectedPastSession] = useState<any | null>(null);
   const [isLoadingHistory, setIsLoadingHistory] = useState(false);
+
+  // BUG #1,#2,#3 FIX: Refs to avoid stale closures in syncActiveSessionToDb
+  const sessionIdRef = useRef(sessionId);
+  const elapsedTimeRef = useRef(0);
+  const selectedTopicIdRef = useRef(selectedTopicId);
+  const hasUserInteractedRef = useRef(false); // BUG #5 FIX: Race condition guard
+
+  useEffect(() => { sessionIdRef.current = sessionId; }, [sessionId]);
+  useEffect(() => { elapsedTimeRef.current = elapsedTime; }, [elapsedTime]);
+  useEffect(() => { selectedTopicIdRef.current = selectedTopicId; }, [selectedTopicId]);
+
+  // Helper to sync in-progress session to DB & LocalStorage immediately
+  // BUG #1,#2,#3 FIX: Use refs instead of stale closure values
+  const syncActiveSessionToDb = (newMessages: Message[], newElapsed?: number) => {
+    const elapsed = newElapsed ?? elapsedTimeRef.current;
+    const sid = sessionIdRef.current;
+    const topicId = selectedTopicIdRef.current;
+    try {
+      localStorage.setItem(
+        "xp_active_conv_session",
+        JSON.stringify({
+          sessionId: sid,
+          topicId,
+          messages: newMessages,
+          elapsedTime: elapsed,
+          savedAt: Date.now(),
+        })
+      );
+    } catch {}
+
+    fetch("/api/ai/sessions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        sessionId: sid,
+        mode: "conversation",
+        topicId,
+        messages: newMessages,
+        timeSpentSeconds: elapsed,
+        status: "IN_PROGRESS",
+      }),
+    }).catch(() => {});
+  };
+
+  // Hydrate active session from Database & LocalStorage on initial load
+  useEffect(() => {
+    // 1. Immediate zero-latency hydration from LocalStorage
+    try {
+      const localStr = localStorage.getItem("xp_active_conv_session");
+      if (localStr) {
+        const parsed = JSON.parse(localStr);
+        if (parsed.sessionId && Array.isArray(parsed.messages) && parsed.messages.length > 1) {
+          setSessionId(parsed.sessionId);
+          setMessages(parsed.messages);
+          if (parsed.topicId && aiTopics.some((t) => t.id === parsed.topicId)) {
+            setSelectedTopicId(parsed.topicId);
+          }
+          if (typeof parsed.elapsedTime === "number") {
+            setElapsedTime(parsed.elapsedTime);
+          }
+        }
+      }
+    } catch {}
+
+    // 2. Query Neon PostgreSQL backend for authoritative active in-progress session
+    fetch("/api/ai/sessions?mode=conversation&status=active")
+      .then((res) => res.json())
+      .then((data) => {
+        // BUG #5 FIX: Don't overwrite if user has already started interacting
+        if (hasUserInteractedRef.current) return;
+
+        if (
+          data.success &&
+          data.activeSession &&
+          Array.isArray(data.activeSession.messages) &&
+          data.activeSession.messages.length > 1 &&
+          // BUG #12 FIX: Only restore if there's an actual user message (not just welcome)
+          data.activeSession.messages.some((m: any) => m.role === "user")
+        ) {
+          const act = data.activeSession;
+          setSessionId(act.sessionId);
+          setMessages(act.messages);
+          if (act.topicId && aiTopics.some((t) => t.id === act.topicId)) {
+            setSelectedTopicId(act.topicId);
+          }
+          if (typeof act.timeSpentSeconds === "number") {
+            setElapsedTime(act.timeSpentSeconds);
+          }
+          const lastAi = [...act.messages].reverse().find((m: any) => m.role === "ai");
+          if (lastAi?.suggestedWords?.length || lastAi?.suggestedPhrases?.length) {
+            setCurrentSuggestions({
+              words: lastAi.suggestedWords || [],
+              phrases: lastAi.suggestedPhrases || [],
+            });
+          }
+          addToast({
+            type: "info",
+            title: "Khôi phục buổi trò chuyện ✨",
+            message: "Đã nạp lại phiên luyện viết dở dang của bạn.",
+          });
+        }
+      })
+      .catch((err) => console.warn("[AiConversation] Active session hydration notice:", err));
+  }, []);;
 
   // Fetch past conversation history from API
   const fetchSessionHistory = async () => {
@@ -332,7 +437,7 @@ export default function AiConversationPage() {
     fetchSessionHistory();
   };
 
-  // Hydrate selectedTopicId from localStorage
+  // Hydrate selectedTopicId from localStorage fallback if not in active session
   useEffect(() => {
     try {
       const savedTopic = localStorage.getItem("xp_voca_ai_conversation_topic");
@@ -399,12 +504,11 @@ export default function AiConversationPage() {
   // Session stats & completion
   const [isSessionCompleted, setIsSessionCompleted] = useState(false);
   const [showChatHistoryInSummary, setShowChatHistoryInSummary] = useState(false);
-  const [elapsedTime, setElapsedTime] = useState(0);
   const activeTimeRef = useRef(0);
   const chatBottomRef = useRef<HTMLDivElement>(null);
 
-  // Real-time backend practice time tracker
-  useStudyTimeTracker("speaking", {
+  // BUG #8 FIX: Conversation is writing skill, not speaking
+  useStudyTimeTracker("writing", {
     activeCondition: !isSessionCompleted,
   });
 
@@ -421,7 +525,8 @@ export default function AiConversationPage() {
       clearInterval(timer);
       if (activeTimeRef.current > 10) {
         const mins = Math.max(1, Math.ceil(activeTimeRef.current / 60));
-        useUserStore.getState().addPracticeTime(mins, "speaking");
+        // BUG #9 FIX: Use "writing" instead of "speaking"
+        useUserStore.getState().addPracticeTime(mins, "writing");
         activeTimeRef.current = 0;
       }
     };
@@ -663,6 +768,14 @@ export default function AiConversationPage() {
   };
 
   const handleSelectTopic = (topic: Topic) => {
+    // BUG #11 FIX: Clean up previous active session from DB & localStorage when changing topic
+    try {
+      localStorage.removeItem("xp_active_conv_session");
+    } catch {}
+    fetch(`/api/ai/sessions?sessionId=${sessionIdRef.current}`, { method: "DELETE" }).catch(() => {});
+
+    const newSessionId = `ai_conv_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+    setSessionId(newSessionId);
     setSelectedTopicId(topic.id);
     try {
       localStorage.setItem("xp_voca_ai_conversation_topic", topic.id);
@@ -753,7 +866,10 @@ export default function AiConversationPage() {
       betterPhrasing: naturalWay,
     };
 
-    setMessages((prev) => [...prev, userMsg]);
+    const updatedMessages = [...messages, userMsg];
+    setMessages(updatedMessages);
+    hasUserInteractedRef.current = true; // BUG #5 FIX: Mark user has interacted
+    syncActiveSessionToDb(updatedMessages);
     setIsAiTyping(true);
 
     try {
@@ -788,21 +904,22 @@ export default function AiConversationPage() {
           suggestedPhrases: dynamicPhrases,
         };
 
+        let currentList = updatedMessages;
         if (data.grammarCorrection?.hasError || data.betterPhrasing) {
-          setMessages((prev) =>
-            prev.map((m) =>
-              m.id === userMsg.id
-                ? {
-                    ...m,
-                    grammarCorrection: data.grammarCorrection?.hasError ? data.grammarCorrection : m.grammarCorrection,
-                    betterPhrasing: data.betterPhrasing || m.betterPhrasing,
-                  }
-                : m
-            )
+          currentList = currentList.map((m) =>
+            m.id === userMsg.id
+              ? {
+                  ...m,
+                  grammarCorrection: data.grammarCorrection?.hasError ? data.grammarCorrection : m.grammarCorrection,
+                  betterPhrasing: data.betterPhrasing || m.betterPhrasing,
+                }
+              : m
           );
         }
 
-        setMessages((prev) => [...prev, aiMsg]);
+        const finalMessages = [...currentList, aiMsg];
+        setMessages(finalMessages);
+        syncActiveSessionToDb(finalMessages);
         speakText(data.reply);
         setCurrentSuggestions({
           words: dynamicWords,
@@ -824,7 +941,9 @@ export default function AiConversationPage() {
         suggestedWords: currentTopic.suggestedWords.slice(0, 3),
         suggestedPhrases: currentTopic.suggestions.slice(0, 2),
       };
-      setMessages((prev) => [...prev, aiMsg]);
+      const fallbackMessages = [...updatedMessages, aiMsg];
+      setMessages(fallbackMessages);
+      syncActiveSessionToDb(fallbackMessages);
       speakText(fallbackReply);
     } finally {
       setIsAiTyping(false);
@@ -948,6 +1067,10 @@ export default function AiConversationPage() {
 
     // Persist full practice transcript & scorecard to PostgreSQL Neon ai_practice_sessions
     try {
+      try {
+        localStorage.removeItem("xp_active_conv_session");
+      } catch {}
+
       await fetch("/api/ai/sessions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -975,6 +1098,13 @@ export default function AiConversationPage() {
   };
 
   const handleRestartNewSession = () => {
+    // Clean up previous active session from database & localStorage
+    try {
+      localStorage.removeItem("xp_active_conv_session");
+    } catch {}
+
+    fetch(`/api/ai/sessions?sessionId=${sessionId}`, { method: "DELETE" }).catch(() => {});
+
     setSessionId(`ai_conv_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`);
     setIsSessionCompleted(false);
     setShowChatHistoryInSummary(false);

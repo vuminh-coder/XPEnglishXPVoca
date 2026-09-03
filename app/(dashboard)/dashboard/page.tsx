@@ -73,6 +73,7 @@ import {
 import { UserAvatar, formatCleanName } from "@/shared/components/feedback/UserAvatar";
 import { speakLessonText } from "@/shared/utils/ttsEngine";
 import { FormattedAiText } from "@/shared/components/FormattedAiText";
+import { ShimmerBox, ShimmerCircle, ShimmerText } from "@/shared/components/feedback/ShimmerSkeleton";
 
 const SpeakingIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
   <svg
@@ -171,6 +172,7 @@ export default function DashboardPage() {
   const [aiAnswer, setAiAnswer] = useState<string | null>(null);
   const [isAiLoading, setIsAiLoading] = useState(false);
   const [currentTask, setCurrentTask] = useState<string | null>(null);
+  const [isLoadingPlan, setIsLoadingPlan] = useState(true);
   const [showAnnouncement, setShowAnnouncement] = useState(true);
   const [activeSkillTab, setActiveSkillTab] = useState<
     "dictation" | "shadowing" | "speaking" | "vocab" | "writing"
@@ -221,6 +223,20 @@ export default function DashboardPage() {
         if (json.success && json.data) {
           setIsCheckedInToday(Boolean(json.data.isCheckedInToday));
           setActiveDaysInWeek(json.data.activeDaysInWeek || []);
+
+          // Bidirectional Profile Reconciliation with server
+          const state = useUserStore.getState();
+          const currentUser = state.user;
+          if (currentUser) {
+            state.updateUserStats({
+              currentStreak: Math.max(currentUser.currentStreak || 1, json.data.currentStreak || 1),
+              longestStreak: Math.max(currentUser.longestStreak || 1, json.data.longestStreak || 1),
+              totalXp: Math.max(currentUser.totalXp || 0, json.data.totalXp || 0),
+              coins: Math.max(currentUser.coins || 0, json.data.coins || 0),
+              wordsLearned: Math.max(currentUser.wordsLearned || 0, json.data.wordsLearned || 0),
+              minutesStudied: Math.max(currentUser.minutesStudied || 0, json.data.minutesStudied || 0),
+            });
+          }
         }
       } catch (e) {
         console.error("Error fetching live checkin status:", e);
@@ -273,6 +289,7 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchPlan = async () => {
       try {
+        setIsLoadingPlan(true);
         const res = await fetch("/api/study-plan/current");
         const json = await res.json();
         if (json.success && json.data) {
@@ -288,6 +305,8 @@ export default function DashboardPage() {
         }
       } catch (e) {
         console.error("Error fetching study plan:", e);
+      } finally {
+        setIsLoadingPlan(false);
       }
     };
     fetchPlan();
@@ -306,14 +325,30 @@ export default function DashboardPage() {
   }, [learned, user]);
 
   const [chartDataVersion, setChartDataVersion] = useState(0);
+  const [isLoadingChart, setIsLoadingChart] = useState(true);
 
   // Hydrate 7-day skill practice minutes from backend database on mount
   useEffect(() => {
-    if (user?.id) {
-      hydrateSkillMinutesFromBackend(user.id).then(() => {
-        setChartDataVersion((v) => v + 1);
+    let isMounted = true;
+    setIsLoadingChart(true);
+    hydrateSkillMinutesFromBackend(user?.id)
+      .then(() => {
+        if (isMounted) {
+          setChartDataVersion((v) => v + 1);
+        }
+      })
+      .catch((err) => {
+        console.error("Error hydrating chart from backend:", err);
+      })
+      .finally(() => {
+        if (isMounted) {
+          setIsLoadingChart(false);
+        }
       });
-    }
+
+    return () => {
+      isMounted = false;
+    };
   }, [user?.id]);
 
   // Per-skill weekly practice computation
@@ -384,34 +419,66 @@ export default function DashboardPage() {
     return Math.max(count, user.wordsLearned || 0);
   }, [learned, user]);
 
+  const sortedLeaderboardData = useMemo(() => {
+    if (!leaderboardData || leaderboardData.length === 0) return [];
+    const list = [...leaderboardData].map((item) => ({
+      ...item,
+      computedMinutes:
+        typeof item.minutesStudied === "number"
+          ? item.minutesStudied
+          : Math.max(5, Math.round((item.xp || 0) / 10)),
+    }));
+
+    if (leaderboardCriterion === "time") {
+      list.sort((a, b) => b.computedMinutes - a.computedMinutes);
+    } else {
+      list.sort((a, b) => (b.xp || 0) - (a.xp || 0));
+    }
+
+    return list.map((item, idx) => ({
+      ...item,
+      rank: idx + 1,
+    }));
+  }, [leaderboardData, leaderboardCriterion]);
+
   const userRankInLeaderboard = useMemo(() => {
     if (!user) return 1;
-    if (leaderboardData.length > 0) {
-      const found = leaderboardData.find((l) => l.id === user.id);
+    if (sortedLeaderboardData.length > 0) {
+      const found = sortedLeaderboardData.find((l) => l.id === user.id);
       if (found) return found.rank;
-      const higherXpCount = leaderboardData.filter(
-        (l) => l.xp > (user.totalXp || 0)
-      ).length;
-      return higherXpCount + 1;
+
+      if (leaderboardCriterion === "time") {
+        const userMins = user.minutesStudied || 0;
+        const higherCount = sortedLeaderboardData.filter(
+          (l) => l.computedMinutes > userMins
+        ).length;
+        return higherCount + 1;
+      } else {
+        const higherXpCount = sortedLeaderboardData.filter(
+          (l) => (l.xp || 0) > (user.totalXp || 0)
+        ).length;
+        return higherXpCount + 1;
+      }
     }
     return 1;
-  }, [user, leaderboardData]);
+  }, [user, sortedLeaderboardData, leaderboardCriterion]);
 
   const topLeaders = useMemo(() => {
-    if (leaderboardData.length > 0) {
-      return leaderboardData.slice(0, 3);
+    if (sortedLeaderboardData.length > 0) {
+      return sortedLeaderboardData.slice(0, 3);
     }
     return [
-      { id: "top1", fullName: "Nga Nguyễn", xp: 1450, avatarEmoji: "🦊" },
+      { id: "top1", fullName: "Nga Nguyễn", xp: 1450, computedMinutes: 145, avatarEmoji: "🦊" },
       {
         id: "top2",
         fullName: "Quang Nguyễn Định",
         xp: 1280,
+        computedMinutes: 128,
         avatarEmoji: "🦁",
       },
-      { id: "top3", fullName: "Minh Thu", xp: 1100, avatarEmoji: "🦉" },
+      { id: "top3", fullName: "Minh Thu", xp: 1100, computedMinutes: 110, avatarEmoji: "🦉" },
     ];
-  }, [leaderboardData]);
+  }, [sortedLeaderboardData]);
 
   const { percent: xpPercent } = getXpProgress(user.level, user.totalXp);
 
@@ -510,6 +577,15 @@ export default function DashboardPage() {
         setServerChallenges((prev) =>
           prev.map((c) => (c.id === id ? { ...c, isClaimed: true } : c))
         );
+
+        // Synchronize server-authoritative wallet values
+        if (json.data?.totalXp || json.data?.coins) {
+          useUserStore.getState().updateUserStats({
+            totalXp: json.data.totalXp,
+            coins: json.data.coins,
+          });
+        }
+
         addToast({
           type: "success",
           title: "Nhận thưởng thành công!",
@@ -562,6 +638,16 @@ export default function DashboardPage() {
         awardXp(15);
         awardCoins(20);
         useUserStore.getState().addPracticeTime(5);
+
+        // Synchronize server-authoritative streak and profile numbers
+        if (json.data) {
+          useUserStore.getState().updateUserStats({
+            currentStreak: json.data.currentStreak,
+            longestStreak: json.data.longestStreak,
+            totalXp: json.data.totalXp,
+            coins: json.data.coins,
+          });
+        }
 
         addToast({
           type: "success",
@@ -915,10 +1001,17 @@ export default function DashboardPage() {
 
               {/* Title & Description */}
               <div className="relative z-10">
-                <h2 className="text-base sm:text-lg font-extrabold text-white font-display leading-snug tracking-tight">
-                  {currentTask ||
-                    "Ngày 14: Luyện nghe TOEIC Part 6: Text Completion & Liên từ/Trạng từ nâng cao. Hoàn thành 10 câu chép chính tả và ghi chú từ vựng."}
-                </h2>
+                {isLoadingPlan ? (
+                  <div className="space-y-1.5 py-0.5">
+                    <ShimmerBox className="h-5.5 w-4/5 rounded-md bg-white/30 dark:bg-white/20" />
+                    <ShimmerBox className="h-4 w-1/2 rounded-md bg-white/20 dark:bg-white/10" />
+                  </div>
+                ) : (
+                  <h2 className="text-base sm:text-lg font-extrabold text-white font-display leading-snug tracking-tight">
+                    {currentTask ||
+                      "Ngày 14: Luyện nghe TOEIC Part 6: Text Completion & Liên từ/Trạng từ nâng cao. Hoàn thành 10 câu chép chính tả và ghi chú từ vựng."}
+                  </h2>
+                )}
               </div>
 
               {/* 3 Frosted Glass Metadata Pods */}
@@ -983,16 +1076,20 @@ export default function DashboardPage() {
                   </h3>
                 </div>
 
-                <span
-                  className="px-2.5 py-1 rounded-lg text-xs font-bold font-mono shadow-2xs border"
-                  style={{
-                    backgroundColor: `${currentSkillConfig.color}15`,
-                    borderColor: `${currentSkillConfig.color}35`,
-                    color: currentSkillConfig.color,
-                  }}
-                >
-                  Tổng: {skillTotalMinutes} phút
-                </span>
+                {isLoadingChart ? (
+                  <ShimmerBox className="h-6 w-24 rounded-lg" />
+                ) : (
+                  <span
+                    className="px-2.5 py-1 rounded-lg text-xs font-bold font-mono shadow-2xs border"
+                    style={{
+                      backgroundColor: `${currentSkillConfig.color}15`,
+                      borderColor: `${currentSkillConfig.color}35`,
+                      color: currentSkillConfig.color,
+                    }}
+                  >
+                    Tổng: {skillTotalMinutes} phút
+                  </span>
+                )}
               </div>
 
               {/* Segmented Skill Switcher Pill Dock (Speed Dock Style) */}
@@ -1044,13 +1141,66 @@ export default function DashboardPage() {
                 })}
               </div>
 
-              {/* Interactive SVG Chart Waveform Canvas */}
-              <div className="relative pt-1.5 pb-0 bg-slate-50/70 dark:bg-slate-950/70 rounded-xl border border-slate-200/70 dark:border-slate-800/80 overflow-hidden">
-                <div className="w-full relative">
-                  <svg
-                    viewBox="0 0 700 210"
-                    className="w-full h-auto overflow-visible select-none"
+              {/* Interactive SVG Chart Waveform Canvas / 1:1 Shimmer Skeleton */}
+              {isLoadingChart ? (
+                <div className="relative pt-1.5 pb-0 bg-slate-50/70 dark:bg-slate-950/70 rounded-xl border border-slate-200/70 dark:border-slate-800/80 overflow-hidden shadow-2xs before:absolute before:inset-0 before:-translate-x-full before:animate-shimmer before:bg-gradient-to-r before:from-transparent before:via-white/40 dark:before:via-white/10 before:to-transparent before:z-10 before:pointer-events-none">
+                  <div className="w-full relative">
+                    <svg
+                      viewBox="0 0 700 210"
+                      className="w-full h-auto overflow-visible select-none"
+                    >
+                      {[24, 68, 112, 156, 200].map((y, sIdx) => {
+                        const isBaseline = sIdx === 4;
+                        const yLabels = ["60m", "45m", "30m", "15m", "0m"];
+                        return (
+                          <g key={sIdx}>
+                            <line
+                              x1="52"
+                              y1={y}
+                              x2="690"
+                              y2={y}
+                              stroke="currentColor"
+                              className={
+                                isBaseline
+                                  ? "text-slate-200/90 dark:text-slate-800"
+                                  : "text-slate-200/60 dark:text-slate-800"
+                              }
+                              strokeDasharray={isBaseline ? undefined : "3 3"}
+                            />
+                            <text
+                              x="42"
+                              y={y}
+                              textAnchor="end"
+                              dominantBaseline="central"
+                              className="fill-slate-400/70 dark:fill-slate-500/70 font-mono text-[22px] sm:text-[17px] font-extrabold"
+                            >
+                              {yLabels[sIdx]}
+                            </text>
+                          </g>
+                        );
+                      })}
+                    </svg>
+                  </div>
+
+                  {/* 7 Interactive Day Column Buttons Skeleton */}
+                  <div
+                    style={{ paddingLeft: "7.43%", paddingRight: "1.43%" }}
+                    className="grid grid-cols-7 text-center pt-0 pb-1.5 gap-0 border-t border-slate-100 dark:border-slate-800"
                   >
+                    {[1, 2, 3, 4, 5, 6, 7].map((day) => (
+                      <div key={day} className="py-1.5 px-0.5">
+                        <ShimmerBox className="h-3.5 w-9 mx-auto rounded" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="relative pt-1.5 pb-0 bg-slate-50/70 dark:bg-slate-950/70 rounded-xl border border-slate-200/70 dark:border-slate-800/80 overflow-hidden">
+                  <div className="w-full relative">
+                    <svg
+                      viewBox="0 0 700 210"
+                      className="w-full h-auto overflow-visible select-none"
+                    >
                     <defs>
                       <linearGradient
                         id={currentSkillConfig.gradientId}
@@ -1272,6 +1422,7 @@ export default function DashboardPage() {
                   })}
                 </div>
               </div>
+            )}
 
               {/* Sub-Action Card Embedded */}
               <div className="p-3 rounded-xl bg-emerald-50/90 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-900/40 flex items-center justify-between gap-3 shadow-2xs">
@@ -1428,11 +1579,13 @@ export default function DashboardPage() {
 
               {/* 3. Minimalist 7-Day Circle Stepper (With Loading Skeleton) */}
               {isLoadingCheckin ? (
-                <div className="grid grid-cols-7 gap-1 sm:gap-2 text-center pt-1 animate-pulse">
-                  {[1, 2, 3, 4, 5, 6, 7].map((i) => (
+                <div className="grid grid-cols-7 gap-1 sm:gap-2 text-center pt-1">
+                  {["T2", "T3", "T4", "T5", "T6", "T7", "CN"].map((label, i) => (
                     <div key={i} className="flex flex-col items-center gap-1.5">
-                      <div className="h-3 w-5 rounded bg-slate-200 dark:bg-slate-800" />
-                      <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-200 dark:bg-slate-800" />
+                      <span className="text-[11px] font-mono font-bold text-slate-400/70 dark:text-slate-500/70">
+                        {label}
+                      </span>
+                      <ShimmerCircle className="w-7 h-7 sm:w-8 sm:h-8" />
                     </div>
                   ))}
                 </div>
@@ -1608,16 +1761,34 @@ export default function DashboardPage() {
               <div className="space-y-2 pt-1">
                 {isLoadingLeaderboard ? (
                   <div className="space-y-2">
-                    {[1, 2, 3, 4].map((i) => (
+                    {/* User Row Shimmer Highlight */}
+                    <div className="flex items-center justify-between p-2.5 rounded-xl bg-blue-50/70 dark:bg-blue-950/30 border border-blue-200/60 dark:border-blue-800/40 shadow-2xs">
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <ShimmerBox className="w-4 h-4 rounded" />
+                        <ShimmerCircle className="w-6 h-6 shrink-0" />
+                        <ShimmerBox className="h-3.5 w-24 rounded" />
+                      </div>
+                      <ShimmerBox className="h-4 w-12 rounded" />
+                    </div>
+
+                    {/* Top 3 Podium Shimmer Rows */}
+                    {[
+                      "bg-amber-400/20 border-amber-400/30",
+                      "bg-slate-200/60 dark:bg-slate-700/50 border-slate-300/40",
+                      "bg-amber-600/15 border-amber-600/30",
+                    ].map((badgeStyle, idx) => (
                       <div
-                        key={i}
-                        className="p-2.5 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/60 dark:border-slate-800 flex items-center justify-between animate-pulse"
+                        key={idx}
+                        className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/60 dark:border-slate-800 shadow-2xs"
                       >
-                        <div className="flex items-center gap-2.5">
-                          <div className="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-800 shrink-0" />
-                          <div className="h-3.5 w-28 rounded bg-slate-200 dark:bg-slate-800" />
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <span className={`shrink-0 flex items-center justify-center w-5 h-5 rounded-md border ${badgeStyle}`}>
+                            <span className="font-mono text-[11px] font-black text-slate-400/60">{idx + 1}</span>
+                          </span>
+                          <ShimmerCircle className="w-6 h-6 shrink-0" />
+                          <ShimmerBox className="h-3.5 w-28 rounded" />
                         </div>
-                        <div className="h-4 w-12 rounded bg-slate-200 dark:bg-slate-800" />
+                        <ShimmerBox className="h-4 w-12 rounded" />
                       </div>
                     ))}
                   </div>
@@ -1708,75 +1879,94 @@ export default function DashboardPage() {
               </div>
 
               <div className="space-y-2">
-                {displayChallenges.map((ch) => {
-                  const hasReachedGoal = ch.progress >= ch.target || ch.isCompleted;
-                  const isClaimed = Boolean(ch.isClaimed);
-                  const isTaskFullyCompleted = hasReachedGoal && isClaimed;
-                  const isClaiming = claimingChallengeId === ch.id;
+                {isLoadingChallenges ? (
+                  <>
+                    {[1, 2, 3, 4, 5].map((idx) => (
+                      <div
+                        key={idx}
+                        className="flex items-center justify-between gap-2.5 p-2.5 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/70 dark:border-slate-800 shadow-2xs"
+                      >
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <ShimmerBox className="w-7 h-7 rounded-lg shrink-0" />
+                          <div className="min-w-0">
+                            <ShimmerBox className="h-3.5 w-32 sm:w-44 rounded" />
+                          </div>
+                        </div>
+                        <ShimmerBox className="h-4 w-12 rounded" />
+                      </div>
+                    ))}
+                  </>
+                ) : (
+                  displayChallenges.map((ch) => {
+                    const hasReachedGoal = ch.progress >= ch.target || ch.isCompleted;
+                    const isClaimed = Boolean(ch.isClaimed);
+                    const isTaskFullyCompleted = hasReachedGoal && isClaimed;
+                    const isClaiming = claimingChallengeId === ch.id;
 
-                  return (
-                    <div
-                      key={ch.id}
-                      className="flex items-center justify-between gap-2.5 p-2.5 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/70 dark:border-slate-800 shadow-2xs"
-                    >
-                      <div className="flex items-center gap-2.5 min-w-0">
-                        <span className="w-7 h-7 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center shrink-0 shadow-2xs">
-                          {ch.id === "write_essay" ? (
-                            <PenLine className="w-3.5 h-3.5 text-amber-500 stroke-[2]" />
-                          ) : ch.id === "review_cards" ? (
-                            <RotateCcw className="w-3.5 h-3.5 text-blue-500 stroke-[2]" />
-                          ) : ch.id === "learn_words" ? (
-                            <BookOpen className="w-3.5 h-3.5 text-emerald-500 stroke-[2]" />
-                          ) : ch.id === "speak_practice" ? (
-                            <Mic className="w-3.5 h-3.5 text-purple-500 stroke-[2]" />
-                          ) : ch.id === "win_pvp" ? (
-                            <Swords className="w-3.5 h-3.5 text-rose-500 stroke-[2]" />
+                    return (
+                      <div
+                        key={ch.id}
+                        className="flex items-center justify-between gap-2.5 p-2.5 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/70 dark:border-slate-800 shadow-2xs"
+                      >
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <span className="w-7 h-7 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center shrink-0 shadow-2xs">
+                            {ch.id === "write_essay" ? (
+                              <PenLine className="w-3.5 h-3.5 text-amber-500 stroke-[2]" />
+                            ) : ch.id === "review_cards" ? (
+                              <RotateCcw className="w-3.5 h-3.5 text-blue-500 stroke-[2]" />
+                            ) : ch.id === "learn_words" ? (
+                              <BookOpen className="w-3.5 h-3.5 text-emerald-500 stroke-[2]" />
+                            ) : ch.id === "speak_practice" ? (
+                              <Mic className="w-3.5 h-3.5 text-purple-500 stroke-[2]" />
+                            ) : ch.id === "win_pvp" ? (
+                              <Swords className="w-3.5 h-3.5 text-rose-500 stroke-[2]" />
+                            ) : (
+                              <Sparkles className="w-3.5 h-3.5 text-blue-500 stroke-[2]" />
+                            )}
+                          </span>
+                          <div className="min-w-0">
+                            <h4
+                              className={`text-xs font-bold truncate ${
+                                isTaskFullyCompleted
+                                  ? "text-slate-400 dark:text-slate-500 line-through"
+                                  : "text-slate-900 dark:text-white"
+                              }`}
+                            >
+                              {ch.title}
+                            </h4>
+                          </div>
+                        </div>
+
+                        <div className="shrink-0">
+                          {isTaskFullyCompleted ? (
+                            <span className="px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono font-bold text-[10px] flex items-center gap-1 border border-emerald-500/20">
+                              <Check className="w-3 h-3 stroke-[3]" /> ĐÃ NHẬN
+                            </span>
+                          ) : hasReachedGoal ? (
+                            <button
+                              type="button"
+                              disabled={isClaiming}
+                              onClick={() =>
+                                handleClaimChallenge(
+                                  ch.id,
+                                  ch.xpReward,
+                                  ch.coinReward
+                                )
+                              }
+                              className="px-2.5 py-1 text-[10px] font-mono font-black bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg shadow-2xs active:scale-95 transition-transform uppercase cursor-pointer whitespace-nowrap disabled:opacity-60"
+                            >
+                              {isClaiming ? "Đang nhận..." : `Nhận +${ch.xpReward} XP`}
+                            </button>
                           ) : (
-                            <Sparkles className="w-3.5 h-3.5 text-blue-500 stroke-[2]" />
+                            <span className="px-2 py-0.5 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-mono font-bold text-[10px]">
+                              {ch.progress}/{ch.target}
+                            </span>
                           )}
-                        </span>
-                        <div className="min-w-0">
-                          <h4
-                            className={`text-xs font-bold truncate ${
-                              isTaskFullyCompleted
-                                ? "text-slate-400 dark:text-slate-500 line-through"
-                                : "text-slate-900 dark:text-white"
-                            }`}
-                          >
-                            {ch.title}
-                          </h4>
                         </div>
                       </div>
-
-                      <div className="shrink-0">
-                        {isTaskFullyCompleted ? (
-                          <span className="px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono font-bold text-[10px] flex items-center gap-1 border border-emerald-500/20">
-                            <Check className="w-3 h-3 stroke-[3]" /> ĐÃ NHẬN
-                          </span>
-                        ) : hasReachedGoal ? (
-                          <button
-                            type="button"
-                            disabled={isClaiming}
-                            onClick={() =>
-                              handleClaimChallenge(
-                                ch.id,
-                                ch.xpReward,
-                                ch.coinReward
-                              )
-                            }
-                            className="px-2.5 py-1 text-[10px] font-mono font-black bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg shadow-2xs active:scale-95 transition-transform uppercase cursor-pointer whitespace-nowrap disabled:opacity-60"
-                          >
-                            {isClaiming ? "Đang nhận..." : `Nhận +${ch.xpReward} XP`}
-                          </button>
-                        ) : (
-                          <span className="px-2 py-0.5 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-mono font-bold text-[10px]">
-                            {ch.progress}/{ch.target}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })
+                )}
               </div>
             </div>
           </div>

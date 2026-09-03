@@ -259,7 +259,8 @@ export function addSkillPracticeMinutes(
  * Hydrates skill practice minutes & XP from backend database into LocalStorage
  */
 export async function hydrateSkillMinutesFromBackend(userId: string | undefined): Promise<void> {
-  if (typeof window === "undefined" || !userId || userId === "local_user" || userId.startsWith("local_user")) return;
+  if (typeof window === "undefined") return;
+  const effectiveUserId = userId || "local_user";
 
   try {
     const res = await fetch("/api/user/skill-practice", { method: "GET" });
@@ -272,8 +273,8 @@ export async function hydrateSkillMinutesFromBackend(userId: string | undefined)
       const skillsMap = json.data.skills as Record<SkillType, Record<string, number>>;
       for (const skillKey of Object.keys(skillsMap) as SkillType[]) {
         const dbDateMap = skillsMap[skillKey];
-        const localKey = `xp_voca_skill_minutes_${userId}_${skillKey}`;
-        const dailyMinKey = `xp_voca_daily_minutes_${userId}_${skillKey}`;
+        const localKey = `xp_voca_skill_minutes_${effectiveUserId}_${skillKey}`;
+        const dailyMinKey = `xp_voca_daily_minutes_${effectiveUserId}_${skillKey}`;
 
         const localMap = sanitizeMinutesMap(localStorage.getItem(localKey));
         const dailyMap = sanitizeMinutesMap(localStorage.getItem(dailyMinKey));
@@ -294,7 +295,7 @@ export async function hydrateSkillMinutesFromBackend(userId: string | undefined)
       const xpSkillsMap = json.data.xpSkills as Record<SkillType, Record<string, number>>;
       for (const skillKey of Object.keys(xpSkillsMap) as SkillType[]) {
         const dbDateMap = xpSkillsMap[skillKey];
-        const dailyXpKey = `xp_voca_daily_xp_${userId}_${skillKey}`;
+        const dailyXpKey = `xp_voca_daily_xp_${effectiveUserId}_${skillKey}`;
         const localMap = sanitizeMinutesMap(localStorage.getItem(dailyXpKey));
 
         const mergedMap: Record<string, number> = { ...localMap };
@@ -323,9 +324,18 @@ export function get30DaySkillAnalytics(
   const validUserId = userId || "guest";
   const today = new Date();
 
-  // 19 days past (-19..-1), TODAY (0), 10 days future (+1..+10) - Exactly 8 time milestones
-  const offsets = [-19, -14, -9, -4, 0, 3, 6, 10];
-  const todayIndex = offsets.indexOf(0); // Index 4
+  // 19 days past (-19..-1), TODAY (0), 10 days future (+1..+10) - Exactly 8 time milestones with interval bucketing
+  const bucketRanges: { startOffset: number; endOffset: number; dateOffset: number }[] = [
+    { startOffset: -21, endOffset: -17, dateOffset: -19 },
+    { startOffset: -16, endOffset: -12, dateOffset: -14 },
+    { startOffset: -11, endOffset: -7,  dateOffset: -9 },
+    { startOffset: -6,  endOffset: -2,  dateOffset: -4 },
+    { startOffset: -1,  endOffset: 0,   dateOffset: 0 },
+    { startOffset: 1,   endOffset: 3,   dateOffset: 3 },
+    { startOffset: 4,   endOffset: 6,   dateOffset: 6 },
+    { startOffset: 7,   endOffset: 10,  dateOffset: 10 },
+  ];
+  const todayIndex = 4; // Index 4 is "Hôm nay"
 
   const dates: string[] = [];
   const minutes: number[] = [];
@@ -353,29 +363,42 @@ export function get30DaySkillAnalytics(
     skillXpMap = sanitizeMinutesMap(rawXp);
   }
 
-  offsets.forEach((offset) => {
+  bucketRanges.forEach((range) => {
     const d = new Date(today);
-    d.setDate(d.getDate() + offset);
-
-    const isoKey = getLocalDateString(d);
+    d.setDate(d.getDate() + range.dateOffset);
     const dayNum = d.getDate();
     const monthNum = d.getMonth() + 1;
 
-    if (offset === 0) {
+    if (range.dateOffset === 0) {
       dates.push("Hôm nay");
     } else {
       dates.push(`${dayNum} thg ${monthNum}`);
     }
 
-    if (skillFilter) {
-      // Strictly skill-specific minutes & XP (isolated per page/skill)
-      minutes.push(skillMinMap[isoKey] || 0);
-      xp.push(skillXpMap[isoKey] || 0);
-    } else {
-      // Combined overall across all pages/skills
-      minutes.push(genMinMap[isoKey] || 0);
-      xp.push(genXpMap[isoKey] || 0);
+    if (range.startOffset > 0) {
+      minutes.push(0);
+      xp.push(0);
+      return;
     }
+
+    let bMin = 0;
+    let bXp = 0;
+    for (let dayOffset = range.startOffset; dayOffset <= range.endOffset; dayOffset++) {
+      const dt = new Date(today);
+      dt.setDate(dt.getDate() + dayOffset);
+      const isoKey = getLocalDateString(dt);
+
+      if (skillFilter) {
+        bMin += skillMinMap[isoKey] || 0;
+        bXp += skillXpMap[isoKey] || 0;
+      } else {
+        bMin += genMinMap[isoKey] || 0;
+        bXp += genXpMap[isoKey] || 0;
+      }
+    }
+
+    minutes.push(bMin);
+    xp.push(bXp);
   });
 
   return { dates, minutes, xp, todayIndex };

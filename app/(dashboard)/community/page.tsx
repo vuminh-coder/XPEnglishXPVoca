@@ -6,7 +6,7 @@ import { useNotificationStore } from "@/stores/notificationStore";
 import { PageEntranceWrapper, MotionItem } from "@/shared/components/feedback/PageEntranceAnimation";
 import { AppTopHeader, HeaderPillContainer, HeaderPillItem } from "@/shared/components/layout/AppTopHeader";
 import { formatCleanName } from "@/shared/components/feedback/UserAvatar";
-import { Users, Home, Trophy, BookOpen, MessageSquare, Loader2 } from "lucide-react";
+import { Users, Trophy, MessageSquare, UserPlus, PenSquare, Sparkles } from "lucide-react";
 import {
   Post,
   PostCard,
@@ -183,22 +183,92 @@ export default function CommunityPage() {
   };
 
   return (
-    <PageEntranceWrapper className="min-h-screen bg-slate-50 dark:bg-[#070709] text-slate-900 dark:text-slate-100 pb-16">
-      {/* App Top Header with Semantic Header Pills */}
-      <AppTopHeader>
+    <PageEntranceWrapper className="space-y-4 pb-16 md:pb-8 px-0 relative select-none font-sans" suppressHydrationWarning>
+      {/* 1. APP TOP HEADER INTEGRATION */}
+      <AppTopHeader
+        rightDesktopContent={
+          <button
+            type="button"
+            onClick={() => {
+              const textarea = document.getElementById("post-textarea") || document.querySelector("textarea");
+              if (textarea) {
+                textarea.focus();
+                textarea.scrollIntoView({ behavior: "smooth", block: "center" });
+              }
+            }}
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#0059bb] hover:bg-[#004ba0] text-white font-bold text-xs shadow-xs transition-all active:scale-95 cursor-pointer shrink-0"
+          >
+            <PenSquare className="w-3.5 h-3.5" />
+            <span>Đăng Bài Viết +20 XP</span>
+          </button>
+        }
+      >
         <HeaderPillContainer>
-          <HeaderPillItem href="/dashboard" icon={<Home className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />} label="Tổng quan" />
-          <HeaderPillItem active icon={<Users className="w-3.5 h-3.5 text-sky-500" />} label="Cộng đồng" />
-          <HeaderPillItem href="/leaderboard" icon={<Trophy className="w-3.5 h-3.5 text-amber-500" />} label="Bảng xếp hạng" />
-          <HeaderPillItem href="/study/vocabulary" icon={<BookOpen className="w-3.5 h-3.5 text-emerald-500" />} label="Luyện từ vựng" />
+          <HeaderPillItem
+            active={true}
+            icon={<MessageSquare className="w-3.5 h-3.5 text-blue-500" />}
+            label="Bảng Tin"
+          />
+          <HeaderPillItem
+            href="/community/leaderboard"
+            active={false}
+            icon={<Trophy className="w-3.5 h-3.5 text-amber-500" />}
+            label="Xếp Hạng"
+          />
+          <HeaderPillItem
+            href="/community/friends"
+            active={false}
+            icon={<UserPlus className="w-3.5 h-3.5 text-sky-500" />}
+            label="Bạn Bè"
+          />
+          <HeaderPillItem
+            href="/community/groups"
+            active={false}
+            icon={<Users className="w-3.5 h-3.5 text-indigo-500" />}
+            label="Nhóm Học"
+          />
         </HeaderPillContainer>
       </AppTopHeader>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-6">
+      {/* 2. MAIN CONTAINER - FLUID ULTRA-WIDE CANVAS (1600px/1760px STANDARD) */}
+      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 pt-1">
+        
+        {/* HERO SPOTLIGHT BANNER */}
+        <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#0059bb] via-[#004fba] to-[#00388a] text-white shadow-md shadow-blue-900/20 relative overflow-hidden">
+          <div className="absolute -right-10 -bottom-10 w-56 h-56 bg-amber-400/15 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -left-10 -top-10 w-48 h-48 bg-indigo-400/10 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 space-y-2">
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2 flex-nowrap whitespace-nowrap overflow-x-auto no-scrollbar">
+                <span className="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wider bg-white/15 text-white border border-white/20 flex items-center gap-1.5 font-display shrink-0 shadow-2xs">
+                  <Users className="w-3.5 h-3.5 text-sky-200" /> 1,240+ Học Viên Online
+                </span>
+                <span className="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wider bg-emerald-400/20 text-emerald-200 border border-emerald-300/30 flex items-center gap-1.5 font-display shrink-0 shadow-2xs">
+                  <Sparkles className="w-3.5 h-3.5 text-emerald-300 fill-emerald-300" /> Thưởng +20 XP / Bài Đăng
+                </span>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-1">
+              <div className="space-y-1 max-w-2xl">
+                <h1 className="text-base sm:text-lg font-bold font-display tracking-tight text-white flex items-center gap-2">
+                  <span>Cộng Đồng Học Tập XP English</span>
+                  <Sparkles className="w-4 h-4 text-amber-300 fill-amber-300 shrink-0" />
+                </h1>
+                <p className="text-xs text-blue-100/90 max-w-2xl font-medium leading-relaxed">
+                  Chia sẻ kinh nghiệm học từ vựng, mẹo ôn thi IELTS/TOEIC và lan tỏa tinh thần học tập cùng cộng đồng chiến binh XP!
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 3. BENTO GRID LAYOUT (FEED 8/12 + SIDEBAR 4/12) */}
         <MotionItem>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start">
             {/* Main Feed Column */}
-            <div className="lg:col-span-8 space-y-5">
+            <div className="lg:col-span-8 space-y-4">
               <CreatePostBox
                 user={user}
                 currentUserName={currentUserName}
@@ -209,9 +279,47 @@ export default function CommunityPage() {
               />
 
               {loading ? (
-                <div className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl p-12 text-center flex flex-col items-center justify-center gap-3">
-                  <Loader2 className="w-6 h-6 animate-spin text-[#0059bb] dark:text-sky-400" />
-                  <span className="text-xs font-bold text-slate-500">Đang tải bài viết cộng đồng...</span>
+                /* RICH 3-CARD SHIMMER SKELETON FOR DATABASE LOADING (ZERO CLS) */
+                <div className="space-y-4 animate-pulse">
+                  {[1, 2, 3].map((i) => (
+                    <div
+                      key={i}
+                      className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-3.5"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800 shrink-0" />
+                          <div className="space-y-1.5">
+                            <div className="flex items-center gap-2">
+                              <div className="w-28 h-4 rounded-md bg-slate-200 dark:bg-slate-800" />
+                              <div className="w-14 h-4 rounded-md bg-blue-500/20" />
+                            </div>
+                            <div className="w-20 h-3 rounded-md bg-slate-100 dark:bg-slate-800" />
+                          </div>
+                        </div>
+                        <div className="w-8 h-4 rounded-md bg-slate-100 dark:bg-slate-800" />
+                      </div>
+
+                      <div className="space-y-2 pt-1">
+                        <div className="w-full h-3.5 rounded-md bg-slate-200 dark:bg-slate-800" />
+                        <div className="w-5/6 h-3.5 rounded-md bg-slate-200 dark:bg-slate-800" />
+                        <div className="w-3/5 h-3.5 rounded-md bg-slate-100 dark:bg-slate-800" />
+                      </div>
+
+                      <div className="flex items-center gap-2 pt-1">
+                        <div className="w-20 h-6 rounded-lg bg-blue-50 dark:bg-blue-950/40" />
+                        <div className="w-24 h-6 rounded-lg bg-slate-100 dark:bg-slate-800" />
+                      </div>
+
+                      <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-800">
+                        <div className="flex items-center gap-4">
+                          <div className="w-16 h-6 rounded-lg bg-slate-100 dark:bg-slate-800" />
+                          <div className="w-16 h-6 rounded-lg bg-slate-100 dark:bg-slate-800" />
+                        </div>
+                        <div className="w-12 h-6 rounded-lg bg-slate-100 dark:bg-slate-800" />
+                      </div>
+                    </div>
+                  ))}
                 </div>
               ) : posts.length === 0 ? (
                 <div className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl p-12 text-center space-y-2">
@@ -243,12 +351,12 @@ export default function CommunityPage() {
             </div>
 
             {/* Sidebar Column */}
-            <div className="lg:col-span-4">
+            <div className="lg:col-span-4 sticky top-4">
               <CommunitySidebar />
             </div>
           </div>
         </MotionItem>
-      </main>
+      </div>
     </PageEntranceWrapper>
   );
 }

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { prisma, handlePrismaError } from "@/infrastructure/database/prisma";
+import { prisma, safeDbExecute } from "@/infrastructure/database/prisma";
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 
 export const dynamic = "force-dynamic";
@@ -27,7 +27,7 @@ function getLocalDateStr(d = new Date()): string {
 
 export async function GET(request: Request) {
   try {
-    const authUserId = await getAuthenticatedUserId();
+    const authUserId = await getAuthenticatedUserId(request);
     const userId = authUserId || "local_user";
 
     // 7-day rolling window: -4 days to +2 days
@@ -63,28 +63,52 @@ export async function GET(request: Request) {
     });
 
     if (userId !== "local_user") {
-      try {
-        if ((prisma as any).dailySkillPractice) {
-          const records = await (prisma as any).dailySkillPractice.findMany({
-            where: {
-              userId,
-              date: { in: rollingDates },
-            },
-          });
+      await safeDbExecute(async () => {
+        const records = await prisma.dailySkillPractice.findMany({
+          where: {
+            userId,
+            date: { in: rollingDates },
+          },
+        });
 
-          records.forEach((rec: any) => {
-            const sk = normalizeSkill(rec.skill);
-            if (initialMap[sk] && rec.date) {
-              initialMap[sk][rec.date] = rec.minutes || 0;
+        records.forEach((rec: any) => {
+          const sk = normalizeSkill(rec.skill);
+          if (initialMap[sk] && rec.date) {
+            initialMap[sk][rec.date] = (initialMap[sk][rec.date] || 0) + (rec.minutes || 0);
+          }
+          if (initialXpMap[sk] && rec.date) {
+            initialXpMap[sk][rec.date] = (initialXpMap[sk][rec.date] || 0) + (rec.xpEarned || 0);
+          }
+        });
+
+        // 2. Aggregate ListeningProgress for Dictation
+        const startRollingDate = new Date(`${rollingDates[0]}T00:00:00.000Z`);
+        const endRollingDate = new Date(`${rollingDates[rollingDates.length - 1]}T23:59:59.999Z`);
+
+        const listeningRecords = await prisma.listeningProgress.findMany({
+          where: {
+            userId,
+            lastPracticedAt: {
+              gte: startRollingDate,
+              lte: endRollingDate,
+            },
+          },
+          select: {
+            lastPracticedAt: true,
+            timeSpent: true,
+          },
+        });
+
+        listeningRecords.forEach((l) => {
+          if (l.lastPracticedAt) {
+            const dt = getLocalDateStr(new Date(l.lastPracticedAt));
+            if (initialMap.dictation && dt in initialMap.dictation) {
+              const estimatedMins = Math.max(5, Math.round((l.timeSpent || 0) / 60) || 5);
+              initialMap.dictation[dt] = Math.max(initialMap.dictation[dt] || 0, estimatedMins);
             }
-            if (initialXpMap[sk] && rec.date) {
-              initialXpMap[sk][rec.date] = rec.xpEarned || 0;
-            }
-          });
-        }
-      } catch (dbErr: any) {
-        console.warn("[SkillPractice] Database read fallback:", dbErr?.message || dbErr);
-      }
+          }
+        });
+      });
     }
 
     return NextResponse.json({
@@ -112,7 +136,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const authUserId = await getAuthenticatedUserId();
+    const authUserId = await getAuthenticatedUserId(request);
     const userId = authUserId || "local_user";
 
     const body = await request.json();
@@ -131,36 +155,30 @@ export async function POST(request: Request) {
     let newMinutesStudied = 0;
 
     if (userId !== "local_user") {
-      // 1. Upsert DailySkillPractice if table exists
-      try {
-        if ((prisma as any).dailySkillPractice) {
-          updatedRecord = await (prisma as any).dailySkillPractice.upsert({
-            where: {
-              userId_skill_date: {
-                userId,
-                skill: normalizedSkill,
-                date: targetDate,
-              },
-            },
-            update: {
-              minutes: { increment: validMinutes },
-              xpEarned: { increment: validXp },
-            },
-            create: {
+      await safeDbExecute(async () => {
+        // 1. Upsert DailySkillPractice
+        updatedRecord = await prisma.dailySkillPractice.upsert({
+          where: {
+            userId_skill_date: {
               userId,
               skill: normalizedSkill,
               date: targetDate,
-              minutes: validMinutes,
-              xpEarned: validXp,
             },
-          });
-        }
-      } catch (upsertErr: any) {
-        console.warn("[SkillPractice] dailySkillPractice upsert suppressed error:", upsertErr?.message || upsertErr);
-      }
+          },
+          update: {
+            minutes: { increment: validMinutes },
+            xpEarned: { increment: validXp },
+          },
+          create: {
+            userId,
+            skill: normalizedSkill,
+            date: targetDate,
+            minutes: validMinutes,
+            xpEarned: validXp,
+          },
+        });
 
-      // 2. Increment Profile minutesStudied & totalXp
-      try {
+        // 2. Increment Profile minutesStudied & totalXp
         const profile = await prisma.profile.update({
           where: { id: userId },
           data: {
@@ -175,9 +193,7 @@ export async function POST(request: Request) {
         });
 
         newMinutesStudied = profile.minutesStudied;
-      } catch (profileErr: any) {
-        console.warn("[SkillPractice] profile update suppressed error:", profileErr?.message || profileErr);
-      }
+      });
     }
 
     return NextResponse.json({

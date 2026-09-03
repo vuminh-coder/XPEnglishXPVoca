@@ -148,7 +148,7 @@ const sections = [
       },
       {
         name: "Xếp hạng",
-        path: "/community",
+        path: "/community/leaderboard",
         icon: <Trophy className="w-[21px] h-[21px]" strokeWidth={1.9} />,
         page: "community",
       },
@@ -301,7 +301,8 @@ function SidebarNavInner({
                 {section.links.map((link) => {
                   const isActive =
                     pathname === link.path ||
-                    (link.path !== "/" && pathname.startsWith(link.path));
+                    (link.path !== "/" && pathname.startsWith(link.path)) ||
+                    (link.path === "/community/leaderboard" && pathname?.startsWith("/community"));
 
                   return (
                     <React.Fragment key={link.path}>

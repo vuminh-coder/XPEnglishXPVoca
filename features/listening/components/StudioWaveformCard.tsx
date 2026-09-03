@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Play,
@@ -10,6 +10,8 @@ import {
   SkipBack,
   SkipForward,
   Volume2,
+  Volume1,
+  VolumeX,
 } from "lucide-react";
 
 export const JAGGED_ACOUSTIC_SPEECH_SPIKES_95 = [
@@ -56,6 +58,8 @@ interface StudioWaveformCardProps {
   duration?: number;
   isPlaying: boolean;
   playbackSpeed: number;
+  volume?: number;
+  onVolumeChange?: (vol: number) => void;
   onTogglePlay: () => void;
   onPrev: () => void;
   onNext: () => void;
@@ -75,6 +79,8 @@ export function StudioWaveformCard({
   duration = 6,
   isPlaying,
   playbackSpeed,
+  volume: controlledVolume,
+  onVolumeChange,
   onTogglePlay,
   onPrev,
   onNext,
@@ -87,6 +93,43 @@ export function StudioWaveformCard({
   className = "",
 }: StudioWaveformCardProps) {
   const trackRef = useRef<HTMLDivElement>(null);
+  const [internalVolume, setInternalVolume] = useState<number>(() => {
+    if (typeof window === "undefined") return 1.0;
+    try {
+      const saved = localStorage.getItem("xp_listening_volume");
+      return saved ? parseFloat(saved) : 1.0;
+    } catch {
+      return 1.0;
+    }
+  });
+  const [isMuted, setIsMuted] = useState(false);
+
+  const currentVolume = controlledVolume !== undefined ? controlledVolume : internalVolume;
+
+  const handleVolumeChange = (newVol: number) => {
+    const safeVol = Math.max(0, Math.min(1, newVol));
+    setInternalVolume(safeVol);
+    if (safeVol > 0 && isMuted) setIsMuted(false);
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.setItem("xp_listening_volume", String(safeVol));
+      } catch {}
+    }
+    if (onVolumeChange) onVolumeChange(safeVol);
+  };
+
+  const toggleMute = () => {
+    if (isMuted) {
+      setIsMuted(false);
+      if (currentVolume === 0) handleVolumeChange(0.8);
+      else if (onVolumeChange) onVolumeChange(currentVolume);
+    } else {
+      setIsMuted(true);
+      if (onVolumeChange) onVolumeChange(0);
+    }
+  };
+
+  const effectiveVolume = isMuted ? 0 : currentVolume;
 
   const formatTime = (seconds: number): string => {
     const mins = Math.floor(seconds / 60);
@@ -113,9 +156,9 @@ export function StudioWaveformCard({
     <div
       className={`p-3 sm:p-3.5 lg:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/60 dark:shadow-black/40 space-y-2 sm:space-y-2.5 font-sans ${className}`}
     >
-      {/* 1. TOP HEADER: Status Indicator with Larger Bold Typography + Digital Timer */}
+      {/* 1. TOP HEADER: Status Indicator with Larger Bold Typography + Digital Timer & Volume Control */}
       <div className="flex items-center justify-between">
-        {/* Khối biểu tượng âm thanh cao cấp đối xứng với đồng hồ số */}
+        {/* Khối biểu tượng âm thanh cao cấp & Thanh trượt âm lượng */}
         <div className="flex items-center gap-2 px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-lg bg-slate-100/90 dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700/80 shadow-2xs">
           <div
             className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
@@ -124,13 +167,37 @@ export function StudioWaveformCard({
                 : "bg-slate-300 dark:bg-slate-600"
             }`}
           />
-          <Volume2
-            className={`w-4 h-4 transition-colors ${
-              isPlaying
-                ? "text-emerald-600 dark:text-emerald-400"
-                : "text-slate-600 dark:text-slate-400"
-            }`}
-          />
+          <button
+            type="button"
+            onClick={toggleMute}
+            className="text-slate-600 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white transition-colors cursor-pointer flex items-center"
+            title={effectiveVolume === 0 ? "Bật âm thanh" : "Tắt tiếng"}
+          >
+            {effectiveVolume === 0 ? (
+              <VolumeX className="w-4 h-4 text-rose-500" />
+            ) : effectiveVolume < 0.5 ? (
+              <Volume1 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+            ) : (
+              <Volume2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+            )}
+          </button>
+
+          {/* Inline Smooth Volume Slider */}
+          <div className="hidden xs:flex items-center gap-1.5 pl-1 border-l border-slate-200 dark:border-slate-700">
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.05"
+              value={effectiveVolume}
+              onChange={(e) => handleVolumeChange(parseFloat(e.target.value))}
+              className="w-14 sm:w-16 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-slate-900 dark:accent-white"
+              title={`Âm lượng: ${Math.round(effectiveVolume * 100)}%`}
+            />
+            <span className="font-mono text-[10px] font-bold text-slate-500 dark:text-slate-400 w-6 text-right tabular-nums">
+              {Math.round(effectiveVolume * 100)}%
+            </span>
+          </div>
         </div>
 
         {/* Integrated Digital Timer & Total Duration in Top-Right Corner */}

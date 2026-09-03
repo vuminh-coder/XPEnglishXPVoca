@@ -4,6 +4,7 @@ import { useAuthStore } from "@/stores/authStore";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { useUiStore } from "@/stores/uiStore";
 import { motion, AnimatePresence } from "framer-motion";
+import { ShimmerBox, ShimmerCircle } from "@/shared/components/feedback/ShimmerSkeleton";
 import {
   Users,
   Plus,
@@ -556,11 +557,26 @@ export default function StudyRoomsPage() {
             {/* Room Cards Grid */}
             {isLoading ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {[1, 2, 3].map((i) => (
-                  <div key={i} className="h-48 bg-white dark:bg-[#0c0c0f] border border-slate-200/90 dark:border-slate-800 rounded-2xl animate-pulse p-6 space-y-4">
-                    <div className="h-5 w-24 bg-slate-200 dark:bg-slate-800 rounded-lg" />
-                    <div className="h-6 w-3/4 bg-slate-200 dark:bg-slate-800 rounded-lg" />
-                    <div className="h-4 w-full bg-slate-100 dark:bg-slate-800/60 rounded-md" />
+                {[1, 2, 3, 4, 5, 6].map((i) => (
+                  <div
+                    key={i}
+                    className="p-6 bg-white dark:bg-[#0c0c0f] border border-slate-200/90 dark:border-slate-800 rounded-2xl shadow-md flex flex-col justify-between space-y-4"
+                  >
+                    <div className="space-y-2.5">
+                      <div className="flex items-start justify-between gap-2">
+                        <ShimmerBox className="h-5 w-16 rounded-lg bg-blue-500/20 dark:bg-blue-500/10" />
+                        <ShimmerBox className="h-4 w-14 rounded-md" />
+                      </div>
+                      <ShimmerBox className="h-6 w-3/4 rounded-lg" />
+                      <div className="space-y-1.5">
+                        <ShimmerBox className="h-3.5 w-full rounded" />
+                        <ShimmerBox className="h-3.5 w-4/5 rounded" />
+                      </div>
+                    </div>
+                    <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                      <ShimmerBox className="h-4 w-24 rounded-md" />
+                      <ShimmerBox className="h-9 w-24 rounded-xl bg-blue-600/30" />
+                    </div>
                   </div>
                 ))}
               </div>

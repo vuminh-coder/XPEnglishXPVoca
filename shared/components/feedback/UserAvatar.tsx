@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import React, { useState } from 'react';
 
 import { formatCleanName } from "@/shared/utils/formatName";
@@ -34,6 +34,14 @@ const getAvatarBg = (name: string) => {
   return AVATAR_BG_COLORS[index];
 };
 
+const SIZE_MAP: Record<string, string> = {
+  xs: "w-6 h-6",
+  sm: "w-8 h-8",
+  md: "w-10 h-10",
+  lg: "w-12 h-12",
+  xl: "w-14 h-14",
+};
+
 // Universal Component to render Google/Facebook OAuth avatar image with UI-Avatars fallback
 export const UserAvatar = ({
   avatar,
@@ -47,6 +55,7 @@ export const UserAvatar = ({
   const [imgError, setImgError] = useState(false);
   const src = avatar || avatarUrl || imageUrl;
   const cleanName = formatCleanName(name);
+  const sizeClass = SIZE_MAP[size] || (size.includes("w-") || size.includes("h-") ? size : `w-8 h-8 ${size}`);
 
   // If real image URL exists (e.g., Google/Facebook OAuth or uploaded picture) and not errored
   if (src && (src.startsWith('http') || src.startsWith('/')) && !imgError) {
@@ -55,7 +64,7 @@ export const UserAvatar = ({
         src={src}
         alt={cleanName}
         onError={() => setImgError(true)}
-        className={`${size} rounded-full object-cover shrink-0 border border-slate-200/80 dark:border-white/10 shadow-2xs ${className}`}
+        className={`${sizeClass} rounded-full object-cover aspect-square shrink-0 border border-slate-200/80 dark:border-white/10 shadow-2xs ${className}`}
       />
     );
   }
@@ -64,7 +73,7 @@ export const UserAvatar = ({
   if (emoji && emoji !== '🦉') {
     return (
       <div
-        className={`${size} rounded-full bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 flex items-center justify-center font-bold text-xs shrink-0 shadow-2xs border border-slate-200/80 dark:border-white/10 ${className}`}
+        className={`${sizeClass} rounded-full bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 flex items-center justify-center font-bold text-xs shrink-0 shadow-2xs border border-slate-200/80 dark:border-white/10 aspect-square ${className}`}
       >
         <span>{emoji}</span>
       </div>
@@ -79,7 +88,7 @@ export const UserAvatar = ({
     <img
       src={fallbackSrc}
       alt={cleanName}
-      className={`${size} rounded-full object-cover shrink-0 border border-slate-200/80 dark:border-white/10 shadow-2xs ${className}`}
+      className={`${sizeClass} rounded-full object-cover aspect-square shrink-0 border border-slate-200/80 dark:border-white/10 shadow-2xs ${className}`}
     />
   );
 };

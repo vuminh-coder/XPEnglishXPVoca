@@ -12,6 +12,7 @@ import {
   Keyboard,
   MoreHorizontal,
 } from "lucide-react";
+import { formatLevelBadge } from "./InteractiveTranscriptSidebar";
 
 interface StudioTopHeaderProps {
   title: string;
@@ -19,6 +20,8 @@ interface StudioTopHeaderProps {
   currentMode: "listening" | "shadowing";
   lessonQueryId: string | number;
   isBookmarked?: boolean;
+  accent?: string;
+  onAccentChange?: (accent: string) => void;
   onToggleBookmark?: () => void;
   onBack: () => void;
   rightExtraActions?: React.ReactNode;
@@ -30,6 +33,8 @@ export function StudioTopHeader({
   currentMode,
   lessonQueryId,
   isBookmarked = false,
+  accent = "en-US",
+  onAccentChange,
   onToggleBookmark,
   onBack,
   rightExtraActions,
@@ -50,19 +55,26 @@ export function StudioTopHeader({
 
   return (
     <div className="w-full px-3.5 sm:px-5 lg:px-6 h-14 bg-white dark:bg-slate-900 border-b border-slate-200/90 dark:border-slate-800 flex items-center justify-between gap-2 sm:gap-4 min-w-0 select-none">
-      {/* 1. Left side: Back button, Level Badge, Title, Bookmark, Mode Switcher */}
-      <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 overflow-hidden">
+      {/* 1. Left side: Back button, Level Badge, Title, Bookmark, Mode Switcher & Accent Switcher */}
+      <div className="flex items-center gap-2 sm:gap-2.5 min-w-0 flex-1 overflow-hidden">
         <button
           type="button"
           onClick={onBack}
-          className="p-2 rounded-xl text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer shrink-0 active:scale-95 border border-slate-200/60 dark:border-slate-800 shadow-2xs"
+          className="px-2.5 sm:px-3 py-1.5 rounded-xl text-slate-700 hover:text-slate-900 dark:text-slate-200 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer shrink-0 active:scale-95 border border-slate-200/80 dark:border-slate-700/80 shadow-2xs flex items-center gap-1.5 font-bold text-xs"
           title="Quay lại danh sách bài học"
         >
-          <ArrowLeft className="w-4.5 h-4.5" />
+          <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.2]" />
+          <span className="hidden sm:inline">Quay lại</span>
         </button>
 
+        {level && (
+          <span className="px-2 py-0.5 rounded-md text-[11px] font-mono font-bold bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 border border-blue-200/70 dark:border-blue-800/60 shadow-2xs shrink-0">
+            {formatLevelBadge(level)}
+          </span>
+        )}
+
         <h2
-          className="text-sm sm:text-base lg:text-lg font-bold text-slate-900 dark:text-white font-sans truncate min-w-0 max-w-[150px] xs:max-w-[240px] sm:max-w-none"
+          className="text-sm sm:text-base lg:text-[15px] font-bold text-slate-900 dark:text-white font-sans truncate min-w-0 max-w-[150px] xs:max-w-[240px] sm:max-w-none"
           title={title}
         >
           {title}
@@ -76,7 +88,7 @@ export function StudioTopHeader({
             title={isBookmarked ? "Bỏ lưu bài học" : "Lưu bài học yêu thích"}
           >
             <Star
-              className={`w-4.5 h-4.5 ${
+              className={`w-4 h-4 ${
                 isBookmarked
                   ? "text-amber-500 fill-amber-500"
                   : "hover:stroke-amber-500"
@@ -85,8 +97,11 @@ export function StudioTopHeader({
           </button>
         )}
 
+        {/* Micro Divider */}
+        <div className="hidden xl:block w-[1px] h-4 bg-slate-200 dark:bg-slate-700 shrink-0 mx-0.5" />
+
         {/* Mode Switcher pill directly next to title */}
-        <div className="p-0.5 sm:p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-0.5 shrink-0 ml-0.5 sm:ml-1">
+        <div className="p-0.5 sm:p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-0.5 shrink-0 ml-0.5">
           {/* Shadowing Tab Link */}
           <Link
             href={`/study/shadowing?id=${lessonQueryId}`}
@@ -111,14 +126,46 @@ export function StudioTopHeader({
             }`}
             title="Phòng luyện nghe chép chính tả (Đang mở)"
           >
-            <Headphones className="w-3.5 sm:w-4 h-3.5 sm:h-4 shrink-0 text-blue-600 dark:text-sky-400" />
+            <Headphones className="w-3.5 sm:w-4 h-3.5 sm:h-4 shrink-0 text-[#0059bb] dark:text-sky-400" />
             <span className="hidden sm:inline">Nghe</span>
           </Link>
         </div>
+
+        {/* Micro Divider between Mode & Accent */}
+        {onAccentChange && (
+          <div className="hidden md:block w-[1px] h-4 bg-slate-200 dark:bg-slate-700 shrink-0 mx-0.5" />
+        )}
+
+        {/* Accent Switcher pill */}
+        {onAccentChange && (
+          <div className="hidden md:inline-flex p-0.5 sm:p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 items-center gap-0.5 shrink-0">
+            {(["en-US", "en-GB", "en-AU"] as const).map((acc) => {
+              const label = acc === "en-US" ? "US" : acc === "en-GB" ? "UK" : "AU";
+              const isSelected =
+                (accent || "en-US").toLowerCase().includes(label.toLowerCase()) ||
+                (accent || "en-US").toLowerCase() === acc.toLowerCase();
+              return (
+                <button
+                  key={acc}
+                  type="button"
+                  onClick={() => onAccentChange(acc)}
+                  className={`px-2 py-0.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    isSelected
+                      ? "bg-blue-600 text-white shadow-2xs"
+                      : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                  }`}
+                  title={`Đổi giọng đọc tiếng Anh ${label === "US" ? "Mỹ" : label === "UK" ? "Anh" : "Úc"}`}
+                >
+                  {label}
+                </button>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* 2. Right side: Extra actions & Studio Toolbar Icons */}
-      <div className="flex items-center gap-3 shrink-0">
+      <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
         {rightExtraActions}
 
         {/* 3. Far Right Studio Toolbar Icons */}

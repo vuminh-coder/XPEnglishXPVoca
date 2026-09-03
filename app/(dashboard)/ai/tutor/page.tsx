@@ -162,6 +162,100 @@ export default function VoiceTutorPage() {
     };
   }, [setSidebarCollapsed]);
 
+  // Helper to sync in-progress session to DB & LocalStorage immediately
+  // BUG #1,#2,#4 FIX: Use refs instead of stale closure values
+  const syncActiveSessionToDb = (newMessages: ChatMessage[], newElapsed?: number) => {
+    const elapsed = newElapsed ?? elapsedTimeRef.current;
+    const sid = sessionIdRef.current;
+    const persona = currentPersonaRef.current;
+    try {
+      localStorage.setItem(
+        "xp_active_tutor_session",
+        JSON.stringify({
+          sessionId: sid,
+          personaId: persona,
+          messages: newMessages,
+          elapsedTime: elapsed,
+          savedAt: Date.now(),
+        })
+      );
+    } catch {}
+
+    fetch("/api/ai/sessions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        sessionId: sid,
+        mode: "tutor",
+        personaId: persona,
+        messages: newMessages,
+        timeSpentSeconds: elapsed,
+        status: "IN_PROGRESS",
+      }),
+    }).catch(() => {});
+  };
+
+  // Hydrate active session from Database & LocalStorage on initial load
+  useEffect(() => {
+    // 1. Immediate zero-latency hydration from LocalStorage
+    try {
+      const localStr = localStorage.getItem("xp_active_tutor_session");
+      if (localStr) {
+        const parsed = JSON.parse(localStr);
+        if (parsed.sessionId && Array.isArray(parsed.messages) && parsed.messages.length > 1) {
+          setSessionId(parsed.sessionId);
+          setMessages(parsed.messages);
+          if (parsed.personaId === "emma" || parsed.personaId === "alex" || parsed.personaId === "chloe") {
+            setCurrentPersona(parsed.personaId);
+          }
+          if (typeof parsed.elapsedTime === "number") {
+            setElapsedTime(parsed.elapsedTime);
+          }
+        }
+      }
+    } catch {}
+
+    // 2. Query Neon PostgreSQL backend for authoritative in-progress active session
+    fetch("/api/ai/sessions?mode=tutor&status=active")
+      .then((res) => res.json())
+      .then((data) => {
+        // BUG #5 FIX: Don't overwrite if user has already started interacting
+        if (hasUserInteractedRef.current) return;
+
+        if (
+          data.success &&
+          data.activeSession &&
+          Array.isArray(data.activeSession.messages) &&
+          data.activeSession.messages.length > 1 &&
+          // BUG #12 FIX: Only restore if there's an actual user message (not just welcome)
+          data.activeSession.messages.some((m: any) => m.role === "user")
+        ) {
+          const act = data.activeSession;
+          setSessionId(act.sessionId);
+          setMessages(act.messages);
+          if (act.personaId === "emma" || act.personaId === "alex" || act.personaId === "chloe") {
+            setCurrentPersona(act.personaId);
+          }
+          if (typeof act.timeSpentSeconds === "number") {
+            setElapsedTime(act.timeSpentSeconds);
+          }
+          const lastAi = [...act.messages].reverse().find((m: any) => m.role === "ai");
+          if (lastAi?.suggestedWords?.length || lastAi?.suggestedPhrases?.length) {
+            setCurrentSuggestions({
+              words: lastAi.suggestedWords || [],
+              phrases: lastAi.suggestedPhrases || [],
+            });
+          }
+          addToast({
+            type: "info",
+            title: "Khôi phục buổi trò chuyện ✨",
+            message: "Đã tải lại toàn bộ kịch bản luyện nói dở dang của bạn.",
+          });
+        }
+      })
+      .catch((err) => console.warn("[AiTutor] Active session hydration notice:", err));
+  }, []);;
+
   // Fetch past session history from API / local fallback
   const fetchSessionHistory = async () => {
     setIsLoadingHistory(true);
@@ -276,6 +370,16 @@ export default function VoiceTutorPage() {
 
   // Practice timer state (seconds elapsed)
   const [elapsedTime, setElapsedTime] = useState(0);
+
+  // BUG #1,#2,#4 FIX: Refs to avoid stale closures in syncActiveSessionToDb
+  const sessionIdRef = useRef(sessionId);
+  const elapsedTimeRef = useRef(elapsedTime);
+  const currentPersonaRef = useRef(currentPersona);
+  const hasUserInteractedRef = useRef(false); // BUG #5 FIX: Race condition guard
+
+  useEffect(() => { sessionIdRef.current = sessionId; }, [sessionId]);
+  useEffect(() => { elapsedTimeRef.current = elapsedTime; }, [elapsedTime]);
+  useEffect(() => { currentPersonaRef.current = currentPersona; }, [currentPersona]);
   const activeTimeRef = useRef(0);
   const chatBottomRef = useRef<HTMLDivElement>(null);
   const recordingTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -592,6 +696,8 @@ export default function VoiceTutorPage() {
 
     const updatedMessages = [...messages, userMessage];
     setMessages(updatedMessages);
+    hasUserInteractedRef.current = true; // BUG #5 FIX: Mark user has interacted
+    syncActiveSessionToDb(updatedMessages);
     setLoading(true);
 
     try {
@@ -612,18 +718,18 @@ export default function VoiceTutorPage() {
 
       const data = await response.json();
 
+      let currentList = updatedMessages;
       if (data.grammarCorrection || data.betterPhrasing) {
-        setMessages((prev) =>
-          prev.map((m) =>
-            m.id === userMsgId
-              ? {
-                  ...m,
-                  grammarCorrection: data.grammarCorrection,
-                  betterPhrasing: data.betterPhrasing,
-                }
-              : m
-          )
+        currentList = currentList.map((m) =>
+          m.id === userMsgId
+            ? {
+                ...m,
+                grammarCorrection: data.grammarCorrection,
+                betterPhrasing: data.betterPhrasing,
+              }
+            : m
         );
+        setMessages(currentList);
       }
 
       if (data.reply) {
@@ -636,7 +742,9 @@ export default function VoiceTutorPage() {
           suggestedPhrases: (data.suggestedPhrases || []).slice(0, 2),
         };
 
-        setMessages((prev) => [...prev, aiMsg]);
+        const finalMessages = [...currentList, aiMsg];
+        setMessages(finalMessages);
+        syncActiveSessionToDb(finalMessages);
         speakText(data.reply);
 
         if (aiMsg.suggestedWords && aiMsg.suggestedWords.length > 0) {
@@ -668,7 +776,9 @@ export default function VoiceTutorPage() {
           "The main reason is that...",
         ],
       };
-      setMessages((prev) => [...prev, aiMsg]);
+      const fallbackMessages = [...updatedMessages, aiMsg];
+      setMessages(fallbackMessages);
+      syncActiveSessionToDb(fallbackMessages);
       speakText(fallbackReply);
       setCurrentSuggestions({
         words: aiMsg.suggestedWords || [],
@@ -827,6 +937,10 @@ export default function VoiceTutorPage() {
 
     // Persist full practice transcript & scorecard to PostgreSQL Neon ai_practice_sessions
     try {
+      try {
+        localStorage.removeItem("xp_active_tutor_session");
+      } catch {}
+
       await fetch("/api/ai/sessions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -855,6 +969,13 @@ export default function VoiceTutorPage() {
   };
 
   const handleRestartNewSession = () => {
+    // Clean up previous active session from database & localStorage
+    try {
+      localStorage.removeItem("xp_active_tutor_session");
+    } catch {}
+
+    fetch(`/api/ai/sessions?sessionId=${sessionId}`, { method: "DELETE" }).catch(() => {});
+
     setSessionId(`ai_tutor_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`);
     setIsSessionCompleted(false);
     setShowChatHistoryInSummary(false);

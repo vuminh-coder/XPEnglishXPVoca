@@ -119,3 +119,56 @@ export async function POST(request: Request) {
     );
   }
 }
+
+export async function DELETE(request: Request) {
+  try {
+    let authUserId = await getAuthenticatedUserId(request);
+    let bodyUserId: string | null = null;
+    let bodyLessonId: string | null = null;
+
+    try {
+      const body = await request.json();
+      if (body) {
+        bodyUserId = body.userId;
+        bodyLessonId = body.lessonId;
+      }
+    } catch {
+      // Body may be empty if passing query parameters
+    }
+
+    const { searchParams } = new URL(request.url);
+    const queryUserId = searchParams.get("userId");
+    const queryLessonId = searchParams.get("lessonId");
+
+    const userId = authUserId || bodyUserId || queryUserId;
+    const lessonId = bodyLessonId || queryLessonId;
+
+    if (!userId || !lessonId) {
+      return NextResponse.json(
+        { success: false, error: "Thiếu userId hoặc lessonId" },
+        { status: 400 }
+      );
+    }
+
+    const deleteResult = await safeDbExecute(async () => {
+      return await prisma.listeningProgress.deleteMany({
+        where: {
+          userId,
+          lessonId,
+        },
+      });
+    }, "Delete Listening Progress");
+
+    return NextResponse.json({
+      success: true,
+      data: deleteResult,
+      message: "Đã tự động xóa bản ghi tiến độ bài nghe trong CSDL thành công.",
+    });
+  } catch (error) {
+    const prismaErr = handlePrismaError(error);
+    return NextResponse.json(
+      { success: false, error: prismaErr.error },
+      { status: prismaErr.status }
+    );
+  }
+}

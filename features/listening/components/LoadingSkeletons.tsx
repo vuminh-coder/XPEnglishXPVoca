@@ -22,23 +22,31 @@ export function ShimmerBox({
 
 /**
  * Skeleton cho trang Listening dạng LISTING (khi chưa chọn bài, không có ?id=)
- * Bao gồm: Top bar 56px → Filter search → 2 hàng bài học (8 Basic Cards + 8 Advanced Cards)
+ * Bao gồm: Top bar 56px (AppTopHeader Twin) → 2 hàng bài học (8 Basic Cards + 8 Advanced Cards)
  */
 export function ListeningListingSkeleton() {
   return (
     <div className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none">
-      {/* 1. TOP APP HEADER SKELETON (56px Baseline) */}
+      {/* 1. TOP APP HEADER SKELETON (56px Baseline - AppTopHeader Twin) */}
       <div className="w-full h-14 bg-white dark:bg-slate-900 border-b border-slate-200/90 dark:border-slate-800 px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 flex items-center justify-between gap-4 shrink-0 shadow-2xs">
+        {/* Left: 4 Header Pills (Dictation, Shadowing, Luyện từ, Thi thử) */}
         <div className="flex items-center gap-2 sm:gap-3">
           <div className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-1">
+            {/* Dictation (Active) */}
             <ShimmerBox className="h-7 w-24 rounded-lg bg-blue-500/20 dark:bg-blue-500/10" />
+            {/* Shadowing */}
             <ShimmerBox className="h-7 w-24 rounded-lg hidden sm:block" />
+            {/* Luyện từ vựng */}
             <ShimmerBox className="h-7 w-28 rounded-lg hidden md:block" />
+            {/* Thi thử đề */}
+            <ShimmerBox className="h-7 w-24 rounded-lg hidden lg:block" />
           </div>
         </div>
-        <div className="flex items-center gap-2.5">
+
+        {/* Right Desktop Content: Search Input + Nút Tạo bài AI */}
+        <div className="flex items-center gap-2.5 shrink-0">
           <ShimmerBox className="h-9 w-44 xs:w-56 sm:w-72 rounded-xl" />
-          <ShimmerBox className="h-9 w-24 sm:w-28 rounded-xl bg-blue-600/30" />
+          <ShimmerBox className="h-9 w-24 sm:w-28 rounded-xl bg-blue-600/30 dark:bg-blue-500/20" />
         </div>
       </div>
 
@@ -143,14 +151,21 @@ export function ListeningStudioSkeleton() {
     <div className="w-full h-screen max-h-screen flex flex-col overflow-hidden select-none font-sans bg-[#f8fafc] dark:bg-[#050505]">
       {/* 1. STUDIO TOP HEADER SKELETON (56px h-14) */}
       <div className="w-full px-3.5 sm:px-5 lg:px-6 h-14 bg-white dark:bg-slate-900 border-b border-slate-200/90 dark:border-slate-800 flex items-center justify-between gap-2 sm:gap-4 shrink-0 shadow-2xs">
-        {/* Left: Back Button + Title + Star + Mode Switcher */}
+        {/* Left: Back Button + Title + Star + Mode Switcher + Accent Switcher */}
         <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 overflow-hidden">
           <ShimmerBox className="w-8.5 h-8.5 rounded-xl shrink-0" />
           <ShimmerBox className="h-5 w-44 sm:w-64 rounded-md" />
           <ShimmerBox className="w-7 h-7 rounded-lg hidden xs:block" />
+          {/* Mode Switcher */}
           <div className="p-0.5 sm:p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-1 shrink-0">
             <ShimmerBox className="h-6 w-12 rounded-lg" />
             <ShimmerBox className="h-6 w-14 rounded-lg bg-blue-500/20 dark:bg-blue-500/10" />
+          </div>
+          {/* Accent Switcher [US / UK / AU] */}
+          <div className="hidden md:inline-flex p-0.5 sm:p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 items-center gap-1 shrink-0">
+            <ShimmerBox className="h-5 w-7 rounded-md bg-blue-500/20 dark:bg-blue-500/10" />
+            <ShimmerBox className="h-5 w-7 rounded-md" />
+            <ShimmerBox className="h-5 w-7 rounded-md" />
           </div>
         </div>
 
@@ -181,13 +196,19 @@ export function ListeningStudioSkeleton() {
         <div className="flex-1 min-w-0 p-3 sm:p-3.5 space-y-2.5 sm:space-y-3 overflow-y-auto hide-scrollbar">
           {/* 3.1. KHỐI AUDIO WAVEFORM STUDIO CARD */}
           <div className="p-3 sm:p-3.5 lg:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/60 dark:shadow-black/40 space-y-2 sm:space-y-2.5">
-            {/* Top Status LED + Digital Timer */}
+            {/* Top Status LED + Volume Slider + Digital Timer */}
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 px-3 py-1 rounded-lg bg-slate-100/90 dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700/80">
+              {/* Left: Sound Indicator & Volume Slider Skeleton */}
+              <div className="flex items-center gap-2 px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-lg bg-slate-100/90 dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700/80 shadow-2xs">
                 <ShimmerBox className="w-2.5 h-2.5 rounded-full bg-emerald-500/40" />
                 <ShimmerBox className="w-4 h-4 rounded" />
+                <div className="hidden xs:flex items-center gap-1.5 pl-1 border-l border-slate-200 dark:border-slate-700">
+                  <ShimmerBox className="w-14 sm:w-16 h-1.5 rounded-lg" />
+                  <ShimmerBox className="w-6 h-3 rounded" />
+                </div>
               </div>
 
+              {/* Right: Digital Timer */}
               <div className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-100/90 dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700/80">
                 <ShimmerBox className="h-4 w-10 rounded font-mono" />
                 <span className="text-slate-400 text-xs">/</span>
@@ -328,16 +349,16 @@ export function ListeningStudioSkeleton() {
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <div
                 key={i}
-                className={`p-3 rounded-xl border space-y-1.5 ${
+                className={`p-3.5 rounded-2xl border-2 space-y-2 ${
                   i === 1
-                    ? "border-blue-500/40 bg-blue-50/50 dark:bg-blue-950/20"
+                    ? "border-blue-500/60 bg-white dark:bg-slate-900 shadow-xs"
                     : "border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900"
                 }`}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <ShimmerBox className="w-5 h-5 rounded-md font-mono" />
-                    <ShimmerBox className="h-3.5 w-10 rounded" />
+                    <ShimmerBox className="w-5 h-5 rounded-full" />
+                    <ShimmerBox className="h-3.5 w-10 rounded font-mono" />
                   </div>
                   <ShimmerBox className="w-6 h-6 rounded-lg" />
                 </div>
@@ -348,6 +369,82 @@ export function ListeningStudioSkeleton() {
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+/**
+ * Skeleton cho Tab 2 (Gợi ý bài học) trên Sidebar khi đang nạp CSDL hoặc đổi gợi ý
+ */
+export function RecommendationCardsSkeleton({ count = 3 }: { count?: number }) {
+  return (
+    <div className="space-y-3">
+      {Array.from({ length: count }, (_, i) => (
+        <div
+          key={i}
+          className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex gap-3.5 items-center select-none min-h-[96px]"
+        >
+          {/* Thumbnail Skeleton */}
+          <div className="w-[102px] sm:w-[108px] h-[74px] sm:h-[78px] shrink-0 rounded-xl overflow-hidden relative bg-slate-100 dark:bg-slate-800 border border-slate-200/70 dark:border-slate-700/60 shadow-2xs">
+            <ShimmerBox className="w-full h-full rounded-xl" />
+            <div className="absolute bottom-1.5 left-1.5 w-9 h-4 rounded-md bg-slate-900/40 backdrop-blur-xs" />
+          </div>
+
+          {/* Right Info */}
+          <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5 space-y-1.5">
+            <div className="flex items-center justify-between gap-1.5">
+              <ShimmerBox className="h-3.5 w-20 rounded" />
+              <ShimmerBox className="h-4 w-12 rounded-full" />
+            </div>
+            <div className="space-y-1">
+              <ShimmerBox className="h-3.5 w-full rounded" />
+              <ShimmerBox className="h-3.5 w-4/5 rounded" />
+            </div>
+            <div className="flex items-center justify-between pt-1 border-t border-slate-100 dark:border-slate-800/80">
+              <ShimmerBox className="h-3.5 w-24 rounded" />
+              <ShimmerBox className="h-6 w-14 rounded-lg" />
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/**
+ * Skeleton cho danh sách câu phụ đề khi chuyển bài bên trong Studio (In-Place Transition)
+ */
+export function TranscriptSentencesSkeleton({ count = 6 }: { count?: number }) {
+  return (
+    <div className="space-y-2.5 p-3">
+      {Array.from({ length: count }, (_, i) => (
+        <div
+          key={i}
+          className={`p-3.5 sm:p-4 rounded-2xl border-2 space-y-2 select-none ${
+            i === 0
+              ? "bg-white dark:bg-slate-900 border-blue-500/60 dark:border-sky-500/50 shadow-xs"
+              : "bg-white dark:bg-slate-900 border-slate-200/80 dark:border-slate-800"
+          }`}
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <ShimmerBox className="w-6 h-6 rounded-full" />
+              <ShimmerBox className="h-4 w-8 rounded font-mono" />
+              {i === 0 && (
+                <ShimmerBox className="h-5 w-20 rounded-md bg-blue-500/20 dark:bg-blue-500/10" />
+              )}
+            </div>
+            <div className="flex items-center gap-1.5">
+              <ShimmerBox className="w-6 h-6 rounded-lg" />
+              <ShimmerBox className="w-6 h-6 rounded-lg" />
+            </div>
+          </div>
+          <div className="space-y-1.5 pt-1">
+            <ShimmerBox className="h-3.5 w-full rounded" />
+            <ShimmerBox className="h-3.5 w-3/4 rounded" />
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
