@@ -1741,10 +1741,10 @@ function ShadowingStudioContent() {
                                         : wordEval?.status === "needs_work"
                                         ? "bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 border-2 border-rose-400 shadow-2xs"
                                         : isCurrentlyBeingRead
-                                        ? "bg-slate-900 text-white dark:bg-white dark:text-slate-950 font-bold border-2 border-slate-900 dark:border-white ring-4 ring-slate-900/20 dark:ring-white/20 shadow-md scale-105"
+                                        ? "bg-blue-100/90 dark:bg-blue-950/80 text-[#0059bb] dark:text-sky-300 font-extrabold border-2 border-[#0059bb] dark:border-sky-400 ring-3 ring-blue-500/25 dark:ring-sky-400/30 shadow-xs scale-105"
                                         : isCurrentlySpoken
                                         ? "bg-emerald-100 dark:bg-emerald-900/60 text-emerald-900 dark:text-emerald-100 border-2 border-emerald-500 ring-2 ring-emerald-500/20 shadow-xs scale-105"
-                                        : "bg-slate-50 dark:bg-slate-800/80 border border-slate-200/90 dark:border-slate-700 text-slate-800 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 shadow-2xs"
+                                        : "bg-slate-50 dark:bg-slate-800/80 border border-slate-200/90 dark:border-slate-700 text-slate-800 dark:text-slate-200 hover:border-blue-400/80 dark:hover:border-sky-400/70 hover:text-[#0059bb] dark:hover:text-sky-300 hover:bg-blue-50/40 dark:hover:bg-slate-800 shadow-2xs"
                                     }`}
                                   >
                                     {word}
