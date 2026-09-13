@@ -1,0 +1,72 @@
+@layer components {
+/* ============================================================
+   23. XP POPUP / REWARD ANIMATION
+   ============================================================ */
+.xp-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: var(--z-toast);
+  text-align: center;
+  pointer-events: none;
+}
+.xp-popup-content {
+  animation:
+    scaleIn 0.3s ease-out,
+    fadeIn 0.3s ease-out;
+}
+.xp-popup-icon {
+  font-size: 4rem;
+  animation: bounce 0.6s ease;
+}
+.xp-popup-value {
+  font-size: var(--text-4xl);
+  font-weight: 900;
+  font-family: var(--font-display);
+  color: var(--secondary-500);
+  text-shadow: 0 2px 10px rgba(255, 152, 0, 0.3);
+}
+.xp-popup-label {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+/* Level Up overlay */
+.level-up-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-modal);
+  animation: fadeIn 0.3s ease-out;
+}
+.level-up-content {
+  text-align: center;
+  color: white;
+  animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.level-up-icon {
+  font-size: 6rem;
+  margin-bottom: var(--space-4);
+  animation: bounce 1s ease infinite;
+}
+.level-up-title {
+  font-size: var(--text-4xl);
+  font-weight: 900;
+  font-family: var(--font-display);
+  background: linear-gradient(135deg, #ffd700, #ff9800);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: var(--space-2);
+}
+.level-up-level {
+  font-size: var(--text-2xl);
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: var(--space-6);
+}
+}
+

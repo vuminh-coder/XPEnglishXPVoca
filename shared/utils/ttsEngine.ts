@@ -404,3 +404,15 @@ function fallbackStreamAudio(text: string, options: SpeakOptions, settings: TTSS
     console.warn("Fallback audio failed:", err);
   }
 }
+
+/**
+ * Prefetches and warms the audio cache for an upcoming sentence (0ms next sentence playback)
+ */
+export function prefetchAudioSentence(text: string, accent?: string) {
+  if (typeof window === "undefined" || !text) return;
+  try {
+    const targetLang = normalizeLanguageCode(accent || "en-US");
+    const streamUrl = `/api/tts?text=${encodeURIComponent(text.slice(0, 300))}&lang=${targetLang}`;
+    fetch(streamUrl, { priority: "low" as any }).catch(() => {});
+  } catch {}
+}

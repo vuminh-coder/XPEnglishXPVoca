@@ -104,9 +104,9 @@ export function PvPResults({
       <div className="space-y-2 pt-2">
         <button
           onClick={onRematch}
-          className="w-full h-11 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer"
+          className="w-full h-11 bg-[#0059bb] hover:bg-[#004ba0] text-white font-bold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer"
         >
-          <RotateCcw className="w-4 h-4" />
+          <RotateCcw className="w-4 h-4 text-amber-300" />
           <span>Đấu Lại Trận Mới</span>
         </button>
         <button

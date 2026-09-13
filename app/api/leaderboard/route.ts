@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma, safeDbExecute } from "@/infrastructure/database/prisma";
 import { formatCleanName } from "@/shared/utils/formatName";
+import { memoryCache } from "@/infrastructure/cache/memoryCache";
 
 export const dynamic = "force-dynamic";
 
@@ -21,6 +22,19 @@ export async function GET(req: NextRequest) {
     const page = Math.max(isNaN(pageParam) ? 1 : pageParam, 1);
     const skip = (page - 1) * limit;
 
+    // 0. Check in-memory TTL cache (60s) to return in < 2ms
+    const cacheKey = `leaderboard:${period}:${page}:${limit}`;
+    const cachedResponse = memoryCache.get<any>(cacheKey);
+    if (cachedResponse) {
+      return NextResponse.json(cachedResponse, {
+        status: 200,
+        headers: {
+          "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+          "X-Cache": "HIT",
+        },
+      });
+    }
+
     const today = new Date();
     const daysOffset = period === "month" ? 30 : 7;
     const startDate = new Date(today);
@@ -30,20 +44,36 @@ export async function GET(req: NextRequest) {
 
     const formattedLeaders = await safeDbExecute(async () => {
       if (period === "week" || period === "month") {
-        // 1. Query periodic skill practice aggregations
-        const practiceAggregations = await prisma.dailySkillPractice.groupBy({
-          by: ["userId"],
-          where: {
-            date: {
-              gte: startDateStr,
-              lte: todayStr,
+        // 1. Parallelize periodic aggregations & profile queries
+        const [practiceAggregations, profiles] = await Promise.all([
+          prisma.dailySkillPractice.groupBy({
+            by: ["userId"],
+            where: {
+              date: {
+                gte: startDateStr,
+                lte: todayStr,
+              },
             },
-          },
-          _sum: {
-            xpEarned: true,
-            minutes: true,
-          },
-        });
+            _sum: {
+              xpEarned: true,
+              minutes: true,
+            },
+          }),
+          prisma.profile.findMany({
+            select: {
+              id: true,
+              fullName: true,
+              username: true,
+              level: true,
+              title: true,
+              totalXp: true,
+              avatarEmoji: true,
+              avatarUrl: true,
+              minutesStudied: true,
+            },
+            take: 100,
+          }),
+        ]);
 
         const periodicMap = new Map<string, { periodicXp: number; periodicMinutes: number }>();
         practiceAggregations.forEach((p) => {
@@ -53,22 +83,6 @@ export async function GET(req: NextRequest) {
               periodicMinutes: p._sum.minutes || 0,
             });
           }
-        });
-
-        // 2. Fetch active profiles
-        const profiles = await prisma.profile.findMany({
-          select: {
-            id: true,
-            fullName: true,
-            username: true,
-            level: true,
-            title: true,
-            totalXp: true,
-            avatarEmoji: true,
-            avatarUrl: true,
-            minutesStudied: true,
-          },
-          take: 100,
         });
 
         // 3. Compute combined scores (prioritizing periodic score, fallback to total proportion)
@@ -146,24 +160,28 @@ export async function GET(req: NextRequest) {
       });
     }, "Leaderboard Query");
 
-    return NextResponse.json(
-      {
-        success: true,
-        data: formattedLeaders || [],
-        meta: {
-          period,
-          page,
-          limit,
-          totalReturned: formattedLeaders?.length || 0,
-        },
+    const responsePayload = {
+      success: true,
+      data: formattedLeaders || [],
+      meta: {
+        period,
+        page,
+        limit,
+        totalReturned: formattedLeaders?.length || 0,
       },
-      {
-        status: 200,
-        headers: {
-          "Cache-Control": "public, s-maxage=10, stale-while-revalidate=59",
-        },
-      }
-    );
+    };
+
+    if (formattedLeaders && formattedLeaders.length > 0) {
+      memoryCache.set(cacheKey, responsePayload, 60);
+    }
+
+    return NextResponse.json(responsePayload, {
+      status: 200,
+      headers: {
+        "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+        "X-Cache": "MISS",
+      },
+    });
   } catch (error: any) {
     console.error("GET /api/leaderboard error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });

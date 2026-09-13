@@ -75,7 +75,7 @@ export default function PvpQuizArenaPage() {
         </HeaderPillContainer>
       </AppTopHeader>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-6">
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 pt-6">
         <MotionItem>
           {gameState === "lobby" && (
             <PvPLobby

@@ -71,6 +71,8 @@ model UserVocabulary {
   vocabulary    Vocabulary @relation(fields: [vocabId], references: [id], onDelete: Cascade)
 
   @@unique([userId, vocabId])
+  @@index([userId, isFavorite])
+  @@index([userId, nextReview])
   @@map("user_vocabulary")
 }
 
@@ -539,5 +541,7 @@ model DailySkillPractice {
   @@unique([userId, skill, date])
   @@index([userId, date])
   @@index([userId, skill])
+  @@index([date])
+  @@index([date, xpEarned(sort: Desc)])
   @@map("daily_skill_practice")
 }

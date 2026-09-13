@@ -31,16 +31,16 @@ export function PvPMatchmaking({
 }: PvPMatchmakingProps) {
   if (gameState === "starting_count") {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] text-center space-y-6">
-        <div className="w-24 h-24 rounded-full bg-rose-500/20 text-rose-500 border-2 border-rose-500 flex items-center justify-center text-5xl font-display font-black animate-ping">
+      <div className="max-w-md mx-auto bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 sm:p-10 text-center space-y-6 shadow-sm flex flex-col items-center justify-center min-h-[360px]">
+        <div className="w-24 h-24 rounded-full bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 border-2 border-[#0059bb] flex items-center justify-center text-5xl font-display font-black animate-pulse">
           {countdown}
         </div>
-        <div className="space-y-1">
+        <div className="space-y-1.5">
           <h3 className="text-2xl font-display font-black text-slate-900 dark:text-white">
-            Chuẩn bị sẵn sàng!
+            Chuẩn Bị Sẵn Sàng!
           </h3>
-          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
-            Trận đấu PvP đang bắt đầu...
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium">
+            Trận đấu PvP đang bắt đầu ngay...
           </p>
         </div>
       </div>
@@ -69,7 +69,7 @@ export function PvPMatchmaking({
           </span>
           <button
             onClick={onCopyRoomCode}
-            className="flex items-center gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-700 dark:text-slate-200 shadow-2xs hover:bg-slate-100 cursor-pointer"
+            className="flex items-center gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-700 dark:text-slate-200 shadow-2xs hover:bg-slate-100 dark:hover:bg-slate-600 cursor-pointer"
           >
             {copiedCode ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
             <span>{copiedCode ? "Đã sao chép" : "Sao chép"}</span>
@@ -79,9 +79,9 @@ export function PvPMatchmaking({
         {isHost && onHostStartGame && (
           <button
             onClick={onHostStartGame}
-            className="w-full h-11 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer"
+            className="w-full h-11 bg-[#0059bb] hover:bg-[#004ba0] text-white font-bold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer"
           >
-            <Play className="w-4 h-4 fill-current" />
+            <Play className="w-4 h-4 fill-current text-amber-300" />
             <span>Bắt Đầu Trận Đấu</span>
           </button>
         )}
@@ -101,8 +101,8 @@ export function PvPMatchmaking({
   return (
     <div className="max-w-md mx-auto bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 text-center space-y-6 shadow-sm">
       <div className="relative w-20 h-20 mx-auto flex items-center justify-center">
-        <div className="absolute inset-0 rounded-full border-4 border-rose-500/20 border-t-rose-500 animate-spin" />
-        <Bot className="w-8 h-8 text-rose-500" />
+        <div className="absolute inset-0 rounded-full border-4 border-blue-500/20 border-t-[#0059bb] animate-spin" />
+        <Bot className="w-8 h-8 text-[#0059bb] dark:text-sky-400" />
       </div>
 
       <div className="space-y-1">

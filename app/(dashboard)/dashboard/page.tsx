@@ -214,103 +214,149 @@ export default function DashboardPage() {
 
     initChallenges();
 
-    // 2. Fetch Live Daily Checkin Status from PostgreSQL
-    const fetchCheckinStatus = async () => {
+    // 2. SWR Instant 0ms Local Cache Hydration & Consolidated Background Fetch
+    const overviewCacheKey = `xp_voca_dashboard_overview_${user?.id || "guest"}`;
+    if (typeof window !== "undefined") {
       try {
-        setIsLoadingCheckin(true);
-        const res = await fetch("/api/user/daily-checkin");
-        const json = await res.json();
-        if (json.success && json.data) {
-          setIsCheckedInToday(Boolean(json.data.isCheckedInToday));
-          setActiveDaysInWeek(json.data.activeDaysInWeek || []);
+        const rawCached = localStorage.getItem(overviewCacheKey);
+        if (rawCached) {
+          const cached = JSON.parse(rawCached);
+          if (cached.checkin) {
+            setIsCheckedInToday(Boolean(cached.checkin.isCheckedInToday));
+            setActiveDaysInWeek(cached.checkin.activeDaysInWeek || []);
+            setIsLoadingCheckin(false);
+          }
+          if (cached.challenges && cached.challenges.length > 0) {
+            setServerChallenges(cached.challenges);
+            setIsLoadingChallenges(false);
+          }
+          if (cached.studyPlan?.todayTask) {
+            setCurrentTask(cached.studyPlan.todayTask);
+            setIsLoadingPlan(false);
+          }
+          setIsLoadingChart(false);
+        }
+      } catch (err) {
+        console.warn("Failed to load cached dashboard overview:", err);
+      }
+    }
 
-          // Bidirectional Profile Reconciliation with server
-          const state = useUserStore.getState();
-          const currentUser = state.user;
-          if (currentUser) {
-            state.updateUserStats({
-              currentStreak: Math.max(currentUser.currentStreak || 1, json.data.currentStreak || 1),
-              longestStreak: Math.max(currentUser.longestStreak || 1, json.data.longestStreak || 1),
-              totalXp: Math.max(currentUser.totalXp || 0, json.data.totalXp || 0),
-              coins: Math.max(currentUser.coins || 0, json.data.coins || 0),
-              wordsLearned: Math.max(currentUser.wordsLearned || 0, json.data.wordsLearned || 0),
-              minutesStudied: Math.max(currentUser.minutesStudied || 0, json.data.minutesStudied || 0),
-            });
+    let isMounted = true;
+    const fetchDashboardOverview = async () => {
+      try {
+        const res = await fetch("/api/dashboard/overview");
+        const json = await res.json();
+        if (json.success && json.data && isMounted) {
+          const data = json.data;
+
+          // A. Checkin & Profile stats reconciliation
+          if (data.checkin) {
+            setIsCheckedInToday(Boolean(data.checkin.isCheckedInToday));
+            setActiveDaysInWeek(data.checkin.activeDaysInWeek || []);
+
+            const state = useUserStore.getState();
+            const currentUser = state.user;
+            if (currentUser) {
+              state.updateUserStats({
+                currentStreak: Math.max(currentUser.currentStreak || 1, data.checkin.currentStreak || 1),
+                longestStreak: Math.max(currentUser.longestStreak || 1, data.checkin.longestStreak || 1),
+                totalXp: Math.max(currentUser.totalXp || 0, data.checkin.totalXp || 0),
+                coins: Math.max(currentUser.coins || 0, data.checkin.coins || 0),
+                wordsLearned: Math.max(currentUser.wordsLearned || 0, data.checkin.wordsLearned || 0),
+                minutesStudied: Math.max(currentUser.minutesStudied || 0, data.checkin.minutesStudied || 0),
+              });
+            }
+          }
+
+          // B. Daily Challenges
+          if (data.challenges) {
+            setServerChallenges(data.challenges);
+          }
+
+          // C. Study Plan
+          if (data.studyPlan?.todayTask) {
+            setCurrentTask(data.studyPlan.todayTask);
+          }
+
+          // D. Skill chart practice minutes
+          if (data.skillPractice) {
+            await hydrateSkillMinutesFromBackend(user?.id, data.skillPractice);
+            if (isMounted) {
+              setChartDataVersion((v) => v + 1);
+            }
+          }
+
+          // E. Update instant SWR cache in LocalStorage
+          try {
+            localStorage.setItem(overviewCacheKey, JSON.stringify(data));
+          } catch (e) {
+            // ignore storage quota error
           }
         }
       } catch (e) {
-        console.error("Error fetching live checkin status:", e);
+        console.error("Error fetching dashboard overview:", e);
       } finally {
-        setIsLoadingCheckin(false);
-      }
-    };
-    fetchCheckinStatus();
-
-    // 3. Fetch Live Daily Challenges from PostgreSQL
-    const fetchChallenges = async () => {
-      try {
-        setIsLoadingChallenges(true);
-        const res = await fetch("/api/user/challenges");
-        const json = await res.json();
-        if (json.success && json.data?.challenges) {
-          setServerChallenges(json.data.challenges);
+        if (isMounted) {
+          setIsLoadingCheckin(false);
+          setIsLoadingChallenges(false);
+          setIsLoadingPlan(false);
+          setIsLoadingChart(false);
         }
-      } catch (e) {
-        console.error("Error fetching live challenges:", e);
-      } finally {
-        setIsLoadingChallenges(false);
       }
     };
-    fetchChallenges();
-  }, [initChallenges]);
+
+    fetchDashboardOverview();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [initChallenges, user?.id]);
 
   const [leaderboardData, setLeaderboardData] = useState<any[]>([]);
   const [isLoadingLeaderboard, setIsLoadingLeaderboard] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
+    const lbCacheKey = `xp_voca_lb_${leaderboardTab}`;
+
+    // Instant SWR memory/session cache
+    if (typeof window !== "undefined") {
+      try {
+        const raw = sessionStorage.getItem(lbCacheKey);
+        if (raw) {
+          const cached = JSON.parse(raw);
+          if (Array.isArray(cached) && cached.length > 0) {
+            setLeaderboardData(cached);
+            setIsLoadingLeaderboard(false);
+          }
+        }
+      } catch (e) {}
+    }
+
     const fetchLeaderboard = async () => {
       try {
-        setIsLoadingLeaderboard(true);
         const res = await fetch(`/api/leaderboard?period=${leaderboardTab}`);
         const json = await res.json();
-        if (json.success && json.data) {
+        if (json.success && json.data && isMounted) {
           setLeaderboardData(json.data);
+          try {
+            sessionStorage.setItem(lbCacheKey, JSON.stringify(json.data));
+          } catch (e) {}
         }
       } catch (e) {
         console.error("Error fetching dashboard leaderboard:", e);
       } finally {
-        setIsLoadingLeaderboard(false);
+        if (isMounted) {
+          setIsLoadingLeaderboard(false);
+        }
       }
     };
     fetchLeaderboard();
-  }, [leaderboardTab]);
 
-  // Fetch current day's study plan task
-  useEffect(() => {
-    const fetchPlan = async () => {
-      try {
-        setIsLoadingPlan(true);
-        const res = await fetch("/api/study-plan/current");
-        const json = await res.json();
-        if (json.success && json.data) {
-          const plan = json.data;
-          const todayStr = new Date().toISOString().slice(0, 10);
-          const todayTask = plan.dailyTasks.find((t: any) => {
-            const taskDate = new Date(t.date).toISOString().slice(0, 10);
-            return taskDate === todayStr;
-          });
-          if (todayTask) {
-            setCurrentTask(todayTask.description);
-          }
-        }
-      } catch (e) {
-        console.error("Error fetching study plan:", e);
-      } finally {
-        setIsLoadingPlan(false);
-      }
+    return () => {
+      isMounted = false;
     };
-    fetchPlan();
-  }, []);
+  }, [leaderboardTab]);
 
   const wordsPracticedToday = useMemo(() => {
     if (!user) return 0;
@@ -325,31 +371,7 @@ export default function DashboardPage() {
   }, [learned, user]);
 
   const [chartDataVersion, setChartDataVersion] = useState(0);
-  const [isLoadingChart, setIsLoadingChart] = useState(true);
-
-  // Hydrate 7-day skill practice minutes from backend database on mount
-  useEffect(() => {
-    let isMounted = true;
-    setIsLoadingChart(true);
-    hydrateSkillMinutesFromBackend(user?.id)
-      .then(() => {
-        if (isMounted) {
-          setChartDataVersion((v) => v + 1);
-        }
-      })
-      .catch((err) => {
-        console.error("Error hydrating chart from backend:", err);
-      })
-      .finally(() => {
-        if (isMounted) {
-          setIsLoadingChart(false);
-        }
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, [user?.id]);
+  const [isLoadingChart, setIsLoadingChart] = useState(false);
 
   // Per-skill weekly practice computation
   const currentSkillConfig = SKILL_CONFIGS[activeSkillTab];
@@ -648,6 +670,26 @@ export default function DashboardPage() {
             coins: json.data.coins,
           });
         }
+
+        // Keep local overview cache synchronized
+        try {
+          const cacheKey = `xp_voca_dashboard_overview_${user?.id || "guest"}`;
+          const raw = localStorage.getItem(cacheKey);
+          if (raw) {
+            const cached = JSON.parse(raw);
+            if (cached.checkin) {
+              cached.checkin.isCheckedInToday = true;
+              const curDays = cached.checkin.activeDaysInWeek || [];
+              if (!curDays.includes(todayStr)) {
+                cached.checkin.activeDaysInWeek = [...curDays, todayStr];
+              }
+              if (json.data?.currentStreak) cached.checkin.currentStreak = json.data.currentStreak;
+              if (json.data?.totalXp) cached.checkin.totalXp = json.data.totalXp;
+              if (json.data?.coins) cached.checkin.coins = json.data.coins;
+              localStorage.setItem(cacheKey, JSON.stringify(cached));
+            }
+          }
+        } catch (e) {}
 
         addToast({
           type: "success",

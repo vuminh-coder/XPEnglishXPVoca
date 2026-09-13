@@ -1,4 +1,4 @@
-﻿import { SubtitleSentence } from "@/stores/videoStore";
+import { SubtitleSentence } from "@/stores/videoStore";
 import {
   parseTimedTextXml,
   parseVnTimedTextXml,
@@ -10,6 +10,7 @@ import {
   formatSrtTimestamp,
   wrapTextTo42Chars,
   shiftTimestampSec,
+  WordTimingItem,
 } from "@/features/listening/services/youtubeSubtitleParser";
 import { fetchLrclibSyncedLyrics } from "@/features/listening/services/lrclibLyricsService";
 
@@ -22,6 +23,7 @@ export interface DetailedBilingualSubtitleItem {
   vietnamese: string;
   dictationWord: string;
   startSeconds: number;
+  wordTimings?: WordTimingItem[];
 }
 
 export interface SubtitleExtractionResult {
@@ -48,6 +50,7 @@ export interface RawSubtitleItem {
   textEn: string;
   textVn: string;
   dictationWord: string;
+  wordTimings?: WordTimingItem[];
 }
 
 // Client-side cache for high-precision subtitle results by videoId
@@ -55,6 +58,11 @@ const subtitleResultCache = new Map<string, {
   storeSubtitles: SubtitleSentence[];
   fullResult: SubtitleExtractionResult;
 }>();
+
+let lastFetchedVideoMeta: { title?: string; authorName?: string } | null = null;
+export function getLastFetchedVideoMeta(): { title?: string; authorName?: string } | null {
+  return lastFetchedVideoMeta;
+}
 
 /**
  * Helper export for fetchYouTubeRealSubtitles
@@ -120,6 +128,7 @@ export async function processHighPrecisionSubtitles(
       vietnamese: formattedVn,
       dictationWord: item.dictationWord,
       startSeconds: shiftedStart,
+      wordTimings: item.wordTimings,
     });
 
     srtAcc += `${id}\n${formatSrtTimestamp(shiftedStart)} --> ${formatSrtTimestamp(shiftedEnd)}\n${formattedEnForExport}\n${formattedVn}\n\n`;
@@ -153,6 +162,7 @@ export async function processHighPrecisionSubtitles(
     textEn: j.english,
     textVn: j.vietnamese,
     dictationWord: j.dictationWord,
+    wordTimings: j.wordTimings,
   }));
 
   const result = { storeSubtitles, fullResult };
@@ -170,6 +180,9 @@ async function fetchRawTimedTextData(videoId: string, videoTitle?: string): Prom
     const apiRes = await fetch(`/api/youtube/captions?videoId=${videoId}`);
     if (apiRes.ok || apiRes.status === 404) {
       data = await apiRes.json().catch(() => null);
+      if (data?.title || data?.authorName) {
+        lastFetchedVideoMeta = { title: data.title, authorName: data.authorName };
+      }
     }
   } catch (e) {
     console.warn("API route caption fetch warning:", e);
@@ -183,6 +196,7 @@ async function fetchRawTimedTextData(videoId: string, videoTitle?: string): Prom
       textEn: sub.english,
       textVn: sub.vietnamese,
       dictationWord: sub.dictationWord,
+      wordTimings: sub.wordTimings,
     }));
   }
 
@@ -226,7 +240,7 @@ async function clientFetchWithProxies(urls: string[]): Promise<string> {
   // Tier 0: Browser direct fetch (uses user's residential IP — highest success rate)
   for (const url of urls) {
     try {
-      const res = await fetch(url);
+      const res = await fetch(url, { signal: AbortSignal.timeout(2500) });
       if (res.ok) {
         const text = await res.text();
         if (text && text.trim().length > 30) {
@@ -242,7 +256,7 @@ async function clientFetchWithProxies(urls: string[]): Promise<string> {
     for (const url of urls) {
       try {
         const proxyUrl = proxy.buildUrl(url);
-        const res = await fetch(proxyUrl);
+        const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(2500) });
         if (res.ok) {
           let text = "";
           if (proxy.type === "json") {
@@ -305,6 +319,7 @@ async function fetchTracksOnClient(
     textEn: item.textEn,
     textVn: item.textVn,
     dictationWord: extractDictationWord(item.textEn),
+    wordTimings: item.wordTimings,
   }));
 }
 
@@ -345,5 +360,6 @@ async function fetchDirectCandidatesOnClient(videoId: string): Promise<RawSubtit
     textEn: item.textEn,
     textVn: item.textVn,
     dictationWord: extractDictationWord(item.textEn),
+    wordTimings: item.wordTimings,
   }));
 }

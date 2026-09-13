@@ -1,8 +1,9 @@
 "use client";
 
-import React from "react";
-import { Timer, Volume2, Flag, Brain, CheckCircle2, XCircle, Sparkles } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { Timer, Volume2, VolumeX, Flag, Brain, CheckCircle2, XCircle, Sparkles, Delete } from "lucide-react";
 import { QuestionPackage, Opponent, PvPGameMode } from "../types";
+import { isPvPSoundEnabled, setPvPSoundEnabled } from "../utils/pvpSoundEngine";
 
 interface PvPArenaProps {
   currentQuestionIndex: number;
@@ -51,10 +52,44 @@ export function PvPArena({
   scrambledLetters,
   onLetterClick,
 }: PvPArenaProps) {
+  const [soundEnabled, setSoundEnabled] = useState(() => isPvPSoundEnabled());
   const timerPercentage = Math.max(0, Math.min(100, (timer / maxTimer) * 100));
 
+  // Keyboard shortcut listener (Keys 1-4 or A-D)
+  useEffect(() => {
+    if (answered || gameMode === "spelling") return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+
+      const key = e.key.toUpperCase();
+      let index = -1;
+      if (key === "1" || key === "A") index = 0;
+      else if (key === "2" || key === "B") index = 1;
+      else if (key === "3" || key === "C") index = 2;
+      else if (key === "4" || key === "D") index = 3;
+
+      if (index >= 0 && index < currentPackage.options.length) {
+        e.preventDefault();
+        const opt = currentPackage.options[index];
+        if (opt) {
+          onSelectOption(opt.id, opt.isCorrect);
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [answered, gameMode, currentPackage, onSelectOption]);
+
+  const toggleSound = () => {
+    const next = !soundEnabled;
+    setSoundEnabled(next);
+    setPvPSoundEnabled(next);
+  };
+
   return (
-    <div className="max-w-3xl mx-auto space-y-5">
+    <div className="max-w-4xl mx-auto space-y-5">
       {/* Top HUD: Player vs Opponent Score & Status */}
       <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 sm:p-5 shadow-sm space-y-4">
         <div className="flex items-center justify-between">
@@ -72,13 +107,23 @@ export function PvPArena({
           </div>
 
           {/* VS & Round info */}
-          <div className="text-center">
+          <div className="text-center flex flex-col items-center gap-1">
             <span className="text-[11px] font-bold text-slate-400 block uppercase">
               Câu {currentQuestionIndex + 1} / {totalQuestions}
             </span>
-            <span className="text-xs font-black text-rose-500 bg-rose-50 dark:bg-rose-950/60 px-2.5 py-0.5 rounded-md">
-              VS
-            </span>
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs font-black text-rose-500 bg-rose-50 dark:bg-rose-950/60 px-2.5 py-0.5 rounded-md">
+                VS
+              </span>
+              <button
+                type="button"
+                onClick={toggleSound}
+                className="p-1 rounded-md border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"
+                title="Bật/Tắt âm thanh"
+              >
+                {soundEnabled ? <Volume2 className="w-3.5 h-3.5 text-emerald-500" /> : <VolumeX className="w-3.5 h-3.5 text-slate-400" />}
+              </button>
+            </div>
           </div>
 
           {/* Opponent Side */}
@@ -174,7 +219,7 @@ export function PvPArena({
         ) : (
           <div className="space-y-1.5">
             <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-              {gameMode === "spelling" ? "Ghép chữ cái thành từ đúng" : "Chọn nghĩa tiếng Việt chính xác"}
+              {gameMode === "spelling" ? "Ghép chữ cái thành từ đúng" : "Chọn nghĩa tiếng Việt chính xác (Phím 1-4 hoặc A-D)"}
             </span>
             <h2 className="text-2xl sm:text-3xl font-display font-black text-slate-900 dark:text-white tracking-tight">
               {currentPackage.question.word}
@@ -190,8 +235,20 @@ export function PvPArena({
         {/* Spelling Interactive Letter Tiles */}
         {gameMode === "spelling" ? (
           <div className="space-y-4 pt-2">
-            <div className="min-h-12 bg-slate-50 dark:bg-slate-800/80 rounded-xl border border-slate-200 dark:border-slate-700 flex items-center justify-center px-4 font-mono text-xl font-bold tracking-widest text-[#0059bb] dark:text-sky-400">
-              {spellingInput || "..."}
+            <div className="min-h-12 bg-slate-50 dark:bg-slate-800/80 rounded-xl border border-slate-200 dark:border-slate-700 flex items-center justify-between px-4">
+              <div className="font-mono text-xl font-bold tracking-widest text-[#0059bb] dark:text-sky-400 mx-auto">
+                {spellingInput || "..."}
+              </div>
+              {spellingInput && !answered && (
+                <button
+                  type="button"
+                  onClick={() => setSpellingInput(spellingInput.slice(0, -1))}
+                  className="px-2.5 py-1 text-xs font-bold text-slate-500 hover:text-rose-500 bg-white dark:bg-slate-700 rounded-lg border border-slate-200 dark:border-slate-600 transition-colors cursor-pointer"
+                  title="Xóa ký tự cuối"
+                >
+                  ⌫ Xóa
+                </button>
+              )}
             </div>
 
             <div className="flex flex-wrap items-center justify-center gap-2">
@@ -200,7 +257,7 @@ export function PvPArena({
                   key={`letter_${idx}`}
                   disabled={answered}
                   onClick={() => onLetterClick(letter)}
-                  className="w-10 h-10 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-mono text-base font-bold shadow-xs hover:bg-blue-50 active:scale-95 transition-all cursor-pointer disabled:opacity-50"
+                  className="w-10 h-10 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-mono text-base font-bold shadow-xs hover:bg-blue-50 dark:hover:bg-slate-700 active:scale-95 transition-all cursor-pointer disabled:opacity-50"
                 >
                   {letter}
                 </button>
@@ -210,7 +267,7 @@ export function PvPArena({
         ) : (
           /* Quiz / Listening Choices Grid */
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-            {currentPackage.options.map((opt) => {
+            {currentPackage.options.map((opt, optIdx) => {
               const isSelected = selectedOptionId === opt.id;
               let btnStyle = "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 hover:border-[#0059bb]";
 
@@ -229,7 +286,12 @@ export function PvPArena({
                   onClick={() => onSelectOption(opt.id, opt.isCorrect)}
                   className={`p-4 rounded-xl border font-bold text-xs sm:text-sm text-left transition-all cursor-pointer flex items-center justify-between ${btnStyle}`}
                 >
-                  <span>{opt.text}</span>
+                  <div className="flex items-center gap-3">
+                    <span className="w-6 h-6 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 font-mono text-xs font-bold flex items-center justify-center shrink-0">
+                      {String.fromCharCode(65 + optIdx)}
+                    </span>
+                    <span>{opt.text}</span>
+                  </div>
                   {answered && opt.isCorrect && <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />}
                   {answered && isSelected && !opt.isCorrect && <XCircle className="w-4 h-4 text-rose-500 shrink-0" />}
                 </button>

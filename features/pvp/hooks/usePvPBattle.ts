@@ -20,6 +20,7 @@ import {
 } from "../data/pvpData";
 import { speakLessonText } from "@/shared/utils/ttsEngine";
 import { useAuthStore } from "@/stores/authStore";
+import { playPvPSound } from "../utils/pvpSoundEngine";
 
 export function usePvPBattle() {
   const { user } = useAuthStore();
@@ -109,6 +110,11 @@ export function usePvPBattle() {
       if (nextIdx >= questions.length) {
         // Match Finished
         setGameState("results");
+        if (currUserScore > currOppScore) {
+          playPvPSound("victory");
+        } else if (currUserScore < currOppScore) {
+          playPvPSound("defeat");
+        }
         submitMatchResult(currUserScore, currOppScore);
         return;
       }
@@ -159,9 +165,13 @@ export function usePvPBattle() {
     if (roundTimerRef.current) clearInterval(roundTimerRef.current);
     roundTimerRef.current = setInterval(() => {
       setTimer((prev) => {
+        if (prev <= 4 && prev > 1) {
+          playPvPSound("urgent_tick");
+        }
         if (prev <= 1) {
           // Timeout for current question
           if (!answered) {
+            playPvPSound("incorrect");
             setAnswered(true);
             setUserResults((prevRes) => {
               const next = [...prevRes];
@@ -190,7 +200,10 @@ export function usePvPBattle() {
 
     const newUserScore = isCorrect ? userScore + 1 : userScore;
     if (isCorrect) {
+      playPvPSound("correct");
       setUserScore(newUserScore);
+    } else {
+      playPvPSound("incorrect");
     }
 
     setUserResults((prev) => {
@@ -231,6 +244,7 @@ export function usePvPBattle() {
       if (searchTimerRef.current) clearInterval(searchTimerRef.current);
       const chosenOpp = MOCK_OPPONENTS[Math.floor(Math.random() * MOCK_OPPONENTS.length)];
       setMatchedOpponent(chosenOpp);
+      playPvPSound("match_found");
 
       const settings = getDifficultySettings(difficulty);
       const gameQs = DEFAULT_FALLBACK_QUESTIONS.slice(0, settings.totalQuestions);
@@ -251,6 +265,7 @@ export function usePvPBattle() {
             handleNextQuestion(0, 0, 0);
             return 0;
           }
+          playPvPSound("tick");
           return c - 1;
         });
       }, 1000);

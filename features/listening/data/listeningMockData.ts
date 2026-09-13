@@ -1,6 +1,7 @@
 import { parseListeningMarkdown, ListeningLesson } from "../utils/listeningParser";
 import { EXTENDED_SHADOWING_LESSONS } from "@/features/shadowing/data/extendedShadowingData";
 import { ensureExtendedLessons } from "../utils/extendedTranscriptEngine";
+import { CURATED_LEVEL_LESSONS } from "./curatedLevelLessons";
 
 const LESSON_1_MD = `---
 id: listen_001
@@ -5174,6 +5175,7 @@ Q2: Who will conduct random quality inspections across all floors?
 `;
 
 const RAW_LESSONS_DATA: ListeningLesson[] = [
+  ...CURATED_LEVEL_LESSONS,
   parseListeningMarkdown(LESSON_1_MD),
   parseListeningMarkdown(LESSON_2_MD),
   parseListeningMarkdown(LESSON_3_MD),

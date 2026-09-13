@@ -1,0 +1,309 @@
+@layer components {
+/* ============================================================
+   14. PRACTICE PAGE
+   ============================================================ */
+  .practice-mode-selector {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+
+  .practice-mode-card {
+    background: var(--bg-card);
+    border: 2px solid var(--border-light);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--transition-base);
+  }
+  .practice-mode-card:hover {
+    border-color: var(--primary-400);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+  }
+  .practice-mode-card.active {
+    border-color: var(--primary-500);
+    background: rgba(78, 197, 241, 0.05);
+  }
+  .practice-mode-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-3);
+  }
+  .practice-mode-name {
+    font-size: var(--text-base);
+    font-weight: 700;
+    margin-bottom: var(--space-1);
+  }
+  .practice-mode-desc {
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+  }
+
+  /* Flashcard */
+  .flashcard-container {
+    max-width: 500px;
+    margin: 0 auto;
+    perspective: 1000px;
+  }
+  .flashcard {
+    width: 100%;
+    height: 320px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+  }
+  .flashcard.flipped {
+    transform: rotateY(180deg);
+  }
+  .flashcard-front,
+  .flashcard-back {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-card);
+    border: 2px solid var(--border-light);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-8);
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+  }
+  .flashcard-back {
+    transform: rotateY(180deg);
+    background: var(--gradient-card);
+  }
+  .flashcard-word {
+    font-size: var(--text-4xl);
+    font-weight: 800;
+    font-family: var(--font-display);
+    color: var(--primary-600);
+    margin-bottom: var(--space-3);
+  }
+  .flashcard-phonetic {
+    font-size: var(--text-base);
+    color: var(--text-tertiary);
+    margin-bottom: var(--space-2);
+  }
+  .flashcard-hint {
+    font-size: var(--text-sm);
+    color: var(--text-tertiary);
+    margin-top: var(--space-4);
+  }
+  .flashcard-answer {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    margin-bottom: var(--space-3);
+  }
+  .flashcard-definition {
+    font-size: var(--text-base);
+    color: var(--text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+
+  .flashcard-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+  .flashcard-counter {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+
+  /* Quiz Mode */
+  .quiz-container {
+    max-width: 650px;
+    margin: 0 auto;
+  }
+  .quiz-progress {
+    margin-bottom: var(--space-6);
+  }
+  .quiz-progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+  }
+  .quiz-question {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-8);
+    text-align: center;
+    margin-bottom: var(--space-6);
+  }
+  .quiz-question-text {
+    font-size: var(--text-2xl);
+    font-weight: 800;
+    font-family: var(--font-display);
+    color: var(--primary-600);
+    margin-bottom: var(--space-2);
+  }
+  .quiz-question-hint {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+  }
+
+  .quiz-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+  }
+  .quiz-option {
+    padding: var(--space-4) var(--space-5);
+    background: var(--bg-card);
+    border: 2px solid var(--border-light);
+    border-radius: var(--radius-xl);
+    font-size: var(--text-base);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-align: left;
+  }
+  .quiz-option:hover {
+    border-color: var(--primary-400);
+    background: rgba(78, 197, 241, 0.05);
+    transform: translateX(4px);
+  }
+  .quiz-option.correct {
+    border-color: var(--success-500);
+    background: rgba(76, 175, 80, 0.1);
+    color: var(--success-600);
+  }
+  .quiz-option.wrong {
+    border-color: var(--error-500);
+    background: rgba(244, 67, 54, 0.1);
+    color: var(--error-600);
+  }
+  .quiz-option.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  /* Practice Results */
+  .practice-results {
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .results-icon {
+    font-size: 5rem;
+    margin-bottom: var(--space-4);
+  }
+  .results-title {
+    font-size: var(--text-3xl);
+    font-weight: 800;
+    margin-bottom: var(--space-2);
+  }
+  .results-subtitle {
+    font-size: var(--text-base);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-8);
+  }
+  .results-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+  }
+  .results-stat {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-xl);
+    padding: var(--space-4);
+  }
+  .results-stat-value {
+    font-size: var(--text-2xl);
+    font-weight: 800;
+    font-family: var(--font-display);
+  }
+  .results-stat-label {
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    margin-top: var(--space-1);
+  }
+
+  .results-xp-earned {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-6);
+    background: rgba(255, 152, 0, 0.1);
+    border-radius: var(--radius-full);
+    font-size: var(--text-xl);
+    font-weight: 800;
+    color: var(--secondary-500);
+    margin-bottom: var(--space-6);
+    animation: bounce 1s ease 0.5s;
+  }
+
+  .results-actions {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+  }
+
+  /* Writing Practice */
+  .writing-container {
+    max-width: 650px;
+    margin: 0 auto;
+  }
+  .writing-prompt {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-8);
+    text-align: center;
+    margin-bottom: var(--space-6);
+  }
+  .writing-word {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-3);
+  }
+  .writing-definition {
+    font-size: var(--text-xl);
+    font-weight: 700;
+  }
+  .writing-input-container {
+    margin-bottom: var(--space-4);
+  }
+  .writing-input {
+    text-align: center;
+    font-size: var(--text-xl);
+    font-weight: 600;
+    padding: var(--space-5);
+    letter-spacing: 0.05em;
+  }
+  .writing-feedback {
+    padding: var(--space-4);
+    border-radius: var(--radius-xl);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: var(--space-4);
+    animation: fadeInUp 0.3s ease-out;
+  }
+  .writing-feedback.correct {
+    background: rgba(76, 175, 80, 0.1);
+    color: var(--success-600);
+    border: 1px solid rgba(76, 175, 80, 0.3);
+  }
+  .writing-feedback.wrong {
+    background: rgba(244, 67, 54, 0.1);
+    color: var(--error-600);
+    border: 1px solid rgba(244, 67, 54, 0.3);
+  }
+}
+

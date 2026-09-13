@@ -8,7 +8,11 @@ import {
   extractYouTubeStartTimestamp,
   SubtitleSentence,
 } from "@/stores/videoStore";
-import { processHighPrecisionSubtitles, SubtitleExtractionResult } from "@/features/listening/services/youtubeSubtitleService";
+import {
+  processHighPrecisionSubtitles,
+  SubtitleExtractionResult,
+  getLastFetchedVideoMeta,
+} from "@/features/listening/services/youtubeSubtitleService";
 import { parseSrtContent, validateSrtContent } from "@/features/listening/services/srtParser";
 import { calculateCharacterWeightedWordIndex } from "@/features/listening/services/youtubeSubtitleParser";
 import { CaptionTrackInfo, TranslationLanguageInfo } from "@/features/listening/services/xpSubExtractor";
@@ -276,6 +280,7 @@ export default function MyVideoPage() {
   // Sub-second Karaoke & Progressive Streaming Pipeline States
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [activeWordIndex, setActiveWordIndex] = useState<number>(0);
+  const [isCueSpeaking, setIsCueSpeaking] = useState<boolean>(false);
   const [subViewMode, setSubViewMode] = useState<"rolling" | "full">("rolling");
   const [loadedChunkCount, setLoadedChunkCount] = useState<number>(1);
   const [isPipelineStreaming, setIsPipelineStreaming] = useState<boolean>(false);
@@ -300,6 +305,8 @@ export default function MyVideoPage() {
   const [isRecording, setIsRecording] = useState(false);
   const [shadowingScore, setShadowingScore] = useState<number | null>(null);
   const [waveformBars, setWaveformBars] = useState<number[]>([40, 65, 30, 85, 50, 95, 70, 45, 60]);
+  const speechRecognitionRef = useRef<any>(null);
+  const recordedTranscriptRef = useRef<string>("");
 
   // High-Precision Subtitle Sync Offset State (±0.1s to ±2.0s User Calibration)
   const [subtitleSyncOffset, setSubtitleSyncOffset] = useState<number>(0.0);
@@ -516,9 +523,10 @@ export default function MyVideoPage() {
           // Apply Subtitle Sync Offset calibration to determine effective speech time
           const effectiveTime = Math.max(0, parseFloat((nextTime + subtitleSyncOffsetRef.current).toFixed(3)));
 
-          // HIGH-PRECISION Binary Search Subtitle Matching O(log n) + Intelligent Gap Handling
+          // HIGH-PRECISION Binary Search Subtitle Matching O(log n) + Non-Intrusive Gap Handling
           const subs = activeVideo.subtitles;
           let matchedIdx = -1;
+          let isSpeakingNow = false;
 
           // Binary search: find cue where startTime <= effectiveTime < endTime
           let lo = 0, hi = subs.length - 1;
@@ -526,6 +534,7 @@ export default function MyVideoPage() {
             const mid = (lo + hi) >>> 1;
             if (effectiveTime >= subs[mid].startTime && effectiveTime < subs[mid].endTime) {
               matchedIdx = mid;
+              isSpeakingNow = true;
               break;
             }
             if (effectiveTime < subs[mid].startTime) {
@@ -535,38 +544,59 @@ export default function MyVideoPage() {
             }
           }
 
-          // Gap handling: if no exact match, find nearest cue (0.4s lookback, 0.25s lookahead — zero overlap)
+          // Gap handling: when effectiveTime is between cues
           if (matchedIdx === -1) {
             const prevCue = lo > 0 ? subs[lo - 1] : null;
             const nextCue = lo < subs.length ? subs[lo] : null;
 
-            // Look back: if just passed a cue (within 0.4s of its endTime), keep showing it
-            if (prevCue && effectiveTime - prevCue.endTime < 0.4) {
+            // Voice decay buffer: keep prev cue active for up to 0.15s after it ends
+            if (prevCue && (effectiveTime - prevCue.endTime) < 0.15) {
               matchedIdx = lo - 1;
+              isSpeakingNow = true;
             }
-            // Look ahead: if approaching next cue (within 0.25s), show it early
-            else if (nextCue && nextCue.startTime - effectiveTime < 0.25) {
+            // Anticipation buffer: if within 0.08s of next cue, prepare it
+            else if (nextCue && (nextCue.startTime - effectiveTime) < 0.08) {
               matchedIdx = lo;
+              isSpeakingNow = false; // Not yet speaking
             }
             // Before first cue
             else if (subs.length > 0 && effectiveTime < subs[0].startTime) {
               matchedIdx = 0;
+              isSpeakingNow = false; // Standby / waiting for first word
             }
-            // In silence gap between cues: transition matchedIdx to upcoming cue (lo) so rolling view previews next sentence
+            // In silence gap between cues: show upcoming cue for rolling preview, but NOT as actively speaking
             else if (lo < subs.length && lo >= 0) {
               matchedIdx = lo;
+              isSpeakingNow = false;
             }
           }
+
+          setIsCueSpeaking(isSpeakingNow);
 
           const currentSubIdx = activeSubIndexRef.current;
           if (matchedIdx !== -1 && matchedIdx !== currentSubIdx) {
             setActiveSubIndex(matchedIdx);
           }
 
-          // High-Precision Character-Weighted Karaoke Word Highlighting
+          // Sub-millisecond Word-Level Karaoke Highlighting
           const targetSub = subs[matchedIdx !== -1 ? matchedIdx : currentSubIdx];
-          if (targetSub) {
-            if (effectiveTime >= targetSub.startTime && effectiveTime <= targetSub.endTime) {
+          if (targetSub && isSpeakingNow) {
+            if (targetSub.wordTimings && targetSub.wordTimings.length > 0) {
+              // Priority 1: Exact timestamp-based word highlight from YouTube ASR / wordTimings
+              let wordIdx = -1;
+              for (let w = 0; w < targetSub.wordTimings.length; w++) {
+                const wt = targetSub.wordTimings[w];
+                if (effectiveTime >= wt.start && effectiveTime <= wt.end) {
+                  wordIdx = w;
+                  break;
+                }
+                if (effectiveTime > wt.end) {
+                  wordIdx = w;
+                }
+              }
+              setActiveWordIndex(wordIdx >= 0 ? wordIdx : 0);
+            } else if (effectiveTime >= targetSub.startTime && effectiveTime <= targetSub.endTime) {
+              // Priority 2: Punctuation-paced character-weighted karaoke progression
               const duration = Math.max(0.4, targetSub.endTime - targetSub.startTime);
               const elapsed = Math.max(0, Math.min(duration, effectiveTime - targetSub.startTime));
               const currentWordIdx = calculateCharacterWeightedWordIndex(targetSub.textEn, elapsed, duration);
@@ -574,6 +604,9 @@ export default function MyVideoPage() {
             } else {
               setActiveWordIndex(-1);
             }
+          } else {
+            // In silence gaps / paused: no word is glowing
+            setActiveWordIndex(-1);
           }
 
           // Progressive chunk loading
@@ -679,20 +712,33 @@ export default function MyVideoPage() {
     setImportError(null);
 
     try {
-      // Call YouTube oEmbed endpoint to fetch real title & author name
-      const oembedUrl = `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`;
-      const res = await fetch(oembedUrl);
       let title = "Video Học Tiếng Anh YouTube";
       let authorName = "YouTube Creator";
 
-      if (res.ok) {
-        const data = await res.json();
-        if (data.title) title = data.title;
-        if (data.author_name) authorName = data.author_name;
+      // Call YouTube oEmbed endpoint safely with timeout & fallback (prevents CORS crashing)
+      try {
+        const oembedUrl = `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`;
+        const res = await fetch(oembedUrl, { signal: AbortSignal.timeout(2000) });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.title) title = data.title;
+          if (data.author_name) authorName = data.author_name;
+        }
+      } catch (oembedErr) {
+        // Ignored: If browser blocks oEmbed via CORS, server route /api/youtube/captions will supply title/author
       }
 
       // Process High Precision Subtitles conforming to 12 standards (JSON, SRT, WEBVTT)
       const { storeSubtitles, fullResult } = await processHighPrecisionSubtitles(videoId, title);
+
+      // Check if server route fetched real title and author
+      const serverMeta = getLastFetchedVideoMeta();
+      if (serverMeta?.title && title === "Video Học Tiếng Anh YouTube") {
+        title = serverMeta.title;
+      }
+      if (serverMeta?.authorName && authorName === "YouTube Creator") {
+        authorName = serverMeta.authorName;
+      }
 
       // CRITICAL CHECK: Only add video to workspace & store when subtitles are successfully extracted (>0 sentences)
       if (!storeSubtitles || storeSubtitles.length === 0) {
@@ -1157,21 +1203,88 @@ export default function MyVideoPage() {
     }
   };
 
-  // Shadowing Record Toggle
+  // Shadowing Record Toggle with Real Web Speech Recognition & Accurate Accuracy Calculation
   const toggleShadowingRecord = () => {
     if (isRecording) {
       setIsRecording(false);
-      const randomScore = Math.floor(Math.random() * 16) + 84; // 84 - 99%
-      setShadowingScore(randomScore);
-      awardXp(15);
+      if (speechRecognitionRef.current) {
+        try {
+          speechRecognitionRef.current.stop();
+        } catch (e) {}
+        speechRecognitionRef.current = null;
+      }
+
+      const targetSentence =
+        activeVideo?.subtitles[activeSubIndex]?.textEn ||
+        activeVideo?.subtitles[currentSubIndex]?.textEn ||
+        "";
+
+      const spoken = recordedTranscriptRef.current.trim();
+      if (!spoken) {
+        setShadowingScore(null);
+        addToast({
+          type: "warning",
+          title: "Chưa ghi nhận giọng nói",
+          message: "Hệ thống chưa nghe rõ giọng của bạn. Vui lòng thử lại và đọc to hơn!",
+        });
+        return;
+      }
+
+      // Calculate real pronunciation accuracy
+      const cleanSpoken = spoken.toLowerCase().replace(/[^a-z0-9\s]/g, "").trim();
+      const cleanTarget = targetSentence.toLowerCase().replace(/[^a-z0-9\s]/g, "").trim();
+
+      const spokenWords = cleanSpoken.split(/\s+/).filter(Boolean);
+      const targetWords = cleanTarget.split(/\s+/).filter(Boolean);
+
+      let matchedCount = 0;
+      for (const sw of spokenWords) {
+        if (targetWords.includes(sw)) matchedCount++;
+      }
+
+      const wordAccuracy = targetWords.length > 0 ? matchedCount / targetWords.length : 0;
+      const lengthRatio = targetWords.length > 0
+        ? Math.max(0, 1 - Math.abs(spokenWords.length - targetWords.length) / targetWords.length)
+        : 0;
+
+      const calculatedScore = Math.min(100, Math.max(25, Math.round((wordAccuracy * 0.7 + lengthRatio * 0.3) * 100)));
+
+      setShadowingScore(calculatedScore);
+      const xpEarned = calculatedScore >= 70 ? 15 : 5;
+      awardXp(xpEarned);
       addToast({
-        type: "success",
-        title: "AI Chấm Điểm Hoàn Thành!",
-        message: `Độ chính xác phát âm & ngữ điệu của bạn đạt ${randomScore}%! (+15 XP)`,
+        type: calculatedScore >= 70 ? "success" : "info",
+        title: `Phát âm đạt ${calculatedScore}%! (+${xpEarned} XP)`,
+        message: `Bạn vừa đọc: "${spoken}". ${calculatedScore >= 70 ? "Rất chuẩn xác!" : "Hãy luyện tập thêm để đọc mượt hơn!"}`,
       });
     } else {
-      setIsRecording(true);
+      recordedTranscriptRef.current = "";
       setShadowingScore(null);
+
+      // Start Web Speech Recognition
+      if (typeof window !== "undefined") {
+        const SpeechRec = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
+        if (SpeechRec) {
+          try {
+            const rec = new SpeechRec();
+            rec.lang = "en-US";
+            rec.continuous = true;
+            rec.interimResults = true;
+            rec.onresult = (event: any) => {
+              let finalTranscript = "";
+              for (let i = 0; i < event.results.length; i++) {
+                finalTranscript += event.results[i][0].transcript + " ";
+              }
+              recordedTranscriptRef.current = finalTranscript.trim();
+            };
+            rec.onerror = () => {};
+            rec.start();
+            speechRecognitionRef.current = rec;
+          } catch (e) {}
+        }
+      }
+
+      setIsRecording(true);
     }
   };
 
@@ -1636,22 +1749,80 @@ export default function MyVideoPage() {
                         </button>
                       </div>
 
-                      {/* Right: Speed Switcher Dock */}
-                      <div className="flex items-center p-0.5 rounded-lg bg-slate-200/80 dark:bg-slate-900 border border-slate-300/80 dark:border-slate-700/60 gap-0.5 shrink-0">
-                        {[0.75, 1.0, 1.25, 1.5].map((speed) => (
+                      {/* Right: Micro-Sync Calibration & Speed Switcher Dock */}
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        {/* Micro-Sync Calibration */}
+                        <div className="hidden sm:flex items-center p-0.5 rounded-lg bg-slate-200/80 dark:bg-slate-900 border border-slate-300/80 dark:border-slate-700/60 gap-0.5" title="Tinh chỉnh độ lệch phụ đề (Micro-Sync Subtitle Offset)">
                           <button
-                            key={speed}
                             type="button"
-                            onClick={() => changePlaybackSpeed(speed)}
-                            className={`px-2 py-1 rounded-md text-[11px] font-bold font-mono transition-all cursor-pointer ${
-                              playbackSpeed === speed
-                                ? "bg-[#0059bb] text-white shadow-2xs"
-                                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
-                            }`}
+                            onClick={() => {
+                              const nextOffset = parseFloat((subtitleSyncOffset - 0.2).toFixed(2));
+                              setSubtitleSyncOffset(nextOffset);
+                              addToast({
+                                type: "info",
+                                title: "Chỉnh lệch phụ đề",
+                                message: `Đã lùi phụ đề ${nextOffset}s so với video`,
+                              });
+                            }}
+                            className="px-1.5 py-1 rounded text-[10px] font-bold font-mono text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all cursor-pointer"
+                            title="Lùi 0.2 giây (-0.2s)"
                           >
-                            {speed}x
+                            -0.2s
                           </button>
-                        ))}
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setSubtitleSyncOffset(0.0);
+                              addToast({
+                                type: "info",
+                                title: "Đặt lại lệch phụ đề",
+                                message: "Đã đưa độ lệch phụ đề về chuẩn 0.0s",
+                              });
+                            }}
+                            className={`px-1.5 py-1 rounded text-[10px] font-mono font-bold transition-all cursor-pointer ${
+                              subtitleSyncOffset !== 0
+                                ? "bg-amber-400 text-slate-950 font-black"
+                                : "text-slate-500 dark:text-slate-400"
+                            }`}
+                            title="Đặt lại về 0.0s (Reset)"
+                          >
+                            {subtitleSyncOffset === 0 ? "Sync: 0s" : `${subtitleSyncOffset > 0 ? "+" : ""}${subtitleSyncOffset}s`}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const nextOffset = parseFloat((subtitleSyncOffset + 0.2).toFixed(2));
+                              setSubtitleSyncOffset(nextOffset);
+                              addToast({
+                                type: "info",
+                                title: "Chỉnh lệch phụ đề",
+                                message: `Đã tiến phụ đề +${nextOffset}s so với video`,
+                              });
+                            }}
+                            className="px-1.5 py-1 rounded text-[10px] font-bold font-mono text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all cursor-pointer"
+                            title="Tiến 0.2 giây (+0.2s)"
+                          >
+                            +0.2s
+                          </button>
+                        </div>
+
+                        {/* Speed Switcher Dock */}
+                        <div className="flex items-center p-0.5 rounded-lg bg-slate-200/80 dark:bg-slate-900 border border-slate-300/80 dark:border-slate-700/60 gap-0.5 shrink-0">
+                          {[0.75, 1.0, 1.25, 1.5].map((speed) => (
+                            <button
+                              key={speed}
+                              type="button"
+                              onClick={() => changePlaybackSpeed(speed)}
+                              className={`px-2 py-1 rounded-md text-[11px] font-bold font-mono transition-all cursor-pointer ${
+                                playbackSpeed === speed
+                                  ? "bg-[#0059bb] text-white shadow-2xs"
+                                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
+                              }`}
+                            >
+                              {speed}x
+                            </button>
+                          ))}
+                        </div>
                       </div>
                     </div>
 
@@ -1862,7 +2033,8 @@ export default function MyVideoPage() {
                                   const sub = activeVideo.subtitles[cueIndex];
                                   if (!sub) return null;
 
-                                  const isActive = pos === 0;
+                                  const isFocused = pos === 0;
+                                  const isActiveSpeaking = isFocused && isCueSpeaking;
                                   const isNext1 = pos === 1;
 
                                   return (
@@ -1870,16 +2042,18 @@ export default function MyVideoPage() {
                                       key={sub.id}
                                       initial={{ opacity: 0, y: 15 }}
                                       animate={{
-                                        opacity: isActive ? 1 : isNext1 ? 0.72 : 0.48,
-                                        scale: isActive ? 1 : isNext1 ? 0.98 : 0.96,
+                                        opacity: isActiveSpeaking ? 1 : isFocused ? 0.9 : isNext1 ? 0.72 : 0.48,
+                                        scale: isActiveSpeaking ? 1 : isFocused ? 0.99 : isNext1 ? 0.98 : 0.96,
                                         y: 0,
                                       }}
                                       exit={{ opacity: 0, y: -15 }}
                                       transition={{ duration: 0.22, ease: [0.25, 1, 0.5, 1] }}
                                       onClick={() => handleSeekTo(sub.startTime, cueIndex)}
                                       className={`p-3.5 sm:p-4 rounded-xl border transition-all cursor-pointer space-y-2 ${
-                                        isActive
+                                        isActiveSpeaking
                                           ? "bg-blue-50/80 dark:bg-blue-950/50 border-[#0059bb] ring-1 ring-[#0059bb]/20 shadow-sm"
+                                          : isFocused
+                                          ? "bg-slate-50/90 dark:bg-slate-900/60 border-blue-200 dark:border-blue-900/40 shadow-2xs"
                                           : "bg-slate-50/70 dark:bg-slate-950/40 border-slate-200/60 dark:border-slate-800 hover:border-slate-300"
                                       }`}
                                     >
@@ -1887,9 +2061,14 @@ export default function MyVideoPage() {
                                         <span className="flex items-center gap-1.5 font-bold text-slate-600 dark:text-slate-300">
                                           <Clock className="w-4 h-4 text-[#0059bb]" /> {formatSubTime(sub.startTime)}
                                         </span>
-                                        {isActive ? (
+                                        {isActiveSpeaking ? (
                                           <span className="p-1 rounded-md bg-blue-100 dark:bg-blue-900/40 border border-[#0059bb]/30 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shadow-2xs">
                                             <Play className="w-3.5 h-3.5 fill-current text-[#0059bb] dark:text-sky-400" />
+                                          </span>
+                                        ) : isFocused ? (
+                                          <span className="text-[10px] font-bold text-blue-600 dark:text-sky-400 bg-blue-50 dark:bg-blue-950/60 px-1.5 py-0.5 rounded border border-blue-200/60 dark:border-blue-800/60 flex items-center gap-1">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
+                                            Sắp phát
                                           </span>
                                         ) : (
                                           <span className="text-[10px] font-bold text-slate-400">
@@ -1901,8 +2080,8 @@ export default function MyVideoPage() {
                                       {/* Karaoke Words Line with Amber Glow Highlight */}
                                       <div className="flex flex-wrap items-center gap-1 sm:gap-1.5 pt-0.5">
                                         {sub.textEn.split(/\s+/).filter(Boolean).map((word, wordIdx) => {
-                                          const isKaraokeFocused = isActive && wordIdx === activeWordIndex;
-                                          const isPastWord = isActive && wordIdx < activeWordIndex;
+                                          const isKaraokeFocused = isActiveSpeaking && wordIdx === activeWordIndex;
+                                          const isPastWord = isActiveSpeaking && wordIdx < activeWordIndex;
 
                                           return (
                                             <button
@@ -1939,27 +2118,37 @@ export default function MyVideoPage() {
                           {/* MODE 2: FULL SUBTITLE LIST VIEW */}
                           {subViewMode === "full" && (
                             <div className="space-y-3">
-                              {activeVideo.subtitles.map((sub, i) => (
-                                <div
-                                  key={sub.id}
-                                  ref={(el) => { subItemRefs.current[i] = el; }}
-                                  onClick={() => handleSeekTo(sub.startTime, i)}
-                                  className={`p-3.5 sm:p-4 rounded-xl border transition-all cursor-pointer space-y-2 ${
-                                    activeSubIndex === i
-                                      ? "bg-blue-50/80 dark:bg-blue-950/40 border-[#0059bb] ring-1 ring-[#0059bb]/20 shadow-sm"
-                                      : "bg-slate-50 dark:bg-slate-950 border-slate-200/60 dark:border-slate-800 hover:border-slate-300"
-                                  }`}
-                                >
-                                  <div className="flex items-center justify-between text-xs sm:text-sm font-mono border-b border-slate-200/40 dark:border-slate-800 pb-1.5">
-                                    <span className="flex items-center gap-1.5 font-bold text-slate-600 dark:text-slate-300">
-                                      <Clock className="w-4 h-4 text-[#0059bb] dark:text-sky-400" /> {formatSubTime(sub.startTime)}
-                                    </span>
-                                    {activeSubIndex === i && (
-                                      <span className="p-1 rounded-md bg-blue-100/80 dark:bg-blue-900/40 border border-[#0059bb]/30 text-[#0059bb] dark:text-sky-400 flex items-center justify-center">
-                                        <Play className="w-3.5 h-3.5 fill-current text-[#0059bb] dark:text-sky-400" />
+                              {activeVideo.subtitles.map((sub, i) => {
+                                const isCardSelected = activeSubIndex === i;
+                                const isCardSpeaking = isCardSelected && isCueSpeaking;
+
+                                return (
+                                  <div
+                                    key={sub.id}
+                                    ref={(el) => { subItemRefs.current[i] = el; }}
+                                    onClick={() => handleSeekTo(sub.startTime, i)}
+                                    className={`p-3.5 sm:p-4 rounded-xl border transition-all cursor-pointer space-y-2 ${
+                                      isCardSpeaking
+                                        ? "bg-blue-50/80 dark:bg-blue-950/40 border-[#0059bb] ring-1 ring-[#0059bb]/20 shadow-sm"
+                                        : isCardSelected
+                                        ? "bg-slate-50 dark:bg-slate-900 border-blue-200 dark:border-blue-900/40 shadow-2xs"
+                                        : "bg-slate-50 dark:bg-slate-950 border-slate-200/60 dark:border-slate-800 hover:border-slate-300"
+                                    }`}
+                                  >
+                                    <div className="flex items-center justify-between text-xs sm:text-sm font-mono border-b border-slate-200/40 dark:border-slate-800 pb-1.5">
+                                      <span className="flex items-center gap-1.5 font-bold text-slate-600 dark:text-slate-300">
+                                        <Clock className="w-4 h-4 text-[#0059bb] dark:text-sky-400" /> {formatSubTime(sub.startTime)}
                                       </span>
-                                    )}
-                                  </div>
+                                      {isCardSpeaking ? (
+                                        <span className="p-1 rounded-md bg-blue-100/80 dark:bg-blue-900/40 border border-[#0059bb]/30 text-[#0059bb] dark:text-sky-400 flex items-center justify-center">
+                                          <Play className="w-3.5 h-3.5 fill-current text-[#0059bb] dark:text-sky-400" />
+                                        </span>
+                                      ) : isCardSelected ? (
+                                        <span className="text-[10px] font-bold text-blue-600 dark:text-sky-400 bg-blue-50 dark:bg-blue-950/60 px-1.5 py-0.5 rounded border border-blue-200/60 dark:border-blue-800/60">
+                                          Sắp phát
+                                        </span>
+                                      ) : null}
+                                    </div>
 
                                   <div className="flex flex-wrap items-center gap-1 sm:gap-1.5 pt-0.5">
                                     {sub.textEn.split(/\s+/).filter(Boolean).map((w, idx) => (
@@ -1981,7 +2170,8 @@ export default function MyVideoPage() {
                                     {sub.textVn}
                                   </p>
                                 </div>
-                              ))}
+                              );
+                            })}
                             </div>
                           )}
                         </div>
@@ -2030,6 +2220,16 @@ export default function MyVideoPage() {
                                 type="text"
                                 value={dictationInput}
                                 onChange={(e) => setDictationInput(e.target.value)}
+                                onKeyDown={(e) => {
+                                  if (e.key === "Enter") {
+                                    e.preventDefault();
+                                    if (!dictationAnswered && dictationInput.trim()) {
+                                      handleCheckDictation();
+                                    } else if (dictationAnswered) {
+                                      handleNextDictation();
+                                    }
+                                  }
+                                }}
                                 disabled={dictationAnswered}
                                 autoComplete="off"
                                 spellCheck={false}
@@ -2788,7 +2988,7 @@ export default function MyVideoPage() {
       <AnimatePresence>
         {showSrtImportModal && (
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/70 backdrop-blur-md"
+            className="fixed inset-0 z-50 flex items-center justify-center md:pl-64 p-3 sm:p-4 bg-slate-950/70 backdrop-blur-md"
             onClick={() => setShowSrtImportModal(false)}
           >
             <motion.div
@@ -2796,7 +2996,7 @@ export default function MyVideoPage() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-2xl bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+              className="w-full max-w-4xl bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
             >
               {/* Modal Header */}
               <div className="p-4 sm:p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between shrink-0 bg-white dark:bg-slate-900">
@@ -3091,7 +3291,7 @@ export default function MyVideoPage() {
       <AnimatePresence>
         {showXpSubModal && activeVideo && (
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/70 backdrop-blur-md"
+            className="fixed inset-0 z-50 flex items-center justify-center md:pl-64 p-3 sm:p-4 bg-slate-950/70 backdrop-blur-md"
             onClick={() => setShowXpSubModal(false)}
           >
             <motion.div
@@ -3099,7 +3299,7 @@ export default function MyVideoPage() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-3xl bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+              className="w-full max-w-4xl lg:max-w-5xl bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
             >
               {/* Modal Header */}
               <div className="p-4 sm:p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between shrink-0 bg-white dark:bg-slate-900">
@@ -3238,7 +3438,7 @@ export default function MyVideoPage() {
                   </div>
 
                   {/* Preview Container */}
-                  <div className="border border-slate-200/90 dark:border-slate-800 rounded-xl max-h-56 overflow-y-auto bg-slate-50/70 dark:bg-slate-950/70 p-3 font-sans text-xs space-y-2">
+                  <div className="border border-slate-200/90 dark:border-slate-800 rounded-xl min-h-[240px] max-h-80 overflow-y-auto bg-slate-50/70 dark:bg-slate-950/70 p-3 font-sans text-xs space-y-2">
                     {isExtractingPreview ? (
                       <div className="space-y-2.5">
                         {[1, 2, 3].map((n) => (

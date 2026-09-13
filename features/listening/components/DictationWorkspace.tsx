@@ -6,6 +6,7 @@ import {
   Eye,
   EyeOff,
   Volume2,
+  VolumeX,
   RotateCcw,
   Sparkles,
   Info,
@@ -17,8 +18,20 @@ import {
   Zap,
   Languages,
   PenLine,
+  Target,
+  Lightbulb,
+  Glasses,
+  ShieldCheck,
 } from "lucide-react";
 import { useUiStore } from "@/stores/uiStore";
+import {
+  checkNearMissTypo,
+  checkEquivalenceMatch,
+  playSyntheticAudioFeedback,
+  saveSentenceDraft,
+  loadSentenceDraft,
+  clearSentenceDraft,
+} from "@/features/listening/utils/dictationEngine";
 
 export interface WordToken {
   id: string;
@@ -49,6 +62,8 @@ interface DictationWorkspaceProps {
   fontSizeLevel?: number;
   hideTranslation?: boolean;
   isSidebarCollapsed?: boolean;
+  lessonId?: string;
+  sentenceIndex?: number;
 }
 
 // Well-known proper nouns, months, days for robust extraction
@@ -145,6 +160,8 @@ export function DictationWorkspace({
   fontSizeLevel = 0,
   hideTranslation = false,
   isSidebarCollapsed,
+  lessonId,
+  sentenceIndex,
 }: DictationWorkspaceProps) {
   const { sidebarCollapsed: globalSidebarCollapsed } = useUiStore();
   const isCollapsed = isSidebarCollapsed !== undefined ? isSidebarCollapsed : globalSidebarCollapsed;
@@ -154,9 +171,38 @@ export function DictationWorkspace({
     hideTranslation ? false : showTranslationByDefault
   );
   const [isCompleted, setIsCompleted] = useState(false);
+
+  // 3-Tier Difficulty Modes: Standard | Assisted | Blind
+  const [dictationMode, setDictationMode] = useState<"standard" | "assisted" | "blind">("standard");
+
+  // Web Audio Synthetic Dopamine Sound Feedback Toggle
+  const [isSoundFeedbackEnabled, setIsSoundFeedbackEnabled] = useState<boolean>(() => {
+    if (typeof window === "undefined") return true;
+    try {
+      const saved = localStorage.getItem("xp_sound_feedback");
+      return saved !== null ? JSON.parse(saved) : true;
+    } catch {
+      return true;
+    }
+  });
+
+  // Near-miss Typo feedback & Contraction equivalence note
+  const [nearMissHint, setNearMissHint] = useState<string | null>(null);
+  const [equivalenceNote, setEquivalenceNote] = useState<string | null>(null);
+
   const inputRef = useRef<HTMLInputElement>(null);
   const tokenContainerRef = useRef<HTMLDivElement>(null);
   const tokenItemRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  // Hydrate sentence draft from sessionStorage
+  useEffect(() => {
+    if (lessonId && sentenceIndex !== undefined) {
+      const draft = loadSentenceDraft(lessonId, sentenceIndex);
+      if (draft) {
+        setInputValue(draft);
+      }
+    }
+  }, [lessonId, sentenceIndex]);
 
   // Sync hideTranslation prop changes
   useEffect(() => {
@@ -232,14 +278,21 @@ export function DictationWorkspace({
     setIsCompleted(false);
   }, [sentenceText, properNouns]);
 
-  // Check if all words are solved
+  // Handle sentence completion
   const checkCompletion = useCallback(
     (currentTokens: WordToken[]) => {
       const allSolved = currentTokens.every(
         (t) => t.status === "matched" || t.status === "revealed"
       );
-      if (allSolved && !isCompleted && currentTokens.length > 0) {
+
+      if (allSolved && !isCompleted) {
         setIsCompleted(true);
+        if (isSoundFeedbackEnabled) {
+          playSyntheticAudioFeedback("sentence_complete");
+        }
+        if (lessonId && sentenceIndex !== undefined) {
+          clearSentenceDraft(lessonId, sentenceIndex);
+        }
         if (!hideTranslation) {
           setShowTranslation(true);
         }
@@ -248,40 +301,60 @@ export function DictationWorkspace({
         }
       }
     },
-    [isCompleted, hideTranslation, onSentenceCompleted]
+    [isCompleted, hideTranslation, onSentenceCompleted, isSoundFeedbackEnabled, lessonId, sentenceIndex]
   );
 
-  // Handle typing matching (supports single word or multi-word continuous input)
+  // Handle typing matching (with Fuzzy Typo and Contraction Equivalence)
   const handleCheckWord = useCallback(
     (val: string): boolean => {
       const trimmed = val.trim();
       if (!trimmed) return false;
 
-      const parts = trimmed
-        .split(/\s+/)
-        .map((p) => p.replace(/[^a-zA-Z0-9]/g, "").toLowerCase())
-        .filter(Boolean);
-
-      if (parts.length === 0) return false;
+      const rawParts = trimmed.split(/\s+/).filter(Boolean);
+      if (rawParts.length === 0) return false;
 
       let nextTokens = [...tokens];
       let anyMatchFound = false;
+      let matchedAnyWord = false;
+      let detectedNearMiss: string | null = null;
+      let detectedEquiv: string | null = null;
 
-      // Check each typed word against available unsolved or revealed tokens
-      for (const typedWord of parts) {
+      for (const typedRaw of rawParts) {
+        const typedClean = typedRaw.replace(/[^a-zA-Z0-9']/g, "").toLowerCase();
+        if (!typedClean) continue;
+
         let matched = false;
         nextTokens = nextTokens.map((token, idx) => {
           if (
             !matched &&
-            (token.status === "masked" || token.status === "first-letter" || token.status === "revealed") &&
-            token.clean.toLowerCase() === typedWord
+            (token.status === "masked" || token.status === "first-letter" || token.status === "revealed")
           ) {
-            matched = true;
-            anyMatchFound = true;
-            if (onWordMatched) {
-              onWordMatched(token.clean, idx);
+            const tokenClean = token.clean.toLowerCase();
+
+            // 1. Direct or Equivalence Match
+            const isDirect = tokenClean === typedClean;
+            const isEquiv = !isDirect && checkEquivalenceMatch(typedClean, tokenClean);
+
+            if (isDirect || isEquiv) {
+              matched = true;
+              matchedAnyWord = true;
+              anyMatchFound = true;
+              if (isEquiv) {
+                detectedEquiv = `Đã chuẩn hóa: "${typedRaw}" tương đương "${token.clean}"`;
+              }
+              if (onWordMatched) {
+                onWordMatched(token.clean, idx);
+              }
+              return { ...token, status: "matched" as const };
             }
-            return { ...token, status: "matched" as const };
+
+            // 2. Near-miss typo check on remaining unsolved words
+            if (!matched && !detectedNearMiss) {
+              const typoRes = checkNearMissTypo(typedClean, tokenClean);
+              if (typoRes.isNearMiss && typoRes.hint) {
+                detectedNearMiss = typoRes.hint;
+              }
+            }
           }
           return token;
         });
@@ -290,7 +363,20 @@ export function DictationWorkspace({
       if (anyMatchFound) {
         setTokens(nextTokens);
         setInputStatus("correct");
-        setInputValue(""); // Clear input on successful match
+        setInputValue("");
+        setNearMissHint(null);
+        if (detectedEquiv) {
+          setEquivalenceNote(detectedEquiv);
+          setTimeout(() => setEquivalenceNote(null), 3000);
+        }
+
+        if (isSoundFeedbackEnabled) {
+          playSyntheticAudioFeedback("correct");
+        }
+
+        if (lessonId && sentenceIndex !== undefined) {
+          clearSentenceDraft(lessonId, sentenceIndex);
+        }
 
         setTimeout(() => {
           setInputStatus("idle");
@@ -299,7 +385,14 @@ export function DictationWorkspace({
         checkCompletion(nextTokens);
         return true;
       } else {
-        // Shake feedback
+        // Near-miss hint or shake
+        if (detectedNearMiss) {
+          setNearMissHint(detectedNearMiss);
+        }
+        if (isSoundFeedbackEnabled) {
+          playSyntheticAudioFeedback("incorrect");
+        }
+
         setInputStatus("shake");
         setTimeout(() => {
           setInputStatus("idle");
@@ -307,7 +400,7 @@ export function DictationWorkspace({
         return false;
       }
     },
-    [tokens, onWordMatched, checkCompletion]
+    [tokens, onWordMatched, checkCompletion, isSoundFeedbackEnabled, lessonId, sentenceIndex]
   );
 
   // Handle key down in input
@@ -467,93 +560,181 @@ export function DictationWorkspace({
 
       {/* 2. WORD MASK TOKENS SECTION (Đưa lên trên theo yêu cầu) */}
       <div className="space-y-1.5 pt-0">
-        {/* Sub-bar: [ⓘ Nhấn để xem] on left and [👁 Hiện tất cả] on right */}
-        <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 px-1">
-          <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-xs font-medium">
-            <Info className="w-3.5 h-3.5 text-slate-400" />
-            <span>Nhấn để xem từ</span>
+        {/* Sub-bar: 3-Tier Difficulty Modes, Sound Toggle & Controls */}
+        <div className="flex items-center justify-between flex-wrap gap-2 text-xs px-1">
+          {/* Mode Selector Pills */}
+          <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-0.5 rounded-lg border border-slate-200/80 dark:border-slate-700/80 shadow-2xs">
+            <button
+              type="button"
+              onClick={() => setDictationMode("standard")}
+              className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-bold transition-all cursor-pointer select-none ${
+                dictationMode === "standard"
+                  ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-2xs"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+              }`}
+              title="Chế độ Chuẩn: hiển thị số từ và dấu chấm ký tự"
+            >
+              <Target className="w-3 h-3" />
+              <span>🎯 Chuẩn</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                setDictationMode("assisted");
+                setTokens((prev) =>
+                  prev.map((t) =>
+                    t.status === "masked" ? { ...t, status: "first-letter" as const } : t
+                  )
+                );
+              }}
+              className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-bold transition-all cursor-pointer select-none ${
+                dictationMode === "assisted"
+                  ? "bg-white dark:bg-slate-900 text-amber-600 dark:text-amber-400 shadow-2xs"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+              }`}
+              title="Chế độ Gợi ý: tự động mở chữ cái đầu tiên của từng từ"
+            >
+              <Lightbulb className="w-3 h-3" />
+              <span>💡 Gợi ý</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setDictationMode("blind")}
+              className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-bold transition-all cursor-pointer select-none ${
+                dictationMode === "blind"
+                  ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-2xs"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+              }`}
+              title="Chế độ Blind: ẩn hoàn toàn độ dài và ký tự của các từ"
+            >
+              <Glasses className="w-3 h-3" />
+              <span>🕶️ Blind</span>
+            </button>
           </div>
 
-          <button
-            type="button"
-            onClick={handleRevealAll}
-            className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer select-none group"
-            title="Hiện tất cả các từ trong câu"
-          >
-            <EyeOff className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" />
-            <span className="font-semibold">Hiện tất cả</span>
-          </button>
+          {/* Right Action Tools: Dopamine Sound Toggle & Reveal All */}
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setIsSoundFeedbackEnabled((prev) => {
+                  const next = !prev;
+                  try {
+                    localStorage.setItem("xp_sound_feedback", JSON.stringify(next));
+                  } catch {}
+                  return next;
+                });
+              }}
+              className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-bold border transition-all cursor-pointer select-none ${
+                isSoundFeedbackEnabled
+                  ? "bg-emerald-50 dark:bg-emerald-950/50 border-emerald-300 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 shadow-2xs"
+                  : "bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-400"
+              }`}
+              title={isSoundFeedbackEnabled ? "Âm thanh Dopamine: BẬT" : "Âm thanh Dopamine: TẮT"}
+            >
+              {isSoundFeedbackEnabled ? (
+                <Volume2 className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
+              ) : (
+                <VolumeX className="w-3 h-3 text-slate-400" />
+              )}
+              <span>Âm thanh</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleRevealAll}
+              className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer select-none group"
+              title="Hiện tất cả các từ trong câu"
+            >
+              <EyeOff className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" />
+              <span className="font-semibold">Hiện tất cả</span>
+            </button>
+          </div>
         </div>
 
         {/* Masked / Revealed Token Row (Hidden Scrollbar + Auto-Centered Track) */}
         <div className="px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm">
-          <div
-            ref={tokenContainerRef}
-            style={isCollapsed ? { scrollbarWidth: "none", msOverflowStyle: "none" } : undefined}
-            className={`gap-1.5 sm:gap-2 items-center py-1.5 sm:py-2 px-1 ${
-              isCollapsed
-                ? "flex flex-nowrap overflow-x-auto scroll-smooth hide-scrollbar [&::-webkit-scrollbar]:hidden"
-                : "flex flex-wrap"
-            }`}
-          >
-            {tokens.map((token, idx) => {
-              const isMatched = token.status === "matched";
-              const isRevealed = token.status === "revealed";
-              const isFirstLetter = token.status === "first-letter";
-              const isSolved = isMatched || isRevealed;
+          {dictationMode === "blind" && !isCompleted ? (
+            <div className="py-3 px-3.5 rounded-lg bg-slate-50 dark:bg-slate-950 border border-dashed border-purple-300 dark:border-purple-800 flex items-center justify-between text-xs text-purple-800 dark:text-purple-300 font-medium">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse shrink-0" />
+                <span>🕶️ Blind Mode: Nghe và chép liên tục — Độ dài từ và số ký tự được ẩn hoàn toàn!</span>
+              </div>
+              <span className="font-mono text-[11px] font-bold shrink-0 ml-2 px-2 py-0.5 rounded bg-purple-100 dark:bg-purple-900/50">
+                {solvedCount}/{tokens.length} từ
+              </span>
+            </div>
+          ) : (
+            <div
+              ref={tokenContainerRef}
+              style={isCollapsed ? { scrollbarWidth: "none", msOverflowStyle: "none" } : undefined}
+              className={`gap-1.5 sm:gap-2 items-center py-1.5 sm:py-2 px-1 ${
+                isCollapsed
+                  ? "flex flex-nowrap overflow-x-auto scroll-smooth hide-scrollbar [&::-webkit-scrollbar]:hidden"
+                  : "flex flex-wrap"
+              }`}
+            >
+              {tokens.map((token, idx) => {
+                const isMatched = token.status === "matched";
+                const isRevealed = token.status === "revealed";
+                const isFirstLetter = token.status === "first-letter";
+                const isSolved = isMatched || isRevealed;
 
-              // Render text inside block
-              let displayContent = token.dots;
-              if (isSolved) {
-                displayContent = token.clean;
-              } else if (isFirstLetter) {
-                displayContent =
-                  token.clean[0] + "•".repeat(Math.max(0, token.length - 1));
-              }
+                // Render text inside block
+                let displayContent = token.dots;
+                if (isSolved) {
+                  displayContent = token.clean;
+                } else if (isFirstLetter) {
+                  displayContent =
+                    token.clean[0] + "•".repeat(Math.max(0, token.length - 1));
+                }
 
-              return (
-                <div
-                  key={token.id}
-                  ref={(el) => {
-                    tokenItemRefs.current[idx] = el;
-                  }}
-                  className="inline-flex items-center shrink-0"
-                >
-                  {token.leadingPunc && (
-                    <span className="text-slate-400 dark:text-slate-500 font-semibold mr-0.5 text-xs sm:text-sm">
-                      {token.leadingPunc}
-                    </span>
-                  )}
-
-                  <motion.button
-                    type="button"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.97 }}
-                    onClick={() => handleTokenClick(idx)}
-                    className={`${tokenSizeClass} ${
-                      isSolved ? "font-sans tracking-normal" : "font-mono tracking-wide"
-                    } rounded-md transition-all cursor-pointer select-none flex items-center justify-center ${
-                      isMatched
-                        ? "bg-emerald-500 text-white font-bold border-2 border-emerald-600 shadow-xs"
-                        : isRevealed
-                        ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white font-bold border border-slate-300 dark:border-slate-600 shadow-2xs"
-                        : isFirstLetter
-                        ? "bg-amber-50 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 font-bold border border-amber-400 shadow-2xs"
-                        : "bg-slate-50 dark:bg-slate-800/80 border border-slate-200/90 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-semibold hover:border-slate-400 hover:text-slate-900 dark:hover:border-slate-500 dark:hover:text-white shadow-2xs"
-                    }`}
+                return (
+                  <div
+                    key={token.id}
+                    ref={(el) => {
+                      tokenItemRefs.current[idx] = el;
+                    }}
+                    className="inline-flex items-center shrink-0"
                   >
-                    {displayContent}
-                  </motion.button>
+                    {token.leadingPunc && (
+                      <span className="text-slate-400 dark:text-slate-500 font-semibold mr-0.5 text-xs sm:text-sm">
+                        {token.leadingPunc}
+                      </span>
+                    )}
 
-                  {token.trailingPunc && (
-                    <span className="text-slate-400 dark:text-slate-500 font-semibold ml-0.5 text-xs sm:text-sm">
-                      {token.trailingPunc}
-                    </span>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+                    <motion.button
+                      type="button"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.97 }}
+                      onClick={() => handleTokenClick(idx)}
+                      className={`${tokenSizeClass} ${
+                        isSolved ? "font-sans tracking-normal" : "font-mono tracking-wide"
+                      } rounded-md transition-all cursor-pointer select-none flex items-center justify-center ${
+                        isMatched
+                          ? "bg-emerald-500 text-white font-bold border-2 border-emerald-600 shadow-xs"
+                          : isRevealed
+                          ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white font-bold border border-slate-300 dark:border-slate-600 shadow-2xs"
+                          : isFirstLetter
+                          ? "bg-amber-50 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 font-bold border border-amber-400 shadow-2xs"
+                          : "bg-slate-50 dark:bg-slate-800/80 border border-slate-200/90 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-semibold hover:border-slate-400 hover:text-slate-900 dark:hover:border-slate-500 dark:hover:text-white shadow-2xs"
+                      }`}
+                    >
+                      {displayContent}
+                    </motion.button>
+
+                    {token.trailingPunc && (
+                      <span className="text-slate-400 dark:text-slate-500 font-semibold ml-0.5 text-xs sm:text-sm">
+                        {token.trailingPunc}
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
 
           {/* IPA & Vietnamese Translation Accordion */}
           <AnimatePresence>

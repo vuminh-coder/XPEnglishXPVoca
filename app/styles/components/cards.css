@@ -1,0 +1,85 @@
+@layer components {
+/* ---- Cards ---- */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    box-shadow:
+      var(--shadow-sm),
+      inset 0 1px 0px rgba(255, 255, 255, 0.6);
+    transition: all var(--transition-premium);
+  }
+  .card:hover {
+    box-shadow:
+      var(--shadow-md),
+      inset 0 1px 0px rgba(255, 255, 255, 0.8);
+  }
+  [data-theme="dark"] .card {
+    box-shadow:
+      var(--shadow-sm),
+      inset 0 1px 0px rgba(255, 255, 255, 0.05);
+  }
+  [data-theme="dark"] .card:hover {
+    box-shadow:
+      var(--shadow-md),
+      inset 0 1px 0px rgba(255, 255, 255, 0.08);
+  }
+
+  .card-glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow:
+      var(--shadow-sm),
+      inset 0 1px 1px rgba(255, 255, 255, 0.5);
+  }
+  [data-theme="dark"] .card-glass {
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow:
+      var(--shadow-sm),
+      inset 0 1px 1px rgba(255, 255, 255, 0.05);
+  }
+
+  .card-gradient {
+    background: var(--gradient-card);
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .card-interactive {
+    cursor: pointer;
+  }
+  .card-interactive:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      var(--shadow-lg),
+      inset 0 1px 0px rgba(255, 255, 255, 0.8);
+    border-color: var(--primary-300);
+  }
+  [data-theme="dark"] .card-interactive:hover {
+    box-shadow:
+      var(--shadow-lg),
+      inset 0 1px 0px rgba(255, 255, 255, 0.08);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-4);
+  }
+  .card-title {
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .card-subtitle {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    margin-top: var(--space-1);
+  }
+}
+

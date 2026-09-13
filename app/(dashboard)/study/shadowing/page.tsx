@@ -281,6 +281,9 @@ function ShadowingStudioContent() {
   // Live Speech Recognition States
   const [liveRecognizedWords, setLiveRecognizedWords] = useState<{ word: string; status: "perfect" | "needs_work" }[]>([]);
   const speechRecognitionRef = useRef<any>(null);
+  const capturedSpeechTextRef = useRef<string>("");
+  const vadMaxVolumeRef = useRef<number>(0);
+  const audioContextRef = useRef<AudioContext | null>(null);
 
   // Single-Row Horizontal Word Track Auto-Scroll Refs & Playback Tracking
   const wordTrackContainerRef = useRef<HTMLDivElement>(null);
@@ -327,30 +330,6 @@ function ShadowingStudioContent() {
       });
     }
   }, [isRecording, liveRecognizedWords.length, currentSentence?.text]);
-
-  // 2. Real-time speech progress simulation during recording
-  useEffect(() => {
-    if (!isRecording || !currentSentence) return;
-    const words = currentSentence.text.trim().split(/\s+/);
-    const totalDurationSec = Math.max(3, words.length * 0.45);
-    const intervalMs = (totalDurationSec * 1000) / words.length;
-
-    let currentIdx = 0;
-    const interval = setInterval(() => {
-      currentIdx++;
-      if (currentIdx <= words.length) {
-        setLiveRecognizedWords((prev) => {
-          if (prev.length >= currentIdx) return prev;
-          return words.slice(0, currentIdx).map((w: string) => ({
-            word: w,
-            status: "perfect" as const,
-          }));
-        });
-      }
-    }, intervalMs);
-
-    return () => clearInterval(interval);
-  }, [isRecording, currentSentence]);
 
   // 3. Auto-scroll word track during sample audio playback
   useEffect(() => {
@@ -565,11 +544,42 @@ function ShadowingStudioContent() {
       setUserAudioUrl(null);
       setAiAnalysisResult(null);
       setLiveRecognizedWords([]);
+      capturedSpeechTextRef.current = "";
+      vadMaxVolumeRef.current = 0;
 
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const mediaRecorder = new MediaRecorder(stream);
       mediaRecorderRef.current = mediaRecorder;
       audioChunksRef.current = [];
+
+      // Web Audio Voice Activity Detection (VAD) Analyser
+      try {
+        const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+        if (AudioCtx) {
+          const audioCtx = new AudioCtx();
+          audioContextRef.current = audioCtx;
+          const source = audioCtx.createMediaStreamSource(stream);
+          const analyser = audioCtx.createAnalyser();
+          analyser.fftSize = 256;
+          source.connect(analyser);
+          const dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+          const checkAudioEnergy = () => {
+            if (!mediaRecorderRef.current || mediaRecorderRef.current.state === "inactive") return;
+            analyser.getByteFrequencyData(dataArray);
+            let sum = 0;
+            for (let i = 0; i < dataArray.length; i++) sum += dataArray[i];
+            const avg = sum / dataArray.length / 255;
+            if (avg > vadMaxVolumeRef.current) {
+              vadMaxVolumeRef.current = avg;
+            }
+            requestAnimationFrame(checkAudioEnergy);
+          };
+          requestAnimationFrame(checkAudioEnergy);
+        }
+      } catch (e) {
+        console.warn("VAD AudioContext init skipped:", e);
+      }
 
       mediaRecorder.ondataavailable = (event) => {
         if (event.data.size > 0) {
@@ -582,14 +592,46 @@ function ShadowingStudioContent() {
         const url = URL.createObjectURL(audioBlob);
         setUserAudioUrl(url);
         stream.getTracks().forEach((track) => track.stop());
-        simulateAiSpeechAnalysis();
+        if (audioContextRef.current) {
+          try {
+            audioContextRef.current.close();
+          } catch {}
+          audioContextRef.current = null;
+        }
+
+        // Voice Activity Detection Check: Reject pure silence or background noise
+        if (vadMaxVolumeRef.current < 0.012 && !capturedSpeechTextRef.current.trim()) {
+          addToast({
+            type: "warning",
+            title: "Chưa phát hiện giọng nói",
+            message: "Micro chưa thu được âm thanh rõ ràng. Hãy thử đọc to và dứt khoát hơn nhé!",
+          });
+          setAiAnalysisResult({
+            overallScore: 0,
+            fluencyScore: 0,
+            intonationScore: 0,
+            pronunciationScore: 0,
+            completenessScore: 0,
+            speedWpm: 0,
+            stressScore: 0,
+            feedback: "Chưa phát hiện giọng nói rõ ràng. Hãy bấm ghi âm và đọc to theo câu mẫu nhé!",
+            wordAccuracy: (currentSentence?.text || "").split(/\s+/).map((w: string) => ({
+              word: w,
+              score: 0,
+              status: "needs_work" as const,
+            })),
+          });
+          return;
+        }
+
+        executeRealAiSpeechAnalysis();
       };
 
       mediaRecorder.start(100);
       setIsRecording(true);
       setRecordingTime(0);
 
-      // Start SpeechRecognition if available
+      // Start Real SpeechRecognition if available
       const SpeechRecognition =
         (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
       if (SpeechRecognition) {
@@ -597,14 +639,16 @@ function ShadowingStudioContent() {
           const recognition = new SpeechRecognition();
           recognition.continuous = true;
           recognition.interimResults = true;
-          recognition.lang = "en-US";
+          recognition.lang = currentLesson?.accent || "en-US";
 
           recognition.onresult = (event: any) => {
             let transcriptText = "";
             for (let i = 0; i < event.results.length; ++i) {
               transcriptText += event.results[i][0].transcript + " ";
             }
-            evaluateLiveSpeech(transcriptText.trim());
+            const cleanText = transcriptText.trim();
+            capturedSpeechTextRef.current = cleanText;
+            evaluateLiveSpeech(cleanText);
           };
 
           recognition.onerror = () => {};
@@ -668,116 +712,102 @@ function ShadowingStudioContent() {
     setLiveRecognizedWords(evaluated);
   };
 
-  // AI Speech Analysis & Database Progress Sync
-  const simulateAiSpeechAnalysis = () => {
+  // Real AI Speech Analysis & Database Progress Sync
+  const executeRealAiSpeechAnalysis = async () => {
     setIsAnalyzing(true);
-    setTimeout(async () => {
-      setIsAnalyzing(false);
+    try {
       if (!currentSentence?.text) return;
 
-      const words = currentSentence.text.split(/\s+/);
-      const wordAccuracy = words.map((word: string) => {
-        const rand = Math.random();
-        const status =
-          rand > 0.15 ? ("perfect" as const) : rand > 0.05 ? ("good" as const) : ("needs_work" as const);
-        const score = status === "perfect" ? 95 : status === "good" ? 80 : 55;
-        return { word, score, status };
+      const recognized = capturedSpeechTextRef.current || "";
+      const res = await fetch("/api/listening/evaluate-speech", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          targetText: currentSentence.text,
+          recognizedText: recognized,
+          durationSec: Math.max(1, recordingTime),
+        }),
       });
 
-      const correctCount = wordAccuracy.filter(
-        (w: { word: string; score: number; status: "perfect" | "good" | "needs_work" }) =>
-          w.status !== "needs_work"
-      ).length;
-      const finalScore = Math.min(
-        100,
-        Math.max(65, Math.round((correctCount / words.length) * 100) + Math.floor(Math.random() * 8))
-      );
+      const json = await res.json();
+      if (json.success && json.data) {
+        const evalData = json.data;
+        setAiAnalysisResult(evalData);
+        const overall = evalData.overallScore;
 
-      const overall = finalScore;
-      const fluency = Math.min(100, Math.max(70, finalScore + Math.floor(Math.random() * 6 - 3)));
-      const intonation = Math.min(100, Math.max(70, finalScore + Math.floor(Math.random() * 8 - 4)));
-      const pronunciation = Math.min(100, Math.max(70, finalScore + Math.floor(Math.random() * 6 - 2)));
-      const completeness = 100;
-      const speedWpm = Math.floor(125 + Math.random() * 25);
-      const stressScore = Math.min(100, Math.max(75, finalScore + 2));
+        if (overall >= 50) {
+          const nextCompleted = { ...completedSentences, [currentSentenceIndex]: true };
+          setCompletedSentences(nextCompleted);
 
-      setAiAnalysisResult({
-        overallScore: overall,
-        fluencyScore: fluency,
-        intonationScore: intonation,
-        pronunciationScore: pronunciation,
-        completenessScore: completeness,
-        speedWpm,
-        stressScore,
-        feedback:
-          overall >= 85
-            ? "Phát âm rất tự nhiên, nối âm chuẩn xác và ngữ điệu rất giống người bản xứ!"
-            : overall >= 75
-            ? "Phát âm khá tốt, cần chú ý ngắt nhịp và nhấn đúng trọng âm của các từ quan trọng."
-            : "Cần luyện tập thêm tốc độ nói và phát âm rõ âm đuôi (ending sounds).",
-        wordAccuracy,
-      });
+          // Save progress to PostgreSQL Neon
+          if (currentLesson) {
+            const completedIndices = Object.keys(nextCompleted)
+              .filter((k) => nextCompleted[Number(k)])
+              .map(Number);
+            const isAllDone = totalSentencesCount > 0 && completedIndices.length >= totalSentencesCount;
 
-      const nextCompleted = { ...completedSentences, [currentSentenceIndex]: true };
-      setCompletedSentences(nextCompleted);
-
-      // Save progress to PostgreSQL Neon
-      if (currentLesson) {
-        const completedIndices = Object.keys(nextCompleted)
-          .filter((k) => nextCompleted[Number(k)])
-          .map(Number);
-        const isAllDone = totalSentencesCount > 0 && completedIndices.length >= totalSentencesCount;
-
-        try {
-          if (isAllDone) {
-            // Lesson completed: auto-delete in-progress progress to reset lesson clean for subsequent practice
-            await fetch(
-              `/api/listening/progress?userId=${user?.id || "guest_user"}&lessonId=${currentLesson.id}`,
-              { method: "DELETE" }
-            );
-          } else {
-            await fetch("/api/listening/progress", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                userId: user?.id || "guest_user",
-                lessonId: currentLesson.id,
-                status: "IN_PROGRESS",
-                completedSentences: completedIndices,
-                bookmarkedSentences: savedSentenceKeys,
-                inlineAiScores: { [currentSentenceIndex]: overall },
-                timeSpent: Math.max(15, elapsedTime),
-                xpEarned: overall >= 80 ? 15 : 5,
-                skill: "shadowing",
-              }),
-            });
+            try {
+              if (isAllDone) {
+                await fetch(
+                  `/api/listening/progress?userId=${user?.id || "guest_user"}&lessonId=${currentLesson.id}`,
+                  { method: "DELETE" }
+                );
+              } else {
+                await fetch("/api/listening/progress", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    userId: user?.id || "guest_user",
+                    lessonId: currentLesson.id,
+                    status: "IN_PROGRESS",
+                    completedSentences: completedIndices,
+                    bookmarkedSentences: savedSentenceKeys,
+                    inlineAiScores: { [currentSentenceIndex]: overall },
+                    timeSpent: Math.max(15, elapsedTime),
+                    xpEarned: overall >= 80 ? 15 : 5,
+                    skill: "shadowing",
+                  }),
+                });
+              }
+            } catch (e) {
+              console.error("Failed to sync shadowing progress to database:", e);
+            }
           }
-        } catch (e) {
-          console.error("Failed to sync shadowing progress to database:", e);
+        }
+
+        if (overall >= 80) {
+          awardXp(15, "shadowing");
+          addToast({
+            type: "success",
+            title: `🎉 XUẤT SẮC! ${overall} điểm (+15 XP)`,
+            message: "Bạn đã vượt qua câu này với phát âm chuẩn xác!",
+          });
+
+          if (autoNextSentence && currentSentenceIndex < totalSentencesCount - 1) {
+            setTimeout(() => {
+              handleNextSentence();
+            }, 1600);
+          }
+        } else if (overall >= 50) {
+          awardXp(5, "shadowing");
+          addToast({
+            type: "info",
+            title: `👍 Hoàn thành câu! (${overall} điểm, +5 XP)`,
+            message: "Hãy nghe lại âm thanh mẫu để phát âm chuẩn hơn nhé!",
+          });
+        } else {
+          addToast({
+            type: "warning",
+            title: `⚠️ Chưa đạt (${overall} điểm)`,
+            message: "Hãy nghe lại câu mẫu và thử đọc lại lần nữa nhé!",
+          });
         }
       }
-
-      if (overall >= 80) {
-        awardXp(15, "shadowing");
-        addToast({
-          type: "success",
-          title: `🎉 XUẤT SẮC! ${overall} điểm (+15 XP)`,
-          message: "Bạn đã vượt qua câu này với ngữ điệu chuẩn bản xứ!",
-        });
-
-        if (autoNextSentence && currentSentenceIndex < totalSentencesCount - 1) {
-          setTimeout(() => {
-            handleNextSentence();
-          }, 1600);
-        }
-      } else {
-        addToast({
-          type: "warning",
-          title: `⚠️ Chưa đạt 80% (${overall} điểm)`,
-          message: "Hãy nghe lại âm thanh bản xứ và thử lại lần nữa để đạt điểm cao hơn nhé!",
-        });
-      }
-    }, 800);
+    } catch (err) {
+      console.error("Real AI speech evaluation error:", err);
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
   // Reusable Sample Audio Player

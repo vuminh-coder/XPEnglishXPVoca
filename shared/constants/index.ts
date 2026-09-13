@@ -1,4 +1,4 @@
-﻿import { BASIC_VOCABULARY_THEMES } from "@/features/vocabulary/data/basicVocabularies";
+import { BASIC_VOCABULARY_THEMES } from "@/features/vocabulary/data/themes";
 import { ADVANCED_VOCABULARY_THEMES } from "@/features/vocabulary/data/advancedVocabularies";
 
 export const LEVEL_XP = [0, 100, 250, 450, 700, 1000, 1400, 1900, 2500, 3200, 4000, 5000, 6200, 7600, 9200, 11000];

@@ -10,7 +10,7 @@ import { useNotificationStore } from "@/stores/notificationStore";
 import { useListeningStore } from "@/stores/listeningStore";
 import { useUiStore } from "@/stores/uiStore";
 import { motion, AnimatePresence } from "framer-motion";
-import { speakLessonText, stopTTS } from "@/shared/utils/ttsEngine";
+import { speakLessonText, stopTTS, prefetchAudioSentence } from "@/shared/utils/ttsEngine";
 import { LessonCoverImage } from "@/shared/components/feedback/LessonCoverImage";
 import { DictationWorkspace } from "@/features/listening/components/DictationWorkspace";
 import { StudioTopHeader } from "@/features/listening/components/StudioTopHeader";
@@ -132,9 +132,9 @@ function ListeningPageContent() {
   } = useListeningStore();
   const { setSidebarCollapsed, setHideBottomNav } = useUiStore();
 
-  // Lessons list state (combines DB lessons + fallback)
-  const [lessonsList, setLessonsList] = useState<any[]>([]);
-  const [isLoadingLessons, setIsLoadingLessons] = useState(true);
+  // Lessons list state (pre-initialized with curated catalog + background DB sync)
+  const [lessonsList, setLessonsList] = useState<any[]>(() => MOCK_LESSONS_DATA);
+  const [isLoadingLessons, setIsLoadingLessons] = useState(false);
 
   const [selectedLessonId, setSelectedLessonId] = useState<string | null>(() => {
     if (!rawIdParam) return null;
@@ -219,6 +219,15 @@ function ListeningPageContent() {
       setCurrentAccent(currentLesson.accent);
     }
   }, [currentLesson?.accent]);
+
+  // Zero-latency Audio Prefetch: Prefetch sentence N+1 in memory
+  useEffect(() => {
+    if (!currentLesson?.transcript) return;
+    const nextSentence = currentLesson.transcript[currentSentenceIndex + 1];
+    if (nextSentence?.text) {
+      prefetchAudioSentence(nextSentence.text, currentAccent);
+    }
+  }, [currentLesson, currentSentenceIndex, currentAccent]);
 
   // 1. Fetch Lessons Catalog from PostgreSQL Neon Database
   useEffect(() => {
@@ -2064,6 +2073,8 @@ function ListeningPageContent() {
                                 key={`dict-${currentLesson.id}-${currentSentenceIndex}`}
                                 sentenceText={currentSentence.text}
                                 sentenceId={currentSentenceIndex}
+                                lessonId={currentLesson.id}
+                                sentenceIndex={currentSentenceIndex}
                                 translation={
                                   currentSentence.translation || currentSentence.vietnamese
                                 }

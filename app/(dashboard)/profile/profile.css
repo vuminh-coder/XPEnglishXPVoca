@@ -1,0 +1,105 @@
+@layer components {
+/* ============================================================
+   18. PROFILE PAGE
+   ============================================================ */
+  .profile-header {
+    background: var(--gradient-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-8);
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    margin-bottom: var(--space-6);
+  }
+  .profile-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: var(--radius-full);
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-4xl);
+    font-weight: 800;
+    color: white;
+    border: 4px solid rgba(78, 197, 241, 0.3);
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .profile-info {
+    flex: 1;
+  }
+  .profile-name {
+    font-size: var(--text-2xl);
+    font-weight: 800;
+    margin-bottom: var(--space-1);
+  }
+  .profile-username {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-3);
+  }
+  .profile-bio {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+  .profile-stats-row {
+    display: flex;
+    gap: var(--space-8);
+    margin-top: var(--space-4);
+  }
+  .profile-stat-item {
+    text-align: center;
+  }
+  .profile-stat-val {
+    font-size: var(--text-xl);
+    font-weight: 800;
+    font-family: var(--font-display);
+  }
+  .profile-stat-lbl {
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+  }
+
+  /* Achievements Grid */
+  .achievements-section {
+    margin-bottom: var(--space-6);
+  }
+  .achievements-full-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--space-4);
+  }
+  .achievement-full-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-xl);
+    padding: var(--space-5);
+    text-align: center;
+    transition: all var(--transition-base);
+  }
+  .achievement-full-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  .achievement-full-card.locked {
+    opacity: 0.4;
+    filter: grayscale(100%);
+  }
+  .achievement-full-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-3);
+  }
+  .achievement-full-name {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    margin-bottom: var(--space-1);
+  }
+  .achievement-full-desc {
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+  }
+}
+

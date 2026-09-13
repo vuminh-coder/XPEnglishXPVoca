@@ -1,4 +1,4 @@
-﻿import { describe, it, expect, beforeEach, vi } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import {
   useVideoStore,
   extractYouTubeId,
@@ -526,7 +526,7 @@ describe("Task 10: Filter & Search Engine", () => {
   it("Test 10.1: Tìm kiếm theo tiêu đề (Search Query)", () => {
     const results = filterVideos(videoList, { search: "BBC" });
     expect(results.length).toBe(1);
-    expect(results[0].id).toBe("gN78u1P3j9Y");
+    expect(results[0].id).toBe("8K8s9U8_i50");
   });
 
   it("Test 10.2: Lọc video theo trạng thái 'Đang học'", () => {
@@ -582,22 +582,25 @@ describe("Task 11: Zustand Store (videoStore)", () => {
   });
 
   it("Test 11.4: Cập nhật progressPercent của video", () => {
-    useVideoStore.getState().updateProgress("gN78u1P3j9Y", 95);
-    const video = useVideoStore.getState().savedVideos.find((v) => v.id === "gN78u1P3j9Y");
+    const targetId = PRESET_YOUTUBE_VIDEOS[0].id;
+    useVideoStore.getState().updateProgress(targetId, 95);
+    const video = useVideoStore.getState().savedVideos.find((v) => v.id === targetId);
     expect(video?.progressPercent).toBe(95);
   });
 
   it("Test 11.5: Toggle trạng thái yêu thích (isFavorite)", () => {
+    const targetId = PRESET_YOUTUBE_VIDEOS[0].id;
     const initialFav = useVideoStore.getState().savedVideos[0].isFavorite;
-    useVideoStore.getState().toggleFavorite("gN78u1P3j9Y");
+    useVideoStore.getState().toggleFavorite(targetId);
     const updatedFav = useVideoStore.getState().savedVideos[0].isFavorite;
     expect(updatedFav).toBe(!initialFav);
   });
 
   it("Test 11.6: Xóa video khỏi store", () => {
-    useVideoStore.getState().removeVideo("gN78u1P3j9Y");
+    const targetId = PRESET_YOUTUBE_VIDEOS[0].id;
+    useVideoStore.getState().removeVideo(targetId);
     expect(useVideoStore.getState().savedVideos.length).toBe(2);
-    expect(useVideoStore.getState().savedVideos.some((v) => v.id === "gN78u1P3j9Y")).toBeFalsy();
+    expect(useVideoStore.getState().savedVideos.some((v) => v.id === targetId)).toBeFalsy();
   });
 });
 

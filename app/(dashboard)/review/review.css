@@ -1,0 +1,72 @@
+@layer components {
+/* ============================================================
+   16. REVIEW PAGE
+   ============================================================ */
+  .review-calendar {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    margin-bottom: var(--space-6);
+  }
+  .calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-5);
+  }
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: var(--space-2);
+  }
+  .calendar-day-header {
+    text-align: center;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--text-tertiary);
+    padding: var(--space-2);
+  }
+  .calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-lg);
+    font-size: var(--text-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    position: relative;
+  }
+  .calendar-day:hover {
+    background: var(--bg-tertiary);
+  }
+  .calendar-day.today {
+    background: var(--primary-500);
+    color: white;
+    font-weight: 700;
+  }
+  .calendar-day.has-review::after {
+    content: "";
+    width: 6px;
+    height: 6px;
+    background: var(--secondary-500);
+    border-radius: var(--radius-full);
+    position: absolute;
+    bottom: 4px;
+  }
+  .calendar-day.completed {
+    background: rgba(76, 175, 80, 0.1);
+    color: var(--success-600);
+  }
+  .calendar-day.other-month {
+    color: var(--text-tertiary);
+    opacity: 0.5;
+  }
+
+  .review-due-list {
+    margin-top: var(--space-6);
+  }
+}
+

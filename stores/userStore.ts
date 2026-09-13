@@ -42,6 +42,8 @@ export const DEFAULT_LEARNER_USER: User = {
   avatarUrl: "",
 };
 
+let inFlightSessionPromise: Promise<void> | null = null;
+
 export const useUserStore = create<UserState>((set, get) => ({
   user: null,
   syncStreak: (hasCompletedActivity) => {
@@ -423,17 +425,27 @@ export const useUserStore = create<UserState>((set, get) => ({
     get().syncStreak(false);
   },
   checkSession: async () => {
-    try {
-      const res = await fetch("/api/auth/me");
-      const json = await res.json();
-      if (json.success && json.data) {
-        get().setUserPayload(json.data);
-      } else {
-        get().setLocalUser();
-      }
-    } catch (e) {
-      get().setLocalUser();
+    if (inFlightSessionPromise) {
+      return inFlightSessionPromise;
     }
+    inFlightSessionPromise = (async () => {
+      try {
+        const res = await fetch("/api/auth/me");
+        const json = await res.json();
+        if (json.success && json.data) {
+          get().setUserPayload(json.data);
+        } else {
+          get().setLocalUser();
+        }
+      } catch (e) {
+        get().setLocalUser();
+      } finally {
+        setTimeout(() => {
+          inFlightSessionPromise = null;
+        }, 1500);
+      }
+    })();
+    return inFlightSessionPromise;
   },
   setLocalUser: () => {
     if (typeof window !== "undefined") {

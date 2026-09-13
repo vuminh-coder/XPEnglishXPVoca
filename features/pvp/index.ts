@@ -5,3 +5,4 @@ export * from "./components/PvPLobby";
 export * from "./components/PvPMatchmaking";
 export * from "./components/PvPArena";
 export * from "./components/PvPResults";
+export * from "./utils/pvpSoundEngine";

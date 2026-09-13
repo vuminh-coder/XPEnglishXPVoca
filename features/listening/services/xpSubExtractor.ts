@@ -1,4 +1,4 @@
-﻿/**
+/**
  * XP-Sub Extractor Engine - Self-Contained In-House Subtitle Extraction & Downloader Engine
  * Reverse-engineers YouTube Innertube Client API & TimedText API.
  * Includes Google Rate-Limit Detection & Resilience, ASR deduplication, auto-translation via &tlang=,
@@ -14,6 +14,8 @@ import {
   wrapTextTo42Chars,
   alignBilingualSubtitles,
   shiftTimestampSec,
+  parseTimedTextAny,
+  parseVnTimedTextAny,
   ParsedXmlItem,
   ParsedVnItem,
 } from "@/features/listening/services/youtubeSubtitleParser";
@@ -424,7 +426,8 @@ export async function extractSubtitlesFromTrackUrl(
         parsedEn = deduplicateAsrEvents(data.events);
       }
     } catch (e) {
-      // If XML format
+      // Parse XML / TimedText / srv1 / TTML format
+      parsedEn = parseTimedTextAny(sourceContent);
     }
   }
 
@@ -439,7 +442,9 @@ export async function extractSubtitlesFromTrackUrl(
           const rawVnEvents = deduplicateAsrEvents(vnData.events);
           parsedVn = rawVnEvents.map((v) => ({ startTime: v.startTime, textVn: v.textEn }));
         }
-      } catch (e) {}
+      } catch (e) {
+        parsedVn = parseVnTimedTextAny(translatedContent);
+      }
     }
   }
 

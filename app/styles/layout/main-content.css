@@ -1,0 +1,98 @@
+@layer components {
+/* ============================================================
+   9. LAYOUT - MAIN CONTENT
+   ============================================================ */
+  .main-content {
+    margin-top: var(--navbar-height);
+    margin-left: var(--sidebar-width);
+    margin-right: var(--right-sidebar-width);
+    min-height: calc(100dvh - var(--navbar-height));
+    padding: var(--space-6) var(--space-8);
+    transition: margin var(--transition-base);
+  }
+
+  .main-content.no-sidebars {
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 0 !important;
+    min-height: 100dvh;
+  }
+
+  .main-content.no-right-sidebar {
+    margin-top: 0;
+    margin-right: 0;
+    min-height: 100dvh;
+    transition: margin-left 0.22s cubic-bezier(0.2, 0.9, 0.1, 1);
+    will-change: margin-left;
+  }
+
+  .main-content.sidebar-collapsed {
+    margin-left: 0 !important;
+  }
+
+  @media (min-width: 1024px) {
+    .main-content.sidebar-collapsed {
+      margin-left: 72px !important;
+    }
+  }
+
+  .main-content.exam-workspace-active {
+    margin-left: 0 !important;
+    padding: 0 !important;
+  }
+
+  @media (min-width: 1024px) {
+    .main-content.exam-workspace-active {
+      margin-left: 72px !important;
+      padding: 0 !important;
+    }
+  }
+
+  .main-content.studio-workspace-active {
+    padding: 0 !important;
+    min-height: 100dvh;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .main-content.studio-workspace-active #app-view-container {
+    min-height: 100%;
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
+
+  @media (min-width: 1024px) {
+    .main-content.studio-workspace-active {
+      padding: 0 !important;
+      height: 100dvh;
+      max-height: 100dvh;
+      overflow: hidden;
+    }
+
+    .main-content.studio-workspace-active #app-view-container {
+      height: 100%;
+      overflow: hidden;
+    }
+  }
+
+  .page-header {
+    margin-bottom: var(--space-6);
+  }
+  .page-title {
+    font-size: var(--text-2xl);
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: var(--space-2);
+  }
+  .page-subtitle {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+}
+

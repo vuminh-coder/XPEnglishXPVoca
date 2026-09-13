@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import {
   parseTimedTextXml,
   parseVnTimedTextXml,
@@ -19,6 +19,7 @@ export interface SubtitleItem {
   vietnamese: string;
   dictationWord: string;
   startSeconds: number;
+  wordTimings?: { word: string; start: number; end: number }[];
 }
 
 export interface ExtractedTrack {
@@ -71,6 +72,8 @@ export async function GET(request: NextRequest) {
     const payload = {
       success: true,
       videoId,
+      title: result.title || "Video Học Tiếng Anh YouTube",
+      authorName: result.authorName || "YouTube Creator",
       subtitles: result.subtitles || [],
       tracks: result.tracks || [],
       needClientFetch: result.needClientFetch || false,
@@ -135,6 +138,8 @@ export async function POST(request: NextRequest) {
     const payload = {
       success: true,
       videoId,
+      title: result.title || "Video Học Tiếng Anh YouTube",
+      authorName: result.authorName || "YouTube Creator",
       subtitles: result.subtitles || [],
       tracks: result.tracks || [],
       needClientFetch: result.needClientFetch || false,
@@ -458,7 +463,23 @@ async function fetchSubtitlesOrTracksOnServer(videoId: string): Promise<{
   subtitles?: SubtitleItem[];
   tracks?: ExtractedTrack[];
   needClientFetch?: boolean;
+  title?: string;
+  authorName?: string;
 }> {
+  let videoTitle = "";
+  let authorName = "";
+  try {
+    const oembedRes = await fetch(
+      `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`,
+      { signal: AbortSignal.timeout(2500), cache: "no-store" }
+    );
+    if (oembedRes.ok) {
+      const oembed = await oembedRes.json();
+      videoTitle = oembed.title || "";
+      authorName = oembed.author_name || "";
+    }
+  } catch (e) {}
+
   const watchUrl = `https://www.youtube.com/watch?v=${videoId}`;
   const headers: Record<string, string> = {
     "User-Agent":
@@ -578,10 +599,11 @@ async function fetchSubtitlesOrTracksOnServer(videoId: string): Promise<{
         vietnamese: item.textVn,
         dictationWord: extractDictationWord(item.textEn),
         startSeconds: item.startTime,
+        wordTimings: item.wordTimings,
       }));
 
       subtitles = await autoTranslateSubtitlesToVn(subtitles);
-      return { subtitles, needClientFetch: false };
+      return { subtitles, needClientFetch: false, title: videoTitle, authorName };
     }
   }
 
@@ -632,23 +654,26 @@ async function fetchSubtitlesOrTracksOnServer(videoId: string): Promise<{
         vietnamese: item.textVn,
         dictationWord: extractDictationWord(item.textEn),
         startSeconds: item.startTime,
+        wordTimings: item.wordTimings,
       }));
 
       subtitles = await autoTranslateSubtitlesToVn(subtitles);
-      return { subtitles, needClientFetch: false };
+      return { subtitles, needClientFetch: false, title: videoTitle, authorName };
     }
   }
 
   // 4. Server LRCLIB Synced Lyrics Fallback Engine (For music/acoustic/compilation videos like aZGCSLa3GLk)
   try {
-    let videoTitle = "";
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 2000);
-    const oembedRes = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`, { signal: controller.signal, cache: "no-store" });
-    clearTimeout(timeoutId);
-    if (oembedRes.ok) {
-      const oembed = await oembedRes.json();
-      videoTitle = oembed.title || "";
+    if (!videoTitle) {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 2000);
+      const oembedRes = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`, { signal: controller.signal, cache: "no-store" });
+      clearTimeout(timeoutId);
+      if (oembedRes.ok) {
+        const oembed = await oembedRes.json();
+        videoTitle = oembed.title || "";
+        authorName = oembed.author_name || "";
+      }
     }
 
     if (videoTitle) {
@@ -667,7 +692,7 @@ async function fetchSubtitlesOrTracksOnServer(videoId: string): Promise<{
         }));
 
         subtitles = await autoTranslateSubtitlesToVn(subtitles);
-        return { subtitles, needClientFetch: false };
+        return { subtitles, needClientFetch: false, title: videoTitle, authorName };
       }
     }
   } catch (e: any) {
@@ -676,9 +701,9 @@ async function fetchSubtitlesOrTracksOnServer(videoId: string): Promise<{
 
   // 5. If server got tracks but couldn't fetch content (YouTube IP throttle)
   if (extractedTracks.length > 0) {
-    return { tracks: extractedTracks, needClientFetch: true };
+    return { tracks: extractedTracks, needClientFetch: true, title: videoTitle, authorName };
   }
 
   // 6. No captions found at all → return empty
-  return { subtitles: [], tracks: [], needClientFetch: false };
+  return { subtitles: [], tracks: [], needClientFetch: false, title: videoTitle, authorName };
 }

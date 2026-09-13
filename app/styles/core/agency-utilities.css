@@ -1,0 +1,71 @@
+/* ============================================================
+   1.5 AGENCY-LEVEL DESIGN UTILITIES (Skill: high-end-visual-design)
+   Double-Bezel Architecture, Custom Easing, Tactile Feedback
+   ============================================================ */
+a,
+button,
+img,
+input,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@layer components {
+  /* --- Double-Bezel Card Architecture (Outer Shell + Inner Core) --- */
+  .bezel {
+    background: rgba(0, 0, 0, 0.025);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    padding: 6px;
+    border-radius: var(--radius-3xl);
+  }
+  [data-theme="dark"] .bezel {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.06);
+  }
+  .bezel-inner {
+    background: var(--bg-card);
+    border-radius: calc(var(--radius-3xl) - 6px);
+    box-shadow:
+      inset 0 1px 1px rgba(255, 255, 255, 0.12),
+      0 1px 2px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+  }
+  [data-theme="dark"] .bezel-inner {
+    box-shadow:
+      inset 0 1px 1px rgba(255, 255, 255, 0.06),
+      0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  /* --- Tactile button press (Skill §5.B) --- */
+  .tactile {
+    transition:
+      transform 500ms cubic-bezier(0.32, 0.72, 0, 1),
+      box-shadow 500ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .tactile:active {
+    transform: scale(0.98) translateY(1px);
+  }
+
+  /* --- Premium hover lift --- */
+  .lift {
+    transition:
+      transform 500ms cubic-bezier(0.32, 0.72, 0, 1),
+      box-shadow 500ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .lift:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* --- Stat icon container with soft tint --- */
+  .icon-well {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+} /* end @layer components (bezel/tactile/lift/icon-well) */

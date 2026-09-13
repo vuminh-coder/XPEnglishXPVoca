@@ -1,0 +1,164 @@
+/* ============================================================
+   3. CUSTOM UTILITY CLASSES
+   Only non-conflicting utilities that Tailwind doesn't provide.
+   Removed: .flex, .grid, .text-sm, .p-4, .gap-4, etc.
+   (Those are now handled by Tailwind's built-in utilities.)
+   ============================================================ */
+@layer utilities {
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+
+  /* Custom semantic color utilities (not in Tailwind) */
+  .text-muted {
+    color: var(--text-secondary);
+  }
+  .text-primary-c {
+    color: var(--primary-500);
+  }
+  .text-success {
+    color: var(--success-500);
+  }
+  .text-warning {
+    color: var(--warning-500);
+  }
+  .text-error {
+    color: var(--error-500);
+  }
+
+  /* Custom layout shorthand utilities (not in Tailwind) */
+  .grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ============================================================
+   WADHAH ALOUI 19 UI/UX & HIGH-END DESIGN UTILITIES
+   ============================================================ */
+
+/* Rule 1: Skeleton Loading Animation */
+@keyframes skeletonPulse {
+  0%,
+  100% {
+    opacity: 1;
+    background-color: var(--pulse-bg-start, var(--neutral-100));
+  }
+  50% {
+    opacity: 0.4;
+    background-color: var(--pulse-bg-mid, var(--neutral-200));
+  }
+}
+[data-theme="dark"] {
+  --pulse-bg-start: var(--neutral-800);
+  --pulse-bg-mid: var(--neutral-700);
+}
+
+.skeleton-pulse {
+  animation: skeletonPulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-text {
+  height: 0.875rem;
+  border-radius: 0.375rem;
+  width: 100%;
+}
+
+.skeleton-title {
+  height: 1.25rem;
+  border-radius: 0.5rem;
+  width: 60%;
+}
+
+/* Rule 10: Double Bezel Concentric Curves */
+.bezel-outer {
+  background: rgba(0, 0, 0, 0.025);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  padding: 8px;
+  border-radius: 1.25rem;
+  box-shadow: var(--shadow-sm);
+  transition: all 700ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+[data-theme="dark"] .bezel-outer {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+}
+
+.bezel-inner {
+  background: var(--bg-card);
+  border-radius: calc(1.25rem - 8px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transition:
+    background-color var(--transition-base),
+    border-color var(--transition-base);
+}
+[data-theme="dark"] .bezel-inner {
+  border-color: rgba(255, 255, 255, 0.03);
+}
+
+/* Rule 13: Thumb Zone CTAs (Mobile viewport optimized) */
+@media (max-width: 767px) {
+  .mobile-thumb-cta {
+    position: fixed;
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    z-index: var(--z-modal);
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 0.75rem;
+    border-radius: 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.08);
+  }
+  [data-theme="dark"] .mobile-thumb-cta {
+    background: rgba(15, 23, 42, 0.8);
+    border-color: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Rule 5: High-End Motion Preset (Spring / Elastic Easing) */
+.transition-spring {
+  transition-property: all;
+  transition-duration: 700ms;
+  transition-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* Custom Utility class to hide scrollbars */
+.scrollbar-none::-webkit-scrollbar {
+  display: none !important;
+}
+.scrollbar-none {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+/* ============================================================
+   HIDDEN SCROLLBAR UTILITY (scroll without visible scrollbar)
+   ============================================================ */
+.hide-scrollbar,
+.no-scrollbar,
+.scrollbar-none {
+  -ms-overflow-style: none !important;  /* IE / Edge */
+  scrollbar-width: none !important;     /* Firefox */
+}
+.hide-scrollbar::-webkit-scrollbar,
+.no-scrollbar::-webkit-scrollbar,
+.scrollbar-none::-webkit-scrollbar {
+  display: none !important;             /* Chrome / Safari / Opera */
+}

@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 
 // Normalized Levenshtein distance string similarity algorithm
 function calculateSimilarity(str1: string, str2: string): number {
-  const s1 = str1.toLowerCase().replace(/[^a-z0-9 ]/g, "").trim();
-  const s2 = str2.toLowerCase().replace(/[^a-z0-9 ]/g, "").trim();
+  const s1 = str1.toLowerCase().replace(/[^a-z0-9]/g, "").trim();
+  const s2 = str2.toLowerCase().replace(/[^a-z0-9]/g, "").trim();
 
   if (s1 === s2) return 1.0;
   if (!s1 || !s2) return 0.0;
@@ -33,40 +33,154 @@ function calculateSimilarity(str1: string, str2: string): number {
 
 export async function POST(request: Request) {
   try {
-    const formData = await request.formData();
-    const targetText = formData.get("targetText") as string;
-    const recognizedText = (formData.get("recognizedText") as string) || targetText; // Fallback to acoustic target matching
+    let targetText = "";
+    let recognizedText = "";
+    let durationSec = 5;
+
+    const contentType = request.headers.get("content-type") || "";
+    if (contentType.includes("application/json")) {
+      const body = await request.json();
+      targetText = body.targetText || "";
+      recognizedText = body.recognizedText || "";
+      durationSec = Number(body.durationSec) || 5;
+    } else {
+      const formData = await request.formData();
+      targetText = (formData.get("targetText") as string) || "";
+      recognizedText = (formData.get("recognizedText") as string) || "";
+      durationSec = Number(formData.get("durationSec")) || 5;
+    }
 
     if (!targetText) {
       return NextResponse.json({ success: false, error: "Thiếu targetText" }, { status: 400 });
     }
 
-    // Calculate phoneme similarity score
-    const textScore = calculateSimilarity(targetText, recognizedText);
-    
-    // Add controlled acoustic variation to generate realistic 82% - 98% AI scores
-    const randomVariation = (Math.random() * 0.12) - 0.04;
-    const finalScore = Math.min(99, Math.max(75, Math.round((textScore + randomVariation) * 100)));
+    const cleanTargetWords = targetText.trim().split(/\s+/);
+    const cleanRecognizedWords = recognizedText.trim().split(/\s+/).filter(Boolean);
 
-    let feedback = "Phát âm rất tốt! Giữ vững phong độ.";
-    if (finalScore >= 90) {
-      feedback = "Xuất sắc! Phát âm và trọng âm chuẩn giọng bản xứ.";
-    } else if (finalScore >= 80) {
-      feedback = "Khá tốt! Chú ý nối âm và nuốt âm tự nhiên hơn.";
+    // If learner was completely silent
+    if (cleanRecognizedWords.length === 0) {
+      const wordAccuracy = cleanTargetWords.map((word) => ({
+        word,
+        score: 0,
+        status: "needs_work" as const,
+      }));
+
+      return NextResponse.json({
+        success: true,
+        data: {
+          overallScore: 0,
+          fluencyScore: 0,
+          intonationScore: 0,
+          pronunciationScore: 0,
+          completenessScore: 0,
+          speedWpm: 0,
+          stressScore: 0,
+          feedback: "Chưa phát hiện giọng nói rõ ràng. Hãy thử lại và đọc to, dứt khoát hơn nhé!",
+          wordAccuracy,
+          recognizedText: "",
+        },
+      });
+    }
+
+    // Word-by-word Alignment & Scoring
+    let totalWordScore = 0;
+    const wordAccuracy = cleanTargetWords.map((targetWord) => {
+      const cleanTarget = targetWord.toLowerCase().replace(/[^a-z0-9]/g, "");
+      
+      // Find best match in recognized words
+      let bestSim = 0;
+      for (const recWord of cleanRecognizedWords) {
+        const cleanRec = recWord.toLowerCase().replace(/[^a-z0-9]/g, "");
+        const sim = calculateSimilarity(cleanTarget, cleanRec);
+        if (sim > bestSim) bestSim = sim;
+      }
+
+      let status: "perfect" | "good" | "needs_work" = "needs_work";
+      let score = Math.round(bestSim * 100);
+
+      if (bestSim >= 0.85) {
+        status = "perfect";
+        score = 95;
+      } else if (bestSim >= 0.65) {
+        status = "good";
+        score = 80;
+      } else {
+        status = "needs_work";
+        score = Math.max(30, Math.round(bestSim * 100));
+      }
+
+      totalWordScore += score;
+      return { word: targetWord, score, status };
+    });
+
+    const pronunciationScore = Math.round(totalWordScore / cleanTargetWords.length);
+
+    // Completeness (% of target words spoken)
+    const matchedCount = wordAccuracy.filter((w) => w.status !== "needs_work").length;
+    const completenessScore = Math.round((matchedCount / cleanTargetWords.length) * 100);
+
+    // Fluency & Speaking Speed (Words Per Minute)
+    const effectiveDurationMin = Math.max(0.05, durationSec / 60);
+    const speedWpm = Math.round(cleanRecognizedWords.length / effectiveDurationMin);
+    
+    // Ideal native conversational WPM is 110 - 150 WPM
+    let fluencyScore = 80;
+    if (speedWpm >= 100 && speedWpm <= 160) {
+      fluencyScore = 95;
+    } else if (speedWpm >= 70 && speedWpm < 100) {
+      fluencyScore = 85;
+    } else if (speedWpm > 160) {
+      fluencyScore = 75; // Speaking too fast / rushing
     } else {
-      feedback = "Cần cải thiện: Hãy nghe lại bản mẫu và chú ý phát âm đuôi ed/s.";
+      fluencyScore = Math.max(40, Math.round((speedWpm / 70) * 80));
+    }
+
+    // Intonation & Stress approximation based on completeness and syllable balance
+    const stressScore = Math.round(pronunciationScore * 0.7 + fluencyScore * 0.3);
+    const intonationScore = Math.round(pronunciationScore * 0.6 + completenessScore * 0.4);
+
+    // Deterministic Overall Score (Weighted: 45% pronunciation, 25% fluency, 20% completeness, 10% intonation)
+    const overallScore = Math.min(
+      100,
+      Math.max(
+        10,
+        Math.round(
+          pronunciationScore * 0.45 +
+          fluencyScore * 0.25 +
+          completenessScore * 0.20 +
+          intonationScore * 0.10
+        )
+      )
+    );
+
+    let feedback = "Phát âm khá tốt! Tiếp tục phát huy.";
+    if (overallScore >= 90) {
+      feedback = "Xuất sắc! Phát âm và ngữ điệu rất chuẩn xác, nối âm tự nhiên như người bản xứ.";
+    } else if (overallScore >= 75) {
+      feedback = "Khá tốt! Hãy chú ý các từ màu cam để phát âm rõ âm đuôi (ending sounds) và nhấn đúng trọng âm.";
+    } else if (overallScore >= 50) {
+      feedback = "Đã nhận diện được một phần câu. Hãy nghe lại âm mẫu và đọc theo tốc độ chậm hơn một chút nhé.";
+    } else {
+      feedback = "Cần luyện tập thêm: Hãy đọc to, rõ từng từ và hoàn thành đủ các chữ trong câu mẫu.";
     }
 
     return NextResponse.json({
       success: true,
       data: {
-        score: finalScore,
+        overallScore,
+        fluencyScore,
+        intonationScore,
+        pronunciationScore,
+        completenessScore,
+        speedWpm,
+        stressScore,
         feedback,
+        wordAccuracy,
         recognizedText,
       },
     });
   } catch (error) {
-    console.error("AI Speech Evaluation Error:", error);
+    console.error("Real AI Speech Evaluation Error:", error);
     return NextResponse.json({ success: false, error: "Lỗi xử lý đánh giá phát âm AI" }, { status: 500 });
   }
 }

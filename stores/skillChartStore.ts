@@ -258,19 +258,28 @@ export function addSkillPracticeMinutes(
 /**
  * Hydrates skill practice minutes & XP from backend database into LocalStorage
  */
-export async function hydrateSkillMinutesFromBackend(userId: string | undefined): Promise<void> {
+export async function hydrateSkillMinutesFromBackend(
+  userId: string | undefined,
+  backendData?: { skills?: any; xpSkills?: any }
+): Promise<void> {
   if (typeof window === "undefined") return;
   const effectiveUserId = userId || "local_user";
 
   try {
-    const res = await fetch("/api/user/skill-practice", { method: "GET" });
-    if (!res.ok) return;
-    const json = await res.json();
-    if (!json.success || !json.data) return;
+    let data = backendData;
+    if (!data) {
+      const res = await fetch("/api/user/skill-practice", { method: "GET" });
+      if (!res.ok) return;
+      const json = await res.json();
+      if (!json.success || !json.data) return;
+      data = json.data;
+    }
+
+    if (!data) return;
 
     // 1. Hydrate Minutes
-    if (json.data.skills) {
-      const skillsMap = json.data.skills as Record<SkillType, Record<string, number>>;
+    if (data.skills) {
+      const skillsMap = data.skills as Record<SkillType, Record<string, number>>;
       for (const skillKey of Object.keys(skillsMap) as SkillType[]) {
         const dbDateMap = skillsMap[skillKey];
         const localKey = `xp_voca_skill_minutes_${effectiveUserId}_${skillKey}`;
@@ -291,8 +300,8 @@ export async function hydrateSkillMinutesFromBackend(userId: string | undefined)
     }
 
     // 2. Hydrate XP
-    if (json.data.xpSkills) {
-      const xpSkillsMap = json.data.xpSkills as Record<SkillType, Record<string, number>>;
+    if (data.xpSkills) {
+      const xpSkillsMap = data.xpSkills as Record<SkillType, Record<string, number>>;
       for (const skillKey of Object.keys(xpSkillsMap) as SkillType[]) {
         const dbDateMap = xpSkillsMap[skillKey];
         const dailyXpKey = `xp_voca_daily_xp_${effectiveUserId}_${skillKey}`;

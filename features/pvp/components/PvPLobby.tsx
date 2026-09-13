@@ -1,8 +1,9 @@
 "use client";
 
-import React from "react";
-import { Swords, Users, Bot, Zap, Headphones, PenTool, Brain, ArrowRight, Trophy, Flame } from "lucide-react";
+import React, { useState } from "react";
+import { Swords, Users, Bot, Zap, Headphones, PenTool, Brain, ArrowRight, Trophy, Flame, Volume2, VolumeX } from "lucide-react";
 import { PvPGameMode, PvPDifficulty, PvPMatchType } from "../types";
+import { isPvPSoundEnabled, setPvPSoundEnabled } from "../utils/pvpSoundEngine";
 
 interface PvPLobbyProps {
   matchType: PvPMatchType;
@@ -35,17 +36,45 @@ export function PvPLobby({
   isRoomLoading,
   roomError,
 }: PvPLobbyProps) {
+  const [soundEnabled, setSoundEnabled] = useState(() => isPvPSoundEnabled());
+
+  const handleToggleSound = () => {
+    const next = !soundEnabled;
+    setSoundEnabled(next);
+    setPvPSoundEnabled(next);
+  };
+
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       {/* Banner Intro */}
-      <div className="rounded-2xl bg-gradient-to-r from-rose-500/10 via-amber-500/10 to-blue-500/10 border border-rose-500/20 dark:border-rose-900/30 p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
-        <div className="space-y-2 text-left">
-          <div className="inline-flex items-center gap-1.5 bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-800 text-rose-600 dark:text-rose-400 rounded-lg px-3 py-1 text-xs font-bold uppercase tracking-wide">
-            <Swords className="w-3.5 h-3.5" />
-            <span>Đấu Trường Đối Kháng 1v1 Realtime</span>
+      <div className="rounded-2xl bg-gradient-to-r from-blue-500/10 via-slate-500/5 to-amber-500/10 border border-slate-200 dark:border-slate-800 p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs">
+        <div className="space-y-2 text-left w-full">
+          <div className="flex items-center justify-between gap-2">
+            <div className="inline-flex items-center gap-1.5 bg-[#0059bb]/10 border border-[#0059bb]/20 text-[#0059bb] dark:text-sky-400 rounded-lg px-3 py-1 text-xs font-bold uppercase tracking-wide">
+              <Swords className="w-3.5 h-3.5" />
+              <span>Đấu Trường Đối Kháng 1v1 Realtime</span>
+            </div>
+
+            <button
+              onClick={handleToggleSound}
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors cursor-pointer"
+              title="Bật/Tắt hiệu ứng âm thanh trận đấu"
+            >
+              {soundEnabled ? (
+                <>
+                  <Volume2 className="w-3.5 h-3.5 text-emerald-500" />
+                  <span>Âm thanh: Bật</span>
+                </>
+              ) : (
+                <>
+                  <VolumeX className="w-3.5 h-3.5 text-slate-400" />
+                  <span>Âm thanh: Tắt</span>
+                </>
+              )}
+            </button>
           </div>
           <h2 className="text-xl sm:text-2xl md:text-3xl font-display font-black text-slate-900 dark:text-white">
-            Thách Đấu Từ Vựng & <span className="text-rose-600 dark:text-rose-400">Bứt Phá XP</span>
+            Thách Đấu Từ Vựng & <span className="text-[#0059bb] dark:text-sky-400">Bứt Phá XP</span>
           </h2>
           <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium max-w-xl">
             So tài phản xạ từ vựng tiếng Anh theo thời gian thực cùng bạn bè hoặc AI thông minh.
@@ -175,17 +204,17 @@ export function PvPLobby({
         <div className="pt-4">
           <button
             onClick={onStartMatch}
-            className="w-full h-12 bg-rose-600 hover:bg-rose-700 text-white font-black text-sm sm:text-base rounded-xl flex items-center justify-center gap-2 shadow-md hover:shadow-lg active:scale-[0.99] transition-all cursor-pointer"
+            className="w-full h-12 bg-[#0059bb] hover:bg-[#004ba0] text-white font-black text-sm sm:text-base rounded-xl flex items-center justify-center gap-2 shadow-md hover:shadow-lg active:scale-[0.99] transition-all cursor-pointer"
           >
-            <Swords className="w-5 h-5" />
+            <Swords className="w-5 h-5 text-amber-300" />
             <span>Tìm Trận Đấu Ngay</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
       ) : (
-        <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4">
+        <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4 shadow-xs">
           <h4 className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
-            <Users className="w-4 h-4 text-purple-500" />
+            <Users className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />
             <span>Tạo phòng đấu hoặc tham gia bằng mã PIN</span>
           </h4>
 
@@ -196,31 +225,41 @@ export function PvPLobby({
           )}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <button
-              onClick={onCreateRoom}
-              disabled={isRoomLoading}
-              className="h-11 bg-[#0059bb] hover:bg-[#004ba0] text-white font-bold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer disabled:opacity-50"
-            >
-              <Zap className="w-4 h-4 text-amber-300" />
-              <span>{isRoomLoading ? "Đang tạo..." : "Tạo Phòng Mới (Sinh mã PIN)"}</span>
-            </button>
-
-            <div className="flex gap-2">
-              <input
-                type="text"
-                placeholder="Nhập mã PIN 5 số..."
-                maxLength={6}
-                value={roomCodeInput}
-                onChange={(e) => setRoomCodeInput(e.target.value.toUpperCase())}
-                className="flex-1 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 text-xs sm:text-sm font-mono font-bold text-center uppercase tracking-widest focus:outline-none focus:border-[#0059bb]"
-              />
+            <div className="space-y-1.5">
+              <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
+                Phòng Mới
+              </label>
               <button
-                onClick={onJoinRoom}
-                disabled={!roomCodeInput.trim() || isRoomLoading}
-                className="h-11 px-5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm rounded-xl transition-all cursor-pointer disabled:opacity-50"
+                onClick={onCreateRoom}
+                disabled={isRoomLoading}
+                className="w-full h-11 bg-[#0059bb] hover:bg-[#004ba0] text-white font-bold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer disabled:opacity-50"
               >
-                Vào Phòng
+                <Zap className="w-4 h-4 text-amber-300" />
+                <span>{isRoomLoading ? "Đang tạo..." : "Tạo Phòng Mới (Sinh mã PIN)"}</span>
               </button>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
+                Nhập Mã PIN Phòng
+              </label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  placeholder="Nhập mã PIN..."
+                  maxLength={6}
+                  value={roomCodeInput}
+                  onChange={(e) => setRoomCodeInput(e.target.value.toUpperCase())}
+                  className="flex-1 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 text-xs sm:text-sm font-mono font-bold text-center uppercase tracking-widest focus:outline-none focus:border-[#0059bb]"
+                />
+                <button
+                  onClick={onJoinRoom}
+                  disabled={!roomCodeInput.trim() || isRoomLoading}
+                  className="h-11 px-5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm rounded-xl transition-all cursor-pointer disabled:opacity-50"
+                >
+                  Vào Phòng
+                </button>
+              </div>
             </div>
           </div>
         </div>
