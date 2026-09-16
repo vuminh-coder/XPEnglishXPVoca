@@ -1,23 +1,24 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import { useAiChatbotStore } from "@/stores/aiChatbotStore";
+import { useNotificationStore } from "@/stores/notificationStore";
 import ChatbotHeader from "./ChatbotHeader";
 import SmartChatConversation from "./SmartChatConversation";
 import ProactiveNudgeBubble from "./ProactiveNudgeBubble";
-import { Bot, Sparkles, X } from "lucide-react";
+import { Bot, X } from "lucide-react";
 
-const BUBBLE_SIZE = 56;
+const BUBBLE_SIZE = 48; // 48px standard floating bubble
 const PADDING = 16;
 const DRAG_THRESHOLD = 5;
 
 export default function FloatingAiChatbot() {
+  const pathname = usePathname();
   const {
     isOpen,
     toggleOpen,
-    setIsOpen,
-    isMinimized,
     bubblePosition,
     setBubblePosition,
     isDismissed,
@@ -30,57 +31,93 @@ export default function FloatingAiChatbot() {
   const [isOverDismiss, setIsOverDismiss] = useState(false);
   const [isDraggingLocal, setIsDraggingLocal] = useState(false);
 
+  const bubbleContainerRef = useRef<HTMLDivElement>(null);
   const startPointerPos = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const hasDraggedRef = useRef(false);
 
-  // Motion values for lag-free 60fps drag & snap
+  // Motion values for smooth 60fps drag & spring physics
   const motionX = useMotionValue(0);
   const motionY = useMotionValue(0);
-  const springX = useSpring(motionX, { stiffness: 380, damping: 26 });
-  const springY = useSpring(motionY, { stiffness: 380, damping: 26 });
+  const springX = useSpring(motionX, { stiffness: 400, damping: 28 });
+  const springY = useSpring(motionY, { stiffness: 400, damping: 28 });
 
   useEffect(() => {
     setMounted(true);
     initPositionFromStorage();
   }, [initPositionFromStorage]);
 
-  // Set initial position once mounted
+  // Global Keyboard Shortcut: Ctrl + / (or Cmd + / or Alt + C) to quickly toggle / restore chatbot
+  useEffect(() => {
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      // Don't trigger if user is typing normally without modifier
+      if (
+        ((e.ctrlKey || e.metaKey) && e.key === "/") ||
+        (e.altKey && e.key.toLowerCase() === "c")
+      ) {
+        e.preventDefault();
+        const store = useAiChatbotStore.getState();
+        if (store.isDismissed) {
+          store.resetDismissed();
+        } else {
+          store.toggleOpen();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleGlobalKeyDown);
+    return () => window.removeEventListener("keydown", handleGlobalKeyDown);
+  }, []);
+
+  // Set initial position once mounted & clamp on window resize
   useEffect(() => {
     if (!mounted || typeof window === "undefined") return;
 
-    const screenW = window.innerWidth;
-    const screenH = window.innerHeight;
+    const clampPosition = () => {
+      const screenW = window.innerWidth;
+      const screenH = window.innerHeight;
 
-    let initX = bubblePosition.x;
-    let initY = bubblePosition.y;
+      let initX = bubblePosition.x;
+      let initY = bubblePosition.y;
 
-    if (initX === 0 && initY === 0) {
-      initX = screenW - BUBBLE_SIZE - PADDING;
-      initY = screenH - BUBBLE_SIZE - 90; // Above mobile bottom bar
-    } else {
-      initX = Math.max(PADDING, Math.min(initX, screenW - BUBBLE_SIZE - PADDING));
-      initY = Math.max(PADDING, Math.min(initY, screenH - BUBBLE_SIZE - PADDING));
-    }
+      if (initX === 0 && initY === 0) {
+        initX = screenW - BUBBLE_SIZE - PADDING;
+        initY = screenH - BUBBLE_SIZE - 90;
+      } else {
+        initX = Math.max(PADDING, Math.min(initX, screenW - BUBBLE_SIZE - PADDING));
+        initY = Math.max(PADDING + 40, Math.min(initY, screenH - BUBBLE_SIZE - PADDING - 40));
+      }
 
-    motionX.set(initX);
-    motionY.set(initY);
-  }, [mounted, motionX, motionY]);
+      motionX.set(initX);
+      motionY.set(initY);
+    };
 
-  // Snap to edge handler
+    clampPosition();
+    window.addEventListener("resize", clampPosition);
+    return () => window.removeEventListener("resize", clampPosition);
+  }, [mounted, bubblePosition.x, bubblePosition.y, motionX, motionY]);
+
+  // Snap to edge handler with live DOM bounding box detection
   const handleSnapToEdge = () => {
     if (typeof window === "undefined") return;
 
     const screenW = window.innerWidth;
     const screenH = window.innerHeight;
-    const currentX = motionX.get();
-    const currentY = motionY.get();
 
-    // Clamp Y within bounds
-    const boundedY = Math.max(PADDING + 40, Math.min(currentY, screenH - BUBBLE_SIZE - PADDING - 40));
+    let currentX = motionX.get();
+    let currentY = motionY.get();
 
-    // Snap to left or right edge
-    const midX = (screenW - BUBBLE_SIZE) / 2;
-    const snapToRight = currentX >= midX;
+    if (bubbleContainerRef.current) {
+      const rect = bubbleContainerRef.current.getBoundingClientRect();
+      currentX = rect.left;
+      currentY = rect.top;
+    }
+
+    const boundedY = Math.max(
+      PADDING + 40,
+      Math.min(currentY, screenH - BUBBLE_SIZE - PADDING - 50)
+    );
+    const midX = screenW / 2;
+    const snapToRight = currentX + BUBBLE_SIZE / 2 >= midX;
     const targetX = snapToRight ? screenW - BUBBLE_SIZE - PADDING : PADDING;
 
     motionX.set(targetX);
@@ -93,14 +130,20 @@ export default function FloatingAiChatbot() {
     });
   };
 
-  if (!mounted || isDismissed) return null;
+  // Auto-hide when in Exam Prep testing room to avoid blocking the test timer, answer sheet & buttons
+  const isExamMode =
+    pathname?.startsWith("/study/exam-prep") || pathname?.startsWith("/study/exams");
 
-  const questCount = dbData?.dailyQuests?.filter((q) => !q.isCompleted).length ?? 3;
+  // When dismissed by user or in exam mode, render nothing on-screen (hotkey Ctrl + / will call it back)
+  if (!mounted || isDismissed || isExamMode) return null;
+
+  const questCount = dbData?.dailyQuests?.filter((q) => !q.isCompleted).length ?? 0;
 
   return (
     <>
-      {/* 1. Messenger-Style Draggable Bubble */}
+      {/* 1. Messenger-Style Draggable Bubble (Refined 48px) */}
       <motion.div
+        ref={bubbleContainerRef}
         style={{
           x: springX,
           y: springY,
@@ -126,7 +169,6 @@ export default function FloatingAiChatbot() {
             hasDraggedRef.current = true;
           }
 
-          // Check if hovering over dismiss zone
           if (typeof window !== "undefined") {
             const screenW = window.innerWidth;
             const screenH = window.innerHeight;
@@ -143,6 +185,12 @@ export default function FloatingAiChatbot() {
           if (isOverDismiss) {
             setIsDismissed(true);
             setIsOverDismiss(false);
+            useNotificationStore.getState().addToast({
+              type: "info",
+              title: "Đã tạm ẩn trợ lý XP Mentor",
+              message: "Bạn có thể nhấn phím Ctrl + / (hoặc Cmd + /) để mở lại bất kỳ lúc nào.",
+              duration: 4000,
+            });
             return;
           }
 
@@ -150,11 +198,21 @@ export default function FloatingAiChatbot() {
         }}
         className="cursor-grab active:cursor-grabbing select-none"
       >
-        {/* Proactive Nudge Cloud */}
+        {/* Proactive Nudge Tooltip */}
         {!isOpen && !isDraggingLocal && <ProactiveNudgeBubble />}
 
-        {/* The Chat Head Bubble */}
+        {/* The Chat Head Bubble with Accessibility */}
         <motion.div
+          role="button"
+          tabIndex={0}
+          aria-label="Mở trợ lý học tập XP Mentor (Phím tắt: Ctrl + /)"
+          aria-expanded={isOpen}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              toggleOpen();
+            }
+          }}
           whileHover={{ scale: 1.06 }}
           whileTap={{ scale: 0.94 }}
           onClick={() => {
@@ -162,91 +220,93 @@ export default function FloatingAiChatbot() {
               toggleOpen();
             }
           }}
-          className={`relative w-14 h-14 rounded-full shadow-xl flex items-center justify-center transition-all ${
+          className={`relative w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-all cursor-pointer outline-none focus-visible:ring-3 focus-visible:ring-blue-500 ${
             isOpen
-              ? "bg-[#0059bb] text-white ring-4 ring-blue-400/30"
-              : "bg-gradient-to-tr from-[#0059bb] via-[#004ba0] to-indigo-600 text-white ring-2 ring-white/60 dark:ring-slate-800"
+              ? "bg-[#0059bb] text-white ring-3 ring-blue-400/40 shadow-blue-500/25"
+              : "bg-gradient-to-tr from-[#0059bb] to-[#004ba0] text-white ring-1 ring-white/30 dark:ring-slate-700 shadow-blue-600/20"
           }`}
-          title="XP AI Mentor - Nhấn để trò chuyện"
+          title="XP Mentor (Ctrl + /)"
         >
-          {/* Animated Glow Halo */}
-          <span className="absolute inset-0 rounded-full bg-blue-400/20 animate-ping pointer-events-none opacity-40" />
-
-          {/* AI Bot Icon */}
-          <Bot className="w-7 h-7 drop-shadow-sm" />
+          {/* Bot Icon */}
+          <Bot className="w-5 h-5 stroke-[1.8]" />
 
           {/* Online Indicator Dot */}
-          <span className="absolute bottom-1 right-1 w-3.5 h-3.5 bg-emerald-400 border-2 border-white dark:border-slate-900 rounded-full animate-pulse shadow-xs" />
+          <span className="absolute bottom-0.5 right-0.5 w-2.5 h-2.5 bg-emerald-500 border-2 border-white dark:border-slate-900 rounded-full" />
 
-          {/* Quest Counter Pill */}
+          {/* Subtle Quest Counter Dot */}
           {questCount > 0 && !isOpen && (
-            <span className="absolute -top-1 -right-1 px-1.5 py-0.5 min-w-[18px] h-[18px] bg-amber-500 text-white text-[10px] font-extrabold rounded-full flex items-center justify-center border-2 border-white dark:border-slate-900 shadow-xs">
+            <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-amber-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center border-2 border-white dark:border-slate-900 shadow-xs">
               {questCount}
             </span>
           )}
         </motion.div>
       </motion.div>
 
-      {/* 2. Dismiss Target Drop Zone (Appears at bottom center when dragging) */}
+      {/* 2. Dismiss Drop Target Zone with Refined, Harmonious Palette */}
       <AnimatePresence>
         {isDraggingLocal && (
           <motion.div
-            initial={{ opacity: 0, y: 40, scale: 0.8 }}
+            initial={{ opacity: 0, y: 25, scale: 0.85 }}
             animate={{
               opacity: 1,
               y: 0,
-              scale: isOverDismiss ? 1.25 : 1,
+              scale: isOverDismiss ? 1.12 : 1,
             }}
-            exit={{ opacity: 0, y: 40, scale: 0.8 }}
+            exit={{ opacity: 0, y: 25, scale: 0.85 }}
+            transition={{ duration: 0.18 }}
             className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[99998] flex flex-col items-center gap-1.5 pointer-events-none"
           >
             <div
-              className={`w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-colors ${
+              className={`w-12 h-12 rounded-full flex items-center justify-center shadow-xl transition-all duration-200 ${
                 isOverDismiss
-                  ? "bg-rose-600 text-white ring-4 ring-rose-400/50 scale-110"
-                  : "bg-slate-900/80 backdrop-blur-md text-white/80 border border-white/20"
+                  ? "bg-rose-500 text-white ring-4 ring-rose-500/25 shadow-rose-500/30 scale-105"
+                  : "bg-white/95 dark:bg-slate-800/95 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shadow-slate-900/10 backdrop-blur-xl"
               }`}
             >
-              <X className="w-6 h-6" />
+              <X className="w-5 h-5 stroke-[2]" />
             </div>
-            <span className="text-[11px] font-bold text-white bg-slate-900/80 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-white/10 shadow-sm">
-              {isOverDismiss ? "Thả ra để ẩn" : "Kéo vào đây để ẩn"}
+            <span
+              className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full backdrop-blur-md shadow-xs transition-colors duration-200 ${
+                isOverDismiss
+                  ? "bg-rose-500 text-white shadow-rose-500/20"
+                  : "bg-white/90 dark:bg-slate-800/90 text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700"
+              }`}
+            >
+              {isOverDismiss ? "Thả để ẩn" : "Kéo vào đây để ẩn"}
             </span>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* 3. Unified Conversational Chat Drawer (No Tabs) */}
+      {/* 3. Compact & Sleek Chatbot Window with Safe Viewport Dimensions */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            initial={{ opacity: 0, scale: 0.95, y: 16 }}
             animate={{
               opacity: 1,
               scale: 1,
               y: 0,
-              height: isMinimized ? "auto" : 580,
             }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            transition={{ type: "spring", stiffness: 350, damping: 28 }}
+            exit={{ opacity: 0, scale: 0.95, y: 16 }}
+            transition={{ type: "spring", stiffness: 400, damping: 30 }}
             style={{
               position: "fixed",
-              bottom: 84,
+              bottom: "max(72px, calc(env(safe-area-inset-bottom, 0px) + 72px))",
               right: bubblePosition.side === "right" ? PADDING : "auto",
               left: bubblePosition.side === "left" ? PADDING : "auto",
               zIndex: 99999,
+              height: "min(520px, calc(100dvh - 120px))",
             }}
-            className="w-[94vw] sm:w-[420px] max-h-[85vh] rounded-2xl bg-white dark:bg-slate-900 shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col overflow-hidden backdrop-blur-xl"
+            className="w-[94vw] sm:w-[380px] max-w-[calc(100vw-24px)] rounded-2xl bg-white dark:bg-slate-900 shadow-2xl shadow-slate-900/15 border border-slate-200/90 dark:border-slate-800 flex flex-col overflow-hidden backdrop-blur-xl"
           >
-            {/* Unified Clean Header */}
+            {/* Minimalist Agency Header */}
             <ChatbotHeader />
 
-            {/* Main Conversational Stream */}
-            {!isMinimized && (
-              <div className="flex-1 overflow-hidden">
-                <SmartChatConversation />
-              </div>
-            )}
+            {/* Conversational Stream */}
+            <div className="flex-1 overflow-hidden">
+              <SmartChatConversation />
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

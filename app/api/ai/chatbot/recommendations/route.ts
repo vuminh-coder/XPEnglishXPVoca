@@ -238,8 +238,10 @@ export async function GET(request: Request) {
     let speakingMinutesToday = 0;
     let grammarExercisesToday = 0;
     let isChestClaimedToday = false;
+    let totalStudyMinutesToday = 0;
 
     dbData?.practicesToday?.forEach((p) => {
+      totalStudyMinutesToday += p.minutes || 0;
       if (p.skill === "dictation" || p.skill === "writing") {
         listeningMinutesToday += p.minutes || 0;
       }
@@ -413,7 +415,7 @@ export async function GET(request: Request) {
           weeklyHours: dbData?.studyPlan?.weeklyHours || 10,
           completionPercentage: Math.min(
             100,
-            Math.round(((userProfile.totalXp % 1000) / 1000) * 100)
+            Math.round((completedQuestsCount / 3) * 100)
           ),
         },
         dailyQuests,
@@ -447,6 +449,10 @@ export async function GET(request: Request) {
             link: `/study/grammar/${nextGrammar.id}`,
           },
           contextualTip: getContextualTip(pathname),
+        },
+        studySummary: {
+          totalVocabLearned: dbData?.wordsLearnedToday || 0,
+          studyTimeToday: totalStudyMinutesToday,
         },
       },
     });

@@ -1,92 +1,103 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useAiChatbotStore } from "@/stores/aiChatbotStore";
-import {
-  Bot,
-  X,
-  Minus,
-  RotateCcw,
-  Sparkles,
-  Flame,
-  Zap,
-} from "lucide-react";
+import { Bot, X, RotateCcw, Check } from "lucide-react";
 
 export default function ChatbotHeader() {
-  const {
-    isMinimized,
-    setIsMinimized,
-    setIsOpen,
-    clearMessages,
-    dbData,
-  } = useAiChatbotStore();
+  const { setIsOpen, clearMessages, dbData } = useAiChatbotStore();
+  const [showConfirmReset, setShowConfirmReset] = useState(false);
 
   const user = dbData?.user || {
     currentStreak: 1,
     level: 1,
   };
 
+  const handleConfirmReset = () => {
+    clearMessages();
+    setShowConfirmReset(false);
+  };
+
   return (
-    <div className="px-3.5 py-2.5 bg-gradient-to-r from-[#0059bb] via-[#004ba0] to-indigo-700 text-white rounded-t-2xl flex items-center justify-between shadow-xs select-none">
+    <div className="px-3.5 py-2.5 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800/80 flex items-center justify-between select-none shrink-0 gap-2">
       {/* Identity & Status */}
-      <div className="flex items-center gap-2.5 min-w-0">
-        <div className="relative shrink-0">
-          <div className="w-8 h-8 rounded-xl bg-white/15 backdrop-blur-xs border border-white/20 flex items-center justify-center text-white shadow-xs">
-            <Bot className="w-4 h-4" />
-          </div>
-          {/* Green Online Dot */}
-          <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-400 border-2 border-white dark:border-slate-900 rounded-full animate-pulse" />
+      <div className="flex items-center gap-2.5 min-w-0 flex-1 overflow-hidden">
+        <div className="w-8 h-8 rounded-xl bg-blue-50 dark:bg-blue-950/60 border border-blue-100 dark:border-blue-900/50 flex items-center justify-center text-[#0059bb] dark:text-sky-400 shrink-0 shadow-2xs">
+          <Bot className="w-4.5 h-4.5 stroke-[1.8]" />
         </div>
 
-        <div className="min-w-0">
-          <div className="flex items-center gap-1.5">
-            <span className="font-extrabold text-xs tracking-tight text-white drop-shadow-xs">
-              XP AI Mentor
+        <div className="min-w-0 flex-1 overflow-hidden">
+          <div className="flex items-center gap-1.5 whitespace-nowrap">
+            <span className="font-bold text-[13px] text-slate-900 dark:text-white tracking-tight whitespace-nowrap">
+              XP Mentor
             </span>
-            <span className="px-1.5 py-0.2 rounded-full bg-white/20 text-[9px] font-bold text-sky-100 flex items-center gap-0.5">
-              <Sparkles className="w-2.5 h-2.5 text-amber-300" />
-              Pro
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2 text-[10px] text-blue-100/90">
-            <span className="flex items-center gap-0.5 font-bold text-amber-300">
-              <Flame className="w-3 h-3 text-amber-400 fill-amber-400" />
-              {user.currentStreak} ngày
-            </span>
-            <span>•</span>
-            <span className="flex items-center gap-0.5 font-bold text-emerald-300">
-              <Zap className="w-3 h-3 text-emerald-400 fill-emerald-400" />
+            <span className="px-1.5 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 text-[10px] font-bold border border-blue-200/60 dark:border-blue-800/40 shrink-0">
               Lv.{user.level}
             </span>
+          </div>
+          <div className="flex items-center gap-1 text-[11px] text-slate-500 dark:text-slate-400">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block shrink-0" />
+            <span className="truncate">Trợ lý học tập • {user.currentStreak} ngày streak</span>
           </div>
         </div>
       </div>
 
-      {/* Action Controls */}
-      <div className="flex items-center gap-1">
-        <button
-          onClick={clearMessages}
-          title="Làm mới cuộc trò chuyện"
-          className="p-1.5 rounded-lg hover:bg-white/15 active:scale-95 text-blue-100 transition-colors"
-        >
-          <RotateCcw className="w-3.5 h-3.5" />
-        </button>
+      {/* Action Controls with Safety Confirmation & High-End Touch Targets */}
+      <div className="flex items-center gap-1 shrink-0">
+        {!showConfirmReset && (
+          <span
+            className="hidden sm:inline-flex items-center px-1.5 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 text-[10px] font-bold border border-blue-200/60 dark:border-blue-800/40 shrink-0 select-none shadow-2xs"
+            title="Phím tắt đóng/mở nhanh: Ctrl + /"
+          >
+            Ctrl + /
+          </span>
+        )}
+
+        {showConfirmReset ? (
+          <div className="flex items-center gap-1 bg-rose-50 dark:bg-rose-950/50 border border-rose-200/80 dark:border-rose-900/50 px-1.5 py-1 rounded-lg text-xs animate-in fade-in zoom-in-95 duration-150 shrink-0">
+            <span className="text-[10.5px] font-semibold text-rose-600 dark:text-rose-400 px-0.5 whitespace-nowrap">
+              Xóa chat?
+            </span>
+            <button
+              type="button"
+              onClick={handleConfirmReset}
+              className="px-2 py-0.5 rounded-md bg-rose-500 hover:bg-rose-600 text-white font-bold text-[10px] flex items-center gap-0.5 cursor-pointer transition-colors shadow-2xs active:scale-95"
+              title="Xác nhận xóa toàn bộ cuộc trò chuyện"
+            >
+              <Check className="w-2.5 h-2.5 stroke-[2.5]" /> Có
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowConfirmReset(false)}
+              className="px-2 py-0.5 rounded-md bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-650 text-slate-700 dark:text-slate-200 font-semibold text-[10px] cursor-pointer transition-colors active:scale-95"
+              title="Hủy thao tác"
+            >
+              Hủy
+            </button>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setShowConfirmReset(true)}
+            aria-label="Làm mới cuộc trò chuyện"
+            title="Làm mới cuộc trò chuyện"
+            className="w-8 h-8 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer active:scale-95"
+          >
+            <RotateCcw className="w-4 h-4 stroke-[1.8]" />
+          </button>
+        )}
 
         <button
-          onClick={() => setIsMinimized(!isMinimized)}
-          title={isMinimized ? "Mở rộng" : "Thu nhỏ"}
-          className="p-1.5 rounded-lg hover:bg-white/15 active:scale-95 text-blue-100 transition-colors"
+          type="button"
+          onClick={() => {
+            setShowConfirmReset(false);
+            setIsOpen(false);
+          }}
+          aria-label="Đóng trợ lý (Ctrl + /)"
+          title="Đóng trợ lý (Ctrl + /)"
+          className="w-8 h-8 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer active:scale-95"
         >
-          <Minus className="w-3.5 h-3.5" />
-        </button>
-
-        <button
-          onClick={() => setIsOpen(false)}
-          title="Đóng"
-          className="p-1.5 rounded-lg hover:bg-white/15 active:scale-95 text-blue-100 transition-colors"
-        >
-          <X className="w-4 h-4" />
+          <X className="w-4 h-4 stroke-[1.8]" />
         </button>
       </div>
     </div>

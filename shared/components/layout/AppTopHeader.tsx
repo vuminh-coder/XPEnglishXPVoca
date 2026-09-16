@@ -16,9 +16,11 @@ import {
   LogOut,
   Check,
   ChevronRight,
+  Bot,
 } from "lucide-react";
 import { useUiStore } from "@/stores/uiStore";
 import { useUserStore } from "@/stores/userStore";
+import { useAiChatbotStore } from "@/stores/aiChatbotStore";
 import { UserAvatar } from "@/shared/components/feedback/UserAvatar";
 import { speakLessonText } from "@/shared/utils/ttsEngine";
 import {
@@ -439,6 +441,24 @@ export function AppTopHeader({
                     )}
                   </AnimatePresence>
                 </div>
+
+                {/* 3. Khôi phục Trợ lý AI XP Mentor */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    useAiChatbotStore.getState().resetDismissed();
+                    setShowUserMenu(false);
+                  }}
+                  className="w-full flex items-center justify-between px-3 py-2 rounded-xl font-medium text-[13px] text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                >
+                  <div className="flex items-center gap-3">
+                    <Bot className="w-4 h-4 text-[#0059bb] dark:text-sky-400 stroke-[1.8]" />
+                    <span>Trợ lý XP Mentor</span>
+                  </div>
+                  <span className="text-[11px] font-bold text-[#0059bb] dark:text-sky-400">
+                    Bật / Mở
+                  </span>
+                </button>
 
                 {/* Divider */}
                 <div className="my-1 border-t border-slate-100 dark:border-white/10" />

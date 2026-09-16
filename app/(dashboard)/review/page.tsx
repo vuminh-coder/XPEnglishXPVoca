@@ -1,15 +1,11 @@
 'use client';
-import React, { useState, useMemo, useEffect } from 'react';
-import { speakLessonText } from '@/shared/utils/ttsEngine';
 
+import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
-import { useVocabularyStore } from '@/stores/vocabularyStore';
-import { useAuthStore } from '@/stores/authStore';
-import { useNotificationStore } from '@/stores/notificationStore';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Calendar as CalendarIcon,
   Zap,
-  PartyPopper,
   ArrowRight,
   Clock,
   ChevronLeft,
@@ -24,43 +20,70 @@ import {
   Award,
   Activity,
   Sparkles,
-  Smile,
   Compass,
+  CheckCircle2,
+  Check,
+  Trophy,
+  Target,
+  Flame,
+  GraduationCap,
+  BookOpen,
+  RotateCcw,
+  X,
+  Layers,
+  Lightbulb,
+  Brain,
 } from 'lucide-react';
-import { Button } from '@/shared/components/ui';
-import { motion, AnimatePresence } from 'framer-motion';
+
+import { useVocabularyStore } from '@/stores/vocabularyStore';
+import { useAuthStore } from '@/stores/authStore';
+import { useNotificationStore } from '@/stores/notificationStore';
+import { speakLessonText } from '@/shared/utils/ttsEngine';
 import {
   AppTopHeader,
   HeaderPillContainer,
   HeaderPillItem,
-} from "@/shared/components/layout/AppTopHeader";
+} from '@/shared/components/layout/AppTopHeader';
+import { PageEntranceWrapper, MotionItem } from '@/shared/components/feedback/PageEntranceAnimation';
+import { ReviewSkeleton } from '@/features/review';
 
-const BOOKMARK_KEY = "xp_bookmarked_words";
+const BOOKMARK_KEY = 'xp_bookmarked_words';
 
 function getBookmarkedWords(): string[] {
-  if (typeof window === "undefined") return [];
+  if (typeof window === 'undefined') return [];
   try {
-    return JSON.parse(localStorage.getItem(BOOKMARK_KEY) || "[]");
+    return JSON.parse(localStorage.getItem(BOOKMARK_KEY) || '[]');
   } catch {
     return [];
   }
 }
 
 function saveBookmarkedWords(words: string[]) {
-  if (typeof window !== "undefined") {
+  if (typeof window !== 'undefined') {
     localStorage.setItem(BOOKMARK_KEY, JSON.stringify(words));
   }
 }
 
+const VIETNAMESE_LONG_WEEKDAYS = [
+  'Chủ Nhật',
+  'Thứ Hai',
+  'Thứ Ba',
+  'Thứ Tư',
+  'Thứ Năm',
+  'Thứ Sáu',
+  'Thứ Bảy',
+];
+
 export default function ReviewPage() {
+  const [isMounted, setIsMounted] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(() => new Date());
   const [selectedDate, setSelectedDate] = useState(() => new Date());
 
   // Search & Filter state
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedPos, setSelectedPos] = useState("all");
-  const [selectedProficiency, setSelectedProficiency] = useState("all");
-  const [selectedBookmark, setSelectedBookmark] = useState("all");
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedPos, setSelectedPos] = useState('all');
+  const [selectedProficiency, setSelectedProficiency] = useState('all');
+  const [selectedBookmark, setSelectedBookmark] = useState('all');
   const [expandedWordId, setExpandedWordId] = useState<string | null>(null);
 
   const [bookmarkedIds, setBookmarkedIds] = useState<Set<string>>(new Set());
@@ -69,7 +92,11 @@ export default function ReviewPage() {
   const { user } = useAuthStore();
   const { addToast } = useNotificationStore();
 
-  // Load learned words from the API/cache on page load
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Load learned words from API/cache on page load
   useEffect(() => {
     if (user?.id) {
       loadLearnedWords(user.id);
@@ -88,6 +115,12 @@ export default function ReviewPage() {
     setCurrentMonth(prev => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
   };
 
+  const handleJumpToToday = () => {
+    const today = new Date();
+    setCurrentMonth(today);
+    setSelectedDate(today);
+  };
+
   const formatLocalDate = (d: Date) => {
     const year = d.getFullYear();
     const month = String(d.getMonth() + 1).padStart(2, '0');
@@ -95,21 +128,26 @@ export default function ReviewPage() {
     return `${year}-${month}-${day}`;
   };
 
-  const monthYearTitle = currentMonth.toLocaleDateString('vi-VN', { month: 'long', year: 'numeric' });
+  const monthYearTitle = `Tháng ${currentMonth.getMonth() + 1}, ${currentMonth.getFullYear()}`;
 
   // Generate calendar grid dates
   const calendarCells = useMemo(() => {
     const cells: Date[] = [];
     const firstDayOfMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
-    
+
     // Convert getDay() [0:Sun, 1:Mon... 6:Sat] to Monday-start index [0:Mon, 1:Tue... 6:Sun]
     let startDayIdx = firstDayOfMonth.getDay() - 1;
     if (startDayIdx === -1) startDayIdx = 6;
 
-    const totalDaysInMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).getDate();
+    const totalDaysInMonth = new Date(
+      currentMonth.getFullYear(),
+      currentMonth.getMonth() + 1,
+      0
+    ).getDate();
 
     // Previous month tail days
-    const prevMonthYear = currentMonth.getMonth() === 0 ? currentMonth.getFullYear() - 1 : currentMonth.getFullYear();
+    const prevMonthYear =
+      currentMonth.getMonth() === 0 ? currentMonth.getFullYear() - 1 : currentMonth.getFullYear();
     const prevMonth = currentMonth.getMonth() === 0 ? 11 : currentMonth.getMonth() - 1;
     const totalDaysInPrevMonth = new Date(prevMonthYear, prevMonth + 1, 0).getDate();
 
@@ -122,9 +160,12 @@ export default function ReviewPage() {
       cells.push(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i));
     }
 
-    // Next month head days (fill grid to multiple of 7)
-    const remainingCells = 42 - cells.length;
-    const nextMonthYear = currentMonth.getMonth() === 11 ? currentMonth.getFullYear() + 1 : currentMonth.getFullYear();
+    // Next month head days: dynamically fill to multiple of 7 (at least 35 days)
+    const neededCells = Math.ceil(cells.length / 7) * 7;
+    const targetTotal = Math.max(35, neededCells);
+    const remainingCells = targetTotal - cells.length;
+    const nextMonthYear =
+      currentMonth.getMonth() === 11 ? currentMonth.getFullYear() + 1 : currentMonth.getFullYear();
     const nextMonth = currentMonth.getMonth() === 11 ? 0 : currentMonth.getMonth() + 1;
     for (let i = 1; i <= remainingCells; i++) {
       cells.push(new Date(nextMonthYear, nextMonth, i));
@@ -135,7 +176,7 @@ export default function ReviewPage() {
 
   // Find due words count for a specific date cell
   const getDueCountForDate = (date: Date) => {
-    const dateStr = formatLocalDate(date); // YYYY-MM-DD
+    const dateStr = formatLocalDate(date);
     return learned.filter(l => {
       if (!l.nextReview) return false;
       const nextDateStr = formatLocalDate(new Date(l.nextReview));
@@ -143,15 +184,24 @@ export default function ReviewPage() {
     }).length;
   };
 
-  // Check if a date has completed reviews (no due items and some practiced words today)
+  // Check if a date has completed reviews
   const isDateCompleted = (date: Date) => {
     const dateStr = formatLocalDate(date);
     const hasPracticed = learned.some(
-      (l) => l.lastPracticed && formatLocalDate(new Date(l.lastPracticed)) === dateStr
+      l => l.lastPracticed && formatLocalDate(new Date(l.lastPracticed)) === dateStr
     );
     const dueCount = getDueCountForDate(date);
     return hasPracticed && dueCount === 0;
   };
+
+  // Words due today
+  const todayDueCount = useMemo(() => {
+    const todayStr = formatLocalDate(new Date());
+    return learned.filter(l => {
+      if (!l.nextReview) return false;
+      return formatLocalDate(new Date(l.nextReview)) === todayStr;
+    }).length;
+  }, [learned]);
 
   // Get full vocab list scheduled on the selectedDate
   const rawSelectedDateVocabs = useMemo(() => {
@@ -164,30 +214,32 @@ export default function ReviewPage() {
 
     return dueItemsForSelected.map(v => ({
       id: v.vocabId,
-      word: v.word || "",
-      phonetic: v.phonetic || "",
-      definition: v.definition || "",
-      definitionVn: v.definitionVn || "",
-      pos: v.pos || "",
+      word: v.word || '',
+      phonetic: v.phonetic || '',
+      definition: v.definition || '',
+      definitionVn: v.definitionVn || '',
+      pos: v.pos || '',
       difficulty: v.difficulty || 1,
       frequency: v.frequency || 1,
-      themeId: v.themeId || "",
+      themeId: v.themeId || '',
       examples: v.examples || [],
       synonyms: v.synonyms || [],
       antonyms: v.antonyms || [],
       proficiency: v.proficiency ?? 0,
-      nextReview: v.nextReview
+      nextReview: v.nextReview,
     }));
   }, [selectedDate, learned]);
 
   // Apply search and filter criteria to vocabulary list
   const selectedDateVocabs = useMemo(() => {
     return rawSelectedDateVocabs.filter(v => {
-      const matchesSearch = v.word.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                            v.definitionVn.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesPos = selectedPos === "all" || v.pos.toLowerCase() === selectedPos.toLowerCase();
-      const matchesProficiency = selectedProficiency === "all" || v.proficiency === parseInt(selectedProficiency, 10);
-      const matchesBookmark = selectedBookmark === "all" || bookmarkedIds.has(v.id);
+      const matchesSearch =
+        v.word.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        v.definitionVn.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesPos = selectedPos === 'all' || v.pos.toLowerCase() === selectedPos.toLowerCase();
+      const matchesProficiency =
+        selectedProficiency === 'all' || v.proficiency === parseInt(selectedProficiency, 10);
+      const matchesBookmark = selectedBookmark === 'all' || bookmarkedIds.has(v.id);
       return matchesSearch && matchesPos && matchesProficiency && matchesBookmark;
     });
   }, [rawSelectedDateVocabs, searchTerm, selectedPos, selectedProficiency, selectedBookmark, bookmarkedIds]);
@@ -203,6 +255,14 @@ export default function ReviewPage() {
     return learned.filter(l => l.proficiency === 5).length;
   }, [learned]);
 
+  const strongRetentionCount = useMemo(() => {
+    return learned.filter(l => (l.proficiency || 0) >= 4).length;
+  }, [learned]);
+
+  const needsReinforceCount = useMemo(() => {
+    return learned.filter(l => (l.proficiency || 0) < 4).length;
+  }, [learned]);
+
   const proficiencyDistribution = useMemo(() => {
     const dist = [0, 0, 0, 0, 0];
     learned.forEach(l => {
@@ -212,35 +272,26 @@ export default function ReviewPage() {
     return dist;
   }, [learned]);
 
-  const forecastTimeline = useMemo(() => {
-    const timeline = [];
+  // Find the next upcoming date that has due words
+  const nextUpcomingDue = useMemo(() => {
     const today = new Date();
-    for (let i = 0; i < 7; i++) {
-      const forecastDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + i);
-      const dateStr = formatLocalDate(forecastDate);
-      const count = learned.filter(l => {
-        if (!l.nextReview) return false;
-        const nextDateStr = formatLocalDate(new Date(l.nextReview));
-        return nextDateStr === dateStr;
-      }).length;
-      timeline.push({
-        dayName: i === 0 ? "Hôm nay" : forecastDate.toLocaleDateString("vi-VN", { weekday: "short" }),
-        dateNum: forecastDate.getDate(),
-        count,
-        dateStr
-      });
+    const todayStr = formatLocalDate(today);
+    const sorted = [...learned]
+      .filter(l => l.nextReview && formatLocalDate(new Date(l.nextReview)) >= todayStr)
+      .sort((a, b) => new Date(a.nextReview!).getTime() - new Date(b.nextReview!).getTime());
+    if (sorted.length > 0 && sorted[0].nextReview) {
+      const nextDate = new Date(sorted[0].nextReview);
+      return `${nextDate.getDate()} tháng ${nextDate.getMonth() + 1}`;
     }
-    return timeline;
+    return null;
   }, [learned]);
 
   const speakWord = (wordText: string) => {
-
     speakLessonText(wordText, {
-      lessonId: "review_spaced_repetition",
+      lessonId: 'review_spaced_repetition',
       rate: 1.0,
     });
   };
-
 
   const handleToggleBookmark = (wordId: string) => {
     const bookmarked = getBookmarkedWords();
@@ -256,27 +307,23 @@ export default function ReviewPage() {
     saveBookmarkedWords(bookmarked);
     setBookmarkedIds(new Set(bookmarked));
     addToast({
-      type: updated ? "success" : "info",
-      title: updated ? "Đã ghi nhớ" : "Đã bỏ ghi nhớ",
-      message: updated ? "Đã thêm từ vựng vào danh sách ghi nhớ ôn tập." : "Đã bỏ từ vựng khỏi danh sách ghi nhớ.",
+      type: updated ? 'success' : 'info',
+      title: updated ? 'Đã lưu ghi nhớ' : 'Đã bỏ ghi nhớ',
+      message: updated
+        ? 'Đã thêm từ vựng vào danh sách ghi nhớ ôn tập.'
+        : 'Đã bỏ từ vựng khỏi danh sách ghi nhớ.',
     });
   };
 
   // Selected date formatted text
-  const selectedDateFormatted = selectedDate.toLocaleDateString('vi-VN', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
-  });
-
+  const selectedDateFormatted = `${VIETNAMESE_LONG_WEEKDAYS[selectedDate.getDay()]}, ${selectedDate.getDate()} tháng ${selectedDate.getMonth() + 1}, ${selectedDate.getFullYear()}`;
   const selectedDateQueryStr = formatLocalDate(selectedDate);
 
   const toggleExpandWord = (wordId: string) => {
-    setExpandedWordId(prev => prev === wordId ? null : wordId);
+    setExpandedWordId(prev => (prev === wordId ? null : wordId));
   };
 
-  // Distinct POS values in the selected list for filtering dropdown
+  // Distinct POS values in the selected list
   const uniquePosList = useMemo(() => {
     const set = new Set<string>();
     rawSelectedDateVocabs.forEach(v => {
@@ -285,136 +332,228 @@ export default function ReviewPage() {
     return Array.from(set);
   }, [rawSelectedDateVocabs]);
 
+  // 4 Core Stat Cards configuration matching myvocab / dashboard
+  const statCards = [
+    {
+      key: 'due',
+      label: 'Cần ôn hôm nay',
+      sublabel: todayDueCount > 0 ? 'Đang chờ ôn tập' : 'Đã hoàn tất 100%',
+      count: todayDueCount,
+      icon: <Flame className="w-5 h-5 text-amber-500" />,
+      accentBg: 'bg-amber-50 dark:bg-amber-950/60 border border-amber-200/80 dark:border-amber-800',
+      progressPct: todayDueCount === 0 ? 100 : Math.max(10, Math.min(100, todayDueCount * 10)),
+      progressColor: todayDueCount === 0 ? 'bg-emerald-500' : 'bg-amber-500',
+      action: todayDueCount > 0 ? (
+        <Link
+          href="/study/practice?mode=review"
+          className="text-xs font-bold text-[#0059bb] dark:text-sky-400 hover:underline flex items-center gap-1"
+        >
+          Ôn ngay <ArrowRight className="w-3 h-3" />
+        </Link>
+      ) : (
+        <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-0.5">
+          <Check className="w-3.5 h-3.5" /> Xong
+        </span>
+      ),
+    },
+    {
+      key: 'retention',
+      label: 'Tỷ lệ nhớ từ',
+      sublabel: 'Chỉ số SM-2 tối ưu',
+      count: `${retentionRate}%`,
+      icon: <Target className="w-5 h-5 text-emerald-500" />,
+      accentBg: 'bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800',
+      progressPct: retentionRate,
+      progressColor: 'bg-emerald-500',
+      action: (
+        <span className="text-[11px] font-mono font-semibold text-slate-500 dark:text-slate-400">
+          Ổn định
+        </span>
+      ),
+    },
+    {
+      key: 'mastered',
+      label: 'Từ đã làm chủ',
+      sublabel: 'Thành thạo cấp 5',
+      count: masteredCount,
+      icon: <Trophy className="w-5 h-5 text-[#0059bb] dark:text-sky-400" />,
+      accentBg: 'bg-blue-50 dark:bg-blue-950/60 border border-blue-200/80 dark:border-blue-800',
+      progressPct: learned.length > 0 ? Math.round((masteredCount / learned.length) * 100) : 0,
+      progressColor: 'bg-[#0059bb]',
+      action: (
+        <span className="text-[11px] font-mono font-semibold text-slate-500 dark:text-slate-400">
+          {learned.length > 0 ? Math.round((masteredCount / learned.length) * 100) : 0}%
+        </span>
+      ),
+    },
+    {
+      key: 'total',
+      label: 'Tổng từ đang học',
+      sublabel: 'Chu kỳ phản xạ SM-2',
+      count: learned.length,
+      icon: <BookOpen className="w-5 h-5 text-indigo-500" />,
+      accentBg: 'bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/80 dark:border-indigo-800',
+      progressPct: Math.min(100, Math.max(5, Math.round((learned.length / 200) * 100))),
+      progressColor: 'bg-indigo-500',
+      action: (
+        <span className="text-[11px] font-mono font-semibold text-slate-500 dark:text-slate-400">
+          Chủ động
+        </span>
+      ),
+    },
+  ];
+
+  if (!isMounted) {
+    return <ReviewSkeleton />;
+  }
+
   return (
-    <div className="space-y-4 pb-24 md:pb-8 font-sans antialiased" suppressHydrationWarning>
+    <div className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none pb-28 md:pb-12 text-slate-800 dark:text-slate-200" suppressHydrationWarning>
       
-      {/* ─── 1. STANDARDIZED APPTOPHEADER ─── */}
-      <AppTopHeader>
+      {/* ─── 0. UNIVERSAL APP TOP HEADER (56px Baseline) ─── */}
+      <AppTopHeader
+        rightDesktopContent={
+          <div className="flex items-center gap-2">
+            <Link
+              href="/study/practice?mode=review"
+              className="h-9 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004ba0] text-white text-xs font-bold shadow-md shadow-[#0059bb]/20 flex items-center gap-1.5 transition-all cursor-pointer active:scale-95 shrink-0 font-display"
+            >
+              <Zap className="w-3.5 h-3.5 text-amber-300" />
+              <span>Bắt Đầu Ôn Tập</span>
+            </Link>
+          </div>
+        }
+      >
         <HeaderPillContainer>
           <HeaderPillItem
             active
-            icon={<CalendarIcon className="w-3.5 h-3.5 text-[#0059bb]" />}
+            icon={<CalendarIcon className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />}
             label="Lịch Ôn Tập SM-2"
           />
           <HeaderPillItem
             href="/study/practice"
-            icon={<Zap className="w-3.5 h-3.5" />}
+            icon={<Zap className="w-3.5 h-3.5 text-amber-500" />}
             label="Luyện Tập Ngay"
           />
           <HeaderPillItem
             href="/myvocab"
-            icon={<Bookmark className="w-3.5 h-3.5" />}
+            icon={<Bookmark className="w-3.5 h-3.5 text-slate-500" />}
             label="Sổ Tay Từ Vựng"
             hideOnSmall
           />
         </HeaderPillContainer>
       </AppTopHeader>
 
-      {/* ─── 2. FLUID ULTRA-WIDE MAIN CONTAINER ─── */}
-      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 sm:space-y-6 pt-1">
-        
-        {/* HERO SPOTLIGHT STAGE */}
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ type: "spring", stiffness: 85, damping: 15 }}
-          className="p-4 sm:p-6 rounded-2xl bg-linear-to-r from-[#0059bb] via-[#004799] to-[#002b5b] text-white shadow-md shadow-[#0059bb]/15 relative overflow-hidden"
-        >
-          <div className="absolute -right-10 -bottom-10 w-48 sm:w-60 h-48 sm:h-60 bg-sky-400/15 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute inset-0 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px] opacity-15 pointer-events-none" />
+      {/* ─── MAIN CANVAS CONTAINER WITH PAGE ENTRANCE WRAPPER ─── */}
+      <PageEntranceWrapper className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-3 sm:py-5 space-y-4">
 
-          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="space-y-1.5 max-w-2xl">
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-white/20 text-white border border-white/30 backdrop-blur-md shadow-2xs">
-                  Spaced Repetition SM-2
+        {/* ─── 1. TOP 4 BENTO STATS CARDS ─── */}
+        <MotionItem className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
+          {statCards.map(s => (
+            <div
+              key={s.key}
+              className="p-3 sm:p-4 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-slate-200/90 dark:border-slate-800 shadow-2xs hover:border-[#0059bb]/40 transition-all flex flex-col justify-between space-y-2 sm:space-y-2.5"
+            >
+              <div className="flex items-center justify-between gap-1.5">
+                <span className="text-[11px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 font-display truncate">
+                  {s.label}
                 </span>
-                <span className="text-[11px] font-semibold text-blue-100/80">
-                  Lặp lại ngắt quãng theo đường cong lãng quên Ebbinghaus
-                </span>
-              </div>
-              <h1 className="text-xl sm:text-2xl lg:text-3xl font-black tracking-tight text-white font-display">
-                Lịch Ôn Tập Định Kỳ Khoa Học
-              </h1>
-              <p className="text-xs sm:text-sm text-blue-100/90 leading-relaxed font-normal">
-                Tự động tính toán chu kỳ ôn tập tối ưu cho từng từ vựng dựa trên tần suất học và mức độ thành thạo, giúp chuyển từ vựng vào trí nhớ dài hạn.
-              </p>
-            </div>
-
-            <div className="hidden lg:flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-3 shrink-0">
-              <div className="w-10 h-10 rounded-lg bg-amber-400/20 border border-amber-400/30 flex items-center justify-center text-amber-300">
-                <Zap className="w-5 h-5" />
-              </div>
-              <div className="space-y-0.5">
-                <div className="text-xs font-bold text-white uppercase tracking-wider">Học Đúng Thời Điểm</div>
-                <div className="text-[11px] text-blue-100">Ghi nhớ x3 lần</div>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-
-      {/* ─── Bento Grid Layout ─── */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-        
-        {/* Left: Interactive Calendar (col-span-7) */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ type: "spring", stiffness: 85, damping: 15 }}
-          className="lg:col-span-7 flex flex-col"
-        >
-          <div className="bezel shadow-sm border border-slate-100/60 dark:border-neutral-850 h-full flex flex-col">
-            <div className="bezel-inner p-6 bg-white dark:bg-neutral-900 rounded-[calc(2rem-6px)] h-full flex flex-col justify-between">
-              <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-neutral-850 mb-5 shrink-0">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-cyan-50 dark:bg-cyan-950/30 text-cyan-500 flex items-center justify-center">
-                    <CalendarIcon className="w-5 h-5" strokeWidth={1.8} />
-                  </div>
-                  <div>
-                    <h3 className="text-base font-black text-slate-900 dark:text-white tracking-tight capitalize font-display">
-                      {monthYearTitle}
-                    </h3>
-                    <span className="text-[9.5px] text-cyan-500 font-extrabold uppercase tracking-wider block mt-0.5">
-                      Hệ thống phản xạ tự động
-                    </span>
-                  </div>
-                </div>
-                
-                {/* Navigation Controls */}
-                <div className="flex items-center gap-1.5">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-8 w-8 p-0 rounded-lg cursor-pointer transition-colors"
-                    onClick={handlePrevMonth}
-                    aria-label="Tháng trước"
-                  >
-                    <ChevronLeft className="w-4.5 h-4.5 text-slate-500 dark:text-slate-400" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-8 w-8 p-0 rounded-lg cursor-pointer transition-colors"
-                    onClick={handleNextMonth}
-                    aria-label="Tháng sau"
-                  >
-                    <ChevronRight className="w-4.5 h-4.5 text-slate-500 dark:text-slate-400" />
-                  </Button>
+                <div className={`p-1.5 sm:p-2 rounded-xl ${s.accentBg} shadow-2xs shrink-0`}>
+                  {s.icon}
                 </div>
               </div>
 
-              {/* Days of week Header */}
-              <div className="grid grid-cols-7 gap-2.5 text-center shrink-0 mb-2">
-                {['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'].map(d => (
-                  <div key={d} className="text-[10px] font-black text-slate-400 dark:text-neutral-500 uppercase tracking-widest py-1 font-display">
-                    {d}
+              <div>
+                <div className="flex items-baseline justify-between gap-1.5">
+                  <div className="text-lg sm:text-xl lg:text-2xl font-black text-slate-900 dark:text-white font-mono tracking-tight tabular-nums truncate">
+                    {s.count}
                   </div>
-                ))}
+                  <div className="shrink-0">{s.action}</div>
+                </div>
+                <div className="flex items-center justify-between text-[10.5px] sm:text-[11px] text-slate-400 mt-1 font-medium gap-1">
+                  <span className="truncate min-w-0">{s.sublabel}</span>
+                  <span className="font-mono text-[9.5px] sm:text-[10px] text-slate-400 shrink-0">{s.progressPct}%</span>
+                </div>
+                <div className="mt-1.5 h-1 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                  <div
+                    className={`h-full rounded-full transition-all duration-500 ${s.progressColor}`}
+                    style={{ width: `${s.progressPct}%` }}
+                  />
+                </div>
               </div>
+            </div>
+          ))}
+        </MotionItem>
 
-              {/* Calendar Grid cells */}
-              <div className="grid grid-cols-7 grid-rows-6 gap-2.5 text-center flex-1">
-                <AnimatePresence mode="wait">
+        {/* ─── 2. MAIN BENTO GRID: CALENDAR (7) & PROFICIENCY DISTRIBUTION (5) ─── */}
+        <MotionItem className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5 items-stretch">
+          
+          {/* Left: Interactive SM-2 Calendar (lg:col-span-7) */}
+          <div className="lg:col-span-7 flex flex-col">
+            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-3 h-full flex flex-col justify-between">
+              
+              <div>
+                {/* Calendar Header with Quick Jump */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-3 border-b border-slate-100 dark:border-slate-800/80">
+                  <div className="flex items-center gap-2.5 sm:gap-3">
+                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center border border-blue-200/80 dark:border-blue-800/40 shadow-2xs shrink-0">
+                      <CalendarIcon className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2]" />
+                    </div>
+                    <div>
+                      <h2 className="text-sm sm:text-base lg:text-lg font-bold text-slate-900 dark:text-white tracking-tight capitalize font-display">
+                        {monthYearTitle}
+                      </h2>
+                      <p className="text-[10.5px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+                        Chu kỳ lặp lại ngắt quãng SM-2
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Controls: "Hôm nay" & Prev/Next chevrons */}
+                  <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-2">
+                    <button
+                      type="button"
+                      onClick={handleJumpToToday}
+                      className="h-8 px-2.5 sm:px-3 text-xs font-bold text-slate-700 dark:text-slate-200 hover:text-[#0059bb] dark:hover:text-sky-400 bg-slate-100 hover:bg-blue-50 dark:bg-slate-800 dark:hover:bg-blue-950/40 border border-slate-200/80 dark:border-slate-700 rounded-xl cursor-pointer transition-all active:scale-95 flex items-center gap-1.5 shadow-2xs shrink-0"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5" /> Hôm nay
+                    </button>
+
+                    <div className="flex items-center gap-1 border border-slate-200/80 dark:border-slate-700 rounded-xl p-0.5 bg-slate-50 dark:bg-slate-900 shadow-2xs shrink-0">
+                      <button
+                        type="button"
+                        className="h-7 w-7 rounded-lg hover:bg-slate-200/70 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center justify-center cursor-pointer transition-all active:scale-95"
+                        onClick={handlePrevMonth}
+                        aria-label="Tháng trước"
+                      >
+                        <ChevronLeft className="w-4 h-4" />
+                      </button>
+                      <button
+                        type="button"
+                        className="h-7 w-7 rounded-lg hover:bg-slate-200/70 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center justify-center cursor-pointer transition-all active:scale-95"
+                        onClick={handleNextMonth}
+                        aria-label="Tháng sau"
+                      >
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Days of week Header */}
+                <div className="grid grid-cols-7 gap-1 sm:gap-1.5 text-center shrink-0 pt-2 pb-1">
+                  {['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'].map(d => (
+                    <div
+                      key={d}
+                      className="text-[10.5px] sm:text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider font-display"
+                    >
+                      {d}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Calendar Grid Cells (Dynamic & well-proportioned) */}
+                <div className="grid grid-cols-7 gap-1 sm:gap-1.5 text-center">
                   {calendarCells.map((cellDate, idx) => {
                     const isCurrentMonth = cellDate.getMonth() === currentMonth.getMonth();
                     const isToday = cellDate.toDateString() === new Date().toDateString();
@@ -422,449 +561,696 @@ export default function ReviewPage() {
                     const dueCount = getDueCountForDate(cellDate);
                     const isCompleted = isDateCompleted(cellDate);
 
-                    let dayStyle = "aspect-square lg:aspect-auto lg:h-full rounded-md flex flex-col items-center justify-center text-xs font-black relative select-none cursor-pointer transition-all duration-200 border ";
-                    
-                    if (isToday) {
-                      dayStyle += "bg-gradient-to-tr from-cyan-400 to-indigo-500 text-white border-transparent shadow-sm ring-2 ring-offset-2 ring-cyan-400 dark:ring-offset-neutral-900 scale-102";
-                    } else if (isSelected) {
-                      dayStyle += "border-cyan-500 bg-cyan-50/40 dark:bg-cyan-950/20 text-cyan-600 dark:text-cyan-400 scale-[1.01]";
+                    let cellClass =
+                      'h-9 sm:h-11 rounded-lg sm:rounded-xl flex flex-col items-center justify-center text-xs font-bold relative select-none cursor-pointer transition-all duration-150 border ';
+
+                    if (isSelected) {
+                      cellClass +=
+                        'bg-[#0059bb] text-white border-[#0059bb] shadow-md shadow-[#0059bb]/30 scale-[1.03] z-10 font-black';
+                    } else if (isToday) {
+                      cellClass +=
+                        'bg-blue-50/80 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-300 border-2 border-[#0059bb] ring-2 ring-[#0059bb]/20 font-black';
                     } else if (isCompleted) {
-                      dayStyle += "border-emerald-500/20 bg-emerald-50/30 dark:bg-emerald-950/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/10";
+                      cellClass +=
+                        'border-emerald-500/30 bg-emerald-50/40 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100/50';
                     } else if (isCurrentMonth) {
-                      dayStyle += "border-slate-100/40 dark:border-neutral-850/30 text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-neutral-850/50";
+                      cellClass +=
+                        'border-slate-200/70 dark:border-slate-800 text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/60';
                     } else {
-                      dayStyle += "border-transparent text-slate-300 dark:text-slate-500 opacity-40 hover:bg-slate-50/50 dark:hover:bg-neutral-900/30";
+                      cellClass +=
+                        'border-transparent text-slate-350 dark:text-slate-600 opacity-40 hover:bg-slate-50 dark:hover:bg-slate-900';
                     }
 
                     return (
-                      <motion.div
+                      <div
                         key={`${cellDate.toISOString()}-${idx}`}
                         onClick={() => setSelectedDate(cellDate)}
-                        className={dayStyle}
-                        whileHover={{ scale: 1.03 }}
-                        whileTap={{ scale: 0.98 }}
+                        className={cellClass}
                       >
-                        <span className="font-sans font-black">{cellDate.getDate()}</span>
-                        
-                        {/* Status circles indicators */}
-                        {dueCount > 0 && !isToday && (
-                          <span className="absolute bottom-1 w-3.5 h-3.5 rounded-full bg-cyan-500 text-white flex items-center justify-center text-[8px] font-black scale-90">
+                        <span className={`font-mono tabular-nums leading-none ${dueCount > 0 ? '-mt-1 sm:-mt-0.5' : ''}`}>
+                          {cellDate.getDate()}
+                        </span>
+
+                        {/* Due count indicator */}
+                        {dueCount > 0 && (
+                          <span
+                            className={`absolute bottom-0.5 sm:bottom-1 px-1 min-w-3.5 sm:min-w-4 rounded-full flex items-center justify-center text-[7.5px] sm:text-[8.5px] font-black shadow-2xs leading-tight ${
+                              isSelected
+                                ? 'bg-amber-400 text-slate-950'
+                                : 'bg-amber-500 text-white'
+                            }`}
+                          >
                             {dueCount}
                           </span>
                         )}
-                        {isToday && dueCount > 0 && (
-                          <span className="absolute bottom-1 w-3.5 h-3.5 rounded-full bg-amber-300 text-slate-900 flex items-center justify-center text-[8px] font-black scale-90">
-                            {dueCount}
-                          </span>
+
+                        {/* Completed dot */}
+                        {isCompleted && !dueCount && (
+                          <span className="absolute bottom-1 w-1.5 h-1.5 rounded-full bg-emerald-500" />
                         )}
-                        {isCompleted && (
-                          <span className="absolute bottom-1.5 w-1 h-1 rounded-full bg-emerald-500" />
-                        )}
-                      </motion.div>
+                      </div>
                     );
                   })}
-                </AnimatePresence>
+                </div>
               </div>
+
+              {/* Calendar Legend */}
+              <div className="grid grid-cols-2 sm:flex sm:items-center sm:justify-between gap-2 pt-3 border-t border-slate-100 dark:border-slate-800/80 text-[10.5px] sm:text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-md bg-[#0059bb]" />
+                  <span>Đang chọn</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-md border-2 border-[#0059bb] bg-blue-100 dark:bg-blue-950" />
+                  <span>Hôm nay</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
+                  <span>Có từ cần ôn</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+                  <span>Đã hoàn thành</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {/* Right: Spaced Repetition Analytics (lg:col-span-5) */}
+          <div className="lg:col-span-5 flex flex-col">
+            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-3.5 h-full flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between pb-2.5 border-b border-slate-100 dark:border-slate-800/80">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center border border-blue-200/80 dark:border-blue-800/40 shadow-2xs">
+                      <Activity className="w-4 h-4 stroke-[2]" />
+                    </div>
+                    <div>
+                      <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider font-display">
+                        Phân Bố Cấp Độ Ghi Nhớ
+                      </h3>
+                      <span className="text-[10.5px] text-slate-500 dark:text-slate-400 font-medium">
+                        5 cấp độ thành thạo SM-2
+                      </span>
+                    </div>
+                  </div>
+                  <span className="text-xs font-mono font-bold text-slate-500 dark:text-slate-400">
+                    {learned.length} từ
+                  </span>
+                </div>
+
+                {/* 2-Box Mini Stat Summary Strip */}
+                <div className="grid grid-cols-2 gap-2 mt-3">
+                  <div className="p-2.5 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-200/60 dark:border-emerald-900/40 flex items-center justify-between">
+                    <div>
+                      <span className="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider block">
+                        Đã Vững (Cấp 4-5)
+                      </span>
+                      <span className="text-base font-black font-mono tabular-nums text-emerald-800 dark:text-emerald-300">
+                        {strongRetentionCount} <span className="text-[10px] font-sans font-medium text-emerald-600/80">từ</span>
+                      </span>
+                    </div>
+                    <span className="text-xs font-black font-mono text-emerald-600 dark:text-emerald-400">
+                      {learned.length > 0 ? Math.round((strongRetentionCount / learned.length) * 100) : 0}%
+                    </span>
+                  </div>
+
+                  <div className="p-2.5 rounded-xl bg-amber-50/60 dark:bg-amber-950/30 border border-amber-200/60 dark:border-amber-900/40 flex items-center justify-between">
+                    <div>
+                      <span className="text-[10px] font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider block">
+                        Cần Ôn (Cấp 1-3)
+                      </span>
+                      <span className="text-base font-black font-mono tabular-nums text-amber-800 dark:text-amber-300">
+                        {needsReinforceCount} <span className="text-[10px] font-sans font-medium text-amber-600/80">từ</span>
+                      </span>
+                    </div>
+                    <span className="text-xs font-black font-mono text-amber-600 dark:text-amber-400">
+                      {learned.length > 0 ? Math.round((needsReinforceCount / learned.length) * 100) : 0}%
+                    </span>
+                  </div>
+                </div>
+
+                {/* Level list items with compact gap */}
+                <div className="space-y-2.5 pt-3">
+                  {[
+                    { level: 5, label: 'Làm chủ (Cấp 5)', color: 'bg-emerald-500', barBg: 'bg-emerald-500' },
+                    { level: 4, label: 'Thành thạo (Cấp 4)', color: 'bg-[#0059bb]', barBg: 'bg-[#0059bb]' },
+                    { level: 3, label: 'Nhớ tốt (Cấp 3)', color: 'bg-indigo-500', barBg: 'bg-indigo-500' },
+                    { level: 2, label: 'Nhận biết (Cấp 2)', color: 'bg-amber-500', barBg: 'bg-amber-500' },
+                    { level: 1, label: 'Bắt đầu (Cấp 1)', color: 'bg-rose-500', barBg: 'bg-rose-500' },
+                  ].map(item => {
+                    const count = proficiencyDistribution[item.level - 1];
+                    const total = Math.max(1, learned.length);
+                    const pct = Math.round((count / total) * 100);
+                    return (
+                      <div key={item.level} className="space-y-1">
+                        <div className="flex items-center justify-between text-[11px] font-bold text-slate-700 dark:text-slate-300">
+                          <span className="flex items-center gap-1.5">
+                            <span className={`w-2 h-2 rounded-full ${item.color}`} />
+                            {item.label}
+                          </span>
+                          <span className="font-mono tabular-nums text-slate-500 dark:text-slate-400">
+                            {count} từ ({pct}%)
+                          </span>
+                        </div>
+                        <div className="h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                          <div
+                            className={`h-full rounded-full transition-all duration-500 ${item.barBg}`}
+                            style={{ width: `${pct}%` }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Educational SRS Tip */}
+              <div className="mt-3 p-2.5 rounded-xl bg-blue-50/50 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900/30 flex items-start gap-2 text-[11px] text-slate-600 dark:text-slate-300">
+                <Lightbulb className="w-4 h-4 text-[#0059bb] dark:text-sky-400 shrink-0 mt-0.5" />
+                <p className="leading-relaxed">
+                  <strong className="text-slate-900 dark:text-white font-bold">Mẹo SM-2:</strong> Ôn tập từ ở Cấp 1-2 trong vòng 24h giúp tăng 80% khả năng lưu giữ vào trí nhớ dài hạn.
+                </p>
+              </div>
+
             </div>
           </div>
-        </motion.div>
+        </MotionItem>
 
-        {/* Right: Spaced Repetition Analytics (col-span-5) */}
-        <div className="lg:col-span-5 flex flex-col gap-6 justify-between">
-          
-          {/* Scientific analytics summary box */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ type: "spring", stiffness: 85, damping: 15, delay: 0.05 }}
-            className="bezel border border-slate-100/60 dark:border-neutral-850 flex-1 flex flex-col"
-          >
-            <div className="bezel-inner p-6 bg-white dark:bg-neutral-900 rounded-[calc(2rem-6px)] space-y-5 h-full flex flex-col justify-between">
-              <div className="flex items-center gap-2 shrink-0">
-                <div className="w-8 h-8 rounded-lg bg-indigo-50 dark:bg-indigo-950/30 text-indigo-500 flex items-center justify-center">
-                  <Activity className="w-4 h-4" />
-                </div>
-                <h4 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider font-display">
-                  Thống kê ghi nhớ
-                </h4>
-              </div>
-
-              {/* Core Analytics Figures */}
-              <div className="grid grid-cols-2 gap-4 shrink-0">
-                <div className="p-3 bg-slate-50/50 dark:bg-neutral-950/20 rounded-xl border border-slate-100/30 dark:border-neutral-850/20">
-                  <span className="text-[9px] uppercase font-black tracking-wider text-slate-400">Tỷ lệ nhớ từ</span>
-                  <div className="text-xl font-black text-cyan-600 dark:text-cyan-400 mt-0.5">{retentionRate}%</div>
-                </div>
-                <div className="p-3 bg-slate-50/50 dark:bg-neutral-950/20 rounded-xl border border-slate-100/30 dark:border-neutral-850/20">
-                  <span className="text-[9px] uppercase font-black tracking-wider text-slate-400">Đã làm chủ</span>
-                  <div className="text-xl font-black text-indigo-650 dark:text-indigo-400 mt-0.5">{masteredCount} từ</div>
-                </div>
-              </div>
-
-              {/* Level Distributions */}
-              <div className="space-y-3 pt-1 flex-1 flex flex-col justify-end">
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">Phân bố trình độ ôn tập</span>
-                
-                {[
-                  { level: 5, label: "Làm chủ", color: "bg-emerald-500" },
-                  { level: 4, label: "Thành thạo", color: "bg-cyan-500" },
-                  { level: 3, label: "Nhớ tốt", color: "bg-indigo-500" },
-                  { level: 2, label: "Nhận biết", color: "bg-amber-500" },
-                  { level: 1, label: "Bắt đầu", color: "bg-rose-500" }
-                ].map((item) => {
-                  const count = proficiencyDistribution[item.level - 1];
-                  const total = Math.max(1, learned.length);
-                  const pct = Math.round((count / total) * 100);
-                  return (
-                    <div key={item.level} className="space-y-1">
-                      <div className="flex items-center justify-between text-[10px] font-black text-slate-550 dark:text-slate-300">
-                        <span className="flex items-center gap-1">
-                          <span className={`w-1.5 h-1.5 rounded-full ${item.color}`} />
-                          Cấp độ {item.level} · {item.label}
-                        </span>
-                        <span className="font-mono tabular-nums">{count} từ ({pct}%)</span>
-                      </div>
-                      <div className="h-1 bg-slate-100 dark:bg-neutral-850 rounded-full overflow-hidden">
-                        <motion.div
-                          className={`h-full rounded-full ${item.color}`}
-                          initial={{ width: 0 }}
-                          animate={{ width: `${pct}%` }}
-                          transition={{ type: "spring", stiffness: 80, damping: 15 }}
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-            </div>
-          </motion.div>
-
-          {/* 7-day workload timeline forecast */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ type: "spring", stiffness: 85, damping: 15, delay: 0.1 }}
-            className="bezel border border-slate-100/60 dark:border-neutral-850 shrink-0"
-          >
-            <div className="bezel-inner p-6 bg-white dark:bg-neutral-900 rounded-[calc(2rem-6px)] space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-cyan-50 dark:bg-cyan-950/30 text-cyan-500 flex items-center justify-center">
-                    <Activity className="w-4 h-4" />
-                  </div>
-                  <h4 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider font-display">
-                    Dự báo ôn tập 7 ngày
-                  </h4>
-                </div>
-                <span className="text-[9px] text-slate-400 dark:text-slate-300 font-extrabold uppercase">Workload Timeline</span>
-              </div>
-
-              {/* Forecast Grid horizontal row */}
-              <div className="grid grid-cols-7 gap-1 pt-2">
-                {forecastTimeline.map((item, idx) => {
-                  const maxCount = Math.max(...forecastTimeline.map(t => t.count), 1);
-                  const barHeightPct = Math.max(10, Math.min(100, Math.round((item.count / maxCount) * 100)));
-                  const isCellSelected = item.dateStr === selectedDateQueryStr;
-
-                  return (
-                    <div
-                      key={idx}
-                      onClick={() => setSelectedDate(new Date(item.dateStr))}
-                      className={`flex flex-col items-center justify-end h-28 rounded-xl p-1 pb-2 cursor-pointer transition-all border ${
-                        isCellSelected
-                          ? "bg-cyan-500/10 border-cyan-400/40 text-cyan-600 dark:text-cyan-400"
-                          : "bg-slate-50/50 hover:bg-slate-100/60 border-slate-100 dark:bg-neutral-950/20 dark:hover:bg-neutral-850/50 dark:border-neutral-850/50 text-slate-500 dark:text-slate-400"
-                      }`}
-                    >
-                      {/* Bar indicator */}
-                      <div className="w-1.5 bg-slate-150 dark:bg-neutral-800 rounded-full h-12 flex flex-col justify-end overflow-hidden mb-2">
-                        <motion.div
-                          className={`w-full rounded-full ${item.count > 0 ? "bg-gradient-to-t from-cyan-500 to-indigo-500" : "bg-transparent"}`}
-                          initial={{ height: 0 }}
-                          animate={{ height: `${barHeightPct}%` }}
-                          transition={{ type: "spring", stiffness: 80, damping: 15 }}
-                        />
-                      </div>
-                      <span className="text-[10px] font-black font-sans leading-none">{item.count}</span>
-                      <span className="text-[8px] font-bold opacity-60 uppercase mt-1 text-center scale-90">{item.dayName}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </motion.div>
-
-        </div>
-      </div>
-
-      {/* ─── Selected Date Word Cards Section (col-span-12) ─── */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 85, damping: 15, delay: 0.15 }}
-        className="bezel border border-slate-100/60 dark:border-neutral-850"
-      >
-        <div className="bezel-inner p-6 bg-white dark:bg-neutral-900 rounded-[calc(2rem-6px)]">
+        {/* ─── 3. SELECTED DATE VOCABULARY LIST & ACTION HUB ─── */}
+        <MotionItem className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-4">
           
           {/* Header Panel inside card section */}
-          <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center pb-4 border-b border-slate-100 dark:border-neutral-850 mb-6">
+          <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center pb-3.5 border-b border-slate-100 dark:border-slate-800/80">
             <div>
-              <h3 className="text-[11px] font-black text-slate-400 dark:text-neutral-500 uppercase tracking-widest font-display">
-                Danh sách ôn tập: {selectedDateFormatted}
-              </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-450 font-bold mt-0.5">
-                Có {rawSelectedDateVocabs.length} từ vựng đã lên lịch trong ngày này.
+              <div className="flex items-center gap-2 mb-0.5">
+                <span className="px-2 py-0.5 rounded-lg text-[10px] font-black uppercase tracking-wider bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 border border-blue-200/80 dark:border-blue-800/40">
+                  Lịch Ngày
+                </span>
+                <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white tracking-tight font-display">
+                  {selectedDateFormatted}
+                </h3>
+              </div>
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                {rawSelectedDateVocabs.length > 0
+                  ? `Có ${rawSelectedDateVocabs.length} từ vựng đã lên lịch ôn tập cho ngày này.`
+                  : 'Lịch ôn tập ngày này hoàn toàn thông thoáng.'}
               </p>
             </div>
-            
+
             {/* Quick CTAs */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               {rawSelectedDateVocabs.length > 0 ? (
-                <Link 
-                  href={`/study/practice?mode=review&date=${selectedDateQueryStr}`} 
-                  className="flex items-center gap-1.5 bg-gradient-to-r from-cyan-500 to-indigo-600 text-white rounded-xl text-xs font-black py-2.5 px-5 shadow-sm hover:shadow-md cursor-pointer transition-shadow font-sans"
+                <Link
+                  href={`/study/practice?mode=review&date=${selectedDateQueryStr}`}
+                  className="h-9 px-4 rounded-xl bg-[#0059bb] hover:bg-[#004ba0] text-white text-xs font-bold shadow-md shadow-[#0059bb]/20 flex items-center gap-2 transition-all cursor-pointer active:scale-95 font-display"
                 >
-                  <Zap className="w-3.5 h-3.5" strokeWidth={2.2} /> Ôn tập ngay (+15 XP/từ)
+                  <Zap className="w-4 h-4 text-amber-300" strokeWidth={2.4} />
+                  <span>Ôn Tập Ngay (+15 XP/từ)</span>
                 </Link>
               ) : (
-                /* Advanced review fallback options if selected date is clear */
                 <div className="flex items-center gap-2">
-                  <Link 
-                    href="/study/practice?mode=early-review" 
-                    className="flex items-center gap-1.5 bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950/20 text-indigo-600 dark:text-indigo-400 rounded-xl text-xs font-black py-2.5 px-4 cursor-pointer transition-all border border-indigo-200/50 dark:border-indigo-900/30 font-sans"
-                  >
-                    <Compass className="w-3.5 h-3.5" /> Ôn tập trước hạn
-                  </Link>
-                  <Link 
-                    href="/study/practice?mode=focus-review" 
-                    className="flex items-center gap-1.5 bg-rose-50 hover:bg-rose-100 dark:bg-rose-955/20 text-rose-600 dark:text-rose-400 rounded-xl text-xs font-black py-2.5 px-4 cursor-pointer transition-all border border-rose-200/50 dark:border-rose-900/30 font-sans"
-                  >
-                    <Sparkles className="w-3.5 h-3.5" /> Ôn tập từ khó
-                  </Link>
+                  <span className="px-3 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 text-xs font-bold border border-emerald-200/80 dark:border-emerald-800/40 flex items-center gap-1.5 shadow-2xs">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                    <span>Không có từ tồn đọng</span>
+                  </span>
                 </div>
               )}
             </div>
           </div>
 
-          {/* Filtering bar */}
+          {/* Filtering Toolbar (when words exist) */}
           {rawSelectedDateVocabs.length > 0 && (
-            <div className="grid grid-cols-2 sm:flex sm:flex-row gap-3 mb-6 bg-slate-50/50 dark:bg-neutral-950/20 p-3 rounded-md border border-slate-100/60 dark:border-neutral-850/50">
-              
-              {/* Search text input */}
-              <div className="col-span-2 sm:flex-1 relative">
-                <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400 dark:text-slate-500" />
-                <input
-                  type="text"
-                  placeholder="Tìm kiếm từ vựng..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2 text-xs font-semibold rounded-xl border border-slate-200 focus:border-cyan-500 bg-white focus:outline-none dark:border-neutral-800 dark:bg-neutral-900 dark:text-white"
-                />
+            <div className="p-3 sm:p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-900/40 border border-slate-200/80 dark:border-slate-800 space-y-2.5">
+              <div className="text-[10.5px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                <Filter className="w-3 h-3 text-[#0059bb]" /> Bộ lọc danh sách
               </div>
 
-              {/* POS Selection */}
-              <div className="flex items-center gap-1 w-full sm:w-auto">
-                <Filter className="h-3.5 w-3.5 text-slate-400 mr-1 shrink-0" />
-                <select
-                  value={selectedPos}
-                  onChange={(e) => setSelectedPos(e.target.value)}
-                  className="w-full px-3 py-2 text-xs font-bold rounded-xl border border-slate-200 bg-white focus:outline-none dark:border-neutral-800 dark:bg-neutral-900 dark:text-white cursor-pointer font-sans"
-                >
-                  <option value="all">Tất cả từ loại</option>
-                  {uniquePosList.map(pos => (
-                    <option key={pos} value={pos}>{pos.toUpperCase()}</option>
-                  ))}
-                </select>
-              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+                {/* Search Input with External Label */}
+                <div>
+                  <label
+                    htmlFor="review-search-input"
+                    className="block text-[11px] font-bold text-slate-600 dark:text-slate-300 mb-1"
+                  >
+                    Từ vựng hoặc nghĩa
+                  </label>
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
+                    <input
+                      id="review-search-input"
+                      type="text"
+                      placeholder="Tìm từ vựng, phiên âm, nghĩa tiếng Việt..."
+                      value={searchTerm}
+                      onChange={e => setSearchTerm(e.target.value)}
+                      className="w-full h-9 pl-8 pr-8 text-xs font-medium rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-[#0c0c0f] text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20 transition-all"
+                    />
+                    {searchTerm && (
+                      <button
+                        type="button"
+                        onClick={() => setSearchTerm('')}
+                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-white cursor-pointer"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
+                </div>
 
-              {/* Level / Proficiency filter */}
-              <div className="w-full sm:w-auto">
-                <select
-                  value={selectedProficiency}
-                  onChange={(e) => setSelectedProficiency(e.target.value)}
-                  className="w-full px-3 py-2 text-xs font-bold rounded-xl border border-slate-200 bg-white focus:outline-none dark:border-neutral-800 dark:bg-neutral-900 dark:text-white cursor-pointer font-sans"
-                >
-                  <option value="all">Mọi cấp độ</option>
-                  <option value="1">Cấp độ 1 (Bắt đầu)</option>
-                  <option value="2">Cấp độ 2 (Nhận biết)</option>
-                  <option value="3">Cấp độ 3 (Nhớ tốt)</option>
-                  <option value="4">Cấp độ 4 (Thành thạo)</option>
-                  <option value="5">Cấp độ 5 (Làm chủ)</option>
-                </select>
-              </div>
+                {/* POS Select with External Label */}
+                <div>
+                  <label
+                    htmlFor="review-pos-select"
+                    className="block text-[11px] font-bold text-slate-600 dark:text-slate-300 mb-1"
+                  >
+                    Từ loại (POS)
+                  </label>
+                  <select
+                    id="review-pos-select"
+                    value={selectedPos}
+                    onChange={e => setSelectedPos(e.target.value)}
+                    className="w-full h-9 px-2.5 text-xs font-bold rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-[#0c0c0f] text-slate-900 dark:text-white focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20 cursor-pointer transition-all"
+                  >
+                    <option value="all">Tất cả từ loại</option>
+                    {uniquePosList.map(pos => (
+                      <option key={pos} value={pos}>
+                        {pos.toUpperCase()}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-              {/* Bookmark filter */}
-              <div className="col-span-2 sm:col-span-1 w-full sm:w-auto">
-                <select
-                  value={selectedBookmark}
-                  onChange={(e) => setSelectedBookmark(e.target.value)}
-                  className="w-full px-3 py-2 text-xs font-bold rounded-xl border border-slate-200 bg-white focus:outline-none dark:border-neutral-800 dark:bg-neutral-900 dark:text-white cursor-pointer font-sans"
-                >
-                  <option value="all">Tất cả từ</option>
-                  <option value="bookmark">Chỉ từ ghi nhớ ⭐</option>
-                </select>
-              </div>
+                {/* Proficiency Select with External Label */}
+                <div>
+                  <label
+                    htmlFor="review-level-select"
+                    className="block text-[11px] font-bold text-slate-600 dark:text-slate-300 mb-1"
+                  >
+                    Mức độ thành thạo
+                  </label>
+                  <select
+                    id="review-level-select"
+                    value={selectedProficiency}
+                    onChange={e => setSelectedProficiency(e.target.value)}
+                    className="w-full h-9 px-2.5 text-xs font-bold rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-[#0c0c0f] text-slate-900 dark:text-white focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20 cursor-pointer transition-all"
+                  >
+                    <option value="all">Mọi cấp độ</option>
+                    <option value="1">Cấp độ 1 (Bắt đầu)</option>
+                    <option value="2">Cấp độ 2 (Nhận biết)</option>
+                    <option value="3">Cấp độ 3 (Nhớ tốt)</option>
+                    <option value="4">Cấp độ 4 (Thành thạo)</option>
+                    <option value="5">Cấp độ 5 (Làm chủ)</option>
+                  </select>
+                </div>
 
+                {/* Bookmark Select with External Label */}
+                <div>
+                  <label
+                    htmlFor="review-bookmark-select"
+                    className="block text-[11px] font-bold text-slate-600 dark:text-slate-300 mb-1"
+                  >
+                    Trạng thái lưu trữ
+                  </label>
+                  <select
+                    id="review-bookmark-select"
+                    value={selectedBookmark}
+                    onChange={e => setSelectedBookmark(e.target.value)}
+                    className="w-full h-9 px-2.5 text-xs font-bold rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-[#0c0c0f] text-slate-900 dark:text-white focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20 cursor-pointer transition-all"
+                  >
+                    <option value="all">Tất cả từ vựng</option>
+                    <option value="bookmark">Chỉ từ đã lưu ⭐</option>
+                  </select>
+                </div>
+              </div>
             </div>
           )}
 
-          {/* Cards container grid */}
+          {/* Word Cards Grid OR Content-Rich Multi-Column Action Hub (Zero Dead Space) */}
           {selectedDateVocabs.length === 0 ? (
-            <div className="flex flex-col items-center justify-center p-12 text-center">
-              <PartyPopper className="w-12 h-12 text-slate-350 dark:text-neutral-600 mb-4" strokeWidth={1.1} />
-              <div className="text-sm font-black text-slate-800 dark:text-white mb-1 font-display">
-                {rawSelectedDateVocabs.length === 0 ? "Hôm nay không có lịch ôn tập!" : "Không tìm thấy từ vựng phù hợp!"}
+            rawSelectedDateVocabs.length === 0 ? (
+              /* Content-Rich 2-Column Action Hub */
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 items-stretch pt-1">
+                {/* Left Col (5/12): Congratulatory Status Card */}
+                <div className="lg:col-span-5 p-4 rounded-xl bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 flex flex-col justify-between space-y-3">
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <span className="px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900/40">
+                        ĐÃ HOÀN TẤT
+                      </span>
+                      <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
+                        Tiến độ SM-2 tối ưu
+                      </span>
+                    </div>
+
+                    <h4 className="text-base font-bold text-slate-900 dark:text-white font-display">
+                      Không có từ vựng tồn đọng!
+                    </h4>
+
+                    <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                      Lịch ôn tập ngày này hoàn toàn thông thoáng. Hãy tiếp tục duy trì đà học bằng các chế độ bổ trợ bên cạnh.
+                    </p>
+                  </div>
+
+                  <div className="p-3 rounded-xl bg-white dark:bg-[#0c0c0f] border border-slate-200/80 dark:border-slate-800 space-y-2 text-xs">
+                    <div className="flex items-center justify-between text-slate-600 dark:text-slate-300">
+                      <span>Từ cần ôn ngày này:</span>
+                      <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400">0 từ</span>
+                    </div>
+                    <div className="flex items-center justify-between text-slate-600 dark:text-slate-300">
+                      <span>Lịch ôn tiếp theo:</span>
+                      <span className="font-mono font-bold text-[#0059bb] dark:text-sky-400">
+                        {nextUpcomingDue || 'Đang cập nhật'}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between text-slate-600 dark:text-slate-300 pt-1.5 border-t border-slate-100 dark:border-slate-800">
+                      <span>Trạng thái chuỗi học:</span>
+                      <span className="font-bold text-amber-500 flex items-center gap-1">
+                        <Flame className="w-3.5 h-3.5" /> Sẵn sàng
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Col (7/12): 3 Bento Recommended Action Cards */}
+                <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                  {/* Action 1: Early Review */}
+                  <Link
+                    href="/study/practice?mode=early-review"
+                    className="p-3.5 rounded-xl bg-slate-50/80 hover:bg-white dark:bg-slate-900/50 dark:hover:bg-slate-900 border border-slate-200/80 hover:border-[#0059bb]/50 dark:border-slate-800 dark:hover:border-blue-500/50 transition-all flex flex-col justify-between space-y-2.5 group shadow-2xs hover:shadow-xs"
+                  >
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center border border-blue-200/80 dark:border-blue-800/40">
+                          <Compass className="w-4 h-4" />
+                        </div>
+                        <span className="px-1.5 py-0.5 rounded text-[9.5px] font-black uppercase tracking-wider bg-blue-100/80 dark:bg-blue-950 text-[#0059bb] dark:text-sky-300">
+                          +10 XP
+                        </span>
+                      </div>
+                      <div>
+                        <h5 className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-[#0059bb] dark:group-hover:text-sky-400 transition-colors">
+                          Ôn tập trước hạn
+                        </h5>
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed mt-1">
+                          Ôn trước các từ sắp đến hạn trong 2-3 ngày tới để giảm tải áp lực.
+                        </p>
+                      </div>
+                      <div className="px-2 py-1 rounded-md bg-blue-50/60 dark:bg-blue-950/30 text-[10px] font-semibold text-[#0059bb] dark:text-sky-300">
+                        ⚡ Giảm tải ngày mai
+                      </div>
+                    </div>
+
+                    <div className="pt-2 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between text-[11px] font-bold text-[#0059bb] dark:text-sky-400">
+                      <span>Bắt đầu ngay</span>
+                      <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </Link>
+
+                  {/* Action 2: Focus Review */}
+                  <Link
+                    href="/study/practice?mode=focus-review"
+                    className="p-3.5 rounded-xl bg-slate-50/80 hover:bg-white dark:bg-slate-900/50 dark:hover:bg-slate-900 border border-slate-200/80 hover:border-amber-400/50 dark:border-slate-800 dark:hover:border-amber-500/50 transition-all flex flex-col justify-between space-y-2.5 group shadow-2xs hover:shadow-xs"
+                  >
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <div className="w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-950/60 text-amber-500 flex items-center justify-center border border-amber-200/80 dark:border-amber-800/40">
+                          <Sparkles className="w-4 h-4" />
+                        </div>
+                        <span className="px-1.5 py-0.5 rounded text-[9.5px] font-black uppercase tracking-wider bg-amber-100/80 dark:bg-amber-950 text-amber-700 dark:text-amber-300">
+                          +15 XP
+                        </span>
+                      </div>
+                      <div>
+                        <h5 className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                          Luyện từ khó
+                        </h5>
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed mt-1">
+                          Củng cố phản xạ các từ ở Cấp 1-2 hoặc từ có tỷ lệ sai cao.
+                        </p>
+                      </div>
+                      <div className="px-2 py-1 rounded-md bg-amber-50/60 dark:bg-amber-950/30 text-[10px] font-semibold text-amber-700 dark:text-amber-300">
+                        🎯 Củng cố phản xạ
+                      </div>
+                    </div>
+
+                    <div className="pt-2 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between text-[11px] font-bold text-amber-600 dark:text-amber-400">
+                      <span>Rèn luyện ngay</span>
+                      <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </Link>
+
+                  {/* Action 3: Learn New Vocabs */}
+                  <Link
+                    href="/vocabulary"
+                    className="p-3.5 rounded-xl bg-slate-50/80 hover:bg-white dark:bg-slate-900/50 dark:hover:bg-slate-900 border border-slate-200/80 hover:border-emerald-400/50 dark:border-slate-800 dark:hover:border-emerald-500/50 transition-all flex flex-col justify-between space-y-2.5 group shadow-2xs hover:shadow-xs"
+                  >
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <div className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-500 flex items-center justify-center border border-emerald-200/80 dark:border-emerald-800/40">
+                          <BookOpen className="w-4 h-4" />
+                        </div>
+                        <span className="px-1.5 py-0.5 rounded text-[9.5px] font-black uppercase tracking-wider bg-emerald-100/80 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">
+                          +20 XP
+                        </span>
+                      </div>
+                      <div>
+                        <h5 className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                          Khám phá từ mới
+                        </h5>
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed mt-1">
+                          Mở rộng vốn từ với 215+ chủ đề chuyên biệt đa dạng.
+                        </p>
+                      </div>
+                      <div className="px-2 py-1 rounded-md bg-emerald-50/60 dark:bg-emerald-950/30 text-[10px] font-semibold text-emerald-700 dark:text-emerald-300">
+                        📚 215+ chủ đề
+                      </div>
+                    </div>
+
+                    <div className="pt-2 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
+                      <span>Khám phá ngay</span>
+                      <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </Link>
+                </div>
               </div>
-              <p className="text-xs text-slate-400 dark:text-slate-500 max-w-xs mb-6 leading-relaxed font-semibold">
-                {rawSelectedDateVocabs.length === 0 
-                  ? "Lịch ôn tập của bạn trống vào ngày này. Hãy tiếp tục khám phá và tích lũy thêm các từ mới!"
-                  : "Không có từ vựng nào khớp với điều kiện tìm kiếm hoặc bộ lọc hiện tại của bạn."}
-              </p>
-              
-              {rawSelectedDateVocabs.length === 0 && (
-                <Link href="/vocabulary" className="flex items-center gap-1.5 bg-gradient-to-r from-cyan-500 to-indigo-650 text-white rounded-xl text-xs font-black px-6 py-2.5 shadow-md hover:shadow-lg cursor-pointer transition-shadow font-sans">
-                  Học từ vựng mới <ArrowRight className="w-3.5 h-3.5" strokeWidth={2.2} />
-                </Link>
-              )}
-            </div>
+            ) : (
+              /* No matching search results */
+              <div className="flex flex-col items-center justify-center py-8 px-4 text-center max-w-md mx-auto">
+                <Search className="w-7 h-7 text-slate-400 mb-2" />
+                <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-1">
+                  Không tìm thấy từ vựng phù hợp
+                </h4>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">
+                  Không có từ vựng nào khớp với bộ lọc hoặc từ khóa tìm kiếm của bạn.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearchTerm('');
+                    setSelectedPos('all');
+                    setSelectedProficiency('all');
+                    setSelectedBookmark('all');
+                  }}
+                  className="flex items-center gap-1.5 text-xs font-bold text-[#0059bb] dark:text-sky-400 hover:underline cursor-pointer"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" /> Đặt lại tất cả bộ lọc
+                </button>
+              </div>
+            )
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
               {selectedDateVocabs.map(v => {
                 const isBookmarked = bookmarkedIds.has(v.id);
                 const isExpanded = expandedWordId === v.id;
 
                 return (
-                  <motion.div
+                  <div
                     key={v.id}
-                    layout
-                    className="bezel border border-slate-100/80 dark:border-neutral-850/60 overflow-hidden"
+                    className="p-3.5 sm:p-4 rounded-xl bg-slate-50/70 hover:bg-white dark:bg-slate-900/50 dark:hover:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-2xs hover:border-[#0059bb]/40 hover:shadow-xs transition-all flex flex-col justify-between space-y-2.5"
                   >
-                    <div className="bezel-inner p-4.5 bg-white dark:bg-neutral-900 h-full flex flex-col justify-between">
-                      <div>
-                        {/* Word card top row header */}
-                        <div className="flex justify-between items-start gap-2 mb-3">
-                          <div className="flex items-center gap-2">
-                            <span className="font-black text-lg text-cyan-600 dark:text-cyan-400 font-display select-all">
-                              {v.word}
-                            </span>
-                            <span className="text-[9px] font-black px-1.5 py-0.5 bg-cyan-50 dark:bg-cyan-950/50 text-cyan-600 dark:text-cyan-400 rounded-md uppercase">
-                              {v.pos}
-                            </span>
-                          </div>
-
-                          <div className="flex items-center gap-1.5">
-                            {/* Speak word audio utility */}
-                            <button
-                              type="button"
-                              onClick={() => speakWord(v.word)}
-                              className="w-6.5 h-6.5 rounded-full bg-slate-50 dark:bg-neutral-850 text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-400 flex items-center justify-center cursor-pointer transition-all hover:scale-105 active:scale-95 shadow-inner"
-                              title="Nghe phát âm"
-                            >
-                              <Volume2 className="w-3.5 h-3.5" />
-                            </button>
-                            {/* Bookmark Toggle */}
-                            <button
-                              type="button"
-                              onClick={() => handleToggleBookmark(v.id)}
-                              className={`w-6.5 h-6.5 rounded-full flex items-center justify-center cursor-pointer transition-all hover:scale-105 active:scale-95 shadow-inner ${
-                                isBookmarked 
-                                  ? "bg-indigo-50 dark:bg-indigo-950/40 text-indigo-650 dark:text-indigo-400" 
-                                  : "bg-slate-50 dark:bg-neutral-850 text-slate-400 hover:text-indigo-500"
-                              }`}
-                              title={isBookmarked ? "Bỏ lưu ghi nhớ" : "Lưu ghi nhớ"}
-                            >
-                              {isBookmarked ? (
-                                <BookmarkCheck className="w-3.5 h-3.5" />
-                              ) : (
-                                <Bookmark className="w-3.5 h-3.5" />
-                              )}
-                            </button>
-                          </div>
+                    <div>
+                      {/* Word card top row header */}
+                      <div className="flex justify-between items-start gap-2 mb-2">
+                        <div className="flex items-center gap-2">
+                          <span className="font-bold text-base text-[#0059bb] dark:text-sky-400 font-display select-all">
+                            {v.word}
+                          </span>
+                          <span className="text-[9.5px] font-black px-1.5 py-0.5 bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 rounded-md uppercase border border-blue-200/60 dark:border-blue-800/40">
+                            {v.pos}
+                          </span>
                         </div>
 
-                        {/* Defs */}
-                        <div className="text-xs text-slate-800 dark:text-white font-extrabold mb-1 select-all">
-                          {v.definitionVn}
+                        <div className="flex items-center gap-1.5 sm:gap-1">
+                          {/* Speak word audio utility */}
+                          <button
+                            type="button"
+                            onClick={() => speakWord(v.word)}
+                            className="w-8 h-8 sm:w-7 sm:h-7 rounded-lg bg-white dark:bg-slate-800 text-slate-600 hover:text-[#0059bb] dark:text-slate-400 dark:hover:text-sky-300 flex items-center justify-center cursor-pointer transition-all active:scale-95 border border-slate-200/60 dark:border-slate-700 shadow-2xs"
+                            title="Nghe phát âm"
+                          >
+                            <Volume2 className="w-4 h-4 sm:w-3.5 sm:h-3.5" />
+                          </button>
+                          {/* Bookmark Toggle */}
+                          <button
+                            type="button"
+                            onClick={() => handleToggleBookmark(v.id)}
+                            className={`w-8 h-8 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center cursor-pointer transition-all active:scale-95 border shadow-2xs ${
+                              isBookmarked
+                                ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-500 border-amber-200 dark:border-amber-900/40'
+                                : 'bg-white dark:bg-slate-800 text-slate-400 hover:text-amber-500 border-slate-200/60 dark:border-slate-700'
+                            }`}
+                            title={isBookmarked ? 'Bỏ lưu ghi nhớ' : 'Lưu ghi nhớ'}
+                          >
+                            {isBookmarked ? (
+                              <BookmarkCheck className="w-4 h-4 sm:w-3.5 sm:h-3.5" />
+                            ) : (
+                              <Bookmark className="w-4 h-4 sm:w-3.5 sm:h-3.5" />
+                            )}
+                          </button>
                         </div>
-                        <div className="text-[12px] text-slate-500 dark:text-slate-450 leading-relaxed line-clamp-2 font-medium">
-                          {v.definition}
-                        </div>
-
-                        {/* Expandable Synonyms/Antonyms/Examples */}
-                        <AnimatePresence>
-                          {isExpanded && (
-                            <motion.div
-                              initial={{ opacity: 0, height: 0 }}
-                              animate={{ opacity: 1, height: "auto" }}
-                              exit={{ opacity: 0, height: 0 }}
-                              className="mt-4 pt-3.5 border-t border-slate-100 dark:border-neutral-850/50 space-y-2.5 text-[11.5px] leading-relaxed font-sans overflow-hidden"
-                            >
-                              {v.phonetic && (
-                                <div>
-                                  <span className="font-extrabold text-slate-400 dark:text-slate-400 block">Phiên âm:</span>
-                                  <span className="font-mono text-slate-600 dark:text-slate-350">{v.phonetic}</span>
-                                </div>
-                              )}
-                              {v.examples && v.examples.length > 0 && (
-                                <div>
-                                  <span className="font-extrabold text-slate-400 dark:text-slate-400 block">Ví dụ:</span>
-                                  <p className="italic text-slate-650 dark:text-slate-300 font-medium">&ldquo;{v.examples[0]}&rdquo;</p>
-                                </div>
-                              )}
-                              {v.synonyms && v.synonyms.length > 0 && (
-                                <div>
-                                  <span className="font-extrabold text-slate-400 dark:text-slate-400 block">Từ đồng nghĩa:</span>
-                                  <span className="text-cyan-650 dark:text-cyan-400 font-bold">{v.synonyms.join(", ")}</span>
-                                </div>
-                              )}
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
                       </div>
 
-                      {/* Card footer: expandable toggle & proficiency tracker */}
-                      <div className="mt-4 pt-3.5 border-t border-slate-100 dark:border-neutral-850/50 flex items-center justify-between">
-                        <button
-                          type="button"
-                          onClick={() => toggleExpandWord(v.id)}
-                          className="text-[10px] font-black text-slate-400 hover:text-cyan-600 dark:text-slate-500 dark:hover:text-cyan-400 flex items-center gap-0.5 cursor-pointer transition-colors"
-                        >
-                          {isExpanded ? (
-                            <>Thu gọn <ChevronUp className="w-3.5 h-3.5" /></>
-                          ) : (
-                            <>Xem ví dụ &amp; đồng nghĩa <ChevronDown className="w-3.5 h-3.5" /></>
-                          )}
-                        </button>
+                      {/* Definitions */}
+                      <div className="text-xs font-bold text-slate-900 dark:text-white mb-0.5 select-all">
+                        {v.definitionVn}
+                      </div>
+                      <div className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2 font-medium">
+                        {v.definition}
+                      </div>
 
-                        {/* Proficiency Level visual indicators */}
-                        <div className="flex items-center gap-1">
-                          <span className="text-[9px] font-bold text-slate-400 mr-1 scale-90">Thuần thục:</span>
-                          <div className="flex gap-0.5">
-                            {Array(5).fill(0).map((_, i) => (
+                      {/* Expandable Synonyms/Examples */}
+                      <AnimatePresence>
+                        {isExpanded && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="mt-2.5 pt-2.5 border-t border-slate-100 dark:border-slate-800 space-y-1.5 text-xs leading-relaxed font-sans overflow-hidden"
+                          >
+                            {v.phonetic && (
+                              <div>
+                                <span className="font-bold text-slate-400 block text-[10.5px]">Phiên âm:</span>
+                                <span className="font-mono text-slate-700 dark:text-slate-300">
+                                  {v.phonetic}
+                                </span>
+                              </div>
+                            )}
+                            {v.examples && v.examples.length > 0 && (
+                              <div>
+                                <span className="font-bold text-slate-400 block text-[10.5px]">Ví dụ:</span>
+                                <p className="italic text-slate-700 dark:text-slate-300 font-medium">
+                                  &ldquo;{v.examples[0]}&rdquo;
+                                </p>
+                              </div>
+                            )}
+                            {v.synonyms && v.synonyms.length > 0 && (
+                              <div>
+                                <span className="font-bold text-slate-400 block text-[10.5px]">Từ đồng nghĩa:</span>
+                                <span className="text-[#0059bb] dark:text-sky-400 font-bold">
+                                  {v.synonyms.join(', ')}
+                                </span>
+                              </div>
+                            )}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+
+                    {/* Card footer: expandable toggle & proficiency tracker */}
+                    <div className="mt-2.5 pt-2.5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between">
+                      <button
+                        type="button"
+                        onClick={() => toggleExpandWord(v.id)}
+                        className="text-[11px] font-bold text-slate-500 hover:text-[#0059bb] dark:text-slate-400 dark:hover:text-sky-400 flex items-center gap-1 cursor-pointer transition-colors"
+                      >
+                        {isExpanded ? (
+                          <>
+                            Thu gọn <ChevronUp className="w-3.5 h-3.5" />
+                          </>
+                        ) : (
+                          <>
+                            Chi tiết &amp; ví dụ <ChevronDown className="w-3.5 h-3.5" />
+                          </>
+                        )}
+                      </button>
+
+                      {/* Proficiency Level visual indicators */}
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[10px] font-bold text-slate-400">Cấp:</span>
+                        <div className="flex gap-1">
+                          {Array(5)
+                            .fill(0)
+                            .map((_, i) => (
                               <div
                                 key={i}
-                                className={`w-1.5 h-1.5 rounded-full ${
+                                className={`w-2 h-2 rounded-full ${
                                   i < v.proficiency
-                                    ? "bg-cyan-500"
-                                    : "bg-slate-200 dark:bg-neutral-800"
+                                    ? 'bg-[#0059bb]'
+                                    : 'bg-slate-200 dark:bg-slate-800'
                                 }`}
                               />
                             ))}
-                          </div>
                         </div>
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
                 );
               })}
             </div>
           )}
 
-        </div>
-      </motion.div>
-      </div>
+        </MotionItem>
 
+      </PageEntranceWrapper>
+
+      {/* ─── 4. MOBILE FLOATING THUMB-FRIENDLY ACTION BAR (Rule 13 Wadhah Aloui) ─── */}
+      <div className="fixed bottom-[70px] left-3 right-3 z-30 sm:hidden">
+        {rawSelectedDateVocabs.length > 0 ? (
+          <Link
+            href={`/study/practice?mode=review&date=${selectedDateQueryStr}`}
+            className="w-full h-11 px-4 rounded-xl bg-[#0059bb] hover:bg-[#004ba0] text-white text-xs font-bold shadow-lg shadow-[#0059bb]/30 flex items-center justify-between transition-all active:scale-[0.98] border border-blue-400/30 backdrop-blur-md font-display"
+          >
+            <div className="flex items-center gap-2 min-w-0">
+              <div className="w-6 h-6 rounded-lg bg-white/20 flex items-center justify-center shrink-0">
+                <Zap className="w-3.5 h-3.5 text-amber-300" strokeWidth={2.4} />
+              </div>
+              <span className="truncate">Ôn Tập Ngày Này ({rawSelectedDateVocabs.length} từ)</span>
+            </div>
+            <span className="px-2 py-0.5 rounded-lg bg-white/20 text-[10px] font-black flex items-center gap-1 shrink-0">
+              +15 XP <ArrowRight className="w-3 h-3" />
+            </span>
+          </Link>
+        ) : todayDueCount > 0 ? (
+          <Link
+            href="/study/practice?mode=review"
+            className="w-full h-11 px-4 rounded-xl bg-[#0059bb] hover:bg-[#004ba0] text-white text-xs font-bold shadow-lg shadow-[#0059bb]/30 flex items-center justify-between transition-all active:scale-[0.98] border border-blue-400/30 backdrop-blur-md font-display"
+          >
+            <div className="flex items-center gap-2 min-w-0">
+              <div className="w-6 h-6 rounded-lg bg-amber-400/30 flex items-center justify-center shrink-0">
+                <Flame className="w-3.5 h-3.5 text-amber-300" />
+              </div>
+              <span className="truncate">Ôn Tập Hôm Nay ({todayDueCount} từ)</span>
+            </div>
+            <span className="px-2 py-0.5 rounded-lg bg-white/20 text-[10px] font-black flex items-center gap-1 shrink-0">
+              Bắt đầu <ArrowRight className="w-3 h-3" />
+            </span>
+          </Link>
+        ) : (
+          <Link
+            href="/study/practice?mode=early-review"
+            className="w-full h-10 px-4 rounded-xl bg-white/95 dark:bg-slate-900/95 border border-slate-200/90 dark:border-slate-800 text-slate-800 dark:text-slate-200 text-xs font-bold shadow-lg shadow-black/5 flex items-center justify-between transition-all active:scale-[0.98] backdrop-blur-md font-display"
+          >
+            <div className="flex items-center gap-2 text-[#0059bb] dark:text-sky-400 min-w-0">
+              <Compass className="w-4 h-4 shrink-0" />
+              <span className="truncate">Ôn trước hạn giảm tải</span>
+            </div>
+            <span className="text-[11px] font-bold text-[#0059bb] dark:text-sky-400 flex items-center gap-1 shrink-0">
+              +10 XP <ArrowRight className="w-3 h-3" />
+            </span>
+          </Link>
+        )}
+      </div>
     </div>
   );
 }

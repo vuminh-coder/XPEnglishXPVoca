@@ -258,25 +258,28 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
     - **Đồng Bộ Tuyệt Đối Cả 2 Cấp Độ**: Áp dụng đồng bộ cấu trúc 1:1 này cho cả **Server/Suspense Initial Loading** ([`app/(dashboard)/analytics/loading.tsx`](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/analytics/loading.tsx)) và **Client In-Page DB Fetching** ([`app/(dashboard)/analytics/page.tsx`](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/analytics/page.tsx)).
     - **Bục Quán Quân & Danh Sách Học Viên Shimmer**: Bục Top 1 (Vàng Amber Shimmer), Top 2 (Bạc Shimmer), Top 3 (Đồng Shimmer) và 5 hàng học viên Shimmer chuẩn Rule 1 UI/UX.
 
-### 3. Lộ Trình Học Cá Nhân Hóa AI (`/roadmap`) & Trợ Lý Chatbot AI Thông Minh Hợp Nhất Messenger-Style (Toàn Cầu - Không Chia Tab)
+### 3. Lộ Trình Học Cá Nhân Hóa AI (`/roadmap`) & Trợ Lý Chatbot AI Thông Minh Hợp Nhất Messenger-Style (Toàn Cầu - Chuẩn Công Thái Học & WCAG)
 - **Bong Bóng Chatbot Thông Minh Hợp Nhất Kéo Thả Kiểu Messenger (`features/ai/components/FloatingAiChatbot/`)**:
-  - **Hiện Diện Trên 100% Mọi Trang (Global RootLayout Mounting)**: Được nhúng trực tiếp tại tầng gốc `RootLayout` (`ClientAuthWrapper`), xuất hiện tự động trên toàn bộ hệ sinh thái (Trang chủ `/`, Đăng nhập/Đăng ký `/login`, `/register`, Dashboard `/dashboard`, các phòng học `/study/*`, Video `/myvideo`, Từ vựng `/vocabulary/*`, Thống kê `/analytics`, Hồ sơ `/profile`...).
-  - **Tự Do Kéo Thả & Vật Lý Lò Xo Snap-to-Edge 60fps**: Kéo thả tự do trên cả Desktop và Mobile bằng `framer-motion` (`useMotionValue` + `useSpring` stiffness 380, damping 26). Tự động hút mượt mà về cạnh trái hoặc cạnh phải màn hình (`snap-to-edge`) với khoảng đệm an toàn 16px, chống che chắn nội dung học tập.
-  - **Phân Biệt Chuẩn Xác Thao Tác Kéo vs Chạm**: Nhận diện ngưỡng di chuyển chuột/chạm `delta > 5px` để phân biệt chính xác giữa việc kéo di chuyển bong bóng và việc click mở cửa sổ trò chuyện.
-  - **Vùng Hủy Thả Rơi (Dismiss Target Drop Zone)**: Khi bắt đầu kéo bubble, vòng tròn đỏ `X` phát sáng xuất hiện ở chính giữa mép dưới màn hình; kéo thả vào vùng này sẽ tạm ẩn bubble với hiệu ứng thu nhỏ mượt mà.
-  - **Lưu Tọa Độ Bền Vững (Persistent Position Storage)**: Tự động lưu vị trí tọa độ `(x, y)` vào `localStorage` (`xp_voca_chatbot_bubble_pos`), tự động khôi phục chuẩn xác vị trí khi học viên chuyển trang hoặc tải lại trình duyệt.
-  - **Kiến Trúc Hội Thoại Thông Minh Hợp Nhất (Unified Conversational Assistant — Không Chia Tab)**:
-    - **Loại Bỏ Hoàn Toàn Chia Tab Rườm Rà**: Trải nghiệm trợ lý hội thoại duy nhất, tập trung cao độ, nơi AI đóng vai trò bộ não điều phối trung tâm.
-    - **Header Tinh Gọn Chuẩn Agency (`ChatbotHeader.tsx`)**: Hiển thị avatar AI phát sáng, chấm xanh online, chuỗi Streak 🔥, cấp độ học viên ⚡, nút làm mới hội thoại, nút thu nhỏ và nút đóng.
-    - **Thẻ Nhiệm Vụ Hôm Nay Tích Hợp Sẵn (`RoadmapActionCard.tsx`)**: Xuất hiện ngay trong tin nhắn chào mừng, hiển thị mục tiêu TOEIC/IELTS, tiến độ thật từ CSDL của 3 nhiệm vụ ngày kèm nút hành động `[ Luyện ]` dẫn thẳng vào bài học, và Rương Thưởng phát sáng nhận ngay `+50 XP & +20 Coins`.
-    - **Thẻ Đề Xuất Bài Học CSDL Động (`RecommendationActionCard.tsx`)**: Tự động kích hoạt khi học viên bấm `[ ⚡ Gợi ý bài học tiếp ]` hoặc hỏi AI:
-      - *Phân tích kỹ năng yếu nhất:* Quét CSDL 7 ngày qua của học viên để tìm kỹ năng luyện ít nhất (Shadowing, Dictation, Từ vựng, Ngữ pháp) kèm nút `[ Luyện ngay ➔ ]`.
+  - **Hiện Diện Trên 100% Mọi Trang (Global RootLayout Mounting) & Tự Động Ẩn Khi Thi**: Được nhúng trực tiếp tại tầng gốc `RootLayout` (`ClientAuthWrapper`), tự động xuất hiện trên toàn bộ ứng dụng. Đặc biệt, hệ thống tích hợp **Route-Aware Auto-Hide**: tự động ẩn bóng chat khi học viên bước vào phòng thi chuẩn hóa (`/study/exam-prep`, `/study/exams/*`) để giải phóng 100% không gian và không che khuất đồng hồ đếm ngược hay phiếu trả lời.
+  - **Tự Do Kéo Thả & Vật Lý Lò Xo Snap-to-Edge 60fps**: Kéo thả tự do trên cả Desktop và Mobile bằng `framer-motion` (`useMotionValue` + `useSpring` stiffness 400, damping 28). Tự động hút mượt mà về cạnh trái hoặc cạnh phải màn hình (`snap-to-edge`) với khoảng đệm an toàn 16px, chống che chắn nội dung học tập. Tự động clamp tọa độ khi màn hình xoay (orientation change) hoặc resize.
+  - **Phân Biệt Chuẩn Xác Thao Tác Kéo vs Chạm & A11y Bàn Phím**: Nhận diện ngưỡng di chuyển chuột/chạm `delta > 5px` để phân biệt chính xác giữa việc kéo bong bóng và click mở chat. Hỗ trợ chuẩn trợ năng WCAG (`role="button"`, `tabIndex={0}`, `aria-label`, phím Enter/Space để mở chat).
+  - **Vùng Hủy Thả Rơi Tinh Tế & Phím Tắt Mở Nhanh Toàn Cục (`Ctrl + /`)**: Vùng hủy khi kéo thả được thiết kế theo phong cách Glassmorphism trắng/slate thanh lịch (`bg-white/95 dark:bg-slate-800/95`) và chuyển sang sắc hồng êm dịu khi chạm đích (`bg-rose-500/90`), loại bỏ hoàn toàn mảng đỏ/đen chói mắt. Đặc biệt, khi đã ẩn trợ lý, người dùng không cần bất kỳ nút nổi nào vướng mắt trên màn hình mà có thể bấm ngay **`Ctrl + /` (hoặc `Cmd + /` trên macOS, `Alt + C`)** để lập tức gọi lại và mở trợ lý từ bất kỳ đâu.
+  - **Bóng Gợi Ý Thích Ứng Thông Minh (`ProactiveNudgeBubble.tsx`)**: Tự động phát hiện vị trí của Chat Head để căn lề an toàn: tự đảo hướng xuống dưới (`top-14`) khi Chat Head ở nửa trên màn hình (< 180px) để không bao giờ bị cắt nóc, và căn lề `left-0`/`right-0` kèm giới hạn chiều rộng `w-[calc(100vw-40px)] max-w-[275px]` chống tràn mép khi kéo sát viền. Xóa bỏ hoàn toàn icon sét `⚡` và emoji thô, duy trì phong thái học thuật cao cấp.
+  - **Lưu Tọa Độ & Lịch Sử Phiên Bền Vững (Persistent Storage)**: Tự động lưu vị trí tọa độ `(x, y)` (`xp_voca_chatbot_bubble_pos`) và lưu lịch sử 25 tin nhắn hội thoại gần nhất (`xp_voca_chatbot_messages`), phục hồi nguyên vẹn khi chuyển trang hoặc F5.
+  - **Kiến Trúc Hội Thoại Thông Minh Hợp Nhất (Unified Conversational Assistant)**:
+    - **Header Tinh Gọn Chuẩn Agency (`ChatbotHeader.tsx`)**: Avatar AI phát sáng, chấm xanh online, chuỗi Streak 🔥, cấp độ học viên ⚡. Nâng cấp touch-target đạt chuẩn **40px**, bảo vệ an toàn dữ liệu với **Hộp thoại xác nhận nhanh (Inline Confirmation Prompt)** chống bấm nhầm xóa sạch cuộc trò chuyện.
+    - **Bộ Phân Tích Markdown Đa Năng (High-End Markdown Parser)**: Hỗ trợ in đậm `**`, in nghiêng `*`, mã lệnh `` ` ``, trích dẫn `> `, liên kết ngoài `[text](url)` và **Danh sách từ vựng gạch đầu dòng (`- ` / `* `) / số thứ tự (`1. `)** với chấm tròn chỉ mục màu xanh thương hiệu, loại bỏ hoàn toàn hiện tượng lộ markdown thô từ Gemini.
+    - **Điều Hướng SPA Mượt Mà (Client-Side Navigation)**: Thay thế hoàn toàn các lệnh `window.location.href` bằng `router.push()` từ Next.js App Router kết hợp tự động đóng khung chat, loại bỏ giật lag tải lại trang trắng.
+    - **Thẻ Nhiệm Vụ Hôm Nay Tích Hợp Sẵn (`RoadmapActionCard.tsx`)**: Hiển thị mục tiêu TOEIC/IELTS, thanh tiến độ 80px rõ ràng, tiến độ CSDL thực của 3 nhiệm vụ ngày kèm nút hành động `[ Luyện ]` 28px dễ chạm, và Rương Thưởng phát sáng nhận ngay `+50 XP & +20 Coins`.
+    - **Thẻ Đề Xuất Bài Học CSDL Động (`RecommendationActionCard.tsx`)**: Tích hợp **Skeleton Shimmer Loading** chuẩn Quy tắc 1 Wadhah Aloui (`ShimmerBox`, `ShimmerText`) khi đang đồng bộ CSDL, nút CTA nổi bật hỗ trợ ngón tay cái.
+      - *Phân tích kỹ năng yếu nhất:* Quét CSDL 7 ngày qua của học viên để tìm kỹ năng luyện ít nhất kèm nút `[ Luyện ]`.
       - *Hàng đợi ôn tập ngắt quãng (SRS Due):* Báo số từ vựng đến hạn ôn tập trong ngày.
       - *Bài nghe Dictation tiếp theo:* Nhớ bài nghe đang học dở hoặc bài kế tiếp theo giáo trình.
       - *Chuyên đề ngữ pháp tiếp theo:* Gợi ý chủ đề cần bổ trợ trong 60 chuyên đề.
-      - *Gợi ý theo trang hiện tại (Context-Aware):* Thích ứng linh hoạt theo URL hiện tại (`/grammar`, `/myvideo`, `/vocabulary`...).
-    - **Dock Phím Nhanh 1 Chạm Thông Minh (Smart Quick Actions Dock)**: 4 nút thao tác nhanh trên thanh nhập liệu (`[ 🗺️ Lộ trình hôm nay ]`, `[ ⚡ Gợi ý bài học tiếp ]`, `[ 🔄 Ôn tập từ vựng SRS ]`, `[ ❓ Giải thích ngữ pháp ]`).
-    - **Giọng Nói & Âm Thanh Tích Hợp**: Micro thu âm nhận diện giọng nói (Web Speech API), phát âm giọng đọc bản xứ (SpeechSynthesis TTS) cho từng phản hồi của AI, và nút sao chép nội dung.
+      - *Gợi ý theo trang hiện tại (Context-Aware):* Thích ứng linh hoạt theo URL hiện tại.
+    - **Dock Phím Nhanh 1 Chạm Thông Minh (Smart Quick Actions Dock)**: 4 nút thao tác nhanh trên thanh nhập liệu (`[ 🗺️ Lộ trình hôm nay ]`, `[ ⚡ Gợi ý bài học ]`, `[ 🔄 Ôn từ vựng SRS ]`, `[ ❓ Hỏi ngữ pháp ]`).
+    - **Thu Âm Nhận Diện Giọng Nói Song Ngữ (Dual-Mode STT)**: Bộ chuyển đổi ngôn ngữ 1 chạm `[ 🇬🇧 EN ]` / `[ 🇻🇳 VI ]` cho phép học viên linh hoạt luyện phát âm tiếng Anh chuẩn xác hoặc hỏi bài bằng tiếng Việt, thay thế `alert()` bằng cơ chế thông báo nhẹ nhàng.
+    - **Giọng Đọc & Trợ Năng Đầu Vào**: Phát âm giọng đọc bản xứ (SpeechSynthesis TTS), nút sao chép nội dung, nhãn ngoài ẩn `sr-only` cho ô nhập liệu tuân thủ nghiêm ngặt Quy tắc 6.
   - **Cắm Trực Tiếp Vào CSDL PostgreSQL Neon (`/api/ai/chatbot/recommendations`)**:
     - Truy vấn song song `profiles`, `study_plans`, `daily_skill_practice`, `user_vocabulary`, `listening_progress`, `grammar_progress`.
     - Tự động fallback dữ liệu thông minh khi ở chế độ Khách (Guest mode) trên Landing Page hoặc trang Auth.
@@ -474,6 +477,20 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
   - **Chế Độ 3: Writing Gõ Chính Tả & Kiểm Tra Tức Thì**: Ô nhập liệu gõ từ tiếng Anh tự động nhận con trỏ (`autofocus`), tích hợp nút gợi ý ký tự đầu `💡 Gợi ý: r _ _ _ _ (10 ký tự)`, và nộp bài kiểm tra siêu tốc với phím `Enter`.
   - **Thanh Điều Hướng Đáy & Phản Hồi Trạng Thái (Bottom Action Bar)**: Bộ đôi nút `[ < Câu trước ]` - `[ Câu tiếp theo > ]` bo góc `rounded-xl` kẹp thanh phản hồi kết quả dạng Pill Badge nổi bật (`✓ Chính xác! (+10 XP)` / `✕ Chưa đúng! Đáp án: ...`).
   - **Cột Phải Word Lab & Context Insights (4/12)**: Thẻ hồ sơ từ vựng, nút Bookmark lưu nhanh, phiên âm IPA, câu ví dụ thực tế song ngữ font chữ thẳng đứng và mẹo ghi nhớ ngắt quãng SRS.
+
+- **`/review`**: Phòng Lịch Ôn Tập Ngắt Quãng Spaced Repetition SM-2 (Đại tu toàn diện UI/UX theo chuẩn Agency Dashboard Tier đồng bộ 100% với `myvocab` & `dashboard`).
+  - **Khung Xương Tải Trang Chuẩn Mực (`ReviewSkeleton` & `loading.tsx`)**: Tái hiện 1:1 cả 3 tầng bố cục thực tế (Thanh Header, 4 Thẻ Bento Stat Cards, Lịch SM-2 7/12 & Phân bố 5 cấp độ 5/12, Lịch ngày & Lưới từ vựng) với hiệu ứng sóng Shimmer 60fps, tương thích cả Light & Dark mode, triệt tiêu 100% hiện tượng nhấp nháy FOUC và giật layout (0px CLS).
+  - **Tương Thích Mọi Kích Thước Màn Hình (Mobile nhỏ 360px, Tablet 768px, Desktop 1600px+)**:
+    - *Mobile nhỏ (360px-430px)*: Ô ngày lịch co giãn linh hoạt (`h-9 sm:h-11`), badge số từ cần ôn `dueCount` đặt tinh tế không che số ngày, cụm nút điều khiển "Hôm nay" & Prev/Next co giãn tự nhiên, chú thích Lịch (Legend) chuyển sang dạng lưới 2x2 siêu gọn gàng.
+    - *Thanh Hành Động Nổi Ngón Tay Cái Mobile (Rule 13 Wadhah Aloui)*: Cung cấp thanh Floating Action Bar cố định dưới đáy màn hình trên Mobile (`bottom-[70px] sm:hidden`), cho phép bắt đầu ôn bài ngay (+15 XP/từ) bằng ngón tay cái mà không cần cuộn trang.
+    - *Kích Thước Vùng Chạm Tiêu Chuẩn*: Nút phát âm TTS và Bookmark trên thẻ từ nâng kích thước lên `w-8 h-8 sm:w-7 sm:h-7` cho trải nghiệm chạm thoải mái, chính xác trên màn hình cảm ứng.
+    - *Tablet & Desktop*: Bố cục xếp tầng dọc tự nhiên trên iPad/Tablet, lưới thẻ hành động trống co giãn `sm:grid-cols-2 md:grid-cols-3`, lưới từ vựng 2 cột (Tablet) và 3 cột (Desktop) rộng thoáng.
+  - **Hệ Thống Bo Góc & Thẩm Mỹ Đồng Bộ (Agency Bento Cards & Radius Hierarchy)**: Khối thẻ Bento cao cấp `rounded-2xl` (`bg-white dark:bg-[#0c0c0f] border border-slate-200/90 dark:border-slate-800 shadow-2xs`) và các thành phần bên trong `rounded-xl` (ô ngày lịch, nút bấm, ô input, dropdown select).
+  - **4 Bento Stat Cards Đỉnh Trang**: Cần ôn hôm nay (Amber `Flame`), Tỷ lệ nhớ từ (Emerald `Target`), Từ đã làm chủ (Royal Blue `Trophy`), Tổng từ đang học (Indigo `BookOpen`) với số liệu co giãn mượt mà `text-lg sm:text-2xl font-black font-mono`.
+  - **Lịch Ôn Phản Xạ SM-2 (Calendar 7/12)**: Lưới ngày `rounded-xl`, ô ngày hiện tại (viền đôi Royal Blue `#0059bb`), ngày đang chọn (`bg-[#0059bb] text-white shadow-md shadow-[#0059bb]/30`), ngày có từ cần ôn (pill số lượng Amber), ngày hoàn thành (chấm xanh Emerald), tích hợp nút nhảy nhanh "Hôm nay" (`RotateCcw`).
+  - **Thống Kê 5 Cấp Độ Ghi Nhớ SM-2 (Mastery Analytics 5/12)**: 5 thanh tiến trình cấp độ (Làm chủ, Thành thạo, Nhớ tốt, Nhận biết, Bắt đầu) với tỷ lệ phần trăm trực quan, phân tích sâu độ thuần thục của học viên mà không gây rối rắm.
+  - **Thanh Bộ Lọc Chuẩn Rule 6 & Rule 12 Wadhah Aloui**: Nhãn ngoài (External Labels) rõ ràng, placeholder chỉ dẫn đầy đủ *"Tìm từ vựng, phiên âm, nghĩa tiếng Việt..."*, lọc từ loại POS, mức độ thành thạo và trạng thái lưu trữ.
+  - **Lưới Thẻ Từ Vựng & Empty State Chúc Mừng**: Thẻ từ vựng `rounded-2xl`, nút phát âm TTS và bookmark xúc giác, accordion mở rộng phiên âm & ví dụ, cùng giao diện chúc mừng "All Caught Up" truyền cảm hứng kèm các lối tắt hữu ích.
 
 - **`/study/exam-prep`**: Đấu Trường Thi Thử Đề Chuẩn Quốc Tế ETS / IELTS / TOEIC 2026 (Bento 3 Chế Độ Toàn Diện).
   - **Top Bar Header Chuẩn Hóa (`AppTopHeader` 56px Baseline)**: Đồng bộ với toàn bộ phân hệ `/study` với dải Pill chuyển đổi Edge-to-Edge (`[ 🎯 Thi thử đề (Active) ]` `[ 💡 Luyện từ vựng ]` `[ 🎧 Dictation ]` `[ 🎙️ Shadowing ]`).
@@ -941,15 +958,6 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
     - Tự động ghi nhận số phút học và XP vào CSDL `daily_skill_practice` (`skill: "writing"`) và hồ sơ `Profile`.
   - **Khung Xương Shimmer Skeleton 1:1 Khớp Chuẩn Zero Layout Shift (`loading.tsx`)**: Tái hiện 100% hình học Header 56px, Chat stream, Dải gợi ý từ vựng, Dock Micro/Input và Cột phải 3 Mục tiêu + 3 Từ vựng + 2 Mẫu câu với hiệu ứng ánh kim 60fps (`.animate-shimmer`).
 
-- **`/review`**: Lịch Ôn Tập Ngắt Quãng SM-2 (Spaced Repetition Schedule Hub - Agency Dashboard Tier).
-  - **Đồng Bộ Header Đỉnh Thống Nhất (`AppTopHeader` 56px Baseline)**: Cụm Navigation Pills (`[ 🧠 Lịch Ôn Tập SM-2 ]`, `[ ⚡ Luyện Tập Ngay ]` `/study/practice`, `[ 📖 Sổ Tay Từ Vựng ]` `/myvocab`), nút Hamburger mở Sidebar và Avatar người dùng.
-  - **Spotlight Hero Schedule Stage Card (`rounded-2xl`)**: Nền Gradient Xanh Hoàng Gia Sapphire (`from-[#0059bb] via-[#004799] to-[#002b5b]`), huy hiệu thuật toán Spaced Repetition SM-2, tổng số từ cần ôn hôm nay và nút 1-Click ôn tập cấp tốc.
-  - **Bento Grid 12 Cột Đa Tầng**:
-    - **Lịch Ôn Tập 7 Ngày Tới (7-Day Review Forecast)**: Trực quan hóa số lượng từ đến hạn ôn tập từng ngày với cột biểu đồ màu sắc và trạng thái hoàn thành.
-    - **Hàng Đợi Từ Vựng Cần Ôn (SM-2 Priority Review Queue)**: Danh sách từ vựng xếp theo độ khẩn cấp, hiển thị phiên âm IPA, loại từ, nghĩa tiếng Việt, cấp độ nhớ và nút phát âm TTS kèm nút ôn tập nhận ngay `+15 XP`.
-    - **Đồ Thị Đường Cong Quên Lãng Ebbinghaus**: Trực quan hóa tỷ lệ ghi nhớ 95% khi áp dụng chu kỳ lặp lại ngắt quãng SM-2.
-  - **Skeleton Loading Khớp 100% Hình Học (`loading.tsx`)**: Tái hiện chuẩn xác toàn bộ Hero Stage và Bento Calendar.
-
 - **`/study/games`**: Đấu Trường Trò Chơi Từ Vựng (Vocabulary Mini-Games Hub - Agency Dashboard Tier).
   - **Đồng Bộ Header Đỉnh Thống Nhất (`AppTopHeader` 56px Baseline)**: Cụm Navigation Pills (`[ 🎮 Tất Cả Games ]`, `[ 🔤 Word Scramble ]`, `[ 🃏 Memory Match ]`), hỗ trợ nút `onBack` quay lại sảnh khi đang chơi, nút Hamburger mở Sidebar và Avatar người dùng.
   - **Spotlight Hero Games Stage Card (`rounded-2xl`)**: Nền Gradient Xanh Hoàng Gia pha cam hổ phách (`from-[#0059bb] via-[#004799] to-[#002b5b]`), huy hiệu `🎯 Học Từ Vựng Qua Trò Chơi`, số lượng trò chơi và điểm thưởng XP.
@@ -972,6 +980,25 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
 
 - **`/privacy` & `/terms`**: Chính Sách Quyền Riêng Tư & Điều Khoản Dịch Vụ (Agency Dashboard Tier).
   - Thiết kế Stage Card `rounded-2xl` tinh gọn, chuẩn phân cấp thông tin, hỗ trợ Dark Mode và bảo vệ dữ liệu học viên theo chuẩn quốc tế.
+
+- **XP Mentor — Trợ Lý Cố Vấn Học Tập AI Nổi Toàn Năng (Floating AI Mentor Assistant - Agency Tier)**:
+  - **Kiến Trúc Module Hóa Tách Rời (`features/ai/components/FloatingAiChatbot/`)**: Bong bóng nổi (`FloatingAiChatbot.tsx`), Header (`ChatbotHeader.tsx`), Trình hội thoại đa năng (`SmartChatConversation.tsx`), Thẻ hành động lộ trình (`RoadmapActionCard.tsx`), Thẻ đề xuất bài học (`RecommendationActionCard.tsx`), và Bong bóng thông báo chủ động (`ProactiveNudgeBubble.tsx`).
+  - **Phase 1: Đại Tu UI/UX & Khả Năng Đọc Chuẩn Wadhah Aloui**:
+    - Trình biên dịch Markdown chuyên biệt tích hợp: hiển thị chuẩn văn bản in đậm `**text**`, in nghiêng `*text*`, khối mã inline `` `code` `` và ngắt dòng tự nhiên mượt mà.
+    - Chuẩn hóa typography công thái học: nội dung chat nâng từ `11.5px` lên `13px`, chip gợi ý từ `10.5px` lên `11.5px`, ô nhập liệu và header lên `13px`.
+    - Dải chip gợi ý nhanh trang bị gradient fade mask ở cạnh phải chống cắt cụt chữ và `whitespace-nowrap`.
+    - Chỉ báo AI đang soạn thảo dạng **Skeleton Shimmer Bars 3 dòng** (Rule 1 UI/UX: dùng Skeleton Loading thay vì spinner hay bouncing dots).
+    - Lược bỏ hoàn toàn emoji Unicode thô dính liền trong nhãn gợi ý hành động (`Gợi ý bài học tiếp`, `Kiểm tra từ vựng`).
+    - Khung hội thoại co giãn linh hoạt `min(480px, 75vh)` và `max-w-[calc(100vw-32px)]` tối ưu tuyệt đối cho cả Desktop và Mobile.
+  - **Phase 2: Bộ Định Tuyến Ý Định Thông Minh (Smart Intent Scoring Router)**:
+    - Thay thế chuỗi so khớp thô sơ bằng hệ thống tính điểm từ khóa đa chiều (Multi-keyword scoring) nhận diện chính xác 3 luồng ý định: Lộ trình & Nhiệm vụ (`roadmap`), Đề xuất bài học tiếp theo (`recommendation`), Ôn tập từ vựng ngắt quãng (`vocab_review`), và chuyển tiếp mượt mà sang Gemini AI khi trò chuyện mở.
+    - Bơm ngữ cảnh trang hiện tại (`pageContext`) giúp Gemini AI nhận biết học viên đang ở màn hình nào (Dashboard, Review, Dictation, Shadowing...).
+    - Giới hạn lịch sử hội thoại 10 tin nhắn gần nhất (`MAX_HISTORY_MESSAGES = 10`) tối ưu hóa dung lượng token và độ trễ phản hồi.
+    - Bộ phản hồi ngoại tuyến phân tầng theo từng ý định (Per-Intent Offline Fallback).
+  - **Phase 3: Tối Ưu Hóa Dữ Liệu & API Đề Xuất (`/api/ai/chatbot/recommendations`)**:
+    - Sửa thuật toán tính `% hoàn thành` dựa trên nhiệm vụ hàng ngày và lộ trình thực tế thay vì phép chia dư XP.
+    - Mở rộng dữ liệu phản hồi với `studySummary` (tổng từ vựng đã học, tổng thời gian học thực tế trong ngày từ `daily_skill_practice`).
+    - Nâng thời gian sống bộ đệm (TTL Cache) từ 20s lên 60s giảm thiểu tải server và độ trễ mạng.
 
 ---
 
