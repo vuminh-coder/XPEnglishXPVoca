@@ -37,6 +37,8 @@ function AuthStateSyncer() {
   return null;
 }
 
+import { FloatingAiChatbot } from "@/features/ai/components/FloatingAiChatbot";
+
 export default function ClientAuthWrapper({
   children,
 }: {
@@ -55,6 +57,7 @@ export default function ClientAuthWrapper({
     <div suppressHydrationWarning>
       <AuthStateSyncer />
       {children}
+      <FloatingAiChatbot />
       <div id="toast-container" className="toast-container"></div>
     </div>
   );

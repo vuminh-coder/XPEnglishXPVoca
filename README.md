@@ -258,21 +258,31 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
     - **Đồng Bộ Tuyệt Đối Cả 2 Cấp Độ**: Áp dụng đồng bộ cấu trúc 1:1 này cho cả **Server/Suspense Initial Loading** ([`app/(dashboard)/analytics/loading.tsx`](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/analytics/loading.tsx)) và **Client In-Page DB Fetching** ([`app/(dashboard)/analytics/page.tsx`](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/analytics/page.tsx)).
     - **Bục Quán Quân & Danh Sách Học Viên Shimmer**: Bục Top 1 (Vàng Amber Shimmer), Top 2 (Bạc Shimmer), Top 3 (Đồng Shimmer) và 5 hàng học viên Shimmer chuẩn Rule 1 UI/UX.
 
-### 3. Lộ Trình Học Cá Nhân Hóa AI (`/roadmap`) & Bong Bóng Chatbot Gia Sư Đa Năng Messenger-Style
-- **Bong Bóng Chatbot Thông Minh Kéo Thả Kiểu Messenger (`features/ai/components/FloatingAiChatbot/`)**:
-  - **Tự Do Kéo Thả Mọi Vị Trí & Vật Lý Lò Xo Snap-to-Edge**: Tự do kéo thả mượt mà 60fps trên cả Desktop và Mobile bằng `framer-motion` (`useMotionValue`, `useSpring` stiffness 380, damping 26). Tự động tính toán hút êm dịu về cạnh trái hoặc cạnh phải màn hình (`snap-to-edge`) với khoảng đệm an toàn 16px, ngăn ngừa hoàn toàn tình trạng che khuất nội dung trang web.
+### 3. Lộ Trình Học Cá Nhân Hóa AI (`/roadmap`) & Trợ Lý Chatbot AI Thông Minh Hợp Nhất Messenger-Style (Toàn Cầu - Không Chia Tab)
+- **Bong Bóng Chatbot Thông Minh Hợp Nhất Kéo Thả Kiểu Messenger (`features/ai/components/FloatingAiChatbot/`)**:
+  - **Hiện Diện Trên 100% Mọi Trang (Global RootLayout Mounting)**: Được nhúng trực tiếp tại tầng gốc `RootLayout` (`ClientAuthWrapper`), xuất hiện tự động trên toàn bộ hệ sinh thái (Trang chủ `/`, Đăng nhập/Đăng ký `/login`, `/register`, Dashboard `/dashboard`, các phòng học `/study/*`, Video `/myvideo`, Từ vựng `/vocabulary/*`, Thống kê `/analytics`, Hồ sơ `/profile`...).
+  - **Tự Do Kéo Thả & Vật Lý Lò Xo Snap-to-Edge 60fps**: Kéo thả tự do trên cả Desktop và Mobile bằng `framer-motion` (`useMotionValue` + `useSpring` stiffness 380, damping 26). Tự động hút mượt mà về cạnh trái hoặc cạnh phải màn hình (`snap-to-edge`) với khoảng đệm an toàn 16px, chống che chắn nội dung học tập.
   - **Phân Biệt Chuẩn Xác Thao Tác Kéo vs Chạm**: Nhận diện ngưỡng di chuyển chuột/chạm `delta > 5px` để phân biệt chính xác giữa việc kéo di chuyển bong bóng và việc click mở cửa sổ trò chuyện.
   - **Vùng Hủy Thả Rơi (Dismiss Target Drop Zone)**: Khi bắt đầu kéo bubble, vòng tròn đỏ `X` phát sáng xuất hiện ở chính giữa mép dưới màn hình; kéo thả vào vùng này sẽ tạm ẩn bubble với hiệu ứng thu nhỏ mượt mà.
   - **Lưu Tọa Độ Bền Vững (Persistent Position Storage)**: Tự động lưu vị trí tọa độ `(x, y)` vào `localStorage` (`xp_voca_chatbot_bubble_pos`), tự động khôi phục chuẩn xác vị trí khi học viên chuyển trang hoặc tải lại trình duyệt.
-  - **Khung Chat 3 Tab Đa Năng Thay Thế Lộ Trình Tĩnh**:
-    - **`💬 Gia Sư AI`**: Khung chat phản hồi theo thời gian thực (Streaming AI Response), dải 4 chip gợi ý câu hỏi 1 chạm thông minh, nhận diện giọng nói Web Speech API (`SpeechRecognition`), đọc phát âm âm thanh bản xứ (`speechSynthesis`) và nút sao chép nội dung câu trả lời.
-    - **`🗺️ Lộ Trình`**: Tích hợp toàn bộ sức mạnh của trang lộ trình thành widget di động tương tác: Thẻ mục tiêu cá nhân hóa (TOEIC/IELTS & Điểm target), 3 nhiệm vụ hàng ngày (Daily Quests) kèm nút chuyển nhanh tới phòng luyện tập, Hộp rương bí ẩn nhận thưởng tức thì (`+50 XP & +20 Coins` qua `useUserStore`), và 3 chặng mốc học tập chuẩn CEFR.
-    - **`⚡ Gợi Ý`**: Nhận diện ngữ cảnh thông minh thời gian thực qua URL hiện tại (`usePathname()`), tự động đưa ra gợi ý chuyên biệt khi học viên đang ở `/study/grammar`, `/myvideo`, `/vocabulary`, hoặc `/dashboard`, kèm danh sách gợi ý khắc phục điểm yếu và luyện đề chuẩn.
-  - **Bong Bóng Gợi Ý Chủ Động (Proactive Nudge Bubble)**: Tự động hiển thị tooltip động dạng đám mây trên đầu bubble nhắc nhở học viên khi có nhiệm vụ chưa làm hoặc gợi ý học tập mới.
-  - **Tích Hợp Liên Thông Toàn Hệ Thống**:
-    - **Thanh Bên (`Sidebar.tsx`)**: Nhấn vào mục "Lộ trình" trên Sidebar sẽ kích hoạt `useAiChatbotStore.getState().openRoadmapDirectly()`, mở ngay Chatbot ở tab "Lộ Trình" thay vì chỉ mở trang tĩnh.
-    - **Trang Lộ Trình (`app/(dashboard)/roadmap/page.tsx`)**: Nút CTA chính tại Banner cũng trực tiếp mở Chatbot Mentor để trải nghiệm lộ trình thông minh.
-    - **Khung Toàn Cục (`app/(dashboard)/layout.tsx`)**: Đặt component `<FloatingAiChatbot />` ở tầng gốc layout để xuất hiện xuyên suốt mọi màn hình học tập.
+  - **Kiến Trúc Hội Thoại Thông Minh Hợp Nhất (Unified Conversational Assistant — Không Chia Tab)**:
+    - **Loại Bỏ Hoàn Toàn Chia Tab Rườm Rà**: Trải nghiệm trợ lý hội thoại duy nhất, tập trung cao độ, nơi AI đóng vai trò bộ não điều phối trung tâm.
+    - **Header Tinh Gọn Chuẩn Agency (`ChatbotHeader.tsx`)**: Hiển thị avatar AI phát sáng, chấm xanh online, chuỗi Streak 🔥, cấp độ học viên ⚡, nút làm mới hội thoại, nút thu nhỏ và nút đóng.
+    - **Thẻ Nhiệm Vụ Hôm Nay Tích Hợp Sẵn (`RoadmapActionCard.tsx`)**: Xuất hiện ngay trong tin nhắn chào mừng, hiển thị mục tiêu TOEIC/IELTS, tiến độ thật từ CSDL của 3 nhiệm vụ ngày kèm nút hành động `[ Luyện ]` dẫn thẳng vào bài học, và Rương Thưởng phát sáng nhận ngay `+50 XP & +20 Coins`.
+    - **Thẻ Đề Xuất Bài Học CSDL Động (`RecommendationActionCard.tsx`)**: Tự động kích hoạt khi học viên bấm `[ ⚡ Gợi ý bài học tiếp ]` hoặc hỏi AI:
+      - *Phân tích kỹ năng yếu nhất:* Quét CSDL 7 ngày qua của học viên để tìm kỹ năng luyện ít nhất (Shadowing, Dictation, Từ vựng, Ngữ pháp) kèm nút `[ Luyện ngay ➔ ]`.
+      - *Hàng đợi ôn tập ngắt quãng (SRS Due):* Báo số từ vựng đến hạn ôn tập trong ngày.
+      - *Bài nghe Dictation tiếp theo:* Nhớ bài nghe đang học dở hoặc bài kế tiếp theo giáo trình.
+      - *Chuyên đề ngữ pháp tiếp theo:* Gợi ý chủ đề cần bổ trợ trong 60 chuyên đề.
+      - *Gợi ý theo trang hiện tại (Context-Aware):* Thích ứng linh hoạt theo URL hiện tại (`/grammar`, `/myvideo`, `/vocabulary`...).
+    - **Dock Phím Nhanh 1 Chạm Thông Minh (Smart Quick Actions Dock)**: 4 nút thao tác nhanh trên thanh nhập liệu (`[ 🗺️ Lộ trình hôm nay ]`, `[ ⚡ Gợi ý bài học tiếp ]`, `[ 🔄 Ôn tập từ vựng SRS ]`, `[ ❓ Giải thích ngữ pháp ]`).
+    - **Giọng Nói & Âm Thanh Tích Hợp**: Micro thu âm nhận diện giọng nói (Web Speech API), phát âm giọng đọc bản xứ (SpeechSynthesis TTS) cho từng phản hồi của AI, và nút sao chép nội dung.
+  - **Cắm Trực Tiếp Vào CSDL PostgreSQL Neon (`/api/ai/chatbot/recommendations`)**:
+    - Truy vấn song song `profiles`, `study_plans`, `daily_skill_practice`, `user_vocabulary`, `listening_progress`, `grammar_progress`.
+    - Tự động fallback dữ liệu thông minh khi ở chế độ Khách (Guest mode) trên Landing Page hoặc trang Auth.
+  - **Tích Hợp Toàn Hệ Thống**:
+    - **Thanh Bên (`Sidebar.tsx`)**: Nhấn vào mục "Lộ trình" trên Sidebar gọi trực tiếp `openWithRoadmapCard()`, mở ngay Chatbot với thẻ Lộ trình được bung sẵn trong khung chat.
+    - **Trang Lộ Trình (`app/(dashboard)/roadmap/page.tsx`)**: Nút CTA chính tại Banner cũng trực tiếp mở Chatbot Mentor.
 - **`/roadmap`**: Hệ thống lộ trình học cá nhân hóa thông minh chuẩn Agency Tier tích hợp **`AppTopHeader` (56px Baseline)** và bố cục **Bento Grid 8/12 Lộ Trình + 4/12 Inspector Hướng Dẫn**:
   - **Thanh Header Đỉnh Đồng Bộ (`AppTopHeader`)**: Tích hợp các Tab Pill (`HeaderPillContainer` & `HeaderPillItem`): **"Lộ Trình Mục Tiêu"**, **"Đổi Mục Tiêu AI"**, **"Thống Kê Tiến Độ"** (`/analytics`) cùng nút hành động nhanh. Đã đăng ký `pathname === "/roadmap" || pathname?.startsWith("/roadmap")` vào `isHeaderIntegratedActive` tại [layout.tsx](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/layout.tsx) để triệt tiêu Navbar thừa trên mobile và mở rộng không gian hiển thị tràn viền sát nóc.
   - **Step 1: Khung Thiết Lập Mục Tiêu AI 2 Bước (`Goal Setting Form`)**:

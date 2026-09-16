@@ -6,7 +6,6 @@ import { ToastContainer } from "@/shared/components/ui/Toast";
 import { useUiStore } from "@/stores/uiStore";
 import { useUserStore } from "@/stores/userStore";
 import { usePathname } from "next/navigation";
-import { FloatingAiChatbot } from "@/features/ai/components/FloatingAiChatbot";
 
 export default function DashboardLayout({
   children,
@@ -41,7 +40,6 @@ export default function DashboardLayout({
         </div>
       </main>
       <BottomNav />
-      <FloatingAiChatbot />
       <ToastContainer />
     </>
   );

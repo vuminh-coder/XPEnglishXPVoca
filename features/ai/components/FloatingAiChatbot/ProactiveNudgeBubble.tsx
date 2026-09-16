@@ -5,15 +5,17 @@ import { Sparkles, X, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function ProactiveNudgeBubble() {
-  const { nudge, dismissNudge, setIsOpen, setActiveTab, openWithQuestion, isOpen } = useAiChatbotStore();
+  const { nudge, dismissNudge, setIsOpen, sendMessage, isOpen } = useAiChatbotStore();
 
   if (!nudge || isOpen) return null;
 
   const handleClick = () => {
-    if (nudge.actionTab) {
-      setActiveTab(nudge.actionTab);
-    }
     setIsOpen(true);
+    if (nudge.actionPrompt) {
+      sendMessage(nudge.actionPrompt);
+    } else if (nudge.actionPath) {
+      window.location.href = nudge.actionPath;
+    }
     dismissNudge();
   };
 
