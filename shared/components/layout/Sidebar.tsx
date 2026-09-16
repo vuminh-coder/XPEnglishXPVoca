@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuthStore } from "@/stores/authStore";
 import { useUiStore } from "@/stores/uiStore";
+import { useAiChatbotStore } from "@/stores/aiChatbotStore";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Home,
@@ -30,6 +31,7 @@ import {
   User,
   Check,
 } from "lucide-react";
+import { UserAvatar } from "@/shared/components/feedback/UserAvatar";
 
 const SpeakingIcon = ({
   className = "w-[21px] h-[21px]",
@@ -310,7 +312,13 @@ function SidebarNavInner({
                         href={link.path}
                         title={sidebarCollapsed ? link.name : undefined}
                         aria-current={isActive ? "page" : undefined}
-                        onClick={() => sidebarOpen && toggleSidebar()}
+                        onClick={(e) => {
+                          if (link.path === "/roadmap") {
+                            e.preventDefault();
+                            useAiChatbotStore.getState().openRoadmapDirectly();
+                          }
+                          if (sidebarOpen) toggleSidebar();
+                        }}
                         className={`sidebar-link ${
                           isActive
                             ? "active bg-[#e8edf5] text-slate-900 dark:bg-slate-800 dark:text-white font-extrabold"
@@ -582,30 +590,18 @@ function SidebarNavInner({
                 <button
                   type="button"
                   onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="hidden lg:flex w-10 h-10 rounded-full bg-[#0059bb] text-white font-black text-sm items-center justify-center mx-auto shadow-2xs hover:opacity-90 transition-opacity cursor-pointer border-none outline-none overflow-hidden shrink-0"
+                  className="hidden lg:flex w-10 h-10 rounded-full items-center justify-center mx-auto shadow-2xs hover:opacity-90 transition-opacity cursor-pointer border-none outline-none overflow-hidden shrink-0"
                   title={userName}
                 >
-                  {user?.imageUrl ||
-                  (user as any)?.avatar ||
-                  (user as any)?.avatarUrl ? (
-                    <img
-                      src={
-                        user.imageUrl ||
-                        (user as any).avatar ||
-                        (user as any).avatarUrl
-                      }
-                      alt={userName}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : user?.avatarEmoji && user.avatarEmoji !== "🦉" ? (
-                    <span className="text-sm">{user.avatarEmoji}</span>
-                  ) : (
-                    <img
-                      src={`https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=0059bb&color=fff&font-size=0.4`}
-                      alt={userName}
-                      className="w-full h-full object-cover"
-                    />
-                  )}
+                  <UserAvatar
+                    avatarUrl={user?.avatarUrl || user?.imageUrl || (user as any)?.avatar}
+                    imageUrl={user?.imageUrl}
+                    avatar={(user as any)?.avatar}
+                    emoji={user?.avatarEmoji}
+                    name={userName}
+                    size="w-10 h-10"
+                    className="w-full h-full"
+                  />
                 </button>
 
                 {/* Mobile Full User Card Button (Always full width & readable on Mobile Drawer) */}
@@ -615,29 +611,14 @@ function SidebarNavInner({
                   className="flex lg:hidden w-full items-center justify-between p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 transition-all cursor-pointer text-left shadow-2xs"
                 >
                   <div className="flex items-center gap-2.5 min-w-0">
-                    <div className="w-8.5 h-8.5 rounded-full bg-[#0059bb] text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-2xs overflow-hidden">
-                      {user?.imageUrl ||
-                      (user as any)?.avatar ||
-                      (user as any)?.avatarUrl ? (
-                        <img
-                          src={
-                            user.imageUrl ||
-                            (user as any).avatar ||
-                            (user as any).avatarUrl
-                          }
-                          alt={userName}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : user?.avatarEmoji && user.avatarEmoji !== "🦉" ? (
-                        <span className="text-sm">{user.avatarEmoji}</span>
-                      ) : (
-                        <img
-                          src={`https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=0059bb&color=fff&font-size=0.4`}
-                          alt={userName}
-                          className="w-full h-full object-cover"
-                        />
-                      )}
-                    </div>
+                    <UserAvatar
+                      avatarUrl={user?.avatarUrl || user?.imageUrl || (user as any)?.avatar}
+                      imageUrl={user?.imageUrl}
+                      avatar={(user as any)?.avatar}
+                      emoji={user?.avatarEmoji}
+                      name={userName}
+                      size="w-8.5 h-8.5"
+                    />
                     <div className="min-w-0 flex-1">
                       <span className="text-[13px] font-bold text-slate-900 dark:text-white truncate block">
                         {userName}
@@ -666,29 +647,14 @@ function SidebarNavInner({
                 className="w-full flex items-center justify-between p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 transition-all cursor-pointer text-left shadow-2xs"
               >
                 <div className="flex items-center gap-2.5 min-w-0">
-                  <div className="w-8.5 h-8.5 rounded-full bg-[#0059bb] text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-2xs overflow-hidden">
-                    {user?.imageUrl ||
-                    (user as any)?.avatar ||
-                    (user as any)?.avatarUrl ? (
-                      <img
-                        src={
-                          user.imageUrl ||
-                          (user as any).avatar ||
-                          (user as any).avatarUrl
-                        }
-                        alt={userName}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : user?.avatarEmoji && user.avatarEmoji !== "🦉" ? (
-                      <span className="text-sm">{user.avatarEmoji}</span>
-                    ) : (
-                      <img
-                        src={`https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=0059bb&color=fff&font-size=0.4`}
-                        alt={userName}
-                        className="w-full h-full object-cover"
-                      />
-                    )}
-                  </div>
+                  <UserAvatar
+                    avatarUrl={user?.avatarUrl || user?.imageUrl || (user as any)?.avatar}
+                    imageUrl={user?.imageUrl}
+                    avatar={(user as any)?.avatar}
+                    emoji={user?.avatarEmoji}
+                    name={userName}
+                    size="w-8.5 h-8.5"
+                  />
                   <div className="min-w-0 flex-1">
                     <span className="text-[13px] font-bold text-slate-900 dark:text-white truncate block">
                       {userName}

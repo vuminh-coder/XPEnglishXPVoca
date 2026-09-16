@@ -5,8 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Eye,
   EyeOff,
-  Volume2,
-  VolumeX,
   RotateCcw,
   Sparkles,
   Info,
@@ -18,9 +16,6 @@ import {
   Zap,
   Languages,
   PenLine,
-  Target,
-  Lightbulb,
-  Glasses,
   ShieldCheck,
 } from "lucide-react";
 import { useUiStore } from "@/stores/uiStore";
@@ -171,9 +166,6 @@ export function DictationWorkspace({
     hideTranslation ? false : showTranslationByDefault
   );
   const [isCompleted, setIsCompleted] = useState(false);
-
-  // 3-Tier Difficulty Modes: Standard | Assisted | Blind
-  const [dictationMode, setDictationMode] = useState<"standard" | "assisted" | "blind">("standard");
 
   // Web Audio Synthetic Dopamine Sound Feedback Toggle
   const [isSoundFeedbackEnabled, setIsSoundFeedbackEnabled] = useState<boolean>(() => {
@@ -560,122 +552,35 @@ export function DictationWorkspace({
 
       {/* 2. WORD MASK TOKENS SECTION (Đưa lên trên theo yêu cầu) */}
       <div className="space-y-1.5 pt-0">
-        {/* Sub-bar: 3-Tier Difficulty Modes, Sound Toggle & Controls */}
-        <div className="flex items-center justify-between flex-wrap gap-2 text-xs px-1">
-          {/* Mode Selector Pills */}
-          <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-0.5 rounded-lg border border-slate-200/80 dark:border-slate-700/80 shadow-2xs">
-            <button
-              type="button"
-              onClick={() => setDictationMode("standard")}
-              className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-bold transition-all cursor-pointer select-none ${
-                dictationMode === "standard"
-                  ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-2xs"
-                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-              }`}
-              title="Chế độ Chuẩn: hiển thị số từ và dấu chấm ký tự"
-            >
-              <Target className="w-3 h-3" />
-              <span>🎯 Chuẩn</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => {
-                setDictationMode("assisted");
-                setTokens((prev) =>
-                  prev.map((t) =>
-                    t.status === "masked" ? { ...t, status: "first-letter" as const } : t
-                  )
-                );
-              }}
-              className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-bold transition-all cursor-pointer select-none ${
-                dictationMode === "assisted"
-                  ? "bg-white dark:bg-slate-900 text-amber-600 dark:text-amber-400 shadow-2xs"
-                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-              }`}
-              title="Chế độ Gợi ý: tự động mở chữ cái đầu tiên của từng từ"
-            >
-              <Lightbulb className="w-3 h-3" />
-              <span>💡 Gợi ý</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setDictationMode("blind")}
-              className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-bold transition-all cursor-pointer select-none ${
-                dictationMode === "blind"
-                  ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-2xs"
-                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-              }`}
-              title="Chế độ Blind: ẩn hoàn toàn độ dài và ký tự của các từ"
-            >
-              <Glasses className="w-3 h-3" />
-              <span>🕶️ Blind</span>
-            </button>
+        {/* Sub-bar: [ⓘ Nhấn để xem] on left and [👁 Hiện tất cả] on right */}
+        <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 px-1">
+          <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-xs font-medium">
+            <Info className="w-3.5 h-3.5 text-slate-400" />
+            <span>Nhấn để xem từ</span>
           </div>
 
-          {/* Right Action Tools: Dopamine Sound Toggle & Reveal All */}
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => {
-                setIsSoundFeedbackEnabled((prev) => {
-                  const next = !prev;
-                  try {
-                    localStorage.setItem("xp_sound_feedback", JSON.stringify(next));
-                  } catch {}
-                  return next;
-                });
-              }}
-              className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-bold border transition-all cursor-pointer select-none ${
-                isSoundFeedbackEnabled
-                  ? "bg-emerald-50 dark:bg-emerald-950/50 border-emerald-300 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 shadow-2xs"
-                  : "bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-400"
-              }`}
-              title={isSoundFeedbackEnabled ? "Âm thanh Dopamine: BẬT" : "Âm thanh Dopamine: TẮT"}
-            >
-              {isSoundFeedbackEnabled ? (
-                <Volume2 className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
-              ) : (
-                <VolumeX className="w-3 h-3 text-slate-400" />
-              )}
-              <span>Âm thanh</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={handleRevealAll}
-              className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer select-none group"
-              title="Hiện tất cả các từ trong câu"
-            >
-              <EyeOff className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" />
-              <span className="font-semibold">Hiện tất cả</span>
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={handleRevealAll}
+            className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer select-none group"
+            title="Hiện tất cả các từ trong câu"
+          >
+            <EyeOff className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" />
+            <span className="font-semibold">Hiện tất cả</span>
+          </button>
         </div>
 
         {/* Masked / Revealed Token Row (Hidden Scrollbar + Auto-Centered Track) */}
         <div className="px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm">
-          {dictationMode === "blind" && !isCompleted ? (
-            <div className="py-3 px-3.5 rounded-lg bg-slate-50 dark:bg-slate-950 border border-dashed border-purple-300 dark:border-purple-800 flex items-center justify-between text-xs text-purple-800 dark:text-purple-300 font-medium">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse shrink-0" />
-                <span>🕶️ Blind Mode: Nghe và chép liên tục — Độ dài từ và số ký tự được ẩn hoàn toàn!</span>
-              </div>
-              <span className="font-mono text-[11px] font-bold shrink-0 ml-2 px-2 py-0.5 rounded bg-purple-100 dark:bg-purple-900/50">
-                {solvedCount}/{tokens.length} từ
-              </span>
-            </div>
-          ) : (
-            <div
-              ref={tokenContainerRef}
-              style={isCollapsed ? { scrollbarWidth: "none", msOverflowStyle: "none" } : undefined}
-              className={`gap-1.5 sm:gap-2 items-center py-1.5 sm:py-2 px-1 ${
-                isCollapsed
-                  ? "flex flex-nowrap overflow-x-auto scroll-smooth hide-scrollbar [&::-webkit-scrollbar]:hidden"
-                  : "flex flex-wrap"
-              }`}
-            >
+          <div
+            ref={tokenContainerRef}
+            style={isCollapsed ? { scrollbarWidth: "none", msOverflowStyle: "none" } : undefined}
+            className={`gap-1.5 sm:gap-2 items-center py-1.5 sm:py-2 px-1 ${
+              isCollapsed
+                ? "flex flex-nowrap overflow-x-auto scroll-smooth hide-scrollbar [&::-webkit-scrollbar]:hidden"
+                : "flex flex-wrap"
+            }`}
+          >
               {tokens.map((token, idx) => {
                 const isMatched = token.status === "matched";
                 const isRevealed = token.status === "revealed";
@@ -734,7 +639,6 @@ export function DictationWorkspace({
                 );
               })}
             </div>
-          )}
 
           {/* IPA & Vietnamese Translation Accordion */}
           <AnimatePresence>

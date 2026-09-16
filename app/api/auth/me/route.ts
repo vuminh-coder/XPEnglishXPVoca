@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 import { verifyAuthToken } from "@/infrastructure/auth/jwt";
 
@@ -39,9 +39,9 @@ export async function GET(req: NextRequest) {
         title: profile.title,
         coins: profile.coins,
         streakFreezes: profile.streakFreezes,
-        imageUrl: (profile as any).avatarUrl || null,
-        avatar: (profile as any).avatarUrl || null,
-        avatarUrl: (profile as any).avatarUrl || null,
+        imageUrl: profile.avatarUrl || null,
+        avatar: profile.avatarUrl || null,
+        avatarUrl: profile.avatarUrl || null,
       },
     });
   } catch (error) {

@@ -240,7 +240,7 @@ async function clientFetchWithProxies(urls: string[]): Promise<string> {
   // Tier 0: Browser direct fetch (uses user's residential IP — highest success rate)
   for (const url of urls) {
     try {
-      const res = await fetch(url, { signal: AbortSignal.timeout(2500) });
+      const res = await fetch(url, { signal: AbortSignal.timeout(4000) });
       if (res.ok) {
         const text = await res.text();
         if (text && text.trim().length > 30) {
@@ -256,7 +256,7 @@ async function clientFetchWithProxies(urls: string[]): Promise<string> {
     for (const url of urls) {
       try {
         const proxyUrl = proxy.buildUrl(url);
-        const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(2500) });
+        const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(4000) });
         if (res.ok) {
           let text = "";
           if (proxy.type === "json") {
@@ -289,7 +289,7 @@ async function fetchTracksOnClient(
 
   const enUrls = [
     enTrack.baseUrl.includes("fmt=") ? enTrack.baseUrl : `${enTrack.baseUrl}&fmt=json3`,
-    enTrack.baseUrl.includes("fmt=") ? enTrack.baseUrl : `${enTrack.baseUrl}&fmt=srv1`,
+    enTrack.baseUrl.includes("fmt=") ? enTrack.baseUrl.replace(/fmt=\w+/, "fmt=srv1") : `${enTrack.baseUrl}&fmt=srv1`,
     enTrack.baseUrl,
   ];
 

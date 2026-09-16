@@ -47,9 +47,10 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  // Check Cache HIT
+  // Check Cache HIT (bypass with ?force=1)
+  const forceRefresh = searchParams.get("force") === "1";
   const cached = captionServerCache.get(videoId);
-  if (cached && Date.now() - cached.timestamp < CACHE_TTL_MS) {
+  if (!forceRefresh && cached && Date.now() - cached.timestamp < CACHE_TTL_MS) {
     console.log(`[Captions API Cache HIT] Returning cached subtitles for videoId "${videoId}" in <10ms!`);
     return NextResponse.json(cached.data);
   }

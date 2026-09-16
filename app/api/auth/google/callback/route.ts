@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 import { signAuthToken } from "@/infrastructure/auth/jwt";
 
@@ -87,7 +87,8 @@ export async function GET(req: NextRequest) {
           streakFreezes: 0,
         },
       });
-    } else if (avatarUrl && !profile.avatarUrl) {
+    } else if (avatarUrl && avatarUrl !== profile.avatarUrl) {
+      // Always refresh avatar if Google returns a different/updated URL
       profile = await prisma.profile.update({
         where: { id: profile.id },
         data: { avatarUrl },
@@ -116,8 +117,9 @@ export async function GET(req: NextRequest) {
       bio: "Học viên XP English | XP Voca! 🚀",
       title: profile.title,
       coins: profile.coins,
-      streakFreezes: profile.streakFreezes,
-      imageUrl: avatarUrl,
+      avatarUrl: avatarUrl || profile.avatarUrl || null,
+      avatar: avatarUrl || profile.avatarUrl || null,
+      imageUrl: avatarUrl || profile.avatarUrl || null,
     };
 
     const encodedUser = encodeURIComponent(JSON.stringify(userPayload));

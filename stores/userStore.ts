@@ -404,7 +404,29 @@ export const useUserStore = create<UserState>((set, get) => ({
       } catch (e) {}
     }
 
-    const finalAvatar = userPayload.imageUrl || (userPayload as any).avatar || (userPayload as any).avatarUrl || existingUser?.imageUrl || existingUser?.avatar || existingUser?.avatarUrl || cachedImageUrl || "";
+    // Validate avatar URL: only accept real http(s)/data:image/absolute paths
+    const isValidAvatarUrl = (url: unknown): url is string => {
+      if (typeof url !== "string" || !url.trim()) return false;
+      const trimmed = url.trim();
+      if (trimmed === "null" || trimmed === "undefined") return false;
+      return (
+        trimmed.startsWith("https://") ||
+        trimmed.startsWith("http://") ||
+        trimmed.startsWith("/") ||
+        trimmed.startsWith("data:image/")
+      );
+    };
+
+    const candidates = [
+      userPayload.imageUrl,
+      (userPayload as any).avatar,
+      (userPayload as any).avatarUrl,
+      existingUser?.imageUrl,
+      existingUser?.avatar,
+      existingUser?.avatarUrl,
+      cachedImageUrl,
+    ];
+    const finalAvatar = candidates.find(isValidAvatarUrl) || "";
 
     const mergedUser: User = {
       ...userPayload,

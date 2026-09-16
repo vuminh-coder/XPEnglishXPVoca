@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 import { signAuthToken } from "@/infrastructure/auth/jwt";
 
@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
     try {
       const mockEmail = `user.google.${Math.floor(Math.random() * 1000)}@gmail.com`;
       const mockName = `Học Viên Google (${Math.floor(Math.random() * 899 + 100)})`;
-      const mockAvatar = "https://lh3.googleusercontent.com/a/default-user=s96-c";
+      const mockAvatar = "";
 
       let profile = await prisma.profile.findFirst({
         where: { email: mockEmail },
@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
             fullName: mockName,
             username: username,
             avatarEmoji: "🚀",
-            avatarUrl: mockAvatar,
+            avatarUrl: mockAvatar || undefined,
             level: 5,
             totalXp: 1250,
             currentStreak: 5,
@@ -66,7 +66,9 @@ export async function GET(req: NextRequest) {
         title: profile.title,
         coins: profile.coins,
         streakFreezes: profile.streakFreezes,
-        imageUrl: mockAvatar,
+        imageUrl: profile.avatarUrl || null,
+        avatar: profile.avatarUrl || null,
+        avatarUrl: profile.avatarUrl || null,
       };
 
       const encodedUser = encodeURIComponent(JSON.stringify(userPayload));

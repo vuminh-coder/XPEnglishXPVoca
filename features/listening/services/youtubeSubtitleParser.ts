@@ -82,39 +82,124 @@ export function decodeXmlEntities(text: string): string {
       .replace(/&#([0-9]+);/g, (_, dec) => String.fromCharCode(parseInt(dec, 10)));
   }
 
-  return result.replace(/\s+/g, " ").trim();
+  return result.replace(/\s+/g, " ").trim().normalize("NFC");
+}
+
+/**
+ * Helper to parse SRT or WEBVTT subtitle text into ParsedXmlItem[]
+ */
+function parseSrtOrVttToItems(text: string): ParsedXmlItem[] {
+  if (!text || !text.includes("-->")) return [];
+  const clean = text.replace(/^\uFEFF/, "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+  const blocks = clean.split(/\n\n+/).filter((b) => b.trim().length > 0);
+  const items: ParsedXmlItem[] = [];
+  const arrowRegex = /(\d{1,2}:\d{2}(?::\d{2})?[.,]\d{1,3})\s*-->\s*(\d{1,2}:\d{2}(?::\d{2})?[.,]\d{1,3})/;
+
+  function parseTsSec(s: string): number {
+    const parts = s.trim().replace(",", ".").split(":");
+    if (parts.length === 3) {
+      return parseFloat(parts[0]) * 3600 + parseFloat(parts[1]) * 60 + parseFloat(parts[2]);
+    }
+    if (parts.length === 2) {
+      return parseFloat(parts[0]) * 60 + parseFloat(parts[1]);
+    }
+    return parseFloat(s) || 0;
+  }
+
+  for (const block of blocks) {
+    const lines = block.split("\n").map((l) => l.trim()).filter(Boolean);
+    let timeIdx = -1;
+    for (let i = 0; i < Math.min(3, lines.length); i++) {
+      if (arrowRegex.test(lines[i])) {
+        timeIdx = i;
+        break;
+      }
+    }
+    if (timeIdx === -1) continue;
+    const match = arrowRegex.exec(lines[timeIdx]);
+    if (!match) continue;
+    const start = parseFloat(parseTsSec(match[1]).toFixed(3));
+    const end = parseFloat(parseTsSec(match[2]).toFixed(3));
+    const textLines = lines.slice(timeIdx + 1).filter((l) => !l.startsWith("NOTE") && !l.startsWith("WEBVTT"));
+    const rawText = textLines.join(" ").replace(/<[^>]+>/g, "").trim();
+    const textEn = decodeXmlEntities(rawText);
+    if (textEn.length > 0) {
+      items.push({
+        startTime: start,
+        endTime: end,
+        duration: parseFloat(Math.max(0.3, end - start).toFixed(3)),
+        textEn,
+      });
+    }
+  }
+  return items;
 }
 
 /**
  * Robust XML TimedText Parser resilient against attribute order, quote styles, and spaces.
- * Extracts `start` and optional `dur`. Calculates intelligent, non-overlapping cue end times.
+ * Supports both YouTube standard <text start="..." dur="..."> and TTML / srv3 <p t="..." d="...">.
  */
 export function parseTimedTextXml(xmlStr: string): ParsedXmlItem[] {
-  if (!xmlStr || !xmlStr.includes("<text")) return [];
+  if (!xmlStr) return [];
 
   const rawItems: { startTime: number; rawDur: number | null; textEn: string }[] = [];
-  
-  // Match any <text ...>content</text> block regardless of attribute order
-  const tagRegex = /<text\s+([^>]*)>([\s\S]*?)<\/text>/gi;
-  let match: RegExpExecArray | null;
 
-  while ((match = tagRegex.exec(xmlStr)) !== null) {
-    const attrStr = match[1];
-    const rawContent = match[2];
+  // Format 1: Standard YouTube <text start="..." dur="...">
+  if (xmlStr.includes("<text")) {
+    const tagRegex = /<text\s+([^>]*)>([\s\S]*?)<\/text>/gi;
+    let match: RegExpExecArray | null;
 
-    const startMatch = /\bstart=["']?\s*([\d\.]+)\s*["']?/i.exec(attrStr);
-    const durMatch = /\bdur=["']?\s*([\d\.]+)\s*["']?/i.exec(attrStr);
+    while ((match = tagRegex.exec(xmlStr)) !== null) {
+      const attrStr = match[1];
+      const rawContent = match[2];
 
-    if (startMatch) {
-      const startTime = parseFloat(startMatch[1]);
-      const rawDur = durMatch ? parseFloat(durMatch[1]) : null;
-      const textEn = decodeXmlEntities(rawContent);
+      const startMatch = /\bstart=["']?\s*([\d\.]+)\s*["']?/i.exec(attrStr);
+      const durMatch = /\bdur=["']?\s*([\d\.]+)\s*["']?/i.exec(attrStr);
 
-      if (textEn && textEn.length > 0 && !isNaN(startTime)) {
-        rawItems.push({ startTime, rawDur, textEn });
+      if (startMatch) {
+        const startTime = parseFloat(startMatch[1]);
+        const rawDur = durMatch ? parseFloat(durMatch[1]) : null;
+        const textEn = decodeXmlEntities(rawContent.replace(/<[^>]+>/g, " "));
+
+        if (textEn && textEn.length > 0 && !isNaN(startTime)) {
+          rawItems.push({ startTime, rawDur, textEn });
+        }
       }
     }
   }
+
+  // Format 2: YouTube TTML / srv3 <p t="..." d="..."> format
+  if (rawItems.length === 0 && xmlStr.includes("<p ")) {
+    const pRegex = /<p\s+([^>]*)>([\s\S]*?)<\/p>/gi;
+    let match: RegExpExecArray | null;
+
+    while ((match = pRegex.exec(xmlStr)) !== null) {
+      const attrs = match[1];
+      const rawContent = match[2];
+
+      const tMatch = /\bt=["']?\s*([\d\.]+)\s*["']?/i.exec(attrs);
+      const dMatch = /\bd=["']?\s*([\d\.]+)\s*["']?/i.exec(attrs);
+
+      if (tMatch) {
+        let tVal = parseFloat(tMatch[1]);
+        let dVal = dMatch ? parseFloat(dMatch[1]) : 2.5;
+        // Smart ms vs seconds detection: check if BOTH t and d look like milliseconds
+        // Simple `tVal > 100` fails for short videos <100s, so require stronger signal
+        const looksLikeMsTime = tVal > 500 || (tVal > 100 && dVal > 100);
+        if (looksLikeMsTime) {
+          tVal /= 1000;
+          if (dVal > 100) dVal /= 1000;
+        }
+
+        const textEn = decodeXmlEntities(rawContent.replace(/<[^>]+>/g, " "));
+        if (textEn && textEn.length > 0 && !isNaN(tVal)) {
+          rawItems.push({ startTime: tVal, rawDur: dVal, textEn });
+        }
+      }
+    }
+  }
+
+  if (rawItems.length === 0) return [];
 
   // Sort by startTime
   rawItems.sort((a, b) => a.startTime - b.startTime);
@@ -224,7 +309,7 @@ export function parseTimedTextJson3(jsonContent: string | object): ParsedXmlItem
 
     rawItems.sort((a, b) => a.startTime - b.startTime);
 
-    // Deduplicate ASR rolling stream prefixes (e.g. "hello", "hello world" -> "hello world")
+    // Deduplicate ASR rolling stream prefixes without discarding distinct cues
     const deduplicatedRaw: { startTime: number; rawDur: number | null; textEn: string; wordTimings?: WordTimingItem[] }[] = [];
     for (const item of rawItems) {
       if (deduplicatedRaw.length === 0) {
@@ -234,14 +319,18 @@ export function parseTimedTextJson3(jsonContent: string | object): ParsedXmlItem
       const prev = deduplicatedRaw[deduplicatedRaw.length - 1];
       const timeDiff = item.startTime - prev.startTime;
 
-      if (timeDiff < 1.0 && (item.textEn.startsWith(prev.textEn) || prev.textEn.startsWith(item.textEn))) {
-        if (item.textEn.length > prev.textEn.length) {
-          prev.textEn = item.textEn;
-        }
+      // Fuzzy rolling dedup: item extends prev, OR item contains ≥80% of prev words (ASR word reorder)
+      const prevWords = prev.textEn.split(/\s+/);
+      const itemWords = item.textEn.split(/\s+/);
+      const isStrictExtension = item.textEn.startsWith(prev.textEn);
+      const isWordOverlap = prevWords.length > 0 &&
+        prevWords.filter(w => itemWords.includes(w)).length >= Math.ceil(prevWords.length * 0.8);
+      if (timeDiff >= 0 && timeDiff < 0.8 && item.textEn.length > prev.textEn.length && (isStrictExtension || isWordOverlap)) {
+        prev.textEn = item.textEn;
         if (item.rawDur) {
           prev.rawDur = Math.max(prev.rawDur || 0, item.rawDur + timeDiff);
         }
-        if (item.wordTimings) {
+        if (item.wordTimings && item.wordTimings.length >= (prev.wordTimings?.length || 0)) {
           prev.wordTimings = item.wordTimings;
         }
       } else {
@@ -289,27 +378,36 @@ export function parseTimedTextJson3(jsonContent: string | object): ParsedXmlItem
 }
 
 /**
- * Multi-Format Universal TimedText Parser (JSON3, XML TimedText, WEBVTT)
+ * Multi-Format Universal TimedText Parser (JSON3, XML TimedText, TTML, WEBVTT, SRT)
+ * Extracts ALL subtitles without omitting any cue across all standard formats.
  */
 export function parseTimedTextAny(content: string): ParsedXmlItem[] {
   if (!content) return [];
   const trimmed = content.trim();
 
+  // Tier 1: JSON3 TimedText format
   if (trimmed.startsWith("{") || trimmed.includes('"events"')) {
     const jsonParsed = parseTimedTextJson3(trimmed);
     if (jsonParsed.length > 0) return jsonParsed;
   }
 
-  if (trimmed.includes("<text")) {
+  // Tier 2: XML TimedText or TTML (<text> or <p>)
+  if (trimmed.includes("<text") || trimmed.includes("<p ") || trimmed.includes("<timedtext") || trimmed.includes("<tt")) {
     const xmlParsed = parseTimedTextXml(trimmed);
     if (xmlParsed.length > 0) return xmlParsed;
+  }
+
+  // Tier 3: SubRip (.srt) or WebVTT (.vtt) format
+  if (trimmed.includes("-->") || trimmed.startsWith("WEBVTT")) {
+    const srtParsed = parseSrtOrVttToItems(trimmed);
+    if (srtParsed.length > 0) return srtParsed;
   }
 
   return [];
 }
 
 /**
- * Universal Vietnamese TimedText Parser (JSON3 & XML)
+ * Universal Vietnamese TimedText Parser (JSON3, XML, TTML, SRT, WEBVTT)
  */
 export function parseVnTimedTextAny(content: string): ParsedVnItem[] {
   if (!content) return [];
@@ -334,8 +432,18 @@ export function parseVnTimedTextAny(content: string): ParsedVnItem[] {
     } catch (e) {}
   }
 
-  if (trimmed.includes("<text")) {
-    return parseVnTimedTextXmlLegacy(trimmed);
+  if (trimmed.includes("<text") || trimmed.includes("<p ")) {
+    const xmlParsed = parseTimedTextXml(trimmed);
+    if (xmlParsed.length > 0) {
+      return xmlParsed.map((it) => ({ startTime: it.startTime, textVn: it.textEn }));
+    }
+  }
+
+  if (trimmed.includes("-->") || trimmed.startsWith("WEBVTT")) {
+    const srtParsed = parseSrtOrVttToItems(trimmed);
+    if (srtParsed.length > 0) {
+      return srtParsed.map((it) => ({ startTime: it.startTime, textVn: it.textEn }));
+    }
   }
 
   return [];
@@ -343,34 +451,9 @@ export function parseVnTimedTextAny(content: string): ParsedVnItem[] {
 
 export const parseVnTimedTextXml = parseVnTimedTextAny;
 
-function parseVnTimedTextXmlLegacy(xmlVnStr: string): ParsedVnItem[] {
-  if (!xmlVnStr || !xmlVnStr.includes("<text")) return [];
-
-  const items: ParsedVnItem[] = [];
-  const tagRegex = /<text\s+([^>]*)>([\s\S]*?)<\/text>/gi;
-  let match: RegExpExecArray | null;
-
-  while ((match = tagRegex.exec(xmlVnStr)) !== null) {
-    const attrStr = match[1];
-    const rawContent = match[2];
-    const startMatch = /\bstart=["']?\s*([\d\.]+)\s*["']?/i.exec(attrStr);
-
-    if (startMatch) {
-      const startTime = parseFloat(startMatch[1]);
-      const textVn = decodeXmlEntities(rawContent);
-      if (textVn && !isNaN(startTime)) {
-        items.push({ startTime, textVn });
-      }
-    }
-  }
-
-  items.sort((a, b) => a.startTime - b.startTime);
-  return items;
-}
-
 /**
- * Merges short ASR fragments (1-2 words) into complete, natural sentences
- * (merging across tight ASR streaming pauses <= 0.3s or 1-word fragments).
+ * Merges short ASR fragments into complete, natural sentences
+ * without merging across genuine silence gaps (> 0.45s).
  */
 export function mergeFragmentedSubtitlesIntoSentences(items: ParsedXmlItem[]): ParsedXmlItem[] {
   if (!Array.isArray(items) || items.length === 0) return [];
@@ -391,12 +474,18 @@ export function mergeFragmentedSubtitlesIntoSentences(items: ParsedXmlItem[]): P
     const endsWithPunctuation = /[.!?]$/.test(current.textEn.trim());
 
     // Criteria to merge fragment into current sentence:
-    // 1. Time gap between cues is very short (<= 0.35s) or single-word fragment (currentWords <= 1)
-    // 2. Combined duration is reasonable (<= 5.5s)
-    // 3. Current sentence is short (< 8 words) and doesn't end with sentence-closing punctuation
-    const isFragmentCandidate = currentWords <= 1 || (timeGap <= 0.35 && currentWords <= 6 && itemWords <= 4);
+    // 1. Time gap between cues is very tight (<= 0.45s and >= -0.2s)
+    // 2. Current sentence doesn't end with sentence-closing punctuation
+    // 3. Combined duration is reasonable (<= 6.0s)
+    // 4. Current sentence is still incomplete (<= 7 words) or next cue is very short fragment (itemWords <= 4)
+    const isTightContinuation = timeGap >= -0.2 && timeGap <= 0.45;
+    const isFragmentCandidate = isTightContinuation && (
+      currentWords <= 1 ||
+      (currentWords <= 7 && itemWords <= 4) ||
+      (currentWords <= 12 && itemWords <= 2)  // Handle trailing 1-2 word fragments from longer sentences
+    );
 
-    if (isFragmentCandidate && combinedDuration <= 5.5 && !endsWithPunctuation) {
+    if (isFragmentCandidate && combinedDuration <= 6.0 && !endsWithPunctuation) {
       current.textEn = `${current.textEn} ${item.textEn}`.replace(/\s+/g, " ").trim();
       current.endTime = item.endTime;
       current.duration = parseFloat((current.endTime - current.startTime).toFixed(3));
@@ -501,7 +590,7 @@ export function alignBilingualSubtitles(
 
   return bridgedEn.map((en) => {
     let bestVnText = "";
-    let minDiff = 4.0;
+    let minDiff = 6.0;
 
     for (let i = 0; i < vnItems.length; i++) {
       const vn = vnItems[i];

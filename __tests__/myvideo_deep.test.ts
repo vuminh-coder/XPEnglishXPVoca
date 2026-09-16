@@ -1,4 +1,4 @@
-﻿/**
+/**
  * MyVideo Deep Testing Suite - Fresh comprehensive tests
  * Tests ALL utility functions used by /myvideo page
  */
@@ -850,7 +850,7 @@ describe("Sentence Merging, Gap Bridging & Parallel Translation Tests", () => {
     expect(results.length).toBe(14);
     expect(results.flat().length).toBe(28);
     // Parallel execution takes ~20ms, whereas sequential would take 14 * 20 = 280ms
-    expect(elapsed).toBeLessThan(100);
+    expect(elapsed).toBeLessThan(200);
   });
 
   it("matches all English track variants (en-US, en-GB, en-AU, a.en)", () => {

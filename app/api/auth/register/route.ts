@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 import { hashPassword } from "@/infrastructure/auth/password";
 import { signAuthToken } from "@/infrastructure/auth/jwt";
@@ -88,6 +88,9 @@ export async function POST(req: NextRequest) {
       longestStreak: newProfile.longestStreak,
       minutesStudied: newProfile.minutesStudied,
       avatarEmoji: newProfile.avatarEmoji,
+      avatarUrl: newProfile.avatarUrl || null,
+      avatar: newProfile.avatarUrl || null,
+      imageUrl: newProfile.avatarUrl || null,
       bio: "Học viên mới của XP English | XP Voca! 🚀",
       title: newProfile.title,
       coins: newProfile.coins,

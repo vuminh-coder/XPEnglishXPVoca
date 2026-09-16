@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import React from "react";
 import { useAuthStore } from "@/stores/authStore";
 
@@ -14,16 +14,20 @@ function AuthStateSyncer() {
 
       if (oauthUser) {
         try {
-          const userData = JSON.parse(decodeURIComponent(oauthUser));
-          setUserPayload(userData);
-
-          // Clean up URL (remove oauth_user param)
-          const cleanUrl = window.location.pathname;
-          window.history.replaceState({}, "", cleanUrl);
-          return; // Skip checkSession since we already have user data
+          const decoded = decodeURIComponent(oauthUser);
+          // Only attempt parse if it looks like JSON (starts with '{')
+          if (decoded.startsWith("{")) {
+            const userData = JSON.parse(decoded);
+            if (userData && userData.id) {
+              setUserPayload(userData);
+            }
+          }
         } catch (e) {
-          console.error("Failed to parse OAuth user data:", e);
+          // Silently ignore malformed oauth_user params
         }
+        // Always clean up URL regardless of parse result
+        window.history.replaceState({}, "", window.location.pathname);
+        return; // Skip checkSession — either OAuth data was set, or we fall through to session cookie
       }
     }
 

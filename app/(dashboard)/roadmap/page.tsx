@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useStudyPlanStore } from "@/stores/studyPlanStore";
 import { useAuthStore } from "@/stores/authStore";
+import { useAiChatbotStore } from "@/stores/aiChatbotStore";
 import { Button, Badge } from "@/shared/components/ui";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAnimation";
@@ -351,9 +352,20 @@ export default function RoadmapPage() {
                   <span>Thiết Kế Lộ Trình Học AI Cho <span className="text-amber-300">{user?.fullName || "Học Viên"}</span></span>
                   <Sparkles className="w-4 h-4 text-amber-300 fill-amber-300" />
                 </h1>
-                <p className="text-xs text-blue-100/90 font-medium leading-relaxed max-w-2xl">
-                  Chọn mục tiêu của bạn bên dưới. AI sẽ khởi tạo giáo án bài học chuyên sâu chi tiết từng chặng phù hợp 100% với điểm số đó.
-                </p>
+                <div className="flex items-center justify-between gap-3 flex-wrap pt-1">
+                  <p className="text-xs text-blue-100/90 font-medium leading-relaxed max-w-2xl">
+                    Chọn mục tiêu của bạn bên dưới. AI sẽ khởi tạo giáo án bài học chuyên sâu chi tiết từng chặng phù hợp 100% với điểm số đó.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => useAiChatbotStore.getState().openRoadmapDirectly()}
+                    className="h-8.5 px-3.5 rounded-xl bg-white text-[#0059bb] hover:bg-amber-300 hover:text-slate-950 text-xs font-bold transition-all shadow-md flex items-center gap-1.5 cursor-pointer font-display active:scale-95 shrink-0"
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                    <span>Mở Bong Bóng Chatbot Lộ Trình</span>
+                    <ArrowRight className="w-3 h-3" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>

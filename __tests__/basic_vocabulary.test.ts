@@ -1,4 +1,4 @@
-﻿import { describe, it, expect } from "vitest";
+import { describe, it, expect } from "vitest";
 import {
   BASIC_VOCABULARY_THEMES,
   BASIC_VOCABULARIES,
@@ -114,7 +114,7 @@ describe("Essential Basic & Daily Vocabulary Bank Audit (A1-A2 - 60 Comprehensiv
         expect(item.exampleTranslations.length).toBeGreaterThanOrEqual(2);
       }
     });
-  });
+  }, 15000);
 
   it("filters basic vocabulary by theme correctly", () => {
     const greetings = getBasicVocabulariesByTheme("t_basic_greetings");

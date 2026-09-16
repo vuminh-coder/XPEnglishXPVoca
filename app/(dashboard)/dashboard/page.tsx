@@ -199,15 +199,18 @@ export default function DashboardPage() {
       const oauthUserRaw = params.get("oauth_user");
       if (oauthUserRaw) {
         try {
-          const userObj = JSON.parse(decodeURIComponent(oauthUserRaw));
-          if (userObj && userObj.id) {
-            useUserStore.getState().setUserPayload(userObj);
-            const newUrl = window.location.pathname;
-            window.history.replaceState({}, document.title, newUrl);
+          const decoded = decodeURIComponent(oauthUserRaw);
+          if (decoded.startsWith("{")) {
+            const userObj = JSON.parse(decoded);
+            if (userObj && userObj.id) {
+              useUserStore.getState().setUserPayload(userObj);
+            }
           }
         } catch (err) {
-          console.error("Error parsing oauth_user payload:", err);
+          // Silently ignore malformed oauth_user params
         }
+        // Always clean URL regardless of parse result
+        window.history.replaceState({}, document.title, window.location.pathname);
       }
       useUserStore.getState().checkSession();
     }

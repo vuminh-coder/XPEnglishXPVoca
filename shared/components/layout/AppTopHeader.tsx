@@ -324,7 +324,10 @@ export function AppTopHeader({
             aria-haspopup="menu"
           >
             <UserAvatar
-              avatarUrl={user?.avatarUrl}
+              avatarUrl={user?.avatarUrl || user?.imageUrl || (user as any)?.avatar}
+              imageUrl={user?.imageUrl}
+              avatar={(user as any)?.avatar}
+              emoji={user?.avatarEmoji}
               name={userName}
               size="w-8 h-8 sm:w-8.5 sm:h-8.5"
               className="ring-1.5 ring-slate-200/90 dark:ring-slate-700"

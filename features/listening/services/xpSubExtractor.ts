@@ -285,11 +285,9 @@ export function deduplicateAsrEvents(events: any[]): ParsedXmlItem[] {
 
     const timeDiff = cue.startTime - currentCue.startTime;
 
-    // Check if new cue is a continuation or duplicate prefix of current cue
-    if (timeDiff < 0.9 && (cue.text.startsWith(currentCue.text) || currentCue.text.startsWith(cue.text))) {
-      if (cue.text.length > currentCue.text.length) {
-        currentCue.text = cue.text;
-      }
+    // Only merge if genuinely a rolling continuation where cue strictly extends currentCue within 0.8s
+    if (timeDiff >= 0 && timeDiff < 0.8 && cue.text.length > currentCue.text.length && cue.text.startsWith(currentCue.text)) {
+      currentCue.text = cue.text;
       currentCue.endTime = Math.max(currentCue.endTime, parseFloat((cue.startTime + cue.rawDur).toFixed(3)));
     } else {
       const duration = parseFloat((currentCue.endTime - currentCue.startTime).toFixed(3));

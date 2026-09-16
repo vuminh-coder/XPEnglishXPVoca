@@ -47,6 +47,13 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
 8. **Cấu Hình Nén & Tối Ưu Hóa Gói (`next.config.ts`)**:
    - Kích hoạt nén `compress: true` (Gzip/Brotli).
    - Bật `optimizePackageImports: ["lucide-react", "framer-motion"]` giúp tree-shake hiệu quả các thư viện biểu tượng và hoạt ảnh.
+9. **Cải Tiến Bộ Giải Mã Phụ Đề & Quản Lý Cache (`/api/youtube/captions`)**:
+   - **Bypass Cache chủ động**: Hỗ trợ query parameter `?force=1` để làm mới phụ đề tức thì khi YouTube cập nhật transcript mới.
+   - **Fuzzy Rolling Dedup**: Tự động gộp và khử trùng lặp các cụm ASR streaming có độ tương đồng từ vựng $\ge 80\%$ kể cả khi ASR sắp xếp lại thứ tự từ.
+   - **Mở rộng ghép câu tự nhiên**: Tự động nhận diện và ghép nối các mẩu câu phân mảnh đuôi 1-2 từ với câu trước đó lên tới 12 từ.
+   - **Độ chịu lỗi căn chỉnh song ngữ (Bilingual Alignment)**: Nâng ngưỡng dung sai timing tiếng Việt từ 4.0s lên 6.0s để không bỏ sót phụ đề dịch.
+   - **Nhận diện thông minh TTML & Chuẩn hóa Unicode**: Phân biệt chuẩn xác mili-giây và giây trong thẻ `<p>` TTML; tự động chuẩn hóa Unicode NFD sang NFC cho toàn bộ phụ đề tiếng Việt.
+   - **Kiến trúc Client Proxy dự phòng**: Tăng thời gian chờ proxy lên 4.0s và bổ sung fallback định dạng `fmt=srv1` phòng khi YouTube JSON3 trả về mảng sự kiện rỗng.
 
 ---
 
@@ -251,7 +258,21 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
     - **Đồng Bộ Tuyệt Đối Cả 2 Cấp Độ**: Áp dụng đồng bộ cấu trúc 1:1 này cho cả **Server/Suspense Initial Loading** ([`app/(dashboard)/analytics/loading.tsx`](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/analytics/loading.tsx)) và **Client In-Page DB Fetching** ([`app/(dashboard)/analytics/page.tsx`](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/analytics/page.tsx)).
     - **Bục Quán Quân & Danh Sách Học Viên Shimmer**: Bục Top 1 (Vàng Amber Shimmer), Top 2 (Bạc Shimmer), Top 3 (Đồng Shimmer) và 5 hàng học viên Shimmer chuẩn Rule 1 UI/UX.
 
-### 3. Lộ Trình Học Cá Nhân Hóa AI (`/roadmap`)
+### 3. Lộ Trình Học Cá Nhân Hóa AI (`/roadmap`) & Bong Bóng Chatbot Gia Sư Đa Năng Messenger-Style
+- **Bong Bóng Chatbot Thông Minh Kéo Thả Kiểu Messenger (`features/ai/components/FloatingAiChatbot/`)**:
+  - **Tự Do Kéo Thả Mọi Vị Trí & Vật Lý Lò Xo Snap-to-Edge**: Tự do kéo thả mượt mà 60fps trên cả Desktop và Mobile bằng `framer-motion` (`useMotionValue`, `useSpring` stiffness 380, damping 26). Tự động tính toán hút êm dịu về cạnh trái hoặc cạnh phải màn hình (`snap-to-edge`) với khoảng đệm an toàn 16px, ngăn ngừa hoàn toàn tình trạng che khuất nội dung trang web.
+  - **Phân Biệt Chuẩn Xác Thao Tác Kéo vs Chạm**: Nhận diện ngưỡng di chuyển chuột/chạm `delta > 5px` để phân biệt chính xác giữa việc kéo di chuyển bong bóng và việc click mở cửa sổ trò chuyện.
+  - **Vùng Hủy Thả Rơi (Dismiss Target Drop Zone)**: Khi bắt đầu kéo bubble, vòng tròn đỏ `X` phát sáng xuất hiện ở chính giữa mép dưới màn hình; kéo thả vào vùng này sẽ tạm ẩn bubble với hiệu ứng thu nhỏ mượt mà.
+  - **Lưu Tọa Độ Bền Vững (Persistent Position Storage)**: Tự động lưu vị trí tọa độ `(x, y)` vào `localStorage` (`xp_voca_chatbot_bubble_pos`), tự động khôi phục chuẩn xác vị trí khi học viên chuyển trang hoặc tải lại trình duyệt.
+  - **Khung Chat 3 Tab Đa Năng Thay Thế Lộ Trình Tĩnh**:
+    - **`💬 Gia Sư AI`**: Khung chat phản hồi theo thời gian thực (Streaming AI Response), dải 4 chip gợi ý câu hỏi 1 chạm thông minh, nhận diện giọng nói Web Speech API (`SpeechRecognition`), đọc phát âm âm thanh bản xứ (`speechSynthesis`) và nút sao chép nội dung câu trả lời.
+    - **`🗺️ Lộ Trình`**: Tích hợp toàn bộ sức mạnh của trang lộ trình thành widget di động tương tác: Thẻ mục tiêu cá nhân hóa (TOEIC/IELTS & Điểm target), 3 nhiệm vụ hàng ngày (Daily Quests) kèm nút chuyển nhanh tới phòng luyện tập, Hộp rương bí ẩn nhận thưởng tức thì (`+50 XP & +20 Coins` qua `useUserStore`), và 3 chặng mốc học tập chuẩn CEFR.
+    - **`⚡ Gợi Ý`**: Nhận diện ngữ cảnh thông minh thời gian thực qua URL hiện tại (`usePathname()`), tự động đưa ra gợi ý chuyên biệt khi học viên đang ở `/study/grammar`, `/myvideo`, `/vocabulary`, hoặc `/dashboard`, kèm danh sách gợi ý khắc phục điểm yếu và luyện đề chuẩn.
+  - **Bong Bóng Gợi Ý Chủ Động (Proactive Nudge Bubble)**: Tự động hiển thị tooltip động dạng đám mây trên đầu bubble nhắc nhở học viên khi có nhiệm vụ chưa làm hoặc gợi ý học tập mới.
+  - **Tích Hợp Liên Thông Toàn Hệ Thống**:
+    - **Thanh Bên (`Sidebar.tsx`)**: Nhấn vào mục "Lộ trình" trên Sidebar sẽ kích hoạt `useAiChatbotStore.getState().openRoadmapDirectly()`, mở ngay Chatbot ở tab "Lộ Trình" thay vì chỉ mở trang tĩnh.
+    - **Trang Lộ Trình (`app/(dashboard)/roadmap/page.tsx`)**: Nút CTA chính tại Banner cũng trực tiếp mở Chatbot Mentor để trải nghiệm lộ trình thông minh.
+    - **Khung Toàn Cục (`app/(dashboard)/layout.tsx`)**: Đặt component `<FloatingAiChatbot />` ở tầng gốc layout để xuất hiện xuyên suốt mọi màn hình học tập.
 - **`/roadmap`**: Hệ thống lộ trình học cá nhân hóa thông minh chuẩn Agency Tier tích hợp **`AppTopHeader` (56px Baseline)** và bố cục **Bento Grid 8/12 Lộ Trình + 4/12 Inspector Hướng Dẫn**:
   - **Thanh Header Đỉnh Đồng Bộ (`AppTopHeader`)**: Tích hợp các Tab Pill (`HeaderPillContainer` & `HeaderPillItem`): **"Lộ Trình Mục Tiêu"**, **"Đổi Mục Tiêu AI"**, **"Thống Kê Tiến Độ"** (`/analytics`) cùng nút hành động nhanh. Đã đăng ký `pathname === "/roadmap" || pathname?.startsWith("/roadmap")` vào `isHeaderIntegratedActive` tại [layout.tsx](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/layout.tsx) để triệt tiêu Navbar thừa trên mobile và mở rộng không gian hiển thị tràn viền sát nóc.
   - **Step 1: Khung Thiết Lập Mục Tiêu AI 2 Bước (`Goal Setting Form`)**:
@@ -510,33 +531,36 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
     - **Trên Mobile (`< 768px`)**: Chạm/nhấn trực tiếp vào bất kỳ từ vựng nào sẽ tự động kích hoạt **phát âm chuẩn bản xứ của từ đó tức thì (0ms TTS)** mà không gây che khuất màn hình hay nổi khối popover.
     - **Trên Desktop/Tablet**: Mở Word Dictionary Modal ở góc phải với cấu trúc `rounded-2xl shadow-2xl`, hiển thị nghĩa, giải thích chi tiết, câu ví dụ với font chữ đứng thẳng (`not-italic`), phát âm IPA chuẩn.
   - **Bộ Kiểm Thử Tự Động 100% PASS**: Bao gồm `speech_eval_real.test.ts` (kiểm thử thuật toán chấm điểm nói thật) và `shadowing_db_sync.test.ts`.
-- **`/myvideo`**: Thư Viện Video & YouTube Subtitle Studio (Tái Thiết Kế Chuẩn Agency Dashboard Tier).
+- **`/myvideo`**: Thư Viện Video & YouTube Subtitle Studio (Tái Thiết Kế & Module Hóa Chuẩn Agency Dashboard Tier).
+  - **Kiến Trúc Module Hóa Chuẩn Atomic (`features/myvideo/components/`)**:
+    - **Tách Rời Sub-Components Độc Lập**: Tối ưu hóa file trang chính từ 3.567 dòng xuống còn ~880 dòng sạch sẽ, phân tách các khối logic độc lập gồm:
+      - `VideoPlayerStudio.tsx`: Khung phát video YouTube tỷ lệ vàng 1.62fr, dock điều khiển 5 nút bấm, micro-sync offset dock (±0.2s), dock chỉnh tốc độ (0.75x - 1.5x), thông tin bài học và thanh tiến độ hoàn thành gradient.
+      - `InteractiveStudyDock.tsx`: Khối tương tác cột phải 1fr với 3 tab: Phụ đề song ngữ (Rolling 3 câu / Full view) kèm popup tra từ Free Dictionary API + TTS, Dictation AI (Masking từ `[ _____ ]`, kiểm tra đáp án +20 XP, gợi ý ký tự đầu) kết hợp Shadowing AI (Sóng âm Waveform, Web Speech AI so sánh giọng nói), và Playlist video cá nhân.
+      - `VideoLibraryGrid.tsx`: Khung tìm kiếm video, 4 trạng thái lọc (`Tất cả`, `Đang học`, `Đã xong`, `Yêu thích`), dải cuộn ngang 8 chuyên ngành và lưới thẻ video Bento Cards.
+      - Thư mục `modals/`: `KeyboardShortcutsModal.tsx`, `SubtitleExportModal.tsx`, `SrtImportModal.tsx`, `XpSubExtractorModal.tsx`.
+  - **Chuẩn Hóa 20 Quy Tắc UI/UX & Trải Nghiệm Học Tập**:
+    - **Quy tắc 6 (External Label)**: Bổ sung nhãn ngoài độc lập, rõ ràng cho ô *"Đường dẫn video YouTube cần học:"* và ô *"Tìm kiếm video bài học:"*, triệt tiêu việc chỉ dựa vào placeholder.
+    - **Quy tắc 1 (Skeleton Loading Khi Import)**: Khi học viên bấm nạp video YouTube, hệ thống hiển thị khung **Skeleton Preview Card** chuyển động ánh kim mô phỏng quá trình kết nối và bóc tách phụ đề mili-giây, thay thế spinner đơn điệu.
+    - **Hệ Thống Phím Tắt Tiện Ích Pro-User (`KeyboardShortcutsModal`)**: Hỗ trợ đầy đủ phím nóng `Space` (Play/Pause), `R` (Lặp câu), `S` (Tráo câu), `←/→` hoặc `J/L` (Tua câu phụ đề), `1/2/3` (Chuyển nhanh giữa 3 tab), `Enter` (Nộp bài/Chuyển câu Dictation), `?` (Mở bảng tra cứu phím tắt phím cơ).
+    - **Đồng Bộ Dữ Liệu Từ Vựng Thời Gian Thực**: Khi tra từ và nhấn *"+ Lưu Notebook"*, hệ thống không chỉ lưu vào `localStorage` mà còn đồng bộ trực tiếp vào `useVocabularyStore.getState().learned` và hồ sơ `wordsLearned` của người dùng để từ vựng xuất hiện ngay lập tức trong **Sổ từ của tôi (`/myvocab`)**.
   - **Đồng Bộ Hoàn Toàn Với Sidebar (`Sidebar.tsx`)**:
     - Mục **"Video của tôi"** trên Sidebar được chuẩn hóa icon máy quay `<Video className="w-[21px] h-[21px]" strokeWidth={1.9} />` thay cho icon Ngôi sao `<Star>`.
     - Dải Pill trên Header đồng bộ 100% tên gọi & icon với Sidebar: `[ 🎬 Video của tôi (Active) ]` `[ 🎧 Dictation ]` `[ 🎙️ Shadowing ]` `[ 📑 Danh sách từ ]`.
   - **Thanh Header Đỉnh Dùng Chung Cao Cấp (`AppTopHeader` 56px Baseline)**: 
-    - **Trên Desktop (≥ 1024px)**: Dính sát mép trên `top-0` và mép phải Sidebar (nhờ `layout.tsx` tích hợp `isHeaderIntegratedActive` zero-padding), ẩn Avatar/Theme thừa (đã có ở chân Sidebar), tích hợp Cụm nút thao tác nhanh `[ + Nhập SRT ]` & `[ ⚡ XP-Sub ]` và Danh ngôn truyền cảm hứng mỗi ngày.
-    - **Trên Mobile (< 1024px)**: 1 Header duy nhất (loại bỏ double header `Navbar`), nút Hamburger mở Drawer Sidebar, dải Pill co gọn icon thông minh, đầy đủ nút Theme Toggle & Avatar.
+    - **Trên Desktop (≥ 1024px)**: Dính sát mép trên `top-0` và mép phải Sidebar, ẩn Avatar/Theme thừa, tích hợp Cụm nút thao tác nhanh `[ ⌨️ Phím tắt (?) ]`, `[ + Nhập SRT ]`, `[ ⚡ XP-Sub ]` và `[ 📄 Xuất Subtitles ]`.
+    - **Trên Mobile (< 1024px)**: 1 Header duy nhất, nút Hamburger mở Drawer Sidebar, dải Pill co gọn icon thông minh, đầy đủ nút Theme Toggle & Avatar.
   - **Spotlight Hero Banner & 4 Thẻ Micro-Metric Double-Bezel**:
-    - Thẻ Tổng Video (`Video` - 30 video), Thời lượng học (`Clock` - 2.8h), Câu phụ đề tương tác (`Layers` - 1.2k+ câu), Video yêu thích (`Star` - 12 bài & 68% tiến độ).
+    - Thẻ Tổng Video (`Video`), Thời lượng học (`Clock`), Câu phụ đề tương tác (`Layers`), Video yêu thích (`Star` & tiến độ trung bình %).
     - Cấu trúc Double-Bezel chuẩn Dashboard (`rounded-xl` lồng trong `rounded-2xl` với nền `bg-slate-50/80 dark:bg-slate-950/60`).
-  - **YouTube Import Studio Deck**: Khung dán URL YouTube thông minh, tích hợp bộ chọn Thư mục (`Giao tiếp`, `TED Talks`, `Business`, `Movies`, `News`, `IELTS/TOEIC`, `Tổng hợp`), Cấp độ (Easy, Medium, Hard), nút nạp tự động `1-Click Nạp Phụ Đề Chuẩn` và phím tắt mở `XP-Sub Extractor`.
   - **Master-Detail Bento Grid Tỷ Lệ Vàng (`1.62fr : 1fr`)**:
-    - **Cột Trái (Player Studio 1.62fr)**:
-      - Trình phát YouTube IFrame nhúng 60fps đồng bộ thời gian thực mốc mili-giây.
-      - Media Control Bar: Nút Play/Pause lớn, nút Tráo câu ngẫu nhiên `Shuffle`, Lặp câu `Repeat1`, và Capsule Speed Dock `[0.5x, 0.75x, 1.0x, 1.25x, 1.5x]`.
-      - Khung Video Meta & Lộ trình bài học: Tiêu đề, Tác giả/Kênh, Cấp độ CEFR, Thời lượng và Thanh tiến độ hoàn thành gradient.
-    - **Cột Phải (Interactive Multi-Tab Dock 1fr)**:
-      - **3 Tab Tương Tác**: `[ 📑 Phụ đề cuộn ]` (Rolling Karaoke 3 câu với highlight câu hiện tại, phiên âm IPA, nghĩa tiếng Việt, nhấp tra từ điển 0ms), `[ ✍️ Chép chính tả ]` (Dictation chép từ bị khuyết, chấm điểm AI +20 XP), và `[ 🎙️ Luyện nói ]` (Shadowing ghi âm waveform, chấm điểm phát âm).
-  - **Thanh Tìm Kiếm & Bộ Lọc Đa Tầng**: Ô tìm kiếm video theo từ khóa, 4 trạng thái lọc (`Tất cả`, `Đang học`, `Đã xong`, `Yêu thích`), dải cuộn ngang phân loại chuyên ngành 8 danh mục.
-  - **Kho Video Bento Grid**: Hiển thị lưới video 3 cột với Thumbnail sắc nét 16:9, nút Play overlay, huy hiệu thời lượng, ngôi sao yêu thích, thanh tiến trình học và nút `Luyện tập ngay ↵`.
-  - **3 Modal Độc Lập Chuẩn Hóa (`rounded-2xl`)**:
-    - *XP-Sub AI Extractor Enterprise Modal (Thiết kế Agency Tier)*: Trích xuất & đồng bộ phụ đề song ngữ tự chủ 100% từ YouTube Server (JSON, SRT, VTT) với giao diện 2 bước (Bước 1: Chọn Track gốc & Ngôn ngữ dịch với bộ chọn bo cong; Bước 2: Bảng xem trước Live Preview từng câu kèm phát âm TTS và thanh tìm kiếm từ vựng nhanh).
-    - *SRT / VTT Direct Import Modal (Thiết kế Agency 2-Mode)*: Giao diện Modal cao cấp hỗ trợ 2 chế độ (1) Kéo thả Upload File trực tiếp từ thiết bị với khung nét đứt Dropzone hiện đại và (2) Dán văn bản trực tiếp kèm bộ phân tích phụ đề Live Parser hiển thị tức thì số lượng câu và thẻ xem trước 2 câu đầu tiên chuẩn mili-giây.
-    - *Export Subtitles Takeover Studio (Thiết kế Executive Agency)*: Báo cáo kỹ thuật và kiểm thử trích xuất phụ đề song ngữ mốc mili-giây với 4 thẻ Metric Double-Bezel (Thời lượng, Số câu, Số từ, Tỷ lệ dịch Google Neural), thanh Tab điều khiển Segmented Control 4 định dạng (.SRT, .VTT, .JSON, Full View), bộ chuyển đổi kích thước chữ linh hoạt 3 nấc (12px / 14.5px Chuẩn / 17px Lớn) cùng bộ Code Terminal Editor chuyên nghiệp.
-  - **Skeleton Loading Khớp 100% Hình Học (`loading.tsx`)**: Tái hiện toàn bộ bố cục Dashboard với dải 4 Pills Header, cụm Quick Action Buttons, 4 Metric Cards Double-Bezel, Bento Grid 1.62fr : 1fr và lưới video, triệt tiêu 100% hiện tượng giật nhảy layout khi tải trang.
-  - **Hệ Thống Nhận Diện Icon & Typography Chuẩn Hóa**:
-    - Thay thế hoàn toàn icon Sét bằng icon **Lấp lánh AI (`Sparkles`)** phối sắc Tím AI (`fill-purple-500/40 text-purple-600 dark:text-purple-400` trên nền `bg-purple-500/10`) đại diện cho công nghệ trích xuất phụ đề thông minh XP-Sub AI Engine chuẩn Quy tắc UI/UX #20.
+    - **Cột Trái (Player Studio 1.62fr)**: Trình phát YouTube IFrame nhúng 60fps đồng bộ thời gian thực mốc mili-giây với thuật toán Binary Search O(log n) kết hợp Punctuation-paced character-weighted word progression.
+    - **Cột Phải (Interactive Multi-Tab Dock 1fr)**: 3 tab tương tác Phụ đề tra từ, Dictation AI, Playlist.
+  - **4 Modal Độc Lập Chuẩn Hóa (`rounded-2xl`)**:
+    - *Keyboard Shortcuts Modal*: Bảng tra cứu phím tắt phím cơ Pro-User.
+    - *XP-Sub AI Extractor Enterprise Modal*: Trích xuất & đồng bộ phụ đề song ngữ tự chủ 100% từ YouTube Server (JSON, SRT, VTT, TXT).
+    - *SRT / VTT Direct Import Modal*: Kéo thả File hoặc dán văn bản kèm bộ phân tích phụ đề Live Parser hiển thị tức thì.
+    - *Export Subtitles Takeover Studio*: Báo cáo kỹ thuật và kiểm thử trích xuất phụ đề song ngữ mốc mili-giây với 4 định dạng (.SRT, .VTT, .JSON, Full View).
+  - **Skeleton Loading Khớp 100% Hình Học (`loading.tsx`)**: Tái hiện toàn bộ bố cục Dashboard, triệt tiêu 100% hiện tượng giật nhảy layout khi tải trang.
 - **`/vocabulary`**: Kho Từ Vựng Tiếng Anh Thông Minh (Thiết kế Agency Dashboard Tier).
   - **Đồng Bộ Header Đỉnh Thống Nhất (`AppTopHeader` 56px Baseline)**:
     - Tích hợp `AppTopHeader` với dải 4 Pill Actions chuyển cấp độ nhanh: `[ 📗 60 Chủ Đề Cơ Bản ]`, `[ 📘 155 Chủ Đề Nâng Cao ]`, `[ 🎯 Luyện Từ Vựng ]`, `[ 🏆 Thi Thử Đề ]`.
