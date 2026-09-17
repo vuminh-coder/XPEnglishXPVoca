@@ -120,6 +120,7 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
     - **`Thi thử đề` / `Đấu trường 1v1`**: `text-rose-500` (`FileText`, `Swords`).
     - **`Cài đặt` / `Phòng học nhóm` / `Nhóm học`**: `text-indigo-500` (`Settings`, `Users`).
     - **`Bảng tin` / `Thống kê`**: `text-blue-500` (`MessageSquare`, `BarChart3`).
+    - **`Lịch Ôn Tập SM-2` / `Luyện Tập Ngay` / `Sổ Tay Từ Vựng` (`/review`)**: `text-[#0059bb]` (`CalendarIcon`), `text-amber-500` (`Target`), `text-slate-500` (`BookMarked`).
 - **Tiêu Chuẩn Bo Góc & Spacing (Tuân thủ Quy tắc UI/UX Wadhah Aloui)**:
   - **Rule 20 (Semantic Color Distribution)**: Tuân thủ nghiêm ngặt tỷ lệ 60-30-10, bảo vệ mắt và giữ vững tính nhận diện học thuật cao cấp.
   - **Rule 10 (Micro-Sharp UI Border-Radius Standard)**: Quy chuẩn bo góc tất cả các khối hình chữ nhật trên toàn website (cards, containers, buttons, inputs, dropdowns, modals, badges, tabs, alerts, toasts) về phẳng **`rounded-xs` (2px - 3px)** hoặc **`rounded-xl` (12px)** siêu sắc nét, tinh gọn và hiện đại (Ngoại lệ duy nhất: giữ nguyên `rounded-full` cho khối hình tròn như Avatar, chấm tiến trình tròn).
@@ -207,27 +208,29 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
 - **Responsive Footer**: Đồng bộ chuẩn mực trên cả 3 trang Auth với chữ thương hiệu `XP English | XP Voca` và dòng bản quyền `© 2026 XP English / XP Voca. Đã bảo lưu mọi quyền.` căn giữa trên Mobile và dãn đều hai bên trên Desktop.
 
 ### 1. Bảng Điều Khiển & Trung Tâm Học Tập (`/dashboard`)
-- **`/dashboard`**: Trung tâm chỉ huy học tập toàn diện (Thiết kế kế thừa chuẩn mực thẩm mỹ cao cấp từ **Listening Studio** `/study/listening` & `?id=34`).
+- **`/dashboard`**: Trung tâm chỉ huy học tập toàn diện (Thiết kế kế thừa chuẩn mực thẩm mỹ cao cấp từ **Listening Studio** `/study/listening` & kiến trúc **Geometric Twin Shimmer Skeleton - 0px CLS**).
+  - **Kiến Trúc Mô-Đun Hóa Sạch Sẽ (`features/dashboard/components/`)**: Tái cấu trúc hoàn toàn tệp nguyên khối 2,084 dòng thành 8 sub-components chuyên biệt độc lập:
+    1. `DashboardHeroGreeting.tsx`: Lời chào cá nhân hóa, UserAvatar, cấp độ Lv, chức danh học viên và 4 thẻ Double-Bezel chỉ số.
+    2. `DashboardMissionDeck.tsx`: Thẻ nhiệm vụ trung tâm Hoàng Gia (`bg-gradient-to-br from-[#0059bb] via-[#004fba] to-[#00388a]`), tiến trình từ vựng hôm nay, 3 pods thông số mờ sương và nút Primary CTA thích ứng bài học.
+    3. `DashboardSkillChartCard.tsx`: Bộ lọc 5 kỹ năng (`Dictation`, `Shadowing`, `Nói`, `Từ vựng`, `Viết`) với con nhộng trượt `layoutId="activeSkillTabIndicator"`, canvas SVG sóng âm Bezier 700x210, biến thiên mượt mà 320ms qua `useInterpolatedYPoints` và badges tóm tắt chuyển cảnh `<AnimatePresence mode="wait">`.
+    4. `DashboardStreakStudio.tsx`: Mascot 3D Ngọn Lửa Duolingo, bong bóng thoại tương tác, stepper 7 ngày vật liệu 3D, hộp quà mốc tuần và nút bấm Điểm danh (+15 XP) phản hồi Optimistic UI 0ms.
+    5. `DashboardLeaderboardCard.tsx`: Bảng xếp hạng mini với 2 tầng con nhộng trượt Spring Physics: Chu kỳ (`Tuần` / `Tháng` `layoutId="dashboardLbPeriodIndicator"`) và Tiêu chí (`Thời gian học` / `Điểm XP` `layoutId="dashboardLbCriterionIndicator"`), danh sách học viên chuyển cảnh siêu êm qua `<AnimatePresence mode="wait">`.
+    6. `DashboardDailyQuestsCard.tsx`: Thẻ nhiệm vụ hàng ngày với thanh sub-tabs lọc 3 trạng thái (`Tất cả`, `Chưa nhận`, `Đã xong` `layoutId="dashboardQuestsFilterIndicator"`), nút nhận thưởng nguyên tử cộng XP/Coins tức thì.
+    7. `DashboardQuickActionsGrid.tsx`: Lưới 4 thẻ Bento truy cập siêu tốc (Luyện nghe, Luyện nói, Thi thử, Đấu trường PvP) hiệu ứng nhấc thẻ hover lift `whileHover={{ y: -3 }}`.
+    8. `DashboardAiTutorWidget.tsx`: Thẻ phụ mở rộng vốn từ vựng học thuật 8,900+ từ và khung hỏi đáp nhanh AI Tutor hỗ trợ phát âm Audio TTS và Shimmer Thinking.
+  - **Quy Chuẩn Bố Cục Lưới 12 Cột Triệt Tiêu 100% Sai Lệch (0px CLS Standard)**: Đồng bộ tuyệt đối giữa `page.tsx` và `loading.tsx` sang hệ lưới `grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6` (Cột trái `lg:col-span-7` ~58.3% và Cột phải `lg:col-span-5` ~41.7%), triệt tiêu 100% độ lệch 3.5% CLS cũ khi chuyển từ Skeleton sang giao diện thật.
+  - **Hiệu Ứng Con Nhộng Trượt 2 Cấp Độ (2-Level Spring Physics Sliding Pill)**: Tích hợp `layoutId="dashboardHeaderActiveTab"` tại `HeaderPillItem` đỉnh trang, `layoutId="activeSkillTabIndicator"` tại dock kỹ năng, `layoutId="dashboardLbPeriodIndicator"` & `layoutId="dashboardLbCriterionIndicator"` tại BXH, và `layoutId="dashboardQuestsFilterIndicator"` tại lọc thử thách.
+  - **Kiến Trúc Khung Xương Triệt Để & Tải Dữ Liệu Đồng Bộ (Zero Flash Mock Data & Synchronous Hydration)**:
+    - **Khởi Tạo SWR Đồng Bộ 0ms**: Toàn bộ trạng thái Check-in, Nhiệm vụ hàng ngày, Lộ trình hôm nay và Bảng xếp hạng được khởi tạo đồng bộ ngay trong `useState` initializer từ `localStorage`/`sessionStorage`, loại bỏ hoàn toàn độ trễ bất đồng bộ của `useEffect` và hiển thị giao diện tức thì trong **0ms**.
+    - **Fallback Khung Xương Hình Học 1:1 (`DashboardLoading`)**: Khi người dùng lần đầu truy cập hoặc chưa có cache, `isPageLoading` kích hoạt ngay lập tức `DashboardLoading` (khớp 100% hình học, 60fps shimmer sweep) kèm thời gian đệm 240ms mượt mà, triệt tiêu 100% tình trạng nhấp nháy dữ liệu mặc định hay chữ số 0.
+    - **Vi Khung Xương Nội Bộ (In-place Shimmer States)**: Khi đang fetch nền CSDL, các thẻ chỉ số trong `DashboardHeroGreeting` (`isActuallyLoading`), biểu đồ `DashboardSkillChartCard` (`isLoadingChart`) và danh sách BXH hiển thị ShimmerBox đúng tỷ lệ pixel, không làm xô lệch bố cục.
+  - **Staggered Spring Entrance Animation Standard (`PageEntranceWrapper`)**: Toàn bộ canvas Dashboard 12 cột được bọc trong `PageEntranceWrapper`, tạo hiệu ứng xuất hiện phân tầng so le mượt mà theo chuẩn Agency Tier.
+  - **Đồng Bộ Bo Góc Double-Bezel Tuyệt Đối (Rule 10 Wadhah Aloui)**: Toàn bộ thẻ card bao ngoài của `DashboardHeroGreeting`, `DashboardMissionDeck`, `DashboardSkillChartCard`, `DashboardStreakStudio`, `DashboardLeaderboardCard`, `DashboardDailyQuestsCard` được quy chuẩn thống nhất về `rounded-2xl` (16px), các phần tử con bên trong `rounded-xl` (12px), triệt tiêu hoàn toàn sự sai lệch bo góc giữa `loading.tsx` và giao diện thực tế.
   - **Hệ Thống Bảng Màu Hòa Hợp Chuẩn Agency (Analogous-Complementary System)**: Đồng bộ ma trận màu sắc cân bằng giữa nhận diện thương hiệu **Royal Blue (`#0059bb`)**, ngọn lửa Streak **Warm Amber & Orange (`#f59e0b` / `#f97316`)**, độ tập trung **Electric Sky (`#06b6d4`)**, vốn từ tích lũy **Emerald (`#10b981`)** và thành tích lên cấp **Indigo (`#8b5cf6`)**. Tuân thủ nghiêm ngặt **Quy tắc Wadhah Aloui số 17** (giảm độ bão hòa màu nhấn ở Chế độ Tối sang tông pastel dịu mắt `dark:text-sky-400`, `dark:text-amber-400`, `dark:text-emerald-400`, chống mỏi mắt 100%).
   - **Cơ Chế Co Giãn Fluid Width Khi Thu Gọn Sidebar**: Áp dụng hệ thống container linh hoạt **Fluid Scalable Container (`max-w-[1600px] 2xl:max-w-[1760px] w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12`)**. Khi thu gọn/đóng Sidebar trên màn hình lớn (1440px - 1920px), toàn bộ bố cục Dashboard tự động dãn rộng mượt mà, triệt tiêu 100% khoảng trống trắng thừa ở 2 bên mép lề.
-  - **Hệ Thống Phân Cấp Typography & Icon Sắc Nét**: Sử dụng thống nhất font chữ **`Be Vietnam Pro`**, 6 tầng kích cỡ chữ rõ rệt (Hero Title, Section Header, Key Metrics với `font-mono tabular-nums`, Labels `text-[11px]`, Buttons `text-xs sm:text-sm`, Badge `text-[10px]`), cùng bộ Icon Lucide React nét `stroke-[2]` đến `stroke-[2.2]` canh giữa quang học (100% không chứa icon emoji thô).
-  - **Thanh Header Đỉnh Dùng Chung Cao Cấp (`AppTopHeader` 56px `h-14` Baseline)**: Component dùng chung [`shared/components/layout/AppTopHeader.tsx`](file:///e:/XP%20English%20%20XP%20Voca/shared/components/layout/AppTopHeader.tsx) chuẩn Agency, trang bị nút **Hamburger Menu (`Menu` 3 gạch ngang)** mở nhanh Sidebar ngăn kéo trên Mobile/Tablet (`lg:hidden`), khe cắm linh hoạt cho cụm nút chuyển chế độ hình con nhộng (`HeaderPillContainer` & `HeaderPillItem`), **Khối Danh Ngôn Truyền Cảm Hứng Mỗi Ngày (Daily Inspiration Quote)** có âm thanh TTS & quay số ngẫu nhiên, nút bấm chuyển đổi **Chế độ Sáng / Tối (`Sun` / `Moon`)**, và **Avatar người dùng** liên kết trực tiếp tới trang Cá nhân `/profile`.
-  - **Hero Greeting & Cụm 4 Thẻ Chỉ Số Double-Bezel**: Khung thông tin học viên kèm avatar thực tế, huy hiệu Level CEFR (A1-C2), thanh tiến trình XP Level và 4 thẻ Double-Bezel (`rounded-xl` lồng trong `rounded-2xl`): Chuỗi Streak (`Flame`), Thời gian luyện tập (`Clock`), Vốn từ đã tích lũy (`BookmarkCheck`), Cấp độ XP (`Target`).
-  - **Lộ Trình Hôm Nay (Today's Mission Control Deck)**: Thẻ nhiệm vụ trung tâm kết nối `/api/study-plan/current` bọc qua `safeDbExecute` kèm cơ chế **Smart Adaptive Task Fallback**, 3 chip thông số (`Mục tiêu`, `Thời gian ~15m`, `Thưởng +50 XP`), thanh tiến trình gradient và nút bấm chính **Button-in-Button** (`Bắt đầu học ngay ↗`) với bố cục **nằm ngang hàng nhau (Horizontal Layout)** mượt mà trên cả Mobile và Desktop (`flex items-center justify-between`).
-  - **Phút Luyện Tập 7 Ngày Theo Từng Kỹ Năng (Per-Skill Analytics Dock)**: Thiết kế thanh chọn kỹ năng 5 tab (Dictation, Shadowing, Luyện nói, Từ vựng, Luyện viết) kết nối trực tiếp với **Hệ thống theo dõi thời gian thực `useStudyTimeTracker`** từ tất cả các phòng học (`/study/listening`, `/study/shadowing`, `/ai/tutor`, `/vocabulary`, `/study/grammar`, `/study/practice`), lưu trữ vào **PostgreSQL Backend** (`DailySkillPractice` & `/api/user/skill-practice`). Biểu đồ SVG đường cong Bezier siêu mượt với gradient vùng sáng trong suốt, trục Ox/Oy to rõ sắc nét (`text-[22px] font-extrabold`), chiều cao viewBox 210px cao ráo và trực quan.
-  - **Điểm Danh Tuần Này (Fluid Connected Track & Multi-Source Active Stepper)**: Lộ trình 7 mốc kết nối fluid với chấm tròn nối tâm, viền phát sáng gradient màu cam hổ phách. Tích hợp API `/api/user/daily-checkin` tổng hợp hoạt động học tập đa nguồn từ cả 4 bảng (`DailySkillPractice`, `ExamAttempt`, `ListeningProgress`, `UserVocabulary`), tự động kích hoạt chuỗi rực lửa và cập nhật đồng bộ 2 chiều (`currentStreak`, `longestStreak`, `totalXp`, `coins`, `minutesStudied`).
-  - **Bảng Xếp Hạng Mini Động & Nhiệm Vụ Hàng Ngày (Real-Time Quests & Dynamic Ranking)**:
-    - **Sắp Xếp Động Theo Tiêu Chí**: Phân loại theo "Tuần / Tháng" và sắp xếp danh sách Top 3 cùng thứ hạng người dùng linh hoạt theo tiêu chí đang chọn: "Thời gian học" (`minutesStudied` giảm dần) hoặc "Điểm XP" (`xp` giảm dần).
-    - **Nhiệm Vụ Hàng Ngày & Endpoint Nhận Thưởng Chuẩn Hóa**: Tích hợp API nhận thưởng `/api/user/challenges/claim` (ghi nhận nguyên tử vào `DailySkillPractice` và cộng thưởng `Profile.totalXp`, `Profile.coins` trực tiếp trong PostgreSQL), triệt tiêu lỗi 404 và ngăn chặn tình trạng mất dữ liệu thưởng.
-  - **Hỏi Đáp AI Tutor Nhanh (Interactive Workspace)**: Thiết kế dạng Dictation Workspace với nhãn ngoài, ô nhập câu hỏi, nút gửi kèm `isAiLoading` hiển thị hộp thoại Shimmer Response đa dòng với icon `Bot` phát sáng êm ái khi AI đang tư duy.
-  - **Cụm 4 Phím Tắt Bento Đáy Trang (Grid 2x2 Mobile & 4 Cột Desktop)**: 4 thẻ truy cập siêu tốc (Luyện nghe, Luyện nói, Thi thử, Đấu trường PvP) với bố cục thông minh **Grid 2x2 trên Mobile** (`grid-cols-2 lg:grid-cols-4`), header responsive tự động bẻ dòng, hiệu ứng nhấc thẻ hover lift `whileHover={{ y: -3 }}`, đệm đáy an toàn `pb-24 sm:pb-8` chống che khuất bởi Bottom Bar.
-  - **Hệ Thống Shimmer Skeleton Loading Đa Tầng Chuẩn Hình Học 1:1 (Exact Geometric Twin - Zero Layout Shift)**:
-    - **Nhiệm Vụ Hàng Ngày 1:1**: Tích hợp `isLoadingChallenges` hiển thị đúng 5 thẻ Thử Thách Shimmer ánh kim 60fps (Icon vuông bo góc `w-7 h-7`, thanh tên nhiệm vụ có bo góc pill, thanh tiến trình/nút nhận thưởng) triệt tiêu hoàn toàn hiện tượng nhảy nảy hay nhấp nháy khi CSDL phản hồi.
-    - **Điểm Danh & Stepper 7 Ngày**: Thay thế toàn bộ khối `animate-pulse` xám thô bằng 7 nhãn thứ ("T2".."CN") và 7 chấm tròn `ShimmerCircle` ánh kim lướt sóng, bảo đảm bố cục Stepper không xê dịch dù chỉ 0.1px.
-    - **Bảng Xếp Hạng Mini Đa Tầng**: Tái hiện chuẩn xác 1 Hàng Học Viên Của Bạn (highlight viền xanh) và 3 Hàng Quán Quân (Top 1 Vàng, Top 2 Bạc, Top 3 Đồng) với avatar tròn `ShimmerCircle` và thanh điểm số.
-    - **Nhiệm Vụ Lộ Trình Hôm Nay**: Tích hợp `isLoadingPlan` hiển thị 2 dòng tiêu đề Shimmer bo góc, ngăn ngừa tình trạng trống nội dung trong lúc CSDL truy vấn.
-    - **Biểu Đồ Sóng 5 Kỹ Năng 700x210 & Kết Nối CSDL Thực Tế**: Đã liên kết trực tiếp tuyến CSDL `/api/user/skill-practice` (kết hợp `DailySkillPractice` và `ListeningProgress`), truyền `request` xác thực người dùng, loại bỏ rào cản `local_user`. Bổ sung state `isLoadingChart`: trong suốt quá trình nạp CSDL, biểu đồ hiển thị khung canvas SVG tọa độ chuẩn `viewBox="0 0 700 210"` với 5 đường nét đứt mờ, nhãn trục Y (`60m, 45m, 30m, 15m, 0m`), dải quét Shimmer Sweep và 7 mốc ngày ShimmerBox, sau đó thế chỗ êm dịu thành đường cong Bezier dữ liệu thật.
-    - **Đồng Bộ Hoàn Hảo Giữa `page.tsx` và `loading.tsx`**: Khung xương Server Suspense và Client In-Page DB Fetching khớp 100% từng pixel, bảo đảm 0px CLS khi tải trang.
+  - **Thanh Header Đỉnh Dùng Chung Cao Cấp (`AppTopHeader` 56px `h-14` Baseline)**: Component dùng chung [`shared/components/layout/AppTopHeader.tsx`](file:///e:/XP%20English%20%20XP%20Voca/shared/components/layout/AppTopHeader.tsx) chuẩn Agency, trang bị nút **Hamburger Menu (`Menu` 3 gạch ngang)** mở nhanh Sidebar ngăn kéo trên Mobile/Tablet (`lg:hidden`), cụm nút chuyển chế độ hình con nhộng `HeaderPillContainer` & `HeaderPillItem` với `layoutId="dashboardHeaderActiveTab"`.
+  - **Điểm Danh Tuần Này (Duolingo 3D Crystal Flame & Multi-Source Active Stepper)**: Tích hợp mascot ngọn lửa pha lê 3D sống động, API `/api/user/daily-checkin` tổng hợp hoạt động học tập đa nguồn từ cả 4 bảng (`DailySkillPractice`, `ExamAttempt`, `ListeningProgress`, `UserVocabulary`), tự động kích hoạt chuỗi rực lửa và cập nhật đồng bộ 2 chiều (`currentStreak`, `longestStreak`, `totalXp`, `coins`, `minutesStudied`).
+  - **Bảng Xếp Hạng Mini Động & Nhiệm Vụ Hàng Ngày (Real-Time Quests & Dynamic Ranking)**: Sắp xếp danh sách Top 3 cùng thứ hạng người dùng linh hoạt theo tiêu chí đang chọn: "Thời gian học" hoặc "Điểm XP". API nhận thưởng `/api/user/challenges/claim` ghi nhận nguyên tử vào `DailySkillPractice` và cộng thưởng `Profile.totalXp`, `Profile.coins` trực tiếp trong PostgreSQL.
   - **Thanh Điều Hướng Đáy Mobile (Bottom Navigation Dock)**: Thiết kế thanh đáy `shared/components/layout/BottomNav.tsx` đồng bộ phong cách Dashboard với hiệu ứng **Active Pill Indicator** (`layoutId="mobileBottomNavActivePill"`), viền kính mờ `backdrop-blur-xl`, icon sắc nét và typography `text-[9.5px] font-black text-[#0059bb]` dễ đọc.
   - **Thanh Bên Mobile Drawer Header**: Phần đỉnh ngăn kéo `shared/components/layout/Sidebar.tsx` trang bị chuẩn xác chữ thương hiệu **`XP English | XP Voca`** và nút bấm thu gọn icon **`PanelLeftClose`** (`[| <]`) đồng bộ 100% với giao diện Desktop.
 
@@ -303,30 +306,25 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
   - **Khung Xương Tải Trang Đồng Bộ Hình Học (`roadmap/loading.tsx`)**: Tái hiện chuẩn xác 100% từng pixel Header 56px, Hero Banner, 2 Khung Chặng học bên trái và Thẻ Inspector bên phải, đảm bảo 0px layout shift.
 
 ### 4. Bảng Xếp Hạng & Cộng Đồng (`/community`)
-- **`/community`**: Mạng xã hội học tập tương tác chuẩn Agency Tier tích hợp **`AppTopHeader` (56px Baseline)**, cấu trúc **Fluid Ultra-Wide Canvas `max-w-[1600px] 2xl:max-w-[1760px]`** và bố cục **Bento Grid 8/12 Feed + 4/12 Sidebar Widgets**:
-  - **Thanh Header Đỉnh Đồng Bộ (`AppTopHeader`)**: Tích hợp 4 Tab Pill (`HeaderPillContainer` & `HeaderPillItem`): **"Bảng Tin"** (`/community`), **"Xếp Hạng"** (`/community/leaderboard`), **"Bạn Bè"** (`/community/friends`), **"Nhóm Học"** (`/community/groups`), cùng nút Primary `[ ✍️ Đăng Bài Viết +20 XP ]`. Đã đăng ký `pathname === "/community" || pathname?.startsWith("/community")` vào `isHeaderIntegratedActive` tại [layout.tsx](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/layout.tsx) để triệt tiêu Navbar thừa trên mobile và mở rộng không gian hiển thị tràn viền sát nóc.
-  - **Hero Spotlight Banner (`rounded-2xl`)**: Gradient Xanh Hoàng Gia sang trọng (`from-[#0059bb] via-[#004fba] to-[#00388a]`) kèm hiệu ứng ambient blur orbs, hiển thị huy hiệu `1,240+ Học Viên Online` và `Thưởng +20 XP / Bài đăng`, khớp 1:1 với bộ khung xương `community/loading.tsx` đảm bảo 0px Cumulative Layout Shift (Zero CLS).
-  - **Khung Tạo Bài Viết (`rounded-2xl`)**: Ô nhập `textarea` bo góc `rounded-xl`, gợi ý hashtag nhanh (`#MeoHocTuVung`, `#LuyenThiTOEIC`, `#IELTSWriting`) và nút đăng bài với **Optimistic UI 0ms** nhận ngay +20 XP.
-  - **Dòng Bảng Tin & Tương Tác (`Feed Stream`)**: Thẻ bài viết `rounded-2xl`, header tác giả với `UserAvatar`, badge `Member` bo viền, tag từ vựng `rounded-lg bg-blue-50 dark:bg-blue-950/40 text-[#0059bb]`, thanh đếm tương tác (Lượt thích màu Rose, Bình luận màu Blue), và khu vực bình luận mở rộng mượt mà. Tích hợp bộ **Database Shimmer Skeleton 3 thẻ bài viết chân thực** khi truy vấn CSDL, loại bỏ hoàn toàn spinner cổ điển theo Rule 1 UI/UX.
-  - **Cụm 3 Widget Bento Cột Phải (`lg:col-span-4`)**:
-    - **Widget 1 (Top 3 Tuần `rounded-2xl`)**: Bục vinh danh thu nhỏ Top 1, Top 2, Top 3 kèm điểm XP và liên kết xem toàn bộ bảng xếp hạng (`/community/leaderboard`).
-    - **Widget 2 (Nhóm Học Nổi Bật `rounded-2xl`)**: Danh sách CLB IELTS, Hội cày 3000 từ TOEIC kèm số lượng thành viên.
-    - **Widget 3 (Mẹo AI Ghi Nhớ Nhanh `rounded-2xl`)**: Thẻ mẹo ghi nhớ chủ động (Active Recall) nền xanh hoàng gia dịu.
-- **`/leaderboard` & `/community/leaderboard`**: Bảng vinh danh chiến binh XP English tuần:
-  - **Hỗ Trợ Route Kép & Tự Động Chuyển Hướng**: Hỗ trợ truy cập trực tiếp URL ngắn gọn `/leaderboard` (tự động chuyển tiếp HTTP 308 qua `next.config.ts` và router `app/(dashboard)/leaderboard/page.tsx` sang `/community/leaderboard`), loại bỏ 100% nguy cơ lỗi 404 khi người dùng gõ trực tiếp URL hoặc truy cập liên kết tắt.
-  - **Spotlight Hero Banner (`rounded-2xl`)**: Gradient Xanh Hoàng Gia kèm đồng hồ đếm ngược reset tuần và badge vị trí của người dùng.
-  - **Bục Quán Quân Bento 3D Top 1-3 (`rounded-2xl`)**: Vàng Quán Quân #1 (ở giữa cao nhất), Bạc Á Quân #2, Đồng Hạng Ba #3 thiết kế huy hiệu metallic nổi bật.
-  - **Danh Sách Hạng 4-50 (`rounded-2xl`)**: Stream danh sách học viên với huy hiệu cấp độ `Lv` và highlight vị trí của bạn (`isCurrentUser`).
-  - **Thanh Điều Hướng Thông Minh**: Nút **`[ ← Quay lại trang Thống kê ]`** CHỈ hiển thị khi học viên truy cập từ `/analytics?from=analytics`.
-- **`/community/friends`**: Quản lý bạn bè và gợi ý bạn học đồng hành:
-  - Khung tìm kiếm bạn bè `rounded-xl` theo username, danh sách lời mời kết bạn đang chờ, danh sách bạn bè hiện tại và widget gợi ý bạn học đồng hành (+10 XP / lời mời).
-- **`/community/groups`**: Câu lạc bộ & Nhóm học thuật chuyên sâu:
-  - Danh sách nhóm học tập (IELTS Speaking, 3000 Từ TOEIC, v.v.), tham gia nhóm 1 chạm và tính năng khởi tạo nhóm mới dành cho học viên Cấp 15+.
-- **Hệ Thống Khung Xương Tải Trang Đồng Bộ Hình Học 100% (Zero Layout Shift Skeletons)**:
-  - **`community/loading.tsx`**: Tái hiện chuẩn xác 100% từng pixel Header 56px, Hero Banner, Khung đăng bài và 3 khối widget cột phải.
-  - **`community/leaderboard/loading.tsx`**: Tái hiện 100% Header 56px (Tab Xếp Hạng active), Bục Quán Quân Top 1-3 và Danh sách Hạng 4+.
-  - **`community/friends/loading.tsx`**: Tái hiện 100% Header 56px (Tab Bạn Bè active), Khung tìm kiếm và Danh sách bạn bè.
-  - **`community/groups/loading.tsx`**: Tái hiện 100% Header 56px (Tab Nhóm Học active), Lưới 2x2 câu lạc bộ và Widget nhóm của bạn.
+- **`/community`**: Mạng xã hội học tập tương tác chuẩn Agency Tier tích hợp **Kiến trúc Unified Multi-Tab Hub**, **`AppTopHeader` (56px Baseline)** với hiệu ứng con nhộng trượt Apple-grade (`HeaderPillItem layoutId="communityActiveTab"`), cấu trúc **Fluid Ultra-Wide Canvas `max-w-[1600px] 2xl:max-w-[1760px]`** và bố cục **Bento Grid 8/12 Feed + 4/12 Sidebar Widgets**:
+  - **Kiến Trúc Unified Multi-Tab Hub (Zero Reload)**: Hợp nhất 4 phân khu chức năng lớn (**"Bảng Tin"**, **"Xếp Hạng"**, **"Bạn Bè"**, **"Nhóm Học"**) vào chung một Single-Page Hub tối ưu. Chuyển đổi giữa các tab diễn ra tức thì trong **0ms** không reload trang, kết hợp chuyển cảnh mượt mà bằng `<AnimatePresence mode="wait">` (`opacity: 0, y: 12 -> 0 -> -12`, `duration: 0.22s`). Đồng bộ hóa URL qua `?tab=...` (`replaceState`) đảm bảo lưu lịch sử duyệt và bookmark mà không kích hoạt tải lại mạng.
+  - **Hỗ Trợ Route Kép & Tương Thích Tuyệt Đối 100%**: Tất cả các đường dẫn trực tiếp trong hệ thống như `/community/leaderboard`, `/community/friends`, `/community/groups` vẫn được bảo toàn nguyên vẹn 100% thông qua cơ chế Delegation (`initialTab`), giúp học viên truy cập từ bất kỳ đâu (Sidebar, Dashboard, Profile, v.v.) đều mở ngay tab tương ứng và chuyển nhanh sang tab khác với 0ms độ trễ.
+  - **Hiệu Ứng Chuyển Tab 2 Cấp Độ (2-Level Motion Transitions)**:
+    - **Level 1 (Master Header Tabs)**: 4 Tab Pill trong `HeaderPillContainer` sở hữu hiệu ứng trượt con nhộng mượt mà qua Framer Motion Spring Physics (`layoutId="communityActiveTab"`, `stiffness: 500, damping: 35`). Nút CTA góc phải thích ứng theo ngữ cảnh từng tab (`[ ✍️ Đăng bài +20 XP ]`, `[ ⚡ Đua top +15 XP ]`, `[ 👥 Tìm bạn +10 XP ]`).
+    - **Level 2 (Sub-Filter Tabs Trong Từng View)**:
+      - *Bảng Tin*: Bộ lọc danh mục chuyên mục (`Tất cả`, `#Hỏi đáp`, `#Chia sẻ kinh nghiệm`, `#IELTS / TOEIC`, `#Thảo luận`) với sliding indicator `layoutId="activeFeedFilterIndicator"`.
+      - *Xếp Hạng*: Bộ lọc chu kỳ (`Tuần này`, `Tháng này`, `Mọi thời đại`) với sliding indicator `layoutId="activeLeaderboardPeriodIndicator"`.
+      - *Bạn Bè*: Phân khu (`Tất cả bạn bè`, `Lời mời kết bạn`, `Gợi ý kết nối`) với sliding indicator `layoutId="activeFriendsSubTabIndicator"`.
+      - *Nhóm Học*: Bộ lọc nhóm (`Tất cả`, `Đã tham gia`, `TOEIC & IELTS`, `Giao tiếp IPA`) với sliding indicator `layoutId="activeGroupsFilterIndicator"`.
+  - **Khung Tạo Bài Viết (`rounded-2xl`)**: Ô nhập `textarea` bo góc `rounded-xl`, gợi ý hashtag nhanh và nút đăng bài với **Optimistic UI 0ms** nhận ngay +20 XP.
+  - **Dòng Bảng Tin & Tương Tác (`Feed Stream`)**: Thẻ bài viết `rounded-2xl`, header tác giả với `UserAvatar`, badge `Member` bo viền, tag từ vựng `rounded-lg bg-blue-50 dark:bg-blue-950/40 text-[#0059bb]`, thanh đếm tương tác (Lượt thích màu Rose, Bình luận màu Blue), và khu vực bình luận mở rộng mượt mà.
+  - **Hệ Thống Khung Xương Quét Tia Sáng Điện Ảnh 60fps (Geometric Twin Shimmer Skeleton - 0px CLS)**:
+    - Áp dụng đồng bộ bộ ba `ShimmerBox`, `ShimmerCircle`, `ShimmerText` tích hợp hiệu ứng dải sáng gradient quét 60fps (`before:animate-shimmer`), thay thế hoàn toàn `animate-pulse` mờ đục cũ.
+    - **`community/loading.tsx`**: Tái hiện chuẩn xác 100% từng pixel Header 56px, Hero Banner, Khung tạo bài viết, 2 Thẻ bài viết chi tiết và 3 khối widget cột phải.
+    - **`community/leaderboard/loading.tsx`**: Tái hiện 100% Bục Quán Quân Top 1-3 (Bạc, Vàng nâng cao, Đồng) và Danh sách Hạng 4+.
+    - **`community/friends/loading.tsx`**: Tái hiện 100% Khung tìm kiếm, Thanh phân khu và Danh sách bạn bè.
+    - **`community/groups/loading.tsx`**: Tái hiện 100% Lưới 2x2 câu lạc bộ và Widget nhóm của bạn.
+    - **In-Place Micro-Shimmers**: Khi fetch CSDL `/api/posts`, `/api/leaderboard`, `/api/friends`, `/api/groups`, các khối hiển thị vi khung xương đúng kích thước pixel thực tế, triệt tiêu 100% hiện tượng xô lệch bố cục (Zero CLS).
 
 ### 5. Học Từ Vựng & Luyện Nghe (`/vocabulary` & `/listening`)
 - **`/vocabulary`**: Kho Từ Vựng Tiếng Anh Toàn Diện (Bao gồm Kho Cơ Bản A1-A2 & Kho Trung/Cao Cấp B1-C2).
@@ -438,12 +436,20 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
     - **Bộ Chuyển Đổi Ngữ Điệu Giọng Đọc Đa Vùng Miền US / UK / AU (`StudioTopHeader.tsx`)**: Bổ sung cụm nút chọn nhanh Accent (`US`, `UK`, `AU`) trên thanh Studio Header, liên kết trực tiếp với `speakLessonText` để học viên trải nghiệm ngữ điệu đa dạng.
     - **Đồng Bộ Huy Hiệu Cấp Độ Hàng 1 (A1 - A2 Harmonization)**: Chuẩn hóa `getLevelLabel(level, true)` cho Hàng 1 "Bài học cơ bản (A1 - A2)" hiển thị thống nhất huy hiệu A1 / A2, triệt tiêu tình trạng dán nhãn B1-B2 mâu thuẫn tiêu đề danh mục.
   - **Hệ Thống Skeleton Shimmer Loading Chuyên Sâu Khớp 100% Bố Cục (Rule 1 UI/UX & Zero Layout Shift)**:
-    - **Listing Skeleton (`ListeningListingSkeleton`)**: Khung xương Shimmer cao cấp tái hiện chuẩn xác 100% từng pixel thanh Header 56px (`AppTopHeader` Twin với 4 HeaderPill và ô tìm kiếm), Lưới 8 Thẻ Bài Học Cơ Bản A1-A2 và Lưới 8 Thẻ Bài Học Nâng Cao B1-C2 (`ShimmerBox` kèm gradient chuyển động `@keyframes shimmer`), loại bỏ triệt để hiện tượng Flash Mock Data khi nạp 102 bài từ PostgreSQL Neon.
-    - **Studio Skeleton (`ListeningStudioSkeleton`)**: Tái hiện chuẩn xác 100% thanh Header với cụm nút Accent `[US] [UK] [AU]`, Khối Sóng Âm 95-spikes (`JAGGED_ACOUSTIC_SPEECH_SPIKES_95`) tích hợp thanh trượt Volume và nút Mute, Meta Status Row (`#1 0/N từ Khớp: 0%`), Sentence Utility Toolbar, Dải Word Tokens Track phía trên, Ô nhập liệu Dictation phía dưới, Cụm 4 nút công cụ và Sidebar danh sách phụ đề 2 tab gọn gàng, triệt tiêu 100% hiện tượng giật nhảy layout (0px CLS).
+    - **Listing Skeleton (`ListeningListingSkeleton`)**: Khung xương Shimmer cao cấp tái hiện chuẩn xác 100% từng pixel thanh Header 56px (`AppTopHeader` Twin với 4 HeaderPill và ô tìm kiếm), Lưới 8 Thẻ Bài Học Cơ Bản A1-A2 và Lưới 8 Thẻ Bài Học Nâng Cao B1-C2 (`ShimmerBox` kèm gradient chuyển động `@keyframes shimmer`). Trạng thái `isLoadingLessons` được khởi tạo chuẩn xác `!rawIdParam`, đảm bảo hiển thị khung xương ngay lập tức khi mở trang, loại bỏ triệt để hiện tượng Flash Mock Data trước khi CSDL PostgreSQL Neon phản hồi.
+    - **Studio Skeleton (`ListeningStudioSkeleton`)**: Tái hiện chuẩn xác 100% thanh Header với cụm nút Accent `[US] [UK] [AU]`, Khối Sóng Âm 95-spikes (`JAGGED_ACOUSTIC_SPEECH_SPIKES_95`) tích hợp thanh trượt Volume và nút Mute, Meta Status Row (`#1 0/N từ Khớp: 0%`), Sentence Utility Toolbar, Dải Word Tokens Track phía trên, Ô nhập liệu Dictation phía dưới, Cụm 4 nút công cụ và Sidebar danh sách phụ đề 2 tab gọn gàng. Khi người dùng click chọn bài học từ danh mục hoặc chuyển bài, `setIsLoadingLessonDetail(true)` kích hoạt Studio Skeleton tức thì với thời gian đệm 200ms, triệt tiêu 100% hiện tượng giật nhảy layout (0px CLS).
     - **Cơ Chế Chuyển Bài Liền Mạch Không Sập Trang (Seamless In-Studio Transition)**: Khi học viên chuyển sang bài học khác từ thanh gợi ý bên trong Studio, hệ thống giữ nguyên cấu trúc Studio Container và chỉ kích hoạt `TranscriptSentencesSkeleton` trên cột phụ đề, chấm dứt hiện tượng unmount/chớp trắng toàn trang.
     - **Khung Xương Gợi Ý Bài Học (`RecommendationCardsSkeleton`)**: Tích hợp 3 thẻ ngang shimmer `rounded-2xl` khi chuyển tab "Gợi ý bài học" hoặc bấm "Đổi gợi ý" (`RefreshCw`), triệt tiêu độ lệch đệm (0px CLS).
     - **Tiến Trình 3 Bước Khi Bóc Tách YouTube (YouTube Extraction Stepper)**: Trực quan hóa thanh tiến trình 3 giai đoạn: *1. Kết nối video* ➔ *2. Tách câu & thời gian* ➔ *3. Lưu vào Neon DB*.
     - **Hiệu Ứng Chuyển Đổi Khi Đổi Bài Ngẫu Nhiên (Shuffle Micro-Skeleton)**: Lưới 8 thẻ bài học hiển thị hiệu ứng skeleton mượt mà 180ms khi bấm "Đổi bài ngẫu nhiên" ở Hàng 1 hoặc Hàng 2.
+    - **Hiệu Ứng Lướt Sáng Khi Chuyển Tab Danh Mục (180ms Shimmer Sweep)**: Khi bấm chuyển đổi giữa các tab danh mục (`Tất cả`, `Cơ bản A1-A2`, `Nâng cao B1-C2`, `Đã học`), hệ thống kích hoạt vi chuyển đổi `isSwitchingCategory` 180ms với 8 thẻ `<LessonCardShimmer />` quét tia sáng 60fps, mang lại cảm giác xúc giác mượt mà và liền lạc tương tự `/analytics` và `/dashboard`.
+  - **Kiến Trúc Chuyển Tab 2 Cấp Độ Chuẩn Apple (Apple-Grade 2-Level Motion Transitions)**:
+    - **Level 1 (Master Header Tabs)**: `AppTopHeader` với các Header Pills (`Dictation`, `Shadowing`, `Luyện từ vựng`, `Thi thử đề`) trang bị hiệu ứng trượt con nhộng lò xo Framer Motion (`layoutId="listeningHeaderActiveTab"`).
+    - **Level 2 (Category / Level Filter Dock)**: Con nhộng trượt lò xo Apple-grade (`layoutId="listeningCategoryFilterIndicator"`, `stiffness: 450, damping: 32`) hiển thị chính xác số lượng bài học theo từng danh mục (`Tất cả (N)`, `Cơ bản A1-A2 (N)`, `Nâng cao B1-C2 (N)`, `Đã học (N)`).
+    - **Bố Cục Hiển Thị Danh Mục Chuyên Biệt**: Tab `basic` hiển thị toàn bộ bài học cơ bản A1-A2 (`allBasicLessons`), Tab `advanced` hiển thị toàn bộ bài học nâng cao B1-C2 (`allAdvancedLessons`), Tab `completed` hiển thị tất cả các bài đã hoàn thành (`completedLessons`), và Tab `all` hiển thị 2 hàng tuyển chọn kèm nút đổi bài ngẫu nhiên bên trong `<AnimatePresence mode="wait">`.
+    - **Interactive Transcript Sidebar Tabs**: Con nhộng trượt (`layoutId="interactiveTranscriptActiveTabPill"`) kèm chuyển cảnh mượt mà qua `<AnimatePresence mode="wait">` giữa 2 phân khu "Phụ đề" và "Gợi ý bài học".
+    - **Mobile Studio Switcher & Studio Switchers**: Con nhộng trượt lò xo (`layoutId="listeningMobileStudioTabIndicator"`) giữa "Luyện chép" và "Danh sách phụ đề" trên điện thoại; `layoutId="studioModePillIndicator"` và `layoutId="studioAccentPillIndicator"` cho chế độ luyện tập và giọng đọc US/UK/AU.
+  - **Staggered Spring Entrance Animation Standard (`PageEntranceWrapper`)**: Toàn bộ canvas danh mục bài nghe được bọc trong `PageEntranceWrapper` với hiệu ứng xuất hiện phân tầng so le sang trọng.
   - **Đồng Bộ Nền Canvas Xám Nhạt Cao Cấp (`bg-[#f8fafc] dark:bg-[#050505]`)**: Toàn bộ hệ thống bento cards màu trắng tinh khôi (`bg-white dark:bg-slate-900`) nổi bật tự nhiên với độ sâu thị giác (visual depth), viền hairline mềm mại và bóng đổ nhẹ `shadow-sm`, loại bỏ hiện tượng trắng bẹt hòa lẫn nền.
   - **Hệ Thống Điều Hướng URL Theo ID (`/study/listening?id=52` hoặc `?id=N`)**: Tự động nhận diện tham số ID trên URL để nạp bài học tương ứng từ CSDL Neon, tự động thu gọn Sidebar khi vào làm bài và mở rộng lại khi bấm Quay lại.
   - **Thanh Đỉnh Thống Nhất Tràn Viền (`StudioTopHeader.tsx`)**: Header chuẩn hoá cho cả 2 trang với thanh bar ngang phẳng `w-full px-5 sm:px-6 py-2 bg-white dark:bg-slate-900 border-b border-slate-200/90 dark:border-slate-800`, gồm nút Quay lại `←`, Tiêu đề bài học nổi bật to rõ (`font-display`), Nút Bookmark `☆`, Segmented Switcher `[🎙️ Shadowing]` ⟷ `[🎧 Dictation]` nằm ngay cạnh tiêu đề, cụm đổi giọng đọc `[US / UK / AU]`, Đồng hồ điện tử Pill bên phải, cùng Modal Bảng Phím Tắt Luyện Tập Studio (`Keyboard`) hiển thị trực quan các phím `Space`, `Ctrl`, `Enter`, `Alt+H`, `Alt+R`, `Alt+A`, `←/→`, `Shift + ←/→`.
@@ -619,6 +625,19 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
     - Chế độ kiểm tra nhanh với 4 lựa chọn lớn `rounded-xl`, phản hồi đúng/sai tức thì và tổng kết điểm số thưởng XP.
     - Hộp chat AI Tutor màu Tím AI `#8b5cf6` với 3 nút gợi ý câu hỏi 1-Click thông minh.
   - **Khung Xương Tải Trang Đồng Bộ Hình Học 100% (`loading.tsx`)**: Tái hiện toàn bộ bố cục Header 56px, Hero Banner, 4 Metric Cards và khung Flashcard 3D, triệt tiêu hoàn toàn giật nhảy layout.
+
+- **`/review`**: Phòng Ôn Tập Lặp Lại Ngắt Quãng SM-2 (Spaced Repetition Review Studio - Agency Dashboard Tier).
+  - **Hệ Thống Icon Chuẩn Ngữ Nghĩa 100% & Triệt Tiêu Icon Xung Đột (Lucide 1.8 - 2.0 Stroke)**:
+    - Loại bỏ hoàn toàn icon tia sét (`Zap`), đường tim mạch (`Activity`), cúp thi đấu (`Trophy`), la bàn (`Compass`) và các emoji thô (`⚡`, `🎯`, `📚`, `⭐`) không phù hợp phong cách thiết kế đương đại của XP Voca.
+    - **Thẻ 1 "Cần ôn hôm nay"**: Dùng `CalendarClock` màu Vàng Amber (`#f59e0b`) chuẩn hóa thời điểm hẹn giờ ôn tập, giải phóng biểu tượng `Flame` cho việc nhận diện Streak.
+    - **Thẻ 2 "Tỷ lệ nhớ từ"**: Dùng `Target` màu Xanh Emerald (`#10b981`) đo lường độ hội tụ phản xạ SM-2.
+    - **Thẻ 3 "Từ đã làm chủ"**: Dùng `Crown` màu Xanh Hoàng Gia (`#0059bb`) vinh danh từ vựng Cấp 5 thành thạo, đồng bộ với `/myvocab`.
+    - **Thẻ 4 "Tổng từ đang học"**: Dùng `Layers` màu Indigo (`#6366f1`) tượng trưng cho tập hợp ngăn xếp thẻ từ vựng xoay vòng.
+    - **Thanh Điều Hướng Lịch SM-2**: Nút nhảy về ngày hiện tại trang bị `CalendarDays` trực quan thay thế cho icon Undo `RotateCcw`.
+    - **Bảng Phân Bố Cấp Độ Nhớ**: Trang bị `BarChart3` biểu thị chuẩn xác 5 tầng phân bố dữ liệu học tập.
+    - **Nút Hành Động & Mobile Floating Bar**: Nâng cấp nút "Bắt đầu ôn tập" và "Ôn tập ngày" sang `Sparkles` mang đậm bản sắc trí tuệ nhân tạo thông minh; chuẩn hóa độ dày nét `stroke-[1.8]` và `stroke-[2]` tinh tế.
+    - **Empty State Tìm Kiếm**: Icon `Search` được đặt bên trong khối viền kép Double-Bezel `rounded-2xl` cao cấp với bóng đổ nhẹ `shadow-2xs`.
+    - **Đồng Bộ Hoàn Toàn Với HeaderPillItem**: `CalendarIcon` (`text-[#0059bb]`), `Target` (`text-amber-500`), `BookMarked` (`text-slate-500`).
 
 - **`/study/grammar`**: Hệ Thống Kho 60 Chuyên Đề Ngữ Pháp AI (Agency Dashboard Tier).
   - **Đồng Bộ Header Đỉnh Thống Nhất (`AppTopHeader` 56px Baseline)**:
@@ -1072,6 +1091,21 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
   - **Mobile Question Carousel & Bottom Sheet Drawer**: Dải số câu vuốt ngang trên mobile kết hợp Bottom Sheet trượt mở bảng 200 câu mà không làm che khuất đề bài.
   - **Mobile Collapsible Passage**: Cho phép thu gọn/mở rộng bài đọc Reading linh hoạt trên màn hình hẹp.
 
+- **Hệ Thống Skeleton Shimmer Loading Chuyên Sâu (`ExamPrepSkeleton` - Chuẩn Rule 1 & Rule 20 UI/UX)**:
+  - **Khung Xương Exam Hub Đồng Bộ 1:1 (`ExamHubSkeleton`)**:
+    - Thay thế hoàn toàn khung xương phòng thi cũ bị lệch bố cục tại [`app/(dashboard)/study/exam-prep/loading.tsx`](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/study/exam-prep/loading.tsx). Tái hiện chính xác 100% giao diện landing của Exam Hub khi học viên truy cập:
+      - *Thanh Header đỉnh 56px (`h-14`):* Mobile trigger, cụm Navigation Pills (`Thi thử đề`, `Luyện từ vựng`, `Dictation`, `Shadowing`) và nút CTA `Tạo Đề Mới AI`.
+      - *Hero Banner Bento:* Khung viền kép với dải viền phát sáng đỉnh **Rose / Cherry (`#f43f5e/60`)** độc quyền của phòng thi chuẩn hóa (Rule 20), huy hiệu phòng thi, tiêu đề và bộ chuyển đổi chế độ `Đề Chuẩn` vs `Tạo Đề Mới AI`.
+      - *Ma trận 4 kỹ năng:* 4 thẻ Shimmer (Nghe, Đọc, Nói AI, Viết AI) kèm icon và hộp kiểm tick chọn.
+      - *Thanh công cụ lọc & tìm kiếm:* Segmented control 5 tab bo tròn và ô tìm kiếm bo góc mềm mại.
+      - *Lưới 6 thẻ đề thi Bento (3 cột):* Tái hiện đầy đủ huy hiệu độ khó 5 sao, category tag, danh sách chip kỹ năng, dòng thông số câu/phút và nút CTA `Bắt đầu`.
+  - **Khung Xương Phòng Thi Chuẩn Xác (`ExamWorkspaceSkeleton`)**:
+    - Dành riêng cho chế độ làm bài trực tiếp (`?id=...`): thanh toolbar 56px với nút thoát, tiêu đề đề thi, đồng hồ đếm ngược live, tỷ lệ Split View 8/12 (vùng câu hỏi, audio waveform, 4 đáp án A-B-C-D) và 4/12 (phiếu trả lời câu hỏi ma trận 24 câu).
+  - **Triệt Tiêu Text Thô Tại `React.Suspense` (`page.tsx`)**:
+    - Xóa bỏ hoàn toàn dòng chữ thô `<div className="p-8 text-center...">Đang tải không gian luyện thi...</div>` tại [`app/(dashboard)/study/exam-prep/page.tsx`](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/study/exam-prep/page.tsx) và thay thế bằng `<ExamHubSkeleton />`. Khi Next.js stream trang hoặc xử lý query param, người dùng luôn nhìn thấy khung xương Shimmer 60fps mượt mà, đạt chuẩn **Zero Cumulative Layout Shift (CLS = 0)**.
+  - **Thẻ Shimmer Sinh Đề AI Trực Quan (`isAiGenerating`)**:
+    - Khi người dùng bấm tạo đề thi bằng AI, thay vì chỉ hiện spinner xoay tròn đơn điệu trên nút, hệ thống hiển thị thẻ Shimmer Preview phát sáng theo thời gian thực mô phỏng tiến trình phân loại độ khó, biên soạn ngữ cảnh và chấm lời giải của Gemini AI.
+
 ### 📚 Danh Mục Ngân Hàng 37 Đề Thi Chuẩn Hóa 100% (Unique Question Bank)
 Toàn bộ 37 đề thi trong thư mục `lib/data/exam-papers/` đã được rà soát và tái thiết kế 100%, loại bỏ hoàn toàn mã lặp loop-fills/clone placeholders, phân bổ đồng đều xác suất đáp án A/B/C/D (25% mỗi key) và biên soạn ngữ liệu học thuật/thương mại C1/C2 chân thực:
 
@@ -1224,10 +1258,37 @@ Toàn bộ 37 đề thi trong thư mục `lib/data/exam-papers/` đã được r
 
 ---
 
+## 🎙️ AI Shadowing Studio (`/study/shadowing`)
+
+Phòng luyện nói tiếng Anh tương tác áp dụng kỹ thuật Shadowing đồng bộ hóa giọng đọc bản xứ theo thời gian thực, trang bị công nghệ nhận diện giọng nói WebRTC, Web Speech API và trí tuệ nhân tạo chấm điểm phát âm chuyên sâu:
+
+1. **Kiến Trúc Tách Module Sạch Đẹp (Clean Orchestrator Architecture)**:
+   - Tinh gọn tệp nguyên khối 2.354 dòng (~120KB) xuống trang điều phối mỏng dưới ~600 dòng, phân chia trách nhiệm rõ ràng sang các component độc lập tại `features/shadowing/components/`:
+     - **`ShadowingListingView.tsx`**: Màn hình danh mục bài học phân loại cấp độ, tích hợp thanh tìm kiếm thông minh, nút khám phá kho 100+ bài học và lưới bài học dạng Double-Bezel.
+     - **`ShadowingStudioWorkspace.tsx`**: Không gian phòng thu luyện nói 2 cột: Cột trái tập trung vào câu luyện tập hiện tại kèm sóng âm 95-spikes (`StudioWaveformCard`), micro thu âm WebRTC có bộ lọc yên lặng VAD, nhận diện giọng nói trực tiếp theo thời gian thực và ma trận chấm điểm AI 6 tiêu chí (`Phát âm`, `Trôi chảy`, `Ngữ điệu`, `Đầy đủ`, `Tốc độ WPM`, `Trọng âm`). Cột phải là thanh phụ đề tương tác (`InteractiveTranscriptSidebar`) hỗ trợ chuyển câu, nghe lại âm thanh mẫu và gợi ý bài học liên quan.
+     - **`ShadowingCompletionScreen.tsx`**: Màn hình Bento Hub vinh danh hoàn thành bài học với cúp vàng rạng rỡ, 4 thẻ chỉ số Bento (`+50 XP`, `100% Trôi chảy`, Tỷ lệ câu đã luyện, Tổng thời gian học) và 3 bài học đề xuất tiếp theo.
+     - **`ShadowingModals.tsx`**: Cụm modal tiện ích bao gồm tra cứu từ điển chuyên sâu (`DeepDictionaryModal`), báo cáo lỗi câu (`SentenceReportModal`) và mở rộng danh sách bài học (`LessonExplorerModal`).
+     - **`LoadingSkeletons.tsx`**: Hệ thống Shimmer Skeleton 60fps chuẩn Wadhah Aloui (`ShadowingListingSkeleton`, `ShadowingStudioSkeleton`, `LessonCardShimmer`, `RecommendationCardsSkeleton`, `TranscriptSentencesSkeleton`).
+
+2. **Trải Nghiệm Tải Mượt Mà 0px CLS & Zero Flash Layout**:
+   - **Xử lý triệt để trạng thái nạp dữ liệu**: Tách biệt rõ ràng giữa `isLoadingLessons` (danh mục) và `isLoadingLessonDetail` (chi tiết bài học).
+   - Khi truy cập `/study/shadowing` không tham số: Hiển thị ngay `ShadowingListingSkeleton` (Top bar 56px + 2 hàng thẻ cơ bản và nâng cao quét Shimmer 60fps) mà không làm nhấp nháy dữ liệu thô.
+   - Khi truy cập trực tiếp bằng URL có `?id=...` hoặc khi chuyển đổi bài: Hiển thị ngay `ShadowingStudioSkeleton` (Sóng âm 95 vạch, khung micro, ma trận AI, thanh phụ đề) mà không bị rơi vào Listing rồi nhảy giật sang Studio.
+   - **Chuyển tab danh mục siêu tốc (180ms Shimmer Sweep)**: Khi bấm chuyển đổi giữa các tab lọc (`Tất cả bài học`, `Cơ bản A1-A2`, `Nâng cao B1-C2`, `Đã hoàn thành`), hệ thống hiển thị 8 thẻ `<LessonCardShimmer />` với 0px CLS, tạo cảm giác mượt mà và phản hồi tức thì.
+
+3. **Hiệu Ứng Chuyển Đổi Tab Đẳng Cấp Apple 2 Tầng (Apple-Grade Motion)**:
+   - **Tầng 1 (AppTopHeader Tab Dock)**: Con trỏ viên thuốc trượt lò xo (`layoutId="shadowingHeaderActiveTab"`) chuyển đổi mượt mà giữa các phòng học (`Shadowing`, `Dictation`, `Luyện từ vựng`, `Thi thử đề`).
+   - **Tầng 2 (Level / Category Filter Dock)**: Con trỏ viên thuốc trượt lò xo (`layoutId="shadowingCategoryFilterIndicator"`, `stiffness: 450, damping: 32`) hiển thị số lượng bài học thực tế cho từng phân loại.
+   - **Mobile Studio Switcher**: Con trỏ viên thuốc trượt lò xo (`layoutId="shadowingMobileStudioTabIndicator"`) chuyển đổi trực quan giữa chế độ *"Luyện nói"* và *"Danh sách phụ đề"* trên thiết bị di động.
+   - **Staggered Page Entrance**: Toàn bộ canvas danh mục được bọc trong `<PageEntranceWrapper>` mang lại hiệu ứng xuất hiện phân tầng so le sang trọng.
+
+---
+
 ## 🌐 Production Deployment Status
 
 - **Live Production App URL (Vercel)**: [https://xpenglishvoca.vercel.app](https://xpenglishvoca.vercel.app)
-- **Status**: **100% Build SUCCESS** (90/90 static & dynamic routes compiled)
+- **Status**: **100% Build SUCCESS** (98/98 static & dynamic routes compiled)
+
 
 
 

@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Calendar as CalendarIcon,
-  Zap,
+  CalendarDays,
+  CalendarClock,
   ArrowRight,
   Clock,
   ChevronLeft,
@@ -15,24 +16,21 @@ import {
   Volume2,
   Bookmark,
   BookmarkCheck,
+  BookMarked,
   ChevronDown,
   ChevronUp,
-  Award,
-  Activity,
+  Crown,
   Sparkles,
-  Compass,
   CheckCircle2,
   Check,
-  Trophy,
   Target,
   Flame,
-  GraduationCap,
   BookOpen,
   RotateCcw,
   X,
   Layers,
   Lightbulb,
-  Brain,
+  BarChart3,
 } from 'lucide-react';
 
 import { useVocabularyStore } from '@/stores/vocabularyStore';
@@ -339,7 +337,7 @@ export default function ReviewPage() {
       label: 'Cần ôn hôm nay',
       sublabel: todayDueCount > 0 ? 'Đang chờ ôn tập' : 'Đã hoàn tất 100%',
       count: todayDueCount,
-      icon: <Flame className="w-5 h-5 text-amber-500" />,
+      icon: <CalendarClock className="w-5 h-5 text-amber-500 stroke-[1.8]" />,
       accentBg: 'bg-amber-50 dark:bg-amber-950/60 border border-amber-200/80 dark:border-amber-800',
       progressPct: todayDueCount === 0 ? 100 : Math.max(10, Math.min(100, todayDueCount * 10)),
       progressColor: todayDueCount === 0 ? 'bg-emerald-500' : 'bg-amber-500',
@@ -348,11 +346,11 @@ export default function ReviewPage() {
           href="/study/practice?mode=review"
           className="text-xs font-bold text-[#0059bb] dark:text-sky-400 hover:underline flex items-center gap-1"
         >
-          Ôn ngay <ArrowRight className="w-3 h-3" />
+          Ôn ngay <ArrowRight className="w-3 h-3 stroke-[2]" />
         </Link>
       ) : (
         <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-0.5">
-          <Check className="w-3.5 h-3.5" /> Xong
+          <Check className="w-3.5 h-3.5 stroke-[2]" /> Xong
         </span>
       ),
     },
@@ -361,7 +359,7 @@ export default function ReviewPage() {
       label: 'Tỷ lệ nhớ từ',
       sublabel: 'Chỉ số SM-2 tối ưu',
       count: `${retentionRate}%`,
-      icon: <Target className="w-5 h-5 text-emerald-500" />,
+      icon: <Target className="w-5 h-5 text-emerald-500 stroke-[1.8]" />,
       accentBg: 'bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800',
       progressPct: retentionRate,
       progressColor: 'bg-emerald-500',
@@ -376,7 +374,7 @@ export default function ReviewPage() {
       label: 'Từ đã làm chủ',
       sublabel: 'Thành thạo cấp 5',
       count: masteredCount,
-      icon: <Trophy className="w-5 h-5 text-[#0059bb] dark:text-sky-400" />,
+      icon: <Crown className="w-5 h-5 text-[#0059bb] dark:text-sky-400 stroke-[1.8]" />,
       accentBg: 'bg-blue-50 dark:bg-blue-950/60 border border-blue-200/80 dark:border-blue-800',
       progressPct: learned.length > 0 ? Math.round((masteredCount / learned.length) * 100) : 0,
       progressColor: 'bg-[#0059bb]',
@@ -391,7 +389,7 @@ export default function ReviewPage() {
       label: 'Tổng từ đang học',
       sublabel: 'Chu kỳ phản xạ SM-2',
       count: learned.length,
-      icon: <BookOpen className="w-5 h-5 text-indigo-500" />,
+      icon: <Layers className="w-5 h-5 text-indigo-500 stroke-[1.8]" />,
       accentBg: 'bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/80 dark:border-indigo-800',
       progressPct: Math.min(100, Math.max(5, Math.round((learned.length / 200) * 100))),
       progressColor: 'bg-indigo-500',
@@ -418,7 +416,7 @@ export default function ReviewPage() {
               href="/study/practice?mode=review"
               className="h-9 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004ba0] text-white text-xs font-bold shadow-md shadow-[#0059bb]/20 flex items-center gap-1.5 transition-all cursor-pointer active:scale-95 shrink-0 font-display"
             >
-              <Zap className="w-3.5 h-3.5 text-amber-300" />
+              <Sparkles className="w-3.5 h-3.5 text-amber-300 stroke-[2]" />
               <span>Bắt Đầu Ôn Tập</span>
             </Link>
           </div>
@@ -427,17 +425,17 @@ export default function ReviewPage() {
         <HeaderPillContainer>
           <HeaderPillItem
             active
-            icon={<CalendarIcon className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />}
+            icon={<CalendarIcon className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400 stroke-[1.8]" />}
             label="Lịch Ôn Tập SM-2"
           />
           <HeaderPillItem
             href="/study/practice"
-            icon={<Zap className="w-3.5 h-3.5 text-amber-500" />}
+            icon={<Target className="w-3.5 h-3.5 text-amber-500 stroke-[2]" />}
             label="Luyện Tập Ngay"
           />
           <HeaderPillItem
             href="/myvocab"
-            icon={<Bookmark className="w-3.5 h-3.5 text-slate-500" />}
+            icon={<BookMarked className="w-3.5 h-3.5 text-slate-500 stroke-[1.8]" />}
             label="Sổ Tay Từ Vựng"
             hideOnSmall
           />
@@ -516,7 +514,7 @@ export default function ReviewPage() {
                       onClick={handleJumpToToday}
                       className="h-8 px-2.5 sm:px-3 text-xs font-bold text-slate-700 dark:text-slate-200 hover:text-[#0059bb] dark:hover:text-sky-400 bg-slate-100 hover:bg-blue-50 dark:bg-slate-800 dark:hover:bg-blue-950/40 border border-slate-200/80 dark:border-slate-700 rounded-xl cursor-pointer transition-all active:scale-95 flex items-center gap-1.5 shadow-2xs shrink-0"
                     >
-                      <RotateCcw className="w-3.5 h-3.5" /> Hôm nay
+                      <CalendarDays className="w-3.5 h-3.5 stroke-[2]" /> Hôm nay
                     </button>
 
                     <div className="flex items-center gap-1 border border-slate-200/80 dark:border-slate-700 rounded-xl p-0.5 bg-slate-50 dark:bg-slate-900 shadow-2xs shrink-0">
@@ -526,7 +524,7 @@ export default function ReviewPage() {
                         onClick={handlePrevMonth}
                         aria-label="Tháng trước"
                       >
-                        <ChevronLeft className="w-4 h-4" />
+                        <ChevronLeft className="w-4 h-4 stroke-[2]" />
                       </button>
                       <button
                         type="button"
@@ -534,7 +532,7 @@ export default function ReviewPage() {
                         onClick={handleNextMonth}
                         aria-label="Tháng sau"
                       >
-                        <ChevronRight className="w-4 h-4" />
+                        <ChevronRight className="w-4 h-4 stroke-[2]" />
                       </button>
                     </div>
                   </div>
@@ -644,7 +642,7 @@ export default function ReviewPage() {
                 <div className="flex items-center justify-between pb-2.5 border-b border-slate-100 dark:border-slate-800/80">
                   <div className="flex items-center gap-2.5">
                     <div className="w-8 h-8 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center border border-blue-200/80 dark:border-blue-800/40 shadow-2xs">
-                      <Activity className="w-4 h-4 stroke-[2]" />
+                      <BarChart3 className="w-4 h-4 stroke-[2]" />
                     </div>
                     <div>
                       <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider font-display">
@@ -766,13 +764,13 @@ export default function ReviewPage() {
                   href={`/study/practice?mode=review&date=${selectedDateQueryStr}`}
                   className="h-9 px-4 rounded-xl bg-[#0059bb] hover:bg-[#004ba0] text-white text-xs font-bold shadow-md shadow-[#0059bb]/20 flex items-center gap-2 transition-all cursor-pointer active:scale-95 font-display"
                 >
-                  <Zap className="w-4 h-4 text-amber-300" strokeWidth={2.4} />
+                  <Sparkles className="w-4 h-4 text-amber-300 stroke-[2]" />
                   <span>Ôn Tập Ngay (+15 XP/từ)</span>
                 </Link>
               ) : (
                 <div className="flex items-center gap-2">
                   <span className="px-3 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 text-xs font-bold border border-emerald-200/80 dark:border-emerald-800/40 flex items-center gap-1.5 shadow-2xs">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 stroke-[2]" />
                     <span>Không có từ tồn đọng</span>
                   </span>
                 </div>
@@ -784,7 +782,7 @@ export default function ReviewPage() {
           {rawSelectedDateVocabs.length > 0 && (
             <div className="p-3 sm:p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-900/40 border border-slate-200/80 dark:border-slate-800 space-y-2.5">
               <div className="text-[10.5px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-                <Filter className="w-3 h-3 text-[#0059bb]" /> Bộ lọc danh sách
+                <Filter className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400 stroke-[2]" /> Bộ lọc danh sách
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
@@ -797,7 +795,7 @@ export default function ReviewPage() {
                     Từ vựng hoặc nghĩa
                   </label>
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 stroke-[2]" />
                     <input
                       id="review-search-input"
                       type="text"
@@ -812,7 +810,7 @@ export default function ReviewPage() {
                         onClick={() => setSearchTerm('')}
                         className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-white cursor-pointer"
                       >
-                        <X className="w-3.5 h-3.5" />
+                        <X className="w-3.5 h-3.5 stroke-[2]" />
                       </button>
                     )}
                   </div>
@@ -879,7 +877,7 @@ export default function ReviewPage() {
                     className="w-full h-9 px-2.5 text-xs font-bold rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-[#0c0c0f] text-slate-900 dark:text-white focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20 cursor-pointer transition-all"
                   >
                     <option value="all">Tất cả từ vựng</option>
-                    <option value="bookmark">Chỉ từ đã lưu ⭐</option>
+                    <option value="bookmark">Chỉ từ đã lưu ghi nhớ</option>
                   </select>
                 </div>
               </div>
@@ -926,7 +924,7 @@ export default function ReviewPage() {
                     <div className="flex items-center justify-between text-slate-600 dark:text-slate-300 pt-1.5 border-t border-slate-100 dark:border-slate-800">
                       <span>Trạng thái chuỗi học:</span>
                       <span className="font-bold text-amber-500 flex items-center gap-1">
-                        <Flame className="w-3.5 h-3.5" /> Sẵn sàng
+                        <Flame className="w-3.5 h-3.5 stroke-[2]" /> Sẵn sàng
                       </span>
                     </div>
                   </div>
@@ -942,7 +940,7 @@ export default function ReviewPage() {
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
                         <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center border border-blue-200/80 dark:border-blue-800/40">
-                          <Compass className="w-4 h-4" />
+                          <Clock className="w-4 h-4 stroke-[2]" />
                         </div>
                         <span className="px-1.5 py-0.5 rounded text-[9.5px] font-black uppercase tracking-wider bg-blue-100/80 dark:bg-blue-950 text-[#0059bb] dark:text-sky-300">
                           +10 XP
@@ -956,14 +954,14 @@ export default function ReviewPage() {
                           Ôn trước các từ sắp đến hạn trong 2-3 ngày tới để giảm tải áp lực.
                         </p>
                       </div>
-                      <div className="px-2 py-1 rounded-md bg-blue-50/60 dark:bg-blue-950/30 text-[10px] font-semibold text-[#0059bb] dark:text-sky-300">
-                        ⚡ Giảm tải ngày mai
+                      <div className="px-2 py-1 rounded-md bg-blue-50/60 dark:bg-blue-950/30 text-[10px] font-semibold text-[#0059bb] dark:text-sky-300 flex items-center gap-1">
+                        <Clock className="w-3 h-3 stroke-[2]" /> Giảm tải ngày mai
                       </div>
                     </div>
 
                     <div className="pt-2 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between text-[11px] font-bold text-[#0059bb] dark:text-sky-400">
                       <span>Bắt đầu ngay</span>
-                      <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="w-3 h-3 stroke-[2] group-hover:translate-x-1 transition-transform" />
                     </div>
                   </Link>
 
@@ -975,7 +973,7 @@ export default function ReviewPage() {
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
                         <div className="w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-950/60 text-amber-500 flex items-center justify-center border border-amber-200/80 dark:border-amber-800/40">
-                          <Sparkles className="w-4 h-4" />
+                          <Target className="w-4 h-4 stroke-[2]" />
                         </div>
                         <span className="px-1.5 py-0.5 rounded text-[9.5px] font-black uppercase tracking-wider bg-amber-100/80 dark:bg-amber-950 text-amber-700 dark:text-amber-300">
                           +15 XP
@@ -989,14 +987,14 @@ export default function ReviewPage() {
                           Củng cố phản xạ các từ ở Cấp 1-2 hoặc từ có tỷ lệ sai cao.
                         </p>
                       </div>
-                      <div className="px-2 py-1 rounded-md bg-amber-50/60 dark:bg-amber-950/30 text-[10px] font-semibold text-amber-700 dark:text-amber-300">
-                        🎯 Củng cố phản xạ
+                      <div className="px-2 py-1 rounded-md bg-amber-50/60 dark:bg-amber-950/30 text-[10px] font-semibold text-amber-700 dark:text-amber-300 flex items-center gap-1">
+                        <Target className="w-3 h-3 stroke-[2]" /> Củng cố phản xạ
                       </div>
                     </div>
 
                     <div className="pt-2 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between text-[11px] font-bold text-amber-600 dark:text-amber-400">
                       <span>Rèn luyện ngay</span>
-                      <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="w-3 h-3 stroke-[2] group-hover:translate-x-1 transition-transform" />
                     </div>
                   </Link>
 
@@ -1008,7 +1006,7 @@ export default function ReviewPage() {
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
                         <div className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-500 flex items-center justify-center border border-emerald-200/80 dark:border-emerald-800/40">
-                          <BookOpen className="w-4 h-4" />
+                          <BookOpen className="w-4 h-4 stroke-[2]" />
                         </div>
                         <span className="px-1.5 py-0.5 rounded text-[9.5px] font-black uppercase tracking-wider bg-emerald-100/80 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">
                           +20 XP
@@ -1022,14 +1020,14 @@ export default function ReviewPage() {
                           Mở rộng vốn từ với 215+ chủ đề chuyên biệt đa dạng.
                         </p>
                       </div>
-                      <div className="px-2 py-1 rounded-md bg-emerald-50/60 dark:bg-emerald-950/30 text-[10px] font-semibold text-emerald-700 dark:text-emerald-300">
-                        📚 215+ chủ đề
+                      <div className="px-2 py-1 rounded-md bg-emerald-50/60 dark:bg-emerald-950/30 text-[10px] font-semibold text-emerald-700 dark:text-emerald-300 flex items-center gap-1">
+                        <BookOpen className="w-3 h-3 stroke-[2]" /> 215+ chủ đề
                       </div>
                     </div>
 
                     <div className="pt-2 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
                       <span>Khám phá ngay</span>
-                      <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="w-3 h-3 stroke-[2] group-hover:translate-x-1 transition-transform" />
                     </div>
                   </Link>
                 </div>
@@ -1037,7 +1035,9 @@ export default function ReviewPage() {
             ) : (
               /* No matching search results */
               <div className="flex flex-col items-center justify-center py-8 px-4 text-center max-w-md mx-auto">
-                <Search className="w-7 h-7 text-slate-400 mb-2" />
+                <div className="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 flex items-center justify-center text-slate-400 mb-3 shadow-2xs">
+                  <Search className="w-5 h-5 stroke-[2]" />
+                </div>
                 <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-1">
                   Không tìm thấy từ vựng phù hợp
                 </h4>
@@ -1054,7 +1054,7 @@ export default function ReviewPage() {
                   }}
                   className="flex items-center gap-1.5 text-xs font-bold text-[#0059bb] dark:text-sky-400 hover:underline cursor-pointer"
                 >
-                  <RotateCcw className="w-3.5 h-3.5" /> Đặt lại tất cả bộ lọc
+                  <RotateCcw className="w-3.5 h-3.5 stroke-[2]" /> Đặt lại tất cả bộ lọc
                 </button>
               </div>
             )
@@ -1089,7 +1089,7 @@ export default function ReviewPage() {
                             className="w-8 h-8 sm:w-7 sm:h-7 rounded-lg bg-white dark:bg-slate-800 text-slate-600 hover:text-[#0059bb] dark:text-slate-400 dark:hover:text-sky-300 flex items-center justify-center cursor-pointer transition-all active:scale-95 border border-slate-200/60 dark:border-slate-700 shadow-2xs"
                             title="Nghe phát âm"
                           >
-                            <Volume2 className="w-4 h-4 sm:w-3.5 sm:h-3.5" />
+                            <Volume2 className="w-4 h-4 sm:w-3.5 sm:h-3.5 stroke-[1.8]" />
                           </button>
                           {/* Bookmark Toggle */}
                           <button
@@ -1103,9 +1103,9 @@ export default function ReviewPage() {
                             title={isBookmarked ? 'Bỏ lưu ghi nhớ' : 'Lưu ghi nhớ'}
                           >
                             {isBookmarked ? (
-                              <BookmarkCheck className="w-4 h-4 sm:w-3.5 sm:h-3.5" />
+                              <BookmarkCheck className="w-4 h-4 sm:w-3.5 sm:h-3.5 stroke-[1.8]" />
                             ) : (
-                              <Bookmark className="w-4 h-4 sm:w-3.5 sm:h-3.5" />
+                              <Bookmark className="w-4 h-4 sm:w-3.5 sm:h-3.5 stroke-[1.8]" />
                             )}
                           </button>
                         </div>
@@ -1166,11 +1166,11 @@ export default function ReviewPage() {
                       >
                         {isExpanded ? (
                           <>
-                            Thu gọn <ChevronUp className="w-3.5 h-3.5" />
+                            Thu gọn <ChevronUp className="w-3.5 h-3.5 stroke-[2]" />
                           </>
                         ) : (
                           <>
-                            Chi tiết &amp; ví dụ <ChevronDown className="w-3.5 h-3.5" />
+                            Chi tiết &amp; ví dụ <ChevronDown className="w-3.5 h-3.5 stroke-[2]" />
                           </>
                         )}
                       </button>
@@ -1213,12 +1213,12 @@ export default function ReviewPage() {
           >
             <div className="flex items-center gap-2 min-w-0">
               <div className="w-6 h-6 rounded-lg bg-white/20 flex items-center justify-center shrink-0">
-                <Zap className="w-3.5 h-3.5 text-amber-300" strokeWidth={2.4} />
+                <Sparkles className="w-3.5 h-3.5 text-amber-300 stroke-[2]" />
               </div>
               <span className="truncate">Ôn Tập Ngày Này ({rawSelectedDateVocabs.length} từ)</span>
             </div>
             <span className="px-2 py-0.5 rounded-lg bg-white/20 text-[10px] font-black flex items-center gap-1 shrink-0">
-              +15 XP <ArrowRight className="w-3 h-3" />
+              +15 XP <ArrowRight className="w-3 h-3 stroke-[2]" />
             </span>
           </Link>
         ) : todayDueCount > 0 ? (
@@ -1228,12 +1228,12 @@ export default function ReviewPage() {
           >
             <div className="flex items-center gap-2 min-w-0">
               <div className="w-6 h-6 rounded-lg bg-amber-400/30 flex items-center justify-center shrink-0">
-                <Flame className="w-3.5 h-3.5 text-amber-300" />
+                <CalendarClock className="w-3.5 h-3.5 text-amber-300 stroke-[2]" />
               </div>
               <span className="truncate">Ôn Tập Hôm Nay ({todayDueCount} từ)</span>
             </div>
             <span className="px-2 py-0.5 rounded-lg bg-white/20 text-[10px] font-black flex items-center gap-1 shrink-0">
-              Bắt đầu <ArrowRight className="w-3 h-3" />
+              Bắt đầu <ArrowRight className="w-3 h-3 stroke-[2]" />
             </span>
           </Link>
         ) : (
@@ -1242,11 +1242,11 @@ export default function ReviewPage() {
             className="w-full h-10 px-4 rounded-xl bg-white/95 dark:bg-slate-900/95 border border-slate-200/90 dark:border-slate-800 text-slate-800 dark:text-slate-200 text-xs font-bold shadow-lg shadow-black/5 flex items-center justify-between transition-all active:scale-[0.98] backdrop-blur-md font-display"
           >
             <div className="flex items-center gap-2 text-[#0059bb] dark:text-sky-400 min-w-0">
-              <Compass className="w-4 h-4 shrink-0" />
+              <Clock className="w-4 h-4 shrink-0 stroke-[2]" />
               <span className="truncate">Ôn trước hạn giảm tải</span>
             </div>
             <span className="text-[11px] font-bold text-[#0059bb] dark:text-sky-400 flex items-center gap-1 shrink-0">
-              +10 XP <ArrowRight className="w-3 h-3" />
+              +10 XP <ArrowRight className="w-3 h-3 stroke-[2]" />
             </span>
           </Link>
         )}

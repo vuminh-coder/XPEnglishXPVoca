@@ -18,16 +18,7 @@ import {
 
 import { LessonCoverImage } from "@/shared/components/feedback/LessonCoverImage";
 import { RecommendationCardsSkeleton, TranscriptSentencesSkeleton } from "./LoadingSkeletons";
-
-export interface TranscriptSentence {
-  id?: number | string;
-  text: string;
-  vietnamese?: string;
-  translation?: string;
-  ipa?: string;
-  startTime?: number;
-  endTime?: number;
-}
+import type { TranscriptSentence } from "../utils/listeningParser";
 
 export interface KeyVocabItem {
   word: string;
@@ -112,7 +103,7 @@ export function InteractiveTranscriptSidebar({
     <div
       className={`w-full h-full bg-[#f8fafc] dark:bg-slate-900/90 flex flex-col overflow-hidden font-sans ${className}`}
     >
-      {/* 1. TOP TABS: PHỤ ĐỀ vs GỢI Ý BÀI HỌC (CỠ CHỮ RÕ RÀNG, KHOẢNG CÁCH THOÁNG ĐÃNG) */}
+      {/* 1. TOP TABS: PHỤ ĐỀ vs GỢI Ý BÀI HỌC */}
       <div className="flex items-center border-b border-slate-100 dark:border-slate-800/80 px-5 pt-3 gap-7 sm:gap-8 shrink-0">
         {/* Tab 1: Phụ đề */}
         <button
@@ -129,8 +120,9 @@ export function InteractiveTranscriptSidebar({
 
           {activeTab === "transcript" && (
             <motion.div
-              layoutId="activeTabUnderline"
-              className="absolute bottom-0 left-0 right-0 h-[2px] bg-slate-600/80 dark:bg-slate-300/80 rounded-full"
+              layoutId="interactiveTranscriptActiveTabPill"
+              transition={{ type: "spring", stiffness: 450, damping: 32 }}
+              className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#0059bb] dark:bg-sky-400 rounded-full"
             />
           )}
         </button>
@@ -150,16 +142,25 @@ export function InteractiveTranscriptSidebar({
 
           {activeTab === "tips" && (
             <motion.div
-              layoutId="activeTabUnderline"
-              className="absolute bottom-0 left-0 right-0 h-[2px] bg-slate-600/80 dark:bg-slate-300/80 rounded-full"
+              layoutId="interactiveTranscriptActiveTabPill"
+              transition={{ type: "spring", stiffness: 450, damping: 32 }}
+              className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#0059bb] dark:bg-sky-400 rounded-full"
             />
           )}
         </button>
       </div>
 
-      {/* 2. TAB 1: PHỤ ĐỀ (TÔNG MÀU SÁNG, TINH TẾ) */}
-      {activeTab === "transcript" && (
-        <div className="flex-1 flex flex-col min-h-0">
+      {/* 2. TAB BODY TRANSITION */}
+      <AnimatePresence mode="wait">
+        {activeTab === "transcript" ? (
+          <motion.div
+            key="transcript-tab-content"
+            initial={{ opacity: 0, x: -6 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 6 }}
+            transition={{ duration: 0.18, ease: "easeOut" }}
+            className="flex-1 flex flex-col min-h-0"
+          >
           {/* Header Tiến độ & Đặt lại tiến độ / Toggle Hiện — KHỚP 100% ẢNH MẪU */}
           <div className="space-y-1 px-5 pt-3.5 pb-2 shrink-0">
             {/* Dòng 1: [ 1/14 ] bên trái, [ ↺ Đặt lại tiến độ   Hiện (O) ] bên phải */}
@@ -441,12 +442,17 @@ export function InteractiveTranscriptSidebar({
             })
             )}
           </div>
-        </div>
-      )}
-
-      {/* 3. TAB 2: CHUYÊN BIỆT GỢI Ý BÀI HỌC (DEDICATED RECOMMENDED LESSONS WITH COVER IMAGES) */}
-      {activeTab === "tips" && (
-        <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
+        </motion.div>
+      ) : (
+        /* 3. TAB 2: CHUYÊN BIỆT GỢI Ý BÀI HỌC */
+        <motion.div
+          key="tips-tab-content"
+          initial={{ opacity: 0, x: 6 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -6 }}
+          transition={{ duration: 0.18, ease: "easeOut" }}
+          className="flex-1 flex flex-col min-h-0 overflow-hidden"
+        >
           {/* Header gợi ý bài học */}
           <div className="flex items-center justify-between px-4 pt-3 pb-2.5 border-b border-slate-100 dark:border-slate-800 shrink-0">
             <div className="flex items-center gap-2 text-[13px] font-bold text-slate-900 dark:text-white">
@@ -555,8 +561,9 @@ export function InteractiveTranscriptSidebar({
               </div>
             )}
           </div>
-        </div>
+        </motion.div>
       )}
+      </AnimatePresence>
     </div>
   );
 }

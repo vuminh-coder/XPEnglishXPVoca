@@ -49,6 +49,8 @@ import {
   ExamPaper,
   ExamQuestion,
   SkillType,
+  ExamHubSkeleton,
+  AdaptiveExamPrepSkeleton,
 } from "@/features/exam-prep";
 import {
   calculateExamResult,
@@ -1073,6 +1075,30 @@ function ExamPrepContent() {
                     </div>
                   </div>
 
+                  {/* AI Generating Shimmer Feedback Card */}
+                  {isAiGenerating && (
+                    <div className="p-3.5 rounded-xl bg-white/90 dark:bg-slate-900/90 border border-amber-300/80 dark:border-amber-500/40 space-y-2.5 animate-in fade-in duration-200 shadow-2xs">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <Sparkles className="w-4 h-4 text-amber-500 animate-spin" />
+                          <span className="text-xs font-bold text-slate-900 dark:text-white font-display">
+                            Gemini AI đang biên soạn đề thi: {aiTopic}
+                          </span>
+                        </div>
+                        <span className="text-[11px] font-mono font-bold text-amber-600 dark:text-amber-400 bg-amber-100/60 dark:bg-amber-950/60 px-2 py-0.5 rounded-md">
+                          {aiQuestionCount} câu • Mục tiêu {aiTargetScore}
+                        </span>
+                      </div>
+                      <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                        <div className="h-full bg-gradient-to-r from-amber-400 via-amber-500 to-amber-400 rounded-full animate-pulse w-3/4" />
+                      </div>
+                      <div className="flex items-center gap-2 pt-0.5 text-[11px] text-slate-500 dark:text-slate-400">
+                        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                        <span>Đang khởi tạo ngữ cảnh, phân loại độ khó và tạo đáp án kèm giải thích chi tiết...</span>
+                      </div>
+                    </div>
+                  )}
+
                   <div className="pt-2 border-t border-amber-200/80 dark:border-amber-900/40 flex items-center justify-between gap-3">
                     <span className="text-[11px] text-slate-600 dark:text-slate-300 font-medium hidden sm:inline">
                       💡 Gemini AI sẽ sinh bài thi thời gian thực theo đúng các kỹ năng đã chọn.
@@ -1785,13 +1811,7 @@ function ExamPrepContent() {
 
 export default function ExamPrepPage() {
   return (
-    <React.Suspense
-      fallback={
-        <div className="p-8 text-center text-xs font-bold text-slate-500 font-sans">
-          Đang tải không gian luyện thi...
-        </div>
-      }
-    >
+    <React.Suspense fallback={<AdaptiveExamPrepSkeleton />}>
       <ExamPrepContent />
     </React.Suspense>
   );

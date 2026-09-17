@@ -52,6 +52,17 @@ export function ListeningListingSkeleton() {
 
       {/* 2. MAIN CONTENT CANVAS SKELETON */}
       <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-5 sm:py-6 space-y-7 pb-20">
+        {/* CATEGORY / LEVEL FILTER DOCK SKELETON */}
+        <div className="flex items-center justify-between gap-3 flex-wrap">
+          <div className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-1">
+            <ShimmerBox className="h-7.5 w-24 rounded-lg bg-white dark:bg-slate-700 shadow-xs" />
+            <ShimmerBox className="h-7.5 w-32 rounded-lg" />
+            <ShimmerBox className="h-7.5 w-36 rounded-lg hidden sm:block" />
+            <ShimmerBox className="h-7.5 w-32 rounded-lg hidden md:block" />
+          </div>
+          <ShimmerBox className="h-7.5 w-28 rounded-lg" />
+        </div>
+
         {/* ROW 1: BÀI HỌC CƠ BẢN (A1 - A2) */}
         <div className="space-y-4">
           <div className="flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-slate-800">
@@ -59,33 +70,33 @@ export function ListeningListingSkeleton() {
               <ShimmerBox className="h-6 w-16 rounded-md bg-blue-500/20 dark:bg-blue-500/10" />
               <ShimmerBox className="h-6 w-40 sm:w-56 rounded-md" />
             </div>
-            <ShimmerBox className="h-7 w-32 rounded-lg" />
+            <ShimmerBox className="h-8 w-36 rounded-lg" />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
             {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
               <div
                 key={i}
-                className="p-2.5 sm:p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-row sm:flex-col gap-3 sm:gap-0"
+                className="p-3 sm:p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-row sm:flex-col gap-3 sm:gap-0 select-none"
               >
                 {/* Thumbnail Skeleton */}
-                <div className="relative w-[47%] aspect-[16/10] sm:w-full sm:aspect-[16/10] rounded-lg overflow-hidden shrink-0">
-                  <ShimmerBox className="w-full h-full rounded-lg" />
-                  <div className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 w-10 sm:w-12 h-4 rounded bg-slate-900/40 backdrop-blur-xs" />
+                <div className="relative w-[47%] aspect-[16/10] sm:w-full sm:aspect-[16/10] rounded-xl overflow-hidden shrink-0">
+                  <ShimmerBox className="w-full h-full rounded-xl" />
+                  <div className="absolute bottom-2 left-2 w-10 sm:w-12 h-4 rounded bg-slate-900/40 backdrop-blur-xs" />
                 </div>
 
                 {/* Right / Bottom Info Skeleton */}
-                <div className="py-0.5 sm:py-0 sm:mt-2.5 space-y-2 flex-1 flex flex-col justify-between min-w-0">
+                <div className="py-0.5 sm:py-0 sm:mt-3 space-y-2 flex-1 flex flex-col justify-between min-w-0">
                   <div className="space-y-1.5">
-                    <ShimmerBox className="h-3 w-20 rounded mb-1 sm:hidden bg-blue-500/20" />
-                    <ShimmerBox className="h-4 w-full rounded" />
-                    <ShimmerBox className="h-4 w-4/5 rounded" />
+                    <ShimmerBox className="h-3.5 w-20 rounded mb-1 sm:hidden bg-blue-500/20" />
+                    <ShimmerBox className="h-4.5 w-full rounded" />
+                    <ShimmerBox className="h-4.5 w-4/5 rounded" />
                   </div>
 
                   <div className="flex items-center justify-between pt-1 sm:pt-2 sm:border-t border-slate-100 dark:border-slate-800">
                     <div className="flex items-center gap-1.5">
                       <ShimmerBox className="w-4 h-4 rounded-full" />
-                      <ShimmerBox className="h-3.5 w-12 rounded" />
+                      <ShimmerBox className="h-3.5 w-14 rounded" />
                     </div>
                     <ShimmerBox className="h-5 w-14 rounded-lg" />
                   </div>
@@ -102,33 +113,33 @@ export function ListeningListingSkeleton() {
               <ShimmerBox className="h-6 w-16 rounded-md bg-purple-500/20 dark:bg-purple-500/10" />
               <ShimmerBox className="h-6 w-44 sm:w-60 rounded-md" />
             </div>
-            <ShimmerBox className="h-7 w-32 rounded-lg" />
+            <ShimmerBox className="h-8 w-36 rounded-lg" />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
             {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
               <div
                 key={i}
-                className="p-2.5 sm:p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-row sm:flex-col gap-3 sm:gap-0"
+                className="p-3 sm:p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-row sm:flex-col gap-3 sm:gap-0 select-none"
               >
                 {/* Thumbnail Skeleton */}
-                <div className="relative w-[47%] aspect-[16/10] sm:w-full sm:aspect-[16/10] rounded-lg overflow-hidden shrink-0">
-                  <ShimmerBox className="w-full h-full rounded-lg" />
-                  <div className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 w-10 sm:w-12 h-4 rounded bg-slate-900/40 backdrop-blur-xs" />
+                <div className="relative w-[47%] aspect-[16/10] sm:w-full sm:aspect-[16/10] rounded-xl overflow-hidden shrink-0">
+                  <ShimmerBox className="w-full h-full rounded-xl" />
+                  <div className="absolute bottom-2 left-2 w-10 sm:w-12 h-4 rounded bg-slate-900/40 backdrop-blur-xs" />
                 </div>
 
                 {/* Right / Bottom Info Skeleton */}
-                <div className="py-0.5 sm:py-0 sm:mt-2.5 space-y-2 flex-1 flex flex-col justify-between min-w-0">
+                <div className="py-0.5 sm:py-0 sm:mt-3 space-y-2 flex-1 flex flex-col justify-between min-w-0">
                   <div className="space-y-1.5">
-                    <ShimmerBox className="h-3 w-20 rounded mb-1 sm:hidden bg-purple-500/20" />
-                    <ShimmerBox className="h-4 w-full rounded" />
-                    <ShimmerBox className="h-4 w-4/5 rounded" />
+                    <ShimmerBox className="h-3.5 w-20 rounded mb-1 sm:hidden bg-purple-500/20" />
+                    <ShimmerBox className="h-4.5 w-full rounded" />
+                    <ShimmerBox className="h-4.5 w-4/5 rounded" />
                   </div>
 
                   <div className="flex items-center justify-between pt-1 sm:pt-2 sm:border-t border-slate-100 dark:border-slate-800">
                     <div className="flex items-center gap-1.5">
                       <ShimmerBox className="w-4 h-4 rounded-full" />
-                      <ShimmerBox className="h-3.5 w-12 rounded" />
+                      <ShimmerBox className="h-3.5 w-14 rounded" />
                     </div>
                     <ShimmerBox className="h-5 w-14 rounded-lg" />
                   </div>

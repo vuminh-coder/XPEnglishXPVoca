@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import {
   ArrowLeft,
   Headphones,
@@ -101,33 +102,47 @@ export function StudioTopHeader({
         <div className="hidden xl:block w-[1px] h-4 bg-slate-200 dark:bg-slate-700 shrink-0 mx-0.5" />
 
         {/* Mode Switcher pill directly next to title */}
-        <div className="p-0.5 sm:p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-0.5 shrink-0 ml-0.5">
+        <div className="p-0.5 sm:p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-0.5 shrink-0 ml-0.5 relative">
           {/* Shadowing Tab Link */}
           <Link
             href={`/study/shadowing?id=${lessonQueryId}`}
-            className={`px-2.5 sm:px-3 py-1 rounded-lg text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-all cursor-pointer select-none ${
+            className={`relative px-2.5 sm:px-3 py-1 rounded-lg text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-colors cursor-pointer select-none z-10 ${
               !isListening
-                ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xs font-bold"
+                ? "text-slate-900 dark:text-white font-bold"
                 : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
             }`}
             title="Chuyển sang phòng luyện nói Shadowing"
           >
-            <Mic className="w-3.5 sm:w-4 h-3.5 sm:h-4 shrink-0" />
-            <span className="hidden sm:inline">Nói</span>
+            {!isListening && (
+              <motion.div
+                layoutId="studioModePillIndicator"
+                className="absolute inset-0 rounded-lg bg-white dark:bg-slate-900 shadow-2xs"
+                transition={{ type: "spring", stiffness: 450, damping: 32 }}
+              />
+            )}
+            <Mic className="w-3.5 sm:w-4 h-3.5 sm:h-4 shrink-0 relative z-10" />
+            <span className="hidden sm:inline relative z-10">Nói</span>
           </Link>
 
           {/* Listening Tab Link */}
           <Link
             href={`/study/listening?id=${lessonQueryId}`}
-            className={`px-2.5 sm:px-3 py-1 rounded-lg text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-all cursor-pointer select-none ${
+            className={`relative px-2.5 sm:px-3 py-1 rounded-lg text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-colors cursor-pointer select-none z-10 ${
               isListening
-                ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xs font-bold"
+                ? "text-slate-900 dark:text-white font-bold"
                 : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
             }`}
             title="Phòng luyện nghe chép chính tả (Đang mở)"
           >
-            <Headphones className="w-3.5 sm:w-4 h-3.5 sm:h-4 shrink-0 text-[#0059bb] dark:text-sky-400" />
-            <span className="hidden sm:inline">Nghe</span>
+            {isListening && (
+              <motion.div
+                layoutId="studioModePillIndicator"
+                className="absolute inset-0 rounded-lg bg-white dark:bg-slate-900 shadow-2xs"
+                transition={{ type: "spring", stiffness: 450, damping: 32 }}
+              />
+            )}
+            <Headphones className="w-3.5 sm:w-4 h-3.5 sm:h-4 shrink-0 text-[#0059bb] dark:text-sky-400 relative z-10" />
+            <span className="hidden sm:inline relative z-10">Nghe</span>
           </Link>
         </div>
 
@@ -138,7 +153,7 @@ export function StudioTopHeader({
 
         {/* Accent Switcher pill */}
         {onAccentChange && (
-          <div className="hidden md:inline-flex p-0.5 sm:p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 items-center gap-0.5 shrink-0">
+          <div className="hidden md:inline-flex p-0.5 sm:p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 items-center gap-0.5 shrink-0 relative">
             {(["en-US", "en-GB", "en-AU"] as const).map((acc) => {
               const label = acc === "en-US" ? "US" : acc === "en-GB" ? "UK" : "AU";
               const isSelected =
@@ -149,14 +164,21 @@ export function StudioTopHeader({
                   key={acc}
                   type="button"
                   onClick={() => onAccentChange(acc)}
-                  className={`px-2 py-0.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  className={`relative px-2.5 py-0.5 rounded-lg text-xs font-bold transition-colors cursor-pointer select-none z-10 ${
                     isSelected
-                      ? "bg-blue-600 text-white shadow-2xs"
+                      ? "text-white shadow-2xs font-extrabold"
                       : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                   }`}
                   title={`Đổi giọng đọc tiếng Anh ${label === "US" ? "Mỹ" : label === "UK" ? "Anh" : "Úc"}`}
                 >
-                  {label}
+                  {isSelected && (
+                    <motion.div
+                      layoutId="studioAccentPillIndicator"
+                      className="absolute inset-0 rounded-lg bg-[#0059bb] shadow-2xs"
+                      transition={{ type: "spring", stiffness: 480, damping: 32 }}
+                    />
+                  )}
+                  <span className="relative z-10">{label}</span>
                 </button>
               );
             })}

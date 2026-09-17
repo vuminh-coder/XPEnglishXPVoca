@@ -4,7 +4,6 @@ import React from "react";
 import {
   ShimmerBox,
   ShimmerCircle,
-  ShimmerText,
 } from "@/shared/components/feedback/ShimmerSkeleton";
 
 export default function DashboardLoading() {
@@ -12,8 +11,7 @@ export default function DashboardLoading() {
   const svgH = 210;
   const padLeft = 52;
   const padRight = 10;
-  const padTop = 18;
-  const yCoords = [padTop, 63, 108, 154, 200];
+  const yCoords = [24, 68, 112, 156, 200];
   const yLabels = ["60m", "45m", "30m", "15m", "0m"];
 
   return (
@@ -46,9 +44,9 @@ export default function DashboardLoading() {
       {/* MAIN CONTENT FLUID CANVAS SKELETON */}
       <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-3.5 sm:py-6 pb-24 sm:pb-8 space-y-4 sm:space-y-6">
         {/* 1. ANNOUNCEMENT BANNER SKELETON */}
-        <div className="p-3 sm:p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 flex items-center justify-between gap-3 shadow-2xs h-14">
+        <div className="p-3 sm:p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 flex items-center justify-between gap-3 shadow-2xs h-14">
           <div className="flex items-center gap-3">
-            <ShimmerBox className="w-9 h-9 rounded-lg shrink-0" />
+            <ShimmerBox className="w-9 h-9 rounded-xl shrink-0" />
             <div className="space-y-1.5">
               <ShimmerBox className="h-4 w-44 sm:w-72 rounded-md" />
               <ShimmerBox className="h-3 w-28 sm:w-96 rounded-md hidden sm:block opacity-60" />
@@ -58,7 +56,7 @@ export default function DashboardLoading() {
         </div>
 
         {/* 2. HERO GREETING & 4 DOUBLE-BEZEL METRIC CARDS */}
-        <div className="p-4 sm:p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-4">
+        <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-4">
           {/* Upper Greeting & User Status */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3.5 min-w-0">
@@ -91,7 +89,7 @@ export default function DashboardLoading() {
             ].map((iconBg, idx) => (
               <div
                 key={idx}
-                className="p-3 sm:p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 flex items-center gap-3 shadow-2xs"
+                className="p-3 sm:p-3.5 rounded-2xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 flex items-center gap-3 shadow-2xs"
               >
                 <div className={`w-10 h-10 rounded-xl ${iconBg} shrink-0 flex items-center justify-center`} />
                 <div className="space-y-1.5 flex-1 min-w-0">
@@ -103,11 +101,11 @@ export default function DashboardLoading() {
           </div>
         </div>
 
-        {/* 3. BENTO GRID 12 COLUMNS (7/12 & 5/12) */}
+        {/* 3. BENTO GRID 12 COLUMNS (7/12 & 5/12 - 0px CLS Geometric Twin) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start">
           {/* ─── LEFT COLUMN (7/12) ─── */}
           <div className="lg:col-span-7 space-y-5 sm:space-y-6">
-            {/* 3.1. TODAY'S MISSION HERO DECK SKELETON (Royal Blue Gradient) */}
+            {/* 3.1. TODAY'S MISSION HERO DECK SKELETON */}
             <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-[#0059bb]/25 via-blue-600/20 to-sky-600/15 dark:from-[#0059bb]/35 dark:via-blue-950/60 dark:to-slate-900 border border-blue-500/30 dark:border-blue-500/40 shadow-md space-y-3.5">
               {/* Header Badge & Sub-Chip */}
               <div className="flex items-center justify-between">
@@ -148,8 +146,8 @@ export default function DashboardLoading() {
               </div>
             </div>
 
-            {/* 3.2. PER-SKILL ANALYTICS DOCK SKELETON (Biểu Đồ Sóng 5 Kỹ Năng 700x210) */}
-            <div className="p-4 sm:p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3.5">
+            {/* 3.2. PER-SKILL ANALYTICS DOCK SKELETON */}
+            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3.5">
               {/* Header Title & Weekly Total Chip */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -173,7 +171,7 @@ export default function DashboardLoading() {
                 ))}
               </div>
 
-              {/* Clean High-DPI Coordinate Canvas with Shimmer Sweep (No Fake Demo Lines) */}
+              {/* Coordinate Canvas with Shimmer Sweep */}
               <div className="relative pt-1.5 pb-0 bg-slate-50/70 dark:bg-slate-950/70 rounded-xl border border-slate-200/70 dark:border-slate-800/80 overflow-hidden shadow-2xs before:absolute before:inset-0 before:-translate-x-full before:animate-shimmer before:bg-gradient-to-r before:from-transparent before:via-white/40 dark:before:via-white/10 before:to-transparent before:z-10 before:pointer-events-none">
                 <div className="w-full relative">
                   <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full h-auto overflow-visible select-none">
@@ -221,9 +219,12 @@ export default function DashboardLoading() {
                   ))}
                 </div>
               </div>
+            </div>
 
-              {/* Sub-Action Card Embedded */}
-              <div className="p-3 rounded-xl bg-emerald-50/90 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-900/40 flex items-center justify-between gap-3 shadow-2xs">
+            {/* 3.3. AI TUTOR & VOCABULARY DOCK SKELETON */}
+            <div className="space-y-3 sm:space-y-4">
+              {/* Sub-Action Card Skeleton */}
+              <div className="p-3 rounded-2xl bg-emerald-50/90 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-900/40 flex items-center justify-between gap-3 shadow-2xs">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-lg bg-emerald-600/20 shrink-0" />
                   <div className="space-y-1">
@@ -233,25 +234,25 @@ export default function DashboardLoading() {
                 </div>
                 <ShimmerBox className="h-8 w-24 rounded-lg bg-emerald-600/20 dark:bg-emerald-500/20 shrink-0" />
               </div>
-            </div>
 
-            {/* 3.3. AI TUTOR QUICK INTERACTIVE WORKSPACE SKELETON */}
-            <div className="p-4 sm:p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3">
-              <div className="flex items-center gap-2">
-                <div className="w-5 h-5 rounded-md bg-blue-500/20" />
-                <ShimmerBox className="h-5 w-44 rounded-md" />
-              </div>
-              <div className="flex gap-2">
-                <ShimmerBox className="h-10 flex-1 rounded-xl border border-slate-200/60 dark:border-slate-700/50" />
-                <ShimmerBox className="h-10 w-24 rounded-xl bg-blue-600/30 dark:bg-blue-500/30 shrink-0" />
+              {/* AI Tutor Skeleton */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-5 h-5 rounded-md bg-blue-500/20" />
+                  <ShimmerBox className="h-5 w-44 rounded-md" />
+                </div>
+                <div className="flex gap-2">
+                  <ShimmerBox className="h-10 flex-1 rounded-xl border border-slate-200/60 dark:border-slate-700/50" />
+                  <ShimmerBox className="h-10 w-24 rounded-xl bg-blue-600/30 dark:bg-blue-500/30 shrink-0" />
+                </div>
               </div>
             </div>
           </div>
 
           {/* ─── RIGHT COLUMN (5/12) ─── */}
           <div className="space-y-5 sm:space-y-6 lg:col-span-5">
-            {/* 3.4. STREAK ATTENDANCE SKELETON (Duolingo Style) */}
-            <div className="p-4 sm:p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3 relative overflow-hidden">
+            {/* 3.4. STREAK ATTENDANCE SKELETON */}
+            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3 relative overflow-hidden">
               {/* Speech Bubble Skeleton */}
               <div className="relative mx-auto max-w-[290px] sm:max-w-[320px] text-center px-4 py-2 rounded-xl bg-slate-50 dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700 shadow-2xs space-y-1">
                 <ShimmerBox className="h-3.5 w-36 mx-auto rounded" />
@@ -265,7 +266,7 @@ export default function DashboardLoading() {
                 <ShimmerBox className="h-3 w-20 rounded mt-1 mx-auto opacity-60" />
               </div>
 
-              {/* 7 Circle Stepper Nodes matching Real Stepper */}
+              {/* 7 Circle Stepper Nodes */}
               <div className="grid grid-cols-7 gap-1 sm:gap-2 text-center pt-1">
                 {["T2", "T3", "T4", "T5", "T6", "T7", "CN"].map((label, i) => (
                   <div key={i} className="flex flex-col items-center gap-1.5">
@@ -288,7 +289,7 @@ export default function DashboardLoading() {
             </div>
 
             {/* 3.5. LEADERBOARD PODS SKELETON */}
-            <div className="p-4 sm:p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3.5">
+            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3.5">
               <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
                 <div className="flex items-center gap-2">
                   <ShimmerBox className="w-4 h-4 rounded" />
@@ -341,8 +342,8 @@ export default function DashboardLoading() {
               </div>
             </div>
 
-            {/* 3.6. DAILY QUESTS SKELETON (Exactly 5 Challenges 1:1) */}
-            <div className="p-4 sm:p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3.5">
+            {/* 3.6. DAILY QUESTS SKELETON (With Sub-Tabs Filter 1:1) */}
+            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3.5">
               <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
                 <div className="flex items-center gap-2">
                   <ShimmerBox className="w-4 h-4 rounded" />
@@ -351,6 +352,14 @@ export default function DashboardLoading() {
                 <ShimmerBox className="h-5 w-20 rounded-md" />
               </div>
 
+              {/* Sub-Tabs Filter Skeleton */}
+              <div className="p-1 bg-slate-100 dark:bg-slate-800/90 rounded-xl border border-slate-200/50 dark:border-slate-700/50 flex items-center gap-1">
+                <ShimmerBox className="h-7 flex-1 rounded-lg" />
+                <ShimmerBox className="h-7 flex-1 rounded-lg" />
+                <ShimmerBox className="h-7 flex-1 rounded-lg" />
+              </div>
+
+              {/* 5 Challenges List Skeleton */}
               <div className="space-y-2">
                 {[1, 2, 3, 4, 5].map((quest) => (
                   <div
@@ -381,19 +390,16 @@ export default function DashboardLoading() {
             <ShimmerBox className="h-4 w-20 rounded" />
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3.5">
             {[1, 2, 3, 4].map((tile) => (
               <div
                 key={tile}
-                className="p-3 sm:p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-3"
+                className="p-2.5 sm:p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex items-center gap-2.5 sm:gap-3"
               >
-                <div className="flex items-center justify-between">
-                  <ShimmerBox className="w-10 h-10 rounded-xl" />
-                  <ShimmerBox className="h-4 w-16 rounded-md" />
-                </div>
-                <div className="space-y-1.5">
-                  <ShimmerBox className="h-4 w-28 rounded" />
-                  <ShimmerBox className="h-3 w-36 rounded opacity-60" />
+                <ShimmerBox className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl shrink-0" />
+                <div className="space-y-1.5 flex-1 min-w-0">
+                  <ShimmerBox className="h-4 w-24 sm:w-28 rounded" />
+                  <ShimmerBox className="h-3 w-16 sm:w-24 rounded opacity-60 hidden sm:block" />
                 </div>
               </div>
             ))}

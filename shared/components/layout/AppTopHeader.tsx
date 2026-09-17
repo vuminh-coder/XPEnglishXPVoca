@@ -60,6 +60,8 @@ export interface HeaderPillItemProps {
   hideOnSmall?: boolean;
   /** Hide the entire pill on medium screens (below md: 768px) */
   hideOnMedium?: boolean;
+  /** Framer Motion layoutId for smooth sliding active indicator */
+  layoutId?: string;
   className?: string;
 }
 
@@ -72,6 +74,7 @@ export function HeaderPillItem({
   hideLabelOnSmall,
   hideOnSmall = false,
   hideOnMedium = false,
+  layoutId,
   className = "",
 }: HeaderPillItemProps) {
   // Adaptive Mobile Behavior: Active tab shows [Icon + Text], Inactive tabs show [Icon only] on mobile (< sm: 640px)
@@ -96,9 +99,18 @@ export function HeaderPillItem({
     return (
       <span
         title={label}
-        className={`${baseClasses} font-bold bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xs cursor-default`}
+        className={`${baseClasses} font-bold text-slate-900 dark:text-white cursor-default relative`}
       >
-        {content}
+        {layoutId ? (
+          <motion.span
+            layoutId={layoutId}
+            transition={{ type: "spring", stiffness: 500, damping: 35 }}
+            className="absolute inset-0 bg-white dark:bg-slate-900 rounded-lg shadow-2xs z-0"
+          />
+        ) : (
+          <span className="absolute inset-0 bg-white dark:bg-slate-900 rounded-lg shadow-2xs z-0" />
+        )}
+        <span className="relative z-10 flex items-center justify-center gap-1.5">{content}</span>
       </span>
     );
   }

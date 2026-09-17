@@ -2,3 +2,8 @@ export * from "./types";
 export * from "./components/PostCard";
 export * from "./components/CreatePostBox";
 export * from "./components/CommunitySidebar";
+export * from "./components/views/CommunityFeedView";
+export * from "./components/views/CommunityLeaderboardView";
+export * from "./components/views/CommunityFriendsView";
+export * from "./components/views/CommunityGroupsView";
+export * from "./components/CommunityHub";
