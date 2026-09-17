@@ -2,7 +2,16 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Shuffle, Layers, SpellCheck, ArrowRight, Zap, Clock, Trophy } from "lucide-react";
+import {
+  Shuffle,
+  Layers,
+  SpellCheck,
+  Flame,
+  BookOpen,
+  Bot,
+  ArrowRight,
+  Zap,
+} from "lucide-react";
 import { Badge } from "@/shared/components/ui/Badge";
 import { GameMode } from "../../types";
 
@@ -70,6 +79,51 @@ export function GameCatalogGrid({ onSelectGame }: GameCatalogGridProps) {
       tag1: "6 lượt",
       tag2: "5 ký tự",
       xpReward: "+25~60 XP",
+    },
+    {
+      id: "blitz" as GameMode,
+      title: "Word Blitz",
+      subtitle: "Cuộc đua tốc độ & Cứu từ rơi",
+      description:
+        "Các từ vựng rơi xuống với tốc độ tăng dần. Gõ nhanh chính xác để bắn hạ từ trước vạch nguy hiểm. Trang bị 3 sinh mệnh kịch tính.",
+      icon: Flame,
+      iconBg: "from-rose-500 via-orange-500 to-amber-500 shadow-rose-500/20",
+      accentColor: "text-rose-600 dark:text-rose-400",
+      borderHover: "hover:border-rose-500",
+      badgeVariant: "danger" as const,
+      tag1: "3 Mạng",
+      tag2: "Tốc độ cao",
+      xpReward: "+30~100 XP",
+    },
+    {
+      id: "sentence" as GameMode,
+      title: "Sentence Scramble",
+      subtitle: "Thợ xây trật tự câu ngữ pháp",
+      description:
+        "Ghép các khối từ vựng xáo trộn thành câu tiếng Anh hoàn chỉnh theo gợi ý nghĩa tiếng Việt. Phân tích cấu trúc S-V-O ngữ pháp tức thì.",
+      icon: BookOpen,
+      iconBg: "from-sky-500 to-blue-600 shadow-sky-500/20",
+      accentColor: "text-sky-600 dark:text-sky-400",
+      borderHover: "hover:border-sky-500",
+      badgeVariant: "primary" as const,
+      tag1: "8 câu",
+      tag2: "Ngữ pháp S-V-O",
+      xpReward: "+20~120 XP",
+    },
+    {
+      id: "chain" as GameMode,
+      title: "Word Chain AI",
+      subtitle: "Đấu nối từ tiếng Anh với AI Mentor",
+      description:
+        "Nối chữ cái cuối cùng thành chữ đầu tiên của từ mới đối kháng trực tiếp với AI XP Mentor. Đếm ngược 12 giây mỗi lượt siêu hồi hộp.",
+      icon: Bot,
+      iconBg: "from-indigo-500 to-purple-600 shadow-indigo-500/20",
+      accentColor: "text-indigo-600 dark:text-indigo-400",
+      borderHover: "hover:border-indigo-500",
+      badgeVariant: "legendary" as const,
+      tag1: "Đấu AI 1v1",
+      tag2: "12s/lượt",
+      xpReward: "+30~100 XP",
     },
   ];
 

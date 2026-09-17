@@ -2,7 +2,15 @@
 
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Gamepad2, Shuffle, Layers, SpellCheck } from "lucide-react";
+import {
+  Gamepad2,
+  Shuffle,
+  Layers,
+  SpellCheck,
+  Flame,
+  BookOpen,
+  Bot,
+} from "lucide-react";
 import {
   AppTopHeader,
   HeaderPillContainer,
@@ -15,6 +23,9 @@ import {
   WordScrambleGame,
   MemoryMatchGame,
   WordleEnglishGame,
+  WordBlitzGame,
+  SentenceScrambleGame,
+  WordChainGame,
 } from "@/features/games";
 
 const pageTransitionVariants = {
@@ -74,7 +85,7 @@ export default function GamesPage() {
 
   return (
     <div className="space-y-4 pb-20 md:pb-6 font-sans antialiased" suppressHydrationWarning>
-      {/* 1. Standardized AppTopHeader with Game Switching Tabs & Gamification Badges */}
+      {/* 1. Standardized AppTopHeader with Adaptive Tabs (Strictly <= 4 tabs) */}
       <AppTopHeader
         onBack={activeGame ? () => setActiveGame(null) : undefined}
         showGamificationStats={true}
@@ -87,27 +98,68 @@ export default function GamesPage() {
             icon={<Gamepad2 className="w-3.5 h-3.5 text-rose-500" />}
             label="Tất Cả Games"
           />
-          <HeaderPillItem
-            active={activeGame === "scramble"}
-            onClick={() => setActiveGame("scramble")}
-            layoutId="gamesModeFilterPill"
-            icon={<Shuffle className="w-3.5 h-3.5 text-[#0059bb]" />}
-            label="Word Scramble"
-          />
-          <HeaderPillItem
-            active={activeGame === "memory"}
-            onClick={() => setActiveGame("memory")}
-            layoutId="gamesModeFilterPill"
-            icon={<Layers className="w-3.5 h-3.5 text-emerald-500" />}
-            label="Memory Match"
-          />
-          <HeaderPillItem
-            active={activeGame === "wordle"}
-            onClick={() => setActiveGame("wordle")}
-            layoutId="gamesModeFilterPill"
-            icon={<SpellCheck className="w-3.5 h-3.5 text-amber-500" />}
-            label="Wordle"
-          />
+
+          {/* If playing Blitz, Sentence, or Chain, show dedicated active pill */}
+          {activeGame === "blitz" && (
+            <HeaderPillItem
+              active={true}
+              onClick={() => setActiveGame("blitz")}
+              layoutId="gamesModeFilterPill"
+              icon={<Flame className="w-3.5 h-3.5 text-rose-500" />}
+              label="Word Blitz"
+            />
+          )}
+
+          {activeGame === "sentence" && (
+            <HeaderPillItem
+              active={true}
+              onClick={() => setActiveGame("sentence")}
+              layoutId="gamesModeFilterPill"
+              icon={<BookOpen className="w-3.5 h-3.5 text-sky-500" />}
+              label="Sentence Scramble"
+            />
+          )}
+
+          {activeGame === "chain" && (
+            <HeaderPillItem
+              active={true}
+              onClick={() => setActiveGame("chain")}
+              layoutId="gamesModeFilterPill"
+              icon={<Bot className="w-3.5 h-3.5 text-indigo-500" />}
+              label="Word Chain AI"
+            />
+          )}
+
+          {/* Standard 3 tabs shown when on main catalog or playing standard games */}
+          {(!activeGame || activeGame === "scramble") && (
+            <HeaderPillItem
+              active={activeGame === "scramble"}
+              onClick={() => setActiveGame("scramble")}
+              layoutId="gamesModeFilterPill"
+              icon={<Shuffle className="w-3.5 h-3.5 text-[#0059bb]" />}
+              label="Scramble"
+            />
+          )}
+
+          {(!activeGame || activeGame === "memory") && (
+            <HeaderPillItem
+              active={activeGame === "memory"}
+              onClick={() => setActiveGame("memory")}
+              layoutId="gamesModeFilterPill"
+              icon={<Layers className="w-3.5 h-3.5 text-emerald-500" />}
+              label="Memory"
+            />
+          )}
+
+          {(!activeGame || activeGame === "wordle") && (
+            <HeaderPillItem
+              active={activeGame === "wordle"}
+              onClick={() => setActiveGame("wordle")}
+              layoutId="gamesModeFilterPill"
+              icon={<SpellCheck className="w-3.5 h-3.5 text-amber-500" />}
+              label="Wordle"
+            />
+          )}
         </HeaderPillContainer>
       </AppTopHeader>
 
@@ -153,6 +205,45 @@ export default function GamesPage() {
             </motion.div>
           )}
 
+          {activeGame === "blitz" && (
+            <motion.div
+              key="blitz-panel"
+              variants={pageTransitionVariants}
+              initial="hidden"
+              animate="show"
+              exit="exit"
+              className="max-w-2xl mx-auto"
+            >
+              <WordBlitzGame pool={pool} onBack={() => setActiveGame(null)} />
+            </motion.div>
+          )}
+
+          {activeGame === "sentence" && (
+            <motion.div
+              key="sentence-panel"
+              variants={pageTransitionVariants}
+              initial="hidden"
+              animate="show"
+              exit="exit"
+              className="max-w-2xl mx-auto"
+            >
+              <SentenceScrambleGame onBack={() => setActiveGame(null)} />
+            </motion.div>
+          )}
+
+          {activeGame === "chain" && (
+            <motion.div
+              key="chain-panel"
+              variants={pageTransitionVariants}
+              initial="hidden"
+              animate="show"
+              exit="exit"
+              className="max-w-2xl mx-auto"
+            >
+              <WordChainGame pool={pool} onBack={() => setActiveGame(null)} />
+            </motion.div>
+          )}
+
           {activeGame === null && (
             <motion.div
               key="menu-panel"
@@ -165,7 +256,7 @@ export default function GamesPage() {
               {/* Hero Spotlight Stage */}
               <GameHeroBanner />
 
-              {/* Game Cards Bento Grid */}
+              {/* 6 Bento Game Cards Grid */}
               <GameCatalogGrid onSelectGame={(mode) => setActiveGame(mode)} />
             </motion.div>
           )}
