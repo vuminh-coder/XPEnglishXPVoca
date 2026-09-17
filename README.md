@@ -855,6 +855,24 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
   - **Chuẩn Mực Màu Sắc 60-30-10 & UI/UX Wadhah Aloui**: Nút chính Primary Xanh Hoàng Gia `#0059bb`, màu Đỏ Cherry Rose `#f43f5e` chỉ dùng cho đối thủ và thanh đếm giờ khẩn cấp ($\le 3s$), nhãn nhập liệu bên ngoài chuẩn Rule 6.
   - **Trận Đấu PvP 1v1**: Giao diện đấu thời gian thực sắc nét, đồng hồ đếm ngược, AI thông minh và báo cáo kết quả thưởng XP.
   - **Bộ Kiểm Thử 100% PASS (`__tests__/pvp_sound_engine.test.ts`)**: Đảm bảo an toàn tuyệt đối trong môi trường SSR lẫn trình duyệt thực tế.
+
+- **`/study/games`**: Phân Hệ Mini Games Từ Vựng Tương Tác & Phản Xạ Nhanh 3-in-1 (Word Scramble, Memory Match & Wordle English) — Chuẩn Mực Agency Dashboard Tier.
+  - **Kiến Trúc Module Hóa Chuyên Sâu (`features/games/`)**:
+    - `types/index.ts`: Định nghĩa kiểu dữ liệu nghiêm ngặt `GameMode`, `ScrambleWordPackage`, `MemoryCard`, `WordleLetterStatus`, `WordleRowState`, `GameRecordPayload`.
+    - `utils/gameAudio.ts`: Động cơ âm thanh Web Audio API 0KB (`playFlipSound`, `playCorrectDing`, `playWrongBuzzer`, `playVictoryFanfare`), an toàn môi trường SSR/Node.
+    - `app/api/games/record/route.ts`: API lưu trữ kết quả ván game, tính toán tăng cấp độ, lưu vĩnh viễn XP và Vàng vào PostgreSQL Prisma `Profile`.
+    - `components/hero/GameHeroBanner.tsx`: Banner Spotlight Hero chuẩn Agency với ánh sáng gradient và thông số thưởng XP.
+    - `components/catalog/GameCatalogGrid.tsx`: Lưới 3 thẻ Bento Game (`Word Scramble`, `Memory Match`, `Wordle English`) với hiệu ứng hover lift mượt mà, phân loại màu 60-30-10.
+    - `components/scramble/WordScrambleGame.tsx`: Trò chơi xáo trộn chữ cái 8 từ, đếm ngược 30s, combo streak nhân điểm, ô chữ `rounded-xl` màu xanh hoàng gia `#0059bb`.
+    - `components/memory/MemoryMatchGame.tsx`: Trò chơi lật thẻ 6 cặp (12 thẻ) rèn luyện trí nhớ Từ - Nghĩa, tính điểm theo hiệu suất lượt lật, thẻ `rounded-xl`.
+    - `components/wordle/WordleEnglishGame.tsx`: Trò chơi Wordle tiếng Anh 5 chữ cái 6 lượt đoán, bàn phím QWERTY ảo lẫn gõ phím vật lý, giải mã màu Emerald/Amber/Slate, hiển thị nghĩa tiếng Việt & phiên âm IPA.
+    - `components/shared/GameResultScreen.tsx`: Màn hình vinh danh chiến thắng Cúp Vàng 3D, tổng kết XP và Vàng, nút chơi lại ván mới.
+    - `app/(dashboard)/study/games/page.tsx`: Orchestrator mỏng dưới 150 dòng, tích hợp `AppTopHeader` với cụm tab chuyển đổi nhanh và chip Gamification.
+  - **Chuẩn Hóa 20 Quy Tắc UI/UX & Bảng Màu 60-30-10**:
+    - Loại bỏ hoàn toàn lỗi bo góc nhọn `rounded-xs` (2px), nâng cấp lên `rounded-2xl` cho khối ngoài và `rounded-xl` cho phần tử con.
+    - Không dùng chữ nghiêng, chữ đứng `not-italic` sắc nét.
+    - Bộ kiểm thử tự động 100% PASS (`__tests__/games_feature.test.ts`).
+
 - **`/study/exam-prep`**: Đấu Trường Thi Thử Đề Thực Tế (Unified Exam Configurator Studio for TOEIC & IELTS 4 Skills).
   - **Tích hợp thanh điều hướng Sidebar (`components/layout/Sidebar.tsx`)**: Đã bổ sung mục **"Thi thử đề" (`/study/exam-prep`)** dưới danh mục LUYỆN TẬP.
   - **Kho Đề Thi Chuẩn Quốc Tế 2026 (Cấu Trúc Mô-đun Tách File Riêng Biệt `lib/data/exam-papers/`)**: Đã tách và tổ chức toàn bộ kho đề thi thành các file độc lập đặt trong thư mục chuyên biệt `lib/data/exam-papers/`, mỗi đề thi là một file `.ts` riêng biệt tương ứng với mã đề, tự động tổng hợp qua `index.ts` và bảo toàn 100% đường dẫn URL dạng `http://localhost:3000/study/exam-prep?id=1` (hoặc `?id=N` / `?id=toeic_lr_2026_01`):
