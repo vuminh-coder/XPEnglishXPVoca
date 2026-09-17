@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useAuthStore } from "@/stores/authStore";
+import { useUserStore, DEFAULT_LEARNER_USER } from "@/stores/userStore";
 import { Badge, Button } from "@/shared/components/ui";
 import { DoubleBezelCard } from "@/shared/components/ui/DoubleBezelCard";
 import { motion } from "framer-motion";
@@ -19,7 +20,49 @@ import {
   Zap,
   Flame,
   User,
+  GraduationCap,
+  BookOpen,
+  Swords,
+  PenTool,
+  Target,
+  ShoppingBag,
+  Crown,
 } from "lucide-react";
+
+const ACHIEVEMENT_ICONS_MAP: Record<string, { icon: React.ReactNode; bg: string }> = {
+  first_steps: {
+    icon: <GraduationCap className="h-7 w-7 stroke-[2.2] text-[#0059bb] dark:text-sky-400" />,
+    bg: "bg-blue-50 dark:bg-blue-950/40 border-blue-200/70 dark:border-blue-800/50",
+  },
+  streak_master: {
+    icon: <Flame className="h-7 w-7 stroke-[2.2] text-amber-500 fill-amber-500/20" />,
+    bg: "bg-amber-50 dark:bg-amber-950/40 border-amber-200/70 dark:border-amber-800/50",
+  },
+  bookworm: {
+    icon: <BookOpen className="h-7 w-7 stroke-[2.2] text-emerald-600 dark:text-emerald-400" />,
+    bg: "bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200/70 dark:border-emerald-800/50",
+  },
+  arena_champion: {
+    icon: <Swords className="h-7 w-7 stroke-[2.2] text-indigo-500 dark:text-indigo-400" />,
+    bg: "bg-indigo-50 dark:bg-indigo-950/40 border-indigo-200/70 dark:border-indigo-800/50",
+  },
+  essay_pro: {
+    icon: <PenTool className="h-7 w-7 stroke-[2.2] text-sky-500 dark:text-sky-400" />,
+    bg: "bg-sky-50 dark:bg-sky-950/40 border-sky-200/70 dark:border-sky-800/50",
+  },
+  perfect_score: {
+    icon: <Target className="h-7 w-7 stroke-[2.2] text-rose-500 dark:text-rose-400" />,
+    bg: "bg-rose-50 dark:bg-rose-950/40 border-rose-200/70 dark:border-rose-800/50",
+  },
+  big_spender: {
+    icon: <ShoppingBag className="h-7 w-7 stroke-[2.2] text-purple-500 dark:text-purple-400" />,
+    bg: "bg-purple-50 dark:bg-purple-950/40 border-purple-200/70 dark:border-purple-800/50",
+  },
+  legend: {
+    icon: <Crown className="h-7 w-7 stroke-[2.2] text-amber-500 fill-amber-500/20" />,
+    bg: "bg-amber-50 dark:bg-amber-950/40 border-amber-200/70 dark:border-amber-800/50",
+  },
+};
 
 interface Achievement {
   id: string;
@@ -35,10 +78,10 @@ interface Achievement {
 }
 
 export default function AchievementsPage() {
-  const { user } = useAuthStore();
+  const { user: authUser } = useAuthStore();
+  const storeUser = useUserStore((s) => s.user);
+  const user = authUser || storeUser || DEFAULT_LEARNER_USER;
   const [filter, setFilter] = useState<"all" | "unlocked" | "locked">("all");
-
-  if (!user) return null;
 
   const achievements: Achievement[] = [
     {
@@ -302,13 +345,17 @@ export default function AchievementsPage() {
               >
                 {/* Icon */}
                 <div
-                  className={`h-14 w-14 rounded-2xl flex items-center justify-center text-2xl shrink-0 border ${
+                  className={`h-14 w-14 rounded-2xl flex items-center justify-center shrink-0 border ${
                     ach.unlocked
-                      ? "bg-linear-to-br from-amber-100 to-yellow-50 dark:from-amber-950/40 dark:to-yellow-950/30 border-amber-300/60 dark:border-amber-700/50 shadow-2xs"
-                      : "bg-slate-100 dark:bg-slate-800/80 border-slate-200/80 dark:border-slate-700/60 grayscale"
+                      ? ACHIEVEMENT_ICONS_MAP[ach.id]?.bg || "bg-amber-50 dark:bg-amber-950/40 border-amber-200/60 dark:border-amber-800/40 shadow-2xs"
+                      : "bg-slate-100 dark:bg-slate-800/80 border-slate-200/80 dark:border-slate-700/60"
                   }`}
                 >
-                  {ach.unlocked ? ach.icon : <Lock className="h-5 w-5 text-slate-400" />}
+                  {ach.unlocked ? (
+                    ACHIEVEMENT_ICONS_MAP[ach.id]?.icon || <span className="text-2xl">{ach.icon}</span>
+                  ) : (
+                    <Lock className="h-5 w-5 text-slate-400 stroke-[2.2]" />
+                  )}
                 </div>
 
                 {/* Content */}

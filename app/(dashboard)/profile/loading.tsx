@@ -29,7 +29,7 @@ export default function ProfileLoading() {
         <div className="p-4 sm:p-6 rounded-2xl bg-gradient-to-r from-[#0059bb] via-[#004799] to-[#002b5b] shadow-md shadow-[#0059bb]/15 relative overflow-hidden">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-5">
             <div className="flex items-center gap-4 sm:gap-5">
-              <div className="w-18 h-18 sm:w-22 sm:h-22 rounded-2xl bg-white/20 border-2 border-white/30 shrink-0" />
+              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white/20 border-2 border-white/30 shrink-0" />
               <div className="space-y-2 min-w-0">
                 <div className="flex items-center gap-2">
                   <div className="h-6 sm:h-7 w-44 rounded-lg bg-white/30" />

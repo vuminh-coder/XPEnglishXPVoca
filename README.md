@@ -8,7 +8,7 @@
 
 Dự án áp dụng mô hình **Feature-Based Modular Architecture** kết hợp **Next.js 16 App Router**:
 
-- **`features/`**: Chứa toàn bộ logic nghiệp vụ, components, hooks, services, data và utilities phân chia độc lập theo từng tính năng (`listening`, `shadowing`, `vocabulary`, `exam-prep`, `grammar`, `reading`, `study-rooms`, `gamification`, `community`, `ai-tutor`).
+- **`features/`**: Chứa toàn bộ logic nghiệp vụ, components, hooks, services, data và utilities phân chia độc lập theo từng tính năng (`listening`, `shadowing`, `vocabulary`, `exam-prep`, `grammar`, `reading`, `study-rooms`, `gamification`, `community`, `ai-tutor`, `profile`, `premium`).
 - **`shared/`**: Chứa các thành phần dùng chung thực sự (`components/ui`, `components/layout`, `components/feedback`, `utils`, `constants`, `types`).
 - **`infrastructure/`**: Tách biệt mã nguồn tích hợp hệ thống bên ngoài (`api`, `auth`, `database`, `security`, `webrtc`).
 - **`stores/`**: Chứa toàn bộ các Zustand stores quản lý trạng thái tập trung.
@@ -149,8 +149,8 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
     - **Kho Vàng Học Tập 🪙**: Chip hoàng kim `bg-amber-50 dark:bg-amber-950/50 border-amber-200 text-amber-700` hiển thị số Vàng tích lũy kèm liên kết tới Cửa hàng `/shop`.
   - **Menu Popover Hồ Sơ Học Viên Đẳng Cấp Double-Bezel (`rounded-2xl` ngoài, `rounded-xl` trong)**:
     - Bấm vào Avatar mở ngay Popover `w-56 rounded-2xl` nổi đa tầng (`z-[9999]`) chuẩn $150k+ Agency-Tier.
-    - Khối Mini-Profile Header: Hiển thị Avatar xem trước, Họ và tên in đậm, tên người dùng `@username` và huy hiệu cấp bậc `Lv.N` bo góc sắc sảo.
-    - Danh mục điều hướng: Hồ sơ cá nhân (`/profile`), Cài đặt tài khoản (`/settings`), Menu con giao diện Sáng ☀️ / Tối 🌙 tích hợp dấu tick xanh hoàng gia, Nút bật/mở nhanh Trợ lý AI XP Mentor, và Nút Đăng xuất màu Rose cảnh báo.
+    - Khối Mini-Profile Header: Hiển thị Avatar tròn xem trước viền ring `shadow-2xs`, Họ và tên in đậm, tên định danh chuẩn `@handle` bảo toàn dấu chấm (ví dụ `@vuminh.ecv`), typography `font-sans 11px` thanh lịch và huy hiệu cấp bậc dạng viên thuốc `Lv.N` bo tròn `rounded-full`.
+    - Danh mục điều hướng: Hồ sơ cá nhân (`/profile`), Cài đặt tài khoản (`/settings`), Menu con giao diện Sáng ☀️ / Tối 🌙 tích hợp dấu tick xanh hoàng gia, **Công tắc gạt Bật/Tắt (Toggle Switch ON/OFF)** trực quan cho Trợ lý AI XP Mentor (phản ánh tức thì trạng thái ẩn/hiện của bong bóng chat AI, gạt sang phải màu xanh hoàng gia khi Bật và gạt sang trái màu xám khi Tắt), và Nút Đăng xuất màu Rose cảnh báo.
     - Đóng tự động thông minh: Tự động đóng khi click ra ngoài (Click Outside), bấm phím Escape hoặc khi điều hướng trang.
   - **Đồng Bộ 100% Skeleton Loaders (`loading.tsx`) - Chuẩn 0px CLS**: Tương ứng với từng trang, tất cả các tệp `loading.tsx` (như `ShadowingListingSkeleton`, `ListeningListingSkeleton`) đều tái hiện chuẩn xác 1:1 từng pixel: Nút tìm kiếm mobile, ô tìm kiếm desktop, nút CTA action, chip Streak 🔥, chip Gold 🪙 và Avatar người dùng có ring bo viền.
 - **Chuẩn Mực Chuyển Đổi Tab Không Giật & Bộ Tab Dùng Chung (Universal Shared Tab Unification & Zero-Jank Transition System)**:
@@ -350,7 +350,14 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
     - *Custom Hook (`hooks/useAnalyticsManager.ts`)*: Quản lý toàn bộ state phân hệ, nạp API `/api/user/analytics` và `/api/leaderboard`, tính toán memoized chỉ số học tập, chuyển đổi tab và kỹ năng mượt mà.
 - **`/community`**: Mạng xã hội học tập tương tác chuẩn Agency Tier tích hợp **Kiến trúc Unified Multi-Tab Hub**, **`AppTopHeader` (56px Baseline)** với hiệu ứng con nhộng trượt Apple-grade (`HeaderPillItem layoutId="communityActiveTab"`), cấu trúc **Fluid Ultra-Wide Canvas `max-w-[1600px] 2xl:max-w-[1760px]`** và bố cục **Bento Grid 8/12 Feed + 4/12 Sidebar Widgets**:
   - **Kiến Trúc Module Hóa Chuẩn Doanh Nghiệp (`features/community/`)**: Tinh gọn toàn bộ các tệp điều phối và bóc tách thành các module chuyên biệt độc lập:
-    - *Types & Hooks Phân Tầng (`types/index.ts`, `hooks/`)*: Chuẩn hóa 8 interfaces lõi và 4 Custom Hooks chuyên biệt (`useLeaderboardData` với polling CSDL 10s & dynamic rank processor, `useFriendsData` xử lý đồng thời 3 endpoint bạn bè, `useGroupsData` quản lý tham gia & tạo nhóm, `useFeedData` xử lý bài viết & tương tác optimistic).
+    - *Types & Hooks Phân Tầng (`types/index.ts`, `hooks/`)*: Chuẩn hóa 8 interfaces lõi và 5 Custom Hooks chuyên biệt (`useLeaderboardData` với polling CSDL 10s & dynamic rank processor, `useSidebarData` đồng bộ 100% Top 3 và nhóm học, `useFriendsData` xử lý đồng thời 3 endpoint bạn bè, `useGroupsData` quản lý tham gia & tạo nhóm, `useFeedData` xử lý bài viết & tương tác optimistic).
+    - *Động Cơ Đồng Bộ Dữ Liệu 100% Tuyệt Đối (Dynamic Ranking Reconciliation Engine)*:
+      - Loại bỏ hoàn toàn 100% sự sai lệch giữa **Top Học Viên Tuần (Sidebar Bảng Tin)** và **Bảng Xếp Hạng Tuần (Tab Xếp Hạng `/community/leaderboard`)**.
+      - Trích xuất và chia sẻ động cơ đối soát thứ hạng `processLeaderboardWithUser(leaders, user)` cho cả `useLeaderboardData` và `useSidebarData`.
+      - Sử dụng chung endpoint `/api/leaderboard?period=week` (chia sẻ chung khóa cache TTL 60s `leaderboard:week:1:50`, loại bỏ triệt để sai lệch do tham số `limit=3` cũ).
+      - Tự động đối soát tài khoản học viên hiện tại (`user` từ `useAuthStore`): cập nhật điểm XP tức thời sau bài học, đôn hạng nếu học viên thuộc Top 3, làm sạch tên hiển thị email qua `formatCleanName`.
+      - Đồng bộ chu kỳ polling ngầm 10s và tự động làm mới khi người dùng quay lại cửa sổ trình duyệt (`window.focus`), đảm bảo cập nhật mượt mà không nhấp nháy lại khung xương Shimmer.
+      - Khóa an toàn bằng bộ kiểm thử tự động `__tests__/community_leaderboard_sync.test.ts` (100% Pass).
     - *Shared Component (`components/shared/`)*: `CommunityHeroBanner` dùng chung cho cả 4 tab với gradient thích ứng (`from-[#0059bb] via-[#004fba] to-...`), hiệu ứng ambient blur orbs 60fps và typography sắc sảo.
     - *Phân Hệ Xếp Hạng (`components/leaderboard/`)*: `CommunityLeaderboardView` tinh gọn ~90 dòng, `LeaderboardPeriodFilter` (Bộ lọc Tuần/Tháng/Mọi thời đại `layoutId="activeLeaderboardPeriodIndicator"` + Ô tìm kiếm), `LeaderboardPodiumTop3` (Bục vinh danh Top 3 Vàng #1 nâng cao, Bạc #2, Đồng #3 + Exact Shimmer Skeleton 1:1), `LeaderboardRanksTable` (Danh sách thứ hạng Top 4+ có cuộn mượt + Nhận diện thẻ `Bạn` + Shimmer 4 hàng), `LeaderboardUserStatusWidget` (Vị trí học viên, Hạng tuần, Tổng XP, nút Luyện tập), `LeaderboardWeeklyRewardsWidget` (Phần thưởng Top 3 tuần).
     - *Phân Hệ Bạn Bè (`components/friends/`)*: `CommunityFriendsView` tinh gọn ~90 dòng, `FriendSearchBar` (Thanh tìm kiếm username + nút Kết bạn), `FriendsSubTabNav` (Bộ 3 sub-tabs `layoutId="activeFriendsSubTabIndicator"` kèm chấm đỏ thông báo), `ActiveFriendsList` (Danh sách bạn bè đang hoạt động + Shimmer + Empty), `PendingRequestsList` (Lời mời đang chờ với nút Đồng ý Emerald & Từ chối), `FriendSuggestionsList` (Component tái sử dụng thông minh cho cả Sub-tab mobile và Widget desktop sidebar), `StudyBuddyCardWidget` (Thẻ mời bạn bè nhận thưởng).
@@ -370,6 +377,47 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
     - Áp dụng đồng bộ bộ ba `ShimmerBox`, `ShimmerCircle`, `ShimmerText` tích hợp hiệu ứng dải sáng gradient quét 60fps (`before:animate-shimmer`), thay thế hoàn toàn `animate-pulse` mờ đục cũ.
     - **`community/loading.tsx`**: Tái hiện chuẩn xác 100% từng pixel Header 56px, Hero Banner, Khung tạo bài viết, 2 Thẻ bài viết chi tiết và 3 khối widget cột phải.
     - **In-Place Micro-Shimmers**: Khi fetch CSDL `/api/posts`, `/api/leaderboard`, `/api/friends`, `/api/groups`, các khối hiển thị vi khung xương đúng kích thước pixel thực tế, triệt tiêu 100% hiện tượng xô lệch bố cục (Zero CLS).
+
+### 4.1. Hồ Sơ Cá Nhân & Thành Tích (`/profile`)
+- **`/profile`**: Phân hệ Hồ Sơ Cá Nhân & Thành Tích chuẩn Agency Dashboard Tier bóc tách theo kiến trúc **Feature-First (`features/profile/`)**, chuẩn hóa phong cách khối, chữ, font chữ, màu sắc và icon đồng bộ 100% với `/analytics`:
+  - **Kiến Trúc Module Hóa Chuẩn Doanh Nghiệp (`features/profile/`)**: Tinh gọn tệp điều phối `app/(dashboard)/profile/page.tsx` từ **883 dòng xuống còn ~90 dòng sạch sẽ**:
+    - *Hero Stage Banner (`components/hero/ProfileHeroCard.tsx`)*: Card `rounded-2xl` gradient Xanh Hoàng Gia, **Avatar Hình Tròn Cao Cấp (`rounded-full`)** tích hợp vòng hào quang Concentric Aura (`bg-gradient-to-tr from-sky-400 via-indigo-400 to-amber-300 ring-4 ring-white/20 shadow-xl`), Level badge dạng Pill (`rounded-full`) với icon `Shield` và chữ `LV.` **màu trắng tuyết sắc nét (`text-white fill-white`)** nổi bật trên nền vàng hổ phách, nón cử nhân vinh danh đặt nghiêng tự nhiên trên vành trên của avatar tròn, tên học viên sạch sẽ qua `formatCleanName`, userTitle, bio và cụm kính mờ live stats (Streak `Flame` rực lửa & Vàng `Coins`).
+    - *Top 4 Bento Metrics Cards (`components/metrics/ProfileMetricsBar.tsx`)*: Đồng bộ 100% phong cách khối, font chữ Display/Mono và màu sắc với `/analytics`:
+      - Thẻ 1 (Từ Vựng Tích Lũy): `BookmarkCheck` trong `bg-blue-50 text-[#0059bb]`, thanh tiến độ gradient từ vựng.
+      - Thẻ 2 (Chuỗi Streak): `Flame` trong `bg-amber-50 text-amber-500`, kỷ lục cao nhất.
+      - Thẻ 3 (Kinh Nghiệm XP): `Zap` trong `bg-indigo-50 text-indigo-500`, tiến độ lên cấp `font-mono`.
+      - Thẻ 4 (Vàng & Bảo Hộ): Chuẩn hóa sang tông **Amber `#f59e0b`** (`Coins` trong `bg-amber-50 text-amber-500 border-amber-200/60`), số lượng bảo hộ streak.
+    - *Cài Đặt Hồ Sơ (`components/settings/ProfileEditDrawer.tsx`)*: Form trượt mở mượt mà qua `<AnimatePresence>`, nhãn ngoài Rule 6 (Họ tên, Bio), **Bộ chọn Avatar hình tròn có Live Preview** hiển thị ngay lập tức khuôn mặt/biểu tượng khi thay đổi với các nút chọn dạng tròn `rounded-full` đồng bộ, nút Primary Action Rule 18 & 19 `[ Lưu thay đổi ]`.
+    - *Phân Tích 5 Kỹ Năng (`components/skills/ProfileSkillBreakdown.tsx`)*: Icon ngữ nghĩa chuẩn mực (Từ vựng `BookOpen`, Viết `PenTool`, Nói `Mic`, Dictation `Headphones`, Shadowing `Volume2`), số phút `font-mono` và link sang `/analytics`.
+    - *Kho Huy Hiệu Thành Tích (`components/achievements/ProfileAchievementsSection.tsx`)*: **Chuẩn hóa 100% Vector Lucide Icons (`stroke-[2.2]`)** thay thế toàn bộ emoji thô: Bước Đầu (`GraduationCap` Blue), Ngọn Lửa (`Flame` Amber), Chiến Binh (`Swords` Indigo), Bách Từ (`Target` Emerald), Kết Nối (`Users` Sky), Bậc Thầy Quiz (`Brain` Purple) trong container pastel bóng mờ `shadow-2xs`, bộ lọc 3 sub-tabs (`Tất cả`, `Đã đạt`, `Chưa mở`), badge trạng thái `ĐÃ ĐẠT` (Emerald) vs `KHÓA` (Slate), điểm thưởng `+XX XP` màu Amber.
+    - *Rương Vật Phẩm & Trang Bị (`components/inventory/ProfileInventorySection.tsx`)*: **Thay thế triệt để emoji thô `🛡️` và `🎓`** bằng Lucide SVG cao cấp (`ShieldCheck stroke-[2.2]` Amber cho Bảo hộ streak & `GraduationCap stroke-[2.2]` Purple cho Nón cử nhân avatar), nút trang bị toggle tức thì và link sang `/shop`.
+    - *Cấp Độ & Danh Hiệu (`components/progression/ProfileTitleProgression.tsx`)*: Tiêu đề `Crown stroke-[2.2]`, badge `LV.X`, thẻ danh hiệu hiện tại với `GraduationCap stroke-[2.2]` và tích xanh `Check stroke-[3]`, thẻ danh hiệu tiếp theo với `Rocket stroke-[2.2]` và `Lock`.
+    - *Lối Tắt Ứng Dụng (`components/shortcuts/ProfileQuickLinks.tsx`)*: 4 lối tắt `/analytics` (`BarChart3`), `/study/pvp` (`Swords`), `/shop` (`ShoppingBag`), `/community/leaderboard` (`Trophy`) đồng bộ `stroke-[2.2]` và hiệu ứng hover lift.
+    - *Trang Bộ Sưu Tập Huy Chương (`app/(dashboard)/profile/achievements/page.tsx`)*: Đồng bộ hệ thống Lucide Vector Icons (`ACHIEVEMENT_ICONS_MAP`) cho toàn bộ 8 huy hiệu thành tích, xóa bỏ emoji OS, mang lại trải nghiệm EdTech đẳng cấp doanh nghiệp.
+  - **Chuẩn Hóa Icon Học Sâu Toàn Diện (In-Depth Icon System Standardization)**:
+    - Đồng bộ nét vẽ `stroke-[2.2]` trên toàn bộ icon tiêu đề, metric cards (`BookmarkCheck`, `Zap`, `Coins`), quick links và action buttons (`Share2`, `Edit3`).
+    - Khử sạch các emoji OS bị rò rỉ sau các dòng số liệu (kỷ lục streak, bảo hộ streak).
+    - Bảo toàn tuyệt đối 100% giao diện (0px Visual Deviation), giữ nguyên vẹn kích thước hình học, margins, paddings và tỷ lệ bố cục lưới 8/12 & 4/12.
+
+### 4.2. Nâng Cấp Hội Viên Premium (`/premium` & `/premium/checkout`)
+- **`/premium`**: Phân hệ Nâng Cấp Hội Viên VIP Pass chuẩn Agency Dashboard Tier bóc tách theo kiến trúc **Feature-First (`features/premium/`)**, áp dụng triệt để phong cách thiết kế Bento, Double-Bezel, quy tắc 60-30-10 và chuẩn hóa nét vẽ icon vector `stroke-[2.2]`:
+  - **Kiến Trúc Module Hóa Chuẩn Doanh Nghiệp (`features/premium/`)**: Tinh gọn tệp điều phối `app/(dashboard)/premium/page.tsx` từ **819 dòng xuống còn ~100 dòng sạch sẽ**:
+    - *Types & Constants (`types/index.ts`, `constants/index.ts`)*: Định nghĩa chặt chẽ `PlanKey`, `PlanConfig`, `GiftItem`, `SuccessStory`, `FaqItem`, `ExamType` và dữ liệu các gói (`PLANS`), quà tặng kèm, 3 câu chuyện thành tích và 5 câu hỏi thường gặp.
+    - *Custom Hook (`hooks/usePremiumPlan.ts`)*: Quản lý tập trung toàn bộ state chọn gói cước (`selectedPlanKey`), tương tác mô phỏng điểm số thi chuẩn TOEIC/IELTS (`targetExam`, `currentScore`, `estimatedProScore`) và trạng thái accordion FAQ.
+    - *Hero Stage Banner (`components/hero/PremiumHeroStage.tsx`)*: Cấu trúc container `rounded-2xl` thanh thoát (tương đồng `ProfileHeroCard`), hiệu ứng ánh sáng ambient radial lights, badge `Crown stroke-[2.2]`, tiêu đề gradient vừa vặn (`text-lg sm:text-xl lg:text-2xl font-bold font-display`), bộ đếm học viên trực tiếp (`3.420+ học viên đang học hôm nay`) và thẻ Holographic Golden VIP Pass `UNLIMITED` với icon container bo tròn chuẩn `rounded-xl` (12px).
+    - *Interactive Plan Deck (`components/plans/PremiumPlanDeck.tsx`)*: Bộ 3 thẻ chọn gói cước linh hoạt (Gói 1 Năm - Pro VIP Pass, Gói 1 Tháng, Gói Trọn Đời - Master Lifetime) với badge nổi, padding `p-3.5 sm:p-4.5 rounded-2xl` cân đối tầm mắt, viền active xanh hoàng gia `#0059bb`, radio checkmark và tính toán chi phí trung bình theo ngày.
+    - *Spotlight Power Perks Card (`components/plans/PremiumPlanPerksSpotlight.tsx`)*: Thẻ tiêu điểm hiển thị chi tiết đặc quyền gói đang chọn trên nền `rounded-2xl`, rương quà tặng kèm miễn phí (`Gift`, `ShieldCheck`, `GraduationCap`), checklist tính năng, giá tiền đồng bộ cấp bậc (`text-xl sm:text-2xl font-black`) và nút hành động Primary CTA phong cách **Button-in-Button** (`py-2.5 px-3.5 rounded-xl`) dẫn trực tiếp sang cổng thanh toán `/premium/checkout?plan=...`.
+    - *Interactive Bento Feature Showcases (`components/features/PremiumBentoShowcase.tsx`)*: 5 khối Bento tương tác công nghệ học tập độc quyền chuẩn hóa padding `p-4 sm:p-4.5 rounded-2xl space-y-3`:
+      1. Gia sư AI Speaking đo chuẩn IPA 98.4% với visual sóng âm Waveform thời gian thực.
+      2. Bộ mô phỏng tăng điểm thi chuẩn TOEIC (+260) & IELTS (+1.5) tương tác 1 chạm, nút chuyển tab TOEIC/IELTS bo tròn dạng con nhộng chuẩn mực `rounded-full` trong container `rounded-full` đồng bộ với hệ thống Pills, thanh trượt điểm số ray bo tròn `rounded-full` mượt mà triệt tiêu góc vuông.
+      3. Thuật toán ghi nhớ ngắt quãng SM-2 bẻ gãy đường cong quên lãng (nhớ 95% sau 6 tháng).
+      4. Khiên Streak Kim Cương tự động bảo hộ chuỗi ngọn lửa khi vắng mặt.
+      5. Hệ số nhân đôi 2X XP cho toàn bộ bài học, minigame và đấu trường PvP.
+    - *Bảng Vàng Thành Tích Học Viên (`components/testimonials/PremiumSuccessStories.tsx`)*: 3 thẻ thành tích học viên bứt phá điểm số với đánh giá 5 sao vàng, trích dẫn thực tế và **Avatar học viên chuẩn Concentric Aura Ring** bọc viền gradient hào quang kèm tích xanh xác thực `CheckCircle2`.
+    - *Cam Kết Hoàn Tiền & FAQ (`components/faq/PremiumFaqSection.tsx`)*: Thẻ cam kết bảo hiểm quyền lợi học viên hoàn tiền 100% trong 7 ngày (icon container `w-9 h-9 rounded-xl` chuẩn Dashboard) kết hợp Accordion FAQ mượt mà với hoạt ảnh Framer Motion.
+  - **Đồng Bộ Hoàn Hảo Skeleton Twin Loading (`premium/loading.tsx`)**: Tái hiện chuẩn xác 1:1 từng pixel cấu trúc `rounded-2xl` của Hero Stage, 3 thẻ Plan Selector, Thẻ Spotlight Perks và 5 Bento Teasers, chuẩn hóa các placeholder chữ sang `rounded-md`, bảo đảm tuyệt đối 0px Cumulative Layout Shift.
+  - **Kiểm Thử Tự Động Toàn Diện (`__tests__/premium_feature.test.ts`)**: Bộ test suite chuyên biệt kiểm tra tính toàn vẹn của dữ liệu gói cước, công thức tính giá/tiết kiệm, logic mô phỏng điểm số TOEIC (max 990) & IELTS (max 9.0) và nội dung chính sách bảo hiểm hoàn tiền.
+
 
 ### 5. Học Từ Vựng & Luyện Nghe (`/vocabulary` & `/listening`)
 - **`/vocabulary`**: Kho Từ Vựng Tiếng Anh Toàn Diện (Bao gồm Kho Cơ Bản A1-A2 & Kho Trung/Cao Cấp B1-C2).
@@ -1470,6 +1518,29 @@ Phòng luyện nói tiếng Anh tương tác áp dụng kỹ thuật Shadowing �
    - **Tầng 2 (Level / Category Filter Dock)**: Con trỏ viên thuốc trượt lò xo (`layoutId="shadowingCategoryFilterIndicator"`, `stiffness: 450, damping: 32`) hiển thị số lượng bài học thực tế cho từng phân loại.
    - **Mobile Studio Switcher**: Con trỏ viên thuốc trượt lò xo (`layoutId="shadowingMobileStudioTabIndicator"`) chuyển đổi trực quan giữa chế độ *"Luyện nói"* và *"Danh sách phụ đề"* trên thiết bị di động.
    - **Staggered Page Entrance**: Toàn bộ canvas danh mục được bọc trong `<PageEntranceWrapper>` mang lại hiệu ứng xuất hiện phân tầng so le sang trọng.
+
+---
+
+## 💎 XP English PRO VIP Membership Hub (`/premium`)
+
+Trang đăng ký và quản lý gói hội viên Pro VIP nâng cấp toàn diện theo hệ thống nhận diện thương hiệu chuẩn mực Dashboard, cấu trúc Bento phẳng sang trọng, và quy tắc phối màu 60 - 30 - 10:
+
+1. **Dashboard-Aligned Brand Architecture & 60 - 30 - 10 Palette**:
+   - **60% Nền & Cấu trúc (`min-h-screen bg-slate-50/60 dark:bg-slate-950`)**: Nền Slate trung tính dịu mắt, làm nổi bật các thẻ Bento trắng tinh tế (`bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs`).
+   - **30% Thương hiệu Xanh hoàng gia `#0059bb`**: Nút Primary Kích hoạt VIP kèm Button-in-Button Arrow (`bg-[#0059bb] hover:bg-[#004799]`), viền active của gói được chọn (`border-2 border-[#0059bb] shadow-blue-500/10`), Tab switcher TOEIC / IELTS trong bộ mô phỏng điểm số, thanh kéo slider (`accent-[#0059bb]`), và Badge Master Lifetime VIP.
+   - **10% Điểm nhấn ngữ nghĩa (Semantic Accents)**:
+     - **Vàng Amber (`#f59e0b`)**: Gamification, Thưởng quà tặng (`Gift`), Chuỗi Streak (`Flame`, `bg-amber-50 text-amber-600`), Gói 1 Năm Hot Deal (`bg-amber-500 text-white`).
+     - **Xanh Emerald (`#10b981`)**: Cam kết hoàn tiền 100% (`ShieldCheck`, `CheckCircle`), Dự phóng điểm số đạt chuẩn (`estimatedProScore+`), và huy hiệu thành tích học viên Bảng vàng.
+     - **Tím AI (`#8b5cf6`)**: Dành riêng cho Gia sư AI Speaking đo chuẩn IPA và huy hiệu `Gemini AI 2.0`.
+     - **Không lạm dụng Đỏ Rose hoặc Gradient Teal ngoài quy chuẩn**: Đảm bảo toàn bộ thẻ, nút và slider mang lại cảm giác học tập tin cậy và thư thái.
+
+2. **Cấu Trúc Khối Bento Đồng Bộ & Trau Chuốt Từng Chi Tiết**:
+   - **`PremiumHeroStage`**: Thẻ Spotlight vinh danh Hội viên Vàng với viền kính tinh tế (`border-white/15 dark:border-white/10`), thẻ thành viên phản quang lồng nhau `rounded-2xl`, hiển thị số lượng 3.420+ học viên trực tuyến và điểm đánh giá 4.9/5.0.
+   - **`PremiumPlanDeck`**: Bộ 3 thẻ chọn gói bản quyền bằng nhau chiều cao tuyệt đối, badge bo tròn capsule (`rounded-full`), radio button có dấu tích trực quan, và dải cam kết tiết kiệm ở đáy thẻ.
+   - **`PremiumPlanPerksSpotlight`**: Chi tiết đặc quyền, gói quà tặng và nút CTA kích hoạt chuyển thẳng tới `/premium/checkout?plan=...`.
+   - **`PremiumBentoShowcase`**: 5 thẻ Bento trực quan hóa công nghệ độc quyền (Sóng âm IPA Gemini AI, Bộ mô phỏng tăng điểm TOEIC/IELTS bằng Slider kéo thả, Đường cong trí nhớ SM-2, Khiên bảo hộ Streak tự động, và Thẻ nhân đôi 2X XP).
+   - **`PremiumSuccessStories`**: Bảng vàng thành tích 3 học viên thật với điểm số bứt phá, trích dẫn chi tiết và avatar có quầng hào quang đồng tâm.
+   - **`PremiumFaqSection`**: Khung cam kết bảo vệ quyền lợi học viên an tâm 100% cùng Accordion giải đáp thắc mắc thường gặp.
 
 ---
 

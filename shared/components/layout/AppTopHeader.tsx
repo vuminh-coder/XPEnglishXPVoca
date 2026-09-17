@@ -22,6 +22,7 @@ import {
   Flame,
   Coins,
   Settings,
+  Sparkles,
 } from "lucide-react";
 import { useUiStore } from "@/stores/uiStore";
 import { useUserStore } from "@/stores/userStore";
@@ -202,6 +203,8 @@ export function AppTopHeader({
   const { toggleSidebar, theme, setTheme } = useUiStore();
   const user = useUserStore((s) => s.user);
   const logout = useUserStore((s) => s.logout);
+  const isAiDismissed = useAiChatbotStore((s) => s.isDismissed);
+  const isAiActive = !isAiDismissed;
 
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showThemeSubmenu, setShowThemeSubmenu] = useState(false);
@@ -461,31 +464,43 @@ export function AppTopHeader({
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 6, scale: 0.96 }}
                 transition={{ duration: 0.15, ease: "easeOut" }}
-                className="absolute right-0 top-full mt-2 w-56 p-1.5 sm:p-2 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xl shadow-slate-300/40 dark:shadow-black/70 space-y-1 select-none z-[9999]"
+                className="absolute right-0 top-full mt-2 w-64 sm:w-[270px] p-1.5 sm:p-2 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xl shadow-slate-300/40 dark:shadow-black/70 space-y-1 select-none z-[9999]"
               >
                 {/* 0. Mini User Profile Summary Header */}
-                <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/60 flex items-center gap-2.5">
-                  <UserAvatar
-                    avatarUrl={user?.avatarUrl || user?.imageUrl || (user as any)?.avatar}
-                    imageUrl={user?.imageUrl}
-                    avatar={(user as any)?.avatar}
-                    emoji={user?.avatarEmoji}
-                    name={userName}
-                    size="w-8.5 h-8.5"
-                    className="ring-1 ring-slate-200 dark:ring-slate-700"
-                  />
-                  <div className="min-w-0 flex-1">
-                    <p className="text-xs font-bold text-slate-900 dark:text-white truncate">
-                      {userName}
-                    </p>
-                    <p className="text-[10px] text-slate-500 dark:text-slate-400 font-mono truncate">
-                      @{user?.username || "learner"}
-                    </p>
-                  </div>
-                  <span className="px-1.5 py-0.5 rounded text-[9px] font-bold font-mono bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 border border-blue-200/60 dark:border-blue-800/50 shrink-0">
-                    Lv.{user?.level || 1}
-                  </span>
-                </div>
+                {(() => {
+                  const emailPrefix = user?.email && user.email.includes("@") ? user.email.split("@")[0] : "";
+                  const isStrippedUsername = Boolean(
+                    user?.username && emailPrefix && emailPrefix.replace(/[^a-zA-Z0-9_]/g, "") === user.username
+                  );
+                  const displayHandle = isStrippedUsername
+                    ? emailPrefix
+                    : (user?.username || emailPrefix || "learner");
+
+                  return (
+                    <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/60 flex items-center gap-2.5">
+                      <UserAvatar
+                        avatarUrl={user?.avatarUrl || user?.imageUrl || (user as any)?.avatar}
+                        imageUrl={user?.imageUrl}
+                        avatar={(user as any)?.avatar}
+                        emoji={user?.avatarEmoji}
+                        name={userName}
+                        size="w-9 h-9"
+                        className="ring-2 ring-slate-200 dark:ring-slate-700 shadow-2xs"
+                      />
+                      <div className="min-w-0 flex-1">
+                        <p className="text-xs font-bold text-slate-900 dark:text-white truncate">
+                          {userName}
+                        </p>
+                        <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400 font-sans truncate tracking-tight">
+                          @{displayHandle}
+                        </p>
+                      </div>
+                      <span className="px-2 py-0.5 rounded-full text-[9px] font-bold font-mono bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 border border-blue-200/60 dark:border-blue-800/50 shrink-0 shadow-2xs">
+                        Lv.{user?.level || 1}
+                      </span>
+                    </div>
+                  );
+                })()}
 
                 {/* 1. Hồ sơ cá nhân */}
                 <Link
@@ -593,23 +608,55 @@ export function AppTopHeader({
                   </AnimatePresence>
                 </div>
 
-                {/* 4. Khôi phục Trợ lý AI XP Mentor */}
-                <button
-                  type="button"
+                {/* 4. Khôi phục / Bật tắt Trợ lý AI XP Mentor (Nút Bật/Tắt Toggle Switch) */}
+                <div
+                  role="button"
+                  tabIndex={0}
                   onClick={() => {
-                    useAiChatbotStore.getState().resetDismissed();
-                    setShowUserMenu(false);
+                    useAiChatbotStore.getState().setIsDismissed(!isAiDismissed);
                   }}
-                  className="w-full flex items-center justify-between px-3 py-2 rounded-xl font-medium text-[13px] text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      useAiChatbotStore.getState().setIsDismissed(!isAiDismissed);
+                    }
+                  }}
+                  className="w-full flex items-center justify-between px-3 py-2 rounded-xl font-medium text-[13px] text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer select-none group"
                 >
-                  <div className="flex items-center gap-2.5">
-                    <Bot className="w-4 h-4 text-[#0059bb] dark:text-sky-400 stroke-[1.8]" />
-                    <span>Trợ lý XP Mentor</span>
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <Bot className="w-4 h-4 text-[#0059bb] dark:text-sky-400 stroke-[1.8] shrink-0" />
+                    <span className="whitespace-nowrap">Trợ lý XP Mentor</span>
                   </div>
-                  <span className="text-[11px] font-bold text-[#0059bb] dark:text-sky-400">
-                    Bật / Mở
-                  </span>
-                </button>
+
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span
+                      className={`text-[11px] font-semibold transition-colors ${
+                        isAiActive
+                          ? "text-[#0059bb] dark:text-sky-400 font-bold"
+                          : "text-slate-400 dark:text-slate-500"
+                      }`}
+                    >
+                      {isAiActive ? "Bật" : "Tắt"}
+                    </span>
+                    {/* Modern iOS / Tailwind Toggle Switch */}
+                    <div
+                      aria-label="Bật tắt trợ lý XP Mentor"
+                      role="switch"
+                      aria-checked={isAiActive}
+                      className={`relative w-8 h-4.5 rounded-full p-0.5 transition-colors duration-200 ease-in-out shrink-0 ${
+                        isAiActive
+                          ? "bg-[#0059bb]"
+                          : "bg-slate-300 dark:bg-slate-700"
+                      }`}
+                    >
+                      <div
+                        className={`w-3.5 h-3.5 rounded-full bg-white shadow-xs transform transition-transform duration-200 ease-in-out ${
+                          isAiActive ? "translate-x-3.5" : "translate-x-0"
+                        }`}
+                      />
+                    </div>
+                  </div>
+                </div>
 
                 {/* Divider */}
                 <div className="my-1 border-t border-slate-100 dark:border-slate-800" />

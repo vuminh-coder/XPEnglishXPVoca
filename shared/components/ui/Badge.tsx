@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import React from "react";
 import { cn } from "@/shared/utils/cn";
 
@@ -10,11 +10,11 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
   ({ className, variant = "primary", size = "sm", children, ...props }, ref) => {
     const baseStyles =
-      "inline-flex items-center justify-center font-bold tracking-wide rounded-xs uppercase select-none";
+      "inline-flex items-center justify-center font-bold tracking-wide rounded-full uppercase select-none";
 
     const variants = {
       primary:
-        "bg-purple-50 dark:bg-purple-950/30 text-purple-600 dark:text-purple-400 border border-purple-200 dark:border-purple-800/50",
+        "bg-blue-50 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-400 border border-blue-200/80 dark:border-blue-800/60",
       success:
         "bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/50",
       warning:
@@ -24,7 +24,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
       neutral:
         "bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700/50",
       legendary:
-        "bg-gradient-premium text-white shadow-glow border border-purple-400 animate-pulse",
+        "bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 border border-purple-200/80 dark:border-purple-800/60",
     };
 
     const sizes = {
