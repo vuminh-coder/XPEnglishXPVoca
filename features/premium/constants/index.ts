@@ -19,8 +19,11 @@ export const PLANS: Record<PlanKey, PlanConfig> = {
     totalPriceFormatted: "828.000 đ",
     totalPriceNum: 828000,
     durationLabel: "Thanh toán 1 năm (12 tháng + 3 tháng tặng kèm)",
+    billingDuration: "12 tháng học + 3 tháng tặng kèm",
     dailyCostNote: "Chỉ ~2.300 đ / ngày cho toàn bộ lộ trình",
     savingsLabel: "Tiết kiệm ngay 360.000 đ so với thanh toán từng tháng",
+    originalPriceFormatted: "1.188.000 đ",
+    savingsFormatted: "Tiết kiệm 360.000 đ (45%)",
     gifts: [
       { icon: Gift, text: "Tặng thêm 3 tháng học miễn phí toàn diện (Trị giá 297.000 đ)" },
       { icon: ShieldCheck, text: "Tặng 3 Khiên Kim Cương bảo vệ ngọn lửa Streak" },
@@ -45,6 +48,7 @@ export const PLANS: Record<PlanKey, PlanConfig> = {
     totalPriceFormatted: "99.000 đ",
     totalPriceNum: 99000,
     durationLabel: "Thanh toán từng tháng linh hoạt, hủy bất cứ lúc nào",
+    billingDuration: "30 ngày học toàn diện",
     dailyCostNote: "Chỉ ~3.300 đ / ngày trải nghiệm không ràng buộc",
     savingsLabel: "Linh hoạt từng tháng, hủy gia hạn bất kỳ lúc nào",
     gifts: [
@@ -68,6 +72,7 @@ export const PLANS: Record<PlanKey, PlanConfig> = {
     totalPriceFormatted: "1.490.000 đ",
     totalPriceNum: 1490000,
     durationLabel: "Sở hữu vĩnh viễn trọn đời, không bao giờ phải gia hạn",
+    billingDuration: "Sở hữu vĩnh viễn trọn đời",
     dailyCostNote: "Đầu tư 1 lần duy nhất cho tương lai sự nghiệp",
     savingsLabel: "Đặc quyền nhận mọi bản cập nhật bài học và đề thi mới vĩnh viễn",
     gifts: [

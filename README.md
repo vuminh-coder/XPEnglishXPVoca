@@ -1542,6 +1542,13 @@ Trang đăng ký và quản lý gói hội viên Pro VIP nâng cấp toàn diệ
    - **`PremiumSuccessStories`**: Bảng vàng thành tích 3 học viên thật với điểm số bứt phá, trích dẫn chi tiết và avatar có quầng hào quang đồng tâm.
    - **`PremiumFaqSection`**: Khung cam kết bảo vệ quyền lợi học viên an tâm 100% cùng Accordion giải đáp thắc mắc thường gặp.
 
+3. **Cổng Thanh Toán Bảo Mật VietQR Napas 24/7 (`/premium/checkout`)**:
+   - **Bóc Tách Module Hóa Toàn Diện (`features/premium/components/checkout/`)**: Tinh gọn tệp điều phối từ 547 dòng xuống trang điều phối mỏng dưới ~150 dòng, kết nối custom hook `useCheckoutPayment`.
+   - **`CheckoutOrderSummary`**: Cột trái (5/12) gồm bộ chuyển đổi gói dạng viên thuốc (`rounded-full`), bảng chi tiết đơn hàng (giá gốc gạch ngang, số tiền tiết kiệm, tổng thanh toán), hộp quà tặng đính kèm và thẻ cam kết hoàn tiền 100% trong 7 ngày.
+   - **`CheckoutQrTerminal`**: Cột phải (7/12) gồm cổng quét mã VietQR tự động sinh theo số tiền và cú pháp `XP PRO [USER_ID]`, đồng hồ đếm ngược 15:00, 4 ô thông tin chuyển khoản 1-Click Copy có phản hồi trực quan "Đã chép ✓", và nút Primary CTA xác nhận chuyển khoản.
+   - **`CheckoutSuccessReceipt`**: Màn hình hóa đơn điện tử vinh danh giao dịch thành công kèm mã tra cứu `INV-XP-...` và 2 nút điều hướng tiếp theo.
+   - **Đồng Bộ Top Header Chuẩn Dashboard**: Khắc phục lỗi chip cũ, tích hợp `AppTopHeader` với `showGamificationStats={true}` và breadcrumbs mượt mà.
+
 ---
 
 ## 🌐 Production Deployment Status

@@ -21,6 +21,9 @@ export interface PlanConfig {
   durationLabel: string;
   dailyCostNote: string;
   savingsLabel?: string;
+  originalPriceFormatted?: string;
+  savingsFormatted?: string;
+  billingDuration?: string;
   gifts: GiftItem[];
   keyHighlights: string[];
 }

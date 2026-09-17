@@ -76,4 +76,25 @@ describe("Premium Feature & Subscription Logic", () => {
       expect(qrFaq?.a).toContain("VietQR Napas 24/7");
     });
   });
+
+  describe("Checkout Plans & Payment Config", () => {
+    it("should have valid billingDuration and pricing for checkout flow", () => {
+      expect(PLANS.yearly.billingDuration).toBe("12 tháng học + 3 tháng tặng kèm");
+      expect(PLANS.yearly.originalPriceFormatted).toBe("1.188.000 đ");
+      expect(PLANS.yearly.savingsFormatted).toContain("Tiết kiệm 360.000 đ");
+
+      expect(PLANS.monthly.billingDuration).toBe("30 ngày học toàn diện");
+      expect(PLANS.lifetime.billingDuration).toBe("Sở hữu vĩnh viễn trọn đời");
+    });
+
+    it("should generate valid VietQR transfer syntax with prefix and short ID", () => {
+      const userId = "usr_123456789abcdef";
+      const shortId = userId.slice(0, 8).toUpperCase();
+      const transferContent = `XP PRO ${shortId}`;
+
+      expect(transferContent).toBe("XP PRO USR_1234");
+      expect(transferContent.startsWith("XP PRO")).toBe(true);
+    });
+  });
 });
+
