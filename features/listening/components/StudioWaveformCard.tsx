@@ -69,6 +69,8 @@ interface StudioWaveformCardProps {
   onSpeedChange: (speed: number) => void;
   isPrevDisabled?: boolean;
   isNextDisabled?: boolean;
+  isRecording?: boolean;
+  liveAudioEnergy?: number;
   className?: string;
 }
 
@@ -90,6 +92,8 @@ export function StudioWaveformCard({
   onSpeedChange,
   isPrevDisabled = false,
   isNextDisabled = false,
+  isRecording = false,
+  liveAudioEnergy = 0,
   className = "",
 }: StudioWaveformCardProps) {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -246,6 +250,11 @@ export function StudioWaveformCard({
                           ],
                           opacity: [0.75, 1],
                         }
+                      : isRecording
+                      ? {
+                          scaleY: Math.max(0.25, Math.min(2.4, 0.4 + liveAudioEnergy * 2.8 * (amp / 45))),
+                          opacity: Math.max(0.6, Math.min(1, 0.5 + liveAudioEnergy * 1.5)),
+                        }
                       : {
                           scaleY: 1,
                           opacity: 0.85,
@@ -260,13 +269,19 @@ export function StudioWaveformCard({
                           delay: animDelay,
                           ease: "easeInOut",
                         }
+                      : isRecording
+                      ? { duration: 0.08, ease: "linear" }
                       : { duration: 0.3, ease: "easeOut" }
                   }
                   style={{
                     height: `${Math.max(4, amp)}%`,
                     transformOrigin: "center center",
                   }}
-                  className="w-[1.2px] sm:w-[1.5px] lg:w-[1.8px] rounded-[0.2px] shrink-0 bg-slate-500 dark:bg-slate-400"
+                  className={`w-[1.2px] sm:w-[1.5px] lg:w-[1.8px] rounded-[0.2px] shrink-0 transition-colors ${
+                    isRecording
+                      ? "bg-rose-500 dark:bg-rose-400 shadow-[0_0_8px_rgba(244,63,94,0.5)]"
+                      : "bg-slate-500 dark:bg-slate-400"
+                  }`}
                 />
               );
             })}

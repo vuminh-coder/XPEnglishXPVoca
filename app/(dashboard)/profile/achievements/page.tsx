@@ -5,12 +5,10 @@ import Link from "next/link";
 import { useAuthStore } from "@/stores/authStore";
 import { Badge, Button } from "@/shared/components/ui";
 import { DoubleBezelCard } from "@/shared/components/ui/DoubleBezelCard";
+import { motion } from "framer-motion";
 import { PageEntranceWrapper, MotionItem } from "@/shared/components/feedback/PageEntranceAnimation";
-import {
-  AppTopHeader,
-  HeaderPillContainer,
-  HeaderPillItem,
-} from "@/shared/components/layout/AppTopHeader";
+import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
+import { ProfileSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 import {
   ArrowLeft,
   Lock,
@@ -175,32 +173,7 @@ export default function AchievementsPage() {
     <PageEntranceWrapper className="min-h-screen pb-16">
       {/* ─── 1. STANDARDIZED APPTOPHEADER ─── */}
       <AppTopHeader>
-        <HeaderPillContainer>
-          <HeaderPillItem
-            active={filter === "all"}
-            onClick={() => setFilter("all")}
-            icon={<Award className="w-3.5 h-3.5 text-amber-500" />}
-            label={`Tất Cả (${achievements.length})`}
-          />
-          <HeaderPillItem
-            active={filter === "unlocked"}
-            onClick={() => setFilter("unlocked")}
-            icon={<CheckCircle className="w-3.5 h-3.5 text-emerald-500" />}
-            label={`Đã Đạt (${unlockedCount})`}
-          />
-          <HeaderPillItem
-            active={filter === "locked"}
-            onClick={() => setFilter("locked")}
-            icon={<Lock className="w-3.5 h-3.5" />}
-            label={`Chưa Đạt (${achievements.length - unlockedCount})`}
-            hideOnSmall
-          />
-          <HeaderPillItem
-            href="/profile"
-            icon={<User className="w-3.5 h-3.5" />}
-            label="Hồ Sơ"
-          />
-        </HeaderPillContainer>
+        <ProfileSuiteNavTabs />
       </AppTopHeader>
 
       {/* ─── 2. FLUID ULTRA-WIDE MAIN CONTAINER ─── */}
@@ -252,6 +225,69 @@ export default function AchievementsPage() {
             </div>
           </div>
         </MotionItem>
+
+        {/* 2.1 FILTER BAR SEGMENTED CONTROL */}
+        <div className="flex items-center justify-between gap-3 flex-wrap">
+          <div className="p-1 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs inline-flex items-center gap-1">
+            <button
+              type="button"
+              onClick={() => setFilter("all")}
+              className="relative px-3.5 py-1.5 rounded-lg text-xs font-bold transition-colors select-none active:scale-[0.98] cursor-pointer flex items-center gap-1.5"
+            >
+              {filter === "all" && (
+                <motion.div
+                  layoutId="achievementsFilterPill"
+                  transition={{ type: "spring", stiffness: 450, damping: 32, mass: 0.8 }}
+                  className="absolute inset-0 bg-slate-100 dark:bg-slate-800 rounded-lg shadow-2xs z-0"
+                />
+              )}
+              <span className={`relative z-10 flex items-center gap-1.5 ${filter === "all" ? "text-slate-900 dark:text-white font-extrabold" : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"}`}>
+                <Award className="w-3.5 h-3.5 text-amber-500" />
+                <span>Tất Cả ({achievements.length})</span>
+              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setFilter("unlocked")}
+              className="relative px-3.5 py-1.5 rounded-lg text-xs font-bold transition-colors select-none active:scale-[0.98] cursor-pointer flex items-center gap-1.5"
+            >
+              {filter === "unlocked" && (
+                <motion.div
+                  layoutId="achievementsFilterPill"
+                  transition={{ type: "spring", stiffness: 450, damping: 32, mass: 0.8 }}
+                  className="absolute inset-0 bg-slate-100 dark:bg-slate-800 rounded-lg shadow-2xs z-0"
+                />
+              )}
+              <span className={`relative z-10 flex items-center gap-1.5 ${filter === "unlocked" ? "text-slate-900 dark:text-white font-extrabold" : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"}`}>
+                <CheckCircle className="w-3.5 h-3.5 text-emerald-500" />
+                <span>Đã Đạt ({unlockedCount})</span>
+              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setFilter("locked")}
+              className="relative px-3.5 py-1.5 rounded-lg text-xs font-bold transition-colors select-none active:scale-[0.98] cursor-pointer flex items-center gap-1.5"
+            >
+              {filter === "locked" && (
+                <motion.div
+                  layoutId="achievementsFilterPill"
+                  transition={{ type: "spring", stiffness: 450, damping: 32, mass: 0.8 }}
+                  className="absolute inset-0 bg-slate-100 dark:bg-slate-800 rounded-lg shadow-2xs z-0"
+                />
+              )}
+              <span className={`relative z-10 flex items-center gap-1.5 ${filter === "locked" ? "text-slate-900 dark:text-white font-extrabold" : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"}`}>
+                <Lock className="w-3.5 h-3.5 text-slate-400" />
+                <span>Chưa Đạt ({achievements.length - unlockedCount})</span>
+              </span>
+            </button>
+          </div>
+
+          <span className="text-xs font-mono font-medium text-slate-500 dark:text-slate-400">
+            Hiển thị: {filteredAchievements.length} huy hiệu
+          </span>
+        </div>
 
         {/* ─── 3. ACHIEVEMENTS GRID ─── */}
         <div className="grid gap-4 sm:grid-cols-2">

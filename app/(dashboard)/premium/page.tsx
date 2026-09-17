@@ -30,11 +30,8 @@ import {
   BookOpen,
 } from "lucide-react";
 import { useAuthStore } from "@/stores/authStore";
-import {
-  AppTopHeader,
-  HeaderPillContainer,
-  HeaderPillItem,
-} from "@/shared/components/layout/AppTopHeader";
+import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
+import { ShopSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 import { PageEntranceWrapper, MotionItem } from "@/shared/components/feedback/PageEntranceAnimation";
 import { Badge } from "@/shared/components/ui/Badge";
 
@@ -220,23 +217,7 @@ export default function PremiumPage() {
           </div>
         }
       >
-        <HeaderPillContainer>
-          <HeaderPillItem
-            label="Nâng cấp Premium"
-            icon={<Crown className="w-4 h-4 text-amber-500" strokeWidth={1.8} />}
-            active
-          />
-          <HeaderPillItem
-            label="Cửa hàng vật phẩm"
-            icon={<ShoppingBag className="w-4 h-4 text-purple-500" strokeWidth={1.8} />}
-            href="/shop"
-          />
-          <HeaderPillItem
-            label="Hồ sơ"
-            icon={<User className="w-4 h-4 text-slate-500" strokeWidth={1.8} />}
-            href="/profile"
-          />
-        </HeaderPillContainer>
+        <ShopSuiteNavTabs />
       </AppTopHeader>
 
       <PageEntranceWrapper className="space-y-10 sm:space-y-12 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">

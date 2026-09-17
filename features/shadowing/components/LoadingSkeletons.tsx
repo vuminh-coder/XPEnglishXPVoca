@@ -21,13 +21,37 @@ export function ShimmerBox({
 }
 
 /**
+ * Skeleton cho cụm 4 thẻ Bento thống kê nhanh của Shadowing (chuẩn như /analytics)
+ */
+export function ShadowingListingHeroStatsSkeleton() {
+  return (
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3.5 w-full">
+      {[1, 2, 3, 4].map((i) => (
+        <div
+          key={i}
+          className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex items-center gap-3"
+        >
+          <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center shrink-0">
+            <ShimmerBox className="w-5 h-5 rounded-md" />
+          </div>
+          <div className="min-w-0 flex-1 space-y-1">
+            <ShimmerBox className="h-5 w-16 rounded-md" />
+            <ShimmerBox className="h-3.5 w-24 rounded" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/**
  * Skeleton cho trang Shadowing dạng LISTING (khi chưa chọn bài, không có ?id=)
- * Bao gồm: Top bar 56px → Filter search → 2 hàng bài học (8 Basic Cards + 8 Advanced Cards)
+ * Bao gồm: Top bar 56px → Filter search → Hero Stats Bento → 2 hàng bài học (8 Basic Cards + 8 Advanced Cards)
  */
 export function ShadowingListingSkeleton() {
   return (
     <div className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none">
-      {/* 1. TOP APP HEADER SKELETON (56px Baseline) */}
+      {/* 1. TOP APP HEADER SKELETON (56px Baseline - Exact 0px CLS Twin) */}
       <div className="w-full h-14 bg-white dark:bg-slate-900 border-b border-slate-200/90 dark:border-slate-800 px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 flex items-center justify-between gap-4 shrink-0 shadow-2xs">
         <div className="flex items-center gap-2 sm:gap-3">
           <div className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-1">
@@ -36,14 +60,38 @@ export function ShadowingListingSkeleton() {
             <ShimmerBox className="h-7 w-28 rounded-lg hidden md:block" />
           </div>
         </div>
-        <div className="flex items-center gap-2.5">
-          <ShimmerBox className="h-9 w-44 xs:w-56 sm:w-72 rounded-xl" />
-          <ShimmerBox className="h-9 w-24 sm:w-28 rounded-xl bg-blue-600/30" />
+        <div className="flex items-center gap-2 sm:gap-2.5">
+          {/* Mobile search button shimmer */}
+          <ShimmerBox className="h-9 w-9 rounded-xl lg:hidden" />
+          {/* Desktop search input shimmer */}
+          <ShimmerBox className="h-9 w-44 sm:w-56 lg:w-64 xl:w-72 rounded-xl hidden lg:block" />
+          {/* Action button shimmer */}
+          <ShimmerBox className="h-9 w-24 sm:w-36 rounded-xl bg-blue-600/30 shrink-0" />
+          {/* Gamification Streak chip shimmer */}
+          <ShimmerBox className="h-8.5 w-12 rounded-xl bg-orange-500/20 shrink-0" />
+          {/* Gamification Gold chip shimmer */}
+          <ShimmerBox className="h-8.5 w-12 rounded-xl bg-amber-500/20 hidden xs:block shrink-0" />
+          {/* User Avatar shimmer */}
+          <ShimmerBox className="w-8.5 h-8.5 rounded-full ring-2 ring-slate-200 dark:ring-slate-700 shrink-0" />
         </div>
       </div>
 
       {/* 2. MAIN CONTENT CANVAS SKELETON */}
-      <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-5 sm:py-6 space-y-7 pb-20">
+      <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-5 sm:py-6 space-y-6 sm:space-y-7 pb-20">
+        {/* HERO STATS BENTO SKELETON */}
+        <ShadowingListingHeroStatsSkeleton />
+
+        {/* 2.2 LEVEL / CATEGORY FILTER DOCK SKELETON (Exact 0px CLS Twin) */}
+        <div className="flex items-center justify-between gap-3 overflow-x-auto pb-1">
+          <div className="p-1 rounded-xl bg-slate-200/60 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-1 shrink-0">
+            <ShimmerBox className="h-7 w-28 rounded-lg bg-white dark:bg-slate-900" />
+            <ShimmerBox className="h-7 w-24 rounded-lg" />
+            <ShimmerBox className="h-7 w-24 rounded-lg" />
+            <ShimmerBox className="h-7 w-24 rounded-lg hidden xs:block" />
+          </div>
+          <ShimmerBox className="h-5 w-32 rounded font-mono hidden sm:block" />
+        </div>
+
         {/* ROW 1: BÀI HỌC CƠ BẢN (A1 - A2) */}
         <div className="space-y-4">
           <div className="flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-slate-800">
@@ -141,23 +189,35 @@ export function ShadowingListingSkeleton() {
 export function ShadowingStudioSkeleton() {
   return (
     <div className="w-full h-screen max-h-screen flex flex-col overflow-hidden select-none font-sans bg-white dark:bg-slate-950">
-      {/* 1. TOP HEADER SKELETON (56px) */}
+      {/* 1. TOP HEADER SKELETON (56px Baseline - StudioTopHeader Twin) */}
       <div className="w-full px-3.5 sm:px-5 lg:px-6 h-14 bg-white dark:bg-slate-900 border-b border-slate-200/90 dark:border-slate-800 flex items-center justify-between gap-2 sm:gap-4 shrink-0 shadow-2xs">
         <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
-          <ShimmerBox className="w-9 h-9 rounded-xl shrink-0" />
-          <ShimmerBox className="h-5 w-36 sm:w-56 lg:w-72 rounded-md" />
-          <ShimmerBox className="w-7 h-7 rounded-lg hidden xs:block" />
+          {/* Back button */}
+          <ShimmerBox className="h-8.5 w-8.5 sm:w-22 rounded-xl shrink-0" />
+          {/* CEFR Badge */}
+          <ShimmerBox className="h-5 w-8 rounded-md bg-blue-500/20 dark:bg-blue-500/10 shrink-0" />
+          {/* Title */}
+          <ShimmerBox className="h-5 w-32 sm:w-52 lg:w-64 rounded-md" />
+          {/* Bookmark */}
+          <ShimmerBox className="w-7 h-7 rounded-lg hidden xs:block shrink-0" />
+          {/* Mode Switcher pill */}
           <div className="p-0.5 sm:p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-1 shrink-0">
-            <ShimmerBox className="h-6 w-14 rounded-lg bg-blue-500/20 dark:bg-blue-500/10" />
-            <ShimmerBox className="h-6 w-12 rounded-lg" />
+            <ShimmerBox className="h-6 w-14 rounded-lg bg-white dark:bg-slate-900" />
+            <ShimmerBox className="h-6 w-14 rounded-lg" />
+          </div>
+          {/* Accent Switcher pill */}
+          <div className="hidden md:inline-flex p-0.5 sm:p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 items-center gap-0.5 shrink-0">
+            <ShimmerBox className="h-6 w-8 rounded-lg bg-white dark:bg-slate-900" />
+            <ShimmerBox className="h-6 w-8 rounded-lg" />
+            <ShimmerBox className="h-6 w-8 rounded-lg" />
           </div>
         </div>
 
         {/* Right: Clock Timer Pill & Studio Toolbar */}
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-2.5 shrink-0">
           <ShimmerBox className="h-7 w-20 rounded-full bg-amber-500/15 dark:bg-amber-500/20" />
           <div className="hidden md:flex items-center gap-1 border-l border-slate-200 dark:border-slate-800 pl-2">
-            {[1, 2, 3].map((i) => (
+            {[1, 2].map((i) => (
               <ShimmerBox key={i} className="w-7 h-7 rounded-md" />
             ))}
           </div>

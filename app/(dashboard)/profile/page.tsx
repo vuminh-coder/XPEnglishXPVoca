@@ -38,11 +38,8 @@ import {
   Lock,
 } from "lucide-react";
 import { Button, Badge } from "@/shared/components/ui";
-import {
-  AppTopHeader,
-  HeaderPillContainer,
-  HeaderPillItem,
-} from "@/shared/components/layout/AppTopHeader";
+import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
+import { ProfileSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 import { PageEntranceWrapper, MotionItem } from "@/shared/components/feedback/PageEntranceAnimation";
 import { formatCleanName } from "@/shared/components/feedback/UserAvatar";
 
@@ -233,30 +230,7 @@ export default function ProfilePage() {
           </div>
         }
       >
-        <HeaderPillContainer>
-          <HeaderPillItem
-            label="Hồ sơ"
-            icon={<User className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />}
-            active
-          />
-          <HeaderPillItem
-            label="Cài đặt"
-            icon={<Settings className="w-4 h-4 text-indigo-500" />}
-            href="/settings"
-          />
-          <HeaderPillItem
-            label="Thống kê"
-            icon={<BarChart3 className="w-4 h-4 text-emerald-500" />}
-            href="/analytics"
-            hideOnSmall
-          />
-          <HeaderPillItem
-            label="Nâng cấp Premium"
-            icon={<Sparkles className="w-4 h-4 text-amber-500 fill-amber-500" />}
-            href="/premium"
-            hideOnMedium
-          />
-        </HeaderPillContainer>
+        <ProfileSuiteNavTabs />
       </AppTopHeader>
 
       {/* ─── MAIN CONTAINER (Fluid Ultra-Wide Canvas) ─── */}

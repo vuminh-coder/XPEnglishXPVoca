@@ -58,6 +58,9 @@ export const useStudyPlanStore = create<StudyPlanState>((set, get) => ({
     set({ isLoading: !get().plan });
     try {
       const res = await fetch("/api/study-plan/current");
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+      }
       const json = await res.json();
       if (json.success && json.data) {
         set({ plan: json.data });
@@ -65,13 +68,13 @@ export const useStudyPlanStore = create<StudyPlanState>((set, get) => ({
           localStorage.setItem(`xp_voca_study_plan_${userId}`, JSON.stringify(json.data));
         }
       } else {
-        set({ plan: null });
-        if (typeof window !== "undefined") {
-          localStorage.removeItem(`xp_voca_study_plan_${userId}`);
+        // Keep cached/default plan if API has no active record
+        if (!get().plan) {
+          set({ plan: null });
         }
       }
     } catch (e) {
-      console.error("Error loading study plan from API:", e);
+      console.warn("[StudyPlanStore] Could not load study plan from API, using cached fallback:", e);
       // Keep cached plan if API fails/offline
     } finally {
       set({ isLoading: false });

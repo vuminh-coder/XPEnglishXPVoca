@@ -17,11 +17,8 @@ import {
 import { PageEntranceWrapper, MotionItem } from "@/shared/components/feedback/PageEntranceAnimation";
 import { DoubleBezelCard } from "@/shared/components/ui/DoubleBezelCard";
 import { Badge } from "@/shared/components/ui/Badge";
-import {
-  AppTopHeader,
-  HeaderPillContainer,
-  HeaderPillItem,
-} from "@/shared/components/layout/AppTopHeader";
+import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
+import { AiSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 
 const AI_MODULES = [
   {
@@ -55,23 +52,7 @@ export default function AIHubPage() {
     <PageEntranceWrapper className="min-h-screen pb-16">
       {/* ─── 1. STANDARDIZED APPTOPHEADER ─── */}
       <AppTopHeader>
-        <HeaderPillContainer>
-          <HeaderPillItem
-            active
-            icon={<Cpu className="w-3.5 h-3.5 text-purple-500" />}
-            label="Trung Tâm AI"
-          />
-          <HeaderPillItem
-            href="/ai/tutor"
-            icon={<Mic className="w-3.5 h-3.5" />}
-            label="Gia Sư Speaking"
-          />
-          <HeaderPillItem
-            href="/ai/conversation"
-            icon={<PenTool className="w-3.5 h-3.5" />}
-            label="Writing Coach"
-          />
-        </HeaderPillContainer>
+        <AiSuiteNavTabs />
       </AppTopHeader>
 
       {/* ─── 2. FLUID ULTRA-WIDE MAIN CONTAINER ─── */}

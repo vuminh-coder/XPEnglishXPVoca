@@ -312,11 +312,7 @@ function SidebarNavInner({
                         href={link.path}
                         title={sidebarCollapsed ? link.name : undefined}
                         aria-current={isActive ? "page" : undefined}
-                        onClick={(e) => {
-                          if (link.path === "/roadmap") {
-                            e.preventDefault();
-                            useAiChatbotStore.getState().openRoadmapDirectly();
-                          }
+                        onClick={() => {
                           if (sidebarOpen) toggleSidebar();
                         }}
                         className={`sidebar-link ${

@@ -1,11 +1,13 @@
 "use client";
+
 import React from "react";
 
 export default function PracticeLoading() {
   return (
     <div className="w-full h-full min-h-screen lg:h-screen lg:min-h-0 lg:overflow-hidden bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none animate-pulse">
-      {/* 1. TOP HEADER SKELETON */}
-      <div className="w-full h-14 bg-white dark:bg-slate-900 border-b border-slate-200/90 dark:border-slate-800 px-3 sm:px-5 lg:px-6 flex items-center justify-between gap-4 shrink-0 shadow-2xs">
+      {/* 1. TOP MASTER HEADER SKELETON (MATCHING 56PX BASELINE WITH GAMIFICATION STATS & AVATAR) */}
+      <div className="w-full h-14 bg-white/95 dark:bg-slate-900/95 border-b border-slate-200/90 dark:border-slate-800 px-3 sm:px-5 lg:px-6 flex items-center justify-between gap-4 shrink-0 shadow-2xs">
+        {/* Left: 4 Header Pills Shimmer */}
         <div className="flex items-center gap-3">
           <div className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-0.5">
             <div className="h-7 w-28 rounded-lg bg-[#0059bb]/20 dark:bg-[#0059bb]/10" />
@@ -14,17 +16,30 @@ export default function PracticeLoading() {
             <div className="h-7 w-24 rounded-lg bg-slate-200/70 dark:bg-slate-700/60 hidden lg:block" />
           </div>
         </div>
+
+        {/* Right: Actions + Streak + Gold + Desktop Avatar */}
         <div className="flex items-center gap-2 sm:gap-2.5">
-          <div className="h-8 sm:h-9 w-18 sm:w-20 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200/70 dark:border-slate-700/60" />
-          <div className="h-8 sm:h-9 w-18 sm:w-20 rounded-xl bg-amber-500/15 dark:bg-amber-500/10 border border-amber-500/20" />
-          <div className="h-8 sm:h-9 w-18 sm:w-20 rounded-xl bg-emerald-500/15 dark:bg-emerald-500/10 border border-emerald-500/20" />
-          <div className="h-8 sm:h-9 w-22 sm:w-24 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200/70 dark:border-slate-700/60 shrink-0" />
+          {/* Progress Badge */}
+          <div className="h-8.5 w-18 sm:w-20 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200/70 dark:border-slate-700/60 hidden sm:block" />
+          {/* Total XP Badge */}
+          <div className="h-8.5 w-18 sm:w-20 rounded-xl bg-amber-500/15 dark:bg-amber-500/10 border border-amber-500/20" />
+          {/* Timer Badge */}
+          <div className="h-8.5 w-18 sm:w-20 rounded-xl bg-emerald-500/15 dark:bg-emerald-500/10 border border-emerald-500/20" />
+          {/* Action Button */}
+          <div className="h-8.5 w-20 sm:w-24 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200/70 dark:border-slate-700/60 shrink-0" />
+
+          {/* Gamification Streak Chip Shimmer */}
+          <div className="h-8.5 w-12 rounded-xl bg-orange-500/20 border border-orange-500/30 shrink-0" />
+          {/* Gamification Gold Chip Shimmer */}
+          <div className="h-8.5 w-12 rounded-xl bg-amber-500/20 border border-amber-500/30 hidden xs:block shrink-0" />
+
+          {/* Desktop User Avatar Shimmer */}
+          <div className="w-8.5 h-8.5 rounded-full bg-slate-200 dark:bg-slate-800 ring-2 ring-slate-200 dark:ring-slate-700 shrink-0 hidden lg:block" />
         </div>
       </div>
 
       {/* 2. MAIN VIEWPORT CANVAS SKELETON */}
       <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-5 lg:px-6 py-2.5 sm:py-3.5 lg:py-3 flex flex-col min-h-0 lg:overflow-hidden space-y-2.5 sm:space-y-3 pb-24 lg:pb-3">
-        
         {/* 2.1. Sub-mode Segmented Toolbar Skeleton */}
         <div className="p-1 sm:p-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex items-center justify-between gap-2 shrink-0">
           <div className="grid grid-cols-4 sm:flex sm:items-center gap-1 p-0.5 rounded-lg bg-slate-100 dark:bg-slate-800/80 w-full sm:w-auto">
@@ -41,11 +56,9 @@ export default function PracticeLoading() {
 
         {/* 2.2. Main Bento Grid (8/12 Left - 4/12 Right) */}
         <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-3.5 items-stretch min-w-0">
-          
           {/* Cột Trái: Practice Arena (8/12) */}
           <div className="lg:col-span-8 flex flex-col min-w-0 lg:h-full lg:min-h-0">
             <div className="p-3.5 sm:p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col justify-between min-w-0 flex-1 lg:h-full lg:min-h-0 space-y-3">
-              
               {/* Arena Sub-Header */}
               <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5">
                 <div className="flex items-center gap-2">
@@ -103,14 +116,12 @@ export default function PracticeLoading() {
                 <div className="h-9 w-28 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200/70 dark:border-slate-700/60" />
                 <div className="h-9 w-32 rounded-xl bg-[#0059bb]/20 dark:bg-[#0059bb]/10" />
               </div>
-
             </div>
           </div>
 
           {/* Cột Phải: Word Lab & Insights (4/12) */}
           <div className="lg:col-span-4 flex flex-col min-w-0 lg:h-full lg:min-h-0">
             <div className="p-3.5 sm:p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col justify-between gap-3 lg:h-full lg:min-h-0 space-y-3">
-              
               <div className="space-y-2.5 shrink-0">
                 <div className="flex items-center justify-between pb-1.5 border-b border-slate-100 dark:border-slate-800">
                   <div className="h-4 w-36 rounded-md bg-[#0059bb]/20" />
@@ -138,12 +149,9 @@ export default function PracticeLoading() {
               <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
                 <div className="h-10 rounded-xl bg-[#0059bb]/10 dark:bg-[#0059bb]/5 border border-[#0059bb]/20" />
               </div>
-
             </div>
           </div>
-
         </div>
-
       </div>
     </div>
   );

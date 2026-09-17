@@ -57,12 +57,14 @@ interface InteractiveTranscriptSidebarProps {
   onShuffleRecommendations?: () => void;
   isLoadingRecommendations?: boolean;
   isLoadingSentences?: boolean;
+  sentenceScores?: { [idx: number]: number };
 }
 
 export function InteractiveTranscriptSidebar({
   transcript = [],
   currentIndex = 0,
   completedSentences = {},
+  sentenceScores,
   onSelectSentence,
   onReplaySentence,
   onNextSentence,
@@ -268,8 +270,18 @@ export function InteractiveTranscriptSidebar({
                           #{idx + 1}
                         </span>
 
-                        {/* Huy hiệu trạng thái */}
-                        {isCompleted ? (
+                        {/* Huy hiệu trạng thái hoặc điểm số phát âm */}
+                        {sentenceScores && sentenceScores[idx] !== undefined ? (
+                          <span
+                            className={`px-2.5 py-0.5 rounded-[5px] text-white font-extrabold text-[10.5px] tracking-wide shadow-2xs font-mono ${
+                              sentenceScores[idx] >= 80
+                                ? "bg-emerald-600 dark:bg-emerald-500"
+                                : "bg-[#0059bb] dark:bg-sky-500"
+                            }`}
+                          >
+                            ✓ {sentenceScores[idx]} ĐIỂM
+                          </span>
+                        ) : isCompleted ? (
                           <span className="px-2.5 py-0.5 rounded-[5px] bg-emerald-600 dark:bg-emerald-500 text-white font-extrabold text-[10.5px] tracking-wide uppercase shadow-2xs">
                             ĐÃ CHÉP ĐÚNG
                           </span>
@@ -359,6 +371,17 @@ export function InteractiveTranscriptSidebar({
                         <span className="text-[14.5px] sm:text-base font-semibold text-slate-700 dark:text-slate-300">
                           #{idx + 1}
                         </span>
+                        {sentenceScores && sentenceScores[idx] !== undefined && (
+                          <span
+                            className={`px-2 py-0.5 rounded-[5px] text-[10px] font-mono font-bold border shadow-2xs ${
+                              sentenceScores[idx] >= 80
+                                ? "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-200/80 dark:border-emerald-800/60"
+                                : "bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 border-blue-200/80 dark:border-blue-800/60"
+                            }`}
+                          >
+                            {sentenceScores[idx]}đ
+                          </span>
+                        )}
                       </div>
 
                       <div className="flex items-center gap-1.5 text-slate-400 dark:text-slate-500">

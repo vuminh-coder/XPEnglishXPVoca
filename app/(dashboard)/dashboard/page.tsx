@@ -709,12 +709,6 @@ export default function DashboardPage() {
             label="Dictation"
             hideOnSmall
           />
-          <HeaderPillItem
-            href="/study/pvp"
-            icon={<Swords className="w-3.5 h-3.5 text-rose-500" />}
-            label="Đấu trường"
-            hideOnMedium
-          />
         </HeaderPillContainer>
       </AppTopHeader>
 

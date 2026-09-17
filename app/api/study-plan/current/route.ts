@@ -13,6 +13,11 @@ export async function GET(request: Request) {
     const fallbackPlan = {
       id: "adaptive_default_plan",
       title: "Kế Hoạch Học Tập Toàn Diện",
+      targetExam: "TOEIC",
+      targetScore: 750,
+      targetDate: new Date(Date.now() + 90 * 86400000).toISOString().slice(0, 10),
+      currentLevel: "A2 Elementary",
+      weeklyHours: 5,
       dailyTasks: [
         {
           id: `task_${todayStr}`,

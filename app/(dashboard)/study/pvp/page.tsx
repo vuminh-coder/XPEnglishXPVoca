@@ -68,10 +68,10 @@ export default function PvpQuizArenaPage() {
       {/* App Top Header with Semantic Header Pills */}
       <AppTopHeader>
         <HeaderPillContainer>
-          <HeaderPillItem href="/dashboard" icon={<Home className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />} label="Tổng quan" />
-          <HeaderPillItem active icon={<Swords className="w-3.5 h-3.5 text-rose-500" />} label="Đấu trường 1v1" />
-          <HeaderPillItem href="/community/leaderboard" icon={<Trophy className="w-3.5 h-3.5 text-amber-500" />} label="Bảng xếp hạng" />
-          <HeaderPillItem href="/study/exam-prep" icon={<Sparkles className="w-3.5 h-3.5 text-purple-500" />} label="Thi thử đề chuẩn" />
+          <HeaderPillItem href="/dashboard" icon={<Home className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />} label="Trang chủ" />
+          <HeaderPillItem active layoutId="pvpHeaderActiveTab" icon={<Swords className="w-3.5 h-3.5 text-rose-500" />} label="Đấu trường 1v1" />
+          <HeaderPillItem href="/community/leaderboard" icon={<Trophy className="w-3.5 h-3.5 text-amber-500" />} label="Xếp hạng" />
+          <HeaderPillItem href="/study/exam-prep" icon={<Sparkles className="w-3.5 h-3.5 text-purple-500" />} label="Thi thử đề" />
         </HeaderPillContainer>
       </AppTopHeader>
 

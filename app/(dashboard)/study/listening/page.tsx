@@ -163,18 +163,26 @@ function ListeningPageContent() {
   // 1. Fetch Lessons Catalog from PostgreSQL Neon Database
   useEffect(() => {
     let isMounted = true;
+    const controller = new AbortController();
     const fetchLessons = async () => {
       try {
         setIsLoadingLessons(true);
-        const res = await fetch(`/api/listening/lessons?userId=${user?.id || ""}`);
+        const res = await fetch(`/api/listening/lessons?userId=${user?.id || ""}`, {
+          signal: controller.signal,
+          headers: { Accept: "application/json" },
+        });
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}`);
+        }
         const json = await res.json();
         if (isMounted && json.success && Array.isArray(json.data) && json.data.length > 0) {
           setLessonsList(json.data);
         } else if (isMounted) {
           setLessonsList(MOCK_LESSONS_DATA);
         }
-      } catch (err) {
-        console.error("Error fetching listening lessons from DB:", err);
+      } catch (err: any) {
+        if (err?.name === "AbortError") return;
+        console.warn("[Listening] DB fetch fallback to offline cache:", err?.message || err);
         if (isMounted) setLessonsList(MOCK_LESSONS_DATA);
       } finally {
         if (isMounted) {
@@ -187,6 +195,7 @@ function ListeningPageContent() {
     fetchLessons();
     return () => {
       isMounted = false;
+      controller.abort();
     };
   }, [user?.id]);
 
@@ -200,12 +209,20 @@ function ListeningPageContent() {
   useEffect(() => {
     if (!selectedLessonId) return;
     let isMounted = true;
+    const controller = new AbortController();
     const fetchLessonDetail = async () => {
       try {
         setIsLoadingLessonDetail(true);
         const res = await fetch(
-          `/api/listening/lessons/${selectedLessonId}?userId=${user?.id || ""}`
+          `/api/listening/lessons/${selectedLessonId}?userId=${user?.id || ""}`,
+          {
+            signal: controller.signal,
+            headers: { Accept: "application/json" },
+          }
         );
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}`);
+        }
         const json = await res.json();
         if (isMounted && json.success && json.data) {
           const detail = json.data;
@@ -236,8 +253,18 @@ function ListeningPageContent() {
             setCloudNoteText(detail.userNote || "");
           }
         }
-      } catch (err) {
-        console.error("Error fetching lesson detail:", err);
+      } catch (err: any) {
+        if (err?.name === "AbortError") return;
+        console.warn("[Listening] Detail DB fetch fallback to local lesson:", err?.message || err);
+        if (isMounted) {
+          const fallbackLesson = MOCK_LESSONS_DATA.find((l) => l.id === selectedLessonId);
+          if (fallbackLesson) {
+            setLessonsList((prev) => {
+              if (prev.some((l) => l.id === fallbackLesson.id)) return prev;
+              return [fallbackLesson, ...prev];
+            });
+          }
+        }
       } finally {
         if (isMounted) {
           setTimeout(() => {
@@ -249,6 +276,7 @@ function ListeningPageContent() {
     fetchLessonDetail();
     return () => {
       isMounted = false;
+      controller.abort();
     };
   }, [selectedLessonId, user?.id]);
 

@@ -28,8 +28,7 @@ import {
   CommunityFriendsView,
   CommunityGroupsView,
 } from "@/features/community";
-
-export type CommunityTab = "FEED" | "LEADERBOARD" | "FRIENDS" | "GROUPS";
+import { CommunityTab } from "../types";
 
 const INITIAL_COMMENTS = 3;
 const LOAD_MORE_COMMENTS = 5;
@@ -324,10 +323,10 @@ function CommunityHubContent({ initialTab }: CommunityHubProps) {
           {activeTab === "FEED" && (
             <motion.div
               key="feed-view"
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.22, ease: "easeOut" }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.11, ease: [0.2, 0, 0, 1] }}
             >
               <CommunityFeedView
                 posts={posts}
@@ -353,10 +352,10 @@ function CommunityHubContent({ initialTab }: CommunityHubProps) {
           {activeTab === "LEADERBOARD" && (
             <motion.div
               key="leaderboard-view"
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.22, ease: "easeOut" }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.11, ease: [0.2, 0, 0, 1] }}
             >
               <CommunityLeaderboardView user={user} awardXp={awardXp} />
             </motion.div>
@@ -365,10 +364,10 @@ function CommunityHubContent({ initialTab }: CommunityHubProps) {
           {activeTab === "FRIENDS" && (
             <motion.div
               key="friends-view"
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.22, ease: "easeOut" }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.11, ease: [0.2, 0, 0, 1] }}
             >
               <CommunityFriendsView user={user} awardXp={awardXp} />
             </motion.div>
@@ -377,10 +376,10 @@ function CommunityHubContent({ initialTab }: CommunityHubProps) {
           {activeTab === "GROUPS" && (
             <motion.div
               key="groups-view"
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.22, ease: "easeOut" }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.11, ease: [0.2, 0, 0, 1] }}
             >
               <CommunityGroupsView user={user} awardXp={awardXp} />
             </motion.div>

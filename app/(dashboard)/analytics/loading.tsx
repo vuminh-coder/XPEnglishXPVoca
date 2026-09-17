@@ -20,12 +20,12 @@ export default function AnalyticsLoading() {
 
   const renderWaveformSvgSkeleton = (title: string, themeColor: string, unit: string) => {
     const svgW = 700;
-    const svgH = 210;
+    const svgH = 254;
     const padLeft = 52;
     const padRight = 10;
-    const padTop = 18;
-    const ySteps = unit === "phút" ? [20, 15, 10, 5, 0] : [200, 150, 100, 50, 0];
-    const yCoords = [padTop, 63, 108, 154, 200];
+    const padTop = 24;
+    const ySteps = unit === "phút" ? [25, 20, 15, 10, 5, 0] : [250, 200, 150, 100, 50, 0];
+    const yCoords = [24, 68, 112, 156, 200, 244];
 
     return (
       <div className="flex-1 space-y-3 min-w-0">
@@ -42,7 +42,7 @@ export default function AnalyticsLoading() {
             <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full h-auto overflow-visible select-none">
               {ySteps.map((step, sIdx) => {
                 const y = yCoords[sIdx];
-                const isBaseline = sIdx === 4;
+                const isBaseline = sIdx === 5;
                 return (
                   <g key={sIdx}>
                     <line

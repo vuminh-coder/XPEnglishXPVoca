@@ -4,36 +4,12 @@
 // Structure: Theory → Examples → Common Mistakes → Memory Tips
 // ============================================================
 
-export interface GrammarExample {
-  en: string;
-  vi: string;
-  highlight: string;
-}
-
-export interface GrammarMistake {
-  wrong: string;
-  correct: string;
-  explanation: string;
-}
-
-export interface GrammarUsage {
-  context: string;   // e.g. "IELTS Writing Task 1"
-  example: string;
-  note?: string;
-}
-
-export interface GrammarLesson {
-  topicId: string;
-  title: string;
-  titleEn: string;
-  formulas: string[];
-  usages: GrammarUsage[];
-  examples: GrammarExample[];
-  commonMistakes: GrammarMistake[];
-  memoryTip: string;
-  signalWords: string[];
-  extraRules?: string[];
-}
+import {
+  GrammarExample,
+  GrammarMistake,
+  GrammarUsage,
+  GrammarLesson,
+} from "../types/grammarTypes";
 
 // ============================================================
 // BASIC LEVEL — 20 Topics

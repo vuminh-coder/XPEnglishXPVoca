@@ -17,6 +17,11 @@ import {
   Check,
   ChevronRight,
   Bot,
+  Search,
+  X,
+  Flame,
+  Coins,
+  Settings,
 } from "lucide-react";
 import { useUiStore } from "@/stores/uiStore";
 import { useUserStore } from "@/stores/userStore";
@@ -93,7 +98,7 @@ export function HeaderPillItem({
     hideOnMedium ? "hidden md:inline-flex" : ""
   }`;
 
-  const baseClasses = `px-2 sm:px-3 py-1 rounded-lg text-xs sm:text-sm transition-all cursor-pointer select-none flex items-center justify-center gap-1.5 shrink-0 ${responsiveClasses} ${className}`;
+  const baseClasses = `px-2 sm:px-3 py-1 rounded-lg text-xs sm:text-sm transition-colors duration-150 active:scale-[0.98] cursor-pointer select-none flex items-center justify-center gap-1.5 shrink-0 ${responsiveClasses} ${className}`;
 
   if (active) {
     return (
@@ -104,7 +109,7 @@ export function HeaderPillItem({
         {layoutId ? (
           <motion.span
             layoutId={layoutId}
-            transition={{ type: "spring", stiffness: 500, damping: 35 }}
+            transition={{ type: "spring", stiffness: 450, damping: 32, mass: 0.8 }}
             className="absolute inset-0 bg-white dark:bg-slate-900 rounded-lg shadow-2xs z-0"
           />
         ) : (
@@ -119,6 +124,7 @@ export function HeaderPillItem({
     return (
       <Link
         href={href}
+        prefetch={true}
         onClick={onClick}
         title={label}
         className={`${baseClasses} font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-900/50`}
@@ -144,6 +150,13 @@ export function HeaderPillItem({
    2. MASTER APPTOPHEADER COMPONENT
    ========================================================================= */
 
+export interface HeaderSearchProps {
+  value: string;
+  onChange: (val: string) => void;
+  placeholder?: string;
+  onClear?: () => void;
+}
+
 export interface AppTopHeaderProps {
   /** Slot for the Page-Specific Mode Switcher Pill / Breadcrumb / Custom Title (Left Side) */
   children?: React.ReactNode;
@@ -155,11 +168,15 @@ export interface AppTopHeaderProps {
   showDailyQuote?: boolean;
   /** Custom quote object if desired */
   customQuote?: InspirationalQuote;
+  /** Optional search props for adaptive desktop input & mobile search overlay */
+  searchProps?: HeaderSearchProps;
+  /** Whether to show Gamification stats chips (Streak 🔥, Gold 🪙) (default: false) */
+  showGamificationStats?: boolean;
   /** Optional custom right-side actions */
   rightExtraActions?: React.ReactNode;
   /** Optional desktop-specific right content (e.g. search bars & action buttons) */
   rightDesktopContent?: React.ReactNode;
-  /** Whether to hide Theme toggle & Avatar on desktop (default: true if rightDesktopContent is provided) */
+  /** Whether to hide Theme toggle & Avatar on desktop (default: false) */
   hideThemeAndAvatarOnDesktop?: boolean;
   /** Whether header is sticky on top (default: true) */
   sticky?: boolean;
@@ -173,9 +190,11 @@ export function AppTopHeader({
   onBack,
   showDailyQuote = true,
   customQuote,
+  searchProps,
+  showGamificationStats = false,
   rightExtraActions,
   rightDesktopContent,
-  hideThemeAndAvatarOnDesktop,
+  hideThemeAndAvatarOnDesktop = false,
   sticky = true,
   className = "",
 }: AppTopHeaderProps) {
@@ -186,7 +205,27 @@ export function AppTopHeader({
 
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showThemeSubmenu, setShowThemeSubmenu] = useState(false);
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+  const mobileSearchInputRef = useRef<HTMLInputElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
+
+  // Auto-focus mobile search input when overlay opens
+  useEffect(() => {
+    if (isMobileSearchOpen && mobileSearchInputRef.current) {
+      mobileSearchInputRef.current.focus();
+    }
+  }, [isMobileSearchOpen]);
+
+  // Close mobile search on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isMobileSearchOpen) {
+        setIsMobileSearchOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isMobileSearchOpen]);
 
   // Close user menu on outside click
   useEffect(() => {
@@ -212,16 +251,17 @@ export function AppTopHeader({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  // Close user menu on route change
+  // Close user menu and mobile search on route change
   useEffect(() => {
     setShowUserMenu(false);
     setShowThemeSubmenu(false);
+    setIsMobileSearchOpen(false);
   }, [pathname]);
 
   const userName = user?.fullName || user?.username || "Học viên XP Voca";
 
-  const shouldHideThemeAndAvatarOnDesktop =
-    hideThemeAndAvatarOnDesktop ?? Boolean(rightDesktopContent);
+  // By default, preserve User Avatar on Desktop even when rightDesktopContent is present
+  const shouldHideThemeAndAvatarOnDesktop = hideThemeAndAvatarOnDesktop;
   const themeAvatarResponsiveClass = shouldHideThemeAndAvatarOnDesktop ? "lg:hidden" : "";
 
   const [quote, setQuote] = useState<InspirationalQuote>(() => {
@@ -268,17 +308,82 @@ export function AppTopHeader({
         {children || leftContent}
       </div>
 
-      {/* ─── RIGHT SECTION: Desktop Search/Actions OR Daily Quote, Theme Toggle & User Avatar ─── */}
-      <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-        {/* Custom Desktop Right Content (e.g. Search Bar + Action Button) */}
+      {/* ─── RIGHT SECTION: Search, Gamification, Custom Actions, Quote & User Avatar ─── */}
+      <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+        {/* 1. Integrated Desktop Search Input */}
+        {searchProps && (
+          <div className="relative w-44 sm:w-56 lg:w-64 xl:w-72 hidden lg:flex items-center">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+            <input
+              type="text"
+              value={searchProps.value}
+              onChange={(e) => searchProps.onChange(e.target.value)}
+              placeholder={searchProps.placeholder || "Tìm kiếm bài học..."}
+              className="w-full h-9 pl-9 pr-8 text-xs sm:text-sm font-medium rounded-xl bg-slate-100/90 dark:bg-slate-800/90 border border-slate-200/90 dark:border-slate-700/80 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:bg-white dark:focus:bg-slate-900 focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/15 transition-all"
+            />
+            {searchProps.value && (
+              <button
+                type="button"
+                onClick={() => {
+                  searchProps.onChange("");
+                  if (searchProps.onClear) searchProps.onClear();
+                }}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 p-0.5 rounded-md text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
+                title="Xóa tìm kiếm"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
+        )}
+
+        {/* 2. Mobile Search Icon Trigger (Below lg) */}
+        {searchProps && (
+          <button
+            type="button"
+            onClick={() => setIsMobileSearchOpen(true)}
+            className="lg:hidden p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700/60 shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-95 shrink-0"
+            title="Mở tìm kiếm"
+            aria-label="Mở tìm kiếm"
+          >
+            <Search className="w-4 h-4 stroke-[2.2]" />
+          </button>
+        )}
+
+        {/* 3. Custom Desktop Right Content (e.g. Action Buttons) */}
         {rightDesktopContent && (
-          <div className="hidden lg:flex items-center gap-2.5 shrink-0">
+          <div className="hidden sm:flex items-center gap-2 shrink-0">
             {rightDesktopContent}
           </div>
         )}
 
-        {/* Daily Inspirational Quote (Desktop) when no custom rightDesktopContent */}
-        {!rightDesktopContent && showDailyQuote && quote && (
+        {/* 4. Gamification Chips: Streak 🔥 & Coins 🪙 */}
+        {showGamificationStats && (
+          <div className="flex items-center gap-1.5 shrink-0">
+            {/* Streak Flame Chip */}
+            <Link
+              href="/analytics"
+              className="h-8 sm:h-9 px-2 sm:px-2.5 rounded-xl bg-orange-50 dark:bg-orange-950/50 border border-orange-200/80 dark:border-orange-800/60 text-orange-600 dark:text-orange-400 font-bold font-mono text-xs flex items-center gap-1 shadow-2xs hover:bg-orange-100 dark:hover:bg-orange-900/40 transition-all cursor-pointer active:scale-95"
+              title={`Chuỗi học tập liên tục: ${user?.currentStreak ?? 1} ngày`}
+            >
+              <Flame className="w-3.5 h-3.5 text-orange-500 fill-orange-500" />
+              <span className="tabular-nums">{user?.currentStreak ?? 1}</span>
+            </Link>
+
+            {/* Coins / Gold Chip */}
+            <Link
+              href="/shop"
+              className="h-8 sm:h-9 px-2 sm:px-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/50 border border-amber-200/80 dark:border-amber-800/60 text-amber-700 dark:text-amber-300 font-bold font-mono text-xs hidden xs:flex items-center gap-1 shadow-2xs hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-all cursor-pointer active:scale-95"
+              title={`Số Vàng hiện có: ${user?.coins ?? 0} Vàng`}
+            >
+              <Coins className="w-3.5 h-3.5 text-amber-500" />
+              <span className="tabular-nums">{user?.coins ?? 0}</span>
+            </Link>
+          </div>
+        )}
+
+        {/* 5. Daily Inspirational Quote (Desktop) when no custom rightDesktopContent and no searchProps */}
+        {!rightDesktopContent && !searchProps && showDailyQuote && quote && (
           <div className="relative hidden lg:flex max-w-[300px] xl:max-w-[480px] items-center justify-between gap-2.5 group transition-all">
             <div className="flex items-center gap-2 min-w-0">
               <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-md bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
@@ -319,10 +424,10 @@ export function AppTopHeader({
           </div>
         )}
 
-        {/* Custom Extra Actions (if any) */}
+        {/* 6. Custom Extra Actions (if any) */}
         {rightExtraActions}
 
-        {/* User Avatar with Interactive Floating Popover Menu */}
+        {/* 7. User Avatar with Interactive Floating Popover Menu */}
         <div className={`relative shrink-0 ${themeAvatarResponsiveClass}`} ref={userMenuRef}>
           <button
             type="button"
@@ -356,33 +461,67 @@ export function AppTopHeader({
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 6, scale: 0.96 }}
                 transition={{ duration: 0.15, ease: "easeOut" }}
-                className="absolute right-0 top-full mt-2 w-48 p-1.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 shadow-xl shadow-slate-300/40 dark:shadow-black/70 space-y-0.5 select-none z-[9999]"
+                className="absolute right-0 top-full mt-2 w-56 p-1.5 sm:p-2 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xl shadow-slate-300/40 dark:shadow-black/70 space-y-1 select-none z-[9999]"
               >
-                {/* 1. Hồ sơ */}
+                {/* 0. Mini User Profile Summary Header */}
+                <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/60 flex items-center gap-2.5">
+                  <UserAvatar
+                    avatarUrl={user?.avatarUrl || user?.imageUrl || (user as any)?.avatar}
+                    imageUrl={user?.imageUrl}
+                    avatar={(user as any)?.avatar}
+                    emoji={user?.avatarEmoji}
+                    name={userName}
+                    size="w-8.5 h-8.5"
+                    className="ring-1 ring-slate-200 dark:ring-slate-700"
+                  />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-bold text-slate-900 dark:text-white truncate">
+                      {userName}
+                    </p>
+                    <p className="text-[10px] text-slate-500 dark:text-slate-400 font-mono truncate">
+                      @{user?.username || "learner"}
+                    </p>
+                  </div>
+                  <span className="px-1.5 py-0.5 rounded text-[9px] font-bold font-mono bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 border border-blue-200/60 dark:border-blue-800/50 shrink-0">
+                    Lv.{user?.level || 1}
+                  </span>
+                </div>
+
+                {/* 1. Hồ sơ cá nhân */}
                 <Link
                   href="/profile"
                   onClick={() => setShowUserMenu(false)}
-                  className="flex items-center gap-3 px-3 py-2 rounded-xl font-medium text-[13px] text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                  className="flex items-center gap-2.5 px-3 py-2 rounded-xl font-medium text-[13px] text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
                 >
-                  <User className="w-4 h-4 text-slate-700 dark:text-slate-200 stroke-[1.8]" />
-                  <span>Hồ sơ</span>
+                  <User className="w-4 h-4 text-slate-600 dark:text-slate-300 stroke-[1.8]" />
+                  <span>Hồ sơ cá nhân</span>
+                </Link>
+
+                {/* 2. Cài đặt tài khoản */}
+                <Link
+                  href="/settings"
+                  onClick={() => setShowUserMenu(false)}
+                  className="flex items-center gap-2.5 px-3 py-2 rounded-xl font-medium text-[13px] text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                >
+                  <Settings className="w-4 h-4 text-slate-600 dark:text-slate-300 stroke-[1.8]" />
+                  <span>Cài đặt tài khoản</span>
                 </Link>
 
                 {/* Divider */}
-                <div className="my-1 border-t border-slate-100 dark:border-white/10" />
+                <div className="my-1 border-t border-slate-100 dark:border-slate-800" />
 
-                {/* 2. Giao diện Sáng/Tối */}
+                {/* 3. Giao diện Sáng/Tối */}
                 <div className="relative">
                   <button
                     type="button"
                     onClick={() => setShowThemeSubmenu(!showThemeSubmenu)}
                     className="w-full flex items-center justify-between px-3 py-2 rounded-xl font-medium text-[13px] text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2.5">
                       {theme === "dark" ? (
-                        <Moon className="w-4 h-4 text-slate-700 dark:text-slate-200 stroke-[1.8]" />
+                        <Moon className="w-4 h-4 text-slate-600 dark:text-slate-300 stroke-[1.8]" />
                       ) : (
-                        <Sun className="w-4 h-4 text-slate-700 dark:text-slate-200 stroke-[1.8]" />
+                        <Sun className="w-4 h-4 text-slate-600 dark:text-slate-300 stroke-[1.8]" />
                       )}
                       <span>Giao diện</span>
                     </div>
@@ -454,7 +593,7 @@ export function AppTopHeader({
                   </AnimatePresence>
                 </div>
 
-                {/* 3. Khôi phục Trợ lý AI XP Mentor */}
+                {/* 4. Khôi phục Trợ lý AI XP Mentor */}
                 <button
                   type="button"
                   onClick={() => {
@@ -463,7 +602,7 @@ export function AppTopHeader({
                   }}
                   className="w-full flex items-center justify-between px-3 py-2 rounded-xl font-medium text-[13px] text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
                 >
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2.5">
                     <Bot className="w-4 h-4 text-[#0059bb] dark:text-sky-400 stroke-[1.8]" />
                     <span>Trợ lý XP Mentor</span>
                   </div>
@@ -473,18 +612,18 @@ export function AppTopHeader({
                 </button>
 
                 {/* Divider */}
-                <div className="my-1 border-t border-slate-100 dark:border-white/10" />
+                <div className="my-1 border-t border-slate-100 dark:border-slate-800" />
 
-                {/* 4. Logout Action */}
+                {/* 5. Logout Action */}
                 <button
                   type="button"
                   onClick={() => {
                     setShowUserMenu(false);
                     logout();
                   }}
-                  className="w-full flex items-center gap-3 px-3 py-2 rounded-xl font-medium text-[13px] text-[#f04438] dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors cursor-pointer"
+                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl font-medium text-[13px] text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors cursor-pointer"
                 >
-                  <LogOut className="w-4 h-4 text-[#f04438] dark:text-rose-400 stroke-[1.8]" />
+                  <LogOut className="w-4 h-4 text-rose-600 dark:text-rose-400 stroke-[1.8]" />
                   <span>Đăng xuất</span>
                 </button>
               </motion.div>
@@ -492,6 +631,49 @@ export function AppTopHeader({
           </AnimatePresence>
         </div>
       </div>
+
+      {/* ─── EXPANDABLE FULL-WIDTH MOBILE SEARCH OVERLAY ─── */}
+      <AnimatePresence>
+        {isMobileSearchOpen && searchProps && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.16, ease: "easeOut" }}
+            className="absolute inset-0 z-50 bg-white/98 dark:bg-slate-900/98 backdrop-blur-md px-3 sm:px-4 flex items-center gap-2 border-b border-slate-200/90 dark:border-slate-800"
+          >
+            <Search className="w-4 h-4 text-[#0059bb] dark:text-sky-400 shrink-0" />
+            <input
+              ref={mobileSearchInputRef}
+              type="text"
+              value={searchProps.value}
+              onChange={(e) => searchProps.onChange(e.target.value)}
+              placeholder={searchProps.placeholder || "Tìm kiếm bài học, chủ đề..."}
+              className="flex-1 h-9 px-1 text-xs sm:text-sm font-medium bg-transparent text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none"
+            />
+            {searchProps.value && (
+              <button
+                type="button"
+                onClick={() => {
+                  searchProps.onChange("");
+                  if (searchProps.onClear) searchProps.onClear();
+                }}
+                className="p-1 rounded-md text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
+                title="Xóa"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={() => setIsMobileSearchOpen(false)}
+              className="px-2.5 py-1 text-xs font-bold rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer shrink-0"
+            >
+              Đóng
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

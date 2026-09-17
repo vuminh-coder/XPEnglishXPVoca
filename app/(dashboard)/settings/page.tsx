@@ -18,11 +18,8 @@ import {
   Clock,
   Settings as SettingsIcon,
 } from "lucide-react";
-import {
-  AppTopHeader,
-  HeaderPillContainer,
-  HeaderPillItem,
-} from "@/shared/components/layout/AppTopHeader";
+import { AppTopHeader, HeaderPillContainer, HeaderPillItem } from "@/shared/components/layout/AppTopHeader";
+import { ProfileSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 
 interface UserSettings {
   dailyGoal: number;
@@ -124,18 +121,7 @@ export default function SettingsPage() {
           </HeaderPillContainer>
         }
       >
-        <HeaderPillContainer>
-          <HeaderPillItem
-            label="Cài đặt"
-            icon={<SettingsIcon className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />}
-            active
-          />
-          <HeaderPillItem
-            label="Hồ sơ"
-            icon={<User className="w-4 h-4 text-blue-500" />}
-            href="/profile"
-          />
-        </HeaderPillContainer>
+        <ProfileSuiteNavTabs />
       </AppTopHeader>
 
       <PageEntranceWrapper className="max-w-3xl mx-auto space-y-6">

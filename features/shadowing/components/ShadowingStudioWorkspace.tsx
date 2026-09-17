@@ -17,16 +17,23 @@ import {
   Languages,
   Activity,
   Headphones,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { StudioTopHeader } from "@/features/listening/components/StudioTopHeader";
 import { StudioWaveformCard } from "@/features/listening/components/StudioWaveformCard";
 import { InteractiveTranscriptSidebar } from "@/features/listening/components/InteractiveTranscriptSidebar";
+import {
+  TranscriptSentencesSkeleton,
+  ShimmerBox,
+} from "./LoadingSkeletons";
 import { formatElapsedTime } from "./ShadowingCompletionScreen";
 
 interface ShadowingStudioWorkspaceProps {
   currentLesson: any;
   rawIdParam: string | null;
   selectedLessonId: string | null;
+  isInPlaceSwitchingLesson?: boolean;
   elapsedTime: number;
   currentSentenceIndex: number;
   totalSentencesCount: number;
@@ -42,6 +49,8 @@ interface ShadowingStudioWorkspaceProps {
   setIsPlayingUserAudio: (val: boolean) => void;
   userAudioPlayerRef: React.RefObject<HTMLAudioElement | null>;
   isAnalyzing: boolean;
+  liveAudioEnergy?: number;
+  sentenceScores?: { [idx: number]: number };
   aiAnalysisResult: any;
   liveRecognizedWords: { word: string; status: "perfect" | "needs_work" }[];
   activePlaybackWordIndex: number | null;
@@ -79,6 +88,7 @@ export function ShadowingStudioWorkspace({
   currentLesson,
   rawIdParam,
   selectedLessonId,
+  isInPlaceSwitchingLesson = false,
   elapsedTime,
   currentSentenceIndex,
   totalSentencesCount,
@@ -94,6 +104,8 @@ export function ShadowingStudioWorkspace({
   setIsPlayingUserAudio,
   userAudioPlayerRef,
   isAnalyzing,
+  liveAudioEnergy = 0,
+  sentenceScores,
   aiAnalysisResult,
   liveRecognizedWords,
   activePlaybackWordIndex,
@@ -206,7 +218,7 @@ export function ShadowingStudioWorkspace({
       <div className="flex-1 flex flex-col lg:flex-row items-stretch min-h-0 overflow-y-auto lg:overflow-hidden">
         {/* CỘT TRÁI: SINGLE-SENTENCE FOCUS SHADOWING WORKSPACE */}
         <div
-          className={`flex-1 min-w-0 p-2.5 sm:p-3 lg:p-3.5 space-y-2.5 overflow-y-auto hide-scrollbar ${
+          className={`flex-1 min-w-0 p-2.5 sm:p-3 lg:p-3.5 space-y-2.5 overflow-y-auto hide-scrollbar pb-24 lg:pb-3.5 ${
             mobileStudioTab === "practice" ? "block" : "hidden lg:block"
           }`}
         >
@@ -223,6 +235,8 @@ export function ShadowingStudioWorkspace({
                 )}
                 isPlaying={playingSentenceText === currentSentence.text}
                 playbackSpeed={playbackSpeed}
+                isRecording={isRecording}
+                liveAudioEnergy={liveAudioEnergy}
                 onTogglePlay={handlePlaySampleAudio}
                 onPrev={handlePrevSentence}
                 onNext={handleNextSentence}
@@ -713,23 +727,129 @@ export function ShadowingStudioWorkspace({
             mobileStudioTab === "transcript" ? "block" : "hidden lg:block"
           }`}
         >
-          <InteractiveTranscriptSidebar
-            transcript={currentLesson.transcript || []}
-            currentIndex={currentSentenceIndex}
-            completedSentences={completedSentences}
-            onSelectSentence={onSelectTranscriptSentence}
-            onReplaySentence={onReplayTranscriptSentence}
-            onResetProgress={onResetProgress}
-            recommendedLessons={recommendedLessons}
-            onSelectLesson={onSelectLesson}
-            onShuffleRecommendations={onShuffleRecommendations}
-            keyVocabularies={currentLesson.vocabulary || currentLesson.vocabList || []}
-            onWordClick={handleWordClick}
-            isPlaying={playingSentenceText !== null}
-            className="h-full"
-          />
+          {isInPlaceSwitchingLesson ? (
+            <div className="h-full flex flex-col p-2">
+              <div className="p-3 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                <ShimmerBox className="h-5 w-32 rounded-lg" />
+                <ShimmerBox className="h-5 w-16 rounded-md" />
+              </div>
+              <div className="flex-1 overflow-hidden">
+                <TranscriptSentencesSkeleton count={6} />
+              </div>
+            </div>
+          ) : (
+            <InteractiveTranscriptSidebar
+              transcript={currentLesson.transcript || []}
+              currentIndex={currentSentenceIndex}
+              completedSentences={completedSentences}
+              sentenceScores={sentenceScores}
+              onSelectSentence={onSelectTranscriptSentence}
+              onReplaySentence={onReplayTranscriptSentence}
+              onResetProgress={onResetProgress}
+              recommendedLessons={recommendedLessons}
+              onSelectLesson={onSelectLesson}
+              onShuffleRecommendations={onShuffleRecommendations}
+              keyVocabularies={currentLesson.vocabulary || currentLesson.vocabList || []}
+              onWordClick={handleWordClick}
+              isPlaying={playingSentenceText !== null}
+              className="h-full"
+            />
+          )}
         </div>
       </div>
+
+      {/* 4. Mobile Sticky Audio Dock (Rule 13 Thumb-friendly Ergonomics) */}
+      {mobileStudioTab === "practice" && (
+        <div className="fixed bottom-0 inset-x-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200/90 dark:border-slate-800 px-4 py-2.5 shadow-[0_-4px_20px_rgba(0,0,0,0.06)] lg:hidden flex items-center justify-between gap-3 max-w-lg mx-auto">
+          {/* Previous Sentence */}
+          <button
+            type="button"
+            onClick={handlePrevSentence}
+            disabled={currentSentenceIndex === 0}
+            className="w-10 h-10 rounded-xl flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 disabled:opacity-30 border border-slate-200/80 dark:border-slate-700 shadow-2xs active:scale-95 transition-all"
+            aria-label="Câu trước"
+            title="Câu trước"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+
+          {/* Sample Audio */}
+          <button
+            type="button"
+            onClick={handlePlaySampleAudio}
+            className="w-11 h-11 rounded-xl flex items-center justify-center bg-blue-50 dark:bg-blue-950/50 text-[#0059bb] dark:text-sky-400 border border-blue-200/80 dark:border-blue-900/60 shadow-2xs active:scale-95 transition-all"
+            title="Nghe câu mẫu"
+            aria-label="Nghe câu mẫu"
+          >
+            <Volume2 className="w-5 h-5" />
+          </button>
+
+          {/* Primary Thumb Record CTA (Rule 13 & 18 & 20) */}
+          <div className="flex-1 flex justify-center">
+            {!isRecording ? (
+              <button
+                type="button"
+                onClick={startRecording}
+                className="w-13 h-13 rounded-full bg-rose-600 hover:bg-rose-700 text-white shadow-lg shadow-rose-600/30 flex items-center justify-center transition-all active:scale-90 cursor-pointer"
+                aria-label="Bắt đầu thu âm"
+                title="Bắt đầu thu âm"
+              >
+                <Mic className="w-6 h-6" />
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={stopRecording}
+                className="w-13 h-13 rounded-full bg-rose-600 text-white shadow-lg shadow-rose-600/40 flex items-center justify-center transition-all active:scale-90 animate-pulse cursor-pointer"
+                aria-label={`Dừng thu (${recordingTime}s)`}
+                title={`Dừng thu (${recordingTime}s)`}
+              >
+                <Square className="w-5 h-5 fill-white" />
+              </button>
+            )}
+          </div>
+
+          {/* User Audio Replay or Reset */}
+          {userAudioUrl ? (
+            <button
+              type="button"
+              onClick={() => {
+                if (userAudioPlayerRef.current) {
+                  userAudioPlayerRef.current.currentTime = 0;
+                  userAudioPlayerRef.current.play();
+                  setIsPlayingUserAudio(true);
+                }
+              }}
+              className="w-11 h-11 rounded-xl flex items-center justify-center bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-800/60 shadow-2xs active:scale-95 transition-all"
+              title="Nghe lại giọng bạn"
+              aria-label="Nghe lại giọng bạn"
+            >
+              <Headphones className="w-5 h-5" />
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={handleResetCurrentSentence}
+              className="w-11 h-11 rounded-xl flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200/80 dark:border-slate-700 shadow-2xs active:scale-95 transition-all"
+              title="Làm lại câu này"
+              aria-label="Làm lại câu này"
+            >
+              <RotateCcw className="w-5 h-5" />
+            </button>
+          )}
+
+          {/* Next Sentence */}
+          <button
+            type="button"
+            onClick={handleNextSentence}
+            className="w-10 h-10 rounded-xl flex items-center justify-center bg-slate-900 dark:bg-white text-white dark:text-slate-950 shadow-2xs active:scale-95 transition-all"
+            aria-label="Câu tiếp theo"
+            title="Câu tiếp theo"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
+      )}
     </div>
   );
 }

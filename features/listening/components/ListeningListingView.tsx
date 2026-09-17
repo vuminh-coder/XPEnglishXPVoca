@@ -22,11 +22,8 @@ import { LessonCoverImage } from "@/shared/components/feedback/LessonCoverImage"
 import { formatLevelBadge } from "./InteractiveTranscriptSidebar";
 import { ShimmerBox } from "./LoadingSkeletons";
 import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAnimation";
-import {
-  AppTopHeader,
-  HeaderPillContainer,
-  HeaderPillItem,
-} from "@/shared/components/layout/AppTopHeader";
+import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
+import { StudySuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 
 export type ListeningCategoryTab = "all" | "basic" | "advanced" | "completed";
 
@@ -177,29 +174,7 @@ export function ListeningListingView({
           </div>
         }
       >
-        <HeaderPillContainer>
-          <HeaderPillItem
-            active
-            layoutId="listeningHeaderActiveTab"
-            icon={<Headphones className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />}
-            label="Dictation"
-          />
-          <HeaderPillItem
-            href="/study/shadowing"
-            icon={<Mic className="w-3.5 h-3.5 text-sky-500" />}
-            label="Shadowing"
-          />
-          <HeaderPillItem
-            href="/study/practice"
-            icon={<BookOpen className="w-3.5 h-3.5 text-emerald-500" />}
-            label="Luyện từ vựng"
-          />
-          <HeaderPillItem
-            href="/study/exam-prep"
-            icon={<FileText className="w-3.5 h-3.5 text-rose-500" />}
-            label="Thi thử đề"
-          />
-        </HeaderPillContainer>
+        <StudySuiteNavTabs />
       </AppTopHeader>
 
       {/* 2. MAIN LISTING CONTENT CANVAS WITH STAGGER ENTRANCE */}

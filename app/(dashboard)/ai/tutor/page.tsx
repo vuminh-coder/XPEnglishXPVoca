@@ -10,11 +10,8 @@ import { UserAvatar, formatCleanName } from "@/shared/components/feedback/UserAv
 import { speakLessonText } from "@/shared/utils/ttsEngine";
 import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 import { lookupWordDeep } from "@/features/vocabulary/data/deepDictionary";
-import {
-  AppTopHeader,
-  HeaderPillContainer,
-  HeaderPillItem,
-} from "@/shared/components/layout/AppTopHeader";
+import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
+import { AiSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 
 import {
   Mic,
@@ -1049,18 +1046,7 @@ export default function VoiceTutorPage() {
           </div>
         }
       >
-        <HeaderPillContainer>
-          <HeaderPillItem
-            active
-            icon={<SpeakingIcon className="w-3.5 h-3.5 text-purple-500" />}
-            label="Luyện nói"
-          />
-          <HeaderPillItem
-            href="/ai/conversation"
-            icon={<Wand2 className="w-3.5 h-3.5 text-fuchsia-500" />}
-            label="Luyện viết"
-          />
-        </HeaderPillContainer>
+        <AiSuiteNavTabs />
       </AppTopHeader>
 
       {/* 2. MAIN DASHBOARD-STYLE VIEWPORT CANVAS (FITS IN 1 SCREEN ON DESKTOP) */}

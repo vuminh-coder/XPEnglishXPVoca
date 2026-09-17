@@ -341,6 +341,7 @@ export default function StudyRoomsPage() {
             label="Phòng học nhóm"
             icon={<Users className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />}
             active
+            layoutId="studyRoomsHeaderActiveTab"
           />
           <HeaderPillItem
             label="Luyện từ vựng"

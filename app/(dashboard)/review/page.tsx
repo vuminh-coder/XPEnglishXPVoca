@@ -37,11 +37,8 @@ import { useVocabularyStore } from '@/stores/vocabularyStore';
 import { useAuthStore } from '@/stores/authStore';
 import { useNotificationStore } from '@/stores/notificationStore';
 import { speakLessonText } from '@/shared/utils/ttsEngine';
-import {
-  AppTopHeader,
-  HeaderPillContainer,
-  HeaderPillItem,
-} from '@/shared/components/layout/AppTopHeader';
+import { AppTopHeader } from '@/shared/components/layout/AppTopHeader';
+import { VocabSuiteNavTabs } from '@/shared/components/layout/nav-tabs';
 import { PageEntranceWrapper, MotionItem } from '@/shared/components/feedback/PageEntranceAnimation';
 import { ReviewSkeleton } from '@/features/review';
 
@@ -422,24 +419,7 @@ export default function ReviewPage() {
           </div>
         }
       >
-        <HeaderPillContainer>
-          <HeaderPillItem
-            active
-            icon={<CalendarIcon className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400 stroke-[1.8]" />}
-            label="Lịch Ôn Tập SM-2"
-          />
-          <HeaderPillItem
-            href="/study/practice"
-            icon={<Target className="w-3.5 h-3.5 text-amber-500 stroke-[2]" />}
-            label="Luyện Tập Ngay"
-          />
-          <HeaderPillItem
-            href="/myvocab"
-            icon={<BookMarked className="w-3.5 h-3.5 text-slate-500 stroke-[1.8]" />}
-            label="Sổ Tay Từ Vựng"
-            hideOnSmall
-          />
-        </HeaderPillContainer>
+        <VocabSuiteNavTabs />
       </AppTopHeader>
 
       {/* ─── MAIN CANVAS CONTAINER WITH PAGE ENTRANCE WRAPPER ─── */}

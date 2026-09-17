@@ -447,18 +447,21 @@ export default function GamesPage() {
           <HeaderPillItem
             active={activeGame === null}
             onClick={() => setActiveGame(null)}
+            layoutId="gamesModeFilterPill"
             icon={<Gamepad2 className="w-3.5 h-3.5 text-rose-500" />}
             label="Tất Cả Games"
           />
           <HeaderPillItem
             active={activeGame === "scramble"}
             onClick={() => setActiveGame("scramble")}
+            layoutId="gamesModeFilterPill"
             icon={<Shuffle className="w-3.5 h-3.5" />}
             label="Word Scramble"
           />
           <HeaderPillItem
             active={activeGame === "memory"}
             onClick={() => setActiveGame("memory")}
+            layoutId="gamesModeFilterPill"
             icon={<Layers className="w-3.5 h-3.5" />}
             label="Memory Match"
           />

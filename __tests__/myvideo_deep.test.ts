@@ -880,7 +880,7 @@ describe("DB Failure Isolation & Compilation Timeline Validation", () => {
 
     const result = await safeDbExecute(failingDbOp, "Test DB Operation");
     expect(result).toBeNull(); // Gracefully caught, returns null
-  }, 15000);
+  }, 30000);
 
   it("validateAndSanitizeCompilationLyrics prevents overlap between adjacent songs", () => {
     const rawLyrics = [

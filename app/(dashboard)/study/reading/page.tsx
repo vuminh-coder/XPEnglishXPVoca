@@ -39,11 +39,8 @@ import { useNotificationStore } from "@/stores/notificationStore";
 import { useUiStore } from "@/stores/uiStore";
 import { safeSpeakText } from "@/shared/utils/mobileAudio";
 import { stopTTS } from "@/shared/utils/ttsEngine";
-import {
-  AppTopHeader,
-  HeaderPillContainer,
-  HeaderPillItem,
-} from "@/shared/components/layout/AppTopHeader";
+import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
+import { StudySuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 import {
   READING_PASSAGES_DATA,
   ReadingPassage,
@@ -425,24 +422,8 @@ function ReadingStudioContent() {
             </div>
           }
         >
-          <HeaderPillContainer>
-            <HeaderPillItem
-              active
-              icon={<BookOpen className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />}
-              label="Luyện đọc"
-            />
-            <HeaderPillItem
-              href="/study/listening"
-              icon={<Headphones className="w-3.5 h-3.5 text-indigo-500" />}
-              label="Dictation"
-            />
-            <HeaderPillItem
-              href="/study/shadowing"
-              icon={<Mic className="w-3.5 h-3.5 text-sky-500" />}
-              label="Shadowing"
-            />
-          </HeaderPillContainer>
-        </AppTopHeader>
+          <StudySuiteNavTabs />
+      </AppTopHeader>
       )}
 
       {/* 2. EXPLORER LISTING MODE (WHEN NOT IN A PASSAGE) */}

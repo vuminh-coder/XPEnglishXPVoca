@@ -22,11 +22,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useNotificationStore } from "@/stores/notificationStore";
-import {
-  AppTopHeader,
-  HeaderPillContainer,
-  HeaderPillItem,
-} from "@/shared/components/layout/AppTopHeader";
+import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
+import { ShopSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 
 interface ShopItem {
   id: string;
@@ -302,23 +299,7 @@ export default function ShopPage() {
           </div>
         }
       >
-        <HeaderPillContainer>
-          <HeaderPillItem
-            label="Cửa hàng vật phẩm"
-            icon={<ShoppingBag className="w-4 h-4 text-purple-500" />}
-            active
-          />
-          <HeaderPillItem
-            label="Nâng cấp Premium"
-            icon={<Sparkles className="w-4 h-4 text-amber-500 fill-amber-500" />}
-            href="/premium"
-          />
-          <HeaderPillItem
-            label="Hồ sơ"
-            icon={<User className="w-4 h-4 text-slate-500" />}
-            href="/profile"
-          />
-        </HeaderPillContainer>
+        <ShopSuiteNavTabs />
       </AppTopHeader>
 
       <PageEntranceWrapper className="space-y-6">

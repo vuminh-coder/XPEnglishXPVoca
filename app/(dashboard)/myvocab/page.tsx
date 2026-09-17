@@ -22,11 +22,8 @@ import {
   Clock,
   ListOrdered,
 } from "lucide-react";
-import {
-  AppTopHeader,
-  HeaderPillContainer,
-  HeaderPillItem,
-} from "@/shared/components/layout/AppTopHeader";
+import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
+import { VocabSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 
 export default function MyVocabularyPage() {
   const [filter, setFilter] = useState<"all" | "favorite" | "learning" | "mastered">("all");
@@ -118,27 +115,16 @@ export default function MyVocabularyPage() {
       {/* ─── APP TOP HEADER (56px Baseline) ─── */}
       <AppTopHeader
         rightDesktopContent={
-          <HeaderPillContainer>
-            <HeaderPillItem
-              label="Lịch Ôn Tập SM-2"
-              icon={<Zap className="w-4 h-4 text-amber-500" />}
-              href="/review"
-            />
-          </HeaderPillContainer>
+          <Link
+            href="/study/practice"
+            className="h-9 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004ba0] text-white text-xs font-bold shadow-md shadow-[#0059bb]/20 flex items-center gap-1.5 transition-all cursor-pointer active:scale-95 shrink-0 font-display"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-amber-300 stroke-[2]" />
+            <span>Luyện Tập Ngay</span>
+          </Link>
         }
       >
-        <HeaderPillContainer>
-          <HeaderPillItem
-            label="Sổ từ của tôi"
-            icon={<BookOpen className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />}
-            active
-          />
-          <HeaderPillItem
-            label="Danh sách từ"
-            icon={<ListOrdered className="w-4 h-4 text-emerald-500" />}
-            href="/vocabulary"
-          />
-        </HeaderPillContainer>
+        <VocabSuiteNavTabs />
       </AppTopHeader>
 
       <PageEntranceWrapper className="space-y-6">
