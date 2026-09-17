@@ -44,7 +44,6 @@ import {
   DashboardAiTutorWidget,
 } from "@/features/dashboard";
 import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAnimation";
-import DashboardLoading from "./loading";
 
 export default function DashboardPage() {
   const { user: authUser, awardXp, awardCoins } = useAuthStore();
@@ -58,58 +57,22 @@ export default function DashboardPage() {
   const [aiQuestion, setAiQuestion] = useState("");
   const [aiAnswer, setAiAnswer] = useState<string | null>(null);
   const [isAiLoading, setIsAiLoading] = useState(false);
-  // 0. SWR Synchronous Initial State Cache Reader (Instant 0ms hydration)
-  const [cachedOverview] = useState<any>(() => {
-    if (typeof window === "undefined") return null;
-    const cacheKey = `xp_voca_dashboard_overview_${user?.id || "guest"}`;
-    try {
-      const raw = localStorage.getItem(cacheKey);
-      return raw ? JSON.parse(raw) : null;
-    } catch {
-      return null;
-    }
-  });
 
-  const [isPageLoading, setIsPageLoading] = useState<boolean>(() => {
-    if (typeof window === "undefined") return true;
-    const cacheKey = `xp_voca_dashboard_overview_${user?.id || "guest"}`;
-    try {
-      const raw = localStorage.getItem(cacheKey);
-      return !raw;
-    } catch {
-      return true;
-    }
-  });
-
-  const [currentTask, setCurrentTask] = useState<string | null>(() => {
-    return cachedOverview?.studyPlan?.todayTask || null;
-  });
-  const [isLoadingPlan, setIsLoadingPlan] = useState<boolean>(() => {
-    return !cachedOverview?.studyPlan?.todayTask;
-  });
+  // Database-driven States initialized deterministically for zero hydration mismatch
+  const [currentTask, setCurrentTask] = useState<string | null>(null);
+  const [isLoadingPlan, setIsLoadingPlan] = useState<boolean>(true);
   const [showAnnouncement, setShowAnnouncement] = useState(true);
   const [activeSkillTab, setActiveSkillTab] = useState<SkillType>("dictation");
   const [selectedDayIndex, setSelectedDayIndex] = useState<number | null>(4);
   const [leaderboardTab, setLeaderboardTab] = useState<"week" | "month">("week");
   const [leaderboardCriterion, setLeaderboardCriterion] = useState<"time" | "xp">("time");
 
-  // Database-driven States with instant synchronous hydration
-  const [isCheckedInToday, setIsCheckedInToday] = useState<boolean>(() => {
-    return Boolean(cachedOverview?.checkin?.isCheckedInToday);
-  });
-  const [activeDaysInWeek, setActiveDaysInWeek] = useState<string[]>(() => {
-    return cachedOverview?.checkin?.activeDaysInWeek || [];
-  });
-  const [isLoadingCheckin, setIsLoadingCheckin] = useState<boolean>(() => {
-    return !cachedOverview?.checkin;
-  });
+  const [isCheckedInToday, setIsCheckedInToday] = useState<boolean>(false);
+  const [activeDaysInWeek, setActiveDaysInWeek] = useState<string[]>([]);
+  const [isLoadingCheckin, setIsLoadingCheckin] = useState<boolean>(true);
   const [isCheckingIn, setIsCheckingIn] = useState(false);
-  const [serverChallenges, setServerChallenges] = useState<any[]>(() => {
-    return cachedOverview?.challenges || [];
-  });
-  const [isLoadingChallenges, setIsLoadingChallenges] = useState<boolean>(() => {
-    return !cachedOverview?.challenges?.length;
-  });
+  const [serverChallenges, setServerChallenges] = useState<any[]>([]);
+  const [isLoadingChallenges, setIsLoadingChallenges] = useState<boolean>(true);
   const [claimingChallengeId, setClaimingChallengeId] = useState<string | null>(null);
   const [chartDataVersion, setChartDataVersion] = useState(0);
   const [isLoadingChart, setIsLoadingChart] = useState(false);
@@ -227,7 +190,6 @@ export default function DashboardPage() {
               setIsLoadingChallenges(false);
               setIsLoadingPlan(false);
               setIsLoadingChart(false);
-              setIsPageLoading(false);
             }
           }, 240);
         }
@@ -241,24 +203,8 @@ export default function DashboardPage() {
     };
   }, [initChallenges, user?.id]);
 
-  const [leaderboardData, setLeaderboardData] = useState<any[]>(() => {
-    if (typeof window === "undefined") return [];
-    try {
-      const raw = sessionStorage.getItem(`xp_voca_lb_${leaderboardTab}`);
-      return raw ? JSON.parse(raw) : [];
-    } catch {
-      return [];
-    }
-  });
-  const [isLoadingLeaderboard, setIsLoadingLeaderboard] = useState<boolean>(() => {
-    if (typeof window === "undefined") return true;
-    try {
-      const raw = sessionStorage.getItem(`xp_voca_lb_${leaderboardTab}`);
-      return !raw;
-    } catch {
-      return true;
-    }
-  });
+  const [leaderboardData, setLeaderboardData] = useState<any[]>([]);
+  const [isLoadingLeaderboard, setIsLoadingLeaderboard] = useState<boolean>(true);
 
   useEffect(() => {
     let isMounted = true;
@@ -636,13 +582,11 @@ export default function DashboardPage() {
     }
   };
 
-  // Loading Fallback: Exact Geometric Twin Skeleton (0px CLS)
-  if (isPageLoading) {
-    return <DashboardLoading />;
-  }
-
   return (
-    <div className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none pb-24 md:pb-12">
+    <div
+      className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none pb-24 md:pb-12"
+      suppressHydrationWarning
+    >
       {/* 0. UNIVERSAL 56PX (h-14) TOP ACTION & NAVIGATION HEADER BAR */}
       <AppTopHeader
         rightDesktopContent={
