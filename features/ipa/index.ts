@@ -10,6 +10,9 @@ export * from "./components/shared/IpaWordExampleCard";
 export * from "./components/shared/IpaMouthAnatomySvg";
 export * from "./components/shared/IpaSpeechRecorder";
 
+// Export Phonetic Anatomy Module
+export * from "./components/anatomy";
+
 // Export Hero Greeting
 export * from "./components/hero/IpaHeroGreeting";
 

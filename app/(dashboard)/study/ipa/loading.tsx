@@ -6,15 +6,14 @@ export default function IpaStudioLoading() {
     <div className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none pb-24 md:pb-12">
       {/* 0. Top Header Skeleton 56px Twin */}
       <div className="h-14 border-b border-slate-200/80 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 px-4 sm:px-6 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <ShimmerBox className="h-8 w-24 rounded-xl" />
-          <ShimmerBox className="h-8 w-28 rounded-xl" />
-          <ShimmerBox className="h-8 w-24 rounded-xl hidden sm:block" />
+        <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-100/90 dark:bg-slate-800/90 border border-slate-200/70 dark:border-white/5">
+          <ShimmerBox className="h-7 w-24 sm:w-28 rounded-lg" />
+          <ShimmerBox className="h-7 w-24 sm:w-28 rounded-lg" />
+          <ShimmerBox className="h-7 w-32 sm:w-36 rounded-lg hidden sm:block" />
         </div>
         <div className="flex items-center gap-2">
           <ShimmerBox className="h-9 w-20 rounded-xl" />
           <ShimmerBox className="h-9 w-20 rounded-xl" />
-          <ShimmerBox className="h-9 w-28 rounded-xl" />
         </div>
       </div>
 
@@ -58,14 +57,7 @@ export default function IpaStudioLoading() {
           </div>
         </div>
 
-        {/* 2. Sub-mode 3 Tabs Skeleton */}
-        <div className="flex items-center gap-2 pb-1 border-b border-slate-200/80 dark:border-slate-800">
-          <ShimmerBox className="h-10 w-44 rounded-xl" />
-          <ShimmerBox className="h-10 w-48 rounded-xl" />
-          <ShimmerBox className="h-10 w-44 rounded-xl" />
-        </div>
-
-        {/* 3. Main Matrix Cards Grid Skeleton */}
+        {/* 2. Main Matrix Cards Grid Skeleton */}
         <div className="space-y-5">
           <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 space-y-4">
             <ShimmerBox className="h-6 w-60 rounded-md" />

@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { X, Sparkles, AlertTriangle, Lightbulb, ExternalLink } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { X, Sparkles, AlertTriangle, Lightbulb, ExternalLink, Volume2 } from "lucide-react";
 import { IpaSound, getSoundDisplayHint } from "../../data/ipaData";
 import { IpaSoundBadge } from "../shared/IpaSoundBadge";
 import { IpaAudioPlayButton } from "../shared/IpaAudioPlayButton";
 import { IpaMouthAnatomySvg } from "../shared/IpaMouthAnatomySvg";
 import { IpaWordExampleCard } from "../shared/IpaWordExampleCard";
 import { IpaSpeechRecorder } from "../shared/IpaSpeechRecorder";
+import { playIpaIsolatedSound, stopIpaAudio } from "@/shared/utils/ipaAudioPlayer";
 
 export interface IpaSoundDetailModalProps {
   sound: IpaSound | null;
@@ -22,16 +23,22 @@ export const IpaSoundDetailModal: React.FC<IpaSoundDetailModalProps> = ({
   onClose,
   onGoToPracticeLab,
 }) => {
+  const [isPlayingIsolated, setIsPlayingIsolated] = useState(false);
+
   // Handle Escape key to close
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        stopIpaAudio();
+        onClose();
+      }
     };
     if (isOpen) {
       document.body.style.overflow = "hidden";
       window.addEventListener("keydown", handleKeyDown);
     }
     return () => {
+      stopIpaAudio();
       document.body.style.overflow = "";
       window.removeEventListener("keydown", handleKeyDown);
     };
@@ -42,7 +49,10 @@ export const IpaSoundDetailModal: React.FC<IpaSoundDetailModalProps> = ({
   return (
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm select-none"
-      onClick={onClose}
+      onClick={() => {
+        stopIpaAudio();
+        onClose();
+      }}
     >
       <div
         className="w-full max-w-2xl max-h-[90vh] overflow-y-auto hide-scrollbar rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl p-4 sm:p-6 space-y-5"
@@ -61,8 +71,8 @@ export const IpaSoundDetailModal: React.FC<IpaSoundDetailModalProps> = ({
             </div>
             <div className="space-y-1.5">
               <IpaSoundBadge sound={sound} size="md" showCategoryTag />
-              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-lg bg-slate-50 dark:bg-slate-800/80 border border-slate-200/60 dark:border-white/5 text-xs shadow-2xs">
-                <span className="text-slate-500 dark:text-slate-400 font-medium">Từ mẫu:</span>
+              <div className="flex items-center gap-2 text-xs pt-0.5">
+                <span className="text-slate-400 dark:text-slate-500 font-medium">Từ mẫu:</span>
                 <span className="font-bold text-slate-900 dark:text-white capitalize">
                   {sound.keyWord}
                 </span>
@@ -74,15 +84,42 @@ export const IpaSoundDetailModal: React.FC<IpaSoundDetailModalProps> = ({
           </div>
 
           <div className="flex items-center gap-2">
-            <IpaAudioPlayButton
-              text={sound.audioSampleText}
-              size="md"
-              variant="primary"
-              label="Nghe âm"
-            />
             <button
               type="button"
-              onClick={onClose}
+              onClick={() => {
+                stopIpaAudio();
+                setIsPlayingIsolated(true);
+                playIpaIsolatedSound(sound.id, {
+                  onPlay: () => setIsPlayingIsolated(true),
+                  onEnd: () => setIsPlayingIsolated(false),
+                  onError: () => setIsPlayingIsolated(false),
+                });
+                setTimeout(() => setIsPlayingIsolated(false), 1400);
+              }}
+              className={`h-9 px-3 rounded-xl font-bold text-xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all ${
+                isPlayingIsolated
+                  ? "bg-[#0059bb] text-white ring-2 ring-blue-400/40 animate-pulse"
+                  : "bg-[#0059bb] hover:bg-[#004ba0] text-white shadow-2xs"
+              }`}
+              title={`Phát âm cô lập /${sound.symbol}/`}
+            >
+              <Volume2 className="w-3.5 h-3.5" />
+              <span>Âm /{sound.symbol}/</span>
+            </button>
+
+            <IpaAudioPlayButton
+              text={sound.keyWord}
+              size="md"
+              variant="secondary"
+              label={sound.keyWord}
+            />
+
+            <button
+              type="button"
+              onClick={() => {
+                stopIpaAudio();
+                onClose();
+              }}
               className="w-8 h-8 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center cursor-pointer transition-colors"
               title="Đóng (Esc)"
             >
@@ -95,9 +132,6 @@ export const IpaSoundDetailModal: React.FC<IpaSoundDetailModalProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-start">
           {/* Left Column: Sơ Đồ Khẩu Hình SVG (5/12) */}
           <div className="md:col-span-5 space-y-3">
-            <div className="text-xs font-black uppercase tracking-wider text-slate-400 font-display">
-              Sơ đồ giải phẫu khẩu hình
-            </div>
             <IpaMouthAnatomySvg sound={sound} />
 
             {/* Vietnamese instruction box */}

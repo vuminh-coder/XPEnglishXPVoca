@@ -87,12 +87,12 @@ export const IpaAudioPlayButton: React.FC<IpaAudioPlayButtonProps> = ({
       <button
         type="button"
         onClick={handlePlay}
-        className={`px-3 py-1.5 rounded-xl font-bold flex items-center gap-1.5 transition-all cursor-pointer select-none ${getVariantClasses()} ${className}`}
+        className={`px-3 py-1.5 rounded-xl font-bold flex items-center gap-1.5 transition-all cursor-pointer select-none whitespace-nowrap min-w-0 ${getVariantClasses()} ${className}`}
         title={`Nghe phát âm: "${text}"`}
         aria-label={`Nghe phát âm: "${text}"`}
       >
         <Volume2 className={`${iconSizes[size]} shrink-0 ${isPlaying ? "animate-pulse" : ""}`} />
-        <span>{label}</span>
+        <span className="whitespace-nowrap truncate">{label}</span>
       </button>
     );
   }

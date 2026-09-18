@@ -39,6 +39,9 @@ export interface IpaSound {
   // Audio playback fallback phonetic text
   audioSampleText: string;
   
+  // Authentic isolated phoneme audio URL
+  isolatedAudioUrl?: string;
+  
   // Examples
   examples: IpaWordExample[];
 }
@@ -1349,3 +1352,120 @@ export function getSoundDisplayHint(sound: IpaSound): string {
   }
   return sound.name.replace(/\s*\((vô|hữu) thanh\)/gi, "").trim();
 }
+
+export interface SoundCategoryTheme {
+  key: "long_vowel" | "short_vowel" | "diphthong" | "voiced_consonant" | "voiceless_consonant";
+  name: string;
+  shortLabel: string;
+  microLabel: string;
+  dotColor: string;
+  textColor: string;
+  badgeBg: string;
+  borderHover: string;
+  textHover: string;
+  selectedRing: string;
+  selectedBg: string;
+  speakerActive: string;
+  rippleColor: string;
+  dockBg: string;
+}
+
+export function getSoundCategoryTheme(sound: IpaSound): SoundCategoryTheme {
+  if (sound.category === "monophthong") {
+    if (sound.vowelLength === "long") {
+      return {
+        key: "long_vowel",
+        name: "Nguyên âm dài",
+        shortLabel: "Âm dài",
+        microLabel: "Dài",
+        dotColor: "bg-[#0059bb]",
+        textColor: "text-[#0059bb] dark:text-sky-400",
+        badgeBg: "bg-blue-50/80 dark:bg-blue-950/60 border-blue-200/80 dark:border-blue-800/60",
+        borderHover: "hover:border-[#0059bb]/50 dark:hover:border-sky-400/40",
+        textHover: "group-hover:text-[#0059bb] dark:group-hover:text-sky-400",
+        selectedRing: "ring-2 ring-[#0059bb] dark:ring-sky-400 border-blue-300 dark:border-blue-700",
+        selectedBg: "bg-blue-50/70 dark:bg-blue-950/40",
+        speakerActive: "bg-[#0059bb] text-white shadow-2xs shadow-blue-500/30",
+        rippleColor: "bg-[#0059bb]/15 dark:bg-sky-400/20",
+        dockBg: "bg-blue-50/80 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 border-blue-200/80 dark:border-blue-800/60",
+      };
+    }
+    return {
+      key: "short_vowel",
+      name: "Nguyên âm ngắn",
+      shortLabel: "Âm ngắn",
+      microLabel: "Ngắn",
+      dotColor: "bg-sky-500",
+      textColor: "text-sky-700 dark:text-sky-400",
+      badgeBg: "bg-sky-50/80 dark:bg-sky-950/60 border-sky-200/80 dark:border-sky-800/60",
+      borderHover: "hover:border-sky-400/50 dark:hover:border-sky-500/40",
+      textHover: "group-hover:text-sky-600 dark:group-hover:text-sky-400",
+      selectedRing: "ring-2 ring-sky-500 dark:ring-sky-400 border-sky-300 dark:border-sky-700",
+      selectedBg: "bg-sky-50/70 dark:bg-sky-950/40",
+      speakerActive: "bg-sky-500 text-white shadow-2xs shadow-sky-500/30",
+      rippleColor: "bg-sky-500/15 dark:bg-sky-400/20",
+      dockBg: "bg-sky-50/80 dark:bg-sky-950/60 text-sky-600 dark:text-sky-400 border-sky-200/80 dark:border-sky-800/60",
+    };
+  }
+  if (sound.category === "diphthong") {
+    return {
+      key: "diphthong",
+      name: "Nguyên âm đôi",
+      shortLabel: "Âm đôi",
+      microLabel: "Đôi",
+      dotColor: "bg-purple-600",
+      textColor: "text-purple-700 dark:text-purple-400",
+      badgeBg: "bg-purple-50/80 dark:bg-purple-950/60 border-purple-200/80 dark:border-purple-800/60",
+      borderHover: "hover:border-purple-400/50 dark:hover:border-purple-500/40",
+      textHover: "group-hover:text-purple-600 dark:group-hover:text-purple-400",
+      selectedRing: "ring-2 ring-purple-500 dark:ring-purple-400 border-purple-300 dark:border-purple-700",
+      selectedBg: "bg-purple-50/70 dark:bg-purple-950/40",
+      speakerActive: "bg-purple-600 text-white shadow-2xs shadow-purple-500/30",
+      rippleColor: "bg-purple-500/15 dark:bg-purple-400/20",
+      dockBg: "bg-purple-50/80 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 border-purple-200/80 dark:border-purple-800/60",
+    };
+  }
+  if (sound.voicing === "voiced") {
+    return {
+      key: "voiced_consonant",
+      name: "Hữu thanh",
+      shortLabel: "Hữu thanh",
+      microLabel: "Hữu",
+      dotColor: "bg-emerald-500",
+      textColor: "text-emerald-700 dark:text-emerald-400",
+      badgeBg: "bg-emerald-50/80 dark:bg-emerald-950/60 border-emerald-200/80 dark:border-emerald-800/60",
+      borderHover: "hover:border-emerald-400/50 dark:hover:border-emerald-500/40",
+      textHover: "group-hover:text-emerald-600 dark:group-hover:text-emerald-400",
+      selectedRing: "ring-2 ring-emerald-500 dark:ring-emerald-400 border-emerald-300 dark:border-emerald-700",
+      selectedBg: "bg-emerald-50/70 dark:bg-emerald-950/40",
+      speakerActive: "bg-emerald-500 text-white shadow-2xs shadow-emerald-500/30",
+      rippleColor: "bg-emerald-500/15 dark:bg-emerald-400/20",
+      dockBg: "bg-emerald-50/80 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border-emerald-200/80 dark:border-emerald-800/60",
+    };
+  }
+  return {
+    key: "voiceless_consonant",
+    name: "Vô thanh",
+    shortLabel: "Vô thanh",
+    microLabel: "Vô",
+    dotColor: "bg-amber-500",
+    textColor: "text-amber-700 dark:text-amber-400",
+    badgeBg: "bg-amber-50/80 dark:bg-amber-950/60 border-amber-200/80 dark:border-amber-800/60",
+    borderHover: "hover:border-amber-400/50 dark:hover:border-amber-500/40",
+    textHover: "group-hover:text-amber-600 dark:group-hover:text-amber-400",
+    selectedRing: "ring-2 ring-amber-500 dark:ring-amber-400 border-amber-300 dark:border-amber-700",
+    selectedBg: "bg-amber-50/70 dark:bg-amber-950/40",
+    speakerActive: "bg-amber-500 text-white shadow-2xs shadow-amber-500/30",
+    rippleColor: "bg-amber-500/15 dark:bg-amber-400/20",
+    dockBg: "bg-amber-50/80 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 border-amber-200/80 dark:border-amber-800/60",
+  };
+}
+
+/**
+ * Get authentic isolated phoneme audio URL for a sound
+ */
+export function getIsolatedAudioUrl(sound: IpaSound | string): string {
+  const id = typeof sound === "string" ? sound : sound.id;
+  return `/audio/ipa/${id}.ogg`;
+}
+

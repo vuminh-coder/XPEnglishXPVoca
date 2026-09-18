@@ -3,10 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import {
-  Flame,
-  Coins,
-} from "lucide-react";
+import { Coins, Flame } from "lucide-react";
 import { useAuthStore } from "@/stores/authStore";
 import { useUserStore, DEFAULT_LEARNER_USER } from "@/stores/userStore";
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
@@ -14,23 +11,18 @@ import { IpaSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAnimation";
 import {
   IpaHeroGreeting,
-  IpaMatrixBoard,
-  IpaSound,
+  IpaMinimalPairsArena,
 } from "@/features/ipa";
 
-export default function IpaStudioPage() {
+export default function IpaMinimalPairsPage() {
   const router = useRouter();
   const { user: authUser } = useAuthStore();
   const storeUser = useUserStore((s) => s.user);
   const user = authUser || storeUser || DEFAULT_LEARNER_USER;
 
-  const handleGoToPracticeLab = (sound: IpaSound) => {
-    router.push(`/study/ipa/practice?sound=${sound.id}`);
-  };
-
-  const handleNavigateTab = (tab: "matrix" | "practice_lab" | "minimal_pairs") => {
+  const handleNavigate = (tab: "matrix" | "practice_lab" | "minimal_pairs") => {
+    if (tab === "matrix") router.push("/study/ipa");
     if (tab === "practice_lab") router.push("/study/ipa/practice");
-    if (tab === "minimal_pairs") router.push("/study/ipa/minimal-pairs");
   };
 
   return (
@@ -38,7 +30,7 @@ export default function IpaStudioPage() {
       className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none pb-24 md:pb-12"
       suppressHydrationWarning
     >
-      {/* 0. UNIVERSAL 56PX (h-14) TOP ACTION & NAVIGATION HEADER BAR */}
+      {/* 0. UNIVERSAL TOP ACTION & NAVIGATION HEADER BAR */}
       <AppTopHeader
         rightDesktopContent={
           <div className="flex items-center gap-2">
@@ -77,7 +69,7 @@ export default function IpaStudioPage() {
 
       {/* MAIN CANVAS WITH STAGGERED ENTRANCE */}
       <PageEntranceWrapper className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-3.5 sm:py-6 pb-24 sm:pb-8 space-y-5 sm:space-y-6">
-        {/* 1. HERO GREETING BANNER WITH 4 BENTO METRIC CARDS */}
+        {/* 1. HERO GREETING BANNER */}
         <IpaHeroGreeting
           user={user}
           masteredCount={18}
@@ -85,11 +77,11 @@ export default function IpaStudioPage() {
           averageScore={88}
           pairsLearnedCount={7}
           streakDays={user?.currentStreak || 1}
-          onNavigateTab={handleNavigateTab}
+          onNavigateTab={handleNavigate}
         />
 
-        {/* 2. MAIN 44-SOUND MATRIX BOARD */}
-        <IpaMatrixBoard onGoToPracticeLab={handleGoToPracticeLab} />
+        {/* 2. MINIMAL PAIRS ARENA */}
+        <IpaMinimalPairsArena />
       </PageEntranceWrapper>
     </div>
   );

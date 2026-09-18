@@ -1,14 +1,17 @@
 "use client";
 
-import React from "react";
-import { IpaSound, getSoundDisplayHint } from "../../data/ipaData";
-import { IpaAudioPlayButton } from "../shared/IpaAudioPlayButton";
+import React, { useState, useCallback } from "react";
+import { Volume2 } from "lucide-react";
+import { IpaSound, getSoundDisplayHint, getSoundCategoryTheme } from "../../data/ipaData";
 import { IpaSoundBadge } from "../shared/IpaSoundBadge";
+import { playIpaIsolatedSound, stopIpaAudio } from "@/shared/utils/ipaAudioPlayer";
 
 export interface IpaSoundCardV2Props {
   sound: IpaSound;
   isSelected?: boolean;
   onSelect?: (sound: IpaSound) => void;
+  onOpenDetail?: (sound: IpaSound) => void;
+  rate?: number;
   className?: string;
 }
 
@@ -16,52 +19,93 @@ export const IpaSoundCardV2: React.FC<IpaSoundCardV2Props> = ({
   sound,
   isSelected = false,
   onSelect,
+  onOpenDetail,
+  rate = 1.0,
   className = "",
 }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const theme = getSoundCategoryTheme(sound);
+
+  const handleSpeakerClick = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      stopIpaAudio();
+      setIsPlaying(true);
+      playIpaIsolatedSound(sound.id, {
+        rate,
+        onPlay: () => setIsPlaying(true),
+        onEnd: () => setIsPlaying(false),
+        onError: () => setIsPlaying(false),
+      });
+      // Safety fallback to clear pulse
+      setTimeout(() => setIsPlaying(false), 1400);
+    },
+    [sound.id, rate]
+  );
+
+  const handleCardClick = () => {
+    if (onSelect) {
+      onSelect(sound);
+    }
+  };
+
   return (
     <div
-      onClick={() => onSelect && onSelect(sound)}
-      className={`p-1.5 rounded-2xl transition-all duration-200 cursor-pointer select-none group ${
+      onClick={handleCardClick}
+      className={`p-3 rounded-2xl transition-all duration-200 cursor-pointer select-none group flex flex-col justify-between h-full min-h-[136px] relative overflow-hidden ${
         isSelected
-          ? "bg-[#0059bb]/10 dark:bg-sky-500/20 ring-2 ring-[#0059bb] shadow-sm"
-          : "bg-slate-100/80 dark:bg-slate-800/50 hover:bg-slate-200/70 dark:hover:bg-slate-800 border border-slate-200/70 dark:border-white/5 shadow-2xs hover:shadow-xs hover:-translate-y-0.5"
+          ? `${theme.selectedRing} ${theme.selectedBg} shadow-xs`
+          : `bg-white dark:bg-slate-900 hover:bg-slate-50/90 dark:hover:bg-slate-850 border border-slate-200/90 dark:border-slate-800 ${theme.borderHover} shadow-2xs hover:shadow-xs hover:-translate-y-0.5`
       } ${className}`}
+      title={`Bấm để luyện âm /${sound.symbol}/ với AI • Bấm loa để nghe âm cô lập`}
     >
-      {/* Inner Core Container (Double-Bezel Architecture) */}
-      <div className="rounded-xl p-2.5 sm:p-3 bg-white dark:bg-slate-900 flex flex-col justify-between h-full min-h-[136px] border border-slate-100 dark:border-white/5 relative overflow-hidden transition-colors">
-        {/* 1. Top Header Row: Semantic Badge & Audio Trigger */}
-        <div className="flex items-center justify-between gap-1 w-full shrink-0">
-          <IpaSoundBadge sound={sound} size="sm" variant="classification" />
-          <IpaAudioPlayButton
-            text={sound.audioSampleText}
-            size="sm"
-            variant="ghost"
+      {/* 1. Top Header: Micro Semantic Tag (Left) & Single Speaker Icon (Right) */}
+      <div className="flex items-center justify-between gap-1 w-full shrink-0">
+        <IpaSoundBadge sound={sound} size="sm" variant="micro" />
+
+        <button
+          type="button"
+          onClick={handleSpeakerClick}
+          className={`w-6 h-6 rounded-full flex items-center justify-center transition-all cursor-pointer ${
+            isPlaying
+              ? `${theme.speakerActive} scale-110`
+              : `text-slate-400 dark:text-slate-500 ${theme.textHover} group-hover:bg-slate-100 dark:group-hover:bg-slate-800`
+          }`}
+          title={`Nghe âm cô lập /${sound.symbol}/`}
+          aria-label={`Nghe âm cô lập /${sound.symbol}/`}
+        >
+          <Volume2 className={`w-3.5 h-3.5 ${isPlaying ? "animate-pulse" : ""}`} />
+        </button>
+      </div>
+
+      {/* 2. Center: Large High-Legibility Phonetic Symbol (The Hero Glyph) */}
+      <div className="relative py-2 flex flex-col items-center justify-center my-auto">
+        {/* Soft acoustic ripple effect on tap matching category color */}
+        {isPlaying && (
+          <span
+            className={`absolute inset-0 m-auto w-12 h-12 rounded-full ${theme.rippleColor} animate-ping pointer-events-none`}
           />
-        </div>
+        )}
+        <span
+          className={`text-2xl sm:text-[30px] font-black font-sans tracking-wide text-slate-900 dark:text-white ${theme.textHover} transition-colors leading-none`}
+        >
+          {sound.symbol}
+        </span>
+      </div>
 
-        {/* 2. Center: Large High-Legibility Phonetic Symbol & Mnemonic Action */}
-        <div className="text-center py-1.5 flex flex-col items-center justify-center my-auto">
-          <span className="text-2xl sm:text-[28px] font-extrabold font-sans tracking-wide text-slate-900 dark:text-white group-hover:text-[#0059bb] dark:group-hover:text-sky-400 transition-colors leading-none">
-            /{sound.symbol}/
-          </span>
-          <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-1.5 tracking-tight line-clamp-1">
-            {getSoundDisplayHint(sound)}
-          </span>
-        </div>
-
-        {/* 3. Bottom Capsule: Symmetrically Centered Word & Phonetic Reference (Zero Truncation) */}
-        <div className="w-full mt-auto pt-1">
-          <div className="py-1 px-2 rounded-lg bg-slate-50/90 dark:bg-slate-800/80 border border-slate-100 dark:border-white/5 flex flex-col items-center justify-center text-center transition-colors group-hover:bg-blue-50/70 dark:group-hover:bg-blue-950/40 group-hover:border-blue-100 dark:group-hover:border-blue-900/40">
-            <span className="font-bold text-xs text-slate-800 dark:text-slate-200 capitalize leading-tight group-hover:text-[#0059bb] dark:group-hover:text-sky-400">
-              {sound.keyWord}
-            </span>
-            <span className="text-[10px] font-mono text-slate-400 dark:text-slate-500 leading-tight mt-0.5">
-              {sound.keyWordPhonetic}
-            </span>
-          </div>
-        </div>
+      {/* 3. Bottom: Cohesive Centered Typography (NO dividing hairline) */}
+      <div className="w-full flex flex-col items-center justify-center text-center mt-auto">
+        <span
+          className={`font-bold text-xs sm:text-[13px] text-slate-800 dark:text-slate-200 capitalize tracking-tight ${theme.textHover} transition-colors`}
+        >
+          {sound.keyWord}
+        </span>
+        <span className="text-[11px] font-medium text-slate-400 dark:text-slate-500 truncate w-full text-center mt-0.5">
+          {getSoundDisplayHint(sound)}
+        </span>
       </div>
     </div>
   );
 };
+
 

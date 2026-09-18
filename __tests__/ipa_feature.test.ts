@@ -21,6 +21,11 @@ import {
   IpaDedicatedPracticeLab,
   IpaMinimalPairsArena,
   getSoundDisplayHint,
+  getSagittalGeometry,
+  getFrontalLipGeometry,
+  IpaSagittalCrossSection,
+  IpaFrontalLipShape,
+  IpaAnatomyViewer,
 } from "@/features/ipa";
 
 describe("Interactive IPA Feature Data & Integrity Suite", () => {
@@ -166,5 +171,99 @@ describe("Interactive IPA Feature Data & Integrity Suite", () => {
 
     expect(pairIds.length * 2 + singleIds.length).toBe(24);
   });
+
+  it("should export IpaSuiteNavTabs correctly from nav-tabs suite", async () => {
+    const { IpaSuiteNavTabs } = await import("@/shared/components/layout/nav-tabs");
+    expect(IpaSuiteNavTabs).toBeDefined();
+    expect(typeof IpaSuiteNavTabs).toBe("function");
+  });
+
+  it("should have all 44 isolated phoneme audio files present and non-empty in public/audio/ipa", async () => {
+    const fs = await import("fs");
+    const path = await import("path");
+    const audioDir = path.resolve(process.cwd(), "public/audio/ipa");
+
+    expect(fs.existsSync(audioDir)).toBe(true);
+
+    ALL_IPA_SOUNDS.forEach((sound) => {
+      const filePath = path.join(audioDir, `${sound.id}.ogg`);
+      expect(fs.existsSync(filePath), `Audio file missing for sound: ${sound.id} (${sound.symbol})`).toBe(true);
+      const stat = fs.statSync(filePath);
+      expect(stat.size, `Audio file is empty for sound: ${sound.id}`).toBeGreaterThan(0);
+    });
+  });
+
+  it("should generate correct isolated audio URLs for all 44 sounds", async () => {
+    const { getIsolatedAudioUrl } = await import("@/features/ipa");
+    ALL_IPA_SOUNDS.forEach((sound) => {
+      const url = getIsolatedAudioUrl(sound);
+      expect(url).toBe(`/audio/ipa/${sound.id}.ogg`);
+      const urlFromId = getIsolatedAudioUrl(sound.id);
+      expect(urlFromId).toBe(`/audio/ipa/${sound.id}.ogg`);
+    });
+  });
+
+  it("should export playIpaIsolatedSound and stopIpaAudio from ipaAudioPlayer", async () => {
+    const player = await import("@/shared/utils/ipaAudioPlayer");
+    expect(typeof player.playIpaIsolatedSound).toBe("function");
+    expect(typeof player.stopIpaAudio).toBe("function");
+    expect(typeof player.getIpaAudioUrl).toBe("function");
+  });
+
+  it("should generate valid Sagittal geometry and control paths for all 44 sounds", () => {
+    ALL_IPA_SOUNDS.forEach((sound) => {
+      const geo = getSagittalGeometry(sound);
+      expect(Number.isFinite(geo.upperLipX)).toBe(true);
+      expect(Number.isFinite(geo.upperLipY)).toBe(true);
+      expect(Number.isFinite(geo.lowerLipX)).toBe(true);
+      expect(Number.isFinite(geo.lowerLipY)).toBe(true);
+      expect(Number.isFinite(geo.lowerTeethY)).toBe(true);
+      expect(Number.isFinite(geo.mandibleDropY)).toBe(true);
+
+      // Verify spline paths exist and start with valid SVG command M
+      expect(geo.tongueBodyPath).toMatch(/^M \d+/);
+      expect(geo.tongueSurfacePath).toMatch(/^M \d+/);
+      expect(geo.velumPath).toMatch(/^M \d+/);
+      expect(geo.airflowPath).toMatch(/^M \d+/);
+
+      // Verify spotlight data
+      expect(geo.spotlight.titleVi).toBeTruthy();
+      expect(geo.spotlight.descriptionVi).toBeTruthy();
+      expect(Number.isFinite(geo.spotlight.x)).toBe(true);
+      expect(Number.isFinite(geo.spotlight.y)).toBe(true);
+
+      // Verify anatomical reference pins
+      expect(Array.isArray(geo.pins)).toBe(true);
+      expect(geo.pins.length).toBe(5);
+      geo.pins.forEach((pin) => {
+        expect(pin.id).toBeTruthy();
+        expect(Number.isFinite(pin.targetX)).toBe(true);
+        expect(Number.isFinite(pin.targetY)).toBe(true);
+        expect(Number.isFinite(pin.labelX)).toBe(true);
+        expect(Number.isFinite(pin.labelY)).toBe(true);
+        expect(pin.labelVi).toBeTruthy();
+        expect(pin.labelEn).toBeTruthy();
+      });
+    });
+  });
+
+  it("should generate valid Frontal Lip geometry for all 44 sounds", () => {
+    ALL_IPA_SOUNDS.forEach((sound) => {
+      const frontal = getFrontalLipGeometry(sound);
+      expect(frontal.width).toBeGreaterThan(0);
+      expect(frontal.height).toBeGreaterThanOrEqual(0);
+      expect(frontal.outerScaleX).toBeGreaterThan(0);
+      expect(frontal.outerScaleY).toBeGreaterThan(0);
+      expect(frontal.descriptionVi).toBeTruthy();
+      expect(frontal.category).toBeTruthy();
+    });
+  });
+
+  it("should export IpaSagittalCrossSection, IpaFrontalLipShape, and IpaAnatomyViewer as valid components", () => {
+    expect(typeof IpaSagittalCrossSection).toBe("function");
+    expect(typeof IpaFrontalLipShape).toBe("function");
+    expect(typeof IpaAnatomyViewer).toBe("function");
+  });
 });
+
 
