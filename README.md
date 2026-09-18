@@ -627,39 +627,40 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
   - **Khả Năng Chống Chịu Lỗi & Ngoại Tuyến (Zero Blank Screen Resilience)**:
     - Khởi tạo SWR đồng bộ, tích hợp `AbortController` tự động hủy request khi unmount, cơ chế bắt lỗi `Failed to fetch` an toàn và tự động fallback về `MOCK_LESSONS_DATA` trong 0ms khi mạng ngắt kết nối.
 
-- **`/study/ipa`**: Bảng Phiên Âm Quốc Tế IPA Tương Tác 3D (Interactive IPA Studio & Minimal Pairs Trainer) — Chuẩn Mực Agency High-End $150k+ Tier, Kiến Trúc Double-Bezel, Bảng Màu Ngữ Nghĩa 60-30-10 & Phòng Thu Âm AI Microphone:
-  - **Kiến Trúc Module Hóa Chuẩn Doanh Nghiệp (`features/ipa/`)**:
-    - `data/ipaData.ts`: Danh mục chuẩn 44 âm IPA tiếng Anh quốc tế (Oxford / Cambridge Standard) gồm **12 Nguyên âm đơn (Monophthongs)**, **8 Nguyên âm đôi (Diphthongs)** và **24 Phụ âm (Consonants)**. Mỗi âm được số hóa chi tiết với:
-      - 4 thông số giải phẫu khẩu hình (Vị trí lưỡi `tonguePosition`, Khẩu hình môi `mouthShape`, Độ mở hàm `jawOpening`, Cơ chế luồng hơi `airflowManner`).
-      - Phân loại độ rung thanh quản (`voicing`: Rung - Voiced / Không rung - Voiceless) và độ dài nguyên âm (`vowelLength`: Ngắn / Dài).
-      - Hướng dẫn phát âm chuyên biệt cho người Việt (`vietnameseGuide`), Mẹo phát âm (`practiceTip`), Cảnh báo lỗi sai người Việt hay mắc (`commonMistakes`).
-      - Danh sách từ vựng ví dụ thực tế phong phú (mỗi âm $\ge 4$ từ kèm phiên âm và nghĩa tiếng Việt).
-      - **12 Bộ Cặp Âm Đối Chiếu Kinh Điển (Minimal Pairs)**: Phục vụ luyện tai nghe phân biệt các cặp âm người Việt hay nhầm lẫn nhất: `/iː/ vs /ɪ/` (Sheep vs Ship), `/e/ vs /æ/` (Bed vs Bad), `/uː/ vs /ʊ/` (Shoot vs Foot), `/ɔː/ vs /ɒ/` (Door vs Dog), `/θ/ vs /s/` (Think vs Sink), `/ð/ vs /d/` (This vs Day), `/ʃ/ vs /s/` (Ship vs Sip), `/tʃ/ vs /dʒ/` (Cheap vs Jeep), `/p/ vs /b/` (Cap vs Cab), `/l/ vs /r/` (Light vs Right), `/v/ vs /w/` (Vest vs West)...
-    - `components/IpaSoundCard.tsx`: Thẻ âm Double-Bezel (`rounded-2xl` ngoài, `rounded-xl` trong), ký hiệu âm to rõ với font-mono sắc nét, nút loa phát âm tức thì 0ms (`speakLessonText`), hiệu ứng sóng âm `animate-pulse`, phân loại dải màu ngữ nghĩa 60-30-10:
-      - *Nguyên âm đơn*: Xanh hoàng gia `#0059bb`.
-      - *Nguyên âm đôi*: Tím AI `#8b5cf6`.
-      - *Phụ âm hữu thanh*: Xanh Emerald `#10b981`.
-      - *Phụ âm vô thanh*: Vàng Amber `#f59e0b`.
-    - `components/IpaSoundInspector.tsx`: Bảng soi khẩu hình chi tiết đồng hành bên cạnh:
-      - Điều khiển tốc độ phát âm (Chuẩn `1.0x` và Chậm `0.75x`).
-      - Ma trận 4 thẻ Bento giải phẫu khẩu hình (Lưỡi, Môi, Hàm, Thanh quản).
-      - Mẹo ghi nhớ độc quyền & Hộp cảnh báo lỗi sai phổ biến của người Việt (`AlertCircle`).
-      - Thẻ từ ví dụ tương tác có thể click nghe từng từ.
-      - **Phòng Thu Âm AI Microphone (Web Speech Recognition API)**: Cho phép học viên bật micro nói thử từ ví dụ, hệ thống tự động nhận diện và tính toán % chuẩn xác, hiển thị thanh tiến độ, trao huy hiệu thành tích và cộng thưởng **+10 XP** tức thì vào hệ thống Gamification.
-    - `components/IpaMinimalPairsTrainer.tsx`: Đấu trường luyện phản xạ phân biệt cặp âm:
-      - Thanh chọn nhanh chủ đề luyện nghe (Sheep vs Ship, Bed vs Bad, Think vs Sink...).
-      - Chế độ Luyện Nghe Phản Xạ: Phát âm ngẫu nhiên 1 trong 2 từ, học viên bấm chọn đáp án A hoặc B với 2 nút bấm lớn công thái học.
-      - Hiệu ứng âm thanh, chuỗi Streak ngọn lửa 🔥, cộng điểm thưởng XP và bảng đối chiếu từ vựng song song trực quan.
+- **`/study/ipa`**: Bảng Phiên Âm Quốc Tế IPA Tương Tác 3D (Interactive IPA Studio & Minimal Pairs Trainer) — Chuẩn Mực Agency Dashboard Tier ($150k+), Kiến Trúc Double-Bezel, Bảng Màu Ngữ Nghĩa 60-30-10, Phân Tách Phòng Thực Hành Chuyên Biệt, Sơ Đồ Khẩu Hình SVG Động & 7 Shared Reusable Components:
+  - **Kiến Trúc Module Hóa Phân Tầng Chuẩn Doanh Nghiệp (`features/ipa/`)**:
+    - **Tầng Thành Phần Dùng Lại Nhiều Lần (`components/shared/`)**:
+      - `IpaAudioPlayButton.tsx`: Nút loa phát âm chuẩn 0ms với hiệu ứng sóng âm/ripple đa kích cỡ (`sm`, `md`, `lg`), tự động tích hợp `speakLessonText(text, { rate, accent })` dùng chung cho Thẻ âm, Inspector, Practice Lab, Danh sách từ ví dụ và Đấu trường cặp âm.
+      - `IpaSpeechRecorder.tsx`: Bộ thu âm AI Microphone độc lập, đóng gói Web Speech Recognition API (`lang = "en-US"`), nút bấm micro lớn công thái học, phân tích giọng nói theo từ mẫu, tính toán điểm số % và callback kết quả kèm thưởng XP.
+      - `IpaWaveformVisualizer.tsx`: Thanh sóng âm trực quan thời gian thực (Live Audio Energy Spikes) chuyển màu linh hoạt (Xanh hoàng gia `#0059bb` khi phát âm mẫu, Đỏ Rose `#f43f5e` khi micro thu âm theo quy tắc Rule 20).
+      - `IpaSoundBadge.tsx`: Huy hiệu phân loại âm chuẩn 60-30-10 với micro dot tinh tế (Xanh hoàng gia cho nguyên âm, Tím AI cho nguyên âm đôi, Xanh Emerald cho phụ âm hữu thanh, Vàng Amber cho phụ âm vô thanh), triệt tiêu hoàn toàn mảng màu đậm lòe loẹt.
+      - `IpaMouthAnatomySvg.tsx`: Sơ đồ giải phẫu khẩu hình SVG trực quan (Sagittal cross-section) biến đổi trạng thái theo từng âm: Vị trí lưỡi nâng cao/hạ thấp/uốn cong, Khẩu hình môi chu tròn/bè rộng, và Dây thanh rung động phát sáng có sóng âm.
+      - `IpaWordExampleCard.tsx`: Thẻ từ vựng ví dụ tương tác tích hợp loa phát âm nhanh 1 chạm, phiên âm ngữ âm học và nghĩa tiếng Việt ngắn gọn.
+      - `IpaMetricCard.tsx`: Thẻ chỉ số Bento Double-Bezel chuẩn Dashboard (`rounded-2xl` ngoài, `rounded-xl` trong, icon well `w-10 h-10`, typography font Display Black).
+    - **Phân Khu 0: Hero Greeting & Tiến Trình Học Viên (`components/hero/IpaHeroGreeting.tsx`)**:
+      - Kế thừa trực tiếp kiến trúc `DashboardHeroGreeting.tsx`: Avatar học viên viền tròn Aura, lời chào cá nhân hóa, huy hiệu cấp độ `Lv.N`, thanh tiến độ hoàn thành 44 âm (`masteredCount/44`), và Lưới 4 Thẻ Bento Metrics (Âm đã thuần thục, Độ chuẩn xác AI TB, Cặp âm đã phân biệt, Chuỗi ngày luyện phát âm).
+    - **Phân Khu 1: Bảng 44 Âm Quốc Tế (`components/matrix/`)**:
+      - `IpaMatrixBoard.tsx`: Bố cục khoa học chuẩn Hội Ngữ Âm Quốc Tế gồm 3 phân khu rõ rệt:
+        1. *Khối Nguyên Âm Đơn (12 âm)*: 5 Nguyên âm dài (`iː`, `ɑː`, `ɔː`, `uː`, `ɜː`) và 7 Nguyên âm ngắn (`ɪ`, `e`, `æ`, `ʌ`, `ɒ`, `ʊ`, `ə`).
+        2. *Khối Nguyên Âm Đôi (8 âm)*: Lưới 4 cột x 2 hàng với các chuyển động âm quen thuộc.
+        3. *Khối Phụ Âm Đối Xứng (24 âm)*: 8 Cặp phụ âm đối ứng Hữu thanh / Vô thanh nằm sát cạnh nhau (`p/b`, `t/d`, `k/g`, `f/v`, `θ/ð`, `s/z`, `ʃ/ʒ`, `tʃ/dʒ`) và 8 phụ âm đơn lẻ còn lại.
+      - `IpaSoundCardV2.tsx`: Thẻ âm Double-Bezel tối giản, sang trọng, nền trắng tinh khôi `bg-white dark:bg-slate-900`, ký hiệu ngữ âm to rõ `text-2xl sm:text-[26px] font-bold font-sans tracking-wide`.
+      - `IpaSoundDetailModal.tsx`: Modal / Drawer slide-over sang trọng soi nhanh chi tiết âm khi bấm trên bảng ma trận, tích hợp sơ đồ khẩu hình SVG, mẹo phát âm, lỗi sai, từ ví dụ và micro thu âm thử.
+    - **Phân Khu 2: Phòng Thực Hành Khẩu Hình & AI Chuyên Biệt (`components/practice-lab/IpaDedicatedPracticeLab.tsx`)**:
+      - Tách riêng biệt thành một không gian phòng thực hành Studio độc lập hoàn toàn theo yêu cầu người dùng:
+        - Thanh cuộn chọn 44 âm nhanh dạng pill ở đỉnh trang.
+        - *Cột Trái (6/12)*: Sơ đồ mặt cắt khoang miệng SVG động, bộ phát âm mẫu với 2 tốc độ (`0.75x` & `1.0x`) và 3 giọng đọc (`US`, `UK`, `AU`), ma trận 4 thông số giải phẫu chi tiết, hộp Mẹo chuẩn (`Lightbulb`) và Cảnh báo lỗi sai người Việt (`AlertTriangle`).
+        - *Cột Phải (6/12)*: Danh sách thẻ từ vựng ví dụ tương tác loa, Phòng thu âm AI Microphone chuyên nghiệp với sóng âm visualizer, chấm điểm % độ chuẩn xác, nút nhận thưởng **+15 XP & +5 Vàng**, và nút chuyển nhanh sang âm tiếp theo liền mạch.
+    - **Phân Khu 3: Đấu Trường Cặp Âm Đối Chiếu (`components/minimal-pairs/IpaMinimalPairsArena.tsx`)**:
+      - Không gian luyện phản xạ tai nghe chuẩn Gaming: Thanh chọn 12 cặp âm kinh điển, khung làm bài đối kháng với 2 thẻ từ lớn A / B, phím bấm lớn công thái học, chuỗi streak ngọn lửa rực sáng 🔥, và bảng so sánh cấu âm song song 1:1.
+    - `data/ipaData.ts`: Danh mục chuẩn 44 âm IPA tiếng Anh quốc tế và 12 cặp âm Minimal Pairs đã được kiểm thử 100% PASS.
   - **Giao Diện Studio & Master Top Header (`app/(dashboard)/study/ipa/page.tsx`)**:
-    - Tích hợp `AppTopHeader` đồng bộ với Header Pills (`Tất cả 44 âm`, `Nguyên âm đơn (12)`, `Nguyên âm đôi (8)`, `Phụ âm (24)`, `Luyện cặp âm`) và chip Gamification Streak 🔥 / Vàng 🪙.
-    - Ô tìm kiếm thời gian thực: Hỗ trợ tìm kiếm theo ký hiệu IPA, từ ví dụ, từ khóa hoặc tên gọi của âm.
-    - Lưới Bento 8/12 hiển thị các thẻ âm và 4/12 Sticky Sound Inspector cố định khi cuộn màn hình.
-  - **Khung Xương Tải Trang 0px CLS (`app/(dashboard)/study/ipa/loading.tsx`)**:
-    - Khung xương Shimmer 60fps tái tạo chuẩn xác 1:1 từng pixel thanh Header 56px, Lưới 4 Thẻ Bento Metrics, Thanh lọc 5 Tab, Lưới 44 Thẻ âm Shimmer và Khung Inspector bên phải.
-  - **Đồng Bộ Menu & Nạp Trước Dữ Liệu**:
-    - Thêm mục "Phát âm IPA" (`/study/ipa`) với icon `Volume2` và badge `HOT` vào phân mục `LUYỆN TẬP` trong `Sidebar.tsx`.
-    - Đăng ký prefetch tuyến `/study/ipa` trong `shared/utils/prefetchEngine.ts` giúp chuyển trang tức thì trong 0ms.
-  - **Kiểm Thử Tự Động Toàn Diện (`__tests__/ipa_feature.test.ts`)**: Bộ test suite chuyên biệt kiểm tra tính toàn vẹn 44 âm IPA, phân loại danh mục, thông số giải phẫu, mẹo phát âm, ví dụ từ vựng và dữ liệu minimal pairs (100% Pass).
+    - Tích hợp `AppTopHeader` (56px Baseline) đồng bộ với Header Pills (`Trang chủ`, `Phát âm IPA`, `Dictation`, `Shadowing`), Chip Kho Vàng 🪙, Chip Ngọn Lửa Streak 🔥 và nút CTA Primary "Thực Hành AI".
+    - Vùng chứa siêu rộng linh hoạt theo chuẩn Dashboard: `w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-3.5 sm:py-6 pb-24 sm:pb-8 space-y-5 sm:space-y-6`.
+    - Bộ chuyển đổi 3 chế độ (`matrix`, `practice_lab`, `minimal_pairs`) trang bị hiệu ứng lò xo Framer Motion Spring Physics (`layoutId="ipaActiveModePillIndicator"`), chuyển cảnh mượt mà 0.12s qua `<AnimatePresence mode="wait">`.
+  - **Khung Xương Tải Trang Sinh Đôi 0px CLS (`app/(dashboard)/study/ipa/loading.tsx`)**:
+    - Tái hiện chuẩn xác 1:1 từng pixel Header 56px, Hero Greeting với 4 Bento Cards, Bộ chuyển tab 3 chế độ, và Lưới thẻ âm Shimmer 60fps.
+  - **Kiểm Thử Tự Động Toàn Diện (`__tests__/ipa_feature.test.ts`)**: Bộ test suite chuyên biệt kiểm tra tính toàn vẹn 44 âm IPA, phân loại danh mục, thông số giải phẫu, mẹo phát âm, ví dụ từ vựng, dữ liệu minimal pairs và 13 component export mới (7/7 tests PASS 100%).
 
 - **`/study/practice`**: Phòng Luyện Tập & Ôn Tập Từ Vựng Đa Chế Độ Tương Tác 4-in-1 (Quiz Não Bộ, Flashcard 3D SRS, Writing Gõ Chính Tả & Speaking AI) — Chuẩn Mực Agency High-End $150k+ Tier.
   - **Kiến Trúc Mô-Đun Hóa Chuẩn Doanh Nghiệp (`features/practice/`)**:

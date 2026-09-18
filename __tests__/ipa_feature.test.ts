@@ -7,6 +7,19 @@ import {
   MINIMAL_PAIRS,
   getIpaSoundById,
   type IpaSound,
+  IpaAudioPlayButton,
+  IpaSoundBadge,
+  IpaMetricCard,
+  IpaWaveformVisualizer,
+  IpaWordExampleCard,
+  IpaMouthAnatomySvg,
+  IpaSpeechRecorder,
+  IpaHeroGreeting,
+  IpaMatrixBoard,
+  IpaSoundCardV2,
+  IpaSoundDetailModal,
+  IpaDedicatedPracticeLab,
+  IpaMinimalPairsArena,
 } from "@/features/ipa";
 
 describe("Interactive IPA Feature Data & Integrity Suite", () => {
@@ -96,5 +109,21 @@ describe("Interactive IPA Feature Data & Integrity Suite", () => {
         expect(w.meaningB).toBeTruthy();
       });
     });
+  });
+
+  it("should export all reusable and modular components correctly", () => {
+    expect(IpaAudioPlayButton).toBeDefined();
+    expect(IpaSoundBadge).toBeDefined();
+    expect(IpaMetricCard).toBeDefined();
+    expect(IpaWaveformVisualizer).toBeDefined();
+    expect(IpaWordExampleCard).toBeDefined();
+    expect(IpaMouthAnatomySvg).toBeDefined();
+    expect(IpaSpeechRecorder).toBeDefined();
+    expect(IpaHeroGreeting).toBeDefined();
+    expect(IpaMatrixBoard).toBeDefined();
+    expect(IpaSoundCardV2).toBeDefined();
+    expect(IpaSoundDetailModal).toBeDefined();
+    expect(IpaDedicatedPracticeLab).toBeDefined();
+    expect(IpaMinimalPairsArena).toBeDefined();
   });
 });
