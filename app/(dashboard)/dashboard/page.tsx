@@ -33,6 +33,7 @@ import {
   HeaderPillContainer,
   HeaderPillItem,
 } from "@/shared/components/layout/AppTopHeader";
+import dynamic from "next/dynamic";
 import {
   DashboardHeroGreeting,
   DashboardMissionDeck,
@@ -41,8 +42,12 @@ import {
   DashboardLeaderboardCard,
   DashboardDailyQuestsCard,
   DashboardQuickActionsGrid,
-  DashboardAiTutorWidget,
 } from "@/features/dashboard";
+
+const DashboardAiTutorWidget = dynamic(
+  () => import("@/features/dashboard").then((m) => m.DashboardAiTutorWidget),
+  { ssr: false }
+);
 import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAnimation";
 
 export default function DashboardPage() {
@@ -412,6 +417,23 @@ export default function DashboardPage() {
     if (claimingChallengeId) return;
     setClaimingChallengeId(id);
 
+    // 1. OPTIMISTIC UPDATE: Immediate 16ms feedback
+    awardXp(xp);
+    awardCoins(coins);
+    useUserStore.getState().addPracticeTime(5);
+    setServerChallenges((prev) =>
+      prev.map((c) => (c.id === id ? { ...c, isClaimed: true } : c))
+    );
+    setClaimedList((prev) => (prev.includes(id) ? prev : [...prev, id]));
+
+    addToast({
+      type: "success",
+      title: "Nhận thưởng thành công!",
+      message: `+${xp} XP và +${coins} Vàng đã được cộng vào tài khoản!`,
+      duration: 3000,
+    });
+
+    // 2. BACKGROUND PERSISTENCE: Sync with server asynchronously
     try {
       const res = await fetch("/api/user/challenges/claim", {
         method: "POST",
@@ -420,41 +442,14 @@ export default function DashboardPage() {
       });
       const json = await res.json();
 
-      if (json.success) {
-        awardXp(xp);
-        awardCoins(coins);
-        useUserStore.getState().addPracticeTime(5);
-        setServerChallenges((prev) =>
-          prev.map((c) => (c.id === id ? { ...c, isClaimed: true } : c))
-        );
-
-        if (json.data?.totalXp || json.data?.coins) {
-          useUserStore.getState().updateUserStats({
-            totalXp: json.data.totalXp,
-            coins: json.data.coins,
-          });
-        }
-
-        addToast({
-          type: "success",
-          title: "Nhận thưởng thành công!",
-          message: `+${xp} XP và +${coins} Vàng đã được cộng vào tài khoản!`,
-          duration: 3000,
-        });
-      } else {
-        const updated = [...claimedList, id];
-        setClaimedList(updated);
-        awardXp(xp);
-        awardCoins(coins);
-        addToast({
-          type: "success",
-          title: "Nhận thưởng thành công!",
-          message: `+${xp} XP và +${coins} Vàng đã được cộng vào tài khoản!`,
-          duration: 3000,
+      if (json.success && (json.data?.totalXp || json.data?.coins)) {
+        useUserStore.getState().updateUserStats({
+          totalXp: json.data.totalXp,
+          coins: json.data.coins,
         });
       }
     } catch (err) {
-      console.error("Error claiming challenge:", err);
+      console.warn("Background claim sync error (optimistic state preserved):", err);
     } finally {
       setClaimingChallengeId(null);
     }
@@ -472,6 +467,43 @@ export default function DashboardPage() {
     }
 
     setIsCheckingIn(true);
+
+    // 1. OPTIMISTIC UPDATE: Instant 16ms UI feedback
+    setIsCheckedInToday(true);
+    const todayStr = new Date().toISOString().slice(0, 10);
+    setActiveDaysInWeek((prev) => Array.from(new Set([...prev, todayStr])));
+    awardXp(15);
+    awardCoins(20);
+    useUserStore.getState().addPracticeTime(5);
+
+    addToast({
+      type: "success",
+      title: "Điểm danh thành công!",
+      message: "+15 XP, +20 Vàng và +5 phút luyện tập đã được cộng vào tài khoản!",
+      duration: 3000,
+    });
+
+    // Update local cache optimistically
+    try {
+      const cacheKey = `xp_voca_dashboard_overview_${user?.id || "guest"}`;
+      const raw = localStorage.getItem(cacheKey);
+      if (raw) {
+        const cached = JSON.parse(raw);
+        if (cached.checkin) {
+          cached.checkin.isCheckedInToday = true;
+          const curDays = cached.checkin.activeDaysInWeek || [];
+          if (!curDays.includes(todayStr)) {
+            cached.checkin.activeDaysInWeek = [...curDays, todayStr];
+          }
+          cached.checkin.currentStreak = (cached.checkin.currentStreak || 1) + 1;
+          localStorage.setItem(cacheKey, JSON.stringify(cached));
+        }
+      }
+    } catch {
+      // ignore
+    }
+
+    // 2. BACKGROUND PERSISTENCE
     try {
       const res = await fetch("/api/user/daily-checkin", {
         method: "POST",
@@ -479,62 +511,16 @@ export default function DashboardPage() {
       });
       const json = await res.json();
 
-      if (json.success) {
-        setIsCheckedInToday(true);
-        const todayStr = new Date().toISOString().slice(0, 10);
-        setActiveDaysInWeek((prev) => Array.from(new Set([...prev, todayStr])));
-        awardXp(15);
-        awardCoins(20);
-        useUserStore.getState().addPracticeTime(5);
-
-        if (json.data) {
-          useUserStore.getState().updateUserStats({
-            currentStreak: json.data.currentStreak,
-            longestStreak: json.data.longestStreak,
-            totalXp: json.data.totalXp,
-            coins: json.data.coins,
-          });
-        }
-
-        try {
-          const cacheKey = `xp_voca_dashboard_overview_${user?.id || "guest"}`;
-          const raw = localStorage.getItem(cacheKey);
-          if (raw) {
-            const cached = JSON.parse(raw);
-            if (cached.checkin) {
-              cached.checkin.isCheckedInToday = true;
-              const curDays = cached.checkin.activeDaysInWeek || [];
-              if (!curDays.includes(todayStr)) {
-                cached.checkin.activeDaysInWeek = [...curDays, todayStr];
-              }
-              if (json.data?.currentStreak) cached.checkin.currentStreak = json.data.currentStreak;
-              if (json.data?.totalXp) cached.checkin.totalXp = json.data.totalXp;
-              if (json.data?.coins) cached.checkin.coins = json.data.coins;
-              localStorage.setItem(cacheKey, JSON.stringify(cached));
-            }
-          }
-        } catch (e) {}
-
-        addToast({
-          type: "success",
-          title: "Điểm danh thành công!",
-          message: "+15 XP, +20 Vàng và +5 phút luyện tập đã được cộng vào tài khoản!",
-          duration: 3000,
-        });
-      } else {
-        addToast({
-          type: "info",
-          title: "Thông báo",
-          message: json.error || "Bạn đã điểm danh hôm nay rồi!",
+      if (json.success && json.data) {
+        useUserStore.getState().updateUserStats({
+          currentStreak: json.data.currentStreak,
+          longestStreak: json.data.longestStreak,
+          totalXp: json.data.totalXp,
+          coins: json.data.coins,
         });
       }
     } catch (e) {
-      console.error("Checkin error:", e);
-      addToast({
-        type: "error",
-        title: "Lỗi kết nối",
-        message: "Không thể kết nối máy chủ để điểm danh.",
-      });
+      console.warn("Background check-in sync error (optimistic state preserved):", e);
     } finally {
       setIsCheckingIn(false);
     }

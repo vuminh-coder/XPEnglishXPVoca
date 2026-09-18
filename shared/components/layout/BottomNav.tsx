@@ -7,6 +7,7 @@ import { Home, BookOpen, PenLine, Bot, Users, User } from "lucide-react";
 import { motion } from "framer-motion";
 import { useUiStore } from "@/stores/uiStore";
 import { useUserStore } from "@/stores/userStore";
+import { prefetchRouteData } from "@/shared/utils/prefetchEngine";
 
 export default function BottomNav() {
   const pathname = usePathname();
@@ -69,6 +70,8 @@ export default function BottomNav() {
             key={tab.path}
             href={tab.path}
             aria-current={isActive ? "page" : undefined}
+            onMouseEnter={() => prefetchRouteData(tab.path)}
+            onTouchStart={() => prefetchRouteData(tab.path)}
             className="relative flex flex-col items-center justify-center flex-1 h-12 max-w-[66px] rounded-xl transition-all duration-200 select-none group"
           >
             {/* Active Dashboard-style Pill Indicator */}

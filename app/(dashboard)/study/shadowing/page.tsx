@@ -7,16 +7,29 @@ import { useNotificationStore } from "@/stores/notificationStore";
 import { useListeningStore } from "@/stores/listeningStore";
 import { useUiStore } from "@/stores/uiStore";
 import { speakLessonText, stopTTS } from "@/shared/utils/ttsEngine";
+import dynamic from "next/dynamic";
 import {
   ShadowingListingSkeleton,
   ShadowingStudioSkeleton,
   ShadowingListingView,
   ShadowingStudioWorkspace,
   ShadowingCompletionScreen,
-  DeepDictionaryModal,
-  SentenceReportModal,
-  LessonExplorerModal,
 } from "@/features/shadowing";
+
+const DeepDictionaryModal = dynamic(
+  () => import("@/features/shadowing").then((m) => m.DeepDictionaryModal),
+  { ssr: false }
+);
+
+const SentenceReportModal = dynamic(
+  () => import("@/features/shadowing").then((m) => m.SentenceReportModal),
+  { ssr: false }
+);
+
+const LessonExplorerModal = dynamic(
+  () => import("@/features/shadowing").then((m) => m.LessonExplorerModal),
+  { ssr: false }
+);
 import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 import { pick10RandomLessons } from "@/features/listening/utils/randomLessonPicker";
 import { lookupWordDeep, DeepWordDefinition } from "@/features/vocabulary/data/deepDictionary";

@@ -32,6 +32,7 @@ import {
   Check,
 } from "lucide-react";
 import { UserAvatar } from "@/shared/components/feedback/UserAvatar";
+import { prefetchRouteData } from "@/shared/utils/prefetchEngine";
 
 const SpeakingIcon = ({
   className = "w-[21px] h-[21px]",
@@ -312,6 +313,8 @@ function SidebarNavInner({
                         href={link.path}
                         title={sidebarCollapsed ? link.name : undefined}
                         aria-current={isActive ? "page" : undefined}
+                        onMouseEnter={() => prefetchRouteData(link.path)}
+                        onTouchStart={() => prefetchRouteData(link.path)}
                         onClick={() => {
                           if (sidebarOpen) toggleSidebar();
                         }}
@@ -466,6 +469,8 @@ function SidebarNavInner({
                   {/* 1. Hồ sơ */}
                   <Link
                     href="/profile"
+                    onMouseEnter={() => prefetchRouteData("/profile")}
+                    onTouchStart={() => prefetchRouteData("/profile")}
                     onClick={() => {
                       setShowUserMenu(false);
                       sidebarOpen && toggleSidebar();

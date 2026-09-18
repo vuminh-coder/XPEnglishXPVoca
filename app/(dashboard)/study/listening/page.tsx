@@ -13,15 +13,24 @@ import { lookupWordDeep, DeepWordDefinition } from "@/features/vocabulary/data/d
 import { pick10RandomLessons } from "@/features/listening/utils/randomLessonPicker";
 import { formatLevelBadge } from "@/features/listening/components/InteractiveTranscriptSidebar";
 import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
+import dynamic from "next/dynamic";
 import {
   ListeningListingView,
   ListeningCompletionScreen,
   ListeningStudioWorkspace,
-  DeepDictionaryModal,
-  SentenceReportModal,
   ListeningListingSkeleton,
   ListeningStudioSkeleton,
 } from "@/features/listening";
+
+const DeepDictionaryModal = dynamic(
+  () => import("@/features/listening").then((m) => m.DeepDictionaryModal),
+  { ssr: false }
+);
+
+const SentenceReportModal = dynamic(
+  () => import("@/features/listening").then((m) => m.SentenceReportModal),
+  { ssr: false }
+);
 
 // Helper to resolve query id (e.g. ?id=1 -> 1st lesson or listen_001)
 const resolveLessonId = (
