@@ -130,14 +130,27 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
         <div className="lg:col-span-6 space-y-5">
           {/* Sound Overview & Accent Controls */}
           <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-4">
-            <div className="flex items-start justify-between gap-3">
-              <div>
+            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+              <div className="space-y-2">
                 <IpaSoundBadge sound={currentSound} size="md" showCategoryTag />
-                <div className="text-4xl sm:text-5xl font-black font-sans text-slate-900 dark:text-white tracking-wide mt-2">
-                  /{currentSound.symbol}/
+                <div className="flex items-baseline gap-3">
+                  <span className="text-4xl sm:text-5xl font-black font-sans text-slate-900 dark:text-white tracking-wide">
+                    /{currentSound.symbol}/
+                  </span>
+                  <span className="text-sm font-semibold text-slate-400 dark:text-slate-500">
+                    {currentSound.name}
+                  </span>
                 </div>
-                <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1">
-                  Từ khóa mẫu: <strong className="text-slate-800 dark:text-slate-200 capitalize">"{currentSound.keyWord}"</strong> ({currentSound.keyWordPhonetic})
+
+                {/* Elegant Keyword Capsule right under the phonetic symbol */}
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-white/5 shadow-2xs">
+                  <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Từ mẫu:</span>
+                  <span className="text-sm font-bold text-slate-900 dark:text-white capitalize">
+                    {currentSound.keyWord}
+                  </span>
+                  <span className="text-xs font-mono font-semibold text-[#0059bb] dark:text-sky-400">
+                    {currentSound.keyWordPhonetic}
+                  </span>
                 </div>
               </div>
 

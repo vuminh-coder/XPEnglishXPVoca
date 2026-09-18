@@ -255,22 +255,15 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
             {/* 3A: 8 Paired Consonants (16 sounds) */}
             <div className="space-y-2">
               <div className="text-xs font-semibold text-slate-500 dark:text-slate-400">
-                8 Cặp Phụ Âm Đối Xứng (Cùng vị trí khẩu hình, khác nhau ở độ rung thanh quản)
+                16 Phụ Âm Đi Theo Cặp (Xếp liền kề: Vô thanh ➔ Hữu thanh)
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
-                {pairedConsonants.map(([sound1, sound2], idx) => (
-                  <div
-                    key={idx}
-                    className="p-1.5 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200/70 dark:border-white/5 space-y-1.5"
-                  >
-                    <div className="text-[10px] font-bold text-slate-400 uppercase text-center tracking-wider">
-                      Cặp {sound1.name} & {sound2.name}
-                    </div>
-                    <div className="grid grid-cols-2 gap-1.5">
-                      <IpaSoundCardV2 sound={sound1} onSelect={handleSoundClick} />
-                      <IpaSoundCardV2 sound={sound2} onSelect={handleSoundClick} />
-                    </div>
-                  </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2.5 sm:gap-3">
+                {pairedConsonants.flatMap(([s1, s2]) => [s1, s2]).map((sound) => (
+                  <IpaSoundCardV2
+                    key={sound.id}
+                    sound={sound}
+                    onSelect={handleSoundClick}
+                  />
                 ))}
               </div>
             </div>

@@ -50,17 +50,21 @@ export const IpaSoundDetailModal: React.FC<IpaSoundDetailModalProps> = ({
       >
         {/* Header Bar */}
         <div className="flex items-start justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <div className="text-3xl sm:text-4xl font-black font-sans text-slate-900 dark:text-white tracking-wide">
               /{sound.symbol}/
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <IpaSoundBadge sound={sound} size="md" showCategoryTag />
+            <div className="space-y-1.5">
+              <IpaSoundBadge sound={sound} size="md" showCategoryTag />
+              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-lg bg-slate-50 dark:bg-slate-800/80 border border-slate-200/60 dark:border-white/5 text-xs shadow-2xs">
+                <span className="text-slate-500 dark:text-slate-400 font-medium">Từ mẫu:</span>
+                <span className="font-bold text-slate-900 dark:text-white capitalize">
+                  {sound.keyWord}
+                </span>
+                <span className="font-mono text-[11px] font-semibold text-[#0059bb] dark:text-sky-400">
+                  {sound.keyWordPhonetic}
+                </span>
               </div>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">
-                Từ đại diện: <strong className="text-slate-800 dark:text-slate-200 capitalize">"{sound.keyWord}"</strong> ({sound.keyWordPhonetic})
-              </p>
             </div>
           </div>
 
