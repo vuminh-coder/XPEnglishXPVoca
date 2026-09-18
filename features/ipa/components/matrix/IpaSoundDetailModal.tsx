@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import { X, Sparkles, AlertTriangle, Lightbulb, ExternalLink } from "lucide-react";
-import { IpaSound } from "../../data/ipaData";
+import { IpaSound, getSoundDisplayHint } from "../../data/ipaData";
 import { IpaSoundBadge } from "../shared/IpaSoundBadge";
 import { IpaAudioPlayButton } from "../shared/IpaAudioPlayButton";
 import { IpaMouthAnatomySvg } from "../shared/IpaMouthAnatomySvg";
@@ -28,12 +28,12 @@ export const IpaSoundDetailModal: React.FC<IpaSoundDetailModalProps> = ({
       if (e.key === "Escape") onClose();
     };
     if (isOpen) {
-      window.addEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "hidden";
+      window.addEventListener("keydown", handleKeyDown);
     }
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, [isOpen, onClose]);
 
@@ -51,8 +51,13 @@ export const IpaSoundDetailModal: React.FC<IpaSoundDetailModalProps> = ({
         {/* Header Bar */}
         <div className="flex items-start justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
           <div className="flex items-center gap-4">
-            <div className="text-3xl sm:text-4xl font-black font-sans text-slate-900 dark:text-white tracking-wide">
-              /{sound.symbol}/
+            <div className="flex flex-col">
+              <div className="text-3xl sm:text-4xl font-black font-sans text-slate-900 dark:text-white tracking-wide leading-none">
+                /{sound.symbol}/
+              </div>
+              <span className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 mt-1">
+                {getSoundDisplayHint(sound)}
+              </span>
             </div>
             <div className="space-y-1.5">
               <IpaSoundBadge sound={sound} size="md" showCategoryTag />

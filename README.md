@@ -1623,6 +1623,30 @@ Trang đăng ký và quản lý gói hội viên Pro VIP nâng cấp toàn diệ
 
 ---
 
+## 🗣️ Studio Bảng Phiên Âm Quốc Tế IPA (`/study/ipa`)
+
+Studio tương tác Bảng Phiên Âm Quốc Tế (44 IPA Sounds) chuẩn Oxford/Cambridge, thiết kế theo tiêu chuẩn Agency Dashboard Tier:
+
+1. **Kiến Trúc Module Hóa Feature-First (`features/ipa/`)**:
+   - **Tầng Thành Phần Dùng Lại Nhiều Lần (`features/ipa/components/shared/`)**:
+     - `IpaAudioPlayButton.tsx`: Nút loa phát âm chuẩn 0ms với hiệu ứng sóng âm/ripple đa kích cỡ (`sm`, `md`, `lg`), tích hợp `speakLessonText`.
+     - `IpaSpeechRecorder.tsx`: Bộ thu âm AI Microphone độc lập, đóng gói Web Speech Recognition API (`lang = "en-US"`), nút bấm micro lớn công thái học, phân tích giọng nói theo từ mẫu, chấm điểm % và cộng thưởng XP.
+     - `IpaWaveformVisualizer.tsx`: Thanh sóng âm trực quan thời gian thực (Live Audio Energy Spikes) chuyển màu linh hoạt (Xanh hoàng gia `#0059bb` khi phát mẫu, Đỏ Rose `#f43f5e` khi thu âm).
+     - `IpaSoundBadge.tsx`: Huy hiệu phân loại âm chuẩn 60-30-10 với micro dot tinh tế (Xanh hoàng gia cho nguyên âm, Tím AI cho nguyên âm đôi, Xanh Emerald cho phụ âm hữu thanh, Vàng Amber cho phụ âm vô thanh), hiển thị nhãn phân loại chuẩn 1 dòng `whitespace-nowrap`.
+     - `IpaMouthAnatomySvg.tsx`: Sơ đồ giải phẫu khẩu hình SVG trực quan được tái thiết kế sáng sủa, thích ứng Light/Dark theme, kèm 3 capsule tóm tắt khẩu hình môi, lưỡi, thanh quản.
+     - `IpaWordExampleCard.tsx`: Thẻ từ vựng ví dụ tương tác tích hợp loa phát âm 1 chạm và phiên âm chuẩn.
+     - `IpaMetricCard.tsx`: Thẻ chỉ số Bento Double-Bezel chuẩn Dashboard.
+   - **Phân Khu 0: Hero Greeting & Tiến Trình (`features/ipa/components/hero/IpaHeroGreeting.tsx`)**: Kế thừa kiến trúc `DashboardHeroGreeting`: Avatar tròn, Lv.N, tiến độ hoàn thành 44 âm, 4 Bento Metric Cards và nút CTA nhanh.
+   - **Phân Khu 1: Bảng 44 Âm Quốc Tế (`features/ipa/components/matrix/`)**:
+     - `IpaSoundCardV2.tsx`: Thẻ âm Double-Bezel với Floating Word Capsule căn giữa (từ vựng in đậm không bị truncate cắt chữ, phiên âm monospace bên dưới), ký hiệu ngữ âm to rõ kèm mẹo cấu âm trực quan thuần Việt.
+     - `IpaMatrixBoard.tsx`: Bố cục 3 khối chuẩn quốc tế (12 Nguyên âm đơn, 8 Nguyên âm đôi, 24 Phụ âm gồm 16 âm đi theo cặp và 8 âm đơn lẻ), lưới responsive cân bằng `grid-cols-2 sm:grid-cols-4 xl:grid-cols-8`, tích hợp tìm kiếm thời gian thực.
+     - `IpaSoundDetailModal.tsx`: Slide-over modal soi nhanh chi tiết âm khi nhấp trên bảng ma trận.
+   - **Phân Khu 2: Phòng Thực Hành Khẩu Hình & AI Studio Riêng Biệt (`features/ipa/components/practice-lab/IpaDedicatedPracticeLab.tsx`)**: Màn hình chuyên sâu tách riêng biệt: Thanh chọn 44 âm dạng pill, bố cục cân đối 6/12 - 6/12, sơ đồ khẩu hình SVG động, và phòng thu âm AI chấm điểm +15 XP & +5 Vàng.
+   - **Phân Khu 3: Đấu Trường Cặp Âm Đối Chiếu (`features/ipa/components/minimal-pairs/IpaMinimalPairsArena.tsx`)**: Đấu trường phản xạ tai nghe: 12 cặp âm, 2 nút chọn lớn A/B công thái học, chuỗi streak 🔥, bảng so sánh 1:1.
+   - **Main Orchestrator & Skeleton Loading**: `app/(dashboard)/study/ipa/page.tsx` và `loading.tsx` (0px CLS).
+
+---
+
 ## 🌐 Production Deployment Status
 
 - **Live Production App URL (Vercel)**: [https://xpenglishvoca.vercel.app](https://xpenglishvoca.vercel.app)

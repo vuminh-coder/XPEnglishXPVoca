@@ -1290,3 +1290,62 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
 export function getIpaSoundById(id: string): IpaSound | undefined {
   return ALL_IPA_SOUNDS.find((sound) => sound.id === id);
 }
+
+const SOUND_DISPLAY_HINTS: Record<string, string> = {
+  // 12 Monophthongs
+  v_i_long: "i dài (cười)",
+  v_i_short: "i ngắn (dứt)",
+  v_u_short: "u ngắn",
+  v_u_long: "u dài (chu)",
+  v_e: "e ngắn",
+  v_schwa: "ơ ngắn (schwa)",
+  v_er_long: "ơ dài (cong)",
+  v_o_long: "o dài (tròn)",
+  v_ae: "a bẹt (a-e)",
+  v_caret: "á ngắn",
+  v_a_long: "a dài (trầm)",
+  v_o_short: "o ngắn",
+
+  // 8 Diphthongs
+  d_ear: "i ➔ ơ",
+  d_ay: "ê ➔ i",
+  d_cure: "u ➔ ơ",
+  d_oy: "o ➔ i",
+  d_oh: "ơ ➔ u",
+  d_air: "e ➔ ơ",
+  d_eye: "a ➔ i",
+  d_ow: "a ➔ u",
+
+  // 24 Consonants
+  c_p: "p bật hơi",
+  c_b: "b mím môi",
+  c_t: "t bật hơi",
+  c_d: "d đập nướu",
+  c_k: "k bật hơi",
+  c_g: "g gằn cổ",
+  c_ch: "ch bật hơi",
+  c_j: "j bật hơi",
+  c_f: "f cắn môi",
+  c_v: "v cắn môi",
+  c_th_unvoiced: "th thổi gió",
+  c_th_voiced: "th rung lưỡi",
+  c_s: "s nhẹ",
+  c_z: "z rung",
+  c_sh: "sh nặng",
+  c_zh: "zh rung",
+  c_m: "m ngậm môi",
+  c_n: "n chạm nướu",
+  c_ng: "ng nghẹt mũi",
+  c_h: "h hơi gió",
+  c_l: "l uốn lưỡi",
+  c_r: "r cong lưỡi",
+  c_w: "w chu môi",
+  c_j_glide: "y lướt nhẹ",
+};
+
+export function getSoundDisplayHint(sound: IpaSound): string {
+  if (SOUND_DISPLAY_HINTS[sound.id]) {
+    return SOUND_DISPLAY_HINTS[sound.id];
+  }
+  return sound.name.replace(/\s*\((vô|hữu) thanh\)/gi, "").trim();
+}

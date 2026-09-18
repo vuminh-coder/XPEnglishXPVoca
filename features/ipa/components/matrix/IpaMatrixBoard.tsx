@@ -42,7 +42,7 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
       ["c_t", "c_d"],
       ["c_k", "c_g"],
       ["c_f", "c_v"],
-      ["c_th_thin", "c_th_this"],
+      ["c_th_unvoiced", "c_th_voiced"],
       ["c_s", "c_z"],
       ["c_sh", "c_zh"],
       ["c_ch", "c_j"],
@@ -57,7 +57,7 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
   }, []);
 
   const singleConsonants = useMemo(() => {
-    const singleIds = ["c_m", "c_n", "c_ng", "c_h", "c_l", "c_r", "c_w", "c_y"];
+    const singleIds = ["c_m", "c_n", "c_ng", "c_h", "c_l", "c_r", "c_w", "c_j_glide"];
     return singleIds
       .map((id) => CONSONANTS.find((c) => c.id === id))
       .filter(Boolean) as IpaSound[];
@@ -139,7 +139,7 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
               Không tìm thấy âm nào khớp với từ khóa tìm kiếm.
             </div>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-8 gap-2.5 sm:gap-3">
               {filteredSearchResults.map((sound) => (
                 <IpaSoundCardV2
                   key={sound.id}
@@ -220,7 +220,7 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
               </span>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-8 gap-2.5 sm:gap-3">
               {DIPHTHONGS.map((sound) => (
                 <IpaSoundCardV2
                   key={sound.id}
@@ -257,7 +257,7 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
               <div className="text-xs font-semibold text-slate-500 dark:text-slate-400">
                 16 Phụ Âm Đi Theo Cặp (Xếp liền kề: Vô thanh ➔ Hữu thanh)
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2.5 sm:gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-8 gap-2.5 sm:gap-3">
                 {pairedConsonants.flatMap(([s1, s2]) => [s1, s2]).map((sound) => (
                   <IpaSoundCardV2
                     key={sound.id}
@@ -273,7 +273,7 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
               <div className="text-xs font-semibold text-slate-500 dark:text-slate-400">
                 8 Phụ Âm Đơn Lẻ Khác (Âm mũi, âm tiếp cận, âm lướt)
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-2.5 sm:gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-8 gap-2.5 sm:gap-3">
                 {singleConsonants.map((sound) => (
                   <IpaSoundCardV2
                     key={sound.id}

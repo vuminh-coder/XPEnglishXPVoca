@@ -12,7 +12,7 @@ import {
   ArrowRight,
   Compass,
 } from "lucide-react";
-import { ALL_IPA_SOUNDS, IpaSound } from "../../data/ipaData";
+import { ALL_IPA_SOUNDS, IpaSound, getSoundDisplayHint } from "../../data/ipaData";
 import { IpaSoundBadge } from "../shared/IpaSoundBadge";
 import { IpaAudioPlayButton } from "../shared/IpaAudioPlayButton";
 import { IpaMouthAnatomySvg } from "../shared/IpaMouthAnatomySvg";
@@ -138,7 +138,7 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
                     /{currentSound.symbol}/
                   </span>
                   <span className="text-sm font-semibold text-slate-400 dark:text-slate-500">
-                    {currentSound.name}
+                    {getSoundDisplayHint(currentSound)}
                   </span>
                 </div>
 

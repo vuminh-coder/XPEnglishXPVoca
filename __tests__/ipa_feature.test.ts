@@ -20,6 +20,7 @@ import {
   IpaSoundDetailModal,
   IpaDedicatedPracticeLab,
   IpaMinimalPairsArena,
+  getSoundDisplayHint,
 } from "@/features/ipa";
 
 describe("Interactive IPA Feature Data & Integrity Suite", () => {
@@ -126,4 +127,44 @@ describe("Interactive IPA Feature Data & Integrity Suite", () => {
     expect(IpaDedicatedPracticeLab).toBeDefined();
     expect(IpaMinimalPairsArena).toBeDefined();
   });
+
+  it("should generate valid and non-empty short display hints for all 44 sounds", () => {
+    ALL_IPA_SOUNDS.forEach((sound) => {
+      const hint = getSoundDisplayHint(sound);
+      expect(hint).toBeTruthy();
+      expect(typeof hint).toBe("string");
+      expect(hint.length).toBeGreaterThan(0);
+      // Ensure no redundant parentheses for voiced/voiceless
+      expect(hint).not.toContain("(vô thanh)");
+      expect(hint).not.toContain("(hữu thanh)");
+    });
+  });
+
+  it("should verify all 8 paired consonant IDs and 8 single consonant IDs exist in CONSONANTS catalog", () => {
+    const pairIds = [
+      ["c_p", "c_b"],
+      ["c_t", "c_d"],
+      ["c_k", "c_g"],
+      ["c_f", "c_v"],
+      ["c_th_unvoiced", "c_th_voiced"],
+      ["c_s", "c_z"],
+      ["c_sh", "c_zh"],
+      ["c_ch", "c_j"],
+    ];
+    const singleIds = ["c_m", "c_n", "c_ng", "c_h", "c_l", "c_r", "c_w", "c_j_glide"];
+
+    const allConsonantIds = new Set(CONSONANTS.map((c) => c.id));
+
+    pairIds.forEach(([id1, id2]) => {
+      expect(allConsonantIds.has(id1)).toBe(true);
+      expect(allConsonantIds.has(id2)).toBe(true);
+    });
+
+    singleIds.forEach((id) => {
+      expect(allConsonantIds.has(id)).toBe(true);
+    });
+
+    expect(pairIds.length * 2 + singleIds.length).toBe(24);
+  });
 });
+
