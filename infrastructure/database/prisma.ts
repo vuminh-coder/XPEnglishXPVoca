@@ -11,21 +11,25 @@ function getOptimizedDatabaseUrl(): string | undefined {
   try {
     const parsed = new URL(url);
     
-    // Auto-detect Supabase / PgBouncer pooler (usually port 6543)
-    if (parsed.port === '6543' || url.includes('pooler.supabase.com')) {
-      if (!parsed.searchParams.has('pgbouncer')) {
-        parsed.searchParams.set('pgbouncer', 'true');
-      }
-      if (!parsed.searchParams.has('statement_cache_size')) {
-        parsed.searchParams.set('statement_cache_size', '0');
-      }
+    // Auto-detect Neon / Supabase PgBouncer poolers
+    const isPooler =
+      parsed.port === '6543' ||
+      url.includes('pooler.supabase.com') ||
+      url.includes('-pooler.') ||
+      url.includes('neon.tech');
+
+    if (isPooler) {
+      parsed.searchParams.set('pgbouncer', 'true');
+      parsed.searchParams.set('statement_cache_size', '0');
     }
 
-    if (!parsed.searchParams.has('connection_limit')) {
-      // In development, keep a lean pool to avoid idle connection drops
-      const limit = process.env.NODE_ENV === 'production' ? '10' : '5';
-      parsed.searchParams.set('connection_limit', limit);
+    // Always ensure adequate connection pool size (10 dev, 15 prod) to prevent Promise.all queue blockage
+    const currentLimit = parseInt(parsed.searchParams.get('connection_limit') || '0', 10);
+    const targetLimit = process.env.NODE_ENV === 'production' ? '15' : '10';
+    if (!currentLimit || currentLimit < 10) {
+      parsed.searchParams.set('connection_limit', targetLimit);
     }
+
     if (!parsed.searchParams.has('pool_timeout')) {
       parsed.searchParams.set('pool_timeout', '20');
     }

@@ -1,10 +1,4 @@
-export type GameMode =
-  | "scramble"
-  | "memory"
-  | "wordle"
-  | "blitz"
-  | "sentence"
-  | "chain";
+export type GameMode = "scramble" | "memory" | "wordle";
 
 export interface ScrambleWordPackage {
   word: string;
@@ -28,37 +22,10 @@ export interface WordleRowState {
   statuses: WordleLetterStatus[];
 }
 
-export interface BlitzFallingWord {
-  id: string;
-  word: string;
-  definitionVn: string;
-  y: number; // percentage from top 0 to 100
-  x: number; // percentage from left 10 to 80
-  speed: number;
-}
-
-export interface SentenceScramblePackage {
-  id: string;
-  originalSentence: string;
-  vietnameseMeaning: string;
-  tokens: string[];
-  grammarNote?: string;
-}
-
-export interface WordChainEntry {
-  id: string;
-  word: string;
-  playedBy: "player" | "ai";
-  definitionVn?: string;
-  ipa?: string;
-}
-
 export interface GameRecordPayload {
   gameType: GameMode;
   score: number;
   xpGained: number;
-  coinsGained?: number;
   wordsCompleted?: number;
   moves?: number;
-  highestStreak?: number;
 }

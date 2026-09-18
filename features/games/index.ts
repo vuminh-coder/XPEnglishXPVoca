@@ -5,7 +5,4 @@ export * from "./components/catalog/GameCatalogGrid";
 export * from "./components/scramble/WordScrambleGame";
 export * from "./components/memory/MemoryMatchGame";
 export * from "./components/wordle/WordleEnglishGame";
-export * from "./components/blitz/WordBlitzGame";
-export * from "./components/sentence/SentenceScrambleGame";
-export * from "./components/chain/WordChainGame";
 export * from "./components/shared/GameResultScreen";

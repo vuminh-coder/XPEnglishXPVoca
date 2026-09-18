@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma, safeDbExecute, handlePrismaError } from "@/infrastructure/database/prisma";
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { isRateLimited } from "@/infrastructure/security/rateLimit";
+import { memoryCache } from "@/infrastructure/cache/memoryCache";
 
 import { MOCK_LESSONS_DATA } from "@/features/listening/data/listeningMockData";
 
@@ -15,6 +16,23 @@ export async function GET(request: Request) {
 
     if (!userId) {
       userId = await getAuthenticatedUserId(request);
+    }
+
+    const cacheKey = `listening_lessons:${category || "ALL"}:${level || "ALL"}:${search || ""}:${userId || "guest"}`;
+    const cached = memoryCache.get<any[]>(cacheKey);
+    if (cached) {
+      return NextResponse.json(
+        {
+          success: true,
+          data: cached,
+        },
+        {
+          headers: {
+            "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120",
+            "X-Cache": "HIT",
+          },
+        }
+      );
     }
 
     const whereClause: any = {};
@@ -134,10 +152,22 @@ export async function GET(request: Request) {
       });
     }
 
-    return NextResponse.json({
-      success: true,
-      data: result || [],
-    });
+    if (result && result.length > 0) {
+      memoryCache.set(cacheKey, result, 60);
+    }
+
+    return NextResponse.json(
+      {
+        success: true,
+        data: result || [],
+      },
+      {
+        headers: {
+          "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120",
+          "X-Cache": "MISS",
+        },
+      }
+    );
   } catch (error) {
     const prismaErr = handlePrismaError(error);
     return NextResponse.json(
@@ -206,6 +236,9 @@ export async function POST(request: Request) {
         },
       });
     }, "Create Custom Listening Lesson");
+
+    // Invalidate listening lessons cache so the newly created lesson appears immediately
+    memoryCache.invalidatePattern("listening_lessons:");
 
     return NextResponse.json({
       success: true,

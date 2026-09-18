@@ -23,14 +23,29 @@ const safeFetch = async (url: string, options?: RequestInit) => {
   }
 };
 
+// Module-level in-flight deduplication and cache timestamp
+let inFlightVocabPromise: Promise<void> | null = null;
+let lastLoadedVocabTime = 0;
+let lastLoadedUserId = "";
+
 export const useVocabularyStore = create<VocabularyState>((set, get) => ({
   vocabularies: [],
   learned: [],
   loadLearnedWords: (userId) => {
     if (!userId || typeof window === 'undefined') return;
+
+    // Fast-path: If user data is already loaded in store within last 30s for the same user, avoid redundant network fetch
+    if (
+      userId === lastLoadedUserId &&
+      get().learned.length > 0 &&
+      Date.now() - lastLoadedVocabTime < 30_000
+    ) {
+      return;
+    }
+
     try {
       const localData = localStorage.getItem(`xp_voca_learned_${userId}`);
-      if (localData) {
+      if (localData && get().learned.length === 0) {
         set({ learned: JSON.parse(localData) });
       }
     } catch (e) {
@@ -41,31 +56,42 @@ export const useVocabularyStore = create<VocabularyState>((set, get) => ({
       return;
     }
 
+    // Deduplicate in-flight requests (prevent multi-component simultaneous fetch storms)
+    if (inFlightVocabPromise) {
+      return;
+    }
+
     // Sync with secure vocab API endpoint
-    (async () => {
-      const json = await safeFetch("/api/user/vocab");
-      if (json && json.success && json.data) {
-        const mappedList = json.data.map((c: any) => ({
-          userId: c.userId,
-          vocabId: c.vocabId,
-          proficiency: c.proficiency,
-          lastPracticed: c.lastPracticed,
-          nextReview: c.nextReview,
-          isFavorite: c.isFavorite,
-          word: c.word,
-          phonetic: c.phonetic,
-          definition: c.definition,
-          definitionVn: c.definitionVn,
-          pos: c.pos,
-          difficulty: c.difficulty,
-          frequency: c.frequency,
-          themeId: c.themeId,
-          examples: c.examples,
-          synonyms: c.synonyms,
-          antonyms: c.antonyms,
-        }));
-        set({ learned: mappedList });
-        localStorage.setItem(`xp_voca_learned_${userId}`, JSON.stringify(mappedList));
+    inFlightVocabPromise = (async () => {
+      try {
+        const json = await safeFetch("/api/user/vocab");
+        if (json && json.success && json.data) {
+          const mappedList = json.data.map((c: any) => ({
+            userId: c.userId,
+            vocabId: c.vocabId,
+            proficiency: c.proficiency,
+            lastPracticed: c.lastPracticed,
+            nextReview: c.nextReview,
+            isFavorite: c.isFavorite,
+            word: c.word,
+            phonetic: c.phonetic,
+            definition: c.definition,
+            definitionVn: c.definitionVn,
+            pos: c.pos,
+            difficulty: c.difficulty,
+            frequency: c.frequency,
+            themeId: c.themeId,
+            examples: c.examples,
+            synonyms: c.synonyms,
+            antonyms: c.antonyms,
+          }));
+          set({ learned: mappedList });
+          lastLoadedVocabTime = Date.now();
+          lastLoadedUserId = userId;
+          localStorage.setItem(`xp_voca_learned_${userId}`, JSON.stringify(mappedList));
+        }
+      } finally {
+        inFlightVocabPromise = null;
       }
     })();
   },

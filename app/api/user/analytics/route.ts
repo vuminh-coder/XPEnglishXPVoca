@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma, safeDbExecute } from "@/infrastructure/database/prisma";
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { memoryCache } from "@/infrastructure/cache/memoryCache";
 
 export const dynamic = "force-dynamic";
 
@@ -31,6 +32,20 @@ export async function GET() {
 
     const today = new Date();
     const todayStr = getLocalDateStr(today);
+
+    const cacheKey = `analytics:${userId}:${todayStr}`;
+    const cachedData = memoryCache.get<any>(cacheKey);
+    if (cachedData) {
+      return NextResponse.json(
+        { success: true, data: cachedData },
+        {
+          headers: {
+            "Cache-Control": "private, s-maxage=60, stale-while-revalidate=120",
+            "X-Cache": "HIT",
+          },
+        }
+      );
+    }
 
     // 1. GENERATE 30-DAY MILESTONE DATES (-19, -14, -9, -4, 0 [Hôm nay], +3, +6, +10)
     const offsets = [-19, -14, -9, -4, 0, 3, 6, 10];
@@ -84,28 +99,88 @@ export async function GET() {
     const dbData = await safeDbExecute(async () => {
       if (userId === "local_user") return null;
 
-      // 1. Fetch Profile
-      const profile = await prisma.profile.findUnique({
-        where: { id: userId },
-      });
-
-      // 2. Calculate Weekly Rank (Last 7 Days Practice XP to match /api/leaderboard?period=week)
       const weekStartDate = new Date(today);
       weekStartDate.setDate(weekStartDate.getDate() - 7);
       const weekStartStr = getLocalDateStr(weekStartDate);
 
-      const weeklyXpAggregations = await prisma.dailySkillPractice.groupBy({
-        by: ["userId"],
-        where: {
-          date: {
-            gte: weekStartStr,
-            lte: todayStr,
+      // Run 6 independent queries concurrently via connection pool
+      const [
+        profile,
+        weeklyXpAggregations,
+        wordsLearnedCount,
+        practiceRecords,
+        examAttempts,
+        listeningProgresses,
+      ] = await Promise.all([
+        // 1. Fetch Profile
+        prisma.profile.findUnique({
+          where: { id: userId },
+        }),
+
+        // 2. Weekly Rank Aggregation
+        prisma.dailySkillPractice.groupBy({
+          by: ["userId"],
+          where: {
+            date: {
+              gte: weekStartStr,
+              lte: todayStr,
+            },
           },
-        },
-        _sum: {
-          xpEarned: true,
-        },
-      });
+          _sum: {
+            xpEarned: true,
+          },
+        }),
+
+        // 3. Count Learned / Memorized Words
+        prisma.userVocabulary.count({
+          where: {
+            userId: userId,
+            OR: [
+              { isFavorite: true },
+              { proficiency: { gt: 0 } },
+            ],
+          },
+        }),
+
+        // 4. Query DailySkillPractice for 168 days
+        prisma.dailySkillPractice.findMany({
+          where: {
+            userId,
+            date: {
+              gte: minQueryDate,
+              lte: maxQueryDate,
+            },
+          },
+        }),
+
+        // 5. Query ExamAttempts in 168 days (to enrich activity heatmap)
+        prisma.examAttempt.findMany({
+          where: {
+            userId,
+            startedAt: {
+              gte: heatmapStartDate,
+            },
+          },
+          select: {
+            startedAt: true,
+            totalScore: true,
+          },
+        }),
+
+        // 6. Query ListeningProgress in 168 days (to enrich activity heatmap)
+        prisma.listeningProgress.findMany({
+          where: {
+            userId,
+            lastPracticedAt: {
+              gte: heatmapStartDate,
+            },
+          },
+          select: {
+            lastPracticedAt: true,
+            timeSpent: true,
+          },
+        }),
+      ]);
 
       const userWeeklyRecord = weeklyXpAggregations.find((a) => a.userId === userId);
       const userWeeklyXp = userWeeklyRecord?._sum?.xpEarned || 0;
@@ -113,56 +188,6 @@ export async function GET() {
         (a) => (a._sum?.xpEarned || 0) > userWeeklyXp
       ).length;
       const weeklyRankStr = `#${higherWeeklyUsers + 1}`;
-
-      // 3. Count Learned / Memorized Words
-      const wordsLearnedCount = await prisma.userVocabulary.count({
-        where: {
-          userId: userId,
-          OR: [
-            { isFavorite: true },
-            { proficiency: { gt: 0 } },
-          ],
-        },
-      });
-
-      // 4. Query DailySkillPractice for 168 days
-      const practiceRecords = await prisma.dailySkillPractice.findMany({
-        where: {
-          userId,
-          date: {
-            gte: minQueryDate,
-            lte: maxQueryDate,
-          },
-        },
-      });
-
-      // 5. Query ExamAttempts in 168 days (to enrich activity heatmap)
-      const examAttempts = await prisma.examAttempt.findMany({
-        where: {
-          userId,
-          startedAt: {
-            gte: heatmapStartDate,
-          },
-        },
-        select: {
-          startedAt: true,
-          totalScore: true,
-        },
-      });
-
-      // 6. Query ListeningProgress in 168 days (to enrich activity heatmap)
-      const listeningProgresses = await prisma.listeningProgress.findMany({
-        where: {
-          userId,
-          lastPracticedAt: {
-            gte: heatmapStartDate,
-          },
-        },
-        select: {
-          lastPracticedAt: true,
-          timeSpent: true,
-        },
-      });
 
       return {
         profile,
@@ -367,36 +392,50 @@ export async function GET() {
       heatmapWeeks.push(heatmapDaysData.slice(w * 7, (w + 1) * 7));
     }
 
-    return NextResponse.json({
-      success: true,
-      data: {
-        stats: {
-          currentStreak,
-          longestStreak,
-          wordsLearned: finalWordsLearned,
-          minutesStudied,
-          totalXp,
-          weeklyRank: weeklyRankStr,
-        },
-        series: {
-          dates: milestoneDates,
-          isoDates: milestoneIsoDates,
-          minutesSeries: overallMinutes,
-          xpSeries: overallXp,
-        },
-        perSkill: {
-          dictation: { minutes: perSkillMinutes.dictation, xp: perSkillXp.dictation },
-          shadowing: { minutes: perSkillMinutes.shadowing, xp: perSkillXp.shadowing },
-          speaking: { minutes: perSkillMinutes.speaking, xp: perSkillXp.speaking },
-          vocab: { minutes: perSkillMinutes.vocab, xp: perSkillXp.vocab },
-          writing: { minutes: perSkillMinutes.writing, xp: perSkillXp.writing },
-        },
-        heatmap: {
-          weeks: heatmapWeeks,
-          totalActivities: heatmapTotalActivities,
-        },
+    const responsePayload = {
+      stats: {
+        currentStreak,
+        longestStreak,
+        wordsLearned: finalWordsLearned,
+        minutesStudied,
+        totalXp,
+        weeklyRank: weeklyRankStr,
       },
-    });
+      series: {
+        dates: milestoneDates,
+        isoDates: milestoneIsoDates,
+        minutesSeries: overallMinutes,
+        xpSeries: overallXp,
+      },
+      perSkill: {
+        dictation: { minutes: perSkillMinutes.dictation, xp: perSkillXp.dictation },
+        shadowing: { minutes: perSkillMinutes.shadowing, xp: perSkillXp.shadowing },
+        speaking: { minutes: perSkillMinutes.speaking, xp: perSkillXp.speaking },
+        vocab: { minutes: perSkillMinutes.vocab, xp: perSkillXp.vocab },
+        writing: { minutes: perSkillMinutes.writing, xp: perSkillXp.writing },
+      },
+      heatmap: {
+        weeks: heatmapWeeks,
+        totalActivities: heatmapTotalActivities,
+      },
+    };
+
+    if (userId !== "local_user") {
+      memoryCache.set(cacheKey, responsePayload, 60);
+    }
+
+    return NextResponse.json(
+      {
+        success: true,
+        data: responsePayload,
+      },
+      {
+        headers: {
+          "Cache-Control": "private, s-maxage=60, stale-while-revalidate=120",
+          "X-Cache": "MISS",
+        },
+      }
+    );
   } catch (error: any) {
     console.error("Error in GET /api/user/analytics:", error);
     return NextResponse.json(

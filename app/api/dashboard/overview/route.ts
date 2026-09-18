@@ -1,5 +1,6 @@
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { prisma, safeDbExecute } from "@/infrastructure/database/prisma";
+import { memoryCache } from "@/infrastructure/cache/memoryCache";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -68,6 +69,25 @@ export async function GET(request: Request) {
     const isGuest = !userId || userId === "guest_user" || userId === "local_user";
     const today = new Date();
     const todayStr = getLocalDateString(today);
+
+    const cacheKey = `dashboard_overview:${userId}:${todayStr}`;
+    if (!isGuest) {
+      const cached = memoryCache.get<any>(cacheKey);
+      if (cached) {
+        return NextResponse.json(
+          {
+            success: true,
+            data: cached,
+          },
+          {
+            headers: {
+              "Cache-Control": "private, s-maxage=30, stale-while-revalidate=60",
+              "X-Cache": "HIT",
+            },
+          }
+        );
+      }
+    }
     const { startOfWeekStr, endOfWeekStr } = getWeekDateRange();
 
     // Rolling 7-day window for skills (-4 to +2)
@@ -361,6 +381,10 @@ export async function GET(request: Request) {
       };
     }, "Dashboard Overview Query");
 
+    if (!isGuest && overviewData) {
+      memoryCache.set(cacheKey, overviewData, 30);
+    }
+
     return NextResponse.json(
       {
         success: true,
@@ -368,7 +392,10 @@ export async function GET(request: Request) {
       },
       {
         headers: {
-          "Cache-Control": "private, no-cache, no-store, must-revalidate",
+          "Cache-Control": isGuest
+            ? "public, s-maxage=60, stale-while-revalidate=120"
+            : "private, s-maxage=30, stale-while-revalidate=60",
+          "X-Cache": "MISS",
         },
       }
     );

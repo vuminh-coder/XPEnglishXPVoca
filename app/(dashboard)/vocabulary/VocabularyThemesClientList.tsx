@@ -14,7 +14,7 @@ import {
   CheckCircle2,
   X,
 } from "lucide-react";
-import { BASIC_VOCABULARY_THEMES } from "@/features/vocabulary/data/basicVocabularies";
+import { BASIC_VOCABULARY_THEMES } from "@/features/vocabulary/data/themes";
 import { ADVANCED_VOCABULARY_THEMES } from "@/features/vocabulary/data/advancedVocabularies";
 import {
   ThemeCardItem,

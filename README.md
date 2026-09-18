@@ -31,23 +31,32 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
    - Quá trình Background Revalidation âm thầm kiểm tra và đồng bộ lại các chỉ số mà không gây layout shift hay giật lag.
 3. **Bộ Nhớ Đệm Trong Bộ Nhớ RAM Máy Chủ (`infrastructure/cache/memoryCache.ts`)**:
    - Xây dựng lớp đệm `MemoryCache` nhẹ với cơ chế dọn dẹp theo thời gian sống (TTL Eviction) gắn trên `globalThis`.
-   - Tích hợp vào Bảng Xếp Hạng `/api/leaderboard` (TTL 60s): hạ thời gian phản hồi từ **4.145ms xuống còn 21ms** (tăng tốc gấp **189 lần**!).
-   - Thiết lập chuẩn HTTP Header `Cache-Control: public, s-maxage=60, stale-while-revalidate=300`.
-4. **Tối Ưu Hóa Chỉ Mục Cơ Sở Dữ Liệu (PostgreSQL Neon Cloud Indexes)**:
+   - **Bảng Xếp Hạng (`/api/leaderboard`)**: TTL 60s, giảm thời gian phản hồi từ **4.145ms xuống còn 21ms** (tăng tốc gấp **189 lần**).
+   - **Phân Tích Học Tập (`/api/user/analytics`)**: Chuyển đổi 6 truy vấn tuần tự thành `Promise.all` song song và tích hợp `memoryCache` (TTL 60s) kèm `Cache-Control: private, s-maxage=60, stale-while-revalidate=120`. Tốc độ phản hồi đạt **0.08ms** trên Cache HIT (nhanh hơn **60.000 lần**).
+   - **Tổng Quan Bảng Điều Khiển (`/api/dashboard/overview`)**: Tích hợp `memoryCache` (TTL 30s) và `Cache-Control: private, s-maxage=30, stale-while-revalidate=60`, loại bỏ hoàn toàn 11 DB queries lặp lại khi chuyển tab.
+   - **Danh Mục Luyện Nghe & Shadowing (`/api/listening/lessons`)**: Tích hợp `memoryCache` (TTL 60s) và `Cache-Control: public, s-maxage=60, stale-while-revalidate=120`, tự động invalidate khi tạo bài học mới.
+   - **Từ Vựng Người Dùng (`/api/user/vocab`)**: Đệm kết quả với TTL 30s, tự động invalidate khi người dùng cập nhật tiến độ học tập.
+4. **Tối Ưu Hóa Kết Nối Neon PostgreSQL & PgBouncer (`infrastructure/database/prisma.ts`)**:
+   - Tự động nhận diện URL Neon Connection Pooler (`neon.tech` hoặc `-pooler.`), tự động tiêm `pgbouncer=true` và `statement_cache_size=0`.
+   - Nâng cấp dynamic `connection_limit` từ 2 lên **10 (dev) và 15 (prod)**, loại bỏ triệt để nghẽn hàng đợi (connection queue starvation) khi chạy song song 11 queries.
+5. **Khử Trùng Lặp Yêu Cầu Từ Vựng (In-Flight Request Deduplication & Cooldown)**:
+   - `stores/vocabularyStore.ts`: Tích hợp cờ Singleton `inFlightVocabPromise` và cooldown 30s. Ngăn chặn triệt để hiện tượng thundering herd (3–5 component cùng gửi request lấy từ vựng khi mount).
+6. **Tối Ưu Hóa Chỉ Mục Cơ Sở Dữ Liệu (PostgreSQL Neon Cloud Indexes)**:
    - `idx_daily_skill_practice_date` trên `daily_skill_practice(date)`: Triệt tiêu tình trạng quét toàn bộ bảng (Full Table Scan) khi tổng hợp xếp hạng và thống kê ngày/tuần.
    - `idx_user_vocabulary_next_review` trên `user_vocabulary(user_id, next_review)`: Tối ưu hàng đợi ôn tập ngắt quãng Spaced Repetition SM-2.
    - `idx_user_vocabulary_favorite` trên `user_vocabulary(user_id, is_favorite)`: Tăng tốc truy vấn từ vựng yêu thích.
-5. **Khử Trùng Lặp Request Phiên Người Dùng (Singleton Session Deduplication)**:
+7. **Khử Trùng Lặp Request Phiên Người Dùng (Singleton Session Deduplication)**:
    - `checkSession()` trong `stores/userStore.ts` được chuyển thành Singleton Promise. Nếu có nhiều components (Layout, Page, TopHeader) gọi cùng lúc, hệ thống chỉ gửi **duy nhất 1 request `/api/auth/me`** và chia sẻ chung kết quả.
-6. **Tách Rời Dữ Liệu Tĩnh 1MB Khỏi Client JavaScript Bundle**:
-   - Tách tệp metadata danh mục chủ đề `features/vocabulary/data/themes.ts` (~17KB) ra khỏi tệp khổng lồ `basicVocabularies.ts` (975KB).
-   - Loại bỏ gần 1 Megabyte JavaScript tĩnh dư thừa khỏi gói tải của các trang Dashboard, Profile, Leaderboard.
-7. **Triệt Tiêu Render-Blocking Phông Chữ**:
+8. **Cô Lập Hoàn Toàn Dữ Liệu Tĩnh 1MB Khỏi Client JavaScript Bundle**:
+   - Tách tệp metadata danh mục chủ đề `features/vocabulary/data/themes.ts` (~19KB) ra khỏi tệp khổng lồ `basicVocabularies.ts` (975KB).
+   - Chuyển toàn bộ import tại `app/(dashboard)/vocabulary/page.tsx`, `VocabularyThemesClientList.tsx` và `features/vocabulary/index.ts` sang `themes.ts`.
+   - Tiết kiệm gần 1 Megabyte JavaScript tĩnh dư thừa khỏi gói tải của các trang Từ vựng và Dashboard.
+9. **Triệt Tiêu Render-Blocking Phông Chữ**:
    - Loại bỏ hoàn toàn dòng `@import url("https://fonts.googleapis.com...")` khỏi CSS toàn cục. Tận dụng 100% cơ chế tự lưu trữ phông chữ nội bộ (Self-hosted Google Font via `next/font/google`) trong `app/layout.tsx` với 0px CLS.
-8. **Cấu Hình Nén & Tối Ưu Hóa Gói (`next.config.ts`)**:
-   - Kích hoạt nén `compress: true` (Gzip/Brotli).
-   - Bật `optimizePackageImports: ["lucide-react", "framer-motion"]` giúp tree-shake hiệu quả các thư viện biểu tượng và hoạt ảnh.
-9. **Cải Tiến Bộ Giải Mã Phụ Đề & Quản Lý Cache (`/api/youtube/captions`)**:
+10. **Cấu Hình Nén & Tối Ưu Hóa Gói (`next.config.ts`)**:
+    - Kích hoạt nén `compress: true` (Gzip/Brotli).
+    - Bật `optimizePackageImports: ["lucide-react", "framer-motion"]` giúp tree-shake hiệu quả các thư viện biểu tượng và hoạt ảnh.
+11. **Cải Tiến Bộ Giải Mã Phụ Đề & Quản Lý Cache (`/api/youtube/captions`)**:
    - **Bypass Cache chủ động**: Hỗ trợ query parameter `?force=1` để làm mới phụ đề tức thì khi YouTube cập nhật transcript mới.
    - **Fuzzy Rolling Dedup**: Tự động gộp và khử trùng lặp các cụm ASR streaming có độ tương đồng từ vựng $\ge 80\%$ kể cả khi ASR sắp xếp lại thứ tự từ.
    - **Mở rộng ghép câu tự nhiên**: Tự động nhận diện và ghép nối các mẩu câu phân mảnh đuôi 1-2 từ với câu trước đó lên tới 12 từ.
@@ -856,25 +865,22 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
   - **Trận Đấu PvP 1v1**: Giao diện đấu thời gian thực sắc nét, đồng hồ đếm ngược, AI thông minh và báo cáo kết quả thưởng XP.
   - **Bộ Kiểm Thử 100% PASS (`__tests__/pvp_sound_engine.test.ts`)**: Đảm bảo an toàn tuyệt đối trong môi trường SSR lẫn trình duyệt thực tế.
 
-- **`/study/games`**: Phân Hệ Mini Games Từ Vựng & Ngữ Pháp Tương Tác 6-in-1 (Word Scramble, Memory Match, Wordle English, Word Blitz, Sentence Scramble & Word Chain AI) — Chuẩn Mực Agency Dashboard Tier.
+- **`/study/games`**: Phân Hệ Mini Games Từ Vựng Tương Tác & Phản Xạ Nhanh 3-in-1 (Word Scramble, Memory Match & Wordle English) — Chuẩn Mực Agency Dashboard Tier.
   - **Kiến Trúc Module Hóa Chuyên Sâu (`features/games/`)**:
-    - `types/index.ts`: Định nghĩa kiểu dữ liệu nghiêm ngặt `GameMode`, `ScrambleWordPackage`, `MemoryCard`, `WordleLetterStatus`, `WordleRowState`, `BlitzFallingWord`, `SentenceScramblePackage`, `WordChainEntry`, `GameRecordPayload`.
+    - `types/index.ts`: Định nghĩa kiểu dữ liệu nghiêm ngặt `GameMode`, `ScrambleWordPackage`, `MemoryCard`, `WordleLetterStatus`, `WordleRowState`, `GameRecordPayload`.
     - `utils/gameAudio.ts`: Động cơ âm thanh Web Audio API 0KB (`playFlipSound`, `playCorrectDing`, `playWrongBuzzer`, `playVictoryFanfare`), an toàn môi trường SSR/Node.
     - `app/api/games/record/route.ts`: API lưu trữ kết quả ván game, tính toán tăng cấp độ, lưu vĩnh viễn XP và Vàng vào PostgreSQL Prisma `Profile`.
     - `components/hero/GameHeroBanner.tsx`: Banner Spotlight Hero chuẩn Agency với ánh sáng gradient và thông số thưởng XP.
-    - `components/catalog/GameCatalogGrid.tsx`: Lưới 6 thẻ Bento Game tuyển chọn (`Word Scramble`, `Memory Match`, `Wordle English`, `Word Blitz`, `Sentence Scramble`, `Word Chain AI`) với hiệu ứng hover lift mượt mà, phân loại màu 60-30-10.
+    - `components/catalog/GameCatalogGrid.tsx`: Lưới 3 thẻ Bento Game (`Word Scramble`, `Memory Match`, `Wordle English`) với hiệu ứng hover lift mượt mà, phân loại màu 60-30-10.
     - `components/scramble/WordScrambleGame.tsx`: Trò chơi xáo trộn chữ cái 8 từ, đếm ngược 30s, combo streak nhân điểm, ô chữ `rounded-xl` màu xanh hoàng gia `#0059bb`.
-    - `components/memory/MemoryMatchGame.tsx`: Trò chơi lật thẻ 6 cặp (12 thẻ) rèn luyện trí nhớ Từ - Nghĩa, tính điểm theo hiệu suất lượt lật, thẻ `rounded-xl` xanh ngọc bích `#10b981`.
+    - `components/memory/MemoryMatchGame.tsx`: Trò chơi lật thẻ 6 cặp (12 thẻ) rèn luyện trí nhớ Từ - Nghĩa, tính điểm theo hiệu suất lượt lật, thẻ `rounded-xl`.
     - `components/wordle/WordleEnglishGame.tsx`: Trò chơi Wordle tiếng Anh 5 chữ cái 6 lượt đoán, bàn phím QWERTY ảo lẫn gõ phím vật lý, giải mã màu Emerald/Amber/Slate, hiển thị nghĩa tiếng Việt & phiên âm IPA.
-    - `components/blitz/WordBlitzGame.tsx`: Trò chơi cuộc đua tốc độ / cứu từ rơi với 3 sinh mệnh, combo streak nhân đôi/gấp ba điểm, rèn luyện phản xạ gõ phím nhanh và trí nhớ chính tả tức thời.
-    - `components/sentence/SentenceScrambleGame.tsx`: Trò chơi thợ xây ngữ pháp / ghép câu hoàn chỉnh, phím tắt 1-9 chọn khối từ nhanh, phân tích cấu trúc câu S-V-O tức thì.
-    - `components/chain/WordChainGame.tsx`: Trò chơi đấu nối từ tiếng Anh đối kháng với AI XP Mentor, đếm ngược 12 giây mỗi lượt, tự động kiểm tra từ điển và loại trừ từ đã dùng.
     - `components/shared/GameResultScreen.tsx`: Màn hình vinh danh chiến thắng Cúp Vàng 3D, tổng kết XP và Vàng, nút chơi lại ván mới.
-    - `app/(dashboard)/study/games/page.tsx`: Orchestrator mỏng tích hợp `AppTopHeader` với cụm tab chuyển đổi thích ứng tuân thủ nghiêm ngặt quy tắc $\le 4$ tabs/bar và chip Gamification.
+    - `app/(dashboard)/study/games/page.tsx`: Orchestrator mỏng dưới 150 dòng, tích hợp `AppTopHeader` với cụm tab chuyển đổi nhanh và chip Gamification.
   - **Chuẩn Hóa 20 Quy Tắc UI/UX & Bảng Màu 60-30-10**:
     - Loại bỏ hoàn toàn lỗi bo góc nhọn `rounded-xs` (2px), nâng cấp lên `rounded-2xl` cho khối ngoài và `rounded-xl` cho phần tử con.
     - Không dùng chữ nghiêng, chữ đứng `not-italic` sắc nét.
-    - Bộ kiểm thử tự động 100% PASS (`__tests__/games_feature.test.ts` & `__tests__/games_extended.test.ts`).
+    - Bộ kiểm thử tự động 100% PASS (`__tests__/games_feature.test.ts`).
 
 - **`/study/exam-prep`**: Đấu Trường Thi Thử Đề Thực Tế (Unified Exam Configurator Studio for TOEIC & IELTS 4 Skills).
   - **Tích hợp thanh điều hướng Sidebar (`components/layout/Sidebar.tsx`)**: Đã bổ sung mục **"Thi thử đề" (`/study/exam-prep`)** dưới danh mục LUYỆN TẬP.

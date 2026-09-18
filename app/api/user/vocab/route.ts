@@ -1,6 +1,7 @@
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma, handlePrismaError } from "@/infrastructure/database/prisma";
+import { memoryCache } from "@/infrastructure/cache/memoryCache";
 
 export async function GET() {
   try {
@@ -9,11 +10,26 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const cacheKey = `user_vocab:${userId}`;
+    const cached = memoryCache.get<any[]>(cacheKey);
+    if (cached) {
+      return NextResponse.json(
+        { success: true, data: cached },
+        {
+          headers: {
+            "Cache-Control": "private, s-maxage=30, stale-while-revalidate=60",
+            "X-Cache": "HIT",
+          },
+        }
+      );
+    }
+
     const vocabList = await prisma.userVocabulary.findMany({
       where: { userId: userId },
       include: {
         vocabulary: true,
       },
+      take: 200,
     });
 
     // Convert BigInt id to String/Number for JSON serialization
@@ -40,7 +56,17 @@ export async function GET() {
         antonyms: v.vocabulary.antonyms,
       }));
 
-    return NextResponse.json({ success: true, data: serializedData });
+    memoryCache.set(cacheKey, serializedData, 30);
+
+    return NextResponse.json(
+      { success: true, data: serializedData },
+      {
+        headers: {
+          "Cache-Control": "private, s-maxage=30, stale-while-revalidate=60",
+          "X-Cache": "MISS",
+        },
+      }
+    );
   } catch (error: unknown) {
     const { error: errorMsg, status } = handlePrismaError(error);
     return NextResponse.json({ error: errorMsg }, { status });
@@ -159,6 +185,8 @@ export async function POST(request: Request) {
       lastPracticed: upsertedVocab.lastPracticed ? upsertedVocab.lastPracticed.toISOString() : null,
       nextReview: upsertedVocab.nextReview ? upsertedVocab.nextReview.toISOString() : null,
     };
+
+    memoryCache.del(`user_vocab:${userId}`);
 
     return NextResponse.json({ success: true, data: serializedData });
   } catch (error: unknown) {
