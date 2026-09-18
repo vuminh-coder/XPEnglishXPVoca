@@ -43,6 +43,10 @@ e:\XP English  XP Voca\
 │   │   ├── data/                     # extendedShadowingData
 │   │   ├── services/                 # webSpeechTranscriber
 │   │   └── index.ts
+│   ├── ipa/                          # Interactive IPA 3D Studio & Minimal Pairs Trainer
+│   │   ├── components/               # IpaSoundCard, IpaSoundInspector, IpaMinimalPairsTrainer
+│   │   ├── data/                     # ipaData (44 standard IPA sounds, anatomy, 12 minimal pairs)
+│   │   └── index.ts                  # Public feature API barrel
 │   ├── vocabulary/                   # Core & Advanced Vocabulary Repositories
 │   │   ├── components/               # Vocabulary cards & lists
 │   │   ├── data/                     # basicVocabularies, advancedVocabularies, deepDictionary
