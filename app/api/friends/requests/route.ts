@@ -1,4 +1,4 @@
-﻿import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 
@@ -16,7 +16,17 @@ export async function GET() {
         status: "PENDING",
       },
       include: {
-        sender: true,
+        sender: {
+          select: {
+            id: true,
+            fullName: true,
+            username: true,
+            level: true,
+            totalXp: true,
+            avatarEmoji: true,
+            avatarUrl: true,
+          },
+        },
       },
     });
 
@@ -26,7 +36,17 @@ export async function GET() {
         status: "PENDING",
       },
       include: {
-        receiver: true,
+        receiver: {
+          select: {
+            id: true,
+            fullName: true,
+            username: true,
+            level: true,
+            totalXp: true,
+            avatarEmoji: true,
+            avatarUrl: true,
+          },
+        },
       },
     });
 

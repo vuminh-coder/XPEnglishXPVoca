@@ -95,8 +95,10 @@ describe("Interactive IPA Feature Data & Integrity Suite", () => {
     expect(non_existent).toBeUndefined();
   });
 
-  it("should contain valid Minimal Pairs training pairs", () => {
-    expect(MINIMAL_PAIRS.length).toBeGreaterThanOrEqual(8);
+  it("should contain exactly 12 Minimal Pairs across 3 distinct categories", () => {
+    expect(MINIMAL_PAIRS.length).toBe(12);
+
+    const categories = { vowels: 0, voicing: 0, fricatives: 0 };
 
     MINIMAL_PAIRS.forEach((pair) => {
       expect(pair.id).toBeTruthy();
@@ -104,7 +106,11 @@ describe("Interactive IPA Feature Data & Integrity Suite", () => {
       expect(pair.description).toBeTruthy();
       expect(pair.soundA).toBeTruthy();
       expect(pair.soundB).toBeTruthy();
+      expect(["vowels", "voicing", "fricatives"]).toContain(pair.category);
+      expect(pair.anatomyTip).toBeTruthy();
       expect(pair.pairs.length).toBeGreaterThanOrEqual(3);
+
+      categories[pair.category]++;
 
       pair.pairs.forEach((w) => {
         expect(w.wordA).toBeTruthy();
@@ -115,6 +121,29 @@ describe("Interactive IPA Feature Data & Integrity Suite", () => {
         expect(w.meaningB).toBeTruthy();
       });
     });
+
+    expect(categories.vowels).toBe(4);
+    expect(categories.voicing).toBe(4);
+    expect(categories.fricatives).toBe(4);
+  });
+
+  it("should export Web Audio API SFX engine functions safely for SSR and tests", async () => {
+    const sfx = await import("@/features/ipa/utils/ipaSoundEffects");
+    expect(typeof sfx.playSfxCorrect).toBe("function");
+    expect(typeof sfx.playSfxWrong).toBe("function");
+    expect(typeof sfx.playSfxCombo).toBe("function");
+    expect(typeof sfx.playSfxHeartLost).toBe("function");
+    expect(typeof sfx.playSfxVictory).toBe("function");
+    expect(typeof sfx.getSfxMuted).toBe("function");
+    expect(typeof sfx.setSfxMuted).toBe("function");
+    expect(typeof sfx.toggleSfxMute).toBe("function");
+
+    // In node/test environment, calling SFX should not throw errors
+    expect(() => sfx.playSfxCorrect()).not.toThrow();
+    expect(() => sfx.playSfxWrong()).not.toThrow();
+    expect(() => sfx.playSfxCombo(3)).not.toThrow();
+    expect(() => sfx.playSfxHeartLost()).not.toThrow();
+    expect(() => sfx.playSfxVictory()).not.toThrow();
   });
 
   it("should export all reusable and modular components correctly", () => {

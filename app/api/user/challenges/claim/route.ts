@@ -1,15 +1,10 @@
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { prisma, safeDbExecute } from "@/infrastructure/database/prisma";
+import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
+import { getLocalDateString } from "@/shared/utils/dateUtils";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
-
-function getLocalDateString(d: Date = new Date()): string {
-  const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-}
 
 interface ChallengeDef {
   id: string;
@@ -56,13 +51,17 @@ export async function POST(request: Request) {
     const startOfToday = new Date();
     startOfToday.setHours(0, 0, 0, 0);
 
-    const result = await safeDbExecute(async () => {
+    // The unique (userId, skill, date) key is the idempotency key for a claim.
+    // Persist it and award the profile balance in the same transaction.
+    const result = await prisma.$transaction(async (tx) => {
       // 1. Check if already claimed today
-      const alreadyClaimed = await prisma.dailySkillPractice.findFirst({
+      const alreadyClaimed = await tx.dailySkillPractice.findUnique({
         where: {
-          userId,
-          skill: claimSkillKey,
-          date: todayStr,
+          userId_skill_date: {
+            userId,
+            skill: claimSkillKey,
+            date: todayStr,
+          },
         },
       });
 
@@ -76,29 +75,29 @@ export async function POST(request: Request) {
       // 2. Validate current progress from real DB tables
       let progress = 0;
       if (challengeId === "learn_words") {
-        progress = await prisma.userVocabulary.count({
+        progress = await tx.userVocabulary.count({
           where: { userId, lastPracticed: { gte: startOfToday } },
         });
       } else if (challengeId === "win_pvp") {
-        progress = await prisma.matchHistory.count({
+        progress = await tx.matchHistory.count({
           where: { userId, result: "WIN", createdAt: { gte: startOfToday } },
         });
       } else if (challengeId === "speak_practice") {
-        const practices = await prisma.dailySkillPractice.findMany({
+        const practices = await tx.dailySkillPractice.findMany({
           where: { userId, date: todayStr, skill: { in: ["speaking", "shadowing"] } },
         });
         progress = practices.reduce((acc, p) => acc + (p.minutes || 0), 0);
       } else if (challengeId === "write_essay") {
-        const practices = await prisma.dailySkillPractice.findMany({
+        const practices = await tx.dailySkillPractice.findMany({
           where: { userId, date: todayStr, skill: { in: ["writing", "dictation"] } },
         });
-        const examWriting = await prisma.examAttempt.count({
+        const examWriting = await tx.examAttempt.count({
           where: { userId, startedAt: { gte: startOfToday } },
         });
         progress = practices.reduce((acc, p) => acc + (p.minutes || 0), 0) + examWriting * 10;
       } else {
         // Fallback for review_cards
-        progress = await prisma.userVocabulary.count({
+        progress = await tx.userVocabulary.count({
           where: { userId, proficiency: { gt: 0 } },
         });
       }
@@ -112,7 +111,7 @@ export async function POST(request: Request) {
       }
 
       // 3. Atomically record claim in DailySkillPractice
-      await prisma.dailySkillPractice.create({
+      await tx.dailySkillPractice.create({
         data: {
           userId,
           skill: claimSkillKey,
@@ -123,7 +122,7 @@ export async function POST(request: Request) {
       });
 
       // 4. Update Profile with XP and Coins
-      const updatedProfile = await prisma.profile.update({
+      const updatedProfile = await tx.profile.update({
         where: { id: userId },
         data: {
           totalXp: { increment: challengeDef.xpReward },
@@ -141,7 +140,7 @@ export async function POST(request: Request) {
         coins: updatedProfile.coins,
         message: `Nhận thưởng thành công: +${challengeDef.xpReward} XP, +${challengeDef.coinReward} Vàng!`,
       };
-    }, "Challenge Claim Submit");
+    });
 
     if (result && result.alreadyClaimed) {
       return NextResponse.json({ success: false, error: result.message }, { status: 400 });
@@ -150,11 +149,19 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: result.message }, { status: 400 });
     }
 
+    invalidateDashboardCache(userId);
+
     return NextResponse.json({
       success: true,
       data: result,
     });
   } catch (error: any) {
+    if (error?.code === "P2002") {
+      return NextResponse.json(
+        { success: false, error: "Nhiệm vụ này đã được nhận thưởng hôm nay rồi!" },
+        { status: 409 }
+      );
+    }
     console.error("POST /api/user/challenges/claim error:", error);
     return NextResponse.json({ error: error?.message || "Internal server error" }, { status: 500 });
   }

@@ -1,145 +1,79 @@
 import { NextRequest, NextResponse } from "next/server";
-
-/**
- * Hybrid Same-Origin Proxy Endpoint for YouTube TimedText & Caption Tracks.
- * When direct fetch fails (YouTube blocks Vercel datacenter IP),
- * automatically retries through external proxy services with different IPs.
- * 
- * GET /api/youtube/subtitles/proxy?url=<encoded_youtube_timedtext_url>
- */
+import { memoryRateLimiter } from "@/infrastructure/security/rateLimiter";
+import { isAllowedYouTubeTimedTextUrl } from "@/infrastructure/security/youtubeSubtitleUrl";
 
 const REQUEST_HEADERS = {
   "User-Agent":
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
   "Accept-Language": "en-US,en;q=0.9,vi;q=0.8",
-  "Accept": "*/*",
+  Accept: "application/json, application/xml, text/xml, text/plain;q=0.9, */*;q=0.1",
 };
 
-function isGoogleRateLimitPage(text: string): boolean {
-  if (!text) return true;
+const MAX_SUBTITLE_BYTES = 1_000_000;
+
+function isValidSubtitleContent(text: string): boolean {
+  if (!text || text.trim().length < 30) return false;
   const lower = text.toLowerCase();
-  return (
+  return !(
     lower.includes("we're sorry") ||
-    lower.includes("<title>sorry...") ||
     lower.includes("automated queries") ||
     (lower.startsWith("<!doctype html") && !lower.includes("<text") && !lower.includes('"events"'))
   );
 }
 
-function isValidSubtitleContent(text: string): boolean {
-  if (!text || text.trim().length < 30) return false;
-  if (isGoogleRateLimitPage(text)) return false;
-  return true;
+function getClientIp(request: NextRequest): string {
+  return request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
 }
 
+/**
+ * Same-origin proxy for a narrowly allowlisted YouTube timedtext resource.
+ * It intentionally never follows redirects or uses public proxy relays.
+ */
 export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const targetUrl = searchParams.get("url");
-
-  if (!targetUrl || !targetUrl.startsWith("http")) {
-    return NextResponse.json({ error: "Missing or invalid target URL" }, { status: 400 });
+  const targetUrl = request.nextUrl.searchParams.get("url") || "";
+  if (!isAllowedYouTubeTimedTextUrl(targetUrl)) {
+    return NextResponse.json({ error: "Invalid subtitle URL" }, { status: 400 });
   }
 
-  // Tier 1: Direct server fetch
+  const limit = memoryRateLimiter.check(`youtube-subtitle-proxy:${getClientIp(request)}`, 30, 60_000);
+  if (!limit.allowed) {
+    return NextResponse.json(
+      { error: "Too many subtitle requests" },
+      { status: 429, headers: { "Retry-After": String(limit.resetSeconds) } }
+    );
+  }
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 8_000);
+
   try {
-    const res = await fetch(targetUrl, {
+    const response = await fetch(targetUrl, {
       headers: REQUEST_HEADERS,
       cache: "no-store",
+      redirect: "error",
+      signal: controller.signal,
     });
-    if (res.ok) {
-      const text = await res.text();
-      if (isValidSubtitleContent(text)) {
-        console.log(`[Proxy Tier 1] Direct fetch SUCCESS (${text.length} chars)`);
-        return new NextResponse(text, {
-          status: 200,
-          headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "public, max-age=3600" },
-        });
-      }
-      console.warn(`[Proxy Tier 1] Direct fetch returned rate-limited content (${text.length} chars)`);
-    } else {
-      console.warn(`[Proxy Tier 1] Direct fetch HTTP ${res.status}`);
-    }
-  } catch (e: any) {
-    console.warn(`[Proxy Tier 1] Direct fetch error: ${e?.message}`);
-  }
 
-  // Tier 2: CorsProxy.io (High reliability for YouTube timedtext URLs)
-  try {
-    const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
-    const res = await fetch(proxyUrl, { cache: "no-store" });
-    if (res.ok) {
-      const text = await res.text();
-      if (isValidSubtitleContent(text)) {
-        console.log(`[Proxy Tier 2] CorsProxy.io SUCCESS (${text.length} chars)`);
-        return new NextResponse(text, {
-          status: 200,
-          headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "public, max-age=3600" },
-        });
-      }
+    const contentLength = Number(response.headers.get("content-length") || 0);
+    if (!response.ok || (contentLength > MAX_SUBTITLE_BYTES && Number.isFinite(contentLength))) {
+      return NextResponse.json({ error: "Subtitle upstream unavailable" }, { status: 502 });
     }
-  } catch (e: any) {
-    console.warn(`[Proxy Tier 2] CorsProxy.io error: ${e?.message}`);
-  }
 
-  // Tier 3: AllOrigins /get (JSON wrapper mode — circumvents Google bot detection)
-  try {
-    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
-    const res = await fetch(proxyUrl, { cache: "no-store" });
-    if (res.ok) {
-      const data = await res.json();
-      if (data && typeof data.contents === "string" && isValidSubtitleContent(data.contents)) {
-        console.log(`[Proxy Tier 3] AllOrigins JSON Wrapper SUCCESS (${data.contents.length} chars)`);
-        return new NextResponse(data.contents, {
-          status: 200,
-          headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "public, max-age=3600" },
-        });
-      }
-      console.warn(`[Proxy Tier 3] AllOrigins JSON wrapper returned invalid content`);
+    const text = await response.text();
+    if (text.length > MAX_SUBTITLE_BYTES || !isValidSubtitleContent(text)) {
+      return NextResponse.json({ error: "Invalid subtitle content" }, { status: 502 });
     }
-  } catch (e: any) {
-    console.warn(`[Proxy Tier 3] AllOrigins JSON error: ${e?.message}`);
-  }
 
-  // Tier 4: CodeTabs Proxy
-  try {
-    const proxyUrl = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`;
-    const res = await fetch(proxyUrl, { cache: "no-store" });
-    if (res.ok) {
-      const text = await res.text();
-      if (isValidSubtitleContent(text)) {
-        console.log(`[Proxy Tier 4] CodeTabs SUCCESS (${text.length} chars)`);
-        return new NextResponse(text, {
-          status: 200,
-          headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "public, max-age=3600" },
-        });
-      }
-      console.warn(`[Proxy Tier 4] CodeTabs returned invalid content`);
-    }
-  } catch (e: any) {
-    console.warn(`[Proxy Tier 4] CodeTabs error: ${e?.message}`);
+    return new NextResponse(text, {
+      status: 200,
+      headers: {
+        "Content-Type": "text/plain; charset=utf-8",
+        "Cache-Control": "public, max-age=3600",
+      },
+    });
+  } catch {
+    return NextResponse.json({ error: "Subtitle upstream unavailable" }, { status: 502 });
+  } finally {
+    clearTimeout(timeout);
   }
-
-  // Tier 5: ThingProxy Freeboard
-  try {
-    const proxyUrl = `https://thingproxy.freeboard.io/fetch/${targetUrl}`;
-    const res = await fetch(proxyUrl, { cache: "no-store" });
-    if (res.ok) {
-      const text = await res.text();
-      if (isValidSubtitleContent(text)) {
-        console.log(`[Proxy Tier 5] ThingProxy SUCCESS (${text.length} chars)`);
-        return new NextResponse(text, {
-          status: 200,
-          headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "public, max-age=3600" },
-        });
-      }
-    }
-  } catch (e: any) {
-    console.warn(`[Proxy Tier 5] ThingProxy error: ${e?.message}`);
-  }
-
-  console.error(`[Proxy] ALL TIERS FAILED for URL: ${targetUrl.substring(0, 120)}...`);
-  return NextResponse.json(
-    { error: "All proxy tiers failed to fetch subtitle content from YouTube" },
-    { status: 502 }
-  );
 }

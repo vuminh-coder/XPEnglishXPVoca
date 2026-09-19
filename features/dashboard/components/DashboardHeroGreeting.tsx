@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Video, MessageSquare, Clock, BookmarkCheck, Target } from "lucide-react";
 import { UserAvatar, formatCleanName } from "@/shared/components/feedback/UserAvatar";
 import { ShimmerBox, ShimmerCircle } from "@/shared/components/feedback/ShimmerSkeleton";
+import { formatPercent } from "@/shared/utils/formatPercent";
 
 interface DashboardHeroGreetingProps {
   user: any;
@@ -177,7 +178,7 @@ export function DashboardHeroGreeting({
                 </div>
               )}
               <span className="px-1.5 py-0.2 rounded-md bg-blue-100 dark:bg-blue-950 text-[#0059bb] dark:text-sky-300 font-mono font-bold text-[9.5px] shrink-0">
-                {xpPercent}%
+                {formatPercent(xpPercent)}
               </span>
             </div>
             <div className="w-full mt-0.5">

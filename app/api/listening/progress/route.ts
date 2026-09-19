@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
-import { prisma, safeDbExecute, handlePrismaError } from "@/infrastructure/database/prisma";
+import { prisma, handlePrismaError } from "@/infrastructure/database/prisma";
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
 
 export async function POST(request: Request) {
   try {
-    let authUserId = await getAuthenticatedUserId(request);
+    const userId = await getAuthenticatedUserId(request);
     const body = await request.json();
     const {
-      userId: bodyUserId,
       lessonId,
       status = "IN_PROGRESS",
       completedSentences = [],
@@ -18,20 +18,35 @@ export async function POST(request: Request) {
       skill = "dictation",
     } = body;
 
-    const userId = authUserId || bodyUserId;
+    // Progress changes XP and personal records; the request body must not choose
+    // which account is written to.
+    if (!userId) {
+      return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
+    }
 
-    if (!userId || !lessonId) {
+    if (typeof lessonId !== "string" || !lessonId) {
       return NextResponse.json(
         { success: false, error: "Thiếu userId hoặc lessonId" },
         { status: 400 }
       );
     }
 
-    const todayStr = new Date().toISOString().slice(0, 10);
-    const addedMinutes = Math.max(0, Math.ceil(timeSpent / 60));
+    if (
+      !["NOT_STARTED", "IN_PROGRESS", "COMPLETED"].includes(status) ||
+      !Array.isArray(completedSentences) ||
+      !Array.isArray(bookmarkedSentences) ||
+      typeof inlineAiScores !== "object" ||
+      inlineAiScores === null
+    ) {
+      return NextResponse.json({ success: false, error: "Invalid progress payload" }, { status: 400 });
+    }
 
-    const result = await safeDbExecute(async () => {
-      return await prisma.$transaction(async (tx) => {
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const safeTimeSpent = Math.min(14_400, Math.max(0, Number(timeSpent) || 0));
+    const safeXpEarned = Math.min(100, Math.max(0, Math.floor(Number(xpEarned) || 0)));
+    const addedMinutes = Math.ceil(safeTimeSpent / 60);
+
+    const result = await prisma.$transaction(async (tx) => {
         // 1. Upsert ListeningProgress
         const progress = await tx.listeningProgress.upsert({
           where: {
@@ -42,7 +57,7 @@ export async function POST(request: Request) {
             completedSentences,
             bookmarkedSentences,
             inlineAiScores,
-            timeSpent: { increment: timeSpent },
+            timeSpent: { increment: safeTimeSpent },
             lastPracticedAt: new Date(),
           },
           create: {
@@ -52,7 +67,7 @@ export async function POST(request: Request) {
             completedSentences,
             bookmarkedSentences,
             inlineAiScores,
-            timeSpent,
+            timeSpent: safeTimeSpent,
           },
         });
 
@@ -65,11 +80,11 @@ export async function POST(request: Request) {
           !userId.startsWith("guest")
         ) {
           // Update Profile
-          if (xpEarned > 0 || addedMinutes > 0) {
+          if (safeXpEarned > 0 || addedMinutes > 0) {
             await tx.profile.update({
               where: { id: userId },
               data: {
-                ...(xpEarned > 0 ? { totalXp: { increment: xpEarned } } : {}),
+                ...(safeXpEarned > 0 ? { totalXp: { increment: safeXpEarned } } : {}),
                 ...(addedMinutes > 0 ? { minutesStudied: { increment: addedMinutes } } : {}),
                 updatedAt: new Date(),
               },
@@ -77,7 +92,7 @@ export async function POST(request: Request) {
           }
 
           // Upsert DailySkillPractice for "dictation" or "shadowing"
-          if (addedMinutes > 0 || xpEarned > 0) {
+          if (addedMinutes > 0 || safeXpEarned > 0) {
             await tx.dailySkillPractice.upsert({
               where: {
                 userId_skill_date: {
@@ -88,7 +103,7 @@ export async function POST(request: Request) {
               },
               update: {
                 minutes: { increment: addedMinutes },
-                xpEarned: { increment: xpEarned },
+                xpEarned: { increment: safeXpEarned },
                 updatedAt: new Date(),
               },
               create: {
@@ -96,15 +111,18 @@ export async function POST(request: Request) {
                 skill: skill || "dictation",
                 date: todayStr,
                 minutes: addedMinutes,
-                xpEarned: xpEarned,
+                xpEarned: safeXpEarned,
               },
             });
           }
         }
 
         return progress;
-      });
-    }, "Save Listening Progress");
+    });
+
+    if (userId && !userId.startsWith("guest") && userId !== "local_user") {
+      invalidateDashboardCache(userId);
+    }
 
     return NextResponse.json({
       success: true,
@@ -122,14 +140,12 @@ export async function POST(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
-    let authUserId = await getAuthenticatedUserId(request);
-    let bodyUserId: string | null = null;
+    const userId = await getAuthenticatedUserId(request);
     let bodyLessonId: string | null = null;
 
     try {
       const body = await request.json();
       if (body) {
-        bodyUserId = body.userId;
         bodyLessonId = body.lessonId;
       }
     } catch {
@@ -137,27 +153,27 @@ export async function DELETE(request: Request) {
     }
 
     const { searchParams } = new URL(request.url);
-    const queryUserId = searchParams.get("userId");
     const queryLessonId = searchParams.get("lessonId");
 
-    const userId = authUserId || bodyUserId || queryUserId;
     const lessonId = bodyLessonId || queryLessonId;
 
-    if (!userId || !lessonId) {
+    if (!userId) {
+      return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
+    }
+
+    if (!lessonId) {
       return NextResponse.json(
         { success: false, error: "Thiếu userId hoặc lessonId" },
         { status: 400 }
       );
     }
 
-    const deleteResult = await safeDbExecute(async () => {
-      return await prisma.listeningProgress.deleteMany({
-        where: {
-          userId,
-          lessonId,
-        },
-      });
-    }, "Delete Listening Progress");
+    const deleteResult = await prisma.listeningProgress.deleteMany({
+      where: {
+        userId,
+        lessonId,
+      },
+    });
 
     return NextResponse.json({
       success: true,

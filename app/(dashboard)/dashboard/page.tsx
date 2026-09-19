@@ -189,14 +189,10 @@ export default function DashboardPage() {
         console.error("Error fetching dashboard overview:", e);
       } finally {
         if (isMounted) {
-          setTimeout(() => {
-            if (isMounted) {
-              setIsLoadingCheckin(false);
-              setIsLoadingChallenges(false);
-              setIsLoadingPlan(false);
-              setIsLoadingChart(false);
-            }
-          }, 240);
+          setIsLoadingCheckin(false);
+          setIsLoadingChallenges(false);
+          setIsLoadingPlan(false);
+          setIsLoadingChart(false);
         }
       }
     };

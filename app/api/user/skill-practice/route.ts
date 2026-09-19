@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma, safeDbExecute } from "@/infrastructure/database/prisma";
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
 
 export const dynamic = "force-dynamic";
 
@@ -143,9 +144,20 @@ export async function POST(request: Request) {
     const { skill, minutes, xp, date } = body;
 
     const normalizedSkill = normalizeSkill(skill);
-    const validMinutes = typeof minutes === "number" && !isNaN(minutes) && minutes > 0 ? Math.round(minutes) : 0;
-    const validXp = typeof xp === "number" && !isNaN(xp) && xp > 0 ? Math.round(xp) : 0;
-    const targetDate = date && /^\d{4}-\d{2}-\d{2}$/.test(date) ? date : getLocalDateStr(new Date());
+    // Client supplied telemetry must be bounded. The profile counter is updated
+    // from these values, so unlimited values would allow trivial XP inflation.
+    const validMinutes = typeof minutes === "number" && Number.isFinite(minutes) && minutes > 0
+      ? Math.min(240, Math.round(minutes))
+      : 0;
+    const validXp = typeof xp === "number" && Number.isFinite(xp) && xp > 0
+      ? Math.min(150, Math.round(xp))
+      : 0;
+    const today = getLocalDateStr(new Date());
+    const targetDate = date && /^\d{4}-\d{2}-\d{2}$/.test(date) ? date : today;
+
+    if (targetDate !== today) {
+      return NextResponse.json({ success: false, error: "Practice can only be recorded for today" }, { status: 400 });
+    }
 
     if (validMinutes <= 0 && validXp <= 0) {
       return NextResponse.json({ success: true, message: "No minutes or XP to record" });
@@ -155,8 +167,55 @@ export async function POST(request: Request) {
     let newMinutesStudied = 0;
 
     if (userId !== "local_user") {
-      await safeDbExecute(async () => {
-        // 1. Upsert DailySkillPractice
+      try {
+        await prisma.$transaction(
+          async (tx) => {
+            // 1. Upsert DailySkillPractice
+            updatedRecord = await tx.dailySkillPractice.upsert({
+              where: {
+                userId_skill_date: {
+                  userId,
+                  skill: normalizedSkill,
+                  date: targetDate,
+                },
+              },
+              update: {
+                minutes: { increment: validMinutes },
+                xpEarned: { increment: validXp },
+              },
+              create: {
+                userId,
+                skill: normalizedSkill,
+                date: targetDate,
+                minutes: validMinutes,
+                xpEarned: validXp,
+              },
+            });
+
+            // 2. Increment Profile minutesStudied & totalXp
+            const profile = await tx.profile.update({
+              where: { id: userId },
+              data: {
+                minutesStudied: { increment: validMinutes },
+                ...(validXp > 0 ? { totalXp: { increment: validXp } } : {}),
+              },
+              select: {
+                minutesStudied: true,
+                totalXp: true,
+                currentStreak: true,
+              },
+            });
+
+            newMinutesStudied = profile.minutesStudied;
+          },
+          {
+            maxWait: 10000,
+            timeout: 15000,
+          }
+        );
+      } catch (txError: any) {
+        console.warn("[skill-practice] Transaction timed out or pool busy, executing resilient fallback:", txError?.message || txError);
+        // Fallback: sequential execution ensures user practice minutes and XP are always recorded
         updatedRecord = await prisma.dailySkillPractice.upsert({
           where: {
             userId_skill_date: {
@@ -178,7 +237,6 @@ export async function POST(request: Request) {
           },
         });
 
-        // 2. Increment Profile minutesStudied & totalXp
         const profile = await prisma.profile.update({
           where: { id: userId },
           data: {
@@ -193,7 +251,9 @@ export async function POST(request: Request) {
         });
 
         newMinutesStudied = profile.minutesStudied;
-      });
+      }
+
+      invalidateDashboardCache(userId);
     }
 
     return NextResponse.json({

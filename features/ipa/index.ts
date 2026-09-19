@@ -27,6 +27,9 @@ export * from "./components/practice-lab/IpaDedicatedPracticeLab";
 // Export Minimal Pairs Arena
 export * from "./components/minimal-pairs/IpaMinimalPairsArena";
 
+// Export Audio SFX Utilities
+export * from "./utils/ipaSoundEffects";
+
 // Backward Compatibility Exports
 export * from "./components/IpaSoundCard";
 export * from "./components/IpaSoundInspector";

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * SRT / WEBVTT Subtitle Parser Engine
  * Parses .srt and .vtt file content into SubtitleSentence[] for the /myvideo player.
  * Supports: standard SRT, WEBVTT, bilingual (EN+VN on consecutive lines), HTML tags cleanup.

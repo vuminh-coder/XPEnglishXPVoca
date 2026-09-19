@@ -82,17 +82,39 @@ export async function POST(request: Request) {
       });
     }
 
-    // Word-by-word Alignment & Scoring
+    // Positional Sequence Alignment & Scoring
+    // Tracks consumed words to prevent word-order gaming or single-word repetition exploit
     let totalWordScore = 0;
+    const usedRecIndices = new Set<number>();
+    let lastMatchedRecIndex = -1;
+
     const wordAccuracy = cleanTargetWords.map((targetWord) => {
       const cleanTarget = targetWord.toLowerCase().replace(/[^a-z0-9]/g, "");
       
-      // Find best match in recognized words
       let bestSim = 0;
-      for (const recWord of cleanRecognizedWords) {
+      let bestRecIdx = -1;
+
+      // Search unused recognized words with order-awareness
+      cleanRecognizedWords.forEach((recWord, recIdx) => {
+        if (usedRecIndices.has(recIdx)) return;
+
         const cleanRec = recWord.toLowerCase().replace(/[^a-z0-9]/g, "");
-        const sim = calculateSimilarity(cleanTarget, cleanRec);
-        if (sim > bestSim) bestSim = sim;
+        const rawSim = calculateSimilarity(cleanTarget, cleanRec);
+
+        // Apply gentle order distance penalty if spoken significantly out of order
+        const orderDistance = Math.abs(recIdx - (lastMatchedRecIndex + 1));
+        const orderPenalty = orderDistance > 3 ? 0.85 : 1.0;
+        const adjustedSim = rawSim * orderPenalty;
+
+        if (adjustedSim > bestSim) {
+          bestSim = adjustedSim;
+          bestRecIdx = recIdx;
+        }
+      });
+
+      if (bestRecIdx !== -1 && bestSim >= 0.55) {
+        usedRecIndices.add(bestRecIdx);
+        lastMatchedRecIndex = Math.max(lastMatchedRecIndex, bestRecIdx);
       }
 
       let status: "perfect" | "good" | "needs_work" = "needs_work";

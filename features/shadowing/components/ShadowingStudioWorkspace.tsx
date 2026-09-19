@@ -222,7 +222,7 @@ export function ShadowingStudioWorkspace({
             mobileStudioTab === "practice" ? "block" : "hidden lg:block"
           }`}
         >
-          {currentSentence && (
+          {currentSentence ? (
             <div className="space-y-2.5 w-full">
               {/* 3.1 DEDICATED SENTENCE AUDIO STUDIO BLOCK WITH 95-BAR ACOUSTIC SOUNDWAVE */}
               <StudioWaveformCard
@@ -717,6 +717,10 @@ export function ShadowingStudioWorkspace({
                   </div>
                 </motion.div>
               )}
+            </div>
+          ) : (
+            <div className="flex-1 min-h-[300px] flex items-center justify-center p-8 text-center text-slate-400">
+              <span className="text-sm font-medium">Đang tải câu luyện nói...</span>
             </div>
           )}
         </div>

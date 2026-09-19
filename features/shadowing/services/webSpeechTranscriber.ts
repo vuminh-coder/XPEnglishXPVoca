@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Background Web Speech AI Auto-Transcriber (100% Invisible Background Engine)
  * Listens to audio speech in real time for any YouTube video (Vlogs, Lectures, Speeches, Podcasts, HardSubs)
  * and streams English & Vietnamese bilingual subtitle sentences directly into the player state without changing UI.

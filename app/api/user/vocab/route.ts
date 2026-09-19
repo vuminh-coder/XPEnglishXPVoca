@@ -26,8 +26,28 @@ export async function GET() {
 
     const vocabList = await prisma.userVocabulary.findMany({
       where: { userId: userId },
-      include: {
-        vocabulary: true,
+      select: {
+        userId: true,
+        vocabId: true,
+        proficiency: true,
+        isFavorite: true,
+        lastPracticed: true,
+        nextReview: true,
+        vocabulary: {
+          select: {
+            word: true,
+            phonetic: true,
+            definition: true,
+            definitionVn: true,
+            pos: true,
+            difficulty: true,
+            frequency: true,
+            themeId: true,
+            examples: true,
+            synonyms: true,
+            antonyms: true,
+          },
+        },
       },
       take: 200,
     });

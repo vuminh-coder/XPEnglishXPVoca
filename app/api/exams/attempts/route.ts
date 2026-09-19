@@ -1,6 +1,7 @@
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
+import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
 import { MOCK_EXAM_PAPERS } from "@/features/exam-prep/data/exam-papers";
 import { calculateExamResult, UserExamAnswers } from "@/features/exam-prep/utils/examScoringEngine";
 
@@ -149,6 +150,8 @@ export async function POST(request: Request) {
 
       return { attempt, xpToAdd, coinsToAdd };
     });
+
+    invalidateDashboardCache(userId);
 
     return NextResponse.json({
       success: true,

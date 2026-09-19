@@ -2,6 +2,7 @@
 
 import React from "react";
 import { BookmarkCheck, Flame, Zap, Coins } from "lucide-react";
+import { formatPercent } from "@/shared/utils/formatPercent";
 
 interface ProfileMetricsBarProps {
   wordsCount: number;
@@ -51,7 +52,7 @@ export const ProfileMetricsBar: React.FC<ProfileMetricsBarProps> = ({
           </div>
           <div className="flex items-center justify-between text-[11px] font-bold text-slate-500 dark:text-slate-400 mt-2">
             <span>Kho từ</span>
-            <span className="text-[#0059bb] dark:text-sky-400 font-mono font-black">{vocabPercent}%</span>
+            <span className="text-[#0059bb] dark:text-sky-400 font-mono font-black">{formatPercent(vocabPercent)}</span>
           </div>
           <div className="h-1.5 sm:h-2 w-full rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden mt-1.5">
             <div
@@ -108,7 +109,7 @@ export const ProfileMetricsBar: React.FC<ProfileMetricsBarProps> = ({
           <div className="flex items-center justify-between text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-2">
             <span>Lên LV.{level + 1}</span>
             <span className="text-indigo-600 dark:text-indigo-400 font-bold font-mono">
-              {xpCurrent}/{xpTotal} XP
+              {xpCurrent}/{xpTotal} XP ({formatPercent(xpPercent)})
             </span>
           </div>
           <div className="h-1.5 sm:h-2 w-full rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden mt-1.5">

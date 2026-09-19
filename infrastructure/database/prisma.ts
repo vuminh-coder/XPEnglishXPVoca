@@ -63,15 +63,25 @@ if (process.env.NODE_ENV !== 'production') globalForPrisma.prismaBase = basePris
  */
 export async function withPrismaRetry<T>(
   operation: () => Promise<T>,
-  maxRetries = 3
+  maxRetries = 2
 ): Promise<T> {
   let attempt = 0;
   while (attempt < maxRetries) {
     try {
       return await operation();
     } catch (error: any) {
-      // Never retry schema/data constraint violations (P2002 Unique, P2003 FK, P2025 Not Found, etc.)
-      if (error?.code && typeof error.code === "string" && error.code.startsWith("P2")) {
+      // Never retry true schema/data constraint violations (P2002 Unique, P2003 FK, P2025 Not Found, etc.)
+      const isDataConstraintError =
+        error?.code === "P2002" ||
+        error?.code === "P2003" ||
+        error?.code === "P2004" ||
+        error?.code === "P2000" ||
+        error?.code === "P2011" ||
+        error?.code === "P2012" ||
+        error?.code === "P2014" ||
+        error?.code === "P2025";
+
+      if (isDataConstraintError) {
         throw error;
       }
 
@@ -92,13 +102,16 @@ export async function withPrismaRetry<T>(
         msg.includes("EngineClosed") ||
         msg.includes("Engine is not yet connected") ||
         msg.includes("Response from the Engine was empty") ||
-        msg.includes("Io") ||
+        msg.includes("kind: Io(") ||
         error?.code === "P1001" ||
-        error?.code === "P1017";
+        error?.code === "P1017" ||
+        error?.code === "P2024" ||
+        error?.code === "P2028" ||
+        error?.code === "P2034";
 
       if (isClosedOrResetError && attempt < maxRetries) {
-        const backoffMs = Math.min(100 * Math.pow(2, attempt), 600);
-        console.warn(`[Prisma Connection Resilience] Connection reset/closed detected (code: 10054/closed/idle). Reconnecting in ${backoffMs}ms (Attempt ${attempt}/${maxRetries})...`);
+        const backoffMs = Math.min(150 * Math.pow(2, attempt), 800);
+        console.warn(`[Prisma Connection Resilience] Connection reset/closed or transaction timeout detected (${error?.code || 'closed/10054'}). Reconnecting in ${backoffMs}ms (Attempt ${attempt}/${maxRetries})...`);
         try {
           await new Promise((r) => setTimeout(r, backoffMs));
           await basePrisma.$connect().catch(() => {});

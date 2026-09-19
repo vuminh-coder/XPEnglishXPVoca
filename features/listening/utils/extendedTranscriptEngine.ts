@@ -82,43 +82,64 @@ export function ensureExtendedLesson(lesson: ListeningLesson): ListeningLesson {
     const midSent = normalizedTranscript[Math.floor(normalizedTranscript.length / 2)]?.text || "The discussion";
     const lastSent = normalizedTranscript[normalizedTranscript.length - 1]?.text || "The next step";
 
+    const createDistributedQuiz = (
+      id: string,
+      question: string,
+      correctText: string,
+      distractors: string[],
+      explanation: string
+    ) => {
+      const correctOption = correctText.length > 65 ? correctText.slice(0, 65) + "..." : correctText;
+      let hash = 0;
+      for (let i = 0; i < id.length; i++) {
+        hash = (hash * 31 + id.charCodeAt(i)) >>> 0;
+      }
+      const targetIndex = hash % 4;
+      const options = [...distractors.slice(0, 3)];
+      options.splice(targetIndex, 0, correctOption);
+      return {
+        id,
+        question,
+        options,
+        correctIndex: targetIndex,
+        explanation,
+      };
+    };
+
     quizzes = [
-      {
-        id: `q_${lesson.id}_1`,
-        question: `What is the primary topic or announcement in "${lesson.title}"?`,
-        options: [
-          firstSent.length > 65 ? firstSent.slice(0, 65) + "..." : firstSent,
+      createDistributedQuiz(
+        `q_${lesson.id}_1`,
+        `What is the primary topic or announcement in "${lesson.title}"?`,
+        firstSent,
+        [
           "Canceling all pending operations immediately",
           "A complete restructuring of financial departments",
           "An emergency weather advisory for regional transit"
         ],
-        correctIndex: 0,
-        explanation: `The lesson opens with: "${firstSent}"`
-      },
-      {
-        id: `q_${lesson.id}_2`,
-        question: `Which key detail or action is highlighted during the passage?`,
-        options: [
+        `The lesson opens with: "${firstSent}"`
+      ),
+      createDistributedQuiz(
+        `q_${lesson.id}_2`,
+        `Which key detail or action is highlighted during the passage?`,
+        midSent,
+        [
           "Postponing all future project schedules indefinitely",
-          midSent.length > 65 ? midSent.slice(0, 65) + "..." : midSent,
           "Closing all communication channels permanently",
           "Dismissing internal staff without prior notice"
         ],
-        correctIndex: 1,
-        explanation: `The speaker explains: "${midSent}"`
-      },
-      {
-        id: `q_${lesson.id}_3`,
-        question: `What concluding message or expectation is shared by the speaker?`,
-        options: [
+        `The speaker explains: "${midSent}"`
+      ),
+      createDistributedQuiz(
+        `q_${lesson.id}_3`,
+        `What concluding message or expectation is shared by the speaker?`,
+        lastSent,
+        [
           "Declining partner cooperation requests",
           "Decreasing quality control thresholds",
-          lastSent.length > 65 ? lastSent.slice(0, 65) + "..." : lastSent,
           "Suspending all user accounts until further notice"
         ],
-        correctIndex: 2,
-        explanation: `The conclusion states: "${lastSent}"`
-      }
+        `The conclusion states: "${lastSent}"`
+      )
     ];
   }
 

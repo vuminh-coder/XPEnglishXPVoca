@@ -1,4 +1,4 @@
-﻿/**
+/**
  * LRCLIB Open Synced Lyrics Engine - Auto Subtitle Generator for YouTube Music & Acoustic Videos
  * Fetches time-synced lyrics ([mm:ss.xx] lines) from open LRCLIB database and translates to Vietnamese.
  * Also supports auto-stitching lyrics for compilation videos (Music Mix / Acoustic Compilation with Tracklists in description).

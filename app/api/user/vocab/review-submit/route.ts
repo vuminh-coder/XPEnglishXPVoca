@@ -1,6 +1,7 @@
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
+import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
 import { calculateSM2 } from "@/shared/utils/sm2";
 
 export async function POST(request: Request) {
@@ -157,6 +158,8 @@ export async function POST(request: Request) {
         isFavorite: false,
       },
     });
+
+    invalidateDashboardCache(userId);
 
     return NextResponse.json({
       success: true,

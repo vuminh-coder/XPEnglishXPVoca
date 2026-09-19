@@ -1,91 +1,87 @@
-﻿import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 import { LEVEL_TITLES } from "@/shared/constants";
+import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
 
 function calculateLevelAndTitle(xp: number, currentLevel: number) {
-  const LEVEL_XP = [
-    0, 100, 250, 450, 700, 1000, 1400, 1900, 2500, 3200, 4000, 5000, 6200,
-    7600, 9200, 11000,
-  ];
+  const levelXp = [0, 100, 250, 450, 700, 1000, 1400, 1900, 2500, 3200, 4000, 5000, 6200, 7600, 9200, 11000];
   let newLevel = currentLevel;
-  while (newLevel < LEVEL_XP.length && xp >= LEVEL_XP[newLevel]) {
-    newLevel++;
-  }
-  const newTitle = LEVEL_TITLES[newLevel] || "Grandmaster";
-  return { level: newLevel, title: newTitle };
+  while (newLevel < levelXp.length && xp >= levelXp[newLevel]) newLevel++;
+  return { level: newLevel, title: LEVEL_TITLES[newLevel] || "Grandmaster" };
 }
 
 export async function POST(request: Request) {
   try {
     const userId = await getAuthenticatedUserId();
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const body = await request.json();
-    const { taskId, isCompleted } = body;
-
-    if (!taskId) {
-      return NextResponse.json({ error: "Task ID is required" }, { status: 400 });
+    const taskId = typeof body?.taskId === "string" ? body.taskId : "";
+    const isCompleted = body?.isCompleted;
+    if (!taskId) return NextResponse.json({ error: "Task ID is required" }, { status: 400 });
+    if (isCompleted !== undefined && typeof isCompleted !== "boolean") {
+      return NextResponse.json({ error: "isCompleted must be a boolean" }, { status: 400 });
     }
 
     const task = await prisma.dailyTask.findUnique({
       where: { id: taskId },
-      include: { plan: true },
+      select: { id: true, isCompleted: true, xpReward: true, plan: { select: { userId: true } } },
     });
-
-    if (!task) {
-      return NextResponse.json({ error: "Task not found" }, { status: 404 });
-    }
-
-    if (task.plan.userId !== userId) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
+    if (!task) return NextResponse.json({ error: "Task not found" }, { status: 404 });
+    if (task.plan.userId !== userId) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
     const targetState = typeof isCompleted === "boolean" ? isCompleted : !task.isCompleted;
-
     const result = await prisma.$transaction(async (tx) => {
-      const updatedTask = await tx.dailyTask.update({
-        where: { id: taskId },
-        data: { isCompleted: targetState },
-      });
-
-      let updatedProfile = null;
-      if (targetState && !task.isCompleted) {
-        const profile = await tx.profile.findUnique({
-          where: { id: userId },
+      if (!targetState) {
+        const updatedTask = await tx.dailyTask.update({
+          where: { id: taskId },
+          data: { isCompleted: false },
         });
-
-        if (profile) {
-          const xpToAdd = task.xpReward || 20;
-          const newXp = profile.totalXp + xpToAdd;
-          const { level: newLevel, title: newTitle } = calculateLevelAndTitle(
-            newXp,
-            profile.level
-          );
-
-          updatedProfile = await tx.profile.update({
-            where: { id: userId },
-            data: {
-              totalXp: newXp,
-              level: newLevel,
-              title: newTitle,
-            },
-          });
-        }
+        return { updatedTask, updatedProfile: null, xpAwarded: 0 };
       }
 
-      return { updatedTask, updatedProfile };
+      // The predicate and flag update happen in one statement. Only one of any
+      // concurrent requests can transition an unclaimed task to claimed.
+      const claim = await tx.dailyTask.updateMany({
+        where: { id: taskId, xpClaimed: false },
+        data: { isCompleted: true, xpClaimed: true },
+      });
+
+      if (claim.count === 0) {
+        const updatedTask = await tx.dailyTask.update({
+          where: { id: taskId },
+          data: { isCompleted: true },
+        });
+        return { updatedTask, updatedProfile: null, xpAwarded: 0 };
+      }
+
+      const xpAwarded = task.xpReward || 20;
+      const profileAfterXp = await tx.profile.update({
+        where: { id: userId },
+        data: { totalXp: { increment: xpAwarded } },
+        select: { id: true, totalXp: true, level: true, title: true, coins: true },
+      });
+      const next = calculateLevelAndTitle(profileAfterXp.totalXp, profileAfterXp.level);
+      const updatedProfile = next.level === profileAfterXp.level
+        ? profileAfterXp
+        : await tx.profile.update({
+            where: { id: userId },
+            data: { level: next.level, title: next.title },
+            select: { id: true, totalXp: true, level: true, title: true, coins: true },
+          });
+      const updatedTask = await tx.dailyTask.findUniqueOrThrow({ where: { id: taskId } });
+      return { updatedTask, updatedProfile, xpAwarded };
+    }, {
+      maxWait: 10000,
+      timeout: 15000,
     });
 
-    return NextResponse.json({
-      success: true,
-      data: result.updatedTask,
-      profile: result.updatedProfile,
-    });
-  } catch (error: any) {
+    invalidateDashboardCache(userId);
+
+    return NextResponse.json({ success: true, data: result.updatedTask, profile: result.updatedProfile, xpAwarded: result.xpAwarded });
+  } catch (error) {
     console.error("POST /api/study-plan/task-complete error:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: "Unable to update task completion" }, { status: 500 });
   }
 }

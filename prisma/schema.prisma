@@ -53,6 +53,7 @@ model Profile {
   dailySkillPractices DailySkillPractice[]
 
   @@index([totalXp(sort: Desc)])
+  @@index([username])
   @@map("profiles")
 }
 
@@ -73,6 +74,7 @@ model UserVocabulary {
   @@unique([userId, vocabId])
   @@index([userId, isFavorite])
   @@index([userId, nextReview])
+  @@index([userId, lastPracticed(sort: Desc)])
   @@map("user_vocabulary")
 }
 
@@ -281,6 +283,8 @@ model ExamAttempt {
   exam          Exam       @relation(fields: [examId], references: [id])
   answers       QuestionAnswer[]
 
+  @@index([userId, startedAt(sort: Desc)])
+  @@index([userId, status])
   @@map("exam_attempts")
 }
 
@@ -297,6 +301,7 @@ model QuestionAnswer {
   attempt      ExamAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
   question     Question    @relation(fields: [questionId], references: [id])
 
+  @@index([attemptId])
   @@map("question_answers")
 }
 
@@ -354,9 +359,11 @@ model DailyTask {
   taskType    String    @map("task_type") @db.VarChar(50) 
   description String    @db.Text
   isCompleted Boolean   @default(false) @map("is_completed")
+  xpClaimed   Boolean   @default(false) @map("xp_claimed")
   xpReward    Int       @default(0) @map("xp_reward")
   plan        StudyPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
 
+  @@index([planId, date])
   @@map("daily_tasks")
 }
 
@@ -371,6 +378,8 @@ model MatchHistory {
   createdAt  DateTime @default(now()) @map("created_at")
   user       Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@index([userId, createdAt(sort: Desc)])
+  @@index([userId, result, createdAt(sort: Desc)])
   @@map("match_histories")
 }
 
@@ -446,6 +455,7 @@ model RoomMessage {
   room      StudyRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
   user      Profile?  @relation(fields: [userId], references: [id], onDelete: SetNull)
 
+  @@index([roomId, createdAt(sort: Desc)])
   @@map("room_messages")
 }
 
@@ -505,6 +515,7 @@ model ListeningProgress {
   @@index([userId])
   @@index([lessonId])
   @@index([userId, status])
+  @@index([userId, lastPracticedAt(sort: Desc)])
   @@map("listening_progress")
 }
 
@@ -540,8 +551,30 @@ model DailySkillPractice {
 
   @@unique([userId, skill, date])
   @@index([userId, date])
-  @@index([userId, skill])
   @@index([date])
-  @@index([date, xpEarned(sort: Desc)])
+  @@index([date, userId])
   @@map("daily_skill_practice")
+}
+
+// === AI PRACTICE SESSIONS ===
+
+model AiPracticeSession {
+  id                String   @id @db.VarChar(100)
+  userId            String   @map("user_id") @db.VarChar(255)
+  mode              String   @db.VarChar(50)
+  topicId           String?  @map("topic_id") @db.VarChar(100)
+  personaId         String?  @map("persona_id") @db.VarChar(100)
+  messages          Json     @default("[]")
+  overallScore      Float?   @map("overall_score") @db.Real
+  grade             String?  @db.VarChar(10)
+  evaluationMetrics Json?    @map("evaluation_metrics")
+  timeSpentSeconds  Int      @default(0) @map("time_spent_seconds")
+  xpEarned          Int      @default(0) @map("xp_earned")
+  status            String   @default("IN_PROGRESS") @db.VarChar(20)
+  createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt         DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  @@index([userId, mode, status], map: "idx_ai_sessions_user_mode_status")
+  @@index([userId, updatedAt(sort: Desc)], map: "idx_ai_sessions_user_updated")
+  @@map("ai_practice_sessions")
 }

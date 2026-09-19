@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef, Suspense } from "react";
+import React, { useState, useEffect, useRef, useMemo, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuthStore } from "@/stores/authStore";
@@ -77,6 +77,7 @@ function ListeningPageContent() {
 
   // Lessons list state (pre-initialized with curated catalog + background DB sync)
   const [lessonsList, setLessonsList] = useState<any[]>(() => MOCK_LESSONS_DATA);
+  const [detailedLessonsMap, setDetailedLessonsMap] = useState<Record<string, any>>({});
   const [isLoadingLessons, setIsLoadingLessons] = useState(!rawIdParam);
 
   const [selectedLessonId, setSelectedLessonId] = useState<string | null>(() => {
@@ -84,8 +85,16 @@ function ListeningPageContent() {
     return resolveLessonId(rawIdParam, MOCK_LESSONS_DATA);
   });
 
-  const currentLesson =
-    lessonsList.find((l) => l.id === selectedLessonId) || null;
+  const currentLesson = useMemo(() => {
+    if (!selectedLessonId) return null;
+    const detailed = detailedLessonsMap[selectedLessonId];
+    if (detailed?.transcript?.length) return detailed;
+    const fromList = lessonsList.find((l) => l.id === selectedLessonId);
+    if (fromList?.transcript?.length) return fromList;
+    const fromMock = MOCK_LESSONS_DATA.find((l) => l.id === selectedLessonId);
+    if (fromMock?.transcript?.length) return { ...(fromList || {}), ...fromMock };
+    return fromList || fromMock || null;
+  }, [selectedLessonId, detailedLessonsMap, lessonsList]);
 
   // Single-sentence focus states
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
@@ -185,7 +194,15 @@ function ListeningPageContent() {
         }
         const json = await res.json();
         if (isMounted && json.success && Array.isArray(json.data) && json.data.length > 0) {
-          setLessonsList(json.data);
+          setLessonsList((prev) => {
+            const prevMap = new Map(prev.map((l) => [l.id, l]));
+            return json.data.map((item: any) => {
+              const existing = prevMap.get(item.id);
+              return existing?.transcript?.length
+                ? { ...item, transcript: existing.transcript }
+                : item;
+            });
+          });
         } else if (isMounted) {
           setLessonsList(MOCK_LESSONS_DATA);
         }
@@ -235,8 +252,14 @@ function ListeningPageContent() {
         const json = await res.json();
         if (isMounted && json.success && json.data) {
           const detail = json.data;
+          setDetailedLessonsMap((prev) => ({ ...prev, [detail.id]: detail }));
           setLessonsList((prev) => {
-            if (prev.some((l) => l.id === detail.id)) return prev;
+            const idx = prev.findIndex((l) => l.id === detail.id);
+            if (idx !== -1) {
+              const updated = [...prev];
+              updated[idx] = { ...updated[idx], ...detail };
+              return updated;
+            }
             return [detail, ...prev];
           });
           if (detail.userProgress) {
@@ -268,8 +291,14 @@ function ListeningPageContent() {
         if (isMounted) {
           const fallbackLesson = MOCK_LESSONS_DATA.find((l) => l.id === selectedLessonId);
           if (fallbackLesson) {
+            setDetailedLessonsMap((prev) => ({ ...prev, [fallbackLesson.id]: fallbackLesson }));
             setLessonsList((prev) => {
-              if (prev.some((l) => l.id === fallbackLesson.id)) return prev;
+              const idx = prev.findIndex((l) => l.id === fallbackLesson.id);
+              if (idx !== -1) {
+                const updated = [...prev];
+                updated[idx] = { ...updated[idx], ...fallbackLesson };
+                return updated;
+              }
               return [fallbackLesson, ...prev];
             });
           }
@@ -921,11 +950,11 @@ function ListeningPageContent() {
   }, [currentLesson, currentSentenceIndex, playingSentenceText, playbackSpeed, totalSentencesCount, addToast]);
 
   // Loading Fallbacks (0px CLS Geometric Skeletons)
-  if (selectedLessonId && (isLoadingLessonDetail || !currentLesson)) {
-    return <ListeningStudioSkeleton />;
-  }
-
-  if (isLoadingLessons && !selectedLessonId) {
+  if (rawIdParam || selectedLessonId) {
+    if (isLoadingLessonDetail || !currentLesson || !currentSentence) {
+      return <ListeningStudioSkeleton />;
+    }
+  } else if (isLoadingLessons && !selectedLessonId) {
     return <ListeningListingSkeleton />;
   }
 
@@ -1027,7 +1056,7 @@ function ListeningPageContent() {
             transition={{ duration: 0.2 }}
             className="w-full h-full flex flex-col"
           >
-            {currentSentence && (
+            {currentSentence ? (
               <ListeningStudioWorkspace
                 currentLesson={currentLesson}
                 lessonsList={lessonsList}
@@ -1098,6 +1127,8 @@ function ListeningPageContent() {
                 }}
                 onToast={addToast}
               />
+            ) : (
+              <ListeningStudioSkeleton />
             )}
           </motion.div>
         )}
@@ -1125,9 +1156,25 @@ function ListeningPageContent() {
   );
 }
 
+function ListeningSuspenseFallback() {
+  const [isStudio] = useState<boolean>(() => {
+    if (typeof window !== "undefined") {
+      const search = window.location.search;
+      return search.includes("id=") || search.includes("lessonId=");
+    }
+    return false;
+  });
+
+  if (isStudio) {
+    return <ListeningStudioSkeleton />;
+  }
+
+  return <ListeningListingSkeleton />;
+}
+
 export default function ListeningPage() {
   return (
-    <Suspense fallback={<ListeningListingSkeleton />}>
+    <Suspense fallback={<ListeningSuspenseFallback />}>
       <ListeningPageContent />
     </Suspense>
   );

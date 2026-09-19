@@ -46,12 +46,16 @@ export interface IpaSound {
   examples: IpaWordExample[];
 }
 
+export type MinimalPairCategory = "vowels" | "voicing" | "fricatives";
+
 export interface MinimalPair {
   id: string;
   title: string;
   description: string;
+  category: MinimalPairCategory;
   soundA: string;
   soundB: string;
+  anatomyTip?: string;
   pairs: {
     wordA: string;
     phoneticA: string;
@@ -1184,12 +1188,15 @@ export const ALL_IPA_SOUNDS: IpaSound[] = [
 // 4. 12 CẶP ÂM ĐỐI CHIẾU KINH ĐIỂN (MINIMAL PAIRS)
 // ----------------------------------------------------
 export const MINIMAL_PAIRS: MinimalPair[] = [
+  // ── NHÓM 1: NGUYÊN ÂM DỄ NHẦM LẪN (VOWEL CONFUSIONS - 4 CẶP) ──
   {
     id: "pair_i_long_short",
     title: "/iː/ vs /ɪ/ (Sheep vs Ship)",
     description: "Cặp âm kinh điển nhất tiếng Anh: /iː/ kéo dài cười tươi vs /ɪ/ ngắn dứt khoát thả lỏng.",
+    category: "vowels",
     soundA: "iː",
     soundB: "ɪ",
+    anatomyTip: "/iː/ căng cơ môi cười tươi kéo dài; /ɪ/ thả lỏng hoàn toàn cơ miệng và dứt khoát nhanh.",
     pairs: [
       { wordA: "sheep", phoneticA: "/ʃiːp/", meaningA: "con cừu", wordB: "ship", phoneticB: "/ʃɪp/", meaningB: "con tàu" },
       { wordA: "eat", phoneticA: "/iːt/", meaningA: "ăn", wordB: "it", phoneticB: "/ɪt/", meaningB: "nó" },
@@ -1202,60 +1209,57 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     id: "pair_e_ae",
     title: "/e/ vs /æ/ (Bed vs Bad)",
     description: "/e/ mở miệng vừa phải vs /æ/ (a bẹt) hạ cằm mở miệng cực rộng.",
+    category: "vowels",
     soundA: "e",
     soundB: "æ",
+    anatomyTip: "/e/ hàm mở vừa phải lưỡi ở giữa; /æ/ cằm hạ sâu hết cỡ, lưỡi đè sát sàn miệng ép luồng khí bẹt.",
     pairs: [
       { wordA: "bed", phoneticA: "/bed/", meaningA: "cái giường", wordB: "bad", phoneticB: "/bæd/", meaningB: "xấu, tệ" },
       { wordA: "pen", phoneticA: "/pen/", meaningA: "cây bút", wordB: "pan", phoneticB: "/pæn/", meaningB: "cái chảo" },
-      { wordA: "men", phoneticA: "/men/", meaningA: "đàn ông (số nhiều)", wordB: "man", phoneticB: "/mæn/", meaningB: "đàn ông (số ít)" },
+      { wordA: "men", phoneticA: "/men/", meaningA: "đàn ông (nhiều)", wordB: "man", phoneticB: "/mæn/", meaningB: "đàn ông (ít)" },
       { wordA: "head", phoneticA: "/hed/", meaningA: "cái đầu", wordB: "had", phoneticB: "/hæd/", meaningB: "đã có" },
     ],
   },
   {
-    id: "pair_th_unvoiced_s",
-    title: "/θ/ vs /s/ (Think vs Sink)",
-    description: "/θ/ thè đầu lưỡi kẹp giữa 2 răng vs /s/ khép răng xì hơi không thè lưỡi.",
-    soundA: "θ",
-    soundB: "s",
+    id: "pair_u_long_short",
+    title: "/uː/ vs /ʊ/ (Pool vs Pull)",
+    description: "/uː/ u dài chu môi sâu kéo dài vs /ʊ/ u ngắn hé mở môi thả lỏng tự nhiên.",
+    category: "vowels",
+    soundA: "uː",
+    soundB: "ʊ",
+    anatomyTip: "/uː/ môi chu tròn sâu và kéo dài; /ʊ/ môi chỉ hơi hé mở nhẹ, cơ miệng hoàn toàn thả lỏng dứt khoát.",
     pairs: [
-      { wordA: "think", phoneticA: "/θɪŋk/", meaningA: "suy nghĩ", wordB: "sink", phoneticB: "/sɪŋk/", meaningB: "chìm" },
-      { wordA: "thick", phoneticA: "/θɪk/", meaningA: "dày cộm", wordB: "sick", phoneticB: "/sɪk/", meaningB: "ốm yếu" },
-      { wordA: "thank", phoneticA: "/θæŋk/", meaningA: "cảm ơn", wordB: "sank", phoneticB: "/sæŋk/", meaningB: "đã chìm" },
-      { wordA: "mouth", phoneticA: "/maʊθ/", meaningA: "miệng", wordB: "mouse", phoneticB: "/maʊs/", meaningB: "con chuột" },
+      { wordA: "pool", phoneticA: "/puːl/", meaningA: "hồ bơi", wordB: "pull", phoneticB: "/pʊl/", meaningB: "kéo" },
+      { wordA: "luke", phoneticA: "/luːk/", meaningA: "tên Luke", wordB: "look", phoneticB: "/lʊk/", meaningB: "nhìn xem" },
+      { wordA: "fool", phoneticA: "/fuːl/", meaningA: "kẻ ngốc", wordB: "full", phoneticB: "/fʊl/", meaningB: "đầy đủ" },
+      { wordA: "suit", phoneticA: "/suːt/", meaningA: "bộ vest", wordB: "soot", phoneticB: "/sʊt/", meaningB: "bồ hóng" },
     ],
   },
   {
-    id: "pair_th_voiced_d",
-    title: "/ð/ vs /d/ (They vs Day)",
-    description: "/ð/ kẹp lưỡi giữa răng và rung thanh quản vs /d/ đầu lưỡi chạm chân răng trên.",
-    soundA: "ð",
-    soundB: "d",
+    id: "pair_o_long_short",
+    title: "/ɔː/ vs /ɒ/ (Cord vs Cod)",
+    description: "/ɔː/ o dài tròn môi trầm ấm vs /ɒ/ o ngắn mở rộng quai hàm dứt khoát.",
+    category: "vowels",
+    soundA: "ɔː",
+    soundB: "ɒ",
+    anatomyTip: "/ɔː/ cuống lưỡi kéo lùi sâu, môi tròn căng đưa ra trước; /ɒ/ hạ quai hàm mở tròn tự nhiên ngắn gọn.",
     pairs: [
-      { wordA: "they", phoneticA: "/ðeɪ/", meaningA: "họ", wordB: "day", phoneticB: "/deɪ/", meaningB: "ngày" },
-      { wordA: "there", phoneticA: "/ðeə/", meaningA: "ở đó", wordB: "dare", phoneticB: "/deə/", meaningB: "dám" },
-      { wordA: "then", phoneticA: "/ðen/", meaningA: "sau đó", wordB: "den", phoneticB: "/den/", meaningB: "hang ổ" },
-      { wordA: "breathe", phoneticA: "/briːð/", meaningA: "thở", wordB: "breed", phoneticB: "/briːd/", meaningB: "giống loài" },
+      { wordA: "cord", phoneticA: "/kɔːd/", meaningA: "dây thừng", wordB: "cod", phoneticB: "/kɒd/", meaningB: "cá tuyết" },
+      { wordA: "port", phoneticA: "/pɔːt/", meaningA: "cảng biển", wordB: "pot", phoneticB: "/pɒt/", meaningB: "cái nồi" },
+      { wordA: "short", phoneticA: "/ʃɔːt/", meaningA: "ngắn", wordB: "shot", phoneticB: "/ʃɒt/", meaningB: "phát súng" },
+      { wordA: "sport", phoneticA: "/spɔːt/", meaningA: "thể thao", wordB: "spot", phoneticB: "/spɒt/", meaningB: "điểm, vết" },
     ],
   },
-  {
-    id: "pair_s_sh",
-    title: "/s/ vs /ʃ/ (See vs She)",
-    description: "/s/ miệng hơi bè xì nhẹ vs /ʃ/ chu tròn môi xì mạnh (suỵt trật tự).",
-    soundA: "s",
-    soundB: "ʃ",
-    pairs: [
-      { wordA: "see", phoneticA: "/siː/", meaningA: "nhìn thấy", wordB: "she", phoneticB: "/ʃiː/", meaningB: "cô ấy" },
-      { wordA: "sip", phoneticA: "/sɪp/", meaningA: "nhấp ngụm", wordB: "ship", phoneticB: "/ʃɪp/", meaningB: "con tàu" },
-      { wordA: "sue", phoneticA: "/suː/", meaningA: "kiện tụng", wordB: "shoe", phoneticB: "/ʃuː/", meaningB: "chiếc giày" },
-      { wordA: "same", phoneticA: "/seɪm/", meaningA: "giống nhau", wordB: "shame", phoneticB: "/ʃeɪm/", meaningB: "xấu hổ" },
-    ],
-  },
+
+  // ── NHÓM 2: PHỤ ÂM HỮU THANH VS VÔ THANH (VOICING PAIRS - 4 CẶP) ──
   {
     id: "pair_p_b",
     title: "/p/ vs /b/ (Pat vs Bat)",
-    description: "/p/ bật hơi mạnh không rung dây thanh quản vs /b/ rung mạnh thanh quản.",
+    description: "/p/ bật hơi mạnh không rung thanh quản vs /b/ ngậm môi rung mạnh thanh quản.",
+    category: "voicing",
     soundA: "p",
     soundB: "b",
+    anatomyTip: "/p/ mím môi nén khí rồi bật bung luồng hơi gió (vô thanh); /b/ mím môi rung mạnh dây thanh quản (hữu thanh).",
     pairs: [
       { wordA: "pat", phoneticA: "/pæt/", meaningA: "vỗ nhẹ", wordB: "bat", phoneticB: "/bæt/", meaningB: "con dơi" },
       { wordA: "pear", phoneticA: "/peə/", meaningA: "quả lê", wordB: "bear", phoneticB: "/beə/", meaningB: "con gấu" },
@@ -1264,11 +1268,89 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     ],
   },
   {
+    id: "pair_t_d",
+    title: "/t/ vs /d/ (To vs Do)",
+    description: "/t/ đầu lưỡi chạm nướu trên bật hơi vs /d/ đầu lưỡi rung thanh quản.",
+    category: "voicing",
+    soundA: "t",
+    soundB: "d",
+    anatomyTip: "/t/ đầu lưỡi ép chặt chân răng trên rồi giật bật hơi dứt khoát không rung; /d/ ép đầu lưỡi rung mạnh thanh quản.",
+    pairs: [
+      { wordA: "to", phoneticA: "/tuː/", meaningA: "đến, để", wordB: "do", phoneticB: "/duː/", meaningB: "làm" },
+      { wordA: "ten", phoneticA: "/ten/", meaningA: "số mười", wordB: "den", phoneticB: "/den/", meaningB: "hang ổ" },
+      { wordA: "bat", phoneticA: "/bæt/", meaningA: "con dơi", wordB: "bad", phoneticB: "/bæd/", meaningB: "xấu tệ" },
+      { wordA: "light", phoneticA: "/laɪt/", meaningA: "ánh sáng", wordB: "lied", phoneticB: "/laɪd/", meaningB: "nói dối" },
+    ],
+  },
+  {
+    id: "pair_th_voiced_d",
+    title: "/ð/ vs /d/ (They vs Day)",
+    description: "/ð/ kẹp lưỡi giữa răng và rung thanh quản vs /d/ đầu lưỡi chạm chân răng trên.",
+    category: "voicing",
+    soundA: "ð",
+    soundB: "d",
+    anatomyTip: "/ð/ kẹp nhẹ đầu lưỡi giữa 2 hàm răng và rung thanh quản; /d/ đầu lưỡi giật bật từ chân răng trên.",
+    pairs: [
+      { wordA: "they", phoneticA: "/ðeɪ/", meaningA: "họ", wordB: "day", phoneticB: "/deɪ/", meaningB: "ngày" },
+      { wordA: "there", phoneticA: "/ðeə/", meaningA: "ở đó", wordB: "dare", phoneticB: "/deə/", meaningB: "dám" },
+      { wordA: "then", phoneticA: "/ðen/", meaningA: "sau đó", wordB: "den", phoneticB: "/den/", meaningB: "hang ổ" },
+      { wordA: "breathe", phoneticA: "/briːð/", meaningA: "thở", wordB: "breed", phoneticB: "/briːd/", meaningB: "giống loài" },
+    ],
+  },
+  {
+    id: "pair_v_w",
+    title: "/v/ vs /w/ (Vest vs West)",
+    description: "/v/ răng cửa trên cắn môi dưới vs /w/ chu tròn môi rồi bung mở.",
+    category: "voicing",
+    soundA: "v",
+    soundB: "w",
+    anatomyTip: "/v/ răng cửa trên chạm nhẹ lòng môi dưới rồi xì rung; /w/ hai môi chu tròn như huýt sáo không chạm răng.",
+    pairs: [
+      { wordA: "vest", phoneticA: "/vest/", meaningA: "áo gi-lê", wordB: "west", phoneticB: "/west/", meaningB: "hướng tây" },
+      { wordA: "vine", phoneticA: "/vaɪn/", meaningA: "cây nho", wordB: "wine", phoneticB: "/waɪn/", meaningB: "rượu vang" },
+      { wordA: "vet", phoneticA: "/vet/", meaningA: "bác sĩ thú y", wordB: "wet", phoneticB: "/wet/", meaningB: "ẩm ướt" },
+    ],
+  },
+
+  // ── NHÓM 3: PHỤ ÂM XÁT & LƯỚT PHỨC TẠP (FRICATIVES & APPROXIMANTS - 4 CẶP) ──
+  {
+    id: "pair_s_sh",
+    title: "/s/ vs /ʃ/ (See vs She)",
+    description: "/s/ miệng hơi bè xì nhẹ vs /ʃ/ chu tròn môi xì mạnh (suỵt trật tự).",
+    category: "fricatives",
+    soundA: "s",
+    soundB: "ʃ",
+    anatomyTip: "/s/ khóe môi bè ngang xì hơi nhẹ qua khe răng; /ʃ/ chu tròn môi xì mạnh luồng khí dày (như ra hiệu suỵt).",
+    pairs: [
+      { wordA: "see", phoneticA: "/siː/", meaningA: "nhìn thấy", wordB: "she", phoneticB: "/ʃiː/", meaningB: "cô ấy" },
+      { wordA: "sip", phoneticA: "/sɪp/", meaningA: "nhấp ngụm", wordB: "ship", phoneticB: "/ʃɪp/", meaningB: "con tàu" },
+      { wordA: "sue", phoneticA: "/suː/", meaningA: "kiện tụng", wordB: "shoe", phoneticB: "/ʃuː/", meaningB: "chiếc giày" },
+      { wordA: "same", phoneticA: "/seɪm/", meaningA: "giống nhau", wordB: "shame", phoneticB: "/ʃeɪm/", meaningB: "xấu hổ" },
+    ],
+  },
+  {
+    id: "pair_th_unvoiced_s",
+    title: "/θ/ vs /s/ (Think vs Sink)",
+    description: "/θ/ thè đầu lưỡi kẹp giữa 2 răng vs /s/ khép răng xì hơi không thè lưỡi.",
+    category: "fricatives",
+    soundA: "θ",
+    soundB: "s",
+    anatomyTip: "/θ/ thè nhẹ đầu lưỡi kẹp giữa 2 hàm răng thổi gió êm; /s/ ngậm răng khép kín xì hơi không thè lưỡi.",
+    pairs: [
+      { wordA: "think", phoneticA: "/θɪŋk/", meaningA: "suy nghĩ", wordB: "sink", phoneticB: "/sɪŋk/", meaningB: "chìm" },
+      { wordA: "thick", phoneticA: "/θɪk/", meaningA: "dày cộm", wordB: "sick", phoneticB: "/sɪk/", meaningB: "ốm yếu" },
+      { wordA: "thank", phoneticA: "/θæŋk/", meaningA: "cảm ơn", wordB: "sank", phoneticB: "/sæŋk/", meaningB: "đã chìm" },
+      { wordA: "mouth", phoneticA: "/maʊθ/", meaningA: "miệng", wordB: "mouse", phoneticB: "/maʊs/", meaningB: "con chuột" },
+    ],
+  },
+  {
     id: "pair_l_r",
     title: "/l/ vs /r/ (Light vs Right)",
     description: "/l/ đầu lưỡi chạm chân răng trên vs /r/ uốn cong đầu lưỡi không chạm vòm miệng.",
+    category: "fricatives",
     soundA: "l",
     soundB: "r",
+    anatomyTip: "/l/ đầu lưỡi ấn dán chặt vào nướu trên; /r/ đầu lưỡi cong sâu vào vòm họng và tuyệt đối không chạm ngạc.",
     pairs: [
       { wordA: "light", phoneticA: "/laɪt/", meaningA: "ánh sáng", wordB: "right", phoneticB: "/raɪt/", meaningB: "đúng, phải" },
       { wordA: "long", phoneticA: "/lɒŋ/", meaningA: "dài", wordB: "wrong", phoneticB: "/rɒŋ/", meaningB: "sai" },
@@ -1277,15 +1359,18 @@ export const MINIMAL_PAIRS: MinimalPair[] = [
     ],
   },
   {
-    id: "pair_v_w",
-    title: "/v/ vs /w/ (Vest vs West)",
-    description: "/v/ răng cửa trên cắn môi dưới vs /w/ chu tròn môi rồi bung mở.",
-    soundA: "v",
-    soundB: "w",
+    id: "pair_ch_j",
+    title: "/tʃ/ vs /dʒ/ (Choke vs Joke)",
+    description: "/tʃ/ chu môi bật hơi vô thanh vs /dʒ/ chu môi bật rung thanh quản hữu thanh.",
+    category: "fricatives",
+    soundA: "tʃ",
+    soundB: "dʒ",
+    anatomyTip: "/tʃ/ chu môi nén khí rồi giật bung luồng hơi mạnh không rung; /dʒ/ khẩu hình tương tự nhưng rung mạnh cổ họng.",
     pairs: [
-      { wordA: "vest", phoneticA: "/vest/", meaningA: "áo gi-lê", wordB: "west", phoneticB: "/west/", meaningB: "hướng tây" },
-      { wordA: "vine", phoneticA: "/vaɪn/", meaningA: "cây nho", wordB: "wine", phoneticB: "/waɪn/", meaningB: "rượu vang" },
-      { wordA: "vet", phoneticA: "/vet/", meaningA: "bác sĩ thú y", wordB: "wet", phoneticB: "/wet/", meaningB: "ẩm ướt" },
+      { wordA: "choke", phoneticA: "/tʃəʊk/", meaningA: "nghẹn thở", wordB: "joke", phoneticB: "/dʒəʊk/", meaningB: "lời đùa" },
+      { wordA: "cheap", phoneticA: "/tʃiːp/", meaningA: "giá rẻ", wordB: "jeep", phoneticB: "/dʒiːp/", meaningB: "xe jeep" },
+      { wordA: "rich", phoneticA: "/rɪtʃ/", meaningA: "giàu có", wordB: "ridge", phoneticB: "/rɪdʒ/", meaningB: "sống núi" },
+      { wordA: "chain", phoneticA: "/tʃeɪn/", meaningA: "dây chuyền", wordB: "Jane", phoneticB: "/dʒeɪn/", meaningB: "tên Jane" },
     ],
   },
 ];

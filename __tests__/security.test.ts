@@ -4,6 +4,7 @@ import { sanitizeInput, isValidEmail, isPayloadTooLarge } from "@/infrastructure
 import { signAuthToken, verifyAuthToken } from "@/infrastructure/auth/jwt";
 import { hashPassword, comparePassword } from "@/infrastructure/auth/password";
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { createOAuthState, hasValidOAuthState } from "@/infrastructure/auth/oauthState";
 
 const { mockCookieStore } = vi.hoisted(() => ({
   mockCookieStore: { data: {} as Record<string, string> }
@@ -203,19 +204,36 @@ describe("Security Modules Deep Audit & Unit Tests", () => {
   });
 
   describe("4. Password Hashing (infrastructure/auth/password.ts)", () => {
-    it("should hash password with PBKDF2 format", () => {
+    it("should hash password with modern PBKDF2 random salt format (pbkdf2:salt:hash)", () => {
       const rawPassword = "SecurePassword123!";
-      const hash = hashPassword(rawPassword);
+      const hash1 = hashPassword(rawPassword);
+      const hash2 = hashPassword(rawPassword);
 
-      expect(hash).toMatch(/^pbkdf2:[a-f0-9]{128}$/);
+      // Format: pbkdf2:<32-hex-salt>:<128-hex-hash>
+      expect(hash1).toMatch(/^pbkdf2:[a-f0-9]{32}:[a-f0-9]{128}$/);
+      expect(hash2).toMatch(/^pbkdf2:[a-f0-9]{32}:[a-f0-9]{128}$/);
+
+      // Unique salt per hash: two hashes of the same password must differ
+      expect(hash1).not.toBe(hash2);
     });
 
-    it("should verify correct password against PBKDF2 hash", () => {
+    it("should verify correct password against modern PBKDF2 hash", () => {
       const rawPassword = "MySecretPassword2026!";
       const hash = hashPassword(rawPassword);
 
       expect(comparePassword(rawPassword, hash)).toBe(true);
       expect(comparePassword("WrongPassword!", hash)).toBe(false);
+    });
+
+    it("should seamlessly verify legacy PBKDF2 hashes (pbkdf2:hash with static salt)", () => {
+      const rawPassword = "LegacyPBKDF2Password123!";
+      const crypto = require("crypto");
+      const defaultSaltKey = process.env.PASSWORD_SALT_KEY || "xp_voca_secret_salt_2026_dev_only";
+      const legacySalt = crypto.createHash("sha256").update(defaultSaltKey).digest("hex").substring(0, 16);
+      const legacyPbkdf2Hash = `pbkdf2:${crypto.pbkdf2Sync(rawPassword, legacySalt, 10000, 64, "sha512").toString("hex")}`;
+
+      expect(comparePassword(rawPassword, legacyPbkdf2Hash)).toBe(true);
+      expect(comparePassword("WrongPassword!", legacyPbkdf2Hash)).toBe(false);
     });
 
     it("should fallback to compare legacy SHA256 hashes", () => {
@@ -282,6 +300,29 @@ describe("Security Modules Deep Audit & Unit Tests", () => {
     it("should return null for completely unauthenticated guest requests", async () => {
       const userId = await getAuthenticatedUserId();
       expect(userId).toBeNull();
+    });
+  });
+
+  describe("6. OAuth 2.0 CSRF State Hardening (infrastructure/auth/oauthState.ts)", () => {
+    it("should generate cryptographically random, unique base64url states", () => {
+      const s1 = createOAuthState();
+      const s2 = createOAuthState();
+      expect(s1).not.toBe(s2);
+      expect(s1.length).toBeGreaterThanOrEqual(40);
+    });
+
+    it("should validate matching OAuth state from cookies and query parameters", () => {
+      const state = createOAuthState();
+      const req = {
+        cookies: {
+          get: (name: string) => (name === "xp_voca_oauth_state_google" ? { value: state } : undefined),
+        },
+      } as any;
+
+      expect(hasValidOAuthState(req, "google", state)).toBe(true);
+      expect(hasValidOAuthState(req, "google", "tampered_state_value")).toBe(false);
+      expect(hasValidOAuthState(req, "google", null)).toBe(false);
+      expect(hasValidOAuthState(req, "facebook", state)).toBe(false);
     });
   });
 });

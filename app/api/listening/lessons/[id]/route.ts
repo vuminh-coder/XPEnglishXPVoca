@@ -34,15 +34,22 @@ export async function GET(
           : undefined,
       });
 
-      // 2. Fallback: if not found, try finding by formatted id (listen_XXX), orderIndex or numeric index (e.g. id=52 -> listen_052)
+      // 2. Fallback: if not found, try finding by formatted id (listen_XXX, listen_toeic_XXX), orderIndex or numeric index (e.g. id=44)
       if (!lesson) {
         const num = parseInt(id, 10);
         if (!isNaN(num)) {
           const formatted = `listen_${String(num).padStart(3, "0")}`;
+          const mockMatchId =
+            num >= 1 && num <= MOCK_LESSONS_DATA.length
+              ? MOCK_LESSONS_DATA[num - 1]?.id
+              : null;
+
           lesson = await prisma.listeningLesson.findFirst({
             where: {
               OR: [
                 { id: formatted },
+                ...(mockMatchId ? [{ id: mockMatchId }] : []),
+                { id: { contains: String(num).padStart(3, "0") } },
                 { orderIndex: num - 1 },
                 { orderIndex: num },
               ],
@@ -105,7 +112,9 @@ export async function GET(
             mockLesson = MOCK_LESSONS_DATA[num - 1];
           } else {
             const formatted = `listen_${String(num).padStart(3, "0")}`;
-            mockLesson = MOCK_LESSONS_DATA.find((l) => l.id === formatted);
+            mockLesson = MOCK_LESSONS_DATA.find(
+              (l) => l.id === formatted || l.id.includes(String(num).padStart(3, "0"))
+            );
           }
         }
       }

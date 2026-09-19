@@ -1,65 +1,77 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 import { signAuthToken } from "@/infrastructure/auth/jwt";
+import {
+  clearOAuthStateCookie,
+  hasValidOAuthState,
+} from "@/infrastructure/auth/oauthState";
+
+function redirectToLogin(req: NextRequest, error: string) {
+  const response = NextResponse.redirect(new URL(`/login?error=${error}`, req.url));
+  clearOAuthStateCookie(response, "facebook");
+  return response;
+}
 
 export async function GET(req: NextRequest) {
+  const code = req.nextUrl.searchParams.get("code");
+  const providerError = req.nextUrl.searchParams.get("error");
+  const state = req.nextUrl.searchParams.get("state");
+  if (!hasValidOAuthState(req, "facebook", state)) {
+    return redirectToLogin(req, "facebook_state_invalid");
+  }
+  if (providerError || !code) {
+    return redirectToLogin(req, "facebook_denied");
+  }
+
+  const appId = process.env.FACEBOOK_APP_ID;
+  const appSecret = process.env.FACEBOOK_APP_SECRET;
+  if (!appId || !appSecret) {
+    return redirectToLogin(req, "facebook_config_missing");
+  }
+
   try {
-    const code = req.nextUrl.searchParams.get("code");
-    const error = req.nextUrl.searchParams.get("error");
-
-    if (error || !code) {
-      return NextResponse.redirect(new URL("/login?error=facebook_denied", req.url));
-    }
-
-    const appId = process.env.FACEBOOK_APP_ID!;
-    const appSecret = process.env.FACEBOOK_APP_SECRET!;
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || req.nextUrl.origin;
-    const redirectUri = `${baseUrl}/api/auth/facebook/callback`;
-
-    // Exchange code for access token
+    const tokenParams = new URLSearchParams({
+      client_id: appId,
+      client_secret: appSecret,
+      redirect_uri: `${baseUrl}/api/auth/facebook/callback`,
+      code,
+    });
     const tokenRes = await fetch(
-      `https://graph.facebook.com/v19.0/oauth/access_token?` +
-        new URLSearchParams({
-          client_id: appId,
-          client_secret: appSecret,
-          redirect_uri: redirectUri,
-          code,
-        })
+      `https://graph.facebook.com/v19.0/oauth/access_token?${tokenParams.toString()}`,
+      { cache: "no-store" }
     );
-
     const tokenData = await tokenRes.json();
-
-    if (!tokenData.access_token) {
-      console.error("Facebook token exchange failed:", tokenData);
-      return NextResponse.redirect(new URL("/login?error=facebook_token_failed", req.url));
+    if (!tokenRes.ok || !tokenData.access_token) {
+      console.error("Facebook token exchange failed", { status: tokenRes.status });
+      return redirectToLogin(req, "facebook_token_failed");
     }
 
-    // Fetch user profile from Facebook
-    const profileRes = await fetch(
-      `https://graph.facebook.com/v19.0/me?fields=id,name,email,picture.type(large)&access_token=${tokenData.access_token}`
-    );
-
-    const fbUser = await profileRes.json();
-
-    const email = (fbUser.email || `fb_${fbUser.id}@facebook.com`).toLowerCase();
-    const fullName = fbUser.name || "Học viên Facebook";
-    const avatarUrl = fbUser.picture?.data?.url || "";
-
-    // Find or create user in DB
-    let profile = await prisma.profile.findFirst({
-      where: { email },
+    const profileParams = new URLSearchParams({
+      fields: "id,name,email,picture.type(large)",
+      access_token: tokenData.access_token,
     });
+    const profileRes = await fetch(`https://graph.facebook.com/v19.0/me?${profileParams.toString()}`, {
+      cache: "no-store",
+    });
+    const fbUser = await profileRes.json();
+    if (!profileRes.ok || !fbUser.id) {
+      console.error("Facebook profile request failed", { status: profileRes.status });
+      return redirectToLogin(req, "facebook_profile_failed");
+    }
 
+    const email = String(fbUser.email || `fb_${fbUser.id}@facebook.com`).toLowerCase();
+    const fullName = fbUser.name || "Facebook learner";
+    const avatarUrl = fbUser.picture?.data?.url || "";
+    let profile = await prisma.profile.findFirst({ where: { email } });
     if (!profile) {
-      const userId = `usr_fb_${Date.now()}_${Math.random().toString(36).substring(2, 5)}`;
-      const username = email.split("@")[0].replace(/[^a-zA-Z0-9_]/g, "");
-
+      const baseUsername = email.split("@")[0].replace(/[^a-zA-Z0-9_]/g, "") || "user";
       profile = await prisma.profile.create({
         data: {
-          id: userId,
+          id: `usr_fb_${Date.now()}_${Math.random().toString(36).substring(2, 5)}`,
           email,
           fullName,
-          username: username || "user",
+          username: `${baseUsername}_${Math.floor(1000 + Math.random() * 9000)}`,
           avatarEmoji: "🔥",
           avatarUrl: avatarUrl || undefined,
           level: 1,
@@ -73,43 +85,11 @@ export async function GET(req: NextRequest) {
         },
       });
     } else if (avatarUrl && avatarUrl !== profile.avatarUrl) {
-      // Always refresh avatar if Facebook returns a different/updated URL
-      profile = await prisma.profile.update({
-        where: { id: profile.id },
-        data: { avatarUrl },
-      });
+      profile = await prisma.profile.update({ where: { id: profile.id }, data: { avatarUrl } });
     }
 
-    // Sign JWT session token
-    const token = signAuthToken({
-      userId: profile.id,
-      email: profile.email,
-      username: profile.username,
-    });
-
-    const userPayload = {
-      id: profile.id,
-      username: profile.username || profile.id,
-      fullName: profile.fullName || fullName,
-      email: profile.email || email,
-      level: profile.level,
-      totalXp: profile.totalXp,
-      currentStreak: profile.currentStreak,
-      longestStreak: profile.longestStreak,
-      minutesStudied: profile.minutesStudied,
-      avatarEmoji: profile.avatarEmoji || "🔥",
-      bio: "Học viên XP English | XP Voca! 🚀",
-      title: profile.title,
-      avatarUrl: avatarUrl || profile.avatarUrl || null,
-      avatar: avatarUrl || profile.avatarUrl || null,
-      imageUrl: avatarUrl || profile.avatarUrl || null,
-    };
-
-    const encodedUser = encodeURIComponent(JSON.stringify(userPayload));
-    const redirectUrl = new URL(`/dashboard?oauth_user=${encodedUser}`, req.url);
-
-    const response = NextResponse.redirect(redirectUrl);
-
+    const token = signAuthToken({ userId: profile.id, email: profile.email, username: profile.username });
+    const response = NextResponse.redirect(new URL("/dashboard", req.url));
     response.cookies.set("xp_voca_session", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -117,10 +97,10 @@ export async function GET(req: NextRequest) {
       maxAge: 60 * 60 * 24 * 30,
       path: "/",
     });
-
+    clearOAuthStateCookie(response, "facebook");
     return response;
-  } catch (error: any) {
-    console.error("Facebook OAuth Callback Error:", error);
-    return NextResponse.redirect(new URL("/login?error=facebook_server_error", req.url));
+  } catch (error) {
+    console.error("Facebook OAuth callback error:", error);
+    return redirectToLogin(req, "facebook_server_error");
   }
 }

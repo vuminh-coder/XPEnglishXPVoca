@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Zap, Timer, Flame, Check, SkipForward } from "lucide-react";
 import { Badge } from "@/shared/components/ui/Badge";
-import { useAuthStore } from "@/stores/authStore";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { ScrambleWordPackage } from "../../types";
 import { gameAudio } from "../../utils/gameAudio";
 import { GameResultScreen } from "../shared/GameResultScreen";
+import { recordGameSession } from "../../utils/recordGameSession";
 
 function scrambleWord(word: string): string {
   const arr = word.split("");
@@ -26,7 +26,6 @@ export interface WordScrambleGameProps {
 }
 
 export function WordScrambleGame({ pool, onBack }: WordScrambleGameProps) {
-  const { awardXp, awardCoins } = useAuthStore();
   const { addToast } = useNotificationStore();
   const [words, setWords] = useState<ScrambleWordPackage[]>([]);
 
@@ -52,34 +51,31 @@ export function WordScrambleGame({ pool, onBack }: WordScrambleGameProps) {
   const [timeLeft, setTimeLeft] = useState(30);
   const [feedback, setFeedback] = useState<"correct" | "wrong" | null>(null);
   const [gameOver, setGameOver] = useState(false);
+  const [rewards, setRewards] = useState<{ xp: number; coins: number }>({ xp: 0, coins: 0 });
+  const startTimeRef = useRef<number>(Date.now());
 
   // When game finishes, award XP/Coins and sync to database
   useEffect(() => {
     if (gameOver && score > 0) {
       gameAudio.playVictoryFanfare();
-      awardXp(score);
-      awardCoins?.(5);
-
-      // Async DB record sync
-      fetch("/api/games/record", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          gameType: "scramble",
-          score,
-          xpGained: score,
-          coinsGained: 5,
-          wordsCompleted: current + 1,
-        }),
-      }).catch((err) => console.warn("Failed to persist game session to DB:", err));
-
-      addToast({
-        type: "xp",
-        title: `+${score} XP & +5 Vàng!`,
-        message: "Chúc mừng bạn đã hoàn thành Word Scramble!",
+      const durationSeconds = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
+      recordGameSession({
+        gameType: "scramble",
+        score,
+        durationSeconds,
+        wordsCompleted: current + 1,
+      }).then((res) => {
+        if (res.success && (res.xpGained > 0 || res.coinsGained > 0)) {
+          setRewards({ xp: res.xpGained, coins: res.coinsGained });
+          addToast({
+            type: "info",
+            title: `+${res.xpGained} XP & +${res.coinsGained} Vàng!`,
+            message: "Chúc mừng bạn đã hoàn thành Word Scramble!",
+          });
+        }
       });
     }
-  }, [gameOver, score, awardXp, awardCoins, addToast, current]);
+  }, [gameOver, score, addToast, current]);
 
   const handleSkip = () => {
     setCombo(0);
@@ -152,6 +148,8 @@ export function WordScrambleGame({ pool, onBack }: WordScrambleGameProps) {
     setFeedback(null);
     setTimeLeft(30);
     setGameOver(false);
+    setRewards({ xp: 0, coins: 0 });
+    startTimeRef.current = Date.now();
   };
 
   if (gameOver) {
@@ -160,8 +158,8 @@ export function WordScrambleGame({ pool, onBack }: WordScrambleGameProps) {
         title="Xuất Sắc! Hoàn Thành Word Scramble"
         subtitle={`Bạn đã chinh phục thành công ${words.length} từ vựng tiếng Anh với độ chính xác cao.`}
         score={score}
-        xpEarned={score}
-        coinsEarned={5}
+        xpEarned={rewards.xp}
+        coinsEarned={rewards.coins}
         onBack={onBack}
         onRestart={handleRestart}
       />

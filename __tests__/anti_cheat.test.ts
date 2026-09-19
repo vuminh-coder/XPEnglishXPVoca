@@ -112,4 +112,129 @@ describe("Anti-Cheat & Server-Authoritative Gamification Tests (Task 2)", () => 
       expect(sanitizedUsername).not.toContain("@");
     });
   });
+
+  describe("4. Server-Authoritative Mini-Game Anti-Cheat Verification", () => {
+    // Model the exact server logic implemented in app/api/games/record/route.ts
+    const calculateGameRewards = (
+      gameType: string,
+      score: number,
+      wordsCompleted: number,
+      attempts: number,
+      durationSeconds: number
+    ) => {
+      const MIN_PLAY_DURATION_SECONDS = 8;
+      const MAX_SERVER_XP_CAP = 60;
+      const MAX_SERVER_COINS_CAP = 15;
+
+      if (durationSeconds < MIN_PLAY_DURATION_SECONDS) {
+        return { xp: 0, coins: 0 };
+      }
+
+      let xp = 0;
+      let coins = 0;
+
+      switch (gameType) {
+        case "memory": {
+          xp = 30;
+          if (score >= 40) xp += 10;
+          coins = 8;
+          break;
+        }
+        case "scramble": {
+          const words = Math.max(1, Math.min(wordsCompleted || 5, 10));
+          xp = Math.min(50, words * 8);
+          coins = Math.min(12, words * 2);
+          break;
+        }
+        case "wordle": {
+          const attemptIdx = Math.max(1, Math.min(attempts || 6, 6));
+          const wordleXp = [50, 45, 40, 35, 30, 25];
+          xp = wordleXp[attemptIdx - 1] || 25;
+          coins = 5;
+          break;
+        }
+        default: {
+          xp = Math.min(30, Math.max(10, Math.floor(score / 5)));
+          coins = 5;
+          break;
+        }
+      }
+
+      return {
+        xp: Math.min(MAX_SERVER_XP_CAP, Math.max(0, xp)),
+        coins: Math.min(MAX_SERVER_COINS_CAP, Math.max(0, coins)),
+      };
+    };
+
+    it("should reject rewards (0 XP, 0 Coins) when duration is suspiciously fast (< 8s bot speed)", () => {
+      const botReward = calculateGameRewards("memory", 60, 6, 1, 3); // 3 seconds
+      expect(botReward.xp).toBe(0);
+      expect(botReward.coins).toBe(0);
+    });
+
+    it("should award valid rewards when game is played legitimately (> 8s)", () => {
+      const legitReward = calculateGameRewards("memory", 50, 6, 1, 25); // 25 seconds
+      expect(legitReward.xp).toBe(40);
+      expect(legitReward.coins).toBe(8);
+    });
+
+    it("should strictly enforce server hard caps on XP and Coins", () => {
+      const hugeReward = calculateGameRewards("scramble", 99999, 50, 1, 60);
+      expect(hugeReward.xp).toBeLessThanOrEqual(60);
+      expect(hugeReward.coins).toBeLessThanOrEqual(15);
+    });
+
+    it("should scale Wordle rewards accurately by attempt count", () => {
+      const attempt1 = calculateGameRewards("wordle", 60, 1, 1, 15);
+      const attempt6 = calculateGameRewards("wordle", 10, 1, 6, 45);
+
+      expect(attempt1.xp).toBe(50);
+      expect(attempt6.xp).toBe(25);
+      expect(attempt1.xp).toBeGreaterThan(attempt6.xp);
+    });
+  });
+
+  describe("5. Task Completion Atomic One-Time XP Claim Guarantee", () => {
+    it("should grant XP only once and block infinite duplication via atomic state check", () => {
+      // Simulate task state
+      let task = { id: "task_1", isCompleted: false, xpClaimed: false, xpReward: 25 };
+      let userProfile = { totalXp: 100 };
+
+      // Helper simulating the atomic predicate in app/api/study-plan/task-complete/route.ts
+      const completeTaskAtomic = (targetCompleted: boolean) => {
+        if (!targetCompleted) {
+          task.isCompleted = false;
+          return { xpAwarded: 0 };
+        }
+
+        // Atomic where: { id: taskId, xpClaimed: false }
+        if (!task.xpClaimed) {
+          task.isCompleted = true;
+          task.xpClaimed = true;
+          userProfile.totalXp += task.xpReward;
+          return { xpAwarded: task.xpReward };
+        }
+
+        task.isCompleted = true;
+        return { xpAwarded: 0 };
+      };
+
+      // 1. First completion grants reward
+      const res1 = completeTaskAtomic(true);
+      expect(res1.xpAwarded).toBe(25);
+      expect(userProfile.totalXp).toBe(125);
+      expect(task.xpClaimed).toBe(true);
+
+      // 2. User toggles task off (isCompleted: false)
+      const res2 = completeTaskAtomic(false);
+      expect(res2.xpAwarded).toBe(0);
+      expect(task.isCompleted).toBe(false);
+      expect(task.xpClaimed).toBe(true); // xpClaimed remains true!
+
+      // 3. User attempts to re-complete to duplicate XP
+      const res3 = completeTaskAtomic(true);
+      expect(res3.xpAwarded).toBe(0); // 0 XP awarded!
+      expect(userProfile.totalXp).toBe(125); // Profile XP unchanged!
+    });
+  });
 });

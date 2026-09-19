@@ -1,35 +1,10 @@
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { prisma, safeDbExecute } from "@/infrastructure/database/prisma";
+import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
+import { getLocalDateString, getWeekDateRange } from "@/shared/utils/dateUtils";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
-
-function getLocalDateString(d: Date = new Date()): string {
-  const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-}
-
-function getWeekDateRange(): { startOfWeekStr: string; endOfWeekStr: string; weekDates: string[] } {
-  const today = new Date();
-  const currentDayOfWeek = today.getDay();
-  const dayDiff = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek; // Monday start
-
-  const startOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + dayDiff);
-  const weekDates: string[] = [];
-
-  for (let i = 0; i < 7; i++) {
-    const d = new Date(startOfWeek.getFullYear(), startOfWeek.getMonth(), startOfWeek.getDate() + i);
-    weekDates.push(getLocalDateString(d));
-  }
-
-  return {
-    startOfWeekStr: weekDates[0],
-    endOfWeekStr: weekDates[6],
-    weekDates,
-  };
-}
 
 export async function GET(request: Request) {
   try {
@@ -51,6 +26,11 @@ export async function GET(request: Request) {
       });
     }
 
+    const startOfWeekDate = new Date(`${startOfWeekStr}T00:00:00.000Z`);
+    const endOfWeekDate = new Date(`${endOfWeekStr}T23:59:59.999Z`);
+
+    // High-performance single root query: fetches profile, vocabulary count,
+    // and weekly active practice logs in a single DB operation to eliminate pool exhaustion.
     const result = await safeDbExecute(async () => {
       const profile = await prisma.profile.findUnique({
         where: { id: userId },
@@ -60,108 +40,99 @@ export async function GET(request: Request) {
           totalXp: true,
           coins: true,
           minutesStudied: true,
-          updatedAt: true,
-        },
-      });
-
-      const wordsLearnedCount = await prisma.userVocabulary.count({
-        where: { userId, proficiency: { gt: 0 } },
-      });
-
-      const startOfWeekDate = new Date(`${startOfWeekStr}T00:00:00.000Z`);
-      const endOfWeekDate = new Date(`${endOfWeekStr}T23:59:59.999Z`);
-
-      // 1. Query active days this week from DailySkillPractice
-      const practicesThisWeek = await prisma.dailySkillPractice.findMany({
-        where: {
-          userId,
-          date: {
-            gte: startOfWeekStr,
-            lte: endOfWeekStr,
+          _count: {
+            select: {
+              vocabularies: {
+                where: { proficiency: { gt: 0 } },
+              },
+            },
+          },
+          dailySkillPractices: {
+            where: {
+              date: {
+                gte: startOfWeekStr,
+                lte: endOfWeekStr,
+              },
+            },
+            select: {
+              date: true,
+              skill: true,
+            },
+          },
+          examAttempts: {
+            where: {
+              startedAt: {
+                gte: startOfWeekDate,
+                lte: endOfWeekDate,
+              },
+            },
+            select: {
+              startedAt: true,
+            },
+          },
+          listeningProgresses: {
+            where: {
+              lastPracticedAt: {
+                gte: startOfWeekDate,
+                lte: endOfWeekDate,
+              },
+            },
+            select: {
+              lastPracticedAt: true,
+            },
+          },
+          vocabularies: {
+            where: {
+              lastPracticed: {
+                gte: startOfWeekDate,
+                lte: endOfWeekDate,
+              },
+            },
+            select: {
+              lastPracticed: true,
+            },
           },
         },
-        select: {
-          date: true,
-          skill: true,
-        },
       });
 
-      // 2. Query active days this week from ExamAttempt (Thi thử)
-      const examsThisWeek = await prisma.examAttempt.findMany({
-        where: {
-          userId,
-          startedAt: {
-            gte: startOfWeekDate,
-            lte: endOfWeekDate,
-          },
-        },
-        select: {
-          startedAt: true,
-        },
-      });
-
-      // 3. Query active days this week from ListeningProgress (Luyện nghe)
-      const listeningThisWeek = await prisma.listeningProgress.findMany({
-        where: {
-          userId,
-          lastPracticedAt: {
-            gte: startOfWeekDate,
-            lte: endOfWeekDate,
-          },
-        },
-        select: {
-          lastPracticedAt: true,
-        },
-      });
-
-      // 4. Query active days this week from UserVocabulary (Ôn tập từ vựng)
-      const vocabThisWeek = await prisma.userVocabulary.findMany({
-        where: {
-          userId,
-          lastPracticed: {
-            gte: startOfWeekDate,
-            lte: endOfWeekDate,
-          },
-        },
-        select: {
-          lastPracticed: true,
-        },
-      });
+      if (!profile) {
+        return null;
+      }
 
       const activeDaysSet = new Set<string>();
 
-      practicesThisWeek.forEach((p) => {
+      profile.dailySkillPractices.forEach((p) => {
         if (p.date) activeDaysSet.add(p.date);
       });
 
-      examsThisWeek.forEach((e) => {
+      profile.examAttempts.forEach((e) => {
         if (e.startedAt) activeDaysSet.add(getLocalDateString(new Date(e.startedAt)));
       });
 
-      listeningThisWeek.forEach((l) => {
+      profile.listeningProgresses.forEach((l) => {
         if (l.lastPracticedAt) activeDaysSet.add(getLocalDateString(new Date(l.lastPracticedAt)));
       });
 
-      vocabThisWeek.forEach((v) => {
+      profile.vocabularies.forEach((v) => {
         if (v.lastPracticed) activeDaysSet.add(getLocalDateString(new Date(v.lastPracticed)));
       });
 
-      const isCheckedInToday = practicesThisWeek.some(
+      const isCheckedInToday = profile.dailySkillPractices.some(
         (p) => p.date === todayStr && p.skill === "checkin"
       );
 
       return {
         isCheckedInToday,
         activeDaysInWeek: Array.from(activeDaysSet),
-        currentStreak: profile?.currentStreak || 1,
-        longestStreak: profile?.longestStreak || 1,
-        totalXp: profile?.totalXp || 0,
-        coins: profile?.coins || 0,
-        wordsLearned: wordsLearnedCount,
-        minutesStudied: profile?.minutesStudied || 0,
+        currentStreak: profile.currentStreak || 1,
+        longestStreak: profile.longestStreak || 1,
+        totalXp: profile.totalXp || 0,
+        coins: profile.coins || 0,
+        wordsLearned: profile._count?.vocabularies ?? 0,
+        minutesStudied: profile.minutesStudied || 0,
         todayStr,
       };
-    }, "Daily Checkin Query");
+    }, "Daily Checkin Single Query");
 
     return NextResponse.json({
       success: true,
@@ -201,13 +172,17 @@ export async function POST(request: Request) {
     const COIN_REWARD = 20;
     const PRACTICE_MINUTES = 5;
 
-    const result = await safeDbExecute(async () => {
+    // The log row is protected by a unique key. Keep the log and the reward in
+    // one transaction so a failed request cannot mint XP without a check-in.
+    const result = await prisma.$transaction(async (tx) => {
       // 1. Check if user already checked in today in DailySkillPractice
-      const existingCheckin = await prisma.dailySkillPractice.findFirst({
+      const existingCheckin = await tx.dailySkillPractice.findUnique({
         where: {
-          userId,
-          date: todayStr,
-          skill: "checkin",
+          userId_skill_date: {
+            userId,
+            skill: "checkin",
+            date: todayStr,
+          },
         },
       });
 
@@ -219,7 +194,7 @@ export async function POST(request: Request) {
       }
 
       // 2. Fetch current user profile
-      const profile = await prisma.profile.findUnique({
+      const profile = await tx.profile.findUnique({
         where: { id: userId },
       });
 
@@ -227,25 +202,25 @@ export async function POST(request: Request) {
         throw new Error("Không tìm thấy thông tin tài khoản.");
       }
 
-      // 3. Compute Streak Logic
-      const lastUpdate = profile.updatedAt ? new Date(profile.updatedAt) : new Date(0);
+      // 3. Compute streak from the previous check-in, not profile.updatedAt.
+      // Profile updates can be caused by unrelated activity and must not reset a streak.
+      const previousCheckin = await tx.dailySkillPractice.findFirst({
+        where: { userId, skill: "checkin", date: { lt: todayStr } },
+        orderBy: { date: "desc" },
+        select: { date: true },
+      });
       const yesterday = new Date();
       yesterday.setDate(yesterday.getDate() - 1);
       const yesterdayStr = getLocalDateString(yesterday);
-      const lastUpdateStr = getLocalDateString(lastUpdate);
+      const lastCheckinDate = previousCheckin?.date;
 
-      let newStreak = profile.currentStreak || 0;
-      if (lastUpdateStr === yesterdayStr || lastUpdateStr === todayStr) {
-        if (lastUpdateStr === yesterdayStr) {
-          newStreak += 1;
-        }
-      } else {
-        newStreak = 1;
-      }
+      const newStreak = lastCheckinDate === yesterdayStr
+        ? Math.max(1, profile.currentStreak) + 1
+        : 1;
       const newLongestStreak = Math.max(profile.longestStreak || 1, newStreak);
 
       // 4. Update Profile with XP, Coins, Minutes and Streak
-      const updatedProfile = await prisma.profile.update({
+      const updatedProfile = await tx.profile.update({
         where: { id: userId },
         data: {
           totalXp: { increment: XP_REWARD },
@@ -258,7 +233,7 @@ export async function POST(request: Request) {
       });
 
       // 5. Record Checkin Practice Session in DailySkillPractice
-      await prisma.dailySkillPractice.create({
+      await tx.dailySkillPractice.create({
         data: {
           userId,
           skill: "checkin",
@@ -279,7 +254,7 @@ export async function POST(request: Request) {
         coins: updatedProfile.coins,
         message: `Điểm danh thành công! +${XP_REWARD} XP, +${COIN_REWARD} Vàng đã được cộng vào tài khoản.`,
       };
-    }, "Daily Checkin Submit");
+    });
 
     if (result && result.alreadyCheckedIn) {
       return NextResponse.json({
@@ -289,11 +264,21 @@ export async function POST(request: Request) {
       });
     }
 
+    // Invalidate cached overview metrics so UI immediately displays new streak/XP/coins
+    invalidateDashboardCache(userId);
+
     return NextResponse.json({
       success: true,
       data: result,
     });
   } catch (error: any) {
+    if (error?.code === "P2002") {
+      return NextResponse.json({
+        success: true,
+        alreadyCheckedIn: true,
+        message: "Bạn đã điểm danh hôm nay rồi!",
+      });
+    }
     console.error("POST /api/user/daily-checkin error:", error);
     return NextResponse.json(
       { error: error?.message || "Internal server error" },

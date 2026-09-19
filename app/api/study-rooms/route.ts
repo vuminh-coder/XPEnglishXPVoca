@@ -1,10 +1,11 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 
 export async function GET(req: Request) {
   try {
     const rooms = await prisma.studyRoom.findMany({
+      take: 20,
       include: {
         creator: {
           select: {
@@ -14,7 +15,8 @@ export async function GET(req: Request) {
           },
         },
         members: {
-          include: {
+          select: {
+            status: true,
             user: {
               select: {
                 id: true,
@@ -26,6 +28,7 @@ export async function GET(req: Request) {
               },
             },
           },
+          take: 25,
         },
         _count: {
           select: { members: true },

@@ -72,13 +72,16 @@ function ShadowingStudioContent() {
   const { setSidebarCollapsed, setHideBottomNav } = useUiStore();
 
   // 1. Database-backed lessons state
-  const [lessonsList, setLessonsList] = useState<any[]>([]);
+  const [lessonsList, setLessonsList] = useState<any[]>(() => MOCK_LESSONS_DATA);
   const [isLoadingLessons, setIsLoadingLessons] = useState<boolean>(!rawIdParam);
   const [isLoadingLessonDetail, setIsLoadingLessonDetail] = useState<boolean>(!!rawIdParam);
   const [singleLessonDb, setSingleLessonDb] = useState<any | null>(null);
 
   // 2. Selected lesson state
-  const [selectedLessonId, setSelectedLessonId] = useState<string | null>(null);
+  const [selectedLessonId, setSelectedLessonId] = useState<string | null>(() => {
+    if (!rawIdParam) return null;
+    return resolveLessonId(rawIdParam, MOCK_LESSONS_DATA);
+  });
   const [isInPlaceSwitchingLesson, setIsInPlaceSwitchingLesson] = useState<boolean>(false);
 
   // Fetch all lessons from PostgreSQL database
@@ -95,7 +98,15 @@ function ShadowingStudioContent() {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
         if (isMounted && json.success && Array.isArray(json.data) && json.data.length > 0) {
-          setLessonsList(json.data);
+          setLessonsList((prev) => {
+            const prevMap = new Map(prev.map((l) => [l.id, l]));
+            return json.data.map((item: any) => {
+              const existing = prevMap.get(item.id);
+              return existing?.transcript?.length
+                ? { ...item, transcript: existing.transcript }
+                : item;
+            });
+          });
         } else if (isMounted) {
           setLessonsList(MOCK_LESSONS_DATA);
         }
@@ -117,51 +128,79 @@ function ShadowingStudioContent() {
   }, [user?.id, rawIdParam]);
 
   // Sync URL ?id= param with database lessons
+  // REF: Cache guard dùng ref thay vì dependency để tránh vòng lặp fetch vô hạn
+  const lastFetchedLessonRef = useRef<string | null>(null);
+
   useEffect(() => {
     if (!rawIdParam) {
       setSelectedLessonId(null);
       setCurrentLessonId("");
       setIsLoadingLessonDetail(false);
+      lastFetchedLessonRef.current = null;
       return;
     }
 
-    if (lessonsList.length > 0) {
-      const resolved = resolveLessonId(rawIdParam, lessonsList);
-      if (resolved) {
-        setSelectedLessonId(resolved);
-        setCurrentLessonId(resolved);
-        setSidebarCollapsed(true);
-        setIsLoadingLessonDetail(false);
-        return;
-      }
+    const targetPool = lessonsList.length > 0 ? lessonsList : MOCK_LESSONS_DATA;
+    const resolved = resolveLessonId(rawIdParam, targetPool);
+    if (resolved) {
+      setSelectedLessonId(resolved);
+      setCurrentLessonId(resolved);
+      setSidebarCollapsed(true);
+    }
+
+    const queryLessonId = resolved || rawIdParam;
+
+    // Cache guard: Nếu đã fetch thành công bài này rồi, không fetch lại
+    if (lastFetchedLessonRef.current === queryLessonId) {
+      setIsLoadingLessonDetail(false);
+      return;
     }
 
     setIsLoadingLessonDetail(true);
 
-    // Fetch individual lesson if not found or directly via param
+    // Fetch individual lesson with complete transcript
     const controller = new AbortController();
+    let isMounted = true;
+
     async function fetchSingle() {
       try {
-        const res = await fetch(`/api/listening/lessons/${rawIdParam}?userId=${user?.id || ""}`, {
+        const res = await fetch(`/api/listening/lessons/${queryLessonId}?userId=${user?.id || ""}`, {
           signal: controller.signal,
           headers: { Accept: "application/json" },
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
         if (isMounted && json.success && json.data) {
+          lastFetchedLessonRef.current = queryLessonId;
           setSingleLessonDb(json.data);
           setSelectedLessonId(json.data.id);
           setCurrentLessonId(json.data.id);
           setSidebarCollapsed(true);
+          setLessonsList((prev) => {
+            const idx = prev.findIndex((l) => l.id === json.data.id);
+            if (idx !== -1) {
+              const updated = [...prev];
+              updated[idx] = { ...updated[idx], ...json.data };
+              return updated;
+            }
+            return [json.data, ...prev];
+          });
         }
       } catch (e: any) {
         if (e?.name === "AbortError") return;
         console.warn("[Shadowing] Fetch single lesson fallback:", e?.message || e);
         if (isMounted) {
-          const fallback = MOCK_LESSONS_DATA.find(
-            (l) => l.id === rawIdParam || l.id === `listen_${String(rawIdParam).padStart(3, "0")}`
-          );
+          // Sửa fallback lookup: bổ sung tìm theo index số (resolveLessonId)
+          const num = parseInt(rawIdParam || "", 10);
+          const fallback =
+            MOCK_LESSONS_DATA.find((l) => l.id === queryLessonId) ||
+            MOCK_LESSONS_DATA.find((l) => l.id === rawIdParam) ||
+            (!isNaN(num) && num >= 1 && num <= MOCK_LESSONS_DATA.length
+              ? MOCK_LESSONS_DATA[num - 1]
+              : null) ||
+            MOCK_LESSONS_DATA.find((l) => l.id === `listen_${String(rawIdParam).padStart(3, "0")}`);
           if (fallback) {
+            lastFetchedLessonRef.current = queryLessonId;
             setSingleLessonDb(fallback);
             setSelectedLessonId(fallback.id);
             setCurrentLessonId(fallback.id);
@@ -169,16 +208,19 @@ function ShadowingStudioContent() {
           }
         }
       } finally {
-        await new Promise((r) => setTimeout(r, 200));
-        if (isMounted) setIsLoadingLessonDetail(false);
+        // Đảm bảo loading LUÔN reset dù bị abort hay isMounted = false
+        setTimeout(() => {
+          if (isMounted) setIsLoadingLessonDetail(false);
+        }, 200);
       }
     }
 
-    let isMounted = true;
     fetchSingle();
     return () => {
       isMounted = false;
       controller.abort();
+      // Safety net: Nếu cleanup chạy (component re-render), reset loading
+      setIsLoadingLessonDetail(false);
     };
   }, [rawIdParam, lessonsList, setCurrentLessonId, setSidebarCollapsed, user?.id]);
 
@@ -198,10 +240,18 @@ function ShadowingStudioContent() {
   }, [setHideBottomNav]);
 
   const currentLesson = useMemo(() => {
-    if (singleLessonDb && singleLessonDb.id === selectedLessonId) {
+    if (
+      singleLessonDb &&
+      singleLessonDb.id === selectedLessonId &&
+      singleLessonDb.transcript?.length
+    ) {
       return singleLessonDb;
     }
-    return lessonsList.find((l) => l.id === selectedLessonId) || singleLessonDb || null;
+    const fromList = lessonsList.find((l) => l.id === selectedLessonId);
+    if (fromList?.transcript?.length) return fromList;
+    const fromMock = MOCK_LESSONS_DATA.find((l) => l.id === selectedLessonId);
+    if (fromMock?.transcript?.length) return { ...(fromList || {}), ...fromMock };
+    return singleLessonDb || fromList || fromMock || null;
   }, [lessonsList, selectedLessonId, singleLessonDb]);
 
   // Practice state
@@ -680,7 +730,11 @@ function ShadowingStudioContent() {
   ]);
 
   // Loading Studio Mode (with query param or lessonDetail fetching)
-  if (selectedLessonId && (isLoadingLessonDetail || !currentLesson) && !isInPlaceSwitchingLesson) {
+  if (
+    (rawIdParam || selectedLessonId) &&
+    (isLoadingLessonDetail || !currentLesson || !currentSentence) &&
+    !isInPlaceSwitchingLesson
+  ) {
     return <ShadowingStudioSkeleton />;
   }
 

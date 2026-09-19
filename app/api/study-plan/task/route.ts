@@ -1,7 +1,8 @@
-﻿import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 import { LEVEL_TITLES } from "@/shared/constants";
+import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
 
 // Helper to calculate level and title from XP
 function calculateLevelAndTitle(xp: number, currentLevel: number) {
@@ -46,42 +47,59 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    const nextCompleted = !task.isCompleted;
+    const targetState = !task.isCompleted;
 
-    // Transactionally toggle task and update Profile XP
+    // Transactionally toggle task and update Profile XP with atomic one-time reward check
     const result = await prisma.$transaction(async (tx) => {
-      const updatedTask = await tx.dailyTask.update({
-        where: { id: taskId },
-        data: { isCompleted: nextCompleted },
-      });
-
-      let updatedProfile = null;
-      if (nextCompleted) {
-        const profile = await tx.profile.findUnique({
-          where: { id: userId },
+      if (!targetState) {
+        const updatedTask = await tx.dailyTask.update({
+          where: { id: taskId },
+          data: { isCompleted: false },
         });
-
-        if (profile) {
-          const xpToAdd = task.xpReward || 20;
-          const newXp = profile.totalXp + xpToAdd;
-          const { level: newLevel, title: newTitle } = calculateLevelAndTitle(
-            newXp,
-            profile.level
-          );
-
-          updatedProfile = await tx.profile.update({
-            where: { id: userId },
-            data: {
-              totalXp: newXp,
-              level: newLevel,
-              title: newTitle,
-            },
-          });
-        }
+        return { updatedTask, updatedProfile: null, xpAwarded: 0 };
       }
 
-      return { updatedTask, updatedProfile };
+      const claim = await tx.dailyTask.updateMany({
+        where: { id: taskId, xpClaimed: false },
+        data: { isCompleted: true, xpClaimed: true },
+      });
+
+      if (claim.count === 0) {
+        const updatedTask = await tx.dailyTask.update({
+          where: { id: taskId },
+          data: { isCompleted: true },
+        });
+        return { updatedTask, updatedProfile: null, xpAwarded: 0 };
+      }
+
+      const xpToAdd = task.xpReward || 20;
+      const profileAfterXp = await tx.profile.update({
+        where: { id: userId },
+        data: { totalXp: { increment: xpToAdd } },
+        select: { id: true, totalXp: true, level: true, title: true, coins: true },
+      });
+
+      const { level: newLevel, title: newTitle } = calculateLevelAndTitle(
+        profileAfterXp.totalXp,
+        profileAfterXp.level
+      );
+
+      const updatedProfile = newLevel === profileAfterXp.level
+        ? profileAfterXp
+        : await tx.profile.update({
+            where: { id: userId },
+            data: { level: newLevel, title: newTitle },
+            select: { id: true, totalXp: true, level: true, title: true, coins: true },
+          });
+
+      const updatedTask = await tx.dailyTask.findUniqueOrThrow({ where: { id: taskId } });
+      return { updatedTask, updatedProfile, xpAwarded: xpToAdd };
+    }, {
+      maxWait: 10000,
+      timeout: 15000,
     });
+
+    invalidateDashboardCache(userId);
 
     return NextResponse.json({
       success: true,

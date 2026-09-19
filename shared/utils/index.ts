@@ -1,4 +1,4 @@
-﻿export * from "./formatDate";
+export * from "./formatDate";
 export * from "./formatName";
 export * from "./calculateXP";
 export * from "./xp";
@@ -7,3 +7,4 @@ export * from "./ttsEngine";
 export * from "./mobileAudio";
 export * from "./validators";
 export * from "./cn";
+export * from "./formatPercent";

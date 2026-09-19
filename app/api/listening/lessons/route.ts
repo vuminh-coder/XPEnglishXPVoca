@@ -62,7 +62,6 @@ export async function GET(request: Request) {
           accent: true,
           audioUrl: true,
           imageUrl: true,
-          transcript: true,
           orderIndex: true,
           progresses: userId
             ? {
@@ -81,15 +80,11 @@ export async function GET(request: Request) {
 
       return lessons.map((lesson: any) => {
         const userProgress = lesson.progresses?.[0] || null;
-        const transcriptArray = Array.isArray(lesson.transcript) ? lesson.transcript : [];
-        const totalSentences = transcriptArray.length;
         const completedCount = Array.isArray(userProgress?.completedSentences)
           ? userProgress.completedSentences.length
           : 0;
 
-        const isCompleted =
-          userProgress?.status === "COMPLETED" ||
-          (totalSentences > 0 && completedCount >= totalSentences);
+        const isCompleted = userProgress?.status === "COMPLETED";
 
         return {
           id: lesson.id,
@@ -100,11 +95,7 @@ export async function GET(request: Request) {
           accent: lesson.accent,
           audioUrl: lesson.audioUrl,
           imageUrl: lesson.imageUrl,
-          transcript: lesson.transcript,
-          totalSentences,
           userStatus: isCompleted ? "COMPLETED" : userProgress?.status || "NOT_STARTED",
-          userProgressPercent:
-            totalSentences > 0 ? Math.round((completedCount / totalSentences) * 100) : 0,
           completedSentencesCount: completedCount,
           completedSentences: userProgress?.completedSentences || [],
           bookmarkedSentences: userProgress?.bookmarkedSentences || [],

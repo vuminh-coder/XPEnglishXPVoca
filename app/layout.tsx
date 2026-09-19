@@ -1,8 +1,8 @@
-﻿// app/layout.tsx
+// app/layout.tsx
 import type { Metadata } from "next";
 import { Be_Vietnam_Pro } from "next/font/google";
 import "./globals.css";
-import ClientAuthWrapper from "@/shared/components/providers/ClientClerkWrapper";
+import ClientAuthWrapper from "@/shared/components/providers/ClientAuthWrapper";
 
 const beVietnamPro = Be_Vietnam_Pro({
   variable: "--font-be-vietnam-pro",

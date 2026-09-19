@@ -4,6 +4,7 @@ import React, { useState, useMemo, useCallback, useEffect, useRef } from "react"
 import {
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
   Lightbulb,
   AlertTriangle,
   Layers,
@@ -17,6 +18,7 @@ import {
   Smile,
   MoveVertical,
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ALL_IPA_SOUNDS,
   MONOPHTHONGS,
@@ -52,6 +54,7 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
   const [accent, setAccent] = useState<"en-US" | "en-GB" | "en-AU">("en-US");
   const [activeWordTarget, setActiveWordTarget] = useState<string | null>(null);
   const [isAudioPlaying, setIsAudioPlaying] = useState<boolean>(false);
+  const [isGuideOpen, setIsGuideOpen] = useState<boolean>(false);
   const [canScrollLeft, setCanScrollLeft] = useState<boolean>(false);
   const [canScrollRight, setCanScrollRight] = useState<boolean>(false);
 
@@ -630,43 +633,75 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
                 </p>
               </div>
             </div>
-          </div>
 
-          {/* Card 3: Cẩm Nang Cấu Âm & Mẹo Sư Phạm Độc Quyền */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-3.5">
-            <div className="text-xs font-black uppercase tracking-wider text-slate-400 font-display flex items-center gap-1.5">
-              <BookOpen className="w-3.5 h-3.5 text-[#0059bb]" />
-              <span>Cẩm nang cấu âm & Mẹo độc quyền</span>
-            </div>
+            {/* Collapsible Articulation Pedagogical Guide (Hidden by default with intuitive toggle) */}
+            <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
+              <button
+                type="button"
+                onClick={() => setIsGuideOpen((prev) => !prev)}
+                className="w-full py-2.5 px-3 sm:px-3.5 rounded-xl bg-slate-50/90 dark:bg-slate-800/60 hover:bg-blue-50/80 dark:hover:bg-blue-950/40 border border-slate-200/80 dark:border-slate-700/80 hover:border-blue-200 dark:hover:border-blue-800/80 text-slate-700 dark:text-slate-200 hover:text-[#0059bb] dark:hover:text-sky-400 flex items-center justify-between transition-all cursor-pointer group shadow-2xs active:scale-[0.99]"
+                aria-expanded={isGuideOpen}
+              >
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 rounded-md bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 border border-blue-100/70 dark:border-blue-900/50">
+                    <BookOpen className="w-3.5 h-3.5" />
+                  </div>
+                  <span className="text-xs font-bold font-sans">
+                    Cẩm nang cấu âm & Mẹo độc quyền
+                  </span>
+                </div>
+                <div className="flex items-center gap-1.5 text-[11px] font-semibold text-[#0059bb] dark:text-sky-400">
+                  <span>{isGuideOpen ? "Ẩn cẩm nang" : "Mở cẩm nang"}</span>
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 transition-transform duration-300 ${
+                      isGuideOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </div>
+              </button>
 
-            {/* 1. Technical Guide */}
-            <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
-              <span className="font-bold text-slate-900 dark:text-white mr-1.5">
-                Kỹ thuật phát âm chuẩn:
-              </span>
-              {currentSound.vietnameseGuide}
-            </div>
+              {/* Animated Expandable Body */}
+              <AnimatePresence>
+                {isGuideOpen && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                    className="overflow-hidden space-y-2.5 pt-3"
+                  >
+                    {/* 1. Technical Guide */}
+                    <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
+                      <span className="font-bold text-slate-900 dark:text-white mr-1.5">
+                        Kỹ thuật phát âm chuẩn:
+                      </span>
+                      {currentSound.vietnameseGuide}
+                    </div>
 
-            {/* 2. Pro Tip */}
-            <div className="p-3.5 rounded-xl bg-blue-50/80 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/40 flex items-start gap-2.5">
-              <Lightbulb className="w-4 h-4 text-[#0059bb] dark:text-sky-400 shrink-0 mt-0.5" />
-              <div className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
-                <span className="font-bold text-[#0059bb] dark:text-sky-400 mr-1.5">
-                  Mẹo vàng ghi nhớ:
-                </span>
-                {currentSound.practiceTip}
-              </div>
-            </div>
+                    {/* 2. Pro Tip */}
+                    <div className="p-3 rounded-xl bg-blue-50/80 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/40 flex items-start gap-2.5">
+                      <Lightbulb className="w-4 h-4 text-[#0059bb] dark:text-sky-400 shrink-0 mt-0.5" />
+                      <div className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
+                        <span className="font-bold text-[#0059bb] dark:text-sky-400 mr-1.5">
+                          Mẹo vàng ghi nhớ:
+                        </span>
+                        {currentSound.practiceTip}
+                      </div>
+                    </div>
 
-            {/* 3. Common Mistake Warning */}
-            <div className="p-3.5 rounded-xl bg-rose-50/80 dark:bg-rose-950/40 border border-rose-100 dark:border-rose-900/40 flex items-start gap-2.5">
-              <AlertTriangle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
-              <div className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
-                <span className="font-bold text-rose-600 dark:text-rose-400 mr-1.5">
-                  Lỗi sai người Việt hay gặp:
-                </span>
-                {currentSound.commonMistakes}
-              </div>
+                    {/* 3. Common Mistake Warning */}
+                    <div className="p-3 rounded-xl bg-rose-50/80 dark:bg-rose-950/40 border border-rose-100 dark:border-rose-900/40 flex items-start gap-2.5">
+                      <AlertTriangle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
+                      <div className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
+                        <span className="font-bold text-rose-600 dark:text-rose-400 mr-1.5">
+                          Lỗi sai người Việt hay gặp:
+                        </span>
+                        {currentSound.commonMistakes}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </div>
         </div>

@@ -2,15 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma, safeDbExecute } from "@/infrastructure/database/prisma";
 import { formatCleanName } from "@/shared/utils/formatName";
 import { memoryCache } from "@/infrastructure/cache/memoryCache";
+import { getLocalDateString } from "@/shared/utils/dateUtils";
 
 export const dynamic = "force-dynamic";
-
-function getLocalDateString(d: Date = new Date()): string {
-  const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-}
 
 export async function GET(req: NextRequest) {
   try {
@@ -88,8 +82,8 @@ export async function GET(req: NextRequest) {
         // 3. Compute combined scores (prioritizing periodic score, fallback to total proportion)
         const combined = profiles.map((p) => {
           const periodic = periodicMap.get(p.id);
-          const periodicXp = periodic ? periodic.periodicXp : Math.round((p.totalXp || 0) * (period === "week" ? 0.35 : 0.7));
-          const periodicMinutes = periodic ? periodic.periodicMinutes : Math.round((p.minutesStudied || 0) * (period === "week" ? 0.35 : 0.7));
+          const periodicXp = periodic ? periodic.periodicXp : 0;
+          const periodicMinutes = periodic ? periodic.periodicMinutes : 0;
 
           return {
             id: p.id,

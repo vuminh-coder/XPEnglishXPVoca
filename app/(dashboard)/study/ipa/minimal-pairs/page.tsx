@@ -10,7 +10,6 @@ import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { IpaSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAnimation";
 import {
-  IpaHeroGreeting,
   IpaMinimalPairsArena,
 } from "@/features/ipa";
 
@@ -20,14 +19,9 @@ export default function IpaMinimalPairsPage() {
   const storeUser = useUserStore((s) => s.user);
   const user = authUser || storeUser || DEFAULT_LEARNER_USER;
 
-  const handleNavigate = (tab: "matrix" | "practice_lab" | "minimal_pairs") => {
-    if (tab === "matrix") router.push("/study/ipa");
-    if (tab === "practice_lab") router.push("/study/ipa/practice");
-  };
-
   return (
     <div
-      className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none pb-24 md:pb-12"
+      className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none pb-4 sm:pb-6"
       suppressHydrationWarning
     >
       {/* 0. UNIVERSAL TOP ACTION & NAVIGATION HEADER BAR */}
@@ -67,20 +61,9 @@ export default function IpaMinimalPairsPage() {
         <IpaSuiteNavTabs />
       </AppTopHeader>
 
-      {/* MAIN CANVAS WITH STAGGERED ENTRANCE */}
-      <PageEntranceWrapper className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-3.5 sm:py-6 pb-24 sm:pb-8 space-y-5 sm:space-y-6">
-        {/* 1. HERO GREETING BANNER */}
-        <IpaHeroGreeting
-          user={user}
-          masteredCount={18}
-          totalCount={44}
-          averageScore={88}
-          pairsLearnedCount={7}
-          streakDays={user?.currentStreak || 1}
-          onNavigateTab={handleNavigate}
-        />
-
-        {/* 2. MINIMAL PAIRS ARENA */}
+      {/* MAIN CANVAS WITH STAGGERED ENTRANCE (BALANCED VIEWPORT FIT) */}
+      <PageEntranceWrapper className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 pt-2 sm:pt-3 pb-3 sm:pb-4 space-y-3 sm:space-y-3.5">
+        {/* MINIMAL PAIRS ARENA: FOCUSED SINGLE-SCREEN VIEW */}
         <IpaMinimalPairsArena />
       </PageEntranceWrapper>
     </div>

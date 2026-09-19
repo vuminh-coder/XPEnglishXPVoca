@@ -1,4 +1,4 @@
-﻿import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 import { LEVEL_TITLES } from "@/shared/constants";
@@ -61,7 +61,7 @@ export async function GET(request: Request) {
             },
           },
           orderBy: {
-            createdAt: "desc",
+            createdAt: "asc",
           },
           take: 10,
         },
@@ -114,7 +114,7 @@ export async function GET(request: Request) {
         likes: post._count.likes,
         commentsCount: post._count.comments,
         liked: likedPostIdsSet.has(post.id),
-        comments: post.comments.reverse().map((c) => {
+        comments: post.comments.map((c) => {
           const commentAuthorName = c.user.fullName || c.user.username || "Học viên XP";
           const commentDbAvatar = (c.user as any).avatarUrl || (c.user as any).imageUrl || (c.user as any).avatar;
           const commentAvatar = commentDbAvatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(commentAuthorName)}&background=0059bb&color=fff`;
@@ -163,52 +163,51 @@ export async function POST(request: Request) {
     const extractedTags = content.match(hashtagRegex) || [];
     const uniqueTags: string[] = Array.from(new Set(extractedTags));
 
-    // Create the post & award +20 XP in single transaction
-    const post: any = await prisma.post.create({
-      data: {
-        userId,
-        content: content.trim(),
-        vocabTags: uniqueTags as any,
-      },
-      select: {
-        id: true,
-        content: true,
-        vocabTags: true,
-        createdAt: true,
-        user: {
-          select: {
-            id: true,
-            fullName: true,
-            username: true,
-            avatarEmoji: true,
-            title: true,
+    // Publishing and its reward are one unit of work. Without a transaction a
+    // network failure could publish a post but skip (or duplicate) its reward.
+    const { post, updatedProfile } = await prisma.$transaction(async (tx) => {
+      const profile = await tx.profile.findUnique({ where: { id: userId } });
+      if (!profile) throw new Error("Profile not found");
+
+      const post = await tx.post.create({
+        data: {
+          userId,
+          content: content.trim(),
+          vocabTags: uniqueTags as any,
+        },
+        select: {
+          id: true,
+          content: true,
+          vocabTags: true,
+          createdAt: true,
+          user: {
+            select: {
+              id: true,
+              fullName: true,
+              username: true,
+              avatarEmoji: true,
+              title: true,
+            },
           },
         },
-      },
-    });
-
-    // Update profile XP & Title
-    const profile = await prisma.profile.findUnique({
-      where: { id: userId },
-    });
-
-    let updatedProfile = null;
-    if (profile) {
-      const newXp = profile.totalXp + 20;
-      const { level: newLevel, title: newTitle } = calculateLevelAndTitle(
-        newXp,
-        profile.level
-      );
-
-      updatedProfile = await prisma.profile.update({
-        where: { id: userId },
-        data: {
-          totalXp: newXp,
-          level: newLevel,
-          title: newTitle,
-        },
       });
-    }
+
+      // Atomic increment avoids losing XP when two requests finish together.
+      const xpProfile = await tx.profile.update({
+        where: { id: userId },
+        data: { totalXp: { increment: 20 } },
+      });
+      const { level: newLevel, title: newTitle } = calculateLevelAndTitle(
+        xpProfile.totalXp,
+        xpProfile.level
+      );
+      const updatedProfile = await tx.profile.update({
+        where: { id: userId },
+        data: { level: newLevel, title: newTitle },
+      });
+
+      return { post, updatedProfile };
+    });
 
     const authorName = post.user?.fullName || post.user?.username || "Học viên XP";
     const dbAvatar = (post.user as any)?.avatarUrl || (post.user as any)?.imageUrl || (post.user as any)?.avatar;

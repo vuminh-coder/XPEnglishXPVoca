@@ -71,7 +71,7 @@ function PracticeLabContent() {
       </AppTopHeader>
 
       {/* MAIN CANVAS WITH STAGGERED ENTRANCE */}
-      <PageEntranceWrapper className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-3.5 sm:py-6 pb-24 sm:pb-8 space-y-5 sm:space-y-6">
+      <PageEntranceWrapper className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-3.5 sm:py-6 pb-24 sm:pb-8 space-y-4 sm:space-y-6">
         {/* 1. HERO GREETING BANNER CHỨA AVATAR & 4 BENTO STAT CARDS (GIỮ NGUYÊN THEO YÊU CẦU) */}
         <IpaHeroGreeting
           user={user}

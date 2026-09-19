@@ -6,7 +6,8 @@ export function getXpProgress(level: number, xp: number) {
   
   const total = nextLvlXp - prevLvlXp;
   const current = xp - prevLvlXp;
-  const percent = Math.min(100, Math.max(0, (current / total) * 100));
+  const rawPercent = Math.min(100, Math.max(0, (current / total) * 100));
+  const percent = Math.round(rawPercent * 100) / 100;
   
   return { current, total, percent };
 }

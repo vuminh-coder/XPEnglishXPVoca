@@ -1,6 +1,7 @@
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
+import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
 import { LEVEL_TITLES } from "@/shared/constants";
 import { calculateXp, MatchResult, VALID_RESULTS } from "@/shared/utils/xp";
 import { sanitizeInput } from "@/infrastructure/security/validation";
@@ -129,6 +130,8 @@ export async function POST(request: Request) {
         coinsGained: totalCoinsGained,
       };
     });
+
+    invalidateDashboardCache(userId);
 
     return NextResponse.json({
       success: true,

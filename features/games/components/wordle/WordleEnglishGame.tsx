@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, RotateCcw, Delete, Sparkles, HelpCircle } from "lucide-react";
 import { Badge } from "@/shared/components/ui/Badge";
-import { useAuthStore } from "@/stores/authStore";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { WordleLetterStatus, WordleRowState } from "../../types";
 import { gameAudio } from "../../utils/gameAudio";
 import { GameResultScreen } from "../shared/GameResultScreen";
+import { recordGameSession } from "../../utils/recordGameSession";
 
 export interface WordleEnglishGameProps {
   pool: any[];
@@ -48,7 +48,6 @@ const KEYBOARD_ROWS = [
 ];
 
 export function WordleEnglishGame({ pool, onBack }: WordleEnglishGameProps) {
-  const { awardXp, awardCoins } = useAuthStore();
   const { addToast } = useNotificationStore();
 
   const [targetPackage, setTargetPackage] = useState<{
@@ -65,6 +64,8 @@ export function WordleEnglishGame({ pool, onBack }: WordleEnglishGameProps) {
   const [shakeRow, setShakeRow] = useState(false);
   const [showHint, setShowHint] = useState(false);
   const [letterStatuses, setLetterStatuses] = useState<Record<string, WordleLetterStatus>>({});
+  const [rewards, setRewards] = useState<{ xp: number; coins: number }>({ xp: 0, coins: 0 });
+  const startTimeRef = useRef<number>(Date.now());
 
   // Initialize a new word
   const initGame = useCallback(() => {
@@ -101,6 +102,8 @@ export function WordleEnglishGame({ pool, onBack }: WordleEnglishGameProps) {
     setShakeRow(false);
     setShowHint(false);
     setLetterStatuses({});
+    setRewards({ xp: 0, coins: 0 });
+    startTimeRef.current = Date.now();
   }, [pool]);
 
   useEffect(() => {
@@ -178,28 +181,21 @@ export function WordleEnglishGame({ pool, onBack }: WordleEnglishGameProps) {
       setIsWon(true);
       setIsGameOver(true);
 
-      const xpMap = [60, 50, 40, 35, 30, 25];
-      const earnedXp = xpMap[currentRow] || 25;
-
-      awardXp(earnedXp);
-      awardCoins?.(5);
-
-      fetch("/api/games/record", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          gameType: "wordle",
-          score: earnedXp,
-          xpGained: earnedXp,
-          coinsGained: 5,
-          moves: currentRow + 1,
-        }),
-      }).catch((err) => console.warn("Failed to save wordle record to DB:", err));
-
-      addToast({
-        type: "xp",
-        title: `+${earnedXp} XP & +5 Vàng!`,
-        message: `Tuyệt vời! Bạn đoán đúng từ "${targetWord}" sau ${currentRow + 1} lượt!`,
+      const durationSeconds = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
+      recordGameSession({
+        gameType: "wordle",
+        score: (MAX_ATTEMPTS - currentRow) * 10,
+        attempts: currentRow + 1,
+        durationSeconds,
+      }).then((res) => {
+        if (res.success && (res.xpGained > 0 || res.coinsGained > 0)) {
+          setRewards({ xp: res.xpGained, coins: res.coinsGained });
+          addToast({
+            type: "info",
+            title: `+${res.xpGained} XP & +${res.coinsGained} Vàng!`,
+            message: `Tuyệt vời! Bạn đoán đúng từ "${targetWord}" sau ${currentRow + 1} lượt!`,
+          });
+        }
       });
     } else {
       if (currentRow + 1 >= MAX_ATTEMPTS) {
@@ -224,8 +220,6 @@ export function WordleEnglishGame({ pool, onBack }: WordleEnglishGameProps) {
     targetPackage.word,
     currentRow,
     letterStatuses,
-    awardXp,
-    awardCoins,
     addToast,
   ]);
 
@@ -275,8 +269,8 @@ export function WordleEnglishGame({ pool, onBack }: WordleEnglishGameProps) {
         title={`Chính Xác: ${targetPackage.word}!`}
         subtitle={`${targetPackage.definitionVn} ${targetPackage.ipa ? `(${targetPackage.ipa})` : ""} - Hoàn thành sau ${currentRow + 1} lượt đoán.`}
         score={earnedXp}
-        xpEarned={earnedXp}
-        coinsEarned={5}
+        xpEarned={rewards.xp}
+        coinsEarned={rewards.coins}
         onBack={onBack}
         onRestart={initGame}
       />

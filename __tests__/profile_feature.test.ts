@@ -13,6 +13,19 @@ describe("Profile Feature Suite & /analytics Style Alignment Tests", () => {
       expect(percent).toBe(50);
     });
 
+    it("should round fractional XP percentages to at most 2 decimal places", () => {
+      // Level 2: prev = 100, next = 250 -> total = 150
+      // xp = 120 -> current = 20 -> 20 / 150 * 100 = 13.333333333333334%
+      const { current, total, percent } = getXpProgress(2, 120);
+      expect(total).toBe(150);
+      expect(current).toBe(20);
+      expect(percent).toBe(13.33);
+
+      // Level 2: xp = 150 -> current = 50 -> 50 / 150 * 100 = 33.333333333333336%
+      const res50 = getXpProgress(2, 150);
+      expect(res50.percent).toBe(33.33);
+    });
+
     it("should correctly compute vocabulary mastery percentage", () => {
       const computeVocabPercent = (words: number) =>
         Math.min(100, Math.round((words / 3903) * 100)) || 0;

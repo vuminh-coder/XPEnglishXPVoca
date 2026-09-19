@@ -1,15 +1,9 @@
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { prisma, safeDbExecute } from "@/infrastructure/database/prisma";
+import { getLocalDateString } from "@/shared/utils/dateUtils";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
-
-function getLocalDateString(d: Date = new Date()): string {
-  const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-}
 
 interface ChallengeDef {
   id: string;

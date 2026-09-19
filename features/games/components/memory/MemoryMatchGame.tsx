@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Layers, RotateCcw } from "lucide-react";
 import { Badge } from "@/shared/components/ui/Badge";
-import { useAuthStore } from "@/stores/authStore";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { MemoryCard } from "../../types";
 import { gameAudio } from "../../utils/gameAudio";
 import { GameResultScreen } from "../shared/GameResultScreen";
+import { recordGameSession } from "../../utils/recordGameSession";
 
 export interface MemoryMatchGameProps {
   pool: any[];
@@ -18,7 +18,6 @@ export interface MemoryMatchGameProps {
 const TOTAL_PAIRS = 6;
 
 export function MemoryMatchGame({ pool, onBack }: MemoryMatchGameProps) {
-  const { awardXp, awardCoins } = useAuthStore();
   const { addToast } = useNotificationStore();
 
   const [cards, setCards] = useState<MemoryCard[]>([]);
@@ -27,6 +26,8 @@ export function MemoryMatchGame({ pool, onBack }: MemoryMatchGameProps) {
   const [matchedPairs, setMatchedPairs] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [finalScore, setFinalScore] = useState(0);
+  const [rewards, setRewards] = useState<{ xp: number; coins: number }>({ xp: 0, coins: 0 });
+  const startTimeRef = useRef<number>(Date.now());
 
   const initGame = useCallback(() => {
     if (!pool || pool.length === 0) return;
@@ -57,6 +58,8 @@ export function MemoryMatchGame({ pool, onBack }: MemoryMatchGameProps) {
     setMatchedPairs(0);
     setGameOver(false);
     setFinalScore(0);
+    setRewards({ xp: 0, coins: 0 });
+    startTimeRef.current = Date.now();
   }, [pool]);
 
   useEffect(() => {
@@ -70,29 +73,24 @@ export function MemoryMatchGame({ pool, onBack }: MemoryMatchGameProps) {
       setFinalScore(calculatedScore);
       gameAudio.playVictoryFanfare();
 
-      awardXp(calculatedScore);
-      awardCoins?.(5);
-
-      // Persist to Neon Postgres DB via API
-      fetch("/api/games/record", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          gameType: "memory",
-          score: calculatedScore,
-          xpGained: calculatedScore,
-          coinsGained: 5,
-          moves,
-        }),
-      }).catch((err) => console.warn("Failed to save memory match to DB:", err));
-
-      addToast({
-        type: "xp",
-        title: `+${calculatedScore} XP & +5 Vàng!`,
-        message: `Hoàn thành Memory Match trong ${moves} lượt lật!`,
+      const durationSeconds = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
+      recordGameSession({
+        gameType: "memory",
+        score: calculatedScore,
+        durationSeconds,
+        wordsCompleted: TOTAL_PAIRS,
+      }).then((res) => {
+        if (res.success && (res.xpGained > 0 || res.coinsGained > 0)) {
+          setRewards({ xp: res.xpGained, coins: res.coinsGained });
+          addToast({
+            type: "info",
+            title: `+${res.xpGained} XP & +${res.coinsGained} Vàng!`,
+            message: `Hoàn thành Memory Match trong ${moves} lượt lật!`,
+          });
+        }
       });
     }
-  }, [gameOver, matchedPairs, moves, awardXp, awardCoins, addToast]);
+  }, [gameOver, matchedPairs, moves, addToast]);
 
   const flipCard = (cardId: number) => {
     if (flippedIds.length >= 2) return;
@@ -152,8 +150,8 @@ export function MemoryMatchGame({ pool, onBack }: MemoryMatchGameProps) {
         title="Trí Nhớ Đỉnh Cao!"
         subtitle={`Bạn đã ghép trọn vẹn ${TOTAL_PAIRS} cặp từ vựng trong ${moves} lượt lật thẻ.`}
         score={finalScore || Math.max(20, 60 - moves * 2)}
-        xpEarned={finalScore || Math.max(20, 60 - moves * 2)}
-        coinsEarned={5}
+        xpEarned={rewards.xp}
+        coinsEarned={rewards.coins}
         onBack={onBack}
         onRestart={initGame}
       />
