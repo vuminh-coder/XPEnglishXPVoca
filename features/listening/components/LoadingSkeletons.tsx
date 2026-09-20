@@ -12,10 +12,11 @@ export function ShimmerBox({
   className?: string;
   style?: React.CSSProperties;
 }) {
+  const hasCustomRounding = className.includes("rounded");
   return (
     <div
       style={style}
-      className={`relative overflow-hidden bg-slate-200/80 dark:bg-slate-800/80 rounded-lg before:absolute before:inset-0 before:-translate-x-full before:animate-shimmer before:bg-gradient-to-r before:from-transparent before:via-white/40 dark:before:via-white/10 before:to-transparent ${className}`}
+      className={`relative overflow-hidden bg-slate-200/80 dark:bg-slate-800/80 ${hasCustomRounding ? "" : "rounded-lg"} before:absolute before:inset-0 before:-translate-x-full before:animate-shimmer before:bg-gradient-to-r before:from-transparent before:via-white/40 dark:before:via-white/10 before:to-transparent ${className}`}
     />
   );
 }
@@ -244,18 +245,27 @@ export function ListeningStudioSkeleton() {
               </div>
             </div>
 
-            {/* Jagged Acoustic Waveform Canvas */}
+            {/* 2. CENTER JAGGED ACOUSTIC SPEECH WAVEFORM SKELETON */}
             <div className="w-full flex justify-center items-center py-0.5 sm:py-1">
-              <div className="relative w-full max-w-lg sm:max-w-xl lg:max-w-2xl h-14 sm:h-16 lg:h-18 flex items-center justify-center px-1">
-                <div className="w-full flex items-center justify-center gap-[1px] sm:gap-[1.5px] h-full">
+              <div className="relative w-full max-w-lg sm:max-w-xl lg:max-w-2xl h-14 sm:h-16 lg:h-18 flex items-center justify-center px-1 bg-transparent select-none overflow-hidden group">
+                {/* Subtle Unified Wave Shimmer Sweep */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 dark:via-white/10 to-transparent -translate-x-full animate-shimmer pointer-events-none z-20" />
+
+                {/* Dense Jagged Vector Spectrum Bars */}
+                <div className="relative z-10 w-full flex items-center justify-center gap-[1px] sm:gap-[1.5px] h-full">
                   {JAGGED_ACOUSTIC_SPEECH_SPIKES_95.map((amp, i) => (
                     <div
                       key={i}
-                      style={{ height: `${Math.max(6, amp)}%` }}
-                      className="w-[1.2px] sm:w-[1.5px] lg:w-[1.8px] rounded-[0.2px] shrink-0 bg-slate-300 dark:bg-slate-700 animate-pulse"
+                      style={{
+                        height: `${Math.max(4, amp)}%`,
+                        transformOrigin: "center center",
+                      }}
+                      className="w-[1.2px] sm:w-[1.5px] lg:w-[1.8px] rounded-[0.2px] shrink-0 bg-slate-300 dark:bg-slate-700 transition-colors"
                     />
                   ))}
                 </div>
+
+
               </div>
             </div>
 

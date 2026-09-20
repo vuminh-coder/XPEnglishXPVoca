@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useMemo, Suspense } from "react";
+import React, { useState, useEffect, useRef, useMemo, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuthStore } from "@/stores/authStore";
@@ -32,26 +32,33 @@ const SentenceReportModal = dynamic(
   { ssr: false }
 );
 
-// Helper to resolve query id (e.g. ?id=1 -> 1st lesson or listen_001)
+// Helper to resolve query id (e.g. ?id=44 -> listen_toeic_q3_044 or 44th lesson)
 const resolveLessonId = (
   queryId: string | null | undefined,
   list: any[],
 ): string | null => {
   if (!queryId || !list || list.length === 0) return null;
 
-  // 1. Direct match by lesson id
+  // 1. Direct match by exact lesson id
   const exact = list.find((l) => l.id === queryId);
   if (exact) return exact.id;
 
-  // 2. Numeric match (e.g. ?id=1 -> 1st lesson or listen_001)
+  // 2. Formatted ID / Substring match (e.g. ?id=44 -> listen_toeic_q3_044 or listen_044)
   const num = parseInt(queryId, 10);
   if (!isNaN(num)) {
+    const pad3 = String(num).padStart(3, "0");
+    const byIdCode = list.find(
+      (l) =>
+        l.id === `listen_${pad3}` ||
+        l.id.endsWith(`_${pad3}`) ||
+        l.id.includes(`_${pad3}`)
+    );
+    if (byIdCode) return byIdCode.id;
+
+    // 3. Fallback: 1-indexed numeric order in the catalog
     if (num >= 1 && num <= list.length) {
       return list[num - 1].id;
     }
-    const formatted = `listen_${String(num).padStart(3, "0")}`;
-    const foundFormatted = list.find((l) => l.id === formatted);
-    if (foundFormatted) return foundFormatted.id;
   }
 
   return null;
@@ -75,26 +82,142 @@ function ListeningPageContent() {
   } = useListeningStore();
   const { setSidebarCollapsed, setHideBottomNav } = useUiStore();
 
-  // Lessons list state (pre-initialized with curated catalog + background DB sync)
-  const [lessonsList, setLessonsList] = useState<any[]>(() => MOCK_LESSONS_DATA);
-  const [detailedLessonsMap, setDetailedLessonsMap] = useState<Record<string, any>>({});
-  const [isLoadingLessons, setIsLoadingLessons] = useState(!rawIdParam);
+  // Lessons list state (Dashboard SWR Architecture: Frame-0 synchronous localStorage hydration)
+  const [lessonsList, setLessonsList] = useState<any[]>(() => {
+    if (typeof window === "undefined") return [];
+    try {
+      const cached =
+        localStorage.getItem("xp_voca_listening_catalog_cache") ||
+        localStorage.getItem("xp_voca_listening_catalog_guest");
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch {}
+    return [];
+  });
+
+  // Detailed lessons map with multi-key aliasing (e.g. "1" -> "listen_001" -> "001")
+  const [detailedLessonsMap, setDetailedLessonsMap] = useState<Record<string, any>>(() => {
+    if (typeof window === "undefined" || !rawIdParam) return {};
+    try {
+      const map: Record<string, any> = {};
+      const num = parseInt(rawIdParam, 10);
+      const pad3 = !isNaN(num) ? String(num).padStart(3, "0") : "";
+
+      const keysToProbe = [
+        rawIdParam,
+        `listen_${pad3}`,
+        pad3,
+        `xp_voca_listening_detail_${rawIdParam}_guest`,
+        `xp_voca_listening_detail_${rawIdParam}`,
+      ];
+
+      for (const k of keysToProbe) {
+        const raw = localStorage.getItem(k.startsWith("xp_") ? k : `xp_voca_listening_detail_${k}_guest`);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && parsed.transcript?.length) {
+            map[parsed.id] = parsed;
+            map[rawIdParam] = parsed;
+            if (pad3) {
+              map[pad3] = parsed;
+              map[`listen_${pad3}`] = parsed;
+            }
+            break;
+          }
+        }
+      }
+      return map;
+    } catch {
+      return {};
+    }
+  });
+
+  const [isLoadingLessons, setIsLoadingLessons] = useState<boolean>(() => {
+    if (rawIdParam) return false;
+    if (typeof window === "undefined") return true;
+    try {
+      const cached =
+        localStorage.getItem("xp_voca_listening_catalog_cache") ||
+        localStorage.getItem("xp_voca_listening_catalog_guest");
+      return !cached;
+    } catch {
+      return true;
+    }
+  });
+
+  const [isLoadingLessonDetail, setIsLoadingLessonDetail] = useState<boolean>(() => {
+    if (!rawIdParam) return false;
+    if (typeof window === "undefined") return true;
+    try {
+      const num = parseInt(rawIdParam, 10);
+      const pad3 = !isNaN(num) ? String(num).padStart(3, "0") : "";
+      const raw =
+        localStorage.getItem(`xp_voca_listening_detail_${rawIdParam}_guest`) ||
+        localStorage.getItem(`xp_voca_listening_detail_${rawIdParam}`) ||
+        (pad3 ? localStorage.getItem(`xp_voca_listening_detail_listen_${pad3}_guest`) : null);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed?.transcript?.length) return false;
+      }
+      return true;
+    } catch {
+      return true;
+    }
+  });
 
   const [selectedLessonId, setSelectedLessonId] = useState<string | null>(() => {
     if (!rawIdParam) return null;
-    return resolveLessonId(rawIdParam, MOCK_LESSONS_DATA);
+    return rawIdParam;
   });
 
+  // Universal lesson resolution helper with full alias support
   const currentLesson = useMemo(() => {
-    if (!selectedLessonId) return null;
-    const detailed = detailedLessonsMap[selectedLessonId];
-    if (detailed?.transcript?.length) return detailed;
-    const fromList = lessonsList.find((l) => l.id === selectedLessonId);
-    if (fromList?.transcript?.length) return fromList;
-    const fromMock = MOCK_LESSONS_DATA.find((l) => l.id === selectedLessonId);
-    if (fromMock?.transcript?.length) return { ...(fromList || {}), ...fromMock };
-    return fromList || fromMock || null;
-  }, [selectedLessonId, detailedLessonsMap, lessonsList]);
+    if (!selectedLessonId && !rawIdParam) return null;
+    const lookupKey = selectedLessonId || rawIdParam || "";
+
+    // 1. Direct match in detailedLessonsMap
+    if (detailedLessonsMap[lookupKey]?.transcript?.length) {
+      return detailedLessonsMap[lookupKey];
+    }
+
+    // 2. Pad3 / numeric alias match in detailed map
+    const num = parseInt(lookupKey.replace(/\D/g, "") || lookupKey, 10);
+    if (!isNaN(num)) {
+      const pad3 = String(num).padStart(3, "0");
+      if (detailedLessonsMap[pad3]?.transcript?.length) return detailedLessonsMap[pad3];
+      if (detailedLessonsMap[`listen_${pad3}`]?.transcript?.length) return detailedLessonsMap[`listen_${pad3}`];
+      if (detailedLessonsMap[String(num)]?.transcript?.length) return detailedLessonsMap[String(num)];
+      for (const val of Object.values(detailedLessonsMap)) {
+        if (val && (val.id === lookupKey || val.id === `listen_${pad3}` || val.id?.endsWith(`_${pad3}`))) {
+          if (val.transcript?.length) return val;
+        }
+      }
+    }
+
+    // 3. Match from lessonsList (from DB or SWR Cache)
+    if (lessonsList.length > 0) {
+      const resolvedId = resolveLessonId(lookupKey, lessonsList);
+      if (resolvedId) {
+        if (detailedLessonsMap[resolvedId]?.transcript?.length) return detailedLessonsMap[resolvedId];
+        const fromList = lessonsList.find((l) => l.id === resolvedId);
+        if (fromList?.transcript?.length) return fromList;
+      }
+      const directFromList = lessonsList.find((l) => l.id === lookupKey);
+      if (directFromList?.transcript?.length) return directFromList;
+    }
+
+    // 4. While DB is actively fetching detail, wait for DB (return null to show Studio Skeleton)
+    if (isLoadingLessonDetail) return null;
+
+    // 5. Offline mock fallback when DB is done or offline
+    const fallbackId = resolveLessonId(lookupKey, MOCK_LESSONS_DATA) || lookupKey;
+    const fromMock = MOCK_LESSONS_DATA.find((l) => l.id === fallbackId);
+    if (fromMock?.transcript?.length) return fromMock;
+
+    return null;
+  }, [selectedLessonId, rawIdParam, detailedLessonsMap, lessonsList, isLoadingLessonDetail]);
 
   // Single-sentence focus states
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
@@ -114,9 +237,22 @@ function ListeningPageContent() {
 
   const totalSentencesCount = currentLesson?.transcript?.length || 0;
 
-  // Practice timer state (seconds elapsed)
-  const [elapsedTime, setElapsedTime] = useState(0);
+  // Isolated practice timer ref (0Hz page re-render, updated by StudioTimerBadge)
   const elapsedTimeRef = useRef(0);
+  const handleElapsedTimeTick = useCallback((sec: number) => {
+    elapsedTimeRef.current = sec;
+  }, []);
+
+  // Debounce ref for background database progress sync (1.2s debounce)
+  const progressDebounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (progressDebounceTimerRef.current) {
+        clearTimeout(progressDebounceTimerRef.current);
+      }
+    };
+  }, []);
 
   // Sentence Utility Toolbar States
   const [savedSentenceKeys, setSavedSentenceKeys] = useState<string[]>([]);
@@ -178,13 +314,33 @@ function ListeningPageContent() {
     }
   }, [currentLesson, currentSentenceIndex, currentAccent]);
 
-  // 1. Fetch Lessons Catalog from PostgreSQL Neon Database
+  // 1. SWR Instant 0ms Local Cache Hydration & Background Neon DB Fetch for Catalog (Dashboard Architecture)
   useEffect(() => {
     let isMounted = true;
+    const catalogCacheKey = `xp_voca_listening_catalog_${user?.id || "guest"}`;
+
+    // Tầng 1: SWR 0ms Instant Local Cache Hydration
+    if (typeof window !== "undefined") {
+      try {
+        const raw = localStorage.getItem(catalogCacheKey);
+        if (raw) {
+          const cached = JSON.parse(raw);
+          if (Array.isArray(cached) && cached.length > 0) {
+            setLessonsList(cached);
+            setIsLoadingLessons(false);
+          }
+        }
+      } catch (err) {
+        console.warn("[Listening] Failed to load cached catalog:", err);
+      }
+    }
+
     const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+    // Tầng 2: Background Neon Database Reconciliation
     const fetchLessons = async () => {
       try {
-        setIsLoadingLessons(true);
         const res = await fetch(`/api/listening/lessons?userId=${user?.id || ""}`, {
           signal: controller.signal,
           headers: { Accept: "application/json" },
@@ -194,51 +350,99 @@ function ListeningPageContent() {
         }
         const json = await res.json();
         if (isMounted && json.success && Array.isArray(json.data) && json.data.length > 0) {
-          setLessonsList((prev) => {
-            const prevMap = new Map(prev.map((l) => [l.id, l]));
-            return json.data.map((item: any) => {
-              const existing = prevMap.get(item.id);
-              return existing?.transcript?.length
-                ? { ...item, transcript: existing.transcript }
-                : item;
-            });
-          });
-        } else if (isMounted) {
+          setLessonsList(json.data);
+          try {
+            localStorage.setItem(catalogCacheKey, JSON.stringify(json.data));
+          } catch (e) {}
+        } else if (isMounted && lessonsList.length === 0) {
           setLessonsList(MOCK_LESSONS_DATA);
         }
       } catch (err: any) {
-        if (err?.name === "AbortError") return;
-        console.warn("[Listening] DB fetch fallback to offline cache:", err?.message || err);
-        if (isMounted) setLessonsList(MOCK_LESSONS_DATA);
-      } finally {
-        if (isMounted) {
-          setTimeout(() => {
-            if (isMounted) setIsLoadingLessons(false);
-          }, 240);
+        if (err?.name === "AbortError") {
+          console.warn("[Listening] Catalog DB request timed out.");
         }
+        console.warn("[Listening] DB fetch fallback to offline cache:", err?.message || err);
+        if (isMounted && lessonsList.length === 0) {
+          setLessonsList(MOCK_LESSONS_DATA);
+          addToast({
+            type: "warning",
+            title: "Chế độ offline",
+            message: "Không thể tải danh mục từ máy chủ Neon. Đang hiển thị danh mục offline.",
+          });
+        }
+      } finally {
+        clearTimeout(timeoutId);
+        if (isMounted) setIsLoadingLessons(false);
       }
     };
     fetchLessons();
     return () => {
       isMounted = false;
+      clearTimeout(timeoutId);
       controller.abort();
     };
-  }, [user?.id]);
+  }, [user?.id, addToast]);
 
-  const [isLoadingLessonDetail, setIsLoadingLessonDetail] = useState<boolean>(() => !!rawIdParam);
   const [, setIsSyncingDb] = useState(false);
   const [isShufflingBasic, setIsShufflingBasic] = useState(false);
   const [isShufflingAdvanced, setIsShufflingAdvanced] = useState(false);
   const [isShufflingRecommendations, setIsShufflingRecommendations] = useState(false);
 
-  // 2. Fetch Single Lesson Details & User Progress from Database
+  // 2. SWR Instant 0ms Local Cache Hydration & Background Neon DB Fetch for Lesson Detail (Dashboard Architecture)
   useEffect(() => {
     if (!selectedLessonId) return;
     let isMounted = true;
+    const detailCacheKey = `xp_voca_listening_detail_${selectedLessonId}_${user?.id || "guest"}`;
+
+    // Tầng 1: SWR 0ms Instant Local Cache Hydration
+    if (typeof window !== "undefined") {
+      try {
+        const raw = localStorage.getItem(detailCacheKey);
+        if (raw) {
+          const cached = JSON.parse(raw);
+          if (cached && cached.id && Array.isArray(cached.transcript) && cached.transcript.length > 0) {
+            setDetailedLessonsMap((prev) => {
+              const next: Record<string, any> = { ...prev, [cached.id]: cached };
+              if (selectedLessonId) next[selectedLessonId] = cached;
+              if (rawIdParam) next[rawIdParam] = cached;
+              return next;
+            });
+            setIsLoadingLessonDetail(false);
+            if (cached.userProgress) {
+              const prog = cached.userProgress;
+              if (Array.isArray(prog.completedSentences)) {
+                const compMap: { [idx: number]: boolean } = {};
+                prog.completedSentences.forEach((idx: number) => {
+                  compMap[idx] = true;
+                });
+                setCompletedSentences(compMap);
+              }
+              if (Array.isArray(prog.bookmarkedSentences)) {
+                setSavedSentenceKeys(prog.bookmarkedSentences);
+              }
+              if (prog.timeSpent && prog.timeSpent > 0) {
+                elapsedTimeRef.current = prog.timeSpent;
+              }
+              if (prog.status === "COMPLETED") {
+                setIsLessonFinished(true);
+              }
+            }
+            if (cached.userNote !== undefined) {
+              setCloudNoteText(cached.userNote || "");
+            }
+          }
+        }
+      } catch (err) {
+        console.warn("[Listening] Failed to load cached lesson detail:", err);
+      }
+    }
+
     const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+    // Tầng 2: Background Neon Database Reconciliation
     const fetchLessonDetail = async () => {
       try {
-        setIsLoadingLessonDetail(true);
         const res = await fetch(
           `/api/listening/lessons/${selectedLessonId}?userId=${user?.id || ""}`,
           {
@@ -252,7 +456,30 @@ function ListeningPageContent() {
         const json = await res.json();
         if (isMounted && json.success && json.data) {
           const detail = json.data;
-          setDetailedLessonsMap((prev) => ({ ...prev, [detail.id]: detail }));
+          setDetailedLessonsMap((prev) => {
+            const next: Record<string, any> = { ...prev, [detail.id]: detail };
+            if (selectedLessonId) next[selectedLessonId] = detail;
+            if (rawIdParam) next[rawIdParam] = detail;
+            const num = parseInt((detail.id || "").replace(/\D/g, "") || rawIdParam || "", 10);
+            if (!isNaN(num)) {
+              const pad3 = String(num).padStart(3, "0");
+              next[pad3] = detail;
+              next[`listen_${pad3}`] = detail;
+              next[String(num)] = detail;
+            }
+            return next;
+          });
+          if (detail.id !== selectedLessonId) {
+            setSelectedLessonId(detail.id);
+          }
+          try {
+            localStorage.setItem(detailCacheKey, JSON.stringify(detail));
+            localStorage.setItem(`xp_voca_listening_detail_${detail.id}_${user?.id || "guest"}`, JSON.stringify(detail));
+            if (rawIdParam) {
+              localStorage.setItem(`xp_voca_listening_detail_${rawIdParam}_${user?.id || "guest"}`, JSON.stringify(detail));
+            }
+          } catch (e) {}
+
           setLessonsList((prev) => {
             const idx = prev.findIndex((l) => l.id === detail.id);
             if (idx !== -1) {
@@ -275,7 +502,7 @@ function ListeningPageContent() {
               setSavedSentenceKeys(prog.bookmarkedSentences);
             }
             if (prog.timeSpent && prog.timeSpent > 0) {
-              setElapsedTime(prog.timeSpent);
+              elapsedTimeRef.current = prog.timeSpent;
             }
             if (prog.status === "COMPLETED") {
               setIsLessonFinished(true);
@@ -286,12 +513,30 @@ function ListeningPageContent() {
           }
         }
       } catch (err: any) {
-        if (err?.name === "AbortError") return;
+        if (err?.name === "AbortError") {
+          console.warn("[Listening] Lesson detail request timed out.");
+        }
         console.warn("[Listening] Detail DB fetch fallback to local lesson:", err?.message || err);
         if (isMounted) {
-          const fallbackLesson = MOCK_LESSONS_DATA.find((l) => l.id === selectedLessonId);
+          const num = parseInt(rawIdParam || selectedLessonId || "", 10);
+          const pad3 = !isNaN(num) ? String(num).padStart(3, "0") : "";
+          const fallbackLesson =
+            MOCK_LESSONS_DATA.find((l) => l.id === selectedLessonId) ||
+            (!isNaN(num)
+              ? MOCK_LESSONS_DATA.find(
+                  (l) =>
+                    l.id === `listen_${pad3}` ||
+                    l.id.endsWith(`_${pad3}`) ||
+                    l.id.includes(`_${pad3}`)
+                ) || (num >= 1 && num <= MOCK_LESSONS_DATA.length ? MOCK_LESSONS_DATA[num - 1] : null)
+              : null);
           if (fallbackLesson) {
-            setDetailedLessonsMap((prev) => ({ ...prev, [fallbackLesson.id]: fallbackLesson }));
+            setDetailedLessonsMap((prev) => {
+              const next: Record<string, any> = { ...prev, [fallbackLesson.id]: fallbackLesson };
+              if (selectedLessonId) next[selectedLessonId] = fallbackLesson;
+              if (rawIdParam) next[rawIdParam] = fallbackLesson;
+              return next;
+            });
             setLessonsList((prev) => {
               const idx = prev.findIndex((l) => l.id === fallbackLesson.id);
               if (idx !== -1) {
@@ -301,28 +546,32 @@ function ListeningPageContent() {
               }
               return [fallbackLesson, ...prev];
             });
+            addToast({
+              type: "warning",
+              title: "Chế độ offline",
+              message: "Không thể kết nối CSDL Neon. Đang sử dụng dữ liệu bài học offline.",
+            });
           }
         }
       } finally {
-        if (isMounted) {
-          setTimeout(() => {
-            if (isMounted) setIsLoadingLessonDetail(false);
-          }, 200);
-        }
+        clearTimeout(timeoutId);
+        if (isMounted) setIsLoadingLessonDetail(false);
       }
     };
     fetchLessonDetail();
     return () => {
       isMounted = false;
+      clearTimeout(timeoutId);
       controller.abort();
+      setIsLoadingLessonDetail(false);
     };
-  }, [selectedLessonId, user?.id]);
+  }, [selectedLessonId, user?.id, rawIdParam, addToast]);
 
   // Current sentence bookmark key
   const currentSentenceKey = `${selectedLessonId || "lesson"}_${currentSentenceIndex}`;
   const isCurrentSentenceBookmarked = savedSentenceKeys.includes(currentSentenceKey);
 
-  const handleToggleBookmark = async () => {
+  const handleToggleBookmark = useCallback(async () => {
     let nextKeys: string[];
     if (isCurrentSentenceBookmarked) {
       nextKeys = savedSentenceKeys.filter((k) => k !== currentSentenceKey);
@@ -358,17 +607,17 @@ function ListeningPageContent() {
         setIsSyncingDb(false);
       }
     }
-  };
+  }, [isCurrentSentenceBookmarked, savedSentenceKeys, currentSentenceKey, addToast, awardXp, currentSentence?.text, currentLesson, user?.id]);
 
   const [showReportModal, setShowReportModal] = useState(false);
   const [reportReason, setReportReason] = useState<string>("spelling");
   const [reportDescription, setReportDescription] = useState<string>("");
 
-  const handleReportSentence = () => {
+  const handleReportSentence = useCallback(() => {
     setShowReportModal(true);
-  };
+  }, []);
 
-  const handleSubmitReport = (e: React.FormEvent) => {
+  const handleSubmitReport = useCallback((e: React.FormEvent) => {
     e.preventDefault();
     setShowReportModal(false);
     setReportDescription("");
@@ -378,42 +627,29 @@ function ListeningPageContent() {
       message:
         "Cảm ơn bạn đã đóng góp! Ban biên tập sẽ kiểm tra và cập nhật câu trong 24h.",
     });
-  };
+  }, [addToast]);
 
-  const handleAdjustFontSize = (delta: number) => {
-    const nextLevel = Math.max(0, Math.min(3, fontSizeLevel + delta));
-    setFontSizeLevel(nextLevel);
-    if (typeof window !== "undefined") {
-      localStorage.setItem("xp_listening_font_size", String(nextLevel));
-    }
-    const labels = [
-      "Tiêu chuẩn (14px)",
-      "Vừa (16px)",
-      "Lớn (18px)",
-      "Rất lớn (20px)",
-    ];
-    addToast({ type: "info", title: `Cỡ chữ: ${labels[nextLevel]}` });
-  };
-
-  useEffect(() => {
-    elapsedTimeRef.current = elapsedTime;
-  }, [elapsedTime]);
+  const handleAdjustFontSize = useCallback((delta: number) => {
+    setFontSizeLevel((prevLevel) => {
+      const nextLevel = Math.max(0, Math.min(3, prevLevel + delta));
+      if (typeof window !== "undefined") {
+        localStorage.setItem("xp_listening_font_size", String(nextLevel));
+      }
+      const labels = [
+        "Tiêu chuẩn (14px)",
+        "Vừa (16px)",
+        "Lớn (18px)",
+        "Rất lớn (20px)",
+      ];
+      addToast({ type: "info", title: `Cỡ chữ: ${labels[nextLevel]}` });
+      return nextLevel;
+    });
+  }, [addToast]);
 
   // Practice time tracker
   useStudyTimeTracker("dictation", {
     activeCondition: !!selectedLessonId,
   });
-
-  // Practice overall timer
-  useEffect(() => {
-    if (!selectedLessonId) return;
-
-    const timer = setInterval(() => {
-      setElapsedTime((prev) => prev + 1);
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [selectedLessonId]);
 
   // Sentence Audio Timer
   useEffect(() => {
@@ -525,17 +761,27 @@ function ListeningPageContent() {
     }, 180);
   };
 
-  const handleSelectLesson = (lessonId: string) => {
+  const handleSelectLesson = useCallback((lessonId: string) => {
     stopTTS();
     setPlayingSentenceText(null);
-    setIsLoadingLessonDetail(true);
+    const num = parseInt(lessonId.replace(/\D/g, "") || lessonId, 10);
+    const pad3 = !isNaN(num) ? String(num).padStart(3, "0") : "";
+    const isCached =
+      !!detailedLessonsMap[lessonId]?.transcript?.length ||
+      (pad3
+        ? !!detailedLessonsMap[pad3]?.transcript?.length ||
+          !!detailedLessonsMap[`listen_${pad3}`]?.transcript?.length
+        : false);
+    setIsLoadingLessonDetail(!isCached);
     setSelectedLessonId(lessonId);
     setCurrentLessonId(lessonId);
     setIsLessonFinished(false);
     setCurrentSentenceIndex(0);
     setSentencePlaybackTime(0);
     setSidebarCollapsed(true);
-    localStorage.setItem("xp_voca_last_listening_lesson", lessonId);
+    try {
+      localStorage.setItem("xp_voca_last_listening_lesson", lessonId);
+    } catch {}
 
     const lessonIdx = lessonsList.findIndex((l) => l.id === lessonId);
     if (lessonIdx !== -1) {
@@ -543,9 +789,9 @@ function ListeningPageContent() {
     } else {
       router.push(`/study/listening?id=${lessonId}`);
     }
-  };
+  }, [lessonsList, router, setCurrentLessonId, setSidebarCollapsed, detailedLessonsMap]);
 
-  const handleBackToListing = () => {
+  const handleBackToListing = useCallback(() => {
     stopTTS();
     setPlayingSentenceText(null);
     setSelectedLessonId(null);
@@ -556,7 +802,7 @@ function ListeningPageContent() {
     setSidebarCollapsed(false);
     localStorage.removeItem("xp_voca_last_listening_lesson");
     router.push("/study/listening");
-  };
+  }, [router, setCurrentLessonId, setSidebarCollapsed]);
 
   // Form State: Create New Article
   const [showCreateForm, setShowCreateForm] = useState(false);
@@ -742,7 +988,7 @@ function ListeningPageContent() {
   // Deep Dictionary Modal State
   const [selectedWord, setSelectedWord] = useState<DeepWordDefinition | null>(null);
 
-  const handleWordClick = (word: string) => {
+  const handleWordClick = useCallback((word: string) => {
     const cleanWord = word.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "").trim();
     if (!cleanWord) return;
 
@@ -754,9 +1000,9 @@ function ListeningPageContent() {
 
     const deepDef = lookupWordDeep(cleanWord);
     setSelectedWord(deepDef);
-  };
+  }, [currentLesson?.id]);
 
-  const handleSpeakSentence = (text: string, index: number) => {
+  const handleSpeakSentence = useCallback((text: string, index: number) => {
     speakLessonText(text, {
       rate: playbackSpeed,
       lessonId: currentLesson?.id,
@@ -768,9 +1014,9 @@ function ListeningPageContent() {
         setSentencePlaybackTime(0);
       },
     });
-  };
+  }, [playbackSpeed, currentLesson?.id, currentLesson?.accent, currentAccent, currentVolume]);
 
-  const handleTogglePlayCurrentSentence = () => {
+  const handleTogglePlayCurrentSentence = useCallback(() => {
     if (!currentSentence) return;
     if (playingSentenceText === currentSentence.text) {
       stopTTS();
@@ -779,9 +1025,9 @@ function ListeningPageContent() {
       setPlayingSentenceText(currentSentence.text);
       handleSpeakSentence(currentSentence.text, currentSentenceIndex);
     }
-  };
+  }, [currentSentence, playingSentenceText, handleSpeakSentence, currentSentenceIndex]);
 
-  const handleNextSentenceInStudio = () => {
+  const handleNextSentenceInStudio = useCallback(() => {
     stopTTS();
     setPlayingSentenceText(null);
     setSentencePlaybackTime(0);
@@ -800,6 +1046,10 @@ function ListeningPageContent() {
       });
 
       if (currentLesson) {
+        if (progressDebounceTimerRef.current) {
+          clearTimeout(progressDebounceTimerRef.current);
+          progressDebounceTimerRef.current = null;
+        }
         const allIndices = Array.from({ length: totalSentencesCount }, (_, i) => i);
         fetch("/api/listening/progress", {
           method: "POST",
@@ -810,15 +1060,15 @@ function ListeningPageContent() {
             status: "COMPLETED",
             completedSentences: allIndices,
             bookmarkedSentences: savedSentenceKeys,
-            timeSpent: Math.max(5, elapsedTime),
+            timeSpent: Math.max(5, elapsedTimeRef.current),
             xpEarned: 50,
           }),
         }).catch((e) => console.error("Error saving complete progress to DB:", e));
       }
     }
-  };
+  }, [currentSentenceIndex, totalSentencesCount, currentLesson, markLessonCompleted, awardXp, addToast, user?.id, savedSentenceKeys]);
 
-  const handleSentenceCompleted = () => {
+  const handleSentenceCompleted = useCallback(() => {
     const nextCompleted = {
       ...completedSentences,
       [currentSentenceIndex]: true,
@@ -838,6 +1088,10 @@ function ListeningPageContent() {
       const isCompleted = completedArr.length >= totalSentencesCount;
 
       if (isCompleted) {
+        if (progressDebounceTimerRef.current) {
+          clearTimeout(progressDebounceTimerRef.current);
+          progressDebounceTimerRef.current = null;
+        }
         fetch("/api/listening/progress", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -847,7 +1101,7 @@ function ListeningPageContent() {
             status: "COMPLETED",
             completedSentences: completedArr,
             bookmarkedSentences: savedSentenceKeys,
-            timeSpent: 5,
+            timeSpent: Math.max(5, elapsedTimeRef.current),
             xpEarned: 50,
           }),
         })
@@ -865,19 +1119,25 @@ function ListeningPageContent() {
           setIsLessonFinished(true);
         }, 1000);
       } else {
-        fetch("/api/listening/progress", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            userId: user?.id || "guest_user",
-            lessonId: currentLesson.id,
-            status: "IN_PROGRESS",
-            completedSentences: completedArr,
-            bookmarkedSentences: savedSentenceKeys,
-            timeSpent: 5,
-            xpEarned: 20,
-          }),
-        }).catch((e) => console.error("Error saving sentence progress to DB:", e));
+        // Debounced non-blocking background sync (1.2s): reduces database write load by ~80%
+        if (progressDebounceTimerRef.current) {
+          clearTimeout(progressDebounceTimerRef.current);
+        }
+        progressDebounceTimerRef.current = setTimeout(() => {
+          fetch("/api/listening/progress", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              userId: user?.id || "guest_user",
+              lessonId: currentLesson.id,
+              status: "IN_PROGRESS",
+              completedSentences: completedArr,
+              bookmarkedSentences: savedSentenceKeys,
+              timeSpent: Math.max(5, elapsedTimeRef.current),
+              xpEarned: 20,
+            }),
+          }).catch((e) => console.error("Error saving sentence progress to DB:", e));
+        }, 1200);
       }
     }
 
@@ -887,9 +1147,42 @@ function ListeningPageContent() {
         setPlayingSentenceText(null);
         setCurrentSentenceIndex((prev) => prev + 1);
         setSentencePlaybackTime(0);
-      }, 1400);
+      }, 700);
     }
-  };
+  }, [completedSentences, currentSentenceIndex, awardXp, addToast, currentLesson, totalSentencesCount, user?.id, savedSentenceKeys, autoNextSentence]);
+
+  const handleAccentChange = useCallback((acc: string) => {
+    setCurrentAccent(acc);
+    addToast({
+      type: "info",
+      title: `Đã đổi giọng sang ${acc === "en-US" ? "Mỹ (US)" : acc === "en-GB" ? "Anh (UK)" : "Úc (AU)"}`,
+    });
+  }, [addToast]);
+
+  const handleShuffleRecommendations = useCallback(() => {
+    setIsShufflingRecommendations(true);
+    setTimeout(() => {
+      setLessonsList((prev) => [...prev].sort(() => 0.5 - Math.random()));
+      setIsShufflingRecommendations(false);
+      addToast({
+        type: "info",
+        title: "Đã làm mới danh sách gợi ý bài học! ↺",
+      });
+    }, 200);
+  }, [addToast]);
+
+  const handleWordMatched = useCallback(() => {
+    awardXp(5, "dictation");
+  }, [awardXp]);
+
+  const handleResetProgress = useCallback(() => {
+    setCompletedSentences({});
+    addToast({
+      type: "info",
+      title: "Đã đặt lại tiến độ bài học! ↺",
+      message: "Tiến độ học câu của bài đã được làm mới về 0%.",
+    });
+  }, [addToast]);
 
   // Keyboard shortcuts listener
   useEffect(() => {
@@ -951,8 +1244,30 @@ function ListeningPageContent() {
 
   // Loading Fallbacks (0px CLS Geometric Skeletons)
   if (rawIdParam || selectedLessonId) {
-    if (isLoadingLessonDetail || !currentLesson || !currentSentence) {
+    if (isLoadingLessonDetail || (!currentLesson && isLoadingLessons)) {
       return <ListeningStudioSkeleton />;
+    }
+    // Chỉ hiển thị màn hình thông báo khi đã tải xong cả detail lẫn catalog mà vẫn không xác định được bài học
+    if (!currentLesson && !isLoadingLessonDetail && !isLoadingLessons) {
+      return (
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center p-6 text-center">
+          <div className="w-16 h-16 rounded-2xl bg-amber-500/10 text-amber-500 flex items-center justify-center mb-4 text-2xl font-bold">
+            !
+          </div>
+          <h2 className="text-xl font-bold text-slate-800 dark:text-white mb-2">
+            Không tìm thấy bài nghe yêu cầu
+          </h2>
+          <p className="text-sm text-slate-500 dark:text-slate-400 max-w-md mb-6">
+            Mã bài học không tồn tại trong hệ thống hoặc đang được cập nhật. Vui lòng chọn bài học khác từ danh mục.
+          </p>
+          <button
+            onClick={handleBackToListing}
+            className="px-5 py-2.5 rounded-xl bg-[#0059bb] hover:bg-blue-700 text-white font-medium text-sm transition-all shadow-md shadow-blue-500/20"
+          >
+            Quay lại danh mục bài nghe
+          </button>
+        </div>
+      );
     }
   } else if (isLoadingLessons && !selectedLessonId) {
     return <ListeningListingSkeleton />;
@@ -1023,7 +1338,7 @@ function ListeningPageContent() {
               currentLesson={currentLesson}
               lessonsList={lessonsList}
               totalSentencesCount={totalSentencesCount}
-              elapsedTime={elapsedTime}
+              elapsedTime={elapsedTimeRef.current}
               onRestart={() => {
                 setIsLessonFinished(false);
                 setCurrentSentenceIndex(0);
@@ -1075,13 +1390,7 @@ function ListeningPageContent() {
                 currentVolume={currentVolume}
                 setCurrentVolume={setCurrentVolume}
                 currentAccent={currentAccent}
-                onAccentChange={(acc) => {
-                  setCurrentAccent(acc);
-                  addToast({
-                    type: "info",
-                    title: `Đã đổi giọng sang ${acc === "en-US" ? "Mỹ (US)" : acc === "en-GB" ? "Anh (UK)" : "Úc (AU)"}`,
-                  });
-                }}
+                onAccentChange={handleAccentChange}
                 isCurrentSentenceBookmarked={isCurrentSentenceBookmarked}
                 onToggleBookmark={handleToggleBookmark}
                 onReportSentence={handleReportSentence}
@@ -1095,36 +1404,20 @@ function ListeningPageContent() {
                 completedLessonIds={completedLessonIds}
                 isLoadingLessonDetail={isLoadingLessonDetail}
                 isShufflingRecommendations={isShufflingRecommendations}
-                onShuffleRecommendations={() => {
-                  setIsShufflingRecommendations(true);
-                  setTimeout(() => {
-                    setLessonsList((prev) => [...prev].sort(() => 0.5 - Math.random()));
-                    setIsShufflingRecommendations(false);
-                    addToast({
-                      type: "info",
-                      title: "Đã làm mới danh sách gợi ý bài học! ↺",
-                    });
-                  }, 200);
-                }}
-                elapsedTime={elapsedTime}
+                onShuffleRecommendations={handleShuffleRecommendations}
+                elapsedTime={elapsedTimeRef.current}
+                onElapsedTimeTick={handleElapsedTimeTick}
                 formatElapsedTime={formatElapsedTime}
                 onBackToListing={handleBackToListing}
                 onSelectLesson={handleSelectLesson}
                 onSentenceCompleted={handleSentenceCompleted}
-                onWordMatched={() => awardXp(5, "dictation")}
+                onWordMatched={handleWordMatched}
                 onWordClick={handleWordClick}
                 onTogglePlayCurrentSentence={handleTogglePlayCurrentSentence}
                 onSpeakSentence={handleSpeakSentence}
                 onStopTTS={stopTTS}
                 onNextSentenceInStudio={handleNextSentenceInStudio}
-                onResetProgress={() => {
-                  setCompletedSentences({});
-                  addToast({
-                    type: "info",
-                    title: "Đã đặt lại tiến độ bài học! ↺",
-                    message: "Tiến độ học câu của bài đã được làm mới về 0%.",
-                  });
-                }}
+                onResetProgress={handleResetProgress}
                 onToast={addToast}
               />
             ) : (

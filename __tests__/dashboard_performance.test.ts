@@ -99,10 +99,7 @@ describe("Stage 2: Dashboard Performance & Single Root Query Tests", () => {
       mockAuth.userId = userId;
 
       const today = new Date();
-      const y = today.getFullYear();
-      const m = String(today.getMonth() + 1).padStart(2, "0");
-      const d = String(today.getDate()).padStart(2, "0");
-      const todayStr = `${y}-${m}-${d}`;
+      const todayStr = today.toISOString().slice(0, 10);
 
       mockPrisma.profile.findUnique.mockResolvedValueOnce({
         id: userId,

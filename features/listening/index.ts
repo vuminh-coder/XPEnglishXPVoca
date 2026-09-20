@@ -14,3 +14,4 @@ export * from "./components/ListeningCompletionScreen";
 export * from "./components/ListeningStudioWorkspace";
 export * from "./components/ListeningModals";
 export * from "./components/LoadingSkeletons";
+export * from "./components/StudioTimerBadge";

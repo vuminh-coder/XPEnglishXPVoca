@@ -273,12 +273,25 @@ export function speakLessonText(text: string, options: SpeakOptions = {}) {
   // 1. Unlock mobile audio synchronously
   unlockMobileAudio();
 
-  const delayMs = options.delayMs ?? 300; // 0.3s pre-speech silence pause for clear listening
+  const isMobileDevice =
+    typeof window !== "undefined" &&
+    (window.innerWidth < 768 ||
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent || ""
+      ));
 
-  (window as any)._speechDelayTimer = setTimeout(() => {
-    (window as any)._speechDelayTimer = null;
+  // 30ms silence cushion on mobile prevents AudioContext pop/buffer underrun, 0ms on desktop
+  const defaultDelay = isMobileDevice ? 30 : 0;
+  const delayMs = options.delayMs ?? defaultDelay;
+
+  if (delayMs > 0) {
+    (window as any)._speechDelayTimer = setTimeout(() => {
+      (window as any)._speechDelayTimer = null;
+      executeSpeech(cleanText, options);
+    }, delayMs);
+  } else {
     executeSpeech(cleanText, options);
-  }, delayMs);
+  }
 }
 
 function executeSpeech(cleanText: string, options: SpeakOptions) {

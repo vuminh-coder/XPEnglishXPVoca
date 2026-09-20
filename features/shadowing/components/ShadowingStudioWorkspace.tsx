@@ -23,6 +23,7 @@ import {
 import { StudioTopHeader } from "@/features/listening/components/StudioTopHeader";
 import { StudioWaveformCard } from "@/features/listening/components/StudioWaveformCard";
 import { InteractiveTranscriptSidebar } from "@/features/listening/components/InteractiveTranscriptSidebar";
+import { StudioTimerBadge } from "@/features/listening/components/StudioTimerBadge";
 import {
   TranscriptSentencesSkeleton,
   ShimmerBox,
@@ -34,7 +35,8 @@ interface ShadowingStudioWorkspaceProps {
   rawIdParam: string | null;
   selectedLessonId: string | null;
   isInPlaceSwitchingLesson?: boolean;
-  elapsedTime: number;
+  elapsedTime?: number;
+  onElapsedTimeTick?: (sec: number) => void;
   currentSentenceIndex: number;
   totalSentencesCount: number;
   sentencePlaybackTime: number;
@@ -84,12 +86,13 @@ interface ShadowingStudioWorkspaceProps {
   onShuffleRecommendations: () => void;
 }
 
-export function ShadowingStudioWorkspace({
+function ShadowingStudioWorkspaceComponent({
   currentLesson,
   rawIdParam,
   selectedLessonId,
   isInPlaceSwitchingLesson = false,
-  elapsedTime,
+  elapsedTime = 0,
+  onElapsedTimeTick,
   currentSentenceIndex,
   totalSentencesCount,
   sentencePlaybackTime,
@@ -150,18 +153,19 @@ export function ShadowingStudioWorkspace({
     >
       {/* 1. Top Unified Studio Navigation Bar */}
       <StudioTopHeader
-        title={currentLesson.title}
-        level={currentLesson.level}
+        title={currentLesson?.title || "Shadowing Practice"}
+        level={currentLesson?.level || "All Levels"}
         currentMode="shadowing"
         lessonQueryId={rawIdParam || selectedLessonId || "1"}
         isBookmarked={isCurrentSentenceBookmarked}
         onToggleBookmark={handleToggleBookmark}
         onBack={handleBackToListing}
         rightExtraActions={
-          <span className="px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-xs font-bold flex items-center gap-1 shadow-2xs shrink-0 whitespace-nowrap">
-            <Clock className="w-3.5 h-3.5" />
-            <span>{formatElapsedTime(elapsedTime)}</span>
-          </span>
+          <StudioTimerBadge
+            isActive={true}
+            initialSeconds={elapsedTime}
+            onSecondsUpdate={onElapsedTimeTick}
+          />
         }
       />
 
@@ -857,3 +861,5 @@ export function ShadowingStudioWorkspace({
     </div>
   );
 }
+
+export const ShadowingStudioWorkspace = React.memo(ShadowingStudioWorkspaceComponent);

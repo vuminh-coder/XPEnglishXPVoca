@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useMemo, Suspense } from "react";
+import React, { useState, useEffect, useRef, useMemo, useCallback, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useAuthStore } from "@/stores/authStore";
 import { useNotificationStore } from "@/stores/notificationStore";
@@ -36,26 +36,33 @@ import { lookupWordDeep, DeepWordDefinition } from "@/features/vocabulary/data/d
 import { MOCK_LESSONS_DATA } from "@/features/listening/data/listeningMockData";
 import { useShadowingAudioRecorder } from "@/features/shadowing/hooks/useShadowingAudioRecorder";
 
-// Helper to resolve query id (e.g. ?id=52 -> 52nd lesson or listen_052)
+// Helper to resolve query id (e.g. ?id=42 -> listen_toeic_q3_042 or 42nd lesson)
 const resolveLessonId = (
   queryId: string | null | undefined,
   list: any[]
 ): string | null => {
   if (!queryId || !list || list.length === 0) return null;
 
-  // 1. Direct match by lesson id
+  // 1. Direct match by exact lesson id
   const exact = list.find((l) => l.id === queryId);
   if (exact) return exact.id;
 
-  // 2. Numeric match (e.g. ?id=52 -> 52nd lesson or listen_052)
+  // 2. Formatted ID / Substring match (e.g. ?id=42 -> listen_toeic_q3_042 or listen_042)
   const num = parseInt(queryId, 10);
   if (!isNaN(num)) {
+    const pad3 = String(num).padStart(3, "0");
+    const byIdCode = list.find(
+      (l) =>
+        l.id === `listen_${pad3}` ||
+        l.id.endsWith(`_${pad3}`) ||
+        l.id.includes(`_${pad3}`)
+    );
+    if (byIdCode) return byIdCode.id;
+
+    // 3. Fallback: 1-indexed numeric order in the catalog
     if (num >= 1 && num <= list.length) {
       return list[num - 1].id;
     }
-    const formatted = `listen_${String(num).padStart(3, "0")}`;
-    const foundFormatted = list.find((l) => l.id === formatted);
-    if (foundFormatted) return foundFormatted.id;
   }
 
   return null;
@@ -71,26 +78,122 @@ function ShadowingStudioContent() {
   const { setCurrentLessonId, completedLessonIds } = useListeningStore();
   const { setSidebarCollapsed, setHideBottomNav } = useUiStore();
 
-  // 1. Database-backed lessons state
-  const [lessonsList, setLessonsList] = useState<any[]>(() => MOCK_LESSONS_DATA);
-  const [isLoadingLessons, setIsLoadingLessons] = useState<boolean>(!rawIdParam);
-  const [isLoadingLessonDetail, setIsLoadingLessonDetail] = useState<boolean>(!!rawIdParam);
-  const [singleLessonDb, setSingleLessonDb] = useState<any | null>(null);
+  // 1. Database-backed lessons state (Dashboard SWR Architecture: Frame-0 synchronous localStorage hydration)
+  const [lessonsList, setLessonsList] = useState<any[]>(() => {
+    if (typeof window === "undefined") return [];
+    try {
+      const cached =
+        localStorage.getItem("xp_voca_shadowing_catalog_cache") ||
+        localStorage.getItem("xp_voca_shadowing_catalog_guest") ||
+        localStorage.getItem("xp_voca_listening_catalog_cache") ||
+        localStorage.getItem("xp_voca_listening_catalog_guest");
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch {}
+    return [];
+  });
+
+  const [isLoadingLessons, setIsLoadingLessons] = useState<boolean>(() => {
+    if (rawIdParam) return false;
+    if (typeof window === "undefined") return true;
+    try {
+      const cached =
+        localStorage.getItem("xp_voca_shadowing_catalog_cache") ||
+        localStorage.getItem("xp_voca_shadowing_catalog_guest") ||
+        localStorage.getItem("xp_voca_listening_catalog_cache");
+      return !cached;
+    } catch {
+      return true;
+    }
+  });
+
+  const [isLoadingLessonDetail, setIsLoadingLessonDetail] = useState<boolean>(() => {
+    if (!rawIdParam) return false;
+    if (typeof window === "undefined") return true;
+    try {
+      const num = parseInt(rawIdParam, 10);
+      const pad3 = !isNaN(num) ? String(num).padStart(3, "0") : "";
+      const keysToProbe = [
+        `xp_voca_shadowing_detail_${rawIdParam}_guest`,
+        `xp_voca_shadowing_detail_${rawIdParam}`,
+        `xp_voca_listening_detail_${rawIdParam}_guest`,
+        (pad3 ? `xp_voca_shadowing_detail_listen_${pad3}_guest` : null),
+        (pad3 ? `xp_voca_listening_detail_listen_${pad3}_guest` : null),
+      ].filter(Boolean) as string[];
+
+      for (const k of keysToProbe) {
+        const raw = localStorage.getItem(k);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed?.transcript?.length) return false;
+        }
+      }
+      return true;
+    } catch {
+      return true;
+    }
+  });
+
+  const [singleLessonDb, setSingleLessonDb] = useState<any | null>(() => {
+    if (typeof window === "undefined" || !rawIdParam) return null;
+    try {
+      const num = parseInt(rawIdParam, 10);
+      const pad3 = !isNaN(num) ? String(num).padStart(3, "0") : "";
+      const keysToProbe = [
+        `xp_voca_shadowing_detail_${rawIdParam}_guest`,
+        `xp_voca_shadowing_detail_${rawIdParam}`,
+        `xp_voca_listening_detail_${rawIdParam}_guest`,
+        (pad3 ? `xp_voca_shadowing_detail_listen_${pad3}_guest` : null),
+        (pad3 ? `xp_voca_listening_detail_listen_${pad3}_guest` : null),
+      ].filter(Boolean) as string[];
+
+      for (const k of keysToProbe) {
+        const raw = localStorage.getItem(k);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && parsed.transcript?.length) return parsed;
+        }
+      }
+    } catch {}
+    return null;
+  });
 
   // 2. Selected lesson state
   const [selectedLessonId, setSelectedLessonId] = useState<string | null>(() => {
     if (!rawIdParam) return null;
-    return resolveLessonId(rawIdParam, MOCK_LESSONS_DATA);
+    return rawIdParam;
   });
   const [isInPlaceSwitchingLesson, setIsInPlaceSwitchingLesson] = useState<boolean>(false);
 
-  // Fetch all lessons from PostgreSQL database
+  // 1. SWR Instant 0ms Local Cache Hydration & Background Neon DB Fetch for Catalog (Dashboard Architecture)
   useEffect(() => {
     let isMounted = true;
+    const catalogCacheKey = `xp_voca_shadowing_catalog_${user?.id || "guest"}`;
+
+    // Tầng 1: SWR 0ms Instant Local Cache Hydration
+    if (typeof window !== "undefined") {
+      try {
+        const raw = localStorage.getItem(catalogCacheKey);
+        if (raw) {
+          const cached = JSON.parse(raw);
+          if (Array.isArray(cached) && cached.length > 0) {
+            setLessonsList(cached);
+            setIsLoadingLessons(false);
+          }
+        }
+      } catch (err) {
+        console.warn("[Shadowing] Failed to load cached catalog:", err);
+      }
+    }
+
     const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+    // Tầng 2: Background Neon Database Reconciliation
     async function fetchLessons() {
       try {
-        if (!rawIdParam) setIsLoadingLessons(true);
         const res = await fetch(`/api/listening/lessons?userId=${user?.id || ""}`, {
           signal: controller.signal,
           headers: { Accept: "application/json" },
@@ -98,36 +201,40 @@ function ShadowingStudioContent() {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
         if (isMounted && json.success && Array.isArray(json.data) && json.data.length > 0) {
-          setLessonsList((prev) => {
-            const prevMap = new Map(prev.map((l) => [l.id, l]));
-            return json.data.map((item: any) => {
-              const existing = prevMap.get(item.id);
-              return existing?.transcript?.length
-                ? { ...item, transcript: existing.transcript }
-                : item;
-            });
-          });
-        } else if (isMounted) {
+          setLessonsList(json.data);
+          try {
+            localStorage.setItem(catalogCacheKey, JSON.stringify(json.data));
+          } catch (e) {}
+        } else if (isMounted && lessonsList.length === 0) {
           setLessonsList(MOCK_LESSONS_DATA);
         }
       } catch (err: any) {
-        if (err?.name === "AbortError") return;
+        if (err?.name === "AbortError") {
+          console.warn("[Shadowing] Catalog DB request timed out.");
+        }
         console.warn("[Shadowing] DB fetch fallback to offline cache:", err?.message || err);
-        if (isMounted) setLessonsList(MOCK_LESSONS_DATA);
+        if (isMounted && lessonsList.length === 0) {
+          setLessonsList(MOCK_LESSONS_DATA);
+          addToast({
+            type: "warning",
+            title: "Chế độ offline",
+            message: "Không thể tải danh mục từ CSDL Neon. Đang hiển thị danh mục offline.",
+          });
+        }
       } finally {
-        // High-end smooth grace period (Rule 1 Wadhah Aloui)
-        await new Promise((r) => setTimeout(r, 240));
+        clearTimeout(timeoutId);
         if (isMounted) setIsLoadingLessons(false);
       }
     }
     fetchLessons();
     return () => {
       isMounted = false;
+      clearTimeout(timeoutId);
       controller.abort();
     };
-  }, [user?.id, rawIdParam]);
+  }, [user?.id, addToast]);
 
-  // Sync URL ?id= param with database lessons
+  // Sync URL ?id= param with database lessons (Dashboard Architecture with SWR)
   // REF: Cache guard dùng ref thay vì dependency để tránh vòng lặp fetch vô hạn
   const lastFetchedLessonRef = useRef<string | null>(null);
 
@@ -140,8 +247,7 @@ function ShadowingStudioContent() {
       return;
     }
 
-    const targetPool = lessonsList.length > 0 ? lessonsList : MOCK_LESSONS_DATA;
-    const resolved = resolveLessonId(rawIdParam, targetPool);
+    const resolved = lessonsList.length > 0 ? resolveLessonId(rawIdParam, lessonsList) : null;
     if (resolved) {
       setSelectedLessonId(resolved);
       setCurrentLessonId(resolved);
@@ -149,17 +255,36 @@ function ShadowingStudioContent() {
     }
 
     const queryLessonId = resolved || rawIdParam;
+    const detailCacheKey = `xp_voca_shadowing_detail_${queryLessonId}_${user?.id || "guest"}`;
 
-    // Cache guard: Nếu đã fetch thành công bài này rồi, không fetch lại
-    if (lastFetchedLessonRef.current === queryLessonId) {
+    // Tầng 1: SWR 0ms Instant Local Cache Hydration
+    if (typeof window !== "undefined") {
+      try {
+        const raw = localStorage.getItem(detailCacheKey);
+        if (raw) {
+          const cached = JSON.parse(raw);
+          if (cached && cached.id && Array.isArray(cached.transcript) && cached.transcript.length > 0) {
+            setSingleLessonDb(cached);
+            setSelectedLessonId(cached.id);
+            setCurrentLessonId(cached.id);
+            setSidebarCollapsed(true);
+            setIsLoadingLessonDetail(false);
+          }
+        }
+      } catch (err) {
+        console.warn("[Shadowing] Failed to load cached lesson detail:", err);
+      }
+    }
+
+    // Cache guard: Nếu đã fetch thành công bài này rồi trong RAM, không fetch lại
+    if (lastFetchedLessonRef.current === queryLessonId && singleLessonDb?.id === queryLessonId) {
       setIsLoadingLessonDetail(false);
       return;
     }
 
-    setIsLoadingLessonDetail(true);
-
-    // Fetch individual lesson with complete transcript
+    // Tầng 2: Background Neon Database Reconciliation
     const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
     let isMounted = true;
 
     async function fetchSingle() {
@@ -176,6 +301,10 @@ function ShadowingStudioContent() {
           setSelectedLessonId(json.data.id);
           setCurrentLessonId(json.data.id);
           setSidebarCollapsed(true);
+          try {
+            localStorage.setItem(detailCacheKey, JSON.stringify(json.data));
+          } catch (e) {}
+
           setLessonsList((prev) => {
             const idx = prev.findIndex((l) => l.id === json.data.id);
             if (idx !== -1) {
@@ -187,7 +316,9 @@ function ShadowingStudioContent() {
           });
         }
       } catch (e: any) {
-        if (e?.name === "AbortError") return;
+        if (e?.name === "AbortError") {
+          console.warn("[Shadowing] Lesson detail request timed out.");
+        }
         console.warn("[Shadowing] Fetch single lesson fallback:", e?.message || e);
         if (isMounted) {
           // Sửa fallback lookup: bổ sung tìm theo index số (resolveLessonId)
@@ -205,24 +336,27 @@ function ShadowingStudioContent() {
             setSelectedLessonId(fallback.id);
             setCurrentLessonId(fallback.id);
             setSidebarCollapsed(true);
+            addToast({
+              type: "warning",
+              title: "Chế độ offline",
+              message: "Không thể tải bài học từ CSDL Neon. Đang sử dụng dữ liệu bài học offline.",
+            });
           }
         }
       } finally {
-        // Đảm bảo loading LUÔN reset dù bị abort hay isMounted = false
-        setTimeout(() => {
-          if (isMounted) setIsLoadingLessonDetail(false);
-        }, 200);
+        clearTimeout(timeoutId);
+        if (isMounted) setIsLoadingLessonDetail(false);
       }
     }
 
     fetchSingle();
     return () => {
       isMounted = false;
+      clearTimeout(timeoutId);
       controller.abort();
-      // Safety net: Nếu cleanup chạy (component re-render), reset loading
       setIsLoadingLessonDetail(false);
     };
-  }, [rawIdParam, lessonsList, setCurrentLessonId, setSidebarCollapsed, user?.id]);
+  }, [rawIdParam, lessonsList, setCurrentLessonId, setSidebarCollapsed, user?.id, singleLessonDb?.id, addToast]);
 
   // Automatically ensure sidebar is collapsed when in studio workspace
   useEffect(() => {
@@ -240,19 +374,55 @@ function ShadowingStudioContent() {
   }, [setHideBottomNav]);
 
   const currentLesson = useMemo(() => {
-    if (
-      singleLessonDb &&
-      singleLessonDb.id === selectedLessonId &&
-      singleLessonDb.transcript?.length
-    ) {
-      return singleLessonDb;
+    if (!selectedLessonId && !rawIdParam) return null;
+    const lookupKey = selectedLessonId || rawIdParam || "";
+
+    // 1. Check singleLessonDb directly or by alias/pad3
+    if (singleLessonDb && singleLessonDb.transcript?.length) {
+      if (
+        singleLessonDb.id === lookupKey ||
+        singleLessonDb.id === selectedLessonId ||
+        singleLessonDb.id === rawIdParam
+      ) {
+        return singleLessonDb;
+      }
+      const num = parseInt(lookupKey.replace(/\D/g, "") || lookupKey, 10);
+      if (!isNaN(num)) {
+        const pad3 = String(num).padStart(3, "0");
+        if (
+          singleLessonDb.id === `listen_${pad3}` ||
+          singleLessonDb.id.endsWith(`_${pad3}`) ||
+          singleLessonDb.id.includes(`_${pad3}`)
+        ) {
+          return singleLessonDb;
+        }
+      }
     }
-    const fromList = lessonsList.find((l) => l.id === selectedLessonId);
-    if (fromList?.transcript?.length) return fromList;
-    const fromMock = MOCK_LESSONS_DATA.find((l) => l.id === selectedLessonId);
-    if (fromMock?.transcript?.length) return { ...(fromList || {}), ...fromMock };
-    return singleLessonDb || fromList || fromMock || null;
-  }, [lessonsList, selectedLessonId, singleLessonDb]);
+
+    // 2. Lookup in lessonsList
+    if (lessonsList.length > 0) {
+      const resolvedId = resolveLessonId(lookupKey, lessonsList);
+      if (resolvedId) {
+        if (singleLessonDb && singleLessonDb.id === resolvedId && singleLessonDb.transcript?.length) {
+          return singleLessonDb;
+        }
+        const fromList = lessonsList.find((l) => l.id === resolvedId);
+        if (fromList?.transcript?.length) return fromList;
+      }
+      const directFromList = lessonsList.find((l) => l.id === lookupKey);
+      if (directFromList?.transcript?.length) return directFromList;
+    }
+
+    // 3. While DB is actively fetching detail, wait for DB (return null to show Studio Skeleton)
+    if (isLoadingLessonDetail) return null;
+
+    // 4. Offline mock fallback
+    const fallbackId = resolveLessonId(lookupKey, MOCK_LESSONS_DATA) || lookupKey;
+    const fromMock = MOCK_LESSONS_DATA.find((l) => l.id === fallbackId);
+    if (fromMock?.transcript?.length) return { ...(singleLessonDb || {}), ...fromMock };
+
+    return singleLessonDb || null;
+  }, [lessonsList, selectedLessonId, rawIdParam, singleLessonDb, isLoadingLessonDetail]);
 
   // Practice state
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
@@ -263,21 +433,16 @@ function ShadowingStudioContent() {
   const [completedSentences, setCompletedSentences] = useState<{ [idx: number]: boolean }>({});
   const [mobileStudioTab, setMobileStudioTab] = useState<"practice" | "transcript">("practice");
 
-  // Overall practice timer state (seconds elapsed)
-  const [elapsedTime, setElapsedTime] = useState(0);
+  // Overall practice timer state (isolated ref, eliminates 1Hz page re-renders)
+  const elapsedTimeRef = useRef(0);
+  const handleElapsedTimeTick = useCallback((sec: number) => {
+    elapsedTimeRef.current = sec;
+  }, []);
 
   // Real-time backend practice time tracker for Shadowing
   useStudyTimeTracker("shadowing", {
     activeCondition: !!selectedLessonId && !isLessonFinished,
   });
-
-  useEffect(() => {
-    if (!selectedLessonId || isLessonFinished) return;
-    const interval = setInterval(() => {
-      setElapsedTime((prev) => prev + 1);
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [selectedLessonId, isLessonFinished]);
 
   // Sentence Utility Toolbar States
   const [savedSentenceKeys, setSavedSentenceKeys] = useState<string[]>([]);
@@ -348,7 +513,7 @@ function ShadowingStudioContent() {
     totalSentencesCount,
     currentLesson,
     user,
-    elapsedTime,
+    elapsedTime: elapsedTimeRef.current,
     autoNextSentence,
     savedSentenceKeys,
     completedSentences,
@@ -361,7 +526,7 @@ function ShadowingStudioContent() {
   });
 
   // Direct Word Lookup
-  const handleWordClick = (rawWord: string) => {
+  const handleWordClick = useCallback((rawWord: string) => {
     const clean = rawWord.replace(/[.,/#!$%^&*;:{}=\-_`~()?]/g, "").trim();
     if (!clean) return;
 
@@ -373,7 +538,7 @@ function ShadowingStudioContent() {
 
     const deepDef = lookupWordDeep(clean);
     setSelectedWord(deepDef);
-  };
+  }, [currentLesson?.id]);
 
   // 1. Auto-scroll word track during speech recognition
   useEffect(() => {
@@ -457,7 +622,7 @@ function ShadowingStudioContent() {
     }
   }, [lessonsList, completedLessonIds, listingSearch, BASIC_LEVELS, ADVANCED_LEVELS]);
 
-  const handleShuffleBasic = () => {
+  const handleShuffleBasic = useCallback(() => {
     const easyPool = lessonsList.filter((l) => BASIC_LEVELS.has(l.level));
     const midPool = lessonsList.filter(
       (l) => l.level === "Intermediate" || l.level === "B1" || l.level === "B2"
@@ -467,9 +632,9 @@ function ShadowingStudioContent() {
       basicPool.length > 0 ? basicPool : lessonsList.slice(0, Math.ceil(lessonsList.length / 2));
     setDisplayedBasicLessons(pick10RandomLessons(safeBasic, completedLessonIds || []).slice(0, 8));
     addToast({ type: "info", title: "Đã đổi 8 bài học cơ bản ngẫu nhiên mới! ↺" });
-  };
+  }, [lessonsList, BASIC_LEVELS, completedLessonIds, addToast]);
 
-  const handleShuffleAdvanced = () => {
+  const handleShuffleAdvanced = useCallback(() => {
     const hardPool = lessonsList.filter((l) => ADVANCED_LEVELS.has(l.level));
     const midPool = lessonsList.filter(
       (l) => l.level === "Intermediate" || l.level === "B1" || l.level === "B2"
@@ -479,7 +644,7 @@ function ShadowingStudioContent() {
       advPool.length > 0 ? advPool : lessonsList.slice(Math.ceil(lessonsList.length / 2));
     setDisplayedAdvancedLessons(pick10RandomLessons(safeAdv, completedLessonIds || []).slice(0, 8));
     addToast({ type: "info", title: "Đã đổi 8 bài học nâng cao ngẫu nhiên mới! ↺" });
-  };
+  }, [lessonsList, ADVANCED_LEVELS, completedLessonIds, addToast]);
 
   // Computed stats for Micro-Hero Bento Grid (Apple-grade 0px CLS)
   const computedShadowingStats = useMemo(() => {
@@ -506,7 +671,7 @@ function ShadowingStudioContent() {
   }, [lessonsList, completedLessonIds]);
 
   // Select lesson with Router sync
-  const handleSelectLesson = (lessonId: string | number) => {
+  const handleSelectLesson = useCallback((lessonId: string | number) => {
     const strId = String(lessonId);
     stopTTS();
     setPlayingSentenceText(null);
@@ -519,14 +684,20 @@ function ShadowingStudioContent() {
     setCompletedSentences({});
     setSidebarCollapsed(true);
 
-    if (selectedLessonId) {
+    const num = parseInt(strId.replace(/\D/g, "") || strId, 10);
+    const pad3 = !isNaN(num) ? String(num).padStart(3, "0") : "";
+    const isCached =
+      !!singleLessonDb?.transcript?.length &&
+      (singleLessonDb.id === strId ||
+        (pad3 ? singleLessonDb.id === `listen_${pad3}` || singleLessonDb.id.endsWith(`_${pad3}`) : false));
+    if (selectedLessonId && isCached) {
       // In-place smooth transition without tearing down studio workspace
       setIsInPlaceSwitchingLesson(true);
       setTimeout(() => {
         setIsInPlaceSwitchingLesson(false);
-      }, 200);
+      }, 150);
     } else {
-      setIsLoadingLessonDetail(true);
+      setIsLoadingLessonDetail(!isCached);
     }
 
     const lessonIdx = lessonsList.findIndex((l) => l.id === strId);
@@ -535,10 +706,10 @@ function ShadowingStudioContent() {
     } else {
       router.push(`/study/shadowing?id=${strId}`);
     }
-  };
+  }, [resetCurrentSentenceAudio, selectedLessonId, lessonsList, router, setCurrentLessonId, setSidebarCollapsed]);
 
   // Back to listing with Router sync
-  const handleBackToListing = () => {
+  const handleBackToListing = useCallback(() => {
     stopTTS();
     setPlayingSentenceText(null);
     setSelectedLessonId(null);
@@ -548,13 +719,13 @@ function ShadowingStudioContent() {
     setSidebarCollapsed(false);
     setIsLoadingLessonDetail(false);
     router.push("/study/shadowing");
-  };
+  }, [router, setCurrentLessonId, setSidebarCollapsed]);
 
   // Sentence Bookmark with Database Persistence
   const currentSentenceKey = `${selectedLessonId || "lesson"}_${currentSentenceIndex}`;
   const isCurrentSentenceBookmarked = savedSentenceKeys.includes(currentSentenceKey);
 
-  const handleToggleBookmark = async () => {
+  const handleToggleBookmark = useCallback(async () => {
     let nextKeys: string[];
     if (isCurrentSentenceBookmarked) {
       nextKeys = savedSentenceKeys.filter((k) => k !== currentSentenceKey);
@@ -588,10 +759,10 @@ function ShadowingStudioContent() {
         console.error("Error persisting bookmark to DB:", e);
       }
     }
-  };
+  }, [isCurrentSentenceBookmarked, savedSentenceKeys, currentSentenceKey, addToast, awardXp, currentSentence?.text, currentLesson, user?.id]);
 
   // Sentence Report Modal submission
-  const handleSubmitReport = (
+  const handleSubmitReport = useCallback((
     e: React.FormEvent,
     _reason: string,
     _description: string
@@ -602,15 +773,14 @@ function ShadowingStudioContent() {
       title: "🚩 Đã gửi phản ánh thành công!",
       message: "Cảm ơn bạn đã đóng góp! Ban biên tập sẽ kiểm tra và cập nhật câu trong 24h.",
     });
-  };
+  }, [addToast]);
 
-  const handleAdjustFontSize = (delta: number) => {
-    const nextLevel = Math.max(0, Math.min(3, fontSizeLevel + delta));
-    setFontSizeLevel(nextLevel);
-  };
+  const handleAdjustFontSize = useCallback((delta: number) => {
+    setFontSizeLevel((prev) => Math.max(0, Math.min(3, prev + delta)));
+  }, []);
 
   // Reusable Sample Audio Player
-  const handlePlaySampleAudio = () => {
+  const handlePlaySampleAudio = useCallback(() => {
     if (!currentSentence) return;
     if (playingSentenceText === currentSentence.text) {
       stopTTS();
@@ -633,9 +803,9 @@ function ShadowingStudioContent() {
         },
       });
     }
-  };
+  }, [currentSentence, playingSentenceText, playbackSpeed, currentLesson?.id, currentSentenceIndex, currentLesson?.accent]);
 
-  const handleNextSentence = async () => {
+  const handleNextSentence = useCallback(async () => {
     stopTTS();
     setPlayingSentenceText(null);
     setSentencePlaybackTime(0);
@@ -663,13 +833,13 @@ function ShadowingStudioContent() {
         message: "Chúc mừng bạn đã hoàn thành xuất sắc toàn bộ bài Shadowing! +50 XP thưởng.",
       });
     }
-  };
+  }, [resetCurrentSentenceAudio, currentSentenceIndex, totalSentencesCount, currentLesson, awardXp, user?.id, addToast]);
 
   useEffect(() => {
     handleNextSentenceRef.current = handleNextSentence;
   });
 
-  const handlePrevSentence = () => {
+  const handlePrevSentence = useCallback(() => {
     if (currentSentenceIndex > 0) {
       stopTTS();
       setPlayingSentenceText(null);
@@ -677,7 +847,52 @@ function ShadowingStudioContent() {
       resetCurrentSentenceAudio();
       setCurrentSentenceIndex((prev) => prev - 1);
     }
-  };
+  }, [currentSentenceIndex, resetCurrentSentenceAudio]);
+
+  const handleOpenReportModal = useCallback(() => {
+    setShowReportModal(true);
+  }, []);
+
+  const handleResetCurrentSentence = useCallback(() => {
+    resetCurrentSentenceAudio();
+    setSentencePlaybackTime(0);
+  }, [resetCurrentSentenceAudio]);
+
+  const handleSelectTranscriptSentence = useCallback((idx: number) => {
+    resetCurrentSentenceAudio();
+    setSentencePlaybackTime(0);
+    setCurrentSentenceIndex(idx);
+  }, [resetCurrentSentenceAudio]);
+
+  const handleReplayTranscriptSentence = useCallback((idx: number) => {
+    const text = currentLesson?.transcript?.[idx]?.text;
+    if (text) {
+      speakLessonText(text, {
+        rate: playbackSpeed,
+        lessonId: currentLesson.id,
+        speakerIndex: idx % 2,
+        accent: currentLesson.accent,
+      });
+    }
+  }, [currentLesson, playbackSpeed]);
+
+  const handleResetProgress = useCallback(() => {
+    setCompletedSentences({});
+    setCurrentSentenceIndex(0);
+    setSentencePlaybackTime(0);
+    addToast({
+      type: "info",
+      title: "Đã đặt lại tiến độ bài học này ↺",
+    });
+  }, [addToast]);
+
+  const handleShuffleRecommendations = useCallback(() => {
+    setLessonsList((prev) => [...prev].sort(() => 0.5 - Math.random()));
+    addToast({
+      type: "info",
+      title: "Đã làm mới danh sách gợi ý bài học! ↺",
+    });
+  }, [addToast]);
 
   // Keyboard Shortcuts Listener
   useEffect(() => {
@@ -730,12 +945,32 @@ function ShadowingStudioContent() {
   ]);
 
   // Loading Studio Mode (with query param or lessonDetail fetching)
-  if (
-    (rawIdParam || selectedLessonId) &&
-    (isLoadingLessonDetail || !currentLesson || !currentSentence) &&
-    !isInPlaceSwitchingLesson
-  ) {
-    return <ShadowingStudioSkeleton />;
+  if ((rawIdParam || selectedLessonId) && !isInPlaceSwitchingLesson) {
+    if (isLoadingLessonDetail || (!currentLesson && isLoadingLessons)) {
+      return <ShadowingStudioSkeleton />;
+    }
+    // Chỉ hiển thị màn hình không tìm thấy khi đã tải xong cả detail lẫn catalog mà vẫn không có bài học
+    if (!currentLesson && !isLoadingLessonDetail && !isLoadingLessons) {
+      return (
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center p-6 text-center select-none font-sans">
+          <div className="w-16 h-16 rounded-2xl bg-amber-500/10 text-amber-500 flex items-center justify-center mb-4 text-2xl font-bold">
+            !
+          </div>
+          <h2 className="text-xl font-bold text-slate-800 dark:text-white mb-2">
+            Không tìm thấy phòng luyện Shadowing
+          </h2>
+          <p className="text-sm text-slate-500 dark:text-slate-400 max-w-md mb-6">
+            Mã bài học không tồn tại trong hệ thống hoặc đang được cập nhật. Vui lòng chọn bài học khác từ danh mục.
+          </p>
+          <button
+            onClick={handleBackToListing}
+            className="px-5 py-2.5 rounded-xl bg-[#0059bb] hover:bg-blue-700 text-white font-medium text-sm transition-all shadow-md shadow-blue-500/20"
+          >
+            Quay lại danh mục Shadowing
+          </button>
+        </div>
+      );
+    }
   }
 
   // Loading Listing Mode
@@ -776,7 +1011,7 @@ function ShadowingStudioContent() {
           {isLessonFinished ? (
             <ShadowingCompletionScreen
               currentLesson={currentLesson}
-              elapsedTime={elapsedTime}
+              elapsedTime={elapsedTimeRef.current}
               totalSentencesCount={totalSentencesCount}
               lessonsList={lessonsList}
               onBackToListing={handleBackToListing}
@@ -802,7 +1037,8 @@ function ShadowingStudioContent() {
               rawIdParam={rawIdParam}
               selectedLessonId={selectedLessonId}
               isInPlaceSwitchingLesson={isInPlaceSwitchingLesson}
-              elapsedTime={elapsedTime}
+              elapsedTime={elapsedTimeRef.current}
+              onElapsedTimeTick={handleElapsedTimeTick}
               currentSentenceIndex={currentSentenceIndex}
               totalSentencesCount={totalSentencesCount}
               sentencePlaybackTime={sentencePlaybackTime}
@@ -829,7 +1065,7 @@ function ShadowingStudioContent() {
               isCurrentSentenceBookmarked={isCurrentSentenceBookmarked}
               handleToggleBookmark={handleToggleBookmark}
               handleBackToListing={handleBackToListing}
-              onOpenReportModal={() => setShowReportModal(true)}
+              onOpenReportModal={handleOpenReportModal}
               fontSizeLevel={fontSizeLevel}
               handleAdjustFontSize={handleAdjustFontSize}
               autoNextSentence={autoNextSentence}
@@ -842,47 +1078,16 @@ function ShadowingStudioContent() {
               handleNextSentence={handleNextSentence}
               startRecording={startRecording}
               stopRecording={stopRecording}
-              handleResetCurrentSentence={() => {
-                resetCurrentSentenceAudio();
-                setSentencePlaybackTime(0);
-              }}
+              handleResetCurrentSentence={handleResetCurrentSentence}
               completedSentences={completedSentences}
-              onSelectTranscriptSentence={(idx) => {
-                resetCurrentSentenceAudio();
-                setSentencePlaybackTime(0);
-                setCurrentSentenceIndex(idx);
-              }}
-              onReplayTranscriptSentence={(idx) => {
-                const text = currentLesson.transcript?.[idx]?.text;
-                if (text) {
-                  speakLessonText(text, {
-                    rate: playbackSpeed,
-                    lessonId: currentLesson.id,
-                    speakerIndex: idx % 2,
-                    accent: currentLesson.accent,
-                  });
-                }
-              }}
-              onResetProgress={() => {
-                setCompletedSentences({});
-                setCurrentSentenceIndex(0);
-                setSentencePlaybackTime(0);
-                addToast({
-                  type: "info",
-                  title: "Đã đặt lại tiến độ bài học này ↺",
-                });
-              }}
+              onSelectTranscriptSentence={handleSelectTranscriptSentence}
+              onReplayTranscriptSentence={handleReplayTranscriptSentence}
+              onResetProgress={handleResetProgress}
               recommendedLessons={lessonsList
                 .filter((l) => l.id !== currentLesson.id)
                 .slice(0, 5)}
               onSelectLesson={handleSelectLesson}
-              onShuffleRecommendations={() => {
-                setLessonsList((prev) => [...prev].sort(() => 0.5 - Math.random()));
-                addToast({
-                  type: "info",
-                  title: "Đã làm mới danh sách gợi ý bài học! ↺",
-                });
-              }}
+              onShuffleRecommendations={handleShuffleRecommendations}
             />
           )}
         </>

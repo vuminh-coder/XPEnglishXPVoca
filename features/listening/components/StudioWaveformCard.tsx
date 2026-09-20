@@ -74,7 +74,7 @@ interface StudioWaveformCardProps {
   className?: string;
 }
 
-export function StudioWaveformCard({
+function StudioWaveformCardComponent({
   segmentIndex = 0,
   totalSegments = 1,
   playbackTime,
@@ -142,6 +142,46 @@ export function StudioWaveformCard({
   };
 
   const effectiveDuration = Math.max(3, duration || 6);
+  const progressRatio = Math.max(0, Math.min(1, effectiveDuration > 0 ? playbackTime / effectiveDuration : 0));
+
+  // Zero-rerender Live Audio Visualizer: updates CSS variable on trackRef directly via DOM/GPU
+  useEffect(() => {
+    if (!isRecording) {
+      if (trackRef.current) {
+        trackRef.current.style.removeProperty("--live-audio-energy");
+      }
+      return;
+    }
+
+    const handleEnergy = (e: Event) => {
+      const customEvent = e as CustomEvent<number>;
+      const energy = typeof customEvent.detail === "number" ? customEvent.detail : 0;
+      if (trackRef.current) {
+        trackRef.current.style.setProperty("--live-audio-energy", energy.toFixed(3));
+      }
+    };
+
+    window.addEventListener("xp:audio-energy", handleEnergy);
+    return () => {
+      window.removeEventListener("xp:audio-energy", handleEnergy);
+      if (trackRef.current) {
+        trackRef.current.style.removeProperty("--live-audio-energy");
+      }
+    };
+  }, [isRecording]);
+  const [hoverPercent, setHoverPercent] = useState<number | null>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!trackRef.current) return;
+    const rect = trackRef.current.getBoundingClientRect();
+    if (rect.width <= 0) return;
+    const clickX = Math.max(0, Math.min(rect.width, e.clientX - rect.left));
+    setHoverPercent(clickX / rect.width);
+  };
+
+  const handleMouseLeave = () => {
+    setHoverPercent(null);
+  };
 
   const handleTrackClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!trackRef.current) return;
@@ -216,11 +256,13 @@ export function StudioWaveformCard({
         </div>
       </div>
 
-      {/* 2. CENTER JAGGED ACOUSTIC SPEECH WAVEFORM (UNPREDICTABLE SPIKES & DENSE SPACING) */}
+      {/* 2. CENTER JAGGED ACOUSTIC SPEECH WAVEFORM (TWO-TONE SPECTRUM & SCRUBBER) */}
       <div className="w-full flex justify-center items-center py-0.5 sm:py-1">
         <div
           ref={trackRef}
           onClick={handleTrackClick}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
           title={
             isPlaying
               ? "Nhấp để tạm dừng âm thanh (Space)"
@@ -228,7 +270,7 @@ export function StudioWaveformCard({
           }
           className="relative w-full max-w-lg sm:max-w-xl lg:max-w-2xl h-14 sm:h-16 lg:h-18 flex items-center justify-center px-1 bg-transparent cursor-pointer transition-all group select-none overflow-hidden"
         >
-          {/* Dense Jagged Vector Spectrum Bars with High-Contrast Spikes */}
+          {/* Dense Jagged Vector Spectrum Bars with High-Contrast Two-Tone Spikes */}
           <div className="relative z-10 w-full flex items-center justify-center gap-[1px] sm:gap-[1.5px] h-full">
             {JAGGED_ACOUSTIC_SPEECH_SPIKES_95.map((amp, i) => {
               const animDuration = Math.max(
@@ -236,6 +278,8 @@ export function StudioWaveformCard({
                 (0.8 + ((i * 11) % 7) * 0.05) / Math.max(0.5, playbackSpeed || 1)
               );
               const animDelay = (i * 0.018) % 0.35;
+              const spikeRatio = i / (JAGGED_ACOUSTIC_SPEECH_SPIKES_95.length - 1);
+              const isPlayed = !isRecording && spikeRatio <= progressRatio;
 
               return (
                 <motion.div
@@ -248,16 +292,13 @@ export function StudioWaveformCard({
                             0.45 + (amp % 0.25),
                             1.15 + ((i % 7) * 0.04),
                           ],
-                          opacity: [0.75, 1],
+                          opacity: isPlayed ? [0.9, 1] : [0.55, 0.75],
                         }
                       : isRecording
-                      ? {
-                          scaleY: Math.max(0.25, Math.min(2.4, 0.4 + liveAudioEnergy * 2.8 * (amp / 45))),
-                          opacity: Math.max(0.6, Math.min(1, 0.5 + liveAudioEnergy * 1.5)),
-                        }
+                      ? {}
                       : {
                           scaleY: 1,
-                          opacity: 0.85,
+                          opacity: isPlayed ? 1 : 0.7,
                         }
                   }
                   transition={
@@ -269,23 +310,49 @@ export function StudioWaveformCard({
                           delay: animDelay,
                           ease: "easeInOut",
                         }
-                      : isRecording
-                      ? { duration: 0.08, ease: "linear" }
-                      : { duration: 0.3, ease: "easeOut" }
+                      : { duration: 0.25, ease: "easeOut" }
                   }
                   style={{
                     height: `${Math.max(4, amp)}%`,
                     transformOrigin: "center center",
+                    transform: isRecording
+                      ? `scaleY(max(0.25, min(2.4, calc(0.4 + var(--live-audio-energy, ${liveAudioEnergy || 0}) * 2.8 * ${(amp / 45).toFixed(3)}))))`
+                      : undefined,
+                    opacity: isRecording
+                      ? `max(0.6, min(1, calc(0.5 + var(--live-audio-energy, ${liveAudioEnergy || 0}) * 1.5)))`
+                      : undefined,
                   }}
-                  className={`w-[1.2px] sm:w-[1.5px] lg:w-[1.8px] rounded-[0.2px] shrink-0 transition-colors ${
+                  className={`w-[1.2px] sm:w-[1.5px] lg:w-[1.8px] rounded-[0.2px] shrink-0 transition-colors duration-150 ${
                     isRecording
                       ? "bg-rose-500 dark:bg-rose-400 shadow-[0_0_8px_rgba(244,63,94,0.5)]"
-                      : "bg-slate-500 dark:bg-slate-400"
+                      : isPlayed
+                      ? "bg-[#0059bb] dark:bg-sky-400 shadow-[0_0_4px_rgba(0,89,187,0.3)] dark:shadow-[0_0_4px_rgba(56,189,248,0.3)]"
+                      : "bg-slate-300 dark:bg-slate-700"
                   }`}
                 />
               );
             })}
           </div>
+
+
+
+          {/* Hover Scrub Preview Line & Floating Timestamp Tooltip */}
+          {hoverPercent !== null && !isRecording && (
+            <>
+              <div
+                style={{ left: `${hoverPercent * 100}%` }}
+                className="absolute top-1 bottom-1 w-[1px] bg-slate-400/80 dark:bg-slate-500/80 pointer-events-none z-20 border-r border-dashed border-slate-500 dark:border-slate-400"
+              />
+              <div
+                style={{
+                  left: `${Math.min(92, Math.max(8, hoverPercent * 100))}%`,
+                }}
+                className="absolute top-1 -translate-x-1/2 px-1.5 py-0.5 rounded-md bg-slate-900/90 dark:bg-white/90 text-white dark:text-slate-900 text-[10px] font-mono font-bold pointer-events-none shadow-md z-30 tabular-nums"
+              >
+                {formatTime(Math.round(hoverPercent * effectiveDuration))}
+              </div>
+            </>
+          )}
         </div>
       </div>
 
@@ -321,13 +388,16 @@ export function StudioWaveformCard({
           <button
             type="button"
             onClick={onTogglePlay}
-            className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-950 shadow-md shadow-slate-900/25 dark:shadow-white/10 ring-4 ring-slate-900/10 dark:ring-white/15 flex items-center justify-center hover:scale-105 active:scale-95 transition-all cursor-pointer shrink-0 select-none group"
+            className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-950 shadow-md shadow-slate-900/25 dark:shadow-white/10 ring-4 ring-slate-900/10 dark:ring-white/15 flex items-center justify-center hover:scale-105 active:scale-95 transition-all cursor-pointer shrink-0 select-none group relative"
             title={isPlaying ? "Tạm dừng (Space)" : "Phát âm thanh câu (Space)"}
           >
+            {isPlaying && (
+              <span className="absolute -inset-1 rounded-full bg-blue-500/25 dark:bg-sky-400/25 animate-ping pointer-events-none" />
+            )}
             {isPlaying ? (
-              <Pause className="w-5 sm:w-5.5 h-5 sm:h-5.5 fill-current" />
+              <Pause className="w-5 sm:w-5.5 h-5 sm:h-5.5 fill-current relative z-10" />
             ) : (
-              <Play className="w-5 sm:w-5.5 h-5 sm:h-5.5 fill-current translate-x-0.5" />
+              <Play className="w-5 sm:w-5.5 h-5 sm:h-5.5 fill-current translate-x-0.5 relative z-10" />
             )}
           </button>
 
@@ -393,4 +463,6 @@ export function StudioWaveformCard({
     </div>
   );
 }
+
+export const StudioWaveformCard = React.memo(StudioWaveformCardComponent);
 

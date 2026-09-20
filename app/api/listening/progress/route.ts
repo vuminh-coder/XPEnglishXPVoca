@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma, handlePrismaError } from "@/infrastructure/database/prisma";
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
+import { memoryCache } from "@/infrastructure/cache/memoryCache";
 
 export async function POST(request: Request) {
   try {
@@ -124,6 +125,11 @@ export async function POST(request: Request) {
       invalidateDashboardCache(userId);
     }
 
+    // Invalidate detail cache for this lesson so the latest progress is returned on next fetch
+    memoryCache.delete(`listening_lesson_detail:${lessonId}:${userId}`);
+    memoryCache.invalidatePattern(new RegExp(`listening_lesson_detail:${lessonId}`));
+    memoryCache.invalidatePattern(/listening_lessons/);
+
     return NextResponse.json({
       success: true,
       data: result,
@@ -174,6 +180,10 @@ export async function DELETE(request: Request) {
         lessonId,
       },
     });
+
+    memoryCache.delete(`listening_lesson_detail:${lessonId}:${userId}`);
+    memoryCache.invalidatePattern(new RegExp(`listening_lesson_detail:${lessonId}`));
+    memoryCache.invalidatePattern(/listening_lessons/);
 
     return NextResponse.json({
       success: true,

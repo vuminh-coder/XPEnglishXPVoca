@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma, safeDbExecute, handlePrismaError } from "@/infrastructure/database/prisma";
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { memoryCache } from "@/infrastructure/cache/memoryCache";
 import { MOCK_LESSONS_DATA } from "@/features/listening/data/listeningMockData";
 
 export async function GET(
@@ -14,6 +15,23 @@ export async function GET(
 
     if (!userId) {
       userId = await getAuthenticatedUserId(request);
+    }
+
+    const cacheKey = `listening_lesson_detail:${id}:${userId || "guest"}`;
+    const cached = memoryCache.get<any>(cacheKey);
+    if (cached) {
+      return NextResponse.json(
+        {
+          success: true,
+          data: cached,
+        },
+        {
+          headers: {
+            "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120",
+            "X-Cache": "HIT",
+          },
+        }
+      );
     }
 
     let lessonData: any = await safeDbExecute(async () => {
@@ -172,9 +190,20 @@ export async function GET(
       );
     }
 
+    // Cache the resolved lesson data for 5 minutes (300 seconds)
+    memoryCache.set(cacheKey, lessonData, 300);
+    if (lessonData.id && lessonData.id !== id) {
+      memoryCache.set(`listening_lesson_detail:${lessonData.id}:${userId || "guest"}`, lessonData, 300);
+    }
+
     return NextResponse.json({
       success: true,
       data: lessonData,
+    }, {
+      headers: {
+        "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120",
+        "X-Cache": "MISS",
+      }
     });
   } catch (error) {
     const prismaErr = handlePrismaError(error);

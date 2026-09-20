@@ -13,6 +13,7 @@ import { StudioTopHeader } from "./StudioTopHeader";
 import { StudioWaveformCard } from "./StudioWaveformCard";
 import { DictationWorkspace } from "./DictationWorkspace";
 import { InteractiveTranscriptSidebar } from "./InteractiveTranscriptSidebar";
+import { StudioTimerBadge } from "./StudioTimerBadge";
 import type {
   ListeningLesson,
   TranscriptSentence,
@@ -51,8 +52,9 @@ export interface ListeningStudioWorkspaceProps {
   isLoadingLessonDetail: boolean;
   isShufflingRecommendations: boolean;
   onShuffleRecommendations: () => void;
-  elapsedTime: number;
-  formatElapsedTime: (sec: number) => string;
+  elapsedTime?: number;
+  formatElapsedTime?: (sec: number) => string;
+  onElapsedTimeTick?: (sec: number) => void;
   onBackToListing: () => void;
   onSelectLesson: (id: string) => void;
   onSentenceCompleted: () => void;
@@ -66,7 +68,7 @@ export interface ListeningStudioWorkspaceProps {
   onToast: (toast: { type: "info" | "success" | "warning" | "error"; title: string; message?: string }) => void;
 }
 
-export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> = ({
+export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> = React.memo(({
   currentLesson,
   lessonsList,
   selectedLessonId,
@@ -99,8 +101,9 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
   isLoadingLessonDetail,
   isShufflingRecommendations,
   onShuffleRecommendations,
-  elapsedTime,
+  elapsedTime = 0,
   formatElapsedTime,
+  onElapsedTimeTick,
   onBackToListing,
   onSelectLesson,
   onSentenceCompleted,
@@ -118,7 +121,7 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
 
   const sentenceDuration = Math.max(
     3,
-    Math.ceil(currentSentence.text.trim().split(/\s+/).length / (2.2 * playbackSpeed))
+    Math.ceil((currentSentence?.text || "").trim().split(/\s+/).filter(Boolean).length / (2.2 * playbackSpeed))
   );
 
   return (
@@ -128,8 +131,8 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
     >
       {/* Top Unified Studio Navigation Bar */}
       <StudioTopHeader
-        title={currentLesson.title}
-        level={currentLesson.level}
+        title={currentLesson?.title || "Listening Practice"}
+        level={currentLesson?.level || "All Levels"}
         currentMode="listening"
         lessonQueryId={rawIdParam || selectedLessonId || "36"}
         isBookmarked={isCurrentSentenceBookmarked}
@@ -138,10 +141,11 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
         onToggleBookmark={onToggleBookmark}
         onBack={onBackToListing}
         rightExtraActions={
-          <span className="px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 text-xs font-bold flex items-center gap-1 shadow-2xs shrink-0 whitespace-nowrap">
-            <Clock className="w-3.5 h-3.5" />
-            <span>{formatElapsedTime(elapsedTime)}</span>
-          </span>
+          <StudioTimerBadge
+            isActive={true}
+            initialSeconds={elapsedTime}
+            onSecondsUpdate={onElapsedTimeTick}
+          />
         }
       />
 
@@ -447,4 +451,4 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
       </div>
     </div>
   );
-};
+});

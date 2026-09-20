@@ -60,7 +60,7 @@ interface InteractiveTranscriptSidebarProps {
   sentenceScores?: { [idx: number]: number };
 }
 
-export function InteractiveTranscriptSidebar({
+function InteractiveTranscriptSidebarComponent({
   transcript = [],
   currentIndex = 0,
   completedSentences = {},
@@ -590,3 +590,5 @@ export function InteractiveTranscriptSidebar({
     </div>
   );
 }
+
+export const InteractiveTranscriptSidebar = React.memo(InteractiveTranscriptSidebarComponent);
