@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const SEED_LESSONS = [
+export const SEED_LESSONS = [
   {
     id: "listen_toeic_q3_101",
     title: "Hotel Housekeeping Quality Audit & Room Inspections",
@@ -9045,10 +9045,11 @@ const SEED_LESSONS = [
   }
 ];
 
-async function seed() {
-  console.log("🌱 Seeding Listening Lessons...");
+export async function seedListeningLessons(customPrisma?: PrismaClient) {
+  const db = customPrisma || prisma;
+  console.log(`🌱 Seeding ${SEED_LESSONS.length} Listening Lessons...`);
   for (const lesson of SEED_LESSONS) {
-    await prisma.listeningLesson.upsert({
+    await db.listeningLesson.upsert({
       where: { id: lesson.id },
       update: lesson,
       create: lesson,
@@ -9057,11 +9058,13 @@ async function seed() {
   console.log("✅ Listening Lessons Seeding Completed!");
 }
 
-seed()
-  .catch((e) => {
-    console.error("❌ Seeding Error:", e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+if (process.argv[1]?.includes("seedListeningData")) {
+  seedListeningLessons()
+    .catch((e) => {
+      console.error("❌ Seeding Error:", e);
+      process.exit(1);
+    })
+    .finally(async () => {
+      await prisma.$disconnect();
+    });
+}

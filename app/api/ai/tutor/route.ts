@@ -197,7 +197,7 @@ CRITICAL RULES:
     const defaultFallback = TUTOR_TOPIC_BANKS.general;
 
     let parsedData: any = null;
-    const modelsToTry = ["gemini-2.5-flash", "gemini-1.5-flash", "gemini-2.0-flash"];
+    const modelsToTry = ["gemini-2.0-flash", "gemini-1.5-flash"];
 
     if (apiKey && contents.length > 0) {
       for (const modelName of modelsToTry) {

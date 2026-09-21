@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getGrammarLesson } from "@/features/grammar/data/grammarContent";
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
@@ -84,7 +84,7 @@ Rules:
     let parsed = null;
 
     if (GEMINI_API_KEY) {
-      const modelsToTry = ["gemini-2.5-flash", "gemini-1.5-flash", "gemini-2.0-flash"];
+      const modelsToTry = ["gemini-2.0-flash", "gemini-1.5-flash"];
 
       for (const modelName of modelsToTry) {
         try {

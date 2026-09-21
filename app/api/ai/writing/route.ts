@@ -1,4 +1,4 @@
-﻿import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -63,7 +63,7 @@ export async function POST(request: Request) {
     const userPrompt = `Topic: "${topic}"\n\nEssay:\n"${essay}"`;
 
     let parsedData = null;
-    const modelsToTry = ["gemini-2.5-flash", "gemini-1.5-flash", "gemini-2.0-flash"];
+    const modelsToTry = ["gemini-2.0-flash", "gemini-1.5-flash"];
 
     for (const modelName of modelsToTry) {
       try {

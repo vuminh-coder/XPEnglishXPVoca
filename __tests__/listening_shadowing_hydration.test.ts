@@ -58,6 +58,19 @@ describe("Listening & Shadowing URL Hydration & State Resilience", () => {
     expect(lesson?.transcript?.[0]?.text).toBeTruthy();
   });
 
+  it("resolves query id=40 to a valid lesson with transcript in MOCK_LESSONS_DATA", () => {
+    const resolvedId = resolveLessonId("40", MOCK_LESSONS_DATA);
+    console.log("ID 40 resolved to:", resolvedId);
+    expect(resolvedId).toBeDefined();
+    expect(resolvedId).not.toBeNull();
+
+    const lesson = MOCK_LESSONS_DATA.find((l) => l.id === resolvedId);
+    console.log("Lesson 40 title:", lesson?.title, "transcript count:", lesson?.transcript?.length);
+    expect(lesson).toBeDefined();
+    expect(Array.isArray(lesson?.transcript)).toBe(true);
+    expect((lesson?.transcript?.length || 0)).toBeGreaterThan(0);
+  });
+
   it("safely merges detail into a stripped catalog item without losing transcript", () => {
     // Simulating catalog item where transcript was stripped for bandwidth optimization
     const catalogItem = {
@@ -484,6 +497,73 @@ describe("Listening & Shadowing URL Hydration & State Resilience", () => {
     expect(shouldShowSkeleton).toBe(true);
     expect(shouldShowNotFound).toBe(false);
   });
+
+  it(
+    "inspects database record for lesson 40 / listen_040 / listen_toeic_q3_040",
+    { timeout: 20000 },
+    async () => {
+      const { prisma } = await import("@/infrastructure/database/prisma");
+      try {
+        const dbMatches = await prisma.listeningLesson.findMany({
+          where: {
+            OR: [
+              { id: "40" },
+              { id: "listen_040" },
+              { id: "listen_toeic_q3_040" },
+              { id: { contains: "040" } },
+              { orderIndex: 39 },
+              { orderIndex: 40 },
+            ],
+          },
+          select: { id: true, title: true, orderIndex: true },
+        });
+        console.log("=== DB LESSON 40 MATCHES ===", JSON.stringify(dbMatches));
+      } catch (e: any) {
+        console.log("DB connection note:", e?.message);
+      }
+    }
+  );
+
+  it("Frame 0 Synchronous Normalization: resolveCanonicalLessonId maps '40' to 'listen_toeic_q3_040' with empty catalog []", async () => {
+    const { resolveCanonicalLessonId, isSameLessonId } = await import("@/features/listening/utils/lessonIdHelper");
+
+    // When lessonsList is [] (unloaded database)
+    const canonical = resolveCanonicalLessonId("40", []);
+    expect(canonical).toBe("listen_toeic_q3_040");
+
+    // Aliases resolve to the exact same canonical ID
+    expect(resolveCanonicalLessonId("listen_040", [])).toBe("listen_toeic_q3_040");
+    expect(resolveCanonicalLessonId("listen_toeic_q3_040", [])).toBe("listen_toeic_q3_040");
+
+    // isSameLessonId handles all cross-format alias combinations
+    expect(isSameLessonId("40", "listen_toeic_q3_040")).toBe(true);
+    expect(isSameLessonId("listen_040", "40")).toBe(true);
+    expect(isSameLessonId("listen_toeic_q3_040", "40")).toBe(true);
+    expect(isSameLessonId("40", "40")).toBe(true);
+    expect(isSameLessonId("40", "41")).toBe(false);
+  });
+
+  it("Cache Guard Protection: prevents second HTTP fetch when catalog finishes loading", async () => {
+    const { isSameLessonId } = await import("@/features/listening/utils/lessonIdHelper");
+
+    // Simulate first fetch returning canonical detail
+    const lastFetchedLesson = "listen_toeic_q3_040";
+    const detailedLessonsMap: Record<string, any> = {
+      listen_toeic_q3_040: { id: "listen_toeic_q3_040", transcript: [{ id: 1, text: "Sentence 1" }] },
+      "40": { id: "listen_toeic_q3_040", transcript: [{ id: 1, text: "Sentence 1" }] },
+    };
+
+    // When catalog finishes loading and evaluates raw query id "40"
+    const queryLessonId = "40";
+    const isCacheHit =
+      lastFetchedLesson !== null &&
+      isSameLessonId(lastFetchedLesson, queryLessonId) &&
+      Boolean(detailedLessonsMap[queryLessonId]?.transcript?.length);
+
+    // Cache guard MUST be true, stopping any redundant network fetch
+    expect(isCacheHit).toBe(true);
+  });
 });
+
 
 

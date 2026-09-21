@@ -2,7 +2,7 @@
 
 import React from "react";
 import { usePathname } from "next/navigation";
-import { Cpu, Wand2, BookMarked } from "lucide-react";
+import { Cpu, MessageSquare, BookMarked } from "lucide-react";
 import { HeaderPillContainer, HeaderPillItem } from "../AppTopHeader";
 
 const SpeakingIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
@@ -56,8 +56,8 @@ export function AiSuiteNavTabs({ className }: AiSuiteNavTabsProps) {
         active={isConversationActive}
         href="/ai/conversation"
         layoutId="aiSuiteNavActiveTab"
-        icon={<Wand2 className="w-3.5 h-3.5 text-fuchsia-500 dark:text-fuchsia-400" />}
-        label="Luyện viết"
+        icon={<MessageSquare className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />}
+        label="Hội thoại AI"
       />
       <HeaderPillItem
         active={isGrammarActive}

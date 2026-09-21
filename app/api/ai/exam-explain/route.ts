@@ -61,7 +61,7 @@ Hãy trả về DUY NHẤT một chuỗi JSON hợp lệ (KHÔNG CÓ DẤU BACKT
   "grammarTip": "Mẹo làm bài hoặc công thức ngữ pháp độc quyền giúp nhớ lâu dạng câu này."
 }`;
 
-    const modelsToTry = ["gemini-2.5-flash", "gemini-1.5-flash", "gemini-2.0-flash"];
+    const modelsToTry = ["gemini-2.0-flash", "gemini-1.5-flash"];
     let parsedData = null;
 
     for (const modelName of modelsToTry) {

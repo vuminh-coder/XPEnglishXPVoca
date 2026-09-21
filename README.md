@@ -99,8 +99,29 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
     - Điểm danh (Check-in), nhận thưởng nhiệm vụ (Claim Challenge) và lưu câu học tập đều phản hồi giao diện ngay lập tức trong 1 khung hình (16ms) và âm thầm đồng bộ máy chủ ở chế độ nền.
 20. **Chuẩn Hóa Phần Trăm Tiến Độ Giao Diện (Max 2 Decimals Standard - `shared/utils/formatPercent.ts`)**:
     - Triệt tiêu hoàn toàn hiện tượng số thực vô hạn tuần hoàn (`33.333333333333336%`, `16.666666666666664%`) trên thanh tiến độ cấp độ, kho từ vựng và huy hiệu tiến trình (`DashboardHeroGreeting`, `ProfileMetricsBar`, `XPBar`, `RightSidebar`).
-    - Làm tròn chuẩn tại nguồn tính toán `getXpProgress()` qua `roundPercent(val, 2)` giúp thuộc tính CSS `style={{ width: \`${percent}%\` }}` luôn sắc gọn.
+    - Làm tròn chuẩn tại nguồn tính toán `getXpProgress()` qua `roundPercent(val, 2)` giúp thuộc tính CSS `style={{ width: `${percent}%` }}` luôn sắc gọn.
     - Tiện ích `formatPercent(value, { decimals: 2, trimZero: true })` tự động lược bỏ số 0 thừa (`33.33%`, `16.67%`, `12.5%`, `50%`) hoặc giữ cố định khi cần (`50.00%`), đảm bảo giao diện luôn đạt chuẩn Agency UI/UX hoàn mỹ.
+21. **Chuẩn Hóa UI/UX Phòng Hội Thoại AI (`/ai/conversation` - Dynamic Primary CTA & Single Viewport Budget)**:
+    - Thống nhất toàn bộ định vị sản phẩm về **Hội thoại AI (AI Conversation Studio)**, triệt tiêu hoàn toàn sai lệch thuật ngữ "luyện viết".
+    - Áp dụng **Quy tắc 18 Wadhah Aloui** giải quyết xung đột CTA: Nút Micro là Primary khi chưa nhập dữ liệu; Nút Gửi tự động thành Primary khi người dùng bắt đầu gõ phím; Tích hợp chỉ báo trạng thái tương tác bên ngoài (Rule 6).
+    - Tối ưu hóa ngân sách chiều cao Viewport Desktop (Compact Bento Grid 8/12 - 4/12), triệt tiêu hoàn toàn hiện tượng thanh cuộn kép lồng nhau (Dual Scrollbars) trên laptop 13-14 inch.
+    - Bổ sung thanh chuyển đổi phân đoạn thông minh trên Mobile (Segmented Switcher: "Hội thoại" vs "Mục tiêu & Từ vựng X/3"), giải quyết dứt điểm điểm nghẽn trôi mục tiêu xuống đáy trang.
+    - Nâng cấp tương tác vi mô Tra từ điển 1-chạm (Click-to-lookup): Thêm đường gạch chân chấm mờ thị giác, sửa biểu thức chính quy bảo tồn dấu nháy trong các từ viết tắt tiếng Anh (`don't`, `I'm`, `let's`), và tinh chỉnh vị trí Modal không che khuất thanh nhập liệu trên điện thoại.
+22. **Edge Middleware & Tường Lửa Bảo Mật Tầng Biên (`middleware.ts`)**:
+    - Kích hoạt chuẩn Edge Middleware Next.js 16 tại root chuyển tiếp tới `proxy.ts`, thực thi Edge Rate Limiting ngăn chặn brute-force và DDoS.
+    - Thiết lập bộ Security Headers chuẩn OWASP (`X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Strict-Transport-Security`, `Permissions-Policy`).
+    - Triệt tiêu lỗ hổng Identity Spoofing qua Query String `oauth_user` ở Client và chuẩn hóa `sanitizeInput` không mã hóa HTML Entity ký tự nháy đơn `'` và gạch chéo `/` làm hỏng chuỗi hiển thị giao diện.
+23. **Cơ Chế Server-Authoritative Activity Award (`/api/user/activity-award`)**:
+    - Chuyển giao toàn bộ thẩm quyền cộng thưởng XP, Coins, số phút học tập từ Client-side State sang Server-Authoritative API.
+    - Tích hợp kiểm tra chặn ngưỡng chống gian lận (Anti-Cheat Bounds Checking), cập nhật nguyên tử (Atomic Increments) trên Neon PostgreSQL và đồng bộ bảng tiến độ `DailySkillPractice` để chuỗi streak học tập luôn chuẩn xác.
+24. **Tối Ưu Hóa Tốc Độ Mô Hình AI (Gemini 2.0 Flash / 1.5 Flash High-Speed Routing)**:
+    - Chuẩn hóa toàn bộ 8 routes AI (`/api/ai/chat`, `/api/ai/tutor`, `/api/ai/writing`, `/api/ai/grammar`, `/api/ai/grammar/explain`, `/api/ai/exam-explain`, `/api/ai/exam-writing-grade`, `/api/ai/exam-generate`, `/api/study-rooms/[id]/messages`), loại bỏ mã model không tồn tại `gemini-2.5-flash` gây lỗi HTTP 404 và độ trễ chờ đợi retry.
+    - Ưu tiên gọi siêu tốc `gemini-2.0-flash` với fallback tự động sang `gemini-1.5-flash`.
+25. **Nâng Cấp Database Seeding, Vocab Auto-Upsert & Audio Fallback**:
+    - `POST /api/user/vocab`: Tự động nhận diện và upsert từ vựng mới vào bảng cơ sở dữ liệu `vocabularies` kèm theme tương ứng thay vì bỏ qua, đảm bảo 100% từ vựng học viên thực hành đều được lưu trữ vĩnh viễn trong cơ sở dữ liệu.
+    - `prisma/seed.ts`: Nâng cấp kịch bản seed đồng bộ cả `MOCK_VOCABULARIES`, `BASIC_VOCABULARIES` (29.000 dòng chuẩn IPA) và 9.000 dòng bài học luyện nghe đa cấp độ `seedListeningLessons` (`prisma/seedListeningData.ts`), phân nhóm batch 1000 items tránh chạm ngưỡng giới hạn parameter của PostgreSQL.
+    - Audio Fallback trong Review Thi Thử (`exam-prep/result`): Tự động chuyển hướng các đường link nhạc mẫu SoundHelix sang giọng đọc tiếng Anh tự nhiên chất lượng cao `/api/tts`.
+    - Loại bỏ hoàn toàn gói phụ thuộc dư thừa `bootstrap` khỏi dự án.
 
 ---
 
@@ -163,7 +184,7 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
     - **`Dictation`**: `text-indigo-500` (`Headphones`).
     - **`Shadowing` / `Bạn bè`**: `text-sky-500` (`Mic`, `UserPlus`).
     - **`Luyện nói`**: `text-purple-500` (`SpeakingIcon`).
-    - **`Luyện viết`**: `text-fuchsia-500` (`Wand2`).
+    - **`Hội thoại AI`**: `text-[#0059bb] dark:text-sky-400` (`MessageSquare`).
     - **`Thi thử đề` / `Đấu trường 1v1`**: `text-rose-500` (`FileText`, `Swords`).
     - **`Cài đặt` / `Phòng học nhóm` / `Nhóm học`**: `text-indigo-500` (`Settings`, `Users`).
     - **`Bảng tin` / `Thống kê`**: `text-blue-500` (`MessageSquare`, `BarChart3`).
@@ -277,7 +298,14 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
       - **Khung Xương Danh Mục (Listing Skeleton Standard)**: Khi chưa có cache (người dùng mới), hiển thị tức thì `ListeningListingSkeleton` / `ShadowingListingSkeleton` 0px CLS, sau đó lấp đầy tự nhiên toàn bộ 102 bài học từ Neon DB.
       - **Khung Xương Phòng Học Studio Chuẩn Xác (Studio Skeleton Standard)**: Khi mở bài học chưa từng lưu trong cache, hiển thị trực tiếp `ListeningStudioSkeleton` / `ShadowingStudioSkeleton` đồng bộ ngay từ SSR/Hydration đầu tiên, giữ nguyên khung xương cho đến khi CSDL trả về bản ghi transcript và tiến độ thật.
       - **Bộ Đệm Chuyển Bài Không Giật (In-Place Studio Transition)**: Kiểm tra RAM cache (`detailedLessonsMap` / `singleLessonDb`) và Local Cache khi chuyển bài trong Studio; nếu bài đã có sẵn trong bộ nhớ đệm, chuyển bài mượt mà trong 0ms. Nếu chưa có, kích hoạt shimmer tại chỗ và fetch dữ liệu từ CSDL.
-      - **Bộ Đếm Thời Gian An Toàn 8s & Offline Fallback Dự Phòng (Safety Net Guard)**: Tích hợp `AbortController` kèm timeout 8s chống hiện tượng cold-start quá lâu của Neon PostgreSQL. Trong trường hợp mất mạng hoặc lỗi máy chủ, hệ thống tự động giải phóng khung xương an toàn, kích hoạt bộ nhớ đệm offline và hiển thị thông báo Toast cảnh báo "Chế độ offline", đảm bảo học viên không bao giờ bị kẹt lại ở màn hình khung xương.
+      - **Khắc Phục Toàn Diện Sự Cố Hydration, Double Network Fetch & Freeze Tại URL Có Query Số (`?id=40`)**:
+        - **Chuẩn Hóa Phân Giải Canonical ID Đồng Bộ 0ms (`resolveCanonicalLessonId`)**: Đóng gói module dùng chung `features/listening/utils/lessonIdHelper.ts`, trích xuất số và ánh xạ chuẩn hóa mọi định dạng query (`40`, `040`, `listen_040`, `lesson_40`, `listen_toeic_q3_040`) thành đúng Canonical Lesson ID (`listen_toeic_q3_040`) ngay từ Frame-0 khởi tạo State (`useState(() => resolveCanonicalLessonId(rawIdParam))`) mà không cần chờ mảng `lessonsList` từ CSDL tải xong.
+        - **Triệt Tiêu Hoàn Toàn Hiện Tượng Gọi Lặp Mạng 2 Lần (Double Network Fetch Elimination)**: Loại bỏ triệt để `lessonsList` khỏi danh sách phụ thuộc (`dependency array`) của Hook tải chi tiết bài học (`useEffect`), ngăn chặn tình trạng khi catalog 102 bài tải xong kích hoạt lại toàn bộ effect và bắn thêm một request HTTP thứ hai.
+        - **Sửa Lỗi Cache Guard Xuyên Thủng Bằng Hàm Đối Chiếu Bí Danh (`isSameLessonId`)**: Thay thế phép so sánh nghiêm ngặt `===` bằng hàm `isSameLessonId(lastFetched, queryId)` có khả năng nhận biết quan hệ tương đương giữa chuỗi mã số `"40"` và canonical ID `"listen_toeic_q3_040"`, bảo vệ tuyệt đối không bao giờ fetch lại bài học đã có sẵn trong bộ nhớ RAM.
+        - **Mô Hình True SWR 0ms Chống Đóng Băng Giao Diện (Zero-Latency Studio Rendering)**: Đưa lớp kiểm tra dữ liệu nội suy `MOCK_LESSONS_DATA` lên trước cờ kiểm tra `isLoadingLessonDetail` trong `currentLesson`. Khi người dùng mở một bài học đã có trong Mock Data, phòng học Studio hiển thị ngay lập tức trong **0ms** (không còn bị giam cứng 5-8s khi Neon PostgreSQL khởi động lạnh - cold start), tiến trình kết nối CSDL chỉ âm thầm đồng bộ tiến độ người học ở tầng nền.
+        - **Đồng Bộ Kiến Trúc Đa Khóa Giữa Shadowing và Listening**: Nâng cấp `shadowing/page.tsx` sở hữu cấu trúc `detailedLessonsMap` đa khóa `Record<string, any>`, lưu trữ vĩnh viễn dữ liệu các bài đã học trong RAM để chuyển đổi qua lại giữa các bài gợi ý mượt mà không bị mất dữ liệu.
+        - **Thích Ứng Khung Xương Chuẩn Xác Tại Suspense Boundary (`ShadowingSuspenseFallback` & `ListeningSuspenseFallback`)**: Cập nhật Fallback component của `<Suspense>` tại gốc trang để nhận diện tham số `id=` ngay trên Client Navigation, không bao giờ stream nhầm khung xương dạng lưới 4 cột của trang danh mục khi người dùng đang mở phòng thu Studio.
+        - **Khử Hiện Tượng Giằng Co State Khi Bấm "Quay Lại Danh Mục" (Race Condition Guard)**: Tích hợp cờ khóa tạm thời `isLeavingStudioRef` trong `handleBackToListing`, vô hiệu hóa các Effect đồng bộ URL trong khoảng thời gian Next.js Router đang chuyển trang, dập tắt 100% hiện tượng UI bị giật nhảy ngược lại phòng học.
 - **Kiến Trúc Backend & Hạ Tầng Đám Mây 0 Đồng (Zero-Cost Free Tier Architecture)**:
   - **Serverless API Routes (Next.js trên Vercel)**: Chạy 100% miễn phí trên gói Vercel Hobby, tự động cấp HTTPS SSL, mở rộng không giới hạn và không tốn phí duy trì máy chủ.
   - **Cơ Sở Dữ Liệu PostgreSQL (Prisma ORM)**: Tích hợp gói Free Tier đám mây (Supabase / Neon / Render) dung lượng 500MB - 1GB, lưu trữ hàng chục nghìn người dùng và hàng triệu bản ghi bài tập/lịch sử học tập.

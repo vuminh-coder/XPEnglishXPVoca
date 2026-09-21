@@ -35,38 +35,11 @@ import { pick10RandomLessons } from "@/features/listening/utils/randomLessonPick
 import { lookupWordDeep, DeepWordDefinition } from "@/features/vocabulary/data/deepDictionary";
 import { MOCK_LESSONS_DATA } from "@/features/listening/data/listeningMockData";
 import { useShadowingAudioRecorder } from "@/features/shadowing/hooks/useShadowingAudioRecorder";
-
-// Helper to resolve query id (e.g. ?id=42 -> listen_toeic_q3_042 or 42nd lesson)
-const resolveLessonId = (
-  queryId: string | null | undefined,
-  list: any[]
-): string | null => {
-  if (!queryId || !list || list.length === 0) return null;
-
-  // 1. Direct match by exact lesson id
-  const exact = list.find((l) => l.id === queryId);
-  if (exact) return exact.id;
-
-  // 2. Formatted ID / Substring match (e.g. ?id=42 -> listen_toeic_q3_042 or listen_042)
-  const num = parseInt(queryId, 10);
-  if (!isNaN(num)) {
-    const pad3 = String(num).padStart(3, "0");
-    const byIdCode = list.find(
-      (l) =>
-        l.id === `listen_${pad3}` ||
-        l.id.endsWith(`_${pad3}`) ||
-        l.id.includes(`_${pad3}`)
-    );
-    if (byIdCode) return byIdCode.id;
-
-    // 3. Fallback: 1-indexed numeric order in the catalog
-    if (num >= 1 && num <= list.length) {
-      return list[num - 1].id;
-    }
-  }
-
-  return null;
-};
+import {
+  resolveCanonicalLessonId,
+  isSameLessonId,
+  resolveLessonId,
+} from "@/features/listening/utils/lessonIdHelper";
 
 function ShadowingStudioContent() {
   const router = useRouter();
@@ -136,15 +109,63 @@ function ShadowingStudioContent() {
     }
   });
 
+  // Detailed lessons map with multi-key aliasing (e.g. "40" -> "listen_toeic_q3_040" -> "040")
+  const [detailedLessonsMap, setDetailedLessonsMap] = useState<Record<string, any>>(() => {
+    if (typeof window === "undefined" || !rawIdParam) return {};
+    try {
+      const map: Record<string, any> = {};
+      const canonical = resolveCanonicalLessonId(rawIdParam);
+      const num = parseInt(rawIdParam, 10);
+      const pad3 = !isNaN(num) ? String(num).padStart(3, "0") : "";
+
+      const keysToProbe = [
+        rawIdParam,
+        canonical,
+        `listen_${pad3}`,
+        pad3,
+        `xp_voca_shadowing_detail_${rawIdParam}_guest`,
+        `xp_voca_shadowing_detail_${rawIdParam}`,
+        `xp_voca_listening_detail_${rawIdParam}_guest`,
+        canonical ? `xp_voca_shadowing_detail_${canonical}_guest` : null,
+        canonical ? `xp_voca_shadowing_detail_${canonical}` : null,
+      ].filter(Boolean) as string[];
+
+      for (const k of keysToProbe) {
+        const raw =
+          localStorage.getItem(k.startsWith("xp_") ? k : `xp_voca_shadowing_detail_${k}_guest`) ||
+          localStorage.getItem(k);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && parsed.transcript?.length) {
+            map[parsed.id] = parsed;
+            map[rawIdParam] = parsed;
+            if (canonical) map[canonical] = parsed;
+            if (pad3) {
+              map[pad3] = parsed;
+              map[`listen_${pad3}`] = parsed;
+            }
+            break;
+          }
+        }
+      }
+      return map;
+    } catch {
+      return {};
+    }
+  });
+
   const [singleLessonDb, setSingleLessonDb] = useState<any | null>(() => {
     if (typeof window === "undefined" || !rawIdParam) return null;
     try {
+      const canonical = resolveCanonicalLessonId(rawIdParam);
       const num = parseInt(rawIdParam, 10);
       const pad3 = !isNaN(num) ? String(num).padStart(3, "0") : "";
       const keysToProbe = [
         `xp_voca_shadowing_detail_${rawIdParam}_guest`,
         `xp_voca_shadowing_detail_${rawIdParam}`,
         `xp_voca_listening_detail_${rawIdParam}_guest`,
+        canonical ? `xp_voca_shadowing_detail_${canonical}_guest` : null,
+        canonical ? `xp_voca_shadowing_detail_${canonical}` : null,
         (pad3 ? `xp_voca_shadowing_detail_listen_${pad3}_guest` : null),
         (pad3 ? `xp_voca_listening_detail_listen_${pad3}_guest` : null),
       ].filter(Boolean) as string[];
@@ -160,10 +181,10 @@ function ShadowingStudioContent() {
     return null;
   });
 
-  // 2. Selected lesson state
+  // 2. Selected lesson state (Frame 0 Synchronous Canonical Normalization)
   const [selectedLessonId, setSelectedLessonId] = useState<string | null>(() => {
     if (!rawIdParam) return null;
-    return rawIdParam;
+    return resolveCanonicalLessonId(rawIdParam) || rawIdParam;
   });
   const [isInPlaceSwitchingLesson, setIsInPlaceSwitchingLesson] = useState<boolean>(false);
 
@@ -235,26 +256,38 @@ function ShadowingStudioContent() {
   }, [user?.id, addToast]);
 
   // Sync URL ?id= param with database lessons (Dashboard Architecture with SWR)
-  // REF: Cache guard dùng ref thay vì dependency để tránh vòng lặp fetch vô hạn
+  // Cache guard uses ref & alias comparison to prevent infinite re-fetching
   const lastFetchedLessonRef = useRef<string | null>(null);
+  const isLeavingStudioRef = useRef(false);
+
+  // Synchronous resolution of canonical lesson id
+  const canonicalQueryId = useMemo(() => {
+    return resolveCanonicalLessonId(selectedLessonId || rawIdParam, lessonsList);
+  }, [selectedLessonId, rawIdParam, lessonsList]);
 
   useEffect(() => {
-    if (!rawIdParam) {
-      setSelectedLessonId(null);
-      setCurrentLessonId("");
+    if (!rawIdParam && !selectedLessonId) {
       setIsLoadingLessonDetail(false);
       lastFetchedLessonRef.current = null;
       return;
     }
 
-    const resolved = lessonsList.length > 0 ? resolveLessonId(rawIdParam, lessonsList) : null;
-    if (resolved) {
-      setSelectedLessonId(resolved);
-      setCurrentLessonId(resolved);
-      setSidebarCollapsed(true);
+    if (isLeavingStudioRef.current) return;
+
+    const queryLessonId: string = canonicalQueryId || selectedLessonId || rawIdParam || "";
+    if (!queryLessonId) return;
+
+    // Cache guard: If this lesson is already in detailedLessonsMap and was fetched, do not re-fetch
+    if (
+      lastFetchedLessonRef.current &&
+      isSameLessonId(lastFetchedLessonRef.current, queryLessonId) &&
+      (detailedLessonsMap[queryLessonId]?.transcript?.length ||
+        (singleLessonDb?.id && isSameLessonId(singleLessonDb.id, queryLessonId)))
+    ) {
+      setIsLoadingLessonDetail(false);
+      return;
     }
 
-    const queryLessonId = resolved || rawIdParam;
     const detailCacheKey = `xp_voca_shadowing_detail_${queryLessonId}_${user?.id || "guest"}`;
 
     // Tầng 1: SWR 0ms Instant Local Cache Hydration
@@ -264,22 +297,19 @@ function ShadowingStudioContent() {
         if (raw) {
           const cached = JSON.parse(raw);
           if (cached && cached.id && Array.isArray(cached.transcript) && cached.transcript.length > 0) {
+            setDetailedLessonsMap((prev) => ({
+              ...prev,
+              [cached.id]: cached,
+              [queryLessonId]: cached,
+              ...(rawIdParam ? { [rawIdParam]: cached } : {}),
+            }));
             setSingleLessonDb(cached);
-            setSelectedLessonId(cached.id);
-            setCurrentLessonId(cached.id);
-            setSidebarCollapsed(true);
             setIsLoadingLessonDetail(false);
           }
         }
       } catch (err) {
         console.warn("[Shadowing] Failed to load cached lesson detail:", err);
       }
-    }
-
-    // Cache guard: Nếu đã fetch thành công bài này rồi trong RAM, không fetch lại
-    if (lastFetchedLessonRef.current === queryLessonId && singleLessonDb?.id === queryLessonId) {
-      setIsLoadingLessonDetail(false);
-      return;
     }
 
     // Tầng 2: Background Neon Database Reconciliation
@@ -296,23 +326,48 @@ function ShadowingStudioContent() {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
         if (isMounted && json.success && json.data) {
-          lastFetchedLessonRef.current = queryLessonId;
-          setSingleLessonDb(json.data);
-          setSelectedLessonId(json.data.id);
-          setCurrentLessonId(json.data.id);
-          setSidebarCollapsed(true);
+          const detail = json.data;
+          lastFetchedLessonRef.current = detail.id;
+
+          setDetailedLessonsMap((prev) => {
+            const next: Record<string, any> = {
+              ...prev,
+              [detail.id]: detail,
+              [queryLessonId]: detail,
+            };
+            if (rawIdParam) next[rawIdParam] = detail;
+            const num = parseInt((detail.id || "").replace(/\D/g, "") || rawIdParam || "", 10);
+            if (!isNaN(num)) {
+              const pad3 = String(num).padStart(3, "0");
+              next[pad3] = detail;
+              next[`listen_${pad3}`] = detail;
+              next[String(num)] = detail;
+            }
+            return next;
+          });
+          setSingleLessonDb(detail);
+
+          if (selectedLessonId !== detail.id && !isSameLessonId(selectedLessonId, detail.id)) {
+            setSelectedLessonId(detail.id);
+            setCurrentLessonId(detail.id);
+          }
+
           try {
-            localStorage.setItem(detailCacheKey, JSON.stringify(json.data));
+            localStorage.setItem(detailCacheKey, JSON.stringify(detail));
+            localStorage.setItem(`xp_voca_shadowing_detail_${detail.id}_${user?.id || "guest"}`, JSON.stringify(detail));
+            if (rawIdParam) {
+              localStorage.setItem(`xp_voca_shadowing_detail_${rawIdParam}_${user?.id || "guest"}`, JSON.stringify(detail));
+            }
           } catch (e) {}
 
           setLessonsList((prev) => {
-            const idx = prev.findIndex((l) => l.id === json.data.id);
+            const idx = prev.findIndex((l) => isSameLessonId(l.id, detail.id));
             if (idx !== -1) {
               const updated = [...prev];
-              updated[idx] = { ...updated[idx], ...json.data };
+              updated[idx] = { ...updated[idx], ...detail };
               return updated;
             }
-            return [json.data, ...prev];
+            return prev.length > 0 ? [detail, ...prev] : prev;
           });
         }
       } catch (e: any) {
@@ -321,26 +376,17 @@ function ShadowingStudioContent() {
         }
         console.warn("[Shadowing] Fetch single lesson fallback:", e?.message || e);
         if (isMounted) {
-          // Sửa fallback lookup: bổ sung tìm theo index số (resolveLessonId)
-          const num = parseInt(rawIdParam || "", 10);
           const fallback =
-            MOCK_LESSONS_DATA.find((l) => l.id === queryLessonId) ||
-            MOCK_LESSONS_DATA.find((l) => l.id === rawIdParam) ||
-            (!isNaN(num) && num >= 1 && num <= MOCK_LESSONS_DATA.length
-              ? MOCK_LESSONS_DATA[num - 1]
-              : null) ||
-            MOCK_LESSONS_DATA.find((l) => l.id === `listen_${String(rawIdParam).padStart(3, "0")}`);
+            MOCK_LESSONS_DATA.find((l) => isSameLessonId(l.id, queryLessonId)) ||
+            MOCK_LESSONS_DATA.find((l) => l.id === queryLessonId);
           if (fallback) {
-            lastFetchedLessonRef.current = queryLessonId;
+            lastFetchedLessonRef.current = fallback.id;
+            setDetailedLessonsMap((prev) => ({
+              ...prev,
+              [fallback.id]: fallback,
+              [queryLessonId]: fallback,
+            }));
             setSingleLessonDb(fallback);
-            setSelectedLessonId(fallback.id);
-            setCurrentLessonId(fallback.id);
-            setSidebarCollapsed(true);
-            addToast({
-              type: "warning",
-              title: "Chế độ offline",
-              message: "Không thể tải bài học từ CSDL Neon. Đang sử dụng dữ liệu bài học offline.",
-            });
           }
         }
       } finally {
@@ -354,9 +400,8 @@ function ShadowingStudioContent() {
       isMounted = false;
       clearTimeout(timeoutId);
       controller.abort();
-      setIsLoadingLessonDetail(false);
     };
-  }, [rawIdParam, lessonsList, setCurrentLessonId, setSidebarCollapsed, user?.id, singleLessonDb?.id, addToast]);
+  }, [canonicalQueryId, user?.id, rawIdParam, addToast]);
 
   // Automatically ensure sidebar is collapsed when in studio workspace
   useEffect(() => {
@@ -376,53 +421,63 @@ function ShadowingStudioContent() {
   const currentLesson = useMemo(() => {
     if (!selectedLessonId && !rawIdParam) return null;
     const lookupKey = selectedLessonId || rawIdParam || "";
+    const canonical = resolveCanonicalLessonId(lookupKey, lessonsList);
 
-    // 1. Check singleLessonDb directly or by alias/pad3
+    // 1. Check detailedLessonsMap directly by canonical or lookupKey
+    if (canonical && detailedLessonsMap[canonical]?.transcript?.length) {
+      return detailedLessonsMap[canonical];
+    }
+    if (detailedLessonsMap[lookupKey]?.transcript?.length) {
+      return detailedLessonsMap[lookupKey];
+    }
+
+    // 2. Check singleLessonDb directly or by alias
     if (singleLessonDb && singleLessonDb.transcript?.length) {
       if (
-        singleLessonDb.id === lookupKey ||
-        singleLessonDb.id === selectedLessonId ||
-        singleLessonDb.id === rawIdParam
+        isSameLessonId(singleLessonDb.id, lookupKey) ||
+        isSameLessonId(singleLessonDb.id, canonical)
       ) {
         return singleLessonDb;
       }
-      const num = parseInt(lookupKey.replace(/\D/g, "") || lookupKey, 10);
-      if (!isNaN(num)) {
-        const pad3 = String(num).padStart(3, "0");
-        if (
-          singleLessonDb.id === `listen_${pad3}` ||
-          singleLessonDb.id.endsWith(`_${pad3}`) ||
-          singleLessonDb.id.includes(`_${pad3}`)
-        ) {
-          return singleLessonDb;
+    }
+
+    // 3. Multi-key alias probe in detailedLessonsMap
+    const num = parseInt(lookupKey.replace(/\D/g, "") || lookupKey, 10);
+    if (!isNaN(num)) {
+      const pad3 = String(num).padStart(3, "0");
+      if (detailedLessonsMap[pad3]?.transcript?.length) return detailedLessonsMap[pad3];
+      if (detailedLessonsMap[`listen_${pad3}`]?.transcript?.length) return detailedLessonsMap[`listen_${pad3}`];
+      if (detailedLessonsMap[String(num)]?.transcript?.length) return detailedLessonsMap[String(num)];
+      for (const val of Object.values(detailedLessonsMap)) {
+        if (val && (isSameLessonId(val.id, lookupKey) || isSameLessonId(val.id, canonical))) {
+          if (val.transcript?.length) return val;
         }
       }
     }
 
-    // 2. Lookup in lessonsList
+    // 4. Lookup in lessonsList
     if (lessonsList.length > 0) {
-      const resolvedId = resolveLessonId(lookupKey, lessonsList);
+      const resolvedId = canonical || resolveCanonicalLessonId(lookupKey, lessonsList);
       if (resolvedId) {
-        if (singleLessonDb && singleLessonDb.id === resolvedId && singleLessonDb.transcript?.length) {
-          return singleLessonDb;
-        }
-        const fromList = lessonsList.find((l) => l.id === resolvedId);
+        if (detailedLessonsMap[resolvedId]?.transcript?.length) return detailedLessonsMap[resolvedId];
+        const fromList = lessonsList.find((l) => isSameLessonId(l.id, resolvedId));
         if (fromList?.transcript?.length) return fromList;
       }
-      const directFromList = lessonsList.find((l) => l.id === lookupKey);
+      const directFromList = lessonsList.find((l) => isSameLessonId(l.id, lookupKey));
       if (directFromList?.transcript?.length) return directFromList;
     }
 
-    // 3. While DB is actively fetching detail, wait for DB (return null to show Studio Skeleton)
-    if (isLoadingLessonDetail) return null;
-
-    // 4. Offline mock fallback
-    const fallbackId = resolveLessonId(lookupKey, MOCK_LESSONS_DATA) || lookupKey;
-    const fromMock = MOCK_LESSONS_DATA.find((l) => l.id === fallbackId);
+    // 5. TRUE SWR: In-memory MOCK_LESSONS_DATA in RAM (0ms instant display)
+    // Never freeze user for 5-8s while Neon DB cold starts!
+    const fallbackId = canonical || resolveCanonicalLessonId(lookupKey, MOCK_LESSONS_DATA) || lookupKey;
+    const fromMock = MOCK_LESSONS_DATA.find((l) => isSameLessonId(l.id, fallbackId));
     if (fromMock?.transcript?.length) return { ...(singleLessonDb || {}), ...fromMock };
 
+    // 6. While DB is actively fetching an unknown lesson, wait for DB
+    if (isLoadingLessonDetail) return null;
+
     return singleLessonDb || null;
-  }, [lessonsList, selectedLessonId, rawIdParam, singleLessonDb, isLoadingLessonDetail]);
+  }, [lessonsList, selectedLessonId, rawIdParam, singleLessonDb, detailedLessonsMap, isLoadingLessonDetail]);
 
   // Practice state
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
@@ -684,12 +739,12 @@ function ShadowingStudioContent() {
     setCompletedSentences({});
     setSidebarCollapsed(true);
 
-    const num = parseInt(strId.replace(/\D/g, "") || strId, 10);
-    const pad3 = !isNaN(num) ? String(num).padStart(3, "0") : "";
+    const canonical = resolveCanonicalLessonId(strId, lessonsList);
     const isCached =
-      !!singleLessonDb?.transcript?.length &&
-      (singleLessonDb.id === strId ||
-        (pad3 ? singleLessonDb.id === `listen_${pad3}` || singleLessonDb.id.endsWith(`_${pad3}`) : false));
+      !!detailedLessonsMap[strId]?.transcript?.length ||
+      (canonical ? !!detailedLessonsMap[canonical]?.transcript?.length : false) ||
+      (singleLessonDb?.transcript?.length && isSameLessonId(singleLessonDb.id, strId));
+
     if (selectedLessonId && isCached) {
       // In-place smooth transition without tearing down studio workspace
       setIsInPlaceSwitchingLesson(true);
@@ -700,16 +755,17 @@ function ShadowingStudioContent() {
       setIsLoadingLessonDetail(!isCached);
     }
 
-    const lessonIdx = lessonsList.findIndex((l) => l.id === strId);
+    const lessonIdx = lessonsList.findIndex((l) => isSameLessonId(l.id, strId));
     if (lessonIdx !== -1) {
       router.push(`/study/shadowing?id=${lessonIdx + 1}`);
     } else {
       router.push(`/study/shadowing?id=${strId}`);
     }
-  }, [resetCurrentSentenceAudio, selectedLessonId, lessonsList, router, setCurrentLessonId, setSidebarCollapsed]);
+  }, [resetCurrentSentenceAudio, selectedLessonId, lessonsList, router, setCurrentLessonId, setSidebarCollapsed, detailedLessonsMap, singleLessonDb]);
 
-  // Back to listing with Router sync
+  // Back to listing with Router sync & race-condition guard
   const handleBackToListing = useCallback(() => {
+    isLeavingStudioRef.current = true;
     stopTTS();
     setPlayingSentenceText(null);
     setSelectedLessonId(null);
@@ -718,7 +774,11 @@ function ShadowingStudioContent() {
     setSentencePlaybackTime(0);
     setSidebarCollapsed(false);
     setIsLoadingLessonDetail(false);
+    lastFetchedLessonRef.current = null;
     router.push("/study/shadowing");
+    setTimeout(() => {
+      isLeavingStudioRef.current = false;
+    }, 400);
   }, [router, setCurrentLessonId, setSidebarCollapsed]);
 
   // Sentence Bookmark with Database Persistence
@@ -1118,9 +1178,25 @@ function ShadowingStudioContent() {
   );
 }
 
+function ShadowingSuspenseFallback() {
+  const [isStudio] = useState<boolean>(() => {
+    if (typeof window !== "undefined") {
+      const search = window.location.search;
+      return search.includes("id=") || search.includes("lessonId=");
+    }
+    return false;
+  });
+
+  if (isStudio) {
+    return <ShadowingStudioSkeleton />;
+  }
+
+  return <ShadowingListingSkeleton />;
+}
+
 export default function ShadowingPage() {
   return (
-    <Suspense fallback={<ShadowingListingSkeleton />}>
+    <Suspense fallback={<ShadowingSuspenseFallback />}>
       <ShadowingStudioContent />
     </Suspense>
   );

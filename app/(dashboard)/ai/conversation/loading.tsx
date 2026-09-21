@@ -30,7 +30,7 @@ export default function AiConversationLoading() {
           <ShimmerBox className="h-9 w-9 rounded-xl lg:hidden" />
           <div className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-1">
             <ShimmerBox className="h-7 w-24 sm:w-28 rounded-lg" />
-            <ShimmerBox className="h-7 w-24 sm:w-28 rounded-lg !bg-fuchsia-600/20 dark:!bg-fuchsia-500/30" />
+            <ShimmerBox className="h-7 w-24 sm:w-28 rounded-lg !bg-[#0059bb]/20 dark:!bg-sky-500/30" />
           </div>
         </div>
 
@@ -52,9 +52,9 @@ export default function AiConversationLoading() {
       </div>
 
       {/* 2. MAIN DASHBOARD VIEWPORT CANVAS (MATCHES 1:1 PAGE GEOMETRY) */}
-      <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-5 lg:px-6 py-2.5 sm:py-3.5 lg:py-3 flex flex-col min-h-0 lg:overflow-hidden space-y-2.5 sm:space-y-3 pb-24 lg:pb-3">
+      <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-5 lg:px-6 py-2 sm:py-2.5 lg:py-2 flex flex-col min-h-0 lg:overflow-hidden space-y-2 sm:space-y-2.5 pb-20 lg:pb-2">
         {/* 2.1. SLIM HERO TOPIC STATUS STRIP */}
-        <div className="p-2.5 sm:p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 shrink-0">
+        <div className="p-2 sm:p-2.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 shrink-0">
           <div className="flex items-center gap-2.5 min-w-0 flex-1">
             <ShimmerBox className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl !bg-[#0059bb]/15 dark:!bg-sky-400/15 shrink-0" />
             <div className="space-y-1.5 min-w-0 flex-1">
@@ -69,12 +69,12 @@ export default function AiConversationLoading() {
         </div>
 
         {/* 2.2. MAIN BENTO GRID (8/12 - 4/12) */}
-        <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-3.5 items-stretch min-w-0">
+        <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-2.5 lg:gap-3 items-stretch min-w-0">
           {/* CỘT TRÁI: AI CHAT COMPANION & INPUT DOCK (8/12) */}
           <div className="lg:col-span-8 flex flex-col min-w-0 lg:h-full lg:min-h-0">
-            <div className="p-3 sm:p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col min-w-0 flex-1 lg:h-full lg:min-h-0 space-y-2.5">
+            <div className="p-2.5 sm:p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col min-w-0 flex-1 lg:h-full lg:min-h-0 space-y-2">
               {/* Header Trong Khung Chat */}
-              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2 gap-2 shrink-0">
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-1.5 gap-2 shrink-0">
                 <div className="flex items-center gap-2">
                   <ShimmerBox className="w-16 h-5 rounded-lg !bg-[#0059bb]/15" />
                   <ShimmerBox className="h-4 w-52 rounded-md" />

@@ -7,32 +7,8 @@ function AuthStateSyncer() {
   const setUserPayload = useAuthStore((state) => state.setUserPayload);
 
   React.useEffect(() => {
-    // Check if returning from OAuth redirect with user data in URL
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      const oauthUser = params.get("oauth_user");
-
-      if (oauthUser) {
-        try {
-          const decoded = decodeURIComponent(oauthUser);
-          // Only attempt parse if it looks like JSON (starts with '{')
-          if (decoded.startsWith("{")) {
-            const userData = JSON.parse(decoded);
-            if (userData && userData.id) {
-              setUserPayload(userData);
-            }
-          }
-        } catch (e) {
-          // Silently ignore malformed oauth_user params
-        }
-        // Always clean up URL regardless of parse result
-        window.history.replaceState({}, "", window.location.pathname);
-        return; // Skip checkSession — either OAuth data was set, or we fall through to session cookie
-      }
-    }
-
     checkSession();
-  }, [checkSession, setUserPayload]);
+  }, [checkSession]);
 
   return null;
 }

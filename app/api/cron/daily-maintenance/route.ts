@@ -35,18 +35,35 @@ export async function POST(request: Request) {
 
     // 1. Maintain Streak Protection Logic
     const result = await safeDbExecute(async () => {
-      // Find inactive users with an active streak
-      const inactiveProfiles = await prisma.profile.findMany({
+      const now = new Date();
+      const todayStr = now.toISOString().slice(0, 10);
+      const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+      const yesterdayStr = yesterday.toISOString().slice(0, 10);
+
+      // Find candidates with active streak
+      const candidates = await prisma.profile.findMany({
         where: {
           currentStreak: { gt: 0 },
-          updatedAt: { lt: oneDayAgo },
         },
         select: {
           id: true,
           currentStreak: true,
           streakFreezes: true,
+          updatedAt: true,
+          dailySkillPractices: {
+            where: {
+              date: { in: [todayStr, yesterdayStr] },
+            },
+            select: { id: true },
+            take: 1,
+          },
         },
       });
+
+      // User is inactive if no practice recorded in current/yesterday window AND updatedAt is older than threshold
+      const inactiveProfiles = candidates.filter(
+        (p) => p.dailySkillPractices.length === 0 && p.updatedAt < oneDayAgo
+      );
 
       let frozenCount = 0;
       let resetCount = 0;

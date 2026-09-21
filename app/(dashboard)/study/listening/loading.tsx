@@ -14,17 +14,17 @@ import {
  */
 export default function ListeningLoading() {
   const [isStudio, setIsStudio] = useState<boolean>(() => {
-    if (typeof window === "undefined") return false;
-    const search = window.location.search;
-    return search.includes("id=") || search.includes("lessonId=");
+    if (typeof window !== "undefined") {
+      const search = window.location.search;
+      return search.includes("id=") || search.includes("lessonId=");
+    }
+    return false;
   });
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const search = window.location.search;
-      if (search.includes("id=") || search.includes("lessonId=")) {
-        setIsStudio(true);
-      }
+      setIsStudio(search.includes("id=") || search.includes("lessonId="));
     }
   }, []);
 

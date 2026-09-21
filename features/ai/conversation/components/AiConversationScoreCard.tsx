@@ -64,7 +64,7 @@ export function AiConversationScoreCard({
             <div>
               <div className="flex items-center gap-2">
                 <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display">
-                  Đánh Giá Buổi Luyện Viết
+                  Đánh Giá Buổi Hội Thoại
                 </h2>
                 <span className="px-2 py-0.5 rounded-lg text-xs font-bold bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20 uppercase">
                   Hoàn Tất

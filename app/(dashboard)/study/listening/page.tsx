@@ -32,37 +32,11 @@ const SentenceReportModal = dynamic(
   { ssr: false }
 );
 
-// Helper to resolve query id (e.g. ?id=44 -> listen_toeic_q3_044 or 44th lesson)
-const resolveLessonId = (
-  queryId: string | null | undefined,
-  list: any[],
-): string | null => {
-  if (!queryId || !list || list.length === 0) return null;
-
-  // 1. Direct match by exact lesson id
-  const exact = list.find((l) => l.id === queryId);
-  if (exact) return exact.id;
-
-  // 2. Formatted ID / Substring match (e.g. ?id=44 -> listen_toeic_q3_044 or listen_044)
-  const num = parseInt(queryId, 10);
-  if (!isNaN(num)) {
-    const pad3 = String(num).padStart(3, "0");
-    const byIdCode = list.find(
-      (l) =>
-        l.id === `listen_${pad3}` ||
-        l.id.endsWith(`_${pad3}`) ||
-        l.id.includes(`_${pad3}`)
-    );
-    if (byIdCode) return byIdCode.id;
-
-    // 3. Fallback: 1-indexed numeric order in the catalog
-    if (num >= 1 && num <= list.length) {
-      return list[num - 1].id;
-    }
-  }
-
-  return null;
-};
+import {
+  resolveCanonicalLessonId,
+  isSameLessonId,
+  resolveLessonId,
+} from "@/features/listening/utils/lessonIdHelper";
 
 // Dual Row Level Definition Sets
 const BASIC_LEVELS = new Set(["Easy", "Beginner", "A1", "A2"]);
@@ -97,29 +71,34 @@ function ListeningPageContent() {
     return [];
   });
 
-  // Detailed lessons map with multi-key aliasing (e.g. "1" -> "listen_001" -> "001")
+  // Detailed lessons map with multi-key aliasing (e.g. "40" -> "listen_toeic_q3_040" -> "040")
   const [detailedLessonsMap, setDetailedLessonsMap] = useState<Record<string, any>>(() => {
     if (typeof window === "undefined" || !rawIdParam) return {};
     try {
       const map: Record<string, any> = {};
+      const canonical = resolveCanonicalLessonId(rawIdParam);
       const num = parseInt(rawIdParam, 10);
       const pad3 = !isNaN(num) ? String(num).padStart(3, "0") : "";
 
       const keysToProbe = [
         rawIdParam,
+        canonical,
         `listen_${pad3}`,
         pad3,
         `xp_voca_listening_detail_${rawIdParam}_guest`,
         `xp_voca_listening_detail_${rawIdParam}`,
-      ];
+        canonical ? `xp_voca_listening_detail_${canonical}_guest` : null,
+        canonical ? `xp_voca_listening_detail_${canonical}` : null,
+      ].filter(Boolean) as string[];
 
       for (const k of keysToProbe) {
-        const raw = localStorage.getItem(k.startsWith("xp_") ? k : `xp_voca_listening_detail_${k}_guest`);
+        const raw = localStorage.getItem(k.startsWith("xp_") ? k : `xp_voca_listening_detail_${k}_guest`) || localStorage.getItem(k);
         if (raw) {
           const parsed = JSON.parse(raw);
           if (parsed && parsed.transcript?.length) {
             map[parsed.id] = parsed;
             map[rawIdParam] = parsed;
+            if (canonical) map[canonical] = parsed;
             if (pad3) {
               map[pad3] = parsed;
               map[`listen_${pad3}`] = parsed;
@@ -151,15 +130,23 @@ function ListeningPageContent() {
     if (!rawIdParam) return false;
     if (typeof window === "undefined") return true;
     try {
+      const canonical = resolveCanonicalLessonId(rawIdParam);
       const num = parseInt(rawIdParam, 10);
       const pad3 = !isNaN(num) ? String(num).padStart(3, "0") : "";
-      const raw =
-        localStorage.getItem(`xp_voca_listening_detail_${rawIdParam}_guest`) ||
-        localStorage.getItem(`xp_voca_listening_detail_${rawIdParam}`) ||
-        (pad3 ? localStorage.getItem(`xp_voca_listening_detail_listen_${pad3}_guest`) : null);
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        if (parsed?.transcript?.length) return false;
+      const keysToProbe = [
+        `xp_voca_listening_detail_${rawIdParam}_guest`,
+        `xp_voca_listening_detail_${rawIdParam}`,
+        canonical ? `xp_voca_listening_detail_${canonical}_guest` : null,
+        canonical ? `xp_voca_listening_detail_${canonical}` : null,
+        (pad3 ? `xp_voca_listening_detail_listen_${pad3}_guest` : null),
+      ].filter(Boolean) as string[];
+
+      for (const k of keysToProbe) {
+        const raw = localStorage.getItem(k);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed?.transcript?.length) return false;
+        }
       }
       return true;
     } catch {
@@ -167,17 +154,22 @@ function ListeningPageContent() {
     }
   });
 
+  // Selected lesson state (Frame 0 Synchronous Canonical Normalization)
   const [selectedLessonId, setSelectedLessonId] = useState<string | null>(() => {
     if (!rawIdParam) return null;
-    return rawIdParam;
+    return resolveCanonicalLessonId(rawIdParam) || rawIdParam;
   });
 
   // Universal lesson resolution helper with full alias support
   const currentLesson = useMemo(() => {
     if (!selectedLessonId && !rawIdParam) return null;
     const lookupKey = selectedLessonId || rawIdParam || "";
+    const canonical = resolveCanonicalLessonId(lookupKey, lessonsList);
 
-    // 1. Direct match in detailedLessonsMap
+    // 1. Direct match in detailedLessonsMap by canonical or lookupKey
+    if (canonical && detailedLessonsMap[canonical]?.transcript?.length) {
+      return detailedLessonsMap[canonical];
+    }
     if (detailedLessonsMap[lookupKey]?.transcript?.length) {
       return detailedLessonsMap[lookupKey];
     }
@@ -190,7 +182,7 @@ function ListeningPageContent() {
       if (detailedLessonsMap[`listen_${pad3}`]?.transcript?.length) return detailedLessonsMap[`listen_${pad3}`];
       if (detailedLessonsMap[String(num)]?.transcript?.length) return detailedLessonsMap[String(num)];
       for (const val of Object.values(detailedLessonsMap)) {
-        if (val && (val.id === lookupKey || val.id === `listen_${pad3}` || val.id?.endsWith(`_${pad3}`))) {
+        if (val && (isSameLessonId(val.id, lookupKey) || isSameLessonId(val.id, canonical))) {
           if (val.transcript?.length) return val;
         }
       }
@@ -198,23 +190,24 @@ function ListeningPageContent() {
 
     // 3. Match from lessonsList (from DB or SWR Cache)
     if (lessonsList.length > 0) {
-      const resolvedId = resolveLessonId(lookupKey, lessonsList);
+      const resolvedId = canonical || resolveCanonicalLessonId(lookupKey, lessonsList);
       if (resolvedId) {
         if (detailedLessonsMap[resolvedId]?.transcript?.length) return detailedLessonsMap[resolvedId];
-        const fromList = lessonsList.find((l) => l.id === resolvedId);
+        const fromList = lessonsList.find((l) => isSameLessonId(l.id, resolvedId));
         if (fromList?.transcript?.length) return fromList;
       }
-      const directFromList = lessonsList.find((l) => l.id === lookupKey);
+      const directFromList = lessonsList.find((l) => isSameLessonId(l.id, lookupKey));
       if (directFromList?.transcript?.length) return directFromList;
     }
 
-    // 4. While DB is actively fetching detail, wait for DB (return null to show Studio Skeleton)
-    if (isLoadingLessonDetail) return null;
-
-    // 5. Offline mock fallback when DB is done or offline
-    const fallbackId = resolveLessonId(lookupKey, MOCK_LESSONS_DATA) || lookupKey;
-    const fromMock = MOCK_LESSONS_DATA.find((l) => l.id === fallbackId);
+    // 4. TRUE SWR: Offline in-memory mock fallback in RAM (0ms instant display)
+    // Never freeze user for 5-8s while Neon DB cold starts!
+    const fallbackId = canonical || resolveCanonicalLessonId(lookupKey, MOCK_LESSONS_DATA) || lookupKey;
+    const fromMock = MOCK_LESSONS_DATA.find((l) => isSameLessonId(l.id, fallbackId));
     if (fromMock?.transcript?.length) return fromMock;
+
+    // 5. While DB is actively fetching detail for an unknown lesson, wait for DB
+    if (isLoadingLessonDetail) return null;
 
     return null;
   }, [selectedLessonId, rawIdParam, detailedLessonsMap, lessonsList, isLoadingLessonDetail]);
@@ -388,11 +381,41 @@ function ListeningPageContent() {
   const [isShufflingAdvanced, setIsShufflingAdvanced] = useState(false);
   const [isShufflingRecommendations, setIsShufflingRecommendations] = useState(false);
 
+  // Sync URL ?id= param with database lessons (Dashboard Architecture with SWR)
+  // Cache guard uses ref & alias comparison to prevent infinite re-fetching
+  const lastFetchedLessonRef = useRef<string | null>(null);
+  const isLeavingStudioRef = useRef(false);
+
+  // Synchronous resolution of canonical lesson id
+  const canonicalQueryId = useMemo(() => {
+    return resolveCanonicalLessonId(selectedLessonId || rawIdParam, lessonsList);
+  }, [selectedLessonId, rawIdParam, lessonsList]);
+
   // 2. SWR Instant 0ms Local Cache Hydration & Background Neon DB Fetch for Lesson Detail (Dashboard Architecture)
   useEffect(() => {
-    if (!selectedLessonId) return;
+    if (!selectedLessonId && !rawIdParam) {
+      setIsLoadingLessonDetail(false);
+      lastFetchedLessonRef.current = null;
+      return;
+    }
+
+    if (isLeavingStudioRef.current) return;
+
+    const queryLessonId: string = canonicalQueryId || selectedLessonId || rawIdParam || "";
+    if (!queryLessonId) return;
+
+    // Cache guard: If already fetched or present in detailedLessonsMap, do not re-fetch
+    if (
+      lastFetchedLessonRef.current &&
+      isSameLessonId(lastFetchedLessonRef.current, queryLessonId) &&
+      detailedLessonsMap[queryLessonId]?.transcript?.length
+    ) {
+      setIsLoadingLessonDetail(false);
+      return;
+    }
+
     let isMounted = true;
-    const detailCacheKey = `xp_voca_listening_detail_${selectedLessonId}_${user?.id || "guest"}`;
+    const detailCacheKey = `xp_voca_listening_detail_${queryLessonId}_${user?.id || "guest"}`;
 
     // Tầng 1: SWR 0ms Instant Local Cache Hydration
     if (typeof window !== "undefined") {
@@ -402,8 +425,11 @@ function ListeningPageContent() {
           const cached = JSON.parse(raw);
           if (cached && cached.id && Array.isArray(cached.transcript) && cached.transcript.length > 0) {
             setDetailedLessonsMap((prev) => {
-              const next: Record<string, any> = { ...prev, [cached.id]: cached };
-              if (selectedLessonId) next[selectedLessonId] = cached;
+              const next: Record<string, any> = {
+                ...prev,
+                [cached.id]: cached,
+                [queryLessonId]: cached,
+              };
               if (rawIdParam) next[rawIdParam] = cached;
               return next;
             });
@@ -444,7 +470,7 @@ function ListeningPageContent() {
     const fetchLessonDetail = async () => {
       try {
         const res = await fetch(
-          `/api/listening/lessons/${selectedLessonId}?userId=${user?.id || ""}`,
+          `/api/listening/lessons/${queryLessonId}?userId=${user?.id || ""}`,
           {
             signal: controller.signal,
             headers: { Accept: "application/json" },
@@ -456,9 +482,14 @@ function ListeningPageContent() {
         const json = await res.json();
         if (isMounted && json.success && json.data) {
           const detail = json.data;
+          lastFetchedLessonRef.current = detail.id;
+
           setDetailedLessonsMap((prev) => {
-            const next: Record<string, any> = { ...prev, [detail.id]: detail };
-            if (selectedLessonId) next[selectedLessonId] = detail;
+            const next: Record<string, any> = {
+              ...prev,
+              [detail.id]: detail,
+              [queryLessonId]: detail,
+            };
             if (rawIdParam) next[rawIdParam] = detail;
             const num = parseInt((detail.id || "").replace(/\D/g, "") || rawIdParam || "", 10);
             if (!isNaN(num)) {
@@ -469,9 +500,12 @@ function ListeningPageContent() {
             }
             return next;
           });
-          if (detail.id !== selectedLessonId) {
+
+          if (selectedLessonId !== detail.id && !isSameLessonId(selectedLessonId, detail.id)) {
             setSelectedLessonId(detail.id);
+            setCurrentLessonId(detail.id);
           }
+
           try {
             localStorage.setItem(detailCacheKey, JSON.stringify(detail));
             localStorage.setItem(`xp_voca_listening_detail_${detail.id}_${user?.id || "guest"}`, JSON.stringify(detail));
@@ -481,14 +515,15 @@ function ListeningPageContent() {
           } catch (e) {}
 
           setLessonsList((prev) => {
-            const idx = prev.findIndex((l) => l.id === detail.id);
+            const idx = prev.findIndex((l) => isSameLessonId(l.id, detail.id));
             if (idx !== -1) {
               const updated = [...prev];
               updated[idx] = { ...updated[idx], ...detail };
               return updated;
             }
-            return [detail, ...prev];
+            return prev.length > 0 ? [detail, ...prev] : prev;
           });
+
           if (detail.userProgress) {
             const prog = detail.userProgress;
             if (Array.isArray(prog.completedSentences)) {
@@ -518,39 +553,16 @@ function ListeningPageContent() {
         }
         console.warn("[Listening] Detail DB fetch fallback to local lesson:", err?.message || err);
         if (isMounted) {
-          const num = parseInt(rawIdParam || selectedLessonId || "", 10);
-          const pad3 = !isNaN(num) ? String(num).padStart(3, "0") : "";
           const fallbackLesson =
-            MOCK_LESSONS_DATA.find((l) => l.id === selectedLessonId) ||
-            (!isNaN(num)
-              ? MOCK_LESSONS_DATA.find(
-                  (l) =>
-                    l.id === `listen_${pad3}` ||
-                    l.id.endsWith(`_${pad3}`) ||
-                    l.id.includes(`_${pad3}`)
-                ) || (num >= 1 && num <= MOCK_LESSONS_DATA.length ? MOCK_LESSONS_DATA[num - 1] : null)
-              : null);
+            MOCK_LESSONS_DATA.find((l) => isSameLessonId(l.id, queryLessonId)) ||
+            MOCK_LESSONS_DATA.find((l) => l.id === queryLessonId);
           if (fallbackLesson) {
-            setDetailedLessonsMap((prev) => {
-              const next: Record<string, any> = { ...prev, [fallbackLesson.id]: fallbackLesson };
-              if (selectedLessonId) next[selectedLessonId] = fallbackLesson;
-              if (rawIdParam) next[rawIdParam] = fallbackLesson;
-              return next;
-            });
-            setLessonsList((prev) => {
-              const idx = prev.findIndex((l) => l.id === fallbackLesson.id);
-              if (idx !== -1) {
-                const updated = [...prev];
-                updated[idx] = { ...updated[idx], ...fallbackLesson };
-                return updated;
-              }
-              return [fallbackLesson, ...prev];
-            });
-            addToast({
-              type: "warning",
-              title: "Chế độ offline",
-              message: "Không thể kết nối CSDL Neon. Đang sử dụng dữ liệu bài học offline.",
-            });
+            lastFetchedLessonRef.current = fallbackLesson.id;
+            setDetailedLessonsMap((prev) => ({
+              ...prev,
+              [fallbackLesson.id]: fallbackLesson,
+              [queryLessonId]: fallbackLesson,
+            }));
           }
         }
       } finally {
@@ -563,9 +575,8 @@ function ListeningPageContent() {
       isMounted = false;
       clearTimeout(timeoutId);
       controller.abort();
-      setIsLoadingLessonDetail(false);
     };
-  }, [selectedLessonId, user?.id, rawIdParam, addToast]);
+  }, [canonicalQueryId, user?.id, rawIdParam, addToast]);
 
   // Current sentence bookmark key
   const currentSentenceKey = `${selectedLessonId || "lesson"}_${currentSentenceIndex}`;
@@ -680,15 +691,15 @@ function ListeningPageContent() {
 
   // Sync URL & Auto collapse sidebar
   useEffect(() => {
-    if (rawIdParam) {
-      const resolved = resolveLessonId(rawIdParam, lessonsList);
-      if (resolved) {
-        setSelectedLessonId(resolved);
-        setCurrentLessonId(resolved);
+    if (rawIdParam && !isLeavingStudioRef.current) {
+      const canonical = resolveCanonicalLessonId(rawIdParam, lessonsList);
+      if (canonical && !isSameLessonId(selectedLessonId, canonical)) {
+        setSelectedLessonId(canonical);
+        setCurrentLessonId(canonical);
         setSidebarCollapsed(true);
       }
     }
-  }, [rawIdParam, lessonsList, setCurrentLessonId, setSidebarCollapsed]);
+  }, [rawIdParam, lessonsList, selectedLessonId, setCurrentLessonId, setSidebarCollapsed]);
 
   // Automatically ensure sidebar is collapsed when in listening studio workspace
   useEffect(() => {
@@ -764,26 +775,22 @@ function ListeningPageContent() {
   const handleSelectLesson = useCallback((lessonId: string) => {
     stopTTS();
     setPlayingSentenceText(null);
-    const num = parseInt(lessonId.replace(/\D/g, "") || lessonId, 10);
-    const pad3 = !isNaN(num) ? String(num).padStart(3, "0") : "";
+    const canonical = resolveCanonicalLessonId(lessonId, lessonsList);
     const isCached =
       !!detailedLessonsMap[lessonId]?.transcript?.length ||
-      (pad3
-        ? !!detailedLessonsMap[pad3]?.transcript?.length ||
-          !!detailedLessonsMap[`listen_${pad3}`]?.transcript?.length
-        : false);
+      (canonical ? !!detailedLessonsMap[canonical]?.transcript?.length : false);
     setIsLoadingLessonDetail(!isCached);
-    setSelectedLessonId(lessonId);
-    setCurrentLessonId(lessonId);
+    setSelectedLessonId(canonical || lessonId);
+    setCurrentLessonId(canonical || lessonId);
     setIsLessonFinished(false);
     setCurrentSentenceIndex(0);
     setSentencePlaybackTime(0);
     setSidebarCollapsed(true);
     try {
-      localStorage.setItem("xp_voca_last_listening_lesson", lessonId);
+      localStorage.setItem("xp_voca_last_listening_lesson", canonical || lessonId);
     } catch {}
 
-    const lessonIdx = lessonsList.findIndex((l) => l.id === lessonId);
+    const lessonIdx = lessonsList.findIndex((l) => isSameLessonId(l.id, lessonId));
     if (lessonIdx !== -1) {
       router.push(`/study/listening?id=${lessonIdx + 1}`);
     } else {
@@ -792,6 +799,7 @@ function ListeningPageContent() {
   }, [lessonsList, router, setCurrentLessonId, setSidebarCollapsed, detailedLessonsMap]);
 
   const handleBackToListing = useCallback(() => {
+    isLeavingStudioRef.current = true;
     stopTTS();
     setPlayingSentenceText(null);
     setSelectedLessonId(null);
@@ -800,8 +808,12 @@ function ListeningPageContent() {
     setCurrentSentenceIndex(0);
     setSentencePlaybackTime(0);
     setSidebarCollapsed(false);
+    lastFetchedLessonRef.current = null;
     localStorage.removeItem("xp_voca_last_listening_lesson");
     router.push("/study/listening");
+    setTimeout(() => {
+      isLeavingStudioRef.current = false;
+    }, 400);
   }, [router, setCurrentLessonId, setSidebarCollapsed]);
 
   // Form State: Create New Article

@@ -239,18 +239,28 @@ export const useUserStore = create<UserState>((set, get) => ({
       addSkillPracticeSession(user.id, (skill || "vocab") as any, 0, amount);
     }
     
-    // Sync with secure profile API endpoint
+    // Sync with server-authoritative activity award API endpoint
     if (user.id !== "local_user" && !user.id.startsWith("local_user")) {
-      fetch("/api/user/profile", {
+      fetch("/api/user/activity-award", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          totalXp: newXp,
-          level: newLevel,
-          title: newTitle,
-          coins: newCoins,
+          xp: amount,
+          skill: skill || "vocab",
         }),
-      }).catch(err => console.error("Error syncing XP to DB:", err));
+      })
+        .then((res) => res.json())
+        .then((json) => {
+          if (json.success && json.data) {
+            get().updateUserStats({
+              totalXp: json.data.totalXp,
+              level: json.data.level,
+              title: json.data.title,
+              coins: json.data.coins,
+            });
+          }
+        })
+        .catch((err) => console.error("Error syncing XP to DB:", err));
     }
 
     return { levelUp };
@@ -311,13 +321,23 @@ export const useUserStore = create<UserState>((set, get) => ({
     }
 
     if (user.id !== "local_user" && !user.id.startsWith("local_user")) {
-      fetch("/api/user/profile", {
+      fetch("/api/user/activity-award", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          minutesStudied: newMinutes,
+          minutes: Math.round(minutes),
+          skill: englishKey,
         }),
-      }).catch(err => console.error("Error syncing practice time to DB:", err));
+      })
+        .then((res) => res.json())
+        .then((json) => {
+          if (json.success && json.data) {
+            get().updateUserStats({
+              minutesStudied: json.data.minutesStudied,
+            });
+          }
+        })
+        .catch((err) => console.error("Error syncing practice time to DB:", err));
     }
   },
   awardCoins: (amount) => {
@@ -330,15 +350,24 @@ export const useUserStore = create<UserState>((set, get) => ({
       localStorage.setItem(`xp_voca_user_${user.id}`, JSON.stringify(updatedUser));
     }
 
-    // Sync coins with DB
+    // Sync coins with server-authoritative API
     if (user.id !== "local_user" && !user.id.startsWith("local_user")) {
-      fetch("/api/user/profile", {
+      fetch("/api/user/activity-award", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          coins: newCoins,
+          coins: amount,
         }),
-      }).catch(err => console.error("Error syncing awardCoins to DB:", err));
+      })
+        .then((res) => res.json())
+        .then((json) => {
+          if (json.success && json.data) {
+            get().updateUserStats({
+              coins: json.data.coins,
+            });
+          }
+        })
+        .catch((err) => console.error("Error syncing awardCoins to DB:", err));
     }
   },
   updateProfile: (fullName, bio, avatarUrl, avatarEmoji) => {

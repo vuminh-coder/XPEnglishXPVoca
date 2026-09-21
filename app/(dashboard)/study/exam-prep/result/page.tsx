@@ -180,7 +180,17 @@ Văn phong truyền cảm hứng, ngắn gọn, súc tích, định dạng markd
       reviewAudioRef.current = null;
     }
 
-    const audio = new Audio(url);
+    let targetAudioUrl = url;
+    if (url.includes("soundhelix.com") || url.includes("placeholder") || !url.startsWith("http")) {
+      const q = examResult?.questionResults?.find((item) => item.question.id === qId)?.question;
+      const textToSpeak =
+        q?.passageText?.replace(/\[Audio Transcript.*?\]/gi, "").trim() ||
+        q?.questionText ||
+        "This is the listening audio for the exam question.";
+      targetAudioUrl = `/api/tts?text=${encodeURIComponent(textToSpeak.slice(0, 350))}&accent=en-US`;
+    }
+
+    const audio = new Audio(targetAudioUrl);
     reviewAudioRef.current = audio;
     setPlayingAudioId(qId);
 

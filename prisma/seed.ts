@@ -1,6 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import { MOCK_THEMES } from "@/shared/constants";
 import { MOCK_VOCABULARIES } from "./mock-vocabularies";
+import { BASIC_VOCABULARIES } from "@/features/vocabulary/data/basicVocabularies";
+import { seedListeningLessons } from "./seedListeningData";
 
 const prisma = new PrismaClient();
 
@@ -16,48 +18,64 @@ async function main() {
 
   // 2. Seed Vocabulary Themes
   console.log(`📦 Seeding ${MOCK_THEMES.length} vocabulary themes...`);
+  const themeIds = new Set(MOCK_THEMES.map((t) => t.id));
   const themeData = MOCK_THEMES.map((theme, index) => ({
     id: theme.id,
-    name: theme.name,
-    nameVn: theme.name, // Mapping localized name
-    icon: theme.icon,
+    name: theme.nameEn || theme.name,
+    nameVn: theme.name,
+    icon: theme.icon || "📚",
     orderIndex: index,
   }));
 
   await prisma.vocabularyTheme.createMany({
     data: themeData,
+    skipDuplicates: true,
   });
   console.log("✅ Vocabulary themes seeded.");
 
-  // 3. Seed Vocabularies
-  console.log(`📝 Seeding ${MOCK_VOCABULARIES.length} vocabulary words...`);
-  
-  // Chunk vocabularies to prevent database parameter limit issues (max 32767 parameters in PostgreSQL)
-  const chunkSize = 1000;
-  for (let i = 0; i < MOCK_VOCABULARIES.length; i += chunkSize) {
-    const chunk = MOCK_VOCABULARIES.slice(i, i + chunkSize);
-    const vocabData = chunk.map((vocab) => ({
-      id: vocab.id,
-      word: vocab.word,
-      phonetic: vocab.phonetic,
-      definition: vocab.definition,
-      definitionVn: vocab.definitionVn,
-      pos: vocab.pos,
-      difficulty: vocab.difficulty,
-      frequency: vocab.frequency,
-      themeId: vocab.themeId,
-      examples: vocab.examples || [],
-      synonyms: vocab.synonyms || [],
-      antonyms: vocab.antonyms || [],
-    }));
+  // 3. Merge & Deduplicate Vocabularies
+  console.log("📝 Preparing vocabulary datasets...");
+  const combinedVocabs = [...BASIC_VOCABULARIES, ...MOCK_VOCABULARIES];
+  const seenIds = new Set<string>();
+  const validVocabList = [];
 
-    await prisma.vocabulary.createMany({
-      data: vocabData,
+  for (const v of combinedVocabs) {
+    if (!v.id || seenIds.has(v.id)) continue;
+    seenIds.add(v.id);
+    validVocabList.push({
+      id: v.id,
+      word: v.word,
+      phonetic: v.phonetic || null,
+      definition: v.definition,
+      definitionVn: v.definitionVn,
+      pos: v.pos || "noun",
+      difficulty: typeof v.difficulty === "number" ? v.difficulty : 1,
+      frequency: typeof v.frequency === "number" ? v.frequency : 1,
+      themeId: themeIds.has(v.themeId) ? v.themeId : "t_basic_greetings",
+      examples: v.examples || [],
+      synonyms: v.synonyms || [],
+      antonyms: v.antonyms || [],
     });
-    console.log(`   - Seeded words ${i + 1} to ${Math.min(i + chunkSize, MOCK_VOCABULARIES.length)}...`);
   }
 
-  console.log("🎉 Database seeding completed successfully!");
+  console.log(`📝 Seeding ${validVocabList.length} vocabulary words...`);
+  const chunkSize = 1000;
+  for (let i = 0; i < validVocabList.length; i += chunkSize) {
+    const chunk = validVocabList.slice(i, i + chunkSize);
+    await prisma.vocabulary.createMany({
+      data: chunk,
+      skipDuplicates: true,
+    });
+    console.log(`   - Seeded words ${i + 1} to ${Math.min(i + chunkSize, validVocabList.length)}...`);
+  }
+  console.log("✅ Vocabularies seeded successfully.");
+
+  // 4. Seed Listening Lessons
+  console.log("🎧 Seeding Listening Lessons from seedListeningData...");
+  await seedListeningLessons(prisma);
+  console.log("✅ Listening Lessons seeded successfully.");
+
+  console.log("🎉 All database seeding completed successfully!");
 }
 
 main()
@@ -68,3 +86,4 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
+

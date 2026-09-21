@@ -83,24 +83,7 @@ export default function DashboardPage() {
   const [isLoadingChart, setIsLoadingChart] = useState(false);
 
   useEffect(() => {
-    // 1. Handle OAuth user payload from Google/Facebook redirect
     if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      const oauthUserRaw = params.get("oauth_user");
-      if (oauthUserRaw) {
-        try {
-          const decoded = decodeURIComponent(oauthUserRaw);
-          if (decoded.startsWith("{")) {
-            const userObj = JSON.parse(decoded);
-            if (userObj && userObj.id) {
-              useUserStore.getState().setUserPayload(userObj);
-            }
-          }
-        } catch (err) {
-          // Silently ignore malformed oauth_user params
-        }
-        window.history.replaceState({}, document.title, window.location.pathname);
-      }
       useUserStore.getState().checkSession();
     }
 

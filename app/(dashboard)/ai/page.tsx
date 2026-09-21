@@ -35,15 +35,15 @@ const AI_MODULES = [
   },
   {
     id: "conversation",
-    title: "AI Writing & Conversation Coach (Luyện Viết & Chat)",
-    subtitle: "Chỉnh sửa bài viết & Phân tích cấu trúc câu",
-    description: "Trò chuyện tương tác dạng văn bản, sửa lỗi ngữ pháp chi tiết từng câu, nâng cấp diễn đạt học thuật và giải thích ngữ cảnh.",
+    title: "AI Conversation Studio (Phản Xạ Hội Thoại & Chat)",
+    subtitle: "Đối thoại đa chủ đề & Phân tích cấu trúc câu",
+    description: "Tương tác giọng nói và văn bản 2 chiều, chấm điểm phản xạ, sửa lỗi ngữ pháp chi tiết từng câu và nâng cấp diễn đạt tự nhiên.",
     href: "/ai/conversation",
     icon: MessageSquare,
-    badge: "Writing & Chat",
+    badge: "Conversation & Chat",
     badgeColor: "legendary" as const,
-    highlights: ["Sửa lỗi ngữ pháp & dấu câu tức thì", "Nâng cấp từ vựng C1/C2 học thuật", "Hội thoại đa chủ đề đời sống & công việc"],
-    cta: "Luyện viết ngay",
+    highlights: ["Sửa lỗi ngữ pháp & diễn đạt tự nhiên", "Hội thoại đa chủ đề đời sống & công việc", "Nhận diện giọng nói & phát âm chuẩn xác"],
+    cta: "Luyện hội thoại ngay",
   },
 ];
 

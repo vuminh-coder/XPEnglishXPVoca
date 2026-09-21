@@ -51,10 +51,10 @@ export function AiConversationTopBar({
   }, []);
 
   return (
-    <div className="p-2.5 sm:p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 shrink-0">
+    <div className="p-2 sm:p-2.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 shrink-0">
       <div className="flex items-center gap-2.5 min-w-0 flex-1">
         <div className="shrink-0 relative">
-          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-blue-50 dark:bg-blue-950/60 border border-blue-200/80 dark:border-blue-800/50 flex items-center justify-center text-[#0059bb] dark:text-sky-400 shadow-2xs">
+          <div className="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-950/60 border border-blue-200/80 dark:border-blue-800/50 flex items-center justify-center text-[#0059bb] dark:text-sky-400 shadow-2xs">
             {TOPIC_ICONS[currentTopic.id] || <MessageSquare className="w-4 h-4" />}
           </div>
           <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 border border-white dark:border-slate-900" />
@@ -89,7 +89,7 @@ export function AiConversationTopBar({
                       className="absolute left-0 top-full mt-1.5 z-50 w-72 sm:w-80 max-w-[calc(100vw-2rem)] p-1.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xl space-y-1"
                     >
                       <div className="px-2.5 py-1 text-xs font-bold text-slate-400 uppercase tracking-wider">
-                        Chọn chủ đề luyện viết:
+                        Chọn chủ đề hội thoại:
                       </div>
                       {allTopics.map((topic) => {
                         const isSelected = topic.id === selectedTopicId;
@@ -130,26 +130,26 @@ export function AiConversationTopBar({
               </div>
             ) : (
               <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
-                Báo Cáo Buổi Luyện Viết
+                Báo Cáo Buổi Hội Thoại
               </span>
             )}
 
-            <span className="px-2.5 py-0.5 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 text-xs font-bold font-mono border border-blue-200/60 dark:border-blue-800/40 shadow-2xs">
+            <span className="px-2 py-0.5 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 text-xs font-bold font-mono border border-blue-200/60 dark:border-blue-800/40 shadow-2xs">
               {currentTopic.level}
             </span>
           </div>
           <p className="text-xs font-medium text-slate-600 dark:text-slate-300 truncate">
             {isSessionCompleted
-              ? `Đã hoàn thành buổi đánh giá chủ đề "${currentTopic.name}"`
+              ? `Đã hoàn thành buổi hội thoại chủ đề "${currentTopic.name}"`
               : currentTopic.description}
           </p>
         </div>
       </div>
 
       {/* Mobile Right Action */}
-      <div className="flex sm:hidden items-center justify-between gap-2 border-t border-slate-100 dark:border-slate-800 pt-2">
-        <span className="px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-xs font-bold font-mono tabular-nums flex items-center gap-1">
-          <Clock className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+      <div className="flex sm:hidden items-center justify-between gap-2 border-t border-slate-100 dark:border-slate-800 pt-1.5 mt-0.5">
+        <span className="px-2 py-0.5 rounded-lg bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-[11px] font-bold font-mono tabular-nums flex items-center gap-1">
+          <Clock className="w-3 h-3 text-amber-600 dark:text-amber-400" />
           <span>{formatElapsedTime(elapsedTime)}</span>
         </span>
 
@@ -157,18 +157,18 @@ export function AiConversationTopBar({
           <button
             type="button"
             onClick={onRestartNewSession}
-            className="h-8 px-3 rounded-xl bg-[#0059bb] text-white text-xs font-bold flex items-center gap-1 shadow-2xs cursor-pointer active:scale-95 transition-all"
+            className="h-7 px-2.5 rounded-lg bg-[#0059bb] text-white text-[11px] font-bold flex items-center gap-1 shadow-2xs cursor-pointer active:scale-95 transition-all"
           >
-            <RotateCcw className="w-3.5 h-3.5" />
+            <RotateCcw className="w-3 h-3" />
             <span>Buổi mới</span>
           </button>
         ) : (
           <button
             type="button"
             onClick={onFinishConversation}
-            className="h-8 px-3 rounded-xl bg-emerald-600 text-white text-xs font-bold flex items-center gap-1 shadow-2xs cursor-pointer active:scale-95 transition-all"
+            className="h-7 px-2.5 rounded-lg bg-emerald-600 text-white text-[11px] font-bold flex items-center gap-1 shadow-2xs cursor-pointer active:scale-95 transition-all"
           >
-            <CheckCircle2 className="w-3.5 h-3.5" />
+            <CheckCircle2 className="w-3 h-3" />
             <span>Chấm điểm</span>
           </button>
         )}

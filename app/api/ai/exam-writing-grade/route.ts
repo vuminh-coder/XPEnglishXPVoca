@@ -54,7 +54,7 @@ Return ONLY valid JSON matching this exact structure (NO MARKDOWN BACKTICKS):
   "improvedEssaySample": "Gợi ý đoạn văn/bài viết nâng cấp Band 8.0+ mượt mà..."
 }`;
 
-    const modelsToTry = ["gemini-2.5-flash", "gemini-1.5-flash", "gemini-2.0-flash"];
+    const modelsToTry = ["gemini-2.0-flash", "gemini-1.5-flash"];
     let parsedData = null;
 
     for (const modelName of modelsToTry) {

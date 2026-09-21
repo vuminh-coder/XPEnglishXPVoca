@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 
@@ -108,7 +108,7 @@ export async function POST(
           const prompt = `Bạn là Trợ lý AI Mentor trong Phòng Học Nhóm Tiếng Anh. Hãy trả lời ngắn gọn, truyền cảm hứng và hữu ích cho câu hỏi sau của học viên:\n"${query || "Chào AI, tư vấn mẹo học từ vựng hiệu quả giúp nhóm nhé!"}"`;
 
           const res = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },

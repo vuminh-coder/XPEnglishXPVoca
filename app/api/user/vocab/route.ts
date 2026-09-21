@@ -2,6 +2,7 @@ import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma, handlePrismaError } from "@/infrastructure/database/prisma";
 import { memoryCache } from "@/infrastructure/cache/memoryCache";
+import { BASIC_VOCABULARIES } from "@/features/vocabulary/data/basicVocabularies";
 
 export async function GET() {
   try {
@@ -160,18 +161,54 @@ export async function POST(request: Request) {
     }
 
     if (!targetVocab) {
-      return NextResponse.json({
-        success: true,
-        data: {
-          userId,
-          vocabId,
-          proficiency: proficiency ?? 0,
-          isFavorite: Boolean(isFavorite),
-          lastPracticed: lastPracticed || new Date().toISOString(),
-          nextReview: nextReview || null,
-          isLocal: true,
+      // Find matching item in BASIC_VOCABULARIES or construct from request payload
+      const matched = BASIC_VOCABULARIES.find(
+        (v) => v.id === vocabId || v.word.toLowerCase() === vocabId.toLowerCase()
+      );
+
+      const targetThemeId = matched?.themeId || body.themeId || "t_basic_greetings";
+
+      // Ensure theme exists before vocabulary creation
+      const existingTheme = await prisma.vocabularyTheme.findUnique({
+        where: { id: targetThemeId },
+        select: { id: true },
+      });
+
+      if (!existingTheme) {
+        await prisma.vocabularyTheme.upsert({
+          where: { id: targetThemeId },
+          update: {},
+          create: {
+            id: targetThemeId,
+            name: matched?.themeNameEn || "General English",
+            nameVn: matched?.themeNameVn || "Tiếng Anh Tổng Quát",
+            icon: "📚",
+            orderIndex: 999,
+          },
+        });
+      }
+
+      // Automatically upsert into database table vocabularies
+      const createdVocab = await prisma.vocabulary.upsert({
+        where: { id: matched?.id || vocabId },
+        update: {},
+        create: {
+          id: matched?.id || vocabId,
+          word: matched?.word || body.word || vocabId,
+          phonetic: matched?.phonetic || body.phonetic || null,
+          definition: matched?.definition || body.definition || "Standard vocabulary term",
+          definitionVn: matched?.definitionVn || body.definitionVn || "Thuật ngữ từ vựng",
+          pos: matched?.pos || body.pos || "noun",
+          difficulty: matched?.difficulty || 1,
+          frequency: matched?.frequency || 1,
+          themeId: targetThemeId,
+          examples: matched?.examples || (Array.isArray(body.examples) ? body.examples : []),
+          synonyms: matched?.synonyms || (Array.isArray(body.synonyms) ? body.synonyms : []),
+          antonyms: matched?.antonyms || (Array.isArray(body.antonyms) ? body.antonyms : []),
         },
       });
+
+      targetVocab = { id: createdVocab.id };
     }
 
     const upsertedVocab = await prisma.userVocabulary.upsert({
