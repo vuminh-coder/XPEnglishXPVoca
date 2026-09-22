@@ -230,10 +230,12 @@ function ListeningPageContent() {
 
   const totalSentencesCount = currentLesson?.transcript?.length || 0;
 
-  // Isolated practice timer ref (0Hz page re-render, updated by StudioTimerBadge)
+  // Isolated practice timer (updated by StudioTimerBadge)
   const elapsedTimeRef = useRef(0);
+  const [elapsedTime, setElapsedTime] = useState(0);
   const handleElapsedTimeTick = useCallback((sec: number) => {
     elapsedTimeRef.current = sec;
+    setElapsedTime(sec);
   }, []);
 
   // Debounce ref for background database progress sync (1.2s debounce)
@@ -540,6 +542,7 @@ function ListeningPageContent() {
             }
             if (prog.timeSpent && prog.timeSpent > 0) {
               elapsedTimeRef.current = prog.timeSpent;
+              setElapsedTime(prog.timeSpent);
             }
             if (prog.status === "COMPLETED") {
               setIsLessonFinished(true);
@@ -622,7 +625,7 @@ function ListeningPageContent() {
         setIsSyncingDb(false);
       }
     }
-  }, [isCurrentSentenceBookmarked, savedSentenceKeys, currentSentenceKey, addToast, awardXp, currentSentence?.text, currentLesson, user?.id]);
+  }, [isCurrentSentenceBookmarked, savedSentenceKeys, currentSentenceKey, addToast, awardXp, currentSentence, currentLesson, user]);
 
   const [showReportModal, setShowReportModal] = useState(false);
   const [reportReason, setReportReason] = useState<string>("spelling");
@@ -1354,7 +1357,7 @@ function ListeningPageContent() {
               currentLesson={currentLesson}
               lessonsList={lessonsList}
               totalSentencesCount={totalSentencesCount}
-              elapsedTime={elapsedTimeRef.current}
+              elapsedTime={elapsedTime}
               onRestart={() => {
                 setIsLessonFinished(false);
                 setCurrentSentenceIndex(0);
@@ -1421,7 +1424,7 @@ function ListeningPageContent() {
                 isLoadingLessonDetail={isLoadingLessonDetail}
                 isShufflingRecommendations={isShufflingRecommendations}
                 onShuffleRecommendations={handleShuffleRecommendations}
-                elapsedTime={elapsedTimeRef.current}
+                elapsedTime={elapsedTime}
                 onElapsedTimeTick={handleElapsedTimeTick}
                 formatElapsedTime={formatElapsedTime}
                 onBackToListing={handleBackToListing}

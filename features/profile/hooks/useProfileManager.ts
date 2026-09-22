@@ -73,9 +73,11 @@ export function useProfileManager() {
   const wordsCount = Number(user?.wordsLearned) || 0;
   const vocabPercent = Math.min(100, Math.round((wordsCount / 3903) * 100)) || 0;
 
+  const currentAvatar = user?.imageUrl || user?.avatarUrl;
+
   const handleSaveProfile = useCallback((e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    updateProfile(fullName, bio, user?.imageUrl || user?.avatarUrl, selectedEmoji);
+    updateProfile(fullName, bio, currentAvatar, selectedEmoji);
     setIsEditing(false);
     addToast({
       type: "success",
@@ -83,7 +85,7 @@ export function useProfileManager() {
       message: "Thông tin cá nhân của bạn đã được lưu thành công.",
       duration: 3000,
     });
-  }, [bio, fullName, selectedEmoji, updateProfile, user?.avatarUrl, user?.imageUrl, addToast]);
+  }, [bio, fullName, currentAvatar, selectedEmoji, updateProfile, addToast]);
 
   const shareProfile = useCallback(() => {
     if (typeof navigator !== "undefined") {

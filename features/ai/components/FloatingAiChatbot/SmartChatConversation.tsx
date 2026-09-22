@@ -278,35 +278,47 @@ export default function SmartChatConversation() {
     }
   };
 
+  const handleQuickCommand = (id: string) => {
+    switch (id) {
+      case "roadmap":
+        triggerRoadmapCard();
+        break;
+      case "recommendation":
+        triggerRecommendationCard();
+        break;
+      case "srs":
+        sendMessage("Tôi muốn kiểm tra từ vựng cần ôn tập hôm nay", pathname);
+        break;
+      case "grammar":
+        setInput("Giải thích ngữ pháp: ");
+        textareaRef.current?.focus();
+        break;
+    }
+  };
+
   // Quick Action Commands — Lucide icons only, no raw emojis
-  const QUICK_COMMANDS = useMemo(
-    () => [
-      {
-        label: "Lộ trình hôm nay",
-        icon: <Compass className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />,
-        action: () => triggerRoadmapCard(),
-      },
-      {
-        label: "Gợi ý bài học",
-        icon: <Sparkles className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />,
-        action: () => triggerRecommendationCard(),
-      },
-      {
-        label: "Ôn từ vựng SRS",
-        icon: <BookmarkCheck className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />,
-        action: () => sendMessage("Tôi muốn kiểm tra từ vựng cần ôn tập hôm nay", pathname),
-      },
-      {
-        label: "Hỏi ngữ pháp",
-        icon: <BookOpen className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />,
-        action: () => {
-          setInput("Giải thích ngữ pháp: ");
-          textareaRef.current?.focus();
-        },
-      },
-    ],
-    [triggerRoadmapCard, triggerRecommendationCard, sendMessage, pathname]
-  );
+  const QUICK_COMMANDS = [
+    {
+      id: "roadmap",
+      label: "Lộ trình hôm nay",
+      icon: <Compass className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />,
+    },
+    {
+      id: "recommendation",
+      label: "Gợi ý bài học",
+      icon: <Sparkles className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />,
+    },
+    {
+      id: "srs",
+      label: "Ôn từ vựng SRS",
+      icon: <BookmarkCheck className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />,
+    },
+    {
+      id: "grammar",
+      label: "Hỏi ngữ pháp",
+      icon: <BookOpen className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />,
+    },
+  ];
 
   return (
     <div className="flex flex-col h-full bg-slate-50/40 dark:bg-slate-950/40">
@@ -435,7 +447,7 @@ export default function SmartChatConversation() {
           {QUICK_COMMANDS.map((cmd, idx) => (
             <button
               key={idx}
-              onClick={cmd.action}
+              onClick={() => handleQuickCommand(cmd.id)}
               disabled={isLoading}
               className="shrink-0 h-7.5 px-3 rounded-full bg-slate-50 dark:bg-slate-800/70 hover:bg-blue-50 dark:hover:bg-blue-950/50 hover:border-[#0059bb]/40 hover:text-[#0059bb] dark:hover:text-sky-300 text-slate-700 dark:text-slate-300 text-xs font-semibold transition-all active:scale-95 border border-slate-200/70 dark:border-slate-700/60 flex items-center gap-1.5 cursor-pointer shadow-2xs whitespace-nowrap"
             >

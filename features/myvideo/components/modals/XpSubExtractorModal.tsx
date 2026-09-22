@@ -53,6 +53,38 @@ export const XpSubExtractorModal: React.FC<XpSubExtractorModalProps> = ({
   const [xpSubError, setXpSubError] = useState<string | null>(null);
   const [searchPreviewQuery, setSearchPreviewQuery] = useState<string>("");
 
+  const fetchPreviewSubtitles = async (baseUrl: string, targetLang: string, bilingual: boolean) => {
+    if (!activeVideo || !baseUrl) return;
+    setIsExtractingPreview(true);
+    setXpSubError(null);
+
+    try {
+      const res = await fetch("/api/youtube/subtitles/inject", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          videoId: activeVideo.id,
+          videoTitle: activeVideo.title,
+          trackBaseUrl: baseUrl,
+          targetLang,
+          isBilingual: bilingual,
+        }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && Array.isArray(data.subtitles) && data.subtitles.length > 0) {
+          setXpSubPreviewSentences(data.subtitles);
+          return;
+        }
+      }
+    } catch (e: any) {
+      console.warn("Preview fetch warning:", e);
+    } finally {
+      setIsExtractingPreview(false);
+    }
+  };
+
   useEffect(() => {
     if (!isOpen || !activeVideo) return;
 
@@ -93,38 +125,6 @@ export const XpSubExtractorModal: React.FC<XpSubExtractorModalProps> = ({
       isMounted = false;
     };
   }, [isOpen, activeVideo?.id]);
-
-  const fetchPreviewSubtitles = async (baseUrl: string, targetLang: string, bilingual: boolean) => {
-    if (!activeVideo || !baseUrl) return;
-    setIsExtractingPreview(true);
-    setXpSubError(null);
-
-    try {
-      const res = await fetch("/api/youtube/subtitles/inject", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          videoId: activeVideo.id,
-          videoTitle: activeVideo.title,
-          trackBaseUrl: baseUrl,
-          targetLang,
-          isBilingual: bilingual,
-        }),
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        if (data.success && Array.isArray(data.subtitles) && data.subtitles.length > 0) {
-          setXpSubPreviewSentences(data.subtitles);
-          return;
-        }
-      }
-    } catch (e: any) {
-      console.warn("Preview fetch warning:", e);
-    } finally {
-      setIsExtractingPreview(false);
-    }
-  };
 
   const handleDownloadXpSubtitle = async (format: "srt" | "vtt" | "txt" | "json") => {
     if (!activeVideo || !selectedTrackUrl) return;

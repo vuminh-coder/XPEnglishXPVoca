@@ -27,7 +27,7 @@ export function MemoryMatchGame({ pool, onBack }: MemoryMatchGameProps) {
   const [gameOver, setGameOver] = useState(false);
   const [finalScore, setFinalScore] = useState(0);
   const [rewards, setRewards] = useState<{ xp: number; coins: number }>({ xp: 0, coins: 0 });
-  const startTimeRef = useRef<number>(Date.now());
+  const startTimeRef = useRef<number>(0);
 
   const initGame = useCallback(() => {
     if (!pool || pool.length === 0) return;

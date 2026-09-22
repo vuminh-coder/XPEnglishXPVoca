@@ -27,7 +27,7 @@ export function useStudyTimeTracker(
 
   const accumulatedSecondsRef = useRef<number>(0);
   const bufferSecondsRef = useRef<number>(0);
-  const lastActiveTimestampRef = useRef<number>(Date.now());
+  const lastActiveTimestampRef = useRef<number>(0);
   const skillRef = useRef<SkillType>(skill);
 
   useEffect(() => {

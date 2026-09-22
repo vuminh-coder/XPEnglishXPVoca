@@ -52,7 +52,11 @@ export function WordScrambleGame({ pool, onBack }: WordScrambleGameProps) {
   const [feedback, setFeedback] = useState<"correct" | "wrong" | null>(null);
   const [gameOver, setGameOver] = useState(false);
   const [rewards, setRewards] = useState<{ xp: number; coins: number }>({ xp: 0, coins: 0 });
-  const startTimeRef = useRef<number>(Date.now());
+  const startTimeRef = useRef<number>(0);
+
+  useEffect(() => {
+    startTimeRef.current = Date.now();
+  }, []);
 
   // When game finishes, award XP/Coins and sync to database
   useEffect(() => {

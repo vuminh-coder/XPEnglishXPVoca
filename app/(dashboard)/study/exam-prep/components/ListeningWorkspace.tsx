@@ -94,6 +94,18 @@ export function ListeningWorkspace({
     });
   };
 
+  const togglePlay = () => {
+    if (typeof window === "undefined") return;
+
+    if (isPlaying) {
+      stopTTS();
+      setIsPlaying(false);
+      if (speechTimerRef.current) clearInterval(speechTimerRef.current);
+    } else {
+      playAiVoiceSpeech();
+    }
+  };
+
   useEffect(() => {
     // Reset audio state when question changes
     setIsPlaying(false);
@@ -120,18 +132,6 @@ export function ListeningWorkspace({
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [isPlaying, spokenScript, playbackSpeed]);
-
-  const togglePlay = () => {
-    if (typeof window === "undefined") return;
-
-    if (isPlaying) {
-      stopTTS();
-      setIsPlaying(false);
-      if (speechTimerRef.current) clearInterval(speechTimerRef.current);
-    } else {
-      playAiVoiceSpeech();
-    }
-  };
 
   const handleSpeedChange = (speed: number) => {
     setPlaybackSpeed(speed);

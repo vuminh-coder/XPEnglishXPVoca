@@ -29,6 +29,51 @@ export function SpeakingStudioWorkspace({
   const [isPlayingGuide, setIsPlayingGuide] = useState<boolean>(false);
   const recognitionRef = useRef<any>(null);
 
+  const startRecording = () => {
+    stopTTS();
+    setIsPlayingGuide(false);
+    setPhase("RECORDING");
+    onSelectAnswer("A");
+
+    // Initialize Web Speech Recognition
+    if (typeof window !== "undefined") {
+      const SpeechRecognition =
+        (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      if (SpeechRecognition) {
+        try {
+          const recognition = new SpeechRecognition();
+          recognition.continuous = true;
+          recognition.interimResults = true;
+          recognition.lang = "en-US";
+
+          recognition.onresult = (event: any) => {
+            let current = "";
+            for (let i = 0; i < event.results.length; i++) {
+              current += event.results[i][0].transcript + " ";
+            }
+            if (current.trim()) {
+              setTranscriptText(current.trim());
+            }
+          };
+
+          recognition.onerror = () => {};
+          recognition.start();
+          recognitionRef.current = recognition;
+        } catch (_) {}
+      }
+    }
+  };
+
+  const finishRecording = () => {
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.stop();
+      } catch (_) {}
+    }
+    setPhase("FEEDBACK");
+    onSelectAnswer("A");
+  };
+
   // Reset timers when question changes
   useEffect(() => {
     stopTTS();
@@ -82,51 +127,6 @@ export function SpeakingStudioWorkspace({
       }
     };
   }, []);
-
-  const startRecording = () => {
-    stopTTS();
-    setIsPlayingGuide(false);
-    setPhase("RECORDING");
-    onSelectAnswer("A");
-
-    // Initialize Web Speech Recognition
-    if (typeof window !== "undefined") {
-      const SpeechRecognition =
-        (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-      if (SpeechRecognition) {
-        try {
-          const recognition = new SpeechRecognition();
-          recognition.continuous = true;
-          recognition.interimResults = true;
-          recognition.lang = "en-US";
-
-          recognition.onresult = (event: any) => {
-            let current = "";
-            for (let i = 0; i < event.results.length; i++) {
-              current += event.results[i][0].transcript + " ";
-            }
-            if (current.trim()) {
-              setTranscriptText(current.trim());
-            }
-          };
-
-          recognition.onerror = () => {};
-          recognition.start();
-          recognitionRef.current = recognition;
-        } catch (_) {}
-      }
-    }
-  };
-
-  const finishRecording = () => {
-    if (recognitionRef.current) {
-      try {
-        recognitionRef.current.stop();
-      } catch (_) {}
-    }
-    setPhase("FEEDBACK");
-    onSelectAnswer("A");
-  };
 
   const handleRestart = () => {
     stopTTS();

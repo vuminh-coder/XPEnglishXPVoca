@@ -79,6 +79,105 @@ function ExamPrepContent() {
   const [aiQuestionCount, setAiQuestionCount] = useState<number>(20);
   const [isAiGenerating, setIsAiGenerating] = useState<boolean>(false);
 
+  // Submit Exam and Persist Results
+  const handleSubmitExam = () => {
+    if (!selectedExam) return;
+
+    const result = calculateExamResult(
+      selectedExam,
+      userAnswers,
+      timeSpentSeconds,
+    );
+    setExamResult(result);
+    setShowSubmitConfirmModal(false);
+
+    // Save to LocalStorage / SessionStorage for Result Page
+    try {
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem(
+          "xp_latest_exam_result",
+          JSON.stringify({
+            result,
+            paper: selectedExam,
+          }),
+        );
+      }
+    } catch (e) {
+      console.warn("Session storage save error:", e);
+    }
+
+    // Award XP & Coins to Global User Store
+    if (awardXp && result.xpAwarded) {
+      awardXp(result.xpAwarded);
+    }
+    if (awardCoins && result.coinsAwarded) {
+      awardCoins(result.coinsAwarded);
+    }
+    if (addPracticeTime && timeSpentSeconds > 0) {
+      addPracticeTime(Math.max(1, Math.round(timeSpentSeconds / 60)));
+    }
+
+    // Persist attempt to Backend PostgreSQL Database
+    try {
+      fetch("/api/exams/attempts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          examId: selectedExam.id,
+          examTitle: selectedExam.title,
+          examType: selectedExam.type,
+          totalScore: result.scaledScore,
+          maxScore: result.maxScore,
+          accuracyPercent: result.accuracyPercent,
+          timeSpentSeconds,
+          scaledScore: result.scaledScore,
+          listeningScore: result.listeningScore,
+          readingScore: result.readingScore,
+          speakingScore: result.speakingScore,
+          writingScore: result.writingScore,
+          answers: result.questionResults.map((qr) => ({
+            questionId: qr.questionId,
+            userChoice: qr.userChoice,
+            correctAnswer: qr.correctAnswer,
+            isCorrect: qr.isCorrect,
+            section: qr.section,
+          })),
+        }),
+      }).catch((err) => console.warn("Backend exam persistence notice:", err));
+    } catch (e) {
+      console.warn("Async save error:", e);
+    }
+
+    addToast({
+      type: "success",
+      title: `🎉 Hoàn thành bài thi! +${result.xpAwarded} XP (+${result.coinsAwarded} Vàng)`,
+      message: `Điểm số: ${result.scaledScore}/${result.maxScore}. Đang chuyển đến bảng phân tích chuyên sâu...`,
+    });
+
+    // Navigate to dedicated result dashboard
+    const examIndex = MOCK_EXAM_PAPERS.findIndex((p) => p.id === selectedExam.id);
+    const idParam = examIndex >= 0 ? (examIndex + 1).toString() : selectedExam.id;
+    router.push(`/study/exam-prep/result?id=${idParam}`);
+  };
+
+  // Auto Submit when Time Expires
+  const handleAutoSubmitExam = () => {
+    addToast({
+      type: "warning",
+      title: "Hết giờ làm bài!",
+      message: "Hệ thống đang tự động nộp bài và tính điểm chính thức...",
+    });
+    handleSubmitExam();
+  };
+
+  // Select Option
+  const handleSelectAnswer = (questionId: string, choice: string) => {
+    setUserAnswers((prev) => ({
+      ...prev,
+      [questionId]: choice as "A" | "B" | "C" | "D",
+    }));
+  };
+
   // Countdown Timer Ref
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -175,14 +274,6 @@ function ExamPrepContent() {
     });
   };
 
-  // Select Option
-  const handleSelectAnswer = (questionId: string, choice: string) => {
-    setUserAnswers((prev) => ({
-      ...prev,
-      [questionId]: choice as "A" | "B" | "C" | "D",
-    }));
-  };
-
   // Toggle Flag Question
   const handleToggleFlag = (questionId: string) => {
     setFlaggedQuestions((prev) => ({
@@ -191,102 +282,13 @@ function ExamPrepContent() {
     }));
   };
 
-  // Auto Submit when Time Expires
-  const handleAutoSubmitExam = () => {
-    addToast({
-      type: "warning",
-      title: "Hết giờ làm bài!",
-      message: "Hệ thống đang tự động nộp bài và tính điểm chính thức...",
-    });
-    handleSubmitExam();
-  };
-
   // Return to Hub
   const handleReturnToHub = () => {
     setActiveMode("HUB");
     setShowSubmitConfirmModal(false);
   };
 
-  // Submit Exam and Persist Results
-  const handleSubmitExam = () => {
-    if (!selectedExam) return;
 
-    const result = calculateExamResult(
-      selectedExam,
-      userAnswers,
-      timeSpentSeconds,
-    );
-    setExamResult(result);
-    setShowSubmitConfirmModal(false);
-
-    // Save to LocalStorage / SessionStorage for Result Page
-    try {
-      if (typeof window !== "undefined") {
-        sessionStorage.setItem(
-          "xp_latest_exam_result",
-          JSON.stringify({
-            result,
-            paper: selectedExam,
-          }),
-        );
-      }
-    } catch (e) {
-      console.warn("Session storage save error:", e);
-    }
-
-    // Award XP & Coins to Global User Store
-    if (awardXp && result.xpAwarded) {
-      awardXp(result.xpAwarded);
-    }
-    if (awardCoins && result.coinsAwarded) {
-      awardCoins(result.coinsAwarded);
-    }
-    if (addPracticeTime && timeSpentSeconds > 0) {
-      addPracticeTime(Math.max(1, Math.round(timeSpentSeconds / 60)));
-    }
-
-    // Persist attempt to Backend PostgreSQL Database
-    try {
-      fetch("/api/exams/attempts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          examId: selectedExam.id,
-          examTitle: selectedExam.title,
-          examType: selectedExam.type,
-          totalScore: result.scaledScore,
-          maxScore: result.maxScore,
-          accuracyPercent: result.accuracyPercent,
-          timeSpentSeconds,
-          scaledScore: result.scaledScore,
-          listeningScore: result.listeningScore,
-          readingScore: result.readingScore,
-          speakingScore: result.speakingScore,
-          writingScore: result.writingScore,
-          answers: result.questionResults.map((qr) => ({
-            questionId: qr.questionId,
-            userChoice: qr.userChoice,
-            correctAnswer: qr.correctAnswer,
-            isCorrect: qr.isCorrect,
-            section: qr.section,
-          })),
-        }),
-      }).catch((err) => console.warn("Backend exam persistence notice:", err));
-    } catch (e) {
-      console.warn("Async save error:", e);
-    }
-
-    addToast({
-      type: "success",
-      title: `🎉 Hoàn thành bài thi! +${result.xpAwarded} XP (+${result.coinsAwarded} Vàng)`,
-      message: `Điểm số: ${result.scaledScore}/${result.maxScore}. Đang chuyển đến bảng phân tích chuyên sâu...`,
-    });
-
-    // Navigate to dedicated result dashboard
-    const examIndex = MOCK_EXAM_PAPERS.findIndex((p) => p.id === selectedExam.id);
-    const idParam = examIndex >= 0 ? (examIndex + 1).toString() : selectedExam.id;
-    router.push(`/study/exam-prep/result?id=${idParam}`);
-  };
 
   // Generate AI Exam
   const handleGenerateAiExam = async () => {

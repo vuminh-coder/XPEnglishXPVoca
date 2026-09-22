@@ -114,7 +114,7 @@ export const IpaMinimalPairsArena: React.FC<IpaMinimalPairsArenaProps> = ({
   // 5. Blitz Countdown Timer
   const [timeLeft, setTimeLeft] = useState<number>(BLITZ_TIME_LIMIT);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const roundStartTimeRef = useRef<number>(Date.now());
+  const roundStartTimeRef = useRef<number>(0);
   const isAnswered = selectedAnswer !== null;
 
   // Active pair and target word

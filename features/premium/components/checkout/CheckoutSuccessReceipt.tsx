@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { CheckCircle2, CheckCircle, ArrowRight } from "lucide-react";
 import { Badge } from "@/shared/components/ui/Badge";
@@ -11,8 +11,10 @@ export interface CheckoutSuccessReceiptProps {
 }
 
 export function CheckoutSuccessReceipt({ plan }: CheckoutSuccessReceiptProps) {
-  const invoiceId = useMemo(() => {
-    return `INV-XP-${Date.now().toString().slice(-6)}`;
+  const [invoiceId, setInvoiceId] = useState<string>("INV-XP-998811");
+
+  useEffect(() => {
+    setInvoiceId(`INV-XP-${Date.now().toString().slice(-6)}`);
   }, []);
 
   return (

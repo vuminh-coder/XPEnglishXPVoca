@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import React, { useState, useEffect } from "react";
 import { Card, Button, Badge } from "@/shared/components/ui";
 import { useAuthStore } from "@/stores/authStore";
@@ -23,11 +23,15 @@ export function SpeedMatchGame({ pool, onBack }: { pool: any[]; onBack: () => vo
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(30);
   const [gameOver, setGameOver] = useState(false);
+  const [wordsList, setWordsList] = useState<SpeedPair[]>([]);
+  const [defsList, setDefsList] = useState<SpeedPair[]>([]);
 
   const initGame = () => {
     if (pool && pool.length > 0) {
       const selected = [...pool].sort(() => 0.5 - Math.random()).slice(0, 5);
       setPairs(selected);
+      setWordsList([...selected].sort(() => 0.5 - Math.random()));
+      setDefsList([...selected].sort(() => 0.5 - Math.random()));
       setMatchedIds([]);
       setSelectedWord(null);
       setSelectedDef(null);
@@ -93,9 +97,6 @@ export function SpeedMatchGame({ pool, onBack }: { pool: any[]; onBack: () => vo
       }, 300);
     }
   };
-
-  const wordsList = React.useMemo(() => [...pairs].sort(() => 0.5 - Math.random()), [pairs]);
-  const defsList = React.useMemo(() => [...pairs].sort(() => 0.5 - Math.random()), [pairs]);
 
   if (gameOver) {
     return (

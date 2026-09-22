@@ -25,8 +25,11 @@ export function useVoiceChannel(options: VoiceChannelOptions = {}) {
   const [selectedInputId, setSelectedInputId] = useState<string>("");
   const [selectedOutputId, setSelectedOutputId] = useState<string>("");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [localStream, setLocalStream] = useState<MediaStream | null>(null);
 
   const localStreamRef = useRef<MediaStream | null>(null);
+  const handleAutoReconnectRef = useRef<() => Promise<void>>(async () => {});
+  const connectVoiceRef = useRef<() => Promise<void>>(async () => {});
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
   const animationFrameRef = useRef<number | null>(null);
@@ -124,84 +127,6 @@ export function useVoiceChannel(options: VoiceChannelOptions = {}) {
     }
   };
 
-  // Connect to Voice Channel
-  const connectVoice = async () => {
-    try {
-      setErrorMsg(null);
-      setIsReconnecting(false);
-      options.onConnectionStateChange?.("connecting");
-
-      const constraints: MediaStreamConstraints = {
-        audio: {
-          deviceId: selectedInputId ? { exact: selectedInputId } : undefined,
-          echoCancellation: true,
-          noiseSuppression: true,
-          autoGainControl: true,
-        },
-      };
-
-      const stream = await navigator.mediaDevices.getUserMedia(constraints);
-      localStreamRef.current = stream;
-
-      // Handle track mute state
-      stream.getAudioTracks().forEach((track) => {
-        track.enabled = !isMuted;
-      });
-
-      // Handle unexpected track ending (e.g. mic unplugged / browser suspended)
-      stream.getAudioTracks().forEach((track) => {
-        track.onended = () => {
-          handleAutoReconnect();
-        };
-      });
-
-      startAudioAnalyser(stream);
-      setIsConnected(true);
-      reconnectAttemptRef.current = 0;
-      options.onConnectionStateChange?.("connected");
-
-      // Start periodic signaling heartbeat
-      if (heartbeatTimerRef.current) clearInterval(heartbeatTimerRef.current);
-      heartbeatTimerRef.current = setInterval(() => {
-        if (localStreamRef.current && localStreamRef.current.active) {
-          // Heartbeat ping OK
-        } else if (isConnected) {
-          handleAutoReconnect();
-        }
-      }, 10000);
-
-      enumerateDevices();
-    } catch (err: any) {
-      console.error("Failed to access microphone:", err);
-      setErrorMsg("Quyền truy cập Micro bị từ chối hoặc thiết bị bận!");
-      setIsConnected(false);
-      options.onConnectionStateChange?.("disconnected");
-      throw err;
-    }
-  };
-
-  // Auto Reconnection with Exponential Backoff
-  const handleAutoReconnect = useCallback(async () => {
-    if (reconnectAttemptRef.current >= 3) {
-      setErrorMsg("Mất kết nối Micro. Vui lòng kiểm tra lại thiết bị.");
-      disconnectVoice();
-      return;
-    }
-
-    reconnectAttemptRef.current += 1;
-    setIsReconnecting(true);
-    options.onConnectionStateChange?.("reconnecting");
-
-    const backoffDelay = Math.min(5000, 1000 * Math.pow(2, reconnectAttemptRef.current));
-    setTimeout(async () => {
-      try {
-        await connectVoice();
-      } catch {
-        // Handled in next tick
-      }
-    }, backoffDelay);
-  }, []);
-
   // Disconnect from Voice Channel
   const disconnectVoice = useCallback(() => {
     if (heartbeatTimerRef.current) {
@@ -224,13 +149,101 @@ export function useVoiceChannel(options: VoiceChannelOptions = {}) {
       localStreamRef.current.getTracks().forEach((track) => track.stop());
       localStreamRef.current = null;
     }
+    setLocalStream(null);
 
     setIsConnected(false);
     setIsReconnecting(false);
     setIsSpeaking(false);
     setVolumeLevel(0);
     options.onConnectionStateChange?.("disconnected");
-  }, []);
+  }, [options]);
+
+  // Auto Reconnection with Exponential Backoff
+  const handleAutoReconnect = useCallback(async () => {
+    if (reconnectAttemptRef.current >= 3) {
+      setErrorMsg("Mất kết nối Micro. Vui lòng kiểm tra lại thiết bị.");
+      disconnectVoice();
+      return;
+    }
+
+    reconnectAttemptRef.current += 1;
+    setIsReconnecting(true);
+    options.onConnectionStateChange?.("reconnecting");
+
+    const backoffDelay = Math.min(5000, 1000 * Math.pow(2, reconnectAttemptRef.current));
+    setTimeout(async () => {
+      try {
+        await connectVoiceRef.current();
+      } catch {
+        // Handled in next tick
+      }
+    }, backoffDelay);
+  }, [disconnectVoice, options]);
+
+  useEffect(() => {
+    handleAutoReconnectRef.current = handleAutoReconnect;
+  }, [handleAutoReconnect]);
+
+  // Connect to Voice Channel
+  const connectVoice = useCallback(async () => {
+    try {
+      setErrorMsg(null);
+      setIsReconnecting(false);
+      options.onConnectionStateChange?.("connecting");
+
+      const constraints: MediaStreamConstraints = {
+        audio: {
+          deviceId: selectedInputId ? { exact: selectedInputId } : undefined,
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true,
+        },
+      };
+
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      localStreamRef.current = stream;
+      setLocalStream(stream);
+
+      // Handle track mute state
+      stream.getAudioTracks().forEach((track) => {
+        track.enabled = !isMuted;
+      });
+
+      // Handle unexpected track ending (e.g. mic unplugged / browser suspended)
+      stream.getAudioTracks().forEach((track) => {
+        track.onended = () => {
+          handleAutoReconnectRef.current();
+        };
+      });
+
+      startAudioAnalyser(stream);
+      setIsConnected(true);
+      reconnectAttemptRef.current = 0;
+      options.onConnectionStateChange?.("connected");
+
+      // Start periodic signaling heartbeat
+      if (heartbeatTimerRef.current) clearInterval(heartbeatTimerRef.current);
+      heartbeatTimerRef.current = setInterval(() => {
+        if (localStreamRef.current && localStreamRef.current.active) {
+          // Heartbeat ping OK
+        } else if (isConnected) {
+          handleAutoReconnectRef.current();
+        }
+      }, 10000);
+
+      enumerateDevices();
+    } catch (err: any) {
+      console.error("Failed to access microphone:", err);
+      setErrorMsg("Quyền truy cập Micro bị từ chối hoặc thiết bị bận!");
+      setIsConnected(false);
+      options.onConnectionStateChange?.("disconnected");
+      throw err;
+    }
+  }, [selectedInputId, isMuted, isConnected, enumerateDevices, options]);
+
+  useEffect(() => {
+    connectVoiceRef.current = connectVoice;
+  }, [connectVoice]);
 
   // Toggle Mute
   const toggleMute = useCallback(() => {
@@ -326,6 +339,6 @@ export function useVoiceChannel(options: VoiceChannelOptions = {}) {
     disconnectVoice,
     toggleMute,
     toggleDeaf,
-    localStream: localStreamRef.current,
+    localStream,
   };
 }

@@ -492,10 +492,17 @@ function ShadowingStudioContent() {
   const [completedSentences, setCompletedSentences] = useState<{ [idx: number]: boolean }>({});
   const [mobileStudioTab, setMobileStudioTab] = useState<"practice" | "transcript">("practice");
 
-  // Overall practice timer state (isolated ref, eliminates 1Hz page re-renders)
+  // Overall practice timer state
   const elapsedTimeRef = useRef(0);
+  const [elapsedTime, setElapsedTime] = useState(0);
   const handleElapsedTimeTick = useCallback((sec: number) => {
     elapsedTimeRef.current = sec;
+    setElapsedTime(sec);
+  }, []);
+
+  const handleNextSentenceRef = useRef<() => void>(() => {});
+  const handleAutoAdvance = useCallback(() => {
+    handleNextSentenceRef.current();
   }, []);
 
   // Real-time backend practice time tracker for Shadowing
@@ -547,8 +554,6 @@ function ShadowingStudioContent() {
   const wordTokenRefs = useRef<(HTMLElement | null)[]>([]);
   const [activePlaybackWordIndex, setActivePlaybackWordIndex] = useState<number | null>(null);
 
-  const handleNextSentenceRef = useRef<() => void>(() => {});
-
   // WebRTC Audio Recorder & Real AI Speech Analysis Hook
   const {
     isRecording,
@@ -572,7 +577,7 @@ function ShadowingStudioContent() {
     totalSentencesCount,
     currentLesson,
     user,
-    elapsedTime: elapsedTimeRef.current,
+    elapsedTime,
     autoNextSentence,
     savedSentenceKeys,
     completedSentences,
@@ -581,7 +586,7 @@ function ShadowingStudioContent() {
     addToast,
     stopTTS,
     setPlayingSentenceText,
-    onAutoAdvance: () => handleNextSentenceRef.current(),
+    onAutoAdvance: handleAutoAdvance,
   });
 
   // Direct Word Lookup
@@ -823,7 +828,7 @@ function ShadowingStudioContent() {
         console.error("Error persisting bookmark to DB:", e);
       }
     }
-  }, [isCurrentSentenceBookmarked, savedSentenceKeys, currentSentenceKey, addToast, awardXp, currentSentence?.text, currentLesson, user?.id]);
+  }, [isCurrentSentenceBookmarked, savedSentenceKeys, currentSentenceKey, addToast, awardXp, currentSentence, currentLesson, user]);
 
   // Sentence Report Modal submission
   const handleSubmitReport = useCallback((
@@ -897,7 +902,7 @@ function ShadowingStudioContent() {
         message: "Chúc mừng bạn đã hoàn thành xuất sắc toàn bộ bài Shadowing! +50 XP thưởng.",
       });
     }
-  }, [resetCurrentSentenceAudio, currentSentenceIndex, totalSentencesCount, currentLesson, awardXp, user?.id, addToast]);
+  }, [resetCurrentSentenceAudio, currentSentenceIndex, totalSentencesCount, currentLesson, awardXp, user, addToast]);
 
   useEffect(() => {
     handleNextSentenceRef.current = handleNextSentence;
@@ -1075,7 +1080,7 @@ function ShadowingStudioContent() {
           {isLessonFinished ? (
             <ShadowingCompletionScreen
               currentLesson={currentLesson}
-              elapsedTime={elapsedTimeRef.current}
+              elapsedTime={elapsedTime}
               totalSentencesCount={totalSentencesCount}
               lessonsList={lessonsList}
               onBackToListing={handleBackToListing}
@@ -1101,7 +1106,7 @@ function ShadowingStudioContent() {
               rawIdParam={rawIdParam}
               selectedLessonId={selectedLessonId}
               isInPlaceSwitchingLesson={isInPlaceSwitchingLesson}
-              elapsedTime={elapsedTimeRef.current}
+              elapsedTime={elapsedTime}
               onElapsedTimeTick={handleElapsedTimeTick}
               currentSentenceIndex={currentSentenceIndex}
               totalSentencesCount={totalSentencesCount}

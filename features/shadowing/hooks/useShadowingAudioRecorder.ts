@@ -141,7 +141,7 @@ export function useShadowingAudioRecorder({
 
       setLiveRecognizedWords(evaluated);
     },
-    [currentSentence?.text]
+    [currentSentence]
   );
 
   // Real AI Speech Evaluation & Neon Database Progress Persistence
@@ -258,14 +258,14 @@ export function useShadowingAudioRecorder({
       setIsAnalyzing(false);
     }
   }, [
-    currentSentence?.text,
+    currentSentence,
     recordingTime,
     currentSentenceIndex,
     completedSentences,
     setCompletedSentences,
     currentLesson,
     totalSentencesCount,
-    user?.id,
+    user,
     savedSentenceKeys,
     sentenceScores,
     elapsedTime,

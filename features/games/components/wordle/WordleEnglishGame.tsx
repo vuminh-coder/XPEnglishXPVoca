@@ -65,7 +65,7 @@ export function WordleEnglishGame({ pool, onBack }: WordleEnglishGameProps) {
   const [showHint, setShowHint] = useState(false);
   const [letterStatuses, setLetterStatuses] = useState<Record<string, WordleLetterStatus>>({});
   const [rewards, setRewards] = useState<{ xp: number; coins: number }>({ xp: 0, coins: 0 });
-  const startTimeRef = useRef<number>(Date.now());
+  const startTimeRef = useRef<number>(0);
 
   // Initialize a new word
   const initGame = useCallback(() => {

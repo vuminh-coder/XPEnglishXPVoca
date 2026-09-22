@@ -29,14 +29,22 @@ export function useVocabularyQuiz({
   const quizOptions = useMemo(() => {
     if (!currentQuizItem || vocabs.length < 2) return [];
 
-    const correctDef = currentQuizItem.definitionVn;
+    let seed = (quizIndex + 1) * 41;
     const distractors = vocabs
       .filter((v) => v.id !== currentQuizItem.id)
       .map((v) => v.definitionVn)
-      .sort(() => Math.random() - 0.5)
+      .sort((a, b) => {
+        const valA = Math.sin(seed++) * 10000;
+        const valB = Math.sin(seed++) * 10000;
+        return (valA - Math.floor(valA)) - (valB - Math.floor(valB));
+      })
       .slice(0, 3);
 
-    const all = [correctDef, ...distractors].sort(() => Math.random() - 0.5);
+    const all = [correctDef, ...distractors].sort((a, b) => {
+      const valA = Math.sin(seed++) * 10000;
+      const valB = Math.sin(seed++) * 10000;
+      return (valA - Math.floor(valA)) - (valB - Math.floor(valB));
+    });
     return all;
   }, [currentQuizItem, vocabs, quizIndex]);
 

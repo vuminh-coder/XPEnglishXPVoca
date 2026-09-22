@@ -452,3 +452,5 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
     </div>
   );
 });
+
+ListeningStudioWorkspace.displayName = "ListeningStudioWorkspace";
