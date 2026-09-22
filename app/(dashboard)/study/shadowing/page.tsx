@@ -210,7 +210,7 @@ function ShadowingStudioContent() {
     }
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 8000);
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
 
     // Tầng 2: Background Neon Database Reconciliation
     async function fetchLessons() {
@@ -230,10 +230,12 @@ function ShadowingStudioContent() {
           setLessonsList(MOCK_LESSONS_DATA);
         }
       } catch (err: any) {
+        if (!isMounted) return;
         if (err?.name === "AbortError") {
           console.warn("[Shadowing] Catalog DB request timed out.");
+        } else {
+          console.warn("[Shadowing] DB fetch fallback to offline cache:", err?.message || err);
         }
-        console.warn("[Shadowing] DB fetch fallback to offline cache:", err?.message || err);
         if (isMounted && lessonsList.length === 0) {
           setLessonsList(MOCK_LESSONS_DATA);
           addToast({
@@ -314,7 +316,7 @@ function ShadowingStudioContent() {
 
     // Tầng 2: Background Neon Database Reconciliation
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 8000);
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
     let isMounted = true;
 
     async function fetchSingle() {
@@ -371,10 +373,12 @@ function ShadowingStudioContent() {
           });
         }
       } catch (e: any) {
+        if (!isMounted) return;
         if (e?.name === "AbortError") {
           console.warn("[Shadowing] Lesson detail request timed out.");
+        } else {
+          console.warn("[Shadowing] Fetch single lesson fallback:", e?.message || e);
         }
-        console.warn("[Shadowing] Fetch single lesson fallback:", e?.message || e);
         if (isMounted) {
           const fallback =
             MOCK_LESSONS_DATA.find((l) => isSameLessonId(l.id, queryLessonId)) ||

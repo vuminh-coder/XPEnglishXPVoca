@@ -329,7 +329,7 @@ function ListeningPageContent() {
     }
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 8000);
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
 
     // Tầng 2: Background Neon Database Reconciliation
     const fetchLessons = async () => {
@@ -351,10 +351,12 @@ function ListeningPageContent() {
           setLessonsList(MOCK_LESSONS_DATA);
         }
       } catch (err: any) {
+        if (!isMounted) return;
         if (err?.name === "AbortError") {
           console.warn("[Listening] Catalog DB request timed out.");
+        } else {
+          console.warn("[Listening] DB fetch fallback to offline cache:", err?.message || err);
         }
-        console.warn("[Listening] DB fetch fallback to offline cache:", err?.message || err);
         if (isMounted && lessonsList.length === 0) {
           setLessonsList(MOCK_LESSONS_DATA);
           addToast({
@@ -464,7 +466,7 @@ function ListeningPageContent() {
     }
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 8000);
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
 
     // Tầng 2: Background Neon Database Reconciliation
     const fetchLessonDetail = async () => {
@@ -548,10 +550,12 @@ function ListeningPageContent() {
           }
         }
       } catch (err: any) {
+        if (!isMounted) return;
         if (err?.name === "AbortError") {
           console.warn("[Listening] Lesson detail request timed out.");
+        } else {
+          console.warn("[Listening] Detail DB fetch fallback to local lesson:", err?.message || err);
         }
-        console.warn("[Listening] Detail DB fetch fallback to local lesson:", err?.message || err);
         if (isMounted) {
           const fallbackLesson =
             MOCK_LESSONS_DATA.find((l) => isSameLessonId(l.id, queryLessonId)) ||
