@@ -81,6 +81,11 @@ export default function DashboardPage() {
   const [claimingChallengeId, setClaimingChallengeId] = useState<string | null>(null);
   const [chartDataVersion, setChartDataVersion] = useState(0);
   const [isLoadingChart, setIsLoadingChart] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -233,7 +238,7 @@ export default function DashboardPage() {
   }, [leaderboardTab]);
 
   const wordsPracticedToday = useMemo(() => {
-    if (!user) return 0;
+    if (!isMounted || !user) return 0;
     const todayStr = new Date().toISOString().slice(0, 10);
     return learned.filter((item) => {
       return (
@@ -242,11 +247,21 @@ export default function DashboardPage() {
         item.lastPracticed.slice(0, 10) === todayStr
       );
     }).length;
-  }, [learned, user]);
+  }, [isMounted, learned, user]);
 
   const skillWeeklyChartData = useMemo(() => {
+    if (!isMounted) {
+      return getWeeklySkillMinutes(user?.id, activeSkillTab, {
+        getItem: () => null,
+        setItem: () => {},
+        removeItem: () => {},
+        clear: () => {},
+        key: () => null,
+        length: 0,
+      });
+    }
     return getWeeklySkillMinutes(user?.id, activeSkillTab);
-  }, [user, activeSkillTab, chartDataVersion]);
+  }, [isMounted, user, activeSkillTab, chartDataVersion]);
 
   const skillTotalMinutes = useMemo(() => {
     return skillWeeklyChartData.reduce((acc, curr) => acc + curr.minutes, 0);
@@ -298,14 +313,14 @@ export default function DashboardPage() {
   }, [activeDaysInWeek, isCheckedInToday]);
 
   const savedWordsCount = useMemo(() => {
-    if (!user) return 0;
+    if (!isMounted || !user) return user?.wordsLearned || 0;
     const count = learned.filter(
       (item) =>
         (item.userId === user.id || item.userId === "local_user") &&
         (item.isFavorite || (item.proficiency && item.proficiency > 0))
     ).length;
     return Math.max(count, user.wordsLearned || 0);
-  }, [learned, user]);
+  }, [isMounted, learned, user]);
 
   const sortedLeaderboardData = useMemo(() => {
     if (!leaderboardData || leaderboardData.length === 0) return [];

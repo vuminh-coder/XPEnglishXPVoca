@@ -138,7 +138,10 @@ export function DashboardSkillChartCard({
   const animatedYPoints = useInterpolatedYPoints(targetYPoints, 320);
 
   return (
-    <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-4">
+    <div
+      suppressHydrationWarning
+      className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-4"
+    >
       {/* Upper Header: Title & Badges */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
         <div className="flex items-center gap-2">
@@ -151,7 +154,10 @@ export function DashboardSkillChartCard({
             </h3>
             <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
               Tổng 7 ngày:{" "}
-              <span className="font-bold text-[#0059bb] dark:text-sky-400 font-mono">
+              <span
+                suppressHydrationWarning
+                className="font-bold text-[#0059bb] dark:text-sky-400 font-mono"
+              >
                 {totalSkillMinutes} phút
               </span>
             </span>
@@ -169,6 +175,7 @@ export function DashboardSkillChartCard({
             className="flex items-center gap-1.5 self-start sm:self-auto"
           >
             <span
+              suppressHydrationWarning
               className="px-2.5 py-1 rounded-md text-[11px] font-bold font-mono border shadow-2xs"
               style={{
                 backgroundColor: `${currentSkillConfig.color}15`,
@@ -178,7 +185,10 @@ export function DashboardSkillChartCard({
             >
               {currentSkillConfig.label}: {totalSkillMinutes}m
             </span>
-            <span className="px-2 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-mono text-[11px] font-bold border border-slate-200/80 dark:border-slate-700/60 shadow-2xs">
+            <span
+              suppressHydrationWarning
+              className="px-2 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-mono text-[11px] font-bold border border-slate-200/80 dark:border-slate-700/60 shadow-2xs"
+            >
               Đỉnh: {bestDayMinutes}m
             </span>
           </motion.div>
@@ -399,6 +409,7 @@ export function DashboardSkillChartCard({
                     {/* Floating Value Indicator on active point */}
                     {selPoint && (
                       <text
+                        suppressHydrationWarning
                         x={selPoint.x}
                         y={Math.max(18, selPoint.y - 12)}
                         textAnchor="middle"
