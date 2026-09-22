@@ -130,8 +130,7 @@ e:\XP English  XP Voca\
 ├── tests/                            # 🎭 E2E TESTS (Playwright)
 │   └── voice-channel.spec.ts
 │
-├── middleware.ts                     # Next.js 16 Edge Security & Rate Limiting Middleware
-├── proxy.ts                          # Legacy Proxy compatibility re-export
+├── proxy.ts                          # Next.js 16 Edge Security, Rate Limiting & Route Guarding Proxy
 └── public/                           # Static assets (mascot, icons, badges)
 ```
 

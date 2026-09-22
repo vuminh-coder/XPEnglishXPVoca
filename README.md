@@ -107,8 +107,8 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
     - Tối ưu hóa ngân sách chiều cao Viewport Desktop (Compact Bento Grid 8/12 - 4/12), triệt tiêu hoàn toàn hiện tượng thanh cuộn kép lồng nhau (Dual Scrollbars) trên laptop 13-14 inch.
     - Bổ sung thanh chuyển đổi phân đoạn thông minh trên Mobile (Segmented Switcher: "Hội thoại" vs "Mục tiêu & Từ vựng X/3"), giải quyết dứt điểm điểm nghẽn trôi mục tiêu xuống đáy trang.
     - Nâng cấp tương tác vi mô Tra từ điển 1-chạm (Click-to-lookup): Thêm đường gạch chân chấm mờ thị giác, sửa biểu thức chính quy bảo tồn dấu nháy trong các từ viết tắt tiếng Anh (`don't`, `I'm`, `let's`), và tinh chỉnh vị trí Modal không che khuất thanh nhập liệu trên điện thoại.
-22. **Edge Middleware & Tường Lửa Bảo Mật Tầng Biên (`middleware.ts`)**:
-    - Kích hoạt chuẩn Edge Middleware Next.js 16 tại root chuyển tiếp tới `proxy.ts`, thực thi Edge Rate Limiting ngăn chặn brute-force và DDoS.
+22. **Edge Proxy & Tường Lửa Bảo Mật Tầng Biên (`proxy.ts`)**:
+    - Kích hoạt chuẩn Edge Proxy Next.js 16 tại root (`proxy.ts`), thay thế quy ước `middleware.ts` cũ, thực thi Edge Rate Limiting ngăn chặn brute-force và DDoS.
     - Thiết lập bộ Security Headers chuẩn OWASP (`X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Strict-Transport-Security`, `Permissions-Policy`).
     - Triệt tiêu lỗ hổng Identity Spoofing qua Query String `oauth_user` ở Client và chuẩn hóa `sanitizeInput` không mã hóa HTML Entity ký tự nháy đơn `'` và gạch chéo `/` làm hỏng chuỗi hiển thị giao diện.
 23. **Cơ Chế Server-Authoritative Activity Award (`/api/user/activity-award`)**:
