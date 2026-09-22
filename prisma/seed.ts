@@ -2,6 +2,10 @@ import { PrismaClient } from "@prisma/client";
 import { MOCK_THEMES } from "@/shared/constants";
 import { MOCK_VOCABULARIES } from "./mock-vocabularies";
 import { BASIC_VOCABULARIES } from "@/features/vocabulary/data/basicVocabularies";
+import { ACADEMIC_COLLOCATIONS } from "@/features/vocabulary/data/academicCollocations";
+import { BUSINESS_COLLOCATIONS } from "@/features/vocabulary/data/businessCollocations";
+import { ESSENTIAL_PHRASAL_VERBS } from "@/features/vocabulary/data/phrasalVerbs";
+import { ESSENTIAL_IDIOMS } from "@/features/vocabulary/data/idioms";
 import { seedListeningLessons } from "./seedListeningData";
 
 const prisma = new PrismaClient();
@@ -35,7 +39,14 @@ async function main() {
 
   // 3. Merge & Deduplicate Vocabularies
   console.log("📝 Preparing vocabulary datasets...");
-  const combinedVocabs = [...BASIC_VOCABULARIES, ...MOCK_VOCABULARIES];
+  const combinedVocabs = [
+    ...BASIC_VOCABULARIES,
+    ...ACADEMIC_COLLOCATIONS,
+    ...BUSINESS_COLLOCATIONS,
+    ...ESSENTIAL_PHRASAL_VERBS,
+    ...ESSENTIAL_IDIOMS,
+    ...MOCK_VOCABULARIES,
+  ];
   const seenIds = new Set<string>();
   const validVocabList = [];
 

@@ -22,4 +22,8 @@ export * from "./hooks/useVocabularyAiCoach";
 export * from "./data/themes";
 export * from "./data/advancedVocabularies";
 export * from "./data/deepDictionary";
+export * from "./data/academicCollocations";
+export * from "./data/businessCollocations";
+export * from "./data/phrasalVerbs";
+export * from "./data/idioms";
 

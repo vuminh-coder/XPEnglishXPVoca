@@ -1797,6 +1797,44 @@ Studio tương tác Bảng Phiên Âm Quốc Tế (44 IPA Sounds) chuẩn Oxford
 
 ---
 
+## 📚 Kho Học Liệu Toàn Diện & Đa Dạng (Expanded Comprehensive Learning Repository)
+
+Hệ thống sở hữu kho học liệu song ngữ đồ sộ, được xây dựng bài bản theo chuẩn khung tham chiếu Châu Âu (CEFR A2 – C2), IELTS Academic & General (Band 5.0 – 8.5+), và TOEIC Quốc tế 2026:
+
+### 1. Thư Viện Bài Đọc Chuyên Sâu 32 Chủ Đề (`features/reading/`)
+- **Quy mô**: 32 bài đọc hoàn chỉnh kèm bản dịch tiếng Việt song ngữ, bảng từ vựng tiêu điểm có phiên âm IPA chuẩn Oxford, và hệ thống câu hỏi trắc nghiệm MCQ phân tích chi tiết.
+- **Phân bổ trình độ**:
+  - **A2 – B1 (Đời sống & Thói quen)**: Cà phê sáng, thói quen đi bộ, giấc ngủ phục hồi, ẩm thực đường phố, tiết kiệm cá nhân.
+  - **B1 – B2 (Kinh doanh & Công nghệ)**: Thương mại điện tử, kinh tế tuần hoàn, văn hóa làm việc từ xa, sáp nhập & mua lại (M&A), chuyển đổi số đám mây (Cloud Migration), thẩm định ESG.
+  - **C1 – C2 (Học thuật đỉnh cao)**: Khoa học thần kinh về giấc ngủ & trí nhớ, khảo cổ học đáy biển sâu, đạo đức trí tuệ nhân tạo (AI Ethics), mật mã học lượng tử (Quantum Cryptography), quản trị bức xạ mặt trời (Solar Radiation Management), kinh tế học đăng ký thuê bao (Subscription Economics).
+
+### 2. Studio Hội Thoại AI 20 Tình Huống Đời Thực (`features/ai/conversation/`)
+- **Quy mô**: 20 kịch bản đàm thoại thực tế (`at1` – `at20`) tích hợp AI Gemini Tutor hướng dẫn phát âm, phân tích ngữ pháp và gợi ý phản xạ tức thì:
+  - **Dịch vụ & Du lịch**: Đặt bàn nhà hàng sang trọng, hỏi đường phố cổ, khiếu nại dịch vụ phòng khách sạn 5 sao, mở tài khoản ngân hàng quốc tế (`at17`), thuê xe tự lái & cứu hộ đường bộ (`at18`), quán cà phê đặc sản & small talk (`at20`).
+  - **Công sở & Sự nghiệp**: Phỏng vấn xin việc toàn cầu, đàm phán tăng lương & thăng chức (`at9`), hỗ trợ kỹ thuật IT Helpdesk (`at12`), kết nối giao lưu hội nghị quốc tế (`at14`).
+  - **Học thuật & Chuyên môn**: Trao đổi giờ nghiên cứu với giáo sư đại học (`at10`), tư vấn dinh dưỡng & gym (`at13`), phỏng vấn Visa & thủ tục nhập cảnh hải quan Anh/Mỹ (`at19`).
+  - **Khởi nghiệp & Tình huống khẩn cấp**: Thuyết trình gọi vốn hạt giống trước quỹ đầu tư mạo hiểm Thung lũng Silicon (`at15`), trình báo mất hộ chiếu & hỗ trợ cảnh sát khẩn cấp (`at16`).
+
+### 3. Phòng Luyện Nhại Đa Giọng Nói 8 Kịch Bản Shadowing (`features/shadowing/`)
+- **Quy mô**: 8 bài kịch bản nhập vai đa nhân vật (`shadow_ext_001` – `008`) với dữ liệu căn chỉnh thời gian từng từ (Word Timings Sub-second Precision) phục vụ tính năng Karaoke nhại giọng theo thời gian thực:
+  - Thông báo hoãn chuyến bay khẩn cấp sân bay quốc tế.
+  - Đàm phán hợp đồng thầu phần mềm doanh nghiệp B2B.
+  - Phân loại cấp cứu lâm sàng & đo điện tim (Hospital Triage & ECG).
+  - Thẩm định kiến trúc Fintech & chuyển đổi Microservices.
+  - Lễ tân khách sạn 5 sao xử lý yêu cầu vé VIP nhà hát Opera.
+  - Buổi bảo vệ đề cương luận văn Thạc sĩ năng lượng tái tạo.
+  - Khủng hoảng chuỗi cung ứng logistics hàng hải qua điểm nghẽn kênh đào (`shadow_ext_007`).
+  - Đàm phán điều khoản đầu tư Series A & Liquidation Preference giữa nhà sáng lập và quỹ đầu tư mạo hiểm (`shadow_ext_008`).
+
+### 4. Kho Từ Vựng Chuyên Biệt Nâng Cao (90+ Cụm Từ & Thành Ngữ Giá Trị Cao)
+- **30 Collocations Học Thuật IELTS Band 7.5 – 8.5+** (`features/vocabulary/data/academicCollocations.ts`): Bao gồm các cụm học thuật đỉnh cao như `exacerbate the problem`, `compelling empirical evidence`, `foster economic growth`, `cast doubt on the validity`, `draw a clear distinction`, `exert a profound influence`, `bridge the socioeconomic divide`, `pose an existential threat`, `stem from systemic flaws`, `catalyze paradigm shifts`.
+- **20 Collocations Kinh Doanh TOEIC & Corporate** (`features/vocabulary/data/businessCollocations.ts`): Các cấu trúc thiết yếu như `conduct a comprehensive audit`, `meet a tight deadline`, `streamline the workflow`, `maximize shareholder value`, `gain a competitive edge`, `mitigate financial risks`, `allocate sufficient budget`, `reach a mutual agreement`, `exceed quarterly sales targets`, `resolve customer grievances`.
+- **20 Phrasal Verbs Thông Dụng Nhất** (`features/vocabulary/data/phrasalVerbs.ts`): Đầy đủ ngữ nghĩa, ví dụ song ngữ, từ đồng/trái nghĩa (`call off`, `bring about`, `come up with`, `put up with`, `look forward to`, `cut down on`, `run out of`, `phase out`, `stand out`, `figure out`, `fall behind on`, `weigh in on`...).
+- **20 Idioms & Cụm Quán Ngữ Ẩn Dụ Đắt Giá** (`features/vocabulary/data/idioms.ts`): Nâng tầm giao tiếp tự nhiên như người bản xứ (`burn the midnight oil`, `cost an arm and a leg`, `cut corners`, `see eye to eye`, `bite the bullet`, `hit the nail on the head`, `take it with a grain of salt`, `under the weather`, `the ball is in your court`, `a blessing in disguise`...).
+- **Đồng Bộ Cơ Sở Dữ Liệu**: Đã cấu hình và kết nối đồng nhất vào bảng `themes.ts` và kịch bản khởi tạo dữ liệu `prisma/seed.ts`.
+
+---
+
 ## 🌐 Production Deployment Status
 
 - **Live Production App URL (Vercel)**: [https://xpenglishvoca.vercel.app](https://xpenglishvoca.vercel.app)

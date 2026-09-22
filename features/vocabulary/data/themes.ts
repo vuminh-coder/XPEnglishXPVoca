@@ -614,5 +614,46 @@ export const BASIC_VOCABULARY_THEMES: BasicTheme[] = [
     "color": "#0f766e",
     "description": "Máy giặt, máy sấy, bàn là, máy hút bụi, điều hòa, ti-vi, máy ảnh và sạc pin.",
     "totalVocabs": 20
+  },
+  {
+    "id": "t_ielts_collocations",
+    "name": "Collocations Học Thuật IELTS Band 7.5+",
+    "nameEn": "IELTS Academic Collocations",
+    "icon": "🎓",
+    "difficulty": 1,
+    "color": "#8b5cf6",
+    "description": "Các cụm từ cố định đắt giá nâng tầm Band 7.5 - 8.5 trong IELTS Writing Task 2 và Speaking.",
+    "totalVocabs": 20
+  },
+  {
+    "id": "t_toeic_business_collocations",
+    "name": "Collocations Kinh Doanh & Công Sở",
+    "nameEn": "TOEIC Business Collocations",
+    "icon": "💼",
+    "difficulty": 1,
+    "color": "#0059bb",
+    "description": "Các kết hợp từ tần suất cao xuất hiện liên tục trong đề thi TOEIC Part 5/6/7 và môi trường đa quốc gia.",
+    "totalVocabs": 10
+  },
+  {
+    "id": "t_essential_phrasal_verbs",
+    "name": "Cụm Động Từ Thông Dụng (Phrasal Verbs)",
+    "nameEn": "Essential Phrasal Verbs",
+    "icon": "⚡",
+    "difficulty": 1,
+    "color": "#f59e0b",
+    "description": "Bộ cụm động từ cốt lõi giúp người học diễn đạt tự nhiên như người bản xứ trong đời sống và văn phòng.",
+    "totalVocabs": 10
+  },
+  {
+    "id": "t_idioms_expressions",
+    "name": "Thành Ngữ & Quán Ngữ (Idioms)",
+    "nameEn": "Idioms & Figurative Expressions",
+    "icon": "💬",
+    "difficulty": 1,
+    "color": "#10b981",
+    "description": "Các thành ngữ tiếng Anh thực chiến giúp biến câu nói trở nên sinh động, lôi cuốn và tự nhiên.",
+    "totalVocabs": 10
   }
 ];
+

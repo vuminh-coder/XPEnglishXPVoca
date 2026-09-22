@@ -498,5 +498,475 @@ export const EXTENDED_SHADOWING_LESSONS: ListeningLesson[] = [
         explanation: "Speaker A confirms expenditure was reduced by 18% through automated load balancing."
       }
     ]
+  },
+  {
+    id: "shadow_ext_003",
+    title: "Hospital Emergency Admission & Clinical Triage",
+    audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+    level: "Intermediate",
+    duration: "2:50",
+    category: "Healthcare & Medicine",
+    tags: ["Medical", "Hospital", "Triage", "Doctor-Patient"],
+    vocabularyList: [
+      { word: "triage", ipa: "/ˈtriː.ɑːʒ/", pos: "n", vietnamese: "sự phân loại bệnh nhân cấp cứu", example: "The triage nurse evaluated patient vitals immediately." },
+      { word: "respiratory", ipa: "/ˈres.pə.rə.tɔːr.i/", pos: "adj", vietnamese: "thuộc hệ hô hấp", example: "He showed signs of acute respiratory distress." },
+      { word: "intravenous", ipa: "/ˌɪn.trəˈviː.nəs/", pos: "adj", vietnamese: "tiêm/truyền tĩnh mạch (IV)", example: "The paramedic administered intravenous fluids." },
+      { word: "stabilize", ipa: "/ˈsteɪ.bə.laɪz/", pos: "v", vietnamese: "ổn định chỉ số sinh tồn", example: "Blood pressure began to stabilize after medication." }
+    ],
+    transcript: [
+      {
+        id: "s3_1",
+        speaker: "Doctor",
+        text: "Good evening nurse, what do we have incoming from ambulance bay two?",
+        vietnamese: "Chào y tá, chúng ta đang tiếp nhận ca cấp cứu nào từ xe cứu thương số 2 vậy?",
+        startTime: 0,
+        endTime: 4.5,
+        wordTimings: [
+          { word: "Good", start: 0, end: 400 },
+          { word: "evening", start: 450, end: 900 },
+          { word: "nurse,", start: 950, end: 1400 },
+          { word: "what", start: 1600, end: 1850 },
+          { word: "do", start: 1900, end: 2050 },
+          { word: "we", start: 2100, end: 2250 },
+          { word: "have", start: 2300, end: 2550 },
+          { word: "incoming", start: 2600, end: 3200 },
+          { word: "from", start: 3250, end: 3500 },
+          { word: "ambulance", start: 3550, end: 4050 },
+          { word: "bay", start: 4100, end: 4300 },
+          { word: "two?", start: 4350, end: 4800 }
+        ]
+      },
+      {
+        id: "s3_2",
+        speaker: "Triage Nurse",
+        text: "We have a forty-five-year-old male presenting with acute chest discomfort and shortness of breath.",
+        vietnamese: "Chúng ta có một bệnh nhân nam 45 tuổi nhập viện với triệu chứng đau tức ngực dữ dội và khó thở.",
+        startTime: 5.0,
+        endTime: 11.2,
+        wordTimings: [
+          { word: "We", start: 5000, end: 5200 },
+          { word: "have", start: 5250, end: 5450 },
+          { word: "a", start: 5500, end: 5600 },
+          { word: "forty-five-year-old", start: 5650, end: 6800 },
+          { word: "male", start: 6850, end: 7200 },
+          { word: "presenting", start: 7300, end: 7900 },
+          { word: "with", start: 7950, end: 8150 },
+          { word: "acute", start: 8200, end: 8650 },
+          { word: "chest", start: 8700, end: 9100 },
+          { word: "discomfort", start: 9150, end: 9850 },
+          { word: "and", start: 9900, end: 10100 },
+          { word: "shortness", start: 10150, end: 10650 },
+          { word: "of", start: 10700, end: 10850 },
+          { word: "breath.", start: 10900, end: 11400 }
+        ]
+      },
+      {
+        id: "s3_3",
+        speaker: "Doctor",
+        text: "Let's hook him up to the twelve-lead electrocardiogram immediately and start supplemental oxygen.",
+        vietnamese: "Hãy kết nối máy đo điện tim 12 chuyển đạo ngay lập tức và cho thở oxy hỗ trợ.",
+        startTime: 12.0,
+        endTime: 17.8
+      },
+      {
+        id: "s3_4",
+        speaker: "Triage Nurse",
+        text: "Blood pressure is 150 over 95, heart rate is 110 beats per minute, and oxygen saturation is at 94 percent.",
+        vietnamese: "Huyết áp là 150/95, nhịp tim 110 lần/phút, và độ bão hòa oxy SpO2 ở mức 94%.",
+        startTime: 18.5,
+        endTime: 26.0
+      },
+      {
+        id: "s3_5",
+        speaker: "Doctor",
+        text: "Understood. Administer three hundred milligrams of chewable aspirin and draw stat cardiac troponin markers.",
+        vietnamese: "Rõ rồi. Hãy cho uống 300 miligram aspirin nhai và lấy máu xét nghiệm khẩn cấp chỉ số men tim troponin.",
+        startTime: 27.0,
+        endTime: 33.5
+      }
+    ],
+    quizList: [
+      {
+        question: "What diagnostic test does the doctor order immediately upon arrival?",
+        options: ["A brain MRI scan", "A 12-lead electrocardiogram (ECG)", "A routine dental examination", "An abdominal ultrasound"],
+        correctIndex: 1,
+        explanation: "The doctor orders: 'Let's hook him up to the twelve-lead electrocardiogram immediately'."
+      }
+    ]
+  },
+  {
+    id: "shadow_ext_004",
+    title: "Fintech Architecture Design & Microservices Review",
+    audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
+    level: "Hard",
+    duration: "3:10",
+    category: "Software Engineering & Cloud",
+    tags: ["Fintech", "Microservices", "System Design", "Engineering"],
+    vocabularyList: [
+      { word: "idempotency", ipa: "/ˌaɪ.dəmˈpoʊ.tən.si/", pos: "n", vietnamese: "tính lũy thỏa (xử lý nhiều lần không đổi kết quả)", example: "Payment APIs must ensure absolute idempotency." },
+      { word: "throughput", ipa: "/ˈθruː.pʊt/", pos: "n", vietnamese: "thông lượng xử lý dữ liệu", example: "The database handles high throughput during market open." },
+      { word: "sharding", ipa: "/ˈʃɑːr.dɪŋ/", pos: "n", vietnamese: "phân vùng cơ sở dữ liệu ngang", example: "Database sharding prevented server memory bottlenecks." },
+      { word: "resiliency", ipa: "/rɪˈzɪl.jən.si/", pos: "n", vietnamese: "khả năng phục hồi hệ thống khi có lỗi", example: "Multi-region replication maximizes system resiliency." }
+    ],
+    transcript: [
+      {
+        id: "s4_1",
+        speaker: "Chief Architect",
+        text: "Thanks for joining the technical architecture review for our distributed payment processing gateway.",
+        vietnamese: "Cảm ơn các bạn đã tham gia buổi đánh giá kiến trúc kỹ thuật cho cổng thanh toán phân tán của chúng ta.",
+        startTime: 0,
+        endTime: 5.8
+      },
+      {
+        id: "s4_2",
+        speaker: "Lead Backend Engineer",
+        text: "We have finalized the event-driven pub-sub pipeline using Apache Kafka for high-throughput order ingestion.",
+        vietnamese: "Chúng tôi đã hoàn thiện luồng xử lý pub-sub hướng sự kiện sử dụng Apache Kafka để nạp đơn hàng với thông lượng cao.",
+        startTime: 6.5,
+        endTime: 13.0
+      },
+      {
+        id: "s4_3",
+        speaker: "Chief Architect",
+        text: "How are we guaranteeing payment idempotency in case network timeouts trigger client-side retries?",
+        vietnamese: "Chúng ta đang đảm bảo tính lũy thỏa thanh toán như thế nào nếu trường hợp nghẽn mạng gây ra yêu cầu gửi lại từ phía client?",
+        startTime: 14.0,
+        endTime: 20.2
+      },
+      {
+        id: "s4_4",
+        speaker: "Lead Backend Engineer",
+        text: "Each transaction payload includes a unique cryptographic idempotency key stored in distributed Redis cache with a twenty-four-hour TTL.",
+        vietnamese: "Mỗi gói dữ liệu giao dịch đều chứa một khóa lũy thỏa mã hóa duy nhất được lưu trong bộ đệm Redis phân tán với thời gian sống 24 giờ.",
+        startTime: 21.0,
+        endTime: 29.5
+      },
+      {
+        id: "s4_5",
+        speaker: "Chief Architect",
+        text: "Excellent design. That completely eliminates the risk of double-charging users during gateway retries.",
+        vietnamese: "Thiết kế xuất sắc. Điều đó triệt tiêu hoàn toàn nguy cơ trừ tiền hai lần của người dùng trong các lần thử lại cổng thanh toán.",
+        startTime: 30.5,
+        endTime: 36.8
+      }
+    ],
+    quizList: [
+      {
+        question: "How does the backend team prevent double-charging during network retries?",
+        options: [
+          "By shutting down the servers every hour",
+          "By using unique cryptographic idempotency keys cached in distributed Redis",
+          "By asking customers to write paper receipts",
+          "By limiting transactions to once a week"
+        ],
+        correctIndex: 1,
+        explanation: "The lead engineer states: 'Each transaction payload includes a unique cryptographic idempotency key stored in distributed Redis cache'."
+      }
+    ]
+  },
+  {
+    id: "shadow_ext_005",
+    title: "Five-Star Luxury Hotel Concierge & Fine Dining Booking",
+    audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+    level: "Intermediate",
+    duration: "2:40",
+    category: "Hospitality & Travel",
+    tags: ["Concierge", "Hotel", "Luxury", "Customer Service"],
+    vocabularyList: [
+      { word: "concierge", ipa: "/koʊn.siˈerʒ/", pos: "n", vietnamese: "nhân viên hỗ trợ khách hàng cao cấp", example: "The concierge secured hard-to-get opera tickets." },
+      { word: "itinerary", ipa: "/aɪˈtɪn.ə.rer.i/", pos: "n", vietnamese: "lịch trình chuyến đi", example: "We customized an exclusive sightseeing itinerary." },
+      { word: "reservation", ipa: "/ˌrez.ɚˈveɪ.ʃən/", pos: "n", vietnamese: "sự đặt chỗ trước", example: "A confirmed dinner reservation at a Michelin restaurant." },
+      { word: "chauffeur", ipa: "/ʃoʊˈfɝː/", pos: "n", vietnamese: "tài xế xe riêng cao cấp", example: "A private chauffeur will wait outside the lobby." }
+    ],
+    transcript: [
+      {
+        id: "s5_1",
+        speaker: "Concierge",
+        text: "Good morning Mr. Henderson, welcome back to the Grand Regency. How may the concierge team assist you today?",
+        vietnamese: "Chào buổi sáng ông Henderson, chào mừng ông quay trở lại Grand Regency. Đội ngũ lễ tân có thể hỗ trợ gì cho ông hôm nay?",
+        startTime: 0,
+        endTime: 6.2
+      },
+      {
+        id: "s5_2",
+        speaker: "Guest",
+        text: "Good morning Julian. My wife and I are celebrating our wedding anniversary tonight. We would love a table at a premier seafood restaurant.",
+        vietnamese: "Chào Julian. Tối nay vợ chồng tôi kỷ niệm ngày cưới. Chúng tôi muốn đặt một bàn tại một nhà hàng hải sản cao cấp hàng đầu.",
+        startTime: 7.0,
+        endTime: 15.0
+      },
+      {
+        id: "s5_3",
+        speaker: "Concierge",
+        text: "Warmest congratulations! I would highly recommend Le Dauphin overlooking the harbor. I can reserve the private terrace table at eight o'clock.",
+        vietnamese: "Xin gửi lời chúc mừng nồng nhiệt nhất tới ông bà! Tôi xin đặc biệt giới thiệu nhà hàng Le Dauphin nhìn ra cảng. Tôi có thể giữ bàn sân thượng riêng vào lúc 8 giờ tối.",
+        startTime: 16.0,
+        endTime: 23.5
+      },
+      {
+        id: "s5_4",
+        speaker: "Guest",
+        text: "That sounds enchanting. Could you also arrange private chauffeur transportation from the hotel lobby at seven-thirty?",
+        vietnamese: "Nghe thật tuyệt vời. Bạn có thể sắp xếp xe riêng đón từ sảnh khách sạn lúc 7 giờ 30 luôn được không?",
+        startTime: 24.5,
+        endTime: 31.0
+      },
+      {
+        id: "s5_5",
+        speaker: "Concierge",
+        text: "Consider it done, sir. A black Mercedes S-Class will be waiting for you. I will personally notify the executive chef of your celebration.",
+        vietnamese: "Mọi việc đã được sắp xếp chu đáo thưa ông. Một chiếc Mercedes S-Class màu đen sẽ đợi sẵn. Tôi sẽ đích thân thông báo cho bếp trưởng về ngày kỷ niệm của quý khách.",
+        startTime: 32.0,
+        endTime: 39.5
+      }
+    ],
+    quizList: [
+      {
+        question: "What special occasion is the hotel guest celebrating?",
+        options: ["A college graduation", "A wedding anniversary", "A corporate retirement", "A real estate purchase"],
+        correctIndex: 1,
+        explanation: "The guest mentions: 'My wife and I are celebrating our wedding anniversary tonight'."
+      }
+    ]
+  },
+  {
+    id: "shadow_ext_006",
+    title: "University Thesis Advisory & Research Methodology Defense",
+    audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+    level: "Hard",
+    duration: "3:00",
+    category: "Academic & Higher Education",
+    tags: ["Thesis", "University", "Professor", "Methodology"],
+    vocabularyList: [
+      { word: "methodology", ipa: "/ˌmeθ.əˈdɑː.lə.dʒi/", pos: "n", vietnamese: "phương pháp luận nghiên cứu", example: "The qualitative research methodology was rigorous." },
+      { word: "statistical", ipa: "/stəˈtɪs.tɪ.kəl/", pos: "adj", vietnamese: "thuộc về thống kê học", example: "The findings achieved high statistical significance." },
+      { word: "dissertation", ipa: "/ˌdɪs.ɚˈteɪ.ʃən/", pos: "n", vietnamese: "luận văn tiến sĩ / thạc sĩ", example: "She defended her doctoral dissertation with distinction." },
+      { word: "variable", ipa: "/ˈver.i.ə.bəl/", pos: "n", vietnamese: "biến số trong mô hình nghiên cứu", example: "Income was treated as an independent variable." }
+    ],
+    transcript: [
+      {
+        id: "s6_1",
+        speaker: "Professor",
+        text: "Please come in, Marcus. I have thoroughly reviewed the preliminary draft of your master's dissertation on renewable energy microgrids.",
+        vietnamese: "Mời em vào, Marcus. Thầy đã đọc kỹ bản thảo sơ bộ luận văn thạc sĩ của em về lưới điện vi mô năng lượng tái tạo.",
+        startTime: 0,
+        endTime: 7.0
+      },
+      {
+        id: "s6_2",
+        speaker: "Student",
+        text: "Thank you for taking the time to review it, Professor Higgins. I was slightly anxious about the statistical validation section.",
+        vietnamese: "Em cảm ơn thầy đã dành thời gian đọc ạ, thưa Giáo sư Higgins. Em có chút lo lắng về phần kiểm định thống kê.",
+        startTime: 8.0,
+        endTime: 14.5
+      },
+      {
+        id: "s6_3",
+        speaker: "Professor",
+        text: "Your regression analysis is methodologically sound, but I suggest expanding your sample size to encompass rural decentralized installations.",
+        vietnamese: "Phân tích hồi quy của em rất vững về mặt phương pháp luận, nhưng thầy khuyên em nên mở rộng cỡ mẫu để bao quát cả các hệ thống lắp đặt phân tán ở nông thôn.",
+        startTime: 15.5,
+        endTime: 23.5
+      },
+      {
+        id: "s6_4",
+        speaker: "Student",
+        text: "That makes total sense. I can incorporate dataset telemetry from the Northern Regional cooperative over the past three quarters.",
+        vietnamese: "Điều đó rất hợp lý ạ. Em có thể bổ sung dữ liệu đo từ xa từ hợp tác xã khu vực phía Bắc trong 3 quý vừa qua.",
+        startTime: 24.5,
+        endTime: 31.8
+      },
+      {
+        id: "s6_5",
+        speaker: "Professor",
+        text: "Excellent. With that empirical enhancement, your research will be in prime condition for the departmental oral defense in November.",
+        vietnamese: "Rất tốt. Với sự bổ sung thực nghiệm đó, công trình của em sẽ ở điều kiện tối ưu cho buổi bảo vệ miệng cấp khoa vào tháng 11.",
+        startTime: 33.0,
+        endTime: 40.5
+      }
+    ],
+    quizList: [
+      {
+        question: "What enhancement does Professor Higgins recommend for the student's dissertation?",
+        options: [
+          "Deleting the entire literature review",
+          "Expanding the sample size to encompass rural decentralized installations",
+          "Translating the paper into Latin",
+          "Using only fictional case studies"
+        ],
+        correctIndex: 1,
+        explanation: "The professor advises: 'I suggest expanding your sample size to encompass rural decentralized installations'."
+      }
+    ]
+  },
+  {
+    id: "shadow_ext_007",
+    title: "Global Maritime Supply Chain Disruption Meeting",
+    audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3",
+    level: "Advanced",
+    duration: "0:44",
+    category: "Logistics & Trade",
+    tags: ["Supply Chain", "Maritime", "Logistics", "IELTS Band 8"],
+    vocabularyList: [
+      { word: "chokepoint", ipa: "/ˈtʃoʊk.pɔɪnt/", pos: "n", vietnamese: "điểm nghẽn giao thông chiến lược", example: "The canal acts as a critical chokepoint for crude oil transport." },
+      { word: "demurrage", ipa: "/dɪˈmɝː.ɪdʒ/", pos: "n", vietnamese: "phí phạt lưu kho bãi / giữ tàu quá hạn", example: "Shipping delays resulted in exorbitant container demurrage charges." },
+      { word: "reroute", ipa: "/ˌriːˈruːt/", pos: "v", vietnamese: "chuyển hướng hành trình", example: "Freighters had to reroute around the Cape of Good Hope." },
+      { word: "contingency", ipa: "/kənˈtɪn.dʒən.si/", pos: "n", vietnamese: "phương án xử lý khẩn cấp", example: "We activated our emergency supply contingency protocol." }
+    ],
+    transcript: [
+      {
+        id: "s7_1",
+        speaker: "Logistics Director",
+        text: "Geopolitical tensions have shut down maritime transit through the primary canal chokepoint.",
+        vietnamese: "Căng thẳng địa chính trị đã làm đình trệ toàn bộ tuyến vận tải hàng hải qua điểm nghẽn kênh đào huyết mạch.",
+        startTime: 0,
+        endTime: 7.5,
+        wordTimings: [
+          { word: "Geopolitical", start: 0, end: 1100 },
+          { word: "tensions", start: 1150, end: 1750 },
+          { word: "have", start: 1800, end: 2000 },
+          { word: "shut", start: 2050, end: 2350 },
+          { word: "down", start: 2400, end: 2700 },
+          { word: "maritime", start: 2750, end: 3400 },
+          { word: "transit", start: 3450, end: 4100 },
+          { word: "through", start: 4150, end: 4450 },
+          { word: "the", start: 4500, end: 4650 },
+          { word: "primary", start: 4700, end: 5300 },
+          { word: "canal", start: 5350, end: 5850 },
+          { word: "chokepoint.", start: 5900, end: 7200 }
+        ]
+      },
+      {
+        id: "s7_2",
+        speaker: "Operations Chief",
+        text: "How severely will this reroute impact our quarterly transit schedules and fuel surcharges?",
+        vietnamese: "Việc chuyển hướng tuyến đường này sẽ tác động nặng nề thế nào đến lịch trình quý và phụ phí nhiên liệu của chúng ta?",
+        startTime: 8.5,
+        endTime: 14.5
+      },
+      {
+        id: "s7_3",
+        speaker: "Logistics Director",
+        text: "Vessels circumnavigating the southern cape will add fourteen transit days and incur steep demurrage penalties.",
+        vietnamese: "Các tàu đi vòng qua mũi phía nam sẽ mất thêm 14 ngày hải trình và chịu các khoản phạt lưu bãi rất đắt đỏ.",
+        startTime: 15.5,
+        endTime: 24.0
+      },
+      {
+        id: "s7_4",
+        speaker: "Operations Chief",
+        text: "We must immediately trigger multi-modal air freight contingencies for priority semiconductor consignments.",
+        vietnamese: "Chúng ta phải lập tức kích hoạt phương án vận tải hàng không đa phương thức khẩn cấp cho các lô hàng bán dẫn ưu tiên.",
+        startTime: 25.0,
+        endTime: 32.5
+      },
+      {
+        id: "s7_5",
+        speaker: "Logistics Director",
+        text: "Agreed. I will brief the supply chain committee and coordinate with our freight forwarders.",
+        vietnamese: "Nhất trí. Tôi sẽ báo cáo nhanh với ban chuỗi cung ứng và điều phối cùng các đại lý giao nhận vận tải.",
+        startTime: 33.5,
+        endTime: 40.0
+      }
+    ],
+    quizList: [
+      {
+        question: "Why are shipping vessels being rerouted around the southern cape?",
+        options: [
+          "To test new engine fuel efficiency",
+          "Because geopolitical tensions closed the primary canal chokepoint",
+          "To avoid routine harbor inspections",
+          "Because all crew members requested a longer voyage"
+        ],
+        correctIndex: 1,
+        explanation: "The Logistics Director states that geopolitical tensions shut down maritime transit through the primary canal chokepoint."
+      }
+    ]
+  },
+  {
+    id: "shadow_ext_008",
+    title: "Silicon Valley Venture Capital Term Sheet Negotiation",
+    audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3",
+    level: "Advanced",
+    duration: "0:42",
+    category: "Startups & Investment",
+    tags: ["Venture Capital", "Term Sheet", "Startups", "Negotiation"],
+    vocabularyList: [
+      { word: "liquidation preference", ipa: "/ˌlɪk.wəˈdeɪ.ʃən ˈpref.ər.əns/", pos: "n", vietnamese: "quyền ưu tiên thanh lý tài sản", example: "Investors asked for a 2x participating liquidation preference." },
+      { word: "pro-rata", ipa: "/ˌproʊ ˈrɑː.t̬ə/", pos: "adj", vietnamese: "quyền góp vốn theo tỷ lệ sở hữu", example: "The fund exercised its pro-rata right in the subsequent round." },
+      { word: "dilution", ipa: "/daɪˈluː.ʃən/", pos: "n", vietnamese: "sự pha loãng cổ phần", example: "Founders sought to minimize unnecessary equity dilution." },
+      { word: "valuation", ipa: "/ˌvæl.juˈeɪ.ʃən/", pos: "n", vietnamese: "định giá doanh nghiệp", example: "The firm achieved a $30M post-money valuation." }
+    ],
+    transcript: [
+      {
+        id: "s8_1",
+        speaker: "Lead Investor",
+        text: "We are prepared to issue a five million dollar Series A term sheet at a thirty million post-money valuation.",
+        vietnamese: "Chúng tôi đã sẵn sàng phát hành bản điều khoản đầu tư Series A trị giá 5 triệu đô la với định giá sau gọi vốn là 30 triệu đô la.",
+        startTime: 0,
+        endTime: 8.0,
+        wordTimings: [
+          { word: "We", start: 0, end: 200 },
+          { word: "are", start: 250, end: 450 },
+          { word: "prepared", start: 500, end: 1100 },
+          { word: "to", start: 1150, end: 1300 },
+          { word: "issue", start: 1350, end: 1750 },
+          { word: "a", start: 1800, end: 1900 },
+          { word: "five", start: 1950, end: 2350 },
+          { word: "million", start: 2400, end: 2850 },
+          { word: "dollar", start: 2900, end: 3350 },
+          { word: "Series", start: 3400, end: 3900 },
+          { word: "A", start: 3950, end: 4200 },
+          { word: "term", start: 4250, end: 4600 },
+          { word: "sheet.", start: 4650, end: 5300 }
+        ]
+      },
+      {
+        id: "s8_2",
+        speaker: "Startup Founder",
+        text: "We appreciate the strong endorsement, though we have reservations regarding the two-times participating liquidation preference.",
+        vietnamese: "Chúng tôi rất trân trọng sự ủng hộ mạnh mẽ của các bạn, dù chúng tôi còn e ngại về điều khoản ưu tiên thanh lý gấp 2 lần có chia lợi nhuận bổ sung.",
+        startTime: 9.0,
+        endTime: 17.5
+      },
+      {
+        id: "s8_3",
+        speaker: "Lead Investor",
+        text: "Our partners consider that downside protection standard, alongside guaranteed pro-rata follow-on rights.",
+        vietnamese: "Các đối tác của chúng tôi coi đó là điều khoản bảo vệ rủi ro tiêu chuẩn, song hành với quyền ưu tiên góp vốn theo tỷ lệ vòng sau.",
+        startTime: 18.5,
+        endTime: 25.5
+      },
+      {
+        id: "s8_4",
+        speaker: "Startup Founder",
+        text: "We can concede on pro-rata participation if you adjust to a non-participating single-multiple liquidation preference.",
+        vietnamese: "Chúng tôi có thể đồng ý quyền góp vốn pro-rata nếu bên bạn điều chỉnh về mức thanh lý ưu tiên 1x không kèm chia thêm lợi nhuận.",
+        startTime: 26.5,
+        endTime: 34.0
+      },
+      {
+        id: "s8_5",
+        speaker: "Lead Investor",
+        text: "That sounds like an equitable compromise. Let's formalize the draft agreement with counsel.",
+        vietnamese: "Đó là một sự thỏa hiệp công bằng và hợp lý. Chúng ta hãy cùng luật sư chính thức hóa bản thảo thỏa thuận nhé.",
+        startTime: 35.0,
+        endTime: 41.5
+      }
+    ],
+    quizList: [
+      {
+        question: "What compromise does the startup founder propose regarding the liquidation preference?",
+        options: [
+          "Demanding a 10x liquidation preference",
+          "Conceding on pro-rata rights in exchange for a non-participating 1x preference",
+          "Refusing all venture capital investment completely",
+          "Selling the entire company for cash immediately"
+        ],
+        correctIndex: 1,
+        explanation: "The founder proposes: 'We can concede on pro-rata participation if you adjust to a non-participating single-multiple liquidation preference'."
+      }
+    ]
   }
 ];
+

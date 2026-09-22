@@ -28,6 +28,8 @@ export interface ReadingPassage {
   questions: ReadingQuestion[];
 }
 
+import { ADVANCED_READING_PASSAGES } from "./advancedReadingPassages";
+
 export const READING_PASSAGES_DATA: ReadingPassage[] = [
   // ==================== A1 - A2 BASIC LEVEL (8+ PASSAGES) ====================
   {
@@ -688,4 +690,5 @@ export const READING_PASSAGES_DATA: ReadingPassage[] = [
       },
     ],
   },
+  ...ADVANCED_READING_PASSAGES,
 ];

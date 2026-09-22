@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { memoryCache } from "@/infrastructure/cache/memoryCache";
 import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
+import { getLocalDateString } from "@/shared/utils/dateUtils";
 
 // Hoist mock objects for Vitest
 const { mockPrisma, mockAuth } = vi.hoisted(() => ({
@@ -99,7 +100,7 @@ describe("Stage 2: Dashboard Performance & Single Root Query Tests", () => {
       mockAuth.userId = userId;
 
       const today = new Date();
-      const todayStr = today.toISOString().slice(0, 10);
+      const todayStr = getLocalDateString(today);
 
       mockPrisma.profile.findUnique.mockResolvedValueOnce({
         id: userId,
