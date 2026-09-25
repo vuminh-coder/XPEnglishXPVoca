@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import Link from "next/link";
 import { useAuthStore } from "@/stores/authStore";
 import { useUserStore, recordSkillPractice } from "@/stores/userStore";
@@ -12,6 +12,7 @@ import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 import { lookupWordDeep } from "@/features/vocabulary/data/deepDictionary";
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { AiSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
+import { ShimmerBox } from "@/shared/components/feedback/ShimmerSkeleton";
 
 import {
   Mic,
@@ -731,7 +732,7 @@ export default function AiTutorWorkspace() {
 
       if (data.reply) {
         const aiMsg: ChatMessage = {
-          id: `ai_${Date.now()}`,
+          id: `ai_${msgCounterRef.current++}`,
           role: "ai",
           text: data.reply,
           vietnameseTranslation: data.vietnameseTranslation,
@@ -759,7 +760,7 @@ export default function AiTutorWorkspace() {
       const fallbackVi = `Nghe thật thú vị! Hãy kể thêm cho tôi nghe về suy nghĩ của bạn nhé.`;
 
       const aiMsg: ChatMessage = {
-        id: `ai_${Date.now()}`,
+        id: `ai_${msgCounterRef.current++}`,
         role: "ai",
         text: fallbackReply,
         vietnameseTranslation: fallbackVi,
@@ -1326,9 +1327,13 @@ export default function AiTutorWorkspace() {
                   })}
 
                   {loading && (
-                    <div className="flex items-center gap-2 p-2.5 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200/60 dark:border-blue-800/40 text-[#0059bb] dark:text-sky-300 text-xs font-bold animate-pulse w-fit shadow-2xs">
-                      <RefreshCw className="w-4 h-4 animate-spin" />{" "}
-                      {activePersonaObj.name} đang lắng nghe & suy nghĩ...
+                    <div className="flex items-center gap-2.5 p-3 rounded-xl bg-purple-50/70 dark:bg-purple-950/30 border border-purple-200/60 dark:border-purple-800/40 text-purple-700 dark:text-purple-300 text-xs font-bold w-fit shadow-2xs">
+                      <div className="flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-bounce" style={{ animationDelay: "0ms" }} />
+                        <span className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-bounce" style={{ animationDelay: "150ms" }} />
+                        <span className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-bounce" style={{ animationDelay: "300ms" }} />
+                      </div>
+                      <span>{activePersonaObj.name} đang suy nghĩ phản hồi...</span>
                     </div>
                   )}
                   <div ref={chatBottomRef} />
@@ -1383,15 +1388,19 @@ export default function AiTutorWorkspace() {
                     <button
                       type="button"
                       onClick={handleMicrophoneToggle}
-                      className={`w-10 h-10 rounded-full flex items-center justify-center shadow-md transition-all shrink-0 cursor-pointer ${
+                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all shrink-0 cursor-pointer ${
                         isRecording
-                          ? "bg-rose-500 text-white animate-pulse ring-4 ring-rose-500/25"
-                          : "bg-[#0059bb] hover:bg-[#004899] text-white hover:scale-105 active:scale-95"
+                          ? "bg-rose-500 text-white animate-pulse ring-4 ring-rose-500/25 shadow-md"
+                          : spokenText.trim()
+                          ? "bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-200 shadow-xs"
+                          : "bg-[#0059bb] hover:bg-[#004899] text-white hover:scale-105 active:scale-95 shadow-md"
                       }`}
                       title={
                         isRecording
                           ? "Đang thu âm • Bấm lại nút Micro để DỪNG VÀ TỰ ĐỘNG GỬI ĐI"
-                          : "Nhấn nút Micro và bắt đầu nói tiếng Anh (Bấm lại để gửi)"
+                          : spokenText.trim()
+                          ? "Bấm để thu âm bổ sung"
+                          : "Nhấn nút Micro và bắt đầu nói tiếng Anh"
                       }
                     >
                       {isRecording ? (
@@ -1401,11 +1410,12 @@ export default function AiTutorWorkspace() {
                       )}
                     </button>
 
-                    {/* Khung Hiển Thị Lời Nói */}
+                    {/* Khung Hiển Thị & Nhập Liệu Lời Nói */}
                     <div className="relative flex-1">
                       <input
                         type="text"
-                        readOnly
+                        readOnly={isRecording}
+                        onChange={(e) => setSpokenText(e.target.value)}
                         tabIndex={0}
                         onKeyDown={(e) => {
                           if (
@@ -1427,8 +1437,8 @@ export default function AiTutorWorkspace() {
                                   : recordingTime
                               }) • Bấm lại Micro để GỬI`
                             : spokenText
-                            ? "Đã nhận diện câu nói (Bấm nút Micro hoặc Gửi)"
-                            : "Nhấn nút Micro và bắt đầu nói tiếng Anh..."
+                            ? "Đã có nội dung (Có thể gõ phím chỉnh sửa hoặc bấm Gửi)"
+                            : "Nói qua Micro hoặc gõ tiếng Anh tại đây (Enter để gửi)..."
                         }
                         value={spokenText}
                         className="w-full h-9 pl-3 pr-8 text-xs sm:text-sm font-medium rounded-lg bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-[#0059bb]"
@@ -1450,7 +1460,11 @@ export default function AiTutorWorkspace() {
                       type="button"
                       onClick={handleSendSpokenSpeech}
                       disabled={!spokenText.trim() || loading}
-                      className="h-9 px-3.5 rounded-lg bg-[#0059bb] hover:bg-[#004899] disabled:opacity-40 text-white text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow-2xs cursor-pointer shrink-0 transition-all active:scale-95"
+                      className={`h-9 px-3.5 rounded-lg text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow-2xs shrink-0 transition-all ${
+                        spokenText.trim() && !loading
+                          ? "bg-[#0059bb] hover:bg-[#004899] text-white shadow-md active:scale-95 cursor-pointer"
+                          : "bg-slate-100 dark:bg-slate-800 text-slate-400 opacity-40 cursor-not-allowed"
+                      }`}
                       title="Gửi câu nói đến Gia sư AI (Phím Enter)"
                     >
                       <Send className="w-3.5 h-3.5 stroke-[2]" />
@@ -1994,9 +2008,23 @@ export default function AiTutorWorkspace() {
               {/* Drawer Body */}
               <div className="flex-1 overflow-y-auto p-3.5 sm:p-4 space-y-3">
                 {isLoadingHistory ? (
-                  <div className="flex items-center justify-center py-12 gap-2 text-xs font-bold text-slate-500">
-                    <RefreshCw className="w-4 h-4 animate-spin text-[#0059bb]" />
-                    <span>Đang tải lịch sử...</span>
+                  <div className="space-y-2.5">
+                    {[1, 2, 3].map((i) => (
+                      <div
+                        key={i}
+                        className="p-3 rounded-xl bg-white dark:bg-slate-800/90 border border-slate-200/90 dark:border-slate-700 space-y-2.5 shadow-2xs"
+                      >
+                        <div className="flex items-center justify-between">
+                          <ShimmerBox className="w-32 h-4 rounded" />
+                          <ShimmerBox className="w-20 h-5 rounded-md" />
+                        </div>
+                        <div className="flex items-center justify-between pt-1 border-t border-slate-100 dark:border-slate-700/60">
+                          <ShimmerBox className="w-16 h-3.5 rounded" />
+                          <ShimmerBox className="w-12 h-3.5 rounded" />
+                          <ShimmerBox className="w-14 h-3.5 rounded" />
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 ) : selectedPastSession ? (
                   /* Detail View of a Selected Past Session */

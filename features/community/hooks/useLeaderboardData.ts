@@ -4,10 +4,11 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { formatCleanName } from "@/shared/components/feedback/UserAvatar";
 import { LeaderboardUser } from "../types";
 
-export function processLeaderboardWithUser(leaders: any[], user: any): LeaderboardUser[] {
+export function processLeaderboardWithUser(leaders: any[], user: any, criterion: "xp" | "time" = "xp"): LeaderboardUser[] {
   const userAvatar = user?.imageUrl || user?.avatar || user?.avatarUrl;
   const currentUserName = formatCleanName(user?.fullName || user?.username || user?.email);
   const currentUserXp = Number(user?.totalXp || user?.xp || 0);
+  const currentUserMinutes = Number(user?.minutesStudied || 0);
 
   let list = [...(leaders || [])];
   let userFound = false;
@@ -31,6 +32,7 @@ export function processLeaderboardWithUser(leaders: any[], user: any): Leaderboa
       ...l,
       isCurrentUser,
       xp: isCurrentUser ? Math.max(Number(l.xp || 0), currentUserXp) : Number(l.xp || 0),
+      minutesStudied: isCurrentUser ? Math.max(Number(l.minutesStudied || 0), currentUserMinutes) : Number(l.minutesStudied || 0),
       avatar: isCurrentUser ? (userAvatar || l.avatar || l.avatarUrl || l.imageUrl) : (l.avatar || l.avatarUrl || l.imageUrl),
       avatarUrl: isCurrentUser ? (userAvatar || l.avatarUrl || l.avatar || l.imageUrl) : (l.avatarUrl || l.avatar || l.imageUrl),
       avatarEmoji: isCurrentUser ? (user?.avatarEmoji || l.avatarEmoji) : l.avatarEmoji,
@@ -39,7 +41,7 @@ export function processLeaderboardWithUser(leaders: any[], user: any): Leaderboa
     };
   });
 
-  if (user && !userFound && currentUserXp > 0) {
+  if (user && !userFound && (currentUserXp > 0 || currentUserMinutes > 0)) {
     list.push({
       id: user.id || "current-user",
       fullName: formatCleanName(user.fullName || user.username || "Bạn"),
@@ -48,13 +50,19 @@ export function processLeaderboardWithUser(leaders: any[], user: any): Leaderboa
       avatarUrl: userAvatar,
       avatarEmoji: user.avatarEmoji || "🦉",
       xp: currentUserXp,
+      minutesStudied: currentUserMinutes,
       isCurrentUser: true,
       streak: Number(user.currentStreak || user.streak || 1),
       level: Number(user.level || 1),
     });
   }
 
-  list.sort((a, b) => Number(b.xp || 0) - Number(a.xp || 0));
+  list.sort((a, b) => {
+    if (criterion === "time") {
+      return Number(b.minutesStudied || 0) - Number(a.minutesStudied || 0) || Number(b.xp || 0) - Number(a.xp || 0);
+    }
+    return Number(b.xp || 0) - Number(a.xp || 0) || Number(b.minutesStudied || 0) - Number(a.minutesStudied || 0);
+  });
 
   return list.map((item, idx) => ({
     ...item,
@@ -66,12 +74,13 @@ export function useLeaderboardData(user: any) {
   const [leaders, setLeaders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [period, setPeriod] = useState("week");
+  const [criterion, setCriterion] = useState<"xp" | "time">("xp");
   const [searchQuery, setSearchQuery] = useState("");
 
-  // 1. Periodic polling (10s interval) & window focus re-fetch
+  // 1. Periodic polling (15s interval) & window focus re-fetch
   const fetchLeaderboardData = useCallback(async () => {
     try {
-      const res = await fetch(`/api/leaderboard?period=${period}&t=${Date.now()}`);
+      const res = await fetch(`/api/leaderboard?period=${period}&criterion=${criterion}&t=${Date.now()}`);
       const data = await res.json();
       if (data.success && Array.isArray(data.data)) {
         setLeaders(data.data);
@@ -81,12 +90,12 @@ export function useLeaderboardData(user: any) {
     } finally {
       setLoading(false);
     }
-  }, [period]);
+  }, [period, criterion]);
 
   useEffect(() => {
     setLoading(true);
     fetchLeaderboardData();
-    const interval = setInterval(fetchLeaderboardData, 10000);
+    const interval = setInterval(fetchLeaderboardData, 15000);
     const onFocus = () => fetchLeaderboardData();
     window.addEventListener("focus", onFocus);
 
@@ -98,8 +107,8 @@ export function useLeaderboardData(user: any) {
 
   // 2. Real-Time Dynamic Client-Side Leaderboard Processor
   const processedLeaders = useMemo<LeaderboardUser[]>(() => {
-    return processLeaderboardWithUser(leaders, user);
-  }, [leaders, user]);
+    return processLeaderboardWithUser(leaders, user, criterion);
+  }, [leaders, user, criterion]);
 
   const top1 = processedLeaders[0];
   const top2 = processedLeaders[1];
@@ -123,6 +132,8 @@ export function useLeaderboardData(user: any) {
     loading,
     period,
     setPeriod,
+    criterion,
+    setCriterion,
     searchQuery,
     setSearchQuery,
     top1,

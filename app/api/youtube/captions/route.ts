@@ -209,13 +209,19 @@ function extractCaptionTracksFromHtml(html: string): any[] {
     const match = pattern.exec(html);
     if (match && match[1]) {
       try {
-        // Truncate at reasonable length to avoid parsing issues
-        let jsonStr = match[1];
-        if (jsonStr.length > 500000) jsonStr = jsonStr.substring(0, 500000);
-        const playerResponse = JSON.parse(jsonStr);
+        const playerResponse = JSON.parse(match[1]);
         const tracks = playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks;
         if (Array.isArray(tracks) && tracks.length > 0) return tracks;
-      } catch (e) {}
+      } catch (e) {
+        // Fallback for rich/large responses: targeted extraction of captionTracks array
+        const subMatch = /"captionTracks"\s*:\s*(\[[\s\S]*?\])\s*,\s*"(?:audioTracks|translationLanguages|defaultAudioTrackIndex)/.exec(match[1]);
+        if (subMatch && subMatch[1]) {
+          try {
+            const tracks = JSON.parse(subMatch[1]);
+            if (Array.isArray(tracks) && tracks.length > 0) return tracks;
+          } catch (e2) {}
+        }
+      }
     }
   }
 
@@ -277,10 +283,10 @@ const EXTERNAL_PROXIES = [
  * Tier 0: Direct fetch. Tier 1-4: External proxy services.
  */
 async function fetchWithProxyChain(url: string, options?: RequestInit): Promise<{ text: string; tier: string } | null> {
-  // Tier 0: Direct fetch with 2.5s timeout
+  // Tier 0: Direct fetch with 5.0s timeout
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 2500);
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
     const res = await fetch(url, { ...options, signal: controller.signal, cache: "no-store" });
     clearTimeout(timeoutId);
     if (res.ok) {
@@ -294,13 +300,13 @@ async function fetchWithProxyChain(url: string, options?: RequestInit): Promise<
     console.warn(`[ProxyChain Tier 0] Direct fetch failed: ${e?.message}`);
   }
 
-  // Tier 1-4: External proxy services with 2.5s timeout each
+  // Tier 1-4: External proxy services with 6.0s timeout each
   for (let i = 0; i < EXTERNAL_PROXIES.length; i++) {
     const proxy = EXTERNAL_PROXIES[i];
     try {
       const proxyUrl = proxy.buildUrl(url);
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 2500);
+      const timeoutId = setTimeout(() => controller.abort(), 6000);
       const res = await fetch(proxyUrl, { signal: controller.signal, cache: "no-store" });
       clearTimeout(timeoutId);
       if (res.ok) {
@@ -325,27 +331,32 @@ async function fetchWithProxyChain(url: string, options?: RequestInit): Promise<
 
 /**
  * Fetch caption tracks via YouTube Innertube API with Multi-Proxy Resilience.
- * TVHTML5 client is prioritized as YouTube does not bot-check TV devices.
+ * Android and TV clients are prioritized for high caption availability.
  */
 async function fetchInnertubeCaptionTracks(videoId: string): Promise<any[]> {
   const clients = [
     {
-      userAgent: "Mozilla/5.0 (SMART-TV; LINUX; Tizen 6.0) AppleWebKit/537.36 (KHTML, like Gecko) Version/6.0 TV Safari/537.36",
-      clientName: "TVHTML5",
-      clientVersion: "7.20230405.08.01",
+      userAgent: "com.google.android.youtube/19.29.35 (Linux; U; Android 14; en_US; Pixel 8 Pro)",
+      clientName: "ANDROID",
+      clientVersion: "19.29.35",
     },
     {
       userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
       clientName: "WEB",
       clientVersion: "2.20240501.00.00",
     },
+    {
+      userAgent: "Mozilla/5.0 (SMART-TV; LINUX; Tizen 6.0) AppleWebKit/537.36 (KHTML, like Gecko) Version/6.0 TV Safari/537.36",
+      clientName: "TVHTML5",
+      clientVersion: "7.20230405.08.01",
+    },
   ];
 
-  // Strategy 1: Direct Innertube POST calls with 2.5s AbortController timeout
+  // Strategy 1: Direct Innertube POST calls with 4.0s AbortController timeout
   for (const clientConfig of clients) {
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 2500);
+      const timeoutId = setTimeout(() => controller.abort(), 4000);
       const res = await fetch("https://www.youtube.com/youtubei/v1/player", {
         method: "POST",
         headers: {

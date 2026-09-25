@@ -48,7 +48,7 @@ function ShadowingStudioContent() {
 
   const { user, awardXp } = useAuthStore();
   const { addToast } = useNotificationStore();
-  const { setCurrentLessonId, completedLessonIds } = useListeningStore();
+  const { setCurrentLessonId, completedLessonIds, markLessonCompleted } = useListeningStore();
   const { setSidebarCollapsed, setHideBottomNav } = useUiStore();
 
   // 1. Database-backed lessons state (Dashboard SWR Architecture: Frame-0 synchronous localStorage hydration)
@@ -812,13 +812,13 @@ function ShadowingStudioContent() {
     }
     setSavedSentenceKeys(nextKeys);
 
-    if (currentLesson) {
+    if (currentLesson && user?.id && !user.id.startsWith("guest")) {
       try {
         await fetch("/api/listening/progress", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            userId: user?.id || "guest_user",
+            userId: user.id,
             lessonId: currentLesson.id,
             bookmarkedSentences: nextKeys,
             skill: "shadowing",
@@ -885,15 +885,24 @@ function ShadowingStudioContent() {
     } else {
       setIsLessonFinished(true);
       if (currentLesson) {
+        markLessonCompleted(currentLesson.id);
         awardXp(50, "shadowing");
-        try {
-          // Auto-delete the in-progress database record to reset the lesson clean for subsequent practice sessions
-          await fetch(
-            `/api/listening/progress?userId=${user?.id || "guest_user"}&lessonId=${currentLesson.id}`,
-            { method: "DELETE" }
-          );
-        } catch (e) {
-          console.error("Error resetting completed lesson progress in database:", e);
+        if (user?.id && !user.id.startsWith("guest")) {
+          const allIndices = Array.from({ length: totalSentencesCount }, (_, i) => i);
+          fetch("/api/listening/progress", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              userId: user.id,
+              lessonId: currentLesson.id,
+              status: "COMPLETED",
+              completedSentences: allIndices,
+              bookmarkedSentences: savedSentenceKeys,
+              timeSpent: Math.max(15, elapsedTimeRef.current),
+              xpEarned: 50,
+              skill: "shadowing",
+            }),
+          }).catch((e) => console.error("Error saving completed shadowing progress to DB:", e));
         }
       }
       addToast({
@@ -902,7 +911,7 @@ function ShadowingStudioContent() {
         message: "Chúc mừng bạn đã hoàn thành xuất sắc toàn bộ bài Shadowing! +50 XP thưởng.",
       });
     }
-  }, [resetCurrentSentenceAudio, currentSentenceIndex, totalSentencesCount, currentLesson, awardXp, user, addToast]);
+  }, [resetCurrentSentenceAudio, currentSentenceIndex, totalSentencesCount, currentLesson, markLessonCompleted, awardXp, user, savedSentenceKeys, addToast]);
 
   useEffect(() => {
     handleNextSentenceRef.current = handleNextSentence;

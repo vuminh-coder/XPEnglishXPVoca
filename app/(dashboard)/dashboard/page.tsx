@@ -197,7 +197,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     let isMounted = true;
-    const lbCacheKey = `xp_voca_lb_${leaderboardTab}`;
+    const lbCacheKey = `xp_voca_lb_${leaderboardTab}_${leaderboardCriterion}`;
 
     if (typeof window !== "undefined") {
       try {
@@ -214,7 +214,7 @@ export default function DashboardPage() {
 
     const fetchLeaderboard = async () => {
       try {
-        const res = await fetch(`/api/leaderboard?period=${leaderboardTab}`);
+        const res = await fetch(`/api/leaderboard?period=${leaderboardTab}&criterion=${leaderboardCriterion}`);
         const json = await res.json();
         if (json.success && json.data && isMounted) {
           setLeaderboardData(json.data);
@@ -235,7 +235,7 @@ export default function DashboardPage() {
     return () => {
       isMounted = false;
     };
-  }, [leaderboardTab]);
+  }, [leaderboardTab, leaderboardCriterion]);
 
   const wordsPracticedToday = useMemo(() => {
     if (!isMounted || !user) return 0;

@@ -607,14 +607,14 @@ function ListeningPageContent() {
     }
     setSavedSentenceKeys(nextKeys);
 
-    if (currentLesson) {
+    if (currentLesson && user?.id && !user.id.startsWith("guest")) {
       setIsSyncingDb(true);
       try {
         await fetch("/api/listening/progress", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            userId: user?.id || "guest_user",
+            userId: user.id,
             lessonId: currentLesson.id,
             bookmarkedSentences: nextKeys,
           }),
@@ -1064,7 +1064,7 @@ function ListeningPageContent() {
         message: "Chúc mừng bạn đã hoàn thành xuất sắc toàn bộ bài nghe! +50 XP thưởng.",
       });
 
-      if (currentLesson) {
+      if (currentLesson && user?.id && !user.id.startsWith("guest")) {
         if (progressDebounceTimerRef.current) {
           clearTimeout(progressDebounceTimerRef.current);
           progressDebounceTimerRef.current = null;
@@ -1074,7 +1074,7 @@ function ListeningPageContent() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            userId: user?.id || "guest_user",
+            userId: user.id,
             lessonId: currentLesson.id,
             status: "COMPLETED",
             completedSentences: allIndices,
@@ -1100,7 +1100,7 @@ function ListeningPageContent() {
       message: "+20 XP! Bạn đã gõ chính xác 100% câu này.",
     });
 
-    if (currentLesson) {
+    if (currentLesson && user?.id && !user.id.startsWith("guest")) {
       const completedArr = Object.keys(nextCompleted)
         .filter((k) => nextCompleted[Number(k)])
         .map(Number);
@@ -1115,7 +1115,7 @@ function ListeningPageContent() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            userId: user?.id || "guest_user",
+            userId: user.id,
             lessonId: currentLesson.id,
             status: "COMPLETED",
             completedSentences: completedArr,
@@ -1123,14 +1123,7 @@ function ListeningPageContent() {
             timeSpent: Math.max(5, elapsedTimeRef.current),
             xpEarned: 50,
           }),
-        })
-          .then(() => {
-            fetch(
-              `/api/listening/progress?userId=${user?.id || "guest_user"}&lessonId=${currentLesson.id}`,
-              { method: "DELETE" }
-            ).catch((e) => console.error("Error auto-deleting progress record from DB:", e));
-          })
-          .catch((e) => console.error("Error saving final progress before delete:", e));
+        }).catch((e) => console.error("Error saving completed progress to DB:", e));
 
         setTimeout(() => {
           stopTTS();
@@ -1147,7 +1140,7 @@ function ListeningPageContent() {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              userId: user?.id || "guest_user",
+              userId: user.id,
               lessonId: currentLesson.id,
               status: "IN_PROGRESS",
               completedSentences: completedArr,
@@ -1157,6 +1150,17 @@ function ListeningPageContent() {
             }),
           }).catch((e) => console.error("Error saving sentence progress to DB:", e));
         }, 1200);
+      }
+    } else if (currentLesson) {
+      const completedArr = Object.keys(nextCompleted)
+        .filter((k) => nextCompleted[Number(k)])
+        .map(Number);
+      if (completedArr.length >= totalSentencesCount) {
+        setTimeout(() => {
+          stopTTS();
+          setPlayingSentenceText(null);
+          setIsLessonFinished(true);
+        }, 1000);
       }
     }
 

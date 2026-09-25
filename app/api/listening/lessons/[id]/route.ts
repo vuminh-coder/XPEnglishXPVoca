@@ -17,6 +17,11 @@ export async function GET(
       userId = await getAuthenticatedUserId(request);
     }
 
+    const isPersonalized = Boolean(userId && !userId.startsWith("guest") && userId !== "guest_user");
+    const cacheControlHeader = isPersonalized
+      ? "private, no-cache, no-store, must-revalidate"
+      : "public, s-maxage=60, stale-while-revalidate=120";
+
     const cacheKey = `listening_lesson_detail:${id}:${userId || "guest"}`;
     const cached = memoryCache.get<any>(cacheKey);
     if (cached) {
@@ -27,7 +32,7 @@ export async function GET(
         },
         {
           headers: {
-            "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120",
+            "Cache-Control": cacheControlHeader,
             "X-Cache": "HIT",
           },
         }
@@ -201,7 +206,7 @@ export async function GET(
       data: lessonData,
     }, {
       headers: {
-        "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120",
+        "Cache-Control": cacheControlHeader,
         "X-Cache": "MISS",
       }
     });

@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { prisma, handlePrismaError, safeDbExecute } from "@/infrastructure/database/prisma";
 import { LEVEL_TITLES } from "@/shared/constants";
 import { getLocalDateString } from "@/shared/utils/dateUtils";
+import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
 
 const LEVEL_XP = [
   0, 100, 250, 450, 700, 1000, 1400, 1900, 2500, 3200, 4000, 5000, 6200,
@@ -128,11 +129,14 @@ export async function POST(request: Request) {
         totalXp: updatedProfile.totalXp,
         level: finalLevel,
         title: finalTitle,
-        coins: updatedProfile.coins,
+        coins: updatedProfile.coins + (levelUp ? 100 * computedLevel : 0),
         minutesStudied: updatedProfile.minutesStudied,
         levelUp,
       };
     }, "Activity Award Persistence");
+
+    // Invalidate RAM cache for dashboard and analytics to immediately reflect new XP/Level/Coins
+    invalidateDashboardCache(userId);
 
     return NextResponse.json({
       success: true,

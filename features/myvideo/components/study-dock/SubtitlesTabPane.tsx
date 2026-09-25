@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { List, Eye, Clock, Play } from "lucide-react";
+import { List, Eye, Clock, Play, Volume2, Radio, ChevronDown, ChevronsDown } from "lucide-react";
 import { YouTubeVideoItem } from "@/stores/videoStore";
 import { WordLookupCard, WordLookupData } from "../shared/WordLookupCard";
 
@@ -15,7 +15,7 @@ export interface SubtitlesTabPaneProps {
   handleSeekTo: (seconds: number, index: number) => void;
   handleWordClick: (word: string) => void;
   wordLookupData: WordLookupData | null;
-  setWordLookupData: (data: any) => void;
+  setWordLookupData: (data: WordLookupData | null) => void;
   handleSaveWordToNotebook: () => void;
 }
 
@@ -46,7 +46,7 @@ export function SubtitlesTabPane({
     if (subViewMode === "full" && subItemRefs.current[activeSubIndex]) {
       subItemRefs.current[activeSubIndex]?.scrollIntoView({
         behavior: "smooth",
-        block: "nearest",
+        block: "center",
       });
     }
   }, [activeSubIndex, subViewMode]);
@@ -61,24 +61,26 @@ export function SubtitlesTabPane({
         onClose={() => setWordLookupData(null)}
       />
 
-      {/* Subtitle Mode Switcher Header */}
-      <div className="flex items-center justify-between">
-        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-          CLICK CÂU ĐỂ NHẢY VIDEO · CLICK TỪ ĐỂ TRA VÀ LƯU
+      {/* Subtitle Mode Switcher Header — Always 1 Single Sleek Line */}
+      <div className="flex items-center justify-between gap-2 overflow-hidden py-0.5">
+        <span className="text-[10.5px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider truncate whitespace-nowrap">
+          Click câu để nhảy · Tra từ
         </span>
         <button
           type="button"
           onClick={() => setSubViewMode(subViewMode === "rolling" ? "full" : "rolling")}
-          className="px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-[#0059bb] text-[10px] font-bold flex items-center gap-1 cursor-pointer transition-all border border-slate-200 dark:border-slate-700"
+          className="shrink-0 whitespace-nowrap px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 hover:text-[#0059bb] dark:text-slate-300 dark:hover:text-sky-400 text-[11px] font-bold flex items-center gap-1.5 cursor-pointer transition-all border border-slate-200/80 dark:border-slate-700/60 shadow-2xs"
           title={subViewMode === "rolling" ? "Xem toàn bộ phụ đề" : "Chế độ focus 3 câu"}
         >
           {subViewMode === "rolling" ? (
             <>
-              <List className="w-3 h-3" /> Xem Tất Cả
+              <List className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
+              <span>Xem Tất Cả</span>
             </>
           ) : (
             <>
-              <Eye className="w-3 h-3" /> Focus 3 Câu
+              <Eye className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
+              <span>Focus 3 Câu</span>
             </>
           )}
         </button>
@@ -121,17 +123,33 @@ export function SubtitlesTabPane({
                       <Clock className="w-4 h-4 text-[#0059bb]" /> {formatSubTime(sub.startTime)}
                     </span>
                     {isActiveSpeaking ? (
-                      <span className="p-1 rounded-md bg-blue-100 dark:bg-blue-900/40 border border-[#0059bb]/30 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shadow-2xs">
-                        <Play className="w-3.5 h-3.5 fill-current text-[#0059bb] dark:text-sky-400" />
+                      <span
+                        className="p-1 rounded-md bg-blue-100 dark:bg-blue-900/50 border border-[#0059bb]/30 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shadow-2xs"
+                        title="Đang phát âm thanh"
+                      >
+                        <Volume2 className="w-3.5 h-3.5 animate-pulse text-[#0059bb] dark:text-sky-400" />
                       </span>
                     ) : isFocused ? (
-                      <span className="text-[10px] font-bold text-blue-600 dark:text-sky-400 bg-blue-50 dark:bg-blue-950/60 px-1.5 py-0.5 rounded border border-blue-200/60 dark:border-blue-800/60 flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
-                        Sắp phát
+                      <span
+                        className="p-1 rounded-md bg-blue-50 dark:bg-blue-950/60 border border-blue-200/70 dark:border-blue-800/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shadow-2xs"
+                        title="Câu đang chọn"
+                      >
+                        <Radio className="w-3.5 h-3.5 animate-pulse text-blue-600 dark:text-sky-400" />
                       </span>
                     ) : (
-                      <span className="text-[10px] font-bold text-slate-400">
-                        {isNext1 ? "[CÂU TIẾP THEO 1]" : "[CÂU TIẾP THEO 2]"}
+                      <span
+                        className={`p-1 rounded-md border flex items-center justify-center ${
+                          isNext1
+                            ? "bg-slate-100 dark:bg-slate-800/60 border-slate-200/60 dark:border-slate-800/60 text-slate-400 dark:text-slate-500"
+                            : "bg-slate-50 dark:bg-slate-900/40 border-slate-200/40 dark:border-slate-800/40 text-slate-300 dark:text-slate-600 opacity-75"
+                        }`}
+                        title={isNext1 ? "Câu kế tiếp (+1)" : "Câu kế tiếp (+2)"}
+                      >
+                        {isNext1 ? (
+                          <ChevronDown className="w-3.5 h-3.5" />
+                        ) : (
+                          <ChevronsDown className="w-3.5 h-3.5" />
+                        )}
                       </span>
                     )}
                   </div>
@@ -144,7 +162,7 @@ export function SubtitlesTabPane({
 
                       return (
                         <button
-                          key={wordIdx}
+                          key={`${sub.id}_w_${wordIdx}`}
                           type="button"
                           onClick={(e) => {
                             e.stopPropagation();
@@ -201,30 +219,47 @@ export function SubtitlesTabPane({
                     <Clock className="w-4 h-4 text-[#0059bb] dark:text-sky-400" /> {formatSubTime(sub.startTime)}
                   </span>
                   {isCardSpeaking ? (
-                    <span className="p-1 rounded-md bg-blue-100/80 dark:bg-blue-900/40 border border-[#0059bb]/30 text-[#0059bb] dark:text-sky-400 flex items-center justify-center">
-                      <Play className="w-3.5 h-3.5 fill-current text-[#0059bb] dark:text-sky-400" />
+                    <span
+                      className="p-1 rounded-md bg-blue-100/80 dark:bg-blue-900/50 border border-[#0059bb]/30 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shadow-2xs"
+                      title="Đang phát âm thanh"
+                    >
+                      <Volume2 className="w-3.5 h-3.5 animate-pulse text-[#0059bb] dark:text-sky-400" />
                     </span>
                   ) : isCardSelected ? (
-                    <span className="text-[10px] font-bold text-blue-600 dark:text-sky-400 bg-blue-50 dark:bg-blue-950/60 px-1.5 py-0.5 rounded border border-blue-200/60 dark:border-blue-800/60">
-                      Sắp phát
+                    <span
+                      className="p-1 rounded-md bg-blue-50 dark:bg-blue-950/60 border border-blue-200/70 dark:border-blue-800/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shadow-2xs"
+                      title="Câu đang chọn"
+                    >
+                      <Radio className="w-3.5 h-3.5 animate-pulse text-blue-600 dark:text-sky-400" />
                     </span>
                   ) : null}
                 </div>
 
                 <div className="flex flex-wrap items-center gap-1 sm:gap-1.5 pt-0.5">
-                  {sub.textEn.split(/\s+/).filter(Boolean).map((w, idx) => (
-                    <button
-                      key={idx}
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleWordClick(w);
-                      }}
-                      className="px-1.5 py-0.5 rounded-md hover:bg-blue-100 dark:hover:bg-blue-950 hover:text-[#0059bb] text-slate-900 dark:text-white text-xs sm:text-sm font-semibold transition-all cursor-pointer"
-                    >
-                      {w}
-                    </button>
-                  ))}
+                  {sub.textEn.split(/\s+/).filter(Boolean).map((w, idx) => {
+                    const isKaraokeFocused = isCardSpeaking && idx === activeWordIndex;
+                    const isPastWord = isCardSpeaking && idx < activeWordIndex;
+
+                    return (
+                      <button
+                        key={`${sub.id}_full_w_${idx}`}
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleWordClick(w);
+                        }}
+                        className={`px-1.5 py-0.5 rounded-md text-xs sm:text-sm font-sans transition-all cursor-pointer ${
+                          isKaraokeFocused
+                            ? "bg-amber-400 text-slate-950 font-black shadow-md ring-2 ring-amber-300/60 scale-105"
+                            : isPastWord
+                            ? "text-[#0059bb] dark:text-sky-400 font-bold"
+                            : "hover:bg-blue-100 dark:hover:bg-blue-950 hover:text-[#0059bb] text-slate-900 dark:text-white font-semibold"
+                        }`}
+                      >
+                        {w}
+                      </button>
+                    );
+                  })}
                 </div>
 
                 <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium pt-0.5">

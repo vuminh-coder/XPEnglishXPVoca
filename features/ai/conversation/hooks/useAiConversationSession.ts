@@ -40,8 +40,8 @@ export function useAiConversationSession() {
     selectedTopicIdRef.current = selectedTopicId;
   }, [selectedTopicId]);
 
-  // Track active study time as writing skill
-  useStudyTimeTracker("writing", {
+  // Track active study time as speaking skill
+  useStudyTimeTracker("speaking", {
     activeCondition: !isSessionCompleted,
   });
 
@@ -58,7 +58,7 @@ export function useAiConversationSession() {
       clearInterval(timer);
       if (activeTimeRef.current > 10) {
         const mins = Math.max(1, Math.ceil(activeTimeRef.current / 60));
-        useUserStore.getState().addPracticeTime(mins, "writing");
+        useUserStore.getState().addPracticeTime(mins, "speaking");
         activeTimeRef.current = 0;
       }
     };

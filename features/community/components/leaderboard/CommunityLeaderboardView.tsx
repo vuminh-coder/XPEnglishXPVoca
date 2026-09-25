@@ -23,6 +23,8 @@ export function CommunityLeaderboardView({
     loading,
     period,
     setPeriod,
+    criterion,
+    setCriterion,
     searchQuery,
     setSearchQuery,
     top1,
@@ -34,6 +36,7 @@ export function CommunityLeaderboardView({
   } = useLeaderboardData(user);
 
   const currentUserXp = currentUserItem?.xp || Number(user?.totalXp || user?.xp || 0);
+  const currentUserMinutes = currentUserItem?.minutesStudied || Number(user?.minutesStudied || 0);
 
   return (
     <div className="space-y-4">
@@ -42,7 +45,8 @@ export function CommunityLeaderboardView({
         gradientClass="from-[#0059bb] via-[#004fba] to-[#00388a]"
         badgeLeft={
           <span className="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wider bg-amber-400/20 text-amber-200 border border-amber-300/30 flex items-center gap-1.5 font-display shrink-0 shadow-2xs">
-            <Trophy className="w-3.5 h-3.5 text-amber-300 fill-amber-300" /> Bảng Vinh Danh XP
+            <Trophy className="w-3.5 h-3.5 text-amber-300 fill-amber-300" />
+            {criterion === "time" ? "Bảng Xếp Hạng Phút Học" : "Bảng Vinh Danh XP"}
           </span>
         }
         badgeRight={
@@ -62,11 +66,15 @@ export function CommunityLeaderboardView({
         }
         title={
           <>
-            <span>Đua Top Chiến Binh XP English</span>
+            <span>{criterion === "time" ? "Đua Top Thời Gian Luyện Tập" : "Đua Top Chiến Binh XP English"}</span>
             <Sparkles className="w-4 h-4 text-amber-300 fill-amber-300 shrink-0" />
           </>
         }
-        description="Vinh danh những học viên có chuỗi ngày học bền bỉ và tích lũy XP cao nhất. Tích lũy XP ngay bằng bài học & thi thử!"
+        description={
+          criterion === "time"
+            ? "Vinh danh những học viên có tổng số phút luyện từ vựng, nghe và phát âm nhiều nhất. Kiên trì từng phút tạo nên sự bứt phá!"
+            : "Vinh danh những học viên có chuỗi ngày học bền bỉ và tích lũy XP cao nhất. Tích lũy XP ngay bằng bài học & thi thử!"
+        }
         desktopExtra={
           <div className="flex items-center gap-3 shrink-0 p-3 rounded-xl bg-white/10 dark:bg-slate-900/60 border border-white/20 backdrop-blur-md shadow-2xs">
             <div className="w-10 h-10 rounded-xl bg-amber-400/20 border border-amber-300/40 flex items-center justify-center text-amber-300 shrink-0">
@@ -83,7 +91,7 @@ export function CommunityLeaderboardView({
                   <>
                     <span>Hạng #{userRankNum}</span>
                     <span className="text-xs text-amber-300 font-normal">
-                      ({currentUserXp.toLocaleString()} XP)
+                      ({criterion === "time" ? `${currentUserMinutes} phút` : `${currentUserXp.toLocaleString()} XP`})
                     </span>
                   </>
                 )}
@@ -100,6 +108,8 @@ export function CommunityLeaderboardView({
           <LeaderboardPeriodFilter
             period={period}
             onPeriodChange={setPeriod}
+            criterion={criterion}
+            onCriterionChange={setCriterion}
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
           />
@@ -109,11 +119,13 @@ export function CommunityLeaderboardView({
             top1={top1}
             top2={top2}
             top3={top3}
+            criterion={criterion}
           />
 
           <LeaderboardRanksTable
             loading={loading}
             ranks={ranksFiltered}
+            criterion={criterion}
           />
         </div>
 

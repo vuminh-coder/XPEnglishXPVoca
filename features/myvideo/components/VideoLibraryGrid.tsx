@@ -152,6 +152,8 @@ export const VideoLibraryGrid: React.FC<VideoLibraryGridProps> = ({
                   <img
                     src={video.thumbnailUrl}
                     alt={video.title}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-90 group-hover:opacity-100"
                   />
                   <div className="absolute inset-0 bg-slate-950/20 group-hover:bg-slate-950/10 transition-colors" />

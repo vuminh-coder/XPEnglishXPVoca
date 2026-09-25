@@ -18,7 +18,15 @@ export async function GET(request: Request) {
       userId = await getAuthenticatedUserId(request);
     }
 
-    const cacheKey = `listening_lessons:${category || "ALL"}:${level || "ALL"}:${search || ""}:${userId || "guest"}`;
+    const limitParam = searchParams.get("limit");
+    const takeLimit = limitParam ? Math.min(200, Math.max(1, parseInt(limitParam, 10))) : 150;
+
+    const isPersonalized = Boolean(userId && !userId.startsWith("guest") && userId !== "guest_user");
+    const cacheControlHeader = isPersonalized
+      ? "private, no-cache, no-store, must-revalidate"
+      : "public, s-maxage=60, stale-while-revalidate=120";
+
+    const cacheKey = `listening_lessons:${category || "ALL"}:${level || "ALL"}:${search || ""}:${userId || "guest"}:${takeLimit}`;
     const cached = memoryCache.get<any[]>(cacheKey);
     if (cached) {
       return NextResponse.json(
@@ -28,7 +36,7 @@ export async function GET(request: Request) {
         },
         {
           headers: {
-            "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120",
+            "Cache-Control": cacheControlHeader,
             "X-Cache": "HIT",
           },
         }
@@ -53,6 +61,7 @@ export async function GET(request: Request) {
       const lessons = await prisma.listeningLesson.findMany({
         where: whereClause,
         orderBy: { orderIndex: "asc" },
+        take: takeLimit,
         select: {
           id: true,
           title: true,
@@ -120,7 +129,7 @@ export async function GET(request: Request) {
         );
       }
 
-      result = filteredMocks.map((lesson) => {
+      result = filteredMocks.slice(0, takeLimit).map((lesson) => {
         const totalSentences = lesson.transcript?.length || 0;
         return {
           id: lesson.id,
@@ -154,7 +163,7 @@ export async function GET(request: Request) {
       },
       {
         headers: {
-          "Cache-Control": "public, s-maxage=60, stale-while-revalidate=120",
+          "Cache-Control": cacheControlHeader,
           "X-Cache": "MISS",
         },
       }

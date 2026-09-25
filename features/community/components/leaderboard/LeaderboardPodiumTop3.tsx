@@ -14,6 +14,7 @@ interface LeaderboardPodiumTop3Props {
   top1?: LeaderboardUser;
   top2?: LeaderboardUser;
   top3?: LeaderboardUser;
+  criterion?: "xp" | "time";
 }
 
 export const LeaderboardPodiumTop3: React.FC<LeaderboardPodiumTop3Props> = ({
@@ -21,6 +22,7 @@ export const LeaderboardPodiumTop3: React.FC<LeaderboardPodiumTop3Props> = ({
   top1,
   top2,
   top3,
+  criterion = "xp",
 }) => {
   if (loading) {
     return (
@@ -94,7 +96,7 @@ export const LeaderboardPodiumTop3: React.FC<LeaderboardPodiumTop3Props> = ({
               </span>
             </div>
             <div className="w-full py-1.5 rounded-xl bg-slate-200/80 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-black font-mono text-xs">
-              {top2.xp?.toLocaleString()} XP
+              {criterion === "time" ? `${top2.minutesStudied || 0} phút` : `${top2.xp?.toLocaleString()} XP`}
             </div>
           </div>
         )}
@@ -127,7 +129,7 @@ export const LeaderboardPodiumTop3: React.FC<LeaderboardPodiumTop3Props> = ({
               </span>
             </div>
             <div className="w-full py-2 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 text-amber-950 font-black font-mono text-xs sm:text-sm shadow-2xs">
-              {top1.xp?.toLocaleString()} XP
+              {criterion === "time" ? `${top1.minutesStudied || 0} phút` : `${top1.xp?.toLocaleString()} XP`}
             </div>
           </div>
         )}
@@ -153,7 +155,7 @@ export const LeaderboardPodiumTop3: React.FC<LeaderboardPodiumTop3Props> = ({
               </span>
             </div>
             <div className="w-full py-1.5 rounded-xl bg-amber-800/15 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 font-black font-mono text-xs">
-              {top3.xp?.toLocaleString()} XP
+              {criterion === "time" ? `${top3.minutesStudied || 0} phút` : `${top3.xp?.toLocaleString()} XP`}
             </div>
           </div>
         )}

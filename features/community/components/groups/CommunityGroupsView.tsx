@@ -1,12 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Users, Sparkles } from "lucide-react";
 import { CommunityHeroBanner } from "../shared/CommunityHeroBanner";
 import { GroupFilterNav } from "./GroupFilterNav";
 import { GroupListGrid } from "./GroupListGrid";
 import { MyJoinedGroupsWidget } from "./MyJoinedGroupsWidget";
 import { GroupCreatorPerkWidget } from "./GroupCreatorPerkWidget";
+import { GroupDetailModal } from "./GroupDetailModal";
 import { useGroupsData } from "../../hooks/useGroupsData";
 
 interface CommunityGroupsViewProps {
@@ -15,6 +16,7 @@ interface CommunityGroupsViewProps {
 }
 
 export function CommunityGroupsView({ user, awardXp }: CommunityGroupsViewProps) {
+  const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
   const {
     loading,
     filter,
@@ -65,6 +67,7 @@ export function CommunityGroupsView({ user, awardXp }: CommunityGroupsViewProps)
               groups={filteredGroups}
               filter={filter}
               onJoinToggle={handleJoinGroup}
+              onSelectGroup={(id) => setSelectedGroupId(id)}
             />
           </div>
         </div>
@@ -75,6 +78,16 @@ export function CommunityGroupsView({ user, awardXp }: CommunityGroupsViewProps)
           <GroupCreatorPerkWidget />
         </div>
       </div>
+
+      {/* 3. GROUP DETAIL & MINUTES CHART MODAL */}
+      {selectedGroupId && (
+        <GroupDetailModal
+          groupId={selectedGroupId}
+          onClose={() => setSelectedGroupId(null)}
+          onJoinToggle={handleJoinGroup}
+          isJoined={Boolean(filteredGroups.find((g) => g.id === selectedGroupId)?.joined)}
+        />
+      )}
     </div>
   );
 }

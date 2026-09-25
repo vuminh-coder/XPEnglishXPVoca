@@ -34,6 +34,7 @@ export interface LeaderboardUser {
   avatarUrl?: string;
   avatarEmoji?: string;
   xp: number;
+  minutesStudied?: number;
   level?: number;
   streak?: number;
   rank?: number;

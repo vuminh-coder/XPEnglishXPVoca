@@ -26,8 +26,8 @@ interface VideoPlayerStudioProps {
   jumpToNextSubtitle: () => void;
   isLoopingSentence: boolean;
   toggleLoopSentence: () => void;
-  subtitleSyncOffset: number;
-  setSubtitleSyncOffset: (offset: number) => void;
+  subtitleSyncOffset?: number;
+  setSubtitleSyncOffset?: (offset: number) => void;
   playbackSpeed: number;
   changePlaybackSpeed: (speed: number) => void;
   toggleFavorite: (id: string) => void;
@@ -45,8 +45,6 @@ export const VideoPlayerStudio: React.FC<VideoPlayerStudioProps> = ({
   jumpToNextSubtitle,
   isLoopingSentence,
   toggleLoopSentence,
-  subtitleSyncOffset,
-  setSubtitleSyncOffset,
   playbackSpeed,
   changePlaybackSpeed,
   toggleFavorite,
@@ -66,7 +64,7 @@ export const VideoPlayerStudio: React.FC<VideoPlayerStudioProps> = ({
               ref={iframeRef}
               src={`https://www.youtube.com/embed/${activeVideo.id}?enablejsapi=1&controls=1&rel=0&playsinline=1${
                 startTimestamp > 0 ? `&start=${startTimestamp}` : ""
-              }&origin=${encodeURIComponent(origin)}`}
+              }${origin ? `&origin=${origin}` : ""}`}
               title={activeVideo.title}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
@@ -76,16 +74,12 @@ export const VideoPlayerStudio: React.FC<VideoPlayerStudioProps> = ({
             {/* Center Play Button Overlay on Video */}
             {!isPlaying && (
               <div
-                onClick={togglePlayPause}
-                className="absolute inset-0 bg-slate-950/40 backdrop-blur-[1px] flex items-center justify-center cursor-pointer transition-all hover:bg-slate-950/20 group/playbtn z-10"
+                className="absolute inset-0 bg-slate-950/30 backdrop-blur-[0.5px] flex items-center justify-center transition-all hover:bg-slate-950/15 group/playbtn z-10 pointer-events-none"
               >
                 <button
                   type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    togglePlayPause();
-                  }}
-                  className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#0059bb] hover:bg-[#004899] text-white shadow-xl flex items-center justify-center transition-all hover:scale-110 active:scale-95 cursor-pointer border-2 border-white/20"
+                  onClick={togglePlayPause}
+                  className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#0059bb] hover:bg-[#004899] text-white shadow-xl flex items-center justify-center transition-all hover:scale-110 active:scale-95 cursor-pointer border-2 border-white/20 pointer-events-auto"
                   title="Phát video (Play)"
                 >
                   <Play className="w-7 h-7 sm:w-8 sm:h-8 fill-current ml-1" />
@@ -158,67 +152,8 @@ export const VideoPlayerStudio: React.FC<VideoPlayerStudioProps> = ({
             </button>
           </div>
 
-          {/* Right: Micro-Sync Calibration & Speed Switcher Dock */}
+          {/* Right: Speed Switcher Dock */}
           <div className="flex items-center gap-1.5 shrink-0">
-            {/* Micro-Sync Calibration */}
-            <div
-              className="hidden sm:flex items-center p-0.5 rounded-lg bg-slate-200/80 dark:bg-slate-900 border border-slate-300/80 dark:border-slate-700/60 gap-0.5"
-              title="Tinh chỉnh độ lệch phụ đề (Micro-Sync Subtitle Offset)"
-            >
-              <button
-                type="button"
-                onClick={() => {
-                  const nextOffset = parseFloat((subtitleSyncOffset - 0.2).toFixed(2));
-                  setSubtitleSyncOffset(nextOffset);
-                  addToast({
-                    type: "info",
-                    title: "Chỉnh lệch phụ đề",
-                    message: `Đã lùi phụ đề ${nextOffset}s so với video`,
-                  });
-                }}
-                className="px-1.5 py-1 rounded text-[10px] font-bold font-mono text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all cursor-pointer"
-                title="Lùi 0.2 giây (-0.2s)"
-              >
-                -0.2s
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setSubtitleSyncOffset(0.0);
-                  addToast({
-                    type: "info",
-                    title: "Đặt lại lệch phụ đề",
-                    message: "Đã đưa độ lệch phụ đề về chuẩn 0.0s",
-                  });
-                }}
-                className={`px-1.5 py-1 rounded text-[10px] font-mono font-bold transition-all cursor-pointer ${
-                  subtitleSyncOffset !== 0
-                    ? "bg-amber-400 text-slate-950 font-black"
-                    : "text-slate-500 dark:text-slate-400"
-                }`}
-                title="Đặt lại về 0.0s (Reset)"
-              >
-                {subtitleSyncOffset === 0 ? "Sync: 0s" : `${subtitleSyncOffset > 0 ? "+" : ""}${subtitleSyncOffset}s`}
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  const nextOffset = parseFloat((subtitleSyncOffset + 0.2).toFixed(2));
-                  setSubtitleSyncOffset(nextOffset);
-                  addToast({
-                    type: "info",
-                    title: "Chỉnh lệch phụ đề",
-                    message: `Đã tiến phụ đề +${nextOffset}s so với video`,
-                  });
-                }}
-                className="px-1.5 py-1 rounded text-[10px] font-bold font-mono text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all cursor-pointer"
-                title="Tiến 0.2 giây (+0.2s)"
-              >
-                +0.2s
-              </button>
-            </div>
-
-            {/* Speed Switcher Dock */}
             <div className="flex items-center p-0.5 rounded-lg bg-slate-200/80 dark:bg-slate-900 border border-slate-300/80 dark:border-slate-700/60 gap-0.5 shrink-0">
               {[0.75, 1.0, 1.25, 1.5].map((speed) => (
                 <button

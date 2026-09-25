@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import {
   useVideoStore,
   YouTubeVideoItem,
@@ -17,6 +17,8 @@ import { useNotificationStore } from "@/stores/notificationStore";
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { VocabSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 
+import dynamic from "next/dynamic";
+
 // Modular Feature Components & Hooks
 import {
   VideoPlayerStudio,
@@ -25,14 +27,28 @@ import {
   VideoHeroMetricsBanner,
   YouTubeImportDeck,
   VideoTopHeaderActions,
-  KeyboardShortcutsModal,
-  SubtitleExportModal,
-  SrtImportModal,
-  XpSubExtractorModal,
   useYouTubePlayerSync,
   useVideoExercises,
   useWordLookup,
 } from "@/features/myvideo";
+
+// Lazy-loaded modals for reduced initial bundle footprint
+const KeyboardShortcutsModal = dynamic(
+  () => import("@/features/myvideo/components/modals/KeyboardShortcutsModal").then((m) => m.KeyboardShortcutsModal),
+  { ssr: false }
+);
+const SubtitleExportModal = dynamic(
+  () => import("@/features/myvideo/components/modals/SubtitleExportModal").then((m) => m.SubtitleExportModal),
+  { ssr: false }
+);
+const SrtImportModal = dynamic(
+  () => import("@/features/myvideo/components/modals/SrtImportModal").then((m) => m.SrtImportModal),
+  { ssr: false }
+);
+const XpSubExtractorModal = dynamic(
+  () => import("@/features/myvideo/components/modals/XpSubExtractorModal").then((m) => m.XpSubExtractorModal),
+  { ssr: false }
+);
 
 export default function MyVideoPage() {
   const { user, awardXp } = useAuthStore();
@@ -85,20 +101,28 @@ export default function MyVideoPage() {
     }
   }, [savedVideos, activeVideo]);
 
-  // Sync activeVideo with store changes
+  // Sync activeVideo with store changes (BUG-02 fix: depend only on savedVideos)
+  const activeVideoIdRef = useRef(activeVideo?.id);
   useEffect(() => {
-    if (activeVideo) {
-      const updatedVideo = savedVideos.find((v) => v.id === activeVideo.id);
-      if (
-        updatedVideo &&
-        (updatedVideo.isFavorite !== activeVideo.isFavorite ||
-          updatedVideo.progressPercent !== activeVideo.progressPercent ||
-          updatedVideo.subtitles !== activeVideo.subtitles)
-      ) {
-        setActiveVideo(updatedVideo);
+    activeVideoIdRef.current = activeVideo?.id;
+  });
+  useEffect(() => {
+    const currentId = activeVideoIdRef.current;
+    if (currentId) {
+      const updatedVideo = savedVideos.find((v) => v.id === currentId);
+      if (updatedVideo) {
+        setActiveVideo((prev) => {
+          if (!prev || prev.id !== currentId) return prev;
+          if (updatedVideo.isFavorite !== prev.isFavorite ||
+              updatedVideo.progressPercent !== prev.progressPercent ||
+              updatedVideo.subtitles !== prev.subtitles) {
+            return updatedVideo;
+          }
+          return prev; // No change → no re-render
+        });
       }
     }
-  }, [savedVideos, activeVideo]);
+  }, [savedVideos]);
 
   // Handler for AI Speech transcription when video has no subtitles
   const handleNewSubtitleCaptured = useCallback((rawItem: any) => {
@@ -129,6 +153,7 @@ export default function MyVideoPage() {
   }, []);
 
   // Hook 1: YouTube Player Synchronization Loop & Commands
+  const setCurrentSubIndexRef = useRef<((index: number) => void) | null>(null);
   const {
     iframeRef,
     isPlaying,
@@ -148,8 +173,7 @@ export default function MyVideoPage() {
     resetPlayerSync,
   } = useYouTubePlayerSync({
     activeVideo,
-    currentSubIndex: 0,
-    onSubIndexChange: (index) => setCurrentSubIndex(index),
+    onSubIndexChange: (index) => setCurrentSubIndexRef.current?.(index),
     onNewSubtitleCaptured: handleNewSubtitleCaptured,
     addToast,
   });
@@ -180,6 +204,11 @@ export default function MyVideoPage() {
     addToast,
   });
 
+  // Sync ref for onSubIndexChange callback without hoisting issue
+  useEffect(() => {
+    setCurrentSubIndexRef.current = setCurrentSubIndex;
+  }, [setCurrentSubIndex]);
+
   // Hook 3: 1-Click Word Lookup & Vocabulary Sync
   const {
     wordLookupData,
@@ -206,17 +235,109 @@ export default function MyVideoPage() {
     [resetPlayerSync, resetExercises, resetWordLookup]
   );
 
-  // Keyboard shortcuts listener
+  const jumpToPrevSubtitle = useCallback(() => {
+    const currentIdx = activeSubIndex >= 0 ? activeSubIndex : currentSubIndex;
+    jumpToSubtitleIndex(Math.max(0, currentIdx - 1));
+  }, [activeSubIndex, currentSubIndex, jumpToSubtitleIndex]);
+
+  const jumpToNextSubtitle = useCallback(() => {
+    if (!activeVideo) return;
+    const currentIdx = activeSubIndex >= 0 ? activeSubIndex : currentSubIndex;
+    jumpToSubtitleIndex(Math.min(activeVideo.subtitles.length - 1, currentIdx + 1));
+  }, [activeVideo, activeSubIndex, currentSubIndex, jumpToSubtitleIndex]);
+
+  const handleDeleteVideo = useCallback(
+    (id: string) => {
+      const nextVideos = savedVideos.filter((v) => v.id !== id);
+      removeVideo(id);
+      if (nextVideos.length > 0) {
+        selectVideoAndOpenSubtitles(nextVideos[0]);
+      } else {
+        setActiveVideo(null);
+      }
+    },
+    [savedVideos, removeVideo, selectVideoAndOpenSubtitles]
+  );
+
+  const handleSelectVideoWithScroll = useCallback(
+    (video: YouTubeVideoItem) => {
+      selectVideoAndOpenSubtitles(video);
+      window.scrollTo({ top: 220, behavior: "smooth" });
+    },
+    [selectVideoAndOpenSubtitles]
+  );
+
+  // Shared handler for subtitle injection (MED-08: extract duplicate logic)
+  const handleSubtitleInjection = useCallback(
+    (parsed: SubtitleSentence[]) => {
+      if (!activeVideo) return;
+      updateVideoSubtitles(activeVideo.id, parsed);
+      setActiveVideo({ ...activeVideo, subtitles: parsed });
+      resetPlayerSync();
+      resetExercises();
+      resetWordLookup();
+      setRightPanelTab("subtitles");
+      window.scrollTo({ top: 220, behavior: "smooth" });
+    },
+    [activeVideo, updateVideoSubtitles, resetPlayerSync, resetExercises, resetWordLookup]
+  );
+
+  // Keyboard shortcuts listener — ref pattern to mount window listener once (HIGH-04 fix)
+  const keyboardStateRef = useRef({
+    activeVideo,
+    activeSubIndex,
+    currentSubIndex,
+    dictationAnswered,
+    dictationInput,
+    rightPanelTab,
+    showExportModal,
+    showSrtImportModal,
+    showXpSubModal,
+    showShortcutsModal,
+    wordLookupData,
+    togglePlayPause,
+    toggleLoopSentence,
+    jumpToRandomSubtitle,
+    jumpToSubtitleIndex,
+    handleCheckDictation,
+    handleNextDictation,
+    resetWordLookup,
+  });
+
+  useEffect(() => {
+    keyboardStateRef.current = {
+      activeVideo,
+      activeSubIndex,
+      currentSubIndex,
+      dictationAnswered,
+      dictationInput,
+      rightPanelTab,
+      showExportModal,
+      showSrtImportModal,
+      showXpSubModal,
+      showShortcutsModal,
+      wordLookupData,
+      togglePlayPause,
+      toggleLoopSentence,
+      jumpToRandomSubtitle,
+      jumpToSubtitleIndex,
+      handleCheckDictation,
+      handleNextDictation,
+      resetWordLookup,
+    };
+  });
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      const state = keyboardStateRef.current;
       const tag = (e.target as HTMLElement)?.tagName;
       if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") {
-        if (e.key === "Enter" && rightPanelTab === "dictation") {
+        if (e.key === "Enter" && state.rightPanelTab === "dictation") {
           e.preventDefault();
-          if (dictationAnswered) {
-            handleNextDictation();
-          } else if (dictationInput.trim()) {
-            handleCheckDictation();
+          if (state.dictationAnswered) {
+            state.handleNextDictation();
+          } else if (state.dictationInput.trim()) {
+            state.handleCheckDictation();
           }
         }
         return;
@@ -225,33 +346,33 @@ export default function MyVideoPage() {
       switch (e.key) {
         case " ":
           e.preventDefault();
-          togglePlayPause();
+          state.togglePlayPause();
           break;
         case "r":
         case "R":
           e.preventDefault();
-          toggleLoopSentence();
+          state.toggleLoopSentence();
           break;
         case "s":
         case "S":
           e.preventDefault();
-          jumpToRandomSubtitle();
+          state.jumpToRandomSubtitle();
           break;
         case "ArrowLeft":
         case "j":
         case "J": {
           e.preventDefault();
-          const cur = activeSubIndex >= 0 ? activeSubIndex : currentSubIndex;
-          jumpToSubtitleIndex(Math.max(0, cur - 1));
+          const cur = state.activeSubIndex >= 0 ? state.activeSubIndex : state.currentSubIndex;
+          state.jumpToSubtitleIndex(Math.max(0, cur - 1));
           break;
         }
         case "ArrowRight":
         case "l":
         case "L": {
           e.preventDefault();
-          if (activeVideo) {
-            const cur = activeSubIndex >= 0 ? activeSubIndex : currentSubIndex;
-            jumpToSubtitleIndex(Math.min(activeVideo.subtitles.length - 1, cur + 1));
+          if (state.activeVideo) {
+            const cur = state.activeSubIndex >= 0 ? state.activeSubIndex : state.currentSubIndex;
+            state.jumpToSubtitleIndex(Math.min(state.activeVideo.subtitles.length - 1, cur + 1));
           }
           break;
         }
@@ -272,45 +393,27 @@ export default function MyVideoPage() {
           setShowShortcutsModal((prev) => !prev);
           break;
         case "Escape":
-          if (showExportModal) setShowExportModal(false);
-          if (showSrtImportModal) setShowSrtImportModal(false);
-          if (showXpSubModal) setShowXpSubModal(false);
-          if (showShortcutsModal) setShowShortcutsModal(false);
-          if (wordLookupData) resetWordLookup();
+          if (state.showExportModal) setShowExportModal(false);
+          if (state.showSrtImportModal) setShowSrtImportModal(false);
+          if (state.showXpSubModal) setShowXpSubModal(false);
+          if (state.showShortcutsModal) setShowShortcutsModal(false);
+          if (state.wordLookupData) state.resetWordLookup();
           break;
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [
-    activeVideo,
-    activeSubIndex,
-    currentSubIndex,
-    dictationAnswered,
-    dictationInput,
-    rightPanelTab,
-    showExportModal,
-    showSrtImportModal,
-    showXpSubModal,
-    showShortcutsModal,
-    wordLookupData,
-    togglePlayPause,
-    toggleLoopSentence,
-    jumpToRandomSubtitle,
-    jumpToSubtitleIndex,
-    handleCheckDictation,
-    handleNextDictation,
-    resetWordLookup,
-  ]);
+  }, []);
 
-  // Handle YouTube URL Import
-  const handleImportYouTube = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!youtubeInput || !youtubeInput.trim()) {
-      setImportError("Vui lòng dán đường dẫn video YouTube");
-      return;
-    }
+  // Handle YouTube URL Import (memoized — MED-04 fix)
+  const handleImportYouTube = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      if (!youtubeInput || !youtubeInput.trim()) {
+        setImportError("Vui lòng dán đường dẫn video YouTube");
+        return;
+      }
 
     const videoId = extractYouTubeId(youtubeInput);
     if (!videoId) {
@@ -395,43 +498,57 @@ export default function MyVideoPage() {
     } finally {
       setIsImporting(false);
     }
-  };
+  }, [
+    youtubeInput,
+    savedVideos,
+    importCategory,
+    importLevel,
+    addVideo,
+    resetPlayerSync,
+    resetExercises,
+    resetWordLookup,
+    addToast,
+  ]);
 
-  // Metrics computation
-  const totalMinutes = savedVideos.reduce(
-    (acc, v) => acc + (parseInt(v.duration.split(":")[0]) || 3),
-    0
-  );
-  const totalSubtitlesCount = savedVideos.reduce(
-    (acc, v) => acc + (v.subtitles?.length || 0),
-    0
-  );
-  const favoriteCount = savedVideos.filter((v) => v.isFavorite).length;
-  const avgProgress =
-    savedVideos.length > 0
-      ? Math.round(
-          savedVideos.reduce((acc, v) => acc + (v.progressPercent || 0), 0) / savedVideos.length
-        )
+  // Metrics computation (memoized — MED-01 fix: correct duration parse for > 1h)
+  const { totalMinutes, totalSubtitlesCount, favoriteCount, avgProgress } = useMemo(() => {
+    const minutes = savedVideos.reduce((acc, v) => {
+      const parts = v.duration.split(":");
+      if (parts.length === 3) {
+        // "H:MM:SS" → hours*60 + minutes
+        return acc + ((parseInt(parts[0]) || 0) * 60 + (parseInt(parts[1]) || 0));
+      }
+      // "MM:SS" → minutes
+      return acc + (parseInt(parts[0]) || 3);
+    }, 0);
+    const subtitles = savedVideos.reduce((acc, v) => acc + (v.subtitles?.length || 0), 0);
+    const favorites = savedVideos.filter((v) => v.isFavorite).length;
+    const avg = savedVideos.length > 0
+      ? Math.round(savedVideos.reduce((acc, v) => acc + (v.progressPercent || 0), 0) / savedVideos.length)
       : 0;
+    return { totalMinutes: minutes, totalSubtitlesCount: subtitles, favoriteCount: favorites, avgProgress: avg };
+  }, [savedVideos]);
 
-  // Filtered Video List
-  const filteredVideos = savedVideos.filter((v) => {
-    const query = searchQuery.trim().toLowerCase();
-    const matchesSearch =
-      !query ||
-      v.title.toLowerCase().includes(query) ||
-      v.authorName.toLowerCase().includes(query);
-    const matchesCategory =
-      selectedCategory === "Tất cả" || v.category === selectedCategory;
+  // Filtered Video List (memoized — MED-02 fix)
+  const filteredVideos = useMemo(() => {
+    return savedVideos.filter((v) => {
+      const query = searchQuery.trim().toLowerCase();
+      const matchesSearch =
+        !query ||
+        v.title.toLowerCase().includes(query) ||
+        v.authorName.toLowerCase().includes(query);
+      const matchesCategory =
+        selectedCategory === "Tất cả" || v.category === selectedCategory;
 
-    if (!matchesSearch || !matchesCategory) return false;
+      if (!matchesSearch || !matchesCategory) return false;
 
-    if (selectedFilter === "learning") return v.progressPercent > 0 && v.progressPercent < 100;
-    if (selectedFilter === "done") return v.progressPercent >= 100;
-    if (selectedFilter === "favorite") return v.isFavorite;
+      if (selectedFilter === "learning") return v.progressPercent > 0 && v.progressPercent < 100;
+      if (selectedFilter === "done") return v.progressPercent >= 100;
+      if (selectedFilter === "favorite") return v.isFavorite;
 
-    return true;
-  });
+      return true;
+    });
+  }, [savedVideos, searchQuery, selectedCategory, selectedFilter]);
 
   return (
     <div className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none pb-24 md:pb-12">
@@ -454,9 +571,7 @@ export default function MyVideoPage() {
 
       {/* MAIN DASHBOARD CANVAS */}
       <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-3.5 sm:py-6 pb-24 sm:pb-8 space-y-4 sm:space-y-6">
-        {!showExportModal ? (
-          <>
-            {/* 1. HERO SPOTLIGHT & 4 MICRO-METRIC DOUBLE-BEZEL CARDS */}
+        {/* 1. HERO SPOTLIGHT & 4 MICRO-METRIC DOUBLE-BEZEL CARDS */}
             <VideoHeroMetricsBanner
               savedVideosCount={savedVideos.length}
               totalMinutes={totalMinutes}
@@ -493,30 +608,14 @@ export default function MyVideoPage() {
                   isPlaying={isPlaying}
                   togglePlayPause={togglePlayPause}
                   jumpToRandomSubtitle={jumpToRandomSubtitle}
-                  jumpToPrevSubtitle={() => {
-                    const currentIdx = activeSubIndex >= 0 ? activeSubIndex : currentSubIndex;
-                    jumpToSubtitleIndex(Math.max(0, currentIdx - 1));
-                  }}
-                  jumpToNextSubtitle={() => {
-                    const currentIdx = activeSubIndex >= 0 ? activeSubIndex : currentSubIndex;
-                    jumpToSubtitleIndex(Math.min(activeVideo.subtitles.length - 1, currentIdx + 1));
-                  }}
+                  jumpToPrevSubtitle={jumpToPrevSubtitle}
+                  jumpToNextSubtitle={jumpToNextSubtitle}
                   isLoopingSentence={isLoopingSentence}
                   toggleLoopSentence={toggleLoopSentence}
-                  subtitleSyncOffset={subtitleSyncOffset}
-                  setSubtitleSyncOffset={setSubtitleSyncOffset}
                   playbackSpeed={playbackSpeed}
                   changePlaybackSpeed={changePlaybackSpeed}
                   toggleFavorite={toggleFavorite}
-                  onDeleteVideo={(id) => {
-                    const nextVideos = savedVideos.filter((v) => v.id !== id);
-                    removeVideo(id);
-                    if (nextVideos.length > 0) {
-                      selectVideoAndOpenSubtitles(nextVideos[0]);
-                    } else {
-                      setActiveVideo(null);
-                    }
-                  }}
+                  onDeleteVideo={handleDeleteVideo}
                   addToast={addToast}
                 />
 
@@ -550,10 +649,7 @@ export default function MyVideoPage() {
                   waveformBars={waveformBars}
                   shadowingScore={shadowingScore}
                   toggleShadowingRecord={toggleShadowingRecord}
-                  onSelectVideo={(video) => {
-                    selectVideoAndOpenSubtitles(video);
-                    window.scrollTo({ top: 220, behavior: "smooth" });
-                  }}
+                  onSelectVideo={handleSelectVideoWithScroll}
                 />
               </div>
             )}
@@ -568,26 +664,21 @@ export default function MyVideoPage() {
               setSelectedFilter={setSelectedFilter}
               selectedCategory={selectedCategory}
               setSelectedCategory={setSelectedCategory}
-              onSelectVideo={(video) => {
-                selectVideoAndOpenSubtitles(video);
-                window.scrollTo({ top: 220, behavior: "smooth" });
-              }}
+              onSelectVideo={handleSelectVideoWithScroll}
               onToggleFavorite={toggleFavorite}
               onRemoveVideo={removeVideo}
             />
-          </>
-        ) : (
-          <SubtitleExportModal
-            isOpen={showExportModal}
-            onClose={() => setShowExportModal(false)}
-            activeSubtitleResult={activeSubtitleResult}
-            videoTitle={activeVideo?.title || "subtitles"}
-            addToast={addToast}
-          />
-        )}
       </div>
 
       {/* MODALS */}
+      <SubtitleExportModal
+        isOpen={showExportModal}
+        onClose={() => setShowExportModal(false)}
+        activeSubtitleResult={activeSubtitleResult}
+        videoTitle={activeVideo?.title || "subtitles"}
+        addToast={addToast}
+      />
+
       <KeyboardShortcutsModal
         isOpen={showShortcutsModal}
         onClose={() => setShowShortcutsModal(false)}
@@ -597,16 +688,7 @@ export default function MyVideoPage() {
         isOpen={showSrtImportModal}
         onClose={() => setShowSrtImportModal(false)}
         activeVideo={activeVideo}
-        onImportSuccess={(parsed) => {
-          if (!activeVideo) return;
-          updateVideoSubtitles(activeVideo.id, parsed);
-          setActiveVideo({ ...activeVideo, subtitles: parsed });
-          resetPlayerSync();
-          resetExercises();
-          resetWordLookup();
-          setRightPanelTab("subtitles");
-          window.scrollTo({ top: 220, behavior: "smooth" });
-        }}
+        onImportSuccess={handleSubtitleInjection}
         addToast={addToast}
       />
 
@@ -614,16 +696,7 @@ export default function MyVideoPage() {
         isOpen={showXpSubModal}
         onClose={() => setShowXpSubModal(false)}
         activeVideo={activeVideo}
-        onInjectSubtitles={(parsed) => {
-          if (!activeVideo) return;
-          updateVideoSubtitles(activeVideo.id, parsed);
-          setActiveVideo({ ...activeVideo, subtitles: parsed });
-          resetPlayerSync();
-          resetExercises();
-          resetWordLookup();
-          setRightPanelTab("subtitles");
-          window.scrollTo({ top: 220, behavior: "smooth" });
-        }}
+        onInjectSubtitles={handleSubtitleInjection}
         addToast={addToast}
       />
     </div>

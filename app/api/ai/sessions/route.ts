@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma, safeDbExecute, withPrismaRetry } from "@/infrastructure/database/prisma";
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
 
 export const dynamic = "force-dynamic";
 
@@ -13,7 +14,7 @@ function getLocalDateStr(d = new Date()): string {
 
 export interface AiSessionPayload {
   sessionId?: string;
-  mode: "tutor" | "conversation";
+  mode: "tutor" | "conversation" | "writing";
   topicId?: string;
   personaId?: string;
   messages: Array<{
@@ -101,6 +102,48 @@ export async function GET(request: Request) {
     const statusQuery = searchParams.get("status") || "all";
     const authUserId = await getAuthenticatedUserId(request);
     const userId = authUserId || "guest_ai_user";
+
+    // 0. Lookup single session by ID
+    const singleSessionId = searchParams.get("sessionId");
+    if (singleSessionId) {
+      try {
+        const rows: any[] = await withPrismaRetry(() =>
+          (prisma as any).$queryRawUnsafe(
+            `SELECT id, user_id, mode, topic_id, persona_id, messages, overall_score, 
+                    grade, evaluation_metrics, time_spent_seconds, xp_earned, status, 
+                    created_at, updated_at 
+             FROM ai_practice_sessions 
+             WHERE user_id = $1 AND id = $2 LIMIT 1`,
+            userId,
+            singleSessionId
+          )
+        );
+
+        if (rows && rows.length > 0) {
+          const r = rows[0];
+          return NextResponse.json({
+            success: true,
+            session: {
+              sessionId: r.id,
+              mode: r.mode,
+              topicId: r.topic_id,
+              personaId: r.persona_id,
+              messages: typeof r.messages === "string" ? JSON.parse(r.messages) : r.messages || [],
+              overallScore: r.overall_score,
+              grade: r.grade,
+              evaluationMetrics: typeof r.evaluation_metrics === "string" ? JSON.parse(r.evaluation_metrics) : r.evaluation_metrics,
+              timeSpentSeconds: r.time_spent_seconds || 0,
+              xpEarned: r.xp_earned || 0,
+              status: r.status,
+              createdAt: r.created_at ? new Date(r.created_at).toISOString() : undefined,
+              updatedAt: r.updated_at ? new Date(r.updated_at).toISOString() : undefined,
+            },
+          });
+        }
+      } catch (err) {
+        console.warn("[AiSessions] DB single session read notice:", err);
+      }
+    }
 
     // 1. If looking for active session (IN_PROGRESS) to hydrate on page reload
     if (statusQuery === "active" || statusQuery === "IN_PROGRESS") {
@@ -314,7 +357,7 @@ export async function POST(request: Request) {
     // 3. If session is COMPLETED and user is authenticated, sync to DailySkillPractice & Profile
     if (status === "COMPLETED" && authUserId && authUserId !== "guest_ai_user") {
       try {
-        const skillKey = mode === "tutor" ? "speaking" : "writing";
+        const skillKey = mode === "writing" ? "writing" : "speaking";
         const todayDate = getLocalDateStr();
         const minutes = Math.max(1, Math.ceil(timeSpentSeconds / 60));
 
@@ -350,6 +393,9 @@ export async function POST(request: Request) {
             },
           });
         });
+
+        // Level 5 Performance Standard: Invalidate dashboard & analytics caches atomically
+        invalidateDashboardCache(authUserId);
       } catch (syncErr: any) {
         console.warn("[AiSessions] SkillPractice & Profile sync notice:", syncErr?.message || syncErr);
       }

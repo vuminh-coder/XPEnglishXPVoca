@@ -241,8 +241,13 @@ export function AiConversationChatStream({
         })}
 
         {isAiTyping && (
-          <div className="flex items-center gap-2 p-2.5 rounded-2xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200/60 dark:border-blue-800/40 text-[#0059bb] dark:text-sky-300 text-xs font-bold animate-pulse w-fit shadow-2xs">
-            <RefreshCw className="w-4 h-4 animate-spin" /> AI đang suy nghĩ câu trả lời...
+          <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-purple-50/70 dark:bg-purple-950/30 border border-purple-200/60 dark:border-purple-800/40 text-purple-700 dark:text-purple-300 text-xs font-bold w-fit shadow-2xs">
+            <div className="flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-bounce" style={{ animationDelay: "0ms" }} />
+              <span className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-bounce" style={{ animationDelay: "150ms" }} />
+              <span className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-bounce" style={{ animationDelay: "300ms" }} />
+            </div>
+            <span>AI đang suy nghĩ câu trả lời...</span>
           </div>
         )}
         <div ref={chatBottomRef} />

@@ -3,6 +3,8 @@ import { prisma, handlePrismaError } from "@/infrastructure/database/prisma";
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
 import { memoryCache } from "@/infrastructure/cache/memoryCache";
+import { MOCK_LESSONS_DATA } from "@/features/listening/data/listeningMockData";
+import { EXTENDED_SHADOWING_LESSONS } from "@/features/shadowing/data/extendedShadowingData";
 
 export async function POST(request: Request) {
   try {
@@ -48,6 +50,37 @@ export async function POST(request: Request) {
     const addedMinutes = Math.ceil(safeTimeSpent / 60);
 
     const result = await prisma.$transaction(async (tx) => {
+        // 0. Ensure foreign key constraint is satisfied: Self-heal if lesson is a known mock/shadowing lesson
+        const existingLesson = await tx.listeningLesson.findUnique({
+          where: { id: lessonId },
+          select: { id: true },
+        });
+
+        if (!existingLesson) {
+          const known =
+            MOCK_LESSONS_DATA.find((l) => l.id === lessonId) ||
+            (EXTENDED_SHADOWING_LESSONS as any[]).find((l) => l.id === lessonId);
+
+          if (known) {
+            await tx.listeningLesson.create({
+              data: {
+                id: known.id,
+                title: known.title,
+                category: (known as any).category || "General",
+                level: known.level || "Intermediate",
+                duration: known.duration || "03:00",
+                accent: (known as any).accent || "en-US",
+                audioUrl: (known as any).audioUrl || (known as any).audio_url || "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+                imageUrl: (known as any).imageUrl || "https://images.unsplash.com/photo-1543269865-cbf427effbad?w=800",
+                transcript: (known as any).transcript || [],
+                vocabList: (known as any).vocabList || (known as any).vocabularyList || [],
+                grammarNotes: (known as any).grammarNotes || [],
+                orderIndex: 9999,
+              },
+            });
+          }
+        }
+
         // 1. Upsert ListeningProgress
         const progress = await tx.listeningProgress.upsert({
           where: {

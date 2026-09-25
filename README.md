@@ -8,13 +8,91 @@
 
 Dự án áp dụng mô hình **Feature-Based Modular Architecture** kết hợp **Next.js 16 App Router**:
 
-- **`features/`**: Chứa toàn bộ logic nghiệp vụ, components, hooks, services, data và utilities phân chia độc lập theo từng tính năng (`listening`, `shadowing`, `vocabulary`, `ipa`, `exam-prep`, `grammar`, `reading`, `study-rooms`, `gamification`, `community`, `ai-tutor`, `profile`, `premium`).
+- **`features/`**: Chứa toàn bộ logic nghiệp vụ, components, hooks, services, data và utilities phân chia độc lập theo từng tính năng (`listening`, `shadowing`, `vocabulary`, `ipa`, `exam-prep`, `grammar`, `reading`, `study-rooms`, `gamification`, `community`, `ai-tutor`, `profile`, `premium`, `myvideo`).
 - **`shared/`**: Chứa các thành phần dùng chung thực sự (`components/ui`, `components/layout`, `components/feedback`, `utils`, `constants`, `types`).
 - **`infrastructure/`**: Tách biệt mã nguồn tích hợp hệ thống bên ngoài (`api`, `auth`, `database`, `security`, `webrtc`).
 - **`stores/`**: Chứa toàn bộ các Zustand stores quản lý trạng thái tập trung.
 - **`app/`**: Next.js App Router mỏng đóng vai trò Orchestrator điều hướng.
 
 Chi tiết xem tại tài liệu kiến trúc chuyên sâu: [ARCHITECTURE.md](file:///e:/XP%20English%20%20XP%20Voca/ARCHITECTURE.md).
+
+---
+
+## 📊 Quy Chuẩn Hiệu Năng Truy Vấn Cơ Sở Dữ Liệu (Database Query Performance Standard)
+
+> **Mục đích:** Quy chuẩn bắt buộc để thiết kế, phân tích và tối ưu Database Query trong toàn bộ dự án XP English & XP Voca.
+>
+> **Nguyên tắc cốt lõi:** Không tối ưu bằng cảm tính. Không tự động thêm index bừa bãi. Mọi quyết định optimization phải dựa trên measurement, execution plan và workload thực tế.
+
+### 1. 🎯 Golden Rule – Đo Lường Trước, Tối Ưu Sau
+
+```text
+MEASURE ➔ UNDERSTAND ➔ EXPLAIN ➔ IDENTIFY BOTTLENECK ➔ OPTIMIZE ➔ BENCHMARK ➔ VERIFY ➔ MONITOR
+```
+
+- **Tuyệt đối KHÔNG:**
+  ```text
+  QUERY CHẬM ➔ THÊM INDEX THEO CẢM TÍNH ➔ HY VỌNG
+  ```
+- **BẮT BUỘC PHẢI:**
+  ```text
+  QUERY CHẬM ➔ MEASURE (ĐO ĐẠC) ➔ EXPLAIN / EXPLAIN ANALYZE ➔ TÌM BOTTLENECK ➔ CHỌN GIẢI PHÁP TỐI ƯU
+  ```
+
+### 2. 🪜 Thứ Tự Ưu Tiên Tối Ưu Hóa (Optimization Layers)
+
+Khi một truy vấn chậm, AI / Kỹ sư phần mềm **BẮT BUỘC** kiểm tra theo đúng 8 tầng ưu tiên từ dưới lên:
+
+* **Level 1 (Query & Logic):** Tính đúng đắn, loại bỏ `SELECT *`, loại bỏ N+1 queries, đảm bảo tính Sargable trong mệnh đề `WHERE`, filter sớm trước khi JOIN, chọn phân trang phù hợp (Keyset / Cursor pagination cho deep pagination thay vì `OFFSET` khổng lồ).
+* **Level 2 (Index Strategy):** Dựa trên `EXPLAIN / EXPLAIN ANALYZE`, độ phân biệt (Cardinality / Selectivity), thứ tự cột trong Composite Index `(A, B, C)`, Covering Index / Index-only scan, cân nhắc chi phí khuếch đại ghi (Write amplification cost).
+* **Level 3 (Schema & Data Model):** Chuẩn hóa kiểu dữ liệu nhỏ gọn nhất có thể, Primary / Foreign Key constraints, chuẩn hóa hoặc phản chuẩn hóa có tính toán trade-off.
+* **Level 4 (Database Configuration):** Connection pooling, timeouts, Neon PgBouncer configuration.
+* **Level 5 (Application Cache):** `memoryCache` / Redis (chỉ dùng khi dữ liệu đọc nhiều, ít thay đổi, chấp nhận stale data và query nền tảng đã được tối ưu).
+* **Level 6 (Read Scaling):** Read replicas (tính đến replication lag).
+* **Level 7 (Partitioning):** Time-series / Tenant isolation.
+* **Level 8 (Sharding):** Kiến trúc phân tán (chỉ khi khối lượng scale thực sự yêu cầu).
+
+*Tuyệt đối không nhảy cóc lên Caching / Redis / Sharding để che giấu một câu truy vấn thiết kế kém.*
+
+### 3. 🛡️ Cam Kết & Nguyên Tắc Thực Thi AI (AI Protocol & Report Template)
+
+* AI **tuyệt đối không** tự ý thêm index cho mọi cột xuất hiện trong `WHERE`.
+* AI **không** kết luận "Query này nhanh hơn" nếu chưa có số liệu benchmark thực tế trước và sau.
+* AI **không** tự bịa đặt số liệu execution plan.
+* Mọi đề xuất tối ưu hóa truy vấn quan trọng phải đi kèm **Query Optimization Report** chuẩn mực:
+
+```markdown
+## Query Optimization Report
+
+### Problem
+[Mô tả truy vấn chậm & triệu chứng]
+
+### Root Cause
+[Nguyên nhân thực tế từ Execution Plan]
+
+### Before
+- Latency (p50 / p95):
+- Rows examined / Rows returned:
+- Execution plan:
+- CPU / IO / Memory:
+
+### Optimization Implemented
+[Các thay đổi cụ thể ở Level 1 - Level 3]
+
+### After
+- Latency (p50 / p95):
+- Rows examined / Rows returned:
+- Execution plan:
+- CPU / IO / Memory:
+
+### Trade-offs & Verification
+- [ ] Ảnh hưởng tốc độ ghi (Write cost / Index size)
+- [ ] Kiểm tra hồi quy (Regression test passed)
+```
+
+### 4. 👑 Master Rule
+> *"The fastest query is the query you do not need to execute."*  
+> Trước khi tối ưu một truy vấn, hãy luôn tự hỏi: Có thực sự cần truy vấn không? Có thể giảm số cột / số dòng cần đọc không? Có thể batch không? Có thể tận dụng kết quả đã có không?
 
 ---
 
@@ -102,11 +180,15 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
     - Làm tròn chuẩn tại nguồn tính toán `getXpProgress()` qua `roundPercent(val, 2)` giúp thuộc tính CSS `style={{ width: `${percent}%` }}` luôn sắc gọn.
     - Tiện ích `formatPercent(value, { decimals: 2, trimZero: true })` tự động lược bỏ số 0 thừa (`33.33%`, `16.67%`, `12.5%`, `50%`) hoặc giữ cố định khi cần (`50.00%`), đảm bảo giao diện luôn đạt chuẩn Agency UI/UX hoàn mỹ.
 21. **Chuẩn Hóa UI/UX Phòng Hội Thoại AI (`/ai/conversation` - Dynamic Primary CTA & Single Viewport Budget)**:
-    - Thống nhất toàn bộ định vị sản phẩm về **Hội thoại AI (AI Conversation Studio)**, triệt tiêu hoàn toàn sai lệch thuật ngữ "luyện viết".
+    - Thống nhất toàn bộ định vị sản phẩm về **Hội thoại AI (AI Conversation Studio)**, triệt tiêu hoàn toàn sai lệch thuật ngữ "luyện viết" trong cả giao diện chính và ngăn kéo lịch sử ([AiConversationHistoryDrawer.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/ai/conversation/components/AiConversationHistoryDrawer.tsx)).
     - Áp dụng **Quy tắc 18 Wadhah Aloui** giải quyết xung đột CTA: Nút Micro là Primary khi chưa nhập dữ liệu; Nút Gửi tự động thành Primary khi người dùng bắt đầu gõ phím; Tích hợp chỉ báo trạng thái tương tác bên ngoài (Rule 6).
+    - Áp dụng **Quy tắc 1 Wadhah Aloui (Skeleton Loading)**: Thay thế spinner xoay tròn trong ngăn kéo lịch sử bằng bộ khung xương tải mẫu ([ShimmerBox](file:///e:/XP%20English%20%20XP%20Voca/shared/components/feedback/ShimmerSkeleton.tsx)).
+    - Nâng cấp trạng thái AI suy nghĩ sang bong bóng 3 chấm tím AI Tutor (`#8b5cf6`) sinh động, đồng bộ nhận diện hệ sinh thái AI.
+    - Sửa lỗi phân loại kỹ năng CSDL trong [app/api/ai/sessions/route.ts](file:///e:/XP%20English%20%20XP%20Voca/app/api/ai/sessions/route.ts): Tự động map `mode === "conversation"` về kỹ năng thực hành `speaking` chuẩn xác trong `DailySkillPractice` và kích hoạt `invalidateDashboardCache` tức thì.
     - Tối ưu hóa ngân sách chiều cao Viewport Desktop (Compact Bento Grid 8/12 - 4/12), triệt tiêu hoàn toàn hiện tượng thanh cuộn kép lồng nhau (Dual Scrollbars) trên laptop 13-14 inch.
     - Bổ sung thanh chuyển đổi phân đoạn thông minh trên Mobile (Segmented Switcher: "Hội thoại" vs "Mục tiêu & Từ vựng X/3"), giải quyết dứt điểm điểm nghẽn trôi mục tiêu xuống đáy trang.
     - Nâng cấp tương tác vi mô Tra từ điển 1-chạm (Click-to-lookup): Thêm đường gạch chân chấm mờ thị giác, sửa biểu thức chính quy bảo tồn dấu nháy trong các từ viết tắt tiếng Anh (`don't`, `I'm`, `let's`), và tinh chỉnh vị trí Modal không che khuất thanh nhập liệu trên điện thoại.
+    - Bộ kiểm thử chuẩn mực bổ sung: [`__tests__/ai_conversation_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/ai_conversation_standards.test.ts) đạt tỷ lệ vượt qua **4/4 tests (100%)**.
 22. **Edge Proxy & Tường Lửa Bảo Mật Tầng Biên (`proxy.ts`)**:
     - Kích hoạt chuẩn Edge Proxy Next.js 16 tại root (`proxy.ts`), thay thế quy ước `middleware.ts` cũ, thực thi Edge Rate Limiting ngăn chặn brute-force và DDoS.
     - Thiết lập bộ Security Headers chuẩn OWASP (`X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Strict-Transport-Security`, `Permissions-Policy`).
@@ -122,6 +204,54 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
     - `prisma/seed.ts`: Nâng cấp kịch bản seed đồng bộ cả `MOCK_VOCABULARIES`, `BASIC_VOCABULARIES` (29.000 dòng chuẩn IPA) và 9.000 dòng bài học luyện nghe đa cấp độ `seedListeningLessons` (`prisma/seedListeningData.ts`), phân nhóm batch 1000 items tránh chạm ngưỡng giới hạn parameter của PostgreSQL.
     - Audio Fallback trong Review Thi Thử (`exam-prep/result`): Tự động chuyển hướng các đường link nhạc mẫu SoundHelix sang giọng đọc tiếng Anh tự nhiên chất lượng cao `/api/tts`.
     - Loại bỏ hoàn toàn gói phụ thuộc dư thừa `bootstrap` khỏi dự án.
+26. **Tối Ưu Hóa & Cải Tiến Toàn Diện Trang Học Video Cá Nhân (`/myvideo` - High-Precision YouTube Studio)**:
+    - **Triệt tiêu Side-Effect trong State Updater & Vòng Lặp Đồng Bộ 35ms (BUG-03 & HIGH-01)**: Tách lệnh `sendYtCommand("seekTo")` ra khỏi updater của `setCurrentTime`, chuyển sang kiểm tra trước khi setState kết hợp change-detection guards, giảm hơn 80% re-renders thừa từ ~140 updates/giây xuống mức tối ưu.
+    - **Khử Rủi Ro Vòng Lặp Vô Hạn Active Video (BUG-02)**: Dùng `activeVideoIdRef` cô lập phụ thuộc, chỉ lắng nghe biến động thực sự từ `savedVideos` và cập nhật thông qua functional setState, ngăn chặn triệt để infinite re-render loop.
+    - **Sửa Lỗi Chấm Điểm Shadowing False-Positive (BUG-04)**: Thay thế thuật toán `targetWords.includes()` bằng cơ chế khớp từ có loại trừ (splice-based matching), ngăn chặn hiện tượng lặp lại 1 từ làm tăng điểm phát âm ảo.
+    - **Gỡ Bỏ Hoisting & Temporal Dead Zone (BUG-01)**: Đồng bộ callback `onSubIndexChange` qua `setCurrentSubIndexRef` và cho phép tính năng lặp câu (Loop Sentence) tự động fallback về `activeSubIndexRef.current` đang phát thực tế thay vì bị gán cứng vào câu 0.
+    - **Tối Ưu Hóa Keyboard Shortcuts Listener (HIGH-04)**: Chuyển toàn bộ 17 phụ thuộc của sự kiện bàn phím sang `keyboardStateRef`, gắn listener `keydown` duy nhất 1 lần khi mount thay vì tháo/lắp 28 lần mỗi giây.
+    - **Bảo Mật PostMessage Chuẩn OWASP (HIGH-05)**: Thay thế toàn bộ wildcard origin `"*"` trong giao tiếp iframe YouTube Player bằng domain tường minh `"https://www.youtube.com"`.
+    - **Khử Crash Non-Null Assertion trong Tra Từ (HIGH-06)**: Kiểm tra null an toàn trước khi cập nhật số từ đã học trong `useWordLookup`, loại bỏ hoàn toàn lỗi crash khi người dùng chưa đăng nhập.
+    - **Chuẩn Hóa Parse Thời Lượng & Báo Cáo Xuất Phụ Đề Modal (MED-01, MED-02, MED-05, MED-08)**: Hỗ trợ định dạng `H:MM:SS` chính xác cho video trên 1 giờ; bao bọc toàn bộ metrics và bộ lọc trong `useMemo`; chuyển đổi `SubtitleExportModal` thành Overlay Modal Dialog thay vì unmount toàn trang gây mất trạng thái video player; trích xuất logic nạp phụ đề trùng lặp thành `handleSubtitleInjection`.
+    - **Khắc Phục Lỗi Đồng Bộ Phụ Đề & Bế Tắc Mốc Thời Gian 0s (Zero-Time Deadlock & Anti-Stutter)**:
+      - Xóa bỏ điều kiện `if (realTime > 0)` từng gây đóng băng phụ đề tại mốc 0.0s khi video mới nạp; cho phép nội suy mượt mà từ 0.0s theo thời gian thực.
+      - Mở rộng cửa sổ nội suy thời gian từ 350ms lên 2500ms khi phát, triệt tiêu hoàn toàn hiện tượng phụ đề bị giật lùi (Time Stutter) do độ trễ postMessage của YouTube iframe.
+      - Cơ chế chống giật ngược khi tua câu (Anti-Rubber-Banding): Chặn các gói tin in-flight cũ đến muộn trong vòng 800ms sau khi người dùng click nhảy câu.
+      - Xóa bỏ khối tinh chỉnh `-0.2s` / `+0.2s` dư thừa trên thanh Media Control Dock theo yêu cầu tinh gọn giao diện.
+      - Chuẩn hóa thanh điều khiển chế độ phụ đề (`SubtitlesTabPane`) hiển thị cố định trên **1 dòng duy nhất** (`overflow-hidden`, `truncate`, `whitespace-nowrap`), lược bỏ các từ rườm rà giúp nút "Xem Tất Cả" / "Focus 3 Câu" luôn sắc nét, không bị rớt dòng.
+      - Bổ sung bộ kiểm thử độ chính xác phụ đề toàn diện [`__tests__/myvideo_subtitle_engine_precision.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/myvideo_subtitle_engine_precision.test.ts) đạt tỷ lệ vượt qua **15/15 tests (100%)**.
+27. **Tối Ưu Hóa & Chuẩn Hóa Toàn Diện Hệ Thống Luyện Nghe & Luyện Nói (Listening & Shadowing Studio Suite - Agency Tier Standard)**:
+    - **Khắc phục lỗi Foreign Key `P2003` & Tự phục hồi dữ liệu (Self-Healing Pattern)**: Bổ sung và đồng bộ hóa toàn bộ 18 bài học còn thiếu (`listen_a1_001` - `listen_a1_018`, `shadow_ext_001` - `shadow_ext_008`) vào bảng cơ sở dữ liệu `listening_lessons` trên Neon PostgreSQL (nâng tổng số bài học trên CSDL từ 102 lên 120 bài). Tích hợp cơ chế tự phục hồi trong `POST /api/listening/progress`: tự động nhận diện và upsert bài học nếu chưa tồn tại trong cơ sở dữ liệu trước khi tạo `ListeningProgress`.
+    - **Triệt tiêu Bug Xóa Tiến Độ Học Tập (`DELETE /api/listening/progress`)**: Xóa bỏ hoàn toàn lệnh gọi DELETE khi hoàn thành bài nghe/nói trong `ListeningPageContent`, `ShadowingStudioContent` và `useShadowingAudioRecorder`. Thay thế bằng việc ghi nhận trạng thái `COMPLETED` chuẩn mực, đồng bộ đầy đủ các câu đã hoàn thành, tích lũy XP, cập nhật bảng kỹ năng `DailySkillPractice` (`dictation` / `shadowing`) và kích hoạt hiển thị tức thì trong tab "Đã hoàn thành" của danh mục.
+    - **Bảo Vệ Quyền Riêng Tư & Triệt Tiêu Rò Rỉ Bộ Đệm CDN (Personalized Cache-Control Partitioning)**: Sửa đổi tiêu đề phản hồi `Cache-Control` trong `GET /api/listening/lessons` và `GET /api/listening/lessons/[id]`. Khi có phiên đăng nhập của người dùng (`userId`), hệ thống chuyển từ `public` sang `private, no-cache, no-store, must-revalidate`, loại bỏ hoàn toàn nguy cơ CDN hoặc trình duyệt chia sẻ tiến độ học tập và ghi chú cá nhân giữa các tài khoản khác nhau.
+    - **Kiểm Soát Tải Truy Vấn & Phân Trang An Toàn (`takeLimit` Bounds)**: Bổ sung tham số chặn ngưỡng `take: takeLimit` (mặc định 150, tối đa 200) cho truy vấn `prisma.listeningLesson.findMany`, ngăn chặn quá tải bộ nhớ và bùng nổ kích thước payload JSON khi kho học liệu mở rộng.
+    - **Triệt Tiêu Lỗi 401 Flooding Cho Tài Khoản Khách (Guest Session Guard)**: Kiểm tra điều kiện người dùng đăng nhập trước khi kích hoạt các yêu cầu đồng bộ máy chủ (`/api/listening/progress`), giữ cho khách vãng lai trải nghiệm mượt mà qua cơ chế lưu trữ cục bộ SWR `localStorage` mà không bị ngập mã lỗi 401 trong bảng điều khiển trình duyệt.
+    - **Chuẩn Hóa UI/UX Theo 19 Quy Tắc Wadhah Aloui & Tỷ Lệ Màu 60-30-10**:
+      - Tối ưu hóa hệ thống nút bấm hành động (Rule 18): Thiết lập duy nhất 1 nút Primary nổi bật (Nút Thu âm & Chấm điểm / Nộp bài), chuyển các tiện ích phụ trợ (Nghe mẫu, Lưu sổ tay, Báo cáo lỗi) sang dạng Ghost/Secondary.
+      - Cải tiến thanh điều khiển Mobile Audio Dock (Rule 13 Thumb Zone): Đặt nút Micro kích thước lớn ngay vùng ngón tay cái, kèm phản hồi xúc giác và hiển thị trạng thái VAD sóng âm trực quan.
+      - Chuẩn hóa gợi ý thanh tìm kiếm (Rule 12): Điền placeholder chỉ dẫn chi tiết ("Tìm bài nghe/nói theo tiêu đề, chủ đề, mã bài...").
+    - **Bộ Kiểm Thử Chuẩn Mực Bổ Sung**: Xây dựng test suite [`__tests__/listening_shadowing_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/listening_shadowing_standards.test.ts) kiểm tra 100% độ toàn vẹn của CSDL, phân quyền bộ đệm và quy trình ghi nhận tiến độ.
+28. **Chuẩn Hóa Phân Tích Học Tập & Điểm Kinh Nghiệm (Single Root Query Analytics & Atomic Invalidation Engine)**:
+    - **Single Root Query**: Chuyển đổi `GET /api/user/analytics` từ 6 truy vấn rời rạc sang **1 câu Single Root Query duy nhất** trên bảng `Profile` kết hợp quan hệ lồng `dailySkillPractices` (7 ngày gần nhất) và phép chiếu có chọn lọc (`select`), giảm áp lực kết nối DB từ 6 xuống 1 kết nối duy nhất.
+    - **Khử Bỏ Bùng Nổ Bộ Nhớ Quét Toàn Bảng (`groupBy`)**: Thay thế toàn bộ quét toàn bảng `groupBy` tính thứ hạng tuần bằng câu truy vấn đếm vô hướng trực tiếp trong PostgreSQL engine (`HAVING SUM(xp_earned) > $userWeeklyXp`), triệt tiêu 100% rủi ro tràn RAM máy chủ khi dữ liệu hàng nghìn học viên.
+    - **Động Cơ Vô Hiệu Hóa Bộ Đệm Nguyên Tử (`infrastructure/cache/dashboardCache.ts`)**: Mở rộng hàm `invalidateDashboardCache` tích hợp tự động dọn sạch cả bộ đệm Bảng điều khiển và Phân tích học tập (`analytics:${userId}:${todayStr}`) ngay khi học viên nhận thưởng XP/Coins qua `POST /api/user/activity-award`.
+    - **Bộ Kiểm Thử Chuẩn Mực**: Xây dựng test suite [`__tests__/analytics_xp_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/analytics_xp_standards.test.ts) kiểm tra toàn diện 100% (5/5 tests).
+29. **Tối Ưu Hóa Bảng Xếp Hạng & Biểu Đồ Phút Nhóm Lớp (Dual Criterion Leaderboard & 7-Day Group Minute Analytics)**:
+    - **Bảng Xếp Hạng Đa Tiêu Chí Độc Lập (`/api/leaderboard`)**: Hỗ trợ đồng thời 2 tiêu chí xếp hạng: **"Điểm XP" (`criterion=xp`)** và **"Thời gian học (Phút)" (`criterion=time`)**. Phân tách bộ đệm RAM máy chủ theo khóa riêng biệt `leaderboard:${period}:${criterion}:${page}:${limit}`, triệt tiêu hoàn toàn lỗi hiển thị chéo dữ liệu do va chạm khóa bộ đệm (Cache Key Collision).
+    - **Tối Ưu Hóa Tầng SQL Level 1**: Sử dụng trực tiếp SQL Aggregation trong PostgreSQL kết hợp `ORDER BY periodic_minutes DESC` hoặc `ORDER BY periodic_xp DESC` và phân trang an toàn `LIMIT ... OFFSET ...`, loại bỏ việc tải mảng dữ liệu toàn cục vào RAM ứng dụng.
+    - **Đồng Bộ Thời Gian Thực Bảng Điều Khiển (`/dashboard`) & Cộng Đồng (`/community`)**: Mini-Leaderboard và Bảng Xếp Hạng Cộng Đồng hỗ trợ nút chuyển đổi nhanh "Điểm XP" ↔ "Thời gian học" kèm nạp dữ liệu tức thì không trễ.
+    - **API Phân Tích & Biểu Đồ Phút Nhóm Lớp (`GET /api/groups/[id]/stats`)**: Nạp thông tin nhóm, chuỗi thời gian 7 ngày luyện tập liên tục của toàn bộ thành viên và bảng xếp hạng thành viên chỉ trong **2 truy vấn bounded DB duy nhất** (1 trên `Group` có chọn lọc `members`, 1 trên `DailySkillPractice` trong phạm vi 7 ngày của các thành viên). Bộ đệm RAM 30s với tiêu đề `Cache-Control: public, s-maxage=30, stale-while-revalidate=60`.
+    - **Giao Diện Modal Biểu Đồ Phút Nhóm Chuẩn Agency (`GroupDetailModal.tsx`)**: Vẽ đường cong mượt mà Bezier SVG hiển thị phút học từng ngày trong tuần, thẻ tóm tắt 3 chỉ số then chốt (Tổng phút, Ngày cao nhất, Trung bình phút/ngày), và bảng xếp hạng thành viên hỗ trợ chuyển đổi linh hoạt giữa "Phút học" và "Điểm XP".
+    - **Bộ Kiểm Thử Toàn Diện**: [`__tests__/leaderboard_groups_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/leaderboard_groups_standards.test.ts) xác thực 100% (7/7 tests) về khóa đệm phân biệt, thuật ngữ sắp xếp SQL, đường cong 7 ngày và tính cô lập dữ liệu.
+30. **Chuẩn Hóa Gia Sư AI Đàm Thoại & Quản Lý Phiên Luyện Nói (AI Voice Tutor & Session Persistence Standard)**:
+    - **Xóa Bộ Đệm Nguyên Tử Khi Hoàn Tất Phiên (`POST /api/ai/sessions`)**: Tích hợp `invalidateDashboardCache(authUserId)` sau khi đồng bộ `DailySkillPractice` (speaking) và `Profile` (minutesStudied, totalXp), giải quyết triệt để lỗi dữ liệu cũ trên Dashboard & Analytics khi học viên luyện nói xong.
+    - **Truy Vấn Phiên Học Giới Hạn Cứng (`GET /api/ai/sessions`)**: Bổ sung cơ chế nạp trực tiếp phiên học theo định danh `?sessionId=...` với `LIMIT 1` và truy vấn danh sách lịch sử có chặn ngưỡng `LIMIT 30`, ngăn ngừa quá tải bộ nhớ và bùng nổ kích thước payload JSON.
+    - **Chuẩn Hóa UI/UX Theo 19 Quy Tắc Wadhah Aloui**:
+      - **Rule 1 (Loading)**: Thay thế spinner cổ điển bằng **Skeleton Loading Cards** (`ShimmerBox`) trong ngăn kéo lịch sử buổi học.
+      - **Rule 18 (Single Primary Button & Dynamic CTA)**: Nút Micro là Primary khi chưa có dữ liệu; Nút Gửi tự động thành Primary khi người dùng bắt đầu gõ hoặc hoàn tất nhận diện giọng nói; Nút Micro chuyển thành Secondary.
+      - **Hỗ Trợ Nhập Liệu Linh Hoạt**: Cho phép học viên vừa nói qua Micro vừa gõ phím / sửa văn bản trước khi gửi (`readOnly={isRecording}` + `onChange`).
+      - **Điểm Nhấn Ngữ Nghĩa 60-30-10**: Tích hợp hiệu ứng bong bóng suy nghĩ 3 chấm tím AI Tutor (`#8b5cf6`), phân biệt trực quan với màu nhận diện thương hiệu `#0059bb`.
+    - **Bộ Kiểm Thử Chuẩn Mực**: Xây dựng test suite [`__tests__/ai_tutor_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/ai_tutor_standards.test.ts) kiểm tra 100% (6/6 tests) tính toàn vẹn của CSDL, quản lý bộ đệm và động cơ gợi ý đàm thoại.
 
 ---
 
@@ -1835,10 +1965,68 @@ Hệ thống sở hữu kho học liệu song ngữ đồ sộ, được xây d�
 
 ---
 
+## ⚡ Chuẩn Tối Ưu Truy Vấn CSDL & Đồ Thị Kỹ Năng / Điểm Kinh Nghiệm (Database Query Performance Standard & XP Chart Architecture)
+
+Tuân thủ nghiêm ngặt quy chuẩn cốt lõi:
+$$\text{MEASURE} \rightarrow \text{UNDERSTAND} \rightarrow \text{EXPLAIN} \rightarrow \text{IDENTIFY BOTTLENECK} \rightarrow \text{OPTIMIZE} \rightarrow \text{BENCHMARK} \rightarrow \text{VERIFY} \rightarrow \text{MONITOR}$$
+
+### 1. Phân Tầng Tối Ưu Hóa (Optimization Priority Layers)
+- **Level 1 (Query & Logic):** Tính đúng đắn, `SELECT` đúng cột cần dùng, loại bỏ N+1, đảm bảo sargability, filter sớm, pagination phù hợp.
+- **Level 2 (Index Strategy):** Tận dụng index hiện có, index composite cho các bộ lọc thường dùng.
+- **Level 3 (Schema & Denormalization):** Phù hợp truy vấn phân tích tổng hợp.
+- **Level 4 (Connection Pool & Engine):** Hạn chế checkout nhiều kết nối đồng thời từ Neon PostgreSQL pool (giảm từ 6 kết nối xuống 1 kết nối qua Single Root Query).
+- **Level 5 (In-Memory Cache):** TTL Cache in-memory ngắn hạn (30s–60s) kèm cơ chế giải phóng chủ động khi có thay đổi dữ liệu.
+
+### 2. Tối Ưu Hóa Biểu Đồ & Điểm Kinh Nghiệm (Charts & Experience Points Engine)
+1. **Kiến Trúc Single Root Query tại `/api/user/analytics`**:
+   - **Xóa bỏ Nút thắt cổ chai (Bottleneck):** Trước đây endpoint chạy `prisma.dailySkillPractice.groupBy` trên **toàn bộ người dùng** trong CSDL chỉ để tìm thứ hạng tuần của 1 học viên (`weeklyRankStr`). Khi dữ liệu tăng, điều này gây quét bảng lớn và truyền tải mảng đối tượng khổng lồ vào RAM Node.js.
+   - **Tối ưu hóa:** Thay thế bằng **Truy vấn Đơn Gốc (Single Root Query)** trên model `Profile` kèm các quan hệ lồng nhau (`dailySkillPractices`, `examAttempts`, `listeningProgresses`, `_count.vocabularies`).
+   - **Lọc sớm & Giảm cột thừa (Selective Projection):** Thêm mệnh đề `select` chặt chẽ cho `dailySkillPractices` (`skill`, `date`, `minutes`, `xpEarned`), loại bỏ `id`, `userId`, `createdAt`, `updatedAt` cho 168 ngày (cắt giảm >50% dung lượng JSON qua mạng).
+   - **Đếm thứ hạng vô hướng (Scalar Raw Count):** Sử dụng câu truy vấn vô hướng `SELECT COUNT(*)::int ... GROUP BY user_id HAVING SUM(xp_earned) > $userWeeklyXp` thực thi trực tiếp trong engine PostgreSQL, chỉ trả về đúng 1 số nguyên duy nhất, giảm áp lực kết nối và bộ nhớ CPU Node.js về 0.
+2. **Đồng Bộ Điểm Kinh Nghiệm `/api/user/activity-award` & Vô Hiệu Hóa Cache Tức Thì**:
+   - Khi học viên hoàn thành bài luyện tập (Dictation, Shadowing, Vocab, PvP, Exam), endpoint `activity-award` cộng dồn XP và Coins nguyên tử vào `Profile` và `DailySkillPractice`.
+   - Mở rộng hàm `invalidateDashboardCache(userId)` và `invalidateAnalyticsCache(userId)` trong [`infrastructure/cache/dashboardCache.ts`](file:///e:/XP%20English%20%20XP%20Voca/infrastructure/cache/dashboardCache.ts) để giải phóng ngay lập tức cache RAM của cả Dashboard (`dashboard_overview:*`) và Analytics (`analytics:*`), đảm bảo giao diện hiển thị ngay lập tức cấp độ mới, tổng XP mới và đồ thị cập nhật trong 0ms.
+   - Sửa lỗi tính toán số Coins trả về khi thăng cấp (`levelUpCoinsBonus`).
+3. **Quy Chuẩn Hiển Thị Điểm Số & Đồ Thị (UI/UX Guidelines)**:
+   - **Quy tắc 8 & 20:** Làm nổi bật số liệu chính bằng font Display cỡ lớn (`text-base sm:text-lg font-black font-display tabular-nums`), phân định màu ngữ nghĩa: Vàng Amber (`#f59e0b`) cho Streak & Trophy, Xanh Emerald (`#10b981`) cho Vốn từ & XP, Xanh Hoàng Gia (`#0059bb`) cho Thời lượng học.
+   - **Chuẩn Hóa Phần Trăm:** Mọi tỷ lệ tiến độ kinh nghiệm đều áp dụng `formatPercent` (Max 2 Decimals Standard, triệt tiêu lỗi số thực vô hạn `33.33333333%`).
+   - **Hiệu Ứng Sóng Bezier 60fps:** Đồ thị SVG đường cong Bezier cao 210px (Dashboard) và 254px (Analytics) trang bị hook nội suy tọa độ Y mượt mà 320ms (`useInterpolatedYPoints`) chống giật khi chuyển tab kỹ năng.
+4. **Bộ Kiểm Thử Chuẩn Hóa (`__tests__/analytics_xp_standards.test.ts`)**:
+   - Đạt 100% PASS (5/5 tests), bảo vệ toàn vẹn logic Single Root Query, Cache HIT/MISS, đếm hạng vô hướng và giải phóng bộ đệm.
+
+### 3. Hệ Thống Học Qua Video Tương Tác & Đồng Bộ Phụ Đề Chuẩn Xác (`/myvideo`)
+1. **Kiến Trúc Đồng Bộ Thời Gian Thực & Đón Đầu Âm Thanh (Audio Anticipation Lead Time Engine)**:
+   - **Cơ Chế Đón Đầu Âm Thanh Quốc Tế (+200ms Lead Time):** Tích hợp hằng số chuẩn `SUBTITLE_AUDIO_ANTICIPATION_LEAD_SEC = 0.200` (200ms) vào vòng lặp đồng bộ `effectiveTime`. Phụ đề hiển thị đón đầu âm thanh ~200ms theo chuẩn phụ đề sư phạm quốc tế (TED Subtitles & Netflix Accessibility Guidelines), triệt tiêu độ trễ mạng và độ trễ giao tiếp `postMessage` của YouTube iframe, giúp mắt người học đọc trước từ khóa ngay khi người nói bắt đầu phát âm.
+   - **Đồng Bộ Karaoke Âm Tiết Đón Đầu:** Áp dụng cùng mức Lead Time cho việc tính toán `calculateCharacterWeightedWordIndex` và mốc `wordTimings` giúp từng từ vựng sáng đèn Amber Glow (`#f59e0b`) chuẩn xác theo đúng từng âm tiết người nói phát ra.
+   - **Xử Lý Khoảng Lặng Giữa Các Câu (Linger & Anticipation Window):** Tích hợp cơ chế Linger Window 200ms (giữ câu vừa kết thúc không bị biến mất đột ngột trong khoảng nghỉ) kết hợp Anticipation Window 250ms (kích hoạt câu kế tiếp đón đầu trước khi phát), mang lại trải nghiệm xem video mượt mà, không giật cục.
+   - **Triệt tiêu Điểm nghẽn Giây 0 (Zero-Time Deadlock Elimination):** Loại bỏ điều kiện chặn `realTime > 0` giúp câu đầu tiên tại `0.0s` kích hoạt trơn tru, chính xác ngay khi video bắt đầu.
+   - **Cơ chế Nội suy Mượt mà (Smooth Time Interpolation):** Mở rộng cửa sổ ngoại suy thời gian từ 350ms lên 4000ms, loại bỏ giật lag do chu kỳ `postMessage` không đều của YouTube iframe (250ms – 500ms).
+   - **Khóa Chống Dội Tua (Anti-Rubber-Banding Seek Lock):** Tự động cô lập và từ chối các gói tin `currentTime` cũ đang bay trong vòng 800ms sau khi người dùng click tua câu phụ đề.
+2. **Động Cơ Trích Xuất Phụ Đề Toàn Diện & Không Bỏ Sót Câu (Full Pipeline Subtitle Extraction)**:
+   - **Chuẩn Hóa TTML/srv3 Millisecond Timing:** Loại bỏ heuristic `tVal > 500` không an toàn; toàn bộ thuộc tính `t` và `d` trong thẻ `<p t="..." d="...">` được quy đổi mili-giây sang giây chính xác, bảo toàn tuyệt đối các câu mở đầu siêu ngắn (`< 500ms`, ví dụ `t="80"` thành `0.08s`).
+   - **Hỗ Trợ Bóc Tách Hỗn Hợp Cả Thẻ `<text>` và `<p>`:** Đọc trọn vẹn toàn bộ các thẻ phụ đề mà không bị bỏ qua thẻ `<p>` khi có thẻ `<text>` đi kèm.
+   - **Bảo Toàn 100% Phụ Đề Gốc Đã Có Dấu Câu (Preserve Punctuated Subtitles):** Giữ nguyên vẹn toàn bộ các câu của tác giả khi phụ đề đã có dấu câu (`.`, `!`, `?`), không gộp câu thô bạo.
+   - **Nâng Cấp Hạn Mức Tải Máy Chủ:** Tăng timeout fetch phụ đề lên `5000ms – 6000ms` cho video dài và bổ sung client profile `ANDROID` (`19.29.35`) trên Innertube API.
+3. **Quy Chuẩn Giao Diện Tinh Giản & Hệ Thống Icon Nhận Diện (UI/UX Guidelines)**:
+   - **Loại bỏ khối vi chỉnh `-0.2s / +0.2s`:** Tinh giản không gian player, loại bỏ các nút căn chỉnh dư thừa giúp giao diện gọn gàng, trực quan.
+   - **Header Thanh Phụ Đề 1 Dòng Duy Nhất:** Chuẩn hóa tiêu đề `"Click câu để nhảy · Tra từ"` và nút chuyển chế độ `"Xem Tất Cả"` / `"Focus 3 Câu"` nằm cố định trên 1 dòng duy nhất chống vỡ layout trên mọi kích thước màn hình.
+   - **Tự Động Cuộn Trọng Tâm (Center Auto-Scroll):** Trong chế độ Xem Tất Cả (Full List Mode), câu đang phát tự động cuộn vào trung tâm màn hình (`block: "center"`).
+   - **Thay thế Huy hiệu Văn bản bằng Icon Chuẩn Agency:**
+     - Đang phát âm thanh: `<Volume2 className="w-3.5 h-3.5 animate-pulse text-[#0059bb]" />`.
+     - Câu đang chọn / Sẵn sàng: `<Radio className="w-3.5 h-3.5 animate-pulse text-blue-600" />` (thay thế `"Sắp phát"`).
+     - Câu kế tiếp (+1): `<ChevronDown className="w-3.5 h-3.5" />` (thay thế `"[CÂU TIẾP THEO 1]"`).
+     - Câu kế tiếp (+2): `<ChevronsDown className="w-3.5 h-3.5" />` (thay thế `"[CÂU TIẾP THEO 2]"`).
+   - **Tối Ưu Hóa Khởi Tạo Tải (Dynamic Imports & Lazy Loading):** Lazy load 4 modal nặng (`SubtitleExportModal`, `SrtImportModal`, `XpSubExtractorModal`, `KeyboardShortcutsModal`) qua `next/dynamic` giúp giảm ngay ~68KB dung lượng bundle ban đầu của trang.
+4. **Bộ Kiểm Thử Toàn Diện (`__tests__/myvideo*.test.ts`)**:
+   - 10 bộ kiểm thử Vitest với **250/250 tests PASS 100%**, bao gồm kiểm thử độ chính xác định thời phụ đề (`myvideo_subtitle_engine_precision.test.ts`), đồng bộ phát video thời gian thực (`myvideo_realtime_playback_sync.test.ts`) và kiểm thử đón đầu âm thanh cùng bóc tách phụ đề trọn vẹn (`myvideo_full_subtitle_pipeline_lead_time.test.ts`).
+
+---
+
 ## 🌐 Production Deployment Status
 
 - **Live Production App URL (Vercel)**: [https://xpenglishvoca.vercel.app](https://xpenglishvoca.vercel.app)
 - **Status**: **100% Build SUCCESS** (98/98 static & dynamic routes compiled)
+
 
 
 

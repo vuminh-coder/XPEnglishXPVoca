@@ -52,13 +52,18 @@ export const SubtitleExportModal: React.FC<SubtitleExportModalProps> = ({
 
   return (
     <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 12 }}
-        transition={{ duration: 0.25, ease: "easeOut" }}
-        className="w-full rounded-2xl bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border border-slate-200/90 dark:border-slate-800 shadow-xl p-4 sm:p-7 space-y-5 sm:space-y-6 select-none font-sans"
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center md:pl-64 p-3 sm:p-4 bg-slate-950/70 backdrop-blur-md overflow-y-auto"
+        onClick={onClose}
       >
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95, y: 12 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: 12 }}
+          transition={{ duration: 0.22, ease: "easeOut" }}
+          onClick={(e) => e.stopPropagation()}
+          className="w-full max-w-5xl rounded-2xl bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border border-slate-200/90 dark:border-slate-800 shadow-2xl p-4 sm:p-7 space-y-5 sm:space-y-6 select-none font-sans max-h-[90vh] overflow-y-auto"
+        >
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-slate-100 dark:border-slate-800">
           <div className="flex items-center gap-3.5 min-w-0">
@@ -476,6 +481,7 @@ export const SubtitleExportModal: React.FC<SubtitleExportModalProps> = ({
           )}
         </div>
       </motion.div>
+      </div>
     </AnimatePresence>
   );
 };

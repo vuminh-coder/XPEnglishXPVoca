@@ -128,11 +128,14 @@ export function useWordLookup({
         localStorage.setItem(`xp_voca_learned_${userId}`, JSON.stringify(updatedList));
       }
 
-      // Increment words learned in userStore
-      const currentCount = (useUserStore.getState().user?.wordsLearned || 0) + 1;
-      useUserStore.setState({
-        user: { ...useUserStore.getState().user!, wordsLearned: currentCount },
-      });
+      // Increment words learned in userStore (safe null check)
+      const currentUser = useUserStore.getState().user;
+      if (currentUser) {
+        const currentCount = (currentUser.wordsLearned || 0) + 1;
+        useUserStore.setState({
+          user: { ...currentUser, wordsLearned: currentCount },
+        });
+      }
     }
 
     awardXp(5);

@@ -12,6 +12,15 @@ export interface UseVideoExercisesProps {
   addToast: (toast: { type: "info" | "success" | "warning" | "error"; title: string; message: string }) => void;
 }
 
+interface SpeechRecognitionLike {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  onresult: ((event: any) => void) | null;
+  start: () => void;
+  stop: () => void;
+}
+
 export function useVideoExercises({
   activeVideo,
   activeSubIndex,
@@ -31,7 +40,7 @@ export function useVideoExercises({
   const [isRecording, setIsRecording] = useState(false);
   const [shadowingScore, setShadowingScore] = useState<number | null>(null);
   const [waveformBars, setWaveformBars] = useState<number[]>([40, 65, 30, 85, 50, 95, 70, 45, 60]);
-  const speechRecognitionRef = useRef<any>(null);
+  const speechRecognitionRef = useRef<SpeechRecognitionLike | null>(null);
   const recordedTranscriptRef = useRef<string>("");
 
   // Waveform animation during recording
@@ -124,8 +133,13 @@ export function useVideoExercises({
       const targetWords = cleanTarget.split(/\s+/).filter(Boolean);
 
       let matchedCount = 0;
+      const remainingTargetWords = [...targetWords];
       for (const sw of spokenWords) {
-        if (targetWords.includes(sw)) matchedCount++;
+        const idx = remainingTargetWords.indexOf(sw);
+        if (idx !== -1) {
+          matchedCount++;
+          remainingTargetWords.splice(idx, 1); // Remove matched word to prevent duplicate counting
+        }
       }
 
       const wordAccuracy = targetWords.length > 0 ? matchedCount / targetWords.length : 0;
@@ -177,6 +191,16 @@ export function useVideoExercises({
       setIsRecording(true);
     }
   }, [isRecording, activeVideo, activeSubIndex, currentSubIndex, awardXp, addToast]);
+
+  // Cleanup SpeechRecognition on unmount to release microphone
+  useEffect(() => {
+    return () => {
+      if (speechRecognitionRef.current) {
+        try { speechRecognitionRef.current.stop(); } catch (e) {}
+        speechRecognitionRef.current = null;
+      }
+    };
+  }, []);
 
   const resetExercises = useCallback(() => {
     setCurrentSubIndex(0);

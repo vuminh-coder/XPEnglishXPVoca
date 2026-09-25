@@ -14,6 +14,7 @@ interface GroupListGridProps {
   groups: StudyGroup[];
   filter: string;
   onJoinToggle: (id: string) => void;
+  onSelectGroup?: (id: string) => void;
 }
 
 export const GroupListGrid: React.FC<GroupListGridProps> = ({
@@ -21,6 +22,7 @@ export const GroupListGrid: React.FC<GroupListGridProps> = ({
   groups,
   filter,
   onJoinToggle,
+  onSelectGroup,
 }) => {
   if (loading) {
     return (
@@ -67,7 +69,12 @@ export const GroupListGrid: React.FC<GroupListGridProps> = ({
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       {groups.map((g) => (
-        <GroupCardItem key={g.id} group={g} onJoinToggle={onJoinToggle} />
+        <GroupCardItem
+          key={g.id}
+          group={g}
+          onJoinToggle={onJoinToggle}
+          onSelect={onSelectGroup}
+        />
       ))}
     </div>
   );

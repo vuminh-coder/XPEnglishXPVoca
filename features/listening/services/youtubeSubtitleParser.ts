@@ -168,8 +168,8 @@ export function parseTimedTextXml(xmlStr: string): ParsedXmlItem[] {
     }
   }
 
-  // Format 2: YouTube TTML / srv3 <p t="..." d="..."> format
-  if (rawItems.length === 0 && xmlStr.includes("<p ")) {
+  // Format 2: YouTube TTML / srv3 <p t="..." d="..."> format (supports mixed or standalone TTML)
+  if (xmlStr.includes("<p ") || xmlStr.includes("<p>")) {
     const pRegex = /<p\s+([^>]*)>([\s\S]*?)<\/p>/gi;
     let match: RegExpExecArray | null;
 
@@ -183,12 +183,14 @@ export function parseTimedTextXml(xmlStr: string): ParsedXmlItem[] {
       if (tMatch) {
         let tVal = parseFloat(tMatch[1]);
         let dVal = dMatch ? parseFloat(dMatch[1]) : 2.5;
-        // Smart ms vs seconds detection: check if BOTH t and d look like milliseconds
-        // Simple `tVal > 100` fails for short videos <100s, so require stronger signal
-        const looksLikeMsTime = tVal > 500 || (tVal > 100 && dVal > 100);
-        if (looksLikeMsTime) {
-          tVal /= 1000;
-          if (dVal > 100) dVal /= 1000;
+
+        // In standard YouTube TTML / srv3, t and d are always integer milliseconds.
+        // If string contains decimal point (e.g. t="12.345"), it is already in seconds.
+        if (!tMatch[1].includes(".")) {
+          tVal = tVal / 1000;
+          if (dMatch && !dMatch[1].includes(".")) {
+            dVal = dVal / 1000;
+          }
         }
 
         const textEn = decodeXmlEntities(rawContent.replace(/<[^>]+>/g, " "));
@@ -319,13 +321,19 @@ export function parseTimedTextJson3(jsonContent: string | object): ParsedXmlItem
       const prev = deduplicatedRaw[deduplicatedRaw.length - 1];
       const timeDiff = item.startTime - prev.startTime;
 
-      // Fuzzy rolling dedup: item extends prev, OR item contains ≥80% of prev words (ASR word reorder)
-      const prevWords = prev.textEn.split(/\s+/);
-      const itemWords = item.textEn.split(/\s+/);
+      // ASR rolling prefix dedup: only merge if cue strictly extends prev within 0.8s
+      // or if prev was a tiny rolling fragment (<= 3 words) and timeDiff is tiny (< 0.5s)
+      const prevWords = prev.textEn.split(/\s+/).filter(Boolean);
       const isStrictExtension = item.textEn.startsWith(prev.textEn);
-      const isWordOverlap = prevWords.length > 0 &&
-        prevWords.filter(w => itemWords.includes(w)).length >= Math.ceil(prevWords.length * 0.8);
-      if (timeDiff >= 0 && timeDiff < 0.8 && item.textEn.length > prev.textEn.length && (isStrictExtension || isWordOverlap)) {
+      const isShortRollingPrefix =
+        timeDiff >= 0 && timeDiff < 0.5 && prevWords.length <= 3 && item.textEn.includes(prev.textEn);
+
+      if (
+        timeDiff >= 0 &&
+        timeDiff < 0.8 &&
+        item.textEn.length > prev.textEn.length &&
+        (isStrictExtension || isShortRollingPrefix)
+      ) {
         prev.textEn = item.textEn;
         if (item.rawDur) {
           prev.rawDur = Math.max(prev.rawDur || 0, item.rawDur + timeDiff);
@@ -347,9 +355,9 @@ export function parseTimedTextJson3(jsonContent: string | object): ParsedXmlItem
       } else {
         if (nextItem) {
           duration = Math.max(0.8, parseFloat((nextItem.startTime - item.startTime).toFixed(3)));
-          if (duration > 3.5) duration = 3.5;
+          if (duration > 7.0) duration = 7.0;
         } else {
-          duration = 3.5;
+          duration = 4.0;
         }
       }
 
@@ -457,6 +465,13 @@ export const parseVnTimedTextXml = parseVnTimedTextAny;
  */
 export function mergeFragmentedSubtitlesIntoSentences(items: ParsedXmlItem[]): ParsedXmlItem[] {
   if (!Array.isArray(items) || items.length === 0) return [];
+
+  // If subtitles already have punctuation (. ! ?), preserve 100% of authentic author sentences!
+  const punctuatedCount = items.filter((it) => /[.!?]$/.test(it.textEn.trim())).length;
+  const isAlreadyPunctuated = items.length > 5 && punctuatedCount / items.length > 0.35;
+  if (isAlreadyPunctuated) {
+    return items;
+  }
 
   const merged: ParsedXmlItem[] = [];
   let current: ParsedXmlItem | null = null;

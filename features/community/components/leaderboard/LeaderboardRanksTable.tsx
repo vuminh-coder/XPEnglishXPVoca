@@ -11,11 +11,13 @@ import { LeaderboardUser } from "../../types";
 interface LeaderboardRanksTableProps {
   loading: boolean;
   ranks: LeaderboardUser[];
+  criterion?: "xp" | "time";
 }
 
 export const LeaderboardRanksTable: React.FC<LeaderboardRanksTableProps> = ({
   loading,
   ranks,
+  criterion = "xp",
 }) => {
   return (
     <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-3">
@@ -86,7 +88,7 @@ export const LeaderboardRanksTable: React.FC<LeaderboardRanksTableProps> = ({
 
               <div className="text-right shrink-0">
                 <span className="font-mono font-bold text-xs sm:text-sm text-[#0059bb] dark:text-sky-400">
-                  {item.xp?.toLocaleString()} XP
+                  {criterion === "time" ? `${item.minutesStudied || 0} phút` : `${item.xp?.toLocaleString()} XP`}
                 </span>
               </div>
             </div>

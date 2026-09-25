@@ -14,7 +14,7 @@ export interface InteractiveStudyDockProps {
   setRightPanelTab: (tab: "subtitles" | "dictation" | "playlist") => void;
   // Subtitles Tab Props
   wordLookupData: WordLookupData | null;
-  setWordLookupData: (data: any) => void;
+  setWordLookupData: (data: WordLookupData | null) => void;
   handleWordClick: (word: string) => void;
   handleSaveWordToNotebook: () => void;
   subViewMode: "rolling" | "full";

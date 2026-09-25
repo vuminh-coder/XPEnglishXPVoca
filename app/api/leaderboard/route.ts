@@ -10,6 +10,7 @@ export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const period = searchParams.get("period") || "week"; // "week" | "month" | "all"
+    const criterion = searchParams.get("criterion") === "time" ? "time" : "xp"; // "xp" | "time"
     const limitParam = parseInt(searchParams.get("limit") || "50", 10);
     const limit = Math.min(Math.max(isNaN(limitParam) ? 50 : limitParam, 1), 100);
     const pageParam = parseInt(searchParams.get("page") || "1", 10);
@@ -17,7 +18,7 @@ export async function GET(req: NextRequest) {
     const skip = (page - 1) * limit;
 
     // 0. Check in-memory TTL cache (60s) to return in < 2ms
-    const cacheKey = `leaderboard:${period}:${page}:${limit}`;
+    const cacheKey = `leaderboard:${period}:${criterion}:${page}:${limit}`;
     const cachedResponse = memoryCache.get<any>(cacheKey);
     if (cachedResponse) {
       return NextResponse.json(cachedResponse, {
@@ -38,22 +39,89 @@ export async function GET(req: NextRequest) {
 
     const formattedLeaders = await safeDbExecute(async () => {
       if (period === "week" || period === "month") {
-        // 1. Parallelize periodic aggregations & profile queries
-        const [practiceAggregations, profiles] = await Promise.all([
-          prisma.dailySkillPractice.groupBy({
-            by: ["userId"],
-            where: {
-              date: {
-                gte: startDateStr,
-                lte: todayStr,
+        // Query top periodic learners directly using SQL aggregation with LIMIT and OFFSET
+        // Level 1 Query optimization: computes SUM in PostgreSQL engine and only transfers the needed page
+        let periodicRows: { user_id: string; periodic_xp: number; periodic_minutes: number }[] = [];
+        try {
+          if (criterion === "time") {
+            periodicRows = await prisma.$queryRaw<
+              { user_id: string; periodic_xp: number; periodic_minutes: number }[]
+            >`
+              SELECT
+                user_id,
+                COALESCE(SUM(xp_earned), 0)::int as periodic_xp,
+                COALESCE(SUM(minutes), 0)::int as periodic_minutes
+              FROM daily_skill_practice
+              WHERE date >= ${startDateStr} AND date <= ${todayStr}
+              GROUP BY user_id
+              ORDER BY periodic_minutes DESC, periodic_xp DESC, user_id ASC
+              LIMIT ${limit} OFFSET ${skip};
+            `;
+          } else {
+            periodicRows = await prisma.$queryRaw<
+              { user_id: string; periodic_xp: number; periodic_minutes: number }[]
+            >`
+              SELECT
+                user_id,
+                COALESCE(SUM(xp_earned), 0)::int as periodic_xp,
+                COALESCE(SUM(minutes), 0)::int as periodic_minutes
+              FROM daily_skill_practice
+              WHERE date >= ${startDateStr} AND date <= ${todayStr}
+              GROUP BY user_id
+              ORDER BY periodic_xp DESC, periodic_minutes DESC, user_id ASC
+              LIMIT ${limit} OFFSET ${skip};
+            `;
+          }
+        } catch (rawErr) {
+          console.warn("[leaderboard] Raw query fallback:", rawErr);
+        }
+
+        const topUserIds = periodicRows.map((r) => r.user_id);
+        const profiles = topUserIds.length > 0
+          ? await prisma.profile.findMany({
+              where: { id: { in: topUserIds } },
+              select: {
+                id: true,
+                fullName: true,
+                username: true,
+                level: true,
+                title: true,
+                totalXp: true,
+                avatarEmoji: true,
+                avatarUrl: true,
+                minutesStudied: true,
               },
-            },
-            _sum: {
-              xpEarned: true,
-              minutes: true,
-            },
-          }),
-          prisma.profile.findMany({
+            })
+          : [];
+
+        const profileMap = new Map(profiles.map((p) => [p.id, p]));
+
+        const leaders = periodicRows.map((r, idx) => {
+          const p = profileMap.get(r.user_id);
+          const rawName = p?.fullName || p?.username || "Học viên XP";
+          const cleanName = formatCleanName(rawName);
+          const dbAvatar = p?.avatarUrl || undefined;
+
+          return {
+            id: r.user_id,
+            rank: skip + idx + 1,
+            fullName: cleanName,
+            username: p?.username || "user",
+            level: p?.level || 1,
+            title: p?.title || "Học viên",
+            xp: r.periodic_xp,
+            totalXp: p?.totalXp || 0,
+            minutesStudied: r.periodic_minutes,
+            avatarEmoji: p?.avatarEmoji || undefined,
+            avatar: dbAvatar,
+            imageUrl: dbAvatar,
+            avatarUrl: dbAvatar,
+          };
+        });
+
+        // Fallback for empty active practice records
+        if (leaders.length === 0 && page === 1) {
+          const fallbackLeaders = await prisma.profile.findMany({
             select: {
               id: true,
               fullName: true,
@@ -65,49 +133,36 @@ export async function GET(req: NextRequest) {
               avatarUrl: true,
               minutesStudied: true,
             },
-            take: 100,
-          }),
-        ]);
+            orderBy: criterion === "time"
+              ? [{ minutesStudied: "desc" }, { totalXp: "desc" }, { id: "asc" }]
+              : [{ totalXp: "desc" }, { minutesStudied: "desc" }, { id: "asc" }],
+            take: limit,
+          });
 
-        const periodicMap = new Map<string, { periodicXp: number; periodicMinutes: number }>();
-        practiceAggregations.forEach((p) => {
-          if (p.userId) {
-            periodicMap.set(p.userId, {
-              periodicXp: p._sum.xpEarned || 0,
-              periodicMinutes: p._sum.minutes || 0,
-            });
-          }
-        });
+          return fallbackLeaders.map((l, index) => {
+            const rawName = l.fullName || l.username || "Học viên XP";
+            const cleanName = formatCleanName(rawName);
+            const dbAvatar = l.avatarUrl || undefined;
 
-        // 3. Compute combined scores (prioritizing periodic score, fallback to total proportion)
-        const combined = profiles.map((p) => {
-          const periodic = periodicMap.get(p.id);
-          const periodicXp = periodic ? periodic.periodicXp : 0;
-          const periodicMinutes = periodic ? periodic.periodicMinutes : 0;
+            return {
+              id: l.id,
+              rank: skip + index + 1,
+              fullName: cleanName,
+              username: l.username || "user",
+              level: l.level || 1,
+              title: l.title || "Học viên",
+              xp: l.totalXp || 0,
+              totalXp: l.totalXp || 0,
+              minutesStudied: l.minutesStudied || 0,
+              avatarEmoji: l.avatarEmoji || undefined,
+              avatar: dbAvatar,
+              imageUrl: dbAvatar,
+              avatarUrl: dbAvatar,
+            };
+          });
+        }
 
-          return {
-            id: p.id,
-            fullName: formatCleanName(p.fullName || p.username || "Học viên XP"),
-            username: p.username || "user",
-            level: p.level || 1,
-            title: p.title || "Học viên",
-            xp: periodicXp,
-            totalXp: p.totalXp || 0,
-            minutesStudied: periodicMinutes,
-            avatarEmoji: p.avatarEmoji || undefined,
-            avatar: p.avatarUrl || undefined,
-            imageUrl: p.avatarUrl || undefined,
-            avatarUrl: p.avatarUrl || undefined,
-          };
-        });
-
-        // Multi-level sort by periodic score
-        combined.sort((a, b) => b.xp - a.xp || b.minutesStudied - a.minutesStudied || a.id.localeCompare(b.id));
-
-        return combined.slice(skip, skip + limit).map((item, idx) => ({
-          ...item,
-          rank: skip + idx + 1,
-        }));
+        return leaders;
       }
 
       // Default All-time Leaderboard query
@@ -123,11 +178,9 @@ export async function GET(req: NextRequest) {
           avatarUrl: true,
           minutesStudied: true,
         },
-        orderBy: [
-          { totalXp: "desc" },
-          { minutesStudied: "desc" },
-          { id: "asc" },
-        ],
+        orderBy: criterion === "time"
+          ? [{ minutesStudied: "desc" }, { totalXp: "desc" }, { id: "asc" }]
+          : [{ totalXp: "desc" }, { minutesStudied: "desc" }, { id: "asc" }],
         take: limit,
         skip: skip,
       });
@@ -145,6 +198,7 @@ export async function GET(req: NextRequest) {
           level: l.level || 1,
           title: l.title || "Học viên",
           xp: l.totalXp || 0,
+          totalXp: l.totalXp || 0,
           minutesStudied: l.minutesStudied || 0,
           avatarEmoji: l.avatarEmoji || undefined,
           avatar: dbAvatar,
@@ -159,6 +213,7 @@ export async function GET(req: NextRequest) {
       data: formattedLeaders || [],
       meta: {
         period,
+        criterion,
         page,
         limit,
         totalReturned: formattedLeaders?.length || 0,

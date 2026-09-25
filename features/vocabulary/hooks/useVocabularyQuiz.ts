@@ -30,6 +30,7 @@ export function useVocabularyQuiz({
     if (!currentQuizItem || vocabs.length < 2) return [];
 
     let seed = (quizIndex + 1) * 41;
+    const correctDef = currentQuizItem.definitionVn;
     const distractors = vocabs
       .filter((v) => v.id !== currentQuizItem.id)
       .map((v) => v.definitionVn)

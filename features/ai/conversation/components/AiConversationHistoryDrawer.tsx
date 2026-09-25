@@ -4,6 +4,7 @@ import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { History, X, RefreshCw, Clock } from "lucide-react";
 import { PastSession } from "../types";
+import { ShimmerBox } from "@/shared/components/feedback/ShimmerSkeleton";
 
 interface AiConversationHistoryDrawerProps {
   isOpen: boolean;
@@ -41,7 +42,7 @@ export function AiConversationHistoryDrawer({
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-slate-900 dark:text-white font-display">
-                    Lịch Sử Luyện Viết AI
+                    Lịch Sử Hội Thoại AI
                   </h3>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
                     {pastSessions.length} buổi học đã lưu
@@ -64,9 +65,23 @@ export function AiConversationHistoryDrawer({
             {/* Drawer Body */}
             <div className="flex-1 overflow-y-auto p-3.5 sm:p-4 space-y-3">
               {isLoadingHistory ? (
-                <div className="flex items-center justify-center py-12 gap-2 text-xs font-bold text-slate-500">
-                  <RefreshCw className="w-4 h-4 animate-spin text-[#0059bb]" />
-                  <span>Đang tải lịch sử...</span>
+                <div className="space-y-2.5">
+                  {[1, 2, 3].map((i) => (
+                    <div
+                      key={i}
+                      className="p-3 rounded-xl bg-white dark:bg-slate-800/90 border border-slate-200/90 dark:border-slate-700 space-y-2.5 shadow-2xs"
+                    >
+                      <div className="flex items-center justify-between">
+                        <ShimmerBox className="w-32 h-4 rounded" />
+                        <ShimmerBox className="w-20 h-5 rounded-md" />
+                      </div>
+                      <div className="flex items-center justify-between pt-1 border-t border-slate-100 dark:border-slate-700/60">
+                        <ShimmerBox className="w-16 h-3.5 rounded" />
+                        <ShimmerBox className="w-12 h-3.5 rounded" />
+                        <ShimmerBox className="w-14 h-3.5 rounded" />
+                      </div>
+                    </div>
+                  ))}
                 </div>
               ) : selectedPastSession ? (
                 /* Detail View of a Selected Past Session */
@@ -168,7 +183,7 @@ export function AiConversationHistoryDrawer({
                     Chưa có lịch sử buổi học
                   </p>
                   <p className="text-xs text-slate-400 max-w-xs">
-                    Khi bạn hoàn thành và bấm "Chấm điểm" một buổi luyện viết, toàn bộ kịch bản sẽ được lưu tại đây.
+                    Khi bạn hoàn thành và bấm "Chấm điểm" một buổi hội thoại, toàn bộ kịch bản sẽ được lưu tại đây.
                   </p>
                 </div>
               )}

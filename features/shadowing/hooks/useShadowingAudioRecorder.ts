@@ -178,7 +178,7 @@ export function useShadowingAudioRecorder({
           setCompletedSentences(nextCompleted);
 
           // Save progress to PostgreSQL Neon
-          if (currentLesson) {
+          if (currentLesson && user?.id && !user.id.startsWith("guest")) {
             const completedIndices = Object.keys(nextCompleted)
               .filter((k) => nextCompleted[Number(k)])
               .map(Number);
@@ -191,10 +191,21 @@ export function useShadowingAudioRecorder({
                   clearTimeout(progressDebounceTimerRef.current);
                   progressDebounceTimerRef.current = null;
                 }
-                await fetch(
-                  `/api/listening/progress?userId=${user?.id || "guest_user"}&lessonId=${currentLesson.id}`,
-                  { method: "DELETE" }
-                );
+                fetch("/api/listening/progress", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    userId: user.id,
+                    lessonId: currentLesson.id,
+                    status: "COMPLETED",
+                    completedSentences: completedIndices,
+                    bookmarkedSentences: savedSentenceKeys,
+                    inlineAiScores: { ...sentenceScores, [currentSentenceIndex]: overall },
+                    timeSpent: Math.max(15, elapsedTime),
+                    xpEarned: 50,
+                    skill: "shadowing",
+                  }),
+                }).catch((e) => console.error("Failed to sync completed shadowing progress to database:", e));
               } else {
                 // Debounced non-blocking background sync (1.2s): reduces database write load by ~80%
                 if (progressDebounceTimerRef.current) {
@@ -205,7 +216,7 @@ export function useShadowingAudioRecorder({
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                      userId: user?.id || "guest_user",
+                      userId: user.id,
                       lessonId: currentLesson.id,
                       status: "IN_PROGRESS",
                       completedSentences: completedIndices,
