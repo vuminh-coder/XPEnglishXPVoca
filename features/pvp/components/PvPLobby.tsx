@@ -5,6 +5,25 @@ import { Swords, Users, Bot, Zap, Headphones, PenTool, Brain, ArrowRight, Trophy
 import { PvPGameMode, PvPDifficulty, PvPMatchType } from "../types";
 import { isPvPSoundEnabled, setPvPSoundEnabled } from "../utils/pvpSoundEngine";
 
+interface MatchStatItem {
+  totalMatches: number;
+  wins: number;
+  draws: number;
+  losses: number;
+  winRate: number;
+  totalXpGained: number;
+}
+
+interface RecentMatchItem {
+  id: string;
+  opponent: string;
+  userScore: number;
+  oppScore: number;
+  result: string;
+  xpGained: number;
+  createdAt: string;
+}
+
 interface PvPLobbyProps {
   matchType: PvPMatchType;
   setMatchType: (type: PvPMatchType) => void;
@@ -19,6 +38,9 @@ interface PvPLobbyProps {
   onCreateRoom: () => void;
   isRoomLoading: boolean;
   roomError: string | null;
+  matchStats?: MatchStatItem;
+  recentMatches?: RecentMatchItem[];
+  isLoadingHistory?: boolean;
 }
 
 export function PvPLobby({
@@ -35,6 +57,9 @@ export function PvPLobby({
   onCreateRoom,
   isRoomLoading,
   roomError,
+  matchStats = { totalMatches: 0, wins: 0, draws: 0, losses: 0, winRate: 0, totalXpGained: 0 },
+  recentMatches = [],
+  isLoadingHistory = false,
 }: PvPLobbyProps) {
   const [soundEnabled, setSoundEnabled] = useState(() => isPvPSoundEnabled());
 
@@ -92,6 +117,55 @@ export function PvPLobby({
             <span className="text-xl font-display font-black text-amber-500">+10 XP</span>
           </div>
         </div>
+      </div>
+
+      {/* Combat Metrics HUD - Rule 8: Key metrics prominent */}
+      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 sm:p-5 shadow-xs">
+        <div className="flex items-center justify-between mb-3.5">
+          <div className="flex items-center gap-2">
+            <Trophy className="w-4 h-4 text-amber-500" />
+            <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+              Chiến Tích Đấu Trường
+            </h3>
+          </div>
+          <span className="text-[11px] font-medium text-slate-400">Cập nhật thời gian thực</span>
+        </div>
+
+        {isLoadingHistory ? (
+          // Rule 1: Skeleton Loading instead of classic spinner
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 animate-pulse">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="h-18 bg-slate-100 dark:bg-slate-800/60 rounded-xl" />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800/80">
+              <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase block">Tỉ Lệ Thắng</span>
+              <span className="text-xl sm:text-2xl font-display font-black text-emerald-600 dark:text-emerald-400">
+                {matchStats.winRate}%
+              </span>
+            </div>
+            <div className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800/80">
+              <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase block">Tổng Số Trận</span>
+              <span className="text-xl sm:text-2xl font-display font-black text-slate-900 dark:text-white">
+                {matchStats.totalMatches}
+              </span>
+            </div>
+            <div className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800/80">
+              <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase block">Trận Thắng</span>
+              <span className="text-xl sm:text-2xl font-display font-black text-[#0059bb] dark:text-sky-400">
+                {matchStats.wins}
+              </span>
+            </div>
+            <div className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800/80">
+              <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase block">Tổng XP PvP</span>
+              <span className="text-xl sm:text-2xl font-display font-black text-amber-500">
+                +{matchStats.totalXpGained} XP
+              </span>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Match Type Tabs: Quick Match vs Private Room */}
@@ -199,9 +273,9 @@ export function PvPLobby({
         </div>
       </div>
 
-      {/* Action CTA or Room Input */}
+      {/* Action CTA or Room Input - Rule 18: Single Primary CTA Button */}
       {matchType === "quick" ? (
-        <div className="pt-4">
+        <div className="pt-2">
           <button
             onClick={onStartMatch}
             className="w-full h-12 bg-[#0059bb] hover:bg-[#004ba0] text-white font-black text-sm sm:text-base rounded-xl flex items-center justify-center gap-2 shadow-md hover:shadow-lg active:scale-[0.99] transition-all cursor-pointer"
@@ -229,12 +303,13 @@ export function PvPLobby({
               <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
                 Phòng Mới
               </label>
+              {/* Secondary button outline per Rule 18 */}
               <button
                 onClick={onCreateRoom}
                 disabled={isRoomLoading}
-                className="w-full h-11 bg-[#0059bb] hover:bg-[#004ba0] text-white font-bold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer disabled:opacity-50"
+                className="w-full h-11 border border-[#0059bb]/30 bg-[#0059bb]/10 hover:bg-[#0059bb]/20 text-[#0059bb] dark:text-sky-400 font-bold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer disabled:opacity-50"
               >
-                <Zap className="w-4 h-4 text-amber-300" />
+                <Zap className="w-4 h-4 text-amber-500" />
                 <span>{isRoomLoading ? "Đang tạo..." : "Tạo Phòng Mới (Sinh mã PIN)"}</span>
               </button>
             </div>
@@ -252,10 +327,11 @@ export function PvPLobby({
                   onChange={(e) => setRoomCodeInput(e.target.value.toUpperCase())}
                   className="flex-1 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 text-xs sm:text-sm font-mono font-bold text-center uppercase tracking-widest focus:outline-none focus:border-[#0059bb]"
                 />
+                {/* Single Primary Button per Rule 18 */}
                 <button
                   onClick={onJoinRoom}
                   disabled={!roomCodeInput.trim() || isRoomLoading}
-                  className="h-11 px-5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm rounded-xl transition-all cursor-pointer disabled:opacity-50"
+                  className="h-11 px-5 bg-[#0059bb] hover:bg-[#004ba0] text-white font-bold text-xs sm:text-sm rounded-xl transition-all cursor-pointer disabled:opacity-50"
                 >
                   Vào Phòng
                 </button>
@@ -264,6 +340,71 @@ export function PvPLobby({
           </div>
         </div>
       )}
+
+      {/* Recent Matches Section */}
+      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 shadow-xs space-y-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Flame className="w-4 h-4 text-rose-500" />
+            <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+              Các Trận Đấu Gần Đây
+            </h3>
+          </div>
+          <span className="text-[11px] text-slate-400">Tối đa 10 trận gần nhất</span>
+        </div>
+
+        {isLoadingHistory ? (
+          // Rule 1: Skeleton Loading
+          <div className="space-y-2 animate-pulse">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-12 bg-slate-100 dark:bg-slate-800/60 rounded-xl" />
+            ))}
+          </div>
+        ) : recentMatches.length === 0 ? (
+          <div className="py-6 text-center text-xs text-slate-400 font-medium bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-dashed border-slate-200 dark:border-slate-700">
+            Chưa có trận đấu nào. Hãy nhấn <span className="font-bold text-[#0059bb] dark:text-sky-400">"Tìm Trận Đấu Ngay"</span> để bắt đầu so tài!
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {recentMatches.slice(0, 5).map((match) => {
+              const isWin = match.result === "WIN";
+              const isDraw = match.result === "DRAW";
+              return (
+                <div
+                  key={match.id}
+                  className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span
+                      className={`px-2 py-0.5 rounded-md font-bold text-[10px] uppercase ${
+                        isWin
+                          ? "bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300"
+                          : isDraw
+                          ? "bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300"
+                          : "bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300"
+                      }`}
+                    >
+                      {isWin ? "Thắng" : isDraw ? "Hòa" : "Thua"}
+                    </span>
+                    <span className="font-bold text-slate-700 dark:text-slate-300">
+                      vs {match.opponent}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <span className="font-mono font-bold text-slate-600 dark:text-slate-400">
+                      {match.userScore} - {match.oppScore}
+                    </span>
+                    <span className="font-bold text-emerald-600 dark:text-emerald-400">
+                      +{match.xpGained} XP
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

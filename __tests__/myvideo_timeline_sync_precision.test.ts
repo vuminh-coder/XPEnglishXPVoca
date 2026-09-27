@@ -1,12 +1,8 @@
 import { describe, it, expect } from "vitest";
 import {
   parseTimedTextJson3,
-  bridgeSubtitleGaps,
   mergeFragmentedSubtitlesIntoSentences,
-  alignBilingualSubtitles,
   calculateCharacterWeightedWordIndex,
-  decodeXmlEntities,
-  WordTimingItem,
   ParsedXmlItem,
 } from "@/features/listening/services/youtubeSubtitleParser";
 import { PRESET_YOUTUBE_VIDEOS } from "@/stores/videoStore";

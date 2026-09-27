@@ -59,6 +59,9 @@ export default function PvpQuizArenaPage() {
     handleRematch,
     handleReturnLobby,
     playWordAudio,
+    matchStats,
+    recentMatches,
+    isLoadingHistory,
   } = usePvPBattle();
 
   const currentPackage = questions[currentQuestionIndex] || questions[0];
@@ -92,6 +95,9 @@ export default function PvpQuizArenaPage() {
               onCreateRoom={handleCreateRoom}
               isRoomLoading={isRoomLoading}
               roomError={roomError}
+              matchStats={matchStats}
+              recentMatches={recentMatches}
+              isLoadingHistory={isLoadingHistory}
             />
           )}
 

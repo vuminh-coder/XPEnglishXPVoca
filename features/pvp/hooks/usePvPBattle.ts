@@ -20,6 +20,7 @@ import {
 } from "../data/pvpData";
 import { speakLessonText } from "@/shared/utils/ttsEngine";
 import { useAuthStore } from "@/stores/authStore";
+import { useUserStore } from "@/stores/userStore";
 import { playPvPSound } from "../utils/pvpSoundEngine";
 
 export function usePvPBattle() {
@@ -64,9 +65,60 @@ export function usePvPBattle() {
   const [coinsAwarded, setCoinsAwarded] = useState(0);
   const [levelUp, setLevelUp] = useState(false);
 
+  // Match history & stats
+  const [matchStats, setMatchStats] = useState<{
+    totalMatches: number;
+    wins: number;
+    draws: number;
+    losses: number;
+    winRate: number;
+    totalXpGained: number;
+  }>({
+    totalMatches: 0,
+    wins: 0,
+    draws: 0,
+    losses: 0,
+    winRate: 0,
+    totalXpGained: 0,
+  });
+  const [recentMatches, setRecentMatches] = useState<Array<{
+    id: string;
+    opponent: string;
+    userScore: number;
+    oppScore: number;
+    result: string;
+    xpGained: number;
+    createdAt: string;
+  }>>([]);
+  const [isLoadingHistory, setIsLoadingHistory] = useState(false);
+
   const searchTimerRef = useRef<NodeJS.Timeout | null>(null);
   const aiTimerRef = useRef<NodeJS.Timeout | null>(null);
   const roundTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const loadMatchHistory = useCallback(async () => {
+    setIsLoadingHistory(true);
+    try {
+      const res = await fetch("/api/pvp/match-submit", { cache: "no-store" });
+      const data = await res.json();
+      if (data.success && data.data) {
+        if (data.data.stats) {
+          setMatchStats(data.data.stats);
+        }
+        if (Array.isArray(data.data.recentMatches)) {
+          setRecentMatches(data.data.recentMatches);
+        }
+      }
+    } catch (e) {
+      console.warn("Failed to load PvP match history:", e);
+    } finally {
+      setIsLoadingHistory(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadMatchHistory();
+  }, [loadMatchHistory]);
 
   const playWordAudio = useCallback((word: string) => {
     speakLessonText(word, {
@@ -91,18 +143,34 @@ export function usePvPBattle() {
           }),
         });
         const data = await res.json();
-        if (data.success) {
-          setXpAwarded(data.data?.xpGained || (result === "WIN" ? 30 : result === "DRAW" ? 15 : 5));
-          setCoinsAwarded(data.coinsAwarded || (result === "WIN" ? 20 : result === "DRAW" ? 10 : 2));
-          setLevelUp(!!data.levelUp);
-        }
+        const finalXp = data.success ? (data.data?.xpGained || (result === "WIN" ? 30 : result === "DRAW" ? 15 : 5)) : (result === "WIN" ? 30 : result === "DRAW" ? 15 : 5);
+        const finalCoins = data.success ? (data.coinsAwarded || (result === "WIN" ? 20 : result === "DRAW" ? 10 : 2)) : (result === "WIN" ? 20 : 10);
+
+        setXpAwarded(finalXp);
+        setCoinsAwarded(finalCoins);
+        setLevelUp(!!data.levelUp);
+
+        // Immediate Client-Side User Store Sync for seamless UI feedback
+        useUserStore.getState().awardXp(finalXp, "vocab");
+        useUserStore.getState().awardCoins(finalCoins);
+        useUserStore.getState().addPracticeTime(1, "vocab");
+        useUserStore.getState().syncStreak(true);
+
+        // Refresh stats
+        loadMatchHistory();
       } catch (err) {
         console.warn("Failed to sync match result to server:", err);
-        setXpAwarded(result === "WIN" ? 30 : result === "DRAW" ? 15 : 5);
-        setCoinsAwarded(result === "WIN" ? 20 : 10);
+        const fallbackXp = result === "WIN" ? 30 : result === "DRAW" ? 15 : 5;
+        const fallbackCoins = result === "WIN" ? 20 : 10;
+        setXpAwarded(fallbackXp);
+        setCoinsAwarded(fallbackCoins);
+        useUserStore.getState().awardXp(fallbackXp, "vocab");
+        useUserStore.getState().awardCoins(fallbackCoins);
+        useUserStore.getState().addPracticeTime(1, "vocab");
+        useUserStore.getState().syncStreak(true);
       }
     },
-    [matchedOpponent]
+    [matchedOpponent, loadMatchHistory]
   );
 
   const handleNextQuestion = useCallback(
@@ -358,5 +426,9 @@ export function usePvPBattle() {
     handleRematch,
     handleReturnLobby,
     playWordAudio,
+    matchStats,
+    recentMatches,
+    isLoadingHistory,
+    loadMatchHistory,
   };
 }

@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
+import crypto from "crypto";
 import { memoryRateLimiter } from "@/infrastructure/security/rateLimiter";
 import { sanitizeInput, isValidEmail, isPayloadTooLarge } from "@/infrastructure/security/validation";
 import { signAuthToken, verifyAuthToken } from "@/infrastructure/auth/jwt";
@@ -227,7 +228,6 @@ describe("Security Modules Deep Audit & Unit Tests", () => {
 
     it("should seamlessly verify legacy PBKDF2 hashes (pbkdf2:hash with static salt)", () => {
       const rawPassword = "LegacyPBKDF2Password123!";
-      const crypto = require("crypto");
       const defaultSaltKey = process.env.PASSWORD_SALT_KEY || "xp_voca_secret_salt_2026_dev_only";
       const legacySalt = crypto.createHash("sha256").update(defaultSaltKey).digest("hex").substring(0, 16);
       const legacyPbkdf2Hash = `pbkdf2:${crypto.pbkdf2Sync(rawPassword, legacySalt, 10000, 64, "sha512").toString("hex")}`;
@@ -239,7 +239,6 @@ describe("Security Modules Deep Audit & Unit Tests", () => {
     it("should fallback to compare legacy SHA256 hashes", () => {
       // Create legacy sha256 hash using default salt fallback
       const legacyPassword = "LegacyUserPass123";
-      const crypto = require("crypto");
       const legacySalt = process.env.PASSWORD_SALT_KEY || "xp_voca_salt_2026";
       const legacyHash = crypto.createHash("sha256").update(legacyPassword + legacySalt).digest("hex");
 

@@ -60,7 +60,7 @@ export async function POST(request: Request) {
 
     // Server-Authoritative Database Transaction
     const transactionResult = await prisma.$transaction(async (tx) => {
-      // 1. Create MatchHistory entry
+      // 1. Create MatchHistory entry with selective projection
       const match = await tx.matchHistory.create({
         data: {
           userId,
@@ -70,16 +70,34 @@ export async function POST(request: Request) {
           result,
           xpGained,
         },
+        select: {
+          id: true,
+          userId: true,
+          opponent: true,
+          userScore: true,
+          oppScore: true,
+          result: true,
+          xpGained: true,
+          createdAt: true,
+        },
       });
 
-      // 2. Fetch profile
+      // 2. Fetch profile with selective projection (Rule 3: Selective SELECT, eliminate SELECT *)
       let profile = await tx.profile.findUnique({
         where: { id: userId },
+        select: {
+          id: true,
+          totalXp: true,
+          level: true,
+          title: true,
+          coins: true,
+          minutesStudied: true,
+        },
       });
 
       if (!profile) {
         const safeSuffix = userId.substring(Math.max(0, userId.length - 8));
-        profile = await tx.profile.create({
+        const createdProfile = await tx.profile.create({
           data: {
             id: userId,
             fullName: "Học viên XP Voca",
@@ -94,7 +112,16 @@ export async function POST(request: Request) {
             coins: 100,
             streakFreezes: 0,
           },
+          select: {
+            id: true,
+            totalXp: true,
+            level: true,
+            title: true,
+            coins: true,
+            minutesStudied: true,
+          },
         });
+        profile = createdProfile;
       }
 
       // 3. Update XP, check Level up, and calculate Coins
@@ -120,6 +147,38 @@ export async function POST(request: Request) {
           level: newLevel,
           title: newTitle,
           coins: { increment: totalCoinsGained },
+          minutesStudied: { increment: 1 },
+        },
+        select: {
+          id: true,
+          totalXp: true,
+          level: true,
+          title: true,
+          coins: true,
+          minutesStudied: true,
+        },
+      });
+
+      // 4. Sync to DailySkillPractice for 7-day analytics & skill charts
+      const todayDate = new Date().toISOString().split("T")[0];
+      await tx.dailySkillPractice.upsert({
+        where: {
+          userId_skill_date: {
+            userId,
+            skill: "vocab",
+            date: todayDate,
+          },
+        },
+        update: {
+          minutes: { increment: 1 },
+          xpEarned: { increment: xpGained },
+        },
+        create: {
+          userId,
+          skill: "vocab",
+          date: todayDate,
+          minutes: 1,
+          xpEarned: xpGained,
         },
       });
 
@@ -144,6 +203,74 @@ export async function POST(request: Request) {
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Internal server error";
     console.error("POST /api/pvp/match-submit error:", error);
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
+}
+
+export async function GET(request: Request) {
+  try {
+    const userId = await getAuthenticatedUserId(request);
+    if (!userId) {
+      return NextResponse.json({
+        success: true,
+        guest: true,
+        data: {
+          recentMatches: [],
+          stats: {
+            totalMatches: 0,
+            wins: 0,
+            draws: 0,
+            losses: 0,
+            winRate: 0,
+            totalXpGained: 0,
+          },
+        },
+      });
+    }
+
+    // Leverage indexed queries (userId, createdAt DESC) with selective projection
+    const [recentMatches, totalMatches, totalWins, totalDraws] = await Promise.all([
+      prisma.matchHistory.findMany({
+        where: { userId },
+        orderBy: { createdAt: "desc" },
+        take: 10,
+        select: {
+          id: true,
+          opponent: true,
+          userScore: true,
+          oppScore: true,
+          result: true,
+          xpGained: true,
+          createdAt: true,
+        },
+      }),
+      prisma.matchHistory.count({ where: { userId } }),
+      prisma.matchHistory.count({ where: { userId, result: "WIN" } }),
+      prisma.matchHistory.count({ where: { userId, result: "DRAW" } }),
+    ]);
+
+    const losses = Math.max(0, totalMatches - totalWins - totalDraws);
+    const winRate = totalMatches > 0 ? Math.round((totalWins / totalMatches) * 100) : 0;
+    const totalXpGained = recentMatches.reduce((acc, m) => acc + (m.xpGained || 0), 0);
+
+    return NextResponse.json({
+      success: true,
+      guest: false,
+      data: {
+        recentMatches,
+        stats: {
+          totalMatches,
+          wins: totalWins,
+          draws: totalDraws,
+          losses,
+          winRate,
+          totalXpGained,
+        },
+      },
+    });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Internal server error";
+    console.error("GET /api/pvp/match-submit error:", error);
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

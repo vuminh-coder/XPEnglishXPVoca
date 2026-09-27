@@ -27,7 +27,7 @@ describe("SM-2 Spaced Repetition Algorithm", () => {
   });
 
   it("should maintain easeFactor at a minimum of 1.3", () => {
-    let ef = 1.4;
+    const ef = 1.4;
     // Repeat with very bad score (quality = 0) to lower EF
     const res = calculateSM2(0, 1, ef, 1);
     expect(res.easeFactor).toBe(1.3);
