@@ -1,6 +1,7 @@
-﻿import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
+import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
 
 const ITEM_COSTS: Record<string, number> = {
   streak_freeze: 50,
@@ -15,7 +16,7 @@ const ITEM_COSTS: Record<string, number> = {
 
 export async function POST(request: Request) {
   try {
-    const userId = await getAuthenticatedUserId();
+    const userId = await getAuthenticatedUserId(request);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -53,6 +54,10 @@ export async function POST(request: Request) {
             ? { streakFreezes: { increment: 1 } }
             : {}),
         },
+        select: {
+          coins: true,
+          streakFreezes: true,
+        },
       });
 
       // 2. Create purchase log entry (excluding consumable streak freeze, or we can log it too)
@@ -63,6 +68,13 @@ export async function POST(request: Request) {
           cost,
           isEquipped: false,
         },
+        select: {
+          id: true,
+          itemId: true,
+          cost: true,
+          purchasedAt: true,
+          isEquipped: true,
+        },
       });
 
       return {
@@ -71,6 +83,8 @@ export async function POST(request: Request) {
         log,
       };
     });
+
+    invalidateDashboardCache(userId);
 
     return NextResponse.json({
       success: true,

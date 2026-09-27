@@ -43,7 +43,7 @@ export async function POST(
 ) {
   try {
     const { id: roomId } = await params;
-    const userId = await getAuthenticatedUserId();
+    const userId = await getAuthenticatedUserId(req);
 
     if (!userId) {
       return NextResponse.json(
@@ -60,8 +60,11 @@ export async function POST(
       );
     }
 
-    // Ensure profile exists for user
-    let profile = await prisma.profile.findUnique({ where: { id: userId } });
+    // Ensure profile exists for user with selective projection
+    let profile = await prisma.profile.findUnique({
+      where: { id: userId },
+      select: { id: true },
+    });
     if (!profile) {
       profile = await prisma.profile.create({
         data: {
@@ -69,6 +72,7 @@ export async function POST(
           fullName: "Học viên",
           avatarEmoji: "🎓",
         },
+        select: { id: true },
       });
     }
 

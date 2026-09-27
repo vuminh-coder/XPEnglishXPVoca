@@ -49,6 +49,7 @@ export function CreatePostBox({
             value={postText}
             onChange={(e) => setPostText(e.target.value)}
             onKeyDown={handleKeyDown}
+            aria-label="Nội dung bài viết chia sẻ cùng cộng đồng"
             placeholder={
               user
                 ? "Chia sẻ từ vựng tâm đắc, thắc mắc ngữ pháp hoặc bài học hôm nay... (Ctrl+Enter để đăng, dùng #hashtag)"

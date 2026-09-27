@@ -49,7 +49,7 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   try {
-    const userId = await getAuthenticatedUserId();
+    const userId = await getAuthenticatedUserId(req);
     if (!userId) {
       return NextResponse.json(
         { success: false, error: "Unauthorized" },
@@ -67,8 +67,11 @@ export async function POST(req: Request) {
       );
     }
 
-    // Ensure profile exists for user
-    let profile = await prisma.profile.findUnique({ where: { id: userId } });
+    // Ensure profile exists for user with selective projection
+    let profile = await prisma.profile.findUnique({
+      where: { id: userId },
+      select: { id: true },
+    });
     if (!profile) {
       profile = await prisma.profile.create({
         data: {
@@ -76,6 +79,7 @@ export async function POST(req: Request) {
           fullName: "Học viên",
           avatarEmoji: "🎓",
         },
+        select: { id: true },
       });
     }
 
@@ -107,10 +111,27 @@ export async function POST(req: Request) {
         },
       },
       include: {
-        creator: true,
+        creator: {
+          select: {
+            id: true,
+            fullName: true,
+            username: true,
+            avatarEmoji: true,
+          },
+        },
         members: {
-          include: {
-            user: true,
+          select: {
+            status: true,
+            user: {
+              select: {
+                id: true,
+                fullName: true,
+                username: true,
+                avatarEmoji: true,
+                title: true,
+                totalXp: true,
+              },
+            },
           },
         },
       },

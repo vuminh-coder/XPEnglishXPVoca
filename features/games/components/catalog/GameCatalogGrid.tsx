@@ -84,7 +84,16 @@ export function GameCatalogGrid({ onSelectGame }: GameCatalogGridProps) {
             whileHover={{ translateY: -4 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => onSelectGame(game.id)}
-            className="cursor-pointer h-full"
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onSelectGame(game.id);
+              }
+            }}
+            role="button"
+            tabIndex={0}
+            aria-label={`Chơi mini game ${game.title}`}
+            className="cursor-pointer h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0059bb]"
           >
             <div
               className={`p-5 sm:p-6 flex flex-col justify-between h-full min-h-[260px] bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 ${game.borderHover} rounded-2xl relative overflow-hidden group shadow-2xs hover:shadow-lg transition-all duration-200`}

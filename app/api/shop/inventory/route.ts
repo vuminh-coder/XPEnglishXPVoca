@@ -1,10 +1,10 @@
-﻿import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const userId = await getAuthenticatedUserId();
+    const userId = await getAuthenticatedUserId(request);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -25,6 +25,8 @@ export async function GET() {
 
     const purchaseLogs = await prisma.purchaseLog.findMany({
       where: { userId },
+      take: 100,
+      orderBy: { purchasedAt: "desc" },
       select: {
         itemId: true,
         cost: true,

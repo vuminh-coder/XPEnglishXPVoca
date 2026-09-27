@@ -216,7 +216,7 @@ function CommunityHubContent({ initialTab }: CommunityHubProps) {
     addToast({ type: "success", title: "Bình luận", message: "Đã gửi bình luận! +5 XP 🎉" });
 
     try {
-      await fetch(`/api/posts/${postId}/comments`, {
+      await fetch(`/api/posts/${postId}/comment`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ content: text.trim() }),

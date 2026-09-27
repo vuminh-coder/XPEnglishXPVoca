@@ -1,10 +1,11 @@
-﻿import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
+import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
 
 export async function POST(request: Request) {
   try {
-    const userId = await getAuthenticatedUserId();
+    const userId = await getAuthenticatedUserId(request);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -15,6 +16,7 @@ export async function POST(request: Request) {
     // Check if the user has indeed purchased this item
     const purchase = await prisma.purchaseLog.findFirst({
       where: { userId, itemId },
+      select: { id: true },
     });
 
     if (!purchase) {
@@ -44,6 +46,12 @@ export async function POST(request: Request) {
       prisma.profile.update({
         where: { id: userId },
         data: updateField,
+        select: {
+          id: true,
+          activeAvatarFrame: true,
+          activeChatBubble: true,
+          avatarEmoji: true,
+        },
       }),
       // Set all other items of same category to unequipped, and update current item
       prisma.purchaseLog.updateMany({
@@ -55,6 +63,8 @@ export async function POST(request: Request) {
         data: { isEquipped: equip },
       }),
     ]);
+
+    invalidateDashboardCache(userId);
 
     return NextResponse.json({
       success: true,

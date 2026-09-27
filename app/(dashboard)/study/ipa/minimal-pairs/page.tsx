@@ -12,12 +12,16 @@ import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAn
 import {
   IpaMinimalPairsArena,
 } from "@/features/ipa";
+import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 
 export default function IpaMinimalPairsPage() {
   const router = useRouter();
   const { user: authUser } = useAuthStore();
   const storeUser = useUserStore((s) => s.user);
   const user = authUser || storeUser || DEFAULT_LEARNER_USER;
+
+  // Track speaking/listening minimal pair practice time
+  useStudyTimeTracker("speaking");
 
   return (
     <div

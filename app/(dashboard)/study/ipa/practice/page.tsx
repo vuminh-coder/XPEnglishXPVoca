@@ -13,6 +13,7 @@ import {
   IpaHeroGreeting,
   IpaDedicatedPracticeLab,
 } from "@/features/ipa";
+import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 
 function PracticeLabContent() {
   const router = useRouter();
@@ -22,6 +23,9 @@ function PracticeLabContent() {
   const { user: authUser } = useAuthStore();
   const storeUser = useUserStore((s) => s.user);
   const user = authUser || storeUser || DEFAULT_LEARNER_USER;
+
+  // Track speaking practice time
+  useStudyTimeTracker("speaking");
 
   const handleNavigateTab = (tab: "matrix" | "practice_lab" | "minimal_pairs") => {
     if (tab === "matrix") router.push("/study/ipa");

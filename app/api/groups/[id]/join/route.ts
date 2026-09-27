@@ -1,4 +1,4 @@
-﻿import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 
@@ -7,18 +7,22 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const userId = await getAuthenticatedUserId();
+    const userId = await getAuthenticatedUserId(request);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { id: groupId } = await params;
 
-    // Check if group exists
+    // Check if group exists with selective count projection (no member rows in memory)
     const group = await prisma.group.findUnique({
       where: { id: groupId },
-      include: {
-        members: true,
+      select: {
+        id: true,
+        maxMembers: true,
+        _count: {
+          select: { members: true },
+        },
       },
     });
 
@@ -26,7 +30,7 @@ export async function POST(
       return NextResponse.json({ error: "Group not found" }, { status: 404 });
     }
 
-    // Check if user is already a member
+    // Check if user is already a member with selective projection
     const existingMember = await prisma.groupMember.findUnique({
       where: {
         groupId_userId: {
@@ -34,12 +38,11 @@ export async function POST(
           userId,
         },
       },
+      select: { groupId: true },
     });
 
     let joined = false;
     if (existingMember) {
-      // Creator/ADMIN can't leave unless they delete the group? Or they can leave if they are not the only one?
-      // For simplicity, let them leave unless they want to
       await prisma.groupMember.delete({
         where: {
           groupId_userId: {
@@ -50,8 +53,8 @@ export async function POST(
       });
       joined = false;
     } else {
-      // Check members count limit
-      if (group.members.length >= group.maxMembers) {
+      // Check members count limit from aggregated count
+      if (group._count.members >= group.maxMembers) {
         return NextResponse.json(
           { error: "Nhóm đã đạt số lượng thành viên tối đa!" },
           { status: 400 }

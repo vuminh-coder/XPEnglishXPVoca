@@ -13,7 +13,7 @@ function calculateLevelAndTitle(xp: number, currentLevel: number) {
 
 export async function POST(request: Request) {
   try {
-    const userId = await getAuthenticatedUserId();
+    const userId = await getAuthenticatedUserId(request);
     if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const body = await request.json();
@@ -26,7 +26,7 @@ export async function POST(request: Request) {
 
     const task = await prisma.dailyTask.findUnique({
       where: { id: taskId },
-      select: { id: true, isCompleted: true, xpReward: true, plan: { select: { userId: true } } },
+      select: { id: true, isCompleted: true, xpReward: true, taskType: true, plan: { select: { userId: true } } },
     });
     if (!task) return NextResponse.json({ error: "Task not found" }, { status: 404 });
     if (task.plan.userId !== userId) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
@@ -70,6 +70,31 @@ export async function POST(request: Request) {
             data: { level: next.level, title: next.title },
             select: { id: true, totalXp: true, level: true, title: true, coins: true },
           });
+
+      // Sync to DailySkillPractice for 7-day analytics
+      const skillName = task.taskType === "listening" ? "dictation" : task.taskType === "speaking" ? "speaking" : task.taskType === "writing" ? "writing" : "vocab";
+      const todayDate = new Date().toISOString().split("T")[0];
+      await tx.dailySkillPractice.upsert({
+        where: {
+          userId_skill_date: {
+            userId,
+            skill: skillName,
+            date: todayDate,
+          },
+        },
+        update: {
+          minutes: { increment: 5 },
+          xpEarned: { increment: xpAwarded },
+        },
+        create: {
+          userId,
+          skill: skillName,
+          date: todayDate,
+          minutes: 5,
+          xpEarned: xpAwarded,
+        },
+      });
+
       const updatedTask = await tx.dailyTask.findUniqueOrThrow({ where: { id: taskId } });
       return { updatedTask, updatedProfile, xpAwarded };
     }, {

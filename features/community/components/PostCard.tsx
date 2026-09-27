@@ -148,6 +148,7 @@ export function PostCard({
             />
             <input
               type="text"
+              aria-label="Viết bình luận cho bài viết"
               placeholder={user ? "Viết bình luận của bạn..." : "Đăng nhập để bình luận..."}
               disabled={!user}
               value={commentText}

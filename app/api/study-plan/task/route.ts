@@ -20,7 +20,7 @@ function calculateLevelAndTitle(xp: number, currentLevel: number) {
 
 export async function POST(request: Request) {
   try {
-    const userId = await getAuthenticatedUserId();
+    const userId = await getAuthenticatedUserId(request);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -32,10 +32,18 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Task ID is required" }, { status: 400 });
     }
 
-    // Find the task
+    // Find the task with selective projection
     const task = await prisma.dailyTask.findUnique({
       where: { id: taskId },
-      include: { plan: true },
+      select: {
+        id: true,
+        isCompleted: true,
+        xpReward: true,
+        taskType: true,
+        plan: {
+          select: { userId: true },
+        },
+      },
     });
 
     if (!task) {
@@ -91,6 +99,30 @@ export async function POST(request: Request) {
             data: { level: newLevel, title: newTitle },
             select: { id: true, totalXp: true, level: true, title: true, coins: true },
           });
+
+      // Sync to DailySkillPractice for 7-day analytics
+      const skillName = task.taskType === "listening" ? "dictation" : task.taskType === "speaking" ? "speaking" : task.taskType === "writing" ? "writing" : "vocab";
+      const todayDate = new Date().toISOString().split("T")[0];
+      await tx.dailySkillPractice.upsert({
+        where: {
+          userId_skill_date: {
+            userId,
+            skill: skillName,
+            date: todayDate,
+          },
+        },
+        update: {
+          minutes: { increment: 5 },
+          xpEarned: { increment: xpToAdd },
+        },
+        create: {
+          userId,
+          skill: skillName,
+          date: todayDate,
+          minutes: 5,
+          xpEarned: xpToAdd,
+        },
+      });
 
       const updatedTask = await tx.dailyTask.findUniqueOrThrow({ where: { id: taskId } });
       return { updatedTask, updatedProfile, xpAwarded: xpToAdd };

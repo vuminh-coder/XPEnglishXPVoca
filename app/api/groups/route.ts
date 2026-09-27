@@ -1,4 +1,4 @@
-﻿import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 
@@ -60,9 +60,9 @@ async function ensureDefaultGroups() {
   }
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const userId = await getAuthenticatedUserId();
+    const userId = await getAuthenticatedUserId(request);
 
     let groups = await prisma.group.findMany({
       select: {
@@ -73,6 +73,7 @@ export async function GET() {
         accent: true,
         maxMembers: true,
         members: {
+          take: 10,
           select: {
             userId: true,
             role: true,
@@ -103,6 +104,7 @@ export async function GET() {
           accent: true,
           maxMembers: true,
           members: {
+            take: 10,
             select: {
               userId: true,
               role: true,
@@ -156,7 +158,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const userId = await getAuthenticatedUserId();
+    const userId = await getAuthenticatedUserId(request);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

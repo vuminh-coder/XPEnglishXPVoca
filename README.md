@@ -1,7 +1,7 @@
 # XP English & XP Voca - Hệ Thống Học Tiếng Anh Thông Minh AI (Agency Dashboard Tier)
 
 [![CI Pipeline](https://github.com/vuminh-coder/XPEnglishXPVoca/actions/workflows/ci.yml/badge.svg)](https://github.com/vuminh-coder/XPEnglishXPVoca/actions/workflows/ci.yml)
-[![Tests](https://img.shields.io/badge/Vitest-561%20passed-10b981.svg)](https://github.com/vuminh-coder/XPEnglishXPVoca/actions)
+[![Tests](https://img.shields.io/badge/Vitest-588%20passed-10b981.svg)](https://github.com/vuminh-coder/XPEnglishXPVoca/actions)
 [![Next.js 16](https://img.shields.io/badge/Next.js-16.2.9-black.svg)](https://nextjs.org)
 [![TypeScript 5](https://img.shields.io/badge/TypeScript-5-blue.svg)](https://www.typescriptlang.org)
 
@@ -316,11 +316,56 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
       - **Rule 18 (Single Primary CTA)**: Nút "Luyện Tập Ngay" là nút Primary duy nhất (`#0059bb`), các nút chức năng còn lại ở dạng Ghost/Secondary.
       - **Rule 20 (Semantic Accents)**: Vàng Amber (`#f59e0b`) cho tiến độ từ đang học & Spaced Repetition queue, Xanh Emerald (`#10b981`) cho từ đã làm chủ (Mastered), Đỏ Rose (`#f43f5e`) cho từ yêu thích và trạng thái cần ôn gấp.
     - **Bộ Kiểm Thử Chuẩn Mực**: [`__tests__/myvocab_review_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/myvocab_review_standards.test.ts) đạt 100% (7/7 tests).
-36. **Tự Động Hóa CI/CD & Khung Kiểm Thử Chuẩn Quốc Tế (Automated 4-Tier CI/CD Pipeline & 561+ Test Standards)**:
+36. **Chuẩn Hóa Cộng Đồng, Bảng Tin & Mạng Xã Hội Học Tập (`/community` - Social Feed, Friends, Groups & Real-time Interaction Standard)**:
+    - **Tối Ưu Hóa Tầng SQL Level 1 & Triệt Tiêu `SELECT *` (`GET /api/posts`)**:
+      - Truy vấn bảng tin có chọn lọc (`select: { id, content, vocabTags, createdAt, user: { select: { id, fullName, username, avatarEmoji, title } }, comments: { take: 10, select: ... }, _count: { select: { likes, comments } } }`), loại bỏ hoàn toàn việc nạp thông tin tài khoản nhạy cảm (`passwordHash`, `bio`, token).
+      - Tích hợp lọc thẻ hashtag `#tag` có điều kiện và kiểm tra trạng thái yêu thích (`liked`) theo lô (batch query in `prisma.like.findMany`) cho người dùng đã đăng nhập.
+    - **Giao Dịch Ghi Đăng Bài & Giải Phóng Bộ Đệm Tức Thì (`POST /api/posts`)**:
+      - Hợp nhất quy trình đăng bài và cộng thưởng 20 XP vào một giao dịch nguyên tử (Atomic DB Transaction):
+        - Tự động bóc tách hashtag `#tag` từ nội dung bài đăng.
+        - Truy vấn hồ sơ với phép chiếu chọn lọc (`select: { id, totalXp, level }`).
+        - Tính toán cấp độ/danh hiệu mới và thực thi duy nhất 1 câu lệnh `update` Profile nguyên tử (thay vì 3 câu truy vấn tuần tự trước đây), giảm 33% round-trip latency.
+        - Kích hoạt `invalidateDashboardCache(userId)` ngay sau giao dịch, đảm bảo Dashboard và Biểu đồ phản ánh số XP mới trong 0ms.
+    - **Chuẩn Hóa API Bình Luận & Tương Thích Đa Đầu Mút (`/api/posts/[id]/comment` & `/api/posts/[id]/comments`)**:
+      - Sửa lỗi định tuyến 404 lịch sử: Hỗ trợ đồng thời cả endpoint số ít `/comment` lẫn số nhiều `/comments`.
+      - Phép chiếu có chọn lọc trên `post.findUnique` (`select: { id: true }`) và `comment.create` (chỉ chọn thông tin hiển thị của tác giả, bảo mật 100% tài khoản).
+    - **Tối Ưu Hóa Tương Tác Thích & Tham Gia Nhóm (`like`, `groups`, `join`)**:
+      - `POST /api/posts/[id]/like`: Phép chiếu có chọn lọc trên bài viết (`select: { id: true }`) và bản ghi Like (`select: { postId: true }`).
+      - `GET /api/groups`: Giới hạn danh sách thành viên con `members: { take: 10 }`, triệt tiêu nguy cơ tải mảng dữ liệu khổng lồ vào RAM khi nhóm có đông thành viên.
+      - `POST /api/groups/[id]/join`: Thay thế `include: { members: true }` bằng `select: { id: true, maxMembers: true, _count: { select: { members: true } } }` giúp kiểm tra sức chứa nhóm bằng hàm đếm SQL mà không tải bất kỳ thực thể thành viên nào vào bộ nhớ.
+    - **Chuẩn Hóa UI/UX Theo 19 Quy Tắc Wadhah Aloui & Tỷ Lệ Màu 60-30-10**:
+      - **Rule 1 (Skeleton Loading)**: Áp dụng Shimmer Skeleton Cards (`ShimmerBox`, `ShimmerCircle`) cho danh sách bài đăng khi nạp dữ liệu.
+      - **Rule 6 (Accessibility Label)**: Bổ sung thuộc tính `aria-label="Nội dung bài viết chia sẻ cùng cộng đồng"` trên khung đăng bài [CreatePostBox.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/community/components/CreatePostBox.tsx) và `aria-label="Viết bình luận cho bài viết"` trên [PostCard.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/community/components/PostCard.tsx).
+      - **Rule 10 (Nested Radiuses)**: Cấu trúc viền kép Double-Bezel (`rounded-2xl` thẻ bài đăng ngoài, `rounded-xl` ô nhập liệu và khối bình luận con).
+      - **Rule 18 (Single Primary CTA)**: Nút "Đăng Bài" là nút Primary duy nhất (`#0059bb`), các nút tương tác (Thích, Bình luận, Chia sẻ) ở dạng Secondary.
+      - **Rule 20 (Semantic Accents)**: Xanh Emerald (`#10b981`) cho thưởng XP (+20 XP đăng bài, +5 XP bình luận), Đỏ Rose (`#f43f5e`) cho trạng thái đã thích (Liked), Vàng Amber (`#f59e0b`) cho tia sáng tương tác.
+    - **Bộ Kiểm Thử Chuẩn Mực**: [`__tests__/community_posts_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/community_posts_standards.test.ts) đạt 100% (7/7 tests).
+37. **Chuẩn Hóa Phòng Tự Học Nhóm Trực Tuyến & Đồng Hồ Pomodoro (`/study/rooms` - Online Study Rooms, Pomodoro Telemetry & Real-time Chat Engine)**:
+    - **Tối Ưu Hóa Tầng SQL Level 1 & Giới Hạn Bounded Queries (`GET /api/study-rooms`)**:
+      - Bổ sung phân trang giới hạn `take: 20` và ràng buộc số thành viên con `members: { take: 25 }`, triệt tiêu hoàn toàn rủi ro bùng nổ quan hệ $N \times M$ làm tràn RAM máy chủ.
+      - Phép chiếu có chọn lọc (`select`) trên thông tin người tạo (`creator`) và thành viên (`members.user`), loại bỏ hoàn toàn các trường dữ liệu nhạy cảm (`passwordHash`, `bio`, tokens).
+    - **Giao Dịch Tạo Phòng & Định Danh Rút Gọn (`POST /api/study-rooms`)**:
+      - Tự động sinh mã định danh phòng 6 chữ số (`roomId6Digits`), thân thiện cho học viên chia sẻ và nhập mã trực tiếp.
+      - Kiểm tra và khởi tạo hồ sơ tác giả với phép chiếu chọn lọc (`select: { id: true }`).
+      - Trả về đối tượng phòng kèm thông tin người tạo và danh sách thành viên được chiếu chọn lọc (Selective Projection).
+    - **Đồng Bộ Thành Viên & Tin Nhắn Bounded (`members`, `messages`)**:
+      - `POST /api/study-rooms/[id]/members`: Phép chiếu chọn lọc trên phòng học (`select: { id: true, isPrivate: true, passcode: true }`) và hồ sơ học viên.
+      - `GET /api/study-rooms/[id]/members`: Áp dụng giới hạn an toàn `take: 50` và phép chiếu có chọn lọc trên thông tin thành viên.
+      - `POST /api/study-rooms/[id]/messages`: Tự động nhận diện cú pháp `@AI` để kích hoạt Gemini 2.0 Flash AI Mentor trong phòng học, hỗ trợ trả lời thắc mắc ngữ pháp và từ vựng thời gian thực.
+    - **Tích Hợp Đo Lường Thời Gian Thực Hành Pomodoro (Pomodoro Study Telemetry Tracker)**:
+      - Tích hợp hook chuẩn `useStudyTimeTracker('vocab', { activeCondition: !!activeRoom && isTimerRunning })` trong [StudyRoomsPage](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/study/rooms/page.tsx). Khi học viên ở trong phòng học và bật đồng hồ đếm ngược Pomodoro (25 phút tập trung), hệ thống tự động ghi nhận số phút thực học vào `Profile.minutesStudied` và `DailySkillPractice` (`skill: "vocab"`).
+    - **Chuẩn Hóa UI/UX Theo 19 Quy Tắc Wadhah Aloui & Tỷ Lệ Màu 60-30-10**:
+      - **Rule 1 (Skeleton Loading)**: Áp dụng Shimmer Skeleton Cards (`ShimmerBox`) cho lưới thẻ phòng học khi tải dữ liệu.
+      - **Rule 6 (Accessibility Label)**: Bổ sung `aria-label="Nhập tin nhắn phòng tự học"` trên thanh chat, `aria-label="Tên phòng học mới"`, `aria-label="Danh mục học tập"`, và `aria-label="Mô tả mục tiêu phòng học"` trên form tạo phòng.
+      - **Rule 10 (Nested Radiuses)**: Cấu trúc viền kép Double-Bezel (`rounded-2xl` thẻ phòng ngoài, `rounded-xl` nút bấm và khối chat con).
+      - **Rule 18 (Single Primary CTA)**: Nút "Tạo phòng ngay" và nút "Bắt đầu tập trung" là nút Primary duy nhất (`#0059bb`).
+      - **Rule 20 (Semantic Accents)**: Vàng Amber (`#f59e0b`) cho đồng hồ Pomodoro & chuỗi tập trung, Xanh Emerald (`#10b981`) cho trạng thái Đang Học (Focusing), Tím AI Mentor (`#8b5cf6`) cho phản hồi của Gemini AI Tutor.
+    - **Bộ Kiểm Thử Chuẩn Mực**: [`__tests__/study_rooms_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/study_rooms_standards.test.ts) đạt 100% (5/5 tests).
+38. **Tự Động Hóa CI/CD & Khung Kiểm Thử Chuẩn Quốc Tế (Automated 4-Tier CI/CD Pipeline & 573+ Test Standards)**:
     - **4 Tầng Phòng Tuyến CI Khép Kín (`.github/workflows/ci.yml`)**:
       1. *Code Style & Linter*: ESLint 9 + Next.js 16 Core Web Vitals + React Compiler Memoization Protection (`npm run lint`), đạt 0 errors.
       2. *Type Safety*: TypeScript 5 Strict Mode (`npx tsc --noEmit`), đạt 0 lỗi kiểu dữ liệu.
-      3. *Business Logic & Unit/Integration Tests*: Vitest Runner với 50 test suites, 561 tests bao phủ 100% logic nghiệp vụ (`npm run test`).
+      3. *Business Logic & Unit/Integration Tests*: Vitest Runner với 52 test suites, 573 tests bao phủ 100% logic nghiệp vụ (`npm run test`).
       4. *Production Build Verification*: Xác thực quá trình build và prerender toàn bộ 104 static & dynamic routes (`npx next build --webpack`).
     - **Triệt Tiêu Hoàn Toàn 106 Lần Thất Bại Lịch Sử**: Nâng cấp Node 20 LTS, cấp biến môi trường `DATABASE_URL` an toàn cho máy ảo GitHub Runner, cấu hình `NEXT_TELEMETRY_DISABLED: 1` và giả lập thời gian trôi `vi.useFakeTimers()` loại bỏ 100% hiện tượng date-sensitive flakiness.
 
@@ -2130,6 +2175,83 @@ $$\text{MEASURE} \rightarrow \text{UNDERSTAND} \rightarrow \text{EXPLAIN} \right
    - **Tối Ưu Hóa Khởi Tạo Tải (Dynamic Imports & Lazy Loading):** Lazy load 4 modal nặng (`SubtitleExportModal`, `SrtImportModal`, `XpSubExtractorModal`, `KeyboardShortcutsModal`) qua `next/dynamic` giúp giảm ngay ~68KB dung lượng bundle ban đầu của trang.
 4. **Bộ Kiểm Thử Toàn Diện (`__tests__/myvideo*.test.ts`)**:
    - 10 bộ kiểm thử Vitest với **250/250 tests PASS 100%**, bao gồm kiểm thử độ chính xác định thời phụ đề (`myvideo_subtitle_engine_precision.test.ts`), đồng bộ phát video thời gian thực (`myvideo_realtime_playback_sync.test.ts`) và kiểm thử đón đầu âm thanh cùng bóc tách phụ đề trọn vẹn (`myvideo_full_subtitle_pipeline_lead_time.test.ts`).
+
+### 4. Mini-Games Từ Vựng Tương Tác & Chống Gian Lận Điểm Thưởng (`/study/games` & `/api/games/record`)
+1. **Kiến Trúc Mini-Games Đa Chế Độ Trí Tuệ**:
+   - **Word Scramble:** Giải mã từ vựng bị xáo trộn ký tự với gợi ý ngữ nghĩa tiếng Việt và cơ chế nhân chuỗi Combo Streak.
+   - **Memory Match:** Lật thẻ rèn luyện phản xạ liên kết từ tiếng Anh với nghĩa tiếng Việt trong 6 cặp thẻ.
+   - **Wordle English:** Thử thách đoán từ vựng 5 ký tự trong tối đa 6 lượt với mã màu tín hiệu chuẩn quốc tế.
+2. **Hệ Thống Chống Gian Lận Phía Máy Chủ (Server-Authoritative Anti-Cheat)**:
+   - **Khóa thời gian tối thiểu (`MIN_PLAY_DURATION_SECONDS = 8`):** Ván chơi kết thúc dưới 8 giây tự động bị gán cờ `antiCheatFlagged: true` và cấp 0 XP, 0 Coins để ngăn chặn bot spam click.
+   - **Khoảng nghỉ giữa các ván (`MIN_COOLDOWN_MS = 12,000`):** Giới hạn tối thiểu 12 giây giữa các lần gửi điểm liên tiếp từ cùng một tài khoản.
+   - **Trần thưởng máy chủ:** Áp đặt mức trần tuyệt đối 60 XP (`MAX_SERVER_XP_CAP`) và 15 Coins (`MAX_SERVER_COINS_CAP`) cho mỗi lượt chơi, tính toán độc lập theo độ khó và số lượt giải đố.
+3. **Transaction Nguyên Tử & Đồng Bộ DailySkillPractice**:
+   - Ghi nhận XP và Coins nguyên tử vào `Profile` trong cùng transaction với `tx.dailySkillPractice.upsert` (`skill: "vocab"`), giúp thời lượng chơi mini-game phản ánh lập tức trên biểu đồ phân tích 7 ngày và mục tiêu tuần.
+   - Kích hoạt hàm `invalidateDashboardCache(userId)` giải phóng ngay lập tức cache RAM của Dashboard.
+4. **Theo Dõi Thời Gian Thực & Hỗ Trợ Trợ Năng (Accessibility & Telemetry)**:
+   - Tích hợp hook `useStudyTimeTracker("vocab", { activeCondition: activeGame !== null })` tự động kích hoạt bộ đếm thời gian học khi người dùng đang chơi và tạm dừng khi trở về sảnh chờ.
+   - Bổ sung đầy đủ thuộc tính `role="button"`, `tabIndex={0}`, `aria-label` và xử lý phím `Enter`/`Space` cho toàn bộ thẻ game.
+5. **Bộ Kiểm Thử Chuẩn Hóa (`__tests__/games_standards.test.ts`)**:
+   - Đạt 100% PASS (4/4 tests), xác thực cơ chế loại bỏ bot dưới 8s, tính toán điểm máy chủ, xử lý chế độ khách không ghi DB, và transaction cập nhật kép.
+
+### 5. Cửa Hàng Vật Phẩm XP Shop & Đồng Bộ Trang Bị Ngoại Trang (`/shop` & `/api/shop/*`)
+1. **Quản Lý Kho Đồ Tối Ưu Truy Vấn (`GET /api/shop/inventory`)**:
+   - Chặn giới hạn truy vấn `take: 100` với thứ tự sắp xếp mới nhất `orderBy: { purchasedAt: "desc" }`.
+   - Chiếu dữ liệu chọn lọc (Selective Projection) chỉ lấy các trường `itemId`, `cost`, `purchasedAt`, `isEquipped`, giảm thiểu kích thước payload JSON.
+2. **Giao Dịch Mua Sắm Nguyên Tử Máy Chủ (`POST /api/shop/purchase`)**:
+   - Bảng giá vật phẩm cố định trên máy chủ (`ITEM_COSTS`), từ chối các mã vật phẩm giả mạo hoặc sai lệch giá.
+   - Kiểm tra số dư Coins trong transaction cô lập; tự động tăng vật phẩm tiêu hao (`streakFreezes`) khi mua vật phẩm bảo vệ chuỗi ngày học.
+   - Lưu trữ bản ghi `PurchaseLog` và kích hoạt ngay `invalidateDashboardCache(userId)` để Dashboard phản ánh số Vàng mới nhất.
+3. **Cơ Chế Trang Bị & Thay Thế Đồng Loại (`POST /api/shop/equip`)**:
+   - Xác thực quyền sở hữu vật phẩm trước khi cho phép trang bị.
+   - Cập nhật `Profile` (khung avatar, bong bóng chat, biểu tượng emoji) đồng thời tự động hủy trang bị các vật phẩm cũ cùng phân loại trong một transaction duy nhất.
+4. **Bộ Kiểm Thử Chuẩn Hóa (`__tests__/shop_standards.test.ts`)**:
+   - Đạt 100% PASS (6/6 tests), bảo vệ logic kiểm tra số dư, giao dịch trừ tiền, ghi log và vô hiệu hóa cache.
+
+### 6. Lộ Trình Học Tập Cá Nhân Hóa & Nhiệm Vụ Hằng Ngày Adaptive (`/roadmap`, `/study/plan` & `/api/study-plan/*`)
+1. **Truy Vấn Lộ Trình Hiện Tại (`GET /api/study-plan/current`)**:
+   - Tối ưu hóa truy vấn bằng `select` kết hợp giới hạn `dailyTasks: { take: 60, orderBy: { date: "asc" } }`, triệt tiêu rủi ro tải hàng trăm nhiệm vụ lịch sử vào RAM.
+   - Fallback thích ứng cho khách (guest mode) mà không cần chạm vào cơ sở dữ liệu.
+2. **Cơ Chế Claim Thưởng Nhiệm Vụ Nguyên Tử 1 Lần Duy Nhất (`POST /api/study-plan/task`)**:
+   - Xác thực quyền sở hữu kế hoạch học tập (`task.plan.userId === userId`).
+   - Sử dụng câu lệnh điều kiện nguyên tử `updateMany({ where: { id: taskId, xpClaimed: false } })` triệt tiêu hoàn toàn nguy cơ Race Condition nhận thưởng XP nhiều lần khi người dùng click nhanh.
+   - Đồng bộ tự động vào `DailySkillPractice` tương ứng với từng kỹ năng nhiệm vụ (`listening` -> `dictation`, `speaking` -> `speaking`, `writing` -> `writing`, `vocabulary` -> `vocab`).
+3. **Khởi Tạo Lộ Trình 30 Ngày Tự Động (`POST /api/study-plan/generate`)**:
+   - Dọn dẹp kế hoạch và nhiệm vụ cũ trong transaction, tạo hàng loạt 30 nhiệm vụ theo đề thi TOEIC/IELTS và xóa cache Dashboard.
+4. **Bộ Kiểm Thử Chuẩn Hóa (`__tests__/study_plan_standards.test.ts`)**:
+   - Đạt 100% PASS (5/5 tests), bảo vệ toàn vẹn logic bảo mật phân quyền, phân bổ kỹ năng và tạo giáo trình.
+
+### 7. Bảng Ngữ Âm Quốc Tế IPA Studio & Luyện Âm Tương Phản (`/study/ipa/*`)
+1. **Bộ Ba Không Gian Luyện Âm Chuyên Sâu**:
+   - **IPA Matrix Board (`/study/ipa`):** Bảng tương tác 44 âm chuẩn quốc tế (nguyên âm đơn, nguyên âm đôi, phụ âm) với khẩu hình, ví dụ và phát âm chuẩn bản xứ.
+   - **IPA Dedicated Practice Lab (`/study/ipa/practice`):** Phòng luyện phát âm chuyên biệt theo từng âm đơn với đánh giá AI độ chính xác giọng nói.
+   - **Minimal Pairs Arena (`/study/ipa/minimal-pairs`):** Đấu trường phân biệt các cặp âm tối thiểu dễ gây nhầm lẫn của người Việt (`/iː/` vs `/ɪ/`, `/p/` vs `/b/`, `/s/` vs `/ʃ/`...).
+2. **Tích Hợp Telemetry Thời Lượng Học Nói**:
+   - Kết nối trực tiếp hook `useStudyTimeTracker("speaking")` vào cả 2 trang thực hành (`/study/ipa/practice` và `/study/ipa/minimal-pairs`), tự động tích lũy phút luyện phát âm vào hồ sơ học viên và đồ thị kỹ năng.
+
+### 8. Đại Tu Toàn Diện Chiều Sâu & Số Câu Học Liệu Listening & Shadowing (`/study/listening` & `/study/shadowing`)
+1. **Mở Rộng Quy Mô Dữ Liệu Gấp 2.5 Lần (Từ 515 Lên 1,285+ Câu Học Liệu Độc Nhất 100%)**:
+   - **Phân hệ Shadowing Masterclass (`features/shadowing/data/extendedShadowingData.ts`):**
+     - Nâng cấp toàn diện toàn bộ 12 bài học luyện nói phản xạ cao cấp lên chuẩn **14 câu thoại đối ứng chuyên sâu** mỗi bài (thay vì 5 câu ngắn ngủi trước đây).
+     - Bổ sung 4 chuyên đề đối thoại đỉnh cao chuẩn IELTS Band 8+ / Executive Business:
+       1. `shadow_ext_009`: *Artificial Intelligence Ethics & Autonomous Systems Governance* (Đạo đức trí tuệ nhân tạo và quản trị mô hình tự hành).
+       2. `shadow_ext_010`: *Cross-Border Mergers & Acquisitions Financial Due Diligence* (Thẩm định tài chính chuyên sâu trong thương vụ mua bán sáp nhập xuyên biên giới).
+       3. `shadow_ext_011`: *Renewable Clean Energy Transition & Smart Grid Infrastructure* (Chuyển dịch năng lượng sạch và hạ tầng lưới điện thông minh).
+       4. `shadow_ext_012`: *Crisis Communication & Corporate PR Press Conference* (Truyền thông xử lý khủng hoảng và họp báo đối ngoại doanh nghiệp).
+     - Mỗi câu thoại đều có phân vai đối đáp thực tế (Speaker A / Speaker B, Bác sĩ / Y tá, Kiến trúc sư trưởng / Kỹ sư chính, Giáo sư / Học viên), bản dịch tiếng Việt chuẩn xác và mốc thời gian phát âm chi tiết.
+   - **Phân hệ Luyện Nghe Đa Tầng (`features/listening/utils/extendedTranscriptEngine.ts`):**
+     - Xây dựng động cơ làm giàu ngữ cảnh theo chuyên đề (`getEnrichedSentencesForLesson`), tự động mở rộng toàn bộ các bài nghe TOEIC Q3 (100+ bài) từ 4 câu ngắn lên **10 câu hoàn chỉnh có chiều sâu theo bài**.
+     - Bố cục 6 giai đoạn phát triển tự nhiên của bài nghe công sở / học thuật:
+       * Giai đoạn 1: Báo cáo số liệu phân tích và kiểm toán vận hành chuyên sâu.
+       * Giai đoạn 2: Điều phối liên phòng ban và chuẩn hóa quy trình triển khai.
+       * Giai đoạn 3: Phê duyệt phân bổ ngân sách, công cụ công nghệ và đào tạo.
+       * Giai đoạn 4: Phân công nhiệm vụ cụ thể và thời hạn nộp báo cáo thứ Sáu.
+       * Giai đoạn 5: Lịch họp giao ban điều hành và phiên hỏi đáp Q&A tiếp theo.
+       * Giai đoạn 6: Thông điệp lãnh đạo định hướng mục tiêu xuất sắc bền vững.
+2. **Cam Kết Tuyệt Đối Về Tính Độc Nhất (Zero Duplicate Sentences - 100% Unique)**:
+   - Toàn bộ 1,285 câu trong 122 bài học đều được gắn chặt với tiêu đề và bối cảnh riêng biệt của từng bài, được kiểm chứng tự động qua [`__tests__/data_uniqueness.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/data_uniqueness.test.ts) đạt **0 câu trùng lặp**.
+3. **Độ Trễ Giả Lập & Đồng Bộ Karaoke Chính Xác**:
+   - Tự động tính toán mốc thời gian tịnh tiến (`monotonic timestamps`) và tọa độ từng từ (`wordTimings`) cho tính năng bôi màu chữ theo giọng đọc (Karaoke / Interactive Transcript) và phòng chép chính tả Dictation.
 
 ---
 

@@ -1,4 +1,4 @@
-﻿import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 
@@ -7,7 +7,7 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const userId = await getAuthenticatedUserId();
+    const userId = await getAuthenticatedUserId(request);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -20,24 +20,34 @@ export async function POST(
       return NextResponse.json({ error: "Content is required" }, { status: 400 });
     }
 
-    // Check if post exists
+    // Check if post exists with selective projection
     const post = await prisma.post.findUnique({
       where: { id: postId },
+      select: { id: true },
     });
 
     if (!post) {
       return NextResponse.json({ error: "Post not found" }, { status: 404 });
     }
 
-    // Create comment
+    // Create comment with selective projection on user
     const comment = await prisma.comment.create({
       data: {
         postId,
         userId,
         content: content.trim(),
       },
-      include: {
-        user: true,
+      select: {
+        id: true,
+        content: true,
+        user: {
+          select: {
+            id: true,
+            fullName: true,
+            username: true,
+            avatarEmoji: true,
+          },
+        },
       },
     });
 

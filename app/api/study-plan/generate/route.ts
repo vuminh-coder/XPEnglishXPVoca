@@ -1,10 +1,11 @@
-﻿import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
+import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
 
 export async function POST(request: Request) {
   try {
-    const rawUserId = await getAuthenticatedUserId();
+    const rawUserId = await getAuthenticatedUserId(request);
     const userId = rawUserId || "guest_user";
 
     const body = await request.json();
@@ -124,6 +125,7 @@ export async function POST(request: Request) {
         // Delete existing plan & tasks if any
         const existingPlan = await tx.studyPlan.findUnique({
           where: { userId: userId },
+          select: { id: true },
         });
 
         if (existingPlan) {
@@ -167,6 +169,10 @@ export async function POST(request: Request) {
 
         return newPlan;
       });
+
+      if (userId && userId !== "guest_user") {
+        invalidateDashboardCache(userId);
+      }
 
       return NextResponse.json({
         success: true,

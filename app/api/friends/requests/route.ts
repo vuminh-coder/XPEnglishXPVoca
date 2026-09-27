@@ -3,9 +3,9 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 
 // GET /api/friends/requests - Get incoming and outgoing pending friend requests
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const userId = await getAuthenticatedUserId();
+    const userId = await getAuthenticatedUserId(request);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -110,7 +110,7 @@ export async function GET() {
 // POST /api/friends/requests - Accept or Decline a pending request
 export async function POST(request: Request) {
   try {
-    const userId = await getAuthenticatedUserId();
+    const userId = await getAuthenticatedUserId(request);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -127,6 +127,7 @@ export async function POST(request: Request) {
 
     const friendship = await prisma.friendship.findUnique({
       where: { id: requestId },
+      select: { id: true, receiverId: true },
     });
 
     if (!friendship) {

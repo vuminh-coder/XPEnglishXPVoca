@@ -3,9 +3,9 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 
 // GET /api/friends - Get list of accepted friends
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const userId = await getAuthenticatedUserId();
+    const userId = await getAuthenticatedUserId(request);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -72,7 +72,7 @@ export async function GET() {
 // POST /api/friends - Send or accept a friend request
 export async function POST(request: Request) {
   try {
-    const userId = await getAuthenticatedUserId();
+    const userId = await getAuthenticatedUserId(request);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -94,22 +94,29 @@ export async function POST(request: Request) {
       );
     }
 
-    // Check if the receiver profile exists
+    // Check if the receiver profile exists with selective projection
     const receiverExists = await prisma.profile.findUnique({
       where: { id: receiverId },
+      select: { id: true },
     });
 
     if (!receiverExists) {
       return NextResponse.json({ error: "Profile not found" }, { status: 404 });
     }
 
-    // Check existing friendships
+    // Check existing friendships with selective projection
     const existingFriendship = await prisma.friendship.findFirst({
       where: {
         OR: [
           { senderId: userId, receiverId },
           { senderId: receiverId, receiverId: userId },
         ],
+      },
+      select: {
+        id: true,
+        senderId: true,
+        receiverId: true,
+        status: true,
       },
     });
 
@@ -161,7 +168,7 @@ export async function POST(request: Request) {
 // DELETE /api/friends - Remove a friend / reject or cancel request
 export async function DELETE(request: Request) {
   try {
-    const userId = await getAuthenticatedUserId();
+    const userId = await getAuthenticatedUserId(request);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -176,7 +183,7 @@ export async function DELETE(request: Request) {
       );
     }
 
-    // Find friendship where sender=userId and receiver=friendId, OR sender=friendId and receiver=userId
+    // Find friendship with selective projection
     const friendship = await prisma.friendship.findFirst({
       where: {
         OR: [
@@ -184,6 +191,7 @@ export async function DELETE(request: Request) {
           { senderId: friendId, receiverId: userId },
         ],
       },
+      select: { id: true },
     });
 
     if (!friendship) {

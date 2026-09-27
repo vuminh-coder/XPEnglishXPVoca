@@ -35,9 +35,29 @@ export async function GET(request: Request) {
     const plan = await safeDbExecute(async () => {
       return await prisma.studyPlan.findUnique({
         where: { userId },
-        include: {
+        select: {
+          id: true,
+          userId: true,
+          targetExam: true,
+          targetScore: true,
+          targetDate: true,
+          currentLevel: true,
+          weeklyHours: true,
+          createdAt: true,
+          updatedAt: true,
           dailyTasks: {
+            take: 60,
             orderBy: { date: "asc" },
+            select: {
+              id: true,
+              planId: true,
+              date: true,
+              taskType: true,
+              description: true,
+              isCompleted: true,
+              xpReward: true,
+              xpClaimed: true,
+            },
           },
         },
       });

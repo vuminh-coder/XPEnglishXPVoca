@@ -1,4 +1,4 @@
-﻿import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 
@@ -7,23 +7,24 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const userId = await getAuthenticatedUserId();
+    const userId = await getAuthenticatedUserId(request);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { id: postId } = await params;
 
-    // Check if the post exists
+    // Check if the post exists with selective projection
     const post = await prisma.post.findUnique({
       where: { id: postId },
+      select: { id: true },
     });
 
     if (!post) {
       return NextResponse.json({ error: "Post not found" }, { status: 404 });
     }
 
-    // Toggle like
+    // Toggle like with selective projection
     const existingLike = await prisma.like.findUnique({
       where: {
         postId_userId: {
@@ -31,6 +32,7 @@ export async function POST(
           userId,
         },
       },
+      select: { postId: true },
     });
 
     let liked = false;

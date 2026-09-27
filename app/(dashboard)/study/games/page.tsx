@@ -16,6 +16,7 @@ import {
   MemoryMatchGame,
   WordleEnglishGame,
 } from "@/features/games";
+import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 
 const pageTransitionVariants = {
   hidden: { opacity: 0, y: 12 },
@@ -39,6 +40,9 @@ export default function GamesPage() {
   const [activeGame, setActiveGame] = useState<GameMode | null>(null);
   const [pool, setPool] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  // Track study time when playing mini-games
+  useStudyTimeTracker("vocab", { activeCondition: activeGame !== null });
 
   useEffect(() => {
     setIsLoading(true);

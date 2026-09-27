@@ -1,6 +1,7 @@
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
+import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
 import { LEVEL_TITLES } from "@/shared/constants";
 
 // Helper to calculate level and title from XP
@@ -19,7 +20,7 @@ function calculateLevelAndTitle(xp: number, currentLevel: number) {
 
 export async function GET(request: Request) {
   try {
-    const userId = await getAuthenticatedUserId();
+    const userId = await getAuthenticatedUserId(request);
     const { searchParams } = new URL(request.url);
     const limit = Math.min(parseInt(searchParams.get("limit") || "15", 10), 50);
     const page = Math.max(parseInt(searchParams.get("page") || "1", 10), 1);
@@ -146,7 +147,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const userId = await getAuthenticatedUserId();
+    const userId = await getAuthenticatedUserId(request);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -166,7 +167,10 @@ export async function POST(request: Request) {
     // Publishing and its reward are one unit of work. Without a transaction a
     // network failure could publish a post but skip (or duplicate) its reward.
     const { post, updatedProfile } = await prisma.$transaction(async (tx) => {
-      const profile = await tx.profile.findUnique({ where: { id: userId } });
+      const profile = await tx.profile.findUnique({
+        where: { id: userId },
+        select: { id: true, totalXp: true, level: true },
+      });
       if (!profile) throw new Error("Profile not found");
 
       const post = await tx.post.create({
@@ -192,22 +196,23 @@ export async function POST(request: Request) {
         },
       });
 
-      // Atomic increment avoids losing XP when two requests finish together.
-      const xpProfile = await tx.profile.update({
-        where: { id: userId },
-        data: { totalXp: { increment: 20 } },
-      });
+      // Atomic increment & level recalculation in a single update
+      const newTotalXp = profile.totalXp + 20;
       const { level: newLevel, title: newTitle } = calculateLevelAndTitle(
-        xpProfile.totalXp,
-        xpProfile.level
+        newTotalXp,
+        profile.level
       );
       const updatedProfile = await tx.profile.update({
         where: { id: userId },
-        data: { level: newLevel, title: newTitle },
+        data: { totalXp: newTotalXp, level: newLevel, title: newTitle },
+        select: { id: true, totalXp: true, level: true, title: true },
       });
 
       return { post, updatedProfile };
     });
+
+    // Invalidate dashboard and analytics cache so new XP is reflected immediately
+    invalidateDashboardCache(userId);
 
     const authorName = post.user?.fullName || post.user?.username || "Học viên XP";
     const dbAvatar = (post.user as any)?.avatarUrl || (post.user as any)?.imageUrl || (post.user as any)?.avatar;

@@ -37,6 +37,7 @@ import {
   HeaderPillItem,
 } from "@/shared/components/layout/AppTopHeader";
 import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAnimation";
+import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 
 interface StudyRoomMember {
   id: string;
@@ -100,6 +101,14 @@ export default function StudyRoomsPage() {
   // Active in-room workspace state
   const [activeRoom, setActiveRoom] = useState<StudyRoom | null>(null);
 
+  // Focus Pomodoro Timer (25 mins)
+  const [timerSeconds, setTimerSeconds] = useState<number>(25 * 60);
+  const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
+  const [timerMode, setTimerMode] = useState<"FOCUS" | "BREAK">("FOCUS");
+
+  // Telemetry: Track vocabulary practice time while actively focusing in study room
+  useStudyTimeTracker("vocab", { activeCondition: !!activeRoom && isTimerRunning });
+
   // Automatically manage sidebar collapse when in active study room
   useEffect(() => {
     if (activeRoom) {
@@ -115,11 +124,6 @@ export default function StudyRoomsPage() {
   const [inputMessage, setInputMessage] = useState<string>("");
   const [isSending, setIsSending] = useState<boolean>(false);
   const [copiedCode, setCopiedCode] = useState<boolean>(false);
-
-  // Focus Pomodoro Timer (25 mins)
-  const [timerSeconds, setTimerSeconds] = useState<number>(25 * 60);
-  const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
-  const [timerMode, setTimerMode] = useState<"FOCUS" | "BREAK">("FOCUS");
 
   // Create form state
   const [newRoomName, setNewRoomName] = useState<string>("");
@@ -521,6 +525,7 @@ export default function StudyRoomsPage() {
                     type="text"
                     value={inputMessage}
                     onChange={(e) => setInputMessage(e.target.value)}
+                    aria-label="Nhập tin nhắn phòng tự học"
                     placeholder="Gõ tin nhắn hoặc hỏi @AI giải thích từ vựng..."
                     className="flex-1 h-11 px-4 text-xs font-medium rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/40 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20 transition-all"
                   />
@@ -676,6 +681,7 @@ export default function StudyRoomsPage() {
                         <input
                           type="text"
                           required
+                          aria-label="Tên phòng học mới"
                           placeholder="VD: Cày 200 từ vựng TOEIC 800+"
                           value={newRoomName}
                           onChange={(e) => setNewRoomName(e.target.value)}
@@ -690,6 +696,7 @@ export default function StudyRoomsPage() {
                         <select
                           value={newRoomCategory}
                           onChange={(e) => setNewRoomCategory(e.target.value)}
+                          aria-label="Danh mục học tập"
                           className="w-full h-11 px-4 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/40 text-slate-900 dark:text-white font-bold focus:outline-none cursor-pointer"
                         >
                           <option value="TOEIC">TOEIC 4K</option>
@@ -705,6 +712,7 @@ export default function StudyRoomsPage() {
                         </label>
                         <textarea
                           rows={2}
+                          aria-label="Mô tả mục tiêu phòng học"
                           placeholder="Mục tiêu buổi học và nội quy phòng..."
                           value={newRoomDesc}
                           onChange={(e) => setNewRoomDesc(e.target.value)}

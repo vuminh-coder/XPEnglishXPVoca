@@ -172,7 +172,7 @@ export async function POST(request: Request) {
         const newCoins = (profile.coins ?? 100) + authorizedCoins;
         const { level: newLevel, title: newTitle } = calculateLevelAndTitle(newXp, profile.level);
 
-        return await tx.profile.update({
+        const updated = await tx.profile.update({
           where: { id: userId },
           data: {
             totalXp: newXp,
@@ -188,6 +188,34 @@ export async function POST(request: Request) {
             title: true,
           },
         });
+
+        // Sync to DailySkillPractice for 7-day analytics & skill charts if XP earned
+        if (authorizedXp > 0) {
+          const todayDate = new Date().toISOString().split("T")[0];
+          const practiceMinutes = Math.max(1, Math.round(durationSeconds / 60));
+          await tx.dailySkillPractice.upsert({
+            where: {
+              userId_skill_date: {
+                userId,
+                skill: "vocab",
+                date: todayDate,
+              },
+            },
+            update: {
+              minutes: { increment: practiceMinutes },
+              xpEarned: { increment: authorizedXp },
+            },
+            create: {
+              userId,
+              skill: "vocab",
+              date: todayDate,
+              minutes: practiceMinutes,
+              xpEarned: authorizedXp,
+            },
+          });
+        }
+
+        return updated;
       },
       {
         maxWait: 10000,
