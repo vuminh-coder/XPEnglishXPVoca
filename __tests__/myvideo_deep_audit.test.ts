@@ -1,14 +1,9 @@
 import { describe, it, expect } from "vitest";
 import {
-  mergeFragmentedSubtitlesIntoSentences,
-  bridgeSubtitleGaps,
   calculateCharacterWeightedWordIndex,
-  extractDictationWord,
   formatTimestampMs,
-  shiftTimestampSec,
-  ParsedXmlItem,
 } from "@/features/listening/services/youtubeSubtitleParser";
-import { parseSrtContent, parseSrtTimestamp, validateSrtContent } from "@/features/listening/services/srtParser";
+import { validateSrtContent } from "@/features/listening/services/srtParser";
 import { SubtitleSentence } from "@/stores/videoStore";
 
 /**
@@ -129,6 +124,7 @@ describe("MyVideo Deep Bug Audit & Edge Case Test Suite", () => {
       
       const effectiveElapsed = elapsedReal * currentSpeed;
       expect(effectiveElapsed).toBe(1.5);
+      expect(baseDuration / currentSpeed).toBe(2.0);
     });
   });
 
