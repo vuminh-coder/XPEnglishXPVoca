@@ -1336,7 +1336,7 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
       - `data/aiTopics.ts`: 6 chủ đề hội thoại đời thực, hệ thống mục tiêu giao tiếp, tin nhắn chào mừng, danh mục từ gợi ý và icon Lucide SVG.
       - `types/`: Hệ thống Interface nghiêm ngặt (`Topic`, `Goal`, `Message`, `SessionEvaluation`, `WordLookupData`, `PastSession`).
       - `hooks/useAiConversationSpeech.ts`: Đóng gói Web Speech API (`SpeechRecognition`), Web Audio Analyser (16 vạch sóng âm thời gian thực), bộ đếm thời gian thu âm và cơ chế dọn dẹp tài nguyên âm thanh an toàn.
-      - `hooks/useAiConversationSession.ts`: Quản lý phiên hội thoại, lưu cache `localStorage` 0ms, nạp dữ liệu bản quyền dở dang từ PostgreSQL Neon (`/api/ai/sessions`), theo dõi thời gian học kỹ năng viết (`useStudyTimeTracker("writing")`) và đồng bộ CSDL tức thời.
+      - `hooks/useAiConversationSession.ts`: Quản lý phiên hội thoại, lưu cache `localStorage` 0ms, nạp dữ liệu dở dang từ PostgreSQL Neon (`/api/ai/sessions?mode=conversation&status=active` với `LIMIT 1`), theo dõi thời gian học kỹ năng nói (`useStudyTimeTracker("speaking")`), đồng bộ CSDL tức thời và dọn dẹp bộ nhớ đệm tự động.
       - `components/`: 7 sub-components giao diện chuyên biệt (`AiConversationTopBar`, `AiConversationChatStream`, `AiConversationInputDock`, `AiConversationInspectorDock`, `AiConversationScoreCard`, `AiConversationHistoryDrawer`, `WordLookupModal`).
     - Tinh gọn tệp điều phối chính `app/(dashboard)/ai/conversation/page.tsx` xuống còn ~530 dòng code sạch sẽ, chuẩn SOLID.
   - **Tích Hợp Master AppTopHeader & Cụm Chip Gamification**:
@@ -1789,13 +1789,15 @@ Toàn bộ 37 đề thi trong thư mục `lib/data/exam-papers/` đã được r
 ## ✨ AI Writing & Conversation Studio (`/ai/conversation`)
 
 1. **Dashboard-Aligned Brand Top Header (`AppTopHeader`)**:
-   - Header chuẩn `h-14` (56px) Edge-to-Edge đồng bộ dải tab chuyển đổi: `[ 🎙️ Luyện Nói AI ] [ ✨ Luyện Viết AI (Active) ]` (`/ai/tutor` & `/ai/conversation`).
-   - Tự động thu gọn trên Mobile (`[ ✨ Luyện Viết AI ] [ 🎙️ ]`) và mở rộng trên Desktop.
+   - Header chuẩn `h-14` (56px) Edge-to-Edge đồng bộ dải tab chuyển đổi: `[ 🎙️ Luyện Nói AI ] [ ✨ Hội Thoại AI (Active) ]` (`/ai/tutor` & `/ai/conversation`).
+   - Tự động thu gọn trên Mobile (`[ ✨ Hội Thoại AI ] [ 🎙️ ]`) và mở rộng trên Desktop.
    - Đồng hồ đếm thời gian thực hành `font-mono tabular-nums font-bold` + Nút *"Chấm điểm"* / *"Luyện Buổi Mới"*.
 
-2. **Dashboard Bento Design System (Quy Chuẩn 60 - 30 - 10 & Nested Radius)**:
-   - **Bảng Màu**: 60% Nền Canvas `bg-slate-50/60 dark:bg-slate-950` & Thẻ `bg-white dark:bg-slate-900`; 30% Xanh Hoàng Gia `#0059bb`; 10% Điểm nhấn (Amber mục tiêu/mẫu câu, Emerald hoàn thành/sửa ngữ pháp).
-   - **Hệ Thống Bo Góc Phân Tầng (Nested Radius)**: Thẻ Bento ngoài `rounded-xl`, khung con/ô nhập `rounded-lg`, badge/pill `rounded-md`. Loại bỏ 100% `rounded-xs` (2px).
+2. **Dashboard Bento Design System (Quy Chuẩn 60 - 30 - 10 & Wadhah Aloui)**:
+   - **Bảng Màu 60-30-10**: 60% Nền Canvas `bg-slate-50/60 dark:bg-slate-950` & Thẻ `bg-white dark:bg-slate-900`; 30% Xanh Hoàng Gia `#0059bb`; 10% Điểm nhấn ngữ nghĩa (Tím AI `#8b5cf6` cho typing bubble và chỉ báo AI, Vàng Amber `#f59e0b` cho mục tiêu/mẫu câu gợi ý, Xanh Emerald `#10b981` cho thành tích hoàn thành, Đỏ Rose `#f43f5e` chỉ dùng khi đang thu âm).
+   - **Rule 1 (Skeleton Loading)**: Replaced classic spinning icons with `ShimmerBox` Skeleton cards during history hydration and transcript fetching in `AiConversationHistoryDrawer`.
+   - **Rule 18 (Single Primary CTA & Dynamic Hierarchy)**: Dynamic primary button state: khi có text nhập vào thì nút "Gửi" là Primary `#0059bb`, nút mic chuyển sang secondary; khi chưa có text thì nút Micro là Primary `#0059bb`; nút "Chấm điểm" và "Buổi mới" phân định rõ primary/secondary.
+   - **Hệ Thống Bo Góc Phân Tầng (Nested Radius)**: Thẻ Bento ngoài `rounded-2xl`, khung con/ô nhập `rounded-xl`, badge/pill `rounded-md`. Loại bỏ 100% `rounded-xs` (2px).
    - **Viewport-Locked Studio Trên Desktop**: Khóa chiều cao `lg:h-screen lg:overflow-hidden`, loại bỏ cuộn trang ngoài, chat stream cuộn nội bộ tự động `flex-1 min-h-0 overflow-y-auto`.
 
 3. **Writing & Voice Companion Studio (Cột Trái 8/12)**:
@@ -1812,6 +1814,12 @@ Toàn bộ 37 đề thi trong thư mục `lib/data/exam-papers/` đã được r
 5. **In-Place Scorecard & Summary (Báo Cáo Tổng Kết)**:
    - Bảng điểm 4 tiêu chí Double-Bezel: Mục tiêu hoàn thành (40%), Chuẩn ngữ pháp (30%), Độ tương tác (20%), Vốn từ vựng (10%).
    - Danh sách ghi chú lỗi ngữ pháp và mẹo giao tiếp chuyên sâu.
+
+6. **Database Performance Standard & Atomic Cache Invalidation (`/api/ai/sessions`)**:
+   - **Level 1 (Query & Logic Optimization)**: Hydration active session sử dụng `LIMIT 1` có điều kiện `user_id = $1 AND mode = 'conversation' AND status = 'IN_PROGRESS' ORDER BY updated_at DESC`.
+   - **Skill Metrics Precision**: Đồng bộ chuẩn xác số phút luyện tập kỹ năng nói (`skill: "speaking"`) vào bảng `DailySkillPractice` và `Profile` khi kết thúc buổi.
+   - **Atomic Cache Invalidation**: Tự động giải phóng cache `invalidateDashboardCache(userId)` ngay khi phiên đạt `COMPLETED`, giúp Dashboard, Biểu đồ kỹ năng và Bảng xếp hạng cập nhật ngay tức thì mà không cần tải lại thủ công.
+   - **Memory Leak Protection**: Giới hạn tối đa 50 phiên trong in-memory fallback store để ngăn ngừa tràn RAM khi chạy local/offline.
 
 ---
 
@@ -1840,10 +1848,15 @@ Toàn bộ 37 đề thi trong thư mục `lib/data/exam-papers/` đã được r
 
 5. **In-Place Scorecard & Summary (Báo Cáo Tổng Kết)**:
    - Thẻ chúc mừng hoàn thành buổi học + Tổng XP thưởng + Tỷ lệ ghi nhớ % + Thời gian học.
-   - Nút Luyện lại, Chuyển sang Luyện nghe Dictation và Về Bảng điều khiển.
+   - **Quy tắc UI/UX Rule 18 (Single Primary CTA)**: Nút *"Luyện Lại Buổi Này"* là nút Primary duy nhất (`#0059bb`), nút *"Sang Phòng Luyện Nghe"* là Secondary dạng viền Emerald trang nhã, và nút *"Về Bảng Điều Khiển"* là Secondary Slate tối giản, đảm bảo phân cấp thị giác rõ ràng.
 
 6. **Skeleton Loading Khớp 1:1 (`app/(dashboard)/study/practice/loading.tsx`)**:
-   - Đảm bảo Zero Cumulative Layout Shift (Zero CLS) khi tải trang.
+   - Đảm bảo Zero Cumulative Layout Shift (Zero CLS) khi tải trang, tuân thủ nghiêm ngặt Quy tắc Rule 1 UI/UX.
+
+7. **Chuẩn Hóa Hiệu Năng CSDL & Invalidation Cache Đồng Bộ (`/api/vocabulary` & `/api/user/skill-practice`)**:
+   - **Selective Projection (Loại bỏ triệt để SELECT *)**: Cắt giảm I/O và tối ưu RAM buffer pool của PostgreSQL Neon bằng cách chỉ định rõ các trường cần lấy (`select: { id, word, phonetic, definition, definitionVn, pos, difficulty, frequency, themeId, examples, synonyms, antonyms }`), đồng thời trong `/api/user/vocab/review-submit` chỉ select đúng `{ interval, easeFactor, repetitions, proficiency }`.
+   - **Quy Trình Hoàn Thành Phiên Học Khép Kín (`finishSession`)**: Đồng bộ tức thời số phút thực hành và điểm thưởng XP sang bảng `DailySkillPractice` và `Profile` của Neon PostgreSQL qua `POST /api/user/skill-practice`, đồng thời tự động kích hoạt `invalidateDashboardCache(userId)` để làm mới dữ liệu biểu đồ và bảng xếp hạng mà không bị dữ liệu cũ (stale cache).
+   - **Bộ Đếm Thời Gian Thông Minh (Accurate Telemetry)**: Tự động ngắt `useStudyTimeTracker` khi phiên hoàn thành (`activeCondition: !isCompleted`), đồng thời thiết lập cờ chặn chống ghi đúp thời gian (anti-double count) khi người dùng thoát trang sau khi đã hoàn thành buổi học.
 
 ---
 

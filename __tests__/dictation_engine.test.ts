@@ -3,9 +3,6 @@ import {
   calculateLevenshteinDistance,
   checkNearMissTypo,
   checkEquivalenceMatch,
-  saveSentenceDraft,
-  loadSentenceDraft,
-  clearSentenceDraft,
 } from '@/features/listening/utils/dictationEngine';
 
 describe('Dictation Engine 2.0 Unit Tests', () => {

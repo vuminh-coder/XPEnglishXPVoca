@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect } from "vitest";
 import {
   extractProperNouns,
   tokenizeSentence,
@@ -47,7 +47,7 @@ describe("Listening & Dictation Studio Comprehensive Deep Test Suite", () => {
         .filter(Boolean);
 
       let nextTokens = [...tokens];
-      let matchedWords: string[] = [];
+      const matchedWords: string[] = [];
 
       for (const typedWord of parts) {
         let matched = false;

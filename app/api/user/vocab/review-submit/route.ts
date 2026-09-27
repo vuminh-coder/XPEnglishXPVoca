@@ -112,6 +112,12 @@ export async function POST(request: Request) {
           vocabId: targetVocab.id,
         },
       },
+      select: {
+        interval: true,
+        easeFactor: true,
+        repetitions: true,
+        proficiency: true,
+      },
     });
 
     const prevInterval = existing?.interval ?? 1;

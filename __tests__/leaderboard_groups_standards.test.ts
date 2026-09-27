@@ -136,85 +136,91 @@ describe("Leaderboard, Minute Charts & Group Stats Performance Standards", () =>
 
   describe("2. Group Minute Charts & Internal Leaderboard (GET /api/groups/[id]/stats)", () => {
     it("should return 7-day rolling minute curve and member leaderboard in exactly 2 bounded DB calls", async () => {
-      const groupId = "group_ielts_fighters";
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date("2026-09-24T12:00:00Z"));
+      try {
+        const groupId = "group_ielts_fighters";
 
-      // 1. Group info & members query
-      mockPrisma.group.findUnique.mockResolvedValueOnce({
-        id: groupId,
-        name: "IELTS 7.5 Fighters",
-        description: "Chiến binh săn 7.5 IELTS",
-        themeName: "IELTS",
-        accent: "#0059bb",
-        maxMembers: 50,
-        createdById: "creator_1",
-        createdAt: new Date(),
-        members: [
-          {
-            userId: "mem_1",
-            role: "ADMIN",
-            joinedAt: new Date(),
-            user: {
-              id: "mem_1",
-              fullName: "Admin Minh",
-              username: "minh",
-              avatarUrl: null,
-              avatarEmoji: "🦁",
-              level: 15,
-              title: "Học Giả",
-              totalXp: 5000,
-              minutesStudied: 600,
-              currentStreak: 20,
+        // 1. Group info & members query
+        mockPrisma.group.findUnique.mockResolvedValueOnce({
+          id: groupId,
+          name: "IELTS 7.5 Fighters",
+          description: "Chiến binh săn 7.5 IELTS",
+          themeName: "IELTS",
+          accent: "#0059bb",
+          maxMembers: 50,
+          createdById: "creator_1",
+          createdAt: new Date(),
+          members: [
+            {
+              userId: "mem_1",
+              role: "ADMIN",
+              joinedAt: new Date(),
+              user: {
+                id: "mem_1",
+                fullName: "Admin Minh",
+                username: "minh",
+                avatarUrl: null,
+                avatarEmoji: "🦁",
+                level: 15,
+                title: "Học Giả",
+                totalXp: 5000,
+                minutesStudied: 600,
+                currentStreak: 20,
+              },
             },
-          },
-          {
-            userId: "mem_2",
-            role: "MEMBER",
-            joinedAt: new Date(),
-            user: {
-              id: "mem_2",
-              fullName: "Linh Lan",
-              username: "linh",
-              avatarUrl: null,
-              avatarEmoji: "🌸",
-              level: 10,
-              title: "Tập Sự",
-              totalXp: 3000,
-              minutesStudied: 450,
-              currentStreak: 10,
+            {
+              userId: "mem_2",
+              role: "MEMBER",
+              joinedAt: new Date(),
+              user: {
+                id: "mem_2",
+                fullName: "Linh Lan",
+                username: "linh",
+                avatarUrl: null,
+                avatarEmoji: "🌸",
+                level: 10,
+                title: "Tập Sự",
+                totalXp: 3000,
+                minutesStudied: 450,
+                currentStreak: 10,
+              },
             },
-          },
-        ],
-      });
+          ],
+        });
 
-      // 2. Daily skill practice records for group members over 7 days
-      mockPrisma.dailySkillPractice.findMany.mockResolvedValueOnce([
-        { userId: "mem_1", date: "2026-09-22", minutes: 45, xpEarned: 120 },
-        { userId: "mem_2", date: "2026-09-22", minutes: 30, xpEarned: 80 },
-        { userId: "mem_1", date: "2026-09-24", minutes: 60, xpEarned: 150 },
-      ]);
+        // 2. Daily skill practice records for group members over 7 days
+        mockPrisma.dailySkillPractice.findMany.mockResolvedValueOnce([
+          { userId: "mem_1", date: "2026-09-22", minutes: 45, xpEarned: 120 },
+          { userId: "mem_2", date: "2026-09-22", minutes: 30, xpEarned: 80 },
+          { userId: "mem_1", date: "2026-09-24", minutes: 60, xpEarned: 150 },
+        ]);
 
-      const req = new NextRequest(`http://localhost:3000/api/groups/${groupId}/stats?criterion=time`);
-      const res = await getGroupStats(req, { params: Promise.resolve({ id: groupId }) });
-      const json = await res.json();
+        const req = new NextRequest(`http://localhost:3000/api/groups/${groupId}/stats?criterion=time`);
+        const res = await getGroupStats(req, { params: Promise.resolve({ id: groupId }) });
+        const json = await res.json();
 
-      expect(json.success).toBe(true);
-      expect(mockPrisma.group.findUnique).toHaveBeenCalledTimes(1);
-      expect(mockPrisma.dailySkillPractice.findMany).toHaveBeenCalledTimes(1);
+        expect(json.success).toBe(true);
+        expect(mockPrisma.group.findUnique).toHaveBeenCalledTimes(1);
+        expect(mockPrisma.dailySkillPractice.findMany).toHaveBeenCalledTimes(1);
 
-      // Verify Chart Structure
-      expect(json.data.chart).toBeDefined();
-      expect(json.data.chart.minutesSeries).toHaveLength(7);
-      expect(json.data.chart.totalMinutes).toBe(135); // 45 + 30 + 60 = 135
-      expect(json.data.chart.bestDayMinutes).toBe(75); // on 2026-09-22: 45 + 30 = 75
+        // Verify Chart Structure
+        expect(json.data.chart).toBeDefined();
+        expect(json.data.chart.minutesSeries).toHaveLength(7);
+        expect(json.data.chart.totalMinutes).toBe(135); // 45 + 30 + 60 = 135
+        expect(json.data.chart.bestDayMinutes).toBe(75); // on 2026-09-22: 45 + 30 = 75
 
-      // Verify Group Member Leaderboard
-      expect(json.data.leaderboard).toHaveLength(2);
-      expect(json.data.leaderboard[0].id).toBe("mem_1"); // mem_1: 105 mins, mem_2: 30 mins
-      expect(json.data.leaderboard[0].rank).toBe(1);
-      expect(json.data.leaderboard[0].weeklyMinutes).toBe(105);
-      expect(json.data.leaderboard[1].id).toBe("mem_2");
-      expect(json.data.leaderboard[1].rank).toBe(2);
-      expect(json.data.leaderboard[1].weeklyMinutes).toBe(30);
+        // Verify Group Member Leaderboard
+        expect(json.data.leaderboard).toHaveLength(2);
+        expect(json.data.leaderboard[0].id).toBe("mem_1"); // mem_1: 105 mins, mem_2: 30 mins
+        expect(json.data.leaderboard[0].rank).toBe(1);
+        expect(json.data.leaderboard[0].weeklyMinutes).toBe(105);
+        expect(json.data.leaderboard[1].id).toBe("mem_2");
+        expect(json.data.leaderboard[1].rank).toBe(2);
+        expect(json.data.leaderboard[1].weeklyMinutes).toBe(30);
+      } finally {
+        vi.useRealTimers();
+      }
     });
 
     it("should serve group stats from memory cache on repeated requests", async () => {

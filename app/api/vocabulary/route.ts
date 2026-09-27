@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma, handlePrismaError } from "@/infrastructure/database/prisma";
 import { BASIC_VOCABULARIES } from "@/features/vocabulary/data/basicVocabularies";
 import { ADVANCED_VOCABULARIES } from "@/features/vocabulary/data/advancedVocabularies";
@@ -145,6 +145,20 @@ export async function GET(request: Request) {
 
     const vocabs = await prisma.vocabulary.findMany({
       where,
+      select: {
+        id: true,
+        word: true,
+        phonetic: true,
+        definition: true,
+        definitionVn: true,
+        pos: true,
+        difficulty: true,
+        frequency: true,
+        themeId: true,
+        examples: true,
+        synonyms: true,
+        antonyms: true,
+      },
       take: limit || 100,
       orderBy: { frequency: "desc" },
     });

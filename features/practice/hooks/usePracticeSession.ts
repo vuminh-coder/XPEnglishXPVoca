@@ -39,9 +39,9 @@ export function usePracticeSession() {
   const [elapsedTime, setElapsedTime] = useState(0);
   const elapsedTimeRef = useRef(0);
 
-  // Active study time tracker for analytics
+  // Active study time tracker for analytics (stops when completed)
   useStudyTimeTracker("vocab", {
-    activeCondition: !isLoading && dbVocabs.length > 0,
+    activeCondition: !isLoading && dbVocabs.length > 0 && !isCompleted,
   });
 
   useEffect(() => {
@@ -57,7 +57,7 @@ export function usePracticeSession() {
     return () => clearInterval(timer);
   }, [isCompleted]);
 
-  // Record practice time on page exit only
+  // Record practice time on page exit only if session was not completed
   const subModeRef = useRef(subMode);
   useEffect(() => {
     subModeRef.current = subMode;
@@ -65,7 +65,7 @@ export function usePracticeSession() {
 
   useEffect(() => {
     return () => {
-      if (elapsedTimeRef.current > 10) {
+      if (!isCompleted && elapsedTimeRef.current > 10) {
         const mins = Math.max(1, Math.ceil(elapsedTimeRef.current / 60));
         const targetSkill =
           subModeRef.current === "writing"
@@ -76,7 +76,7 @@ export function usePracticeSession() {
         useUserStore.getState().addPracticeTime(mins, targetSkill);
       }
     };
-  }, []);
+  }, [isCompleted]);
 
   // Sync modeParam from URL
   useEffect(() => {
@@ -464,26 +464,56 @@ export function usePracticeSession() {
 
   const totalEarnedXp = qXp + fXp + wXp + sXp;
 
+  const finishSession = useCallback(async () => {
+    setIsCompleted(true);
+    const user = useAuthStore.getState().user;
+    const mins = Math.max(1, Math.ceil(elapsedTimeRef.current / 60));
+    const targetSkill =
+      subModeRef.current === "writing"
+        ? "writing"
+        : subModeRef.current === "speaking"
+        ? "speaking"
+        : "vocab";
+
+    // 1. Immediately record in client stores
+    useUserStore.getState().addPracticeTime(mins, targetSkill);
+    recordSkillPractice(
+      user?.id || "local_user",
+      "Từ vựng",
+      mins,
+      totalEarnedXp
+    );
+
+    // 2. Sync to PostgreSQL Neon DailySkillPractice and Profile + atomic cache invalidation
+    try {
+      await fetch("/api/user/skill-practice", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          skill: targetSkill,
+          minutes: mins,
+          xp: totalEarnedXp,
+        }),
+      });
+    } catch (e) {
+      console.warn("[PracticeSession] Background DB sync notice:", e);
+    }
+
+    addToast({
+      type: "success",
+      title: "Hoàn thành buổi ôn tập từ vựng! 🎉",
+      message: `Tổng điểm thưởng: +${totalEarnedXp} XP (${mins} phút thực hành)!`,
+    });
+  }, [totalEarnedXp, addToast]);
+
   const handleNextQuestion = useCallback(() => {
     if (currentIndex + 1 < vocabs.length) {
       setCurrentIndex((prev) => prev + 1);
       resetCurrentQuestionState();
     } else {
-      setIsCompleted(true);
-      const user = useAuthStore.getState().user;
-      recordSkillPractice(
-        user?.id || "local_user",
-        "Từ vựng",
-        Math.max(1, Math.ceil(elapsedTime / 60)),
-        totalEarnedXp
-      );
-      addToast({
-        type: "success",
-        title: "Hoàn thành buổi ôn tập từ vựng! 🎉",
-        message: `Tổng điểm thưởng: +${totalEarnedXp} XP!`,
-      });
+      finishSession();
     }
-  }, [currentIndex, vocabs.length, resetCurrentQuestionState, elapsedTime, totalEarnedXp, addToast]);
+  }, [currentIndex, vocabs.length, resetCurrentQuestionState, finishSession]);
 
   const handleFlashcardRating = useCallback(
     (quality: FlashcardRating) => {
@@ -575,5 +605,6 @@ export function usePracticeSession() {
     handlePrevQuestion,
     handleNextQuestion,
     handleRestartSession,
+    finishSession,
   };
 }

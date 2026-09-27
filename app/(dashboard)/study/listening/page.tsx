@@ -1085,7 +1085,7 @@ function ListeningPageContent() {
         }).catch((e) => console.error("Error saving complete progress to DB:", e));
       }
     }
-  }, [currentSentenceIndex, totalSentencesCount, currentLesson, markLessonCompleted, awardXp, addToast, user?.id, savedSentenceKeys]);
+  }, [currentSentenceIndex, totalSentencesCount, currentLesson, markLessonCompleted, awardXp, addToast, user, savedSentenceKeys]);
 
   const handleSentenceCompleted = useCallback(() => {
     const nextCompleted = {
@@ -1172,7 +1172,7 @@ function ListeningPageContent() {
         setSentencePlaybackTime(0);
       }, 700);
     }
-  }, [completedSentences, currentSentenceIndex, awardXp, addToast, currentLesson, totalSentencesCount, user?.id, savedSentenceKeys, autoNextSentence]);
+  }, [completedSentences, currentSentenceIndex, awardXp, addToast, currentLesson, totalSentencesCount, user, savedSentenceKeys, autoNextSentence]);
 
   const handleAccentChange = useCallback((acc: string) => {
     setCurrentAccent(acc);

@@ -197,8 +197,8 @@ describe("Anti-Cheat & Server-Authoritative Gamification Tests (Task 2)", () => 
   describe("5. Task Completion Atomic One-Time XP Claim Guarantee", () => {
     it("should grant XP only once and block infinite duplication via atomic state check", () => {
       // Simulate task state
-      let task = { id: "task_1", isCompleted: false, xpClaimed: false, xpReward: 25 };
-      let userProfile = { totalXp: 100 };
+      const task = { id: "task_1", isCompleted: false, xpClaimed: false, xpReward: 25 };
+      const userProfile = { totalXp: 100 };
 
       // Helper simulating the atomic predicate in app/api/study-plan/task-complete/route.ts
       const completeTaskAtomic = (targetCompleted: boolean) => {
