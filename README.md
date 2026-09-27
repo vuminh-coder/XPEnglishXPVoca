@@ -1886,6 +1886,33 @@ Phòng luyện nói tiếng Anh tương tác áp dụng kỹ thuật Shadowing �
 
 ---
 
+## 📝 Standardized Exam Prep Studio (`/study/exam-prep` & `/study/exam-prep/result`)
+
+Phòng thi thử chuẩn hóa TOEIC & IELTS tích hợp ngân hàng 37 đề thi bản quyền, hệ thống chấm điểm Server-Authoritative và giám sát hiệu năng CSDL chuyên sâu:
+
+1. **Dashboard-Aligned Brand Top Header & Ngân Hàng 37 Đề Chuẩn Hóa**:
+   - Header chuẩn `h-14` (56px) Edge-to-Edge đồng bộ dải Tab điều hướng: `[ 💡 Luyện Từ Vựng ]` `[ 🎧 Dictation ]` `[ 🎙️ Shadowing ]` `[ 📝 Thi Thử Đề (Active) ]`.
+   - Ngân hàng **37 đề thi chuẩn hóa** TOEIC (Listening & Reading, Speaking & Writing, Full 4K, Mini Speed) và IELTS (Academic, General, Speaking Pro, Writing Master) được kiểm toán toàn diện tính phân bổ đáp án lành mạnh.
+
+2. **Dashboard Bento Design System (Quy Chuẩn 60 - 30 - 10 & Điểm Nhấn Đỏ Cherry / Rose Rule 20)**:
+   - **Quy tắc phối màu 60-30-10 & Điểm nhấn Rose/Cherry (#f43f5e)**: Tuân thủ quy định điểm nhấn màu đỏ Cherry được dành riêng có chọn lọc cho Phòng Thi Thử Đề Chuẩn (`/study/exam-prep`), Đếm ngược thời gian gấp gáp (≤ 5 phút nhấp nháy đỏ), và cảnh báo câu chưa làm.
+   - **Quy tắc Rule 18 (Single Primary CTA)**: Nút *"Bắt đầu"* trên thẻ đề thi, nút *"Nộp bài ngay"* trên TopBar và nút *"Nộp bài ngay"* trong Modal xác nhận đều là nút Primary duy nhất (`#0059bb`), các nút còn lại phân cấp rõ ràng sang Secondary / Ghost.
+   - **Quy tắc Rule 10 (Nested Radius)**: Thẻ bài thi ngoài `rounded-2xl`, khung con/ô nhập `rounded-xl`, badge kỹ năng/phím tắt `rounded-md`.
+
+3. **Workspace Đa Kỹ Năng & Phiếu Trả Lời Thông Minh**:
+   - Bố cục 2 cột Desktop 8/12 (Không gian làm bài) + 4/12 (Phiếu trả lời lưới ô ma trận câu hỏi có gắn cờ câu khó).
+   - Thanh công thái học di động Thumb Bar ghim đáy màn hình giúp thí sinh dễ dàng chọn câu và nộp bài trong tầm với ngón tay cái (Rule 13).
+   - Modal xác nhận nộp bài (`ExamSubmitConfirmModal`) hiển thị số lượng câu Đã làm, Chưa làm và Gắn cờ trực quan trước khi chốt điểm (Rule 8).
+
+4. **Chuẩn Hóa Hiệu Năng CSDL & Invalidation Cache Đồng Bộ (`/api/exams/attempts` & `/api/exams/stats`)**:
+   - **Selective Projection (Loại bỏ triệt để SELECT *)**: Thay thế `include` và `findMany` nguyên khối bằng phép chiếu chọn lọc `select` chỉ lấy đúng các cột cần thiết (`id`, `examId`, `totalScore`, `maxScore`, `percentage`, `estimatedBand`, `estimatedScore`, `timeSpent`, `status`, `startedAt`, `completedAt`), cắt giảm I/O và tối ưu RAM buffer pool của Neon PostgreSQL.
+   - **Bounded Query**: Giới hạn tối đa 50 bản ghi cho lịch sử làm bài và 20 bản ghi cho thống kê tiến trình, ngăn chặn tràn bộ nhớ khi học viên thi nhiều lần.
+   - **Server-Authoritative DB Transaction & DailySkillPractice Sync**: Toàn bộ quá trình tính điểm, cộng XP/Vàng và cập nhật `Profile` được bọc trong một transaction đơn nhất của PostgreSQL, đồng thời tự động cập nhật bảng `DailySkillPractice` để biểu đồ kỹ năng và chuỗi ngày học phản ánh chính xác bài thi.
+   - **Atomic Cache Invalidation**: Tự động giải phóng cache `invalidateDashboardCache(userId)` ngay khi nộp bài thi thành công, giúp bảng điều khiển và bảng xếp hạng cập nhật điểm số mới nhất tức thì mà không cần F5 thủ công.
+   - **Rule 1 (1:1 Adaptive Skeleton)**: Sử dụng `AdaptiveExamPrepSkeleton` và `ExamHubSkeleton` bảo đảm trải nghiệm 0px CLS khi nạp đề.
+
+---
+
 ## 💎 XP English PRO VIP Membership Hub (`/premium`)
 
 Trang đăng ký và quản lý gói hội viên Pro VIP nâng cấp toàn diện theo hệ thống nhận diện thương hiệu chuẩn mực Dashboard, cấu trúc Bento phẳng sang trọng, và quy tắc phối màu 60 - 30 - 10:

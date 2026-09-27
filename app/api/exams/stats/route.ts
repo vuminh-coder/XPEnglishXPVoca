@@ -1,4 +1,4 @@
-﻿import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 
@@ -22,10 +22,19 @@ export async function GET() {
     const attempts = await prisma.examAttempt.findMany({
       where: {
         userId,
-        status: "COMPLETED"
+        status: "COMPLETED",
+      },
+      select: {
+        estimatedScore: true,
+        estimatedBand: true,
+        totalScore: true,
+        percentage: true,
+        timeSpent: true,
+        startedAt: true,
+        completedAt: true,
       },
       orderBy: { startedAt: "desc" },
-      take: 20
+      take: 20,
     });
 
     const totalCompleted = attempts.length;

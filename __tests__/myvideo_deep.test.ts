@@ -2,7 +2,7 @@
  * MyVideo Deep Testing Suite - Fresh comprehensive tests
  * Tests ALL utility functions used by /myvideo page
  */
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 
 // Import functions under test
 import { extractYouTubeId } from "@/stores/videoStore";
@@ -860,7 +860,7 @@ describe("Sentence Merging, Gap Bridging & Parallel Translation Tests", () => {
       { languageCode: "en-GB", kind: "manual", vssId: "en-GB" },
     ];
 
-    let targetTrack = tracks.find(
+    const targetTrack = tracks.find(
       (t) => (t.languageCode?.toLowerCase().startsWith("en") || t.vssId?.includes("en")) && t.kind !== "asr"
     );
 

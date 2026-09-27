@@ -148,6 +148,35 @@ export async function POST(request: Request) {
         },
       });
 
+      // 3.5. Sync to DailySkillPractice for 7-day analytics & skill charts
+      const todayDate = new Date().toISOString().split("T")[0];
+      const primarySkill = isIelts && examTitle.toLowerCase().includes("speaking")
+        ? "speaking"
+        : isIelts && examTitle.toLowerCase().includes("writing")
+        ? "writing"
+        : "dictation";
+
+      await tx.dailySkillPractice.upsert({
+        where: {
+          userId_skill_date: {
+            userId,
+            skill: primarySkill,
+            date: todayDate,
+          },
+        },
+        update: {
+          minutes: { increment: practiceMinutes },
+          xpEarned: { increment: xpToAdd },
+        },
+        create: {
+          userId,
+          skill: primarySkill,
+          date: todayDate,
+          minutes: practiceMinutes,
+          xpEarned: xpToAdd,
+        },
+      });
+
       return { attempt, xpToAdd, coinsToAdd };
     });
 
@@ -186,7 +215,18 @@ export async function GET(request: Request) {
       where: { userId },
       orderBy: { startedAt: "desc" },
       take: limit,
-      include: {
+      select: {
+        id: true,
+        examId: true,
+        totalScore: true,
+        maxScore: true,
+        percentage: true,
+        estimatedBand: true,
+        estimatedScore: true,
+        timeSpent: true,
+        status: true,
+        startedAt: true,
+        completedAt: true,
         exam: {
           select: {
             id: true,

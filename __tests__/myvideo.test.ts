@@ -338,7 +338,6 @@ describe("Task 6: Sticky Word Lookup Card & Notebook Store", () => {
 describe("Task 7: Dictation AI Engine", () => {
   class DictationEngine {
     createExercise(sentence: SubtitleSentence) {
-      const words = sentence.textEn.split(" ");
       const hidden = sentence.dictationWord;
       const maskedText = sentence.textEn.replace(new RegExp(`\\b${hidden}\\b`, "i"), "_____");
       const firstLetter = hidden.charAt(0);

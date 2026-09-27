@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 
 // ============================================================================
 // PHẦN 11: TEST TƯƠNG TÁC NGƯỜI DÙNG NÂNG CAO (Tasks 13-14)
@@ -156,11 +156,14 @@ describe("Task 14: Đa Ngôn Ngữ & I18N Helper", () => {
 describe("Task 15: Performance & Load Optimization", () => {
   it("Test 15.1: Render mượt 60fps (<16.67ms per frame calculation)", () => {
     const start = performance.now();
+    let totalVisible = 0;
     for (let i = 0; i < 100; i++) {
       const state = { activeIndex: i % 10, visibleCount: 3 };
+      totalVisible += state.visibleCount;
     }
     const duration = performance.now() - start;
     const avgFrameTime = duration / 100;
+    expect(totalVisible).toBe(300);
     expect(avgFrameTime).toBeLessThan(16.67);
   });
 

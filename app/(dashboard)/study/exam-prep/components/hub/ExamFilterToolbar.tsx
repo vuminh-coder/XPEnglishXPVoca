@@ -55,6 +55,7 @@ export function ExamFilterToolbar({
         <input
           type="text"
           placeholder="Tìm tên đề thi..."
+          aria-label="Tìm kiếm tên đề thi"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full h-9 pl-9 pr-3 text-xs font-medium rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-[#0059bb] shadow-2xs"

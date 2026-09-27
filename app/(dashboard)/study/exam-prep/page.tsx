@@ -114,7 +114,10 @@ function ExamPrepContent() {
       awardCoins(result.coinsAwarded);
     }
     if (addPracticeTime && timeSpentSeconds > 0) {
-      addPracticeTime(Math.max(1, Math.round(timeSpentSeconds / 60)));
+      const isIeltsSpeaking = selectedExam.type.includes("IELTS") && selectedExam.title.toLowerCase().includes("speaking");
+      const isIeltsWriting = selectedExam.type.includes("IELTS") && selectedExam.title.toLowerCase().includes("writing");
+      const examSkill = isIeltsSpeaking ? "speaking" : isIeltsWriting ? "writing" : "dictation";
+      addPracticeTime(Math.max(1, Math.round(timeSpentSeconds / 60)), examSkill);
     }
 
     // Persist attempt to Backend PostgreSQL Database
