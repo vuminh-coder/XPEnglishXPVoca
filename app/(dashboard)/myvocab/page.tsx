@@ -24,12 +24,16 @@ import {
 } from "lucide-react";
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { VocabSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
+import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 
 export default function MyVocabularyPage() {
   const [filter, setFilter] = useState<"all" | "favorite" | "learning" | "mastered">("all");
   const [search, setSearch] = useState<string>("");
   const { learned, toggleFavorite, practiceWord, loadLearnedWords } = useVocabularyStore();
   const { user, awardXp } = useAuthStore();
+
+  // Telemetry: Track vocabulary study/review time in personal vocabulary notebook
+  useStudyTimeTracker("vocab");
 
   useEffect(() => {
     if (user?.id) {
@@ -172,6 +176,7 @@ export default function MyVocabularyPage() {
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input
                 type="text"
+                aria-label="Tìm kiếm từ vựng hoặc nghĩa tiếng Việt"
                 placeholder="Tìm từ vựng hoặc nghĩa tiếng Việt..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}

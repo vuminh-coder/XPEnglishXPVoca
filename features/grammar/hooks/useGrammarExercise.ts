@@ -91,20 +91,36 @@ export function useGrammarExercise({
     });
 
     const xpEarned = correctCount * 5 + 10;
+    const finalScore = exercises.length > 0 ? Math.round((correctCount / exercises.length) * 100) : 0;
     awardXp(xpEarned, "writing");
     const currentUser = useUserStore.getState().user;
     useUserStore.getState().addPracticeTime(3, "writing");
+    useUserStore.getState().syncStreak(true);
     recordSkillPractice(currentUser?.id, "Viết", 3, xpEarned);
 
-    // Save to grammar progress store
+    // Save to local grammar progress store
     recordQuizResult(topicId, correctCount, exercises.length);
+
+    // Persist to server-authoritative database via /api/ai/grammar/progress
+    fetch("/api/ai/grammar/progress", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        topicId,
+        level: topicLevel,
+        score: finalScore,
+        xpEarned,
+      }),
+    }).catch((err) => {
+      console.warn("Failed to sync grammar progress to server:", err);
+    });
 
     addToast({
       type: "xp",
       title: `+${xpEarned} XP!`,
       message: `Hoàn thành bài thi! Đúng ${correctCount}/${exercises.length} câu.`,
     });
-  }, [submitted, exercises, answers, awardXp, topicId, recordQuizResult, addToast]);
+  }, [submitted, exercises, answers, awardXp, topicId, topicLevel, recordQuizResult, addToast]);
 
   const handleNext = useCallback(() => {
     if (currentIndex < exercises.length - 1) {

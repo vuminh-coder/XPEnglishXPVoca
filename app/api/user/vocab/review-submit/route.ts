@@ -1,12 +1,13 @@
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
+import { memoryCache } from "@/infrastructure/cache/memoryCache";
 import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
 import { calculateSM2 } from "@/shared/utils/sm2";
 
 export async function POST(request: Request) {
   try {
-    const userId = await getAuthenticatedUserId();
+    const userId = await getAuthenticatedUserId(request);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -163,8 +164,19 @@ export async function POST(request: Request) {
         repetitions: realSm2Result.repetitions,
         isFavorite: false,
       },
+      select: {
+        userId: true,
+        vocabId: true,
+        proficiency: true,
+        interval: true,
+        easeFactor: true,
+        repetitions: true,
+        lastPracticed: true,
+        nextReview: true,
+      },
     });
 
+    memoryCache.invalidatePattern(`user_vocab:${userId}`);
     invalidateDashboardCache(userId);
 
     return NextResponse.json({

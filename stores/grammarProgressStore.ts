@@ -22,6 +22,8 @@ interface GrammarProgressState {
   getCompletedCount: () => number;
   getAverageAccuracy: () => number;
   resetProgress: () => void;
+  hydrateFromServer: (records: Array<{ topicId: string; score: number }>) => void;
+  fetchServerProgress: () => Promise<void>;
 }
 
 export const useGrammarProgressStore = create<GrammarProgressState>()(
@@ -30,6 +32,48 @@ export const useGrammarProgressStore = create<GrammarProgressState>()(
       completedTopicIds: [],
       inProgressTopicIds: [],
       quizScores: {},
+
+      hydrateFromServer: (records) => {
+        if (!Array.isArray(records)) return;
+        const { completedTopicIds, inProgressTopicIds, quizScores } = get();
+        const nextCompleted = new Set(completedTopicIds);
+        const nextScores = { ...quizScores };
+
+        records.forEach((r) => {
+          if (r.score >= 60) {
+            nextCompleted.add(r.topicId);
+          }
+          if (!nextScores[r.topicId] || r.score > nextScores[r.topicId].percent) {
+            nextScores[r.topicId] = {
+              correct: Math.round((r.score / 100) * 5),
+              total: 5,
+              percent: r.score,
+              completedAt: new Date().toISOString(),
+            };
+          }
+        });
+
+        const completedArr = Array.from(nextCompleted);
+        const inProgressArr = inProgressTopicIds.filter((id) => !nextCompleted.has(id));
+
+        set({
+          completedTopicIds: completedArr,
+          inProgressTopicIds: inProgressArr,
+          quizScores: nextScores,
+        });
+      },
+
+      fetchServerProgress: async () => {
+        try {
+          const res = await fetch("/api/ai/grammar/progress", { cache: "no-store" });
+          const json = await res.json();
+          if (json.success && json.data && Array.isArray(json.data.progressList)) {
+            get().hydrateFromServer(json.data.progressList);
+          }
+        } catch (e) {
+          console.warn("Failed to fetch server grammar progress:", e);
+        }
+      },
 
       markTopicStarted: (topicId: string) => {
         if (!topicId) return;

@@ -105,6 +105,7 @@ export function GrammarStudioToolbar({
           type="text"
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
+          aria-label="Tìm kiếm theo tên thì, cấu trúc, kỳ thi (TOEIC, IELTS)"
           placeholder="Tìm kiếm theo tên thì, cấu trúc, kỳ thi (TOEIC, IELTS)..."
           className="w-full pl-10 pr-9 py-2 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200/90 dark:border-slate-800 text-xs sm:text-sm font-medium text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-[#0059bb]/20 focus:border-[#0059bb] transition-all"
         />

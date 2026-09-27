@@ -2,16 +2,22 @@ import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma, handlePrismaError } from "@/infrastructure/database/prisma";
 import { memoryCache } from "@/infrastructure/cache/memoryCache";
+import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
 import { BASIC_VOCABULARIES } from "@/features/vocabulary/data/basicVocabularies";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const userId = await getAuthenticatedUserId();
+    const userId = await getAuthenticatedUserId(request);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const cacheKey = `user_vocab:${userId}`;
+    const { searchParams } = new URL(request.url);
+    const favoriteParam = searchParams.get("favorite");
+    const dueParam = searchParams.get("due");
+    const limit = Math.min(200, Math.max(1, parseInt(searchParams.get("limit") || "200", 10)));
+
+    const cacheKey = `user_vocab:${userId}:${favoriteParam || "all"}:${dueParam || "all"}:${limit}`;
     const cached = memoryCache.get<any[]>(cacheKey);
     if (cached) {
       return NextResponse.json(
@@ -25,8 +31,18 @@ export async function GET() {
       );
     }
 
+    // Leverage composite indexes: @@index([userId, isFavorite]), @@index([userId, nextReview]), @@index([userId, lastPracticed(sort: Desc)])
+    const whereClause: any = { userId };
+    if (favoriteParam === "true") {
+      whereClause.isFavorite = true;
+    }
+    if (dueParam === "true") {
+      whereClause.nextReview = { lte: new Date() };
+    }
+
     const vocabList = await prisma.userVocabulary.findMany({
-      where: { userId: userId },
+      where: whereClause,
+      orderBy: { lastPracticed: "desc" },
       select: {
         userId: true,
         vocabId: true,
@@ -50,7 +66,7 @@ export async function GET() {
           },
         },
       },
-      take: 200,
+      take: limit,
     });
 
     // Convert BigInt id to String/Number for JSON serialization
@@ -96,7 +112,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const userId = await getAuthenticatedUserId();
+    const userId = await getAuthenticatedUserId(request);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -232,6 +248,14 @@ export async function POST(request: Request) {
         lastPracticed: lastPracticed ? new Date(lastPracticed) : null,
         nextReview: nextReview ? new Date(nextReview) : null,
       },
+      select: {
+        userId: true,
+        vocabId: true,
+        proficiency: true,
+        isFavorite: true,
+        lastPracticed: true,
+        nextReview: true,
+      },
     });
 
     const serializedData = {
@@ -243,7 +267,8 @@ export async function POST(request: Request) {
       nextReview: upsertedVocab.nextReview ? upsertedVocab.nextReview.toISOString() : null,
     };
 
-    memoryCache.del(`user_vocab:${userId}`);
+    memoryCache.invalidatePattern(`user_vocab:${userId}`);
+    invalidateDashboardCache(userId);
 
     return NextResponse.json({ success: true, data: serializedData });
   } catch (error: unknown) {

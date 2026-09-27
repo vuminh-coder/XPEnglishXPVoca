@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { GRAMMAR_TOPICS } from "../data/grammarTopics";
 import { GrammarLevel, GrammarTopic } from "../types/grammarTypes";
 import { useGrammarProgressStore } from "@/stores/grammarProgressStore";
@@ -11,8 +11,12 @@ export function useGrammarCatalog() {
   const [activeLevel, setActiveLevel] = useState<GrammarFilterLevel>("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { completedTopicIds, getTopicStatus, getCompletedCount, getAverageAccuracy } =
+  const { completedTopicIds, getTopicStatus, getCompletedCount, getAverageAccuracy, fetchServerProgress } =
     useGrammarProgressStore();
+
+  useEffect(() => {
+    fetchServerProgress();
+  }, [fetchServerProgress]);
 
   const counts = useMemo(() => {
     return {

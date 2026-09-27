@@ -5,8 +5,7 @@ import { EXTENDED_SHADOWING_LESSONS } from "@/features/shadowing/data/extendedSh
 
 describe("Listening & Shadowing Performance & Standards Verification Suite", () => {
   it("verifies all mock and extended shadowing lessons exist in the database", async () => {
-    if (!process.env.DATABASE_URL || process.env.DATABASE_URL.includes("localhost") || process.env.DATABASE_URL.includes("test")) {
-      console.warn("Skipping real DB query in offline/CI environment without active database");
+    if (process.env.TEST_REAL_DB !== "true") {
       expect(MOCK_LESSONS_DATA.length).toBeGreaterThanOrEqual(100);
       expect(EXTENDED_SHADOWING_LESSONS.length).toBeGreaterThanOrEqual(8);
       return;

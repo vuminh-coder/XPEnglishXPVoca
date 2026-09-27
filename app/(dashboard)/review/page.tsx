@@ -41,6 +41,7 @@ import { AppTopHeader } from '@/shared/components/layout/AppTopHeader';
 import { VocabSuiteNavTabs } from '@/shared/components/layout/nav-tabs';
 import { PageEntranceWrapper, MotionItem } from '@/shared/components/feedback/PageEntranceAnimation';
 import { ReviewSkeleton } from '@/features/review';
+import { useStudyTimeTracker } from '@/shared/hooks/useStudyTimeTracker';
 
 const BOOKMARK_KEY = 'xp_bookmarked_words';
 
@@ -90,6 +91,9 @@ export default function ReviewPage() {
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  // Telemetry: Track vocabulary study time while on review page
+  useStudyTimeTracker('vocab', { activeCondition: isMounted });
 
   // Load learned words from API/cache on page load
   useEffect(() => {

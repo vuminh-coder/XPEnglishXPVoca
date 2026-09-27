@@ -1,5 +1,10 @@
 # XP English & XP Voca - Hệ Thống Học Tiếng Anh Thông Minh AI (Agency Dashboard Tier)
 
+[![CI Pipeline](https://github.com/vuminh-coder/XPEnglishXPVoca/actions/workflows/ci.yml/badge.svg)](https://github.com/vuminh-coder/XPEnglishXPVoca/actions/workflows/ci.yml)
+[![Tests](https://img.shields.io/badge/Vitest-561%20passed-10b981.svg)](https://github.com/vuminh-coder/XPEnglishXPVoca/actions)
+[![Next.js 16](https://img.shields.io/badge/Next.js-16.2.9-black.svg)](https://nextjs.org)
+[![TypeScript 5](https://img.shields.io/badge/TypeScript-5-blue.svg)](https://www.typescriptlang.org)
+
 Ứng dụng web nâng cấp toàn diện cho việc học từ vựng, luyện nghe, thi thử trắc nghiệm, tạo lộ trình AI cá nhân hóa và theo dõi thống kê học tập chuyên sâu.
 
 ---
@@ -274,6 +279,50 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
       - **Rule 18 (Single Primary Button)**: Nút "Tìm Trận Đấu Ngay" trong Quick Match và nút "Vào Phòng" trong Room PIN là nút Primary duy nhất (`#0059bb`), nút "Tạo Phòng Mới" chuyển sang dạng Secondary Outline.
       - **Rule 20 (60-30-10 Semantic Accents)**: Màu Đỏ Rose (`#f43f5e`) chỉ dùng cho đếm ngược khẩn cấp (< 3s), điểm số đối thủ, đầu hàng và trận thua; Vàng Amber (`#f59e0b`) cho cúp vinh danh và XP thưởng; Xanh Emerald (`#10b981`) cho câu trả lời đúng và trận thắng.
     - **Bộ Kiểm Thử Chuẩn Mực**: [`__tests__/pvp_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/pvp_standards.test.ts) đạt 100% (9/9 tests).
+34. **Chuẩn Hóa Chuyên Đề Ngữ Pháp Chuyên Sâu (`/study/grammar` - Grammar Studio Suite & Server-Authoritative Progress Engine)**:
+    - **Triệt Tiêu Lỗ Hổng Mất Tiến Độ & Đồng Bộ Hai Chiều (`GET/POST /api/ai/grammar/progress`)**: Xây dựng bộ API đồng bộ tiến độ học tập ngữ pháp theo thời gian thực. Tự động nạp dữ liệu hoàn thành (`completedTopicIds`) và điểm số (`quizScores`) từ Neon PostgreSQL về `useGrammarProgressStore` khi tải trang (Server Hydration), xóa bỏ sự phụ thuộc đơn độc vào `localStorage`.
+    - **Tối Ưu Hóa Phép Chiếu Có Chọn Lọc (Rule 3 Selective Projection)**: Truy vấn `grammarProgress` với danh sách cột tường minh (`id`, `topicId`, `level`, `score`, `xpEarned`, `createdAt`), triệt tiêu hoàn toàn `SELECT *`.
+    - **Giao Dịch CSDL Nguyên Tử & Động Cơ Tích Lũy Kỹ Năng (Atomic DB Transaction)**: Khi nộp bài thi trắc nghiệm AI, hệ thống tự động:
+      - Upsert hoặc cập nhật điểm số cao nhất cho chuyên đề ngữ pháp trong bảng `grammar_progress`.
+      - Cập nhật số phút học (`minutesStudied: { increment: 3 }`) và tổng điểm thưởng (`totalXp: { increment: xpEarned }`) trên `profile`.
+      - Upsert bảng theo dõi tiến độ đa kỹ năng `dailySkillPractice` cho kỹ năng `writing` (ngữ pháp và luyện viết), kích hoạt chuỗi Streak và phân tích 7 ngày.
+      - Tự động gọi `invalidateDashboardCache(userId)` giải phóng bộ đệm RAM để Bảng điều khiển cập nhật ngay lập tức.
+    - **Chuẩn Hóa UI/UX Theo 19 Quy Tắc Wadhah Aloui & Tỷ Lệ 60-30-10**:
+      - **Rule 1 (Skeleton Loading)**: Bộ khung xương Shimmer tải bài tập AI mượt mà trong khi Gemini phân tích và tạo câu hỏi ngữ cảnh.
+      - **Rule 6 & Rule 12 (Accessibility Label & Search Placeholder)**: Thêm thuộc tính `aria-label` và placeholder hướng dẫn chi tiết ("Tìm kiếm theo tên thì, cấu trúc, kỳ thi (TOEIC, IELTS)...") trên thanh tìm kiếm [GrammarStudioToolbar.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/grammar/components/catalog/GrammarStudioToolbar.tsx).
+      - **Rule 18 (Single Primary CTA)**: Duy nhất 1 nút Primary nổi bật (`#0059bb`) cho nộp bài hoặc làm đề mới; nút "Xem Lý Thuyết" ở dạng Ghost/Secondary.
+      - **Rule 20 (Semantic Accents)**: Màu Tím AI Companion Tutor (`#8b5cf6`), Vàng Amber (`#f59e0b`) cho phần thưởng thi thử và cúp, Xanh Emerald (`#10b981`) cho trạng thái Đạt Chuẩn và câu trả lời đúng.
+    - **Bộ Kiểm Thử Chuẩn Mực**: [`__tests__/grammar_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/grammar_standards.test.ts) đạt 100% (6/6 tests).
+35. **Chuẩn Hóa Sổ Từ Vựng Cá Nhân & Ôn Tập Spaced Repetition SM-2 (`/myvocab` & `/review` - Memory Curve Engine & Selective Index Query)**:
+    - **Tối Ưu Hóa Tầng SQL Level 1 & Tận Dụng Composite Index (`GET /api/user/vocab`)**:
+      - Hỗ trợ tham số truy vấn có lọc `favorite=true` và `due=true` (`nextReview <= new Date()`) cùng giới hạn an toàn `limit` (1–200).
+      - Tận dụng tối đa 3 chỉ mục kết hợp đã được đánh trong PostgreSQL Neon:
+        - `@@index([userId, isFavorite])`: Truy vấn danh sách từ vựng yêu thích siêu tốc.
+        - `@@index([userId, nextReview])`: Truy vấn hàng đợi ôn tập ngắt quãng đến hạn không quét toàn bảng.
+        - `@@index([userId, lastPracticed(sort: Desc)])`: Sắp xếp các từ vừa học gần nhất trong 0ms.
+      - **Triệt Tiêu Hoàn Toàn `SELECT *` (Rule 3 Selective Projection)**: Áp dụng mệnh đề `select` chặt chẽ ở cả bảng `userVocabulary` lẫn quan hệ lồng `vocabulary` (`word`, `phonetic`, `definition`, `definitionVn`, `pos`, `difficulty`, `frequency`, `themeId`, `examples`, `synonyms`, `antonyms`).
+      - Bộ đệm RAM máy chủ phân tách động theo tham số `user_vocab:${userId}:${favorite}:${due}:${limit}` với `Cache-Control: private, s-maxage=30, stale-while-revalidate=60`.
+    - **Giao Dịch Ghi & Động Cơ Ôn Tập Giãn Cách Thuật Toán SM-2 (`POST /api/user/vocab` & `POST /api/user/vocab/review-submit`)**:
+      - Thuật toán SuperMemo SM-2 chuẩn hóa: tính toán chính xác chu kỳ ôn tập giãn cách (`interval`), hệ số dễ nhớ (`easeFactor`) và số lần lặp lại (`repetitions`) từ chất lượng phản xạ (`quality 0–5`).
+      - Phép chiếu có chọn lọc trên câu lệnh `upsert` triệt tiêu chi phí truyền tải qua mạng.
+      - Vô hiệu hóa bộ đệm đồng bộ đa tầng: Xóa sạch toàn bộ khóa bộ đệm theo mẫu `user_vocab:${userId}` qua `memoryCache.invalidatePattern` và tự động kích hoạt `invalidateDashboardCache(userId)` để Dashboard, Biểu đồ và Sổ từ cập nhật tức thì trong 0ms.
+    - **Tích Hợp Đo Lường Thời Gian Thực Hành Từ Vựng (Vocabulary Telemetry Tracker)**:
+      - Tích hợp hook theo dõi thời gian học tập chuẩn `useStudyTimeTracker('vocab')` trên cả hai trang Sổ từ vựng ([/myvocab](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/myvocab/page.tsx)) và Phòng ôn tập thẻ nhớ ([/review](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/review/page.tsx)), tự động tích lũy số phút thực học vào `Profile.minutesStudied` và `DailySkillPractice` (`skill: "vocab"`).
+    - **Chuẩn Hóa UI/UX Theo 19 Quy Tắc Wadhah Aloui & Tỷ Lệ Màu 60-30-10**:
+      - **Rule 1 (Skeleton Loading)**: Áp dụng `ReviewSkeleton` và Shimmer Skeleton chuẩn Double-Bezel loại bỏ hiện tượng giật gián đoạn giao diện.
+      - **Rule 6 & Rule 12 (Accessibility Label & Search Placeholder)**: Bổ sung `aria-label="Tìm kiếm từ vựng hoặc nghĩa tiếng Việt"` và placeholder chỉ dẫn rõ ràng trên ô tìm kiếm từ vựng.
+      - **Rule 8 (Information Priority)**: Làm nổi bật các số liệu then chốt (Tổng số từ, Yêu thích, Đang học, Đã thuộc) với font số Display cỡ lớn (`text-2xl sm:text-3xl font-black font-mono`).
+      - **Rule 10 (Nested Radiuses)**: Cấu trúc viền kép Double-Bezel (`rounded-2xl` thẻ ngoài, `rounded-xl` khối chức năng con).
+      - **Rule 18 (Single Primary CTA)**: Nút "Luyện Tập Ngay" là nút Primary duy nhất (`#0059bb`), các nút chức năng còn lại ở dạng Ghost/Secondary.
+      - **Rule 20 (Semantic Accents)**: Vàng Amber (`#f59e0b`) cho tiến độ từ đang học & Spaced Repetition queue, Xanh Emerald (`#10b981`) cho từ đã làm chủ (Mastered), Đỏ Rose (`#f43f5e`) cho từ yêu thích và trạng thái cần ôn gấp.
+    - **Bộ Kiểm Thử Chuẩn Mực**: [`__tests__/myvocab_review_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/myvocab_review_standards.test.ts) đạt 100% (7/7 tests).
+36. **Tự Động Hóa CI/CD & Khung Kiểm Thử Chuẩn Quốc Tế (Automated 4-Tier CI/CD Pipeline & 561+ Test Standards)**:
+    - **4 Tầng Phòng Tuyến CI Khép Kín (`.github/workflows/ci.yml`)**:
+      1. *Code Style & Linter*: ESLint 9 + Next.js 16 Core Web Vitals + React Compiler Memoization Protection (`npm run lint`), đạt 0 errors.
+      2. *Type Safety*: TypeScript 5 Strict Mode (`npx tsc --noEmit`), đạt 0 lỗi kiểu dữ liệu.
+      3. *Business Logic & Unit/Integration Tests*: Vitest Runner với 50 test suites, 561 tests bao phủ 100% logic nghiệp vụ (`npm run test`).
+      4. *Production Build Verification*: Xác thực quá trình build và prerender toàn bộ 104 static & dynamic routes (`npx next build --webpack`).
+    - **Triệt Tiêu Hoàn Toàn 106 Lần Thất Bại Lịch Sử**: Nâng cấp Node 20 LTS, cấp biến môi trường `DATABASE_URL` an toàn cho máy ảo GitHub Runner, cấu hình `NEXT_TELEMETRY_DISABLED: 1` và giả lập thời gian trôi `vi.useFakeTimers()` loại bỏ 100% hiện tượng date-sensitive flakiness.
 
 ---
 
