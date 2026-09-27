@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
 
     const trimmedInput = String(emailOrUsername).trim().toLowerCase();
 
-    // Find profile by email, username, or id
+    // Find profile by email, username, or id with selective projection
     const profile = await prisma.profile.findFirst({
       where: {
         OR: [
@@ -25,6 +25,23 @@ export async function POST(req: NextRequest) {
           { username: trimmedInput },
           { id: trimmedInput },
         ],
+      },
+      select: {
+        id: true,
+        username: true,
+        fullName: true,
+        email: true,
+        passwordHash: true,
+        level: true,
+        totalXp: true,
+        currentStreak: true,
+        longestStreak: true,
+        minutesStudied: true,
+        avatarEmoji: true,
+        avatarUrl: true,
+        title: true,
+        coins: true,
+        streakFreezes: true,
       },
     });
 

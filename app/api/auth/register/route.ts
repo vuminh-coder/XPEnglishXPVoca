@@ -33,9 +33,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Check existing email in DB
-    const existingProfile = await prisma.profile.findFirst({
+    // Check existing email in DB using indexed unique lookup
+    const existingProfile = await prisma.profile.findUnique({
       where: { email: trimmedEmail },
+      select: { id: true },
     });
 
     if (existingProfile) {
@@ -50,7 +51,7 @@ export async function POST(req: NextRequest) {
     const userId = `usr_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
     const hashedPassword = hashPassword(String(password));
 
-    // Create new Profile in Database
+    // Create new Profile in Database with selective projection (no passwordHash leak)
     const newProfile = await prisma.profile.create({
       data: {
         id: userId,
@@ -67,6 +68,22 @@ export async function POST(req: NextRequest) {
         title: "Newbie",
         coins: 100,
         streakFreezes: 0,
+      },
+      select: {
+        id: true,
+        username: true,
+        fullName: true,
+        email: true,
+        level: true,
+        totalXp: true,
+        currentStreak: true,
+        longestStreak: true,
+        minutesStudied: true,
+        avatarEmoji: true,
+        avatarUrl: true,
+        title: true,
+        coins: true,
+        streakFreezes: true,
       },
     });
 

@@ -137,7 +137,7 @@ export const ADVANCED_VOCABULARY_THEMES: AdvancedTheme[] = [
     "nameEn": "Colors & Shades",
     "icon": "🎨",
     "difficulty": 2,
-    "totalVocabs": 15,
+    "totalVocabs": 30,
     "color": "#ec4899",
     "category": "general_advanced"
   },
@@ -1487,7 +1487,7 @@ export const ADVANCED_VOCABULARY_THEMES: AdvancedTheme[] = [
     "nameEn": "IT & Artificial Intelligence",
     "icon": "💻",
     "difficulty": 3,
-    "totalVocabs": 10,
+    "totalVocabs": 35,
     "color": "#0284c7",
     "category": "specialized"
   },
@@ -1497,7 +1497,7 @@ export const ADVANCED_VOCABULARY_THEMES: AdvancedTheme[] = [
     "nameEn": "Healthcare & Medicine",
     "icon": "🏥",
     "difficulty": 3,
-    "totalVocabs": 10,
+    "totalVocabs": 35,
     "color": "#e11d48",
     "category": "specialized"
   },
@@ -1507,7 +1507,7 @@ export const ADVANCED_VOCABULARY_THEMES: AdvancedTheme[] = [
     "nameEn": "Finance & Banking",
     "icon": "📈",
     "difficulty": 3,
-    "totalVocabs": 10,
+    "totalVocabs": 35,
     "color": "#059669",
     "category": "business"
   },
@@ -1517,7 +1517,7 @@ export const ADVANCED_VOCABULARY_THEMES: AdvancedTheme[] = [
     "nameEn": "Law & Jurisprudence",
     "icon": "⚖️",
     "difficulty": 3,
-    "totalVocabs": 10,
+    "totalVocabs": 35,
     "color": "#4f46e5",
     "category": "specialized"
   },
@@ -1527,7 +1527,7 @@ export const ADVANCED_VOCABULARY_THEMES: AdvancedTheme[] = [
     "nameEn": "Environment & Ecosystem",
     "icon": "🌿",
     "difficulty": 3,
-    "totalVocabs": 10,
+    "totalVocabs": 35,
     "color": "#16a34a",
     "category": "academic"
   },
@@ -1537,7 +1537,7 @@ export const ADVANCED_VOCABULARY_THEMES: AdvancedTheme[] = [
     "nameEn": "Marketing & Strategic Media",
     "icon": "📢",
     "difficulty": 3,
-    "totalVocabs": 10,
+    "totalVocabs": 35,
     "color": "#d97706",
     "category": "business"
   },
@@ -1547,7 +1547,7 @@ export const ADVANCED_VOCABULARY_THEMES: AdvancedTheme[] = [
     "nameEn": "Aviation & Hospitality",
     "icon": "✈️",
     "difficulty": 3,
-    "totalVocabs": 10,
+    "totalVocabs": 35,
     "color": "#0284c7",
     "category": "general_advanced"
   },
@@ -1557,7 +1557,7 @@ export const ADVANCED_VOCABULARY_THEMES: AdvancedTheme[] = [
     "nameEn": "Science & Scientific Research",
     "icon": "🔬",
     "difficulty": 3,
-    "totalVocabs": 10,
+    "totalVocabs": 35,
     "color": "#7c3aed",
     "category": "academic"
   },
@@ -1567,7 +1567,7 @@ export const ADVANCED_VOCABULARY_THEMES: AdvancedTheme[] = [
     "nameEn": "Art, Aesthetics & Design",
     "icon": "🎨",
     "difficulty": 3,
-    "totalVocabs": 10,
+    "totalVocabs": 35,
     "color": "#db2777",
     "category": "general_advanced"
   },
@@ -1577,7 +1577,7 @@ export const ADVANCED_VOCABULARY_THEMES: AdvancedTheme[] = [
     "nameEn": "Professional Sports & Athletics",
     "icon": "⚽",
     "difficulty": 3,
-    "totalVocabs": 10,
+    "totalVocabs": 35,
     "color": "#ea580c",
     "category": "general_advanced"
   }

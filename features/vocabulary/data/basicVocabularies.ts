@@ -143,7 +143,7 @@ export const BASIC_VOCABULARY_THEMES: BasicTheme[] = [
     "difficulty": 1,
     "color": "#3b82f6",
     "description": "Xưng hô và mối quan hệ giữa các thành viên trong gia đình.",
-    "totalVocabs": 20
+    "totalVocabs": 25
   },
   {
     "id": "t_basic_home_objects",
@@ -223,7 +223,7 @@ export const BASIC_VOCABULARY_THEMES: BasicTheme[] = [
     "difficulty": 1,
     "color": "#a855f7",
     "description": "Quần áo, giày dép, nón mũ và phụ kiện mặc thường ngày.",
-    "totalVocabs": 20
+    "totalVocabs": 25
   },
   {
     "id": "t_basic_places_directions",
@@ -243,7 +243,7 @@ export const BASIC_VOCABULARY_THEMES: BasicTheme[] = [
     "difficulty": 1,
     "color": "#16a34a",
     "description": "Nắng, mưa, gió, mây, cây cỏ, sông núi và tự nhiên.",
-    "totalVocabs": 20
+    "totalVocabs": 25
   },
   {
     "id": "t_basic_jobs_occupations",
@@ -253,7 +253,7 @@ export const BASIC_VOCABULARY_THEMES: BasicTheme[] = [
     "difficulty": 1,
     "color": "#d97706",
     "description": "Bác sĩ, giáo viên, cảnh sát, đầu bếp và các ngành nghề phổ biến.",
-    "totalVocabs": 20
+    "totalVocabs": 25
   },
   {
     "id": "t_basic_transportation",
@@ -263,7 +263,7 @@ export const BASIC_VOCABULARY_THEMES: BasicTheme[] = [
     "difficulty": 1,
     "color": "#2563eb",
     "description": "Xe máy, xe buýt, ô tô, máy bay, tàu hỏa và cách đi lại.",
-    "totalVocabs": 20
+    "totalVocabs": 25
   },
   {
     "id": "t_basic_school_stationery",
@@ -273,7 +273,7 @@ export const BASIC_VOCABULARY_THEMES: BasicTheme[] = [
     "difficulty": 1,
     "color": "#4f46e5",
     "description": "Lớp học, bảng đen, thước kẻ, kéo, tập vở và kiểm tra.",
-    "totalVocabs": 20
+    "totalVocabs": 25
   },
   {
     "id": "t_basic_hobbies_sports",
@@ -283,7 +283,7 @@ export const BASIC_VOCABULARY_THEMES: BasicTheme[] = [
     "difficulty": 1,
     "color": "#ea580c",
     "description": "Bóng đá, bơi lội, ca hát, đàn piano, vẽ tranh và giải trí.",
-    "totalVocabs": 20
+    "totalVocabs": 25
   },
   {
     "id": "t_basic_shopping_money",
@@ -293,7 +293,7 @@ export const BASIC_VOCABULARY_THEMES: BasicTheme[] = [
     "difficulty": 1,
     "color": "#059669",
     "description": "Tiền mặt, thẻ, giá cả, hóa đơn, giảm giá và mua bán.",
-    "totalVocabs": 20
+    "totalVocabs": 25
   },
   {
     "id": "t_basic_plants_fruits",
@@ -303,7 +303,7 @@ export const BASIC_VOCABULARY_THEMES: BasicTheme[] = [
     "difficulty": 1,
     "color": "#65a30d",
     "description": "Các loại cây, lá, rễ, hoa quả nhiệt đới và nông sản quen thuộc.",
-    "totalVocabs": 20
+    "totalVocabs": 25
   },
   {
     "id": "t_basic_health_medical",
@@ -323,7 +323,7 @@ export const BASIC_VOCABULARY_THEMES: BasicTheme[] = [
     "difficulty": 1,
     "color": "#b45309",
     "description": "Nồi, chảo, bát đĩa, đũa thìa, dao kéo và lò nướng.",
-    "totalVocabs": 20
+    "totalVocabs": 25
   },
   {
     "id": "t_basic_office_tech",
@@ -29590,6 +29590,1338 @@ export const BASIC_VOCABULARIES: BasicVocabularyItem[] = [
       "Công tắc thông minh có thể được điều khiển qua ứng dụng di động."
     ],
     "synonyms": [],
+    "antonyms": []
+  },
+  {
+    "id": "bv_family_21",
+    "word": "stepmother",
+    "phonetic": "/ˈstepˌmʌð.ɚ/",
+    "definition": "The woman who is married to one's father but is not one's biological mother.",
+    "definitionVn": "mẹ kế, mẹ thứ",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_family",
+    "themeNameVn": "Gia đình & Người thân",
+    "themeNameEn": "Family & Relatives",
+    "examples": [
+      "She has a wonderful, supportive relationship with her stepmother.",
+      "Her stepmother helped her prepare for the university entrance exams."
+    ],
+    "exampleTranslations": [
+      "Cô ấy có một mối quan hệ tuyệt vời và luôn hỗ trợ với mẹ kế của mình.",
+      "Mẹ kế của cô ấy đã giúp cô chuẩn bị cho kỳ thi tuyển sinh đại học."
+    ],
+    "synonyms": [
+      "second mother"
+    ],
+    "antonyms": [
+      "biological mother"
+    ]
+  },
+  {
+    "id": "bv_family_22",
+    "word": "stepfather",
+    "phonetic": "/ˈstepˌfɑː.ðɚ/",
+    "definition": "The man who is married to one's mother but is not one's biological father.",
+    "definitionVn": "bố dượng",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_family",
+    "themeNameVn": "Gia đình & Người thân",
+    "themeNameEn": "Family & Relatives",
+    "examples": [
+      "His stepfather taught him how to play baseball on weekends.",
+      "The family gathered to celebrate his stepfather's fiftieth birthday."
+    ],
+    "exampleTranslations": [
+      "Bố dượng đã dạy cậu ấy cách chơi bóng chày vào cuối tuần.",
+      "Gia đình đã sum họp để chúc mừng sinh nhật lần thứ năm mươi của bố dượng."
+    ],
+    "synonyms": [
+      "second father"
+    ],
+    "antonyms": [
+      "biological father"
+    ]
+  },
+  {
+    "id": "bv_family_23",
+    "word": "godparent",
+    "phonetic": "/ˈɡɑːdˌper.ənt/",
+    "definition": "A person who promises at a baptism or ceremony to take responsibility for a child's religious or moral education.",
+    "definitionVn": "cha mẹ đỡ đầu",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_family",
+    "themeNameVn": "Gia đình & Người thân",
+    "themeNameEn": "Family & Relatives",
+    "examples": [
+      "My godparents always send thoughtful books for my birthday.",
+      "She asked her closest childhood friend to be the godparent to her newborn daughter."
+    ],
+    "exampleTranslations": [
+      "Cha mẹ đỡ đầu của tôi luôn gửi những cuốn sách chu đáo vào ngày sinh nhật tôi.",
+      "Cô ấy đã nhờ người bạn thân nhất thời thơ ấu làm mẹ đỡ đầu cho con gái mới sinh của mình."
+    ],
+    "synonyms": [
+      "sponsor",
+      "guardian"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_family_24",
+    "word": "in-laws",
+    "phonetic": "/ˈɪn.lɑːz/",
+    "definition": "Relatives by marriage, especially the parents or family of one's spouse.",
+    "definitionVn": "gia đình nhà thông gia, họ hàng bên vợ hoặc bên chồng",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_family",
+    "themeNameVn": "Gia đình & Người thân",
+    "themeNameEn": "Family & Relatives",
+    "examples": [
+      "We usually spend Sunday lunch visiting my in-laws in the countryside.",
+      "Getting along with one's in-laws fosters harmony across the extended family."
+    ],
+    "exampleTranslations": [
+      "Chúng tôi thường dành bữa trưa Chủ nhật để đến thăm bố mẹ vợ ở vùng nông thôn.",
+      "Hòa thuận với gia đình bên vợ hoặc chồng giúp nuôi dưỡng sự hòa hợp trong đại gia đình."
+    ],
+    "synonyms": [
+      "extended family by marriage"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_family_25",
+    "word": "foster child",
+    "phonetic": "/ˈfɑː.stɚ tʃaɪld/",
+    "definition": "A child brought up by people who are not their biological or adoptive parents.",
+    "definitionVn": "con nuôi, con nhận chăm sóc dưỡng dục",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_family",
+    "themeNameVn": "Gia đình & Người thân",
+    "themeNameEn": "Family & Relatives",
+    "examples": [
+      "The warm-hearted couple welcomed two foster children into their spacious home.",
+      "Foster children need consistent emotional reassurance and stability."
+    ],
+    "exampleTranslations": [
+      "Cặp vợ chồng nhân hậu đã chào đón hai đứa con nuôi vào ngôi nhà rộng rãi của họ.",
+      "Trẻ em nhận nuôi dưỡng cần sự trấn an tinh thần và sự ổn định nhất quán."
+    ],
+    "synonyms": [
+      "ward",
+      "adopted charge"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_clothe_21",
+    "word": "cardigan",
+    "phonetic": "/ˈkɑːr.dɪ.ɡən/",
+    "definition": "A knitted woolen sweater with buttons down the front.",
+    "definitionVn": "áo len dệt kim cài cúc phía trước (cardigan)",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_clothes",
+    "themeNameVn": "Trang phục & Phụ kiện",
+    "themeNameEn": "Clothing & Accessories",
+    "examples": [
+      "She draped a cozy knitted cardigan over her shoulders as the evening cooled.",
+      "This cashmere cardigan pairs stylishly with pleated skirts and tailored trousers."
+    ],
+    "exampleTranslations": [
+      "Cô ấy khoác một chiếc áo len dệt kim ấm áp qua vai khi trời trở lạnh về tối.",
+      "Chiếc áo len cashmere này kết hợp rất phong cách với chân váy xếp ly và quần âu may đo."
+    ],
+    "synonyms": [
+      "button-up sweater",
+      "knitwear"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_clothe_22",
+    "word": "raincoat",
+    "phonetic": "/ˈreɪn.koʊt/",
+    "definition": "A waterproof or water-resistant coat worn to protect the body from rain.",
+    "definitionVn": "áo mưa chống thấm nước",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_clothes",
+    "themeNameVn": "Trang phục & Phụ kiện",
+    "themeNameEn": "Clothing & Accessories",
+    "examples": [
+      "Do not forget to pack your yellow hooded raincoat before leaving for the hike.",
+      "Modern breathable raincoats shield you from sudden monsoons without trapping body sweat."
+    ],
+    "exampleTranslations": [
+      "Đừng quên mang theo chiếc áo mưa có mũ màu vàng trước khi bắt đầu chuyến đi bộ đường dài.",
+      "Những chiếc áo mưa thoáng khí hiện đại che chắn bạn khỏi những cơn mưa dông bất chợt mà không giữ lại mồ hôi cơ thể."
+    ],
+    "synonyms": [
+      "waterproof jacket",
+      "mackintosh",
+      "trench coat"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_clothe_23",
+    "word": "sneakers",
+    "phonetic": "/ˈsniː.kɚz/",
+    "definition": "Soft sports shoes with flexible rubber soles suitable for casual athletic wear.",
+    "definitionVn": "giày thể thao đế cao su êm ái",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_clothes",
+    "themeNameVn": "Trang phục & Phụ kiện",
+    "themeNameEn": "Clothing & Accessories",
+    "examples": [
+      "I slipped on a pair of comfortable white sneakers for our walking city tour.",
+      "Cushioned running sneakers absorb foot impacts when jogging on concrete sidewalks."
+    ],
+    "exampleTranslations": [
+      "Tôi xỏ vào một đôi giày thể thao màu trắng thoải mái cho chuyến đi dạo quanh thành phố của chúng tôi.",
+      "Giày thể thao chạy bộ có đệm êm giúp hấp thụ các chấn động bàn chân khi chạy bộ trên vỉa hè bê tông."
+    ],
+    "synonyms": [
+      "trainers",
+      "tennis shoes",
+      "athletic shoes"
+    ],
+    "antonyms": [
+      "high heels",
+      "dress shoes"
+    ]
+  },
+  {
+    "id": "bv_clothe_24",
+    "word": "sandals",
+    "phonetic": "/ˈsæn.dəlz/",
+    "definition": "Light open shoes with straps attaching the sole to the foot, worn in warm weather.",
+    "definitionVn": "dép quai hậu, dép xăng-đan thoáng mát mùa hè",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_clothes",
+    "themeNameVn": "Trang phục & Phụ kiện",
+    "themeNameEn": "Clothing & Accessories",
+    "examples": [
+      "Leather sandals are ideal footwear for walking along sunny sandy beaches.",
+      "She buckled her strappy sandals before walking down to the seaside restaurant."
+    ],
+    "exampleTranslations": [
+      "Dép xăng đan da là trang phục đi chân lý tưởng để đi dạo dọc theo những bãi biển đầy cát nắng.",
+      "Cô ấy cài quai đôi dép xăng đan trước khi đi bộ xuống nhà hàng ven biển."
+    ],
+    "synonyms": [
+      "open-toe footwear",
+      "flip-flops"
+    ],
+    "antonyms": [
+      "winter boots"
+    ]
+  },
+  {
+    "id": "bv_clothe_25",
+    "word": "scarf",
+    "phonetic": "/skɑːrf/",
+    "definition": "A length of fabric worn around the neck or head for warmth, sun protection, or fashion.",
+    "definitionVn": "khăn quàng cổ giữ ấm hoặc làm đẹp",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_clothes",
+    "themeNameVn": "Trang phục & Phụ kiện",
+    "themeNameEn": "Clothing & Accessories",
+    "examples": [
+      "Wrap a warm woolen scarf tightly around your neck to ward off freezing winter gusts.",
+      "A brightly patterned silk scarf adds an elegant touch of color to a monochrome suit."
+    ],
+    "exampleTranslations": [
+      "Hãy quấn chặt một chiếc khăn len ấm quanh cổ để chống lại những cơn gió mùa đông băng giá.",
+      "Một chiếc khăn lụa họa tiết rực rỡ tạo thêm điểm nhấn màu sắc thanh lịch cho bộ vest đơn sắc."
+    ],
+    "synonyms": [
+      "muffler",
+      "neck wrap",
+      "shawl"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_weathe_21",
+    "word": "drizzle",
+    "phonetic": "/ˈdrɪz.əl/",
+    "definition": "Light rain falling in very fine, misty drops.",
+    "definitionVn": "mưa phùn, mưa bay lất phất",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_weather_nature",
+    "themeNameVn": "Thời tiết & Thiên nhiên",
+    "themeNameEn": "Weather & Nature Elements",
+    "examples": [
+      "A gentle spring drizzle moistened the flower petals across the municipal park.",
+      "We did not need an umbrella because the sky only produced a brief, passing drizzle."
+    ],
+    "exampleTranslations": [
+      "Một cơn mưa phùn mùa xuân dịu nhẹ làm ẩm những cánh hoa trên khắp công viên thành phố.",
+      "Chúng tôi không cần ô vì bầu trời chỉ tạo ra một cơn mưa phùn thoáng qua ngắn ngủi."
+    ],
+    "synonyms": [
+      "misty rain",
+      "light shower"
+    ],
+    "antonyms": [
+      "downpour",
+      "torrential rain"
+    ]
+  },
+  {
+    "id": "bv_weathe_22",
+    "word": "thunderstorm",
+    "phonetic": "/ˈθʌn.dɚ.stɔːrm/",
+    "definition": "A transient storm accompanied by lightning, roaring thunder, and heavy downpours.",
+    "definitionVn": "cơn dông bão có sấm chớp và mưa rào lớn",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_weather_nature",
+    "themeNameVn": "Thời tiết & Thiên nhiên",
+    "themeNameEn": "Weather & Nature Elements",
+    "examples": [
+      "The afternoon heat gave way to a violent thunderstorm that shook windows across the suburb.",
+      "Aviation radars diverted approaching aircraft away from the severe thunderstorm front."
+    ],
+    "exampleTranslations": [
+      "Cái nóng buổi chiều nhường chỗ cho một cơn dông dữ dội làm rung chuyển các cửa sổ khắp vùng ngoại ô.",
+      "Radar hàng không đã chuyển hướng các máy bay đang đến tránh xa khối dông bão nghiêm trọng."
+    ],
+    "synonyms": [
+      "electrical storm",
+      "tempest"
+    ],
+    "antonyms": [
+      "clear skies",
+      "calm weather"
+    ]
+  },
+  {
+    "id": "bv_weathe_23",
+    "word": "breeze",
+    "phonetic": "/briːz/",
+    "definition": "A gentle, light, and refreshing wind.",
+    "definitionVn": "làn gió thoảng nhẹ nhàng, mát mẻ",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_weather_nature",
+    "themeNameVn": "Thời tiết & Thiên nhiên",
+    "themeNameEn": "Weather & Nature Elements",
+    "examples": [
+      "A cool ocean breeze rustled through the palm fronds on the sunlit terrace.",
+      "Sitting by the open lakeside window, we enjoyed the soothing evening breeze."
+    ],
+    "exampleTranslations": [
+      "Một làn gió biển mát lành xào xạc qua những tán lá cọ trên sân hiên ngập tràn ánh nắng.",
+      "Ngồi bên cửa sổ mở ven hồ, chúng tôi tận hưởng làn gió tối dịu êm."
+    ],
+    "synonyms": [
+      "gentle wind",
+      "zephyr",
+      "draft"
+    ],
+    "antonyms": [
+      "gale",
+      "hurricane"
+    ]
+  },
+  {
+    "id": "bv_weathe_24",
+    "word": "rainbow",
+    "phonetic": "/ˈreɪn.boʊ/",
+    "definition": "An arch of colors formed in the sky in certain circumstances, caused by the refraction of sunlight through raindrops.",
+    "definitionVn": "cầu vồng bảy sắc sau cơn mưa",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_weather_nature",
+    "themeNameVn": "Thời tiết & Thiên nhiên",
+    "themeNameEn": "Weather & Nature Elements",
+    "examples": [
+      "As soon as the afternoon storm passed, a magnificent double rainbow arched over the valley.",
+      "Children pointed excitedly at the vivid rainbow shining against the dissipating gray clouds."
+    ],
+    "exampleTranslations": [
+      "Ngay sau khi cơn bão buổi chiều qua đi, một cầu vồng đôi tráng lệ uốn lượn qua thung lũng.",
+      "Lũ trẻ hào hứng chỉ tay vào chiếc cầu vồng rực rỡ tỏa sáng trên nền mây xám đang tan dần."
+    ],
+    "synonyms": [
+      "solar optical spectrum arc"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_weathe_25",
+    "word": "humidity",
+    "phonetic": "/hjuːˈmɪd.ə.t̬i/",
+    "definition": "The state or quality of being humid; a high quantity of moisture or water vapor in the atmosphere.",
+    "definitionVn": "độ ẩm không khí, cảm giác nồm ẩm oi bức",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_weather_nature",
+    "themeNameVn": "Thời tiết & Thiên nhiên",
+    "themeNameEn": "Weather & Nature Elements",
+    "examples": [
+      "High tropical humidity makes a thirty-degree day feel substantially hotter than it actually is.",
+      "Running a dehumidifier in the basement protects wooden furniture from damp humidity."
+    ],
+    "exampleTranslations": [
+      "Độ ẩm nhiệt đới cao làm cho một ngày ba mươi độ có cảm giác nóng hơn đáng kể so với thực tế.",
+      "Chạy máy hút ẩm trong tầng hầm giúp bảo vệ đồ nội thất bằng gỗ khỏi độ ẩm ướt."
+    ],
+    "synonyms": [
+      "moisture content",
+      "dampness",
+      "mugginess"
+    ],
+    "antonyms": [
+      "dryness",
+      "aridity"
+    ]
+  },
+  {
+    "id": "bv_jobs_21",
+    "word": "architect",
+    "phonetic": "/ˈɑːr.kə.tekt/",
+    "definition": "A professional who designs buildings and oversees their construction.",
+    "definitionVn": "kiến trúc sư thiết kế công trình xây dựng",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_jobs_occupations",
+    "themeNameVn": "Nghề nghiệp & Việc làm",
+    "themeNameEn": "Jobs & Occupations",
+    "examples": [
+      "The award-winning architect drafted blueprints for an eco-friendly library.",
+      "Consulting an experienced architect ensures structural safety and natural light optimization."
+    ],
+    "exampleTranslations": [
+      "Kiến trúc sư đoạt giải thưởng đã phác thảo bản thiết kế cho một thư viện thân thiện với môi trường.",
+      "Tham khảo ý kiến một kiến trúc sư giàu kinh nghiệm đảm bảo an toàn kết cấu và tối ưu hóa ánh sáng tự nhiên."
+    ],
+    "synonyms": [
+      "building designer",
+      "structural master"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_jobs_22",
+    "word": "pharmacist",
+    "phonetic": "/ˈfɑːr.mə.sɪst/",
+    "definition": "A person professionally qualified to prepare and dispense medicinal drugs.",
+    "definitionVn": "dược sĩ cấp phát và hướng dẫn sử dụng thuốc",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_jobs_occupations",
+    "themeNameVn": "Nghề nghiệp & Việc làm",
+    "themeNameEn": "Jobs & Occupations",
+    "examples": [
+      "The community pharmacist explained the dosage instructions clearly to the elderly customer.",
+      "Always ask your local pharmacist whether new vitamins interact with prescribed medications."
+    ],
+    "exampleTranslations": [
+      "Dược sĩ cộng đồng đã giải thích rõ ràng các hướng dẫn về liều lượng cho khách hàng lớn tuổi.",
+      "Luôn hỏi dược sĩ địa phương xem các loại vitamin mới có tương tác với thuốc được kê đơn hay không."
+    ],
+    "synonyms": [
+      "chemist",
+      "druggist",
+      "apothecary"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_jobs_23",
+    "word": "electrician",
+    "phonetic": "/ɪˌlekˈtrɪʃ.ən/",
+    "definition": "A tradesperson specializing in electrical wiring of buildings and transmission lines.",
+    "definitionVn": "thợ điện lắp đặt và sửa chữa mạng lưới điện",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_jobs_occupations",
+    "themeNameVn": "Nghề nghiệp & Việc làm",
+    "themeNameEn": "Jobs & Occupations",
+    "examples": [
+      "We hired a licensed electrician to inspect the circuit breaker before moving into the old villa.",
+      "The electrician quickly identified a blown fuse and restored power to the kitchen."
+    ],
+    "exampleTranslations": [
+      "Chúng tôi đã thuê một thợ điện có giấy phép để kiểm tra cầu dao trước khi chuyển vào căn biệt thự cũ.",
+      "Người thợ điện nhanh chóng xác định cầu chì bị nổ và khôi phục nguồn điện cho nhà bếp."
+    ],
+    "synonyms": [
+      "electrical technician",
+      "wireman"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_jobs_24",
+    "word": "plumber",
+    "phonetic": "/ˈplʌm.ɚ/",
+    "definition": "A person who installs and repairs pipes and fittings of water supply and sanitation.",
+    "definitionVn": "thợ sửa đường ống nước và thiết bị vệ sinh",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_jobs_occupations",
+    "themeNameVn": "Nghề nghiệp & Việc làm",
+    "themeNameEn": "Jobs & Occupations",
+    "examples": [
+      "When the bathroom pipe burst unexpectedly, we phoned an emergency 24-hour plumber.",
+      "A skilled plumber unclogged the municipal drain line using a motorized snake."
+    ],
+    "exampleTranslations": [
+      "Khi đường ống trong phòng tắm bị vỡ bất ngờ, chúng tôi đã gọi một thợ sửa ống nước khẩn cấp 24 giờ.",
+      "Một người thợ sửa ống nước lành nghề đã thông tắc đường ống thoát nước của thành phố bằng dây lò xo máy."
+    ],
+    "synonyms": [
+      "pipefitter",
+      "sanitation technician"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_jobs_25",
+    "word": "journalist",
+    "phonetic": "/ˈdʒɝː.nə.lɪst/",
+    "definition": "A person who writes for newspapers, magazines, or news websites or prepares news to be broadcast.",
+    "definitionVn": "nhà báo, phóng viên tin tức",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_jobs_occupations",
+    "themeNameVn": "Nghề nghiệp & Việc làm",
+    "themeNameEn": "Jobs & Occupations",
+    "examples": [
+      "The investigative journalist spent eighteen months uncovering corporate tax fraud.",
+      "Photojournalists travel into active disaster zones to document humanitarian stories."
+    ],
+    "exampleTranslations": [
+      "Nhà báo điều tra đã dành mười tám tháng để vạch trần vụ gian lận thuế của doanh nghiệp.",
+      "Các phóng viên ảnh đi vào các vùng thiên tai đang diễn ra để ghi lại những câu chuyện nhân đạo."
+    ],
+    "synonyms": [
+      "reporter",
+      "correspondent",
+      "press member"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_transp_21",
+    "word": "subway",
+    "phonetic": "/ˈsʌb.weɪ/",
+    "definition": "An underground electric railroad network operating in an urban area.",
+    "definitionVn": "tàu điện ngầm đô thị",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_transportation",
+    "themeNameVn": "Phương tiện giao thông",
+    "themeNameEn": "Vehicles & Transport",
+    "examples": [
+      "Riding the clean, punctual subway is the swiftest way to cross Tokyo during morning rush hour.",
+      "Metropolitan commuters reload their transit cards at automated subway station turnstiles."
+    ],
+    "exampleTranslations": [
+      "Đi tàu điện ngầm sạch sẽ, đúng giờ là cách nhanh nhất để băng qua Tokyo trong giờ cao điểm buổi sáng.",
+      "Những người đi làm ở đô thị nạp lại thẻ phương tiện công cộng tại các cửa xoay tự động của ga tàu điện ngầm."
+    ],
+    "synonyms": [
+      "metro",
+      "underground train",
+      "tube"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_transp_22",
+    "word": "ferry",
+    "phonetic": "/ˈfer.i/",
+    "definition": "A boat or ship for conveying passengers and goods, especially across a relatively short distance.",
+    "definitionVn": "phà chở khách và phương tiện qua sông/biển",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_transportation",
+    "themeNameVn": "Phương tiện giao thông",
+    "themeNameEn": "Vehicles & Transport",
+    "examples": [
+      "We took the commuter ferry across the harbor to watch the sunset over the city skyline.",
+      "Vehicle ferries transport cars and cargo trucks between the mainland and offshore islands."
+    ],
+    "exampleTranslations": [
+      "Chúng tôi đi phà chở khách qua bến cảng để ngắm hoàng hôn buông xuống đường chân trời thành phố.",
+      "Phà chở xe vận chuyển ô tô và xe tải chở hàng giữa đất liền và các đảo ngoài khơi."
+    ],
+    "synonyms": [
+      "passenger boat",
+      "water taxi"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_transp_23",
+    "word": "helicopter",
+    "phonetic": "/ˈhel.əˌkɑːp.tɚ/",
+    "definition": "A type of aircraft which derives both lift and propulsion from one or more sets of horizontally revolving overhead rotors.",
+    "definitionVn": "máy bay trực thăng cánh quạt",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_transportation",
+    "themeNameVn": "Phương tiện giao thông",
+    "themeNameEn": "Vehicles & Transport",
+    "examples": [
+      "The rescue helicopter airlifted the stranded mountaineer directly to the regional trauma hospital.",
+      "Helicopter sightseeing flights offer sweeping aerial panoramas of the Grand Canyon."
+    ],
+    "exampleTranslations": [
+      "Trực thăng cứu hộ đã vận chuyển người leo núi mắc kẹt thẳng tới bệnh viện chấn thương khu vực.",
+      "Các chuyến bay ngắm cảnh bằng trực thăng mang đến toàn cảnh từ trên không tuyệt đẹp của hẻm núi Grand Canyon."
+    ],
+    "synonyms": [
+      "chopper",
+      "rotorcraft"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_transp_24",
+    "word": "scooter",
+    "phonetic": "/ˈskuː.t̬ɚ/",
+    "definition": "A light two-wheeled road vehicle with an engine or electric battery and a low footboard.",
+    "definitionVn": "xe tay ga, xe máy điện gọn nhẹ",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_transportation",
+    "themeNameVn": "Phương tiện giao thông",
+    "themeNameEn": "Vehicles & Transport",
+    "examples": [
+      "Renting an electric scooter is an eco-friendly and fun method for navigating downtown alleys.",
+      "Many urban commuters prefer automatic motor scooters to navigate congested traffic smoothly."
+    ],
+    "exampleTranslations": [
+      "Thuê một chiếc xe tay ga điện là một phương pháp thân thiện với môi trường và thú vị để khám phá các con hẻm trung tâm thành phố.",
+      "Nhiều người đi làm ở đô thị thích xe máy tay ga tự động để vượt qua dòng xe cộ tắc nghẽn một cách êm ái."
+    ],
+    "synonyms": [
+      "moped",
+      "e-scooter",
+      "motor scooter"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_transp_25",
+    "word": "ambulance",
+    "phonetic": "/ˈæm.bjə.ləns/",
+    "definition": "A vehicle equipped for taking sick or injured people to and from hospital, especially in emergencies.",
+    "definitionVn": "xe cứu thương chuyên dụng đưa bệnh nhân đi cấp cứu",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_transportation",
+    "themeNameVn": "Phương tiện giao thông",
+    "themeNameEn": "Vehicles & Transport",
+    "examples": [
+      "Motorists must pull over immediately when an ambulance approaches with sounding sirens and flashing beacons.",
+      "Paramedics inside the ambulance administered oxygen and stabilized the patient during transit."
+    ],
+    "exampleTranslations": [
+      "Người lái xe phải tấp vào lề ngay lập tức khi xe cứu thương đến gần với tiếng còi hú và đèn nhấp nháy.",
+      "Các nhân viên y tế bên trong xe cứu thương đã cung cấp oxy và làm ổn định tình trạng bệnh nhân trong quá trình vận chuyển."
+    ],
+    "synonyms": [
+      "emergency vehicle",
+      "paramedic wagon"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_school_21",
+    "word": "highlighter",
+    "phonetic": "/ˈhaɪˌlaɪ.t̬ɚ/",
+    "definition": "A brightly colored fluorescent felt-tip pen used to emphasize text.",
+    "definitionVn": "bút dạ quang đánh dấu dòng văn bản",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_school_stationery",
+    "themeNameVn": "Trường học & Dụng cụ học tập",
+    "themeNameEn": "School & Stationery",
+    "examples": [
+      "She marked key historical dates with a fluorescent yellow highlighter.",
+      "Always keep a highlighter and sticky notes handy while reading academic textbooks."
+    ],
+    "exampleTranslations": [
+      "Cô ấy đã đánh dấu các mốc lịch sử quan trọng bằng bút dạ quang màu vàng huỳnh quang.",
+      "Luôn giữ bút dạ quang và giấy ghi chú bên mình khi đọc sách giáo khoa học thuật."
+    ],
+    "synonyms": [
+      "fluorescent marker",
+      "text marker"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_school_22",
+    "word": "stapler",
+    "phonetic": "/ˈsteɪ.plɚ/",
+    "definition": "A small device that binds sheets of paper together with thin wire staples.",
+    "definitionVn": "cái dập ghim giấy cầm tay",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_school_stationery",
+    "themeNameVn": "Trường học & Dụng cụ học tập",
+    "themeNameEn": "School & Stationery",
+    "examples": [
+      "The teacher asked students to use a metal stapler to fasten their essay pages.",
+      "He reloaded the desktop stapler with a fresh strip of heavy-duty staples."
+    ],
+    "exampleTranslations": [
+      "Giáo viên yêu cầu học sinh sử dụng dập ghim kim loại để bấm các trang bài luận lại.",
+      "Anh ấy đã nạp lại dập ghim để bàn bằng một thanh ghim chịu lực mới."
+    ],
+    "synonyms": [
+      "paper fastener",
+      "stapling machine"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_school_23",
+    "word": "calculator",
+    "phonetic": "/ˈkæl.kjə.leɪ.t̬ɚ/",
+    "definition": "An electronic device used for performing mathematical calculations.",
+    "definitionVn": "máy tính cầm tay bỏ túi làm toán",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_school_stationery",
+    "themeNameVn": "Trường học & Dụng cụ học tập",
+    "themeNameEn": "School & Stationery",
+    "examples": [
+      "Students may bring a scientific calculator into the calculus exam hall.",
+      "The solar-powered pocket calculator never runs out of battery during classes."
+    ],
+    "exampleTranslations": [
+      "Học sinh có thể mang máy tính khoa học vào phòng thi giải tích.",
+      "Máy tính bỏ túi chạy bằng năng lượng mặt trời không bao giờ hết pin trong giờ học."
+    ],
+    "synonyms": [
+      "adding machine",
+      "arithmetic device"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_school_24",
+    "word": "compass",
+    "phonetic": "/ˈkʌm.pəs/",
+    "definition": "An instrument with two movable arms used for drawing circles and measuring distances.",
+    "definitionVn": "compa vẽ đường tròn trong môn hình học",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_school_stationery",
+    "themeNameVn": "Trường học & Dụng cụ học tập",
+    "themeNameEn": "School & Stationery",
+    "examples": [
+      "Insert the pencil tip securely into the compass arm before drafting the circle.",
+      "Geometry students use a steel compass and straightedge ruler to bisect angles."
+    ],
+    "exampleTranslations": [
+      "Cắm đầu bút chì chắc chắn vào nhánh compa trước khi vẽ đường tròn.",
+      "Học sinh hình học sử dụng compa thép và thước kẻ thẳng để chia đôi các góc."
+    ],
+    "synonyms": [
+      "pair of compasses",
+      "drawing divider"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_school_25",
+    "word": "protractor",
+    "phonetic": "/proʊˈtræk.tɚ/",
+    "definition": "A semicircular plastic instrument graduated in degrees for measuring and drawing angles.",
+    "definitionVn": "thước đo độ góc hình bán nguyệt",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_school_stationery",
+    "themeNameVn": "Trường học & Dụng cụ học tập",
+    "themeNameEn": "School & Stationery",
+    "examples": [
+      "Line up the baseline of your clear protractor with the vertex to measure the obtuse angle.",
+      "Every student geometry set includes a 180-degree transparent protractor."
+    ],
+    "exampleTranslations": [
+      "Căn chỉnh đường cơ sở của thước đo độ trong suốt với đỉnh góc để đo góc tù.",
+      "Mỗi bộ dụng cụ hình học của học sinh đều bao gồm một thước đo độ trong suốt 180 độ."
+    ],
+    "synonyms": [
+      "angle meter",
+      "semicircular scale"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_hobbie_21",
+    "word": "badminton",
+    "phonetic": "/ˈbæd.mɪn.tən/",
+    "definition": "A racket sport played with shuttles across a net on an indoor or outdoor court.",
+    "definitionVn": "môn cầu lông dùng vợt và quả cầu",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_hobbies_sports",
+    "themeNameVn": "Sở thích & Thể thao",
+    "themeNameEn": "Hobbies & Sports",
+    "examples": [
+      "They play friendly doubles badminton at the community recreation center every Tuesday evening.",
+      "Quick reflexes and explosive jump smashes are essential skills in competitive badminton."
+    ],
+    "exampleTranslations": [
+      "Họ chơi cầu lông đôi giao hữu tại trung tâm giải trí cộng đồng vào mỗi tối thứ Ba.",
+      "Phản xạ nhanh và những cú nhảy đập cầu bùng nổ là những kỹ năng thiết yếu trong môn cầu lông thi đấu."
+    ],
+    "synonyms": [
+      "shuttlecock game"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_hobbie_22",
+    "word": "gardening",
+    "phonetic": "/ˈɡɑːr.dən.ɪŋ/",
+    "definition": "The hobby or activity of tending and cultivating a garden, growing flowers, and vegetables.",
+    "definitionVn": "thú vui làm vườn, trồng hoa và rau sạch",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_hobbies_sports",
+    "themeNameVn": "Sở thích & Thể thao",
+    "themeNameEn": "Hobbies & Sports",
+    "examples": [
+      "Weekend gardening relieves work-related stress while yielding organic heirloom tomatoes.",
+      "She wears protective gloves and uses a sharp trowel for delicate flowerbed gardening."
+    ],
+    "exampleTranslations": [
+      "Làm vườn cuối tuần giúp xua tan căng thẳng liên quan đến công việc đồng thời mang lại những quả cà chua hữu cơ ngon lành.",
+      "Cô ấy đeo găng tay bảo hộ và dùng một cái bay sắc nhọn để làm vườn bồn hoa mỏng manh."
+    ],
+    "synonyms": [
+      "horticulture",
+      "plant cultivation"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_hobbie_23",
+    "word": "hiking",
+    "phonetic": "/ˈhaɪ.kɪŋ/",
+    "definition": "The activity of going for long, scenic walks, especially across rural or mountainous countryside.",
+    "definitionVn": "đi bộ đường dài dã ngoại, leo núi ngắm cảnh",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_hobbies_sports",
+    "themeNameVn": "Sở thích & Thể thao",
+    "themeNameEn": "Hobbies & Sports",
+    "examples": [
+      "Sturdy waterproof boots and trekking poles make mountain hiking much safer and more comfortable.",
+      "We embarked on a scenic dawn hiking expedition along the national park coastal ridge."
+    ],
+    "exampleTranslations": [
+      "Giày bốt chống thấm nước chắc chắn và gậy leo núi giúp việc đi bộ đường dài trên núi an toàn và thoải mái hơn nhiều.",
+      "Chúng tôi bắt đầu chuyến thám hiểm đi bộ đường dài ngắm bình minh tuyệt đẹp dọc theo sườn núi ven biển của công viên quốc gia."
+    ],
+    "synonyms": [
+      "trekking",
+      "hillwalking",
+      "trail walking"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_hobbie_24",
+    "word": "skating",
+    "phonetic": "/ˈskeɪ.t̬ɪŋ/",
+    "definition": "The sport or recreational activity of gliding on ice skates or roller skates across smooth surfaces.",
+    "definitionVn": "trượt băng hoặc trượt patin giải trí",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_hobbies_sports",
+    "themeNameVn": "Sở thích & Thể thao",
+    "themeNameEn": "Hobbies & Sports",
+    "examples": [
+      "During frosty winter months, children enjoy outdoor ice skating on the frozen municipal pond.",
+      "Beginners should always wear knee pads and wrist guards when practicing roller skating."
+    ],
+    "exampleTranslations": [
+      "Trong những tháng mùa đông băng giá, trẻ em thích trượt băng ngoài trời trên ao nước đóng băng của thành phố.",
+      "Người mới bắt đầu nên luôn đeo đệm đầu gối và bảo vệ cổ tay khi tập trượt patin."
+    ],
+    "synonyms": [
+      "ice skating",
+      "rollerblading"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_hobbie_25",
+    "word": "photography",
+    "phonetic": "/fəˈtɑː.ɡrə.fi/",
+    "definition": "The art or practice of taking and processing photographs with optical cameras.",
+    "definitionVn": "nghệ thuật nhiếp ảnh, thú vui chụp ảnh",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_hobbies_sports",
+    "themeNameVn": "Sở thích & Thể thao",
+    "themeNameEn": "Hobbies & Sports",
+    "examples": [
+      "Landscape photography requires immense patience while waiting for the golden sunset light.",
+      "She invested in a high-resolution mirrorless camera to take her wildlife photography to the next level."
+    ],
+    "exampleTranslations": [
+      "Nhiếp ảnh phong cảnh đòi hỏi sự kiên nhẫn to lớn trong khi chờ đợi ánh sáng hoàng hôn vàng rực.",
+      "Cô ấy đã đầu tư vào một chiếc máy ảnh không gương lật độ phân giải cao để đưa tác phẩm chụp ảnh động vật hoang dã của mình lên một tầm cao mới."
+    ],
+    "synonyms": [
+      "picture taking",
+      "camerawork",
+      "photo craft"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_shoppi_21",
+    "word": "receipt",
+    "phonetic": "/rɪˈsiːt/",
+    "definition": "A written or printed acknowledgment that a specified sum of money has been received for merchandise.",
+    "definitionVn": "biên lai thanh toán, hóa đơn mua hàng",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_shopping_money",
+    "themeNameVn": "Mua sắm & Tiền tệ",
+    "themeNameEn": "Shopping & Money",
+    "examples": [
+      "Retain your store purchase receipt in case you need an exchange or warranty return.",
+      "The electronic cashier printed a detailed itemized receipt including tax breakdowns."
+    ],
+    "exampleTranslations": [
+      "Hãy giữ lại biên lai mua hàng của bạn trong trường hợp bạn cần đổi hàng hoặc bảo hành.",
+      "Thu ngân điện tử đã in một hóa đơn chi tiết từng món hàng bao gồm cả phân tích thuế."
+    ],
+    "synonyms": [
+      "proof of purchase",
+      "sales slip",
+      "voucher"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_shoppi_22",
+    "word": "discount",
+    "phonetic": "/ˈdɪs.kaʊnt/",
+    "definition": "A deduction from the usual cost of something, typically given for prompt payment or special promotions.",
+    "definitionVn": "khoản giảm giá, mức chiết khấu khuyến mãi",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_shopping_money",
+    "themeNameVn": "Mua sắm & Tiền tệ",
+    "themeNameEn": "Shopping & Money",
+    "examples": [
+      "Students and seniors receive a fifteen percent discount on all book purchases.",
+      "Entering the coupon code at digital checkout applied a generous discount immediately."
+    ],
+    "exampleTranslations": [
+      "Học sinh và người cao tuổi được giảm giá mười lăm phần trăm cho tất cả các giao dịch mua sách.",
+      "Nhập mã giảm giá tại quầy thanh toán kỹ thuật số đã áp dụng một khoản giảm giá hào phóng ngay lập tức."
+    ],
+    "synonyms": [
+      "markdown",
+      "rebate",
+      "price concession"
+    ],
+    "antonyms": [
+      "surcharge",
+      "markup"
+    ]
+  },
+  {
+    "id": "bv_shoppi_23",
+    "word": "bargain",
+    "phonetic": "/ˈbɑːr.ɡɪn/",
+    "definition": "A thing bought or offered for sale more cheaply than is usual or expected; also to negotiate price.",
+    "definitionVn": "món hàng giá hời; mặc cả trả giá",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_shopping_money",
+    "themeNameVn": "Mua sắm & Tiền tệ",
+    "themeNameEn": "Shopping & Money",
+    "examples": [
+      "At twenty dollars, this genuine leather jacket was an absolute bargain at the flea market.",
+      "Shoppers frequently bargain with local stall owners to reach a mutually agreeable price."
+    ],
+    "exampleTranslations": [
+      "Với giá hai mươi đô la, chiếc áo khoác da thật này là một món hời tuyệt đối ở chợ trời.",
+      "Người mua sắm thường xuyên mặc cả với chủ gian hàng địa phương để đạt được mức giá đồng thuận."
+    ],
+    "synonyms": [
+      "good deal",
+      "steal",
+      "negotiation"
+    ],
+    "antonyms": [
+      "rip-off",
+      "overcharge"
+    ]
+  },
+  {
+    "id": "bv_shoppi_24",
+    "word": "refund",
+    "phonetic": "/ˈriː.fʌnd/",
+    "definition": "A repayment of a sum of money, typically to a dissatisfied customer returning goods.",
+    "definitionVn": "tiền hoàn lại khi trả hàng, sự hoàn tiền",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_shopping_money",
+    "themeNameVn": "Mua sắm & Tiền tệ",
+    "themeNameEn": "Shopping & Money",
+    "examples": [
+      "The department store processed a full cash refund after discovering the blouse had a torn seam.",
+      "Online shoppers can request an automatic refund within thirty days of parcel delivery."
+    ],
+    "exampleTranslations": [
+      "Cửa hàng bách hóa đã xử lý hoàn lại toàn bộ tiền mặt sau khi phát hiện chiếc áo cánh có đường may bị rách.",
+      "Người mua sắm trực tuyến có thể yêu cầu hoàn tiền tự động trong vòng ba mươi ngày kể từ khi bưu kiện được giao."
+    ],
+    "synonyms": [
+      "reimbursement",
+      "money back",
+      "repayment"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_shoppi_25",
+    "word": "cashier",
+    "phonetic": "/kæʃˈɪr/",
+    "definition": "A person handling payments and receipts in a store, bank, or other commercial business.",
+    "definitionVn": "nhân viên thu ngân tính tiền",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_shopping_money",
+    "themeNameVn": "Mua sắm & Tiền tệ",
+    "themeNameEn": "Shopping & Money",
+    "examples": [
+      "The friendly cashier scanned each grocery item and bagged the produce quickly.",
+      "Self-checkout lanes reduce waiting times when human cashiers are experiencing high traffic."
+    ],
+    "exampleTranslations": [
+      "Nhân viên thu ngân thân thiện đã quét từng món hàng tạp hóa và đóng gói sản phẩm một cách nhanh chóng.",
+      "Các làn tự thanh toán giúp giảm thời gian chờ đợi khi các thu ngân gặp phải lượng khách đông."
+    ],
+    "synonyms": [
+      "teller",
+      "checkout clerk"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_plants_21",
+    "word": "watermelon",
+    "phonetic": "/ˈwɑː.t̬ɚˌmel.ən/",
+    "definition": "A large, round or oblong green melon with sweet, watery red pulp and black seeds.",
+    "definitionVn": "quả dưa hấu thanh mát, nhiều nước",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_plants_fruits",
+    "themeNameVn": "Cây cối & Hoa quả",
+    "themeNameEn": "Plants & Fruits",
+    "examples": [
+      "Chilled slices of juicy watermelon are the ultimate refreshing treat on scorching summer afternoons.",
+      "Seedless watermelons are especially popular for making fresh fruit salads and juices."
+    ],
+    "exampleTranslations": [
+      "Những lát dưa hấu ướp lạnh mọng nước là món ăn giải khát tuyệt đỉnh vào những buổi chiều hè oi bức.",
+      "Dưa hấu không hạt đặc biệt phổ biến để làm món salad trái cây tươi và nước ép."
+    ],
+    "synonyms": [
+      "citrullus fruit"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_plants_22",
+    "word": "pineapple",
+    "phonetic": "/ˈpaɪnˌæp.əl/",
+    "definition": "A large juicy tropical fruit consisting of edible aromatic yellow flesh surrounded by a tough prickly skin.",
+    "definitionVn": "quả dứa, quả thơm có gai",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_plants_fruits",
+    "themeNameVn": "Cây cối & Hoa quả",
+    "themeNameEn": "Plants & Fruits",
+    "examples": [
+      "Freshly sliced golden pineapple brings a tangy sweetness to tropical smoothies and grilled skewers.",
+      "Pineapples thrive in warm tropical climates with well-drained volcanic soils."
+    ],
+    "exampleTranslations": [
+      "Dứa vàng mới cắt lát mang lại vị ngọt thơm cho sinh tố nhiệt đới và các xiên nướng.",
+      "Cây dứa phát triển mạnh ở vùng khí hậu nhiệt đới ấm áp với đất núi lửa thoát nước tốt."
+    ],
+    "synonyms": [
+      "ananas"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_plants_23",
+    "word": "papaya",
+    "phonetic": "/pəˈpaɪ.ə/",
+    "definition": "A tropical fruit shaped like an elongated melon, with edible orange flesh and small black seeds.",
+    "definitionVn": "quả đu đủ chín giàu vitamin",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_plants_fruits",
+    "themeNameVn": "Cây cối & Hoa quả",
+    "themeNameEn": "Plants & Fruits",
+    "examples": [
+      "Squeezing fresh lime juice over ripe papaya enhances its natural tropical flavor.",
+      "Papayas contain digestive enzymes that aid in gastric comfort and protein breakdown."
+    ],
+    "exampleTranslations": [
+      "Vắt nước chanh tươi lên quả đu đủ chín sẽ làm tăng hương vị nhiệt đới tự nhiên của nó.",
+      "Đu đủ chứa các enzym tiêu hóa hỗ trợ dạ dày dễ chịu và phân giải protein."
+    ],
+    "synonyms": [
+      "pawpaw"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_plants_24",
+    "word": "sunflower",
+    "phonetic": "/ˈsʌnˌflaʊ.ɚ/",
+    "definition": "A tall North American plant of the daisy family, with very large golden-yellow rayed flower heads.",
+    "definitionVn": "hoa hướng dương vàng rực rỡ hướng về mặt trời",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_plants_fruits",
+    "themeNameVn": "Cây cối & Hoa quả",
+    "themeNameEn": "Plants & Fruits",
+    "examples": [
+      "Vast fields of blooming yellow sunflowers turn their heavy heads toward the morning sun.",
+      "Roasted sunflower seeds make a nutritious, crunchy snack packed with healthy fats."
+    ],
+    "exampleTranslations": [
+      "Những cánh đồng hoa hướng dương vàng nở rộ bạt ngàn hướng những bông hoa nặng trĩu về phía mặt trời buổi sớm.",
+      "Hạt hướng dương rang làm món ăn nhẹ giòn tan bổ dưỡng chứa nhiều chất béo lành mạnh."
+    ],
+    "synonyms": [
+      "helianthus"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_plants_25",
+    "word": "cactus",
+    "phonetic": "/ˈkæk.təs/",
+    "definition": "A succulent plant with a thick fleshy stem bearing spines, typically lacking leaves, native to arid regions.",
+    "definitionVn": "cây xương rồng sa mạc chịu hạn",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_plants_fruits",
+    "themeNameVn": "Cây cối & Hoa quả",
+    "themeNameEn": "Plants & Fruits",
+    "examples": [
+      "The giant saguaro cactus can store hundreds of gallons of water during desert flash rains.",
+      "Potted miniature cacti are popular low-maintenance houseplants that require minimal watering."
+    ],
+    "exampleTranslations": [
+      "Cây xương rồng saguaro khổng lồ có thể tích trữ hàng trăm gallon nước trong các trận mưa rào bất chợt ở sa mạc.",
+      "Xương rồng mini trồng trong chậu là loại cây cảnh trong nhà ít tốn công chăm sóc và cần tưới nước tối thiểu."
+    ],
+    "synonyms": [
+      "desert succulent"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_kitche_21",
+    "word": "frying pan",
+    "phonetic": "/ˈfraɪ.ɪŋ pæn/",
+    "definition": "A shallow pan with a long handle, used for cooking food in hot oil or fat.",
+    "definitionVn": "chảo rán, chảo chiên chống dính",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_kitchen_utensils",
+    "themeNameVn": "Dụng cụ nhà bếp & Nấu nướng",
+    "themeNameEn": "Kitchen Utensils & Cooking",
+    "examples": [
+      "He heated a dollop of butter in the non-stick frying pan before pouring the omelet batter.",
+      "A seasoned cast-iron frying pan retains heat exceptionally well for searing thick steaks."
+    ],
+    "exampleTranslations": [
+      "Anh ấy đun nóng một miếng bơ trong chảo rán chống dính trước khi đổ bột trứng tráng vào.",
+      "Một chiếc chảo rán bằng gang đã tôi dầu giữ nhiệt đặc biệt tốt để áp chảo những miếng bít tết dày."
+    ],
+    "synonyms": [
+      "skillet",
+      "saute pan"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_kitche_22",
+    "word": "blender",
+    "phonetic": "/ˈblen.dɚ/",
+    "definition": "An electric machine in which soft food or liquids are chopped, pureed, or mixed into a smooth paste.",
+    "definitionVn": "máy xay sinh tố, máy xay nhuyễn thực phẩm",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_kitchen_utensils",
+    "themeNameVn": "Dụng cụ nhà bếp & Nấu nướng",
+    "themeNameEn": "Kitchen Utensils & Cooking",
+    "examples": [
+      "Toss frozen berries, bananas, and almond milk into the high-speed blender for breakfast.",
+      "The chef pureed roasted butternut squash in the blender until the soup achieved a velvety consistency."
+    ],
+    "exampleTranslations": [
+      "Cho quả mọng đông lạnh, chuối và sữa hạnh nhân vào máy xay sinh tố tốc độ cao cho bữa sáng.",
+      "Đầu bếp xay nhuyễn bí đỏ nướng trong máy xay sinh tố cho đến khi món súp đạt được độ mịn màng như nhung."
+    ],
+    "synonyms": [
+      "food liquidizer",
+      "smoothie maker"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_kitche_23",
+    "word": "microwave",
+    "phonetic": "/ˈmaɪ.kroʊ.weɪv/",
+    "definition": "An electric oven that heats and cooks food rapidly by exposing it to electromagnetic radiation.",
+    "definitionVn": "lò vi sóng hâm nóng thức ăn tiện lợi",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_kitchen_utensils",
+    "themeNameVn": "Dụng cụ nhà bếp & Nấu nướng",
+    "themeNameEn": "Kitchen Utensils & Cooking",
+    "examples": [
+      "It takes just two minutes to reheat yesterday's pasta in the compact countertop microwave.",
+      "Avoid placing metal utensils or aluminum foil inside an operating microwave oven."
+    ],
+    "exampleTranslations": [
+      "Chỉ mất hai phút để hâm nóng món mì ống hôm qua trong lò vi sóng nhỏ gọn để bàn.",
+      "Tránh đặt dụng cụ kim loại hoặc giấy bạc vào bên trong lò vi sóng đang hoạt động."
+    ],
+    "synonyms": [
+      "microwave oven",
+      "reheating appliance"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_kitche_24",
+    "word": "kettle",
+    "phonetic": "/ˈket̬.əl/",
+    "definition": "A metal or plastic container with a handle and spout, used for boiling water.",
+    "definitionVn": "ấm đun nước siêu tốc hoặc ấm đun trên bếp",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_kitchen_utensils",
+    "themeNameVn": "Dụng cụ nhà bếp & Nấu nướng",
+    "themeNameEn": "Kitchen Utensils & Cooking",
+    "examples": [
+      "The electric stainless steel kettle boils a liter of water for morning tea in sixty seconds.",
+      "The whistling tea kettle announced that the boiling water was ready for French press coffee."
+    ],
+    "exampleTranslations": [
+      "Ấm đun nước bằng thép không gỉ chạy điện đun sôi một lít nước để pha trà sáng trong sáu mươi giây.",
+      "Tiếng còi ấm đun nước reo lên báo hiệu nước sôi đã sẵn sàng cho cà phê pha kiểu Pháp."
+    ],
+    "synonyms": [
+      "tea kettle",
+      "water boiler"
+    ],
+    "antonyms": []
+  },
+  {
+    "id": "bv_kitche_25",
+    "word": "chopping board",
+    "phonetic": "/ˈtʃɑː.pɪŋ bɔːrd/",
+    "definition": "A wooden or plastic board on which foods, such as meats and vegetables, are chopped.",
+    "definitionVn": "cái thớt thái thực phẩm bằng gỗ hoặc nhựa",
+    "pos": "noun",
+    "difficulty": 1,
+    "frequency": 5,
+    "themeId": "t_basic_kitchen_utensils",
+    "themeNameVn": "Dụng cụ nhà bếp & Nấu nướng",
+    "themeNameEn": "Kitchen Utensils & Cooking",
+    "examples": [
+      "Always wash the wooden chopping board thoroughly with hot soapy water after slicing raw poultry.",
+      "Color-coded plastic chopping boards prevent cross-contamination between raw meats and fresh salad vegetables."
+    ],
+    "exampleTranslations": [
+      "Luôn rửa thớt gỗ thật kỹ bằng nước xà phòng nóng sau khi thái thịt gia cầm sống.",
+      "Thớt nhựa có mã màu giúp ngăn ngừa lây nhiễm chéo giữa thịt sống và rau củ làm salad tươi."
+    ],
+    "synonyms": [
+      "cutting board",
+      "butcher block"
+    ],
     "antonyms": []
   }
 ];

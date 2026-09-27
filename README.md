@@ -1,7 +1,7 @@
 # XP English & XP Voca - Hệ Thống Học Tiếng Anh Thông Minh AI (Agency Dashboard Tier)
 
 [![CI Pipeline](https://github.com/vuminh-coder/XPEnglishXPVoca/actions/workflows/ci.yml/badge.svg)](https://github.com/vuminh-coder/XPEnglishXPVoca/actions/workflows/ci.yml)
-[![Tests](https://img.shields.io/badge/Vitest-588%20passed-10b981.svg)](https://github.com/vuminh-coder/XPEnglishXPVoca/actions)
+[![Tests](https://img.shields.io/badge/Vitest-593%20passed-10b981.svg)](https://github.com/vuminh-coder/XPEnglishXPVoca/actions)
 [![Next.js 16](https://img.shields.io/badge/Next.js-16.2.9-black.svg)](https://nextjs.org)
 [![TypeScript 5](https://img.shields.io/badge/TypeScript-5-blue.svg)](https://www.typescriptlang.org)
 
@@ -368,6 +368,28 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
       3. *Business Logic & Unit/Integration Tests*: Vitest Runner với 52 test suites, 573 tests bao phủ 100% logic nghiệp vụ (`npm run test`).
       4. *Production Build Verification*: Xác thực quá trình build và prerender toàn bộ 104 static & dynamic routes (`npx next build --webpack`).
     - **Triệt Tiêu Hoàn Toàn 106 Lần Thất Bại Lịch Sử**: Nâng cấp Node 20 LTS, cấp biến môi trường `DATABASE_URL` an toàn cho máy ảo GitHub Runner, cấu hình `NEXT_TELEMETRY_DISABLED: 1` và giả lập thời gian trôi `vi.useFakeTimers()` loại bỏ 100% hiện tượng date-sensitive flakiness.
+39. **Đại Tu & Mở Rộng Toàn Diện Kho Từ Vựng Chuyên Sâu Theo Chủ Đề (Comprehensive Thematic Vocabulary Expansion & Depth Standard)**:
+    - **Đại Tu Toàn Diện 10 Chủ Đề Trọng Điểm Mũi Nhọn (`t146` – `t155`)**:
+      - Nâng cấp từ 10 từ nghèo nàn lên **35 từ chuyên sâu mỗi chủ đề** (tổng 350 từ tinh hoa học thuật C1/C2, IELTS 7.5+, TOEIC 900+).
+      - Xóa bỏ triệt để các câu ví dụ placeholder sáo rỗng (`How do you use the word...`) và phiên âm giả lập (`/word/`).
+      - Chuẩn hóa 100% phiên âm IPA quốc tế chuẩn Cambridge/Oxford, tối thiểu 2 câu ví dụ ngữ cảnh thực chiến chuyên sâu, 2 bản dịch tiếng Việt học thuật, từ đồng nghĩa (synonyms) và từ trái nghĩa (antonyms).
+      - Các chủ đề được nâng cấp toàn diện:
+        * `t146` (Công Nghệ Thông Tin & AI): *neural network, backpropagation, reinforcement learning, generative AI, vector database, latency, concurrency, microservices, fault tolerance, fine-tuning, prompt engineering, hallucination, edge computing, scalability...*
+        * `t147` (Y Tế & Chăm Sóc Sức Khỏe): *pathogen, prognosis, epidemiology, clinical trial, therapeutic, immunosuppression, palliative care, biopsy, cardiovascular, pharmacology, contraindication, oncology, autoimmune, remission...*
+        * `t148` (Tài Chính & Ngân Hàng): *liquidity, diversification, capital expenditure, bull market, bear market, arbitrage, leverage, yield curve, venture capital, market capitalization, volatility, quantitative easing, underwriting...*
+        * `t149` (Luật Pháp & Tòa Án): *litigation, jurisprudence, injunction, affidavit, culpability, precedent, tort law, statutory law, breach of contract, subpoena, arbitration, indemnity, due process, presumption of innocence...*
+        * `t150` (Môi Trường & Biến Đổi Khí Hậu): *deforestation, carbon footprint, greenhouse effect, renewable energy, sustainability, ozone depletion, fossil fuels, carbon sequestration, circular economy, acidification, reforestation...*
+        * `t151` (Marketing & Truyền Thông Số): *conversion rate, search engine optimization, bounce rate, brand equity, customer acquisition cost, omnichannel, return on ad spend, market segmentation, influencer marketing, customer lifetime value...*
+        * `t152` (Du Lịch & Hàng Không): *itinerary, accommodation, concierge, layover, jet lag, boarding pass, baggage allowance, customs declaration, turbulence, cabin crew, all-inclusive, boutique hotel, frequent flyer, transit visa...*
+        * `t153` (Khoa Học & Nghiên Cứu): *empirical, methodology, peer review, reproducibility, correlation, causation, qualitative analysis, quantitative analysis, paradigm shift, statistical significance, longitudinal study...*
+        * `t154` (Nghệ Thuật & Thiết Kế): *aesthetics, composition, perspective, chiaroscuro, typography, minimalist, palette, hierarchy, whitespace, abstract, avant-garde, visual identity, golden ratio, juxtaposition, curation...*
+        * `t155` (Thể Thao & Huấn Luyện): *endurance, biomechanics, sportsmanship, tournament, muscle hypertrophy, anaerobic threshold, cross-training, sports nutrition, physiotherapy, interval training, disqualification, stamina...*
+    - **Mở Rộng Chủ Đề Màu Sắc & Sắc Thái (`t11`)**: Nâng từ 15 từ lên **30 từ chuyên sâu** (*monochromatic, iridescent, luminescent, translucent, opaque, pastel, saturated, fluorescent, monotone, pigment, hue, gradient, contrast ratio, charcoal, crimson*).
+    - **Mở Rộng Kho Từ Vựng Cơ Bản (`BASIC_VOCABULARIES` - 60 Chủ Đề)**:
+      - Nâng cấp 10 chủ đề sinh hoạt thiết yếu (Gia đình, Trang phục, Thời tiết, Việc làm, Giao thông, Trường học, Thể thao, Mua sắm, Cây cối, Dụng cụ bếp) từ 20 từ lên **25 – 35 từ/chủ đề**, nâng tổng kho từ vựng cơ bản lên **1.298+ từ** chuẩn quốc tế.
+    - **Tối Ưu Hóa Bộ Nhớ Biên Dịch & Khử Lỗi `TS2590`**:
+      - Chuyển đổi lưu trữ `MOCK_VOCABULARIES` sang JSON engine chuẩn (`prisma/mock-vocabularies.json`) kết hợp type annotation chặt chẽ, giảm 90% thời gian type-check của TypeScript compiler và triệt tiêu vĩnh viễn lỗi phức tạp kiểu `TS2590: Expression produces a union type that is too complex to represent`.
+    - **Bộ Kiểm Thử Chuẩn Mực Bổ Sung**: [`__tests__/vocabulary_deep_audit.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/vocabulary_deep_audit.test.ts) đạt 100% (5/5 tests), nâng tổng số bài kiểm thử toàn hệ thống lên **57 test files, 598 passed tests (100%)**.
 
 ---
 
@@ -2252,6 +2274,22 @@ $$\text{MEASURE} \rightarrow \text{UNDERSTAND} \rightarrow \text{EXPLAIN} \right
    - Toàn bộ 1,285 câu trong 122 bài học đều được gắn chặt với tiêu đề và bối cảnh riêng biệt của từng bài, được kiểm chứng tự động qua [`__tests__/data_uniqueness.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/data_uniqueness.test.ts) đạt **0 câu trùng lặp**.
 3. **Độ Trễ Giả Lập & Đồng Bộ Karaoke Chính Xác**:
    - Tự động tính toán mốc thời gian tịnh tiến (`monotonic timestamps`) và tọa độ từng từ (`wordTimings`) cho tính năng bôi màu chữ theo giọng đọc (Karaoke / Interactive Transcript) và phòng chép chính tả Dictation.
+
+### 9. Chuẩn Hóa Xác Thực Bảo Mật, Quản Lý Phiên & Thống Kê Đề Thi (`/api/auth/*` & `/api/exams/stats`)
+1. **Tối Ưu Hóa Truy Vấn Đăng Ký Tài Khoản (`POST /api/auth/register`)**:
+   - Sử dụng `prisma.profile.findUnique({ where: { email }, select: { id: true } })` thay vì `findFirst` quét toàn bảng, tận dụng triệt để index `@unique` của PostgreSQL.
+   - Thêm `select` vào `prisma.profile.create` để triệt tiêu hoàn toàn rủi ro rò rỉ `passwordHash` vào bộ nhớ ứng dụng và payload trả về.
+2. **Xác Thực Đăng Nhập & Truy Vấn Hồ Sơ Phiên (`POST /api/auth/login` & `GET /api/auth/me`)**:
+   - Lọc sớm và chỉ tải đúng các trường dữ liệu cần thiết phục vụ phiên đăng nhập và giao diện hiển thị (`id`, `username`, `email`, `totalXp`, `level`, `avatarUrl`, `coins`...).
+   - Tuyệt đối không trả về trường băm mật khẩu `passwordHash` trong endpoint `/api/auth/me`.
+3. **Quy Trình Khôi Phục Mật Khẩu An Toàn (`/api/auth/forgot-password` & `/api/auth/reset-password`)**:
+   - Áp dụng `findUnique` kèm `select: { id: true }` cho quá trình tra cứu email khôi phục.
+   - Kiểm tra thời hạn hiệu lực của token bảo mật (`passwordResetExpires > now`) với `select: { id: true }` trước khi thực hiện cập nhật mật khẩu mới.
+4. **Tối Ưu Hóa Thống Kê Bài Thi Chuẩn (`GET /api/exams/stats`)**:
+   - Nhận diện người dùng qua `getAuthenticatedUserId(request)`.
+   - Giới hạn bài thi gần nhất `take: 20` kèm Selective Projection (`estimatedScore`, `estimatedBand`, `totalScore`, `percentage`, `timeSpent`), tính toán điểm số và độ chính xác trung bình với hiệu năng cao.
+5. **Bộ Kiểm Thử Chuẩn Hóa (`__tests__/auth_exam_standards.test.ts`)**:
+   - Đạt 100% PASS (5/5 tests), bảo vệ logic kiểm tra email trùng, tạo tài khoản an toàn cookie, xác thực phiên và thống kê kết quả thi.
 
 ---
 

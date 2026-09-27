@@ -63,7 +63,7 @@ export const BASIC_VOCABULARY_THEMES: BasicTheme[] = [
     "difficulty": 1,
     "color": "#3b82f6",
     "description": "Xưng hô và mối quan hệ giữa các thành viên trong gia đình.",
-    "totalVocabs": 20
+    "totalVocabs": 25
   },
   {
     "id": "t_basic_home_objects",
@@ -143,7 +143,7 @@ export const BASIC_VOCABULARY_THEMES: BasicTheme[] = [
     "difficulty": 1,
     "color": "#a855f7",
     "description": "Quần áo, giày dép, nón mũ và phụ kiện mặc thường ngày.",
-    "totalVocabs": 20
+    "totalVocabs": 25
   },
   {
     "id": "t_basic_places_directions",
@@ -163,7 +163,7 @@ export const BASIC_VOCABULARY_THEMES: BasicTheme[] = [
     "difficulty": 1,
     "color": "#16a34a",
     "description": "Nắng, mưa, gió, mây, cây cỏ, sông núi và tự nhiên.",
-    "totalVocabs": 20
+    "totalVocabs": 25
   },
   {
     "id": "t_basic_jobs_occupations",
@@ -173,7 +173,7 @@ export const BASIC_VOCABULARY_THEMES: BasicTheme[] = [
     "difficulty": 1,
     "color": "#d97706",
     "description": "Bác sĩ, giáo viên, cảnh sát, đầu bếp và các ngành nghề phổ biến.",
-    "totalVocabs": 20
+    "totalVocabs": 25
   },
   {
     "id": "t_basic_transportation",
@@ -183,7 +183,7 @@ export const BASIC_VOCABULARY_THEMES: BasicTheme[] = [
     "difficulty": 1,
     "color": "#2563eb",
     "description": "Xe máy, xe buýt, ô tô, máy bay, tàu hỏa và cách đi lại.",
-    "totalVocabs": 20
+    "totalVocabs": 25
   },
   {
     "id": "t_basic_school_stationery",
@@ -193,7 +193,7 @@ export const BASIC_VOCABULARY_THEMES: BasicTheme[] = [
     "difficulty": 1,
     "color": "#4f46e5",
     "description": "Lớp học, bảng đen, thước kẻ, kéo, tập vở và kiểm tra.",
-    "totalVocabs": 20
+    "totalVocabs": 25
   },
   {
     "id": "t_basic_hobbies_sports",
@@ -203,7 +203,7 @@ export const BASIC_VOCABULARY_THEMES: BasicTheme[] = [
     "difficulty": 1,
     "color": "#ea580c",
     "description": "Bóng đá, bơi lội, ca hát, đàn piano, vẽ tranh và giải trí.",
-    "totalVocabs": 20
+    "totalVocabs": 25
   },
   {
     "id": "t_basic_shopping_money",
@@ -213,7 +213,7 @@ export const BASIC_VOCABULARY_THEMES: BasicTheme[] = [
     "difficulty": 1,
     "color": "#059669",
     "description": "Tiền mặt, thẻ, giá cả, hóa đơn, giảm giá và mua bán.",
-    "totalVocabs": 20
+    "totalVocabs": 25
   },
   {
     "id": "t_basic_plants_fruits",
@@ -223,7 +223,7 @@ export const BASIC_VOCABULARY_THEMES: BasicTheme[] = [
     "difficulty": 1,
     "color": "#65a30d",
     "description": "Các loại cây, lá, rễ, hoa quả nhiệt đới và nông sản quen thuộc.",
-    "totalVocabs": 20
+    "totalVocabs": 25
   },
   {
     "id": "t_basic_health_medical",
@@ -243,7 +243,7 @@ export const BASIC_VOCABULARY_THEMES: BasicTheme[] = [
     "difficulty": 1,
     "color": "#b45309",
     "description": "Nồi, chảo, bát đĩa, đũa thìa, dao kéo và lò nướng.",
-    "totalVocabs": 20
+    "totalVocabs": 25
   },
   {
     "id": "t_basic_office_tech",

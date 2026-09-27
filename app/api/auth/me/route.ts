@@ -16,6 +16,22 @@ export async function GET(req: NextRequest) {
 
     const profile = await prisma.profile.findUnique({
       where: { id: payload.userId },
+      select: {
+        id: true,
+        username: true,
+        fullName: true,
+        email: true,
+        level: true,
+        totalXp: true,
+        currentStreak: true,
+        longestStreak: true,
+        minutesStudied: true,
+        avatarEmoji: true,
+        avatarUrl: true,
+        title: true,
+        coins: true,
+        streakFreezes: true,
+      },
     });
 
     if (!profile) {

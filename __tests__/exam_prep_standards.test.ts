@@ -238,7 +238,8 @@ describe("Exam Prep Performance Standards & Database Suite", () => {
         },
       ]);
 
-      const res = await getExamStats();
+      const req = new Request("http://localhost:3000/api/exams/stats");
+      const res = await getExamStats(req);
       const json = await res.json();
 
       expect(res.status).toBe(200);

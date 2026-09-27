@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma, handlePrismaError } from "@/infrastructure/database/prisma";
 
 export async function GET(request: Request) {
@@ -17,7 +17,11 @@ export async function GET(request: Request) {
     const themes = await prisma.vocabularyTheme.findMany({
       where,
       orderBy: { orderIndex: "asc" },
-      include: {
+      select: {
+        id: true,
+        name: true,
+        nameVn: true,
+        icon: true,
         _count: {
           select: { vocabularies: true },
         },

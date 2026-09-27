@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 import { hashPassword } from "@/infrastructure/auth/password";
 
@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Find profile by token and verify expiry
+    // Find profile by token and verify expiry with selective projection
     const profile = await prisma.profile.findFirst({
       where: {
         passwordResetToken: String(token),
@@ -29,6 +29,7 @@ export async function POST(req: NextRequest) {
           gt: new Date(),
         },
       },
+      select: { id: true },
     });
 
     if (!profile) {
@@ -48,6 +49,7 @@ export async function POST(req: NextRequest) {
         passwordResetToken: null,
         passwordResetExpires: null,
       },
+      select: { id: true },
     });
 
     return NextResponse.json({

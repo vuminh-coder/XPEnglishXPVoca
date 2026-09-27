@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 import crypto from "crypto";
 
@@ -23,9 +23,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Check if user exists
-    const profile = await prisma.profile.findFirst({
+    // Check if user exists using indexed unique email lookup
+    const profile = await prisma.profile.findUnique({
       where: { email: trimmedEmail },
+      select: { id: true },
     });
 
     if (!profile) {
@@ -46,6 +47,7 @@ export async function POST(req: NextRequest) {
         passwordResetToken: resetToken,
         passwordResetExpires: expiresAt,
       },
+      select: { id: true },
     });
 
     return NextResponse.json({
