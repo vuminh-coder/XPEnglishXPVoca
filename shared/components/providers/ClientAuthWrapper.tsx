@@ -14,6 +14,7 @@ function AuthStateSyncer() {
 }
 
 import { FloatingAiChatbot } from "@/features/ai/components/FloatingAiChatbot";
+import { useUiStore } from "@/stores/uiStore";
 
 export default function ClientAuthWrapper({
   children,
@@ -21,11 +22,19 @@ export default function ClientAuthWrapper({
   children: React.ReactNode;
 }) {
   React.useEffect(() => {
-    if (typeof window !== "undefined" && "serviceWorker" in navigator) {
-      navigator.serviceWorker
-        .register("/sw.js")
-        .then((reg) => console.log("Service Worker registered:", reg.scope))
-        .catch((err) => console.warn("Service Worker registration failed:", err));
+    if (typeof window !== "undefined") {
+      // Restore user theme preference (light, dark, system)
+      const savedTheme = localStorage.getItem("xp_theme_preference");
+      if (savedTheme === "light" || savedTheme === "dark" || savedTheme === "system") {
+        useUiStore.getState().setTheme(savedTheme);
+      }
+
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("/sw.js")
+          .then((reg) => console.log("Service Worker registered:", reg.scope))
+          .catch((err) => console.warn("Service Worker registration failed:", err));
+      }
     }
   }, []);
 
