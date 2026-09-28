@@ -10,6 +10,12 @@ interface ProfileSkillBreakdownProps {
 }
 
 export const ProfileSkillBreakdown: React.FC<ProfileSkillBreakdownProps> = ({ skillMinutes }) => {
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const skills = [
     {
       icon: <BookOpen className="w-4 h-4 stroke-[2.2]" />,
@@ -44,7 +50,7 @@ export const ProfileSkillBreakdown: React.FC<ProfileSkillBreakdownProps> = ({ sk
   ];
 
   return (
-    <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-3.5">
+    <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-3.5" suppressHydrationWarning>
       <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 shadow-2xs">
@@ -68,11 +74,12 @@ export const ProfileSkillBreakdown: React.FC<ProfileSkillBreakdownProps> = ({ sk
         </Link>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 sm:gap-2.5 pt-1">
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 sm:gap-2.5 pt-1" suppressHydrationWarning>
         {skills.map((skill) => (
           <div
             key={skill.label}
             className="p-3 rounded-xl bg-slate-50/80 dark:bg-slate-800/50 border border-slate-200/70 dark:border-slate-800 text-center space-y-1.5 hover:border-blue-300 dark:hover:border-slate-700 transition-all"
+            suppressHydrationWarning
           >
             <div className={`w-7 h-7 rounded-xl ${skill.color} mx-auto flex items-center justify-center`}>
               {skill.icon}
@@ -81,7 +88,7 @@ export const ProfileSkillBreakdown: React.FC<ProfileSkillBreakdownProps> = ({ sk
               {skill.label}
             </div>
             <div className="text-xs font-black font-display text-slate-900 dark:text-white font-mono" suppressHydrationWarning>
-              {skill.value}m
+              {mounted ? skill.value : 0}m
             </div>
           </div>
         ))}
