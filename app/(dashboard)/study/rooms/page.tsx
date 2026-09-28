@@ -4,7 +4,7 @@ import { useAuthStore } from "@/stores/authStore";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { useUiStore } from "@/stores/uiStore";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShimmerBox, ShimmerCircle } from "@/shared/components/feedback/ShimmerSkeleton";
+import { ShimmerBox } from "@/shared/components/feedback/ShimmerSkeleton";
 import {
   Users,
   Plus,
@@ -12,21 +12,14 @@ import {
   Pause,
   RotateCcw,
   Send,
-  Sparkles,
   Lock,
   Globe,
   Flame,
-  Clock,
   LogOut,
   MessageSquare,
-  Shield,
   Bot,
-  UserCheck,
-  CheckCircle2,
   ChevronRight,
-  Headphones,
   BookOpen,
-  Hash,
   Copy,
   Check,
   X,
@@ -129,8 +122,8 @@ export default function StudyRoomsPage() {
   const [newRoomName, setNewRoomName] = useState<string>("");
   const [newRoomCategory, setNewRoomCategory] = useState<string>("TOEIC");
   const [newRoomDesc, setNewRoomDesc] = useState<string>("");
-  const [newRoomMax, setNewRoomMax] = useState<number>(20);
-  const [newRoomIsPrivate, setNewRoomIsPrivate] = useState<boolean>(false);
+  const [newRoomMax] = useState<number>(20);
+  const [newRoomIsPrivate] = useState<boolean>(false);
   const [newRoomPasscode, setNewRoomPasscode] = useState<string>("");
 
   const chatEndRef = useRef<HTMLDivElement | null>(null);
@@ -151,9 +144,11 @@ export default function StudyRoomsPage() {
     }
   };
 
+  /* eslint-disable react-hooks/set-state-in-effect -- Initial async rooms fetch on mount */
   useEffect(() => {
     fetchRooms();
   }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   // 2. Fetch room messages when entering room
   useEffect(() => {
@@ -186,6 +181,7 @@ export default function StudyRoomsPage() {
   }, [messages]);
 
   // 4. Pomodoro countdown timer tick
+  /* eslint-disable react-hooks/set-state-in-effect -- Pomodoro countdown state transitions */
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
     if (isTimerRunning && timerSeconds > 0) {
@@ -216,6 +212,7 @@ export default function StudyRoomsPage() {
       if (interval) clearInterval(interval);
     };
   }, [isTimerRunning, timerSeconds, timerMode, addToast]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const handleCreateRoom = async (e: React.FormEvent) => {
     e.preventDefault();

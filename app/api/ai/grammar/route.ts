@@ -1,10 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getGrammarLesson } from "@/features/grammar/data/grammarContent";
+import { isRateLimited } from "@/infrastructure/security/rateLimit";
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
 
 export async function POST(req: NextRequest) {
   try {
+    const clientIp = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
+    if (isRateLimited(`ai_grammar_${clientIp}`, 20, 60 * 1000)) {
+      return NextResponse.json({ error: "Too many requests. Please slow down." }, { status: 429 });
+    }
+
     const { topic, level, mode } = await req.json();
 
     if (!topic) {

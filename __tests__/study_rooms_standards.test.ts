@@ -141,10 +141,23 @@ describe("Study Rooms Performance & Query Standards", () => {
       expect(json.success).toBe(true);
 
       // Verify selective projection on room lookup
-      expect(roomLookupArgs.select).toEqual({ id: true, isPrivate: true, passcode: true });
+      expect(roomLookupArgs.select).toEqual({
+        id: true,
+        isPrivate: true,
+        passcode: true,
+        maxMembers: true,
+        _count: { select: { members: true } },
+      });
     });
 
     it("GET /api/study-rooms/[id]/members applies selective projection and bounded take: 50", async () => {
+      vi.spyOn(authModule, "getAuthenticatedUserId").mockResolvedValue("user_getter");
+      (vi.spyOn(prisma.studyRoom, "findUnique") as any).mockResolvedValue({
+        id: "123456",
+        isPrivate: false,
+        createdById: "creator_id",
+      });
+
       let membersFindArgs: any = null;
       (vi.spyOn(prisma.studyRoomMember, "findMany") as any).mockImplementation(async (args: any) => {
         membersFindArgs = args;

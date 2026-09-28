@@ -1,12 +1,19 @@
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { prisma, safeDbExecute } from "@/infrastructure/database/prisma";
 import { getLocalDateString } from "@/shared/utils/dateUtils";
+import { memoryCache } from "@/infrastructure/cache/memoryCache";
+import { isRateLimited } from "@/infrastructure/security/rateLimit";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(request: Request) {
   try {
+    const clientIp = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "unknown";
+    if (isRateLimited(`ai_chatbot_reco_${clientIp}`, 20, 60 * 1000)) {
+      return NextResponse.json({ error: "Too many requests." }, { status: 429 });
+    }
+
     const userId = await getAuthenticatedUserId(request);
     const { searchParams } = new URL(request.url);
     const pathname = searchParams.get("pathname") || "/dashboard";
@@ -19,6 +26,7 @@ export async function GET(request: Request) {
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
     sevenDaysAgo.setHours(0, 0, 0, 0);
+    const sevenDaysAgoStr = getLocalDateString(sevenDaysAgo);
 
     // Fallback data for guests or unauthenticated users
     if (isGuest) {
@@ -114,9 +122,27 @@ export async function GET(request: Request) {
       });
     }
 
-    // Authenticated user: Query real database records
+    // Check in-memory cache for authenticated user (30-second TTL)
+    const cacheKey = `chatbot_rec:${userId}`;
+    const cachedData = memoryCache.get<any>(cacheKey);
+    if (cachedData) {
+      return NextResponse.json({
+        success: true,
+        data: {
+          ...cachedData,
+          recommendations: {
+            ...cachedData.recommendations,
+            contextualTip: getContextualTip(pathname),
+          },
+        },
+      }, {
+        headers: { "X-Cache": "HIT" },
+      });
+    }
+
+    // Authenticated user: Query real database records with selective projections
     const dbData = await safeDbExecute(async () => {
-      // 1. Profile
+      // 1. Profile: selective projection
       const profile = await prisma.profile.findUnique({
         where: { id: userId },
         select: {
@@ -128,15 +154,14 @@ export async function GET(request: Request) {
         },
       });
 
-      // 2. Study Plan
+      // 2. Study Plan: selective projection (dropping unnecessary dailyTasks load)
       const studyPlan = await prisma.studyPlan.findUnique({
         where: { userId },
-        include: {
-          dailyTasks: {
-            where: {
-              date: { gte: startOfToday },
-            },
-          },
+        select: {
+          targetExam: true,
+          targetScore: true,
+          currentLevel: true,
+          weeklyHours: true,
         },
       });
 
@@ -155,29 +180,37 @@ export async function GET(request: Request) {
         },
       });
 
-      // 4. Daily skill practices (today and last 7 days)
-      const practicesToday = await prisma.dailySkillPractice.findMany({
+      // 4. Daily skill practices: Single contiguous range query leveraging @@index([userId, date])
+      const practicesRecent = await prisma.dailySkillPractice.findMany({
         where: {
           userId,
-          date: todayStr,
+          date: { gte: sevenDaysAgoStr, lte: todayStr },
+        },
+        select: {
+          skill: true,
+          date: true,
+          minutes: true,
         },
       });
 
-      const practices7d = await prisma.dailySkillPractice.findMany({
-        where: {
-          userId,
-          createdAt: { gte: sevenDaysAgo },
-        },
-      });
+      const practicesToday = practicesRecent.filter((p) => p.date === todayStr);
+      const practices7d = practicesRecent;
 
-      // 5. Listening progress (find in-progress or next unstarted)
+      // 5. Listening progress (find in-progress or next unstarted) with selective projection
       const inProgressListening = await prisma.listeningProgress.findFirst({
         where: {
           userId,
           status: "IN_PROGRESS",
         },
-        include: {
-          lesson: true,
+        select: {
+          completedSentences: true,
+          lesson: {
+            select: {
+              id: true,
+              title: true,
+              category: true,
+            },
+          },
         },
         orderBy: {
           lastPracticedAt: "desc",
@@ -194,6 +227,11 @@ export async function GET(request: Request) {
                 status: "COMPLETED",
               },
             },
+          },
+          select: {
+            id: true,
+            title: true,
+            category: true,
           },
           orderBy: {
             orderIndex: "asc",
@@ -393,62 +431,74 @@ export async function GET(request: Request) {
     const nextGrammar =
       commonGrammarTopics.find((t) => !completedSet.has(t.id)) || commonGrammarTopics[0];
 
+    const payloadData = {
+      user: {
+        level: userProfile.level,
+        totalXp: userProfile.totalXp,
+        currentStreak: userProfile.currentStreak,
+        coins: userProfile.coins,
+      },
+      targetGoal: {
+        exam: dbData?.studyPlan?.targetExam || "TOEIC",
+        score: dbData?.studyPlan?.targetScore || 750,
+        currentLevel: dbData?.studyPlan?.currentLevel || "B1",
+        weeklyHours: dbData?.studyPlan?.weeklyHours || 10,
+        completionPercentage: Math.min(
+          100,
+          Math.round((completedQuestsCount / 3) * 100)
+        ),
+      },
+      dailyQuests,
+      rewardChest: {
+        canClaim: canClaimChest,
+        isClaimed: isChestClaimedToday,
+        xpReward: 50,
+        coinReward: 20,
+      },
+      recommendations: {
+        weakestSkill: {
+          skill: weakestSkill,
+          label: weakestSkillInfo.label,
+          minutes7d: minMinutes,
+          advice: weakestSkillInfo.advice,
+          link: weakestSkillInfo.link,
+        },
+        srsDue: {
+          count: dbData?.srsDueCount || 0,
+          advice:
+            (dbData?.srsDueCount || 0) > 0
+              ? `Bạn có ${dbData?.srsDueCount} từ vựng đến hạn ôn tập hôm nay!`
+              : "Hàng đợi ôn tập sạch sẽ. Hãy tích cực học thêm từ mới!",
+          link: (dbData?.srsDueCount || 0) > 0 ? "/review" : "/vocabulary",
+        },
+        nextListening: nextListeningInfo,
+        nextGrammar: {
+          topicId: nextGrammar.id,
+          title: nextGrammar.title,
+          advice: "Chuyên đề ngữ pháp cốt lõi cần làm chủ để tối đa điểm số.",
+          link: `/study/grammar/${nextGrammar.id}`,
+        },
+      },
+      studySummary: {
+        totalVocabLearned: dbData?.wordsLearnedToday || 0,
+        studyTimeToday: totalStudyMinutesToday,
+      },
+    };
+
+    // Store in memory cache for 30s
+    memoryCache.set(cacheKey, payloadData, 30);
+
     return NextResponse.json({
       success: true,
       data: {
-        user: {
-          level: userProfile.level,
-          totalXp: userProfile.totalXp,
-          currentStreak: userProfile.currentStreak,
-          coins: userProfile.coins,
-        },
-        targetGoal: {
-          exam: dbData?.studyPlan?.targetExam || "TOEIC",
-          score: dbData?.studyPlan?.targetScore || 750,
-          currentLevel: dbData?.studyPlan?.currentLevel || "B1",
-          weeklyHours: dbData?.studyPlan?.weeklyHours || 10,
-          completionPercentage: Math.min(
-            100,
-            Math.round((completedQuestsCount / 3) * 100)
-          ),
-        },
-        dailyQuests,
-        rewardChest: {
-          canClaim: canClaimChest,
-          isClaimed: isChestClaimedToday,
-          xpReward: 50,
-          coinReward: 20,
-        },
+        ...payloadData,
         recommendations: {
-          weakestSkill: {
-            skill: weakestSkill,
-            label: weakestSkillInfo.label,
-            minutes7d: minMinutes,
-            advice: weakestSkillInfo.advice,
-            link: weakestSkillInfo.link,
-          },
-          srsDue: {
-            count: dbData?.srsDueCount || 0,
-            advice:
-              (dbData?.srsDueCount || 0) > 0
-                ? `Bạn có ${dbData?.srsDueCount} từ vựng đến hạn ôn tập hôm nay!`
-                : "Hàng đợi ôn tập sạch sẽ. Hãy tích cực học thêm từ mới!",
-            link: (dbData?.srsDueCount || 0) > 0 ? "/review" : "/vocabulary",
-          },
-          nextListening: nextListeningInfo,
-          nextGrammar: {
-            topicId: nextGrammar.id,
-            title: nextGrammar.title,
-            advice: "Chuyên đề ngữ pháp cốt lõi cần làm chủ để tối đa điểm số.",
-            link: `/study/grammar/${nextGrammar.id}`,
-          },
+          ...payloadData.recommendations,
           contextualTip: getContextualTip(pathname),
         },
-        studySummary: {
-          totalVocabLearned: dbData?.wordsLearnedToday || 0,
-          studyTimeToday: totalStudyMinutesToday,
-        },
       },
+    }, {
+      headers: { "X-Cache": "MISS" },
     });
   } catch (error: any) {
     console.error("GET /api/ai/chatbot/recommendations error:", error);

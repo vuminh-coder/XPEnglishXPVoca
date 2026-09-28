@@ -3,8 +3,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { useVocabularyStore } from "@/stores/vocabularyStore";
 import { useAuthStore } from "@/stores/authStore";
-import { PageEntranceWrapper, MotionItem } from "@/shared/components/feedback/PageEntranceAnimation";
-import { motion, AnimatePresence } from "framer-motion";
+import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAnimation";
 import { speakLessonText } from "@/shared/utils/ttsEngine";
 import {
   FolderOpen,
@@ -16,11 +15,7 @@ import {
   Inbox,
   ArrowRight,
   Search,
-  BookOpen,
   Sparkles,
-  CheckCircle2,
-  Clock,
-  ListOrdered,
 } from "lucide-react";
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { VocabSuiteNavTabs } from "@/shared/components/layout/nav-tabs";

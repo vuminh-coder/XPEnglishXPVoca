@@ -1,10 +1,10 @@
-﻿import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 
 export async function GET(request: Request) {
   try {
-    const userId = await getAuthenticatedUserId();
+    const userId = await getAuthenticatedUserId(request);
     const { searchParams } = new URL(request.url);
     const query = searchParams.get("q") || "";
 

@@ -9,21 +9,15 @@ import {
   Sparkles,
   Info,
   CheckCircle2,
-  HelpCircle,
-  Keyboard,
-  ArrowRight,
   X,
-  Zap,
   Languages,
   PenLine,
-  ShieldCheck,
 } from "lucide-react";
 import { useUiStore } from "@/stores/uiStore";
 import {
   checkNearMissTypo,
   checkEquivalenceMatch,
   playSyntheticAudioFeedback,
-  saveSentenceDraft,
   loadSentenceDraft,
   clearSentenceDraft,
 } from "@/features/listening/utils/dictationEngine";
@@ -150,8 +144,6 @@ export function DictationWorkspace({
   isActive = true,
   customProperNouns,
   showTranslationByDefault = false,
-  playbackSpeed = 1.0,
-  onSpeedChange,
   fontSizeLevel = 0,
   hideTranslation = false,
   isSidebarCollapsed,
@@ -168,7 +160,7 @@ export function DictationWorkspace({
   const [isCompleted, setIsCompleted] = useState(false);
 
   // Web Audio Synthetic Dopamine Sound Feedback Toggle
-  const [isSoundFeedbackEnabled, setIsSoundFeedbackEnabled] = useState<boolean>(() => {
+  const [isSoundFeedbackEnabled] = useState<boolean>(() => {
     if (typeof window === "undefined") return true;
     try {
       const saved = localStorage.getItem("xp_sound_feedback");
@@ -187,6 +179,7 @@ export function DictationWorkspace({
   const tokenItemRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   // Hydrate sentence draft from sessionStorage
+  /* eslint-disable react-hooks/set-state-in-effect -- Hydrating draft from external sessionStorage */
   useEffect(() => {
     if (lessonId && sentenceIndex !== undefined) {
       const draft = loadSentenceDraft(lessonId, sentenceIndex);
@@ -195,13 +188,16 @@ export function DictationWorkspace({
       }
     }
   }, [lessonId, sentenceIndex]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   // Sync hideTranslation prop changes
+  /* eslint-disable react-hooks/set-state-in-effect -- Prop synchronization */
   useEffect(() => {
     if (hideTranslation) {
       setShowTranslation(false);
     }
   }, [hideTranslation]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   // Dynamic font sizing classes based on fontSizeLevel (to rõ, dễ đọc)
   const tokenSizeClass = useMemo(() => {
@@ -263,12 +259,14 @@ export function DictationWorkspace({
   }, [tokens, isCollapsed]);
 
   // Reset tokens whenever sentenceText changes
+  /* eslint-disable react-hooks/set-state-in-effect -- Resetting workspace state on sentence change */
   useEffect(() => {
     setTokens(tokenizeSentence(sentenceText, properNouns));
     setInputValue("");
     setInputStatus("idle");
     setIsCompleted(false);
   }, [sentenceText, properNouns]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   // Handle sentence completion
   const checkCompletion = useCallback(
@@ -307,7 +305,6 @@ export function DictationWorkspace({
 
       let nextTokens = [...tokens];
       let anyMatchFound = false;
-      let matchedAnyWord = false;
       let detectedNearMiss: string | null = null;
       let detectedEquiv: string | null = null;
 
@@ -329,7 +326,6 @@ export function DictationWorkspace({
 
             if (isDirect || isEquiv) {
               matched = true;
-              matchedAnyWord = true;
               anyMatchFound = true;
               if (isEquiv) {
                 detectedEquiv = `Đã chuẩn hóa: "${typedRaw}" tương đương "${token.clean}"`;
@@ -557,6 +553,9 @@ export function DictationWorkspace({
           <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-xs font-medium">
             <Info className="w-3.5 h-3.5 text-slate-400" />
             <span>Nhấn để xem từ</span>
+            <span className="text-slate-400 dark:text-slate-500">
+              ({solvedCount}/{tokens.length} - {progressPercent}%)
+            </span>
           </div>
 
           <button
@@ -725,6 +724,34 @@ export function DictationWorkspace({
             </button>
           )}
         </motion.div>
+
+        {/* Near Miss Hint or Contraction Note Feedback */}
+        <AnimatePresence>
+          {nearMissHint && (
+            <motion.div
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -4 }}
+              className="mt-1.5 flex items-center gap-1.5 text-xs text-amber-600 dark:text-amber-400 font-medium"
+            >
+              <Info className="w-3.5 h-3.5 shrink-0" />
+              <span>
+                Gần đúng! Có thể bạn gõ sai chính tả: <strong>{nearMissHint}</strong>
+              </span>
+            </motion.div>
+          )}
+          {equivalenceNote && (
+            <motion.div
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -4 }}
+              className="mt-1.5 flex items-center gap-1.5 text-xs text-emerald-600 dark:text-emerald-400 font-medium"
+            >
+              <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+              <span>{equivalenceNote}</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* 4. ACTION SHORTCUT BUTTONS BAR */}

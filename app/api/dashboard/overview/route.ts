@@ -62,6 +62,23 @@ export async function GET(request: Request) {
           }
         );
       }
+
+      // In-flight request coalescing to prevent cache stampedes
+      if (inFlightOverviewMap.has(userId)) {
+        const inFlightData = await inFlightOverviewMap.get(userId);
+        return NextResponse.json(
+          {
+            success: true,
+            data: inFlightData,
+          },
+          {
+            headers: {
+              "Cache-Control": "private, s-maxage=30, stale-while-revalidate=60",
+              "X-Cache": "IN_FLIGHT_COALESCED",
+            },
+          }
+        );
+      }
     }
     const { startOfWeekStr, endOfWeekStr } = getWeekDateRange();
 
@@ -127,7 +144,8 @@ export async function GET(request: Request) {
       });
     }
 
-    const overviewData = await safeDbExecute(async () => {
+    const fetchOverviewData = async () => {
+      return await safeDbExecute(async () => {
         const startOfWeekDate = new Date(`${startOfWeekStr}T00:00:00.000Z`);
         const endOfWeekDate = new Date(`${endOfWeekStr}T23:59:59.999Z`);
         const startOfToday = new Date();
@@ -138,6 +156,9 @@ export async function GET(request: Request) {
 
         const minListeningDate = startOfWeekDate < startRollingDate ? startOfWeekDate : startRollingDate;
         const maxListeningDate = endOfWeekDate > endRollingDate ? endOfWeekDate : endRollingDate;
+
+        const minDateStr = startOfWeekStr < rollingDates[0] ? startOfWeekStr : rollingDates[0];
+        const maxDateStr = endOfWeekStr > rollingDates[rollingDates.length - 1] ? endOfWeekStr : rollingDates[rollingDates.length - 1];
 
         // SINGLE ROOT QUERY ARCHITECTURE:
         // Consolidates 8 parallel queries into 1 single query on Profile using nested relations and filtered _count.
@@ -151,13 +172,10 @@ export async function GET(request: Request) {
             coins: true,
             minutesStudied: true,
             updatedAt: true,
-            // 1. DailySkillPractice (this week + rolling chart dates)
+            // 1. DailySkillPractice (contiguous range for index efficiency)
             dailySkillPractices: {
               where: {
-                OR: [
-                  { date: { gte: startOfWeekStr, lte: endOfWeekStr } },
-                  { date: { in: rollingDates } },
-                ],
+                date: { gte: minDateStr, lte: maxDateStr },
               },
               select: { date: true, skill: true, minutes: true, xpEarned: true },
             },
@@ -176,9 +194,21 @@ export async function GET(request: Request) {
               where: { lastPracticed: { gte: startOfWeekDate, lte: endOfWeekDate } },
               select: { lastPracticed: true },
             },
-            // 5. StudyPlan with dailyTasks
+            // 5. StudyPlan with selective, bounded dailyTasks (Leverages @@index([planId, date]))
             studyPlan: {
-              include: { dailyTasks: { orderBy: { date: "asc" } } },
+              select: {
+                id: true,
+                dailyTasks: {
+                  where: {
+                    date: {
+                      gte: startOfToday,
+                    },
+                  },
+                  take: 7,
+                  orderBy: { date: "asc" },
+                  select: { date: true, description: true },
+                },
+              },
             },
             // 6. Filtered counts computed inside PostgreSQL engine
             _count: {
@@ -346,6 +376,21 @@ export async function GET(request: Request) {
           skillPractice,
         };
       }, "Dashboard Overview Query");
+    };
+
+    const overviewPromise = fetchOverviewData();
+    if (!isGuest) {
+      inFlightOverviewMap.set(userId, overviewPromise);
+    }
+
+    let overviewData;
+    try {
+      overviewData = await overviewPromise;
+    } finally {
+      if (!isGuest) {
+        inFlightOverviewMap.delete(userId);
+      }
+    }
 
     if (!isGuest && overviewData) {
       memoryCache.set(cacheKey, overviewData, 30);

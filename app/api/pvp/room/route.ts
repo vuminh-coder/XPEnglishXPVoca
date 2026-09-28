@@ -1,4 +1,4 @@
-﻿import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 
@@ -51,11 +51,14 @@ export async function POST(request: Request) {
   try {
     cleanupExpiredRooms();
     const body = await request.json();
-    const { action, userId: bodyUserId } = body;
+    const { action } = body;
 
+    // SECURITY: Only trust authenticated session — never accept client-provided userId
+    // Prevents identity spoofing where attackers pass x-user-id or body.userId to impersonate host
     let userId: string = (await getAuthenticatedUserId(request)) || "";
     if (!userId) {
-      userId = request.headers.get("x-user-id") || bodyUserId || "guest_pvp_user";
+      // Generate unique ephemeral guest ID per session — NOT from client input
+      userId = `guest_pvp_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
     }
 
     // 1. CREATE ROOM

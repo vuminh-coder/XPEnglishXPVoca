@@ -1,9 +1,9 @@
 import { describe, it, expect } from "vitest";
 import { MOCK_EXAM_PAPERS } from "@/features/exam-prep";
 
-describe("Comprehensive 37-Exam Bank Deep Audit", () => {
-  it("contains exactly 37 standardized exam papers", () => {
-    expect(MOCK_EXAM_PAPERS).toHaveLength(37);
+describe("Comprehensive Standardized Exam Bank Deep Audit", () => {
+  it("contains standardized exam papers (39 verified papers)", () => {
+    expect(MOCK_EXAM_PAPERS).toHaveLength(39);
   });
 
   it("verifies unique paper IDs and titles", () => {

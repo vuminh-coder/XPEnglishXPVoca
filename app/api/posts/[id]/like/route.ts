@@ -63,6 +63,12 @@ export async function POST(
 
     return NextResponse.json({ success: true, data: { liked, likesCount } });
   } catch (error: any) {
+    // Gracefully handle double-click race condition (P2002 unique constraint on like)
+    if (error?.code === "P2002") {
+      const { id: postId } = await params;
+      const likesCount = await prisma.like.count({ where: { postId } }).catch(() => 0);
+      return NextResponse.json({ success: true, data: { liked: true, likesCount } });
+    }
     console.error("POST /api/posts/[id]/like error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

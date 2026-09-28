@@ -1,10 +1,10 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useAuthStore } from "@/stores/authStore";
 import { useUiStore } from "@/stores/uiStore";
-import { useAiChatbotStore } from "@/stores/aiChatbotStore";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Home,
@@ -19,7 +19,7 @@ import {
   PanelLeft,
   ChevronDown,
   ChevronRight,
-  Sparkles,
+
   Crown,
   Video,
   ListOrdered,
@@ -188,11 +188,11 @@ function SidebarNavInner({
     toggleSidebar,
     toggleSidebarCollapsed,
   } = useUiStore();
-  const [showUserMenu, setShowUserMenu] = useState(false);
-  const [showThemeSubmenu, setShowThemeSubmenu] = useState(false);
-  const userMenuRef = useRef<HTMLDivElement | null>(null);
+  const [showUserMenu, setShowUserMenu] = React.useState(false);
+  const [showThemeSubmenu, setShowThemeSubmenu] = React.useState(false);
+  const userMenuRef = React.useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (
         userMenuRef.current &&
@@ -228,9 +228,11 @@ function SidebarNavInner({
                 className="mx-auto flex items-center justify-center w-8 h-8 transition-transform active:scale-95 my-[1.5px] py-[0.5px] select-none"
                 title="Trang chủ"
               >
-                <img
+                <Image
                   src="/icons/icon-any-192x192.png"
                   alt="XP Logo"
+                  width={32}
+                  height={32}
                   className="w-full h-full object-contain block select-none pointer-events-none rounded-xs"
                 />
               </Link>
@@ -481,7 +483,7 @@ function SidebarNavInner({
                     onTouchStart={() => prefetchRouteData("/profile")}
                     onClick={() => {
                       setShowUserMenu(false);
-                      sidebarOpen && toggleSidebar();
+                      if (sidebarOpen) toggleSidebar();
                     }}
                     className="flex items-center gap-3 px-3 py-2 rounded-xl font-medium text-[13px] text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
                   >
@@ -781,11 +783,11 @@ export function SidebarSkeleton({ collapsed = false }: { collapsed?: boolean }) 
 }
 
 export default function Sidebar() {
-  const [mounted, setMounted] = useState(false);
+  const [mounted, setMounted] = React.useState(false);
   const { user, logout } = useAuthStore();
   const { sidebarCollapsed } = useUiStore();
 
-  useEffect(() => {
+  React.useEffect(() => {
     setMounted(true);
   }, []);
 

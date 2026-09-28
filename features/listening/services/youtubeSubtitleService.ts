@@ -1,7 +1,5 @@
 import { SubtitleSentence } from "@/stores/videoStore";
 import {
-  parseTimedTextXml,
-  parseVnTimedTextXml,
   parseTimedTextAny,
   parseVnTimedTextAny,
   alignBilingualSubtitles,
@@ -12,7 +10,6 @@ import {
   shiftTimestampSec,
   WordTimingItem,
 } from "@/features/listening/services/youtubeSubtitleParser";
-import { fetchLrclibSyncedLyrics } from "@/features/listening/services/lrclibLyricsService";
 
 export interface DetailedBilingualSubtitleItem {
   id: number;
@@ -80,18 +77,19 @@ export async function fetchYouTubeRealSubtitles(
  */
 export async function processHighPrecisionSubtitles(
   videoId: string,
-  videoTitle: string
+  videoTitle?: string
 ): Promise<{
   storeSubtitles: SubtitleSentence[];
   fullResult: SubtitleExtractionResult;
 }> {
+  void videoTitle;
   // Check Cache HIT
   if (subtitleResultCache.has(videoId)) {
     console.log(`[Subtitle Service Cache HIT] Returning cached high-precision subtitles for "${videoId}" instantly!`);
     return subtitleResultCache.get(videoId)!;
   }
 
-  const rawSentences: RawSubtitleItem[] = await fetchRawTimedTextData(videoId, videoTitle);
+  const rawSentences: RawSubtitleItem[] = await fetchRawTimedTextData(videoId);
 
   if (!rawSentences || rawSentences.length === 0) {
     throw new Error("Video YouTube này không có phụ đề khả dụng để trích xuất.");
@@ -174,7 +172,7 @@ export async function processHighPrecisionSubtitles(
 /**
  * Robust Multi-Tier Caption Data Fetcher (Server Route -> Client Direct -> Client Proxy Fallback)
  */
-async function fetchRawTimedTextData(videoId: string, videoTitle?: string): Promise<RawSubtitleItem[]> {
+async function fetchRawTimedTextData(videoId: string): Promise<RawSubtitleItem[]> {
   let data: any = null;
   try {
     const apiRes = await fetch(`/api/youtube/captions?videoId=${videoId}`);
@@ -248,7 +246,7 @@ async function clientFetchWithProxies(urls: string[]): Promise<string> {
           return text;
         }
       }
-    } catch (e) {}
+    } catch {}
   }
 
   // Tier 1-4: External proxy services
@@ -271,7 +269,7 @@ async function clientFetchWithProxies(urls: string[]): Promise<string> {
             return text;
           }
         }
-      } catch (e) {}
+      } catch {}
     }
   }
 
@@ -284,7 +282,7 @@ async function clientFetchWithProxies(urls: string[]): Promise<string> {
 async function fetchTracksOnClient(
   tracks: { lang: string; kind?: string; baseUrl: string }[]
 ): Promise<RawSubtitleItem[]> {
-  let enTrack = tracks.find((t) => t.lang?.startsWith("en")) || tracks[0];
+  const enTrack = tracks.find((t) => t.lang?.startsWith("en")) || tracks[0];
   if (!enTrack || !enTrack.baseUrl) return [];
 
   const enUrls = [

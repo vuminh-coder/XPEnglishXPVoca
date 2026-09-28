@@ -35,7 +35,6 @@ const SentenceReportModal = dynamic(
 import {
   resolveCanonicalLessonId,
   isSameLessonId,
-  resolveLessonId,
 } from "@/features/listening/utils/lessonIdHelper";
 
 // Dual Row Level Definition Sets
@@ -294,11 +293,13 @@ function ListeningPageContent() {
     }
   });
 
+  /* eslint-disable react-hooks/set-state-in-effect -- Sync accent from current lesson */
   useEffect(() => {
     if (currentLesson?.accent) {
       setCurrentAccent(currentLesson.accent);
     }
   }, [currentLesson?.accent]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   // Zero-latency Audio Prefetch: Prefetch sentence N+1 in memory
   useEffect(() => {
@@ -310,6 +311,7 @@ function ListeningPageContent() {
   }, [currentLesson, currentSentenceIndex, currentAccent]);
 
   // 1. SWR Instant 0ms Local Cache Hydration & Background Neon DB Fetch for Catalog (Dashboard Architecture)
+  /* eslint-disable react-hooks/set-state-in-effect -- SWR catalog hydration and fetch */
   useEffect(() => {
     let isMounted = true;
     const catalogCacheKey = `xp_voca_listening_catalog_${user?.id || "guest"}`;
@@ -348,9 +350,9 @@ function ListeningPageContent() {
           setLessonsList(json.data);
           try {
             localStorage.setItem(catalogCacheKey, JSON.stringify(json.data));
-          } catch (e) {}
-        } else if (isMounted && lessonsList.length === 0) {
-          setLessonsList(MOCK_LESSONS_DATA);
+          } catch {}
+        } else if (isMounted) {
+          setLessonsList((prev) => (prev.length === 0 ? MOCK_LESSONS_DATA : prev));
         }
       } catch (err: any) {
         if (!isMounted) return;
@@ -359,12 +361,17 @@ function ListeningPageContent() {
         } else {
           console.warn("[Listening] DB fetch fallback to offline cache:", err?.message || err);
         }
-        if (isMounted && lessonsList.length === 0) {
-          setLessonsList(MOCK_LESSONS_DATA);
-          addToast({
-            type: "warning",
-            title: "Chế độ offline",
-            message: "Không thể tải danh mục từ máy chủ Neon. Đang hiển thị danh mục offline.",
+        if (isMounted) {
+          setLessonsList((prev) => {
+            if (prev.length === 0) {
+              addToast({
+                type: "warning",
+                title: "Chế độ offline",
+                message: "Không thể tải danh mục từ máy chủ Neon. Đang hiển thị danh mục offline.",
+              });
+              return MOCK_LESSONS_DATA;
+            }
+            return prev;
           });
         }
       } finally {
@@ -379,6 +386,7 @@ function ListeningPageContent() {
       controller.abort();
     };
   }, [user?.id, addToast]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const [, setIsSyncingDb] = useState(false);
   const [isShufflingBasic, setIsShufflingBasic] = useState(false);
@@ -396,6 +404,7 @@ function ListeningPageContent() {
   }, [selectedLessonId, rawIdParam, lessonsList]);
 
   // 2. SWR Instant 0ms Local Cache Hydration & Background Neon DB Fetch for Lesson Detail (Dashboard Architecture)
+  /* eslint-disable react-hooks/set-state-in-effect, react-hooks/exhaustive-deps -- SWR single lesson detail hydration and fetch */
   useEffect(() => {
     if (!selectedLessonId && !rawIdParam) {
       setIsLoadingLessonDetail(false);
@@ -516,7 +525,7 @@ function ListeningPageContent() {
             if (rawIdParam) {
               localStorage.setItem(`xp_voca_listening_detail_${rawIdParam}_${user?.id || "guest"}`, JSON.stringify(detail));
             }
-          } catch (e) {}
+          } catch {}
 
           setLessonsList((prev) => {
             const idx = prev.findIndex((l) => isSameLessonId(l.id, detail.id));
@@ -584,6 +593,7 @@ function ListeningPageContent() {
       controller.abort();
     };
   }, [canonicalQueryId, user?.id, rawIdParam, addToast]);
+  /* eslint-enable react-hooks/set-state-in-effect, react-hooks/exhaustive-deps */
 
   // Current sentence bookmark key
   const currentSentenceKey = `${selectedLessonId || "lesson"}_${currentSentenceIndex}`;
@@ -697,6 +707,7 @@ function ListeningPageContent() {
   };
 
   // Sync URL & Auto collapse sidebar
+  /* eslint-disable react-hooks/set-state-in-effect -- Sync URL query param to selectedLessonId */
   useEffect(() => {
     if (rawIdParam && !isLeavingStudioRef.current) {
       const canonical = resolveCanonicalLessonId(rawIdParam, lessonsList);
@@ -707,6 +718,7 @@ function ListeningPageContent() {
       }
     }
   }, [rawIdParam, lessonsList, selectedLessonId, setCurrentLessonId, setSidebarCollapsed]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   // Automatically ensure sidebar is collapsed when in listening studio workspace
   useEffect(() => {
@@ -727,6 +739,7 @@ function ListeningPageContent() {
   const [displayedBasicLessons, setDisplayedBasicLessons] = useState<any[]>([]);
   const [displayedAdvancedLessons, setDisplayedAdvancedLessons] = useState<any[]>([]);
 
+  /* eslint-disable react-hooks/set-state-in-effect -- Synchronizing filtered lesson lists from search */
   useEffect(() => {
     const easyPool = lessonsList.filter((l) => BASIC_LEVELS.has(l.level));
     const hardPool = lessonsList.filter((l) => ADVANCED_LEVELS.has(l.level));
@@ -752,6 +765,7 @@ function ListeningPageContent() {
       setDisplayedAdvancedLessons(pick10RandomLessons(safeAdv, completedLessonIds || []).slice(0, 8));
     }
   }, [lessonsList, completedLessonIds, listingSearch]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const handleShuffleBasic = () => {
     setIsShufflingBasic(true);
@@ -1263,7 +1277,7 @@ function ListeningPageContent() {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [currentLesson, currentSentenceIndex, playingSentenceText, playbackSpeed, totalSentencesCount, addToast]);
+  }, [currentLesson, currentSentenceIndex, playingSentenceText, playbackSpeed, totalSentencesCount, addToast, handleSpeakSentence]);
 
   // Loading Fallbacks (0px CLS Geometric Skeletons)
   if (rawIdParam || selectedLessonId) {

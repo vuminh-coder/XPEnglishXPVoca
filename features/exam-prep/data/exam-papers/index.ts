@@ -36,6 +36,8 @@ export * from "./ielts_lw_studio_01";
 export * from "./toeic_lw_workplace_01";
 export * from "./ielts_rs_studio_01";
 export * from "./toeic_rs_business_01";
+export * from "./toeic_lr_2026_05";
+export * from "./ielts_academic_4k_07";
 
 import { ExamPaper } from "./types";
 import { toeicLr202601Paper } from "./toeic_lr_2026_01";
@@ -75,6 +77,8 @@ import { ieltsLwStudio01Paper } from "./ielts_lw_studio_01";
 import { toeicLwWorkplace01Paper } from "./toeic_lw_workplace_01";
 import { ieltsRsStudio01Paper } from "./ielts_rs_studio_01";
 import { toeicRsBusiness01Paper } from "./toeic_rs_business_01";
+import { toeicLr202605Paper } from "./toeic_lr_2026_05";
+import { ieltsAcademic4k07Paper } from "./ielts_academic_4k_07";
 
 export const MOCK_EXAM_PAPERS: ExamPaper[] = [
   toeicLr202601Paper,
@@ -114,4 +118,7 @@ export const MOCK_EXAM_PAPERS: ExamPaper[] = [
   toeicLwWorkplace01Paper,
   ieltsRsStudio01Paper,
   toeicRsBusiness01Paper,
+  toeicLr202605Paper,
+  ieltsAcademic4k07Paper,
 ];
+

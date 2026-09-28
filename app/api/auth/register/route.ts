@@ -3,9 +3,18 @@ import { prisma } from "@/infrastructure/database/prisma";
 import { hashPassword } from "@/infrastructure/auth/password";
 import { signAuthToken } from "@/infrastructure/auth/jwt";
 import { sanitizeInput, isValidEmail } from "@/infrastructure/security/validation";
+import { isRateLimited } from "@/infrastructure/security/rateLimit";
 
 export async function POST(req: NextRequest) {
   try {
+    // Anti-spam: 3 registrations per hour per IP
+    const clientIp = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
+    if (isRateLimited(`auth_register_${clientIp}`, 3, 60 * 60 * 1000)) {
+      return NextResponse.json(
+        { success: false, error: "Quá nhiều lần đăng ký. Vui lòng thử lại sau." },
+        { status: 429 }
+      );
+    }
     const body = await req.json();
     const { fullName, email, password } = body;
 

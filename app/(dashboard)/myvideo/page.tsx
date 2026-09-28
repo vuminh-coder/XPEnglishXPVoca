@@ -16,6 +16,7 @@ import { useAuthStore } from "@/stores/authStore";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { VocabSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
+import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 
 import dynamic from "next/dynamic";
 
@@ -86,6 +87,9 @@ export default function MyVideoPage() {
   const [activeVideo, setActiveVideo] = useState<YouTubeVideoItem | null>(null);
   const [rightPanelTab, setRightPanelTab] = useState<"subtitles" | "dictation" | "playlist">("subtitles");
   const [subViewMode, setSubViewMode] = useState<"rolling" | "full">("rolling");
+
+  // Track study time when a video is actively loaded
+  useStudyTimeTracker("dictation", { activeCondition: activeVideo !== null });
 
   // Load saved videos on mount
   useEffect(() => {

@@ -143,7 +143,7 @@ export async function POST(request: Request) {
       const updatedProfile = await tx.profile.update({
         where: { id: userId },
         data: {
-          totalXp: newXp,
+          totalXp: { increment: xpGained },
           level: newLevel,
           title: newTitle,
           coins: { increment: totalCoinsGained },

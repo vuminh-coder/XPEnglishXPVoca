@@ -8,7 +8,6 @@ import {
   Flame,
   Sparkles,
   Coins,
-  Swords,
   X,
   Wand2,
   Headphones,
@@ -83,10 +82,13 @@ export default function DashboardPage() {
   const [isLoadingChart, setIsLoadingChart] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
+  /* eslint-disable react-hooks/set-state-in-effect -- Client mount detection */
   useEffect(() => {
     setIsMounted(true);
   }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
+  /* eslint-disable react-hooks/set-state-in-effect -- SWR instant cache hydration and dashboard overview fetch */
   useEffect(() => {
     if (typeof window !== "undefined") {
       useUserStore.getState().checkSession();
@@ -169,7 +171,7 @@ export default function DashboardPage() {
           // E. Update instant SWR cache in LocalStorage
           try {
             localStorage.setItem(overviewCacheKey, JSON.stringify(data));
-          } catch (e) {
+          } catch {
             // ignore storage quota error
           }
         }
@@ -191,10 +193,12 @@ export default function DashboardPage() {
       isMounted = false;
     };
   }, [initChallenges, user?.id]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const [leaderboardData, setLeaderboardData] = useState<any[]>([]);
   const [isLoadingLeaderboard, setIsLoadingLeaderboard] = useState<boolean>(true);
 
+  /* eslint-disable react-hooks/set-state-in-effect -- SWR instant leaderboard cache hydration */
   useEffect(() => {
     let isMounted = true;
     const lbCacheKey = `xp_voca_lb_${leaderboardTab}_${leaderboardCriterion}`;
@@ -209,7 +213,7 @@ export default function DashboardPage() {
             setIsLoadingLeaderboard(false);
           }
         }
-      } catch (e) {}
+      } catch {}
     }
 
     const fetchLeaderboard = async () => {
@@ -220,7 +224,7 @@ export default function DashboardPage() {
           setLeaderboardData(json.data);
           try {
             sessionStorage.setItem(lbCacheKey, JSON.stringify(json.data));
-          } catch (e) {}
+          } catch {}
         }
       } catch (e) {
         console.error("Error fetching dashboard leaderboard:", e);
@@ -236,6 +240,7 @@ export default function DashboardPage() {
       isMounted = false;
     };
   }, [leaderboardTab, leaderboardCriterion]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const wordsPracticedToday = useMemo(() => {
     if (!isMounted || !user) return 0;
@@ -250,6 +255,7 @@ export default function DashboardPage() {
   }, [isMounted, learned, user]);
 
   const skillWeeklyChartData = useMemo(() => {
+    void chartDataVersion;
     if (!isMounted) {
       return getWeeklySkillMinutes(user?.id, activeSkillTab, {
         getItem: () => null,

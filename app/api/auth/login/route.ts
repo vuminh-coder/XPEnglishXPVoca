@@ -2,9 +2,18 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 import { comparePassword } from "@/infrastructure/auth/password";
 import { signAuthToken } from "@/infrastructure/auth/jwt";
+import { isRateLimited } from "@/infrastructure/security/rateLimit";
 
 export async function POST(req: NextRequest) {
   try {
+    // Brute-force protection: 5 login attempts per 15 minutes per IP
+    const clientIp = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
+    if (isRateLimited(`auth_login_${clientIp}`, 5, 15 * 60 * 1000)) {
+      return NextResponse.json(
+        { success: false, error: "Quá nhiều lần thử đăng nhập. Vui lòng đợi 15 phút." },
+        { status: 429 }
+      );
+    }
     const body = await req.json();
     const { emailOrUsername, password } = body;
 

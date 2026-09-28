@@ -2,11 +2,11 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import Link from "next/link";
 import { useAuthStore } from "@/stores/authStore";
-import { useUserStore, recordSkillPractice } from "@/stores/userStore";
+import { useUserStore } from "@/stores/userStore";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { useUiStore } from "@/stores/uiStore";
 import { motion, AnimatePresence } from "framer-motion";
-import { UserAvatar, formatCleanName } from "@/shared/components/feedback/UserAvatar";
+import { UserAvatar } from "@/shared/components/feedback/UserAvatar";
 import { speakLessonText } from "@/shared/utils/ttsEngine";
 import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 import { lookupWordDeep } from "@/features/vocabulary/data/deepDictionary";
@@ -20,57 +20,21 @@ import {
   VolumeX,
   Sparkles,
   CheckCircle2,
-  AlertCircle,
   Clock,
-  Target,
   Bot,
   Square,
-  RefreshCw,
   Send,
   BookMarked,
   X,
   BookmarkCheck,
-  ChevronRight,
-  Languages,
   MessageSquare,
-  Headphones,
   Award,
-  Zap,
   Lightbulb,
   Check,
-  Star,
-  SlidersHorizontal,
-  Flame,
   RotateCcw,
-  TrendingUp,
-  ArrowRight,
   History,
   CheckCircle,
-  HelpCircle,
-  Quote,
-  Wand2,
 } from "lucide-react";
-
-const SpeakingIcon = ({
-  className = "w-3.5 h-3.5",
-}: {
-  className?: string;
-}) => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2.1"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}
-  >
-    <path d="M14 15a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v2" />
-    <circle cx="9" cy="7" r="3" />
-    <path d="M17 9a3 3 0 0 1 0 6" />
-    <path d="M20 7a6 6 0 0 1 0 10" />
-  </svg>
-);
 
 interface SuggestedWord {
   word: string;
@@ -280,6 +244,7 @@ export default function AiTutorWorkspace() {
   }, [setSidebarCollapsed]);
 
   // Hydrate persona and speed settings from localStorage
+  /* eslint-disable react-hooks/set-state-in-effect -- Hydrating UI state from localStorage on mount */
   useEffect(() => {
     try {
       const savedPersona = localStorage.getItem("xp_voca_ai_tutor_persona");
@@ -295,8 +260,10 @@ export default function AiTutorWorkspace() {
       }
     } catch {}
   }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   // Hydrate active session from Database & LocalStorage on initial load
+  /* eslint-disable react-hooks/set-state-in-effect -- Hydrating session state from localStorage/DB on mount */
   useEffect(() => {
     // 1. Immediate zero-latency hydration from LocalStorage
     try {
@@ -355,6 +322,7 @@ export default function AiTutorWorkspace() {
       })
       .catch((err) => console.warn("[AiTutor] Active session hydration notice:", err));
   }, [addToast]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   // Fetch past session history from API / local fallback
   const fetchSessionHistory = async () => {
@@ -580,7 +548,7 @@ export default function AiTutorWorkspace() {
       if (speechRecognitionRef.current) {
         try {
           speechRecognitionRef.current.stop();
-        } catch (e) {}
+        } catch {}
       }
 
       const recognition = new SpeechRecognition();
@@ -633,7 +601,7 @@ export default function AiTutorWorkspace() {
         if (isRecordingRef.current) {
           try {
             recognition.start();
-          } catch (e) {
+          } catch {
             stopRecordingOnly();
           }
         } else {
@@ -665,7 +633,7 @@ export default function AiTutorWorkspace() {
     if (speechRecognitionRef.current) {
       try {
         speechRecognitionRef.current.stop();
-      } catch (e) {}
+      } catch {}
       speechRecognitionRef.current = null;
     }
   };
@@ -804,20 +772,18 @@ export default function AiTutorWorkspace() {
       }));
   }, [messages]);
 
-  const allSuggestedWords = useMemo(() => {
-    const map = new Map<string, string>();
-    messages.forEach((m) => {
-      m.suggestedWords?.forEach((w) => {
-        if (w.word && !map.has(w.word)) {
-          map.set(w.word, w.meaning || "");
-        }
-      });
-    });
-    return Array.from(map.entries()).map(([word, meaning]) => ({
-      word,
-      meaning,
-    }));
-  }, [messages]);
+  // Aggregate all suggested words across all messages for potential future use
+  // const allSuggestedWords = useMemo(() => {
+  //   const map = new Map<string, string>();
+  //   messages.forEach((m) => {
+  //     m.suggestedWords?.forEach((w) => {
+  //       if (w.word && !map.has(w.word)) {
+  //         map.set(w.word, w.meaning || "");
+  //       }
+  //     });
+  //   });
+  //   return Array.from(map.entries()).map(([word, meaning]) => ({ word, meaning }));
+  // }, [messages]);
 
   const sessionEvaluation = useMemo(() => {
     if (userTurnsCount === 0) {
@@ -880,12 +846,12 @@ export default function AiTutorWorkspace() {
     }
 
     let coachFeedback = "";
-    if (activePersonaObj.id === "emma") {
+    if (currentPersona === "emma") {
       coachFeedback =
         overallScore >= 85
           ? "Excellent speaking flow and natural British rhythm! Your articulation was clear and vocabulary choice was sophisticated."
           : "Good effort! Try focusing on sentence connection and linking words smoothly to elevate your fluency.";
-    } else if (activePersonaObj.id === "alex") {
+    } else if (currentPersona === "alex") {
       coachFeedback =
         overallScore >= 85
           ? "Awesome energy! Your spoken responses were sharp, direct, and sound very natural in a professional conversational setting."

@@ -2,16 +2,37 @@ import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma, handlePrismaError } from "@/infrastructure/database/prisma";
 import { sanitizeInput } from "@/infrastructure/security/validation";
+import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
 
-export async function GET() {
+const PROFILE_SAFE_SELECT = {
+  id: true,
+  fullName: true,
+  username: true,
+  avatarEmoji: true,
+  avatarUrl: true,
+  level: true,
+  totalXp: true,
+  currentStreak: true,
+  longestStreak: true,
+  minutesStudied: true,
+  title: true,
+  coins: true,
+  streakFreezes: true,
+  activeAvatarFrame: true,
+  activeChatBubble: true,
+  updatedAt: true,
+};
+
+export async function GET(request: Request) {
   try {
-    const userId = await getAuthenticatedUserId();
+    const userId = await getAuthenticatedUserId(request);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     let profile = await prisma.profile.findUnique({
       where: { id: userId },
+      select: PROFILE_SAFE_SELECT,
     });
 
     if (!profile) {
@@ -36,6 +57,7 @@ export async function GET() {
           coins: 100,
           streakFreezes: 0,
         },
+        select: PROFILE_SAFE_SELECT,
       });
     }
 
@@ -53,7 +75,7 @@ export async function GET() {
  */
 export async function POST(request: Request) {
   try {
-    const userId = await getAuthenticatedUserId();
+    const userId = await getAuthenticatedUserId(request);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -66,7 +88,6 @@ export async function POST(request: Request) {
       avatarUrl,
       imageUrl,
       avatar,
-      bio,
       activeAvatarFrame,
       activeChatBubble,
     } = body;
@@ -105,7 +126,10 @@ export async function POST(request: Request) {
         coins: 100,
         streakFreezes: 0,
       },
+      select: PROFILE_SAFE_SELECT,
     });
+
+    invalidateDashboardCache(userId);
 
     return NextResponse.json({ success: true, data: updatedProfile });
   } catch (error: unknown) {

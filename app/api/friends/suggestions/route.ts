@@ -1,4 +1,4 @@
-﻿import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 
@@ -13,9 +13,9 @@ const OAUTH_USER_AVATARS = [
 ];
 
 // GET /api/friends/suggestions - Get friend suggestions for the current user
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const userId = await getAuthenticatedUserId();
+    const userId = await getAuthenticatedUserId(request);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -32,6 +32,7 @@ export async function GET() {
         senderId: true,
         receiverId: true,
       },
+      take: 100,
     });
 
     // Collect all user IDs connected to the current user
@@ -42,12 +43,21 @@ export async function GET() {
     });
     connectedUserIds.add(userId); // Exclude current user from suggestions
 
-    // Query profiles not in the connected list
+    // Query profiles not in the connected list with selective projection
     const suggestions = await prisma.profile.findMany({
       where: {
         id: {
           notIn: Array.from(connectedUserIds),
         },
+      },
+      select: {
+        id: true,
+        fullName: true,
+        username: true,
+        level: true,
+        totalXp: true,
+        avatarEmoji: true,
+        avatarUrl: true,
       },
       take: 10, // Suggest up to 10 users
       orderBy: {

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma, safeDbExecute, withPrismaRetry } from "@/infrastructure/database/prisma";
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
+import { isRateLimited } from "@/infrastructure/security/rateLimit";
 
 export const dynamic = "force-dynamic";
 
@@ -96,6 +97,11 @@ async function ensureAiSessionsTable() {
 export async function GET(request: Request) {
   try {
     await ensureAiSessionsTable();
+
+    const clientIp = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "unknown";
+    if (isRateLimited(`ai_sessions_${clientIp}`, 30, 60 * 1000)) {
+      return NextResponse.json({ error: "Too many requests." }, { status: 429 });
+    }
 
     const { searchParams } = new URL(request.url);
     const mode = searchParams.get("mode") || "all";

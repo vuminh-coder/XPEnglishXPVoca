@@ -25,9 +25,9 @@ function getLocalDateStr(d = new Date()): string {
   return `${year}-${month}-${day}`;
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const authUserId = await getAuthenticatedUserId();
+    const authUserId = await getAuthenticatedUserId(request);
     const userId = authUserId || "local_user";
 
     const today = new Date();

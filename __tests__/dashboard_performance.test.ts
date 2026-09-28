@@ -210,6 +210,56 @@ describe("Stage 2: Dashboard Performance & Single Root Query Tests", () => {
       expect(res2.headers.get("X-Cache")).toBe("HIT");
       expect(mockPrisma.profile.findUnique).toHaveBeenCalledTimes(1); // No second DB call!
     });
+
+    it("should coalesce concurrent in-flight requests into 1 single database call (Stampede Protection)", async () => {
+      const userId = "user_coalesced_123";
+      mockAuth.userId = userId;
+
+      let resolveQuery: (val: any) => void;
+      const delayedPromise = new Promise((resolve) => {
+        resolveQuery = resolve;
+      });
+
+      mockPrisma.profile.findUnique.mockImplementationOnce(() => delayedPromise);
+
+      const req1 = new Request("http://localhost:3000/api/dashboard/overview");
+      const req2 = new Request("http://localhost:3000/api/dashboard/overview");
+
+      // Fire both requests concurrently
+      const promise1 = getDashboardOverview(req1);
+      const promise2 = getDashboardOverview(req2);
+
+      // Resolve database query
+      resolveQuery!({
+        id: userId,
+        currentStreak: 3,
+        longestStreak: 5,
+        totalXp: 400,
+        coins: 100,
+        minutesStudied: 50,
+        updatedAt: new Date(),
+        dailySkillPractices: [],
+        examAttempts: [],
+        listeningProgresses: [],
+        vocabularies: [],
+        studyPlan: null,
+        _count: { vocabularies: 10, matchHistories: 0 },
+      });
+
+      const [res1, res2] = await Promise.all([promise1, promise2]);
+      const json1 = await res1.json();
+      const json2 = await res2.json();
+
+      expect(res1.status).toBe(200);
+      expect(res2.status).toBe(200);
+      expect(json1.success).toBe(true);
+      expect(json2.success).toBe(true);
+
+      // Verify exactly 1 database call occurred across both concurrent requests
+      expect(mockPrisma.profile.findUnique).toHaveBeenCalledTimes(1);
+      // Second response was coalesced in-flight
+      expect(res2.headers.get("X-Cache")).toBe("IN_FLIGHT_COALESCED");
+    });
   });
 
   describe("3. Single Root Query for Daily Checkin (app/api/user/daily-checkin/route.ts)", () => {

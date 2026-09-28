@@ -12,6 +12,7 @@ import { useUserStore, DEFAULT_LEARNER_USER } from "@/stores/userStore";
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { IpaSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAnimation";
+import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 import {
   IpaHeroGreeting,
   IpaMatrixBoard,
@@ -23,6 +24,8 @@ export default function IpaStudioPage() {
   const { user: authUser } = useAuthStore();
   const storeUser = useUserStore((s) => s.user);
   const user = authUser || storeUser || DEFAULT_LEARNER_USER;
+
+  useStudyTimeTracker("speaking");
 
   const handleGoToPracticeLab = (sound: IpaSound) => {
     router.push(`/study/ipa/practice?sound=${sound.id}`);

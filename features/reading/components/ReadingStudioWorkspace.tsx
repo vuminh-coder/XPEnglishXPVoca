@@ -1,44 +1,30 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useMemo, Suspense } from "react";
-import Link from "next/link";
+import React, { useState, useEffect, useMemo, Suspense } from "react";
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   BookOpen,
-  Headphones,
-  Mic,
   Search,
   RefreshCw,
   Clock,
   Check,
   CheckCircle2,
   XCircle,
-  Play,
-  ArrowLeft,
   Eye,
   EyeOff,
-  Sparkles,
-  Trophy,
   Volume2,
   X,
   GraduationCap,
-  Layers,
-  Target,
   FileText,
   RotateCcw,
-  Zap,
   Bookmark,
-  ZoomIn,
-  ZoomOut,
-  ChevronRight,
-  Share2,
 } from "lucide-react";
 import { useUserStore } from "@/stores/userStore";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { useUiStore } from "@/stores/uiStore";
 import { safeSpeakText } from "@/shared/utils/mobileAudio";
-import { stopTTS } from "@/shared/utils/ttsEngine";
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { StudySuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 import {
@@ -50,6 +36,10 @@ import {
   ReadingListingSkeleton,
   ReadingStudioSkeleton,
 } from "@/features/reading/components/LoadingSkeletons";
+
+// Module-scope constants to avoid exhaustive-deps warnings
+const BASIC_LEVELS = new Set(["Easy", "Beginner", "A1", "A2"]);
+const ADVANCED_LEVELS = new Set(["Hard", "Advanced", "C1", "C2"]);
 
 function ReadingStudioContent() {
   const searchParams = useSearchParams();
@@ -73,6 +63,7 @@ function ReadingStudioContent() {
   const [completedPassageIds, setCompletedPassageIds] = useState<string[]>([]);
 
   // 1. Synchronize URL query params
+  /* eslint-disable react-hooks/set-state-in-effect -- Syncing internal state from external URL params */
   useEffect(() => {
     if (rawIdFromUrl) {
       const match = READING_PASSAGES_DATA.find((p) => p.id === rawIdFromUrl);
@@ -82,6 +73,7 @@ function ReadingStudioContent() {
       }
     }
   }, [rawIdFromUrl]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   // Synchronize BottomNav & Sidebar when in studio mode
   useEffect(() => {
@@ -123,8 +115,6 @@ function ReadingStudioContent() {
   };
 
   // Dual Row Picker State: Row 1 Basic & Row 2 Advanced
-  const BASIC_LEVELS = new Set(["Easy", "Beginner", "A1", "A2"]);
-  const ADVANCED_LEVELS = new Set(["Hard", "Advanced", "C1", "C2"]);
 
   const [displayedBasicPassages, setDisplayedBasicPassages] = useState<ReadingPassage[]>([]);
   const [displayedAdvancedPassages, setDisplayedAdvancedPassages] = useState<ReadingPassage[]>([]);
@@ -135,6 +125,7 @@ function ReadingStudioContent() {
     return shuffled.slice(0, count);
   };
 
+  /* eslint-disable react-hooks/set-state-in-effect -- Derived display state from search input */
   useEffect(() => {
     const easyPool = READING_PASSAGES_DATA.filter((p) => BASIC_LEVELS.has(p.level || ""));
     const hardPool = READING_PASSAGES_DATA.filter((p) => ADVANCED_LEVELS.has(p.level || ""));
@@ -160,6 +151,7 @@ function ReadingStudioContent() {
       setDisplayedAdvancedPassages(pickRandomPassages(safeAdv, 8));
     }
   }, [listingSearch]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const handleShuffleBasic = () => {
     const easyPool = READING_PASSAGES_DATA.filter((p) => BASIC_LEVELS.has(p.level || ""));
@@ -470,10 +462,12 @@ function ReadingStudioContent() {
                   >
                     <div className="relative w-[47%] aspect-[16/10] sm:w-full sm:aspect-[16/10] rounded-lg overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800 border border-slate-200/50 dark:border-slate-700/50">
                       {passage.coverImage ? (
-                        <img
+                        <Image
                           src={passage.coverImage}
                           alt={passage.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          fill
+                          sizes="(max-width: 640px) 47vw, 25vw"
+                          className="object-cover group-hover:scale-105 transition-transform duration-300"
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-emerald-500/10 to-teal-500/20 text-3xl">
@@ -567,10 +561,12 @@ function ReadingStudioContent() {
                   >
                     <div className="relative w-[47%] aspect-[16/10] sm:w-full sm:aspect-[16/10] rounded-lg overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800 border border-slate-200/50 dark:border-slate-700/50">
                       {passage.coverImage ? (
-                        <img
+                        <Image
                           src={passage.coverImage}
                           alt={passage.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          fill
+                          sizes="(max-width: 640px) 47vw, 25vw"
+                          className="object-cover group-hover:scale-105 transition-transform duration-300"
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-purple-500/10 to-indigo-500/20 text-3xl">

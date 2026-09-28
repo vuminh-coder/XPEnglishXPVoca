@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { YouTubeVideoItem, SubtitleSentence } from "@/stores/videoStore";
+import { YouTubeVideoItem } from "@/stores/videoStore";
 import { calculateCharacterWeightedWordIndex } from "@/features/listening/services/youtubeSubtitleParser";
 import { backgroundWebSpeechTranscriber } from "@/features/shadowing/services/webSpeechTranscriber";
 
@@ -208,7 +208,7 @@ export function useYouTubePlayerSync({
             ytListenerRegisteredRef.current = true;
           }
         }
-      } catch (e) {}
+      } catch {}
     };
 
     window.addEventListener("message", handleYTMessage);
@@ -229,19 +229,18 @@ export function useYouTubePlayerSync({
           JSON.stringify({ event: "listening", id: "yt-player" }),
           "*"
         );
-      } catch (e) {}
+      } catch {}
     };
     tryRegister();
     const retryInterval = setInterval(tryRegister, 300);
     return () => clearInterval(retryInterval);
-  }, [activeVideo?.id]);
+  }, [activeVideo]);
 
   // Real-time synchronization loop (optimized: side-effects outside setState updater)
   useEffect(() => {
     let timer: NodeJS.Timeout;
     if (activeVideo && activeVideo.subtitles.length > 0) {
       // Mutable tracking to avoid unnecessary setState calls
-      let prevMatchedIdx = -1;
       let prevIsSpeaking = false;
       let prevWordIdx = -1;
 
@@ -252,7 +251,7 @@ export function useYouTubePlayerSync({
               JSON.stringify({ event: "command", func: "getCurrentTime", args: [] }),
               "*"
             );
-          } catch (e) {}
+          } catch {}
         }
 
         const realTime = ytPlayerTimeRef.current;
@@ -345,7 +344,6 @@ export function useYouTubePlayerSync({
         const currentSubIdx = activeSubIndexRef.current;
         if (matchedIdx !== -1 && matchedIdx !== currentSubIdx) {
           setActiveSubIndex(matchedIdx);
-          prevMatchedIdx = matchedIdx;
         }
 
         // Word-level karaoke highlighting
@@ -384,7 +382,7 @@ export function useYouTubePlayerSync({
       }, 35);
     }
     return () => clearInterval(timer);
-  }, [activeVideo?.id, isLoopingSentence, currentSubIndex, sendYtCommand]);
+  }, [activeVideo, isLoopingSentence, currentSubIndex, sendYtCommand]);
 
   // Background Web Speech AI Transcriber
   useEffect(() => {
@@ -406,7 +404,7 @@ export function useYouTubePlayerSync({
     return () => {
       backgroundWebSpeechTranscriber.stop();
     };
-  }, [activeVideo?.id, activeVideo?.subtitles.length, isPlaying, onNewSubtitleCaptured]);
+  }, [activeVideo, isPlaying, onNewSubtitleCaptured]);
 
   return {
     iframeRef,

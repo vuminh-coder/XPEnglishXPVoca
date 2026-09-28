@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
-  parseTimedTextXml,
-  parseVnTimedTextXml,
   parseTimedTextAny,
   parseVnTimedTextAny,
   alignBilingualSubtitles,
@@ -28,9 +26,54 @@ export interface ExtractedTrack {
   baseUrl: string;
 }
 
-// In-Memory Subtitle Cache by videoId (2-hour TTL) to prevent repeated 20s API overhead
+// In-Memory Subtitle Cache by videoId (2-hour TTL, max 300 entries) to prevent memory creep
 const captionServerCache = new Map<string, { data: any; timestamp: number }>();
 const CACHE_TTL_MS = 2 * 60 * 60 * 1000; // 2 hours
+const MAX_CAPTION_CACHE_ITEMS = 300;
+
+function setCaptionCache(videoId: string, data: any) {
+  if (captionServerCache.size >= MAX_CAPTION_CACHE_ITEMS) {
+    const oldestKey = captionServerCache.keys().next().value;
+    if (oldestKey) captionServerCache.delete(oldestKey);
+  }
+  captionServerCache.set(videoId, { data, timestamp: Date.now() });
+}
+
+// In-Flight Request Coalescing (Eliminates Cache Stampedes on upstream YouTube API)
+const inFlightCaptionsMap = new Map<string, Promise<any>>();
+
+async function getOrFetchCaptions(videoId: string): Promise<any> {
+  const fetchPromise = (async () => {
+    const result = await fetchSubtitlesOrTracksOnServer(videoId);
+    if (!result || (!result.subtitles?.length && !result.tracks?.length)) {
+      return null;
+    }
+
+    const payload = {
+      success: true,
+      videoId,
+      title: result.title || "Video Học Tiếng Anh YouTube",
+      authorName: result.authorName || "YouTube Creator",
+      subtitles: result.subtitles || [],
+      tracks: result.tracks || [],
+      needClientFetch: result.needClientFetch || false,
+      totalCount: result.subtitles?.length || 0,
+      hasCaptions: true,
+    };
+
+    if (result.subtitles && result.subtitles.length > 0) {
+      setCaptionCache(videoId, payload);
+    }
+    return payload;
+  })();
+
+  inFlightCaptionsMap.set(videoId, fetchPromise);
+  try {
+    return await fetchPromise;
+  } finally {
+    inFlightCaptionsMap.delete(videoId);
+  }
+}
 
 /**
  * Backend Server API Route: /api/youtube/captions
@@ -51,13 +94,28 @@ export async function GET(request: NextRequest) {
   const forceRefresh = searchParams.get("force") === "1";
   const cached = captionServerCache.get(videoId);
   if (!forceRefresh && cached && Date.now() - cached.timestamp < CACHE_TTL_MS) {
-    console.log(`[Captions API Cache HIT] Returning cached subtitles for videoId "${videoId}" in <10ms!`);
-    return NextResponse.json(cached.data);
+    return NextResponse.json(cached.data, {
+      headers: { "X-Cache": "HIT" },
+    });
+  }
+
+  // Check In-Flight Coalescing
+  if (inFlightCaptionsMap.has(videoId)) {
+    try {
+      const coalescedData = await inFlightCaptionsMap.get(videoId);
+      if (coalescedData) {
+        return NextResponse.json(coalescedData, {
+          headers: { "X-Cache": "IN_FLIGHT_COALESCED" },
+        });
+      }
+    } catch {
+      // Continue to fetch
+    }
   }
 
   try {
-    const result = await fetchSubtitlesOrTracksOnServer(videoId);
-    if (!result || (!result.subtitles?.length && !result.tracks?.length)) {
+    const payload = await getOrFetchCaptions(videoId);
+    if (!payload) {
       return NextResponse.json(
         {
           success: false,
@@ -70,24 +128,9 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const payload = {
-      success: true,
-      videoId,
-      title: result.title || "Video Học Tiếng Anh YouTube",
-      authorName: result.authorName || "YouTube Creator",
-      subtitles: result.subtitles || [],
-      tracks: result.tracks || [],
-      needClientFetch: result.needClientFetch || false,
-      totalCount: result.subtitles?.length || 0,
-      hasCaptions: true,
-    };
-
-    // Store in Cache
-    if (result.subtitles && result.subtitles.length > 0) {
-      captionServerCache.set(videoId, { data: payload, timestamp: Date.now() });
-    }
-
-    return NextResponse.json(payload);
+    return NextResponse.json(payload, {
+      headers: { "X-Cache": "MISS" },
+    });
 
   } catch (error: any) {
     console.error("Error in backend caption route:", error);
@@ -118,12 +161,25 @@ export async function POST(request: NextRequest) {
     // Check Cache HIT
     const cached = captionServerCache.get(videoId);
     if (cached && Date.now() - cached.timestamp < CACHE_TTL_MS) {
-      console.log(`[Captions API Cache HIT] Returning cached subtitles for videoId "${videoId}" in <10ms!`);
-      return NextResponse.json(cached.data);
+      return NextResponse.json(cached.data, {
+        headers: { "X-Cache": "HIT" },
+      });
     }
 
-    const result = await fetchSubtitlesOrTracksOnServer(videoId);
-    if (!result || (!result.subtitles?.length && !result.tracks?.length)) {
+    // Check In-Flight Coalescing
+    if (inFlightCaptionsMap.has(videoId)) {
+      try {
+        const coalescedData = await inFlightCaptionsMap.get(videoId);
+        if (coalescedData) {
+          return NextResponse.json(coalescedData, {
+            headers: { "X-Cache": "IN_FLIGHT_COALESCED" },
+          });
+        }
+      } catch {}
+    }
+
+    const payload = await getOrFetchCaptions(videoId);
+    if (!payload) {
       return NextResponse.json(
         {
           success: false,
@@ -136,23 +192,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const payload = {
-      success: true,
-      videoId,
-      title: result.title || "Video Học Tiếng Anh YouTube",
-      authorName: result.authorName || "YouTube Creator",
-      subtitles: result.subtitles || [],
-      tracks: result.tracks || [],
-      needClientFetch: result.needClientFetch || false,
-      totalCount: result.subtitles?.length || 0,
-      hasCaptions: true,
-    };
-
-    if (result.subtitles && result.subtitles.length > 0) {
-      captionServerCache.set(videoId, { data: payload, timestamp: Date.now() });
-    }
-
-    return NextResponse.json(payload);
+    return NextResponse.json(payload, {
+      headers: { "X-Cache": "MISS" },
+    });
 
   } catch (error: any) {
     console.error("Error in backend caption POST route:", error);
@@ -188,13 +230,13 @@ function extractCaptionTracksFromHtml(html: string): any[] {
         if (Array.isArray(tracks) && tracks.length > 0) {
           return tracks;
         }
-      } catch (e) {
+      } catch {
         // Try cleaning the string and re-parsing
         try {
           const cleaned = match[1].replace(/\\u0026/g, "&").replace(/\\\\/g, "\\");
           const tracks = JSON.parse(cleaned);
           if (Array.isArray(tracks) && tracks.length > 0) return tracks;
-        } catch (e2) {}
+        } catch {}
       }
     }
   }
@@ -212,14 +254,14 @@ function extractCaptionTracksFromHtml(html: string): any[] {
         const playerResponse = JSON.parse(match[1]);
         const tracks = playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks;
         if (Array.isArray(tracks) && tracks.length > 0) return tracks;
-      } catch (e) {
+      } catch {
         // Fallback for rich/large responses: targeted extraction of captionTracks array
         const subMatch = /"captionTracks"\s*:\s*(\[[\s\S]*?\])\s*,\s*"(?:audioTracks|translationLanguages|defaultAudioTrackIndex)/.exec(match[1]);
         if (subMatch && subMatch[1]) {
           try {
             const tracks = JSON.parse(subMatch[1]);
             if (Array.isArray(tracks) && tracks.length > 0) return tracks;
-          } catch (e2) {}
+          } catch {}
         }
       }
     }
@@ -323,7 +365,7 @@ async function fetchWithProxyChain(url: string, options?: RequestInit): Promise<
           return { text, tier: proxy.name };
         }
       }
-    } catch (e: any) {}
+    } catch {}
   }
 
   return null;
@@ -387,7 +429,7 @@ async function fetchInnertubeCaptionTracks(videoId: string): Promise<any[]> {
           return tracks;
         }
       }
-    } catch (e) {}
+    } catch {}
   }
 
   // Strategy 2: Innertube via Watch Page HTML through external proxies
@@ -451,7 +493,7 @@ async function autoTranslateSubtitlesToVn(subtitles: SubtitleItem[]): Promise<Su
             return parts;
           }
         }
-      } catch (e) {}
+      } catch {}
       return chunk;
     });
 
@@ -490,7 +532,7 @@ async function fetchSubtitlesOrTracksOnServer(videoId: string): Promise<{
       videoTitle = oembed.title || "";
       authorName = oembed.author_name || "";
     }
-  } catch (e) {}
+  } catch {}
 
   const watchUrl = `https://www.youtube.com/watch?v=${videoId}`;
   const headers: Record<string, string> = {
@@ -635,7 +677,7 @@ async function fetchSubtitlesOrTracksOnServer(videoId: string): Promise<{
         xmlEn = text;
       }
     }
-  } catch (e) {}
+  } catch {}
 
   if (xmlEn) {
     const parsedEn = parseTimedTextAny(xmlEn);
@@ -653,7 +695,7 @@ async function fetchSubtitlesOrTracksOnServer(videoId: string): Promise<{
           const text = await vnRes.text();
           if (text && text.trim().length > 30) xmlVn = text;
         }
-      } catch (e) {}
+      } catch {}
 
       const parsedVn = xmlVn ? parseVnTimedTextAny(xmlVn) : [];
       const aligned = alignBilingualSubtitles(parsedEn, parsedVn);

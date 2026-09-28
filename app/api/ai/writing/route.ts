@@ -1,11 +1,16 @@
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { isRateLimited } from "@/infrastructure/security/rateLimit";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const userId = await getAuthenticatedUserId();
+    const userId = await getAuthenticatedUserId(request);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    if (isRateLimited(`ai_writing_${userId}`, 15, 60 * 1000)) {
+      return NextResponse.json({ error: "Too many requests. Please slow down." }, { status: 429 });
     }
 
     const body = await request.json();

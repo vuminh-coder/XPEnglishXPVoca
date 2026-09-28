@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { PageEntranceWrapper, MotionItem } from "@/shared/components/feedback/PageEntranceAnimation";
+import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAnimation";
 import { useAuthStore } from "@/stores/authStore";
 import { useNotificationStore } from "@/stores/notificationStore";
 import {
@@ -16,7 +16,6 @@ import {
   Trash2,
   LogOut,
   Clock,
-  Settings as SettingsIcon,
 } from "lucide-react";
 import { AppTopHeader, HeaderPillContainer, HeaderPillItem } from "@/shared/components/layout/AppTopHeader";
 import { ProfileSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
@@ -52,19 +51,21 @@ function saveSettings(settings: UserSettings) {
 export default function SettingsPage() {
   const { user, updateProfile, logout } = useAuthStore();
   const { addToast } = useNotificationStore();
-  const [mounted, setMounted] = useState(false);
+  const [mounted] = useState(() => typeof window !== "undefined");
   const [fullName, setFullName] = useState("");
   const [bio, setBio] = useState("");
   const [settings, setSettings] = useState<UserSettings>(loadSettings());
 
+  /* eslint-disable react-hooks/set-state-in-effect -- Syncing form from external auth store when user identity changes */
   useEffect(() => {
-    setMounted(true);
     if (user) {
       setFullName(user.fullName);
       setBio(user.bio || "");
     }
     setSettings(loadSettings());
-  }, [user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   if (!mounted || !user) {
     return (

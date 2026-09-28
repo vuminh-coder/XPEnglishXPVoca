@@ -10,45 +10,50 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const incoming = await prisma.friendship.findMany({
-      where: {
-        receiverId: userId,
-        status: "PENDING",
-      },
-      include: {
-        sender: {
-          select: {
-            id: true,
-            fullName: true,
-            username: true,
-            level: true,
-            totalXp: true,
-            avatarEmoji: true,
-            avatarUrl: true,
+    const [incoming, outgoing] = await Promise.all([
+      prisma.friendship.findMany({
+        where: {
+          receiverId: userId,
+          status: "PENDING",
+        },
+        take: 50,
+        orderBy: { createdAt: "desc" },
+        include: {
+          sender: {
+            select: {
+              id: true,
+              fullName: true,
+              username: true,
+              level: true,
+              totalXp: true,
+              avatarEmoji: true,
+              avatarUrl: true,
+            },
           },
         },
-      },
-    });
-
-    const outgoing = await prisma.friendship.findMany({
-      where: {
-        senderId: userId,
-        status: "PENDING",
-      },
-      include: {
-        receiver: {
-          select: {
-            id: true,
-            fullName: true,
-            username: true,
-            level: true,
-            totalXp: true,
-            avatarEmoji: true,
-            avatarUrl: true,
+      }),
+      prisma.friendship.findMany({
+        where: {
+          senderId: userId,
+          status: "PENDING",
+        },
+        take: 50,
+        orderBy: { createdAt: "desc" },
+        include: {
+          receiver: {
+            select: {
+              id: true,
+              fullName: true,
+              username: true,
+              level: true,
+              totalXp: true,
+              avatarEmoji: true,
+              avatarUrl: true,
+            },
           },
         },
-      },
-    });
+      }),
+    ]);
 
     const formattedIncoming = incoming.map((req) => {
       const authorName = req.sender.fullName || req.sender.username || "Học viên XP";

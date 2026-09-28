@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import { Mic, Volume2, RotateCcw, Award, Sparkles, Check, Square, VolumeX } from "lucide-react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import Image from "next/image";
+import { Mic, Volume2, RotateCcw, Award, Square, VolumeX } from "lucide-react";
 import { ExamQuestion } from "@/features/exam-prep";
 import { safeSpeakText, stopTTS, unlockMobileAudio } from "@/shared/utils/mobileAudio";
 
@@ -15,7 +16,6 @@ interface SpeakingStudioWorkspaceProps {
 export function SpeakingStudioWorkspace({
   question,
   currentQuestionIndex,
-  totalQuestions,
   onSelectAnswer,
 }: SpeakingStudioWorkspaceProps) {
   const [phase, setPhase] = useState<"PREP" | "RECORDING" | "FEEDBACK">("PREP");
@@ -29,7 +29,7 @@ export function SpeakingStudioWorkspace({
   const [isPlayingGuide, setIsPlayingGuide] = useState<boolean>(false);
   const recognitionRef = useRef<any>(null);
 
-  const startRecording = () => {
+  const startRecording = useCallback(() => {
     stopTTS();
     setIsPlayingGuide(false);
     setPhase("RECORDING");
@@ -59,22 +59,23 @@ export function SpeakingStudioWorkspace({
           recognition.onerror = () => {};
           recognition.start();
           recognitionRef.current = recognition;
-        } catch (_) {}
+        } catch {}
       }
     }
-  };
+  }, [onSelectAnswer]);
 
-  const finishRecording = () => {
+  const finishRecording = useCallback(() => {
     if (recognitionRef.current) {
       try {
         recognitionRef.current.stop();
-      } catch (_) {}
+      } catch {}
     }
     setPhase("FEEDBACK");
     onSelectAnswer("A");
-  };
+  }, [onSelectAnswer]);
 
   // Reset timers when question changes
+  /* eslint-disable react-hooks/set-state-in-effect -- Resetting speaking studio state on question transition */
   useEffect(() => {
     stopTTS();
     setIsPlayingGuide(false);
@@ -82,9 +83,11 @@ export function SpeakingStudioWorkspace({
     setPrepSecondsRemaining(question.preparationTimeSeconds || 45);
     setSpeechSecondsRemaining(question.speakingTimeSeconds || 45);
     setTranscriptText("");
-  }, [question.id]);
+  }, [question.id, question.preparationTimeSeconds, question.speakingTimeSeconds]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   // Preparation Timer
+  /* eslint-disable react-hooks/set-state-in-effect -- Auto phase transition when timer ends */
   useEffect(() => {
     if (phase !== "PREP") return;
 
@@ -98,7 +101,7 @@ export function SpeakingStudioWorkspace({
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [phase, prepSecondsRemaining]);
+  }, [phase, prepSecondsRemaining, startRecording]);
 
   // Live Recording Timer
   useEffect(() => {
@@ -114,7 +117,8 @@ export function SpeakingStudioWorkspace({
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [phase, speechSecondsRemaining]);
+  }, [phase, speechSecondsRemaining, finishRecording]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   // Clean up on unmount
   useEffect(() => {
@@ -123,7 +127,7 @@ export function SpeakingStudioWorkspace({
       if (recognitionRef.current) {
         try {
           recognitionRef.current.stop();
-        } catch (_) {}
+        } catch {}
       }
     };
   }, []);
@@ -134,7 +138,7 @@ export function SpeakingStudioWorkspace({
     if (recognitionRef.current) {
       try {
         recognitionRef.current.stop();
-      } catch (_) {}
+      } catch {}
     }
     setPhase("PREP");
     setPrepSecondsRemaining(question.preparationTimeSeconds || 45);
@@ -218,15 +222,13 @@ export function SpeakingStudioWorkspace({
         {/* Question Image (for Part 2: Describe a Picture) */}
         {question.imageUrl && (
           <div className="w-full max-w-md mx-auto aspect-[4/3] max-h-[240px] sm:max-h-[280px] rounded-2xl overflow-hidden border border-slate-200/90 dark:border-slate-800 shadow-sm bg-slate-100 dark:bg-slate-900/90 p-1.5 flex items-center justify-center relative">
-            <img
+            <Image
               src={question.imageUrl}
               alt="Speaking Task Picture"
-              className="w-full h-full object-contain object-center rounded-xl select-none transition-all duration-200"
-              onError={(e) => {
-                e.currentTarget.onerror = null;
-                e.currentTarget.src =
-                  "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=80";
-              }}
+              fill
+              sizes="(max-width: 768px) 100vw, 450px"
+              unoptimized
+              className="object-contain object-center rounded-xl select-none transition-all duration-200"
             />
             <div className="absolute bottom-2.5 left-2.5 px-2.5 py-1 rounded-lg bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200/80 dark:border-slate-700/80 text-[11px] font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5 shadow-sm pointer-events-none font-sans">
               <span className="w-1.5 h-1.5 rounded-full bg-[#f59e0b] shrink-0" />

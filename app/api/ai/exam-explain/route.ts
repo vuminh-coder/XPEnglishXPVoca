@@ -1,7 +1,13 @@
 import { NextResponse } from "next/server";
+import { isRateLimited } from "@/infrastructure/security/rateLimit";
 
 export async function POST(req: Request) {
   try {
+    const clientIp = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
+    if (isRateLimited(`ai_exam_explain_${clientIp}`, 15, 60 * 1000)) {
+      return NextResponse.json({ error: "Too many requests. Please slow down." }, { status: 429 });
+    }
+
     const body = await req.json();
     const {
       questionText = "",

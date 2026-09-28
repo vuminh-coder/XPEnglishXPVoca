@@ -114,7 +114,7 @@ describe("Analytics & Experience Points Performance Standards", () => {
       // Mock scalar raw query returning exactly 2 users ahead in weekly ranking
       mockPrisma.$queryRaw.mockResolvedValueOnce([{ count: 2 }]);
 
-      const res = await getAnalytics();
+      const res = await getAnalytics(new Request("http://localhost/api/user/analytics"));
       const json = await res.json();
 
       expect(res.status).toBe(200);
@@ -162,12 +162,12 @@ describe("Analytics & Experience Points Performance Standards", () => {
       });
       mockPrisma.profile.count.mockResolvedValueOnce(0);
 
-      const res1 = await getAnalytics();
+      const res1 = await getAnalytics(new Request("http://localhost/api/user/analytics"));
       expect(res1.headers.get("X-Cache")).toBe("MISS");
       expect(mockPrisma.profile.findUnique).toHaveBeenCalledTimes(1);
 
       // Subsequent call should HIT in-memory cache
-      const res2 = await getAnalytics();
+      const res2 = await getAnalytics(new Request("http://localhost/api/user/analytics"));
       expect(res2.headers.get("X-Cache")).toBe("HIT");
       expect(mockPrisma.profile.findUnique).toHaveBeenCalledTimes(1);
     });

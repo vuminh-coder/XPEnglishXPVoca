@@ -1,8 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useAuthStore } from "@/stores/authStore";
-import { motion, AnimatePresence } from "framer-motion";
-import { PageEntranceWrapper, MotionItem } from "@/shared/components/feedback/PageEntranceAnimation";
+import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAnimation";
 import {
   Coins,
   Flame,
@@ -14,13 +13,8 @@ import {
   ShieldCheck,
   Crown,
   Trophy,
-  ArrowRight,
-  UserCheck,
-  User,
   PackageCheck,
-  HelpCircle,
 } from "lucide-react";
-import Link from "next/link";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { ShopSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
@@ -39,7 +33,7 @@ interface ShopItem {
 
 export default function ShopPage() {
   const { addToast } = useNotificationStore();
-  const { user, buyStreakFreeze, buyDoubleXp } = useAuthStore();
+  const { user } = useAuthStore();
   const [purchasingId, setPurchasingId] = useState<string | null>(null);
   const [successId, setSuccessId] = useState<string | null>(null);
   const [purchasedItems, setPurchasedItems] = useState<Set<string>>(new Set());

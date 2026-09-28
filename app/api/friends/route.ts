@@ -17,6 +17,8 @@ export async function GET(request: Request) {
           { receiverId: userId, status: "ACCEPTED" },
         ],
       },
+      take: 100,
+      orderBy: { createdAt: "desc" },
       include: {
         sender: {
           select: {

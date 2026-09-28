@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Play, Pause, Check, Headphones, Volume2, FileText, Sparkles } from "lucide-react";
+import Image from "next/image";
+import { Play, Pause, Check, Headphones, FileText } from "lucide-react";
 import { ExamQuestion } from "@/features/exam-prep";
 
 import { speakLessonText, stopTTS } from "@/shared/utils/ttsEngine";
@@ -18,7 +19,6 @@ interface ListeningWorkspaceProps {
 export function ListeningWorkspace({
   question,
   currentQuestionIndex,
-  totalQuestions,
   userChoice,
   onSelectAnswer
 }: ListeningWorkspaceProps) {
@@ -26,7 +26,6 @@ export function ListeningWorkspace({
   const [playbackSpeed, setPlaybackSpeed] = useState<number>(1.0);
   const [progressPercent, setProgressPercent] = useState<number>(0);
   const [showTranscript, setShowTranscript] = useState<boolean>(false);
-  const [activeVoiceName, setActiveVoiceName] = useState<string>("Native English AI Voice");
 
   const speechTimerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -106,13 +105,20 @@ export function ListeningWorkspace({
     }
   };
 
+  // Reset audio state when question changes
+  /* eslint-disable react-hooks/set-state-in-effect -- Reset audio state on question transition */
   useEffect(() => {
-    // Reset audio state when question changes
     setIsPlaying(false);
     setProgressPercent(0);
     stopTTS();
     if (speechTimerRef.current) clearInterval(speechTimerRef.current);
   }, [question.id]);
+  /* eslint-enable react-hooks/set-state-in-effect */
+
+  const togglePlayRef = useRef(togglePlay);
+  useEffect(() => {
+    togglePlayRef.current = togglePlay;
+  });
 
   // Handle Spacebar hotkey to toggle audio Play/Pause
   useEffect(() => {
@@ -123,7 +129,7 @@ export function ListeningWorkspace({
           return;
         }
         e.preventDefault();
-        togglePlay();
+        togglePlayRef.current();
       }
     };
 
@@ -131,7 +137,7 @@ export function ListeningWorkspace({
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isPlaying, spokenScript, playbackSpeed]);
+  }, []);
 
   const handleSpeedChange = (speed: number) => {
     setPlaybackSpeed(speed);
@@ -257,14 +263,13 @@ export function ListeningWorkspace({
           <div className="grid grid-cols-1 md:grid-cols-12 gap-3.5 items-center md:items-stretch">
             {/* Left Column: Perfectly-Fitted Photograph Container */}
             <div className="md:col-span-6 w-full max-w-md mx-auto md:max-w-none rounded-2xl overflow-hidden border border-slate-200/90 dark:border-slate-800 bg-slate-100 dark:bg-slate-900/90 shadow-sm relative flex items-center justify-center p-1.5 aspect-[4/3] sm:aspect-[16/10] md:aspect-auto md:h-full md:min-h-[250px] md:max-h-[300px] max-h-[240px] sm:max-h-[280px]">
-              <img
+              <Image
                 src={question.imageUrl || "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=80"}
                 alt={`TOEIC Part 1 Photo Question ${currentQuestionIndex + 1}`}
-                className="w-full h-full object-contain object-center rounded-xl transition-all duration-200 select-none"
-                onError={(e) => {
-                  e.currentTarget.onerror = null;
-                  e.currentTarget.src = "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=80";
-                }}
+                fill
+                sizes="(max-width: 768px) 100vw, 500px"
+                unoptimized
+                className="object-contain object-center rounded-xl transition-all duration-200 select-none"
               />
               <div className="absolute bottom-2.5 left-2.5 px-2.5 py-1 rounded-lg bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200/80 dark:border-slate-700/80 text-[11px] font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5 shadow-sm pointer-events-none font-sans">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#0059bb] shrink-0" />

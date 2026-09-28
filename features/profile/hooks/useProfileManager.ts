@@ -11,7 +11,7 @@ import { SkillMinutes, AchievementItem } from "../types";
 export const AVAILABLE_EMOJIS = ["🦉", "🦁", "🦊", "👑", "🎓", "🚀", "⚡", "💎"] as const;
 
 export function useProfileManager() {
-  const { user: authUser, updateProfile, awardXp } = useAuthStore();
+  const { user: authUser, updateProfile } = useAuthStore();
   const storeUser = useUserStore((s) => s.user);
   const user = authUser || storeUser || DEFAULT_LEARNER_USER;
   const { addToast } = useNotificationStore();
@@ -27,13 +27,14 @@ export function useProfileManager() {
     useUserStore.getState().checkSession();
   }, []);
 
+  /* eslint-disable react-hooks/set-state-in-effect -- Syncing form fields from external store when user identity changes */
   useEffect(() => {
-    if (user) {
-      setFullName(user.fullName || user.username || "");
-      setBio(user.bio || "");
-      setSelectedEmoji(user.avatarEmoji || "🦉");
-    }
-  }, [user]);
+    setFullName(user.fullName || user.username || "");
+    setBio(user.bio || "");
+    setSelectedEmoji(user.avatarEmoji || "🦉");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user.id]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   // Skill-Specific Activity Minutes Computation from localStorage
   const skillMinutes = useMemo<SkillMinutes>(() => {

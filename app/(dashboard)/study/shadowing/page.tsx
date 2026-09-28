@@ -38,7 +38,6 @@ import { useShadowingAudioRecorder } from "@/features/shadowing/hooks/useShadowi
 import {
   resolveCanonicalLessonId,
   isSameLessonId,
-  resolveLessonId,
 } from "@/features/listening/utils/lessonIdHelper";
 
 function ShadowingStudioContent() {
@@ -189,6 +188,7 @@ function ShadowingStudioContent() {
   const [isInPlaceSwitchingLesson, setIsInPlaceSwitchingLesson] = useState<boolean>(false);
 
   // 1. SWR Instant 0ms Local Cache Hydration & Background Neon DB Fetch for Catalog (Dashboard Architecture)
+  /* eslint-disable react-hooks/set-state-in-effect -- SWR cache hydration and background DB fetch */
   useEffect(() => {
     let isMounted = true;
     const catalogCacheKey = `xp_voca_shadowing_catalog_${user?.id || "guest"}`;
@@ -225,9 +225,9 @@ function ShadowingStudioContent() {
           setLessonsList(json.data);
           try {
             localStorage.setItem(catalogCacheKey, JSON.stringify(json.data));
-          } catch (e) {}
-        } else if (isMounted && lessonsList.length === 0) {
-          setLessonsList(MOCK_LESSONS_DATA);
+          } catch {}
+        } else if (isMounted) {
+          setLessonsList((prev) => (prev.length === 0 ? MOCK_LESSONS_DATA : prev));
         }
       } catch (err: any) {
         if (!isMounted) return;
@@ -236,12 +236,17 @@ function ShadowingStudioContent() {
         } else {
           console.warn("[Shadowing] DB fetch fallback to offline cache:", err?.message || err);
         }
-        if (isMounted && lessonsList.length === 0) {
-          setLessonsList(MOCK_LESSONS_DATA);
-          addToast({
-            type: "warning",
-            title: "Chế độ offline",
-            message: "Không thể tải danh mục từ CSDL Neon. Đang hiển thị danh mục offline.",
+        if (isMounted) {
+          setLessonsList((prev) => {
+            if (prev.length === 0) {
+              addToast({
+                type: "warning",
+                title: "Chế độ offline",
+                message: "Không thể tải danh mục từ CSDL Neon. Đang hiển thị danh mục offline.",
+              });
+              return MOCK_LESSONS_DATA;
+            }
+            return prev;
           });
         }
       } finally {
@@ -256,6 +261,7 @@ function ShadowingStudioContent() {
       controller.abort();
     };
   }, [user?.id, addToast]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   // Sync URL ?id= param with database lessons (Dashboard Architecture with SWR)
   // Cache guard uses ref & alias comparison to prevent infinite re-fetching
@@ -267,6 +273,7 @@ function ShadowingStudioContent() {
     return resolveCanonicalLessonId(selectedLessonId || rawIdParam, lessonsList);
   }, [selectedLessonId, rawIdParam, lessonsList]);
 
+  /* eslint-disable react-hooks/set-state-in-effect, react-hooks/exhaustive-deps -- SWR single lesson hydration and network reconcile with internal ref cache guard */
   useEffect(() => {
     if (!rawIdParam && !selectedLessonId) {
       setIsLoadingLessonDetail(false);
@@ -360,7 +367,7 @@ function ShadowingStudioContent() {
             if (rawIdParam) {
               localStorage.setItem(`xp_voca_shadowing_detail_${rawIdParam}_${user?.id || "guest"}`, JSON.stringify(detail));
             }
-          } catch (e) {}
+          } catch {}
 
           setLessonsList((prev) => {
             const idx = prev.findIndex((l) => isSameLessonId(l.id, detail.id));
@@ -406,6 +413,7 @@ function ShadowingStudioContent() {
       controller.abort();
     };
   }, [canonicalQueryId, user?.id, rawIdParam, addToast]);
+  /* eslint-enable react-hooks/set-state-in-effect, react-hooks/exhaustive-deps */
 
   // Automatically ensure sidebar is collapsed when in studio workspace
   useEffect(() => {
@@ -517,6 +525,7 @@ function ShadowingStudioContent() {
   const [hideTranslation, setHideTranslation] = useState<boolean>(false);
 
   // Sync user progress from DB when lesson loads
+  /* eslint-disable react-hooks/set-state-in-effect -- Hydrating user progress on lesson change */
   useEffect(() => {
     if (currentLesson?.userProgress) {
       const p = currentLesson.userProgress;
@@ -532,6 +541,7 @@ function ShadowingStudioContent() {
       }
     }
   }, [currentLesson]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   // Custom Lesson Selection Modal & Search
   const [showLessonModal, setShowLessonModal] = useState(false);
@@ -564,7 +574,6 @@ function ShadowingStudioContent() {
     isAnalyzing,
     liveAudioEnergy,
     aiAnalysisResult,
-    setAiAnalysisResult,
     liveRecognizedWords,
     sentenceScores,
     userAudioPlayerRef,
@@ -638,12 +647,14 @@ function ShadowingStudioContent() {
   }, [activePlaybackWordIndex]);
 
   // 3. Reset scroll position on sentence change
+  /* eslint-disable react-hooks/set-state-in-effect -- Reset active word on sentence index change */
   useEffect(() => {
     setActivePlaybackWordIndex(null);
     if (wordTrackContainerRef.current) {
       wordTrackContainerRef.current.scrollTo({ left: 0, behavior: "smooth" });
     }
   }, [currentSentenceIndex]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   // 2-Row Listing State
   const BASIC_LEVELS = useMemo(() => new Set(["Easy", "Beginner", "A1", "A2"]), []);
@@ -652,6 +663,7 @@ function ShadowingStudioContent() {
   const [displayedBasicLessons, setDisplayedBasicLessons] = useState<any[]>([]);
   const [displayedAdvancedLessons, setDisplayedAdvancedLessons] = useState<any[]>([]);
 
+  /* eslint-disable react-hooks/set-state-in-effect -- Synchronizing filtered lesson lists from search query */
   useEffect(() => {
     const easyPool = lessonsList.filter((l) => BASIC_LEVELS.has(l.level));
     const hardPool = lessonsList.filter((l) => ADVANCED_LEVELS.has(l.level));
@@ -685,6 +697,7 @@ function ShadowingStudioContent() {
       setDisplayedAdvancedLessons(pick10RandomLessons(safeAdv, completedLessonIds || []).slice(0, 8));
     }
   }, [lessonsList, completedLessonIds, listingSearch, BASIC_LEVELS, ADVANCED_LEVELS]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const handleShuffleBasic = useCallback(() => {
     const easyPool = lessonsList.filter((l) => BASIC_LEVELS.has(l.level));
@@ -831,11 +844,7 @@ function ShadowingStudioContent() {
   }, [isCurrentSentenceBookmarked, savedSentenceKeys, currentSentenceKey, addToast, awardXp, currentSentence, currentLesson, user]);
 
   // Sentence Report Modal submission
-  const handleSubmitReport = useCallback((
-    e: React.FormEvent,
-    _reason: string,
-    _description: string
-  ) => {
+  const handleSubmitReport = useCallback(() => {
     setShowReportModal(false);
     addToast({
       type: "success",
@@ -1014,12 +1023,11 @@ function ShadowingStudioContent() {
   }, [
     selectedLessonId,
     isLessonFinished,
-    currentSentenceIndex,
-    currentSentence,
-    playbackSpeed,
-    currentLesson,
-    totalSentencesCount,
+    handleNextSentence,
+    handlePlaySampleAudio,
     isRecording,
+    startRecording,
+    stopRecording,
   ]);
 
   // Loading Studio Mode (with query param or lessonDetail fetching)

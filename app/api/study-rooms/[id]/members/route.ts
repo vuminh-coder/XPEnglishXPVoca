@@ -25,6 +25,8 @@ export async function POST(
         id: true,
         isPrivate: true,
         passcode: true,
+        maxMembers: true,
+        _count: { select: { members: true } },
       },
     });
 
@@ -41,6 +43,21 @@ export async function POST(
           { success: false, error: "Mật khẩu phòng không đúng!" },
           { status: 403 }
         );
+      }
+
+      // SECURITY: Enforce maxMembers limit atomically to prevent TOCTOU overflow
+      if (room._count?.members !== undefined && room.maxMembers && room._count.members >= room.maxMembers) {
+        // Check if user is already a member (allow re-join)
+        const existingMember = await prisma.studyRoomMember.findUnique({
+          where: { roomId_userId: { roomId, userId } },
+          select: { userId: true },
+        });
+        if (!existingMember) {
+          return NextResponse.json(
+            { success: false, error: "Phòng đã đầy, không thể tham gia!" },
+            { status: 409 }
+          );
+        }
       }
 
       // Ensure profile exists for user with selective projection
@@ -127,6 +144,41 @@ export async function GET(
 ) {
   try {
     const { id: roomId } = await params;
+
+    // SECURITY: Verify caller is authenticated
+    const userId = await getAuthenticatedUserId(req);
+    if (!userId) {
+      return NextResponse.json(
+        { success: false, error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    // Check if room is private and verify membership
+    const room = await prisma.studyRoom.findUnique({
+      where: { id: roomId },
+      select: { id: true, isPrivate: true, createdById: true },
+    });
+
+    if (!room) {
+      return NextResponse.json(
+        { success: false, error: "Room not found" },
+        { status: 404 }
+      );
+    }
+
+    if (room.isPrivate && room.createdById !== userId) {
+      const membership = await prisma.studyRoomMember.findUnique({
+        where: { roomId_userId: { roomId, userId } },
+        select: { userId: true },
+      });
+      if (!membership) {
+        return NextResponse.json(
+          { success: false, error: "Bạn không phải thành viên phòng này" },
+          { status: 403 }
+        );
+      }
+    }
 
     const members = await prisma.studyRoomMember.findMany({
       where: { roomId },

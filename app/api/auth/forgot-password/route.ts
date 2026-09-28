@@ -1,9 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 import crypto from "crypto";
+import { isRateLimited } from "@/infrastructure/security/rateLimit";
 
 export async function POST(req: NextRequest) {
   try {
+    // Anti-enumeration: 3 forgot-password requests per hour per IP
+    const clientIp = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
+    if (isRateLimited(`auth_forgot_${clientIp}`, 3, 60 * 60 * 1000)) {
+      return NextResponse.json(
+        { success: false, error: "Quá nhiều yêu cầu. Vui lòng thử lại sau." },
+        { status: 429 }
+      );
+    }
     const body = await req.json();
     const { email } = body;
 

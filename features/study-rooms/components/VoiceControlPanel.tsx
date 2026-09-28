@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState } from "react";
 import {
@@ -6,12 +6,9 @@ import {
   MicOff,
   Headphones,
   Sliders,
-  Radio,
   Wifi,
   Sparkles,
-  Volume2,
   XCircle,
-  Check,
 } from "lucide-react";
 import { Button } from "@/shared/components/ui";
 
@@ -45,16 +42,12 @@ export function VoiceControlPanel({
   isSpeaking,
   volumeLevel,
   isPushToTalk,
-  isPttActive,
   noiseGateThreshold,
   setNoiseGateThreshold,
   setIsPushToTalk,
   inputDevices,
-  outputDevices,
   selectedInputId,
-  selectedOutputId,
   setSelectedInputId,
-  setSelectedOutputId,
   onConnect,
   onDisconnect,
   onToggleMute,

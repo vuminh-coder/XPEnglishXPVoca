@@ -10,12 +10,9 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const { searchParams } = new URL(request.url);
-    let userId = searchParams.get("userId");
-
-    if (!userId) {
-      userId = await getAuthenticatedUserId(request);
-    }
+    // SECURITY: Only use authenticated userId — never trust client query params
+    // Prevents IDOR/BOLA (OWASP API Top 10 #1) where attackers could pass ?userId=<victim>
+    const userId = await getAuthenticatedUserId(request);
 
     const isPersonalized = Boolean(userId && !userId.startsWith("guest") && userId !== "guest_user");
     const cacheControlHeader = isPersonalized

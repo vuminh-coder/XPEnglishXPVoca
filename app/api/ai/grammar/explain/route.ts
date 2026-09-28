@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { getGrammarLesson } from "@/features/grammar/data/grammarContent";
+import { isRateLimited } from "@/infrastructure/security/rateLimit";
 import fs from "fs";
 import path from "path";
 
@@ -8,9 +9,13 @@ const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
 
 export async function POST(req: NextRequest) {
   try {
-    const userId = await getAuthenticatedUserId();
+    const userId = await getAuthenticatedUserId(req);
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    if (isRateLimited(`ai_grammar_explain_${userId}`, 20, 60 * 1000)) {
+      return NextResponse.json({ error: "Too many requests. Please slow down." }, { status: 429 });
     }
 
     const { topicId, level, mode, messages } = await req.json();

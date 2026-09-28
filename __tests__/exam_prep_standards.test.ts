@@ -57,9 +57,9 @@ describe("Exam Prep Performance Standards & Database Suite", () => {
     mockAuth.userId = null;
   });
 
-  describe("1. Standardized 37-Exam Bank Integrity", () => {
-    it("should load all 37 official standardized papers with valid metadata", () => {
-      expect(MOCK_EXAM_PAPERS.length).toBe(37);
+  describe("1. Standardized Exam Bank Integrity", () => {
+    it("should load all 39 official standardized papers with valid metadata", () => {
+      expect(MOCK_EXAM_PAPERS.length).toBe(39);
       MOCK_EXAM_PAPERS.forEach((paper) => {
         expect(paper.id).toBeDefined();
         expect(paper.title).toBeDefined();

@@ -1,6 +1,7 @@
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { prisma, safeDbExecute } from "@/infrastructure/database/prisma";
 import { getLocalDateString } from "@/shared/utils/dateUtils";
+import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -171,87 +172,95 @@ export async function POST(request: Request) {
     startOfToday.setHours(0, 0, 0, 0);
 
     const result = await safeDbExecute(async () => {
-      // 1. Check if already claimed today in DB
-      const existingClaim = await prisma.dailySkillPractice.findFirst({
-        where: {
-          userId,
-          date: todayStr,
-          skill: claimSkillKey,
-        },
-      });
+      // Use $transaction to prevent double-claim race condition
+      return await prisma.$transaction(async (tx) => {
+        // 1. Check if already claimed today in DB (within transaction for atomicity)
+        const existingClaim = await tx.dailySkillPractice.findFirst({
+          where: {
+            userId,
+            date: todayStr,
+            skill: claimSkillKey,
+          },
+        });
 
-      if (existingClaim) {
+        if (existingClaim) {
+          return {
+            alreadyClaimed: true,
+            message: "Nhiệm vụ này đã được nhận thưởng hôm nay rồi!",
+          };
+        }
+
+        // 2. Verify real progress in DB before awarding (Server-Authoritative Anti-Cheat)
+        let progress = 0;
+        if (challengeId === "learn_words") {
+          progress = await tx.userVocabulary.count({
+            where: { userId, lastPracticed: { gte: startOfToday } },
+          });
+        } else if (challengeId === "win_pvp") {
+          progress = await tx.matchHistory.count({
+            where: { userId, result: "WIN", createdAt: { gte: startOfToday } },
+          });
+        } else if (challengeId === "speak_practice") {
+          const practices = await tx.dailySkillPractice.findMany({
+            where: { userId, date: todayStr, skill: { in: ["speaking", "shadowing"] } },
+          });
+          progress = practices.reduce((acc, p) => acc + (p.minutes || 0), 0);
+        } else if (challengeId === "write_essay") {
+          const practices = await tx.dailySkillPractice.findMany({
+            where: { userId, date: todayStr, skill: { in: ["writing", "dictation"] } },
+          });
+          progress = practices.reduce((acc, p) => acc + (p.minutes || 0), 0);
+        } else {
+          // Fallback for review_cards
+          progress = await tx.userVocabulary.count({
+            where: { userId, proficiency: { gt: 0 } },
+          });
+        }
+
+        // Check threshold (allow reasonable leniency for review)
+        if (progress < challengeDef.target && challengeId !== "review_cards") {
+          return {
+            notCompleted: true,
+            message: `Chưa hoàn thành nhiệm vụ (${progress}/${challengeDef.target}).`,
+          };
+        }
+
+        // 3. Record claim in DailySkillPractice (atomic within transaction)
+        await tx.dailySkillPractice.create({
+          data: {
+            userId,
+            skill: claimSkillKey,
+            date: todayStr,
+            minutes: 0,
+            xpEarned: challengeDef.xpReward,
+          },
+        });
+
+        // 4. Update Profile with real XP and Coins (selective projection)
+        const updatedProfile = await tx.profile.update({
+          where: { id: userId },
+          data: {
+            totalXp: { increment: challengeDef.xpReward },
+            coins: { increment: challengeDef.coinReward },
+            updatedAt: new Date(),
+          },
+          select: {
+            id: true,
+            totalXp: true,
+            coins: true,
+          },
+        });
+
         return {
-          alreadyClaimed: true,
-          message: "Nhiệm vụ này đã được nhận thưởng hôm nay rồi!",
+          success: true,
+          challengeId,
+          xpAwarded: challengeDef.xpReward,
+          coinsAwarded: challengeDef.coinReward,
+          totalXp: updatedProfile.totalXp,
+          coins: updatedProfile.coins,
+          message: `Nhận thưởng thành công: +${challengeDef.xpReward} XP, +${challengeDef.coinReward} Vàng!`,
         };
-      }
-
-      // 2. Verify real progress in DB before awarding (Server-Authoritative Anti-Cheat)
-      let progress = 0;
-      if (challengeId === "learn_words") {
-        progress = await prisma.userVocabulary.count({
-          where: { userId, lastPracticed: { gte: startOfToday } },
-        });
-      } else if (challengeId === "win_pvp") {
-        progress = await prisma.matchHistory.count({
-          where: { userId, result: "WIN", createdAt: { gte: startOfToday } },
-        });
-      } else if (challengeId === "speak_practice") {
-        const practices = await prisma.dailySkillPractice.findMany({
-          where: { userId, date: todayStr, skill: { in: ["speaking", "shadowing"] } },
-        });
-        progress = practices.reduce((acc, p) => acc + (p.minutes || 0), 0);
-      } else if (challengeId === "write_essay") {
-        const practices = await prisma.dailySkillPractice.findMany({
-          where: { userId, date: todayStr, skill: { in: ["writing", "dictation"] } },
-        });
-        progress = practices.reduce((acc, p) => acc + (p.minutes || 0), 0);
-      } else {
-        // Fallback for review_cards
-        progress = await prisma.userVocabulary.count({
-          where: { userId, proficiency: { gt: 0 } },
-        });
-      }
-
-      // Check threshold (allow reasonable leniency for review)
-      if (progress < challengeDef.target && challengeId !== "review_cards") {
-        return {
-          notCompleted: true,
-          message: `Chưa hoàn thành nhiệm vụ (${progress}/${challengeDef.target}).`,
-        };
-      }
-
-      // 3. Record claim in DailySkillPractice
-      await prisma.dailySkillPractice.create({
-        data: {
-          userId,
-          skill: claimSkillKey,
-          date: todayStr,
-          minutes: 0,
-          xpEarned: challengeDef.xpReward,
-        },
       });
-
-      // 4. Update Profile with real XP and Coins
-      const updatedProfile = await prisma.profile.update({
-        where: { id: userId },
-        data: {
-          totalXp: { increment: challengeDef.xpReward },
-          coins: { increment: challengeDef.coinReward },
-          updatedAt: new Date(),
-        },
-      });
-
-      return {
-        success: true,
-        challengeId,
-        xpAwarded: challengeDef.xpReward,
-        coinsAwarded: challengeDef.coinReward,
-        totalXp: updatedProfile.totalXp,
-        coins: updatedProfile.coins,
-        message: `Nhận thưởng thành công: +${challengeDef.xpReward} XP, +${challengeDef.coinReward} Vàng!`,
-      };
     }, "Challenge Claim Submit");
 
     if (result && result.alreadyClaimed) {
@@ -260,6 +269,8 @@ export async function POST(request: Request) {
     if (result && result.notCompleted) {
       return NextResponse.json({ success: false, error: result.message }, { status: 400 });
     }
+
+    invalidateDashboardCache(userId);
 
     return NextResponse.json({
       success: true,

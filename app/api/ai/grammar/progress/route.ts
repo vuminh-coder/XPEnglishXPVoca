@@ -3,10 +3,16 @@ import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { prisma } from "@/infrastructure/database/prisma";
 import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
 import { sanitizeInput } from "@/infrastructure/security/validation";
+import { isRateLimited } from "@/infrastructure/security/rateLimit";
 
 export async function POST(req: Request) {
   try {
     const userId = await getAuthenticatedUserId(req);
+
+    if (userId && isRateLimited(`ai_grammar_progress_${userId}`, 30, 60 * 1000)) {
+      return NextResponse.json({ error: "Too many requests." }, { status: 429 });
+    }
+
     const body = await req.json();
     const { topicId, level, score, xpEarned } = body;
 

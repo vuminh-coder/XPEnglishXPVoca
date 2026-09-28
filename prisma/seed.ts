@@ -7,6 +7,7 @@ import { BUSINESS_COLLOCATIONS } from "@/features/vocabulary/data/businessColloc
 import { ESSENTIAL_PHRASAL_VERBS } from "@/features/vocabulary/data/phrasalVerbs";
 import { ESSENTIAL_IDIOMS } from "@/features/vocabulary/data/idioms";
 import { seedListeningLessons } from "./seedListeningData";
+import { seedExamsData } from "./seedExamsData";
 
 const prisma = new PrismaClient();
 
@@ -85,6 +86,11 @@ async function main() {
   console.log("🎧 Seeding Listening Lessons from seedListeningData...");
   await seedListeningLessons(prisma);
   console.log("✅ Listening Lessons seeded successfully.");
+
+  // 5. Seed Standardized Exam Bank
+  console.log("📝 Seeding Standardized Exam Bank from seedExamsData...");
+  await seedExamsData(prisma);
+  console.log("✅ Standardized Exam Bank seeded successfully.");
 
   console.log("🎉 All database seeding completed successfully!");
 }

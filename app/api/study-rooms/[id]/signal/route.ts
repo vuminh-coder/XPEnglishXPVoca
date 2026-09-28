@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 
 // In-memory queue for WebRTC signaling messages
@@ -10,12 +10,19 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const userId = await getAuthenticatedUserId();
+    const authedUserId = await getAuthenticatedUserId(req);
+    if (!authedUserId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const { id: roomId } = await params;
     const body = await req.json();
-    const { senderId, targetId, payload } = body;
+    const { targetId, payload } = body;
 
-    if (!senderId || !targetId || !payload) {
+    // SECURITY: Always use authenticated userId as senderId — never trust client input
+    const senderId = authedUserId;
+
+    if (!targetId || !payload) {
       return NextResponse.json({ error: "Invalid signaling payload" }, { status: 400 });
     }
 
@@ -50,16 +57,16 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const authedUserId = await getAuthenticatedUserId();
-    const { id: roomId } = await params;
-    const { searchParams } = new URL(req.url);
-    const userId = searchParams.get("userId");
-
-    if (!userId) {
-      return NextResponse.json({ error: "Missing userId" }, { status: 400 });
+    const authedUserId = await getAuthenticatedUserId(req);
+    if (!authedUserId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const queueKey = `${roomId}:${userId}`;
+    const { id: roomId } = await params;
+
+    // SECURITY: Only allow reading signals addressed to the authenticated user
+    // Prevents eavesdropping where attackers pass ?userId=<victim_id> to steal WebRTC signals
+    const queueKey = `${roomId}:${authedUserId}`;
     const signals = signalQueue.get(queueKey) || [];
 
     // Clear retrieved signals
