@@ -80,7 +80,7 @@ export const ProfileSkillBreakdown: React.FC<ProfileSkillBreakdownProps> = ({ sk
             <div className="text-[11px] font-bold text-slate-800 dark:text-slate-200 font-display">
               {skill.label}
             </div>
-            <div className="text-xs font-black font-display text-slate-900 dark:text-white font-mono">
+            <div className="text-xs font-black font-display text-slate-900 dark:text-white font-mono" suppressHydrationWarning>
               {skill.value}m
             </div>
           </div>

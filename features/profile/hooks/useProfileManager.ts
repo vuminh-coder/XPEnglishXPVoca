@@ -36,11 +36,19 @@ export function useProfileManager() {
   }, [user.id]);
   /* eslint-enable react-hooks/set-state-in-effect */
 
-  // Skill-Specific Activity Minutes Computation from localStorage
-  const skillMinutes = useMemo<SkillMinutes>(() => {
-    if (!user || typeof window === "undefined") {
-      return { dictation: 15, shadowing: 10, speaking: 12, vocab: 25, writing: 18 };
-    }
+  const DEFAULT_SKILL_MINUTES: SkillMinutes = useMemo(() => ({
+    dictation: 15,
+    shadowing: 10,
+    speaking: 12,
+    vocab: 25,
+    writing: 18,
+  }), []);
+
+  const [skillMinutes, setSkillMinutes] = useState<SkillMinutes>(DEFAULT_SKILL_MINUTES);
+
+  // Skill-Specific Activity Minutes Computation from localStorage after client hydration
+  useEffect(() => {
+    if (!user || typeof window === "undefined") return;
 
     const readMinutes = (skill: string) => {
       try {
@@ -57,13 +65,13 @@ export function useProfileManager() {
       return 0;
     };
 
-    return {
+    setSkillMinutes({
       dictation: readMinutes("Dictation") || readMinutes("dictation") || 15,
       shadowing: readMinutes("Shadowing") || readMinutes("shadowing") || 10,
       speaking: readMinutes("Nói") || readMinutes("speaking") || 12,
       vocab: readMinutes("Từ vựng") || readMinutes("vocab") || 25,
       writing: readMinutes("Viết") || readMinutes("writing") || 18,
-    };
+    });
   }, [user]);
 
   const { current: xpCurrent, total: xpTotal, percent: xpPercent } = getXpProgress(
