@@ -1,7 +1,8 @@
 # XP English & XP Voca - Hệ Thống Học Tiếng Anh Thông Minh AI (Agency Dashboard Tier)
 
 [![CI Pipeline](https://github.com/vuminh-coder/XPEnglishXPVoca/actions/workflows/ci.yml/badge.svg)](https://github.com/vuminh-coder/XPEnglishXPVoca/actions/workflows/ci.yml)
-[![Tests](https://img.shields.io/badge/Vitest-613%20passed-10b981.svg)](https://github.com/vuminh-coder/XPEnglishXPVoca/actions)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/4f9682d4-abe9-436c-a2a7-11f66ce8bcdd/deploy-status)](https://app.netlify.com/projects/xpenglishvoca/deploys)
+[![Tests](https://img.shields.io/badge/Vitest-625%20passed-10b981.svg)](https://github.com/vuminh-coder/XPEnglishXPVoca/actions)
 [![Next.js 16](https://img.shields.io/badge/Next.js-16.2.9-black.svg)](https://nextjs.org)
 [![TypeScript 5](https://img.shields.io/badge/TypeScript-5-blue.svg)](https://www.typescriptlang.org)
 
@@ -2359,7 +2360,9 @@ $$\text{MEASURE} \rightarrow \text{UNDERSTAND} \rightarrow \text{EXPLAIN} \right
 ## 🌐 Production Deployment Status
 
 - **Live Production App URL (Vercel)**: [https://xpenglishvoca.vercel.app](https://xpenglishvoca.vercel.app)
-- **Status**: **100% Build SUCCESS** (98/98 static & dynamic routes compiled)
+- **Live Production App URL (Netlify)**: [https://xpenglishvoca.netlify.app](https://xpenglishvoca.netlify.app)
+- **Netlify Deploy Dashboard**: [https://app.netlify.com/projects/xpenglishvoca/deploys](https://app.netlify.com/projects/xpenglishvoca/deploys)
+- **Status**: **100% Build SUCCESS** (105/105 static & dynamic routes compiled)
 
 
 
