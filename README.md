@@ -2235,6 +2235,13 @@ $$\text{MEASURE} \rightarrow \text{UNDERSTAND} \rightarrow \text{EXPLAIN} \right
    - **Tối Ưu Hóa Khởi Tạo Tải (Dynamic Imports & Lazy Loading):** Lazy load 4 modal nặng (`SubtitleExportModal`, `SrtImportModal`, `XpSubExtractorModal`, `KeyboardShortcutsModal`) qua `next/dynamic` giúp giảm ngay ~68KB dung lượng bundle ban đầu của trang.
 4. **Bộ Kiểm Thử Toàn Diện (`__tests__/myvideo*.test.ts`)**:
    - 10 bộ kiểm thử Vitest với **250/250 tests PASS 100%**, bao gồm kiểm thử độ chính xác định thời phụ đề (`myvideo_subtitle_engine_precision.test.ts`), đồng bộ phát video thời gian thực (`myvideo_realtime_playback_sync.test.ts`) và kiểm thử đón đầu âm thanh cùng bóc tách phụ đề trọn vẹn (`myvideo_full_subtitle_pipeline_lead_time.test.ts`).
+5. **Kiểm Thử Trình Duyệt Google Chrome Trực Tiếp (`scripts/chrome_verify_myvideo.mjs`)**:
+   - Sử dụng Google Chrome thực tế qua Chrome DevTools Protocol (CDP WebSocket) kiểm tra toàn diện trên màn hình `/myvideo`:
+     - Xác nhận Header phụ đề luôn nằm trên 1 dòng duy nhất (`flex items-center justify-between`, không wrap layout).
+     - Xác nhận đã loại bỏ hoàn toàn (0 phần tử) khối vi chỉnh `-0.2s / +0.2s`.
+     - Xác nhận đã loại bỏ 100% các huy hiệu chữ thô (`"Sắp phát"`, `"[CÂU TIẾP THEO 1]"`), thay bằng bộ icon Agency trực quan (`Volume2`, `ChevronDown`, `ChevronsDown`).
+     - Kiểm thử chuyển đổi tương tác 2 chiều mượt mà giữa chế độ Focus 3 Câu và Xem Tất Cả.
+     - Chụp ảnh màn hình kiểm chứng trực tiếp từ V8 & Blink engine (`chrome_myvideo_verified.png`, `chrome_dock_mode1_focus3.png`, `chrome_dock_mode2_all.png`).
 
 ### 4. Mini-Games Từ Vựng Tương Tác & Chống Gian Lận Điểm Thưởng (`/study/games` & `/api/games/record`)
 1. **Kiến Trúc Mini-Games Đa Chế Độ Trí Tuệ**:
