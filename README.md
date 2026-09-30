@@ -1648,14 +1648,18 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
   - **Full-Stack Equip & Purchase**: Mua & trang bị/tháo nón Cú cử nhân trực tiếp sync ngầm với PostgreSQL API `/api/shop/purchase` và `/api/shop/equip`.
   - **Skeleton Loading Khớp 100% Hình Học (`loading.tsx`)**: Tái hiện chuẩn xác bố cục Bento 7/12 & 5/12.
 
-- **`/premium`**: Trung Tâm Nâng Cấp Gói Hội Viên VIP Pro (High-End Agency Dashboard Tier).
-  - **Đồng Bộ Header Đỉnh Thống Nhất (`AppTopHeader` 56px Baseline)**: Dải Navigation Pills (`[ 👑 Nâng cấp Premium ]`, `[ 🛍️ Cửa hàng Vật phẩm ]` `/shop`, `[ 👤 Hồ sơ ]` `/profile`), nút Hamburger mở Sidebar trên mobile, Theme Toggle Sáng/Tối và Avatar người dùng.
-  - **Sleek Editorial Hero Stage (`PremiumHeroStage`)**: Thiết kế thanh thoát, tinh tế, tập trung trực tiếp vào giá trị cốt lõi, triệt tiêu thẻ đen lặp lại, hiển thị huy hiệu bảo chứng học viên trực tuyến `3.420+ học viên`, điểm đánh giá 4.9/5.0 và cam kết hoàn tiền 7 ngày.
-  - **Bảng 3 Gói Tự Thân Đa Năng (`PremiumPlanDeck`)**: Mỗi gói được thiết kế độc lập, khép kín gồm giá tiền, chu kỳ, quà tặng, checklist tính năng và **nút hành động trực tiếp** dẫn sang `/premium/checkout?plan={key}`. Gói 1 Năm trung tâm nổi bật với kiến trúc Double-Bezel chuẩn Agency, huy hiệu `TIẾT KIỆM 45% • PHỔ BIẾN NHẤT` và nút Primary CTA phong cách Button-in-Button.
-  - **Bảng So Sánh Minh Bạch Quyền Lợi & Mô Phỏng Điểm Số (`PremiumComparisonMatrix`)**: Thay thế 5 khối Bento cồng kềnh lặp chữ bằng 1 bảng đối đầu trực diện giữa Tài khoản Miễn Phí và Hội viên PRO VIP (Kho 100+ chủ đề, 37+ đề thi, Gia sư AI 24/7, SM-2, Khiên Streak, X2 XP, Đa thiết bị), tích hợp bộ điều khiển thanh trượt mô phỏng tăng điểm TOEIC/IELTS nhỏ gọn, thanh lịch.
-  - **Bảng Vàng Thành Tích Học Viên (`PremiumSuccessStories`)**: 3 câu chuyện thành công thực tế với điểm số bứt phá (TOEIC 890, IELTS 7.5, 2.400+ từ SM-2) với bảng màu trung tính, dịu mắt.
-  - **Cam Kết Hoàn Tiền 100% Trong 7 Ngày & Khối FAQ Accordion (`PremiumFaqSection`)**: Giải đáp 5 câu hỏi thắc mắc phổ biến nhất và bảo chứng an tâm học tập tuyệt đối.
+- **`/premium`**: Trung Tâm Nâng Cấp Gói Hội Viên VIP Pro (Minimalist & High-Conversion Tier - Chuẩn Apple/Linear).
+  - **Đồng Bộ Header Đỉnh Thống Nhất (`AppTopHeader` 56px Baseline)**: Dải Navigation Pills (`[ 👑 Nâng cấp Premium ]`, `[ 🛍️ Cửa hàng Vật phẩm ]` `/shop`, `[ 👤 Hồ sơ ]` `/profile`), Theme Toggle Sáng/Tối và Avatar người dùng.
+  - **Spotlight Hero Stage Tinh Gọn & Sáng Tinh Tế (`PremiumHeroStage`)**: Nền sáng thanh lịch `bg-gradient-to-b from-blue-50/40 via-white to-white`, loại bỏ hoàn toàn khối đen tối sẫm và chữ dài dòng, làm nổi bật thông điệp bứt phá điểm số kèm 3 bảo chứng cốt lõi (4.9/5 sao, VietQR tức thì, hoàn tiền 7 ngày).
+  - **Bảng 3 Thẻ Gói Tự Thân (`PremiumPlanDeck` - Self-Contained Pricing Deck)**:
+    - Tích hợp toàn bộ quyền lợi, quà tặng và nút Primary CTA trực tiếp bên trong từng thẻ gói (*Gói 1 Năm - Tiết kiệm 45% Khuyên dùng*, *Gói 1 Tháng Linh hoạt*, *Gói Trọn Đời Vĩnh viễn*), loại bỏ hoàn toàn khối Spotlight lặp chữ thừa thãi.
+    - Dẫn trực tiếp tới cổng thanh toán VietQR `/premium/checkout?plan={key}` chỉ với 1-click.
+  - **4 Trụ Cột Công Nghệ Độc Quyền Tinh Gọn (`PremiumBentoShowcase`)**:
+    - Thay thế các khối chữ nặng nề bằng 4 thẻ tính năng ngắn gọn, hiện đại: Gia sư AI chuẩn IPA (sử dụng Xanh hoàng gia `#0059bb`, không dùng màu tím), 37+ Đề thi chuẩn ETS có dự kiến bứt phá điểm số, Ghi nhớ ngắt quãng SM-2 (Xanh Emerald) và Khiên Streak tự động & X2 XP (Vàng Amber).
+  - **Bảng Vàng Thành Tích Học Viên (`PremiumSuccessStories`)**: Trưng bày nhận xét cô đọng, chân thực từ học viên đạt bước nhảy điểm số ấn tượng.
+  - **Cam Kết Hoàn Tiền 100% Trong 7 Ngày & Khối FAQ Accordion (`PremiumFaqSection`)**: Cấu trúc 5/12 & 7/12 cân đối, súc tích.
   - **Skeleton Loading Khớp 100% Hình Học (`loading.tsx`)**: Triệt tiêu hoàn toàn giật nhảy layout (Zero CLS).
+
 
 - **`/premium/checkout`**: Cổng Thanh Toán Chuyên Nghiệp VietQR Napas 24/7 & MoMo (FinTech Tier).
   - **Đồng Bộ Header Đỉnh Thống Nhất (`AppTopHeader` 56px Baseline)**: Nút `[ ← Quay Lại Gói Cước ]` dẫn về `/premium`, breadcrumb đa tầng và pill active `[ 💳 Thanh toán VIP Pro ]`.
@@ -2080,23 +2084,22 @@ Phòng thi thử chuẩn hóa TOEIC & IELTS tích hợp ngân hàng 37 đề thi
 
 ## 💎 XP English PRO VIP Membership Hub (`/premium`)
 
-Trang đăng ký và quản lý gói hội viên Pro VIP nâng cấp toàn diện theo hệ thống nhận diện thương hiệu chuẩn mực Dashboard, cấu trúc Bento phẳng sang trọng, và quy tắc phối màu 60 - 30 - 10:
+Trang nâng cấp gói hội viên Pro VIP được tối ưu hóa toàn diện theo phong cách Minimalist & High-Conversion (chuẩn Apple/Linear), lược bỏ hoàn toàn các khối chữ trùng lặp, thanh lọc màu sắc (không dùng màu tím, không dùng nền tối sẫm):
 
-1. **Dashboard-Aligned Brand Architecture & 60 - 30 - 10 Palette**:
-   - **60% Nền & Cấu trúc (`min-h-screen bg-slate-50/60 dark:bg-slate-950`)**: Nền Slate trung tính dịu mắt, làm nổi bật các thẻ Bento trắng tinh tế (`bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs`).
-   - **30% Thương hiệu Xanh hoàng gia `#0059bb`**: Nút Primary Kích hoạt VIP kèm Button-in-Button Arrow (`bg-[#0059bb] hover:bg-[#004799]`), viền active của gói được chọn (`border-2 border-[#0059bb] shadow-blue-500/10`), Tab switcher TOEIC / IELTS trong bộ mô phỏng điểm số, thanh kéo slider (`accent-[#0059bb]`), và Badge Master Lifetime VIP.
+1. **Chuẩn Mực Phối Màu 60 - 30 - 10 Tinh Khiết & Tránh Phân Tán Thị Giác**:
+   - **60% Nền & Cấu trúc (`min-h-screen bg-slate-50/60 dark:bg-slate-950`)**: Nền Slate sáng nhẹ nhàng, dịu mắt, kết hợp các thẻ trắng tinh tế (`bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs`).
+   - **30% Thương hiệu Xanh hoàng gia `#0059bb`**: Nút Primary Kích hoạt Gói 1 Năm (`bg-[#0059bb] hover:bg-[#004799]`), viền nổi bật của gói Khuyên dùng, và các biểu tượng nhận diện công nghệ.
    - **10% Điểm nhấn ngữ nghĩa (Semantic Accents)**:
-     - **Vàng Amber (`#f59e0b`)**: Gamification, Thưởng quà tặng (`Gift`), Chuỗi Streak (`Flame`, `bg-amber-50 text-amber-600`), Gói 1 Năm Hot Deal (`bg-amber-500 text-white`).
-     - **Xanh Emerald (`#10b981`)**: Cam kết hoàn tiền 100% (`ShieldCheck`, `CheckCircle`), Dự phóng điểm số đạt chuẩn (`estimatedProScore+`), và huy hiệu thành tích học viên Bảng vàng.
-     - **Tím AI (`#8b5cf6`)**: Dành riêng cho Gia sư AI Speaking đo chuẩn IPA và huy hiệu `Gemini AI 2.0`.
-     - **Không lạm dụng Đỏ Rose hoặc Gradient Teal ngoài quy chuẩn**: Đảm bảo toàn bộ thẻ, nút và slider mang lại cảm giác học tập tin cậy và thư thái.
+     - **Vàng Amber (`#f59e0b`)**: Gamification, Quà tặng (`Gift`), Chuỗi Streak (`Flame`, `bg-amber-50 text-amber-600`), Vương miện VIP Lifetime.
+     - **Xanh Emerald (`#10b981`)**: Cam kết hoàn tiền 100% (`ShieldCheck`), Dự phóng điểm số đạt chuẩn (`+260 điểm Pro`), và dấu tích mở khóa tính năng.
+     - **Tuyệt đối không dùng màu tím và màu tối sẫm**: Triệt tiêu hoàn toàn các gradient đen/tím gây cảm giác âm u, nặng nề; giữ giao diện sáng rõ, tập trung và minh bạch.
 
-2. **Cấu Trúc Tinh Gọn Đẳng Cấp Chuẩn Apple / Linear (Less is More)**:
-   - **`PremiumHeroStage`**: Thiết kế thanh lịch, tập trung trực tiếp vào giá trị cốt lõi, hiển thị số lượng 3.420+ học viên trực tuyến, điểm đánh giá 4.9/5.0 và cam kết hoàn tiền 7 ngày.
-   - **`PremiumPlanDeck`**: Bảng 3 thẻ tự thân đa năng với kiến trúc Double-Bezel cho gói 1 Năm, tích hợp quyền lợi, quà tặng và nút Primary CTA dẫn trực tiếp sang cổng thanh toán `/premium/checkout?plan=...`.
-   - **`PremiumComparisonMatrix`**: Bảng so sánh minh bạch đối đầu trực diện giữa Tài khoản Miễn Phí và Hội viên PRO VIP, tích hợp bộ mô phỏng tăng điểm TOEIC/IELTS nhỏ gọn, thanh lịch.
-   - **`PremiumSuccessStories`**: Bảng vàng thành tích 3 học viên thật với điểm số bứt phá, trích dẫn chi tiết và avatar có quầng hào quang đồng tâm.
-   - **`PremiumFaqSection`**: Khung cam kết bảo vệ quyền lợi học viên an tâm 100% cùng Accordion giải đáp thắc mắc thường gặp.
+2. **Cấu Trúc Tinh Gọn "Less is More" & Tăng Tỷ Lệ Chuyển Đổi**:
+   - **`PremiumHeroStage`**: Header sáng thanh lịch, thông điệp truyền cảm hứng súc tích, lược bỏ toàn bộ các thẻ phụ rườm rà và các đoạn văn miêu tả dài dòng.
+   - **`PremiumPlanDeck` (Self-Contained Pricing Deck)**: Tích hợp đầy đủ quyền lợi, quà tặng và nút kích hoạt trực tiếp trong 3 thẻ gói độc lập, giúp học viên so sánh giá và bấm thanh toán ngay chỉ với 1 thao tác.
+   - **`PremiumBentoShowcase`**: Rút gọn thành 4 thẻ năng lực cốt lõi (Gia sư AI chuẩn IPA, 37+ Đề thi chuẩn ETS, Ghi nhớ ngắt quãng SM-2, Khiên Streak & X2 XP), mỗi thẻ chỉ gồm 1 câu ngắn gọn.
+   - **`PremiumSuccessStories`**: Nhận xét chân thực, ngắn gọn từ học viên thật.
+   - **`PremiumFaqSection`**: Bố cục 5/12 & 7/12 cân bằng giữa Cam kết hoàn tiền 100% trong 7 ngày và 5 câu hỏi thường gặp nhất.
 
 3. **Cổng Thanh Toán Bảo Mật VietQR Napas 24/7 (`/premium/checkout`)**:
    - **Bóc Tách Module Hóa Toàn Diện (`features/premium/components/checkout/`)**: Tinh gọn tệp điều phối từ 547 dòng xuống trang điều phối mỏng dưới ~150 dòng, kết nối custom hook `useCheckoutPayment`.

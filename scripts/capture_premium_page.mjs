@@ -22,8 +22,6 @@ const chromeProcess = spawn(
     "--no-first-run",
     "--no-default-browser-check",
     "--disable-gpu",
-    "--disable-extensions",
-    "--incognito",
     "--hide-scrollbars",
     TARGET_URL,
   ],

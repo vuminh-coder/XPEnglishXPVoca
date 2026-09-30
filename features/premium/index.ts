@@ -6,7 +6,6 @@ export * from "./components/hero/PremiumHeroStage";
 export * from "./components/plans/PremiumPlanDeck";
 export * from "./components/plans/PremiumPlanPerksSpotlight";
 export * from "./components/features/PremiumBentoShowcase";
-export * from "./components/features/PremiumComparisonMatrix";
 export * from "./components/testimonials/PremiumSuccessStories";
 export * from "./components/faq/PremiumFaqSection";
 export * from "./components/checkout/CheckoutOrderSummary";

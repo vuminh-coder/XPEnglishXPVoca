@@ -11,7 +11,7 @@ import {
   usePremiumPlan,
   PremiumHeroStage,
   PremiumPlanDeck,
-  PremiumComparisonMatrix,
+  PremiumBentoShowcase,
   PremiumSuccessStories,
   PremiumFaqSection,
 } from "@/features/premium";
@@ -39,14 +39,14 @@ export default function PremiumPage() {
         <ShopSuiteNavTabs />
       </AppTopHeader>
 
-      {/* ─── 2. MAIN ENTRANCE WRAPPER (Fluid Max 1600px Canvas) ─── */}
-      <PageEntranceWrapper className="space-y-8 sm:space-y-10 w-full max-w-[1400px] 2xl:max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
-        {/* 1. Sleek Editorial Hero Stage */}
+      {/* ─── 2. MAIN ENTRANCE WRAPPER (Fluid Canvas matching Dashboard) ─── */}
+      <PageEntranceWrapper className="space-y-6 sm:space-y-8 w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Hero Stage (Light, Clean & Concise) */}
         <MotionItem>
           <PremiumHeroStage />
         </MotionItem>
 
-        {/* 2. Self-Contained 3-Card Pricing Deck (Direct Checkout CTAs) */}
+        {/* Self-Contained 3-Plan Pricing Deck */}
         <MotionItem>
           <PremiumPlanDeck
             selectedPlanKey={selectedPlanKey}
@@ -54,9 +54,9 @@ export default function PremiumPage() {
           />
         </MotionItem>
 
-        {/* 3. Transparent Free vs PRO VIP Comparison Matrix & Score Simulator */}
+        {/* 4 Core Technology Pillars (No Purple, No Dark Blocks, Concise) */}
         <MotionItem>
-          <PremiumComparisonMatrix
+          <PremiumBentoShowcase
             targetExam={targetExam}
             currentScore={currentScore}
             setCurrentScore={setCurrentScore}
@@ -65,12 +65,12 @@ export default function PremiumPage() {
           />
         </MotionItem>
 
-        {/* 4. Real Student Success Stories & Scorecards */}
+        {/* Student Success Stories (Concise Reviews) */}
         <MotionItem>
           <PremiumSuccessStories />
         </MotionItem>
 
-        {/* 5. 100% 7-Day Money-Back Guarantee & Accordion FAQs */}
+        {/* 100% 7-day Money Back Guarantee & FAQs */}
         <MotionItem>
           <PremiumFaqSection
             openFaqIdx={openFaqIdx}
