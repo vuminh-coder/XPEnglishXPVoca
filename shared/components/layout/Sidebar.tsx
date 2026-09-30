@@ -370,17 +370,21 @@ function SidebarNavInner({
                         <Link
                           href="/premium"
                           onClick={() => sidebarOpen && toggleSidebar()}
-                          className="sidebar-link text-[#0059bb] dark:text-sky-400 hover:bg-blue-50/70 dark:hover:bg-blue-950/40 font-bold transition-all duration-200 flex items-center justify-between px-3 py-2 w-full rounded-xl lg:hidden mt-1"
+                          className={`sidebar-link font-bold transition-all duration-200 flex items-center justify-between px-3 py-2 w-full rounded-xl lg:hidden mt-1 ${
+                            user?.isPremium
+                              ? "text-amber-700 dark:text-amber-300 bg-amber-50/70 dark:bg-amber-950/40 hover:bg-amber-100/70"
+                              : "text-[#0059bb] dark:text-sky-400 hover:bg-blue-50/70 dark:hover:bg-blue-950/40"
+                          }`}
                         >
                           <div className="flex items-center gap-3 min-w-0">
                             <span className="sidebar-link-icon shrink-0">
                               <Crown className="w-[21px] h-[21px] text-amber-500" strokeWidth={1.8} />
                             </span>
                             <span className="font-bold text-[13px] truncate">
-                              Nâng cấp Premium
+                              {user?.isPremium ? "Hội viên PRO VIP" : "Nâng cấp Premium"}
                             </span>
                           </div>
-                          <span className="shrink-0 text-[#0059bb] dark:text-sky-400 font-bold">➔</span>
+                          <span className="shrink-0 text-amber-500 font-bold">{user?.isPremium ? "👑" : "➔"}</span>
                         </Link>
                       )}
                     </React.Fragment>
@@ -439,13 +443,22 @@ function SidebarNavInner({
           <div className={`${sidebarCollapsed ? "hidden" : "hidden lg:block"}`}>
             <Link
               href="/premium"
-              className="w-full py-2.5 px-3.5 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-800/40 text-[#0059bb] dark:text-sky-400 text-xs font-black flex items-center justify-between hover:bg-blue-100/80 transition-colors shadow-2xs"
+              className={`w-full py-2.5 px-3.5 rounded-xl border text-xs font-black flex items-center justify-between transition-colors shadow-2xs ${
+                user?.isPremium
+                  ? "bg-amber-50/90 dark:bg-amber-950/40 border-amber-300/80 dark:border-amber-800/80 text-amber-700 dark:text-amber-300 hover:bg-amber-100/90"
+                  : "bg-blue-50 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-800/40 text-[#0059bb] dark:text-sky-400 hover:bg-blue-100/80"
+              }`}
             >
               <span className="flex items-center gap-1.5">
-                <Crown className="w-3.5 h-3.5 text-amber-500" strokeWidth={2} />{" "}
-                Nâng cấp Premium
+                <Crown
+                  className={`w-3.5 h-3.5 ${
+                    user?.isPremium ? "text-amber-500 fill-amber-500" : "text-amber-500"
+                  }`}
+                  strokeWidth={2}
+                />{" "}
+                {user?.isPremium ? "Hội viên PRO VIP" : "Nâng cấp Premium"}
               </span>
-              <span>➔</span>
+              <span>{user?.isPremium ? "👑" : "➔"}</span>
             </Link>
           </div>
 

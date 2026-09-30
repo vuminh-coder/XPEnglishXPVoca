@@ -32,6 +32,11 @@ model Profile {
   passwordResetExpires DateTime?       @map("password_reset_expires")
   activeAvatarFrame   String?          @map("active_avatar_frame") @db.VarChar(100)
   activeChatBubble    String?          @map("active_chat_bubble") @db.VarChar(100)
+  isPremium           Boolean          @default(false) @map("is_premium")
+  premiumTier         String?          @map("premium_tier") @db.VarChar(50)
+  premiumStartedAt    DateTime?        @map("premium_started_at")
+  premiumExpiresAt    DateTime?        @map("premium_expires_at")
+  subscriptionOrders  SubscriptionOrder[]
   purchaseLogs        PurchaseLog[]
   vocabularies        UserVocabulary[]
   posts               Post[]
@@ -577,4 +582,28 @@ model AiPracticeSession {
   @@index([userId, mode, status], map: "idx_ai_sessions_user_mode_status")
   @@index([userId, updatedAt(sort: Desc)], map: "idx_ai_sessions_user_updated")
   @@map("ai_practice_sessions")
+}
+
+// === SUBSCRIPTION & VIP MEMBERSHIP ===
+
+model SubscriptionOrder {
+  id              String    @id @default(uuid())
+  userId          String    @map("user_id") @db.VarChar(255)
+  planKey         String    @map("plan_key") @db.VarChar(50) // "monthly", "yearly", "lifetime"
+  amount          Int
+  currency        String    @default("VND") @db.VarChar(10)
+  transferSyntax  String    @unique @map("transfer_syntax") @db.VarChar(100) // "XP PRO USR_1234"
+  status          String    @default("pending") @db.VarChar(30) // "pending", "completed", "expired"
+  paymentMethod   String    @default("vietqr") @map("payment_method") @db.VarChar(50)
+  durationMonths  Int       @map("duration_months") // 1, 15, 999
+  createdAt       DateTime  @default(now()) @map("created_at")
+  activatedAt     DateTime? @map("activated_at")
+  expiresAt       DateTime? @map("expires_at")
+
+  user            Profile   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([status])
+  @@index([transferSyntax])
+  @@map("subscription_orders")
 }

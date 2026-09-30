@@ -2108,6 +2108,25 @@ Trang nâng cấp gói hội viên Pro VIP được tối ưu hóa toàn diện 
    - **`CheckoutSuccessReceipt`**: Màn hình hóa đơn điện tử vinh danh giao dịch thành công kèm mã tra cứu `INV-XP-...` và 2 nút điều hướng tiếp theo.
    - **Đồng Bộ Top Header Chuẩn Dashboard**: Khắc phục lỗi chip cũ, tích hợp `AppTopHeader` với `showGamificationStats={true}` và breadcrumbs mượt mà.
 
+4. **Kiến Trúc Backend & Vòng Đời Dữ Liệu Hội Viên VIP (Subscription Engine & API Suite)**:
+   - **Mô Hình Dữ Liệu PostgreSQL (Neon Cloud via Prisma ORM)**:
+     - `profiles`: Bổ sung 4 trường dữ liệu hội viên: `is_premium` (Boolean), `premium_tier` (Text: `monthly` | `yearly` | `lifetime`), `premium_started_at` (Timestamp), `premium_expires_at` (Timestamp).
+     - `subscription_orders`: Bảng quản lý đơn hàng giao dịch điện tử gồm `id` (CUID/UUID), `user_id` (FK Profile), `plan_key`, `amount`, `currency`, `status` (`pending`, `completed`, `cancelled`, `refunded`), `transfer_syntax` (`XP PRO [SHORT_ID]`), `paid_at`, `expires_at`, `metadata` (JSONB) với chỉ mục đánh trên `user_id`, `status`, `transfer_syntax`.
+   - **Hệ Thống API Endpoints Chuyên Biệt**:
+     - `POST /api/subscription/checkout`: Tạo hoặc lấy lại đơn hàng đang chờ (pending order) theo người dùng, tự động cấp mã chuyển khoản `XP PRO [USER_SHORT_ID]` và link VietQR chuẩn Napas 24/7.
+     - `POST /api/subscription/confirm`: Thực thi giao dịch nguyên tử (`prisma.$transaction`), tính toán cộng dồn thời hạn sử dụng (Stacking Expiration: 30 ngày cho gói Tháng, 456 ngày cho gói Năm bao gồm 3 tháng tặng kèm, 2099-12-31 cho gói Trọn đời), tự động phân phát quà tặng (Khiên Streak, Avatar cú độc quyền `premium_owl`, huy hiệu vàng `golden_badge`), ghi nhận `purchaseLogs`, cập nhật `SubscriptionOrder.status = 'completed'` và xóa sạch cache (`invalidateDashboardCache(userId)`).
+     - `GET /api/subscription/status`: Kiểm tra trạng thái gói cước thời gian thực, tự động giáng cấp (Lazy Expiration Downgrade: `is_premium = false`) nếu đã hết hạn, trả về số ngày còn lại (`remainingDays`).
+     - `GET /api/subscription/history`: Tra cứu lịch sử các lần gia hạn và hóa đơn điện tử của người dùng.
+     - `GET /api/auth/me`: Tự động đồng bộ các trường hội viên (`isPremium`, `premiumTier`, `premiumExpiresAt`) vào đối tượng User toàn cục khi đăng nhập hoặc khôi phục phiên.
+   - **Cơ Chế Nhân Đôi Điểm Thưởng (2X XP Multiplier Engine)**:
+     - Tích hợp trực tiếp vào hàm `awardXp` trong `stores/userStore.ts`: Khi `user.isPremium === true`, mọi hoạt động học tập (từ vựng, nghe chép chính tả, thi thử, PvP, mini game) tự động được nhân đôi (+100% XP) mà không cần can thiệp từng component giao diện.
+   - **Đồng Bộ Giao Diện Trạng Thái VIP**:
+     - Thanh điều hướng Sidebar (cả Mobile Drawer và Desktop Collapsed/Expanded) tự động chuyển đổi từ nút "Nâng cấp Premium" sang huy hiệu vương miện danh giá **"Hội viên PRO VIP 👑"** khi đã kích hoạt.
+     - Thẻ gói cước tại `/premium` tự động gắn huy hiệu **"GÓI ĐANG DÙNG"** kèm nút **"Gia Hạn Thêm"** hoặc **"Đang Sở Hữu Trọn Đời"**.
+   - **Kiểm Thử Tự Động Toàn Diện (100% Pass)**:
+     - `__tests__/subscription_logic_and_lifecycle.test.ts` (17 tests): Bao phủ toàn diện tính toán giá cước, cú pháp VietQR, logic cộng dồn ngày hết hạn, phân bổ quà tặng, nhân đôi 2X XP, và cơ chế tự động hạ cấp gói khi hết hạn.
+     - `__tests__/premium_feature.test.ts` (11 tests): Kiểm tra tính toàn vẹn dữ liệu gói học, cam kết hoàn tiền 7 ngày và mô phỏng điểm số thi TOEIC/IELTS.
+
 ---
 
 ## 🗣️ Studio Bảng Phiên Âm Quốc Tế IPA (`/study/ipa`)

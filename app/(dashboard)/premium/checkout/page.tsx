@@ -32,6 +32,7 @@ function CheckoutContent() {
     handleCopy,
     isVerifying,
     isSuccess,
+    receiptData,
     handleConfirmTransfer,
   } = useCheckoutPayment();
 
@@ -93,7 +94,7 @@ function CheckoutContent() {
         {isSuccess ? (
           /* ─── SUCCESS INVOICE & RECEIPT VIEW ─── */
           <MotionItem>
-            <CheckoutSuccessReceipt plan={plan} />
+            <CheckoutSuccessReceipt plan={plan} receiptData={receiptData} />
           </MotionItem>
         ) : (
           /* ─── FINTECH SPLIT VIEW (5/12 & 7/12) ─── */

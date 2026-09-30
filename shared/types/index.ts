@@ -18,6 +18,10 @@ export interface User {
   avatarUrl?: string;
   coins?: number;
   streakFreezes?: number;
+  isPremium?: boolean;
+  premiumTier?: "monthly" | "yearly" | "lifetime";
+  premiumExpiresAt?: string | null;
+  premiumStartedAt?: string | null;
 }
 
 export interface Vocabulary {

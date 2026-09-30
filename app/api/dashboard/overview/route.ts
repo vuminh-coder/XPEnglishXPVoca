@@ -330,7 +330,7 @@ export async function GET(request: Request) {
       let todayTask: string | null = null;
       if (studyPlan && studyPlan.dailyTasks && studyPlan.dailyTasks.length > 0) {
         const found = studyPlan.dailyTasks.find((t: any) => {
-          const taskDate = new Date(t.date).toISOString().slice(0, 10);
+          const taskDate = getLocalDateString(new Date(t.date));
           return taskDate === todayStr;
         });
         if (found) {

@@ -17,6 +17,7 @@ interface UserState {
   buyStreakFreeze: () => Promise<boolean>;
   buyDoubleXp: () => Promise<boolean>;
   syncStreak: (hasCompletedActivity: boolean) => void;
+  activateSubscription: (planKey: "monthly" | "yearly" | "lifetime", data?: any) => Promise<boolean>;
   logout: () => void;
 }
 
@@ -40,6 +41,10 @@ export const DEFAULT_LEARNER_USER: User = {
   avatar: "",
   imageUrl: "",
   avatarUrl: "",
+  isPremium: false,
+  premiumTier: undefined,
+  premiumExpiresAt: null,
+  premiumStartedAt: null,
 };
 
 let inFlightSessionPromise: Promise<void> | null = null;
@@ -187,7 +192,11 @@ export const useUserStore = create<UserState>((set, get) => ({
     get().syncStreak(true);
     const user = get().user;
     if (!user) return { levelUp: false };
-    const newXp = (user.totalXp || 0) + amount;
+
+    // Automatically apply 2X XP multiplier for Premium VIP members
+    const multiplier = user.isPremium ? 2 : 1;
+    const finalAmount = amount * multiplier;
+    const newXp = (user.totalXp || 0) + finalAmount;
 
     // Level up check
     let newLevel = user.level || 1;
@@ -503,6 +512,24 @@ export const useUserStore = create<UserState>((set, get) => ({
       const activeUserId = localStorage.getItem("xp_voca_active_userId") || "local_user";
       const localData = localStorage.getItem(`xp_voca_user_${activeUserId}`);
       const cachedAvatar = localStorage.getItem(`xp_voca_avatar_${activeUserId}`);
+      // Restore subscription state if active
+      const localSubStr = localStorage.getItem(`xp_voca_subscription_${activeUserId}`);
+      let isPremium = false;
+      let premiumTier: "monthly" | "yearly" | "lifetime" | undefined = undefined;
+      let premiumExpiresAt: string | null = null;
+      let premiumStartedAt: string | null = null;
+      if (localSubStr) {
+        try {
+          const sub = JSON.parse(localSubStr);
+          if (sub.expiresAt && new Date(sub.expiresAt) > new Date()) {
+            isPremium = true;
+            premiumTier = sub.premiumTier;
+            premiumExpiresAt = sub.expiresAt;
+            premiumStartedAt = sub.startedAt || null;
+          }
+        } catch (e) {}
+      }
+
       if (localData) {
         try {
           const localUser = JSON.parse(localData);
@@ -510,6 +537,10 @@ export const useUserStore = create<UserState>((set, get) => ({
           const fullUser: User = {
             ...DEFAULT_LEARNER_USER,
             ...localUser,
+            isPremium: localUser.isPremium !== undefined ? localUser.isPremium : isPremium,
+            premiumTier: localUser.premiumTier || premiumTier,
+            premiumExpiresAt: localUser.premiumExpiresAt || premiumExpiresAt,
+            premiumStartedAt: localUser.premiumStartedAt || premiumStartedAt,
             imageUrl: finalAvatar,
             avatar: finalAvatar,
             avatarUrl: finalAvatar,
@@ -529,6 +560,10 @@ export const useUserStore = create<UserState>((set, get) => ({
       const fallbackUser: User = {
         ...DEFAULT_LEARNER_USER,
         id: activeUserId,
+        isPremium,
+        premiumTier,
+        premiumExpiresAt,
+        premiumStartedAt,
       };
       set({ user: fallbackUser });
       try {
@@ -618,6 +653,49 @@ export const useUserStore = create<UserState>((set, get) => ({
       console.error(e);
     }
     return false;
+  },
+  activateSubscription: async (planKey, confirmData) => {
+    const user = get().user;
+    if (!user) return false;
+
+    const now = new Date();
+    let newExpiresAt: Date;
+    if (planKey === "lifetime") {
+      newExpiresAt = new Date("2099-12-31T23:59:59.999Z");
+    } else if (planKey === "yearly") {
+      newExpiresAt = new Date(now.getTime() + 456 * 24 * 60 * 60 * 1000);
+    } else {
+      newExpiresAt = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+    }
+
+    const freezesToAdd = planKey === "yearly" ? 3 : planKey === "lifetime" ? 99 : 1;
+    const finalFreezes = confirmData?.streakFreezes !== undefined 
+      ? confirmData.streakFreezes 
+      : (user.streakFreezes || 0) + freezesToAdd;
+
+    const updatedUser: User = {
+      ...user,
+      isPremium: true,
+      premiumTier: planKey,
+      premiumStartedAt: user.premiumStartedAt || now.toISOString(),
+      premiumExpiresAt: confirmData?.premiumExpiresAt || newExpiresAt.toISOString(),
+      streakFreezes: finalFreezes,
+    };
+
+    set({ user: updatedUser });
+    if (typeof window !== "undefined") {
+      localStorage.setItem(`xp_voca_user_${user.id}`, JSON.stringify(updatedUser));
+      localStorage.setItem(
+        `xp_voca_subscription_${user.id}`,
+        JSON.stringify({
+          isPremium: true,
+          premiumTier: planKey,
+          expiresAt: updatedUser.premiumExpiresAt,
+          startedAt: updatedUser.premiumStartedAt,
+        })
+      );
+    }
+    return true;
   },
   logout: () => {
     set({ user: null });

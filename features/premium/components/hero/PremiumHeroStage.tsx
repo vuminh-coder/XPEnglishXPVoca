@@ -2,8 +2,11 @@
 
 import React from "react";
 import { Crown, Star, ShieldCheck, Zap } from "lucide-react";
+import { useUserStore } from "@/stores/userStore";
 
 export function PremiumHeroStage() {
+  const user = useUserStore((s) => s.user);
+
   return (
     <div className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-blue-50/40 via-white to-white dark:from-slate-900/80 dark:via-slate-900 dark:to-slate-900 p-6 sm:p-8 text-center border border-slate-200/80 dark:border-slate-800 shadow-xs">
       {/* Subtle ambient light (soft blue, light and clean) */}
@@ -11,10 +14,21 @@ export function PremiumHeroStage() {
 
       <div className="relative z-10 max-w-2xl mx-auto space-y-3">
         {/* Eyebrow badge */}
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200/70 dark:border-blue-800/60 text-[#0059bb] dark:text-sky-400 text-xs font-bold tracking-wide shadow-2xs">
-          <Crown className="w-3.5 h-3.5 text-amber-500 fill-amber-500 stroke-[2]" />
-          <span>ĐẶC QUYỀN HỘI VIÊN PRO</span>
-        </div>
+        {user?.isPremium ? (
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-amber-50 dark:bg-amber-950/60 border border-amber-200/80 dark:border-amber-800/60 text-amber-800 dark:text-amber-300 text-xs font-bold tracking-wide shadow-2xs">
+            <Crown className="w-3.5 h-3.5 text-amber-500 fill-amber-500 stroke-[2]" />
+            <span>
+              BẠN ĐANG LÀ HỘI VIÊN PRO VIP ({user.premiumTier?.toUpperCase() || "VIP"})
+              {user.premiumExpiresAt &&
+                ` • HSD: ${new Date(user.premiumExpiresAt).toLocaleDateString("vi-VN")}`}
+            </span>
+          </div>
+        ) : (
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200/70 dark:border-blue-800/60 text-[#0059bb] dark:text-sky-400 text-xs font-bold tracking-wide shadow-2xs">
+            <Crown className="w-3.5 h-3.5 text-amber-500 fill-amber-500 stroke-[2]" />
+            <span>ĐẶC QUYỀN HỘI VIÊN PRO</span>
+          </div>
+        )}
 
         {/* Concise Heading */}
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-slate-900 dark:text-white font-display">

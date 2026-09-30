@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Check, Crown, ArrowRight, Zap, Gift } from "lucide-react";
 import { PlanKey } from "../../types";
 import { PLANS } from "../../constants";
+import { useUserStore } from "@/stores/userStore";
 
 export interface PremiumPlanDeckProps {
   selectedPlanKey: PlanKey;
@@ -15,6 +16,7 @@ export function PremiumPlanDeck({
   selectedPlanKey,
   onSelectPlan,
 }: PremiumPlanDeckProps) {
+  const user = useUserStore((s) => s.user);
   return (
     <div className="space-y-4">
       <div className="text-center max-w-lg mx-auto space-y-1">
@@ -32,37 +34,51 @@ export function PremiumPlanDeck({
           const plan = PLANS[key];
           const isYearly = key === "yearly";
           const isSelected = selectedPlanKey === key;
+          const isCurrentActive = Boolean(user?.isPremium && user?.premiumTier === key);
 
           return (
             <div
               key={key}
               onClick={() => onSelectPlan(key)}
               className={`relative rounded-2xl p-5 sm:p-6 transition-all duration-200 flex flex-col justify-between cursor-pointer select-none ${
-                isYearly
+                isCurrentActive
+                  ? "bg-white dark:bg-slate-900 border-2 border-emerald-500 dark:border-emerald-400 shadow-lg shadow-emerald-500/10 ring-2 ring-emerald-500/15"
+                  : isYearly
                   ? "bg-white dark:bg-slate-900 border-2 border-[#0059bb] dark:border-sky-500 shadow-lg shadow-blue-500/10 ring-2 ring-[#0059bb]/15 lg:-translate-y-1.5"
                   : "bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 shadow-2xs hover:-translate-y-0.5"
               }`}
             >
               {/* Top Badge */}
               <div className="flex items-center justify-between mb-3">
-                <span
-                  className={`px-2.5 py-1 rounded-full text-[10.5px] font-bold tracking-wide ${
-                    isYearly
-                      ? "bg-[#0059bb] text-white shadow-2xs"
-                      : key === "lifetime"
-                      ? "bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-300/60 dark:border-amber-700/60"
-                      : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700"
-                  }`}
-                >
-                  {isYearly ? "TIẾT KIỆM 45% • PHỔ BIẾN NHẤT" : plan.badge}
-                </span>
+                {isCurrentActive ? (
+                  <span className="px-2.5 py-1 rounded-full text-[10.5px] font-bold tracking-wide bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 border border-emerald-300/60 dark:border-emerald-700/60 flex items-center gap-1 shadow-2xs">
+                    <Check className="w-3 h-3 stroke-[3]" /> GÓI ĐANG DÙNG
+                  </span>
+                ) : (
+                  <span
+                    className={`px-2.5 py-1 rounded-full text-[10.5px] font-bold tracking-wide ${
+                      isYearly
+                        ? "bg-[#0059bb] text-white shadow-2xs"
+                        : key === "lifetime"
+                        ? "bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-300/60 dark:border-amber-700/60"
+                        : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700"
+                    }`}
+                  >
+                    {isYearly ? "TIẾT KIỆM 45% • PHỔ BIẾN NHẤT" : plan.badge}
+                  </span>
+                )}
 
-                {isYearly && (
+                {isCurrentActive ? (
+                  <span className="flex items-center gap-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
+                    <Crown className="w-3.5 h-3.5 fill-emerald-500 text-emerald-500 stroke-none" />
+                    <span>Đang kích hoạt</span>
+                  </span>
+                ) : isYearly ? (
                   <span className="flex items-center gap-1 text-[11px] font-bold text-amber-600 dark:text-amber-400">
                     <Crown className="w-3.5 h-3.5 fill-amber-500 text-amber-500 stroke-none" />
                     <span>Khuyên dùng</span>
                   </span>
-                )}
+                ) : null}
               </div>
 
               {/* Plan Title & Price */}
@@ -169,17 +185,41 @@ export function PremiumPlanDeck({
 
               {/* Direct CTA Action Button */}
               <div className="pt-2">
-                <Link
-                  href={`/premium/checkout?plan=${key}`}
-                  className={`w-full py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all cursor-pointer select-none ${
-                    isYearly
-                      ? "bg-[#0059bb] hover:bg-[#004799] text-white shadow-md shadow-blue-500/20 active:scale-[0.98]"
-                      : "bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700 active:scale-[0.98]"
-                  }`}
-                >
-                  <span>{isYearly ? "Kích Hoạt Gói 1 Năm" : `Chọn ${plan.name.split("(")[0].trim()}`}</span>
-                  <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
-                </Link>
+                {isCurrentActive && key === "lifetime" ? (
+                  <Link
+                    href="/profile"
+                    className="w-full py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-300/80 dark:border-emerald-700/80 transition-all cursor-pointer select-none"
+                  >
+                    <span>Đang Sở Hữu Trọn Đời</span>
+                    <Crown className="w-3.5 h-3.5 fill-emerald-600 text-emerald-600" />
+                  </Link>
+                ) : isCurrentActive ? (
+                  <Link
+                    href={`/premium/checkout?plan=${key}`}
+                    className="w-full py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white shadow-md shadow-emerald-500/20 active:scale-[0.98] transition-all cursor-pointer select-none"
+                  >
+                    <span>Gia Hạn Thêm ({plan.name.split("(")[0].trim()})</span>
+                    <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
+                  </Link>
+                ) : (
+                  <Link
+                    href={`/premium/checkout?plan=${key}`}
+                    className={`w-full py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all cursor-pointer select-none ${
+                      isYearly
+                        ? "bg-[#0059bb] hover:bg-[#004799] text-white shadow-md shadow-blue-500/20 active:scale-[0.98]"
+                        : "bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700 active:scale-[0.98]"
+                    }`}
+                  >
+                    <span>
+                      {user?.isPremium
+                        ? `Nâng Cấp ${plan.name.split("(")[0].trim()}`
+                        : isYearly
+                        ? "Kích Hoạt Gói 1 Năm"
+                        : `Chọn ${plan.name.split("(")[0].trim()}`}
+                    </span>
+                    <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
+                  </Link>
+                )}
               </div>
             </div>
           );

@@ -1,21 +1,23 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Link from "next/link";
-import { CheckCircle2, CheckCircle, ArrowRight } from "lucide-react";
+import { CheckCircle2, CheckCircle, ArrowRight, Gift, ShieldCheck } from "lucide-react";
 import { Badge } from "@/shared/components/ui/Badge";
 import { PlanConfig } from "../../types";
 
 export interface CheckoutSuccessReceiptProps {
   plan: PlanConfig;
+  receiptData?: {
+    orderId?: string;
+    expiresAt?: string;
+    giftsAwarded?: string[];
+  } | null;
 }
 
-export function CheckoutSuccessReceipt({ plan }: CheckoutSuccessReceiptProps) {
-  const [invoiceId, setInvoiceId] = useState<string>("INV-XP-998811");
-
-  useEffect(() => {
-    setInvoiceId(`INV-XP-${Date.now().toString().slice(-6)}`);
-  }, []);
+export function CheckoutSuccessReceipt({ plan, receiptData }: CheckoutSuccessReceiptProps) {
+  const invoiceId = receiptData?.orderId || `INV-XP-${Date.now().toString().slice(-6)}`;
+  const expiresAt = receiptData?.expiresAt || "Vĩnh viễn";
 
   return (
     <div className="max-w-2xl mx-auto p-6 sm:p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xl text-center space-y-5">
@@ -52,11 +54,32 @@ export function CheckoutSuccessReceipt({ plan }: CheckoutSuccessReceiptProps) {
           </span>
         </div>
         <div className="flex justify-between">
+          <span className="text-slate-400">Hạn sử dụng:</span>
+          <span className="font-bold text-slate-700 dark:text-slate-200">{expiresAt}</span>
+        </div>
+        <div className="flex justify-between">
           <span className="text-slate-400">Trạng thái:</span>
           <span className="font-bold text-emerald-600 flex items-center gap-1">
             <CheckCircle className="w-3.5 h-3.5 stroke-[2.2]" /> Đã kích hoạt hoàn tất
           </span>
         </div>
+
+        {receiptData?.giftsAwarded && receiptData.giftsAwarded.length > 0 && (
+          <div className="pt-2 border-t border-slate-200/60 dark:border-slate-700/60 space-y-1.5">
+            <div className="text-[11px] font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1">
+              <Gift className="w-3.5 h-3.5" />
+              <span>Quà tặng đã cộng vào tài khoản:</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-[11px] text-slate-600 dark:text-slate-300">
+              {receiptData.giftsAwarded.map((gift, gIdx) => (
+                <div key={gIdx} className="flex items-center gap-1.5">
+                  <CheckCircle className="w-3 h-3 text-emerald-500" />
+                  <span>{gift}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="pt-2 flex flex-col sm:flex-row gap-3 justify-center">
@@ -71,6 +94,7 @@ export function CheckoutSuccessReceipt({ plan }: CheckoutSuccessReceiptProps) {
           href="/profile"
           className="py-2.5 px-5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-300 text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all"
         >
+          <ShieldCheck className="w-4 h-4 text-emerald-600" />
           <span>Xem Hồ Sơ & Đặc Quyền VIP</span>
         </Link>
       </div>

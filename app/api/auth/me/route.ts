@@ -31,11 +31,29 @@ export async function GET(req: NextRequest) {
         title: true,
         coins: true,
         streakFreezes: true,
+        isPremium: true,
+        premiumTier: true,
+        premiumStartedAt: true,
+        premiumExpiresAt: true,
       },
     });
 
     if (!profile) {
       return NextResponse.json({ success: false, data: null });
+    }
+
+    let isPremium = profile.isPremium || false;
+    let premiumTier = profile.premiumTier || null;
+
+    if (isPremium && profile.premiumExpiresAt && profile.premiumExpiresAt < new Date()) {
+      isPremium = false;
+      premiumTier = null;
+      prisma.profile
+        .update({
+          where: { id: profile.id },
+          data: { isPremium: false, premiumTier: null },
+        })
+        .catch(() => {});
     }
 
     return NextResponse.json({
@@ -55,6 +73,10 @@ export async function GET(req: NextRequest) {
         title: profile.title,
         coins: profile.coins,
         streakFreezes: profile.streakFreezes,
+        isPremium,
+        premiumTier,
+        premiumStartedAt: profile.premiumStartedAt ? profile.premiumStartedAt.toISOString() : null,
+        premiumExpiresAt: profile.premiumExpiresAt ? profile.premiumExpiresAt.toISOString() : null,
         imageUrl: profile.avatarUrl || null,
         avatar: profile.avatarUrl || null,
         avatarUrl: profile.avatarUrl || null,
