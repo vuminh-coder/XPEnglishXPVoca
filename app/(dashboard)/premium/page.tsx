@@ -11,8 +11,7 @@ import {
   usePremiumPlan,
   PremiumHeroStage,
   PremiumPlanDeck,
-  PremiumPlanPerksSpotlight,
-  PremiumBentoShowcase,
+  PremiumComparisonMatrix,
   PremiumSuccessStories,
   PremiumFaqSection,
 } from "@/features/premium";
@@ -21,7 +20,6 @@ export default function PremiumPage() {
   const {
     selectedPlanKey,
     setSelectedPlanKey,
-    selectedPlan,
     targetExam,
     currentScore,
     setCurrentScore,
@@ -41,30 +39,24 @@ export default function PremiumPage() {
         <ShopSuiteNavTabs />
       </AppTopHeader>
 
-      {/* ─── 2. MAIN ENTRANCE WRAPPER (Fluid Max 1760px Canvas matching Dashboard) ─── */}
-      <PageEntranceWrapper className="space-y-6 sm:space-y-7 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
-        {/* Hero Spotlight Stage */}
+      {/* ─── 2. MAIN ENTRANCE WRAPPER (Fluid Max 1600px Canvas) ─── */}
+      <PageEntranceWrapper className="space-y-8 sm:space-y-10 w-full max-w-[1400px] 2xl:max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
+        {/* 1. Sleek Editorial Hero Stage */}
         <MotionItem>
           <PremiumHeroStage />
         </MotionItem>
 
-        {/* Interactive Plan Deck & Spotlight Power Perks Card */}
+        {/* 2. Self-Contained 3-Card Pricing Deck (Direct Checkout CTAs) */}
         <MotionItem>
-          <div className="space-y-5">
-            <PremiumPlanDeck
-              selectedPlanKey={selectedPlanKey}
-              onSelectPlan={setSelectedPlanKey}
-            />
-            <PremiumPlanPerksSpotlight
-              selectedPlan={selectedPlan}
-              selectedPlanKey={selectedPlanKey}
-            />
-          </div>
+          <PremiumPlanDeck
+            selectedPlanKey={selectedPlanKey}
+            onSelectPlan={setSelectedPlanKey}
+          />
         </MotionItem>
 
-        {/* 5 Interactive Bento Feature Showcases */}
+        {/* 3. Transparent Free vs PRO VIP Comparison Matrix & Score Simulator */}
         <MotionItem>
-          <PremiumBentoShowcase
+          <PremiumComparisonMatrix
             targetExam={targetExam}
             currentScore={currentScore}
             setCurrentScore={setCurrentScore}
@@ -73,12 +65,12 @@ export default function PremiumPage() {
           />
         </MotionItem>
 
-        {/* Real Student Success Stories & Scorecards */}
+        {/* 4. Real Student Success Stories & Scorecards */}
         <MotionItem>
           <PremiumSuccessStories />
         </MotionItem>
 
-        {/* Guarantee Shield & Accordion FAQs */}
+        {/* 5. 100% 7-Day Money-Back Guarantee & Accordion FAQs */}
         <MotionItem>
           <PremiumFaqSection
             openFaqIdx={openFaqIdx}

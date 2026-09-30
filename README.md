@@ -1650,18 +1650,11 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
 
 - **`/premium`**: Trung Tâm Nâng Cấp Gói Hội Viên VIP Pro (High-End Agency Dashboard Tier).
   - **Đồng Bộ Header Đỉnh Thống Nhất (`AppTopHeader` 56px Baseline)**: Dải Navigation Pills (`[ 👑 Nâng cấp Premium ]`, `[ 🛍️ Cửa hàng Vật phẩm ]` `/shop`, `[ 👤 Hồ sơ ]` `/profile`), nút Hamburger mở Sidebar trên mobile, Theme Toggle Sáng/Tối và Avatar người dùng.
-  - **Spotlight Hero Stage Card (`rounded-[2rem]`)**: Nền Gradient Xanh Hoàng Gia Sapphire (`from-[#0059bb] via-[#004799] to-[#0a2342]`), viền ánh kim Amber mờ `border-amber-400/30`, huy hiệu VIP Pro Pass, widget đếm trực tiếp số học viên đang học `3.420+ PRO Online` và thẻ VIP Membership Hologram card.
-  - **Interactive Plan Deck & Spotlight Power Hero**:
-    - Bộ 3 thẻ cảm ứng haptic chuyển đổi gói: *Gói 1 Năm (69.000đ/tháng - Tiết kiệm 45% + Tặng 3 tháng học Phổ biến nhất)*, *Gói 1 Tháng (99.000đ/tháng)*, và *Gói Trọn Đời (1.490.000đ Đặc quyền vĩnh viễn)*.
-    - Khối Spotlight Power Card tự động tính toán tổng số tiền tiết kiệm, quà tặng độc quyền đi kèm (Khiên Kim Cương, Nón Cử Nhân Cú Vàng, Thẻ X2 XP) và nút Primary CTA dẫn thẳng sang trang Thanh toán `/premium/checkout?plan={key}`.
-  - **Bento Grid 5 Live Teaser Showcases (Trực quan hóa tính năng đột phá)**:
-    - 🎙️ *Gemini AI Voice Waveform & Thước đo IPA*: Trực quan hóa sóng âm giọng nói và thanh chấm điểm chuẩn xác `98.4% Native Match`.
-    - 📈 *Bộ mô phỏng tăng điểm thi chuẩn*: Thước đo trực quan thể hiện bước nhảy điểm số (*TOEIC 600 → 860+*, *IELTS 5.5 → 7.0+*).
-    - 🧠 *Đồ thị ghi nhớ ngắt quãng SM-2*: Đối chiếu trực quan giữa việc học vẹt (quên 80% sau 3 ngày) và SM-2 (giữ vững 95% sau 6 tháng).
-    - 🛡️ *Streak Bất Tử*: Ngọn lửa Streak rực cháy kết hợp Khiên Kim Cương tự động bảo vệ chuỗi học tập 24/7.
-    - ⚡ *Máy tính nhân đôi tốc độ X2 XP*: Thước đo trực quan tốc độ tích lũy điểm kinh nghiệm và thăng cấp Bảng Vàng.
-  - **Bảng Vàng Thành Tích Học Viên (Success Stories & Before/After Scorecards)**: Trưng bày câu chuyện thực tế từ học viên đạt TOEIC 890 và IELTS 7.5.
-  - **Cam Kết Hoàn Tiền 100% Trong 7 Ngày & Khối FAQ Accordion**: Giải đáp 5 câu hỏi thắc mắc phổ biến nhất và bảo chứng an tâm học tập tuyệt đối.
+  - **Sleek Editorial Hero Stage (`PremiumHeroStage`)**: Thiết kế thanh thoát, tinh tế, tập trung trực tiếp vào giá trị cốt lõi, triệt tiêu thẻ đen lặp lại, hiển thị huy hiệu bảo chứng học viên trực tuyến `3.420+ học viên`, điểm đánh giá 4.9/5.0 và cam kết hoàn tiền 7 ngày.
+  - **Bảng 3 Gói Tự Thân Đa Năng (`PremiumPlanDeck`)**: Mỗi gói được thiết kế độc lập, khép kín gồm giá tiền, chu kỳ, quà tặng, checklist tính năng và **nút hành động trực tiếp** dẫn sang `/premium/checkout?plan={key}`. Gói 1 Năm trung tâm nổi bật với kiến trúc Double-Bezel chuẩn Agency, huy hiệu `TIẾT KIỆM 45% • PHỔ BIẾN NHẤT` và nút Primary CTA phong cách Button-in-Button.
+  - **Bảng So Sánh Minh Bạch Quyền Lợi & Mô Phỏng Điểm Số (`PremiumComparisonMatrix`)**: Thay thế 5 khối Bento cồng kềnh lặp chữ bằng 1 bảng đối đầu trực diện giữa Tài khoản Miễn Phí và Hội viên PRO VIP (Kho 100+ chủ đề, 37+ đề thi, Gia sư AI 24/7, SM-2, Khiên Streak, X2 XP, Đa thiết bị), tích hợp bộ điều khiển thanh trượt mô phỏng tăng điểm TOEIC/IELTS nhỏ gọn, thanh lịch.
+  - **Bảng Vàng Thành Tích Học Viên (`PremiumSuccessStories`)**: 3 câu chuyện thành công thực tế với điểm số bứt phá (TOEIC 890, IELTS 7.5, 2.400+ từ SM-2) với bảng màu trung tính, dịu mắt.
+  - **Cam Kết Hoàn Tiền 100% Trong 7 Ngày & Khối FAQ Accordion (`PremiumFaqSection`)**: Giải đáp 5 câu hỏi thắc mắc phổ biến nhất và bảo chứng an tâm học tập tuyệt đối.
   - **Skeleton Loading Khớp 100% Hình Học (`loading.tsx`)**: Triệt tiêu hoàn toàn giật nhảy layout (Zero CLS).
 
 - **`/premium/checkout`**: Cổng Thanh Toán Chuyên Nghiệp VietQR Napas 24/7 & MoMo (FinTech Tier).
@@ -2098,11 +2091,10 @@ Trang đăng ký và quản lý gói hội viên Pro VIP nâng cấp toàn diệ
      - **Tím AI (`#8b5cf6`)**: Dành riêng cho Gia sư AI Speaking đo chuẩn IPA và huy hiệu `Gemini AI 2.0`.
      - **Không lạm dụng Đỏ Rose hoặc Gradient Teal ngoài quy chuẩn**: Đảm bảo toàn bộ thẻ, nút và slider mang lại cảm giác học tập tin cậy và thư thái.
 
-2. **Cấu Trúc Khối Bento Đồng Bộ & Trau Chuốt Từng Chi Tiết**:
-   - **`PremiumHeroStage`**: Thẻ Spotlight vinh danh Hội viên Vàng với viền kính tinh tế (`border-white/15 dark:border-white/10`), thẻ thành viên phản quang lồng nhau `rounded-2xl`, hiển thị số lượng 3.420+ học viên trực tuyến và điểm đánh giá 4.9/5.0.
-   - **`PremiumPlanDeck`**: Bộ 3 thẻ chọn gói bản quyền bằng nhau chiều cao tuyệt đối, badge bo tròn capsule (`rounded-full`), radio button có dấu tích trực quan, và dải cam kết tiết kiệm ở đáy thẻ.
-   - **`PremiumPlanPerksSpotlight`**: Chi tiết đặc quyền, gói quà tặng và nút CTA kích hoạt chuyển thẳng tới `/premium/checkout?plan=...`.
-   - **`PremiumBentoShowcase`**: 5 thẻ Bento trực quan hóa công nghệ độc quyền (Sóng âm IPA Gemini AI, Bộ mô phỏng tăng điểm TOEIC/IELTS bằng Slider kéo thả, Đường cong trí nhớ SM-2, Khiên bảo hộ Streak tự động, và Thẻ nhân đôi 2X XP).
+2. **Cấu Trúc Tinh Gọn Đẳng Cấp Chuẩn Apple / Linear (Less is More)**:
+   - **`PremiumHeroStage`**: Thiết kế thanh lịch, tập trung trực tiếp vào giá trị cốt lõi, hiển thị số lượng 3.420+ học viên trực tuyến, điểm đánh giá 4.9/5.0 và cam kết hoàn tiền 7 ngày.
+   - **`PremiumPlanDeck`**: Bảng 3 thẻ tự thân đa năng với kiến trúc Double-Bezel cho gói 1 Năm, tích hợp quyền lợi, quà tặng và nút Primary CTA dẫn trực tiếp sang cổng thanh toán `/premium/checkout?plan=...`.
+   - **`PremiumComparisonMatrix`**: Bảng so sánh minh bạch đối đầu trực diện giữa Tài khoản Miễn Phí và Hội viên PRO VIP, tích hợp bộ mô phỏng tăng điểm TOEIC/IELTS nhỏ gọn, thanh lịch.
    - **`PremiumSuccessStories`**: Bảng vàng thành tích 3 học viên thật với điểm số bứt phá, trích dẫn chi tiết và avatar có quầng hào quang đồng tâm.
    - **`PremiumFaqSection`**: Khung cam kết bảo vệ quyền lợi học viên an tâm 100% cùng Accordion giải đáp thắc mắc thường gặp.
 
