@@ -16,7 +16,7 @@ export interface CheckoutSuccessReceiptProps {
 }
 
 export function CheckoutSuccessReceipt({ plan, receiptData }: CheckoutSuccessReceiptProps) {
-  const invoiceId = receiptData?.orderId || `INV-XP-${Date.now().toString().slice(-6)}`;
+  const invoiceId = receiptData?.orderId || "INV-XP-VIP";
   const expiresAt = receiptData?.expiresAt || "Vĩnh viễn";
 
   return (

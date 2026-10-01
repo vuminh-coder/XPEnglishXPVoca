@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { Check, Crown, ArrowRight, Zap, Gift } from "lucide-react";
+import { Check, Crown, ArrowRight, Gift } from "lucide-react";
 import { PlanKey } from "../../types";
 import { PLANS } from "../../constants";
 import { useUserStore } from "@/stores/userStore";
@@ -13,7 +13,7 @@ export interface PremiumPlanDeckProps {
 }
 
 export function PremiumPlanDeck({
-  selectedPlanKey,
+  selectedPlanKey: _selectedPlanKey,
   onSelectPlan,
 }: PremiumPlanDeckProps) {
   const user = useUserStore((s) => s.user);
@@ -33,7 +33,6 @@ export function PremiumPlanDeck({
         {(["monthly", "yearly", "lifetime"] as PlanKey[]).map((key) => {
           const plan = PLANS[key];
           const isYearly = key === "yearly";
-          const isSelected = selectedPlanKey === key;
           const isCurrentActive = Boolean(user?.isPremium && user?.premiumTier === key);
 
           return (

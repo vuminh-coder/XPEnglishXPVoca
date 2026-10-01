@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Star, CheckCircle2 } from "lucide-react";
+import { Star } from "lucide-react";
 import { SUCCESS_STORIES } from "../../constants";
 
 export function PremiumSuccessStories() {

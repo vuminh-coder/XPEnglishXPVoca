@@ -21,7 +21,7 @@ export interface PremiumBentoShowcaseProps {
 export function PremiumBentoShowcase({
   targetExam = "toeic",
   currentScore = 600,
-  setCurrentScore,
+  setCurrentScore: _setCurrentScore,
   estimatedProScore = 860,
   onSelectExam,
 }: PremiumBentoShowcaseProps) {

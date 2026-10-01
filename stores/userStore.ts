@@ -134,7 +134,7 @@ export const useUserStore = create<UserState>((set, get) => ({
 
       if (diffDays <= 1) return;
 
-      let newStreak = user.currentStreak || 0;
+      const newStreak = user.currentStreak || 0;
       let newFreezes = user.streakFreezes || 0;
 
       if (newFreezes > 0 && newStreak > 0) {
@@ -439,7 +439,7 @@ export const useUserStore = create<UserState>((set, get) => ({
         if (!cachedImageUrl && avatarCached) {
           cachedImageUrl = avatarCached;
         }
-      } catch (e) {}
+      } catch {}
     }
 
     // Validate avatar URL: only accept real http(s)/data:image/absolute paths
@@ -497,7 +497,7 @@ export const useUserStore = create<UserState>((set, get) => ({
         } else {
           get().setLocalUser();
         }
-      } catch (e) {
+      } catch {
         get().setLocalUser();
       } finally {
         setTimeout(() => {
@@ -527,7 +527,7 @@ export const useUserStore = create<UserState>((set, get) => ({
             premiumExpiresAt = sub.expiresAt;
             premiumStartedAt = sub.startedAt || null;
           }
-        } catch (e) {}
+        } catch {}
       }
 
       if (localData) {
@@ -569,7 +569,7 @@ export const useUserStore = create<UserState>((set, get) => ({
       try {
         localStorage.setItem(`xp_voca_user_${activeUserId}`, JSON.stringify(fallbackUser));
         localStorage.setItem("xp_voca_active_userId", activeUserId);
-      } catch (e) {}
+      } catch {}
       useVocabularyStore.getState().loadLearnedWords(activeUserId);
       get().syncStreak(false);
     }

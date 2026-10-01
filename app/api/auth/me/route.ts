@@ -82,7 +82,7 @@ export async function GET(req: NextRequest) {
         avatarUrl: profile.avatarUrl || null,
       },
     });
-  } catch (error) {
+  } catch (_error) {
     return NextResponse.json({ success: false, data: null });
   }
 }
