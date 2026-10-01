@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { GET as getRooms, POST as createRoom } from "@/app/api/study-rooms/route";
 import { POST as manageMember, GET as getMembers } from "@/app/api/study-rooms/[id]/members/route";
-import { GET as getMessages, POST as postMessage } from "@/app/api/study-rooms/[id]/messages/route";
+import { POST as postMessage } from "@/app/api/study-rooms/[id]/messages/route";
 import { prisma } from "@/infrastructure/database/prisma";
 import * as authModule from "@/infrastructure/auth/auth";
 

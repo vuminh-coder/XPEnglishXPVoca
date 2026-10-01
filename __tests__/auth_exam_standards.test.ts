@@ -34,8 +34,6 @@ import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { POST as registerUser } from "@/app/api/auth/register/route";
 import { POST as loginUser } from "@/app/api/auth/login/route";
 import { GET as getMe } from "@/app/api/auth/me/route";
-import { POST as forgotPassword } from "@/app/api/auth/forgot-password/route";
-import { POST as resetPassword } from "@/app/api/auth/reset-password/route";
 import { GET as getExamStats } from "@/app/api/exams/stats/route";
 import { NextRequest } from "next/server";
 

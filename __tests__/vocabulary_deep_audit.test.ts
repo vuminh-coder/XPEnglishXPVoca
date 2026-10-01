@@ -6,7 +6,6 @@ import {
 } from "@/features/vocabulary/data/basicVocabularies";
 import {
   ADVANCED_VOCABULARY_THEMES,
-  ADVANCED_VOCABULARIES,
   getAdvancedVocabulariesByTheme,
 } from "@/features/vocabulary/data/advancedVocabularies";
 

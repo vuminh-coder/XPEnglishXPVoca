@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef, Suspense } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAnimation";
 import { VietnamFlag, USFlag } from "@/shared/components/ui";
 import "../auth.css";
@@ -45,11 +45,13 @@ export default function ForgotPasswordPage() {
 
 function ForgotPasswordContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const initialToken = searchParams.get("token") || "";
 
   // Mode: "request" (enter email) | "sent" (email sent) | "reset" (enter new password)
-  const [mode, setMode] = useState<"request" | "sent" | "reset">("request");
+  const [mode, setMode] = useState<"request" | "sent" | "reset">(initialToken ? "reset" : "request");
   const [email, setEmail] = useState("");
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(initialToken);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -65,18 +67,6 @@ function ForgotPasswordContent() {
   const [currentLang, setCurrentLang] = useState<"vi" | "en">("vi");
   const [isLangOpen, setIsLangOpen] = useState(false);
   const langRef = useRef<HTMLDivElement>(null);
-
-  // Check URL params for reset token
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      const urlToken = params.get("token");
-      if (urlToken) {
-        setToken(urlToken);
-        setMode("reset");
-      }
-    }
-  }, []);
 
   // Cooldown countdown timer
   useEffect(() => {
@@ -173,7 +163,7 @@ function ForgotPasswordContent() {
       setIsLoading(false);
       setMode("sent");
       setResendCooldown(60);
-    } catch (err: any) {
+    } catch {
       setErrorMsg("Đã xảy ra lỗi kết nối máy chủ. Vui lòng thử lại sau.");
       setIsLoading(false);
     }
@@ -204,7 +194,7 @@ function ForgotPasswordContent() {
       setResendCooldown(60);
       setSuccessMsg("Đã gửi lại email hướng dẫn!");
       setTimeout(() => setSuccessMsg(""), 4000);
-    } catch (err) {
+    } catch {
       setErrorMsg("Lỗi kết nối khi gửi lại email.");
       setIsLoading(false);
     }
@@ -252,7 +242,7 @@ function ForgotPasswordContent() {
       setTimeout(() => {
         router.push("/login");
       }, 2000);
-    } catch (err: any) {
+    } catch {
       setErrorMsg("Đã xảy ra lỗi kết nối. Vui lòng thử lại sau.");
       setIsLoading(false);
     }

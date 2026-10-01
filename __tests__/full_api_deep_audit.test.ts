@@ -93,7 +93,7 @@ import { GET as getListeningLesson } from "@/app/api/listening/lessons/[id]/rout
 import { POST as pvpRoomAction } from "@/app/api/pvp/room/route";
 import { POST as sendSignal, GET as getSignal } from "@/app/api/study-rooms/[id]/signal/route";
 import { GET as getRoomMessages } from "@/app/api/study-rooms/[id]/messages/route";
-import { GET as getRoomMembers, POST as roomMemberAction } from "@/app/api/study-rooms/[id]/members/route";
+import { POST as roomMemberAction } from "@/app/api/study-rooms/[id]/members/route";
 import { POST as toggleLike } from "@/app/api/posts/[id]/like/route";
 import { POST as claimChallenge } from "@/app/api/user/challenges/route";
 import { POST as critiqueUi } from "@/app/api/ai/ui-critique/route";

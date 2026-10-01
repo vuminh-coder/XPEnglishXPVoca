@@ -32,7 +32,6 @@ vi.mock("@/infrastructure/database/prisma", () => ({
 import { GET as getExams } from "@/app/api/exams/route";
 import { GET as getExamById } from "@/app/api/exams/[id]/route";
 import { seedExamsData } from "@/prisma/seedExamsData";
-import { MOCK_EXAM_PAPERS } from "@/features/exam-prep/data/exam-papers";
 
 describe("Exam API & Database Seeding Standards Suite", () => {
   beforeEach(() => {
