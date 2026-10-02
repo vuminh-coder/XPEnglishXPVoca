@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Trophy,
@@ -23,8 +23,11 @@ import { Badge } from "@/shared/components/ui/Badge";
 import { safeSpeakText } from "@/shared/utils/mobileAudio";
 import { useVocabularyStore } from "@/stores/vocabularyStore";
 import { GameReviewItem } from "../../types";
+import { ConfettiEffect } from "../../utils/gameFx";
+import { updateBestRecord } from "../../utils/gameRecords";
 
 export interface GameResultScreenProps {
+  gameType?: string;
   title?: string;
   subtitle: string;
   score?: number;
@@ -39,6 +42,7 @@ export interface GameResultScreenProps {
 }
 
 export function GameResultScreen({
+  gameType = "game",
   title = "Hoàn thành xuất sắc!",
   subtitle,
   score,
@@ -54,8 +58,26 @@ export function GameResultScreen({
   const [activeTab, setActiveTab] = useState<"summary" | "notebook">("summary");
   const [speakingWord, setSpeakingWord] = useState<string | null>(null);
   const [bookmarkedWords, setBookmarkedWords] = useState<Set<string>>(new Set());
+  const [isNewRecord, setIsNewRecord] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const toggleFavorite = useVocabularyStore((s) => s.toggleFavorite);
+
+  useEffect(() => {
+    if (score !== undefined && score > 0) {
+      const res = updateBestRecord(gameType, score, maxCombo || 1);
+      if (res.isNewBest) {
+        setIsNewRecord(true);
+      }
+    }
+
+    const total = reviewItems.length;
+    const correct = reviewItems.filter((i) => i.isCorrect).length;
+    const acc = accuracy !== undefined ? accuracy : total > 0 ? (correct / total) * 100 : 100;
+    if (acc >= 75 || (score && score >= 40)) {
+      setShowConfetti(true);
+    }
+  }, [score, maxCombo, gameType, accuracy, reviewItems]);
 
   const handleSpeak = (word: string) => {
     setSpeakingWord(word);
@@ -101,7 +123,9 @@ export function GameResultScreen({
   const cefr = getCefrBadge(computedAccuracy, score);
 
   return (
-    <div className="max-w-2xl mx-auto rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 select-none">
+    <div className="max-w-2xl mx-auto rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 select-none relative">
+      <ConfettiEffect active={showConfetti} />
+
       {/* 1. Header Banner Stage */}
       <div className="relative p-6 sm:p-8 bg-gradient-to-br from-[#0059bb] via-[#004799] to-[#002b5b] text-white text-center overflow-hidden">
         {/* Glow ambient background */}
@@ -114,10 +138,19 @@ export function GameResultScreen({
           </div>
 
           <div className="space-y-1">
-            <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-[11px] font-black uppercase tracking-wider text-white">
-              <Sparkles className="w-3 h-3 text-amber-300" />
-              <span>Đánh Giá Chuyên Sâu</span>
+            <div className="flex items-center justify-center gap-1.5 flex-wrap">
+              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-[11px] font-black uppercase tracking-wider text-white">
+                <Sparkles className="w-3 h-3 text-amber-300" />
+                <span>Đánh Giá Chuyên Sâu</span>
+              </div>
+
+              {isNewRecord && (
+                <div className="inline-flex items-center gap-1 px-3 py-0.5 rounded-full bg-amber-400 text-slate-900 text-[11px] font-black uppercase tracking-wider shadow-md animate-pulse">
+                  <span>🌟 Kỷ Lục Mới!</span>
+                </div>
+              )}
             </div>
+
             <h2 className="text-xl sm:text-2xl font-black text-white font-display">
               {title}
             </h2>

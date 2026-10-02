@@ -13,15 +13,18 @@ import {
   BookOpen,
   Filter,
   Image as ImageIcon,
+  Headphones,
+  Trophy,
 } from "lucide-react";
 import { Badge } from "@/shared/components/ui/Badge";
 import { GameMode } from "../../types";
+import { getAllBestRecords } from "../../utils/gameRecords";
 
 export interface GameCatalogGridProps {
   onSelectGame: (mode: GameMode) => void;
 }
 
-type FilterCategory = "all" | "speed" | "memory" | "grammar" | "visual";
+type FilterCategory = "all" | "visual" | "listening" | "speed" | "memory" | "grammar";
 
 const cardItemVariants = {
   hidden: { opacity: 0, y: 15, scale: 0.98 },
@@ -39,6 +42,7 @@ const cardItemVariants = {
 
 export function GameCatalogGrid({ onSelectGame }: GameCatalogGridProps) {
   const [filter, setFilter] = useState<FilterCategory>("all");
+  const bestRecords = getAllBestRecords();
 
   const games = [
     {
@@ -143,6 +147,23 @@ export function GameCatalogGrid({ onSelectGame }: GameCatalogGridProps) {
       difficulty: "Trực quan",
       xpReward: "+20~60 XP",
     },
+    {
+      id: "audio" as GameMode,
+      category: "listening" as FilterCategory,
+      title: "Audio Ear Challenge",
+      subtitle: "Nhận diện âm thanh bản xứ",
+      description:
+        "Luyện phản xạ thính giác với phát âm chuẩn người bản xứ. Nghe từ ở 2 tốc độ 1.0x và 0.75x để chọn đúng từ vựng trước khi nhìn mặt chữ.",
+      icon: Headphones,
+      iconBg: "from-cyan-600 to-blue-700 shadow-cyan-500/20",
+      accentColor: "text-cyan-600 dark:text-cyan-400",
+      borderHover: "hover:border-cyan-500",
+      badgeVariant: "primary" as const,
+      tag1: "8 câu nghe",
+      tag2: "~2.5 phút",
+      difficulty: "Thính giác",
+      xpReward: "+20~60 XP",
+    },
   ];
 
   const filteredGames = games.filter(
@@ -175,6 +196,17 @@ export function GameCatalogGrid({ onSelectGame }: GameCatalogGridProps) {
             }`}
           >
             Hình ảnh trực quan 📸
+          </button>
+          <button
+            type="button"
+            onClick={() => setFilter("listening")}
+            className={`py-1.5 px-3.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+              filter === "listening"
+                ? "bg-[#0059bb] text-white shadow-md shadow-blue-500/20"
+                : "bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300"
+            }`}
+          >
+            Thính giác & Nghe 🎧
           </button>
           <button
             type="button"
@@ -221,6 +253,8 @@ export function GameCatalogGrid({ onSelectGame }: GameCatalogGridProps) {
         <AnimatePresence>
           {filteredGames.map((game) => {
             const Icon = game.icon;
+            const best = bestRecords[game.id];
+
             return (
               <motion.div
                 key={game.id}
@@ -253,9 +287,18 @@ export function GameCatalogGrid({ onSelectGame }: GameCatalogGridProps) {
                         <Icon className="h-6 w-6 stroke-[2.2]" />
                       </div>
 
-                      <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-800/60 text-amber-700 dark:text-amber-300 text-[11px] font-bold shadow-2xs">
-                        <Zap className="w-3 h-3 stroke-[2.5] text-amber-500 fill-amber-500" />
-                        <span>{game.xpReward}</span>
+                      <div className="flex items-center gap-1.5">
+                        {best && best.bestScore > 0 && (
+                          <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-[10px] font-bold text-slate-600 dark:text-slate-300 shadow-2xs">
+                            <Trophy className="w-3 h-3 text-amber-500" />
+                            <span>Kỷ lục: {best.bestScore}đ</span>
+                          </div>
+                        )}
+
+                        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-800/60 text-amber-700 dark:text-amber-300 text-[11px] font-bold shadow-2xs">
+                          <Zap className="w-3 h-3 stroke-[2.5] text-amber-500 fill-amber-500" />
+                          <span>{game.xpReward}</span>
+                        </div>
                       </div>
                     </div>
 

@@ -1,4 +1,11 @@
-export type GameMode = "scramble" | "memory" | "wordle" | "blitz" | "sentence" | "picture";
+export type GameMode =
+  | "scramble"
+  | "memory"
+  | "wordle"
+  | "blitz"
+  | "sentence"
+  | "picture"
+  | "audio";
 
 export interface GameReviewItem {
   id?: string;
@@ -21,6 +28,16 @@ export interface PictureQuizQuestion {
   pos?: string;
   definitionVn: string;
   imageUrl: string;
+  example?: string;
+  options: { word: string; definitionVn: string; isCorrect: boolean }[];
+}
+
+export interface AudioQuizQuestion {
+  id: string;
+  word: string;
+  phonetic: string;
+  pos?: string;
+  definitionVn: string;
   example?: string;
   options: { word: string; definitionVn: string; isCorrect: boolean }[];
 }

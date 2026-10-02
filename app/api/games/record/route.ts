@@ -101,6 +101,13 @@ function calculateAuthorizedRewards(
       coins = Math.min(15, Math.max(4, Math.round(correctImages * 1.8)));
       break;
     }
+    case "audio": {
+      // Audio Ear Challenge: 8 listening questions
+      const correctAudios = Math.max(1, Math.min(wordsCompleted || 5, 12));
+      xp = Math.min(60, correctAudios * 7);
+      coins = Math.min(15, Math.max(4, Math.round(correctAudios * 1.8)));
+      break;
+    }
     default: {
       xp = Math.min(30, Math.max(10, Math.floor(score / 5)));
       coins = 5;

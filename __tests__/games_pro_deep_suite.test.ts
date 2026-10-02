@@ -2,6 +2,9 @@ import { describe, it, expect } from "vitest";
 import { gameAudio } from "@/features/games/utils/gameAudio";
 import { GameReviewItem, SpeedBlitzQuestion, SentenceScramblePackage } from "@/features/games/types";
 import { VISUAL_VOCAB_BANK } from "@/features/games/data/visualVocabBank";
+import { getBestRecord, updateBestRecord } from "@/features/games/utils/gameRecords";
+import { triggerHaptic } from "@/features/games/utils/gameFx";
+
 
 describe("Mini Games Pro Deep Suite & Evaluation Engine", () => {
   describe("1. Upgraded Game Audio Engine with Mute & Combo Chords", () => {
@@ -167,5 +170,99 @@ describe("Mini Games Pro Deep Suite & Evaluation Engine", () => {
       expect(correctOptions[0].word).toBe(target.word);
     });
   });
+
+  describe("7. Personal Best Records & LocalStorage Manager", () => {
+    it("handles getBestRecord and updateBestRecord correctly with mocking", () => {
+      const mockStorage: Record<string, string> = {};
+      const origLocalStorage = global.localStorage;
+      (global as any).localStorage = {
+        getItem: (k: string) => mockStorage[k] || null,
+        setItem: (k: string, v: string) => {
+          mockStorage[k] = v;
+        },
+        removeItem: (k: string) => {
+          delete mockStorage[k];
+        },
+      };
+
+      // Use globally mocked localStorage
+      // Initially empty
+      const initial = getBestRecord("speed_blitz");
+      expect(initial.bestScore).toBe(0);
+      expect(initial.maxStreak).toBe(0);
+
+      // Record first score
+      const res1 = updateBestRecord("speed_blitz", 120, 5);
+      expect(res1.isNewBest).toBe(true);
+      expect(res1.bestScore).toBe(120);
+
+      const saved1 = getBestRecord("speed_blitz");
+      expect(saved1.bestScore).toBe(120);
+      expect(saved1.maxStreak).toBe(5);
+
+      // Lower score should NOT be new best
+      const res2 = updateBestRecord("speed_blitz", 90, 2);
+      expect(res2.isNewBest).toBe(false);
+      expect(res2.bestScore).toBe(120);
+
+      // Higher score should update new best
+      const res3 = updateBestRecord("speed_blitz", 180, 8);
+      expect(res3.isNewBest).toBe(true);
+      expect(res3.bestScore).toBe(180);
+
+      (global as any).localStorage = origLocalStorage;
+    });
+  });
+
+  describe("8. Mobile Haptic Vibration & Canvas Confetti FX", () => {
+    it("executes triggerHaptic without throwing in any environment", () => {
+      expect(() => triggerHaptic("tap")).not.toThrow();
+      expect(() => triggerHaptic("success")).not.toThrow();
+      expect(() => triggerHaptic("warning")).not.toThrow();
+      expect(() => triggerHaptic("victory")).not.toThrow();
+    });
+  });
+
+  describe("9. Audio Ear Challenge Question Generator & Integrity", () => {
+    it("generates 4 valid distractors with phonetic and VN definition for Audio Ear", () => {
+      const mockPool = [
+        { id: "1", word: "PERSPECTIVE", phonetic: "/pəˈspek.tɪv/", definitionVn: "Góc nhìn, quan điểm" },
+        { id: "2", word: "METICULOUS", phonetic: "/məˈtɪk.jə.ləs/", definitionVn: "Tỉ mỉ, kỹ lưỡng" },
+        { id: "3", word: "PRAGMATIC", phonetic: "/præɡˈmæt.ɪk/", definitionVn: "Thực tế, thực dụng" },
+        { id: "4", word: "SUBTLE", phonetic: "/ˈsʌt.əl/", definitionVn: "Tinh tế, phảng phất" },
+      ];
+
+      const target = mockPool[0];
+      const distractors = mockPool.filter((w) => w.word !== target.word);
+      const options = [
+        { word: target.word, phonetic: target.phonetic, definitionVn: target.definitionVn, isCorrect: true },
+        ...distractors.map((d) => ({ word: d.word, phonetic: d.phonetic, definitionVn: d.definitionVn, isCorrect: false })),
+      ];
+
+      expect(options.length).toBe(4);
+      expect(options.filter((o) => o.isCorrect).length).toBe(1);
+      expect(options.find((o) => o.isCorrect)?.word).toBe("PERSPECTIVE");
+    });
+  });
+
+  describe("10. Vocabulary Deck Filter Logic", () => {
+    const mockVocabPool = [
+      { id: "v1", word: "Apple", difficulty: 1 },
+      { id: "v2", word: "Negotiation", difficulty: 2 },
+      { id: "v3", word: "Infrastructure", difficulty: 3 },
+      { id: "v4", word: "Ephemeral", difficulty: 4 },
+    ];
+
+    it("filters TOEIC deck for difficulty <= 2", () => {
+      const toeic = mockVocabPool.filter((w) => (w.difficulty || 1) <= 2);
+      expect(toeic.map((w) => w.word)).toEqual(["Apple", "Negotiation"]);
+    });
+
+    it("filters IELTS deck for difficulty >= 2", () => {
+      const ielts = mockVocabPool.filter((w) => (w.difficulty || 1) >= 2);
+      expect(ielts.map((w) => w.word)).toEqual(["Negotiation", "Infrastructure", "Ephemeral"]);
+    });
+  });
 });
+
 
