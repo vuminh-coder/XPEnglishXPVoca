@@ -2,7 +2,15 @@
 
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Gamepad2, Shuffle, Layers, SpellCheck } from "lucide-react";
+import {
+  Gamepad2,
+  Shuffle,
+  Layers,
+  SpellCheck,
+  Flame,
+  BookOpen,
+  Image as ImageIcon,
+} from "lucide-react";
 import {
   AppTopHeader,
   HeaderPillContainer,
@@ -15,6 +23,9 @@ import {
   WordScrambleGame,
   MemoryMatchGame,
   WordleEnglishGame,
+  SpeedBlitzGame,
+  SentenceBuilderGame,
+  PictureWordGame,
 } from "@/features/games";
 import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 
@@ -65,11 +76,11 @@ export default function GamesPage() {
           <div className="w-48 h-8 rounded-xl bg-slate-200 dark:bg-slate-800" />
         </header>
         <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 pt-1">
-          <div className="h-36 sm:h-44 rounded-2xl bg-slate-200 dark:bg-slate-800" />
+          <div className="h-36 sm:h-44 rounded-3xl bg-slate-200 dark:bg-slate-800" />
           <div className="grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
-            <div className="h-[260px] rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800" />
-            <div className="h-[260px] rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800" />
-            <div className="h-[260px] rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800" />
+            <div className="h-[270px] rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800" />
+            <div className="h-[270px] rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800" />
+            <div className="h-[270px] rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800" />
           </div>
         </div>
       </div>
@@ -92,11 +103,25 @@ export default function GamesPage() {
             label="Tất Cả Games"
           />
           <HeaderPillItem
+            active={activeGame === "picture"}
+            onClick={() => setActiveGame("picture")}
+            layoutId="gamesModeFilterPill"
+            icon={<ImageIcon className="w-3.5 h-3.5 text-rose-500" />}
+            label="PictoWord (Ảnh)"
+          />
+          <HeaderPillItem
             active={activeGame === "scramble"}
             onClick={() => setActiveGame("scramble")}
             layoutId="gamesModeFilterPill"
             icon={<Shuffle className="w-3.5 h-3.5 text-[#0059bb]" />}
             label="Word Scramble"
+          />
+          <HeaderPillItem
+            active={activeGame === "blitz"}
+            onClick={() => setActiveGame("blitz")}
+            layoutId="gamesModeFilterPill"
+            icon={<Flame className="w-3.5 h-3.5 text-amber-500" />}
+            label="Speed Blitz"
           />
           <HeaderPillItem
             active={activeGame === "memory"}
@@ -109,8 +134,15 @@ export default function GamesPage() {
             active={activeGame === "wordle"}
             onClick={() => setActiveGame("wordle")}
             layoutId="gamesModeFilterPill"
-            icon={<SpellCheck className="w-3.5 h-3.5 text-amber-500" />}
+            icon={<SpellCheck className="w-3.5 h-3.5 text-purple-500" />}
             label="Wordle"
+          />
+          <HeaderPillItem
+            active={activeGame === "sentence"}
+            onClick={() => setActiveGame("sentence")}
+            layoutId="gamesModeFilterPill"
+            icon={<BookOpen className="w-3.5 h-3.5 text-indigo-500" />}
+            label="Sentence Builder"
           />
         </HeaderPillContainer>
       </AppTopHeader>
@@ -118,6 +150,19 @@ export default function GamesPage() {
       {/* 2. Fluid Ultra-Wide Main Container */}
       <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 sm:space-y-6 pt-1">
         <AnimatePresence mode="wait">
+          {activeGame === "picture" && (
+            <motion.div
+              key="picture-panel"
+              variants={pageTransitionVariants}
+              initial="hidden"
+              animate="show"
+              exit="exit"
+              className="max-w-xl mx-auto"
+            >
+              <PictureWordGame onBack={() => setActiveGame(null)} />
+            </motion.div>
+          )}
+
           {activeGame === "scramble" && (
             <motion.div
               key="scramble-panel"
@@ -128,6 +173,19 @@ export default function GamesPage() {
               className="max-w-2xl mx-auto"
             >
               <WordScrambleGame pool={pool} onBack={() => setActiveGame(null)} />
+            </motion.div>
+          )}
+
+          {activeGame === "blitz" && (
+            <motion.div
+              key="blitz-panel"
+              variants={pageTransitionVariants}
+              initial="hidden"
+              animate="show"
+              exit="exit"
+              className="max-w-xl mx-auto"
+            >
+              <SpeedBlitzGame pool={pool} onBack={() => setActiveGame(null)} />
             </motion.div>
           )}
 
@@ -151,9 +209,22 @@ export default function GamesPage() {
               initial="hidden"
               animate="show"
               exit="exit"
-              className="max-w-2xl mx-auto"
+              className="max-w-lg mx-auto"
             >
               <WordleEnglishGame pool={pool} onBack={() => setActiveGame(null)} />
+            </motion.div>
+          )}
+
+          {activeGame === "sentence" && (
+            <motion.div
+              key="sentence-panel"
+              variants={pageTransitionVariants}
+              initial="hidden"
+              animate="show"
+              exit="exit"
+              className="max-w-2xl mx-auto"
+            >
+              <SentenceBuilderGame pool={pool} onBack={() => setActiveGame(null)} />
             </motion.div>
           )}
 
@@ -169,7 +240,7 @@ export default function GamesPage() {
               {/* Hero Spotlight Stage */}
               <GameHeroBanner />
 
-              {/* Game Cards Bento Grid */}
+              {/* Game Cards Bento Grid with Categories */}
               <GameCatalogGrid onSelectGame={(mode) => setActiveGame(mode)} />
             </motion.div>
           )}

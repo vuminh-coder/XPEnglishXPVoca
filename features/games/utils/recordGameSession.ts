@@ -1,11 +1,13 @@
 import { useUserStore } from "@/stores/userStore";
 
 export interface RecordGameParams {
-  gameType: "memory" | "scramble" | "wordle" | string;
+  gameType: "memory" | "scramble" | "wordle" | "blitz" | "sentence" | string;
   score: number;
   durationSeconds: number;
   wordsCompleted?: number;
   attempts?: number;
+  moves?: number;
+  accuracy?: number;
 }
 
 export interface RecordGameResult {

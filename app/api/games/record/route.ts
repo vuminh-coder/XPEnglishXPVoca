@@ -80,6 +80,27 @@ function calculateAuthorizedRewards(
       coins = 5;
       break;
     }
+    case "blitz": {
+      // Speed Blitz: 60s reflex speed game
+      const correctWords = Math.max(0, Math.min(wordsCompleted || Math.floor(score / 15), 35));
+      xp = Math.min(60, Math.max(15, correctWords * 3 + Math.floor(score / 25)));
+      coins = Math.min(15, Math.max(4, Math.floor(correctWords / 2)));
+      break;
+    }
+    case "sentence": {
+      // Sentence Builder: grammar & collocation unscramble
+      const completedSentences = Math.max(1, Math.min(wordsCompleted || 5, 10));
+      xp = Math.min(60, completedSentences * 10);
+      coins = Math.min(15, Math.round(completedSentences * 2.5));
+      break;
+    }
+    case "picture": {
+      // PictoWord Visual Match: 8 visual questions
+      const correctImages = Math.max(1, Math.min(wordsCompleted || 5, 12));
+      xp = Math.min(60, correctImages * 7);
+      coins = Math.min(15, Math.max(4, Math.round(correctImages * 1.8)));
+      break;
+    }
     default: {
       xp = Math.min(30, Math.max(10, Math.floor(score / 5)));
       coins = 5;

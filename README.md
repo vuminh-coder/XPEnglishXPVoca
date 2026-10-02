@@ -1361,23 +1361,28 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
   - **Trận Đấu PvP 1v1**: Giao diện đấu thời gian thực sắc nét, đồng hồ đếm ngược, AI thông minh và báo cáo kết quả thưởng XP.
   - **Bộ Kiểm Thử 100% PASS (`__tests__/pvp_sound_engine.test.ts`)**: Đảm bảo an toàn tuyệt đối trong môi trường SSR lẫn trình duyệt thực tế.
 
-- **`/study/games`**: Phân Hệ Mini Games Từ Vựng Tương Tác & Phản Xạ Nhanh 3-in-1 (Word Scramble, Memory Match & Wordle English) — Chuẩn Mực Agency Dashboard Tier.
+- **`/study/games`**: Phân Hệ Mini Games Từ Vựng Tương Tác & Phản Xạ Nhanh 6-in-1 (Word Scramble, Speed Blitz, Memory Match, Wordle English, Sentence Builder & PictoWord Visual Match) Tích Hợp Đánh Giá Chuyên Sâu, Hình Ảnh Trực Quan & Sổ Tay Ôn Tập Tức Thì — Chuẩn Mực Agency Dashboard Tier.
   - **Kiến Trúc Module Hóa Chuyên Sâu (`features/games/`)**:
-    - `types/index.ts`: Định nghĩa kiểu dữ liệu nghiêm ngặt `GameMode`, `ScrambleWordPackage`, `MemoryCard`, `WordleLetterStatus`, `WordleRowState`, `GameRecordPayload`.
-    - `utils/gameAudio.ts`: Động cơ âm thanh Web Audio API 0KB (`playFlipSound`, `playCorrectDing`, `playWrongBuzzer`, `playVictoryFanfare`), an toàn môi trường SSR/Node.
-    - `app/api/games/record/route.ts`: API xác thực và lưu trữ kết quả ván game máy chủ (Server-Authoritative Anti-Cheat Reward Pipeline). Kiểm tra thời lượng chơi tối thiểu (`durationSeconds >= 8s`), kích hoạt giãn cách rate-limit cooldown giữa các ván (12s), máy chủ độc quyền tính toán XP và Vàng có giới hạn trần (`MAX_XP = 60`, `MAX_COINS = 15`), ngăn chặn triệt để hành vi can thiệp Console F12 hoặc cURL script farm điểm bất hợp pháp.
+    - `types/index.ts`: Định nghĩa kiểu dữ liệu nghiêm ngặt `GameMode` ("scramble" | "memory" | "wordle" | "blitz" | "sentence" | "picture"), `PictureQuizQuestion`, `GameReviewItem`, `ScrambleWordPackage`, `MemoryCard`, `WordleLetterStatus`, `WordleRowState`, `SpeedBlitzQuestion`, `SentenceScramblePackage`, `GameRecordPayload`.
+    - `data/visualVocabBank.ts`: Kho dữ liệu hình ảnh trực quan tuyển chọn chất lượng cao (Unsplash HD CDN + Fallback SVG Vector, phiên âm IPA, loại từ, câu ví dụ).
+    - `utils/gameAudio.ts`: Động cơ âm thanh Web Audio API 0KB nâng cấp (`playTap`, `playFlipSound`, `playCorrectDing`, `playComboStreak`, `playWrongBuzzer`, `playTimerUrgent`, `playVictoryFanfare`), tích hợp nút bật/tắt âm thanh (Mute/Unmute toggle) lưu trạng thái bền vững vào `localStorage`, an toàn môi trường SSR/Node.
+    - `app/api/games/record/route.ts`: API xác thực và lưu trữ kết quả ván game máy chủ (Server-Authoritative Anti-Cheat Reward Pipeline). Kiểm tra thời lượng chơi tối thiểu (`durationSeconds >= 8s`), giãn cách rate-limit cooldown (12s), máy chủ độc quyền tính toán XP và Vàng có giới hạn trần (`MAX_XP = 60`, `MAX_COINS = 15`) cho cả 6 chế độ games, tự động cập nhật chuỗi tích lũy ngày `DailySkillPractice` cho kỹ năng `vocab`.
     - `features/games/utils/recordGameSession.ts`: Tiện ích client-side gửi ván chơi lên endpoint bảo mật và đồng bộ XP/Vàng nguyên tử vào `userStore`.
-    - `components/hero/GameHeroBanner.tsx`: Banner Spotlight Hero chuẩn Agency với ánh sáng gradient và thông số thưởng XP.
-    - `components/catalog/GameCatalogGrid.tsx`: Lưới 3 thẻ Bento Game (`Word Scramble`, `Memory Match`, `Wordle English`) với hiệu ứng hover lift mượt mà, phân loại màu 60-30-10.
-    - `components/scramble/WordScrambleGame.tsx`: Trò chơi xáo trộn chữ cái 8 từ, đếm ngược 30s, combo streak nhân điểm, ô chữ `rounded-xl` màu xanh hoàng gia `#0059bb`.
-    - `components/memory/MemoryMatchGame.tsx`: Trò chơi lật thẻ 6 cặp (12 thẻ) rèn luyện trí nhớ Từ - Nghĩa, tính điểm theo hiệu suất lượt lật, thẻ `rounded-xl`.
-    - `components/wordle/WordleEnglishGame.tsx`: Trò chơi Wordle tiếng Anh 5 chữ cái 6 lượt đoán, bàn phím QWERTY ảo lẫn gõ phím vật lý, giải mã màu Emerald/Amber/Slate, hiển thị nghĩa tiếng Việt & phiên âm IPA.
-    - `components/shared/GameResultScreen.tsx`: Màn hình vinh danh chiến thắng Cúp Vàng 3D, tổng kết XP và Vàng, nút chơi lại ván mới.
-    - `app/(dashboard)/study/games/page.tsx`: Orchestrator mỏng dưới 150 dòng, tích hợp `AppTopHeader` với cụm tab chuyển đổi nhanh và chip Gamification.
+    - `components/hero/GameHeroBanner.tsx`: Banner Spotlight Hero chuẩn Agency với ánh sáng gradient xanh hoàng gia `#0059bb`, huy hiệu Gamified Learning Engine và số liệu thưởng trực quan.
+    - `components/catalog/GameCatalogGrid.tsx`: Lưới 6 thẻ Bento Game phân loại theo 5 danh mục lọc ("Tất Cả", "Hình ảnh trực quan 📸", "Phản Xạ Tốc Độ", "Trí Nhớ & Từ Vựng", "Cấu Trúc Câu") với hiệu ứng hover lift mượt mà, phân loại màu 60-30-10.
+    - `components/picture/PictureWordGame.tsx`: Trò chơi **PictoWord Match (Visual Vocab)**: Đoán từ vựng qua kho ảnh chụp chất lượng cao, hỗ trợ phóng to zoom ảnh, nút gợi ý ngữ cảnh, phát âm chuẩn TTS, chuỗi Combo Fever Mode và phím tắt 1-2-3-4.
+    - `components/scramble/WordScrambleGame.tsx`: Trò chơi xáo trộn chữ cái 8 từ, tích hợp **Interactive Letter Tiles** (hỗ trợ chạm/click để xếp và gỡ chữ cái trực quan, gõ phím vật lý song song, nút xóa chữ/xóa hết, nút gợi ý mở chữ cái đầu, phát âm chuẩn TTS, chuỗi Combo Streak nốt nhạc).
+    - `components/blitz/SpeedBlitzGame.tsx`: Thử thách phản xạ nghĩa từ vựng tốc độ cao 60 giây (Vocab Rush), 4 phương án trắc nghiệm nhanh, phím tắt 1-2-3-4, hiệu ứng Fever Bar combo x1 - x5 bùng nổ, âm thanh khẩn cấp dưới 8 giây.
+    - `components/memory/MemoryMatchGame.tsx`: Trò chơi lật thẻ bài 3D (`perspective: 1000px`, `rotateY(180deg)`) với 3 cấp độ khó linh hoạt (Dễ 4 cặp, Vừa 6 cặp, Khó 8 cặp), âm thanh phát âm tiếng Anh chuẩn khi match thành công, đồng hồ đếm thời gian và tính điểm trí nhớ.
+    - `components/wordle/WordleEnglishGame.tsx`: Trò chơi Wordle tiếng Anh 5 chữ cái 6 lượt đoán, hiệu ứng flip stagger nối tiếp mượt mà, gợi ý ký tự thông minh, phát âm chuẩn giọng bản xứ khi đoán đúng hoặc hết lượt.
+    - `components/sentence/SentenceBuilderGame.tsx`: Trò chơi sắp xếp khối từ tạo câu hoàn chỉnh (Sentence Builder / Unscramble), rèn luyện ngữ pháp, trật tự từ và collocation ngữ cảnh, kèm câu dịch tiếng Việt, nút nghe cả câu và gợi ý từ tiếp theo.
+    - `components/shared/GameResultScreen.tsx`: Màn hình Đánh Giá Chuyên Sâu 2 tầng:
+      1. *Tab Tổng Quan Chỉ Số*: Điểm số, Thưởng XP & Vàng, Độ chính xác (Accuracy %), Chuỗi Combo cao nhất, Thời gian hoàn thành và Đánh giá phân loại trình độ CEFR tự động (A2 Elementary, B1 Intermediate, B2 Upper-Int, C1 Advanced).
+      2. *Tab Sổ Tay Ván Chơi (Vocab Review Notebook)*: Danh sách toàn bộ từ vựng đã xuất hiện trong trận, kèm thumbnail hình ảnh trực quan đối với các câu đố ảnh, phiên âm IPA, từ loại POS, câu ví dụ thực tế, icon Đúng/Sai, nút phát âm loa TTS và nút Bookmark lưu từ yêu thích kết nối `useVocabularyStore`.
+    - `app/(dashboard)/study/games/page.tsx`: Orchestrator mỏng, tích hợp `AppTopHeader` với cụm tab chuyển đổi nhanh 6 games và chip Gamification.
   - **Chuẩn Hóa 20 Quy Tắc UI/UX & Bảng Màu 60-30-10**:
-    - Loại bỏ hoàn toàn lỗi bo góc nhọn `rounded-xs` (2px), nâng cấp lên `rounded-2xl` cho khối ngoài và `rounded-xl` cho phần tử con.
-    - Không dùng chữ nghiêng, chữ đứng `not-italic` sắc nét.
-    - Bộ kiểm thử tự động 100% PASS (`__tests__/games_feature.test.ts`).
+    - 60% Nền Slate/Trắng sáng dịu mắt, 30% Xanh hoàng gia `#0059bb`, 10% Điểm nhấn ngữ nghĩa (Emerald đúng, Amber cúp/combo, Rose thời gian gấp/báo lỗi).
+    - Bộ kiểm thử tự động 100% PASS (`__tests__/games_feature.test.ts`, `__tests__/games_standards.test.ts`, `__tests__/games_pro_deep_suite.test.ts`).
 
 - **`/study/exam-prep`**: Đấu Trường Thi Thử Đề Thực Tế (Unified Exam Configurator Studio for TOEIC & IELTS 4 Skills).
   - **Tích hợp thanh điều hướng Sidebar (`components/layout/Sidebar.tsx`)**: Đã bổ sung mục **"Thi thử đề" (`/study/exam-prep`)** dưới danh mục LUYỆN TẬP.

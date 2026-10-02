@@ -5,4 +5,8 @@ export * from "./components/catalog/GameCatalogGrid";
 export * from "./components/scramble/WordScrambleGame";
 export * from "./components/memory/MemoryMatchGame";
 export * from "./components/wordle/WordleEnglishGame";
+export * from "./components/blitz/SpeedBlitzGame";
+export * from "./components/sentence/SentenceBuilderGame";
+export * from "./components/picture/PictureWordGame";
 export * from "./components/shared/GameResultScreen";
+export * from "./data/visualVocabBank";
