@@ -23,8 +23,9 @@ import { Badge } from "@/shared/components/ui/Badge";
 import { safeSpeakText } from "@/shared/utils/mobileAudio";
 import { useVocabularyStore } from "@/stores/vocabularyStore";
 import { GameReviewItem } from "../../types";
-import { ConfettiEffect } from "../../utils/gameFx";
+import { ConfettiEffect } from "./ConfettiEffect";
 import { updateBestRecord } from "../../utils/gameRecords";
+
 
 export interface GameResultScreenProps {
   gameType?: string;
