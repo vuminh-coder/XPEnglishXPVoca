@@ -13,5 +13,7 @@ export * from "./components/picture/PictureWordGame";
 export * from "./components/audio/AudioEarGame";
 export * from "./components/shared/GameResultScreen";
 export * from "./components/shared/GameDeckSelector";
+export * from "./components/shared/ConfettiEffect";
 export * from "./data/visualVocabBank";
+
 
