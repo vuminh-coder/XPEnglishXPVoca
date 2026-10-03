@@ -434,6 +434,18 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
       - Chuẩn hóa vòng đời mount `useState(false) -> useEffect(() => setMounted(true))` trong [`FloatingAiChatbot.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/ai/components/FloatingAiChatbot/FloatingAiChatbot.tsx), giải quyết triệt để lỗi Hydration Mismatch giữa HTML render từ server và client DOM.
       - Sửa biến chưa khai báo `matchedAnyWord` trong [`DictationWorkspace.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/DictationWorkspace.tsx).
     - **Bộ Kiểm Thử Đạt Chuẩn Tuyệt Đối**: Bổ sung bộ kiểm thử chuyên sâu [`__tests__/full_api_deep_audit.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/full_api_deep_audit.test.ts) (12 tests) bao phủ toàn diện các kịch bản IDOR, Anti-Spoofing, WebRTC Signaling, Rate Limiting và Atomic Transactions. Toàn bộ hệ thống vượt qua kiểm tra TypeScript (`npx tsc --noEmit` - 0 lỗi), ESLint (`npm run lint` - 0 lỗi), và toàn bộ **60 test files, 625 passed tests (100% pass rate)**.
+42. **Tối Ưu Hóa & Cân Bằng Toàn Diện Phòng Mini Games (`/study/games` - Compact Hero, 3x3 Bento Matrix & Anti-Collision)**:
+    - **Tối Ưu Hóa Ngân Sách Viewport (Compact Hero Banner - `GameHeroBanner.tsx`)**:
+      - Tinh chỉnh chiều cao `GameHeroBanner` từ `p-5 sm:p-7` xuống `p-4 sm:p-5 lg:p-6`, chuyển đổi 2 khối thống kê phụ sang thẻ inline mượt mà (`p-2.5 rounded-xl`), tiết kiệm hơn 60px chiều cao màn hình.
+      - Đưa trọn vẹn Hàng 2 của danh sách game lên trên nếp gấp màn hình (fold-line) trên các laptop 1366x768 và 1536x730, triệt tiêu hoàn toàn hiện tượng thẻ game bị cắt cụt ngang thân.
+    - **Hoàn Thiện Ma Trận Lưới 3x3 Cân Xứng Tuyệt Đối (9-Game Bento Grid - `GameCatalogGrid.tsx`)**:
+      - Bổ sung 2 thẻ trò chơi chiến lược lấp đầy 2 ô trống khuyết hỏng ở Hàng 3:
+        1. **Đấu Trường 1v1 PvP** (Swords, màu đỏ Rose `#f43f5e` chuẩn Rule 20, 15 câu đối kháng trực tiếp, bảng ELO, định tuyến tức thì sang `/study/pvp`).
+        2. **Thử Thách Gauntlet Ngày** (Trophy, màu vàng Amber `#f59e0b`, chuỗi 3 game liên hoàn, +100 XP thưởng bonus, kích hoạt ván game ngẫu nhiên).
+      - Đạt cấu trúc 9 ô (3 hàng x 3 cột) tròn trịa, cân bằng thị giác hoàn hảo và bao quát toàn diện các kỹ năng (Tốc độ, Trí nhớ, Nghe, Nhìn ảnh, Ngữ pháp, Đối kháng).
+    - **Triệt Tiêu Xung Đột Che Lấp Nút Nổi (Anti-FAB Collision & Bottom Safe Margin)**:
+      - Nâng cấp khoảng đệm chân trang `pb-28 sm:pb-36` trong [app/(dashboard)/study/games/page.tsx](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/study/games/page.tsx), đảm bảo khi cuộn trang tới đáy, các nút hành động "Vào chơi ➔", "Vào đấu trường ➔" và huy hiệu thời lượng không bị che lấp bởi widget trợ lý AI `XP Mentor` (`bottom-6 right-6`) hoặc các nút nổi khác.
+    - **Kiểm Thử Toàn Diện**: 62 test suites, **658/658 tests (100% pass rate)**.
 
 ---
 
@@ -1469,7 +1481,13 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
       - **Micro-Silent Buffer Hardware Unlock**: Tự động mở khóa phần cứng âm thanh DAC trên iOS/Android ngay từ lần chạm đầu tiên của người dùng bằng buffer siêu ngắn 1ms, xử lý triệt để chính sách Autoplay Policy của trình duyệt di động.
       - **Server-Side TTS Audio Streaming Proxy ([/api/tts](file:///e:/XP%20English%20%20XP%20Voca/app/api/tts/route.ts))**: Phát âm thanh trực tiếp từ backend Next.js với định dạng chuẩn `audio/mpeg`, loại bỏ 100% các lỗi 403 Forbidden, CORS và hạn chế cross-origin trên toàn bộ trình duyệt di động (iOS Safari, Android Chrome, Samsung Internet, Webview).
       - **Cơ Chế Watchdog Chống Treo Tiếng**: Bổ sung bộ đếm thời gian giám sát tự động dọn sạch tiến trình âm thanh treo trên Safari di động, đảm bảo âm thanh phát mượt mà, đồng bộ và liên tục trên mọi trang.
-      - **Tối Ưu & Phân Tách Trạng Thái Sidebar Mobile / Desktop Hoàn Toàn ([Sidebar.tsx](file:///e:/XP%20English%20%20XP%20Voca/components/layout/Sidebar.tsx))**:
+      - **Tối Ưu & Phân Tách Trạng Thái Sidebar Mobile / Desktop Hoàn Toàn ([Sidebar.tsx](file:///e:/XP%20English%20%20XP%20Voca/shared/components/layout/Sidebar.tsx))**:
+        - **Khung Xương Sidebar 1:1 Pixel-Perfect Zero-CLS (`SidebarSkeleton`)**: Khung xương tải trang (Skeleton Loading) đồng bộ chuẩn xác 100% từng pixel với giao diện thật của Sidebar:
+          - *Cấu trúc 14 mục chuẩn*: Thay thế 12 mục giả định chung chung bằng đúng 4 phân mục thực tế (`TỔNG QUAN` 1 mục, `LUYỆN TẬP` 7 mục kèm badge `HOT` và `AI`, `THƯ VIỆN` 3 mục, `TIẾN ĐỘ` 3 mục), tiêu đề phân mục in hoa kèm đường kẻ phân cách dashed `border-b border-dashed`.
+          - *Zero-CLS Navigation Links*: Kích thước padding `px-3 py-2 w-full rounded-xl` cao 38px chuẩn xác tuyệt đối, tích hợp bản đồ độ rộng chữ thực tế cho từng mục (`LINK_WIDTH_MAP`), tự động nhận diện `pathname` để bật trạng thái Active Pill (viền chỉ báo `#0059bb` bên trái) ngay từ lúc loading.
+          - *Chế độ Thu Gọn (`collapsed` 72px)*: Tự động căn giữa các icon `w-10 h-9.5`, trang bị cụm 2 nút Mở Rộng (`PanelLeft`) & Chuyển giao diện Sáng/Tối chân trang.
+          - *Chân Trang Desktop Hoàn Hảo*: Trang bị đầy đủ Thẻ Nâng cấp Premium (`py-2.5 px-3.5 rounded-xl border`) và Thẻ Hồ sơ Người dùng (`w-8.5 h-8.5` avatar kèm tên, email và icon ChevronDown), triệt tiêu hoàn toàn độ giật lệch 52px khi hydration.
+          - *Hiệu Ứng Shimmer Wave 60fps*: Sử dụng `ShimmerBox` và `ShimmerCircle` với vệt quét ánh sáng mượt mà, loại bỏ hiện tượng nhấp nháy toàn khối giật cục.
         - **Duy Trì Khối Header Chuẩn & Ẩn Nội Dung Trực Quan Trên Mobile (`invisible lg:visible`)**: Giữ nguyên vẹn 100% khối container header phía trên cùng (`min-h-[57px]` kèm đường kẻ phân tách `border-b`) nhằm bảo toàn cấu trúc hình học và khoảng cách bố cục nguyên bản của Sidebar; đồng thời ẩn các phần tử chữ "XP English | XP Voca" và nút `[|<]` trên Mobile để ngăn chặn người dùng vô tình bấm làm thay đổi trạng thái Desktop.
         - **Bảo Toàn Giao Diện Menu Mobile Đầy Đủ (Drawer Full Width)**: Khi người dùng mở thanh bên trên Mobile, giao diện luôn hiển thị đầy đủ tên danh mục, tiêu đề phân mục và thẻ thông tin tài khoản người dùng trực quan, ngay cả khi phiên làm việc trên Desktop đang ở chế độ thu gọn 72px.
       - **Header 2 Dòng Responsive**: Tách nút Thoát, Đồng Hồ Đếm Ngược, Nộp Bài lên dòng 1; Tên đề thi & Badge xuống dòng 2; bảo toàn 100% Header 1 dòng trên Desktop.

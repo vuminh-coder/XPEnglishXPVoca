@@ -154,7 +154,7 @@ export default function GamesPage() {
 
 
   return (
-    <PageEntranceWrapper className="space-y-4 pb-16 md:pb-8 font-sans antialiased" suppressHydrationWarning>
+    <PageEntranceWrapper className="space-y-4 pb-28 sm:pb-36 font-sans antialiased" suppressHydrationWarning>
       {/* 1. Universal Top Navigation & Action Header (Dashboard Standard - Max 4 Tabs) */}
       <AppTopHeader
         onBack={activeGame ? () => setActiveGame(null) : undefined}

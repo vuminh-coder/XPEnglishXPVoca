@@ -33,6 +33,10 @@ import {
   Volume2,
 } from "lucide-react";
 import { UserAvatar } from "@/shared/components/feedback/UserAvatar";
+import {
+  ShimmerBox,
+  ShimmerCircle,
+} from "@/shared/components/feedback/ShimmerSkeleton";
 import { prefetchRouteData } from "@/shared/utils/prefetchEngine";
 
 const SpeakingIcon = ({
@@ -711,101 +715,272 @@ function SidebarNavInner({
   );
 }
 
-export function SidebarSkeleton({ collapsed = false }: { collapsed?: boolean }) {
+const LINK_WIDTH_MAP: Record<string, string> = {
+  "Trang chủ": "w-16",
+  "Phát âm IPA": "w-20",
+  "Dictation": "w-14",
+  "Shadowing": "w-18",
+  "Luyện nói": "w-16",
+  "Luyện viết": "w-16",
+  "Luyện từ vựng": "w-22",
+  "Thi thử đề": "w-18",
+  "Video của tôi": "w-20",
+  "Danh sách từ": "w-20",
+  "Ngữ pháp AI": "w-20",
+  "Lộ trình": "w-12",
+  "Thống kê": "w-14",
+  "Xếp hạng": "w-16",
+};
+
+export function SidebarSkeleton({
+  collapsed = false,
+  open = false,
+}: {
+  collapsed?: boolean;
+  open?: boolean;
+}) {
+  const pathname = usePathname();
+
   return (
-    <div
-      className={`left-sidebar select-none animate-pulse ${
-        collapsed ? "collapsed" : ""
-      }`}
-    >
-      {/* 1. TOP BRAND HEADER SKELETON */}
+    <>
       <div
-        className={`flex items-center justify-between px-3.5 min-h-[56px] lg:h-14 shrink-0 ${
-          collapsed ? "lg:px-2" : "lg:px-3.5"
-        }`}
+        aria-busy="true"
+        aria-label="Đang tải thanh bên..."
+        className={`left-sidebar select-none transition-all duration-200 ease-[cubic-bezier(0.2,0.9,0.1,1)] ${
+          open ? "open" : ""
+        } ${collapsed ? "collapsed" : ""}`}
       >
-        {collapsed ? (
-          <div className="hidden lg:block w-8 h-8 rounded-lg bg-slate-200 dark:bg-slate-800 mx-auto" />
-        ) : (
+        {/* 1. TOP BRAND HEADER SKELETON */}
+        <div
+          className={`flex items-center justify-between px-3.5 min-h-[56px] lg:h-14 shrink-0 ${
+            collapsed ? "lg:px-2" : "lg:px-3.5"
+          }`}
+        >
+          {/* Desktop View (>= 1024px) */}
           <div className="hidden lg:flex items-center justify-between w-full">
-            <div className="h-5 w-32 rounded-lg bg-slate-200 dark:bg-slate-800" />
-            <div className="w-7 h-7 rounded-lg bg-slate-200 dark:bg-slate-800" />
+            {collapsed ? (
+              /* Compact logo icon when collapsed on Desktop */
+              <div className="mx-auto flex items-center justify-center w-8 h-8 my-[1.5px] py-[0.5px] select-none">
+                <ShimmerBox className="w-8 h-8 rounded-xs bg-[#0059bb]/30 dark:bg-sky-400/25" />
+              </div>
+            ) : (
+              /* When expanded on Desktop: Brand Text + Collapse Toggle Button */
+              <>
+                <div className="flex items-center gap-1.5 min-w-0">
+                  <div className="text-base sm:text-lg font-black flex items-center gap-1 leading-none tracking-tight select-none font-display">
+                    <ShimmerBox className="h-5 w-6 rounded bg-[#0059bb]/30 dark:bg-[#0059bb]/40" />
+                    <ShimmerBox className="h-5 w-14 rounded bg-slate-200/90 dark:bg-slate-700/80" />
+                    <div className="h-4 w-1 rounded-full bg-amber-400/40" />
+                    <ShimmerBox className="h-5 w-16 rounded bg-amber-500/25 dark:bg-amber-400/25" />
+                  </div>
+                </div>
+
+                <div className="p-1.5 py-[7px] my-[1px] rounded text-slate-400 shrink-0">
+                  <ShimmerBox className="w-5 h-5 rounded-md" />
+                </div>
+              </>
+            )}
           </div>
-        )}
-        <div className="flex lg:hidden items-center justify-between w-full">
-          <div className="h-5 w-32 rounded-lg bg-slate-200 dark:bg-slate-800" />
-          <div className="w-7 h-7 rounded-lg bg-slate-200 dark:bg-slate-800" />
+
+          {/* Mobile View (< 1024px): ALWAYS Expanded Brand Text & Close Drawer Button */}
+          <div className="flex lg:hidden items-center justify-between w-full">
+            <div className="flex items-center gap-1.5 min-w-0">
+              <div className="text-base sm:text-lg font-black flex items-center gap-1 leading-none tracking-tight select-none font-display">
+                <ShimmerBox className="h-5 w-6 rounded bg-[#0059bb]/30 dark:bg-[#0059bb]/40" />
+                <ShimmerBox className="h-5 w-14 rounded bg-slate-200/90 dark:bg-slate-700/80" />
+                <div className="h-4 w-1 rounded-full bg-amber-400/40" />
+                <ShimmerBox className="h-5 w-16 rounded bg-amber-500/25 dark:bg-amber-400/25" />
+              </div>
+            </div>
+
+            <div className="p-1.5 py-[7px] my-[1px] rounded text-slate-400 shrink-0">
+              <ShimmerBox className="w-5 h-5 rounded-md" />
+            </div>
+          </div>
+        </div>
+
+        {/* 2. NAVIGATION SKELETON */}
+        <div
+          className={`sidebar-nav flex-1 overflow-y-auto px-2 pb-8 lg:pb-2 py-3 space-y-4 hide-scrollbar select-none ${
+            collapsed ? "lg:py-1.5 lg:space-y-0.5" : "lg:py-3 lg:space-y-4"
+          }`}
+        >
+          {sections.map((section, sIdx) => (
+            <div key={sIdx} className="sidebar-section">
+              {/* Section Header Divider */}
+              <div
+                className={`items-center gap-2 px-2 mb-1.5 select-none flex ${
+                  collapsed ? "lg:hidden" : "lg:flex"
+                }`}
+              >
+                <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 font-display shrink-0">
+                  {section.title}
+                </span>
+                <div className="h-[1px] flex-1 border-b border-dashed border-slate-200 dark:border-white/10" />
+              </div>
+
+              {/* Section Links */}
+              <div className="space-y-0.5">
+                {section.links.map((link) => {
+                  const isActive =
+                    pathname === link.path ||
+                    (link.path !== "/" && pathname?.startsWith(link.path)) ||
+                    (link.path === "/community/leaderboard" && pathname?.startsWith("/community")) ||
+                    (!pathname && link.path === "/dashboard");
+
+                  return (
+                    <React.Fragment key={link.path}>
+                      <div
+                        className={`sidebar-link ${
+                          isActive
+                            ? "active bg-[#e8edf5] text-slate-900 dark:bg-slate-800 dark:text-white font-extrabold"
+                            : "font-semibold"
+                        } transition-all duration-200 flex items-center justify-between px-3 py-2 w-full rounded-xl relative ${
+                          collapsed
+                            ? "lg:justify-center lg:px-0 lg:w-10 lg:h-9.5 lg:mx-auto lg:rounded-xl lg:before:!hidden"
+                            : "lg:justify-between lg:px-3 lg:py-2 lg:w-full lg:rounded-xl"
+                        }`}
+                      >
+                        <div
+                          className={`flex items-center gap-3 min-w-0 ${
+                            collapsed ? "lg:justify-center" : ""
+                          }`}
+                        >
+                          <span className="sidebar-link-icon text-current shrink-0 flex items-center justify-center">
+                            <ShimmerBox
+                              className={`w-5 h-5 rounded-md ${
+                                isActive
+                                  ? "bg-[#0059bb]/30 dark:bg-sky-400/30"
+                                  : "bg-slate-200/90 dark:bg-slate-700/80"
+                              }`}
+                            />
+                          </span>
+                          <span
+                            className={`font-bold text-[13px] truncate inline-block ${
+                              collapsed ? "lg:hidden" : "lg:inline-block"
+                            }`}
+                          >
+                            <ShimmerBox
+                              className={`h-3.5 rounded-md ${
+                                LINK_WIDTH_MAP[link.name] || "w-16"
+                              } ${
+                                isActive
+                                  ? "bg-slate-300 dark:bg-slate-600"
+                                  : "bg-slate-200/90 dark:bg-slate-700/80"
+                              }`}
+                            />
+                          </span>
+                          {link.badge && (
+                            <span
+                              className={`px-1.5 py-0.2 rounded-full text-[9px] font-black shrink-0 inline-block ${
+                                collapsed ? "lg:hidden" : "lg:inline-block"
+                              }`}
+                            >
+                              <ShimmerBox
+                                className={`h-3.5 rounded-full ${
+                                  link.badge === "HOT"
+                                    ? "w-6.5 bg-rose-500/25 dark:bg-rose-500/35"
+                                    : "w-5 bg-purple-500/25 dark:bg-purple-500/35"
+                                }`}
+                              />
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Inline Premium Upgrade Link under Xếp hạng (Mobile ONLY) */}
+                      {link.name === "Xếp hạng" && (
+                        <div
+                          className="sidebar-link font-bold transition-all duration-200 flex items-center justify-between px-3 py-2 w-full rounded-xl lg:hidden mt-1 bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200/60 dark:border-blue-800/40"
+                        >
+                          <div className="flex items-center gap-3 min-w-0">
+                            <span className="sidebar-link-icon shrink-0 flex items-center justify-center">
+                              <ShimmerBox className="w-5 h-5 rounded-md bg-amber-500/30 dark:bg-amber-400/30" />
+                            </span>
+                            <ShimmerBox className="h-3.5 w-28 rounded-md bg-[#0059bb]/30 dark:bg-sky-400/25" />
+                          </div>
+                          <ShimmerBox className="w-4 h-4 rounded-md bg-amber-500/30 shrink-0" />
+                        </div>
+                      )}
+                    </React.Fragment>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+
+          {/* DESKTOP ONLY: Expand Sidebar Button & Theme Switcher when Collapsed */}
+          {collapsed && (
+            <div className="pt-2 border-t border-slate-100 dark:border-white/5 hidden lg:flex flex-col items-center gap-1">
+              <div className="w-10 h-9.5 rounded-xl flex items-center justify-center">
+                <ShimmerBox className="w-5 h-5 rounded-md" />
+              </div>
+              <div className="w-10 h-9.5 rounded-xl flex items-center justify-center">
+                <ShimmerBox className="w-5 h-5 rounded-md" />
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* 3. SIDEBAR FOOTER SKELETON (DESKTOP ONLY) */}
+        <div
+          className={`sidebar-footer shrink-0 hidden lg:block border-t border-slate-100 dark:border-slate-800/80 ${
+            collapsed
+              ? "lg:p-2.5 lg:space-y-0 lg:bg-white dark:lg:bg-slate-900 lg:z-20"
+              : "lg:p-3 lg:space-y-2.5"
+          }`}
+        >
+          {/* Desktop Expanded Premium Card Skeleton */}
+          <div className={`${collapsed ? "hidden" : "hidden lg:block"}`}>
+            <div className="w-full py-2.5 px-3.5 rounded-xl border border-blue-200/80 dark:border-blue-800/40 bg-blue-50/70 dark:bg-blue-950/40 flex items-center justify-between shadow-2xs">
+              <div className="flex items-center gap-1.5 min-w-0">
+                <ShimmerBox className="w-3.5 h-3.5 rounded-sm bg-amber-400/50" />
+                <ShimmerBox className="h-3 w-28 rounded-md bg-[#0059bb]/30 dark:bg-sky-400/30" />
+              </div>
+              <ShimmerBox className="w-3.5 h-3.5 rounded-sm bg-amber-400/50 shrink-0" />
+            </div>
+          </div>
+
+          <div className="relative">
+            {collapsed ? (
+              /* Desktop Collapsed Compact Avatar Button Skeleton */
+              <div className="hidden lg:flex w-10 h-10 rounded-full items-center justify-center mx-auto shadow-2xs overflow-hidden shrink-0">
+                <ShimmerCircle size="w-10 h-10" />
+              </div>
+            ) : (
+              /* Expanded Full User Card Skeleton */
+              <div className="w-full flex items-center justify-between p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 shadow-2xs">
+                <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                  <ShimmerCircle size="w-8.5 h-8.5" />
+                  <div className="min-w-0 flex-1 space-y-1">
+                    <ShimmerBox className="h-3.5 w-24 rounded-md bg-slate-300 dark:bg-slate-600" />
+                    <ShimmerBox className="h-2.5 w-32 rounded-md bg-slate-200/80 dark:bg-slate-700/70" />
+                  </div>
+                </div>
+
+                <ShimmerBox className="w-4 h-4 rounded-md bg-slate-200/80 dark:bg-slate-700/70 shrink-0 ml-2" />
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* 2. NAVIGATION SKELETON */}
-      <div
-        className={`sidebar-nav flex-1 overflow-y-auto px-2 pb-2 py-3 space-y-4 hide-scrollbar select-none ${
-          collapsed ? "lg:py-1.5 lg:space-y-2" : "lg:py-3 lg:space-y-4"
-        }`}
-      >
-        {[1, 2, 3, 4].map((section) => (
-          <div key={section} className="space-y-1.5">
-            <div className={`h-3 w-16 rounded bg-slate-200/80 dark:bg-slate-800/60 ml-2 mb-2 ${
-              collapsed ? "lg:hidden" : ""
-            }`} />
-            {[1, 2, 3].map((item) => (
-              <div
-                key={item}
-                className={`flex items-center rounded-xl bg-slate-100/70 dark:bg-slate-800/40 px-3 py-2.5 gap-3 w-full ${
-                  collapsed
-                    ? "lg:w-10 lg:h-9.5 lg:mx-auto lg:justify-center lg:px-0"
-                    : "lg:w-full"
-                }`}
-              >
-                <div className="w-5 h-5 rounded-lg bg-slate-200 dark:bg-slate-700 shrink-0" />
-                <div className={`h-3.5 w-24 rounded bg-slate-200 dark:bg-slate-700 ${
-                  collapsed ? "lg:hidden" : ""
-                }`} />
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-
-      {/* 3. USER CARD SKELETON (DESKTOP ONLY) */}
-      <div className="hidden lg:block p-3 border-t border-slate-100 dark:border-slate-800/80 shrink-0">
-        {collapsed ? (
-          <>
-            <div className="hidden lg:block w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800 mx-auto" />
-            <div className="flex lg:hidden p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 items-center gap-2.5">
-              <div className="w-8.5 h-8.5 rounded-full bg-slate-200 dark:bg-slate-700 shrink-0" />
-              <div className="space-y-1 flex-1 min-w-0">
-                <div className="h-3.5 w-20 rounded bg-slate-200 dark:bg-slate-700" />
-                <div className="h-2.5 w-28 rounded bg-slate-100 dark:bg-slate-800" />
-              </div>
-            </div>
-          </>
-        ) : (
-          <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 flex items-center gap-2.5">
-            <div className="w-8.5 h-8.5 rounded-full bg-slate-200 dark:bg-slate-700 shrink-0" />
-            <div className="space-y-1 flex-1 min-w-0">
-              <div className="h-3.5 w-20 rounded bg-slate-200 dark:bg-slate-700" />
-              <div className="h-2.5 w-28 rounded bg-slate-100 dark:bg-slate-800" />
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
+      {open && <div className="sidebar-overlay active" />}
+    </>
   );
 }
 
 export default function Sidebar() {
   const [mounted, setMounted] = React.useState(false);
   const { user, logout } = useAuthStore();
-  const { sidebarCollapsed } = useUiStore();
+  const { sidebarCollapsed, sidebarOpen } = useUiStore();
 
   React.useEffect(() => {
     setMounted(true);
   }, []);
 
   if (!mounted) {
-    return <SidebarSkeleton collapsed={sidebarCollapsed} />;
+    return <SidebarSkeleton collapsed={sidebarCollapsed} open={sidebarOpen} />;
   }
 
   const currentUser = user || {

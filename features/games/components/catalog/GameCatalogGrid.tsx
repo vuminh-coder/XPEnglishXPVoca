@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Shuffle,
@@ -15,6 +16,10 @@ import {
   Image as ImageIcon,
   Headphones,
   Trophy,
+  Swords,
+  Brain,
+  Sparkles,
+  AlignLeft,
 } from "lucide-react";
 import { Badge } from "@/shared/components/ui/Badge";
 import { GameMode, VocabDeckType } from "../../types";
@@ -50,6 +55,7 @@ export function GameCatalogGrid({
   onSelectDeck,
   activePoolCount,
 }: GameCatalogGridProps) {
+  const router = useRouter();
   const [filter, setFilter] = useState<FilterCategory>("all");
   const bestRecords = getAllBestRecords();
 
@@ -173,6 +179,42 @@ export function GameCatalogGrid({
       difficulty: "Thính giác",
       xpReward: "+20~60 XP",
     },
+    {
+      id: "pvp" as any,
+      category: "speed" as FilterCategory,
+      title: "Đấu Trường 1v1 PvP",
+      subtitle: "So tài từ vựng thời gian thực",
+      description:
+        "Thách đấu từ vựng 1v1 trực tiếp ngẫu nhiên hoặc tạo phòng so tài với bạn bè. 15 câu trắc nghiệm tốc độ cao với 3 trái tim sinh mệnh và leo thang xếp hạng ELO.",
+      icon: Swords,
+      iconBg: "from-rose-500 to-red-600 shadow-rose-500/20",
+      accentColor: "text-rose-600 dark:text-rose-400",
+      borderHover: "hover:border-rose-500",
+      badgeVariant: "danger" as const,
+      tag1: "15 câu đấu",
+      tag2: "Thời gian thực",
+      difficulty: "Đối kháng",
+      xpReward: "+30~100 XP",
+      href: "/study/pvp",
+    },
+    {
+      id: "daily_quest" as any,
+      category: "memory" as FilterCategory,
+      title: "Thử Thách Gauntlet",
+      subtitle: "Chuỗi 3 Game Liên Hoàn",
+      description:
+        "Kích hoạt thử thách liên hoàn 3 ván mini game bất kỳ trong ngày để bảo vệ chuỗi Streak ngọn lửa, mở khóa rương báu XP và nhận danh hiệu Kiện tướng.",
+      icon: Trophy,
+      iconBg: "from-amber-500 to-yellow-600 shadow-amber-500/20",
+      accentColor: "text-amber-600 dark:text-amber-400",
+      borderHover: "hover:border-amber-500",
+      badgeVariant: "warning" as const,
+      tag1: "3 ván game",
+      tag2: "Mỗi ngày",
+      difficulty: "Nhiệm vụ",
+      xpReward: "+100 XP Bonus",
+      actionType: "random_game",
+    },
   ];
 
   const filteredGames = games.filter(
@@ -244,11 +286,29 @@ export function GameCatalogGrid({
                 exit="hidden"
                 whileHover={{ translateY: -4 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={() => onSelectGame(game.id)}
+                onClick={() => {
+                  if ((game as any).href) {
+                    router.push((game as any).href);
+                  } else if ((game as any).actionType === "random_game") {
+                    const playableModes: GameMode[] = ["scramble", "blitz", "memory", "wordle", "sentence", "picture", "audio"];
+                    const randomMode = playableModes[Math.floor(Math.random() * playableModes.length)];
+                    onSelectGame(randomMode);
+                  } else {
+                    onSelectGame(game.id as GameMode);
+                  }
+                }}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
-                    onSelectGame(game.id);
+                    if ((game as any).href) {
+                      router.push((game as any).href);
+                    } else if ((game as any).actionType === "random_game") {
+                      const playableModes: GameMode[] = ["scramble", "blitz", "memory", "wordle", "sentence", "picture", "audio"];
+                      const randomMode = playableModes[Math.floor(Math.random() * playableModes.length)];
+                      onSelectGame(randomMode);
+                    } else {
+                      onSelectGame(game.id as GameMode);
+                    }
                   }
                 }}
                 role="button"
@@ -311,7 +371,13 @@ export function GameCatalogGrid({
                     <span
                       className={`text-xs font-bold ${game.accentColor} group-hover:translate-x-1 transition-transform inline-flex items-center gap-1`}
                     >
-                      <span>Vào chơi</span>
+                      <span>
+                        {(game as any).href
+                          ? "Đấu ngay"
+                          : (game as any).actionType === "random_game"
+                          ? "Chơi ngay"
+                          : "Vào chơi"}
+                      </span>
                       <ArrowRight className="w-3.5 h-3.5 stroke-[2.2]" />
                     </span>
                   </div>
