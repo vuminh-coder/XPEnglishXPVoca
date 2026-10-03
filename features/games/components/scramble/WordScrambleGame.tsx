@@ -19,6 +19,7 @@ import { Badge } from "@/shared/components/ui/Badge";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { ScrambleWordPackage, GameReviewItem } from "../../types";
 import { gameAudio } from "../../utils/gameAudio";
+import { triggerHaptic } from "../../utils/gameFx";
 import { GameResultScreen } from "../shared/GameResultScreen";
 import { recordGameSession } from "../../utils/recordGameSession";
 import { safeSpeakText } from "@/shared/utils/mobileAudio";
@@ -124,6 +125,7 @@ export function WordScrambleGame({ pool, onBack }: WordScrambleGameProps) {
   // Place a tile from available to placed
   const handleTileClick = (tile: LetterTile) => {
     if (feedback !== null || tile.isUsed) return;
+    triggerHaptic("tap");
     gameAudio.playTap();
 
     setAvailableTiles((prev) =>
@@ -135,6 +137,7 @@ export function WordScrambleGame({ pool, onBack }: WordScrambleGameProps) {
   // Remove a placed tile back to available
   const handleRemovePlacedTile = (tile: LetterTile, index: number) => {
     if (feedback !== null) return;
+    triggerHaptic("tap");
     gameAudio.playTap();
 
     setPlacedTiles((prev) => prev.filter((_, i) => i !== index));
@@ -146,6 +149,7 @@ export function WordScrambleGame({ pool, onBack }: WordScrambleGameProps) {
   // Clear all placed tiles
   const handleClearAll = () => {
     if (feedback !== null) return;
+    triggerHaptic("tap");
     gameAudio.playTap();
     setAvailableTiles((prev) => prev.map((t) => ({ ...t, isUsed: false })));
     setPlacedTiles([]);
@@ -154,6 +158,7 @@ export function WordScrambleGame({ pool, onBack }: WordScrambleGameProps) {
   // Backspace last placed tile
   const handleBackspace = () => {
     if (feedback !== null || placedTiles.length === 0) return;
+    triggerHaptic("tap");
     gameAudio.playTap();
     const last = placedTiles[placedTiles.length - 1];
     setPlacedTiles((prev) => prev.slice(0, -1));
@@ -171,7 +176,8 @@ export function WordScrambleGame({ pool, onBack }: WordScrambleGameProps) {
     // Find unplaced tile matching firstChar
     const match = availableTiles.find((t) => !t.isUsed && t.char === firstChar);
     if (match) {
-      gameAudio.playTap();
+      triggerHaptic("tap");
+    gameAudio.playTap();
       setAvailableTiles((prev) =>
         prev.map((t) => (t.id === match.id ? { ...t, isUsed: true } : t))
       );
@@ -211,10 +217,12 @@ export function WordScrambleGame({ pool, onBack }: WordScrambleGameProps) {
       const points = Math.round(10 * comboMultiplier);
       setScore((s) => s + points);
 
+      triggerHaptic("success");
       gameAudio.playComboStreak(nextCombo);
       speakCurrentWord(currentWord.word);
       setFeedback("correct");
     } else {
+      triggerHaptic("warning");
       gameAudio.playWrongBuzzer();
       setCombo(0);
       setFeedback("wrong");
@@ -235,7 +243,8 @@ export function WordScrambleGame({ pool, onBack }: WordScrambleGameProps) {
     const currentWord = words[current];
     if (!currentWord) return;
 
-    gameAudio.playWrongBuzzer();
+    triggerHaptic("warning");
+      gameAudio.playWrongBuzzer();
     setCombo(0);
 
     const reviewItem: GameReviewItem = {
@@ -306,6 +315,7 @@ export function WordScrambleGame({ pool, onBack }: WordScrambleGameProps) {
   // End of game synchronization
   useEffect(() => {
     if (gameOver) {
+      triggerHaptic("victory");
       gameAudio.playVictoryFanfare();
       const durationSeconds = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
       const correctCount = reviewItems.filter((i) => i.isCorrect).length;
@@ -386,14 +396,7 @@ export function WordScrambleGame({ pool, onBack }: WordScrambleGameProps) {
     <div className="space-y-4 sm:space-y-5 select-none max-w-2xl mx-auto">
       {/* 1. Top Header Bar */}
       <div className="flex items-center justify-between">
-        <button
-          type="button"
-          onClick={onBack}
-          className="py-1.5 px-3 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 active:scale-95 shadow-2xs"
-        >
-          <ArrowLeft className="w-3.5 h-3.5 stroke-[2.2]" />
-          <span>Quay lại</span>
-        </button>
+        
 
         <div className="flex items-center gap-2">
           {/* Mute toggle button */}
@@ -401,7 +404,7 @@ export function WordScrambleGame({ pool, onBack }: WordScrambleGameProps) {
             type="button"
             onClick={toggleAudio}
             title={isMuted ? "Bật âm thanh" : "Tắt âm thanh"}
-            className="p-1.5 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all cursor-pointer active:scale-90"
+            className="p-2.5 rounded-xl min-w-[44px] min-h-[44px] flex items-center justify-center bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all cursor-pointer active:scale-90"
           >
             {isMuted ? (
               <VolumeX className="w-3.5 h-3.5 text-rose-500" />
@@ -470,7 +473,7 @@ export function WordScrambleGame({ pool, onBack }: WordScrambleGameProps) {
                   type="button"
                   onClick={handleUseHint}
                   title="Gợi ý chữ cái đầu (-2 điểm)"
-                  className="py-1 px-2.5 rounded-full bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200/80 dark:border-amber-800/60 text-[11px] font-bold transition-all cursor-pointer flex items-center gap-1 active:scale-95 shadow-2xs"
+                  className="py-1 px-2.5 rounded-full bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200/80 dark:border-amber-800/60 text-[11px] font-bold min-h-[44px] transition-all cursor-pointer flex items-center gap-1 active:scale-95 shadow-2xs"
                 >
                   <HelpCircle className="w-3 h-3 stroke-[2.2]" />
                   <span>Gợi ý (-2đ)</span>
@@ -552,7 +555,7 @@ export function WordScrambleGame({ pool, onBack }: WordScrambleGameProps) {
                       type="button"
                       onClick={() => speakCurrentWord(currentWord.word)}
                       title="Nghe phát âm"
-                      className="p-1 rounded-full bg-emerald-200/60 dark:bg-emerald-800 text-emerald-800 dark:text-emerald-200"
+                      className="p-2.5 rounded-xl min-w-[44px] min-h-[44px] flex items-center justify-center bg-emerald-200/60 dark:bg-emerald-800 text-emerald-800 dark:text-emerald-200"
                     >
                       <Volume2 className="w-3.5 h-3.5" />
                     </button>

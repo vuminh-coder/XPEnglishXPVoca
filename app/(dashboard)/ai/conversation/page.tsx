@@ -105,6 +105,7 @@ export default function AiConversationPage() {
   const [isAiTyping, setIsAiTyping] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [showTranslations, setShowTranslations] = useState<Record<string, boolean>>({});
+  const [serverCompletedGoalIds, setServerCompletedGoalIds] = useState<string[]>([]);
 
   // Active suggestions & dictionary
   const [currentSuggestions, setCurrentSuggestions] = useState<{
@@ -251,6 +252,7 @@ export default function AiConversationPage() {
   const handleSelectTopic = useCallback(
     (topic: Topic) => {
       setSelectedTopicId(topic.id);
+      setServerCompletedGoalIds([]);
       try {
         localStorage.setItem("xp_voca_ai_conversation_topic", topic.id);
       } catch {}
@@ -279,9 +281,9 @@ export default function AiConversationPage() {
     [setSelectedTopicId, setIsSessionCompleted, setElapsedTime, addToast]
   );
 
-  // Goal Tracking Engine
+  // Goal Tracking Engine (Combines AI semantic detection and keyword triggers)
   const completedGoalIds = useMemo(() => {
-    const completed = new Set<string>();
+    const completed = new Set<string>(serverCompletedGoalIds);
     const userTextCombined = messages
       .filter((m) => m.role === "user")
       .map((m) => m.text.toLowerCase())
@@ -295,7 +297,7 @@ export default function AiConversationPage() {
     });
 
     return Array.from(completed);
-  }, [messages, currentTopic.goals]);
+  }, [messages, currentTopic.goals, serverCompletedGoalIds]);
 
   // Send Message (Text or Spoken)
   const handleSendMessage = useCallback(
@@ -358,11 +360,22 @@ export default function AiConversationPage() {
               { role: "user", text: messageText },
             ],
             topicId: selectedTopicId,
+            topicName: currentTopic.nameEn,
+            topicGoals: currentTopic.goals,
+            userLevel: currentTopic.level,
+            userTurnsCount: userMessages.length,
           }),
         });
 
         const data = await res.json();
         if (data.success && data.reply) {
+          if (Array.isArray(data.goalsCompleted) && data.goalsCompleted.length > 0) {
+            setServerCompletedGoalIds((prev) => {
+              const merged = new Set([...prev, ...data.goalsCompleted]);
+              return Array.from(merged);
+            });
+          }
+
           const dynamicWords: SuggestedWord[] =
             data.suggestedWords && data.suggestedWords.length > 0
               ? data.suggestedWords.slice(0, 3)
@@ -585,6 +598,41 @@ export default function AiConversationPage() {
           status: "COMPLETED",
         }),
       });
+
+      // Auto-sync grammar corrections & native phrasings into SM-2 review deck
+      const itemsToSync = grammarCorrections.filter((g) => g.corrected || g.betterPhrasing);
+      if (itemsToSync.length > 0) {
+        Promise.allSettled(
+          itemsToSync.map((item, idx) => {
+            const cleanWord = (item.betterPhrasing || item.corrected || "").trim();
+            const cleanId = `ai_fix_${Date.now()}_${idx}_${cleanWord.slice(0, 15).replace(/[^a-zA-Z0-9]/g, "_").toLowerCase()}`;
+            return fetch("/api/user/vocab", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                vocabId: cleanId,
+                word: cleanWord,
+                definition: item.betterPhrasing || item.corrected,
+                definitionVn: item.explanation || "Mẫu câu đàm thoại chuẩn từ AI Tutor",
+                examples: [item.original, item.betterPhrasing || item.corrected].filter(Boolean),
+                pos: "phrase",
+                themeId: "t_ai_speaking_fixes",
+                isFavorite: true,
+                proficiency: 0,
+                nextReview: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+              }),
+            });
+          })
+        )
+          .then(() => {
+            addToast({
+              type: "info",
+              title: "Đã đồng bộ Thẻ Ôn Tập SM-2! 🧠",
+              message: `Đã tự động lưu ${itemsToSync.length} câu sửa vào Sổ tay để ôn tập ngắt quãng tại /review.`,
+            });
+          })
+          .catch((e) => console.warn("[AiConversation] Error auto-syncing SM-2 fixes:", e));
+      }
     } catch (err) {
       console.warn("Could not save conversation session to server:", err);
     }
@@ -601,11 +649,13 @@ export default function AiConversationPage() {
     messages,
     elapsedTime,
     stopRecordingOnly,
+    grammarCorrections,
   ]);
 
   const handleRestartNewSession = useCallback(() => {
     fetch(`/api/ai/sessions?sessionId=${sessionId}`, { method: "DELETE" }).catch(() => {});
     resetSession();
+    setServerCompletedGoalIds([]);
     setMessages([
       {
         id: `welcome_${currentTopic.id}_${Date.now()}`,
@@ -626,6 +676,18 @@ export default function AiConversationPage() {
       message: `Chủ đề: ${currentTopic.name}`,
     });
   }, [sessionId, resetSession, currentTopic, addToast]);
+
+  const handleInsertWord = useCallback(
+    (word: string) => {
+      setInputText((prev) => (prev ? `${prev.trim()} ${word}` : word));
+      addToast({
+        type: "info",
+        title: "Đã chèn từ vựng! ✍️",
+        message: `"${word}" đã được thêm vào ô nhập để bạn đặt câu.`,
+      });
+    },
+    [addToast]
+  );
 
   return (
     <div className="w-full h-full min-h-screen lg:h-screen lg:min-h-0 lg:overflow-hidden bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none">
@@ -741,6 +803,7 @@ export default function AiConversationPage() {
                   onToggleTranslation={toggleTranslation}
                   onWordClick={handleWordClick}
                   onSpeakText={speakText}
+                  isSpeaking={isSpeaking}
                   user={user}
                   chatBottomRef={chatBottomRef}
                 />
@@ -758,6 +821,7 @@ export default function AiConversationPage() {
                   onMicrophoneToggle={handleMicrophoneToggle}
                   onResetSpeech={handleResetSpeech}
                   onSendMessage={handleSendMessage}
+                  onInsertWord={handleInsertWord}
                 />
               </div>
             </div>
@@ -782,6 +846,8 @@ export default function AiConversationPage() {
           /* ===== VIEW 2: IN-PLACE SCORECARD & SUMMARY ===== */
           <AiConversationScoreCard
             currentTopic={currentTopic}
+            allTopics={aiTopics}
+            onSelectTopic={handleSelectTopic}
             sessionEvaluation={sessionEvaluation}
             completedGoalsCount={completedGoalsCount}
             userTurnsCount={userTurnsCount}

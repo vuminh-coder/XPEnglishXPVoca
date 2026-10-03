@@ -250,6 +250,10 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
     - **Giao Diện Modal Biểu Đồ Phút Nhóm Chuẩn Agency (`GroupDetailModal.tsx`)**: Vẽ đường cong mượt mà Bezier SVG hiển thị phút học từng ngày trong tuần, thẻ tóm tắt 3 chỉ số then chốt (Tổng phút, Ngày cao nhất, Trung bình phút/ngày), và bảng xếp hạng thành viên hỗ trợ chuyển đổi linh hoạt giữa "Phút học" và "Điểm XP".
     - **Bộ Kiểm Thử Toàn Diện**: [`__tests__/leaderboard_groups_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/leaderboard_groups_standards.test.ts) xác thực 100% (7/7 tests) về khóa đệm phân biệt, thuật ngữ sắp xếp SQL, đường cong 7 ngày và tính cô lập dữ liệu.
 30. **Chuẩn Hóa Gia Sư AI Đàm Thoại & Quản Lý Phiên Luyện Nói (AI Voice Tutor & Session Persistence Standard)**:
+    - **Prompt Thích Ứng Động Theo Trình Độ (Adaptive Difficulty Prompting - `/api/ai/chat`)**: Bổ sung tham số `userLevel`, `userTurnsCount`, `topicGoals` vào lời nhắc hệ thống của Gemini. AI tự động điều chỉnh độ khó linh hoạt: người mới (Beginner/A1-A2) được dùng từ vựng dễ tiếp thu, câu ngắn rõ ràng; người học trung cấp và cao cấp (B2-C1) được tiếp xúc với thành ngữ bản xứ và câu hỏi phản xạ mở rộng.
+    - **Nhận Diện Mục Tiêu Ngữ Cảnh Bằng AI (AI Semantic Goal Completion)**: Thay thế hoàn toàn cơ chế regex cứng bằng sự kết hợp giữa phát hiện ngữ nghĩa của Gemini (`goalsCompleted`) và bộ đệm từ khóa dự phòng, đảm bảo mọi cách diễn đạt tự nhiên chuẩn ý đều được ghi nhận mục tiêu chính xác.
+    - **Tự Động Đồng Bộ Lỗi Sai Vào Spaced Repetition SM-2 (`/review`)**: Khi hoàn tất phiên hội thoại, hệ thống tự động quét toàn bộ `grammarCorrections` và `betterPhrasing` để upsert vào cơ sở dữ liệu `user_vocabulary` qua `POST /api/user/vocab` với chu kỳ ngắt quãng SM-2 ban đầu (1 ngày), đồng thời hiển thị thẻ trạng thái và nút mở ngay phòng ôn tập `/review` trên `AiConversationScoreCard.tsx`.
+    - **Tương Tác Gợi Ý Từ Vựng Thông Minh (`onInsertWord`)**: Bấm vào từ vựng gợi ý trên `AiConversationInputDock` sẽ tự động chèn từ vào ô nhập liệu để người học tự ghép câu, thay vì gửi một từ đơn lẻ cộc lốc làm gián đoạn hội thoại.
     - **Xóa Bộ Đệm Nguyên Tử Khi Hoàn Tất Phiên (`POST /api/ai/sessions`)**: Tích hợp `invalidateDashboardCache(authUserId)` sau khi đồng bộ `DailySkillPractice` (speaking) và `Profile` (minutesStudied, totalXp), giải quyết triệt để lỗi dữ liệu cũ trên Dashboard & Analytics khi học viên luyện nói xong.
     - **Truy Vấn Phiên Học Giới Hạn Cứng (`GET /api/ai/sessions`)**: Bổ sung cơ chế nạp trực tiếp phiên học theo định danh `?sessionId=...` với `LIMIT 1` và truy vấn danh sách lịch sử có chặn ngưỡng `LIMIT 30`, ngăn ngừa quá tải bộ nhớ và bùng nổ kích thước payload JSON.
     - **Chuẩn Hóa UI/UX Theo 19 Quy Tắc Wadhah Aloui**:
@@ -257,7 +261,7 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
       - **Rule 18 (Single Primary Button & Dynamic CTA)**: Nút Micro là Primary khi chưa có dữ liệu; Nút Gửi tự động thành Primary khi người dùng bắt đầu gõ hoặc hoàn tất nhận diện giọng nói; Nút Micro chuyển thành Secondary.
       - **Hỗ Trợ Nhập Liệu Linh Hoạt**: Cho phép học viên vừa nói qua Micro vừa gõ phím / sửa văn bản trước khi gửi (`readOnly={isRecording}` + `onChange`).
       - **Điểm Nhấn Ngữ Nghĩa 60-30-10**: Tích hợp hiệu ứng bong bóng suy nghĩ 3 chấm tím AI Tutor (`#8b5cf6`), phân biệt trực quan với màu nhận diện thương hiệu `#0059bb`.
-    - **Bộ Kiểm Thử Chuẩn Mực**: Xây dựng test suite [`__tests__/ai_tutor_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/ai_tutor_standards.test.ts) kiểm tra 100% (6/6 tests) tính toàn vẹn của CSDL, quản lý bộ đệm và động cơ gợi ý đàm thoại.
+    - **Bộ Kiểm Thử Chuẩn Mực**: Xây dựng test suite [`__tests__/ai_tutor_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/ai_tutor_standards.test.ts) và [`__tests__/ai_conversation_db_sync.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/ai_conversation_db_sync.test.ts) kiểm tra 100% tính toàn vẹn của CSDL, quản lý bộ đệm và động cơ gợi ý đàm thoại.
 31. **Chuẩn Hóa Phòng Luyện Tập Từ Vựng Chuyên Sâu (`/study/practice` - Vocabulary Practice Studio & Single Session Pipeline)**:
     - **Triệt Tiêu `SELECT *` & Phép Chiếu Có Chọn Lọc (Rule 3 Selective Projection)**: Tối ưu hóa toàn bộ các truy vấn từ vựng trong `app/api/vocabulary/route.ts` và `app/api/user/vocab/review-submit/route.ts`. Chỉ nạp các trường cần thiết (`id`, `word`, `phonetic`, `definition`, `pos`, `example`), giảm hơn 80% kích thước payload qua mạng.
     - **Đường Ống Hoàn Tất Phiên Duy Nhất (Single Session Finalization Pipeline - `usePracticeSession.ts`)**: Hợp nhất toàn bộ logic kết thúc phiên ôn tập (tính toán số phút thực tế, XP tích lũy, streak) vào hàm `finishSession()`. Tự động đồng bộ đồng thời `useUserStore` và máy chủ `POST /api/user/skill-practice` với kỹ năng `vocab`, kèm `invalidateDashboardCache` tức thì.
@@ -1383,7 +1387,8 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
     - `components/shared/GameResultScreen.tsx`: Màn hình Đánh Giá Chuyên Sâu 2 tầng:
       1. *Tab Tổng Quan Chỉ Số*: Tích hợp hiệu ứng pháo hoa Canvas Confetti FX, huy hiệu Kỷ Lục Mới, Điểm số, Thưởng XP & Vàng, Độ chính xác (Accuracy %), Chuỗi Combo cao nhất, Thời gian hoàn thành và Đánh giá phân loại trình độ CEFR tự động (A2 Elementary, B1 Intermediate, B2 Upper-Int, C1 Advanced).
       2. *Tab Sổ Tay Ván Chơi (Vocab Review Notebook)*: Danh sách toàn bộ từ vựng đã xuất hiện trong trận, kèm thumbnail hình ảnh trực quan đối với các câu đố ảnh, phiên âm IPA, từ loại POS, câu ví dụ thực tế, icon Đúng/Sai, nút phát âm loa TTS và nút Bookmark lưu từ yêu thích kết nối `useVocabularyStore`.
-    - `app/(dashboard)/study/games/page.tsx`: Orchestrator mạng, tích hợp `AppTopHeader` với cụm tab chuyển đổi nhanh 7 games, thanh chọn Deck từ vựng tức thì (Instant In-Memory Filter) và chip Gamification.
+    - `app/(dashboard)/study/games/page.tsx`: Orchestrator điều hướng trung tâm, tích hợp thanh điều hướng chuẩn mực `StudySuiteNavTabs` (Dictation, Shadowing, Luyện từ vựng, Mini Games [Active], Thi thử đề) trong chế độ Danh mục Catalog và Breadcrumb điều hướng phân cấp tinh gọn `Mini Games / [Tên Game]` trong chế độ đang chơi Active Game, kết nối liền mạch với chip Gamification (Streak 🔥, Vàng 🪙, Danh ngôn cảm hứng).
+    - `components/catalog/GameCatalogGrid.tsx`: Thanh điều khiển **Unified Studio Control Toolbar** gộp chung 6 danh mục lọc ("Tất Cả", "Hình ảnh 📸", "Thính giác 🎧", "Tốc độ ⚡", "Trí nhớ 🧠", "Ngữ pháp 📚") và bộ chọn kho từ vựng cá nhân hóa `GameDeckSelector` với bộ đếm số lượng từ nạp tức thì trên cùng 1 hàng trực quan, kèm hiệu ứng backdrop mờ 2px chống xung đột đè lớp và hỗ trợ trợ năng bàn phím WCAG 2.1 (tabIndex, role, aria-expanded).
   - **Chuẩn Hóa 20 Quy Tắc UI/UX & Bảng Màu 60-30-10**:
     - 60% Nền Slate/Trắng sáng dịu mắt, 30% Xanh hoàng gia `#0059bb`, 10% Điểm nhấn ngữ nghĩa (Emerald đúng, Amber cúp/combo, Rose thời gian gấp/báo lỗi).
     - Bộ kiểm thử tự động 100% PASS (`__tests__/games_feature.test.ts`, `__tests__/games_standards.test.ts`, `__tests__/games_pro_deep_suite.test.ts`).
@@ -2384,6 +2389,31 @@ $$\text{MEASURE} \rightarrow \text{UNDERSTAND} \rightarrow \text{EXPLAIN} \right
    - Chiếu dữ liệu chọn lọc, tối ưu hóa payload gửi về cho giao diện làm bài thi.
 5. **Bộ Kiểm Thử Toàn Diện (`__tests__/exam_bank_audit.test.ts` & `__tests__/exam_api_and_seeding_standards.test.ts`)**:
    - Đạt **100% PASS**: Xác minh toàn bộ 39 bộ đề không trùng lặp ID, đủ số lượng câu hỏi, đủ lựa chọn A/B/C/D, giải thích chi tiết, tỷ lệ đáp án hợp lệ, và các API endpoints phản hồi đúng chuẩn.
+
+### 11. Nâng Cấp Toàn Diện UI/UX AI Conversation Studio (`/ai/conversation` & `AiConversationChatStream.tsx`)
+1. **Khôi Phục Nhịp Điệu Typography & Khoảng Cách Chữ Tự Nhiên (Natural Text Rhythm)**:
+   - Triệt tiêu lỗi giãn cách từ nhân tạo (artificial spacing) do `flex flex-wrap gap-x-1` kết hợp `px-0.5` trên từng từ.
+   - Thay thế bằng mô hình `inline text rendering` chuẩn mực với khoảng cách từ chuẩn (`" "`), bảo toàn toàn vẹn ngữ điệu, dấu câu và trải nghiệm đọc lướt văn bản tiếng Anh.
+2. **Kích Thước Bong Bóng Thoại Co Giãn Tự Nhiên (Natural Speech Bubble Sizing)**:
+   - Thay thế khối `div` kéo giãn toàn chiều ngang bằng `w-fit max-w-[85%]`, giúp bong bóng thoại co giãn vừa vặn theo nội dung câu nói của AI và người học.
+   - Tinh chỉnh bo góc lồng nhau (`rounded-tl-xs` cho AI và `rounded-tr-xs` cho người dùng) tạo góc nhọn hướng thoại tự nhiên về phía Avatar.
+3. **Affordance Tra Từ Tinh Tế & Làm Nổi Bật Từ Vựng Mục Tiêu (Pedagogical Target Vocab)**:
+   - Loại bỏ hoàn toàn đường gạch chân chấm chấm (`border-b border-dotted`) trên 100% từ trong câu, loại bỏ triệt để hiện tượng nhiễu thị giác (visual vibration / spell-check clutter).
+   - Tự động nhận diện và gán badge highlight nhẹ nhàng cho **từ vựng trọng tâm bài học** (`suggestedWords`). Các từ thông thường hỗ trợ tra từ điển 1-click mượt mà qua hover pill (`px-1 -mx-0.5`).
+4. **Thanh Tác Vụ Inline Thanh Thoát & Phản Hồi Âm Thanh Thời Gian Thực**:
+   - Loại bỏ các khối viền hộp cồng kềnh, chuyển thành các liên kết chữ và icon nhận diện tinh tế (`text-xs font-semibold`).
+   - **Nút "Nghe lại"**: Tích hợp visual audio feedback (mini equalizer sóng âm nhảy và nhãn *"Đang phát..."*) khi AI đang đọc, tự động chuyển về trạng thái chuẩn khi kết thúc.
+   - **Nút "Xem bản dịch"**: Tích hợp icon nhận diện `<Languages />` và chuyển đổi nhãn rõ ràng (*"Xem bản dịch"* / *"Ẩn dịch"*).
+   - **Nút "Sao chép"**: Bổ sung chip tiện ích sao chép nhanh câu tiếng Anh với icon checkmark xanh xác nhận tức thì.
+5. **Hiển Thị Bản Dịch Tiếng Việt Tự Nhiên, Không Đóng Khối**:
+   - Đưa bản dịch tiếng Việt hiển thị dạng văn bản thanh lịch, mượt mà (`Dịch: <bản dịch>`) đặt ngay dưới bong bóng thoại mà không cần đóng hộp viền dày.
+6. **Tối Ưu Hóa Khối Nhận Xét AI Coach Dưới Tin Nhắn Người Học (AI Tutor Coach Card)**:
+   - Triệt tiêu hoàn toàn lỗi hộp lồng trong hộp (Double-card nesting).
+   - Sửa triệt để lỗi đường kẻ phân cách mồ côi (Orphaned divider) khi không có lỗi ngữ pháp.
+   - Bổ sung thanh tiêu đề AI Tutor định danh rõ ràng vai trò hỗ trợ và nút phát âm câu tự nhiên có nhãn trực quan (*"Nghe mẫu"*).
+7. **Chuẩn Hóa Dải Gợi Ý Từ Vựng Nhanh (`AiConversationInputDock.tsx`)**:
+   - Loại bỏ dấu `+` cơ học gây hiểu lầm, giữ dấu chấm bullet `•` phân cách chuẩn typography (`Gợi ý: beverage • recommend • delicious`).
+   - Hover đổi màu Xanh hoàng gia `#0059bb`, hỗ trợ nhấp 1-chạm chèn trực tiếp vào câu soạn thảo.
 
 ---
 

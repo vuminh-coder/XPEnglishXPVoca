@@ -17,11 +17,15 @@ import {
   Trophy,
 } from "lucide-react";
 import { Badge } from "@/shared/components/ui/Badge";
-import { GameMode } from "../../types";
+import { GameMode, VocabDeckType } from "../../types";
 import { getAllBestRecords } from "../../utils/gameRecords";
+import { GameDeckSelector } from "../shared/GameDeckSelector";
 
 export interface GameCatalogGridProps {
   onSelectGame: (mode: GameMode) => void;
+  selectedDeck?: VocabDeckType;
+  onSelectDeck?: (deck: VocabDeckType) => void;
+  activePoolCount?: number;
 }
 
 type FilterCategory = "all" | "visual" | "listening" | "speed" | "memory" | "grammar";
@@ -40,7 +44,12 @@ const cardItemVariants = {
   },
 } as const;
 
-export function GameCatalogGrid({ onSelectGame }: GameCatalogGridProps) {
+export function GameCatalogGrid({
+  onSelectGame,
+  selectedDeck,
+  onSelectDeck,
+  activePoolCount,
+}: GameCatalogGridProps) {
   const [filter, setFilter] = useState<FilterCategory>("all");
   const bestRecords = getAllBestRecords();
 
@@ -138,10 +147,10 @@ export function GameCatalogGrid({ onSelectGame }: GameCatalogGridProps) {
       description:
         "Kích hoạt liên kết vật thể và từ vựng qua kho ảnh chụp nghệ thuật HD. Hỗ trợ zoom ảnh sắc nét, gợi ý ngữ cảnh và phát âm chuẩn giọng bản xứ.",
       icon: ImageIcon,
-      iconBg: "from-rose-500 to-pink-600 shadow-rose-500/20",
-      accentColor: "text-rose-600 dark:text-rose-400",
-      borderHover: "hover:border-rose-500",
-      badgeVariant: "danger" as const,
+      iconBg: "from-cyan-500 to-blue-600 shadow-cyan-500/20",
+      accentColor: "text-cyan-600 dark:text-cyan-400",
+      borderHover: "hover:border-cyan-500",
+      badgeVariant: "primary" as const,
       tag1: "8 hình ảnh",
       tag2: "~2.5 phút",
       difficulty: "Trực quan",
@@ -170,82 +179,55 @@ export function GameCatalogGrid({ onSelectGame }: GameCatalogGridProps) {
     (g) => filter === "all" || g.category === filter
   );
 
+  const FILTER_TABS: { id: FilterCategory; label: string }[] = [
+    { id: "all", label: `Tất cả (${games.length})` },
+    { id: "visual", label: "Hình ảnh 📸" },
+    { id: "listening", label: "Thính giác 🎧" },
+    { id: "speed", label: "Tốc độ ⚡" },
+    { id: "memory", label: "Trí nhớ 🧠" },
+    { id: "grammar", label: "Ngữ pháp 📚" },
+  ];
+
   return (
     <div className="space-y-4">
-      {/* Category Filter Pills */}
-      <div className="flex items-center justify-between flex-wrap gap-2 pt-1">
-        <div className="flex items-center gap-1.5 flex-wrap">
-          <button
-            type="button"
-            onClick={() => setFilter("all")}
-            className={`py-1.5 px-3.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
-              filter === "all"
-                ? "bg-[#0059bb] text-white shadow-md shadow-blue-500/20"
-                : "bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300"
-            }`}
-          >
-            Tất cả games ({games.length})
-          </button>
-          <button
-            type="button"
-            onClick={() => setFilter("visual")}
-            className={`py-1.5 px-3.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
-              filter === "visual"
-                ? "bg-[#0059bb] text-white shadow-md shadow-blue-500/20"
-                : "bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300"
-            }`}
-          >
-            Hình ảnh trực quan 📸
-          </button>
-          <button
-            type="button"
-            onClick={() => setFilter("listening")}
-            className={`py-1.5 px-3.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
-              filter === "listening"
-                ? "bg-[#0059bb] text-white shadow-md shadow-blue-500/20"
-                : "bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300"
-            }`}
-          >
-            Thính giác & Nghe 🎧
-          </button>
-          <button
-            type="button"
-            onClick={() => setFilter("speed")}
-            className={`py-1.5 px-3.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
-              filter === "speed"
-                ? "bg-[#0059bb] text-white shadow-md shadow-blue-500/20"
-                : "bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300"
-            }`}
-          >
-            Phản xạ tốc độ
-          </button>
-          <button
-            type="button"
-            onClick={() => setFilter("memory")}
-            className={`py-1.5 px-3.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
-              filter === "memory"
-                ? "bg-[#0059bb] text-white shadow-md shadow-blue-500/20"
-                : "bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300"
-            }`}
-          >
-            Trí nhớ & Từ vựng
-          </button>
-          <button
-            type="button"
-            onClick={() => setFilter("grammar")}
-            className={`py-1.5 px-3.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
-              filter === "grammar"
-                ? "bg-[#0059bb] text-white shadow-md shadow-blue-500/20"
-                : "bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300"
-            }`}
-          >
-            Cấu trúc câu
-          </button>
+      {/* 1. Unified Studio Control Toolbar: Category Filter on Left, Deck Selector on Right */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-2.5 sm:p-3 rounded-2xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200/80 dark:border-slate-800 shadow-2xs">
+        {/* Category Filter Pills */}
+        <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap">
+          {FILTER_TABS.map((tab) => {
+            const isActive = filter === tab.id;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setFilter(tab.id)}
+                className={`py-1.5 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  isActive
+                    ? "bg-[#0059bb] text-white shadow-md shadow-blue-500/20"
+                    : "bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300"
+                }`}
+              >
+                {tab.label}
+              </button>
+            );
+          })}
         </div>
 
-        <span className="text-[11px] font-semibold text-slate-400">
-          Hiển thị {filteredGames.length} chế độ luyện tập
-        </span>
+        {/* Right side: Deck Selector & Active Count */}
+        {selectedDeck && onSelectDeck && (
+          <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
+            <GameDeckSelector
+              currentDeck={selectedDeck}
+              onSelectDeck={onSelectDeck}
+              poolCount={activePoolCount || 0}
+            />
+            {activePoolCount !== undefined && (
+              <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800/80 px-2.5 py-1.5 rounded-xl border border-slate-200/60 dark:border-slate-700/60 hidden md:inline-flex items-center">
+                <strong className="text-slate-800 dark:text-slate-200 mr-1 font-mono">{activePoolCount}</strong> từ
+              </span>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Grid of Game Bento Cards */}

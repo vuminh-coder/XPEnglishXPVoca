@@ -177,7 +177,7 @@ export function GameResultScreen({
       </div>
 
       {/* 2. Dual Tab Navigation */}
-      <div className="flex border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-850/60 p-1.5 gap-1.5">
+      <div className="flex border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/60 p-1.5 gap-1.5">
         <button
           type="button"
           onClick={() => setActiveTab("summary")}
@@ -264,7 +264,7 @@ export function GameResultScreen({
               </div>
 
               {/* CEFR Level Assessment Card */}
-              <div className="p-4 rounded-2xl bg-gradient-to-r from-slate-50 to-slate-100/80 dark:from-slate-850 dark:to-slate-800 border border-slate-200/80 dark:border-slate-700/80 flex items-center justify-between gap-4">
+              <div className="p-4 rounded-2xl bg-gradient-to-r from-slate-50 to-slate-100/80 dark:from-slate-900 dark:to-slate-800 border border-slate-200/80 dark:border-slate-700/80 flex items-center justify-between gap-4">
                 <div className="space-y-1">
                   <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
                     Đánh giá phản xạ & Từ vựng
@@ -310,7 +310,7 @@ export function GameResultScreen({
                         key={idx}
                         className={`p-3.5 rounded-2xl border transition-all flex items-start justify-between gap-3 ${
                           item.isCorrect
-                            ? "bg-slate-50/60 dark:bg-slate-850/50 border-slate-200/80 dark:border-slate-800"
+                            ? "bg-slate-50/60 dark:bg-slate-900/50 border-slate-200/80 dark:border-slate-800"
                             : "bg-rose-50/30 dark:bg-rose-950/20 border-rose-200/80 dark:border-rose-900/40"
                         }`}
                       >
@@ -369,7 +369,7 @@ export function GameResultScreen({
                             type="button"
                             onClick={() => handleSpeak(item.word)}
                             title="Nghe phát âm chuẩn"
-                            className={`p-2 rounded-xl transition-all cursor-pointer ${
+                            className={`p-2.5 min-w-[44px] min-h-[44px] rounded-xl flex items-center justify-center transition-all cursor-pointer ${
                               isPlaying
                                 ? "bg-[#0059bb] text-white animate-pulse"
                                 : "bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 active:scale-90"
@@ -382,7 +382,7 @@ export function GameResultScreen({
                             type="button"
                             onClick={() => handleToggleBookmark(item)}
                             title="Lưu vào Sổ tay yêu thích"
-                            className={`p-2 rounded-xl transition-all cursor-pointer active:scale-90 ${
+                            className={`p-2.5 min-w-[44px] min-h-[44px] rounded-xl flex items-center justify-center transition-all cursor-pointer active:scale-90 ${
                               isBookmarked
                                 ? "bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400"
                                 : "bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-400 hover:text-amber-500"

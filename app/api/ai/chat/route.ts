@@ -167,7 +167,16 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { messages, topicId, stream = false, mode = "conversation" } = body;
+    const {
+      messages,
+      topicId,
+      topicName,
+      topicGoals,
+      userLevel = "Beginner",
+      userTurnsCount = 0,
+      stream = false,
+      mode = "conversation",
+    } = body;
 
     if (!messages || !Array.isArray(messages)) {
       return NextResponse.json({ error: "Invalid messages array" }, { status: 400 });
@@ -203,17 +212,40 @@ QUY TẮC QUAN TRỌNG:
 1. "reply" PHẢI LÀ TIẾNG VIỆT giải thích trực tiếp câu hỏi của người dùng, không chào hỏi dài dòng, đi thẳng vào bản chất vấn đề.
 2. Trả về đúng JSON nguyên bản, không bọc markdown \`\`\`json.`;
     } else {
-      systemPrompt = `You are a supportive, high-end native English conversation tutor named "Companion AI".
-The user is practicing conversational spoken English in a specific scenario.
+      // Build dynamic goals checklist for Gemini prompt
+      const goalsSection =
+        Array.isArray(topicGoals) && topicGoals.length > 0
+          ? topicGoals
+              .map(
+                (g: any) =>
+                  `- Goal ID "${g.id}": "${g.nameEn || g.name}" (${g.name})`
+              )
+              .join("\n")
+          : `- Goal ID "${topicId || "at1"}_g1": Natural conversational response to topic scenario`;
 
-Current scenario topic ID: "${topicId || "at1"}".
-Scenario Goal IDs to detect (if the user achieved them in their speech):
-- Topic "at1" (Restaurant & Ordering): "at1_greeting", "at1_ordering", "at1_paying"
-- Topic "at2" (Job Interview): "at2_intro", "at2_strength", "at2_why"
-- Topic "at3" (Travel & Hotel): "at3_directions", "at3_hotel", "at3_price"
-- Topic "at4" (Tech Discussion): "at4_explain_ai", "at4_opinion", "at4_future"
-- Topic "at5" (Shopping & Bargaining): "at5_size", "at5_discount", "at5_pay"
-- Topic "at6" (Airport Check-in): "at6_ticket", "at6_seat", "at6_baggage"
+      systemPrompt = `You are a supportive, high-end native English conversation tutor named "Companion AI" in the XP English system.
+The user is practicing real-life spoken conversational English in a specific scenario.
+
+SCENARIO: "${topicName || topicId || "English Conversation"}" (ID: "${topicId || "at1"}")
+USER TARGET LEVEL: "${userLevel}" (Current turn: ${userTurnsCount + 1})
+
+TARGET GOALS TO ACHIEVE IN THIS SCENARIO:
+${goalsSection}
+
+ADAPTIVE DIFFICULTY & CONVERSATIONAL RULES:
+1. DYNAMIC LEVEL ADJUSTMENT:
+   - If user level is "Beginner" (A1-A2) or user speaks short/broken sentences: Use accessible vocabulary, short clear sentences (1-2 sentences), warm encouragement, and ask straightforward follow-up questions.
+   - If user level is "Intermediate" (B1-B2): Use natural conversational flow, everyday collocations, and moderate follow-up questions.
+   - If user level is "Advanced" (C1-C2) or speaks fluently: Introduce sophisticated expressions, native idioms, and engaging, thought-provoking questions.
+2. CONVERSATIONAL ROLEPLAY:
+   - Stay in character 100% according to the scenario. Never say "As an AI...".
+   - Keep each turn concise (1-2 sentences) so the conversation feels like a natural phone call / live dialogue.
+   - Ask ONE open-ended follow-up question per turn to keep the conversation flowing.
+3. GRAMMAR & NATURAL PHRASING CORRECTION:
+   - If the user made any grammatical, preposition, or tense mistakes, identify it in "grammarCorrection" with { hasError: true, original, corrected, explanation in Vietnamese }.
+   - In "betterPhrasing", provide the single most natural way a native speaker would say what the user meant (clean English, no quotes).
+4. GOAL COMPLETION EVALUATION:
+   - Analyze user messages carefully. If the user successfully addressed any of the scenario goals above, return their exact Goal IDs in the "goalsCompleted" array (e.g., ["${topicGoals?.[0]?.id || "at1_g1"}"]). Only include goals that the user has actually fulfilled.
 
 Your JSON response MUST follow this exact schema:
 {
@@ -221,7 +253,7 @@ Your JSON response MUST follow this exact schema:
   "vietnameseTranslation": "Bản dịch Tiếng Việt tự nhiên, lịch sự của câu reply.",
   "grammarCorrection": {
     "hasError": true/false,
-    "original": "cụm từ sai của học viên",
+    "original": "cụm từ sai của học viên (để trống nếu không sai)",
     "corrected": "cụm từ sửa đúng",
     "explanation": "Giải thích ngắn gọn bằng Tiếng Việt lý do sai."
   },
@@ -256,7 +288,12 @@ CRITICAL RULES:
     let parsedData: any = null;
 
     if (apiKey) {
-      const modelsToTry = ["gemini-2.0-flash", "gemini-1.5-flash"];
+      const modelsToTry = [
+        "gemini-2.5-flash",
+        "gemini-flash-latest",
+        "gemini-2.0-flash",
+        "gemini-1.5-flash",
+      ];
 
       for (const modelName of modelsToTry) {
         try {
@@ -309,6 +346,17 @@ CRITICAL RULES:
           goalsCompleted: [],
         };
       } else {
+        // Fallback: check matching goals from user message
+        const matchedFallbackGoals: string[] = [];
+        if (Array.isArray(topicGoals)) {
+          const lowerUser = lastUserMsg.toLowerCase();
+          topicGoals.forEach((g: any) => {
+            if (Array.isArray(g.keywords) && g.keywords.some((kw: string) => lowerUser.includes(kw.toLowerCase()))) {
+              matchedFallbackGoals.push(g.id);
+            }
+          });
+        }
+
         parsedData = {
           reply: `That's a fantastic point! Could you elaborate more on how that relates to your experience?`,
           vietnameseTranslation: `Đó là một ý kiến tuyệt vời! Bạn có thể chia sẻ thêm về trải nghiệm đó không?`,
@@ -316,7 +364,7 @@ CRITICAL RULES:
           betterPhrasing: "I would like to elaborate further on this topic.",
           suggestedWords: fallbackBank.words.slice(0, 3),
           suggestedPhrases: fallbackBank.phrases.slice(0, 2),
-          goalsCompleted: [],
+          goalsCompleted: matchedFallbackGoals,
         };
       }
     }
@@ -324,6 +372,7 @@ CRITICAL RULES:
     // Normalization
     parsedData.suggestedWords = (parsedData.suggestedWords?.length === 3 ? parsedData.suggestedWords : fallbackBank.words).slice(0, 3);
     parsedData.suggestedPhrases = (parsedData.suggestedPhrases?.length === 2 ? parsedData.suggestedPhrases : fallbackBank.phrases).slice(0, 2);
+    parsedData.goalsCompleted = Array.isArray(parsedData.goalsCompleted) ? parsedData.goalsCompleted : [];
 
     // Server-Side XP Persistence for authenticated user (+10 XP per interaction, capped at 50 XP/day)
     let xpAwarded = 0;

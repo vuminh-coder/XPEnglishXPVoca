@@ -23,6 +23,7 @@ import { useNotificationStore } from "@/stores/notificationStore";
 import { PictureQuizQuestion, GameReviewItem } from "../../types";
 import { VISUAL_VOCAB_BANK, VisualVocabItem } from "../../data/visualVocabBank";
 import { gameAudio } from "../../utils/gameAudio";
+import { triggerHaptic } from "../../utils/gameFx";
 import { GameResultScreen } from "../shared/GameResultScreen";
 import { recordGameSession } from "../../utils/recordGameSession";
 import { safeSpeakText } from "@/shared/utils/mobileAudio";
@@ -145,7 +146,8 @@ export function PictureWordGame({ onBack }: PictureWordGameProps) {
     const currentQ = questions[currentIdx];
     if (!currentQ) return;
 
-    gameAudio.playWrongBuzzer();
+    triggerHaptic("warning");
+      gameAudio.playWrongBuzzer();
     setCombo(0);
 
     const review: GameReviewItem = {
@@ -176,6 +178,7 @@ export function PictureWordGame({ onBack }: PictureWordGameProps) {
     if (feedback !== null || gameOver) return;
     const currentQ = questions[currentIdx];
     if (!currentQ) return;
+    triggerHaptic("tap");
 
     setSelectedWord(optWord);
     const isCorrect = optWord === currentQ.word;
@@ -203,10 +206,12 @@ export function PictureWordGame({ onBack }: PictureWordGameProps) {
       const points = Math.round(15 * comboMultiplier);
       setScore((s) => s + points);
 
+      triggerHaptic("success");
       gameAudio.playComboStreak(nextCombo);
       speakWord(currentQ.word);
       setFeedback("correct");
     } else {
+      triggerHaptic("warning");
       gameAudio.playWrongBuzzer();
       setCombo(0);
       setFeedback("wrong");
@@ -248,6 +253,7 @@ export function PictureWordGame({ onBack }: PictureWordGameProps) {
   // Game over sync
   useEffect(() => {
     if (gameOver) {
+      triggerHaptic("victory");
       gameAudio.playVictoryFanfare();
       const correctCount = reviewItems.filter((i) => i.isCorrect).length;
       const durationSeconds = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
@@ -298,14 +304,7 @@ export function PictureWordGame({ onBack }: PictureWordGameProps) {
     <div className="space-y-4 sm:space-y-5 select-none max-w-xl mx-auto">
       {/* 1. Header Bar */}
       <div className="flex items-center justify-between">
-        <button
-          type="button"
-          onClick={onBack}
-          className="py-1.5 px-3 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 active:scale-95 shadow-2xs"
-        >
-          <ArrowLeft className="w-3.5 h-3.5 stroke-[2.2]" />
-          <span>Quay lại</span>
-        </button>
+        
 
         <div className="flex items-center gap-2">
           {/* Mute button */}
@@ -313,7 +312,7 @@ export function PictureWordGame({ onBack }: PictureWordGameProps) {
             type="button"
             onClick={toggleAudio}
             title={isMuted ? "Bật âm thanh" : "Tắt âm thanh"}
-            className="p-1.5 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all cursor-pointer active:scale-90"
+            className="p-2.5 rounded-xl min-w-[44px] min-h-[44px] flex items-center justify-center bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all cursor-pointer active:scale-90"
           >
             {isMuted ? (
               <VolumeX className="w-3.5 h-3.5 text-rose-500" />
@@ -343,7 +342,7 @@ export function PictureWordGame({ onBack }: PictureWordGameProps) {
             type="button"
             onClick={generateQuestions}
             title="Làm mới ván mới"
-            className="p-1.5 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all cursor-pointer active:scale-90"
+            className="p-2.5 rounded-xl min-w-[44px] min-h-[44px] flex items-center justify-center bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all cursor-pointer active:scale-90"
           >
             <RotateCcw className="w-3.5 h-3.5 stroke-[2.2]" />
           </button>
@@ -391,8 +390,8 @@ export function PictureWordGame({ onBack }: PictureWordGameProps) {
                 <div className="flex items-center gap-1.5">
                   <button
                     type="button"
-                    onClick={() => setShowHint((h) => !h)}
-                    className="py-1 px-2.5 rounded-full bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200/80 dark:border-amber-800/60 text-[11px] font-bold transition-all cursor-pointer flex items-center gap-1 active:scale-95 shadow-2xs"
+                    onClick={() => () => { triggerHaptic("tap"); setShowHint((h) => !h); }}
+                    className="py-1 px-2.5 rounded-full bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200/80 dark:border-amber-800/60 text-[11px] font-bold min-h-[44px] transition-all cursor-pointer flex items-center gap-1 active:scale-95 shadow-2xs"
                   >
                     <HelpCircle className="w-3 h-3 stroke-[2.2]" />
                     <span>Gợi ý</span>
@@ -400,9 +399,9 @@ export function PictureWordGame({ onBack }: PictureWordGameProps) {
 
                   <button
                     type="button"
-                    onClick={() => setIsZoomed((z) => !z)}
+                    onClick={() => () => { triggerHaptic("tap"); setIsZoomed((z) => !z); }}
                     title="Phóng to ảnh"
-                    className="p-1 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 cursor-pointer"
+                    className="p-2.5 rounded-xl min-w-[44px] min-h-[44px] flex items-center justify-center bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 cursor-pointer"
                   >
                     <Maximize2 className="w-3.5 h-3.5 stroke-[2.2]" />
                   </button>
@@ -459,7 +458,7 @@ export function PictureWordGame({ onBack }: PictureWordGameProps) {
                       type="button"
                       onClick={() => speakWord(currentQ.word)}
                       title="Nghe phát âm"
-                      className="p-1 rounded-full bg-emerald-200/60 dark:bg-emerald-800 text-emerald-800 dark:text-emerald-200"
+                      className="p-2.5 rounded-xl min-w-[44px] min-h-[44px] flex items-center justify-center bg-emerald-200/60 dark:bg-emerald-800 text-emerald-800 dark:text-emerald-200"
                     >
                       <Volume2 className="w-3.5 h-3.5" />
                     </button>

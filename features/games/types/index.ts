@@ -7,6 +7,8 @@ export type GameMode =
   | "picture"
   | "audio";
 
+export type VocabDeckType = "all" | "toeic" | "ielts" | "bookmarks" | "weak";
+
 export interface GameReviewItem {
   id?: string;
   word: string;

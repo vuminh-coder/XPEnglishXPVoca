@@ -2,23 +2,29 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-  Award,
+  Trophy,
+  Flame,
   Target,
   MessageSquare,
-  CheckCircle,
   CheckCircle2,
-  Clock,
+  Timer,
   Lightbulb,
+  Layers,
   Sparkles,
   History,
   RotateCcw,
+  Compass,
+  ArrowRight,
+  X,
 } from "lucide-react";
 import { Topic, Message, SessionEvaluation } from "../types";
+import { TOPIC_ICONS } from "../data/aiTopics";
 
 interface AiConversationScoreCardProps {
   currentTopic: Topic;
+  allTopics?: Topic[];
   sessionEvaluation: SessionEvaluation;
   completedGoalsCount: number;
   userTurnsCount: number;
@@ -32,10 +38,12 @@ interface AiConversationScoreCardProps {
   }>;
   messages: Message[];
   onRestartNewSession: () => void;
+  onSelectTopic?: (topic: Topic) => void;
 }
 
 export function AiConversationScoreCard({
   currentTopic,
+  allTopics,
   sessionEvaluation,
   completedGoalsCount,
   userTurnsCount,
@@ -44,8 +52,39 @@ export function AiConversationScoreCard({
   grammarCorrections,
   messages,
   onRestartNewSession,
+  onSelectTopic,
 }: AiConversationScoreCardProps) {
   const [showChatHistory, setShowChatHistory] = useState(false);
+  const [isTopicModalOpen, setIsTopicModalOpen] = useState(false);
+
+  // Dynamic Rank Icon & Color Accent according to Grade
+  const getRankBadgeAndIcon = () => {
+    switch (sessionEvaluation.grade) {
+      case "S":
+        return {
+          icon: <Trophy className="w-6 h-6 text-amber-500" strokeWidth={2.2} />,
+          boxBg: "bg-amber-500/10 border-amber-500/25",
+        };
+      case "A":
+        return {
+          icon: <Trophy className="w-6 h-6 text-emerald-500" strokeWidth={2.2} />,
+          boxBg: "bg-emerald-500/10 border-emerald-500/25",
+        };
+      case "B":
+        return {
+          icon: <Sparkles className="w-6 h-6 text-[#0059bb] dark:text-sky-400" strokeWidth={2.2} />,
+          boxBg: "bg-blue-500/10 border-blue-500/25",
+        };
+      case "C":
+      default:
+        return {
+          icon: <Flame className="w-6 h-6 text-amber-600 dark:text-amber-400" strokeWidth={2.2} />,
+          boxBg: "bg-amber-500/10 border-amber-500/25",
+        };
+    }
+  };
+
+  const rankVisual = getRankBadgeAndIcon();
 
   return (
     <motion.div
@@ -54,29 +93,36 @@ export function AiConversationScoreCard({
       transition={{ duration: 0.2 }}
       className="flex-1 min-h-0 overflow-y-auto space-y-3"
     >
-      {/* Top Overall Score Card */}
+      {/* 1. Top Hero Score Card */}
       <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs space-y-3">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-slate-100 dark:border-slate-800 pb-2.5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center border border-emerald-500/20 shadow-2xs shrink-0">
-              <Award className="w-6 h-6" />
+            <div
+              className={`w-11 h-11 rounded-2xl flex items-center justify-center border shadow-2xs shrink-0 ${rankVisual.boxBg}`}
+            >
+              {rankVisual.icon}
             </div>
             <div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
                 <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display">
                   Đánh Giá Buổi Hội Thoại
                 </h2>
                 <span className="px-2 py-0.5 rounded-lg text-xs font-bold bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20 uppercase">
                   Hoàn Tất
                 </span>
+                <span className="px-2 py-0.5 rounded-lg text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700 flex items-center gap-1 font-mono">
+                  <Timer className="w-3 h-3 text-slate-500 dark:text-slate-400" strokeWidth={2.2} />
+                  <span>{formatElapsedTime(elapsedTime)}</span>
+                </span>
               </div>
-              <p className="text-xs text-slate-600 dark:text-slate-300 font-medium">
-                Chủ đề: <strong className="text-slate-900 dark:text-white">{currentTopic.name}</strong> ({currentTopic.nameEn})
+              <p className="text-xs text-slate-600 dark:text-slate-300 font-medium mt-0.5">
+                Chủ đề: <strong className="text-slate-900 dark:text-white">{currentTopic.name}</strong>{" "}
+                ({currentTopic.nameEn})
               </p>
             </div>
           </div>
 
-          {/* Overall Score Badge */}
+          {/* Overall Score Badge & Reward */}
           <div className="flex items-center gap-3 sm:self-center">
             <div
               className={`px-3 py-1 rounded-xl border text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-2xs ${sessionEvaluation.color}`}
@@ -85,73 +131,92 @@ export function AiConversationScoreCard({
               <span>•</span>
               <span>{sessionEvaluation.label}</span>
             </div>
+
             <div className="text-right">
-              <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
+              <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
                 Điểm Tổng Kết
               </span>
-              <span className="text-lg sm:text-xl font-black text-[#0059bb] dark:text-sky-400 font-display tabular-nums">
+              <span className="text-xl sm:text-2xl font-black text-[#0059bb] dark:text-sky-400 font-display tabular-nums">
                 {sessionEvaluation.overallScore}/100
               </span>
             </div>
+
             <div className="h-8 w-px bg-slate-200 dark:bg-slate-800 hidden sm:block" />
+
             <div className="text-right">
-              <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
+              <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
                 Phần Thưởng
               </span>
-              <span className="text-lg sm:text-xl font-black text-emerald-600 dark:text-emerald-400 font-display tabular-nums">
+              <span className="text-xl sm:text-2xl font-black text-emerald-600 dark:text-emerald-400 font-display tabular-nums">
                 +{sessionEvaluation.xpAward} XP
               </span>
             </div>
           </div>
         </div>
 
-        {/* 4 Quick Stat Metric Tiles */}
+        {/* 2. 4 Quick Stat Metric Tiles (4 CEFR Evaluation Axes) */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+          {/* Axis 1: Mục tiêu hoàn thành (40%) */}
           <div className="p-3 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-1 shadow-2xs">
             <span className="text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5">
-              <Target className="w-3.5 h-3.5 text-amber-500" /> Mục tiêu hoàn thành
+              <Target className="w-3.5 h-3.5 text-amber-500" strokeWidth={2.2} /> Mục tiêu đạt được
             </span>
             <p className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-mono tabular-nums">
               {completedGoalsCount}/{currentTopic.goals.length} ({sessionEvaluation.goalsScore}%)
             </p>
-          </div>
-
-          <div className="p-3 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-1 shadow-2xs">
-            <span className="text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5">
-              <MessageSquare className="w-3.5 h-3.5 text-[#0059bb]" /> Lượt tương tác
+            <span className="text-[10px] text-slate-400 dark:text-slate-500 font-medium block">
+              Trọng số 40% điểm
             </span>
-            <p className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-mono tabular-nums">
-              {userTurnsCount} câu
-            </p>
           </div>
 
+          {/* Axis 2: Chuẩn ngữ pháp (30%) */}
           <div className="p-3 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-1 shadow-2xs">
             <span className="text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5">
-              <CheckCircle className="w-3.5 h-3.5 text-emerald-500" /> Chuẩn ngữ pháp
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" strokeWidth={2.2} /> Chuẩn ngữ pháp
             </span>
             <p className="text-sm sm:text-base font-bold text-emerald-600 dark:text-emerald-400 font-mono tabular-nums">
               {sessionEvaluation.grammarScore}%
             </p>
+            <span className="text-[10px] text-slate-400 dark:text-slate-500 font-medium block">
+              Trọng số 30% điểm
+            </span>
           </div>
 
+          {/* Axis 3: Phản xạ & Lượt câu (20%) */}
           <div className="p-3 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-1 shadow-2xs">
             <span className="text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5">
-              <Clock className="w-3.5 h-3.5 text-indigo-500" /> Thời gian luyện
+              <MessageSquare className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" strokeWidth={2.2} /> Lượt tương tác
             </span>
-            <p className="text-sm sm:text-base font-bold text-indigo-600 dark:text-indigo-400 font-mono tabular-nums">
-              {formatElapsedTime(elapsedTime)}
+            <p className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-mono tabular-nums">
+              {userTurnsCount} câu ({sessionEvaluation.interactionScore}%)
             </p>
+            <span className="text-[10px] text-slate-400 dark:text-slate-500 font-medium block">
+              Trọng số 20% điểm
+            </span>
+          </div>
+
+          {/* Axis 4: Vốn từ vựng CEFR (10%) */}
+          <div className="p-3 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-1 shadow-2xs">
+            <span className="text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-purple-500" strokeWidth={2.2} /> Vốn từ ngữ cảnh
+            </span>
+            <p className="text-sm sm:text-base font-bold text-purple-600 dark:text-purple-400 font-mono tabular-nums">
+              {sessionEvaluation.vocabScore}%
+            </p>
+            <span className="text-[10px] text-slate-400 dark:text-slate-500 font-medium block">
+              Trọng số 10% điểm
+            </span>
           </div>
         </div>
       </div>
 
-      {/* Bento Detailed Analytics */}
+      {/* 3. Bento Detailed Analytics */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-3">
         {/* Cột Trái: Lỗi Ngữ Pháp & Gợi Ý Phrasing Tự Nhiên (8/12) */}
         <div className="lg:col-span-8 p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs space-y-3">
           <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
             <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#0059bb] dark:text-sky-400 font-display flex items-center gap-1.5">
-              <Lightbulb className="w-3.5 h-3.5 text-amber-500" /> TỔNG HỢP NGỮ PHÁP & DIỄN ĐẠT TỰ NHIÊN
+              <Lightbulb className="w-3.5 h-3.5 text-amber-500" strokeWidth={2} /> TỔNG HỢP NGỮ PHÁP & DIỄN ĐẠT TỰ NHIÊN
             </h3>
             <span className="text-xs font-bold text-slate-600 dark:text-slate-300 font-mono">
               {grammarCorrections.length} ghi chú
@@ -159,7 +224,7 @@ export function AiConversationScoreCard({
           </div>
 
           {grammarCorrections.length > 0 ? (
-            <div className="space-y-2 max-h-[220px] overflow-y-auto pr-1">
+            <div className="space-y-2 max-h-[220px] overflow-y-auto pr-1 scrollbar-thin">
               {grammarCorrections.map((item, idx) => (
                 <div
                   key={idx}
@@ -201,7 +266,7 @@ export function AiConversationScoreCard({
             </div>
           ) : (
             <div className="p-5 rounded-xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-500/20 text-center space-y-1.5">
-              <CheckCircle2 className="w-7 h-7 text-emerald-500 mx-auto" />
+              <CheckCircle2 className="w-7 h-7 text-emerald-500 mx-auto" strokeWidth={2.2} />
               <p className="text-sm font-bold text-emerald-700 dark:text-emerald-300">
                 Diễn đạt rất tốt!
               </p>
@@ -218,12 +283,12 @@ export function AiConversationScoreCard({
               onClick={() => setShowChatHistory(!showChatHistory)}
               className="text-xs font-bold text-[#0059bb] dark:text-sky-400 hover:underline flex items-center gap-1.5 cursor-pointer"
             >
-              <History className="w-3.5 h-3.5" />
+              <History className="w-3.5 h-3.5" strokeWidth={2} />
               <span>{showChatHistory ? "Ẩn đoạn hội thoại chi tiết" : "Xem lại toàn bộ đoạn hội thoại"}</span>
             </button>
 
             {showChatHistory && (
-              <div className="mt-2 p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 space-y-2 max-h-[200px] overflow-y-auto">
+              <div className="mt-2 p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 space-y-2 max-h-[200px] overflow-y-auto scrollbar-thin">
                 {messages.map((m) => (
                   <div key={m.id} className="text-xs space-y-0.5">
                     <span
@@ -243,12 +308,12 @@ export function AiConversationScoreCard({
           </div>
         </div>
 
-        {/* Cột Phải: Lời Khuyên & Nút Hành Động (4/12) */}
+        {/* Cột Phải: Lời Khuyên, SM-2, & Nút Hành Động (4/12) */}
         <div className="lg:col-span-4 p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs space-y-3">
           {/* Advice Card */}
           <div className="p-3 rounded-xl bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-900/40 space-y-2">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-[#0059bb]" />
+              <Lightbulb className="w-4 h-4 text-amber-500" strokeWidth={2} />
               <span className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
                 Lời Khuyên Giao Tiếp
               </span>
@@ -258,25 +323,130 @@ export function AiConversationScoreCard({
             </p>
           </div>
 
-          {/* Action Buttons */}
+          {/* SM-2 Spaced Repetition Auto-Sync Tile */}
+          {grammarCorrections.length > 0 ? (
+            <div className="p-3 rounded-xl bg-purple-50/70 dark:bg-purple-950/40 border border-purple-200/80 dark:border-purple-900/40 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-purple-700 dark:text-purple-300 flex items-center gap-1.5 uppercase tracking-wider">
+                  <Layers className="w-3.5 h-3.5 text-purple-500" strokeWidth={2} /> Thẻ Ôn Tập SM-2
+                </span>
+                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300 font-mono">
+                  {grammarCorrections.length} câu đã lưu
+                </span>
+              </div>
+              <p className="text-xs text-purple-900 dark:text-purple-200 leading-relaxed font-medium">
+                Các mẫu câu sửa lỗi và cách diễn đạt tự nhiên đã được tự động lưu vào hàng đợi ôn tập ngắt quãng (SM-2) để củng cố phản xạ.
+              </p>
+              <Link
+                href="/review"
+                className="w-full py-1.5 px-2.5 rounded-lg bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-2xs transition-all"
+              >
+                <span>Mở Phòng Ôn Tập SM-2</span> ➔
+              </Link>
+            </div>
+          ) : null}
+
+          {/* Action Buttons (3-Tier Structure: Primary, Secondary, Ghost) */}
           <div className="pt-2 border-t border-slate-100 dark:border-slate-800 space-y-2">
+            {/* Primary Action (Rule 18): Luyện lại cùng chủ đề để cải thiện điểm số */}
             <button
               type="button"
               onClick={onRestartNewSession}
-              className="w-full py-2.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] active:scale-95 text-white text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-2xs cursor-pointer transition-all"
+              className="w-full py-2.5 px-3 rounded-xl bg-[#0059bb] hover:bg-[#004899] active:scale-95 text-white text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-2xs cursor-pointer transition-all"
             >
-              <RotateCcw className="w-4 h-4" /> Bắt Đầu Buổi Mới (+15 XP/câu)
+              <RotateCcw className="w-4 h-4 stroke-[2.2]" />
+              <span>Luyện Lại Chủ Đề Này</span>
             </button>
 
+            {/* Secondary Action: Chọn kịch bản mới trực tiếp */}
+            {allTopics && allTopics.length > 0 && onSelectTopic && (
+              <button
+                type="button"
+                onClick={() => setIsTopicModalOpen(true)}
+                className="w-full py-2.5 px-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 hover:border-[#0059bb] text-slate-800 dark:text-slate-200 text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-2xs cursor-pointer transition-all hover:bg-blue-50/50 dark:hover:bg-blue-950/30"
+              >
+                <Compass className="w-4 h-4 text-[#0059bb] dark:text-sky-400 stroke-[2.2]" />
+                <span>Chọn Kịch Bản Khác</span>
+              </button>
+            )}
+
+            {/* Tertiary / Ghost Action */}
             <Link
               href="/dashboard"
-              className="w-full py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-colors block text-center"
+              className="w-full py-2 px-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors block text-center"
             >
-              Về Bảng Điều Khiển
+              <span>Về Bảng Điều Khiển</span>
+              <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
             </Link>
           </div>
         </div>
       </div>
+
+      {/* 4. In-Place Topic Selector Modal */}
+      {isTopicModalOpen && allTopics && onSelectTopic && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 bg-black/50 backdrop-blur-xs">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="w-full max-w-xl max-h-[85vh] rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xl flex flex-col overflow-hidden"
+          >
+            <div className="p-3.5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Compass className="w-4 h-4 text-[#0059bb] dark:text-sky-400 stroke-[2.2]" />
+                <h3 className="text-sm font-bold text-slate-900 dark:text-white font-display">
+                  Chọn Kịch Bản Hội Thoại Tiếp Theo
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsTopicModalOpen(false)}
+                className="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 cursor-pointer"
+                title="Đóng modal"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-2.5 space-y-1.5 scrollbar-thin">
+              {allTopics.map((topic) => {
+                const isSelected = topic.id === currentTopic.id;
+                return (
+                  <button
+                    key={topic.id}
+                    type="button"
+                    onClick={() => {
+                      setIsTopicModalOpen(false);
+                      onSelectTopic(topic);
+                    }}
+                    className={`w-full p-2.5 rounded-xl border text-left flex items-center justify-between gap-2.5 transition-all cursor-pointer ${
+                      isSelected
+                        ? "bg-blue-50 dark:bg-blue-950/60 border-blue-300 dark:border-blue-800/80 shadow-2xs"
+                        : "bg-slate-50/70 dark:bg-slate-950/60 border-slate-200/80 dark:border-slate-800 hover:border-[#0059bb]"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div className="w-8 h-8 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex items-center justify-center shrink-0">
+                        {TOPIC_ICONS[topic.id] || <MessageSquare className="w-4 h-4" />}
+                      </div>
+                      <div className="truncate">
+                        <div className="text-xs font-bold text-slate-900 dark:text-white truncate">
+                          {topic.name} <span className="text-slate-400 font-normal">({topic.nameEn})</span>
+                        </div>
+                        <div className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
+                          {topic.description}
+                        </div>
+                      </div>
+                    </div>
+                    <span className="px-2 py-0.5 rounded-md text-[10px] font-bold font-mono bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 border border-blue-200/60 shrink-0">
+                      {topic.level}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </motion.div>
+        </div>
+      )}
     </motion.div>
   );
 }

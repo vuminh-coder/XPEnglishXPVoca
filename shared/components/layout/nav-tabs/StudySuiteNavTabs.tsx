@@ -2,7 +2,7 @@
 
 import React from "react";
 import { usePathname } from "next/navigation";
-import { BookOpen, Headphones, Mic, FileText } from "lucide-react";
+import { BookOpen, Headphones, Mic, FileText, Gamepad2 } from "lucide-react";
 import { HeaderPillContainer, HeaderPillItem } from "../AppTopHeader";
 
 export interface StudySuiteNavTabsProps {
@@ -14,6 +14,8 @@ export function StudySuiteNavTabs({ className }: StudySuiteNavTabsProps) {
 
   const isPracticeActive =
     pathname === "/study/practice" || pathname?.startsWith("/study/practice/");
+  const isGamesActive =
+    pathname === "/study/games" || pathname?.startsWith("/study/games/");
   const isListeningActive =
     pathname === "/study/listening" || pathname?.startsWith("/study/listening/");
   const isShadowingActive =
@@ -45,6 +47,13 @@ export function StudySuiteNavTabs({ className }: StudySuiteNavTabsProps) {
         layoutId="studySuiteNavActiveTab"
         icon={<BookOpen className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />}
         label="Luyện từ vựng"
+      />
+      <HeaderPillItem
+        active={isGamesActive}
+        href="/study/games"
+        layoutId="studySuiteNavActiveTab"
+        icon={<Gamepad2 className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />}
+        label="Mini Games"
       />
       <HeaderPillItem
         active={isExamActive}

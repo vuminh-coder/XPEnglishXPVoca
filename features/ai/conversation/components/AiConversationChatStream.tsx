@@ -1,7 +1,17 @@
 "use client";
 
-import React, { RefObject } from "react";
-import { Bot, Volume2, VolumeX, Sparkles, RefreshCw } from "lucide-react";
+import React, { RefObject, useMemo, useState, useEffect } from "react";
+import {
+  Bot,
+  Volume2,
+  VolumeX,
+  Sparkles,
+  RefreshCw,
+  Languages,
+  Copy,
+  Check,
+} from "lucide-react";
+import { motion } from "framer-motion";
 import { UserAvatar } from "@/shared/components/feedback/UserAvatar";
 import { Message, Topic } from "../types";
 
@@ -15,6 +25,7 @@ interface AiConversationChatStreamProps {
   onToggleTranslation: (msgId: string) => void;
   onWordClick: (word: string) => void;
   onSpeakText: (text: string) => void;
+  isSpeaking?: boolean;
   user: any;
   chatBottomRef: RefObject<HTMLDivElement | null>;
 }
@@ -29,9 +40,88 @@ export function AiConversationChatStream({
   onToggleTranslation,
   onWordClick,
   onSpeakText,
+  isSpeaking = false,
   user,
   chatBottomRef,
 }: AiConversationChatStreamProps) {
+  const [speakingMsgId, setSpeakingMsgId] = useState<string | null>(null);
+  const [copiedMsgId, setCopiedMsgId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!isSpeaking) {
+      setSpeakingMsgId(null);
+    }
+  }, [isSpeaking]);
+
+  const handlePlayMessage = (msgId: string, text: string) => {
+    setSpeakingMsgId(msgId);
+    onSpeakText(text);
+  };
+
+  const handleCopyText = (text: string, msgId: string) => {
+    try {
+      navigator.clipboard.writeText(text);
+      setCopiedMsgId(msgId);
+      setTimeout(() => setCopiedMsgId(null), 2000);
+    } catch {}
+  };
+
+  // Pre-index target vocabulary for subtle pedagogical highlights
+  const targetWordsSet = useMemo(() => {
+    const set = new Set<string>();
+    if (currentTopic?.suggestedWords) {
+      for (const sw of currentTopic.suggestedWords) {
+        set.add(sw.word.toLowerCase());
+      }
+    }
+    return set;
+  }, [currentTopic]);
+
+  // Clean, high-fidelity inline text rendering preserving natural spacing & punctuation
+  const renderInteractiveText = (text: string) => {
+    const words = text.split(" ");
+
+    return (
+      <span className="text-xs sm:text-sm font-normal leading-relaxed text-slate-800 dark:text-slate-100 select-text">
+        {words.map((chunk, idx) => {
+          const match = chunk.match(/^([^a-zA-Z0-9']*)([a-zA-Z0-9']+)([^a-zA-Z0-9']*)$/);
+          const isLast = idx === words.length - 1;
+
+          if (!match) {
+            return (
+              <React.Fragment key={idx}>
+                <span>{chunk}</span>
+                {!isLast && " "}
+              </React.Fragment>
+            );
+          }
+
+          const [, prefix, coreWord, suffix] = match;
+          const isTarget = targetWordsSet.has(coreWord.toLowerCase());
+
+          return (
+            <React.Fragment key={idx}>
+              {prefix}
+              <span
+                onClick={() => onWordClick(coreWord)}
+                title="Nhấp tra nghĩa & nghe phát âm"
+                className={`cursor-pointer transition-colors ${
+                  isTarget
+                    ? "font-bold text-[#0059bb] dark:text-sky-400 hover:opacity-80"
+                    : "hover:text-[#0059bb] dark:hover:text-sky-400"
+                }`}
+              >
+                {coreWord}
+              </span>
+              {suffix}
+              {!isLast && " "}
+            </React.Fragment>
+          );
+        })}
+      </span>
+    );
+  };
+
   return (
     <div className="flex flex-col flex-1 min-h-0 min-w-0 space-y-2">
       {/* Header Trong Khung Chat */}
@@ -69,10 +159,11 @@ export function AiConversationChatStream({
       </div>
 
       {/* Scrollable Chat Stream Box */}
-      <div className="flex-1 min-h-[260px] lg:min-h-0 overflow-y-auto space-y-2.5 p-1 pr-1.5 scrollbar-thin">
+      <div className="flex-1 min-h-[260px] lg:min-h-0 overflow-y-auto space-y-3 p-1 pr-1.5 scrollbar-thin">
         {messages.map((msg) => {
           const isAi = msg.role === "ai";
           const isTranslated = showTranslations[msg.id];
+          const isCurrentSpeaking = speakingMsgId === msg.id && isSpeaking;
 
           return (
             <div
@@ -86,65 +177,53 @@ export function AiConversationChatStream({
               )}
 
               <div
-                className={`space-y-1.5 max-w-[90%] sm:max-w-[84%] ${
-                  isAi ? "" : "items-end flex flex-col"
+                className={`space-y-1.5 max-w-[92%] sm:max-w-[85%] ${
+                  isAi ? "w-fit" : "items-end flex flex-col ml-auto w-fit"
                 }`}
               >
-                {/* Chat Bubble */}
+                {/* Chat Bubble with Natural Width and Tail Corner */}
                 <div
-                  className={`p-3 rounded-2xl text-xs sm:text-sm font-medium leading-relaxed shadow-2xs transition-all ${
+                  className={`p-3 sm:p-3.5 rounded-2xl text-xs sm:text-sm leading-relaxed shadow-2xs transition-all w-fit ${
                     isAi
-                      ? "bg-slate-50/90 dark:bg-slate-950/80 border border-slate-200/80 dark:border-slate-800 text-slate-900 dark:text-white"
-                      : "bg-gradient-to-r from-[#0059bb] to-blue-600 text-white shadow-xs"
+                      ? "bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 text-slate-900 dark:text-white rounded-tl-xs"
+                      : "bg-[#0059bb] text-white shadow-xs rounded-tr-xs"
                   }`}
                 >
-                  {/* Word-by-word 1-Click Interactive Text Rendering for AI with Visual Affordance */}
                   {isAi ? (
-                    <div className="flex flex-wrap gap-x-1 gap-y-0.5 leading-relaxed">
-                      {msg.text.split(" ").map((w, idx) => {
-                        const hasAlpha = /[a-zA-Z]/.test(w);
-                        return (
-                          <span
-                            key={idx}
-                            onClick={() => onWordClick(w)}
-                            title={hasAlpha ? "Nhấp tra nghĩa & nghe phát âm" : undefined}
-                            className={`rounded px-0.5 transition-colors font-medium text-xs sm:text-sm ${
-                              hasAlpha
-                                ? "cursor-pointer hover:bg-blue-100/90 dark:hover:bg-sky-400/20 hover:text-[#0059bb] dark:hover:text-sky-300 border-b border-dotted border-slate-300 dark:border-slate-700 hover:border-[#0059bb]"
-                                : ""
-                            }`}
-                          >
-                            {w}
-                          </span>
-                        );
-                      })}
-                    </div>
+                    renderInteractiveText(msg.text)
                   ) : (
-                    <p className="text-xs sm:text-sm">{msg.text}</p>
-                  )}
-
-                  {/* Vietnamese Translation Display */}
-                  {isTranslated && msg.vietnameseTranslation && (
-                    <div className="mt-2 pt-2 border-t border-slate-200/60 dark:border-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-200 flex items-start gap-1.5">
-                      <span className="shrink-0 text-[#0059bb] dark:text-sky-400 font-bold font-mono">
-                        [Dịch]
-                      </span>
-                      <span>{msg.vietnameseTranslation}</span>
-                    </div>
+                    <p className="leading-relaxed">{msg.text}</p>
                   )}
                 </div>
 
-                {/* AI Grammar Correction & Polish Card */}
+                {/* Vietnamese Translation: Clean natural text without box/block */}
+                {isAi && isTranslated && msg.vietnameseTranslation && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -2 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-xs text-slate-600 dark:text-slate-300 flex items-start gap-1.5 px-1 pt-0.5 leading-relaxed"
+                  >
+                    <span className="font-semibold text-[#0059bb] dark:text-sky-400 shrink-0">
+                      Dịch:
+                    </span>
+                    <span className="font-normal text-slate-700 dark:text-slate-300 italic">
+                      {msg.vietnameseTranslation}
+                    </span>
+                  </motion.div>
+                )}
+
+                {/* AI Coach Feedback for User Message: Unified, clean, direct */}
                 {!isAi && (msg.grammarCorrection?.hasError || msg.betterPhrasing) && (
-                  <div className="p-3 rounded-2xl bg-slate-50/90 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 text-xs space-y-2 text-left w-full shadow-2xs">
+                  <div className="p-2.5 sm:p-3 rounded-2xl bg-slate-50/95 dark:bg-slate-900/95 border border-slate-200/80 dark:border-slate-800 text-xs space-y-2 text-left w-full max-w-md shadow-2xs">
+                    {/* Section 1: Grammar Correction (if errors exist) */}
                     {msg.grammarCorrection?.hasError && (
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800 dark:text-slate-100">
-                          <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0" />
+                      <div className="space-y-1.5">
+                        <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-800 dark:text-slate-200">
+                          <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0" />
                           <span>Sửa ngữ pháp:</span>
                         </div>
-                        <div className="flex items-center flex-wrap gap-1.5 text-xs font-semibold">
-                          <span className="line-through text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/40 px-2 py-0.5 rounded-lg border border-rose-200/60 dark:border-rose-900/30">
+                        <div className="flex items-center flex-wrap gap-1.5 text-xs">
+                          <span className="line-through text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/40 px-2 py-0.5 rounded-lg border border-rose-200/60 dark:border-rose-900/30 font-medium">
                             {msg.grammarCorrection.original}
                           </span>
                           <span className="text-slate-400 dark:text-slate-500 font-bold">➔</span>
@@ -160,41 +239,48 @@ export function AiConversationChatStream({
                       </div>
                     )}
 
+                    {/* Section 2: More Natural Native Phrasing (Conditional Divider only when grammar error present) */}
                     {msg.betterPhrasing && (
-                      <div className="pt-2 border-t border-slate-200/60 dark:border-slate-800 space-y-1">
-                        <div className="flex items-center gap-1 text-xs font-bold text-[#0059bb] dark:text-sky-400">
+                      <div
+                        className={`space-y-1.5 ${
+                          msg.grammarCorrection?.hasError
+                            ? "pt-2 border-t border-slate-200/60 dark:border-slate-800"
+                            : ""
+                        }`}
+                      >
+                        <div className="flex items-center gap-1 text-xs font-semibold text-[#0059bb] dark:text-sky-400">
                           <Sparkles className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
                           <span>Diễn đạt tự nhiên hơn:</span>
                         </div>
-                        <div className="flex items-center justify-between gap-2 bg-blue-50/50 dark:bg-blue-950/30 p-2 rounded-xl border border-blue-200/50 dark:border-blue-900/30">
-                          <p className="text-xs font-bold text-slate-900 dark:text-slate-100">
-                            "
+                        <div className="flex items-start justify-between gap-2 pt-0.5">
+                          <p className="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-100 leading-relaxed select-text">
                             {msg.betterPhrasing
                               .replace(/^["']|["']$/g, "")
                               .replace(
-                                /^(A more natural way to say that (would be|is)|You could say|A better phrasing is|Try saying),?\s*/i,
+                                /^(A more natural way to say that (would be|is)|You could say|A better phrasing is|Try saying|Consider saying),?\s*/i,
                                 ""
                               )
-                              .replace(/^["']|["']$/g, "")}
-                            "
+                              .replace(/^["']|["']$/g, "")
+                              .trim()}
                           </p>
                           <button
                             type="button"
-                            onClick={() =>
-                              onSpeakText(
-                                msg.betterPhrasing
-                                  ?.replace(/^["']|["']$/g, "")
-                                  .replace(
-                                    /^(A more natural way to say that (would be|is)|You could say|A better phrasing is|Try saying),?\s*/i,
-                                    ""
-                                  )
-                                  .replace(/^["']|["']$/g, "") || ""
-                              )
-                            }
-                            className="p-1 rounded-lg text-slate-400 hover:text-[#0059bb] dark:hover:text-sky-400 transition-colors shrink-0 cursor-pointer"
-                            title="Nghe phát âm câu tự nhiên"
+                            onClick={() => {
+                              const cleanText = msg.betterPhrasing
+                                ?.replace(/^["']|["']$/g, "")
+                                .replace(
+                                  /^(A more natural way to say that (would be|is)|You could say|A better phrasing is|Try saying|Consider saying),?\s*/i,
+                                  ""
+                                )
+                                .replace(/^["']|["']$/g, "")
+                                .trim();
+                              if (cleanText) onSpeakText(cleanText);
+                            }}
+                            className="px-2 py-1 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-950/50 text-[#0059bb] dark:text-sky-400 flex items-center gap-1 text-xs font-semibold cursor-pointer transition-colors shrink-0"
+                            title="Nghe phát âm câu mẫu tự nhiên"
                           >
-                            <Volume2 className="w-4 h-4" />
+                            <Volume2 className="w-3.5 h-3.5" />
+                            <span className="hidden sm:inline">Nghe mẫu</span>
                           </button>
                         </div>
                       </div>
@@ -202,25 +288,79 @@ export function AiConversationChatStream({
                   </div>
                 )}
 
-                {/* AI Action Strip */}
+                {/* AI Action Strip: Thanh tác vụ thanh thoát, không đóng khối */}
                 {isAi && (
-                  <div className="flex items-center gap-3 px-1 select-none">
+                  <div className="flex items-center gap-3.5 pt-0.5 px-1 select-none text-xs">
+                    {/* 1. Nút Nghe lại */}
                     <button
                       type="button"
-                      onClick={() => onSpeakText(msg.text)}
-                      className="text-xs font-bold text-slate-600 hover:text-[#0059bb] dark:text-slate-300 dark:hover:text-sky-400 flex items-center gap-1 cursor-pointer transition-colors"
+                      onClick={() => handlePlayMessage(msg.id, msg.text)}
+                      className={`font-semibold flex items-center gap-1.5 cursor-pointer transition-colors ${
+                        isCurrentSpeaking
+                          ? "text-[#0059bb] dark:text-sky-400 font-bold"
+                          : "text-slate-500 hover:text-[#0059bb] dark:text-slate-400 dark:hover:text-sky-300"
+                      }`}
+                      title="Nghe AI phát âm lại câu này"
                     >
-                      <Volume2 className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" /> Nghe lại
+                      {isCurrentSpeaking ? (
+                        <>
+                          <div className="flex items-center gap-0.5">
+                            <span className="w-0.5 h-2.5 bg-[#0059bb] dark:bg-sky-400 rounded-full animate-pulse" />
+                            <span
+                              className="w-0.5 h-3.5 bg-[#0059bb] dark:bg-sky-400 rounded-full animate-pulse"
+                              style={{ animationDelay: "150ms" }}
+                            />
+                            <span
+                              className="w-0.5 h-2 bg-[#0059bb] dark:bg-sky-400 rounded-full animate-pulse"
+                              style={{ animationDelay: "300ms" }}
+                            />
+                          </div>
+                          <span>Đang phát...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Volume2 className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" strokeWidth={2} />
+                          <span>Nghe lại</span>
+                        </>
+                      )}
                     </button>
+
+                    {/* 2. Nút Xem bản dịch */}
                     {msg.vietnameseTranslation && (
                       <button
                         type="button"
                         onClick={() => onToggleTranslation(msg.id)}
-                        className="text-xs font-bold text-slate-600 hover:text-[#0059bb] dark:text-slate-300 dark:hover:text-sky-400 cursor-pointer transition-colors"
+                        className={`font-semibold flex items-center gap-1.5 cursor-pointer transition-colors ${
+                          isTranslated
+                            ? "text-[#0059bb] dark:text-sky-400 font-bold"
+                            : "text-slate-500 hover:text-[#0059bb] dark:text-slate-400 dark:hover:text-sky-300"
+                        }`}
+                        title={isTranslated ? "Ẩn bản dịch tiếng Việt" : "Xem bản dịch tiếng Việt"}
                       >
-                        {isTranslated ? "Ẩn dịch" : "Xem bản dịch"}
+                        <Languages className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" strokeWidth={2} />
+                        <span>{isTranslated ? "Ẩn dịch" : "Xem bản dịch"}</span>
                       </button>
                     )}
+
+                    {/* 3. Nút Sao chép */}
+                    <button
+                      type="button"
+                      onClick={() => handleCopyText(msg.text, msg.id)}
+                      className="font-medium text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 flex items-center gap-1 cursor-pointer transition-colors"
+                      title="Sao chép nội dung câu"
+                    >
+                      {copiedMsgId === msg.id ? (
+                        <>
+                          <Check className="w-3.5 h-3.5 text-emerald-500" strokeWidth={2.2} />
+                          <span className="text-emerald-600 dark:text-emerald-400 text-[11px]">Đã chép</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3.5 h-3.5" strokeWidth={1.8} />
+                          <span className="text-[11px]">Sao chép</span>
+                        </>
+                      )}
+                    </button>
                   </div>
                 )}
               </div>

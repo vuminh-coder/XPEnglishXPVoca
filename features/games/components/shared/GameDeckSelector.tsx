@@ -11,8 +11,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 import { useVocabularyStore } from "@/stores/vocabularyStore";
-
-export type VocabDeckType = "all" | "toeic" | "ielts" | "bookmarks" | "weak";
+import { VocabDeckType } from "../../types";
 
 export interface GameDeckSelectorProps {
   currentDeck: VocabDeckType;
@@ -65,8 +64,8 @@ export function GameDeckSelector({
       label: "Sổ Tay Yêu Thích",
       subtitle: `${bookmarkedCount} từ bạn đã đánh dấu sao`,
       icon: Bookmark,
-      color: "text-rose-600 dark:text-rose-400",
-      bg: "bg-rose-50 dark:bg-rose-950/40",
+      color: "text-amber-600 dark:text-amber-400",
+      bg: "bg-amber-50 dark:bg-amber-950/40",
       badge: `${bookmarkedCount} từ`,
     },
     {
@@ -93,7 +92,10 @@ export function GameDeckSelector({
         <button
           type="button"
           onClick={() => setIsOpen((o) => !o)}
-          className="py-1.5 px-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 hover:border-[#0059bb] transition-all cursor-pointer flex items-center gap-2 shadow-2xs active:scale-95"
+          aria-haspopup="listbox"
+          aria-expanded={isOpen}
+          aria-label={`Chọn kho từ vựng: ${activeDeckObj.label}`}
+          className="py-1.5 px-3 min-h-[40px] rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/90 dark:border-slate-700/80 hover:border-[#0059bb] transition-all cursor-pointer flex items-center gap-2 shadow-2xs active:scale-95"
         >
           <div
             className={`w-6 h-6 rounded-lg ${activeDeckObj.bg} ${activeDeckObj.color} flex items-center justify-center shrink-0`}
@@ -114,11 +116,13 @@ export function GameDeckSelector({
       {isOpen && (
         <>
           <div
-            className="fixed inset-0 z-40"
+            className="fixed inset-0 z-40 bg-slate-950/20 backdrop-blur-[2px] transition-all"
             onClick={() => setIsOpen(false)}
+            onKeyDown={(e) => { if (e.key === "Escape") setIsOpen(false); }}
+            role="presentation"
           />
 
-          <div className="absolute right-0 sm:left-0 mt-2 w-72 sm:w-80 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xl z-50 p-2 space-y-1 animate-in fade-in zoom-in-95 duration-150">
+          <div role="listbox" aria-label="Danh sách kho từ vựng" className="absolute right-0 mt-2 w-72 sm:w-80 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xl shadow-slate-900/15 dark:shadow-black/50 z-50 p-2 space-y-1 animate-in fade-in zoom-in-95 duration-150">
             <div className="px-3 py-2 border-b border-slate-100 dark:border-slate-800/80">
               <span className="text-[11px] font-black text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
                 <Sparkles className="w-3 h-3 text-[#0059bb]" />

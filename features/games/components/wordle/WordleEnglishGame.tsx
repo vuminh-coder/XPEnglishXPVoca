@@ -16,6 +16,7 @@ import { Badge } from "@/shared/components/ui/Badge";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { WordleLetterStatus, WordleRowState, GameReviewItem } from "../../types";
 import { gameAudio } from "../../utils/gameAudio";
+import { triggerHaptic } from "../../utils/gameFx";
 import { GameResultScreen } from "../shared/GameResultScreen";
 import { recordGameSession } from "../../utils/recordGameSession";
 import { safeSpeakText } from "@/shared/utils/mobileAudio";
@@ -156,7 +157,8 @@ export function WordleEnglishGame({ pool, onBack }: WordleEnglishGameProps) {
 
     setRevealedLetter(pick);
     setLetterStatuses((prev) => ({ ...prev, [pick]: "correct" }));
-    gameAudio.playTap();
+    triggerHaptic("tap");
+        gameAudio.playTap();
     addToast({
       type: "info",
       title: "Gợi ý ký tự!",
@@ -168,6 +170,7 @@ export function WordleEnglishGame({ pool, onBack }: WordleEnglishGameProps) {
   const handleGuessSubmit = useCallback(() => {
     if (currentGuess.length !== WORD_LENGTH) {
       setShakeRow(true);
+      triggerHaptic("warning");
       gameAudio.playWrongBuzzer();
       setTimeout(() => setShakeRow(false), 500);
       return;
@@ -231,6 +234,7 @@ export function WordleEnglishGame({ pool, onBack }: WordleEnglishGameProps) {
     const isGuessCorrect = currentGuess.toUpperCase() === targetWord;
 
     if (isGuessCorrect) {
+      triggerHaptic("victory");
       gameAudio.playVictoryFanfare();
       speakTarget(targetWord);
       setIsWon(true);
@@ -268,7 +272,8 @@ export function WordleEnglishGame({ pool, onBack }: WordleEnglishGameProps) {
     } else {
       if (currentRow + 1 >= MAX_ATTEMPTS) {
         // Game Over - Lost
-        gameAudio.playWrongBuzzer();
+        triggerHaptic("warning");
+      gameAudio.playWrongBuzzer();
         setIsWon(false);
         setIsGameOver(true);
 
@@ -291,6 +296,7 @@ export function WordleEnglishGame({ pool, onBack }: WordleEnglishGameProps) {
           message: `Từ chính xác là "${targetWord}". Hãy lưu vào sổ tay ôn tập nhé!`,
         });
       } else {
+        triggerHaptic("tap");
         gameAudio.playFlipSound();
         setCurrentRow((r) => r + 1);
         setCurrentGuess("");
@@ -312,9 +318,11 @@ export function WordleEnglishGame({ pool, onBack }: WordleEnglishGameProps) {
       if (key === "ENTER") {
         handleGuessSubmit();
       } else if (key === "BACKSPACE" || key === "DELETE") {
+        triggerHaptic("tap");
         gameAudio.playTap();
         setCurrentGuess((prev) => prev.slice(0, -1));
       } else if (/^[A-Z]$/.test(key) && currentGuess.length < WORD_LENGTH) {
+        triggerHaptic("tap");
         gameAudio.playTap();
         setCurrentGuess((prev) => prev + key);
       }
@@ -368,14 +376,7 @@ export function WordleEnglishGame({ pool, onBack }: WordleEnglishGameProps) {
     <div className="space-y-4 sm:space-y-5 select-none max-w-lg mx-auto">
       {/* 1. Top Header Bar */}
       <div className="flex items-center justify-between">
-        <button
-          type="button"
-          onClick={onBack}
-          className="py-1.5 px-3 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 active:scale-95 shadow-2xs"
-        >
-          <ArrowLeft className="w-3.5 h-3.5 stroke-[2.2]" />
-          <span>Quay lại</span>
-        </button>
+        
 
         <div className="flex items-center gap-2">
           {/* Mute button */}
@@ -383,7 +384,7 @@ export function WordleEnglishGame({ pool, onBack }: WordleEnglishGameProps) {
             type="button"
             onClick={toggleAudio}
             title={isMuted ? "Bật âm thanh" : "Tắt âm thanh"}
-            className="p-1.5 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all cursor-pointer active:scale-90"
+            className="p-2.5 rounded-xl min-w-[44px] min-h-[44px] flex items-center justify-center bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all cursor-pointer active:scale-90"
           >
             {isMuted ? (
               <VolumeX className="w-3.5 h-3.5 text-rose-500" />
@@ -401,7 +402,7 @@ export function WordleEnglishGame({ pool, onBack }: WordleEnglishGameProps) {
             type="button"
             onClick={() => setShowHint((h) => !h)}
             title="Gợi ý nghĩa tiếng Việt"
-            className="py-1.5 px-2.5 rounded-full bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-200/80 dark:border-amber-800/60 text-xs font-bold transition-all cursor-pointer flex items-center gap-1 active:scale-95 shadow-2xs"
+            className="py-1.5 px-2.5 rounded-full bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-200/80 dark:border-amber-800/60 text-xs font-bold min-h-[44px] transition-all cursor-pointer flex items-center gap-1 active:scale-95 shadow-2xs"
           >
             <HelpCircle className="w-3.5 h-3.5 stroke-[2.2]" />
             <span>Nghĩa</span>
@@ -412,7 +413,7 @@ export function WordleEnglishGame({ pool, onBack }: WordleEnglishGameProps) {
               type="button"
               onClick={handleRevealLetter}
               title="Mở 1 ký tự gợi ý"
-              className="py-1.5 px-2.5 rounded-full bg-blue-50 hover:bg-blue-100 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-400 border border-blue-200/80 dark:border-blue-800/60 text-xs font-bold transition-all cursor-pointer flex items-center gap-1 active:scale-95 shadow-2xs"
+              className="py-1.5 px-2.5 rounded-full bg-blue-50 hover:bg-blue-100 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-400 border border-blue-200/80 dark:border-blue-800/60 text-xs font-bold min-h-[44px] transition-all cursor-pointer flex items-center gap-1 active:scale-95 shadow-2xs"
             >
               <Lightbulb className="w-3.5 h-3.5 stroke-[2.2]" />
               <span>Gợi ký tự</span>
@@ -423,7 +424,7 @@ export function WordleEnglishGame({ pool, onBack }: WordleEnglishGameProps) {
             type="button"
             onClick={initGame}
             title="Làm mới từ khác"
-            className="p-1.5 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all cursor-pointer active:scale-90"
+            className="p-2.5 rounded-xl min-w-[44px] min-h-[44px] flex items-center justify-center bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all cursor-pointer active:scale-90"
           >
             <RotateCcw className="w-3.5 h-3.5 stroke-[2.2]" />
           </button>
@@ -530,7 +531,7 @@ export function WordleEnglishGame({ pool, onBack }: WordleEnglishGameProps) {
               type="button"
               onClick={() => speakTarget(targetPackage.word)}
               title="Nghe phát âm"
-              className="p-1 rounded-full bg-rose-200/60 dark:bg-rose-800 text-rose-800 dark:text-rose-200 cursor-pointer"
+              className="p-2.5 rounded-xl min-w-[44px] min-h-[44px] flex items-center justify-center bg-rose-200/60 dark:bg-rose-800 text-rose-800 dark:text-rose-200 cursor-pointer"
             >
               <Volume2 className="w-4 h-4" />
             </button>

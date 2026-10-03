@@ -19,7 +19,7 @@ export function GameHeroBanner() {
             </span>
             <span className="text-[11px] font-semibold text-blue-100/90 flex items-center gap-1">
               <Flame className="w-3 h-3 text-amber-300" />
-              5 Chế Độ Luyện Tập Từ Vựng & Ngữ Pháp
+              Luyện Phản Xạ Đa Giác Quan & Ghi Nhớ Sâu
             </span>
           </div>
           <h1 className="text-xl sm:text-2xl lg:text-3xl font-black tracking-tight text-white font-display">

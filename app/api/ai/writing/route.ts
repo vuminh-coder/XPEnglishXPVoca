@@ -68,7 +68,12 @@ export async function POST(request: Request) {
     const userPrompt = `Topic: "${topic}"\n\nEssay:\n"${essay}"`;
 
     let parsedData = null;
-    const modelsToTry = ["gemini-2.0-flash", "gemini-1.5-flash"];
+    const modelsToTry = [
+      "gemini-2.5-flash",
+      "gemini-flash-latest",
+      "gemini-2.0-flash",
+      "gemini-1.5-flash",
+    ];
 
     for (const modelName of modelsToTry) {
       try {

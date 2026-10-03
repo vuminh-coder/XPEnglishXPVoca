@@ -18,6 +18,7 @@ import { Badge } from "@/shared/components/ui/Badge";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { SpeedBlitzQuestion, GameReviewItem } from "../../types";
 import { gameAudio } from "../../utils/gameAudio";
+import { triggerHaptic } from "../../utils/gameFx";
 import { GameResultScreen } from "../shared/GameResultScreen";
 import { recordGameSession } from "../../utils/recordGameSession";
 import { safeSpeakText } from "@/shared/utils/mobileAudio";
@@ -140,6 +141,7 @@ export function SpeedBlitzGame({ pool, onBack }: SpeedBlitzGameProps) {
     if (feedback !== null || gameOver) return;
     const currentQ = questions[currentIdx];
     if (!currentQ) return;
+    triggerHaptic("tap");
 
     setSelectedOption(opt);
     const isCorrect = opt === currentQ.correctDef;
@@ -167,10 +169,12 @@ export function SpeedBlitzGame({ pool, onBack }: SpeedBlitzGameProps) {
       const points = 10 * comboMultiplier;
       setScore((s) => s + points);
 
+      triggerHaptic("success");
       gameAudio.playComboStreak(nextCombo);
       speakWord(currentQ.word);
       setFeedback("correct");
     } else {
+      triggerHaptic("warning");
       gameAudio.playWrongBuzzer();
       setCombo(0);
       setFeedback("wrong");
@@ -210,6 +214,7 @@ export function SpeedBlitzGame({ pool, onBack }: SpeedBlitzGameProps) {
   // Handle Game Over sync
   useEffect(() => {
     if (gameOver) {
+      triggerHaptic("victory");
       gameAudio.playVictoryFanfare();
       const correctCount = reviewItems.filter((i) => i.isCorrect).length;
       const durationSeconds = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
@@ -261,14 +266,7 @@ export function SpeedBlitzGame({ pool, onBack }: SpeedBlitzGameProps) {
     <div className="space-y-4 sm:space-y-5 select-none max-w-xl mx-auto">
       {/* 1. Header Controls Bar */}
       <div className="flex items-center justify-between">
-        <button
-          type="button"
-          onClick={onBack}
-          className="py-1.5 px-3 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 active:scale-95 shadow-2xs"
-        >
-          <ArrowLeft className="w-3.5 h-3.5 stroke-[2.2]" />
-          <span>Quay lại</span>
-        </button>
+        
 
         <div className="flex items-center gap-2">
           {/* Mute button */}
@@ -276,7 +274,7 @@ export function SpeedBlitzGame({ pool, onBack }: SpeedBlitzGameProps) {
             type="button"
             onClick={toggleAudio}
             title={isMuted ? "Bật âm thanh" : "Tắt âm thanh"}
-            className="p-1.5 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all cursor-pointer active:scale-90"
+            className="p-2.5 rounded-xl min-w-[44px] min-h-[44px] flex items-center justify-center bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all cursor-pointer active:scale-90"
           >
             {isMuted ? (
               <VolumeX className="w-3.5 h-3.5 text-rose-500" />
@@ -306,7 +304,7 @@ export function SpeedBlitzGame({ pool, onBack }: SpeedBlitzGameProps) {
             type="button"
             onClick={generateQuestions}
             title="Làm mới ván mới"
-            className="p-1.5 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all cursor-pointer active:scale-90"
+            className="p-2.5 rounded-xl min-w-[44px] min-h-[44px] flex items-center justify-center bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all cursor-pointer active:scale-90"
           >
             <RotateCcw className="w-3.5 h-3.5 stroke-[2.2]" />
           </button>
@@ -362,7 +360,7 @@ export function SpeedBlitzGame({ pool, onBack }: SpeedBlitzGameProps) {
                   type="button"
                   onClick={() => speakWord(currentQ.word)}
                   title="Nghe phát âm"
-                  className="p-2 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-400 hover:bg-blue-100 transition-colors cursor-pointer active:scale-95"
+                  className="p-2.5 min-w-[44px] min-h-[44px] rounded-xl flex items-center justify-center bg-blue-50 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-400 hover:bg-blue-100 transition-colors cursor-pointer active:scale-95"
                 >
                   <Volume2 className="w-4 h-4 stroke-[2.2]" />
                 </button>

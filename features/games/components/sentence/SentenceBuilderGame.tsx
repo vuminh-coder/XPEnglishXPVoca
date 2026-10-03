@@ -20,6 +20,7 @@ import { Badge } from "@/shared/components/ui/Badge";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { SentenceScramblePackage, GameReviewItem } from "../../types";
 import { gameAudio } from "../../utils/gameAudio";
+import { triggerHaptic } from "../../utils/gameFx";
 import { GameResultScreen } from "../shared/GameResultScreen";
 import { recordGameSession } from "../../utils/recordGameSession";
 import { safeSpeakText } from "@/shared/utils/mobileAudio";
@@ -169,6 +170,7 @@ export function SentenceBuilderGame({ pool, onBack }: SentenceBuilderGameProps) 
   // Click available token
   const handleSelectToken = (token: WordToken) => {
     if (feedback !== null || token.isUsed) return;
+    triggerHaptic("tap");
     gameAudio.playTap();
 
     setAvailableTokens((prev) =>
@@ -180,6 +182,7 @@ export function SentenceBuilderGame({ pool, onBack }: SentenceBuilderGameProps) 
   // Remove placed token
   const handleRemovePlacedToken = (token: WordToken, index: number) => {
     if (feedback !== null) return;
+    triggerHaptic("tap");
     gameAudio.playTap();
 
     setPlacedTokens((prev) => prev.filter((_, i) => i !== index));
@@ -191,6 +194,7 @@ export function SentenceBuilderGame({ pool, onBack }: SentenceBuilderGameProps) 
   // Reset tokens
   const handleClearAll = () => {
     if (feedback !== null) return;
+    triggerHaptic("tap");
     gameAudio.playTap();
     setAvailableTokens((prev) => prev.map((t) => ({ ...t, isUsed: false })));
     setPlacedTokens([]);
@@ -233,11 +237,13 @@ export function SentenceBuilderGame({ pool, onBack }: SentenceBuilderGameProps) 
     setReviewItems((prev) => [...prev, review]);
 
     if (isCorrect) {
+      triggerHaptic("success");
       gameAudio.playCorrectDing();
       speakSentence(pkg.originalSentence);
       setScore((s) => s + 20);
       setFeedback("correct");
     } else {
+      triggerHaptic("warning");
       gameAudio.playWrongBuzzer();
       setFeedback("wrong");
     }
@@ -256,7 +262,8 @@ export function SentenceBuilderGame({ pool, onBack }: SentenceBuilderGameProps) 
     const pkg = packages[currentIdx];
     if (!pkg) return;
 
-    gameAudio.playWrongBuzzer();
+    triggerHaptic("warning");
+      gameAudio.playWrongBuzzer();
 
     const review: GameReviewItem = {
       id: pkg.id,
@@ -278,6 +285,7 @@ export function SentenceBuilderGame({ pool, onBack }: SentenceBuilderGameProps) 
   // Game over sync
   useEffect(() => {
     if (gameOver) {
+      triggerHaptic("victory");
       gameAudio.playVictoryFanfare();
       const correctCount = reviewItems.filter((i) => i.isCorrect).length;
       const durationSeconds = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
@@ -328,14 +336,7 @@ export function SentenceBuilderGame({ pool, onBack }: SentenceBuilderGameProps) 
     <div className="space-y-4 sm:space-y-5 select-none max-w-2xl mx-auto">
       {/* 1. Header Bar */}
       <div className="flex items-center justify-between">
-        <button
-          type="button"
-          onClick={onBack}
-          className="py-1.5 px-3 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 active:scale-95 shadow-2xs"
-        >
-          <ArrowLeft className="w-3.5 h-3.5 stroke-[2.2]" />
-          <span>Quay lại</span>
-        </button>
+        
 
         <div className="flex items-center gap-2">
           {/* Mute button */}
@@ -343,7 +344,7 @@ export function SentenceBuilderGame({ pool, onBack }: SentenceBuilderGameProps) 
             type="button"
             onClick={toggleAudio}
             title={isMuted ? "Bật âm thanh" : "Tắt âm thanh"}
-            className="p-1.5 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all cursor-pointer active:scale-90"
+            className="p-2.5 rounded-xl min-w-[44px] min-h-[44px] flex items-center justify-center bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all cursor-pointer active:scale-90"
           >
             {isMuted ? (
               <VolumeX className="w-3.5 h-3.5 text-rose-500" />
@@ -365,7 +366,7 @@ export function SentenceBuilderGame({ pool, onBack }: SentenceBuilderGameProps) 
             type="button"
             onClick={generateSentences}
             title="Làm mới ván mới"
-            className="p-1.5 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all cursor-pointer active:scale-90"
+            className="p-2.5 rounded-xl min-w-[44px] min-h-[44px] flex items-center justify-center bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all cursor-pointer active:scale-90"
           >
             <RotateCcw className="w-3.5 h-3.5 stroke-[2.2]" />
           </button>
@@ -410,7 +411,7 @@ export function SentenceBuilderGame({ pool, onBack }: SentenceBuilderGameProps) 
                 <button
                   type="button"
                   onClick={handleHintNext}
-                  className="py-1 px-2.5 rounded-full bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200/80 dark:border-amber-800/60 text-[11px] font-bold transition-all cursor-pointer flex items-center gap-1 active:scale-95 shadow-2xs"
+                  className="py-1 px-2.5 rounded-full bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200/80 dark:border-amber-800/60 text-[11px] font-bold min-h-[44px] transition-all cursor-pointer flex items-center gap-1 active:scale-95 shadow-2xs"
                 >
                   <HelpCircle className="w-3 h-3" />
                   <span>Gợi ý từ tiếp</span>
@@ -486,7 +487,7 @@ export function SentenceBuilderGame({ pool, onBack }: SentenceBuilderGameProps) 
                       type="button"
                       onClick={() => speakSentence(currentPkg.originalSentence)}
                       title="Nghe cả câu"
-                      className="p-1 rounded-full bg-emerald-200/60 dark:bg-emerald-800 text-emerald-800 dark:text-emerald-200 cursor-pointer"
+                      className="p-2.5 rounded-xl min-w-[44px] min-h-[44px] flex items-center justify-center bg-emerald-200/60 dark:bg-emerald-800 text-emerald-800 dark:text-emerald-200 cursor-pointer"
                     >
                       <Volume2 className="w-3.5 h-3.5" />
                     </button>

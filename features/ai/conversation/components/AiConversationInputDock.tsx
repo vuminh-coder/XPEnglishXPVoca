@@ -20,6 +20,7 @@ interface AiConversationInputDockProps {
   onMicrophoneToggle: () => void;
   onResetSpeech: () => void;
   onSendMessage: (textToSend?: string) => void;
+  onInsertWord?: (word: string) => void;
 }
 
 export function AiConversationInputDock({
@@ -35,6 +36,7 @@ export function AiConversationInputDock({
   onMicrophoneToggle,
   onResetSpeech,
   onSendMessage,
+  onInsertWord,
 }: AiConversationInputDockProps) {
   const hasTextToSubmit = Boolean(inputText.trim() || spokenText.trim());
 
@@ -46,17 +48,18 @@ export function AiConversationInputDock({
         <div className="flex items-center gap-1.5 flex-wrap min-w-0">
           {(currentSuggestions.words.length > 0 || currentSuggestions.phrases.length > 0) && (
             <>
-              <span className="text-[11px] font-bold text-[#0059bb] dark:text-sky-400 uppercase tracking-wider flex items-center gap-1 shrink-0">
-                <Sparkles className="w-3 h-3 text-[#0059bb] dark:text-sky-400" /> Gợi ý:
+              <span className="text-xs font-semibold text-[#0059bb] dark:text-sky-400 flex items-center gap-1 shrink-0">
+                <Sparkles className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" /> Gợi ý:
               </span>
 
               {currentSuggestions.words.slice(0, 3).map((w, idx) => (
                 <React.Fragment key={`w_${idx}`}>
-                  {idx > 0 && <span className="text-slate-300 dark:text-slate-700">•</span>}
+                  {idx > 0 && <span className="text-slate-300 dark:text-slate-700 select-none">•</span>}
                   <button
                     type="button"
-                    onClick={() => onSendMessage(w.word)}
-                    className="text-[11px] font-bold text-slate-700 dark:text-slate-200 hover:text-[#0059bb] dark:hover:text-sky-300 hover:underline cursor-pointer bg-transparent border-none p-0 focus:outline-none transition-colors"
+                    onClick={() => (onInsertWord ? onInsertWord(w.word) : onSendMessage(w.word))}
+                    title={`Nhấp để chèn từ "${w.word}" vào câu của bạn`}
+                    className="text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-[#0059bb] dark:hover:text-sky-300 hover:underline cursor-pointer bg-transparent border-none p-0 focus:outline-none transition-colors"
                   >
                     {w.word}
                   </button>

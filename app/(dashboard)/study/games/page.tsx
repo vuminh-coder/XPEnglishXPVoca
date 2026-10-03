@@ -17,6 +17,7 @@ import {
   HeaderPillContainer,
   HeaderPillItem,
 } from "@/shared/components/layout/AppTopHeader";
+import { StudySuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 import {
   GameMode,
   VocabDeckType,
@@ -29,10 +30,11 @@ import {
   SentenceBuilderGame,
   PictureWordGame,
   AudioEarGame,
-  GameDeckSelector,
 } from "@/features/games";
 import { useVocabularyStore } from "@/stores/vocabularyStore";
+import { useNotificationStore } from "@/stores/notificationStore";
 import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
+import { PageEntranceWrapper, MotionItem } from "@/shared/components/feedback/PageEntranceAnimation";
 
 const pageTransitionVariants = {
   hidden: { opacity: 0, y: 12 },
@@ -52,12 +54,23 @@ const pageTransitionVariants = {
   },
 } as const;
 
+const GAME_TITLE_MAP: Record<GameMode, { title: string; icon: React.ReactNode }> = {
+  picture: { title: "PictoWord", icon: <ImageIcon className="w-3.5 h-3.5 text-cyan-500" /> },
+  audio: { title: "Audio Ear", icon: <Headphones className="w-3.5 h-3.5 text-emerald-500" /> },
+  scramble: { title: "Word Scramble", icon: <Shuffle className="w-3.5 h-3.5 text-[#0059bb]" /> },
+  blitz: { title: "Speed Blitz", icon: <Flame className="w-3.5 h-3.5 text-amber-500" /> },
+  memory: { title: "Memory Match", icon: <Layers className="w-3.5 h-3.5 text-emerald-500" /> },
+  wordle: { title: "Wordle", icon: <SpellCheck className="w-3.5 h-3.5 text-purple-500" /> },
+  sentence: { title: "Sentence Builder", icon: <BookOpen className="w-3.5 h-3.5 text-indigo-500" /> },
+};
+
 export default function GamesPage() {
   const [activeGame, setActiveGame] = useState<GameMode | null>(null);
   const [selectedDeck, setSelectedDeck] = useState<VocabDeckType>("all");
   const [basePool, setBasePool] = useState<any[]>([]);
   const [activePool, setActivePool] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { addToast } = useNotificationStore();
 
   // Track study time when playing mini-games
   useStudyTimeTracker("vocab", { activeCondition: activeGame !== null });
@@ -84,10 +97,20 @@ export default function GamesPage() {
       setActivePool(basePool);
     } else if (selectedDeck === "toeic") {
       const filtered = basePool.filter((w) => (w.difficulty || 1) <= 2);
-      setActivePool(filtered.length >= 8 ? filtered : basePool);
+      if (filtered.length >= 8) {
+        setActivePool(filtered);
+      } else {
+        setActivePool(basePool);
+        addToast({ type: "info", title: "Kho từ", message: "Bộ TOEIC chưa đủ từ, đang dùng kho tổng hợp." });
+      }
     } else if (selectedDeck === "ielts") {
       const filtered = basePool.filter((w) => (w.difficulty || 1) >= 2);
-      setActivePool(filtered.length >= 8 ? filtered : basePool);
+      if (filtered.length >= 8) {
+        setActivePool(filtered);
+      } else {
+        setActivePool(basePool);
+        addToast({ type: "info", title: "Kho từ", message: "Bộ IELTS chưa đủ từ, đang dùng kho tổng hợp." });
+      }
     } else if (selectedDeck === "bookmarks") {
       const learned = useVocabularyStore.getState().learned;
       const favSet = new Set(
@@ -98,7 +121,12 @@ export default function GamesPage() {
       const filtered = basePool.filter(
         (w) => favSet.has(w.id) || favSet.has(w.word?.toLowerCase())
       );
-      setActivePool(filtered.length >= 6 ? filtered : basePool);
+      if (filtered.length >= 6) {
+        setActivePool(filtered);
+      } else {
+        setActivePool(basePool);
+        addToast({ type: "info", title: "Sổ tay", message: `Sổ tay yêu thích chỉ có ${filtered.length} từ. Hãy gắn sao thêm từ vựng, hiện đang dùng kho tổng hợp.` });
+      }
     } else if (selectedDeck === "weak") {
       const learned = useVocabularyStore.getState().learned;
       const weakSet = new Set(
@@ -109,94 +137,57 @@ export default function GamesPage() {
       const filtered = basePool.filter(
         (w) => weakSet.has(w.id) || weakSet.has(w.word?.toLowerCase())
       );
-      setActivePool(filtered.length >= 6 ? filtered : basePool);
+      if (filtered.length >= 6) {
+        setActivePool(filtered);
+      } else {
+        setActivePool(basePool);
+        addToast({ type: "info", title: "Ôn tập", message: `Chỉ có ${filtered.length} từ hay quên. Hãy ôn tập thêm, hiện đang dùng kho tổng hợp.` });
+      }
     }
-  }, [selectedDeck, basePool]);
+  }, [selectedDeck, basePool, addToast]);
 
-  if (isLoading) {
-    return (
-      <div className="space-y-4 pb-20 md:pb-6 select-none animate-pulse">
-        <header className="sticky top-0 z-40 w-full h-14 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-3">
-          <div className="w-8 h-8 rounded-xl bg-slate-200 dark:bg-slate-800" />
-          <div className="w-48 h-8 rounded-xl bg-slate-200 dark:bg-slate-800" />
-        </header>
-        <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 pt-1">
-          <div className="h-36 sm:h-44 rounded-3xl bg-slate-200 dark:bg-slate-800" />
-          <div className="grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
-            <div className="h-[270px] rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800" />
-            <div className="h-[270px] rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800" />
-            <div className="h-[270px] rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800" />
-          </div>
-        </div>
-      </div>
-    );
-  }
+
+  if (isLoading) return null; // Skeleton handled by loading.tsx Suspense boundary
+
 
   return (
-    <div className="space-y-4 pb-20 md:pb-6 font-sans antialiased" suppressHydrationWarning>
-      {/* 1. Standardized AppTopHeader with Game Switching Tabs & Gamification Badges */}
+    <PageEntranceWrapper className="space-y-4 pb-16 md:pb-8 font-sans antialiased" suppressHydrationWarning>
+      {/* 1. Standardized AppTopHeader Matching XP Voca Design System */}
       <AppTopHeader
         onBack={activeGame ? () => setActiveGame(null) : undefined}
         showGamificationStats={true}
+        rightDesktopContent={
+          activeGame ? (
+            <button
+              type="button"
+              onClick={() => setActiveGame(null)}
+              className="hidden sm:inline-flex items-center gap-1.5 py-1.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold transition-all cursor-pointer"
+            >
+              <Gamepad2 className="w-3.5 h-3.5 text-[#0059bb]" />
+              <span>Đổi trò chơi</span>
+            </button>
+          ) : undefined
+        }
       >
-        <HeaderPillContainer>
-          <HeaderPillItem
-            active={activeGame === null}
-            onClick={() => setActiveGame(null)}
-            layoutId="gamesModeFilterPill"
-            icon={<Gamepad2 className="w-3.5 h-3.5 text-rose-500" />}
-            label="Tất Cả Games"
-          />
-          <HeaderPillItem
-            active={activeGame === "picture"}
-            onClick={() => setActiveGame("picture")}
-            layoutId="gamesModeFilterPill"
-            icon={<ImageIcon className="w-3.5 h-3.5 text-rose-500" />}
-            label="PictoWord (Ảnh)"
-          />
-          <HeaderPillItem
-            active={activeGame === "audio"}
-            onClick={() => setActiveGame("audio")}
-            layoutId="gamesModeFilterPill"
-            icon={<Headphones className="w-3.5 h-3.5 text-emerald-500" />}
-            label="Audio Ear"
-          />
-          <HeaderPillItem
-            active={activeGame === "scramble"}
-            onClick={() => setActiveGame("scramble")}
-            layoutId="gamesModeFilterPill"
-            icon={<Shuffle className="w-3.5 h-3.5 text-[#0059bb]" />}
-            label="Word Scramble"
-          />
-          <HeaderPillItem
-            active={activeGame === "blitz"}
-            onClick={() => setActiveGame("blitz")}
-            layoutId="gamesModeFilterPill"
-            icon={<Flame className="w-3.5 h-3.5 text-amber-500" />}
-            label="Speed Blitz"
-          />
-          <HeaderPillItem
-            active={activeGame === "memory"}
-            onClick={() => setActiveGame("memory")}
-            layoutId="gamesModeFilterPill"
-            icon={<Layers className="w-3.5 h-3.5 text-emerald-500" />}
-            label="Memory Match"
-          />
-          <HeaderPillItem
-            active={activeGame === "wordle"}
-            onClick={() => setActiveGame("wordle")}
-            layoutId="gamesModeFilterPill"
-            icon={<SpellCheck className="w-3.5 h-3.5 text-purple-500" />}
-            label="Wordle"
-          />
-          <HeaderPillItem
-            active={activeGame === "sentence"}
-            onClick={() => setActiveGame("sentence")}
-            layoutId="gamesModeFilterPill"
-            icon={<BookOpen className="w-3.5 h-3.5 text-indigo-500" />}
-            label="Sentence Builder"
-          />
-        </HeaderPillContainer>
+        {activeGame === null ? (
+          <StudySuiteNavTabs />
+        ) : (
+          <HeaderPillContainer>
+            <HeaderPillItem
+              onClick={() => setActiveGame(null)}
+              icon={<Gamepad2 className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />}
+              label="Mini Games"
+            />
+            <div className="text-slate-300 dark:text-slate-600 font-bold text-xs px-1 select-none">
+              /
+            </div>
+            <HeaderPillItem
+              active
+              icon={GAME_TITLE_MAP[activeGame].icon}
+              label={GAME_TITLE_MAP[activeGame].title}
+            />
+          </HeaderPillContainer>
+        )}
       </AppTopHeader>
 
       {/* 2. Fluid Ultra-Wide Main Container */}
@@ -305,32 +296,17 @@ export default function GamesPage() {
               {/* Hero Spotlight Stage */}
               <GameHeroBanner />
 
-              {/* Dynamic Vocabulary Deck Selector Bar */}
-              <div className="flex flex-wrap items-center justify-between gap-3 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-3 sm:p-4 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-2xs">
-                <div className="flex flex-wrap items-center gap-2.5 sm:gap-4">
-                  <GameDeckSelector
-                    currentDeck={selectedDeck}
-                    onSelectDeck={setSelectedDeck}
-                    poolCount={activePool.length}
-                  />
-                  <div className="h-5 w-px bg-slate-200 dark:bg-slate-800 hidden sm:block" />
-                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
-                    Kho nạp: <strong className="text-slate-800 dark:text-slate-100 font-extrabold">{activePool.length}</strong> từ vựng sẵn sàng
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-[11px] font-bold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-full border border-slate-200/60 dark:border-slate-700/60">
-                    🎯 7 Chế độ Luyện Não
-                  </span>
-                </div>
-              </div>
-
-              {/* Game Cards Bento Grid with Categories */}
-              <GameCatalogGrid onSelectGame={(mode) => setActiveGame(mode)} />
+              {/* Game Cards Bento Grid with Integrated Studio Toolbar */}
+              <GameCatalogGrid
+                onSelectGame={(mode) => setActiveGame(mode)}
+                selectedDeck={selectedDeck}
+                onSelectDeck={setSelectedDeck}
+                activePoolCount={activePool.length}
+              />
             </motion.div>
           )}
         </AnimatePresence>
       </div>
-    </div>
+    </PageEntranceWrapper>
   );
 }

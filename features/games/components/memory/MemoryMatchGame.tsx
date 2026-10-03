@@ -15,6 +15,7 @@ import { Badge } from "@/shared/components/ui/Badge";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { MemoryCard, GameReviewItem } from "../../types";
 import { gameAudio } from "../../utils/gameAudio";
+import { triggerHaptic } from "../../utils/gameFx";
 import { GameResultScreen } from "../shared/GameResultScreen";
 import { recordGameSession } from "../../utils/recordGameSession";
 import { safeSpeakText } from "@/shared/utils/mobileAudio";
@@ -137,6 +138,7 @@ export function MemoryMatchGame({ pool, onBack }: MemoryMatchGameProps) {
       const calculatedScore = Math.max(25, basePoints - movePenalty + timeBonus);
 
       setFinalScore(calculatedScore);
+      triggerHaptic("victory");
       gameAudio.playVictoryFanfare();
 
       const durationSeconds = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
@@ -164,6 +166,7 @@ export function MemoryMatchGame({ pool, onBack }: MemoryMatchGameProps) {
     const card = cards.find((c) => c.id === cardId);
     if (!card || card.flipped || card.matched) return;
 
+    triggerHaptic("tap");
     gameAudio.playFlipSound();
 
     // If English word card, speak it
@@ -186,6 +189,7 @@ export function MemoryMatchGame({ pool, onBack }: MemoryMatchGameProps) {
       if (first && second && first.pairId === second.pairId) {
         // Matched!
         setTimeout(() => {
+          triggerHaptic("success");
           gameAudio.playCorrectDing();
           // Pronounce word if matched
           const wordCard = first.type === "word" ? first : second;
@@ -211,6 +215,7 @@ export function MemoryMatchGame({ pool, onBack }: MemoryMatchGameProps) {
       } else {
         // Not matched
         setTimeout(() => {
+          triggerHaptic("warning");
           gameAudio.playWrongBuzzer();
           setCards((prev) =>
             prev.map((c) =>
@@ -247,14 +252,7 @@ export function MemoryMatchGame({ pool, onBack }: MemoryMatchGameProps) {
     <div className="space-y-4 sm:space-y-5 select-none max-w-2xl mx-auto">
       {/* 1. Top Header Bar */}
       <div className="flex items-center justify-between">
-        <button
-          type="button"
-          onClick={onBack}
-          className="py-1.5 px-3 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 active:scale-95 shadow-2xs"
-        >
-          <ArrowLeft className="w-3.5 h-3.5 stroke-[2.2]" />
-          <span>Quay lại</span>
-        </button>
+        
 
         <div className="flex items-center gap-2">
           {/* Mute button */}
@@ -262,7 +260,7 @@ export function MemoryMatchGame({ pool, onBack }: MemoryMatchGameProps) {
             type="button"
             onClick={toggleAudio}
             title={isMuted ? "Bật âm thanh" : "Tắt âm thanh"}
-            className="p-1.5 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all cursor-pointer active:scale-90"
+            className="p-2.5 rounded-xl min-w-[44px] min-h-[44px] flex items-center justify-center bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all cursor-pointer active:scale-90"
           >
             {isMuted ? (
               <VolumeX className="w-3.5 h-3.5 text-rose-500" />
@@ -289,7 +287,7 @@ export function MemoryMatchGame({ pool, onBack }: MemoryMatchGameProps) {
             type="button"
             onClick={initGame}
             title="Làm mới bàn chơi"
-            className="p-1.5 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all cursor-pointer active:scale-90"
+            className="p-2.5 rounded-xl min-w-[44px] min-h-[44px] flex items-center justify-center bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all cursor-pointer active:scale-90"
           >
             <RotateCcw className="w-3.5 h-3.5 stroke-[2.2]" />
           </button>
@@ -343,7 +341,7 @@ export function MemoryMatchGame({ pool, onBack }: MemoryMatchGameProps) {
             : "grid-cols-4 sm:grid-cols-4"
         }`}
       >
-        {cards.map((card) => {
+        {cards.map((card, index) => {
           const isFlippedOrMatched = card.flipped || card.matched;
 
           return (
@@ -351,6 +349,10 @@ export function MemoryMatchGame({ pool, onBack }: MemoryMatchGameProps) {
               key={card.id}
               className="h-24 sm:h-28 [perspective:1000px] cursor-pointer"
               onClick={() => flipCard(card.id)}
+              tabIndex={0}
+              role="button"
+              aria-label={`Thẻ số ${index + 1}${card.flipped || card.matched ? ': ' + card.text : ': Đang úp'}`}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flipCard(card.id); } }}
             >
               <motion.div
                 animate={{ rotateY: isFlippedOrMatched ? 180 : 0 }}
