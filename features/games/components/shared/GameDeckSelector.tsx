@@ -83,7 +83,7 @@ export function GameDeckSelector({
   const ActiveIcon = activeDeckObj.icon;
 
   return (
-    <div className="relative inline-block text-left select-none">
+    <div className="relative z-40 inline-block text-left select-none">
       <div className="flex items-center gap-2">
         <span className="text-xs font-bold text-slate-500 dark:text-slate-400 hidden sm:inline">
           Kho từ vựng:
