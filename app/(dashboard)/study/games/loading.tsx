@@ -4,22 +4,21 @@ import React from "react";
 export default function GamesLoading() {
   return (
     <div className="space-y-4 pb-16 md:pb-8 px-0 select-none font-sans animate-pulse">
-      {/* 1. APP TOP HEADER SKELETON — StudySuiteNavTabs (5 pills with 4th pill active) */}
+      {/* 1. APP TOP HEADER SKELETON — Dashboard Standard (4 pills with 2nd pill active) */}
       <header className="sticky top-0 z-40 w-full h-14 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-slate-200 dark:bg-slate-800" />
           <div className="flex items-center gap-1 p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 overflow-hidden">
             <div className="w-20 h-7 rounded-lg bg-slate-200 dark:bg-slate-700" />
-            <div className="w-22 h-7 rounded-lg bg-slate-200 dark:bg-slate-700 hidden xs:block" />
-            <div className="w-24 h-7 rounded-lg bg-slate-200 dark:bg-slate-700 hidden sm:block" />
             <div className="w-24 h-7 rounded-lg bg-blue-600/30" />
-            <div className="w-22 h-7 rounded-lg bg-slate-200 dark:bg-slate-700 hidden md:block" />
+            <div className="w-24 h-7 rounded-lg bg-slate-200 dark:bg-slate-700 hidden sm:block" />
+            <div className="w-20 h-7 rounded-lg bg-slate-200 dark:bg-slate-700 hidden md:block" />
           </div>
         </div>
         <div className="flex items-center gap-2 hidden sm:flex">
           <div className="w-16 h-8 rounded-xl bg-orange-500/20" />
           <div className="w-16 h-8 rounded-xl bg-amber-500/20 hidden md:block" />
-          <div className="w-48 h-8 rounded-xl bg-slate-200 dark:bg-slate-800 hidden lg:block" />
+          <div className="w-32 h-9 rounded-xl bg-blue-600/20" />
           <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800" />
         </div>
       </header>

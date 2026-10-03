@@ -3,7 +3,7 @@
 import React from "react";
 import { PageEntranceWrapper, MotionItem } from "@/shared/components/feedback/PageEntranceAnimation";
 import { AppTopHeader, HeaderPillContainer, HeaderPillItem } from "@/shared/components/layout/AppTopHeader";
-import { Swords, Home, Trophy, Sparkles } from "lucide-react";
+import { Swords, Home, Trophy, Sparkles, Gamepad2 } from "lucide-react";
 import {
   usePvPBattle,
   PvPLobby,
@@ -72,9 +72,9 @@ export default function PvpQuizArenaPage() {
       <AppTopHeader>
         <HeaderPillContainer>
           <HeaderPillItem href="/dashboard" icon={<Home className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />} label="Trang chủ" />
+          <HeaderPillItem href="/study/games" icon={<Gamepad2 className="w-3.5 h-3.5 text-[#0059bb]" />} label="Mini Games" hideOnSmall />
           <HeaderPillItem active layoutId="pvpHeaderActiveTab" icon={<Swords className="w-3.5 h-3.5 text-rose-500" />} label="Đấu trường 1v1" />
-          <HeaderPillItem href="/community/leaderboard" icon={<Trophy className="w-3.5 h-3.5 text-amber-500" />} label="Xếp hạng" />
-          <HeaderPillItem href="/study/exam-prep" icon={<Sparkles className="w-3.5 h-3.5 text-purple-500" />} label="Thi thử đề" />
+          <HeaderPillItem href="/community/leaderboard" icon={<Trophy className="w-3.5 h-3.5 text-amber-500" />} label="Xếp hạng" hideOnSmall />
         </HeaderPillContainer>
       </AppTopHeader>
 

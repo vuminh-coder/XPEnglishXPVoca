@@ -28,7 +28,7 @@ export interface GameCatalogGridProps {
   activePoolCount?: number;
 }
 
-type FilterCategory = "all" | "visual" | "listening" | "speed" | "memory" | "grammar";
+type FilterCategory = "all" | "speed" | "media" | "memory";
 
 const cardItemVariants = {
   hidden: { opacity: 0, y: 15, scale: 0.98 },
@@ -56,7 +56,7 @@ export function GameCatalogGrid({
   const games = [
     {
       id: "scramble" as GameMode,
-      category: "memory" as FilterCategory,
+      category: "speed" as FilterCategory,
       title: "Word Scramble",
       subtitle: "Giải mã từ vựng & Ghép ký tự",
       description:
@@ -124,7 +124,7 @@ export function GameCatalogGrid({
     },
     {
       id: "sentence" as GameMode,
-      category: "grammar" as FilterCategory,
+      category: "memory" as FilterCategory,
       title: "Sentence Builder",
       subtitle: "Ghép câu chuẩn ngữ pháp",
       description:
@@ -141,7 +141,7 @@ export function GameCatalogGrid({
     },
     {
       id: "picture" as GameMode,
-      category: "visual" as FilterCategory,
+      category: "media" as FilterCategory,
       title: "PictoWord Match",
       subtitle: "Đoán từ qua hình ảnh trực quan",
       description:
@@ -158,7 +158,7 @@ export function GameCatalogGrid({
     },
     {
       id: "audio" as GameMode,
-      category: "listening" as FilterCategory,
+      category: "media" as FilterCategory,
       title: "Audio Ear Challenge",
       subtitle: "Nhận diện âm thanh bản xứ",
       description:
@@ -181,11 +181,9 @@ export function GameCatalogGrid({
 
   const FILTER_TABS: { id: FilterCategory; label: string }[] = [
     { id: "all", label: `Tất cả (${games.length})` },
-    { id: "visual", label: "Hình ảnh 📸" },
-    { id: "listening", label: "Thính giác 🎧" },
-    { id: "speed", label: "Tốc độ ⚡" },
-    { id: "memory", label: "Trí nhớ 🧠" },
-    { id: "grammar", label: "Ngữ pháp 📚" },
+    { id: "speed", label: "Phản xạ & Tốc độ ⚡" },
+    { id: "media", label: "Hình ảnh & Âm thanh 🎧" },
+    { id: "memory", label: "Trí nhớ & Cấu trúc 🧠" },
   ];
 
   return (

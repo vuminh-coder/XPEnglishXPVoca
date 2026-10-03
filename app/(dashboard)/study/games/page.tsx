@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Gamepad2,
@@ -11,13 +12,15 @@ import {
   BookOpen,
   Image as ImageIcon,
   Headphones,
+  Home,
+  Swords,
+  Trophy,
 } from "lucide-react";
 import {
   AppTopHeader,
   HeaderPillContainer,
   HeaderPillItem,
 } from "@/shared/components/layout/AppTopHeader";
-import { StudySuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 import {
   GameMode,
   VocabDeckType,
@@ -152,7 +155,7 @@ export default function GamesPage() {
 
   return (
     <PageEntranceWrapper className="space-y-4 pb-16 md:pb-8 font-sans antialiased" suppressHydrationWarning>
-      {/* 1. Standardized AppTopHeader Matching XP Voca Design System */}
+      {/* 1. Universal Top Navigation & Action Header (Dashboard Standard - Max 4 Tabs) */}
       <AppTopHeader
         onBack={activeGame ? () => setActiveGame(null) : undefined}
         showGamificationStats={true}
@@ -161,16 +164,50 @@ export default function GamesPage() {
             <button
               type="button"
               onClick={() => setActiveGame(null)}
-              className="hidden sm:inline-flex items-center gap-1.5 py-1.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold transition-all cursor-pointer"
+              className="hidden sm:inline-flex items-center gap-1.5 py-1.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold transition-all cursor-pointer font-display"
             >
               <Gamepad2 className="w-3.5 h-3.5 text-[#0059bb]" />
               <span>Đổi trò chơi</span>
             </button>
-          ) : undefined
+          ) : (
+            <div className="flex items-center gap-2">
+              <Link
+                href="/study/pvp"
+                className="h-9 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004ba0] text-white text-xs font-bold shadow-md shadow-[#0059bb]/20 flex items-center gap-1.5 transition-all cursor-pointer active:scale-95 shrink-0 font-display"
+              >
+                <Swords className="w-3.5 h-3.5 text-sky-200" />
+                <span>Đấu Trường 1v1</span>
+              </Link>
+            </div>
+          )
         }
       >
         {activeGame === null ? (
-          <StudySuiteNavTabs />
+          <HeaderPillContainer>
+            <HeaderPillItem
+              href="/dashboard"
+              icon={<Home className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />}
+              label="Trang chủ"
+            />
+            <HeaderPillItem
+              active
+              layoutId="gamesHeaderActiveTab"
+              icon={<Gamepad2 className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />}
+              label="Mini Games"
+            />
+            <HeaderPillItem
+              href="/study/pvp"
+              icon={<Swords className="w-3.5 h-3.5 text-rose-500" />}
+              label="Đấu trường 1v1"
+              hideOnSmall
+            />
+            <HeaderPillItem
+              href="/community/leaderboard"
+              icon={<Trophy className="w-3.5 h-3.5 text-amber-500" />}
+              label="Xếp hạng"
+              hideOnSmall
+            />
+          </HeaderPillContainer>
         ) : (
           <HeaderPillContainer>
             <HeaderPillItem

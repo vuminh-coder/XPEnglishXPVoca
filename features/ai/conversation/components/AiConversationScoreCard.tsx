@@ -18,6 +18,9 @@ import {
   Compass,
   ArrowRight,
   X,
+  Volume2,
+  Bot,
+  User,
 } from "lucide-react";
 import { Topic, Message, SessionEvaluation } from "../types";
 import { TOPIC_ICONS } from "../data/aiTopics";
@@ -54,8 +57,38 @@ export function AiConversationScoreCard({
   onRestartNewSession,
   onSelectTopic,
 }: AiConversationScoreCardProps) {
-  const [showChatHistory, setShowChatHistory] = useState(false);
+  // Deduplicate grammar corrections & phrasing recommendations
+  const uniqueCorrections = React.useMemo(() => {
+    const seen = new Set<string>();
+    const result: typeof grammarCorrections = [];
+
+    for (const item of grammarCorrections) {
+      const orig = (item.original || "").trim().toLowerCase();
+      const corr = (item.corrected || "").trim().toLowerCase();
+      const phrasing = (item.betterPhrasing || "").trim().toLowerCase();
+      const key = `${orig}__${corr}__${phrasing}`;
+
+      if (!seen.has(key)) {
+        seen.add(key);
+        result.push(item);
+      }
+    }
+
+    return result;
+  }, [grammarCorrections]);
+
+  const [activeLeftTab, setActiveLeftTab] = useState<"feedback" | "history">("feedback");
   const [isTopicModalOpen, setIsTopicModalOpen] = useState(false);
+
+  const playAudio = (text: string) => {
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "en-US";
+      utterance.rate = 0.95;
+      window.speechSynthesis.speak(utterance);
+    }
+  };
 
   // Dynamic Rank Icon & Color Accent according to Grade
   const getRankBadgeAndIcon = () => {
@@ -91,7 +124,7 @@ export function AiConversationScoreCard({
       initial={{ opacity: 0, scale: 0.98 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.2 }}
-      className="flex-1 min-h-0 overflow-y-auto space-y-3"
+      className="flex-1 min-h-0 overflow-y-auto space-y-3 pb-24 sm:pb-28"
     >
       {/* 1. Top Hero Score Card */}
       <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs space-y-3">
@@ -212,141 +245,218 @@ export function AiConversationScoreCard({
 
       {/* 3. Bento Detailed Analytics */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-3">
-        {/* Cột Trái: Lỗi Ngữ Pháp & Gợi Ý Phrasing Tự Nhiên (8/12) */}
-        <div className="lg:col-span-8 p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs space-y-3">
-          <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
-            <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#0059bb] dark:text-sky-400 font-display flex items-center gap-1.5">
-              <Lightbulb className="w-3.5 h-3.5 text-amber-500" strokeWidth={2} /> TỔNG HỢP NGỮ PHÁP & DIỄN ĐẠT TỰ NHIÊN
-            </h3>
-            <span className="text-xs font-bold text-slate-600 dark:text-slate-300 font-mono">
-              {grammarCorrections.length} ghi chú
+        {/* Cột Trái: Tab Góp ý & Diễn đạt VS Toàn văn hội thoại (8/12) */}
+        <div className="lg:col-span-8 p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col justify-between space-y-3">
+          {/* Header với Tabs chuyển đổi mượt mà */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-2.5">
+            <div className="flex items-center gap-1.5 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-xl">
+              <button
+                type="button"
+                onClick={() => setActiveLeftTab("feedback")}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                  activeLeftTab === "feedback"
+                    ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-2xs"
+                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                }`}
+              >
+                <Lightbulb className="w-3.5 h-3.5 text-amber-500" strokeWidth={2.2} />
+                <span>Góp Ý & Diễn Đạt</span>
+                <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-full bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400">
+                  {uniqueCorrections.length}
+                </span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setActiveLeftTab("history")}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                  activeLeftTab === "history"
+                    ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-2xs"
+                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                }`}
+              >
+                <History className="w-3.5 h-3.5 text-slate-500" strokeWidth={2.2} />
+                <span>Toàn Văn Đối Thoại</span>
+                <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300">
+                  {messages.length}
+                </span>
+              </button>
+            </div>
+
+            <span className="text-[11px] text-slate-400 font-medium">
+              {activeLeftTab === "feedback" ? "Phân tích câu nói & gợi ý bản xứ" : "Toàn bộ lịch sử đối thoại"}
             </span>
           </div>
 
-          {grammarCorrections.length > 0 ? (
-            <div className="space-y-2 max-h-[220px] overflow-y-auto pr-1 scrollbar-thin">
-              {grammarCorrections.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="p-3 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-1.5 text-xs sm:text-sm"
-                >
-                  <div className="flex items-start gap-2">
-                    <span className="font-bold text-slate-400 shrink-0 font-mono text-xs">
-                      #{idx + 1}
-                    </span>
-                    <div className="space-y-1 flex-1">
+          {/* Nội dung Tab Góp ý */}
+          {activeLeftTab === "feedback" && (
+            <div className="flex-1">
+              {uniqueCorrections.length > 0 ? (
+                <div className="space-y-3 max-h-[380px] overflow-y-auto pr-1 scrollbar-thin">
+                  {uniqueCorrections.map((item, idx) => (
+                    <div
+                      key={idx}
+                      className="p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-2.5 text-xs sm:text-sm"
+                    >
+                      {/* Original User utterance */}
+                      <div className="space-y-1">
+                        <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-semibold">
+                          <span className="font-mono text-slate-400 font-bold">Mục #{idx + 1}</span>
+                          <span className="text-[11px] text-slate-400">Câu của bạn</span>
+                        </div>
+                        <p className="p-2 rounded-lg bg-slate-200/50 dark:bg-slate-800/50 text-slate-800 dark:text-slate-200 font-medium italic">
+                          "{item.original}"
+                        </p>
+                      </div>
+
+                      {/* Grammar correction if available */}
                       {item.corrected && (
-                        <div>
-                          <span className="text-rose-600 dark:text-rose-400 line-through mr-1 font-semibold">
-                            {item.original}
-                          </span>
-                          ➔{" "}
-                          <strong className="text-emerald-700 dark:text-emerald-300 font-bold ml-1">
-                            {item.corrected}
-                          </strong>
-                          {item.explanation && (
-                            <p className="text-xs text-slate-600 dark:text-slate-300 mt-1">
-                              {item.explanation.replace(/^\((.*)\)$/, "$1").trim()}
-                            </p>
-                          )}
+                        <div className="pt-1 text-xs">
+                          <div className="flex items-center gap-1.5 font-bold text-slate-700 dark:text-slate-300 mb-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-rose-500 inline-block" />
+                            <span>Sửa chuẩn ngữ pháp:</span>
+                          </div>
+                          <div className="pl-3 space-y-1">
+                            <div>
+                              <span className="text-rose-600 dark:text-rose-400 line-through mr-1 font-semibold">
+                                {item.original}
+                              </span>
+                              ➔{" "}
+                              <strong className="text-emerald-700 dark:text-emerald-300 font-bold ml-1">
+                                {item.corrected}
+                              </strong>
+                            </div>
+                            {item.explanation && (
+                              <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
+                                {item.explanation.replace(/^\((.*)\)$/, "$1").trim()}
+                              </p>
+                            )}
+                          </div>
                         </div>
                       )}
+
+                      {/* Better natural phrasing if available */}
                       {item.betterPhrasing && (
-                        <div className="text-emerald-800 dark:text-emerald-200 font-medium pt-1">
-                          <span className="font-bold text-emerald-700 dark:text-emerald-300 mr-1.5">
-                            ✨ Diễn đạt tự nhiên:
-                          </span>
-                          "{item.betterPhrasing}"
+                        <div className="p-2.5 rounded-lg bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                          <div className="space-y-0.5 min-w-0">
+                            <span className="text-[11px] font-bold text-emerald-800 dark:text-emerald-300 uppercase tracking-wider block">
+                              ✨ Diễn đạt tự nhiên bản xứ:
+                            </span>
+                            <p className="text-xs sm:text-sm font-semibold text-emerald-950 dark:text-emerald-100">
+                              "{item.betterPhrasing}"
+                            </p>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => playAudio(item.betterPhrasing!)}
+                            className="shrink-0 self-start sm:self-center px-2 py-1 rounded-md bg-emerald-600/10 hover:bg-emerald-600/20 text-emerald-700 dark:text-emerald-300 text-[11px] font-bold flex items-center gap-1 cursor-pointer transition-colors"
+                            title="Nghe cách phát âm tự nhiên"
+                          >
+                            <Volume2 className="w-3.5 h-3.5" />
+                            <span>Nghe mẫu</span>
+                          </button>
                         </div>
                       )}
                     </div>
-                  </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          ) : (
-            <div className="p-5 rounded-xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-500/20 text-center space-y-1.5">
-              <CheckCircle2 className="w-7 h-7 text-emerald-500 mx-auto" strokeWidth={2.2} />
-              <p className="text-sm font-bold text-emerald-700 dark:text-emerald-300">
-                Diễn đạt rất tốt!
-              </p>
-              <p className="text-xs text-slate-600 dark:text-slate-300">
-                Bạn không gặp lỗi ngữ pháp nghiêm trọng nào trong suốt buổi đối thoại hôm nay.
-              </p>
+              ) : (
+                <div className="p-8 rounded-xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-500/20 text-center space-y-2">
+                  <CheckCircle2 className="w-9 h-9 text-emerald-500 mx-auto" strokeWidth={2.2} />
+                  <p className="text-sm font-bold text-emerald-700 dark:text-emerald-300">
+                    Diễn Đạt Xuất Sắc!
+                  </p>
+                  <p className="text-xs text-slate-600 dark:text-slate-300 max-w-sm mx-auto leading-relaxed">
+                    Bạn đã phản xạ trôi chảy và không gặp lỗi ngữ pháp nghiêm trọng nào trong suốt cuộc đối thoại.
+                  </p>
+                </div>
+              )}
             </div>
           )}
 
-          {/* Toggle View Full Chat History */}
-          <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
-            <button
-              type="button"
-              onClick={() => setShowChatHistory(!showChatHistory)}
-              className="text-xs font-bold text-[#0059bb] dark:text-sky-400 hover:underline flex items-center gap-1.5 cursor-pointer"
-            >
-              <History className="w-3.5 h-3.5" strokeWidth={2} />
-              <span>{showChatHistory ? "Ẩn đoạn hội thoại chi tiết" : "Xem lại toàn bộ đoạn hội thoại"}</span>
-            </button>
-
-            {showChatHistory && (
-              <div className="mt-2 p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 space-y-2 max-h-[200px] overflow-y-auto scrollbar-thin">
-                {messages.map((m) => (
-                  <div key={m.id} className="text-xs space-y-0.5">
-                    <span
-                      className={`font-bold ${
-                        m.role === "ai" ? "text-[#0059bb] dark:text-sky-400" : "text-slate-900 dark:text-white"
-                      }`}
-                    >
-                      {m.role === "ai" ? "AI Tutor:" : "Bạn:"}
-                    </span>
-                    <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-xs sm:text-sm">
+          {/* Nội dung Tab Toàn văn đối thoại */}
+          {activeLeftTab === "history" && (
+            <div className="space-y-2.5 max-h-[380px] overflow-y-auto pr-1 scrollbar-thin">
+              {messages.map((m) => {
+                const isAi = m.role === "ai";
+                return (
+                  <div
+                    key={m.id}
+                    className={`p-3 rounded-xl border text-xs sm:text-sm space-y-1 ${
+                      isAi
+                        ? "bg-blue-50/40 dark:bg-blue-950/20 border-blue-200/60 dark:border-blue-900/40"
+                        : "bg-slate-50 dark:bg-slate-950/60 border-slate-200/80 dark:border-slate-800"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span
+                        className={`font-bold flex items-center gap-1.5 ${
+                          isAi ? "text-[#0059bb] dark:text-sky-400" : "text-slate-900 dark:text-white"
+                        }`}
+                      >
+                        {isAi ? <Bot className="w-3.5 h-3.5" /> : <User className="w-3.5 h-3.5" />}
+                        {isAi ? "AI Tutor" : "Bạn"}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => playAudio(m.text)}
+                        className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer p-0.5 rounded transition-colors"
+                        title="Nghe phát âm"
+                      >
+                        <Volume2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                    <p className="text-slate-700 dark:text-slate-300 leading-relaxed font-normal">
                       {m.text}
                     </p>
                   </div>
-                ))}
-              </div>
-            )}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </div>
 
         {/* Cột Phải: Lời Khuyên, SM-2, & Nút Hành Động (4/12) */}
-        <div className="lg:col-span-4 p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs space-y-3">
-          {/* Advice Card */}
-          <div className="p-3 rounded-xl bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-900/40 space-y-2">
-            <div className="flex items-center gap-2">
-              <Lightbulb className="w-4 h-4 text-amber-500" strokeWidth={2} />
-              <span className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
-                Lời Khuyên Giao Tiếp
-              </span>
-            </div>
-            <p className="text-xs sm:text-sm font-medium text-slate-800 dark:text-slate-200 leading-relaxed bg-white/80 dark:bg-slate-900/80 p-2.5 rounded-lg border border-blue-200/60 dark:border-blue-900/30">
-              "{currentTopic.advice}"
-            </p>
-          </div>
-
-          {/* SM-2 Spaced Repetition Auto-Sync Tile */}
-          {grammarCorrections.length > 0 ? (
-            <div className="p-3 rounded-xl bg-purple-50/70 dark:bg-purple-950/40 border border-purple-200/80 dark:border-purple-900/40 space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-purple-700 dark:text-purple-300 flex items-center gap-1.5 uppercase tracking-wider">
-                  <Layers className="w-3.5 h-3.5 text-purple-500" strokeWidth={2} /> Thẻ Ôn Tập SM-2
-                </span>
-                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300 font-mono">
-                  {grammarCorrections.length} câu đã lưu
+        <div className="lg:col-span-4 p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col justify-between space-y-3">
+          <div className="space-y-3">
+            {/* Advice Card - Không bọc nested box kép */}
+            <div className="p-3 rounded-xl bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-900/40 space-y-2">
+              <div className="flex items-center gap-2">
+                <Lightbulb className="w-4 h-4 text-amber-500" strokeWidth={2} />
+                <span className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+                  Lời Khuyên Giao Tiếp
                 </span>
               </div>
-              <p className="text-xs text-purple-900 dark:text-purple-200 leading-relaxed font-medium">
-                Các mẫu câu sửa lỗi và cách diễn đạt tự nhiên đã được tự động lưu vào hàng đợi ôn tập ngắt quãng (SM-2) để củng cố phản xạ.
+              <p className="text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300 leading-relaxed italic">
+                "{currentTopic.advice}"
               </p>
-              <Link
-                href="/review"
-                className="w-full py-1.5 px-2.5 rounded-lg bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-2xs transition-all"
-              >
-                <span>Mở Phòng Ôn Tập SM-2</span> ➔
-              </Link>
             </div>
-          ) : null}
 
-          {/* Action Buttons (3-Tier Structure: Primary, Secondary, Ghost) */}
+            {/* SM-2 Spaced Repetition Auto-Sync Tile - Secondary Button theo Rule 18 */}
+            {uniqueCorrections.length > 0 && (
+              <div className="p-3 rounded-xl bg-purple-50/70 dark:bg-purple-950/40 border border-purple-200/80 dark:border-purple-900/40 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-purple-700 dark:text-purple-300 flex items-center gap-1.5 uppercase tracking-wider">
+                    <Layers className="w-3.5 h-3.5 text-purple-500" strokeWidth={2} /> Thẻ Ôn Tập SM-2
+                  </span>
+                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300 font-mono">
+                    {uniqueCorrections.length} câu đã lưu
+                  </span>
+                </div>
+                <p className="text-xs text-purple-900 dark:text-purple-200 leading-relaxed font-medium">
+                  Các câu sửa lỗi và mẫu câu tự nhiên đã được tự động đưa vào hàng đợi ôn tập ngắt quãng (SM-2).
+                </p>
+                <Link
+                  href="/review"
+                  className="w-full py-1.5 px-2.5 rounded-lg border border-purple-300 dark:border-purple-800 text-purple-700 dark:text-purple-300 bg-white/80 dark:bg-slate-900/80 hover:bg-purple-100 dark:hover:bg-purple-900/40 text-xs font-bold flex items-center justify-center gap-1.5 shadow-2xs transition-all"
+                >
+                  <span>Mở Phòng Ôn Tập SM-2</span> ➔
+                </Link>
+              </div>
+            )}
+          </div>
+
+          {/* Action Buttons (3-Tier Structure: Rule 18 - Duy nhất 1 Primary button) */}
           <div className="pt-2 border-t border-slate-100 dark:border-slate-800 space-y-2">
             {/* Primary Action (Rule 18): Luyện lại cùng chủ đề để cải thiện điểm số */}
             <button
