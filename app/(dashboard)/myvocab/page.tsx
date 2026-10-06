@@ -20,6 +20,7 @@ import {
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { VocabSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
+import { getBasicVocabularyById } from "@/features/vocabulary/data/basicVocabularies";
 
 export default function MyVocabularyPage() {
   const [filter, setFilter] = useState<"all" | "favorite" | "learning" | "mastered">("all");
@@ -36,21 +37,43 @@ export default function MyVocabularyPage() {
     }
   }, [user?.id, loadLearnedWords]);
 
-  const { favoriteWords, masteredWords, learningWords } = useMemo(() => {
-    return {
-      favoriteWords: learned.filter((l) => l.isFavorite),
-      masteredWords: learned.filter((l) => l.proficiency === 5),
-      learningWords: learned.filter((l) => (l.proficiency || 0) > 0 && (l.proficiency || 0) < 5),
-    };
+  const enrichedLearned = useMemo(() => {
+    return learned.map((item) => {
+      if (item.word) return item;
+      const fallback = getBasicVocabularyById(item.vocabId);
+      if (fallback) {
+        return {
+          ...item,
+          word: fallback.word,
+          phonetic: fallback.phonetic,
+          definition: fallback.definition,
+          definitionVn: fallback.definitionVn,
+          pos: fallback.pos,
+          difficulty: fallback.difficulty,
+          frequency: fallback.frequency,
+          examples: fallback.examples,
+        };
+      }
+      return item;
+    });
   }, [learned]);
 
+  const { favoriteWords, masteredWords, learningWords } = useMemo(() => {
+    return {
+      favoriteWords: enrichedLearned.filter((l) => l.isFavorite),
+      masteredWords: enrichedLearned.filter((l) => l.proficiency === 5),
+      learningWords: enrichedLearned.filter((l) => (l.proficiency || 0) > 0 && (l.proficiency || 0) < 5),
+    };
+  }, [enrichedLearned]);
+
   const filteredByTab = useMemo(() => {
-    if (filter === "all") return learned;
+    if (filter === "all") return enrichedLearned;
     if (filter === "favorite") return favoriteWords;
     if (filter === "learning") return learningWords;
     if (filter === "mastered") return masteredWords;
     return [];
-  }, [filter, learned, favoriteWords, learningWords, masteredWords]);
+  }, [filter, enrichedLearned, favoriteWords, learningWords, masteredWords]);
+
 
   const filteredList = useMemo(() => {
     if (!search.trim()) return filteredByTab;

@@ -82,6 +82,7 @@ export function WordleEnglishGame({ pool, onBack }: WordleEnglishGameProps) {
   const [letterStatuses, setLetterStatuses] = useState<Record<string, WordleLetterStatus>>({});
   const [rewards, setRewards] = useState<{ xp: number; coins: number }>({ xp: 0, coins: 0 });
   const [reviewItems, setReviewItems] = useState<GameReviewItem[]>([]);
+  const [durationSeconds, setDurationSeconds] = useState<number>(0);
   const startTimeRef = useRef<number>(0);
 
   useEffect(() => {
@@ -253,12 +254,13 @@ export function WordleEnglishGame({ pool, onBack }: WordleEnglishGameProps) {
       };
       setReviewItems([review]);
 
-      const durationSeconds = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
+      const duration = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
+      setDurationSeconds(duration);
       recordGameSession({
         gameType: "wordle",
         score: (MAX_ATTEMPTS - currentRow) * 10,
         attempts: currentRow + 1,
-        durationSeconds,
+        durationSeconds: duration,
       }).then((res) => {
         if (res.success && (res.xpGained > 0 || res.coinsGained > 0)) {
           setRewards({ xp: res.xpGained, coins: res.coinsGained });
@@ -273,7 +275,9 @@ export function WordleEnglishGame({ pool, onBack }: WordleEnglishGameProps) {
       if (currentRow + 1 >= MAX_ATTEMPTS) {
         // Game Over - Lost
         triggerHaptic("warning");
-      gameAudio.playWrongBuzzer();
+        gameAudio.playWrongBuzzer();
+        const duration = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
+        setDurationSeconds(duration);
         setIsWon(false);
         setIsGameOver(true);
 
@@ -353,7 +357,6 @@ export function WordleEnglishGame({ pool, onBack }: WordleEnglishGameProps) {
   if (isGameOver && isWon) {
     const xpMap = [60, 50, 40, 35, 30, 25];
     const earnedScore = xpMap[currentRow] || 25;
-    const duration = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
     const accuracy = Math.round(((MAX_ATTEMPTS - currentRow) / MAX_ATTEMPTS) * 100);
 
     return (
@@ -364,7 +367,7 @@ export function WordleEnglishGame({ pool, onBack }: WordleEnglishGameProps) {
         xpEarned={rewards.xp}
         coinsEarned={rewards.coins}
         accuracy={accuracy}
-        durationSeconds={duration}
+        durationSeconds={durationSeconds || 1}
         reviewItems={reviewItems}
         onBack={onBack}
         onRestart={initGame}

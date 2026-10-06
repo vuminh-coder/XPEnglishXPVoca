@@ -68,6 +68,7 @@ export function WordScrambleGame({ pool, onBack }: WordScrambleGameProps) {
 
   // Deep review tracker
   const [reviewItems, setReviewItems] = useState<GameReviewItem[]>([]);
+  const [durationSeconds, setDurationSeconds] = useState<number>(0);
   const startTimeRef = useRef<number>(0);
 
   // Initialize pool
@@ -317,13 +318,14 @@ export function WordScrambleGame({ pool, onBack }: WordScrambleGameProps) {
     if (gameOver) {
       triggerHaptic("victory");
       gameAudio.playVictoryFanfare();
-      const durationSeconds = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
+      const duration = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
+      setDurationSeconds(duration);
       const correctCount = reviewItems.filter((i) => i.isCorrect).length;
 
       recordGameSession({
         gameType: "scramble",
         score,
-        durationSeconds,
+        durationSeconds: duration,
         wordsCompleted: correctCount,
       }).then((res) => {
         if (res.success && (res.xpGained > 0 || res.coinsGained > 0)) {
@@ -370,7 +372,6 @@ export function WordScrambleGame({ pool, onBack }: WordScrambleGameProps) {
   if (gameOver) {
     const correctCount = reviewItems.filter((i) => i.isCorrect).length;
     const acc = words.length > 0 ? Math.round((correctCount / words.length) * 100) : 100;
-    const duration = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
 
     return (
       <GameResultScreen
@@ -380,7 +381,7 @@ export function WordScrambleGame({ pool, onBack }: WordScrambleGameProps) {
         xpEarned={rewards.xp}
         coinsEarned={rewards.coins}
         accuracy={acc}
-        durationSeconds={duration}
+        durationSeconds={durationSeconds || 1}
         maxCombo={maxCombo}
         reviewItems={reviewItems}
         onBack={onBack}

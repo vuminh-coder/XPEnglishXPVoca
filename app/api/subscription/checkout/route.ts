@@ -22,13 +22,15 @@ export async function POST(req: NextRequest) {
     }
 
     const planConfig = PLANS[planKey];
-    const userSuffix = userId.slice(0, 8).toUpperCase();
-    const transferSyntax = `XP PRO ${userSuffix}`;
+    const userSuffix = userId.startsWith("usr_")
+      ? userId.replace(/[^a-zA-Z0-9]/g, "").slice(-8).toUpperCase()
+      : userId.slice(0, 8).toUpperCase();
+    let transferSyntax = `XP PRO ${userSuffix}`;
 
     const durationMonths = planKey === "yearly" ? 15 : planKey === "monthly" ? 1 : 999;
     const expiresAt = new Date(Date.now() + 15 * 60 * 1000); // 15 mins checkout session window
 
-    // Reuse or create a pending order
+    // Reuse or create a pending order for this user
     let order = await prisma.subscriptionOrder.findFirst({
       where: {
         userId,
@@ -38,6 +40,17 @@ export async function POST(req: NextRequest) {
     });
 
     if (!order) {
+      // Check if this transferSyntax is already claimed by another order
+      const existingWithSyntax = await prisma.subscriptionOrder.findUnique({
+        where: { transferSyntax },
+        select: { id: true, userId: true, status: true },
+      });
+
+      if (existingWithSyntax) {
+        const salt = Math.random().toString(36).substring(2, 6).toUpperCase();
+        transferSyntax = `XP PRO ${userSuffix}_${salt}`;
+      }
+
       order = await prisma.subscriptionOrder.create({
         data: {
           userId,

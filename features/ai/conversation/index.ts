@@ -1,5 +1,6 @@
 export * from "./types";
 export * from "./data/aiTopics";
+export * from "./data/aiPersonas";
 export * from "./hooks/useAiConversationSpeech";
 export * from "./hooks/useAiConversationSession";
 export * from "./components/AiConversationTopBar";
@@ -7,5 +8,6 @@ export * from "./components/AiConversationChatStream";
 export * from "./components/AiConversationInputDock";
 export * from "./components/AiConversationInspectorDock";
 export * from "./components/AiConversationScoreCard";
+export * from "./components/AiConversationShareModal";
 export * from "./components/AiConversationHistoryDrawer";
 export * from "./components/WordLookupModal";

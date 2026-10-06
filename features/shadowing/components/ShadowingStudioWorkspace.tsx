@@ -19,11 +19,15 @@ import {
   Headphones,
   ChevronLeft,
   ChevronRight,
+  Combine,
 } from "lucide-react";
 import { StudioTopHeader } from "@/features/listening/components/StudioTopHeader";
 import { StudioWaveformCard } from "@/features/listening/components/StudioWaveformCard";
 import { InteractiveTranscriptSidebar } from "@/features/listening/components/InteractiveTranscriptSidebar";
 import { StudioTimerBadge } from "@/features/listening/components/StudioTimerBadge";
+import { StudyAmbienceDock } from "@/features/listening/components/StudyAmbienceDock";
+import { MediaDisplayModeToggle, MediaDisplayMode } from "@/features/listening/components/MediaDisplayModeToggle";
+import { VideoCinemaFrame } from "@/features/listening/components/VideoCinemaFrame";
 import {
   TranscriptSentencesSkeleton,
   ShimmerBox,
@@ -141,10 +145,44 @@ function ShadowingStudioWorkspaceComponent({
   onSelectLesson,
   onShuffleRecommendations,
 }: ShadowingStudioWorkspaceProps) {
-  const currentSentence =
+  const [mediaDisplayMode, setMediaDisplayMode] = React.useState<MediaDisplayMode>("audio");
+  const [isMergedWithNext, setIsMergedWithNext] = React.useState(false);
+
+  // Auto-reset merge state whenever active sentence changes
+  React.useEffect(() => {
+    setIsMergedWithNext(false);
+  }, [currentSentenceIndex, currentLesson?.id]);
+
+  const rawSentence =
     currentLesson?.transcript?.[currentSentenceIndex] ||
     currentLesson?.transcript?.[0] ||
     null;
+
+  const nextSentence =
+    currentLesson?.transcript?.[currentSentenceIndex + 1] || null;
+
+  const currentSentence = React.useMemo(() => {
+    if (!rawSentence) return null;
+    if (!isMergedWithNext || !nextSentence) return rawSentence;
+
+    const combinedText = `${rawSentence.text} ${nextSentence.text}`;
+    const combinedVn = `${rawSentence.vietnamese || rawSentence.translation || ""} ${nextSentence.vietnamese || nextSentence.translation || ""}`.trim();
+    const combinedIpa =
+      rawSentence.ipa && nextSentence.ipa
+        ? `${rawSentence.ipa} ${nextSentence.ipa}`
+        : rawSentence.ipa || nextSentence.ipa;
+    const combinedEndTime = nextSentence.endTime || rawSentence.endTime + 3;
+
+    return {
+      ...rawSentence,
+      text: combinedText,
+      vietnamese: combinedVn,
+      translation: combinedVn,
+      ipa: combinedIpa,
+      endTime: combinedEndTime,
+      duration: Math.max(3, combinedEndTime - rawSentence.startTime),
+    };
+  }, [rawSentence, nextSentence, isMergedWithNext]);
 
   return (
     <div
@@ -161,11 +199,18 @@ function ShadowingStudioWorkspaceComponent({
         onToggleBookmark={handleToggleBookmark}
         onBack={handleBackToListing}
         rightExtraActions={
-          <StudioTimerBadge
-            isActive={true}
-            initialSeconds={elapsedTime}
-            onSecondsUpdate={onElapsedTimeTick}
-          />
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <MediaDisplayModeToggle
+              mode={mediaDisplayMode}
+              onModeChange={setMediaDisplayMode}
+            />
+            <StudyAmbienceDock />
+            <StudioTimerBadge
+              isActive={true}
+              initialSeconds={elapsedTime}
+              onSecondsUpdate={onElapsedTimeTick}
+            />
+          </div>
         }
       />
 
@@ -228,6 +273,16 @@ function ShadowingStudioWorkspaceComponent({
         >
           {currentSentence ? (
             <div className="space-y-2.5 w-full">
+              {/* VIDEO CINEMA CONTAINER (Chế độ Video) */}
+              {mediaDisplayMode === "video" && (
+                <VideoCinemaFrame
+                  sourceUrlOrId={currentLesson?.audioUrl || currentLesson?.audio_url || currentLesson?.id}
+                  title={currentLesson?.title}
+                  thumbnailUrl={currentLesson?.imageUrl}
+                  onSwitchToAudioMode={() => setMediaDisplayMode("audio")}
+                />
+              )}
+
               {/* 3.1 DEDICATED SENTENCE AUDIO STUDIO BLOCK WITH 95-BAR ACOUSTIC SOUNDWAVE */}
               <StudioWaveformCard
                 segmentIndex={currentSentenceIndex}
@@ -317,6 +372,27 @@ function ShadowingStudioWorkspaceComponent({
                     <Flag className="w-3.5 h-3.5" />
                     <span>Báo cáo</span>
                   </button>
+
+                  {/* 3. Ghép câu kế tiếp (Merge Next Sentence) */}
+                  {nextSentence && (
+                    <button
+                      type="button"
+                      onClick={() => setIsMergedWithNext(!isMergedWithNext)}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer select-none active:scale-95 ${
+                        isMergedWithNext
+                          ? "text-[#0059bb] dark:text-sky-300 bg-blue-50 dark:bg-blue-950/60 border border-blue-200/90 dark:border-blue-800/80 shadow-xs"
+                          : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
+                      }`}
+                      title={
+                        isMergedWithNext
+                          ? "Đang ghép 2 câu liên tiếp (Nhấn để tách lại câu đơn)"
+                          : "Ghép câu kế tiếp để luyện đoạn hội thoại dài tự nhiên"
+                      }
+                    >
+                      <Combine className="w-3.5 h-3.5" />
+                      <span>{isMergedWithNext ? "Tách câu đơn" : "Ghép câu kế tiếp (+1)"}</span>
+                    </button>
+                  )}
                 </div>
 
                 {/* Right Group: Chỉnh cỡ chữ, Tự động tiếp, Ẩn dịch */}

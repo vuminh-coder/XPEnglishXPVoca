@@ -48,6 +48,9 @@ const SIZE_MAP: Record<string, string> = {
   md: "w-10 h-10",
   lg: "w-12 h-12",
   xl: "w-14 h-14",
+  "w-8.5 h-8.5": "w-[34px] h-[34px]",
+  "w-8.5": "w-[34px]",
+  "h-8.5": "h-[34px]",
 };
 
 /**

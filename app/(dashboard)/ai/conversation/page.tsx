@@ -22,6 +22,10 @@ import {
   Message,
   SuggestedWord,
   WordLookupData,
+  AI_PERSONAS,
+  DEFAULT_AI_PERSONA,
+  AiPersona,
+  ConversationDifficulty,
   useAiConversationSpeech,
   useAiConversationSession,
   AiConversationTopBar,
@@ -67,6 +71,10 @@ export default function AiConversationPage() {
   const {
     selectedTopicId,
     setSelectedTopicId,
+    selectedPersonaId,
+    setSelectedPersonaId,
+    selectedDifficulty,
+    setSelectedDifficulty,
     sessionId,
     elapsedTime,
     setElapsedTime,
@@ -88,6 +96,16 @@ export default function AiConversationPage() {
   const currentTopic = useMemo(() => {
     return aiTopics.find((t) => t.id === selectedTopicId) || aiTopics[0];
   }, [selectedTopicId]);
+
+  const currentPersona: AiPersona = useMemo(() => {
+    return (
+      AI_PERSONAS.find((p) => p.id === selectedPersonaId) || DEFAULT_AI_PERSONA
+    );
+  }, [selectedPersonaId]);
+
+  const effectiveDifficulty: ConversationDifficulty = useMemo(() => {
+    return (selectedDifficulty || currentTopic.level) as ConversationDifficulty;
+  }, [selectedDifficulty, currentTopic.level]);
 
   // Conversation Messages
   const [messages, setMessages] = useState<Message[]>([
@@ -362,8 +380,11 @@ export default function AiConversationPage() {
             topicId: selectedTopicId,
             topicName: currentTopic.nameEn,
             topicGoals: currentTopic.goals,
-            userLevel: currentTopic.level,
-            userTurnsCount: userMessages.length,
+            userLevel: effectiveDifficulty,
+            userTurnsCount: messages.filter((m) => m.role === "user").length + 1,
+            personaId: currentPersona.id,
+            personaName: currentPersona.name,
+            personaTone: currentPersona.tonePrompt,
           }),
         });
 
@@ -750,6 +771,11 @@ export default function AiConversationPage() {
           formatElapsedTime={formatElapsedTime}
           onRestartNewSession={handleRestartNewSession}
           onFinishConversation={handleFinishConversation}
+          currentPersona={currentPersona}
+          allPersonas={AI_PERSONAS}
+          onSelectPersona={(persona) => setSelectedPersonaId(persona.id)}
+          currentDifficulty={effectiveDifficulty}
+          onSelectDifficulty={(diff) => setSelectedDifficulty(diff)}
         />
 
         {/* 2.2. MOBILE SEGMENTED VIEW SWITCHER (Mobile only: sm/md, hidden on lg+) */}
@@ -856,6 +882,9 @@ export default function AiConversationPage() {
             grammarCorrections={grammarCorrections}
             messages={messages}
             onRestartNewSession={handleRestartNewSession}
+            currentPersona={currentPersona}
+            difficulty={effectiveDifficulty}
+            userName={user?.fullName || user?.username || "Học viên XP"}
           />
         )}
       </div>

@@ -54,6 +54,7 @@ export function AudioEarGame({ pool, onBack }: AudioEarGameProps) {
 
   // Deep review tracking
   const [reviewItems, setReviewItems] = useState<GameReviewItem[]>([]);
+  const [durationSeconds, setDurationSeconds] = useState<number>(0);
   const startTimeRef = useRef<number>(0);
 
   useEffect(() => {
@@ -266,12 +267,13 @@ export function AudioEarGame({ pool, onBack }: AudioEarGameProps) {
       triggerHaptic("victory");
       gameAudio.playVictoryFanfare();
       const correctCount = reviewItems.filter((i) => i.isCorrect).length;
-      const durationSeconds = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
+      const duration = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
+      setDurationSeconds(duration);
 
       recordGameSession({
         gameType: "audio",
         score,
-        durationSeconds,
+        durationSeconds: duration,
         wordsCompleted: correctCount,
       }).then((res) => {
         if (res.success && (res.xpGained > 0 || res.coinsGained > 0)) {
@@ -289,7 +291,6 @@ export function AudioEarGame({ pool, onBack }: AudioEarGameProps) {
   if (gameOver) {
     const correctCount = reviewItems.filter((i) => i.isCorrect).length;
     const accuracy = questions.length > 0 ? Math.round((correctCount / questions.length) * 100) : 100;
-    const duration = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
 
     return (
       <GameResultScreen
@@ -299,7 +300,7 @@ export function AudioEarGame({ pool, onBack }: AudioEarGameProps) {
         xpEarned={rewards.xp}
         coinsEarned={rewards.coins}
         accuracy={accuracy}
-        durationSeconds={duration}
+        durationSeconds={durationSeconds || 1}
         maxCombo={maxCombo}
         reviewItems={reviewItems}
         onBack={onBack}

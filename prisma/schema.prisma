@@ -56,6 +56,7 @@ model Profile {
   listeningProgresses ListeningProgress[]
   listeningNotes      ListeningNote[]
   dailySkillPractices DailySkillPractice[]
+  lessonRequests      LessonRequest[]
 
   @@index([totalXp(sort: Desc)])
   @@index([username])
@@ -587,7 +588,7 @@ model AiPracticeSession {
 // === SUBSCRIPTION & VIP MEMBERSHIP ===
 
 model SubscriptionOrder {
-  id              String    @id @default(uuid())
+  id              String    @id @default(uuid()) @db.VarChar(255)
   userId          String    @map("user_id") @db.VarChar(255)
   planKey         String    @map("plan_key") @db.VarChar(50) // "monthly", "yearly", "lifetime"
   amount          Int
@@ -607,3 +608,134 @@ model SubscriptionOrder {
   @@index([transferSyntax])
   @@map("subscription_orders")
 }
+
+model SeasonRewardClaim {
+  userId    String   @map("user_id") @db.VarChar(255)
+  seasonId  String   @map("season_id") @db.VarChar(10)
+  tierId    String   @map("tier_id") @db.VarChar(20)
+  coins     Int      @default(0)
+  claimedAt DateTime @default(now()) @map("claimed_at") @db.Timestamptz
+
+  @@id([userId, seasonId])
+  @@map("season_reward_claims")
+}
+
+// ============================================================================
+// HỆ SINH THÁI VIDEO & NỘI DUNG LUYỆN TẬP ĐA PHƯƠNG TIỆN (VIDEO ECOSYSTEM)
+// ============================================================================
+
+model VideoCategory {
+  id          String          @id @default(uuid())
+  slug        String          @unique @db.VarChar(100)
+  name        String          @db.VarChar(255)
+  description String?         @db.Text
+  icon        String?         @db.VarChar(100) // Lucide icon
+  thumbnail   String?         @db.Text
+  orderIndex  Int             @default(0) @map("order_index")
+  isFeatured  Boolean         @default(false) @map("is_featured")
+  playlists   VideoPlaylist[]
+  lessons     VideoLesson[]
+  createdAt   DateTime        @default(now()) @map("created_at")
+  updatedAt   DateTime        @updatedAt @map("updated_at")
+
+  @@index([orderIndex])
+  @@map("video_categories")
+}
+
+model VideoPlaylist {
+  id          String        @id @default(uuid())
+  slug        String        @unique @db.VarChar(100)
+  title       String        @db.VarChar(255)
+  description String?       @db.Text
+  thumbnail   String?       @db.Text
+  categoryId  String        @map("category_id")
+  category    VideoCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  channelName String?       @map("channel_name") @db.VarChar(255)
+  orderIndex  Int           @default(0) @map("order_index")
+  lessons     VideoLesson[]
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+
+  @@index([categoryId])
+  @@index([orderIndex])
+  @@map("video_playlists")
+}
+
+model VideoLesson {
+  id                 String          @id @default(uuid())
+  slug               String          @unique @db.VarChar(150)
+  title              String          @db.VarChar(255)
+  description        String?         @db.Text
+  sourceType         String          @default("YOUTUBE") @map("source_type") @db.VarChar(50) // "YOUTUBE", "PODCAST", "UPLOADED_AUDIO"
+  externalId         String          @map("external_id") @db.VarChar(255) // YouTube Video ID (vd: "lQRsqMiBTsI")
+  thumbnailUrl       String          @map("thumbnail_url") @db.Text
+  durationSeconds    Int             @default(0) @map("duration_seconds")
+  durationFormatted  String          @default("00:00") @map("duration_formatted") @db.VarChar(50)
+  cefrLevel          String          @default("B1") @map("cefr_level") @db.VarChar(20) // "A1", "A2", "B1", "B2", "C1", "C2"
+  supportedTypes     String          @default("BOTH") @map("supported_types") @db.VarChar(50) // "DICTATION", "SHADOWING", "BOTH"
+
+  categoryId         String?         @map("category_id")
+  category           VideoCategory?  @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  playlistId         String?         @map("playlist_id")
+  playlist           VideoPlaylist?  @relation(fields: [playlistId], references: [id], onDelete: SetNull)
+
+  accent             String?         @default("en-US") @db.VarChar(50)
+  wpmSpeed           Int?            @map("wpm_speed")
+  viewCount          Int             @default(0) @map("view_count")
+  studyCount         Int             @default(0) @map("study_count")
+  isCommunityCurated Boolean         @default(false) @map("is_community_curated")
+  submittedByUserId  String?         @map("submitted_by_user_id") @db.VarChar(255)
+
+  segments           LessonSegment[]
+
+  createdAt          DateTime        @default(now()) @map("created_at")
+  updatedAt          DateTime        @updatedAt @map("updated_at")
+
+  @@index([cefrLevel])
+  @@index([categoryId])
+  @@index([playlistId])
+  @@index([externalId])
+  @@map("video_lessons")
+}
+
+model LessonSegment {
+  id             String      @id @default(uuid())
+  lessonId       String      @map("lesson_id")
+  lesson         VideoLesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  orderIndex     Int         @map("order_index")
+  startTime      Float       @map("start_time")
+  endTime        Float       @map("end_time")
+
+  text           String      @db.Text
+  normalizedText String      @map("normalized_text") @db.Text
+  ipaUs          String?     @map("ipa_us") @db.Text
+  ipaUk          String?     @map("ipa_uk") @db.Text
+  translationVi  String      @map("translation_vi") @db.Text
+  explanationAi  String?     @map("explanation_ai") @db.Text
+
+  properNouns    String[]    @default([]) @map("proper_nouns")
+  keywords       String[]    @default([])
+  tokenCount     Int         @default(0) @map("token_count")
+
+  createdAt      DateTime    @default(now()) @map("created_at")
+
+  @@index([lessonId, orderIndex])
+  @@map("lesson_segments")
+}
+
+model LessonRequest {
+  id            String    @id @default(uuid())
+  userId        String?   @map("user_id") @db.VarChar(255)
+  youtubeUrl    String    @map("youtube_url") @db.Text
+  topicCategory String?   @map("topic_category") @db.VarChar(100)
+  notes         String?   @db.Text
+  status        String    @default("PENDING") @db.VarChar(50) // PENDING, PROCESSING, COMPLETED, REJECTED
+  user          Profile?  @relation(fields: [userId], references: [id], onDelete: SetNull)
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at")
+
+  @@index([status])
+  @@index([createdAt(sort: Desc)])
+  @@map("lesson_requests")
+}
+

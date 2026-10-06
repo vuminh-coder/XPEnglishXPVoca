@@ -44,7 +44,7 @@ export function GameSuiteNavTabs({ className }: GameSuiteNavTabsProps) {
         href="/community/leaderboard"
         layoutId="gameSuiteNavActiveTab"
         icon={<Trophy className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />}
-        label="Bảng xếp hạng"
+        label="Xếp hạng"
       />
       <HeaderPillItem
         active={isPracticeActive}

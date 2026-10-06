@@ -42,6 +42,7 @@ import { VocabSuiteNavTabs } from '@/shared/components/layout/nav-tabs';
 import { PageEntranceWrapper, MotionItem } from '@/shared/components/feedback/PageEntranceAnimation';
 import { ReviewSkeleton } from '@/features/review';
 import { useStudyTimeTracker } from '@/shared/hooks/useStudyTimeTracker';
+import { getBasicVocabularyById } from '@/features/vocabulary/data/basicVocabularies';
 
 const BOOKMARK_KEY = 'xp_bookmarked_words';
 
@@ -211,22 +212,25 @@ export default function ReviewPage() {
       return nextDateStr === dateStr;
     });
 
-    return dueItemsForSelected.map(v => ({
-      id: v.vocabId,
-      word: v.word || '',
-      phonetic: v.phonetic || '',
-      definition: v.definition || '',
-      definitionVn: v.definitionVn || '',
-      pos: v.pos || '',
-      difficulty: v.difficulty || 1,
-      frequency: v.frequency || 1,
-      themeId: v.themeId || '',
-      examples: v.examples || [],
-      synonyms: v.synonyms || [],
-      antonyms: v.antonyms || [],
-      proficiency: v.proficiency ?? 0,
-      nextReview: v.nextReview,
-    }));
+    return dueItemsForSelected.map(v => {
+      const fallback = !v.word ? getBasicVocabularyById(v.vocabId) : null;
+      return {
+        id: v.vocabId,
+        word: v.word || fallback?.word || '',
+        phonetic: v.phonetic || fallback?.phonetic || '',
+        definition: v.definition || fallback?.definition || '',
+        definitionVn: v.definitionVn || fallback?.definitionVn || '',
+        pos: v.pos || fallback?.pos || '',
+        difficulty: v.difficulty || fallback?.difficulty || 1,
+        frequency: v.frequency || fallback?.frequency || 1,
+        themeId: v.themeId || fallback?.themeId || '',
+        examples: v.examples || fallback?.examples || [],
+        synonyms: v.synonyms || fallback?.synonyms || [],
+        antonyms: v.antonyms || fallback?.antonyms || [],
+        proficiency: v.proficiency ?? 0,
+        nextReview: v.nextReview,
+      };
+    });
   }, [selectedDate, learned]);
 
   // Apply search and filter criteria to vocabulary list

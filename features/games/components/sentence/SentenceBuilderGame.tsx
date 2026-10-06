@@ -83,6 +83,7 @@ export function SentenceBuilderGame({ pool, onBack }: SentenceBuilderGameProps) 
 
   // Deep review tracking
   const [reviewItems, setReviewItems] = useState<GameReviewItem[]>([]);
+  const [durationSeconds, setDurationSeconds] = useState<number>(0);
   const startTimeRef = useRef<number>(0);
 
   useEffect(() => {
@@ -288,12 +289,13 @@ export function SentenceBuilderGame({ pool, onBack }: SentenceBuilderGameProps) 
       triggerHaptic("victory");
       gameAudio.playVictoryFanfare();
       const correctCount = reviewItems.filter((i) => i.isCorrect).length;
-      const durationSeconds = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
+      const duration = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
+      setDurationSeconds(duration);
 
       recordGameSession({
         gameType: "sentence",
         score,
-        durationSeconds,
+        durationSeconds: duration,
         wordsCompleted: correctCount,
       }).then((res) => {
         if (res.success && (res.xpGained > 0 || res.coinsGained > 0)) {
@@ -311,7 +313,6 @@ export function SentenceBuilderGame({ pool, onBack }: SentenceBuilderGameProps) 
   if (gameOver) {
     const correctCount = reviewItems.filter((i) => i.isCorrect).length;
     const accuracy = packages.length > 0 ? Math.round((correctCount / packages.length) * 100) : 100;
-    const duration = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
 
     return (
       <GameResultScreen
@@ -321,7 +322,7 @@ export function SentenceBuilderGame({ pool, onBack }: SentenceBuilderGameProps) 
         xpEarned={rewards.xp}
         coinsEarned={rewards.coins}
         accuracy={accuracy}
-        durationSeconds={duration}
+        durationSeconds={durationSeconds || 1}
         maxCombo={correctCount}
         reviewItems={reviewItems}
         onBack={onBack}

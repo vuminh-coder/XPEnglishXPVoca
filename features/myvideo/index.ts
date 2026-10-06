@@ -20,8 +20,13 @@ export * from "./components/shared/VideoCardItem";
 export * from "./components/study-dock/SubtitlesTabPane";
 export * from "./components/study-dock/DictationTabPane";
 export * from "./components/study-dock/PlaylistTabPane";
+export * from "./components/study-dock/StudySetTabPane";
+
+// Services
+export * from "./services/videoAiStudySetService";
 
 // Custom Hooks
 export * from "./hooks/useYouTubePlayerSync";
 export * from "./hooks/useVideoExercises";
 export * from "./hooks/useWordLookup";
+export * from "./hooks/useVideoStudySet";

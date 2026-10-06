@@ -30944,3 +30944,14 @@ export function searchBasicVocabularies(query: string): BasicVocabularyItem[] {
       v.themeNameVn.toLowerCase().includes(q)
   );
 }
+
+const BASIC_VOCAB_MAP = new Map<string, BasicVocabularyItem>();
+export function getBasicVocabularyById(id: string): BasicVocabularyItem | undefined {
+  if (BASIC_VOCAB_MAP.size === 0) {
+    for (const v of BASIC_VOCABULARIES) {
+      BASIC_VOCAB_MAP.set(v.id, v);
+    }
+  }
+  return BASIC_VOCAB_MAP.get(id);
+}
+

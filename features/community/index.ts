@@ -17,6 +17,7 @@ export * from "./components/leaderboard/LeaderboardPodiumTop3";
 export * from "./components/leaderboard/LeaderboardRanksTable";
 export * from "./components/leaderboard/LeaderboardUserStatusWidget";
 export * from "./components/leaderboard/LeaderboardWeeklyRewardsWidget";
+export * from "./components/leaderboard/SeasonRankCard";
 
 // Friends Sub-components
 export * from "./components/friends/CommunityFriendsView";

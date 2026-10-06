@@ -107,7 +107,12 @@ export async function GET(request: Request) {
     const mode = searchParams.get("mode") || "all";
     const statusQuery = searchParams.get("status") || "all";
     const authUserId = await getAuthenticatedUserId(request);
-    const userId = authUserId || "guest_ai_user";
+
+    // Guests must never read a shared bucket: return empty (client keeps guest state locally)
+    if (!authUserId) {
+      return NextResponse.json({ success: true, sessions: [], activeSession: null });
+    }
+    const userId = authUserId;
 
     // 0. Lookup single session by ID
     const singleSessionId = searchParams.get("sessionId");
@@ -268,8 +273,21 @@ export async function POST(request: Request) {
     await ensureAiSessionsTable();
 
     const authUserId = await getAuthenticatedUserId(request);
-    const userId = authUserId || "guest_ai_user";
     const body: AiSessionPayload = await request.json();
+
+    // Guests: acknowledge without persisting to any shared store
+    if (!authUserId) {
+      const guestSessionId =
+        body.sessionId || `ai_${body.mode || "tutor"}_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+      return NextResponse.json({
+        success: true,
+        sessionId: guestSessionId,
+        savedAt: new Date().toISOString(),
+        status: body.status || "IN_PROGRESS",
+        guest: true,
+      });
+    }
+    const userId = authUserId;
 
     const {
       sessionId = `ai_${body.mode || "tutor"}_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
@@ -429,7 +447,10 @@ export async function DELETE(request: Request) {
     const { searchParams } = new URL(request.url);
     const sessionId = searchParams.get("sessionId");
     const authUserId = await getAuthenticatedUserId(request);
-    const userId = authUserId || "guest_ai_user";
+    if (!authUserId) {
+      return NextResponse.json({ success: true });
+    }
+    const userId = authUserId;
 
     if (sessionId) {
       try {

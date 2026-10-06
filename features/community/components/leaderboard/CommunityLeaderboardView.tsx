@@ -8,6 +8,7 @@ import { LeaderboardPodiumTop3 } from "./LeaderboardPodiumTop3";
 import { LeaderboardRanksTable } from "./LeaderboardRanksTable";
 import { LeaderboardUserStatusWidget } from "./LeaderboardUserStatusWidget";
 import { LeaderboardWeeklyRewardsWidget } from "./LeaderboardWeeklyRewardsWidget";
+import { SeasonRankCard } from "./SeasonRankCard";
 import { useLeaderboardData } from "../../hooks/useLeaderboardData";
 
 interface CommunityLeaderboardViewProps {
@@ -136,6 +137,8 @@ export function CommunityLeaderboardView({
             userRankNum={userRankNum}
             currentUserXp={currentUserXp}
           />
+
+          <SeasonRankCard />
 
           <LeaderboardWeeklyRewardsWidget />
         </div>

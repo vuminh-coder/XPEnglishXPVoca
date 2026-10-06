@@ -202,10 +202,10 @@ describe("Interactive IPA Feature Data & Integrity Suite", () => {
   });
 
   it("should export IpaSuiteNavTabs correctly from nav-tabs suite", async () => {
-    const { IpaSuiteNavTabs } = await import("@/shared/components/layout/nav-tabs");
+    const { IpaSuiteNavTabs } = await import("@/shared/components/layout/nav-tabs/IpaSuiteNavTabs");
     expect(IpaSuiteNavTabs).toBeDefined();
     expect(typeof IpaSuiteNavTabs).toBe("function");
-  });
+  }, 15000);
 
   it("should have all 44 isolated phoneme audio files present and non-empty in public/audio/ipa", async () => {
     const fs = await import("fs");

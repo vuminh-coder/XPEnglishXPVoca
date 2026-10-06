@@ -645,7 +645,7 @@ function SidebarNavInner({
                       avatar={(user as any)?.avatar}
                       emoji={user?.avatarEmoji}
                       name={userName}
-                      size="w-8.5 h-8.5"
+                      size="w-[34px] h-[34px]"
                     />
                     <div className="min-w-0 flex-1">
                       <span className="text-[13px] font-bold text-slate-900 dark:text-white truncate block">
@@ -681,7 +681,7 @@ function SidebarNavInner({
                     avatar={(user as any)?.avatar}
                     emoji={user?.avatarEmoji}
                     name={userName}
-                    size="w-8.5 h-8.5"
+                    size="w-[34px] h-[34px]"
                   />
                   <div className="min-w-0 flex-1">
                     <span className="text-[13px] font-bold text-slate-900 dark:text-white truncate block">
@@ -716,20 +716,20 @@ function SidebarNavInner({
 }
 
 const LINK_WIDTH_MAP: Record<string, string> = {
-  "Trang chủ": "w-16",
-  "Phát âm IPA": "w-20",
-  "Dictation": "w-14",
-  "Shadowing": "w-18",
-  "Luyện nói": "w-16",
-  "Luyện viết": "w-16",
-  "Luyện từ vựng": "w-22",
-  "Thi thử đề": "w-18",
-  "Video của tôi": "w-20",
-  "Danh sách từ": "w-20",
-  "Ngữ pháp AI": "w-20",
-  "Lộ trình": "w-12",
-  "Thống kê": "w-14",
-  "Xếp hạng": "w-16",
+  "Trang chủ": "w-[64px]",
+  "Phát âm IPA": "w-[82px]",
+  "Dictation": "w-[58px]",
+  "Shadowing": "w-[72px]",
+  "Luyện nói": "w-[66px]",
+  "Luyện viết": "w-[68px]",
+  "Luyện từ vựng": "w-[88px]",
+  "Thi thử đề": "w-[68px]",
+  "Video của tôi": "w-[84px]",
+  "Danh sách từ": "w-[82px]",
+  "Ngữ pháp AI": "w-[78px]",
+  "Lộ trình": "w-[50px]",
+  "Thống kê": "w-[56px]",
+  "Xếp hạng": "w-[62px]",
 };
 
 export function SidebarSkeleton({
@@ -738,7 +738,7 @@ export function SidebarSkeleton({
 }: {
   collapsed?: boolean;
   open?: boolean;
-}) {
+  }) {
   const pathname = usePathname();
 
   return (
@@ -848,7 +848,7 @@ export function SidebarSkeleton({
                         >
                           <span className="sidebar-link-icon text-current shrink-0 flex items-center justify-center">
                             <ShimmerBox
-                              className={`w-5 h-5 rounded-md ${
+                              className={`w-[21px] h-[21px] rounded-md ${
                                 isActive
                                   ? "bg-[#0059bb]/30 dark:bg-sky-400/30"
                                   : "bg-slate-200/90 dark:bg-slate-700/80"
@@ -856,13 +856,13 @@ export function SidebarSkeleton({
                             />
                           </span>
                           <span
-                            className={`font-bold text-[13px] truncate inline-block ${
-                              collapsed ? "lg:hidden" : "lg:inline-block"
+                            className={`font-bold text-[13px] truncate inline-flex items-center ${
+                              collapsed ? "lg:hidden" : "lg:inline-flex"
                             }`}
                           >
                             <ShimmerBox
-                              className={`h-3.5 rounded-md ${
-                                LINK_WIDTH_MAP[link.name] || "w-16"
+                              className={`h-[14px] rounded-md ${
+                                LINK_WIDTH_MAP[link.name] || "w-[64px]"
                               } ${
                                 isActive
                                   ? "bg-slate-300 dark:bg-slate-600"
@@ -872,15 +872,15 @@ export function SidebarSkeleton({
                           </span>
                           {link.badge && (
                             <span
-                              className={`px-1.5 py-0.2 rounded-full text-[9px] font-black shrink-0 inline-block ${
-                                collapsed ? "lg:hidden" : "lg:inline-block"
+                              className={`shrink-0 inline-flex items-center ${
+                                collapsed ? "lg:hidden" : "lg:inline-flex"
                               }`}
                             >
                               <ShimmerBox
-                                className={`h-3.5 rounded-full ${
+                                className={`h-[15px] rounded-full ${
                                   link.badge === "HOT"
-                                    ? "w-6.5 bg-rose-500/25 dark:bg-rose-500/35"
-                                    : "w-5 bg-purple-500/25 dark:bg-purple-500/35"
+                                    ? "w-[28px] bg-rose-500/25 dark:bg-rose-500/35"
+                                    : "w-[22px] bg-purple-500/25 dark:bg-purple-500/35"
                                 }`}
                               />
                             </span>
@@ -891,15 +891,15 @@ export function SidebarSkeleton({
                       {/* Inline Premium Upgrade Link under Xếp hạng (Mobile ONLY) */}
                       {link.name === "Xếp hạng" && (
                         <div
-                          className="sidebar-link font-bold transition-all duration-200 flex items-center justify-between px-3 py-2 w-full rounded-xl lg:hidden mt-1 bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200/60 dark:border-blue-800/40"
+                          className="sidebar-link font-bold transition-all duration-200 flex items-center justify-between px-3 py-2 w-full rounded-xl lg:hidden mt-1 bg-blue-50/50 dark:bg-blue-950/30"
                         >
                           <div className="flex items-center gap-3 min-w-0">
                             <span className="sidebar-link-icon shrink-0 flex items-center justify-center">
-                              <ShimmerBox className="w-5 h-5 rounded-md bg-amber-500/30 dark:bg-amber-400/30" />
+                              <ShimmerBox className="w-[21px] h-[21px] rounded-md bg-amber-500/30 dark:bg-amber-400/30" />
                             </span>
-                            <ShimmerBox className="h-3.5 w-28 rounded-md bg-[#0059bb]/30 dark:bg-sky-400/25" />
+                            <ShimmerBox className="h-[14px] w-[114px] rounded-md bg-[#0059bb]/30 dark:bg-sky-400/25" />
                           </div>
-                          <ShimmerBox className="w-4 h-4 rounded-md bg-amber-500/30 shrink-0" />
+                          <ShimmerBox className="w-3.5 h-3.5 rounded-sm bg-amber-500/30 shrink-0" />
                         </div>
                       )}
                     </React.Fragment>
@@ -913,10 +913,10 @@ export function SidebarSkeleton({
           {collapsed && (
             <div className="pt-2 border-t border-slate-100 dark:border-white/5 hidden lg:flex flex-col items-center gap-1">
               <div className="w-10 h-9.5 rounded-xl flex items-center justify-center">
-                <ShimmerBox className="w-5 h-5 rounded-md" />
+                <ShimmerBox className="w-[21px] h-[21px] rounded-md" />
               </div>
               <div className="w-10 h-9.5 rounded-xl flex items-center justify-center">
-                <ShimmerBox className="w-5 h-5 rounded-md" />
+                <ShimmerBox className="w-[21px] h-[21px] rounded-md" />
               </div>
             </div>
           )}
@@ -935,7 +935,7 @@ export function SidebarSkeleton({
             <div className="w-full py-2.5 px-3.5 rounded-xl border border-blue-200/80 dark:border-blue-800/40 bg-blue-50/70 dark:bg-blue-950/40 flex items-center justify-between shadow-2xs">
               <div className="flex items-center gap-1.5 min-w-0">
                 <ShimmerBox className="w-3.5 h-3.5 rounded-sm bg-amber-400/50" />
-                <ShimmerBox className="h-3 w-28 rounded-md bg-[#0059bb]/30 dark:bg-sky-400/30" />
+                <ShimmerBox className="h-[13px] w-[116px] rounded-md bg-[#0059bb]/30 dark:bg-sky-400/30" />
               </div>
               <ShimmerBox className="w-3.5 h-3.5 rounded-sm bg-amber-400/50 shrink-0" />
             </div>
@@ -951,10 +951,10 @@ export function SidebarSkeleton({
               /* Expanded Full User Card Skeleton */
               <div className="w-full flex items-center justify-between p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 shadow-2xs">
                 <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                  <ShimmerCircle size="w-8.5 h-8.5" />
+                  <ShimmerCircle size="w-[34px] h-[34px]" />
                   <div className="min-w-0 flex-1 space-y-1">
-                    <ShimmerBox className="h-3.5 w-24 rounded-md bg-slate-300 dark:bg-slate-600" />
-                    <ShimmerBox className="h-2.5 w-32 rounded-md bg-slate-200/80 dark:bg-slate-700/70" />
+                    <ShimmerBox className="h-[14px] w-24 rounded-md bg-slate-300 dark:bg-slate-600" />
+                    <ShimmerBox className="h-[10px] w-32 rounded-md bg-slate-200/80 dark:bg-slate-700/70" />
                   </div>
                 </div>
 

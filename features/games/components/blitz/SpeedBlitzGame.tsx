@@ -47,6 +47,7 @@ export function SpeedBlitzGame({ pool, onBack }: SpeedBlitzGameProps) {
 
   // Review tracking
   const [reviewItems, setReviewItems] = useState<GameReviewItem[]>([]);
+  const [durationSeconds, setDurationSeconds] = useState<number>(0);
   const startTimeRef = useRef<number>(0);
 
   useEffect(() => {
@@ -217,12 +218,13 @@ export function SpeedBlitzGame({ pool, onBack }: SpeedBlitzGameProps) {
       triggerHaptic("victory");
       gameAudio.playVictoryFanfare();
       const correctCount = reviewItems.filter((i) => i.isCorrect).length;
-      const durationSeconds = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
+      const duration = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
+      setDurationSeconds(duration);
 
       recordGameSession({
         gameType: "blitz",
         score,
-        durationSeconds,
+        durationSeconds: duration,
         wordsCompleted: correctCount,
       }).then((res) => {
         if (res.success && (res.xpGained > 0 || res.coinsGained > 0)) {
@@ -241,7 +243,6 @@ export function SpeedBlitzGame({ pool, onBack }: SpeedBlitzGameProps) {
     const correctCount = reviewItems.filter((i) => i.isCorrect).length;
     const totalAnswered = reviewItems.length;
     const accuracy = totalAnswered > 0 ? Math.round((correctCount / totalAnswered) * 100) : 0;
-    const duration = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
 
     return (
       <GameResultScreen
@@ -251,7 +252,7 @@ export function SpeedBlitzGame({ pool, onBack }: SpeedBlitzGameProps) {
         xpEarned={rewards.xp}
         coinsEarned={rewards.coins}
         accuracy={accuracy}
-        durationSeconds={duration}
+        durationSeconds={durationSeconds || 1}
         maxCombo={maxCombo}
         reviewItems={reviewItems}
         onBack={onBack}

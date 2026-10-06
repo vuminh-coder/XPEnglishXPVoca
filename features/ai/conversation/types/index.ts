@@ -60,9 +60,19 @@ export interface WordLookupData {
   example?: string;
 }
 
+export interface AiPersona {
+  id: string;
+  name: string;
+  roleTitle: string;
+  avatarEmoji: string;
+  description: string;
+  tonePrompt: string;
+}
+
 export interface PastSession {
   sessionId: string;
   topicId: string;
+  personaId?: string;
   messages: Message[];
   timeSpentSeconds: number;
   overallScore?: number;

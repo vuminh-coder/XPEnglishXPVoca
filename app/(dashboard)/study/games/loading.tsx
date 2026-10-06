@@ -4,15 +4,15 @@ import React from "react";
 export default function GamesLoading() {
   return (
     <div className="space-y-4 pb-16 md:pb-8 px-0 select-none font-sans animate-pulse">
-      {/* 1. APP TOP HEADER SKELETON — Dashboard Standard (4 pills with 2nd pill active) */}
+      {/* 1. APP TOP HEADER SKELETON — Dashboard Standard (4 pills with 1st pill Mini Games active) */}
       <header className="sticky top-0 z-40 w-full h-14 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-slate-200 dark:bg-slate-800" />
           <div className="flex items-center gap-1 p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 overflow-hidden">
-            <div className="w-20 h-7 rounded-lg bg-slate-200 dark:bg-slate-700" />
-            <div className="w-24 h-7 rounded-lg bg-blue-600/30" />
-            <div className="w-24 h-7 rounded-lg bg-slate-200 dark:bg-slate-700 hidden sm:block" />
-            <div className="w-20 h-7 rounded-lg bg-slate-200 dark:bg-slate-700 hidden md:block" />
+            <div className="w-24 h-7 rounded-lg bg-blue-600/30 dark:bg-sky-400/25" />
+            <div className="w-24 h-7 rounded-lg bg-slate-200 dark:bg-slate-700" />
+            <div className="w-20 h-7 rounded-lg bg-slate-200 dark:bg-slate-700 hidden sm:block" />
+            <div className="w-24 h-7 rounded-lg bg-slate-200 dark:bg-slate-700 hidden md:block" />
           </div>
         </div>
         <div className="flex items-center gap-2 hidden sm:flex">
@@ -41,22 +41,20 @@ export default function GamesLoading() {
           </div>
         </div>
 
-        {/* Unified Studio Control Toolbar Skeleton: Filters on Left, Deck on Right */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-2.5 sm:p-3 rounded-2xl bg-white/90 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 shadow-2xs">
-          <div className="flex items-center gap-1.5 flex-wrap">
+        {/* Unified Studio Control Toolbar Skeleton: 4 Category Filters on Left, Deck Selector on Right */}
+        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 p-2.5 sm:p-3 rounded-2xl bg-white/90 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 shadow-2xs">
+          <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap">
             <div className="w-20 h-7 rounded-xl bg-blue-600/20" />
-            <div className="w-24 h-7 rounded-xl bg-slate-100 dark:bg-slate-800" />
-            <div className="w-24 h-7 rounded-xl bg-slate-100 dark:bg-slate-800" />
-            <div className="w-20 h-7 rounded-xl bg-slate-100 dark:bg-slate-800 hidden sm:block" />
-            <div className="w-20 h-7 rounded-xl bg-slate-100 dark:bg-slate-800 hidden sm:block" />
-            <div className="w-24 h-7 rounded-xl bg-slate-100 dark:bg-slate-800 hidden md:block" />
+            <div className="w-32 h-7 rounded-xl bg-slate-100 dark:bg-slate-800" />
+            <div className="w-36 h-7 rounded-xl bg-slate-100 dark:bg-slate-800 hidden sm:block" />
+            <div className="w-36 h-7 rounded-xl bg-slate-100 dark:bg-slate-800 hidden md:block" />
           </div>
-          <div className="w-40 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 self-end sm:self-center" />
+          <div className="w-40 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 self-end md:self-center" />
         </div>
 
-        {/* Game Bento Cards Grid Skeleton: 7 cards */}
+        {/* Game Bento Cards Grid Skeleton: 9 cards (3x3 Matrix) */}
         <div className="grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 7 }).map((_, i) => (
+          {Array.from({ length: 9 }).map((_, i) => (
             <div
               key={i}
               className="min-h-[270px] rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-5 sm:p-6 flex flex-col justify-between"

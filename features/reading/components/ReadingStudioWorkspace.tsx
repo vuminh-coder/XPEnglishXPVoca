@@ -466,6 +466,7 @@ function ReadingStudioContent() {
                           src={passage.coverImage}
                           alt={passage.title}
                           fill
+                          unoptimized
                           sizes="(max-width: 640px) 47vw, 25vw"
                           className="object-cover group-hover:scale-105 transition-transform duration-300"
                         />
@@ -565,6 +566,7 @@ function ReadingStudioContent() {
                           src={passage.coverImage}
                           alt={passage.title}
                           fill
+                          unoptimized
                           sizes="(max-width: 640px) 47vw, 25vw"
                           className="object-cover group-hover:scale-105 transition-transform duration-300"
                         />

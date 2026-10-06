@@ -43,6 +43,20 @@
   .grid-4 {
     grid-template-columns: repeat(4, 1fr);
   }
+
+  /* Exact fractional dimensions for agency-tier avatars, badges and icons */
+  .w-8\.5 {
+    width: 2.125rem;
+  }
+  .h-8\.5 {
+    height: 2.125rem;
+  }
+  .w-6\.5 {
+    width: 1.625rem;
+  }
+  .h-6\.5 {
+    height: 1.625rem;
+  }
 }
 
 /* ============================================================

@@ -217,7 +217,9 @@ export const useVocabularyStore = create<VocabularyState>((set, get) => ({
       const itemIndex = list.findIndex(l => l.vocabId === vocabId);
       
       let updatedList = [...list];
+      const existing = itemIndex !== -1 ? list[itemIndex] : {};
       const newLearnedItem = {
+        ...existing,
         userId,
         vocabId,
         proficiency: updatedVocab.proficiency,

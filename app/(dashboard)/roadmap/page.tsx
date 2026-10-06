@@ -55,7 +55,7 @@ export default function RoadmapPage() {
         {/* APP TOP HEADER INTEGRATION */}
         <AppTopHeader
           showDailyQuote={false}
-          hideThemeAndAvatarOnDesktop={true}
+          showGamificationStats={true}
           rightDesktopContent={
             <div className="flex items-center gap-2">
               <button
@@ -89,7 +89,7 @@ export default function RoadmapPage() {
               label="Thống kê"
             />
             <HeaderPillItem
-              href="/community"
+              href="/community/leaderboard"
               icon={<Trophy className="w-3.5 h-3.5 text-amber-500" />}
               label="Xếp hạng"
             />
@@ -143,7 +143,7 @@ export default function RoadmapPage() {
       {/* 1. APP TOP HEADER INTEGRATION */}
       <AppTopHeader
         showDailyQuote={false}
-        hideThemeAndAvatarOnDesktop={true}
+        showGamificationStats={true}
         rightDesktopContent={
           <Link
             href={nextUncompletedTask?.practicePath || "/study/listening"}
@@ -166,7 +166,7 @@ export default function RoadmapPage() {
             label="Thống kê"
           />
           <HeaderPillItem
-            href="/community"
+            href="/community/leaderboard"
             icon={<Trophy className="w-3.5 h-3.5 text-amber-500" />}
             label="Xếp hạng"
           />

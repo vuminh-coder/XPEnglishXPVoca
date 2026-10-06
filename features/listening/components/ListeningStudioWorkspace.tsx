@@ -14,6 +14,9 @@ import { StudioWaveformCard } from "./StudioWaveformCard";
 import { DictationWorkspace } from "./DictationWorkspace";
 import { InteractiveTranscriptSidebar } from "./InteractiveTranscriptSidebar";
 import { StudioTimerBadge } from "./StudioTimerBadge";
+import { StudyAmbienceDock } from "./StudyAmbienceDock";
+import { MediaDisplayModeToggle, MediaDisplayMode } from "./MediaDisplayModeToggle";
+import { VideoCinemaFrame } from "./VideoCinemaFrame";
 import type {
   ListeningLesson,
   TranscriptSentence,
@@ -118,6 +121,7 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
 }) => {
   // Mobile Studio Switcher Tab State: 'dictation' or 'transcript'
   const [mobileStudioTab, setMobileStudioTab] = useState<"dictation" | "transcript">("dictation");
+  const [mediaDisplayMode, setMediaDisplayMode] = useState<MediaDisplayMode>("audio");
 
   const sentenceDuration = Math.max(
     3,
@@ -141,11 +145,18 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
         onToggleBookmark={onToggleBookmark}
         onBack={onBackToListing}
         rightExtraActions={
-          <StudioTimerBadge
-            isActive={true}
-            initialSeconds={elapsedTime}
-            onSecondsUpdate={onElapsedTimeTick}
-          />
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <MediaDisplayModeToggle
+              mode={mediaDisplayMode}
+              onModeChange={setMediaDisplayMode}
+            />
+            <StudyAmbienceDock />
+            <StudioTimerBadge
+              isActive={true}
+              initialSeconds={elapsedTime}
+              onSecondsUpdate={onElapsedTimeTick}
+            />
+          </div>
         }
       />
 
@@ -202,6 +213,16 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
         >
           {currentSentence && (
             <div className="space-y-2.5 sm:space-y-3">
+              {/* VIDEO CINEMA CONTAINER (Chế độ Video) */}
+              {mediaDisplayMode === "video" && (
+                <VideoCinemaFrame
+                  sourceUrlOrId={currentLesson?.audioUrl || currentLesson?.id}
+                  title={currentLesson?.title}
+                  thumbnailUrl={currentLesson?.imageUrl}
+                  onSwitchToAudioMode={() => setMediaDisplayMode("audio")}
+                />
+              )}
+
               {/* 1. DEDICATED SENTENCE AUDIO STUDIO BLOCK WITH ACTIVE SPEECH ACOUSTIC WAVEFORM */}
               <StudioWaveformCard
                 segmentIndex={currentSentenceIndex}

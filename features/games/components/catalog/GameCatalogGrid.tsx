@@ -20,6 +20,7 @@ import {
   Brain,
   Sparkles,
   AlignLeft,
+  KeyRound,
 } from "lucide-react";
 import { Badge } from "@/shared/components/ui/Badge";
 import { GameMode, VocabDeckType } from "../../types";
@@ -73,7 +74,7 @@ export function GameCatalogGrid({
       borderHover: "hover:border-[#0059bb]",
       badgeVariant: "primary" as const,
       tag1: "8 từ",
-      tag2: "~2.5 phút",
+      tag2: "2.5 phút",
       difficulty: "Trung bình",
       xpReward: "+15~60 XP",
     },
@@ -90,7 +91,7 @@ export function GameCatalogGrid({
       borderHover: "hover:border-amber-500",
       badgeVariant: "warning" as const,
       tag1: "60 giây",
-      tag2: "Thần tốc",
+      tag2: "Tốc độ",
       difficulty: "Nhanh",
       xpReward: "+20~60 XP",
     },
@@ -106,8 +107,8 @@ export function GameCatalogGrid({
       accentColor: "text-emerald-600 dark:text-emerald-400",
       borderHover: "hover:border-emerald-500",
       badgeVariant: "success" as const,
-      tag1: "4~8 cặp",
-      tag2: "~2 phút",
+      tag1: "4-8 cặp",
+      tag2: "2 phút",
       difficulty: "Linh hoạt",
       xpReward: "+20~60 XP",
     },
@@ -118,7 +119,7 @@ export function GameCatalogGrid({
       subtitle: "Đoán từ 5 chữ cái 6 lượt",
       description:
         "Giải mã từ bí ẩn 5 chữ cái qua các tín hiệu màu sắc trực quan. Hỗ trợ mở gợi ý ký tự, nghe phát âm sau ván đấu và lưu vào sổ tay ôn tập.",
-      icon: SpellCheck,
+      icon: KeyRound,
       iconBg: "from-purple-600 to-indigo-600 shadow-purple-500/20",
       accentColor: "text-purple-600 dark:text-purple-400",
       borderHover: "hover:border-purple-500",
@@ -135,13 +136,13 @@ export function GameCatalogGrid({
       subtitle: "Ghép câu chuẩn ngữ pháp",
       description:
         "Sắp xếp các khối từ vựng để tạo thành câu hoàn chỉnh đúng ngữ pháp và cấu trúc ngữ cảnh. Giúp ghi nhớ collocations tự nhiên và tăng phản xạ viết.",
-      icon: BookOpen,
+      icon: AlignLeft,
       iconBg: "from-indigo-600 to-blue-700 shadow-indigo-500/20",
       accentColor: "text-indigo-600 dark:text-indigo-400",
       borderHover: "hover:border-indigo-500",
       badgeVariant: "primary" as const,
       tag1: "5 câu",
-      tag2: "~3 phút",
+      tag2: "3 phút",
       difficulty: "Ngữ cảnh",
       xpReward: "+20~60 XP",
     },
@@ -157,8 +158,8 @@ export function GameCatalogGrid({
       accentColor: "text-cyan-600 dark:text-cyan-400",
       borderHover: "hover:border-cyan-500",
       badgeVariant: "primary" as const,
-      tag1: "8 hình ảnh",
-      tag2: "~2.5 phút",
+      tag1: "8 ảnh",
+      tag2: "2.5 phút",
       difficulty: "Trực quan",
       xpReward: "+20~60 XP",
     },
@@ -174,8 +175,8 @@ export function GameCatalogGrid({
       accentColor: "text-cyan-600 dark:text-cyan-400",
       borderHover: "hover:border-cyan-500",
       badgeVariant: "primary" as const,
-      tag1: "8 câu nghe",
-      tag2: "~2.5 phút",
+      tag1: "8 câu",
+      tag2: "2.5 phút",
       difficulty: "Thính giác",
       xpReward: "+20~60 XP",
     },
@@ -191,8 +192,8 @@ export function GameCatalogGrid({
       accentColor: "text-rose-600 dark:text-rose-400",
       borderHover: "hover:border-rose-500",
       badgeVariant: "danger" as const,
-      tag1: "15 câu đấu",
-      tag2: "Thời gian thực",
+      tag1: "15 câu",
+      tag2: "1v1 Live",
       difficulty: "Đối kháng",
       xpReward: "+30~100 XP",
       href: "/study/pvp",
@@ -209,8 +210,8 @@ export function GameCatalogGrid({
       accentColor: "text-amber-600 dark:text-amber-400",
       borderHover: "hover:border-amber-500",
       badgeVariant: "warning" as const,
-      tag1: "3 ván game",
-      tag2: "Mỗi ngày",
+      tag1: "3 ván",
+      tag2: "Hằng ngày",
       difficulty: "Nhiệm vụ",
       xpReward: "+100 XP Bonus",
       actionType: "random_game",
@@ -221,33 +222,39 @@ export function GameCatalogGrid({
     (g) => filter === "all" || g.category === filter
   );
 
-  const FILTER_TABS: { id: FilterCategory; label: string }[] = [
-    { id: "all", label: `Tất cả (${games.length})` },
-    { id: "speed", label: "Phản xạ & Tốc độ ⚡" },
-    { id: "media", label: "Hình ảnh & Âm thanh 🎧" },
-    { id: "memory", label: "Trí nhớ & Cấu trúc 🧠" },
+  const FILTER_TABS: {
+    id: FilterCategory;
+    label: string;
+    icon: React.ComponentType<{ className?: string }>;
+  }[] = [
+    { id: "all", label: `Tất cả (${games.length})`, icon: Sparkles },
+    { id: "speed", label: "Phản xạ & Tốc độ", icon: Zap },
+    { id: "media", label: "Hình ảnh & Âm thanh", icon: Headphones },
+    { id: "memory", label: "Trí nhớ & Cấu trúc", icon: Brain },
   ];
 
   return (
     <div className="space-y-4">
       {/* 1. Unified Studio Control Toolbar: Category Filter on Left, Deck Selector on Right */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-2.5 sm:p-3 rounded-2xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200/80 dark:border-slate-800 shadow-2xs">
+      <div className="relative z-30 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 p-2.5 sm:p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-2xs">
         {/* Category Filter Pills */}
         <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap">
           {FILTER_TABS.map((tab) => {
             const isActive = filter === tab.id;
+            const TabIcon = tab.icon;
             return (
               <button
                 key={tab.id}
                 type="button"
                 onClick={() => setFilter(tab.id)}
-                className={`py-1.5 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`py-1.5 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer inline-flex items-center gap-1.5 ${
                   isActive
                     ? "bg-[#0059bb] text-white shadow-md shadow-blue-500/20"
                     : "bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300"
                 }`}
               >
-                {tab.label}
+                <TabIcon className="w-3.5 h-3.5 shrink-0" />
+                <span>{tab.label}</span>
               </button>
             );
           })}
@@ -271,7 +278,7 @@ export function GameCatalogGrid({
       </div>
 
       {/* Grid of Game Bento Cards */}
-      <div className="grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3 relative z-0">
         <AnimatePresence>
           {filteredGames.map((game) => {
             const Icon = game.icon;

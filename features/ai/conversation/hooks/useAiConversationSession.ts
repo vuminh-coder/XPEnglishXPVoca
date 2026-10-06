@@ -11,6 +11,15 @@ export function useAiConversationSession() {
   const { addToast } = useNotificationStore();
 
   const [selectedTopicId, setSelectedTopicId] = useState<string>("at1");
+  const [selectedPersonaId, setSelectedPersonaId] = useState<string>(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("xp_voca_ai_conversation_persona") || "native_friend";
+    }
+    return "native_friend";
+  });
+  const [selectedDifficulty, setSelectedDifficulty] = useState<
+    "Beginner" | "Intermediate" | "Advanced" | null
+  >(null);
   const [sessionId, setSessionId] = useState<string>(
     () => `ai_conv_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`
   );
@@ -27,6 +36,7 @@ export function useAiConversationSession() {
   const sessionIdRef = useRef(sessionId);
   const elapsedTimeRef = useRef(0);
   const selectedTopicIdRef = useRef(selectedTopicId);
+  const selectedPersonaIdRef = useRef(selectedPersonaId);
   const hasUserInteractedRef = useRef(false);
   const activeTimeRef = useRef(0);
 
@@ -39,6 +49,12 @@ export function useAiConversationSession() {
   useEffect(() => {
     selectedTopicIdRef.current = selectedTopicId;
   }, [selectedTopicId]);
+  useEffect(() => {
+    selectedPersonaIdRef.current = selectedPersonaId;
+    try {
+      localStorage.setItem("xp_voca_ai_conversation_persona", selectedPersonaId);
+    } catch {}
+  }, [selectedPersonaId]);
 
   // Track active study time as speaking skill
   useStudyTimeTracker("speaking", {
@@ -70,12 +86,14 @@ export function useAiConversationSession() {
       const elapsed = newElapsed ?? elapsedTimeRef.current;
       const sid = sessionIdRef.current;
       const topicId = selectedTopicIdRef.current;
+      const personaId = selectedPersonaIdRef.current;
       try {
         localStorage.setItem(
           "xp_active_conv_session",
           JSON.stringify({
             sessionId: sid,
             topicId,
+            personaId,
             messages: newMessages,
             elapsedTime: elapsed,
             savedAt: Date.now(),
@@ -90,6 +108,7 @@ export function useAiConversationSession() {
           sessionId: sid,
           mode: "conversation",
           topicId,
+          personaId,
           messages: newMessages,
           timeSpentSeconds: elapsed,
           status: "IN_PROGRESS",
@@ -138,6 +157,10 @@ export function useAiConversationSession() {
   return {
     selectedTopicId,
     setSelectedTopicId,
+    selectedPersonaId,
+    setSelectedPersonaId,
+    selectedDifficulty,
+    setSelectedDifficulty,
     sessionId,
     setSessionId,
     elapsedTime,

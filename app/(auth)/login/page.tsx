@@ -38,7 +38,22 @@ export default function LoginPage() {
   const [rememberMe, setRememberMe] = useState(true);
   const [isCapsLockOn, setIsCapsLockOn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const errorParam = params.get("error");
+      if (errorParam === "google_denied") {
+        return "Bạn đã hủy yêu cầu đăng nhập bằng Google.";
+      } else if (errorParam === "google_token_failed") {
+        return "Không thể xác thực token Google. Vui lòng thử lại.";
+      } else if (errorParam === "google_no_email") {
+        return "Tài khoản Google không cung cấp thông tin Email.";
+      } else if (errorParam) {
+        return `Lỗi đăng nhập Google (${errorParam}). Vui lòng thử lại sau.`;
+      }
+    }
+    return "";
+  });
   const [currentLang, setCurrentLang] = useState<"vi" | "en">("vi");
   const [isLangOpen, setIsLangOpen] = useState(false);
   const langRef = React.useRef<HTMLDivElement>(null);
@@ -63,25 +78,6 @@ export default function LoginPage() {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
-
-  // Handle Google OAuth error parameters
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      const errorParam = params.get("error");
-      if (errorParam) {
-        if (errorParam === "google_denied") {
-          setErrorMsg("Bạn đã hủy yêu cầu đăng nhập bằng Google.");
-        } else if (errorParam === "google_token_failed") {
-          setErrorMsg("Không thể xác thực token Google. Vui lòng thử lại.");
-        } else if (errorParam === "google_no_email") {
-          setErrorMsg("Tài khoản Google không cung cấp thông tin Email.");
-        } else {
-          setErrorMsg(`Lỗi đăng nhập Google (${errorParam}). Vui lòng thử lại sau.`);
-        }
-      }
-    }
   }, []);
 
   const handleLoginSubmit = async (e: React.FormEvent) => {

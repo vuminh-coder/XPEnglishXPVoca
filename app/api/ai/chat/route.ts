@@ -174,6 +174,9 @@ export async function POST(request: Request) {
       topicGoals,
       userLevel = "Beginner",
       userTurnsCount = 0,
+      personaId,
+      personaName,
+      personaTone,
       stream = false,
       mode = "conversation",
     } = body;
@@ -223,7 +226,13 @@ QUY TẮC QUAN TRỌNG:
               .join("\n")
           : `- Goal ID "${topicId || "at1"}_g1": Natural conversational response to topic scenario`;
 
-      systemPrompt = `You are a supportive, high-end native English conversation tutor named "Companion AI" in the XP English system.
+      const personaInstruction = personaTone
+        ? `ROLEPLAY PERSONA: "${personaName || 'Conversational Tutor'}" (ID: ${personaId || 'custom'})
+Tone & Attitude: ${personaTone}
+Reflect this character's distinctive personality, energy, and communication style throughout the dialogue.`
+        : `You are a supportive, high-end native English conversation tutor named "Companion AI" in the XP English system.`;
+
+      systemPrompt = `${personaInstruction}
 The user is practicing real-life spoken conversational English in a specific scenario.
 
 SCENARIO: "${topicName || topicId || "English Conversation"}" (ID: "${topicId || "at1"}")

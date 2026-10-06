@@ -21,9 +21,12 @@ import {
   Volume2,
   Bot,
   User,
+  Share2,
 } from "lucide-react";
-import { Topic, Message, SessionEvaluation } from "../types";
+import { Topic, Message, SessionEvaluation, AiPersona } from "../types";
 import { TOPIC_ICONS } from "../data/aiTopics";
+import { DEFAULT_AI_PERSONA } from "../data/aiPersonas";
+import { AiConversationShareModal } from "./AiConversationShareModal";
 
 interface AiConversationScoreCardProps {
   currentTopic: Topic;
@@ -42,6 +45,9 @@ interface AiConversationScoreCardProps {
   messages: Message[];
   onRestartNewSession: () => void;
   onSelectTopic?: (topic: Topic) => void;
+  currentPersona?: AiPersona;
+  difficulty?: string;
+  userName?: string;
 }
 
 export function AiConversationScoreCard({
@@ -56,6 +62,9 @@ export function AiConversationScoreCard({
   messages,
   onRestartNewSession,
   onSelectTopic,
+  currentPersona = DEFAULT_AI_PERSONA,
+  difficulty = "Beginner",
+  userName = "Học viên XP",
 }: AiConversationScoreCardProps) {
   // Deduplicate grammar corrections & phrasing recommendations
   const uniqueCorrections = React.useMemo(() => {
@@ -79,6 +88,7 @@ export function AiConversationScoreCard({
 
   const [activeLeftTab, setActiveLeftTab] = useState<"feedback" | "history">("feedback");
   const [isTopicModalOpen, setIsTopicModalOpen] = useState(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
   const playAudio = (text: string) => {
     if (typeof window !== "undefined" && "speechSynthesis" in window) {
@@ -468,6 +478,16 @@ export function AiConversationScoreCard({
               <span>Luyện Lại Chủ Đề Này</span>
             </button>
 
+            {/* Secondary Action: Chia sẻ thành tích hội thoại */}
+            <button
+              type="button"
+              onClick={() => setIsShareModalOpen(true)}
+              className="w-full py-2.5 px-3 rounded-xl bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 hover:border-purple-500 text-purple-900 dark:text-purple-200 text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-2xs cursor-pointer transition-all active:scale-[0.98] hover:bg-purple-100/60 dark:hover:bg-purple-900/40"
+            >
+              <Share2 className="w-4 h-4 text-purple-600 dark:text-purple-400 stroke-[2.2]" />
+              <span>Chia Sẻ Thành Tích</span>
+            </button>
+
             {/* Secondary Action: Chọn kịch bản mới trực tiếp */}
             {allTopics && allTopics.length > 0 && onSelectTopic && (
               <button
@@ -557,6 +577,21 @@ export function AiConversationScoreCard({
           </motion.div>
         </div>
       )}
+
+      {/* 5. Share Certified Score Card Modal */}
+      <AiConversationShareModal
+        isOpen={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
+        currentTopic={currentTopic}
+        sessionEvaluation={sessionEvaluation}
+        completedGoalsCount={completedGoalsCount}
+        userTurnsCount={userTurnsCount}
+        elapsedTime={elapsedTime}
+        formatElapsedTime={formatElapsedTime}
+        currentPersona={currentPersona}
+        difficulty={difficulty}
+        userName={userName}
+      />
     </motion.div>
   );
 }

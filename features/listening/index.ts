@@ -15,3 +15,8 @@ export * from "./components/ListeningStudioWorkspace";
 export * from "./components/ListeningModals";
 export * from "./components/LoadingSkeletons";
 export * from "./components/StudioTimerBadge";
+export * from "./components/StudyAmbienceDock";
+export * from "./components/MediaDisplayModeToggle";
+export * from "./components/VideoCinemaFrame";
+export * from "./services/ambientAudioSynthesizer";
+export * from "./services/videoIngestionService";

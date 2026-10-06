@@ -74,9 +74,12 @@ export const LessonTaskItem: React.FC<LessonTaskItemProps> = ({
           </span>
 
           <Link href={task.practicePath}>
-            <Button className="py-1.5 px-3 bg-[#0059bb] hover:bg-[#004ba0] text-white text-xs font-bold rounded-xl shadow-2xs flex items-center gap-1 font-display cursor-pointer">
-              <Play className="w-3 h-3 fill-white" /> Luyện Ngay
-            </Button>
+            <button
+              type="button"
+              className="py-1.5 px-3 bg-slate-100 hover:bg-[#0059bb] hover:text-white dark:bg-slate-800 dark:hover:bg-[#0059bb] text-slate-700 dark:text-slate-200 dark:hover:text-white border border-slate-200/80 dark:border-slate-700 text-xs font-bold rounded-xl shadow-2xs flex items-center gap-1.5 font-display transition-all cursor-pointer active:scale-95"
+            >
+              <Play className="w-3 h-3 fill-current" /> Luyện Ngay
+            </button>
           </Link>
         </div>
       </div>

@@ -130,32 +130,46 @@ export async function POST(req: NextRequest) {
       });
 
       // 5. Create or complete order record
-      const userSuffix = userId.slice(0, 8).toUpperCase();
-      const transferSyntax = `XP PRO ${userSuffix}`;
-
-      const completedOrder = await tx.subscriptionOrder.upsert({
-        where: { transferSyntax },
-        update: {
-          planKey,
-          amount: planConfig.totalPriceNum,
-          status: "completed",
-          durationMonths,
-          activatedAt: now,
-          expiresAt: newExpiresAt,
-        },
-        create: {
-          userId,
-          planKey,
-          amount: planConfig.totalPriceNum,
-          currency: "VND",
-          transferSyntax,
-          status: "completed",
-          paymentMethod: "vietqr",
-          durationMonths,
-          activatedAt: now,
-          expiresAt: newExpiresAt,
-        },
+      const existingPendingOrder = await tx.subscriptionOrder.findFirst({
+        where: { userId, status: "pending" },
+        orderBy: { createdAt: "desc" },
       });
+
+      let completedOrder;
+      if (existingPendingOrder) {
+        completedOrder = await tx.subscriptionOrder.update({
+          where: { id: existingPendingOrder.id },
+          data: {
+            planKey,
+            amount: planConfig.totalPriceNum,
+            status: "completed",
+            durationMonths,
+            activatedAt: now,
+            expiresAt: newExpiresAt,
+          },
+        });
+      } else {
+        const userSuffix = userId.startsWith("usr_")
+          ? userId.replace(/[^a-zA-Z0-9]/g, "").slice(-8).toUpperCase()
+          : userId.slice(0, 8).toUpperCase();
+        const salt = Math.random().toString(36).substring(2, 6).toUpperCase();
+        const transferSyntax = `XP PRO ${userSuffix}_${salt}`;
+
+        completedOrder = await tx.subscriptionOrder.create({
+          data: {
+            userId,
+            planKey,
+            amount: planConfig.totalPriceNum,
+            currency: "VND",
+            transferSyntax,
+            status: "completed",
+            paymentMethod: "vietqr",
+            durationMonths,
+            activatedAt: now,
+            expiresAt: newExpiresAt,
+          },
+        });
+      }
 
       return {
         profile: updatedProfile,

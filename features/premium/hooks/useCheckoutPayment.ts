@@ -53,7 +53,10 @@ export function useCheckoutPayment() {
   const plan = PLANS[selectedKey];
 
   const transferContent = useMemo(() => {
-    const userIdShort = user?.id ? user.id.slice(0, 8).toUpperCase() : "PROVIP";
+    if (!user?.id) return "XP PRO PROVIP";
+    const userIdShort = user.id.startsWith("usr_")
+      ? user.id.replace(/[^a-zA-Z0-9]/g, "").slice(-8).toUpperCase()
+      : user.id.slice(0, 8).toUpperCase();
     return `XP PRO ${userIdShort}`;
   }, [user]);
 

@@ -7,20 +7,15 @@ import {
   Gamepad2,
   Shuffle,
   Layers,
-  SpellCheck,
   Flame,
-  BookOpen,
   Image as ImageIcon,
   Headphones,
-  Home,
   Swords,
-  Trophy,
+  KeyRound,
+  AlignLeft,
 } from "lucide-react";
-import {
-  AppTopHeader,
-  HeaderPillContainer,
-  HeaderPillItem,
-} from "@/shared/components/layout/AppTopHeader";
+import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
+import { GameSuiteNavTabs } from "@/shared/components/layout/nav-tabs/GameSuiteNavTabs";
 import {
   GameMode,
   VocabDeckType,
@@ -63,8 +58,8 @@ const GAME_TITLE_MAP: Record<GameMode, { title: string; icon: React.ReactNode }>
   scramble: { title: "Word Scramble", icon: <Shuffle className="w-3.5 h-3.5 text-[#0059bb]" /> },
   blitz: { title: "Speed Blitz", icon: <Flame className="w-3.5 h-3.5 text-amber-500" /> },
   memory: { title: "Memory Match", icon: <Layers className="w-3.5 h-3.5 text-emerald-500" /> },
-  wordle: { title: "Wordle", icon: <SpellCheck className="w-3.5 h-3.5 text-purple-500" /> },
-  sentence: { title: "Sentence Builder", icon: <BookOpen className="w-3.5 h-3.5 text-indigo-500" /> },
+  wordle: { title: "Wordle", icon: <KeyRound className="w-3.5 h-3.5 text-purple-500" /> },
+  sentence: { title: "Sentence Builder", icon: <AlignLeft className="w-3.5 h-3.5 text-indigo-500" /> },
 };
 
 export default function GamesPage() {
@@ -161,14 +156,20 @@ export default function GamesPage() {
         showGamificationStats={true}
         rightDesktopContent={
           activeGame ? (
-            <button
-              type="button"
-              onClick={() => setActiveGame(null)}
-              className="hidden sm:inline-flex items-center gap-1.5 py-1.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold transition-all cursor-pointer font-display"
-            >
-              <Gamepad2 className="w-3.5 h-3.5 text-[#0059bb]" />
-              <span>Đổi trò chơi</span>
-            </button>
+            <div className="flex items-center gap-2">
+              <span className="hidden sm:inline-flex items-center gap-1.5 py-1.5 px-3 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-800 text-[#0059bb] dark:text-sky-300 text-xs font-bold font-display shadow-2xs">
+                {GAME_TITLE_MAP[activeGame].icon}
+                <span>{GAME_TITLE_MAP[activeGame].title}</span>
+              </span>
+              <button
+                type="button"
+                onClick={() => setActiveGame(null)}
+                className="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold transition-all cursor-pointer font-display shadow-2xs active:scale-95"
+              >
+                <Gamepad2 className="w-3.5 h-3.5 text-[#0059bb]" />
+                <span>Đổi trò chơi</span>
+              </button>
+            </div>
           ) : (
             <div className="flex items-center gap-2">
               <Link
@@ -182,49 +183,7 @@ export default function GamesPage() {
           )
         }
       >
-        {activeGame === null ? (
-          <HeaderPillContainer>
-            <HeaderPillItem
-              href="/dashboard"
-              icon={<Home className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />}
-              label="Trang chủ"
-            />
-            <HeaderPillItem
-              active
-              layoutId="gamesHeaderActiveTab"
-              icon={<Gamepad2 className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />}
-              label="Mini Games"
-            />
-            <HeaderPillItem
-              href="/study/pvp"
-              icon={<Swords className="w-3.5 h-3.5 text-rose-500" />}
-              label="Đấu trường 1v1"
-              hideOnSmall
-            />
-            <HeaderPillItem
-              href="/community/leaderboard"
-              icon={<Trophy className="w-3.5 h-3.5 text-amber-500" />}
-              label="Xếp hạng"
-              hideOnSmall
-            />
-          </HeaderPillContainer>
-        ) : (
-          <HeaderPillContainer>
-            <HeaderPillItem
-              onClick={() => setActiveGame(null)}
-              icon={<Gamepad2 className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />}
-              label="Mini Games"
-            />
-            <div className="text-slate-300 dark:text-slate-600 font-bold text-xs px-1 select-none">
-              /
-            </div>
-            <HeaderPillItem
-              active
-              icon={GAME_TITLE_MAP[activeGame].icon}
-              label={GAME_TITLE_MAP[activeGame].title}
-            />
-          </HeaderPillContainer>
-        )}
+        <GameSuiteNavTabs />
       </AppTopHeader>
 
       {/* 2. Fluid Ultra-Wide Main Container */}

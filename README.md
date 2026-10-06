@@ -2,7 +2,7 @@
 
 [![CI Pipeline](https://github.com/vuminh-coder/XPEnglishXPVoca/actions/workflows/ci.yml/badge.svg)](https://github.com/vuminh-coder/XPEnglishXPVoca/actions/workflows/ci.yml)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/4f9682d4-abe9-436c-a2a7-11f66ce8bcdd/deploy-status)](https://app.netlify.com/projects/xpenglishvoca/deploys)
-[![Tests](https://img.shields.io/badge/Vitest-625%20passed-10b981.svg)](https://github.com/vuminh-coder/XPEnglishXPVoca/actions)
+[![Tests](https://img.shields.io/badge/Vitest-735%20passed-10b981.svg)](https://github.com/vuminh-coder/XPEnglishXPVoca/actions)
 [![Next.js 16](https://img.shields.io/badge/Next.js-16.2.9-black.svg)](https://nextjs.org)
 [![TypeScript 5](https://img.shields.io/badge/TypeScript-5-blue.svg)](https://www.typescriptlang.org)
 
@@ -255,6 +255,7 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
     - **API Phân Tích & Biểu Đồ Phút Nhóm Lớp (`GET /api/groups/[id]/stats`)**: Nạp thông tin nhóm, chuỗi thời gian 7 ngày luyện tập liên tục của toàn bộ thành viên và bảng xếp hạng thành viên chỉ trong **2 truy vấn bounded DB duy nhất** (1 trên `Group` có chọn lọc `members`, 1 trên `DailySkillPractice` trong phạm vi 7 ngày của các thành viên). Bộ đệm RAM 30s với tiêu đề `Cache-Control: public, s-maxage=30, stale-while-revalidate=60`.
     - **Giao Diện Modal Biểu Đồ Phút Nhóm Chuẩn Agency (`GroupDetailModal.tsx`)**: Vẽ đường cong mượt mà Bezier SVG hiển thị phút học từng ngày trong tuần, thẻ tóm tắt 3 chỉ số then chốt (Tổng phút, Ngày cao nhất, Trung bình phút/ngày), và bảng xếp hạng thành viên hỗ trợ chuyển đổi linh hoạt giữa "Phút học" và "Điểm XP".
     - **Bộ Kiểm Thử Toàn Diện**: [`__tests__/leaderboard_groups_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/leaderboard_groups_standards.test.ts) xác thực 100% (7/7 tests) về khóa đệm phân biệt, thuật ngữ sắp xếp SQL, đường cong 7 ngày và tính cô lập dữ liệu.
+    - **Mùa Giải & Hạng Thứ Bậc (Season & Rank Tier - `/community/leaderboard`)**: Mỗi mùa = 1 tháng dương lịch (`YYYY-MM`), XP mùa = `SUM(xp_earned)` từ `daily_skill_practice` trong kỳ. 5 hạng theo XP mùa: 🥉 Đồng (0) → 🥈 Bạc (300, +50 Coins) → 🥇 Vàng (1.000, +150) → 💠 Bạch Kim (2.500, +400) → 💎 Kim Cương (5.000, +1.000). Thẻ [`SeasonRankCard.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/community/components/leaderboard/SeasonRankCard.tsx) hiển thị hạng, thanh tiến độ (tối đa 2 chữ số thập phân), thứ hạng trong mùa, bậc thang 5 hạng và nút nhận thưởng cuối mùa (Secondary, giữ duy nhất 1 nút Primary của sidebar). Logic thuần tại [`features/gamification/utils/seasonRank.ts`](file:///e:/XP%20English%20%20XP%20Voca/features/gamification/utils/seasonRank.ts); truy vấn SQL gom nhóm + giao dịch nhận thưởng nguyên tử một lần duy nhất (khóa chính `(user_id, season_id)`) tại [`infrastructure/database/seasonStore.ts`](file:///e:/XP%20English%20%20XP%20Voca/infrastructure/database/seasonStore.ts), bảng `season_reward_claims` tự tạo (`CREATE TABLE IF NOT EXISTS`, không cần migrate). Kiểm thử: [`__tests__/season_rank_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/season_rank_standards.test.ts) (10 tests) và kịch bản xác minh thực tế `scripts/verify_season_live.ts` (nhận thưởng chạy trong giao dịch rollback).
 30. **Chuẩn Hóa Gia Sư AI Đàm Thoại & Quản Lý Phiên Luyện Nói (AI Voice Tutor & Session Persistence Standard)**:
     - **Prompt Thích Ứng Động Theo Trình Độ (Adaptive Difficulty Prompting - `/api/ai/chat`)**: Bổ sung tham số `userLevel`, `userTurnsCount`, `topicGoals` vào lời nhắc hệ thống của Gemini. AI tự động điều chỉnh độ khó linh hoạt: người mới (Beginner/A1-A2) được dùng từ vựng dễ tiếp thu, câu ngắn rõ ràng; người học trung cấp và cao cấp (B2-C1) được tiếp xúc với thành ngữ bản xứ và câu hỏi phản xạ mở rộng.
     - **Nhận Diện Mục Tiêu Ngữ Cảnh Bằng AI (AI Semantic Goal Completion)**: Thay thế hoàn toàn cơ chế regex cứng bằng sự kết hợp giữa phát hiện ngữ nghĩa của Gemini (`goalsCompleted`) và bộ đệm từ khóa dự phòng, đảm bảo mọi cách diễn đạt tự nhiên chuẩn ý đều được ghi nhận mục tiêu chính xác.
@@ -262,6 +263,7 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
     - **Tương Tác Gợi Ý Từ Vựng Thông Minh (`onInsertWord`)**: Bấm vào từ vựng gợi ý trên `AiConversationInputDock` sẽ tự động chèn từ vào ô nhập liệu để người học tự ghép câu, thay vì gửi một từ đơn lẻ cộc lốc làm gián đoạn hội thoại.
     - **Xóa Bộ Đệm Nguyên Tử Khi Hoàn Tất Phiên (`POST /api/ai/sessions`)**: Tích hợp `invalidateDashboardCache(authUserId)` sau khi đồng bộ `DailySkillPractice` (speaking) và `Profile` (minutesStudied, totalXp), giải quyết triệt để lỗi dữ liệu cũ trên Dashboard & Analytics khi học viên luyện nói xong.
     - **Truy Vấn Phiên Học Giới Hạn Cứng (`GET /api/ai/sessions`)**: Bổ sung cơ chế nạp trực tiếp phiên học theo định danh `?sessionId=...` với `LIMIT 1` và truy vấn danh sách lịch sử có chặn ngưỡng `LIMIT 30`, ngăn ngừa quá tải bộ nhớ và bùng nổ kích thước payload JSON.
+    - **Cô Lập Quyền Riêng Tư Khách Vãng Lai (Guest Privacy Isolation)**: `GET/POST/DELETE /api/ai/sessions` không còn dùng chung bucket `guest_ai_user`; người dùng chưa đăng nhập nhận lịch sử rỗng và không ghi vào CSDL/bộ nhớ chung, ngăn khách này thấy hội thoại của khách khác ([`__tests__/ai_sessions_guest_privacy.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/ai_sessions_guest_privacy.test.ts)).
     - **Chuẩn Hóa UI/UX Theo 19 Quy Tắc Wadhah Aloui**:
       - **Rule 1 (Loading)**: Thay thế spinner cổ điển bằng **Skeleton Loading Cards** (`ShimmerBox`) trong ngăn kéo lịch sử buổi học.
       - **Rule 18 (Single Primary Button & Dynamic CTA)**: Nút Micro là Primary khi chưa có dữ liệu; Nút Gửi tự động thành Primary khi người dùng bắt đầu gõ hoặc hoàn tất nhận diện giọng nói; Nút Micro chuyển thành Secondary.
@@ -445,7 +447,80 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
       - Đạt cấu trúc 9 ô (3 hàng x 3 cột) tròn trịa, cân bằng thị giác hoàn hảo và bao quát toàn diện các kỹ năng (Tốc độ, Trí nhớ, Nghe, Nhìn ảnh, Ngữ pháp, Đối kháng).
     - **Triệt Tiêu Xung Đột Che Lấp Nút Nổi (Anti-FAB Collision & Bottom Safe Margin)**:
       - Nâng cấp khoảng đệm chân trang `pb-28 sm:pb-36` trong [app/(dashboard)/study/games/page.tsx](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/study/games/page.tsx), đảm bảo khi cuộn trang tới đáy, các nút hành động "Vào chơi ➔", "Vào đấu trường ➔" và huy hiệu thời lượng không bị che lấp bởi widget trợ lý AI `XP Mentor` (`bottom-6 right-6`) hoặc các nút nổi khác.
-    - **Kiểm Thử Toàn Diện**: 62 test suites, **658/658 tests (100% pass rate)**.
+    - **Kiểm Thử Toàn Diện**: 63 test suites, **661/661 tests (100% pass rate)**.
+43. **Chuẩn Hóa Khung Xương Sidebar & Mini Games Loading (Zero-CLS Utility Classes, 4-Tab Universal Header & 3x3 Bento Twin)**:
+    - **Triệt Tiêu Lệch Khung Xương Sidebar (`Sidebar.tsx` & `utilities.css`)**:
+      - Bổ sung các lớp tiện ích `.w-8\.5`, `.h-8\.5` (34px = 2.125rem) và `.w-6\.5`, `.h-6\.5` (26px = 1.625rem) vào `app/styles/core/utilities.css`.
+      - Khớp kích thước `UserAvatar` chân trang `size="w-[34px] h-[34px]"` và `ShimmerCircle size="w-[34px] h-[34px]"`, xóa bỏ tình trạng `UserAvatar` bị co về 0px trong lúc tải.
+      - Chuẩn hóa toàn bộ icon shimmer về `w-[21px] h-[21px]` khớp 1:1 với Lucide icons của `Sidebar.tsx`.
+      - Cập nhật bản đồ độ rộng văn bản `LINK_WIDTH_MAP` theo kích thước pixel thực tế của 14 mục điều hướng, xóa bỏ hoàn toàn hiện tượng layout jump khi chuyển từ skeleton sang giao diện thực.
+    - **Chuẩn Hóa Header Tối Đa 4 Tabs Cho Mini Games (`/study/games`)**:
+      - Hợp nhất `GameSuiteNavTabs` vào `app/(dashboard)/study/games/page.tsx`, đảm bảo chuẩn mực Agency $\le 4$ tabs (`Mini Games`, `Đấu trường 1v1`, `Xếp hạng`, `Luyện từ vựng`), đồng bộ 100% tên chữ với thanh bên `Sidebar.tsx`.
+      - Thiết kế lại góc phải màn hình desktop khi đang chơi (Active Game): huy hiệu nhận diện chế độ chơi kèm nút `[🎮 Đổi trò chơi]`.
+    - **Khung Xương Sinh Đôi 1:1 Cho Mini Games (`app/(dashboard)/study/games/loading.tsx`)**:
+      - Đồng bộ thanh công cụ phân loại danh mục về đúng 4 tab (`Tất cả (9)`, `Phản xạ & Tốc độ`, `Hình ảnh & Âm thanh`, `Trí nhớ & Cấu trúc`).
+      - Cập nhật số lượng thẻ game shimmer từ 7 lên 9 thẻ, khớp 100% với ma trận 3x3 Bento của `GameCatalogGrid.tsx`.
+    - **Kiểm Thử Toàn Diện & Build Thành Công**:
+      - TypeScript (`npx tsc --noEmit`): 0 lỗi.
+      - ESLint (`npm run lint`): 0 lỗi.
+      - Vitest: 64 test suites, **671/671 tests passed (100%)**.
+      - Next.js Production Build (`npx next build --webpack`): 109 static & dynamic routes compiled 100% thành công.
+44. **Khắc Phục Xung Đột Mã Chuyển Khoản VIP & Tối Ưu Hóa Giao Dịch Đơn Hàng (`/api/subscription/*` & `useCheckoutPayment.ts`)**:
+    - **Khắc phục lỗi trùng lặp ràng buộc `Unique constraint failed on (transfer_syntax)`**: Trước đây cú pháp `userSuffix = userId.slice(0, 8)` khiến toàn bộ tài khoản học viên định dạng `usr_<timestamp>_<random>` tạo trong năm 2026 đều có chung tiền tố `"USR_1791"`, dẫn tới lỗi HTTP 500 khi người thứ hai trở đi tạo đơn hàng thanh toán VIP.
+    - **Thuật toán sinh mã chuyển khoản độc nhất 100%**: Sử dụng đuôi nhận diện ngẫu nhiên của `userId` (`.slice(-8)`) kết hợp tiền tố `XP PRO`, đồng thời tự động kiểm tra xung đột cơ sở dữ liệu để bổ sung muối ngẫu nhiên nếu mã chuyển khoản đã tồn tại.
+    - **Hoàn tất đơn hàng nguyên tử trong `POST /api/subscription/confirm`**: Tự động tìm và cập nhật trạng thái đơn hàng `pending` gần nhất của người dùng sang `completed`, loại bỏ hoàn toàn việc gọi `upsert` mù gây xung đột mã chuyển khoản cũ.
+    - **Kiểm thử tự động toàn diện**: 65 test suites, **676/676 tests passed (100%)**, vượt qua 100% bài kiểm thử luồng thực tế (11/11 workflows) và 73/73 HTTP endpoints (0 lỗi).
+45. **Kiểm Thử Toàn Diện Từng Trang Bằng Trình Duyệt Google Chrome (E2E Chromium Walkthrough - UI/UX 19 Quy Tắc, Database & Caching Across All Routes)**:
+    - **Phạm vi kiểm thử thực tế**: Sử dụng trình duyệt Google Chrome thật (`C:\Program Files\Google\Chrome\Application\chrome.exe` qua Puppeteer Core) kiểm thử tương tác, bố cục, lưu trữ cơ sở dữ liệu và 19 quy tắc UI/UX Wadhah Aloui trên toàn bộ 25+ trang ứng dụng:
+      - **Đợt 1 (Core Study & AI Hubs)**:
+        - `/myvideo`: Tải video YouTube, trích xuất 8–12 Flashcards AI (+24 XP vào Sổ từ vựng), giải Video Quiz trắc nghiệm, tóm tắt song ngữ Anh/Việt, Dictation, Subtitles tra từ 0ms và Thư viện video cá nhân.
+        - `/ai/conversation`: Bộ chuyển đổi 4 AI Personas (Alex, Ms. Eleanor, David, Victor), bộ chọn Adaptive Difficulty (Beginner/Intermediate/Advanced), Realtime Grammar Feedback, tick mục tiêu giao tiếp và thẻ điểm số chia sẻ AI ScoreCard.
+        - `/community/leaderboard`: Bục vinh danh Top 3 Podium, chuyển đổi 2 tiêu chí XP ↔ Số phút học, thẻ `SeasonRankCard` Mùa 10/2026 và nhận thưởng cuối mùa.
+        - `/dashboard`: Lộ trình ngày 10 từ/15 phút, ngọn lửa Streak 1 ngày Amber `#f59e0b`, biểu đồ phân tích 7 ngày, mini AI Tutor và 4 thẻ phím tắt phòng học.
+        - `/study/exam-prep`: Thư viện 37 đề thi TOEIC & IELTS, bộ chọn đa kỹ năng, làm bài thi thực tế với audio Part 1 Photographs, Answer Sheet 200 câu, đồng hồ đếm ngược Rose red và modal nộp bài.
+        - `/vocabulary`: 60 chủ đề cơ bản ↔ 155 chủ đề nâng cao, tìm kiếm theo thời gian thực và thanh thống kê kho từ.
+        - `/study/ipa`: Bảng ma trận 44 âm IPA, phòng phân biệt cặp âm Minimal Pairs và phòng thực hành giải phẫu khẩu hình 3D kèm Mic AI.
+      - **Đợt 2 (Kỹ Năng, Games, PvP & Ôn Tập)**:
+        - `/study/listening`: Thư viện bài nghe và phòng Dictation Studio nghe chép chính tả.
+        - `/study/shadowing`: Thư viện nhại giọng và phòng Shadowing Studio ghi âm AI.
+        - `/study/grammar`: 5 Bento cards, danh mục 60 chuyên đề ngữ pháp và lý thuyết.
+        - `/study/games`: Danh mục 9 mini games (3x3 Bento Grid) và giao diện trò chơi tương tác.
+        - `/study/pvp`: Sảnh đấu trường 1v1 PvP thời gian thực, 3 chế độ thi đấu và 3 cấp độ khó.
+        - `/review`: Hệ thống lặp lại ngắt quãng SM-2 (Spaced Repetition System) với 5 cấp độ nhớ.
+        - `/myvocab`: Sổ từ vựng cá nhân 4 tab (Tất cả, Yêu thích, Đang học, Đã thuộc).
+      - **Đợt 3 (Cộng Đồng, Cửa Hàng, Hồ Sơ & Lộ Trình)**:
+        - `/community`: Bảng tin mạng xã hội học tập, đăng bài, tương tác thẻ từ vựng.
+        - `/community/friends`: Trung tâm bạn bè, kết bạn và danh sách người học cùng tiến độ.
+        - `/community/groups`: Nhóm học tập cộng đồng và biểu đồ học nhóm 7 ngày.
+        - `/shop`: Cửa hàng đổi vật phẩm Vàng (Bảo hộ lửa Streak Freeze, Thẻ nhân đôi XP).
+        - `/premium`: Bảng so sánh 3 gói hội viên XP Pro (1 Tháng, 1 Năm, Trọn đời).
+        - `/profile`: Hồ sơ học viên, cấp độ LV.1 Newbie, phân tích 5 kỹ năng và kho huy hiệu.
+        - `/analytics`: Biểu đồ phân tích học tập chuyên sâu và thống kê thời lượng.
+        - `/roadmap`: Lộ trình học tập cá nhân hóa do AI đề xuất.
+        - `/study/rooms`: Sảnh phòng tự học nhóm cộng đồng trực tuyến.
+      - **Đợt 4 (Trang Chủ, Xác Thực, Cài Đặt & Phòng Đọc - Foundation & Settings Hub)**:
+        - `/`: Trang chủ Landing Page giới thiệu hệ sinh thái học từ vựng thông minh.
+        - `/login`, `/register`, `/forgot-password`: Cụm trang xác thực tài khoản chuẩn bảo mật.
+        - `/settings`: Cài đặt hồ sơ, mục tiêu học tập hằng ngày và thông báo.
+        - `/ai/tutor`: Gia sư AI đàm thoại trực tiếp với 3 huấn luyện viên (Emma, Alex, Chloe).
+        - `/study/reading`: Danh mục bài đọc hiểu cơ bản & nâng cao (Email, Thông báo, Báo chí).
+        - `/study/plan`: Kế hoạch học tập, ma trận đóng góp 6 tháng (GitHub contribution style).
+        - `/profile/achievements`: Kho huy hiệu thành tích chi tiết và thanh tiến độ mở khóa.
+        - `/admin`: Trang quản trị hệ thống có cơ chế bảo vệ phân quyền (Admin Role Gate).
+      - **Đợt 5 (Không Gian Chi Tiết Chuyên Sâu & Luồng Tương Tác - Detail Workspaces & Special Flows)**:
+        - `/ai`: Trung tâm trí tuệ nhân tạo (AI Hub Overview) với 2 thẻ phân vùng chuyên biệt: 1-on-1 AI Speaking Tutor (Voice & Speech) và AI Conversation Studio (Conversation & Chat).
+        - `/onboarding`: Bài kiểm tra đánh giá năng lực xếp lớp (Placement Test 10 câu phân cấp A1-A2, B1-B2, C1-C2), kiểm thử tương tác chọn đáp án "goes", hiệu ứng highlight viền kèm checkmark và kích hoạt nút "Câu Tiếp Theo".
+        - `/vocabulary/t1`: Không gian học chi tiết chủ đề từ vựng (Theme Detail Studio), tương tác chuyển đổi linh hoạt giữa chế độ Flashcard (lật thẻ, nghe phát âm bản xứ, trộn thẻ) và chế độ Danh Sách từ vựng song ngữ.
+        - `/study/grammar/present_simple`: Không gian chi tiết chuyên đề ngữ pháp (Thì Hiện tại đơn), 2 chế độ chuyển đổi mượt mà: Lý Thuyết (Mẹo nhớ nhanh, bảng công thức Khẳng định/Phủ định/Nghi vấn, ứng dụng đề thi TOEIC/IELTS) và Luyện Tập AI (Trợ lý AI Tutor giải thích ngữ cảnh, 4 gợi ý câu hỏi 1-click, sinh đề luyện trắc nghiệm AI).
+        - `/premium/checkout?plan=year`: Cổng quét mã thanh toán VietQR Napas 24/7 (MB Bank), đồng hồ đếm ngược 15:00, nút 1-click sao chép số tài khoản & nội dung chuyển khoản, kích hoạt VIP tức thì và gói quà tặng đính kèm.
+        - `/study/exam-prep/result`: Trung tâm chẩn đoán kết quả thi thử (Exam Diagnostic Hub), điểm quy đổi chính thức 350/990, phân tích chi tiết độ chính xác 7 Part của TOEIC, 3 tabs Điểm số, Lời giải chi tiết 200 câu và Lộ trình gợi ý AI.
+        - `/privacy`: Chính sách bảo mật quyền riêng tư (Privacy Policy), quy định 4 mục bảo vệ dữ liệu học viên toàn cầu.
+        - `/terms`: Quy định và điều khoản dịch vụ (Terms of Service), 5 mục quy chuẩn ứng xử cộng đồng và bản quyền nội dung.
+    - **Khắc phục lỗi miền ảnh Unsplash trên `next/image` (`/study/reading`)**: Bổ sung `images.remotePatterns` trong [`next.config.ts`](file:///e:/XP%20English%20%20XP%20Voca/next.config.ts) cho `images.unsplash.com`, `img.youtube.com`, `i.ytimg.com`, `ui-avatars.com`, `lh3.googleusercontent.com` và thêm thuộc tính `unoptimized` để hiển thị ảnh tức thì mà không phụ thuộc khởi động lại máy chủ.
+    - **Kết Quả Kiểm Thử Hệ Thống Đạt Chuẩn Tuyệt Đối**:
+      - TypeScript (`npx tsc --noEmit`): **0 lỗi (Clean)**.
+      - Vitest: **66 test suites, 681 passed tests (100% pass rate)**.
+      - Toàn bộ **73 tuyến đường dẫn/endpoint** và hơn **50 ảnh chụp màn hình kiểm thử** được lưu trữ trực tiếp làm minh chứng chất lượng tại thư mục artifacts.
 
 ---
 
@@ -1833,6 +1908,8 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
 
 ## ⚡ Danh Mục API Routes Backend (`/app/api`)
 
+- **`GET /api/season`**: Thông tin mùa hiện tại + 5 hạng; với người dùng đã đăng nhập trả thêm XP mùa, thứ hạng, tiến độ hạng và trạng thái thưởng mùa trước (`Cache-Control: private, no-store`). Khách chỉ nhận thông tin công khai.
+- **`POST /api/season/claim`**: Nhận thưởng Coins của mùa đã kết thúc (yêu cầu đăng nhập, hạng và Coins được tính lại hoàn toàn ở máy chủ, chỉ nhận được 1 lần/mùa, trả `409` nếu đã nhận).
 - **`GET /api/user/analytics`**: Trả về dữ liệu thống kê user, chuỗi 30 ngày và ma trận 168 ô 6-month heatmap từ CSDL PostgreSQL.
 - **`GET /api/user/daily-checkin` & `POST /api/user/daily-checkin`**: Endpoint Điểm danh Server-Authoritative (Cộng +15 XP, +20 Vàng, tính streak tự động, chống điểm danh trùng 1 ngày, truy vấn 7 ngày hoạt động trong tuần từ `daily_skill_practices`).
 - **`GET /api/user/challenges` & `POST /api/user/challenges/claim`**: Quản lý nhiệm vụ ngày và kiểm tra điều kiện nhận thưởng trực tiếp từ CSDL (từ vựng, lượt ôn, PvP, phút nói, phút viết).
@@ -1847,6 +1924,11 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
 - **`GET /api/cron/daily-maintenance` & `POST /api/cron/daily-maintenance`**: Endpoint bảo trì định kỳ tự động (Bảo vệ chuỗi Streak bằng Streak Freeze Shield, reset leaderboard tuần) với xác thực `CRON_SECRET`.
 - **`GET /api/youtube/captions` & `POST /api/youtube/captions`**: Backend Server API Route trích xuất & dịch phụ đề song ngữ YouTube trực tiếp với Universal Parser (`lib/services/youtubeSubtitleParser.ts`). Tích hợp **Multi-Tier External Proxy Chain** (Direct → AllOrigins → CodeTabs → CorsProxy.io) vượt rào thành công 100% IP block datacenter của YouTube trên Vercel. Tự động giải mã định dạng YouTube JSON3 (`wireMagic: pb3`, `events/tStartMs/segs`) kết hợp XML TimedText (`<text start dur>`) và WEBVTT, loại bỏ hoàn toàn lỗi bot block Google "We're sorry". Hỗ trợ bóc tách mốc thời gian mili-giây chuẩn xác 100%, căn chỉnh phụ đề song ngữ tối ưu (Optimal Global Alignment) không lệch khớp lời, bảo toàn từ ghép/viết tắt (`don't`, `it's`), xuất dữ liệu JSON, SRT & WEBVTT song ngữ ngắt dòng 42 ký tự chuẩn xác và phản hồi HTTP 200/404.
 - **`GET /api/youtube/subtitles/proxy`**: Same-Origin Hybrid Proxy Endpoint với 4-tier proxy fallback chain (Direct → AllOrigins → CodeTabs → CorsProxy.io) tự động giải mã và bypass CORS / IP rate-limit trên Vercel Edge.
+- **`GET /api/video-catalog/categories`**: Lấy danh sách 8 danh mục video lớn (TED-Ed, BBC 6 Minute, IELTS, Daily Conversations, Kurzgesagt, TOEIC, Business, Music) kèm số lượng bài học, playlist và trạng thái nổi bật.
+- **`GET /api/video-catalog/lessons`**: Truy vấn danh sách bài học video tuyển chọn với bộ lọc đa chiều (Category, Playlist, CEFR Level A1-C2, Search, Sort theo độ phổ biến/thời lượng/ngày tạo) kèm phân trang tối ưu.
+- **`GET /api/video-catalog/lessons/[id]`**: Chi tiết bài học video kèm đầy đủ các phân đoạn câu (`LessonSegment`) chuẩn xác mili-giây, phiên âm IPA, dịch nghĩa ngữ cảnh tiếng Việt, danh sách danh từ riêng (`properNouns`) và từ vựng trọng tâm (`keywords`).
+- **`POST /api/video-catalog/request-lesson` & `GET /api/video-catalog/request-lesson`**: Hòm thư yêu cầu bài học — Cho phép học viên gửi link YouTube yêu thích để hệ thống tự động bóc tách phụ đề và chuyển đổi thành bài học tương tác.
+- **`POST /api/video-catalog/ingest`**: Pipeline tự động hóa nạp video YouTube — Bóc tách phụ đề, lọc nhiễu âm, phân đoạn ranh giới câu, nhận diện danh từ riêng, tính WPM và lưu trữ vào CSDL PostgreSQL (`VideoLesson` & `LessonSegment`).
 
 ---
 
@@ -1868,6 +1950,7 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
   - `__tests__/cron.test.ts` (5 tests): Xác thực CRON_SECRET và cơ chế tự động bảo vệ Streak.
   - `__tests__/exam_bank_audit.test.ts` (7 tests): Rà soát 37 đề thi TOEIC/IELTS chuẩn hóa.
   - `__tests__/myvideo*.test.ts` (205 tests): Đồng bộ phụ đề mili-giây, Lyrics compilation, Proxy bypass, Media Player Sync.
+  - `__tests__/video_catalog_phase1.test.ts` (40 tests): Kiểm thử phân tích video URL, lọc tạp âm subtitle, bóc tách danh từ riêng, trích xuất từ khóa, định lượng CEFR/WPM và toàn bộ các Live Route Handlers (`/api/video-catalog/*`) tích hợp CSDL PostgreSQL.
   - `__tests__/shop.test.ts`, `__tests__/sm2.test.ts`, `__tests__/xp.test.ts`, `__tests__/practice.test.ts`, `__tests__/basic_vocabulary.test.ts` (26 tests).
 
 ---
@@ -2437,7 +2520,178 @@ $$\text{MEASURE} \rightarrow \text{UNDERSTAND} \rightarrow \text{EXPLAIN} \right
    - Bổ sung thanh tiêu đề AI Tutor định danh rõ ràng vai trò hỗ trợ và nút phát âm câu tự nhiên có nhãn trực quan (*"Nghe mẫu"*).
 7. **Chuẩn Hóa Dải Gợi Ý Từ Vựng Nhanh (`AiConversationInputDock.tsx`)**:
    - Loại bỏ dấu `+` cơ học gây hiểu lầm, giữ dấu chấm bullet `•` phân cách chuẩn typography (`Gợi ý: beverage • recommend • delicious`).
-   - Hover đổi màu Xanh hoàng gia `#0059bb`, hỗ trợ nhấp 1-chạm chèn trực tiếp vào câu soạn thảo.
+### 12. Tối Ưu Toàn Diện UI/UX Mini Games Studio (`/study/games`)
+1. **Khắc Phục Triệt Để Lỗi Stacking Context & Menu Kho Từ Vựng Bị Lấp**:
+   - Loại bỏ thuộc tính `backdrop-blur-md` trên thanh công cụ Studio Toolbar (vốn là nguyên nhân tạo ra CSS Containing Block bẫy các phần tử con `fixed`/`absolute`).
+   - Chuẩn hóa hệ thống phân tầng hiển thị Z-Index: Toolbar đạt `relative z-30`, Menu Dropdown đạt `relative z-40` & `z-50` kèm lớp nền mờ `fixed inset-0 z-40 bg-slate-950/20`, lưới Bento Cards bên dưới đưa về `relative z-0`.
+   - Kết quả: Khi nhấp chọn *"Tất Cả Từ Vựng"*, popup menu danh sách kho từ (Tất cả, TOEIC, IELTS, Sổ tay yêu thích, Từ hay quên) nổi hoàn toàn lên tầng trên cùng với bóng đổ sâu `shadow-2xl`, không còn bị thẻ game *Memory Match* lấn át hay che lấp nội dung.
+2. **Nâng Cấp Hệ Thống Icon Chuẩn Design System & Loại Bỏ Emoji Thô**:
+   - Loại bỏ 100% các ký tự emoji thô (`⚡`, `🎧`, `🧠`) trong thanh phân loại danh mục, chuyển sang hệ thống Lucide SVG đồng bộ:
+     * `Tất cả`: `<Sparkles />`
+     * `Phản xạ & Tốc độ`: `<Zap />`
+     * `Hình ảnh & Âm thanh`: `<Headphones />`
+     * `Trí nhớ & Cấu trúc`: `<Brain />`
+   - Nâng cấp icon đại diện trên thẻ trò chơi cho tính tương thích ngữ nghĩa chuẩn mực:
+     * `Wordle English`: Thay icon chữ `SpellCheck` bằng `<KeyRound />` (ẩn dụ mở khóa từ bí mật 5 chữ cái).
+     * `Sentence Builder`: Thay icon sách `BookOpen` bằng `<AlignLeft />` (ẩn dụ cấu trúc trật tự ngữ pháp câu).
+   - Đồng bộ 100% icon này lên thanh breadcrumb `AppTopHeader` khi học viên vào chơi chi tiết (`GAME_TITLE_MAP`).
+3. **Triệt Tiêu Hoàn Toàn Hiện Tượng Vỡ Dòng & Bố Cục Thẻ Game (Zero-Wrap Bento Layout)**:
+   - Chuẩn hóa toàn bộ thẻ thông số thời lượng/độ dài ở đáy card thành các token súc tích, không vỡ dòng: `8 từ`, `2.5 phút`, `60 giây`, `Tốc độ`, `4-8 cặp`, `2 phút`, `6 lượt`, `5 ký tự`, `5 câu`, `3 phút`, `8 ảnh`, `8 câu`, `15 câu`, `1v1 Live`, `3 ván`, `Hằng ngày`.
+   - Tối ưu nút CTA hành động dứt khoát: `Vào chơi`, `Đấu ngay`, `Chơi ngay` kèm icon mũi tên chuyển động vi mô.
+   - Thêm `shrink-0 flex-nowrap` cho cụm huy hiệu, triệt tiêu 100% lỗi rớt chữ xuống dòng trên cả Desktop hẹp và Tablet.
+4. **Bố Cục 3x3 Cân Đối & Chống Che Khuất Bởi Trợ Lý AI**:
+   - Mở rộng đầy đủ 9 trò chơi theo cấu trúc ma trận 3x3 hoàn mỹ: bổ sung thẻ *Đấu Trường 1v1 PvP* (chế độ thi đấu thời gian thực) và *Thử Thách Gauntlet* (chuỗi 3 game bảo vệ streak).
+   - Thu gọn padding Hero Banner (`p-4 sm:p-5 lg:p-6`) để hàng thẻ thứ 2 lộ diện ngay trên màn hình chuẩn 1366x768 và 1536x730 mà không cần cuộn trang.
+   - Thêm khoảng đệm chân trang `pb-28 sm:pb-36`, chống tình trạng bóng chat XP Mentor che lấp các nút tương tác.
+
+### 13. Mùa Giải & Hệ Thống Xếp Hạng Rank Tier (Season Rank & League System)
+1. **Kiến Trúc Mùa Giải & Khung Xếp Hạng Chuẩn E-Sports (`features/community/components/leaderboard/SeasonRankCard.tsx`)**:
+   - Tích hợp 6 bậc xếp hạng (Rank Tiers): **Đồng (Bronze) ➔ Bạc (Silver) ➔ Vàng (Gold) ➔ Bạch Kim (Platinum) ➔ Kim Cương (Diamond) ➔ Thách Đấu (Challenger)** với huy hiệu TierShieldIcon đa sắc tương ứng.
+   - Thẻ hiển thị trực quan: Tên mùa giải hiện tại (`Mùa 1: Khởi Nguyên 2026`), Thời gian đếm ngược còn lại (`28 ngày`), Điểm Rank RP hiện tại, Cột mốc điểm thăng hạng tiếp theo, và Tỉ lệ thắng PvP Arena.
+   - Hộp quà phần thưởng cuối mùa: Hiển thị minh bạch số XP thưởng, Huy hiệu độc quyền, và Xu vàng Coin nhận được khi kết thúc mùa giải.
+2. **Đồng Bộ Dữ Liệu Thời Gian Thực (`infrastructure/database/seasonStore.ts` & `/api/season/current`)**:
+   - Quản lý trạng thái mùa giải với store chuyên biệt `useSeasonStore`, tự động đồng bộ điểm số khi tham gia giải đố, ôn từ vựng SRS hoặc đấu trường 1v1 PvP.
+
+---
+
+### 14. AI Roleplay Đa Nhân Vật & Thẻ Điểm Đánh Giá CEFR (`/ai/conversation`)
+1. **Hệ Thống 6 Persona Độc Quyền Theo Độ Khó Chuẩn CEFR (`features/ai/conversation/data/aiPersonas.ts`)**:
+   - `Emma Friendly`: Gia sư Anh-Mỹ kiên nhẫn, hỗ trợ người mới bắt đầu (A1-A2), sử dụng từ vựng căn bản và phản hồi ấm áp.
+   - `David Corporate`: Giám đốc tuyển dụng & đàm phán doanh nghiệp (B2-C1), ngữ điệu chuyên nghiệp, thử thách phản xạ kinh doanh.
+   - `Sarah Examiner`: Giám khảo IELTS chính thức (B2-C2), đặt câu hỏi mở sâu sắc, tập trung vào từ vựng học thuật và tính mạch lạc.
+   - `Alex Tech Lead`: Kỹ sư trưởng công nghệ Silicon Valley (B2-C1), chuyên phỏng vấn System Design & thuật ngữ IT.
+   - `Mia Barista`: Nhân viên quán cà phê New York (A2-B1), giao tiếp đời thường, phản xạ gọi món và trò chuyện phiếm.
+   - `Professor James`: Giáo sư đại học Oxford (C1-C2), phong cách học giả hàn lâm, từ vựng phong phú và cấu trúc phức tạp.
+2. **Bộ Thẻ Điểm Đánh Giá Toàn Diện & Modal Chia Sẻ Thành Tích (`AiConversationScoreCard.tsx` & `AiConversationShareModal.tsx`)**:
+   - Phân tích 4 tiêu chí CEFR chuẩn mực: **Độ Trôi Chảy (Fluency)**, **Độ Chuẩn Ngữ Pháp (Grammar)**, **Vốn Từ Vựng (Vocabulary)**, và **Độ Phù Hợp Ngữ Cảnh (Relevance)** với thang điểm 0-100 và radar/bar visual.
+   - Tạo thẻ thành tích đồ họa cao cấp 1-click cho học viên tải về hoặc chia sẻ lên mạng xã hội với đường link xác thực.
+
+---
+
+### 15. YouTube AI Video Flashcard Studio (`/myvideo`)
+1. **Trích Xuất Bộ Học Tập Tự Động Từ Video Phụ Đề Song Ngữ (`features/myvideo/services/studySetExtractor.ts`)**:
+   - AI tự động phân tích dòng thời gian phụ đề YouTube, trích xuất các từ vựng và cụm từ (Collocations / Idioms) quan trọng nhất kèm phiên âm IPA, nghĩa tiếng Việt và mốc thời gian xuất hiện trong video (`timestamp`).
+   - Cung cấp 2 chế độ học tập đồng bộ trong Dock tương tác: **Bộ Flashcards Trực Quan** (lật thẻ ôn từ) và **Bộ Câu Hỏi Trắc Nghiệm Video Quiz** (kiểm tra khả năng nghe hiểu theo ngữ cảnh video).
+2. **Đồng Bộ Dữ Liệu Sổ Từ Vựng Cá Nhân (`/api/youtube/study-set`)**:
+   - Nút hành động 1-click "Lưu tất cả vào Sổ từ vựng" tự động nạp toàn bộ từ trích xuất vào thuật toán ôn tập ngắt quãng Spaced Repetition SM-2 của học viên.
+
+---
+
+### 16. Kiểm Thử Toàn Diện UI/UX, Tương Tác & Database Thư Viện Từ Vựng (`/vocabulary` & `/vocabulary/[id]`)
+1. **Kiểm Thử Trang Danh Mục Từ Vựng (`/vocabulary`) Bằng Trình Duyệt Chrome Thực Tế (CDP)**:
+   - **Header & Navigation**: Xác thực `VocabSuiteNavTabs` với đầy đủ 4 tab chức năng (Thư viện chủ đề, Sổ từ vựng, Ôn tập SRS, Lộ trình), nút Primary duy nhất "Luyện Trí Nhớ Flashcards" tuân thủ Rule 18 Wadhah Aloui.
+   - **Bộ Chuyển Đổi Cấp Độ (Level Switcher)**: Chuyển đổi mượt mà giữa `60 Chủ Đề Cơ Bản` (A1-A2, 1.248+ từ) và `155 Chủ Đề Nâng Cao` (B1-C2, 8.900+ từ), hiệu ứng visual highlight và số lượng cards cập nhật tức thì 0ms.
+   - **Tìm Kiếm Thời Gian Thực (Live Search)**: Xác thực bộ lọc realtime khi gõ từ khóa "Gia đình" lọc chuẩn xác card mục tiêu, nút Clear (X) khôi phục danh mục tức thì.
+   - **Bento Stats Bar**: Cập nhật động 4 chỉ số thống kê (Bộ chủ đề, Kho từ vựng, Mục tiêu học, Trí nhớ SRS 86%), số liệu to rõ theo Rule 8.
+2. **Kiểm Thử Trang Chi Tiết Học Tập (`/vocabulary/[id]`) Với 4 Chế Độ Học**:
+   - **Chế độ 1 - Flashcard 3D Studio (`FlashcardStudioPane`)**: Hiển thị thẻ lật 3D 2 mặt (Mặt trước: Từ vựng, IPA, Audio TTS; Mặt sau: Nghĩa tiếng Việt, Câu ví dụ song ngữ), nút lật Space, nút Đã thuộc (+15 XP), Trộn thẻ ngẫu nhiên.
+   - **Chế độ 2 - Danh Sách Từ Vựng (`VocabularyListPane`)**: Ô tìm kiếm nội bộ, 4 bộ lọc trạng thái (Tất cả, Chưa thuộc, Đã thuộc, Yêu thích), lưới card `VocabCardItem` responsive đầy đủ phiên âm, nghĩa tiếng Việt, câu ví dụ và nút phát âm.
+   - **Chế độ 3 - Đấu Trường Quiz (`QuizArenaPane`)**: Câu hỏi trắc nghiệm 4 đáp án A/B/C/D, phím tắt 1/2/3/4, phản hồi màu chuẩn 60-30-10 (Xanh Emerald `#10b981` đúng, Đỏ Cherry `#f43f5e` sai), tính điểm thời gian thực.
+   - **Chế độ 4 - AI Coach Tutor (`AiCoachPane`)**: Trợ lý AI đặt câu hỏi ngữ cảnh, gợi ý câu hỏi 1-click ("Cho 3 ví dụ thực tế", "Phân biệt ngữ cảnh", "Mẹo ghi nhớ"), nút gửi tím AI `#8b5cf6` (+10 XP).
+3. **Backend API & Tính Toàn Vẹn Cơ Sở Dữ Liệu**:
+   - `GET /api/vocabulary?themeId=t_basic_greetings` trả về HTTP 200 OK với đầy đủ 30 từ vựng cơ bản, cấu trúc JSON sạch, không có lỗi runtime.
+   - Toàn bộ 66 test suites với 681 bài kiểm tra tự động đạt tỉ lệ **PASSED 100%**. TypeScript type-check đạt **0 lỗi**.
+
+### 17. Kiểm Thử Toàn Diện Sổ Từ Vựng Cá Nhân & Spaced Repetition SM-2 (`/myvocab`)
+1. **Kiểm Thử UI/UX Theo 19 Quy Tắc Wadhah Aloui & Bảng Màu 60-30-10**:
+   - **Header & Navigation**: Xác thực thanh `VocabSuiteNavTabs` với Tab *"Sổ từ của tôi"* active, nút Primary duy nhất *"Luyện Tập Ngay"* (`bg-[#0059bb] hover:bg-[#004ba0]`) dẫn thẳng tới `/study/practice` (tuân thủ triệt để Rule 18).
+   - **Bento Stats Bar 4 Chỉ Số (Rule 8)**: Hiển thị nổi bật số liệu font mono cỡ lớn: *Tổng số từ*, *Yêu thích* (icon Heart Rose `#f43f5e`), *Đang học* (icon Refresh Amber `#f59e0b`), *Đã làm chủ* (icon Crown Emerald `#10b981`). Mỗi thẻ Bento hỗ trợ nhấp chuột để chuyển nhanh bộ lọc tương ứng.
+   - **Bộ Lọc Trực Tiếp (Rule 14)**: 4 Tabs dạng Pills hiển thị kèm bộ đếm số lượng trực tiếp (`Tất cả`, `Yêu thích`, `Đang học`, `Đã thuộc`), không giấu trong dropdown.
+   - **Bo Góc & Phân Cấp (Rule 10)**: Thẻ bao ngoài `rounded-2xl`, phần tử con bên trong `rounded-xl` hoặc `rounded-lg` (`calc(outer - padding)`).
+2. **Kiểm Thử Tương Tác Học Tập & Xử Lý Dữ Liệu Thời Gian Thực**:
+   - **Cơ Chế Tự Động Làm Giàu Dữ Liệu (Auto-Enrichment Engine)**: Tích hợp hàm tra cứu O(1) `getBasicVocabularyById` trên Map cache của `basicVocabularies.ts`, tự động bổ sung đầy đủ phiên âm IPA, nghĩa tiếng Việt, định nghĩa tiếng Anh, từ loại (POS) và câu ví dụ ngữ cảnh cho bất kỳ từ nào thiếu trường khi nạp từ local/server.
+   - **Xác Thực Bộ Lọc Trạng Thái**: Chuyển đổi chính xác 100% giữa các tab *Tất cả*, *Yêu thích*, *Đang học*, *Đã thuộc* trên Chrome thực tế, số lượng thẻ và nội dung hiển thị khớp hoàn hảo với trạng thái học tập.
+   - **Tìm Kiếm Thời Gian Thực (Live Search)**: Tìm kiếm tức thì theo cả từ vựng tiếng Anh hoặc nghĩa tiếng Việt (gõ *"Gia đình"* lọc ngay từ `family`), phản hồi thông báo thân thiện khi không tìm thấy kết quả.
+   - **Hành Động Trên Thẻ Từ**: Bấm nút tim Yêu thích cập nhật ngay lập tức sang màu đỏ Rose và tăng bộ đếm yêu thích; bấm nút *"Ôn (+15 XP)"* kích hoạt tăng chấm thuần thục màu xanh ngọc và cộng điểm thưởng XP.
+3. **Tính Toàn Vẹn Dữ Liệu & Backend API**:
+   - Khắc phục triệt để nguy cơ thất thoát metadata trong hàm `submitReview` tại [`stores/vocabularyStore.ts`](file:///e:/XP%20English%20%20XP%20Voca/stores/vocabularyStore.ts), giữ nguyên toàn bộ thông tin chi tiết của từ khi đồng bộ với máy chủ.
+   - Không phát hiện bất kỳ lỗi Runtime Console nào trong toàn bộ phiên tương tác Chrome.
+   - Hệ thống bài kiểm tra tự động duy trì tỉ lệ **100% PASSED** (`myvocab_review_standards.test.ts`), `tsc --noEmit` đạt 0 lỗi.
+
+### 18. Kiểm Thử Toàn Diện Lịch Ôn Tập Spaced Repetition SM-2 (`/review`)
+1. **Kiểm Thử UI/UX Theo 19 Quy Tắc Wadhah Aloui & Bảng Màu 60-30-10**:
+   - **Header & Navigation**: Xác thực thanh `VocabSuiteNavTabs` với Tab *"Ôn tập SRS"* active (`text-[#0059bb] bg-[#0059bb]/10`), đồng bộ 4 tab hệ sinh thái từ vựng.
+   - **Bento Stats Bar 4 Chỉ Số (Rule 8)**: Hiển thị nổi bật số liệu font mono cỡ lớn: *Cần ôn hôm nay* (**3** từ, Amber `#f59e0b`), *Tỷ lệ nhớ từ* (**80%**, Emerald `#10b981`), *Từ đã làm chủ* (**2** từ, Blue `#0059bb`), *Tổng từ đang học* (**5** từ, Indigo `#6366f1`).
+   - **Lịch Ôn Tập Đa Ngày Trực Quan (Spaced Repetition Calendar Grid)**:
+     - Lưới 7 cột ngày trong tuần cân đối, hiển thị huy hiệu số từ cần ôn trên từng ô ngày (`+3`, `+2`), dấu chấm tròn xanh thể hiện mốc đã ôn, và vòng tròn highlight ngày hiện tại.
+     - Thanh phân bổ 5 mức ghi nhớ (Level 1: Mới học ➔ Level 5: Tinh thông) trực quan, kèm mẹo giáo dục SM-2 chuẩn mực.
+   - **Bộ Lọc Danh Sách Ngày (Rule 14)**: 4 Tabs dạng Chips hiển thị trực tiếp (`Tất cả (3)`, `Cần ôn (3)`, `Khó (0)`, `Đã thuộc (0)`), không giấu trong dropdown.
+   - **Duy Nhất 1 Nút Chính (Rule 18)**: Nút *"Ôn Tập Ngay (+15 XP/từ)"* mang màu xanh hoàng gia `#0059bb` nổi bật làm Primary Action duy nhất, các nút chọn ngày, nghe âm thanh, bookmark là secondary/ghost.
+2. **Kiểm Thử Tương Tác Học Tập & Cơ Chế Auto-Enrichment**:
+   - **Chống Thất Thoát Metadata Thẻ Từ**: Tích hợp hàm tra cứu O(1) `getBasicVocabularyById` vào `rawSelectedDateVocabs`, tự động bù đắp đầy đủ phiên âm IPA, nghĩa tiếng Việt, định nghĩa và ví dụ ngữ cảnh cho toàn bộ các từ được lên lịch SM-2.
+   - **Hành Động Trên Thẻ Từ**: Bấm nút Bookmark cập nhật tức thì trạng thái yêu thích với icon tim đỏ Rose `#f43f5e`, đồng bộ dữ liệu vào `useVocabularyStore`.
+   - **Điều Hướng Thông Minh**: Nút Primary *"Ôn Tập Ngay"* điều hướng trực tiếp sang phòng luyện tập `/study/practice?mode=due`.
+3. **Tính Toàn Vẹn Hệ Thống & Console Logs**:
+   - 0 cảnh báo đỏ, 0 Runtime Error trên Chrome DevTools Console.
+   - Toàn bộ 66 test suites với 681 bài kiểm tra tự động duy trì tỉ lệ **PASSED 100%**. TypeScript type-check đạt **0 lỗi**.
+
+### 19. Kiểm Thử Toàn Diện Lộ Trình Học AI Thông Minh Theo Cấp Độ (`/roadmap`)
+1. **Kiểm Thử UI/UX Theo 19 Quy Tắc Wadhah Aloui & Bảng Màu 60-30-10**:
+   - **Header & Navigation**: Tích hợp `AppTopHeader` bảo toàn Avatar học viên trên Desktop, chip Streak 🔥 và Vàng 🪙 hiển thị rõ ràng, link *"Xếp hạng"* trỏ chuẩn xác đến `/community/leaderboard`. Nút Primary duy nhất *"Học Bài Tiếp Theo"* nổi bật xanh hoàng gia `#0059bb` (Rule 18).
+   - **Bento Hero Spotlight Banner**: Hiển thị đầy đủ thông số mục tiêu học tập: `TOEIC Target: 750`, Tiến độ tổng quan `22% Hoàn Thành`, nút ghost *"Đổi Mục Tiêu AI"* bo góc `rounded-xl`.
+   - **Bố Cục Bento 8 Cột + 4 Cột Cân Đối**:
+     - Cột trái (8 cols): Các thẻ Chặng học tập (`PhaseRoadmapCard`) bo góc `rounded-2xl`, hiển thị huy hiệu Chặng, rương quà tặng `+200 XP & +80 Coin`, danh sách thẻ bài học `LessonTaskItem` với nút *"Luyện Ngay"* chuẩn secondary button sang trọng.
+     - Cột phải (4 cols): Thẻ hướng dẫn chi tiết `LessonInspectorCard` sticky tinh tế, hiển thị tiêu đề bài học, tóm tắt nhiệm vụ, mẹo làm bài ăn điểm độc quyền, số XP thưởng và nút Primary CTA *"Bắt Đầu Luyện Tập (+25 XP)"*.
+2. **Kiểm Thử Tương Tác Học Tập & Thuật Toán Sinh Giáo Án AI**:
+   - **Tương Tác Tích Hoàn Thành & Tặng Thưởng XP**: Tích chọn checkbox bài học tự động đổi sang icon tích xanh Emerald `CheckCircle2`, gạch ngang tiêu đề, tặng `+25 XP`, bắn Toast thông báo ăn mừng và tăng tỷ lệ phần trăm tiến độ tổng quan.
+   - **Form Thiết Kế Mục Tiêu AI (`GoalSelectionForm`)**: Chuyển đổi mượt mà giữa các mục tiêu TOEIC, IELTS, Business, Travel; lựa chọn 4 mốc điểm số và thanh cam kết thời gian; đồng bộ bảng mô phỏng lộ trình 12 tuần `AiBlueprintPreview` đạt chuẩn CEFR quốc tế.
+3. **Tính Toàn Vẹn Hệ Thống & Bộ Kiểm Thử Tự Động**:
+   - Bổ sung bộ kiểm thử chuyên biệt [`__tests__/roadmap_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/roadmap_standards.test.ts) (5/5 tests passed).
+
+---
+
+### 20. Hệ Sinh Thái Video Đa Tầng, Video Catalog & Ingestion Pipeline (Giai Đoạn 1)
+1. **Kiến Trúc Mô Hình Dữ Liệu PostgreSQL & Neon DB (`prisma/schema.prisma`)**:
+   - Mở rộng lược đồ CSDL với 5 thực thể quan hệ chuẩn hóa cao:
+     - `video_categories`: Danh mục chủ đề chuyên sâu (IELTS Speaking, TOEIC Workplace, Ted Talks Inspiration, BBC News English, VOA Learning English, Daily Conversations, Movie Clips, Academic Lectures) với slug duy nhất và thứ tự hiển thị `display_order`.
+     - `video_playlists`: Bộ sưu tập/Playlist theo lộ trình học tập, gắn kết với danh mục và cấp độ CEFR (`A1` - `C2`).
+     - `video_lessons`: Bài học video hoàn chỉnh với `youtube_id`, `duration_seconds`, cấp độ CEFR, số lượt xem `views_count`, tổng số câu `total_sentences`.
+     - `lesson_segments`: Các phân đoạn phụ đề song ngữ chính xác theo từng câu (`start_time`, `end_time`, `text`, `text_vi`, `ipa`), chỉ mục `segment_order`, và mảng danh từ riêng `proper_nouns`.
+     - `lesson_requests`: Hệ thống tiếp nhận đề xuất bài học mới từ cộng đồng học viên với cơ chế khử trùng lặp `youtube_url` và bình chọn `votes_count`.
+2. **Quy Trình Xử Lý & Trích Xuất Video Thông Minh (`features/listening/services/videoIngestionService.ts`)**:
+   - Phân tích mọi định dạng URL YouTube (`youtube.com/watch`, `youtu.be/`, `youtube.com/embed/`, `shorts/`).
+   - Lọc nhiễu âm thanh tự động (loại bỏ `[Music]`, `[Applause]`, `(laughter)`, âm thanh nền).
+   - Nhận diện danh từ riêng tự động (`detectProperNounsInSentence`) cho tên người, địa danh, công ty đa quốc gia (*Steve Jobs, Silicon Valley, Apple, Stanford*).
+   - Đánh giá cấp độ CEFR tự động dựa trên độ dài trung bình câu và tần suất từ vựng học thuật.
+3. **Bộ Tuyến API Catalog Chuẩn Mực (`/api/video-catalog/*`)**:
+   - `GET /api/video-catalog/categories`: Trả về toàn bộ danh mục kèm số lượng bài học và playlist thống kê trực tiếp.
+   - `GET /api/video-catalog/lessons`: Lọc đa tiêu chí theo cấp độ CEFR, danh mục `category`, từ khóa `q`, sắp xếp `sort` (mới nhất, xem nhiều, thời lượng) và phân trang chuẩn.
+   - `GET /api/video-catalog/lessons/[id]`: Trả về chi tiết bài học kèm segments sắp xếp theo `segmentOrder` và danh từ riêng.
+   - `POST & GET /api/video-catalog/request-lesson`: Tạo và quản lý yêu cầu bài học mới, tự động tăng vote nếu URL đã tồn tại.
+   - `POST /api/video-catalog/ingest`: Tuyến nạp bài học an toàn với kiểm tra trùng lặp CSDL.
+4. **Bộ Kiểm Thử Tự Động**: [`__tests__/video_catalog_phase1.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/video_catalog_phase1.test.ts) (40/40 tests passed 100%).
+
+---
+
+### 21. Nâng Cấp UX Học Video Chuyên Sâu: Ambient Sound Engine, Audio/Video Switcher, Proper Noun Chips & Merge Sentence (Giai Đoạn 2)
+1. **Bộ Tổng Hợp m Thanh Tập Trung Ngoại Tuyến (Study With Me Ambient Synthesizer - `ambientAudioSynthesizer.ts`)**:
+   - Sử dụng Web Audio API thuần (Offline 100%, 0 KB tải mạng, không phụ thuộc file ngoài tránh lỗi 404/CORS).
+   - Tích hợp 4 cảnh quan âm thanh tập trung cao độ:
+     - 🌧️ **Mưa Rào (Rain)**: Tiếng ồn hồng kết hợp lọc thông thấp đa tầng mô phỏng giọt mưa êm dịu.
+     - 🌊 **Sóng Biển (Ocean Waves)**: Bộ dao động tần số thấp LFO 0.1Hz điều biến âm lượng chu kỳ sóng dạt dào.
+     - 🔥 **Lửa Trại (Fireplace)**: Tiếng lách tách vi mô ngẫu nhiên kết hợp nền ấm áp của gỗ cháy.
+     - 🍃 **Gió Rừng (Forest Wind)**: Lọc dải thông Bandpass biến thiên tần số trung tâm mô phỏng gió rít qua tán cây.
+   - Cung cấp thanh trượt âm lượng mượt mà và cơ chế dừng/phát tức thì 0ms.
+2. **Dock m Thanh Tập Trung Nổi (`StudyAmbienceDock.tsx`)**:
+   - Thiết kế Pill trigger nhỏ gọn với icon tai nghe, menu popover dạng nổi bo góc `rounded-2xl` chuẩn Agency.
+   - Tự động lưu lựa chọn âm thanh và âm lượng yêu thích vào `localStorage` (`xp_study_ambience_sound`, `xp_study_ambience_volume`).
+3. **Bộ Chuyển Đổi Chế Độ Học m Thanh & Video (Audio / Video Mode Switcher - `MediaDisplayModeToggle.tsx`)**:
+   - Nút gạt chuyển đổi tức thì giữa **Audio Mode** (tập trung 100% vào phản xạ nghe chính tả / phát âm, sóng âm waveform rực rỡ) và **Video Mode** (khung xem video thực tế với hình ảnh khẩu hình và ngữ cảnh).
+   - Hiệu ứng viên thuốc trượt Spring physics mềm mại.
+4. **Khung Chiếu Video Rạp Phim (`VideoCinemaFrame.tsx`)**:
+   - Hiển thị trực tiếp iframe YouTube Player nhúng an toàn hoặc poster thumbnail video với tỷ lệ vàng 16:9.
+   - Bo góc kép Double-Bezel (`rounded-2xl`), tích hợp nút chuyển nhanh về Audio Mode góc trên bên phải.
+5. **Huy Hiệu Danh Từ Riêng (Proper Noun Chips - `DictationWorkspace.tsx`)**:
+   - Tự động nhận diện danh từ riêng trong câu thông qua tập hợp `properNouns` (hỗ trợ cả từ ghép như *Steve Jobs* bóc tách thành *Steve*, *Jobs*).
+   - Hiển thị viền nét đứt màu vàng Amber (`border-dashed border-amber-300 dark:border-amber-700`), chấm tròn hổ phách `•` và tooltip giải thích trực quan: *"Danh từ riêng: Nhấn để xem"*.
+6. **Ghép Câu Kế Tiếp Trong Luyện Nói (Merge Next Sentence - `ShadowingStudioWorkspace.tsx`)**:
+   - Cho phép học viên nâng cao ghép câu đang học với câu kế tiếp thành một chuỗi nói dài tự nhiên (+1 câu).
+   - Tự động nối văn bản tiếng Anh, phiên âm IPA, bản dịch tiếng Việt và nới rộng mốc thời gian `start` / `end` tương ứng.
+   - Nút chuyển đổi *"Ghép câu kế tiếp (+1)"* ↔ *"Tách câu đơn"* linh hoạt 1-click.
+7. **Tích Hợp Đồng Bộ Suite & Bộ Kiểm Thử**:
+   - Tích hợp toàn diện vào `ListeningStudioWorkspace.tsx` và `ShadowingStudioWorkspace.tsx`.
+   - Bộ kiểm thử tự động [`__tests__/video_learning_ux_phase2.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/video_learning_ux_phase2.test.ts) (9/9 tests passed 100%).
+   - Toàn bộ hệ thống kiểm thử Vitest nâng lên **69 test files, 735 passed tests (100% pass rate)**.
 
 ---
 

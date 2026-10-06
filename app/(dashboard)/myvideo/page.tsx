@@ -31,6 +31,7 @@ import {
   useYouTubePlayerSync,
   useVideoExercises,
   useWordLookup,
+  useVideoStudySet,
 } from "@/features/myvideo";
 
 // Lazy-loaded modals for reduced initial bundle footprint
@@ -85,7 +86,7 @@ export default function MyVideoPage() {
 
   // Master Video Player State
   const [activeVideo, setActiveVideo] = useState<YouTubeVideoItem | null>(null);
-  const [rightPanelTab, setRightPanelTab] = useState<"subtitles" | "dictation" | "playlist">("subtitles");
+  const [rightPanelTab, setRightPanelTab] = useState<"subtitles" | "dictation" | "studyset" | "playlist">("subtitles");
   const [subViewMode, setSubViewMode] = useState<"rolling" | "full">("rolling");
 
   // Track study time when a video is actively loaded
@@ -225,6 +226,14 @@ export default function MyVideoPage() {
     awardXp,
     addToast,
     onPauseVideo: pauseVideo,
+  });
+
+  // Hook 4: AI Video Study Set (Flashcards & Quizzes Generator)
+  const studySetHook = useVideoStudySet({
+    activeVideo,
+    user,
+    awardXp,
+    addToast,
   });
 
   // Select video & reset sub-states
@@ -389,6 +398,10 @@ export default function MyVideoPage() {
           setRightPanelTab("dictation");
           break;
         case "3":
+          e.preventDefault();
+          setRightPanelTab("studyset");
+          break;
+        case "4":
           e.preventDefault();
           setRightPanelTab("playlist");
           break;
@@ -653,6 +666,7 @@ export default function MyVideoPage() {
                   waveformBars={waveformBars}
                   shadowingScore={shadowingScore}
                   toggleShadowingRecord={toggleShadowingRecord}
+                  studySetHook={studySetHook}
                   onSelectVideo={handleSelectVideoWithScroll}
                 />
               </div>

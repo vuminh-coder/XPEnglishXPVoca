@@ -100,7 +100,20 @@ export function extractProperNouns(sentence: string, customList?: string[]): str
 export function tokenizeSentence(sentence: string, properNouns: string[]): WordToken[] {
   if (!sentence) return [];
   const rawWords = sentence.trim().split(/\s+/);
-  const properNounSet = new Set(properNouns.map((p) => p.toLowerCase()));
+  const properNounSet = new Set<string>();
+
+  properNouns.forEach((p) => {
+    const fullClean = p.toLowerCase().trim();
+    if (fullClean) properNounSet.add(fullClean);
+
+    // Also index individual words for multi-word proper nouns (e.g. "Steve Jobs" -> "steve", "jobs")
+    fullClean.split(/\s+/).forEach((w) => {
+      const cleanW = w.replace(/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/g, "");
+      if (cleanW && cleanW.length > 1) {
+        properNounSet.add(cleanW);
+      }
+    });
+  });
 
   return rawWords.map((rawWord, idx) => {
     // Separate punctuation
@@ -556,6 +569,12 @@ export function DictationWorkspace({
             <span className="text-slate-400 dark:text-slate-500">
               ({solvedCount}/{tokens.length} - {progressPercent}%)
             </span>
+            {tokens.some((t) => t.isProperNoun) && (
+              <span className="ml-2 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-amber-100 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 border border-amber-300/80 dark:border-amber-800/60 inline-flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                Có danh từ riêng
+              </span>
+            )}
           </div>
 
           <button
@@ -614,19 +633,36 @@ export function DictationWorkspace({
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.97 }}
                       onClick={() => handleTokenClick(idx)}
-                      className={`${tokenSizeClass} ${
+                      title={
+                        token.isProperNoun && !isSolved
+                          ? `Danh từ riêng: Nhấn để xem (${token.clean})`
+                          : isSolved
+                          ? `Từ: ${token.clean}`
+                          : "Nhấn để xem từ"
+                      }
+                      className={`${tokenSizeClass} relative ${
                         isSolved ? "font-sans tracking-normal" : "font-mono tracking-wide"
                       } rounded-md transition-all cursor-pointer select-none flex items-center justify-center ${
                         isMatched
                           ? "bg-emerald-500 text-white font-bold border-2 border-emerald-600 shadow-xs"
                           : isRevealed
-                          ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white font-bold border border-slate-300 dark:border-slate-600 shadow-2xs"
+                          ? token.isProperNoun
+                            ? "bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-200 font-bold border-2 border-amber-400 dark:border-amber-600 shadow-2xs"
+                            : "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white font-bold border border-slate-300 dark:border-slate-600 shadow-2xs"
                           : isFirstLetter
                           ? "bg-amber-50 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 font-bold border border-amber-400 shadow-2xs"
+                          : token.isProperNoun
+                          ? "bg-amber-50/50 dark:bg-amber-950/20 border-2 border-dashed border-amber-400/90 dark:border-amber-500/80 text-amber-800 dark:text-amber-300 font-bold hover:border-amber-500 shadow-2xs"
                           : "bg-slate-50 dark:bg-slate-800/80 border border-slate-200/90 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-semibold hover:border-slate-400 hover:text-slate-900 dark:hover:border-slate-500 dark:hover:text-white shadow-2xs"
                       }`}
                     >
                       {displayContent}
+                      {token.isProperNoun && !isSolved && (
+                        <span
+                          className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-amber-500 ring-2 ring-white dark:ring-slate-900"
+                          title="Danh từ riêng"
+                        />
+                      )}
                     </motion.button>
 
                     {token.trailingPunc && (
