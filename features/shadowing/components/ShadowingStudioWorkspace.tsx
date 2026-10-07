@@ -25,9 +25,15 @@ import { StudioTopHeader } from "@/features/listening/components/StudioTopHeader
 import { StudioWaveformCard } from "@/features/listening/components/StudioWaveformCard";
 import { InteractiveTranscriptSidebar } from "@/features/listening/components/InteractiveTranscriptSidebar";
 import { StudioTimerBadge } from "@/features/listening/components/StudioTimerBadge";
-import { StudyAmbienceDock } from "@/features/listening/components/StudyAmbienceDock";
-import { MediaDisplayModeToggle, MediaDisplayMode } from "@/features/listening/components/MediaDisplayModeToggle";
 import { VideoCinemaFrame } from "@/features/listening/components/VideoCinemaFrame";
+import {
+  MediaDisplayModeToggle,
+  type MediaDisplayMode,
+} from "@/features/listening/components/MediaDisplayModeToggle";
+import {
+  resolveLessonMedia,
+  buildEffectiveSentence,
+} from "@/features/listening/utils/lessonMedia";
 import {
   TranscriptSentencesSkeleton,
   ShimmerBox,
@@ -88,6 +94,16 @@ interface ShadowingStudioWorkspaceProps {
   recommendedLessons: any[];
   onSelectLesson: (id: string | number) => void;
   onShuffleRecommendations: () => void;
+  setPlayingSentenceText?: React.Dispatch<React.SetStateAction<string | null>>;
+  currentVolume?: number;
+  setCurrentVolume?: (vol: number) => void;
+  currentAccent?: string;
+  onAccentChange?: (accent: string) => void;
+  mediaDisplayMode?: MediaDisplayMode;
+  onMediaDisplayModeChange?: (mode: MediaDisplayMode) => void;
+  isMergedWithNext?: boolean;
+  onToggleMergeNext?: () => void;
+  onToast?: (toast: { type: "info" | "success" | "warning" | "error"; title: string; message?: string }) => void;
 }
 
 function ShadowingStudioWorkspaceComponent({
@@ -144,13 +160,27 @@ function ShadowingStudioWorkspaceComponent({
   recommendedLessons,
   onSelectLesson,
   onShuffleRecommendations,
+  setPlayingSentenceText,
+  currentVolume = 1,
+  setCurrentVolume,
+  currentAccent = "en-US",
+  onAccentChange,
+  mediaDisplayMode = "video",
+  onMediaDisplayModeChange,
+  isMergedWithNext: controlledMerged,
+  onToggleMergeNext,
+  onToast,
 }: ShadowingStudioWorkspaceProps) {
-  const [mediaDisplayMode, setMediaDisplayMode] = React.useState<MediaDisplayMode>("audio");
-  const [isMergedWithNext, setIsMergedWithNext] = React.useState(false);
+  const mediaInfo = resolveLessonMedia(currentLesson);
+  const isVideoLesson = mediaInfo.isVideoLesson;
+
+  const [internalMerged, setInternalMerged] = React.useState(false);
+  const isMergedWithNext = controlledMerged !== undefined ? controlledMerged : internalMerged;
+  const toggleMerge = onToggleMergeNext || (() => setInternalMerged((prev) => !prev));
 
   // Auto-reset merge state whenever active sentence changes
   React.useEffect(() => {
-    setIsMergedWithNext(false);
+    setInternalMerged(false);
   }, [currentSentenceIndex, currentLesson?.id]);
 
   const rawSentence =
@@ -162,27 +192,28 @@ function ShadowingStudioWorkspaceComponent({
     currentLesson?.transcript?.[currentSentenceIndex + 1] || null;
 
   const currentSentence = React.useMemo(() => {
-    if (!rawSentence) return null;
-    if (!isMergedWithNext || !nextSentence) return rawSentence;
-
-    const combinedText = `${rawSentence.text} ${nextSentence.text}`;
-    const combinedVn = `${rawSentence.vietnamese || rawSentence.translation || ""} ${nextSentence.vietnamese || nextSentence.translation || ""}`.trim();
-    const combinedIpa =
-      rawSentence.ipa && nextSentence.ipa
-        ? `${rawSentence.ipa} ${nextSentence.ipa}`
-        : rawSentence.ipa || nextSentence.ipa;
-    const combinedEndTime = nextSentence.endTime || rawSentence.endTime + 3;
-
-    return {
-      ...rawSentence,
-      text: combinedText,
-      vietnamese: combinedVn,
-      translation: combinedVn,
-      ipa: combinedIpa,
-      endTime: combinedEndTime,
-      duration: Math.max(3, combinedEndTime - rawSentence.startTime),
-    };
+    return buildEffectiveSentence(rawSentence, nextSentence, isMergedWithNext);
   }, [rawSentence, nextSentence, isMergedWithNext]);
+
+  const sentenceDuration =
+    currentSentence?.startTime !== undefined &&
+    currentSentence?.endTime !== undefined &&
+    currentSentence.endTime > currentSentence.startTime
+      ? Number((currentSentence.endTime - currentSentence.startTime).toFixed(1))
+      : Math.max(
+          3,
+          Math.ceil((currentSentence?.text || "").trim().split(/\s+/).filter(Boolean).length / (2.2 * playbackSpeed))
+        );
+
+  const handleRewind5s = React.useCallback(() => {
+    setSentencePlaybackTime((prev) => Math.max(0, prev - 5));
+    onToast?.({ type: "info", title: "Tua lùi 5s" });
+  }, [setSentencePlaybackTime, onToast]);
+
+  const handleForward5s = React.useCallback(() => {
+    setSentencePlaybackTime((prev) => Math.min(sentenceDuration, prev + 5));
+    onToast?.({ type: "info", title: "Tua nhanh 5s" });
+  }, [sentenceDuration, setSentencePlaybackTime, onToast]);
 
   return (
     <div
@@ -195,16 +226,18 @@ function ShadowingStudioWorkspaceComponent({
         level={currentLesson?.level || "All Levels"}
         currentMode="shadowing"
         lessonQueryId={rawIdParam || selectedLessonId || "1"}
-        isBookmarked={isCurrentSentenceBookmarked}
-        onToggleBookmark={handleToggleBookmark}
+        accent={currentAccent}
+        onAccentChange={onAccentChange}
+        showAccentSwitcher={!isVideoLesson || mediaDisplayMode === "audio"}
         onBack={handleBackToListing}
         rightExtraActions={
           <div className="flex items-center gap-1.5 sm:gap-2">
-            <MediaDisplayModeToggle
-              mode={mediaDisplayMode}
-              onModeChange={setMediaDisplayMode}
-            />
-            <StudyAmbienceDock />
+            {isVideoLesson && onMediaDisplayModeChange && (
+              <MediaDisplayModeToggle
+                mode={mediaDisplayMode}
+                onModeChange={onMediaDisplayModeChange}
+              />
+            )}
             <StudioTimerBadge
               isActive={true}
               initialSeconds={elapsedTime}
@@ -273,55 +306,80 @@ function ShadowingStudioWorkspaceComponent({
         >
           {currentSentence ? (
             <div className="space-y-2.5 w-full">
-              {/* VIDEO CINEMA CONTAINER (Chế độ Video) */}
-              {mediaDisplayMode === "video" && (
+              {/* INTERACTIVE VIDEO CINEMA OR DEDICATED SENTENCE AUDIO STUDIO BLOCK */}
+              {isVideoLesson && mediaDisplayMode !== "audio" ? (
                 <VideoCinemaFrame
-                  sourceUrlOrId={currentLesson?.audioUrl || currentLesson?.audio_url || currentLesson?.id}
+                  sourceUrlOrId={mediaInfo.sourceUrlOrId}
                   title={currentLesson?.title}
-                  thumbnailUrl={currentLesson?.imageUrl}
-                  onSwitchToAudioMode={() => setMediaDisplayMode("audio")}
+                  thumbnailUrl={currentLesson?.imageUrl || (currentLesson as any)?.videoMetadata?.thumbnailUrl}
+                  currentSentence={currentSentence}
+                  isPlaying={playingSentenceText === currentSentence.text}
+                  playbackSpeed={playbackSpeed}
+                  volume={currentVolume}
+                  onVolumeChange={setCurrentVolume}
+                  practiceMode="shadowing"
+                  onSentenceEnded={() => {
+                    setPlayingSentenceText?.(null);
+                    setSentencePlaybackTime(0);
+                  }}
+                  onPlaybackTimeUpdate={(sec) => {
+                    setSentencePlaybackTime(sec);
+                  }}
+                  segmentIndex={currentSentenceIndex}
+                  totalSegments={totalSentencesCount}
+                  playbackTime={sentencePlaybackTime}
+                  duration={sentenceDuration}
+                  isRecording={isRecording}
+                  liveAudioEnergy={liveAudioEnergy}
+                  onTogglePlay={handlePlaySampleAudio}
+                  onPrev={handlePrevSentence}
+                  onNext={handleNextSentence}
+                  onRewind5s={handleRewind5s}
+                  onForward5s={handleForward5s}
+                  onSeek={(time) => setSentencePlaybackTime(time)}
+                  onSpeedChange={(spd) => setPlaybackSpeed(spd)}
+                  isPrevDisabled={currentSentenceIndex === 0}
+                  isNextDisabled={currentSentenceIndex >= totalSentencesCount - 1}
+                  onFallbackToAudio={() => {
+                    onMediaDisplayModeChange?.("audio");
+                  }}
+                />
+              ) : (
+                <StudioWaveformCard
+                  segmentIndex={currentSentenceIndex}
+                  totalSegments={totalSentencesCount}
+                  playbackTime={sentencePlaybackTime}
+                  duration={sentenceDuration}
+                  isPlaying={playingSentenceText === currentSentence.text}
+                  playbackSpeed={playbackSpeed}
+                  volume={currentVolume}
+                  onVolumeChange={setCurrentVolume}
+                  isRecording={isRecording}
+                  liveAudioEnergy={liveAudioEnergy}
+                  onTogglePlay={handlePlaySampleAudio}
+                  onPrev={handlePrevSentence}
+                  onNext={handleNextSentence}
+                  onRewind5s={handleRewind5s}
+                  onForward5s={handleForward5s}
+                  onSeek={(time) => setSentencePlaybackTime(time)}
+                  onSpeedChange={(spd) => setPlaybackSpeed(spd)}
+                  isPrevDisabled={currentSentenceIndex === 0}
+                  isNextDisabled={currentSentenceIndex >= totalSentencesCount - 1}
                 />
               )}
-
-              {/* 3.1 DEDICATED SENTENCE AUDIO STUDIO BLOCK WITH 95-BAR ACOUSTIC SOUNDWAVE */}
-              <StudioWaveformCard
-                segmentIndex={currentSentenceIndex}
-                totalSegments={totalSentencesCount}
-                playbackTime={sentencePlaybackTime}
-                duration={Math.max(
-                  3,
-                  Math.ceil(currentSentence.text.trim().split(/\s+/).length / (2.2 * playbackSpeed))
-                )}
-                isPlaying={playingSentenceText === currentSentence.text}
-                playbackSpeed={playbackSpeed}
-                isRecording={isRecording}
-                liveAudioEnergy={liveAudioEnergy}
-                onTogglePlay={handlePlaySampleAudio}
-                onPrev={handlePrevSentence}
-                onNext={handleNextSentence}
-                onRewind5s={() => {
-                  setSentencePlaybackTime((prev) => Math.max(0, prev - 5));
-                }}
-                onForward5s={() => {
-                  setSentencePlaybackTime((prev) => prev + 5);
-                }}
-                onSeek={(time) => setSentencePlaybackTime(time)}
-                onSpeedChange={(spd) => setPlaybackSpeed(spd)}
-                isPrevDisabled={currentSentenceIndex === 0}
-              />
 
               {/* 3.2 META STATUS ROW */}
               <div className="flex items-center justify-between px-1 text-xs font-medium text-slate-600 dark:text-slate-400 flex-wrap gap-2">
                 <div className="flex items-center gap-2">
                   <span className="px-2.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-mono font-bold border border-slate-200/90 dark:border-slate-700/80 shadow-2xs">
-                    #{currentSentenceIndex + 1}
+                    Câu {currentSentenceIndex + 1}/{totalSentencesCount}
                   </span>
-                  <span className="font-medium text-slate-600 dark:text-slate-400">
-                    0/{currentSentence.text.trim().split(/\s+/).length} từ
+                  <span className="text-slate-500 dark:text-slate-400 font-medium">
+                    {currentSentence.text.trim().split(/\s+/).filter(Boolean).length} từ vựng
                   </span>
                   <span className="text-slate-300 dark:text-slate-700">•</span>
                   <span className="text-slate-600 dark:text-slate-400 font-semibold">
-                    Khớp: {aiAnalysisResult?.overallScore ? `${aiAnalysisResult.overallScore}%` : "0%"}
+                    Khớp: {aiAnalysisResult?.overallScore ? `${aiAnalysisResult.overallScore}%` : "Chưa chấm"}
                   </span>
                 </div>
 
@@ -377,7 +435,7 @@ function ShadowingStudioWorkspaceComponent({
                   {nextSentence && (
                     <button
                       type="button"
-                      onClick={() => setIsMergedWithNext(!isMergedWithNext)}
+                      onClick={toggleMerge}
                       className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer select-none active:scale-95 ${
                         isMergedWithNext
                           ? "text-[#0059bb] dark:text-sky-300 bg-blue-50 dark:bg-blue-950/60 border border-blue-200/90 dark:border-blue-800/80 shadow-xs"
@@ -469,7 +527,7 @@ function ShadowingStudioWorkspaceComponent({
                         }`}
                       />
                     </div>
-                    <span className="hidden sm:inline">Ẩn dịch (i)</span>
+                    <span className="hidden sm:inline">Ẩn bản dịch</span>
                   </label>
                 </div>
               </div>

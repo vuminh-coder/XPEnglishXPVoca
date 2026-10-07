@@ -105,20 +105,37 @@ export const EQUIVALENCE_MAP: Record<string, string[]> = {
   "10": ["ten"],
   "&": ["and"],
   "%": ["percent"],
+  "si": ["sí"],
+  "hui": ["会", "huì"],
+  "yes": ["sí", "si"],
+  "ni": ["你"],
+  "shuo": ["说"],
+  "zhongwen": ["中文"],
+  "ma": ["吗"],
 };
 
+export function stripDiacritics(str: string): string {
+  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
 export function checkEquivalenceMatch(input: string, target: string): boolean {
-  const cIn = input.toLowerCase().replace(/[^a-z0-9'&%]/g, "");
-  const cTarget = target.toLowerCase().replace(/[^a-z0-9'&%]/g, "");
+  const normIn = stripDiacritics(input).toLowerCase().replace(/[^a-z0-9'&%\p{L}]/gu, "");
+  const normTarget = stripDiacritics(target).toLowerCase().replace(/[^a-z0-9'&%\p{L}]/gu, "");
+
+  if (normIn === normTarget) return true;
+
+  // Direct clean check
+  const cIn = input.toLowerCase().replace(/[^a-z0-9'&%\p{L}]/gu, "");
+  const cTarget = target.toLowerCase().replace(/[^a-z0-9'&%\p{L}]/gu, "");
 
   if (cIn === cTarget) return true;
 
   // Check map
-  const mapped = EQUIVALENCE_MAP[cIn];
-  if (mapped && mapped.includes(cTarget)) return true;
+  const mapped = EQUIVALENCE_MAP[cIn] || EQUIVALENCE_MAP[normIn];
+  if (mapped && (mapped.includes(cTarget) || mapped.includes(normTarget))) return true;
 
-  const targetMapped = EQUIVALENCE_MAP[cTarget];
-  if (targetMapped && targetMapped.includes(cIn)) return true;
+  const targetMapped = EQUIVALENCE_MAP[cTarget] || EQUIVALENCE_MAP[normTarget];
+  if (targetMapped && (targetMapped.includes(cIn) || targetMapped.includes(normIn))) return true;
 
   return false;
 }

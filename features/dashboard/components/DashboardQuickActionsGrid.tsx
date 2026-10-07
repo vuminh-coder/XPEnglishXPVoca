@@ -28,7 +28,7 @@ const QUICK_ACTIONS: QuickActionItem[] = [
     title: "Luyện Nghe (Dictation)",
     shortTitle: "Luyện Nghe",
     badge: "Audio Studio & Sóng âm",
-    href: "/study/listening",
+    href: "/study/dictation",
     icon: Headphones,
     gradient: "from-emerald-500 to-teal-600",
     shadow: "shadow-emerald-500/25",

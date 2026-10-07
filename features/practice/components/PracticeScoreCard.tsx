@@ -113,7 +113,7 @@ export function PracticeScoreCard({
           </button>
 
           <Link
-            href="/study/listening"
+            href="/study/dictation"
             className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 border border-emerald-300/80 dark:border-emerald-800/60 active:scale-95 text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-2xs transition-all"
           >
             <Headphones className="w-4 h-4 text-emerald-600 dark:text-emerald-400" /> Sang Phòng Luyện Nghe

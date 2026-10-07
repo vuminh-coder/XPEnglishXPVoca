@@ -1,0 +1,745 @@
+{
+  "wireMagic": "pb3",
+  "pens": [ {
+  
+  } ],
+  "wsWinStyles": [ {
+  
+  } ],
+  "wpWinPositions": [ {
+  
+  } ],
+  "events": [ {
+    "tStartMs": 120,
+    "dDurationMs": 1840,
+    "segs": [ {
+      "utf8": "From BBC Learning English,"
+    } ]
+  }, {
+    "tStartMs": 1960,
+    "dDurationMs": 4640,
+    "segs": [ {
+      "utf8": "This is Learning English from the News,\nour podcast about the news headlines."
+    } ]
+  }, {
+    "tStartMs": 6600,
+    "dDurationMs": 1880,
+    "segs": [ {
+      "utf8": "In this programme, first"
+    } ]
+  }, {
+    "tStartMs": 8480,
+    "dDurationMs": 4640,
+    "segs": [ {
+      "utf8": "treasure recovered\nfrom $20 billion sunken ship."
+    } ]
+  }, {
+    "tStartMs": 16160,
+    "dDurationMs": 2320,
+    "segs": [ {
+      "utf8": "Hello, I'm Georgie.\nAnd I'm Phil."
+    } ]
+  }, {
+    "tStartMs": 18480,
+    "dDurationMs": 2840,
+    "segs": [ {
+      "utf8": "In this programme,\nwe look at one big news story"
+    } ]
+  }, {
+    "tStartMs": 21320,
+    "dDurationMs": 3640,
+    "segs": [ {
+      "utf8": "and the vocabulary in the headlines\nthat will help you understand it."
+    } ]
+  }, {
+    "tStartMs": 24960,
+    "dDurationMs": 3520,
+    "segs": [ {
+      "utf8": "You can find all the vocabulary\nand headlines from this episode,"
+    } ]
+  }, {
+    "tStartMs": 28480,
+    "dDurationMs": 4920,
+    "segs": [ {
+      "utf8": "as well as a worksheet\non our website, bbclearningenglish.com."
+    } ]
+  }, {
+    "tStartMs": 33400,
+    "dDurationMs": 3160,
+    "segs": [ {
+      "utf8": "OK, Phil,\nlet's hear more about this story."
+    } ]
+  }, {
+    "tStartMs": 41640,
+    "dDurationMs": 3440,
+    "segs": [ {
+      "utf8": "A cannon, three coins\nand a porcelain cup"
+    } ]
+  }, {
+    "tStartMs": 45080,
+    "dDurationMs": 4320,
+    "segs": [ {
+      "utf8": "have been recovered from\na ship that sank over 300 years ago."
+    } ]
+  }, {
+    "tStartMs": 49400,
+    "dDurationMs": 1960,
+    "segs": [ {
+      "utf8": "The ship, called the San Jose,"
+    } ]
+  }, {
+    "tStartMs": 51360,
+    "dDurationMs": 5160,
+    "segs": [ {
+      "utf8": "was sunk by British ships in 1708\nnear Cartagena in Colombia."
+    } ]
+  }, {
+    "tStartMs": 56520,
+    "dDurationMs": 5880,
+    "segs": [ {
+      "utf8": "The ship is thought to have $20 billion\nworth of gold and silver coins on board,"
+    } ]
+  }, {
+    "tStartMs": 62400,
+    "dDurationMs": 1840,
+    "segs": [ {
+      "utf8": "according to some estimates."
+    } ]
+  }, {
+    "tStartMs": 64240,
+    "dDurationMs": 4320,
+    "segs": [ {
+      "utf8": "Colombia, Spain, an American company\nand indigenous groups in Bolivia"
+    } ]
+  }, {
+    "tStartMs": 68560,
+    "dDurationMs": 3480,
+    "segs": [ {
+      "utf8": "have all claimed\nthat this treasure belongs to them."
+    } ]
+  }, {
+    "tStartMs": 72040,
+    "dDurationMs": 3320,
+    "segs": [ {
+      "utf8": "Colombian scientists\nlocated the ship in 2015"
+    } ]
+  }, {
+    "tStartMs": 75360,
+    "dDurationMs": 3440,
+    "segs": [ {
+      "utf8": "and launched an expedition\nto explore it last year."
+    } ]
+  }, {
+    "tStartMs": 78800,
+    "dDurationMs": 1480,
+    "segs": [ {
+      "utf8": "Let's have our first headline."
+    } ]
+  }, {
+    "tStartMs": 80280,
+    "dDurationMs": 3560,
+    "segs": [ {
+      "utf8": "This one is from Fox Weather,\nan American broadcaster."
+    } ]
+  }, {
+    "tStartMs": 83840,
+    "dDurationMs": 1760,
+    "segs": [ {
+      "utf8": "Archeologists recover treasures"
+    } ]
+  }, {
+    "tStartMs": 85600,
+    "dDurationMs": 4120,
+    "segs": [ {
+      "utf8": "from the legendary 1708\nSan Jose, wrecked in war."
+    } ]
+  }, {
+    "tStartMs": 89720,
+    "dDurationMs": 3720,
+    "segs": [ {
+      "utf8": "That headline, again from Fox Weather,\nan American broadcaster."
+    } ]
+  }, {
+    "tStartMs": 93440,
+    "dDurationMs": 6200,
+    "segs": [ {
+      "utf8": "Archeologists recover treasure from a\nlegendary 1708 San Jose, wrecked in war."
+    } ]
+  }, {
+    "tStartMs": 99640,
+    "dDurationMs": 4200,
+    "segs": [ {
+      "utf8": "So, this headline talks about the\nrecovery of treasure from the San Jose."
+    } ]
+  }, {
+    "tStartMs": 103840,
+    "dDurationMs": 2840,
+    "segs": [ {
+      "utf8": "We're going to learn\nthe word 'wrecked'."
+    } ]
+  }, {
+    "tStartMs": 106680,
+    "dDurationMs": 4520,
+    "segs": [ {
+      "utf8": "The verb 'wreck' means to destroy\nor damage badly."
+    } ]
+  }, {
+    "tStartMs": 111200,
+    "dDurationMs": 1560,
+    "segs": [ {
+      "utf8": "Yes, that's the general meaning,"
+    } ]
+  }, {
+    "tStartMs": 112760,
+    "dDurationMs": 3960,
+    "segs": [ {
+      "utf8": "but it has a slightly more specific\nmeaning when describing ships."
+    } ]
+  }, {
+    "tStartMs": 116720,
+    "dDurationMs": 2920,
+    "segs": [ {
+      "utf8": "If a ship is wrecked,\nit usually means that it sinks"
+    } ]
+  }, {
+    "tStartMs": 119640,
+    "dDurationMs": 2120,
+    "segs": [ {
+      "utf8": "to the bottom of the sea or a river."
+    } ]
+  }, {
+    "tStartMs": 121760,
+    "dDurationMs": 4680,
+    "segs": [ {
+      "utf8": "We often use the noun 'wreck' or\n'shipwreck' to describe ships that are"
+    } ]
+  }, {
+    "tStartMs": 126440,
+    "dDurationMs": 2160,
+    "segs": [ {
+      "utf8": "on the bottom of the sea."
+    } ]
+  }, {
+    "tStartMs": 128600,
+    "dDurationMs": 1840,
+    "segs": [ {
+      "utf8": "Where else can we use 'wreck'?"
+    } ]
+  }, {
+    "tStartMs": 130440,
+    "dDurationMs": 2880,
+    "segs": [ {
+      "utf8": "Well, we might say\nthat a car is wrecked by an accident"
+    } ]
+  }, {
+    "tStartMs": 133320,
+    "dDurationMs": 2560,
+    "segs": [ {
+      "utf8": "or that it is a wreck afterwards."
+    } ]
+  }, {
+    "tStartMs": 135880,
+    "dDurationMs": 1800,
+    "segs": [ {
+      "utf8": "We can also talk about our hopes"
+    } ]
+  }, {
+    "tStartMs": 137680,
+    "dDurationMs": 4400,
+    "segs": [ {
+      "utf8": "and dreams being wrecked by something\nthat stops them coming true."
+    } ]
+  }, {
+    "tStartMs": 142080,
+    "dDurationMs": 4360,
+    "segs": [ {
+      "utf8": "Another way we use it is to describe\npeople as a wreck or a nervous wreck."
+    } ]
+  }, {
+    "tStartMs": 146440,
+    "dDurationMs": 6320,
+    "segs": [ {
+      "utf8": "If they're overwhelmed by strong\nfeelings like sadness, shock, or fear."
+    } ]
+  }, {
+    "tStartMs": 152760,
+    "dDurationMs": 4760,
+    "segs": [ {
+      "utf8": "We've had 'wreck' - destroy,\nor damage badly."
+    } ]
+  }, {
+    "tStartMs": 157520,
+    "dDurationMs": 4280,
+    "segs": [ {
+      "utf8": "For example,\nafter the crash, my car was wrecked."
+    } ]
+  }, {
+    "tStartMs": 166120,
+    "dDurationMs": 1320,
+    "segs": [ {
+      "utf8": "This is Learning English"
+    } ]
+  }, {
+    "tStartMs": 167440,
+    "dDurationMs": 3640,
+    "segs": [ {
+      "utf8": "from the News, our podcast\nabout the news headlines."
+    } ]
+  }, {
+    "tStartMs": 171080,
+    "dDurationMs": 3640,
+    "segs": [ {
+      "utf8": "We're talking about the recovery\nof treasure from the wreck"
+    } ]
+  }, {
+    "tStartMs": 174720,
+    "dDurationMs": 5240,
+    "segs": [ {
+      "utf8": "of the San Jose, which was sunk\nnear the Colombian coast in 1708."
+    } ]
+  }, {
+    "tStartMs": 179960,
+    "dDurationMs": 2400,
+    "segs": [ {
+      "utf8": "It's not known exactly what was\non the ship,"
+    } ]
+  }, {
+    "tStartMs": 182360,
+    "dDurationMs": 2280,
+    "segs": [ {
+      "utf8": "but some experts believe\nthat there could be"
+    } ]
+  }, {
+    "tStartMs": 184640,
+    "dDurationMs": 2760,
+    "segs": [ {
+      "utf8": "$20 billion worth of treasure there."
+    } ]
+  }, {
+    "tStartMs": 187400,
+    "dDurationMs": 3520,
+    "segs": [ {
+      "utf8": "There are lots of different claims\nabout who owns the treasure,"
+    } ]
+  }, {
+    "tStartMs": 190920,
+    "dDurationMs": 5400,
+    "segs": [ {
+      "utf8": "an American company claims that it found\nthe shipwreck's location in 1981."
+    } ]
+  }, {
+    "tStartMs": 196320,
+    "dDurationMs": 2520,
+    "segs": [ {
+      "utf8": "However, Colombian\nauthorities disagree"
+    } ]
+  }, {
+    "tStartMs": 198840,
+    "dDurationMs": 2640,
+    "segs": [ {
+      "utf8": "and say that there is nothing\nat that location."
+    } ]
+  }, {
+    "tStartMs": 201480,
+    "dDurationMs": 4360,
+    "segs": [ {
+      "utf8": "They say they found the ship\nin a different location in 2015."
+    } ]
+  }, {
+    "tStartMs": 205840,
+    "dDurationMs": 1960,
+    "segs": [ {
+      "utf8": "Let's have our next headline."
+    } ]
+  }, {
+    "tStartMs": 207800,
+    "dDurationMs": 3400,
+    "segs": [ {
+      "utf8": "This is from Sky News,\na British broadcaster."
+    } ]
+  }, {
+    "tStartMs": 211200,
+    "dDurationMs": 3880,
+    "segs": [ {
+      "utf8": "First treasures from 'holy grail\nof shipwrecks' recovered."
+    } ]
+  }, {
+    "tStartMs": 215080,
+    "dDurationMs": 5080,
+    "segs": [ {
+      "utf8": "And that headline again. First treasures\nfrom 'holy grail of shipwrecks' recovered."
+    } ]
+  }, {
+    "tStartMs": 220160,
+    "dDurationMs": 3160,
+    "segs": [ {
+      "utf8": "And that's from Sky News,\na British broadcaster."
+    } ]
+  }, {
+    "tStartMs": 223320,
+    "dDurationMs": 4680,
+    "segs": [ {
+      "utf8": "So, we're going to learn\nthe expression 'holy grail'."
+    } ]
+  }, {
+    "tStartMs": 228000,
+    "dDurationMs": 5280,
+    "segs": [ {
+      "utf8": "So, the Holy Grail is said to be\nthe cup that Jesus Christ drank from"
+    } ]
+  }, {
+    "tStartMs": 233280,
+    "dDurationMs": 2880,
+    "segs": [ {
+      "utf8": "during the last supper\nbefore his crucifixion."
+    } ]
+  }, {
+    "tStartMs": 236160,
+    "dDurationMs": 1800,
+    "segs": [ {
+      "utf8": "Medieval literature suggested"
+    } ]
+  }, {
+    "tStartMs": 237960,
+    "dDurationMs": 3840,
+    "segs": [ {
+      "utf8": "that if it could be found,\nit would have amazing healing powers."
+    } ]
+  }, {
+    "tStartMs": 241800,
+    "dDurationMs": 3840,
+    "segs": [ {
+      "utf8": "However, nowadays\n'holy grail' has become a metaphor"
+    } ]
+  }, {
+    "tStartMs": 245640,
+    "dDurationMs": 2600,
+    "segs": [ {
+      "utf8": "to describe something\nthat many people want,"
+    } ]
+  }, {
+    "tStartMs": 248240,
+    "dDurationMs": 2920,
+    "segs": [ {
+      "utf8": "but is very difficult to find."
+    } ]
+  }, {
+    "tStartMs": 251160,
+    "dDurationMs": 3440,
+    "segs": [ {
+      "utf8": "The San Jose is described\nas the holy grail of shipwrecks,"
+    } ]
+  }, {
+    "tStartMs": 254600,
+    "dDurationMs": 2920,
+    "segs": [ {
+      "utf8": "because a lot of effort\nhas been spent trying to find it."
+    } ]
+  }, {
+    "tStartMs": 257520,
+    "dDurationMs": 4760,
+    "segs": [ {
+      "utf8": "And we can use 'holy grail' to talk\nabout anything that people really want."
+    } ]
+  }, {
+    "tStartMs": 262280,
+    "dDurationMs": 3000,
+    "segs": [ {
+      "utf8": "Yeah. So, for example,\nsome people think finding AI"
+    } ]
+  }, {
+    "tStartMs": 265280,
+    "dDurationMs": 3480,
+    "segs": [ {
+      "utf8": "that is more intelligent\nthan humans is the holy grail."
+    } ]
+  }, {
+    "tStartMs": 268760,
+    "dDurationMs": 2560,
+    "segs": [ {
+      "utf8": "Others might think\nthat the solution to climate change,"
+    } ]
+  }, {
+    "tStartMs": 271320,
+    "dDurationMs": 4800,
+    "segs": [ {
+      "utf8": "or finding a cure\nfor cancer is the holy grail."
+    } ]
+  }, {
+    "tStartMs": 276120,
+    "dDurationMs": 7600,
+    "segs": [ {
+      "utf8": "We've had 'holy grail' - something lots\nof people want but is very hard to find."
+    } ]
+  }, {
+    "tStartMs": 283720,
+    "dDurationMs": 2680,
+    "segs": [ {
+      "utf8": "For example,\nfinding a way to learn languages"
+    } ]
+  }, {
+    "tStartMs": 286400,
+    "dDurationMs": 2560,
+    "segs": [ {
+      "utf8": "effortlessly is the holy grail."
+    } ]
+  }, {
+    "tStartMs": 291840,
+    "dDurationMs": 1200,
+    "segs": [ {
+      "utf8": "This is Learning English"
+    } ]
+  }, {
+    "tStartMs": 293040,
+    "dDurationMs": 3040,
+    "segs": [ {
+      "utf8": "from the News, our podcast\nabout the news headlines."
+    } ]
+  }, {
+    "tStartMs": 296080,
+    "dDurationMs": 2760,
+    "segs": [ {
+      "utf8": "Today we're talking\nabout the recovery of treasure"
+    } ]
+  }, {
+    "tStartMs": 298840,
+    "dDurationMs": 4480,
+    "segs": [ {
+      "utf8": "from the San Jose, which has been\ncalled the holy grail of shipwrecks."
+    } ]
+  }, {
+    "tStartMs": 303320,
+    "dDurationMs": 1840,
+    "segs": [ {
+      "utf8": "And here's our next headline."
+    } ]
+  }, {
+    "tStartMs": 305160,
+    "dDurationMs": 3800,
+    "segs": [ {
+      "utf8": "And this is from CBS news,\nwhich is an American broadcaster."
+    } ]
+  }, {
+    "tStartMs": 308960,
+    "dDurationMs": 5920,
+    "segs": [ {
+      "utf8": "Coins, cannon recovered from a legendary\nship that sunk 3 centuries ago"
+    } ]
+  }, {
+    "tStartMs": 314880,
+    "dDurationMs": 2800,
+    "segs": [ {
+      "utf8": "with billions of dollars in treasure."
+    } ]
+  }, {
+    "tStartMs": 317680,
+    "dDurationMs": 1720,
+    "segs": [ {
+      "utf8": "And that headline again."
+    } ]
+  }, {
+    "tStartMs": 319400,
+    "dDurationMs": 4760,
+    "segs": [ {
+      "utf8": "Coins, cannon recovered from legendary\nship that sunk 3 centuries ago"
+    } ]
+  }, {
+    "tStartMs": 324160,
+    "dDurationMs": 2080,
+    "segs": [ {
+      "utf8": "with billions of dollars in treasure."
+    } ]
+  }, {
+    "tStartMs": 326240,
+    "dDurationMs": 3200,
+    "segs": [ {
+      "utf8": "And that's from CBS News,\nan American broadcaster."
+    } ]
+  }, {
+    "tStartMs": 329440,
+    "dDurationMs": 3560,
+    "segs": [ {
+      "utf8": "And the next word\nwe're going to learn is 'legendary'."
+    } ]
+  }, {
+    "tStartMs": 333000,
+    "dDurationMs": 4160,
+    "segs": [ {
+      "utf8": "Yes, legends are stories\nfrom the past that are very famous,"
+    } ]
+  }, {
+    "tStartMs": 337160,
+    "dDurationMs": 2520,
+    "segs": [ {
+      "utf8": "though they are not always\ncompletely true."
+    } ]
+  }, {
+    "tStartMs": 339680,
+    "dDurationMs": 3320,
+    "segs": [ {
+      "utf8": "And 'legendary' is\nthe adjective that comes from 'legend'."
+    } ]
+  }, {
+    "tStartMs": 343000,
+    "dDurationMs": 4640,
+    "segs": [ {
+      "utf8": "Something that is legendary has\nbeen spoken about a lot over time."
+    } ]
+  }, {
+    "tStartMs": 347640,
+    "dDurationMs": 1640,
+    "segs": [ {
+      "utf8": "It's very well known."
+    } ]
+  }, {
+    "tStartMs": 349280,
+    "dDurationMs": 3120,
+    "segs": [ {
+      "utf8": "Yeah. So, the wreck\nof the San Jose is legendary."
+    } ]
+  }, {
+    "tStartMs": 352400,
+    "dDurationMs": 2080,
+    "segs": [ {
+      "utf8": "It sank 300 years ago"
+    } ]
+  }, {
+    "tStartMs": 354480,
+    "dDurationMs": 3400,
+    "segs": [ {
+      "utf8": "and people have been talking\nabout its treasure since then."
+    } ]
+  }, {
+    "tStartMs": 357880,
+    "dDurationMs": 1760,
+    "segs": [ {
+      "utf8": "When we use the adjective,"
+    } ]
+  }, {
+    "tStartMs": 359640,
+    "dDurationMs": 4200,
+    "segs": [ {
+      "utf8": "we might be talking about someone\nfrom history who was very well known."
+    } ]
+  }, {
+    "tStartMs": 363840,
+    "dDurationMs": 3200,
+    "segs": [ {
+      "utf8": "Film stars, political leaders\nand sports personalities"
+    } ]
+  }, {
+    "tStartMs": 367040,
+    "dDurationMs": 2840,
+    "segs": [ {
+      "utf8": "can sometimes be described\nas legendary."
+    } ]
+  }, {
+    "tStartMs": 369880,
+    "dDurationMs": 3080,
+    "segs": [ {
+      "utf8": "It means that they were\nvery important and famous figures"
+    } ]
+  }, {
+    "tStartMs": 372960,
+    "dDurationMs": 1920,
+    "segs": [ {
+      "utf8": "that are still talked about."
+    } ]
+  }, {
+    "tStartMs": 374880,
+    "dDurationMs": 3920,
+    "segs": [ {
+      "utf8": "We also use 'legendary' to describe\ncharacters, objects or places"
+    } ]
+  }, {
+    "tStartMs": 378800,
+    "dDurationMs": 1520,
+    "segs": [ {
+      "utf8": "from ancient stories."
+    } ]
+  }, {
+    "tStartMs": 380320,
+    "dDurationMs": 4280,
+    "segs": [ {
+      "utf8": "Many people are interested in the\nlegendary figures from Greek mythology."
+    } ]
+  }, {
+    "tStartMs": 384600,
+    "dDurationMs": 4920,
+    "segs": [ {
+      "utf8": "We can also use it informally to\ndescribe people or events positively."
+    } ]
+  }, {
+    "tStartMs": 389520,
+    "dDurationMs": 3960,
+    "segs": [ {
+      "utf8": "For example,\nyour birthday party was legendary."
+    } ]
+  }, {
+    "tStartMs": 393480,
+    "dDurationMs": 4400,
+    "segs": [ {
+      "utf8": "We still talk about it\nsix months later."
+    } ]
+  }, {
+    "tStartMs": 397880,
+    "dDurationMs": 4200,
+    "segs": [ {
+      "utf8": "We've had 'legendary' -\nwell known and talked about a lot."
+    } ]
+  }, {
+    "tStartMs": 402080,
+    "dDurationMs": 4960,
+    "segs": [ {
+      "utf8": "For example, the film is based on the\nlife of a legendary Indian cricketer."
+    } ]
+  }, {
+    "tStartMs": 407080,
+    "dDurationMs": 3520,
+    "segs": [ {
+      "utf8": "And that's it for this episode\nof Learning English from the News."
+    } ]
+  }, {
+    "tStartMs": 410600,
+    "dDurationMs": 3000,
+    "segs": [ {
+      "utf8": "We'll be back next week\nwith another new story."
+    } ]
+  }, {
+    "tStartMs": 413600,
+    "dDurationMs": 2240,
+    "segs": [ {
+      "utf8": "If you want to practise\nwhat you've learnt,"
+    } ]
+  }, {
+    "tStartMs": 415880,
+    "dDurationMs": 5680,
+    "segs": [ {
+      "utf8": "go to our website bbclearningenglish.com\nto see more example sentences"
+    } ]
+  }, {
+    "tStartMs": 421560,
+    "dDurationMs": 2080,
+    "segs": [ {
+      "utf8": "and try our free worksheet."
+    } ]
+  }, {
+    "tStartMs": 423640,
+    "dDurationMs": 2560,
+    "segs": [ {
+      "utf8": "And don't forget to follow us\non social media."
+    } ]
+  }, {
+    "tStartMs": 426200,
+    "dDurationMs": 2400,
+    "segs": [ {
+      "utf8": "Find us @bbclearningenglish."
+    } ]
+  }, {
+    "tStartMs": 428600,
+    "dDurationMs": 2240,
+    "segs": [ {
+      "utf8": "Bye for now.\nGoodbye."
+    } ]
+  } ]
+}

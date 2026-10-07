@@ -12,6 +12,9 @@ import {
   X,
   Languages,
   PenLine,
+  Copy,
+  Check,
+  Speech,
 } from "lucide-react";
 import { useUiStore } from "@/stores/uiStore";
 import {
@@ -50,6 +53,7 @@ interface DictationWorkspaceProps {
   onSpeedChange?: (speed: number) => void;
   fontSizeLevel?: number;
   hideTranslation?: boolean;
+  onToggleTranslation?: () => void;
   isSidebarCollapsed?: boolean;
   lessonId?: string;
   sentenceIndex?: number;
@@ -116,9 +120,9 @@ export function tokenizeSentence(sentence: string, properNouns: string[]): WordT
   });
 
   return rawWords.map((rawWord, idx) => {
-    // Separate punctuation
-    const leadingMatch = rawWord.match(/^([^a-zA-Z0-9]*)/);
-    const trailingMatch = rawWord.match(/([^a-zA-Z0-9]*)$/);
+    // Separate punctuation (with Unicode letters support)
+    const leadingMatch = rawWord.match(/^([^a-zA-Z0-9\p{L}]*)/u);
+    const trailingMatch = rawWord.match(/([^a-zA-Z0-9\p{L}]*)$/u);
 
     const leadingPunc = leadingMatch ? leadingMatch[1] : "";
     const trailingPunc = trailingMatch ? trailingMatch[1] : "";
@@ -158,7 +162,8 @@ export function DictationWorkspace({
   customProperNouns,
   showTranslationByDefault = false,
   fontSizeLevel = 0,
-  hideTranslation = false,
+  hideTranslation,
+  onToggleTranslation,
   isSidebarCollapsed,
   lessonId,
   sentenceIndex,
@@ -168,9 +173,38 @@ export function DictationWorkspace({
   const [inputValue, setInputValue] = useState("");
   const [inputStatus, setInputStatus] = useState<"idle" | "correct" | "shake">("idle");
   const [showTranslation, setShowTranslation] = useState(
-    hideTranslation ? false : showTranslationByDefault
+    hideTranslation !== undefined ? !hideTranslation : showTranslationByDefault
   );
   const [isCompleted, setIsCompleted] = useState(false);
+
+  // Active Tab for Helper Card: "translation" | "ipa" (with persistent user preference)
+  const [activeHelperTab, setActiveHelperTab] = useState<"translation" | "ipa">(() => {
+    if (typeof window === "undefined") return "translation";
+    try {
+      const saved = localStorage.getItem("xp_dictation_helper_tab");
+      if (saved === "ipa" || saved === "translation") return saved;
+    } catch {}
+    return "translation";
+  });
+  const [copiedHelperText, setCopiedHelperText] = useState(false);
+
+  const handleSelectHelperTab = useCallback((tab: "translation" | "ipa") => {
+    setActiveHelperTab(tab);
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.setItem("xp_dictation_helper_tab", tab);
+      } catch {}
+    }
+  }, []);
+
+  const handleCopyHelperText = useCallback((text: string) => {
+    if (!text) return;
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+      setCopiedHelperText(true);
+      setTimeout(() => setCopiedHelperText(false), 1500);
+    }
+  }, []);
 
   // Web Audio Synthetic Dopamine Sound Feedback Toggle
   const [isSoundFeedbackEnabled] = useState<boolean>(() => {
@@ -206,8 +240,8 @@ export function DictationWorkspace({
   // Sync hideTranslation prop changes
   /* eslint-disable react-hooks/set-state-in-effect -- Prop synchronization */
   useEffect(() => {
-    if (hideTranslation) {
-      setShowTranslation(false);
+    if (hideTranslation !== undefined) {
+      setShowTranslation(!hideTranslation);
     }
   }, [hideTranslation]);
   /* eslint-enable react-hooks/set-state-in-effect */
@@ -281,6 +315,16 @@ export function DictationWorkspace({
   }, [sentenceText, properNouns]);
   /* eslint-enable react-hooks/set-state-in-effect */
 
+  // Auto-focus dictation input whenever sentence changes or mounts
+  useEffect(() => {
+    if (isActive && inputRef.current) {
+      const timer = setTimeout(() => {
+        inputRef.current?.focus();
+      }, 80);
+      return () => clearTimeout(timer);
+    }
+  }, [sentenceId, sentenceText, isActive]);
+
   // Handle sentence completion
   const checkCompletion = useCallback(
     (currentTokens: WordToken[]) => {
@@ -322,7 +366,7 @@ export function DictationWorkspace({
       let detectedEquiv: string | null = null;
 
       for (const typedRaw of rawParts) {
-        const typedClean = typedRaw.replace(/[^a-zA-Z0-9']/g, "").toLowerCase();
+        const typedClean = typedRaw.replace(/[^a-zA-Z0-9'\p{L}]/gu, "").toLowerCase();
         if (!typedClean) continue;
 
         let matched = false;
@@ -332,9 +376,11 @@ export function DictationWorkspace({
             (token.status === "masked" || token.status === "first-letter" || token.status === "revealed")
           ) {
             const tokenClean = token.clean.toLowerCase();
+            const normTokenClean = tokenClean.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            const normTypedClean = typedClean.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
-            // 1. Direct or Equivalence Match
-            const isDirect = tokenClean === typedClean;
+            // 1. Direct or Equivalence Match (with diacritic tolerance)
+            const isDirect = tokenClean === typedClean || normTokenClean === normTypedClean;
             const isEquiv = !isDirect && checkEquivalenceMatch(typedClean, tokenClean);
 
             if (isDirect || isEquiv) {
@@ -416,39 +462,65 @@ export function DictationWorkspace({
 
   // Action: Hint first letter (Alt + H)
   const handleHintFirstLetter = useCallback(() => {
-    let updated = false;
-    const nextTokens = tokens.map((token) => {
-      if (!updated && token.status === "masked") {
-        updated = true;
+    let targetIndex = -1;
+    const nextTokens = tokens.map((token, idx) => {
+      if (targetIndex === -1 && token.status === "masked") {
+        targetIndex = idx;
         return { ...token, status: "first-letter" as const };
       }
       return token;
     });
 
-    if (updated) {
+    if (targetIndex !== -1) {
       setTokens(nextTokens);
-    }
-  }, [tokens]);
-
-  // Action: Reveal next word (Alt + R)
-  const handleRevealNextWord = useCallback(() => {
-    let updated = false;
-    const nextTokens = tokens.map((token) => {
-      if (
-        !updated &&
-        (token.status === "masked" || token.status === "first-letter")
-      ) {
-        updated = true;
-        return { ...token, status: "revealed" as const };
+      // Điền chữ cái đầu nếu ô input đang trống
+      if (!inputValue.trim()) {
+        setInputValue(tokens[targetIndex].clean[0]);
       }
-      return token;
-    });
-
-    if (updated) {
-      setTokens(nextTokens);
-      checkCompletion(nextTokens);
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+      // Cuộn mượt mà đến khối từ đang được gợi ý
+      tokenItemRefs.current[targetIndex]?.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center",
+      });
     }
-  }, [tokens, checkCompletion]);
+  }, [tokens, inputValue]);
+
+  // Action: Reveal next word (Alt + R) - Tự động điền, giữ focus, chống nhảy mất câu đột ngột
+  const handleRevealNextWord = useCallback(() => {
+    let targetIndex = -1;
+    for (let i = 0; i < tokens.length; i++) {
+      if (tokens[i].status === "masked" || tokens[i].status === "first-letter") {
+        targetIndex = i;
+        break;
+      }
+    }
+
+    if (targetIndex === -1) return;
+
+    const targetToken = tokens[targetIndex];
+    const nextTokens = [...tokens];
+    nextTokens[targetIndex] = { ...targetToken, status: "revealed" as const };
+    setTokens(nextTokens);
+
+    // Điền từ đúng vào ô input để người học thấy rõ và chỉ cần gõ Space/Enter để xác nhận
+    setInputValue(targetToken.clean);
+
+    // Luôn giữ focus trong ô input để người học tiếp tục thao tác không bị gián đoạn
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+
+    // Cuộn mượt mà đến vị trí từ vừa mở
+    tokenItemRefs.current[targetIndex]?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "center",
+    });
+  }, [tokens]);
 
   // Action: Reveal all words (Alt + A)
   const handleRevealAll = useCallback(() => {
@@ -512,22 +584,37 @@ export function DictationWorkspace({
   // Single word click handler (reveal or pronunciation)
   const handleTokenClick = (index: number) => {
     const token = tokens[index];
-    if (token.status === "masked") {
-      // Single click reveals word
+    if (token.status === "masked" || token.status === "first-letter") {
+      // Nhấp vào khối từ bị che: hiển thị từ, điền vào input và focus ngay
       const nextTokens = [...tokens];
       nextTokens[index] = { ...token, status: "revealed" };
       setTokens(nextTokens);
-      checkCompletion(nextTokens);
-    } else if (token.status === "first-letter") {
-      const nextTokens = [...tokens];
-      nextTokens[index] = { ...token, status: "revealed" };
-      setTokens(nextTokens);
-      checkCompletion(nextTokens);
+
+      setInputValue(token.clean);
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+
+      tokenItemRefs.current[index]?.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center",
+      });
     } else {
       // Already revealed or matched: trigger pronounce/dictionary
       if (onWordClick) {
         onWordClick(token.clean);
       }
+    }
+  };
+
+  const handleInsertProperNoun = (noun: string) => {
+    setInputValue((prev) => {
+      const trimmed = prev.trim();
+      return trimmed ? `${trimmed} ${noun}` : noun;
+    });
+    if (inputRef.current) {
+      inputRef.current.focus();
     }
   };
 
@@ -539,48 +626,43 @@ export function DictationWorkspace({
 
   return (
     <div className="w-full space-y-2 font-sans transition-all">
-      {/* 1. PROPER NOUNS BAR (ⓘ Danh từ riêng: [ Ali ]) */}
-      {properNouns.length > 0 && (
-        <div className="flex items-center flex-wrap gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100/80 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 text-xs text-slate-700 dark:text-slate-300 shadow-2xs">
-          <div className="flex items-center gap-1.5 font-bold text-slate-800 dark:text-slate-200 shrink-0 text-xs">
-            <Info className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
-            <span>Danh từ riêng:</span>
-          </div>
-          <div className="flex items-center flex-wrap gap-1.5">
-            {properNouns.map((noun, idx) => (
-              <span
-                key={idx}
-                className="inline-flex items-center px-2.5 py-0.5 rounded-md bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-bold text-xs border border-slate-200/90 dark:border-slate-700 shadow-2xs"
-              >
-                {noun}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
-
       {/* 2. WORD MASK TOKENS SECTION (Đưa lên trên theo yêu cầu) */}
       <div className="space-y-1.5 pt-0">
-        {/* Sub-bar: [ⓘ Nhấn để xem] on left and [👁 Hiện tất cả] on right */}
-        <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 px-1">
-          <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-xs font-medium">
-            <Info className="w-3.5 h-3.5 text-slate-400" />
+        {/* Sub-bar: [ⓘ Nhấn để xem từ] + [✨ Tên riêng: Buster] on left and [👁 Hiện tất cả] on right */}
+        <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 px-1 gap-2 flex-wrap">
+          <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-xs font-medium flex-wrap">
+            <Info className="w-3.5 h-3.5 text-slate-400 shrink-0" />
             <span>Nhấn để xem từ</span>
             <span className="text-slate-400 dark:text-slate-500">
               ({solvedCount}/{tokens.length} - {progressPercent}%)
             </span>
-            {tokens.some((t) => t.isProperNoun) && (
-              <span className="ml-2 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-amber-100 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 border border-amber-300/80 dark:border-amber-800/60 inline-flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-                Có danh từ riêng
-              </span>
+
+            {/* Smart Proper Nouns Inline Pill (Thiết kế thanh mảnh, không chiếm dòng riêng, có thể nhấp để điền nhanh) */}
+            {properNouns.length > 0 && (
+              <div className="inline-flex items-center gap-1.5 ml-1 sm:ml-2.5 px-2.5 py-0.5 rounded-lg bg-blue-50/80 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-800/60 text-slate-700 dark:text-slate-200 transition-all">
+                <Sparkles className="w-3 h-3 text-[#0059bb] dark:text-sky-400 shrink-0" />
+                <span className="text-[11px] font-semibold text-slate-600 dark:text-slate-300">Tên riêng:</span>
+                <div className="inline-flex items-center gap-1 flex-wrap">
+                  {properNouns.map((noun, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => handleInsertProperNoun(noun)}
+                      title={`Nhấp để điền "${noun}" vào ô chính tả`}
+                      className="inline-flex items-center px-2 py-0.5 rounded-md bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-300 font-bold text-xs border border-blue-200/90 dark:border-blue-700/80 hover:bg-blue-50 dark:hover:bg-slate-800 hover:border-[#0059bb] shadow-2xs transition-all cursor-pointer select-none active:scale-95"
+                    >
+                      {noun}
+                    </button>
+                  ))}
+                </div>
+              </div>
             )}
           </div>
 
           <button
             type="button"
             onClick={handleRevealAll}
-            className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer select-none group"
+            className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer select-none group shrink-0"
             title="Hiện tất cả các từ trong câu"
           >
             <EyeOff className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" />
@@ -606,12 +688,19 @@ export function DictationWorkspace({
                 const isSolved = isMatched || isRevealed;
 
                 // Render text inside block
-                let displayContent = token.dots;
+                let displayContent: React.ReactNode = token.dots;
                 if (isSolved) {
                   displayContent = token.clean;
                 } else if (isFirstLetter) {
                   displayContent =
                     token.clean[0] + "•".repeat(Math.max(0, token.length - 1));
+                } else if (token.isProperNoun) {
+                  displayContent = (
+                    <span className="inline-flex items-center gap-1 text-[#0059bb] dark:text-sky-300 font-bold">
+                      <Sparkles className="w-2.5 h-2.5 shrink-0 text-[#0059bb] dark:text-sky-400" />
+                      <span>{token.dots}</span>
+                    </span>
+                  );
                 }
 
                 return (
@@ -635,34 +724,28 @@ export function DictationWorkspace({
                       onClick={() => handleTokenClick(idx)}
                       title={
                         token.isProperNoun && !isSolved
-                          ? `Danh từ riêng: Nhấn để xem (${token.clean})`
+                          ? `Tên riêng: Nhấn để xem (${token.clean})`
                           : isSolved
                           ? `Từ: ${token.clean}`
                           : "Nhấn để xem từ"
                       }
                       className={`${tokenSizeClass} relative ${
                         isSolved ? "font-sans tracking-normal" : "font-mono tracking-wide"
-                      } rounded-md transition-all cursor-pointer select-none flex items-center justify-center ${
+                      } rounded-lg transition-all cursor-pointer select-none flex items-center justify-center ${
                         isMatched
                           ? "bg-emerald-500 text-white font-bold border-2 border-emerald-600 shadow-xs"
                           : isRevealed
                           ? token.isProperNoun
-                            ? "bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-200 font-bold border-2 border-amber-400 dark:border-amber-600 shadow-2xs"
+                            ? "bg-blue-50 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-200 font-bold border-2 border-blue-300 dark:border-blue-700 shadow-2xs"
                             : "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white font-bold border border-slate-300 dark:border-slate-600 shadow-2xs"
                           : isFirstLetter
                           ? "bg-amber-50 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 font-bold border border-amber-400 shadow-2xs"
                           : token.isProperNoun
-                          ? "bg-amber-50/50 dark:bg-amber-950/20 border-2 border-dashed border-amber-400/90 dark:border-amber-500/80 text-amber-800 dark:text-amber-300 font-bold hover:border-amber-500 shadow-2xs"
+                          ? "bg-blue-50/70 dark:bg-blue-950/30 border border-blue-200/90 dark:border-blue-800/80 text-[#0059bb] dark:text-sky-300 font-semibold hover:border-[#0059bb] dark:hover:border-sky-400 shadow-2xs"
                           : "bg-slate-50 dark:bg-slate-800/80 border border-slate-200/90 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-semibold hover:border-slate-400 hover:text-slate-900 dark:hover:border-slate-500 dark:hover:text-white shadow-2xs"
                       }`}
                     >
                       {displayContent}
-                      {token.isProperNoun && !isSolved && (
-                        <span
-                          className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-amber-500 ring-2 ring-white dark:ring-slate-900"
-                          title="Danh từ riêng"
-                        />
-                      )}
                     </motion.button>
 
                     {token.trailingPunc && (
@@ -674,188 +757,260 @@ export function DictationWorkspace({
                 );
               })}
             </div>
+          </div>
+        </div>
 
-          {/* IPA & Vietnamese Translation Accordion */}
-          <AnimatePresence>
-            {showTranslation && translation && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                className="mt-2.5 pt-2.5 border-t border-slate-100 dark:border-slate-800 space-y-1.5 overflow-hidden"
+        {/* 3. DICTATION INPUT FIELD (Tuân thủ Rule 6 Wadhah Aloui: Nhãn Ngoài Rõ Nét) */}
+        <div className="space-y-1.5">
+          <div className="flex items-center justify-between px-0.5 text-xs font-bold text-slate-700 dark:text-slate-200 select-none">
+            <label
+              htmlFor={`dictation-input-${sentenceId}`}
+              className="flex items-center gap-1.5 cursor-pointer hover:text-[#0059bb] dark:hover:text-sky-400 transition-colors"
+            >
+              <PenLine className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
+              <span>Nội dung nghe chép chính tả</span>
+            </label>
+            <span className="text-[11px] font-medium text-slate-400 dark:text-slate-500 hidden sm:inline">
+              Gõ phím Space để tự động chuyển từ
+            </span>
+          </div>
+
+          <motion.div
+            animate={
+              inputStatus === "shake"
+                ? { x: [-4, 4, -3, 3, -1, 1, 0] }
+                : { x: 0 }
+            }
+            transition={{ duration: 0.35 }}
+            className="relative"
+          >
+            <input
+              ref={inputRef}
+              id={`dictation-input-${sentenceId}`}
+              type="text"
+              autoComplete="off"
+              spellCheck={false}
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Điền câu đã nghe..."
+              className={`w-full ${inputSizeClass} px-4 py-2.5 sm:py-3 rounded-xl font-medium transition-all outline-none bg-white dark:bg-slate-900 border ${
+                inputStatus === "correct"
+                  ? "border-2 border-emerald-500 bg-emerald-50/40 dark:bg-emerald-950/30 text-emerald-900 dark:text-emerald-200 ring-4 ring-emerald-500/10"
+                  : inputStatus === "shake"
+                  ? "border-2 border-rose-500 bg-rose-50/40 dark:bg-rose-950/30 text-rose-900 dark:text-rose-200 ring-4 ring-rose-500/10"
+                  : "border-slate-200/90 dark:border-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-[#0059bb] dark:focus:border-sky-500 focus:ring-4 focus:ring-[#0059bb]/15 dark:focus:ring-sky-500/15 shadow-2xs"
+              }`}
+            />
+            {inputValue && (
+              <button
+                type="button"
+                onClick={() => setInputValue("")}
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors cursor-pointer"
+                title="Xóa nội dung"
               >
-                {ipa && (
-                  <p className="text-[15px] sm:text-base font-medium text-slate-800 dark:text-slate-100 font-sans tracking-wide leading-relaxed py-1 select-text antialiased">
-                    <span className="font-bold text-sm sm:text-base font-sans text-[#0059bb] dark:text-sky-400 mr-2.5">
-                      IPA:
-                    </span>
-                    <span>{ipa.startsWith("/") ? ipa : `/${ipa}/`}</span>
-                  </p>
-                )}
-                <div className="p-3 rounded-lg bg-slate-50/90 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-800 text-xs sm:text-sm font-medium text-slate-800 dark:text-slate-200 shadow-2xs leading-relaxed">
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800 dark:text-slate-200 mb-1 font-sans">
-                    <Languages className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
-                    <span>Bản dịch câu:</span>
-                  </div>
-                  <p className="text-slate-700 dark:text-slate-200 font-medium leading-relaxed">
-                    {translation.replace(/^(?:Việt|viet|vi|vn|Vietnamese|tiếng việt)?\s*:\s*/i, "").trim()}
-                  </p>
-                </div>
+                <X className="w-4 h-4" />
+              </button>
+            )}
+          </motion.div>
+
+          {/* Near Miss Hint or Contraction Note Feedback */}
+          <AnimatePresence>
+            {nearMissHint && (
+              <motion.div
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                className="mt-1.5 flex items-center gap-1.5 text-xs text-amber-600 dark:text-amber-400 font-medium"
+              >
+                <Info className="w-3.5 h-3.5 shrink-0" />
+                <span>
+                  Gần đúng! Có thể bạn gõ sai chính tả: <strong>{nearMissHint}</strong>
+                </span>
+              </motion.div>
+            )}
+            {equivalenceNote && (
+              <motion.div
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                className="mt-1.5 flex items-center gap-1.5 text-xs text-emerald-600 dark:text-emerald-400 font-medium"
+              >
+                <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                <span>{equivalenceNote}</span>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
-      </div>
 
-      {/* 3. DICTATION INPUT FIELD (Tuân thủ Rule 6 Wadhah Aloui: Nhãn Ngoài Rõ Nét) */}
-      <div className="space-y-1.5">
-        <div className="flex items-center justify-between px-0.5 text-xs font-bold text-slate-700 dark:text-slate-200 select-none">
-          <label
-            htmlFor={`dictation-input-${sentenceId}`}
-            className="flex items-center gap-1.5 cursor-pointer hover:text-[#0059bb] dark:hover:text-sky-400 transition-colors"
-          >
-            <PenLine className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
-            <span>Nội dung nghe chép chính tả</span>
-          </label>
-          <span className="text-[11px] font-medium text-slate-400 dark:text-slate-500 hidden sm:inline">
-            Gõ phím Space để tự động chuyển từ
-          </span>
-        </div>
-
-        <motion.div
-          animate={
-            inputStatus === "shake"
-              ? { x: [-4, 4, -3, 3, -1, 1, 0] }
-              : { x: 0 }
-          }
-          transition={{ duration: 0.35 }}
-          className="relative"
-        >
-          <input
-            ref={inputRef}
-            id={`dictation-input-${sentenceId}`}
-            type="text"
-            autoComplete="off"
-            spellCheck={false}
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Điền câu đã nghe..."
-            className={`w-full ${inputSizeClass} px-4 py-2.5 sm:py-3 rounded-xl font-medium transition-all outline-none bg-white dark:bg-slate-900 border ${
-              inputStatus === "correct"
-                ? "border-2 border-emerald-500 bg-emerald-50/40 dark:bg-emerald-950/30 text-emerald-900 dark:text-emerald-200 ring-4 ring-emerald-500/10"
-                : inputStatus === "shake"
-                ? "border-2 border-rose-500 bg-rose-50/40 dark:bg-rose-950/30 text-rose-900 dark:text-rose-200 ring-4 ring-rose-500/10"
-                : "border-slate-200/90 dark:border-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-[#0059bb] dark:focus:border-sky-500 focus:ring-4 focus:ring-[#0059bb]/15 dark:focus:ring-sky-500/15 shadow-2xs"
-            }`}
-          />
-          {inputValue && (
+        {/* 4. ACTION SHORTCUT BUTTONS BAR */}
+        <div className="flex flex-wrap items-center justify-between gap-2 px-1 pt-0.5">
+          <div className="flex items-center gap-1.5 sm:gap-2 flex-1 sm:flex-initial">
+            {/* First letter hint */}
             <button
               type="button"
-              onClick={() => setInputValue("")}
-              className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors cursor-pointer"
-              title="Xóa nội dung"
+              onClick={handleHintFirstLetter}
+              className="inline-flex items-center justify-center gap-1.5 flex-1 sm:flex-initial px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800 transition-all cursor-pointer shadow-2xs active:scale-98 min-h-[34px] sm:min-h-[36px]"
             >
-              <X className="w-4 h-4" />
+              <Sparkles className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+              <span>Chữ cái đầu</span>
+              <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-md border border-slate-200 dark:border-slate-700">
+                Alt+H
+              </kbd>
             </button>
-          )}
-        </motion.div>
 
-        {/* Near Miss Hint or Contraction Note Feedback */}
+            {/* Reveal next word */}
+            <button
+              type="button"
+              onClick={handleRevealNextWord}
+              className="inline-flex items-center justify-center gap-1.5 flex-1 sm:flex-initial px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800 transition-all cursor-pointer shadow-2xs active:scale-98 min-h-[34px] sm:min-h-[36px]"
+            >
+              <Eye className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+              <span>Xem từ</span>
+              <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-md border border-slate-200 dark:border-slate-700">
+                Alt+R
+              </kbd>
+            </button>
+          </div>
+
+          {/* Right side utilities: Toggle translation / IPA & Reset */}
+          <div className="flex items-center gap-1.5">
+            {(translation || ipa) && (
+              <button
+                type="button"
+                onClick={() => {
+                  if (onToggleTranslation) {
+                    onToggleTranslation();
+                  } else {
+                    setShowTranslation((prev) => !prev);
+                  }
+                }}
+                className={`inline-flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-semibold transition-all cursor-pointer shadow-2xs min-h-[34px] sm:min-h-[36px] active:scale-95 ${
+                  showTranslation
+                    ? "bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 border border-blue-200/80 dark:border-blue-800/60 font-bold"
+                    : "text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800"
+                }`}
+              >
+                {showTranslation ? (
+                  <>
+                    <EyeOff className="w-3.5 h-3.5 shrink-0 text-[#0059bb] dark:text-sky-400" />
+                    <span>Ẩn gợi ý</span>
+                  </>
+                ) : (
+                  <>
+                    <Eye className="w-3.5 h-3.5 shrink-0" />
+                    <span>Dịch / IPA</span>
+                  </>
+                )}
+              </button>
+            )}
+
+            <button
+              type="button"
+              onClick={handleResetSentence}
+              title="Làm lại câu này"
+              className="p-1.5 sm:p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800 shadow-2xs transition-colors cursor-pointer min-h-[34px] sm:min-h-[36px] min-w-[34px] sm:min-w-[36px] flex items-center justify-center"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+
+        {/* 5. IPA & VIETNAMESE TRANSLATION ACCORDION HELPER CARD WITH DUAL TAB */}
         <AnimatePresence>
-          {nearMissHint && (
+          {showTranslation && (translation || ipa) && (
             <motion.div
-              initial={{ opacity: 0, y: -4 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              className="mt-1.5 flex items-center gap-1.5 text-xs text-amber-600 dark:text-amber-400 font-medium"
+              initial={{ opacity: 0, height: 0, y: -4 }}
+              animate={{ opacity: 1, height: "auto", y: 0 }}
+              exit={{ opacity: 0, height: 0, y: -4 }}
+              className="p-3 sm:p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-blue-100/90 dark:border-slate-800 shadow-2xs space-y-2.5 overflow-hidden"
             >
-              <Info className="w-3.5 h-3.5 shrink-0" />
-              <span>
-                Gần đúng! Có thể bạn gõ sai chính tả: <strong>{nearMissHint}</strong>
-              </span>
-            </motion.div>
-          )}
-          {equivalenceNote && (
-            <motion.div
-              initial={{ opacity: 0, y: -4 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              className="mt-1.5 flex items-center gap-1.5 text-xs text-emerald-600 dark:text-emerald-400 font-medium"
-            >
-              <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
-              <span>{equivalenceNote}</span>
+              {/* TAB CHUYỂN BÊN DỊCH VÀ BÊN IPA (KHI CÓ CẢ 2) */}
+              {translation && ipa && (
+                <div className="flex items-center justify-between gap-2 pb-2 border-b border-slate-100 dark:border-slate-800/80">
+                  <div className="inline-flex p-0.5 rounded-lg bg-slate-100 dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700/60 shadow-2xs">
+                    <button
+                      type="button"
+                      onClick={() => handleSelectHelperTab("translation")}
+                      className={`px-3 py-1.5 rounded-md text-xs sm:text-[12.5px] font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                        activeHelperTab === "translation"
+                          ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-xs font-extrabold"
+                          : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                      }`}
+                    >
+                      <Languages className="w-4 h-4 text-[#0059bb] dark:text-sky-400 shrink-0" />
+                      <span>Bản dịch</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => handleSelectHelperTab("ipa")}
+                      className={`px-3 py-1.5 rounded-md text-xs sm:text-[12.5px] font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                        activeHelperTab === "ipa"
+                          ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-xs font-extrabold"
+                          : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                      }`}
+                    >
+                      <Speech className="w-4 h-4 text-[#0059bb] dark:text-sky-400 shrink-0" />
+                      <span>Phiên âm IPA</span>
+                    </button>
+                  </div>
+
+                  {/* Nút sao chép nội dung đang xem */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const textToCopy =
+                        activeHelperTab === "ipa"
+                          ? (ipa.startsWith("/") ? ipa : `/${ipa}/`)
+                          : translation.replace(/^(?:Việt|viet|vi|vn|Vietnamese|tiếng việt)?\s*:\s*/i, "").trim();
+                      handleCopyHelperText(textToCopy);
+                    }}
+                    className="p-1 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 rounded-md transition-colors text-xs flex items-center gap-1 cursor-pointer"
+                    title="Sao chép nội dung"
+                  >
+                    {copiedHelperText ? (
+                      <span className="text-emerald-600 dark:text-emerald-400 text-[11px] font-semibold flex items-center gap-1">
+                        <Check className="w-3 h-3 stroke-[2.5]" /> Đã chép
+                      </span>
+                    ) : (
+                      <span className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 text-[11px] font-medium flex items-center gap-1">
+                        <Copy className="w-3 h-3" /> Sao chép
+                      </span>
+                    )}
+                  </button>
+                </div>
+              )}
+
+              {/* NỘI DUNG TAB HIỂN THỊ */}
+              {/* Tab 1: Bản dịch tiếng Việt */}
+              {((activeHelperTab === "translation" && translation) || (!ipa && translation)) && (
+                <div className="flex items-start gap-2.5 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-200 py-0.5">
+                  <div className="flex items-center gap-1 font-bold text-[#0059bb] dark:text-sky-400 shrink-0 mt-0.5">
+                    <Languages className="w-3.5 h-3.5" />
+                    <span>Dịch:</span>
+                  </div>
+                  <p className="leading-relaxed font-sans text-slate-800 dark:text-slate-100">
+                    {translation.replace(/^(?:Việt|viet|vi|vn|Vietnamese|tiếng việt)?\s*:\s*/i, "").trim()}
+                  </p>
+                </div>
+              )}
+
+              {/* Tab 2: Phiên âm IPA (ĐẬM HƠN, RÕ NÉT HƠN THEO YÊU CẦU NGƯỜI DÙNG) */}
+              {((activeHelperTab === "ipa" && ipa) || (!translation && ipa)) && (
+                <div className="flex items-start gap-2.5 text-xs sm:text-sm py-0.5">
+                  <div className="flex items-center gap-1 font-bold text-[#0059bb] dark:text-sky-400 shrink-0 mt-0.5">
+                    <Speech className="w-4 h-4 shrink-0 text-[#0059bb] dark:text-sky-400" />
+                    <span>IPA:</span>
+                  </div>
+                  <p className="font-mono font-bold tracking-wide text-slate-900 dark:text-white leading-relaxed text-xs sm:text-[14px] selection:bg-blue-100 dark:selection:bg-blue-900/40 select-all">
+                    {ipa.startsWith("/") ? ipa : `/${ipa}/`}
+                  </p>
+                </div>
+              )}
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
-
-      {/* 4. ACTION SHORTCUT BUTTONS BAR */}
-      <div className="flex flex-wrap items-center justify-between gap-2 px-1 pt-0.5">
-        <div className="flex items-center gap-1.5 sm:gap-2 flex-1 sm:flex-initial">
-          {/* First letter hint */}
-          <button
-            type="button"
-            onClick={handleHintFirstLetter}
-            className="inline-flex items-center justify-center gap-1.5 flex-1 sm:flex-initial px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800 transition-all cursor-pointer shadow-2xs active:scale-98 min-h-[34px] sm:min-h-[36px]"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-            <span>Chữ cái đầu</span>
-            <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-md border border-slate-200 dark:border-slate-700">
-              Alt+H
-            </kbd>
-          </button>
-
-          {/* Reveal next word */}
-          <button
-            type="button"
-            onClick={handleRevealNextWord}
-            className="inline-flex items-center justify-center gap-1.5 flex-1 sm:flex-initial px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800 transition-all cursor-pointer shadow-2xs active:scale-98 min-h-[34px] sm:min-h-[36px]"
-          >
-            <Eye className="w-3.5 h-3.5 text-slate-500 shrink-0" />
-            <span>Xem từ</span>
-            <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-md border border-slate-200 dark:border-slate-700">
-              Alt+R
-            </kbd>
-          </button>
-        </div>
-
-        {/* Right side utilities: Toggle translation & Reset */}
-        <div className="flex items-center gap-1.5">
-          {translation && (
-            <button
-              type="button"
-              onClick={() => setShowTranslation((prev) => !prev)}
-              className={`inline-flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-semibold transition-all cursor-pointer shadow-2xs min-h-[34px] sm:min-h-[36px] active:scale-95 ${
-                showTranslation
-                  ? "bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 border border-blue-200/80 dark:border-blue-800/60 font-bold"
-                  : "text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800"
-              }`}
-            >
-              {showTranslation ? (
-                <>
-                  <EyeOff className="w-3.5 h-3.5 shrink-0 text-[#0059bb] dark:text-sky-400" />
-                  <span>Ẩn dịch</span>
-                </>
-              ) : (
-                <>
-                  <Eye className="w-3.5 h-3.5 shrink-0" />
-                  <span>Xem dịch</span>
-                </>
-              )}
-            </button>
-          )}
-
-          <button
-            type="button"
-            onClick={handleResetSentence}
-            title="Làm lại câu này"
-            className="p-1.5 sm:p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800 shadow-2xs transition-colors cursor-pointer min-h-[34px] sm:min-h-[36px] min-w-[34px] sm:min-w-[36px] flex items-center justify-center"
-          >
-            <RotateCcw className="w-3.5 h-3.5" />
-          </button>
-        </div>
-      </div>
 
       {/* Celebratory Completion Banner */}
       <AnimatePresence>

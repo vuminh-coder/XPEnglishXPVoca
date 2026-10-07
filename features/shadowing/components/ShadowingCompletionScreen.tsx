@@ -159,7 +159,7 @@ export function ShadowingCompletionScreen({
             <span>Luyện lại bài này</span>
           </button>
 
-          <Link href={`/study/listening?id=${currentLesson?.id}`}>
+          <Link href={`/study/dictation?id=${currentLesson?.id}`}>
             <button className="px-5 py-2.5 rounded-xl bg-blue-50 dark:bg-blue-950/60 hover:bg-blue-100 dark:hover:bg-blue-900/60 text-[#0059bb] dark:text-sky-400 border border-blue-200/80 dark:border-blue-800/60 font-bold text-xs sm:text-sm shadow-2xs flex items-center gap-1.5 cursor-pointer transition-all active:scale-95">
               <Headphones className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />
               <span>Chuyển sang Luyện Nghe</span>

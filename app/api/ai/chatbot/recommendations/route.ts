@@ -68,7 +68,7 @@ export async function GET(request: Request) {
               xpReward: 20,
               coinReward: 15,
               isCompleted: false,
-              link: "/study/listening",
+              link: "/study/dictation",
               icon: "🎧",
             },
             {
@@ -108,7 +108,7 @@ export async function GET(request: Request) {
               title: "Daily Routine & Morning Habits",
               category: "Conversations",
               progressText: "Chưa học",
-              link: "/study/listening",
+              link: "/study/dictation",
             },
             nextGrammar: {
               topicId: "present_simple",
@@ -319,7 +319,7 @@ export async function GET(request: Request) {
       },
       dictation: {
         label: "Luyện nghe Dictation",
-        link: "/study/listening",
+        link: "/study/dictation",
         advice: `7 ngày qua bạn mới luyện nghe ${minMinutes} phút. Hãy làm 1 bài nghe chép chính tả!`,
       },
       vocab: {
@@ -370,7 +370,7 @@ export async function GET(request: Request) {
         xpReward: 20,
         coinReward: 15,
         isCompleted: questListeningCompleted,
-        link: "/study/listening",
+        link: "/study/dictation",
         icon: "🎧",
       },
       {
@@ -393,7 +393,7 @@ export async function GET(request: Request) {
       title: "Daily Routine & Morning Habits",
       category: "Conversations",
       progressText: "Chưa học",
-      link: "/study/listening",
+      link: "/study/dictation",
     };
 
     if (dbData?.inProgressListening) {
@@ -406,7 +406,7 @@ export async function GET(request: Request) {
         title: lesson.title,
         category: lesson.category,
         progressText: `Đang dở (${completedSentences} câu)`,
-        link: `/study/listening?id=${lesson.id}`,
+        link: `/study/dictation?id=${lesson.id}`,
       };
     } else if (dbData?.nextListeningLesson) {
       const lesson = dbData.nextListeningLesson;
@@ -415,7 +415,7 @@ export async function GET(request: Request) {
         title: lesson.title,
         category: lesson.category,
         progressText: "Bài tiếp theo",
-        link: `/study/listening?id=${lesson.id}`,
+        link: `/study/dictation?id=${lesson.id}`,
       };
     }
 
@@ -537,7 +537,7 @@ function getContextualTip(pathname: string) {
       link: "/myvocab",
     };
   }
-  if (pathname.includes("/study/listening")) {
+  if (pathname.includes("/study/dictation") || pathname.includes("/study/listening")) {
     return {
       badge: "Dictation Focus",
       title: "Chống nhìn lén đáp án",

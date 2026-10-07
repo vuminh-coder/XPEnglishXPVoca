@@ -1,0 +1,1477 @@
+{
+  "wireMagic": "pb3",
+  "pens": [ {
+  
+  } ],
+  "wsWinStyles": [ {
+  
+  } ],
+  "wpWinPositions": [ {
+  
+  } ],
+  "events": [ {
+    "tStartMs": 7470,
+    "dDurationMs": 2899,
+    "segs": [ {
+      "utf8": "This program is brought to you by Stanford University."
+    } ]
+  }, {
+    "tStartMs": 10470,
+    "dDurationMs": 3973,
+    "segs": [ {
+      "utf8": "Please visit us at stanford.edu"
+    } ]
+  }, {
+    "tStartMs": 22492,
+    "dDurationMs": 7527,
+    "segs": [ {
+      "utf8": "Thank You. I am honored to be with you today at your commencement"
+    } ]
+  }, {
+    "tStartMs": 30020,
+    "dDurationMs": 2718,
+    "segs": [ {
+      "utf8": "from one of the finest universities in the world."
+    } ]
+  }, {
+    "tStartMs": 35559,
+    "dDurationMs": 6000,
+    "segs": [ {
+      "utf8": "Truth be told I never graduated from college"
+    } ]
+  }, {
+    "tStartMs": 41560,
+    "dDurationMs": 4369,
+    "segs": [ {
+      "utf8": "and this is the closest I've ever gotten to a college graduation."
+    } ]
+  }, {
+    "tStartMs": 47980,
+    "dDurationMs": 4029,
+    "segs": [ {
+      "utf8": "Today I want to tell you three stories from my life. That's it."
+    } ]
+  }, {
+    "tStartMs": 52010,
+    "dDurationMs": 2839,
+    "segs": [ {
+      "utf8": "No big deal. Just three stories."
+    } ]
+  }, {
+    "tStartMs": 55850,
+    "dDurationMs": 3719,
+    "segs": [ {
+      "utf8": "The first story is about connecting the dots."
+    } ]
+  }, {
+    "tStartMs": 61010,
+    "dDurationMs": 2884,
+    "segs": [ {
+      "utf8": "I dropped out of Reed College after the first 6 months,"
+    } ]
+  }, {
+    "tStartMs": 63980,
+    "dDurationMs": 1818,
+    "segs": [ {
+      "utf8": "but then stayed around as a drop-in"
+    } ]
+  }, {
+    "tStartMs": 65799,
+    "dDurationMs": 2929,
+    "segs": [ {
+      "utf8": "for another 18 months or so before I really quit."
+    } ]
+  }, {
+    "tStartMs": 69410,
+    "dDurationMs": 1668,
+    "segs": [ {
+      "utf8": "So why did I drop out?"
+    } ]
+  }, {
+    "tStartMs": 72230,
+    "dDurationMs": 2139,
+    "segs": [ {
+      "utf8": "It started before I was born."
+    } ]
+  }, {
+    "tStartMs": 75250,
+    "dDurationMs": 3784,
+    "segs": [ {
+      "utf8": "My biological mother was a young, unwed graduate student,"
+    } ]
+  }, {
+    "tStartMs": 79240,
+    "dDurationMs": 2109,
+    "segs": [ {
+      "utf8": "and she decided to put me up for adoption."
+    } ]
+  }, {
+    "tStartMs": 82360,
+    "dDurationMs": 3868,
+    "segs": [ {
+      "utf8": "She felt very strongly that I should be adopted by college graduates,"
+    } ]
+  }, {
+    "tStartMs": 86309,
+    "dDurationMs": 2299,
+    "segs": [ {
+      "utf8": "so everything was all set for me to"
+    } ]
+  }, {
+    "tStartMs": 88609,
+    "dDurationMs": 2489,
+    "segs": [ {
+      "utf8": "be adopted at birth by a lawyer and his wife."
+    } ]
+  }, {
+    "tStartMs": 91740,
+    "dDurationMs": 2409,
+    "segs": [ {
+      "utf8": "Except that when I popped out they decided"
+    } ]
+  }, {
+    "tStartMs": 94150,
+    "dDurationMs": 3399,
+    "segs": [ {
+      "utf8": "at the last minute that they really wanted a girl."
+    } ]
+  }, {
+    "tStartMs": 97920,
+    "dDurationMs": 2129,
+    "segs": [ {
+      "utf8": "So my parents, who were on a waiting list,"
+    } ]
+  }, {
+    "tStartMs": 100160,
+    "dDurationMs": 4309,
+    "segs": [ {
+      "utf8": "got a call in the middle of the night asking: \"We have an unexpected"
+    } ]
+  }, {
+    "tStartMs": 104470,
+    "dDurationMs": 2449,
+    "segs": [ {
+      "utf8": "baby boy; do you want him?\""
+    } ]
+  }, {
+    "tStartMs": 107430,
+    "dDurationMs": 5644,
+    "segs": [ {
+      "utf8": "They said: \"Of course.\" My biological mother later found out that"
+    } ]
+  }, {
+    "tStartMs": 113300,
+    "dDurationMs": 2009,
+    "segs": [ {
+      "utf8": "my mother had never graduated from college"
+    } ]
+  }, {
+    "tStartMs": 115310,
+    "dDurationMs": 3159,
+    "segs": [ {
+      "utf8": "and that my father had never graduated from high school."
+    } ]
+  }, {
+    "tStartMs": 119160,
+    "dDurationMs": 3289,
+    "segs": [ {
+      "utf8": "She refused to sign the final adoption papers."
+    } ]
+  }, {
+    "tStartMs": 123430,
+    "dDurationMs": 1959,
+    "segs": [ {
+      "utf8": "She only relented a few months later when"
+    } ]
+  }, {
+    "tStartMs": 125390,
+    "dDurationMs": 7119,
+    "segs": [ {
+      "utf8": "my parents promised that I would go to college. This was the start in my life."
+    } ]
+  }, {
+    "tStartMs": 132540,
+    "dDurationMs": 6799,
+    "segs": [ {
+      "utf8": "And 17 years later I did go to college. But I naively chose a college"
+    } ]
+  }, {
+    "tStartMs": 139340,
+    "dDurationMs": 2319,
+    "segs": [ {
+      "utf8": "that was almost as expensive as Stanford,"
+    } ]
+  }, {
+    "tStartMs": 142470,
+    "dDurationMs": 1839,
+    "segs": [ {
+      "utf8": "and all of my working-class parents'"
+    } ]
+  }, {
+    "tStartMs": 144310,
+    "dDurationMs": 2469,
+    "segs": [ {
+      "utf8": "savings were being spent on my college tuition."
+    } ]
+  }, {
+    "tStartMs": 147610,
+    "dDurationMs": 2799,
+    "segs": [ {
+      "utf8": "After six months, I couldn't see the value in it."
+    } ]
+  }, {
+    "tStartMs": 150720,
+    "dDurationMs": 2039,
+    "segs": [ {
+      "utf8": "I had no idea what I wanted to do with my life"
+    } ]
+  }, {
+    "tStartMs": 152760,
+    "dDurationMs": 3619,
+    "segs": [ {
+      "utf8": "and no idea how college was going to help me figure it out."
+    } ]
+  }, {
+    "tStartMs": 156850,
+    "dDurationMs": 3239,
+    "segs": [ {
+      "utf8": "And here I was spending all of the money my parents had saved"
+    } ]
+  }, {
+    "tStartMs": 160289,
+    "dDurationMs": 610,
+    "segs": [ {
+      "utf8": "their entire life."
+    } ]
+  }, {
+    "tStartMs": 162600,
+    "dDurationMs": 4338,
+    "segs": [ {
+      "utf8": "So I decided to drop out and trust that it would all work out OK."
+    } ]
+  }, {
+    "tStartMs": 166939,
+    "dDurationMs": 2459,
+    "segs": [ {
+      "utf8": "It was pretty scary at the time,"
+    } ]
+  }, {
+    "tStartMs": 169399,
+    "dDurationMs": 3409,
+    "segs": [ {
+      "utf8": "but looking back it was one of the best decisions I ever made."
+    } ]
+  }, {
+    "tStartMs": 174080,
+    "dDurationMs": 2609,
+    "segs": [ {
+      "utf8": "The minute I dropped out I could stop"
+    } ]
+  }, {
+    "tStartMs": 176690,
+    "dDurationMs": 2794,
+    "segs": [ {
+      "utf8": "taking the required classes that didn't interest me,"
+    } ]
+  }, {
+    "tStartMs": 179740,
+    "dDurationMs": 3859,
+    "segs": [ {
+      "utf8": "and begin dropping in on the ones that looked interesting."
+    } ]
+  }, {
+    "tStartMs": 184760,
+    "dDurationMs": 3339,
+    "segs": [ {
+      "utf8": "It wasn't all romantic. I didn't have a dorm room,"
+    } ]
+  }, {
+    "tStartMs": 188170,
+    "dDurationMs": 2328,
+    "segs": [ {
+      "utf8": "so I slept on the floor in friends' rooms,"
+    } ]
+  }, {
+    "tStartMs": 190590,
+    "dDurationMs": 3589,
+    "segs": [ {
+      "utf8": "I returned coke bottles for the 5 cent deposits to buy food with,"
+    } ]
+  }, {
+    "tStartMs": 194720,
+    "dDurationMs": 2559,
+    "segs": [ {
+      "utf8": "and I would walk the 7 miles across town every Sunday"
+    } ]
+  }, {
+    "tStartMs": 197280,
+    "dDurationMs": 3799,
+    "segs": [ {
+      "utf8": "night to get one good meal a week at the Hare Krishna"
+    } ]
+  }, {
+    "tStartMs": 201150,
+    "dDurationMs": 1929,
+    "segs": [ {
+      "utf8": "temple. I loved it."
+    } ]
+  }, {
+    "tStartMs": 203850,
+    "dDurationMs": 2409,
+    "segs": [ {
+      "utf8": "And much of what I stumbled into by following"
+    } ]
+  }, {
+    "tStartMs": 206260,
+    "dDurationMs": 3429,
+    "segs": [ {
+      "utf8": "my curiosity and intuition turned out to be priceless later on."
+    } ]
+  }, {
+    "tStartMs": 209689,
+    "dDurationMs": 4685,
+    "segs": [ {
+      "utf8": "Let me give you one example: Reed College at that"
+    } ]
+  }, {
+    "tStartMs": 214500,
+    "dDurationMs": 3489,
+    "segs": [ {
+      "utf8": "time offered perhaps the best calligraphy instruction in the country."
+    } ]
+  }, {
+    "tStartMs": 218350,
+    "dDurationMs": 4398,
+    "segs": [ {
+      "utf8": "Throughout the campus every poster, every label on every drawer,"
+    } ]
+  }, {
+    "tStartMs": 222749,
+    "dDurationMs": 2359,
+    "segs": [ {
+      "utf8": "was beautifully hand calligraphed."
+    } ]
+  }, {
+    "tStartMs": 225390,
+    "dDurationMs": 3499,
+    "segs": [ {
+      "utf8": "Because I had dropped out and didn't have to take the normal classes,"
+    } ]
+  }, {
+    "tStartMs": 229730,
+    "dDurationMs": 2949,
+    "segs": [ {
+      "utf8": "I decided to take a calligraphy class to learn how to do this."
+    } ]
+  }, {
+    "tStartMs": 233100,
+    "dDurationMs": 2994,
+    "segs": [ {
+      "utf8": "I learned about serif and san serif typefaces,"
+    } ]
+  }, {
+    "tStartMs": 236300,
+    "dDurationMs": 1649,
+    "segs": [ {
+      "utf8": "about varying the amount of space"
+    } ]
+  }, {
+    "tStartMs": 237950,
+    "dDurationMs": 1714,
+    "segs": [ {
+      "utf8": "between different letter combinations,"
+    } ]
+  }, {
+    "tStartMs": 239850,
+    "dDurationMs": 2549,
+    "segs": [ {
+      "utf8": "about what makes great typography great."
+    } ]
+  }, {
+    "tStartMs": 243440,
+    "dDurationMs": 2139,
+    "segs": [ {
+      "utf8": "It was beautiful, historical,"
+    } ]
+  }, {
+    "tStartMs": 245800,
+    "dDurationMs": 3379,
+    "segs": [ {
+      "utf8": "artistically subtle in a way that science can't capture,"
+    } ]
+  }, {
+    "tStartMs": 249750,
+    "dDurationMs": 1698,
+    "segs": [ {
+      "utf8": "and I found it fascinating."
+    } ]
+  }, {
+    "tStartMs": 252210,
+    "dDurationMs": 4588,
+    "segs": [ {
+      "utf8": "None of this had even a hope of any practical application in my life."
+    } ]
+  }, {
+    "tStartMs": 257570,
+    "dDurationMs": 1204,
+    "segs": [ {
+      "utf8": "But ten years later,"
+    } ]
+  }, {
+    "tStartMs": 258870,
+    "dDurationMs": 2759,
+    "segs": [ {
+      "utf8": "when we were designing the first Macintosh computer,"
+    } ]
+  }, {
+    "tStartMs": 261880,
+    "dDurationMs": 3589,
+    "segs": [ {
+      "utf8": "it all came back to me. And we designed it all into the Mac."
+    } ]
+  }, {
+    "tStartMs": 265470,
+    "dDurationMs": 3469,
+    "segs": [ {
+      "utf8": "It was the first computer with beautiful typography."
+    } ]
+  }, {
+    "tStartMs": 269490,
+    "dDurationMs": 3279,
+    "segs": [ {
+      "utf8": "If I had never dropped in on that single course in college,"
+    } ]
+  }, {
+    "tStartMs": 272960,
+    "dDurationMs": 1629,
+    "segs": [ {
+      "utf8": "the Mac would have never had multiple"
+    } ]
+  }, {
+    "tStartMs": 274590,
+    "dDurationMs": 2524,
+    "segs": [ {
+      "utf8": "typefaces or proportionally spaced fonts."
+    } ]
+  }, {
+    "tStartMs": 277400,
+    "dDurationMs": 2214,
+    "segs": [ {
+      "utf8": "And since Windows just copied the Mac,"
+    } ]
+  }, {
+    "tStartMs": 279700,
+    "dDurationMs": 3816,
+    "segs": [ {
+      "utf8": "it's likely that no personal computer would have them."
+    } ]
+  }, {
+    "tStartMs": 287070,
+    "dDurationMs": 4069,
+    "segs": [ {
+      "utf8": "If I had never dropped out,"
+    } ]
+  }, {
+    "tStartMs": 291140,
+    "dDurationMs": 2899,
+    "segs": [ {
+      "utf8": "I would have never dropped in on this calligraphy class,"
+    } ]
+  }, {
+    "tStartMs": 294110,
+    "dDurationMs": 3039,
+    "segs": [ {
+      "utf8": "and personal computers might not have the wonderful typography"
+    } ]
+  }, {
+    "tStartMs": 297150,
+    "dDurationMs": 3369,
+    "segs": [ {
+      "utf8": "that they do. Of course it was impossible to connect"
+    } ]
+  }, {
+    "tStartMs": 300520,
+    "dDurationMs": 1929,
+    "segs": [ {
+      "utf8": "the dots looking forward when I was in college."
+    } ]
+  }, {
+    "tStartMs": 302450,
+    "dDurationMs": 4199,
+    "segs": [ {
+      "utf8": "But it was very, very clear looking backwards ten years later."
+    } ]
+  }, {
+    "tStartMs": 307130,
+    "dDurationMs": 3019,
+    "segs": [ {
+      "utf8": "Again, you can't connect the dots looking forward;"
+    } ]
+  }, {
+    "tStartMs": 310150,
+    "dDurationMs": 2349,
+    "segs": [ {
+      "utf8": "you can only connect them looking backwards."
+    } ]
+  }, {
+    "tStartMs": 312920,
+    "dDurationMs": 2629,
+    "segs": [ {
+      "utf8": "So you have to trust that the dots will somehow connect"
+    } ]
+  }, {
+    "tStartMs": 315549,
+    "dDurationMs": 895,
+    "segs": [ {
+      "utf8": "in your future."
+    } ]
+  }, {
+    "tStartMs": 316730,
+    "dDurationMs": 3999,
+    "segs": [ {
+      "utf8": "You have to trust in something, your gut, destiny, life, karma,"
+    } ]
+  }, {
+    "tStartMs": 320730,
+    "dDurationMs": 709,
+    "segs": [ {
+      "utf8": "whatever."
+    } ]
+  }, {
+    "tStartMs": 322350,
+    "dDurationMs": 5748,
+    "segs": [ {
+      "utf8": "Beleiveing that the dots will connect down the road will give you the confidence to follow your heart"
+    } ]
+  }, {
+    "tStartMs": 328100,
+    "dDurationMs": 5246,
+    "segs": [ {
+      "utf8": "Even when it leads you off the well worn path, and that will make all the difference."
+    } ]
+  }, {
+    "tStartMs": 338600,
+    "dDurationMs": 4099,
+    "segs": [ {
+      "utf8": "My second story is about love and loss."
+    } ]
+  }, {
+    "tStartMs": 344030,
+    "dDurationMs": 3899,
+    "segs": [ {
+      "utf8": "I was lucky I found what I loved to do early in life."
+    } ]
+  }, {
+    "tStartMs": 348310,
+    "dDurationMs": 3209,
+    "segs": [ {
+      "utf8": "Woz and I started Apple in my parents garage when I was 20."
+    } ]
+  }, {
+    "tStartMs": 351870,
+    "dDurationMs": 3389,
+    "segs": [ {
+      "utf8": "We worked hard, and in 10 years Apple had grown from just the two of"
+    } ]
+  }, {
+    "tStartMs": 355260,
+    "dDurationMs": 4319,
+    "segs": [ {
+      "utf8": "us in a garage into a $2 billion company with over 4000 employees."
+    } ]
+  }, {
+    "tStartMs": 359660,
+    "dDurationMs": 3689,
+    "segs": [ {
+      "utf8": "We had just released our finest creation the Macintosh"
+    } ]
+  }, {
+    "tStartMs": 363350,
+    "dDurationMs": 2289,
+    "segs": [ {
+      "utf8": "a year earlier, and I had just turned 30."
+    } ]
+  }, {
+    "tStartMs": 366360,
+    "dDurationMs": 1589,
+    "segs": [ {
+      "utf8": "And then I got fired."
+    } ]
+  }, {
+    "tStartMs": 369050,
+    "dDurationMs": 2849,
+    "segs": [ {
+      "utf8": "How can you get fired from a company you started?"
+    } ]
+  }, {
+    "tStartMs": 372400,
+    "dDurationMs": 3499,
+    "segs": [ {
+      "utf8": "Well, as Apple grew we hired someone who I thought"
+    } ]
+  }, {
+    "tStartMs": 375900,
+    "dDurationMs": 2559,
+    "segs": [ {
+      "utf8": "was very talented to run the company with me,"
+    } ]
+  }, {
+    "tStartMs": 378680,
+    "dDurationMs": 1789,
+    "segs": [ {
+      "utf8": "and for the first year or so things went well."
+    } ]
+  }, {
+    "tStartMs": 380470,
+    "dDurationMs": 2209,
+    "segs": [ {
+      "utf8": "But then our visions of the future began"
+    } ]
+  }, {
+    "tStartMs": 382680,
+    "dDurationMs": 3059,
+    "segs": [ {
+      "utf8": "to diverge and eventually we had a falling out."
+    } ]
+  }, {
+    "tStartMs": 385770,
+    "dDurationMs": 2899,
+    "segs": [ {
+      "utf8": "When we did, our Board of Directors sided with him."
+    } ]
+  }, {
+    "tStartMs": 389150,
+    "dDurationMs": 3579,
+    "segs": [ {
+      "utf8": "So at 30 I was out. And very publicly out."
+    } ]
+  }, {
+    "tStartMs": 392730,
+    "dDurationMs": 3159,
+    "segs": [ {
+      "utf8": "What had been the focus of my entire adult life was gone,"
+    } ]
+  }, {
+    "tStartMs": 395890,
+    "dDurationMs": 1809,
+    "segs": [ {
+      "utf8": "and it was devastating."
+    } ]
+  }, {
+    "tStartMs": 398530,
+    "dDurationMs": 2109,
+    "segs": [ {
+      "utf8": "I really didn't know what to do for a few months."
+    } ]
+  }, {
+    "tStartMs": 401110,
+    "dDurationMs": 2759,
+    "segs": [ {
+      "utf8": "I felt that I had let the previous generation of entrepreneurs"
+    } ]
+  }, {
+    "tStartMs": 403870,
+    "dDurationMs": 3339,
+    "segs": [ {
+      "utf8": "down - that I had dropped the baton as it was being passed to me."
+    } ]
+  }, {
+    "tStartMs": 407210,
+    "dDurationMs": 3279,
+    "segs": [ {
+      "utf8": "I met with David Packard and Bob Noyce"
+    } ]
+  }, {
+    "tStartMs": 410880,
+    "dDurationMs": 2819,
+    "segs": [ {
+      "utf8": "and tried to apologize for screwing up so badly."
+    } ]
+  }, {
+    "tStartMs": 414420,
+    "dDurationMs": 1419,
+    "segs": [ {
+      "utf8": "I was a very public failure,"
+    } ]
+  }, {
+    "tStartMs": 415840,
+    "dDurationMs": 2249,
+    "segs": [ {
+      "utf8": "and I even thought about running away from the valley."
+    } ]
+  }, {
+    "tStartMs": 418570,
+    "dDurationMs": 4819,
+    "segs": [ {
+      "utf8": "But something slowly began to dawn on me I still loved what I did."
+    } ]
+  }, {
+    "tStartMs": 423590,
+    "dDurationMs": 4209,
+    "segs": [ {
+      "utf8": "The turn of events at Apple had not changed that one bit."
+    } ]
+  }, {
+    "tStartMs": 427800,
+    "dDurationMs": 3169,
+    "segs": [ {
+      "utf8": "I had been rejected, but I was still in love."
+    } ]
+  }, {
+    "tStartMs": 432090,
+    "dDurationMs": 1749,
+    "segs": [ {
+      "utf8": "And so I decided to start over."
+    } ]
+  }, {
+    "tStartMs": 434910,
+    "dDurationMs": 2999,
+    "segs": [ {
+      "utf8": "I didn't see it then, but it turned out that getting fired from"
+    } ]
+  }, {
+    "tStartMs": 437910,
+    "dDurationMs": 2409,
+    "segs": [ {
+      "utf8": "Apple was the best thing that could have ever happened to me."
+    } ]
+  }, {
+    "tStartMs": 441010,
+    "dDurationMs": 2179,
+    "segs": [ {
+      "utf8": "The heaviness of being successful was"
+    } ]
+  }, {
+    "tStartMs": 443190,
+    "dDurationMs": 2834,
+    "segs": [ {
+      "utf8": "replaced by the lightness of being a beginner again,"
+    } ]
+  }, {
+    "tStartMs": 446220,
+    "dDurationMs": 939,
+    "segs": [ {
+      "utf8": "less sure about everything."
+    } ]
+  }, {
+    "tStartMs": 447160,
+    "dDurationMs": 3739,
+    "segs": [ {
+      "utf8": "It freed me to enter one of the most creative periods of my life."
+    } ]
+  }, {
+    "tStartMs": 451420,
+    "dDurationMs": 2929,
+    "segs": [ {
+      "utf8": "During the next five years, I started a company named NeXT,"
+    } ]
+  }, {
+    "tStartMs": 454530,
+    "dDurationMs": 1359,
+    "segs": [ {
+      "utf8": "another company named Pixar,"
+    } ]
+  }, {
+    "tStartMs": 455890,
+    "dDurationMs": 3189,
+    "segs": [ {
+      "utf8": "and fell in love with an amazing woman who would become my wife."
+    } ]
+  }, {
+    "tStartMs": 459780,
+    "dDurationMs": 2829,
+    "segs": [ {
+      "utf8": "Pixar went on to create the worlds first computer animated feature"
+    } ]
+  }, {
+    "tStartMs": 462610,
+    "dDurationMs": 1494,
+    "segs": [ {
+      "utf8": "film, Toy Story,"
+    } ]
+  }, {
+    "tStartMs": 464380,
+    "dDurationMs": 5599,
+    "segs": [ {
+      "utf8": "and is now the most successful animation studio in the world."
+    } ]
+  }, {
+    "tStartMs": 469980,
+    "dDurationMs": 3819,
+    "segs": [ {
+      "utf8": "In a remarkable turn of events, Apple bought NeXT,"
+    } ]
+  }, {
+    "tStartMs": 473890,
+    "dDurationMs": 2819,
+    "segs": [ {
+      "utf8": "I returned to Apple, and the technology we developed at"
+    } ]
+  }, {
+    "tStartMs": 476710,
+    "dDurationMs": 2729,
+    "segs": [ {
+      "utf8": "NeXT is at the heart of Apple's current renaissance."
+    } ]
+  }, {
+    "tStartMs": 479890,
+    "dDurationMs": 2889,
+    "segs": [ {
+      "utf8": "And Laurene and I have a wonderful family together."
+    } ]
+  }, {
+    "tStartMs": 483880,
+    "dDurationMs": 1869,
+    "segs": [ {
+      "utf8": "I'm pretty sure none of this would"
+    } ]
+  }, {
+    "tStartMs": 485750,
+    "dDurationMs": 1999,
+    "segs": [ {
+      "utf8": "have happened if I hadn't been fired from Apple."
+    } ]
+  }, {
+    "tStartMs": 488150,
+    "dDurationMs": 3739,
+    "segs": [ {
+      "utf8": "It was awful tasting medicine, but I guess the patient needed it."
+    } ]
+  }, {
+    "tStartMs": 492430,
+    "dDurationMs": 5429,
+    "segs": [ {
+      "utf8": "Sometimes life hits you in the head with a brick. Don't lose faith."
+    } ]
+  }, {
+    "tStartMs": 498300,
+    "dDurationMs": 2909,
+    "segs": [ {
+      "utf8": "I'm convinced that the only thing that kept me going was that I loved"
+    } ]
+  }, {
+    "tStartMs": 501210,
+    "dDurationMs": 3094,
+    "segs": [ {
+      "utf8": "what I did. You've got to find what you love."
+    } ]
+  }, {
+    "tStartMs": 504540,
+    "dDurationMs": 2929,
+    "segs": [ {
+      "utf8": "And that is as true for your work as it is for your lovers."
+    } ]
+  }, {
+    "tStartMs": 508170,
+    "dDurationMs": 1929,
+    "segs": [ {
+      "utf8": "Your work is going to fill a large part of your life,"
+    } ]
+  }, {
+    "tStartMs": 510100,
+    "dDurationMs": 2348,
+    "segs": [ {
+      "utf8": "and the only way to be truly satisfied"
+    } ]
+  }, {
+    "tStartMs": 512450,
+    "dDurationMs": 2358,
+    "segs": [ {
+      "utf8": "is to do what you believe is great work."
+    } ]
+  }, {
+    "tStartMs": 515080,
+    "dDurationMs": 3377,
+    "segs": [ {
+      "utf8": "And the only way to do great work is to love what you do."
+    } ]
+  }, {
+    "tStartMs": 518460,
+    "dDurationMs": 4659,
+    "segs": [ {
+      "utf8": "If you haven't found it yet, keep looking. Don't settle."
+    } ]
+  }, {
+    "tStartMs": 523740,
+    "dDurationMs": 3769,
+    "segs": [ {
+      "utf8": "As with all matters of the heart, you'll know when you find it."
+    } ]
+  }, {
+    "tStartMs": 527510,
+    "dDurationMs": 1424,
+    "segs": [ {
+      "utf8": "And, like any great relationship,"
+    } ]
+  }, {
+    "tStartMs": 529060,
+    "dDurationMs": 2934,
+    "segs": [ {
+      "utf8": "it just gets better and better as the years roll on."
+    } ]
+  }, {
+    "tStartMs": 532260,
+    "dDurationMs": 3889,
+    "segs": [ {
+      "utf8": "So keep looking. Don't settle."
+    } ]
+  }, {
+    "tStartMs": 545300,
+    "dDurationMs": 3189,
+    "segs": [ {
+      "utf8": "My third story is about death."
+    } ]
+  }, {
+    "tStartMs": 549270,
+    "dDurationMs": 3259,
+    "segs": [ {
+      "utf8": "When I was 17, I read a quote that went something like:"
+    } ]
+  }, {
+    "tStartMs": 552530,
+    "dDurationMs": 3224,
+    "segs": [ {
+      "utf8": "\"If you live each day as if it was your last,"
+    } ]
+  }, {
+    "tStartMs": 555910,
+    "dDurationMs": 2059,
+    "segs": [ {
+      "utf8": "someday you'll most certainly be right.\""
+    } ]
+  }, {
+    "tStartMs": 560860,
+    "dDurationMs": 4499,
+    "segs": [ {
+      "utf8": "It made an impression on me, and since then, for the past 33 years,"
+    } ]
+  }, {
+    "tStartMs": 565520,
+    "dDurationMs": 1619,
+    "segs": [ {
+      "utf8": "I have looked in the mirror every morning"
+    } ]
+  }, {
+    "tStartMs": 567140,
+    "dDurationMs": 2879,
+    "segs": [ {
+      "utf8": "and asked myself: \"If today were the last day of my life,"
+    } ]
+  }, {
+    "tStartMs": 570020,
+    "dDurationMs": 3699,
+    "segs": [ {
+      "utf8": "would I want to do what I am about to do today?\""
+    } ]
+  }, {
+    "tStartMs": 574310,
+    "dDurationMs": 3359,
+    "segs": [ {
+      "utf8": "And whenever the answer has been \"No\" for too many days in a row,"
+    } ]
+  }, {
+    "tStartMs": 577920,
+    "dDurationMs": 1639,
+    "segs": [ {
+      "utf8": "I know I need to change something."
+    } ]
+  }, {
+    "tStartMs": 580570,
+    "dDurationMs": 3359,
+    "segs": [ {
+      "utf8": "Remembering that I'll be dead soon is the most important"
+    } ]
+  }, {
+    "tStartMs": 583930,
+    "dDurationMs": 3279,
+    "segs": [ {
+      "utf8": "tool I've ever encountered to help me make the big choices in life."
+    } ]
+  }, {
+    "tStartMs": 587920,
+    "dDurationMs": 4794,
+    "segs": [ {
+      "utf8": "Because almost everything all external expectations, all pride,"
+    } ]
+  }, {
+    "tStartMs": 592890,
+    "dDurationMs": 1754,
+    "segs": [ {
+      "utf8": "all fear of embarrassment or failure -"
+    } ]
+  }, {
+    "tStartMs": 594870,
+    "dDurationMs": 2849,
+    "segs": [ {
+      "utf8": "these things just fall away in the face of death,"
+    } ]
+  }, {
+    "tStartMs": 598180,
+    "dDurationMs": 2099,
+    "segs": [ {
+      "utf8": "leaving only what is truly important."
+    } ]
+  }, {
+    "tStartMs": 600830,
+    "dDurationMs": 2839,
+    "segs": [ {
+      "utf8": "Remembering that you are going to die is the best"
+    } ]
+  }, {
+    "tStartMs": 603670,
+    "dDurationMs": 4059,
+    "segs": [ {
+      "utf8": "way I know to avoid the trap of thinking you have something to lose."
+    } ]
+  }, {
+    "tStartMs": 608200,
+    "dDurationMs": 4369,
+    "segs": [ {
+      "utf8": "You are already naked. There is no reason not to follow your heart."
+    } ]
+  }, {
+    "tStartMs": 613950,
+    "dDurationMs": 3029,
+    "segs": [ {
+      "utf8": "About a year ago I was diagnosed with cancer."
+    } ]
+  }, {
+    "tStartMs": 616980,
+    "dDurationMs": 3184,
+    "segs": [ {
+      "utf8": "I had a scan at 7:30 in the morning,"
+    } ]
+  }, {
+    "tStartMs": 620280,
+    "dDurationMs": 2789,
+    "segs": [ {
+      "utf8": "and it clearly showed a tumor on my pancreas."
+    } ]
+  }, {
+    "tStartMs": 623600,
+    "dDurationMs": 2009,
+    "segs": [ {
+      "utf8": "I didn't even know what a pancreas was."
+    } ]
+  }, {
+    "tStartMs": 626270,
+    "dDurationMs": 2269,
+    "segs": [ {
+      "utf8": "The doctors told me this was almost"
+    } ]
+  }, {
+    "tStartMs": 628540,
+    "dDurationMs": 2249,
+    "segs": [ {
+      "utf8": "certainly a type of cancer that is incurable,"
+    } ]
+  }, {
+    "tStartMs": 630790,
+    "dDurationMs": 4279,
+    "segs": [ {
+      "utf8": "and that I should expect to live no longer than three to six months."
+    } ]
+  }, {
+    "tStartMs": 635840,
+    "dDurationMs": 4229,
+    "segs": [ {
+      "utf8": "My doctor advised me to go home and get my affairs in order,"
+    } ]
+  }, {
+    "tStartMs": 640320,
+    "dDurationMs": 2589,
+    "segs": [ {
+      "utf8": "which is doctor's code for prepare to die."
+    } ]
+  }, {
+    "tStartMs": 642910,
+    "dDurationMs": 5049,
+    "segs": [ {
+      "utf8": "It means to try to tell your kids everything you thought"
+    } ]
+  }, {
+    "tStartMs": 647960,
+    "dDurationMs": 3209,
+    "segs": [ {
+      "utf8": "you'd have the next 10 years to tell them in just a few months."
+    } ]
+  }, {
+    "tStartMs": 651850,
+    "dDurationMs": 1899,
+    "segs": [ {
+      "utf8": "It means to make sure everything is buttoned"
+    } ]
+  }, {
+    "tStartMs": 653750,
+    "dDurationMs": 2959,
+    "segs": [ {
+      "utf8": "up so that it will be as easy as possible for your family."
+    } ]
+  }, {
+    "tStartMs": 656710,
+    "dDurationMs": 2739,
+    "segs": [ {
+      "utf8": "It means to say your goodbyes."
+    } ]
+  }, {
+    "tStartMs": 661460,
+    "dDurationMs": 2119,
+    "segs": [ {
+      "utf8": "I lived with that diagnosis all day."
+    } ]
+  }, {
+    "tStartMs": 664130,
+    "dDurationMs": 2204,
+    "segs": [ {
+      "utf8": "Later that evening I had a biopsy,"
+    } ]
+  }, {
+    "tStartMs": 666590,
+    "dDurationMs": 2044,
+    "segs": [ {
+      "utf8": "where they stuck an endoscope down my throat,"
+    } ]
+  }, {
+    "tStartMs": 668830,
+    "dDurationMs": 2174,
+    "segs": [ {
+      "utf8": "through my stomach and into my intestines,"
+    } ]
+  }, {
+    "tStartMs": 671260,
+    "dDurationMs": 3219,
+    "segs": [ {
+      "utf8": "put a needle into my pancreas and got a few cells from the tumor."
+    } ]
+  }, {
+    "tStartMs": 674480,
+    "dDurationMs": 3849,
+    "segs": [ {
+      "utf8": "I was sedated, but my wife, who was there,"
+    } ]
+  }, {
+    "tStartMs": 678550,
+    "dDurationMs": 2959,
+    "segs": [ {
+      "utf8": "told me that when they viewed the cells under a microscope"
+    } ]
+  }, {
+    "tStartMs": 681740,
+    "dDurationMs": 2759,
+    "segs": [ {
+      "utf8": "the doctors started crying because it turned out to be"
+    } ]
+  }, {
+    "tStartMs": 684500,
+    "dDurationMs": 3969,
+    "segs": [ {
+      "utf8": "a very rare form of pancreatic cancer that is curable with surgery."
+    } ]
+  }, {
+    "tStartMs": 689000,
+    "dDurationMs": 4116,
+    "segs": [ {
+      "utf8": "I had the surgery and thankfully I'm fine now."
+    } ]
+  }, {
+    "tStartMs": 700800,
+    "dDurationMs": 2504,
+    "segs": [ {
+      "utf8": "This was the closest I've been to facing death,"
+    } ]
+  }, {
+    "tStartMs": 703560,
+    "dDurationMs": 2879,
+    "segs": [ {
+      "utf8": "and I hope its the closest I get for a few more decades."
+    } ]
+  }, {
+    "tStartMs": 706860,
+    "dDurationMs": 1259,
+    "segs": [ {
+      "utf8": "Having lived through it,"
+    } ]
+  }, {
+    "tStartMs": 708620,
+    "dDurationMs": 2629,
+    "segs": [ {
+      "utf8": "I can now say this to you with a bit more certainty than when"
+    } ]
+  }, {
+    "tStartMs": 711250,
+    "dDurationMs": 4068,
+    "segs": [ {
+      "utf8": "death was a useful but purely intellectual concept:"
+    } ]
+  }, {
+    "tStartMs": 715419,
+    "dDurationMs": 2450,
+    "segs": [ {
+      "utf8": "No one wants to die."
+    } ]
+  }, {
+    "tStartMs": 718260,
+    "dDurationMs": 4129,
+    "segs": [ {
+      "utf8": "Even people who want to go to heaven don't want to die to get there."
+    } ]
+  }, {
+    "tStartMs": 722390,
+    "dDurationMs": 3429,
+    "segs": [ {
+      "utf8": "And yet death is the destination we all share."
+    } ]
+  }, {
+    "tStartMs": 726190,
+    "dDurationMs": 3984,
+    "segs": [ {
+      "utf8": "No one has ever escaped it. And that is as it should be,"
+    } ]
+  }, {
+    "tStartMs": 730370,
+    "dDurationMs": 4119,
+    "segs": [ {
+      "utf8": "because Death is very likely the single best invention of Life."
+    } ]
+  }, {
+    "tStartMs": 735020,
+    "dDurationMs": 1564,
+    "segs": [ {
+      "utf8": "It is Life's change agent."
+    } ]
+  }, {
+    "tStartMs": 736630,
+    "dDurationMs": 2419,
+    "segs": [ {
+      "utf8": "It clears out the old to make way for the new."
+    } ]
+  }, {
+    "tStartMs": 739870,
+    "dDurationMs": 4609,
+    "segs": [ {
+      "utf8": "Right now the new is you, but someday not too long from now,"
+    } ]
+  }, {
+    "tStartMs": 744570,
+    "dDurationMs": 3189,
+    "segs": [ {
+      "utf8": "you will gradually become the old and be cleared away."
+    } ]
+  }, {
+    "tStartMs": 748530,
+    "dDurationMs": 2478,
+    "segs": [ {
+      "utf8": "Sorry to be so dramatic, but it is quite true."
+    } ]
+  }, {
+    "tStartMs": 752149,
+    "dDurationMs": 5140,
+    "segs": [ {
+      "utf8": "Your time is limited, so don't waste it living someone else's life."
+    } ]
+  }, {
+    "tStartMs": 758110,
+    "dDurationMs": 2299,
+    "segs": [ {
+      "utf8": "Don't be trapped by dogma which is living"
+    } ]
+  }, {
+    "tStartMs": 760410,
+    "dDurationMs": 2189,
+    "segs": [ {
+      "utf8": "with the results of other people's thinking."
+    } ]
+  }, {
+    "tStartMs": 762769,
+    "dDurationMs": 3420,
+    "segs": [ {
+      "utf8": "Don't let the noise of others' opinions drown out your own inner"
+    } ]
+  }, {
+    "tStartMs": 766190,
+    "dDurationMs": 2259,
+    "segs": [ {
+      "utf8": "voice. And most important,"
+    } ]
+  }, {
+    "tStartMs": 768640,
+    "dDurationMs": 2639,
+    "segs": [ {
+      "utf8": "have the courage to follow your heart and intuition."
+    } ]
+  }, {
+    "tStartMs": 771580,
+    "dDurationMs": 3769,
+    "segs": [ {
+      "utf8": "They somehow already know what you truly want to become."
+    } ]
+  }, {
+    "tStartMs": 775870,
+    "dDurationMs": 2329,
+    "segs": [ {
+      "utf8": "Everything else is secondary."
+    } ]
+  }, {
+    "tStartMs": 789720,
+    "dDurationMs": 1189,
+    "segs": [ {
+      "utf8": "When I was young,"
+    } ]
+  }, {
+    "tStartMs": 791290,
+    "dDurationMs": 3794,
+    "segs": [ {
+      "utf8": "there was an amazing publication called The Whole Earth Catalog,"
+    } ]
+  }, {
+    "tStartMs": 795330,
+    "dDurationMs": 2459,
+    "segs": [ {
+      "utf8": "which was one of the bibles of my generation."
+    } ]
+  }, {
+    "tStartMs": 798260,
+    "dDurationMs": 3509,
+    "segs": [ {
+      "utf8": "It was created by a fellow named Stewart Brand not far from here"
+    } ]
+  }, {
+    "tStartMs": 801770,
+    "dDurationMs": 3709,
+    "segs": [ {
+      "utf8": "in Menlo Park, and he brought it to life with his poetic touch."
+    } ]
+  }, {
+    "tStartMs": 805839,
+    "dDurationMs": 1750,
+    "segs": [ {
+      "utf8": "This was in the late 1960's,"
+    } ]
+  }, {
+    "tStartMs": 807590,
+    "dDurationMs": 2584,
+    "segs": [ {
+      "utf8": "before personal computers and desktop publishing,"
+    } ]
+  }, {
+    "tStartMs": 810440,
+    "dDurationMs": 3899,
+    "segs": [ {
+      "utf8": "so it was all made with typewriters, scissors, and polaroid cameras."
+    } ]
+  }, {
+    "tStartMs": 814680,
+    "dDurationMs": 2259,
+    "segs": [ {
+      "utf8": "It was sort of like Google in paperback form,"
+    } ]
+  }, {
+    "tStartMs": 816940,
+    "dDurationMs": 4404,
+    "segs": [ {
+      "utf8": "35 years before Google came along: it was idealistic,"
+    } ]
+  }, {
+    "tStartMs": 821570,
+    "dDurationMs": 2979,
+    "segs": [ {
+      "utf8": "overflowing with neat tools, and great notions."
+    } ]
+  }, {
+    "tStartMs": 825490,
+    "dDurationMs": 1599,
+    "segs": [ {
+      "utf8": "Stewart and his team put out several"
+    } ]
+  }, {
+    "tStartMs": 827090,
+    "dDurationMs": 1389,
+    "segs": [ {
+      "utf8": "issues of The Whole Earth Catalog,"
+    } ]
+  }, {
+    "tStartMs": 828480,
+    "dDurationMs": 4429,
+    "segs": [ {
+      "utf8": "and then when it had run its course, they put out a final issue."
+    } ]
+  }, {
+    "tStartMs": 833400,
+    "dDurationMs": 3719,
+    "segs": [ {
+      "utf8": "It was the mid-1970s, and I was your age."
+    } ]
+  }, {
+    "tStartMs": 838720,
+    "dDurationMs": 1709,
+    "segs": [ {
+      "utf8": "On the back cover of their final issue"
+    } ]
+  }, {
+    "tStartMs": 840430,
+    "dDurationMs": 3639,
+    "segs": [ {
+      "utf8": "was a photograph of an early morning country road,"
+    } ]
+  }, {
+    "tStartMs": 844320,
+    "dDurationMs": 999,
+    "segs": [ {
+      "utf8": "the kind you might find yourself"
+    } ]
+  }, {
+    "tStartMs": 845319,
+    "dDurationMs": 2870,
+    "segs": [ {
+      "utf8": "hitchhiking on if you were so adventurous."
+    } ]
+  }, {
+    "tStartMs": 848930,
+    "dDurationMs": 4209,
+    "segs": [ {
+      "utf8": "Beneath it were the words: \"Stay Hungry. Stay Foolish.\""
+    } ]
+  }, {
+    "tStartMs": 853140,
+    "dDurationMs": 5089,
+    "segs": [ {
+      "utf8": "It was their farewell message as they signed off. Stay Hungry."
+    } ]
+  }, {
+    "tStartMs": 858560,
+    "dDurationMs": 4169,
+    "segs": [ {
+      "utf8": "Stay Foolish. And I have always wished that for myself."
+    } ]
+  }, {
+    "tStartMs": 863750,
+    "dDurationMs": 4789,
+    "segs": [ {
+      "utf8": "And now, as you graduate to begin anew, I wish that for you."
+    } ]
+  }, {
+    "tStartMs": 868680,
+    "dDurationMs": 2928,
+    "segs": [ {
+      "utf8": "Stay Hungry. Stay Foolish."
+    } ]
+  }, {
+    "tStartMs": 871731,
+    "dDurationMs": 3122,
+    "segs": [ {
+      "utf8": "Thank you all very much."
+    } ]
+  }, {
+    "tStartMs": 897500,
+    "dDurationMs": 3389,
+    "segs": [ {
+      "utf8": "The preceding program is copyrighted by Stanford University."
+    } ]
+  }, {
+    "tStartMs": 901080,
+    "dDurationMs": 2680,
+    "segs": [ {
+      "utf8": "Please visit us at stanford.edu"
+    } ]
+  } ]
+}

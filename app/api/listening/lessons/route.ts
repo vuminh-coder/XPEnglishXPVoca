@@ -58,36 +58,46 @@ export async function GET(request: Request) {
     }
 
     let result = await safeDbExecute(async () => {
-      const lessons = await prisma.listeningLesson.findMany({
-        where: whereClause,
-        orderBy: { orderIndex: "asc" },
-        take: takeLimit,
-        select: {
-          id: true,
-          title: true,
-          category: true,
-          level: true,
-          duration: true,
-          accent: true,
-          audioUrl: true,
-          imageUrl: true,
-          orderIndex: true,
-          progresses: userId
-            ? {
-                where: { userId },
-                take: 1,
-                select: {
-                  status: true,
-                  completedSentences: true,
-                  bookmarkedSentences: true,
-                  lastPracticedAt: true,
-                },
-              }
-            : false,
-        },
-      });
+      const [lessons, videoLessons] = await Promise.all([
+        prisma.listeningLesson.findMany({
+          where: whereClause,
+          orderBy: { orderIndex: "asc" },
+          take: takeLimit,
+          select: {
+            id: true,
+            title: true,
+            category: true,
+            level: true,
+            duration: true,
+            accent: true,
+            audioUrl: true,
+            imageUrl: true,
+            orderIndex: true,
+            progresses: userId
+              ? {
+                  where: { userId },
+                  take: 1,
+                  select: {
+                    status: true,
+                    completedSentences: true,
+                    bookmarkedSentences: true,
+                    lastPracticedAt: true,
+                  },
+                }
+              : false,
+          },
+        }),
+        prisma.videoLesson.findMany({
+          take: 40,
+          orderBy: { createdAt: "desc" },
+          include: {
+            category: true,
+            _count: { select: { segments: true } },
+          },
+        }),
+      ]);
 
-      return lessons.map((lesson: any) => {
+      const listeningItems = lessons.map((lesson: any) => {
         const userProgress = lesson.progresses?.[0] || null;
         const completedCount = Array.isArray(userProgress?.completedSentences)
           ? userProgress.completedSentences.length
@@ -111,6 +121,35 @@ export async function GET(request: Request) {
           lastPracticedAt: userProgress?.lastPracticedAt || null,
         };
       });
+
+      const videoItems = videoLessons.map((vl: any) => ({
+        id: vl.id,
+        title: vl.title,
+        category: vl.category?.name || "Video Tuyển Chọn",
+        level: vl.cefrLevel || "B1",
+        duration: vl.durationFormatted || "03:00",
+        accent: vl.accent || "en-US",
+        audioUrl: vl.externalId ? `https://www.youtube.com/watch?v=${vl.externalId}` : "",
+        imageUrl: vl.thumbnailUrl,
+        userStatus: "NOT_STARTED",
+        completedSentencesCount: 0,
+        completedSentences: [],
+        bookmarkedSentences: [],
+        lastPracticedAt: null,
+        isVideo: true,
+        externalId: vl.externalId,
+        totalSentences: vl._count?.segments || 0,
+      }));
+
+      // Merge and deduplicate by id
+      const seenIds = new Set<string>();
+      const combined = [...listeningItems, ...videoItems].filter((item) => {
+        if (seenIds.has(item.id)) return false;
+        seenIds.add(item.id);
+        return true;
+      });
+
+      return combined;
     }, "Fetch Listening Lessons");
 
     // Fallback to MOCK_LESSONS_DATA if database table is empty

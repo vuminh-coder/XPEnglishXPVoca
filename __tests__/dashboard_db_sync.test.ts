@@ -101,13 +101,13 @@ describe("Dashboard Database Synchronization & Anti-Cheat Tests", () => {
   });
 
   describe("3. Dynamic Study Plan Routing", () => {
-    it("should route to /study/listening when task contains dictation or listening", () => {
+    it("should route to /study/dictation when task contains dictation or listening", () => {
       const task = "Luyện nghe TOEIC Part 6: Text Completion";
       const t = task.toLowerCase();
       let targetUrl = "/study/practice";
-      if (t.includes("nghe") || t.includes("dictation") || t.includes("listening")) targetUrl = "/study/listening";
+      if (t.includes("nghe") || t.includes("dictation") || t.includes("listening")) targetUrl = "/study/dictation";
 
-      expect(targetUrl).toBe("/study/listening");
+      expect(targetUrl).toBe("/study/dictation");
     });
 
     it("should route to /study/shadowing when task contains speaking or shadowing", () => {

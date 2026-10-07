@@ -1,0 +1,55 @@
+{
+  "wireMagic": "pb3",
+  "pens": [ {
+  
+  } ],
+  "wsWinStyles": [ {
+  
+  } ],
+  "wpWinPositions": [ {
+  
+  } ],
+  "events": [ {
+    "tStartMs": 12960,
+    "dDurationMs": 8080,
+    "segs": [ {
+      "utf8": "Our family has a small dog with a white \ncoat and brown spots. My son named our dog  "
+    } ]
+  }, {
+    "tStartMs": 21040,
+    "dDurationMs": 9280,
+    "segs": [ {
+      "utf8": "Buster. Buster and our children have a lot of fun \ntogether playing. Sometimes they play indoors,  "
+    } ]
+  }, {
+    "tStartMs": 30320,
+    "dDurationMs": 6480,
+    "segs": [ {
+      "utf8": "but most of the time they play outdoors.\nWe love being outdoors as much as we can be.  "
+    } ]
+  }, {
+    "tStartMs": 38480,
+    "dDurationMs": 6960,
+    "segs": [ {
+      "utf8": "Sometimes we go to the local zoo to see \nother animals. My daughter’s favorite animal  "
+    } ]
+  }, {
+    "tStartMs": 45440,
+    "dDurationMs": 7520,
+    "segs": [ {
+      "utf8": "is the giraffe because it is tall and has a \nlong neck. We also like watching the elephants. "
+    } ]
+  }, {
+    "tStartMs": 54400,
+    "dDurationMs": 3440,
+    "segs": [ {
+      "utf8": "Another thing we like to do \nis take walks in the woods.  "
+    } ]
+  }, {
+    "tStartMs": 59280,
+    "dDurationMs": 12560,
+    "segs": [ {
+      "utf8": "There are many kinds of trees, wild flowers and \nbirds. Sometimes we see squirrels and rabbits too."
+    } ]
+  } ]
+}

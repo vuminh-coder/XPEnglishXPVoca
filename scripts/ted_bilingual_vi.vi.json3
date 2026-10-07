@@ -1,0 +1,595 @@
+{
+  "wireMagic": "pb3",
+  "pens": [ {
+  
+  } ],
+  "wsWinStyles": [ {
+  
+  } ],
+  "wpWinPositions": [ {
+  
+  } ],
+  "events": [ {
+    "tStartMs": 0,
+    "dDurationMs": 7000,
+    "segs": [ {
+      "utf8": "Translator: Linndy V\nReviewer: Vu-An Phan"
+    } ]
+  }, {
+    "tStartMs": 6758,
+    "dDurationMs": 5082,
+    "segs": [ {
+      "utf8": "¿Hablas español? Parlez-vous français? \n你会说中文吗？"
+    } ]
+  }, {
+    "tStartMs": 12101,
+    "dDurationMs": 6232,
+    "segs": [ {
+      "utf8": "Nếu bạn trả lời \"sí,\" \"oui,\" or \"是的\"\nvà đang xem video này bằng tiếng Anh"
+    } ]
+  }, {
+    "tStartMs": 18349,
+    "dDurationMs": 3754,
+    "segs": [ {
+      "utf8": "thì có lẽ bạn thuộc về đại bộ phận\nbiết hai hay nhiều thứ tiếng."
+    } ]
+  }, {
+    "tStartMs": 22183,
+    "dDurationMs": 3380,
+    "segs": [ {
+      "utf8": "Ngoài việc thoải mái hơn khi đi du lịch"
+    } ]
+  }, {
+    "tStartMs": 25563,
+    "dDurationMs": 1908,
+    "segs": [ {
+      "utf8": "hay xem phim mà không cần phụ đề,"
+    } ]
+  }, {
+    "tStartMs": 27471,
+    "dDurationMs": 2424,
+    "segs": [ {
+      "utf8": "việc biết hai hay nhiều ngôn ngữ\nđồng nghĩa với việc"
+    } ]
+  }, {
+    "tStartMs": 29895,
+    "dDurationMs": 1712,
+    "segs": [ {
+      "utf8": "não của bạn khác cả về cấu trúc"
+    } ]
+  }, {
+    "tStartMs": 31607,
+    "dDurationMs": 2640,
+    "segs": [ {
+      "utf8": "cách làm việc so với \nnhững người chỉ nói 1 thứ tiếng"
+    } ]
+  }, {
+    "tStartMs": 34247,
+    "dDurationMs": 2664,
+    "segs": [ {
+      "utf8": "Vậy việc biết một thứ tiếng\nthực sự là như thế nào?"
+    } ]
+  }, {
+    "tStartMs": 36911,
+    "dDurationMs": 4791,
+    "segs": [ {
+      "utf8": "Khả năng ngôn ngữ thường được đánh giá\ntheo hai kĩ năng chủ động nói và viết"
+    } ]
+  }, {
+    "tStartMs": 41702,
+    "dDurationMs": 3981,
+    "segs": [ {
+      "utf8": "và hai kĩ năng bị động\nnghe và đọc"
+    } ]
+  }, {
+    "tStartMs": 45683,
+    "dDurationMs": 3322,
+    "segs": [ {
+      "utf8": "Trong khi một người có khả năng\nngôn ngữ cân bằng gần như có khả năng"
+    } ]
+  }, {
+    "tStartMs": 49005,
+    "dDurationMs": 2830,
+    "segs": [ {
+      "utf8": "trôi chảy như nhau ở tất cả\ncác kĩ năng của cả hai ngôn ngữ"
+    } ]
+  }, {
+    "tStartMs": 51835,
+    "dDurationMs": 2412,
+    "segs": [ {
+      "utf8": "hầu hết những người nói hai ngôn ngữ trên\nthế giới hiểu"
+    } ]
+  }, {
+    "tStartMs": 54247,
+    "dDurationMs": 2753,
+    "segs": [ {
+      "utf8": "và sử dụng ngôn ngữ ở những mức độ \nrất khác nhau."
+    } ]
+  }, {
+    "tStartMs": 57000,
+    "dDurationMs": 3751,
+    "segs": [ {
+      "utf8": "Và tùy thuộc và hoàn cảnh \nvà cách họ học mỗi ngôn ngữ"
+    } ]
+  }, {
+    "tStartMs": 60751,
+    "dDurationMs": 2971,
+    "segs": [ {
+      "utf8": "họ có thể được chia\nlàm 3 loại chính"
+    } ]
+  }, {
+    "tStartMs": 63722,
+    "dDurationMs": 3363,
+    "segs": [ {
+      "utf8": "Ví dụ như Gabriella,"
+    } ]
+  }, {
+    "tStartMs": 67085,
+    "dDurationMs": 3972,
+    "segs": [ {
+      "utf8": "gia đình cô bé di cư từ Peru\ntới Mỹ khi cô bé mới 2 tuổi."
+    } ]
+  }, {
+    "tStartMs": 71057,
+    "dDurationMs": 2500,
+    "segs": [ {
+      "utf8": "Là một người song ngữ phức hợp"
+    } ]
+  }, {
+    "tStartMs": 73557,
+    "dDurationMs": 3576,
+    "segs": [ {
+      "utf8": "cô bé phát triển hai ngôn ngữ\nsong song"
+    } ]
+  }, {
+    "tStartMs": 77133,
+    "dDurationMs": 2542,
+    "segs": [ {
+      "utf8": "với cùng những khái niệm giống nhau"
+    } ]
+  }, {
+    "tStartMs": 79675,
+    "dDurationMs": 1752,
+    "segs": [ {
+      "utf8": "học tiếng Anh và Tây Ban Nha"
+    } ]
+  }, {
+    "tStartMs": 81427,
+    "dDurationMs": 2808,
+    "segs": [ {
+      "utf8": "cùng lúc khi bắt đầu nhận thức\nthế giới xung quanh."
+    } ]
+  }, {
+    "tStartMs": 84235,
+    "dDurationMs": 4163,
+    "segs": [ {
+      "utf8": "Người anh tuổi thiếu niên của cô bé thì\nlại thuộc kiểu song ngữ ngang hàng"
+    } ]
+  }, {
+    "tStartMs": 88398,
+    "dDurationMs": 2554,
+    "segs": [ {
+      "utf8": "cậu học từ hai bộ khái niệm khác nhau"
+    } ]
+  }, {
+    "tStartMs": 90952,
+    "dDurationMs": 1166,
+    "segs": [ {
+      "utf8": "học tiếng anh ở trường"
+    } ]
+  }, {
+    "tStartMs": 92118,
+    "dDurationMs": 1858,
+    "segs": [ {
+      "utf8": "trong khi vẫn nói tiếng Tây Ban Nha"
+    } ]
+  }, {
+    "tStartMs": 93976,
+    "dDurationMs": 1929,
+    "segs": [ {
+      "utf8": "với gia đình và bạn bè."
+    } ]
+  }, {
+    "tStartMs": 95905,
+    "dDurationMs": 2476,
+    "segs": [ {
+      "utf8": "Cuối cùng, cha ẹm của Gabriella có lẽ "
+    } ]
+  }, {
+    "tStartMs": 98381,
+    "dDurationMs": 2667,
+    "segs": [ {
+      "utf8": "thuộc kiểu song ngữ thứ cấp"
+    } ]
+  }, {
+    "tStartMs": 101048,
+    "dDurationMs": 5027,
+    "segs": [ {
+      "utf8": "họ học ngôn ngữ thứ hai thông qua\ntiếng mẹ đẻ của mình"
+    } ]
+  }, {
+    "tStartMs": 106075,
+    "dDurationMs": 2202,
+    "segs": [ {
+      "utf8": "Bởi vì tất cả các kiểu người song ngữ"
+    } ]
+  }, {
+    "tStartMs": 108277,
+    "dDurationMs": 2070,
+    "segs": [ {
+      "utf8": "đều có thể thành thạo một\nngôn ngữ nào đó,"
+    } ]
+  }, {
+    "tStartMs": 110347,
+    "dDurationMs": 1831,
+    "segs": [ {
+      "utf8": "không kể đến giọng hay phát âm,"
+    } ]
+  }, {
+    "tStartMs": 112178,
+    "dDurationMs": 2865,
+    "segs": [ {
+      "utf8": "sự khác biệt giữa các kiểu song ngữ\ncó thể khá khó để nhận ra"
+    } ]
+  }, {
+    "tStartMs": 115043,
+    "dDurationMs": 3240,
+    "segs": [ {
+      "utf8": "Những tiến bộ gần đây trong công nghệ\nchụp hình não bộ"
+    } ]
+  }, {
+    "tStartMs": 118283,
+    "dDurationMs": 3136,
+    "segs": [ {
+      "utf8": "đã cho phép các nhà thần kinh học \ntìm hiểu các khía cạnh của"
+    } ]
+  }, {
+    "tStartMs": 121419,
+    "dDurationMs": 3330,
+    "segs": [ {
+      "utf8": "việc học ngôn ngữ tác động đến\nnão bộ ra sao."
+    } ]
+  }, {
+    "tStartMs": 124754,
+    "dDurationMs": 3533,
+    "segs": [ {
+      "utf8": "Đa số mọi người biết rằng bán cầu\nnão trái"
+    } ]
+  }, {
+    "tStartMs": 128287,
+    "dDurationMs": 2910,
+    "segs": [ {
+      "utf8": "mạnh hơn trong các quá trình tư duy logic"
+    } ]
+  }, {
+    "tStartMs": 131217,
+    "dDurationMs": 4195,
+    "segs": [ {
+      "utf8": "trong khi bán cầu phải thiên về \ntư duy cảm xúc và xã hội,"
+    } ]
+  }, {
+    "tStartMs": 135412,
+    "dDurationMs": 3570,
+    "segs": [ {
+      "utf8": "mặc dù đây không phải là sự phân chia\ntuyệt đối."
+    } ]
+  }, {
+    "tStartMs": 138982,
+    "dDurationMs": 4038,
+    "segs": [ {
+      "utf8": "Việc khả năng ngôn ngữ liên quan tới cả \nhai loại chức năng não bộ"
+    } ]
+  }, {
+    "tStartMs": 143020,
+    "dDurationMs": 2813,
+    "segs": [ {
+      "utf8": "trong khi sự phân hóa chức năng\ntiến triển theo tuổi tác"
+    } ]
+  }, {
+    "tStartMs": 145833,
+    "dDurationMs": 2400,
+    "segs": [ {
+      "utf8": "đã dẫn tới giả thuyết \n\"giai đoạn quan trọng\""
+    } ]
+  }, {
+    "tStartMs": 148233,
+    "dDurationMs": 3206,
+    "segs": [ {
+      "utf8": "Theo lý thuyết này, trẻ em học ngôn ngữ \ndễ dàng hơn"
+    } ]
+  }, {
+    "tStartMs": 151439,
+    "dDurationMs": 3586,
+    "segs": [ {
+      "utf8": "vì sự não bộ đang phát triển của chúng\ncó sự linh hoạt cao hơn"
+    } ]
+  }, {
+    "tStartMs": 155035,
+    "dDurationMs": 1451,
+    "segs": [ {
+      "utf8": "cho phép chúng sử dụng cả hai "
+    } ]
+  }, {
+    "tStartMs": 156486,
+    "dDurationMs": 1970,
+    "segs": [ {
+      "utf8": "bán cầu não để học ngôn ngữ."
+    } ]
+  }, {
+    "tStartMs": 158486,
+    "dDurationMs": 3580,
+    "segs": [ {
+      "utf8": "Trong khi đó ở người lớn, ngôn ngữ được\nphân hóa về một bên bán cầu"
+    } ]
+  }, {
+    "tStartMs": 162066,
+    "dDurationMs": 1969,
+    "segs": [ {
+      "utf8": "thường là bán cầu trái."
+    } ]
+  }, {
+    "tStartMs": 164041,
+    "dDurationMs": 3837,
+    "segs": [ {
+      "utf8": "Nếu điều này là đúng, việc học một \nngôn ngữ từ khi còn nhỏ"
+    } ]
+  }, {
+    "tStartMs": 167878,
+    "dDurationMs": 1986,
+    "segs": [ {
+      "utf8": "sẽ giúp bạn có hiểu biết toàn diện hơn"
+    } ]
+  }, {
+    "tStartMs": 169864,
+    "dDurationMs": 2366,
+    "segs": [ {
+      "utf8": "về ngữ cảnh xã hội và cảm xúc của \nngôn ngữ đó."
+    } ]
+  }, {
+    "tStartMs": 172230,
+    "dDurationMs": 2590,
+    "segs": [ {
+      "utf8": "Ngược lại, nghiên cứu gần đây chỉ ra rằng"
+    } ]
+  }, {
+    "tStartMs": 174820,
+    "dDurationMs": 2750,
+    "segs": [ {
+      "utf8": "những người học ngoại ngữ khi đã \nđến tuổi trưởng thành"
+    } ]
+  }, {
+    "tStartMs": 177570,
+    "dDurationMs": 3710,
+    "segs": [ {
+      "utf8": "ít bị cảm xúc chi phối và\ncó cách tiếp cận lý trí hơn"
+    } ]
+  }, {
+    "tStartMs": 181280,
+    "dDurationMs": 1970,
+    "segs": [ {
+      "utf8": "khi đối mặt với các vấn đề bằng ngoài ngữ"
+    } ]
+  }, {
+    "tStartMs": 183250,
+    "dDurationMs": 1651,
+    "segs": [ {
+      "utf8": "so với trong tiếng mẹ đẻ."
+    } ]
+  }, {
+    "tStartMs": 184960,
+    "dDurationMs": 2350,
+    "segs": [ {
+      "utf8": "Nhưng dù cho bạn học ngoại ngữ khi nào"
+    } ]
+  }, {
+    "tStartMs": 187350,
+    "dDurationMs": 2330,
+    "segs": [ {
+      "utf8": "việc biết nhiều thứ tiếng giúp "
+    } ]
+  }, {
+    "tStartMs": 189680,
+    "dDurationMs": 1839,
+    "segs": [ {
+      "utf8": "não bộ của bạn có những lợi thế đáng kể"
+    } ]
+  }, {
+    "tStartMs": 191519,
+    "dDurationMs": 2361,
+    "segs": [ {
+      "utf8": "Một vài trong số đó thậm chí \ncó thể quan sát được"
+    } ]
+  }, {
+    "tStartMs": 193880,
+    "dDurationMs": 1974,
+    "segs": [ {
+      "utf8": "như là mật độ chất xám, nơi chứa"
+    } ]
+  }, {
+    "tStartMs": 195854,
+    "dDurationMs": 2824,
+    "segs": [ {
+      "utf8": "hầu hết Nơ-ron và Synap trong bộ não, \ncao hơn"
+    } ]
+  }, {
+    "tStartMs": 198678,
+    "dDurationMs": 3310,
+    "segs": [ {
+      "utf8": "cùng với đó là một số khu vực của não\nhoạt động mạnh hơn khi"
+    } ]
+  }, {
+    "tStartMs": 201988,
+    "dDurationMs": 1553,
+    "segs": [ {
+      "utf8": "sử dụng ngôn ngữ thứ hai."
+    } ]
+  }, {
+    "tStartMs": 203661,
+    "dDurationMs": 3083,
+    "segs": [ {
+      "utf8": "Việc bộ não được \"luyện tập\" \ntrong suốt cuộc đời như vậy"
+    } ]
+  }, {
+    "tStartMs": 206744,
+    "dDurationMs": 4175,
+    "segs": [ {
+      "utf8": "cũng giúp làm chậm thời gian phát các bệnh\nnhư Alzheimer's hay chứng mất trí"
+    } ]
+  }, {
+    "tStartMs": 210919,
+    "dDurationMs": 1945,
+    "segs": [ {
+      "utf8": "tới khoảng 5 năm."
+    } ]
+  }, {
+    "tStartMs": 212864,
+    "dDurationMs": 1481,
+    "segs": [ {
+      "utf8": "Ngày nay, những lợi ích của việc"
+    } ]
+  }, {
+    "tStartMs": 214345,
+    "dDurationMs": 2228,
+    "segs": [ {
+      "utf8": "biết hai thứ tiếng đối với \nquá trình nhận thức"
+    } ]
+  }, {
+    "tStartMs": 216573,
+    "dDurationMs": 1076,
+    "segs": [ {
+      "utf8": "có vẻ khá hiển nhiên,"
+    } ]
+  }, {
+    "tStartMs": 217649,
+    "dDurationMs": 1670,
+    "segs": [ {
+      "utf8": "nhưng lại là điều đáng ngạc nhiên"
+    } ]
+  }, {
+    "tStartMs": 219319,
+    "dDurationMs": 1188,
+    "segs": [ {
+      "utf8": "với các chuyên gia thời kỳ trước"
+    } ]
+  }, {
+    "tStartMs": 220507,
+    "dDurationMs": 3687,
+    "segs": [ {
+      "utf8": "Trước những năm 1960, song ngữ được\ncoi là điều bất lợi làm chậm sự phát triển"
+    } ]
+  }, {
+    "tStartMs": 224194,
+    "dDurationMs": 2745,
+    "segs": [ {
+      "utf8": "của trẻ em bằng cách bắt chúng dành"
+    } ]
+  }, {
+    "tStartMs": 226939,
+    "dDurationMs": 3713,
+    "segs": [ {
+      "utf8": "quá nhiều công sức để phân biệt\nhai ngôn ngữ."
+    } ]
+  }, {
+    "tStartMs": 230652,
+    "dDurationMs": 2877,
+    "segs": [ {
+      "utf8": "Quan điểm này được dựa trên các \nnghiên cứu sai lệch."
+    } ]
+  }, {
+    "tStartMs": 233529,
+    "dDurationMs": 2649,
+    "segs": [ {
+      "utf8": "Một nghiên cứu gần đây chỉ ra rằng"
+    } ]
+  }, {
+    "tStartMs": 236178,
+    "dDurationMs": 2857,
+    "segs": [ {
+      "utf8": "tuy thời gian phản ứng và số lỗi mắc phải\ncủa một vài học sinh song ngữ"
+    } ]
+  }, {
+    "tStartMs": 239035,
+    "dDurationMs": 2162,
+    "segs": [ {
+      "utf8": "tăng lên trong các bài kiểm tra\nchéo ngôn ngữ,"
+    } ]
+  }, {
+    "tStartMs": 241197,
+    "dDurationMs": 2628,
+    "segs": [ {
+      "utf8": "nó cũng chỉ ra rằng những nỗ lực\nvà sự tập trung"
+    } ]
+  }, {
+    "tStartMs": 243825,
+    "dDurationMs": 2881,
+    "segs": [ {
+      "utf8": "cần thiết để chuyển đổi giữa\nhai ngôn ngữ kích thích nhiều"
+    } ]
+  }, {
+    "tStartMs": 246706,
+    "dDurationMs": 4759,
+    "segs": [ {
+      "utf8": "hoạt động và từ đó củng cố\nvỏ não tiền trán vùng lưng bên."
+    } ]
+  }, {
+    "tStartMs": 251465,
+    "dDurationMs": 2677,
+    "segs": [ {
+      "utf8": "Đây là phần não có vai trò quan trọng"
+    } ]
+  }, {
+    "tStartMs": 254142,
+    "dDurationMs": 4829,
+    "segs": [ {
+      "utf8": "trong chức năng điều hành, giải quyết\nvấn đề, chuyển đổi giữa các công việc"
+    } ]
+  }, {
+    "tStartMs": 258971,
+    "dDurationMs": 3673,
+    "segs": [ {
+      "utf8": "và lọc bỏ những thông tin không quan trọng\ntrong lúc tập trung."
+    } ]
+  }, {
+    "tStartMs": 262644,
+    "dDurationMs": 3836,
+    "segs": [ {
+      "utf8": "Vì thế, việc biết hai thứ tiếng có thể\nkhông làm bạn thông minh hơn"
+    } ]
+  }, {
+    "tStartMs": 266480,
+    "dDurationMs": 4417,
+    "segs": [ {
+      "utf8": "nó giúp não bộ của bạn khỏe mạnh,\nphức tạp và hoạt động tích cực hơn,"
+    } ]
+  }, {
+    "tStartMs": 270897,
+    "dDurationMs": 2525,
+    "segs": [ {
+      "utf8": "và nếu như bạn không có may mắn\nđược học ngoại ngữ"
+    } ]
+  }, {
+    "tStartMs": 273422,
+    "dDurationMs": 2859,
+    "segs": [ {
+      "utf8": "từ khi còn nhỏ, không bao giờ là quá muộn"
+    } ]
+  }, {
+    "tStartMs": 276281,
+    "dDurationMs": 3273,
+    "segs": [ {
+      "utf8": "để tự cho mình một đặc ân và\nlàm nên bước nhảy vọt về ngôn ngữ"
+    } ]
+  }, {
+    "tStartMs": 279554,
+    "dDurationMs": 3598,
+    "segs": [ {
+      "utf8": "từ \"Hello\" tới \"Hola,\" \"Bonjour\"\nhay \"您好’s\""
+    } ]
+  }, {
+    "tStartMs": 283152,
+    "dDurationMs": 5237,
+    "segs": [ {
+      "utf8": "Bởi vì đối với bộ não, một bài luyện tập\nnhỏ có tác dụng rất lớn."
+    } ]
+  } ]
+}

@@ -5,14 +5,13 @@ import { motion } from "framer-motion";
 import {
   Play,
   Pause,
-  RotateCcw,
-  RotateCw,
   SkipBack,
   SkipForward,
   Volume2,
   Volume1,
   VolumeX,
 } from "lucide-react";
+import { Rewind5sIcon, Forward5sIcon } from "@/shared/components/icons/SeekIcons";
 
 export const JAGGED_ACOUSTIC_SPEECH_SPIKES_95 = [
   // 1. Far Left Flat Tail (1-8)
@@ -51,7 +50,7 @@ export const SPEECH_WAVE_AMPLITUDES_56 = JAGGED_ACOUSTIC_SPEECH_SPIKES_95;
 export const SPEECH_WAVE_AMPLITUDES_48 = JAGGED_ACOUSTIC_SPEECH_SPIKES_95;
 export const SPEECH_WAVE_AMPLITUDES_44 = JAGGED_ACOUSTIC_SPEECH_SPIKES_95;
 
-interface StudioWaveformCardProps {
+export interface StudioWaveformCardProps {
   segmentIndex?: number;
   totalSegments?: number;
   playbackTime: number;
@@ -61,16 +60,17 @@ interface StudioWaveformCardProps {
   volume?: number;
   onVolumeChange?: (vol: number) => void;
   onTogglePlay: () => void;
-  onPrev: () => void;
-  onNext: () => void;
-  onRewind5s: () => void;
-  onForward5s: () => void;
+  onPrev?: () => void;
+  onNext?: () => void;
+  onRewind5s?: () => void;
+  onForward5s?: () => void;
   onSeek?: (seconds: number) => void;
   onSpeedChange: (speed: number) => void;
   isPrevDisabled?: boolean;
   isNextDisabled?: boolean;
   isRecording?: boolean;
   liveAudioEnergy?: number;
+  compact?: boolean;
   className?: string;
 }
 
@@ -94,6 +94,7 @@ function StudioWaveformCardComponent({
   isNextDisabled = false,
   isRecording = false,
   liveAudioEnergy = 0,
+  compact = false,
   className = "",
 }: StudioWaveformCardProps) {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -142,7 +143,26 @@ function StudioWaveformCardComponent({
   };
 
   const effectiveDuration = Math.max(3, duration || 6);
-  const progressRatio = Math.max(0, Math.min(1, effectiveDuration > 0 ? playbackTime / effectiveDuration : 0));
+  const progressRatio = Math.max(
+    0,
+    Math.min(1, effectiveDuration > 0 ? playbackTime / effectiveDuration : 0)
+  );
+
+  const handleRewind = () => {
+    if (onRewind5s) {
+      onRewind5s();
+    } else if (onSeek) {
+      onSeek(Math.max(0, playbackTime - 5));
+    }
+  };
+
+  const handleForward = () => {
+    if (onForward5s) {
+      onForward5s();
+    } else if (onSeek) {
+      onSeek(Math.min(effectiveDuration, playbackTime + 5));
+    }
+  };
 
   // Zero-rerender Live Audio Visualizer: updates CSS variable on trackRef directly via DOM/GPU
   useEffect(() => {
@@ -169,6 +189,7 @@ function StudioWaveformCardComponent({
       }
     };
   }, [isRecording]);
+
   const [hoverPercent, setHoverPercent] = useState<number | null>(null);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -188,7 +209,10 @@ function StudioWaveformCardComponent({
     const rect = trackRef.current.getBoundingClientRect();
     const clickX = Math.max(0, Math.min(rect.width, e.clientX - rect.left));
     const percent = clickX / rect.width;
-    const targetTime = Math.max(0, Math.min(effectiveDuration, Math.round(percent * effectiveDuration)));
+    const targetTime = Math.max(
+      0,
+      Math.min(effectiveDuration, Math.round(percent * effectiveDuration))
+    );
     if (onSeek) {
       onSeek(targetTime);
     } else {
@@ -198,9 +222,13 @@ function StudioWaveformCardComponent({
 
   return (
     <div
-      className={`p-3 sm:p-3.5 lg:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/60 dark:shadow-black/40 space-y-2 sm:space-y-2.5 font-sans ${className}`}
+      className={`${
+        compact
+          ? "p-2.5 sm:p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-2 font-sans"
+          : "p-3.5 sm:p-4 lg:p-4.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/60 dark:shadow-black/40 space-y-3 sm:space-y-3.5 font-sans"
+      } ${className}`}
     >
-      {/* 1. TOP HEADER: Status Indicator with Larger Bold Typography + Digital Timer & Volume Control */}
+      {/* 1. TOP HEADER: Status Indicator + Volume Slider & Digital Timer */}
       <div className="flex items-center justify-between">
         {/* Khối biểu tượng âm thanh cao cấp & Thanh trượt âm lượng */}
         <div className="flex items-center gap-2 px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-lg bg-slate-100/90 dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700/80 shadow-2xs">
@@ -208,6 +236,8 @@ function StudioWaveformCardComponent({
             className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
               isPlaying
                 ? "bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)] animate-pulse"
+                : isRecording
+                ? "bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.8)] animate-pulse"
                 : "bg-slate-300 dark:bg-slate-600"
             }`}
           />
@@ -220,9 +250,9 @@ function StudioWaveformCardComponent({
             {effectiveVolume === 0 ? (
               <VolumeX className="w-4 h-4 text-rose-500" />
             ) : effectiveVolume < 0.5 ? (
-              <Volume1 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <Volume1 className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />
             ) : (
-              <Volume2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <Volume2 className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />
             )}
           </button>
 
@@ -235,7 +265,7 @@ function StudioWaveformCardComponent({
               step="0.05"
               value={effectiveVolume}
               onChange={(e) => handleVolumeChange(parseFloat(e.target.value))}
-              className="w-14 sm:w-16 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-slate-900 dark:accent-white"
+              className="w-14 sm:w-16 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-[#0059bb] dark:accent-sky-400"
               title={`Âm lượng: ${Math.round(effectiveVolume * 100)}%`}
             />
             <span className="font-mono text-[10px] font-bold text-slate-500 dark:text-slate-400 w-6 text-right tabular-nums">
@@ -257,7 +287,7 @@ function StudioWaveformCardComponent({
       </div>
 
       {/* 2. CENTER JAGGED ACOUSTIC SPEECH WAVEFORM (TWO-TONE SPECTRUM & SCRUBBER) */}
-      <div className="w-full flex justify-center items-center py-0.5 sm:py-1">
+      <div className="w-full flex justify-center items-center py-1 sm:py-1.5">
         <div
           ref={trackRef}
           onClick={handleTrackClick}
@@ -268,7 +298,9 @@ function StudioWaveformCardComponent({
               ? "Nhấp để tạm dừng âm thanh (Space)"
               : "Nhấp để phát âm thanh câu (Space)"
           }
-          className="relative w-full max-w-lg sm:max-w-xl lg:max-w-2xl h-14 sm:h-16 lg:h-18 flex items-center justify-center px-1 bg-transparent cursor-pointer transition-all group select-none overflow-hidden"
+          className={`relative w-full max-w-lg sm:max-w-xl lg:max-w-2xl ${
+            compact ? "h-10 sm:h-12" : "h-20 sm:h-22 lg:h-26"
+          } flex items-center justify-center px-1 bg-transparent cursor-pointer transition-all group select-none overflow-hidden`}
         >
           {/* Dense Jagged Vector Spectrum Bars with High-Contrast Two-Tone Spikes */}
           <div className="relative z-10 w-full flex items-center justify-center gap-[1px] sm:gap-[1.5px] h-full">
@@ -334,8 +366,6 @@ function StudioWaveformCardComponent({
             })}
           </div>
 
-
-
           {/* Hover Scrub Preview Line & Floating Timestamp Tooltip */}
           {hoverPercent !== null && !isRecording && (
             <>
@@ -357,61 +387,68 @@ function StudioWaveformCardComponent({
       </div>
 
       {/* 3. BOTTOM INTEGRATED AUDIO CONTROLS & SPEED DOCK */}
-      <div className="w-full flex flex-col items-center gap-1.5 sm:gap-2 pt-0.5">
-        {/* Playback Transport Buttons */}
-        <div className="flex items-center justify-center gap-2 sm:gap-3 lg:gap-3.5 select-none">
+      <div
+        className={`w-full flex flex-col items-center ${
+          compact ? "gap-1 pt-0" : "gap-1.5 sm:gap-2 pt-0.5"
+        }`}
+      >
+        {/* Playback Transport Buttons (Ergonomic Touch Targets with Centered Seek Icons) */}
+        <div
+          className={`flex items-center justify-center ${
+            compact ? "gap-1.5 sm:gap-2.5" : "gap-2 sm:gap-3 lg:gap-3.5"
+          } select-none`}
+        >
           {/* Skip Back */}
           <button
             type="button"
             disabled={isPrevDisabled}
             onClick={onPrev}
-            className="w-8.5 h-8.5 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-slate-600 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-25 disabled:hover:bg-transparent cursor-pointer transition-all active:scale-90"
+            className={`${
+              compact ? "w-8.5 h-8.5 sm:w-9 sm:h-9" : "w-9.5 h-9.5 sm:w-10 sm:h-10"
+            } rounded-full flex items-center justify-center text-slate-600 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-25 disabled:hover:bg-transparent cursor-pointer transition-all active:scale-90`}
             title="Câu trước (Shift + Left)"
           >
-            <SkipBack className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
+            <SkipBack className={compact ? "w-4 h-4" : "w-4.5 h-4.5 sm:w-5 sm:h-5"} />
           </button>
 
-          {/* Rewind 5s */}
+          {/* Rewind 5s (Vector-locked Centered Seek Icon) */}
           <button
             type="button"
-            onClick={onRewind5s}
-            className="w-8.5 h-8.5 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-slate-700 hover:text-slate-950 dark:text-slate-200 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-all active:scale-90 relative"
+            onClick={handleRewind}
+            className={`${
+              compact ? "w-8.5 h-8.5 sm:w-9 sm:h-9" : "w-9.5 h-9.5 sm:w-10 sm:h-10"
+            } rounded-full flex items-center justify-center text-slate-700 hover:text-slate-950 dark:text-slate-200 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-all active:scale-90`}
             title="Tua lùi 5s (←)"
           >
-            <RotateCcw className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
-            <span className="absolute text-[8px] sm:text-[9px] font-extrabold font-mono text-slate-800 dark:text-slate-200 pointer-events-none -translate-y-0.5">
-              5
-            </span>
+            <Rewind5sIcon className={compact ? "w-4.5 h-4.5" : "w-5 h-5 sm:w-5.5 sm:h-5.5"} />
           </button>
 
-          {/* Center Master Play Button with Tactile Ring & Prominent Shadow */}
+          {/* Center Master Play Button (Matches VideoCinemaFrame Style in Monochrome Black & White) */}
           <button
             type="button"
             onClick={onTogglePlay}
-            className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-950 shadow-md shadow-slate-900/25 dark:shadow-white/10 ring-4 ring-slate-900/10 dark:ring-white/15 flex items-center justify-center hover:scale-105 active:scale-95 transition-all cursor-pointer shrink-0 select-none group relative"
-            title={isPlaying ? "Tạm dừng (Space)" : "Phát âm thanh câu (Space)"}
+            className={`${
+              compact ? "w-10 h-10 sm:w-11 sm:h-11" : "w-11 h-11 sm:w-12 sm:h-12"
+            } rounded-full bg-slate-900 hover:bg-black dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-950 flex items-center justify-center shadow-md shadow-slate-900/25 dark:shadow-white/10 active:scale-95 transition-all cursor-pointer shrink-0 select-none group`}
+            title={isPlaying ? "Tạm dừng phát câu (Space)" : "Phát âm thanh câu (Space)"}
           >
-            {isPlaying && (
-              <span className="absolute -inset-1 rounded-full bg-blue-500/25 dark:bg-sky-400/25 animate-ping pointer-events-none" />
-            )}
             {isPlaying ? (
-              <Pause className="w-5 sm:w-5.5 h-5 sm:h-5.5 fill-current relative z-10" />
+              <Pause className="w-5 h-5 sm:w-5.5 sm:h-5.5 fill-current stroke-current" />
             ) : (
-              <Play className="w-5 sm:w-5.5 h-5 sm:h-5.5 fill-current translate-x-0.5 relative z-10" />
+              <Play className="w-5 h-5 sm:w-5.5 sm:h-5.5 fill-current stroke-current ml-0.5" />
             )}
           </button>
 
-          {/* Forward 5s */}
+          {/* Forward 5s (Vector-locked Centered Seek Icon) */}
           <button
             type="button"
-            onClick={onForward5s}
-            className="w-8.5 h-8.5 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-slate-700 hover:text-slate-950 dark:text-slate-200 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-all active:scale-90 relative"
+            onClick={handleForward}
+            className={`${
+              compact ? "w-8.5 h-8.5 sm:w-9 sm:h-9" : "w-9.5 h-9.5 sm:w-10 sm:h-10"
+            } rounded-full flex items-center justify-center text-slate-700 hover:text-slate-950 dark:text-slate-200 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-all active:scale-90`}
             title="Tua nhanh 5s (→)"
           >
-            <RotateCw className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
-            <span className="absolute text-[8px] sm:text-[9px] font-extrabold font-mono text-slate-800 dark:text-slate-200 pointer-events-none -translate-y-0.5">
-              5
-            </span>
+            <Forward5sIcon className={compact ? "w-4.5 h-4.5" : "w-5 h-5 sm:w-5.5 sm:h-5.5"} />
           </button>
 
           {/* Skip Forward */}
@@ -419,10 +456,12 @@ function StudioWaveformCardComponent({
             type="button"
             disabled={isNextDisabled}
             onClick={onNext}
-            className="w-8.5 h-8.5 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-slate-600 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-25 disabled:hover:bg-transparent cursor-pointer transition-all active:scale-90"
+            className={`${
+              compact ? "w-8.5 h-8.5 sm:w-9 sm:h-9" : "w-9.5 h-9.5 sm:w-10 sm:h-10"
+            } rounded-full flex items-center justify-center text-slate-600 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-25 disabled:hover:bg-transparent cursor-pointer transition-all active:scale-90`}
             title="Câu tiếp theo (Shift + Right)"
           >
-            <SkipForward className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
+            <SkipForward className={compact ? "w-4 h-4" : "w-4.5 h-4.5 sm:w-5 sm:h-5"} />
           </button>
         </div>
 
@@ -436,7 +475,11 @@ function StudioWaveformCardComponent({
                   key={spd}
                   type="button"
                   onClick={() => onSpeedChange(spd)}
-                  className={`relative px-2.5 sm:px-3 py-0.5 rounded-full text-[11px] sm:text-xs font-extrabold font-mono transition-colors cursor-pointer select-none z-10 ${
+                  className={`relative ${
+                    compact
+                      ? "px-2 py-0.2 text-[10px]"
+                      : "px-2.5 sm:px-3 py-0.5 text-[11px] sm:text-xs"
+                  } rounded-full font-extrabold font-mono transition-colors cursor-pointer select-none z-10 ${
                     isActive
                       ? "text-white dark:text-slate-950"
                       : "text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white"
@@ -465,4 +508,3 @@ function StudioWaveformCardComponent({
 }
 
 export const StudioWaveformCard = React.memo(StudioWaveformCardComponent);
-

@@ -767,7 +767,7 @@ export function ResultAiDiagnosticTab({
             </div>
 
             <Link
-              href="/study/listening"
+              href="/study/dictation"
               className="w-full py-2.5 px-3 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-emerald-600 hover:text-white text-slate-800 dark:text-slate-200 text-xs font-bold shadow-2xs flex items-center justify-center gap-1.5 cursor-pointer font-sans transition-all active:scale-95 text-center"
             >
               <Headphones className="w-4 h-4" />

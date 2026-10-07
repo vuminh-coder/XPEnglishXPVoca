@@ -2,7 +2,7 @@
 
 [![CI Pipeline](https://github.com/vuminh-coder/XPEnglishXPVoca/actions/workflows/ci.yml/badge.svg)](https://github.com/vuminh-coder/XPEnglishXPVoca/actions/workflows/ci.yml)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/4f9682d4-abe9-436c-a2a7-11f66ce8bcdd/deploy-status)](https://app.netlify.com/projects/xpenglishvoca/deploys)
-[![Tests](https://img.shields.io/badge/Vitest-735%20passed-10b981.svg)](https://github.com/vuminh-coder/XPEnglishXPVoca/actions)
+[![Tests](https://img.shields.io/badge/Vitest-740%20passed-10b981.svg)](https://github.com/vuminh-coder/XPEnglishXPVoca/actions)
 [![Next.js 16](https://img.shields.io/badge/Next.js-16.2.9-black.svg)](https://nextjs.org)
 [![TypeScript 5](https://img.shields.io/badge/TypeScript-5-blue.svg)](https://www.typescriptlang.org)
 
@@ -521,8 +521,129 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
       - TypeScript (`npx tsc --noEmit`): **0 lỗi (Clean)**.
       - Vitest: **66 test suites, 681 passed tests (100% pass rate)**.
       - Toàn bộ **73 tuyến đường dẫn/endpoint** và hơn **50 ảnh chụp màn hình kiểm thử** được lưu trữ trực tiếp làm minh chứng chất lượng tại thư mục artifacts.
+46. **Chuẩn Hóa Danh Mục Nghe & Shadowing Phân Cấp 3 Bậc CEFR & Triệt Tiêu Lỗi UI/UX (`/study/listening` & `/study/shadowing`)**:
+    - **Khắc Phục Lỗi Bỏ Rơi 105 Bài Học Trung Cấp (B1 - B2)**:
+      - Kho dữ liệu chuẩn gồm 122 bài học: 6 bài Cơ bản (A1 - A2), 105 bài Trung cấp (B1 - B2), 11 bài Nâng cao (C1 - C2).
+      - Bổ sung nhóm phân loại `intermediate` ("Trung cấp (B1-B2)") vào cả hai phân hệ [ListeningListingView.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/ListeningListingView.tsx) và [ShadowingListingView.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/shadowing/components/ShadowingListingView.tsx).
+      - Tái cấu trúc ma trận hiển thị "Tất cả bài học" thành bố cục 3 tầng hoàn chỉnh:
+        * Hàng 1: `A1 - A2` Bài học cơ bản (Mẫu câu ngắn, giao tiếp nền tảng)
+        * Hàng 2: `B1 - B2` Bài học trung cấp (Giao tiếp công việc & Đời sống hàng ngày) với cơ chế xáo trộn ngẫu nhiên 8 bài (`handleShuffleIntermediate`)
+        * Hàng 3: `C1 - C2` Bài học nâng cao (Học thuật, Phỏng vấn & TED Talk)
+    - **Khắc Phục Lỗi Hiển Thị Trùng Lặp Emoji & Icon (Visual Glitch)**:
+      - Loại bỏ toàn bộ emoji thừa thãi `🎧` và `🎬` đứng cạnh các biểu tượng SVG `<Headphones />` và `<Sparkles />` trên cụm chuyển đổi Dual-Hub, bảo đảm độ sắc nét và tính nhất quán thị giác tối giản.
+    - **Khử Thông Tin Thừa Thãi (Redundant Counters Elimination)**:
+      - Xóa bỏ dòng đếm `Tổng cộng 121 bài học` bị lặp lại 3 lần trong cùng một vùng nhìn khi học viên không tìm kiếm.
+    - **Kết Quả Kiểm Thử Toàn Diện**:
+      - TypeScript (`npx tsc --noEmit`): **0 lỗi (Zero Errors)**.
+      - Vitest: **70 test suites, 740 passed tests (100% pass rate)**.
+47. **Tối Ưu Hóa Trải Nghiệm & Triệt Tiêu Lỗi Cắt Xén Giao Diện Kho Video YouTube (`/study/listening` - Video Catalog Hub & Smart Match)**:
+    - **Khắc Phục Lỗi Cắt Cụt Tên Chủ Đề Ở Mép Phải (Category Horizontal Scroll Overflow)**:
+      - Xử lý dứt điểm tình trạng thẻ chủ đề bị cắt đứt ngang chữ (`Khoa học & Vũ trụ Kur:`) trên [VideoCatalogBrowseView.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/VideoCatalogBrowseView.tsx).
+      - Bổ sung 2 nút điều hướng cuộn trái/phải (`ChevronLeft`, `ChevronRight`) kèm cặp mặt nạ mờ Gradient Fade Mask (`from-slate-50/90 to-transparent`) ở hai đầu, bảo đảm 100% danh mục hiển thị mượt mà không bao giờ bị cắt vỡ chữ.
+    - **Xử Lý Lỗi Cắt Cụt Văn Bản Trong Thẻ Gợi Ý AI (Smart Match Rationale & Title Fix)**:
+      - Triệt tiêu lỗi cắt cụt từ vựng quan trọng `(sto...` (stomach) và `(exe...` (exercise). Tách biệt lý do gợi ý thành micro-badge thông minh có icon `Target` nổi bật (`🎯 Ôn từ: stomach`).
+      - Cho phép tiêu đề video hiển thị linh hoạt 2 dòng (`line-clamp-2`), mở rộng kích thước ảnh thumbnail `w-24 h-16` chuẩn tỉ lệ 16:9 với viền kép Double-Bezel.
+    - **Chuẩn Hóa & Đồng Bộ Chiều Cao Thanh Công Cụ (Standardized Toolbar & Apple-Grade Segmented Control)**:
+      - Đồng bộ chiều cao chuẩn `h-10` (40px) cho toàn bộ 3 khối: Ô Tìm Kiếm, Khung Lọc Cấp Độ CEFR và Ô Sắp Xếp `select`.
+      - Nâng cấp bộ chọn Level CEFR với hoạt ảnh trượt mượt mà `motion.div layoutId="videoCefrFilterIndicator"`.
+      - Bổ sung bộ đếm thời gian thực: `Hiển thị N video` kèm thẻ chip phản hồi cấp độ/chủ đề đang chọn.
+    - **Nâng Cấp Nút CTA & Cơ Chế Phục Hồi Ảnh Lỗi**:
+      - Nâng cấp nút "Đề Xuất Video Mới" thành nút Primary CTA nhận diện thương hiệu `#0059bb`.
+      - Tích hợp cơ chế fallback `onError` tự động chuyển sang ảnh bìa độ nét cao Unsplash khi mạng học viên chặn CDN YouTube.
+    - **Kết Quả Kiểm Thử Toàn Diện**:
+      - TypeScript (`npx tsc --noEmit`): **0 lỗi (Zero Errors)**.
+      - Vitest: **70 test suites, 740 passed tests (100% pass rate)**.
+48. **Đồng Bộ Hóa Động Cơ Phát Video YouTube, Khử Trùng Lặp Vòng Lặp & Tối Ưu CSDL Tiến Độ (`/study/listening` - Video Cinema Studio & Database Backend Synchronization)**:
+    - **Triệt Tiêu Xung Đột Đồng Hồ Phát Lặp Lại & Khử Rung Giật (Playback Time War Elimination)**:
+      - Vô hiệu hóa bộ đếm `setInterval(1000ms)` tại `page.tsx` khi người học đang ở chế độ Video Lesson (`isCurrentLessonVideo`).
+      - Giao toàn bộ quyền hạn thời gian duy nhất cho [VideoCinemaFrame.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/VideoCinemaFrame.tsx) thông qua luồng sự kiện `infoDelivery` độ trễ thấp của YouTube postMessage API.
+      - Khử hoàn toàn tình trạng nhảy giật ngược/xuôi giữa bước nhảy 1 giây và bước nhảy phân giải mili-giây của YouTube.
+    - **Khử Bão Sự Kiện & Chống Lặp Vô Hạn Trạng Thái Cuối Câu (End-Of-Sentence Debounce & A-B Loop Defense)**:
+      - Trang bị cơ chế khóa chặn sự kiện `isHandlingEndRef` và bộ đệm thời gian `loopTimeoutRef`.
+      - Loại bỏ hoàn toàn bão sự kiện `sendCommand("seekTo")` / `sendCommand("playVideo")` dồn dập do các gói tin trôi dạt (in-flight trailing packets) của YouTube gây ra.
+      - Ở chế độ Lặp lại câu (A-B Loop), tự động tua về đầu câu (`start`), đặt lại thời gian về 0, tạm dừng ngắn 300ms rồi tiếp tục phát mượt mà, không kích hoạt sai sự kiện kết thúc câu lên workspace cha.
+      - Ở chế độ bình thường, tạm dừng video, tua về đầu câu và chỉ gọi `onSentenceEnded?.()` đúng 1 lần duy nhất.
+    - **Tua Nhanh/Lùi 5 Giây Thực Chất Trên YouTube (5s Transport Seeking)**:
+      - Nối trực tiếp hai nút `handleRewind5s` và `handleForward5s` với lệnh `sendCommand("seekTo", [targetYt, true])`, xóa bỏ tình trạng click nút tua 5s nhưng YouTube vẫn giữ nguyên vị trí cũ.
+    - **Khử Xung Đột Giọng Đọc Trình Duyệt Web Speech API (TTS Collision Prevention)**:
+      - Khi học viên bấm phím tắt `Space` hoặc `Ctrl` để nghe lại, hệ thống nhận diện bài học Video để không kích hoạt giọng đọc Web Speech API song song với YouTube.
+      - Ngăn chặn triệt để hiện tượng cả giọng nói máy tính lẫn video YouTube phát lồng vào nhau.
+    - **Khắc Phục Lỗi Foreign Key Constraint CSDL & Tích Lũy Thời Gian Quadratically (`/api/listening/progress` & `/api/listening/notes`)**:
+      - Tự động nhận diện và phân giải định danh bài học `targetLessonId` khi học viên truy cập bằng `slug` hoặc `externalId` của `videoLesson`.
+      - Khắc phục lỗi `timeSpent: { increment: safeTimeSpent }`: thay vì tích lũy thời gian tuyệt đối gửi từ client một cách cấp số nhân (hàng ngàn giây sau vài câu), hệ thống tính toán chính xác độ chênh lệch thời gian giữa các phiên (session delta) và chỉ ghi nhận thời lượng thực học vào `dailySkillPractice`.
+      - Hỗ trợ phân tích linh hoạt cả mảng số thứ tự câu `[0, 1, 2]` lẫn chuỗi mã đoạn `["seg_1", "seg_2"]` qua hàm `parseCompletedSentencesMap`.
+    - **Kết Quả Kiểm Thử Toàn Diện**:
+      - TypeScript (`npx tsc --noEmit`): **0 lỗi (Zero Errors)**.
+      - Vitest: **70 test suites, 743 passed tests (100% pass rate)**.
+49. **Đồng Bộ Hóa Icon Tua 5 Giây Khóa Tọa Độ, Nâng Cấp Vùng Chạm Cảm Ứng & Tối Ưu Định Tuyến Canonical (`/study/dictation`)**:
+    - **Bộ Icon Vector Tua 5 Giây Khóa Tọa Độ Tuyệt Đối (`SeekIcons.tsx`) Cho Cả Video & Audio**:
+      - Xây dựng riêng [SeekIcons.tsx](file:///e:/XP%20English%20%20XP%20Voca/shared/components/icons/SeekIcons.tsx) xuất hai thành phần `Rewind5sIcon` và `Forward5sIcon`.
+      - Khắc phục triệt để lỗi số "5" bị lệch tâm hoặc hiển thị kích thước quá nhỏ: Khóa tọa độ trung tâm SVG chuẩn `(12, 12.4)` với `dominantBaseline="central"` và `textAnchor="middle"`, phông chữ `font-bold` siêu nét, tương thích hoàn hảo mọi độ phân giải màn hình Retina và Mobile.
+      - Tích hợp đồng bộ trên cả hai môi trường học: Video Cinema Frame ([VideoCinemaFrame.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/VideoCinemaFrame.tsx)) và Audio Card Studio ([StudioWaveformCard.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/StudioWaveformCard.tsx)).
+    - **Nâng Cấp Kích Thước Vùng Chạm Cảm Ứng (Ergonomic Touch Targets) & Giữ Trọn Bố Cục Chuyên Dụng**:
+      - Khung Audio [StudioWaveformCard.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/StudioWaveformCard.tsx) duy trì trọn vẹn kiến trúc card hoàn chỉnh: Hàng đầu với LED trạng thái, thanh trượt âm lượng mượt mà và đồng hồ số `00:00 / 00:00`; Sàn sóng âm thanh vòm Jagged Spectrum hai tông màu trung tâm; Cụm thanh phím tốc độ trượt spring indicator `[0.5x, 0.75x, 1x, 1.25x, 1.5x]` phía dưới.
+      - Các nút chuyển bài và tua nhanh được nâng lên kích cỡ tiêu chuẩn `w-9.5 h-9.5 sm:w-10 sm:h-10` với biểu tượng `w-5 h-5 sm:w-5.5 sm:h-5.5`.
+      - Nút Play trung tâm đạt kích thước tiêu chuẩn `w-11 h-11 sm:w-12 sm:h-12` theo đúng phong cách nút Play Video nhưng mang tông màu đơn sắc Trắng / Đen tương phản cao (`bg-slate-900 hover:bg-black dark:bg-white dark:hover:bg-slate-100 text-white dark:text-slate-950`), loại bỏ viền ring bao ngoài rườm rà, căn quang học icon `ml-0.5`, bóng đổ xúc giác `shadow-md` và hiệu ứng lún bấm nhạy bén (`active:scale-95`).
+    - **Định Tuyến Chuẩn Hóa Canonical `/study/dictation` & Chuyển Đổi Tab Studio Rõ Ràng**:
+      - Bổ sung trang chính thức `/study/dictation`, thiết lập chuyển hướng 308 tự động từ `/study/listening` về `/study/dictation` đảm bảo SEO và cấu trúc URL trực quan.
+      - Cập nhật bộ điều hướng chế độ học trên thanh Header Studio sang nhãn chuẩn `[ 🎧 Dictation ]` và `[ 🎙️ Shadowing ]`.
+50. **Đại Tu Kiến Trúc Phát Video Dictation, Đồng Bộ Phụ Đề Chuẩn Xác & Chuẩn Hóa API CSDL (`/study/dictation` - YouTube IFrame API Controller & Millisecond Subtitle Alignment)**:
+    - **Khắc Phục Dứt Điểm Lỗi Nút Phát Video Không Chạy/Đơ (Browser Autoplay Policy & postMessage Drop)**:
+      - Chuyển đổi toàn diện từ cơ chế `iframe` thô với lớp phủ vô hiệu (`pointer-events-none`) và gửi `postMessage` không kiểm soát sang **YouTube IFrame API chính thức (`window.YT.Player`)**.
+      - Xóa bỏ hoàn toàn lớp cắt xén thụt lề âm (`-top-[60px] -left-[28px] pointer-events-none`) gây xung đột điều hướng trình duyệt và chặn tương tác người dùng.
+      - Xóa bỏ bộ đếm giả lập nhân tạo 50ms (vốn tăng thời gian ảo tới 7.5s rồi tự dừng mà video thực tế chưa chạy).
+      - Tích hợp vòng lặp thăm dò `player.getCurrentTime()` trực tiếp từ YouTube Player instance có bảo vệ `isSeekingRef` và kiểm tra ranh giới câu (`sentenceEndTime`).
+      - Hỗ trợ đầy đủ phím tắt (`Alt+P`, `Ctrl+Space`, phím `Ctrl` đơn replay) trên cả video lẫn audio dictation.
+      - Tích hợp cơ chế fallback an toàn: khi video bị hạn chế nhúng YouTube (Error code 101/150) hoặc lỗi mạng, tự động hiển thị thông báo và chuyển hướng mượt mà sang giọng đọc AI TTS chuẩn Cambridge.
+    - **Hiệu Chuẩn Độ Lệch Thời Gian Phụ Đề & CSDL Backend (`video_lessons` & `lesson_segments`)**:
+      - Phân tích nguyên nhân gốc: Bài học Jensen Huang (`1481dc60-fe8a-4fa9-830b-9a227ede9b6e` - YouTube `lpLFjQ-bRv8`) trước đây bị gán mốc thời gian giả lập từ 0.0s đến 34.5s trong khi thực tế Jensen Huang phát biểu từ giây 85.3s.
+      - Chạy kịch bản hiệu chuẩn cơ sở dữ liệu Neon PostgreSQL cập nhật chính xác 6 phân đoạn câu với độ phân giải mili-giây bao quát toàn bộ 109 giây video, kèm bản dịch tiếng Việt học thuật, IPA và từ vựng trọng tâm.
+      - Đồng bộ hóa các kịch bản seed (`scripts/seed_video_ecosystem.ts`) và tệp mock dữ liệu (`features/listening/data/videoCatalogMockData.ts`).
+    - **Chuẩn Hóa API Nạp Chi Tiết Bài Học (`/api/listening/lessons/[id]` & `/api/listening/lessons`)**:
+      - Bổ sung ánh xạ song ngữ đầy đủ: trường `translation`, `vietnamese`, `translationVi`, `ipa`, `ipaUs`, `ipaUk` cho cả `video_lessons` lẫn `listening_lessons`.
+      - Khắc phục lỗi sidebar phụ đề và ô luyện chép chính tả bị thiếu bản dịch hoặc phiên âm IPA.
+      - Tích hợp bảng `videoLesson` vào danh mục chung `GET /api/listening/lessons`, giúp bài học video hiển thị liền mạch với các bài luyện nghe thông thường.
+    - **Kết Quả Kiểm Thử Toàn Diện**:
+      - TypeScript (`npx tsc --noEmit`): **0 lỗi (Zero Errors)**.
+      - Vitest: **70 test suites, 743 passed tests (100% pass rate)**.
+51. **Triệt Tiêu Lỗi Vòng Lặp Vô Hạn State React (Maximum Update Depth Exceeded) Trong Dictation & Shadowing (`/study/dictation` & `/study/shadowing` - Derived State via `useMemo` & Controlled Shuffle Seeds)**:
+    - **Phân Tích Nguyên Nhân Gốc (Root Cause)**:
+      - Việc lưu trữ danh sách bài lọc cơ bản/nâng cao trong `useState` và đồng bộ qua `useEffect` phụ thuộc `[lessonsList, completedLessonIds, listingSearch]` dẫn đến vi phạm quy tắc render React khi các hook Zustand hoặc SWR nạp dữ liệu nền.
+      - Hàm `pick10RandomLessons` sinh mảng mới mỗi lần gọi kết hợp gọi liên tiếp `setDisplayedBasicLessons` và `setDisplayedAdvancedLessons` trong `useEffect` gây ra vòng xoáy re-render vượt quá độ sâu tối đa 50 tầng của React (`Maximum update depth exceeded`).
+    - **Kiến Trúc Tối Ưu Hóa Chuẩn React Idiomatic (Derived State via `useMemo`)**:
+      - Chuyển đổi 100% việc tính toán `displayedBasicLessons` và `displayedAdvancedLessons` sang `useMemo` đồng bộ trong render phase, triệt tiêu hoàn toàn `setState` bên trong `useEffect`.
+      - Điều khiển tính năng nút bấm "Đổi bài ngẫu nhiên" (`handleShuffleBasic`, `handleShuffleAdvanced`) thông qua bộ đếm hạt giống `shuffleSeedBasic` / `shuffleSeedAdvanced`, đảm bảo tráo bài mới tức thì và hiển thị Toast thông báo mà không gây ra bất kỳ tác dụng phụ (side-effect) lặp nào.
+      - Ổn định khóa phụ thuộc `completedLessonIdsKey` từ Zustand store để tránh cập nhật dư thừa khi tham chiếu mảng rỗng thay đổi.
+      - Chuẩn hóa đồng bộ cho cả hai phân hệ cốt lõi: Luyện nghe chép chính tả ([DictationPageContent.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/DictationPageContent.tsx)) và Luyện nói nhại âm ([shadowing/page.tsx](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/study/shadowing/page.tsx)).
+    - **Xác Thực Thực Tế & Kiểm Thử Tự Động**:
+      - Trình duyệt truy cập `http://localhost:3000/study/dictation?id=122` và danh mục `http://localhost:3000/study/dictation`: **0 lỗi console**, **0 cảnh báo React**, chức năng đổi bài ngẫu nhiên hiển thị Toast mượt mà.
+      - Toàn bộ kiểm thử unit test (`npm test -- dictation`) và TypeScript check (`npx tsc --noEmit`): **100% PASS (Zero Errors)**.
+52. **Phân Nhánh Định Tuyến URL Độc Lập Cho Audio & Video Dictation (`/study/dictation/audio` & `/study/dictation/video`) & Hệ Thống Loading Khung Xương Phân Biệt Chuyên Sâu (Dedicated Geometric Skeletons)**:
+    - **Phân Tách 2 Nhánh URL Riêng Biệt & Điều Hướng Thông Minh**:
+      - **Nhánh Audio (`/study/dictation/audio`)**: Không gian luyện nghe chép chính tả tiêu chuẩn với 2 hàng bài học phân cấp (A1–A2 cơ bản và B1–C2 nâng cao), nút tráo bài ngẫu nhiên ↺, form tạo bài nghe AI và thanh lọc chủ đề.
+      - **Nhánh Video (`/study/dictation/video`)**: Không gian luyện nghe qua video YouTube tuyển chọn với Spotlight Banner đọc hiểu đa giác quan, dải Category Chips cuộn ngang với 2 nút mũi tên Chevron, bộ lọc 7 cấp CEFR và lưới thẻ video tỉ lệ chuẩn 16:9 (`aspect-video`).
+      - **Trang Gốc (`/study/dictation`)**: Điều phối thông minh nhận diện loại bài học — tự động chuyển tiếp sang `/study/dictation/video?id=...` nếu là bài video (ví dụ Jensen Huang `?id=122`), chuyển sang `/study/dictation/audio?id=...` nếu là bài audio, hoặc mặc định vào `/study/dictation/audio`.
+      - **Cụm 2 Tab Chuyển Đổi Mượt Mà**: Thay thế nút bấm chuyển state nội bộ bằng thẻ liên kết `Link` kèm con nhộng trượt spring animation (`layoutId="dictationListingModeIndicator"`), hiển thị rõ ràng nhãn `[ 🎧 Bài Nghe Tiêu Chuẩn (Audio) ]` và `[ 📹 Kho Video Tuyển Chọn (Video) ]`.
+    - **Hệ Thống Loading Khung Xương (Dedicated Skeletons) Phân Lập Triệt Để 0px CLS**:
+      - **Nhánh Audio Skeletons (`AudioListingSkeleton` & `AudioStudioSkeleton`)**:
+        - Màn danh mục: Tái hiện chuẩn xác 2 hàng bài học audio double-bezel, nút tạo bài AI và tab Audio sáng viền xanh hoàng gia `#0059bb`.
+        - Màn phòng học (`?id=...`): Tái hiện **Card Sóng Âm `StudioWaveformCard`** với sàn sóng âm 95 Spikes Jagged Vector Spectrum, 5 nút điều khiển playback tròn và dock 5 nấc tốc độ trượt.
+      - **Nhánh Video Skeletons (`VideoListingSkeleton` & `VideoStudioSkeleton`)**:
+        - Màn danh mục: Tái hiện **Spotlight Banner YouTube** `rounded-2xl`, dải **Category Chips cuộn ngang**, thanh lọc Search/CEFR và **Lưới Video Cards 16:9** có badge thời lượng `03:45` góc dưới phải (khác biệt 100% với Audio).
+        - Màn phòng học (`?id=...`): Tái hiện **Khung Chiếu Rạp 16:9 `VideoCinemaFrame`** (`aspect-video`) màu đen rạp chiếu với nút Play tròn to ở giữa màn hình và thanh YouTube transport controls dưới đáy (khác biệt 100% với sóng âm Audio).
+      - **Đăng Ký Tệp `loading.tsx` Chuẩn Next.js App Router**:
+        - [`app/(dashboard)/study/dictation/audio/loading.tsx`](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/study/dictation/audio/loading.tsx)
+        - [`app/(dashboard)/study/dictation/video/loading.tsx`](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/study/dictation/video/loading.tsx)
+        - [`app/(dashboard)/study/dictation/loading.tsx`](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/study/dictation/loading.tsx)
+    - **Kết Quả Xác Thực E2E Browser & Kiểm Thử Tự Động**:
+      - Trình duyệt điều hướng `/study/dictation/audio`: Tab Audio active, danh mục audio hiển thị chuẩn mực.
+      - Bấm chuyển tab sang `/study/dictation/video`: Chuyển trang mượt mà, tab Video active, Spotlight banner và lưới video 16:9 hiển thị hoàn hảo.
+      - Truy cập `/study/dictation`: Tự động redirect về `/study/dictation/audio`.
+      - Truy cập `/study/dictation/video?id=122`: Studio mở bài học Jensen Huang với màn chiếu video 16:9, thanh điều khiển YouTube và phụ đề mili-giây.
+      - Toàn bộ kiểm thử unit test (`npm test -- dictation`) và TypeScript build (`npx tsc --noEmit`): **100% PASS (Zero Errors)**.
 
 ---
+
 
 ## 🎨 Design Tokens & Chuẩn Mực Thiết Kế (Agency Dashboard Tier)
 
@@ -705,6 +826,20 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
         - **Đồng Bộ Kiến Trúc Đa Khóa Giữa Shadowing và Listening**: Nâng cấp `shadowing/page.tsx` sở hữu cấu trúc `detailedLessonsMap` đa khóa `Record<string, any>`, lưu trữ vĩnh viễn dữ liệu các bài đã học trong RAM để chuyển đổi qua lại giữa các bài gợi ý mượt mà không bị mất dữ liệu.
         - **Thích Ứng Khung Xương Chuẩn Xác Tại Suspense Boundary (`ShadowingSuspenseFallback` & `ListeningSuspenseFallback`)**: Cập nhật Fallback component của `<Suspense>` tại gốc trang để nhận diện tham số `id=` ngay trên Client Navigation, không bao giờ stream nhầm khung xương dạng lưới 4 cột của trang danh mục khi người dùng đang mở phòng thu Studio.
         - **Khử Hiện Tượng Giằng Co State Khi Bấm "Quay Lại Danh Mục" (Race Condition Guard)**: Tích hợp cờ khóa tạm thời `isLeavingStudioRef` trong `handleBackToListing`, vô hiệu hóa các Effect đồng bộ URL trong khoảng thời gian Next.js Router đang chuyển trang, dập tắt 100% hiện tượng UI bị giật nhảy ngược lại phòng học.
+      - **Chuẩn Hóa Phân Giải Video Lesson UUID & Triệt Tiêu Lỗi Không Tìm Thấy Bài Nghe (YouTube Video UUID Resolution Fix)**:
+        - **Bảo Vệ Định Dạng UUID & Tiền Tố Video Trong Resolver (`resolveCanonicalLessonId` & `isSameLessonId`)**: Đóng gói kiểm tra regex định dạng chuẩn UUID (`/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i`) và các tiền tố `vid_`, `video_`, `yt_`, loại bỏ dứt điểm cạm bẫy JavaScript `parseInt("1481dc60...", 10)` tự động cắt lấy các chữ số đầu biến UUID thành số nguyên `1481` và sinh ra mã ảo `listen_1481` không tồn tại.
+        - **Bảo Vệ Truy Vấn API Backend (`/api/listening/lessons/[id]`)**: Chỉ kích hoạt thuật toán fallback số học (`listen_XXX`, `orderIndex`) khi tham số `id` là số thuần túy hoặc có tiền tố bài nghe (`listen_`, `lesson_`). Đối với UUID hoặc Video ID, bỏ qua fallback số học để truy vấn chính xác bảng `videoLesson` trong CSDL kèm toàn bộ `segments` phụ đề và danh mục.
+        - **Mô Hình True SWR 0ms Video Fallback (`MOCK_VIDEO_LESSONS`)**: Bổ sung tầng kiểm tra kho video mẫu vào `currentLesson` trên cả hai trang `/study/listening` và `/study/shadowing`, hiển thị tức thì giao diện phòng học video với phụ đề song ngữ và khung phát YouTube trong 0ms kể cả khi CSDL offline hoặc cold start.
+        - **Tự Phục Hồi Khóa Ngoại Cho Tiến Độ & Ghi Chú Video (`Self-Healing Foreign Key Constraints`)**: Tại các endpoint `/api/listening/progress` và `/api/listening/notes`, tự động khởi tạo bản ghi tham chiếu `listening_lessons` từ `videoLesson` (hoặc mock video) để đảm bảo toàn vẹn khóa ngoại (khắc phục lỗi Prisma P2003), đồng thời tự động tăng chỉ số `studyCount` của video khi học viên hoàn thành bài học.
+      - **Cơ Chế Thay Thế Khối Sóng Âm Bằng Khung Video Điện Ảnh (Video Cinema Mode Waveform Replacement)**:
+        - **Thay Thế Hoàn Toàn Khối Sóng Âm Bằng Khung Video (`StudioWaveformCard` -> `VideoCinemaFrame`)**: Khi học viên chuyển sang chế độ Video (hoặc mở trực tiếp bài học video YouTube từ catalog), `VideoCinemaFrame` thế chỗ trực tiếp khối sóng âm `StudioWaveformCard`. Loại bỏ hoàn toàn tình trạng xếp chồng 2 khối phát phương tiện gây chật chội màn hình và đẩy bài tập chép chính tả xuống dưới.
+        - **Bảng Điều Khiển Điện Ảnh Tích Hợp (`Integrated Cinema Control Dock`)**: Khung video tích hợp thanh trượt tua câu (`Progress Track Seeker`), các nút điều hướng chuyển câu trước/tiếp theo (`SkipBack`/`SkipForward`), tua nhanh/lùi 5s, nút Primary CTA Play/Pause nổi bật (Quy tắc UI/UX #18), nút chu kỳ tốc độ 0.75x - 1.5x, bật/tắt âm lượng và đèn báo ghi âm Shadowing.
+        - **Chuyển Đổi Không Gián Đoạn Âm Thanh (Seamless Audio-Video Handoff)**: Khi chuyển về chế độ Audio, iframe YouTube được giữ nguyên vị trí ngoài màn hình (`off-screen container`) để duy trì liên tục luồng phát âm thanh của video mà không cần tải lại trang hay khởi tạo lại iframe.
+        - **Chế Độ Clean Headless Video Player & Đồng Bộ Phụ Đề Chuẩn Xác Vào Dữ Liệu Bài Học**:
+          - **Triệt Tiêu 100% Rác Giao Diện YouTube (`controls=0`)**: Cấu hình các tham số `controls=0&disablekb=1&fs=0&iv_load_policy=3&modestbranding=1&rel=0`, xóa bỏ triệt để thanh tua đỏ 1:48 của YouTube, tiêu đề video che mặt diễn giả, avatar kênh và popup thẻ "Video khác".
+          - **Bắt Sự Kiện Hai Chiều Khắc Phục Lỗi Kẹt Buffering**: Kích hoạt handshake `listening` và lắng nghe `infoDelivery` từ YouTube, xử lý chính xác trạng thái `BUFFERING` (State 3) và `PLAYING` (State 1), loại bỏ bộ đếm giả lập mù gây cắt tiếng sớm.
+          - **Tích Hợp Chế Độ Lặp Câu Tự Động (A-B Sentence Loop)**: Thêm nút lặp lại câu hiện tại (`Repeat`) giúp học viên nghe lại liên tục các câu khó khi chép chính tả mà không cần tua thủ công.
+          - **Đồng Bộ Dữ Liệu Phụ Đề Khớp 100% Video Thực Tế**: Cập nhật bài học video `1481dc60-fe8a-4fa9-830b-9a227ede9b6e` trong CSDL Neon PostgreSQL và Mock Data thành đúng tiêu đề *"Jensen Huang: How Elon Musk Built the World's Fastest Supercomputer in 19 Days"*, đồng bộ toàn bộ 4 câu phụ đề song ngữ và mốc thời gian khớp từng giây với lời nói của diễn giả trong video `lpLFjQ-bRv8`.
 - **Kiến Trúc Backend & Hạ Tầng Đám Mây 0 Đồng (Zero-Cost Free Tier Architecture)**:
   - **Serverless API Routes (Next.js trên Vercel)**: Chạy 100% miễn phí trên gói Vercel Hobby, tự động cấp HTTPS SSL, mở rộng không giới hạn và không tốn phí duy trì máy chủ.
   - **Cơ Sở Dữ Liệu PostgreSQL (Prisma ORM)**: Tích hợp gói Free Tier đám mây (Supabase / Neon / Render) dung lượng 500MB - 1GB, lưu trữ hàng chục nghìn người dùng và hàng triệu bản ghi bài tập/lịch sử học tập.
@@ -2695,12 +2830,473 @@ $$\text{MEASURE} \rightarrow \text{UNDERSTAND} \rightarrow \text{EXPLAIN} \right
 
 ---
 
+### 22. Hệ Thống Đề Xuất Cá Nhân Hóa 8 Khía Cạnh, AI Đọc Hiểu & Cổng Đề Xuất Video Cộng Đồng (Giai Đoạn 3)
+1. **Động Cơ Đề Xuất Cá Nhân Hóa 8 Khía Cạnh (8-Facets Smart Recommendation Engine - `videoRecommendationEngine.ts`)**:
+   - Thuật toán chấm điểm đa chiều tổng hợp 8 tiêu chí học tập theo hồ sơ người học (Learner Profile):
+     - 🎯 **CEFR Level Match (Max 30đ)**: Ưu tiên video đúng trình độ hiện tại, cận kề +1 bậc để thử thách, trừ điểm chênh lệch quá xa.
+     - 📚 **Topic / Exam Affinity (Max 20đ)**: So khớp danh mục yêu thích hoặc mục tiêu thi cử (IELTS, TOEIC, TED-Ed, Daily Life).
+     - ⏱️ **Duration Fit (Max 15đ)**: Thời lượng lý tưởng cho buổi học tập trung (3-7 phút là vùng ngọt ngào - Sweet Spot).
+     - 🗣️ **Accent Compatibility (Max 10đ)**: Độ tương thích chất giọng mục tiêu (Mỹ `en-US`, Anh `en-GB`, Úc `en-AU`).
+     - 🧠 **Spaced Repetition Overlap (Max 25đ)**: Điểm nhấn trí tuệ nhân tạo độc quyền - quét phụ đề video tìm các từ vựng học viên hay quên theo thuật toán SM-2 để đưa vào ngữ cảnh bài nghe tự nhiên.
+     - 🌟 **Novelty Bonus (Max 15đ)**: Ưu tiên bài học mới tinh (15đ) so với bài đã hoàn thành (4đ ôn tập).
+     - 👥 **Community Popularity (Max 10đ)**: Điểm cộng xu hướng từ số lượt học và xem của cộng đồng.
+     - 🍃 **Freshness Decay (Max 10đ)**: Ưu tiên video mới được nạp vào kho học liệu.
+   - Chuẩn hóa thành điểm phần trăm phù hợp (Match Percentage) và cung cấp lý do giải thích minh bạch (Rationale: *"Khớp trình độ B2 của bạn"*, *"Chứa 3 từ vựng bạn cần ôn luyện: consistency, procrastination"*).
+   - Tuyến API `/api/video-catalog/recommendations` hỗ trợ trả về danh sách Top đề xuất tức thì.
+2. **Bộ Sinh Trắc Nghiệm Đọc Hiểu Ngữ Cảnh AI (AI Reading & Contextual Comprehension Quiz Generator - `videoComprehensionService.ts`)**:
+   - Tự động bóc tách kịch bản bài học video, phân tích ngữ cảnh và tạo bộ 3-4 câu trắc nghiệm đọc hiểu (Comprehension Questions) chuyên sâu theo 4 kỹ năng khảo thí:
+     - 💡 **Ý chính toàn bài (Main Idea)**
+     - 🔍 **Chi tiết xác thực (Detailed Fact / Keyword Focus)**
+     - 📖 **Từ vựng trong ngữ cảnh (Vocabulary in Context)**
+     - 🧩 **Suy luận & Kết luận (Inference & Conclusion)**
+   - Cơ chế kép: Sử dụng Gemini Flash AI khi có kết nối, kết hợp **Deterministic Contextual Fallback Engine** bảo đảm 0% downtime khi ngoại tuyến hoặc nghẽn mạng.
+   - Tuyến API `/api/video-catalog/lessons/[id]/quiz`:
+     - `GET`: Lấy bộ câu hỏi đọc hiểu (kèm cache 1 giờ).
+     - `POST`: Chấm điểm tự động, trả về chi tiết đáp án & lời giải thích, cộng dồn XP và cập nhật thẳng vào CSDL bảng `daily_skill_practice` (kỹ năng `reading`).
+3. **Giao Diện Duyệt Video Kho Tuyển Chọn Đa Năng (`VideoCatalogBrowseView.tsx`)**:
+   - Hero Spotlight Banner sang trọng với hiệu ứng ánh sáng nền mờ (Ambient Glow), tích hợp khối thẻ đề xuất AI tức thì (Top 3 video cá nhân hóa).
+   - Lọc đa chiều: 8 danh mục chủ đề, phân cấp CEFR (A1-C2), tìm kiếm theo từ khóa và sắp xếp linh hoạt (Mới nhất, Xem nhiều, Thời lượng).
+   - Tích hợp liền mạch vào `ListeningListingView.tsx` qua thanh chuyển đổi **Dual-Hub Pill Switcher** (`"🎧 Bài Nghe Tiêu Chuẩn"` vs `"🎬 Kho Video Tuyển Chọn"`).
+4. **Modal Trắc Nghiệm Đọc Hiểu Tương Tác (`VideoComprehensionQuizModal.tsx`)**:
+   - Giao diện làm bài đọc hiểu sang trọng với thanh tiến trình câu hỏi, phản hồi màu sắc tức thì khi chọn đáp án (Xanh Emerald `#10b981` cho câu đúng, Đỏ Rose `#f43f5e` cho câu sai).
+   - Thẻ giải thích chi tiết trích dẫn trực tiếp từ câu gốc trong video và nút nhận thưởng XP rạng rỡ.
+5. **Cổng Đề Xuất Video Mới Từ Cộng Đồng (`VideoRequestModal.tsx`)**:
+   - Hỗ trợ học viên gửi link YouTube bất kỳ với tính năng bóc tách mã video tự động và chọn chuyên mục đề xuất.
+   - Danh sách đề xuất cộng đồng kèm hệ thống biểu quyết (Upvote) dân chủ để cộng đồng cùng bình chọn bài học yêu thích.
+6. **Cầu Nối VideoLesson Phổ Quát Trong Studio (`/api/listening/lessons/[id]`)**:
+   - Nối trực tiếp dữ liệu từ bảng `video_lessons` vào Dictation / Shadowing Studio Workspace, tự động nạp video YouTube và đồng bộ phụ đề song ngữ.
+7. **Bộ Kiểm Thử Tự Động & Thống Kê**:
+   - Bộ kiểm thử tự động [`__tests__/video_recommendation_and_quiz_phase3.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/video_recommendation_and_quiz_phase3.test.ts) (5/5 tests passed 100%).
+   - Nâng toàn bộ hệ thống kiểm thử Vitest lên **70 test files, 740 passed tests (100% pass rate)**.
+
+---
+
+### 23. Chuẩn Hóa Toàn Diện UI/UX Phân Hệ Video (Tuân Thủ Tuyệt Đối 19 Quy Tắc Wadhah Aloui & 60-30-10)
+1. **Khắc Phục Màu Sắc & Định Danh Thương Hiệu (Quy Tắc Phối Màu 60-30-10)**:
+   - **Xóa bỏ màu đen tuyền/tím lạc quẻ**: Thay thế Hero Banner màu tối bằng White/Slate Card thanh lịch (`bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs`), điểm nhấn gradient mesh xanh nhạt nhẹ nhàng.
+   - **Xóa bỏ lạm dụng màu đỏ Rose/Cherry**: Chuyển đổi Pill Switcher và chấm tín hiệu Video từ màu đỏ sang màu xanh thương hiệu `#0059bb` kết hợp Amber Sparkle `#f59e0b`. Màu đỏ chỉ dùng đúng ngữ nghĩa cho báo lỗi sai hoặc đếm ngược phòng thi (Rule 20).
+2. **Skeleton Shimmer Loading 100% (Rule 1)**:
+   - Thay thế hoàn toàn vòng xoay spinner cổ điển (`Loader2 animate-spin`) trong `VideoCatalogBrowseView.tsx`, `VideoRequestModal.tsx` và `VideoComprehensionQuizModal.tsx` bằng Shimmer Cards (`VideoCardShimmer`, `ShimmerBox`).
+   - Đảm bảo 0px hiện tượng giật cục giao diện (Zero Cumulative Layout Shift - CLS).
+3. **Đồng Bộ Phong Cách Thẻ Thống Nhất (Card Consistency & Double-Bezel - Rule 5 & 10)**:
+   - Thẻ bài học video được thiết kế đồng điệu hoàn toàn với `LessonCardItem`: Bo góc đồng tâm ngoài `rounded-2xl`, trong `rounded-xl`, badge thời lượng và CEFR font mono tabular.
+   - Click toàn bộ card để vào học ngay (Single Primary CTA - Rule 18), nút trắc nghiệm *"Đọc hiểu AI"* là action công cụ phụ tách biệt (`stopPropagation`).
+4. **Triệt Tiêu Hiện Tượng Cuộn Trang Mệt Mỏi (Scroll Fatigue - Above-the-fold Workspace)**:
+   - Nâng cấp `StudioWaveformCard` hỗ trợ thuộc tính `compact`: Thu gọn sóng âm từ 72px xuống 36px khi người học bật Video Cinema.
+   - Cân đối chiều cao `VideoCinemaFrame` ở mức `max-h-[220px] sm:max-h-[250px] lg:max-h-[280px]` để video, thanh sóng âm và ô gõ Dictation Input cùng hiển thị trọn vẹn trên 1 màn hình laptop/PC mà không cần cuộn chuột.
+
+---
+
+### 24. Tối Giản Hóa Thông Tin & Triệt Tiêu Nhiễu Thị Giác (Visual De-cluttering & Information Hierarchy)
+1. **Tinh Giản Cụm Điều Khiển Dual-Hub & Thanh Bộ Lọc (`ListeningListingView.tsx`)**:
+   - Loại bỏ hoàn toàn huy hiệu `AI & YouTube` và số lượng bài học `"121"` trên thanh chuyển đổi hub để nút bấm thanh thoát, đồng nhất phong cách với toàn bộ hệ thống.
+   - Loại bỏ các badge đếm số lượng bài (`{tab.count}`) và số đếm trong tiêu đề (`({allBasicLessons.length} bài)`).
+   - **Xóa bỏ hoàn toàn thanh tab bộ lọc danh mục** (`[Tất cả bài học] [Cơ bản] [Trung cấp] [Nâng cao] [Đã hoàn thành]`), đưa giao diện trực tiếp vào bố cục 3 hàng bài học tuyển chọn trực quan, loại bỏ thao tác bấm tab thừa thãi.
+2. **Đồng Bộ Tối Giản Trong Phân Hệ Shadowing (`ShadowingListingView.tsx`)**:
+   - **Xóa bỏ hoàn toàn thanh tab bộ lọc danh mục**, đồng bộ với phân hệ Listening, giúp trang học tập liền mạch và thoáng đạt.
+   - Chuẩn hóa nút công cụ khám phá từ `"Khám phá 100+ bài"` thành `"Khám phá bài học"` trực quan, trang nhã.
+3. **Tái Cấu Trúc & Tinh Gọn Banner Video Tuyển Chọn (`VideoCatalogBrowseView.tsx`)**:
+   - Loại bỏ hoàn toàn khối huy hiệu `"Kho Video Luyện Nghe Tuyển Chọn"` ở đầu banner Hero, giúp tiêu đề chính thanh thoát và trực diện hơn.
+   - **Xóa bỏ hoàn toàn khối Smart Match AI (`Gợi Ý AI Dành Riêng Cho Bạn`)**: Triệt tiêu các thẻ gợi ý chiếm diện tích lớn ở đầu trang, đồng thời loại bỏ yêu cầu fetch API thừa thãi, tối ưu tốc độ tải trang.
+   - **Xóa bỏ khối dropdown sắp xếp (`"Mới nhất ⌄"`)**: Tinh gọn tối đa thanh công cụ, dồn sự chú ý vào bộ lọc danh mục và trình độ CEFR.
+   - Chuyển dòng thông báo số lượng video trên thanh công cụ thành `"Danh sách video"` sạch sẽ và tập trung.
+4. **Chuẩn Hóa Thẻ Bài Học Video & Triệt Tiêu Lỗi Tràn Dòng (`VideoCatalogBrowseView.tsx`)**:
+   - Khắc phục triệt để lỗi ngắt dòng luộm thuộm (`"4 câu phân"` / `"đoạn"`) bằng cách quy chuẩn văn phong ngắn gọn, tự nhiên thành `"{totalSentences} câu"` kết hợp `shrink-0 whitespace-nowrap`.
+   - Xóa bỏ huy hiệu `[📹 YouTube]` dư thừa ở góc trên thumbnail, ngăn ngừa tình trạng đè lên tiêu đề / hình ảnh thumbnail gốc của video.
+   - Chuyển huy hiệu trình độ CEFR (`A2`, `B1`, `B2`) về cạnh Tên danh mục trong thân thẻ với phong cách màu thương hiệu `#0059bb`, giải phóng thumbnail chỉ giữ lại thời lượng góc dưới phải thanh thoát.
+   - Cố định chiều cao tiêu đề 2 dòng (`h-[2.5rem]`) để các card trong cùng hàng luôn thẳng hàng tuyệt đối 100%, không bị xô lệch footer.
+   - Đồng bộ chiều cao nút hành động `h-8` (`32px`), thay icon dấu hỏi `(?)` bằng `<Sparkles>` tím AI ngữ nghĩa cho tính năng *"Đọc hiểu AI"*.
+5. **Chuẩn Hóa Khối Video Studio: Tối Giản Padding Khối Ngoài, Bảo Toàn 100% Cụm Nút Điều Khiển & Khử Avatar YouTube (`VideoCinemaFrame.tsx`)**:
+   - **Tối Giản Padding Khối Ngoài (`p-1.5 sm:p-2`)**: Thu hẹp tối đa khoảng đệm của card bên ngoài, tối ưu hóa diện tích cho khung phát video lớn mà không gây lãng phí khoảng trống viền.
+   - **Bảo Toàn Khối Nút Phát & Triệt Tiêu Xung Đột Đè Lấp**: Đặt cụm điều khiển (thanh tua Scrubber, nút Play Royal Blue `#0059bb`, tua 5s có số xoay, chuyển câu, lặp câu A-B, tốc độ và âm lượng) ở khay cố định bên dưới video với `shrink-0 w-full`, bảo đảm video không bao giờ đè hoặc lấp mất bất kỳ nút tinh chỉnh nào.
+   - **Kỹ Thuật Frame Clipping Cố Định Pixel Triệt Tiêu Hoàn Toàn Avatar YouTube**: Áp dụng độ dịch chuyển `-top-[60px] h-[calc(100%+120px)] -left-[28px] w-[calc(100%+56px)]`, đẩy sạch $100\%$ avatar kênh *"Startup Archive"* và tiêu đề YouTube ở góc trên trái, đồng thời giấu triệt để popup gợi ý *"Video khác"* ở góc dưới phải.
+   - **Đồng Bộ Chiều Cao Khối Vỏ Ngoài Cả Audio & Video**: Duy trì sự đồng nhất tuyệt đối giữa `VideoCinemaFrame` và `StudioWaveformCard` khi chuyển đổi giữa chế độ Nghe sóng âm và Xem video.
+   - **Nền Trong Suốt Toàn Diện (`bg-transparent`)**: Loại bỏ hoàn toàn khối hộp đen kịt `bg-slate-950` và viền tối thô ráp, chuyển toàn bộ khung card và dock điều khiển sang nền trong suốt, hòa nhập 100% vào phong cách tối giản thanh lịch của XP English ở cả chế độ Sáng và Tối.
+   - **Loading Spinner Tinh Tế Góc Trên Phải**: Di dời huy hiệu đệm video lên góc trên mờ nhẹ, triệt tiêu hoàn toàn tình trạng khối thông báo tải đen xì che lấp khuôn mặt người nói.
+   - **Sửa Triệt Để Lỗi Timeline Desync (`00:07 / 00:07` khi Pause)**: Tính toán chính xác thời lượng câu `duration = endTime - startTime` từ timestamp thật; khi hết câu hoặc dừng phát, tự động tua player về `0.0s`, reset thanh tiến trình về `00:00` và chặn các gói tin `infoDelivery` của YouTube ghi đè thời gian cuối câu khi đang tạm dừng.
+
+---
+
+### 25. Tinh Giản Toàn Diện UI/UX Studio, Triệt Tiêu Code Thừa & Xung Đột Trực Quan (Studio Workspace De-cluttering & Dead Code Elimination)
+1. **Triệt Tiêu Hoàn Toàn Dock Âm Thanh Nền Gây Nhiễu (`StudyAmbienceDock`)**:
+   - Loại bỏ popover âm thanh nền (mưa, sóng, lửa, gió) khỏi cả `ListeningStudioWorkspace` và `ShadowingStudioWorkspace`.
+   - Trong phòng luyện nghe chép chính tả và nói shadowing, âm thanh trắng trực tiếp làm lu mờ âm sắc, phụ âm và ngữ điệu tự nhiên của người bản xứ; đồng thời popover này trước đây mở ra đè lấp video và tiêu đề cột phụ đề bên phải, gây lỗi tràn dòng và che khuất nội dung học tập.
+2. **Loại Bỏ Nút Chuyển Đổi Chế Độ Học Thừa Thãi (`MediaDisplayModeToggle`)**:
+   - Loại bỏ nút chuyển đổi thủ công `[Audio | Video]` trên thanh Header của cả hai phòng học Studio.
+   - Hệ thống tự động nhận diện chính xác theo kiểu bài học: Nếu bài học là Video YouTube, render trực tiếp `VideoCinemaFrame`; nếu là Audio/TTS podcast, render trực tiếp `StudioWaveformCard`. Triệt tiêu hoàn toàn lỗi chuyển sang Audio làm ẩn video vô cớ hoặc phát sinh trạng thái rỗng.
+3. **Ẩn Bộ Chọn Giọng Đọc (`US | UK | AU`) Khi Học Video Bản Xứ**:
+   - Trên các bài học Video YouTube (ví dụ bài hát Bruno Mars hoặc video diễn giả), giọng nói là âm thanh thực tế của con người, bộ chuyển giọng tổng hợp TTS không có tác dụng. Do đó, thanh Header tự động ẩn bộ chọn giọng khi `isVideoLesson = true`, triệt tiêu sự hiểu lầm và giải phóng không gian thanh Header.
+4. **Xóa Bỏ Mã Chết Nút Ba Chấm (`MoreHorizontal`) & Nút Bookmark Trùng Lặp**:
+   - Xóa bỏ nút ba chấm `...` ở góc phải `StudioTopHeader` (nút trước đây không gắn bất kỳ hàm xử lý nào).
+   - Xóa bỏ nút ngôi sao Bookmark trên thanh Header cạnh tiêu đề bài học vì gây hiểu nhầm (thực chất đang lưu câu đơn chứ không lưu bài học), nhường trọn vẹn quyền lưu câu cho nút chuyên dụng `[⭐ Lưu câu]` ngay dưới thanh công cụ luyện tập.
+5. **Đồng Bộ Trạng Thái Ẩn/Hiện Bản Dịch & Xóa Bỏ Chỉ Số Giả (Hardcoded 0% / 0 Từ)**:
+   - Thay nhãn toggle gây hiểu nhầm `Ẩn dịch (i)` (trong khi phím `i` không gắn phím tắt) thành `Ẩn bản dịch` chuẩn mực.
+   - Kết nối hai chiều giữa toggle thanh công cụ và nút `[Xem dịch / Ẩn dịch]` trong `DictationWorkspace`, đảm bảo luôn đồng bộ 100%.
+   - Xóa bỏ các chỉ số tĩnh vô nghĩa (`0/14 từ • Khớp: 0%`) trên thanh meta của Studio; thay bằng huy hiệu số thứ tự câu chính xác `Câu #1/5` cùng tổng số từ thật của câu.
+   - Chuẩn hóa nút gạt ở cột phải thành `[Hiện câu]` có tooltip giải thích rõ ràng thay cho chữ `[Hiện]` mơ hồ.
+6. **Tối Ưu Hóa Kích Thước Khung Video Studio (`VideoCinemaFrame`)**:
+   - Tối giản padding khung ngoài `p-1 sm:p-1.5`, áp dụng kích thước `max-w-xl max-h-[300px]` với nền trong suốt `bg-transparent`. Giúp cả video, khay điều khiển và toàn bộ khu vực gõ chính tả hiển thị trọn vẹn phía trên màn hình (above-the-fold), không bị đẩy tụt xuống dưới.
+
+### 26. Chuẩn Hóa Đường Dẫn Chính Thức `/study/dictation` & Hệ Thống Server Layout Metadata Toàn Diện (Canonical Routing & Route-Level Metadata)
+1. **Chuẩn Hóa Đường Dẫn Chính Thức `/study/dictation` (Canonical Route)**:
+   - Trước đây, trang Luyện nghe chép chính tả Dictation có tên gọi và tab là "Dictation" nhưng URL trình duyệt lại hiển thị `/study/listening`.
+   - Chuyển đổi chính thức toàn bộ hệ thống sang route canonical chuẩn: [`/study/dictation`](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/study/dictation/page.tsx).
+   - Tách logic trang thành component độc lập tái sử dụng [`DictationPageContent.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/DictationPageContent.tsx) chấp nhận `basePath` linh hoạt, hỗ trợ cả URL chính thức và legacy path.
+   - Định tuyến `/study/listening` tự động chuyển tiếp (client-side redirect via `router.replace`) sang `/study/dictation`, bảo toàn 100% query parameters (`?id=...`, `?lessonId=...`).
+   - Thiết lập cấu hình Next.js Redirects (`next.config.ts`):
+     - `/dictation` ➔ `/study/dictation` (Permanent 308)
+     - `/shadowing` ➔ `/study/shadowing` (Permanent 308)
+2. **Đồng Bộ Liên Kết & Trạng Thái Điều Hướng Toàn Bộ Ứng Dụng**:
+   - **Thanh bên (Sidebar)**: Cập nhật liên kết mục Dictation sang `/study/dictation`; cơ chế kiểm tra `isActive` nhận diện cả `/study/dictation` lẫn `/study/listening` để bảo đảm độ liền mạch khi chuyển đổi.
+   - **Tab Chế Độ Học (StudySuiteNavTabs)**: Tab Dictation trỏ đến `/study/dictation`, active pill highlight chính xác.
+   - **Thanh Điều Khiển Studio (StudioTopHeader)**: Cụm nút chuyển chế độ trực quan giữa hai tab chuẩn mực: **`[ 🎧 Dictation ]`** và **`[ 🎙️ Shadowing ]`** (thay thế hoàn toàn nhãn cũ *"Nói"* và *"Nghe"*), trỏ trực tiếp đến `/study/dictation?id=...` và `/study/shadowing?id=...`.
+   - **Bảng Điều Khiển (Dashboard), Lộ Trình (Roadmap), Thẻ Điểm (PracticeScoreCard), Màn Kết Thúc Shadowing & Gợi Ý AI**: Đồng bộ toàn bộ liên kết điều hướng sang `/study/dictation`.
+   - **Bộ Đệm Tải Trước Thông Minh (prefetchEngine)**: Đăng ký `/study/dictation` vào danh mục API warming (`/api/listening/lessons`) khi hover chuột, bảo đảm thời gian chuyển trang 0ms.
+3. **Giải Quyết Triệt Để Lỗi Tiêu Đề Mặc Định & Cấu Trúc Server Metadata (%s | XP English)**:
+   - Trước đây, do toàn bộ dashboard sử dụng `"use client"` và thiếu server `layout.tsx` ở cấp route, thanh tiêu đề trình duyệt (browser tab title) của mọi trang đều rơi vào chuỗi fallback thô: `"English | Voca - Cộng Đồng Học Từ Vựng Tiếng Anh Thông Minh"`.
+   - Nâng cấp `app/layout.tsx` với cấu trúc tiêu đề động chuẩn Next.js App Router:
+     ```ts
+     title: {
+       default: "XP English - Nền Tảng Học Tiếng Anh Thông Minh",
+       template: "%s | XP English",
+     }
+     ```
+   - Xây dựng hệ thống Server Component `layout.tsx` xuất `Metadata` cho toàn bộ hơn 25 phân hệ học tập và thư viện:
+     - `/study/dictation`: `"Luyện Nghe Chép Chính Tả (Dictation)"` ➔ Hiển thị: `"Luyện Nghe Chép Chính Tả (Dictation) | XP English"`
+     - `/study/shadowing`: `"Luyện Nói Nhại Âm (Shadowing) | XP English"`
+     - `/study/practice`: `"Luyện Tập Từ Vựng (Practice) | XP English"`
+     - `/study/exam-prep`: `"Phòng Luyện Thi Chuẩn (Exam Prep) | XP English"`
+     - `/study/reading`: `"Luyện Đọc & Phân Tích (Reading) | XP English"`
+     - `/study/ipa`: `"Bảng Phiên Âm Quốc Tế (IPA Pronunciation) | XP English"`
+     - `/study/grammar`: `"Cẩm Nang Ngữ Pháp (Grammar) | XP English"`
+     - `/study/rooms`: `"Phòng Học Trực Tuyến (Study Rooms) | XP English"`
+     - `/study/games`: `"Mini Games & Thử Thách Tiếng Anh | XP English"`
+     - `/study/pvp`: `"Đấu Trường Đối Kháng (PvP Arena) | XP English"`
+     - `/study/plan`: `"Kế Hoạch Học Tập (Study Plan) | XP English"`
+     - `/myvideo`: `"Video Của Tôi (My Videos) | XP English"`
+     - `/myvocab`: `"Sổ Tay Từ Vựng Của Tôi (My Vocabulary) | XP English"`
+     - `/vocabulary`: `"Kho Từ Vựng Theo Chủ Đề | XP English"`
+     - `/review`: `"Ôn Tập Ngắt Quãng (Spaced Repetition SRS) | XP English"`
+     - `/dashboard`: `"Bảng Điều Khiển Học Tập (Dashboard) | XP English"`
+     - `/roadmap`: `"Lộ Trình Học Cá Nhân Hóa (Roadmap) | XP English"`
+     - `/ai/tutor`: `"Gia Sư Tiếng Anh AI (AI Tutor) | XP English"`
+     - `/ai/conversation`: `"Luyện Giao Tiếp Với AI (AI Chat) | XP English"`
+     - `/analytics`: `"Thống Kê Tiến Độ Học Tập (Analytics) | XP English"`
+     - `/community`: `"Cộng Đồng Học Viên (Community) | XP English"`
+     - `/community/leaderboard`: `"Bảng Xếp Hạng Học Viên (Leaderboard) | XP English"`
+     - `/premium`: `"Gói Hội Viên Cao Cấp (Premium VIP) | XP English"`
+     - `/shop`: `"Cửa Hàng Vật Phẩm & Huy Hiệu (Shop) | XP English"`
+     - `/profile`: `"Hồ Sơ Cá Nhân (Profile) | XP English"`
+     - `/settings`: `"Cài Đặt Tài Khoản (Settings) | XP English"`
+4. **Đồng Bộ Tiêu Đề Bài Học Động Theo Thời Gian Thực (Dynamic Lesson Tab Titles)**:
+   - Trong phòng luyện tập Dictation và Shadowing, khi học viên mở bài học bất kỳ (ví dụ: `?id=listen_toeic_q3_040`), hệ thống tự động cập nhật `document.title` tương ứng: `"[Tên Bài Học] - Luyện Nghe Chép Chính Tả | XP English"`. Giúp người học quản lý nhiều tab trình duyệt rõ ràng, không bị trùng lặp.
+
+### 27. Chuẩn Hóa Cụm Nút Tua 5s, Định Vị Tọa Độ Trung Tâm & Cấu Trúc Khay Điều Khiển 3 Vùng Đối Xứng (Precision Seek Buttons & 3-Zone Symmetrical Player Dock)
+1. **Khắc Phục Triệt Để Lỗi Số Lệch Tâm Nút Tua (`Rewind5sIcon` & `Forward5sIcon`)**:
+   - Trước đây, số `5` được đặt qua thẻ HTML `<span>` với class `-translate-y-0.5` chồng lên icon `RotateCcw`/`RotateCw`. Kỹ thuật này làm số bị đẩy lệch lên góc trên, dính vào đường cong mũi tên và bị xô lệch theo font chữ từng hệ điều hành.
+   - Xây dựng cụm icon SVG độc lập chuyên dụng [`shared/components/icons/SeekIcons.tsx`](file:///e:/XP%20English%20%20XP%20Voca/shared/components/icons/SeekIcons.tsx) (`Rewind5sIcon`, `Forward5sIcon`).
+   - Khóa cứng tọa độ số `5` trực tiếp trong hệ trục SVG `viewBox="0 0 24 24"` tại tọa độ tâm hình học `x="12" y="12.4"` với `dominantBaseline="central"` và `textAnchor="middle"`.
+   - Số `5` nằm **chính giữa 100% không gian hình tròn**, tự động co giãn theo tỷ lệ vector và kế thừa màu sắc `fill="currentColor"` hoàn hảo ở cả Light/Dark Mode.
+2. **Nâng Cấp Kích Thước Nút Tiêu Chuẩn (Comfortable Touch Targets)**:
+   - Các nút phụ (`SkipBack`, `Rewind 5s`, `Forward 5s`, `SkipForward`): Nâng từ kích thước nhỏ `p-1.5` (~28px) lên kích cỡ chuẩn quốc tế `w-9 h-9 sm:w-10 sm:h-10` (`36px – 40px`), icon `w-4.5 h-4.5 sm:w-5 sm:h-5`.
+   - Nút phát chính trung tâm (Master Play/Pause): Kích thước bề thế `w-11 h-11 sm:w-12 sm:h-12` (`44px – 48px`), màu Royal Blue `#0059bb`, đổ bóng xúc giác và hiệu ứng active mượt mà.
+3. **Chuẩn Hóa Bố Cục Khay Điều Khiển 3 Vùng Đối Xứng Chuẩn Quốc Tế (`VideoCinemaFrame.tsx`)**:
+   - Thay thế bố cục dồn toàn bộ nút về góc trái bằng cấu trúc lưới 3 vùng chuẩn (`grid grid-cols-[auto_1fr_auto] sm:grid-cols-[1fr_auto_1fr]`):
+     - **Vùng Trái (Thông tin câu)**: Huy hiệu đếm số câu `#{segmentIndex + 1}/{totalSegments}` và chỉ báo trạng thái ghi âm (nếu có).
+     - **Vùng Giữa (Trọng tâm phát đa phương tiện)**: Cụm 5 nút điều khiển (`[Câu trước] [Tua -5s] [Phát/Dừng] [Tua +5s] [Câu sau]`) được **căn giữa tuyệt đối 100%** trong khung dock.
+     - **Vùng Phải (Công cụ bổ trợ)**: Nút bật/tắt lặp câu A-B Loop, nút chuyển tốc độ phát (`playbackSpeed`), nút âm lượng và tắt tiếng (`Volume`).
+
+### 28. Phân Tích Chuyên Sâu & Khắc Phục Triệt Để Lỗi Lặp Video, Lệch Mốc Dừng & Trích Xuất Hội Thoại Chuẩn Xác (Video Playback Precision & Transcript Sync Engine)
+1. **Khắc Phục Vòng Lặp Vô Tận Khi Phát Video (Infinite Replay Loop Fix)**:
+   - *Nguyên nhân cốt lõi*: Trong `VideoCinemaFrame.tsx`, khi video đạt mốc kết thúc câu (`currentTime >= end`), hàm xử lý trước đây đã thực thi `sendCommand("pauseVideo")` kèm ngay sau đó `sendCommand("seekTo", [start, true])`. Trong cơ chế postMessage của YouTube iframe API, việc seek lại đầu câu trong khi đang chuyển trạng thái pause khiến YouTube phát sinh thông điệp `infoDelivery` mới với `currentTime = start`. Trước khi state React `isPlaying = false` kịp cập nhật, trình phát hiểu nhầm video vừa bắt đầu và kích hoạt phát lại liên tục.
+   - *Giải pháp*: Loại bỏ lệnh `seekTo` tự động khi kết thúc câu. Khi hết câu, video dừng lại chuẩn xác (`pauseVideo`) và giữ nguyên con trỏ ở cuối câu (`onPlaybackTimeUpdate(effectiveDuration)`). Việc tua về đầu câu (`start`) chỉ được kích hoạt khi học viên chủ động bấm Phát lại (Space / Phím Play / Replay).
+2. **Bộ Đo Thời Gian Tần Số Cao 50ms & Dừng Chuẩn Từng Mili-giây (Sub-Frame Millisecond Precision Ticker)**:
+   - *Nguyên nhân cốt lõi*: YouTube iframe API chỉ gửi thông điệp `infoDelivery` định kỳ mỗi 250ms - 500ms. Việc chỉ đợi thông điệp này khiến video thường xuyên bị lấn sang câu tiếp theo 0.2s - 0.5s rồi mới dừng giật cục, hoặc bị cắt mất âm đuôi.
+   - *Giải pháp*: Xây dựng bộ ticker tần số cao 50ms kết hợp `performance.now()` và thời gian tham chiếu YouTube thực tế. Đặt ngưỡng dừng chuẩn xác `stopThreshold = Math.max(start + 0.1, end - 0.05)`, ngắt video tức thì đúng khoảnh khắc dứt tiếng của người bản xứ.
+3. **Đồng Bộ Hoàn Toàn Cụm Nút Tua 5s & Thanh Tiến Trình Video**:
+   - Khắc phục tình trạng tua lùi / tua nhanh 5s bị tính 2 lần hoặc không gửi lệnh seek đến YouTube iframe. Kết nối trực tiếp `sendCommand("seekTo", [targetYt, true])` vào cả 2 nút tua và sự kiện click thanh tiến trình chuột/cảm ứng, đồng thời xóa cờ `isHandlingEndRef` để học viên tua mượt mà không bị ngắt quãng.
+4. **Trích Xuất Trực Tiếp & Chuẩn Hóa Dữ Liệu 12 Câu Thoại Video Thực Tế (`AK42GhbTZ9w`)**:
+   - *Nguyên nhân cốt lõi*: Bài học `575d216f-b275-468e-8a41-c3b26c0ac1ea` trước đây mang nhãn *"Ordering Coffee & Breakfast at a Café"*, nhưng video thực tế lại là *"Pets & Animals | Beginner English"* của kênh Pocket Passport. Đoạn nhạc intro kéo dài từ 0.0s đến 6.4s, trong khi dữ liệu giả định trước đây thiết lập mốc 0.0s - 3.5s khiến người học chỉ nghe thấy nhạc dạo mà không nghe được lời thoại, dẫn đến việc không thể làm bài Dictation/Shadowing.
+   - *Giải pháp*: Trích xuất toàn văn 12 câu thoại thực tế từ video với mốc thời gian chuẩn xác từ giây 6.4 đến 71.0, cập nhật tiêu đề thành *"Daily English: Pets, Animals & Nature Conversation"*, bản dịch tiếng Việt chuẩn và từ khóa trọng tâm. Cập nhật đồng bộ vào Prisma Database (`video_lessons`, `lesson_segments`) và bộ dữ liệu seed hệ sinh thái `scripts/seed_video_ecosystem.ts`.
+
+### 29. Tinh Chỉnh UI/UX Toàn Diện Khu Vực Danh Từ Riêng (Smart Proper Nouns Inline Pill & High-End Aesthetic Tokens)
+1. **Loại Bỏ Khung Banner Xám Thô Kệch & Huy Hiệu Trùng Lặp**:
+   - Trước đây, khi câu có danh từ riêng (ví dụ: *Buster*), giao diện hiển thị một thanh banner xám chiếm trọn một hàng ngang (`bg-slate-100/80 border border-slate-200/80 text-xs [ ⓘ Danh từ riêng: ] [ Buster ]`), đồng thời ở dòng bên dưới lại xuất hiện thêm một badge màu vàng cam trùng lặp `• Có danh từ riêng`. Điều này làm đứt gãy nhịp thị giác, đẩy toàn bộ khu vực làm bài lùi xuống dưới một cách lãng phí.
+   - **Cải tiến**: Tích hợp danh từ riêng trực tiếp vào thanh điều khiển phụ (Sub-bar) ngang hàng với `Nhấn để xem từ`, sử dụng thiết kế pill thanh mảnh: `[ ✨ Tên riêng: Buster ]`. Không chiếm thêm bất kỳ dòng chiều dọc nào.
+2. **Tương Tác Điền Nhanh Thông Minh (One-Click Auto-Fill)**:
+   - Các pill tên riêng (`Buster`, `Steve Jobs`,...) được thiết kế dưới dạng nút bấm tương tác cao cấp (`bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-300 font-bold border border-blue-200/90 shadow-2xs hover:border-[#0059bb]`). Khi học viên nhấp vào, hệ thống tự động điền tên riêng vào ô gõ chính tả và kích hoạt con trỏ (focus input), giúp học viên không bị bối rối khi gặp các tên riêng khó đánh vần.
+3. **Chuẩn Hóa Token Từ Danh Từ Riêng Trong Khung Câu**:
+   - Thay thế viền nét đứt màu vàng đậm và chấm cam lồi ra góc (`border-2 border-dashed border-amber-400` + dot `-top-1 -right-1`) gây cảm giác như biển báo nguy hiểm / lỗi hiển thị.
+   - Chuyển sang phong cách nhận diện thương hiệu Royal Blue `#0059bb`: Thẻ từ ẩn bo góc chuẩn (`rounded-lg`), viền xanh thanh nhã (`border-blue-200/90`), nền xanh dịu (`bg-blue-50/70 dark:bg-blue-950/30`), hiển thị biểu tượng lấp lánh tinh xảo bên trong: `[ ✨ •••••• ]`. Khi hoàn thành đúng, token chuyển sang màu xanh ngọc lục bảo `emerald-500` chuẩn mực đồng bộ 100% với hệ thống.
+
+### 30. Tinh Chỉnh Giao Diện Luyện Nghe Chép Chính Tả Video & Hiển Thị Đầy Đủ Dữ Liệu Phụ Đề (`/study/dictation`)
+1. **Hiển Thị Minh Bạch 100% Dữ Liệu Từng Câu (Full Transcript Transparency)**:
+   - *Vấn đề trước đây*: Mặc định chế độ `showAllTexts` đặt là `false`, khiến toàn bộ danh sách câu trong bài hiển thị thành chuỗi chấm ẩn `••••••••`, không có mốc thời gian và không có bản dịch tiếng Việt, gây hiểu lầm là cơ sở dữ liệu chưa tải được câu.
+   - *Cải tiến*: Mặc định bật `showAllTexts = true` (lưu trữ tùy chọn vào `localStorage`). Hiển thị rõ ràng cho tất cả các câu (câu đang học, câu đã chép đúng, câu chưa học):
+     * Huy hiệu mốc thời gian định dạng chuẩn với biểu tượng Clock: `[ 🕒 00:00 - 00:16 ]`, `[ 🕒 00:16 - 00:31 ]`,...
+     * Toàn văn câu tiếng Anh sắc nét, dễ đọc.
+     * Hàng bản dịch tiếng Việt trực quan với huy hiệu `DỊCH` (`bg-blue-50 text-[#0059bb]` hoặc `bg-emerald-50 text-emerald-700`).
+     * Nút phát nhanh (Play / Replay) trên từng câu, cho phép học viên click để nhảy video đến đúng mốc thời gian và phát câu đó ngay lập tức.
+2. **Tối Ưu Hóa Tầm Mắt & Vị Trí Ô Nhập Liệu (Rule 13 Wadhah Aloui - Thumb Zone & Above-The-Fold Visibility)**:
+   - Di chuyển khối nhập liệu chính `Nội dung nghe chép chính tả` (`Điền câu đã nghe...`) và thanh công cụ phím tắt (`Alt+H`, `Alt+R`, `Ẩn dịch`, `Làm lại`) lên ngay bên dưới khối thẻ từ tokens, loại bỏ tình trạng bị đẩy xuống dưới mép màn hình khi accordion bản dịch mở rộng.
+   - Accordion IPA và bản dịch tiếng Việt được bố trí thành thẻ hỗ trợ mở rộng bên dưới thanh phím tắt.
+   - Tự động kích hoạt con trỏ (Auto-Focus) vào ô nhập chính tả mỗi khi chuyển sang câu mới.
+3. **Thu Gọn Khung Video Cinema Đạt Chuẩn Tỉ Lệ Vàng (16:9 Cinema Viewport Compact Height)**:
+   - Điều chỉnh chiều cao khung video từ `max-h-[290px] sm:max-h-[340px]` xuống `max-h-[210px] sm:max-h-[240px] md:max-h-[260px]`, tiết kiệm ~80px chiều dọc giúp toàn bộ không gian học (Video + Dock + Tokens + Input + Buttons) vừa vặn hoàn hảo trong 1 màn hình laptop chuẩn (1366x768 / 1920x1080) mà không cần cuộn trang.
+4. **Kiểm Thử Toàn Diện Tương Tác Live Qua Puppeteer Headless**:
+   - Xác thực trọn vẹn quy trình người dùng: Tải trang bài học Jensen Huang (`1481dc60-fe8a-4fa9-830b-9a227ede9b6e`), hiển thị 6 câu có đầy đủ timestamps và bản dịch, chuyển sang câu #2 (`00:16 - 00:31`), gõ thử từ và khớp chính xác các token từ vựng (`As far as I know` -> 5/29 từ - 17%).
+
+### 31. Đồng Bộ Hóa Hệ Thống Video YouTube & Audio Giữa Dictation Và Shadowing (`/study/shadowing` & `/study/dictation`)
+1. **Chuẩn Hóa Helper Dùng Chung (`resolveLessonMedia` & `buildEffectiveSentence`)**:
+   - Khởi tạo [lessonMedia.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/utils/lessonMedia.ts) làm Single Source of Truth cho cả Dictation và Shadowing.
+   - Nhận diện toàn diện các bài học video YouTube qua `videoMetadata`, `sourceType === 'YOUTUBE'`, các định dạng link `youtube.com`, `youtu.be`, `shorts`, và ID chuẩn 11 ký tự.
+   - `buildEffectiveSentence`: Tạo câu hiệu lực chuẩn xác khi bật tính năng ghép câu tiếp theo (`+1`), nối liền text, bản dịch, IPA và mốc thời gian `endTime` để cả video YouTube, bộ đọc TTS và AI nhận diện giọng nói đánh giá đồng bộ 100%.
+2. **Khắc Phục Toàn Diện Các Lỗi Phát Media & Tương Tác Ở Trang Shadowing**:
+   - *Lỗi kẹt nút Play*: Đã kích hoạt callback `setPlayingSentenceText(null)` khi kết thúc câu (`onSentenceEnded`), giúp trạng thái phát đồng bộ ngay lập tức và nút Play phản hồi tức thì với 1 click duy nhất.
+   - *Nghe lại câu từ Sidebar Transcript*: Tự động nhận diện bài YouTube để phát đúng video thực tế thay vì phát giọng TTS.
+   - *Cụm nút tua 5s*: Kết nối hoàn chỉnh `handleRewind5s` / `handleForward5s` kèm Toast thông báo và phím tắt bàn phím `ArrowLeft` / `ArrowRight`.
+   - *Âm lượng & Giọng đọc (US/UK/AU)*: Bổ sung thanh chỉnh âm lượng lưu `localStorage` (`xp_listening_volume`), chọn giọng đọc cho các bài audio.
+3. **Tích Hợp Chuyển Đổi Hiển Thị Media (`MediaDisplayModeToggle`) & Nâng Cấp `VideoCinemaFrame`**:
+   - Cho phép học viên chuyển đổi linh hoạt giữa chế độ Video Cinema (xem hình ảnh YouTube) và Audio (tập trung 100% thính giác vào sóng âm waveform).
+   - Bổ sung `practiceMode="shadowing"` và cơ chế fallback tự động sang chế độ Audio TTS khi video YouTube bị chặn nhúng (lỗi 101/150).
+4. **Nâng Cao Chất Lượng Thu Âm & Chống Vọng Âm (WebRTC Echo Cancellation)**:
+   - Thêm ràng buộc `echoCancellation: true, noiseSuppression: true, autoGainControl: true` vào `useShadowingAudioRecorder`, ngăn âm thanh từ loa/video lọt vào micro khi luyện nói Shadowing.
+5. **Đồng Bộ Thanh Chuyển Tab Danh Mục Giữa Audio Và Video Tuyển Chọn (`ShadowingListingView.tsx`)**:
+   - Tích hợp thanh Dual-Hub Pill Switcher: `[ 🎧 Bài Nghe Tiêu Chuẩn ]` vs `[ 📹 Kho Video Tuyển Chọn ]` kèm huy hiệu `✨ Đồng bộ lộ trình CEFR & phân tích phụ đề trực quan`.
+   - Kết nối trực tiếp với component [VideoCatalogBrowseView.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/VideoCatalogBrowseView.tsx), cho phép học viên khám phá và lựa chọn video YouTube để luyện nói Shadowing ngay trong phòng luyện chuyên sâu.
+6. **Bộ Kiểm Thử Toàn Diện (`__tests__/shadowing_media_playback.test.ts`)**:
+   - Đạt 11/11 tests pass mới, xác thực 100% tính đúng đắn của logic media và ghép câu.
+
+### 32. Chuẩn Hóa 100% Verbatim Từng Câu Khớp Giọng Đọc Thực Tế Video Jensen Huang (`1481dc60-fe8a-4fa9-830b-9a227ede9b6e`)
+1. **Trích Xuất Verbatim 100% Khớp Từng Từ Jensen Huang Phát Ngôn (Zero Paraphrase / Zero Omission)**:
+   - *Nguyên nhân trước đây*: Dữ liệu 6 phân đoạn ban đầu là các câu rút gọn/tóm tắt nội dung đại ý, bị lược bỏ nhiều cụm từ quan trọng mà Jensen Huang nói thực tế trong audio (như *"and construction"*, *"preparation in advance"*, liệt kê đầy đủ 4 đội ngũ kỹ sư *"engineering, networking, infrastructure computing, software"*, và đoạn nhấn mạnh *"19 days! 19 days is incredible. But it's also kind of nice to just take a step back..."*).
+   - *Giải pháp trích xuất chính xác 100%*: Sử dụng thuật toán phân tích token và nhãn thời gian từ luồng phụ đề gốc `lpLFjQ-bRv8`, dò toàn bộ 282 từ vựng spoken word với độ trễ dưới 50ms.
+   - *Phân đoạn sư phạm tự nhiên 10 câu*:
+     * **Câu 1 (00:00 - 00:16)**: *"From the moment of concept to building a massive factory, liquid-cooled, energized, permitted in the short time that was done, that is like superhuman, right?"*
+     * **Câu 2 (00:16 - 00:20)**: *"And as far as I know, there's only one person in the world who could do that."*
+     * **Câu 3 (00:20 - 00:31)**: *"You know, I mean Elon is singular in this understanding of engineering, and construction, and large systems, and marshaling resources, it's unbelievable."*
+     * **Câu 4 (00:31 - 00:34)**: *"And of course, then his engineering team is extraordinary."*
+     * **Câu 5 (00:34 - 00:45)**: *"And from the moment that we decided to go, the planning with our engineering team, our networking team, our infrastructure computing team, the software team, all of the preparation in advance."*
+     * **Câu 6 (00:45 - 00:56)**: *"Then all of the infrastructure, all of the logistics, and the amount of technology and equipment that came in on that day to train in 19 days."*
+     * **Câu 7 (00:56 - 01:05)**: *"19 days! 19 days is incredible. But it's also kind of nice to just take a step back, you know how many days 19 days is? It's just a couple of weeks."*
+     * **Câu 8 (01:05 - 01:16)**: *"And the mountain of technology, if you're ever to see it, is unbelievable: all of the wiring and the networking, just getting this mountain of technology integrated, and all the software. Incredible, right?"*
+     * **Câu 9 (01:16 - 01:31)**: *"Yeah, so I think what Elon and the xAI team did, what they achieved is singular, never been done before. Just to put in perspective: 100,000 GPUs, that's easily the fastest supercomputer on the planet as one cluster."*
+     * **Câu 10 (01:31 - 01:49)**: *"A supercomputer that you would build would take normally three years to plan, right? And then they deliver the equipment and it takes one year to get it all working. Yes, we're talking about 19 days."*
+2. **Đồng Bộ Dữ Liệu 3 Tầng Hệ Thống (Three-Tier Sync Parity)**:
+   - Cơ sở dữ liệu đám mây **Neon PostgreSQL**: Cập nhật lại 10 bản ghi `lesson_segments` với đầy đủ trường `normalizedText`, `ipaUs`, `translationVi`, `explanationAi`, `properNouns`, `keywords`.
+   - Bộ nhớ tạm Client/RAM Mock **`videoCatalogMockData.ts`**: Cập nhật 10 segments tương ứng, bổ sung `wpmSpeed: 155`, `durationSeconds: 109`, `durationFormatted: "01:49"`.
+   - Kịch bản gieo dữ liệu hạt giống **`scripts/seed_video_ecosystem.ts`**: Đồng bộ trọn vẹn 10 segments để luôn nhất quán khi chạy lại pipeline seed.
+3. **Kiểm Thử Toàn Diện Tự Động (Puppeteer E2E & Vitest Suite)**:
+   - Xây dựng kịch bản kiểm thử trình duyệt thực tế `scripts/verify_dictation_100_verbatim.js` qua Chrome Headless: Xác nhận 10/10 câu xuất hiện chính xác 100% trong DOM, click chuyển sang câu #2 phản hồi tức thì và hiển thị đầy đủ phiên âm IPA cùng bản dịch tiếng Việt.
+### 33. Chuẩn Hóa Sát 100% Verbatim & Mốc Thời Gian Từng Câu Video Steve Jobs (`0678a126-f94d-4930-81ce-ebe1e6731e7e`)
+1. **Dò Lại Toàn Diện & Khắc Phục Triệt Để Sai Lệch Âm Thanh - Chữ Viết (Zero Hallucination / Zero Cut-Off)**:
+   - *Nguyên nhân lệch nghiêm trọng trước đây*: Dữ liệu cũ bị cắt cụt từ cuối câu do lấy nhầm mốc bắt đầu của từ cuối làm `endTime` (khiến học viên không nghe được từ *"wife"* ở câu 8, *"girl"* ở câu 9). Đồng thời, dữ liệu cũ tự ý chèn các từ không có trong giọng đọc của Steve Jobs (như thêm *"college"* trước *"graduate student"*, thêm *"someday"* trước *"go to college"*), và ghép lẫn câu đanh thép *"This was the start in my life"* vào câu tiếp theo khiến âm thanh phát một đằng nhưng ô chép chính tả đòi hỏi một nẻo.
+   - *Giải pháp đồng bộ micro-timing sát 100%*: Đối chiếu chéo giữa phụ đề con người chính thức của Stanford University (`json3` 244 speech events) và luồng nhận diện từ vựng ASR từng mili-giây. Mọi câu đều kết thúc sau khi âm tiết cuối cùng dứt hẳn và trước khi câu tiếp theo bắt đầu, đảm bảo không dính tạp âm vỗ tay/cười của hội trường.
+   - *Tái cấu trúc Chương 1 thành 18 câu chuẩn xác 100% từng từ Steve Jobs phát ngôn*:
+     * **Câu 1 (00:22 - 00:32)**: *"Thank you. I am honored to be with you today at your commencement from one of the finest universities in the world."* (Dứt câu tại 32.74s ngay sau "world", không kéo dài vào tiếng vỗ tay).
+     * **Câu 2 (00:35 - 00:45)**: *"Truth be told, I never graduated from college, and this is the closest I've ever gotten to a college graduation."* (Dứt câu tại 45.93s, không dính tiếng cười hội trường).
+     * **Câu 3 (00:47 - 00:54)**: *"Today I want to tell you three stories from my life. That's it. No big deal. Just three stories."*
+     * **Câu 4 (00:55 - 00:59)**: *"The first story is about connecting the dots."*
+     * **Câu 5 (01:01 - 01:08)**: *"I dropped out of Reed College after the first 6 months, but then stayed around as a drop-in for another 18 months or so before I really quit."*
+     * **Câu 6 (01:09 - 01:14)**: *"So why did I drop out? It started before I was born."*
+     * **Câu 7 (01:15 - 01:21)**: *"My biological mother was a young, unwed graduate student, and she decided to put me up for adoption."* (Khớp 100% audio: loại bỏ từ "college" bị thêm nhầm).
+     * **Câu 8 (01:22 - 01:31)**: *"She felt very strongly that I should be adopted by college graduates, so everything was all set for me to be adopted at birth by a lawyer and his wife."* (Kéo dài đến 91.10s để nghe trọn vẹn từ "his wife").
+     * **Câu 9 (01:31 - 01:37)**: *"Except that when I popped out, they decided at the last minute that they really wanted a girl."* (Kéo dài đến 97.55s để nghe trọn vẹn từ "wanted a girl").
+     * **Câu 10 (01:37 - 01:46)**: *"So my parents, who were on a waiting list, got a call in the middle of the night asking: 'We have an unexpected baby boy; do you want him?'"*
+     * **Câu 11 (01:47 - 01:58)**: *"They said: 'Of course.' My biological mother later found out that my mother had never graduated from college and that my father had never graduated from high school."*
+     * **Câu 12 (01:59 - 02:08)**: *"She refused to sign the final adoption papers. She only relented a few months later when my parents promised that I would go to college."* (Khớp 100% audio: loại bỏ từ "someday" không có trong lời nói, dứt câu tại 128.70s).
+     * **Câu 13 (02:09 - 02:13)**: *"This was the start in my life."* (Tách thành 1 câu độc lập 129.20s - 133.00s, đúng nhịp ngừng nhấn mạnh xúc cảm của Steve Jobs).
+     * **Câu 14 (02:13 - 02:27)**: *"And 17 years later I did go to college, but I naively chose a college that was almost as expensive as Stanford, and all of my working-class parents' savings were being spent on my college tuition."* (Khởi đầu chuẩn xác tại 133.72s sau câu 13).
+     * **Câu 15 (02:27 - 02:36)**: *"After six months, I couldn't see the value in it. I had no idea what I wanted to do with my life, and no idea how college was going to help me figure it out."*
+     * **Câu 16 (02:36 - 02:41)**: *"And here I was, spending all of the money my parents had saved their entire life."* (Tách tại khoảng dừng nghỉ 1.0s).
+     * **Câu 17 (02:42 - 02:46)**: *"So I decided to drop out and trust that it would all work out OK."*
+     * **Câu 18 (02:47 - 02:52)**: *"It was pretty scary at the time, but looking back it was one of the best decisions I ever made."* (Kết thúc trọn vẹn ý tứ mở đầu của Câu chuyện thứ nhất).
+2. **Đồng Bộ Dữ Liệu 3 Tầng Hệ Thống (Three-Tier Sync Parity)**:
+   - Cơ sở dữ liệu đám mây **Neon PostgreSQL**: Cập nhật trọn vẹn 18 bản ghi `lesson_segments` cho bài học `0678a126-f94d-4930-81ce-ebe1e6731e7e` kèm `normalizedText`, `ipaUs`, `translationVi`, `explanationAi`, `properNouns`, `keywords`, và `tokenCount`. Cập nhật `video_lessons`: `durationSeconds: 173`, `durationFormatted: "02:53"`, `wpmSpeed: 145`, `cefrLevel: "B2"`.
+   - Bộ nhớ tạm Client/RAM Mock **`videoCatalogMockData.ts`**: Cập nhật đồng bộ 18 segments và metadata tương ứng.
+   - Kịch bản gieo dữ liệu hạt giống **`scripts/seed_video_ecosystem.ts`**: Đồng bộ 18 segments chuẩn mực với video YouTube `UF8uR6Z6KLc`.
+3. **Kiểm Thử Tự Động Toàn Diện (Puppeteer E2E & Vitest Suite)**:
+   - Khởi chạy test case Vitest `__tests__/video_catalog_phase1.test.ts`: **40/40 tests PASS**, xác thực 18 segments có thứ tự tăng dần tuyệt đối, không có bất kỳ khoảng chồng lấn (zero overlap).
+   - Kiểm thử TypeScript (`npx tsc --noEmit`): **0 lỗi**.
+
+### 34. Tinh Chỉnh Giao Diện Thẻ Hỗ Trợ Dictation (Dual-Tab Dịch / IPA, Bolder IPA) & Tinh Gọn Khối Phụ Đề (`/study/dictation`)
+1. **Thiết Kế Thẻ Hỗ Trợ Dual-Tab Switcher (`DictationWorkspace.tsx`)**:
+   - Chuyển đổi khối Accordion hỗ trợ từ dạng in dồn 2 dòng sang thanh **Dual-Tab Switcher** chuyên nghiệp:
+     * `[ 🌐 Bản dịch ]`: Hiển thị bản dịch nghĩa tiếng Việt sắc nét, cách dòng thoáng, font chữ chuẩn mực với icon `<Languages className="w-4 h-4" />`.
+     * `[ 🗣️ Phiên âm IPA ]`: Sử dụng icon chuẩn Lucide `<Speech className="w-4 h-4" />` đồng bộ ngôn ngữ thiết kế toàn trang thay vì ký tự text nhỏ, hiển thị bảng phiên âm quốc tế chuẩn ngữ âm học.
+   - Ghi nhớ tùy chọn tab người học vào `localStorage` (`xp_dictation_helper_tab`), giữ nguyên trạng thái tab xuyên suốt toàn bộ các câu trong bài.
+   - Tích hợp nút sao chép nhanh (`Copy`) một chạm cho bản dịch và IPA với hiệu ứng phản hồi trực quan `Đã chép`.
+2. **Chuẩn Hóa Font Chữ IPA Đậm Rõ Nét (Bolder IPA Typography)**:
+   - Nâng cấp typography từ `font-mono text-slate-600` sang `font-mono font-bold tracking-wide text-slate-900 dark:text-white text-xs sm:text-[13.5px] leading-relaxed select-all`.
+   - Làm nổi bật rõ ràng từng ký tự ngữ âm quốc tế, dấu trọng âm (`ˈ`, `ˌ`), nguyên âm đôi và phụ âm đặc thù, giúp học viên dễ nhận diện và đối chiếu khẩu hình phát âm.
+3. **Ẩn Triệt Để Mốc Thời Gian Trong Khối Phụ Đề (`InteractiveTranscriptSidebar.tsx`)**:
+   - Thiết lập mặc định `showTimestamps = false` cho khối phụ đề danh sách câu transcript.
+   - Loại bỏ hoàn toàn các huy hiệu thời gian timestamp (`00:00 - 00:16`) ở cả 3 trạng thái câu (Đang học, Đã hoàn thành, Chưa học).
+   - Giải phóng không gian khối phụ đề, giúp layout gọn gàng, thoáng mắt, tập trung tối đa 100% vào số thứ tự câu `#idx`, văn bản tiếng Anh và bản dịch.
+4. **Tối Giản Hóa Khối Phụ Đề & Khôi Phục Thẻ Câu Tinh Gọn (`InteractiveTranscriptSidebar.tsx`)**:
+   - Loại bỏ hoàn toàn cụm toggle chuyển đổi `[ EN | VI | Song ngữ ]` trên thẻ phụ đề, đưa thanh hiển thị trở về phong cách tối giản thanh lịch: huy hiệu `ĐÃ CHÉP ĐÚNG` (màu xanh Emerald `#10b981`) cho thẻ câu hoàn thành, văn bản tiếng Anh sắc nét và bản dịch tiếng Việt bên dưới.
+5. **Tái Cấu Trúc Toàn Diện Logic "Xem Từ" (Peek / Reveal Word UX - `DictationWorkspace.tsx`)**:
+   - **Tự động điền từ vào ô nhập liệu (`setInputValue(targetToken.clean)`)**: Khi người học nhấn nút "Xem từ" (hoặc phím tắt `Alt+R`) hoặc nhấp trực tiếp vào khối từ bị che, từ đúng được hiển thị đồng thời tự động điền vào ô input.
+   - **Luôn bảo toàn con trỏ gõ phím (`inputRef.current?.focus()`)**: Khắc phục triệt để lỗi mất focus (văng focus sang nút bấm), cho phép học viên tiếp tục thao tác phím cách (`Space`) hoặc `Enter` ngay lập tức.
+   - **Cơ chế chống nhảy câu sớm (Anti-Skip Premature Completion)**: Khi xem từ cuối cùng trong câu, hệ thống không tự động kích hoạt chuyển câu đột ngột sau 700ms; học viên có toàn quyền xem từ, nghe phát âm và chủ động nhấn Space/Enter để xác nhận hoàn thành câu.
+   - **Tự động cuộn đến từ vừa mở (`scrollIntoView`)**: Khối từ trên thanh token tự động cuộn mượt mà vào trung tâm tầm nhìn.
+6. **Kiểm Thử Tự Động & Độ Tin Cậy Hệ Thống**:
+   - Bổ sung bộ kiểm thử `__tests__/dictation_helper_tabs.test.ts` (4/4 tests pass).
+   - TypeScript compiler (`npx tsc --noEmit`) đạt **0 lỗi biên dịch**.
+
+### 35. Chuẩn Hóa Sát 100% Verbatim & Khớp Thời Gian Từng Câu Video Daily English: Pets, Animals & Nature (`575d216f-b275-468e-8a41-c3b26c0ac1ea`)
+1. **Triệt Tiêu Phân Đoạn Giả Nhạc Intro (0s - 13s) & Khắc Phục Lệch Âm Sát 100% (Zero Hallucination / Zero Paraphrase)**:
+   - *Nguyên nhân lệch nghiêm trọng trước đây*: 
+     * Phân đoạn đầu tiên trước đây gán câu *"Pets, animals and nature."* vào khoảng `6.4s - 13.5s`, trong khi trên thực tế đây chỉ là đoạn nhạc dạo đầu (acoustic guitar intro) và tiêu đề đồ họa hoạt hình của Pocket Passport, người dẫn chuyện **hoàn toàn không nói một từ nào** cho đến giây thứ `12.96s` (13.0s).
+     * Dữ liệu cũ bị diễn dịch lại (paraphrase) và sai lệch từ ngữ nghiêm trọng so với lời đọc thực tế của narrator bản xứ:
+       - Cũ: *"white fur"* ➔ Lời nói thực tế: *"white coat"*.
+       - Cũ: *"playing together"* ➔ Lời nói thực tế: *"together playing"*.
+       - Cũ: *"play at home, but mostly they play outside"* ➔ Lời nói thực tế: *"play indoors, but most of the time they play outdoors"*.
+       - Cũ: *"We love to be outside as often as we can"* ➔ Lời nói thực tế: *"We love being outdoors as much as we can be"*.
+       - Cũ: *"We also enjoy watching elephants"* ➔ Lời nói thực tế: *"We also like watching the elephants"*.
+       - Cũ: *"We also like to walk in the forest"* ➔ Lời nói thực tế: *"Another thing we like to do is take walks in the woods"*.
+       - Cũ: *"There are many species of trees, wildflowers, and birds there"* ➔ Lời nói thực tế: *"There are many kinds of trees, wild flowers and birds"*.
+       - Cũ: *"Sometimes we also see squirrels and rabbits"* ➔ Lời nói thực tế: *"Sometimes we see squirrels and rabbits too"*.
+   - *Tái cấu trúc 11 câu sư phạm tự nhiên, sát 100% từng từ spoken word*:
+     * **Câu 1 (13.00s - 19.00s)**: *"Our family has a small dog with a white coat and brown spots."* (Khởi đầu chuẩn xác ngay khi giọng đọc cất lên sau đoạn nhạc intro).
+     * **Câu 2 (19.50s - 22.80s)**: *"My son named our dog Buster."*
+     * **Câu 3 (23.50s - 28.50s)**: *"Buster and our children have a lot of fun together playing."*
+     * **Câu 4 (29.00s - 34.00s)**: *"Sometimes they play indoors, but most of the time they play outdoors."*
+     * **Câu 5 (34.50s - 37.50s)**: *"We love being outdoors as much as we can be."*
+     * **Câu 6 (38.50s - 44.00s)**: *"Sometimes we go to the local zoo to see other animals."*
+     * **Câu 7 (44.50s - 50.50s)**: *"My daughter's favorite animal is the giraffe because it is tall and has a long neck."*
+     * **Câu 8 (51.00s - 53.50s)**: *"We also like watching the elephants."*
+     * **Câu 9 (54.40s - 58.00s)**: *"Another thing we like to do is take walks in the woods."*
+     * **Câu 10 (59.20s - 65.00s)**: *"There are many kinds of trees, wild flowers and birds."*
+     * **Câu 11 (65.50s - 71.50s)**: *"Sometimes we see squirrels and rabbits too."* (Kết thúc chuẩn xác trước khi video chuyển sang phần câu hỏi thảo luận).
+   - *Đảm bảo không chồng lấn (Zero Overlap)*: Tất cả các khoảng cách (gap) giữa các câu liên tiếp dao động từ `0.50s` đến `1.20s`, đảm bảo học viên nghe trọn vẹn từng câu mà không bị nuốt chữ hay giật âm.
+2. **Đồng Bộ Dữ Liệu 3 Tầng Tuyệt Đối (Three-Tier Sync Parity)**:
+   - Cơ sở dữ liệu đám mây **Neon PostgreSQL**: Cập nhật lại 11 bản ghi `lesson_segments` cho bài học `575d216f-b275-468e-8a41-c3b26c0ac1ea` kèm `normalizedText`, `ipaUs`, `translationVi`, `explanationAi`, `properNouns`, `keywords`, và `tokenCount`. Metadata bài học: `durationSeconds: 72`, `durationFormatted: "01:12"`, `cefrLevel: "A2"`, `wpmSpeed: 125`.
+   - Bộ nhớ tạm Client/RAM Mock **`videoCatalogMockData.ts`**: Cập nhật đồng bộ 11 segments và metadata tương ứng.
+   - Kịch bản gieo dữ liệu hạt giống **`scripts/seed_video_ecosystem.ts`**: Đồng bộ 11 segments chuẩn mực với video YouTube `AK42GhbTZ9w`.
+3. **Kiểm Thử Toàn Diện Tự Động (Puppeteer E2E & Vitest Suite)**:
+   - Thêm bộ kiểm thử `__tests__/pets_verbatim.test.ts` (**6/6 tests PASS**), xác thực 11 segments không trùng lấn, start time $\ge 13.0s$, đầy đủ IPA và bản dịch.
+   - Kiểm thử thực tế trình duyệt Chrome Headless (`scripts/debug_pets_page.js`): Xác nhận hiển thị 11/11 câu, thẻ tokens câu 1 hiển thị 13 từ vựng, các nút phát và thanh tương tác hoạt động hoàn hảo.
+   - TypeScript compiler (`npx tsc --noEmit`): **0 lỗi biên dịch**.
+
+### 36. Chuẩn Hóa Sát 100% Verbatim & Khớp Thời Gian Từng Câu Video BBC Learning English (`e4476093-9f0c-4620-a7f3-345d0e6b64db` - `doOlP7NLUwc`)
+1. **Khắc Phục Toàn Diện Lệch Trắng Dữ Liệu Cũ (Triệt Tiêu Hoàn Toàn Fake Script Neil & Sam)**:
+   - *Nguyên nhân lệch nghiêm trọng trước đây*:
+     * Video YouTube thực tế được gắn với ID `doOlP7NLUwc` là bản tin podcast chuẩn của BBC: *"First treasure recovered from $20bn sunken ship: BBC Learning English from the News"* dẫn bởi Georgie và Phil.
+     * Tuy nhiên, hệ thống cơ sở dữ liệu cũ lại bị gán nhầm kịch bản giả về chủ đề não bộ: *"Neil & Sam talking about memory and brainpower... Have you ever walked into a room..."*, khiến học viên bật video lên thì nghe tiếng đắm tàu San Jose và kho báu 20 tỷ USD, nhưng màn hình chép chính tả lại đòi hỏi gõ về trí nhớ não bộ.
+   - *Tái cấu trúc 13 câu chuẩn xác 100% từng từ phát ngôn thực tế (Zero Paraphrase / Zero Omission)*:
+     * **Câu 1 (00:00 - 00:06.5)**: *"From BBC Learning English, this is Learning English from the News, our podcast about the news headlines."*
+     * **Câu 2 (00:07 - 00:13.1)**: *"In this programme, first treasure recovered from $20 billion sunken ship."* (Sau đó là 3.1s nhạc jingle đặc trưng của BBC).
+     * **Câu 3 (00:16.2 - 00:18.4)**: *"Hello, I'm Georgie. And I'm Phil."*
+     * **Câu 4 (00:18.9 - 00:24.7)**: *"In this programme, we look at one big news story and the vocabulary in the headlines that will help you understand it."*
+     * **Câu 5 (00:25.2 - 00:33.1)**: *"You can find all the vocabulary and headlines from this episode, as well as a worksheet on our website, bbclearningenglish.com."*
+     * **Câu 6 (00:33.6 - 00:36.6)**: *"OK, Phil, let's hear more about this story."* (Sau đó là 5.1s âm hiệu chuyển cảnh).
+     * **Câu 7 (00:41.7 - 00:49.2)**: *"A cannon, three coins and a porcelain cup have been recovered from a ship that sank over 300 years ago."*
+     * **Câu 8 (00:49.7 - 00:56.3)**: *"The ship, called the San Jose, was sunk by British ships in 1708 near Cartagena in Colombia."*
+     * **Câu 9 (00:56.8 - 01:04.1)**: *"The ship is thought to have $20 billion worth of gold and silver coins on board, according to some estimates."*
+     * **Câu 10 (01:04.6 - 01:11.9)**: *"Colombia, Spain, an American company and indigenous groups in Bolivia have all claimed that this treasure belongs to them."*
+     * **Câu 11 (01:12.4 - 01:18.8)**: *"Colombian scientists located the ship in 2015 and launched an expedition to explore it last year."*
+     * **Câu 12 (01:19.3 - 01:23.7)**: *"Let's have our first headline. This one is from Fox Weather, an American broadcaster."*
+     * **Câu 13 (01:24.2 - 01:29.7)**: *"Archeologists recover treasures from the legendary 1708 San Jose, wrecked in war."*
+   - *Khớp nối micro-timing không chồng lấn (Zero Overlap)*: Tất cả các khoảng dừng giữa các câu liên tiếp đều $\ge 0.50s$, loại bỏ hoàn toàn tình trạng cắt ngang hơi thở hay tiếng nhạc nền.
+2. **Đồng Bộ Dữ Liệu 3 Tầng Hệ Thống (Three-Tier Sync Parity)**:
+   - Cơ sở dữ liệu đám mây **Neon PostgreSQL**: Cập nhật lại 13 bản ghi `lesson_segments` cho bài học `e4476093-9f0c-4620-a7f3-345d0e6b64db` với đầy đủ `normalizedText`, `ipaUs`, `translationVi`, `explanationAi`, `properNouns`, `keywords`, và `tokenCount`. Metadata bài học: `title: "BBC Learning English: First Treasure Recovered from $20 Billion Sunken Ship"`, `durationSeconds: 90`, `durationFormatted: "01:30"`, `cefrLevel: "B1"`, `accent: "en-GB"`, `wpmSpeed: 135`.
+   - Bộ nhớ tạm Client/RAM Mock **`videoCatalogMockData.ts`**: Cập nhật đồng bộ 13 segments và metadata tương ứng.
+   - Kịch bản gieo dữ liệu hạt giống **`scripts/seed_video_ecosystem.ts`**: Cập nhật đồng bộ 13 segments chuẩn mực cho video YouTube `doOlP7NLUwc`.
+3. **Kiểm Thử Toàn Diện Tự Động (Puppeteer E2E & Vitest Suite)**:
+   - Thêm bộ kiểm thử `__tests__/bbc_verbatim.test.ts` (**6/6 tests PASS**), xác thực 13 segments không trùng lấn, start time chính xác, đầy đủ IPA và bản dịch.
+   - Kiểm thử thực tế trình duyệt Chrome Headless (`public/dictation_bbc_100_verbatim.png`): Xác nhận hiển thị 13/13 câu, tokens câu 1 hiển thị 17 từ vựng, tên riêng `BBC Learning English`, `Learning English from the News`, phím tắt và video YouTube khớp hoàn toàn 100%.
+   - Toàn bộ 4 bộ kiểm thử Dictation & Listening (`__tests__/bbc_verbatim.test.ts`, `__tests__/pets_verbatim.test.ts`, `__tests__/listening_db_sync.test.ts`, `__tests__/dictation_helper_tabs.test.ts`): **45/45 tests PASS**.
+   - TypeScript compiler (`npx tsc --noEmit`): **0 lỗi biên dịch**.
+
+### 37. Hiệu Chuẩn Sát 100% Verbatim Video 5: Kurzgesagt – In a Nutshell (`/study/dictation?id=88c4fc17-4445-46f4-82d4-c51fbb56e859`)
+1. **Phát Hiện Sai Lệch & Chuẩn Hóa Theo Video YouTube Thực Tế (`tybKnGZRwcU`)**:
+   - Phát hiện: Dữ liệu cũ bị gán nhầm kịch bản giả định về việc "Trái Đất ngừng quay" (What Happens If Earth Stops Spinning?) với 5 câu placeholder không ăn nhập nội dung video.
+   - Video YouTube gốc `tybKnGZRwcU` thực chất là bài giảng khoa học viễn tưởng kinh điển của kênh Kurzgesagt: **"How to Win an Interstellar War"** (Liệu người ngoài hành tinh có thể hủy diệt Trái Đất từ khoảng cách hàng năm ánh sáng?).
+   - Trích xuất phụ đề YouTube chính thức (`scripts/kurzgesagt_raw.en.json3`) và hiệu chuẩn thành **21 câu phân đoạn sư phạm chuẩn mực (00:00 - 01:33)**, khớp 100% nguyên văn từng từ, từng mili-giây với giọng lồng tiếng của Steve Taylor.
+2. **Đồng Bộ Hóa Đa Tầng 3-Tier Database & Mock Data**:
+   - **Neon PostgreSQL**: Cập nhật bài học `88c4fc17-4445-46f4-82d4-c51fbb56e859` (`title: "Kurzgesagt: How to Win an Interstellar War"`, `durationFormatted: "01:33"`, `cefrLevel: "B2"`, `wpmSpeed: 140`) và tạo mới 21 bản ghi `lesson_segments` với đầy đủ `normalizedText`, `ipaUs`, `translationVi`, `explanationAi`, `properNouns` (`Kurzgesagt Labs`, `Humans`, `Smorpians`, `HD 40307`, `Dyson`), `keywords` và `tokenCount`.
+   - **Client RAM Mock (`videoCatalogMockData.ts`)**: Cập nhật đồng bộ 21 câu của bài học Kurzgesagt.
+   - **Seed Script (`scripts/seed_video_ecosystem.ts`)**: Thay thế entry cũ bằng 21 segments chuẩn 100% Verbatim.
+3. **Kiểm Thử Toàn Diện Tự Động & Chụp Ảnh Giao Diện Thực Tế**:
+   - Thêm bộ kiểm thử `__tests__/kurzgesagt_verbatim.test.ts` (**6/6 tests PASS**).
+   - Kiểm thử giao diện Chrome Headless (`public/dictation_kurzgesagt_100_verbatim.png`): Xác nhận hiển thị 21/21 thẻ câu, thẻ câu #1 `"Could aliens destroy us from light years away?"` có 8 từ vựng, bản dịch và phiên âm IPA chuẩn xác.
+   - TypeScript (`npx tsc --noEmit`): **0 lỗi**.
+
+### 38. Hiệu Chuẩn Sát 100% Verbatim Video 6: Anne-Marie & James Arthur – Rewrite The Stars (`/study/dictation?id=ff4c64b7-ea82-4963-a4f6-1ff808d929e6`)
+1. **Phát Hiện Sai Lệch & Chuẩn Hóa Theo Video YouTube Thực Tế (`pRfmrE0ToTo`)**:
+   - Phát hiện: Dữ liệu cũ bị gán nhầm kịch bản về bài hát "Bruno Mars - Count on Me" với 4 câu placeholder không ăn nhập nội dung video.
+   - Video YouTube gốc `pRfmrE0ToTo` thực chất là bản song ca kinh điển: **"Anne-Marie & James Arthur - Rewrite The Stars [from The Greatest Showman: Reimagined]"**.
+   - Trích xuất phụ đề YouTube chính thức (`scripts/rewrite_the_stars_raw.en-orig.json3`) có tem thời gian từng từ (`tOffsetMs`) và hiệu chuẩn thành **18 câu phân đoạn sư phạm chuẩn mực (00:00 - 01:45)**, khớp 100% nguyên văn lời bài hát và giọng hát của cả hai nghệ sĩ.
+2. **Đồng Bộ Hóa Đa Tầng 3-Tier Database & Mock Data**:
+   - **Neon PostgreSQL**: Cập nhật bài học `ff4c64b7-ea82-4963-a4f6-1ff808d929e6` (`title: "Anne-Marie & James Arthur: Rewrite The Stars (The Greatest Showman)"`, `durationFormatted: "01:45"`, `cefrLevel: "B1"`, `wpmSpeed: 120`) và tạo mới 18 bản ghi `lesson_segments` với đầy đủ `normalizedText`, `ipaUs`, `translationVi`, `explanationAi`, `keywords` và `tokenCount`.
+   - **Client RAM Mock (`videoCatalogMockData.ts`)**: Cập nhật đồng bộ 18 câu của bài học Rewrite The Stars.
+   - **Seed Script (`scripts/seed_video_ecosystem.ts`)**: Cập nhật entry chuẩn 100% Verbatim trong mảng `CURATED_LESSONS`.
+3. **Kiểm Thử Toàn Diện Tự Động & Chụp Ảnh Giao Diện Thực Tế**:
+   - Thêm bộ kiểm thử `__tests__/rewrite_the_stars_verbatim.test.ts` (**6/6 tests PASS**).
+   - Kiểm thử giao diện Chrome Headless (`public/dictation_rts_100_verbatim.png`): Xác nhận hiển thị 18/18 thẻ câu, thẻ câu #1 `"You know I want you, it's not a secret I try to hide."` có 13 từ vựng, bản dịch và phiên âm IPA chuẩn xác.
+   - TypeScript (`npx tsc --noEmit`): **0 lỗi**.
+
+### 39. Kiến Trúc 2 Nhánh URL Độc Lập Cho Luyện Nghe Chép Chính Tả: Audio (`/study/dictation/audio`) & Video (`/study/dictation/video`) Kèm Hệ Thống Skeleton Phân Biệt Chuyên Sâu
+
+1. **Phân Tách 2 Nhánh Định Tuyến Độc Lập (Dual Branch Routing Architecture)**:
+   - **Nhánh Audio (`/study/dictation/audio`)**:
+     * Route chính thức cho thư viện bài luyện nghe Podcast/Audio cơ bản và nâng cao.
+     * Hỗ trợ nạp bài học theo URL parameter: `/study/dictation/audio?id=[lessonId]`.
+     * Đi kèm `loading.tsx` chuẩn Next.js hiển thị `ListeningListingSkeleton` / `AudioListingSkeleton`.
+   - **Nhánh Video (`/study/dictation/video`)**:
+     * Route chính thức cho hệ sinh thái bài học luyện nghe video YouTube 1080p phân loại CEFR.
+     * Hỗ trợ nạp bài học theo URL parameter: `/study/dictation/video?id=[lessonId]`.
+     * Đi kèm `loading.tsx` chuẩn Next.js hiển thị `VideoListingSkeleton`.
+   - **Trang Root Dispatcher Thông Minh (`/study/dictation`)**:
+     * Tự động điều hướng học viên: Nếu URL có `id` thuộc video (`id=122`, UUID bài học video, tiền tố `vid_`), chuyển tiếp an toàn sang `/study/dictation/video?id=...`. Ngược lại mặc định dẫn về `/study/dictation/audio`.
+
+2. **Chuyển Đổi Tab Đẳng Cấp Thẩm Mỹ Với Spring Indicator**:
+   - Tên tab tinh gọn, chuyên nghiệp: **Bài Nghe Tiêu Chuẩn** & **Kho Video Tuyển Chọn** (loại bỏ hậu tố dư thừa `(Audio)` và `(Video)`, nhận diện qua icon `Headphones` và `Video`).
+   - Sử dụng thẻ `Link` ngữ nghĩa từ `next/link` kết hợp framer-motion con nhộng `layoutId="dictationListingModeIndicator"`.
+   - Chuyển đổi trạng thái mượt mà, hỗ trợ SEO, prefetching tức thì và deep linking chính xác khi chia sẻ URL cho học viên khác.
+
+3. **Hệ Thống Khung Xương Skeleton Phân Biệt Chuyên Sâu (Zero CLS - Shimmer Double-Bezel)**:
+   - Tuân thủ nghiêm ngặt **Quy tắc 1 UI/UX (Skeleton Loading thay vì spinner)** & **Quy tắc 20 (Hệ màu 60-30-10)**:
+   - **Khung xương Audio (`ListeningListingSkeleton` / `AudioStudioSkeleton`)**:
+     * Tái hiện chính xác hình học Audio: 2 hàng bài nghe cơ bản/nâng cao, card thumbnail 102x74px.
+     * Không gian làm bài Audio: Sàn sóng âm 95 Spikes Jagged Vector Spectrum, dock 5 nấc tốc độ playback compact.
+   - **Khung xương Video (`VideoListingSkeleton` / `VideoStudioSkeleton`)**:
+     * Tái hiện 100% giao diện Catalog Video: Spotlight Banner YouTube rạp chiếu, Category scroll chips bo tròn, thanh search & CEFR 7 cấp, lưới thẻ video tỷ lệ chuẩn 16:9 Cinema.
+     * Không gian làm bài Video (`VideoStudioSkeleton`): Màn chiếu rạp đen tuyền tỷ lệ 16:9 (`aspect-video`), biểu tượng Play icon tròn giữa màn hình và YouTube transport control bar dưới đáy.
+   - Khi chuyển trang giữa Audio và Video, khung xương nạp chính xác hình học tương ứng của từng bên, triệt tiêu 100% hiện tượng nhảy layout giật cục (0px Cumulative Layout Shift).
+
+4. **Kiểm Thử Tự Động & Kiểm Chứng Thực Tế**:
+   - Bộ kiểm thử tự động `__tests__/dictation_helper_tabs.test.ts` & `__tests__/dictation_engine.test.ts`: **7/7 tests PASS**.
+   - Trình biên dịch TypeScript `npx tsc --noEmit`: **0 lỗi**.
+   - Kiểm thử E2E trên trình duyệt thực tế Chromium: Xác nhận chuyển đổi tab mượt mà, tải đúng URL và không có bất kỳ lỗi console nào.
+
+### 42. Hiệu Chuẩn Sát 100% Verbatim Video 7: TED-Ed – The Benefits of a Bilingual Brain (`/study/dictation/video?id=vid_ted_bilingual_brain` / `MMmOLN5zBLY`)
+1. **Phát Hiện Sai Lệch & Chuẩn Hóa Theo Video YouTube Thực Tế (`MMmOLN5zBLY`)**:
+   - Phát hiện: Dữ liệu mock cũ có 5 câu tóm tắt tổng hợp với mốc thời gian nhân tạo (1.0s - 31.8s) không khớp với lời mở đầu bài giảng và video YouTube thực tế.
+   - Video YouTube gốc `MMmOLN5zBLY` là bài giảng hoạt hình khoa học kinh điển của kênh TED-Ed: **"The Benefits of a Bilingual Brain"** qua lời dẫn của Mia Nacamulli.
+   - Trích xuất phụ đề YouTube chính thức chuẩn TED (`scripts/ted_bilingual_raw.en.json3`) và phụ đề tiếng Việt chính thức (`scripts/ted_bilingual_vi.vi.json3`), đối chiếu chuẩn xác thành **18 câu phân đoạn sư phạm chuẩn mực (00:06.60 - 02:05.70, 125.7 giây)** bao quát trọn vẹn toàn bộ 3 phân loại người song ngữ (Compound, Coordinate, Subordinate) và bước chuyển giao sang công nghệ chẩn đoán hình ảnh não bộ.
+2. **Gia Cố Công Nghệ Gõ DictationEngine 2.0 (Hỗ Trợ Diacritics & Unicode Loanwords)**:
+   - Tối ưu hàm `stripDiacritics` và `checkEquivalenceMatch` trong `features/listening/utils/dictationEngine.ts`: Tự động chuẩn hóa dấu thanh ngoại ngữ Latinh (`español` ↔ `espanol`, `français` ↔ `francais`, `sí` ↔ `si`).
+   - Mở rộng từ điển ánh xạ `EQUIVALENCE_MAP`: Hỗ trợ gõ linh hoạt `si` / `yes` cho `"sí"`, `oui` cho `"oui"`, và `hui` cho ký tự tiếng Trung `"会"`, bảo đảm học viên không bị chặn khi gặp các câu mở đầu đa ngôn ngữ.
+   - Cập nhật biểu thức tách dấu câu `tokenizeSentence` trong `DictationWorkspace.tsx` với cờ Unicode `\p{L}` (`/u`), loại bỏ hoàn toàn hiện tượng mất ký tự hoặc token rỗng khi câu chứa ký tự quốc tế.
+3. **Đồng Bộ Hóa Đa Tầng 3-Tier Database & Mock Data**:
+   - **Neon PostgreSQL**: Upsert bài học `vid_ted_bilingual_brain` (`slug: "ted-ed-benefits-of-a-bilingual-brain"`, `title: "TED-Ed: The Benefits of a Bilingual Brain"`, `durationFormatted: "02:05"`, `cefrLevel: "B1"`, `wpmSpeed: 138`) thuộc danh mục `ted-ed` (`92f2e9dd-d754-4cdb-b32b-0643853a3e4e`) và tạo mới 18 bản ghi `lesson_segments` với đầy đủ `normalizedText`, `ipaUs`, `translationVi`, `explanationAi`, `properNouns` (`Hablas`, `español`, `Parlez-vous`, `français`, `你会说中文吗`, `English`, `Gabriella`, `US`, `Peru`), `keywords` và `tokenCount`.
+   - **Client RAM Mock (`videoCatalogMockData.ts`)**: Cập nhật đồng bộ 18 câu của bài học TED-Ed.
+   - **Seed Script (`scripts/seed_video_ecosystem.ts`)**: Thêm bài học mẫu vào danh sách `CURATED_LESSONS` với playlist `ted-ed-brain-power`.
+4. **Kiểm Thử Toàn Diện Tự Động & Chụp Ảnh Giao Diện Thực Tế**:
+   - Thêm bộ kiểm thử `__tests__/ted_bilingual_verbatim.test.ts` (**6/6 tests PASS**), nâng tổng số test suite đạt chuẩn 100% Verbatim lên **30/30 tests PASS**.
+   - TypeScript (`npx tsc --noEmit`): **0 lỗi**.
+   - Kiểm thử giao diện Chrome Headless (`public/dictation_ted_100_verbatim.png`): Xác nhận hiển thị 18/18 thẻ câu, thẻ câu #1 `"¿Hablas español? Parlez-vous français? 你会说中文吗？"` có 5 tokens gắn mác danh từ riêng nổi bật, thẻ câu #2 `"If you answered, 'sí,' 'oui,' or '会' and you're watching this in English,"` có 13 tokens với IPA và bản dịch chi tiết.
+
+---
+
 ## 🌐 Production Deployment Status
 
 - **Live Production App URL (Vercel)**: [https://xpenglishvoca.vercel.app](https://xpenglishvoca.vercel.app)
 - **Live Production App URL (Netlify)**: [https://xpenglishvoca.netlify.app](https://xpenglishvoca.netlify.app)
 - **Netlify Deploy Dashboard**: [https://app.netlify.com/projects/xpenglishvoca/deploys](https://app.netlify.com/projects/xpenglishvoca/deploys)
-- **Status**: **100% Build SUCCESS** (105/105 static & dynamic routes compiled)
+- **Status**: **100% Build SUCCESS** (115/115 static & dynamic routes compiled)
 
 
 

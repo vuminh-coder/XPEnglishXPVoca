@@ -84,7 +84,7 @@ const sections = [
       },
       {
         name: "Dictation",
-        path: "/study/listening",
+        path: "/study/dictation",
         icon: <Headphones className="w-[21px] h-[21px]" strokeWidth={1.9} />,
         page: "dictation",
       },
@@ -319,6 +319,7 @@ function SidebarNavInner({
                   const isActive =
                     pathname === link.path ||
                     (link.path !== "/" && pathname.startsWith(link.path)) ||
+                    (link.path === "/study/dictation" && pathname?.startsWith("/study/listening")) ||
                     (link.path === "/community/leaderboard" && pathname?.startsWith("/community"));
 
                   return (

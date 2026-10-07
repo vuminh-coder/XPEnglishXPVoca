@@ -34,11 +34,17 @@ import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 import { pick10RandomLessons } from "@/features/listening/utils/randomLessonPicker";
 import { lookupWordDeep, DeepWordDefinition } from "@/features/vocabulary/data/deepDictionary";
 import { MOCK_LESSONS_DATA } from "@/features/listening/data/listeningMockData";
+import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
 import { useShadowingAudioRecorder } from "@/features/shadowing/hooks/useShadowingAudioRecorder";
 import {
   resolveCanonicalLessonId,
   isSameLessonId,
 } from "@/features/listening/utils/lessonIdHelper";
+import { extractYouTubeVideoId } from "@/features/listening/utils/videoUrlHelper";
+import {
+  resolveLessonMedia,
+  buildEffectiveSentence,
+} from "@/features/listening/utils/lessonMedia";
 
 function ShadowingStudioContent() {
   const router = useRouter();
@@ -85,7 +91,8 @@ function ShadowingStudioContent() {
     if (!rawIdParam) return false;
     if (typeof window === "undefined") return true;
     try {
-      const num = parseInt(rawIdParam, 10);
+      const isNumericOrPrefix = /^\d+$/.test(rawIdParam) || /^(?:listen|lesson)[\w-]*?_?\d+$/i.test(rawIdParam);
+      const num = isNumericOrPrefix ? parseInt(rawIdParam.match(/_?(\d+)$/)?.[1] || rawIdParam, 10) : NaN;
       const pad3 = !isNaN(num) ? String(num).padStart(3, "0") : "";
       const keysToProbe = [
         `xp_voca_shadowing_detail_${rawIdParam}_guest`,
@@ -114,7 +121,8 @@ function ShadowingStudioContent() {
     try {
       const map: Record<string, any> = {};
       const canonical = resolveCanonicalLessonId(rawIdParam);
-      const num = parseInt(rawIdParam, 10);
+      const isNumericOrPrefix = /^\d+$/.test(rawIdParam) || /^(?:listen|lesson)[\w-]*?_?\d+$/i.test(rawIdParam);
+      const num = isNumericOrPrefix ? parseInt(rawIdParam.match(/_?(\d+)$/)?.[1] || rawIdParam, 10) : NaN;
       const pad3 = !isNaN(num) ? String(num).padStart(3, "0") : "";
 
       const keysToProbe = [
@@ -157,7 +165,8 @@ function ShadowingStudioContent() {
     if (typeof window === "undefined" || !rawIdParam) return null;
     try {
       const canonical = resolveCanonicalLessonId(rawIdParam);
-      const num = parseInt(rawIdParam, 10);
+      const isNumericOrPrefix = /^\d+$/.test(rawIdParam) || /^(?:listen|lesson)[\w-]*?_?\d+$/i.test(rawIdParam);
+      const num = isNumericOrPrefix ? parseInt(rawIdParam.match(/_?(\d+)$/)?.[1] || rawIdParam, 10) : NaN;
       const pad3 = !isNaN(num) ? String(num).padStart(3, "0") : "";
       const keysToProbe = [
         `xp_voca_shadowing_detail_${rawIdParam}_guest`,
@@ -345,12 +354,15 @@ function ShadowingStudioContent() {
               [queryLessonId]: detail,
             };
             if (rawIdParam) next[rawIdParam] = detail;
-            const num = parseInt((detail.id || "").replace(/\D/g, "") || rawIdParam || "", 10);
-            if (!isNaN(num)) {
-              const pad3 = String(num).padStart(3, "0");
-              next[pad3] = detail;
-              next[`listen_${pad3}`] = detail;
-              next[String(num)] = detail;
+            const isNumericId = /^\d+$/.test(detail.id || "") || /^(?:listen|lesson)[\w-]*?_?\d+$/i.test(detail.id || "");
+            if (isNumericId) {
+              const num = parseInt((detail.id || "").replace(/\D/g, "") || rawIdParam || "", 10);
+              if (!isNaN(num)) {
+                const pad3 = String(num).padStart(3, "0");
+                next[pad3] = detail;
+                next[`listen_${pad3}`] = detail;
+                next[String(num)] = detail;
+              }
             }
             return next;
           });
@@ -398,6 +410,50 @@ function ShadowingStudioContent() {
               [queryLessonId]: fallback,
             }));
             setSingleLessonDb(fallback);
+          } else {
+            const fallbackVideo = MOCK_VIDEO_LESSONS.find(
+              (v) => v.id === queryLessonId || v.slug === queryLessonId || v.externalId === queryLessonId
+            );
+            if (fallbackVideo) {
+              const mappedVideo = {
+                id: fallbackVideo.id,
+                title: fallbackVideo.title,
+                description: fallbackVideo.description,
+                level: fallbackVideo.cefrLevel,
+                audioUrl: `https://www.youtube.com/watch?v=${fallbackVideo.externalId}`,
+                duration: fallbackVideo.durationSeconds,
+                category: fallbackVideo.categoryName,
+                imageUrl: fallbackVideo.thumbnailUrl,
+                totalSentences: fallbackVideo.segments.length,
+                transcript: fallbackVideo.segments.map((seg, idx) => ({
+                  id: `seg_${idx + 1}`,
+                  startTime: seg.startTime,
+                  endTime: seg.endTime,
+                  text: seg.text,
+                  ipaUs: seg.ipaUs || "",
+                  ipaUk: "",
+                  translationVi: seg.translationVi,
+                  explanationVi: seg.explanationAi || "",
+                  properNouns: seg.properNouns || [],
+                  keywords: seg.keywords || [],
+                })),
+                videoMetadata: {
+                  sourceType: fallbackVideo.sourceType,
+                  externalId: fallbackVideo.externalId,
+                  thumbnailUrl: fallbackVideo.thumbnailUrl,
+                  supportedTypes: fallbackVideo.supportedTypes,
+                  cefrLevel: fallbackVideo.cefrLevel,
+                  wpmSpeed: fallbackVideo.wpmSpeed,
+                },
+              };
+              lastFetchedLessonRef.current = mappedVideo.id;
+              setDetailedLessonsMap((prev) => ({
+                ...prev,
+                [mappedVideo.id]: mappedVideo,
+                [queryLessonId]: mappedVideo,
+              }));
+              setSingleLessonDb(mappedVideo);
+            }
           }
         }
       } finally {
@@ -454,16 +510,20 @@ function ShadowingStudioContent() {
     }
 
     // 3. Multi-key alias probe in detailedLessonsMap
-    const num = parseInt(lookupKey.replace(/\D/g, "") || lookupKey, 10);
-    if (!isNaN(num)) {
-      const pad3 = String(num).padStart(3, "0");
-      if (detailedLessonsMap[pad3]?.transcript?.length) return detailedLessonsMap[pad3];
-      if (detailedLessonsMap[`listen_${pad3}`]?.transcript?.length) return detailedLessonsMap[`listen_${pad3}`];
-      if (detailedLessonsMap[String(num)]?.transcript?.length) return detailedLessonsMap[String(num)];
-      for (const val of Object.values(detailedLessonsMap)) {
-        if (val && (isSameLessonId(val.id, lookupKey) || isSameLessonId(val.id, canonical))) {
-          if (val.transcript?.length) return val;
-        }
+    const isNumericLookup = /^\d+$/.test(lookupKey) || /^(?:listen|lesson|toeic|ielts)[\w-]*?_?\d+$/i.test(lookupKey);
+    if (isNumericLookup) {
+      const num = parseInt(lookupKey.replace(/\D/g, "") || lookupKey, 10);
+      if (!isNaN(num)) {
+        const pad3 = String(num).padStart(3, "0");
+        if (detailedLessonsMap[pad3]?.transcript?.length) return detailedLessonsMap[pad3];
+        if (detailedLessonsMap[`listen_${pad3}`]?.transcript?.length) return detailedLessonsMap[`listen_${pad3}`];
+        if (detailedLessonsMap[String(num)]?.transcript?.length) return detailedLessonsMap[String(num)];
+      }
+    }
+
+    for (const val of Object.values(detailedLessonsMap)) {
+      if (val && (isSameLessonId(val.id, lookupKey) || isSameLessonId(val.id, canonical))) {
+        if (val.transcript?.length) return val;
       }
     }
 
@@ -485,11 +545,59 @@ function ShadowingStudioContent() {
     const fromMock = MOCK_LESSONS_DATA.find((l) => isSameLessonId(l.id, fallbackId));
     if (fromMock?.transcript?.length) return { ...(singleLessonDb || {}), ...fromMock };
 
+    // 5b. Video lesson mock fallback (by id, slug, or externalId)
+    const fromVideoMock = MOCK_VIDEO_LESSONS.find(
+      (v) => v.id === lookupKey || v.slug === lookupKey || v.externalId === lookupKey
+    );
+    if (fromVideoMock?.segments?.length) {
+      return {
+        id: fromVideoMock.id,
+        title: fromVideoMock.title,
+        description: fromVideoMock.description,
+        level: fromVideoMock.cefrLevel,
+        audioUrl: `https://www.youtube.com/watch?v=${fromVideoMock.externalId}`,
+        duration: fromVideoMock.durationSeconds,
+        category: fromVideoMock.categoryName,
+        imageUrl: fromVideoMock.thumbnailUrl,
+        totalSentences: fromVideoMock.segments.length,
+        transcript: fromVideoMock.segments.map((seg, idx) => ({
+          id: `seg_${idx + 1}`,
+          startTime: seg.startTime,
+          endTime: seg.endTime,
+          text: seg.text,
+          ipaUs: seg.ipaUs || "",
+          ipaUk: "",
+          translationVi: seg.translationVi,
+          explanationVi: seg.explanationAi || "",
+          properNouns: seg.properNouns || [],
+          keywords: seg.keywords || [],
+        })),
+        videoMetadata: {
+          sourceType: fromVideoMock.sourceType,
+          externalId: fromVideoMock.externalId,
+          thumbnailUrl: fromVideoMock.thumbnailUrl,
+          supportedTypes: fromVideoMock.supportedTypes,
+          cefrLevel: fromVideoMock.cefrLevel,
+          wpmSpeed: fromVideoMock.wpmSpeed,
+        },
+      };
+    }
+
     // 6. While DB is actively fetching an unknown lesson, wait for DB
     if (isLoadingLessonDetail) return null;
 
     return singleLessonDb || null;
   }, [lessonsList, selectedLessonId, rawIdParam, singleLessonDb, detailedLessonsMap, isLoadingLessonDetail]);
+
+  // Dynamic page title synchronization
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    if (currentLesson?.title) {
+      document.title = `${currentLesson.title} - Luyện Nói Nhại Âm (Shadowing) | XP English`;
+    } else {
+      document.title = "Luyện Nói Nhại Âm (Shadowing) | XP English";
+    }
+  }, [currentLesson?.title]);
 
   // Practice state
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
@@ -500,12 +608,49 @@ function ShadowingStudioContent() {
   const [completedSentences, setCompletedSentences] = useState<{ [idx: number]: boolean }>({});
   const [mobileStudioTab, setMobileStudioTab] = useState<"practice" | "transcript">("practice");
 
+  // Volume & Accent & Media Display Mode states (synchronized with localStorage)
+  const [currentVolume, setCurrentVolume] = useState<number>(() => {
+    if (typeof window === "undefined") return 1.0;
+    try {
+      const saved = localStorage.getItem("xp_listening_volume");
+      return saved ? parseFloat(saved) : 1.0;
+    } catch {
+      return 1.0;
+    }
+  });
+
+  const handleVolumeChange = useCallback((vol: number) => {
+    const safeVol = Math.max(0, Math.min(1, vol));
+    setCurrentVolume(safeVol);
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.setItem("xp_listening_volume", String(safeVol));
+      } catch {}
+    }
+  }, []);
+
+  const [currentAccent, setCurrentAccent] = useState<string>("en-US");
+  const handleAccentChange = useCallback((acc: string) => {
+    setCurrentAccent(acc);
+    addToast({
+      type: "info",
+      title: `Đã đổi giọng sang ${acc === "en-US" ? "Mỹ (US)" : acc === "en-GB" ? "Anh (UK)" : "Úc (AU)"}`,
+    });
+  }, [addToast]);
+
+  const [mediaDisplayMode, setMediaDisplayMode] = useState<"video" | "audio">("video");
+  const [isMergedWithNext, setIsMergedWithNext] = useState<boolean>(false);
+
+  // Auto reset sentence merge on sentence change or lesson change
+  useEffect(() => {
+    setIsMergedWithNext(false);
+  }, [currentSentenceIndex, currentLesson?.id]);
+
   // Overall practice timer state
   const elapsedTimeRef = useRef(0);
   const [elapsedTime, setElapsedTime] = useState(0);
   const handleElapsedTimeTick = useCallback((sec: number) => {
     elapsedTimeRef.current = sec;
-    setElapsedTime(sec);
   }, []);
 
   const handleNextSentenceRef = useRef<() => void>(() => {});
@@ -553,10 +698,17 @@ function ShadowingStudioContent() {
   // Deep Word Dictionary Modal State
   const [selectedWord, setSelectedWord] = useState<DeepWordDefinition | null>(null);
 
-  const currentSentence =
+  const rawSentence =
     currentLesson?.transcript?.[currentSentenceIndex] ||
     currentLesson?.transcript?.[0] ||
     null;
+  const nextSentence =
+    currentLesson?.transcript?.[currentSentenceIndex + 1] || null;
+
+  const currentSentence = useMemo(() => {
+    return buildEffectiveSentence(rawSentence, nextSentence, isMergedWithNext);
+  }, [rawSentence, nextSentence, isMergedWithNext]);
+
   const totalSentencesCount = currentLesson?.transcript?.length || 0;
 
   // Single-Row Horizontal Word Track Auto-Scroll Refs & Playback Tracking
@@ -660,58 +812,37 @@ function ShadowingStudioContent() {
   const BASIC_LEVELS = useMemo(() => new Set(["Easy", "Beginner", "A1", "A2"]), []);
   const ADVANCED_LEVELS = useMemo(() => new Set(["Hard", "Advanced", "C1", "C2"]), []);
 
-  const [displayedBasicLessons, setDisplayedBasicLessons] = useState<any[]>([]);
-  const [displayedAdvancedLessons, setDisplayedAdvancedLessons] = useState<any[]>([]);
+  const [shuffleSeedBasic, setShuffleSeedBasic] = useState(0);
+  const [shuffleSeedAdvanced, setShuffleSeedAdvanced] = useState(0);
 
-  /* eslint-disable react-hooks/set-state-in-effect -- Synchronizing filtered lesson lists from search query */
-  useEffect(() => {
+  // Stabilize completedLessonIds key to prevent unnecessary re-computations
+  const completedLessonIdsKey = useMemo(() => {
+    return Array.isArray(completedLessonIds) ? completedLessonIds.join(",") : "";
+  }, [completedLessonIds]);
+
+  const displayedBasicLessons = useMemo(() => {
     const easyPool = lessonsList.filter((l) => BASIC_LEVELS.has(l.level));
-    const hardPool = lessonsList.filter((l) => ADVANCED_LEVELS.has(l.level));
     const midPool = lessonsList.filter(
       (l) => l.level === "Intermediate" || l.level === "B1" || l.level === "B2"
     );
     const midHalf = Math.ceil(midPool.length / 2);
 
     const basicPool = [...easyPool, ...midPool.slice(0, midHalf)];
-    const advPool = [...hardPool, ...midPool.slice(midHalf)];
-
     const safeBasic =
       basicPool.length > 0 ? basicPool : lessonsList.slice(0, Math.ceil(lessonsList.length / 2));
-    const safeAdv =
-      advPool.length > 0 ? advPool : lessonsList.slice(Math.ceil(lessonsList.length / 2));
 
     if (listingSearch.trim()) {
       const q = listingSearch.toLowerCase();
-      setDisplayedBasicLessons(
-        safeBasic
-          .filter((l) => l.title.toLowerCase().includes(q) || l.category?.toLowerCase().includes(q))
-          .slice(0, 8)
-      );
-      setDisplayedAdvancedLessons(
-        safeAdv
-          .filter((l) => l.title.toLowerCase().includes(q) || l.category?.toLowerCase().includes(q))
-          .slice(0, 8)
-      );
-    } else {
-      setDisplayedBasicLessons(pick10RandomLessons(safeBasic, completedLessonIds || []).slice(0, 8));
-      setDisplayedAdvancedLessons(pick10RandomLessons(safeAdv, completedLessonIds || []).slice(0, 8));
+      return safeBasic
+        .filter((l) => l.title.toLowerCase().includes(q) || l.category?.toLowerCase().includes(q))
+        .slice(0, 8);
     }
-  }, [lessonsList, completedLessonIds, listingSearch, BASIC_LEVELS, ADVANCED_LEVELS]);
-  /* eslint-enable react-hooks/set-state-in-effect */
+    // shuffleSeedBasic increments whenever user clicks "Đổi bài"
+    return pick10RandomLessons(safeBasic, completedLessonIds || []).slice(0, 8);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lessonsList, completedLessonIdsKey, listingSearch, BASIC_LEVELS, shuffleSeedBasic]);
 
-  const handleShuffleBasic = useCallback(() => {
-    const easyPool = lessonsList.filter((l) => BASIC_LEVELS.has(l.level));
-    const midPool = lessonsList.filter(
-      (l) => l.level === "Intermediate" || l.level === "B1" || l.level === "B2"
-    );
-    const basicPool = [...easyPool, ...midPool.slice(0, Math.ceil(midPool.length / 2))];
-    const safeBasic =
-      basicPool.length > 0 ? basicPool : lessonsList.slice(0, Math.ceil(lessonsList.length / 2));
-    setDisplayedBasicLessons(pick10RandomLessons(safeBasic, completedLessonIds || []).slice(0, 8));
-    addToast({ type: "info", title: "Đã đổi 8 bài học cơ bản ngẫu nhiên mới! ↺" });
-  }, [lessonsList, BASIC_LEVELS, completedLessonIds, addToast]);
-
-  const handleShuffleAdvanced = useCallback(() => {
+  const displayedAdvancedLessons = useMemo(() => {
     const hardPool = lessonsList.filter((l) => ADVANCED_LEVELS.has(l.level));
     const midPool = lessonsList.filter(
       (l) => l.level === "Intermediate" || l.level === "B1" || l.level === "B2"
@@ -719,9 +850,27 @@ function ShadowingStudioContent() {
     const advPool = [...hardPool, ...midPool.slice(Math.ceil(midPool.length / 2))];
     const safeAdv =
       advPool.length > 0 ? advPool : lessonsList.slice(Math.ceil(lessonsList.length / 2));
-    setDisplayedAdvancedLessons(pick10RandomLessons(safeAdv, completedLessonIds || []).slice(0, 8));
+
+    if (listingSearch.trim()) {
+      const q = listingSearch.toLowerCase();
+      return safeAdv
+        .filter((l) => l.title.toLowerCase().includes(q) || l.category?.toLowerCase().includes(q))
+        .slice(0, 8);
+    }
+    // shuffleSeedAdvanced increments whenever user clicks "Đổi bài"
+    return pick10RandomLessons(safeAdv, completedLessonIds || []).slice(0, 8);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lessonsList, completedLessonIdsKey, listingSearch, ADVANCED_LEVELS, shuffleSeedAdvanced]);
+
+  const handleShuffleBasic = useCallback(() => {
+    setShuffleSeedBasic((prev) => prev + 1);
+    addToast({ type: "info", title: "Đã đổi 8 bài học cơ bản ngẫu nhiên mới! ↺" });
+  }, [addToast]);
+
+  const handleShuffleAdvanced = useCallback(() => {
+    setShuffleSeedAdvanced((prev) => prev + 1);
     addToast({ type: "info", title: "Đã đổi 8 bài học nâng cao ngẫu nhiên mới! ↺" });
-  }, [lessonsList, ADVANCED_LEVELS, completedLessonIds, addToast]);
+  }, [addToast]);
 
   // Computed stats for Micro-Hero Bento Grid (Apple-grade 0px CLS)
   const computedShadowingStats = useMemo(() => {
@@ -867,21 +1016,35 @@ function ShadowingStudioContent() {
     } else {
       setPlayingSentenceText(currentSentence.text);
       setActivePlaybackWordIndex(0);
-      speakLessonText(currentSentence.text, {
-        rate: playbackSpeed,
-        lessonId: currentLesson?.id,
-        speakerIndex: currentSentenceIndex % 2,
-        accent: currentLesson?.accent,
-        onWordBoundary: (_charIndex, wordIdx) => {
-          setActivePlaybackWordIndex(wordIdx);
-        },
-        onEnd: () => {
-          setPlayingSentenceText(null);
-          setActivePlaybackWordIndex(null);
-        },
-      });
+      const mediaInfo = resolveLessonMedia(currentLesson);
+      if (!mediaInfo.isVideoLesson || mediaDisplayMode === "audio") {
+        speakLessonText(currentSentence.text, {
+          rate: playbackSpeed,
+          lessonId: currentLesson?.id,
+          speakerIndex: currentSentenceIndex % 2,
+          accent: currentAccent || currentLesson?.accent,
+          volume: currentVolume,
+          onWordBoundary: (_charIndex, wordIdx) => {
+            setActivePlaybackWordIndex(wordIdx);
+          },
+          onEnd: () => {
+            setPlayingSentenceText(null);
+            setActivePlaybackWordIndex(null);
+            setSentencePlaybackTime(0);
+          },
+        });
+      }
     }
-  }, [currentSentence, playingSentenceText, playbackSpeed, currentLesson?.id, currentSentenceIndex, currentLesson?.accent]);
+  }, [
+    currentSentence,
+    playingSentenceText,
+    playbackSpeed,
+    currentLesson,
+    currentSentenceIndex,
+    currentAccent,
+    currentVolume,
+    mediaDisplayMode,
+  ]);
 
   const handleNextSentence = useCallback(async () => {
     stopTTS();
@@ -892,6 +1055,7 @@ function ShadowingStudioContent() {
     if (currentSentenceIndex < totalSentencesCount - 1) {
       setCurrentSentenceIndex((prev) => prev + 1);
     } else {
+      setElapsedTime(elapsedTimeRef.current);
       setIsLessonFinished(true);
       if (currentLesson) {
         markLessonCompleted(currentLesson.id);
@@ -952,16 +1116,41 @@ function ShadowingStudioContent() {
   }, [resetCurrentSentenceAudio]);
 
   const handleReplayTranscriptSentence = useCallback((idx: number) => {
-    const text = currentLesson?.transcript?.[idx]?.text;
-    if (text) {
-      speakLessonText(text, {
-        rate: playbackSpeed,
-        lessonId: currentLesson.id,
-        speakerIndex: idx % 2,
-        accent: currentLesson.accent,
-      });
+    stopTTS();
+    setPlayingSentenceText(null);
+    setCurrentSentenceIndex(idx);
+    setSentencePlaybackTime(0);
+    resetCurrentSentenceAudio();
+    const targetS = currentLesson?.transcript?.[idx];
+    if (targetS?.text) {
+      setPlayingSentenceText(targetS.text);
+      const mediaInfo = resolveLessonMedia(currentLesson);
+      if (!mediaInfo.isVideoLesson || mediaDisplayMode === "audio") {
+        speakLessonText(targetS.text, {
+          rate: playbackSpeed,
+          lessonId: currentLesson?.id,
+          speakerIndex: idx % 2,
+          accent: currentAccent || currentLesson?.accent,
+          volume: currentVolume,
+          onWordBoundary: (_charIndex, wordIdx) => {
+            setActivePlaybackWordIndex(wordIdx);
+          },
+          onEnd: () => {
+            setPlayingSentenceText(null);
+            setActivePlaybackWordIndex(null);
+            setSentencePlaybackTime(0);
+          },
+        });
+      }
     }
-  }, [currentLesson, playbackSpeed]);
+  }, [
+    currentLesson,
+    playbackSpeed,
+    currentAccent,
+    currentVolume,
+    mediaDisplayMode,
+    resetCurrentSentenceAudio,
+  ]);
 
   const handleResetProgress = useCallback(() => {
     setCompletedSentences({});
@@ -1005,6 +1194,14 @@ function ShadowingStudioContent() {
       ) {
         e.preventDefault();
         handlePlaySampleAudio();
+      } else if (e.code === "ArrowLeft") {
+        e.preventDefault();
+        setSentencePlaybackTime((prev) => Math.max(0, prev - 5));
+        addToast({ type: "info", title: "Tua lùi 5s" });
+      } else if (e.code === "ArrowRight") {
+        e.preventDefault();
+        setSentencePlaybackTime((prev) => prev + 5);
+        addToast({ type: "info", title: "Tua nhanh 5s" });
       } else if (
         (e.altKey && (e.key === "s" || e.key === "S" || e.key === "m" || e.key === "M")) ||
         e.key === "F2"
@@ -1174,6 +1371,16 @@ function ShadowingStudioContent() {
                 .slice(0, 5)}
               onSelectLesson={handleSelectLesson}
               onShuffleRecommendations={handleShuffleRecommendations}
+              setPlayingSentenceText={setPlayingSentenceText}
+              currentVolume={currentVolume}
+              setCurrentVolume={handleVolumeChange}
+              currentAccent={currentAccent}
+              onAccentChange={handleAccentChange}
+              mediaDisplayMode={mediaDisplayMode}
+              onMediaDisplayModeChange={setMediaDisplayMode}
+              isMergedWithNext={isMergedWithNext}
+              onToggleMergeNext={() => setIsMergedWithNext((prev) => !prev)}
+              onToast={addToast}
             />
           )}
         </>

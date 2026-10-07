@@ -1,0 +1,1363 @@
+{
+  "wireMagic": "pb3",
+  "pens": [ {
+  
+  } ],
+  "wsWinStyles": [ {
+  
+  } ],
+  "wpWinPositions": [ {
+  
+  } ],
+  "events": [ {
+    "tStartMs": 627,
+    "dDurationMs": 3100,
+    "segs": [ {
+      "utf8": "Could aliens destroy us\nfrom light years away?"
+    } ]
+  }, {
+    "tStartMs": 4460,
+    "dDurationMs": 2967,
+    "segs": [ {
+      "utf8": "Mh, another day at the Kurzgesagt Labs,"
+    } ]
+  }, {
+    "tStartMs": 7494,
+    "dDurationMs": 3300,
+    "segs": [ {
+      "utf8": "where we answer the most important\nquestions with science."
+    } ]
+  }, {
+    "tStartMs": 10860,
+    "dDurationMs": 1034,
+    "segs": [ {
+      "utf8": "Today:"
+    } ]
+  }, {
+    "tStartMs": 11960,
+    "dDurationMs": 3400,
+    "segs": [ {
+      "utf8": "how might civilizations wage war\nacross light years?"
+    } ]
+  }, {
+    "tStartMs": 15427,
+    "dDurationMs": 2700,
+    "segs": [ {
+      "utf8": "What kind of devastating weapons\ncould they use,"
+    } ]
+  }, {
+    "tStartMs": 18194,
+    "dDurationMs": 1700,
+    "segs": [ {
+      "utf8": "and what would they look like?"
+    } ]
+  }, {
+    "tStartMs": 20160,
+    "dDurationMs": 1500,
+    "segs": [ {
+      "utf8": "Meet our two players."
+    } ]
+  }, {
+    "tStartMs": 21727,
+    "dDurationMs": 3667,
+    "segs": [ {
+      "utf8": "A yellow dwarf star system\nhome to a species of primates."
+    } ]
+  }, {
+    "tStartMs": 25560,
+    "dDurationMs": 1800,
+    "segs": [ {
+      "utf8": "\"Humans,\" as they call themselves,"
+    } ]
+  }, {
+    "tStartMs": 27427,
+    "dDurationMs": 2733,
+    "segs": [ {
+      "utf8": "recently became\na technological civilization."
+    } ]
+  }, {
+    "tStartMs": 30227,
+    "dDurationMs": 3467,
+    "segs": [ {
+      "utf8": "They have rockets,\nnuclear reactors and memes."
+    } ]
+  }, {
+    "tStartMs": 33794,
+    "dDurationMs": 1200,
+    "segs": [ {
+      "utf8": "How cute!"
+    } ]
+  }, {
+    "tStartMs": 35694,
+    "dDurationMs": 2133,
+    "segs": [ {
+      "utf8": "The Smorpians disagree."
+    } ]
+  }, {
+    "tStartMs": 38260,
+    "dDurationMs": 4967,
+    "segs": [ {
+      "utf8": "They reside on a planet around\nthe orange dwarf star HD 40307,"
+    } ]
+  }, {
+    "tStartMs": 43294,
+    "dDurationMs": 1466,
+    "segs": [ {
+      "utf8": "42 light years away."
+    } ]
+  }, {
+    "tStartMs": 45094,
+    "dDurationMs": 3000,
+    "segs": [ {
+      "utf8": "Smorpian civilization\ndeveloped earlier than humans"
+    } ]
+  }, {
+    "tStartMs": 48160,
+    "dDurationMs": 2200,
+    "segs": [ {
+      "utf8": "and they have much better technology."
+    } ]
+  }, {
+    "tStartMs": 50627,
+    "dDurationMs": 2533,
+    "segs": [ {
+      "utf8": "They've recently built\na Dyson swarm around their star"
+    } ]
+  }, {
+    "tStartMs": 53227,
+    "dDurationMs": 2033,
+    "segs": [ {
+      "utf8": "which gives them near limitless energy."
+    } ]
+  }, {
+    "tStartMs": 55327,
+    "dDurationMs": 2167,
+    "segs": [ {
+      "utf8": "And they noticed humanity,"
+    } ]
+  }, {
+    "tStartMs": 57560,
+    "dDurationMs": 3400,
+    "segs": [ {
+      "utf8": "which is unfortunate as the Smorpians\nare planning a hyperspace bypass"
+    } ]
+  }, {
+    "tStartMs": 61027,
+    "dDurationMs": 1400,
+    "segs": [ {
+      "utf8": "through our solar system,"
+    } ]
+  }, {
+    "tStartMs": 62560,
+    "dDurationMs": 2800,
+    "segs": [ {
+      "utf8": "so they decided that humanity has to go."
+    } ]
+  }, {
+    "tStartMs": 65594,
+    "dDurationMs": 2400,
+    "segs": [ {
+      "utf8": "Interstellar war is hard though."
+    } ]
+  }, {
+    "tStartMs": 68294,
+    "dDurationMs": 4000,
+    "segs": [ {
+      "utf8": "Front lines, tactics, and logistics\nare meaningless at these scales."
+    } ]
+  }, {
+    "tStartMs": 72797,
+    "dDurationMs": 1840,
+    "segs": [ {
+      "utf8": "It's also fought across time."
+    } ]
+  }, {
+    "tStartMs": 75027,
+    "dDurationMs": 2233,
+    "segs": [ {
+      "utf8": "Decades will pass\nbetween firing a weapon"
+    } ]
+  }, {
+    "tStartMs": 77327,
+    "dDurationMs": 1867,
+    "segs": [ {
+      "utf8": "and learning whether it hit or not."
+    } ]
+  }, {
+    "tStartMs": 79727,
+    "dDurationMs": 2567,
+    "segs": [ {
+      "utf8": "Sending an invasion fleet is futile."
+    } ]
+  }, {
+    "tStartMs": 82694,
+    "dDurationMs": 3333,
+    "segs": [ {
+      "utf8": "Even if the Smorpians travel\nin a large fraction of the speed of light,"
+    } ]
+  }, {
+    "tStartMs": 86094,
+    "dDurationMs": 3200,
+    "segs": [ {
+      "utf8": "the journey to Earth would take\ndecades or even centuries,"
+    } ]
+  }, {
+    "tStartMs": 89360,
+    "dDurationMs": 3200,
+    "segs": [ {
+      "utf8": "and humans would have\nplenty of time to prepare."
+    } ]
+  }, {
+    "tStartMs": 92727,
+    "dDurationMs": 2467,
+    "segs": [ {
+      "utf8": "If you want to learn more\nabout the mind numbing problem"
+    } ]
+  }, {
+    "tStartMs": 95260,
+    "dDurationMs": 2000,
+    "segs": [ {
+      "utf8": "of war between alien civilizations,"
+    } ]
+  }, {
+    "tStartMs": 97327,
+    "dDurationMs": 1700,
+    "segs": [ {
+      "utf8": "we made a video about it."
+    } ]
+  }, {
+    "tStartMs": 99327,
+    "dDurationMs": 2867,
+    "segs": [ {
+      "utf8": "Today we'll help the Smorpians\nconstruct a weapon"
+    } ]
+  }, {
+    "tStartMs": 102260,
+    "dDurationMs": 4034,
+    "segs": [ {
+      "utf8": "that is not only extremely long range\nand as fast as physically possible,"
+    } ]
+  }, {
+    "tStartMs": 106360,
+    "dDurationMs": 2500,
+    "segs": [ {
+      "utf8": "but that will totally destroy\neverything on Earth,"
+    } ]
+  }, {
+    "tStartMs": 108927,
+    "dDurationMs": 4300,
+    "segs": [ {
+      "utf8": "so no human survivors will come to an act\nof vengeance on swap in the future."
+    } ]
+  }, {
+    "tStartMs": 113660,
+    "dDurationMs": 3467,
+    "segs": [ {
+      "utf8": "In interstellar war,\nyou want to win with one shot."
+    } ]
+  }, {
+    "tStartMs": 117527,
+    "dDurationMs": 3600,
+    "segs": [ {
+      "utf8": "Our bird scientists have found\nthree Smorpian designs:"
+    } ]
+  }, {
+    "tStartMs": 121360,
+    "dDurationMs": 2834,
+    "segs": [ {
+      "utf8": "the Star Laser, the Relativistic Missile,"
+    } ]
+  }, {
+    "tStartMs": 124260,
+    "dDurationMs": 2600,
+    "segs": [ {
+      "utf8": "and the Ultra-Relativistic Electron Beam."
+    } ]
+  }, {
+    "tStartMs": 127427,
+    "dDurationMs": 1967,
+    "segs": [ {
+      "utf8": "All based on real technologies"
+    } ]
+  }, {
+    "tStartMs": 129460,
+    "dDurationMs": 2700,
+    "segs": [ {
+      "utf8": "that humans are using\nin some form already."
+    } ]
+  }, {
+    "tStartMs": 132327,
+    "dDurationMs": 1700,
+    "segs": [ {
+      "utf8": "Let's see how they work."
+    } ]
+  }, {
+    "tStartMs": 134860,
+    "dDurationMs": 1334,
+    "segs": [ {
+      "utf8": "[The Star Laser]"
+    } ]
+  }, {
+    "tStartMs": 136394,
+    "dDurationMs": 2466,
+    "segs": [ {
+      "utf8": "As an advanced technological civilization,"
+    } ]
+  }, {
+    "tStartMs": 138927,
+    "dDurationMs": 2367,
+    "segs": [ {
+      "utf8": "the Smorpians harness\nthe energy of their star"
+    } ]
+  }, {
+    "tStartMs": 141360,
+    "dDurationMs": 3200,
+    "segs": [ {
+      "utf8": "by surrounding it with billions\nof solar power satellites."
+    } ]
+  }, {
+    "tStartMs": 144860,
+    "dDurationMs": 4000,
+    "segs": [ {
+      "utf8": "This Dyson swarm collects 1%\nof the star's energy output,"
+    } ]
+  }, {
+    "tStartMs": 148927,
+    "dDurationMs": 2733,
+    "segs": [ {
+      "utf8": "a million billion billion watts,"
+    } ]
+  }, {
+    "tStartMs": 151727,
+    "dDurationMs": 3300,
+    "segs": [ {
+      "utf8": "50 billion times more\nthan all humanity generates."
+    } ]
+  }, {
+    "tStartMs": 155527,
+    "dDurationMs": 2200,
+    "segs": [ {
+      "utf8": "What if all the power\nof the Dyson swarm,"
+    } ]
+  }, {
+    "tStartMs": 157860,
+    "dDurationMs": 3300,
+    "segs": [ {
+      "utf8": "all those satellites were used\nto create a star laser?"
+    } ]
+  }, {
+    "tStartMs": 161594,
+    "dDurationMs": 3500,
+    "segs": [ {
+      "utf8": "Like any laser, the bigger it is,\nthe longer its range."
+    } ]
+  }, {
+    "tStartMs": 165360,
+    "dDurationMs": 2800,
+    "segs": [ {
+      "utf8": "Human-built lasers\nuse small mirrors to focus,"
+    } ]
+  }, {
+    "tStartMs": 168227,
+    "dDurationMs": 1700,
+    "segs": [ {
+      "utf8": "so they have short ranges."
+    } ]
+  }, {
+    "tStartMs": 170227,
+    "dDurationMs": 2933,
+    "segs": [ {
+      "utf8": "The Smorpians could turn\ntheir entire Dyson swarm"
+    } ]
+  }, {
+    "tStartMs": 173227,
+    "dDurationMs": 3700,
+    "segs": [ {
+      "utf8": "into a collective focusing element\na million kilometers wide."
+    } ]
+  }, {
+    "tStartMs": 177460,
+    "dDurationMs": 2934,
+    "segs": [ {
+      "utf8": "The star laser has an insane\nrange as a result,"
+    } ]
+  }, {
+    "tStartMs": 180527,
+    "dDurationMs": 2000,
+    "segs": [ {
+      "utf8": "enough to focus on target Earth"
+    } ]
+  }, {
+    "tStartMs": 182594,
+    "dDurationMs": 2700,
+    "segs": [ {
+      "utf8": "from a distance of over\n2 million light years."
+    } ]
+  }, {
+    "tStartMs": 185794,
+    "dDurationMs": 2000,
+    "segs": [ {
+      "utf8": "OK, let's shoot it."
+    } ]
+  }, {
+    "tStartMs": 188727,
+    "dDurationMs": 3600,
+    "segs": [ {
+      "utf8": "Countless tiny beams combine\ninto a single huge beam."
+    } ]
+  }, {
+    "tStartMs": 192527,
+    "dDurationMs": 2233,
+    "segs": [ {
+      "utf8": "Laser beams are normally\ninvisible in space,"
+    } ]
+  }, {
+    "tStartMs": 194827,
+    "dDurationMs": 2067,
+    "segs": [ {
+      "utf8": "but the star laser is so powerful"
+    } ]
+  }, {
+    "tStartMs": 196960,
+    "dDurationMs": 2934,
+    "segs": [ {
+      "utf8": "that light scattering off bits\nof dust and gas in its path"
+    } ]
+  }, {
+    "tStartMs": 199960,
+    "dDurationMs": 2000,
+    "segs": [ {
+      "utf8": "makes it clearly visible in the sky."
+    } ]
+  }, {
+    "tStartMs": 202227,
+    "dDurationMs": 2100,
+    "segs": [ {
+      "utf8": "A gigantic column of green light."
+    } ]
+  }, {
+    "tStartMs": 204660,
+    "dDurationMs": 2034,
+    "segs": [ {
+      "utf8": "The laser travels at the speed of light,"
+    } ]
+  }, {
+    "tStartMs": 206760,
+    "dDurationMs": 2934,
+    "segs": [ {
+      "utf8": "which, oddly enough,\nis still pretty slow on a galactic level."
+    } ]
+  }, {
+    "tStartMs": 209760,
+    "dDurationMs": 3500,
+    "segs": [ {
+      "utf8": "It takes a whole day until the laser\nhas left the Smorpian system,"
+    } ]
+  }, {
+    "tStartMs": 213360,
+    "dDurationMs": 2500,
+    "segs": [ {
+      "utf8": "shooting into the emptiness between stars."
+    } ]
+  }, {
+    "tStartMs": 216027,
+    "dDurationMs": 1767,
+    "segs": [ {
+      "utf8": "It will travel for decades,"
+    } ]
+  }, {
+    "tStartMs": 217860,
+    "dDurationMs": 3600,
+    "segs": [ {
+      "utf8": "occasionally melting the odd bit\nof interstellar dust or asteroid."
+    } ]
+  }, {
+    "tStartMs": 222227,
+    "dDurationMs": 3967,
+    "segs": [ {
+      "utf8": "42 years after being fired,\nit arrives without warning."
+    } ]
+  }, {
+    "tStartMs": 226427,
+    "dDurationMs": 2833,
+    "segs": [ {
+      "utf8": "Humans only notice\na weird green glow in the sky,"
+    } ]
+  }, {
+    "tStartMs": 229327,
+    "dDurationMs": 1867,
+    "segs": [ {
+      "utf8": "and then they're gone."
+    } ]
+  }, {
+    "tStartMs": 231494,
+    "dDurationMs": 1900,
+    "segs": [ {
+      "utf8": "1% of the energy of a star,"
+    } ]
+  }, {
+    "tStartMs": 233460,
+    "dDurationMs": 2500,
+    "segs": [ {
+      "utf8": "concentrated into a beam\nthe diameter of Earth,"
+    } ]
+  }, {
+    "tStartMs": 236027,
+    "dDurationMs": 2133,
+    "segs": [ {
+      "utf8": "traveling 42 light years."
+    } ]
+  }, {
+    "tStartMs": 238227,
+    "dDurationMs": 2133,
+    "segs": [ {
+      "utf8": "It burns the exposed half of the planet"
+    } ]
+  }, {
+    "tStartMs": 240427,
+    "dDurationMs": 2467,
+    "segs": [ {
+      "utf8": "with the intensity of 3 million Suns."
+    } ]
+  }, {
+    "tStartMs": 243127,
+    "dDurationMs": 3200,
+    "segs": [ {
+      "utf8": "The seas boil and evaporate,\nfires scour the land,"
+    } ]
+  }, {
+    "tStartMs": 246394,
+    "dDurationMs": 3766,
+    "segs": [ {
+      "utf8": "and within minutes Earth's crust\nbegins to melt into a sea of lava."
+    } ]
+  }, {
+    "tStartMs": 250227,
+    "dDurationMs": 1333,
+    "segs": [ {
+      "utf8": "As the planet rotates,"
+    } ]
+  }, {
+    "tStartMs": 251627,
+    "dDurationMs": 3500,
+    "segs": [ {
+      "utf8": "it turns into a red hot hell\nwith no trace of life."
+    } ]
+  }, {
+    "tStartMs": 255427,
+    "dDurationMs": 2900,
+    "segs": [ {
+      "utf8": "After a day, it's all over\nand the laser dies down."
+    } ]
+  }, {
+    "tStartMs": 258427,
+    "dDurationMs": 1500,
+    "segs": [ {
+      "utf8": "In another 42 years,"
+    } ]
+  }, {
+    "tStartMs": 259994,
+    "dDurationMs": 2600,
+    "segs": [ {
+      "utf8": "the Smorpians will know\nif they've been successful."
+    } ]
+  }, {
+    "tStartMs": 262694,
+    "dDurationMs": 2066,
+    "segs": [ {
+      "utf8": "That's another thing\nabout interstellar war."
+    } ]
+  }, {
+    "tStartMs": 264827,
+    "dDurationMs": 3800,
+    "segs": [ {
+      "utf8": "When you attack, your grandchildren\nwill be the ones to find out if you won."
+    } ]
+  }, {
+    "tStartMs": 269294,
+    "dDurationMs": 3300,
+    "segs": [ {
+      "utf8": "It's like all the bombs from World War II\nexploding in the 80s"
+    } ]
+  }, {
+    "tStartMs": 272660,
+    "dDurationMs": 2600,
+    "segs": [ {
+      "utf8": "and us only seeing the effect today."
+    } ]
+  }, {
+    "tStartMs": 275694,
+    "dDurationMs": 4100,
+    "segs": [ {
+      "utf8": "OK, the star laser's extreme range,\nspeed of light attack,"
+    } ]
+  }, {
+    "tStartMs": 279860,
+    "dDurationMs": 2100,
+    "segs": [ {
+      "utf8": "and ability to melt down any target"
+    } ]
+  }, {
+    "tStartMs": 282027,
+    "dDurationMs": 2500,
+    "segs": [ {
+      "utf8": "make it a premier interstellar weapon."
+    } ]
+  }, {
+    "tStartMs": 284627,
+    "dDurationMs": 1700,
+    "segs": [ {
+      "utf8": "But is there something else?"
+    } ]
+  }, {
+    "tStartMs": 287060,
+    "dDurationMs": 2200,
+    "segs": [ {
+      "utf8": "[The Relativistic Missile]"
+    } ]
+  }, {
+    "tStartMs": 289727,
+    "dDurationMs": 4300,
+    "segs": [ {
+      "utf8": "What if instead of converting the energy\nof their Dyson swarm into a laser,"
+    } ]
+  }, {
+    "tStartMs": 294094,
+    "dDurationMs": 3000,
+    "segs": [ {
+      "utf8": "the Smorpians used it\nto shoot a super bullet?"
+    } ]
+  }, {
+    "tStartMs": 297260,
+    "dDurationMs": 4100,
+    "segs": [ {
+      "utf8": "A relativistic missile going as close\nto the speed of light as possible."
+    } ]
+  }, {
+    "tStartMs": 301827,
+    "dDurationMs": 1900,
+    "segs": [ {
+      "utf8": "This sort of weapon is at the limits"
+    } ]
+  }, {
+    "tStartMs": 303794,
+    "dDurationMs": 2133,
+    "segs": [ {
+      "utf8": "of what the Smorpian\ntechnology can handle,"
+    } ]
+  }, {
+    "tStartMs": 305994,
+    "dDurationMs": 4000,
+    "segs": [ {
+      "utf8": "as it requires loads of a highly\ndangerous material: antimatter."
+    } ]
+  }, {
+    "tStartMs": 310127,
+    "dDurationMs": 2200,
+    "segs": [ {
+      "utf8": "The evil twin of regular matter."
+    } ]
+  }, {
+    "tStartMs": 312694,
+    "dDurationMs": 3400,
+    "segs": [ {
+      "utf8": "Humans have only managed to produce\na few nanograms of antimatter."
+    } ]
+  }, {
+    "tStartMs": 316360,
+    "dDurationMs": 1700,
+    "segs": [ {
+      "utf8": "With their unlimited energy,"
+    } ]
+  }, {
+    "tStartMs": 318127,
+    "dDurationMs": 2967,
+    "segs": [ {
+      "utf8": "Smorpians can manufacture it\nat an industrial scale"
+    } ]
+  }, {
+    "tStartMs": 321160,
+    "dDurationMs": 1900,
+    "segs": [ {
+      "utf8": "to build antimatter rockets."
+    } ]
+  }, {
+    "tStartMs": 323294,
+    "dDurationMs": 2933,
+    "segs": [ {
+      "utf8": "When antimatter and matter are mixed,\nthey annihilate,"
+    } ]
+  }, {
+    "tStartMs": 326294,
+    "dDurationMs": 3333,
+    "segs": [ {
+      "utf8": "which in more practical terms\nmeans there's a big big boom"
+    } ]
+  }, {
+    "tStartMs": 329694,
+    "dDurationMs": 2100,
+    "segs": [ {
+      "utf8": "releasing gamma rays and plasma."
+    } ]
+  }, {
+    "tStartMs": 331960,
+    "dDurationMs": 1800,
+    "segs": [ {
+      "utf8": "The physics is complicated,"
+    } ]
+  }, {
+    "tStartMs": 333827,
+    "dDurationMs": 3267,
+    "segs": [ {
+      "utf8": "but basically, if you have\na really strong magnetic field"
+    } ]
+  }, {
+    "tStartMs": 337160,
+    "dDurationMs": 2167,
+    "segs": [ {
+      "utf8": "you can deflect the plasma\nthrough a nozzle"
+    } ]
+  }, {
+    "tStartMs": 339394,
+    "dDurationMs": 2400,
+    "segs": [ {
+      "utf8": "just like in the chemical rockets\nhumans use."
+    } ]
+  }, {
+    "tStartMs": 341894,
+    "dDurationMs": 2400,
+    "segs": [ {
+      "utf8": "But it would be much, much faster."
+    } ]
+  }, {
+    "tStartMs": 344427,
+    "dDurationMs": 2600,
+    "segs": [ {
+      "utf8": "The fastest rocket possibly basically."
+    } ]
+  }, {
+    "tStartMs": 347194,
+    "dDurationMs": 3600,
+    "segs": [ {
+      "utf8": "Our relativistic missile\nis much bigger than a skyscraper."
+    } ]
+  }, {
+    "tStartMs": 351327,
+    "dDurationMs": 4000,
+    "segs": [ {
+      "utf8": "At the bottom is the bell shaped\nmagnetic nozzle 100 meters wide."
+    } ]
+  }, {
+    "tStartMs": 355827,
+    "dDurationMs": 4100,
+    "segs": [ {
+      "utf8": "On top of it are 250 floors\nfilled with antimatter and matter"
+    } ]
+  }, {
+    "tStartMs": 359994,
+    "dDurationMs": 1700,
+    "segs": [ {
+      "utf8": "ready to annihilate each other."
+    } ]
+  }, {
+    "tStartMs": 361760,
+    "dDurationMs": 2634,
+    "segs": [ {
+      "utf8": "On the top floor\nis a 300 kilogram projectile"
+    } ]
+  }, {
+    "tStartMs": 364460,
+    "dDurationMs": 2567,
+    "segs": [ {
+      "utf8": "looking quite small,\nabout the size of a person."
+    } ]
+  }, {
+    "tStartMs": 367660,
+    "dDurationMs": 2000,
+    "segs": [ {
+      "utf8": "To stop them getting damaged on the way,"
+    } ]
+  }, {
+    "tStartMs": 369727,
+    "dDurationMs": 2300,
+    "segs": [ {
+      "utf8": "the missiles have dozens\nof sacrificial layers"
+    } ]
+  }, {
+    "tStartMs": 372094,
+    "dDurationMs": 1500,
+    "segs": [ {
+      "utf8": "that form a Whipple Shield."
+    } ]
+  }, {
+    "tStartMs": 373860,
+    "dDurationMs": 1600,
+    "segs": [ {
+      "utf8": "To make sure they do their job,"
+    } ]
+  }, {
+    "tStartMs": 375527,
+    "dDurationMs": 2600,
+    "segs": [ {
+      "utf8": "the Smorpians build 1000 missiles."
+    } ]
+  }, {
+    "tStartMs": 378827,
+    "dDurationMs": 1500,
+    "segs": [ {
+      "utf8": "Let's fire them."
+    } ]
+  }, {
+    "tStartMs": 380560,
+    "dDurationMs": 3400,
+    "segs": [ {
+      "utf8": "Launching all the relativistic missiles\nis a spectacular event."
+    } ]
+  }, {
+    "tStartMs": 384360,
+    "dDurationMs": 4100,
+    "segs": [ {
+      "utf8": "For a moment, the antimatter engines\nlighting up outshine their star."
+    } ]
+  }, {
+    "tStartMs": 389194,
+    "dDurationMs": 2600,
+    "segs": [ {
+      "utf8": "Their exhaust is a long trail\nof brilliant white,"
+    } ]
+  }, {
+    "tStartMs": 391860,
+    "dDurationMs": 1567,
+    "segs": [ {
+      "utf8": "and as they accelerate away,"
+    } ]
+  }, {
+    "tStartMs": 393494,
+    "dDurationMs": 3300,
+    "segs": [ {
+      "utf8": "they appear redder and redder\nuntil they turn invisible."
+    } ]
+  }, {
+    "tStartMs": 396994,
+    "dDurationMs": 3666,
+    "segs": [ {
+      "utf8": "With the extreme amount of energy released\nby the matter-antimatter reactions,"
+    } ]
+  }, {
+    "tStartMs": 400727,
+    "dDurationMs": 1667,
+    "segs": [ {
+      "utf8": "the missiles are accelerated"
+    } ]
+  }, {
+    "tStartMs": 402460,
+    "dDurationMs": 5000,
+    "segs": [ {
+      "utf8": "to 99.9999996%\nof the speed of light."
+    } ]
+  }, {
+    "tStartMs": 407927,
+    "dDurationMs": 2200,
+    "segs": [ {
+      "utf8": "They have effectively infinite range,"
+    } ]
+  }, {
+    "tStartMs": 410194,
+    "dDurationMs": 2266,
+    "segs": [ {
+      "utf8": "as there's nothing really\nto slow them down."
+    } ]
+  }, {
+    "tStartMs": 412794,
+    "dDurationMs": 2300,
+    "segs": [ {
+      "utf8": "They arrive shortly\nafter you can see them."
+    } ]
+  }, {
+    "tStartMs": 415394,
+    "dDurationMs": 3233,
+    "segs": [ {
+      "utf8": "The light from their launch\nwill take 42 years to reach Earth,"
+    } ]
+  }, {
+    "tStartMs": 418694,
+    "dDurationMs": 3433,
+    "segs": [ {
+      "utf8": "so human astronomers might see\nthe flash of the missile's launch,"
+    } ]
+  }, {
+    "tStartMs": 422194,
+    "dDurationMs": 2433,
+    "segs": [ {
+      "utf8": "and then a few days later they'll hit."
+    } ]
+  }, {
+    "tStartMs": 424694,
+    "dDurationMs": 1800,
+    "segs": [ {
+      "utf8": "Not enough time to prepare."
+    } ]
+  }, {
+    "tStartMs": 426994,
+    "dDurationMs": 2733,
+    "segs": [ {
+      "utf8": "Each relativistic missile\npacks the kinetic energy"
+    } ]
+  }, {
+    "tStartMs": 429794,
+    "dDurationMs": 1700,
+    "segs": [ {
+      "utf8": "of a dinosaur killer asteroid,"
+    } ]
+  }, {
+    "tStartMs": 431560,
+    "dDurationMs": 1800,
+    "segs": [ {
+      "utf8": "so only one needs to hit."
+    } ]
+  }, {
+    "tStartMs": 433727,
+    "dDurationMs": 1467,
+    "segs": [ {
+      "utf8": "They never reach the ground,"
+    } ]
+  }, {
+    "tStartMs": 435260,
+    "dDurationMs": 2900,
+    "segs": [ {
+      "utf8": "disintegrating instead\nat the edge of Earth's atmosphere."
+    } ]
+  }, {
+    "tStartMs": 438627,
+    "dDurationMs": 3167,
+    "segs": [ {
+      "utf8": "Intense blue flashes\nset everything on fire."
+    } ]
+  }, {
+    "tStartMs": 442060,
+    "dDurationMs": 3534,
+    "segs": [ {
+      "utf8": "Then continent-sized fireballs\nslam down on the surface"
+    } ]
+  }, {
+    "tStartMs": 445694,
+    "dDurationMs": 3000,
+    "segs": [ {
+      "utf8": "to smash everything into dust, repeatedly,"
+    } ]
+  }, {
+    "tStartMs": 448827,
+    "dDurationMs": 2867,
+    "segs": [ {
+      "utf8": "until nothing is left\nbut rubble and smoke."
+    } ]
+  }, {
+    "tStartMs": 452027,
+    "dDurationMs": 3067,
+    "segs": [ {
+      "utf8": "So interstellar missiles\nwith unlimited range,"
+    } ]
+  }, {
+    "tStartMs": 455160,
+    "dDurationMs": 4200,
+    "segs": [ {
+      "utf8": "minimal warning, and delivering complete\ndestruction of a planet's surface."
+    } ]
+  }, {
+    "tStartMs": 459694,
+    "dDurationMs": 1100,
+    "segs": [ {
+      "utf8": "Nice."
+    } ]
+  }, {
+    "tStartMs": 461260,
+    "dDurationMs": 1800,
+    "segs": [ {
+      "utf8": "But they are a hassle to build."
+    } ]
+  }, {
+    "tStartMs": 463527,
+    "dDurationMs": 1767,
+    "segs": [ {
+      "utf8": "Is there something else maybe?"
+    } ]
+  }, {
+    "tStartMs": 466027,
+    "dDurationMs": 2767,
+    "segs": [ {
+      "utf8": "[The Ultra-Relativistic Electron Beam]"
+    } ]
+  }, {
+    "tStartMs": 469160,
+    "dDurationMs": 1900,
+    "segs": [ {
+      "utf8": "Humans do funny things to their food"
+    } ]
+  }, {
+    "tStartMs": 471127,
+    "dDurationMs": 2533,
+    "segs": [ {
+      "utf8": "to rid it of bacteria\nand make it safe to eat,"
+    } ]
+  }, {
+    "tStartMs": 473727,
+    "dDurationMs": 2200,
+    "segs": [ {
+      "utf8": "like shooting electron beams\nat strawberries."
+    } ]
+  }, {
+    "tStartMs": 476227,
+    "dDurationMs": 2900,
+    "segs": [ {
+      "utf8": "Small particle accelerators\nsend electrons into the food"
+    } ]
+  }, {
+    "tStartMs": 479227,
+    "dDurationMs": 3200,
+    "segs": [ {
+      "utf8": "with an energy similar to the radiation\nfrom nuclear reactions."
+    } ]
+  }, {
+    "tStartMs": 483094,
+    "dDurationMs": 2900,
+    "segs": [ {
+      "utf8": "Not enough to burn the food,\nbut deadly to bacteria."
+    } ]
+  }, {
+    "tStartMs": 486627,
+    "dDurationMs": 2700,
+    "segs": [ {
+      "utf8": "Smorpians had the same idea,\nbut bigger."
+    } ]
+  }, {
+    "tStartMs": 489960,
+    "dDurationMs": 2700,
+    "segs": [ {
+      "utf8": "The main challenge\nwith an electron beam is range."
+    } ]
+  }, {
+    "tStartMs": 492827,
+    "dDurationMs": 2300,
+    "segs": [ {
+      "utf8": "Electrons are negatively\ncharged particles,"
+    } ]
+  }, {
+    "tStartMs": 495194,
+    "dDurationMs": 2000,
+    "segs": [ {
+      "utf8": "so they don't want to stay\nnear each other."
+    } ]
+  }, {
+    "tStartMs": 497494,
+    "dDurationMs": 2300,
+    "segs": [ {
+      "utf8": "A regular electron beam\nwill quickly spread out,"
+    } ]
+  }, {
+    "tStartMs": 499860,
+    "dDurationMs": 1400,
+    "segs": [ {
+      "utf8": "making it harmless."
+    } ]
+  }, {
+    "tStartMs": 501427,
+    "dDurationMs": 3233,
+    "segs": [ {
+      "utf8": "Smorpians needed to cover distances\nof dozens of light years,"
+    } ]
+  }, {
+    "tStartMs": 504727,
+    "dDurationMs": 3400,
+    "segs": [ {
+      "utf8": "so they've used the rules\nof the universe to trick the electrons"
+    } ]
+  }, {
+    "tStartMs": 508227,
+    "dDurationMs": 3833,
+    "segs": [ {
+      "utf8": "by building an Ultra-Relativistic\nElectron Beam, or UREB."
+    } ]
+  }, {
+    "tStartMs": 512127,
+    "dDurationMs": 2233,
+    "segs": [ {
+      "utf8": "What it does is accelerate the electrons"
+    } ]
+  }, {
+    "tStartMs": 514460,
+    "dDurationMs": 3367,
+    "segs": [ {
+      "utf8": "to 99.99999…"
+    } ]
+  }, {
+    "tStartMs": 517894,
+    "dDurationMs": 2000,
+    "segs": [ {
+      "utf8": "…99999…"
+    } ]
+  }, {
+    "tStartMs": 519960,
+    "dDurationMs": 2167,
+    "segs": [ {
+      "utf8": "…99999…"
+    } ]
+  }, {
+    "tStartMs": 522194,
+    "dDurationMs": 1800,
+    "segs": [ {
+      "utf8": "…99999…"
+    } ]
+  }, {
+    "tStartMs": 524060,
+    "dDurationMs": 3967,
+    "segs": [ {
+      "utf8": "…9999998% of the speed of light."
+    } ]
+  }, {
+    "tStartMs": 528094,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "Phew!"
+    } ]
+  }, {
+    "tStartMs": 529160,
+    "dDurationMs": 3000,
+    "segs": [ {
+      "utf8": "Faster than even\nthe most powerful cosmic rays."
+    } ]
+  }, {
+    "tStartMs": 532460,
+    "dDurationMs": 2500,
+    "segs": [ {
+      "utf8": "The closer something travels\nto the speed of light,"
+    } ]
+  }, {
+    "tStartMs": 535027,
+    "dDurationMs": 3600,
+    "segs": [ {
+      "utf8": "the slower time moves for it\nrelative to the rest of the universe."
+    } ]
+  }, {
+    "tStartMs": 538760,
+    "dDurationMs": 3367,
+    "segs": [ {
+      "utf8": "And since these electrons\nare moving so incredibly fast,"
+    } ]
+  }, {
+    "tStartMs": 542194,
+    "dDurationMs": 2200,
+    "segs": [ {
+      "utf8": "for every second of spreading\ntheir experience,"
+    } ]
+  }, {
+    "tStartMs": 544460,
+    "dDurationMs": 2900,
+    "segs": [ {
+      "utf8": "over 5 million years pass in real time."
+    } ]
+  }, {
+    "tStartMs": 547827,
+    "dDurationMs": 3400,
+    "segs": [ {
+      "utf8": "A physics trick that lets the beam\ncross interstellar distances"
+    } ]
+  }, {
+    "tStartMs": 551294,
+    "dDurationMs": 2500,
+    "segs": [ {
+      "utf8": "while remaining\ntightly focused on its target."
+    } ]
+  }, {
+    "tStartMs": 554194,
+    "dDurationMs": 3800,
+    "segs": [ {
+      "utf8": "The biggest particle accelerator on Earth\nis 27 kilometers long."
+    } ]
+  }, {
+    "tStartMs": 558760,
+    "dDurationMs": 3700,
+    "segs": [ {
+      "utf8": "The Smorpians need one\nthat's over 100,000 kilometers long."
+    } ]
+  }, {
+    "tStartMs": 562560,
+    "dDurationMs": 3300,
+    "segs": [ {
+      "utf8": "A megastructure 8 times longer\nthan Earth is wide."
+    } ]
+  }, {
+    "tStartMs": 566227,
+    "dDurationMs": 3900,
+    "segs": [ {
+      "utf8": "It's mostly a tube of magnets holding\nthe beam together until the exit."
+    } ]
+  }, {
+    "tStartMs": 570594,
+    "dDurationMs": 4200,
+    "segs": [ {
+      "utf8": "Like a long trumpet of doom\nsurrounded by an aura of deadly radiation."
+    } ]
+  }, {
+    "tStartMs": 575127,
+    "dDurationMs": 4700,
+    "segs": [ {
+      "utf8": "When it's fired, it produces a ruler\nstraight lightning bolt pointed at Earth."
+    } ]
+  }, {
+    "tStartMs": 580127,
+    "dDurationMs": 3300,
+    "segs": [ {
+      "utf8": "Its effects on arrival are less visible\nthan the other weapons."
+    } ]
+  }, {
+    "tStartMs": 583727,
+    "dDurationMs": 2733,
+    "segs": [ {
+      "utf8": "No flashes of light,\nno massive firestorms,"
+    } ]
+  }, {
+    "tStartMs": 586527,
+    "dDurationMs": 1500,
+    "segs": [ {
+      "utf8": "no explosions."
+    } ]
+  }, {
+    "tStartMs": 588360,
+    "dDurationMs": 2800,
+    "segs": [ {
+      "utf8": "It doesn't destroy rocks,\nit destroys DNA."
+    } ]
+  }, {
+    "tStartMs": 591527,
+    "dDurationMs": 4000,
+    "segs": [ {
+      "utf8": "People get dizzy, then fall sick\nas their cells are pierced by radiation."
+    } ]
+  }, {
+    "tStartMs": 595994,
+    "dDurationMs": 3700,
+    "segs": [ {
+      "utf8": "You might think that a deep bunker\ncould save a few humans, but no."
+    } ]
+  }, {
+    "tStartMs": 599894,
+    "dDurationMs": 1733,
+    "segs": [ {
+      "utf8": "The UREB is so penetrating"
+    } ]
+  }, {
+    "tStartMs": 601694,
+    "dDurationMs": 3333,
+    "segs": [ {
+      "utf8": "that its effects accumulate\nto lethal doses even underground,"
+    } ]
+  }, {
+    "tStartMs": 605094,
+    "dDurationMs": 1600,
+    "segs": [ {
+      "utf8": "over days or weeks."
+    } ]
+  }, {
+    "tStartMs": 606760,
+    "dDurationMs": 2434,
+    "segs": [ {
+      "utf8": "In the end, just like our strawberries,"
+    } ]
+  }, {
+    "tStartMs": 609294,
+    "dDurationMs": 2100,
+    "segs": [ {
+      "utf8": "Earth becomes sterile."
+    } ]
+  }, {
+    "tStartMs": 612594,
+    "dDurationMs": 1900,
+    "segs": [ {
+      "utf8": "[Simulation results]"
+    } ]
+  }, {
+    "tStartMs": 614660,
+    "dDurationMs": 4100,
+    "segs": [ {
+      "utf8": "Hm, another elaborate animated\nscience explainer by Kurzgesagt"
+    } ]
+  }, {
+    "tStartMs": 618827,
+    "dDurationMs": 2400,
+    "segs": [ {
+      "utf8": "where we've learned a lot,\nnot sure exactly what."
+    } ]
+  }, {
+    "tStartMs": 621960,
+    "dDurationMs": 3200,
+    "segs": [ {
+      "utf8": "Luckily, the Smorpians don't really exist,"
+    } ]
+  }, {
+    "tStartMs": 625227,
+    "dDurationMs": 1800,
+    "segs": [ {
+      "utf8": "but others… might."
+    } ]
+  }, {
+    "tStartMs": 627294,
+    "dDurationMs": 2100,
+    "segs": [ {
+      "utf8": "One major downside of all our weapons"
+    } ]
+  }, {
+    "tStartMs": 629460,
+    "dDurationMs": 2967,
+    "segs": [ {
+      "utf8": "is that others around the Milky Way\ncould see you firing them,"
+    } ]
+  }, {
+    "tStartMs": 632494,
+    "dDurationMs": 1033,
+    "segs": [ {
+      "utf8": "which is not ideal"
+    } ]
+  }, {
+    "tStartMs": 633594,
+    "dDurationMs": 2700,
+    "segs": [ {
+      "utf8": "because you don't want to present\nyourself as a dangerous species"
+    } ]
+  }, {
+    "tStartMs": 636360,
+    "dDurationMs": 2034,
+    "segs": [ {
+      "utf8": "and tell everybody where exactly you are."
+    } ]
+  }, {
+    "tStartMs": 638694,
+    "dDurationMs": 3400,
+    "segs": [ {
+      "utf8": "So maybe instead of shouting\nor shooting out into the universe,"
+    } ]
+  }, {
+    "tStartMs": 642160,
+    "dDurationMs": 3400,
+    "segs": [ {
+      "utf8": "the best course of action seems to be\nto stay relatively quiet for now,"
+    } ]
+  }, {
+    "tStartMs": 645627,
+    "dDurationMs": 1400,
+    "segs": [ {
+      "utf8": "and observe."
+    } ]
+  }, {
+    "tStartMs": 647394,
+    "dDurationMs": 3566,
+    "segs": [ {
+      "utf8": "Maybe one day we'll witness\ndistant stars shooting at each other"
+    } ]
+  }, {
+    "tStartMs": 651027,
+    "dDurationMs": 2400,
+    "segs": [ {
+      "utf8": "and be glad we stayed out of it."
+    } ]
+  } ]
+}

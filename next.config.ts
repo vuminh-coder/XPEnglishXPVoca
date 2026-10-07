@@ -43,6 +43,16 @@ const nextConfig: NextConfig = {
         destination: "/community/leaderboard",
         permanent: true,
       },
+      {
+        source: "/dictation",
+        destination: "/study/dictation",
+        permanent: true,
+      },
+      {
+        source: "/shadowing",
+        destination: "/study/shadowing",
+        permanent: true,
+      },
     ];
   },
 };

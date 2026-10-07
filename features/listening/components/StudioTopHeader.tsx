@@ -11,7 +11,6 @@ import {
   Maximize2,
   Minimize2,
   Keyboard,
-  MoreHorizontal,
 } from "lucide-react";
 import { formatLevelBadge } from "./InteractiveTranscriptSidebar";
 
@@ -23,6 +22,7 @@ interface StudioTopHeaderProps {
   isBookmarked?: boolean;
   accent?: string;
   onAccentChange?: (accent: string) => void;
+  showAccentSwitcher?: boolean;
   onToggleBookmark?: () => void;
   onBack: () => void;
   rightExtraActions?: React.ReactNode;
@@ -36,11 +36,12 @@ export function StudioTopHeader({
   isBookmarked = false,
   accent = "en-US",
   onAccentChange,
+  showAccentSwitcher = true,
   onToggleBookmark,
   onBack,
   rightExtraActions,
 }: StudioTopHeaderProps) {
-  const isListening = currentMode === "listening";
+  const isListening = currentMode === "listening" || (currentMode as string) === "dictation";
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showKeyboardModal, setShowKeyboardModal] = useState(false);
 
@@ -103,6 +104,33 @@ export function StudioTopHeader({
 
         {/* Mode Switcher pill directly next to title */}
         <div className="p-0.5 sm:p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-0.5 shrink-0 ml-0.5 relative">
+          {/* Dictation Tab Link */}
+          <Link
+            href={`/study/dictation?id=${lessonQueryId}`}
+            className={`relative px-2.5 sm:px-3 py-1 rounded-lg text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-colors cursor-pointer select-none z-10 ${
+              isListening
+                ? "text-slate-900 dark:text-white font-bold"
+                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+            }`}
+            title="Phòng luyện nghe chép chính tả Dictation"
+          >
+            {isListening && (
+              <motion.div
+                layoutId="studioModePillIndicator"
+                className="absolute inset-0 rounded-lg bg-white dark:bg-slate-900 shadow-2xs"
+                transition={{ type: "spring", stiffness: 450, damping: 32 }}
+              />
+            )}
+            <Headphones
+              className={`w-3.5 sm:w-4 h-3.5 sm:h-4 shrink-0 relative z-10 ${
+                isListening
+                  ? "text-[#0059bb] dark:text-sky-400"
+                  : "text-slate-500 dark:text-slate-400"
+              }`}
+            />
+            <span className="hidden sm:inline relative z-10">Dictation</span>
+          </Link>
+
           {/* Shadowing Tab Link */}
           <Link
             href={`/study/shadowing?id=${lessonQueryId}`}
@@ -120,39 +148,24 @@ export function StudioTopHeader({
                 transition={{ type: "spring", stiffness: 450, damping: 32 }}
               />
             )}
-            <Mic className="w-3.5 sm:w-4 h-3.5 sm:h-4 shrink-0 relative z-10" />
-            <span className="hidden sm:inline relative z-10">Nói</span>
-          </Link>
-
-          {/* Listening Tab Link */}
-          <Link
-            href={`/study/listening?id=${lessonQueryId}`}
-            className={`relative px-2.5 sm:px-3 py-1 rounded-lg text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-colors cursor-pointer select-none z-10 ${
-              isListening
-                ? "text-slate-900 dark:text-white font-bold"
-                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-            }`}
-            title="Phòng luyện nghe chép chính tả (Đang mở)"
-          >
-            {isListening && (
-              <motion.div
-                layoutId="studioModePillIndicator"
-                className="absolute inset-0 rounded-lg bg-white dark:bg-slate-900 shadow-2xs"
-                transition={{ type: "spring", stiffness: 450, damping: 32 }}
-              />
-            )}
-            <Headphones className="w-3.5 sm:w-4 h-3.5 sm:h-4 shrink-0 text-[#0059bb] dark:text-sky-400 relative z-10" />
-            <span className="hidden sm:inline relative z-10">Nghe</span>
+            <Mic
+              className={`w-3.5 sm:w-4 h-3.5 sm:h-4 shrink-0 relative z-10 ${
+                !isListening
+                  ? "text-sky-500 dark:text-sky-400"
+                  : "text-slate-500 dark:text-slate-400"
+              }`}
+            />
+            <span className="hidden sm:inline relative z-10">Shadowing</span>
           </Link>
         </div>
 
         {/* Micro Divider between Mode & Accent */}
-        {onAccentChange && (
+        {showAccentSwitcher && onAccentChange && (
           <div className="hidden md:block w-[1px] h-4 bg-slate-200 dark:bg-slate-700 shrink-0 mx-0.5" />
         )}
 
         {/* Accent Switcher pill */}
-        {onAccentChange && (
+        {showAccentSwitcher && onAccentChange && (
           <div className="hidden md:inline-flex p-0.5 sm:p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 items-center gap-0.5 shrink-0 relative">
             {(["en-US", "en-GB", "en-AU"] as const).map((acc) => {
               const label = acc === "en-US" ? "US" : acc === "en-GB" ? "UK" : "AU";
@@ -215,13 +228,6 @@ export function StudioTopHeader({
             title="Phím tắt luyện tập"
           >
             <Keyboard className="w-4 h-4" />
-          </button>
-          <button
-            type="button"
-            className="p-1.5 rounded-md hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
-            title="Tùy chọn khác"
-          >
-            <MoreHorizontal className="w-4 h-4" />
           </button>
         </div>
       </div>

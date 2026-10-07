@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
+import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
 
 export async function GET(
   req: NextRequest,
@@ -15,25 +16,64 @@ export async function GET(
       );
     }
 
-    const lesson = await prisma.videoLesson.findFirst({
-      where: {
-        OR: [{ id }, { slug: id }, { externalId: id }],
-      },
-      include: {
-        category: true,
-        playlist: true,
-        segments: {
-          orderBy: { orderIndex: "asc" },
+    let lesson: any = null;
+    try {
+      lesson = await prisma.videoLesson.findFirst({
+        where: {
+          OR: [{ id }, { slug: id }, { externalId: id }],
         },
-      },
-    });
+        include: {
+          category: true,
+          playlist: true,
+          segments: {
+            orderBy: { orderIndex: "asc" },
+          },
+        },
+      });
+    } catch (dbErr) {
+      console.warn("[API video-catalog/lessons/[id]] DB lookup error:", dbErr);
+    }
 
     if (!lesson) {
+      const mock = MOCK_VIDEO_LESSONS.find(
+        (m) => m.id === id || m.slug === id || m.externalId === id
+      );
+      if (mock) {
+        return NextResponse.json({
+          success: true,
+          lesson: {
+            id: mock.id,
+            slug: mock.slug,
+            title: mock.title,
+            description: mock.description,
+            sourceType: mock.sourceType,
+            externalId: mock.externalId,
+            thumbnailUrl: mock.thumbnailUrl,
+            durationSeconds: mock.durationSeconds,
+            durationFormatted: mock.durationFormatted,
+            cefrLevel: mock.cefrLevel,
+            supportedTypes: mock.supportedTypes,
+            accent: mock.accent,
+            wpmSpeed: mock.wpmSpeed,
+            viewCount: mock.viewCount + 1,
+            studyCount: mock.studyCount,
+            isCommunityCurated: false,
+            category: { id: mock.categoryId, slug: mock.categorySlug, name: mock.categoryName },
+            playlist: null,
+            segments: mock.segments,
+            allProperNouns: Array.from(new Set(mock.segments.flatMap((s) => s.properNouns || []))),
+            allKeywords: Array.from(new Set(mock.segments.flatMap((s) => s.keywords || []))),
+            createdAt: new Date().toISOString(),
+          },
+        });
+      }
+
       return NextResponse.json(
         { success: false, error: "Không tìm thấy bài học video tương ứng" },
         { status: 404 }
       );
     }
+
 
     // Increment viewCount non-blockingly
     prisma.videoLesson
@@ -45,10 +85,10 @@ export async function GET(
 
     // Aggregate proper nouns & keywords from all segments
     const allProperNouns = Array.from(
-      new Set(lesson.segments.flatMap((s) => s.properNouns || []))
+      new Set(lesson.segments.flatMap((s: any) => s.properNouns || []))
     );
     const allKeywords = Array.from(
-      new Set(lesson.segments.flatMap((s) => s.keywords || []))
+      new Set(lesson.segments.flatMap((s: any) => s.keywords || []))
     );
 
     return NextResponse.json({
@@ -74,7 +114,7 @@ export async function GET(
         properNouns: allProperNouns,
         keywords: allKeywords,
         segmentsCount: lesson.segments.length,
-        segments: lesson.segments.map((s) => ({
+        segments: lesson.segments.map((s: any) => ({
           id: s.id,
           orderIndex: s.orderIndex,
           startTime: s.startTime,

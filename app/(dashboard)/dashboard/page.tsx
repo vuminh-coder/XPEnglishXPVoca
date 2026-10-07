@@ -407,7 +407,7 @@ export default function DashboardPage() {
   const studyPlanTargetUrl = useMemo(() => {
     if (!currentTask) return "/study/practice";
     const t = currentTask.toLowerCase();
-    if (t.includes("nghe") || t.includes("dictation") || t.includes("listening")) return "/study/listening";
+    if (t.includes("nghe") || t.includes("dictation") || t.includes("listening")) return "/study/dictation";
     if (t.includes("nói") || t.includes("shadowing") || t.includes("speaking") || t.includes("phát âm")) return "/study/shadowing";
     if (t.includes("đề") || t.includes("exam") || t.includes("toeic") || t.includes("ielts")) return "/study/exam-prep";
     return "/study/practice";
@@ -606,7 +606,7 @@ export default function DashboardPage() {
             </Link>
 
             <Link
-              href="/study/listening"
+              href="/study/dictation"
               className="h-9 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004ba0] text-white text-xs font-bold shadow-md shadow-[#0059bb]/20 flex items-center gap-1.5 transition-all cursor-pointer active:scale-95 shrink-0 font-display"
             >
               <Sparkles className="w-3.5 h-3.5 text-sky-200" />
@@ -634,7 +634,7 @@ export default function DashboardPage() {
             hideOnSmall
           />
           <HeaderPillItem
-            href="/study/listening"
+            href="/study/dictation"
             icon={<Headphones className="w-3.5 h-3.5 text-indigo-500" />}
             label="Dictation"
             hideOnSmall
@@ -668,7 +668,7 @@ export default function DashboardPage() {
               </div>
 
               <div className="flex items-center gap-2 shrink-0">
-                <Link href="/study/listening">
+                <Link href="/study/dictation">
                   <button
                     type="button"
                     className="h-8 px-3 rounded-lg bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold shadow-xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all"

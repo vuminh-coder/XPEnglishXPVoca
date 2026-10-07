@@ -318,4 +318,81 @@ describe("Listening & Dictation Studio Comprehensive Deep Test Suite", () => {
       expect(formatLevelBadge("C2")).toBe("C2");
     });
   });
+
+  describe("13. Playback Synchronization & Database Reconciliation Precision", () => {
+    const parseCompletedSentencesMap = (arr: any[]): { [idx: number]: boolean } => {
+      const compMap: { [idx: number]: boolean } = {};
+      if (!Array.isArray(arr)) return compMap;
+      arr.forEach((val: any) => {
+        if (typeof val === "number" && !isNaN(val)) {
+          compMap[val] = true;
+        } else if (typeof val === "string") {
+          const parsed = parseInt(val.replace(/\D/g, ""), 10);
+          if (!isNaN(parsed)) {
+            if (val.startsWith("seg_") && parsed >= 1) {
+              compMap[parsed - 1] = true;
+            } else {
+              compMap[parsed] = true;
+            }
+          }
+        }
+      });
+      return compMap;
+    };
+
+    it("should seamlessly parse numeric indices and legacy seg_X segment strings", () => {
+      const mixed = [0, "1", "seg_3", "seg_4"];
+      const result = parseCompletedSentencesMap(mixed);
+      expect(result[0]).toBe(true);
+      expect(result[1]).toBe(true);
+      expect(result[2]).toBe(true); // seg_3 -> 2
+      expect(result[3]).toBe(true); // seg_4 -> 3
+      expect(result[4]).toBeUndefined();
+    });
+
+    it("should prevent quadratic timeSpent accumulation when updating progress", () => {
+      // Simulate client sending absolute elapsed times across 3 consecutive sentences
+      const updates = [100, 150, 210]; // seconds
+      let storedTimeSpent = 0;
+      let totalDailyMinutesIncremented = 0;
+
+      for (const clientTime of updates) {
+        const prevTime = storedTimeSpent;
+        const updatedTime = Math.max(prevTime, clientTime);
+        const deltaSeconds = Math.max(0, updatedTime - prevTime);
+        const addedMinutes = Math.floor(deltaSeconds / 60);
+
+        storedTimeSpent = updatedTime;
+        totalDailyMinutesIncremented += addedMinutes;
+      }
+
+      // Absolute stored time must equal the final client elapsed time (210s), NOT 100+150+210 = 460s!
+      expect(storedTimeSpent).toBe(210);
+      // Daily minutes incremented should be delta based:
+      // Step 1: 100s delta = 1m
+      // Step 2: 50s delta = 0m
+      // Step 3: 60s delta = 1m
+      // Total daily minutes = 2m (NOT 2 + 3 + 4 = 9m!)
+      expect(totalDailyMinutesIncremented).toBe(2);
+    });
+
+    it("should debounce end-of-sentence events to prevent duplicate loop triggers", () => {
+      let isHandlingEnd = false;
+      let triggerCount = 0;
+
+      const onSentenceReachesEnd = () => {
+        if (!isHandlingEnd) {
+          isHandlingEnd = true;
+          triggerCount++;
+        }
+      };
+
+      // Simulate rapid stream of YouTube infoDelivery packets past the segment end
+      onSentenceReachesEnd(); // Packet 1: 7.51s >= 7.50s
+      onSentenceReachesEnd(); // Packet 2: 7.53s >= 7.50s
+      onSentenceReachesEnd(); // Packet 3: 7.55s >= 7.50s
+
+      expect(triggerCount).toBe(1);
+    });
+  });
 });

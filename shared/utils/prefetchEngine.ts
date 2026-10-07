@@ -15,6 +15,7 @@ const ROUTE_API_MAP: Record<string, string[]> = {
   "/": ["/api/dashboard/overview"],
   "/vocabulary": ["/api/user/vocab"],
   "/study/ipa": ["/api/user/profile"],
+  "/study/dictation": ["/api/listening/lessons"],
   "/study/listening": ["/api/listening/lessons"],
   "/study/shadowing": ["/api/listening/lessons"],
   "/analytics": ["/api/user/analytics"],

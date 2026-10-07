@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Mic,
@@ -15,9 +16,11 @@ import {
   Sparkles,
   Target,
   Trophy,
+  Video,
 } from "lucide-react";
 import { LessonCoverImage } from "@/shared/components/feedback/LessonCoverImage";
 import { formatLevelBadge } from "@/features/listening/components/InteractiveTranscriptSidebar";
+import { VideoCatalogBrowseView } from "@/features/listening/components/VideoCatalogBrowseView";
 import {
   LessonCardShimmer,
   ShadowingListingHeroStatsSkeleton,
@@ -26,7 +29,7 @@ import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { StudySuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAnimation";
 
-export type ShadowingCategoryTab = "all" | "basic" | "advanced" | "completed";
+export type ShadowingCategoryTab = "all" | "basic" | "intermediate" | "advanced" | "completed";
 
 export interface ShadowingStats {
   sentencesPracticed: number;
@@ -49,6 +52,8 @@ interface ShadowingListingViewProps {
   handleShuffleAdvanced: () => void;
   stats?: ShadowingStats;
   isLoadingStats?: boolean;
+  activeHubMode?: "audio" | "video";
+  basePath?: string;
 }
 
 export function ShadowingListingView({
@@ -65,9 +70,14 @@ export function ShadowingListingView({
   handleShuffleAdvanced,
   stats,
   isLoadingStats = false,
+  activeHubMode,
+  basePath = "/study/shadowing/audio",
 }: ShadowingListingViewProps) {
   const [activeCategoryTab, setActiveCategoryTab] = useState<ShadowingCategoryTab>("all");
   const [isSwitchingCategory, setIsSwitchingCategory] = useState(false);
+  const [mainHubMode, setMainHubMode] = useState<"standard" | "video_catalog">("standard");
+
+  const effectiveHubMode = activeHubMode || (mainHubMode === "video_catalog" ? "video" : "audio");
 
   const handleSelectCategoryTab = (tabId: ShadowingCategoryTab) => {
     if (tabId === activeCategoryTab) return;
@@ -101,27 +111,59 @@ export function ShadowingListingView({
     });
   }, [lessonsList]);
 
-  const allAdvancedLessons = useMemo(() => {
-    const ADVANCED_LEVELS = new Set(["Hard", "Advanced", "C1", "C2"]);
+  const allIntermediateLessons = useMemo(() => {
     return lessonsList.filter((l) => {
-      const lvl = (l.level || "B1").toUpperCase();
+      const lvl = (l.level || "").toUpperCase();
       return (
-        ADVANCED_LEVELS.has(l.level) ||
-        lvl.includes("B1") ||
-        lvl.includes("B2") ||
-        lvl.includes("C1") ||
-        lvl.includes("C2") ||
-        lvl.includes("HARD") ||
-        lvl.includes("ADVANCED")
+        lvl.includes("INTERMEDIATE") ||
+        lvl === "B1" ||
+        lvl === "B2" ||
+        lvl === "B1-B2"
       );
     });
   }, [lessonsList]);
 
-  const filterTabs: { id: ShadowingCategoryTab; label: string; count: number }[] = [
-    { id: "all", label: "Tất cả bài học", count: lessonsList.length },
-    { id: "basic", label: "Cơ bản (A1-A2)", count: allBasicLessons.length },
-    { id: "advanced", label: "Nâng cao (B1-C2)", count: allAdvancedLessons.length },
-    { id: "completed", label: "Đã hoàn thành", count: completedLessons.length },
+  const allAdvancedLessons = useMemo(() => {
+    return lessonsList.filter((l) => {
+      const lvl = (l.level || "").toUpperCase();
+      return (
+        lvl.includes("HARD") ||
+        lvl.includes("ADVANCED") ||
+        lvl === "C1" ||
+        lvl === "C2" ||
+        lvl === "C1-C2"
+      );
+    });
+  }, [lessonsList]);
+
+  const [intermediateSeed, setIntermediateSeed] = useState(0);
+  const [isShufflingIntermediate, setIsShufflingIntermediate] = useState(false);
+
+  const displayedIntermediateLessons = useMemo(() => {
+    if (allIntermediateLessons.length === 0) return [];
+    const pool = allIntermediateLessons;
+    const offset = (intermediateSeed * 8) % Math.max(1, pool.length);
+    const sliced = pool.slice(offset, offset + 8);
+    if (sliced.length < 8 && pool.length >= 8) {
+      return [...sliced, ...pool.slice(0, 8 - sliced.length)];
+    }
+    return sliced;
+  }, [allIntermediateLessons, intermediateSeed]);
+
+  const handleShuffleIntermediate = () => {
+    setIsShufflingIntermediate(true);
+    setTimeout(() => {
+      setIntermediateSeed((prev) => prev + 1);
+      setIsShufflingIntermediate(false);
+    }, 180);
+  };
+
+  const filterTabs: { id: ShadowingCategoryTab; label: string }[] = [
+    { id: "all", label: "Tất cả bài học" },
+    { id: "basic", label: "Cơ bản (A1-A2)" },
+    { id: "intermediate", label: "Trung cấp (B1-B2)" },
+    { id: "advanced", label: "Nâng cao (C1-C2)" },
+    { id: "completed", label: "Đã hoàn thành" },
   ];
 
   // Search filtered lessons
@@ -246,8 +288,8 @@ export function ShadowingListingView({
             className="h-9 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs sm:text-sm font-bold shadow-xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0"
           >
             <BookOpen className="w-4 h-4" />
-            <span className="hidden sm:inline">Khám phá 100+ bài</span>
-            <span className="sm:hidden">100+ bài</span>
+            <span className="hidden sm:inline">Khám phá bài học</span>
+            <span className="sm:hidden">Khám phá</span>
           </button>
         }
       >
@@ -256,7 +298,65 @@ export function ShadowingListingView({
 
       {/* 2. MAIN LISTING CONTENT CANVAS WITH STAGGER ENTRANCE */}
       <PageEntranceWrapper className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-5 sm:py-6 space-y-6 sm:space-y-7 pb-20">
-        {/* 2.1 MICRO-HERO PRACTICE STATS BENTO GRID (Rule 8 Wadhah Aloui & /analytics Standard) */}
+        {/* VIEW MODE PILL TOGGLE (Standard Audio vs Curated Video Hub) */}
+        <div className="flex items-center justify-between gap-3 border-b border-slate-200/80 dark:border-slate-800 pb-3 flex-wrap">
+          <div className="flex items-center gap-2 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-2xl border border-slate-200/90 dark:border-slate-700/60 shadow-2xs">
+            <Link
+              href="/study/shadowing/audio"
+              onClick={() => setMainHubMode("standard")}
+              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer relative select-none ${
+                effectiveHubMode === "audio"
+                  ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-xs font-extrabold"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+              }`}
+            >
+              {effectiveHubMode === "audio" && (
+                <motion.div
+                  layoutId="shadowingListingModeIndicator"
+                  className="absolute inset-0 rounded-xl bg-white dark:bg-slate-900 shadow-xs"
+                  transition={{ type: "spring", stiffness: 450, damping: 32 }}
+                />
+              )}
+              <Headphones className="w-4 h-4 text-[#0059bb] dark:text-sky-400 relative z-10" />
+              <span className="relative z-10">Bài Nghe Tiêu Chuẩn</span>
+            </Link>
+
+            <Link
+              href="/study/shadowing/video"
+              onClick={() => setMainHubMode("video_catalog")}
+              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer relative select-none ${
+                effectiveHubMode === "video"
+                  ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-xs font-extrabold"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+              }`}
+            >
+              {effectiveHubMode === "video" && (
+                <motion.div
+                  layoutId="shadowingListingModeIndicator"
+                  className="absolute inset-0 rounded-xl bg-white dark:bg-slate-900 shadow-xs"
+                  transition={{ type: "spring", stiffness: 450, damping: 32 }}
+                />
+              )}
+              <Video className="w-4 h-4 text-[#0059bb] dark:text-sky-400 relative z-10" />
+              <span className="relative z-10">Kho Video Tuyển Chọn</span>
+            </Link>
+          </div>
+
+          <div className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1.5 font-medium">
+            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+            <span>Đồng bộ lộ trình CEFR & phân tích phụ đề trực quan</span>
+          </div>
+        </div>
+
+        {effectiveHubMode === "video" ? (
+          <VideoCatalogBrowseView
+            onSelectVideoLesson={(video) => {
+              onSelectLesson(video.id);
+            }}
+          />
+        ) : (
+          <>
+            {/* 2.1 MICRO-HERO PRACTICE STATS BENTO GRID (Rule 8 Wadhah Aloui & /analytics Standard) */}
         {isLoadingStats ? (
           <ShadowingListingHeroStatsSkeleton />
         ) : (
@@ -326,52 +426,12 @@ export function ShadowingListingView({
           </div>
         )}
 
-        {/* 3. LEVEL / CATEGORY FILTER DOCK (Apple-Grade Spring Sliding Pill) */}
-        <div className="flex items-center justify-between gap-3 overflow-x-auto pb-1 hide-scrollbar">
-          <div className="p-1 rounded-xl bg-slate-200/60 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-1 shrink-0 relative">
-            {filterTabs.map((tab) => {
-              const isActive = activeCategoryTab === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  type="button"
-                  onClick={() => handleSelectCategoryTab(tab.id)}
-                  className={`relative px-3 sm:px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-colors flex items-center gap-1.5 cursor-pointer z-10 whitespace-nowrap select-none ${
-                    isActive
-                      ? "text-slate-900 dark:text-white font-extrabold"
-                      : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 font-medium"
-                  }`}
-                >
-                  {isActive && (
-                    <motion.div
-                      layoutId="shadowingCategoryFilterIndicator"
-                      className="absolute inset-0 rounded-lg bg-white dark:bg-slate-900 shadow-xs"
-                      transition={{ type: "spring", stiffness: 450, damping: 32 }}
-                    />
-                  )}
-                  <span className="relative z-10">{tab.label}</span>
-                  <span
-                    className={`relative z-10 text-[10px] font-mono px-1.5 py-0.2 rounded-full ${
-                      isActive
-                        ? "bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-bold"
-                        : "bg-slate-200/60 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400"
-                    }`}
-                  >
-                    {tab.count}
-                  </span>
-                </button>
-              );
-            })}
+        {/* Search Results Feedback (If Searching) */}
+        {searchFilteredLessons && (
+          <div className="flex items-center justify-between text-xs font-semibold text-slate-500 dark:text-slate-400 font-mono">
+            <span>Tìm thấy {searchFilteredLessons.length} bài</span>
           </div>
-
-          <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 font-mono hidden sm:inline">
-            {searchFilteredLessons ? (
-              <span>Tìm thấy {searchFilteredLessons.length} bài</span>
-            ) : (
-              <span>Tổng cộng {lessonsList.length} bài học</span>
-            )}
-          </span>
-        </div>
+        )}
 
         {/* 4. LESSONS GRID WITH ANIMATE PRESENCE & SHIMMER TRANSITION */}
         <AnimatePresence mode="wait">
@@ -432,10 +492,7 @@ export function ShadowingListingView({
                     A1 - A2
                   </span>
                   <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-display tracking-tight">
-                    Tất cả bài học cơ bản{" "}
-                    <span className="text-slate-400 font-normal text-xs ml-1">
-                      ({allBasicLessons.length} bài)
-                    </span>
+                    Tất cả bài học cơ bản
                   </h2>
                 </div>
               </div>
@@ -444,8 +501,33 @@ export function ShadowingListingView({
                 {allBasicLessons.map(renderLessonCard)}
               </div>
             </motion.div>
+          ) : activeCategoryTab === "intermediate" ? (
+            /* Tab: Tất cả bài học trung cấp B1-B2 */
+            <motion.div
+              key="shadowing-intermediate-all"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.2 }}
+              className="space-y-4"
+            >
+              <div className="flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-slate-800">
+                <div className="flex items-center gap-2.5">
+                  <span className="px-2.5 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 font-mono font-bold text-xs border border-amber-200/60 dark:border-amber-800/40 shadow-2xs">
+                    B1 - B2
+                  </span>
+                  <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-display tracking-tight">
+                    Tất cả bài học trung cấp
+                  </h2>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
+                {allIntermediateLessons.map(renderLessonCard)}
+              </div>
+            </motion.div>
           ) : activeCategoryTab === "advanced" ? (
-            /* Tab: Tất cả bài học nâng cao B1-C2 */
+            /* Tab: Tất cả bài học nâng cao C1-C2 */
             <motion.div
               key="shadowing-advanced-all"
               initial={{ opacity: 0, y: 8 }}
@@ -457,13 +539,10 @@ export function ShadowingListingView({
               <div className="flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-slate-800">
                 <div className="flex items-center gap-2.5">
                   <span className="px-2.5 py-0.5 rounded-md bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 font-mono font-bold text-xs border border-purple-200/60 dark:border-purple-800/40 shadow-2xs">
-                    B1 - C2
+                    C1 - C2
                   </span>
                   <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-display tracking-tight">
-                    Tất cả bài học nâng cao{" "}
-                    <span className="text-slate-400 font-normal text-xs ml-1">
-                      ({allAdvancedLessons.length} bài)
-                    </span>
+                    Tất cả bài học nâng cao
                   </h2>
                 </div>
               </div>
@@ -488,10 +567,7 @@ export function ShadowingListingView({
                     COMPLETED
                   </span>
                   <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-display tracking-tight">
-                    Bài học đã hoàn thành{" "}
-                    <span className="text-slate-400 font-normal text-xs ml-1">
-                      ({completedLessons.length} bài)
-                    </span>
+                    Bài học đã hoàn thành
                   </h2>
                 </div>
               </div>
@@ -523,9 +599,9 @@ export function ShadowingListingView({
               )}
             </motion.div>
           ) : (
-            /* Tab "all": Dual-Row Curated Grid (Basic + Advanced) */
+            /* Tab "all": Tri-Tier Curated Grid (Basic + Intermediate + Advanced) */
             <motion.div
-              key="shadowing-dual-rows-all"
+              key="shadowing-curated-rows-all"
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
@@ -562,12 +638,42 @@ export function ShadowingListingView({
                 </div>
               </div>
 
-              {/* HÀNG 2: BÀI HỌC NÂNG CAO (B1 - C2) */}
+              {/* HÀNG 2: BÀI HỌC TRUNG CẤP (B1 - B2) */}
+              <div className="space-y-4 pt-3">
+                <div className="flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-slate-800">
+                  <div className="flex items-center gap-2.5">
+                    <span className="px-2.5 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 font-mono font-bold text-xs border border-amber-200/60 dark:border-amber-800/40 shadow-2xs">
+                      B1 - B2
+                    </span>
+                    <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-display tracking-tight">
+                      Bài học trung cấp{" "}
+                      <span className="text-slate-400 font-normal text-xs ml-1 hidden sm:inline">
+                        (Giao tiếp công việc & Đời sống hàng ngày)
+                      </span>
+                    </h2>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleShuffleIntermediate}
+                    className="px-3 py-1.5 rounded-lg border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center gap-1.5 cursor-pointer transition-colors shadow-2xs active:scale-95"
+                  >
+                    <RefreshCw className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+                    <span>Đổi bài ngẫu nhiên</span>
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
+                  {displayedIntermediateLessons.map(renderLessonCard)}
+                </div>
+              </div>
+
+              {/* HÀNG 3: BÀI HỌC NÂNG CAO (C1 - C2) */}
               <div className="space-y-4 pt-3">
                 <div className="flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-slate-800">
                   <div className="flex items-center gap-2.5">
                     <span className="px-2.5 py-0.5 rounded-md bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 font-mono font-bold text-xs border border-purple-200/60 dark:border-purple-800/40 shadow-2xs">
-                      B1 - C2
+                      C1 - C2
                     </span>
                     <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-display tracking-tight">
                       Bài học nâng cao{" "}
@@ -594,6 +700,8 @@ export function ShadowingListingView({
             </motion.div>
           )}
         </AnimatePresence>
+          </>
+        )}
       </PageEntranceWrapper>
     </div>
   );

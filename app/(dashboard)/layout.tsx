@@ -20,7 +20,12 @@ export default function DashboardLayout({
   }, []);
 
   const isExamWorkspaceActive = (pathname === "/study/exam-prep" || pathname?.startsWith("/study/exams")) && sidebarCollapsed;
-  const isStudioWorkspaceActive = (pathname?.startsWith("/study/listening") || pathname?.startsWith("/study/shadowing") || pathname?.startsWith("/study/reading")) && hideBottomNav;
+  const isStudioWorkspaceActive =
+    (pathname?.startsWith("/study/dictation") ||
+      pathname?.startsWith("/study/listening") ||
+      pathname?.startsWith("/study/shadowing") ||
+      pathname?.startsWith("/study/reading")) &&
+    hideBottomNav;
 
   return (
     <>

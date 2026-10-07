@@ -348,7 +348,7 @@ describe("Phase 1: Video Catalog & Ingestion Engine Deep Test Suite", { timeout:
       expect(res.status).toBe(200);
       expect(data.success).toBe(true);
       expect(data.lesson.title).toContain("Steve Jobs");
-      expect(data.lesson.segments.length).toBe(8);
+      expect(data.lesson.segments.length).toBe(18);
 
       // Verify segments order strictly ascending
       for (let i = 0; i < data.lesson.segments.length - 1; i++) {

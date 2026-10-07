@@ -11,9 +11,12 @@ const beVietnamPro = Be_Vietnam_Pro({
 });
 
 export const metadata: Metadata = {
-  title: "English | Voca - Cộng Đồng Học Từ Vựng Tiếng Anh Thông Minh",
+  title: {
+    default: "XP English - Nền Tảng Học Tiếng Anh Thông Minh",
+    template: "%s | XP English",
+  },
   description:
-    "XP English (XP Voca) là nền tảng học từ vựng tiếng Anh cộng đồng thế hệ mới. Ứng dụng lặp lại ngắt quãng (Spaced Repetition) thông minh và luyện hội thoại với AI.",
+    "XP English (XP Voca) là nền tảng học tiếng Anh thông minh: Luyện nghe chép chính tả (Dictation), nhại âm (Shadowing), từ vựng Spaced Repetition SRS và gia sư AI.",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,

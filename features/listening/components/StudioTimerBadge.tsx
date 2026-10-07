@@ -29,6 +29,7 @@ export const StudioTimerBadge: React.FC<StudioTimerBadgeProps> = React.memo(
     className = "",
   }) {
     const [seconds, setSeconds] = useState(initialSeconds);
+    const secondsRef = useRef(initialSeconds);
     const onSecondsUpdateRef = useRef(onSecondsUpdate);
 
     useEffect(() => {
@@ -37,6 +38,7 @@ export const StudioTimerBadge: React.FC<StudioTimerBadgeProps> = React.memo(
 
     useEffect(() => {
       if (initialSeconds > 0) {
+        secondsRef.current = initialSeconds;
         setSeconds(initialSeconds);
       }
     }, [initialSeconds]);
@@ -45,11 +47,10 @@ export const StudioTimerBadge: React.FC<StudioTimerBadgeProps> = React.memo(
       if (!isActive) return;
 
       const timer = setInterval(() => {
-        setSeconds((prev) => {
-          const next = prev + 1;
-          onSecondsUpdateRef.current?.(next);
-          return next;
-        });
+        secondsRef.current += 1;
+        const next = secondsRef.current;
+        setSeconds(next);
+        onSecondsUpdateRef.current?.(next);
       }, 1000);
 
       return () => clearInterval(timer);

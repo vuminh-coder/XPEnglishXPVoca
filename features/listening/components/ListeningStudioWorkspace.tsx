@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Headphones,
@@ -14,9 +14,8 @@ import { StudioWaveformCard } from "./StudioWaveformCard";
 import { DictationWorkspace } from "./DictationWorkspace";
 import { InteractiveTranscriptSidebar } from "./InteractiveTranscriptSidebar";
 import { StudioTimerBadge } from "./StudioTimerBadge";
-import { StudyAmbienceDock } from "./StudyAmbienceDock";
-import { MediaDisplayModeToggle, MediaDisplayMode } from "./MediaDisplayModeToggle";
 import { VideoCinemaFrame } from "./VideoCinemaFrame";
+import { resolveLessonMedia } from "../utils/lessonMedia";
 import type {
   ListeningLesson,
   TranscriptSentence,
@@ -121,12 +120,19 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
 }) => {
   // Mobile Studio Switcher Tab State: 'dictation' or 'transcript'
   const [mobileStudioTab, setMobileStudioTab] = useState<"dictation" | "transcript">("dictation");
-  const [mediaDisplayMode, setMediaDisplayMode] = useState<MediaDisplayMode>("audio");
+  // Auto-detect media mode based on lesson type
+  const mediaInfo = resolveLessonMedia(currentLesson);
+  const isVideoLesson = mediaInfo.isVideoLesson;
 
-  const sentenceDuration = Math.max(
-    3,
-    Math.ceil((currentSentence?.text || "").trim().split(/\s+/).filter(Boolean).length / (2.2 * playbackSpeed))
-  );
+  const sentenceDuration =
+    currentSentence?.startTime !== undefined &&
+    currentSentence?.endTime !== undefined &&
+    currentSentence.endTime > currentSentence.startTime
+      ? Number((currentSentence.endTime - currentSentence.startTime).toFixed(1))
+      : Math.max(
+          3,
+          Math.ceil((currentSentence?.text || "").trim().split(/\s+/).filter(Boolean).length / (2.2 * playbackSpeed))
+        );
 
   return (
     <div
@@ -139,18 +145,12 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
         level={currentLesson?.level || "All Levels"}
         currentMode="listening"
         lessonQueryId={rawIdParam || selectedLessonId || "36"}
-        isBookmarked={isCurrentSentenceBookmarked}
         accent={currentAccent}
         onAccentChange={onAccentChange}
-        onToggleBookmark={onToggleBookmark}
+        showAccentSwitcher={!isVideoLesson}
         onBack={onBackToListing}
         rightExtraActions={
           <div className="flex items-center gap-1.5 sm:gap-2">
-            <MediaDisplayModeToggle
-              mode={mediaDisplayMode}
-              onModeChange={setMediaDisplayMode}
-            />
-            <StudyAmbienceDock />
             <StudioTimerBadge
               isActive={true}
               initialSeconds={elapsedTime}
@@ -213,68 +213,105 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
         >
           {currentSentence && (
             <div className="space-y-2.5 sm:space-y-3">
-              {/* VIDEO CINEMA CONTAINER (Chế độ Video) */}
-              {mediaDisplayMode === "video" && (
+              {/* INTERACTIVE VIDEO CINEMA & YOUTUBE AUDIO-VIDEO PLAYBACK CONTROLLER */}
+              {/* INTERACTIVE VIDEO CINEMA OR ACTIVE SPEECH ACOUSTIC WAVEFORM */}
+              {isVideoLesson ? (
                 <VideoCinemaFrame
-                  sourceUrlOrId={currentLesson?.audioUrl || currentLesson?.id}
+                  sourceUrlOrId={mediaInfo.sourceUrlOrId}
                   title={currentLesson?.title}
-                  thumbnailUrl={currentLesson?.imageUrl}
-                  onSwitchToAudioMode={() => setMediaDisplayMode("audio")}
+                  thumbnailUrl={currentLesson?.imageUrl || (currentLesson as any)?.videoMetadata?.thumbnailUrl}
+                  currentSentence={currentSentence}
+                  practiceMode="dictation"
+                  isPlaying={playingSentenceText === currentSentence?.text}
+                  playbackSpeed={playbackSpeed}
+                  volume={currentVolume}
+                  onVolumeChange={setCurrentVolume}
+                  onSentenceEnded={() => {
+                    setPlayingSentenceText(null);
+                    setSentencePlaybackTime(0);
+                  }}
+                  onPlaybackTimeUpdate={(sec) => {
+                    setSentencePlaybackTime(sec);
+                  }}
+                  segmentIndex={currentSentenceIndex}
+                  totalSegments={totalSentencesCount}
+                  playbackTime={sentencePlaybackTime}
+                  duration={sentenceDuration}
+                  onTogglePlay={onTogglePlayCurrentSentence}
+                  onPrev={() => {
+                    if (currentSentenceIndex > 0) {
+                      onStopTTS();
+                      setPlayingSentenceText(null);
+                      setCurrentSentenceIndex((prev) => prev - 1);
+                      setSentencePlaybackTime(0);
+                    }
+                  }}
+                  onNext={onNextSentenceInStudio}
+                  onRewind5s={() => {
+                    onToast({ type: "info", title: "Tua lùi 5s" });
+                  }}
+                  onForward5s={() => {
+                    onToast({ type: "info", title: "Tua nhanh 5s" });
+                  }}
+                  onSeek={(time) => {
+                    setSentencePlaybackTime(Math.min(sentenceDuration, Math.max(0, time)));
+                  }}
+                  onSpeedChange={(spd) => {
+                    setPlaybackSpeed(spd);
+                  }}
+                  isPrevDisabled={currentSentenceIndex === 0}
+                  isNextDisabled={currentSentenceIndex >= totalSentencesCount - 1}
+                />
+              ) : (
+                <StudioWaveformCard
+                  segmentIndex={currentSentenceIndex}
+                  totalSegments={totalSentencesCount}
+                  playbackTime={sentencePlaybackTime}
+                  duration={sentenceDuration}
+                  isPlaying={playingSentenceText === currentSentence.text}
+                  playbackSpeed={playbackSpeed}
+                  volume={currentVolume}
+                  onVolumeChange={setCurrentVolume}
+                  onTogglePlay={onTogglePlayCurrentSentence}
+                  onPrev={() => {
+                    if (currentSentenceIndex > 0) {
+                      onStopTTS();
+                      setPlayingSentenceText(null);
+                      setCurrentSentenceIndex((prev) => prev - 1);
+                      setSentencePlaybackTime(0);
+                    }
+                  }}
+                  onNext={onNextSentenceInStudio}
+                  onRewind5s={() => {
+                    setSentencePlaybackTime((prev) => Math.max(0, prev - 5));
+                    onToast({ type: "info", title: "Tua lùi 5s" });
+                  }}
+                  onForward5s={() => {
+                    setSentencePlaybackTime((prev) => Math.min(sentenceDuration, prev + 5));
+                    onToast({ type: "info", title: "Tua nhanh 5s" });
+                  }}
+                  onSeek={(time) => {
+                    setSentencePlaybackTime(Math.min(sentenceDuration, Math.max(0, time)));
+                  }}
+                  onSpeedChange={(spd) => {
+                    setPlaybackSpeed(spd);
+                    if (playingSentenceText === currentSentence?.text) {
+                      onSpeakSentence(currentSentence.text, currentSentenceIndex);
+                    }
+                  }}
+                  isPrevDisabled={currentSentenceIndex === 0}
+                  isNextDisabled={currentSentenceIndex >= totalSentencesCount - 1}
                 />
               )}
-
-              {/* 1. DEDICATED SENTENCE AUDIO STUDIO BLOCK WITH ACTIVE SPEECH ACOUSTIC WAVEFORM */}
-              <StudioWaveformCard
-                segmentIndex={currentSentenceIndex}
-                totalSegments={totalSentencesCount}
-                playbackTime={sentencePlaybackTime}
-                duration={sentenceDuration}
-                isPlaying={playingSentenceText === currentSentence.text}
-                playbackSpeed={playbackSpeed}
-                volume={currentVolume}
-                onVolumeChange={setCurrentVolume}
-                onTogglePlay={onTogglePlayCurrentSentence}
-                onPrev={() => {
-                  if (currentSentenceIndex > 0) {
-                    onStopTTS();
-                    setPlayingSentenceText(null);
-                    setCurrentSentenceIndex((prev) => prev - 1);
-                    setSentencePlaybackTime(0);
-                  }
-                }}
-                onNext={onNextSentenceInStudio}
-                onRewind5s={() => {
-                  setSentencePlaybackTime((prev) => Math.max(0, prev - 5));
-                  onToast({ type: "info", title: "Tua lùi 5s" });
-                }}
-                onForward5s={() => {
-                  setSentencePlaybackTime((prev) => Math.min(sentenceDuration, prev + 5));
-                  onToast({ type: "info", title: "Tua nhanh 5s" });
-                }}
-                onSeek={(time) => {
-                  setSentencePlaybackTime(Math.min(sentenceDuration, Math.max(0, time)));
-                }}
-                onSpeedChange={(spd) => {
-                  setPlaybackSpeed(spd);
-                  if (playingSentenceText === currentSentence.text) {
-                    onSpeakSentence(currentSentence.text, currentSentenceIndex);
-                  }
-                }}
-                isPrevDisabled={currentSentenceIndex === 0}
-              />
 
               {/* 1.2 META STATUS ROW */}
               <div className="flex items-center justify-between px-1 text-xs font-semibold text-slate-600 dark:text-slate-400 flex-wrap gap-2">
                 <div className="flex items-center gap-2">
                   <span className="px-2.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-mono font-bold border border-slate-200/90 dark:border-slate-700/80 shadow-2xs">
-                    #{currentSentenceIndex + 1}
+                    Câu {currentSentenceIndex + 1}/{totalSentencesCount}
                   </span>
-                  <span className="font-medium text-slate-600 dark:text-slate-400">
-                    0/{currentSentence.text.split(" ").length} từ
-                  </span>
-                  <span className="text-slate-300 dark:text-slate-700">•</span>
-                  <span className="text-slate-600 dark:text-slate-400 font-semibold">
-                    Khớp: 0%
+                  <span className="text-slate-500 dark:text-slate-400 font-medium">
+                    {currentSentence.text.trim().split(/\s+/).filter(Boolean).length} từ vựng
                   </span>
                 </div>
 
@@ -399,7 +436,7 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
                         }`}
                       />
                     </div>
-                    <span className="hidden sm:inline">Ẩn dịch (i)</span>
+                    <span className="hidden sm:inline">Ẩn bản dịch</span>
                   </label>
                 </div>
               </div>
@@ -411,14 +448,17 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
                 sentenceId={currentSentenceIndex}
                 lessonId={currentLesson.id}
                 sentenceIndex={currentSentenceIndex}
-                translation={currentSentence.translation || currentSentence.vietnamese}
-                ipa={currentSentence.ipa}
+                translation={currentSentence.translation || (currentSentence as any).translationVi || (currentSentence as any).vietnamese}
+                ipa={currentSentence.ipa || (currentSentence as any).ipaUs || (currentSentence as any).ipaUk}
                 playbackSpeed={playbackSpeed}
                 fontSizeLevel={fontSizeLevel}
                 hideTranslation={hideTranslation}
+                onToggleTranslation={() => setHideTranslation(!hideTranslation)}
                 onWordClick={onWordClick}
                 onWordMatched={onWordMatched}
                 onSentenceCompleted={onSentenceCompleted}
+                onPlayAudio={onTogglePlayCurrentSentence}
+                customProperNouns={(currentSentence as any).properNouns || []}
               />
             </div>
           )}
@@ -446,10 +486,17 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
             }}
             onReplaySentence={(idx) => {
               onStopTTS();
+              setCurrentSentenceIndex(idx);
+              setSentencePlaybackTime(0);
               const targetS = currentLesson.transcript?.[idx];
-              if (targetS) {
-                setPlayingSentenceText(targetS.text);
-                onSpeakSentence(targetS.text, idx);
+              if (targetS?.text) {
+                setPlayingSentenceText(null);
+                setTimeout(() => {
+                  setPlayingSentenceText(targetS.text);
+                  if (!isVideoLesson) {
+                    onSpeakSentence(targetS.text, idx);
+                  }
+                }, 30);
               }
             }}
             onNextSentence={() => {

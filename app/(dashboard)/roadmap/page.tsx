@@ -146,7 +146,7 @@ export default function RoadmapPage() {
         showGamificationStats={true}
         rightDesktopContent={
           <Link
-            href={nextUncompletedTask?.practicePath || "/study/listening"}
+            href={nextUncompletedTask?.practicePath || "/study/dictation"}
             className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0059bb] hover:bg-[#004ba0] text-white font-bold text-xs shadow-xs transition-all active:scale-95 cursor-pointer shrink-0"
           >
             <Zap className="w-3.5 h-3.5 text-amber-300 fill-amber-300" />

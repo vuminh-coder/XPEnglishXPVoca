@@ -14,8 +14,11 @@ export function StudySuiteNavTabs({ className }: StudySuiteNavTabsProps) {
 
   const isPracticeActive =
     pathname === "/study/practice" || pathname?.startsWith("/study/practice/");
-  const isListeningActive =
-    pathname === "/study/listening" || pathname?.startsWith("/study/listening/");
+  const isDictationActive =
+    pathname === "/study/dictation" ||
+    pathname?.startsWith("/study/dictation/") ||
+    pathname === "/study/listening" ||
+    pathname?.startsWith("/study/listening/");
   const isShadowingActive =
     pathname === "/study/shadowing" || pathname?.startsWith("/study/shadowing/");
   const isExamActive =
@@ -26,8 +29,8 @@ export function StudySuiteNavTabs({ className }: StudySuiteNavTabsProps) {
   return (
     <HeaderPillContainer className={className}>
       <HeaderPillItem
-        active={isListeningActive}
-        href="/study/listening"
+        active={isDictationActive}
+        href="/study/dictation"
         layoutId="studySuiteNavActiveTab"
         icon={<Headphones className="w-3.5 h-3.5 text-indigo-500 dark:text-indigo-400" />}
         label="Dictation"
