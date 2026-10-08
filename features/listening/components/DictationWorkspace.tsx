@@ -22,6 +22,7 @@ import {
   checkEquivalenceMatch,
   playSyntheticAudioFeedback,
   loadSentenceDraft,
+  saveSentenceDraft,
   clearSentenceDraft,
 } from "@/features/listening/utils/dictationEngine";
 
@@ -43,7 +44,7 @@ interface DictationWorkspaceProps {
   translation?: string;
   ipa?: string;
   onWordMatched?: (word: string, index: number) => void;
-  onSentenceCompleted?: () => void;
+  onSentenceCompleted?: (stats?: { matchedCount: number; totalCount: number }) => void;
   onPlayAudio?: () => void;
   onWordClick?: (word: string) => void;
   isActive?: boolean;
@@ -66,6 +67,7 @@ const COMMON_PROPER_NOUNS = new Set([
   "september", "october", "november", "december",
   "ali", "sarah", "john", "mary", "david", "emma", "alex", "michael",
   "london", "tokyo", "paris", "new york", "vietnam", "hanoi", "saigon",
+  "france", "germany", "spain", "italy",
   "english", "vietnamese", "american", "british", "french", "japanese",
 ]);
 
@@ -73,7 +75,7 @@ const COMMON_PROPER_NOUNS = new Set([
  * Extracts proper nouns from an English sentence
  */
 export function extractProperNouns(sentence: string, customList?: string[]): string[] {
-  if (customList && customList.length > 0) return customList;
+  if (Array.isArray(customList)) return customList;
   if (!sentence) return [];
 
   const words = sentence.trim().split(/\s+/);
@@ -86,17 +88,26 @@ export function extractProperNouns(sentence: string, customList?: string[]): str
     // Skip standalone 'I'
     if (clean === "I") return;
 
-    // Words starting with uppercase that are NOT the first word of sentence
+    const prevWord = idx > 0 ? words[idx - 1] : "";
+    const isAfterSentenceEnd = /[.!?]["'”’]?$/.test(prevWord) || /:[“"'’]?$/.test(prevWord);
+
+    // Words starting with uppercase that are NOT the first word or start of a new sentence
     const isCapitalized = /^[A-Z][a-zA-Z0-9]*$/.test(clean);
     const isKnownProper = COMMON_PROPER_NOUNS.has(clean.toLowerCase());
 
-    if ((isCapitalized && idx > 0) || isKnownProper) {
+    if ((isCapitalized && idx > 0 && !isAfterSentenceEnd) || isKnownProper) {
       properNouns.add(clean);
     }
   });
 
   return Array.from(properNouns);
 }
+
+const COMMON_STOP_WORDS = new Set([
+  "the", "a", "an", "of", "in", "on", "at", "to", "for", "and", "or", "but", "by",
+  "from", "with", "about", "me", "my", "our", "your", "its", "his", "her", "their",
+  "is", "was", "are", "were", "it", "this", "that"
+]);
 
 /**
  * Tokenizes sentence text into individual interactive word tokens
@@ -111,9 +122,10 @@ export function tokenizeSentence(sentence: string, properNouns: string[]): WordT
     if (fullClean) properNounSet.add(fullClean);
 
     // Also index individual words for multi-word proper nouns (e.g. "Steve Jobs" -> "steve", "jobs")
+    // Skip common grammatical stop words so "the" or "of" aren't erroneously marked as proper nouns elsewhere
     fullClean.split(/\s+/).forEach((w) => {
       const cleanW = w.replace(/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/g, "");
-      if (cleanW && cleanW.length > 1) {
+      if (cleanW && cleanW.length > 1 && !COMMON_STOP_WORDS.has(cleanW)) {
         properNounSet.add(cleanW);
       }
     });
@@ -344,7 +356,9 @@ export function DictationWorkspace({
           setShowTranslation(true);
         }
         if (onSentenceCompleted) {
-          onSentenceCompleted();
+          const matchedCount = currentTokens.filter((t) => t.status === "matched").length;
+          const totalCount = currentTokens.length;
+          onSentenceCompleted({ matchedCount, totalCount });
         }
       }
     },
@@ -538,9 +552,12 @@ export function DictationWorkspace({
   const handleResetSentence = useCallback(() => {
     setTokens(tokenizeSentence(sentenceText, properNouns));
     setInputValue("");
+    if (lessonId && sentenceIndex !== undefined) {
+      clearSentenceDraft(lessonId, sentenceIndex);
+    }
     setInputStatus("idle");
     setIsCompleted(false);
-  }, [sentenceText, properNouns]);
+  }, [sentenceText, properNouns, lessonId, sentenceIndex]);
 
   // Global Keyboard Shortcuts (Alt+H, Alt+R, Alt+A, Alt+P, Ctrl+Space)
   useEffect(() => {
@@ -791,7 +808,13 @@ export function DictationWorkspace({
               autoComplete="off"
               spellCheck={false}
               value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
+              onChange={(e) => {
+                const val = e.target.value;
+                setInputValue(val);
+                if (lessonId && sentenceIndex !== undefined) {
+                  saveSentenceDraft(lessonId, sentenceIndex, val);
+                }
+              }}
               onKeyDown={handleKeyDown}
               placeholder="Điền câu đã nghe..."
               className={`w-full ${inputSizeClass} px-4 py-2.5 sm:py-3 rounded-xl font-medium transition-all outline-none bg-white dark:bg-slate-900 border ${
@@ -805,7 +828,12 @@ export function DictationWorkspace({
             {inputValue && (
               <button
                 type="button"
-                onClick={() => setInputValue("")}
+                onClick={() => {
+                  setInputValue("");
+                  if (lessonId && sentenceIndex !== undefined) {
+                    clearSentenceDraft(lessonId, sentenceIndex);
+                  }
+                }}
                 className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors cursor-pointer"
                 title="Xóa nội dung"
               >
@@ -983,16 +1011,10 @@ export function DictationWorkspace({
               )}
 
               {/* NỘI DUNG TAB HIỂN THỊ */}
-              {/* Tab 1: Bản dịch tiếng Việt */}
+              {/* Tab 1: Bản dịch tiếng Việt (Phong cách song ngữ Reading, loại bỏ nhãn Dịch) */}
               {((activeHelperTab === "translation" && translation) || (!ipa && translation)) && (
-                <div className="flex items-start gap-2.5 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-200 py-0.5">
-                  <div className="flex items-center gap-1 font-bold text-[#0059bb] dark:text-sky-400 shrink-0 mt-0.5">
-                    <Languages className="w-3.5 h-3.5" />
-                    <span>Dịch:</span>
-                  </div>
-                  <p className="leading-relaxed font-sans text-slate-800 dark:text-slate-100">
-                    {translation.replace(/^(?:Việt|viet|vi|vn|Vietnamese|tiếng việt)?\s*:\s*/i, "").trim()}
-                  </p>
+                <div className="pl-4 pr-3 py-2 border-l-[3px] border-[#0059bb]/70 dark:border-sky-400/70 bg-blue-50/40 dark:bg-blue-950/20 rounded-r-xl text-xs sm:text-[13px] text-slate-600 dark:text-slate-300 font-medium leading-relaxed my-1 break-words">
+                  {translation.replace(/^(?:Việt|viet|vi|vn|Vietnamese|tiếng việt)?\s*:\s*/i, "").trim()}
                 </div>
               )}
 

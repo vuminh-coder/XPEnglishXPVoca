@@ -2,7 +2,7 @@
 
 import React from "react";
 import { usePathname } from "next/navigation";
-import { BookOpen, Headphones, Mic, FileText } from "lucide-react";
+import { BookOpen, Headphones, Mic, FileText, BookText } from "lucide-react";
 import { HeaderPillContainer, HeaderPillItem } from "../AppTopHeader";
 
 export interface StudySuiteNavTabsProps {
@@ -21,6 +21,8 @@ export function StudySuiteNavTabs({ className }: StudySuiteNavTabsProps) {
     pathname?.startsWith("/study/listening/");
   const isShadowingActive =
     pathname === "/study/shadowing" || pathname?.startsWith("/study/shadowing/");
+  const isReadingActive =
+    pathname === "/study/reading" || pathname?.startsWith("/study/reading/");
   const isExamActive =
     pathname === "/study/exam-prep" ||
     pathname?.startsWith("/study/exam-prep/") ||
@@ -30,17 +32,24 @@ export function StudySuiteNavTabs({ className }: StudySuiteNavTabsProps) {
     <HeaderPillContainer className={className}>
       <HeaderPillItem
         active={isDictationActive}
-        href="/study/dictation"
+        href="/study/dictation/audio"
         layoutId="studySuiteNavActiveTab"
         icon={<Headphones className="w-3.5 h-3.5 text-indigo-500 dark:text-indigo-400" />}
         label="Dictation"
       />
       <HeaderPillItem
         active={isShadowingActive}
-        href="/study/shadowing"
+        href="/study/shadowing/audio"
         layoutId="studySuiteNavActiveTab"
         icon={<Mic className="w-3.5 h-3.5 text-sky-500 dark:text-sky-400" />}
         label="Shadowing"
+      />
+      <HeaderPillItem
+        active={isReadingActive}
+        href="/study/reading"
+        layoutId="studySuiteNavActiveTab"
+        icon={<BookText className="w-3.5 h-3.5 text-blue-500 dark:text-sky-400" />}
+        label="Đọc hiểu"
       />
       <HeaderPillItem
         active={isPracticeActive}

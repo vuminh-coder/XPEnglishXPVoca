@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Video,
@@ -321,7 +322,7 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
           </div>
 
           {searchQuery && (
-            <span className="text-[11px] text-slate-400 italic">
+            <span className="text-[11px] text-slate-400 font-medium">
               Khớp với &ldquo;{searchQuery}&rdquo;
             </span>
           )}
@@ -409,18 +410,17 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
 
                 {/* Card Footer: Balanced h-8 Action Targets */}
                 <div className="pt-2.5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-2">
-                  <button
-                    type="button"
+                  <Link
+                    href={`/study/dictation/video/${lesson.id}/comprehension`}
                     onClick={(e) => {
                       e.stopPropagation();
-                      setSelectedQuizLesson({ id: lesson.id, title: lesson.title });
                     }}
                     className="h-8 px-2.5 rounded-xl text-xs font-bold text-purple-700 dark:text-purple-300 bg-purple-50/70 hover:bg-purple-100 dark:bg-purple-950/40 dark:hover:bg-purple-900/50 border border-purple-200/70 dark:border-purple-800/60 flex items-center gap-1.5 transition-all cursor-pointer active:scale-95 shrink-0"
                     title="Làm bài trắc nghiệm đọc hiểu AI (+25 XP)"
                   >
                     <Sparkles className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400 shrink-0" />
                     <span>Đọc hiểu AI</span>
-                  </button>
+                  </Link>
 
                   <div className="h-8 px-3 rounded-xl text-xs font-bold bg-[#0059bb] group-hover:bg-[#004899] text-white shadow-xs transition-all flex items-center gap-1.5 shrink-0 select-none">
                     <Play className="w-3 h-3 fill-white" />

@@ -661,13 +661,18 @@ export function TranscriptSentencesSkeleton({ count = 6 }: { count?: number }) {
 export function VideoStudioSkeleton() {
   return (
     <div className="w-full h-screen max-h-screen flex flex-col overflow-hidden select-none font-sans bg-[#f8fafc] dark:bg-[#050505]">
-      {/* 1. STUDIO TOP HEADER SKELETON (56px h-14) */}
+      {/* 1. STUDIO TOP HEADER SKELETON (56px h-14 - StudioTopHeader Twin) */}
       <div className="w-full px-3.5 sm:px-5 lg:px-6 h-14 bg-white dark:bg-slate-900 border-b border-slate-200/90 dark:border-slate-800 flex items-center justify-between gap-2 sm:gap-4 shrink-0 shadow-2xs">
         <div className="flex items-center gap-2 sm:gap-2.5 min-w-0 flex-1 overflow-hidden">
           <ShimmerBox className="w-8.5 sm:w-[86px] h-8 sm:h-8.5 rounded-xl shrink-0" />
           <ShimmerBox className="h-5 w-8 rounded-md bg-blue-500/20 dark:bg-blue-500/10 shrink-0" />
           <ShimmerBox className="h-5 w-36 xs:w-48 sm:w-60 rounded-md" />
-          <ShimmerBox className="h-5 w-16 rounded-md bg-rose-500/15 hidden sm:block shrink-0" />
+          <ShimmerBox className="w-7 h-7 rounded-lg hidden xs:block shrink-0" />
+          <div className="hidden xl:block w-[1px] h-4 bg-slate-200 dark:bg-slate-700 shrink-0 mx-0.5" />
+          <div className="p-0.5 sm:p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-0.5 shrink-0 ml-0.5">
+            <ShimmerBox className="h-6 sm:h-7 w-8 sm:w-16 rounded-lg bg-white dark:bg-slate-900 shadow-2xs" />
+            <ShimmerBox className="h-6 sm:h-7 w-8 sm:w-14 rounded-lg" />
+          </div>
         </div>
         <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
           <ShimmerBox className="h-7 w-20 rounded-full bg-amber-500/15" />
@@ -679,36 +684,63 @@ export function VideoStudioSkeleton() {
         </div>
       </div>
 
-      {/* 2. 2-COLUMN STUDIO WORKSPACE */}
+      {/* 2. MOBILE TAB SWITCHER SKELETON (< lg) */}
+      <div className="flex lg:hidden items-center border-b border-slate-200/90 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 px-4 pt-2.5 gap-6 shrink-0 sticky top-0 z-20 backdrop-blur-md">
+        <div className="pb-2.5 relative">
+          <ShimmerBox className="h-4 w-32 rounded-md bg-slate-900/20 dark:bg-white/20" />
+          <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#0059bb] dark:bg-sky-400 rounded-t-full" />
+        </div>
+        <div className="pb-2.5">
+          <ShimmerBox className="h-4 w-36 rounded-md opacity-60" />
+        </div>
+      </div>
+
+      {/* 3. 2-COLUMN STUDIO WORKSPACE */}
       <div className="flex-1 flex flex-col lg:flex-row items-stretch min-h-0 overflow-y-auto lg:overflow-hidden">
         {/* CỘT TRÁI: VIDEO CINEMA + DICTATION */}
         <div className="flex-1 min-w-0 p-3 sm:p-3.5 space-y-2.5 sm:space-y-3 overflow-y-auto hide-scrollbar">
-          {/* 2.1. KHUNG VIDEO 16:9 CINEMA FRAME SKELETON (Khác biệt hoàn toàn với Audio Spikes Waveform) */}
-          <div className="w-full rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 shadow-lg shadow-black/30 flex flex-col relative aspect-video max-h-[380px] sm:max-h-[420px] lg:max-h-[460px]">
-            {/* Center Video Play Icon Placeholder */}
-            <div className="flex-1 flex items-center justify-center relative">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-xl ring-8 ring-white/5 animate-pulse">
-                <div className="w-0 h-0 border-y-[10px] border-y-transparent border-l-[16px] border-l-white/80 ml-1" />
-              </div>
-              <div className="absolute top-3 left-3 flex items-center gap-2">
-                <ShimmerBox className="h-5 w-24 rounded bg-white/20" />
+          {/* 2.1. VIDEO CINEMA FRAME SKELETON (1:1 Exact Twin with VideoCinemaFrame) */}
+          <div className="relative w-full rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm p-1.5 sm:p-2 select-none flex flex-col justify-between space-y-2">
+            {/* 1. Responsive 16:9 Cinema Viewport */}
+            <div className="relative w-full max-w-2xl mx-auto aspect-video max-h-[210px] sm:max-h-[240px] md:max-h-[260px] rounded-xl overflow-hidden shadow-inner border border-slate-200/80 dark:border-slate-800 bg-black flex items-center justify-center group shrink-0">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-xl ring-8 ring-white/5">
+                <div className="w-0 h-0 border-y-[9px] border-y-transparent border-l-[15px] border-l-white/80 ml-1" />
               </div>
             </div>
 
-            {/* Bottom YouTube Transport Controls Bar */}
-            <div className="h-12 bg-gradient-to-t from-black/90 to-black/20 px-3 sm:px-4 flex items-center justify-between gap-3 text-white">
-              <div className="flex items-center gap-2 sm:gap-3">
-                <ShimmerBox className="w-8 h-8 rounded-full bg-white/20" />
-                <ShimmerBox className="w-7 h-7 rounded-full bg-white/15" />
-                <ShimmerBox className="w-7 h-7 rounded-full bg-white/15" />
-                <ShimmerBox className="h-3.5 w-20 rounded bg-white/20" />
+            {/* 2. Control Dock (Below Video, Clean & Symmetrical) */}
+            <div className="w-full shrink-0 px-2 sm:px-3 pt-1.5 pb-1 space-y-2 bg-transparent select-none">
+              {/* Scrubber Progress Bar */}
+              <div className="flex items-center gap-2.5">
+                <ShimmerBox className="h-3 w-8 rounded font-mono" />
+                <div className="relative flex-1 h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                  <ShimmerBox className="h-full w-1/3 rounded-full bg-gradient-to-r from-[#0059bb] to-sky-500" />
+                </div>
+                <ShimmerBox className="h-3 w-8 rounded font-mono" />
               </div>
-              <div className="flex-1 max-w-md mx-2">
-                <ShimmerBox className="h-1.5 w-full rounded-full bg-white/30" />
-              </div>
-              <div className="flex items-center gap-2">
-                <ShimmerBox className="w-6 h-6 rounded bg-white/20" />
-                <ShimmerBox className="w-6 h-6 rounded bg-white/20" />
+
+              {/* Transport & Setting Buttons Row */}
+              <div className="grid grid-cols-[auto_1fr_auto] sm:grid-cols-[1fr_auto_1fr] items-center gap-2 pt-0.5 select-none">
+                {/* Left Zone: Segment counter badge */}
+                <div className="flex items-center gap-1.5 justify-start min-w-0">
+                  <ShimmerBox className="h-7 w-14 rounded-lg font-mono font-bold" />
+                </div>
+
+                {/* Center Zone: Symmetrical Primary Transport Cluster */}
+                <div className="flex items-center justify-center gap-1.5 sm:gap-2.5">
+                  <ShimmerBox className="w-9 h-9 sm:w-10 sm:h-10 rounded-full" />
+                  <ShimmerBox className="w-9 h-9 sm:w-10 sm:h-10 rounded-full" />
+                  <ShimmerBox className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#0059bb]/40 shadow-md ring-4 ring-blue-500/10" />
+                  <ShimmerBox className="w-9 h-9 sm:w-10 sm:h-10 rounded-full" />
+                  <ShimmerBox className="w-9 h-9 sm:w-10 sm:h-10 rounded-full" />
+                </div>
+
+                {/* Right Zone: Secondary Actions (Loop, Speed, Volume) */}
+                <div className="flex items-center gap-1 sm:gap-1.5 justify-end">
+                  <ShimmerBox className="w-9 h-9 rounded-full" />
+                  <ShimmerBox className="h-8 sm:h-8.5 w-14 rounded-full" />
+                  <ShimmerBox className="w-9 h-9 rounded-full" />
+                </div>
               </div>
             </div>
           </div>
@@ -860,3 +892,57 @@ export function VideoStudioSkeleton() {
 // Canonical Aliases
 export const AudioListingSkeleton = ListeningListingSkeleton;
 export const AudioStudioSkeleton = ListeningStudioSkeleton;
+
+/**
+ * Skeleton cho vùng Dictation Workspace (Word Tokens + Input Box) khi chuyển bài bên trong Studio (In-Place Transition)
+ */
+export function DictationWorkspaceLoadingSkeleton() {
+  return (
+    <div className="space-y-2 font-sans select-none">
+      {/* Word Tokens Section */}
+      <div className="space-y-1.5 pt-0">
+        <div className="flex items-center justify-between text-xs px-1">
+          <ShimmerBox className="h-3.5 w-28 rounded" />
+          <ShimmerBox className="h-3.5 w-20 rounded" />
+        </div>
+        <div className="px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm">
+          <div className="flex flex-wrap gap-1.5 sm:gap-2 py-1.5 sm:py-2 px-1">
+            {[65, 45, 80, 50, 70, 40, 95, 60, 55, 75, 45].map((w, idx) => (
+              <ShimmerBox
+                key={idx}
+                className="h-8 sm:h-9 rounded-lg border border-slate-200/90 dark:border-slate-700/80 bg-slate-50/80 dark:bg-slate-800/60"
+                style={{ width: w }}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* External Label Row */}
+      <div className="space-y-1.5">
+        <div className="flex items-center justify-between px-0.5 text-xs font-bold select-none">
+          <div className="flex items-center gap-1.5">
+            <ShimmerBox className="w-3.5 h-3.5 rounded-xs" />
+            <ShimmerBox className="h-3.5 w-40 rounded" />
+          </div>
+          <ShimmerBox className="h-3 w-44 rounded hidden sm:inline-block opacity-60" />
+        </div>
+
+        {/* Dictation Input Box */}
+        <ShimmerBox className="h-11 sm:h-12 w-full rounded-xl border border-slate-200/90 dark:border-slate-800 shadow-2xs" />
+      </div>
+
+      {/* Bottom 4 Utility Action Buttons */}
+      <div className="flex flex-wrap items-center justify-between gap-2 px-1 pt-0.5">
+        <div className="flex items-center gap-1.5 sm:gap-2 flex-1 sm:flex-initial">
+          <ShimmerBox className="h-8.5 sm:h-9 w-28 sm:w-32 rounded-xl" />
+          <ShimmerBox className="h-8.5 sm:h-9 w-24 sm:w-28 rounded-xl" />
+        </div>
+        <div className="flex items-center gap-1.5">
+          <ShimmerBox className="h-8.5 sm:h-9 w-20 sm:w-24 rounded-xl" />
+          <ShimmerBox className="h-8.5 sm:h-9 w-8.5 sm:w-9 rounded-xl" />
+        </div>
+      </div>
+    </div>
+  );
+}

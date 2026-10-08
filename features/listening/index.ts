@@ -24,4 +24,5 @@ export * from "./utils/lessonMedia";
 export * from "./components/VideoCatalogBrowseView";
 export * from "./components/VideoRequestModal";
 export * from "./components/VideoComprehensionQuizModal";
+export * from "./components/VideoComprehensionStudioView";
 export * from "./components/DictationPageContent";

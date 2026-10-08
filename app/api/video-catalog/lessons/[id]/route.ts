@@ -36,7 +36,11 @@ export async function GET(
 
     if (!lesson) {
       const mock = MOCK_VIDEO_LESSONS.find(
-        (m) => m.id === id || m.slug === id || m.externalId === id
+        (m) =>
+          m.id === id ||
+          m.slug === id ||
+          m.externalId === id ||
+          (id === "steve-jobs-stanford-commencement" && m.slug === "steve-jobs-stanford-stay-hungry")
       );
       if (mock) {
         return NextResponse.json({

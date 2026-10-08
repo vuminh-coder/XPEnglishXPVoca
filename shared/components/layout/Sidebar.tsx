@@ -31,6 +31,7 @@ import {
   User,
   Check,
   Volume2,
+  BookText,
 } from "lucide-react";
 import { UserAvatar } from "@/shared/components/feedback/UserAvatar";
 import {
@@ -107,6 +108,12 @@ const sections = [
         icon: <Wand2 className="w-[21px] h-[21px]" strokeWidth={1.9} />,
         page: "aichat",
         badge: "AI",
+      },
+      {
+        name: "Đọc hiểu",
+        path: "/study/reading",
+        icon: <BookText className="w-[21px] h-[21px]" strokeWidth={1.9} />,
+        page: "reading",
       },
       {
         name: "Luyện từ vựng",
@@ -723,6 +730,7 @@ const LINK_WIDTH_MAP: Record<string, string> = {
   "Shadowing": "w-[72px]",
   "Luyện nói": "w-[66px]",
   "Luyện viết": "w-[68px]",
+  "Đọc hiểu": "w-[66px]",
   "Luyện từ vựng": "w-[88px]",
   "Thi thử đề": "w-[68px]",
   "Video của tôi": "w-[84px]",

@@ -15,6 +15,7 @@ import { DictationWorkspace } from "./DictationWorkspace";
 import { InteractiveTranscriptSidebar } from "./InteractiveTranscriptSidebar";
 import { StudioTimerBadge } from "./StudioTimerBadge";
 import { VideoCinemaFrame } from "./VideoCinemaFrame";
+import { DictationWorkspaceLoadingSkeleton } from "./LoadingSkeletons";
 import { resolveLessonMedia } from "../utils/lessonMedia";
 import type {
   ListeningLesson,
@@ -26,6 +27,7 @@ export interface ListeningStudioWorkspaceProps {
   lessonsList: ListeningLesson[];
   selectedLessonId: string;
   rawIdParam?: string | null;
+  isInPlaceSwitchingLesson?: boolean;
   currentSentenceIndex: number;
   setCurrentSentenceIndex: React.Dispatch<React.SetStateAction<number>>;
   totalSentencesCount: number;
@@ -59,7 +61,7 @@ export interface ListeningStudioWorkspaceProps {
   onElapsedTimeTick?: (sec: number) => void;
   onBackToListing: () => void;
   onSelectLesson: (id: string) => void;
-  onSentenceCompleted: () => void;
+  onSentenceCompleted: (stats?: { matchedCount: number; totalCount: number }) => void;
   onWordMatched: (word: string) => void;
   onWordClick: (word: string) => void;
   onTogglePlayCurrentSentence: () => void;
@@ -75,6 +77,7 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
   lessonsList,
   selectedLessonId,
   rawIdParam,
+  isInPlaceSwitchingLesson = false,
   currentSentenceIndex,
   setCurrentSentenceIndex,
   totalSentencesCount,
@@ -283,8 +286,16 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
                   }}
                   onNext={onNextSentenceInStudio}
                   onRewind5s={() => {
-                    setSentencePlaybackTime((prev) => Math.max(0, prev - 5));
-                    onToast({ type: "info", title: "Tua lùi 5s" });
+                    onStopTTS();
+                    setPlayingSentenceText(null);
+                    setSentencePlaybackTime(0);
+                    if (currentSentence?.text) {
+                      setTimeout(() => {
+                        setPlayingSentenceText(currentSentence.text);
+                        onSpeakSentence(currentSentence.text, currentSentenceIndex);
+                      }, 30);
+                      onToast({ type: "info", title: "Phát lại câu từ đầu" });
+                    }
                   }}
                   onForward5s={() => {
                     setSentencePlaybackTime((prev) => Math.min(sentenceDuration, prev + 5));
@@ -442,24 +453,28 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
               </div>
 
               {/* 2. MAIN DICTATION WORKSPACE (INPUT & WORD TOKENS) */}
-              <DictationWorkspace
-                key={`dict-${currentLesson.id}-${currentSentenceIndex}`}
-                sentenceText={currentSentence.text}
-                sentenceId={currentSentenceIndex}
-                lessonId={currentLesson.id}
-                sentenceIndex={currentSentenceIndex}
-                translation={currentSentence.translation || (currentSentence as any).translationVi || (currentSentence as any).vietnamese}
-                ipa={currentSentence.ipa || (currentSentence as any).ipaUs || (currentSentence as any).ipaUk}
-                playbackSpeed={playbackSpeed}
-                fontSizeLevel={fontSizeLevel}
-                hideTranslation={hideTranslation}
-                onToggleTranslation={() => setHideTranslation(!hideTranslation)}
-                onWordClick={onWordClick}
-                onWordMatched={onWordMatched}
-                onSentenceCompleted={onSentenceCompleted}
-                onPlayAudio={onTogglePlayCurrentSentence}
-                customProperNouns={(currentSentence as any).properNouns || []}
-              />
+              {isInPlaceSwitchingLesson ? (
+                <DictationWorkspaceLoadingSkeleton />
+              ) : (
+                <DictationWorkspace
+                  key={`dict-${currentLesson.id}-${currentSentenceIndex}`}
+                  sentenceText={currentSentence.text}
+                  sentenceId={currentSentenceIndex}
+                  lessonId={currentLesson.id}
+                  sentenceIndex={currentSentenceIndex}
+                  translation={currentSentence.translation || (currentSentence as any).translationVi || (currentSentence as any).vietnamese}
+                  ipa={currentSentence.ipa || (currentSentence as any).ipaUs || (currentSentence as any).ipaUk}
+                  playbackSpeed={playbackSpeed}
+                  fontSizeLevel={fontSizeLevel}
+                  hideTranslation={hideTranslation}
+                  onToggleTranslation={() => setHideTranslation(!hideTranslation)}
+                  onWordClick={onWordClick}
+                  onWordMatched={onWordMatched}
+                  onSentenceCompleted={onSentenceCompleted}
+                  onPlayAudio={onTogglePlayCurrentSentence}
+                  customProperNouns={(currentSentence as any).properNouns || []}
+                />
+              )}
             </div>
           )}
         </div>
@@ -475,7 +490,7 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
             currentIndex={currentSentenceIndex}
             completedSentences={completedSentences}
             isPlaying={!!playingSentenceText}
-            isLoadingSentences={isLoadingLessonDetail}
+            isLoadingSentences={isLoadingLessonDetail || isInPlaceSwitchingLesson}
             isLoadingRecommendations={isShufflingRecommendations}
             onSelectSentence={(idx) => {
               onStopTTS();

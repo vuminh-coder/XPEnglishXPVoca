@@ -1,0 +1,386 @@
+[
+  {
+    "orderIndex": 0,
+    "startTime": 1.2,
+    "endTime": 6,
+    "text": "Around the world, renewable energy use is on the rise,",
+    "translationVi": "Trên khắp thế giới, việc sử dụng năng lượng tái tạo đang ngày càng gia tăng,",
+    "ipaUs": "/əˈraʊnd ðə wɜːrld rɪˈnuːəbl ˈenərdʒi juːs ɪz ɑːn ðə raɪz/",
+    "properNouns": [],
+    "keywords": [
+      "around the world",
+      "renewable energy",
+      "on the rise"
+    ],
+    "explanation": "Thành ngữ 'on the rise' có nghĩa là đang gia tăng, ngày một phổ biến hơn."
+  },
+  {
+    "orderIndex": 1,
+    "startTime": 6,
+    "endTime": 12.5,
+    "text": "and these alternative energy sources could hold the key to combating climate change.",
+    "translationVi": "và những nguồn năng lượng thay thế này có thể nắm giữ chìa khóa then chốt để chống lại biến đổi khí hậu.",
+    "ipaUs": "/ænd ðiːz ɔːlˈtɜːrnətɪv ˈenərdʒi ˈsɔːrsɪz kʊd hoʊld ðə kiː tuː kəmˈbætɪŋ ˈklaɪmət tʃeɪndʒ/",
+    "properNouns": [],
+    "keywords": [
+      "alternative energy",
+      "hold the key",
+      "combating",
+      "climate change"
+    ],
+    "explanation": "Cụm 'hold the key to something' nghĩa là nắm giữ giải pháp quyết định, chìa khóa giải quyết vấn đề."
+  },
+  {
+    "orderIndex": 2,
+    "startTime": 17.2,
+    "endTime": 20,
+    "text": "What is renewable energy?",
+    "translationVi": "Vậy năng lượng tái tạo là gì?",
+    "ipaUs": "/wʌt ɪz rɪˈnuːəbl ˈenərdʒi/",
+    "properNouns": [],
+    "keywords": [
+      "what is",
+      "renewable energy"
+    ],
+    "explanation": "Câu hỏi tu từ mở đầu định nghĩa khoa học trong phóng sự tài liệu."
+  },
+  {
+    "orderIndex": 3,
+    "startTime": 20,
+    "endTime": 26.8,
+    "text": "Renewable energy is generated from sources that naturally replenish themselves and never run out.",
+    "translationVi": "Năng lượng tái tạo được tạo ra từ các nguồn tự nhiên tự phục hồi và không bao giờ cạn kiệt.",
+    "ipaUs": "/rɪˈnuːəbl ˈenərdʒi ɪz ˈdʒenəreɪtɪd frʌm ˈsɔːrsɪz ðæt ˈnætʃrəli rɪˈplenɪʃ ðəmˈselvz ænd ˈnevər rʌn aʊt/",
+    "properNouns": [],
+    "keywords": [
+      "generated",
+      "replenish",
+      "never run out"
+    ],
+    "explanation": "Động từ 'replenish' nghĩa là tự làm đầy lại, tái sinh; cụm động từ 'run out' nghĩa là cạn kiệt."
+  },
+  {
+    "orderIndex": 4,
+    "startTime": 26.8,
+    "endTime": 34.6,
+    "text": "The most common sources are solar, wind, hydro, geothermal, and biomass.",
+    "translationVi": "Các nguồn phổ biến nhất là năng lượng mặt trời, gió, thủy điện, địa nhiệt và sinh khối.",
+    "ipaUs": "/ðə moʊst ˈkɑːmən ˈsɔːrsɪz ɑːr ˈsoʊlər wɪnd ˈhaɪdroʊ ˌdʒiːoʊˈθɜːrml ænd ˈbaɪoʊmæs/",
+    "properNouns": [],
+    "keywords": [
+      "solar",
+      "wind",
+      "hydro",
+      "geothermal",
+      "biomass"
+    ],
+    "explanation": "Danh từ chuyên ngành năng lượng: 'geothermal' (địa nhiệt) và 'biomass' (sinh khối/vật chất hữu cơ)."
+  },
+  {
+    "orderIndex": 5,
+    "startTime": 34.6,
+    "endTime": 41,
+    "text": "Over 80 percent of the total energy consumed by humans is derived from fossil fuels.",
+    "translationVi": "Hơn 80% tổng năng lượng con người tiêu thụ có nguồn gốc từ nhiên liệu hóa thạch.",
+    "ipaUs": "/ˈoʊvər ˈeɪti pərˈsent əv ðə ˈtoʊtl ˈenərdʒi kənˈsuːmd baɪ ˈhjuːmənz ɪz dɪˈraɪvd frʌm ˈfɑːsl fjuːəlz/",
+    "properNouns": [],
+    "keywords": [
+      "consumed",
+      "derived from",
+      "fossil fuels"
+    ],
+    "explanation": "Cấu trúc 'derived from' nghĩa là bắt nguồn từ, được chiết xuất hoặc hình thành từ nguồn nào đó."
+  },
+  {
+    "orderIndex": 6,
+    "startTime": 41,
+    "endTime": 47.4,
+    "text": "However, renewables are the fastest growing source of energy in the world.",
+    "translationVi": "Tuy nhiên, năng lượng tái tạo đang là nguồn năng lượng tăng trưởng nhanh nhất trên thế giới.",
+    "ipaUs": "/haʊˈevər rɪˈnuːəblz ɑːr ðə ˈfæstɪst ˈɡroʊɪŋ sɔːrs əv ˈenərdʒi ɪn ðə wɜːrld/",
+    "properNouns": [],
+    "keywords": [
+      "renewables",
+      "fastest growing",
+      "source of energy"
+    ],
+    "explanation": "'Renewables' ở dạng danh từ số nhiều dùng để chỉ chung các nguồn năng lượng tái tạo."
+  },
+  {
+    "orderIndex": 7,
+    "startTime": 47.4,
+    "endTime": 51,
+    "text": "Renewable energy has many benefits.",
+    "translationVi": "Năng lượng tái tạo mang lại rất nhiều lợi ích.",
+    "ipaUs": "/rɪˈnuːəbl ˈenərdʒi hæz ˈmeni ˈbenɪfɪts/",
+    "properNouns": [],
+    "keywords": [
+      "benefits",
+      "renewable energy"
+    ],
+    "explanation": "Câu chủ đề ngắn gọn chuyển tiếp sang phần phân tích 3 lợi ích cốt lõi."
+  },
+  {
+    "orderIndex": 8,
+    "startTime": 51,
+    "endTime": 57.8,
+    "text": "First, it can combat climate change because it creates no direct greenhouse gas emissions.",
+    "translationVi": "Thứ nhất, nó có thể chống lại biến đổi khí hậu vì không tạo ra khí thải nhà kính trực tiếp.",
+    "ipaUs": "/fɜːrst ɪt kæn kəmˈbæt ˈklaɪmət tʃeɪndʒ bɪˈkəz ɪt kriˈeɪts noʊ dɪˈrekt ˈɡriːnhaʊs ɡæs ɪˈmɪʃnz/",
+    "properNouns": [],
+    "keywords": [
+      "combat",
+      "greenhouse gas emissions",
+      "direct"
+    ],
+    "explanation": "Thuật ngữ 'greenhouse gas emissions' (phát thải khí nhà kính) là từ vựng trọng tâm bài thi IELTS."
+  },
+  {
+    "orderIndex": 9,
+    "startTime": 57.8,
+    "endTime": 67.1,
+    "text": "The only emissions that they produce are indirect, meaning those that result from manufacturing parts, installation, operation, and maintenance,",
+    "translationVi": "Khí thải duy nhất mà chúng tạo ra là gián tiếp, nghĩa là lượng khí phát sinh từ khâu sản xuất linh kiện, lắp đặt, vận hành và bảo trì,",
+    "ipaUs": "/ði ˈoʊnli ɪˈmɪʃnz ðæt ðeɪ prəˈduːs ɑːr ˌɪndɪˈrekt ˈmiːnɪŋ ðoʊz ðæt rɪˈzʌlt frʌm ˌmænjuˈfæktʃərɪŋ pɑːrts ˌɪnstəˈleɪʃn ˌɑːpəˈreɪʃn ænd ˈmeɪntənəns/",
+    "properNouns": [],
+    "keywords": [
+      "indirect",
+      "manufacturing parts",
+      "installation",
+      "operation",
+      "maintenance"
+    ],
+    "explanation": "Cụm danh từ liệt kê quy trình công nghiệp: sản xuất (manufacturing), lắp đặt (installation), vận hành (operation), bảo trì (maintenance)."
+  },
+  {
+    "orderIndex": 10,
+    "startTime": 67.1,
+    "endTime": 70.1,
+    "text": "but even those are minimal.",
+    "translationVi": "nhưng ngay cả những tác động đó cũng ở mức tối thiểu.",
+    "ipaUs": "/bʌt ˈiːvn ðoʊz ɑːr ˈmɪnɪml/",
+    "properNouns": [],
+    "keywords": [
+      "even those",
+      "minimal"
+    ],
+    "explanation": "Tính từ 'minimal' có nghĩa là rất nhỏ, ở mức tối thiểu không đáng kể."
+  },
+  {
+    "orderIndex": 11,
+    "startTime": 70.1,
+    "endTime": 77,
+    "text": "Second, renewable energy can decrease pollution and therefore reduce threats to our health.",
+    "translationVi": "Thứ hai, năng lượng tái tạo có thể làm giảm ô nhiễm và do đó giảm bớt các mối đe dọa đối với sức khỏe của chúng ta.",
+    "ipaUs": "/ˈsekənd rɪˈnuːəbl ˈenərdʒi kæn dɪˈkriːs pəˈluːʃn ænd ˈðerfɔːr rɪˈduːs θrets tuː ˈaʊər helθ/",
+    "properNouns": [],
+    "keywords": [
+      "decrease pollution",
+      "therefore",
+      "reduce threats",
+      "health"
+    ],
+    "explanation": "Phó từ liên kết 'therefore' (do đó, vì vậy) thể hiện quan hệ nhân quả học thuật chặt chẽ."
+  },
+  {
+    "orderIndex": 12,
+    "startTime": 77,
+    "endTime": 82.8,
+    "text": "Wind, solar, and hydroelectric systems create no air pollution emissions,",
+    "translationVi": "Các hệ thống điện gió, điện mặt trời và thủy điện không tạo ra khí thải gây ô nhiễm không khí,",
+    "ipaUs": "/wɪnd ˈsoʊlər ænd ˌhaɪdroʊɪˈlektrɪk ˈsɪstəmz kriˈeɪt noʊ er pəˈluːʃn ɪˈmɪʃnz/",
+    "properNouns": [],
+    "keywords": [
+      "hydroelectric systems",
+      "air pollution emissions"
+    ],
+    "explanation": "Thuật ngữ 'hydroelectric systems' dùng để chỉ các hệ thống công trình thủy điện."
+  },
+  {
+    "orderIndex": 13,
+    "startTime": 82.8,
+    "endTime": 90.4,
+    "text": "and geothermal and biomass energy systems emissions are much lower than non-renewable energy sources.",
+    "translationVi": "và lượng khí thải từ các hệ thống năng lượng địa nhiệt và sinh khối thấp hơn nhiều so với các nguồn năng lượng không tái tạo.",
+    "ipaUs": "/ænd ˌdʒiːoʊˈθɜːrml ænd ˈbaɪoʊmæs ˈenərdʒi ˈsɪstəmz ɪˈmɪʃnz ɑːr mʌtʃ ˈloʊər ðæn nɑːn rɪˈnuːəbl ˈenərdʒi ˈsɔːrsɪz/",
+    "properNouns": [],
+    "keywords": [
+      "geothermal",
+      "biomass",
+      "lower than",
+      "non-renewable"
+    ],
+    "explanation": "Cấu trúc so sánh hơn 'much lower than' nhấn mạnh mức độ chênh lệch phát thải vượt trội."
+  },
+  {
+    "orderIndex": 14,
+    "startTime": 90.4,
+    "endTime": 95.5,
+    "text": "Third, renewable energy is a reliable source of power.",
+    "translationVi": "Thứ ba, năng lượng tái tạo là một nguồn cung cấp điện năng đáng tin cậy.",
+    "ipaUs": "/θɜːrd rɪˈnuːəbl ˈenərdʒi ɪz ə rɪˈlaɪəbl sɔːrs əv ˈpaʊər/",
+    "properNouns": [],
+    "keywords": [
+      "reliable source",
+      "power"
+    ],
+    "explanation": "'Reliable source of power' chỉ nguồn điện ổn định, đáng tin cậy có thể duy trì lâu dài."
+  },
+  {
+    "orderIndex": 15,
+    "startTime": 95.5,
+    "endTime": 102,
+    "text": "Because renewable energy sources are, well, renewable, they will never run out.",
+    "translationVi": "Bởi vì các nguồn năng lượng tái tạo, đúng như tên gọi, có thể tái tạo nên chúng sẽ không bao giờ cạn kiệt.",
+    "ipaUs": "/bɪˈkəz rɪˈnuːəbl ˈenərdʒi ˈsɔːrsɪz ɑːr wel rɪˈnuːəbl ðeɪ wɪl ˈnevər rʌn aʊt/",
+    "properNouns": [],
+    "keywords": [
+      "renewable",
+      "never run out"
+    ],
+    "explanation": "Cách dùng từ đệm 'well, renewable' tạo cảm giác tự nhiên, dí dỏm của người bản xứ khi nhấn mạnh bản chất."
+  },
+  {
+    "orderIndex": 16,
+    "startTime": 102,
+    "endTime": 109,
+    "text": "Once built, renewable facilities cost very little to operate and the fuel is often free.",
+    "translationVi": "Một khi đã được xây dựng, các cơ sở năng lượng tái tạo tốn rất ít chi phí vận hành và nhiên liệu thường hoàn toàn miễn phí.",
+    "ipaUs": "/wʌns bɪlt rɪˈnuːəbl fəˈsɪlətiz kɔːst ˈveri ˈlɪtl tuː ˈɑːpəreɪt ænd ðə ˈfjuːəl ɪz ˈɔːfn friː/",
+    "properNouns": [],
+    "keywords": [
+      "once built",
+      "facilities",
+      "cost very little",
+      "fuel is free"
+    ],
+    "explanation": "Mệnh đề rút gọn 'Once built' (Một khi được xây xong) là cấu trúc ngữ pháp cao cấp trong IELTS."
+  },
+  {
+    "orderIndex": 17,
+    "startTime": 109,
+    "endTime": 114.4,
+    "text": "As a result, renewable energy prices tend to be stable over time.",
+    "translationVi": "Kết quả là, giá năng lượng tái tạo có xu hướng ổn định theo thời gian.",
+    "ipaUs": "/æz ə rɪˈzʌlt rɪˈnuːəbl ˈenərdʒi ˈpraɪsɪz tend tuː biː ˈsteɪbl ˈoʊvər taɪm/",
+    "properNouns": [],
+    "keywords": [
+      "as a result",
+      "tend to be",
+      "stable over time"
+    ],
+    "explanation": "Cụm 'tend to be stable over time' diễn tả xu hướng duy trì tính bình ổn trong thời gian dài."
+  },
+  {
+    "orderIndex": 18,
+    "startTime": 114.4,
+    "endTime": 120.3,
+    "text": "While renewable energy has many advantages, it is not without downsides.",
+    "translationVi": "Mặc dù năng lượng tái tạo có nhiều ưu điểm, nhưng nó cũng không phải là không có những mặt hạn chế.",
+    "ipaUs": "/waɪl rɪˈnuːəbl ˈenərdʒi hæz ˈmeni ədˈvæntɪdʒɪz ɪt ɪz nɑːt wɪðˈaʊt ˈdaʊnsaɪdz/",
+    "properNouns": [],
+    "keywords": [
+      "advantages",
+      "not without",
+      "downsides"
+    ],
+    "explanation": "Cách diễn đạt phủ định kép 'not without downsides' để mở đầu phần phản biện một cách khách quan."
+  },
+  {
+    "orderIndex": 19,
+    "startTime": 120.3,
+    "endTime": 127.5,
+    "text": "It is difficult for renewable energy sources to generate power on the same large scale as fossil fuels.",
+    "translationVi": "Rất khó để các nguồn năng lượng tái tạo sản xuất điện ở cùng quy mô lớn như nhiên liệu hóa thạch.",
+    "ipaUs": "/ɪt ɪz ˈdɪfɪkəlt fɔːr rɪˈnuːəbl ˈenərdʒi ˈsɔːrsɪz tuː ˈdʒenəreɪt ˈpaʊər ɑːn ðə seɪm lɑːrdʒ skeɪl æz ˈfɑːsl fjuːəlz/",
+    "properNouns": [],
+    "keywords": [
+      "generate power",
+      "large scale",
+      "fossil fuels"
+    ],
+    "explanation": "Thành ngữ 'on the same large scale as' nghĩa là trên cùng một quy mô lớn tương đương."
+  },
+  {
+    "orderIndex": 20,
+    "startTime": 127.5,
+    "endTime": 135.5,
+    "text": "Building wind farms and dams can disrupt wildlife and migration patterns and lead to ecological destruction.",
+    "translationVi": "Việc xây dựng các trang trại gió và đập thủy điện có thể làm gián đoạn đời sống hoang dã, đường di cư của động vật và dẫn đến suy thoái sinh thái.",
+    "ipaUs": "/ˈbɪldɪŋ wɪnd fɑːrmz ænd dæmz kæn dɪsˈrʌpt ˈwaɪldlaɪf ænd maɪˈɡreɪʃn ˈpætərnz ænd liːd tuː ˌiːkəˈlɑːdʒɪkl dɪˈstrʌkʃn/",
+    "properNouns": [],
+    "keywords": [
+      "wind farms",
+      "dams",
+      "disrupt",
+      "wildlife",
+      "migration patterns",
+      "ecological destruction"
+    ],
+    "explanation": "Từ vựng sinh thái học: 'disrupt wildlife' (xáo trộn tự nhiên), 'migration patterns' (tập tính di cư), 'ecological destruction' (hủy hoại sinh thái)."
+  },
+  {
+    "orderIndex": 21,
+    "startTime": 135.5,
+    "endTime": 144,
+    "text": "Both solar and wind energy are intermittent; they only generate power while the sun is shining or while the wind is blowing.",
+    "translationVi": "Cả năng lượng mặt trời và năng lượng gió đều có tính gián đoạn; chúng chỉ phát điện khi có ánh nắng mặt trời hoặc khi có gió thổi.",
+    "ipaUs": "/boʊθ ˈsoʊlər ænd wɪnd ˈenərdʒi ɑːr ˌɪntərˈmɪtənt ðeɪ ˈoʊnli ˈdʒenəreɪt ˈpaʊər waɪl ðə sʌn ɪz ˈʃaɪnɪŋ ɔːr waɪl ðə wɪnd ɪz ˈbloʊɪŋ/",
+    "properNouns": [],
+    "keywords": [
+      "intermittent",
+      "generate power",
+      "sun is shining",
+      "wind is blowing"
+    ],
+    "explanation": "Tính từ học thuật 'intermittent' (ngắt quãng, chập chờn, không liên tục) là thuật ngữ quan trọng trong ngành năng lượng tái tạo."
+  },
+  {
+    "orderIndex": 22,
+    "startTime": 144,
+    "endTime": 151.2,
+    "text": "Batteries can store excess energy for later use; however, they are often costly.",
+    "translationVi": "Pin lưu trữ có thể tích trữ năng lượng dư thừa để sử dụng sau; tuy nhiên, chúng thường rất đắt đỏ.",
+    "ipaUs": "/ˈbætəriz kæn stɔːr ˈekses ˈenərdʒi fɔːr ˈleɪtər juːs haʊˈevər ðeɪ ɑːr ˈɔːfn ˈkɔːstli/",
+    "properNouns": [],
+    "keywords": [
+      "store excess energy",
+      "later use",
+      "costly"
+    ],
+    "explanation": "Cụm 'store excess energy' nghĩa là tích trữ lượng điện năng dư thừa để tái sử dụng."
+  },
+  {
+    "orderIndex": 23,
+    "startTime": 151.2,
+    "endTime": 162.2,
+    "text": "While renewable energy presents some challenges, it also offers an environmentally friendly alternative to the greenhouse gas emissions and pollution of fossil fuels.",
+    "translationVi": "Dù năng lượng tái tạo đặt ra một số thách thức, nó cũng đem đến một giải pháp thay thế thân thiện với môi trường cho tình trạng phát thải khí nhà kính và ô nhiễm từ nhiên liệu hóa thạch.",
+    "ipaUs": "/waɪl rɪˈnuːəbl ˈenərdʒi prɪˈzents sʌm ˈtʃælɪndʒɪz ɪt ˈɔːlsoʊ ˈɔːfərz ən ɪnˌvaɪrənˈmentəli ˈfrendli ɔːlˈtɜːrnətɪv tuː ðə ˈɡriːnhaʊs ɡæs ɪˈmɪʃnz ænd pəˈluːʃn əv ˈfɑːsl fjuːəlz/",
+    "properNouns": [],
+    "keywords": [
+      "presents challenges",
+      "environmentally friendly alternative",
+      "greenhouse gas emissions",
+      "pollution"
+    ],
+    "explanation": "Cụm 'environmentally friendly alternative' (giải pháp thay thế thân thiện môi trường) dùng rất nhiều trong bài luận Writing/Speaking Task 2."
+  },
+  {
+    "orderIndex": 24,
+    "startTime": 162.2,
+    "endTime": 172.5,
+    "text": "And as advances in technology make renewable energy more accessible, affordable, and efficient, an end to climate change could be within our reach.",
+    "translationVi": "Và khi những bước tiến công nghệ giúp năng lượng tái tạo trở nên dễ tiếp cận hơn, giá cả phải chăng hơn và hiệu quả hơn, việc chấm dứt biến đổi khí hậu hoàn toàn có thể nằm trong tầm tay của chúng ta.",
+    "ipaUs": "/ænd æz ədˈvænsɪz ɪn tekˈnɑːlədʒi meɪk rɪˈnuːəbl ˈenərdʒi mɔːr əkˈsesəbl əˈfɔːrdəbl ænd ɪˈfɪʃnt ən end tuː ˈklaɪmət tʃeɪndʒ kʊd biː wɪˈðɪn ˈaʊər riːtʃ/",
+    "properNouns": [],
+    "keywords": [
+      "advances in technology",
+      "accessible",
+      "affordable",
+      "efficient",
+      "within our reach"
+    ],
+    "explanation": "Thành ngữ 'within our reach' nghĩa là nằm trong tầm với, hoàn toàn có khả năng đạt được."
+  }
+]

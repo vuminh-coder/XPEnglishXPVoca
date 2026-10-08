@@ -74,15 +74,19 @@ export { stopTTS };
 
 export function safeSpeakText(
   text: string,
-  options: { lang?: string; rate?: number; volume?: number; lessonId?: string; speakerIndex?: number } = {}
+  options: SpeakOptions & { lang?: string } = {}
 ) {
-  const { lang, rate, volume, lessonId, speakerIndex } = options;
+  const { lang, rate, volume, lessonId, speakerIndex, onEnd, onError, delayMs, onWordBoundary } = options;
   speakLessonText(text, {
     lessonId,
     speakerIndex,
     accent: lang as any,
     rate,
     volume,
+    onEnd,
+    onError,
+    delayMs,
+    onWordBoundary,
   });
 }
 

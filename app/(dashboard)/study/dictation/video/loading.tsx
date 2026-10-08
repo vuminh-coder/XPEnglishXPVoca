@@ -1,5 +1,7 @@
-import { VideoListingSkeleton } from "@/features/listening";
+"use client";
+
+import { DictationVideoSuspenseFallback } from "@/features/listening";
 
 export default function DictationVideoLoading() {
-  return <VideoListingSkeleton />;
+  return <DictationVideoSuspenseFallback />;
 }

@@ -5,3 +5,4 @@ export * from "./components/ShadowingListingView";
 export * from "./components/ShadowingStudioWorkspace";
 export * from "./components/ShadowingCompletionScreen";
 export * from "./components/ShadowingModals";
+export * from "./components/ShadowingPageContent";

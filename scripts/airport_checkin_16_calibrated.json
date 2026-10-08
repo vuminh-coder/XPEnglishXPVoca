@@ -1,0 +1,229 @@
+[
+  {
+    "orderIndex": 0,
+    "startTime": 3,
+    "endTime": 6,
+    "text": "Flight 892 is now boarding.",
+    "translationVi": "Chuyến bay 892 hiện đang bắt đầu cho hành khách lên máy bay.",
+    "ipaUs": "/flaɪt eɪt naɪn tuː ɪz naʊ ˈbɔːrdɪŋ/",
+    "properNouns": [
+      "Flight 892"
+    ],
+    "keywords": [
+      "flight",
+      "boarding"
+    ],
+    "explanation": "Cụm 'is now boarding' dùng trong loa phát thanh sân bay để thông báo hành khách bắt đầu làm thủ tục lên máy bay."
+  },
+  {
+    "orderIndex": 1,
+    "startTime": 6,
+    "endTime": 9,
+    "text": "Hello! Where are you going today, sir?",
+    "translationVi": "Xin chào! Hôm nay quý khách sẽ bay đến đâu ạ?",
+    "ipaUs": "/həˈloʊ wer ɑːr juː ˈɡoʊɪŋ təˈdeɪ sɜːr/",
+    "properNouns": [],
+    "keywords": [
+      "where are you going",
+      "sir"
+    ],
+    "explanation": "Cách hỏi lịch sự, chuẩn mực của nhân viên thủ tục hàng không (ground staff) khi đón tiếp hành khách."
+  },
+  {
+    "orderIndex": 2,
+    "startTime": 9,
+    "endTime": 11.2,
+    "text": "I'm heading to New York City.",
+    "translationVi": "Tôi sẽ bay đến Thành phố New York.",
+    "ipaUs": "/aɪm ˈhedɪŋ tuː nuː jɔːrk ˈsɪti/",
+    "properNouns": [
+      "New York City"
+    ],
+    "keywords": [
+      "heading to",
+      "New York City"
+    ],
+    "explanation": "Cụm 'heading to' là cách nói tự nhiên của người bản xứ thay thế cho 'traveling to' hoặc 'going to'."
+  },
+  {
+    "orderIndex": 3,
+    "startTime": 11.2,
+    "endTime": 15.5,
+    "text": "Okay, may I see your ticket and passport, please?",
+    "translationVi": "Vâng, tôi có thể xem vé và hộ chiếu của quý khách được không ạ?",
+    "ipaUs": "/oʊˈkeɪ meɪ aɪ siː jʊər ˈtɪkɪt ænd ˈpæspɔːrt pliːz/",
+    "properNouns": [],
+    "keywords": [
+      "ticket",
+      "passport"
+    ],
+    "explanation": "Cấu trúc đề nghị lịch sự 'May I see...' kết hợp 'please' ở cuối câu là mẫu câu chuẩn trong giao tiếp du lịch."
+  },
+  {
+    "orderIndex": 4,
+    "startTime": 15.5,
+    "endTime": 17.8,
+    "text": "Yes, here you are.",
+    "translationVi": "Vâng, của cô đây ạ.",
+    "ipaUs": "/jes hɪr juː ɑːr/",
+    "properNouns": [],
+    "keywords": [
+      "here you are"
+    ],
+    "explanation": "'Here you are' là mẫu câu thông dụng khi trao tận tay đồ vật hoặc giấy tờ cho ai đó."
+  },
+  {
+    "orderIndex": 5,
+    "startTime": 17.8,
+    "endTime": 21.5,
+    "text": "Thank you. Are you traveling alone today?",
+    "translationVi": "Cảm ơn quý khách. Hôm nay quý khách đi một mình phải không ạ?",
+    "ipaUs": "/θæŋk juː ɑːr juː ˈtrævlɪŋ əˈloʊn təˈdeɪ/",
+    "properNouns": [],
+    "keywords": [
+      "traveling alone"
+    ],
+    "explanation": "Câu hỏi xác nhận số lượng hành khách đi cùng đoàn để xuất thẻ lên máy bay liền kề nếu cần."
+  },
+  {
+    "orderIndex": 6,
+    "startTime": 21.5,
+    "endTime": 23.8,
+    "text": "Yes, I am.",
+    "translationVi": "Vâng, đúng vậy.",
+    "ipaUs": "/jes aɪ æm/",
+    "properNouns": [],
+    "keywords": [
+      "yes I am"
+    ],
+    "explanation": "Câu trả lời ngắn chuẩn ngữ pháp tiếng Anh giao tiếp."
+  },
+  {
+    "orderIndex": 7,
+    "startTime": 23.8,
+    "endTime": 26.6,
+    "text": "How many bags do you have with you today?",
+    "translationVi": "Hôm nay quý khách mang theo bao nhiêu kiện hành lý ạ?",
+    "ipaUs": "/haʊ ˈmeni bæɡz duː juː hæv wɪð juː təˈdeɪ/",
+    "properNouns": [],
+    "keywords": [
+      "how many bags",
+      "with you"
+    ],
+    "explanation": "Câu hỏi kiểm tra hành lý ký gửi (checked baggage) và hành lý xách tay (carry-on baggage)."
+  },
+  {
+    "orderIndex": 8,
+    "startTime": 26.6,
+    "endTime": 29,
+    "text": "Just this one.",
+    "translationVi": "Chỉ một chiếc này thôi ạ.",
+    "ipaUs": "/dʒʌst ðɪs wʌn/",
+    "properNouns": [],
+    "keywords": [
+      "just this one"
+    ],
+    "explanation": "Cách trả lời ngắn gọn, lịch sự chỉ đích danh một kiện hành lý duy nhất."
+  },
+  {
+    "orderIndex": 9,
+    "startTime": 29,
+    "endTime": 33,
+    "text": "Please put it on the scale.",
+    "translationVi": "Xin vui lòng đặt hành lý lên bàn cân.",
+    "ipaUs": "/pliːz pʊt ɪt ɑːn ðə skeɪl/",
+    "properNouns": [],
+    "keywords": [
+      "put it on",
+      "scale"
+    ],
+    "explanation": "Danh từ 'scale' ở đây là bàn cân hành lý tại quầy check-in sân bay."
+  },
+  {
+    "orderIndex": 10,
+    "startTime": 33,
+    "endTime": 37,
+    "text": "Would you like a window or an aisle seat?",
+    "translationVi": "Quý khách muốn chọn ghế cạnh cửa sổ hay ghế cạnh lối đi ạ?",
+    "ipaUs": "/wʊd juː laɪk ə ˈwɪndoʊ ɔːr ən aɪl siːt/",
+    "properNouns": [],
+    "keywords": [
+      "window seat",
+      "aisle seat"
+    ],
+    "explanation": "Thuật ngữ hàng không thiết yếu: 'window seat' (ghế cạnh cửa sổ) và 'aisle seat' (ghế cạnh lối đi, lưu ý âm câm 's' trong 'aisle' đọc là /aɪl/)."
+  },
+  {
+    "orderIndex": 11,
+    "startTime": 37,
+    "endTime": 39.8,
+    "text": "I would like a window seat, please.",
+    "translationVi": "Cho tôi xin một ghế cạnh cửa sổ nhé.",
+    "ipaUs": "/aɪ wʊd laɪk ə ˈwɪndoʊ siːt pliːz/",
+    "properNouns": [],
+    "keywords": [
+      "would like",
+      "window seat"
+    ],
+    "explanation": "Cấu trúc 'I would like... please' để yêu cầu lịch sự vị trí ghế mong muốn."
+  },
+  {
+    "orderIndex": 12,
+    "startTime": 39.8,
+    "endTime": 44.2,
+    "text": "Okay, sir. Here's your ticket and your passport.",
+    "translationVi": "Vâng thưa quý khách. Đây là vé máy bay và hộ chiếu của quý khách.",
+    "ipaUs": "/oʊˈkeɪ sɜːr hɪrz jʊər ˈtɪkɪt ænd jʊər ˈpæspɔːrt/",
+    "properNouns": [],
+    "keywords": [
+      "here's",
+      "ticket",
+      "passport"
+    ],
+    "explanation": "Nhân viên trả lại giấy tờ tùy thân và boarding pass sau khi đã hoàn tất thủ tục."
+  },
+  {
+    "orderIndex": 13,
+    "startTime": 44.2,
+    "endTime": 47.6,
+    "text": "You'll be departing from Gate 17B.",
+    "translationVi": "Quý khách sẽ khởi hành từ cửa số 17B.",
+    "ipaUs": "/juːl biː dɪˈpɑːrtɪŋ frʌm ɡeɪt ˈsevntiːn biː/",
+    "properNouns": [
+      "Gate 17B"
+    ],
+    "keywords": [
+      "departing from",
+      "gate 17B"
+    ],
+    "explanation": "Động từ 'depart from' chỉ việc xuất phát, khởi hành từ cửa ra máy bay cụ thể."
+  },
+  {
+    "orderIndex": 14,
+    "startTime": 47.6,
+    "endTime": 53,
+    "text": "Please arrive at your gate at least 30 minutes before your departure time.",
+    "translationVi": "Xin vui lòng có mặt tại cửa khởi hành ít nhất 30 phút trước giờ máy bay cất cánh.",
+    "ipaUs": "/pliːz əˈraɪv æt jʊər ɡeɪt æt liːst ˈθɜːrti ˈmɪnɪts bɪˈfɔːr jʊər dɪˈpɑːrtʃər taɪm/",
+    "properNouns": [],
+    "keywords": [
+      "arrive at",
+      "at least",
+      "departure time"
+    ],
+    "explanation": "Cụm 'at least' (ít nhất) và 'departure time' (giờ khởi hành theo lịch trình) là hướng dẫn an toàn hàng không quan trọng."
+  },
+  {
+    "orderIndex": 15,
+    "startTime": 53,
+    "endTime": 56,
+    "text": "Thank you very much.",
+    "translationVi": "Cảm ơn cô rất nhiều.",
+    "ipaUs": "/θæŋk juː ˈveri mʌtʃ/",
+    "properNouns": [],
+    "keywords": [
+      "thank you very much"
+    ],
+    "explanation": "Lời cảm ơn kết thúc thủ tục check-in một cách lịch thiệp."
+  }
+]

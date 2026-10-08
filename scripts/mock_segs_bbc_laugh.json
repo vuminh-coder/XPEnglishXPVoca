@@ -1,0 +1,270 @@
+[
+  {
+    "orderIndex": 0,
+    "startTime": 2.75,
+    "endTime": 11.45,
+    "text": "Hello. This is 6 Minute English from BBC Learning English.",
+    "translationVi": "Xin chào. Đây là chương trình 6 Minute English từ BBC Learning English.",
+    "ipaUs": "/hɛˈloʊ ðɪs ɪz sɪks ˈmɪnɪt ˈɪŋɡlɪʃ frɒm ˌbiː biː ˈsiː ˈlɜːnɪŋ ˈɪŋɡlɪʃ/",
+    "properNouns": [
+      "6 Minute English",
+      "BBC Learning English"
+    ],
+    "keywords": [
+      "6 Minute English",
+      "BBC Learning English"
+    ]
+  },
+  {
+    "orderIndex": 1,
+    "startTime": 11.45,
+    "endTime": 16,
+    "text": "I'm Sam. And I'm Neil. Have you heard this joke, Neil?",
+    "translationVi": "Tôi là Sam. Và tôi là Neil. Anh đã nghe câu chuyện cười này chưa, Neil?",
+    "ipaUs": "/aɪm sæm ænd aɪm niːl hæv juː hɜːd ðɪs dʒoʊk niːl/",
+    "properNouns": [
+      "Sam",
+      "Neil"
+    ],
+    "keywords": [
+      "joke",
+      "heard"
+    ]
+  },
+  {
+    "orderIndex": 2,
+    "startTime": 16,
+    "endTime": 18.98,
+    "text": "Question: what's a rat's favourite game?",
+    "translationVi": "Câu hỏi nè: trò chơi yêu thích nhất của một con chuột là gì?",
+    "ipaUs": "/ˈkwɛstʃən wɒts ə ræts ˈfeɪvərɪt ɡeɪm/",
+    "properNouns": [],
+    "keywords": [
+      "rat",
+      "favourite game"
+    ]
+  },
+  {
+    "orderIndex": 3,
+    "startTime": 18.98,
+    "endTime": 22.43,
+    "text": "I don't know, Sam, what is a rat's favourite game?",
+    "translationVi": "Tôi không biết, Sam, trò chơi yêu thích của chuột là gì thế?",
+    "ipaUs": "/aɪ doʊnt noʊ sæm wɒt ɪz ə ræts ˈfeɪvərɪt ɡeɪm/",
+    "properNouns": [
+      "Sam"
+    ],
+    "keywords": [
+      "rat",
+      "favourite game"
+    ]
+  },
+  {
+    "orderIndex": 4,
+    "startTime": 22.43,
+    "endTime": 25.68,
+    "text": "Hide and squeak! Ha-ha-ha! Very funny!",
+    "translationVi": "Trốn và kêu chít chít (chơi chữ 'Hide and seek')! Ha-ha-ha! Buồn cười thật đấy!",
+    "ipaUs": "/haɪd ænd skwiːk hɑː hɑː hɑː ˈvɛri ˈfʌni/",
+    "properNouns": [],
+    "keywords": [
+      "squeak",
+      "funny"
+    ]
+  },
+  {
+    "orderIndex": 5,
+    "startTime": 25.68,
+    "endTime": 32.55,
+    "text": "Well, I'm glad you're laughing because, as we'll be finding out in this programme, laughter is good for you!",
+    "translationVi": "Chà, tôi rất mừng vì anh đang cười bởi vì, như chúng ta sẽ cùng khám phá trong chương trình này, tiếng cười rất tốt cho bạn!",
+    "ipaUs": "/wɛl aɪm ɡlæd jʊər ˈlɑːfɪŋ bɪˈkɒz æz wiːl biː ˈfaɪndɪŋ aʊt ɪn ðɪs ˈproʊɡræm ˈlɑːftər ɪz ɡʊd fɔːr juː/",
+    "properNouns": [],
+    "keywords": [
+      "glad",
+      "laughing",
+      "finding out",
+      "laughter"
+    ]
+  },
+  {
+    "orderIndex": 6,
+    "startTime": 32.55,
+    "endTime": 36.45,
+    "text": "In fact, laughter is often called 'the best medicine'.",
+    "translationVi": "Trên thực tế, nụ cười thường được gọi là 'liều thuốc tốt nhất'.",
+    "ipaUs": "/ɪn fækt ˈlɑːftər ɪz ˈɒfən kɔːld ðə bɛst ˈmɛdsɪn/",
+    "properNouns": [],
+    "keywords": [
+      "in fact",
+      "best medicine"
+    ]
+  },
+  {
+    "orderIndex": 7,
+    "startTime": 36.45,
+    "endTime": 43.62,
+    "text": "And it seems that's really true, medically speaking. Laughing releases anti-stress endorphins into the body,",
+    "translationVi": "Và điều đó có vẻ thực sự đúng về mặt y học. Cười giúp giải phóng hormone endorphin chống căng thẳng vào cơ thể,",
+    "ipaUs": "/ænd ɪt siːmz ðæts ˈrɪəli truː ˈmɛdɪkli ˈspiːkɪŋ ˈlɑːfɪŋ rɪˈliːsɪz ˈænti strɛs ɛnˈdɔːfɪnz ˈɪntuː ðə ˈbɒdi/",
+    "properNouns": [],
+    "keywords": [
+      "medically speaking",
+      "releases",
+      "endorphins"
+    ]
+  },
+  {
+    "orderIndex": 8,
+    "startTime": 43.62,
+    "endTime": 49.16,
+    "text": "and there's evidence that people who laugh recover more quickly from illness, including Covid.",
+    "translationVi": "và có bằng chứng cho thấy những người hay cười hồi phục nhanh hơn sau bệnh tật, bao gồm cả Covid.",
+    "ipaUs": "/ænd ðɛərz ˈɛvɪdəns ðæt ˈpiːpəl huː lɑːf rɪˈkʌvər mɔːr ˈkwɪkli frɒm ˈɪlnɪs ɪnˈkluːdɪŋ ˈkoʊvɪd/",
+    "properNouns": [
+      "Covid"
+    ],
+    "keywords": [
+      "evidence",
+      "recover",
+      "illness",
+      "Covid"
+    ]
+  },
+  {
+    "orderIndex": 9,
+    "startTime": 49.16,
+    "endTime": 52.37,
+    "text": "Laughing is an essential part of what makes us human.",
+    "translationVi": "Tiếng cười là một phần thiết yếu tạo nên bản chất con người chúng ta.",
+    "ipaUs": "/ˈlɑːfɪŋ ɪz ən ɪˈsɛnʃəl pɑːt ʌv wɒt meɪks ʌs ˈhjuːmən/",
+    "properNouns": [],
+    "keywords": [
+      "essential part",
+      "human"
+    ]
+  },
+  {
+    "orderIndex": 10,
+    "startTime": 52.37,
+    "endTime": 59.65,
+    "text": "Babies cry straight from birth but the next sound they make, often as young as two or three months, is laughter.",
+    "translationVi": "Trẻ sơ sinh khóc ngay từ lúc chào đời, nhưng âm thanh tiếp theo chúng tạo ra, thường khi mới hai hoặc ba tháng tuổi, chính là tiếng cười.",
+    "ipaUs": "/ˈbeɪbiz kraɪ streɪt frɒm bɜːθ bʌt ðə nɛkst saʊnd ðeɪ meɪk ˈɒfən æz jʌŋ æz tuː ɔːr θriː mʌnθs ɪz ˈlɑːftər/",
+    "properNouns": [],
+    "keywords": [
+      "straight from birth",
+      "laughter",
+      "months"
+    ]
+  },
+  {
+    "orderIndex": 11,
+    "startTime": 59.65,
+    "endTime": 64,
+    "text": "And who can hear a baby laugh without laughing themselves? Laughter is catching.",
+    "translationVi": "Và ai có thể nghe một đứa bé cười mà không bất giác cười theo cơ chứ? Tiếng cười có tính lây lan.",
+    "ipaUs": "/ænd huː kæn hɪər ə ˈbeɪbi lɑːf wɪðˈaʊt ˈlɑːfɪŋ ðəmˈsɛlvz ˈlɑːftər ɪz ˈkætʃɪŋ/",
+    "properNouns": [],
+    "keywords": [
+      "without laughing",
+      "catching"
+    ]
+  },
+  {
+    "orderIndex": 12,
+    "startTime": 64,
+    "endTime": 70.55,
+    "text": "But before we start tickling our funny bones, I have a quiz question for you, Neil, and it's no laughing matter.",
+    "translationVi": "Nhưng trước khi chúng ta bắt đầu cù cười, tôi có một câu hỏi đố dành cho anh, Neil, và nó không phải chuyện đùa đâu.",
+    "ipaUs": "/bʌt bɪˈfɔːr wiː stɑːt ˈtɪkəlɪŋ ˈaʊər ˈfʌni boʊnz aɪ hæv ə kwɪz ˈkwɛstʃən fɔːr juː niːl ænd ɪts noʊ ˈlɑːfɪŋ ˈmætər/",
+    "properNouns": [
+      "Neil"
+    ],
+    "keywords": [
+      "funny bones",
+      "quiz question",
+      "no laughing matter"
+    ]
+  },
+  {
+    "orderIndex": 13,
+    "startTime": 70.55,
+    "endTime": 78.85,
+    "text": "Laughter can be a serious business. In fact, there's a scientific field of study into laughter and its effects on the human body.",
+    "translationVi": "Tiếng cười có thể là một lĩnh vực nghiêm túc. Thực tế, có hẳn một ngành nghiên cứu khoa học về tiếng cười và tác động của nó lên cơ thể con người.",
+    "ipaUs": "/ˈlɑːftər kæn biː ə ˈsɪəriəs ˈbɪznɪs ɪn fækt ðɛərz ə ˌsaɪənˈtɪfɪk fiːld ʌv ˈstʌdi ˈɪntuː ˈlɑːftər ænd ɪts ɪˈfɛkts ɒn ðə ˈhjuːmən ˈbɒdi/",
+    "properNouns": [],
+    "keywords": [
+      "serious business",
+      "scientific field",
+      "effects",
+      "human body"
+    ]
+  },
+  {
+    "orderIndex": 14,
+    "startTime": 78.85,
+    "endTime": 88.97,
+    "text": "But what is this study called? Is it: a) gigglology, b) gelotology, or c) guffology?",
+    "translationVi": "Nhưng ngành nghiên cứu này được gọi là gì? Liệu nó là: a) gigglology, b) gelotology, hay c) guffology?",
+    "ipaUs": "/bʌt wɒt ɪz ðɪs ˈstʌdi kɔːld ɪz ɪt ˌɡɪɡəlˈɒlədʒi dʒɛləˈtɒlədʒi ɔːr ɡʌfˈɒlədʒi/",
+    "properNouns": [
+      "gigglology",
+      "gelotology",
+      "guffology"
+    ],
+    "keywords": [
+      "study called",
+      "gigglology",
+      "gelotology",
+      "guffology"
+    ]
+  },
+  {
+    "orderIndex": 15,
+    "startTime": 88.97,
+    "endTime": 95.79,
+    "text": "Did you make those words up, Sam? They sound a bit funny to me! I'll say the study of laughter is called b) gelotology.",
+    "translationVi": "Cô có tự bịa ra những từ đó không đấy, Sam? Nghe lạ tai quá! Tôi xin đoán ngành nghiên cứu tiếng cười được gọi là b) gelotology.",
+    "ipaUs": "/dɪd juː meɪk ðoʊz wɜːdz ʌp sæm ðeɪ saʊnd ə bɪt ˈfʌni tuː miː aɪl seɪ ðə ˈstʌdi ʌv ˈlɑːftər ɪz kɔːld dʒɛləˈtɒlədʒi/",
+    "properNouns": [
+      "Sam",
+      "gelotology"
+    ],
+    "keywords": [
+      "make up",
+      "sound funny",
+      "gelotology"
+    ]
+  },
+  {
+    "orderIndex": 16,
+    "startTime": 95.79,
+    "endTime": 101.09,
+    "text": "OK, Neil, but you'll be laughing on the other side of your face if you're wrong!",
+    "translationVi": "Được rồi Neil, nhưng anh sẽ tắt nụ cười ngay nếu anh đoán sai đấy!",
+    "ipaUs": "/oʊˈkeɪ niːl bʌt juːl biː ˈlɑːfɪŋ ɒn ðiː ˈʌðər saɪd ʌv jʊər feɪs ɪf jʊər rɒŋ/",
+    "properNouns": [
+      "Neil"
+    ],
+    "keywords": [
+      "laughing on the other side of your face",
+      "wrong"
+    ]
+  },
+  {
+    "orderIndex": 17,
+    "startTime": 101.09,
+    "endTime": 105.5,
+    "text": "Anyway, we'll find out the correct answer later in the programme.",
+    "translationVi": "Dù sao đi nữa, chúng ta sẽ biết đáp án chính xác ở phần sau của chương trình.",
+    "ipaUs": "/ˈɛniweɪ wiːl faɪnd aʊt ðə kəˈrɛkt ˈɑːnsər ˈleɪtər ɪn ðə ˈproʊɡræm/",
+    "properNouns": [],
+    "keywords": [
+      "anyway",
+      "correct answer",
+      "programme"
+    ]
+  }
+]

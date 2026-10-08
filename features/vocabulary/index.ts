@@ -19,7 +19,7 @@ export * from "./hooks/useVocabularyQuiz";
 export * from "./hooks/useVocabularyAiCoach";
 
 // Data
-export * from "./data/themes";
+export * from "./data/topics";
 export * from "./data/advancedVocabularies";
 export * from "./data/deepDictionary";
 export * from "./data/academicCollocations";

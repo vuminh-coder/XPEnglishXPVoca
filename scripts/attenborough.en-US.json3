@@ -1,0 +1,239 @@
+{
+  "wireMagic": "pb3",
+  "pens": [ {
+  
+  } ],
+  "wsWinStyles": [ {
+  
+  }, {
+    "juJustifCode": 2
+  } ],
+  "wpWinPositions": [ {
+  
+  }, {
+    "apPoint": 7,
+    "ahHorPos": 50,
+    "avVerPos": 100,
+    "rcRows": 2,
+    "ccCols": 28
+  }, {
+    "apPoint": 7,
+    "ahHorPos": 50,
+    "avVerPos": 100,
+    "rcRows": 2,
+    "ccCols": 24
+  }, {
+    "apPoint": 7,
+    "ahHorPos": 50,
+    "avVerPos": 100,
+    "rcRows": 2,
+    "ccCols": 31
+  }, {
+    "apPoint": 7,
+    "ahHorPos": 50,
+    "avVerPos": 100,
+    "rcRows": 2,
+    "ccCols": 21
+  }, {
+    "apPoint": 7,
+    "ahHorPos": 50,
+    "avVerPos": 100,
+    "rcRows": 1,
+    "ccCols": 29
+  }, {
+    "apPoint": 7,
+    "ahHorPos": 50,
+    "avVerPos": 100,
+    "rcRows": 2,
+    "ccCols": 23
+  }, {
+    "apPoint": 7,
+    "ahHorPos": 50,
+    "avVerPos": 100,
+    "rcRows": 1,
+    "ccCols": 25
+  }, {
+    "apPoint": 7,
+    "ahHorPos": 50,
+    "avVerPos": 100,
+    "rcRows": 1,
+    "ccCols": 14
+  }, {
+    "apPoint": 7,
+    "ahHorPos": 50,
+    "avVerPos": 100,
+    "rcRows": 2,
+    "ccCols": 27
+  }, {
+    "apPoint": 7,
+    "ahHorPos": 50,
+    "avVerPos": 100,
+    "rcRows": 1,
+    "ccCols": 21
+  }, {
+    "apPoint": 7,
+    "ahHorPos": 50,
+    "avVerPos": 100,
+    "rcRows": 1,
+    "ccCols": 23
+  }, {
+    "apPoint": 7,
+    "ahHorPos": 50,
+    "avVerPos": 100,
+    "rcRows": 1,
+    "ccCols": 30
+  } ],
+  "events": [ {
+    "tStartMs": 209,
+    "dDurationMs": 2669,
+    "segs": [ {
+      "utf8": "Tonight, we've got rather\na different program for you."
+    } ],
+    "wpWinPosId": 1,
+    "wsWinStyleId": 1
+  }, {
+    "tStartMs": 4922,
+    "dDurationMs": 3962,
+    "segs": [ {
+      "utf8": "I am David Attenborough,\nand I am 93."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 1
+  }, {
+    "tStartMs": 10344,
+    "dDurationMs": 2210,
+    "segs": [ {
+      "utf8": "I've had\nthe most extraordinary life."
+    } ],
+    "wpWinPosId": 1,
+    "wsWinStyleId": 1
+  }, {
+    "tStartMs": 14097,
+    "dDurationMs": 3587,
+    "segs": [ {
+      "utf8": "It's only now that I appreciate\nhow extraordinary."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 1
+  }, {
+    "tStartMs": 20562,
+    "dDurationMs": 4213,
+    "segs": [ {
+      "utf8": "The living world is a unique\nand spectacular marvel."
+    } ],
+    "wpWinPosId": 1,
+    "wsWinStyleId": 1
+  }, {
+    "tStartMs": 25317,
+    "dDurationMs": 2836,
+    "segs": [ {
+      "utf8": "Yet the way we humans\nlive on Earth…"
+    } ],
+    "wpWinPosId": 4,
+    "wsWinStyleId": 1
+  }, {
+    "tStartMs": 29863,
+    "dDurationMs": 1919,
+    "segs": [ {
+      "utf8": "is sending it into a decline."
+    } ],
+    "wpWinPosId": 5,
+    "wsWinStyleId": 1
+  }, {
+    "tStartMs": 33742,
+    "dDurationMs": 2211,
+    "segs": [ {
+      "utf8": "Human beings\nhave overrun the world."
+    } ],
+    "wpWinPosId": 6,
+    "wsWinStyleId": 1
+  }, {
+    "tStartMs": 37871,
+    "dDurationMs": 2252,
+    "segs": [ {
+      "utf8": "We're replacing the wild…"
+    } ],
+    "wpWinPosId": 7,
+    "wsWinStyleId": 1
+  }, {
+    "tStartMs": 40624,
+    "dDurationMs": 1043,
+    "segs": [ {
+      "utf8": "with the tame."
+    } ],
+    "wpWinPosId": 8,
+    "wsWinStyleId": 1
+  }, {
+    "tStartMs": 46171,
+    "dDurationMs": 2628,
+    "segs": [ {
+      "utf8": "This film\nis my witness statement"
+    } ],
+    "wpWinPosId": 6,
+    "wsWinStyleId": 1
+  }, {
+    "tStartMs": 48882,
+    "dDurationMs": 1794,
+    "segs": [ {
+      "utf8": "and my vision for the future."
+    } ],
+    "wpWinPosId": 5,
+    "wsWinStyleId": 1
+  }, {
+    "tStartMs": 52553,
+    "dDurationMs": 1793,
+    "segs": [ {
+      "utf8": "The story\nof how we came to make this"
+    } ],
+    "wpWinPosId": 9,
+    "wsWinStyleId": 1
+  }, {
+    "tStartMs": 54429,
+    "dDurationMs": 1752,
+    "segs": [ {
+      "utf8": "our greatest mistake."
+    } ],
+    "wpWinPosId": 10,
+    "wsWinStyleId": 1
+  }, {
+    "tStartMs": 58267,
+    "dDurationMs": 4671,
+    "segs": [ {
+      "utf8": "And how, if we act now,\nwe can yet put it right."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 1
+  }, {
+    "tStartMs": 78620,
+    "dDurationMs": 3295,
+    "segs": [ {
+      "utf8": "Our planet\nis headed for disaster."
+    } ],
+    "wpWinPosId": 6,
+    "wsWinStyleId": 1
+  }, {
+    "tStartMs": 85127,
+    "dDurationMs": 3503,
+    "segs": [ {
+      "utf8": "We need to learn\nhow to work with nature,"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 1
+  }, {
+    "tStartMs": 88714,
+    "dDurationMs": 1960,
+    "segs": [ {
+      "utf8": "rather than against it."
+    } ],
+    "wpWinPosId": 11,
+    "wsWinStyleId": 1
+  }, {
+    "tStartMs": 96722,
+    "dDurationMs": 2168,
+    "segs": [ {
+      "utf8": "And I'm going to tell you how."
+    } ],
+    "wpWinPosId": 12,
+    "wsWinStyleId": 1
+  } ]
+}

@@ -45,6 +45,20 @@ export function StudioTopHeader({
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showKeyboardModal, setShowKeyboardModal] = useState(false);
 
+  const isVideoLesson =
+    String(lessonQueryId) === "122" ||
+    String(lessonQueryId).startsWith("vid_") ||
+    String(lessonQueryId).startsWith("yt_") ||
+    String(lessonQueryId).startsWith("video_");
+
+  const dictationTargetUrl = isVideoLesson
+    ? `/study/dictation/video?id=${lessonQueryId}`
+    : `/study/dictation/audio?id=${lessonQueryId}`;
+
+  const shadowingTargetUrl = isVideoLesson
+    ? `/study/shadowing/video?id=${lessonQueryId}`
+    : `/study/shadowing/audio?id=${lessonQueryId}`;
+
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen().catch(() => {});
@@ -106,7 +120,7 @@ export function StudioTopHeader({
         <div className="p-0.5 sm:p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-0.5 shrink-0 ml-0.5 relative">
           {/* Dictation Tab Link */}
           <Link
-            href={`/study/dictation?id=${lessonQueryId}`}
+            href={dictationTargetUrl}
             className={`relative px-2.5 sm:px-3 py-1 rounded-lg text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-colors cursor-pointer select-none z-10 ${
               isListening
                 ? "text-slate-900 dark:text-white font-bold"
@@ -133,7 +147,7 @@ export function StudioTopHeader({
 
           {/* Shadowing Tab Link */}
           <Link
-            href={`/study/shadowing?id=${lessonQueryId}`}
+            href={shadowingTargetUrl}
             className={`relative px-2.5 sm:px-3 py-1 rounded-lg text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-colors cursor-pointer select-none z-10 ${
               !isListening
                 ? "text-slate-900 dark:text-white font-bold"

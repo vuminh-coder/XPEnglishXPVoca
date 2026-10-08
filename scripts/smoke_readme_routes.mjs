@@ -8,8 +8,8 @@ const cookie = process.env.SESSION ? `xp_voca_session=${process.env.SESSION}` : 
 
 const pages = [
   "/", "/login", "/register", "/forgot-password", "/privacy", "/terms",
-  "/dashboard", "/analytics", "/roadmap", "/study/practice", "/study/listening",
-  "/study/shadowing", "/study/reading", "/study/grammar", "/study/grammar/1",
+  "/dashboard", "/analytics", "/roadmap", "/study/practice", "/study/dictation",
+  "/study/shadowing", "/study/reading", "/study/reading/r1", "/study/grammar", "/study/grammar/1",
   "/study/ipa", "/study/ipa/practice", "/study/ipa/minimal-pairs", "/study/exam-prep",
   "/study/exam-prep/result", "/study/games", "/study/pvp", "/study/rooms", "/study/plan",
   "/ai", "/ai/tutor", "/ai/conversation", "/vocabulary", "/myvocab", "/myvideo", "/review",

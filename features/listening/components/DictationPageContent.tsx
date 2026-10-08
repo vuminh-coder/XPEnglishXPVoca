@@ -108,6 +108,7 @@ export function DictationPageContent({
     if (!rawIdParam) return null;
     return resolveCanonicalLessonId(rawIdParam) || rawIdParam;
   });
+  const [isInPlaceSwitchingLesson, setIsInPlaceSwitchingLesson] = useState<boolean>(false);
 
   // Universal lesson resolution helper with full alias support
   const currentLesson = useMemo(() => {
@@ -225,6 +226,20 @@ export function DictationPageContent({
   const [completedSentences, setCompletedSentences] = useState<{
     [idx: number]: boolean;
   }>({});
+  const [sentenceStatsMap, setSentenceStatsMap] = useState<Record<number, { matched: number; total: number }>>({});
+
+  const calculatedAccuracy = useMemo(() => {
+    const entries = Object.values(sentenceStatsMap);
+    if (entries.length === 0) return 100;
+    let totalMatched = 0;
+    let totalWords = 0;
+    entries.forEach((e) => {
+      totalMatched += e.matched;
+      totalWords += e.total;
+    });
+    if (totalWords === 0) return 100;
+    return Math.round((totalMatched / totalWords) * 100);
+  }, [sentenceStatsMap]);
 
   const currentSentence =
     currentLesson?.transcript?.[currentSentenceIndex] ||
@@ -879,24 +894,42 @@ export function DictationPageContent({
     const isCached =
       !!detailedLessonsMap[lessonId]?.transcript?.length ||
       (canonical ? !!detailedLessonsMap[canonical]?.transcript?.length : false);
-    setIsLoadingLessonDetail(!isCached);
+
+    if (selectedLessonId && isCached) {
+      setIsInPlaceSwitchingLesson(true);
+      setTimeout(() => {
+        setIsInPlaceSwitchingLesson(false);
+      }, 180);
+    } else {
+      setIsLoadingLessonDetail(!isCached);
+    }
+
     setSelectedLessonId(canonical || lessonId);
     setCurrentLessonId(canonical || lessonId);
     setIsLessonFinished(false);
     setCurrentSentenceIndex(0);
     setSentencePlaybackTime(0);
+    setSentenceStatsMap({});
     setSidebarCollapsed(true);
     try {
       localStorage.setItem("xp_voca_last_listening_lesson", canonical || lessonId);
     } catch {}
 
+    const isVideo =
+      lessonId === "122" ||
+      lessonId.startsWith("vid_") ||
+      lessonId.startsWith("yt_") ||
+      lessonId.startsWith("video_") ||
+      MOCK_VIDEO_LESSONS.some((v) => v.id === lessonId || v.slug === lessonId || v.externalId === lessonId);
+
+    const targetRoute = isVideo ? "/study/dictation/video" : basePath;
     const lessonIdx = lessonsList.findIndex((l) => isSameLessonId(l.id, lessonId));
-    if (lessonIdx !== -1) {
-      router.push(`${basePath}?id=${lessonIdx + 1}`);
+    if (lessonIdx !== -1 && !isVideo) {
+      router.push(`${targetRoute}?id=${lessonIdx + 1}`);
     } else {
-      router.push(`${basePath}?id=${lessonId}`);
+      router.push(`${targetRoute}?id=${lessonId}`);
     }
-  }, [lessonsList, router, setCurrentLessonId, setSidebarCollapsed, detailedLessonsMap, basePath]);
+  }, [lessonsList, router, setCurrentLessonId, setSidebarCollapsed, detailedLessonsMap, basePath, selectedLessonId]);
 
   const handleBackToListing = useCallback(() => {
     isLeavingStudioRef.current = true;
@@ -1186,7 +1219,13 @@ export function DictationPageContent({
     }
   }, [currentSentenceIndex, totalSentencesCount, currentLesson, markLessonCompleted, awardXp, addToast, user, savedSentenceKeys]);
 
-  const handleSentenceCompleted = useCallback(() => {
+  const handleSentenceCompleted = useCallback((stats?: { matchedCount: number; totalCount: number }) => {
+    if (stats && stats.totalCount > 0) {
+      setSentenceStatsMap((prev) => ({
+        ...prev,
+        [currentSentenceIndex]: { matched: stats.matchedCount, total: stats.totalCount },
+      }));
+    }
     const nextCompleted = {
       ...completedSentences,
       [currentSentenceIndex]: true,
@@ -1367,8 +1406,22 @@ export function DictationPageContent({
         }
       } else if (e.code === "ArrowLeft" && !isTyping) {
         e.preventDefault();
-        setSentencePlaybackTime((prev) => Math.max(0, prev - 5));
-        addToast({ type: "info", title: "Tua lùi 5s" });
+        if (isCurrentLessonVideo) {
+          setSentencePlaybackTime((prev) => Math.max(0, prev - 5));
+          addToast({ type: "info", title: "Tua lùi 5s" });
+        } else {
+          stopTTS();
+          setPlayingSentenceText(null);
+          setSentencePlaybackTime(0);
+          const sentence = currentLesson?.transcript?.[currentSentenceIndex];
+          if (sentence?.text) {
+            setTimeout(() => {
+              setPlayingSentenceText(sentence.text);
+              handleSpeakSentence(sentence.text, currentSentenceIndex);
+            }, 30);
+            addToast({ type: "info", title: "Phát lại câu từ đầu" });
+          }
+        }
       } else if (e.code === "ArrowRight" && !isTyping) {
         e.preventDefault();
         setSentencePlaybackTime((prev) => Math.min(sentenceDuration, prev + 5));
@@ -1397,14 +1450,25 @@ export function DictationPageContent({
         rawIdParam === "122" ||
         rawIdParam?.startsWith("vid_") ||
         rawIdParam?.startsWith("yt_") ||
-        MOCK_VIDEO_LESSONS.some((v) => v.id === rawIdParam || v.externalId === rawIdParam);
+        rawIdParam?.startsWith("video_") ||
+        selectedLessonId === "122" ||
+        selectedLessonId?.startsWith("vid_") ||
+        selectedLessonId?.startsWith("yt_") ||
+        selectedLessonId?.startsWith("video_") ||
+        MOCK_VIDEO_LESSONS.some(
+          (v) =>
+            v.id === rawIdParam ||
+            v.externalId === rawIdParam ||
+            v.id === selectedLessonId ||
+            v.externalId === selectedLessonId
+        );
 
       return isVideoStudio ? <VideoStudioSkeleton /> : <ListeningStudioSkeleton />;
     }
     return initialMode === "video" ? <VideoListingSkeleton /> : <ListeningListingSkeleton />;
   }
 
-  if (rawIdParam || selectedLessonId) {
+  if ((rawIdParam || selectedLessonId) && !isInPlaceSwitchingLesson) {
     if (isLoadingLessonDetail || (!currentLesson && isLoadingLessons)) {
       const isVideoStudio =
         isCurrentLessonVideo ||
@@ -1412,7 +1476,18 @@ export function DictationPageContent({
         rawIdParam === "122" ||
         rawIdParam?.startsWith("vid_") ||
         rawIdParam?.startsWith("yt_") ||
-        MOCK_VIDEO_LESSONS.some((v) => v.id === rawIdParam || v.externalId === rawIdParam);
+        rawIdParam?.startsWith("video_") ||
+        selectedLessonId === "122" ||
+        selectedLessonId?.startsWith("vid_") ||
+        selectedLessonId?.startsWith("yt_") ||
+        selectedLessonId?.startsWith("video_") ||
+        MOCK_VIDEO_LESSONS.some(
+          (v) =>
+            v.id === rawIdParam ||
+            v.externalId === rawIdParam ||
+            v.id === selectedLessonId ||
+            v.externalId === selectedLessonId
+        );
 
       return isVideoStudio ? <VideoStudioSkeleton /> : <ListeningStudioSkeleton />;
     }
@@ -1510,23 +1585,27 @@ export function DictationPageContent({
               lessonsList={lessonsList}
               totalSentencesCount={totalSentencesCount}
               elapsedTime={elapsedTime}
+              accuracy={calculatedAccuracy}
               onRestart={() => {
                 setIsLessonFinished(false);
                 setCurrentSentenceIndex(0);
                 setSentencePlaybackTime(0);
                 setCompletedSentences({});
+                setSentenceStatsMap({});
               }}
               onNextLesson={(nextLessonId) => {
                 handleSelectLesson(nextLessonId);
                 setIsLessonFinished(false);
                 setCurrentSentenceIndex(0);
                 setCompletedSentences({});
+                setSentenceStatsMap({});
               }}
               onSelectLesson={(recId) => {
                 handleSelectLesson(recId);
                 setIsLessonFinished(false);
                 setCurrentSentenceIndex(0);
                 setCompletedSentences({});
+                setSentenceStatsMap({});
               }}
               onBackToListing={handleBackToListing}
               formatElapsedTime={formatElapsedTime}
@@ -1548,6 +1627,7 @@ export function DictationPageContent({
                 lessonsList={lessonsList}
                 selectedLessonId={selectedLessonId}
                 rawIdParam={rawIdParam}
+                isInPlaceSwitchingLesson={isInPlaceSwitchingLesson}
                 currentSentenceIndex={currentSentenceIndex}
                 setCurrentSentenceIndex={setCurrentSentenceIndex}
                 totalSentencesCount={totalSentencesCount}
@@ -1620,7 +1700,7 @@ export function DictationPageContent({
   );
 }
 
-export function DictationSuspenseFallback() {
+export function DictationAudioSuspenseFallback() {
   const [isStudio] = useState<boolean>(() => {
     if (typeof window !== "undefined") {
       const search = window.location.search;
@@ -1634,6 +1714,45 @@ export function DictationSuspenseFallback() {
   }
 
   return <ListeningListingSkeleton />;
+}
+
+export function DictationVideoSuspenseFallback() {
+  const [isStudio] = useState<boolean>(() => {
+    if (typeof window !== "undefined") {
+      const search = window.location.search;
+      return search.includes("id=") || search.includes("lessonId=");
+    }
+    return false;
+  });
+
+  if (isStudio) {
+    return <VideoStudioSkeleton />;
+  }
+
+  return <VideoListingSkeleton />;
+}
+
+export function DictationSuspenseFallback() {
+  const [mode] = useState<{ isStudio: boolean; isVideo: boolean }>(() => {
+    if (typeof window !== "undefined") {
+      const search = window.location.search;
+      const isStudio = search.includes("id=") || search.includes("lessonId=");
+      const isVideo =
+        window.location.pathname.includes("/video") ||
+        search.includes("id=122") ||
+        search.includes("vid_") ||
+        search.includes("yt_") ||
+        search.includes("video_");
+      return { isStudio, isVideo };
+    }
+    return { isStudio: false, isVideo: false };
+  });
+
+  if (mode.isStudio) {
+    return mode.isVideo ? <VideoStudioSkeleton /> : <ListeningStudioSkeleton />;
+  }
+
+  return mode.isVideo ? <VideoListingSkeleton /> : <ListeningListingSkeleton />;
 }
 
 export default function DictationPage({

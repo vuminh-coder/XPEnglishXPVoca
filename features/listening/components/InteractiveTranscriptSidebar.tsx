@@ -254,7 +254,7 @@ function InteractiveTranscriptSidebarComponent({
           </div>
 
           {/* DANH SÁCH CÁC CÂU TRONG BÀI — TƯƠI SÁNG, NỔI BẬT, ICON RÕ NÉT */}
-          <div className="flex-1 overflow-y-auto hide-scrollbar space-y-3 px-5 pb-5">
+          <div className="flex-1 overflow-y-auto hide-scrollbar space-y-3 px-5 pb-24">
             {isLoadingSentences ? (
               <TranscriptSentencesSkeleton count={transcript.length || 6} />
             ) : (
@@ -268,6 +268,9 @@ function InteractiveTranscriptSidebarComponent({
                   (sentence as any).translationVi ||
                   ""
                 ).trim();
+                const cleanTranslation = viTranslation
+                  ? viTranslation.replace(/^(?:Việt|viet|vi|vn|Vietnamese|tiếng việt)?\s*:\s*/i, "").trim()
+                  : "";
 
                 const hasTimestamps = typeof sentence.startTime === "number";
                 const timeText = hasTimestamps
@@ -385,18 +388,13 @@ function InteractiveTranscriptSidebarComponent({
                       {/* Nội dung câu */}
                       {isCompleted || showAllTexts ? (
                         <>
-                          <p className="text-sm sm:text-[14.5px] font-semibold text-slate-900 dark:text-white leading-relaxed pt-0.5">
+                          <p className="text-sm sm:text-[14.5px] font-semibold text-slate-900 dark:text-white leading-relaxed pt-0.5 break-words">
                             {sentence.text}
                           </p>
 
-                          {viTranslation && (
-                            <div className="flex items-start gap-1.5 text-xs text-slate-600 dark:text-slate-300 pt-1">
-                              <span className="px-1.5 py-0.5 rounded bg-blue-50 dark:bg-blue-950/50 text-[#0059bb] dark:text-sky-300 font-bold text-[10px] shrink-0 uppercase tracking-wider">
-                                Dịch
-                              </span>
-                              <span className="leading-relaxed font-normal">
-                                {viTranslation}
-                              </span>
+                          {cleanTranslation && (
+                            <div className="pl-4 pr-3 py-2 border-l-[3px] border-[#0059bb]/70 dark:border-sky-400/70 bg-blue-50/40 dark:bg-blue-950/20 rounded-r-xl text-xs sm:text-[13px] text-slate-600 dark:text-slate-300 font-medium leading-relaxed my-1 break-words">
+                              {cleanTranslation}
                             </div>
                           )}
                         </>
@@ -481,19 +479,14 @@ function InteractiveTranscriptSidebarComponent({
                       </div>
 
                       {/* Dòng Tiếng Anh */}
-                      <p className="text-sm sm:text-[14.5px] font-normal text-slate-700 dark:text-slate-300 leading-relaxed pt-0.5">
+                      <p className="text-sm sm:text-[14.5px] font-normal text-slate-700 dark:text-slate-300 leading-relaxed pt-0.5 break-words">
                         {sentence.text}
                       </p>
 
-                      {/* Bản dịch tiếng Việt */}
-                      {viTranslation && (
-                        <div className="flex items-start gap-1.5 text-xs text-slate-600 dark:text-slate-400 pt-1">
-                          <span className="px-1.5 py-0.5 rounded bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 font-bold text-[10px] shrink-0 uppercase tracking-wider">
-                            Dịch
-                          </span>
-                          <span className="leading-relaxed font-normal">
-                            {viTranslation}
-                          </span>
+                      {/* Bản dịch tiếng Việt phong cách song ngữ Reading */}
+                      {cleanTranslation && (
+                        <div className="pl-4 pr-3 py-2 border-l-[3px] border-[#0059bb]/70 dark:border-sky-400/70 bg-blue-50/40 dark:bg-blue-950/20 rounded-r-xl text-xs sm:text-[13px] text-slate-600 dark:text-slate-300 font-medium leading-relaxed my-1 break-words">
+                          {cleanTranslation}
                         </div>
                       )}
                     </div>
@@ -559,7 +552,7 @@ function InteractiveTranscriptSidebarComponent({
                     {/* Nội dung câu tiếng Anh hoặc chuỗi dấu chấm */}
                     <div>
                       {showAllTexts ? (
-                        <p className="text-sm sm:text-[14.5px] text-slate-700 dark:text-slate-300 font-medium line-clamp-3 leading-relaxed">
+                        <p className="text-sm sm:text-[14.5px] text-slate-700 dark:text-slate-300 font-medium leading-relaxed break-words">
                           {sentence.text}
                         </p>
                       ) : (
@@ -575,13 +568,10 @@ function InteractiveTranscriptSidebarComponent({
                       )}
                     </div>
 
-                    {/* Bản dịch tiếng Việt */}
-                    {viTranslation && showAllTexts && (
-                      <div className="pt-0.5 flex items-start gap-1.5 text-xs text-slate-500 dark:text-slate-400">
-                        <span className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 font-bold text-[10px] shrink-0 uppercase tracking-wider">
-                          Dịch
-                        </span>
-                        <span className="leading-relaxed font-normal line-clamp-2">{viTranslation}</span>
+                    {/* Bản dịch tiếng Việt phong cách song ngữ Reading */}
+                    {cleanTranslation && showAllTexts && (
+                      <div className="pl-4 pr-3 py-2 border-l-[3px] border-[#0059bb]/70 dark:border-sky-400/70 bg-blue-50/40 dark:bg-blue-950/20 rounded-r-xl text-xs sm:text-[13px] text-slate-600 dark:text-slate-300 font-medium leading-relaxed my-1 break-words">
+                        {cleanTranslation}
                       </div>
                     )}
                   </div>

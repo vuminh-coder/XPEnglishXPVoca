@@ -1,0 +1,297 @@
+import { MockVideoLesson } from "../types";
+
+/**
+ * BBC Learning English: First Treasure Recovered from $20 Billion Sunken Ship
+ * Slug: bbc-6min-brain-boost
+ */
+export const LESSON_BBC_SUNKEN_SHIP: MockVideoLesson = {
+    "id": "e4476093-9f0c-4620-a7f3-345d0e6b64db",
+    "slug": "bbc-6min-brain-boost",
+    "title": "BBC Learning English: First Treasure Recovered from $20 Billion Sunken Ship",
+    "description": "Bản tin thời sự đặc sắc từ BBC Learning English về việc trục vớt kho báu huyền thoại trị giá 20 tỷ USD từ con tàu đắm San Jose năm 1708, học từ vựng tin tức và phát âm Anh-Anh chuẩn.",
+    "sourceType": "YOUTUBE",
+    "externalId": "doOlP7NLUwc",
+    "thumbnailUrl": "https://img.youtube.com/vi/doOlP7NLUwc/hqdefault.jpg",
+    "durationSeconds": 90,
+    "durationFormatted": "01:30",
+    "cefrLevel": "B1",
+    "supportedTypes": "BOTH",
+    "categoryId": "cat_bbc_6min",
+    "categorySlug": "bbc-6-minute",
+    "categoryName": "BBC 6 Minute English",
+    "accent": "en-GB",
+    "wpmSpeed": 135,
+    "viewCount": 3820,
+    "studyCount": 1420,
+    "segments": [
+      {
+        "orderIndex": 1,
+        "startTime": 0,
+        "endTime": 6.6,
+        "text": "From BBC Learning English, This is Learning English from the News, our podcast about the news headlines.",
+        "normalizedText": "from bbc learning english this is learning english from the news our podcast about the news headlines",
+        "ipaUs": "frəm biː biː siː ˈlɜːrnɪŋ ˈɪŋɡlɪʃ ðɪs ɪz ˈlɜːrnɪŋ ˈɪŋɡlɪʃ frəm ðə nuːz ˈaʊər ˈpɑːdˌkæst əˈbaʊt ðə nuːz ˈhɛdˌlaɪnz",
+        "translationVi": "Từ BBC Learning English, đây là chương trình Learning English from the News, podcast của chúng tôi về các dòng tít tin tức.",
+        "explanationAi": "Câu mở đầu giới thiệu chương trình podcast tin tức của BBC Learning English. Chú ý cụm 'Learning English from the News' và danh từ 'headlines' (tiêu đề, dòng tít báo chí).",
+        "properNouns": [
+          "BBC Learning English",
+          "Learning English from the News"
+        ],
+        "keywords": [
+          "headlines",
+          "podcast",
+          "learning",
+          "news",
+          "english"
+        ],
+        "tokenCount": 17
+      },
+      {
+        "orderIndex": 2,
+        "startTime": 6.6,
+        "endTime": 13.12,
+        "text": "In this programme, first treasure recovered from $20 billion sunken ship.",
+        "normalizedText": "in this programme first treasure recovered from 20 billion sunken ship",
+        "ipaUs": "ɪn ðɪs ˈproʊɡræm fɜːrst ˈtrɛʒər rɪˈkʌvərd frəm ˈtwɛnti ˈbɪljən ˈsʌŋkən ʃɪp",
+        "translationVi": "Trong chương trình hôm nay, kho báu đầu tiên được trục vớt từ con tàu đắm trị giá 20 tỷ đô la.",
+        "explanationAi": "'Recovered' (được thu hồi, trục vớt) và 'sunken ship' (tàu đắm/chìm dưới nước). Cụm '$20 billion' đóng vai trò tính từ bổ nghĩa cho 'sunken ship'.",
+        "properNouns": [],
+        "keywords": [
+          "recovered",
+          "treasure",
+          "sunken",
+          "programme",
+          "billion"
+        ],
+        "tokenCount": 12
+      },
+      {
+        "orderIndex": 3,
+        "startTime": 16.16,
+        "endTime": 18.48,
+        "text": "Hello, I'm Georgie. And I'm Phil.",
+        "normalizedText": "hello im georgie and im phil",
+        "ipaUs": "həˈloʊ aɪm ˈdʒɔːrdʒi ænd aɪm fɪl",
+        "translationVi": "Xin chào, tôi là Georgie. Và tôi là Phil.",
+        "explanationAi": "Lời chào mở đầu thân thiện từ hai người dẫn chương trình BBC: Georgie và Phil.",
+        "properNouns": [
+          "Georgie",
+          "Phil"
+        ],
+        "keywords": [
+          "georgie",
+          "hello",
+          "phil"
+        ],
+        "tokenCount": 6
+      },
+      {
+        "orderIndex": 4,
+        "startTime": 18.48,
+        "endTime": 24.96,
+        "text": "In this programme, we look at one big news story and the vocabulary in the headlines that will help you understand it.",
+        "normalizedText": "in this programme we look at one big news story and the vocabulary in the headlines that will help you understand it",
+        "ipaUs": "ɪn ðɪs ˈproʊɡræm wiː lʊk æt wʌn bɪɡ nuːz ˈstɔːri ænd ðə vəʊˈkæbjəˌlɛri ɪn ðə ˈhɛdˌlaɪnz ðæt wɪl hɛlp juː ˌʌndərˈstænd ɪt",
+        "translationVi": "Trong chương trình này, chúng ta sẽ cùng tìm hiểu một câu chuyện thời sự lớn và những từ vựng trong tiêu đề báo chí giúp bạn hiểu rõ nó.",
+        "explanationAi": "Cụm 'look at' (xem xét, tìm hiểu), 'vocabulary in the headlines' (từ vựng trong tiêu đề tin tức) và mệnh đề quan hệ 'that will help you understand it'.",
+        "properNouns": [],
+        "keywords": [
+          "vocabulary",
+          "headlines",
+          "understand",
+          "programme",
+          "story"
+        ],
+        "tokenCount": 21
+      },
+      {
+        "orderIndex": 5,
+        "startTime": 24.96,
+        "endTime": 33.4,
+        "text": "You can find all the vocabulary and headlines from this episode, as well as a worksheet on our website, bbclearningenglish.com.",
+        "normalizedText": "you can find all the vocabulary and headlines from this episode as well as a worksheet on our website bbclearningenglishcom",
+        "ipaUs": "juː kæn faɪnd ɔːl ðə vàʊˈkæbjəˌlɛri ænd ˈhɛdˌlaɪnz frəm ðɪs ˈɛpəˌsoʊd æz wɛl æz ə ˈwɜːrkˌʃiːt ɑːn ˈaʊər ˈwɛbˌsaɪt biːbiːsiːˌlɜːrnɪŋˈɪŋɡlɪʃ dɑːt kɑːm",
+        "translationVi": "Bạn có thể tìm thấy toàn bộ từ vựng và tiêu đề trong tập này, cũng như bài tập thực hành trên trang web bbclearningenglish.com của chúng tôi.",
+        "explanationAi": "'Episode' (tập phát sóng), liên từ 'as well as' (cũng như), và 'worksheet' (phiếu bài tập học tập).",
+        "properNouns": [
+          "bbclearningenglish.com"
+        ],
+        "keywords": [
+          "vocabulary",
+          "headlines",
+          "worksheet",
+          "episode",
+          "website"
+        ],
+        "tokenCount": 20
+      },
+      {
+        "orderIndex": 6,
+        "startTime": 33.4,
+        "endTime": 36.56,
+        "text": "OK, Phil, let's hear more about this story.",
+        "normalizedText": "ok phil lets hear more about this story",
+        "ipaUs": "oʊˈkeɪ fɪl lɛts hɪr mɔːr əˈbaʊt ðɪs ˈstɔːri",
+        "translationVi": "Được rồi, Phil, hãy cùng lắng nghe chi tiết hơn về câu chuyện này nhé.",
+        "explanationAi": "Câu chuyển ý quen thuộc trong podcast radio: 'let's hear more about...' (hãy cùng lắng nghe thêm về...).",
+        "properNouns": [
+          "Phil"
+        ],
+        "keywords": [
+          "story",
+          "phil",
+          "hear"
+        ],
+        "tokenCount": 8
+      },
+      {
+        "orderIndex": 7,
+        "startTime": 41.64,
+        "endTime": 49.4,
+        "text": "A cannon, three coins and a porcelain cup have been recovered from a ship that sank over 300 years ago.",
+        "normalizedText": "a cannon three coins and a porcelain cup have been recovered from a ship that sank over 300 years ago",
+        "ipaUs": "ə ˈkænən θriː kɔɪnz ænd ə ˈpɔːrsəlɪn kʌp hæv bɪn rɪˈkʌvərd frəm ə ʃɪp ðæt sæŋk ˈoʊvər θriː ˈhʌndrəd jɪrz əˈɡoʊ",
+        "translationVi": "Một khẩu đại bác, ba đồng tiền xu và một chiếc tách sứ đã được trục vớt từ một con tàu bị chìm hơn 300 năm trước.",
+        "explanationAi": "'Cannon' (khẩu đại bác súng lớn), 'porcelain' (đồ gốm sứ), 'recovered' (trục vớt được) và thì Hiện tại hoàn thành bị động 'have been recovered'.",
+        "properNouns": [],
+        "keywords": [
+          "porcelain",
+          "recovered",
+          "cannon",
+          "coins",
+          "sank"
+        ],
+        "tokenCount": 19
+      },
+      {
+        "orderIndex": 8,
+        "startTime": 49.4,
+        "endTime": 56.52,
+        "text": "The ship, called the San Jose, was sunk by British ships in 1708 near Cartagena in Colombia.",
+        "normalizedText": "the ship called the san jose was sunk by british ships in 1708 near cartagena in colombia",
+        "ipaUs": "ðə ʃɪp kɔːld ðə sæn hoʊˈzeɪ wʌz sʌŋk baɪ ˈbrɪtɪʃ ʃɪps ɪn ˈsɛvənˈtiːn oʊ eɪt nɪr ˌkɑːrtəˈheɪnə ɪn kəˈlʌmbiə",
+        "translationVi": "Con tàu, mang tên San Jose, đã bị các tàu của Anh đánh chìm vào năm 1708 gần bờ biển Cartagena ở Colombia.",
+        "explanationAi": "Địa danh lịch sử Cartagena thuộc Colombia. Động từ 'was sunk' (bị đánh chìm - dạng bị động quá khứ của 'sink').",
+        "properNouns": [
+          "San Jose",
+          "British",
+          "Cartagena",
+          "Colombia"
+        ],
+        "keywords": [
+          "cartagena",
+          "colombia",
+          "british",
+          "sunk",
+          "ships"
+        ],
+        "tokenCount": 17
+      },
+      {
+        "orderIndex": 9,
+        "startTime": 56.52,
+        "endTime": 64.24,
+        "text": "The ship is thought to have $20 billion worth of gold and silver coins on board, according to some estimates.",
+        "normalizedText": "the ship is thought to have 20 billion worth of gold and silver coins on board according to some estimates",
+        "ipaUs": "ðə ʃɪp ɪz θɔːt tuː hæv ˈtwɛnti ˈbɪljən wɜːrθ ʌv ɡoʊld ænd ˈsɪlvər kɔɪnz ɑːn bɔːrd əˈkɔːrdɪŋ tuː sʌm ˈɛstəməts",
+        "translationVi": "Con tàu được cho là đang chở số lượng tiền vàng và bạc trị giá khoảng 20 tỷ đô la, theo một số ước tính.",
+        "explanationAi": "Cấu trúc bị động khách quan 'is thought to have' (được cho là có), cụm 'on board' (ở trên tàu), và danh từ 'estimates' (các ước tính).",
+        "properNouns": [],
+        "keywords": [
+          "estimates",
+          "billion",
+          "silver",
+          "coins",
+          "board"
+        ],
+        "tokenCount": 20
+      },
+      {
+        "orderIndex": 10,
+        "startTime": 64.24,
+        "endTime": 72.04,
+        "text": "Colombia, Spain, an American company and indigenous groups in Bolivia have all claimed that this treasure belongs to them.",
+        "normalizedText": "colombia spain an american company and indigenous groups in bolivia have all claimed that this treasure belongs to them",
+        "ipaUs": "kəˈlʌmbiə speɪn ən əˈmɛrɪkən ˈkʌmpəni ænd ɪnˈdɪdʒənəs ɡruːps ɪn bəˈlɪviə hæv ɔːl kleɪmd ðæt ðɪs ˈtrɛʒər bɪˈlɔːŋz tuː ðɛm",
+        "translationVi": "Colombia, Tây Ban Nha, một công ty Mỹ và các nhóm người bản địa ở Bolivia đều tuyên bố rằng kho báu này thuộc về họ.",
+        "explanationAi": "'Indigenous groups' (các bộ tộc người bản địa), động từ 'claimed' (tuyên bố quyền sở hữu), và 'belongs to' (thuộc về ai).",
+        "properNouns": [
+          "Colombia",
+          "Spain",
+          "American",
+          "Bolivia"
+        ],
+        "keywords": [
+          "indigenous",
+          "treasure",
+          "belongs",
+          "claimed",
+          "bolivia"
+        ],
+        "tokenCount": 19
+      },
+      {
+        "orderIndex": 11,
+        "startTime": 72.04,
+        "endTime": 78.8,
+        "text": "Colombian scientists located the ship in 2015 and launched an expedition to explore it last year.",
+        "normalizedText": "colombian scientists located the ship in 2015 and launched an expedition to explore it last year",
+        "ipaUs": "kəˈlʌmbiən ˈsaɪəntɪsts ˈloʊkeɪtɪd ðə ʃɪp ɪn ˈtwɛnti fɪfˈtiːn ænd lɔːntʃt ən ˌɛkspəˈdɪʃən tuː ɪkˈsplɔːr ɪt læst jɪr",
+        "translationVi": "Các nhà khoa học Colombia đã định vị được con tàu vào năm 2015 và phát động một chuyến thám hiểm để khám phá nó vào năm ngoái.",
+        "explanationAi": "'Located' (xác định vị trí), 'launched an expedition' (khởi động/triển khai một chuyến thám hiểm thám trắc).",
+        "properNouns": [
+          "Colombian"
+        ],
+        "keywords": [
+          "expedition",
+          "scientists",
+          "launched",
+          "located",
+          "explore"
+        ],
+        "tokenCount": 15
+      },
+      {
+        "orderIndex": 12,
+        "startTime": 78.8,
+        "endTime": 83.84,
+        "text": "Let's have our first headline. This one is from Fox Weather, an American broadcaster.",
+        "normalizedText": "lets have our first headline this one is from fox weather an american broadcaster",
+        "ipaUs": "lɛts hæv ˈaʊər fɜːrst ˈhɛdˌlaɪn ðɪs wʌn ɪz frəm fɑːks ˈwɛðər ən əˈmɛrɪkən ˈbrɔːdˌkæstər",
+        "translationVi": "Hãy cùng đến với dòng tít đầu tiên. Tiêu đề này đến từ Fox Weather, một đài truyền hình của Mỹ.",
+        "explanationAi": "'Broadcaster' (đài truyền hình/phát thanh phát sóng tin tức). Lối dẫn nhập trực diện vào dòng tít báo chí.",
+        "properNouns": [
+          "Fox Weather",
+          "American"
+        ],
+        "keywords": [
+          "broadcaster",
+          "headline",
+          "weather",
+          "american"
+        ],
+        "tokenCount": 14
+      },
+      {
+        "orderIndex": 13,
+        "startTime": 83.84,
+        "endTime": 89.72,
+        "text": "Archeologists recover treasures from the legendary 1708 San Jose, wrecked in war.",
+        "normalizedText": "archeologists recover treasures from the legendary 1708 san jose wrecked in war",
+        "ipaUs": "ˌɑːrkiˈɑːlədʒɪsts rɪˈkʌvər ˈtrɛʒərz frəm ðə ˈlɛdʒənˌdɛri ˈsɛvənˈtiːn oʊ eɪt sæn hoʊˈzeɪ rɛkt ɪn wɔːr",
+        "translationVi": "Các nhà khảo cổ học thu hồi những bảo vật từ con tàu huyền thoại San Jose năm 1708, từng bị phá hủy trong chiến tranh.",
+        "explanationAi": "'Archeologists' (các nhà khảo cổ học), 'legendary' (huyền thoại), và quá khứ phân từ 'wrecked' (bị đắm, bị phá hủy).",
+        "properNouns": [
+          "San Jose"
+        ],
+        "keywords": [
+          "archeologists",
+          "treasures",
+          "legendary",
+          "wrecked",
+          "war"
+        ],
+        "tokenCount": 13
+      }
+    ]
+  };

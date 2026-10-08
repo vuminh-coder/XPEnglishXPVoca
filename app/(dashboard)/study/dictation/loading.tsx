@@ -1,5 +1,7 @@
-import { ListeningListingSkeleton } from "@/features/listening";
+"use client";
+
+import { DictationSuspenseFallback } from "@/features/listening";
 
 export default function DictationRootLoading() {
-  return <ListeningListingSkeleton />;
+  return <DictationSuspenseFallback />;
 }

@@ -14,7 +14,6 @@ import {
   Flag,
   ListOrdered,
   Info,
-  Languages,
   Activity,
   Headphones,
   ChevronLeft,
@@ -36,6 +35,7 @@ import {
 } from "@/features/listening/utils/lessonMedia";
 import {
   TranscriptSentencesSkeleton,
+  ShadowingSentenceLoadingSkeleton,
   ShimmerBox,
 } from "./LoadingSkeletons";
 import { formatElapsedTime } from "./ShadowingCompletionScreen";
@@ -533,7 +533,10 @@ function ShadowingStudioWorkspaceComponent({
               </div>
 
               {/* 3.4 SHADOWING CORE SENTENCE CARD */}
-              <div className="space-y-1.5 pt-0">
+              {isInPlaceSwitchingLesson ? (
+                <ShadowingSentenceLoadingSkeleton />
+              ) : (
+                <div className="space-y-1.5 pt-0">
                 <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 px-1">
                   <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-xs font-medium">
                     <Info className="w-3.5 h-3.5 text-slate-400" />
@@ -641,20 +644,15 @@ function ShadowingStudioWorkspaceComponent({
                         exit={{ opacity: 0, height: 0 }}
                         className="pt-2 border-t border-slate-100 dark:border-slate-800"
                       >
-                        <div className="p-3 rounded-lg bg-slate-50/90 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-800 text-xs sm:text-[13px] font-medium text-slate-800 dark:text-slate-200 shadow-2xs leading-relaxed">
-                          <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800 dark:text-slate-200 mb-1 font-sans">
-                            <Languages className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
-                            <span>Bản dịch câu:</span>
-                          </div>
-                          <p className="text-slate-600 dark:text-slate-300 font-medium leading-relaxed">
-                            {currentSentence.translation || currentSentence.vietnamese}
-                          </p>
+                        <div className="pl-4 pr-3 py-2 border-l-[3px] border-[#0059bb]/70 dark:border-sky-400/70 bg-blue-50/40 dark:bg-blue-950/20 rounded-r-xl text-xs sm:text-[13px] text-slate-600 dark:text-slate-300 font-medium leading-relaxed my-1 break-words">
+                          {(currentSentence.translation || currentSentence.vietnamese || "").replace(/^(?:Việt|viet|vi|vn|Vietnamese|tiếng việt)?\s*:\s*/i, "").trim()}
                         </div>
                       </motion.div>
                     )}
                   </AnimatePresence>
                 </div>
               </div>
+            )}
 
               {/* 3.5 ACTION SHORTCUT BUTTONS BAR */}
               <div className="flex flex-wrap items-center justify-between gap-2.5 px-1 pt-0.5">

@@ -24,6 +24,7 @@ export interface ListeningCompletionScreenProps {
   lessonsList: ListeningLesson[];
   totalSentencesCount: number;
   elapsedTime: number;
+  accuracy?: number;
   onRestart: () => void;
   onNextLesson?: (nextLessonId: string) => void;
   onSelectLesson: (lessonId: string) => void;
@@ -38,6 +39,7 @@ export const ListeningCompletionScreen: React.FC<ListeningCompletionScreenProps>
   lessonsList,
   totalSentencesCount,
   elapsedTime,
+  accuracy = 100,
   onRestart,
   onNextLesson,
   onSelectLesson,
@@ -122,7 +124,7 @@ export const ListeningCompletionScreen: React.FC<ListeningCompletionScreenProps>
           {/* Metric 2: Accuracy */}
           <div className="p-4 rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200/70 dark:border-emerald-800/40 flex flex-col items-center justify-center shadow-2xs">
             <span className="text-2xl sm:text-3xl font-black font-mono text-emerald-600 dark:text-emerald-400 tabular-nums">
-              100%
+              {Math.max(0, Math.min(100, Math.round(accuracy)))}%
             </span>
             <span className="text-[11.5px] font-bold text-emerald-700 dark:text-emerald-300 flex items-center gap-1 mt-1">
               <Target className="w-3.5 h-3.5" />
