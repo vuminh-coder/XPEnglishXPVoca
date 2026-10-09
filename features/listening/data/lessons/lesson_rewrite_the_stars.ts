@@ -45,10 +45,10 @@ export const LESSON_REWRITE_THE_STARS: MockVideoLesson = {
       "orderIndex": 2,
       "startTime": 8.9,
       "endTime": 16.5,
-      "text": "I know you want me, so don't keep saying our hands are tied.",
-      "normalizedText": "i know you want me so dont keep saying our hands are tied",
-      "ipaUs": "aɪ noʊ juː wɑːnt miː soʊ doʊnt kiːp ˈseɪɪŋ ˈaʊər hændz ɑːr taɪd",
-      "translationVi": "Anh biết em cũng muốn có anh, vậy nên đừng mãi nói rằng đôi tay chúng ta bị trói buộc.",
+      "text": "You know you want me, so don't keep saying our hands are tied.",
+      "normalizedText": "you know you want me so dont keep saying our hands are tied",
+      "ipaUs": "juː noʊ juː wɑːnt miː soʊ doʊnt kiːp ˈseɪɪŋ ˈaʊər hændz ɑːr taɪd",
+      "translationVi": "Em biết em cũng muốn có anh, vậy nên đừng mãi nói rằng đôi tay chúng ta bị trói buộc.",
       "explanationAi": "Thành ngữ tiếng Anh kinh điển 'hands are tied' (bị trói tay / bất lực không thể làm gì) kết hợp cấu trúc 'keep doing something' (cứ liên tục làm gì).",
       "properNouns": [],
       "keywords": [
@@ -256,17 +256,17 @@ export const LESSON_REWRITE_THE_STARS: MockVideoLesson = {
       "orderIndex": 15,
       "startTime": 74,
       "endTime": 81.5,
-      "text": "You think it's easy, you think I don't want to run to you.",
-      "normalizedText": "you think its easy you think i dont want to run to you",
-      "ipaUs": "juː θɪŋk ɪts ˈiːzi juː θɪŋk aɪ doʊnt wɑːnt tuː rʌn tuː juː",
-      "translationVi": "Anh nghĩ điều đó dễ dàng sao, anh nghĩ em không muốn chạy ngay đến bên anh ư?",
+      "text": "You think it's easy, you think I don't want to run to you, yeah.",
+      "normalizedText": "you think its easy you think i dont want to run to you yeah",
+      "ipaUs": "juː θɪŋk ɪts ˈiːzi juː θɪŋk aɪ doʊnt wɑːnt tuː rʌn tuː juː jɛə",
+      "translationVi": "Anh nghĩ điều đó dễ dàng sao, anh nghĩ em không muốn chạy ngay đến bên anh ư, đúng thế.",
       "explanationAi": "Lời hát của Anne-Marie thể hiện sự giằng xé nội tâm: cụm 'run to you' (chạy về phía ai).",
       "properNouns": [],
       "keywords": [
         "easy",
         "run to you"
       ],
-      "tokenCount": 13
+      "tokenCount": 14
     },
     {
       "orderIndex": 16,

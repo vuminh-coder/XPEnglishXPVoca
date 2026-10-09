@@ -70,4 +70,41 @@ describe("BBC 6 Minute English: Why Laughter is the Best Medicine - 100% Verbati
       expect(bbcMock?.segments[i].translationVi).toBe(calibratedSegments[i].translationVi);
     }
   });
+
+  it("should match 100% word-for-word against official YouTube BBC 6 Minute English captions in json3 (0 diffs across 254 words)", () => {
+    const subPath = path.resolve(process.cwd(), "scripts/bbc_laughter_medicine.en-GB.json3");
+    if (!fs.existsSync(subPath)) return;
+
+    const sub = JSON.parse(fs.readFileSync(subPath, "utf8"));
+    const eventsInRange = sub.events.slice(0, 59);
+
+    function cleanWords(s: string): string[] {
+      return s
+        .replace(/[‘’]/g, "'")
+        .replace(/[“”]/g, '"')
+        .replace(/--/g, " ")
+        .replace(/—/g, " ")
+        .replace(/['"]+/g, "")
+        .replace(/[?¿!,.:;]+/g, " ")
+        .split(/\s+/)
+        .map((w) => w.trim().toLowerCase())
+        .filter(Boolean);
+    }
+
+    const offText = eventsInRange
+      .map((e: any) => (e.segs || []).map((s: any) => s.utf8).join(""))
+      .join(" ")
+      .replace(/\n/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    const offWords = cleanWords(offText);
+    const lessonWords: string[] = [];
+    calibratedSegments.forEach((s: any) => lessonWords.push(...cleanWords(s.text)));
+
+    expect(lessonWords.length).toBe(254);
+    expect(offWords.length).toBe(254);
+    expect(lessonWords).toEqual(offWords);
+  });
 });
+

@@ -82,4 +82,40 @@ describe("TED-Ed: The Benefits of a Bilingual Brain - 100% Verbatim Audit", () =
       expect(tedMock?.segments[i].endTime).toBe(calibratedSegments[i].endTime);
     }
   });
+
+  it("should match 100% word-for-word against official YouTube TED-Ed captions in json3 (0 diffs across 288 words)", () => {
+    const subPath = path.resolve(process.cwd(), "scripts/ted_bilingual_raw.en.json3");
+    if (!fs.existsSync(subPath)) return;
+
+    const sub = JSON.parse(fs.readFileSync(subPath, "utf8"));
+    const eventsInRange = sub.events.slice(0, 36);
+
+    function cleanWords(s: string): string[] {
+      return s
+        .replace(/[‘’]/g, "'")
+        .replace(/[“”]/g, '"')
+        .replace(/--/g, " ")
+        .replace(/—/g, " ")
+        .replace(/['"]+/g, "")
+        .replace(/[?¿!,.:;]+/g, " ")
+        .split(/\s+/)
+        .map((w) => w.trim().toLowerCase())
+        .filter(Boolean);
+    }
+
+    const offText = eventsInRange
+      .map((e: any) => (e.segs || []).map((s: any) => s.utf8).join(""))
+      .join(" ")
+      .replace(/\n/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    const offWords = cleanWords(offText);
+    const lessonWords: string[] = [];
+    calibratedSegments.forEach((s: any) => lessonWords.push(...cleanWords(s.text)));
+
+    expect(lessonWords.length).toBe(288);
+    expect(offWords.length).toBe(288);
+    expect(lessonWords).toEqual(offWords);
+  });
 });

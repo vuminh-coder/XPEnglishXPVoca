@@ -79,4 +79,46 @@ describe("National Geographic: Renewable Energy 101 - 100% Verbatim Audit", () =
       expect(mock?.segments[i].translationVi).toBe(calibratedSegments[i].translationVi);
     }
   });
+
+  it("should match 100% word-for-word against official YouTube captions in json3 (333 words)", () => {
+    const subPath = path.resolve(process.cwd(), "scripts/natgeo_renewable.en.json3");
+    if (!fs.existsSync(subPath)) return;
+
+    const sub = JSON.parse(fs.readFileSync(subPath, "utf8"));
+    const rawWords: string[] = [];
+    sub.events.forEach((e: any) => {
+      if (!e.segs) return;
+      const baseT = e.tStartMs;
+      e.segs.forEach((s: any) => {
+        const text = s.utf8;
+        if (!text || text === "\n") return;
+        const offset = s.tOffsetMs || 0;
+        const startMs = baseT + offset;
+        const trimmed = text.trim();
+        if (trimmed && trimmed !== "[Music]" && startMs < 173000) {
+          rawWords.push(trimmed);
+        }
+      });
+    });
+
+    const normalize = (w: string) => w.replace(/[.,!?:;\"\'\(\)\-]/g, "").toLowerCase();
+
+    const lessonWords: string[] = [];
+    calibratedSegments.forEach((s: any) => {
+      const ws = s.text.trim().split(/\s+/);
+      ws.forEach((w: string) => lessonWords.push(w));
+    });
+
+    expect(lessonWords.length).toBe(333);
+    expect(rawWords.length).toBe(333);
+
+    const normLesson = lessonWords.map(normalize);
+    const normRaw = rawWords.map(normalize);
+    // YouTube ASR typo on index 323 has "and end" instead of spoken "an end"
+    expect(normRaw[323]).toBe("and");
+    expect(normLesson[323]).toBe("an");
+    normRaw[323] = "an";
+    expect(normLesson).toEqual(normRaw);
+  });
 });
+

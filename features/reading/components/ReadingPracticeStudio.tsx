@@ -83,9 +83,11 @@ export function ReadingPracticeStudio({
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [mobileViewTab, setMobileViewTab] = useState<"passage" | "questions" | "dictionary">("passage");
 
   useEffect(() => {
     setCurrentQuestionIndex(0);
+    setMobileViewTab("passage");
   }, [passage.id]);
   const [showBilingual, setShowBilingual] = useState(false);
   const [fontSizeLevel, setFontSizeLevel] = useState<"sm" | "base" | "lg">("base");
@@ -180,6 +182,7 @@ export function ReadingPracticeStudio({
 
       // Switch right dock tab to dictionary inspector
       setActiveRightTab("dictionary");
+      setMobileViewTab("dictionary");
       setDictSearchQuery(cleanWord);
       setIsSearchingDict(true);
 
@@ -456,34 +459,34 @@ export function ReadingPracticeStudio({
   }, [passage.translation]);
 
   return (
-    <div className="w-full h-screen max-h-screen flex flex-col overflow-hidden bg-slate-50/50 dark:bg-slate-950 font-sans select-none">
+    <div className="w-full h-[100dvh] min-h-[100dvh] max-h-[100dvh] flex flex-col overflow-hidden bg-slate-50/50 dark:bg-slate-950 font-sans select-none">
       {/* 1. TOP STUDIO HEADER (CHUẨN FORM STUDIO, ĐỒNG BỘ HOÀN TOÀN VỚI DICTATION & LISTENING) */}
-      <header className="h-14 min-h-[56px] border-b border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 px-3.5 sm:px-6 flex items-center justify-between gap-3 shrink-0 shadow-2xs z-10">
+      <header className="h-14 min-h-[56px] border-b border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 px-3 sm:px-6 flex items-center justify-between gap-2 sm:gap-3 shrink-0 shadow-2xs z-20">
         {/* Left: Back Button & Title */}
-        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+        <div className="flex items-center gap-1.5 sm:gap-3 min-w-0">
           <button
             type="button"
             onClick={handleBack}
-            className="px-2.5 sm:px-3 py-1.5 rounded-xl text-slate-700 hover:text-slate-900 dark:text-slate-200 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer shrink-0 active:scale-95 border border-slate-200/80 dark:border-slate-700/80 shadow-2xs flex items-center gap-1.5 font-bold text-xs"
+            className="p-1.5 sm:px-3 sm:py-1.5 rounded-xl text-slate-700 hover:text-slate-900 dark:text-slate-200 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer shrink-0 active:scale-95 border border-slate-200/80 dark:border-slate-700/80 shadow-2xs flex items-center gap-1.5 font-bold text-xs"
             title="Quay lại danh mục bài đọc"
           >
-            <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.2]" />
+            <ArrowLeft className="w-4 h-4 stroke-[2.2]" />
             <span className="hidden sm:inline">Quay lại</span>
           </button>
 
-          <span className="px-2 py-0.5 rounded-md text-[11px] font-mono font-bold bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 border border-blue-200/70 dark:border-blue-800/60 shadow-2xs shrink-0">
+          <span className="px-1.5 sm:px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-mono font-bold bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 border border-blue-200/70 dark:border-blue-800/60 shadow-2xs shrink-0">
             {getLevelLabel(passage.level)}
           </span>
 
           <div className="min-w-0">
-            <h1 className="text-xs sm:text-sm lg:text-[15px] font-bold text-slate-900 dark:text-white truncate font-sans max-w-[150px] xs:max-w-xs sm:max-w-md lg:max-w-lg">
+            <h1 className="text-xs sm:text-sm lg:text-[15px] font-bold text-slate-900 dark:text-white truncate font-sans max-w-[120px] xs:max-w-[180px] sm:max-w-md lg:max-w-lg">
               {passage.title}
             </h1>
           </div>
         </div>
 
         {/* Right: Timer, Font Sizer & Bilingual Switcher */}
-        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           {/* Practice Timer */}
           <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-100/80 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 font-mono font-bold text-xs border border-slate-200/80 dark:border-slate-700/60 shadow-2xs">
             <Clock className="w-3.5 h-3.5 text-slate-400 stroke-[2.2]" />
@@ -494,7 +497,7 @@ export function ReadingPracticeStudio({
           <button
             type="button"
             onClick={handleTogglePassageAudio}
-            className={`h-8 px-2.5 sm:px-3 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs active:scale-95 ${
+            className={`h-8 px-2 sm:px-3 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs active:scale-95 ${
               isPlayingPassageAudio
                 ? "bg-[#0059bb] text-white border-[#0059bb]"
                 : "bg-white dark:bg-slate-900 border-slate-200/90 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-[#0059bb]"
@@ -519,7 +522,7 @@ export function ReadingPracticeStudio({
             <button
               type="button"
               onClick={() => setFontSizeLevel("sm")}
-              className={`px-2 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
+              className={`px-1.5 sm:px-2 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
                 fontSizeLevel === "sm"
                   ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-2xs font-extrabold"
                   : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
@@ -531,7 +534,7 @@ export function ReadingPracticeStudio({
             <button
               type="button"
               onClick={() => setFontSizeLevel("base")}
-              className={`px-2 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
+              className={`px-1.5 sm:px-2 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
                 fontSizeLevel === "base"
                   ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-2xs font-extrabold"
                   : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
@@ -543,7 +546,7 @@ export function ReadingPracticeStudio({
             <button
               type="button"
               onClick={() => setFontSizeLevel("lg")}
-              className={`px-2 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
+              className={`px-1.5 sm:px-2 py-1 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
                 fontSizeLevel === "lg"
                   ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-2xs font-extrabold"
                   : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
@@ -558,7 +561,7 @@ export function ReadingPracticeStudio({
           <button
             type="button"
             onClick={() => setShowBilingual((prev) => !prev)}
-            className={`h-8 px-2.5 sm:px-3 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs active:scale-95 ${
+            className={`h-8 px-2 sm:px-3 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs active:scale-95 ${
               showBilingual
                 ? "bg-blue-50 dark:bg-blue-950/60 border-blue-200 dark:border-blue-800 text-[#0059bb] dark:text-sky-400 font-extrabold"
                 : "bg-white dark:bg-slate-900 border-slate-200/90 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
@@ -570,22 +573,78 @@ export function ReadingPracticeStudio({
             ) : (
               <Eye className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400 stroke-[2.2]" />
             )}
-            <span className="hidden sm:inline">{showBilingual ? "Văn bản gốc" : "Song ngữ"}</span>
+            <span className="hidden sm:inline">{showBilingual ? "Gốc" : "Song ngữ"}</span>
           </button>
         </div>
       </header>
 
+      {/* 1.5. MOBILE VIEWPORT SEGMENTED CAPSULE (CHỈ HIỂN THỊ TRÊN MÀN HÌNH < 1024px, ẨN HOÀN TOÀN TRÊN DESKTOP) */}
+      <div className="block lg:hidden shrink-0 bg-white dark:bg-slate-900 border-b border-slate-200/90 dark:border-slate-800 px-3 py-1.5 z-10 shadow-2xs">
+        <div className="grid grid-cols-3 gap-1 p-0.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60">
+          <button
+            type="button"
+            onClick={() => setMobileViewTab("passage")}
+            className={`h-8 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+              mobileViewTab === "passage"
+                ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-2xs font-extrabold"
+                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+            }`}
+          >
+            <BookOpen className="w-3.5 h-3.5" />
+            <span>Bài đọc</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setMobileViewTab("questions");
+              setActiveRightTab("questions");
+            }}
+            className={`h-8 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer relative ${
+              mobileViewTab === "questions"
+                ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-2xs font-extrabold"
+                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+            }`}
+          >
+            <FileText className="w-3.5 h-3.5" />
+            <span>Câu hỏi ({Object.keys(answers).length}/{passage.questions.length})</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setMobileViewTab("dictionary");
+              setActiveRightTab("dictionary");
+            }}
+            className={`h-8 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+              mobileViewTab === "dictionary"
+                ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-2xs font-extrabold"
+                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+            }`}
+          >
+            <GraduationCap className="w-3.5 h-3.5" />
+            <span>Tra từ</span>
+          </button>
+        </div>
+      </div>
+
       {/* 2. MAIN 2-COLUMN SPLIT PANE STUDIO (ZERO FLOATING BLOCKS) */}
       <div className="flex-1 flex flex-col lg:flex-row min-h-0 overflow-hidden">
-        {/* CỘT TRÁI (60%): BÀI ĐỌC VĂN BẢN (EDITORIAL STYLED PASSAGE) */}
-        <div className="flex-1 lg:flex-[6] h-full overflow-y-auto p-4 sm:p-6 lg:p-8 border-b lg:border-b-0 lg:border-r border-slate-200/80 dark:border-slate-800 space-y-6 bg-white dark:bg-slate-950">
+        {/* CỘT TRÁI (60% ON DESKTOP, FULL-PANE ON MOBILE KHI TAB === "passage") */}
+        <div
+          className={`${
+            mobileViewTab === "passage"
+              ? "flex flex-col flex-1 lg:flex-[6]"
+              : "hidden lg:flex lg:flex-col lg:flex-[6]"
+          } h-full overflow-y-auto p-4 sm:p-6 lg:p-8 border-b lg:border-b-0 lg:border-r border-slate-200/80 dark:border-slate-800 space-y-6 bg-white dark:bg-slate-950 pb-20 lg:pb-8`}
+        >
           {/* Passage Meta Card (Double-Bezel Agency Design) */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-slate-50/80 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 flex items-center justify-between gap-3 shadow-2xs">
-            <div className="flex items-center gap-3.5 min-w-0">
+          <div className="p-4 sm:p-5 rounded-2xl bg-slate-50/80 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
+            <div className="flex items-center gap-3.5 min-w-0 flex-1">
               <div className="w-11 h-11 rounded-xl bg-white dark:bg-slate-800 border border-slate-200/70 dark:border-slate-700 flex items-center justify-center text-2xl shrink-0 shadow-2xs">
                 {passage.icon}
               </div>
-              <div className="min-w-0">
+              <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="px-1.5 py-0.5 rounded-md text-[10px] font-bold font-mono bg-blue-50 dark:bg-blue-950/70 text-[#0059bb] dark:text-sky-300 border border-blue-200/60 dark:border-blue-800/60">
                     {getLevelLabel(passage.level)}
@@ -594,13 +653,13 @@ export function ReadingPracticeStudio({
                     {passage.category} · {passage.duration || "4 min"}
                   </span>
                 </div>
-                <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-display leading-tight truncate">
+                <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-display leading-tight">
                   {passage.title}
                 </h2>
               </div>
             </div>
 
-            <div className="text-right shrink-0">
+            <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center border-t sm:border-t-0 pt-2.5 sm:pt-0 border-slate-200/60 dark:border-slate-800/60 shrink-0">
               <span className="text-xs font-mono font-bold text-slate-500 dark:text-slate-400 block tabular-nums">
                 {passage.wordCount} từ
               </span>
@@ -688,12 +747,34 @@ export function ReadingPracticeStudio({
               );
             })}
           </div>
+
+          {/* NÚT CHUYỂN SANG CÂU HỎI NHANH Ở ĐÁY BÀI ĐỌC (MOBILE ONLY) */}
+          <div className="block lg:hidden pt-4 pb-2">
+            <button
+              type="button"
+              onClick={() => {
+                setMobileViewTab("questions");
+                setActiveRightTab("questions");
+              }}
+              className="w-full py-3 px-4 rounded-xl bg-[#0059bb] hover:bg-blue-700 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm shadow-[#0059bb]/20 active:scale-98 transition-all cursor-pointer"
+            >
+              <FileText className="w-4 h-4" />
+              <span>Chuyển sang làm câu hỏi ({Object.keys(answers).length}/{passage.questions.length})</span>
+              <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+            </button>
+          </div>
         </div>
 
-        {/* CỘT PHẢI (40%): DOCK TƯƠNG TÁC (TÍCH HỢP TAB CÂU HỎI & TAB TRA TỪ LIỀN MẠCH) */}
-        <div className="flex-1 lg:flex-[4] h-full flex flex-col bg-slate-50/40 dark:bg-slate-900/70 border-t lg:border-t-0 min-h-0 relative overflow-hidden">
-          {/* Header Tab Switcher (CỐ ĐỊNH Ở TRÊN CÙNG - TINH GỌN 1 HÀNG DUY NHẤT) */}
-          <div className="p-3 sm:p-4 border-b border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shrink-0 z-10 shadow-2xs">
+        {/* CỘT PHẢI (40% ON DESKTOP, FULL-PANE ON MOBILE KHI TAB !== "passage") */}
+        <div
+          className={`${
+            mobileViewTab !== "passage"
+              ? "flex flex-col flex-1 lg:flex-[4]"
+              : "hidden lg:flex lg:flex-col lg:flex-[4]"
+          } h-full flex flex-col bg-slate-50/40 dark:bg-slate-900/70 border-t lg:border-t-0 min-h-0 relative overflow-hidden`}
+        >
+          {/* Header Tab Switcher (TRÊN DESKTOP CỐ ĐỊNH Ở TRÊN CÙNG, TRÊN MOBILE ĐÃ CÓ CAPSULE BAR NÊN ẨN TRÁNH LẶP) */}
+          <div className="hidden lg:block p-3 sm:p-4 border-b border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shrink-0 z-10 shadow-2xs">
             <div className="flex items-center justify-between gap-2">
               <div className="inline-flex p-1 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 shadow-2xs">
                 <button
@@ -732,7 +813,7 @@ export function ReadingPracticeStudio({
           </div>
 
           {/* VÙNG NỘI DUNG CUỘN TRỌN GÓI (CHỈ HIỂN THỊ 1 CÂU DUY NHẤT TẠI MỘT THỜI ĐIỂM) */}
-          <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 min-h-0 pb-28 lg:pb-5">
+          <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 min-h-0 pb-32 lg:pb-5">
             {activeRightTab === "questions" && (
               (() => {
                 const q = passage.questions[currentQuestionIndex] || passage.questions[0];
@@ -756,9 +837,19 @@ export function ReadingPracticeStudio({
                   >
                     {/* Header Câu Hỏi Hiện Tại */}
                     <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5">
-                      <span className="px-2.5 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 border border-blue-200/60 font-mono font-bold text-xs">
-                        Câu {currentQuestionIndex + 1} / {passage.questions.length}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className="px-2.5 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 border border-blue-200/60 font-mono font-bold text-xs">
+                          Câu {currentQuestionIndex + 1} / {passage.questions.length}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setMobileViewTab("passage")}
+                          className="inline-flex lg:hidden items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold text-[#0059bb] dark:text-sky-400 bg-blue-50/60 dark:bg-blue-950/40 border border-blue-200/50 hover:bg-blue-100/60 cursor-pointer"
+                        >
+                          <BookOpen className="w-3 h-3" />
+                          <span>Đọc lại bài</span>
+                        </button>
+                      </div>
 
                       {selectedOption !== undefined ? (
                         <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
@@ -1106,14 +1197,29 @@ export function ReadingPracticeStudio({
                       </div>
                     )}
 
-                    {/* Quay lại trả lời câu hỏi */}
-                    <button
-                      type="button"
-                      onClick={() => setActiveRightTab("questions")}
-                      className="w-full py-2.5 rounded-xl border border-slate-200/90 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-[#0059bb] hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
-                    >
-                      <span>Quay lại trả lời câu hỏi ➔</span>
-                    </button>
+                    {/* Quay lại bài đọc hoặc câu hỏi */}
+                    <div className="grid grid-cols-2 gap-2 pt-2">
+                      <button
+                        type="button"
+                        onClick={() => setMobileViewTab("passage")}
+                        className="py-2.5 rounded-xl border border-slate-200/90 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-[#0059bb] hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
+                      >
+                        <BookOpen className="w-3.5 h-3.5" />
+                        <span>Đọc tiếp bài</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setMobileViewTab("questions");
+                          setActiveRightTab("questions");
+                        }}
+                        className="py-2.5 rounded-xl bg-[#0059bb] hover:bg-blue-700 text-white text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer transition-colors shadow-2xs"
+                      >
+                        <FileText className="w-3.5 h-3.5" />
+                        <span>Làm câu hỏi</span>
+                      </button>
+                    </div>
                   </div>
                 ) : (
                   <div className="p-8 text-center text-slate-400 space-y-2 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl">
@@ -1184,8 +1290,14 @@ export function ReadingPracticeStudio({
             )}
           </div>
 
-          {/* BOTTOM SUBMISSION ACTION BAR (GẮN CỐ ĐỊNH Ở ĐÁY CỘT PHẢI & MÀN HÌNH, 0% XÊ DỊCH) */}
-          <div className="fixed bottom-0 left-0 right-0 lg:static shrink-0 p-3.5 sm:p-4 border-t border-slate-200/80 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md shadow-lg lg:shadow-none z-30 space-y-2.5">
+          {/* BOTTOM SUBMISSION ACTION BAR (GẮN CỐ ĐỊNH Ở ĐÁY CỘT PHẢI TRÊN DESKTOP, TRÊN MOBILE CHỈ HIỂN THỊ KHI Ở TAB CÂU HỎI HOẶC ĐÃ NỘP BÀI) */}
+          <div
+            className={`${
+              activeRightTab === "questions" || isSubmitted
+                ? "fixed bottom-0 left-0 right-0 lg:static"
+                : "hidden lg:block lg:static"
+            } shrink-0 p-3.5 sm:p-4 border-t border-slate-200/80 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md shadow-lg lg:shadow-none z-30 space-y-2.5 pb-[max(0.875rem,env(safe-area-inset-bottom))]`}
+          >
             {!isSubmitted ? (
               <button
                 type="button"

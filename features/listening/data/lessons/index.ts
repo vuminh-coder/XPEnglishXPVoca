@@ -15,6 +15,9 @@ import { LESSON_DAVID_ATTENBOROUGH_PLANET } from "./lesson_david_attenborough_pl
 import { LESSON_CAREERVIDZ_INTERVIEW } from "./lesson_careervidz_interview";
 import { LESSON_RATATOUILLE_ANTON_EGO } from "./lesson_ratatouille_anton_ego";
 import { LESSON_PSYCHOLOGY_OF_MONEY } from "./lesson_psychology_of_money";
+import { LESSON_SIMON_SINEK } from "./lesson_simon_sinek";
+import { LESSON_OXFORD_MEETING } from "./lesson_oxford_meeting";
+import { LESSON_JULIAN_TREASURE } from "./lesson_julian_treasure";
 
 export {
   LESSON_REWRITE_THE_STARS,
@@ -33,6 +36,9 @@ export {
   LESSON_CAREERVIDZ_INTERVIEW,
   LESSON_RATATOUILLE_ANTON_EGO,
   LESSON_PSYCHOLOGY_OF_MONEY,
+  LESSON_SIMON_SINEK,
+  LESSON_OXFORD_MEETING,
+  LESSON_JULIAN_TREASURE,
 };
 
 export const ALL_MODULAR_LESSONS = [
@@ -52,4 +58,8 @@ export const ALL_MODULAR_LESSONS = [
   LESSON_CAREERVIDZ_INTERVIEW,
   LESSON_RATATOUILLE_ANTON_EGO,
   LESSON_PSYCHOLOGY_OF_MONEY,
+  LESSON_SIMON_SINEK,
+  LESSON_OXFORD_MEETING,
+  LESSON_JULIAN_TREASURE,
 ];
+

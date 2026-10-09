@@ -1,5 +1,8 @@
 import { describe, it, expect } from "vitest";
+import fs from "fs";
+import path from "path";
 import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
+import { tokenizeSentence } from "@/features/listening/components/DictationWorkspace";
 
 describe("Daily English Pets: 100% Verbatim Subtitles Calibration Test Suite", () => {
   const petsLesson = MOCK_VIDEO_LESSONS.find(
@@ -79,5 +82,56 @@ describe("Daily English Pets: 100% Verbatim Subtitles Calibration Test Suite", (
       expect(seg.keywords).toBeDefined();
       expect(seg.keywords!.length).toBeGreaterThan(0);
     }
+  });
+
+  it("should cleanly tokenize all 11 segments with DictationWorkspace tokenizer (114 tokens total)", () => {
+    let totalTokens = 0;
+    const segments = petsLesson?.segments || [];
+    for (const seg of segments) {
+      const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
+      expect(tokens.length).toBeGreaterThan(0);
+      totalTokens += tokens.length;
+      for (const token of tokens) {
+        expect(token.clean.length).toBeGreaterThan(0);
+        expect(token.dots.length).toBe(token.clean.length);
+      }
+    }
+    expect(totalTokens).toBe(114);
+  });
+
+  it("should match 100% word-for-word against official YouTube captions in json3 (0 diffs across 114 words)", () => {
+    const subPath = path.resolve(process.cwd(), "scripts/pets_official.en.json3");
+    if (!fs.existsSync(subPath)) return;
+
+    const sub = JSON.parse(fs.readFileSync(subPath, "utf8"));
+    const rawText = sub.events
+      .filter((e: any) => e.segs)
+      .map((e: any) => e.segs.map((s: any) => s.utf8).join(""))
+      .join(" ")
+      .replace(/\n/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    function cleanWords(s: string): string[] {
+      return s
+        .replace(/[‘’]/g, "'")
+        .replace(/[“”]/g, '"')
+        .replace(/--/g, " ")
+        .replace(/—/g, " ")
+        .replace(/['"]+/g, "")
+        .replace(/[^a-zA-Z0-9\s]/g, " ")
+        .split(/\s+/)
+        .map((w) => w.trim().toLowerCase())
+        .filter(Boolean);
+    }
+
+    const officialWords = cleanWords(rawText);
+    const lessonWords: string[] = [];
+    const segments = petsLesson?.segments || [];
+    segments.forEach((s) => lessonWords.push(...cleanWords(s.text)));
+
+    expect(lessonWords.length).toBe(114);
+    expect(officialWords.length).toBe(114);
+    expect(lessonWords).toEqual(officialWords);
   });
 });

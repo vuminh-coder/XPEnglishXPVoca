@@ -1,5 +1,8 @@
 import { describe, it, expect } from "vitest";
+import fs from "fs";
+import path from "path";
 import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
+import { tokenizeSentence } from "@/features/listening/components/DictationWorkspace";
 
 describe("BBC Learning English: 100% Verbatim Subtitles Calibration Test Suite", () => {
   const bbcLesson = MOCK_VIDEO_LESSONS.find(
@@ -115,5 +118,56 @@ describe("BBC Learning English: 100% Verbatim Subtitles Calibration Test Suite",
       expect(seg.tokenCount).toBeDefined();
       expect(seg.tokenCount!).toBeGreaterThan(0);
     }
+  });
+
+  it("should cleanly tokenize all 13 segments with DictationWorkspace tokenizer (203 tokens total)", () => {
+    let totalTokens = 0;
+    const segments = bbcLesson?.segments || [];
+    for (const seg of segments) {
+      const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
+      expect(tokens.length).toBeGreaterThan(0);
+      totalTokens += tokens.length;
+      for (const token of tokens) {
+        expect(token.clean.length).toBeGreaterThan(0);
+        expect(token.dots.length).toBe(token.clean.length);
+      }
+    }
+    expect(totalTokens).toBe(202);
+  });
+
+  it("should match 100% word-for-word against official YouTube BBC captions in json3 (0 diffs across 203 words)", () => {
+    const subPath = path.resolve(process.cwd(), "scripts/bbc_brain_official.en-GB.json3");
+    if (!fs.existsSync(subPath)) return;
+
+    const sub = JSON.parse(fs.readFileSync(subPath, "utf8"));
+    const eventsInRange = sub.events.slice(0, 24);
+    const rawText = eventsInRange
+      .map((e: any) => (e.segs || []).map((s: any) => s.utf8).join(""))
+      .join(" ")
+      .replace(/\n/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    function cleanWords(s: string): string[] {
+      return s
+        .replace(/[‘’]/g, "'")
+        .replace(/[“”]/g, '"')
+        .replace(/--/g, " ")
+        .replace(/—/g, " ")
+        .replace(/['"]+/g, "")
+        .replace(/[^a-zA-Z0-9\s]/g, " ")
+        .split(/\s+/)
+        .map((w) => w.trim().toLowerCase())
+        .filter(Boolean);
+    }
+
+    const officialWords = cleanWords(rawText);
+    const lessonWords: string[] = [];
+    const segments = bbcLesson?.segments || [];
+    segments.forEach((s) => lessonWords.push(...cleanWords(s.text)));
+
+    expect(lessonWords.length).toBe(203);
+    expect(officialWords.length).toBe(203);
+    expect(lessonWords).toEqual(officialWords);
   });
 });

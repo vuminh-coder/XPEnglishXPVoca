@@ -131,7 +131,8 @@ export function tokenizeSentence(sentence: string, properNouns: string[]): WordT
     });
   });
 
-  return rawWords.map((rawWord, idx) => {
+  const tokens: WordToken[] = [];
+  rawWords.forEach((rawWord) => {
     // Separate punctuation (with Unicode letters support)
     const leadingMatch = rawWord.match(/^([^a-zA-Z0-9\p{L}]*)/u);
     const trailingMatch = rawWord.match(/([^a-zA-Z0-9\p{L}]*)$/u);
@@ -143,12 +144,20 @@ export function tokenizeSentence(sentence: string, properNouns: string[]): WordT
       rawWord.length - trailingPunc.length
     );
 
+    if (clean.length === 0) {
+      if (tokens.length > 0) {
+        tokens[tokens.length - 1].trailingPunc += " " + rawWord;
+        tokens[tokens.length - 1].original += " " + rawWord;
+      }
+      return;
+    }
+
     const length = clean.length;
     const dots = "•".repeat(Math.max(1, length));
     const isProperNoun = properNounSet.has(clean.toLowerCase());
 
-    return {
-      id: `word-${idx}-${clean}`,
+    tokens.push({
+      id: `word-${tokens.length}-${clean}`,
       original: rawWord,
       clean,
       leadingPunc,
@@ -157,8 +166,10 @@ export function tokenizeSentence(sentence: string, properNouns: string[]): WordT
       dots,
       isProperNoun,
       status: "masked",
-    };
+    });
   });
+
+  return tokens;
 }
 
 export function DictationWorkspace({

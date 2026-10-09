@@ -1,0 +1,955 @@
+{
+  "wireMagic": "pb3",
+  "pens": [ {
+  
+  } ],
+  "wsWinStyles": [ {
+  
+  } ],
+  "wpWinPositions": [ {
+  
+  } ],
+  "events": [ {
+    "tStartMs": 1579,
+    "dDurationMs": 5131,
+    "segs": [ {
+      "utf8": "Hello, I’m Gina and welcome to Oxford Online\nEnglish!"
+    } ]
+  }, {
+    "tStartMs": 6710,
+    "dDurationMs": 4200,
+    "segs": [ {
+      "utf8": "Tomorrow, you have a meeting to attend."
+    } ]
+  }, {
+    "tStartMs": 10910,
+    "dDurationMs": 4530,
+    "segs": [ {
+      "utf8": "If the meeting is in English, will you be\nready?"
+    } ]
+  }, {
+    "tStartMs": 15440,
+    "dDurationMs": 6759,
+    "segs": [ {
+      "utf8": "This lesson will help you learn useful phrases\nto introduce yourself, respond to suggestions"
+    } ]
+  }, {
+    "tStartMs": 22199,
+    "dDurationMs": 8240,
+    "segs": [ {
+      "utf8": "and ideas, and ask questions in a business\nmeeting."
+    } ]
+  }, {
+    "tStartMs": 30439,
+    "dDurationMs": 6391,
+    "segs": [ {
+      "utf8": "I want you to imagine you’re in the meeting,\nand the chair has asked everyone to introduce"
+    } ]
+  }, {
+    "tStartMs": 36830,
+    "dDurationMs": 2300,
+    "segs": [ {
+      "utf8": "themselves."
+    } ]
+  }, {
+    "tStartMs": 39130,
+    "dDurationMs": 6570,
+    "segs": [ {
+      "utf8": "What are some phrases you can use?"
+    } ]
+  }, {
+    "tStartMs": 45700,
+    "dDurationMs": 5620,
+    "segs": [ {
+      "utf8": "Sometimes, you’ll be in a meeting with people\nyou don’t know."
+    } ]
+  }, {
+    "tStartMs": 51330,
+    "dDurationMs": 6860,
+    "segs": [ {
+      "utf8": "Other times, the chair will ask for quick\nintroductions to break the ice."
+    } ]
+  }, {
+    "tStartMs": 58190,
+    "dDurationMs": 3640,
+    "segs": [ {
+      "utf8": "There are three things you should do here:"
+    } ]
+  }, {
+    "tStartMs": 61830,
+    "dDurationMs": 2850,
+    "segs": [ {
+      "utf8": "- Say your name\n- Say your job title"
+    } ]
+  }, {
+    "tStartMs": 64680,
+    "dDurationMs": 6290,
+    "segs": [ {
+      "utf8": "- Describe your responsibilities"
+    } ]
+  }, {
+    "tStartMs": 70970,
+    "dDurationMs": 8110,
+    "segs": [ {
+      "utf8": "To say your name, you can use a formal, ‘My\nname is _____’ or, if the meeting is more"
+    } ]
+  }, {
+    "tStartMs": 79080,
+    "dDurationMs": 7120,
+    "segs": [ {
+      "utf8": "informal, you can say, ‘Hi, I’m_____’."
+    } ]
+  }, {
+    "tStartMs": 86200,
+    "dDurationMs": 5440,
+    "segs": [ {
+      "utf8": "For your position title, use ‘to be’,\njust like for your name."
+    } ]
+  }, {
+    "tStartMs": 91640,
+    "dDurationMs": 8110,
+    "segs": [ {
+      "utf8": "Then, decide if your position is the only\none in the company, or if there are others"
+    } ]
+  }, {
+    "tStartMs": 99750,
+    "dDurationMs": 3640,
+    "segs": [ {
+      "utf8": "who have the same job title."
+    } ]
+  }, {
+    "tStartMs": 103390,
+    "dDurationMs": 5870,
+    "segs": [ {
+      "utf8": "For example, if you are the only secretary,\nuse ‘the’:"
+    } ]
+  }, {
+    "tStartMs": 109260,
+    "dDurationMs": 4410,
+    "segs": [ {
+      "utf8": "I’m the secretary."
+    } ]
+  }, {
+    "tStartMs": 113670,
+    "dDurationMs": 5130,
+    "segs": [ {
+      "utf8": "If other people also have this position in\nthe company, use ‘a’:"
+    } ]
+  }, {
+    "tStartMs": 120280,
+    "dDurationMs": 4740,
+    "segs": [ {
+      "utf8": "I’m a project manager."
+    } ]
+  }, {
+    "tStartMs": 125030,
+    "dDurationMs": 4420,
+    "segs": [ {
+      "utf8": "If necessary, you can say which department\nyou work in."
+    } ]
+  }, {
+    "tStartMs": 129450,
+    "dDurationMs": 7970,
+    "segs": [ {
+      "utf8": "You can use the preposition ‘in’ plus\nthe noun: ‘engineering’, ‘marketing’,"
+    } ]
+  }, {
+    "tStartMs": 137420,
+    "dDurationMs": 3140,
+    "segs": [ {
+      "utf8": "‘finance’, etc."
+    } ]
+  }, {
+    "tStartMs": 140560,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "For example:"
+    } ]
+  }, {
+    "tStartMs": 141560,
+    "dDurationMs": 3650,
+    "segs": [ {
+      "utf8": "I’m in the engineering department."
+    } ]
+  }, {
+    "tStartMs": 145210,
+    "dDurationMs": 5230,
+    "segs": [ {
+      "utf8": "Or: I work in the marketing department."
+    } ]
+  }, {
+    "tStartMs": 150440,
+    "dDurationMs": 7510,
+    "segs": [ {
+      "utf8": "Finally, you can briefly describe your responsibilities,\nlike this:"
+    } ]
+  }, {
+    "tStartMs": 157950,
+    "dDurationMs": 5090,
+    "segs": [ {
+      "utf8": "I manage each project from start to finish."
+    } ]
+  }, {
+    "tStartMs": 163040,
+    "dDurationMs": 5419,
+    "segs": [ {
+      "utf8": "I’m responsible for web analytics and testing."
+    } ]
+  }, {
+    "tStartMs": 168460,
+    "dDurationMs": 6500,
+    "segs": [ {
+      "utf8": "Or: I handle purchasing and our negotiations\nwith suppliers."
+    } ]
+  }, {
+    "tStartMs": 177920,
+    "dDurationMs": 8060,
+    "segs": [ {
+      "utf8": "You can see that using verbs and phrases like\nmanage, be responsible for or handle can be"
+    } ]
+  }, {
+    "tStartMs": 185980,
+    "dDurationMs": 3470,
+    "segs": [ {
+      "utf8": "useful here."
+    } ]
+  }, {
+    "tStartMs": 189450,
+    "dDurationMs": 6170,
+    "segs": [ {
+      "utf8": "Here is an example of a full introduction\nin a formal meeting with people you don’t"
+    } ]
+  }, {
+    "tStartMs": 195620,
+    "dDurationMs": 5460,
+    "segs": [ {
+      "utf8": "know, or don’t know well:"
+    } ]
+  }, {
+    "tStartMs": 201080,
+    "dDurationMs": 4660,
+    "segs": [ {
+      "utf8": "My name is Gina Mares and I’m the marketing\nmanager here."
+    } ]
+  }, {
+    "tStartMs": 205740,
+    "dDurationMs": 7600,
+    "segs": [ {
+      "utf8": "I handle online advertising and web analytics."
+    } ]
+  }, {
+    "tStartMs": 213340,
+    "dDurationMs": 3520,
+    "segs": [ {
+      "utf8": "Here’s an example of a more informal introduction:"
+    } ]
+  }, {
+    "tStartMs": 218640,
+    "dDurationMs": 2100,
+    "segs": [ {
+      "utf8": "Hi, I’m Gina."
+    } ]
+  }, {
+    "tStartMs": 220940,
+    "dDurationMs": 2159,
+    "segs": [ {
+      "utf8": "I’m in the sales department."
+    } ]
+  }, {
+    "tStartMs": 223099,
+    "dDurationMs": 4301,
+    "segs": [ {
+      "utf8": "I manage our sales team."
+    } ]
+  }, {
+    "tStartMs": 227400,
+    "dDurationMs": 3900,
+    "segs": [ {
+      "utf8": "How would you introduce yourself in a meeting?"
+    } ]
+  }, {
+    "tStartMs": 231300,
+    "dDurationMs": 4150,
+    "segs": [ {
+      "utf8": "You can give it a try now."
+    } ]
+  }, {
+    "tStartMs": 235450,
+    "dDurationMs": 6320,
+    "segs": [ {
+      "utf8": "Now that you’ve introduced yourself, the\nmeeting will begin."
+    } ]
+  }, {
+    "tStartMs": 241770,
+    "dDurationMs": 5620,
+    "segs": [ {
+      "utf8": "During the meeting, you might need to give\nyour opinion on the different agenda items"
+    } ]
+  }, {
+    "tStartMs": 247390,
+    "dDurationMs": 2490,
+    "segs": [ {
+      "utf8": "which you are discussing."
+    } ]
+  }, {
+    "tStartMs": 249880,
+    "dDurationMs": 6470,
+    "segs": [ {
+      "utf8": "You might also need to react to other people’s\nsuggestions."
+    } ]
+  }, {
+    "tStartMs": 256350,
+    "dDurationMs": 6099,
+    "segs": [ {
+      "utf8": "How can you do this?"
+    } ]
+  }, {
+    "tStartMs": 262449,
+    "dDurationMs": 4791,
+    "segs": [ {
+      "utf8": "When making suggestions, modal verbs can be\nvery useful."
+    } ]
+  }, {
+    "tStartMs": 267240,
+    "dDurationMs": 6750,
+    "segs": [ {
+      "utf8": "‘Should’ ,‘ought to’ or ‘might want\nto’ can express something you think is a"
+    } ]
+  }, {
+    "tStartMs": 273990,
+    "dDurationMs": 4959,
+    "segs": [ {
+      "utf8": "good idea, but not an obligation:"
+    } ]
+  }, {
+    "tStartMs": 278949,
+    "dDurationMs": 5030,
+    "segs": [ {
+      "utf8": "We ought to give new clients a gift from the\ncompany."
+    } ]
+  }, {
+    "tStartMs": 283979,
+    "dDurationMs": 5921,
+    "segs": [ {
+      "utf8": "We might want to consider looking for another\nengineer to help with this."
+    } ]
+  }, {
+    "tStartMs": 289900,
+    "dDurationMs": 8320,
+    "segs": [ {
+      "utf8": "Or: I think we should make this a priority\nfor this month."
+    } ]
+  }, {
+    "tStartMs": 298220,
+    "dDurationMs": 7640,
+    "segs": [ {
+      "utf8": "‘Have to’ and ‘need to’ can express\nsomething that is an obligation:"
+    } ]
+  }, {
+    "tStartMs": 305860,
+    "dDurationMs": 5250,
+    "segs": [ {
+      "utf8": "We have to improve the way we collect and\nrecord sales data."
+    } ]
+  }, {
+    "tStartMs": 311110,
+    "dDurationMs": 7630,
+    "segs": [ {
+      "utf8": "Or: We need to find a cheaper solution—our\nbudget is very tight."
+    } ]
+  }, {
+    "tStartMs": 318740,
+    "dDurationMs": 7500,
+    "segs": [ {
+      "utf8": "Remember, you can also use these to make negative\nsuggestions:"
+    } ]
+  }, {
+    "tStartMs": 326240,
+    "dDurationMs": 5120,
+    "segs": [ {
+      "utf8": "We shouldn’t rush this—we need to think\nit through carefully."
+    } ]
+  }, {
+    "tStartMs": 331360,
+    "dDurationMs": 6300,
+    "segs": [ {
+      "utf8": "Or: We don’t need to hire new staff at the\nmoment."
+    } ]
+  }, {
+    "tStartMs": 339360,
+    "dDurationMs": 2840,
+    "segs": [ {
+      "utf8": "Now, it’s your turn."
+    } ]
+  }, {
+    "tStartMs": 342200,
+    "dDurationMs": 7400,
+    "segs": [ {
+      "utf8": "Choose a phrase and make a suggestion for\nsomething in your own company."
+    } ]
+  }, {
+    "tStartMs": 350920,
+    "dDurationMs": 6399,
+    "segs": [ {
+      "utf8": "Next, what can you do if you want to respond\nto another suggestion?"
+    } ]
+  }, {
+    "tStartMs": 357319,
+    "dDurationMs": 7361,
+    "segs": [ {
+      "utf8": "Well, if you think it’s a good suggestion,\nyou can show you agree with phrases like:"
+    } ]
+  }, {
+    "tStartMs": 364680,
+    "dDurationMs": 3200,
+    "segs": [ {
+      "utf8": "I agree with _______."
+    } ]
+  }, {
+    "tStartMs": 367880,
+    "dDurationMs": 2060,
+    "segs": [ {
+      "utf8": "That sounds good."
+    } ]
+  }, {
+    "tStartMs": 370200,
+    "dDurationMs": 3799,
+    "segs": [ {
+      "utf8": "Or: Let’s go with this idea."
+    } ]
+  }, {
+    "tStartMs": 373999,
+    "dDurationMs": 9070,
+    "segs": [ {
+      "utf8": "Here, go with means you agree with this idea\nand think you should put it into action."
+    } ]
+  }, {
+    "tStartMs": 383069,
+    "dDurationMs": 6030,
+    "segs": [ {
+      "utf8": "However, what if there is a suggestion you\ndon’t agree with?"
+    } ]
+  }, {
+    "tStartMs": 389099,
+    "dDurationMs": 5570,
+    "segs": [ {
+      "utf8": "Here are some good, professional ways to disagree:"
+    } ]
+  }, {
+    "tStartMs": 394669,
+    "dDurationMs": 4311,
+    "segs": [ {
+      "utf8": "To be honest, I’m not sure about this idea."
+    } ]
+  }, {
+    "tStartMs": 398980,
+    "dDurationMs": 3880,
+    "segs": [ {
+      "utf8": "Good suggestion, but I can see a few problems…"
+    } ]
+  }, {
+    "tStartMs": 402860,
+    "dDurationMs": 6580,
+    "segs": [ {
+      "utf8": "Or: I see your point, however…"
+    } ]
+  }, {
+    "tStartMs": 409440,
+    "dDurationMs": 4699,
+    "segs": [ {
+      "utf8": "After a phrase like this, explain your point\nof view."
+    } ]
+  }, {
+    "tStartMs": 414139,
+    "dDurationMs": 1381,
+    "segs": [ {
+      "utf8": "For example:"
+    } ]
+  }, {
+    "tStartMs": 415520,
+    "dDurationMs": 6700,
+    "segs": [ {
+      "utf8": "I see your point, however, I don’t think\nadvertising in a magazine is a good idea."
+    } ]
+  }, {
+    "tStartMs": 422340,
+    "dDurationMs": 3860,
+    "segs": [ {
+      "utf8": "People don’t read them as often these days."
+    } ]
+  }, {
+    "tStartMs": 426210,
+    "dDurationMs": 5669,
+    "segs": [ {
+      "utf8": "Or: To be honest, I’m not sure about this\nidea."
+    } ]
+  }, {
+    "tStartMs": 431880,
+    "dDurationMs": 5969,
+    "segs": [ {
+      "utf8": "I think improving our website UI is a higher\npriority right now."
+    } ]
+  }, {
+    "tStartMs": 439080,
+    "dDurationMs": 1400,
+    "segs": [ {
+      "utf8": "OK?"
+    } ]
+  }, {
+    "tStartMs": 440660,
+    "dDurationMs": 4719,
+    "segs": [ {
+      "utf8": "Now, take the suggestion which you made earlier."
+    } ]
+  }, {
+    "tStartMs": 445379,
+    "dDurationMs": 9400,
+    "segs": [ {
+      "utf8": "Pause the video and write down two sentences:\none to agree, and one to disagree."
+    } ]
+  }, {
+    "tStartMs": 454780,
+    "dDurationMs": 3780,
+    "segs": [ {
+      "utf8": "Use the language you just learned."
+    } ]
+  }, {
+    "tStartMs": 458820,
+    "dDurationMs": 9540,
+    "segs": [ {
+      "utf8": "Now, let’s move on to different ways to\nask a question in a meeting."
+    } ]
+  }, {
+    "tStartMs": 468600,
+    "dDurationMs": 7339,
+    "segs": [ {
+      "utf8": "As an attendee, it’s important to make sure\nyou understand the content in the meeting."
+    } ]
+  }, {
+    "tStartMs": 475939,
+    "dDurationMs": 6820,
+    "segs": [ {
+      "utf8": "Sometimes, the chair will ask everyone to\nsave questions until the end."
+    } ]
+  }, {
+    "tStartMs": 482759,
+    "dDurationMs": 5440,
+    "segs": [ {
+      "utf8": "If you’re in a meeting where you can ask\nquestions at any time, there are a few good"
+    } ]
+  }, {
+    "tStartMs": 488199,
+    "dDurationMs": 3261,
+    "segs": [ {
+      "utf8": "phrases you can use."
+    } ]
+  }, {
+    "tStartMs": 491460,
+    "dDurationMs": 7780,
+    "segs": [ {
+      "utf8": "For more formal meetings, you can begin with\na phrase like ‘sorry’, or ‘excuse me’"
+    } ]
+  }, {
+    "tStartMs": 499240,
+    "dDurationMs": 3579,
+    "segs": [ {
+      "utf8": "to politely bring the attention to you."
+    } ]
+  }, {
+    "tStartMs": 502819,
+    "dDurationMs": 3970,
+    "segs": [ {
+      "utf8": "Then, you can use phrases like:"
+    } ]
+  }, {
+    "tStartMs": 506789,
+    "dDurationMs": 2410,
+    "segs": [ {
+      "utf8": "I have a question."
+    } ]
+  }, {
+    "tStartMs": 509200,
+    "dDurationMs": 2620,
+    "segs": [ {
+      "utf8": "Why is…?"
+    } ]
+  }, {
+    "tStartMs": 512060,
+    "dDurationMs": 2140,
+    "segs": [ {
+      "utf8": "How…?"
+    } ]
+  }, {
+    "tStartMs": 514440,
+    "dDurationMs": 4960,
+    "segs": [ {
+      "utf8": "Or: Does this mean…?"
+    } ]
+  }, {
+    "tStartMs": 519410,
+    "dDurationMs": 1840,
+    "segs": [ {
+      "utf8": "For example:"
+    } ]
+  }, {
+    "tStartMs": 521250,
+    "dDurationMs": 5730,
+    "segs": [ {
+      "utf8": "Excuse me, how will the new requirements affect\nthe project deadline?"
+    } ]
+  }, {
+    "tStartMs": 526980,
+    "dDurationMs": 5510,
+    "segs": [ {
+      "utf8": "Or: Sorry to interrupt, but I have a question."
+    } ]
+  }, {
+    "tStartMs": 532490,
+    "dDurationMs": 8200,
+    "segs": [ {
+      "utf8": "Does this mean that the new IT systems won’t\nbe in place this year?"
+    } ]
+  }, {
+    "tStartMs": 540690,
+    "dDurationMs": 5400,
+    "segs": [ {
+      "utf8": "If there is something in the meeting that\nyou don’t understand, you can use phrases"
+    } ]
+  }, {
+    "tStartMs": 546090,
+    "dDurationMs": 2550,
+    "segs": [ {
+      "utf8": "to ask for clarification:"
+    } ]
+  }, {
+    "tStartMs": 548640,
+    "dDurationMs": 4550,
+    "segs": [ {
+      "utf8": "I didn’t understand…"
+    } ]
+  }, {
+    "tStartMs": 553190,
+    "dDurationMs": 3290,
+    "segs": [ {
+      "utf8": "Can you elaborate on…?"
+    } ]
+  }, {
+    "tStartMs": 556480,
+    "dDurationMs": 6220,
+    "segs": [ {
+      "utf8": "Or: Can you clarify…?"
+    } ]
+  }, {
+    "tStartMs": 562710,
+    "dDurationMs": 6410,
+    "segs": [ {
+      "utf8": "When using these phrases, it’s important\nto explain exactly what you don’t know or"
+    } ]
+  }, {
+    "tStartMs": 569120,
+    "dDurationMs": 4920,
+    "segs": [ {
+      "utf8": "ask for clarity on something specific that\nthey said."
+    } ]
+  }, {
+    "tStartMs": 574040,
+    "dDurationMs": 8910,
+    "segs": [ {
+      "utf8": "Again, you can use ‘excuse me’ and ‘sorry’\nin more formal meetings to begin."
+    } ]
+  }, {
+    "tStartMs": 582950,
+    "dDurationMs": 1770,
+    "segs": [ {
+      "utf8": "For example:"
+    } ]
+  }, {
+    "tStartMs": 584720,
+    "dDurationMs": 5430,
+    "segs": [ {
+      "utf8": "Sorry, can you clarify the third step in your\nproposal?"
+    } ]
+  }, {
+    "tStartMs": 590150,
+    "dDurationMs": 2750,
+    "segs": [ {
+      "utf8": "I didn’t get the main idea."
+    } ]
+  }, {
+    "tStartMs": 592900,
+    "dDurationMs": 7730,
+    "segs": [ {
+      "utf8": "Or: Excuse me, but could you elaborate on\nhow this will fit with our existing marketing"
+    } ]
+  }, {
+    "tStartMs": 600630,
+    "dDurationMs": 3430,
+    "segs": [ {
+      "utf8": "campaigns?"
+    } ]
+  }, {
+    "tStartMs": 604060,
+    "dDurationMs": 2840,
+    "segs": [ {
+      "utf8": "Now, it’s your turn."
+    } ]
+  }, {
+    "tStartMs": 606910,
+    "dDurationMs": 6780,
+    "segs": [ {
+      "utf8": "Practice asking a question or asking for clarification\nabout something."
+    } ]
+  }, {
+    "tStartMs": 613690,
+    "dDurationMs": 7020,
+    "segs": [ {
+      "utf8": "It can be from a recent meeting or something\nfrom your job in general."
+    } ]
+  }, {
+    "tStartMs": 620710,
+    "dDurationMs": 8530,
+    "segs": [ {
+      "utf8": "Again, you can pause the video and write down\nyour ideas, for extra practice."
+    } ]
+  }, {
+    "tStartMs": 629240,
+    "dDurationMs": 8380,
+    "segs": [ {
+      "utf8": "OK, now you can make suggestions and respond\nto what other say in the meeting."
+    } ]
+  }, {
+    "tStartMs": 637620,
+    "dDurationMs": 4290,
+    "segs": [ {
+      "utf8": "You can also ask questions if there is something\nyou don’t understand."
+    } ]
+  }, {
+    "tStartMs": 642520,
+    "dDurationMs": 6840,
+    "segs": [ {
+      "utf8": "Next, imagine that you’ve discussed the\nagenda items and come to an agreement on the"
+    } ]
+  }, {
+    "tStartMs": 649370,
+    "dDurationMs": 4520,
+    "segs": [ {
+      "utf8": "important decisions you needed to make."
+    } ]
+  }, {
+    "tStartMs": 653890,
+    "dDurationMs": 5580,
+    "segs": [ {
+      "utf8": "You might need to show what you’re going\nto do about these decisions after the meeting"
+    } ]
+  }, {
+    "tStartMs": 659470,
+    "dDurationMs": 3810,
+    "segs": [ {
+      "utf8": "has finished."
+    } ]
+  }, {
+    "tStartMs": 665680,
+    "dDurationMs": 5940,
+    "segs": [ {
+      "utf8": "Here, you can offer to do something using\na few different phrases."
+    } ]
+  }, {
+    "tStartMs": 671630,
+    "dDurationMs": 7240,
+    "segs": [ {
+      "utf8": "For something that you decide to do at that\nmoment for the future, you can use ‘will’."
+    } ]
+  }, {
+    "tStartMs": 678870,
+    "dDurationMs": 1230,
+    "segs": [ {
+      "utf8": "For example:"
+    } ]
+  }, {
+    "tStartMs": 680100,
+    "dDurationMs": 3380,
+    "segs": [ {
+      "utf8": "I’ll call the client tomorrow."
+    } ]
+  }, {
+    "tStartMs": 683640,
+    "dDurationMs": 5680,
+    "segs": [ {
+      "utf8": "Or: I’ll discuss this with the rest of my\nteam and get back to you by the end of the"
+    } ]
+  }, {
+    "tStartMs": 689320,
+    "dDurationMs": 3500,
+    "segs": [ {
+      "utf8": "week."
+    } ]
+  }, {
+    "tStartMs": 692820,
+    "dDurationMs": 7340,
+    "segs": [ {
+      "utf8": "If you had a plan even before the meeting\nbegan, you can use ‘going to’ or ‘planning"
+    } ]
+  }, {
+    "tStartMs": 700160,
+    "dDurationMs": 2140,
+    "segs": [ {
+      "utf8": "to’:"
+    } ]
+  }, {
+    "tStartMs": 702520,
+    "dDurationMs": 3900,
+    "segs": [ {
+      "utf8": "I’m going to get a team together for this\nproject."
+    } ]
+  }, {
+    "tStartMs": 706560,
+    "dDurationMs": 8340,
+    "segs": [ {
+      "utf8": "Or: I’m planning to do one more round of\ntesting, and then we can go live."
+    } ]
+  }, {
+    "tStartMs": 714910,
+    "dDurationMs": 7880,
+    "segs": [ {
+      "utf8": "If you want to make an offer, you can use\n‘can’, could or shall:"
+    } ]
+  }, {
+    "tStartMs": 722790,
+    "dDurationMs": 4930,
+    "segs": [ {
+      "utf8": "I can contact the supplier next week if we\nneed to."
+    } ]
+  }, {
+    "tStartMs": 727720,
+    "dDurationMs": 3760,
+    "segs": [ {
+      "utf8": "I could put together a report if you think\nit would help."
+    } ]
+  }, {
+    "tStartMs": 731480,
+    "dDurationMs": 8280,
+    "segs": [ {
+      "utf8": "Or: Shall I talk to our engineering team and\nget a cost estimate?"
+    } ]
+  }, {
+    "tStartMs": 739860,
+    "dDurationMs": 6320,
+    "segs": [ {
+      "utf8": "On the other hand, what if you are asked to\ndo something that you cannot do?"
+    } ]
+  }, {
+    "tStartMs": 746180,
+    "dDurationMs": 5000,
+    "segs": [ {
+      "utf8": "Well, there are some useful, polite phrases\nyou can use:"
+    } ]
+  }, {
+    "tStartMs": 751180,
+    "dDurationMs": 4820,
+    "segs": [ {
+      "utf8": "I’m afraid I can’t…"
+    } ]
+  }, {
+    "tStartMs": 756180,
+    "dDurationMs": 5280,
+    "segs": [ {
+      "utf8": "I’m sorry, but I don’t think I can…"
+    } ]
+  }, {
+    "tStartMs": 761620,
+    "dDurationMs": 6180,
+    "segs": [ {
+      "utf8": "Unfortunately, I won’t be able to…"
+    } ]
+  }, {
+    "tStartMs": 767940,
+    "dDurationMs": 2220,
+    "segs": [ {
+      "utf8": "Think about this."
+    } ]
+  }, {
+    "tStartMs": 770160,
+    "dDurationMs": 7400,
+    "segs": [ {
+      "utf8": "What if someone asked you to move your project\ndeadline forward, but it wasn’t possible?"
+    } ]
+  }, {
+    "tStartMs": 777600,
+    "dDurationMs": 2100,
+    "segs": [ {
+      "utf8": "You could say:"
+    } ]
+  }, {
+    "tStartMs": 779700,
+    "dDurationMs": 5740,
+    "segs": [ {
+      "utf8": "Unfortunately, we won’t be able to complete\nthe project any sooner because we don’t"
+    } ]
+  }, {
+    "tStartMs": 785440,
+    "dDurationMs": 2580,
+    "segs": [ {
+      "utf8": "have the supplies yet."
+    } ]
+  }, {
+    "tStartMs": 788200,
+    "dDurationMs": 6480,
+    "segs": [ {
+      "utf8": "Or: I’m sorry, but I don’t think we can\nfinish by the end of this month."
+    } ]
+  }, {
+    "tStartMs": 794800,
+    "dDurationMs": 6060,
+    "segs": [ {
+      "utf8": "We need at least another six weeks."
+    } ]
+  }, {
+    "tStartMs": 800870,
+    "dDurationMs": 5500,
+    "segs": [ {
+      "utf8": "At this point the meeting is wrapping up and\nhopefully you have been able to make good"
+    } ]
+  }, {
+    "tStartMs": 806370,
+    "dDurationMs": 8050,
+    "segs": [ {
+      "utf8": "suggestions and offers and take part in\ndiscussions effectively."
+    } ]
+  }, {
+    "tStartMs": 814540,
+    "dDurationMs": 4440,
+    "segs": [ {
+      "utf8": "Will you be attending a meeting in English\nsoon?"
+    } ]
+  }, {
+    "tStartMs": 819020,
+    "dDurationMs": 3700,
+    "segs": [ {
+      "utf8": "Hopefully some of these phrases will be useful\nfor you!"
+    } ]
+  }, {
+    "tStartMs": 822730,
+    "dDurationMs": 2820,
+    "segs": [ {
+      "utf8": "That’s all for this lesson."
+    } ]
+  }, {
+    "tStartMs": 825550,
+    "dDurationMs": 3820,
+    "segs": [ {
+      "utf8": "Hope you enjoyed and thank you for watching!"
+    } ]
+  }, {
+    "tStartMs": 829370,
+    "dDurationMs": 7510,
+    "segs": [ {
+      "utf8": "Please visit Oxford Online English.com\nfor more free lessons like this."
+    } ]
+  }, {
+    "tStartMs": 836880,
+    "dDurationMs": 840,
+    "segs": [ {
+      "utf8": "See you next time!"
+    } ]
+  } ]
+}

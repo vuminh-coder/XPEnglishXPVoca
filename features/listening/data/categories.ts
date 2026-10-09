@@ -44,7 +44,7 @@ export const MOCK_VIDEO_CATEGORIES: MockVideoCategory[] = [
     description: "Tình huống làm việc văn phòng, thương mại, thông báo hội nghị chuẩn ETS TOEIC.",
     icon: "🎯",
     orderIndex: 4,
-    lessonsCount: 3,
+    lessonsCount: 4,
   },
   {
     id: "cat_science_tech",

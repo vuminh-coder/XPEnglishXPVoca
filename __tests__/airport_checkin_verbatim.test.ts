@@ -78,4 +78,36 @@ describe("English for Travel: Checking in at the Airport - 100% Verbatim Audit",
       expect(mock?.segments[i].translationVi).toBe(calibratedSegments[i].translationVi);
     }
   });
+
+  it("should match 100% word-for-word against Whisper AI audio transcription in airport_audio.json (0 diffs across 106 words)", () => {
+    const audioDataPath = path.resolve(process.cwd(), "scripts/airport_audio.json");
+    if (!fs.existsSync(audioDataPath)) return;
+
+    const audioData = JSON.parse(fs.readFileSync(audioDataPath, "utf8"));
+    const whisperWords: string[] = [];
+    audioData.segments.forEach((s: any) => {
+      if (s.words) {
+        s.words.forEach((w: any) => {
+          const trimmed = w.word.trim();
+          if (trimmed) whisperWords.push(trimmed);
+        });
+      }
+    });
+
+    const normalize = (w: string) => w.replace(/[.,!?:;\"\'\(\)\-]/g, "").toLowerCase();
+
+    const lessonWords: string[] = [];
+    calibratedSegments.forEach((s: any) => {
+      const ws = s.text.trim().split(/\s+/);
+      ws.forEach((w: string) => lessonWords.push(w));
+    });
+
+    expect(lessonWords.length).toBe(106);
+    expect(whisperWords.length).toBe(106);
+
+    const normLesson = lessonWords.map(normalize);
+    const normWhisper = whisperWords.map(normalize);
+    expect(normLesson).toEqual(normWhisper);
+  });
 });
+

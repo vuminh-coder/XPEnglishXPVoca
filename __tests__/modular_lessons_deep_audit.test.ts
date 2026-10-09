@@ -19,9 +19,11 @@ import {
   LESSON_CAREERVIDZ_INTERVIEW,
   LESSON_RATATOUILLE_ANTON_EGO,
   LESSON_PSYCHOLOGY_OF_MONEY,
+  LESSON_SIMON_SINEK,
+  LESSON_OXFORD_MEETING,
 } from "@/features/listening/data/lessons";
 
-describe("Modular Lessons Architecture & Deep Data Integrity Audit (16 Diverse Lessons)", () => {
+describe("Modular Lessons Architecture & Deep Data Integrity Audit (18 Diverse Lessons)", () => {
   const modularLessonsList = [
     { name: "Rewrite The Stars", lesson: LESSON_REWRITE_THE_STARS, expectedExtId: "pRfmrE0ToTo", expectedSegs: 18 },
     { name: "Kurzgesagt Interstellar", lesson: LESSON_KURZGESAGT_INTERSTELLAR, expectedExtId: "tybKnGZRwcU", expectedSegs: 21 },
@@ -39,16 +41,18 @@ describe("Modular Lessons Architecture & Deep Data Integrity Audit (16 Diverse L
     { name: "CareerVidz Job Interview", lesson: LESSON_CAREERVIDZ_INTERVIEW, expectedExtId: "ml8HHHgDxiE", expectedSegs: 12 },
     { name: "Ratatouille Anton Ego Review", lesson: LESSON_RATATOUILLE_ANTON_EGO, expectedExtId: "tAyQL1inris", expectedSegs: 14 },
     { name: "Psychology of Money Buffett", lesson: LESSON_PSYCHOLOGY_OF_MONEY, expectedExtId: "DOgVUMfcb7U", expectedSegs: 9 },
+    { name: "Simon Sinek Golden Circle", lesson: LESSON_SIMON_SINEK, expectedExtId: "qp0HIF3SfI4", expectedSegs: 8 },
+    { name: "Oxford Attending Meeting", lesson: LESSON_OXFORD_MEETING, expectedExtId: "NEKZFA7L7Lg", expectedSegs: 10 },
   ];
 
-  it("should have exactly 16 separated lesson files loaded via ALL_MODULAR_LESSONS", () => {
-    expect(ALL_MODULAR_LESSONS.length).toBe(16);
-    expect(modularLessonsList.length).toBe(16);
+  it("should have exactly 18 separated lesson files loaded via ALL_MODULAR_LESSONS", () => {
+    expect(ALL_MODULAR_LESSONS.length).toBe(18);
+    expect(modularLessonsList.length).toBe(18);
   });
 
   it("should preserve 100% backward compatibility with MOCK_VIDEO_LESSONS aggregator", () => {
-    expect(MOCK_VIDEO_LESSONS.length).toBe(16);
-    for (let i = 0; i < 16; i++) {
+    expect(MOCK_VIDEO_LESSONS.length).toBe(18);
+    for (let i = 0; i < 18; i++) {
       expect(MOCK_VIDEO_LESSONS[i].id).toBe(ALL_MODULAR_LESSONS[i].id);
       expect(MOCK_VIDEO_LESSONS[i].slug).toBe(ALL_MODULAR_LESSONS[i].slug);
       expect(MOCK_VIDEO_LESSONS[i].externalId).toBe(ALL_MODULAR_LESSONS[i].externalId);
@@ -66,8 +70,8 @@ describe("Modular Lessons Architecture & Deep Data Integrity Audit (16 Diverse L
       expect(slugs.has(item.lesson.slug)).toBe(false);
       slugs.add(item.lesson.slug);
     }
-    expect(videoIds.size).toBe(16);
-    expect(slugs.size).toBe(16);
+    expect(videoIds.size).toBe(18);
+    expect(slugs.size).toBe(18);
   });
 
   it("should validate all 11 categories and foreign key references", () => {

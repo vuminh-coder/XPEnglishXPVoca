@@ -1,0 +1,102 @@
+import { describe, it, expect } from "vitest";
+import fs from "fs";
+import path from "path";
+import { tokenizeSentence } from "@/features/listening/components/DictationWorkspace";
+import { LESSON_OXFORD_MEETING } from "@/features/listening/data/lessons/lesson_oxford_meeting";
+import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
+
+describe("Oxford Online English: Attending a Meeting in English - 100% Verbatim Audit", () => {
+  it("should have exactly 10 segments with valid duration and metadata", () => {
+    expect(LESSON_OXFORD_MEETING.segments.length).toBe(10);
+    expect(LESSON_OXFORD_MEETING.externalId).toBe("NEKZFA7L7Lg");
+    expect(LESSON_OXFORD_MEETING.durationSeconds).toBe(102);
+    expect(LESSON_OXFORD_MEETING.cefrLevel).toBe("B1");
+    expect(LESSON_OXFORD_MEETING.accent).toBe("en-GB");
+    expect(LESSON_OXFORD_MEETING.categoryId).toBe("cat_toeic_listen");
+  });
+
+  it("should have chronological timestamps with positive durations", () => {
+    let prevStartTime = -1;
+    for (let i = 0; i < LESSON_OXFORD_MEETING.segments.length; i++) {
+      const seg = LESSON_OXFORD_MEETING.segments[i];
+      expect(seg.orderIndex).toBe(i);
+      expect(seg.startTime).toBeGreaterThanOrEqual(0);
+      expect(seg.endTime).toBeGreaterThan(seg.startTime);
+      expect(seg.startTime).toBeGreaterThanOrEqual(prevStartTime);
+      prevStartTime = seg.startTime;
+    }
+  });
+
+  it("should have non-empty text, Vietnamese translations, valid IPA, and rich pedagogical metadata", () => {
+    for (const seg of LESSON_OXFORD_MEETING.segments) {
+      expect(seg.text.length).toBeGreaterThan(0);
+      expect(seg.translationVi.length).toBeGreaterThan(0);
+      expect(seg.ipaUs).toBeDefined();
+      expect(seg.ipaUs!.length).toBeGreaterThan(0);
+      expect(Array.isArray(seg.keywords)).toBe(true);
+      expect(seg.keywords!.length).toBeGreaterThan(0);
+      expect(seg.explanationAi).toBeDefined();
+      expect(seg.explanationAi!.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("should tokenize all 10 segments cleanly with zero empty tokens (175 tokens total)", () => {
+    let totalTokens = 0;
+    for (const seg of LESSON_OXFORD_MEETING.segments) {
+      const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
+      expect(tokens.length).toBeGreaterThan(0);
+      totalTokens += tokens.length;
+      for (const token of tokens) {
+        expect(token.clean.length).toBeGreaterThan(0);
+        expect(token.dots.length).toBe(token.clean.length);
+      }
+    }
+    expect(totalTokens).toBe(175);
+  });
+
+  it("should match mock data in videoCatalogMockData.ts exactly across all 10 segments", () => {
+    const mock = MOCK_VIDEO_LESSONS.find((v) => v.externalId === "NEKZFA7L7Lg");
+    expect(mock).toBeDefined();
+    expect(mock?.segments.length).toBe(10);
+    for (let i = 0; i < 10; i++) {
+      expect(mock?.segments[i].text).toBe(LESSON_OXFORD_MEETING.segments[i].text);
+      expect(mock?.segments[i].startTime).toBe(LESSON_OXFORD_MEETING.segments[i].startTime);
+      expect(mock?.segments[i].endTime).toBe(LESSON_OXFORD_MEETING.segments[i].endTime);
+    }
+  });
+
+  it("should match 100% word-for-word against official Oxford Online English YouTube subtitles in json3 (0 diffs)", () => {
+    const jsonPath = path.resolve(process.cwd(), "scripts/oxford_meeting.en.json3");
+    if (!fs.existsSync(jsonPath)) return;
+
+    const rawJson = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
+    const events = rawJson.events.slice(44, 61);
+
+    function cleanWords(str: string): string[] {
+      return str
+        .replace(/[‘’]/g, "'")
+        .replace(/[“”]/g, '"')
+        .replace(/--/g, " ")
+        .replace(/—/g, " ")
+        .replace(/['"]+/g, "")
+        .replace(/[^a-zA-Z0-9\s]/g, " ")
+        .split(/\s+/)
+        .map((w) => w.trim().toLowerCase())
+        .filter(Boolean);
+    }
+
+    const rawWords: string[] = [];
+    events.forEach((e: any) => {
+      const txt = e.segs.map((s: any) => s.utf8).join("").replace(/\n/g, " ");
+      rawWords.push(...cleanWords(txt));
+    });
+
+    const lessonWords: string[] = [];
+    LESSON_OXFORD_MEETING.segments.forEach((seg) => {
+      lessonWords.push(...cleanWords(seg.text));
+    });
+
+    expect(lessonWords.length).toBe(rawWords.length);
+    expect(lessonWords).toEqual(rawWords);
+  });
+});

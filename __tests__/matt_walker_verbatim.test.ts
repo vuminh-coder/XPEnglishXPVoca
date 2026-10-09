@@ -60,4 +60,48 @@ describe("Matt Walker: Sleep Is Your Superpower - 100% Verbatim & Segment Audit"
       expect(mock?.segments[i].endTime).toBe(LESSON_MATT_WALKER_SLEEP.segments[i].endTime);
     }
   });
+
+  it("should match 100% word-for-word against official YouTube captions in matt_walker.en.json3 (0 diffs across 270 words)", () => {
+    const fs = require("fs");
+    const path = require("path");
+    const subPath = path.resolve(process.cwd(), "scripts/matt_walker.en.json3");
+    if (!fs.existsSync(subPath)) return;
+
+    const sub = JSON.parse(fs.readFileSync(subPath, "utf8"));
+    const rawWords: string[] = [];
+    sub.events.forEach((e: any) => {
+      if (!e.segs) return;
+      const baseT = e.tStartMs;
+      if (baseT > 122000) return;
+      e.segs.forEach((s: any) => {
+        const text = s.utf8;
+        if (!text || text === "\n") return;
+        const offset = s.tOffsetMs || 0;
+        const startMs = baseT + offset;
+        const trimmed = text.trim();
+        if (trimmed && !trimmed.startsWith("(") && !trimmed.startsWith("[")) {
+          const parts = trimmed.split(/\s+/);
+          parts.forEach((p: string) => {
+            if (p) rawWords.push(p);
+          });
+        }
+      });
+    });
+
+    const normalize = (w: string) => w.replace(/[.,!?:;\"\'\(\)\-]/g, "").toLowerCase();
+
+    const lessonWords: string[] = [];
+    LESSON_MATT_WALKER_SLEEP.segments.forEach((s) => {
+      const ws = s.text.trim().split(/\s+/);
+      ws.forEach((w) => lessonWords.push(w));
+    });
+
+    expect(lessonWords.length).toBe(270);
+    expect(rawWords.length).toBe(270);
+
+    const normLesson = lessonWords.map(normalize);
+    const normRaw = rawWords.map(normalize);
+    expect(normLesson).toEqual(normRaw);
+  });
 });
+

@@ -1,0 +1,2017 @@
+{
+  "wireMagic": "pb3",
+  "pens": [ {
+  
+  } ],
+  "wsWinStyles": [ {
+  
+  }, {
+    "juJustifCode": 0
+  }, {
+    "juJustifCode": 2
+  } ],
+  "wpWinPositions": [ {
+  
+  }, {
+    "apPoint": 1,
+    "ahHorPos": 50,
+    "avVerPos": 0,
+    "rcRows": 2,
+    "ccCols": 32
+  }, {
+    "apPoint": 7,
+    "ahHorPos": 50,
+    "avVerPos": 100,
+    "rcRows": 1,
+    "ccCols": 32
+  }, {
+    "apPoint": 7,
+    "ahHorPos": 50,
+    "avVerPos": 100,
+    "rcRows": 2,
+    "ccCols": 32
+  }, {
+    "apPoint": 7,
+    "ahHorPos": 50,
+    "avVerPos": 100,
+    "rcRows": 3,
+    "ccCols": 32
+  } ],
+  "events": [ {
+    "tStartMs": 0,
+    "dDurationMs": 7000,
+    "segs": [ {
+      "utf8": "Translator: Truc H. Le\nReviewer: An Walker"
+    } ],
+    "wpWinPosId": 1,
+    "wsWinStyleId": 1
+  }, {
+    "tStartMs": 5464,
+    "dDurationMs": 2110,
+    "segs": [ {
+      "utf8": "Giọng nói con người"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 7574,
+    "dDurationMs": 1922,
+    "segs": [ {
+      "utf8": "là thứ nhạc cụ \nchúng ta đều chơi,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 9496,
+    "dDurationMs": 2356,
+    "segs": [ {
+      "utf8": "Có lẽ nó là âm thanh\nquyền năng nhất trên đời."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 11852,
+    "dDurationMs": 1768,
+    "segs": [ {
+      "utf8": "Nó là thứ duy nhất \ncó thể gây tranh chiến"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 13620,
+    "dDurationMs": 1824,
+    "segs": [ {
+      "utf8": "hoặc nói nên lời\n“Tôi yêu em”."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 15444,
+    "dDurationMs": 1296,
+    "segs": [ {
+      "utf8": "Nhưng nhiều người trải qua"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 16740,
+    "dDurationMs": 2974,
+    "segs": [ {
+      "utf8": "tình huống là khi họ nói,\nngười khác không lắng nghe."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 19714,
+    "dDurationMs": 1136,
+    "segs": [ {
+      "utf8": "Vì sao lại thế?"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 20850,
+    "dDurationMs": 1674,
+    "segs": [ {
+      "utf8": "Làm thế nào để nói\nmột cách mạnh mẽ"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 22524,
+    "dDurationMs": 2116,
+    "segs": [ {
+      "utf8": "để tạo ra thay đổi \ncho thế giới?"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 24640,
+    "dDurationMs": 1996,
+    "segs": [ {
+      "utf8": "Gợi ý của tôi là"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 26636,
+    "dDurationMs": 1840,
+    "segs": [ {
+      "utf8": "có một số tật xấu \nmà chúng ta cần bỏ."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 28476,
+    "dDurationMs": 2336,
+    "segs": [ {
+      "utf8": "Ở đây tôi đã tập hợp"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 30812,
+    "dDurationMs": 2136,
+    "segs": [ {
+      "utf8": "bảy lỗi chết người \ntrong giao tiếp."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 32948,
+    "dDurationMs": 2432,
+    "segs": [ {
+      "utf8": "Tôi không nói danh sách đây\nđã kể ra được hết,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 35380,
+    "dDurationMs": 2632,
+    "segs": [ {
+      "utf8": "nhưng bảy điều này, \ntheo tôi, là những"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 38012,
+    "dDurationMs": 2624,
+    "segs": [ {
+      "utf8": "tật xấu lớn mà ai\ncũng có thể mắc."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 40636,
+    "dDurationMs": 2857,
+    "segs": [ {
+      "utf8": "Thứ nhất, thèo lẻo,"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 43493,
+    "dDurationMs": 2711,
+    "segs": [ {
+      "utf8": "nói xấu người vắng mặt."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 46204,
+    "dDurationMs": 1668,
+    "segs": [ {
+      "utf8": "Không tốt, và ta biết tỏng"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 47872,
+    "dDurationMs": 2331,
+    "segs": [ {
+      "utf8": "kẻ ngồi lê đôi mách kia, \nnăm phút sau"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 50203,
+    "dDurationMs": 3072,
+    "segs": [ {
+      "utf8": "sẽ tung tin đồn thổi về ta."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 53275,
+    "dDurationMs": 1744,
+    "segs": [ {
+      "utf8": "Thứ hai, sự phán xét."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 55019,
+    "dDurationMs": 1808,
+    "segs": [ {
+      "utf8": "Chúng ta biết người như thế\nkhi trò chuyện"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 56827,
+    "dDurationMs": 2056,
+    "segs": [ {
+      "utf8": "và rất khó \nđể lắng nghe ai đó"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 58883,
+    "dDurationMs": 2200,
+    "segs": [ {
+      "utf8": "khi biết người ta \nđang phán xét mình"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 61083,
+    "dDurationMs": 2450,
+    "segs": [ {
+      "utf8": "và chê bai mình\nlà thiếu năng lực."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 63533,
+    "dDurationMs": 1900,
+    "segs": [ {
+      "utf8": "Thứ ba, sự tiêu cực."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 65433,
+    "dDurationMs": 1730,
+    "segs": [ {
+      "utf8": "Bạn có thể \nmắc phải tật này."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 67163,
+    "dDurationMs": 1552,
+    "segs": [ {
+      "utf8": "Mẹ tôi, \ntrong các năm cuối đời,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 68715,
+    "dDurationMs": 2155,
+    "segs": [ {
+      "utf8": "trở nên rất chi là tiêu cực,\nnên nói cũng khó nghe."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 70870,
+    "dDurationMs": 1937,
+    "segs": [ {
+      "utf8": "Tôi nhớ có ngày \ntôi bảo bà,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 72807,
+    "dDurationMs": 1013,
+    "segs": [ {
+      "utf8": "“Hôm nay là 1/10”,"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 73820,
+    "dDurationMs": 2824,
+    "segs": [ {
+      "utf8": "bà đáp, “Mẹ biết, điều đó\nkhông khủng khiếp sao?”"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 76644,
+    "dDurationMs": 2122,
+    "segs": [ {
+      "utf8": "(Cười)"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 78766,
+    "dDurationMs": 3178,
+    "segs": [ {
+      "utf8": "Thật khó lắng nghe\nngười tiêu cực như thế."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 81944,
+    "dDurationMs": 2841,
+    "segs": [ {
+      "utf8": "Một dạng khác của tiêu cực, \nlà sự than phiền."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 84785,
+    "dDurationMs": 4261,
+    "segs": [ {
+      "utf8": "Đây là môn nghệ thuật dân tộc\ncủa nước Anh."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 89046,
+    "dDurationMs": 2128,
+    "segs": [ {
+      "utf8": "Với ta là thể thao quốc gia.\nChúng ta than về"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 91174,
+    "dDurationMs": 2465,
+    "segs": [ {
+      "utf8": "thời tiết, thể thao,\nchính trị, tất tần tật,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 93639,
+    "dDurationMs": 2137,
+    "segs": [ {
+      "utf8": "nhưng than thở\nlà nỗi khổ lan truyền."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 95776,
+    "dDurationMs": 4020,
+    "segs": [ {
+      "utf8": "Nó không toả nắng\nvà làm nhẹ gánh cho ai."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 99796,
+    "dDurationMs": 3004,
+    "segs": [ {
+      "utf8": "Sự biện hộ. Chúng ta đều\nđã gặp anh chàng này."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 102800,
+    "dDurationMs": 1500,
+    "segs": [ {
+      "utf8": "Chưa biết chừng\nta đã từng là cậu ấy."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 104300,
+    "dDurationMs": 2694,
+    "segs": [ {
+      "utf8": "Vài người có \ncỗ máy ném lỗi."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 106994,
+    "dDurationMs": 2228,
+    "segs": [ {
+      "utf8": "Họ chỉ việc ném lỗi\ncho người khác,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 109222,
+    "dDurationMs": 1628,
+    "segs": [ {
+      "utf8": "từ chối trách nhiệm \ncủa hành vi,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 110850,
+    "dDurationMs": 2936,
+    "segs": [ {
+      "utf8": "thật khó lắng nghe \nnhững ai như thế."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 113786,
+    "dDurationMs": 2322,
+    "segs": [ {
+      "utf8": "Điều thứ sáu \ntrong bảy điều,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 116108,
+    "dDurationMs": 3606,
+    "segs": [ {
+      "utf8": "là sự tô màu, phóng đại."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 119714,
+    "dDurationMs": 2428,
+    "segs": [ {
+      "utf8": "Thực tế là đôi khi \nnó hạ cấp ngôn ngữ chúng ta."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 122142,
+    "dDurationMs": 1302,
+    "segs": [ {
+      "utf8": "Ví dụ nếu tôi thấy một điều"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 123444,
+    "dDurationMs": 1990,
+    "segs": [ {
+      "utf8": "thật sự tuyệt vời,"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 125434,
+    "dDurationMs": 1896,
+    "segs": [ {
+      "utf8": "tôi sẽ gọi nó là gì đây?"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 127330,
+    "dDurationMs": 2014,
+    "segs": [ {
+      "utf8": "(Cười)"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 129344,
+    "dDurationMs": 2498,
+    "segs": [ {
+      "utf8": "Dĩ nhiên sự phóng đại này\ntrở thành bịa đặt,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 131842,
+    "dDurationMs": 1568,
+    "segs": [ {
+      "utf8": "nổ và nổ văng miểng,\nta không còn muốn nghe"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 133410,
+    "dDurationMs": 2317,
+    "segs": [ {
+      "utf8": "kẻ ta biết là đang nói dối."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 135727,
+    "dDurationMs": 3221,
+    "segs": [ {
+      "utf8": "Và cuối cùng, sự giáo điều,"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 138948,
+    "dDurationMs": 3879,
+    "segs": [ {
+      "utf8": "nhầm lẫn giữa thực tế \nvà quan điểm."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 142827,
+    "dDurationMs": 1939,
+    "segs": [ {
+      "utf8": "Khi hai thứ đó \nđược trộn vào nhau,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 144766,
+    "dDurationMs": 1125,
+    "segs": [ {
+      "utf8": "bạn chỉ nghe gió thổi."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 145891,
+    "dDurationMs": 3600,
+    "segs": [ {
+      "utf8": "Họ công kích bạn bằng ý kiến \nnhư thể đúng rồi."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 149491,
+    "dDurationMs": 2560,
+    "segs": [ {
+      "utf8": "Thật khó mà nghe cho nổi."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 152051,
+    "dDurationMs": 3041,
+    "segs": [ {
+      "utf8": "Đấy là bảy lỗi chết người \ntrong nói năng."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 155092,
+    "dDurationMs": 2433,
+    "segs": [ {
+      "utf8": "Theo tôi, đây là những thứ\nchúng ta cần tránh."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 157525,
+    "dDurationMs": 2869,
+    "segs": [ {
+      "utf8": "Nhưng có cách nào tích cực\nđể nghĩ về việc này không?"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 160394,
+    "dDurationMs": 1283,
+    "segs": [ {
+      "utf8": "Có chứ!"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 161677,
+    "dDurationMs": 2246,
+    "segs": [ {
+      "utf8": "Tôi muốn gợi ý"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 163923,
+    "dDurationMs": 3024,
+    "segs": [ {
+      "utf8": "bốn viên đá góc nhà,\nlàm nền tảng chắc chắn,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 166947,
+    "dDurationMs": 2977,
+    "segs": [ {
+      "utf8": "để làm chỗ đứng \nnếu muốn lời nói của ta nên mạnh"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 169924,
+    "dDurationMs": 3235,
+    "segs": [ {
+      "utf8": "có sức làm thế giới đổi thay."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 173159,
+    "dDurationMs": 2868,
+    "segs": [ {
+      "utf8": "May thay, bốn điều này\nhọp thành một chữ."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 176027,
+    "dDurationMs": 3096,
+    "segs": [ {
+      "utf8": "Chữ đó là “hail”, và ta có\nmột định nghĩa tuyệt vời."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 179123,
+    "dDurationMs": 1815,
+    "segs": [ {
+      "utf8": "Tôi không định nói \nvề mưa đá trên trời"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 180938,
+    "dDurationMs": 1441,
+    "segs": [ {
+      "utf8": "rơi xuống và đập vào đầu bạn."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 182379,
+    "dDurationMs": 1465,
+    "segs": [ {
+      "utf8": "Mà tôi nói định nghĩa này,"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 183844,
+    "dDurationMs": 2500,
+    "segs": [ {
+      "utf8": "là chào thăm \nhay hoan hô nồng nhiệt,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 186344,
+    "dDurationMs": 2267,
+    "segs": [ {
+      "utf8": "chính là cách lời nói của ta \nđược đón nhận"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 188611,
+    "dDurationMs": 1542,
+    "segs": [ {
+      "utf8": "nếu ta dựa vào bốn điều này."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 190153,
+    "dDurationMs": 1776,
+    "segs": [ {
+      "utf8": "Vậy chúng viết tắt \ncho những chữ gì?"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 191929,
+    "dDurationMs": 1400,
+    "segs": [ {
+      "utf8": "Xem bạn có đoán được không."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 193329,
+    "dDurationMs": 3458,
+    "segs": [ {
+      "utf8": "Chữ H, honesty (sự trung thực),\ndĩ nhiên rồi,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 196787,
+    "dDurationMs": 2971,
+    "segs": [ {
+      "utf8": "nói thật, nói thẳng, và rõ."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 199758,
+    "dDurationMs": 4041,
+    "segs": [ {
+      "utf8": "Chữ A, authenticity (sự xác thực),\nhãy là chính bạn."
+    } ],
+    "wpWinPosId": 4,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 203799,
+    "dDurationMs": 1574,
+    "segs": [ {
+      "utf8": "Một người bạn tôi \nmô tả điều này"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 205373,
+    "dDurationMs": 1636,
+    "segs": [ {
+      "utf8": "là nói những gì bạn tin là thật,"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 207009,
+    "dDurationMs": 1938,
+    "segs": [ {
+      "utf8": "tôi nghĩ gọi cách này thật hay."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 208947,
+    "dDurationMs": 2636,
+    "segs": [ {
+      "utf8": "Chữ I là integrity (sự chính trực),\nhãy là lời bạn nói,"
+    } ],
+    "wpWinPosId": 4,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 211583,
+    "dDurationMs": 1788,
+    "segs": [ {
+      "utf8": "sống theo điều bạn nói,"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 213371,
+    "dDurationMs": 2080,
+    "segs": [ {
+      "utf8": "và là người đáng tin."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 215451,
+    "dDurationMs": 3183,
+    "segs": [ {
+      "utf8": "Và chữ L là love (tình yêu thương)."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 218634,
+    "dDurationMs": 2121,
+    "segs": [ {
+      "utf8": "Ý tôi không phải \ntình yêu đôi lứa,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 220755,
+    "dDurationMs": 3409,
+    "segs": [ {
+      "utf8": "mà là cầu chúc an lành\ncho người khác, vì hai lí do."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 224164,
+    "dDurationMs": 2227,
+    "segs": [ {
+      "utf8": "Trước hết, tôi nghĩ \ncó lẽ ta sẽ không muốn"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 226391,
+    "dDurationMs": 1143,
+    "segs": [ {
+      "utf8": "sự trung thực tuyệt đối."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 227534,
+    "dDurationMs": 2633,
+    "segs": [ {
+      "utf8": "Ý tôi là, ôi trời, sáng nay\ntrông em xấu thật."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 230167,
+    "dDurationMs": 3358,
+    "segs": [ {
+      "utf8": "Có lẽ điều đó không cần thiết."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 233525,
+    "dDurationMs": 3358,
+    "segs": [ {
+      "utf8": "Khi được nói bằng tình yêu,\nsự trung thực ấy là đáng quý."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 236883,
+    "dDurationMs": 3095,
+    "segs": [ {
+      "utf8": "Hơn nữa, nếu bạn thật sự\nmong an lành cho ai đó,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 239978,
+    "dDurationMs": 2637,
+    "segs": [ {
+      "utf8": "thì khó để phán xét họ."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 242615,
+    "dDurationMs": 2423,
+    "segs": [ {
+      "utf8": "Tôi không chắc bạn có thể \nlàm hai điều đó"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 245038,
+    "dDurationMs": 1776,
+    "segs": [ {
+      "utf8": "trong cùng một lúc."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 246814,
+    "dDurationMs": 1600,
+    "segs": [ {
+      "utf8": "Đó là h-a-i-l."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 248414,
+    "dDurationMs": 1757,
+    "segs": [ {
+      "utf8": "Đó là những điều bạn nói,"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 250171,
+    "dDurationMs": 1768,
+    "segs": [ {
+      "utf8": "nhưng như ông bà thường dạy,"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 251939,
+    "dDurationMs": 1903,
+    "segs": [ {
+      "utf8": "ngoài điều bạn nói, \ncòn là cách bạn nói."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 253842,
+    "dDurationMs": 2072,
+    "segs": [ {
+      "utf8": "Bạn có một hộp \ndụng cụ tuyệt vời."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 255914,
+    "dDurationMs": 1910,
+    "segs": [ {
+      "utf8": "Những dụng cụ này\nhay không thể tưởng được,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 257824,
+    "dDurationMs": 3490,
+    "segs": [ {
+      "utf8": "nhưng có ít người\ntừng mở nó ra."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 261314,
+    "dDurationMs": 1521,
+    "segs": [ {
+      "utf8": "Tôi muốn lục lọi \nchiếc hộp này"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 262835,
+    "dDurationMs": 1829,
+    "segs": [ {
+      "utf8": "cùng bạn \nvà lấy ra vài món"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 264664,
+    "dDurationMs": 1950,
+    "segs": [ {
+      "utf8": "có thể bạn muốn cầm lấy \nvà thử chơi,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 266614,
+    "dDurationMs": 3132,
+    "segs": [ {
+      "utf8": "để tăng sức mạnh \ncho lời nói của bạn."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 269746,
+    "dDurationMs": 1744,
+    "segs": [ {
+      "utf8": "Âm vực, chẳng hạn."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 271490,
+    "dDurationMs": 4194,
+    "segs": [ {
+      "utf8": "Giọng the thé có lẽ \nkhông hiệu quả lắm,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 275684,
+    "dDurationMs": 2054,
+    "segs": [ {
+      "utf8": "nhưng có một \nkhoảng âm ở giữa."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 277738,
+    "dDurationMs": 1385,
+    "segs": [ {
+      "utf8": "Tôi sẽ không đi vào kĩ thuật,"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 279123,
+    "dDurationMs": 1680,
+    "segs": [ {
+      "utf8": "với các huấn luyện viên giọng nói."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 280803,
+    "dDurationMs": 1943,
+    "segs": [ {
+      "utf8": "bạn có thể định dạng \ngiọng của mình."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 282746,
+    "dDurationMs": 2504,
+    "segs": [ {
+      "utf8": "Nếu tôi nói ở mũi,\ncó thể nghe thấy sự khác biệt."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 285250,
+    "dDurationMs": 1608,
+    "segs": [ {
+      "utf8": "Nếu tôi hạ giọng xuống cổ,"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 286858,
+    "dDurationMs": 3431,
+    "segs": [ {
+      "utf8": "thì giống giọng \nhầu hết chúng ta."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 290289,
+    "dDurationMs": 1857,
+    "segs": [ {
+      "utf8": "Nhưng nếu bạn muốn \ntăng sức nặng,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 292146,
+    "dDurationMs": 2478,
+    "segs": [ {
+      "utf8": "thì cần hạ giọng \nxuống ngực."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 294624,
+    "dDurationMs": 1610,
+    "segs": [ {
+      "utf8": "Bạn nghe thấy \nsự khác biệt chưa?"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 296234,
+    "dDurationMs": 4040,
+    "segs": [ {
+      "utf8": "Ta bỏ phiếu cho chính khách\ncó giọng trầm, đúng thế,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 300274,
+    "dDurationMs": 2968,
+    "segs": [ {
+      "utf8": "vì ta gắn độ trầm với sức mạnh"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 303242,
+    "dDurationMs": 2707,
+    "segs": [ {
+      "utf8": "và quyền uy."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 305949,
+    "dDurationMs": 1689,
+    "segs": [ {
+      "utf8": "Đó là âm vực."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 307638,
+    "dDurationMs": 1367,
+    "segs": [ {
+      "utf8": "Rồi đến âm sắc."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 309005,
+    "dDurationMs": 1769,
+    "segs": [ {
+      "utf8": "Đó là cảm giác \nmà giọng bạn đem đến."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 310774,
+    "dDurationMs": 1920,
+    "segs": [ {
+      "utf8": "Nghiên cứu cho thấy \nchúng ta chuộng"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 312694,
+    "dDurationMs": 5445,
+    "segs": [ {
+      "utf8": "chất giọng truyền cảm,\nmượt, ấm - như sô cô la nóng."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 318139,
+    "dDurationMs": 3288,
+    "segs": [ {
+      "utf8": "Nếu bạn không được vậy\nthì cũng không phải tận thế,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 321427,
+    "dDurationMs": 1442,
+    "segs": [ {
+      "utf8": "vì bạn có thể luyện."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 322869,
+    "dDurationMs": 1244,
+    "segs": [ {
+      "utf8": "Tìm huấn luyện viên giọng."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 324113,
+    "dDurationMs": 1576,
+    "segs": [ {
+      "utf8": "Và bạn có thể\nlàm nên điều tuyệt vời"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 325689,
+    "dDurationMs": 2736,
+    "segs": [ {
+      "utf8": "với hơi thở, tư thế,\nvà các bài luyện giọng"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 328425,
+    "dDurationMs": 2514,
+    "segs": [ {
+      "utf8": "bạn cải thiện âm sắc của mình."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 330939,
+    "dDurationMs": 1792,
+    "segs": [ {
+      "utf8": "Rồi đến ngữ điệu. \nTôi yêu ngữ điệu."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 332731,
+    "dDurationMs": 2176,
+    "segs": [ {
+      "utf8": "Đó là lúc người nói như hát, \nbằng siêu ngôn ngữ"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 334907,
+    "dDurationMs": 2074,
+    "segs": [ {
+      "utf8": "ta dùng để truyền tải \ný nghĩa lời nói."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 336981,
+    "dDurationMs": 2838,
+    "segs": [ {
+      "utf8": "Đó là gốc rễ cho ý nghĩa \ntrong hội thoại."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 339819,
+    "dDurationMs": 2223,
+    "segs": [ {
+      "utf8": "Những ai chỉ nói đều đều,"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 342042,
+    "dDurationMs": 1857,
+    "segs": [ {
+      "utf8": "không có sự thay đổi \nngữ điệu"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 343899,
+    "dDurationMs": 2216,
+    "segs": [ {
+      "utf8": "thì rất khó để lắng nghe."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 346115,
+    "dDurationMs": 1898,
+    "segs": [ {
+      "utf8": "Từ “đơn điệu” từ đấy mà ra,"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 349911,
+    "dDurationMs": 1899,
+    "segs": [ {
+      "utf8": "hay sự đơn điệu,\ncó tính đơn điệu."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 351810,
+    "dDurationMs": 3297,
+    "segs": [ {
+      "utf8": "Tiếp đó còn sinh ra \nngữ điệu lặp lại,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 355107,
+    "dDurationMs": 2720,
+    "segs": [ {
+      "utf8": "khi mỗi lời nói \nkết thúc như một câu hỏi"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 357827,
+    "dDurationMs": 2048,
+    "segs": [ {
+      "utf8": "dù nó không phải là câu hỏi,\nmà là câu khẳng định."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 359875,
+    "dDurationMs": 2783,
+    "segs": [ {
+      "utf8": "(Cười)"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 362658,
+    "dDurationMs": 1586,
+    "segs": [ {
+      "utf8": "Và nếu bạn cứ \nlặp đi lặp lại y như thế,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 364244,
+    "dDurationMs": 1867,
+    "segs": [ {
+      "utf8": "nó sẽ hạn chế\nkhả năng giao tiếp"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 366111,
+    "dDurationMs": 1288,
+    "segs": [ {
+      "utf8": "bằng ngữ điệu của bạn,"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 367399,
+    "dDurationMs": 1925,
+    "segs": [ {
+      "utf8": "và tôi nghĩ \nđiều này cũng không nên,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 369324,
+    "dDurationMs": 2921,
+    "segs": [ {
+      "utf8": "hãy cố bỏ tật xấu đó đi."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 372245,
+    "dDurationMs": 1990,
+    "segs": [ {
+      "utf8": "Nhịp độ.\nTôi trở nên rất, rất chi hào hứng"
+    } ],
+    "wpWinPosId": 4,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 374235,
+    "dDurationMs": 1552,
+    "segs": [ {
+      "utf8": "bằng cách nói rất, rất nhanh,"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 375787,
+    "dDurationMs": 4292,
+    "segs": [ {
+      "utf8": "hoặc tôi có thể nói chậm\nngay lại để nhấn mạnh,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 380081,
+    "dDurationMs": 2343,
+    "segs": [ {
+      "utf8": "và ở cuối câu, dĩ nhiên,\nlà người bạn cũ,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 382424,
+    "dDurationMs": 2439,
+    "segs": [ {
+      "utf8": "sự im lặng."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 386059,
+    "dDurationMs": 1871,
+    "segs": [ {
+      "utf8": "Không có gì sai \nvới một chút im lặng"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 387930,
+    "dDurationMs": 2135,
+    "segs": [ {
+      "utf8": "trong cuộc trò chuyện, \nđúng không?"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 390065,
+    "dDurationMs": 2864,
+    "segs": [ {
+      "utf8": "Ta không phải lấp\nbằng um và ah."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 392929,
+    "dDurationMs": 2398,
+    "segs": [ {
+      "utf8": "Im lặng nhiều khi \nrất có uy."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 395327,
+    "dDurationMs": 2328,
+    "segs": [ {
+      "utf8": "Dĩ nhiên, cao độ \nthường đi kèm nhịp độ"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 397655,
+    "dDurationMs": 2528,
+    "segs": [ {
+      "utf8": "để thể hiện hứng khởi,\nnhưng có thể chỉ cần cao độ."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 400183,
+    "dDurationMs": 1704,
+    "segs": [ {
+      "utf8": "Em để chìa khóa của anh ở đâu?"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 401887,
+    "dDurationMs": 1904,
+    "segs": [ {
+      "utf8": "Em để chìa khóa của anh ở đâu?"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 403791,
+    "dDurationMs": 1903,
+    "segs": [ {
+      "utf8": "Ý nghĩa của hai câu nói \nhơi khác nhau"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 405694,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "qua hai cách nói này."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 407660,
+    "dDurationMs": 2246,
+    "segs": [ {
+      "utf8": "Và cuối cùng, cường độ."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 409906,
+    "dDurationMs": 3401,
+    "segs": [ {
+      "utf8": "Tôi có thể rất hào hứng\nbằng cách dùng cường độ."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 413307,
+    "dDurationMs": 2177,
+    "segs": [ {
+      "utf8": "Xin lỗi nếu tôi \nlàm ai đó giật mình."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 415484,
+    "dDurationMs": 2311,
+    "segs": [ {
+      "utf8": "Hoặc, tôi có thể \nkhiến bạn thật sự chú ý"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 417795,
+    "dDurationMs": 2051,
+    "segs": [ {
+      "utf8": "bằng cách nói rất khẽ."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 419846,
+    "dDurationMs": 2085,
+    "segs": [ {
+      "utf8": "Có vài người \nlúc nào cũng phát sóng."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 421931,
+    "dDurationMs": 1473,
+    "segs": [ {
+      "utf8": "Hãy cố đừng làm thế."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 423404,
+    "dDurationMs": 3359,
+    "segs": [ {
+      "utf8": "Đấy gọi là \nlấy thịt đè người,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 426763,
+    "dDurationMs": 2616,
+    "segs": [ {
+      "utf8": "áp đặt âm thanh của bạn\nlên người xung quanh"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 429379,
+    "dDurationMs": 3040,
+    "segs": [ {
+      "utf8": "cách vô tâm và bất cẩn. \nKhông tốt."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 432419,
+    "dDurationMs": 2656,
+    "segs": [ {
+      "utf8": "Dĩ nhiên, khi vận dụng\ntất cả những điều này"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 435075,
+    "dDurationMs": 2328,
+    "segs": [ {
+      "utf8": "là khi bạn phải nói\nđiều gì đó quan trọng."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 437403,
+    "dDurationMs": 1636,
+    "segs": [ {
+      "utf8": "Có thể là \nđứng trên sân khấu"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 439039,
+    "dDurationMs": 1475,
+    "segs": [ {
+      "utf8": "và diễn thuyết \ntrước khán giả."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 440514,
+    "dDurationMs": 2529,
+    "segs": [ {
+      "utf8": "Có thể là cầu hôn,"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 443043,
+    "dDurationMs": 3154,
+    "segs": [ {
+      "utf8": "đề nghị tăng lương,\nphát biểu ở hôn lễ."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 446197,
+    "dDurationMs": 2006,
+    "segs": [ {
+      "utf8": "Sự kiện nào đi nữa,\nnếu nó rất quan trọng,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 448203,
+    "dDurationMs": 3480,
+    "segs": [ {
+      "utf8": "bạn tự thấy mình\ncần đến công cụ này"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 451683,
+    "dDurationMs": 2330,
+    "segs": [ {
+      "utf8": "và cỗ máy sẽ được vặn lên,"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 454013,
+    "dDurationMs": 3095,
+    "segs": [ {
+      "utf8": "và không máy nào chạy tốt\nnếu không được làm ấm."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 457108,
+    "dDurationMs": 1976,
+    "segs": [ {
+      "utf8": "Hãy làm ấm giọng bạn."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 459084,
+    "dDurationMs": 1848,
+    "segs": [ {
+      "utf8": "Hãy để tôi chỉ cách."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 460932,
+    "dDurationMs": 3108,
+    "segs": [ {
+      "utf8": "Các bạn có thể cùng\nđứng lên một lát không?"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 464040,
+    "dDurationMs": 2916,
+    "segs": [ {
+      "utf8": "Tôi sẽ chỉ bạn sáu bài\nkhởi động giọng nói"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 466956,
+    "dDurationMs": 3473,
+    "segs": [ {
+      "utf8": "mà tôi luôn làm \ntrước mỗi bài diễn thuyết."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 470429,
+    "dDurationMs": 2771,
+    "segs": [ {
+      "utf8": "Khi sắp nói với ai quan trọng,\nhãy làm như sau"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 473200,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "Đầu tiên, hai tay dơ lên, \nhít sâu,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 476166,
+    "dDurationMs": 3102,
+    "segs": [ {
+      "utf8": "và thở ra, \nahhhhh, như thế."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 479268,
+    "dDurationMs": 1628,
+    "segs": [ {
+      "utf8": "Một lần nữa nào."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 480896,
+    "dDurationMs": 2998,
+    "segs": [ {
+      "utf8": "Ahhhh, rất tốt."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 483894,
+    "dDurationMs": 1742,
+    "segs": [ {
+      "utf8": "Giờ chúng ta sẽ làm ấm môi."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 485636,
+    "dDurationMs": 2352,
+    "segs": [ {
+      "utf8": "Nào hãy nói ba, ba, ba, ba,"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 487988,
+    "dDurationMs": 2952,
+    "segs": [ {
+      "utf8": "ba, ba, ba, ba. Rất tốt."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 490940,
+    "dDurationMs": 3440,
+    "segs": [ {
+      "utf8": "Và bây giờ, brrrrrrrrrr,"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 494380,
+    "dDurationMs": 1450,
+    "segs": [ {
+      "utf8": "y như lúc bạn \ncòn là trẻ con."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 495830,
+    "dDurationMs": 2527,
+    "segs": [ {
+      "utf8": "Brrrr. Giờ thì môi bạn \nđầy sức sống."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 498357,
+    "dDurationMs": 1575,
+    "segs": [ {
+      "utf8": "Tiếp đến là bài tập lưỡi"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 499932,
+    "dDurationMs": 4422,
+    "segs": [ {
+      "utf8": "bằng cách cường điệu\nla, la, la, la, la, la, la, la, la."
+    } ],
+    "wpWinPosId": 4,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 504354,
+    "dDurationMs": 1510,
+    "segs": [ {
+      "utf8": "Giỏi. Bạn làm rất tốt."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 505864,
+    "dDurationMs": 3595,
+    "segs": [ {
+      "utf8": "Và rồi, cuốn lưỡi \nthành chữ R. Rrrrrrr."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 509459,
+    "dDurationMs": 2216,
+    "segs": [ {
+      "utf8": "Giống như thấm rượu \nsâm banh cho lưỡi."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 511675,
+    "dDurationMs": 2320,
+    "segs": [ {
+      "utf8": "Cuối cùng, \ntôi sẽ làm mẫu một lần,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 513995,
+    "dDurationMs": 1807,
+    "segs": [ {
+      "utf8": "dân chuyên gọi đây là tiếng còi."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 515802,
+    "dDurationMs": 2433,
+    "segs": [ {
+      "utf8": "Cách này rất tốt. Nó đi từ\nchữ “we” đến chữ “aw”,"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 518235,
+    "dDurationMs": 1260,
+    "segs": [ {
+      "utf8": "“we” cao, “aw” thấp."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 519495,
+    "dDurationMs": 6715,
+    "segs": [ {
+      "utf8": "Nào ta bắt đầu, \nweeeaawww, weeeaawww."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 526210,
+    "dDurationMs": 2176,
+    "segs": [ {
+      "utf8": "Tuyệt. Hãy cho bạn \nmột tràng pháo tay."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 528386,
+    "dDurationMs": 2830,
+    "segs": [ {
+      "utf8": "Mời mọi người ngồi, \nxin cảm ơn. (Vỗ tay)"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 531216,
+    "dDurationMs": 2624,
+    "segs": [ {
+      "utf8": "Lần sau trước khi nói chuyện,\nbạn hãy làm các điều này."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 533840,
+    "dDurationMs": 2640,
+    "segs": [ {
+      "utf8": "Bây giờ tôi xin tổng kết."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 536480,
+    "dDurationMs": 2296,
+    "segs": [ {
+      "utf8": "Đây là điểm quan trọng."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 538776,
+    "dDurationMs": 1831,
+    "segs": [ {
+      "utf8": "Đây là tình trạng của chúng ta, \nđúng không?"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 540607,
+    "dDurationMs": 1665,
+    "segs": [ {
+      "utf8": "Chúng ta nói không được tốt,"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 542272,
+    "dDurationMs": 1368,
+    "segs": [ {
+      "utf8": "với người không lắng nghe,"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 543640,
+    "dDurationMs": 2919,
+    "segs": [ {
+      "utf8": "trong một môi trường\nđầy tiếng ồn và tạp âm."
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 546559,
+    "dDurationMs": 2065,
+    "segs": [ {
+      "utf8": "Tôi đã nói điều đó \ntrên diễn đàn này"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 548624,
+    "dDurationMs": 1678,
+    "segs": [ {
+      "utf8": "vào những lúc khác nhau."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 550302,
+    "dDurationMs": 1634,
+    "segs": [ {
+      "utf8": "Thế giới sẽ ra sao"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 551936,
+    "dDurationMs": 1720,
+    "segs": [ {
+      "utf8": "nếu ta nói mạnh mẽ hơn"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 553656,
+    "dDurationMs": 2056,
+    "segs": [ {
+      "utf8": "với những người\nchăm chú lắng nghe"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 555712,
+    "dDurationMs": 3394,
+    "segs": [ {
+      "utf8": "trong một môi trường \nthích hợp để trò chuyện?"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 559106,
+    "dDurationMs": 2983,
+    "segs": [ {
+      "utf8": "Nhìn rộng hơn,"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 562089,
+    "dDurationMs": 1097,
+    "segs": [ {
+      "utf8": "thế giới sẽ ra sao"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 563186,
+    "dDurationMs": 2628,
+    "segs": [ {
+      "utf8": "nếu ta tạo ra thanh âm\nmột cách có ý thức"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 565814,
+    "dDurationMs": 2033,
+    "segs": [ {
+      "utf8": "và lắng nghe âm thanh \nmột cách có ý thức"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 567847,
+    "dDurationMs": 1627,
+    "segs": [ {
+      "utf8": "và thiết kế không gian"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 569474,
+    "dDurationMs": 1477,
+    "segs": [ {
+      "utf8": "một cách có ý thức \ncho việc chuyện trò?"
+    } ],
+    "wpWinPosId": 3,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 570951,
+    "dDurationMs": 3224,
+    "segs": [ {
+      "utf8": "Thế giới ấy nghe thật tuyệt,"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 574175,
+    "dDurationMs": 1896,
+    "segs": [ {
+      "utf8": "một thế giới lấy hiểu biết"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 576071,
+    "dDurationMs": 2015,
+    "segs": [ {
+      "utf8": "làm tiêu chuẩn cho mình,"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 578086,
+    "dDurationMs": 2673,
+    "segs": [ {
+      "utf8": "đó là một ý tưởng đáng sẻ chia."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 580759,
+    "dDurationMs": 2408,
+    "segs": [ {
+      "utf8": "Xin cảm ơn."
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  }, {
+    "tStartMs": 583167,
+    "dDurationMs": 1300,
+    "segs": [ {
+      "utf8": "Xin cảm ơn. (Vỗ tay)"
+    } ],
+    "wpWinPosId": 2,
+    "wsWinStyleId": 2
+  } ]
+}

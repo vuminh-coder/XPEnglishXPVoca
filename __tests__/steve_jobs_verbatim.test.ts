@@ -1,4 +1,6 @@
 import { describe, it, expect } from "vitest";
+import fs from "fs";
+import path from "path";
 import { tokenizeSentence } from "@/features/listening/components/DictationWorkspace";
 import { LESSON_STEVE_JOBS } from "@/features/listening/data/lessons/lesson_steve_jobs";
 import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
@@ -57,5 +59,44 @@ describe("Steve Jobs: Stanford Commencement Speech - 100% Verbatim & Segment Aud
       expect(mock?.segments[i].startTime).toBe(LESSON_STEVE_JOBS.segments[i].startTime);
       expect(mock?.segments[i].endTime).toBe(LESSON_STEVE_JOBS.segments[i].endTime);
     }
+  });
+
+  it("should match 100% word-for-word against official YouTube Stanford speech subtitles in json3 (0 diffs across 388 words)", () => {
+    const subPath = path.resolve(process.cwd(), "scripts/steve_jobs_official.en-eEY6OEpapPo.json3");
+    if (!fs.existsSync(subPath)) return;
+
+    const sub = JSON.parse(fs.readFileSync(subPath, "utf8"));
+    const matchedEvents = sub.events.filter((e: any) => {
+      const t = (e.tStartMs || 0) / 1000;
+      return t >= 22.0 && t < 173.0 && e.segs;
+    });
+
+    function cleanWords(s: string): string[] {
+      return s
+        .replace(/[‘’]/g, "'")
+        .replace(/[“”]/g, '"')
+        .replace(/--/g, " ")
+        .replace(/—/g, " ")
+        .replace(/['"]+/g, "")
+        .replace(/[^a-zA-Z0-9\s]/g, " ")
+        .split(/\s+/)
+        .map((w) => w.trim().toLowerCase())
+        .filter(Boolean);
+    }
+
+    const offText = matchedEvents
+      .map((e: any) => (e.segs || []).map((s: any) => s.utf8).join(""))
+      .join(" ")
+      .replace(/\n/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    const offWords = cleanWords(offText);
+    const lessonWords: string[] = [];
+    LESSON_STEVE_JOBS.segments.forEach((s) => lessonWords.push(...cleanWords(s.text)));
+
+    expect(lessonWords.length).toBe(388);
+    expect(offWords.length).toBe(388);
+    expect(lessonWords).toEqual(offWords);
   });
 });

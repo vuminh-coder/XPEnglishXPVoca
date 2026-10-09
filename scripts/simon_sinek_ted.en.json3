@@ -1,0 +1,2305 @@
+{
+  "wireMagic": "pb3",
+  "pens": [ {
+  
+  } ],
+  "wsWinStyles": [ {
+  
+  } ],
+  "wpWinPositions": [ {
+  
+  } ],
+  "events": [ {
+    "tStartMs": 16257,
+    "dDurationMs": 3966,
+    "segs": [ {
+      "utf8": "How do you explain\nwhen things don't go as we assume?"
+    } ]
+  }, {
+    "tStartMs": 20257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "Or better, how do you explain"
+    } ]
+  }, {
+    "tStartMs": 23257,
+    "dDurationMs": 3966,
+    "segs": [ {
+      "utf8": "when others are able to achieve things\nthat seem to defy all of the assumptions?"
+    } ]
+  }, {
+    "tStartMs": 27257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "For example:"
+    } ]
+  }, {
+    "tStartMs": 29257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "Why is Apple so innovative?"
+    } ]
+  }, {
+    "tStartMs": 31257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "Year after year, after year,"
+    } ]
+  }, {
+    "tStartMs": 33257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "they're more innovative\nthan all their competition."
+    } ]
+  }, {
+    "tStartMs": 36257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "And yet, they're just a computer company."
+    } ]
+  }, {
+    "tStartMs": 38257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "They're just like everyone else."
+    } ]
+  }, {
+    "tStartMs": 40257,
+    "dDurationMs": 2200,
+    "segs": [ {
+      "utf8": "They have the same access\nto the same talent,"
+    } ]
+  }, {
+    "tStartMs": 42457,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "the same agencies,"
+    } ]
+  }, {
+    "tStartMs": 43490,
+    "dDurationMs": 1867,
+    "segs": [ {
+      "utf8": "the same consultants, the same media."
+    } ]
+  }, {
+    "tStartMs": 45390,
+    "dDurationMs": 3433,
+    "segs": [ {
+      "utf8": "Then why is it that they seem\nto have something different?"
+    } ]
+  }, {
+    "tStartMs": 50257,
+    "dDurationMs": 3966,
+    "segs": [ {
+      "utf8": "Why is it that Martin Luther King\nled the Civil Rights Movement?"
+    } ]
+  }, {
+    "tStartMs": 54257,
+    "dDurationMs": 3966,
+    "segs": [ {
+      "utf8": "He wasn't the only man\nwho suffered in pre-civil rights America,"
+    } ]
+  }, {
+    "tStartMs": 58257,
+    "dDurationMs": 2733,
+    "segs": [ {
+      "utf8": "and he certainly wasn't\nthe only great orator of the day."
+    } ]
+  }, {
+    "tStartMs": 61023,
+    "dDurationMs": 1200,
+    "segs": [ {
+      "utf8": "Why him?"
+    } ]
+  }, {
+    "tStartMs": 62257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "And why is it that the Wright brothers"
+    } ]
+  }, {
+    "tStartMs": 65257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "were able to figure out controlled,\npowered man flight"
+    } ]
+  }, {
+    "tStartMs": 68257,
+    "dDurationMs": 2166,
+    "segs": [ {
+      "utf8": "when there were certainly other teams"
+    } ]
+  }, {
+    "tStartMs": 70423,
+    "dDurationMs": 2867,
+    "segs": [ {
+      "utf8": "who were better qualified,\nbetter funded --"
+    } ]
+  }, {
+    "tStartMs": 73323,
+    "dDurationMs": 2900,
+    "segs": [ {
+      "utf8": "and they didn't achieve\npowered man flight,"
+    } ]
+  }, {
+    "tStartMs": 76257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "and the Wright brothers beat them to it."
+    } ]
+  }, {
+    "tStartMs": 78257,
+    "dDurationMs": 1900,
+    "segs": [ {
+      "utf8": "There's something else at play here."
+    } ]
+  }, {
+    "tStartMs": 81390,
+    "dDurationMs": 3833,
+    "segs": [ {
+      "utf8": "About three and a half years ago,\nI made a discovery."
+    } ]
+  }, {
+    "tStartMs": 85257,
+    "dDurationMs": 5966,
+    "segs": [ {
+      "utf8": "And this discovery profoundly changed\nmy view on how I thought the world worked,"
+    } ]
+  }, {
+    "tStartMs": 91257,
+    "dDurationMs": 4000,
+    "segs": [ {
+      "utf8": "and it even profoundly changed the way\nin which I operate in it."
+    } ]
+  }, {
+    "tStartMs": 97257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "As it turns out, there's a pattern."
+    } ]
+  }, {
+    "tStartMs": 100257,
+    "dDurationMs": 3966,
+    "segs": [ {
+      "utf8": "As it turns out, all the great inspiring\nleaders and organizations in the world,"
+    } ]
+  }, {
+    "tStartMs": 104257,
+    "dDurationMs": 3000,
+    "segs": [ {
+      "utf8": "whether it's Apple or Martin Luther King\nor the Wright brothers,"
+    } ]
+  }, {
+    "tStartMs": 107290,
+    "dDurationMs": 3933,
+    "segs": [ {
+      "utf8": "they all think, act and communicate\nthe exact same way."
+    } ]
+  }, {
+    "tStartMs": 111257,
+    "dDurationMs": 3966,
+    "segs": [ {
+      "utf8": "And it's the complete opposite\nto everyone else."
+    } ]
+  }, {
+    "tStartMs": 115257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "All I did was codify it,"
+    } ]
+  }, {
+    "tStartMs": 117257,
+    "dDurationMs": 3966,
+    "segs": [ {
+      "utf8": "and it's probably\nthe world's simplest idea."
+    } ]
+  }, {
+    "tStartMs": 121257,
+    "dDurationMs": 2000,
+    "segs": [ {
+      "utf8": "I call it the golden circle."
+    } ]
+  }, {
+    "tStartMs": 131557,
+    "dDurationMs": 2666,
+    "segs": [ {
+      "utf8": "Why? How? What?"
+    } ]
+  }, {
+    "tStartMs": 134257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "This little idea explains"
+    } ]
+  }, {
+    "tStartMs": 136257,
+    "dDurationMs": 3966,
+    "segs": [ {
+      "utf8": "why some organizations and some leaders\nare able to inspire where others aren't."
+    } ]
+  }, {
+    "tStartMs": 140257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "Let me define the terms really quickly."
+    } ]
+  }, {
+    "tStartMs": 142257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "Every single person, every single\norganization on the planet"
+    } ]
+  }, {
+    "tStartMs": 145257,
+    "dDurationMs": 2733,
+    "segs": [ {
+      "utf8": "knows what they do, 100 percent."
+    } ]
+  }, {
+    "tStartMs": 149257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "Some know how they do it,"
+    } ]
+  }, {
+    "tStartMs": 151257,
+    "dDurationMs": 2700,
+    "segs": [ {
+      "utf8": "whether you call it\nyour differentiated value proposition"
+    } ]
+  }, {
+    "tStartMs": 153957,
+    "dDurationMs": 2266,
+    "segs": [ {
+      "utf8": "or your proprietary process or your USP."
+    } ]
+  }, {
+    "tStartMs": 156257,
+    "dDurationMs": 4733,
+    "segs": [ {
+      "utf8": "But very, very few people or organizations\nknow why they do what they do."
+    } ]
+  }, {
+    "tStartMs": 161023,
+    "dDurationMs": 2200,
+    "segs": [ {
+      "utf8": "And by \"why\" I don't mean\n\"to make a profit.\""
+    } ]
+  }, {
+    "tStartMs": 163257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "That's a result. It's always a result."
+    } ]
+  }, {
+    "tStartMs": 165257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "By \"why,\" I mean: What's your purpose?"
+    } ]
+  }, {
+    "tStartMs": 167257,
+    "dDurationMs": 2433,
+    "segs": [ {
+      "utf8": "What's your cause? What's your belief?"
+    } ]
+  }, {
+    "tStartMs": 169723,
+    "dDurationMs": 3500,
+    "segs": [ {
+      "utf8": "Why does your organization exist?"
+    } ]
+  }, {
+    "tStartMs": 173257,
+    "dDurationMs": 2366,
+    "segs": [ {
+      "utf8": "Why do you get out of bed in the morning?"
+    } ]
+  }, {
+    "tStartMs": 175657,
+    "dDurationMs": 2566,
+    "segs": [ {
+      "utf8": "And why should anyone care?"
+    } ]
+  }, {
+    "tStartMs": 178257,
+    "dDurationMs": 1900,
+    "segs": [ {
+      "utf8": "As a result, the way we think, we act,"
+    } ]
+  }, {
+    "tStartMs": 180190,
+    "dDurationMs": 2800,
+    "segs": [ {
+      "utf8": "the way we communicate\nis from the outside in, it's obvious."
+    } ]
+  }, {
+    "tStartMs": 183023,
+    "dDurationMs": 2700,
+    "segs": [ {
+      "utf8": "We go from the clearest thing\nto the fuzziest thing."
+    } ]
+  }, {
+    "tStartMs": 185757,
+    "dDurationMs": 3466,
+    "segs": [ {
+      "utf8": "But the inspired leaders\nand the inspired organizations --"
+    } ]
+  }, {
+    "tStartMs": 189257,
+    "dDurationMs": 3600,
+    "segs": [ {
+      "utf8": "regardless of their size,\nregardless of their industry --"
+    } ]
+  }, {
+    "tStartMs": 192890,
+    "dDurationMs": 3100,
+    "segs": [ {
+      "utf8": "all think, act and communicate\nfrom the inside out."
+    } ]
+  }, {
+    "tStartMs": 197790,
+    "dDurationMs": 1433,
+    "segs": [ {
+      "utf8": "Let me give you an example."
+    } ]
+  }, {
+    "tStartMs": 199257,
+    "dDurationMs": 3400,
+    "segs": [ {
+      "utf8": "I use Apple because they're easy\nto understand and everybody gets it."
+    } ]
+  }, {
+    "tStartMs": 202657,
+    "dDurationMs": 2566,
+    "segs": [ {
+      "utf8": "If Apple were like everyone else,"
+    } ]
+  }, {
+    "tStartMs": 205257,
+    "dDurationMs": 3500,
+    "segs": [ {
+      "utf8": "a marketing message from them\nmight sound like this:"
+    } ]
+  }, {
+    "tStartMs": 208757,
+    "dDurationMs": 1500,
+    "segs": [ {
+      "utf8": "\"We make great computers."
+    } ]
+  }, {
+    "tStartMs": 211257,
+    "dDurationMs": 3966,
+    "segs": [ {
+      "utf8": "They're beautifully designed,\nsimple to use and user friendly."
+    } ]
+  }, {
+    "tStartMs": 215257,
+    "dDurationMs": 1300,
+    "segs": [ {
+      "utf8": "Want to buy one?\""
+    } ]
+  }, {
+    "tStartMs": 217457,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "\"Meh.\""
+    } ]
+  }, {
+    "tStartMs": 218490,
+    "dDurationMs": 1733,
+    "segs": [ {
+      "utf8": "That's how most of us communicate."
+    } ]
+  }, {
+    "tStartMs": 220257,
+    "dDurationMs": 2500,
+    "segs": [ {
+      "utf8": "That's how most marketing\nand sales are done,"
+    } ]
+  }, {
+    "tStartMs": 222757,
+    "dDurationMs": 2100,
+    "segs": [ {
+      "utf8": "that's how we communicate interpersonally."
+    } ]
+  }, {
+    "tStartMs": 224890,
+    "dDurationMs": 1767,
+    "segs": [ {
+      "utf8": "We say what we do,"
+    } ]
+  }, {
+    "tStartMs": 226690,
+    "dDurationMs": 1767,
+    "segs": [ {
+      "utf8": "we say how we're different or better"
+    } ]
+  }, {
+    "tStartMs": 228490,
+    "dDurationMs": 1833,
+    "segs": [ {
+      "utf8": "and we expect some sort of a behavior,"
+    } ]
+  }, {
+    "tStartMs": 230357,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "a purchase, a vote, something like that."
+    } ]
+  }, {
+    "tStartMs": 232357,
+    "dDurationMs": 1266,
+    "segs": [ {
+      "utf8": "Here's our new law firm:"
+    } ]
+  }, {
+    "tStartMs": 233657,
+    "dDurationMs": 2433,
+    "segs": [ {
+      "utf8": "We have the best lawyers\nwith the biggest clients,"
+    } ]
+  }, {
+    "tStartMs": 236090,
+    "dDurationMs": 1633,
+    "segs": [ {
+      "utf8": "we always perform for our clients."
+    } ]
+  }, {
+    "tStartMs": 237757,
+    "dDurationMs": 1466,
+    "segs": [ {
+      "utf8": "Here's our new car:"
+    } ]
+  }, {
+    "tStartMs": 239257,
+    "dDurationMs": 2633,
+    "segs": [ {
+      "utf8": "It gets great gas mileage,\nit has leather seats."
+    } ]
+  }, {
+    "tStartMs": 241923,
+    "dDurationMs": 1167,
+    "segs": [ {
+      "utf8": "Buy our car."
+    } ]
+  }, {
+    "tStartMs": 243123,
+    "dDurationMs": 1100,
+    "segs": [ {
+      "utf8": "But it's uninspiring."
+    } ]
+  }, {
+    "tStartMs": 244257,
+    "dDurationMs": 2633,
+    "segs": [ {
+      "utf8": "Here's how Apple actually communicates."
+    } ]
+  }, {
+    "tStartMs": 248257,
+    "dDurationMs": 4966,
+    "segs": [ {
+      "utf8": "\"Everything we do,\nwe believe in challenging the status quo."
+    } ]
+  }, {
+    "tStartMs": 253257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "We believe in thinking differently."
+    } ]
+  }, {
+    "tStartMs": 256923,
+    "dDurationMs": 1767,
+    "segs": [ {
+      "utf8": "The way we challenge the status quo"
+    } ]
+  }, {
+    "tStartMs": 258723,
+    "dDurationMs": 2500,
+    "segs": [ {
+      "utf8": "is by making our products\nbeautifully designed,"
+    } ]
+  }, {
+    "tStartMs": 261257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "simple to use and user friendly."
+    } ]
+  }, {
+    "tStartMs": 263257,
+    "dDurationMs": 2633,
+    "segs": [ {
+      "utf8": "We just happen to make great computers."
+    } ]
+  }, {
+    "tStartMs": 265923,
+    "dDurationMs": 1067,
+    "segs": [ {
+      "utf8": "Want to buy one?\""
+    } ]
+  }, {
+    "tStartMs": 268157,
+    "dDurationMs": 1300,
+    "segs": [ {
+      "utf8": "Totally different, right?"
+    } ]
+  }, {
+    "tStartMs": 269490,
+    "dDurationMs": 1933,
+    "segs": [ {
+      "utf8": "You're ready to buy a computer from me."
+    } ]
+  }, {
+    "tStartMs": 271457,
+    "dDurationMs": 2200,
+    "segs": [ {
+      "utf8": "I just reversed\nthe order of the information."
+    } ]
+  }, {
+    "tStartMs": 273690,
+    "dDurationMs": 3867,
+    "segs": [ {
+      "utf8": "What it proves to us is\nthat people don't buy what you do;"
+    } ]
+  }, {
+    "tStartMs": 277590,
+    "dDurationMs": 2400,
+    "segs": [ {
+      "utf8": "people buy why you do it."
+    } ]
+  }, {
+    "tStartMs": 279990,
+    "dDurationMs": 4233,
+    "segs": [ {
+      "utf8": "This explains why\nevery single person in this room"
+    } ]
+  }, {
+    "tStartMs": 284257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "is perfectly comfortable buying\na computer from Apple."
+    } ]
+  }, {
+    "tStartMs": 287257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "But we're also perfectly comfortable"
+    } ]
+  }, {
+    "tStartMs": 289257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "buying an MP3 player from Apple,\nor a phone from Apple,"
+    } ]
+  }, {
+    "tStartMs": 292257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "or a DVR from Apple."
+    } ]
+  }, {
+    "tStartMs": 294257,
+    "dDurationMs": 2533,
+    "segs": [ {
+      "utf8": "As I said before,\nApple's just a computer company."
+    } ]
+  }, {
+    "tStartMs": 296823,
+    "dDurationMs": 3400,
+    "segs": [ {
+      "utf8": "Nothing distinguishes them structurally\nfrom any of their competitors."
+    } ]
+  }, {
+    "tStartMs": 300257,
+    "dDurationMs": 3433,
+    "segs": [ {
+      "utf8": "Their competitors are equally qualified\nto make all of these products."
+    } ]
+  }, {
+    "tStartMs": 303723,
+    "dDurationMs": 1500,
+    "segs": [ {
+      "utf8": "In fact, they tried."
+    } ]
+  }, {
+    "tStartMs": 305257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "A few years ago, Gateway\ncame out with flat-screen TVs."
+    } ]
+  }, {
+    "tStartMs": 308257,
+    "dDurationMs": 2433,
+    "segs": [ {
+      "utf8": "They're eminently qualified\nto make flat-screen TVs."
+    } ]
+  }, {
+    "tStartMs": 310723,
+    "dDurationMs": 2500,
+    "segs": [ {
+      "utf8": "They've been making\nflat-screen monitors for years."
+    } ]
+  }, {
+    "tStartMs": 313257,
+    "dDurationMs": 1566,
+    "segs": [ {
+      "utf8": "Nobody bought one."
+    } ]
+  }, {
+    "tStartMs": 317923,
+    "dDurationMs": 5300,
+    "segs": [ {
+      "utf8": "Dell came out with MP3 players and PDAs,"
+    } ]
+  }, {
+    "tStartMs": 323257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "and they make great quality products,"
+    } ]
+  }, {
+    "tStartMs": 325257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "and they can make perfectly\nwell-designed products --"
+    } ]
+  }, {
+    "tStartMs": 328257,
+    "dDurationMs": 1800,
+    "segs": [ {
+      "utf8": "and nobody bought one."
+    } ]
+  }, {
+    "tStartMs": 330090,
+    "dDurationMs": 2433,
+    "segs": [ {
+      "utf8": "In fact, talking about it now,\nwe can't even imagine"
+    } ]
+  }, {
+    "tStartMs": 332557,
+    "dDurationMs": 1533,
+    "segs": [ {
+      "utf8": "buying an MP3 player from Dell."
+    } ]
+  }, {
+    "tStartMs": 334123,
+    "dDurationMs": 2200,
+    "segs": [ {
+      "utf8": "Why would you buy one\nfrom a computer company?"
+    } ]
+  }, {
+    "tStartMs": 336357,
+    "dDurationMs": 1600,
+    "segs": [ {
+      "utf8": "But we do it every day."
+    } ]
+  }, {
+    "tStartMs": 337990,
+    "dDurationMs": 2467,
+    "segs": [ {
+      "utf8": "People don't buy what you do;\nthey buy why you do it."
+    } ]
+  }, {
+    "tStartMs": 340490,
+    "dDurationMs": 5533,
+    "segs": [ {
+      "utf8": "The goal is not to do business\nwith everybody who needs what you have."
+    } ]
+  }, {
+    "tStartMs": 346057,
+    "dDurationMs": 4033,
+    "segs": [ {
+      "utf8": "The goal is to do business with people\nwho believe what you believe."
+    } ]
+  }, {
+    "tStartMs": 351257,
+    "dDurationMs": 1633,
+    "segs": [ {
+      "utf8": "Here's the best part:"
+    } ]
+  }, {
+    "tStartMs": 352923,
+    "dDurationMs": 2300,
+    "segs": [ {
+      "utf8": "None of what I'm telling you\nis my opinion."
+    } ]
+  }, {
+    "tStartMs": 355257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "It's all grounded\nin the tenets of biology."
+    } ]
+  }, {
+    "tStartMs": 358257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "Not psychology, biology."
+    } ]
+  }, {
+    "tStartMs": 360257,
+    "dDurationMs": 2733,
+    "segs": [ {
+      "utf8": "If you look at a cross-section\nof the human brain,"
+    } ]
+  }, {
+    "tStartMs": 363023,
+    "dDurationMs": 2634,
+    "segs": [ {
+      "utf8": "from the top down,\nthe human brain is actually broken"
+    } ]
+  }, {
+    "tStartMs": 365690,
+    "dDurationMs": 1533,
+    "segs": [ {
+      "utf8": "into three major components"
+    } ]
+  }, {
+    "tStartMs": 367257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "that correlate perfectly\nwith the golden circle."
+    } ]
+  }, {
+    "tStartMs": 370257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "Our newest brain, our Homo sapien brain,"
+    } ]
+  }, {
+    "tStartMs": 373257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "our neocortex,"
+    } ]
+  }, {
+    "tStartMs": 375257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "corresponds with the \"what\" level."
+    } ]
+  }, {
+    "tStartMs": 377257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "The neocortex is responsible"
+    } ]
+  }, {
+    "tStartMs": 379257,
+    "dDurationMs": 3966,
+    "segs": [ {
+      "utf8": "for all of our rational\nand analytical thought and language."
+    } ]
+  }, {
+    "tStartMs": 383257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "The middle two sections make up\nour limbic brains,"
+    } ]
+  }, {
+    "tStartMs": 386257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "and our limbic brains are responsible\nfor all of our feelings,"
+    } ]
+  }, {
+    "tStartMs": 389257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "like trust and loyalty."
+    } ]
+  }, {
+    "tStartMs": 392257,
+    "dDurationMs": 2133,
+    "segs": [ {
+      "utf8": "It's also responsible\nfor all human behavior,"
+    } ]
+  }, {
+    "tStartMs": 394423,
+    "dDurationMs": 1800,
+    "segs": [ {
+      "utf8": "all decision-making,"
+    } ]
+  }, {
+    "tStartMs": 396257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "and it has no capacity for language."
+    } ]
+  }, {
+    "tStartMs": 399257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "In other words, when we communicate\nfrom the outside in,"
+    } ]
+  }, {
+    "tStartMs": 402257,
+    "dDurationMs": 3133,
+    "segs": [ {
+      "utf8": "yes, people can understand vast\namounts of complicated information"
+    } ]
+  }, {
+    "tStartMs": 405423,
+    "dDurationMs": 2800,
+    "segs": [ {
+      "utf8": "like features and benefits\nand facts and figures."
+    } ]
+  }, {
+    "tStartMs": 408257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "It just doesn't drive behavior."
+    } ]
+  }, {
+    "tStartMs": 410257,
+    "dDurationMs": 2100,
+    "segs": [ {
+      "utf8": "When we can communicate\nfrom the inside out,"
+    } ]
+  }, {
+    "tStartMs": 412390,
+    "dDurationMs": 2233,
+    "segs": [ {
+      "utf8": "we're talking directly\nto the part of the brain"
+    } ]
+  }, {
+    "tStartMs": 414623,
+    "dDurationMs": 1600,
+    "segs": [ {
+      "utf8": "that controls behavior,"
+    } ]
+  }, {
+    "tStartMs": 416257,
+    "dDurationMs": 3966,
+    "segs": [ {
+      "utf8": "and then we allow people to rationalize it\nwith the tangible things we say and do."
+    } ]
+  }, {
+    "tStartMs": 420257,
+    "dDurationMs": 2566,
+    "segs": [ {
+      "utf8": "This is where gut decisions come from."
+    } ]
+  }, {
+    "tStartMs": 422823,
+    "dDurationMs": 3400,
+    "segs": [ {
+      "utf8": "Sometimes you can give somebody\nall the facts and figures,"
+    } ]
+  }, {
+    "tStartMs": 426257,
+    "dDurationMs": 2733,
+    "segs": [ {
+      "utf8": "and they say, \"I know\nwhat all the facts and details say,"
+    } ]
+  }, {
+    "tStartMs": 428990,
+    "dDurationMs": 1533,
+    "segs": [ {
+      "utf8": "but it just doesn't feel right.\""
+    } ]
+  }, {
+    "tStartMs": 430557,
+    "dDurationMs": 2533,
+    "segs": [ {
+      "utf8": "Why would we use that verb,\nit doesn't \"feel\" right?"
+    } ]
+  }, {
+    "tStartMs": 433123,
+    "dDurationMs": 2767,
+    "segs": [ {
+      "utf8": "Because the part of the brain\nthat controls decision-making"
+    } ]
+  }, {
+    "tStartMs": 435923,
+    "dDurationMs": 1300,
+    "segs": [ {
+      "utf8": "doesn't control language."
+    } ]
+  }, {
+    "tStartMs": 437257,
+    "dDurationMs": 1466,
+    "segs": [ {
+      "utf8": "The best we can muster up is,"
+    } ]
+  }, {
+    "tStartMs": 438757,
+    "dDurationMs": 2033,
+    "segs": [ {
+      "utf8": "\"I don't know. \nIt just doesn't feel right.\""
+    } ]
+  }, {
+    "tStartMs": 440823,
+    "dDurationMs": 3400,
+    "segs": [ {
+      "utf8": "Or sometimes you say you're leading\nwith your heart or soul."
+    } ]
+  }, {
+    "tStartMs": 444257,
+    "dDurationMs": 2666,
+    "segs": [ {
+      "utf8": "I hate to break it to you,\nthose aren't other body parts"
+    } ]
+  }, {
+    "tStartMs": 446957,
+    "dDurationMs": 1266,
+    "segs": [ {
+      "utf8": "controlling your behavior."
+    } ]
+  }, {
+    "tStartMs": 448257,
+    "dDurationMs": 2133,
+    "segs": [ {
+      "utf8": "It's all happening here\nin your limbic brain,"
+    } ]
+  }, {
+    "tStartMs": 450423,
+    "dDurationMs": 3300,
+    "segs": [ {
+      "utf8": "the part of the brain that controls\ndecision-making and not language."
+    } ]
+  }, {
+    "tStartMs": 453723,
+    "dDurationMs": 2500,
+    "segs": [ {
+      "utf8": "But if you don't know\nwhy you do what you do,"
+    } ]
+  }, {
+    "tStartMs": 456257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "and people respond\nto why you do what you do,"
+    } ]
+  }, {
+    "tStartMs": 459257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "then how will you ever get people"
+    } ]
+  }, {
+    "tStartMs": 462257,
+    "dDurationMs": 2033,
+    "segs": [ {
+      "utf8": "to vote for you,\nor buy something from you,"
+    } ]
+  }, {
+    "tStartMs": 464323,
+    "dDurationMs": 1900,
+    "segs": [ {
+      "utf8": "or, more importantly, be loyal"
+    } ]
+  }, {
+    "tStartMs": 466257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "and want to be a part\nof what it is that you do."
+    } ]
+  }, {
+    "tStartMs": 469257,
+    "dDurationMs": 3066,
+    "segs": [ {
+      "utf8": "The goal is not just to sell\nto people who need what you have;"
+    } ]
+  }, {
+    "tStartMs": 472323,
+    "dDurationMs": 2900,
+    "segs": [ {
+      "utf8": "the goal is to sell to people\nwho believe what you believe."
+    } ]
+  }, {
+    "tStartMs": 475257,
+    "dDurationMs": 3966,
+    "segs": [ {
+      "utf8": "The goal is not just\nto hire people who need a job;"
+    } ]
+  }, {
+    "tStartMs": 479257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "it's to hire people\nwho believe what you believe."
+    } ]
+  }, {
+    "tStartMs": 482257,
+    "dDurationMs": 2133,
+    "segs": [ {
+      "utf8": "I always say that, you know,"
+    } ]
+  }, {
+    "tStartMs": 484390,
+    "dDurationMs": 5833,
+    "segs": [ {
+      "utf8": "if you hire people just because they can\ndo a job, they'll work for your money,"
+    } ]
+  }, {
+    "tStartMs": 490257,
+    "dDurationMs": 1800,
+    "segs": [ {
+      "utf8": "but if they believe what you believe,"
+    } ]
+  }, {
+    "tStartMs": 492057,
+    "dDurationMs": 2466,
+    "segs": [ {
+      "utf8": "they'll work for you with blood\nand sweat and tears."
+    } ]
+  }, {
+    "tStartMs": 494523,
+    "dDurationMs": 3700,
+    "segs": [ {
+      "utf8": "Nowhere else is there a better example\nthan with the Wright brothers."
+    } ]
+  }, {
+    "tStartMs": 498257,
+    "dDurationMs": 3600,
+    "segs": [ {
+      "utf8": "Most people don't know\nabout Samuel Pierpont Langley."
+    } ]
+  }, {
+    "tStartMs": 501890,
+    "dDurationMs": 2333,
+    "segs": [ {
+      "utf8": "And back in the early 20th century,"
+    } ]
+  }, {
+    "tStartMs": 504257,
+    "dDurationMs": 3133,
+    "segs": [ {
+      "utf8": "the pursuit of powered man flight\nwas like the dot com of the day."
+    } ]
+  }, {
+    "tStartMs": 507423,
+    "dDurationMs": 1800,
+    "segs": [ {
+      "utf8": "Everybody was trying it."
+    } ]
+  }, {
+    "tStartMs": 509257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "And Samuel Pierpont Langley\nhad, what we assume,"
+    } ]
+  }, {
+    "tStartMs": 512257,
+    "dDurationMs": 2666,
+    "segs": [ {
+      "utf8": "to be the recipe for success."
+    } ]
+  }, {
+    "tStartMs": 514957,
+    "dDurationMs": 1700,
+    "segs": [ {
+      "utf8": "Even now, you ask people,"
+    } ]
+  }, {
+    "tStartMs": 516690,
+    "dDurationMs": 2600,
+    "segs": [ {
+      "utf8": "\"Why did your product\nor why did your company fail?\""
+    } ]
+  }, {
+    "tStartMs": 519323,
+    "dDurationMs": 2267,
+    "segs": [ {
+      "utf8": "and people always give\nyou the same permutation"
+    } ]
+  }, {
+    "tStartMs": 521590,
+    "dDurationMs": 1433,
+    "segs": [ {
+      "utf8": "of the same three things:"
+    } ]
+  }, {
+    "tStartMs": 523057,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "under-capitalized, the wrong people,\nbad market conditions."
+    } ]
+  }, {
+    "tStartMs": 526057,
+    "dDurationMs": 2800,
+    "segs": [ {
+      "utf8": "It's always the same three things,\nso let's explore that."
+    } ]
+  }, {
+    "tStartMs": 529690,
+    "dDurationMs": 1533,
+    "segs": [ {
+      "utf8": "Samuel Pierpont Langley"
+    } ]
+  }, {
+    "tStartMs": 531257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "was given 50,000 dollars\nby the War Department"
+    } ]
+  }, {
+    "tStartMs": 534257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "to figure out this flying machine."
+    } ]
+  }, {
+    "tStartMs": 536257,
+    "dDurationMs": 1566,
+    "segs": [ {
+      "utf8": "Money was no problem."
+    } ]
+  }, {
+    "tStartMs": 537857,
+    "dDurationMs": 2366,
+    "segs": [ {
+      "utf8": "He held a seat at Harvard"
+    } ]
+  }, {
+    "tStartMs": 540257,
+    "dDurationMs": 3000,
+    "segs": [ {
+      "utf8": "and worked at the Smithsonian\nand was extremely well-connected;"
+    } ]
+  }, {
+    "tStartMs": 543290,
+    "dDurationMs": 1933,
+    "segs": [ {
+      "utf8": "he knew all the big minds of the day."
+    } ]
+  }, {
+    "tStartMs": 545257,
+    "dDurationMs": 3966,
+    "segs": [ {
+      "utf8": "He hired the best minds money could find"
+    } ]
+  }, {
+    "tStartMs": 549257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "and the market conditions were fantastic."
+    } ]
+  }, {
+    "tStartMs": 551257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "The New York Times\nfollowed him around everywhere,"
+    } ]
+  }, {
+    "tStartMs": 554257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "and everyone was rooting for Langley."
+    } ]
+  }, {
+    "tStartMs": 556257,
+    "dDurationMs": 3000,
+    "segs": [ {
+      "utf8": "Then how come we've never heard\nof Samuel Pierpont Langley?"
+    } ]
+  }, {
+    "tStartMs": 559757,
+    "dDurationMs": 2133,
+    "segs": [ {
+      "utf8": "A few hundred miles away in Dayton, Ohio,"
+    } ]
+  }, {
+    "tStartMs": 562823,
+    "dDurationMs": 1400,
+    "segs": [ {
+      "utf8": "Orville and Wilbur Wright,"
+    } ]
+  }, {
+    "tStartMs": 564257,
+    "dDurationMs": 3966,
+    "segs": [ {
+      "utf8": "they had none of what we consider\nto be the recipe for success."
+    } ]
+  }, {
+    "tStartMs": 568257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "They had no money;"
+    } ]
+  }, {
+    "tStartMs": 570257,
+    "dDurationMs": 3233,
+    "segs": [ {
+      "utf8": "they paid for their dream\nwith the proceeds from their bicycle shop."
+    } ]
+  }, {
+    "tStartMs": 573523,
+    "dDurationMs": 2267,
+    "segs": [ {
+      "utf8": "Not a single person\non the Wright brothers' team"
+    } ]
+  }, {
+    "tStartMs": 575823,
+    "dDurationMs": 1400,
+    "segs": [ {
+      "utf8": "had a college education,"
+    } ]
+  }, {
+    "tStartMs": 577257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "not even Orville or Wilbur."
+    } ]
+  }, {
+    "tStartMs": 579257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "And The New York Times\nfollowed them around nowhere."
+    } ]
+  }, {
+    "tStartMs": 582257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "The difference was,"
+    } ]
+  }, {
+    "tStartMs": 584257,
+    "dDurationMs": 3966,
+    "segs": [ {
+      "utf8": "Orville and Wilbur were driven by a cause,\nby a purpose, by a belief."
+    } ]
+  }, {
+    "tStartMs": 588257,
+    "dDurationMs": 3966,
+    "segs": [ {
+      "utf8": "They believed that if they could\nfigure out this flying machine,"
+    } ]
+  }, {
+    "tStartMs": 592257,
+    "dDurationMs": 1800,
+    "segs": [ {
+      "utf8": "it'll change the course of the world."
+    } ]
+  }, {
+    "tStartMs": 595657,
+    "dDurationMs": 1933,
+    "segs": [ {
+      "utf8": "Samuel Pierpont Langley was different."
+    } ]
+  }, {
+    "tStartMs": 597623,
+    "dDurationMs": 2600,
+    "segs": [ {
+      "utf8": "He wanted to be rich,\nand he wanted to be famous."
+    } ]
+  }, {
+    "tStartMs": 600257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "He was in pursuit of the result."
+    } ]
+  }, {
+    "tStartMs": 602257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "He was in pursuit of the riches."
+    } ]
+  }, {
+    "tStartMs": 604257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "And lo and behold, look what happened."
+    } ]
+  }, {
+    "tStartMs": 606223,
+    "dDurationMs": 3567,
+    "segs": [ {
+      "utf8": "The people who believed\nin the Wright brothers' dream"
+    } ]
+  }, {
+    "tStartMs": 609790,
+    "dDurationMs": 2433,
+    "segs": [ {
+      "utf8": "worked with them with blood\nand sweat and tears."
+    } ]
+  }, {
+    "tStartMs": 612257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "The others just worked for the paycheck."
+    } ]
+  }, {
+    "tStartMs": 614257,
+    "dDurationMs": 3200,
+    "segs": [ {
+      "utf8": "They tell stories of how every time\nthe Wright brothers went out,"
+    } ]
+  }, {
+    "tStartMs": 617490,
+    "dDurationMs": 2000,
+    "segs": [ {
+      "utf8": "they would have to take\nfive sets of parts,"
+    } ]
+  }, {
+    "tStartMs": 619523,
+    "dDurationMs": 3000,
+    "segs": [ {
+      "utf8": "because that's how many times\nthey would crash before supper."
+    } ]
+  }, {
+    "tStartMs": 623923,
+    "dDurationMs": 4000,
+    "segs": [ {
+      "utf8": "And, eventually, on December 17th, 1903,"
+    } ]
+  }, {
+    "tStartMs": 627957,
+    "dDurationMs": 2266,
+    "segs": [ {
+      "utf8": "the Wright brothers took flight,"
+    } ]
+  }, {
+    "tStartMs": 630257,
+    "dDurationMs": 2033,
+    "segs": [ {
+      "utf8": "and no one was there\nto even experience it."
+    } ]
+  }, {
+    "tStartMs": 632323,
+    "dDurationMs": 2100,
+    "segs": [ {
+      "utf8": "We found out about it a few days later."
+    } ]
+  }, {
+    "tStartMs": 636023,
+    "dDurationMs": 4000,
+    "segs": [ {
+      "utf8": "And further proof that Langley\nwas motivated by the wrong thing:"
+    } ]
+  }, {
+    "tStartMs": 640057,
+    "dDurationMs": 2333,
+    "segs": [ {
+      "utf8": "the day the Wright brothers took flight,"
+    } ]
+  }, {
+    "tStartMs": 642423,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "he quit."
+    } ]
+  }, {
+    "tStartMs": 643457,
+    "dDurationMs": 1766,
+    "segs": [ {
+      "utf8": "He could have said,"
+    } ]
+  }, {
+    "tStartMs": 645257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "\"That's an amazing discovery, guys,"
+    } ]
+  }, {
+    "tStartMs": 647257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "and I will improve\nupon your technology,\" but he didn't."
+    } ]
+  }, {
+    "tStartMs": 650257,
+    "dDurationMs": 3600,
+    "segs": [ {
+      "utf8": "He wasn't first, he didn't get rich,\nhe didn't get famous, so he quit."
+    } ]
+  }, {
+    "tStartMs": 654957,
+    "dDurationMs": 2500,
+    "segs": [ {
+      "utf8": "People don't buy what you do;\nthey buy why you do it."
+    } ]
+  }, {
+    "tStartMs": 657490,
+    "dDurationMs": 1733,
+    "segs": [ {
+      "utf8": "If you talk about what you believe,"
+    } ]
+  }, {
+    "tStartMs": 659257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "you will attract those\nwho believe what you believe."
+    } ]
+  }, {
+    "tStartMs": 662257,
+    "dDurationMs": 3333,
+    "segs": [ {
+      "utf8": "But why is it important to attract\nthose who believe what you believe?"
+    } ]
+  }, {
+    "tStartMs": 667657,
+    "dDurationMs": 2566,
+    "segs": [ {
+      "utf8": "Something called the law\nof diffusion of innovation,"
+    } ]
+  }, {
+    "tStartMs": 670223,
+    "dDurationMs": 2534,
+    "segs": [ {
+      "utf8": "if you don't know the law,\nyou know the terminology."
+    } ]
+  }, {
+    "tStartMs": 672757,
+    "dDurationMs": 4466,
+    "segs": [ {
+      "utf8": "The first 2.5% of our population\nare our innovators."
+    } ]
+  }, {
+    "tStartMs": 677257,
+    "dDurationMs": 4200,
+    "segs": [ {
+      "utf8": "The next 13.5% of our population\nare our early adopters."
+    } ]
+  }, {
+    "tStartMs": 682523,
+    "dDurationMs": 1834,
+    "segs": [ {
+      "utf8": "The next 34% are your early majority,"
+    } ]
+  }, {
+    "tStartMs": 684390,
+    "dDurationMs": 2333,
+    "segs": [ {
+      "utf8": "your late majority and your laggards."
+    } ]
+  }, {
+    "tStartMs": 687690,
+    "dDurationMs": 2533,
+    "segs": [ {
+      "utf8": "The only reason these people\nbuy touch-tone phones"
+    } ]
+  }, {
+    "tStartMs": 690257,
+    "dDurationMs": 2233,
+    "segs": [ {
+      "utf8": "is because you can't buy\nrotary phones anymore."
+    } ]
+  }, {
+    "tStartMs": 692523,
+    "dDurationMs": 1700,
+    "segs": [ {
+      "utf8": "(Laughter)"
+    } ]
+  }, {
+    "tStartMs": 694257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "We all sit at various places\nat various times on this scale,"
+    } ]
+  }, {
+    "tStartMs": 697257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "but what the law of diffusion\nof innovation tells us"
+    } ]
+  }, {
+    "tStartMs": 700257,
+    "dDurationMs": 4966,
+    "segs": [ {
+      "utf8": "is that if you want mass-market success\nor mass-market acceptance of an idea,"
+    } ]
+  }, {
+    "tStartMs": 705257,
+    "dDurationMs": 3966,
+    "segs": [ {
+      "utf8": "you cannot have it\nuntil you achieve this tipping point"
+    } ]
+  }, {
+    "tStartMs": 709257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "between 15 and 18 percent\nmarket penetration,"
+    } ]
+  }, {
+    "tStartMs": 712257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "and then the system tips."
+    } ]
+  }, {
+    "tStartMs": 715257,
+    "dDurationMs": 3233,
+    "segs": [ {
+      "utf8": "I love asking businesses,\n\"What's your conversion on new business?\""
+    } ]
+  }, {
+    "tStartMs": 718523,
+    "dDurationMs": 2634,
+    "segs": [ {
+      "utf8": "They love to tell you,\n\"It's about 10 percent,\" proudly."
+    } ]
+  }, {
+    "tStartMs": 721190,
+    "dDurationMs": 2133,
+    "segs": [ {
+      "utf8": "Well, you can trip\nover 10% of the customers."
+    } ]
+  }, {
+    "tStartMs": 723357,
+    "dDurationMs": 1933,
+    "segs": [ {
+      "utf8": "We all have about 10% who just \"get it.\""
+    } ]
+  }, {
+    "tStartMs": 725323,
+    "dDurationMs": 1700,
+    "segs": [ {
+      "utf8": "That's how we describe them, right?"
+    } ]
+  }, {
+    "tStartMs": 727057,
+    "dDurationMs": 2466,
+    "segs": [ {
+      "utf8": "That's like that gut feeling,\n\"Oh, they just get it.\""
+    } ]
+  }, {
+    "tStartMs": 729557,
+    "dDurationMs": 2433,
+    "segs": [ {
+      "utf8": "The problem is: How do you\nfind the ones that get it"
+    } ]
+  }, {
+    "tStartMs": 732023,
+    "dDurationMs": 2634,
+    "segs": [ {
+      "utf8": "before doing business\nversus the ones who don't get it?"
+    } ]
+  }, {
+    "tStartMs": 734690,
+    "dDurationMs": 3533,
+    "segs": [ {
+      "utf8": "So it's this here, this little gap\nthat you have to close,"
+    } ]
+  }, {
+    "tStartMs": 738257,
+    "dDurationMs": 2366,
+    "segs": [ {
+      "utf8": "as Jeffrey Moore calls it,\n\"Crossing the Chasm\" --"
+    } ]
+  }, {
+    "tStartMs": 740657,
+    "dDurationMs": 3566,
+    "segs": [ {
+      "utf8": "because, you see, the early majority\nwill not try something"
+    } ]
+  }, {
+    "tStartMs": 744257,
+    "dDurationMs": 3966,
+    "segs": [ {
+      "utf8": "until someone else has tried it first."
+    } ]
+  }, {
+    "tStartMs": 748257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "And these guys, the innovators\nand the early adopters,"
+    } ]
+  }, {
+    "tStartMs": 751257,
+    "dDurationMs": 2200,
+    "segs": [ {
+      "utf8": "they're comfortable\nmaking those gut decisions."
+    } ]
+  }, {
+    "tStartMs": 753457,
+    "dDurationMs": 2766,
+    "segs": [ {
+      "utf8": "They're more comfortable\nmaking those intuitive decisions"
+    } ]
+  }, {
+    "tStartMs": 756257,
+    "dDurationMs": 3966,
+    "segs": [ {
+      "utf8": "that are driven by what\nthey believe about the world"
+    } ]
+  }, {
+    "tStartMs": 760257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "and not just what product is available."
+    } ]
+  }, {
+    "tStartMs": 762257,
+    "dDurationMs": 2633,
+    "segs": [ {
+      "utf8": "These are the people who stood\nin line for six hours"
+    } ]
+  }, {
+    "tStartMs": 764923,
+    "dDurationMs": 2134,
+    "segs": [ {
+      "utf8": "to buy an iPhone when they first came out,"
+    } ]
+  }, {
+    "tStartMs": 767090,
+    "dDurationMs": 3133,
+    "segs": [ {
+      "utf8": "when you could have bought one\noff the shelf the next week."
+    } ]
+  }, {
+    "tStartMs": 770257,
+    "dDurationMs": 2133,
+    "segs": [ {
+      "utf8": "These are the people\nwho spent 40,000 dollars"
+    } ]
+  }, {
+    "tStartMs": 772423,
+    "dDurationMs": 2800,
+    "segs": [ {
+      "utf8": "on flat-screen TVs\nwhen they first came out,"
+    } ]
+  }, {
+    "tStartMs": 775257,
+    "dDurationMs": 2300,
+    "segs": [ {
+      "utf8": "even though the technology\nwas substandard."
+    } ]
+  }, {
+    "tStartMs": 778257,
+    "dDurationMs": 3966,
+    "segs": [ {
+      "utf8": "And, by the way, they didn't do it\nbecause the technology was so great;"
+    } ]
+  }, {
+    "tStartMs": 782257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "they did it for themselves."
+    } ]
+  }, {
+    "tStartMs": 784257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "It's because they wanted to be first."
+    } ]
+  }, {
+    "tStartMs": 786257,
+    "dDurationMs": 2466,
+    "segs": [ {
+      "utf8": "People don't buy what you do;\nthey buy why you do it"
+    } ]
+  }, {
+    "tStartMs": 788757,
+    "dDurationMs": 3466,
+    "segs": [ {
+      "utf8": "and what you do simply proves\nwhat you believe."
+    } ]
+  }, {
+    "tStartMs": 792257,
+    "dDurationMs": 3966,
+    "segs": [ {
+      "utf8": "In fact, people will do the things\nthat prove what they believe."
+    } ]
+  }, {
+    "tStartMs": 796257,
+    "dDurationMs": 4966,
+    "segs": [ {
+      "utf8": "The reason that person bought the iPhone\nin the first six hours,"
+    } ]
+  }, {
+    "tStartMs": 801257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "stood in line for six hours,"
+    } ]
+  }, {
+    "tStartMs": 803257,
+    "dDurationMs": 2366,
+    "segs": [ {
+      "utf8": "was because of what they believed\nabout the world,"
+    } ]
+  }, {
+    "tStartMs": 805657,
+    "dDurationMs": 2000,
+    "segs": [ {
+      "utf8": "and how they wanted everybody to see them:"
+    } ]
+  }, {
+    "tStartMs": 807690,
+    "dDurationMs": 1033,
+    "segs": [ {
+      "utf8": "they were first."
+    } ]
+  }, {
+    "tStartMs": 808757,
+    "dDurationMs": 2466,
+    "segs": [ {
+      "utf8": "People don't buy what you do;\nthey buy why you do it."
+    } ]
+  }, {
+    "tStartMs": 811257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "So let me give you a famous example,"
+    } ]
+  }, {
+    "tStartMs": 813257,
+    "dDurationMs": 4566,
+    "segs": [ {
+      "utf8": "a famous failure and a famous success\nof the law of diffusion of innovation."
+    } ]
+  }, {
+    "tStartMs": 817857,
+    "dDurationMs": 1366,
+    "segs": [ {
+      "utf8": "First, the famous failure."
+    } ]
+  }, {
+    "tStartMs": 819257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "It's a commercial example."
+    } ]
+  }, {
+    "tStartMs": 821257,
+    "dDurationMs": 2233,
+    "segs": [ {
+      "utf8": "As we said before, the recipe for success"
+    } ]
+  }, {
+    "tStartMs": 823523,
+    "dDurationMs": 3400,
+    "segs": [ {
+      "utf8": "is money and the right people\nand the right market conditions."
+    } ]
+  }, {
+    "tStartMs": 826923,
+    "dDurationMs": 1767,
+    "segs": [ {
+      "utf8": "You should have success then."
+    } ]
+  }, {
+    "tStartMs": 828690,
+    "dDurationMs": 1533,
+    "segs": [ {
+      "utf8": "Look at TiVo."
+    } ]
+  }, {
+    "tStartMs": 830257,
+    "dDurationMs": 2700,
+    "segs": [ {
+      "utf8": "From the time TiVo came out\nabout eight or nine years ago"
+    } ]
+  }, {
+    "tStartMs": 832990,
+    "dDurationMs": 1233,
+    "segs": [ {
+      "utf8": "to this current day,"
+    } ]
+  }, {
+    "tStartMs": 834257,
+    "dDurationMs": 3666,
+    "segs": [ {
+      "utf8": "they are the single highest-quality\nproduct on the market,"
+    } ]
+  }, {
+    "tStartMs": 837923,
+    "dDurationMs": 1867,
+    "segs": [ {
+      "utf8": "hands down, there is no dispute."
+    } ]
+  }, {
+    "tStartMs": 840857,
+    "dDurationMs": 1800,
+    "segs": [ {
+      "utf8": "They were extremely well-funded."
+    } ]
+  }, {
+    "tStartMs": 842690,
+    "dDurationMs": 1700,
+    "segs": [ {
+      "utf8": "Market conditions were fantastic."
+    } ]
+  }, {
+    "tStartMs": 844390,
+    "dDurationMs": 1833,
+    "segs": [ {
+      "utf8": "I mean, we use TiVo as verb."
+    } ]
+  }, {
+    "tStartMs": 846257,
+    "dDurationMs": 3266,
+    "segs": [ {
+      "utf8": "I TiVo stuff on my piece-of-junk\nTime Warner DVR all the time."
+    } ]
+  }, {
+    "tStartMs": 849523,
+    "dDurationMs": 2067,
+    "segs": [ {
+      "utf8": "(Laughter)"
+    } ]
+  }, {
+    "tStartMs": 852057,
+    "dDurationMs": 2166,
+    "segs": [ {
+      "utf8": "But TiVo's a commercial failure."
+    } ]
+  }, {
+    "tStartMs": 854257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "They've never made money."
+    } ]
+  }, {
+    "tStartMs": 856257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "And when they went IPO,"
+    } ]
+  }, {
+    "tStartMs": 858257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "their stock was at about 30 or 40 dollars"
+    } ]
+  }, {
+    "tStartMs": 860257,
+    "dDurationMs": 2433,
+    "segs": [ {
+      "utf8": "and then plummeted,\nand it's never traded above 10."
+    } ]
+  }, {
+    "tStartMs": 862723,
+    "dDurationMs": 2500,
+    "segs": [ {
+      "utf8": "In fact, I don't think\nit's even traded above six,"
+    } ]
+  }, {
+    "tStartMs": 865257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "except for a couple of little spikes."
+    } ]
+  }, {
+    "tStartMs": 867257,
+    "dDurationMs": 2333,
+    "segs": [ {
+      "utf8": "Because you see, when TiVo\nlaunched their product,"
+    } ]
+  }, {
+    "tStartMs": 869623,
+    "dDurationMs": 2600,
+    "segs": [ {
+      "utf8": "they told us all what they had."
+    } ]
+  }, {
+    "tStartMs": 872257,
+    "dDurationMs": 3466,
+    "segs": [ {
+      "utf8": "They said, \"We have a product\nthat pauses live TV,"
+    } ]
+  }, {
+    "tStartMs": 875723,
+    "dDurationMs": 4500,
+    "segs": [ {
+      "utf8": "skips commercials, rewinds live TV\nand memorizes your viewing habits"
+    } ]
+  }, {
+    "tStartMs": 880257,
+    "dDurationMs": 1800,
+    "segs": [ {
+      "utf8": "without you even asking.\""
+    } ]
+  }, {
+    "tStartMs": 883423,
+    "dDurationMs": 1800,
+    "segs": [ {
+      "utf8": "And the cynical majority said,"
+    } ]
+  }, {
+    "tStartMs": 885257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "\"We don't believe you."
+    } ]
+  }, {
+    "tStartMs": 887257,
+    "dDurationMs": 2533,
+    "segs": [ {
+      "utf8": "We don't need it. We don't like it."
+    } ]
+  }, {
+    "tStartMs": 889823,
+    "dDurationMs": 1067,
+    "segs": [ {
+      "utf8": "You're scaring us.\""
+    } ]
+  }, {
+    "tStartMs": 891957,
+    "dDurationMs": 1266,
+    "segs": [ {
+      "utf8": "What if they had said,"
+    } ]
+  }, {
+    "tStartMs": 893257,
+    "dDurationMs": 4966,
+    "segs": [ {
+      "utf8": "\"If you're the kind of person\nwho likes to have total control"
+    } ]
+  }, {
+    "tStartMs": 898257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "over every aspect of your life,"
+    } ]
+  }, {
+    "tStartMs": 901257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "boy, do we have a product for you."
+    } ]
+  }, {
+    "tStartMs": 904257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "It pauses live TV, skips commercials,"
+    } ]
+  }, {
+    "tStartMs": 906257,
+    "dDurationMs": 2166,
+    "segs": [ {
+      "utf8": "memorizes your viewing habits, etc., etc.\""
+    } ]
+  }, {
+    "tStartMs": 909123,
+    "dDurationMs": 2500,
+    "segs": [ {
+      "utf8": "People don't buy what you do;\nthey buy why you do it,"
+    } ]
+  }, {
+    "tStartMs": 911657,
+    "dDurationMs": 3366,
+    "segs": [ {
+      "utf8": "and what you do simply serves\nas the proof of what you believe."
+    } ]
+  }, {
+    "tStartMs": 915823,
+    "dDurationMs": 4034,
+    "segs": [ {
+      "utf8": "Now let me give you a successful example\nof the law of diffusion of innovation."
+    } ]
+  }, {
+    "tStartMs": 921257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "In the summer of 1963,"
+    } ]
+  }, {
+    "tStartMs": 924257,
+    "dDurationMs": 3966,
+    "segs": [ {
+      "utf8": "250,000 people showed up\non the mall in Washington"
+    } ]
+  }, {
+    "tStartMs": 928257,
+    "dDurationMs": 1666,
+    "segs": [ {
+      "utf8": "to hear Dr. King speak."
+    } ]
+  }, {
+    "tStartMs": 931423,
+    "dDurationMs": 2800,
+    "segs": [ {
+      "utf8": "They sent out no invitations,"
+    } ]
+  }, {
+    "tStartMs": 934257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "and there was no website\nto check the date."
+    } ]
+  }, {
+    "tStartMs": 937257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "How do you do that?"
+    } ]
+  }, {
+    "tStartMs": 939257,
+    "dDurationMs": 2133,
+    "segs": [ {
+      "utf8": "Well, Dr. King\nwasn't the only man in America"
+    } ]
+  }, {
+    "tStartMs": 941423,
+    "dDurationMs": 2400,
+    "segs": [ {
+      "utf8": "who was a great orator."
+    } ]
+  }, {
+    "tStartMs": 943857,
+    "dDurationMs": 2166,
+    "segs": [ {
+      "utf8": "He wasn't the only man\nin America who suffered"
+    } ]
+  }, {
+    "tStartMs": 946057,
+    "dDurationMs": 1766,
+    "segs": [ {
+      "utf8": "in a pre-civil rights America."
+    } ]
+  }, {
+    "tStartMs": 947857,
+    "dDurationMs": 2366,
+    "segs": [ {
+      "utf8": "In fact, some of his ideas were bad."
+    } ]
+  }, {
+    "tStartMs": 950257,
+    "dDurationMs": 1033,
+    "segs": [ {
+      "utf8": "But he had a gift."
+    } ]
+  }, {
+    "tStartMs": 952223,
+    "dDurationMs": 3267,
+    "segs": [ {
+      "utf8": "He didn't go around telling people\nwhat needed to change in America."
+    } ]
+  }, {
+    "tStartMs": 955523,
+    "dDurationMs": 2300,
+    "segs": [ {
+      "utf8": "He went around\nand told people what he believed."
+    } ]
+  }, {
+    "tStartMs": 957857,
+    "dDurationMs": 3366,
+    "segs": [ {
+      "utf8": "\"I believe, I believe, I believe,\"\nhe told people."
+    } ]
+  }, {
+    "tStartMs": 961257,
+    "dDurationMs": 2533,
+    "segs": [ {
+      "utf8": "And people who believed what he believed"
+    } ]
+  }, {
+    "tStartMs": 963823,
+    "dDurationMs": 3400,
+    "segs": [ {
+      "utf8": "took his cause, and they made it\ntheir own, and they told people."
+    } ]
+  }, {
+    "tStartMs": 967257,
+    "dDurationMs": 2033,
+    "segs": [ {
+      "utf8": "And some of those people\ncreated structures"
+    } ]
+  }, {
+    "tStartMs": 969323,
+    "dDurationMs": 2500,
+    "segs": [ {
+      "utf8": "to get the word out to even more people."
+    } ]
+  }, {
+    "tStartMs": 971857,
+    "dDurationMs": 3366,
+    "segs": [ {
+      "utf8": "And lo and behold,\n250,000 people showed up"
+    } ]
+  }, {
+    "tStartMs": 975257,
+    "dDurationMs": 4233,
+    "segs": [ {
+      "utf8": "on the right day at the right time\nto hear him speak."
+    } ]
+  }, {
+    "tStartMs": 980257,
+    "dDurationMs": 2500,
+    "segs": [ {
+      "utf8": "How many of them showed up for him?"
+    } ]
+  }, {
+    "tStartMs": 984590,
+    "dDurationMs": 1033,
+    "segs": [ {
+      "utf8": "Zero."
+    } ]
+  }, {
+    "tStartMs": 986257,
+    "dDurationMs": 1966,
+    "segs": [ {
+      "utf8": "They showed up for themselves."
+    } ]
+  }, {
+    "tStartMs": 988257,
+    "dDurationMs": 2700,
+    "segs": [ {
+      "utf8": "It's what they believed about America"
+    } ]
+  }, {
+    "tStartMs": 990990,
+    "dDurationMs": 2233,
+    "segs": [ {
+      "utf8": "that got them to travel\nin a bus for eight hours"
+    } ]
+  }, {
+    "tStartMs": 993257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "to stand in the sun in Washington\nin the middle of August."
+    } ]
+  }, {
+    "tStartMs": 996257,
+    "dDurationMs": 3033,
+    "segs": [ {
+      "utf8": "It's what they believed,\nand it wasn't about black versus white:"
+    } ]
+  }, {
+    "tStartMs": 999323,
+    "dDurationMs": 2334,
+    "segs": [ {
+      "utf8": "25% of the audience was white."
+    } ]
+  }, {
+    "tStartMs": 1002657,
+    "dDurationMs": 3600,
+    "segs": [ {
+      "utf8": "Dr. King believed that there are\ntwo types of laws in this world:"
+    } ]
+  }, {
+    "tStartMs": 1006290,
+    "dDurationMs": 3933,
+    "segs": [ {
+      "utf8": "those that are made by a higher authority\nand those that are made by men."
+    } ]
+  }, {
+    "tStartMs": 1010257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "And not until all the laws\nthat are made by men"
+    } ]
+  }, {
+    "tStartMs": 1013257,
+    "dDurationMs": 2800,
+    "segs": [ {
+      "utf8": "are consistent with the laws\nmade by the higher authority"
+    } ]
+  }, {
+    "tStartMs": 1016090,
+    "dDurationMs": 1933,
+    "segs": [ {
+      "utf8": "will we live in a just world."
+    } ]
+  }, {
+    "tStartMs": 1018023,
+    "dDurationMs": 2434,
+    "segs": [ {
+      "utf8": "It just so happened\nthat the Civil Rights Movement"
+    } ]
+  }, {
+    "tStartMs": 1020457,
+    "dDurationMs": 3766,
+    "segs": [ {
+      "utf8": "was the perfect thing to help him\nbring his cause to life."
+    } ]
+  }, {
+    "tStartMs": 1024257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "We followed, not for him,\nbut for ourselves."
+    } ]
+  }, {
+    "tStartMs": 1027257,
+    "dDurationMs": 2300,
+    "segs": [ {
+      "utf8": "By the way, he gave\nthe \"I have a dream\" speech,"
+    } ]
+  }, {
+    "tStartMs": 1029590,
+    "dDurationMs": 1967,
+    "segs": [ {
+      "utf8": "not the \"I have a plan\" speech."
+    } ]
+  }, {
+    "tStartMs": 1031590,
+    "dDurationMs": 3633,
+    "segs": [ {
+      "utf8": "(Laughter)"
+    } ]
+  }, {
+    "tStartMs": 1035257,
+    "dDurationMs": 3200,
+    "segs": [ {
+      "utf8": "Listen to politicians now,\nwith their comprehensive 12-point plans."
+    } ]
+  }, {
+    "tStartMs": 1038457,
+    "dDurationMs": 1766,
+    "segs": [ {
+      "utf8": "They're not inspiring anybody."
+    } ]
+  }, {
+    "tStartMs": 1040257,
+    "dDurationMs": 2966,
+    "segs": [ {
+      "utf8": "Because there are leaders\nand there are those who lead."
+    } ]
+  }, {
+    "tStartMs": 1043257,
+    "dDurationMs": 3966,
+    "segs": [ {
+      "utf8": "Leaders hold a position\nof power or authority,"
+    } ]
+  }, {
+    "tStartMs": 1047257,
+    "dDurationMs": 3000,
+    "segs": [ {
+      "utf8": "but those who lead inspire us."
+    } ]
+  }, {
+    "tStartMs": 1051790,
+    "dDurationMs": 2367,
+    "segs": [ {
+      "utf8": "Whether they're individuals\nor organizations,"
+    } ]
+  }, {
+    "tStartMs": 1054157,
+    "dDurationMs": 3066,
+    "segs": [ {
+      "utf8": "we follow those who lead,\nnot because we have to,"
+    } ]
+  }, {
+    "tStartMs": 1057257,
+    "dDurationMs": 1833,
+    "segs": [ {
+      "utf8": "but because we want to."
+    } ]
+  }, {
+    "tStartMs": 1060057,
+    "dDurationMs": 4433,
+    "segs": [ {
+      "utf8": "We follow those who lead, not for them,\nbut for ourselves."
+    } ]
+  }, {
+    "tStartMs": 1065757,
+    "dDurationMs": 2466,
+    "segs": [ {
+      "utf8": "And it's those who start with \"why\""
+    } ]
+  }, {
+    "tStartMs": 1068257,
+    "dDurationMs": 4733,
+    "segs": [ {
+      "utf8": "that have the ability\nto inspire those around them"
+    } ]
+  }, {
+    "tStartMs": 1073023,
+    "dDurationMs": 2200,
+    "segs": [ {
+      "utf8": "or find others who inspire them."
+    } ]
+  }, {
+    "tStartMs": 1076457,
+    "dDurationMs": 1166,
+    "segs": [ {
+      "utf8": "Thank you very much."
+    } ]
+  }, {
+    "tStartMs": 1077657,
+    "dDurationMs": 1600,
+    "segs": [ {
+      "utf8": "(Applause)"
+    } ]
+  } ]
+}
