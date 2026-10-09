@@ -116,7 +116,6 @@ describe("Shadowing & Dictation Dual Branch Routing & Skeleton Parity Suite", ()
         return "/study/shadowing/audio";
       }
       const isVideo =
-        rawId === "122" ||
         rawId.startsWith("vid_") ||
         rawId.startsWith("yt_") ||
         rawId.startsWith("video_") ||
@@ -133,11 +132,11 @@ describe("Shadowing & Dictation Dual Branch Routing & Skeleton Parity Suite", ()
     expect(resolveShadowingRedirect(null)).toBe("/study/shadowing/audio");
     expect(resolveShadowingRedirect("")).toBe("/study/shadowing/audio");
     expect(resolveShadowingRedirect("1")).toBe("/study/shadowing/audio?id=1");
+    expect(resolveShadowingRedirect("122")).toBe("/study/shadowing/audio?id=122");
     expect(resolveShadowingRedirect("listen_001")).toBe("/study/shadowing/audio?id=listen_001");
     expect(resolveShadowingRedirect("listen_toeic_q3_040")).toBe("/study/shadowing/audio?id=listen_toeic_q3_040");
 
     // Video lessons
-    expect(resolveShadowingRedirect("122")).toBe("/study/shadowing/video?id=122");
     expect(resolveShadowingRedirect("vid_ted_bilingual_brain")).toBe("/study/shadowing/video?id=vid_ted_bilingual_brain");
     expect(resolveShadowingRedirect("vid_science_space")).toBe("/study/shadowing/video?id=vid_science_space");
     expect(resolveShadowingRedirect("yt_video_01")).toBe("/study/shadowing/video?id=yt_video_01");

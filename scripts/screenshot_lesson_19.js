@@ -31,7 +31,13 @@ const CHROME_PATH = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
       { timeout: 45000, polling: 500 }
     );
 
-    await new Promise(r => setTimeout(r, 1500));
+    await new Promise(r => setTimeout(r, 2500));
+
+    // Remove any transient toast notification element if present so screenshot is pristine
+    await page.evaluate(() => {
+      const toasts = document.querySelectorAll('[role="status"], [role="alert"], [class*="toast"], [class*="Toast"]');
+      toasts.forEach(t => t.remove());
+    });
 
     await page.screenshot({
       path: 'public/dictation_lesson_19_deep_audit.png',

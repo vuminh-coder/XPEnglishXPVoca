@@ -10,6 +10,15 @@ export interface VideoQuizQuestion {
   explanation: string;
   referenceSegmentIndex?: number;
   targetedConcept?: string;
+  // Bilingual extensions
+  questionEn?: string;
+  questionVi?: string;
+  optionsEn?: string[];
+  optionsVi?: string[];
+  explanationEn?: string;
+  explanationVi?: string;
+  targetedConceptEn?: string;
+  targetedConceptVi?: string;
 }
 
 export interface VideoQuizData {
@@ -23,7 +32,7 @@ export interface VideoQuizData {
 
 /**
  * Generates deterministic, high-quality contextual comprehension questions
- * when Gemini API key is unavailable or quota is exceeded.
+ * with full bilingual (English & Vietnamese) support.
  */
 export function generateContextualFallbackQuiz(
   lessonId: string,
@@ -32,65 +41,242 @@ export function generateContextualFallbackQuiz(
 ): VideoQuizData {
   const questions: VideoQuizQuestion[] = [];
 
+  // Tailored high-yield questions for Julian Treasure's TED talk
+  if (lessonId === "vid_julian_treasure_speak" || lessonId.includes("julian_treasure")) {
+    return {
+      lessonId,
+      lessonTitle,
+      totalQuestions: 3,
+      xpReward: 25,
+      questions: [
+        {
+          id: `q_${lessonId}_1`,
+          question: "According to Julian Treasure, what metaphor does he use to describe the human voice?",
+          questionEn: "According to Julian Treasure, what metaphor does he use to describe the human voice?",
+          questionVi: "Theo Julian Treasure, ông sử dụng phép ẩn dụ nào để miêu tả giọng nói của con người?",
+          options: [
+            "The instrument that we all play",
+            "A digital signal transmitter",
+            "A fragile biological echo",
+            "An uncontrollable emotional reaction",
+          ],
+          optionsEn: [
+            "The instrument that we all play",
+            "A digital signal transmitter",
+            "A fragile biological echo",
+            "An uncontrollable emotional reaction",
+          ],
+          optionsVi: [
+            "Một loại nhạc cụ mà tất cả chúng ta đều chơi",
+            "Một bộ phát tín hiệu kỹ thuật số",
+            "Một tiếng vọng sinh học mong manh",
+            "Một phản ứng cảm xúc không thể kiểm soát",
+          ],
+          correctAnswer: 0,
+          explanation: 'Julian Treasure opens with: "The human voice: It\'s the instrument we all play. It\'s the most powerful sound in the world, probably."',
+          explanationEn: 'Julian Treasure opens with: "The human voice: It\'s the instrument we all play. It\'s the most powerful sound in the world, probably."',
+          explanationVi: 'Julian Treasure mở đầu: "The human voice: It\'s the instrument we all play. It\'s the most powerful sound in the world, probably." (Giọng nói con người: Đó là thứ nhạc cụ mà tất cả chúng ta đều chơi).',
+          referenceSegmentIndex: 0,
+          targetedConcept: "Ý chính toàn bài (Main Idea)",
+          targetedConceptEn: "Main Idea & Metaphor",
+          targetedConceptVi: "Ý chính toàn bài & Ẩn dụ",
+        },
+        {
+          id: `q_${lessonId}_2`,
+          question: "What does the speaker identify as the first of the seven deadly sins of speaking?",
+          questionEn: "What does the speaker identify as the first of the seven deadly sins of speaking?",
+          questionVi: "Diễn giả xác định điều gì là thói xấu đầu tiên trong 7 thói xấu chết người khi giao tiếp?",
+          options: [
+            "Dogmatism and refusing new ideas",
+            "Gossip — speaking ill of someone not present",
+            "Constant exaggeration and hyperbole",
+            "Complaining about unfavorable weather",
+          ],
+          optionsEn: [
+            "Dogmatism and refusing new ideas",
+            "Gossip — speaking ill of someone not present",
+            "Constant exaggeration and hyperbole",
+            "Complaining about unfavorable weather",
+          ],
+          optionsVi: [
+            "Tính giáo điều và từ chối lắng nghe",
+            "Ngồi lê đôi mách (Gossip) — nói xấu người vắng mặt",
+            "Liên tục nói quá và phóng đại sự thật",
+            "Phàn nàn về thời tiết bất lợi",
+          ],
+          correctAnswer: 1,
+          explanation: 'In segment 7, he explicitly points out: "First, gossip. Speaking ill of somebody who\'s not present. Not a nice habit..."',
+          explanationEn: 'In segment 7, he explicitly points out: "First, gossip. Speaking ill of somebody who\'s not present. Not a nice habit..."',
+          explanationVi: 'Trong câu số 7, diễn giả chỉ rõ: "First, gossip. Speaking ill of somebody who\'s not present." (Thứ nhất, ngồi lê đôi mách. Nói xấu người không có mặt).',
+          referenceSegmentIndex: 7,
+          targetedConcept: "Thông tin chi tiết (Detailed Fact)",
+          targetedConceptEn: "Detailed Fact",
+          targetedConceptVi: "Thông tin chi tiết",
+        },
+        {
+          id: `q_${lessonId}_3`,
+          question: "Why is 'judging' considered a major barrier to communication according to Julian?",
+          questionEn: "Why is 'judging' considered a major barrier to communication according to Julian?",
+          questionVi: "Tại sao 'sự phán xét' (judging) lại bị xem là rào cản lớn trong giao tiếp theo chia sẻ của Julian?",
+          options: [
+            "It causes people to forget complex English vocabulary",
+            "It forces the speaker to speak at an unnatural rhythm",
+            "Listeners find it hard to listen if they feel judged and found wanting",
+            "It transforms casual conversations into rigid formal lectures",
+          ],
+          optionsEn: [
+            "It causes people to forget complex English vocabulary",
+            "It forces the speaker to speak at an unnatural rhythm",
+            "Listeners find it hard to listen if they feel judged and found wanting",
+            "It transforms casual conversations into rigid formal lectures",
+          ],
+          optionsVi: [
+            "Nó khiến người nghe quên mất các từ vựng phức tạp",
+            "Nó ép buộc người nói phải điều chỉnh nhịp điệu bất thường",
+            "Người nghe khó có thể tiếp thu nếu cảm thấy mình đang bị phán xét và chê bai",
+            "Nó biến các cuộc trò chuyện thường ngày thành những bài giảng cứng nhắc",
+          ],
+          correctAnswer: 2,
+          explanation: 'Julian states: "it\'s very hard to listen to somebody if you know that you\'re being judged and found wanting at the same time."',
+          explanationEn: 'Julian states: "it\'s very hard to listen to somebody if you know that you\'re being judged and found wanting at the same time."',
+          explanationVi: 'Julian giải thích: "Thật khó để lắng nghe một ai đó nếu bạn biết rằng mình đang bị soi xét và chê bai cùng một lúc" (judged and found wanting at the same time).',
+          referenceSegmentIndex: 9,
+          targetedConcept: "Ý nghĩa suy luận & Kết luận (Inference & Conclusion)",
+          targetedConceptEn: "Inference & Cause-Effect",
+          targetedConceptVi: "Ý nghĩa suy luận & Nguyên nhân",
+        },
+      ],
+      generatedBy: "CONTEXTUAL_FALLBACK",
+    };
+  }
+
+  // General fallback for all lessons
   // Question 1: Main Idea / Central Theme
   if (segments.length > 0) {
     const firstSeg = segments[0];
-    const properNoun = firstSeg.properNouns?.[0] || lessonTitle.split(":")[0];
+
+    const qEn = `According to the opening part of "${lessonTitle}", what core message or theme is introduced?`;
+    const qVi = `Theo nội dung mở đầu bài học "${lessonTitle}", thông điệp hoặc chủ đề trọng tâm được đề cập là gì?`;
+
+    const optsEn = [
+      firstSeg.text || "An overview of the core concepts and central ideas of the talk.",
+      "An announcement regarding transit schedules and project completion deadlines.",
+      "Step-by-step guidance on setting up and calibrating hardware equipment.",
+      "A formal complaint about technical difficulties encountered in the workplace.",
+    ];
+
+    const optsVi = [
+      firstSeg.translationVi || "Khái quát nội dung và ý tưởng cốt lõi của bài chia sẻ.",
+      "Thông báo lịch trình di chuyển và thời gian hoàn thành dự án.",
+      "Hướng dẫn chi tiết các bước cài đặt thiết bị phần cứng.",
+      "Lời phàn nàn về các vấn đề kỹ thuật phát sinh trong công việc.",
+    ];
+
+    const expEn = `Based on the opening segment: "${firstSeg.text}", the speaker establishes the central topic.`;
+    const expVi = `Dựa vào đoạn mở đầu: "${firstSeg.text}" (${firstSeg.translationVi}), người nói định hình trọng tâm chính của bài.`;
 
     questions.push({
       id: `q_${lessonId}_1`,
-      question: `Theo nội dung mở đầu bài học "${lessonTitle}", thông điệp hoặc chủ đề trọng tâm được đề cập là gì?`,
-      options: [
-        firstSeg.translationVi || "Khái quát nội dung và ý tưởng cốt lõi của bài chia sẻ.",
-        "Thông báo lịch trình di chuyển và thời gian hoàn thành dự án.",
-        "Hướng dẫn chi tiết các bước cài đặt thiết bị phần cứng.",
-        "Lời phàn nàn về các vấn đề kỹ thuật phát sinh trong công việc.",
-      ],
+      question: qEn,
+      questionEn: qEn,
+      questionVi: qVi,
+      options: optsEn,
+      optionsEn: optsEn,
+      optionsVi: optsVi,
       correctAnswer: 0,
-      explanation: `Dựa vào đoạn mở đầu: "${firstSeg.text}" (${firstSeg.translationVi}), người nói định hình trọng tâm chính của bài.`,
+      explanation: expEn,
+      explanationEn: expEn,
+      explanationVi: expVi,
       referenceSegmentIndex: 0,
       targetedConcept: "Ý chính toàn bài (Main Idea)",
+      targetedConceptEn: "Main Idea",
+      targetedConceptVi: "Ý chính toàn bài",
     });
   }
 
-  // Question 2: Detail Question / Proper Noun / Keyword focus
+  // Question 2: Detail Question / Keywords focus
   if (segments.length >= 2) {
     const targetSeg = segments[Math.min(1, segments.length - 1)];
-    const kw = targetSeg.keywords?.[0] || "quan trọng";
+
+    const qEn = "In the following segment, which key detail does the speaker emphasize?";
+    const qVi = "Trong đoạn tiếp theo, diễn giả nhấn mạnh điều gì đáng chú ý?";
+
+    const optsEn = [
+      "All ongoing plans must be postponed until an official consensus is reached.",
+      targetSeg.text || "Key facts and crucial observations highlighting how we communicate.",
+      "One should only trust conventions that have been proven historically.",
+      "Paying attention to nuance and tone in daily interaction is unnecessary.",
+    ];
+
+    const optsVi = [
+      "Cần tạm dừng mọi kế hoạch để chờ quyết định chính thức.",
+      targetSeg.translationVi || "Các số liệu và thông tin thực tế được làm sáng tỏ.",
+      "Chỉ nên tin tưởng vào những điều đã được chứng minh trong quá khứ.",
+      "Không cần thiết phải chú ý đến các chi tiết nhỏ trong giao tiếp.",
+    ];
+
+    const expEn = `This detail is directly referenced from the subtitle: "${targetSeg.text}".`;
+    const expVi = `Chi tiết được trích dẫn trực tiếp từ phụ đề: "${targetSeg.text}".`;
 
     questions.push({
       id: `q_${lessonId}_2`,
-      question: `Trong đoạn thứ hai, diễn giả nhấn mạnh điều gì đáng chú ý?`,
-      options: [
-        "Cần tạm dừng mọi kế hoạch để chờ quyết định chính thức.",
-        targetSeg.translationVi || "Các số liệu và thông tin thực tế được làm sáng tỏ.",
-        "Chỉ nên tin tưởng vào những điều đã được chứng minh trong quá khứ.",
-        "Không cần thiết phải chú ý đến các chi tiết nhỏ trong giao tiếp.",
-      ],
+      question: qEn,
+      questionEn: qEn,
+      questionVi: qVi,
+      options: optsEn,
+      optionsEn: optsEn,
+      optionsVi: optsVi,
       correctAnswer: 1,
-      explanation: `Chi tiết được trích dẫn trực tiếp từ phụ đề: "${targetSeg.text}".`,
+      explanation: expEn,
+      explanationEn: expEn,
+      explanationVi: expVi,
       referenceSegmentIndex: targetSeg.orderIndex,
       targetedConcept: "Thông tin chi tiết (Detailed Fact)",
+      targetedConceptEn: "Detailed Fact",
+      targetedConceptVi: "Thông tin chi tiết",
     });
   }
 
-  // Question 3: Vocabulary in Context / Tone / Conclusion
+  // Question 3: Vocabulary in Context / Conclusion
   if (segments.length >= 3) {
     const lastSeg = segments[segments.length - 1];
 
+    const qEn = "What concluding takeaway or practical advice is highlighted toward the end?";
+    const qVi = "Lời kết luận hoặc lời khuyên cuối cùng được đưa ra trong bài học là gì?";
+
+    const optsEn = [
+      "Giving up immediately whenever encountering initial career obstacles.",
+      "Remaining overly cautious and strictly resisting any unforeseen changes.",
+      lastSeg.text || "Encouraging mindful awareness and constructive communication habits.",
+      "Delegating complete responsibility and personal decisions to others.",
+    ];
+
+    const optsVi = [
+      "Hãy từ bỏ nếu gặp phải trở ngại đầu tiên trong sự nghiệp.",
+      "Cần thận trọng và tránh mọi sự thay đổi không báo trước.",
+      lastSeg.translationVi || "Khích lệ sự kiên trì, đam mê và nỗ lực bền bỉ để đạt được mục tiêu.",
+      "Nên chuyển giao toàn bộ trách nhiệm cho người khác.",
+    ];
+
+    const expEn = `The closing passage emphasizes: "${lastSeg.text}".`;
+    const expVi = `Đoạn kết thúc nhấn mạnh: "${lastSeg.text}" - ${lastSeg.translationVi}.`;
+
     questions.push({
       id: `q_${lessonId}_3`,
-      question: `Lời kết luận hoặc lời khuyên cuối cùng được đưa ra trong bài học là gì?`,
-      options: [
-        "Hãy từ bỏ nếu gặp phải trở ngại đầu tiên trong sự nghiệp.",
-        "Cần thận trọng và tránh mọi sự thay đổi không báo trước.",
-        lastSeg.translationVi || "Khích lệ sự kiên trì, đam mê và nỗ lực bền bỉ để đạt được mục tiêu.",
-        "Nên chuyển giao toàn bộ trách nhiệm cho người khác.",
-      ],
+      question: qEn,
+      questionEn: qEn,
+      questionVi: qVi,
+      options: optsEn,
+      optionsEn: optsEn,
+      optionsVi: optsVi,
       correctAnswer: 2,
-      explanation: `Đoạn kết thúc nhấn mạnh: "${lastSeg.text}" - ${lastSeg.translationVi}.`,
+      explanation: expEn,
+      explanationEn: expEn,
+      explanationVi: expVi,
       referenceSegmentIndex: lastSeg.orderIndex,
       targetedConcept: "Ý nghĩa suy luận & Kết luận (Inference & Conclusion)",
+      targetedConceptEn: "Inference & Conclusion",
+      targetedConceptVi: "Ý nghĩa suy luận & Kết luận",
     });
   }
 
@@ -109,7 +295,7 @@ export function generateContextualFallbackQuiz(
  * Uses Gemini AI with smart memory cache and fallback to deterministic templates.
  */
 export async function getVideoLessonQuiz(lessonId: string): Promise<VideoQuizData> {
-  const cacheKey = `video_quiz:${lessonId}`;
+  const cacheKey = `video_quiz_v2:${lessonId}`;
   const cached = memoryCache.get<VideoQuizData>(cacheKey);
   if (cached) {
     return cached;
@@ -169,33 +355,37 @@ export async function getVideoLessonQuiz(lessonId: string): Promise<VideoQuizDat
     return fallbackQuiz;
   }
 
-  // 2. Try generating via Gemini Flash
+  // 2. Try generating via Gemini Flash with bilingual output
   try {
     const transcriptText = lesson.segments
-      .map((s: any) => `[Câu ${s.orderIndex + 1}]: ${s.text} (Nghĩa: ${s.translationVi})`)
+      .map((s: any) => `[Segment ${s.orderIndex + 1}]: ${s.text} (Vietnamese: ${s.translationVi})`)
       .join("\n");
 
-    const systemPrompt = `Bạn là một Chuyên gia Khảo thí Tiếng Anh chuẩn CEFR & TOEIC/IELTS của XP English.
-Nhiệm vụ của bạn là đọc kịch bản bài học video dưới đây và tạo 3-4 câu hỏi TRẮC NGHIỆM ĐỌC HIỂU NGỮ CẢNH (Comprehension Questions) bằng Tiếng Việt.
-Mỗi câu hỏi phải có:
-1. question: Câu hỏi rõ ràng, khách quan.
-2. options: Mảng 4 lựa chọn (chuỗi ngắn gọn, không đánh dấu A/B/C/D).
-3. correctAnswer: Chỉ số đáp án đúng (0, 1, 2, hoặc 3).
-4. explanation: Lời giải thích chi tiết vì sao đáp án đó đúng, trích dẫn câu tiếng Anh tương ứng.
-5. referenceSegmentIndex: Số thứ tự câu (0-indexed) trong kịch bản.
-6. targetedConcept: Kỹ năng kiểm tra (Ý chính, Chi tiết, Từ vựng theo ngữ cảnh, Suy luận).
+    const systemPrompt = `You are an expert CEFR & TOEIC/IELTS test developer at XP English.
+Your task is to analyze the video transcript below and create 3-4 BILINGUAL (English & Vietnamese) reading/listening comprehension questions.
+For every question, provide:
+1. questionEn (English) and questionVi (Vietnamese): Clear, objective question stem.
+2. optionsEn (English) and optionsVi (Vietnamese): Array of 4 answer options (no A/B/C/D prefixes).
+3. correctAnswer: The index of the correct answer (0, 1, 2, or 3) — identical for both languages.
+4. explanationEn (English) and explanationVi (Vietnamese): Detailed explanation citing the specific English transcript segment.
+5. referenceSegmentIndex: 0-based sentence index in the transcript.
+6. targetedConceptEn & targetedConceptVi: Tested skill (Main Idea / Ý chính, Detailed Fact / Thông tin chi tiết, Vocabulary in Context / Từ vựng ngữ cảnh, Inference & Conclusion / Suy luận).
 
-Định dạng đầu ra BẮT BUỘC là JSON hợp lệ:
+Strict JSON format:
 {
   "questions": [
     {
       "id": "q1",
-      "question": "...",
-      "options": ["...", "...", "...", "..."],
+      "questionEn": "...",
+      "questionVi": "...",
+      "optionsEn": ["...", "...", "...", "..."],
+      "optionsVi": ["...", "...", "...", "..."],
       "correctAnswer": 0,
-      "explanation": "...",
+      "explanationEn": "...",
+      "explanationVi": "...",
       "referenceSegmentIndex": 0,
-      "targetedConcept": "..."
+      "targetedConceptEn": "...",
+      "targetedConceptVi": "..."
     }
   ]
 }`;
@@ -209,7 +399,7 @@ Mỗi câu hỏi phải có:
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              contents: [{ role: "user", parts: [{ text: `Tiêu đề bài học: ${lesson.title}\n\nKịch bản transcript:\n${transcriptText}` }] }],
+              contents: [{ role: "user", parts: [{ text: `Lesson title: ${lesson.title}\n\nTranscript:\n${transcriptText}` }] }],
               systemInstruction: { parts: [{ text: systemPrompt }] },
               generationConfig: {
                 temperature: 0.3,
@@ -231,15 +421,34 @@ Mỗi câu hỏi phải có:
                 lessonTitle: lesson.title,
                 totalQuestions: parsed.questions.length,
                 xpReward: 25,
-                questions: parsed.questions.map((q: any, idx: number) => ({
-                  id: q.id || `q_${lesson.id}_${idx + 1}`,
-                  question: q.question,
-                  options: q.options || [],
-                  correctAnswer: typeof q.correctAnswer === "number" ? q.correctAnswer : 0,
-                  explanation: q.explanation || "Giải thích dựa trên nội dung video.",
-                  referenceSegmentIndex: q.referenceSegmentIndex,
-                  targetedConcept: q.targetedConcept || "Đọc hiểu",
-                })),
+                questions: parsed.questions.map((q: any, idx: number) => {
+                  const qEn = q.questionEn || q.question || "Comprehension question";
+                  const qVi = q.questionVi || q.question || "Câu hỏi đọc hiểu";
+                  const optsEn = Array.isArray(q.optionsEn) && q.optionsEn.length === 4 ? q.optionsEn : (q.options || []);
+                  const optsVi = Array.isArray(q.optionsVi) && q.optionsVi.length === 4 ? q.optionsVi : (q.options || []);
+                  const expEn = q.explanationEn || q.explanation || "Explanation based on video transcript.";
+                  const expVi = q.explanationVi || q.explanation || "Giải thích dựa trên nội dung video.";
+                  const concEn = q.targetedConceptEn || "Reading Comprehension";
+                  const concVi = q.targetedConceptVi || "Đọc hiểu";
+
+                  return {
+                    id: q.id || `q_${lesson.id}_${idx + 1}`,
+                    question: qEn,
+                    questionEn: qEn,
+                    questionVi: qVi,
+                    options: optsEn,
+                    optionsEn: optsEn,
+                    optionsVi: optsVi,
+                    correctAnswer: typeof q.correctAnswer === "number" ? q.correctAnswer : 0,
+                    explanation: expEn,
+                    explanationEn: expEn,
+                    explanationVi: expVi,
+                    referenceSegmentIndex: q.referenceSegmentIndex,
+                    targetedConcept: `${concVi} (${concEn})`,
+                    targetedConceptEn: concEn,
+                    targetedConceptVi: concVi,
+                  };
+                }),
                 generatedBy: "AI_GEMINI",
               };
 

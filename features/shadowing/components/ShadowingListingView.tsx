@@ -21,6 +21,7 @@ import {
 import { LessonCoverImage } from "@/shared/components/feedback/LessonCoverImage";
 import { formatLevelBadge } from "@/features/listening/components/InteractiveTranscriptSidebar";
 import { VideoCatalogBrowseView } from "@/features/listening/components/VideoCatalogBrowseView";
+import { StudyMediaHubTabs } from "@/features/listening/components/StudyMediaHubTabs";
 import {
   LessonCardShimmer,
   ShadowingListingHeroStatsSkeleton,
@@ -299,54 +300,13 @@ export function ShadowingListingView({
       {/* 2. MAIN LISTING CONTENT CANVAS WITH STAGGER ENTRANCE */}
       <PageEntranceWrapper className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-5 sm:py-6 space-y-6 sm:space-y-7 pb-20">
         {/* VIEW MODE PILL TOGGLE (Standard Audio vs Curated Video Hub) */}
-        <div className="flex items-center justify-between gap-3 border-b border-slate-200/80 dark:border-slate-800 pb-3 flex-wrap">
-          <div className="flex items-center gap-2 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-2xl border border-slate-200/90 dark:border-slate-700/60 shadow-2xs">
-            <Link
-              href="/study/shadowing/audio"
-              onClick={() => setMainHubMode("standard")}
-              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer relative select-none ${
-                effectiveHubMode === "audio"
-                  ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-xs font-extrabold"
-                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-              }`}
-            >
-              {effectiveHubMode === "audio" && (
-                <motion.div
-                  layoutId="shadowingListingModeIndicator"
-                  className="absolute inset-0 rounded-xl bg-white dark:bg-slate-900 shadow-xs"
-                  transition={{ type: "spring", stiffness: 450, damping: 32 }}
-                />
-              )}
-              <Headphones className="w-4 h-4 text-[#0059bb] dark:text-sky-400 relative z-10" />
-              <span className="relative z-10">Bài Nghe Tiêu Chuẩn</span>
-            </Link>
-
-            <Link
-              href="/study/shadowing/video"
-              onClick={() => setMainHubMode("video_catalog")}
-              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer relative select-none ${
-                effectiveHubMode === "video"
-                  ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-xs font-extrabold"
-                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-              }`}
-            >
-              {effectiveHubMode === "video" && (
-                <motion.div
-                  layoutId="shadowingListingModeIndicator"
-                  className="absolute inset-0 rounded-xl bg-white dark:bg-slate-900 shadow-xs"
-                  transition={{ type: "spring", stiffness: 450, damping: 32 }}
-                />
-              )}
-              <Video className="w-4 h-4 text-[#0059bb] dark:text-sky-400 relative z-10" />
-              <span className="relative z-10">Kho Video Tuyển Chọn</span>
-            </Link>
-          </div>
-
-          <div className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1.5 font-medium">
-            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-            <span>Đồng bộ lộ trình CEFR & phân tích phụ đề trực quan</span>
-          </div>
-        </div>
+        <StudyMediaHubTabs
+          branch="shadowing"
+          activeMode={effectiveHubMode}
+          onModeChange={(mode) =>
+            setMainHubMode(mode === "video" ? "video_catalog" : "standard")
+          }
+        />
 
         {effectiveHubMode === "video" ? (
           <VideoCatalogBrowseView

@@ -36,6 +36,7 @@ export interface WordToken {
   dots: string;
   isProperNoun: boolean;
   status: "masked" | "first-letter" | "revealed" | "matched";
+  hintLength?: number;
 }
 
 interface DictationWorkspaceProps {
@@ -75,7 +76,7 @@ const COMMON_PROPER_NOUNS = new Set([
  * Extracts proper nouns from an English sentence
  */
 export function extractProperNouns(sentence: string, customList?: string[]): string[] {
-  if (Array.isArray(customList)) return customList;
+  if (Array.isArray(customList) && customList.length > 0) return customList;
   if (!sentence) return [];
 
   const words = sentence.trim().split(/\s+/);
@@ -248,13 +249,18 @@ export function DictationWorkspace({
   const tokenContainerRef = useRef<HTMLDivElement>(null);
   const tokenItemRefs = useRef<(HTMLDivElement | null)[]>([]);
 
+  const lastDraftLoadedKeyRef = useRef<string>("");
   // Hydrate sentence draft from sessionStorage
   /* eslint-disable react-hooks/set-state-in-effect -- Hydrating draft from external sessionStorage */
   useEffect(() => {
     if (lessonId && sentenceIndex !== undefined) {
-      const draft = loadSentenceDraft(lessonId, sentenceIndex);
-      if (draft) {
-        setInputValue(draft);
+      const draftKey = `${lessonId}_${sentenceIndex}`;
+      if (lastDraftLoadedKeyRef.current !== draftKey) {
+        lastDraftLoadedKeyRef.current = draftKey;
+        const draft = loadSentenceDraft(lessonId, sentenceIndex);
+        if (draft) {
+          setInputValue(draft);
+        }
       }
     }
   }, [lessonId, sentenceIndex]);
@@ -296,10 +302,13 @@ export function DictationWorkspace({
     }
   }, [fontSizeLevel]);
 
+  // Stable key for custom proper nouns to prevent referential re-computation
+  const customProperNounsKey = customProperNouns && customProperNouns.length > 0 ? customProperNouns.join("|") : "";
+
   // Extract proper nouns
   const properNouns = useMemo(
-    () => extractProperNouns(sentenceText, customProperNouns),
-    [sentenceText, customProperNouns]
+    () => extractProperNouns(sentenceText, customProperNouns && customProperNouns.length > 0 ? customProperNouns : undefined),
+    [sentenceText, customProperNounsKey] // eslint-disable-line react-hooks/exhaustive-deps
   );
 
   // Tokenize words
@@ -328,14 +337,23 @@ export function DictationWorkspace({
     }
   }, [tokens, isCollapsed]);
 
-  // Reset tokens whenever sentenceText changes
-  /* eslint-disable react-hooks/set-state-in-effect -- Resetting workspace state on sentence change */
+  // Track last rendered sentence key to prevent clearing input or resetting tokens on parent re-renders
+  const lastSentenceKeyRef = useRef<string>(`${lessonId ?? ""}_${sentenceIndex ?? ""}_${sentenceText}`);
+
+  // Reset tokens ONLY when the active sentence genuinely changes
+  /* eslint-disable react-hooks/set-state-in-effect -- Resetting workspace state on genuine sentence change */
   useEffect(() => {
-    setTokens(tokenizeSentence(sentenceText, properNouns));
-    setInputValue("");
-    setInputStatus("idle");
-    setIsCompleted(false);
-  }, [sentenceText, properNouns]);
+    const currentSentenceKey = `${lessonId ?? ""}_${sentenceIndex ?? ""}_${sentenceText}`;
+    if (lastSentenceKeyRef.current !== currentSentenceKey) {
+      lastSentenceKeyRef.current = currentSentenceKey;
+      setTokens(tokenizeSentence(sentenceText, properNouns));
+      setInputValue("");
+      setInputStatus("idle");
+      setIsCompleted(false);
+      setNearMissHint(null);
+      setEquivalenceNote(null);
+    }
+  }, [sentenceText, sentenceIndex, lessonId, properNouns]);
   /* eslint-enable react-hooks/set-state-in-effect */
 
   // Auto-focus dictation input whenever sentence changes or mounts
@@ -475,64 +493,84 @@ export function DictationWorkspace({
     [tokens, onWordMatched, checkCompletion, isSoundFeedbackEnabled, lessonId, sentenceIndex]
   );
 
-  // Handle key down in input
+  // Handle key down in input (Ngăn chặn tích tụ dấu cách dư thừa và kiểm tra từ ngay)
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === " " || e.key === "Enter") {
-      const matched = handleCheckWord(inputValue);
-      if (matched || e.key === "Enter") {
-        e.preventDefault();
+      e.preventDefault();
+      const trimmed = inputValue.trim();
+      if (trimmed) {
+        handleCheckWord(trimmed);
       }
     }
   };
 
-  // Action: Hint first letter (Alt + H)
+  // Action: Hint first letter of the word (Alt + H) - Hiển thị chữ cái đầu tiên của từ
   const handleHintFirstLetter = useCallback(() => {
-    let targetIndex = -1;
-    const nextTokens = tokens.map((token, idx) => {
-      if (targetIndex === -1 && token.status === "masked") {
-        targetIndex = idx;
-        return { ...token, status: "first-letter" as const };
-      }
-      return token;
-    });
+    // 1. Tìm từ chưa giải quyết đầu tiên còn đang che hoàn toàn (status === "masked")
+    // Nếu từ trước đó đã mở chữ cái đầu, sẽ tiếp tục mở chữ cái đầu cho từ tiếp theo
+    const targetIndex = tokens.findIndex((t) => t.status === "masked");
 
-    if (targetIndex !== -1) {
+    if (targetIndex === -1) return;
+
+    const targetToken = tokens[targetIndex];
+    const cleanWord = targetToken.clean;
+    if (!cleanWord) return;
+
+    const nextTokens = [...tokens];
+    if (cleanWord.length <= 1) {
+      // Từ chỉ có 1 ký tự: xem chữ cái đầu tức là giải quyết trọn vẹn từ đó
+      nextTokens[targetIndex] = {
+        ...targetToken,
+        status: "revealed" as const,
+      };
       setTokens(nextTokens);
-      // Điền chữ cái đầu nếu ô input đang trống
-      if (!inputValue.trim()) {
-        setInputValue(tokens[targetIndex].clean[0]);
-      }
-      if (inputRef.current) {
-        inputRef.current.focus();
-      }
-      // Cuộn mượt mà đến khối từ đang được gợi ý
-      tokenItemRefs.current[targetIndex]?.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "center",
-      });
+      checkCompletion(nextTokens);
+    } else {
+      // Hiển thị chữ cái đầu tiên duy nhất của từ (không hiển thị từng ký tự lũy tiến)
+      nextTokens[targetIndex] = {
+        ...targetToken,
+        status: "first-letter" as const,
+        hintLength: 1,
+      };
+      setTokens(nextTokens);
     }
-  }, [tokens, inputValue]);
 
-  // Action: Reveal next word (Alt + R) - Tự động điền, giữ focus, chống nhảy mất câu đột ngột
-  const handleRevealNextWord = useCallback(() => {
-    let targetIndex = -1;
-    for (let i = 0; i < tokens.length; i++) {
-      if (tokens[i].status === "masked" || tokens[i].status === "first-letter") {
-        targetIndex = i;
-        break;
-      }
+    if (inputRef.current) {
+      inputRef.current.focus();
     }
+
+    // Cuộn mượt mà đến khối từ vừa được mở chữ cái đầu
+    tokenItemRefs.current[targetIndex]?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "center",
+    });
+  }, [tokens, checkCompletion]);
+
+  // Action: Reveal next word (Alt + R) - Mở từ ngay lập tức, dọn sạch ô nhập liệu, kích hoạt hoàn thành
+  const handleRevealNextWord = useCallback(() => {
+    const targetIndex = tokens.findIndex(
+      (t) => t.status === "masked" || t.status === "first-letter"
+    );
 
     if (targetIndex === -1) return;
 
     const targetToken = tokens[targetIndex];
     const nextTokens = [...tokens];
-    nextTokens[targetIndex] = { ...targetToken, status: "revealed" as const };
+    nextTokens[targetIndex] = {
+      ...targetToken,
+      status: "revealed" as const,
+      hintLength: targetToken.length,
+    };
     setTokens(nextTokens);
 
-    // Điền từ đúng vào ô input để người học thấy rõ và chỉ cần gõ Space/Enter để xác nhận
-    setInputValue(targetToken.clean);
+    // Dọn sạch ô input để người học không bị dính chữ cũ khi gõ từ tiếp theo
+    setInputValue("");
+    if (lessonId && sentenceIndex !== undefined) {
+      clearSentenceDraft(lessonId, sentenceIndex);
+    }
+    setInputStatus("idle");
+    setNearMissHint(null);
 
     // Luôn giữ focus trong ô input để người học tiếp tục thao tác không bị gián đoạn
     if (inputRef.current) {
@@ -545,7 +583,10 @@ export function DictationWorkspace({
       block: "nearest",
       inline: "center",
     });
-  }, [tokens]);
+
+    // Kích hoạt kiểm tra hoàn thành nếu tất cả từ đã được giải quyết
+    checkCompletion(nextTokens);
+  }, [tokens, checkCompletion, lessonId, sentenceIndex]);
 
   // Action: Reveal all words (Alt + A)
   const handleRevealAll = useCallback(() => {
@@ -613,12 +654,18 @@ export function DictationWorkspace({
   const handleTokenClick = (index: number) => {
     const token = tokens[index];
     if (token.status === "masked" || token.status === "first-letter") {
-      // Nhấp vào khối từ bị che: hiển thị từ, điền vào input và focus ngay
+      // Nhấp vào khối từ bị che: hiển thị từ, dọn sạch input, focus và kiểm tra hoàn thành
       const nextTokens = [...tokens];
-      nextTokens[index] = { ...token, status: "revealed" };
+      nextTokens[index] = { ...token, status: "revealed", hintLength: token.length };
       setTokens(nextTokens);
 
-      setInputValue(token.clean);
+      setInputValue("");
+      if (lessonId && sentenceIndex !== undefined) {
+        clearSentenceDraft(lessonId, sentenceIndex);
+      }
+      setInputStatus("idle");
+      setNearMissHint(null);
+
       if (inputRef.current) {
         inputRef.current.focus();
       }
@@ -628,6 +675,8 @@ export function DictationWorkspace({
         block: "nearest",
         inline: "center",
       });
+
+      checkCompletion(nextTokens);
     } else {
       // Already revealed or matched: trigger pronounce/dictionary
       if (onWordClick) {
@@ -720,8 +769,10 @@ export function DictationWorkspace({
                 if (isSolved) {
                   displayContent = token.clean;
                 } else if (isFirstLetter) {
+                  const hLen = token.hintLength || 1;
                   displayContent =
-                    token.clean[0] + "•".repeat(Math.max(0, token.length - 1));
+                    (token.clean.slice(0, hLen) || token.clean.charAt(0)) +
+                    "•".repeat(Math.max(0, token.length - hLen));
                 } else if (token.isProperNoun) {
                   displayContent = (
                     <span className="inline-flex items-center gap-1 text-[#0059bb] dark:text-sky-300 font-bold">
@@ -821,6 +872,18 @@ export function DictationWorkspace({
               value={inputValue}
               onChange={(e) => {
                 const val = e.target.value;
+                // Hỗ trợ gõ dấu cách trên bàn phím ảo Mobile / Tablet / Bộ gõ IME
+                if (val.endsWith(" ") || val.endsWith("\n")) {
+                  const trimmed = val.trim();
+                  if (trimmed) {
+                    const matched = handleCheckWord(trimmed);
+                    if (matched) {
+                      return;
+                    }
+                  }
+                  setInputValue(trimmed);
+                  return;
+                }
                 setInputValue(val);
                 if (lessonId && sentenceIndex !== undefined) {
                   saveSentenceDraft(lessonId, sentenceIndex, val);
@@ -890,9 +953,10 @@ export function DictationWorkspace({
               type="button"
               onClick={handleHintFirstLetter}
               className="inline-flex items-center justify-center gap-1.5 flex-1 sm:flex-initial px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800 transition-all cursor-pointer shadow-2xs active:scale-98 min-h-[34px] sm:min-h-[36px]"
+              title="Gợi ý chữ cái đầu tiên (hoặc chữ cái kế tiếp) của từ đang làm (Alt+H)"
             >
               <Sparkles className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-              <span>Chữ cái đầu</span>
+              <span>Xem chữ đầu</span>
               <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-md border border-slate-200 dark:border-slate-700">
                 Alt+H
               </kbd>
@@ -903,6 +967,7 @@ export function DictationWorkspace({
               type="button"
               onClick={handleRevealNextWord}
               className="inline-flex items-center justify-center gap-1.5 flex-1 sm:flex-initial px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800 transition-all cursor-pointer shadow-2xs active:scale-98 min-h-[34px] sm:min-h-[36px]"
+              title="Xem toàn bộ từ đang làm và chuyển sang từ tiếp theo (Alt+R)"
             >
               <Eye className="w-3.5 h-3.5 text-slate-500 shrink-0" />
               <span>Xem từ</span>

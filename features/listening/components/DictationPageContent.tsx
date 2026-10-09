@@ -325,19 +325,30 @@ export function DictationPageContent({
   /* eslint-disable react-hooks/set-state-in-effect -- SWR catalog hydration and fetch */
   useEffect(() => {
     let isMounted = true;
-    const catalogCacheKey = `xp_voca_listening_catalog_${user?.id || "guest"}`;
+    const catalogCacheKey = `xp_voca_listening_catalog_${initialMode}_${user?.id || "guest"}`;
 
     // Tầng 1: SWR 0ms Instant Local Cache Hydration
     if (typeof window !== "undefined") {
       try {
         const raw =
           localStorage.getItem(catalogCacheKey) ||
+          localStorage.getItem(`xp_voca_listening_catalog_${initialMode}`) ||
           localStorage.getItem("xp_voca_listening_catalog_cache") ||
           localStorage.getItem("xp_voca_listening_catalog_guest");
         if (raw) {
           const cached = JSON.parse(raw);
           if (Array.isArray(cached) && cached.length > 0) {
-            setLessonsList(cached);
+            const sanitized =
+              initialMode === "audio"
+                ? cached.filter(
+                    (l: any) =>
+                      !l.isVideo &&
+                      !l.id?.startsWith("vid_") &&
+                      !l.audioUrl?.includes("youtube") &&
+                      !l.audioUrl?.includes("youtu.be")
+                  )
+                : cached;
+            setLessonsList(sanitized);
             setIsLoadingLessons(false);
           }
         }
@@ -352,7 +363,7 @@ export function DictationPageContent({
     // Tầng 2: Background Neon Database Reconciliation
     const fetchLessons = async () => {
       try {
-        const res = await fetch(`/api/listening/lessons?userId=${user?.id || ""}`, {
+        const res = await fetch(`/api/listening/lessons?userId=${user?.id || ""}&mode=${initialMode}`, {
           signal: controller.signal,
           headers: { Accept: "application/json" },
         });
@@ -361,12 +372,31 @@ export function DictationPageContent({
         }
         const json = await res.json();
         if (isMounted && json.success && Array.isArray(json.data) && json.data.length > 0) {
-          setLessonsList(json.data);
+          const sanitized =
+            initialMode === "audio"
+              ? json.data.filter(
+                  (l: any) =>
+                    !l.isVideo &&
+                    !l.id?.startsWith("vid_") &&
+                    !l.audioUrl?.includes("youtube") &&
+                    !l.audioUrl?.includes("youtu.be")
+                )
+              : json.data;
+          setLessonsList(sanitized);
           try {
-            localStorage.setItem(catalogCacheKey, JSON.stringify(json.data));
+            localStorage.setItem(catalogCacheKey, JSON.stringify(sanitized));
           } catch {}
         } else if (isMounted) {
-          setLessonsList((prev) => (prev.length === 0 ? MOCK_LESSONS_DATA : prev));
+          const fallback =
+            initialMode === "audio"
+              ? MOCK_LESSONS_DATA.filter(
+                  (l: any) =>
+                    !l.id?.startsWith("vid_") &&
+                    !l.audioUrl?.includes("youtube") &&
+                    !l.audioUrl?.includes("youtu.be")
+                )
+              : MOCK_LESSONS_DATA;
+          setLessonsList((prev) => (prev.length === 0 ? fallback : prev));
         }
       } catch (err: any) {
         if (!isMounted) return;
@@ -383,7 +413,14 @@ export function DictationPageContent({
                 title: "Chế độ offline",
                 message: "Không thể tải danh mục từ máy chủ Neon. Đang hiển thị danh mục offline.",
               });
-              return MOCK_LESSONS_DATA;
+              return initialMode === "audio"
+                ? MOCK_LESSONS_DATA.filter(
+                    (l: any) =>
+                      !l.id?.startsWith("vid_") &&
+                      !l.audioUrl?.includes("youtube") &&
+                      !l.audioUrl?.includes("youtu.be")
+                  )
+                : MOCK_LESSONS_DATA;
             }
             return prev;
           });
@@ -472,7 +509,11 @@ export function DictationPageContent({
 
         if (raw) {
           const cached = JSON.parse(raw);
-          if (cached && cached.id && Array.isArray(cached.transcript) && cached.transcript.length > 0) {
+          const isMatchingLesson =
+            cached &&
+            cached.id &&
+            (isSameLessonId(cached.id, queryLessonId) || (canonical && isSameLessonId(cached.id, canonical)));
+          if (isMatchingLesson && Array.isArray(cached.transcript) && cached.transcript.length > 0) {
             setDetailedLessonsMap((prev) => {
               const next: Record<string, any> = {
                 ...prev,
@@ -502,6 +543,11 @@ export function DictationPageContent({
             if (cached.userNote !== undefined) {
               setCloudNoteText(cached.userNote || "");
             }
+          } else if (cached && cached.id && !isMatchingLesson) {
+            // Remove corrupted cache from earlier faulty API response
+            for (const k of keysToProbe) {
+              try { localStorage.removeItem(k); } catch {}
+            }
           }
         }
       } catch (err) {
@@ -528,6 +574,16 @@ export function DictationPageContent({
         const json = await res.json();
         if (isMounted && json.success && json.data) {
           const detail = json.data;
+          const canonical = resolveCanonicalLessonId(queryLessonId);
+          const isMatchingLesson =
+            isSameLessonId(detail.id, queryLessonId) || (canonical && isSameLessonId(detail.id, canonical));
+
+          if (!isMatchingLesson) {
+            console.warn(`[Listening] Discarding mismatched lesson detail response: requested ${queryLessonId}, received ${detail.id}`);
+            setIsLoadingLessonDetail(false);
+            return;
+          }
+
           lastFetchedLessonRef.current = detail.id;
 
           setDetailedLessonsMap((prev) => {
@@ -916,20 +972,25 @@ export function DictationPageContent({
     } catch {}
 
     const isVideo =
-      lessonId === "122" ||
       lessonId.startsWith("vid_") ||
       lessonId.startsWith("yt_") ||
       lessonId.startsWith("video_") ||
       MOCK_VIDEO_LESSONS.some((v) => v.id === lessonId || v.slug === lessonId || v.externalId === lessonId);
 
-    const targetRoute = isVideo ? "/study/dictation/video" : basePath;
+    // CRITICAL: When the user is in Audio mode, stay on Audio route!
+    // Never force-redirect to /video unless explicitly in video mode or on video branch.
+    const targetRoute =
+      initialMode === "video" || (!basePath.includes("/audio") && isVideo)
+        ? "/study/dictation/video"
+        : basePath;
+
     const lessonIdx = lessonsList.findIndex((l) => isSameLessonId(l.id, lessonId));
     if (lessonIdx !== -1 && !isVideo) {
       router.push(`${targetRoute}?id=${lessonIdx + 1}`);
     } else {
       router.push(`${targetRoute}?id=${lessonId}`);
     }
-  }, [lessonsList, router, setCurrentLessonId, setSidebarCollapsed, detailedLessonsMap, basePath, selectedLessonId]);
+  }, [lessonsList, router, setCurrentLessonId, setSidebarCollapsed, detailedLessonsMap, basePath, selectedLessonId, initialMode]);
 
   const handleBackToListing = useCallback(() => {
     isLeavingStudioRef.current = true;
@@ -1445,23 +1506,22 @@ export function DictationPageContent({
   if (!hasMounted) {
     if (rawIdParam || selectedLessonId) {
       const isVideoStudio =
-        isCurrentLessonVideo ||
         initialMode === "video" ||
-        rawIdParam === "122" ||
-        rawIdParam?.startsWith("vid_") ||
-        rawIdParam?.startsWith("yt_") ||
-        rawIdParam?.startsWith("video_") ||
-        selectedLessonId === "122" ||
-        selectedLessonId?.startsWith("vid_") ||
-        selectedLessonId?.startsWith("yt_") ||
-        selectedLessonId?.startsWith("video_") ||
-        MOCK_VIDEO_LESSONS.some(
-          (v) =>
-            v.id === rawIdParam ||
-            v.externalId === rawIdParam ||
-            v.id === selectedLessonId ||
-            v.externalId === selectedLessonId
-        );
+        (!basePath.includes("/audio") &&
+          (isCurrentLessonVideo ||
+            rawIdParam?.startsWith("vid_") ||
+            rawIdParam?.startsWith("yt_") ||
+            rawIdParam?.startsWith("video_") ||
+            selectedLessonId?.startsWith("vid_") ||
+            selectedLessonId?.startsWith("yt_") ||
+            selectedLessonId?.startsWith("video_") ||
+            MOCK_VIDEO_LESSONS.some(
+              (v) =>
+                v.id === rawIdParam ||
+                v.externalId === rawIdParam ||
+                v.id === selectedLessonId ||
+                v.externalId === selectedLessonId
+            )));
 
       return isVideoStudio ? <VideoStudioSkeleton /> : <ListeningStudioSkeleton />;
     }
@@ -1469,25 +1529,24 @@ export function DictationPageContent({
   }
 
   if ((rawIdParam || selectedLessonId) && !isInPlaceSwitchingLesson) {
-    if (isLoadingLessonDetail || (!currentLesson && isLoadingLessons)) {
+    if (!currentLesson && (isLoadingLessonDetail || isLoadingLessons)) {
       const isVideoStudio =
-        isCurrentLessonVideo ||
         initialMode === "video" ||
-        rawIdParam === "122" ||
-        rawIdParam?.startsWith("vid_") ||
-        rawIdParam?.startsWith("yt_") ||
-        rawIdParam?.startsWith("video_") ||
-        selectedLessonId === "122" ||
-        selectedLessonId?.startsWith("vid_") ||
-        selectedLessonId?.startsWith("yt_") ||
-        selectedLessonId?.startsWith("video_") ||
-        MOCK_VIDEO_LESSONS.some(
-          (v) =>
-            v.id === rawIdParam ||
-            v.externalId === rawIdParam ||
-            v.id === selectedLessonId ||
-            v.externalId === selectedLessonId
-        );
+        (!basePath.includes("/audio") &&
+          (isCurrentLessonVideo ||
+            rawIdParam?.startsWith("vid_") ||
+            rawIdParam?.startsWith("yt_") ||
+            rawIdParam?.startsWith("video_") ||
+            selectedLessonId?.startsWith("vid_") ||
+            selectedLessonId?.startsWith("yt_") ||
+            selectedLessonId?.startsWith("video_") ||
+            MOCK_VIDEO_LESSONS.some(
+              (v) =>
+                v.id === rawIdParam ||
+                v.externalId === rawIdParam ||
+                v.id === selectedLessonId ||
+                v.externalId === selectedLessonId
+            )));
 
       return isVideoStudio ? <VideoStudioSkeleton /> : <ListeningStudioSkeleton />;
     }
@@ -1513,8 +1572,8 @@ export function DictationPageContent({
         </div>
       );
     }
-  } else if (isLoadingLessons && !selectedLessonId) {
-    return initialMode === "video" ? <VideoListingSkeleton /> : <ListeningListingSkeleton />;
+  } else if (isLoadingLessons && !selectedLessonId && initialMode !== "video") {
+    return <ListeningListingSkeleton />;
   }
 
   return (
@@ -1739,10 +1798,10 @@ export function DictationSuspenseFallback() {
       const isStudio = search.includes("id=") || search.includes("lessonId=");
       const isVideo =
         window.location.pathname.includes("/video") ||
-        search.includes("id=122") ||
-        search.includes("vid_") ||
-        search.includes("yt_") ||
-        search.includes("video_");
+        (!window.location.pathname.includes("/audio") &&
+          (search.includes("vid_") ||
+            search.includes("yt_") ||
+            search.includes("video_")));
       return { isStudio, isVideo };
     }
     return { isStudio: false, isVideo: false };

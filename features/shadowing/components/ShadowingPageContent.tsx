@@ -106,22 +106,26 @@ export function ShadowingPageContent({
   /* eslint-disable react-hooks/set-state-in-effect -- SWR cache hydration and background DB fetch */
   useEffect(() => {
     let isMounted = true;
-    const catalogCacheKey = `xp_voca_shadowing_catalog_${user?.id || "guest"}`;
+    const catalogCacheKey = `xp_voca_shadowing_catalog_${initialMode}_${user?.id || "guest"}`;
 
     // Tầng 1: SWR 0ms Instant Local Cache Hydration
     if (typeof window !== "undefined") {
       try {
         const raw =
           localStorage.getItem(catalogCacheKey) ||
-          localStorage.getItem("xp_voca_shadowing_catalog_cache") ||
-          localStorage.getItem("xp_voca_shadowing_catalog_guest") ||
-          localStorage.getItem("xp_voca_listening_catalog_cache") ||
-          localStorage.getItem("xp_voca_listening_catalog_guest");
+          (initialMode === "audio"
+            ? localStorage.getItem(`xp_voca_listening_catalog_audio_${user?.id || "guest"}`)
+            : null);
         if (raw) {
           const cached = JSON.parse(raw);
           if (Array.isArray(cached) && cached.length > 0) {
-            setLessonsList(cached);
-            setIsLoadingLessons(false);
+            const sanitized = initialMode === "audio"
+              ? cached.filter((l: any) => !l.isVideo && !String(l.id).startsWith("vid_") && !String(l.audioUrl || "").includes("youtube"))
+              : cached;
+            if (sanitized.length > 0) {
+              setLessonsList(sanitized);
+              setIsLoadingLessons(false);
+            }
           }
         }
       } catch (err) {
@@ -135,19 +139,25 @@ export function ShadowingPageContent({
     // Tầng 2: Background Neon Database Reconciliation
     async function fetchLessons() {
       try {
-        const res = await fetch(`/api/listening/lessons?userId=${user?.id || ""}`, {
+        const res = await fetch(`/api/listening/lessons?userId=${user?.id || ""}&mode=${initialMode}`, {
           signal: controller.signal,
           headers: { Accept: "application/json" },
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
         if (isMounted && json.success && Array.isArray(json.data) && json.data.length > 0) {
-          setLessonsList(json.data);
+          const sanitized = initialMode === "audio"
+            ? json.data.filter((l: any) => !l.isVideo && !String(l.id).startsWith("vid_") && !String(l.audioUrl || "").includes("youtube"))
+            : json.data;
+          setLessonsList(sanitized);
           try {
-            localStorage.setItem(catalogCacheKey, JSON.stringify(json.data));
+            localStorage.setItem(catalogCacheKey, JSON.stringify(sanitized));
           } catch {}
         } else if (isMounted) {
-          setLessonsList((prev) => (prev.length === 0 ? MOCK_LESSONS_DATA : prev));
+          const fallbackData = initialMode === "audio"
+            ? MOCK_LESSONS_DATA.filter((l: any) => !l.isVideo && !String(l.id).startsWith("vid_") && !String(l.audioUrl || "").includes("youtube"))
+            : MOCK_LESSONS_DATA;
+          setLessonsList((prev) => (prev.length === 0 ? fallbackData : prev));
         }
       } catch (err: any) {
         if (!isMounted) return;
@@ -164,7 +174,9 @@ export function ShadowingPageContent({
                 title: "Chế độ offline",
                 message: "Không thể tải danh mục từ CSDL Neon. Đang hiển thị danh mục offline.",
               });
-              return MOCK_LESSONS_DATA;
+              return initialMode === "audio"
+                ? MOCK_LESSONS_DATA.filter((l: any) => !l.isVideo && !String(l.id).startsWith("vid_") && !String(l.audioUrl || "").includes("youtube"))
+                : MOCK_LESSONS_DATA;
             }
             return prev;
           });
@@ -760,12 +772,12 @@ export function ShadowingPageContent({
 
   const handleShuffleBasic = useCallback(() => {
     setShuffleSeedBasic((prev) => prev + 1);
-    addToast({ type: "info", title: "Đã đổi 8 bài học cơ bản ngẫu nhiên mới! ↺" });
+    addToast({ type: "info", title: "Đã đổi 8 bài học cơ bản ngẫu nhiên mới!" });
   }, [addToast]);
 
   const handleShuffleAdvanced = useCallback(() => {
     setShuffleSeedAdvanced((prev) => prev + 1);
-    addToast({ type: "info", title: "Đã đổi 8 bài học nâng cao ngẫu nhiên mới! ↺" });
+    addToast({ type: "info", title: "Đã đổi 8 bài học nâng cao ngẫu nhiên mới!" });
   }, [addToast]);
 
   // Computed stats for Micro-Hero Bento Grid
@@ -807,7 +819,6 @@ export function ShadowingPageContent({
     setSidebarCollapsed(true);
 
     const isVideo =
-      strId === "122" ||
       strId.startsWith("vid_") ||
       strId.startsWith("yt_") ||
       strId.startsWith("video_") ||
@@ -828,14 +839,17 @@ export function ShadowingPageContent({
       setIsLoadingLessonDetail(!isCached);
     }
 
-    const targetRoute = isVideo ? "/study/shadowing/video" : "/study/shadowing/audio";
+    const targetRoute =
+      initialMode === "video" || (!basePath.includes("/audio") && isVideo)
+        ? "/study/shadowing/video"
+        : basePath;
     const lessonIdx = lessonsList.findIndex((l) => isSameLessonId(l.id, strId));
     if (lessonIdx !== -1 && !isVideo) {
       router.push(`${targetRoute}?id=${lessonIdx + 1}`);
     } else {
       router.push(`${targetRoute}?id=${strId}`);
     }
-  }, [resetCurrentSentenceAudio, selectedLessonId, lessonsList, router, setCurrentLessonId, setSidebarCollapsed, detailedLessonsMap, singleLessonDb]);
+  }, [resetCurrentSentenceAudio, selectedLessonId, lessonsList, router, setCurrentLessonId, setSidebarCollapsed, detailedLessonsMap, singleLessonDb, initialMode, basePath]);
 
   // Back to listing with Router sync & race-condition guard
   const handleBackToListing = useCallback(() => {
@@ -863,13 +877,13 @@ export function ShadowingPageContent({
     let nextKeys: string[];
     if (isCurrentSentenceBookmarked) {
       nextKeys = savedSentenceKeys.filter((k) => k !== currentSentenceKey);
-      addToast({ type: "info", title: "Đã bỏ lưu câu khỏi sổ tay! 🔖" });
+      addToast({ type: "info", title: "Đã bỏ lưu câu khỏi sổ tay!" });
     } else {
       nextKeys = [...savedSentenceKeys, currentSentenceKey];
       awardXp(5, "shadowing");
       addToast({
         type: "success",
-        title: "⭐ Đã lưu câu vào sổ tay luyện nói! (+5 XP)",
+        title: "Đã lưu câu vào sổ tay luyện nói! (+5 XP)",
         message: currentSentence?.text
           ? `"${currentSentence.text.slice(0, 45)}..."`
           : "Đã lưu câu thành công!",
@@ -983,7 +997,7 @@ export function ShadowingPageContent({
       }
       addToast({
         type: "success",
-        title: "🎉 HOÀN THÀNH BÀI LUYỆN NÓI!",
+        title: "Hoàn thành bài luyện nói!",
         message: "Chúc mừng bạn đã hoàn thành xuất sắc toàn bộ bài Shadowing! +50 XP thưởng.",
       });
     }
@@ -1133,6 +1147,7 @@ export function ShadowingPageContent({
 
   // Detect whether current session is a video lesson
   const isCurrentLessonVideo = useMemo(() => {
+    if (initialMode === "audio" || basePath.includes("/audio")) return false;
     if (currentLesson) {
       const media = resolveLessonMedia(currentLesson);
       return (
@@ -1146,13 +1161,12 @@ export function ShadowingPageContent({
     if (!key) return initialMode === "video";
     return (
       initialMode === "video" ||
-      key === "122" ||
       key.startsWith("vid_") ||
       key.startsWith("yt_") ||
       key.startsWith("video_") ||
       MOCK_VIDEO_LESSONS.some((v) => v.id === key || v.slug === key || v.externalId === key)
     );
-  }, [currentLesson, rawIdParam, selectedLessonId, initialMode]);
+  }, [currentLesson, rawIdParam, selectedLessonId, initialMode, basePath]);
 
   // Hydration guard to eliminate SSR-client mismatches (Exact 0px CLS Twin)
   if (!hasMounted) {
@@ -1164,7 +1178,7 @@ export function ShadowingPageContent({
 
   // Loading Studio Mode (with query param or lessonDetail fetching)
   if ((rawIdParam || selectedLessonId) && !isInPlaceSwitchingLesson) {
-    if (isLoadingLessonDetail || (!currentLesson && isLoadingLessons)) {
+    if (!currentLesson && (isLoadingLessonDetail || isLoadingLessons)) {
       return isCurrentLessonVideo ? <ShadowingVideoStudioSkeleton /> : <ShadowingStudioSkeleton />;
     }
     // Chỉ hiển thị màn hình không tìm thấy khi đã tải xong cả detail lẫn catalog mà vẫn không có bài học
@@ -1192,8 +1206,8 @@ export function ShadowingPageContent({
   }
 
   // Loading Listing Mode
-  if (isLoadingLessons && !selectedLessonId) {
-    return initialMode === "video" ? <ShadowingVideoListingSkeleton /> : <ShadowingListingSkeleton />;
+  if (isLoadingLessons && !selectedLessonId && initialMode !== "video") {
+    return <ShadowingListingSkeleton />;
   }
 
   return (
@@ -1304,7 +1318,20 @@ export function ShadowingPageContent({
               onReplayTranscriptSentence={handleReplayTranscriptSentence}
               onResetProgress={handleResetProgress}
               recommendedLessons={lessonsList
-                .filter((l) => l.id !== currentLesson.id)
+                .filter((l) => {
+                  if (l.id === currentLesson.id) return false;
+                  if (initialMode === "audio" || basePath.includes("/audio")) {
+                    const isVid =
+                      Boolean(l.isVideo) ||
+                      String(l.id).startsWith("vid_") ||
+                      String(l.id).startsWith("yt_") ||
+                      String(l.id).startsWith("video_") ||
+                      Boolean(l.audioUrl?.includes("youtube")) ||
+                      Boolean(l.audioUrl?.includes("youtu.be"));
+                    return !isVid;
+                  }
+                  return true;
+                })
                 .slice(0, 5)}
               onSelectLesson={handleSelectLesson}
               onShuffleRecommendations={handleShuffleRecommendations}
@@ -1387,10 +1414,10 @@ export function ShadowingSuspenseFallback() {
       const isStudio = search.includes("id=") || search.includes("lessonId=");
       const isVideo =
         window.location.pathname.includes("/video") ||
-        search.includes("id=122") ||
-        search.includes("vid_") ||
-        search.includes("yt_") ||
-        search.includes("video_");
+        (!window.location.pathname.includes("/audio") &&
+          (search.includes("vid_") ||
+            search.includes("yt_") ||
+            search.includes("video_")));
       return { isStudio, isVideo };
     }
     return { isStudio: false, isVideo: false };

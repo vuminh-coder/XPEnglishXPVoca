@@ -173,7 +173,7 @@ export function useShadowingAudioRecorder({
           [currentSentenceIndex]: overall,
         }));
 
-        if (overall >= 50) {
+        if (overall >= 80) {
           const nextCompleted = { ...completedSentences, [currentSentenceIndex]: true };
           setCompletedSentences(nextCompleted);
 
@@ -223,7 +223,7 @@ export function useShadowingAudioRecorder({
                       bookmarkedSentences: savedSentenceKeys,
                       inlineAiScores: { ...sentenceScores, [currentSentenceIndex]: overall },
                       timeSpent: Math.max(15, elapsedTime),
-                      xpEarned: overall >= 80 ? 15 : 5,
+                      xpEarned: 15,
                       skill: "shadowing",
                     }),
                   }).catch((e) => console.error("Failed to sync shadowing progress to database:", e));
@@ -233,33 +233,54 @@ export function useShadowingAudioRecorder({
               console.error("Failed to sync shadowing progress to database:", e);
             }
           }
-        }
 
-        if (overall >= 80) {
           awardXp(15, "shadowing");
           addToast({
             type: "success",
-            title: `🎉 XUẤT SẮC! ${overall} điểm (+15 XP)`,
-            message: "Bạn đã vượt qua câu này với phát âm chuẩn xác!",
+            title: `Đã đạt - ${overall} điểm (+15 XP)`,
+            message: `Chúc mừng bạn đã đạt chuẩn phát âm (${overall} điểm)! Đang chuyển sang câu tiếp theo...`,
           });
 
-          if (autoNextSentence && currentSentenceIndex < totalSentencesCount - 1) {
+          // Tự động chuyển câu khi đạt chuẩn (>= 80)
+          if (onAutoAdvance) {
             setTimeout(() => {
-              if (onAutoAdvance) onAutoAdvance();
-            }, 1600);
+              onAutoAdvance();
+            }, 1200);
           }
-        } else if (overall >= 50) {
-          awardXp(5, "shadowing");
-          addToast({
-            type: "info",
-            title: `👍 Hoàn thành câu! (${overall} điểm, +5 XP)`,
-            message: "Hãy nghe lại âm thanh mẫu để phát âm chuẩn hơn nhé!",
-          });
         } else {
+          // Chưa đạt (< 80): Giữ nguyên câu đó
+          if (completedSentences[currentSentenceIndex]) {
+            const nextCompleted = { ...completedSentences };
+            delete nextCompleted[currentSentenceIndex];
+            setCompletedSentences(nextCompleted);
+          }
+
+          // Vẫn đồng bộ điểm inlineAiScores vào DB ở trạng thái IN_PROGRESS
+          if (currentLesson && user?.id && !user.id.startsWith("guest")) {
+            const completedIndices = Object.keys(completedSentences)
+              .filter((k) => completedSentences[Number(k)])
+              .map(Number);
+            fetch("/api/listening/progress", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                userId: user.id,
+                lessonId: currentLesson.id,
+                status: "IN_PROGRESS",
+                completedSentences: completedIndices,
+                bookmarkedSentences: savedSentenceKeys,
+                inlineAiScores: { ...sentenceScores, [currentSentenceIndex]: overall },
+                timeSpent: Math.max(15, elapsedTime),
+                xpEarned: 0,
+                skill: "shadowing",
+              }),
+            }).catch((e) => console.error("Failed to sync in-progress shadowing progress to database:", e));
+          }
+
           addToast({
             type: "warning",
-            title: `⚠️ Chưa đạt (${overall} điểm)`,
-            message: "Hãy nghe lại câu mẫu và thử đọc lại lần nữa nhé!",
+            title: `Chưa đạt - ${overall} điểm`,
+            message: `Bạn đạt ${overall}/100 điểm (cần từ 80 điểm trở lên để qua câu). Vui lòng giữ nguyên câu và luyện phát âm lại nhé!`,
           });
         }
       }

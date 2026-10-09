@@ -4,6 +4,7 @@ import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { memoryCache } from "@/infrastructure/cache/memoryCache";
 import { MOCK_LESSONS_DATA } from "@/features/listening/data/listeningMockData";
 import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
+import { resolveCanonicalLessonId, isSameLessonId } from "@/features/listening/utils/lessonIdHelper";
 
 export async function GET(
   request: Request,
@@ -22,7 +23,8 @@ export async function GET(
 
     const cacheKey = `listening_lesson_detail:${id}:${userId || "guest"}`;
     const cached = memoryCache.get<any>(cacheKey);
-    if (cached) {
+    const canonicalId = resolveCanonicalLessonId(id);
+    if (cached && (isSameLessonId(cached.id, id) || (canonicalId && isSameLessonId(cached.id, canonicalId)))) {
       return NextResponse.json(
         {
           success: true,
@@ -55,27 +57,44 @@ export async function GET(
           : undefined,
       });
 
-      // 2. Fallback: if not found, try finding by formatted id (listen_XXX, listen_toeic_XXX), orderIndex or numeric index (e.g. id=44)
+      // 1b. If not found by direct ID, try canonical ID (e.g. "51" -> "listen_toeic_q3_051")
       if (!lesson) {
-        const isNumericOrPrefix = /^\d+$/.test(id) || /^(?:listen|lesson)[\w-]*?_?(\d+)$/i.test(id);
+        const canonicalId = resolveCanonicalLessonId(id);
+        if (canonicalId && canonicalId !== id) {
+          lesson = await prisma.listeningLesson.findUnique({
+            where: { id: canonicalId },
+            include: userId
+              ? {
+                  progresses: {
+                    where: { userId },
+                    take: 1,
+                  },
+                  notes: {
+                    where: { userId },
+                    take: 1,
+                  },
+                }
+              : undefined,
+          });
+        }
+      }
+
+      // 2. Fallback: if not found, try finding by formatted id (listen_XXX, listen_toeic_XXX) or pad3
+      if (!lesson) {
+        const isNumericOrPrefix = /^\d+$/.test(id) || /^(?:listen|lesson|toeic)[\w-]*?_?(\d+)$/i.test(id);
         if (isNumericOrPrefix) {
           const numMatch = id.match(/_?(\d+)$/);
           const num = numMatch ? parseInt(numMatch[1], 10) : NaN;
           if (!isNaN(num)) {
-            const formatted = `listen_${String(num).padStart(3, "0")}`;
-            const mockMatchId =
-              num >= 1 && num <= MOCK_LESSONS_DATA.length
-                ? MOCK_LESSONS_DATA[num - 1]?.id
-                : null;
+            const pad3 = String(num).padStart(3, "0");
+            const formatted = `listen_${pad3}`;
 
             lesson = await prisma.listeningLesson.findFirst({
               where: {
                 OR: [
                   { id: formatted },
-                  ...(mockMatchId ? [{ id: mockMatchId }] : []),
-                  { id: { contains: String(num).padStart(3, "0") } },
-                  { orderIndex: num - 1 },
-                  { orderIndex: num },
+                  { id: { contains: `_${pad3}` } },
+                  { id: { contains: pad3 } },
                 ],
               },
               include: userId

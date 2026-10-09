@@ -21,9 +21,10 @@ import {
   LESSON_PSYCHOLOGY_OF_MONEY,
   LESSON_SIMON_SINEK,
   LESSON_OXFORD_MEETING,
+  LESSON_JULIAN_TREASURE,
 } from "@/features/listening/data/lessons";
 
-describe("Modular Lessons Architecture & Deep Data Integrity Audit (18 Diverse Lessons)", () => {
+describe("Modular Lessons Architecture & Deep Data Integrity Audit (19 Diverse Lessons)", () => {
   const modularLessonsList = [
     { name: "Rewrite The Stars", lesson: LESSON_REWRITE_THE_STARS, expectedExtId: "pRfmrE0ToTo", expectedSegs: 18 },
     { name: "Kurzgesagt Interstellar", lesson: LESSON_KURZGESAGT_INTERSTELLAR, expectedExtId: "tybKnGZRwcU", expectedSegs: 21 },
@@ -43,16 +44,17 @@ describe("Modular Lessons Architecture & Deep Data Integrity Audit (18 Diverse L
     { name: "Psychology of Money Buffett", lesson: LESSON_PSYCHOLOGY_OF_MONEY, expectedExtId: "DOgVUMfcb7U", expectedSegs: 9 },
     { name: "Simon Sinek Golden Circle", lesson: LESSON_SIMON_SINEK, expectedExtId: "qp0HIF3SfI4", expectedSegs: 8 },
     { name: "Oxford Attending Meeting", lesson: LESSON_OXFORD_MEETING, expectedExtId: "NEKZFA7L7Lg", expectedSegs: 10 },
+    { name: "Julian Treasure How to Speak", lesson: LESSON_JULIAN_TREASURE, expectedExtId: "eIho2S0ZahI", expectedSegs: 10 },
   ];
 
-  it("should have exactly 18 separated lesson files loaded via ALL_MODULAR_LESSONS", () => {
-    expect(ALL_MODULAR_LESSONS.length).toBe(18);
-    expect(modularLessonsList.length).toBe(18);
+  it("should have exactly 19 separated lesson files loaded via ALL_MODULAR_LESSONS", () => {
+    expect(ALL_MODULAR_LESSONS.length).toBe(19);
+    expect(modularLessonsList.length).toBe(19);
   });
 
   it("should preserve 100% backward compatibility with MOCK_VIDEO_LESSONS aggregator", () => {
-    expect(MOCK_VIDEO_LESSONS.length).toBe(18);
-    for (let i = 0; i < 18; i++) {
+    expect(MOCK_VIDEO_LESSONS.length).toBe(19);
+    for (let i = 0; i < 19; i++) {
       expect(MOCK_VIDEO_LESSONS[i].id).toBe(ALL_MODULAR_LESSONS[i].id);
       expect(MOCK_VIDEO_LESSONS[i].slug).toBe(ALL_MODULAR_LESSONS[i].slug);
       expect(MOCK_VIDEO_LESSONS[i].externalId).toBe(ALL_MODULAR_LESSONS[i].externalId);
@@ -70,8 +72,8 @@ describe("Modular Lessons Architecture & Deep Data Integrity Audit (18 Diverse L
       expect(slugs.has(item.lesson.slug)).toBe(false);
       slugs.add(item.lesson.slug);
     }
-    expect(videoIds.size).toBe(18);
-    expect(slugs.size).toBe(18);
+    expect(videoIds.size).toBe(19);
+    expect(slugs.size).toBe(19);
   });
 
   it("should validate all 11 categories and foreign key references", () => {

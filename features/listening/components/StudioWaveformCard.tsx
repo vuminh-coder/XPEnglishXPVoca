@@ -14,32 +14,33 @@ import {
 import { Rewind5sIcon, Forward5sIcon } from "@/shared/components/icons/SeekIcons";
 
 export const JAGGED_ACOUSTIC_SPEECH_SPIKES_95 = [
-  // 1. Far Left Flat Tail (1-8)
-  4, 3, 4, 3, 5, 4, 6, 8,
-  // 2. Cluster 1 - Jagged Sharp Spikes (9-22)
+  // 1. Far Left Flat Tail (1-7: removed 1 short height 3)
+  4, 3, 4, 5, 4, 6, 8,
+  // 2. Cluster 1 - Jagged Sharp Spikes (8-21)
   14, 32, 18, 58, 26, 85, 38, 92, 22, 65, 30, 48, 16, 8,
-  // 3. Low Trough with minor jitter (23-28)
+  // 3. Low Trough with minor jitter (22-27)
   6, 10, 7, 14, 9, 7,
-  // 4. Cluster 2 - Irregular Jagged Bursts (29-42)
+  // 4. Cluster 2 - Irregular Jagged Bursts (28-41)
   20, 52, 28, 76, 40, 84, 26, 68, 36, 55, 22, 38, 14, 8,
-  // 5. Low Valley (43-47)
-  6, 12, 8, 15, 10,
-  // 6. Center Monster Burst - Extreme Peaks & Valleys (48-64)
+  // 5. Low Valley (42-45: removed 1 short height 6)
+  12, 8, 15, 10,
+  // 6. Center Monster Burst - Extreme Peaks & Valleys (46-62)
   28, 65, 35, 96, 24, 100, 50, 94, 28, 88, 42, 78, 22, 54, 18, 12, 8,
-  // 7. Low Valley (65-69)
-  6, 14, 9, 16, 10,
-  // 8. Cluster 3 - Sharp Asymmetric Bursts (70-80)
+  // 7. Low Valley (63-66: removed 1 short height 6)
+  14, 9, 16, 10,
+  // 8. Cluster 3 - Sharp Asymmetric Bursts (67-77)
   24, 60, 30, 74, 38, 58, 24, 46, 18, 12, 7,
-  // 9. Valley (81-84)
-  5, 10, 7, 12,
-  // 10. Cluster 4 - Right Sharp Spikes (85-95)
+  // 9. Valley (78-80: removed 1 short height 5)
+  10, 7, 12,
+  // 10. Cluster 4 - Right Sharp Spikes (81-91)
   26, 80, 32, 92, 20, 78, 38, 86, 18, 10, 6,
-  // 11. Far Right Tail (96-103)
-  5, 4, 4, 3, 3, 2, 2, 2,
+  // 11. Far Right Tail (92-98: removed 1 short height 2)
+  5, 4, 4, 3, 3, 2, 2,
 ];
 
 // Backwards compatibility aliases
 export const ACOUSTIC_SPEECH_ENVELOPE_95 = JAGGED_ACOUSTIC_SPEECH_SPIKES_95;
+export const ACOUSTIC_SPEECH_WAVE_40 = JAGGED_ACOUSTIC_SPEECH_SPIKES_95;
 export const ACOUSTIC_SPEECH_ENVELOPE_71 = JAGGED_ACOUSTIC_SPEECH_SPIKES_95;
 export const SPEECH_WAVE_PINNED_CAPS_41 = JAGGED_ACOUSTIC_SPEECH_SPIKES_95;
 export const SPEECH_WAVE_NATURAL_SPECTRUM_42 = JAGGED_ACOUSTIC_SPEECH_SPIKES_95;
@@ -299,11 +300,11 @@ function StudioWaveformCardComponent({
               : "Nhấp để phát âm thanh câu (Space)"
           }
           className={`relative w-full max-w-lg sm:max-w-xl lg:max-w-2xl ${
-            compact ? "h-10 sm:h-12" : "h-20 sm:h-22 lg:h-26"
+            compact ? "h-11 sm:h-13" : "h-22 sm:h-24 lg:h-28"
           } flex items-center justify-center px-1 bg-transparent cursor-pointer transition-all group select-none overflow-hidden`}
         >
-          {/* Dense Jagged Vector Spectrum Bars with High-Contrast Two-Tone Spikes */}
-          <div className="relative z-10 w-full flex items-center justify-center gap-[1px] sm:gap-[1.5px] h-full">
+          {/* Dense Jagged Vector Spectrum Bars with Playback-Themed Color */}
+          <div className="relative z-10 w-full flex items-center justify-center gap-[1.2px] sm:gap-[1.6px] lg:gap-[1.8px] h-full">
             {JAGGED_ACOUSTIC_SPEECH_SPIKES_95.map((amp, i) => {
               const animDuration = Math.max(
                 0.65,
@@ -324,13 +325,13 @@ function StudioWaveformCardComponent({
                             0.45 + (amp % 0.25),
                             1.15 + ((i % 7) * 0.04),
                           ],
-                          opacity: isPlayed ? [0.9, 1] : [0.55, 0.75],
+                          opacity: isPlayed ? [0.95, 1] : [0.65, 0.85],
                         }
                       : isRecording
                       ? {}
                       : {
                           scaleY: 1,
-                          opacity: isPlayed ? 1 : 0.7,
+                          opacity: isPlayed ? 1 : 0.75,
                         }
                   }
                   transition={
@@ -345,7 +346,7 @@ function StudioWaveformCardComponent({
                       : { duration: 0.25, ease: "easeOut" }
                   }
                   style={{
-                    height: `${Math.max(4, amp)}%`,
+                    height: `${Math.max(8, amp)}%`,
                     transformOrigin: "center center",
                     transform: isRecording
                       ? `scaleY(max(0.25, min(2.4, calc(0.4 + var(--live-audio-energy, ${liveAudioEnergy || 0}) * 2.8 * ${(amp / 45).toFixed(3)}))))`
@@ -354,12 +355,12 @@ function StudioWaveformCardComponent({
                       ? `max(0.6, min(1, calc(0.5 + var(--live-audio-energy, ${liveAudioEnergy || 0}) * 1.5)))`
                       : undefined,
                   }}
-                  className={`w-[1.2px] sm:w-[1.5px] lg:w-[1.8px] rounded-[0.2px] shrink-0 transition-colors duration-150 ${
+                  className={`w-[2px] sm:w-[2.4px] lg:w-[2.8px] rounded-full shrink-0 transition-colors duration-150 ${
                     isRecording
                       ? "bg-rose-500 dark:bg-rose-400 shadow-[0_0_8px_rgba(244,63,94,0.5)]"
                       : isPlayed
-                      ? "bg-[#0059bb] dark:bg-sky-400 shadow-[0_0_4px_rgba(0,89,187,0.3)] dark:shadow-[0_0_4px_rgba(56,189,248,0.3)]"
-                      : "bg-slate-300 dark:bg-slate-700"
+                      ? "bg-slate-900 dark:bg-white shadow-[0_0_4px_rgba(15,23,42,0.2)] dark:shadow-[0_0_4px_rgba(255,255,255,0.3)]"
+                      : "bg-slate-900/20 dark:bg-white/20 hover:bg-slate-900/35 dark:hover:bg-white/35"
                   }`}
                 />
               );

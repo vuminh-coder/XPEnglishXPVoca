@@ -12,7 +12,7 @@ function VideoComprehensionPageInner({ lessonId }: { lessonId: string }) {
   return (
     <VideoComprehensionStudioView
       lessonId={lessonId}
-      onBackUrl="/study/dictation/video"
+      onBackUrl={`/study/dictation/video?lessonId=${lessonId}`}
     />
   );
 }

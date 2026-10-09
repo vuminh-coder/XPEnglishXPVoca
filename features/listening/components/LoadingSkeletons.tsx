@@ -381,20 +381,20 @@ export function ListeningStudioSkeleton() {
 
             {/* 2. CENTER JAGGED ACOUSTIC SPEECH WAVEFORM SKELETON */}
             <div className="w-full flex justify-center items-center py-0.5 sm:py-1">
-              <div className="relative w-full max-w-lg sm:max-w-xl lg:max-w-2xl h-14 sm:h-16 lg:h-18 flex items-center justify-center px-1 bg-transparent select-none overflow-hidden group">
+              <div className="relative w-full max-w-lg sm:max-w-xl lg:max-w-2xl h-22 sm:h-24 lg:h-28 flex items-center justify-center px-1 bg-transparent select-none overflow-hidden group">
                 {/* Subtle Unified Wave Shimmer Sweep */}
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 dark:via-white/10 to-transparent -translate-x-full animate-shimmer pointer-events-none z-20" />
 
                 {/* Dense Jagged Vector Spectrum Bars */}
-                <div className="relative z-10 w-full flex items-center justify-center gap-[1px] sm:gap-[1.5px] h-full">
+                <div className="relative z-10 w-full flex items-center justify-center gap-[1.2px] sm:gap-[1.6px] lg:gap-[1.8px] h-full">
                   {JAGGED_ACOUSTIC_SPEECH_SPIKES_95.map((amp, i) => (
                     <div
                       key={i}
                       style={{
-                        height: `${Math.max(4, amp)}%`,
+                        height: `${Math.max(8, amp)}%`,
                         transformOrigin: "center center",
                       }}
-                      className="w-[1.2px] sm:w-[1.5px] lg:w-[1.8px] rounded-[0.2px] shrink-0 bg-slate-300 dark:bg-slate-700 transition-colors"
+                      className="w-[2px] sm:w-[2.4px] lg:w-[2.8px] rounded-full shrink-0 bg-slate-300 dark:bg-slate-700 transition-colors"
                     />
                   ))}
                 </div>

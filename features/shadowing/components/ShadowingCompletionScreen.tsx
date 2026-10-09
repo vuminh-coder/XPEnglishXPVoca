@@ -90,12 +90,12 @@ export function ShadowingCompletionScreen({
           <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-gradient-to-br from-amber-400 to-amber-500 text-white flex items-center justify-center shadow-lg shadow-amber-500/30 ring-8 ring-amber-500/10">
             <Trophy className="w-10 h-10 sm:w-12 sm:h-12 stroke-[2.2]" />
           </div>
-          <span className="absolute -top-1 -right-1 text-2xl select-none">✨</span>
+          <Sparkles className="w-6 h-6 text-amber-300 absolute -top-1 -right-1 animate-pulse" />
         </div>
 
         {/* Celebration Title & Description */}
         <h3 className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 dark:text-white font-display tracking-tight">
-          🎉 Chúc Mừng! Bạn Đã Hoàn Thành Bài Luyện Nói Shadowing!
+          Chúc Mừng! Bạn Đã Hoàn Thành Bài Luyện Nói Shadowing!
         </h3>
         <p className="text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-400 mt-1 max-w-md">
           Bạn đã luyện phát âm và theo kịp ngữ điệu tự nhiên toàn bộ các câu trong bài học.

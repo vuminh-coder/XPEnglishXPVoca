@@ -12,6 +12,7 @@ export async function GET(request: Request) {
     const category = searchParams.get("category");
     const level = searchParams.get("level");
     const search = searchParams.get("search");
+    const mode = searchParams.get("mode") || "all";
     let userId = searchParams.get("userId");
 
     if (!userId) {
@@ -26,7 +27,7 @@ export async function GET(request: Request) {
       ? "private, no-cache, no-store, must-revalidate"
       : "public, s-maxage=60, stale-while-revalidate=120";
 
-    const cacheKey = `listening_lessons:${category || "ALL"}:${level || "ALL"}:${search || ""}:${userId || "guest"}:${takeLimit}`;
+    const cacheKey = `listening_lessons:${mode}:${category || "ALL"}:${level || "ALL"}:${search || ""}:${userId || "guest"}:${takeLimit}`;
     const cached = memoryCache.get<any[]>(cacheKey);
     if (cached) {
       return NextResponse.json(
@@ -56,45 +57,59 @@ export async function GET(request: Request) {
         { category: { contains: search, mode: "insensitive" } },
       ];
     }
+    if (mode === "audio") {
+      whereClause.NOT = [
+        { id: { startsWith: "vid_" } },
+        { audioUrl: { contains: "youtube.com" } },
+        { audioUrl: { contains: "youtu.be" } },
+      ];
+    }
 
     let result = await safeDbExecute(async () => {
+      const isAudioOnly = mode === "audio";
+      const isVideoOnly = mode === "video";
+
       const [lessons, videoLessons] = await Promise.all([
-        prisma.listeningLesson.findMany({
-          where: whereClause,
-          orderBy: { orderIndex: "asc" },
-          take: takeLimit,
-          select: {
-            id: true,
-            title: true,
-            category: true,
-            level: true,
-            duration: true,
-            accent: true,
-            audioUrl: true,
-            imageUrl: true,
-            orderIndex: true,
-            progresses: userId
-              ? {
-                  where: { userId },
-                  take: 1,
-                  select: {
-                    status: true,
-                    completedSentences: true,
-                    bookmarkedSentences: true,
-                    lastPracticedAt: true,
-                  },
-                }
-              : false,
-          },
-        }),
-        prisma.videoLesson.findMany({
-          take: 40,
-          orderBy: { createdAt: "desc" },
-          include: {
-            category: true,
-            _count: { select: { segments: true } },
-          },
-        }),
+        isVideoOnly
+          ? Promise.resolve([])
+          : prisma.listeningLesson.findMany({
+              where: whereClause,
+              orderBy: { orderIndex: "asc" },
+              take: takeLimit,
+              select: {
+                id: true,
+                title: true,
+                category: true,
+                level: true,
+                duration: true,
+                accent: true,
+                audioUrl: true,
+                imageUrl: true,
+                orderIndex: true,
+                progresses: userId
+                  ? {
+                      where: { userId },
+                      take: 1,
+                      select: {
+                        status: true,
+                        completedSentences: true,
+                        bookmarkedSentences: true,
+                        lastPracticedAt: true,
+                      },
+                    }
+                  : false,
+              },
+            }),
+        isAudioOnly
+          ? Promise.resolve([])
+          : prisma.videoLesson.findMany({
+              take: 40,
+              orderBy: { createdAt: "desc" },
+              include: {
+                category: true,
+                _count: { select: { segments: true } },
+              },
+            }),
       ]);
 
       const listeningItems = lessons.map((lesson: any) => {
@@ -155,6 +170,18 @@ export async function GET(request: Request) {
     // Fallback to MOCK_LESSONS_DATA if database table is empty
     if (!result || result.length === 0) {
       let filteredMocks = [...MOCK_LESSONS_DATA];
+      if (mode === "audio") {
+        filteredMocks = filteredMocks.filter(
+          (l: any) =>
+            !l.id?.startsWith("vid_") &&
+            !l.audioUrl?.includes("youtube") &&
+            !l.audioUrl?.includes("youtu.be") &&
+            !l.audio_url?.includes("youtube") &&
+            !l.audio_url?.includes("youtu.be")
+        );
+      } else if (mode === "video") {
+        filteredMocks = [];
+      }
       if (category && category !== "ALL") {
         filteredMocks = filteredMocks.filter((l) => l.category === category);
       }

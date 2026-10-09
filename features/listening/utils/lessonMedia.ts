@@ -25,7 +25,7 @@ export function resolveLessonMedia(lesson: any): LessonMediaInfo {
     return { isVideoLesson: false, youtubeId: null, sourceUrlOrId: "" };
   }
 
-  const audioUrl: string = lesson.audioUrl || lesson.audio_url || "";
+  const audioUrl: string = lesson.youtubeUrl || lesson.audioUrl || lesson.audio_url || "";
   const externalId: string = lesson.videoMetadata?.externalId || "";
   const sourceUrlOrId: string = audioUrl || externalId || lesson.id || "";
 

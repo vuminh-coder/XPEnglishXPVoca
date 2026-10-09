@@ -13,7 +13,6 @@ function ShadowingRedirector() {
     const rawId = searchParams.get("id") || searchParams.get("lessonId");
     if (rawId) {
       const isVideo =
-        rawId === "122" ||
         rawId.startsWith("vid_") ||
         rawId.startsWith("yt_") ||
         rawId.startsWith("video_") ||

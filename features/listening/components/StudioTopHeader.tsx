@@ -46,7 +46,6 @@ export function StudioTopHeader({
   const [showKeyboardModal, setShowKeyboardModal] = useState(false);
 
   const isVideoLesson =
-    String(lessonQueryId) === "122" ||
     String(lessonQueryId).startsWith("vid_") ||
     String(lessonQueryId).startsWith("yt_") ||
     String(lessonQueryId).startsWith("video_");

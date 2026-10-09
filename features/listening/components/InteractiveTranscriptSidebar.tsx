@@ -67,6 +67,7 @@ interface InteractiveTranscriptSidebarProps {
   isLoadingSentences?: boolean;
   sentenceScores?: { [idx: number]: number };
   showTimestamps?: boolean;
+  practiceMode?: "listening" | "shadowing";
 }
 
 function InteractiveTranscriptSidebarComponent({
@@ -89,6 +90,7 @@ function InteractiveTranscriptSidebarComponent({
   isLoadingRecommendations = false,
   isLoadingSentences = false,
   showTimestamps = false,
+  practiceMode = "listening",
 }: InteractiveTranscriptSidebarProps) {
   // Tabs: "transcript" (Phụ đề) vs "tips" (Gợi ý bài học)
   const [activeTab, setActiveTab] = useState<"transcript" | "tips">("transcript");
@@ -298,8 +300,8 @@ function InteractiveTranscriptSidebarComponent({
                       <div className="flex items-center justify-between gap-2">
                         <div className="flex items-center gap-2 flex-wrap">
                           {isCompleted ? (
-                            <div className="w-6 h-6 rounded-full border-2 border-emerald-500 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0 shadow-2xs bg-emerald-50 dark:bg-emerald-950/50">
-                              <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                            <div className="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-xs">
+                              <Headphones className="w-3.5 h-3.5 stroke-[2.2]" />
                             </div>
                           ) : (
                             <div className="w-6 h-6 rounded-full border-2 border-[#0059bb] dark:border-sky-400 flex items-center justify-center text-[#0059bb] dark:text-sky-400 shrink-0 shadow-2xs bg-blue-50/60 dark:bg-blue-950/40">
@@ -326,24 +328,28 @@ function InteractiveTranscriptSidebarComponent({
                             </span>
                           )}
 
-                          {/* Trạng thái câu: Điểm số / ĐÃ CHÉP ĐÚNG / ĐANG HỌC */}
+                          {/* Trạng thái câu: Điểm số / ĐÃ CHÉP ĐÚNG / ĐÃ ĐẠT / CHƯA ĐẠT / ĐANG HỌC */}
                           {sentenceScores && sentenceScores[idx] !== undefined ? (
                             <span
-                              className={`px-2.5 py-0.5 rounded-[5px] text-white font-extrabold text-[10.5px] tracking-wide shadow-2xs font-mono ${
+                              className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold font-sans tracking-tight shadow-xs ${
                                 sentenceScores[idx] >= 80
-                                  ? "bg-emerald-600 dark:bg-emerald-500"
-                                  : "bg-[#0059bb] dark:bg-sky-500"
+                                  ? "bg-emerald-600 text-white"
+                                  : "bg-rose-600 text-white"
                               }`}
                             >
-                              ✓ {sentenceScores[idx]} ĐIỂM
+                              <span>
+                                {sentenceScores[idx] >= 80
+                                  ? `Đã đạt - ${sentenceScores[idx]} điểm`
+                                  : `Chưa đạt - ${sentenceScores[idx]} điểm`}
+                              </span>
                             </span>
                           ) : isCompleted ? (
-                            <span className="px-2.5 py-0.5 rounded-[5px] bg-emerald-600 dark:bg-emerald-500 text-white font-extrabold text-[10.5px] tracking-wide uppercase shadow-2xs">
-                              ĐÃ CHÉP ĐÚNG
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold font-sans tracking-tight bg-emerald-600 text-white shadow-xs">
+                              <span>{practiceMode === "shadowing" ? "Đã đạt" : "Đã chép đúng"}</span>
                             </span>
                           ) : (
-                            <span className="px-2.5 py-0.5 rounded-[5px] bg-[#0059bb] dark:bg-sky-500 text-white font-extrabold text-[10.5px] tracking-wide uppercase shadow-2xs">
-                              ĐANG HỌC
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold font-sans tracking-tight bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 border border-blue-200/80 dark:border-blue-900/60 shadow-2xs">
+                              <span>Đang học</span>
                             </span>
                           )}
                         </div>
@@ -429,9 +435,9 @@ function InteractiveTranscriptSidebarComponent({
                     >
                       <div className="flex items-center justify-between gap-2">
                         <div className="flex items-center gap-2 flex-wrap">
-                          {/* Vòng tròn xanh lá viền mỏng tích checkmark */}
-                          <div className="w-6 h-6 rounded-full border-2 border-emerald-500 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0">
-                            <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                          {/* Vòng tròn xanh lá */}
+                          <div className="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-xs">
+                            <Headphones className="w-3.5 h-3.5 stroke-[2.2]" />
                           </div>
                           <span className="text-[14.5px] sm:text-base font-semibold text-slate-700 dark:text-slate-300">
                             #{idx + 1}
@@ -445,16 +451,26 @@ function InteractiveTranscriptSidebarComponent({
                             </span>
                           )}
 
-                          {sentenceScores && sentenceScores[idx] !== undefined && (
+                          {sentenceScores && sentenceScores[idx] !== undefined ? (
                             <span
-                              className={`px-2 py-0.5 rounded-[5px] text-[10px] font-mono font-bold border shadow-2xs ${
+                              className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-sans font-bold shadow-xs ${
                                 sentenceScores[idx] >= 80
-                                  ? "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-200/80 dark:border-emerald-800/60"
-                                  : "bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 border-blue-200/80 dark:border-blue-800/60"
+                                  ? "bg-emerald-600 text-white"
+                                  : "bg-rose-600 text-white"
                               }`}
                             >
-                              {sentenceScores[idx]}đ
+                              <span>
+                                {sentenceScores[idx] >= 80
+                                  ? `Đã đạt - ${sentenceScores[idx]} điểm`
+                                  : `Chưa đạt - ${sentenceScores[idx]} điểm`}
+                              </span>
                             </span>
+                          ) : (
+                            practiceMode === "shadowing" && (
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-sans font-bold shadow-xs bg-emerald-600 text-white">
+                                <span>Đã đạt</span>
+                              </span>
+                            )
                           )}
                         </div>
 
@@ -506,8 +522,14 @@ function InteractiveTranscriptSidebarComponent({
                   >
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex items-center gap-2 flex-wrap">
-                        {/* Vòng tròn xám rỗng ◯ */}
-                        <div className="w-6 h-6 rounded-full border-2 border-slate-300 dark:border-slate-600 group-hover:border-slate-400 transition-colors shrink-0" />
+                        {/* Vòng tròn xám rỗng ◯ hoặc icon cảnh báo nếu chưa đạt */}
+                        {sentenceScores && sentenceScores[idx] !== undefined && sentenceScores[idx] < 80 ? (
+                          <div className="w-6 h-6 rounded-full border-2 border-rose-400 dark:border-rose-500 flex items-center justify-center text-rose-600 dark:text-rose-400 shrink-0 bg-rose-50 dark:bg-rose-950/40 text-[10px] font-black shadow-2xs">
+                            ✕
+                          </div>
+                        ) : (
+                          <div className="w-6 h-6 rounded-full border-2 border-slate-300 dark:border-slate-600 group-hover:border-slate-400 transition-colors shrink-0" />
+                        )}
 
                         {/* Số thứ tự #1, #4... */}
                         <span className="text-sm sm:text-[14.5px] font-semibold text-slate-600 dark:text-slate-400">
@@ -522,8 +544,15 @@ function InteractiveTranscriptSidebarComponent({
                           </span>
                         )}
 
+                        {/* Huy hiệu điểm nếu đã làm nhưng chưa đạt */}
+                        {sentenceScores && sentenceScores[idx] !== undefined && sentenceScores[idx] < 80 && (
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-sans font-bold shadow-xs bg-rose-600 text-white">
+                            <span>Chưa đạt - {sentenceScores[idx]} điểm</span>
+                          </span>
+                        )}
+
                         {/* Tag Mới nếu là câu đầu */}
-                        {idx === 0 && !showAllTexts && (
+                        {idx === 0 && !showAllTexts && (!sentenceScores || sentenceScores[idx] === undefined) && (
                           <span className="px-2.5 py-0.5 rounded-md text-[10.5px] font-bold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-300/80 dark:border-amber-800/60 shadow-2xs">
                             Mới
                           </span>
