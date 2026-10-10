@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import fs from "fs";
 import path from "path";
-import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
+import { MOCK_VIDEO_LESSONS, QUIZ_KURZGESAGT_INTERSTELLAR } from "@/features/listening/data/videoCatalogMockData";
 import { tokenizeSentence } from "@/features/listening/components/DictationWorkspace";
 
 describe("Kurzgesagt: How to Win an Interstellar War 100% Verbatim Calibration Test Suite", () => {
@@ -127,5 +127,94 @@ describe("Kurzgesagt: How to Win an Interstellar War 100% Verbatim Calibration T
 
       expect(segWords).toEqual(offWords);
     }
+  });
+
+  describe("Quiz Calibration: 8 In-Depth Bilingual Questions Verification", () => {
+    it("should link QUIZ_KURZGESAGT_INTERSTELLAR directly to the lesson with correct metadata", () => {
+      expect(kurzgesagtLesson?.quiz).toBeDefined();
+      expect(kurzgesagtLesson?.quiz).toBe(QUIZ_KURZGESAGT_INTERSTELLAR);
+      expect(kurzgesagtLesson?.quiz?.lessonId).toBe("88c4fc17-4445-46f4-82d4-c51fbb56e859");
+      expect(kurzgesagtLesson?.quiz?.totalQuestions).toBe(8);
+      expect(kurzgesagtLesson?.quiz?.xpReward).toBe(40);
+      expect(kurzgesagtLesson?.quiz?.questions.length).toBe(8);
+    });
+
+    it("should satisfy 100% bilingual parity and 4 distinct options per question", () => {
+      const questions = kurzgesagtLesson?.quiz?.questions || [];
+      expect(questions.length).toBe(8);
+
+      questions.forEach((q, idx) => {
+        expect(q.id).toBe(`q_kurzgesagt_${idx + 1}`);
+        expect(q.question.length).toBeGreaterThan(10);
+        expect(q.questionEn).toBeDefined();
+        expect(q.questionEn!.length).toBeGreaterThan(10);
+        expect(q.questionVi).toBeDefined();
+        expect(q.questionVi!.length).toBeGreaterThan(10);
+
+        // Options
+        expect(q.options.length).toBe(4);
+        expect(q.optionsEn).toBeDefined();
+        expect(q.optionsEn!.length).toBe(4);
+        expect(q.optionsVi).toBeDefined();
+        expect(q.optionsVi!.length).toBe(4);
+
+        // Correct answer boundary
+        expect([0, 1, 2, 3]).toContain(q.correctAnswer);
+
+        // Explanations
+        expect(q.explanation.length).toBeGreaterThan(15);
+        expect(q.explanationEn).toBeDefined();
+        expect(q.explanationEn!.length).toBeGreaterThan(15);
+        expect(q.explanationVi).toBeDefined();
+        expect(q.explanationVi!.length).toBeGreaterThan(15);
+
+        // Reference segment valid index
+        expect(q.referenceSegmentIndex).toBeDefined();
+        expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
+        expect(q.referenceSegmentIndex).toBeLessThan(21);
+
+        // Targeted concept
+        expect(q.targetedConcept).toBeDefined();
+        expect(q.targetedConceptEn).toBeDefined();
+        expect(q.targetedConceptVi).toBeDefined();
+      });
+    });
+
+    it("should verify specific question references match their scientific transcript segments", () => {
+      const questions = kurzgesagtLesson?.quiz?.questions || [];
+      const segments = kurzgesagtLesson?.segments || [];
+
+      // Question 1: references segment 6 ("Humans... technological civilization")
+      expect(questions[0].referenceSegmentIndex).toBe(6);
+      expect(segments[6].text).toContain("Humans");
+
+      // Question 2: references segment 10 ("orange dwarf star HD 40307, 42 light years away")
+      expect(questions[1].referenceSegmentIndex).toBe(10);
+      expect(segments[10].text).toContain("HD 40307");
+
+      // Question 3: references segment 12 ("Dyson swarm")
+      expect(questions[2].referenceSegmentIndex).toBe(12);
+      expect(segments[12].text).toContain("Dyson swarm");
+
+      // Question 4: references segment 13 ("hyperspace bypass")
+      expect(questions[3].referenceSegmentIndex).toBe(13);
+      expect(segments[13].text).toContain("hyperspace bypass");
+
+      // Question 5: references segment 16 ("Front lines, tactics, and logistics are meaningless")
+      expect(questions[4].referenceSegmentIndex).toBe(16);
+      expect(segments[16].text).toContain("meaningless");
+
+      // Question 6: references segment 17 ("fought across time")
+      expect(questions[5].referenceSegmentIndex).toBe(17);
+      expect(segments[17].text).toContain("fought across time");
+
+      // Question 7: references segment 19 ("Sending an invasion fleet is futile")
+      expect(questions[6].referenceSegmentIndex).toBe(19);
+      expect(segments[19].text).toContain("futile");
+
+      // Question 8: references segment 20 ("fraction of the speed of light... plenty of time to prepare")
+      expect(questions[7].referenceSegmentIndex).toBe(20);
+      expect(segments[20].text).toContain("plenty of time to prepare");
+    });
   });
 });

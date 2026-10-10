@@ -1,44 +1,87 @@
 // Modular lesson catalog exports
-import { LESSON_REWRITE_THE_STARS } from "./lesson_rewrite_the_stars";
-import { LESSON_KURZGESAGT_INTERSTELLAR } from "./lesson_kurzgesagt_interstellar";
-import { LESSON_DAILY_PETS } from "./lesson_daily_pets";
-import { LESSON_BBC_SUNKEN_SHIP } from "./lesson_bbc_sunken_ship";
-import { LESSON_STEVE_JOBS } from "./lesson_steve_jobs";
-import { LESSON_TED_BILINGUAL_BRAIN } from "./lesson_ted_bilingual_brain";
-import { LESSON_BBC_WHY_WE_LAUGH } from "./lesson_bbc_why_we_laugh";
-import { LESSON_AIRPORT_CHECKIN } from "./lesson_airport_checkin";
-import { LESSON_NATGEO_RENEWABLE_ENERGY } from "./lesson_natgeo_renewable_energy";
-import { LESSON_JENSEN_HUANG } from "./lesson_jensen_huang";
-import { LESSON_MATT_WALKER_SLEEP } from "./lesson_matt_walker_sleep";
-import { LESSON_OXFORD_FOOD_COOKING } from "./lesson_oxford_food_cooking";
-import { LESSON_DAVID_ATTENBOROUGH_PLANET } from "./lesson_david_attenborough_planet";
-import { LESSON_CAREERVIDZ_INTERVIEW } from "./lesson_careervidz_interview";
-import { LESSON_RATATOUILLE_ANTON_EGO } from "./lesson_ratatouille_anton_ego";
-import { LESSON_PSYCHOLOGY_OF_MONEY } from "./lesson_psychology_of_money";
-import { LESSON_SIMON_SINEK } from "./lesson_simon_sinek";
-import { LESSON_OXFORD_MEETING } from "./lesson_oxford_meeting";
-import { LESSON_JULIAN_TREASURE } from "./lesson_julian_treasure";
+import { LESSON_REWRITE_THE_STARS, QUIZ_REWRITE_THE_STARS } from "./lesson_rewrite_the_stars";
+import { LESSON_KURZGESAGT_INTERSTELLAR, QUIZ_KURZGESAGT_INTERSTELLAR } from "./lesson_kurzgesagt_interstellar";
+import { LESSON_DAILY_PETS, QUIZ_DAILY_PETS } from "./lesson_daily_pets";
+import { LESSON_BBC_SUNKEN_SHIP, QUIZ_BBC_SUNKEN_SHIP } from "./lesson_bbc_sunken_ship";
+import { LESSON_STEVE_JOBS, QUIZ_STEVE_JOBS } from "./lesson_steve_jobs";
+import { LESSON_TED_BILINGUAL_BRAIN, QUIZ_TED_BILINGUAL_BRAIN } from "./lesson_ted_bilingual_brain";
+import { LESSON_BBC_WHY_WE_LAUGH, QUIZ_BBC_WHY_WE_LAUGH } from "./lesson_bbc_why_we_laugh";
+import { LESSON_AIRPORT_CHECKIN, QUIZ_AIRPORT_CHECKIN } from "./lesson_airport_checkin";
+import { LESSON_NATGEO_RENEWABLE_ENERGY, QUIZ_NATGEO_RENEWABLE_ENERGY } from "./lesson_natgeo_renewable_energy";
+import { LESSON_JENSEN_HUANG, QUIZ_JENSEN_HUANG } from "./lesson_jensen_huang";
+import { LESSON_MATT_WALKER_SLEEP, QUIZ_MATT_WALKER_SLEEP } from "./lesson_matt_walker_sleep";
+import { LESSON_OXFORD_FOOD_COOKING, QUIZ_OXFORD_FOOD_COOKING } from "./lesson_oxford_food_cooking";
+import { LESSON_DAVID_ATTENBOROUGH_PLANET, QUIZ_DAVID_ATTENBOROUGH_PLANET } from "./lesson_david_attenborough_planet";
+import { LESSON_CAREERVIDZ_INTERVIEW, QUIZ_CAREERVIDZ_INTERVIEW } from "./lesson_careervidz_interview";
+import { LESSON_RATATOUILLE_ANTON_EGO, QUIZ_RATATOUILLE_ANTON_EGO } from "./lesson_ratatouille_anton_ego";
+import { LESSON_PSYCHOLOGY_OF_MONEY, QUIZ_PSYCHOLOGY_OF_MONEY } from "./lesson_psychology_of_money";
+import { LESSON_SIMON_SINEK, QUIZ_SIMON_SINEK } from "./lesson_simon_sinek";
+import { LESSON_OXFORD_MEETING, QUIZ_OXFORD_MEETING } from "./lesson_oxford_meeting";
+import { LESSON_JULIAN_TREASURE, QUIZ_JULIAN_TREASURE } from "./lesson_julian_treasure";
+import { LESSON_ALEX_GENDLER_LANGUAGES, QUIZ_ALEX_GENDLER_LANGUAGES } from "./lesson_alex_gendler_languages";
+import { LESSON_BBC_FOOD_MOOD, QUIZ_BBC_FOOD_MOOD } from "./lesson_bbc_food_mood";
+import { LESSON_BBC_LAUGHTER_MEDICINE, QUIZ_BBC_LAUGHTER_MEDICINE } from "./lesson_bbc_laughter_medicine";
+import { LESSON_HOTEL_CHECKIN, QUIZ_HOTEL_CHECKIN } from "./lesson_hotel_checkin";
+import { LESSON_RESTAURANT_ORDERING, QUIZ_RESTAURANT_ORDERING } from "./lesson_restaurant_ordering";
+import { LESSON_TED_SCIENCE_HABITS, QUIZ_TED_SCIENCE_HABITS } from "./lesson_ted_science_habits";
+import { LESSON_BUSINESS_PHONE_CALL, QUIZ_BUSINESS_PHONE_CALL } from "./lesson_business_phone_call";
+import { LESSON_MEDICAL_CONSULTATION, QUIZ_MEDICAL_CONSULTATION } from "./lesson_medical_consultation";
 
 export {
   LESSON_REWRITE_THE_STARS,
+  QUIZ_REWRITE_THE_STARS,
   LESSON_KURZGESAGT_INTERSTELLAR,
+  QUIZ_KURZGESAGT_INTERSTELLAR,
   LESSON_DAILY_PETS,
+  QUIZ_DAILY_PETS,
   LESSON_BBC_SUNKEN_SHIP,
+  QUIZ_BBC_SUNKEN_SHIP,
   LESSON_STEVE_JOBS,
+  QUIZ_STEVE_JOBS,
   LESSON_TED_BILINGUAL_BRAIN,
+  QUIZ_TED_BILINGUAL_BRAIN,
   LESSON_BBC_WHY_WE_LAUGH,
+  QUIZ_BBC_WHY_WE_LAUGH,
   LESSON_AIRPORT_CHECKIN,
+  QUIZ_AIRPORT_CHECKIN,
   LESSON_NATGEO_RENEWABLE_ENERGY,
+  QUIZ_NATGEO_RENEWABLE_ENERGY,
   LESSON_JENSEN_HUANG,
+  QUIZ_JENSEN_HUANG,
   LESSON_MATT_WALKER_SLEEP,
+  QUIZ_MATT_WALKER_SLEEP,
   LESSON_OXFORD_FOOD_COOKING,
+  QUIZ_OXFORD_FOOD_COOKING,
   LESSON_DAVID_ATTENBOROUGH_PLANET,
+  QUIZ_DAVID_ATTENBOROUGH_PLANET,
   LESSON_CAREERVIDZ_INTERVIEW,
+  QUIZ_CAREERVIDZ_INTERVIEW,
   LESSON_RATATOUILLE_ANTON_EGO,
+  QUIZ_RATATOUILLE_ANTON_EGO,
   LESSON_PSYCHOLOGY_OF_MONEY,
+  QUIZ_PSYCHOLOGY_OF_MONEY,
   LESSON_SIMON_SINEK,
+  QUIZ_SIMON_SINEK,
   LESSON_OXFORD_MEETING,
+  QUIZ_OXFORD_MEETING,
   LESSON_JULIAN_TREASURE,
+  QUIZ_JULIAN_TREASURE,
+  LESSON_ALEX_GENDLER_LANGUAGES,
+  QUIZ_ALEX_GENDLER_LANGUAGES,
+  LESSON_BBC_FOOD_MOOD,
+  QUIZ_BBC_FOOD_MOOD,
+  LESSON_BBC_LAUGHTER_MEDICINE,
+  QUIZ_BBC_LAUGHTER_MEDICINE,
+  LESSON_HOTEL_CHECKIN,
+  QUIZ_HOTEL_CHECKIN,
+  LESSON_RESTAURANT_ORDERING,
+  QUIZ_RESTAURANT_ORDERING,
+  LESSON_TED_SCIENCE_HABITS,
+  QUIZ_TED_SCIENCE_HABITS,
+  LESSON_BUSINESS_PHONE_CALL,
+  QUIZ_BUSINESS_PHONE_CALL,
+  LESSON_MEDICAL_CONSULTATION,
+  QUIZ_MEDICAL_CONSULTATION,
 };
 
 export const ALL_MODULAR_LESSONS = [
@@ -61,5 +104,13 @@ export const ALL_MODULAR_LESSONS = [
   LESSON_SIMON_SINEK,
   LESSON_OXFORD_MEETING,
   LESSON_JULIAN_TREASURE,
+  LESSON_ALEX_GENDLER_LANGUAGES,
+  LESSON_BBC_FOOD_MOOD,
+  LESSON_BBC_LAUGHTER_MEDICINE,
+  LESSON_HOTEL_CHECKIN,
+  LESSON_RESTAURANT_ORDERING,
+  LESSON_TED_SCIENCE_HABITS,
+  LESSON_BUSINESS_PHONE_CALL,
+  LESSON_MEDICAL_CONSULTATION,
 ];
 

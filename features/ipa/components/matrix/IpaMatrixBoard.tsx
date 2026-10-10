@@ -19,23 +19,28 @@ import {
 import { IpaSoundCardV2 } from "./IpaSoundCardV2";
 import { IpaSoundDetailModal } from "./IpaSoundDetailModal";
 import { speakLessonText, stopTTS } from "@/shared/utils/ttsEngine";
+import { useIpaCatalogStore, IpaMatrixCategory } from "@/stores/ipaCatalogStore";
 
 export interface IpaMatrixBoardProps {
   onGoToPracticeLab?: (sound: IpaSound) => void;
   className?: string;
 }
 
-type CategoryTab = "all" | "vowels" | "consonants";
-
 export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
   onGoToPracticeLab,
   className = "",
 }) => {
-  const [activeTab, setActiveTab] = useState<CategoryTab>("all");
-  const [playbackRate, setPlaybackRate] = useState<number>(1.0);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedSound, setSelectedSound] = useState<IpaSound | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const activeTab = useIpaCatalogStore((s) => s.matrixCategoryTab);
+  const setActiveTab = useIpaCatalogStore((s) => s.setMatrixCategoryTab);
+  const playbackRate = useIpaCatalogStore((s) => s.matrixPlaybackRate);
+  const setPlaybackRate = useIpaCatalogStore((s) => s.setMatrixPlaybackRate);
+  const searchQuery = useIpaCatalogStore((s) => s.matrixSearchQuery);
+  const setSearchQuery = useIpaCatalogStore((s) => s.setMatrixSearchQuery);
+  const selectedSound = useIpaCatalogStore((s) => s.matrixSelectedSound);
+  const setSelectedSound = useIpaCatalogStore((s) => s.setMatrixSelectedSound);
+  const isModalOpen = useIpaCatalogStore((s) => s.isMatrixModalOpen);
+  const openModal = useIpaCatalogStore((s) => s.openMatrixModal);
+  const closeModal = useIpaCatalogStore((s) => s.closeMatrixModal);
 
   // Linguistic 4x3 Monophthong Quadrilateral (Front to Back, High to Low)
   const monophthongsOrdered = useMemo(() => {
@@ -114,14 +119,12 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
     if (onGoToPracticeLab) {
       onGoToPracticeLab(sound);
     } else {
-      setSelectedSound(sound);
-      setIsModalOpen(true);
+      openModal(sound);
     }
   };
 
   const handleOpenDetailModal = (sound: IpaSound) => {
-    setSelectedSound(sound);
-    setIsModalOpen(true);
+    openModal(sound);
   };
 
   return (
@@ -442,7 +445,7 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
       <IpaSoundDetailModal
         sound={selectedSound}
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={closeModal}
         onGoToPracticeLab={onGoToPracticeLab}
       />
     </div>

@@ -67,7 +67,9 @@ interface InteractiveTranscriptSidebarProps {
   isLoadingSentences?: boolean;
   sentenceScores?: { [idx: number]: number };
   showTimestamps?: boolean;
+  showProgressHeader?: boolean;
   practiceMode?: "listening" | "shadowing";
+  initialShowAllTexts?: boolean;
 }
 
 function InteractiveTranscriptSidebarComponent({
@@ -90,29 +92,25 @@ function InteractiveTranscriptSidebarComponent({
   isLoadingRecommendations = false,
   isLoadingSentences = false,
   showTimestamps = false,
+  showProgressHeader = true,
   practiceMode = "listening",
+  initialShowAllTexts = false,
 }: InteractiveTranscriptSidebarProps) {
   // Tabs: "transcript" (Phụ đề) vs "tips" (Gợi ý bài học)
   const [activeTab, setActiveTab] = useState<"transcript" | "tips">("transcript");
   const [showAllTexts, setShowAllTexts] = useState<boolean>(() => {
-    if (typeof window === "undefined") return true;
-    try {
-      const cached = localStorage.getItem("xp_voca_show_all_sentences");
-      return cached !== null ? cached === "true" : true;
-    } catch {
-      return true;
+    if (typeof initialShowAllTexts === "boolean") {
+      return initialShowAllTexts;
     }
+    return false;
   });
+
+  // Khi showProgressHeader = false (như ở chế độ Đọc hiểu video không có header tiến độ), luôn luôn hiện đầy đủ câu và phụ đề dịch
+  const effectiveShowAllTexts = !showProgressHeader ? true : showAllTexts;
   const [playingWord, setPlayingWord] = useState<string | null>(null);
 
   const handleToggleShowAllTexts = () => {
-    setShowAllTexts((prev) => {
-      const next = !prev;
-      try {
-        localStorage.setItem("xp_voca_show_all_sentences", String(next));
-      } catch {}
-      return next;
-    });
+    setShowAllTexts((prev) => !prev);
   };
 
   const sentenceRefs = useRef<{ [idx: number]: HTMLDivElement | null }>({});
@@ -194,69 +192,71 @@ function InteractiveTranscriptSidebarComponent({
             transition={{ duration: 0.18, ease: "easeOut" }}
             className="flex-1 flex flex-col min-h-0"
           >
-          {/* Header Tiến độ & Đặt lại tiến độ / Toggle Hiện — KHỚP 100% ẢNH MẪU */}
-          <div className="space-y-1 px-5 pt-3.5 pb-2 shrink-0">
-            {/* Dòng 1: [ 1/14 ] bên trái, [ ↺ Đặt lại tiến độ   Hiện (O) ] bên phải */}
-            <div className="flex items-start justify-between">
-              <div>
-                <span className="text-xl sm:text-2xl font-extrabold font-sans tracking-tight text-slate-900 dark:text-white leading-none block">
-                  {completedCount}/{totalCount}
-                </span>
-                <span className="text-xs sm:text-[13px] font-normal text-slate-500 dark:text-slate-400 block mt-1">
-                  Tiến độ
-                </span>
-              </div>
+          {/* Header Tiến độ & Đặt lại tiến độ / Toggle Hiện (chỉ hiển thị khi showProgressHeader = true) */}
+          {showProgressHeader && (
+            <div className="space-y-1 px-5 pt-3.5 pb-2 shrink-0">
+              {/* Dòng 1: [ 1/14 ] bên trái, [ ↺ Đặt lại tiến độ   Hiện (O) ] bên phải */}
+              <div className="flex items-start justify-between">
+                <div>
+                  <span className="text-xl sm:text-2xl font-extrabold font-sans tracking-tight text-slate-900 dark:text-white leading-none block">
+                    {completedCount}/{totalCount}
+                  </span>
+                  <span className="text-xs sm:text-[13px] font-normal text-slate-500 dark:text-slate-400 block mt-1">
+                    Tiến độ
+                  </span>
+                </div>
 
-              <div className="flex items-center gap-4 text-xs sm:text-[13px] text-slate-600 dark:text-slate-400 pt-0.5">
-                {onResetProgress && (
-                  <button
-                    type="button"
-                    onClick={onResetProgress}
-                    className="flex items-center gap-1.5 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors cursor-pointer"
-                    title="Đặt lại tiến độ bài học này"
-                  >
-                    <RotateCcw className="w-3.5 h-3.5 stroke-[1.75]" />
-                    <span className="font-normal">Đặt lại tiến độ</span>
-                  </button>
-                )}
+                <div className="flex items-center gap-4 text-xs sm:text-[13px] text-slate-600 dark:text-slate-400 pt-0.5">
+                  {onResetProgress && (
+                    <button
+                      type="button"
+                      onClick={onResetProgress}
+                      className="flex items-center gap-1.5 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors cursor-pointer"
+                      title="Đặt lại tiến độ bài học này"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5 stroke-[1.75]" />
+                      <span className="font-normal">Đặt lại tiến độ</span>
+                    </button>
+                  )}
 
-                <div
-                  className="flex items-center gap-2 select-none"
-                  title={showAllTexts ? "Đang hiện câu (Nhấp để ẩn thành •)" : "Hiện toàn bộ văn bản câu trong bài"}
-                >
-                  <span className="font-normal text-slate-600 dark:text-slate-400">Hiện câu</span>
-                  <button
-                    type="button"
-                    onClick={handleToggleShowAllTexts}
-                    className={`w-9 h-5 rounded-full p-0.5 transition-colors duration-200 ease-in-out flex items-center cursor-pointer ${
-                      showAllTexts
-                        ? "bg-slate-900 dark:bg-emerald-500 justify-end"
-                        : "bg-slate-200 dark:bg-slate-700 justify-start"
-                    }`}
+                  <div
+                    className="flex items-center gap-2 select-none"
+                    title={showAllTexts ? "Đang hiện câu (Nhấp để ẩn thành •)" : "Hiện toàn bộ văn bản câu trong bài"}
                   >
-                    <motion.div
-                      layout
-                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                      className="w-4 h-4 rounded-full bg-white shadow-xs"
-                    />
-                  </button>
+                    <span className="font-normal text-slate-600 dark:text-slate-400">Hiện câu</span>
+                    <button
+                      type="button"
+                      onClick={handleToggleShowAllTexts}
+                      className={`w-9 h-5 rounded-full p-0.5 transition-colors duration-200 ease-in-out flex items-center cursor-pointer ${
+                        showAllTexts
+                          ? "bg-slate-900 dark:bg-emerald-500 justify-end"
+                          : "bg-slate-200 dark:bg-slate-700 justify-start"
+                      }`}
+                    >
+                      <motion.div
+                        layout
+                        transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                        className="w-4 h-4 rounded-full bg-white shadow-xs"
+                      />
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Dòng 2: Thanh tiến độ bo tròn chuẩn ảnh */}
-            <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden mt-2">
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: `${progressPercent}%` }}
-                transition={{ duration: 0.4, ease: "easeOut" }}
-                className="h-full bg-slate-900 dark:bg-emerald-400 rounded-full"
-              />
+              {/* Dòng 2: Thanh tiến độ bo tròn chuẩn ảnh */}
+              <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden mt-2">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: `${progressPercent}%` }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
+                  className="h-full bg-slate-900 dark:bg-emerald-400 rounded-full"
+                />
+              </div>
             </div>
-          </div>
+          )}
 
           {/* DANH SÁCH CÁC CÂU TRONG BÀI — TƯƠI SÁNG, NỔI BẬT, ICON RÕ NÉT */}
-          <div className="flex-1 overflow-y-auto hide-scrollbar space-y-3 px-5 pb-24">
+          <div className={`flex-1 overflow-y-auto hide-scrollbar space-y-3 px-5 pb-24 ${!showProgressHeader ? "pt-3.5" : ""}`}>
             {isLoadingSentences ? (
               <TranscriptSentencesSkeleton count={transcript.length || 6} />
             ) : (
@@ -392,7 +392,7 @@ function InteractiveTranscriptSidebarComponent({
                       </div>
 
                       {/* Nội dung câu */}
-                      {isCompleted || showAllTexts ? (
+                      {isCompleted || effectiveShowAllTexts ? (
                         <>
                           <p className="text-sm sm:text-[14.5px] font-semibold text-slate-900 dark:text-white leading-relaxed pt-0.5 break-words">
                             {sentence.text}
@@ -552,7 +552,7 @@ function InteractiveTranscriptSidebarComponent({
                         )}
 
                         {/* Tag Mới nếu là câu đầu */}
-                        {idx === 0 && !showAllTexts && (!sentenceScores || sentenceScores[idx] === undefined) && (
+                        {idx === 0 && !effectiveShowAllTexts && (!sentenceScores || sentenceScores[idx] === undefined) && (
                           <span className="px-2.5 py-0.5 rounded-md text-[10.5px] font-bold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-300/80 dark:border-amber-800/60 shadow-2xs">
                             Mới
                           </span>
@@ -580,7 +580,7 @@ function InteractiveTranscriptSidebarComponent({
 
                     {/* Nội dung câu tiếng Anh hoặc chuỗi dấu chấm */}
                     <div>
-                      {showAllTexts ? (
+                      {effectiveShowAllTexts ? (
                         <p className="text-sm sm:text-[14.5px] text-slate-700 dark:text-slate-300 font-medium leading-relaxed break-words">
                           {sentence.text}
                         </p>
@@ -598,7 +598,7 @@ function InteractiveTranscriptSidebarComponent({
                     </div>
 
                     {/* Bản dịch tiếng Việt phong cách song ngữ Reading */}
-                    {cleanTranslation && showAllTexts && (
+                    {cleanTranslation && effectiveShowAllTexts && (
                       <div className="pl-4 pr-3 py-2 border-l-[3px] border-[#0059bb]/70 dark:border-sky-400/70 bg-blue-50/40 dark:bg-blue-950/20 rounded-r-xl text-xs sm:text-[13px] text-slate-600 dark:text-slate-300 font-medium leading-relaxed my-1 break-words">
                         {cleanTranslation}
                       </div>

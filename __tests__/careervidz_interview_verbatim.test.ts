@@ -116,4 +116,29 @@ describe("CareerVidz: Tell Me About Yourself - 100% Verbatim Audit", () => {
     expect(lessonWords.length).toBe(226);
     expect(lessonWords).toEqual(uniqueWords.slice(0, 226));
   });
+
+  it("should have comprehensive bilingual reading quiz attached", () => {
+    expect(LESSON_CAREERVIDZ_INTERVIEW.quiz).toBeDefined();
+    const quiz = LESSON_CAREERVIDZ_INTERVIEW.quiz!;
+    expect(quiz.lessonId).toBe("vid_careervidz_interview");
+    expect(quiz.totalQuestions).toBe(8);
+    expect(quiz.xpReward).toBe(40);
+    expect(quiz.questions.length).toBe(8);
+
+    for (const q of quiz.questions) {
+      expect(q.id.length).toBeGreaterThan(0);
+      expect(q.questionEn).toBeDefined();
+      expect(q.questionVi).toBeDefined();
+      expect(q.optionsEn!.length).toBe(4);
+      expect(q.optionsVi!.length).toBe(4);
+      expect(q.correctAnswer).toBeGreaterThanOrEqual(0);
+      expect(q.correctAnswer).toBeLessThan(4);
+      expect(q.explanationEn).toBeDefined();
+      expect(q.explanationVi).toBeDefined();
+      expect(q.targetedConceptEn).toBeDefined();
+      expect(q.targetedConceptVi).toBeDefined();
+      expect(q.referenceSegmentIndex).toBeDefined();
+    }
+  });
 });
+

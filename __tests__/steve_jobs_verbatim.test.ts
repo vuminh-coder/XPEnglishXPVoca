@@ -99,4 +99,40 @@ describe("Steve Jobs: Stanford Commencement Speech - 100% Verbatim & Segment Aud
     expect(offWords.length).toBe(388);
     expect(lessonWords).toEqual(offWords);
   });
+
+  it("should have valid explanationAi and tokenCount across all 18 segments in lesson object", () => {
+    expect(LESSON_STEVE_JOBS.segments.length).toBe(18);
+    for (const seg of LESSON_STEVE_JOBS.segments) {
+      expect(seg.explanationAi).toBeDefined();
+      expect(seg.explanationAi!.length).toBeGreaterThan(0);
+      expect(seg.tokenCount).toBeDefined();
+      expect(seg.tokenCount).toBeGreaterThan(0);
+    }
+  });
+
+  it("should have comprehensive bilingual reading comprehension quiz attached", () => {
+    const quiz = LESSON_STEVE_JOBS.quiz;
+    expect(quiz).toBeDefined();
+    if (!quiz) return;
+
+    expect(quiz.lessonId).toBe("0678a126-f94d-4930-81ce-ebe1e6731e7e");
+    expect(quiz.totalQuestions).toBe(8);
+    expect(quiz.questions.length).toBe(8);
+    expect(quiz.xpReward).toBe(40);
+
+    for (const q of quiz.questions) {
+      expect(q.id.length).toBeGreaterThan(0);
+      expect(q.questionEn).toBeDefined();
+      expect(q.questionVi).toBeDefined();
+      expect(q.optionsEn!.length).toBe(4);
+      expect(q.optionsVi!.length).toBe(4);
+      expect(q.correctAnswer).toBeGreaterThanOrEqual(0);
+      expect(q.correctAnswer).toBeLessThan(4);
+      expect(q.explanationEn).toBeDefined();
+      expect(q.explanationVi).toBeDefined();
+      expect(q.targetedConceptEn).toBeDefined();
+      expect(q.targetedConceptVi).toBeDefined();
+      expect(q.referenceSegmentIndex).toBeDefined();
+    }
+  });
 });

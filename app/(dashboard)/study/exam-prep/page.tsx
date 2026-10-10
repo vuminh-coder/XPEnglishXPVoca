@@ -33,6 +33,7 @@ import {
 } from "./components/workspace/ExamAnswerSheet";
 import { ExamMobileThumbBar } from "./components/workspace/ExamMobileThumbBar";
 import { ExamSubmitConfirmModal } from "./components/shared/ExamSubmitConfirmModal";
+import { useExamCatalogStore } from "@/stores/examCatalogStore";
 
 function ExamPrepContent() {
   const { user, awardXp, awardCoins, addPracticeTime } = useUserStore();
@@ -41,24 +42,39 @@ function ExamPrepContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  // State Management
-  const [selectedExam, setSelectedExam] = useState<ExamPaper | null>(null);
-  const [activeMode, setActiveMode] = useState<"HUB" | "WORKSPACE" | "REPORT">(
-    "HUB",
-  );
-  const [filterType, setFilterType] = useState<string>("ALL");
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  // SWR In-Memory Store & Persistent Catalog State
+  const {
+    examPapers,
+    selectedExam,
+    activeMode,
+    filters,
+    fetchExamPapers,
+    fetchExamDetail,
+    setSelectedExam,
+    setActiveMode,
+    startExam,
+    quitExamToHub,
+    setLastSubmittedResult,
+    setFilterType,
+    setSearchQuery,
+    setConfigMode,
+    toggleSkill,
+    setAiTopic,
+    setAiTargetScore,
+    setAiQuestionCount,
+  } = useExamCatalogStore();
 
-  // Flexible Multi-Skill Configurator State (Default all 4 skills so all exam types are visible)
-  const [configMode, setConfigMode] = useState<"PRESET" | "AI_GEN">("PRESET");
-  const [activeSkills, setActiveSkills] = useState<SkillType[]>([
-    "LISTENING",
-    "READING",
-    "SPEAKING",
-    "WRITING",
-  ]);
+  const {
+    filterType,
+    searchQuery,
+    configMode,
+    activeSkills,
+    aiTopic,
+    aiTargetScore,
+    aiQuestionCount,
+  } = filters;
 
-  // Live Workspace State
+  // Live Workspace Local Run State
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [userAnswers, setUserAnswers] = useState<UserExamAnswers>({});
   const [flaggedQuestions, setFlaggedQuestions] = useState<
@@ -73,11 +89,24 @@ function ExamPrepContent() {
   const [showMobileWorkspaceSheet, setShowMobileWorkspaceSheet] =
     useState<boolean>(false);
 
-  // AI Section Toggle
-  const [aiTopic, setAiTopic] = useState<string>("Business & Travel");
-  const [aiTargetScore, setAiTargetScore] = useState<string>("700+");
-  const [aiQuestionCount, setAiQuestionCount] = useState<number>(20);
+  // AI Generation Loading Flag
   const [isAiGenerating, setIsAiGenerating] = useState<boolean>(false);
+
+  // Background SWR revalidation & URL Parameter sync for Frame-0 Probe
+  useEffect(() => {
+    fetchExamPapers();
+  }, [fetchExamPapers]);
+
+  useEffect(() => {
+    const idParam = searchParams?.get("id") || searchParams?.get("examId");
+    if (idParam && !selectedExam) {
+      fetchExamDetail(idParam).then((paper) => {
+        if (paper) {
+          handleStartExam(paper);
+        }
+      });
+    }
+  }, [searchParams, selectedExam, fetchExamDetail]);
 
   // Submit Exam and Persist Results
   const handleSubmitExam = () => {
@@ -89,6 +118,7 @@ function ExamPrepContent() {
       timeSpentSeconds,
     );
     setExamResult(result);
+    setLastSubmittedResult(result, selectedExam);
     setShowSubmitConfirmModal(false);
 
     // Save to LocalStorage / SessionStorage for Result Page
@@ -250,26 +280,18 @@ function ExamPrepContent() {
 
   // Toggle Skill Selection
   const handleToggleSkill = (skill: SkillType) => {
-    setActiveSkills((prev) => {
-      if (prev.includes(skill)) {
-        if (prev.length === 1) return prev; // Keep at least one skill selected
-        return prev.filter((s) => s !== skill);
-      } else {
-        return [...prev, skill];
-      }
-    });
+    toggleSkill(skill);
   };
 
   // Start Exam
   const handleStartExam = (paper: ExamPaper) => {
-    setSelectedExam(paper);
+    startExam(paper);
     setCurrentQuestionIndex(0);
     setUserAnswers({});
     setFlaggedQuestions({});
     setSecondsRemaining(paper.timeLimitMinutes * 60);
     setTimeSpentSeconds(0);
     setExamResult(null);
-    setActiveMode("WORKSPACE");
     addToast({
       type: "info",
       title: "Bắt đầu bài thi!",
@@ -287,7 +309,7 @@ function ExamPrepContent() {
 
   // Return to Hub
   const handleReturnToHub = () => {
-    setActiveMode("HUB");
+    quitExamToHub();
     setShowSubmitConfirmModal(false);
   };
 
@@ -339,7 +361,7 @@ function ExamPrepContent() {
   };
 
   // Filtered Exam List (Dynamically filtered by activeSkills matrix)
-  const filteredExams = MOCK_EXAM_PAPERS.filter((exam) => {
+  const filteredExams = examPapers.filter((exam) => {
     const matchesType =
       filterType === "ALL" ||
       exam.type === filterType ||
@@ -388,7 +410,7 @@ function ExamPrepContent() {
             rightDesktopContent={
               <button
                 type="button"
-                onClick={() => setConfigMode((prev) => (prev === "AI_GEN" ? "PRESET" : "AI_GEN"))}
+                onClick={() => setConfigMode(configMode === "AI_GEN" ? "PRESET" : "AI_GEN")}
                 className="h-9 px-3.5 sm:px-4 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-slate-950 text-xs font-black transition-all shadow-xs flex items-center gap-1.5 cursor-pointer active:scale-95 shrink-0"
               >
                 <Sparkles className="w-3.5 h-3.5 fill-slate-950" />

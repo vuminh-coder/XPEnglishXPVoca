@@ -24,6 +24,7 @@ import {
   calculateExamResult,
   ExamResultSummary,
 } from "@/features/exam-prep/utils/examScoringEngine";
+import { useExamCatalogStore } from "@/stores/examCatalogStore";
 import ExamResultLoading from "./loading";
 import { ResultMicroHeroBar } from "../components/result/ResultMicroHeroBar";
 import { ResultScoreOverviewTab } from "../components/result/ResultScoreOverviewTab";
@@ -106,42 +107,61 @@ Văn phong truyền cảm hứng, ngắn gọn, súc tích, định dạng markd
     }
   };
 
-  // Load Exam Result from sessionStorage or create fallback simulation from ID
   useEffect(() => {
     const idParam = searchParams.get("id") || searchParams.get("exam") || "1";
     const num = parseInt(idParam, 10);
-    let targetExam: ExamPaper = !isNaN(num) && num >= 1 && num <= MOCK_EXAM_PAPERS.length
+    const mockExam = !isNaN(num) && num >= 1 && num <= MOCK_EXAM_PAPERS.length
       ? MOCK_EXAM_PAPERS[num - 1]
       : MOCK_EXAM_PAPERS.find((p: ExamPaper) => p.id === idParam) || MOCK_EXAM_PAPERS[0];
-    
-    setSelectedExam(targetExam);
 
+    // Frame 0 synchronous probe + SWR detail fetch
+    setSelectedExam(mockExam);
+    useExamCatalogStore.getState().fetchExamDetail(idParam).then((resolvedPaper) => {
+      if (resolvedPaper) {
+        setSelectedExam(resolvedPaper);
+      }
+    });
+
+    // 1. Check in-memory store for last submitted exam attempt
+    const storeResult = useExamCatalogStore.getState().lastSubmittedResult;
+    const storePaper = useExamCatalogStore.getState().lastSubmittedPaper;
+    if (storeResult) {
+      setExamResult(storeResult);
+      if (storePaper) setSelectedExam(storePaper);
+      setLoading(false);
+      return;
+    }
+
+    // 2. Check sessionStorage
     try {
       const stored = sessionStorage.getItem("xp_latest_exam_result");
       if (stored) {
         const parsed = JSON.parse(stored);
-        if (parsed && parsed.examId) {
-          setExamResult(parsed);
+        const actualResult = parsed?.result || parsed;
+        const actualPaper = parsed?.paper || null;
+        if (actualResult && (actualResult.examId || actualResult.scaledScore !== undefined)) {
+          setExamResult(actualResult);
+          if (actualPaper) setSelectedExam(actualPaper);
           setLoading(false);
           return;
         }
       }
     } catch (_) {}
 
-    // Fallback: Reconstruct attempt result based on URL query
+    // 3. Fallback: Reconstruct attempt result based on URL query
     const sampleAnswers: Record<string, "A" | "B" | "C" | "D"> = {};
     const sampleFlags: Record<string, boolean> = {};
-    targetExam.questions.forEach((q: ExamQuestion, idx: number) => {
+    mockExam.questions.forEach((q: ExamQuestion, idx: number) => {
       if (idx % 3 === 0) sampleAnswers[q.id] = q.correctAnswer;
       else if (idx % 3 === 1) sampleAnswers[q.id] = q.correctAnswer === "A" ? "B" : "A";
       if (idx % 7 === 0) sampleFlags[q.id] = true;
     });
 
     const fallbackResult = calculateExamResult(
-      targetExam,
+      mockExam,
       sampleAnswers,
       1800,
-      targetExam.supportedSkills.length > 0 ? targetExam.supportedSkills : ["LISTENING", "READING"],
+      mockExam.supportedSkills.length > 0 ? mockExam.supportedSkills : ["LISTENING", "READING"],
       sampleFlags
     );
     setExamResult(fallbackResult);

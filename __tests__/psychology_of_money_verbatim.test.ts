@@ -125,4 +125,29 @@ describe("The Psychology of Money: Warren Buffett's Secret - 100% Verbatim Audit
     expect(normRaw.length).toBe(125);
     expect(normLesson).toEqual(normRaw);
   });
+
+  it("should have comprehensive bilingual reading quiz attached", () => {
+    expect(LESSON_PSYCHOLOGY_OF_MONEY.quiz).toBeDefined();
+    const quiz = LESSON_PSYCHOLOGY_OF_MONEY.quiz!;
+    expect(quiz.lessonId).toBe("vid_psychology_of_money");
+    expect(quiz.totalQuestions).toBe(8);
+    expect(quiz.xpReward).toBe(40);
+    expect(quiz.questions.length).toBe(8);
+
+    for (const q of quiz.questions) {
+      expect(q.id.length).toBeGreaterThan(0);
+      expect(q.questionEn).toBeDefined();
+      expect(q.questionVi).toBeDefined();
+      expect(q.optionsEn!.length).toBe(4);
+      expect(q.optionsVi!.length).toBe(4);
+      expect(q.correctAnswer).toBeGreaterThanOrEqual(0);
+      expect(q.correctAnswer).toBeLessThan(4);
+      expect(q.explanationEn).toBeDefined();
+      expect(q.explanationVi).toBeDefined();
+      expect(q.targetedConceptEn).toBeDefined();
+      expect(q.targetedConceptVi).toBeDefined();
+      expect(q.referenceSegmentIndex).toBeDefined();
+    }
+  });
 });
+

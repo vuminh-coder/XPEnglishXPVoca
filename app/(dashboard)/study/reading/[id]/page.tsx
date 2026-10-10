@@ -7,6 +7,7 @@ import {
   ReadingStudioSkeleton,
   READING_PASSAGES_DATA,
 } from "@/features/reading";
+import { useReadingCatalogStore } from "@/stores/readingCatalogStore";
 import { ArrowLeft, BookOpen } from "lucide-react";
 
 interface PageProps {
@@ -18,9 +19,15 @@ function ReadingPracticePageContent({ targetId }: { targetId?: string }) {
   const routeParams = useParams();
   const rawId = (targetId || (routeParams?.id as string) || "").trim();
 
-  // Find passage by canonical ID, lowercase ID, or numeric shorthand (e.g. "1" -> "r1")
+  // 1. Frame-0 Synchronous Passage Probe via Zustand Store & In-Memory Catalog
+  const cachedPassage = useReadingCatalogStore(
+    (s) => s.passageDetailCache[rawId]?.data || s.passageDetailCache[rawId.toLowerCase()]?.data
+  );
+
   const passage = React.useMemo(() => {
+    if (cachedPassage) return cachedPassage;
     if (!rawId) return null;
+
     const direct = READING_PASSAGES_DATA.find(
       (p) => p.id === rawId || p.id.toLowerCase() === rawId.toLowerCase()
     );
@@ -31,6 +38,13 @@ function ReadingPracticePageContent({ targetId }: { targetId?: string }) {
       if (prefixed) return prefixed;
     }
     return null;
+  }, [rawId, cachedPassage]);
+
+  // Background SWR passage detail registration
+  React.useEffect(() => {
+    if (rawId) {
+      useReadingCatalogStore.getState().fetchPassageDetail(rawId);
+    }
   }, [rawId]);
 
   if (!rawId) {

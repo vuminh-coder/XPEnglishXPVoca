@@ -170,4 +170,58 @@ describe("BBC Learning English: 100% Verbatim Subtitles Calibration Test Suite",
     expect(officialWords.length).toBe(203);
     expect(lessonWords).toEqual(officialWords);
   });
+
+  it("should have comprehensive bilingual reading comprehension quiz attached with 8 questions", () => {
+    const quiz = bbcLesson?.quiz;
+    expect(quiz).toBeDefined();
+    if (!quiz) return;
+
+    expect(quiz.lessonId).toBe("e4476093-9f0c-4620-a7f3-345d0e6b64db");
+    expect(quiz.totalQuestions).toBe(8);
+    expect(quiz.xpReward).toBe(40);
+    expect(quiz.questions.length).toBe(8);
+
+    for (let i = 0; i < quiz.questions.length; i++) {
+      const q = quiz.questions[i];
+      expect(q.id).toBe(`q_bbc_sunken_ship_${i + 1}`);
+      expect(q.questionEn).toBeDefined();
+      expect(q.questionEn!.length).toBeGreaterThan(10);
+      expect(q.questionVi).toBeDefined();
+      expect(q.questionVi!.length).toBeGreaterThan(10);
+      expect(q.options.length).toBe(4);
+      expect(q.optionsEn!.length).toBe(4);
+      expect(q.optionsVi!.length).toBe(4);
+      expect(q.correctAnswer).toBeGreaterThanOrEqual(0);
+      expect(q.correctAnswer).toBeLessThan(4);
+      expect(q.explanationEn).toBeDefined();
+      expect(q.explanationEn!.length).toBeGreaterThan(15);
+      expect(q.explanationVi).toBeDefined();
+      expect(q.explanationVi!.length).toBeGreaterThan(15);
+      expect(q.targetedConceptEn).toBeDefined();
+      expect(q.targetedConceptVi).toBeDefined();
+      expect(q.referenceSegmentIndex).toBeDefined();
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
+      expect(q.referenceSegmentIndex).toBeLessThan(13);
+    }
+
+    const segments = bbcLesson?.segments || [];
+    // Verify specific segment matches
+    expect(quiz.questions[0].referenceSegmentIndex).toBe(3);
+    expect(segments[3].text).toContain("vocabulary in the headlines");
+    expect(quiz.questions[1].referenceSegmentIndex).toBe(6);
+    expect(segments[6].text).toContain("porcelain cup");
+    expect(quiz.questions[2].referenceSegmentIndex).toBe(7);
+    expect(segments[7].text).toContain("Cartagena in Colombia");
+    expect(quiz.questions[3].referenceSegmentIndex).toBe(8);
+    expect(segments[8].text).toContain("20 billion");
+    expect(quiz.questions[4].referenceSegmentIndex).toBe(9);
+    expect(segments[9].text).toContain("Bolivia");
+    expect(quiz.questions[5].referenceSegmentIndex).toBe(10);
+    expect(segments[10].text).toContain("2015");
+    expect(quiz.questions[6].referenceSegmentIndex).toBe(11);
+    expect(segments[11].text).toContain("Fox Weather");
+    expect(quiz.questions[7].referenceSegmentIndex).toBe(12);
+    expect(segments[12].text).toContain("wrecked in war");
+  });
 });
+

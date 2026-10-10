@@ -13,13 +13,20 @@ const CHROME_PATH = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
   const page = await browser.newPage();
   await page.setViewport({ width: 1440, height: 900 });
 
-  const targetUrl = 'http://localhost:3000/study/dictation/video/vid_julian_treasure_speak/comprehension';
-  console.log(`Navigating to ${targetUrl}...`);
-  await page.goto(targetUrl, { waitUntil: 'networkidle2', timeout: 30000 });
+  page.on('console', msg => console.log('PAGE CONSOLE:', msg.text()));
+  page.on('pageerror', err => console.log('PAGE ERROR:', err.message));
 
-  // Wait for the question prompt to appear
-  await page.waitForSelector('h3', { timeout: 15000 });
-  await new Promise(r => setTimeout(r, 2000));
+  const targetUrl = 'http://localhost:3000/study/dictation/video/comprehension/vid_julian_treasure_speak';
+  console.log(`Navigating to ${targetUrl}...`);
+  await page.goto(targetUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
+
+  console.log('Waiting for question card to mount...');
+  await page.waitForFunction(() => {
+    const h3 = document.querySelector('h3');
+    return h3 && h3.innerText.length > 5;
+  }, { timeout: 30000 });
+
+  console.log('Question card mounted successfully!');
 
   // 1. Screenshot in English mode
   const enPath = path.join(__dirname, '..', 'public', 'comprehension_english_mode.png');
@@ -30,16 +37,25 @@ const CHROME_PATH = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
   const qTextEn = await page.evaluate(() => {
     return document.querySelector('h3')?.innerText;
   });
+  const optsEn = await page.evaluate(() => {
+    return Array.from(document.querySelectorAll('button'))
+      .filter(b => b.innerText.startsWith('A\n') || b.innerText.startsWith('A ') || b.innerText.startsWith('A'))
+      .map(b => b.innerText.slice(0, 80));
+  });
   console.log('English Question:', qTextEn);
+  console.log('English Options sample:', optsEn[0]);
 
   // 2. Click VI button (Language toggle)
   console.log('Toggling to Vietnamese mode...');
   await page.evaluate(() => {
     const buttons = Array.from(document.querySelectorAll('button'));
-    const viBtn = buttons.find(b => b.innerText.includes('VI') || b.innerText.includes('Tiếng Việt'));
-    if (viBtn) viBtn.click();
+    const viBtn = buttons.find(b => b.innerText.includes('Tiếng Việt') || b.innerText.trim() === 'VI');
+    if (viBtn) {
+      viBtn.click();
+      console.log('Clicked VI button!');
+    }
   });
-  await new Promise(r => setTimeout(r, 800));
+  await new Promise(r => setTimeout(r, 1200));
 
   const viPath = path.join(__dirname, '..', 'public', 'comprehension_vietnamese_mode.png');
   await page.screenshot({ path: viPath });
@@ -49,7 +65,13 @@ const CHROME_PATH = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
   const qTextVi = await page.evaluate(() => {
     return document.querySelector('h3')?.innerText;
   });
+  const optsVi = await page.evaluate(() => {
+    return Array.from(document.querySelectorAll('button'))
+      .filter(b => b.innerText.startsWith('A\n') || b.innerText.startsWith('A ') || b.innerText.startsWith('A'))
+      .map(b => b.innerText.slice(0, 80));
+  });
   console.log('Vietnamese Question:', qTextVi);
+  console.log('Vietnamese Options sample:', optsVi[0]);
 
   // 3. Select Option 0 and submit answer
   console.log('Selecting option 0 and checking answer...');

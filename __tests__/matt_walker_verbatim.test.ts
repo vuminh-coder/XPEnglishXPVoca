@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { tokenizeSentence } from "@/features/listening/components/DictationWorkspace";
-import { LESSON_MATT_WALKER_SLEEP } from "@/features/listening/data/lessons/lesson_matt_walker_sleep";
+import { LESSON_MATT_WALKER_SLEEP, QUIZ_MATT_WALKER_SLEEP } from "@/features/listening/data/lessons/lesson_matt_walker_sleep";
 import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
 
 describe("Matt Walker: Sleep Is Your Superpower - 100% Verbatim & Segment Audit", () => {
@@ -102,6 +102,32 @@ describe("Matt Walker: Sleep Is Your Superpower - 100% Verbatim & Segment Audit"
     const normLesson = lessonWords.map(normalize);
     const normRaw = rawWords.map(normalize);
     expect(normLesson).toEqual(normRaw);
+  });
+
+  it("should have comprehensive bilingual reading quiz attached", () => {
+    const quiz = LESSON_MATT_WALKER_SLEEP.quiz;
+    expect(quiz).toBeDefined();
+    if (!quiz) return;
+
+    expect(quiz.lessonId).toBe("vid_matt_walker_sleep");
+    expect(quiz.totalQuestions).toBe(8);
+    expect(quiz.questions.length).toBe(8);
+    expect(quiz.xpReward).toBe(40);
+
+    for (const q of quiz.questions) {
+      expect(q.id.length).toBeGreaterThan(0);
+      expect(q.questionEn).toBeDefined();
+      expect(q.questionVi).toBeDefined();
+      expect(q.optionsEn!.length).toBe(4);
+      expect(q.optionsVi!.length).toBe(4);
+      expect(q.correctAnswer).toBeGreaterThanOrEqual(0);
+      expect(q.correctAnswer).toBeLessThan(4);
+      expect(q.explanationEn).toBeDefined();
+      expect(q.explanationVi).toBeDefined();
+      expect(q.targetedConceptEn).toBeDefined();
+      expect(q.targetedConceptVi).toBeDefined();
+      expect(q.referenceSegmentIndex).toBeDefined();
+    }
   });
 });
 

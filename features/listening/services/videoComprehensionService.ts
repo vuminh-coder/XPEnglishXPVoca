@@ -1,34 +1,9 @@
 import { prisma } from "@/infrastructure/database/prisma";
 import { memoryCache } from "@/infrastructure/cache/memoryCache";
 import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
+import type { VideoQuizQuestion, VideoQuizData } from "@/features/listening/data/types";
 
-export interface VideoQuizQuestion {
-  id: string;
-  question: string;
-  options: string[];
-  correctAnswer: number; // 0, 1, 2, 3
-  explanation: string;
-  referenceSegmentIndex?: number;
-  targetedConcept?: string;
-  // Bilingual extensions
-  questionEn?: string;
-  questionVi?: string;
-  optionsEn?: string[];
-  optionsVi?: string[];
-  explanationEn?: string;
-  explanationVi?: string;
-  targetedConceptEn?: string;
-  targetedConceptVi?: string;
-}
-
-export interface VideoQuizData {
-  lessonId: string;
-  lessonTitle: string;
-  totalQuestions: number;
-  xpReward: number;
-  questions: VideoQuizQuestion[];
-  generatedBy: "AI_GEMINI" | "CONTEXTUAL_FALLBACK";
-}
+export type { VideoQuizQuestion, VideoQuizData };
 
 /**
  * Generates deterministic, high-quality contextual comprehension questions
@@ -40,115 +15,6 @@ export function generateContextualFallbackQuiz(
   segments: Array<{ orderIndex: number; text: string; translationVi: string; properNouns?: string[]; keywords?: string[] }>
 ): VideoQuizData {
   const questions: VideoQuizQuestion[] = [];
-
-  // Tailored high-yield questions for Julian Treasure's TED talk
-  if (lessonId === "vid_julian_treasure_speak" || lessonId.includes("julian_treasure")) {
-    return {
-      lessonId,
-      lessonTitle,
-      totalQuestions: 3,
-      xpReward: 25,
-      questions: [
-        {
-          id: `q_${lessonId}_1`,
-          question: "According to Julian Treasure, what metaphor does he use to describe the human voice?",
-          questionEn: "According to Julian Treasure, what metaphor does he use to describe the human voice?",
-          questionVi: "Theo Julian Treasure, ông sử dụng phép ẩn dụ nào để miêu tả giọng nói của con người?",
-          options: [
-            "The instrument that we all play",
-            "A digital signal transmitter",
-            "A fragile biological echo",
-            "An uncontrollable emotional reaction",
-          ],
-          optionsEn: [
-            "The instrument that we all play",
-            "A digital signal transmitter",
-            "A fragile biological echo",
-            "An uncontrollable emotional reaction",
-          ],
-          optionsVi: [
-            "Một loại nhạc cụ mà tất cả chúng ta đều chơi",
-            "Một bộ phát tín hiệu kỹ thuật số",
-            "Một tiếng vọng sinh học mong manh",
-            "Một phản ứng cảm xúc không thể kiểm soát",
-          ],
-          correctAnswer: 0,
-          explanation: 'Julian Treasure opens with: "The human voice: It\'s the instrument we all play. It\'s the most powerful sound in the world, probably."',
-          explanationEn: 'Julian Treasure opens with: "The human voice: It\'s the instrument we all play. It\'s the most powerful sound in the world, probably."',
-          explanationVi: 'Julian Treasure mở đầu: "The human voice: It\'s the instrument we all play. It\'s the most powerful sound in the world, probably." (Giọng nói con người: Đó là thứ nhạc cụ mà tất cả chúng ta đều chơi).',
-          referenceSegmentIndex: 0,
-          targetedConcept: "Ý chính toàn bài (Main Idea)",
-          targetedConceptEn: "Main Idea & Metaphor",
-          targetedConceptVi: "Ý chính toàn bài & Ẩn dụ",
-        },
-        {
-          id: `q_${lessonId}_2`,
-          question: "What does the speaker identify as the first of the seven deadly sins of speaking?",
-          questionEn: "What does the speaker identify as the first of the seven deadly sins of speaking?",
-          questionVi: "Diễn giả xác định điều gì là thói xấu đầu tiên trong 7 thói xấu chết người khi giao tiếp?",
-          options: [
-            "Dogmatism and refusing new ideas",
-            "Gossip — speaking ill of someone not present",
-            "Constant exaggeration and hyperbole",
-            "Complaining about unfavorable weather",
-          ],
-          optionsEn: [
-            "Dogmatism and refusing new ideas",
-            "Gossip — speaking ill of someone not present",
-            "Constant exaggeration and hyperbole",
-            "Complaining about unfavorable weather",
-          ],
-          optionsVi: [
-            "Tính giáo điều và từ chối lắng nghe",
-            "Ngồi lê đôi mách (Gossip) — nói xấu người vắng mặt",
-            "Liên tục nói quá và phóng đại sự thật",
-            "Phàn nàn về thời tiết bất lợi",
-          ],
-          correctAnswer: 1,
-          explanation: 'In segment 7, he explicitly points out: "First, gossip. Speaking ill of somebody who\'s not present. Not a nice habit..."',
-          explanationEn: 'In segment 7, he explicitly points out: "First, gossip. Speaking ill of somebody who\'s not present. Not a nice habit..."',
-          explanationVi: 'Trong câu số 7, diễn giả chỉ rõ: "First, gossip. Speaking ill of somebody who\'s not present." (Thứ nhất, ngồi lê đôi mách. Nói xấu người không có mặt).',
-          referenceSegmentIndex: 7,
-          targetedConcept: "Thông tin chi tiết (Detailed Fact)",
-          targetedConceptEn: "Detailed Fact",
-          targetedConceptVi: "Thông tin chi tiết",
-        },
-        {
-          id: `q_${lessonId}_3`,
-          question: "Why is 'judging' considered a major barrier to communication according to Julian?",
-          questionEn: "Why is 'judging' considered a major barrier to communication according to Julian?",
-          questionVi: "Tại sao 'sự phán xét' (judging) lại bị xem là rào cản lớn trong giao tiếp theo chia sẻ của Julian?",
-          options: [
-            "It causes people to forget complex English vocabulary",
-            "It forces the speaker to speak at an unnatural rhythm",
-            "Listeners find it hard to listen if they feel judged and found wanting",
-            "It transforms casual conversations into rigid formal lectures",
-          ],
-          optionsEn: [
-            "It causes people to forget complex English vocabulary",
-            "It forces the speaker to speak at an unnatural rhythm",
-            "Listeners find it hard to listen if they feel judged and found wanting",
-            "It transforms casual conversations into rigid formal lectures",
-          ],
-          optionsVi: [
-            "Nó khiến người nghe quên mất các từ vựng phức tạp",
-            "Nó ép buộc người nói phải điều chỉnh nhịp điệu bất thường",
-            "Người nghe khó có thể tiếp thu nếu cảm thấy mình đang bị phán xét và chê bai",
-            "Nó biến các cuộc trò chuyện thường ngày thành những bài giảng cứng nhắc",
-          ],
-          correctAnswer: 2,
-          explanation: 'Julian states: "it\'s very hard to listen to somebody if you know that you\'re being judged and found wanting at the same time."',
-          explanationEn: 'Julian states: "it\'s very hard to listen to somebody if you know that you\'re being judged and found wanting at the same time."',
-          explanationVi: 'Julian giải thích: "Thật khó để lắng nghe một ai đó nếu bạn biết rằng mình đang bị soi xét và chê bai cùng một lúc" (judged and found wanting at the same time).',
-          referenceSegmentIndex: 9,
-          targetedConcept: "Ý nghĩa suy luận & Kết luận (Inference & Conclusion)",
-          targetedConceptEn: "Inference & Cause-Effect",
-          targetedConceptVi: "Ý nghĩa suy luận & Nguyên nhân",
-        },
-      ],
-      generatedBy: "CONTEXTUAL_FALLBACK",
-    };
-  }
 
   // General fallback for all lessons
   // Question 1: Main Idea / Central Theme
@@ -301,46 +167,49 @@ export async function getVideoLessonQuiz(lessonId: string): Promise<VideoQuizDat
     return cached;
   }
 
-  // 1. Fetch lesson and segments from DB
+  // 1. Fetch lesson and segments (Check mock first for instant offline/dev reliability)
   let lesson: any = null;
-  try {
-    lesson = await prisma.videoLesson.findFirst({
-      where: {
-        OR: [{ id: lessonId }, { slug: lessonId }, { externalId: lessonId }],
-      },
-      include: {
-        segments: {
-          orderBy: { orderIndex: "asc" },
-          select: {
-            orderIndex: true,
-            text: true,
-            translationVi: true,
-            properNouns: true,
-            keywords: true,
+  const mock = MOCK_VIDEO_LESSONS.find(
+    (m) => m.id === lessonId || m.slug === lessonId || m.externalId === lessonId
+  );
+  if (mock) {
+    // If the modular lesson file defines its own curated quiz, return it immediately (0ms instant)
+    if (mock.quiz) {
+      memoryCache.set(cacheKey, mock.quiz, 3600);
+      return mock.quiz;
+    }
+    lesson = {
+      id: mock.id,
+      title: mock.title,
+      segments: mock.segments.map((s) => ({
+        orderIndex: s.orderIndex,
+        text: s.text,
+        translationVi: s.translationVi,
+        properNouns: s.properNouns || [],
+        keywords: s.keywords || [],
+      })),
+    };
+  } else {
+    try {
+      lesson = await prisma.videoLesson.findFirst({
+        where: {
+          OR: [{ id: lessonId }, { slug: lessonId }, { externalId: lessonId }],
+        },
+        include: {
+          segments: {
+            orderBy: { orderIndex: "asc" },
+            select: {
+              orderIndex: true,
+              text: true,
+              translationVi: true,
+              properNouns: true,
+              keywords: true,
+            },
           },
         },
-      },
-    });
-  } catch (dbErr) {
-    console.warn("[getVideoLessonQuiz] DB lookup error:", dbErr);
-  }
-
-  if (!lesson || !lesson.segments || lesson.segments.length === 0) {
-    const mock = MOCK_VIDEO_LESSONS.find(
-      (m) => m.id === lessonId || m.slug === lessonId || m.externalId === lessonId
-    );
-    if (mock) {
-      lesson = {
-        id: mock.id,
-        title: mock.title,
-        segments: mock.segments.map((s) => ({
-          orderIndex: s.orderIndex,
-          text: s.text,
-          translationVi: s.translationVi,
-          properNouns: s.properNouns || [],
-          keywords: s.keywords || [],
-        })),
-      };
+      });
+    } catch (dbErr) {
+      console.warn("[getVideoLessonQuiz] DB lookup error:", dbErr);
     }
   }
 

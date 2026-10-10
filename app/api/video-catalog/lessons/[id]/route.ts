@@ -16,6 +16,42 @@ export async function GET(
       );
     }
 
+    const mock = MOCK_VIDEO_LESSONS.find(
+      (m) =>
+        m.id === id ||
+        m.slug === id ||
+        m.externalId === id ||
+        (id === "steve-jobs-stanford-commencement" && m.slug === "steve-jobs-stanford-stay-hungry")
+    );
+    if (mock) {
+      return NextResponse.json({
+        success: true,
+        lesson: {
+          id: mock.id,
+          slug: mock.slug,
+          title: mock.title,
+          description: mock.description,
+          sourceType: mock.sourceType,
+          externalId: mock.externalId,
+          thumbnailUrl: mock.thumbnailUrl,
+          durationSeconds: mock.durationSeconds,
+          durationFormatted: mock.durationFormatted,
+          cefrLevel: mock.cefrLevel,
+          supportedTypes: mock.supportedTypes,
+          accent: mock.accent,
+          wpmSpeed: mock.wpmSpeed,
+          viewCount: mock.viewCount,
+          studyCount: mock.studyCount,
+          category: {
+            id: mock.categoryId,
+            name: mock.categoryName,
+            slug: mock.categorySlug,
+          },
+          segments: mock.segments,
+        },
+      });
+    }
+
     let lesson: any = null;
     try {
       lesson = await prisma.videoLesson.findFirst({
@@ -33,45 +69,7 @@ export async function GET(
     } catch (dbErr) {
       console.warn("[API video-catalog/lessons/[id]] DB lookup error:", dbErr);
     }
-
     if (!lesson) {
-      const mock = MOCK_VIDEO_LESSONS.find(
-        (m) =>
-          m.id === id ||
-          m.slug === id ||
-          m.externalId === id ||
-          (id === "steve-jobs-stanford-commencement" && m.slug === "steve-jobs-stanford-stay-hungry")
-      );
-      if (mock) {
-        return NextResponse.json({
-          success: true,
-          lesson: {
-            id: mock.id,
-            slug: mock.slug,
-            title: mock.title,
-            description: mock.description,
-            sourceType: mock.sourceType,
-            externalId: mock.externalId,
-            thumbnailUrl: mock.thumbnailUrl,
-            durationSeconds: mock.durationSeconds,
-            durationFormatted: mock.durationFormatted,
-            cefrLevel: mock.cefrLevel,
-            supportedTypes: mock.supportedTypes,
-            accent: mock.accent,
-            wpmSpeed: mock.wpmSpeed,
-            viewCount: mock.viewCount + 1,
-            studyCount: mock.studyCount,
-            isCommunityCurated: false,
-            category: { id: mock.categoryId, slug: mock.categorySlug, name: mock.categoryName },
-            playlist: null,
-            segments: mock.segments,
-            allProperNouns: Array.from(new Set(mock.segments.flatMap((s) => s.properNouns || []))),
-            allKeywords: Array.from(new Set(mock.segments.flatMap((s) => s.keywords || []))),
-            createdAt: new Date().toISOString(),
-          },
-        });
-      }
-
       return NextResponse.json(
         { success: false, error: "Không tìm thấy bài học video tương ứng" },
         { status: 404 }

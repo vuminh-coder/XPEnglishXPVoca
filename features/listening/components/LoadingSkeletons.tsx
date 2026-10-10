@@ -1,5 +1,21 @@
 "use client";
 import React from "react";
+import {
+  Languages,
+  BookOpen,
+  ListOrdered,
+  ArrowLeft,
+  RotateCcw,
+  SkipBack,
+  SkipForward,
+  Play,
+  Repeat,
+  Volume2,
+  Sparkles,
+  Headphones,
+  Maximize2,
+  Keyboard,
+} from "lucide-react";
 import { JAGGED_ACOUSTIC_SPEECH_SPIKES_95 } from "./StudioWaveformCard";
 
 /**
@@ -272,12 +288,9 @@ export function VideoListingSkeleton() {
                   <ShimmerBox className="h-4.5 w-full rounded" />
                   <ShimmerBox className="h-4.5 w-3/4 rounded" />
                 </div>
-                <div className="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800 text-xs">
-                  <div className="flex items-center gap-1.5">
-                    <ShimmerBox className="w-4 h-4 rounded-full" />
-                    <ShimmerBox className="h-3.5 w-16 rounded" />
-                  </div>
-                  <ShimmerBox className="h-3.5 w-14 rounded" />
+                <div className="flex items-center justify-between pt-2.5 border-t border-slate-100 dark:border-slate-800 text-xs gap-2">
+                  <ShimmerBox className="h-8 w-24 rounded-xl" />
+                  <ShimmerBox className="h-8 w-24 rounded-xl bg-[#0059bb]/30" />
                 </div>
               </div>
             </div>
@@ -946,3 +959,347 @@ export function DictationWorkspaceLoadingSkeleton() {
     </div>
   );
 }
+
+/**
+ * Skeleton cho Khối Câu Hỏi Đọc Hiểu Bento Card (Question Bento Card Skeleton)
+ * Tinh tế, chuẩn xác sát 100% tỷ lệ hình học:
+ * - Header: QUESTION 1 OF 3 + Công tắc trượt Dịch Anh - Việt (chuẩn icon Languages + nhãn chữ font-sans + toggle switch)
+ * - Progress bar: Animated Shimmer
+ * - Tiêu đề câu hỏi + Hộp phụ đề dịch tiếng Việt (border-l-[3px])
+ * - 4 Thẻ đáp án A, B, C, D (đúng huy hiệu w-7.5 h-7.5 + chữ đáp án + phụ đề dịch)
+ * - Action footer: Nút Check Answer chuẩn mực Rule 18
+ */
+export function QuestionBentoCardSkeleton() {
+  return (
+    <div className="px-4 sm:px-6 py-3.5 sm:py-4.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-3.5 sm:space-y-4 select-none">
+      {/* 1. Header: Stepper & Công Tắc Dịch Anh - Việt Sát 100% */}
+      <div className="space-y-2 sm:space-y-2.5">
+        <div className="flex items-center justify-between gap-2 text-xs font-bold flex-wrap">
+          <span className="text-[#0059bb]/70 dark:text-sky-400/70 font-mono tracking-wider text-xs sm:text-[13px] font-extrabold uppercase">
+            QUESTION 1 OF 3
+          </span>
+
+          {/* Công tắc Dịch Anh - Việt Skeleton 1:1 Với Giao Diện Thật */}
+          <div className="flex items-center gap-2.5 select-none">
+            <div className="flex items-center gap-2">
+              <Languages className="w-[18px] h-[18px] sm:w-5 sm:h-5 stroke-[2.5] text-[#0059bb]/60 dark:text-sky-400/60 shrink-0" />
+              <span className="text-[13.5px] sm:text-sm font-semibold text-slate-600 dark:text-slate-400 tracking-normal font-sans">
+                Dịch Anh - Việt
+              </span>
+            </div>
+
+            <div className="w-9 h-5 rounded-full p-0.5 bg-slate-200 dark:bg-slate-700 flex items-center justify-start">
+              <div className="w-4 h-4 rounded-full bg-white shadow-xs" />
+            </div>
+          </div>
+        </div>
+
+        {/* Clean Animated Progress Bar Skeleton */}
+        <div className="w-full h-1.5 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+          <ShimmerBox className="h-full w-1/3 rounded-full bg-[#0059bb]/60 dark:bg-sky-500/60" />
+        </div>
+      </div>
+
+      {/* 2. Tiêu đề câu hỏi */}
+      <div className="pt-0 pb-0.5 space-y-2">
+        <div className="space-y-2">
+          <ShimmerBox className="h-6 sm:h-7 w-11/12 rounded-lg" />
+          <ShimmerBox className="h-6 sm:h-7 w-3/4 rounded-lg" />
+        </div>
+      </div>
+
+      {/* 3. Lưới 4 đáp án A, B, C, D — Cấu Trúc Khớp 100% Thẻ Nút Bấm Thật */}
+      <div className="space-y-2 sm:space-y-2.5">
+        {["A", "B", "C", "D"].map((letter, optIdx) => (
+          <div
+            key={letter}
+            className="w-full text-left px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs flex items-start gap-3 sm:gap-3.5 select-none"
+          >
+            {/* Huy hiệu chữ cái A B C D */}
+            <div className="w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center text-xs sm:text-sm font-bold shrink-0 mt-0.5 bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 border border-slate-200/80 dark:border-slate-700/80">
+              {letter}
+            </div>
+
+            <div className="flex-1 space-y-2 pt-0.5">
+              {/* Văn bản đáp án tiếng Anh */}
+              <ShimmerBox
+                className={`h-5 rounded-md ${
+                  optIdx === 0
+                    ? "w-4/5"
+                    : optIdx === 1
+                    ? "w-3/5"
+                    : optIdx === 2
+                    ? "w-5/6"
+                    : "w-2/3"
+                }`}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* 4. Action Footer: Single Primary Button Rule 18 */}
+      <div className="pt-2 sm:pt-2.5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3">
+        <div className="text-xs text-slate-400 dark:text-slate-500 font-medium">
+          <ShimmerBox className="h-3.5 w-36 rounded" />
+        </div>
+
+        <div className="px-6 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-slate-100 dark:bg-slate-800/80 text-slate-400 cursor-not-allowed border border-slate-200/60 dark:border-slate-700/60 shadow-xs flex items-center justify-center">
+          <span>Check Answer</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Skeleton toàn cảnh cho Video Comprehension Studio (/study/dictation/video/comprehension/[id])
+ * Chuẩn mực 100% tỷ lệ hình học:
+ * 1. StudioTopHeader (56px h-14)
+ * 2. Mobile Tab Switcher (cho màn hình nhỏ < lg)
+ * 3. Cột Trái: Video Cinema Frame 16:9 + Question Bento Card Skeleton
+ * 4. Cột Phải: Interactive Transcript Sidebar Skeleton (Phụ đề + Tiến độ + Công tắc Hiện câu + Danh sách câu)
+ */
+export function VideoComprehensionStudioSkeleton() {
+  return (
+    <div className="w-full h-screen min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col font-sans select-none overflow-hidden">
+      {/* 1. STUDIO TOP HEADER SKELETON (56px h-14) Sát 100% StudioTopHeader */}
+      <div className="w-full px-3.5 sm:px-5 lg:px-6 h-14 bg-white dark:bg-slate-900 border-b border-slate-200/90 dark:border-slate-800 flex items-center justify-between gap-2 sm:gap-4 shrink-0 shadow-2xs">
+        {/* Left: Back button + Level badge + Title + Dictation / Shadowing buttons */}
+        <div className="flex items-center gap-2 sm:gap-2.5 min-w-0 flex-1 overflow-hidden">
+          <div className="px-2.5 sm:px-3 py-1.5 rounded-xl border border-slate-200/80 dark:border-slate-700/80 shadow-2xs flex items-center gap-1.5 font-bold text-xs text-slate-400">
+            <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.2]" />
+            <span className="hidden sm:inline">Quay lại</span>
+          </div>
+
+          <span className="px-2 py-0.5 rounded-md text-[11px] font-mono font-bold bg-blue-50 dark:bg-blue-950/60 text-[#0059bb]/60 dark:text-sky-400/60 border border-blue-200/70 dark:border-blue-800/60 shadow-2xs shrink-0">
+            B2
+          </span>
+
+          <ShimmerBox className="h-5 w-44 sm:w-64 rounded-md" />
+
+          <div className="hidden xl:block w-[1px] h-4 bg-slate-200 dark:bg-slate-700 shrink-0 mx-1" />
+
+          <div className="hidden sm:inline-flex p-0.5 sm:p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 items-center gap-1 shrink-0">
+            <div className="px-3 py-1 rounded-lg text-xs font-bold bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 shadow-2xs flex items-center gap-1.5">
+              <Headphones className="w-3.5 h-3.5 text-[#0059bb]" />
+              <span>Dictation</span>
+            </div>
+            <div className="px-3 py-1 rounded-lg text-xs font-bold text-slate-400 flex items-center gap-1.5">
+              <span>Shadowing</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Right: Fullscreen & Keyboard tools */}
+        <div className="flex items-center gap-2 shrink-0">
+          <div className="w-8.5 h-8.5 rounded-xl border border-slate-200/80 dark:border-slate-700/80 shadow-2xs hidden sm:flex items-center justify-center text-slate-400">
+            <Maximize2 className="w-4 h-4" />
+          </div>
+          <div className="w-8.5 h-8.5 rounded-xl border border-slate-200/80 dark:border-slate-700/80 shadow-2xs hidden sm:flex items-center justify-center text-slate-400">
+            <Keyboard className="w-4 h-4" />
+          </div>
+        </div>
+      </div>
+
+      {/* MOBILE TAB SWITCHER (< lg) — Giữ Layout Cố Định Không Nhảy */}
+      <div className="flex lg:hidden items-center border-b border-slate-200/90 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 px-3 py-2 shrink-0 z-20">
+        <div className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-1 w-full">
+          <div className="flex-1 py-1.5 px-2 text-xs font-bold rounded-lg flex items-center justify-center gap-1.5 bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs">
+            <BookOpen className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
+            <ShimmerBox className="w-24 h-3.5 rounded" />
+          </div>
+          <div className="flex-1 py-1.5 px-2 text-xs font-bold rounded-lg flex items-center justify-center gap-1.5 text-slate-400">
+            <ListOrdered className="w-3.5 h-3.5 text-slate-400" />
+            <ShimmerBox className="w-20 h-3.5 rounded" />
+          </div>
+        </div>
+      </div>
+
+      {/* 2. MAIN 2-COLUMN STUDIO WORKSPACE */}
+      <div className="flex-1 flex flex-col lg:flex-row items-stretch min-h-0 overflow-hidden">
+        {/* CỘT TRÁI / CHÍNH: KHỐI VIDEO + CÂU HỎI ĐỌC HIỂU */}
+        <div className="flex-1 min-w-0 p-3 sm:p-3.5 space-y-2.5 sm:space-y-3 overflow-y-auto hide-scrollbar">
+          {/* 2.1. KHỐI VIDEO CINEMA FRAME SKELETON (1:1 SÁT 100% DICTATION VIDEO BLOCK) */}
+          <div className="relative w-full rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm p-1.5 sm:p-2 select-none flex flex-col justify-between space-y-2">
+            {/* 16:9 Cinema Viewport */}
+            <div className="relative w-full max-w-2xl mx-auto aspect-video max-h-[210px] sm:max-h-[240px] md:max-h-[260px] rounded-xl overflow-hidden shadow-inner border border-slate-200/80 dark:border-slate-800 bg-slate-950 flex flex-col items-center justify-between p-3 shrink-0">
+              <div className="w-full flex justify-end">
+                <div className="w-7 h-7 rounded-lg bg-white/10 backdrop-blur-xs" />
+              </div>
+
+              {/* Nút Play trung tâm có vòng hào quang */}
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-xl ring-8 ring-white/5 my-auto">
+                <Play className="w-6 h-6 text-white/80 fill-white/80 ml-1" />
+              </div>
+
+              {/* Thanh phụ đề mô phỏng dưới đáy khung hình */}
+              <div className="px-3.5 py-1 rounded bg-black/75 backdrop-blur-xs border border-white/10 shadow-md max-w-[85%] text-center">
+                <ShimmerBox className="h-3 w-48 sm:w-64 rounded bg-white/30" />
+              </div>
+            </div>
+
+            {/* Video Control Bar */}
+            <div className="w-full shrink-0 px-2 sm:px-3 pt-1.5 pb-1 space-y-2 bg-transparent select-none">
+              {/* Scrubber Progress Bar */}
+              <div className="flex items-center gap-2.5">
+                <span className="text-[11px] font-mono text-slate-400 font-bold tabular-nums">00:00</span>
+                <div className="relative flex-1 h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                  <ShimmerBox className="h-full w-1/3 rounded-full bg-gradient-to-r from-[#0059bb] to-sky-500" />
+                </div>
+                <span className="text-[11px] font-mono text-slate-400 font-bold tabular-nums">00:03</span>
+              </div>
+
+              {/* Transport & Setting Buttons Row */}
+              <div className="grid grid-cols-[auto_1fr_auto] sm:grid-cols-[1fr_auto_1fr] items-center gap-2 pt-0.5 select-none">
+                {/* Left: Segment badge */}
+                <div className="flex items-center gap-1.5 justify-start min-w-0">
+                  <span className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono text-xs font-bold border border-slate-200/80 dark:border-slate-700/60 tabular-nums shrink-0 shadow-2xs">
+                    #1/10
+                  </span>
+                </div>
+
+                {/* Center: Play controls chuẩn xác */}
+                <div className="flex items-center justify-center gap-1.5 sm:gap-2.5 text-slate-400">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-100/80 dark:bg-slate-800/80 flex items-center justify-center">
+                    <SkipBack className="w-4.5 h-4.5" />
+                  </div>
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-100/80 dark:bg-slate-800/80 flex items-center justify-center">
+                    <RotateCcw className="w-4.5 h-4.5" />
+                  </div>
+                  {/* Dominant Primary Play Button */}
+                  <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#0059bb] text-white flex items-center justify-center shadow-md shadow-[#0059bb]/30 ring-4 ring-[#0059bb]/15">
+                    <Play className="w-5 h-5 ml-0.5 fill-white" />
+                  </div>
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-100/80 dark:bg-slate-800/80 flex items-center justify-center">
+                    <RotateCcw className="w-4.5 h-4.5 scale-x-[-1]" />
+                  </div>
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-100/80 dark:bg-slate-800/80 flex items-center justify-center">
+                    <SkipForward className="w-4.5 h-4.5" />
+                  </div>
+                </div>
+
+                {/* Right: Repeat, Speed & Volume */}
+                <div className="flex items-center gap-1 sm:gap-1.5 justify-end text-slate-400">
+                  <div className="w-9 h-9 rounded-full bg-slate-100/80 dark:bg-slate-800/80 flex items-center justify-center">
+                    <Repeat className="w-4 h-4" />
+                  </div>
+                  <div className="h-8 sm:h-8.5 px-3 rounded-full bg-slate-100/80 dark:bg-slate-800/80 text-xs font-bold font-mono text-slate-600 dark:text-slate-400 flex items-center justify-center border border-slate-200/60 dark:border-slate-700/60">
+                    1x
+                  </div>
+                  <div className="w-9 h-9 rounded-full bg-slate-100/80 dark:bg-slate-800/80 flex items-center justify-center">
+                    <Volume2 className="w-4 h-4" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 2.2. KHỐI CÂU HỎI ĐỌC HIỂU BENTO CARD SKELETON */}
+          <div className="w-full pb-8">
+            <QuestionBentoCardSkeleton />
+          </div>
+        </div>
+
+        {/* CỘT PHẢI: INTERACTIVE TRANSCRIPT SIDEBAR SKELETON (380px - 440px) */}
+        <div className="hidden lg:flex flex-col w-[380px] xl:w-[410px] 2xl:w-[440px] shrink-0 border-l border-slate-200/90 dark:border-slate-800 bg-[#f8fafc] dark:bg-slate-900/90 min-h-0">
+          {/* Tab bar header */}
+          <div className="flex items-center border-b border-slate-200/80 dark:border-slate-800 px-5 pt-3 gap-7 sm:gap-8 shrink-0 bg-transparent">
+            <div className="flex items-center gap-1.5 pb-2.5 text-xs sm:text-[13px] font-bold text-slate-900 dark:text-white border-b-2 border-[#0059bb] dark:border-sky-400">
+              <ListOrdered className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />
+              <span>Phụ đề</span>
+            </div>
+            <div className="flex items-center gap-1.5 pb-2.5 text-xs sm:text-[13px] font-bold text-slate-400 dark:text-slate-500">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Gợi ý bài học</span>
+            </div>
+          </div>
+
+          {/* Progress Header & Hiện câu toggle */}
+          <div className="px-5 pt-3.5 pb-2.5 shrink-0 bg-white/70 dark:bg-slate-900/70 border-b border-slate-200/60 dark:border-slate-800/60 space-y-1">
+            <div className="flex items-start justify-between">
+              <div>
+                <div className="font-mono text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+                  0/10
+                </div>
+                <div className="text-[11px] font-bold text-slate-500 dark:text-slate-400">
+                  Tiến độ
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4 text-xs sm:text-[13px] text-slate-600 dark:text-slate-400 pt-0.5">
+                <div className="flex items-center gap-1.5 text-slate-400">
+                  <RotateCcw className="w-3.5 h-3.5" />
+                  <span className="font-normal">Đặt lại tiến độ</span>
+                </div>
+
+                <div className="flex items-center gap-2 select-none">
+                  <span className="font-normal text-slate-600 dark:text-slate-400">Hiện câu</span>
+                  <div className="w-9 h-5 rounded-full p-0.5 bg-slate-200 dark:bg-slate-700 flex items-center justify-start">
+                    <div className="w-4 h-4 rounded-full bg-white shadow-xs" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden mt-2">
+              <ShimmerBox className="h-full w-1/4 rounded-full bg-[#0059bb] dark:bg-emerald-400" />
+            </div>
+          </div>
+
+          {/* Transcript Sentences List Shimmer */}
+          <div className="flex-1 overflow-y-auto hide-scrollbar space-y-3 px-5 pb-5 pt-2">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div
+                key={i}
+                className={`p-3.5 sm:p-4 rounded-xl border space-y-2 select-none shadow-2xs ${
+                  i === 1
+                    ? "bg-white dark:bg-slate-900 border-2 border-[#0059bb]/70 dark:border-sky-500/70 shadow-xs"
+                    : "bg-white dark:bg-slate-900 border-slate-200/80 dark:border-slate-800"
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <div
+                      className={`w-6 h-6 rounded-full flex items-center justify-center ${
+                        i === 1
+                          ? "bg-blue-50 dark:bg-blue-950/60 text-[#0059bb]"
+                          : "bg-slate-100 dark:bg-slate-800 text-slate-400"
+                      }`}
+                    >
+                      {i === 1 ? (
+                        <Headphones className="w-3.5 h-3.5" />
+                      ) : (
+                        <span className="font-mono text-[11px] font-bold">#{i}</span>
+                      )}
+                    </div>
+
+                    {i === 1 && (
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-[#0059bb] dark:bg-blue-950/80 dark:text-sky-300">
+                        Đang học
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="w-6 h-6 rounded-full bg-slate-100/80 dark:bg-slate-800/80 flex items-center justify-center text-slate-400">
+                    <Play className="w-3 h-3 ml-0.5" />
+                  </div>
+                </div>
+
+                <div className="space-y-1.5 pt-0.5">
+                  <ShimmerBox className="h-4 w-full rounded" />
+                  <ShimmerBox className="h-4 w-4/5 rounded opacity-70" />
+                </div>
+
+                <div className="pl-3 py-1.5 border-l-2 border-[#0059bb]/50 dark:border-sky-400/50 bg-blue-50/40 dark:bg-blue-950/20 rounded-r-lg mt-1.5">
+                  <ShimmerBox className="h-3.5 w-3/4 rounded bg-blue-200/50 dark:bg-blue-800/30" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+

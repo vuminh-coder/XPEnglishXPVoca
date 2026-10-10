@@ -69,7 +69,9 @@ interface ShadowingStudioWorkspaceProps {
   liveAudioEnergy?: number;
   sentenceScores?: { [idx: number]: number };
   aiAnalysisResult: any;
-  liveRecognizedWords: { word: string; status: "perfect" | "needs_work" }[];
+  liveRecognizedWords: { word: string; status: "perfect" | "good" | "needs_work" | "active" | "unspoken" }[];
+  liveWordStatuses?: { [wordIdx: number]: "perfect" | "good" | "needs_work" | "active" };
+  activeSpeechWordIndex?: number | null;
   activePlaybackWordIndex: number | null;
   wordTrackContainerRef: React.RefObject<HTMLDivElement | null>;
   wordTokenRefs: React.MutableRefObject<(HTMLElement | null)[]>;
@@ -136,6 +138,8 @@ function ShadowingStudioWorkspaceComponent({
   sentenceScores,
   aiAnalysisResult,
   liveRecognizedWords,
+  liveWordStatuses,
+  activeSpeechWordIndex,
   activePlaybackWordIndex,
   wordTrackContainerRef,
   wordTokenRefs,
@@ -183,10 +187,11 @@ function ShadowingStudioWorkspaceComponent({
   const isMergedWithNext = controlledMerged !== undefined ? controlledMerged : internalMerged;
   const toggleMerge = onToggleMergeNext || (() => setInternalMerged((prev) => !prev));
 
-  // Auto-reset merge state whenever active sentence changes
+  // Auto-reset merge state & word track scroll position whenever active sentence changes
   React.useEffect(() => {
     setInternalMerged(false);
-  }, [currentSentenceIndex, currentLesson?.id]);
+    wordTrackContainerRef.current?.scrollTo({ left: 0, behavior: "smooth" });
+  }, [currentSentenceIndex, currentLesson?.id, wordTrackContainerRef]);
 
   const rawSentence =
     currentLesson?.transcript?.[currentSentenceIndex] ||
@@ -219,6 +224,28 @@ function ShadowingStudioWorkspaceComponent({
     setSentencePlaybackTime((prev) => Math.min(sentenceDuration, prev + 5));
     onToast?.({ type: "info", title: "Tua nhanh 5s" });
   }, [sentenceDuration, setSentencePlaybackTime, onToast]);
+
+  // Auto-scroll ngang mượt mà theo từng từ phát âm thời gian thực hoặc playback mẫu (giống Dictation)
+  React.useEffect(() => {
+    const targetIdx = isRecording
+      ? (activeSpeechWordIndex !== null && activeSpeechWordIndex !== undefined && activeSpeechWordIndex >= 0 ? activeSpeechWordIndex : null)
+      : activePlaybackWordIndex;
+
+    if (targetIdx !== null && targetIdx !== undefined && targetIdx >= 0) {
+      if (targetIdx <= 1) {
+        wordTrackContainerRef.current?.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        const activeEl = wordTokenRefs.current?.[targetIdx];
+        if (activeEl) {
+          activeEl.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+            inline: "center",
+          });
+        }
+      }
+    }
+  }, [isRecording, activeSpeechWordIndex, activePlaybackWordIndex, wordTokenRefs, wordTrackContainerRef]);
 
   return (
     <div
@@ -344,8 +371,17 @@ function ShadowingStudioWorkspaceComponent({
                 <div className="space-y-1.5 pt-0">
                 <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 px-1">
                   <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-xs font-medium">
-                    <Info className="w-3.5 h-3.5 text-slate-400" />
-                    <span>Bấm vào từ để tra từ điển & phát âm</span>
+                    {isRecording ? (
+                      <span className="inline-flex items-center gap-1.5 text-rose-600 dark:text-rose-400 font-bold animate-pulse">
+                        <Mic className="w-3.5 h-3.5 text-rose-500 shrink-0" />
+                        Đang nhận diện giọng nói trực tiếp trên câu...
+                      </span>
+                    ) : (
+                      <>
+                        <Info className="w-3.5 h-3.5 text-slate-400" />
+                        <span>Bấm vào từ để tra từ điển & phát âm</span>
+                      </>
+                    )}
                   </div>
 
                   <button
@@ -378,13 +414,42 @@ function ShadowingStudioWorkspaceComponent({
                   >
                     {currentSentence.text.split(" ").map((word: string, wIdx: number) => {
                       const clean = word.replace(/[.,/#!$%^&*;:{}=\-_`~()?]/g, "").toLowerCase();
-                      const wordEval = aiAnalysisResult?.wordAccuracy?.find(
+                      
+                      // 1. Trạng thái sau khi AI phân tích xong (kết thúc thu âm)
+                      const aiWordEval = aiAnalysisResult?.wordAccuracy?.[wIdx] || aiAnalysisResult?.wordAccuracy?.find(
                         (item: any) =>
                           item.word.replace(/[.,/#!$%^&*;:{}=\-_`~()?]/g, "").toLowerCase() === clean
                       );
 
+                      // 2. Trạng thái nhận diện giọng nói thời gian thực (Real-time Speech Cursor)
+                      const liveStatus = liveWordStatuses?.[wIdx];
+                      const isCurrentSpeechActive = isRecording && activeSpeechWordIndex === wIdx;
+
+                      // 3. Highlight khi đang nghe câu mẫu
                       const isCurrentlyBeingRead = activePlaybackWordIndex === wIdx;
-                      const isCurrentlySpoken = isRecording && liveRecognizedWords.length > wIdx;
+
+                      // Quyết định trạng thái hiển thị
+                      let wordState: "perfect" | "good" | "needs_work" | "active" | "playback" | "unspoken" = "unspoken";
+
+                      if (isCurrentlyBeingRead) {
+                        wordState = "playback";
+                      } else if (isRecording) {
+                        if (isCurrentSpeechActive) {
+                          wordState = "active";
+                        } else if (liveStatus === "perfect") {
+                          wordState = "perfect";
+                        } else if (liveStatus === "good") {
+                          wordState = "good";
+                        } else if (liveStatus === "needs_work") {
+                          wordState = "needs_work";
+                        } else {
+                          wordState = "unspoken";
+                        }
+                      } else if (aiWordEval) {
+                        if (aiWordEval.status === "perfect") wordState = "perfect";
+                        else if (aiWordEval.status === "good") wordState = "good";
+                        else if (aiWordEval.status === "needs_work") wordState = "needs_work";
+                      }
 
                       return (
                         <div
@@ -408,16 +473,16 @@ function ShadowingStudioWorkspaceComponent({
                                 ? "text-lg sm:text-xl min-h-[46px] sm:min-h-[48px]"
                                 : "text-sm sm:text-base min-h-[34px] sm:min-h-[36px]"
                             } ${
-                              wordEval?.status === "perfect"
-                                ? "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-2 border-emerald-500 shadow-xs"
-                                : wordEval?.status === "good"
-                                ? "bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border-2 border-amber-400 shadow-2xs"
-                                : wordEval?.status === "needs_work"
-                                ? "bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 border-2 border-rose-400 shadow-2xs"
-                                : isCurrentlyBeingRead
+                              wordState === "perfect"
+                                ? "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-2 border-emerald-500 shadow-xs ring-1 ring-emerald-500/20"
+                                : wordState === "good"
+                                ? "bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border-2 border-amber-400 shadow-2xs ring-1 ring-amber-400/20"
+                                : wordState === "needs_work"
+                                ? "bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 border-2 border-rose-400 shadow-2xs ring-1 ring-rose-400/20"
+                                : wordState === "active"
+                                ? "bg-blue-100/90 dark:bg-blue-950/80 text-[#0059bb] dark:text-sky-300 font-extrabold border-2 border-[#0059bb] dark:border-sky-400 ring-4 ring-blue-500/25 dark:ring-sky-400/30 shadow-xs scale-105 animate-pulse"
+                                : wordState === "playback"
                                 ? "bg-blue-100/90 dark:bg-blue-950/80 text-[#0059bb] dark:text-sky-300 font-extrabold border-2 border-[#0059bb] dark:border-sky-400 ring-3 ring-blue-500/25 dark:ring-sky-400/30 shadow-xs scale-105"
-                                : isCurrentlySpoken
-                                ? "bg-emerald-100 dark:bg-emerald-900/60 text-emerald-900 dark:text-emerald-100 border-2 border-emerald-500 ring-2 ring-emerald-500/20 shadow-xs scale-105"
                                 : "bg-slate-50 dark:bg-slate-800/80 border border-slate-200/90 dark:border-slate-700 text-slate-800 dark:text-slate-200 hover:border-blue-400/80 dark:hover:border-sky-400/70 hover:text-[#0059bb] dark:hover:text-sky-300 hover:bg-blue-50/40 dark:hover:bg-slate-800 shadow-2xs"
                             }`}
                           >
@@ -558,28 +623,7 @@ function ShadowingStudioWorkspaceComponent({
                 />
               )}
 
-              {/* Live Speech Recognition Tokens */}
-              {isRecording && liveRecognizedWords.length > 0 && (
-                <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/90 dark:border-slate-700 space-y-1.5">
-                  <span className="text-[11px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5 font-display uppercase tracking-wider">
-                    <Mic className="w-3.5 h-3.5 text-rose-500 animate-pulse" /> Đang nhận diện giọng nói thời gian thực...
-                  </span>
-                  <div className="flex flex-wrap gap-1.5">
-                    {liveRecognizedWords.map((w, i) => (
-                      <span
-                        key={i}
-                        className={`px-2 py-0.5 rounded-md text-xs font-semibold ${
-                          w.status === "perfect"
-                            ? "bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-200"
-                            : "bg-rose-100 dark:bg-rose-900/60 text-rose-800 dark:text-rose-200"
-                        }`}
-                      >
-                        {w.word}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
+
 
               {/* AI Analysis Loading Status */}
               {isAnalyzing && (

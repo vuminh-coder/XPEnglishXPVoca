@@ -8,6 +8,7 @@ import { CheckCircle2, Layers, List, Zap, Bot } from "lucide-react";
 import { BASIC_VOCABULARY_THEMES, BASIC_VOCABULARIES } from "@/features/vocabulary/data/basicVocabularies";
 import { ADVANCED_VOCABULARY_THEMES, ADVANCED_VOCABULARIES } from "@/features/vocabulary/data/advancedVocabularies";
 import { useVocabularyStore } from "@/stores/vocabularyStore";
+import { useVocabularyCatalogStore } from "@/stores/vocabularyCatalogStore";
 import { useAuthStore } from "@/stores/authStore";
 import { useUserStore } from "@/stores/userStore";
 import { useUiStore } from "@/stores/uiStore";
@@ -39,8 +40,13 @@ export default function ThemeDetailPage({
   const { id } = use(params);
   const router = useRouter();
 
+  const { fetchThemeVocabs, fetchThemeDetail, filters, setViewMode } = useVocabularyCatalogStore();
+  const { viewMode } = filters;
+
   // Instant local dataset fallback for 0ms instant render
   const localInitialVocabs = useMemo(() => {
+    const cached = useVocabularyCatalogStore.getState().themeWordsCache[id]?.data;
+    if (cached && cached.length > 0) return cached;
     const basicList = BASIC_VOCABULARIES.filter((v) => v.themeId === id);
     if (basicList.length > 0) return basicList;
     return ADVANCED_VOCABULARIES.filter((v) => v.themeId === id);
@@ -48,14 +54,15 @@ export default function ThemeDetailPage({
 
   const [vocabs, setVocabs] = useState<any[]>(localInitialVocabs);
   const [toast, setToast] = useState<{ title: string; body: string } | null>(null);
-  const [viewMode, setViewMode] = useState<"flashcard" | "list" | "quiz" | "ai">("flashcard");
 
   const { toggleFavorite, learned, practiceWord } = useVocabularyStore();
   const { awardXp } = useAuthStore();
   const { setSidebarCollapsed } = useUiStore();
 
-  // Theme metadata from basic or advanced data files
+  // Theme metadata from store, basic or advanced data files
   const theme = useMemo(() => {
+    const storeTheme = fetchThemeDetail(id);
+    if (storeTheme) return storeTheme;
     const basicFound = BASIC_VOCABULARY_THEMES.find((t) => t.id === id);
     if (basicFound) return basicFound;
     const advancedFound = ADVANCED_VOCABULARY_THEMES.find((t) => t.id === id);
@@ -69,23 +76,20 @@ export default function ThemeDetailPage({
       totalVocabs: vocabs.length || 20,
       color: "#0059bb",
     };
-  }, [id, vocabs.length]);
+  }, [id, vocabs.length, fetchThemeDetail]);
 
-  // Fetch vocabs from API with fallback
+  // SWR fetch with in-memory caching and background revalidation
   useEffect(() => {
     let isMounted = true;
-    fetch(`/api/vocabulary?themeId=${id}`)
-      .then((res) => res.json())
-      .then((res) => {
-        if (isMounted && res.success && res.data && res.data.length > 0) {
-          setVocabs(res.data);
-        }
-      })
-      .catch((err) => console.error("Error fetching vocabs:", err));
+    fetchThemeVocabs(id).then((data) => {
+      if (isMounted && data && data.length > 0) {
+        setVocabs(data);
+      }
+    });
     return () => {
       isMounted = false;
     };
-  }, [id]);
+  }, [id, fetchThemeVocabs]);
 
   // Automatically manage sidebar collapse when in interactive vocabulary study/quiz mode
   useEffect(() => {

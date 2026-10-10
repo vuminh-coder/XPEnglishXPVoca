@@ -788,9 +788,9 @@ export function ShadowingVideoListingSkeleton() {
                   <ShimmerBox className="h-4.5 w-full rounded" />
                   <ShimmerBox className="h-4.5 w-3/4 rounded" />
                 </div>
-                <div className="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800 text-xs">
-                  <ShimmerBox className="h-3.5 w-24 rounded" />
-                  <ShimmerBox className="h-3.5 w-16 rounded" />
+                <div className="flex items-center justify-between pt-2.5 border-t border-slate-100 dark:border-slate-800 text-xs gap-2">
+                  <ShimmerBox className="h-8 w-24 rounded-xl" />
+                  <ShimmerBox className="h-8 w-24 rounded-xl bg-[#0059bb]/30" />
                 </div>
               </div>
             </div>

@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import fs from "fs";
 import path from "path";
 import { tokenizeSentence } from "@/features/listening/components/DictationWorkspace";
+import { LESSON_BBC_WHY_WE_LAUGH, QUIZ_BBC_WHY_WE_LAUGH } from "@/features/listening/data/lessons/lesson_bbc_why_we_laugh";
 import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
 
 describe("BBC 6 Minute English: Why Laughter is the Best Medicine - 100% Verbatim Audit", () => {
@@ -105,6 +106,42 @@ describe("BBC 6 Minute English: Why Laughter is the Best Medicine - 100% Verbati
     expect(lessonWords.length).toBe(254);
     expect(offWords.length).toBe(254);
     expect(lessonWords).toEqual(offWords);
+  });
+
+  it("should have valid explanationAi and tokenCount across all 18 segments in lesson object", () => {
+    expect(LESSON_BBC_WHY_WE_LAUGH.segments.length).toBe(18);
+    for (const seg of LESSON_BBC_WHY_WE_LAUGH.segments) {
+      expect(seg.explanationAi).toBeDefined();
+      expect(seg.explanationAi!.length).toBeGreaterThan(0);
+      expect(seg.tokenCount).toBeDefined();
+      expect(seg.tokenCount).toBeGreaterThan(0);
+    }
+  });
+
+  it("should have comprehensive bilingual reading comprehension quiz attached", () => {
+    const quiz = LESSON_BBC_WHY_WE_LAUGH.quiz;
+    expect(quiz).toBeDefined();
+    if (!quiz) return;
+
+    expect(quiz.lessonId).toBe("vid_bbc_why_we_laugh");
+    expect(quiz.totalQuestions).toBe(8);
+    expect(quiz.questions.length).toBe(8);
+    expect(quiz.xpReward).toBe(40);
+
+    for (const q of quiz.questions) {
+      expect(q.id.length).toBeGreaterThan(0);
+      expect(q.questionEn).toBeDefined();
+      expect(q.questionVi).toBeDefined();
+      expect(q.optionsEn!.length).toBe(4);
+      expect(q.optionsVi!.length).toBe(4);
+      expect(q.correctAnswer).toBeGreaterThanOrEqual(0);
+      expect(q.correctAnswer).toBeLessThan(4);
+      expect(q.explanationEn).toBeDefined();
+      expect(q.explanationVi).toBeDefined();
+      expect(q.targetedConceptEn).toBeDefined();
+      expect(q.targetedConceptVi).toBeDefined();
+      expect(q.referenceSegmentIndex).toBeDefined();
+    }
   });
 });
 

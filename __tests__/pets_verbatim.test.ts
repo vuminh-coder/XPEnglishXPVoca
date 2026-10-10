@@ -81,6 +81,8 @@ describe("Daily English Pets: 100% Verbatim Subtitles Calibration Test Suite", (
       expect(seg.explanationAi!.length).toBeGreaterThan(0);
       expect(seg.keywords).toBeDefined();
       expect(seg.keywords!.length).toBeGreaterThan(0);
+      expect(seg.tokenCount).toBeDefined();
+      expect(seg.tokenCount!).toBeGreaterThan(0);
     }
   });
 
@@ -134,4 +136,52 @@ describe("Daily English Pets: 100% Verbatim Subtitles Calibration Test Suite", (
     expect(officialWords.length).toBe(114);
     expect(lessonWords).toEqual(officialWords);
   });
+
+  it("should have comprehensive bilingual reading comprehension quiz attached with 8 questions", () => {
+    const quiz = petsLesson?.quiz;
+    expect(quiz).toBeDefined();
+    if (!quiz) return;
+
+    expect(quiz.lessonId).toBe("575d216f-b275-468e-8a41-c3b26c0ac1ea");
+    expect(quiz.totalQuestions).toBe(8);
+    expect(quiz.xpReward).toBe(40);
+    expect(quiz.questions.length).toBe(8);
+
+    for (let i = 0; i < quiz.questions.length; i++) {
+      const q = quiz.questions[i];
+      expect(q.id).toBe(`q_daily_pets_${i + 1}`);
+      expect(q.questionEn).toBeDefined();
+      expect(q.questionEn!.length).toBeGreaterThan(10);
+      expect(q.questionVi).toBeDefined();
+      expect(q.questionVi!.length).toBeGreaterThan(10);
+      expect(q.options.length).toBe(4);
+      expect(q.optionsEn!.length).toBe(4);
+      expect(q.optionsVi!.length).toBe(4);
+      expect(q.correctAnswer).toBeGreaterThanOrEqual(0);
+      expect(q.correctAnswer).toBeLessThan(4);
+      expect(q.explanationEn).toBeDefined();
+      expect(q.explanationEn!.length).toBeGreaterThan(15);
+      expect(q.explanationVi).toBeDefined();
+      expect(q.explanationVi!.length).toBeGreaterThan(15);
+      expect(q.targetedConceptEn).toBeDefined();
+      expect(q.targetedConceptVi).toBeDefined();
+      expect(q.referenceSegmentIndex).toBeDefined();
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
+      expect(q.referenceSegmentIndex).toBeLessThan(11);
+    }
+
+    const segments = petsLesson?.segments || [];
+    // Verify specific segment matches
+    expect(quiz.questions[0].referenceSegmentIndex).toBe(0);
+    expect(segments[0].text).toContain("white coat");
+    expect(quiz.questions[4].referenceSegmentIndex).toBe(6);
+    expect(segments[6].text).toContain("giraffe");
+    expect(quiz.questions[5].referenceSegmentIndex).toBe(7);
+    expect(segments[7].text).toContain("elephants");
+    expect(quiz.questions[6].referenceSegmentIndex).toBe(8);
+    expect(segments[8].text).toContain("woods");
+    expect(quiz.questions[7].referenceSegmentIndex).toBe(10);
+    expect(segments[10].text).toContain("rabbits");
+  });
 });
+

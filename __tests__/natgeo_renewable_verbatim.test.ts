@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { tokenizeSentence } from "@/features/listening/components/DictationWorkspace";
 import { checkEquivalenceMatch, stripDiacritics } from "@/features/listening/utils/dictationEngine";
+import { LESSON_NATGEO_RENEWABLE_ENERGY, QUIZ_NATGEO_RENEWABLE_ENERGY } from "@/features/listening/data/lessons/lesson_natgeo_renewable_energy";
 import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
 
 describe("National Geographic: Renewable Energy 101 - 100% Verbatim Audit", () => {
@@ -119,6 +120,42 @@ describe("National Geographic: Renewable Energy 101 - 100% Verbatim Audit", () =
     expect(normLesson[323]).toBe("an");
     normRaw[323] = "an";
     expect(normLesson).toEqual(normRaw);
+  });
+
+  it("should have valid explanationAi and tokenCount across all 25 segments in lesson object", () => {
+    expect(LESSON_NATGEO_RENEWABLE_ENERGY.segments.length).toBe(25);
+    for (const seg of LESSON_NATGEO_RENEWABLE_ENERGY.segments) {
+      expect(seg.explanationAi).toBeDefined();
+      expect(seg.explanationAi!.length).toBeGreaterThan(0);
+      expect(seg.tokenCount).toBeDefined();
+      expect(seg.tokenCount).toBeGreaterThan(0);
+    }
+  });
+
+  it("should have comprehensive bilingual reading comprehension quiz attached", () => {
+    const quiz = LESSON_NATGEO_RENEWABLE_ENERGY.quiz;
+    expect(quiz).toBeDefined();
+    if (!quiz) return;
+
+    expect(quiz.lessonId).toBe("vid_ielts_environmental_sustainability");
+    expect(quiz.totalQuestions).toBe(8);
+    expect(quiz.questions.length).toBe(8);
+    expect(quiz.xpReward).toBe(40);
+
+    for (const q of quiz.questions) {
+      expect(q.id.length).toBeGreaterThan(0);
+      expect(q.questionEn).toBeDefined();
+      expect(q.questionVi).toBeDefined();
+      expect(q.optionsEn!.length).toBe(4);
+      expect(q.optionsVi!.length).toBe(4);
+      expect(q.correctAnswer).toBeGreaterThanOrEqual(0);
+      expect(q.correctAnswer).toBeLessThan(4);
+      expect(q.explanationEn).toBeDefined();
+      expect(q.explanationVi).toBeDefined();
+      expect(q.targetedConceptEn).toBeDefined();
+      expect(q.targetedConceptVi).toBeDefined();
+      expect(q.referenceSegmentIndex).toBeDefined();
+    }
   });
 });
 

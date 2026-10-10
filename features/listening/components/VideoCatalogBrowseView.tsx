@@ -15,40 +15,19 @@ import {
   CheckCircle2,
   ChevronLeft,
   ChevronRight,
+  RefreshCw,
 } from "lucide-react";
 import { VideoRequestModal } from "./VideoRequestModal";
 import { VideoComprehensionQuizModal } from "./VideoComprehensionQuizModal";
 import { ShimmerBox } from "./LoadingSkeletons";
+import {
+  useVideoCatalogStore,
+  buildLessonQueryKey,
+  VideoCatalogCategory,
+  VideoCatalogLessonItem,
+} from "@/stores";
 
-interface VideoCatalogCategory {
-  id: string;
-  slug: string;
-  name: string;
-  description: string | null;
-  icon: string | null;
-  lessonsCount?: number;
-}
-
-interface VideoCatalogLessonItem {
-  id: string;
-  slug: string;
-  title: string;
-  description: string | null;
-  externalId: string;
-  thumbnailUrl: string;
-  durationSeconds: number;
-  durationFormatted: string;
-  cefrLevel: string;
-  supportedTypes: string;
-  accent: string | null;
-  category: {
-    id: string;
-    slug: string;
-    name: string;
-  } | null;
-  totalSentences: number;
-  viewCount: number;
-}
+export type { VideoCatalogCategory, VideoCatalogLessonItem };
 
 interface VideoCatalogBrowseViewProps {
   onSelectVideoLesson?: (lesson: VideoCatalogLessonItem) => void;
@@ -59,12 +38,37 @@ const CEFR_LEVELS = ["Tất cả", "A1", "A2", "B1", "B2", "C1", "C2"];
 export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
   onSelectVideoLesson,
 }) => {
-  // Filters
-  const [categories, setCategories] = useState<VideoCatalogCategory[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
-  const [selectedLevel, setSelectedLevel] = useState<string>("Tất cả");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [sortBy] = useState<"newest" | "views" | "duration">("newest");
+  // Global SWR Cache & Filter Store
+  const categories = useVideoCatalogStore((s) => s.categories);
+  const filters = useVideoCatalogStore((s) => s.filters);
+  const setFilter = useVideoCatalogStore((s) => s.setFilter);
+  const isLessonsLoading = useVideoCatalogStore((s) => s.isLessonsLoading);
+  const fetchCategories = useVideoCatalogStore((s) => s.fetchCategories);
+  const fetchLessons = useVideoCatalogStore((s) => s.fetchLessons);
+  const invalidateCache = useVideoCatalogStore((s) => s.invalidateCache);
+
+  const selectedCategory = filters.selectedCategory;
+  const selectedLevel = filters.selectedLevel;
+  const searchQuery = filters.searchQuery;
+  const sortBy = filters.sortBy;
+
+  const setSelectedCategory = (cat: string) => setFilter("selectedCategory", cat);
+  const setSelectedLevel = (lvl: string) => setFilter("selectedLevel", lvl);
+  const setSearchQuery = (q: string) => setFilter("searchQuery", q);
+
+  // Synchronous Frame 0 Cache Hit (0ms instant UI return)
+  const queryKey = buildLessonQueryKey(filters);
+  const cachedLessons = useVideoCatalogStore((s) => s.lessonsCache[queryKey]?.data);
+  const [lessons, setLessons] = useState<VideoCatalogLessonItem[]>(() => cachedLessons || []);
+
+  useEffect(() => {
+    if (cachedLessons) {
+      setLessons(cachedLessons);
+    }
+  }, [cachedLessons]);
+
+  // Loading indicator only displays when there is ZERO data in cache
+  const isLoadingLessons = isLessonsLoading && lessons.length === 0;
 
   // Category horizontal scroll state
   const categoryScrollRef = useRef<HTMLDivElement>(null);
@@ -93,63 +97,33 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
     }
   };
 
-  // Data states
-  const [lessons, setLessons] = useState<VideoCatalogLessonItem[]>([]);
-  const [isLoadingLessons, setIsLoadingLessons] = useState(true);
-
   // Modals state
   const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
   const [selectedQuizLesson, setSelectedQuizLesson] = useState<{ id: string; title: string } | null>(
     null
   );
 
-  // Fetch Categories
+  // 1. Load Categories via SWR (0ms if cached, background revalidate if stale)
   useEffect(() => {
-    async function loadCategories() {
-      try {
-        const res = await fetch("/api/video-catalog/categories");
-        if (res.ok) {
-          const data = await res.json();
-          if (data.success && Array.isArray(data.categories)) {
-            setCategories(data.categories);
-          }
-        }
-      } catch (err) {
-        console.warn("Failed to load video categories:", err);
-      }
-    }
-    loadCategories();
-  }, []);
+    fetchCategories();
+  }, [fetchCategories]);
 
-  // Fetch Lessons based on filters
+  // 2. Load Lessons via SWR with query debouncing
   useEffect(() => {
-    async function loadLessons() {
-      setIsLoadingLessons(true);
-      try {
-        const params = new URLSearchParams();
-        if (selectedCategory !== "all") params.append("category", selectedCategory);
-        if (selectedLevel !== "Tất cả") params.append("level", selectedLevel);
-        if (searchQuery.trim()) params.append("search", searchQuery.trim());
-        params.append("sort", sortBy);
-        params.append("limit", "24");
+    const timer = setTimeout(() => {
+      fetchLessons();
+    }, 200);
+    return () => clearTimeout(timer);
+  }, [selectedCategory, selectedLevel, searchQuery, sortBy, fetchLessons]);
 
-        const res = await fetch(`/api/video-catalog/lessons?${params.toString()}`);
-        if (res.ok) {
-          const data = await res.json();
-          if (data.success && Array.isArray(data.lessons)) {
-            setLessons(data.lessons);
-          }
-        }
-      } catch (err) {
-        console.warn("Failed to load video catalog lessons:", err);
-      } finally {
-        setIsLoadingLessons(false);
-      }
-    }
-
-    const debounce = setTimeout(loadLessons, 250);
-    return () => clearTimeout(debounce);
-  }, [selectedCategory, selectedLevel, searchQuery, sortBy]);
+  // Manual force refresh handler
+  const handleForceRefresh = async () => {
+    invalidateCache("all");
+    await Promise.all([
+      fetchCategories({ forceRefresh: true }),
+      fetchLessons(undefined, { forceRefresh: true }),
+    ]);
+  };
 
   return (
     <div className="space-y-5">
@@ -168,7 +142,18 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
             </p>
           </div>
 
-          <div className="flex items-center gap-2.5 shrink-0">
+          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+            <button
+              type="button"
+              onClick={handleForceRefresh}
+              disabled={isLessonsLoading}
+              className="px-3.5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200/90 dark:bg-slate-800 dark:hover:bg-slate-700/90 border border-slate-200/80 dark:border-slate-700/80 text-slate-700 dark:text-slate-200 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs active:scale-95 disabled:opacity-50"
+              title="Làm mới danh sách video từ máy chủ"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${isLessonsLoading ? "animate-spin text-[#0059bb]" : "text-slate-500 dark:text-slate-400"}`} />
+              <span className="hidden sm:inline">Làm mới</span>
+            </button>
+
             <button
               type="button"
               onClick={() => setIsRequestModalOpen(true)}
@@ -411,14 +396,14 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
                 {/* Card Footer: Balanced h-8 Action Targets */}
                 <div className="pt-2.5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-2">
                   <Link
-                    href={`/study/dictation/video/${lesson.id}/comprehension`}
+                    href={`/study/dictation/video/comprehension/${lesson.id}`}
                     onClick={(e) => {
                       e.stopPropagation();
                     }}
-                    className="h-8 px-2.5 rounded-xl text-xs font-bold text-purple-700 dark:text-purple-300 bg-purple-50/70 hover:bg-purple-100 dark:bg-purple-950/40 dark:hover:bg-purple-900/50 border border-purple-200/70 dark:border-purple-800/60 flex items-center gap-1.5 transition-all cursor-pointer active:scale-95 shrink-0"
+                    className="group/ai h-8 px-2.5 rounded-xl text-xs font-bold text-slate-700 hover:text-violet-700 dark:text-slate-200 dark:hover:text-violet-300 bg-slate-50 hover:bg-violet-50/60 dark:bg-slate-800/80 dark:hover:bg-violet-950/30 border border-slate-200/90 dark:border-slate-700/80 hover:border-violet-300 dark:hover:border-violet-600/60 flex items-center gap-1.5 transition-all cursor-pointer active:scale-95 shrink-0 shadow-2xs"
                     title="Làm bài trắc nghiệm đọc hiểu AI (+25 XP)"
                   >
-                    <Sparkles className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400 shrink-0" />
+                    <Sparkles className="w-3.5 h-3.5 text-violet-600 dark:text-violet-400 group-hover/ai:scale-110 transition-transform shrink-0" />
                     <span>Đọc hiểu AI</span>
                   </Link>
 

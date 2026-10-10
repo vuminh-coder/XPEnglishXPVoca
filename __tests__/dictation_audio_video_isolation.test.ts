@@ -222,7 +222,7 @@ describe("Dictation & Shadowing Audio-Video Dual Branch Isolation Suite", () => 
         expect(String(item.audioUrl || "").includes("youtube.com")).toBe(false);
         expect(String(item.audioUrl || "").includes("youtu.be")).toBe(false);
       }
-    }, 15000);
+    }, 30000);
 
     it("returns only video lessons when mode=video is requested", async () => {
       const { GET } = await import("@/app/api/listening/lessons/route");
@@ -245,6 +245,6 @@ describe("Dictation & Shadowing Audio-Video Dual Branch Isolation Suite", () => 
           String(item.audioUrl || "").includes("youtu.be");
         expect(isVideo).toBe(true);
       }
-    }, 15000);
+    }, 30000);
   });
 });

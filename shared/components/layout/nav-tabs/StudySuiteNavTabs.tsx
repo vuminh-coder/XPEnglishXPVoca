@@ -7,9 +7,11 @@ import { HeaderPillContainer, HeaderPillItem } from "../AppTopHeader";
 
 export interface StudySuiteNavTabsProps {
   className?: string;
+  /** Explicitly toggle between the Practice tab vs Reading tab (defaults to context-aware auto detection) */
+  showPracticeTab?: boolean;
 }
 
-export function StudySuiteNavTabs({ className }: StudySuiteNavTabsProps) {
+export function StudySuiteNavTabs({ className, showPracticeTab }: StudySuiteNavTabsProps) {
   const pathname = usePathname();
 
   const isPracticeActive =
@@ -28,6 +30,28 @@ export function StudySuiteNavTabs({ className }: StudySuiteNavTabsProps) {
     pathname?.startsWith("/study/exam-prep/") ||
     pathname?.startsWith("/study/exams");
 
+  // Strict <= 4 Tabs Cap Enforcement:
+  // Slot 1: Dictation (Listening)
+  // Slot 2: Shadowing (Speaking)
+  // Slot 3: Contextual 3rd pillar (Luyện từ vựng when in practice mode; Đọc hiểu in general reading/study mode)
+  // Slot 4: Thi thử đề (Full Testing room)
+  const renderPracticePill =
+    showPracticeTab !== undefined ? showPracticeTab : isPracticeActive;
+
+  const thirdPill = renderPracticePill
+    ? {
+        active: isPracticeActive,
+        href: "/study/practice",
+        icon: <BookOpen className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />,
+        label: "Luyện từ vựng",
+      }
+    : {
+        active: isReadingActive,
+        href: "/study/reading",
+        icon: <BookText className="w-3.5 h-3.5 text-blue-500 dark:text-sky-400" />,
+        label: "Đọc hiểu",
+      };
+
   return (
     <HeaderPillContainer className={className}>
       <HeaderPillItem
@@ -45,18 +69,11 @@ export function StudySuiteNavTabs({ className }: StudySuiteNavTabsProps) {
         label="Shadowing"
       />
       <HeaderPillItem
-        active={isReadingActive}
-        href="/study/reading"
+        active={thirdPill.active}
+        href={thirdPill.href}
         layoutId="studySuiteNavActiveTab"
-        icon={<BookText className="w-3.5 h-3.5 text-blue-500 dark:text-sky-400" />}
-        label="Đọc hiểu"
-      />
-      <HeaderPillItem
-        active={isPracticeActive}
-        href="/study/practice"
-        layoutId="studySuiteNavActiveTab"
-        icon={<BookOpen className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />}
-        label="Luyện từ vựng"
+        icon={thirdPill.icon}
+        label={thirdPill.label}
       />
       <HeaderPillItem
         active={isExamActive}
@@ -70,3 +87,4 @@ export function StudySuiteNavTabs({ className }: StudySuiteNavTabsProps) {
 }
 
 export default StudySuiteNavTabs;
+

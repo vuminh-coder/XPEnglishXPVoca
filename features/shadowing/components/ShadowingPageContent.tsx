@@ -50,10 +50,63 @@ import {
   resolveLessonMedia,
   buildEffectiveSentence,
 } from "@/features/listening/utils/lessonMedia";
+import {
+  useVideoCatalogStore,
+  useAudioCatalogStore,
+  isEntryStale,
+} from "@/stores";
 
 export interface ShadowingPageContentProps {
   basePath?: string;
   initialMode?: "audio" | "video";
+}
+
+/**
+ * Format any raw video item (from API, store cache, or mock data)
+ * into the complete lesson structure needed by Shadowing workspace.
+ */
+export function formatVideoLessonToShadowing(rawVideo: any) {
+  if (!rawVideo) return null;
+  const segments = rawVideo.segments || [];
+  return {
+    id: rawVideo.id,
+    slug: rawVideo.slug,
+    title: rawVideo.title,
+    description: rawVideo.description,
+    level: rawVideo.cefrLevel || rawVideo.level || "B1",
+    audioUrl: rawVideo.audioUrl || (rawVideo.externalId ? `https://www.youtube.com/watch?v=${rawVideo.externalId}` : ""),
+    youtubeUrl: rawVideo.externalId ? `https://www.youtube.com/watch?v=${rawVideo.externalId}` : "",
+    duration: rawVideo.durationSeconds || rawVideo.duration || 180,
+    category: typeof rawVideo.category === "object" ? rawVideo.category?.name : (rawVideo.category || rawVideo.categoryName || "Tiếng Anh"),
+    imageUrl: rawVideo.thumbnailUrl || rawVideo.imageUrl,
+    thumbnailUrl: rawVideo.thumbnailUrl || rawVideo.imageUrl,
+    totalSentences: segments.length || rawVideo.totalSentences || 0,
+    transcript: segments.map((seg: any, idx: number) => ({
+      id: seg.id || `seg_${idx + 1}`,
+      startTime: seg.startTime,
+      endTime: seg.endTime,
+      duration: seg.duration || (seg.endTime - seg.startTime),
+      text: seg.text,
+      ipaUs: seg.ipaUs || "",
+      ipaUk: seg.ipaUk || "",
+      ipa: seg.ipaUs || seg.ipaUk || "",
+      translationVi: seg.translationVi || "",
+      vietnamese: seg.translationVi || "",
+      translation: seg.translationVi || "",
+      explanationVi: seg.explanationAi || seg.explanationVi || "",
+      properNouns: seg.properNouns || [],
+      keywords: seg.keywords || [],
+    })),
+    videoMetadata: {
+      sourceType: rawVideo.sourceType || "YOUTUBE",
+      externalId: rawVideo.externalId,
+      thumbnailUrl: rawVideo.thumbnailUrl || rawVideo.imageUrl,
+      supportedTypes: rawVideo.supportedTypes,
+      cefrLevel: rawVideo.cefrLevel || rawVideo.level,
+      wpmSpeed: rawVideo.wpmSpeed,
+    },
+    accent: rawVideo.accent,
+  };
 }
 
 export function ShadowingPageContent({
@@ -79,17 +132,142 @@ export function ShadowingPageContent({
     setHasMounted(true);
   }, []);
 
-  // 1. Database-backed lessons state (SSR-safe initial states)
-  const [lessonsList, setLessonsList] = useState<any[]>([]);
-  const [isLoadingLessons, setIsLoadingLessons] = useState<boolean>(true);
-  const [isLoadingLessonDetail, setIsLoadingLessonDetail] = useState<boolean>(() => Boolean(rawIdParam));
-  const [detailedLessonsMap, setDetailedLessonsMap] = useState<Record<string, any>>({});
-  const [singleLessonDb, setSingleLessonDb] = useState<any | null>(null);
+  // Global Audio SWR & Zustand Store hooks
+  const cachedAudioLessons = useAudioCatalogStore((s) => s.audioLessons);
+  const isAudioLessonsLoading = useAudioCatalogStore((s) => s.isAudioLessonsLoading);
+  const audioFilters = useAudioCatalogStore((s) => s.filters);
+  const setAudioListingSearch = useAudioCatalogStore((s) => s.setListingSearch);
+  const setAudioShuffleBasic = useAudioCatalogStore((s) => s.setShuffleSeedBasic);
+  const setAudioShuffleAdvanced = useAudioCatalogStore((s) => s.setShuffleSeedAdvanced);
 
-  // 2. Selected lesson state (Frame 0 Synchronous Canonical Normalization)
-  const [selectedLessonId, setSelectedLessonId] = useState<string | null>(() => {
+  const listingSearch = audioFilters.listingSearch;
+  const shuffleSeedBasic = audioFilters.shuffleSeedBasic;
+  const shuffleSeedAdvanced = audioFilters.shuffleSeedAdvanced;
+  const setListingSearch = setAudioListingSearch;
+
+  // Frame 0 Synchronous Canonical ID Normalization
+  const initialLessonId = useMemo(() => {
     if (!rawIdParam) return null;
     return resolveCanonicalLessonId(rawIdParam) || rawIdParam;
+  }, [rawIdParam]);
+
+  const isVideoRequested = Boolean(
+    initialMode === "video" ||
+    (rawIdParam && (
+      rawIdParam.startsWith("vid_") ||
+      rawIdParam.startsWith("yt_") ||
+      rawIdParam.startsWith("video_") ||
+      MOCK_VIDEO_LESSONS.some((v) => v.id === rawIdParam || v.slug === rawIdParam || v.externalId === rawIdParam)
+    ))
+  );
+
+  // Synchronous Frame-0 initial lesson detail probe
+  const initialCachedLessonDetail = useMemo(() => {
+    if (!rawIdParam) return null;
+    const lookup = initialLessonId || rawIdParam;
+
+    if (isVideoRequested) {
+      // 1. In-memory videoCatalogStore cache
+      const cachedVideo = useVideoCatalogStore.getState().lessonDetailCache[lookup]?.data
+        || useVideoCatalogStore.getState().lessonDetailCache[rawIdParam]?.data;
+      if (cachedVideo) {
+        return formatVideoLessonToShadowing(cachedVideo);
+      }
+      // 2. In-memory mock video
+      const mockVideo = MOCK_VIDEO_LESSONS.find(
+        (v) => v.id === lookup || v.slug === lookup || v.externalId === lookup || v.id === rawIdParam
+      );
+      if (mockVideo) {
+        return formatVideoLessonToShadowing(mockVideo);
+      }
+    } else {
+      // 1. In-memory audioCatalogStore cache
+      const cachedAudio = useAudioCatalogStore.getState().audioDetailCache[lookup]?.data
+        || useAudioCatalogStore.getState().audioDetailCache[rawIdParam]?.data;
+      if (cachedAudio) {
+        return cachedAudio;
+      }
+      // 1b. Check localStorage for audio detail
+      if (typeof window !== "undefined") {
+        try {
+          const raw =
+            localStorage.getItem(`xp_voca_audio_detail_${lookup}`) ||
+            localStorage.getItem(`xp_voca_audio_detail_${rawIdParam}`);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed && Array.isArray(parsed.transcript) && parsed.transcript.length > 0) {
+              return parsed;
+            }
+          }
+        } catch {}
+      }
+      // 2. In-memory mock audio
+      const mockAudio = MOCK_LESSONS_DATA.find(
+        (l) => isSameLessonId(l.id, lookup) || isSameLessonId(l.id, rawIdParam)
+      );
+      if (mockAudio) {
+        return mockAudio;
+      }
+    }
+    return null;
+  }, [rawIdParam, initialLessonId, isVideoRequested]);
+
+  // Lessons list with Frame 0 store read & localStorage fallback (0ms Instant Catalog)
+  const [lessonsList, setLessonsList] = useState<any[]>(() => {
+    if (initialMode === "audio") {
+      if (cachedAudioLessons && cachedAudioLessons.length > 0) {
+        return cachedAudioLessons;
+      }
+      if (typeof window !== "undefined") {
+        try {
+          const raw = localStorage.getItem("xp_voca_listening_catalog_audio");
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+          }
+        } catch {}
+      }
+      return MOCK_LESSONS_DATA.filter(
+        (l: any) =>
+          !l.isVideo &&
+          !l.id?.startsWith("vid_") &&
+          !l.audioUrl?.includes("youtube") &&
+          !l.audioUrl?.includes("youtu.be")
+      );
+    }
+    return [];
+  });
+
+  useEffect(() => {
+    if (initialMode === "audio" && cachedAudioLessons && cachedAudioLessons.length > 0) {
+      setLessonsList(cachedAudioLessons);
+    }
+  }, [cachedAudioLessons, initialMode]);
+
+  const isLoadingLessons = initialMode === "audio"
+    ? isAudioLessonsLoading && lessonsList.length === 0
+    : false;
+
+  const [isLoadingLessonDetail, setIsLoadingLessonDetail] = useState<boolean>(() =>
+    Boolean(rawIdParam && !initialCachedLessonDetail)
+  );
+
+  const [detailedLessonsMap, setDetailedLessonsMap] = useState<Record<string, any>>(() => {
+    if (initialCachedLessonDetail && initialCachedLessonDetail.id) {
+      return {
+        [initialCachedLessonDetail.id]: initialCachedLessonDetail,
+        ...(rawIdParam ? { [rawIdParam]: initialCachedLessonDetail } : {}),
+        ...(initialLessonId ? { [initialLessonId]: initialCachedLessonDetail } : {}),
+      };
+    }
+    return {};
+  });
+
+  const [singleLessonDb, setSingleLessonDb] = useState<any | null>(() => initialCachedLessonDetail || null);
+
+  const [selectedLessonId, setSelectedLessonId] = useState<string | null>(() => {
+    if (!rawIdParam) return null;
+    return initialLessonId || rawIdParam;
   });
   const [isInPlaceSwitchingLesson, setIsInPlaceSwitchingLesson] = useState<boolean>(false);
 
@@ -102,98 +280,15 @@ export function ShadowingPageContent({
     } catch {}
   }, []);
 
-  // 1. SWR Instant 0ms Local Cache Hydration & Background Neon DB Fetch for Catalog
-  /* eslint-disable react-hooks/set-state-in-effect -- SWR cache hydration and background DB fetch */
+  // 1. SWR Instant 0ms Local Cache Hydration & Background Fetch for Catalog
   useEffect(() => {
-    let isMounted = true;
-    const catalogCacheKey = `xp_voca_shadowing_catalog_${initialMode}_${user?.id || "guest"}`;
-
-    // Tầng 1: SWR 0ms Instant Local Cache Hydration
-    if (typeof window !== "undefined") {
-      try {
-        const raw =
-          localStorage.getItem(catalogCacheKey) ||
-          (initialMode === "audio"
-            ? localStorage.getItem(`xp_voca_listening_catalog_audio_${user?.id || "guest"}`)
-            : null);
-        if (raw) {
-          const cached = JSON.parse(raw);
-          if (Array.isArray(cached) && cached.length > 0) {
-            const sanitized = initialMode === "audio"
-              ? cached.filter((l: any) => !l.isVideo && !String(l.id).startsWith("vid_") && !String(l.audioUrl || "").includes("youtube"))
-              : cached;
-            if (sanitized.length > 0) {
-              setLessonsList(sanitized);
-              setIsLoadingLessons(false);
-            }
-          }
-        }
-      } catch (err) {
-        console.warn("[Shadowing] Failed to load cached catalog:", err);
-      }
+    if (initialMode === "audio") {
+      useAudioCatalogStore.getState().fetchAudioLessons({ userId: user?.id, mode: "audio" });
+    } else if (initialMode === "video") {
+      useVideoCatalogStore.getState().fetchCategories();
+      useVideoCatalogStore.getState().fetchLessons();
     }
-
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000);
-
-    // Tầng 2: Background Neon Database Reconciliation
-    async function fetchLessons() {
-      try {
-        const res = await fetch(`/api/listening/lessons?userId=${user?.id || ""}&mode=${initialMode}`, {
-          signal: controller.signal,
-          headers: { Accept: "application/json" },
-        });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const json = await res.json();
-        if (isMounted && json.success && Array.isArray(json.data) && json.data.length > 0) {
-          const sanitized = initialMode === "audio"
-            ? json.data.filter((l: any) => !l.isVideo && !String(l.id).startsWith("vid_") && !String(l.audioUrl || "").includes("youtube"))
-            : json.data;
-          setLessonsList(sanitized);
-          try {
-            localStorage.setItem(catalogCacheKey, JSON.stringify(sanitized));
-          } catch {}
-        } else if (isMounted) {
-          const fallbackData = initialMode === "audio"
-            ? MOCK_LESSONS_DATA.filter((l: any) => !l.isVideo && !String(l.id).startsWith("vid_") && !String(l.audioUrl || "").includes("youtube"))
-            : MOCK_LESSONS_DATA;
-          setLessonsList((prev) => (prev.length === 0 ? fallbackData : prev));
-        }
-      } catch (err: any) {
-        if (!isMounted) return;
-        if (err?.name === "AbortError") {
-          console.warn("[Shadowing] Catalog DB request timed out.");
-        } else {
-          console.warn("[Shadowing] DB fetch fallback to offline cache:", err?.message || err);
-        }
-        if (isMounted) {
-          setLessonsList((prev) => {
-            if (prev.length === 0) {
-              addToast({
-                type: "warning",
-                title: "Chế độ offline",
-                message: "Không thể tải danh mục từ CSDL Neon. Đang hiển thị danh mục offline.",
-              });
-              return initialMode === "audio"
-                ? MOCK_LESSONS_DATA.filter((l: any) => !l.isVideo && !String(l.id).startsWith("vid_") && !String(l.audioUrl || "").includes("youtube"))
-                : MOCK_LESSONS_DATA;
-            }
-            return prev;
-          });
-        }
-      } finally {
-        clearTimeout(timeoutId);
-        if (isMounted) setIsLoadingLessons(false);
-      }
-    }
-    fetchLessons();
-    return () => {
-      isMounted = false;
-      clearTimeout(timeoutId);
-      controller.abort();
-    };
-  }, [user?.id, addToast]);
-  /* eslint-enable react-hooks/set-state-in-effect */
+  }, [initialMode, user?.id]);
 
   // Sync URL ?id= param with database lessons (Dashboard Architecture with SWR)
   const lastFetchedLessonRef = useRef<string | null>(null);
@@ -204,7 +299,8 @@ export function ShadowingPageContent({
     return resolveCanonicalLessonId(selectedLessonId || rawIdParam, lessonsList);
   }, [selectedLessonId, rawIdParam, lessonsList]);
 
-  /* eslint-disable react-hooks/set-state-in-effect, react-hooks/exhaustive-deps -- SWR single lesson hydration */
+  // 2. SWR Lesson Detail Fetch via Store
+  /* eslint-disable react-hooks/set-state-in-effect -- SWR single lesson hydration */
   useEffect(() => {
     if (!rawIdParam && !selectedLessonId) {
       setIsLoadingLessonDetail(false);
@@ -217,6 +313,13 @@ export function ShadowingPageContent({
     const queryLessonId: string = canonicalQueryId || selectedLessonId || rawIdParam || "";
     if (!queryLessonId) return;
 
+    const isVideo =
+      initialMode === "video" ||
+      queryLessonId.startsWith("vid_") ||
+      queryLessonId.startsWith("yt_") ||
+      queryLessonId.startsWith("video_") ||
+      MOCK_VIDEO_LESSONS.some((v) => v.id === queryLessonId || v.slug === queryLessonId || v.externalId === queryLessonId);
+
     // Cache guard: If this lesson is already in detailedLessonsMap and was fetched, do not re-fetch
     if (
       lastFetchedLessonRef.current &&
@@ -228,170 +331,71 @@ export function ShadowingPageContent({
       return;
     }
 
-    const detailCacheKey = `xp_voca_shadowing_detail_${queryLessonId}_${user?.id || "guest"}`;
+    let isMounted = true;
 
-    // Tầng 1: SWR 0ms Instant Local Cache Hydration
-    if (typeof window !== "undefined") {
+    async function syncLessonDetail() {
       try {
-        const raw = localStorage.getItem(detailCacheKey);
-        if (raw) {
-          const cached = JSON.parse(raw);
-          if (cached && cached.id && Array.isArray(cached.transcript) && cached.transcript.length > 0) {
-            setDetailedLessonsMap((prev) => ({
-              ...prev,
-              [cached.id]: cached,
-              [queryLessonId]: cached,
-              ...(rawIdParam ? { [rawIdParam]: cached } : {}),
-            }));
-            setSingleLessonDb(cached);
-            setIsLoadingLessonDetail(false);
+        if (isVideo) {
+          // Video lesson SWR
+          const rawDetail = await useVideoCatalogStore.getState().fetchLessonDetail(queryLessonId);
+          if (!isMounted) return;
+          if (rawDetail) {
+            const formatted = formatVideoLessonToShadowing(rawDetail);
+            if (formatted) {
+              lastFetchedLessonRef.current = formatted.id;
+              setDetailedLessonsMap((prev) => ({
+                ...prev,
+                [formatted.id]: formatted,
+                [queryLessonId]: formatted,
+                ...(rawIdParam ? { [rawIdParam]: formatted } : {}),
+              }));
+              setSingleLessonDb(formatted);
+              if (selectedLessonId !== formatted.id && !isSameLessonId(selectedLessonId, formatted.id)) {
+                setSelectedLessonId(formatted.id);
+                setCurrentLessonId(formatted.id);
+              }
+            }
+          }
+        } else {
+          // Audio lesson SWR
+          const detail = await useAudioCatalogStore.getState().fetchAudioLessonDetail(queryLessonId, {
+            userId: user?.id,
+          });
+          if (!isMounted) return;
+          if (detail) {
+            lastFetchedLessonRef.current = detail.id;
+            setDetailedLessonsMap((prev) => {
+              const next: Record<string, any> = {
+                ...prev,
+                [detail.id]: detail,
+                [queryLessonId]: detail,
+              };
+              if (rawIdParam) next[rawIdParam] = detail;
+              return next;
+            });
+            setSingleLessonDb(detail);
+            if (selectedLessonId !== detail.id && !isSameLessonId(selectedLessonId, detail.id)) {
+              setSelectedLessonId(detail.id);
+              setCurrentLessonId(detail.id);
+            }
           }
         }
       } catch (err) {
-        console.warn("[Shadowing] Failed to load cached lesson detail:", err);
-      }
-    }
-
-    // Tầng 2: Background Neon Database Reconciliation
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000);
-    let isMounted = true;
-
-    async function fetchSingle() {
-      try {
-        const res = await fetch(`/api/listening/lessons/${queryLessonId}?userId=${user?.id || ""}`, {
-          signal: controller.signal,
-          headers: { Accept: "application/json" },
-        });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const json = await res.json();
-        if (isMounted && json.success && json.data) {
-          const detail = json.data;
-          lastFetchedLessonRef.current = detail.id;
-
-          setDetailedLessonsMap((prev) => {
-            const next: Record<string, any> = {
-              ...prev,
-              [detail.id]: detail,
-              [queryLessonId]: detail,
-            };
-            if (rawIdParam) next[rawIdParam] = detail;
-            const isNumericId = /^\d+$/.test(detail.id || "") || /^(?:listen|lesson)[\w-]*?_?\d+$/i.test(detail.id || "");
-            if (isNumericId) {
-              const num = parseInt((detail.id || "").replace(/\D/g, "") || rawIdParam || "", 10);
-              if (!isNaN(num)) {
-                const pad3 = String(num).padStart(3, "0");
-                next[pad3] = detail;
-                next[`listen_${pad3}`] = detail;
-                next[String(num)] = detail;
-              }
-            }
-            return next;
-          });
-          setSingleLessonDb(detail);
-
-          if (selectedLessonId !== detail.id && !isSameLessonId(selectedLessonId, detail.id)) {
-            setSelectedLessonId(detail.id);
-            setCurrentLessonId(detail.id);
-          }
-
-          try {
-            localStorage.setItem(detailCacheKey, JSON.stringify(detail));
-            localStorage.setItem(`xp_voca_shadowing_detail_${detail.id}_${user?.id || "guest"}`, JSON.stringify(detail));
-            if (rawIdParam) {
-              localStorage.setItem(`xp_voca_shadowing_detail_${rawIdParam}_${user?.id || "guest"}`, JSON.stringify(detail));
-            }
-          } catch {}
-
-          setLessonsList((prev) => {
-            const idx = prev.findIndex((l) => isSameLessonId(l.id, detail.id));
-            if (idx !== -1) {
-              const updated = [...prev];
-              updated[idx] = { ...updated[idx], ...detail };
-              return updated;
-            }
-            return prev.length > 0 ? [detail, ...prev] : prev;
-          });
-        }
-      } catch (e: any) {
-        if (!isMounted) return;
-        if (e?.name === "AbortError") {
-          console.warn("[Shadowing] Lesson detail request timed out.");
-        } else {
-          console.warn("[Shadowing] Fetch single lesson fallback:", e?.message || e);
-        }
-        if (isMounted) {
-          const fallback =
-            MOCK_LESSONS_DATA.find((l) => isSameLessonId(l.id, queryLessonId)) ||
-            MOCK_LESSONS_DATA.find((l) => l.id === queryLessonId);
-          if (fallback) {
-            lastFetchedLessonRef.current = fallback.id;
-            setDetailedLessonsMap((prev) => ({
-              ...prev,
-              [fallback.id]: fallback,
-              [queryLessonId]: fallback,
-            }));
-            setSingleLessonDb(fallback);
-          } else {
-            const fallbackVideo = MOCK_VIDEO_LESSONS.find(
-              (v) => v.id === queryLessonId || v.slug === queryLessonId || v.externalId === queryLessonId
-            );
-            if (fallbackVideo) {
-              const mappedVideo = {
-                id: fallbackVideo.id,
-                title: fallbackVideo.title,
-                description: fallbackVideo.description,
-                level: fallbackVideo.cefrLevel,
-                audioUrl: `https://www.youtube.com/watch?v=${fallbackVideo.externalId}`,
-                duration: fallbackVideo.durationSeconds,
-                category: fallbackVideo.categoryName,
-                imageUrl: fallbackVideo.thumbnailUrl,
-                totalSentences: fallbackVideo.segments.length,
-                transcript: fallbackVideo.segments.map((seg, idx) => ({
-                  id: `seg_${idx + 1}`,
-                  startTime: seg.startTime,
-                  endTime: seg.endTime,
-                  text: seg.text,
-                  ipaUs: seg.ipaUs || "",
-                  ipaUk: "",
-                  translationVi: seg.translationVi,
-                  explanationVi: seg.explanationAi || "",
-                  properNouns: seg.properNouns || [],
-                  keywords: seg.keywords || [],
-                })),
-                videoMetadata: {
-                  sourceType: fallbackVideo.sourceType,
-                  externalId: fallbackVideo.externalId,
-                  thumbnailUrl: fallbackVideo.thumbnailUrl,
-                  supportedTypes: fallbackVideo.supportedTypes,
-                  cefrLevel: fallbackVideo.cefrLevel,
-                  wpmSpeed: fallbackVideo.wpmSpeed,
-                },
-              };
-              lastFetchedLessonRef.current = mappedVideo.id;
-              setDetailedLessonsMap((prev) => ({
-                ...prev,
-                [mappedVideo.id]: mappedVideo,
-                [queryLessonId]: mappedVideo,
-              }));
-              setSingleLessonDb(mappedVideo);
-            }
-          }
-        }
+        console.warn("[Shadowing] Lesson detail sync fallback:", err);
       } finally {
-        clearTimeout(timeoutId);
-        if (isMounted) setIsLoadingLessonDetail(false);
+        if (isMounted) {
+          setIsLoadingLessonDetail(false);
+        }
       }
     }
 
-    fetchSingle();
+    syncLessonDetail();
+
     return () => {
       isMounted = false;
-      clearTimeout(timeoutId);
-      controller.abort();
     };
-  }, [canonicalQueryId, user?.id, rawIdParam, addToast]);
-  /* eslint-enable react-hooks/set-state-in-effect, react-hooks/exhaustive-deps */
+  }, [canonicalQueryId, selectedLessonId, rawIdParam, initialMode, user?.id, setCurrentLessonId, detailedLessonsMap, singleLessonDb]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   // Automatically ensure sidebar is collapsed when in studio workspace
   useEffect(() => {
@@ -449,7 +453,21 @@ export function ShadowingPageContent({
       }
     }
 
-    // 4. Lookup in lessonsList
+    // 4. In-memory store cache read
+    const cachedVideo = useVideoCatalogStore.getState().lessonDetailCache[lookupKey]?.data
+      || (canonical ? useVideoCatalogStore.getState().lessonDetailCache[canonical]?.data : null);
+    if (cachedVideo) {
+      const formatted = formatVideoLessonToShadowing(cachedVideo);
+      if (formatted?.transcript?.length) return formatted;
+    }
+
+    const cachedAudio = useAudioCatalogStore.getState().audioDetailCache[lookupKey]?.data
+      || (canonical ? useAudioCatalogStore.getState().audioDetailCache[canonical]?.data : null);
+    if (cachedAudio?.transcript?.length) {
+      return cachedAudio;
+    }
+
+    // 5. Lookup in lessonsList
     if (lessonsList.length > 0) {
       const resolvedId = canonical || resolveCanonicalLessonId(lookupKey, lessonsList);
       if (resolvedId) {
@@ -461,50 +479,20 @@ export function ShadowingPageContent({
       if (directFromList?.transcript?.length) return directFromList;
     }
 
-    // 5. TRUE SWR: In-memory MOCK_LESSONS_DATA in RAM (0ms instant display)
+    // 6. TRUE SWR: In-memory MOCK_LESSONS_DATA in RAM (0ms instant display)
     const fallbackId = canonical || resolveCanonicalLessonId(lookupKey, MOCK_LESSONS_DATA) || lookupKey;
     const fromMock = MOCK_LESSONS_DATA.find((l) => isSameLessonId(l.id, fallbackId));
     if (fromMock?.transcript?.length) return { ...(singleLessonDb || {}), ...fromMock };
 
-    // 5b. Video lesson mock fallback (by id, slug, or externalId)
+    // 6b. Video lesson mock fallback (by id, slug, or externalId)
     const fromVideoMock = MOCK_VIDEO_LESSONS.find(
       (v) => v.id === lookupKey || v.slug === lookupKey || v.externalId === lookupKey
     );
     if (fromVideoMock?.segments?.length) {
-      return {
-        id: fromVideoMock.id,
-        title: fromVideoMock.title,
-        description: fromVideoMock.description,
-        level: fromVideoMock.cefrLevel,
-        audioUrl: `https://www.youtube.com/watch?v=${fromVideoMock.externalId}`,
-        duration: fromVideoMock.durationSeconds,
-        category: fromVideoMock.categoryName,
-        imageUrl: fromVideoMock.thumbnailUrl,
-        totalSentences: fromVideoMock.segments.length,
-        transcript: fromVideoMock.segments.map((seg, idx) => ({
-          id: `seg_${idx + 1}`,
-          startTime: seg.startTime,
-          endTime: seg.endTime,
-          text: seg.text,
-          ipaUs: seg.ipaUs || "",
-          ipaUk: "",
-          translationVi: seg.translationVi,
-          explanationVi: seg.explanationAi || "",
-          properNouns: seg.properNouns || [],
-          keywords: seg.keywords || [],
-        })),
-        videoMetadata: {
-          sourceType: fromVideoMock.sourceType,
-          externalId: fromVideoMock.externalId,
-          thumbnailUrl: fromVideoMock.thumbnailUrl,
-          supportedTypes: fromVideoMock.supportedTypes,
-          cefrLevel: fromVideoMock.cefrLevel,
-          wpmSpeed: fromVideoMock.wpmSpeed,
-        },
-      };
+      return formatVideoLessonToShadowing(fromVideoMock);
     }
 
-    // 6. While DB is actively fetching an unknown lesson, wait for DB
+    // 7. While DB is actively fetching an unknown lesson, wait for DB
     if (isLoadingLessonDetail) return null;
 
     return singleLessonDb || null;
@@ -600,7 +588,6 @@ export function ShadowingPageContent({
 
   // Custom Lesson Selection Modal & Search
   const [showLessonModal, setShowLessonModal] = useState(false);
-  const [listingSearch, setListingSearch] = useState("");
 
   // Sentence Report Modal State
   const [showReportModal, setShowReportModal] = useState(false);
@@ -637,6 +624,8 @@ export function ShadowingPageContent({
     liveAudioEnergy,
     aiAnalysisResult,
     liveRecognizedWords,
+    liveWordStatuses,
+    activeSpeechWordIndex,
     sentenceScores,
     userAudioPlayerRef,
     startRecording,
@@ -675,38 +664,7 @@ export function ShadowingPageContent({
     setSelectedWord(deepDef);
   }, [currentLesson?.id]);
 
-  // 1. Auto-scroll word track during speech recognition
-  useEffect(() => {
-    if (!isRecording) return;
-    const targetIdx = Math.max(
-      0,
-      Math.min(
-        (currentSentence?.text.split(/\s+/).length || 1) - 1,
-        liveRecognizedWords.length > 0 ? liveRecognizedWords.length - 1 : 0
-      )
-    );
-    const targetEl = wordTokenRefs.current[targetIdx];
-    if (targetEl) {
-      targetEl.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "center",
-      });
-    }
-  }, [isRecording, liveRecognizedWords.length, currentSentence?.text]);
-
-  // 2. Auto-scroll word track during sample audio playback
-  useEffect(() => {
-    if (activePlaybackWordIndex === null) return;
-    const targetEl = wordTokenRefs.current[activePlaybackWordIndex];
-    if (targetEl) {
-      targetEl.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "center",
-      });
-    }
-  }, [activePlaybackWordIndex]);
+  // Auto-scroll is cleanly managed inside ShadowingStudioWorkspace via activeSpeechWordIndex & activePlaybackWordIndex
 
   // 3. Reset scroll position on sentence change
   /* eslint-disable react-hooks/set-state-in-effect -- Reset active word on sentence index change */
@@ -721,9 +679,6 @@ export function ShadowingPageContent({
   // 2-Row Listing State
   const BASIC_LEVELS = useMemo(() => new Set(["Easy", "Beginner", "A1", "A2"]), []);
   const ADVANCED_LEVELS = useMemo(() => new Set(["Hard", "Advanced", "C1", "C2"]), []);
-
-  const [shuffleSeedBasic, setShuffleSeedBasic] = useState(0);
-  const [shuffleSeedAdvanced, setShuffleSeedAdvanced] = useState(0);
 
   // Stabilize completedLessonIds key to prevent unnecessary re-computations
   const completedLessonIdsKey = useMemo(() => {
@@ -771,14 +726,14 @@ export function ShadowingPageContent({
   }, [lessonsList, completedLessonIdsKey, listingSearch, ADVANCED_LEVELS, shuffleSeedAdvanced]);
 
   const handleShuffleBasic = useCallback(() => {
-    setShuffleSeedBasic((prev) => prev + 1);
+    setAudioShuffleBasic((prev) => prev + 1);
     addToast({ type: "info", title: "Đã đổi 8 bài học cơ bản ngẫu nhiên mới!" });
-  }, [addToast]);
+  }, [setAudioShuffleBasic, addToast]);
 
   const handleShuffleAdvanced = useCallback(() => {
-    setShuffleSeedAdvanced((prev) => prev + 1);
+    setAudioShuffleAdvanced((prev) => prev + 1);
     addToast({ type: "info", title: "Đã đổi 8 bài học nâng cao ngẫu nhiên mới!" });
-  }, [addToast]);
+  }, [setAudioShuffleAdvanced, addToast]);
 
   // Computed stats for Micro-Hero Bento Grid
   const computedShadowingStats = useMemo(() => {
@@ -828,15 +783,52 @@ export function ShadowingPageContent({
     const isCached =
       !!detailedLessonsMap[strId]?.transcript?.length ||
       (canonical ? !!detailedLessonsMap[canonical]?.transcript?.length : false) ||
-      (singleLessonDb?.transcript?.length && isSameLessonId(singleLessonDb.id, strId));
+      (singleLessonDb?.transcript?.length && isSameLessonId(singleLessonDb.id, strId)) ||
+      Boolean(useVideoCatalogStore.getState().lessonDetailCache[strId]?.data) ||
+      Boolean(useAudioCatalogStore.getState().audioDetailCache[strId]?.data) ||
+      (isVideo && MOCK_VIDEO_LESSONS.some((v) => v.id === strId || v.slug === strId || v.externalId === strId)) ||
+      (!isVideo && MOCK_LESSONS_DATA.some((l) => isSameLessonId(l.id, strId)));
 
-    if (selectedLessonId && isCached) {
+    if (isVideo) {
+      const storeVideo = useVideoCatalogStore.getState().lessonDetailCache[strId]?.data
+        || MOCK_VIDEO_LESSONS.find((v) => v.id === strId || v.slug === strId || v.externalId === strId);
+      if (storeVideo) {
+        const formatted = formatVideoLessonToShadowing(storeVideo);
+        if (formatted) {
+          setDetailedLessonsMap((prev) => ({
+            ...prev,
+            [formatted.id]: formatted,
+            [strId]: formatted,
+          }));
+          setSingleLessonDb(formatted);
+        }
+      }
+    } else {
+      const storeAudio = useAudioCatalogStore.getState().audioDetailCache[strId]?.data
+        || (canonical ? useAudioCatalogStore.getState().audioDetailCache[canonical]?.data : null)
+        || MOCK_LESSONS_DATA.find((l) => isSameLessonId(l.id, strId) || (canonical && isSameLessonId(l.id, canonical)));
+      if (storeAudio) {
+        const lessonIdx = lessonsList.findIndex((l) => isSameLessonId(l.id, strId));
+        const numId = lessonIdx !== -1 ? String(lessonIdx + 1) : null;
+        setDetailedLessonsMap((prev) => ({
+          ...prev,
+          [storeAudio.id]: storeAudio,
+          [strId]: storeAudio,
+          ...(canonical ? { [canonical]: storeAudio } : {}),
+          ...(numId ? { [numId]: storeAudio } : {}),
+        }));
+        setSingleLessonDb(storeAudio);
+      }
+    }
+
+    if (isCached) {
       setIsInPlaceSwitchingLesson(true);
+      setIsLoadingLessonDetail(false);
       setTimeout(() => {
         setIsInPlaceSwitchingLesson(false);
       }, 150);
     } else {
-      setIsLoadingLessonDetail(!isCached);
+      setIsLoadingLessonDetail(true);
     }
 
     const targetRoute =
@@ -1291,6 +1283,8 @@ export function ShadowingPageContent({
               sentenceScores={sentenceScores}
               aiAnalysisResult={aiAnalysisResult}
               liveRecognizedWords={liveRecognizedWords}
+              liveWordStatuses={liveWordStatuses}
+              activeSpeechWordIndex={activeSpeechWordIndex}
               activePlaybackWordIndex={activePlaybackWordIndex}
               wordTrackContainerRef={wordTrackContainerRef}
               wordTokenRefs={wordTokenRefs}

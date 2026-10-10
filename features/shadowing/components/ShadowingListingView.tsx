@@ -29,6 +29,7 @@ import {
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { StudySuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAnimation";
+import { useAudioCatalogStore, type AudioCategoryTab } from "@/stores";
 
 export type ShadowingCategoryTab = "all" | "basic" | "intermediate" | "advanced" | "completed";
 
@@ -74,7 +75,8 @@ export function ShadowingListingView({
   activeHubMode,
   basePath = "/study/shadowing/audio",
 }: ShadowingListingViewProps) {
-  const [activeCategoryTab, setActiveCategoryTab] = useState<ShadowingCategoryTab>("all");
+  const activeCategoryTab = useAudioCatalogStore((s) => s.filters.activeCategoryTab as ShadowingCategoryTab);
+  const setActiveCategoryTab = useAudioCatalogStore((s) => s.setActiveCategoryTab);
   const [isSwitchingCategory, setIsSwitchingCategory] = useState(false);
   const [mainHubMode, setMainHubMode] = useState<"standard" | "video_catalog">("standard");
 
@@ -83,7 +85,7 @@ export function ShadowingListingView({
   const handleSelectCategoryTab = (tabId: ShadowingCategoryTab) => {
     if (tabId === activeCategoryTab) return;
     setIsSwitchingCategory(true);
-    setActiveCategoryTab(tabId);
+    setActiveCategoryTab(tabId as AudioCategoryTab);
     setTimeout(() => {
       setIsSwitchingCategory(false);
     }, 180);
@@ -137,7 +139,8 @@ export function ShadowingListingView({
     });
   }, [lessonsList]);
 
-  const [intermediateSeed, setIntermediateSeed] = useState(0);
+  const intermediateSeed = useAudioCatalogStore((s) => s.filters.shuffleSeedIntermediate);
+  const setIntermediateSeed = useAudioCatalogStore((s) => s.setShuffleSeedIntermediate);
   const [isShufflingIntermediate, setIsShufflingIntermediate] = useState(false);
 
   const displayedIntermediateLessons = useMemo(() => {

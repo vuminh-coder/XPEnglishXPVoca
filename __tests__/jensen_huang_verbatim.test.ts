@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { tokenizeSentence } from "@/features/listening/components/DictationWorkspace";
-import { LESSON_JENSEN_HUANG } from "@/features/listening/data/lessons/lesson_jensen_huang";
+import { LESSON_JENSEN_HUANG, QUIZ_JENSEN_HUANG } from "@/features/listening/data/lessons/lesson_jensen_huang";
 import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
 
 describe("Jensen Huang: Supercomputer in 19 Days - 100% Verbatim & Segment Audit", () => {
@@ -31,6 +31,10 @@ describe("Jensen Huang: Supercomputer in 19 Days - 100% Verbatim & Segment Audit
       expect(seg.ipaUs!.length).toBeGreaterThan(0);
       expect(Array.isArray(seg.keywords)).toBe(true);
       expect(seg.keywords!.length).toBeGreaterThan(0);
+      expect(seg.explanationAi).toBeDefined();
+      expect(seg.explanationAi!.length).toBeGreaterThan(0);
+      expect(seg.tokenCount).toBeDefined();
+      expect(seg.tokenCount).toBeGreaterThan(0);
     }
   });
 
@@ -45,7 +49,7 @@ describe("Jensen Huang: Supercomputer in 19 Days - 100% Verbatim & Segment Audit
         expect(token.dots.length).toBe(token.clean.length);
       }
     }
-    expect(totalTokens).toBeGreaterThan(150);
+    expect(totalTokens).toBeGreaterThan(200);
   });
 
   it("should match mock data in videoCatalogMockData.ts exactly across all 10 segments", () => {
@@ -56,6 +60,32 @@ describe("Jensen Huang: Supercomputer in 19 Days - 100% Verbatim & Segment Audit
       expect(mock?.segments[i].text).toBe(LESSON_JENSEN_HUANG.segments[i].text);
       expect(mock?.segments[i].startTime).toBe(LESSON_JENSEN_HUANG.segments[i].startTime);
       expect(mock?.segments[i].endTime).toBe(LESSON_JENSEN_HUANG.segments[i].endTime);
+    }
+  });
+
+  it("should have comprehensive bilingual reading comprehension quiz attached", () => {
+    const quiz = LESSON_JENSEN_HUANG.quiz;
+    expect(quiz).toBeDefined();
+    if (!quiz) return;
+
+    expect(quiz.lessonId).toBe("1481dc60-fe8a-4fa9-830b-9a227ede9b6e");
+    expect(quiz.totalQuestions).toBe(8);
+    expect(quiz.questions.length).toBe(8);
+    expect(quiz.xpReward).toBe(40);
+
+    for (const q of quiz.questions) {
+      expect(q.id.length).toBeGreaterThan(0);
+      expect(q.questionEn).toBeDefined();
+      expect(q.questionVi).toBeDefined();
+      expect(q.optionsEn!.length).toBe(4);
+      expect(q.optionsVi!.length).toBe(4);
+      expect(q.correctAnswer).toBeGreaterThanOrEqual(0);
+      expect(q.correctAnswer).toBeLessThan(4);
+      expect(q.explanationEn).toBeDefined();
+      expect(q.explanationVi).toBeDefined();
+      expect(q.targetedConceptEn).toBeDefined();
+      expect(q.targetedConceptVi).toBeDefined();
+      expect(q.referenceSegmentIndex).toBeDefined();
     }
   });
 });

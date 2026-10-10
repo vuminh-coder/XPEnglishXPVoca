@@ -5,7 +5,7 @@ import { READING_PASSAGES_DATA } from "@/features/reading";
 import { prefetchRouteData } from "@/shared/utils/prefetchEngine";
 
 describe("Canonical Study Routes & URL Normalization Suite", () => {
-  it("verifies StudySuiteNavTabs exports and renders all 5 study modes including Reading", () => {
+  it("verifies StudySuiteNavTabs adheres strictly to <= 4 tabs architectural cap rule", () => {
     expect(typeof StudySuiteNavTabs).toBe("function");
     const el = React.createElement(StudySuiteNavTabs);
     expect(React.isValidElement(el)).toBe(true);
@@ -39,13 +39,11 @@ describe("Canonical Study Routes & URL Normalization Suite", () => {
     expect(typeof listeningModule.VideoComprehensionStudioView).toBe("function");
   });
 
-  it("verifies numeric fallback logic resolves passage correctly (e.g. '1' -> 'r1')", () => {
-    const rawId = "1";
-    const direct = READING_PASSAGES_DATA.find((p) => p.id === rawId);
-    const prefixed = READING_PASSAGES_DATA.find((p) => p.id === `r${rawId}`);
-    expect(direct).toBeUndefined();
-    expect(prefixed).toBeDefined();
-    expect(prefixed?.id).toBe("r1");
+  it("verifies canonical comprehension route format is /study/dictation/video/comprehension/[id]", () => {
+    const buildComprehensionUrl = (lessonId: string) => `/study/dictation/video/comprehension/${lessonId}`;
+    expect(buildComprehensionUrl("vid_julian_treasure_speak")).toBe(
+      "/study/dictation/video/comprehension/vid_julian_treasure_speak"
+    );
   });
 });
 

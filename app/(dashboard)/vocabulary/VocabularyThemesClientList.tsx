@@ -21,6 +21,7 @@ import {
   VocabularyStatsBar,
   getSemanticThemeIcon,
 } from "@/features/vocabulary";
+import { useVocabularyCatalogStore } from "@/stores/vocabularyCatalogStore";
 
 export { getSemanticThemeIcon };
 
@@ -41,36 +42,30 @@ export default function VocabularyThemesClientList({
   initialAdvancedThemes?: ClientTheme[];
   initialThemes?: ClientTheme[];
 }) {
-  // Vocabulary Level Mode: "basic" (A1-A2) or "advanced" (B1-C2)
-  const [levelMode, setLevelMode] = useState<"basic" | "advanced">("basic");
-  const [search, setSearch] = useState("");
-  const [displayedCount, setDisplayedCount] = useState(16);
+  // SWR Store & Persistent Filter State
+  const {
+    basicThemes,
+    advancedThemes,
+    filters,
+    setLevelMode,
+    setSearchQuery,
+    setDisplayedCount,
+  } = useVocabularyCatalogStore();
+
+  const { levelMode, searchQuery: search, displayedCount } = filters;
+  const setSearch = setSearchQuery;
 
   // Source 1: Basic themes (A1-A2)
   const basicThemesList: ClientTheme[] = useMemo(() => {
     if (initialBasicThemes && initialBasicThemes.length > 0) return initialBasicThemes;
-    return BASIC_VOCABULARY_THEMES.map((t) => ({
-      id: t.id,
-      name: t.name,
-      nameEn: t.nameEn,
-      icon: t.icon,
-      totalVocabs: t.totalVocabs || 20,
-      difficulty: t.difficulty,
-    }));
-  }, [initialBasicThemes]);
+    return basicThemes;
+  }, [initialBasicThemes, basicThemes]);
 
   // Source 2: Advanced themes (B1-C2)
   const advancedThemesList: ClientTheme[] = useMemo(() => {
     if (initialAdvancedThemes && initialAdvancedThemes.length > 0) return initialAdvancedThemes;
-    return ADVANCED_VOCABULARY_THEMES.map((t) => ({
-      id: t.id,
-      name: t.name,
-      nameEn: t.nameEn,
-      icon: t.icon,
-      totalVocabs: t.totalVocabs || 35,
-      difficulty: t.difficulty,
-    }));
-  }, [initialAdvancedThemes]);
+    return advancedThemes;
+  }, [initialAdvancedThemes, advancedThemes]);
 
   // Active themes pool based on selected level
   const currentThemesPool = useMemo(() => {
@@ -79,12 +74,10 @@ export default function VocabularyThemesClientList({
 
   const handleLevelChange = (mode: "basic" | "advanced") => {
     setLevelMode(mode);
-    setDisplayedCount(16);
-    setSearch("");
   };
 
   const loadMoreThemes = () => {
-    setDisplayedCount((prev) => prev + 12);
+    setDisplayedCount((prev: number) => prev + 12);
   };
 
   const filteredThemes = useMemo(() => {

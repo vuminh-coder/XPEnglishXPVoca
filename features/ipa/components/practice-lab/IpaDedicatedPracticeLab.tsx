@@ -34,27 +34,37 @@ import { IpaWordExampleCard } from "../shared/IpaWordExampleCard";
 import { IpaSpeechRecorder } from "../shared/IpaSpeechRecorder";
 import { playIpaIsolatedSound, stopIpaAudio } from "@/shared/utils/ipaAudioPlayer";
 import { speakLessonText } from "@/shared/utils/ttsEngine";
+import { useIpaCatalogStore, IpaPracticeCategory, IpaAccent } from "@/stores/ipaCatalogStore";
 
 export interface IpaDedicatedPracticeLabProps {
   initialSoundId?: string;
   className?: string;
 }
 
-type SoundCategoryFilter = "all" | "monophthong" | "diphthong" | "consonant";
+type SoundCategoryFilter = IpaPracticeCategory;
 
 export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = ({
   initialSoundId,
   className = "",
 }) => {
-  const [selectedSoundId, setSelectedSoundId] = useState<string>(
-    initialSoundId || ALL_IPA_SOUNDS[0].id
-  );
-  const [categoryFilter, setCategoryFilter] = useState<SoundCategoryFilter>("all");
-  const [playbackRate, setPlaybackRate] = useState<number>(1.0);
-  const [accent, setAccent] = useState<"en-US" | "en-GB" | "en-AU">("en-US");
-  const [activeWordTarget, setActiveWordTarget] = useState<string | null>(null);
+  const storeSoundId = useIpaCatalogStore((s) => s.practiceSelectedSoundId);
+  const setStoreSoundId = useIpaCatalogStore((s) => s.setPracticeSelectedSoundId);
+  const categoryFilter = useIpaCatalogStore((s) => s.practiceCategoryFilter);
+  const setCategoryFilter = useIpaCatalogStore((s) => s.setPracticeCategoryFilter);
+  const playbackRate = useIpaCatalogStore((s) => s.practicePlaybackRate);
+  const setPlaybackRate = useIpaCatalogStore((s) => s.setPracticePlaybackRate);
+  const accent = useIpaCatalogStore((s) => s.practiceAccent);
+  const setAccent = useIpaCatalogStore((s) => s.setPracticeAccent);
+  const activeWordTarget = useIpaCatalogStore((s) => s.practiceActiveWordTarget);
+  const setActiveWordTarget = useIpaCatalogStore((s) => s.setPracticeActiveWordTarget);
+  const isGuideOpen = useIpaCatalogStore((s) => s.practiceIsGuideOpen);
+  const setIsGuideOpen = useIpaCatalogStore((s) => s.setPracticeIsGuideOpen);
+  const recordPracticeScore = useIpaCatalogStore((s) => s.recordPracticeScore);
+
+  const selectedSoundId = initialSoundId || storeSoundId || ALL_IPA_SOUNDS[0].id;
+  const setSelectedSoundId = setStoreSoundId;
+
   const [isAudioPlaying, setIsAudioPlaying] = useState<boolean>(false);
-  const [isGuideOpen, setIsGuideOpen] = useState<boolean>(false);
   const [canScrollLeft, setCanScrollLeft] = useState<boolean>(false);
   const [canScrollRight, setCanScrollRight] = useState<boolean>(false);
 
@@ -638,7 +648,7 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
             <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
               <button
                 type="button"
-                onClick={() => setIsGuideOpen((prev) => !prev)}
+                onClick={() => setIsGuideOpen(!isGuideOpen)}
                 className="w-full py-2.5 px-3 sm:px-3.5 rounded-xl bg-slate-50/90 dark:bg-slate-800/60 hover:bg-blue-50/80 dark:hover:bg-blue-950/40 border border-slate-200/80 dark:border-slate-700/80 hover:border-blue-200 dark:hover:border-blue-800/80 text-slate-700 dark:text-slate-200 hover:text-[#0059bb] dark:hover:text-sky-400 flex items-center justify-between transition-all cursor-pointer group shadow-2xs active:scale-[0.99]"
                 aria-expanded={isGuideOpen}
               >
@@ -739,6 +749,7 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
               targetPhonetic={currentPracticePhonetic}
               acceptableWords={currentSound.examples.map((e) => e.word)}
               xpReward={15}
+              onResult={(res) => recordPracticeScore(currentSound.id, res.score)}
             />
           </div>
 

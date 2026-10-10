@@ -32,6 +32,40 @@ export interface UseShadowingAudioRecorderProps {
   onAutoAdvance?: () => void;
 }
 
+// Normalized Levenshtein distance string similarity algorithm
+export function calculateSimilarity(str1: string, str2: string): number {
+  const s1 = str1.toLowerCase().replace(/[^a-z0-9]/g, "").trim();
+  const s2 = str2.toLowerCase().replace(/[^a-z0-9]/g, "").trim();
+
+  if (s1 === s2) return 1.0;
+  if (!s1 || !s2) return 0.0;
+
+  const track = Array(s2.length + 1)
+    .fill(null)
+    .map(() => Array(s1.length + 1).fill(null));
+
+  for (let i = 0; i <= s1.length; i += 1) track[0][i] = i;
+  for (let j = 0; j <= s2.length; j += 1) track[j][0] = j;
+
+  for (let j = 1; j <= s2.length; j += 1) {
+    for (let i = 1; i <= s1.length; i += 1) {
+      const indicator = s1[i - 1] === s2[j - 1] ? 0 : 1;
+      track[j][i] = Math.min(
+        track[j][i - 1] + 1, // deletion
+        track[j - 1][i] + 1, // insertion
+        track[j - 1][i - 1] + indicator // substitution
+      );
+    }
+  }
+
+  const maxLength = Math.max(s1.length, s2.length);
+  const distance = track[s2.length][s1.length];
+  return Math.max(0, (maxLength - distance) / maxLength);
+}
+
+// Common conversational filler words to ignore at the start of speech
+const FILLER_WORDS = new Set(["um", "uh", "mh", "ah", "er", "oh"]);
+
 export function useShadowingAudioRecorder({
   currentSentence,
   currentSentenceIndex,
@@ -65,8 +99,12 @@ export function useShadowingAudioRecorder({
 
   // Real-time live speech recognition stream
   const [liveRecognizedWords, setLiveRecognizedWords] = useState<
-    { word: string; status: "perfect" | "needs_work" }[]
+    { word: string; status: "perfect" | "good" | "needs_work" | "active" | "unspoken"; score?: number }[]
   >([]);
+  const [liveWordStatuses, setLiveWordStatuses] = useState<{
+    [wordIdx: number]: "perfect" | "good" | "needs_work" | "active";
+  }>({});
+  const [activeSpeechWordIndex, setActiveSpeechWordIndex] = useState<number | null>(null);
 
   // Internal WebRTC & AudioContext refs
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -121,25 +159,112 @@ export function useShadowingAudioRecorder({
     };
   }, []);
 
-  // Real-time speech comparison helper
+  // Real-time progressive sequential speech alignment (Cursor tracking like Dictation)
   const evaluateLiveSpeech = useCallback(
     (recognizedText: string) => {
       if (!currentSentence?.text) return;
-      const targetWords = currentSentence.text.toLowerCase().split(/\s+/);
-      const spokenWords = recognizedText.toLowerCase().split(/\s+/);
+      const targetTokens = currentSentence.text.trim().split(/\s+/).filter(Boolean);
+      const targetCleanWords = targetTokens.map((w) =>
+        w.toLowerCase().replace(/[^a-z0-9]/g, "")
+      );
 
-      const evaluated = targetWords.map((target: string) => {
-        const cleanTarget = target.replace(/[^a-zA-Z]/g, "");
-        const isMatched = spokenWords.some(
-          (spk: string) => spk.replace(/[^a-zA-Z]/g, "") === cleanTarget
-        );
-        return {
-          word: target,
-          status: isMatched ? ("perfect" as const) : ("needs_work" as const),
-        };
-      });
+      const spokenRawWords = recognizedText.toLowerCase().trim().split(/\s+/).filter(Boolean);
+      const spokenCleanWords = spokenRawWords
+        .map((w) => w.replace(/[^a-z0-9]/g, ""))
+        .filter(Boolean);
 
-      setLiveRecognizedWords(evaluated);
+      if (spokenCleanWords.length === 0) {
+        setLiveRecognizedWords([]);
+        setLiveWordStatuses({});
+        setActiveSpeechWordIndex(0);
+        return;
+      }
+
+      // Filter out leading common conversational filler words unless target starts with them
+      let startSpokenIdx = 0;
+      while (
+        startSpokenIdx < spokenCleanWords.length &&
+        FILLER_WORDS.has(spokenCleanWords[startSpokenIdx]) &&
+        !FILLER_WORDS.has(targetCleanWords[0])
+      ) {
+        startSpokenIdx++;
+      }
+      const effectiveSpoken = spokenCleanWords.slice(startSpokenIdx);
+
+      const newStatuses: { [idx: number]: "perfect" | "good" | "needs_work" | "active" } = {};
+      const newLiveWords: {
+        word: string;
+        status: "perfect" | "good" | "needs_work" | "active" | "unspoken";
+        score?: number;
+      }[] = [];
+
+      let targetIdx = 0;
+      let spokenIdx = 0;
+
+      // Sequential cursor alignment: Evaluate word-by-word without jumping to the end
+      while (targetIdx < targetCleanWords.length && spokenIdx < effectiveSpoken.length) {
+        const tWord = targetCleanWords[targetIdx];
+        const sWord = effectiveSpoken[spokenIdx];
+
+        const sim = calculateSimilarity(tWord, sWord);
+
+        if (sim >= 0.78) {
+          newStatuses[targetIdx] = "perfect";
+          targetIdx++;
+          spokenIdx++;
+        } else if (sim >= 0.55) {
+          newStatuses[targetIdx] = "good";
+          targetIdx++;
+          spokenIdx++;
+        } else {
+          // Lookahead 1 word to detect skipped word or extra spoken sound/stutter
+          const nextTargetWord = targetCleanWords[targetIdx + 1];
+          const nextSpokenWord = effectiveSpoken[spokenIdx + 1];
+
+          const simSkipTarget = nextTargetWord ? calculateSimilarity(nextTargetWord, sWord) : 0;
+          const simStutterSpoken = nextSpokenWord ? calculateSimilarity(tWord, nextSpokenWord) : 0;
+
+          if (simStutterSpoken >= 0.55) {
+            // Extra filler/stutter in speech, skip spoken sound
+            spokenIdx++;
+          } else if (simSkipTarget >= 0.55) {
+            // Speaker skipped targetIdx, mark as needs_work and advance target
+            newStatuses[targetIdx] = "needs_work";
+            targetIdx++;
+          } else {
+            // ANCHOR RULE: If spokenIdx is the last word in the current interim recognition stream,
+            // the speaker is in the middle of pronouncing this word or Chrome is giving interim hypotheses.
+            // DO NOT eagerly advance targetIdx! Anchor cursor at current target word so the speaker has time to speak.
+            if (spokenIdx === effectiveSpoken.length - 1) {
+              break;
+            } else {
+              // Speaker has clearly moved on to subsequent words, so mark as needs_work and advance
+              newStatuses[targetIdx] = "needs_work";
+              targetIdx++;
+              spokenIdx++;
+            }
+          }
+        }
+      }
+
+      // Current active cursor word (word currently being expected / spoken)
+      const nextActiveIndex = targetIdx < targetCleanWords.length ? targetIdx : null;
+      if (nextActiveIndex !== null) {
+        newStatuses[nextActiveIndex] = "active";
+      }
+
+      // Build live tokens list
+      for (let i = 0; i < targetTokens.length; i++) {
+        const status = newStatuses[i] || (i === nextActiveIndex ? "active" : "unspoken");
+        newLiveWords.push({
+          word: targetTokens[i],
+          status,
+        });
+      }
+
+      setLiveWordStatuses(newStatuses);
+      setActiveSpeechWordIndex(nextActiveIndex);
+      setLiveRecognizedWords(newLiveWords);
     },
     [currentSentence]
   );
@@ -324,6 +449,8 @@ export function useShadowingAudioRecorder({
       setUserAudioUrl(null);
       setAiAnalysisResult(null);
       setLiveRecognizedWords([]);
+      setLiveWordStatuses({});
+      setActiveSpeechWordIndex(0);
       capturedSpeechTextRef.current = "";
       vadMaxVolumeRef.current = 0;
       setLiveAudioEnergy(0);
@@ -518,6 +645,8 @@ export function useShadowingAudioRecorder({
     setUserAudioUrl(null);
     setAiAnalysisResult(null);
     setLiveRecognizedWords([]);
+    setLiveWordStatuses({});
+    setActiveSpeechWordIndex(null);
     setLiveAudioEnergy(0);
     setIsPlayingUserAudio(false);
   }, [stopTTS, setPlayingSentenceText]);
@@ -544,6 +673,8 @@ export function useShadowingAudioRecorder({
     setAiAnalysisResult,
     liveRecognizedWords,
     setLiveRecognizedWords,
+    liveWordStatuses,
+    activeSpeechWordIndex,
     sentenceScores,
     setSentenceScores,
     userAudioPlayerRef,

@@ -22,9 +22,17 @@ import {
   LESSON_SIMON_SINEK,
   LESSON_OXFORD_MEETING,
   LESSON_JULIAN_TREASURE,
+  LESSON_ALEX_GENDLER_LANGUAGES,
+  LESSON_BBC_FOOD_MOOD,
+  LESSON_BBC_LAUGHTER_MEDICINE,
+  LESSON_HOTEL_CHECKIN,
+  LESSON_RESTAURANT_ORDERING,
+  LESSON_TED_SCIENCE_HABITS,
+  LESSON_BUSINESS_PHONE_CALL,
+  LESSON_MEDICAL_CONSULTATION,
 } from "@/features/listening/data/lessons";
 
-describe("Modular Lessons Architecture & Deep Data Integrity Audit (19 Diverse Lessons)", () => {
+describe("Modular Lessons Architecture & Deep Data Integrity Audit (25 Diverse Lessons)", () => {
   const modularLessonsList = [
     { name: "Rewrite The Stars", lesson: LESSON_REWRITE_THE_STARS, expectedExtId: "pRfmrE0ToTo", expectedSegs: 18 },
     { name: "Kurzgesagt Interstellar", lesson: LESSON_KURZGESAGT_INTERSTELLAR, expectedExtId: "tybKnGZRwcU", expectedSegs: 21 },
@@ -45,16 +53,24 @@ describe("Modular Lessons Architecture & Deep Data Integrity Audit (19 Diverse L
     { name: "Simon Sinek Golden Circle", lesson: LESSON_SIMON_SINEK, expectedExtId: "qp0HIF3SfI4", expectedSegs: 8 },
     { name: "Oxford Attending Meeting", lesson: LESSON_OXFORD_MEETING, expectedExtId: "NEKZFA7L7Lg", expectedSegs: 10 },
     { name: "Julian Treasure How to Speak", lesson: LESSON_JULIAN_TREASURE, expectedExtId: "eIho2S0ZahI", expectedSegs: 10 },
+    { name: "Alex Gendler How Languages Evolve", lesson: LESSON_ALEX_GENDLER_LANGUAGES, expectedExtId: "iWDKsHm6gTA", expectedSegs: 10 },
+    { name: "BBC Food and Mood", lesson: LESSON_BBC_FOOD_MOOD, expectedExtId: "8K8s9U8_i50", expectedSegs: 10 },
+    { name: "BBC Laughter Medicine", lesson: LESSON_BBC_LAUGHTER_MEDICINE, expectedExtId: "0_S-i2f_jLw", expectedSegs: 10 },
+    { name: "Hotel Check-in Travel", lesson: LESSON_HOTEL_CHECKIN, expectedExtId: "P7X7Cq_9c0s", expectedSegs: 10 },
+    { name: "Restaurant Dining Travel", lesson: LESSON_RESTAURANT_ORDERING, expectedExtId: "G9bFzV7p6m0", expectedSegs: 10 },
+    { name: "TED Science of Habits", lesson: LESSON_TED_SCIENCE_HABITS, expectedExtId: "W1eYrhGeffc", expectedSegs: 10 },
+    { name: "Business Phone Call Etiquette", lesson: LESSON_BUSINESS_PHONE_CALL, expectedExtId: "7V1UjX9m_eQ", expectedSegs: 10 },
+    { name: "Medical Consultation Clinic", lesson: LESSON_MEDICAL_CONSULTATION, expectedExtId: "V5a7g9Gz8d0", expectedSegs: 10 },
   ];
 
-  it("should have exactly 19 separated lesson files loaded via ALL_MODULAR_LESSONS", () => {
-    expect(ALL_MODULAR_LESSONS.length).toBe(19);
-    expect(modularLessonsList.length).toBe(19);
+  it("should have exactly 27 separated lesson files loaded via ALL_MODULAR_LESSONS", () => {
+    expect(ALL_MODULAR_LESSONS.length).toBe(27);
+    expect(modularLessonsList.length).toBe(27);
   });
 
   it("should preserve 100% backward compatibility with MOCK_VIDEO_LESSONS aggregator", () => {
-    expect(MOCK_VIDEO_LESSONS.length).toBe(19);
-    for (let i = 0; i < 19; i++) {
+    expect(MOCK_VIDEO_LESSONS.length).toBe(27);
+    for (let i = 0; i < 27; i++) {
       expect(MOCK_VIDEO_LESSONS[i].id).toBe(ALL_MODULAR_LESSONS[i].id);
       expect(MOCK_VIDEO_LESSONS[i].slug).toBe(ALL_MODULAR_LESSONS[i].slug);
       expect(MOCK_VIDEO_LESSONS[i].externalId).toBe(ALL_MODULAR_LESSONS[i].externalId);
@@ -72,8 +88,8 @@ describe("Modular Lessons Architecture & Deep Data Integrity Audit (19 Diverse L
       expect(slugs.has(item.lesson.slug)).toBe(false);
       slugs.add(item.lesson.slug);
     }
-    expect(videoIds.size).toBe(19);
-    expect(slugs.size).toBe(19);
+    expect(videoIds.size).toBe(27);
+    expect(slugs.size).toBe(27);
   });
 
   it("should validate all 11 categories and foreign key references", () => {

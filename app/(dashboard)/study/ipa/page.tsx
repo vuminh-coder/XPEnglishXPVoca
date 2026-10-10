@@ -13,6 +13,7 @@ import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { IpaSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAnimation";
 import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
+import { useIpaCatalogStore } from "@/stores/ipaCatalogStore";
 import {
   IpaHeroGreeting,
   IpaMatrixBoard,
@@ -24,6 +25,12 @@ export default function IpaStudioPage() {
   const { user: authUser } = useAuthStore();
   const storeUser = useUserStore((s) => s.user);
   const user = authUser || storeUser || DEFAULT_LEARNER_USER;
+
+  const masteredCount = useIpaCatalogStore((s) => s.masteredSoundIds.length);
+  const getAverageScore = useIpaCatalogStore((s) => s.getAverageScore);
+  const practiceSoundScores = useIpaCatalogStore((s) => s.practiceSoundScores);
+  const averageScore = getAverageScore();
+  const practicedCount = Math.max(Object.keys(practiceSoundScores).length, 7);
 
   useStudyTimeTracker("speaking");
 
@@ -83,10 +90,10 @@ export default function IpaStudioPage() {
         {/* 1. HERO GREETING BANNER WITH 4 BENTO METRIC CARDS */}
         <IpaHeroGreeting
           user={user}
-          masteredCount={18}
+          masteredCount={masteredCount}
           totalCount={44}
-          averageScore={88}
-          pairsLearnedCount={7}
+          averageScore={averageScore}
+          pairsLearnedCount={practicedCount}
           streakDays={user?.currentStreak || 1}
           onNavigateTab={handleNavigateTab}
         />

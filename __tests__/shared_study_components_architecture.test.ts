@@ -6,6 +6,7 @@ import {
   StudioSentenceMetaBar,
   StudioSentenceToolbar,
   StudioMediaPlayerContainer,
+  DictationVideoBlock,
   resolveLessonMedia,
 } from "@/features/listening";
 
@@ -113,6 +114,13 @@ describe("Shared Study Components Architecture (Dictation & Shadowing)", () => {
       expect(clampForward(2)).toBe(7);
       expect(clampForward(5)).toBe(8.5);
       expect(clampForward(8.5)).toBe(8.5);
+    });
+  });
+
+  describe("6. DictationVideoBlock Parity Component", () => {
+    it("is exported and defined as a reusable React component", () => {
+      expect(DictationVideoBlock).toBeDefined();
+      expect(typeof DictationVideoBlock).toBe("object"); // React.memo returns object
     });
   });
 });

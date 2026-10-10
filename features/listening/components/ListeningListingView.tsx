@@ -27,8 +27,9 @@ import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { StudySuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 import { VideoCatalogBrowseView } from "./VideoCatalogBrowseView";
 import { StudyMediaHubTabs } from "./StudyMediaHubTabs";
+import { useAudioCatalogStore, AudioCategoryTab } from "@/stores/audioCatalogStore";
 
-export type ListeningCategoryTab = "all" | "basic" | "intermediate" | "advanced" | "completed";
+export type ListeningCategoryTab = AudioCategoryTab;
 
 interface ListeningListingViewProps {
   lessonsList: any[];
@@ -101,7 +102,10 @@ export function ListeningListingView({
   activeHubMode,
   basePath = "/study/dictation/audio",
 }: ListeningListingViewProps) {
-  const [activeCategoryTab, setActiveCategoryTab] = useState<ListeningCategoryTab>("all");
+  const activeCategoryTab = useAudioCatalogStore((s) => s.filters.activeCategoryTab);
+  const setActiveCategoryTab = useAudioCatalogStore((s) => s.setActiveCategoryTab);
+  const intermediateSeed = useAudioCatalogStore((s) => s.filters.shuffleSeedIntermediate);
+  const setIntermediateSeed = useAudioCatalogStore((s) => s.setShuffleSeedIntermediate);
   const [isSwitchingCategory, setIsSwitchingCategory] = useState(false);
   const [mainHubMode, setMainHubMode] = useState<"standard" | "video_catalog">("standard");
 
@@ -114,6 +118,11 @@ export function ListeningListingView({
     setTimeout(() => {
       setIsSwitchingCategory(false);
     }, 180);
+  };
+
+  const handleForceRefresh = async () => {
+    useAudioCatalogStore.getState().invalidateCache("all");
+    await useAudioCatalogStore.getState().fetchAudioLessons({ forceRefresh: true, mode: "audio" });
   };
 
   const completedLessons = useMemo(() => {
@@ -157,7 +166,6 @@ export function ListeningListingView({
     });
   }, [lessonsList]);
 
-  const [intermediateSeed, setIntermediateSeed] = useState(0);
   const [isShufflingIntermediate, setIsShufflingIntermediate] = useState(false);
 
   const displayedIntermediateLessons = useMemo(() => {
@@ -252,6 +260,39 @@ export function ListeningListingView({
           />
         ) : (
           <>
+            {/* 3. CATEGORY TABS & FORCE REFRESH CONTROLS (SWR & ZUSTAND INTEGRATION) */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-slate-200/80 dark:border-slate-800">
+              <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+                {filterTabs.map((tab) => {
+                  const isActive = activeCategoryTab === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      onClick={() => handleSelectCategoryTab(tab.id)}
+                      className={`relative px-3.5 py-1.5 rounded-xl text-xs sm:text-[13px] font-bold transition-all cursor-pointer whitespace-nowrap select-none ${
+                        isActive
+                          ? "bg-[#0059bb] text-white shadow-xs"
+                          : "bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
+                      }`}
+                    >
+                      {tab.label}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <button
+                type="button"
+                onClick={handleForceRefresh}
+                className="h-8 px-3 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs font-semibold flex items-center gap-1.5 self-start sm:self-auto cursor-pointer transition-colors shadow-2xs shrink-0"
+                title="Làm mới danh mục bài nghe từ máy chủ"
+              >
+                <RefreshCw className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
+                <span>Làm mới</span>
+              </button>
+            </div>
+
             {/* FORM TẠO BÀI NGHE AI (ACCORDION) */}
             <AnimatePresence>
           {showCreateForm && (

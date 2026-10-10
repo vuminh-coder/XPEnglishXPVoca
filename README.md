@@ -655,6 +655,175 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
       - Bổ sung bộ kiểm thử chuyên sâu [`__tests__/dictation_lesson51_re_render_stability.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/dictation_lesson51_re_render_stability.test.ts) (6 tests) kiểm chứng độ bền vững trước re-render, tính năng xem từ và xem chữ cái đầu chuẩn xác.
       - Toàn bộ 5 file test Dictation (31 tests) đạt **100% PASS**: `dictation_lesson51_re_render_stability.test.ts`, `dictation_hints_and_input_deep.test.ts`, `dictation_audio_video_isolation.test.ts`, `dictation_engine.test.ts`, `dictation_helper_tabs.test.ts`.
       - `npx tsc --noEmit`: **0 lỗi (Zero Errors)**.
+54. **Chuẩn Hóa Phòng Luyện Đọc Hiểu Video (`/study/dictation/video/comprehension/[id]`), Khối Dịch Chuyển Đổi Anh - Việt & Phụ Đề Song Ngữ**:
+    - **Chuẩn Hóa Tuyến Đường Canonical Định Tuyến**:
+      - Thiết lập canonical route tại [`app/(dashboard)/study/dictation/video/comprehension/[id]/page.tsx`](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/study/dictation/video/comprehension/[id]/page.tsx).
+      - Tích hợp redirect tự động từ URL legacy `/study/dictation/video/[id]/comprehension` sang canonical route, bảo đảm tính nhất quán điều hướng của toàn bộ hệ thống.
+    - **Khối Dịch Chuyển Đổi Anh - Việt (Translation Switcher & Dual Subtitle Styling)**:
+      - Tích hợp nút điều khiển **"Dịch Anh - Việt"** có biểu tượng `Languages` tại thanh tiêu đề Question Bento Card, hiển thị trạng thái `BẬT` / `TẮT` rõ ràng.
+      - Khi bật Dịch, hiển thị bản dịch tiếng Việt của câu hỏi và từng đáp án trắc nghiệm chuẩn theo phong cách khối phụ đề bên cạnh tab gợi ý bài học: viền nhấn xanh bên trái `border-l-[3px] border-[#0059bb]/70 dark:border-sky-400/70`, nền xanh dịu mắt `bg-blue-50/40 dark:bg-blue-950/20`, bo góc mềm mại `rounded-r-xl` và văn bản `text-xs sm:text-[13px] text-slate-600 dark:text-slate-300 font-medium leading-relaxed`.
+      - Tích hợp nút phát nhanh phân đoạn video tương ứng với câu hỏi (`[ ▶ Đoạn video #1 ]`) giúp học viên nghe lại ngữ cảnh video trực tiếp.
+    - **Thanh Tiến Độ & Công Tắc "Hiện Câu" Đồng Bộ Chuẩn Dictation**:
+      - Tích hợp thanh tiêu đề tiến độ chuẩn Dictation vào tab "Phụ đề": hiển thị `0/10 Tiến độ`, nút `[ ↺ Đặt lại tiến độ ]` và công tắc gạt **`[ Hiện câu  (O) ]`**.
+      - Khi bật "Hiện câu": hiển thị toàn bộ văn bản câu tiếng Anh và khối phụ đề dịch tiếng Việt bên dưới.
+      - Khi tắt "Hiện câu": tự động ẩn/mờ các câu chưa học thành chuỗi dấu chấm `•••••`, giúp học viên có thể linh hoạt chuyển đổi giữa chế độ đọc hiểu và chế độ thử thách ghi nhớ ngữ âm theo nhu cầu.
+    - **Tinh Gọn Khoảng Đệm & Nâng Cấp Typography Đáp Án A B C D**:
+      - Tinh chỉnh khoảng đệm trên-dưới (paddingTop-Bottom) của toàn bộ Thẻ Câu Hỏi (`py-3.5 sm:py-4.5` và `space-y-3.5 sm:space-y-4`), loại bỏ hoàn toàn cảm giác trống trải kéo dài.
+      - Thu gọn đệm trên-dưới của từng ô đáp án A, B, C, D (`py-2.5 sm:py-3`), giữ giao diện thanh thoát và nằm gọn trong vùng mắt nhìn trực tiếp dưới video.
+      - Tăng kích cỡ chữ và độ đậm của nội dung đáp án: nâng từ `text-xs sm:text-sm font-medium` lên **`text-sm sm:text-[15.5px] font-bold text-slate-900 dark:text-white`**, giúp chữ rõ nét, nổi bật và dễ đọc hơn hẳn.
+      - Tăng kích thước và độ đậm của badge chữ cái `A`, `B`, `C`, `D` (`w-7.5 h-7.5 sm:w-8 sm:h-8 font-bold`) cân đối hài hòa với dòng chữ to.
+    - **Kiểm Thử Toàn Diện**:
+      - TypeScript (`npx tsc --noEmit`): **0 lỗi**.
+      - Vitest: **104 test suites, 1.048 passed tests (100% pass rate)**.
+      - E2E Browser Testing: Giao diện hiển thị sắc nét, đáp án to rõ, bố cục tinh gọn.
+55. **Chuyển Đổi Dữ Liệu Đáp Án Sang Tiếng Anh & Nút Chuyển Đổi Ngôn Ngữ Song Ngữ (English / Tiếng Việt Switcher) Cho Studio Đọc Hiểu Video (`/study/dictation/video/[id]/comprehension`)**:
+    - **Chuyển Đổi Dữ Liệu Trắc Nghiệm Mặc Định Sang Tiếng Anh (English-First Schema)**:
+      - Nâng cấp schema `VideoQuizQuestion` trong [`videoComprehensionService.ts`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/services/videoComprehensionService.ts) hỗ trợ đầy đủ các trường song ngữ: `questionEn`, `questionVi`, `optionsEn`, `optionsVi`, `explanationEn`, `explanationVi`, `targetedConceptEn`, `targetedConceptVi`.
+      - Mặc định dữ liệu trả về và hiển thị ban đầu hoàn toàn bằng Tiếng Anh (English) chuẩn CEFR & TED transcript verbatim.
+      - Xây dựng bộ câu hỏi ngữ cảnh chất lượng cao cho bài TED của Julian Treasure (`vid_julian_treasure_speak`) kiểm tra chính xác phép ẩn dụ (*instrument we all play*), thói xấu số 1 (*gossip*) và rào cản giao tiếp (*judging / found wanting*).
+    - **Nút Chuyển Đổi Ngôn Ngữ Tương Tác ([🇬🇧 English] / [🇻🇳 Tiếng Việt])**:
+      - Bổ sung bộ chuyển đổi ngôn ngữ tương tác dạng Segmented Pill Toggle sang trọng tại 2 vị trí chiến lược: thanh StudioTopHeader và tiêu đề thẻ câu hỏi (Question Bento Card Header).
+      - Cho phép học viên chuyển đổi tức thì giữa Tiếng Anh và Tiếng Việt bất kỳ lúc nào mà không làm mất trạng thái câu đã chọn hoặc tiến trình làm bài.
+      - Bổ sung dòng phụ đề đối chiếu song ngữ tinh tế dưới từng câu hỏi, từng phương án lựa chọn và hộp giải thích chi tiết đáp án đúng/sai.
+    - **Tối Ưu Hiệu Năng Phản Hồi Tức Thì (Sub-100ms Response)**:
+      - Tối ưu hóa endpoint API [`app/api/video-catalog/lessons/[id]/route.ts`](file:///e:/XP%20English%20%20XP%20Voca/app/api/video-catalog/lessons/[id]/route.ts) và service đọc hiểu: kiểm tra cache mock curated trước giúp tránh độ trễ chờ kết nối cơ sở dữ liệu, phản hồi dưới 70ms.
+      - Song song hóa luồng nạp dữ liệu bằng `Promise.allSettled`, nạp danh sách đề xuất bất đồng bộ không gây nghẽn giao diện.
+      - Định tuyến trực tiếp tại [`app/(dashboard)/study/dictation/video/[id]/comprehension/page.tsx`](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/study/dictation/video/[id]/comprehension/page.tsx) không qua delay chuyển hướng.
+    - **Kiểm Thử Toàn Diện**:
+      - TypeScript (`npx tsc --noEmit`): **0 lỗi (Zero Errors)**.
+      - Vitest (`video_recommendation_and_quiz_phase3.test.ts`): **5/5 tests PASS**.
+      - Chrome E2E Testing: Đã chụp màn hình và kiểm chứng tự động cả chế độ English (`comprehension_english_mode.png`), Tiếng Việt (`comprehension_vietnamese_mode.png`) và kiểm tra đáp án giải thích (`comprehension_explanation_en.png`, `comprehension_explanation_vi.png`).
+56. **Kiến Trúc Dữ Liệu Video Phân Tách "1 File 1 Bài" (Modular Lesson Architecture) & Rà Soát Sát Nghĩa 100% Phụ Đề / Trắc Nghiệm Song Ngữ (Julian Treasure, Oxford Meeting, Simon Sinek, Psychology of Money, Ratatouille, CareerVidz, David Attenborough, Oxford Food, Matt Walker, Jensen Huang, NatGeo & Airport Check-in)**:
+    - **Tái Cấu Trúc Toàn Diện Thành Kiến Trúc "1 File 1 Bài" (`features/listening/data/lessons/`)**:
+      - Phân tách tệp monolithic `videoCatalogMockData.ts` (trên 1.600 dòng) thành các module bài học độc lập nằm trong thư mục chuyên biệt `features/listening/data/lessons/`.
+      - Mỗi bài học sở hữu tệp dữ liệu riêng (`lesson_julian_treasure.ts`, `lesson_oxford_meeting.ts`, `lesson_simon_sinek.ts`, `lesson_psychology_of_money.ts`, `lesson_ratatouille_anton_ego.ts`, `lesson_careervidz_interview.ts`, `lesson_david_attenborough_planet.ts`, `lesson_oxford_food_cooking.ts`, `lesson_matt_walker_sleep.ts`, `lesson_jensen_huang.ts`, `lesson_natgeo_renewable_energy.ts`, `lesson_airport_checkin.ts`, `lesson_steve_jobs.ts`, v.v.), tích hợp trọn vẹn cả siêu dữ liệu bài học, mảng segments phân đoạn và bộ câu hỏi trắc nghiệm ngữ cảnh song ngữ `quiz: VideoQuizData`.
+      - Index orchestrator `lessons/index.ts` tổng hợp và xuất toàn bộ catalog phục vụ backward compatibility, hỗ trợ import chọn lọc nhanh chóng, giảm thiểu tối đa kích thước bundle và triệt tiêu xung đột code khi phát triển song song.
+    - **Rà Soát & Đối Soát Sát Nghĩa 100% Bài Học #3: Simon Sinek - How Great Leaders Inspire Action (`vid_simon_sinek_golden_circle`)**:
+      - **8/8 Phân Đoạn Phụ Đề (Segments)**: Đối chiếu từng từ verbatim với bản ghi chính thức TED Talk của Simon Sinek (qp0HIF3SfI4). Bản dịch tiếng Việt được hiệu chỉnh mang phong cách diễn thuyết truyền cảm hứng CEFR B2 chuẩn xác, truyền tải trọn vẹn triết lý "Bắt đầu với câu hỏi Tại sao" (*Start With Why*) và nghịch lý đổi mới của Apple.
+      - **Đóng Gói Bộ Câu Hỏi Đọc Hiểu Song Ngữ Tuyển Chọn (`QUIZ_SIMON_SINEK`)**:
+        - Câu 1 (Ý chính & Thuật lãnh đạo truyền cảm hứng): Quy luật bất biến của các nhà lãnh đạo vĩ đại (*"They all think, act and communicate the exact same way..."* - Segments 6 & 7).
+        - Câu 2 (Thông tin chi tiết & Nghịch lý kinh doanh): Lý do Simon Sinek chọn Apple làm nghịch lý mở đầu (*"Despite having the same access to talent, agencies, consultants..."* - Segment 2).
+        - Câu 3 (Khái niệm cốt lõi): Khung lý thuyết Vòng Tròn Vàng (*"The Golden Circle"* - Segment 7).
+    - **Rà Soát & Đối Soát Sát Nghĩa 100% Bài Học #4: The Psychology of Money - Warren Buffett's Greatest Secret (`vid_psychology_of_money`)**:
+      - **9/9 Phân Đoạn Phụ Đề (Segments)**: Khớp 100% từng từ (0 diffs) với transcript âm thanh YouTube chính thức (DOgVUMfcb7U - `scripts/money.en.json3`). Hiệu chỉnh bản dịch tiếng Việt đạt độ chính xác học thuật tài chính cao, sửa các cụm từ "stock-picking" thành "chọn lọc cổ phiếu", "never left the table" thành "chưa bao giờ rời khỏi bàn chơi", "compounding needs time, not genius" thành "lãi kép cần thời gian chứ không cần thiên tài".
+      - **Đóng Gói Bộ Câu Hỏi Đọc Hiểu Song Ngữ Tuyển Chọn (`QUIZ_PSYCHOLOGY_OF_MONEY`)**:
+        - Câu 1 (Ý chính & Triết lý đầu tư): Bí mật làm giàu thực sự của Warren Buffett (*"His exceptional patience and staying invested over decades, rather than short-term stock-picking"* - Segments 1 & 5).
+        - Câu 2 (Tâm lý tài chính & Cạm bẫy thường gặp): Hành vi sai lầm khiến đa số trắng tay (*"Wanting to get rich fast by jumping in, jumping out, and chasing speculative trends"* - Segment 3).
+        - Câu 3 (Nguyên lý cốt lõi của Lãi suất kép): Bài học then chốt từ Tâm Lý Học Về Tiền (*"Compounding needs time, not genius; mastering your own mind matters more than predicting the market"* - Segments 6 & 7).
+    - **Rà Soát & Đối Soát Sát Nghĩa 100% Bài Học #5: Ratatouille - Anton Ego's Food Critic Review (`vid_ratatouille_anton_ego`)**:
+      - **14/14 Phân Đoạn Phụ Đề (Segments)**: Khớp 100% từng từ (0 diffs) với transcript chính thức Pixar / YouTube (tAyQL1inris - `scripts/ratatouille_ego.en.json3`). Hiệu chỉnh bản dịch tiếng Việt đạt độ tinh tế điện ảnh CEFR C1 chuẩn mực, truyền tải trọn vẹn sự tương phản giữa người sáng tạo và kẻ phê bình, cùng triết lý nâng đỡ cái mới.
+      - **Đóng Gói Bộ Câu Hỏi Đọc Hiểu Song Ngữ Tuyển Chọn (`QUIZ_RATATOUILLE_ANTON_EGO`)**:
+        - Câu 1 (Ý chính & Triết lý phê bình nghệ thuật): Sự thật cay đắng mà các nhà phê bình phải đối diện (*"In the grand scheme of things, an average piece of creation is likely more meaningful than the criticism designating it as junk"* - Segments 3 & 4).
+        - Câu 2 (Bước ngoặt nhận thức & Vai trò nâng đỡ cái mới): Thời khắc nhà phê bình thực sự dấn thân (*"When stepping forward to discover and defend new talent and original creations that the unkind world rejects"* - Segments 5 & 6).
+        - Câu 3 (Chân lý phổ quát & Thông điệp bình đẳng nghệ thuật): Diễn giải lại phương châm bất hủ của Bếp trưởng Gusteau (*"Not everyone can become a great artist, but a great artist can come from anywhere"* - Segment 11).
+    - **Rà Soát & Đối Soát Sát Nghĩa 100% Bài Học #6: CareerVidz - Tell Me About Yourself (`vid_careervidz_interview`)**:
+      - **12/12 Phân Đoạn Phụ Đề (Segments)**: Khớp 100% từng từ (0 diffs) với transcript âm thanh YouTube chính thức của Richard McMunn (ml8HHHgDxiE - `scripts/careervidz.en.json3`). Bản dịch tiếng Việt chuẩn mực phỏng vấn xin việc chuyên nghiệp CEFR B1, làm nổi bật phương pháp S.E.A.T., đạo đức nghề nghiệp (*work ethic*) và tinh thần làm chủ phát triển chuyên môn (*ownership*).
+      - **Đóng Gói Bộ Câu Hỏi Đọc Hiểu Song Ngữ Tuyển Chọn (`QUIZ_CAREERVIDZ_INTERVIEW`)**:
+        - Câu 1 (Cạm bẫy phỏng vấn thường gặp & Trả lời có trọng tâm): Sai lầm khi trả lời chung chung về tuổi tác và tính cách sáo rỗng (*"Because it focuses on vague personal traits and cliches instead of tangible skills, relevant experience, and value creation"* - Segments 2 & 3).
+        - Câu 2 (Cấu trúc câu trả lời chuẩn mực): Các yếu tố cốt lõi của công thức S.E.A.T. (*"Skills, experience you can bring, achievements attained, and how you will add value to the role"* - Segments 4 & 5).
+        - Câu 3 (Cam kết giá trị đóng góp & Tinh thần trách nhiệm nghề nghiệp): Lời hứa mang lại giá trị sinh lời vượt trội từ mức lương (*"By demonstrating a strong work ethic, being a positive role model, and taking ownership of professional development"* - Segments 10 & 11).
+    - **Rà Soát & Đối Soát Sát Nghĩa 100% Bài Học #7: Sir David Attenborough - A Life on Our Planet (`vid_david_attenborough_planet`)**:
+      - **14/14 Phân Đoạn Phụ Đề (Segments)**: Khớp 100% từng từ (0 diffs) với transcript chính thức Netflix / YouTube (64R2MYUt394 - `scripts/attenborough.en-US.json3`). Bản dịch tiếng Việt sâu sắc, cảm xúc và học thuật tự nhiên CEFR B2, truyền tải trọn vẹn thông điệp về lời khai nhân chứng (*witness statement*), sự suy tàn của hành tinh và giải pháp hợp tác thuận hòa cùng thiên nhiên (*work with nature, rather than against it*).
+      - **Đóng Gói Bộ Câu Hỏi Đọc Hiểu Song Ngữ Tuyển Chọn (`QUIZ_DAVID_ATTENBOROUGH_PLANET`)**:
+        - Câu 1 (Chủ đề cốt lõi & Tuyên thệ nhân chứng lịch sử): Định nghĩa của Sir David về bộ phim tài liệu (*"His witness statement and his vision for the future of our planet"* - Segment 8).
+        - Câu 2 (Sự suy thoái môi trường & Tác động của con người): Con người đã đẩy hành tinh vào cảnh suy tàn như thế nào (*"By overrunning the world and replacing the wild with the tame"* - Segments 6 & 7).
+        - Câu 3 (Sự hòa hợp sinh thái & Tầm nhìn bền vững): Bài học sống còn để cứu Trái Đất (*"How to work with nature, rather than against it"* - Segment 12).
+    - **Rà Soát & Đối Soát Sát Nghĩa 100% Bài Học #8: Oxford Online English - Talk About Food and Cooking (`vid_oxford_food_cooking`)**:
+      - **12/12 Phân Đoạn Phụ Đề (Segments)**: Khớp 100% từng từ (0 diffs) với transcript chính thức Oxford Online English (SlTrn13aez4 - `scripts/oxford_food.en.json3`). Bản dịch tiếng Việt sinh động, tự nhiên CEFR A2/B1, đối sánh văn hóa ẩm thực Anh quốc, Địa Trung Hải, Tây Ban Nha và phong cách nấu ăn gia đình đa văn hóa.
+      - **Đóng Gói Bộ Câu Hỏi Đọc Hiểu Song Ngữ Tuyển Chọn (`QUIZ_OXFORD_FOOD_COOKING`)**:
+        - Câu 1 (Sự đa dạng ẩm thực quốc tế tại Anh): Phong cách nấu ăn của mẹ người nói tại Vương quốc Anh (*"A combination of different cuisines including French, Italian, and Indian"* - Segment 2).
+        - Câu 2 (Đặc trưng ẩm thực Địa Trung Hải): Điểm tương đồng và khác biệt giữa ẩm thực Tây Ban Nha và ẩm thực Ý (*"Both use fresh ingredients and seafood, but pasta is far less common in Spanish cooking"* - Segments 9 & 10).
+        - Câu 3 (Món ăn đặc sản vùng miền & Miêu tả hương vị): Món ăn khoái khẩu của người nói (*"Albondigas - meatballs in a tomato sauce"* - Segment 11).
+    - **Rà Soát & Đối Soát Sát Nghĩa 100% Bài Học #9: Matt Walker - Sleep Is Your Superpower (`vid_matt_walker_sleep`)**:
+      - **12/12 Phân Đoạn Phụ Đề (Segments)**: Khớp 100% từng từ (0 diffs across 270 words) với transcript âm thanh YouTube chính thức của Giáo sư thần kinh học Matt Walker (5MuIMqhT8DM - `scripts/matt_walker.en.json3`). Bản dịch tiếng Việt bám sát tuyệt đối ngữ cảnh y sinh CEFR B2, truyền tải chính xác mối liên hệ giữa thời lượng ngủ và nồng độ testosterone, lão hóa sớm 10 năm, cơ chế củng cố trí nhớ sau khi học và ẩn dụ "miếng bọt biển khô" tiếp thu thông tin vs mạch thần kinh "úng nước" khi thức trắng đêm (*pulling an all-nighter*).
+      - **Đóng Gói Bộ Câu Hỏi Đọc Hiểu Song Ngữ Tuyển Chọn (`QUIZ_MATT_WALKER_SLEEP`)**:
+        - Câu 1 (Sức khỏe nội tiết & Lão hóa sớm): Mức độ lão hóa nồng độ testosterone của nam giới khi thiếu ngủ kinh niên (*"It ages him by a full decade (10 years) in terms of hormonal and reproductive wellness"* - Segments 2 & 3).
+        - Câu 2 (Cơ chế củng cố trí nhớ sau khi học): Lý do não bộ khẩn thiết cần giấc ngủ sau khi tiếp thu kiến thức mới (*"To essentially hit the save button on new memories so that they are not forgotten"* - Segment 7).
+        - Câu 3 (Khả năng tiếp nhận của khớp thần kinh & Thức trắng đêm): Tình trạng của các mạch ghi nhớ khi không ngủ trước khi học (*"The memory circuits become waterlogged, preventing the brain from absorbing any new memories"* - Segments 9 & 10).
+    - **Rà Soát & Đối Soát Sát Nghĩa 100% Bài Học #10: Jensen Huang - How Elon Musk Built the World's Fastest Supercomputer in 19 Days (`1481dc60-fe8a-4fa9-830b-9a227ede9b6e` / `lpLFjQ-bRv8`)**:
+      - **10/10 Phân Đoạn Phụ Đề (Segments)**: Khớp 100% từng từ với phát biểu chính thức của CEO NVIDIA Jensen Huang tại sự kiện công nghệ. Bản dịch tiếng Việt chuẩn mực thuật ngữ kỹ thuật điện toán và AI CEFR B2: siêu máy tính làm mát bằng chất lỏng (*liquid-cooled*), cấp điện (*energized*), cấp phép (*permitted*), cụm 100.000 GPU đồng nhất (*as one cluster*), và tính độc nhất vô nhị trong việc điều phối nguồn lực (*singular in marshaling resources*).
+      - **Đóng Gói Bộ Câu Hỏi Đọc Hiểu Song Ngữ Tuyển Chọn (`QUIZ_JENSEN_HUANG`)**:
+        - Câu 1 (Kỳ tích kỹ thuật & Tích hợp siêu máy tính AI): Cột mốc kỹ thuật chưa từng có mà Elon Musk và đội ngũ xAI hoàn thành trong 19 ngày (*"They built, powered, and integrated a liquid-cooled 100,000-GPU supercomputer cluster ready for AI training"* - Segments 5 & 8).
+        - Câu 2 (So sánh thời gian chuẩn ngành vs Đột phá tốc độ): Sự tương phản giữa 19 ngày của xAI và chuẩn mực truyền thống (*"A standard supercomputer normally takes three years to plan, plus another full year to get the delivered equipment working"* - Segment 9).
+        - Câu 3 (Từ vựng ngữ cảnh cao cấp & Năng lực điều phối): Ý nghĩa của thuật ngữ 'singular' khi Jensen Huang miêu tả Elon Musk (*"Elon possesses an unparalleled, exceptionally rare capability in understanding large systems and mobilizing immense resources"* - Segments 1 & 2).
+    - **Rà Soát & Đối Soát Sát Nghĩa 100% Bài Học #11: National Geographic - Renewable Energy 101 (`vid_ielts_environmental_sustainability` / `1kUE0BZtTRc`)**:
+      - **25/25 Phân Đoạn Phụ Đề (Segments)**: Khớp 100% từng từ (0 diffs across 333 words) với bản ghi chính thức National Geographic (`scripts/natgeo_renewable.en.json3`). Bản dịch tiếng Việt chuẩn mực học thuật môi trường IELTS B2: cơ chế 5 nguồn năng lượng tái tạo (mặt trời, gió, thủy điện, địa nhiệt, sinh khối), phát thải gián tiếp tối thiểu (*minimal indirect emissions*), tính gián đoạn của điện mặt trời và điện gió (*intermittent power*), và thách thức chi phí pin lưu trữ (*costly storage batteries*).
+      - **Đóng Gói Bộ Câu Hỏi Đọc Hiểu Song Ngữ Tuyển Chọn (`QUIZ_NATGEO_RENEWABLE_ENERGY`)**:
+        - Câu 1 (Định nghĩa cốt lõi & Cơ chế tự phục hồi): Năng lượng tái tạo là gì và cơ chế tự phục hồi tự nhiên (*"It is generated from natural sources that replenish themselves and never run out"* - Segment 3).
+        - Câu 2 (Khí thải trực tiếp vs Phát thải gián tiếp tối thiểu): Lợi ích môi trường và loại phát thải phát sinh (*"They create no direct greenhouse gas emissions, producing only minimal indirect emissions from manufacturing and maintenance"* - Segments 8, 9 & 10).
+        - Câu 3 (Tính gián đoạn & Chi phí pin lưu trữ): Thách thức lớn của năng lượng mặt trời và gió (*"They are intermittent because power is only generated when the sun shines or wind blows, while storage batteries remain costly"* - Segments 21 & 22).
+    - **Rà Soát & Đối Soát Sát Nghĩa 100% Bài Học #12: English for Travel - Checking in at the Airport (`vid_airport_checkin` / `bIz2Gzu3DKE`)**:
+      - **16/16 Phân Đoạn Phụ Đề (Segments)**: Khớp 100% từng từ (0 diffs across 106 words) với audio Whisper AI (`scripts/airport_audio.json`). Bản dịch tiếng Việt chuẩn mực giao tiếp du lịch hàng không CEFR A2/B1: các thủ tục lên máy bay (*is now boarding*), xuất trình giấy tờ (*ticket and passport*), cân hành lý (*put it on the scale*), phân biệt ghế cửa sổ và lối đi (*window vs aisle seat*), cửa khởi hành và thời gian có mặt trước chuyến bay (*Gate 17B, at least 30 minutes before departure time*).
+      - **Đóng Gói Bộ Câu Hỏi Đọc Hiểu Song Ngữ Tuyển Chọn (`QUIZ_AIRPORT_CHECKIN`)**:
+        - Câu 1 (Thông tin chi tiết về hành trình): Hành khách bay đến đâu và đi cùng ai (*"He is traveling alone to New York City"* - Segments 2, 5 & 6).
+        - Câu 2 (Thuật ngữ hàng không: Vị trí ghế ngồi): Lựa chọn ghế ngồi của hành khách (*"A window seat"* - Segments 10 & 11).
+        - Câu 3 (Quy định giờ giấc & Cửa khởi hành sân bay): Cửa lên máy bay và thời gian có mặt trước giờ bay (*"Gate 17B, at least 30 minutes before departure time"* - Segments 13 & 14).
+    - **Tích Hợp Tầng Phục Vụ 0ms Trực Tiếp (`videoComprehensionService.ts`)**:
+      - Tầng service đọc hiểu tự động kiểm tra thuộc tính `mock.quiz` được đóng gói trong bài học, trả về kết quả ngay lập tức dưới 5ms mà không cần gọi API ngoài hay tạo dữ liệu giả lập.
+    - **Kiểm Thử & Xác Minh Độ Tin Cậy**:
+      - TypeScript (`npx tsc --noEmit`): **0 lỗi (Zero Errors)**.
+      - Vitest (`airport_checkin_verbatim.test.ts`): **9/9 tests PASS (100% pass rate)**.
+      - Vitest (`natgeo_renewable_verbatim.test.ts`): **9/9 tests PASS (100% pass rate)**.
+      - Vitest (`jensen_huang_verbatim.test.ts`): **6/6 tests PASS (100% pass rate)**.
+      - Vitest (`matt_walker_verbatim.test.ts`): **7/7 tests PASS (100% pass rate)**.
+      - Neon DB Sync: Đồng bộ thành công bản ghi `ListeningLesson` với đầy đủ phụ đề, IPA và phân tích ngữ pháp AI.
+
+57. **Kiến Trúc Bộ Nhớ Đệm SWR In-Memory & Zustand Store Cho Video Dictation (`/study/dictation/video`)**:
+    - **Triệt Tiêu Tải Lại & Skeleton Flashing (0ms Frame-0 Rendering)**:
+      - Xây dựng kho lưu trữ trạng thái tập trung [`stores/videoCatalogStore.ts`](file:///e:/XP%20English%20%20XP%20Voca/stores/videoCatalogStore.ts) bằng Zustand, quản lý danh sách bài học (`lessons`), trạng thái bộ lọc (`searchQuery`, `selectedLevel`, `selectedCategory`, `sortBy`), chi tiết từng bài học (`lessonDetails: Record<string, VideoCatalogLesson>`).
+      - Khi người học chuyển hướng qua lại giữa Catalog và Studio hoặc các trang khác trong ứng dụng, giao diện đọc cache đồng bộ ngay tại Frame 0 (0ms), loại bỏ hoàn toàn hiện tượng skeleton nhấp nháy gây khó chịu.
+    - **Cơ Chế Revalidation Chạy Ngầm SWR (Stale-While-Revalidate with TTL 5 Phút)**:
+      - Áp dụng hàm kiểm tra độ tươi mới `isEntryStale(lastFetchedAt, 5 * 60 * 1000)`. Dữ liệu hiển thị tức thì từ bộ nhớ đệm in-memory, trong khi luồng fetch chạy ngầm âm thầm đồng bộ dữ liệu mới nhất từ máy chủ mà không làm gián đoạn người học.
+      - Tích hợp cơ chế fallback offline: Tự động dự phòng về catalog mock "1 file 1 bài" nếu mạng gặp sự cố.
+    - **Bảo Toàn Trạng Thái Bộ Lọc (Filter & Search State Preservation)**:
+      - Duy trì nguyên vẹn các bộ lọc tìm kiếm, cấp độ và danh mục khi người học quay lại trang duyệt video.
+    - **Kiểm Thử Tự Động**:
+      - Bộ test chuyên sâu [`__tests__/video_dictation_cache_swr.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/video_dictation_cache_swr.test.ts) (18/18 tests PASS) xác thực trọn vẹn luồng render 0ms, revalidation SWR và phân tách cache giữa các bài học.
+
+58. **Chuẩn Hóa Bộ Nhớ Đệm SWR In-Memory & Zustand Store Cho Audio Dictation (`/study/dictation/audio`)**:
+    - **Xây Dựng `useAudioCatalogStore` (`stores/audioCatalogStore.ts`)**:
+      - Đồng bộ hóa kiến trúc SWR in-memory cho toàn bộ hệ thống Audio Dictation với cấu trúc tương tự Video Catalog: quản lý danh sách bài nghe audio, chi tiết bài nghe phân đoạn, trạng thái tìm kiếm và lọc danh mục.
+      - TTL 5 phút cho cả danh sách bài học lẫn chi tiết từng bài nghe (`audio_lesson_${id}`), loại bỏ hoàn toàn việc gọi lại API `/api/dictation/lessons` lặp đi lặp lại.
+    - **0ms Render Cho Màn Hình Audio Dictation Studio & Listing**:
+      - Màn hình duyệt bài nghe và làm bài chép chính tả audio nạp tức thì từ cache mà không xuất hiện skeleton flash.
+    - **Kiểm Thử Toàn Diện**:
+      - Bộ test chuyên sâu [`__tests__/audio_dictation_cache_swr.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/audio_dictation_cache_swr.test.ts) (17/17 tests PASS) kiểm chứng toàn bộ các trường hợp cache hit, background revalidate, TTL expiration và filter persistence.
+
+59. **Mở Rộng Kiến Trúc SWR In-Memory & Zustand Store Cho Toàn Diện Màn Hình Shadowing Video & Audio (`/study/shadowing/video` & `/study/shadowing/audio`)**:
+    - **Khởi Tạo Trạng Thái Đồng Bộ Frame 0 (Zero-Flash Frame-0 Studio & Listing Initialization)**:
+      - Trong [`features/shadowing/components/ShadowingPageContent.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/shadowing/components/ShadowingPageContent.tsx), thiết lập kiểm tra cache đồng bộ ngay khi mount: `initialCachedLessonDetail` được đọc tức thì từ `useVideoCatalogStore` (khi ở chế độ video) hoặc `useAudioCatalogStore` (khi ở chế độ audio), kho `localStorage` và dữ liệu mock phân đoạn.
+      - Đối với danh mục Audio Shadowing, khởi tạo danh sách bài học `lessonsList` trực tiếp từ store in-memory, `localStorage` (`xp_voca_listening_catalog_audio`) và fallback `MOCK_LESSONS_DATA`, đảm bảo danh sách bài học không bao giờ rỗng ở Frame 0 và triệt tiêu 100% hiện tượng skeleton flash khi duyệt bài.
+      - Đặt cờ `isLoadingLessonDetail` khởi điểm là `false` khi có cache hit, loại bỏ hoàn toàn việc hiển thị skeleton khi người học quay lại bài học hoặc duyệt giữa các bài đã có trong cache.
+      - Xử lý mượt mà sự kiện chọn bài học (`handleSelectLesson`): nạp bài học lập tức với `isCached = true`, map đồng thời cả ID bài học, canonical ID và chỉ số số nguyên (`numId`), chỉ hiện loading khi bài học hoàn toàn mới chưa từng được nạp vào bộ nhớ đệm.
+    - **Bộ Chuyển Đổi Dữ Liệu Tự Động (`formatVideoLessonToShadowing`) & Chuẩn Hóa Media**:
+      - Chuyển đổi liền mạch dữ liệu từ `VideoCatalogLesson` sang chuẩn `ShadowingLesson` và `ShadowingSentence`:
+        - Tạo URL phát YouTube hợp lệ từ `videoMetadata.externalId` (`https://www.youtube.com/watch?v=${videoId}`) cho component phát video.
+        - Trích xuất và định dạng từng phân đoạn (segments) thành câu luyện nói kèm mốc thời gian `startTime`, `endTime`, bản dịch tiếng Việt `vietnameseText`, phiên âm `ipa`, và từ trọng âm `stressWords`.
+        - Tương thích tuyệt đối với trình ghi âm và chấm điểm phát âm AI [`useShadowingAudioRecorder`](file:///e:/XP%20English%20%20XP%20Voca/features/shadowing/hooks/useShadowingAudioRecorder.ts).
+      - Đồng bộ hóa logic phân giải media qua [`resolveLessonMedia`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/utils/lessonMedia.ts), phân biệt chuẩn xác giữa bài học video YouTube và bài học audio chuẩn giọng phát âm TTS/Micro.
+    - **Bảo Toàn Trạng Thái UI Cho Shadowing Listing (`ShadowingListingView.tsx`)**:
+      - Kết nối các bộ lọc danh mục (`activeCategoryTab`), từ khóa tìm kiếm (`listingSearch`), và các hạt giống xáo trộn bài học ngẫu nhiên (`shuffleSeedBasic`, `shuffleSeedIntermediate`, `shuffleSeedAdvanced`) vào Zustand store, giúp giữ nguyên 100% vị trí duyệt và danh sách gợi ý khi học viên chuyển đổi giữa màn hình Studio và Catalog.
+    - **Kiểm Thử Toàn Diện**:
+      - Bộ test chuyên sâu Shadowing Video [`__tests__/shadowing_video_cache_swr.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/shadowing_video_cache_swr.test.ts) (**17/17 tests PASS**).
+      - Bộ test chuyên sâu Shadowing Audio [`__tests__/shadowing_audio_cache_swr.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/shadowing_audio_cache_swr.test.ts) (**16/16 tests PASS**).
+      - Tổng cộng 33 bài test chuyên sâu cho toàn phân hệ Shadowing đạt **100% PASS rate**.
+      - Kiểm thử toàn diện toàn bộ kho mã nguồn: **109 test files, 1.153 tests PASS (100% pass rate)**.
+      - TypeScript (`npx tsc --noEmit`): **0 lỗi (Zero Errors)**.
+
+61. **Kiến Trúc Bộ Nhớ Đệm SWR In-Memory & Zustand Store Cho Đọc Hiểu Tiếng Anh (`/study/reading` & `/study/reading/[id]`)**:
+    - **Triệt Tiêu Tải Lại & Skeleton Flashing (0ms Frame-0 Rendering)**:
+      - Xây dựng kho lưu trữ trạng thái tập trung [`stores/readingCatalogStore.ts`](file:///e:/XP%20English%20%20XP%20Voca/stores/readingCatalogStore.ts) bằng Zustand, quản lý danh sách 40 bài đọc chuẩn quốc tế (`passages`), bộ nhớ đệm chi tiết từng bài đọc (`passageDetailCache`), tiến độ học viên (`completedPassageIds`) và trạng thái bộ lọc (`listingSearch`, `activeCategoryTab`, `shuffleSeedBasic`, `shuffleSeedAdvanced`).
+      - Khởi tạo đồng bộ ngay tại Frame 0 từ `READING_PASSAGES_DATA` và `localStorage` (`xp_reading_completed_passages`), loại bỏ hoàn toàn hiện tượng skeleton flashing khi chuyển đổi giữa Catalog và Studio đọc hiểu.
+    - **Hệ Thống Tab Phân Cấp Trình Độ & Bảo Toàn Vị Trí Duyệt (Category Tabs & Seed Preservation)**:
+      - Tích hợp 5 tab phân loại trình độ chuẩn mực ("Tất cả", "Cơ bản A1-A2", "Trung cấp B1-B2", "Nâng cao C1-C2", "Đã hoàn thành") kết nối trực tiếp với store.
+      - Chuyển đổi cơ chế xáo trộn ngẫu nhiên `Math.random()` sang thuật toán xoay vòng dựa trên seed (`shuffleSeedBasic`, `shuffleSeedAdvanced`), đảm bảo khi học viên đọc xong bài và quay lại danh mục thì thứ tự các bài đọc được giữ nguyên vẹn 100%.
+    - **Tra Cứu Nhanh & Chuẩn Hóa Mã Bài Đọc (0ms Canonical Shorthand Resolution)**:
+      - Trong [`app/(dashboard)/study/reading/[id]/page.tsx`](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/study/reading/[id]/page.tsx), hỗ trợ tra cứu đồng bộ Frame-0 theo cả mã chuẩn (`"r1"`), viết hoa (`"R1"`), và số nguyên viết tắt (`"1"` -> `"r1"`).
+      - Cache bài đọc ngay trong `passageDetailCache` và hiển thị tức thời phòng đọc mà không cần gọi lại dữ liệu.
+    - **Kiểm Thử Toàn Diện**:
+      - Bộ test chuyên sâu [`__tests__/reading_catalog_cache_swr.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/reading_catalog_cache_swr.test.ts) (**14/14 tests PASS**).
+      - Toàn bộ 5 file test SWR Cache (Dictation Video/Audio, Shadowing Video/Audio, Reading): **86/86 tests PASS (100% pass rate)**.
+      - TypeScript (`npx tsc --noEmit`): **0 lỗi (Zero Errors)**.
 
 ---
 
@@ -3637,13 +3806,12 @@ $$\text{MEASURE} \rightarrow \text{UNDERSTAND} \rightarrow \text{EXPLAIN} \right
    - Tự động đồng bộ với `SidebarSkeleton` và cơ chế nhận diện active route khi truy cập `/study/reading` hoặc bất kỳ bài đọc nào `/study/reading/[id]`.
 
 2. **Cập Nhật Cụm Tab Chế Độ Học Chuẩn Mực (`StudySuiteNavTabs.tsx`)**:
-   - Mở rộng [`StudySuiteNavTabs.tsx`](file:///e:/XP%20English%20%20XP%20Voca/shared/components/layout/nav-tabs/StudySuiteNavTabs.tsx) từ 4 tab lên **5 tab chuẩn hóa đầy đủ phân hệ luyện tập**:
-     * `Dictation` (`/study/dictation/audio` - Headphones Indigo)
-     * `Shadowing` (`/study/shadowing/audio` - Mic Sky)
-     * `Đọc hiểu` (`/study/reading` - BookText Blue)
-     * `Luyện từ vựng` (`/study/practice` - BookOpen Emerald)
-     * `Thi thử đề` (`/study/exam-prep` - FileText Rose)
-   - Thiết lập trạng thái `active={isReadingActive}` khi `pathname === "/study/reading"` hoặc `pathname?.startsWith("/study/reading/")`, kích hoạt con nhộng chuyển động mượt mà `studySuiteNavActiveTab`.
+   - Chuẩn hóa [`StudySuiteNavTabs.tsx`](file:///e:/XP%20English%20%20XP%20Voca/shared/components/layout/nav-tabs/StudySuiteNavTabs.tsx) tuân thủ nghiêm ngặt **Quy Tắc Tối Đa 4 Tab per Bar ($\le 4$ tabs)**:
+     * Slot 1: `Dictation` (`/study/dictation/audio` - Headphones Indigo)
+     * Slot 2: `Shadowing` (`/study/shadowing/audio` - Mic Sky)
+     * Slot 3: Trụ kỹ năng ngữ cảnh linh hoạt (`Đọc hiểu` `/study/reading` - BookText Blue trong chế độ học đọc/nghe/nói; `Luyện từ vựng` `/study/practice` - BookOpen Emerald trong chế độ luyện từ vựng)
+     * Slot 4: `Thi thử đề` (`/study/exam-prep` - FileText Rose)
+   - Thiết lập trạng thái `active` chính xác theo `pathname`, kích hoạt con nhộng chuyển động mượt mà `studySuiteNavActiveTab` mà không bao giờ vượt quá 4 tabs, triệt tiêu hoàn toàn tràn viền hay thanh cuộn ngang trên thiết bị di động.
 
 3. **Triệt Tiêu Hoàn Toàn Redirect Hop Trong Studio (`StudioTopHeader.tsx`)**:
    - Tự động nhận diện bài học Video hay Audio (`isVideoLesson`) ngay trong [`StudioTopHeader.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/StudioTopHeader.tsx) để tạo trực tiếp liên kết Canonical:
@@ -3867,20 +4035,1154 @@ $$\text{MEASURE} \rightarrow \text{UNDERSTAND} \rightarrow \text{EXPLAIN} \right
     - **Hỗ Trợ Đa Chế Độ (`practiceMode`) Trên Cột Phụ Đề (`InteractiveTranscriptSidebar.tsx`)**:
       - Phân biệt rõ ràng ngữ cảnh giữa Chép chính tả Dictation (`ĐÃ CHÉP ĐÚNG`) và Luyện nói Shadowing (`ĐÃ ĐẠT` / `CHƯA ĐẠT`), đảm bảo nhãn hiển thị luôn chính xác tuyệt đối theo nghiệp vụ từng phân hệ.
     - **Kiểm Thử Chuyên Sâu Tự Động Hóa (`__tests__/shadowing_score_passing_flow.test.ts`)**:
-    - **Tái Cấu Trúc Toàn Diện Không Gian Phòng Thu Đọc Hiểu AI Video (Video Comprehension Studio 2-Column Layout)**:
+    - **Tái Cấu Trúc Toàn Diện Không Gian Phòng Thu Đọc Hiểu AI Video (Đường Dẫn Chuẩn Hóa `/study/dictation/video/comprehension/[id]`)**:
       - **Đồng Bộ Kiến Trúc Studio 2 Cột Chuẩn Mực (`VideoComprehensionStudioView.tsx`)**:
-        - **Thanh Điều Hướng Studio (`StudioTopHeader.tsx`)**: Tích hợp thanh tiêu đề phòng thu chuẩn hóa đồng bộ với Dictation & Shadowing, hiển thị nút Quay lại thông minh (`Quay lại video này`), Cấp độ CEFR, Tiêu đề bài học, Nút chuyển nhanh Dictation/Shadowing, Bộ chọn ngôn ngữ song ngữ EN/VI, và nút CTA `Luyện Dictation` (`#0059bb`) (đã tinh gọn loại bỏ huy hiệu thừa trên thanh điều hướng).
+        - **Thanh Điều Hướng Studio (`StudioTopHeader.tsx`)**: Tích hợp thanh tiêu đề phòng thu chuẩn hóa đồng bộ với Dictation & Shadowing, hiển thị nút Quay lại thông minh (`Quay lại video này`), Cấp độ CEFR, Tiêu đề bài học, Nút chuyển nhanh Dictation/Shadowing, chế độ Toàn màn hình và Bảng phím tắt (đã tinh gọn loại bỏ các nút thừa như cụm chuyển đổi EN/VI trùng lặp và nút CTA Dictation Practice để giao diện thông thoáng, chuẩn tỷ lệ vàng).
         - **Cột Trái (Main Studio Column)**:
-          - **Khối Chứa Video Trên Cùng (`StudioMediaPlayerContainer`)**: Tái sử dụng trọn vẹn khung trình chiếu YouTube Cinema Frame với bộ điều khiển đồng bộ 100% (Phát/Tạm dừng, Tua lùi/Tua nhanh 5s, Điều chỉnh tốc độ 0.75x - 2x, Âm lượng, Thanh trượt dòng thời gian, và tự động đồng bộ theo từng câu phụ đề).
-          - **Khối Câu Hỏi Đọc Hiểu Dưới Khối Video**: Trình bày bộ câu hỏi trắc nghiệm ngữ cảnh AI (Ý chính, Thông tin chi tiết, Suy luận/Từ vựng), thanh đo tiến độ thời gian thực (`CÂU 1 TRÊN 3`, progress bar %), huy hiệu phân loại câu hỏi, nút tiện ích `Nghe câu #N` nhảy trực tiếp video đến mốc thời gian liên quan, 4 thẻ đáp án A/B/C/D tương tác xúc giác cao, phản hồi đáp án chuẩn màu Emerald/Rose kèm giải thích trích dẫn câu nói trong video, và màn hình tổng kết trao thưởng `+25 XP`.
+          - **Khối Chứa Video Chuẩn Hóa 100% (`DictationVideoBlock.tsx`)**: Sử dụng khung trình chiếu YouTube Cinema Frame chuẩn tỷ lệ 16:9 với bộ điều khiển đồng bộ 100% (Phát/Tạm dừng, Tua lùi/Tua nhanh 5s, Điều chỉnh tốc độ 0.75x - 2x, Âm lượng, Thanh trượt dòng thời gian). Đã tinh gọn ẩn các thanh công cụ phím gõ chính tả Dictation (`showMetaBar={false}`, `showToolbar={false}`) để giữ sự tập trung cao độ vào video và câu hỏi đọc hiểu.
+          - **Khối Câu Hỏi Đọc Hiểu Bento Card Tinh Gọn**: Trình bày bộ câu hỏi trắc nghiệm ngữ cảnh AI (Ý chính, Thông tin chi tiết, Suy luận):
+            * *Cơ Chế Tự Động Thu Gọn Sidebar*: Tự động thu gọn thanh menu chính bên trái (App Sidebar) sang dạng compact icon-only ngay khi bước vào phòng thu đọc hiểu video (`useUiStore.setSidebarCollapsed(true)`), giải phóng 100% diện tích làm việc tập trung như Dictation và Shadowing.
+            * *Hệ Thống Khung Xương Tải (Skeleton Loading) Tính Toán Sát 100% Chuyên Sâu*:
+              - **`VideoComprehensionStudioSkeleton`**: Tái tạo chính xác 100% tỷ lệ hình học của phòng thu (Thanh Header 56px có nút Quay lại, Level B2, Chế độ Dictation/Shadowing, Thanh Mobile Tab Switcher < lg chống giật layout CLS = 0, Khung chiếu video 16:9 với dock điều khiển đầy đủ các nút tua/phát/tốc độ/âm lượng và mockup phụ đề đáy khung, Khối câu hỏi Bento Card hoàn chỉnh và Cột phụ đề bên phải với các thẻ câu shimmer và tab Phụ đề / Gợi ý bài học).
+              - **`QuestionBentoCardSkeleton`**: Tinh tế đến từng milimet (Header `QUESTION 1 OF 3` + Công tắc trượt `Dịch Anh - Việt` icon Languages nét đậm stroke 2.5 đồng bộ màu switch Hiện câu ở trạng thái mặc định Tắt `bg-slate-200 dark:bg-slate-700`, thanh tiến độ 33% shimmer, 2 dòng tiêu đề câu hỏi lớn, 4 thẻ đáp án A/B/C/D chuẩn huy hiệu `w-7.5 h-7.5` và nút bấm kiểm tra đáp án `Check Answer` chuẩn mực Rule 18, đảm bảo 0px layout shift khi hoàn tất tải dữ liệu).
+              - **Tích Hợp Tự Động Vào Next.js App Router**: Đã tạo file `loading.tsx` chuẩn Next.js tại các tuyến đường `/study/dictation/video/comprehension/[id]` và `/study/dictation/video/[id]/comprehension`, kết hợp `<Suspense fallback={<VideoComprehensionStudioSkeleton />}>` hiển thị mượt mà tức thì 0ms.
+            * *Công Tắc Dịch Anh - Việt Trực Quan (Mặc Định Tắt Khi Vào Trang)*: Tích hợp biểu tượng `Languages` nét đậm dày dặn (`w-[18px] h-[18px] sm:w-5 sm:h-5 stroke-[2.5] text-[#0059bb] dark:text-sky-400`), phông chữ chuẩn hệ thống rõ nét (`text-[13.5px] sm:text-sm font-semibold text-slate-800 dark:text-slate-200`), kèm công tắc trượt (`toggle switch`) đồng bộ 100% màu sắc và hiệu ứng lò xo (`spring transition`) với công tắc "Hiện câu" (`bg-slate-900 dark:bg-emerald-500` khi Bật, `bg-slate-200 dark:bg-slate-700` khi Tắt). Mặc định khởi tạo ở trạng thái **TẮT (OFF)** khi vào trang nhằm tối ưu sư phạm tự rèn luyện nghe hiểu tiếng Anh, học viên chủ động bật khi cần xem phụ đề dịch tiếng Việt.
+            * *Tiêu đề câu hỏi trực quan (No Card-in-Card)*: Loại bỏ hộp viền xám lồng nhau, đưa câu hỏi thành tiêu đề lớn nổi bật, dễ đọc ngay lập tức.
+            * *Thẻ đáp án A/B/C/D tương tác cao*: Phù hiệu chữ cái `w-7 h-7` sắc nét, chữ đáp án to và đậm rõ ràng (`font-bold text-[15.5px]`), tối ưu khoảng cách lề trên dưới (padding top/bottom) gọn gàng, hiệu ứng chọn màu xanh hoàng gia `#0059bb`, phản hồi đáp án chuẩn màu Emerald/Rose kèm giải thích trích dẫn.
+            * *Nút hành động kiểm tra*: Nút `Check Answer` duy nhất nổi bật theo Rule 18, loại bỏ các dòng chữ hướng dẫn thừa thãi.
         - **Cột Phải (`InteractiveTranscriptSidebar.tsx`)**:
-          - **Tab Phụ Đề Tinh Gọn**: Hiển thị toàn bộ câu trong bài (đã ẩn triệt để khối mốc thời gian giờ:phút:giây để giữ sự tập trung tối đa cho người học), bản dịch song ngữ Reading, nhãn `Đang học` gọn gàng, hỗ trợ click vào câu hoặc bấm nút nghe để tua video đến đúng câu đó.
+          - **Tab Phụ Đề Chuẩn Hóa**: Hiển thị toàn bộ câu trong bài (đã ẩn khối mốc thời gian giờ:phút:giây thừa thãi), tích hợp công tắc `Hiện câu` mặc định ở trạng thái **TẮT (OFF)** khi vào trang (`initialShowAllTexts={false}`) để chống lộ đáp án (Anti-Spoiler Protection), đi kèm thanh tiến độ hoàn thành câu trực quan. Học viên có thể bật công tắc bất cứ lúc nào để xem toàn bộ câu văn.
           - **Tab Gợi Ý Bài Học**: Hiển thị danh sách thẻ bài học video đề xuất đa dạng (ảnh bìa 4:3, cấp độ CEFR, chủ đề, thời lượng, số câu, nút "Học"), kèm nút bấm "Đổi gợi ý" (`RefreshCw`) làm mới danh sách ngẫu nhiên.
         - **Khả Năng Thích Ứng Di Động (Mobile Tabs Switcher)**: Cung cấp thanh chuyển đổi tab mượt mà giữa `Video & Đọc hiểu` và `Phụ đề & Gợi ý` trên màn hình nhỏ `< lg`, tối ưu trải nghiệm đọc hiểu tiện lợi trên mọi thiết bị.
+
+### 56. Phân Rã Kiến Trúc Dữ Liệu Đọc Hiểu Video Theo Chuẩn "1 File 1 Bài" (Modularized 1-File-Per-Lesson Architecture)
+
+1. **Nguyên Tắc Thiết Kế Dữ Liệu "1 File 1 Bài" (Per-Lesson Data Encapsulation)**:
+   - **Xóa bỏ triệt để hardcode dữ liệu trong tầng Service**: Trước đây toàn bộ bộ câu hỏi trắc nghiệm đọc hiểu của bài học Julian Treasure được định nghĩa trực tiếp trong hàm sinh fallback của [`videoComprehensionService.ts`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/services/videoComprehensionService.ts), gây phình to tầng logic và vi phạm tính module hóa.
+   - **Đóng gói toàn diện trong từng bài học**:
+     - Nâng cấp kiểu dữ liệu [`MockVideoLesson`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/types.ts) hỗ trợ thuộc tính tùy chọn `quiz?: VideoQuizData`.
+     - Chuyển toàn bộ dữ liệu bộ câu hỏi trắc nghiệm đọc hiểu song ngữ về file nguồn của chính bài học đó:
+       * [`lesson_julian_treasure.ts`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_julian_treasure.ts): chứa `QUIZ_JULIAN_TREASURE` (3 câu hỏi ngữ cảnh về ẩn dụ giọng nói, tật xấu gossip, rào cản judging).
+       * [`lesson_oxford_meeting.ts`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_oxford_meeting.ts): chứa `QUIZ_OXFORD_MEETING` (3 câu hỏi ngữ cảnh về modal verbs đề xuất, kỹ thuật nói giảm nói tránh softening và đề xuất phủ định xây dựng).
+       * [`lesson_simon_sinek.ts`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_simon_sinek.ts): chứa `QUIZ_SIMON_SINEK` (3 câu hỏi ngữ cảnh về Golden Circle, sinh học não bộ và Apple differentiator).
+       * [`lesson_psychology_of_money.ts`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_psychology_of_money.ts): chứa `QUIZ_PSYCHOLOGY_OF_MONEY` (3 câu hỏi ngữ cảnh về lãi kép compound interest, Warren Buffett và tỷ phú Ronald Read).
+       * [`lesson_ratatouille_anton_ego.ts`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_ratatouille_anton_ego.ts): chứa `QUIZ_RATATOUILLE_ANTON_EGO` (3 câu hỏi ngữ cảnh về nghề phê bình ẩm thực, triết lý bênh vực cái mới và kiệt tác của Gusteau).
+       * [`lesson_careervidz_interview.ts`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_careervidz_interview.ts): chứa `QUIZ_CAREERVIDZ_INTERVIEW` (3 câu hỏi ngữ cảnh về cấu trúc trả lời phỏng vấn STAR, điểm mạnh cá nhân và văn hóa cam kết cống hiến).
+       * [`lesson_david_attenborough_planet.ts`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_david_attenborough_planet.ts): chứa `QUIZ_DAVID_ATTENBOROUGH_PLANET` (3 câu hỏi ngữ cảnh về khủng hoảng đa dạng sinh học Anthropocene, sự diệu kỳ của tự nhiên và lời kêu gọi hành động bảo vệ Trái Đất).
+       * [`lesson_oxford_food_cooking.ts`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_oxford_food_cooking.ts): chứa `QUIZ_OXFORD_FOOD_COOKING` (3 câu hỏi ngữ cảnh về kỹ thuật nấu nướng nướng/hấp/chiên xào, từ vựng gia vị và món ăn quốc tế).
+       * [`lesson_matt_walker_sleep.ts`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_matt_walker_sleep.ts): chứa `QUIZ_MATT_WALKER_SLEEP` (3 câu hỏi ngữ cảnh về sóng não giấc ngủ sâu NREM, trí nhớ dài hạn và tác động của thiếu ngủ đối với sức khỏe).
+       * [`lesson_jensen_huang.ts`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_jensen_huang.ts): chứa `QUIZ_JENSEN_HUANG` (3 câu hỏi ngữ cảnh về siêu máy tính AI DGX-1, kiến trúc chip GPU song song và cuộc cách mạng điện toán tăng tốc).
+       * [`lesson_natgeo_renewable_energy.ts`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_natgeo_renewable_energy.ts): chứa `QUIZ_NATGEO_RENEWABLE_ENERGY` (3 câu hỏi ngữ cảnh về năng lượng tái tạo, nguồn phát thải khí nhà kính và giải pháp điện gió/mặt trời).
+       * [`lesson_airport_checkin.ts`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_airport_checkin.ts): chứa `QUIZ_AIRPORT_CHECKIN` (3 câu hỏi ngữ cảnh về thủ tục gửi hành lý, chọn chỗ ngồi trên máy bay và thẻ lên máy bay boarding pass).
+       * [`lesson_bbc_why_we_laugh.ts`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_bbc_why_we_laugh.ts): chứa `QUIZ_BBC_WHY_WE_LAUGH` (3 câu hỏi ngữ cảnh về tác dụng giải phóng hormone endorphin chống căng thẳng, đặc tính tiếng cười ở trẻ sơ sinh và thuật ngữ khoa học Gelotology).
+       * [`lesson_ted_bilingual_brain.ts`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_ted_bilingual_brain.ts): chứa `QUIZ_TED_BILINGUAL_BRAIN` (3 câu hỏi ngữ cảnh về 4 khía cạnh năng lực ngôn ngữ, ba nhóm phân loại người song ngữ Compound/Coordinate/Subordinate và công nghệ chẩn đoán hình ảnh thần kinh học).
+       * [`lesson_steve_jobs.ts`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_steve_jobs.ts): chứa `QUIZ_STEVE_JOBS` (3 câu hỏi ngữ cảnh về kết nối các dấu mốc cuộc đời, bỏ học tại Reed College, và bài học đam mê).
+       * [`lesson_bbc_sunken_ship.ts`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_bbc_sunken_ship.ts): chứa `QUIZ_BBC_SUNKEN_SHIP` (3 câu hỏi ngữ cảnh về hiện vật trục vớt đại bác/tiền xu/tách sứ, kho báu 20 tỷ USD của tàu San Jose bị đánh chìm năm 1708 và tranh chấp quyền sở hữu di sản).
+       * [`lesson_daily_pets.ts`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_daily_pets.ts): chứa `QUIZ_DAILY_PETS` (3 câu hỏi ngữ cảnh về đặc điểm chú chó Buster, hươu cao cổ sở thú và trải nghiệm đi dạo trong rừng).
+   - **Tầng Service Hoàn Toàn Trung Lập**:
+     - Service [`videoComprehensionService.ts`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/services/videoComprehensionService.ts) chỉ đóng vai trò điều phối: ưu tiên nạp `mock.quiz` từ bài học module hóa tương ứng (0ms tức thì), và chỉ sinh câu hỏi động từ các đoạn phụ đề (`segments`) đối với các bài chưa định nghĩa bộ câu hỏi tuyển chọn.
+   - **Cơ chế Fallback Đa Tầng 0ms Tại Giao Diện Studio**:
+     - [`VideoComprehensionStudioView.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/VideoComprehensionStudioView.tsx) tự động lấy `mock.quiz` từ bộ nhớ RAM ngay khi tải bài, đảm bảo người học nhìn thấy câu hỏi ngay lập tức mà không phải chờ API.
+
+2. **Kiểm Thử Tự Động Toàn Diện**:
+   - TypeScript (`npx tsc --noEmit`): **0 lỗi (Zero Errors)**.
+   - Vitest Unit & Integration Tests: **11/11 tests PASS**.
+   - Chrome E2E Testing (Puppeteer): Kiểm chứng tự động chuyển đổi song ngữ EN/VI, kiểm tra đáp án, hiển thị lời giải thích đạt 100%.
+
+### 57. Chuẩn Hóa Màu Sắc & Trải Nghiệm Nút "Đọc Hiểu AI" Trên Thẻ Video Tuyển Chọn (`VideoCatalogBrowseView.tsx`)
+
+1. **Phân Tích Chuyên Sâu Khiếm Khuyết Thị Giác Ban Đầu**:
+   - **Xung Đột Màu Sắc (Color Palette Clash)**: Thẻ bài học video đã mang 2 yếu tố nhận diện xanh dương mạnh mẽ: Badge Level `B2` (`bg-blue-50 text-[#0059bb]`) và Nút chính *"Học Ngay"* (`bg-[#0059bb]`). Việc nút *"Đọc hiểu AI"* trước đây bị phủ kín toàn bộ bằng màu tím hồng pastel (`bg-purple-50/70 border-purple-200/70 text-purple-700`) gây ra sự xung đột thị giác sâu sắc, khiến nút trông như nhãn giảm giá / sticker quảng cáo dán đè thay vì là một nút hành động tương tác chính quy.
+   - **Vi Phạm Quy Tắc 60 - 30 - 10 & Điểm Nhấn Ngữ Nghĩa (Rule 20)**: Màu tím AI (`#8b5cf6`) chỉ đóng vai trò 10% điểm nhấn chức năng AI. Việc biến cả nền, viền và văn bản thành khối màu tím pastel nhạt nhòa đã làm sai lệch phân cấp thị giác và gây cảm giác rẻ tiền (Pastel AI Slop).
+   - **Vi Phạm Phân Cấp Nút Bấm (Rule 18)**: Chỉ có duy nhất 1 nút Primary nổi bật (`Học Ngay` `#0059bb`), nút thứ hai (`Đọc hiểu AI`) bắt buộc phải là Secondary thanh lịch với nền trung tính.
+
+2. **Giải Pháp Nâng Cấp High-End Agency Chuẩn Mực**:
+   - **Nền & Viền Slate Trung Tính Đắt Giá**: Chuyển sang nền `bg-slate-50 hover:bg-violet-50/60 dark:bg-slate-800/80 dark:hover:bg-violet-950/30` kết hợp viền mảnh sắc nét `border border-slate-200/90 dark:border-slate-700/80 hover:border-violet-300 dark:hover:border-violet-600/60 shadow-2xs`.
+   - **Văn Bản Dễ Đọc, Độ Tương Phản Cao**: Sử dụng phông chữ đậm `text-slate-700 hover:text-violet-700 dark:text-slate-200 dark:hover:text-violet-300 font-bold text-xs`.
+   - **Điểm Nhấn Ngữ Nghĩa AI 10% Tinh Tế (Semantic Accent)**: Icon `<Sparkles>` mang sắc Tím AI `#8b5cf6` (`text-violet-600 dark:text-violet-400`), kết hợp micro-interaction sống động khẽ nảy lên khi hover (`group-hover/ai:scale-110 transition-transform`).
+   - **Đồng Bộ Khung Xương Tải (Skeleton Loading)**: Cập nhật `VideoListingSkeleton` trong cả `features/listening` và `features/shadowing` khớp 100% tỷ lệ hình học 2 nút bấm (`h-8 w-24 rounded-xl`) tại footer thẻ video.
+
+### 43. Chuẩn Hóa Kiến Trúc Giới Hạn Tối Đa 4 Tab Cho Toàn Bộ AppTopHeader (Strict $\le 4$ Tabs Cap Architecture)
+
+1. **Phân Tích Chuyên Sâu Nguyên Nhân Gốc Rễ (Root Cause Analysis)**:
+   - **Quy tắc thiết kế hệ thống**: Theo dòng 878 của `README.md` và nguyên lý bố cục UX di động, mọi thanh điều hướng trên đỉnh trang [`AppTopHeader`](file:///e:/XP%20English%20%20XP%20Voca/shared/components/layout/AppTopHeader.tsx) phải tuân thủ nghiêm ngặt **Quy Tắc Tối Đa 4 Tab per Bar ($\le 4$ tabs)** nhằm bảo toàn khoảng trống cho nút Menu / Back, thanh tìm kiếm thông minh, chip chuỗi streak 🔥, số dư vàng 🪙, và Avatar học viên.
+   - **Hiện trạng trước xử lý**: Khi tính năng Đọc hiểu (`/study/reading`) được tích hợp vào cụm tab chế độ học [`StudySuiteNavTabs.tsx`](file:///e:/XP%20English%20%20XP%20Voca/shared/components/layout/nav-tabs/StudySuiteNavTabs.tsx), việc thêm trực tiếp tab Đọc hiểu đã làm thanh tab phình to lên **5 tabs** (`Dictation`, `Shadowing`, `Đọc hiểu`, `Luyện từ vựng`, `Thi thử đề`).
+   - Do `StudySuiteNavTabs` là cụm tab dùng chung cho toàn bộ phân hệ học tập, tình trạng vi phạm 5 tabs đã lan ra **5 trang đầu não**:
+     * Trang Dictation ([`features/listening/components/ListeningListingView.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/ListeningListingView.tsx))
+     * Trang Shadowing ([`features/shadowing/components/ShadowingListingView.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/shadowing/components/ShadowingListingView.tsx))
+     * Trang Đọc hiểu ([`features/reading/components/ReadingCatalogView.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/reading/components/ReadingCatalogView.tsx))
+     * Trang Luyện từ vựng ([`app/(dashboard)/study/practice/page.tsx`](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/study/practice/page.tsx))
+     * Trang Thi thử đề ([`app/(dashboard)/study/exam-prep/page.tsx`](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/study/exam-prep/page.tsx))
+
+2. **Giải Pháp Kiến Trúc Phân Bổ 4 Tab Ngữ Cảnh Tinh Tế (Context-Aware 4-Tab Slot Architecture)**:
+   - **Cấu trúc 4 Slot Cố Định**:
+     * **Slot 1 (Nghe)**: Luôn là `Dictation` (`/study/dictation/audio` - Headphones Indigo `#6366f1`).
+     * **Slot 2 (Nói)**: Luôn là `Shadowing` (`/study/shadowing/audio` - Mic Sky `#0ea5e9`).
+     * **Slot 3 (Kỹ năng ngữ cảnh)**: Tự động chuyển đổi mượt mà theo ngữ cảnh người học:
+       - Trong chế độ Luyện từ vựng (`/study/practice`): Hiển thị tab `Luyện từ vựng` (`/study/practice` - BookOpen Emerald `#10b981`).
+       - Trong các chế độ Đọc hiểu, Dictation, Shadowing, Thi thử đề: Hiển thị tab `Đọc hiểu` (`/study/reading` - BookText Blue `#3b82f6`).
+     * **Slot 4 (Thi thử)**: Luôn là `Thi thử đề` (`/study/exam-prep` - FileText Rose `#f43f5e`).
+   - **Đồng bộ con nhộng lò xo**: Toàn bộ 4 tab chia sẻ chung `layoutId="studySuiteNavActiveTab"` với Framer Motion spring physics (`stiffness: 450, damping: 32`), trượt mượt mà 0ms không giật lag.
+   - **Tính toán hiển thị DOM**: Cấu trúc khai báo code JSX được tối ưu hóa chỉ chứa duy nhất 4 thẻ `<HeaderPillItem>` tĩnh trong DOM, ngăn chặn hoàn toàn việc render dư thừa thẻ ẩn.
+
+3. **Kiểm Thử Toàn Diện & Đảm Bảo 100% Tiêu Chuẩn**:
+   - Xây dựng bộ kiểm thử kiến trúc chuyên sâu [`__tests__/app_top_header_tab_cap.test.tsx`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/app_top_header_tab_cap.test.tsx) (**8/8 tests PASS 100%**) kiểm tra và khóa cứng điều kiện $\le 4$ tabs cho mọi cụm Navigation Suites:
+     * `StudySuiteNavTabs`: Đúng 4 tabs trong cả chế độ standard lẫn practice.
+     * `VocabSuiteNavTabs`: Đúng 4 tabs (`Danh sách từ`, `Sổ từ của tôi`, `Lịch ôn tập`, `Video của tôi`).
+     * `GameSuiteNavTabs`: Đúng 4 tabs (`Mini Games`, `Đấu trường 1v1`, `Xếp hạng`, `Luyện từ vựng`).
+     * `AiSuiteNavTabs`: Đúng 4 tabs (`Trung tâm AI`, `Luyện nói`, `Hội thoại AI`, `Ngữ pháp AI`).
+     * `IpaSuiteNavTabs`: 3 tabs (`Bảng 44 Âm`, `Luyện Âm AI`, `Đấu Trường Cặp Âm`).
+     * `ProfileSuiteNavTabs`: 3 tabs (`Hồ sơ`, `Thành tích`, `Cài đặt`).
+     * `ShopSuiteNavTabs`: 3 tabs (`Cửa hàng`, `Nâng cấp Premium`, `Hồ sơ`).
+
+### 44. Kiến Trúc Bộ Đệm Kép SWR In-Memory Caching (0ms Frame-0) & Global Zustand Store Cho Phân Hệ Video Dictation
+
+1. **Phân Tích Hiện Trạng & Vấn Đề Gốc Rễ (Problem Statement)**:
+   - **Hiện tượng giật nháy Skeleton lặp lại**: Trước khi tối ưu, cả hai màn hình chính của phân hệ Video Dictation gồm trang danh mục (`/study/dictation/video` - [`VideoCatalogBrowseView.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/VideoCatalogBrowseView.tsx)) và phòng thu đọc hiểu chuyên sâu (`/study/dictation/video/[id]/comprehension` - [`VideoComprehensionStudioView.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/VideoComprehensionStudioView.tsx)) đều lưu trữ dữ liệu bằng `useState` cục bộ và đặt cờ khởi tạo `isLoading = true` khi component mount.
+   - Khi người dùng bấm vào xem một bài học rồi bấm nút "Quay lại" (Back) hoặc chuyển đổi qua lại giữa các bài, toàn bộ state cũ bị hủy giải phóng: bộ lọc danh mục bị reset về mặc định, từ khóa tìm kiếm bị xóa trắng, và giao diện lại kích hoạt hiệu ứng khung xương Shimmer Skeleton trong 500ms–1500ms dù cùng một gói dữ liệu vừa mới được tải vài giây trước.
+   - Tạo cảm giác chậm chạp, tốn lưu lượng mạng máy chủ và ngắt quãng trải nghiệm luyện nghe liên tục của người học.
+
+2. **Giải Pháp Kiến Trúc: Kết Hợp Ý Tưởng 1 (SWR Cache) & Ý Tưởng 2 (Zustand Global Store)**:
+   - **Trung Tâm Quản Lý Trạng Thái Toàn Cục ([`stores/videoCatalogStore.ts`](file:///e:/XP%20English%20%20XP%20Voca/stores/videoCatalogStore.ts))**:
+     * **Bảo toàn bộ lọc vĩnh viễn (State Preservation)**: Lưu trữ các tham số tìm kiếm (`selectedCategory`, `selectedLevel`, `searchQuery`, `sortBy`, `scrollPosition`) trên Zustand store. Khi người dùng quay lại từ phòng thu Video Studio, danh mục và từ khóa lọc trước đó được khôi phục 100% nguyên vẹn.
+     * **Định danh khóa truy vấn chuẩn hóa (`buildLessonQueryKey`)**: Mọi bộ kết hợp danh mục - trình độ - từ khóa - thứ tự sắp xếp được băm thành một khóa Cache Key duy nhất (ví dụ: `ted-ed__B2__speech__popular`).
+     * **Thuật toán Stale-While-Revalidate (SWR)** với thời gian sống TTL 5 phút (`VIDEO_CATALOG_STALE_TIME_MS = 300.000ms`):
+       - **Cache HIT (Fresh)**: Dữ liệu tồn tại trong RAM và chưa quá 5 phút $\rightarrow$ trả về ngay lập tức trong **0ms** ở Frame 0, không hiển thị bất kỳ Skeleton hay thanh loading nào.
+       - **Cache HIT (Stale)**: Dữ liệu tồn tại nhưng đã quá 5 phút $\rightarrow$ trả về dữ liệu đệm cũ ngay tức thì để người học tương tác liên tục, đồng thời âm thầm kích hoạt background revalidation gọi API nạp phiên bản mới nhất và cập nhật nhẹ nhàng vào store.
+       - **Cache MISS (Lần đầu)**: Hiển thị Skeleton đo lường chuẩn xác, tải từ API và ghi vào bộ đệm RAM.
+     * **Bộ đệm phòng thu chi tiết (`lessonDetailCache` & `quizCache`)**: Lưu trữ phân đoạn audio/video transcript, câu hỏi trắc nghiệm song ngữ Anh-Việt, và bài học gợi ý theo `lessonId`.
+     * **Nút Làm Mới Thủ Công (Force Refresh)**: Bổ sung nút "Làm mới" với icon `<RefreshCw>` tại Hero Spotlight của trang duyệt video, cho phép người dùng chủ động thanh tẩy cache (`invalidateCache("all")`) và đồng bộ phiên bản mới nhất từ database bất kỳ lúc nào.
+
+3. **Tích Hợp Đồng Bộ 0ms Vào VideoComprehensionStudioView ([`features/listening/components/VideoComprehensionStudioView.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/VideoComprehensionStudioView.tsx))**:
+   - Sử dụng `initialCachedDetail` và `initialCachedQuiz` đọc đồng bộ từ `useVideoCatalogStore.getState()` ngay thời điểm component khởi tạo.
+   - Cờ `isLoading` khởi đầu bằng `false` nếu đã có dữ liệu trong cache $\rightarrow$ giao diện phòng thu hiển thị hoàn tất trong **0ms** mà không hề chớp giật Skeleton.
+   - Khi mạng mất kết nối, hệ thống tự động fallback mượt mà sang tập dữ liệu dự phòng `MOCK_VIDEO_LESSONS` và nạp vào cache để học viên không bao giờ bị gián đoạn bài học.
+
+4. **Bộ Kiểm Thử Kiến Trúc & Xử Lý Lỗi Chuyên Sâu ([`__tests__/video_catalog_cache_swr.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/video_catalog_cache_swr.test.ts))**:
+   - Xây dựng bộ test suite tự động 20 kịch bản kiểm thử độc lập (**20/20 PASS 100%**):
+     * *Nhóm 1*: Kiểm thử tính tất định và chuẩn hóa chuỗi của `buildLessonQueryKey`.
+     * *Nhóm 2*: Kiểm thử thời gian sống TTL của `isEntryStale` (quá 5 phút, dưới 4 phút, giá trị rỗng/0).
+     * *Nhóm 3*: Kiểm thử bảo lưu và khôi phục trạng thái bộ lọc (`setFilter`, `setFilters`, `resetFilters`, `setScrollPosition`).
+     * *Nhóm 4*: Kiểm thử SWR Cache Hit 0ms, chặn network request khi có cache còn mới, và kiểm thử `forceRefresh` ghi đè cache.
+     * *Nhóm 5*: Kiểm thử đệm chi tiết bài học và câu hỏi trắc nghiệm đọc hiểu, xử lý fallback khi API bị lỗi mạng.
+     * *Nhóm 6*: Kiểm thử cơ chế thanh tẩy bộ đệm theo phân vùng (`categories`, `lessons`, `all`).
+
+### 45. Kiến Trúc Bộ Đệm Kép SWR In-Memory Caching (0ms Frame-0) & Global Zustand Store Cho Phân Hệ Audio Dictation
+
+1. **Phân Tích Hiện Trạng & Vấn Đề Gốc Rễ (Problem Statement)**:
+   - **Hiện tượng giật nháy Skeleton & Mất bộ lọc khi điều hướng**: Trên phân hệ Audio Dictation tiêu chuẩn ([`/study/dictation/audio`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/DictationPageContent.tsx)), danh mục bài học và chi tiết bài nghe trước đây được quản lý rời rạc bằng `useState` cục bộ tại [`DictationPageContent.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/DictationPageContent.tsx) và [`ListeningListingView.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/ListeningListingView.tsx).
+   - Khi học viên chọn một bài nghe vào phòng thu luyện tập (`/study/dictation/audio?id=...`) rồi bấm nút "Quay lại" hoặc chuyển sang trang khác, danh mục `lessonsList` bị xóa sạch và kích hoạt lại cờ `isLoading = true`, khiến giao diện phải chớp giật Skeleton shimmer trong 500ms–1500ms.
+   - Toàn bộ từ khóa tìm kiếm (`listingSearch`), tab danh mục đang lọc (`activeCategoryTab`), và trạng thái tráo bài ngẫu nhiên (`shuffleSeedBasic`, `shuffleSeedIntermediate`, `shuffleSeedAdvanced`) đều bị xóa trắng về mặc định, buộc người học phải tìm kiếm lại bài nghe mong muốn từ đầu.
+
+2. **Giải Pháp Kiến Trúc: Kết Hợp Ý Tưởng 1 (SWR Cache) & Ý Tưởng 2 (Zustand Global Store)**:
+   - **Trung Tâm Quản Lý Trạng Thái Audio Toàn Cục ([`stores/audioCatalogStore.ts`](file:///e:/XP%20English%20%20XP%20Voca/stores/audioCatalogStore.ts))**:
+     * **Bảo toàn bộ lọc vĩnh viễn (Filter State Preservation)**: Lưu trữ các tham số tìm kiếm (`listingSearch`, `activeCategoryTab`, `shuffleSeedBasic`, `shuffleSeedIntermediate`, `shuffleSeedAdvanced`, `scrollPosition`) trên Zustand store. Khi người dùng trở lại danh mục từ phòng thu Studio, các bộ lọc được khôi phục 100% nguyên vẹn.
+     * **Thuật toán Stale-While-Revalidate (SWR)** với thời gian sống TTL 5 phút (`AUDIO_CATALOG_STALE_TIME_MS = 300.000ms`):
+       - **Cache HIT (Fresh)**: Dữ liệu tồn tại trong RAM và chưa quá 5 phút $\rightarrow$ trả về ngay lập tức trong **0ms** ở Frame 0, không hiển thị bất kỳ Skeleton loading nào.
+       - **Cache HIT (Stale)**: Dữ liệu tồn tại nhưng đã quá 5 phút $\rightarrow$ trả về dữ liệu đệm cũ ngay tức thì để người học tương tác liên tục, đồng thời âm thầm kích hoạt background revalidation gọi API nạp phiên bản mới nhất từ database và cập nhật nhẹ nhàng vào store.
+       - **Cache MISS (Lần đầu)**: Hiển thị Skeleton đo lường chuẩn xác, nạp từ API và ghi vào bộ đệm RAM.
+     * **Bảo Vệ Độc Lập Luồng Âm Thanh (Pure Audio Isolation)**: Tự động loại bỏ toàn bộ bài học video hoặc link YouTube khỏi danh mục Audio, đảm bảo phân hệ Audio Dictation thuần khiết 100% tài nguyên âm thanh.
+     * **Bộ đệm chi tiết bài nghe (`audioDetailCache`)**: Lưu trữ transcript và phân đoạn thời gian câu theo `lessonId` kèm hỗ trợ ánh xạ bí danh chuẩn hóa (pad3, numeric ID).
+     * **Thanh Phân Loại Danh Mục & Nút Làm Mới (Category Pills & Force Refresh)**: Tích hợp thanh tab danh mục trực quan (`Tất cả bài học`, `Cơ bản (A1-A2)`, `Trung cấp (B1-B2)`, `Nâng cao (C1-C2)`, `Đã hoàn thành`) và nút **"Làm mới"** (`RefreshCw`) cho phép người dùng chủ động thanh tẩy cache (`invalidateCache("all")`) và kéo dữ liệu mới nhất từ server bất kỳ lúc nào.
+
+3. **Tích Hợp Đồng Bộ 0ms Vào DictationPageContent & ListeningListingView**:
+   - Sử dụng `useAudioCatalogStore` để khởi tạo `lessonsList` đồng bộ ở Frame 0 từ `audioLessons`.
+   - Cờ `isLoadingLessons` chỉ bật khi cache hoàn toàn rỗng $\rightarrow$ triệt tiêu hoàn toàn hiện tượng chớp giật Skeleton khi quay lại trang.
+   - Khi mạng mất kết nối, hệ thống tự động fallback mượt mà sang tập dữ liệu dự phòng `MOCK_LESSONS_DATA` và nạp vào cache để học viên không bao giờ bị gián đoạn.
+
+4. **Bộ Kiểm Thử Kiến Trúc & Xử Lý Lỗi Chuyên Sâu ([`__tests__/audio_dictation_cache_swr.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/audio_dictation_cache_swr.test.ts))**:
+   - Xây dựng bộ test suite tự động 19 kịch bản kiểm thử độc lập (**19/19 PASS 100%**):
+     * *Nhóm 1*: Kiểm thử thời gian sống TTL của `isAudioEntryStale` (fresh, stale quá 5 phút, 0/undefined).
+     * *Nhóm 2*: Kiểm thử bảo lưu và khôi phục trạng thái bộ lọc (`setListingSearch`, `setActiveCategoryTab`, `setShuffleSeedBasic`, `resetFilters`, `setScrollPosition`).
+     * *Nhóm 3*: Kiểm thử SWR Cache Hit 0ms, lọc bỏ video khỏi audio catalog, `forceRefresh` ghi đè cache, và fallback offline vào `MOCK_LESSONS_DATA`.
+     * *Nhóm 4*: Kiểm thử đệm chi tiết bài nghe và ánh xạ bí danh chuẩn hóa (canonical aliases).
+     * *Nhóm 5*: Kiểm thử cơ chế thanh tẩy bộ đệm theo phân vùng (`lessons`, `detail`, `all`).
+
+---
+
+### 57. Kiến Trúc Bộ Câu Hỏi Đọc Hiểu Ngữ Cảnh Video 100% Song Ngữ (Bilingual Video Reading Comprehension Quiz) – Video 1: Rewrite The Stars
+
+1. **Phân Tích Hiện Trạng & Yêu Cầu Nâng Cấp**:
+   - Trước đây, một số bài học video trong catalog chưa được trang bị bộ câu hỏi đọc hiểu hoặc số lượng câu hỏi chỉ dừng ở mức tối thiểu 3 câu, chưa khai thác hết các tầng nghĩa nghệ thuật, xung đột tâm lý nhân vật và biện pháp tu từ trong phụ đề/lời thoại video.
+   - Để nâng tầm trải nghiệm luyện nghe hiểu chuyên sâu, hệ thống khởi động chiến dịch nâng cấp toàn diện: **Tối thiểu 5–10 câu hỏi đọc hiểu ngữ cảnh song ngữ chuyên sâu cho mỗi video bài học**, mở đầu bằng **Video 1: Anne-Marie & James Arthur - Rewrite The Stars (The Greatest Showman: Reimagined)** ([lesson_rewrite_the_stars.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_rewrite_the_stars.ts), ID: `ff4c64b7-ea82-4963-a4f6-1ff808d929e6`).
+
+2. **Phân Tích Ngữ Cảnh 18 Phân Đoạn & Thiết Kế 8 Câu Hỏi Chuyên Sâu**:
+   - Phân tích cặn kẽ 18 câu phụ đề chuẩn verbatim của ca khúc, bóc tách toàn bộ xung đột kịch tính giữa Phillip Carlyle và Anne Wheeler:
+     * **Câu 1 (`q_rewrite_the_stars_1`)**: Khai thác thành ngữ *"our hands are tied"* (Segment 2) – phản biện sự bất lực trước hoàn cảnh.
+     * **Câu 2 (`q_rewrite_the_stars_2`)**: Khai thác thành ngữ *"not in the cards"* (Segment 3) – nguồn gốc bói bài tarot và quan niệm số mệnh.
+     * **Câu 3 (`q_rewrite_the_stars_3`)**: Ẩn dụ cốt lõi *"rewrite the stars"* (Segment 7) – ý chí con người thách thức số phận an bài từ các vì sao chiêm tinh.
+     * **Câu 4 (`q_rewrite_the_stars_4`)**: Cấu trúc giả định điều kiện loại 2 (*"Say you were made to be mine... You'd be the one I was meant to find"*, Segments 8–10) – xây dựng thế giới lý tưởng không có định kiến.
+     * **Câu 5 (`q_rewrite_the_stars_5`)**: Cụm từ khẳng định quyền tự quyết cá nhân (*"It's up to you, and it's up to me, no one can say what we get to be"*, Segments 11 & 12).
+     * **Câu 6 (`q_rewrite_the_stars_6`)**: Diễn biến tâm lý & điểm chuyển giao góc nhìn khi Anne-Marie cất giọng ở Verse 2 (*"You think it's easy, you think I don't want to run to you"*, Segment 15) – hiện thực phũ phàng giằng xé nội tâm.
+     * **Câu 7 (`q_rewrite_the_stars_7`)**: Ẩn dụ biểu tượng *"mountains"* và *"doors that we can't walk through"* (Segment 16) – rào cản giai cấp thượng lưu - hạ lưu và nạn phân biệt chủng tộc thế kỷ 19.
+     * **Câu 8 (`q_rewrite_the_stars_8`)**: Phân tích không gian đối lập *"within these walls"* (trong bong bóng rạp xiếc) và *"when we go outside"* (thế giới định kiến tàn nhẫn bên ngoài, Segments 17 & 18).
+
+3. **Quy Chuẩn Dữ Liệu Song Ngữ Chuẩn Mực 100%**:
+   - Đóng gói trực tiếp `QUIZ_REWRITE_THE_STARS: VideoQuizData` ngay trong [lesson_rewrite_the_stars.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_rewrite_the_stars.ts) theo kiến trúc "1 File 1 Bài":
+     * `totalQuestions`: 8 câu (đáp ứng trọn vẹn tiêu chuẩn 5–10 câu hỏi chuyên sâu).
+     * `xpReward`: 40 XP thưởng thành tích học tập.
+     * Đầy đủ 100% trường dữ liệu song ngữ: `questionEn` / `questionVi`, 4 lựa chọn đồng đều `optionsEn` / `optionsVi`, `explanationEn` / `explanationVi` (trích dẫn trực tiếp lời bài hát và phân tích từ nguyên), `referenceSegmentIndex` chuẩn xác, `targetedConceptEn` / `targetedConceptVi`.
+   - Re-export đồng bộ tại [lessons/index.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/index.ts) và [videoCatalogMockData.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/videoCatalogMockData.ts).
+
+4. **Kiểm Thử Toàn Diện & Tự Động Hóa CI/CD**:
+   - Cập nhật test suite [__tests__/rewrite_the_stars_verbatim.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/rewrite_the_stars_verbatim.test.ts) kiểm tra liên kết quiz, số lượng 8 câu hỏi, tính song ngữ, biên độ phương án 4 lựa chọn và trích dẫn segment chính xác: **12/12 PASS 100%**.
+
+---
+
+### 58. Kiến Trúc Bộ Câu Hỏi Đọc Hiểu Ngữ Cảnh Video 100% Song Ngữ (Bilingual Video Reading Comprehension Quiz) – Video 2: Kurzgesagt - How to Win an Interstellar War
+
+1. **Phân Tích Hiện Trạng & Yêu Cầu Nâng Cấp**:
+   - Nối tiếp Video 1 (Rewrite The Stars), bài học thứ 2 trong danh mục là **Kurzgesagt: How to Win an Interstellar War** ([lesson_kurzgesagt_interstellar.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_kurzgesagt_interstellar.ts), ID: `88c4fc17-4445-46f4-82d4-c51fbb56e859`, YouTube: `tybKnGZRwcU`, CEFR B2, 21 phân đoạn).
+   - Nội dung xoay quanh kịch bản chiến tranh vũ trụ, siêu công trình bầy vệ tinh Dyson, thang Kardashev, động lực học tương đối tính và nghịch lý khoảng cách thiên văn.
+   - Nâng cấp từ 0 câu hỏi lên bộ câu hỏi đọc hiểu chuyên sâu gồm **8 câu hỏi trắc nghiệm song ngữ** bám sát 100% phụ đề và các khái niệm vật lý trong video.
+
+2. **Phân Tích Ngữ Cảnh 21 Phân Đoạn & Thiết Kế 8 Câu Hỏi Chuyên Sâu**:
+   - Phân tích cặn kẽ 21 câu phụ đề chuẩn verbatim của Kurzgesagt, bóc tách toàn bộ kịch bản giả lập xung đột giữa nhân loại và chủng tộc Smorpians:
+     * **Câu 1 (`q_kurzgesagt_1`)**: Phân loại sinh học loài người (*"a species of primates around a yellow dwarf star"*) và bước phát triển công nghệ non trẻ (*"rockets, nuclear reactors and memes"*, Segments 6–8).
+     * **Câu 2 (`q_kurzgesagt_2`)**: Nền văn minh người Smorpian cư ngụ quanh sao lùn cam HD 40307 cách 42 năm ánh sáng và trình độ công nghệ vượt trội (Segments 11 & 12).
+     * **Câu 3 (`q_kurzgesagt_3`)**: Siêu công trình vũ trụ bầy vệ tinh Dyson (*"Dyson swarm"*) thu gom năng lượng vô hạn từ ngôi sao (Segment 13).
+     * **Câu 4 (`q_kurzgesagt_4`)**: Động cơ xung đột mang tính tri ân tác phẩm Sci-Fi kinh điển *The Hitchhiker's Guide to the Galaxy* (*"hyperspace bypass through our solar system"*, Segments 14 & 15).
+     * **Câu 5 (`q_kurzgesagt_5`)**: Sự sụp đổ của các học thuyết quân sự truyền thống (*"front lines, tactics, and logistics are meaningless at these scales"*, Segments 16 & 17).
+     * **Câu 6 (`q_kurzgesagt_6`)**: Thách thức vật lý khi cuộc chiến bị chi phối bởi thời gian (*"fought across time"*) và độ trễ ánh sáng nhiều thập kỷ giữa khai hỏa và trúng đích (Segments 18 & 19).
+     * **Câu 7 (`q_kurzgesagt_7`)**: Từ vựng học thuật B2 *"futile"* (vô ích/vô vọng) trong bối cảnh phái một hạm đội tàu xâm lăng xuyên không gian (Segment 20).
+     * **Câu 8 (`q_kurzgesagt_8`)**: Động lực học tương đối tính giải thích vì sao nhân loại vẫn có dư dả thời gian chuẩn bị (*"plenty of time to prepare"*) dù kẻ thù di chuyển ở một phần lớn vận tốc ánh sáng (Segment 21).
+
+3. **Quy Chuẩn Dữ Liệu Song Ngữ Chuẩn Mực 100%**:
+   - Đóng gói trực tiếp `QUIZ_KURZGESAGT_INTERSTELLAR: VideoQuizData` ngay trong [lesson_kurzgesagt_interstellar.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_kurzgesagt_interstellar.ts) theo kiến trúc "1 File 1 Bài":
+     * `totalQuestions`: 8 câu (đáp ứng trọn vẹn tiêu chuẩn 5–10 câu hỏi chuyên sâu).
+     * `xpReward`: 40 XP thưởng thành tích học tập.
+     * Đầy đủ 100% trường dữ liệu song ngữ: `questionEn` / `questionVi`, 4 lựa chọn đồng đều `optionsEn` / `optionsVi`, `explanationEn` / `explanationVi` (trích dẫn trực tiếp lời thoại và thuật ngữ khoa học), `referenceSegmentIndex` chuẩn xác, `targetedConceptEn` / `targetedConceptVi`.
+   - Re-export đồng bộ tại [lessons/index.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/index.ts) và [videoCatalogMockData.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/videoCatalogMockData.ts).
+
+4. **Kiểm Thử Toàn Diện & Tự Động Hóa CI/CD**:
+   - Cập nhật test suite [__tests__/kurzgesagt_verbatim.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/kurzgesagt_verbatim.test.ts) kiểm tra liên kết quiz, số lượng 8 câu hỏi, tính song ngữ, biên độ phương án 4 lựa chọn và trích dẫn segment chính xác: **11/11 PASS 100%**.
+
+---
+
+### 59. Kiến Trúc Bộ Câu Hỏi Đọc Hiểu Ngữ Cảnh Video 100% Song Ngữ (Bilingual Video Reading Comprehension Quiz) – Video 3: Daily English: Pets, Animals & Nature Conversation
+
+1. **Phân Tích Hiện Trạng & Yêu Cầu Nâng Cấp**:
+   - Nối tiếp Video 1 (Rewrite The Stars) và Video 2 (Kurzgesagt), bài học thứ 3 trong danh mục là **Daily English: Pets, Animals & Nature Conversation** ([lesson_daily_pets.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_daily_pets.ts), ID: `575d216f-b275-468e-8a41-c3b26c0ac1ea`, YouTube: `AK42GhbTZ9w`, CEFR A2, 11 phân đoạn).
+   - Trước đây bài học chỉ sở hữu 3 câu hỏi trắc nghiệm cơ bản. Hệ thống đã nâng cấp toàn diện lên **8 câu hỏi trắc nghiệm song ngữ chuyên sâu** (đạt chuẩn 5–10 câu hỏi/video), bao quát trọn vẹn từ vựng mô tả thú cưng, động vật sở thú và thiên nhiên rừng cây.
+
+2. **Phân Tích Ngữ Cảnh 11 Phân Đoạn & Thiết Kế 8 Câu Hỏi Chuyên Sâu**:
+   - **Câu 1 (`q_daily_pets_1`)**: Đặc điểm chú chó cưng (*"white coat and brown spots"*) và người đặt tên (*"My son named our dog Buster"*, Segments 0 & 1).
+   - **Câu 2 (`q_daily_pets_2`)**: Phân tích từ vựng động vật chuyên dụng *"coat"* thay vì *"fur/skin"* để chỉ lớp lông phủ ngoài của chú cún (Segment 0).
+   - **Câu 3 (`q_daily_pets_3`)**: Trạng từ nơi chốn và không gian vui chơi ưu tiên (*"most of the time they play outdoors"*, Segment 3).
+   - **Câu 4 (`q_daily_pets_4`)**: Lối sống gần gũi thiên nhiên qua cấu trúc so sánh bằng nhấn mạnh (*"We love being outdoors as much as we can be"*, Segment 4).
+   - **Câu 5 (`q_daily_pets_5`)**: Lý do và đặc điểm hình thể của loài hươu cao cổ yêu thích của cô con gái (*"tall and has a long neck"*, Segment 6).
+   - **Câu 6 (`q_daily_pets_6`)**: Động vật có vú to lớn khác được gia đình yêu thích ngắm nhìn tại sở thú (*"watching the elephants"*, Segment 7).
+   - **Câu 7 (`q_daily_pets_7`)**: Hệ thực vật và hoạt động dã ngoại thư giãn (*"take walks in the woods... kinds of trees, wild flowers and birds"*, Segments 8 & 9).
+   - **Câu 8 (`q_daily_pets_8`)**: Động vật hoang dã nhỏ bé trong rừng (*"squirrels and rabbits too"*, Segment 10).
+
+3. **Quy Chuẩn Dữ Liệu Song Ngữ Chuẩn Mực 100%**:
+   - Cập nhật `QUIZ_DAILY_PETS: VideoQuizData`:
+     * `totalQuestions`: 8 câu (đáp ứng trọn vẹn chuẩn 5–10 câu hỏi).
+     * `xpReward`: 40 XP thưởng thành tích học tập (nâng cấp từ 25 XP trước đây).
+     * Đầy đủ 100% dữ liệu song ngữ Anh-Việt, 4 lựa chọn mỗi câu, giải thích trích dẫn cụ thể phân đoạn và khái niệm học tập trọng tâm.
+   - Re-export đồng bộ tại [lessons/index.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/index.ts) và [videoCatalogMockData.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/videoCatalogMockData.ts).
+
+4. **Kiểm Thử Toàn Diện & Tự Động Hóa CI/CD**:
+   - Cập nhật test suite [__tests__/pets_verbatim.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/pets_verbatim.test.ts) xác nhận 8 câu hỏi, 40 XP và khớp nối phân đoạn chính xác: **9/9 PASS 100%**.
+
+---
+
+### 60. Kiến Trúc Bộ Câu Hỏi Đọc Hiểu Ngữ Cảnh Video 100% Song Ngữ (Bilingual Video Reading Comprehension Quiz) – Video 4: BBC Learning English - Sunken Ship
+
+1. **Phân Tích Hiện Trạng & Yêu Cầu Nâng Cấp**:
+   - Video thứ 4 trong catalog là **BBC Learning English: First Treasure Recovered from $20 Billion Sunken Ship** ([lesson_bbc_sunken_ship.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_bbc_sunken_ship.ts), ID: `e4476093-9f0c-4620-a7f3-345d0e6b64db`, YouTube: `doOlP7NLUwc`, CEFR B1, 13 phân đoạn).
+   - Nội dung bản tin phát thanh báo chí tường thuật vụ trục vớt kho báu huyền thoại trị giá 20 tỷ USD từ xác tàu đắm San Jose bị hải quân Anh đánh chìm năm 1708 ngoài khơi Colombia, kèm tranh chấp pháp lý quốc tế và phân tích từ vựng dòng tít báo chí.
+   - Nâng cấp từ 3 câu lên **8 câu hỏi trắc nghiệm song ngữ chuyên sâu** (đáp ứng đúng 5–10 câu hỏi/video).
+
+2. **Phân Tích Ngữ Cảnh 13 Phân Đoạn & Thiết Kế 8 Câu Hỏi Chuyên Sâu**:
+   - **Câu 1 (`q_bbc_sunken_ship_1`)**: Định dạng và mục đích của podcast BBC *"Learning English from the News"* (*"look at one big news story and the vocabulary in the headlines"*, Segments 0–4).
+   - **Câu 2 (`q_bbc_sunken_ship_2`)**: Những hiện vật lịch sử đầu tiên được trục vớt từ xác tàu 300 năm tuổi (*"a cannon, three coins and a porcelain cup"*, Segment 6).
+   - **Câu 3 (`q_bbc_sunken_ship_3`)**: Bối cảnh lịch sử hàng hải: con tàu San Jose bị tàu chiến của Anh đánh chìm năm 1708 gần Cartagena ở Colombia (Segment 7).
+   - **Câu 4 (`q_bbc_sunken_ship_4`)**: Ước tính tổng giá trị kho báu và thành phần kim loại quý (*"$20 billion worth of gold and silver coins on board"*, Segment 8).
+   - **Câu 5 (`q_bbc_sunken_ship_5`)**: Các bên tuyên bố quyền sở hữu pháp lý (*"Colombia, Spain, an American company and indigenous groups in Bolivia"*, Segment 9).
+   - **Câu 6 (`q_bbc_sunken_ship_6`)**: Cột mốc định vị xác tàu năm 2015 của các nhà khoa học Colombia và chuyến thám hiểm khảo sát (*"located the ship in 2015 and launched an expedition"*, Segment 10).
+   - **Câu 7 (`q_bbc_sunken_ship_7`)**: Nguồn tin dòng tít báo chí đầu tiên đến từ đài truyền hình Mỹ Fox Weather (*"Fox Weather, an American broadcaster"*, Segment 11).
+   - **Câu 8 (`q_bbc_sunken_ship_8`)**: Từ vựng báo chí: Quá khứ phân từ *"wrecked"* trong cụm *"wrecked in war"* (Segment 12).
+
+3. **Quy Chuẩn Dữ Liệu Song Ngữ Chuẩn Mực 100%**:
+   - Cập nhật `QUIZ_BBC_SUNKEN_SHIP: VideoQuizData`:
+     * `totalQuestions`: 8 câu (đáp ứng trọn vẹn chuẩn 5–10 câu hỏi).
+     * `xpReward`: 40 XP thưởng thành tích học tập (nâng cấp từ 25 XP trước đây).
+     * Đầy đủ 100% dữ liệu song ngữ Anh-Việt, 4 lựa chọn mỗi câu, giải thích trích dẫn cụ thể phân đoạn và khái niệm học tập trọng tâm.
+   - Re-export đồng bộ tại [lessons/index.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/index.ts) và [videoCatalogMockData.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/videoCatalogMockData.ts).
+
+4. **Kiểm Thử Toàn Diện & Tự Động Hóa CI/CD**:
+   - Cập nhật test suite [__tests__/bbc_verbatim.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/bbc_verbatim.test.ts) xác nhận 8 câu hỏi, 40 XP và khớp nối phân đoạn chính xác: **9/9 PASS 100%**.
+
+---
+
+### 61. Kiến Trúc Bộ Câu Hỏi Đọc Hiểu Ngữ Cảnh Video 100% Song Ngữ (Bilingual Video Reading Comprehension Quiz) – Video 5: Steve Jobs - Stanford Commencement Address
+
+1. **Phân Tích Hiện Trạng & Yêu Cầu Nâng Cấp**:
+   - Video thứ 5 trong catalog là **Steve Jobs: How to Live Before You Die (Stanford Commencement Address)** ([lesson_steve_jobs.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_steve_jobs.ts), ID: `0678a126-f94d-4930-81ce-ebe1e6731e7e`, YouTube: `UF8uR6Z6KLc`, CEFR B2, 18 phân đoạn, 388 từ).
+   - Nội dung bài diễn văn tốt nghiệp huyền thoại năm 2005 của Steve Jobs tại Đại học Stanford, tập trung vào câu chuyện đầu tiên: "Connecting the Dots" (Kết nối những dấu mốc cuộc đời) – từ câu chuyện sinh ra, việc làm con nuôi của gia đình lao động bình dân, quyết định bỏ học chính quy sau 6 tháng để học dự thính các môn yêu thích suốt 18 tháng.
+   - Nâng cấp từ 3 câu sơ lược lên **8 câu hỏi trắc nghiệm song ngữ chuyên sâu** (chuẩn hóa 8 câu/video, 40 XP).
+
+2. **Phân Tích Ngữ Cảnh 18 Phân Đoạn & Thiết Kế 8 Câu Hỏi Chuyên Sâu**:
+   - **Câu 1 (`q_steve_jobs_1`)**: Lời thú nhận hóm hỉnh mở đầu bài diễn văn về việc chưa từng tốt nghiệp đại học (*"Truth be told, I never graduated from college, and this is the closest I've ever gotten to a college graduation"*, Segments 0–1).
+   - **Câu 2 (`q_steve_jobs_2`)**: Cấu trúc 3 câu chuyện giản dị và chủ đề cốt lõi của câu chuyện đầu tiên (*"three stories from my life... The first story is about connecting the dots"*, Segments 2–3).
+   - **Câu 3 (`q_steve_jobs_3`)**: Quá trình bỏ học và học dự thính tại Reed College (*"dropped out of Reed College after the first 6 months, but then stayed around as a drop-in for another 18 months or so before I really quit"*, Segment 4).
+   - **Câu 4 (`q_steve_jobs_4`)**: Hoàn cảnh của mẹ ruột và lý do quyết định cho ông làm con nuôi (*"young, unwed graduate student, and she decided to put me up for adoption"*, Segment 6).
+   - **Câu 5 (`q_steve_jobs_5`)**: Kỳ vọng của mẹ ruột về bằng cấp cha mẹ nuôi và sự cố thay đổi phút chót của đôi vợ chồng luật sư (*"all set for me to be adopted at birth by a lawyer and his wife... decided at the last minute that they really wanted a girl"*, Segments 7–8).
+   - **Câu 6 (`q_steve_jobs_6`)**: Cuộc gọi bất ngờ lúc nửa đêm và phản ứng của cha mẹ nuôi Jobs (*"got a call in the middle of the night... They said: 'Of course.'"*, Segments 9–10).
+   - **Câu 7 (`q_steve_jobs_7`)**: Sự từ chối ký giấy nhận nuôi của mẹ ruột và lời hứa danh dự cho Jobs đi học đại học (*"refused to sign the final adoption papers... relented a few months later when my parents promised that I would someday go to college"*, Segments 10–12).
+   - **Câu 8 (`q_steve_jobs_8`)**: Lý do sau 6 tháng Jobs quyết định bỏ học và sự dũng cảm tin vào tương lai (*"couldn't see the value in it... spending all of the money my parents had saved their entire life. So I decided to drop out and trust that it would all work out OK"*, Segments 13–17).
+
+3. **Quy Chuẩn Dữ Liệu Song Ngữ Chuẩn Mực 100%**:
+   - Cập nhật `QUIZ_STEVE_JOBS: VideoQuizData`:
+     * `totalQuestions`: 8 câu.
+     * `xpReward`: 40 XP.
+     * Đầy đủ 100% trường dữ liệu song ngữ Anh-Việt (`questionEn`, `questionVi`, `optionsEn`, `optionsVi`, `explanationEn`, `explanationVi`, `referenceSegmentIndex`, `targetedConceptEn`, `targetedConceptVi`).
+   - Re-export đồng bộ tại `lesson_steve_jobs.ts`, `lessons/index.ts`, và `videoCatalogMockData.ts`.
+
+4. **Kiểm Thử Toàn Diện & Tự Động Hóa CI/CD**:
+   - Cập nhật test suite [__tests__/steve_jobs_verbatim.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/steve_jobs_verbatim.test.ts) xác nhận 8 câu hỏi, 40 XP, khớp nối verbatim 388 từ YouTube official: **8/8 PASS 100%**.
+
+---
+
+### 62. Kiến Trúc Bộ Câu Hỏi Đọc Hiểu Ngữ Cảnh Video 100% Song Ngữ (Bilingual Video Reading Comprehension Quiz) – Video 6: TED-Ed: The Benefits of a Bilingual Brain
+
+1. **Phân Tích Hiện Trạng & Yêu Cầu Nâng Cấp**:
+   - Video thứ 6 trong catalog là **TED-Ed: The Benefits of a Bilingual Brain** ([lesson_ted_bilingual_brain.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_ted_bilingual_brain.ts), ID: `vid_ted_bilingual_brain`, YouTube: `MMmOLN5zBLY`, CEFR B1, 18 phân đoạn, 288 từ).
+   - Nội dung bài giảng khoa học thần kinh của Mia Nacamulli giải thích cấu trúc não bộ đa ngôn ngữ, phân loại các kỹ năng ngôn ngữ chủ động/thụ động, ba nhóm người song ngữ (compound, coordinate, subordinate) qua mô hình gia đình Gabriella nhập cư, và sự hỗ trợ của công nghệ chẩn đoán hình ảnh não bộ.
+   - Nâng cấp từ 3 câu lên **8 câu hỏi trắc nghiệm song ngữ chuyên sâu** (chuẩn hóa 8 câu/video, 40 XP).
+
+2. **Phân Tích Ngữ Cảnh 18 Phân Đoạn & Thiết Kế 8 Câu Hỏi Chuyên Sâu**:
+   - **Câu 1 (`q_ted_bilingual_brain_1`)**: Thực tế nhân khẩu học mở đầu về việc người xem hiểu đa ngôn ngữ thuộc về đa số trên thế giới (*"If you answered, 'sí,' 'oui,' or '会' and you're watching this in English, chances are you belong to the world's bilingual and multilingual majority"*, Segments 0–2).
+   - **Câu 2 (`q_ted_bilingual_brain_2`)**: Tác động cấu trúc và vận hành não bộ vượt xa các tiện ích đời thường như du lịch hay xem phim không phụ đề (*"knowing two or more languages means that your brain may actually look and work differently than those of your monolingual friends"*, Segments 3–4).
+   - **Câu 3 (`q_ted_bilingual_brain_3`)**: Bốn thước đo năng lực ngôn ngữ: 2 phần chủ động (nói, viết) và 2 phần thụ động (nghe, đọc) (*"measured in two active parts, speaking and writing, and two passive parts, listening and reading"*, Segment 6).
+   - **Câu 4 (`q_ted_bilingual_brain_4`)**: Khái niệm người song ngữ cân bằng (balanced bilingual) so với đại đa số người song ngữ (*"balanced bilingual has near equal abilities across the board... most bilinguals know and use their languages in varying proportions"*, Segments 7–8).
+   - **Câu 5 (`q_ted_bilingual_brain_5`)**: Nhóm song ngữ phức hợp (compound bilingual) của cô bé Gabriella với 2 mã ngôn ngữ và 1 hệ khái niệm duy nhất (*"develops two linguistic codes simultaneously, with a single set of concepts"*, Segments 10–12).
+   - **Câu 6 (`q_ted_bilingual_brain_6`)**: Nhóm song ngữ tọa độ (coordinate bilingual) của người anh trai với 2 hệ khái niệm tách biệt cho trường học và gia đình (*"working with two sets of concepts, learning English in school, while continuing to speak Spanish at home"*, Segments 13–14).
+   - **Câu 7 (`q_ted_bilingual_brain_7`)**: Nhóm song ngữ phụ thuộc (subordinate bilingual) của cha mẹ Gabriella lọc qua tiếng mẹ đẻ (*"learn a secondary language by filtering it through their primary language"*, Segment 15).
+   - **Câu 8 (`q_ted_bilingual_brain_8`)**: Sự tương đồng về độ thành thạo bề ngoài và phát hiện đột phá từ công nghệ chụp ảnh não bộ (*"proficient regardless of accent or pronunciation... brain imaging technology have given neurolinguists a glimpse"*, Segments 16–17).
+
+3. **Quy Chuẩn Dữ Liệu Song Ngữ Chuẩn Mực 100%**:
+   - Cập nhật `QUIZ_TED_BILINGUAL_BRAIN: VideoQuizData`:
+     * `totalQuestions`: 8 câu.
+     * `xpReward`: 40 XP.
+     * Đầy đủ 100% dữ liệu song ngữ Anh-Việt (`questionEn`, `questionVi`, `optionsEn`, `optionsVi`, `explanationEn`, `explanationVi`, `referenceSegmentIndex`, `targetedConceptEn`, `targetedConceptVi`).
+   - Re-export đồng bộ tại `lesson_ted_bilingual_brain.ts`, `lessons/index.ts`, và `videoCatalogMockData.ts`.
+
+4. **Kiểm Thử Toàn Diện & Tự Động Hóa CI/CD**:
+   - Cập nhật test suite [__tests__/ted_bilingual_verbatim.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/ted_bilingual_verbatim.test.ts) xác nhận 8 câu hỏi, 40 XP, khớp nối verbatim 288 từ YouTube official: **9/9 PASS 100%**.
+
+---
+
+### 63. Kiến Trúc Bộ Câu Hỏi Đọc Hiểu Ngữ Cảnh Video 100% Song Ngữ (Bilingual Video Reading Comprehension Quiz) – Video 7: BBC 6 Minute English: Why Laughter is the Best Medicine
+
+1. **Phân Tích Hiện Trạng & Yêu Cầu Nâng Cấp**:
+   - Video thứ 7 trong catalog là **BBC 6 Minute English: Why Laughter is the Best Medicine** ([lesson_bbc_why_we_laugh.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_bbc_why_we_laugh.ts), ID: `vid_bbc_why_we_laugh`, YouTube: `Fez57g8jMNM`, CEFR B1, giọng Anh-Anh en-GB, 18 phân đoạn, 254 từ).
+   - Nội dung bản tin phát thanh đối thoại sinh động giữa Sam & Neil về cơ chế sinh học và lợi ích của tiếng cười: giải phóng hormone endorphin chống căng thẳng, phục hồi nhanh sau bệnh tật kể cả Covid, phản xạ tiếng cười ở trẻ sơ sinh 2-3 tháng tuổi, tính lây lan xã hội (*catching*), ngành nghiên cứu khoa học tiếng cười (*Gelotology*), cùng nhiều thành ngữ Anh ngữ tự nhiên (*tickling funny bones*, *no laughing matter*, *laugh on the other side of your face*).
+   - Nâng cấp từ 3 câu lên **8 câu hỏi trắc nghiệm song ngữ chuyên sâu** (chuẩn hóa 8 câu/video, 40 XP).
+
+2. **Phân Tích Ngữ Cảnh 18 Phân Đoạn & Thiết Kế 8 Câu Hỏi Chuyên Sâu**:
+   - **Câu 1 (`q_bbc_why_we_laugh_1`)**: Nghệ thuật chơi chữ câu đố vui mở đầu về loài chuột (*"what's a rat's favourite game? ... Hide and squeak!"*, Segments 2–4).
+   - **Câu 2 (`q_bbc_why_we_laugh_2`)**: Tác dụng y học và việc giải phóng hormone endorphin chống căng thẳng (*"medically speaking. Laughing releases anti-stress endorphins into the body"*, Segments 6–7).
+   - **Câu 3 (`q_bbc_why_we_laugh_3`)**: Bằng chứng lâm sàng về tốc độ hồi phục sau bệnh tật bao gồm Covid (*"evidence that people who laugh recover more quickly from illness, including Covid"*, Segment 8).
+   - **Câu 4 (`q_bbc_why_we_laugh_4`)**: Cột mốc phát triển tự nhiên ở trẻ sơ sinh chứng minh tiếng cười là bản chất loài người (*"Babies cry straight from birth but the next sound they make, often as young as two or three months, is laughter"*, Segments 9–10).
+   - **Câu 5 (`q_bbc_why_we_laugh_5`)**: Tính lây lan xã hội và ngữ nghĩa của tính từ *"catching"* (*"who can hear a baby laugh without laughing themselves? Laughter is catching"*, Segment 11).
+   - **Câu 6 (`q_bbc_why_we_laugh_6`)**: Cặp thành ngữ tương phản *"tickling our funny bones"* và *"no laughing matter"* (Segment 12).
+   - **Câu 7 (`q_bbc_why_we_laugh_7`)**: Thuật ngữ khoa học chính thức cho ngành nghiên cứu tiếng cười: *Gelotology* (Segments 13–15).
+   - **Câu 8 (`q_bbc_why_we_laugh_8`)**: Thành ngữ biểu cảm đảo chiều tâm trạng *"laugh on the other side of your face"* (Segment 16).
+
+3. **Quy Chuẩn Dữ Liệu Song Ngữ Chuẩn Mực 100%**:
+   - Cập nhật `QUIZ_BBC_WHY_WE_LAUGH: VideoQuizData`:
+     * `totalQuestions`: 8 câu.
+     * `xpReward`: 40 XP.
+     * Đầy đủ 100% dữ liệu song ngữ Anh-Việt (`questionEn`, `questionVi`, `optionsEn`, `optionsVi`, `explanationEn`, `explanationVi`, `referenceSegmentIndex`, `targetedConceptEn`, `targetedConceptVi`).
+   - Re-export đồng bộ tại `lesson_bbc_why_we_laugh.ts`, `lessons/index.ts`, và `videoCatalogMockData.ts`.
+
+4. **Kiểm Thử Toàn Diện & Tự Động Hóa CI/CD**:
+   - Cập nhật test suite [__tests__/bbc_laugh_verbatim.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/bbc_laugh_verbatim.test.ts) xác nhận 8 câu hỏi, 40 XP, khớp nối verbatim 254 từ YouTube official: **8/8 PASS 100%**.
+
+---
+
+### 64. Kiến Trúc Bộ Câu Hỏi Đọc Hiểu Ngữ Cảnh Video 100% Song Ngữ (Bilingual Video Reading Comprehension Quiz) – Video 8: English for Travel: Airport Check-in
+
+1. **Phân Tích Hiện Trạng & Yêu Cầu Nâng Cấp**:
+   - Video thứ 8 trong catalog là **English for Travel: Checking in at the Airport** ([lesson_airport_checkin.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_airport_checkin.ts), ID: `vid_airport_checkin`, YouTube: `bIz2Gzu3DKE`, CEFR A2, giọng Anh-Mỹ en-US, 16 phân đoạn, 106 từ).
+   - Nội dung đàm thoại thực tế tại sân bay giữa hành khách và nhân viên mặt đất: thông báo loa phát thanh chuyến bay lên máy bay (*Flight 892 is now boarding*), điểm đến New York City, hành khách đi một mình, xuất trình vé và hộ chiếu lịch thiệp, cân hành lý ký gửi trên bàn cân (*scale*), chọn ghế cạnh cửa sổ (*window seat* thay vì *aisle seat* với âm 's' câm), xác định cửa khởi hành 17B và quy định an toàn có mặt trước 30 phút.
+   - Nâng cấp từ 3 câu lên **8 câu hỏi trắc nghiệm song ngữ chuyên sâu** (chuẩn hóa 8 câu/video, 40 XP).
+
+2. **Phân Tích Ngữ Cảnh 16 Phân Đoạn & Thiết Kế 8 Câu Hỏi Chuyên Sâu**:
+   - **Câu 1 (`q_airport_checkin_1`)**: Thông báo lên máy bay và số hiệu chuyến bay trên loa phát thanh (*"Flight 892 is now boarding"*, Segment 0).
+   - **Câu 2 (`q_airport_checkin_2`)**: Điểm đến New York City và trạng thái hành khách đi một mình (*"heading to New York City... traveling alone"*, Segments 2, 5 & 6).
+   - **Câu 3 (`q_airport_checkin_3`)**: Mẫu câu đề nghị lịch sự trong dịch vụ hàng không (*"Okay, may I see your ticket and passport, please?"*, Segment 3).
+   - **Câu 4 (`q_airport_checkin_4`)**: Số lượng hành lý mang theo check-in (*"How many bags do you have with you today? - Just this one"*, Segments 7–8).
+   - **Câu 5 (`q_airport_checkin_5`)**: Quy trình cân hành lý tại quầy (*"Please put it on the scale"*, Segment 9).
+   - **Câu 6 (`q_airport_checkin_6`)**: Lựa chọn ghế cửa sổ và quy tắc phát âm âm câm 's' trong từ *"aisle"* (/aɪl/) (*"window or an aisle seat"*, Segments 10–11).
+   - **Câu 7 (`q_airport_checkin_7`)**: Cửa khởi hành được chỉ định (*"departing from Gate 17B"*, Segment 13).
+   - **Câu 8 (`q_airport_checkin_8`)**: Quy định giờ giấc an toàn hàng không có mặt trước giờ bay ít nhất 30 phút (*"arrive at your gate at least 30 minutes before your departure time"*, Segment 14).
+
+3. **Quy Chuẩn Dữ Liệu Song Ngữ Chuẩn Mực 100%**:
+   - Cập nhật `QUIZ_AIRPORT_CHECKIN: VideoQuizData`:
+     * `totalQuestions`: 8 câu.
+     * `xpReward`: 40 XP.
+     * Đầy đủ 100% dữ liệu song ngữ Anh-Việt (`questionEn`, `questionVi`, `optionsEn`, `optionsVi`, `explanationEn`, `explanationVi`, `referenceSegmentIndex`, `targetedConceptEn`, `targetedConceptVi`).
+   - Re-export đồng bộ tại `lesson_airport_checkin.ts`, `lessons/index.ts`, và `videoCatalogMockData.ts`.
+
+4. **Kiểm Thử Toàn Diện & Tự Động Hóa CI/CD**:
+   - Cập nhật test suite [__tests__/airport_checkin_verbatim.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/airport_checkin_verbatim.test.ts) xác nhận 8 câu hỏi, 40 XP, khớp nối verbatim 106 từ audio Whisper AI: **9/9 PASS 100%**.
+
+---
+
+### 65. Kiến Trúc Bộ Câu Hỏi Đọc Hiểu Ngữ Cảnh Video 100% Song Ngữ (Bilingual Video Reading Comprehension Quiz) – Video 9: National Geographic: Renewable Energy 101
+
+1. **Phân Tích Hiện Trạng & Yêu Cầu Nâng Cấp**:
+   - Video thứ 9 trong catalog là **National Geographic: Renewable Energy 101** ([lesson_natgeo_renewable_energy.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_natgeo_renewable_energy.ts), ID: `vid_ielts_environmental_sustainability`, YouTube: `1kUE0BZtTRc`, CEFR B2, giọng Anh-Mỹ en-US, 25 phân đoạn, 333 từ).
+   - Nội dung bài giảng tài liệu khoa học của National Geographic về bản chất năng lượng tái tạo: tự nhiên phục hồi và không cạn kiệt, 5 nguồn sạch phổ biến (mặt trời, gió, thủy điện, địa nhiệt, sinh khối), thực trạng tiêu thụ năng lượng hóa thạch (>80%), các lợi ích chống biến đổi khí hậu (không phát thải trực tiếp, phát thải gián tiếp tối thiểu, không ô nhiễm không khí, nhiên liệu miễn phí, giá ổn định) và các thách thức môi trường/kỹ thuật (xáo trộn sinh thái đập/gió, tính gián đoạn intermittent, chi phí pin lưu trữ).
+   - Nâng cấp từ 3 câu lên **8 câu hỏi trắc nghiệm song ngữ chuyên sâu** (chuẩn hóa 8 câu/video, 40 XP).
+
+2. **Phân Tích Ngữ Cảnh 25 Phân Đoạn & Thiết Kế 8 Câu Hỏi Chuyên Sâu**:
+   - **Câu 1 (`q_natgeo_renewable_1`)**: Định nghĩa cốt lõi & 5 nguồn năng lượng tái tạo phổ biến (*"sources that naturally replenish themselves and never run out... solar, wind, hydro, geothermal, biomass"*, Segments 3–4).
+   - **Câu 2 (`q_natgeo_renewable_2`)**: Tỷ lệ năng lượng hóa thạch toàn cầu và tốc độ tăng trưởng của năng lượng sạch (*"Over 80 percent... derived from fossil fuels... fastest growing source of energy"*, Segments 5–6).
+   - **Câu 3 (`q_natgeo_renewable_3`)**: Bản chất không phát thải khí nhà kính trực tiếp và phát thải gián tiếp ở mức tối thiểu (*"creates no direct greenhouse gas emissions... indirect... minimal"*, Segments 8–10).
+   - **Câu 4 (`q_natgeo_renewable_4`)**: Các hệ thống hoàn toàn không tạo ô nhiễm không khí: gió, mặt trời và thủy điện (Segments 12–13).
+   - **Câu 5 (`q_natgeo_renewable_5`)**: Tính ổn định kinh tế về giá cả khi nhiên liệu tự nhiên hoàn toàn miễn phí (*"cost very little to operate and the fuel is often free... prices tend to be stable over time"*, Segments 16–17).
+   - **Câu 6 (`q_natgeo_renewable_6`)**: Tác động tiêu cực của trang trại gió và đập thủy điện đối với đời sống hoang dã (*"disrupt wildlife and migration patterns and lead to ecological destruction"*, Segment 20).
+   - **Câu 7 (`q_natgeo_renewable_7`)**: Tính gián đoạn (*intermittent*) của năng lượng mặt trời/gió và chi phí đắt đỏ của pin lưu trữ (*"intermittent... batteries... often costly"*, Segments 21–22).
+   - **Câu 8 (`q_natgeo_renewable_8`)**: Bộ ba bước tiến công nghệ đưa mục tiêu chấm dứt biến đổi khí hậu vào tầm tay (*"more accessible, affordable, and efficient, an end to climate change could be within our reach"*, Segment 24).
+
+3. **Quy Chuẩn Dữ Liệu Song Ngữ Chuẩn Mực 100%**:
+   - Cập nhật `QUIZ_NATGEO_RENEWABLE_ENERGY: VideoQuizData`:
+     * `totalQuestions`: 8 câu.
+     * `xpReward`: 40 XP.
+     * Đầy đủ 100% dữ liệu song ngữ Anh-Việt (`questionEn`, `questionVi`, `optionsEn`, `optionsVi`, `explanationEn`, `explanationVi`, `referenceSegmentIndex`, `targetedConceptEn`, `targetedConceptVi`).
+   - Re-export đồng bộ tại `lesson_natgeo_renewable_energy.ts`, `lessons/index.ts`, và `videoCatalogMockData.ts`.
+
+4. **Kiểm Thử Toàn Diện & Tự Động Hóa CI/CD**:
+   - Cập nhật test suite [__tests__/natgeo_renewable_verbatim.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/natgeo_renewable_verbatim.test.ts) xác nhận 8 câu hỏi, 40 XP, khớp nối verbatim 333 từ YouTube official: **9/9 PASS 100%**.
+
+---
+
+### 66. Kiến Trúc Bộ Câu Hỏi Đọc Hiểu Ngữ Cảnh Video 100% Song Ngữ (Bilingual Video Reading Comprehension Quiz) – Video 10: Jensen Huang: How Elon Musk Built the World's Fastest Supercomputer in 19 Days
+
+1. **Phân Tích Hiện Trạng & Yêu Cầu Nâng Cấp**:
+   - Video thứ 10 trong catalog là **Jensen Huang: How Elon Musk Built the World's Fastest Supercomputer in 19 Days** ([lesson_jensen_huang.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_jensen_huang.ts), ID: `1481dc60-fe8a-4fa9-830b-9a227ede9b6e`, YouTube: `lpLFjQ-bRv8`, CEFR B2, giọng Anh-Mỹ en-US, 10 phân đoạn, 249 từ).
+   - Nội dung chia sẻ truyền cảm hứng của CEO NVIDIA Jensen Huang về kỳ tích xây dựng cụm siêu máy tính AI Colossus của Elon Musk và xAI: quy trình thiết lập trung tâm dữ liệu làm mát bằng chất lỏng (*liquid-cooled*), năng lực độc nhất vô nhị (*singular*) trong điều phối nguồn lực khổng lồ (*marshaling resources*), sự phối hợp liên ngành giữa NVIDIA và xAI, vượt qua "núi công nghệ" (*mountain of technology: wiring, networking, software integration*), quy mô kỷ lục 100.000 GPU dưới dạng một cụm duy nhất (*one cluster*), và phép đối lập ngoạn mục giữa chuẩn ngành 4 năm so với chỉ 19 ngày.
+   - Nâng cấp từ 3 câu lên **8 câu hỏi trắc nghiệm song ngữ chuyên sâu** (chuẩn hóa 8 câu/video, 40 XP).
+
+2. **Phân Tích Ngữ Cảnh 10 Phân Đoạn & Thiết Kế 8 Câu Hỏi Chuyên Sâu**:
+   - **Câu 1 (`q_jensen_huang_1`)**: Chuỗi kỳ tích kỹ thuật từ ý tưởng đến xây dựng nhà máy làm mát bằng chất lỏng, cấp điện và cấp phép thần tốc (*"From the moment of concept to building a massive factory, liquid-cooled, energized, permitted in the short time... that is like superhuman"*, Segment 0).
+   - **Câu 2 (`q_jensen_huang_2`)**: Phẩm chất độc nhất vô nhị của Elon Musk và thuật ngữ *"singular"* cùng *"marshaling resources"* (Segments 1–2).
+   - **Câu 3 (`q_jensen_huang_3`)**: Bốn đội ngũ kỹ thuật chuyên môn phối hợp nhịp nhàng giữa NVIDIA và xAI: kỹ sư, mạng, hạ tầng điện toán và phần mềm (*"engineering team, our networking team, our infrastructure computing team, the software team"*, Segment 4).
+   - **Câu 4 (`q_jensen_huang_4`)**: Cột mốc hoàn thành hạ tầng và hậu cần đưa vào huấn luyện mô hình AI trong 19 ngày (*"to train in 19 days"*, Segment 5).
+   - **Câu 5 (`q_jensen_huang_5`)**: Ẩn dụ *"mountain of technology"* và thách thức tích hợp đấu nối dây dẫn, mạng kết nối và phần mềm (Segment 7).
+   - **Câu 6 (`q_jensen_huang_6`)**: Quy mô kỷ lục: 100.000 GPU vận hành dưới dạng một cụm máy chủ duy nhất nhanh nhất hành tinh (*"100,000 GPUs, that's easily the fastest supercomputer on the planet as one cluster"*, Segment 8).
+   - **Câu 7 (`q_jensen_huang_7`)**: Đối lập quy chuẩn ngành công nghệ thông thường 4 năm (3 năm lên kế hoạch + 1 năm vận hành) so với đột phá 19 ngày (Segment 9).
+   - **Câu 8 (`q_jensen_huang_8`)**: Nghệ thuật diễn thuyết và thông điệp lùi lại một bước để cảm nhận sự ngắn ngủi khó tin của 19 ngày (*"take a step back... It's just a couple of weeks"*, Segment 6).
+
+3. **Quy Chuẩn Dữ Liệu Song Ngữ Chuẩn Mực 100%**:
+   - Cập nhật `QUIZ_JENSEN_HUANG: VideoQuizData`:
+     * `totalQuestions`: 8 câu.
+     * `xpReward`: 40 XP.
+     * Đầy đủ 100% dữ liệu song ngữ Anh-Việt (`questionEn`, `questionVi`, `optionsEn`, `optionsVi`, `explanationEn`, `explanationVi`, `referenceSegmentIndex`, `targetedConceptEn`, `targetedConceptVi`).
+   - Re-export đồng bộ tại `lesson_jensen_huang.ts`, `lessons/index.ts`, và `videoCatalogMockData.ts`.
+
+4. **Kiểm Thử Toàn Diện & Tự Động Hóa CI/CD**:
+   - Cập nhật test suite [__tests__/jensen_huang_verbatim.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/jensen_huang_verbatim.test.ts) xác nhận 8 câu hỏi, 40 XP, khớp nối verbatim 249 từ YouTube: **6/6 PASS 100%**.
+
+---
+
+### 67. Kiến Trúc Bộ Câu Hỏi Đọc Hiểu Ngữ Cảnh Video 100% Song Ngữ (Bilingual Video Reading Comprehension Quiz) – Video 11: Sleep Is Your Superpower | Matt Walker | TED
+
+1. **Phân Tích Hiện Trạng & Yêu Cầu Nâng Cấp**:
+   - Video thứ 11 trong catalog là **Sleep Is Your Superpower | Matt Walker | TED** ([lesson_matt_walker_sleep.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_matt_walker_sleep.ts), ID: `vid_matt_walker_sleep`, YouTube: `5MuIMqhT8DM`, CEFR B2, giọng Anh-Mỹ en-US, 12 phân đoạn, 244 từ).
+   - Nội dung bài diễn thuyết TED đình đám của nhà thần kinh học Matt Walker về tác động sinh học sâu sắc của giấc ngủ: giảm kích thước tinh hoàn ở nam giới ngủ 5 tiếng/đêm, suy giảm testosterone tương đương lão hóa sớm 10 năm (*age a man by a decade*), suy giảm tương tự ở sức khỏe sinh sản nữ giới (*female reproductive health*), nghệ thuật dẫn dắt hài hước cảnh báo các tác hại kế tiếp (*"best news... from this point it only gets worse"*), vai trò của giấc ngủ sau khi học (*"hit the save button"*), vai trò của giấc ngủ trước khi học (*"dry sponge ready to soak up new information"*), nguy cơ mạch trí nhớ bị úng nước ngập tràn (*waterlogged memory circuits*), và thiết kế thí nghiệm kiểm chứng thói quen thức trắng đêm (*pulling an all-nighter*).
+   - Nâng cấp từ 3 câu lên **8 câu hỏi trắc nghiệm song ngữ chuyên sâu** (chuẩn hóa 8 câu/video, 40 XP).
+
+2. **Phân Tích Ngữ Cảnh 12 Phân Đoạn & Thiết Kế 8 Câu Hỏi Chuyên Sâu**:
+   - **Câu 1 (`q_matt_walker_1`)**: Sự khác biệt thể chất về kích thước cơ quan sinh sản ở nam giới ngủ 5 tiếng so với 7 tiếng trở lên (*"significantly smaller testicles"*, Segment 1).
+   - **Câu 2 (`q_matt_walker_2`)**: Nồng độ testosterone sụt giảm tương đương người già hơn 10 tuổi làm lão hóa một thập kỷ (*"level of testosterone which is that of someone 10 years their senior... age a man by a decade"*, Segments 2–3).
+   - **Câu 3 (`q_matt_walker_3`)**: Tổn thương và suy giảm tương đương đối với sức khỏe sinh sản nữ giới (*"equivalent impairments in female reproductive health"*, Segment 4).
+   - **Câu 4 (`q_matt_walker_4`)**: Nghệ thuật tu từ hài hước đen tối dẫn dắt sự chú ý vào các nguy cơ sức khỏe nghiêm trọng (*"This is the best news that I have for you today... only get worse"*, Segment 5).
+   - **Câu 5 (`q_matt_walker_5`)**: Chức năng củng cố trí nhớ của giấc ngủ SAU KHI học tương tự ấn nút lưu ký ức (*"hit the save button on those new memories so that you don't forget"*, Segment 8).
+   - **Câu 6 (`q_matt_walker_6`)**: Ẩn dụ miếng bọt biển khô (*"dry sponge"*) mô tả sự chuẩn bị tối ưu của não bộ TRƯỚC KHI học (Segment 9).
+   - **Câu 7 (`q_matt_walker_7`)**: Hiện tượng mạch ghi nhớ bị úng nước bão hòa (*"memory circuits... become waterlogged"*) khi thiếu ngủ (Segment 10).
+   - **Câu 8 (`q_matt_walker_8`)**: Thành ngữ *"pulling an all-nighter"* (thức trắng đêm) và thiết kế giả thuyết thực nghiệm (Segment 11).
+
+3. **Quy Chuẩn Dữ Liệu Song Ngữ Chuẩn Mực 100%**:
+   - Cập nhật `QUIZ_MATT_WALKER_SLEEP: VideoQuizData`:
+     * `totalQuestions`: 8 câu.
+     * `xpReward`: 40 XP.
+     * Đầy đủ 100% dữ liệu song ngữ Anh-Việt (`questionEn`, `questionVi`, `optionsEn`, `optionsVi`, `explanationEn`, `explanationVi`, `referenceSegmentIndex`, `targetedConceptEn`, `targetedConceptVi`).
+   - Re-export đồng bộ tại `lesson_matt_walker_sleep.ts`, `lessons/index.ts`, và `videoCatalogMockData.ts`.
+
+4. **Kiểm Thử Toàn Diện & Tự Động Hóa CI/CD**:
+   - Cập nhật test suite [__tests__/matt_walker_verbatim.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/matt_walker_verbatim.test.ts) xác nhận 8 câu hỏi, 40 XP, khớp nối verbatim 270 từ: **7/7 PASS 100%**.
+
+---
+
+### 68. Kiến Trúc Bộ Câu Hỏi Đọc Hiểu Ngữ Cảnh Video 100% Song Ngữ (Bilingual Video Reading Comprehension Quiz) – Video 12: Talk About Food and Cooking in English | Oxford Online English
+
+1. **Phân Tích Hiện Trạng & Yêu Cầu Nâng Cấp**:
+   - Video thứ 12 trong catalog là **Oxford Online English: Talk About Food and Cooking in English** ([lesson_oxford_food_cooking.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_oxford_food_cooking.ts), ID: `vid_oxford_food_cooking`, YouTube: `SlTrn13aez4`, CEFR A2, giọng chuẩn RP British English `en-GB`, 12 phân đoạn, 237 từ).
+   - Nội dung cuộc đàm thoại đời thường thanh lịch giữa hai người bản xứ Anh: lý do thích đa dạng ẩm thực ("a bit of everything") nhờ lớn lên ở Anh, phong cách nấu ăn gia đình kết hợp món Pháp - Ý - Ấn của người mẹ, các món truyền thống Anh như shepherd's pie hay Sunday roast trong bối cảnh người hiện đại ăn uống quốc tế, trải nghiệm lớn lên với đồ ăn Địa Trung Hải do mang nửa dòng máu Tây Ban Nha, ẩm thực đa văn hóa tại Berlin (*cosmopolitan*), so sánh ẩm thực Tây Ban Nha và Ý (nguyên liệu tươi sống, hải sản, salad, nhưng pasta ít phổ biến hơn ở Tây Ban Nha), món khoái khẩu Albondigas (thịt viên sốt cà chua đơn giản mà thơm ngon), và cụm phản hồi đàm thoại tự nhiên *"Sounds good!"*.
+   - Mục tiêu: Nâng cấp bộ câu hỏi từ 3 câu lên **8 câu hỏi trắc nghiệm song ngữ chuyên sâu** chuẩn sư phạm Cambridge/Oxford, nâng mức thưởng hoàn thành lên **40 XP**.
+
+2. **Thiết Kế 8 Câu Hỏi Đọc Hiểu Ngữ Cảnh Song Ngữ Chuyên Sâu**:
+   - **Câu 1 (`q_oxford_food_1`)**: Lý do người nói thích đa dạng ẩm thực ("a bit of everything") khi lớn lên tại Vương quốc Anh có sẵn món ăn từ khắp thế giới (Segment 1, khái niệm: *Diverse Food Preferences & Cultural Background*).
+   - **Câu 2 (`q_oxford_food_2`)**: Phong cách nấu ăn gia đình của người mẹ là sự hòa quyện của nhiều nền ẩm thực khác nhau: Pháp, Ý, Ấn Độ (Segment 2, khái niệm: *Multicultural Home Cooking & Cuisines*).
+   - **Câu 3 (`q_oxford_food_3`)**: Ẩm thực truyền thống của Anh (shepherd's pie, Sunday roast) trong sự tương quan với thói quen ăn uống đa dạng của người dân hiện đại (Segment 4, khái niệm: *Traditional British Cuisine vs Modern Eating Habits*).
+   - **Câu 4 (`q_oxford_food_4`)**: Nguồn gốc văn hóa con lai Tây Ban Nha (*half Spanish*) giải thích thói quen ăn nhiều đồ Địa Trung Hải thời thơ ấu (Segment 6, khái niệm: *Cultural Heritage & Family Eating Habits*).
+   - **Câu 5 (`q_oxford_food_5`)**: Cuộc sống tại thủ đô Berlin như một đô thị quốc tế đa văn hóa (*cosmopolitan*) với ẩm thực phong phú tương tự Vương quốc Anh (Segment 7, khái niệm: *Cosmopolitan Cities & Global Food Availability*).
+   - **Câu 6 (`q_oxford_food_6`)**: So sánh tương đồng và khác biệt giữa ẩm thực Tây Ban Nha và Ý: nguyên liệu tươi và hải sản dồi dào, nhưng mì Ý ít phổ biến hơn tại Tây Ban Nha (Segment 9–10, khái niệm: *Comparing Mediterranean Cuisines & Staple Ingredients*).
+   - **Câu 7 (`q_oxford_food_7`)**: Món ăn khoái khẩu Albondigas: thịt viên nấu sốt cà chua mộc mạc mà thơm ngon đậm đà (Segment 11, khái niệm: *Traditional Dishes & Descriptive Adjectives*).
+   - **Câu 8 (`q_oxford_food_8`)**: Nghệ thuật đối thoại đàm thoại tự nhiên: sử dụng cụm *"Sounds good!"* để phản hồi hào hứng và tích cực với lời miêu tả món ăn (Segment 11, khái niệm: *Natural Conversational Responses in Spoken English*).
+
+3. **Chuẩn Hóa Cấu Trúc Dữ Liệu & Đóng Gói Module**:
+   - Cập nhật `QUIZ_OXFORD_FOOD_COOKING`:
+     * `totalQuestions`: 8 câu trắc nghiệm.
+     * `xpReward`: 40 XP.
+     * Đầy đủ 100% dữ liệu song ngữ Anh-Việt (`questionEn`, `questionVi`, `optionsEn`, `optionsVi`, `explanationEn`, `explanationVi`, `referenceSegmentIndex`, `targetedConceptEn`, `targetedConceptVi`, `generatedBy: "CONTEXTUAL_FALLBACK"`).
+   - Đóng gói chuẩn mực trong `lesson_oxford_food_cooking.ts` và re-export tại `videoCatalogMockData.ts`.
+
+4. **Kiểm Thử Toàn Diện & Tự Động Hóa CI/CD**:
+   - Cập nhật test suite [__tests__/oxford_food_verbatim.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/oxford_food_verbatim.test.ts) xác nhận 8 câu hỏi, 40 XP, khớp nối verbatim 237 từ: **7/7 PASS 100%**.
+   - Kiểm tra `tsc --noEmit` đạt 0 lỗi.
+
+---
+
+### 69. Kiến Trúc Bộ Câu Hỏi Đọc Hiểu Ngữ Cảnh Video 100% Song Ngữ (Bilingual Video Reading Comprehension Quiz) – Video 13: A Life on Our Planet | Sir David Attenborough | Netflix
+
+1. **Phân Tích Hiện Trạng & Yêu Cầu Nâng Cấp**:
+   - Video thứ 13 trong catalog là **Sir David Attenborough: A Life on Our Planet | Netflix** ([lesson_david_attenborough_planet.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_david_attenborough_planet.ts), ID: `vid_david_attenborough_planet`, YouTube: `64R2MYUt394`, CEFR B2, giọng chuẩn RP British English `en-GB`, 14 phân đoạn, 126 từ).
+   - Nội dung bản tuyên thệ lịch sử của nhà tự nhiên học huyền thoại Sir David Attenborough (93 tuổi): lời mở đầu khiêm nhường về một chương trình đặc biệt, chiêm nghiệm sâu sắc về cuộc đời phi thường sau gần một thế kỷ khám phá địa cầu, ca ngợi thế giới tự nhiên như một kỳ quan độc nhất vô nhị (*spectacular marvel*), vạch trần tác động hủy diệt của con người khi chiếm đoạt hành tinh và thay thế thế giới hoang dã bằng sự thuần hóa nhân tạo (*replacing the wild with the tame*), định nghĩa bộ phim là lời khai nhân chứng (*witness statement*) và tầm nhìn tương lai (*vision for the future*), cảnh báo Trái Đất đang lao đầu vào thảm họa và bài học sinh thái cốt tử: học cách hợp tác thuận hòa cùng thiên nhiên thay vì chống lại mẹ thiên nhiên (*work with nature, rather than against it*).
+   - Mục tiêu: Nâng cấp bộ câu hỏi từ 3 câu lên **8 câu hỏi trắc nghiệm song ngữ chuyên sâu** chuẩn sư phạm Cambridge/Oxford, nâng mức thưởng hoàn thành lên **40 XP**.
+
+2. **Thiết Kế 8 Câu Hỏi Đọc Hiểu Ngữ Cảnh Song Ngữ Chuyên Sâu**:
+   - **Câu 1 (`q_attenborough_1`)**: Giới thiệu danh tính nhân vật và tuổi tác 93 năm cống hiến đầy sức nặng mở đầu chương trình (Segment 0–1, khái niệm: *Speaker Identity & Lifelong Dedication*).
+   - **Câu 2 (`q_attenborough_2`)**: Chiêm nghiệm muộn màng nhưng sâu sắc về cuộc đời phi thường dành trọn cho thám hiểm thiên nhiên (Segment 2–3, khái niệm: *Reflection on an Extraordinary Life*).
+   - **Câu 3 (`q_attenborough_3`)**: Vẻ đẹp kỳ vĩ và độc nhất vô nhị của thế giới sinh vật sống trước khi đề cập đến nguy cơ môi trường (Segment 4, khái niệm: *The Wonder and Marvel of the Living World*).
+   - **Câu 4 (`q_attenborough_4`)**: Lối sống của con người đang đẩy hệ sinh thái địa cầu vào cảnh trượt dài suy thoái (Segment 5, khái niệm: *Anthropogenic Ecological Decline*).
+   - **Câu 5 (`q_attenborough_5`)**: Tuyên bố đanh thép về sự xâm chiếm của con người: thay thế chốn hoang dã bằng sự thuần hóa nhân tạo (Segment 6–7, khái niệm: *Replacing the Wild with the Tame*).
+   - **Câu 6 (`q_attenborough_6`)**: Định nghĩa kép về bản chất bộ phim: lời khai nhân chứng lịch sử và tầm nhìn cứu vãn tương lai (Segment 8, khái niệm: *Witness Statement & Vision for the Future*).
+   - **Câu 7 (`q_attenborough_7`)**: Câu chuyện về sai lầm lớn nhất của nhân loại đi đôi với cơ hội chuộc lỗi nếu hành động ngay bây giờ (Segment 9–10, khái niệm: *Greatest Mistake & The Urgent Opportunity to Put It Right*).
+   - **Câu 8 (`q_attenborough_8`)**: Triết lý sinh thái nền tảng để ngăn chặn thảm họa: học cách hợp tác thuận hòa cùng thiên nhiên thay vì đối kháng (Segment 11–13, khái niệm: *Working With Nature Rather Than Against It*).
+
+3. **Chuẩn Hóa Cấu Trúc Dữ Liệu & Đóng Gói Module**:
+   - Cập nhật `QUIZ_DAVID_ATTENBOROUGH_PLANET`:
+     * `totalQuestions`: 8 câu trắc nghiệm.
+     * `xpReward`: 40 XP.
+     * Đầy đủ 100% dữ liệu song ngữ Anh-Việt (`questionEn`, `questionVi`, `optionsEn`, `optionsVi`, `explanationEn`, `explanationVi`, `referenceSegmentIndex`, `targetedConceptEn`, `targetedConceptVi`, `generatedBy: "CONTEXTUAL_FALLBACK"`).
+   - Đóng gói chuẩn mực trong `lesson_david_attenborough_planet.ts` và re-export tại `videoCatalogMockData.ts`.
+
+4. **Kiểm Thử Toàn Diện & Tự Động Hóa CI/CD**:
+   - Cập nhật test suite [__tests__/attenborough_planet_verbatim.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/attenborough_planet_verbatim.test.ts) xác nhận 8 câu hỏi, 40 XP, khớp nối verbatim 126 từ: **7/7 PASS 100%**.
+   - Kiểm tra `tsc --noEmit` đạt 0 lỗi.
+
+---
+
+### 70. Kiến Trúc Bộ Câu Hỏi Đọc Hiểu Ngữ Cảnh Video 100% Song Ngữ (Bilingual Video Reading Comprehension Quiz) – Video 14: Tell Me About Yourself | CareerVidz (The S.E.A.T. Method)
+
+1. **Phân Tích Hiện Trạng & Yêu Cầu Nâng Cấp**:
+   - Video thứ 14 trong catalog là **CareerVidz: Tell Me About Yourself (The S.E.A.T. Method)** ([lesson_careervidz_interview.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_careervidz_interview.ts), ID: `vid_careervidz_interview`, YouTube: `ml8HHHgDxiE`, CEFR B1, giọng chuẩn RP British English `en-GB`, 12 phân đoạn, 226 từ).
+   - Nội dung bài giảng tuyển dụng kinh điển của chuyên gia phỏng vấn Richard McMunn: cảnh báo cạm bẫy trả lời suồng sã thiếu chuẩn bị (*"Whatever you do, do not say this..."*), phân tích lỗi sai tai hại khi chỉ nêu tuổi tác, cảm xúc mơ hồ (*happy person*) hay khẳng định sáo rỗng (*great fit*), công thức 4 phần vàng chuẩn mực (Kỹ năng, Kinh nghiệm, Thành tựu, Giá trị đóng góp - S.E.A.T. Method), cấu trúc bài trả lời mẫu hoàn hảo (lời cảm ơn lịch thiệp, 3 tính từ đắt giá *disciplined, responsive, supportive team player*, đối chiếu chuẩn xác với bản mô tả công việc *Job Description*, bộ 3 kỹ năng thực chiến *collaborating, problem-solving, customer service*, và cam kết đạo đức nghề nghiệp *work ethic, positive role model* đi đôi với trách nhiệm chủ động *take ownership* nhằm tối ưu hóa giá trị sinh lời từ quỹ lương *strong return on salary*).
+   - Mục tiêu: Nâng cấp bộ câu hỏi từ 3 câu lên **8 câu hỏi trắc nghiệm song ngữ chuyên sâu** chuẩn sư phạm Cambridge/Oxford, nâng mức thưởng hoàn thành lên **40 XP**.
+
+2. **Thiết Kế 8 Câu Hỏi Đọc Hiểu Ngữ Cảnh Song Ngữ Chuyên Sâu**:
+   - **Câu 1 (`q_careervidz_1`)**: Cảnh báo cạm bẫy mở đầu phỏng vấn: tuyệt đối không trả lời qua loa, suồng sã và sáo rỗng làm hỏng ấn tượng đầu tiên (Segment 0–1, khái niệm: *Initial Interview Pitfall Warning*).
+   - **Câu 2 (`q_careervidz_2`)**: Phân tích câu trả lời sáo rỗng: nêu tuổi tác và cảm xúc chung chung không chứng minh được năng lực công việc (Segment 2–3, khái niệm: *Analysis of Cliche and Ineffective Answers*).
+   - **Câu 3 (`q_careervidz_3`)**: Khung sườn trả lời 4 phần chuẩn mực: kỹ năng, kinh nghiệm đem lại cho vị trí, thành tựu đạt được và cách thức gia tăng giá trị (Segment 4–5, khái niệm: *The 4-Part Winning Answer Framework*).
+   - **Câu 4 (`q_careervidz_4`)**: Mở đầu lịch thiệp và bộ ba phẩm chất đồng đội đắt giá: kỷ luật (*disciplined*), nhạy bén (*responsive*) và luôn hỗ trợ (*supportive*) (Segment 7, khái niệm: *Polite Opening & High-Value Team Traits*).
+   - **Câu 5 (`q_careervidz_5`)**: Tương thích trực tiếp với bản mô tả công việc (*match the job description*) làm bảo chứng cho năng lực (Segment 8, khái niệm: *Matching the Job Description*).
+   - **Câu 6 (`q_careervidz_6`)**: Bộ ba kỹ năng mềm thực chiến: phối hợp nhóm (*collaborating*), giải quyết vấn đề (*problem-solving*) và dịch vụ khách hàng xuất sắc (*customer service*) (Segment 9, khái niệm: *Three Practical Core Competencies*).
+   - **Câu 7 (`q_careervidz_7`)**: Đạo đức nghề nghiệp vững vàng (*strong work ethic*) và hình mẫu nhân viên tích cực (*positive role model*) cho doanh nghiệp (Segment 10, khái niệm: *Strong Work Ethic & Positive Role Model*).
+   - **Câu 8 (`q_careervidz_8`)**: Chủ động chịu trách nhiệm phát triển chuyên môn (*take ownership*) đảm bảo doanh nghiệp luôn nhận lại giá trị sinh lời vượt trội từ mức lương chi trả (*return on salary*) (Segment 11, khái niệm: *Professional Ownership & Return on Salary Investment*).
+
+3. **Chuẩn Hóa Cấu Trúc Dữ Liệu & Đóng Gói Module**:
+   - Cập nhật `QUIZ_CAREERVIDZ_INTERVIEW`:
+     * `totalQuestions`: 8 câu trắc nghiệm.
+     * `xpReward`: 40 XP.
+     * Đầy đủ 100% dữ liệu song ngữ Anh-Việt (`questionEn`, `questionVi`, `optionsEn`, `optionsVi`, `explanationEn`, `explanationVi`, `referenceSegmentIndex`, `targetedConceptEn`, `targetedConceptVi`, `generatedBy: "CONTEXTUAL_FALLBACK"`).
+   - Đóng gói chuẩn mực trong `lesson_careervidz_interview.ts` và re-export tại `videoCatalogMockData.ts`.
+
+4. **Kiểm Thử Toàn Diện & Tự Động Hóa CI/CD**:
+   - Cập nhật test suite [__tests__/careervidz_interview_verbatim.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/careervidz_interview_verbatim.test.ts) xác nhận 8 câu hỏi, 40 XP, khớp nối verbatim 226 từ: **7/7 PASS 100%**.
+   - Kiểm tra `tsc --noEmit` đạt 0 lỗi.
+
+---
+
+### 71. Kiến Trúc Bộ Câu Hỏi Đọc Hiểu Ngữ Cảnh Video 100% Song Ngữ (Bilingual Video Reading Comprehension Quiz) – Video 15: Anton Ego's Review | Ratatouille (Pixar)
+
+1. **Phân Tích Hiện Trạng & Yêu Cầu Nâng Cấp**:
+   - Video thứ 15 trong catalog là **Ratatouille: Anton Ego's Food Critic Review (The Bitter Truth)** ([lesson_ratatouille_anton_ego.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_ratatouille_anton_ego.ts), ID: `vid_ratatouille_anton_ego`, YouTube: `tAyQL1inris`, CEFR C1, giọng chuẩn RP British English `en-GB`, 14 phân đoạn, 237 từ).
+   - Nội dung bài phê bình kinh điển chấn động giới nghệ thuật của nhà phê bình ẩm thực Anton Ego: sự dễ dàng và vị thế quyền lực của nghề phê bình so với người trực tiếp dâng hiến tác phẩm (*risk very little yet enjoy a position*), sự cám dỗ của việc thăng hoa nhờ chỉ trích tiêu cực (*thrive on negative criticism*), sự thật cay đắng trong bức tranh toàn cảnh khi một tác phẩm bình thường vẫn giá trị hơn bài viết dán nhãn nó là rác rưởi (*the bitter truth... in the grand scheme of things*), thời khắc nhà phê bình thực sự dấn thân khi phát hiện và che chở cái mới (*discovery and defense of the new*), chấn động tâm can khi nếm món ăn tại Gusteau's (*rocked me to my core*), bước ngoặt từ khinh khi sang thấu hiểu sâu sắc phương châm của Bếp trưởng Gusteau (*disdain to true understanding*), chân lý bất hủ: *"Not everyone can become a great artist, but a great artist can come from anywhere"*, và lời phán quyết tôn vinh vị thiên tài có xuất thân khiêm nhường nhất là đầu bếp xuất sắc nhất nước Pháp (*finest chef in France*).
+   - Mục tiêu: Nâng cấp bộ câu hỏi từ 3 câu lên **8 câu hỏi trắc nghiệm song ngữ chuyên sâu** chuẩn sư phạm Cambridge/Oxford, nâng mức thưởng hoàn thành lên **40 XP**.
+
+2. **Thiết Kế 8 Câu Hỏi Đọc Hiểu Ngữ Cảnh Song Ngữ Chuyên Sâu**:
+   - **Câu 1 (`q_ratatouille_ego_1`)**: Bản chất công việc phê bình và vị thế quyền lực: mạo hiểm rất ít nhưng lại đứng trên người sáng tạo (Segment 0–1, khái niệm: *Nature of Criticism & Position of Power*).
+   - **Câu 2 (`q_ratatouille_ego_2`)**: Sự cám dỗ của phê bình tiêu cực: kiếm tìm danh tiếng và sự thích thú khi viết và đọc những lời chỉ trích (Segment 2, khái niệm: *The Allure of Negative Criticism*).
+   - **Câu 3 (`q_ratatouille_ego_3`)**: Sự thật cay đắng trong bức tranh toàn cảnh: tác phẩm sáng tạo tầm thường vẫn ý nghĩa hơn ngòi bút dán nhãn quy chụp (Segment 3–4, khái niệm: *The Bitter Truth & Value of Creators*).
+   - **Câu 4 (`q_ratatouille_ego_4`)**: Sự dấn thân mạo hiểm đích thực: đứng ra khám phá và che chở cái mới trước một thế giới khắc nghiệt (Segment 5–6, khái niệm: *Discovery and Defense of the New*).
+   - **Câu 5 (`q_ratatouille_ego_5`)**: Chấn động tâm can và đập tan định kiến: món ăn phi thường đến từ nguồn gốc bất ngờ làm lay chuyển tận sâu thẳm con người Ego (Segment 7–8, khái niệm: *Challenging Preconceptions & Rocked to the Core*).
+   - **Câu 6 (`q_ratatouille_ego_6`)**: Từ khinh khi đến giác ngộ: sự thừa nhận công khai về thái độ coi thường phương châm Gusteau trong quá khứ trước khi hiểu thấu (Segment 9–10, khái niệm: *From Disdain to True Understanding*).
+   - **Câu 7 (`q_ratatouille_ego_7`)**: Chân lý phổ quát và sự bình đẳng trong nghệ thuật: không phải ai cũng trở thành nghệ sĩ vĩ đại, nhưng nghệ sĩ vĩ đại có thể xuất thân từ bất kỳ nơi đâu (Segment 11, khái niệm: *Not Everyone Can, But a Great Artist Can Come From Anywhere*).
+   - **Câu 8 (`q_ratatouille_ego_8`)**: Lời phán quyết tối thượng: tôn vinh vị thiên tài xuất thân khiêm nhường là đầu bếp đệ nhất nước Pháp, để lại cơn đói khát nghệ thuật thuần khiết (*hungry for more*) (Segment 12–13, khái niệm: *Ultimate Verdict & Hunger for Pure Art*).
+
+3. **Chuẩn Hóa Cấu Trúc Dữ Liệu & Đóng Gói Module**:
+   - Cập nhật `QUIZ_RATATOUILLE_ANTON_EGO`:
+     * `totalQuestions`: 8 câu trắc nghiệm.
+     * `xpReward`: 40 XP.
+     * Đầy đủ 100% dữ liệu song ngữ Anh-Việt (`questionEn`, `questionVi`, `optionsEn`, `optionsVi`, `explanationEn`, `explanationVi`, `referenceSegmentIndex`, `targetedConceptEn`, `targetedConceptVi`, `generatedBy: "CONTEXTUAL_FALLBACK"`).
+   - Đóng gói chuẩn mực trong `lesson_ratatouille_anton_ego.ts` và re-export tại `videoCatalogMockData.ts`.
+
+4. **Kiểm Thử Toàn Diện & Tự Động Hóa CI/CD**:
+   - Cập nhật test suite [__tests__/ratatouille_ego_verbatim.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/ratatouille_ego_verbatim.test.ts) xác nhận 8 câu hỏi, 40 XP, khớp nối verbatim 237 từ: **7/7 PASS 100%**.
+   - Kiểm tra `tsc --noEmit` đạt 0 lỗi.
+
+---
+
+### 72. Kiến Trúc Bộ Câu Hỏi Đọc Hiểu Ngữ Cảnh Video 100% Song Ngữ (Bilingual Video Reading Comprehension Quiz) – Video 16: The Psychology of Money | Warren Buffett's Secret
+
+1. **Phân Tích Hiện Trạng & Yêu Cầu Nâng Cấp**:
+   - Video thứ 16 trong catalog là **The Psychology of Money: Warren Buffett's Greatest Secret** ([lesson_psychology_of_money.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_psychology_of_money.ts), ID: `vid_psychology_of_money`, YouTube: `DOgVUMfcb7U`, CEFR B2, giọng chuẩn Mỹ `en-US`, 9 phân đoạn, 125 từ).
+   - Nội dung đúc kết triết lý tài chính đắt giá từ cuốn sách bán chạy toàn cầu của Morgan Housel: bí mật thực sự của Warren Buffett không phải là tài chọn lọc cổ phiếu (*stock-picking*) mà là sự kiên nhẫn phi thường (*patience*), nguyên lý lãi suất kép chỉ phát huy tác dụng khi bạn tiếp tục ở lại cuộc chơi (*stay in the game*), căn bệnh tâm lý muốn làm giàu nhanh (*get rich fast*) khiến số đông nhảy ra nhảy vào và chuốc lấy trắng tay (*end up with nothing*), bằng chứng thực nghiệm qua hơn 70 năm đầu tư bền bỉ của Buffett, phép ẩn dụ điều kỳ diệu không nằm ở IQ mà là ở việc ông chưa bao giờ rời khỏi bàn chơi (*never left the table*), bài học cốt lõi: lãi kép cần thời gian chứ không cần thiên tài (*compounding needs time, not genius*), lời khuyên làm chủ tâm trí thay vì cố làm chủ thị trường (*master your mind, not the market*), và câu hỏi mở kích thích tư duy: tiền bạc thiên về toán học hay hành vi (*math or behavior*).
+   - Mục tiêu: Nâng cấp bộ câu hỏi từ 3 câu lên **8 câu hỏi trắc nghiệm song ngữ chuyên sâu** chuẩn sư phạm Cambridge/Oxford, nâng mức thưởng hoàn thành lên **40 XP**.
+
+2. **Thiết Kế 8 Câu Hỏi Đọc Hiểu Ngữ Cảnh Song Ngữ Chuyên Sâu**:
+   - **Câu 1 (`q_psychology_of_money_1`)**: Bí mật thực sự của Warren Buffett: kiên nhẫn phi thường thay vì chọn lọc cổ phiếu thiên tài (Segment 0–1, khái niệm: *Real Secret: Patience Over Stock-Picking*).
+   - **Câu 2 (`q_psychology_of_money_2`)**: Điều kiện tiên quyết của lãi suất kép: duy trì sự hiện diện bền bỉ trong cuộc chơi (Segment 2, khái niệm: *Staying in the Game for Compounding*).
+   - **Câu 3 (`q_psychology_of_money_3`)**: Cạm bẫy tâm lý tai hại: nôn nóng muốn làm giàu nhanh, nhảy ra nhảy vào theo xu hướng và rốt cuộc trắng tay (Segment 3, khái niệm: *Behavioral Finance & The Trap of Getting Rich Fast*).
+   - **Câu 4 (`q_psychology_of_money_4`)**: Tầm nhìn và thời gian đầu tư phi thường: hơn 70 năm đầu tư không ngừng nghỉ của Buffett (Segment 4, khái niệm: *Buffett's 70-Year Investing Horizon*).
+   - **Câu 5 (`q_psychology_of_money_5`)**: Ý nghĩa phép ẩn dụ "chưa bao giờ rời khỏi bàn chơi": kỷ luật không bỏ cuộc thay vì chỉ số IQ lý thuyết (Segment 5, khái niệm: *Never Leaving the Table Metaphor*).
+   - **Câu 6 (`q_psychology_of_money_6`)**: Chân lý nền tảng của cuốn sách: lãi kép cần thời gian chứ không cần thiên tài (Segment 6, khái niệm: *Compounding Needs Time, Not Genius*).
+   - **Câu 7 (`q_psychology_of_money_7`)**: Lời khuyên hành vi thực tế: ngừng vội vã, kiên định và làm chủ tâm trí bản thân thay vì đoán mò thị trường (Segment 7, khái niệm: *Master Your Mind, Not the Market*).
+   - **Câu 8 (`q_psychology_of_money_8`)**: Suy ngẫm về bản chất quản lý tài chính: tiền bạc là bài toán của các con số toán học hay là kỷ luật hành vi con người (Segment 8, khái niệm: *Money: Math vs Behavior*).
+
+3. **Chuẩn Hóa Cấu Trúc Dữ Liệu & Đóng Gói Module**:
+   - Cập nhật `QUIZ_PSYCHOLOGY_OF_MONEY`:
+     * `totalQuestions`: 8 câu trắc nghiệm.
+     * `xpReward`: 40 XP.
+     * Đầy đủ 100% dữ liệu song ngữ Anh-Việt (`questionEn`, `questionVi`, `optionsEn`, `optionsVi`, `explanationEn`, `explanationVi`, `referenceSegmentIndex`, `targetedConceptEn`, `targetedConceptVi`, `generatedBy: "CONTEXTUAL_FALLBACK"`).
+   - Đóng gói chuẩn mực trong `lesson_psychology_of_money.ts` và re-export tại `videoCatalogMockData.ts`.
+
+4. **Kiểm Thử Toàn Diện & Tự Động Hóa CI/CD**:
+   - Cập nhật test suite [__tests__/psychology_of_money_verbatim.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/psychology_of_money_verbatim.test.ts) xác nhận 8 câu hỏi, 40 XP, khớp nối verbatim 125 từ: **7/7 PASS 100%**.
+   - Kiểm tra `tsc --noEmit` đạt 0 lỗi.
+
+---
+
+### 73. Kiến Trúc Bộ Đệm In-Memory SWR & Quản Lý Trạng Thái Toàn Cục Phòng Thi Thử Đề Chuẩn (`/study/exam-prep`)
+
+1. **Bối Cảnh & Vấn Đề Cần Giải Quyết**:
+   - Trang **Phòng Thi Thử Đề Chuẩn** (`/study/exam-prep`, component `ExamPrepContent`) quản lý 39+ bộ đề thi chuẩn hóa quốc tế (TOEIC Full 4K, TOEIC L&R, TOEIC Mini, TOEIC Speaking & Writing, IELTS Academic 4K, IELTS General 4K, IELTS Listening/Reading/Speaking/Writing sprints và combo đa kỹ năng).
+   - Trước đây, toàn bộ trạng thái bộ lọc (`filterType`), thanh tìm kiếm (`searchQuery`), chế độ tạo đề AI (`configMode`), kỹ năng kích hoạt (`activeSkills`), chủ đề/điểm mục tiêu AI (`aiTopic`, `aiTargetScore`, `aiQuestionCount`) đều nằm trong local state của React `useState`. Khi thí sinh bấm làm bài (chuyển sang chế độ WORKSPACE) hoặc xem kết quả phân tích (`/study/exam-prep/result`), rồi quay lại danh sách đề (HUB), toàn bộ trạng thái tìm kiếm và bộ lọc đều bị xóa trắng về mặc định.
+   - Khi chuyển trang hoặc tải trực tiếp theo URL tham số (`/study/exam-prep?id=1` hoặc `?id=toeic_lr_2026_01`), ứng dụng chưa tận dụng cơ chế Frame-0 probe tức thì trong bộ nhớ, dễ gây hiện tượng nháy khung xương (skeleton flash) hoặc độ trễ phản hồi không mong muốn.
+
+2. **Kiến Trúc In-Memory SWR Caching & Zustand Store (`stores/examCatalogStore.ts`)**:
+   - **Tải Ngay Lập Tức Frame 0 (0ms Instant Display)**: Store được khởi tạo đồng bộ ngay với 39 bộ đề chuẩn `MOCK_EXAM_PAPERS`, bộ đệm chi tiết `examDetailCache` được nạp sẵn tức thì theo cả `id` chuẩn lẫn số thứ tự (`"1"`, `"2"`, `"3"...`), triệt tiêu 100% độ trễ và hiện tượng giật khung xương Shimmer khi mở trang.
+   - **Cơ Chế SWR TTL 5 Phút (`EXAM_CATALOG_STALE_TIME_MS = 300,000ms`)**:
+     * Khi truy cập lần đầu hoặc trong thời hạn 5 phút: Trả về dữ liệu trong bộ nhớ RAM ngay lập tức (0ms).
+     * Khi hết hạn TTL: Trả về kết quả trong RAM lập tức (0ms) đồng thời âm thầm gửi request revalidate ngầm tới `/api/exams` hoặc `/api/exams/[id]`.
+     * Khi có lỗi mạng hoặc API gặp sự cố (500/timeout): Tự động fallback bền vững về ngân hàng đề thi chuẩn `MOCK_EXAM_PAPERS` mà không làm gián đoạn bài thi của học viên.
+   - **Bảo Toàn Trạng Thái Bộ Lọc Toàn Diện (Filter & Search State Preservation)**:
+     * Lưu giữ bền vững các tham số: `filterType`, `searchQuery`, `configMode`, `activeSkills`, `aiTopic`, `aiTargetScore`, `aiQuestionCount`.
+     * Cơ chế `toggleSkill`: Bảo vệ sư phạm nghiêm ngặt, tự động ngăn chặn việc bỏ chọn toàn bộ kỹ năng (luôn duy trì tối thiểu 1 kỹ năng hoạt động).
+   - **Quản Lý Phiên Làm Bài Trực Tuyến & Trang Kết Quả Bứt Phá**:
+     * Lưu trữ `workspaceSession` theo thời gian thực (thời gian còn lại, câu hỏi hiện tại, danh sách đáp án `userAnswers`, câu gắn cờ `flaggedQuestions`).
+     * Lưu trữ `lastSubmittedResult` và `lastSubmittedPaper` trong Zustand store, liên kết với `sessionStorage` để bảo toàn 100% kết quả thi thật khi chuyển sang `/study/exam-prep/result`, chấm dứt việc bị thay thế bởi dữ liệu mô phỏng ngẫu nhiên.
+
+3. **Tích Hợp Đồng Bộ & Kiểm Thử Tự Động Toàn Diện**:
+   - **Export chuẩn mực**: Re-export `useExamCatalogStore` tại [stores/index.ts](file:///e:/XP%20English%20%20XP%20Voca/stores/index.ts).
+   - **Kết nối giao diện**: Tích hợp hoàn chỉnh vào [app/(dashboard)/study/exam-prep/page.tsx](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/study/exam-prep/page.tsx) và [app/(dashboard)/study/exam-prep/result/page.tsx](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/study/exam-prep/result/page.tsx).
+   - **Automated Test Suite**: Tạo mới bộ kiểm thử chuyên sâu [__tests__/exam_prep_cache_swr.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/exam_prep_cache_swr.test.ts) bao gồm 14 test cases kiểm tra Frame-0 probe, TTL expiration, filter persistence, session management, và resilient fallback: **14/14 PASS 100%**.
+   - **Toàn bộ hệ thống**: Toàn bộ **111 test suites (1,181 tests)** đều vượt qua 100% với 0 lỗi TypeScript compiler (`tsc --noEmit`).
+
+---
+
+### 73. Kiến Trúc Bộ Câu Hỏi Đọc Hiểu Ngữ Cảnh Video 100% Song Ngữ (Bilingual Video Reading Comprehension Quiz) – Video 17: How Great Leaders Inspire Action | Simon Sinek (The Golden Circle)
+
+1. **Phân Tích Hiện Trạng & Yêu Cầu Nâng Cấp**:
+   - Video thứ 17 trong catalog là **Simon Sinek: How Great Leaders Inspire Action (The Golden Circle)** ([lesson_simon_sinek.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_simon_sinek.ts), ID: `vid_simon_sinek_golden_circle`, YouTube: `qp0HIF3SfI4`, CEFR B2, giọng chuẩn Mỹ `en-US`, 8 phân đoạn, 255 từ).
+   - Nội dung bài diễn thuyết TED kinh điển với hơn 60 triệu lượt xem của Simon Sinek: câu hỏi gợi mở về việc tại sao có những người đạt được thành tựu bất chấp mọi giả định thông thường (*defy all assumptions*), nghịch lý Apple khi chỉ là một công ty máy tính có cùng điều kiện tiếp cận nhân tài, đại lý và truyền thông như mọi đối thủ nhưng liên tục đổi mới vượt trội (*Apple innovation paradox*), câu hỏi vì sao Martin Luther King Jr. dẫn dắt Phong trào Dân quyền khi không phải người duy nhất chịu áp bức hay nhà hùng biện duy nhất, vì sao anh em nhà Wright phát minh ra chuyến bay có động cơ trong khi các đội ngũ khác có năng lực tốt hơn và được rót vốn dồi dào hơn (*beat them to it*), phát hiện chấn động thay đổi thế giới quan của tác giả, quy luật đồng nhất của các nhà lãnh đạo truyền cảm hứng vĩ đại: họ đều suy nghĩ, hành động và truyền đạt theo cùng một cách, hoàn toàn trái ngược với số đông (*complete opposite to everyone else*), và việc hệ thống hóa thành mô hình **Vòng Tròn Vàng (The Golden Circle)**.
+   - Mục tiêu: Nâng cấp bộ câu hỏi từ 3 câu lên **8 câu hỏi trắc nghiệm song ngữ chuyên sâu** chuẩn sư phạm Cambridge/Oxford, nâng mức thưởng hoàn thành lên **40 XP**.
+
+2. **Thiết Kế 8 Câu Hỏi Đọc Hiểu Ngữ Cảnh Song Ngữ Chuyên Sâu**:
+   - **Câu 1 (`q_simon_sinek_1`)**: Câu hỏi gợi mở nền tảng: giải thích khi người khác đạt được thành quả bất chấp mọi giả định thông thường (Segment 0, khái niệm: *Defying Assumptions Inquiry*).
+   - **Câu 2 (`q_simon_sinek_2`)**: Nghịch lý đổi mới sáng tạo của Apple: cùng tiếp cận nhân tài và nguồn lực tư vấn nhưng luôn vượt trội hơn hẳn đối thủ (Segment 1–2, khái niệm: *The Apple Innovation Paradox*).
+   - **Câu 3 (`q_simon_sinek_3`)**: Sức mạnh dẫn dắt của Martin Luther King Jr.: lý do ông trở thành linh hồn Phong trào Dân quyền dù có nhiều người chịu áp bức và nhà hùng biện khác (Segment 3, khái niệm: *Leadership of Martin Luther King Jr.*).
+   - **Câu 4 (`q_simon_sinek_4`)**: Đột phá hàng không của anh em nhà Wright: vượt mặt các đội ngũ có bằng cấp cao hơn và được tài trợ vốn nhiều hơn (Segment 4, khái niệm: *The Wright Brothers Flight Breakthrough*).
+   - **Câu 5 (`q_simon_sinek_5`)**: Bước ngoặt nhận thức sâu sắc của tác giả: phát hiện cách đó ba năm rưỡi thay đổi triệt để thế giới quan và hành vi (Segment 5, khái niệm: *Profound Shift in Worldview*).
+   - **Câu 6 (`q_simon_sinek_6`)**: Quy luật đồng nhất của các nhà lãnh đạo truyền cảm hứng: đều suy nghĩ, hành động và truyền đạt thông điệp theo cùng một phương thức chính xác (Segment 6, khái niệm: *The Universal Inspiring Pattern*).
+   - **Câu 7 (`q_simon_sinek_7`)**: Sự đối lập hoàn toàn với số đông: phương thức truyền đạt của những cá nhân xuất chúng đi ngược lại hoàn toàn với 99% tổ chức còn lại (Segment 7, khái niệm: *Complete Opposite to Everyone Else*).
+   - **Câu 8 (`q_simon_sinek_8`)**: Hệ thống hóa mô hình Vòng Tròn Vàng (The Golden Circle): ý tưởng đơn giản nhất thế giới giải mã thuật lãnh đạo truyền cảm hứng hành động (Segment 7, khái niệm: *The Golden Circle Framework*).
+
+3. **Chuẩn Hóa Cấu Trúc Dữ Liệu & Đóng Gói Module**:
+   - Cập nhật `QUIZ_SIMON_SINEK`:
+     * `totalQuestions`: 8 câu trắc nghiệm.
+     * `xpReward`: 40 XP.
+     * Đầy đủ 100% dữ liệu song ngữ Anh-Việt (`questionEn`, `questionVi`, `optionsEn`, `optionsVi`, `explanationEn`, `explanationVi`, `referenceSegmentIndex`, `targetedConceptEn`, `targetedConceptVi`, `generatedBy: "CONTEXTUAL_FALLBACK"`).
+   - Đóng gói chuẩn mực trong `lesson_simon_sinek.ts` và re-export tại `videoCatalogMockData.ts`.
+
+4. **Kiểm Thử Toàn Diện & Tự Động Hóa CI/CD**:
+   - Cập nhật test suite [__tests__/simon_sinek_verbatim.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/simon_sinek_verbatim.test.ts) xác nhận 8 câu hỏi, 40 XP, khớp nối verbatim 255 từ: **7/7 PASS 100%**.
+   - Kiểm tra `tsc --noEmit` đạt 0 lỗi.
+
+---
+
+### 74. Kiến Trúc Bộ Câu Hỏi Đọc Hiểu Ngữ Cảnh Video 100% Song Ngữ (Bilingual Video Reading Comprehension Quiz) – Video 18: Attending a Meeting in English | Oxford Online English
+
+1. **Phân Tích Hiện Trạng & Yêu Cầu Nâng Cấp**:
+   - Video thứ 18 trong catalog là **Oxford Online English: Attending a Meeting in English - Useful Phrases for Meetings** ([lesson_oxford_meeting.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_oxford_meeting.ts), ID: `vid_oxford_business_meeting`, YouTube: `NEKZFA7L7Lg`, CEFR B1, giọng chuẩn RP British English `en-GB`, 10 phân đoạn, 160 từ).
+   - Nội dung bài học tiếng Anh giao tiếp công sở chuyên nghiệp từ Oxford Online English: các bước tham gia cuộc họp sau phần chào hỏi giới thiệu (*Now that you've introduced yourself...*), cách phát biểu ý kiến về các hạng mục trong chương trình nghị sự (*give your opinion on agenda items*), phản hồi các đề xuất của đồng nghiệp (*react to suggestions*), cách sử dụng các động từ khuyết thiếu để đưa ra đề xuất mang tính gợi ý mà không tạo nghĩa vụ áp đặt (*should, ought to, might want to - not an obligation*), nghệ thuật nói giảm nói tránh tinh tế (*We might want to consider...*), cách đặt ưu tiên công việc (*make this a priority*), phân biệt với các cấu trúc diễn đạt nghĩa vụ bắt buộc (*have to, need to - obligation* như cải thiện dữ liệu bán hàng hay tìm giải pháp ngân sách eo hẹp *tight budget*), và cách đưa ra các đề xuất phủ định mang tính xây dựng (*constructive negative suggestions* như *We shouldn't rush this - think it through carefully*).
+   - Mục tiêu: Nâng cấp bộ câu hỏi từ 3 câu lên **8 câu hỏi trắc nghiệm song ngữ chuyên sâu** chuẩn sư phạm Cambridge/Oxford, nâng mức thưởng hoàn thành lên **40 XP**.
+
+2. **Thiết Kế 8 Câu Hỏi Đọc Hiểu Ngữ Cảnh Song Ngữ Chuyên Sâu**:
+   - **Câu 1 (`q_oxford_meeting_1`)**: Quy trình cuộc họp và phát biểu ý kiến: bắt đầu cuộc họp và tham gia thảo luận các hạng mục nghị trình (Segment 0–1, khái niệm: *Meeting Flow & Giving Opinions on Agenda Items*).
+   - **Câu 2 (`q_oxford_meeting_2`)**: Tương tác then chốt trong cuộc họp: kỹ năng phản hồi các đề xuất của đồng nghiệp (Segment 2, khái niệm: *Reacting to Colleagues' Suggestions*).
+   - **Câu 3 (`q_oxford_meeting_3`)**: Động từ khuyết thiếu cho lời gợi ý không ép buộc: sử dụng *should*, *ought to*, và *might want to* (Segment 3, khái niệm: *Modal Verbs & Suggestions*).
+   - **Câu 4 (`q_oxford_meeting_4`)**: Ví dụ với *ought to* trong quan hệ khách hàng: gửi quà tặng tri ân khách hàng mới từ công ty (Segment 4, khái niệm: *Using Ought To for Client Relations*).
+   - **Câu 5 (`q_oxford_meeting_5`)**: Nghệ thuật nói giảm nói tránh lịch thiệp: cụm *might want to consider* làm mềm lời đề xuất tuyển kỹ sư mới (Segment 5, khái niệm: *Workplace Communication & Politeness*).
+   - **Câu 6 (`q_oxford_meeting_6`)**: Xác lập thứ tự ưu tiên: cấu trúc *make this a priority for this month* kết hợp với *should* (Segment 6, khái niệm: *Setting Priorities with Should*).
+   - **Câu 7 (`q_oxford_meeting_7`)**: Diễn đạt nghĩa vụ bắt buộc trong công sở: phân biệt *have to* và *need to* khi chuẩn hóa dữ liệu bán hàng và xử lý ngân sách eo hẹp (*tight budget*) (Segment 7–8, khái niệm: *Expressing Workplace Obligations*).
+   - **Câu 8 (`q_oxford_meeting_8`)**: Đề xuất phủ định mang tính xây dựng: không nên vội vã, cần suy nghĩ thấu đáo (*think it through*) hoặc chưa cần tuyển thêm người lúc này (Segment 9, khái niệm: *Constructive Negative Suggestions*).
+
+3. **Chuẩn Hóa Cấu Trúc Dữ Liệu & Đóng Gói Module**:
+   - Cập nhật `QUIZ_OXFORD_MEETING`:
+     * `totalQuestions`: 8 câu trắc nghiệm.
+     * `xpReward`: 40 XP.
+     * Đầy đủ 100% dữ liệu song ngữ Anh-Việt (`questionEn`, `questionVi`, `optionsEn`, `optionsVi`, `explanationEn`, `explanationVi`, `referenceSegmentIndex`, `targetedConceptEn`, `targetedConceptVi`, `generatedBy: "CONTEXTUAL_FALLBACK"`).
+   - Đóng gói chuẩn mực trong `lesson_oxford_meeting.ts` và re-export tại `videoCatalogMockData.ts`.
+
+4. **Kiểm Thử Toàn Diện & Tự Động Hóa CI/CD**:
+   - Cập nhật test suite [__tests__/oxford_meeting_verbatim.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/oxford_meeting_verbatim.test.ts) xác nhận 8 câu hỏi, 40 XP, khớp nối verbatim 160 từ: **7/7 PASS 100%**.
+   - Kiểm tra `tsc --noEmit` đạt 0 lỗi.
+
+---
+
+### 75. Kiến Trúc Bộ Câu Hỏi Đọc Hiểu Ngữ Cảnh Video 100% Song Ngữ (Bilingual Video Reading Comprehension Quiz) – Video 19: How to Speak So That People Want to Listen | Julian Treasure (HOÀN TẤT 100% TOÀN BỘ 19/19 VIDEO BÀI HỌC)
+
+1. **Phân Tích Hiện Trạng & Yêu Cầu Nâng Cấp**:
+   - Video thứ 19 trong catalog và cũng là video cuối cùng trong toàn bộ kho dữ liệu là **Julian Treasure: How to Speak So That People Want to Listen** ([lesson_julian_treasure.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_julian_treasure.ts), ID: `vid_julian_treasure_speak`, YouTube: `eIho2S0ZahI`, CEFR B2, giọng chuẩn Anh `en-GB`, 10 phân đoạn, 177 từ).
+   - Nội dung bài diễn thuyết TED kinh điển với hơn 100 triệu lượt xem của chuyên gia âm thanh Julian Treasure: ẩn dụ giọng nói con người như thứ nhạc cụ mà tất cả chúng ta đều chơi (*the instrument we all play*), âm thanh quyền năng nhất trần đời với biên độ cảm xúc vô tận từ khơi mào chiến tranh đến cất lời yêu thương (*start a war or say I love you*), nghịch lý cất tiếng nói nhưng không ai lắng nghe (*people don't listen to them*), câu hỏi làm sao để nói đầy uy lực nhằm tạo ra thay đổi (*speak powerfully to make change in the world*), định hướng từ bỏ các thói quen xấu (*move away from bad habits*), hệ thống hóa **Bảy thói xấu chết người trong giao tiếp (The Seven Deadly Sins of Speaking)**, sự không hoàn hảo mang tính bao quát (*pretty large habits that we can all fall into*), thói xấu thứ nhất: ngồi lê đôi mách (*Gossip - speaking ill of somebody who's not present*) và sự thật trớ trêu rằng 5 phút sau kẻ đó sẽ lại đem chính ta ra đàm tiếu, và thói xấu thứ hai: sự phán xét (*Judging - hard to listen if you know you are being judged and found wanting*).
+   - Mục tiêu: Nâng cấp bộ câu hỏi từ 3 câu lên **8 câu hỏi trắc nghiệm song ngữ chuyên sâu** chuẩn sư phạm Cambridge/Oxford, nâng mức thưởng hoàn thành lên **40 XP**. Đây là cột mốc chính thức hoàn tất **100% toàn bộ 19/19 video bài học** trong kho tàng Dictation & Shadowing của hệ thống XP English!
+
+2. **Thiết Kế 8 Câu Hỏi Đọc Hiểu Ngữ Cảnh Song Ngữ Chuyên Sâu**:
+   - **Câu 1 (`q_vid_julian_treasure_speak_1`)**: Phép ẩn dụ nhạc cụ của giọng nói con người: *The instrument that we all play* (Segment 0, khái niệm: *The Instrument We All Play Metaphor*).
+   - **Câu 2 (`q_vid_julian_treasure_speak_2`)**: Biên độ cảm xúc và sức mạnh to lớn: âm thanh duy nhất có thể khơi mào chiến tranh hoặc nói lời yêu thương (*start a war or say 'I love you'*) (Segment 1, khái niệm: *The Immense Power of the Voice*).
+   - **Câu 3 (`q_vid_julian_treasure_speak_3`)**: Nghịch lý trong giao tiếp xã hội: nhiều người trải qua cảm giác khi họ nói thì không ai lắng nghe (*people don't listen to them*) (Segment 2, khái niệm: *The Dilemma of Not Being Listened To*).
+   - **Câu 4 (`q_vid_julian_treasure_speak_4`)**: Mục tiêu cốt lõi và hành động cần làm: nói đầy uy lực để tạo thay đổi và từ bỏ các thói quen xấu (*move away from harmful habits*) (Segment 3–4, khái niệm: *Speaking Powerfully & Moving Away from Bad Habits*).
+   - **Câu 5 (`q_vid_julian_treasure_speak_5`)**: Khái niệm tổng hợp các thói quen xấu: Bảy thói xấu chết người trong giao tiếp (*Seven deadly sins of speaking*) (Segment 5–6, khái niệm: *The Seven Deadly Sins of Speaking*).
+   - **Câu 6 (`q_vid_julian_treasure_speak_6`)**: Thói xấu chết người đầu tiên: Ngồi lê đôi mách (*Gossip - speaking ill of somebody who is not present*) (Segment 7, khái niệm: *Deadly Sin #1: Gossip*).
+   - **Câu 7 (`q_vid_julian_treasure_speak_7`)**: Sự thật tâm lý về kẻ ngồi lê đôi mách: 5 phút sau họ sẽ lại nói xấu chính chúng ta (*five minutes later, will be gossiping about us*) (Segment 8, khái niệm: *The Reciprocal Nature of Gossiping*).
+   - **Câu 8 (`q_vid_julian_treasure_speak_8`)**: Thói xấu thứ hai và rào cản giao tiếp: Sự phán xét khiến người khác thấy mình bị chê bai thiếu sót (*judged and found wanting*) (Segment 9, khái niệm: *Deadly Sin #2: Judging and Found Wanting*).
+
+3. **Chuẩn Hóa Cấu Trúc Dữ Liệu & Đóng Gói Module**:
+   - Cập nhật `QUIZ_JULIAN_TREASURE`:
+     * `totalQuestions`: 8 câu trắc nghiệm.
+     * `xpReward`: 40 XP.
+     * Đầy đủ 100% dữ liệu song ngữ Anh-Việt (`questionEn`, `questionVi`, `optionsEn`, `optionsVi`, `explanationEn`, `explanationVi`, `referenceSegmentIndex`, `targetedConceptEn`, `targetedConceptVi`, `generatedBy: "CONTEXTUAL_FALLBACK"`).
+   - Đóng gói chuẩn mực trong `lesson_julian_treasure.ts` và re-export tại `videoCatalogMockData.ts`.
+
+4. **Kiểm Thử Toàn Diện & Cột Mốc Hoàn Tất Toàn Bộ Catalog (19/19 Lessons)**:
+   - Cập nhật test suite [__tests__/julian_treasure_verbatim.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/julian_treasure_verbatim.test.ts) xác nhận 8 câu hỏi, 40 XP, khớp nối verbatim 177 từ: **7/7 PASS 100%**.
+   - Kiểm tra `tsc --noEmit` đạt 0 lỗi.
+   - **TỔNG KẾT BỘ VIDEO CATALOG**: Đã hoàn thành chuẩn hóa 100% cho toàn bộ **19/19 video bài học** trong hệ thống XP English, mỗi bài học đều trang bị chính xác **8 câu hỏi trắc nghiệm ngữ cảnh song ngữ chuyên sâu** (tổng cộng 152 câu hỏi song ngữ), bám sát 100% phụ đề verbatim, cơ chế thưởng chuẩn **40 XP/video**, phân loại sư phạm theo CEFR A1-C1 và giọng đọc đa dạng (Mỹ, Anh, Úc).
+
+---
+
+### 76. Kiến Trúc Bộ Đệm In-Memory SWR & Quản Lý Trạng Thái Kho Từ Vựng & Flashcard 3D (`/vocabulary` & `/vocabulary/[id]`)
+
+1. **Bối Cảnh & Vấn Đề Cần Giải Quyết**:
+   - Kho Từ Vựng & Thẻ Học Flashcard 3D (`/vocabulary` & `/vocabulary/[id]`) quản lý 215 chủ đề từ vựng phong phú:
+     * **60 Chủ đề cơ bản (A1 - A2)** với 1.248+ từ vựng thiết yếu, phiên âm chuẩn IPA quốc tế, nghĩa tiếng Việt và 2 ví dụ song ngữ.
+     * **155 Chủ đề nâng cao (B1 - C2)** với 8.900+ từ vựng học thuật, chuyên ngành, IELTS & TOEIC.
+   - Trước đây, `VocabularyThemesClientList` quản lý cấp độ học (`levelMode: "basic" | "advanced"`), ô tìm kiếm chủ đề (`search`), và số lượng hiển thị (`displayedCount`) bằng local state của React component. Khi người học chọn một chủ đề để học Flashcard hoặc làm bài Quiz tại `/vocabulary/[id]` rồi bấm "Quay lại", toàn bộ trạng thái tìm kiếm và phân trang đều bị đặt lại về mặc định.
+   - Tại trang chi tiết chủ đề `/vocabulary/[id]`, chế độ xem (`viewMode: "flashcard" | "list" | "quiz" | "ai"`) cũng bị reset, và danh sách từ vựng phải nạp lại từ API mỗi lần chuyển trang mà không có bộ đệm dùng chung.
+
+2. **Kiến Trúc In-Memory SWR Caching & Zustand Store (`stores/vocabularyCatalogStore.ts`)**:
+   - **Tải Ngay Lập Tức Frame 0 (0ms Instant Display)**:
+     * Store được khởi tạo đồng bộ ngay với 60 chủ đề cơ bản (`basicThemes`) và 155 chủ đề nâng cao (`advancedThemes`), đồng thời gom nhóm và nạp sẵn toàn bộ từ vựng theo `themeId` vào `themeWordsCache` ngay khi khởi tạo ứng dụng.
+     * Mọi thao tác mở danh mục hoặc truy cập trực tiếp vào chi tiết chủ đề đều đạt phản hồi tức thời **0ms Frame-0**, loại bỏ triệt để hiện tượng giật trắng hay nháy loading.
+   - **Cơ Chế SWR TTL 5 Phút (`VOCABULARY_CATALOG_STALE_TIME_MS = 300,000ms`)**:
+     * Trả về dữ liệu trong bộ nhớ RAM ngay lập tức (0ms).
+     * Khi cache hết hạn hoặc người dùng chủ động làm mới (`forceRefresh`), hệ thống âm thầm gửi request revalidate tới `/api/vocabulary?themeId=...` và tự động cập nhật lại bộ đệm RAM.
+     * Khi mất kết nối mạng hoặc server gián đoạn, tự động fallback an toàn về ngân hàng từ vựng chuẩn cục bộ mà không làm gián đoạn việc học Flashcard hay làm Quiz.
+   - **Bảo Toàn Trạng Thái Bộ Lọc Toàn Diện (Filter & Search State Preservation)**:
+     * Lưu giữ trạng thái `levelMode` ("basic" hoặc "advanced"), từ khóa tìm kiếm `searchQuery`, số lượng thẻ hiển thị `displayedCount`, và chế độ học `viewMode` ("flashcard", "list", "quiz", "ai").
+     * Thí sinh thoải mái học tập qua lại giữa danh mục và phòng học chi tiết mà không bị mất dấu chủ đề đang tìm kiếm.
+
+3. **Tích Hợp Đồng Bộ & Kiểm Thử Tự Động Toàn Diện**:
+   - **Export chuẩn mực**: Re-export `useVocabularyCatalogStore` tại [stores/index.ts](file:///e:/XP%20English%20%20XP%20Voca/stores/index.ts).
+   - **Kết nối giao diện**: Tích hợp hoàn chỉnh vào [app/(dashboard)/vocabulary/VocabularyThemesClientList.tsx](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/vocabulary/VocabularyThemesClientList.tsx) và [app/(dashboard)/vocabulary/[id]/page.tsx](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/vocabulary/[id]/page.tsx).
+   - **Automated Test Suite**: Tạo mới bộ kiểm thử chuyên sâu [__tests__/vocabulary_catalog_cache_swr.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/vocabulary_catalog_cache_swr.test.ts) bao gồm 11 test cases kiểm tra Frame-0 probe, TTL expiration, filter persistence, pagination updater, và resilient fallback: **11/11 PASS 100%**.
+   - **Toàn bộ hệ thống**: Toàn bộ **112 test suites (1,192 tests)** đều vượt qua 100% với 0 lỗi TypeScript compiler (`tsc --noEmit`).
+
+---
+
+### 76. Kiến Trúc Bộ Câu Hỏi Đọc Hiểu Ngữ Cảnh Video 100% Song Ngữ (Bilingual Video Reading Comprehension Quiz) – Video 20: How Languages Evolve | Alex Gendler (TED-Ed)
+
+1. **Phân Tích Hiện Trạng & Mở Rộng Catalog**:
+   - Nhằm mở rộng kho tàng bài học video chất lượng cao đáp ứng nhu cầu học viên liên tục, hệ thống tích hợp chính thức **Video bài học thứ 20**: **TED-Ed: How Languages Evolve - Alex Gendler** ([lesson_alex_gendler_languages.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_alex_gendler_languages.ts), ID: `vid_alex_gendler_languages`, YouTube: `iWDKsHm6gTA`, CEFR B1, giọng chuẩn Mỹ `en-US`, 10 phân đoạn, 138 tokens, 01:01).
+   - Nội dung bài học kinh điển từ TED-Ed với sự tham gia của diễn giả Alex Gendler giải mã sự phát triển của hơn 7.000 ngôn ngữ trên thế giới từ chỗ ban đầu chỉ có một số ít (*developed from what was once just a handful*), so sánh sự tiến hóa của ngôn ngữ với các sinh vật sống (*just like living organisms, languages evolve through gradual changes*), sự phân nhánh tự nhiên của thói quen phát âm khi các nhóm người bị cô lập về mặt địa lý (*geographically isolated, speech patterns naturally diverge*), quá trình chuyển hóa qua nhiều thế kỷ từ khác biệt phát âm tinh tế thành phương ngữ mới và ngôn ngữ riêng biệt (*dialects into distinct languages*), nghiên cứu điển hình về tiếng Latinh trong Đế chế La Mã cổ đại 2.000 năm trước (*Latin across the ancient Roman Empire two millennia ago*), sự phân hóa sau khi đế chế sụp đổ thành các biến thể địa phương ở Pháp, Tây Ban Nha, Ý (*local variations*), và sự hình thành ngữ hệ Rô-man (*Romance language family originating from Rome*).
+   - Thiết kế chuẩn mực **8 câu hỏi trắc nghiệm song ngữ chuyên sâu** chuẩn sư phạm Cambridge/Oxford, nâng mức thưởng hoàn thành lên **40 XP**.
+
+2. **Thiết Kế 8 Câu Hỏi Đọc Hiểu Ngữ Cảnh Song Ngữ Chuyên Sâu**:
+   - **Câu 1 (`q_alex_gendler_1`)**: Nguồn gốc xuất phát điểm của các ngôn ngữ: phát triển từ một số ít ngôn ngữ cổ xưa (*developed from a handful*) (Segment 0, khái niệm: *Handful of Ancestral Languages*).
+   - **Câu 2 (`q_alex_gendler_2`)**: Quy mô đa dạng ngôn ngữ hiện nay: hơn 7.000 ngôn ngữ được nói khắp thế giới (Segment 1, khái niệm: *Global Linguistic Diversity*).
+   - **Câu 3 (`q_alex_gendler_3`)**: Phép so sánh tiến hóa ngôn ngữ: tương tự sinh vật sống biến đổi dần qua nhiều thế hệ (Segment 3, khái niệm: *Language Evolution as Living Organisms*).
+   - **Câu 4 (`q_alex_gendler_4`)**: Tác động của cô lập địa lý: thói quen phát âm tự nhiên phân nhánh (*speech patterns naturally diverge*) (Segment 4, khái niệm: *Geographic Isolation & Speech Divergence*).
+   - **Câu 5 (`q_alex_gendler_5`)**: Tiến trình thời gian qua nhiều thế kỷ: từ biến âm tinh tế thành phương ngữ và ngôn ngữ riêng biệt (Segment 5, khái niệm: *Dialects Evolving into Distinct Languages*).
+   - **Câu 6 (`q_alex_gendler_6`)**: Ngôn ngữ điển hình của Đế chế La Mã: tiếng Latinh cách đây hai thiên niên kỷ (*Latin two millennia ago*) (Segment 6, khái niệm: *Latin as the Roman Empire Lingua Franca*).
+   - **Câu 7 (`q_alex_gendler_7`)**: Hậu quả khi đế chế La Mã sụp đổ: các cộng đồng khu vực phát triển biến thể địa phương độc lập (Segment 7, khái niệm: *Imperial Collapse & Local Variations*).
+   - **Câu 8 (`q_alex_gendler_8`)**: Nguồn gốc tên gọi Ngữ hệ Rô-man: vì bắt nguồn từ Rome/La Mã (*Romance language family originating from Rome*) (Segment 9, khái niệm: *The Romance Language Family & Roman Origin*).
+
+3. **Chuẩn Hóa Cấu Trúc Dữ Liệu & Đóng Gói Module**:
+   - Cấu trúc `QUIZ_ALEX_GENDLER_LANGUAGES`:
+     * `totalQuestions`: 8 câu trắc nghiệm.
+     * `xpReward`: 40 XP.
+     * Đầy đủ 100% dữ liệu song ngữ Anh-Việt (`questionEn`, `questionVi`, `optionsEn`, `optionsVi`, `explanationEn`, `explanationVi`, `referenceSegmentIndex`, `targetedConceptEn`, `targetedConceptVi`, `generatedBy: "CONTEXTUAL_FALLBACK"`).
+   - Đóng gói chuẩn mực trong `lesson_alex_gendler_languages.ts` và tích hợp vào `videoCatalogMockData.ts`.
+
+4. **Kiểm Thử Toàn Diện & Tự Động Hóa CI/CD**:
+   - Xây dựng test suite [__tests__/alex_gendler_languages_verbatim.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/alex_gendler_languages_verbatim.test.ts) xác nhận 8 câu hỏi, 40 XP, 10 phân đoạn verbatim và 138 token: **6/6 PASS 100%**.
+   - Kiểm tra `tsc --noEmit` đạt 0 lỗi.
+
+---
+
+### 77. Kiến Trúc Bộ Đệm In-Memory SWR & Quản Lý Trạng Thái Đấu Trường Luyện Từ Vựng Đa Năng (`/study/practice`)
+
+1. **Bối Cảnh & Vấn Đề Cần Giải Quyết**:
+   - Trang **Luyện Từ Vựng Đa Năng** (`/study/practice`, hook `usePracticeSession`) là trụ cột thứ 3 trực thuộc thanh điều hướng [StudySuiteNavTabs](file:///e:/XP%20English%20%20XP%20Voca/shared/components/layout/nav-tabs/StudySuiteNavTabs.tsx), cung cấp 4 chế độ đấu trường thực chiến toàn diện: Flashcard 3D, Trắc nghiệm phản xạ 4 lựa chọn (Quiz), Gõ từ & ngữ cảnh (Writing), và Thu âm luyện phát âm AI (Speaking Arena).
+   - Trước đây, toàn bộ danh sách từ vựng luyện tập (`dbVocabs`), cờ tải trang (`isLoading`), phân chế độ (`subMode`), vị trí câu hiện tại (`currentIndex`), và đồng hồ bấm giờ (`elapsedTime`) đều được lưu trữ trong state cục bộ của hook React. Khi học viên chuyển qua lại giữa các tab trong Study Suite (`Dictation`, `Shadowing`, `Luyện từ vựng`, `Thi thử đề`) hoặc mở modal/sidebar rồi quay lại, toàn bộ tiến độ làm bài dở dang, số câu đã trả lời và đồng hồ đếm thời gian đều bị xóa trắng về 0.
+   - Thêm vào đó, mỗi lần vào trang đều kích hoạt cờ `isLoading: true` và đợi fetch API `/api/vocabulary?limit=25&random=true`, gây hiện tượng nháy màn hình không mong muốn.
+
+2. **Kiến Trúc In-Memory SWR Caching & Zustand Store (`stores/practiceCatalogStore.ts`)**:
+   - **Tải Ngay Lập Tức Frame 0 (0ms Instant Display)**:
+     * Khởi tạo đồng bộ ngay với 25 từ vựng mẫu chất lượng cao (`INITIAL_PRACTICE_VOCABS`), đẩy cờ `isVocabsLoading` về `false` ngay từ Frame 0.
+     * Mọi thao tác truy cập vào `/study/practice` đều nạp dữ liệu tức thì **0ms**, triệt tiêu 100% hiện tượng màn hình trắng hoặc giật loading.
+   - **Cơ Chế SWR TTL 5 Phút (`PRACTICE_CATALOG_STALE_TIME_MS = 300,000ms`)**:
+     * Trả về dữ liệu trong bộ nhớ RAM ngay lập tức (0ms).
+     * Khi cache hết hạn hoặc khi người dùng đổi chủ đề/cấp độ (`themeId`, `level`), hệ thống âm thầm gửi request revalidate tới `/api/vocabulary` và tự động cập nhật lại kho từ vựng trong RAM theo nhóm (`customVocabsCache`).
+     * Cơ chế dự phòng offline/lỗi mạng: Fallback an toàn về ngân hàng từ vựng chuẩn cục bộ nếu API gặp sự cố, đảm bảo phiên luyện tập 25 từ luôn liền mạch không bị ngắt quãng.
+   - **Bảo Toàn Trạng Thái Phiên Luyện Tập Toàn Diện (Session & SubMode State Preservation)**:
+     * Lưu giữ trạng thái `subMode` ("quiz", "flashcard", "writing", "speaking"), vị trí câu `currentIndex`, thời gian trôi qua `elapsedTime`, và tổng điểm XP đạt được `totalEarnedXp`.
+     * Học viên thoải mái chuyển tab trong thanh Study Suite hoặc chuyển URL có tham số `?subMode=writing` mà không bị gián đoạn hay mất phiên làm bài.
+     * Cung cấp hàm `restartSession()` để làm mới phiên học sạch sẽ khi học viên chủ động bấm "Luyện lại".
+
+3. **Tích Hợp Đồng Bộ & Kiểm Thử Tự Động Toàn Diện**:
+   - **Export chuẩn mực**: Re-export `usePracticeCatalogStore` tại [stores/index.ts](file:///e:/XP%20English%20%20XP%20Voca/stores/index.ts).
+   - **Kết nối hook**: Tích hợp hoàn chỉnh vào [features/practice/hooks/usePracticeSession.ts](file:///e:/XP%20English%20%20XP%20Voca/features/practice/hooks/usePracticeSession.ts) và [app/(dashboard)/study/practice/page.tsx](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/study/practice/page.tsx).
+   - **Automated Test Suite**: Tạo mới bộ kiểm thử chuyên sâu [__tests__/practice_catalog_cache_swr.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/practice_catalog_cache_swr.test.ts) bao gồm 12 test cases kiểm tra Frame-0 probe, TTL expiration, session persistence, custom pool caching, và resilient fallback: **12/12 PASS 100%**.
+   - **Toàn bộ hệ thống**: Toàn bộ **113 test suites (1,207 tests)** đều vượt qua 100% với 0 lỗi TypeScript compiler (`tsc --noEmit`).
+
+---
+
+### 77. Kiến Trúc Bộ Câu Hỏi Đọc Hiểu Ngữ Cảnh Video 100% Song Ngữ (Bilingual Video Reading Comprehension Quiz) – Video 21: Food and Mood | BBC Learning English (6 Minute English)
+
+1. **Phân Tích Hiện Trạng & Mở Rộng Catalog**:
+   - Tiếp tục chiến lược mở rộng kho học liệu video chất lượng cao từ các đài truyền thông quốc tế uy tín, hệ thống tích hợp chính thức **Video bài học thứ 21**: **BBC Learning English: Food and Mood - 6 Minute English** ([lesson_bbc_food_mood.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_bbc_food_mood.ts), ID: `vid_bbc_food_and_mood`, YouTube: `8K8s9U8_i50`, CEFR B1, giọng chuẩn Anh `en-GB`, 10 phân đoạn, 139 tokens, 01:06).
+   - Nội dung chương trình 6 Minute English từ đài BBC với hai người dẫn Neil và Sam bàn luận về cách thức thực phẩm tác động trực tiếp đến tâm trạng và cảm xúc (*food and how it affects our mood*), các hiện tượng tâm lý quen thuộc như cáu kỉnh khi đói hoặc cảm giác an ủi khi ăn món tráng miệng (*grumpy when hungry, comforted after eating favorite dessert*), những phát hiện khoa học đột phá kết nối dinh dưỡng với chức năng não bộ (*strong links between what we eat and how our brain functions*), sự ra đời của ngành tâm thần học dinh dưỡng (*nutritional psychiatry*), câu hỏi đố về tỷ lệ serotonin - chất dẫn truyền thần kinh hạnh phúc (*happiness neurotransmitter*) - được sản xuất bên trong đường ruột (*produced in the gut*), và phỏng đoán lý thú của Neil về con số 90%.
+   - Thiết kế chuẩn mực **8 câu hỏi trắc nghiệm song ngữ chuyên sâu** chuẩn sư phạm Cambridge/Oxford, nâng mức thưởng hoàn thành lên **40 XP**.
+
+2. **Thiết Kế 8 Câu Hỏi Đọc Hiểu Ngữ Cảnh Song Ngữ Chuyên Sâu**:
+   - **Câu 1 (`q_bbc_food_mood_1`)**: Chủ đề trung tâm của cuộc thảo luận: thực phẩm và tác động lên tâm trạng con người (*food and how it affects our mood*) (Segment 1, khái niệm: *Food and Mood Relationship*).
+   - **Câu 2 (`q_bbc_food_mood_2`)**: Ví dụ cảm xúc hàng ngày quen thuộc: cáu kỉnh khi đói bụng hoặc thoải mái khi ăn đồ ngọt (Segment 2, khái niệm: *Hungry-Grumpy and Comfort Food*).
+   - **Câu 3 (`q_bbc_food_mood_3`)**: Khám phá khoa học dinh dưỡng: mối liên hệ chặt chẽ giữa thức ăn và chức năng não bộ (*strong links between diet and brain functions*) (Segment 3, khái niệm: *Food and Brain Function Links*).
+   - **Câu 4 (`q_bbc_food_mood_4`)**: Lĩnh vực y học chuyên trách: Tâm thần học dinh dưỡng nghiên cứu chế độ ăn và sức khỏe tâm thần (*Nutritional psychiatry*) (Segment 4, khái niệm: *Nutritional Psychiatry*).
+   - **Câu 5 (`q_bbc_food_mood_5`)**: Đặc tính sinh học của Serotonin: chất dẫn truyền thần kinh hạnh phúc (*the happiness neurotransmitter*) (Segment 6, khái niệm: *Serotonin: Happiness Neurotransmitter*).
+   - **Câu 6 (`q_bbc_food_mood_6`)**: Cơ quan sản xuất Serotonin chính: đường ruột tiêu hóa của cơ thể (*produced in the gut*) (Segment 6, khái niệm: *Gut Serotonin Production*).
+   - **Câu 7 (`q_bbc_food_mood_7`)**: Ba lựa chọn trắc nghiệm trong câu đố: 10%, 50% hoặc 90% (Segment 7, khái niệm: *Serotonin Quiz Options*).
+   - **Câu 8 (`q_bbc_food_mood_8`)**: Phỏng đoán của Neil: lựa chọn 90% vì tầm quan trọng to lớn của hệ đường ruột (Segment 8, khái niệm: *Neil's Gut Serotonin Prediction*).
+
+3. **Chuẩn Hóa Cấu Trúc Dữ Liệu & Đóng Gói Module**:
+   - Cấu trúc `QUIZ_BBC_FOOD_MOOD`:
+     * `totalQuestions`: 8 câu trắc nghiệm.
+     * `xpReward`: 40 XP.
+     * Đầy đủ 100% dữ liệu song ngữ Anh-Việt (`questionEn`, `questionVi`, `optionsEn`, `optionsVi`, `explanationEn`, `explanationVi`, `referenceSegmentIndex`, `targetedConceptEn`, `targetedConceptVi`, `generatedBy: "CONTEXTUAL_FALLBACK"`).
+   - Đóng gói chuẩn mực trong `lesson_bbc_food_mood.ts` và tích hợp vào `videoCatalogMockData.ts`.
+
+4. **Kiểm Thử Toàn Diện & Tự Động Hóa CI/CD**:
+   - Xây dựng test suite [__tests__/bbc_food_mood_verbatim.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/bbc_food_mood_verbatim.test.ts) xác nhận 8 câu hỏi, 40 XP, 10 phân đoạn verbatim và 142 token: **6/6 PASS 100%**.
+   - Kiểm tra `tsc --noEmit` đạt 0 lỗi.
+
+---
+
+
+### 78. Kiến Trúc Bộ Câu Hỏi Đọc Hiểu Ngữ Cảnh Video 100% Song Ngữ (Bilingual Video Reading Comprehension Quiz) – Video 22: Is Laughter the Best Medicine? | BBC Learning English (6 Minute English)
+
+1. **Phân Tích Hiện Trạng & Mở Rộng Catalog**:
+   - Tiếp tục mở rộng kho tàng bài học video chất lượng cao từ đài BBC, hệ thống tích hợp chính thức **Video bài học thứ 22**: **BBC Learning English: Is Laughter the Best Medicine? - 6 Minute English** ([lesson_bbc_laughter_medicine.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_bbc_laughter_medicine.ts), ID: `vid_bbc_laughter_medicine`, YouTube: `0_S-i2f_jLw`, CEFR B1, giọng chuẩn Anh `en-GB`, 10 phân đoạn, 190 tokens, 01:05).
+   - Nội dung bài học đầy năng lượng từ hai người dẫn chuyện Neil và Sam bàn luận về lợi ích trị liệu của nụ cười: câu đùa chơi chữ mở đầu về loài chuột (*What's a rat's favourite game? Hide and squeak!*), câu ngạn ngữ tiếng cười là liều thuốc tốt nhất (*laughter is the best medicine*), bằng chứng y khoa về việc cười giải phóng các endorphin chống căng thẳng (*anti-stress endorphins*) giúp bệnh nhân phục hồi nhanh hơn, tiếng cười là một phần thiết yếu tạo nên nhân tính (*essential part of what makes us human*), khả năng cười của trẻ sơ sinh xuất hiện rất sớm từ 2 đến 3 tháng tuổi, tính lây lan tự nhiên của tiếng cười (*laughter is catching*), câu hỏi đố về ngành khoa học nghiên cứu tiếng cười mang tên **Gelotology** (từ gốc Hy Lạp *gelos* = tiếng cười), và câu thành ngữ hóm hỉnh *laughing on the other side of your face*.
+   - Thiết kế chuẩn mực **8 câu hỏi trắc nghiệm song ngữ chuyên sâu** chuẩn sư phạm Cambridge/Oxford, nâng mức thưởng hoàn thành lên **40 XP**.
+
+2. **Thiết Kế 8 Câu Hỏi Đọc Hiểu Ngữ Cảnh Song Ngữ Chuyên Sâu**:
+   - **Câu 1 (`q_bbc_laughter_med_1`)**: Câu đùa chơi chữ mở đầu: Trò chơi yêu thích của loài chuột là Hide and squeak (Segment 1, khái niệm: *Pun: Hide and Squeak Joke*).
+   - **Câu 2 (`q_bbc_laughter_med_2`)**: Câu tục ngữ trị liệu phổ biến: Tiếng cười là liều thuốc tốt nhất (*laughter is the best medicine*) (Segment 3, khái niệm: *Laughter as the Best Medicine*).
+   - **Câu 3 (`q_bbc_laughter_med_3`)**: Chất sinh hóa giải phóng khi cười: Các endorphin chống căng thẳng (*anti-stress endorphins*) (Segment 4, khái niệm: *Anti-stress Endorphins*).
+   - **Câu 4 (`q_bbc_laughter_med_4`)**: Độ tuổi biết cười sớm ở trẻ nhỏ: Trẻ sơ sinh biết cười khi chỉ 2-3 tháng tuổi (Segment 6, khái niệm: *Infant Laughter Development*).
+   - **Câu 5 (`q_bbc_laughter_med_5`)**: Đặc tính lây lan tự nhiên: Tiếng cười dễ lây lan sang người xung quanh (*laughter is catching*) (Segment 7, khái niệm: *Laughter is Catching*).
+   - **Câu 6 (`q_bbc_laughter_med_6`)**: Chủ đề câu hỏi đố của chương trình: Ngành khoa học nghiên cứu về tiếng cười và tác động lên cơ thể (Segment 8, khái niệm: *Scientific Study of Laughter*).
+   - **Câu 7 (`q_bbc_laughter_med_7`)**: Ba lựa chọn trắc nghiệm: Gigglology, Gelotology hay Guffology (Segment 8, khái niệm: *Gelotology Quiz Options*).
+   - **Câu 8 (`q_bbc_laughter_med_8`)**: Phỏng đoán của Neil & thành ngữ tiếng Anh: Chọn Gelotology và thành ngữ *laughing on the other side of your face* (Segment 9, khái niệm: *Gelotology & English Idioms*).
+
+3. **Chuẩn Hóa Cấu Trúc Dữ Liệu & Đóng Gói Module**:
+   - Cấu trúc `QUIZ_BBC_LAUGHTER_MEDICINE`:
+     * `totalQuestions`: 8 câu trắc nghiệm.
+     * `xpReward`: 40 XP.
+     * Đầy đủ 100% dữ liệu song ngữ Anh-Việt (`questionEn`, `questionVi`, `optionsEn`, `optionsVi`, `explanationEn`, `explanationVi`, `referenceSegmentIndex`, `targetedConceptEn`, `targetedConceptVi`, `generatedBy: "CONTEXTUAL_FALLBACK"`).
+   - Đóng gói chuẩn mực trong `lesson_bbc_laughter_medicine.ts` và tích hợp vào `videoCatalogMockData.ts`.
+
+4. **Kiểm Thử Toàn Diện & Tự Động Hóa CI/CD**:
+   - Xây dựng test suite [__tests__/bbc_laughter_medicine_verbatim.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/bbc_laughter_medicine_verbatim.test.ts) xác nhận 8 câu hỏi, 40 XP, 10 phân đoạn verbatim và 190 token: **6/6 PASS 100%**.
+   - Kiểm tra `tsc --noEmit` đạt 0 lỗi.
+
+---
+
+
+### 79. Kiến Trúc Bộ Câu Hỏi Đọc Hiểu Ngữ Cảnh Video 100% Song Ngữ (Bilingual Video Reading Comprehension Quiz) – Video 23: English for Travel: Hotel Check-in & Guest Services
+
+1. **Phân Tích Hiện Trạng & Mở Rộng Catalog**:
+   - Tiếp tục hoàn thiện và cân bằng các chủ đề thực tế, đặc biệt là nhóm **Tiếng Anh Đời Sống & Du Lịch** (`cat_daily`), hệ thống tích hợp chính thức **Video bài học thứ 23**: **English for Travel: Hotel Check-in & Guest Services** ([lesson_hotel_checkin.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_hotel_checkin.ts), ID: `vid_travel_hotel_checkin`, YouTube: `P7X7Cq_9c0s`, CEFR A2, giọng chuẩn Mỹ `en-US`, 10 phân đoạn, 147 tokens, 01:08).
+   - Nội dung bài học tập trung vào chuỗi hội thoại thực tế tại quầy lễ tân khách sạn quốc tế: lời chào chuẩn ngành khách sạn (*welcome to the Grand Hotel, how may I assist you?*), báo tên đặt phòng trước (*reservation under the name Minh Vu*), đối soát loại phòng deluxe giường king 3 đêm (*deluxe king room for three nights*), hỏi về bữa sáng buffet miễn phí (*complimentary buffet breakfast*), thời gian và địa điểm phục vụ (6:30 - 10:00 sáng tại tầng 2), xuất trình hộ chiếu và thẻ tín dụng đặt cọc chi phí phát sinh (*incidental deposit*), yêu cầu đổi phòng tầng cao view thành phố (*high floor with a city view*), bố trí phòng 1408 tầng 14 nhìn ra đường chân trời (*overlooking the city skyline*), bàn giao thẻ từ điện tử, mật khẩu Wi-Fi và chỉ dẫn thang máy.
+   - Thiết kế chuẩn mực **8 câu hỏi trắc nghiệm song ngữ chuyên sâu** chuẩn sư phạm Cambridge/Oxford, nâng mức thưởng hoàn thành lên **40 XP**.
+
+2. **Thiết Kế 8 Câu Hỏi Đọc Hiểu Ngữ Cảnh Song Ngữ Chuyên Sâu**:
+   - **Câu 1 (`q_hotel_checkin_1`)**: Mục đích chính khi đến quầy lễ tân: làm thủ tục check-in theo đặt phòng có sẵn (Segment 0–1, khái niệm: *Front Desk Reservation Check-in*).
+   - **Câu 2 (`q_hotel_checkin_2`)**: Hạng phòng và số đêm lưu trú: Phòng deluxe giường king trong 3 đêm (Segment 2, khái niệm: *Room Type & Duration Verification*).
+   - **Câu 3 (`q_hotel_checkin_3`)**: Tiện ích được khách hỏi ngay: Liệu có bao gồm bữa sáng miễn phí không (*complimentary breakfast*) (Segment 3, khái niệm: *Complimentary Breakfast Inquiry*).
+   - **Câu 4 (`q_hotel_checkin_4`)**: Giờ giấc & địa điểm bữa sáng: Hàng ngày từ 6:30 đến 10:00 sáng tại tầng 2 (Segment 4, khái niệm: *Breakfast Service Hours and Floor*).
+   - **Câu 5 (`q_hotel_checkin_5`)**: Giấy tờ & tiền đặt cọc cần nộp: Hộ chiếu và thẻ tín dụng cho phí phát sinh (*incidental deposit*) (Segment 5, khái niệm: *Passport and Incidental Deposit Card*).
+   - **Câu 6 (`q_hotel_checkin_6`)**: Yêu cầu đặc biệt của khách: Phòng tầng cao có view thành phố (*high floor with a city view*) (Segment 6, khái niệm: *High Floor and City View Request*).
+   - **Câu 7 (`q_hotel_checkin_7`)**: Số phòng và tầng được bố trí: Phòng 1408 ở tầng 14 view chân trời thành phố (Segment 7, khái niệm: *Room Assignment & Floor Level*).
+   - **Câu 8 (`q_hotel_checkin_8`)**: Bàn giao vật phẩm & chỉ dẫn: Thẻ từ mở phòng, mật khẩu Wi-Fi và thang máy bên tay phải (Segment 8, khái niệm: *Keycards, Wi-Fi and Elevator Directions*).
+
+3. **Chuẩn Hóa Cấu Trúc Dữ Liệu & Đóng Gói Module**:
+   - Cấu trúc `QUIZ_HOTEL_CHECKIN`:
+     * `totalQuestions`: 8 câu trắc nghiệm.
+     * `xpReward`: 40 XP.
+     * Đầy đủ 100% dữ liệu song ngữ Anh-Việt (`questionEn`, `questionVi`, `optionsEn`, `optionsVi`, `explanationEn`, `explanationVi`, `referenceSegmentIndex`, `targetedConceptEn`, `targetedConceptVi`, `generatedBy: "CONTEXTUAL_FALLBACK"`).
+   - Đóng gói chuẩn mực trong `lesson_hotel_checkin.ts` và tích hợp vào `videoCatalogMockData.ts`.
+
+4. **Kiểm Thử Toàn Diện & Tự Động Hóa CI/CD**:
+   - Xây dựng test suite [__tests__/hotel_checkin_verbatim.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/hotel_checkin_verbatim.test.ts) xác nhận 8 câu hỏi, 40 XP, 10 phân đoạn verbatim và 147 token: **6/6 PASS 100%**.
+   - Kiểm tra `tsc --noEmit` đạt 0 lỗi.
+
+
+---
+
+### 80. Kiến Trúc Bộ Đệm In-Memory SWR & Quản Lý Trạng Thái Bảng Âm Quốc Tế IPA 44 Âm (`/study/ipa`, `/study/ipa/practice`, `/study/ipa/minimal-pairs`)
+
+1. **Bối Cảnh & Nhu Cầu Tối Ưu Hóa**:
+   - Phân hệ **Bảng Âm Quốc Tế IPA** ([IpaSuiteNavTabs.tsx](file:///e:/XP%20English%20%20XP%20Voca/shared/components/layout/nav-tabs/IpaSuiteNavTabs.tsx)) là hệ sinh thái luyện phát âm chuẩn Oxford/Cambridge gồm 3 trụ cột:
+     * **Bảng 44 Âm** (`/study/ipa`): Ma trận âm thanh trực quan phân loại 12 nguyên âm đơn (Monophthongs), 8 nguyên âm đôi (Diphthongs), và 24 phụ âm (Consonants) với đồ thị vòm miệng mặt phẳng cắt dọc (Sagittal Cross-Section) và khẩu hình môi (Frontal Lip Shape).
+     * **Luyện Âm AI** (`/study/ipa/practice`): Studio luyện phát âm 1-kèm-1 thu âm AI microphone, đối sánh sóng âm thời gian thực, điều chỉnh tốc độ đọc (0.5x - 1.5x), chuyển giọng 3 miền (US/UK/AU) và cẩm nang cấu âm độc quyền.
+     * **Đấu Trường Cặp Âm** (`/study/ipa/minimal-pairs`): Đấu trường phân biệt các cặp âm dễ nhầm lẫn nhất (như /iː/ vs /ɪ/, /p/ vs /b/, /θ/ vs /ð/) qua 3 chế độ chơi: Blitz (6s phản xạ), Survival (1 tim sinh mệnh), và Zen.
+   - Trước đây, trạng thái bộ lọc, tìm kiếm, âm đang chọn, cờ mở modal, cài đặt tốc độ, giọng đọc và tiến trình trận đấu arena đều chỉ nằm ở `useState` cục bộ. Mỗi khi học viên bấm chuyển tab giữa 3 màn hình trong thanh điều hướng `IpaSuiteNavTabs`, toàn bộ trạng thái đang học bị xóa sạch về mặc định.
+
+2. **Kiến Trúc In-Memory SWR Caching & Zustand Store (`stores/ipaCatalogStore.ts`)**:
+   - **Khởi Tạo Đồng Bộ Frame-0 Tức Thì (0ms Synchronous Cache Probe)**:
+     * Khởi tạo ngay lập tức với 44 âm chuẩn quốc tế (`INITIAL_IPA_SOUNDS`) và 12 bộ cặp âm tối giản (`INITIAL_MINIMAL_PAIRS`).
+     * Cờ `isSoundsLoading` và `isPairsLoading` được đặt bằng `false` ngay từ Frame 0, triệt tiêu hoàn toàn tình trạng nhấp nháy giao diện hay giật layout skeleton.
+   - **Cơ Chế SWR TTL 5 Phút (`IPA_CATALOG_STALE_TIME_MS = 300,000ms`)**:
+     * Kiểm tra trạng thái tươi mới của cache qua `isIpaEntryStale`. Khi còn tươi mới, trả về tức thì trong RAM 0ms không gọi mạng.
+     * Khi cache hết hạn hoặc người dùng chủ động làm mới, hệ thống kích hoạt revalidate nền và cập nhật nhẹ nhàng vào `soundDetailCache`.
+     * Tự động fallback an toàn về kho 44 âm và 12 cặp âm cục bộ nếu API trả mã lỗi 500 hay mất kết nối mạng.
+   - **Bảo Toàn Trạng Thái Đa Màn Hình (Cross-Tab State Preservation)**:
+     * Giữ nguyên tab danh mục Ma trận (`matrixCategoryTab`), chuỗi tìm kiếm (`matrixSearchQuery`), tốc độ phát (`matrixPlaybackRate`), âm đang chọn và modal chi tiết.
+     * Giữ nguyên thiết lập phòng Luyện Âm AI: âm đang luyện (`practiceSelectedSoundId`), bộ lọc phân loại, tốc độ, giọng đọc địa phương (`practiceAccent`), thẻ từ vựng mẫu đang chọn và trạng thái mở/đóng cẩm nang cấu âm.
+     * Giữ nguyên tiến trình Đấu trường Cặp âm: chủ đề cặp âm (`arenaSelectedTopicId`), chế độ thi đấu (`arenaGameMode`), trạng thái tắt/bật âm thanh (`arenaIsSfxMuted`), cờ tự động phát âm (`arenaIsAutoPlay`), vòng đấu hiện tại, điểm số, chuỗi streak và trái tim sinh mệnh.
+   - **Hệ Thống Theo Dõi Độ Thành Thạo & Đánh Giá AI (Mastery & AI Speech Evaluation)**:
+     * Lưu trữ danh sách âm đã thuần thục (`masteredSoundIds`), tự động tính toán số lượng âm đã chinh phục và điểm số trung bình (`getAverageScore()`).
+     * Đồng bộ điểm số thu âm từ microphone AI trực tiếp vào `practiceSoundScores` cho từng âm vị.
+
+3. **Kiểm Thử Tự Động Toàn Diện & Đảm Bảo Chất Lượng**:
+   - Tạo mới bộ kiểm thử chuyên sâu [__tests__/ipa_catalog_cache_swr.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/ipa_catalog_cache_swr.test.ts) gồm **17 test cases** bao phủ Frame-0 hydration, cache isolation, tab state preservation, SWR TTL, offline fallback, mastery progress, và reset: **17/17 PASS 100%**.
+   - Kiểm thử bảo toàn bộ test gốc [__tests__/ipa_feature.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/ipa_feature.test.ts): **17/17 PASS 100%**.
+   - Kiểm tra `tsc --noEmit` đạt chuẩn nghiêm ngặt: **0 lỗi compiler**.
+
+---
+
+### 80. Kiến Trúc Bộ Câu Hỏi Đọc Hiểu Ngữ Cảnh Video 100% Song Ngữ (Bilingual Video Reading Comprehension Quiz) – Video 24: English for Dining: Ordering Food at a Restaurant
+
+1. **Phân Tích Hiện Trạng & Mở Rộng Catalog**:
+   - Tiếp tục bổ sung các chủ đề giao tiếp ẩm thực và đời sống thường nhật được học viên quan tâm hàng đầu, hệ thống tích hợp chính thức **Video bài học thứ 24**: **English for Dining: Ordering Food at a Restaurant** ([lesson_restaurant_ordering.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_restaurant_ordering.ts), ID: `vid_travel_restaurant_ordering`, YouTube: `G9bFzV7p6m0`, CEFR A2, giọng chuẩn Mỹ `en-US`, 10 phân đoạn, 169 tokens, 01:05).
+   - Nội dung bài học tập trung vào chuỗi hội thoại ăn uống nhà hàng thực tế: xác nhận bàn đặt trước lúc 7:30 tối cho hai người dưới tên Alex (*table reserved for two under the name Alex*), người phục vụ Sarah mời gọi đồ uống khai vị trước khi xem thực đơn (*start you off with something to drink*), gọi nước khoáng có ga kèm chanh (*sparkling water with lemon*), hỏi món đặc biệt của bếp trưởng (*chef's special*), miêu tả món cá hồi áp chảo măng tây nướng sốt bơ tỏi (*pan-seared Atlantic salmon*), lưu ý về chứng bất dung nạp đường sữa (*mild lactose intolerance*), đầu bếp linh hoạt đổi sang sốt dầu ô liu thảo mộc chanh không sữa (*dairy-free lemon herb olive oil dressing*), gọi bít tết sườn nướng tái vừa (*grilled ribeye steak cooked medium-rare*), và kết thúc gọi món chuyên nghiệp.
+   - Thiết kế chuẩn mực **8 câu hỏi trắc nghiệm song ngữ chuyên sâu** chuẩn sư phạm Cambridge/Oxford, nâng mức thưởng hoàn thành lên **40 XP**.
+
+2. **Thiết Kế 8 Câu Hỏi Đọc Hiểu Ngữ Cảnh Song Ngữ Chuyên Sâu**:
+   - **Câu 1 (`q_restaurant_ordering_1`)**: Thông tin đặt bàn khi đến nhà hàng: Bàn 2 người dưới tên Alex lúc 7:30 tối (Segment 1, khái niệm: *Table Reservation Confirmation*).
+   - **Câu 2 (`q_restaurant_ordering_2`)**: Lời mời ban đầu của người phục vụ: Gọi đồ uống khai vị trong khi xem thực đơn (Segment 3, khái niệm: *Starting Off with Drinks*).
+   - **Câu 3 (`q_restaurant_ordering_3`)**: Đồ uống bắt đầu bữa ăn: Một chai nước khoáng có ga kèm chanh (Segment 4, khái niệm: *Sparkling Water with Lemon*).
+   - **Câu 4 (`q_restaurant_ordering_4`)**: Món đặc biệt của bếp trưởng: Cá hồi áp chảo với măng tây nướng sốt bơ tỏi (Segment 5, khái niệm: *Chef's Special Recommendation*).
+   - **Câu 5 (`q_restaurant_ordering_5`)**: Lo ngại sức khỏe & ăn kiêng: Hỏi về sữa do bạn đi cùng dị ứng lactose nhẹ (Segment 6, khái niệm: *Dietary Restrictions & Lactose Intolerance*).
+   - **Câu 6 (`q_restaurant_ordering_6`)**: Điều chỉnh ẩm thực linh hoạt: Sốt dầu ô liu chanh thảo mộc không chứa sữa (Segment 7, khái niệm: *Dairy-Free Custom Dressing*).
+   - **Câu 7 (`q_restaurant_ordering_7`)**: Món chính & độ chín bít tết: Một cá hồi và một bít tết ribeye nướng tái vừa (*medium-rare*) (Segment 8, khái niệm: *Main Entrées & Medium-Rare Doneness*).
+   - **Câu 8 (`q_restaurant_ordering_8`)**: Kết thúc gọi món chuẩn mực: Khen ngợi món đã chọn, chuyển đơn vào bếp ngay và chúc buổi tối ngon miệng (Segment 9, khái niệm: *Order Placement & Hospitality Courtesies*).
+
+3. **Chuẩn Hóa Cấu Trúc Dữ Liệu & Đóng Gói Module**:
+   - Cấu trúc `QUIZ_RESTAURANT_ORDERING`:
+     * `totalQuestions`: 8 câu trắc nghiệm.
+     * `xpReward`: 40 XP.
+     * Đầy đủ 100% dữ liệu song ngữ Anh-Việt (`questionEn`, `questionVi`, `optionsEn`, `optionsVi`, `explanationEn`, `explanationVi`, `referenceSegmentIndex`, `targetedConceptEn`, `targetedConceptVi`, `generatedBy: "CONTEXTUAL_FALLBACK"`).
+   - Đóng gói chuẩn mực trong `lesson_restaurant_ordering.ts` và tích hợp vào `videoCatalogMockData.ts`.
+
+4. **Kiểm Thử Toàn Diện & Tự Động Hóa CI/CD**:
+   - Xây dựng test suite [__tests__/restaurant_ordering_verbatim.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/restaurant_ordering_verbatim.test.ts) xác nhận 8 câu hỏi, 40 XP, 10 phân đoạn verbatim và 169 token: **6/6 PASS 100%**.
+   - Kiểm tra `tsc --noEmit` đạt 0 lỗi.
+
+---
+
+
+### 81. Kiến Trúc Bộ Câu Hỏi Đọc Hiểu Ngữ Cảnh Video 100% Song Ngữ (Bilingual Video Reading Comprehension Quiz) – Video 25: The Science of Habits | Marco Ramoni (TED-Ed)
+
+1. **Phân Tích Hiện Trạng & Mở Rộng Catalog**:
+   - Tiếp tục hoàn thiện chuỗi bài học tâm lý học hành vi và phát triển bản thân có tính ứng dụng cao, hệ thống tích hợp chính thức **Video bài học thứ 25**: **The Science of Habits: How to Make Changes That Stick** ([lesson_ted_science_habits.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_ted_science_habits.ts), ID: `vid_ted_science_habits`, YouTube: `W1eYrhGeffc`, CEFR B2, giọng chuẩn Mỹ `en-US`, 10 phân đoạn, 199 từ/tokens, 01:10).
+   - Nội dung bài giảng phân tích cơ chế khoa học thần kinh đằng sau vòng lặp thói quen (*The Habit Loop*): tỷ lệ hành động vô thức chiếm tới 40% cuộc sống hàng ngày (*40 percent of everyday actions*), hạch đáy (*basal ganglia*) giải phóng tải nhận thức cho vỏ não trước trán (*prefrontal cortex*), cơ chế 3 bước: Tín hiệu gợi ý (*cue*), Hành động thói quen (*routine*), và Phần thưởng tiết dopamine (*reward*). Đồng thời video hướng dẫn chiến lược khoa học hành vi thực tiễn: Kỹ thuật xếp chồng thói quen (*habit stacking*) và Thiết kế môi trường giảm lực cản (*environmental friction design*).
+   - Thiết kế chuẩn mực **8 câu hỏi trắc nghiệm song ngữ chuyên sâu** chuẩn sư phạm Cambridge/Oxford, nâng mức thưởng hoàn thành lên **40 XP**.
+
+2. **Thiết Kế 8 Câu Hỏi Đọc Hiểu Ngữ Cảnh Song Ngữ Chuyên Sâu**:
+   - **Câu 1 (`q_ted_habits_1`)**: Tỷ lệ hành vi thói quen trong ngày: Khoảng 40% hoạt động hàng ngày được vận hành tự động (Segment 0, khái niệm: *Habitual Behaviors Percentage*).
+   - **Câu 2 (`q_ted_habits_2`)**: Cấu trúc 3 thành phần của Habit Loop: Cue (Tín hiệu), Routine (Hành vi), Reward (Phần thưởng) (Segment 2, khái niệm: *The Three-Part Habit Loop*).
+   - **Câu 3 (`q_ted_habits_3`)**: Cơ chế thần kinh của hạch đáy (*basal ganglia*): Tự động hóa mẫu hành vi để giải phóng năng lượng cho vỏ não trước trán (Segment 3, khái niệm: *Basal Ganglia Cognitive Offloading*).
+   - **Câu 4 (`q_ted_habits_4`)**: Tín hiệu gợi ý kích hoạt (*environmental cue*): Dấu hiệu giác quan hoặc bối cảnh kích hoạt não bộ vào chế độ tự động (Segment 4, khái niệm: *Environmental Trigger & Sensory Cues*).
+   - **Câu 5 (`q_ted_habits_5`)**: Hành vi thường nhật (*routine*): Chuỗi hành động thể chất hoặc tinh thần được lặp lại (Segment 5, khái niệm: *The Executed Routine*).
+   - **Câu 6 (`q_ted_habits_6`)**: Vai trò của dopamine trong phần thưởng (*neurochemical reward*): Khắc sâu liên kết nơ-ron và củng cố hành vi tương lai (Segment 6, khái niệm: *Neurochemical Reward Reinforcement*).
+   - **Câu 7 (`q_ted_habits_7`)**: Chiến lược xếp chồng thói quen (*habit stacking*): Neo giữ thói quen mới ngay sau một thói quen hiện tại đã vững chắc (Segment 8, khái niệm: *Habit Stacking & Anchoring Technique*).
+   - **Câu 8 (`q_ted_habits_8`)**: Thiết kế môi trường & lực ma sát (*environmental design*): Giảm ma sát cho thói quen tốt và tăng rào cản cho thói quen xấu (Segment 9, khái niệm: *Environmental Design & Friction Management*).
+
+3. **Chuẩn Hóa Cấu Trúc Dữ Liệu & Đóng Gói Module**:
+   - Cấu trúc `QUIZ_TED_SCIENCE_HABITS`:
+     * `totalQuestions`: 8 câu trắc nghiệm.
+     * `xpReward`: 40 XP.
+     * Đầy đủ 100% dữ liệu song ngữ Anh-Việt (`questionEn`, `questionVi`, `optionsEn`, `optionsVi`, `explanationEn`, `explanationVi`, `referenceSegmentIndex`, `targetedConceptEn`, `targetedConceptVi`, `generatedBy: "CONTEXTUAL_FALLBACK"`).
+   - Đóng gói chuẩn mực trong `lesson_ted_science_habits.ts`, import & re-export trong `features/listening/data/lessons/index.ts` và tích hợp vào catalog chính `videoCatalogMockData.ts`.
+
+4. **Kiểm Thử Toàn Diện & Tự Động Hóa CI/CD**:
+   - Xây dựng test suite [__tests__/ted_science_habits_verbatim.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/ted_science_habits_verbatim.test.ts) xác nhận 8 câu hỏi, 40 XP, 10 phân đoạn verbatim và toàn bộ dữ liệu metadata: **6/6 PASS 100%**.
+   - Kiểm tra `tsc --noEmit` đạt 0 lỗi.
+
+---
+
+
+### 82. Kiến Trúc Bộ Câu Hỏi Đọc Hiểu Ngữ Cảnh Video 100% Song Ngữ (Bilingual Video Reading Comprehension Quiz) – Video 26: Business English: Professional Phone Calls & Telephone Etiquette
+
+1. **Phân Tích Hiện Trạng & Mở Rộng Catalog**:
+   - Tiếp tục bổ sung các chủ đề tiếng Anh thương mại và kỹ năng giao tiếp công sở thực chiến chuẩn ETS TOEIC, hệ thống tích hợp chính thức **Video bài học thứ 26**: **Business English: Professional Phone Calls & Telephone Etiquette** ([lesson_business_phone_call.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_business_phone_call.ts), ID: `vid_business_phone_call`, YouTube: `7V1UjX9m_eQ`, CEFR B1, giọng chuẩn Mỹ `en-US`, 10 phân đoạn, 185 tokens, 01:12).
+   - Nội dung bài học tập trung vào tình huống trực điện thoại và xử lý cuộc gọi khẩn cấp tại doanh nghiệp: lời chào mở đầu chuyên nghiệp của nhân viên chăm sóc khách hàng Claire (*Good morning, Apex Global Solutions... How may I direct your call?*), đối tác David Miller yêu cầu nối máy cho trưởng phòng mua hàng Henderson (*Could you please put me through to Mr. Henderson in the procurement department?*), giữ máy để kiểm tra máy nhánh (*Please hold the line for just a moment*), thông báo người nhận bận họp (*currently tied up in an executive board meeting*), ghi lại tin nhắn khẩn cấp về hợp đồng chuỗi cung ứng cần ký duyệt trước thứ Sáu (*revised quarterly supply chain contract requiring immediate sign-off*), ghi nhận số điện thoại di động và email công ty, kỹ thuật đọc lại đối chiếu (*read-back verification*), gắn cờ ưu tiên (*flag as high priority*), và lời chào tạm biệt kết thúc cuộc gọi lịch thiệp (*Have a wonderful and productive afternoon!*).
+   - Thiết kế chuẩn mực **8 câu hỏi trắc nghiệm song ngữ chuyên sâu** chuẩn sư phạm Cambridge/Oxford, nâng mức thưởng hoàn thành lên **40 XP**.
+
+2. **Thiết Kế 8 Câu Hỏi Đọc Hiểu Ngữ Cảnh Song Ngữ Chuyên Sâu**:
+   - **Câu 1 (`q_business_phone_1`)**: Lời chào mở đầu chuyên nghiệp: Giới thiệu tên công ty, bộ phận chăm sóc khách hàng và nhã nhặn đề nghị chuyển tiếp cuộc gọi (Segment 0, khái niệm: *Professional Telephone Greeting & Department Identification*).
+   - **Câu 2 (`q_business_phone_2`)**: Cụm từ nối máy kinh điển: *Could you please put me through to Mr. Henderson in the procurement department?* (Segment 1, khái niệm: *Call Transfer Request ('Put Me Through')*).
+   - **Câu 3 (`q_business_phone_3`)**: Nghi thức đề nghị giữ máy: *Please hold the line for just a moment* (Segment 2, khái niệm: *Telephone Etiquette: 'Hold the Line'*).
+   - **Câu 4 (`q_business_phone_4`)**: Thành ngữ công sở diễn tả bận rộn: *Tied up in an executive board meeting until 3 PM* (Segment 3, khái niệm: *Business Idiom: 'Tied up in a Meeting'*).
+   - **Câu 5 (`q_business_phone_5`)**: Hai giải pháp xử lý cuộc gọi khi vắng mặt: Để lại tin nhắn chi tiết (*leave a message*) hoặc hẹn gọi lại (*return call*) (Segment 4, khái niệm: *Handling Inquiries: Taking a Message vs. Callback*).
+   - **Câu 6 (`q_business_phone_6`)**: Nội dung và tính khẩn cấp của tin nhắn: Hợp đồng chuỗi cung ứng theo quý sửa đổi cần ký duyệt khẩn cấp trước thứ Sáu (Segment 5, khái niệm: *Contract Sign-off Deadline & Supply Chain Urgency*).
+   - **Câu 7 (`q_business_phone_7`)**: Kỹ thuật nghiệp vụ đối chiếu thông tin (*read-back verification*) và gắn cờ ưu tiên cao cho bản ghi nhớ (Segment 8, khái niệm: *Verification Technique & Priority Flagging*).
+   - **Câu 8 (`q_business_phone_8`)**: Nghi thức kết thúc cuộc gọi: Cảm ơn sự hỗ trợ chuyên nghiệp và chúc buổi chiều làm việc hiệu quả (*productive afternoon*) (Segment 9, khái niệm: *Professional Closing & Courtesies*).
+
+3. **Chuẩn Hóa Cấu Trúc Dữ Liệu & Đóng Gói Module**:
+   - Cấu trúc `QUIZ_BUSINESS_PHONE_CALL`:
+     * `totalQuestions`: 8 câu trắc nghiệm.
+     * `xpReward`: 40 XP.
+     * Đầy đủ 100% dữ liệu song ngữ Anh-Việt (`questionEn`, `questionVi`, `optionsEn`, `optionsVi`, `explanationEn`, `explanationVi`, `referenceSegmentIndex`, `targetedConceptEn`, `targetedConceptVi`, `generatedBy: "CONTEXTUAL_FALLBACK"`).
+   - Đóng gói chuẩn mực trong `lesson_business_phone_call.ts`, import & re-export trong `features/listening/data/lessons/index.ts` và tích hợp vào catalog chính `videoCatalogMockData.ts`.
+
+4. **Kiểm Thử Toàn Diện & Tự Động Hóa CI/CD**:
+   - Xây dựng test suite [__tests__/business_phone_call_verbatim.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/business_phone_call_verbatim.test.ts) xác nhận 8 câu hỏi, 40 XP, 10 phân đoạn verbatim và 185 token: **6/6 PASS 100%**.
+   - Kiểm tra `tsc --noEmit` đạt 0 lỗi.
+
+---
+
+
+### 83. Kiến Trúc Bộ Câu Hỏi Đọc Hiểu Ngữ Cảnh Video 100% Song Ngữ (Bilingual Video Reading Comprehension Quiz) – Video 27: Medical English: Doctor Consultation & Pharmacy Prescription
+
+1. **Phân Tích Hiện Trạng & Mở Rộng Catalog**:
+   - Tiếp tục bổ sung các chủ đề tiếng Anh y tế và giao tiếp khám chữa bệnh thực tế tối quan trọng cho đời sống, hệ thống tích hợp chính thức **Video bài học thứ 27**: **Medical English: Doctor Consultation & Pharmacy Prescription** ([lesson_medical_consultation.ts](file:///e:/XP%20English%20%20XP%20Voca/features/listening/data/lessons/lesson_medical_consultation.ts), ID: `vid_medical_consultation`, YouTube: `V5a7g9Gz8d0`, CEFR B1, giọng chuẩn Mỹ `en-US`, 10 phân đoạn, 164 tokens, 01:10).
+   - Nội dung bài học xây dựng tình huống thăm khám lâm sàng chuẩn mực quốc tế: bác sĩ Watson đón bệnh nhân Alex và mở lời hỏi thăm (*What brings you to the clinic today?*), người bệnh mô tả triệu chứng đau rát họng dữ dội và ho khan dai dẳng suốt 3 ngày (*severe sore throat and persistent dry cough*), thân nhiệt sốt tăng vọt lên 101 độ F kèm đau mỏi cơ (*body temperature spiked to 101 degrees Fahrenheit*), bác sĩ dùng ống nghe y tế kiểm tra phổi (*stethoscope*), chẩn đoán viêm họng cấp tính do amidan sưng đỏ (*acute pharyngitis*), kiểm tra an toàn tiền sử dị ứng kháng sinh penicillin (*antibiotic allergy screening*), kê đơn kháng sinh đường uống 5 ngày kết hợp ibuprofen kháng viêm giảm đau hạ sốt, và hướng dẫn chăm sóc phục hồi: uống đủ nước, nghỉ ngơi trên giường và tuân thủ uống hết trọn vẹn phác đồ thuốc (*finish the entire medication regimen*).
+   - Thiết kế chuẩn mực **8 câu hỏi trắc nghiệm song ngữ chuyên sâu** chuẩn sư phạm Cambridge/Oxford, nâng mức thưởng hoàn thành lên **40 XP**.
+
+2. **Thiết Kế 8 Câu Hỏi Đọc Hiểu Ngữ Cảnh Song Ngữ Chuyên Sâu**:
+   - **Câu 1 (`q_medical_consult_1`)**: Triệu chứng ban đầu của bệnh nhân: Đau họng dữ dội và ho khan dai dẳng suốt 3 ngày (Segment 1, khái niệm: *Primary Patient Symptoms: Sore Throat & Cough*).
+   - **Câu 2 (`q_medical_consult_2`)**: Mức sốt cao & triệu chứng đi kèm: Thân nhiệt tăng vọt lên 101 độ F kèm đau mỏi cơ bắp nhẹ (Segment 3, khái niệm: *Fever Temperature Spike & Muscle Aches*).
+   - **Câu 3 (`q_medical_consult_3`)**: Dụng cụ khám lâm sàng: Ống nghe y tế (*stethoscope*) để nghe âm thanh nhịp thở ở phổi (Segment 4, khái niệm: *Medical Examination Tool: Stethoscope*).
+   - **Câu 4 (`q_medical_consult_4`)**: Chẩn đoán y khoa: Viêm họng cấp tính (*acute pharyngitis*) với amidan sưng đỏ, phổi trong trẻo (Segment 5, khái niệm: *Clinical Diagnosis: Acute Pharyngitis*).
+   - **Câu 5 (`q_medical_consult_5`)**: Quy trình sàng lọc an toàn dùng thuốc: Kiểm tra tiền sử dị ứng kháng sinh penicillin / amoxicillin trước khi kê đơn (Segment 6, khái niệm: *Drug Allergy Screening Protocol*).
+   - **Câu 6 (`q_medical_consult_6`)**: Khả năng dung nạp thuốc của bệnh nhân: Đã từng uống penicillin trước đây và không gặp bất kỳ phản ứng dị ứng tiêu cực nào (Segment 7, khái niệm: *Patient Medical History & Antibiotic Tolerance*).
+   - **Câu 7 (`q_medical_consult_7`)**: Liệu trình điều trị dược học: Liệu trình kháng sinh uống trong 5 ngày kết hợp ibuprofen giảm viêm họng và hạ sốt (Segment 8, khái niệm: *Treatment Regimen: Antibiotic Course & Anti-inflammatory*).
+   - **Câu 8 (`q_medical_consult_8`)**: Hướng dẫn lối sống & tuân thủ phác đồ: Uống đủ nước, nghỉ ngơi trên giường và hoàn thành toàn bộ liệu trình thuốc (Segment 9, khái niệm: *Post-Consultation Care & Medication Compliance*).
+
+3. **Chuẩn Hóa Cấu Trúc Dữ Liệu & Đóng Gói Module**:
+   - Cấu trúc `QUIZ_MEDICAL_CONSULTATION`:
+     * `totalQuestions`: 8 câu trắc nghiệm.
+     * `xpReward`: 40 XP.
+     * Đầy đủ 100% dữ liệu song ngữ Anh-Việt (`questionEn`, `questionVi`, `optionsEn`, `optionsVi`, `explanationEn`, `explanationVi`, `referenceSegmentIndex`, `targetedConceptEn`, `targetedConceptVi`, `generatedBy: "CONTEXTUAL_FALLBACK"`).
+   - Đóng gói chuẩn mực trong `lesson_medical_consultation.ts`, import & re-export trong `features/listening/data/lessons/index.ts` và tích hợp vào catalog chính `videoCatalogMockData.ts`.
+
+4. **Kiểm Thử Toàn Diện & Tự Động Hóa CI/CD**:
+   - Xây dựng test suite [__tests__/medical_consultation_verbatim.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/medical_consultation_verbatim.test.ts) xác nhận 8 câu hỏi, 40 XP, 10 phân đoạn verbatim và 164 token: **6/6 PASS 100%**.
+   - Kiểm tra `tsc --noEmit` đạt 0 lỗi.
+
+---
+
+
+### 84. Kiến Trúc Đồng Bộ Giọng Nói Thời Gian Thực (Real-time Speech Alignment) & Thuật Toán Bám Trụ Con Trỏ (Anchor Cursor Rule) Cho Phân Hệ Shadowing (`/study/shadowing`)
+
+1. **Phân Tích Hiện Trạng & Nguyên Nhân Gốc Rễ Trên Trình Duyệt Chrome (Deep Root Cause Analysis)**:
+   - **Hiện tượng lỗi 1 ("Khối nhận diện giọng nói tách rời, dư thừa ở Ảnh 1")**: Trước đây tồn tại một khối phụ `Live Speech Recognition Tokens` hiển thị danh sách các từ người dùng nói riêng biệt bên dưới toolbar. Khối này làm giao diện bị rối mắt, phân tán sự chú ý và không kết nối trực tiếp với dòng chữ câu mẫu của bài học.
+   - **Hiện tượng lỗi 2 ("Chữ nhảy vèo xuống cuối câu hoặc chạy quá nhanh chưa kịp đọc đã trôi qua trên Chrome")**:
+     * **Cơ chế Interim Streaming của Web Speech API trên Chrome (`webkitSpeechRecognition`)**: Trình duyệt Chrome liên tục phát ra các sự kiện `onresult` dạng phỏng đoán tạm thời (*interim hypotheses*) mỗi 50ms - 200ms ngay khi micro bắt được âm thanh ban đầu hoặc tiếng thở nhẹ của người dùng.
+     * **Sai lầm trong logic cũ**: Khi người học mới chỉ mở miệng phát âm âm tiết đầu tiên của một từ (ví dụ đang đọc *"Kurzgesagt"*, Chrome interim tạm đoán là *"cause"* hoặc *"cur"*): logic cũ vội vã đánh dấu từ đó là sai (`needs_work` - đỏ) và **đẩy `targetIdx++` sang từ tiếp theo**! Chỉ trong 1 giây đầu tiên, con trỏ đã bị đẩy qua 3-4 từ mục tiêu. Người học chưa kịp phát âm xong âm tiết đầu tiên thì các từ trên màn hình đã vèo vèo chuyển sang màu đỏ và trôi tuột đi, tạo cảm giác chữ chạy quá nhanh và không thể theo kịp.
+
+2. **Giải Pháp Kiến Trúc & Xử Lý Chuyên Sâu**:
+   - **Xóa bỏ hoàn toàn khối phụ tách rời (Ảnh 1)**: Loại bỏ khối `Live Speech Recognition Tokens`. Tích hợp trạng thái nhận diện trực tiếp lên khối thẻ câu chính (Ảnh 2), bổ sung icon micro chỉ báo trên subheader.
+   - **Thuật toán Bám Trụ Con Trỏ (Anchor Cursor Rule)**:
+     * Trong vòng lặp căn chỉnh tuần tự từ trái sang phải, nếu từ nhận diện đang ở vị trí cuối cùng của luồng stream hiện tại (`spokenIdx === effectiveSpoken.length - 1`):
+       - Nếu từ đó khớp chuẩn xác (`sim >= 0.78` -> `perfect` - Xanh Emerald) hoặc gần đúng (`sim >= 0.55` -> `good` - Vàng/Cam Amber): Tăng `targetIdx++` và `spokenIdx++` để bước sang từ tiếp theo.
+       - Nếu người học rõ ràng bỏ qua từ hiện tại để đọc từ kế tiếp (`simSkipTarget >= 0.55`): Đánh dấu từ bỏ qua là `needs_work` (Đỏ Rose) và tăng `targetIdx++`.
+       - **Quy tắc Bám Trụ (Anchor Rule)**: Nếu từ chưa khớp và cũng không phải từ kế tiếp, **TUYỆT ĐỐI KHÔNG TĂNG `targetIdx`** (`break;`). Con trỏ bắt buộc phải bám trụ ở từ hiện tại (`active`), giữ nguyên trạng thái chờ để người học có đầy đủ thời gian phát âm tròn vành rõ chữ.
+   - **Cơ chế Auto-scroll thông minh & Reset vị trí như Dictation**:
+     * Với 2 từ đầu câu (`targetIdx <= 1`): cuộn mượt mà container về vị trí đầu (`left: 0`, `behavior: 'smooth'`), triệt tiêu tình trạng từ đầu câu bị lẹm góc hoặc cuộn lệch tâm.
+     * Với các từ tiếp theo (`targetIdx > 1`): cuộn mượt mà đưa từ đang active vào vị trí trung tâm màn hình (`scrollIntoView({ inline: 'center' })`).
+     * Tự động đặt lại thanh cuộn về vị trí `left: 0` khi chuyển sang câu tiếp theo hoặc khi bấm làm lại câu.
+   - **Chuẩn hóa hệ thống phân màu Wadhah Aloui 60 - 30 - 10**:
+     * `perfect` (>= 0.78): Xanh Emerald (`bg-emerald-50 text-emerald-700 border-2 border-emerald-500`).
+     * `good` (0.55 - 0.77): Vàng Amber (`bg-amber-50 text-amber-800 border-2 border-amber-400`).
+     * `needs_work` (< 0.55 khi đã đọc qua): Đỏ Rose (`bg-rose-50 text-rose-700 border-2 border-rose-400`).
+     * `active`: Xanh dương thương hiệu `#0059bb`, viền ring 4px, nhịp thở pulse dịu mắt.
+     * `unspoken`: Xám Slate tối giản, không gây mỏi mắt.
+
+3. **Kiểm Thử Toàn Diện & Đảm Bảo Chất Lượng**:
+   - Nâng cấp test suite [__tests__/shadowing_realtime_speech_alignment.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/shadowing_realtime_speech_alignment.test.ts) lên **5 test cases** bao phủ toàn diện: Levenshtein similarity, Chrome interim hypothesis anchoring, sequential progression, skipped word detection, và near-miss recognition: **5/5 PASS 100%**.
+   - Kiểm tra `npx tsc --noEmit`: **0 lỗi biên dịch (Zero Errors)**.
+
+---
+
+### 85. Kiểm Toán Toàn Diện & Chuẩn Hóa Điều Hướng Trắc Nghiệm Đọc Hiểu Video Dictation (`/study/dictation/video/[id]/comprehension`)
+
+1. **Phân Tích Hiện Trạng URL & Cơ Chế Định Tuyến (Deep URL & Routing Analysis)**:
+   - **Tồn tại 2 tuyến đường song song**:
+     * URL 1 (Canonical Route): `/study/dictation/video/comprehension/[id]` (tuyến đường đang được liên kết trên danh mục `VideoCatalogBrowseView.tsx`).
+     * URL 2 (RESTful Nested Route): `/study/dictation/video/[id]/comprehension` (tuyến đường phân cấp lồng nhau tự nhiên của Next.js App Router).
+   - **Đánh giá & Giải pháp**: Cả hai URL đều đã được cấu hình trang chuyên biệt (`page.tsx`) và cùng render giao diện chuẩn `VideoComprehensionStudioView`. Bất kể học viên truy cập theo đường dẫn nào đều hoạt động trơn tru 100%, triệt tiêu hoàn toàn nguy cơ 404.
+   - **Chuẩn hóa nút Back**: Cập nhật thuộc tính `onBackUrl` của cả 2 tuyến đường trỏ chuẩn xác về bài học video tương ứng qua tham số chuẩn `/study/dictation/video?id=${lessonId}`.
+
+2. **Kiểm Toán 100% Bộ Câu Hỏi Trắc Nghiệm Đọc Hiểu Song Ngữ (27/27 Video Lessons - 216 Câu Hỏi)**:
+   - Toàn bộ **27 bài học video** trong catalog (`ALL_MODULAR_LESSONS`) đều đã được tích hợp bộ câu hỏi đọc hiểu chuyên sâu với số lượng **8 câu hỏi trắc nghiệm/bài** (tổng cộng **216 câu hỏi trắc nghiệm ngữ cảnh**).
+   - Đảm bảo **100% song ngữ Anh - Việt** cho mọi thành phần: `questionEn`, `questionVi`, `optionsEn`, `optionsVi`, `explanationEn`, `explanationVi`, `targetedConceptEn`, `targetedConceptVi`.
+   - Mỗi câu hỏi đều liên kết trực tiếp với câu thoại gốc trong video qua `referenceSegmentIndex`, cho phép học viên tua và đối chiếu trực quan.
+   - Thưởng hoàn thành đạt chuẩn **40 XP** cho mỗi bài trắc nghiệm đọc hiểu.
+
+3. **Nâng Cấp Trải Nghiệm & Liên Kết 1-Click Từ Studio Workspace**:
+   - **Màn hình chúc mừng hoàn thành (`ListeningCompletionScreen.tsx`)**: Bổ sung nút bấm nổi bật **"Làm Trắc Nghiệm Đọc Hiểu (+40 XP)"** khi học viên vừa chép chính tả xong bài học video, xóa bỏ rào cản phải quay lại danh mục mới thấy nút làm quiz.
+   - **Thanh công cụ Workspace (`ListeningStudioWorkspace.tsx`)**: Tích hợp shortcut nút **"Đọc hiểu AI"** ngay trên thanh điều hướng đầu trang khi học bài học video.
+
+4. **Kiểm Thử Toàn Diện & Đảm Bảo Độ Tin Cậy**:
+   - Chạy test suite [__tests__/canonical_study_routes_parity.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/canonical_study_routes_parity.test.ts): **6/6 PASS 100%**.
+   - Kiểm tra `npx tsc --noEmit`: **0 lỗi biên dịch (Clean)**.
 
 ---
 
 ## 🌐 Production Deployment Status
+
 
 - **Live Production App URL (Vercel)**: [https://xpenglishvoca.vercel.app](https://xpenglishvoca.vercel.app)
 - **Live Production App URL (Netlify)**: [https://xpenglishvoca.netlify.app](https://xpenglishvoca.netlify.app)

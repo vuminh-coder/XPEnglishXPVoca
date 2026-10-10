@@ -93,4 +93,29 @@ describe("Oxford Online English: Talk About Food and Cooking - 100% Verbatim Aud
     expect(lessonWords.length).toBe(rawWords.length);
     expect(lessonWords).toEqual(rawWords);
   });
+
+  it("should have comprehensive bilingual reading quiz attached", () => {
+    expect(LESSON_OXFORD_FOOD_COOKING.quiz).toBeDefined();
+    const quiz = LESSON_OXFORD_FOOD_COOKING.quiz!;
+    expect(quiz.lessonId).toBe("vid_oxford_food_cooking");
+    expect(quiz.totalQuestions).toBe(8);
+    expect(quiz.xpReward).toBe(40);
+    expect(quiz.questions.length).toBe(8);
+
+    for (const q of quiz.questions) {
+      expect(q.id.length).toBeGreaterThan(0);
+      expect(q.questionEn).toBeDefined();
+      expect(q.questionVi).toBeDefined();
+      expect(q.optionsEn!.length).toBe(4);
+      expect(q.optionsVi!.length).toBe(4);
+      expect(q.correctAnswer).toBeGreaterThanOrEqual(0);
+      expect(q.correctAnswer).toBeLessThan(4);
+      expect(q.explanationEn).toBeDefined();
+      expect(q.explanationVi).toBeDefined();
+      expect(q.targetedConceptEn).toBeDefined();
+      expect(q.targetedConceptVi).toBeDefined();
+      expect(q.referenceSegmentIndex).toBeDefined();
+    }
+  });
 });
+

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import {
   Headphones,
@@ -8,15 +9,13 @@ import {
   Clock,
   BookmarkPlus,
   Flag,
+  Sparkles,
 } from "lucide-react";
 import { StudioTopHeader } from "./StudioTopHeader";
 import { DictationWorkspace } from "./DictationWorkspace";
 import { InteractiveTranscriptSidebar } from "./InteractiveTranscriptSidebar";
 import { StudioTimerBadge } from "./StudioTimerBadge";
 import { StudioMobileTabBar } from "./StudioMobileTabBar";
-import { StudioMediaPlayerContainer } from "./StudioMediaPlayerContainer";
-import { StudioSentenceMetaBar } from "./StudioSentenceMetaBar";
-import { StudioSentenceToolbar } from "./StudioSentenceToolbar";
 import { DictationVideoBlock } from "./DictationVideoBlock";
 import { DictationWorkspaceLoadingSkeleton } from "./LoadingSkeletons";
 import { resolveLessonMedia } from "../utils/lessonMedia";
@@ -160,6 +159,16 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
         onBack={onBackToListing}
         rightExtraActions={
           <div className="flex items-center gap-1.5 sm:gap-2">
+            {isVideoLesson && currentLesson?.id && (
+              <Link
+                href={`/study/dictation/video/${currentLesson.id}/comprehension`}
+                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-violet-700 dark:text-violet-300 bg-violet-50 dark:bg-violet-950/60 hover:bg-violet-100 dark:hover:bg-violet-900/60 border border-violet-200/90 dark:border-violet-800/60 shadow-2xs transition-all active:scale-95"
+                title="Làm bài trắc nghiệm đọc hiểu AI (+40 XP)"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-violet-600 dark:text-violet-400" />
+                <span>Đọc hiểu AI</span>
+              </Link>
+            )}
             <StudioTimerBadge
               isActive={true}
               initialSeconds={elapsedTime}
@@ -190,9 +199,8 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
         >
           {currentSentence && (
             <div className="space-y-2.5 sm:space-y-3">
-              {/* 1. INTERACTIVE MEDIA PLAYER CONTAINER (VIDEO CINEMA OR ACOUSTIC WAVEFORM) */}
-              <StudioMediaPlayerContainer
-                practiceMode="dictation"
+              {/* 1. UNIFIED REUSABLE DICTATION VIDEO BLOCK (100% PARITY) */}
+              <DictationVideoBlock
                 currentLesson={currentLesson}
                 currentSentence={currentSentence}
                 currentSentenceIndex={currentSentenceIndex}
@@ -237,23 +245,12 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
                   }
                 }}
                 onToast={onToast}
-              />
-
-              {/* 1.2 META STATUS ROW */}
-              <StudioSentenceMetaBar
-                currentSentenceIndex={currentSentenceIndex}
-                totalSentencesCount={totalSentencesCount}
-                wordCount={
-                  currentSentence.text.trim().split(/\s+/).filter(Boolean).length
-                }
+                showMetaBar={true}
                 repeatKey="Ctrl"
-              />
-
-              {/* 1.3 SENTENCE UTILITY TOOLBAR */}
-              <StudioSentenceToolbar
+                showToolbar={true}
                 isBookmarked={isCurrentSentenceBookmarked}
                 onToggleBookmark={onToggleBookmark}
-                onReport={onReportSentence}
+                onReportSentence={onReportSentence}
                 fontSizeLevel={fontSizeLevel}
                 onAdjustFontSize={onAdjustFontSize}
                 autoNextSentence={autoNextSentence}

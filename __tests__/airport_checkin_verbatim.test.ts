@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { tokenizeSentence } from "@/features/listening/components/DictationWorkspace";
 import { checkEquivalenceMatch, stripDiacritics } from "@/features/listening/utils/dictationEngine";
+import { LESSON_AIRPORT_CHECKIN, QUIZ_AIRPORT_CHECKIN } from "@/features/listening/data/lessons/lesson_airport_checkin";
 import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
 
 describe("English for Travel: Checking in at the Airport - 100% Verbatim Audit", () => {
@@ -108,6 +109,42 @@ describe("English for Travel: Checking in at the Airport - 100% Verbatim Audit",
     const normLesson = lessonWords.map(normalize);
     const normWhisper = whisperWords.map(normalize);
     expect(normLesson).toEqual(normWhisper);
+  });
+
+  it("should have valid explanationAi and tokenCount across all 16 segments in lesson object", () => {
+    expect(LESSON_AIRPORT_CHECKIN.segments.length).toBe(16);
+    for (const seg of LESSON_AIRPORT_CHECKIN.segments) {
+      expect(seg.explanationAi).toBeDefined();
+      expect(seg.explanationAi!.length).toBeGreaterThan(0);
+      expect(seg.tokenCount).toBeDefined();
+      expect(seg.tokenCount).toBeGreaterThan(0);
+    }
+  });
+
+  it("should have comprehensive bilingual reading comprehension quiz attached", () => {
+    const quiz = LESSON_AIRPORT_CHECKIN.quiz;
+    expect(quiz).toBeDefined();
+    if (!quiz) return;
+
+    expect(quiz.lessonId).toBe("vid_airport_checkin");
+    expect(quiz.totalQuestions).toBe(8);
+    expect(quiz.questions.length).toBe(8);
+    expect(quiz.xpReward).toBe(40);
+
+    for (const q of quiz.questions) {
+      expect(q.id.length).toBeGreaterThan(0);
+      expect(q.questionEn).toBeDefined();
+      expect(q.questionVi).toBeDefined();
+      expect(q.optionsEn!.length).toBe(4);
+      expect(q.optionsVi!.length).toBe(4);
+      expect(q.correctAnswer).toBeGreaterThanOrEqual(0);
+      expect(q.correctAnswer).toBeLessThan(4);
+      expect(q.explanationEn).toBeDefined();
+      expect(q.explanationVi).toBeDefined();
+      expect(q.targetedConceptEn).toBeDefined();
+      expect(q.targetedConceptVi).toBeDefined();
+      expect(q.referenceSegmentIndex).toBeDefined();
+    }
   });
 });
 

@@ -7,6 +7,7 @@ import { useAuthStore } from "@/stores/authStore";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { useListeningStore } from "@/stores/listeningStore";
 import { useUiStore } from "@/stores/uiStore";
+import { useAudioCatalogStore } from "@/stores/audioCatalogStore";
 import { speakLessonText, stopTTS, prefetchAudioSentence } from "@/shared/utils/ttsEngine";
 import { MOCK_LESSONS_DATA } from "@/features/listening/data/listeningMockData";
 import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
@@ -93,15 +94,53 @@ export function DictationPageContent({
     setHasMounted(true);
   }, []);
 
-  // Lessons list state (SSR-safe initial state, hydrated in useEffect)
-  const [lessonsList, setLessonsList] = useState<any[]>([]);
+  // Global Audio SWR & Zustand Store hooks
+  const cachedAudioLessons = useAudioCatalogStore((s) => s.audioLessons);
+  const isAudioLessonsLoading = useAudioCatalogStore((s) => s.isAudioLessonsLoading);
+  const fetchAudioLessons = useAudioCatalogStore((s) => s.fetchAudioLessons);
+  const fetchAudioLessonDetail = useAudioCatalogStore((s) => s.fetchAudioLessonDetail);
+  const audioFilters = useAudioCatalogStore((s) => s.filters);
+  const setListingSearch = useAudioCatalogStore((s) => s.setListingSearch);
+  const setShuffleSeedBasic = useAudioCatalogStore((s) => s.setShuffleSeedBasic);
+  const setShuffleSeedAdvanced = useAudioCatalogStore((s) => s.setShuffleSeedAdvanced);
+  const listingSearch = audioFilters.listingSearch;
+  const shuffleSeedBasic = audioFilters.shuffleSeedBasic;
+  const shuffleSeedAdvanced = audioFilters.shuffleSeedAdvanced;
+
+  // Frame 0 Synchronous Cache Read for lessons list (0ms instant UI return)
+  const [lessonsList, setLessonsList] = useState<any[]>(() =>
+    cachedAudioLessons && cachedAudioLessons.length > 0 ? cachedAudioLessons : []
+  );
+
+  useEffect(() => {
+    if (cachedAudioLessons && cachedAudioLessons.length > 0) {
+      setLessonsList(cachedAudioLessons);
+    }
+  }, [cachedAudioLessons]);
+
+  const isLoadingLessons = isAudioLessonsLoading && lessonsList.length === 0;
+
+  // Frame 0 Synchronous Cache Read for initial lesson detail
+  const initialCachedLessonDetail = useMemo(() => {
+    if (!rawIdParam) return null;
+    const lookup = resolveCanonicalLessonId(rawIdParam) || rawIdParam;
+    return useAudioCatalogStore.getState().audioDetailCache[lookup]?.data || null;
+  }, [rawIdParam]);
 
   // Detailed lessons map with multi-key aliasing
-  const [detailedLessonsMap, setDetailedLessonsMap] = useState<Record<string, any>>({});
+  const [detailedLessonsMap, setDetailedLessonsMap] = useState<Record<string, any>>(() => {
+    if (initialCachedLessonDetail && initialCachedLessonDetail.id) {
+      return {
+        [initialCachedLessonDetail.id]: initialCachedLessonDetail,
+        ...(rawIdParam ? { [rawIdParam]: initialCachedLessonDetail } : {}),
+      };
+    }
+    return {};
+  });
 
-  const [isLoadingLessons, setIsLoadingLessons] = useState<boolean>(true);
-
-  const [isLoadingLessonDetail, setIsLoadingLessonDetail] = useState<boolean>(() => Boolean(rawIdParam));
+  const [isLoadingLessonDetail, setIsLoadingLessonDetail] = useState<boolean>(() =>
+    Boolean(rawIdParam && !initialCachedLessonDetail)
+  );
 
   // Selected lesson state (Frame 0 Synchronous Canonical Normalization)
   const [selectedLessonId, setSelectedLessonId] = useState<string | null>(() => {
@@ -321,123 +360,10 @@ export function DictationPageContent({
     }
   }, [currentLesson, currentSentenceIndex, currentAccent]);
 
-  // 1. SWR Instant 0ms Local Cache Hydration & Background Neon DB Fetch for Catalog (Dashboard Architecture)
-  /* eslint-disable react-hooks/set-state-in-effect -- SWR catalog hydration and fetch */
+  // 1. SWR Audio Lessons Fetch via useAudioCatalogStore
   useEffect(() => {
-    let isMounted = true;
-    const catalogCacheKey = `xp_voca_listening_catalog_${initialMode}_${user?.id || "guest"}`;
-
-    // Tầng 1: SWR 0ms Instant Local Cache Hydration
-    if (typeof window !== "undefined") {
-      try {
-        const raw =
-          localStorage.getItem(catalogCacheKey) ||
-          localStorage.getItem(`xp_voca_listening_catalog_${initialMode}`) ||
-          localStorage.getItem("xp_voca_listening_catalog_cache") ||
-          localStorage.getItem("xp_voca_listening_catalog_guest");
-        if (raw) {
-          const cached = JSON.parse(raw);
-          if (Array.isArray(cached) && cached.length > 0) {
-            const sanitized =
-              initialMode === "audio"
-                ? cached.filter(
-                    (l: any) =>
-                      !l.isVideo &&
-                      !l.id?.startsWith("vid_") &&
-                      !l.audioUrl?.includes("youtube") &&
-                      !l.audioUrl?.includes("youtu.be")
-                  )
-                : cached;
-            setLessonsList(sanitized);
-            setIsLoadingLessons(false);
-          }
-        }
-      } catch (err) {
-        console.warn("[Listening] Failed to load cached catalog:", err);
-      }
-    }
-
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000);
-
-    // Tầng 2: Background Neon Database Reconciliation
-    const fetchLessons = async () => {
-      try {
-        const res = await fetch(`/api/listening/lessons?userId=${user?.id || ""}&mode=${initialMode}`, {
-          signal: controller.signal,
-          headers: { Accept: "application/json" },
-        });
-        if (!res.ok) {
-          throw new Error(`HTTP ${res.status}`);
-        }
-        const json = await res.json();
-        if (isMounted && json.success && Array.isArray(json.data) && json.data.length > 0) {
-          const sanitized =
-            initialMode === "audio"
-              ? json.data.filter(
-                  (l: any) =>
-                    !l.isVideo &&
-                    !l.id?.startsWith("vid_") &&
-                    !l.audioUrl?.includes("youtube") &&
-                    !l.audioUrl?.includes("youtu.be")
-                )
-              : json.data;
-          setLessonsList(sanitized);
-          try {
-            localStorage.setItem(catalogCacheKey, JSON.stringify(sanitized));
-          } catch {}
-        } else if (isMounted) {
-          const fallback =
-            initialMode === "audio"
-              ? MOCK_LESSONS_DATA.filter(
-                  (l: any) =>
-                    !l.id?.startsWith("vid_") &&
-                    !l.audioUrl?.includes("youtube") &&
-                    !l.audioUrl?.includes("youtu.be")
-                )
-              : MOCK_LESSONS_DATA;
-          setLessonsList((prev) => (prev.length === 0 ? fallback : prev));
-        }
-      } catch (err: any) {
-        if (!isMounted) return;
-        if (err?.name === "AbortError") {
-          console.warn("[Listening] Catalog DB request timed out.");
-        } else {
-          console.warn("[Listening] DB fetch fallback to offline cache:", err?.message || err);
-        }
-        if (isMounted) {
-          setLessonsList((prev) => {
-            if (prev.length === 0) {
-              addToast({
-                type: "warning",
-                title: "Chế độ offline",
-                message: "Không thể tải danh mục từ máy chủ Neon. Đang hiển thị danh mục offline.",
-              });
-              return initialMode === "audio"
-                ? MOCK_LESSONS_DATA.filter(
-                    (l: any) =>
-                      !l.id?.startsWith("vid_") &&
-                      !l.audioUrl?.includes("youtube") &&
-                      !l.audioUrl?.includes("youtu.be")
-                  )
-                : MOCK_LESSONS_DATA;
-            }
-            return prev;
-          });
-        }
-      } finally {
-        clearTimeout(timeoutId);
-        if (isMounted) setIsLoadingLessons(false);
-      }
-    };
-    fetchLessons();
-    return () => {
-      isMounted = false;
-      clearTimeout(timeoutId);
-      controller.abort();
-    };
-  }, [user?.id, addToast]);
-  /* eslint-enable react-hooks/set-state-in-effect */
+    fetchAudioLessons({ userId: user?.id, mode: initialMode });
+  }, [user?.id, initialMode, fetchAudioLessons]);
 
   const [, setIsSyncingDb] = useState(false);
   const [isShufflingBasic, setIsShufflingBasic] = useState(false);
@@ -876,10 +802,6 @@ export function DictationPageContent({
   useEffect(() => {
     return () => setHideBottomNav(false);
   }, [setHideBottomNav]);
-
-  const [listingSearch, setListingSearch] = useState("");
-  const [shuffleSeedBasic, setShuffleSeedBasic] = useState(0);
-  const [shuffleSeedAdvanced, setShuffleSeedAdvanced] = useState(0);
 
   // Stabilize completedLessonIds key to prevent unnecessary re-computations
   const completedLessonIdsKey = useMemo(() => {

@@ -10,6 +10,7 @@ import { useDailyChallengeStore } from "@/stores/dailyChallengeStore";
 import { speakLessonText } from "@/shared/utils/ttsEngine";
 import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 import { BASIC_VOCABULARIES } from "@/features/vocabulary/data/basicVocabularies";
+import { usePracticeCatalogStore, INITIAL_PRACTICE_VOCABS } from "@/stores/practiceCatalogStore";
 import { PracticeWord, SubMode, QuizOption, FlashcardRating } from "../types";
 import { getBookmarkedWords, toggleBookmark } from "../utils/bookmark";
 import { getDeterministicRandom } from "../utils/shuffle";
@@ -29,19 +30,29 @@ export function usePracticeSession() {
   const { awardXp } = useAuthStore();
   const { incrementProgress } = useDailyChallengeStore();
 
-  const [dbVocabs, setDbVocabs] = useState<PracticeWord[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [subMode, setSubMode] = useState<SubMode>("quiz");
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isCompleted, setIsCompleted] = useState(false);
+  // SWR In-Memory Store & Persistent Session State
+  const {
+    practiceVocabs,
+    fetchPracticeVocabs,
+    subMode,
+    setSubMode,
+    currentIndex,
+    setCurrentIndex,
+    elapsedTime,
+    setElapsedTime,
+    isCompleted,
+    setIsCompleted,
+    restartSession,
+  } = usePracticeCatalogStore();
 
-  // Timer tracking
-  const [elapsedTime, setElapsedTime] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Timer tracking reference
   const elapsedTimeRef = useRef(0);
 
   // Active study time tracker for analytics (stops when completed)
   useStudyTimeTracker("vocab", {
-    activeCondition: !isLoading && dbVocabs.length > 0 && !isCompleted,
+    activeCondition: !isLoading && practiceVocabs.length > 0 && !isCompleted,
   });
 
   useEffect(() => {
@@ -90,106 +101,30 @@ export function usePracticeSession() {
     }
   }, [modeParam]);
 
-  // Load vocabularies from Backend API
+  // Load vocabularies from Backend API via SWR Store
   useEffect(() => {
     let isCancelled = false;
-    const loadVocabs = async () => {
-      try {
-        setIsLoading(true);
-        const queryParams = new URLSearchParams();
-        queryParams.set("limit", "25");
-        queryParams.set("random", "true");
-        if (themeParam) queryParams.set("themeId", themeParam);
-        if (levelParam === "basic" || levelParam === "advanced")
-          queryParams.set("level", levelParam);
-
-        const res = await fetch(`/api/vocabulary?${queryParams.toString()}`);
-        if (res.ok) {
-          const json = await res.json();
-          const list = Array.isArray(json) ? json : json.data;
-          if (Array.isArray(list) && list.length > 0 && !isCancelled) {
-            const mapped: PracticeWord[] = list.map((item: any, idx: number) => ({
-              id: item.id || `vocab_${idx}`,
-              word: item.word,
-              meaning: item.definitionVn || item.definition,
-              ipa: item.phonetic || item.ipa || "/.../",
-              type: item.pos === "adj" ? "adjective" : item.pos || "noun",
-              level:
-                item.difficulty === 2
-                  ? "B1"
-                  : item.difficulty === 3
-                  ? "B2"
-                  : item.difficulty === 4
-                  ? "C1"
-                  : "A2",
-              topic: item.themeNameVn || item.themeNameEn || item.topic || "Từ vựng thường nhật",
-              example:
-                item.examples?.[0] || item.example || `Practice using the word ${item.word}.`,
-              exampleVi:
-                item.exampleTranslations?.[0] ||
-                item.exampleVi ||
-                `Hãy luyện tập sử dụng từ ${item.word}.`,
-            }));
-            setDbVocabs(mapped);
-            return;
-          }
-        }
-      } catch (err) {
-        console.error("Failed to load vocabs for practice:", err);
-      } finally {
-        if (!isCancelled) setIsLoading(false);
+    fetchPracticeVocabs({ themeId: themeParam, level: levelParam }).then((items) => {
+      if (!isCancelled && items && items.length > 0) {
+        setIsLoading(false);
       }
-    };
-    loadVocabs();
+    });
     return () => {
       isCancelled = true;
     };
-  }, [dateParam, themeParam, levelParam]);
+  }, [dateParam, themeParam, levelParam, fetchPracticeVocabs]);
 
-  // Fallback vocabularies ensuring rich 25 items session
+  // Guaranteed 25 items session with 0ms Frame-0 render
   const vocabs: PracticeWord[] = useMemo(() => {
-    if (dbVocabs.length >= 25) return dbVocabs.slice(0, 25);
-
-    const fallbackList: PracticeWord[] = BASIC_VOCABULARIES.slice(0, 25).map((item, idx) => ({
-      id: item.id || `practice_vocab_${idx}`,
-      word: item.word,
-      meaning: item.definitionVn || item.definition,
-      ipa: item.phonetic || "/.../",
-      type: item.pos === "adj" ? "adjective" : item.pos || "noun",
-      level: "A2",
-      topic: item.themeNameVn || "Từ vựng thường nhật",
-      example: item.examples?.[0] || `She learned how to use the word ${item.word}.`,
-      exampleVi:
-        item.exampleTranslations?.[0] || `Cô ấy đã học cách sử dụng từ ${item.word}.`,
-    }));
-
-    if (dbVocabs.length > 0) {
-      const combined = [...dbVocabs, ...fallbackList];
+    if (practiceVocabs && practiceVocabs.length >= 25) return practiceVocabs.slice(0, 25);
+    if (practiceVocabs && practiceVocabs.length > 0) {
+      const combined = [...practiceVocabs, ...INITIAL_PRACTICE_VOCABS];
       const uniqueMap = new Map<string, PracticeWord>();
       combined.forEach((w) => uniqueMap.set(w.word.toLowerCase(), w));
       return Array.from(uniqueMap.values()).slice(0, 25);
     }
-
-    if (learned && learned.length > 0) {
-      const storeList: PracticeWord[] = learned.map((l: any, idx: number) => ({
-        id: l.wordId || `vocab_learned_${idx}`,
-        word: l.word || "example",
-        meaning: l.meaning || "ví dụ",
-        ipa: l.ipa || "/ɪɡˈzæm.pəl/",
-        type: l.type || "noun",
-        level: l.level || "A2",
-        topic: l.category || l.topic || "Cảm xúc & Đời sống",
-        example: l.example || "This is a practical example sentence.",
-        exampleVi: l.exampleVi || "Đây là một câu ví dụ thực tế.",
-      }));
-      const combined = [...storeList, ...fallbackList];
-      const uniqueMap = new Map<string, PracticeWord>();
-      combined.forEach((w) => uniqueMap.set(w.word.toLowerCase(), w));
-      return Array.from(uniqueMap.values()).slice(0, 25);
-    }
-
-    return fallbackList;
-  }, [dbVocabs, learned]);
+    return INITIAL_PRACTICE_VOCABS;
+  }, [practiceVocabs]);
 
   const currentWord = vocabs[currentIndex] || vocabs[0];
 
@@ -532,9 +467,7 @@ export function usePracticeSession() {
   );
 
   const handleRestartSession = useCallback(() => {
-    setCurrentIndex(0);
-    setIsCompleted(false);
-    setElapsedTime(0);
+    restartSession();
     setQXp(0);
     setQCorrectCount(0);
     setFXp(0);
@@ -543,7 +476,7 @@ export function usePracticeSession() {
     setSXp(0);
     setSCorrectCount(0);
     resetCurrentQuestionState();
-  }, [resetCurrentQuestionState]);
+  }, [restartSession, resetCurrentQuestionState]);
 
   const formatElapsedTime = useCallback((seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -551,14 +484,17 @@ export function usePracticeSession() {
     return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   }, []);
 
-  const setSubModeWithUrl = useCallback((newMode: SubMode) => {
-    setSubMode(newMode);
-    if (typeof window !== "undefined") {
-      const url = new URL(window.location.href);
-      url.searchParams.set("subMode", newMode);
-      window.history.replaceState(null, "", url.toString());
-    }
-  }, []);
+  const setSubModeWithUrl = useCallback(
+    (newMode: SubMode) => {
+      setSubMode(newMode);
+      if (typeof window !== "undefined") {
+        const url = new URL(window.location.href);
+        url.searchParams.set("subMode", newMode);
+        window.history.replaceState(null, "", url.toString());
+      }
+    },
+    [setSubMode]
+  );
 
   return {
     vocabs,

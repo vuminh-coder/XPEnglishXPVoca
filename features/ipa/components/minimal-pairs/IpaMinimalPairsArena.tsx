@@ -32,6 +32,7 @@ import {
 import { MINIMAL_PAIRS, MinimalPair, MinimalPairCategory } from "../../data/ipaData";
 import { useAuthStore } from "@/stores/authStore";
 import { useNotificationStore } from "@/stores/notificationStore";
+import { useIpaCatalogStore } from "@/stores/ipaCatalogStore";
 import { IpaAudioPlayButton } from "../shared/IpaAudioPlayButton";
 import { speakLessonText, stopTTS } from "@/shared/utils/ttsEngine";
 import {
@@ -73,11 +74,22 @@ export const IpaMinimalPairsArena: React.FC<IpaMinimalPairsArenaProps> = ({
   const { awardXp, awardCoins } = useAuthStore();
   const { addToast } = useNotificationStore();
 
-  // 1. Topic & Category Selection
-  const [selectedTopicId, setSelectedTopicId] = useState<string>(MINIMAL_PAIRS[0].id);
+  // Connected Store Selectors & Actions
+  const selectedTopicId = useIpaCatalogStore((s) => s.arenaSelectedTopicId);
+  const setSelectedTopicId = useIpaCatalogStore((s) => s.setArenaSelectedTopicId);
+  const topicMenuCategory = useIpaCatalogStore((s) => s.arenaCategoryFilter);
+  const setTopicMenuCategory = useIpaCatalogStore((s) => s.setArenaCategoryFilter);
+  const gameMode = useIpaCatalogStore((s) => s.arenaGameMode);
+  const setGameMode = useIpaCatalogStore((s) => s.setArenaGameMode);
+  const isSfxMuted = useIpaCatalogStore((s) => s.arenaIsSfxMuted);
+  const setIsSfxMuted = useIpaCatalogStore((s) => s.setArenaIsSfxMuted);
+  const isAutoPlayEnabled = useIpaCatalogStore((s) => s.arenaIsAutoPlay);
+  const setIsAutoPlayEnabled = useIpaCatalogStore((s) => s.setArenaIsAutoPlay);
+
+  // 1. Topic & Category Selection UI Drawer
   const [isTopicMenuOpen, setIsTopicMenuOpen] = useState<boolean>(false);
-  const [topicMenuCategory, setTopicMenuCategory] = useState<"all" | MinimalPairCategory>("all");
   const [isReferenceDrawerOpen, setIsReferenceDrawerOpen] = useState<boolean>(false);
+  const [isPlayingSequential, setIsPlayingSequential] = useState<number | null>(null);
 
   const activeTopic = useMemo(() => {
     return MINIMAL_PAIRS.find((p) => p.id === selectedTopicId) || MINIMAL_PAIRS[0];
@@ -87,12 +99,6 @@ export const IpaMinimalPairsArena: React.FC<IpaMinimalPairsArenaProps> = ({
     if (topicMenuCategory === "all") return MINIMAL_PAIRS;
     return MINIMAL_PAIRS.filter((p) => p.category === topicMenuCategory);
   }, [topicMenuCategory]);
-
-  // 2. Game Mode & Sound settings
-  const [gameMode, setGameMode] = useState<GameMode>("blitz");
-  const [isSfxMuted, setIsSfxMuted] = useState<boolean>(() => getSfxMuted());
-  const [isAutoPlayEnabled, setIsAutoPlayEnabled] = useState<boolean>(true);
-  const [isPlayingSequential, setIsPlayingSequential] = useState<number | null>(null);
 
   // 3. Match Progression States (10-round match)
   const [currentRound, setCurrentRound] = useState<number>(1);
