@@ -2,7 +2,7 @@ import { ExamPaper, ExamQuestion } from "./types";
 
 export const ieltsRsStudio01Paper: ExamPaper = {
   id: "ielts_rs_studio_01",
-  title: "IELTS Reading & Speaking Academic Duo #01",
+  title: "IELTS Reading & Speaking Academic Duo 01",
   type: "IELTS_FULL",
   level: "Advanced",
   timeLimitMinutes: 75,

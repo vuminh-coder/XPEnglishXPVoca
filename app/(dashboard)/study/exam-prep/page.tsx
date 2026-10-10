@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import { Sparkles, BookOpen } from "lucide-react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
+import { Wand2, X, Sparkles, BookOpen } from "lucide-react";
 import { useSearchParams, useRouter } from "next/navigation";
 import {
   MOCK_EXAM_PAPERS,
@@ -367,22 +367,20 @@ function ExamPrepContent() {
       exam.type === filterType ||
       (filterType === "TOEIC_LR" &&
         (exam.type === "TOEIC_LR" || exam.type === "TOEIC_MINI")) ||
-      (filterType === "IELTS_FULL" && exam.type === "IELTS_FULL");
+      (filterType === "IELTS_FULL" && exam.type.startsWith("IELTS")) ||
+      (filterType === "TOEIC_SPEAKING_WRITING" &&
+        (exam.type === "TOEIC_SPEAKING_WRITING" || exam.type.includes("SW"))) ||
+      (filterType === "TOEIC_FULL" && exam.type === "TOEIC_FULL");
+
     const matchesSearch =
       searchQuery.trim() === "" ||
       exam.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      exam.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
       exam.tags.some((t) =>
         t.toLowerCase().includes(searchQuery.toLowerCase()),
       );
 
-    // Filter exams that match selected activeSkills (unless filtering by specific category tab)
-    const matchesSkill =
-      filterType !== "ALL" ||
-      activeSkills.length === 4 ||
-      activeSkills.length === 0 ||
-      exam.supportedSkills.some((s) => activeSkills.includes(s));
-
-    return matchesType && matchesSearch && matchesSkill;
+    return matchesType && matchesSearch;
   });
 
   // Time formatter
@@ -407,14 +405,31 @@ function ExamPrepContent() {
         <div className="space-y-4">
           {/* 0. BRAND TOP HEADER (56px h-14 Baseline) */}
           <AppTopHeader
+            showGamificationStats={true}
             rightDesktopContent={
               <button
                 type="button"
                 onClick={() => setConfigMode(configMode === "AI_GEN" ? "PRESET" : "AI_GEN")}
-                className="h-9 px-3.5 sm:px-4 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-slate-950 text-xs font-black transition-all shadow-xs flex items-center gap-1.5 cursor-pointer active:scale-95 shrink-0"
+                className={`h-9 px-3.5 sm:px-4 rounded-xl text-xs sm:text-sm font-bold shadow-xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0 ${
+                  configMode === "AI_GEN"
+                    ? "bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700"
+                    : "bg-[#0059bb] hover:bg-[#004899] text-white"
+                }`}
+                title={configMode === "AI_GEN" ? "Đóng studio tạo đề AI" : "Mở studio biên soạn đề AI"}
               >
-                <Sparkles className="w-3.5 h-3.5 fill-slate-950" />
-                <span>{configMode === "AI_GEN" ? "Chế độ Đề Chuẩn" : "Tạo Đề Mới AI"}</span>
+                {configMode === "AI_GEN" ? (
+                  <>
+                    <X className="w-3.5 h-3.5" />
+                    <span className="hidden sm:inline">Đóng Tạo Đề</span>
+                    <span className="sm:hidden">Đóng</span>
+                  </>
+                ) : (
+                  <>
+                    <Wand2 className="w-3.5 h-3.5" />
+                    <span className="hidden sm:inline">Tạo Đề Mới AI</span>
+                    <span className="sm:hidden">Tạo AI</span>
+                  </>
+                )}
               </button>
             }
           >
@@ -445,18 +460,43 @@ function ExamPrepContent() {
               setFilterType={setFilterType}
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
+              totalCount={examPapers.length}
+              filteredCount={filteredExams.length}
+              onRefresh={fetchExamPapers}
             />
 
-            {/* 3. EXAM CARDS GRID (37 Standardized Exams) */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 pt-1">
-              {filteredExams.map((exam) => (
-                <ExamPaperCard
-                  key={exam.id}
-                  exam={exam}
-                  onStartExam={handleStartExam}
-                />
-              ))}
-            </div>
+            {/* 3. EXAM CARDS GRID (Standardized Exams) */}
+            {filteredExams.length === 0 ? (
+              <div className="py-16 text-center text-slate-400 dark:text-slate-500 text-xs rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 p-8 shadow-xs">
+                <BookOpen className="w-10 h-10 mx-auto text-slate-300 dark:text-slate-600 mb-3" />
+                <p className="font-bold text-sm sm:text-base text-slate-700 dark:text-slate-300">
+                  Không tìm thấy bộ đề thi nào phù hợp
+                </p>
+                <p className="mt-1 text-slate-500">
+                  Hãy thử đổi từ khóa tìm kiếm, chọn lại kỹ năng hoặc đặt lại danh mục đề thi.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFilterType("ALL");
+                    setSearchQuery("");
+                  }}
+                  className="mt-4 px-4 py-2 rounded-xl bg-[#0059bb] text-white text-xs font-bold hover:bg-[#004899] cursor-pointer shadow-xs transition-colors"
+                >
+                  Xem tất cả đề thi
+                </button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-4.5 pt-1">
+                {filteredExams.map((exam) => (
+                  <ExamPaperCard
+                    key={exam.id}
+                    exam={exam}
+                    onStartExam={handleStartExam}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}

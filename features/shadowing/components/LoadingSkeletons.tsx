@@ -125,28 +125,29 @@ export function ShadowingListingSkeleton() {
             {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
               <div
                 key={i}
-                className="p-3 sm:p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-row sm:flex-col gap-3 sm:gap-0"
+                className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-col overflow-hidden select-none"
               >
-                {/* Thumbnail Skeleton */}
-                <div className="relative w-[47%] aspect-[16/10] sm:w-full sm:aspect-[16/10] rounded-xl overflow-hidden shrink-0">
-                  <ShimmerBox className="w-full h-full rounded-xl" />
-                  <div className="absolute bottom-2 left-2 w-10 sm:w-12 h-4 rounded bg-slate-900/40 backdrop-blur-xs" />
+                {/* 16/10 Aspect Cover Skeleton */}
+                <div className="relative aspect-[16/10] w-full overflow-hidden shrink-0 border-b border-slate-100 dark:border-slate-800">
+                  <ShimmerBox className="w-full h-full" />
+                  <div className="absolute top-2.5 left-2.5 w-14 h-5 rounded-lg bg-slate-900/40" />
+                  <div className="absolute top-2.5 right-2.5 w-12 h-5 rounded-lg bg-slate-900/40" />
                 </div>
 
-                {/* Right / Bottom Info Skeleton */}
-                <div className="py-0.5 sm:py-0 sm:mt-3 space-y-2 flex-1 flex flex-col justify-between min-w-0">
+                {/* Body Info Skeleton */}
+                <div className="px-3 pt-2 pb-2.5 sm:px-3.5 sm:pt-2 sm:pb-2.5 flex-1 flex flex-col justify-between space-y-1.5 min-w-0">
                   <div className="space-y-1.5">
-                    <ShimmerBox className="h-3 w-20 rounded mb-1 sm:hidden bg-blue-500/20" />
-                    <ShimmerBox className="h-4 w-full rounded" />
-                    <ShimmerBox className="h-4 w-4/5 rounded" />
-                  </div>
-
-                  <div className="flex items-center justify-between pt-1 sm:pt-2 sm:border-t border-slate-100 dark:border-slate-800">
-                    <div className="flex items-center gap-1.5">
-                      <ShimmerBox className="w-4 h-4 rounded-full" />
+                    <div className="flex items-center justify-between gap-2 mb-1">
+                      <ShimmerBox className="h-3.5 w-24 rounded" />
                       <ShimmerBox className="h-3.5 w-12 rounded" />
                     </div>
-                    <ShimmerBox className="h-5 w-14 rounded-lg" />
+                    <ShimmerBox className="h-4.5 w-full rounded" />
+                    <ShimmerBox className="h-4.5 w-4/5 rounded" />
+                  </div>
+
+                  <div className="flex items-center justify-between pt-1.5 border-t border-slate-100 dark:border-slate-800 text-xs gap-2">
+                    <ShimmerBox className="h-3.5 w-14 rounded" />
+                    <ShimmerBox className="h-8 w-24 rounded-xl bg-[#0059bb]/30" />
                   </div>
                 </div>
               </div>
@@ -168,28 +169,29 @@ export function ShadowingListingSkeleton() {
             {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
               <div
                 key={i}
-                className="p-3 sm:p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-row sm:flex-col gap-3 sm:gap-0"
+                className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-col overflow-hidden select-none"
               >
-                {/* Thumbnail Skeleton */}
-                <div className="relative w-[47%] aspect-[16/10] sm:w-full sm:aspect-[16/10] rounded-xl overflow-hidden shrink-0">
-                  <ShimmerBox className="w-full h-full rounded-xl" />
-                  <div className="absolute bottom-2 left-2 w-10 sm:w-12 h-4 rounded bg-slate-900/40 backdrop-blur-xs" />
+                {/* 16/10 Aspect Cover Skeleton */}
+                <div className="relative aspect-[16/10] w-full overflow-hidden shrink-0 border-b border-slate-100 dark:border-slate-800">
+                  <ShimmerBox className="w-full h-full" />
+                  <div className="absolute top-2.5 left-2.5 w-14 h-5 rounded-lg bg-slate-900/40" />
+                  <div className="absolute top-2.5 right-2.5 w-12 h-5 rounded-lg bg-slate-900/40" />
                 </div>
 
-                {/* Right / Bottom Info Skeleton */}
-                <div className="py-0.5 sm:py-0 sm:mt-2.5 space-y-2 flex-1 flex flex-col justify-between min-w-0">
+                {/* Body Info Skeleton */}
+                <div className="px-3 pt-2 pb-2.5 sm:px-3.5 sm:pt-2 sm:pb-2.5 flex-1 flex flex-col justify-between space-y-1.5 min-w-0">
                   <div className="space-y-1.5">
-                    <ShimmerBox className="h-3 w-20 rounded mb-1 sm:hidden bg-purple-500/20" />
-                    <ShimmerBox className="h-4 w-full rounded" />
-                    <ShimmerBox className="h-4 w-4/5 rounded" />
-                  </div>
-
-                  <div className="flex items-center justify-between pt-1 sm:pt-2 sm:border-t border-slate-100 dark:border-slate-800">
-                    <div className="flex items-center gap-1.5">
-                      <ShimmerBox className="w-4 h-4 rounded-full" />
+                    <div className="flex items-center justify-between gap-2 mb-1">
+                      <ShimmerBox className="h-3.5 w-24 rounded" />
                       <ShimmerBox className="h-3.5 w-12 rounded" />
                     </div>
-                    <ShimmerBox className="h-5 w-14 rounded-lg" />
+                    <ShimmerBox className="h-4.5 w-full rounded" />
+                    <ShimmerBox className="h-4.5 w-4/5 rounded" />
+                  </div>
+
+                  <div className="flex items-center justify-between pt-1.5 border-t border-slate-100 dark:border-slate-800 text-xs gap-2">
+                    <ShimmerBox className="h-3.5 w-14 rounded" />
+                    <ShimmerBox className="h-8 w-24 rounded-xl bg-purple-600/30" />
                   </div>
                 </div>
               </div>
@@ -583,31 +585,32 @@ export function ShadowingStudioSkeleton() {
 }
 
 /**
- * 1 single card shimmer matching Shadowing lesson cards (Double-Bezel)
+ * 1 single card shimmer matching Shadowing lesson cards (Full-Bleed 16/10)
  */
 export function LessonCardShimmer() {
   return (
-    <div className="p-3 sm:p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-row sm:flex-col gap-3 sm:gap-0">
-      {/* Thumbnail Skeleton */}
-      <div className="relative w-[47%] aspect-[16/10] sm:w-full sm:aspect-[16/10] rounded-xl overflow-hidden shrink-0">
-        <ShimmerBox className="w-full h-full rounded-xl" />
-        <div className="absolute bottom-2 left-2 w-10 sm:w-12 h-4 rounded bg-slate-900/40 backdrop-blur-xs" />
+    <div className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-col overflow-hidden select-none">
+      {/* 16/10 Aspect Cover Skeleton */}
+      <div className="relative aspect-[16/10] w-full overflow-hidden shrink-0 border-b border-slate-100 dark:border-slate-800">
+        <ShimmerBox className="w-full h-full" />
+        <div className="absolute top-2.5 left-2.5 w-14 h-5 rounded-lg bg-slate-900/40" />
+        <div className="absolute top-2.5 right-2.5 w-12 h-5 rounded-lg bg-slate-900/40" />
       </div>
 
-      {/* Right / Bottom Info Skeleton */}
-      <div className="py-0.5 sm:py-0 sm:mt-3 space-y-2 flex-1 flex flex-col justify-between min-w-0">
+      {/* Body Info Skeleton */}
+      <div className="px-3 pt-2 pb-2.5 sm:px-3.5 sm:pt-2 sm:pb-2.5 flex-1 flex flex-col justify-between space-y-1.5 min-w-0">
         <div className="space-y-1.5">
-          <ShimmerBox className="h-3 w-20 rounded mb-1 sm:hidden bg-blue-500/20" />
-          <ShimmerBox className="h-4 w-full rounded" />
-          <ShimmerBox className="h-4 w-4/5 rounded" />
-        </div>
-
-        <div className="flex items-center justify-between pt-1 sm:pt-2 sm:border-t border-slate-100 dark:border-slate-800">
-          <div className="flex items-center gap-1.5">
-            <ShimmerBox className="w-4 h-4 rounded-full" />
+          <div className="flex items-center justify-between gap-2 mb-1">
+            <ShimmerBox className="h-3.5 w-24 rounded" />
             <ShimmerBox className="h-3.5 w-12 rounded" />
           </div>
-          <ShimmerBox className="h-5 w-14 rounded-lg" />
+          <ShimmerBox className="h-4.5 w-full rounded" />
+          <ShimmerBox className="h-4.5 w-4/5 rounded" />
+        </div>
+
+        <div className="flex items-center justify-between pt-1.5 border-t border-slate-100 dark:border-slate-800 text-xs gap-2">
+          <ShimmerBox className="h-3.5 w-14 rounded" />
+          <ShimmerBox className="h-8 w-24 rounded-xl bg-[#0059bb]/30" />
         </div>
       </div>
     </div>

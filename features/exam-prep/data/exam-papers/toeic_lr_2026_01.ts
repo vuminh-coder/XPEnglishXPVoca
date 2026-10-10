@@ -912,7 +912,7 @@ const buildToeicLR01Questions = (): ExamQuestion[] => {
 
 export const toeicLr202601Paper: ExamPaper = {
   id: "toeic_lr_2026_01",
-  title: "ETS TOEIC 2026 Official Test #01",
+  title: "ETS TOEIC 2026 Official Test 01",
   type: "TOEIC_FULL",
   level: "Intermediate",
   timeLimitMinutes: 120,

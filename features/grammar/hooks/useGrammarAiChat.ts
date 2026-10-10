@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { GrammarChatMessage, GrammarTopic } from "../types/grammarTypes";
 import { useUserStore } from "@/stores/userStore";
+import { useGrammarProgressStore } from "@/stores/grammarProgressStore";
 
 interface UseGrammarAiChatProps {
   topic?: GrammarTopic;
@@ -17,9 +18,43 @@ export const GRAMMAR_AI_PROMPTS = [
 
 export function useGrammarAiChat({ topic }: UseGrammarAiChatProps) {
   const { awardXp } = useUserStore();
-  const [chatMessages, setChatMessages] = useState<GrammarChatMessage[]>([]);
-  const [chatInput, setChatInput] = useState("");
+  const topicId = topic?.id || "";
+
+  // Frame 0 Synchronous Cache Probe from Zustand RAM Store
+  const initialSavedChat = useMemo(() => {
+    if (!topicId) return null;
+    return useGrammarProgressStore.getState().getAiChatSession(topicId);
+  }, [topicId]);
+
+  const [chatMessages, setChatMessages] = useState<GrammarChatMessage[]>(() => initialSavedChat?.messages || []);
+  const [chatInput, setChatInput] = useState<string>(() => initialSavedChat?.draftInput || "");
   const [chatLoading, setChatLoading] = useState(false);
+
+  // Switch session if topicId changes dynamically
+  const activeTopicIdRef = useRef(topicId);
+  useEffect(() => {
+    if (activeTopicIdRef.current !== topicId) {
+      activeTopicIdRef.current = topicId;
+      const s = useGrammarProgressStore.getState().getAiChatSession(topicId);
+      if (s) {
+        setChatMessages(s.messages || []);
+        setChatInput(s.draftInput || "");
+      } else {
+        setChatMessages([]);
+        setChatInput("");
+      }
+    }
+  }, [topicId]);
+
+  // Synchronize chat state updates to Zustand RAM store
+  useEffect(() => {
+    if (topicId && (chatMessages.length > 0 || chatInput)) {
+      useGrammarProgressStore.getState().saveAiChatSession(topicId, {
+        messages: chatMessages,
+        draftInput: chatInput,
+      });
+    }
+  }, [topicId, chatMessages, chatInput]);
 
   const handleSendChatMessage = useCallback(
     async (textToSend: string) => {
@@ -76,7 +111,11 @@ export function useGrammarAiChat({ topic }: UseGrammarAiChatProps) {
 
   const handleClearChat = useCallback(() => {
     setChatMessages([]);
-  }, []);
+    setChatInput("");
+    if (topicId) {
+      useGrammarProgressStore.getState().clearAiChatSession(topicId);
+    }
+  }, [topicId]);
 
   return {
     chatMessages,

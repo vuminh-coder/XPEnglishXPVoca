@@ -25,21 +25,84 @@ export interface YouTubeVideoItem {
   subtitles: SubtitleSentence[];
 }
 
+export interface MyVideoSessionState {
+  activeVideoId: string | null;
+  rightPanelTab: "subtitles" | "dictation" | "studyset" | "playlist";
+  subViewMode: "rolling" | "full";
+  searchQuery: string;
+  selectedCategory: string;
+  selectedFilter: "all" | "learning" | "done" | "favorite";
+  videoExercisePositions: Record<string, number>;
+}
+
+export const DEFAULT_MYVIDEO_SESSION: MyVideoSessionState = {
+  activeVideoId: null,
+  rightPanelTab: "subtitles",
+  subViewMode: "rolling",
+  searchQuery: "",
+  selectedCategory: "Tất cả",
+  selectedFilter: "all",
+  videoExercisePositions: {},
+};
+
 import { PRESET_YOUTUBE_VIDEOS } from "@/features/listening/data/defaultVideoPresets";
 export { PRESET_YOUTUBE_VIDEOS };
 
+const getInitialSavedVideos = (): YouTubeVideoItem[] => {
+  if (typeof window !== "undefined") {
+    try {
+      const stored = localStorage.getItem("xp_voca_my_videos");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      }
+    } catch {
+      // fallback
+    }
+  }
+  return PRESET_YOUTUBE_VIDEOS;
+};
+
 interface VideoState {
   savedVideos: YouTubeVideoItem[];
+  session: MyVideoSessionState;
   addVideo: (video: YouTubeVideoItem) => void;
   removeVideo: (id: string) => void;
   toggleFavorite: (id: string) => void;
   updateProgress: (id: string, percent: number) => void;
   updateVideoSubtitles: (id: string, subtitles: SubtitleSentence[]) => void;
   loadSavedVideos: () => void;
+  setSession: (session: Partial<MyVideoSessionState>) => void;
+  resetSession: () => void;
+  setVideoExercisePosition: (videoId: string, subIndex: number) => void;
 }
 
 export const useVideoStore = create<VideoState>((set, get) => ({
-  savedVideos: PRESET_YOUTUBE_VIDEOS,
+  savedVideos: getInitialSavedVideos(),
+  session: { ...DEFAULT_MYVIDEO_SESSION },
+
+  setSession: (session) =>
+    set((state) => ({
+      session: { ...state.session, ...session },
+    })),
+
+  resetSession: () =>
+    set({
+      session: { ...DEFAULT_MYVIDEO_SESSION },
+    }),
+
+  setVideoExercisePosition: (videoId, subIndex) =>
+    set((state) => ({
+      session: {
+        ...state.session,
+        videoExercisePositions: {
+          ...state.session.videoExercisePositions,
+          [videoId]: subIndex,
+        },
+      },
+    })),
 
   loadSavedVideos: () => {
     if (typeof window !== "undefined") {

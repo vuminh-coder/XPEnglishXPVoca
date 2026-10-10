@@ -79,15 +79,72 @@ export default function MyVideoPage() {
   const [showXpSubModal, setShowXpSubModal] = useState(false);
   const [showShortcutsModal, setShowShortcutsModal] = useState(false);
 
-  // Search & Filter state
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("Tất cả");
-  const [selectedFilter, setSelectedFilter] = useState<"all" | "learning" | "done" | "favorite">("all");
+  // Master Video Player State with Frame 0 session probe
+  const [activeVideo, setActiveVideoState] = useState<YouTubeVideoItem | null>(() => {
+    const { session, savedVideos } = useVideoStore.getState();
+    if (session.activeVideoId) {
+      const found = savedVideos.find((v) => v.id === session.activeVideoId);
+      if (found) return found;
+    }
+    return savedVideos.length > 0 ? savedVideos[0] : null;
+  });
 
-  // Master Video Player State
-  const [activeVideo, setActiveVideo] = useState<YouTubeVideoItem | null>(null);
-  const [rightPanelTab, setRightPanelTab] = useState<"subtitles" | "dictation" | "studyset" | "playlist">("subtitles");
-  const [subViewMode, setSubViewMode] = useState<"rolling" | "full">("rolling");
+  const setActiveVideo = useCallback(
+    (videoOrUpdater: YouTubeVideoItem | null | ((prev: YouTubeVideoItem | null) => YouTubeVideoItem | null)) => {
+      setActiveVideoState((prev) => {
+        const next = typeof videoOrUpdater === "function" ? videoOrUpdater(prev) : videoOrUpdater;
+        useVideoStore.getState().setSession({ activeVideoId: next?.id || null });
+        return next;
+      });
+    },
+    []
+  );
+
+  const [rightPanelTab, setRightPanelTabState] = useState<"subtitles" | "dictation" | "studyset" | "playlist">(() => {
+    return useVideoStore.getState().session.rightPanelTab || "subtitles";
+  });
+
+  const setRightPanelTab = useCallback((tab: "subtitles" | "dictation" | "studyset" | "playlist") => {
+    setRightPanelTabState(tab);
+    useVideoStore.getState().setSession({ rightPanelTab: tab });
+  }, []);
+
+  const [subViewMode, setSubViewModeState] = useState<"rolling" | "full">(() => {
+    return useVideoStore.getState().session.subViewMode || "rolling";
+  });
+
+  const setSubViewMode = useCallback((mode: "rolling" | "full") => {
+    setSubViewModeState(mode);
+    useVideoStore.getState().setSession({ subViewMode: mode });
+  }, []);
+
+  // Search & Filter state with Frame 0 session probe
+  const [searchQuery, setSearchQueryState] = useState<string>(() => {
+    return useVideoStore.getState().session.searchQuery || "";
+  });
+
+  const setSearchQuery = useCallback((query: string) => {
+    setSearchQueryState(query);
+    useVideoStore.getState().setSession({ searchQuery: query });
+  }, []);
+
+  const [selectedCategory, setSelectedCategoryState] = useState<string>(() => {
+    return useVideoStore.getState().session.selectedCategory || "Tất cả";
+  });
+
+  const setSelectedCategory = useCallback((category: string) => {
+    setSelectedCategoryState(category);
+    useVideoStore.getState().setSession({ selectedCategory: category });
+  }, []);
+
+  const [selectedFilter, setSelectedFilterState] = useState<"all" | "learning" | "done" | "favorite">(() => {
+    return useVideoStore.getState().session.selectedFilter || "all";
+  });
+
+  const setSelectedFilter = useCallback((filter: "all" | "learning" | "done" | "favorite") => {
+    setSelectedFilterState(filter);
+    useVideoStore.getState().setSession({ selectedFilter: filter });
+  }, []);
 
   // Track study time when a video is actively loaded
   useStudyTimeTracker("dictation", { activeCondition: activeVideo !== null });
@@ -97,14 +154,12 @@ export default function MyVideoPage() {
     loadSavedVideos();
   }, [loadSavedVideos]);
 
-  // Initial video setup
-  const hasSetInitialVideo = useRef(false);
+  // Initial video fallback setup if still empty
   useEffect(() => {
-    if (!hasSetInitialVideo.current && !activeVideo && savedVideos.length > 0) {
+    if (!activeVideo && savedVideos.length > 0) {
       setActiveVideo(savedVideos[0]);
-      hasSetInitialVideo.current = true;
     }
-  }, [savedVideos, activeVideo]);
+  }, [savedVideos, activeVideo, setActiveVideo]);
 
   // Sync activeVideo with store changes (BUG-02 fix: depend only on savedVideos)
   const activeVideoIdRef = useRef(activeVideo?.id);

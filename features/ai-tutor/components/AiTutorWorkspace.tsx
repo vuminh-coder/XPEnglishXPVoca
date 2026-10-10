@@ -5,6 +5,7 @@ import { useAuthStore } from "@/stores/authStore";
 import { useUserStore } from "@/stores/userStore";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { useUiStore } from "@/stores/uiStore";
+import { useAiSessionStore, getInitialTutorSessionProbe } from "@/stores/aiSessionStore";
 import { motion, AnimatePresence } from "framer-motion";
 import { UserAvatar } from "@/shared/components/feedback/UserAvatar";
 import { speakLessonText } from "@/shared/utils/ttsEngine";
@@ -107,19 +108,44 @@ export default function AiTutorWorkspace() {
   const { addToast } = useNotificationStore();
   const { setSidebarCollapsed } = useUiStore();
 
-  // Session ID for current practice turn
-  const [sessionId, setSessionId] = useState<string>(
-    () => `ai_tutor_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`
-  );
+  // Session ID for current practice turn (Frame 0 Probe)
+  const [sessionId, setSessionId] = useState<string>(() => {
+    const probe = getInitialTutorSessionProbe();
+    return probe?.sessionId || `ai_tutor_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+  });
   const [isHistoryDrawerOpen, setIsHistoryDrawerOpen] = useState(false);
   const [pastSessions, setPastSessions] = useState<any[]>([]);
   const [selectedPastSession, setSelectedPastSession] = useState<any | null>(null);
   const [isLoadingHistory, setIsLoadingHistory] = useState(false);
 
-  // Persona & Voice Settings (Hydrated from localStorage)
-  const [currentPersona, setCurrentPersona] = useState<"emma" | "alex" | "chloe">("emma");
-  const [speechSpeed, setSpeechSpeed] = useState<number>(1.0);
-  const [soundEnabled, setSoundEnabled] = useState(true);
+  // Persona & Voice Settings (Frame 0 Probe)
+  const [currentPersona, setCurrentPersona] = useState<"emma" | "alex" | "chloe">(() => {
+    const probe = getInitialTutorSessionProbe();
+    if (probe?.personaId) return probe.personaId;
+    if (typeof window !== "undefined") {
+      const savedPersona = localStorage.getItem("xp_voca_ai_tutor_persona");
+      if (savedPersona === "emma" || savedPersona === "alex" || savedPersona === "chloe") {
+        return savedPersona;
+      }
+    }
+    return "emma";
+  });
+  const [speechSpeed, setSpeechSpeed] = useState<number>(() => {
+    const probe = getInitialTutorSessionProbe();
+    if (probe?.speechSpeed) return probe.speechSpeed;
+    if (typeof window !== "undefined") {
+      const savedSpeed = localStorage.getItem("xp_voca_ai_tutor_speed");
+      if (savedSpeed) {
+        const num = parseFloat(savedSpeed);
+        if (!isNaN(num) && num >= 0.5 && num <= 2.0) return num;
+      }
+    }
+    return 1.0;
+  });
+  const [soundEnabled, setSoundEnabled] = useState(() => {
+    const probe = getInitialTutorSessionProbe();
+    return probe?.soundEnabled ?? true;
+  });
 
   // Initial Welcome Message
   const initialWelcome = useMemo<ChatMessage>(
@@ -142,7 +168,13 @@ export default function AiTutorWorkspace() {
     []
   );
 
-  const [messages, setMessages] = useState<ChatMessage[]>([initialWelcome]);
+  const [messages, setMessages] = useState<ChatMessage[]>(() => {
+    const probe = getInitialTutorSessionProbe();
+    if (probe?.messages && probe.messages.length > 0) {
+      return probe.messages as ChatMessage[];
+    }
+    return [initialWelcome];
+  });
 
   // Voice & Persistent Speech Recognition States
   const [isRecording, setIsRecording] = useState(false);
@@ -156,13 +188,19 @@ export default function AiTutorWorkspace() {
   const [recordingTime, setRecordingTime] = useState(0);
   const [showTranslations, setShowTranslations] = useState<{ [key: string]: boolean }>({});
 
-  // Active turn suggestions
+  // Active turn suggestions (Frame 0 Probe)
   const [currentSuggestions, setCurrentSuggestions] = useState<{
     words: SuggestedWord[];
     phrases: string[];
-  }>({
-    words: initialWelcome.suggestedWords || [],
-    phrases: initialWelcome.suggestedPhrases || [],
+  }>(() => {
+    const probe = getInitialTutorSessionProbe();
+    if (probe?.currentSuggestions && (probe.currentSuggestions.words?.length || probe.currentSuggestions.phrases?.length)) {
+      return probe.currentSuggestions as { words: SuggestedWord[]; phrases: string[] };
+    }
+    return {
+      words: initialWelcome.suggestedWords || [],
+      phrases: initialWelcome.suggestedPhrases || [],
+    };
   });
 
   // Selected word modal state for 1-Click Interactive Deep Dictionary
@@ -174,11 +212,17 @@ export default function AiTutorWorkspace() {
   } | null>(null);
 
   // In-Place Completion & Scorecard State
-  const [isSessionCompleted, setIsSessionCompleted] = useState(false);
+  const [isSessionCompleted, setIsSessionCompleted] = useState(() => {
+    const probe = getInitialTutorSessionProbe();
+    return probe?.isSessionCompleted ?? false;
+  });
   const [showChatHistoryInSummary, setShowChatHistoryInSummary] = useState(false);
 
-  // Practice timer state (seconds elapsed)
-  const [elapsedTime, setElapsedTime] = useState(0);
+  // Practice timer state (Frame 0 Probe)
+  const [elapsedTime, setElapsedTime] = useState(() => {
+    const probe = getInitialTutorSessionProbe();
+    return probe?.elapsedTime ?? 0;
+  });
 
   // Refs to avoid stale closures in syncActiveSessionToDb
   const sessionIdRef = useRef(sessionId);
@@ -208,6 +252,15 @@ export default function AiTutorWorkspace() {
     const elapsed = newElapsed ?? elapsedTimeRef.current;
     const sid = sessionIdRef.current;
     const persona = currentPersonaRef.current;
+
+    // Realtime RAM store sync
+    useAiSessionStore.getState().setTutorSession({
+      sessionId: sid,
+      personaId: persona,
+      messages: newMessages,
+      elapsedTime: elapsed,
+    });
+
     try {
       localStorage.setItem(
         "xp_active_tutor_session",
@@ -265,25 +318,28 @@ export default function AiTutorWorkspace() {
   // Hydrate active session from Database & LocalStorage on initial load
   /* eslint-disable react-hooks/set-state-in-effect -- Hydrating session state from localStorage/DB on mount */
   useEffect(() => {
-    // 1. Immediate zero-latency hydration from LocalStorage
-    try {
-      const localStr = localStorage.getItem("xp_active_tutor_session");
-      if (localStr) {
-        const parsed = JSON.parse(localStr);
-        if (parsed.sessionId && Array.isArray(parsed.messages) && parsed.messages.length > 1) {
-          setSessionId(parsed.sessionId);
-          setMessages(parsed.messages);
-          if (parsed.personaId === "emma" || parsed.personaId === "alex" || parsed.personaId === "chloe") {
-            setCurrentPersona(parsed.personaId);
-          }
-          if (typeof parsed.elapsedTime === "number") {
-            setElapsedTime(parsed.elapsedTime);
+    // 1. Immediate zero-latency fallback check
+    const ramMessages = useAiSessionStore.getState().tutorSession?.messages;
+    if (!ramMessages || ramMessages.length <= 1) {
+      try {
+        const localStr = localStorage.getItem("xp_active_tutor_session");
+        if (localStr) {
+          const parsed = JSON.parse(localStr);
+          if (parsed.sessionId && Array.isArray(parsed.messages) && parsed.messages.length > 1) {
+            setSessionId(parsed.sessionId);
+            setMessages(parsed.messages);
+            if (parsed.personaId === "emma" || parsed.personaId === "alex" || parsed.personaId === "chloe") {
+              setCurrentPersona(parsed.personaId);
+            }
+            if (typeof parsed.elapsedTime === "number") {
+              setElapsedTime(parsed.elapsedTime);
+            }
           }
         }
-      }
-    } catch {}
+      } catch {}
+    }
 
-    // 2. Query Neon PostgreSQL backend for authoritative in-progress active session
+    // 2. Authoritative sync from backend
     fetch("/api/ai/sessions?mode=tutor&status=active")
       .then((res) => res.json())
       .then((data) => {
@@ -298,26 +354,35 @@ export default function AiTutorWorkspace() {
           data.activeSession.messages.some((m: any) => m.role === "user")
         ) {
           const act = data.activeSession;
-          setSessionId(act.sessionId);
-          setMessages(act.messages);
-          if (act.personaId === "emma" || act.personaId === "alex" || act.personaId === "chloe") {
-            setCurrentPersona(act.personaId);
-          }
-          if (typeof act.timeSpentSeconds === "number") {
-            setElapsedTime(act.timeSpentSeconds);
-          }
-          const lastAi = [...act.messages].reverse().find((m: any) => m.role === "ai");
-          if (lastAi?.suggestedWords?.length || lastAi?.suggestedPhrases?.length) {
-            setCurrentSuggestions({
-              words: lastAi.suggestedWords || [],
-              phrases: lastAi.suggestedPhrases || [],
+          const currentCount = useAiSessionStore.getState().tutorSession?.messages?.length || 0;
+          if (act.messages.length > currentCount) {
+            setSessionId(act.sessionId);
+            setMessages(act.messages);
+            if (act.personaId === "emma" || act.personaId === "alex" || act.personaId === "chloe") {
+              setCurrentPersona(act.personaId);
+            }
+            if (typeof act.timeSpentSeconds === "number") {
+              setElapsedTime(act.timeSpentSeconds);
+            }
+            const lastAi = [...act.messages].reverse().find((m: any) => m.role === "ai");
+            if (lastAi?.suggestedWords?.length || lastAi?.suggestedPhrases?.length) {
+              setCurrentSuggestions({
+                words: lastAi.suggestedWords || [],
+                phrases: lastAi.suggestedPhrases || [],
+              });
+            }
+            useAiSessionStore.getState().setTutorSession({
+              sessionId: act.sessionId,
+              personaId: act.personaId,
+              messages: act.messages,
+              elapsedTime: act.timeSpentSeconds,
+            });
+            addToast({
+              type: "info",
+              title: "Khôi phục buổi trò chuyện ✨",
+              message: "Đã tải lại toàn bộ kịch bản luyện nói dở dang của bạn.",
             });
           }
-          addToast({
-            type: "info",
-            title: "Khôi phục buổi trò chuyện ✨",
-            message: "Đã tải lại toàn bộ kịch bản luyện nói dở dang của bạn.",
-          });
         }
       })
       .catch((err) => console.warn("[AiTutor] Active session hydration notice:", err));
@@ -347,6 +412,7 @@ export default function AiTutorWorkspace() {
 
   const handleSelectPersona = (id: "emma" | "alex" | "chloe") => {
     setCurrentPersona(id);
+    useAiSessionStore.getState().setTutorSession({ personaId: id });
     try {
       localStorage.setItem("xp_voca_ai_tutor_persona", id);
     } catch {}
@@ -354,6 +420,7 @@ export default function AiTutorWorkspace() {
 
   const handleSelectSpeed = (spd: number) => {
     setSpeechSpeed(spd);
+    useAiSessionStore.getState().setTutorSession({ speechSpeed: spd });
     try {
       localStorage.setItem("xp_voca_ai_tutor_speed", String(spd));
     } catch {}
@@ -369,7 +436,11 @@ export default function AiTutorWorkspace() {
     if (isSessionCompleted) return;
 
     const timer = setInterval(() => {
-      setElapsedTime((prev) => prev + 1);
+      setElapsedTime((prev) => {
+        const next = prev + 1;
+        useAiSessionStore.getState().setTutorSession({ elapsedTime: next });
+        return next;
+      });
       activeTimeRef.current += 1;
     }, 1000);
 
@@ -934,6 +1005,7 @@ export default function AiTutorWorkspace() {
 
   const handleRestartNewSession = () => {
     // Clean up previous active session from database & localStorage
+    useAiSessionStore.getState().resetTutorSession();
     try {
       localStorage.removeItem("xp_active_tutor_session");
     } catch {}
@@ -1097,7 +1169,11 @@ export default function AiTutorWorkspace() {
                   {/* Sound Button */}
                   <button
                     type="button"
-                    onClick={() => setSoundEnabled(!soundEnabled)}
+                    onClick={() => {
+                      const next = !soundEnabled;
+                      setSoundEnabled(next);
+                      useAiSessionStore.getState().setTutorSession({ soundEnabled: next });
+                    }}
                     className={`px-2.5 py-1 rounded-md text-xs font-bold border transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer ${
                       soundEnabled
                         ? "bg-slate-50 dark:bg-slate-800/80 border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-[#0059bb]"

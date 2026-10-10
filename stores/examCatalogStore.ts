@@ -178,17 +178,30 @@ export const useExamCatalogStore = create<ExamCatalogStoreState>((set, get) => (
           .then((res) => (res.ok ? res.json() : null))
           .then((data) => {
             if (data && Array.isArray(data.exams) && data.exams.length > 0) {
-              // Merge full question bodies from local mock bank if API only provides summary metadata
-              const merged: ExamPaper[] = data.exams.map((apiItem: any) => {
-                const fullMock = MOCK_EXAM_PAPERS.find((p) => p.id === apiItem.id);
-                if (fullMock) {
-                  return { ...fullMock, ...apiItem, questions: fullMock.questions };
-                }
-                return apiItem;
+              // Combine DB exams with local standardized mock bank so we NEVER lose all 39 papers!
+              const paperMap = new Map<string, ExamPaper>();
+              MOCK_EXAM_PAPERS.forEach((paper) => {
+                paperMap.set(paper.id, paper);
               });
 
-              set((state) => ({
-                examPapers: merged.length > 0 ? merged : state.examPapers,
+              data.exams.forEach((apiItem: any) => {
+                const existing = paperMap.get(apiItem.id);
+                if (existing) {
+                  paperMap.set(apiItem.id, {
+                    ...existing,
+                    ...apiItem,
+                    type: existing.type,
+                    questions: existing.questions,
+                  });
+                } else {
+                  paperMap.set(apiItem.id, apiItem);
+                }
+              });
+
+              const allPapers = Array.from(paperMap.values());
+
+              set(() => ({
+                examPapers: allPapers,
                 examPapersTimestamp: Date.now(),
                 isExamPapersLoading: false,
               }));

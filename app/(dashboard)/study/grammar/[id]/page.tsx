@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useRef, useEffect } from "react";
+import React, { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { BookOpen, Sparkles, Zap, Loader2 } from "lucide-react";
 import {
@@ -36,7 +36,17 @@ export default function GrammarTopicDetailPage() {
     return getGrammarLesson(topic.id) || null;
   }, [topic.id]);
 
-  const [activeTab, setActiveTab] = useState<"lesson" | "practice">("lesson");
+  // Frame 0 Synchronous Active Tab Restoration from Zustand RAM Store
+  const savedTab = useGrammarProgressStore((s) => s.topicWorkspaceTabs[topic.id]);
+  const [activeTab, setActiveTabState] = useState<"lesson" | "practice">(() => savedTab || "lesson");
+
+  const setActiveTab = useCallback(
+    (tab: "lesson" | "practice") => {
+      setActiveTabState(tab);
+      useGrammarProgressStore.getState().setTopicTab(topic.id, tab);
+    },
+    [topic.id]
+  );
   const activeTimeRef = useRef(0);
 
   // Real-time backend practice time tracker for Grammar / Writing

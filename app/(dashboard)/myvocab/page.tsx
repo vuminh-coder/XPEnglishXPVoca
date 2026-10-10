@@ -21,10 +21,29 @@ import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { VocabSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 import { getBasicVocabularyById } from "@/features/vocabulary/data/basicVocabularies";
+import {
+  useVocabularyCatalogStore,
+  MyVocabTabFilter,
+} from "@/stores/vocabularyCatalogStore";
 
 export default function MyVocabularyPage() {
-  const [filter, setFilter] = useState<"all" | "favorite" | "learning" | "mastered">("all");
-  const [search, setSearch] = useState<string>("");
+  const [filter, setFilterState] = useState<MyVocabTabFilter>(() => {
+    return useVocabularyCatalogStore.getState().myVocabFilters.filterTab || "all";
+  });
+  const [search, setSearchState] = useState<string>(() => {
+    return useVocabularyCatalogStore.getState().myVocabFilters.searchQuery || "";
+  });
+
+  const setFilter = (next: MyVocabTabFilter) => {
+    setFilterState(next);
+    useVocabularyCatalogStore.getState().setMyVocabFilter({ filterTab: next });
+  };
+
+  const setSearch = (query: string) => {
+    setSearchState(query);
+    useVocabularyCatalogStore.getState().setMyVocabFilter({ searchQuery: query });
+  };
+
   const { learned, toggleFavorite, practiceWord, loadLearnedWords } = useVocabularyStore();
   const { user, awardXp } = useAuthStore();
 

@@ -2,7 +2,7 @@ import { ExamPaper, ExamQuestion } from "./types";
 
 export const toeicRsBusiness01Paper: ExamPaper = {
   id: "toeic_rs_business_01",
-  title: "TOEIC Reading & Speaking Professional Duo #01",
+  title: "TOEIC Reading & Speaking Professional Duo 01",
   type: "TOEIC_LR",
   level: "Advanced",
   timeLimitMinutes: 65,

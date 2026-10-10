@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef, useMemo, useCallback } from "react"
 import { useAuthStore } from "@/stores/authStore";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { useUiStore } from "@/stores/uiStore";
+import { useAiSessionStore, getInitialConversationSessionProbe } from "@/stores/aiSessionStore";
 import { lookupWordDeep } from "@/features/vocabulary/data/deepDictionary";
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { AiSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
@@ -107,31 +108,48 @@ export default function AiConversationPage() {
     return (selectedDifficulty || currentTopic.level) as ConversationDifficulty;
   }, [selectedDifficulty, currentTopic.level]);
 
-  // Conversation Messages
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: `welcome_${aiTopics[0].id}`,
-      role: "ai",
-      text: aiTopics[0].welcomeMessage.text,
-      vietnameseTranslation: aiTopics[0].welcomeMessage.vi,
-      suggestedWords: aiTopics[0].suggestedWords,
-      suggestedPhrases: aiTopics[0].suggestions,
-    },
-  ]);
+  // Conversation Messages (Frame 0 Probe - Instant Render 0ms)
+  const [messages, setMessages] = useState<Message[]>(() => {
+    const probe = getInitialConversationSessionProbe();
+    if (probe?.messages && probe.messages.length > 0) {
+      return probe.messages as Message[];
+    }
+    const topic = aiTopics.find((t) => t.id === selectedTopicId) || aiTopics[0];
+    return [
+      {
+        id: `welcome_${topic.id}`,
+        role: "ai",
+        text: topic.welcomeMessage.text,
+        vietnameseTranslation: topic.welcomeMessage.vi,
+        suggestedWords: topic.suggestedWords,
+        suggestedPhrases: topic.suggestions,
+      },
+    ];
+  });
 
   const [inputText, setInputText] = useState("");
   const [isAiTyping, setIsAiTyping] = useState(false);
-  const [soundEnabled, setSoundEnabled] = useState(true);
+  const [soundEnabled, setSoundEnabled] = useState(() => {
+    const probe = getInitialConversationSessionProbe();
+    return probe?.soundEnabled ?? true;
+  });
   const [showTranslations, setShowTranslations] = useState<Record<string, boolean>>({});
   const [serverCompletedGoalIds, setServerCompletedGoalIds] = useState<string[]>([]);
 
-  // Active suggestions & dictionary
+  // Active suggestions & dictionary (Frame 0 Probe)
   const [currentSuggestions, setCurrentSuggestions] = useState<{
     words: SuggestedWord[];
     phrases: string[];
-  }>({
-    words: aiTopics[0].suggestedWords,
-    phrases: aiTopics[0].suggestions,
+  }>(() => {
+    const probe = getInitialConversationSessionProbe();
+    if (probe?.currentSuggestions && (probe.currentSuggestions.words?.length || probe.currentSuggestions.phrases?.length)) {
+      return probe.currentSuggestions as { words: SuggestedWord[]; phrases: string[] };
+    }
+    const topic = aiTopics.find((t) => t.id === selectedTopicId) || aiTopics[0];
+    return {
+      words: topic.suggestedWords,
+      phrases: topic.suggestions,
+    };
   });
 
   const [selectedWordData, setSelectedWordData] = useState<WordLookupData | null>(null);
@@ -155,24 +173,29 @@ export default function AiConversationPage() {
     selectedTopicId,
   });
 
-  // Initial Hydration from LocalStorage & DB
+  // Background Revalidation from LocalStorage & DB (Non-blocking)
   useEffect(() => {
-    try {
-      const localStr = localStorage.getItem("xp_active_conv_session");
-      if (localStr) {
-        const parsed = JSON.parse(localStr);
-        if (parsed.sessionId && Array.isArray(parsed.messages) && parsed.messages.length > 1) {
-          setMessages(parsed.messages);
-          if (parsed.topicId && aiTopics.some((t) => t.id === parsed.topicId)) {
-            setSelectedTopicId(parsed.topicId);
-          }
-          if (typeof parsed.elapsedTime === "number") {
-            setElapsedTime(parsed.elapsedTime);
+    // 1. If not hydrated via Frame-0 probe yet, check localStorage
+    const ramMessages = useAiSessionStore.getState().conversationSession?.messages;
+    if (!ramMessages || ramMessages.length <= 1) {
+      try {
+        const localStr = localStorage.getItem("xp_active_conv_session");
+        if (localStr) {
+          const parsed = JSON.parse(localStr);
+          if (parsed.sessionId && Array.isArray(parsed.messages) && parsed.messages.length > 1) {
+            setMessages(parsed.messages);
+            if (parsed.topicId && aiTopics.some((t) => t.id === parsed.topicId)) {
+              setSelectedTopicId(parsed.topicId);
+            }
+            if (typeof parsed.elapsedTime === "number") {
+              setElapsedTime(parsed.elapsedTime);
+            }
           }
         }
-      }
-    } catch {}
+      } catch {}
+    }
 
+    // 2. Authoritative background sync from DB
     fetch("/api/ai/sessions?mode=conversation&status=active")
       .then((res) => res.json())
       .then((data) => {
@@ -185,25 +208,34 @@ export default function AiConversationPage() {
           data.activeSession.messages.some((m: any) => m.role === "user")
         ) {
           const act = data.activeSession;
-          setMessages(act.messages);
-          if (act.topicId && aiTopics.some((t) => t.id === act.topicId)) {
-            setSelectedTopicId(act.topicId);
-          }
-          if (typeof act.timeSpentSeconds === "number") {
-            setElapsedTime(act.timeSpentSeconds);
-          }
-          const lastAi = [...act.messages].reverse().find((m: any) => m.role === "ai");
-          if (lastAi?.suggestedWords?.length || lastAi?.suggestedPhrases?.length) {
-            setCurrentSuggestions({
-              words: lastAi.suggestedWords || [],
-              phrases: lastAi.suggestedPhrases || [],
+          const currentCount = useAiSessionStore.getState().conversationSession?.messages?.length || 0;
+          if (act.messages.length > currentCount) {
+            setMessages(act.messages);
+            if (act.topicId && aiTopics.some((t) => t.id === act.topicId)) {
+              setSelectedTopicId(act.topicId);
+            }
+            if (typeof act.timeSpentSeconds === "number") {
+              setElapsedTime(act.timeSpentSeconds);
+            }
+            const lastAi = [...act.messages].reverse().find((m: any) => m.role === "ai");
+            if (lastAi?.suggestedWords?.length || lastAi?.suggestedPhrases?.length) {
+              setCurrentSuggestions({
+                words: lastAi.suggestedWords || [],
+                phrases: lastAi.suggestedPhrases || [],
+              });
+            }
+            useAiSessionStore.getState().setConversationSession({
+              sessionId: act.sessionId,
+              selectedTopicId: act.topicId,
+              messages: act.messages,
+              elapsedTime: act.timeSpentSeconds,
+            });
+            addToast({
+              type: "info",
+              title: "Khôi phục buổi hội thoại ✨",
+              message: "Đã nạp lại phiên hội thoại dở dang của bạn.",
             });
           }
-          addToast({
-            type: "info",
-            title: "Khôi phục buổi hội thoại ✨",
-            message: "Đã nạp lại phiên hội thoại dở dang của bạn.",
-          });
         }
       })
       .catch((err) => console.warn("[AiConversation] Active session hydration notice:", err));
@@ -276,7 +308,7 @@ export default function AiConversationPage() {
       } catch {}
       setIsSessionCompleted(false);
       setElapsedTime(0);
-      setMessages([
+      const initialTopicMessages: Message[] = [
         {
           id: `welcome_${topic.id}_${Date.now()}`,
           role: "ai",
@@ -285,10 +317,19 @@ export default function AiConversationPage() {
           suggestedWords: topic.suggestedWords,
           suggestedPhrases: topic.suggestions,
         },
-      ]);
-      setCurrentSuggestions({
+      ];
+      const initialTopicSuggestions = {
         words: topic.suggestedWords,
         phrases: topic.suggestions,
+      };
+      setMessages(initialTopicMessages);
+      setCurrentSuggestions(initialTopicSuggestions);
+      useAiSessionStore.getState().setConversationSession({
+        selectedTopicId: topic.id,
+        messages: initialTopicMessages,
+        currentSuggestions: initialTopicSuggestions,
+        elapsedTime: 0,
+        isSessionCompleted: false,
       });
       addToast({
         type: "info",
@@ -677,7 +718,7 @@ export default function AiConversationPage() {
     fetch(`/api/ai/sessions?sessionId=${sessionId}`, { method: "DELETE" }).catch(() => {});
     resetSession();
     setServerCompletedGoalIds([]);
-    setMessages([
+    const initialTopicMessages: Message[] = [
       {
         id: `welcome_${currentTopic.id}_${Date.now()}`,
         role: "ai",
@@ -686,10 +727,19 @@ export default function AiConversationPage() {
         suggestedWords: currentTopic.suggestedWords,
         suggestedPhrases: currentTopic.suggestions,
       },
-    ]);
-    setCurrentSuggestions({
+    ];
+    const initialTopicSuggestions = {
       words: currentTopic.suggestedWords,
       phrases: currentTopic.suggestions,
+    };
+    setMessages(initialTopicMessages);
+    setCurrentSuggestions(initialTopicSuggestions);
+    useAiSessionStore.getState().setConversationSession({
+      selectedTopicId: currentTopic.id,
+      messages: initialTopicMessages,
+      currentSuggestions: initialTopicSuggestions,
+      elapsedTime: 0,
+      isSessionCompleted: false,
     });
     addToast({
       type: "info",
@@ -824,7 +874,11 @@ export default function AiConversationPage() {
                   currentTopic={currentTopic}
                   isAiTyping={isAiTyping}
                   soundEnabled={soundEnabled}
-                  onToggleSound={() => setSoundEnabled(!soundEnabled)}
+                  onToggleSound={() => {
+                    const next = !soundEnabled;
+                    setSoundEnabled(next);
+                    useAiSessionStore.getState().setConversationSession({ soundEnabled: next });
+                  }}
                   showTranslations={showTranslations}
                   onToggleTranslation={toggleTranslation}
                   onWordClick={handleWordClick}

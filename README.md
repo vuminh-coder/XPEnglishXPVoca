@@ -112,9 +112,12 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
    - Áp dụng kiến trúc Single Root Query tương tự cho `GET /api/user/daily-checkin` (gom 6 truy vấn tuần tự về đúng 1 câu lệnh `Profile`).
    - Tích hợp **Khử trùng lặp yêu cầu đang bay (In-Flight Request Deduplication)** qua `inFlightOverviewMap`, đảm bảo nếu nhiều client components cùng kích hoạt tải dữ liệu tại cùng một mili-giây, máy chủ chỉ thực thi 1 Promise duy nhất và chia sẻ dữ liệu cho tất cả.
    - Xây dựng tiện ích vô hiệu hóa bộ đệm chủ động [`infrastructure/cache/dashboardCache.ts`](file:///e:/XP%20English%20%20XP%20Voca/infrastructure/cache/dashboardCache.ts) (`invalidateDashboardCache`), tự động giải phóng cache RAM ngay khi người dùng tạo biến động (Điểm danh, nhiệm vụ lộ trình, mini game, kỹ năng thực hành, thi thử, đấu trường PvP, ôn tập thẻ từ vựng SM-2).
-2. **Cơ Chế Hiển Thị Tức Thì 0ms (SWR Instant Local Cache Hydration)**:
-   - Khi học viên truy cập `/dashboard`, dữ liệu từ `localStorage` hiển thị ngay lập tức trong **0ms** mà không phải chờ mạng.
+2. **Cơ Chế Hiển Thị Tức Thì 0ms (SWR Instant Local Cache Hydration & Frame-0 State Retention)**:
+   - Khi học viên truy cập `/dashboard`, dữ liệu từ `useDashboardStore` RAM hoặc `localStorage` hiển thị ngay lập tức trong **0ms** mà không phải chờ mạng.
+   - Toàn bộ trạng thái: Check-in, Daily Quests, Nhiệm vụ hôm nay (Study Plan), Tab kỹ năng `activeSkillTab`, Tab bảng xếp hạng `leaderboardTab`/`leaderboardCriterion`, trạng thái đóng banner thông báo được duy trì tuyệt đối 100% qua các Frame 0 Probes (`getInitialDashboardOverviewProbe`, `getInitialDashboardFiltersProbe`, `getInitialLeaderboardProbe`).
+   - Triệt tiêu hoàn toàn hiện tượng skeleton flash và layout shift khi chuyển đổi giữa Dictation, Từ vựng, Ngữ pháp, Luyện thi rồi quay lại Dashboard; đồng thời các cập nhật lạc quan (Optimistic check-in và claim challenge) được bảo toàn nguyên vẹn trong phiên học.
    - Quá trình Background Revalidation âm thầm kiểm tra và đồng bộ lại các chỉ số mà không gây layout shift hay giật lag.
+   - **Bộ Kiểm Thử Chuyên Sâu Liên Trang (Deep State Retention & 0ms Stress Test Suite)**: Toàn bộ 10 trang được kiểm định tự động qua `__tests__/deep_state_retention_all_10_pages.test.ts` (kiểm tra chu trình chuyển đổi liên tục qua cả 10 trang, bù giờ Pomodoro trôi qua trong nền, miễn nhiễm lỗi bộ nhớ đầy QuotaExceededError, tự động cách ly cache đa tài khoản và bảo toàn tính bất biến của Game Base Pool).
 3. **Bộ Nhớ Đệm Trong Bộ Nhớ RAM Máy Chủ (`infrastructure/cache/memoryCache.ts`)**:
    - Xây dựng lớp đệm `MemoryCache` siêu nhẹ tối ưu cho Serverless với cơ chế tự động dọn dẹp theo thời gian sống (TTL Eviction) và giới hạn dung lượng bộ nhớ `MAX_CACHE_SIZE = 500`.
    - Cơ chế giải phóng theo phong cách LRU (evicts 20% mục cũ nhất khi đầy tải) ngăn chặn rò rỉ RAM (OOM) trên Next.js runtime.
@@ -199,8 +202,16 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
       - Tinh gọn thẻ Lời khuyên (xóa bỏ viền nested box - Rule 10).
       - Áp dụng triệt để Rule 18: Chuyển nút SM-2 Spaced Repetition thành Secondary outline button, giữ **duy nhất 1 nút Primary** cho hành động "Luyện Lại Chủ Đề Này" (`#0059bb`).
       - Bổ sung safe bottom padding `pb-24 sm:pb-28` chống che khuất bởi floating action buttons.
-    - **Sửa Lỗi Phân Loại Kỹ Năng CSDL ([app/api/ai/sessions/route.ts](file:///e:/XP%20English%20%20XP%20Voca/app/api/ai/sessions/route.ts))**: Tự động map `mode === "conversation"` về kỹ năng thực hành `speaking` chuẩn xác trong `DailySkillPractice` và kích hoạt `invalidateDashboardCache` tức thì.
-    - **Bộ Kiểm Thử Chuẩn Mực Bổ Sung**: [`__tests__/ai_conversation_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/ai_conversation_standards.test.ts) đạt tỷ lệ vượt qua **4/4 tests (100%)**, toàn bộ 62 test suites vượt qua **658/658 tests (100%)**.
+    - **Cơ Chế Lưu Trạng Thái 0ms Tức Thì Chuẩn Dictation (State Retention & Frame 0 Probe) Cho AI Voice Tutor (`/ai/tutor`) & AI Conversation (`/ai/conversation`)**:
+      - **Store Chuyên Trách (`stores/aiSessionStore.ts`)**: Tạo mới Zustand Store tối ưu hóa RAM, quản lý độc lập 2 phân hệ:
+        * `tutorSession`: `sessionId`, `personaId` ("emma" | "alex" | "chloe"), `speechSpeed`, `soundEnabled`, `messages`, `elapsedTime`, `currentSuggestions`, `isSessionCompleted`.
+        * `conversationSession`: `sessionId`, `selectedTopicId`, `selectedPersonaId`, `selectedDifficulty`, `soundEnabled`, `messages`, `elapsedTime`, `currentSuggestions`, `isSessionCompleted`.
+      - **Frame 0 Fast Probe (`getInitialTutorSessionProbe`, `getInitialConversationSessionProbe`)**:
+        * Khởi tạo tức thì tại Frame 0 qua Lazy State Initializer (`useState(() => getInitial...())`), ưu tiên đọc RAM Store và fallback đồng bộ LocalStorage.
+        * Triệt tiêu 100% hiện tượng flash/nhấp nháy câu chào mặc định (Welcome Message) khi người dùng chuyển sang các trang khác (Từ vựng, Ngữ pháp, Dictation, Review...) rồi quay lại.
+        * Triệt tiêu hiện tượng giật màn hình đổi persona hay nhảy về chủ đề ban đầu ("at1").
+        * Bảo toàn nguyên vẹn 100% ngữ cảnh hội thoại, danh sách tin nhắn, gợi ý từ vựng, điểm số và đồng hồ bấm giờ học tiếp tục đếm liên tục mà không bị reset về 0.
+      - **Bộ Kiểm Thử Chuẩn Mực**: [`__tests__/ai_conversation_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/ai_conversation_standards.test.ts) (4/4 tests) và [`__tests__/ai_state_retention.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/ai_state_retention.test.ts) (9/9 tests) đạt **13/13 tests PASS 100%**.
 22. **Edge Proxy & Tường Lửa Bảo Mật Tầng Biên (`proxy.ts`)**:
     - Kích hoạt chuẩn Edge Proxy Next.js 16 tại root (`proxy.ts`), thay thế quy ước `middleware.ts` cũ, thực thi Edge Rate Limiting ngăn chặn brute-force và DDoS.
     - Thiết lập bộ Security Headers chuẩn OWASP (`X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Strict-Transport-Security`, `Permissions-Policy`).
@@ -247,7 +258,10 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
     - **Single Root Query**: Chuyển đổi `GET /api/user/analytics` từ 6 truy vấn rời rạc sang **1 câu Single Root Query duy nhất** trên bảng `Profile` kết hợp quan hệ lồng `dailySkillPractices` (7 ngày gần nhất) và phép chiếu có chọn lọc (`select`), giảm áp lực kết nối DB từ 6 xuống 1 kết nối duy nhất.
     - **Khử Bỏ Bùng Nổ Bộ Nhớ Quét Toàn Bảng (`groupBy`)**: Thay thế toàn bộ quét toàn bảng `groupBy` tính thứ hạng tuần bằng câu truy vấn đếm vô hướng trực tiếp trong PostgreSQL engine (`HAVING SUM(xp_earned) > $userWeeklyXp`), triệt tiêu 100% rủi ro tràn RAM máy chủ khi dữ liệu hàng nghìn học viên.
     - **Động Cơ Vô Hiệu Hóa Bộ Đệm Nguyên Tử (`infrastructure/cache/dashboardCache.ts`)**: Mở rộng hàm `invalidateDashboardCache` tích hợp tự động dọn sạch cả bộ đệm Bảng điều khiển và Phân tích học tập (`analytics:${userId}:${todayStr}`) ngay khi học viên nhận thưởng XP/Coins qua `POST /api/user/activity-award`.
-    - **Bộ Kiểm Thử Chuẩn Mực**: Xây dựng test suite [`__tests__/analytics_xp_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/analytics_xp_standards.test.ts) kiểm tra toàn diện 100% (5/5 tests).
+    - **Cơ Chế Lưu Trạng Thái 0ms Tức Thì Chuẩn Dictation & SWR Analytics Cache (`stores/analyticsCatalogStore.ts`)**:
+      * **Triệt Tiêu Hoàn Toàn Lỗi Nhấp Nháy Shimmer (`isLoadingAnalytics` 0ms Frame 0):** Toàn bộ dữ liệu phân tích học tập (`stats`, chuỗi `dates`, `minutesValues`, `xpValues`, `perSkill`, ma trận `heatmap` và `leaderboard`) được lưu trữ trong RAM Cache kết hợp cơ chế SWR Background Revalidation (TTL 3 phút). Giao diện hiển thị ngay tức thì trong 0ms khi chuyển từ Dictation/Từ vựng/Ngữ pháp sang Analytics mà không hề bị nháy Shimmer thẻ Bento.
+      * **Bảo Toàn Tab & Bộ Lọc Kỹ Năng:** Lưu tab đang mở `activeTab` ("ACTIVITIES" vs "LEADERBOARD"), bộ lọc kỹ năng `modeFilter` (Dictation, Shadowing, Luyện nói, Từ vựng, Luyện viết), ngày đang xem chi tiết `selectedDayIndex` và số lượng dòng hiển thị `visibleLeaderboardCount`. Học viên chuyển trang thoải mái mà không bao giờ bị văng về tab mặc định.
+    - **Bộ Kiểm Thử Chuẩn Mực**: Xây dựng test suite [`__tests__/analytics_xp_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/analytics_xp_standards.test.ts) (5 tests) và [`__tests__/analytics_state_retention.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/analytics_state_retention.test.ts) (7 tests) kiểm tra toàn diện 100% (12/12 tests PASS).
 29. **Tối Ưu Hóa Bảng Xếp Hạng & Biểu Đồ Phút Nhóm Lớp (Dual Criterion Leaderboard & 7-Day Group Minute Analytics)**:
     - **Bảng Xếp Hạng Đa Tiêu Chí Độc Lập (`/api/leaderboard`)**: Hỗ trợ đồng thời 2 tiêu chí xếp hạng: **"Điểm XP" (`criterion=xp`)** và **"Thời gian học (Phút)" (`criterion=time`)**. Phân tách bộ đệm RAM máy chủ theo khóa riêng biệt `leaderboard:${period}:${criterion}:${page}:${limit}`, triệt tiêu hoàn toàn lỗi hiển thị chéo dữ liệu do va chạm khóa bộ đệm (Cache Key Collision).
     - **Tối Ưu Hóa Tầng SQL Level 1**: Sử dụng trực tiếp SQL Aggregation trong PostgreSQL kết hợp `ORDER BY periodic_minutes DESC` hoặc `ORDER BY periodic_xp DESC` và phân trang an toàn `LIMIT ... OFFSET ...`, loại bỏ việc tải mảng dữ liệu toàn cục vào RAM ứng dụng.
@@ -305,7 +319,12 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
       - **Rule 6 & Rule 12 (Accessibility Label & Search Placeholder)**: Thêm thuộc tính `aria-label` và placeholder hướng dẫn chi tiết ("Tìm kiếm theo tên thì, cấu trúc, kỳ thi (TOEIC, IELTS)...") trên thanh tìm kiếm [GrammarStudioToolbar.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/grammar/components/catalog/GrammarStudioToolbar.tsx).
       - **Rule 18 (Single Primary CTA)**: Duy nhất 1 nút Primary nổi bật (`#0059bb`) cho nộp bài hoặc làm đề mới; nút "Xem Lý Thuyết" ở dạng Ghost/Secondary.
       - **Rule 20 (Semantic Accents)**: Màu Tím AI Companion Tutor (`#8b5cf6`), Vàng Amber (`#f59e0b`) cho phần thưởng thi thử và cúp, Xanh Emerald (`#10b981`) cho trạng thái Đạt Chuẩn và câu trả lời đúng.
-    - **Bộ Kiểm Thử Chuẩn Mực**: [`__tests__/grammar_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/grammar_standards.test.ts) đạt 100% (6/6 tests).
+    - **Cơ Chế Lưu Trạng Thái 0ms Tức Thì Chuẩn Dictation (State Retention & Frame 0 Probe)**:
+      - **Bảo Toàn Bộ Lọc Catalog (`/study/grammar`)**: Tab cấp độ (`activeLevel`) và từ khóa tìm kiếm (`searchQuery`) được lưu trực tiếp trong `grammarProgressStore`. Khi học viên chuyển sang Dictation/Từ Vựng rồi quay lại, giao diện hiển thị ngay lập tức trong 0ms mà không bị reset về cấp độ "Tất cả" hay xóa từ khóa tìm kiếm.
+      - **Bảo Toàn Phiên Luyện Tập Bài Tập AI (`/study/grammar/[id]`)**: Lưu toàn bộ danh sách câu hỏi AI (`exercises`), câu hỏi đang làm (`currentIndex`), các câu đã chọn (`answers`), trạng thái đã nộp (`submitted`, `showResults`) vào `exerciseSessions` trong RAM Store. Học viên không bao giờ bị mất bài tập hoặc văng về câu 1 khi chuyển tab tra cứu.
+      - **Bảo Toàn Cuộc Đối Thoại Với AI Tutor**: Mảng hội thoại (`messages`) và ô soạn thảo (`draftInput`) được lưu vào `aiChatSessions`, phục hồi đồng bộ tại Frame 0 khi quay lại bài học.
+      - **Bảo Toàn Tab Đang Mở (`lesson` vs `practice`)**: Trạng thái tab đang chọn được lưu theo từng chuyên đề vào `topicWorkspaceTabs`, giữ nguyên ngữ cảnh học tập tuyệt đối.
+    - **Bộ Kiểm Thử Chuẩn Mực**: [`__tests__/grammar_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/grammar_standards.test.ts) và [`__tests__/grammar_state_retention.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/grammar_state_retention.test.ts) đạt 100% (17/17 tests).
 35. **Chuẩn Hóa Sổ Từ Vựng Cá Nhân & Ôn Tập Spaced Repetition SM-2 (`/myvocab` & `/review` - Memory Curve Engine & Selective Index Query)**:
     - **Tối Ưu Hóa Tầng SQL Level 1 & Tận Dụng Composite Index (`GET /api/user/vocab`)**:
       - Hỗ trợ tham số truy vấn có lọc `favorite=true` và `due=true` (`nextReview <= new Date()`) cùng giới hạn an toàn `limit` (1–200).
@@ -328,7 +347,11 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
       - **Rule 10 (Nested Radiuses)**: Cấu trúc viền kép Double-Bezel (`rounded-2xl` thẻ ngoài, `rounded-xl` khối chức năng con).
       - **Rule 18 (Single Primary CTA)**: Nút "Luyện Tập Ngay" là nút Primary duy nhất (`#0059bb`), các nút chức năng còn lại ở dạng Ghost/Secondary.
       - **Rule 20 (Semantic Accents)**: Vàng Amber (`#f59e0b`) cho tiến độ từ đang học & Spaced Repetition queue, Xanh Emerald (`#10b981`) cho từ đã làm chủ (Mastered), Đỏ Rose (`#f43f5e`) cho từ yêu thích và trạng thái cần ôn gấp.
-    - **Bộ Kiểm Thử Chuẩn Mực**: [`__tests__/myvocab_review_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/myvocab_review_standards.test.ts) đạt 100% (7/7 tests).
+    - **Cơ Chế Lưu Trạng Thái 0ms Tức Thì Chuẩn Dictation (State Retention & Frame 0 Probe)**:
+      - **Triệt Tiêu Hoàn Toàn Lỗi Nhấp Nháy Skeleton (`!isMounted && !hasLearnedData`)**: Sửa lỗi hiển thị `ReviewSkeleton` mỗi khi quay lại trang. Nhờ cơ chế kiểm tra dữ liệu đã tải trong RAM (`learned.length > 0`), khi học viên chuyển từ Dictation/Grammar quay lại Review, giao diện hiển thị ngay lập tức trong 0ms mà không hề chớp nháy một khung hình nào.
+      - **Bảo Toàn Bộ Lọc & Lịch Ngày (`reviewFilters`)**: Toàn bộ trạng thái ngày đã chọn (`selectedDateStr`), tháng đang xem (`currentMonthYear`), từ khóa tìm kiếm (`searchTerm`), bộ lọc từ loại (`selectedPos`), mức độ thành thạo (`selectedProficiency`), trạng thái ghi nhớ (`selectedBookmark`) và thẻ từ đang mở rộng (`expandedWordId`) được lưu vào `useVocabularyCatalogStore`. Học viên chuyển trang thoải mái mà không bao giờ bị mất ngày đang ôn hay bộ lọc đã thiết lập.
+      - **Bảo Toàn Bộ Lọc Sổ Từ Vựng Cá Nhân (`myVocabFilters`)**: Lưu tab phân loại (`filterTab`: "Tất cả", "Yêu thích", "Đang học", "Đã thuộc") và từ khóa tìm kiếm (`searchQuery`) vào `useVocabularyCatalogStore`. Khởi tạo Frame 0 tức thì giúp học viên không bị reset bộ lọc hay mất từ khóa tìm kiếm khi chuyển trang học tập.
+    - **Bộ Kiểm Thử Chuẩn Mực**: [`__tests__/myvocab_review_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/myvocab_review_standards.test.ts), [`__tests__/review_state_retention.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/review_state_retention.test.ts) và [`__tests__/myvocab_state_retention.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/myvocab_state_retention.test.ts) đạt 100% (17/17 tests).
 36. **Chuẩn Hóa Cộng Đồng, Bảng Tin & Mạng Xã Hội Học Tập (`/community` - Social Feed, Friends, Groups & Real-time Interaction Standard)**:
     - **Tối Ưu Hóa Tầng SQL Level 1 & Triệt Tiêu `SELECT *` (`GET /api/posts`)**:
       - Truy vấn bảng tin có chọn lọc (`select: { id, content, vocabTags, createdAt, user: { select: { id, fullName, username, avatarEmoji, title } }, comments: { take: 10, select: ... }, _count: { select: { likes, comments } } }`), loại bỏ hoàn toàn việc nạp thông tin tài khoản nhạy cảm (`passwordHash`, `bio`, token).
@@ -372,8 +395,15 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
       - **Rule 6 (Accessibility Label)**: Bổ sung `aria-label="Nhập tin nhắn phòng tự học"` trên thanh chat, `aria-label="Tên phòng học mới"`, `aria-label="Danh mục học tập"`, và `aria-label="Mô tả mục tiêu phòng học"` trên form tạo phòng.
       - **Rule 10 (Nested Radiuses)**: Cấu trúc viền kép Double-Bezel (`rounded-2xl` thẻ phòng ngoài, `rounded-xl` nút bấm và khối chat con).
       - **Rule 18 (Single Primary CTA)**: Nút "Tạo phòng ngay" và nút "Bắt đầu tập trung" là nút Primary duy nhất (`#0059bb`).
-      - **Rule 20 (Semantic Accents)**: Vàng Amber (`#f59e0b`) cho đồng hồ Pomodoro & chuỗi tập trung, Xanh Emerald (`#10b981`) cho trạng thái Đang Học (Focusing), Tím AI Mentor (`#8b5cf6`) cho phản hồi của Gemini AI Tutor.
-    - **Bộ Kiểm Thử Chuẩn Mực**: [`__tests__/study_rooms_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/study_rooms_standards.test.ts) đạt 100% (5/5 tests).
+    - **Cơ Chế Lưu Trạng Thái 0ms Tức Thì Chuẩn Dictation (State Retention & Frame 0 Probe) Cho Phòng Học Nhóm (`/study/rooms`)**:
+      - **Store Chuyên Trách (`stores/studyRoomStore.ts`)**: Tạo mới Zustand Store tối ưu hóa RAM, quản lý đồng bộ cả sảnh phòng học (Lobby) và không gian làm việc trong phòng (Active Room Workspace):
+        * `rooms`: Danh sách phòng học trực tuyến kèm `PRE_SEEDED_STUDY_ROOMS` base pool hiển thị ngay lập tức trong 0ms.
+        * `selectedCategory`: Bảo toàn danh mục đang lọc ("ALL", "TOEIC", "IELTS", "SPEAKING", "VOCAB") khi chuyển trang.
+        * `activeRoom`: Bảo toàn 100% phòng đang tham gia dở dang. Học viên chuyển tab sang tra từ, học ngữ pháp, xem video rồi quay lại vẫn ở nguyên trong phòng, **triệt tiêu hoàn toàn lỗi bị văng ra sảnh Lobby**.
+        * `pomodoro`: Đồng hồ Pomodoro tiếp tục đếm ngược chính xác nhờ thuật toán tự động bù thời gian thực trôi qua (`Math.floor((Date.now() - lastTickTimestamp) / 1000)`), không bao giờ bị dừng hay reset về 25:00.
+        * `roomMessages`: Lưu và nạp tức thì toàn bộ lịch sử tin nhắn và câu hỏi `@AI Mentor` theo từng phòng học.
+      - **Frame 0 Fast Probe (`getInitialStudyRoomsProbe`, `getInitialActiveRoomProbe`, `getInitialPomodoroProbe`)**: Khởi tạo tức thì qua Lazy Initializer tại Frame 0, loại bỏ hoàn toàn flash Shimmer Skeleton khi quay lại trang.
+    - **Bộ Kiểm Thử Chuẩn Mực**: [`__tests__/study_rooms_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/study_rooms_standards.test.ts) (5/5 tests) và [`__tests__/study_rooms_state_retention.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/study_rooms_state_retention.test.ts) (10/10 tests) đạt **15/15 tests PASS 100%**.
 38. **Tự Động Hóa CI/CD & Khung Kiểm Thử Chuẩn Quốc Tế (Automated 4-Tier CI/CD Pipeline & 573+ Test Standards)**:
     - **4 Tầng Phòng Tuyến CI Khép Kín (`.github/workflows/ci.yml`)**:
       1. *Code Style & Linter*: ESLint 9 + Next.js 16 Core Web Vitals + React Compiler Memoization Protection (`npm run lint`), đạt 0 errors.
@@ -1163,7 +1193,7 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
   - **Kiến Trúc Module Hóa Chuẩn Doanh Nghiệp (`features/roadmap/`)**: Tinh gọn tệp điều phối `app/(dashboard)/roadmap/page.tsx` từ **987 dòng xuống còn ~190 dòng**, bóc tách thành các module chuyên biệt:
     - *Types & Generators (`types/index.ts`, `data/roadmapGenerators.ts`)*: Định nghĩa dữ liệu và thuật toán sinh lộ trình chi tiết theo mục tiêu thi cử (TOEIC, IELTS, Business English).
     - *Shared Components (`components/shared/`)*: `RoadmapSkillBadge` (huy hiệu kỹ năng đa sắc ngữ nghĩa), `RoadmapHeroBanner` (Hero Spotlight Banner 2 chế độ Pathway & Goal-Setting).
-    - *Pathway Components (`components/pathway/`)*: `PhaseRoadmapCard` (thẻ chặng học & rương thưởng Gift Chest), `LessonTaskItem` (bài học chi tiết, checkbox toggle, XP pill, nút [ Luyện Ngay ], Mobile drawer), `LessonInspectorCard` (thanh đồng hành cố định chi tiết bài học desktop sticky top-4).
+    - *Pathway Components (`components/pathway/`)*: `PhaseCarouselSwiper` (đường ray lướt chặng ngang, thanh tab chuyển chặng nhanh & nút điều hướng lướt), `PhaseRoadmapCard` (thẻ chặng học & rương thưởng Gift Chest), `LessonTaskItem` (bài học chi tiết, checkbox toggle, XP pill, nút [ Luyện Ngay ], Mobile drawer), `LessonInspectorCard` (thanh đồng hành cố định chi tiết bài học desktop sticky top-6).
     - *Goal Setting Components (`components/goal-setting/`)*: `GoalSelectionForm` (Bento Form 8 cột cấu hình mục tiêu), `AiBlueprintPreview` (thẻ mô phỏng thời lượng 12 tuần & cam kết chuẩn CEFR).
     - *Custom Hook (`hooks/useRoadmapManager.ts`)*: Quản lý toàn bộ state phân hệ, nạp plan tức thì 0ms với giáo án mặc định TOEIC 750 / IELTS, toggle trạng thái hoàn thành (+XP, Toast), và chuyển đổi mục tiêu.
   - **Thanh Header Đỉnh Đồng Bộ (`AppTopHeader`)**: Tích hợp các Tab Pill (`HeaderPillContainer` & `HeaderPillItem`): **"Lộ Trình Mục Tiêu"**, **"Đổi Mục Tiêu AI"**, **"Thống Kê Tiến Độ"** (`/analytics`) cùng nút hành động nhanh. Đã đăng ký `pathname === "/roadmap" || pathname?.startsWith("/roadmap")` vào `isHeaderIntegratedActive` tại [layout.tsx](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/layout.tsx) để triệt tiêu Navbar thừa trên mobile và mở rộng không gian hiển thị tràn viền sát nóc.
@@ -1567,16 +1597,17 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
   - **Thanh Bộ Lọc Chuẩn Rule 6 & Rule 12 Wadhah Aloui**: Nhãn ngoài (External Labels) rõ ràng, placeholder chỉ dẫn đầy đủ *"Tìm từ vựng, phiên âm, nghĩa tiếng Việt..."*, lọc từ loại POS, mức độ thành thạo và trạng thái lưu trữ.
   - **Lưới Thẻ Từ Vựng & Empty State Chúc Mừng**: Thẻ từ vựng `rounded-2xl`, nút phát âm TTS và bookmark xúc giác, accordion mở rộng phiên âm & ví dụ, cùng giao diện chúc mừng "All Caught Up" truyền cảm hứng kèm các lối tắt hữu ích.
 
-- **`/study/exam-prep`**: Đấu Trường Thi Thử Đề Chuẩn Quốc Tế ETS / IELTS / TOEIC 2026 (Bento 3 Chế Độ Toàn Diện & Kiến Trúc Component Mô-đun Hóa Chuyên Sâu).
+- **`/study/exam-prep`**: Đấu Trường Thi Thử Đề Chuẩn Quốc Tế ETS / IELTS / TOEIC 2026 (Bento 3 Chế Độ Toàn Diện & Thiết Kế Giao Diện Đồng Bộ Chuẩn Dictation Hub).
   - **Kiến Trúc Tách Component Chuyên Sâu (`app/(dashboard)/study/exam-prep/components/`)**:
     - **Shared Reusable Components (`components/shared/`)**:
       - `ExamCategoryBadge.tsx`: Huy hiệu danh mục đa sắc ngữ nghĩa (TOEIC, IELTS, TOEFL, THPTQG, VSTEP, CAMBRIDGE, GENERAL) với bảng màu gradient và border tương ứng.
       - `ExamStarRating.tsx`: Đánh giá độ khó 5 sao đồng bộ kích thước chuẩn và tooltip trực quan.
       - `ExamSubmitConfirmModal.tsx`: Hộp thoại modal xác nhận nộp bài / thoát thi với 3 chip thống kê (`Đã làm`, `Chưa làm`, `Đã đánh dấu ⭐`).
     - **Hub Sub-Components (`components/hub/`)**:
-      - `ExamConfiguratorBanner.tsx`: Hero Bento Banner + Mode Switcher (`layoutId="examConfigModePill"`) + Ma trận 4 kỹ năng + Khung tùy biến đề thi AI.
-      - `ExamFilterToolbar.tsx`: Bộ lọc 5 danh mục tab (`layoutId="examCategoryFilterPill"`) kèm ô tìm kiếm đề thi tức thì.
-      - `ExamPaperCard.tsx`: Thẻ 37 đề thi chuẩn hóa Double-Bezel `rounded-2xl` ngoài, `rounded-xl` trong.
+      - `ExamPaperCover.tsx`: Khung ảnh đại diện Visual Cover tỉ lệ chuẩn `16/10` tối giản cao cấp, background gradient tổ chức khảo thí (ETS / CAMBRIDGE / S&W / AI), badge thương hiệu 1 dòng không ngắt dòng, level CEFR và thời lượng làm bài sắc nét, loại bỏ hoàn toàn các watermark chồng chéo và badge cắt cụt.
+      - `ExamPaperCard.tsx`: Thẻ đề thi chuẩn hóa Double-Bezel (`rounded-2xl` ngoài, `rounded-xl` trong), tiêu đề to rõ, chip kỹ năng tinh tế, footer 1 dòng cân đối hoàn hảo giữa Thang điểm và nút CTA Xanh Hoàng Gia `[ Vào thi ➔ ]`, hỗ trợ click toàn bộ card để vào phòng thi.
+      - `ExamConfiguratorBanner.tsx`: Studio biên soạn đề thi Gemini AI dạng Accordion mở rộng tinh gọn (chỉ hiển thị khi người dùng bấm nút "Tạo Đề Mới AI" trên Top Header, triệt tiêu hoàn toàn khối tổng số đề và khối Gemini thừa thãi ở đầu trang).
+      - `ExamFilterToolbar.tsx`: Bộ lọc danh mục dạng thanh cuộn ngang mượt mà chuẩn Dictation (`Tất cả bộ đề`, `TOEIC Nghe & Đọc`, `IELTS Academic`, `TOEIC Nói & Viết`, `TOEIC 4 Kỹ Năng`), nút Làm mới danh mục `RefreshCw` màu `#0059bb`, ô tìm kiếm tức thì có nút xóa nhanh và đếm số lượng kết quả.
     - **Workspace Sub-Components (`components/workspace/`)**:
       - `ExamWorkspaceTopBar.tsx`: Thanh điều hướng cố định 56px (`h-14`), nút thoát, badge phân loại đề thi, đồng hồ đếm ngược với cảnh báo khẩn cấp $\le 300$s, toggle phiếu trả lời, nút nộp bài.
       - `ExamAnswerSheet.tsx`: Phiếu trả lời câu hỏi 6 cột chuẩn hóa gồm `ExamDesktopAnswerSheet` (cột phải 4/12) và `ExamMobileAnswerDrawer` (ngăn kéo đáy trượt mượt mà trên di động).
@@ -1588,12 +1619,14 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
       - `ResultQuestionReviewTab.tsx`: Tab 2 Master-Detail Bento Review Studio gồm Cột trái Sticky Question Navigator (bộ lọc trạng thái, dropdown Part, ma trận câu hỏi 6 cột) và Cột phải Rich Question Deep Inspector (Audio player, Transcript, lựa chọn A-D, FormattedExplanation).
       - `ResultAiDiagnosticTab.tsx`: Tab 3 AI Cognitive Diagnostic Studio gồm Radar năng lượng 5 trục cốt lõi AI SVG Polygon, dự phóng điểm số & cố vấn Gemini AI, phân tích lỗ hổng bẫy đề thi và lộ trình hành động 14 ngày 3 chặng.
     - **Orchestrator Tinh Gọn**: Tái cấu trúc 2 trang nguyên khối khổng lồ (~4,000 dòng code combined) xuống còn ~350 dòng cho mỗi orchestrator (`page.tsx` và `result/page.tsx`), bảo toàn 100% logic nộp bài, lưu kết quả, tính điểm và 0px visual deviation.
-  - **Top Bar Header Chuẩn Hóa (`AppTopHeader` 56px Baseline)**: Đồng bộ với toàn bộ phân hệ `/study` với cụm tab dùng chung `<StudySuiteNavTabs />` gồm đúng 4 tab (`Dictation`, `Shadowing`, `Luyện từ vựng`, `Thi thử đề`) đồng nhất 100% tên chữ với thanh bên `Sidebar.tsx`, chia sẻ chung con nhộng trượt Apple-grade `layoutId="studySuiteNavActiveTab"`.
-  - **Chế Độ 1: Exam Hub / Test Bank (Ngân Hàng 37 Đề Chuẩn & AI Exam Generator)**:
-    - **Hero Bento Banner**: Nền Slate thanh lịch điểm xuyết ánh sáng Rose/Cherry `#f43f5e` tạo cảm giác phòng thi chuẩn quốc tế nghiêm túc, tập trung.
-    - **Bộ Chuyển Đổi Chế Độ & Ma Trận 4 Kỹ Năng**: Chuyển đổi mượt mà giữa "Đề Chuẩn Preset" và "Tạo Đề Mới AI" với con nhộng trượt `layoutId="examConfigModePill"`. Bộ chọn ma trận 4 kỹ năng (`Nghe • Listening`, `Đọc • Reading`, `Nói AI • Speaking AI`, `Viết AI • Writing AI`).
-    - **Thanh Bộ Lọc & Tìm Kiếm**: Bộ lọc danh mục 5 tab với con nhộng trượt `layoutId="examCategoryFilterPill"`, ô tìm kiếm tức thì.
-    - **Thẻ 37 Đề Thi Chuẩn Hóa**: Bo góc `rounded-2xl`, hiển thị sao độ khó ⭐, thời gian làm bài, số câu và nút CTA chính `[ Bắt đầu ↵ ]` (`rounded-xl`).
+  - **Top Bar Header Chuẩn Hóa (`AppTopHeader` 56px Baseline)**: Đồng bộ với toàn bộ phân hệ `/study` với cụm tab dùng chung `<StudySuiteNavTabs />` gồm đúng 4 tab (`Dictation`, `Shadowing`, `Luyện từ vựng`, `Thi thử đề`) đồng nhất 100% tên chữ với thanh bên `Sidebar.tsx`, chia sẻ chung con nhộng trượt Apple-grade `layoutId="studySuiteNavActiveTab"`, tích hợp `showGamificationStats={true}` hiển thị chip Chuỗi Streak 🔥 & Vàng 🪙, cùng nút CTA Primary Xanh Hoàng Gia `#0059bb` "Tạo Đề Mới AI".
+  - **Chế Độ 1: Exam Hub / Test Bank (Ngân Hàng 39 Đề Chuẩn Quốc Tế & AI Generator Tinh Gọn)**:
+    - **Hệ Thống Màu Sắc 60-30-10 & Semantic Accents**: 60% Nền Slate sáng/tối tối giản bảo vệ mắt, 30% Thương hiệu Xanh Hoàng Gia `#0059bb` cho các nút Primary và Tab kích hoạt, 10% Điểm nhấn ngữ nghĩa Đỏ Rose `#f43f5e` dành riêng có chọn lọc cho phòng thi thử và đồng hồ đếm ngược, Vàng Amber `#f59e0b` cho Coins/Streak.
+    - **Lưới Thẻ Đề Thi Chuẩn 4 Đề 1 Hàng (`xl:grid-cols-4`)**: Bố cục lưới `grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-4.5` hiển thị trực tiếp toàn bộ 39 bộ đề thi ngay trên đầu trang (không bị che khuất bởi các khối thừa thãi), tối ưu không gian cuộn và mật độ thông tin giống hệt phân hệ Dictation.
+    - **Thẻ Bài Thi Tinh Tế Có Visual Cover (`ExamPaperCover.tsx`)**: Bổ sung hình ảnh banner chuẩn tỉ lệ 16/10 với gradient trang nhã, watermark tối giản, badge tổ chức không ngắt dòng. Footer thẻ tích hợp nút CTA Xanh Hoàng Gia (`#0059bb`).
+    - **Giao Diện Liền Mạch Trực Tiếp**: Loại bỏ hoàn toàn khối tổng số đề và khối Gemini cồng kềnh, đưa người học vào ngay bộ lọc và thư viện đề thi, đảm bảo 100% đề thi không bao giờ bị ẩn hoặc mất.
+    - **Thanh Bộ Lọc & Tìm Kiếm Chuẩn Dictation**: Hàng ngang cuộn mượt mà các danh mục đề thi, nút Làm mới danh mục `RefreshCw` SWR, ô tìm kiếm thông minh có nút xóa nhanh và thông báo số lượng đề thi tìm thấy.
+    - **Trạng Thái Trống (Empty State)**: Khi tìm kiếm không có kết quả, hiển thị empty state thanh lịch với icon sách, thông điệp hướng dẫn rõ ràng và nút 1-click "Xem tất cả đề thi" khôi phục bộ lọc.
   - **Chế Độ 2: Live Test Workspace (Phòng Thi Trực Tuyến)**:
     - **Thanh Header Chuẩn Hóa Theo Phong Cách AppTopHeader (`h-14` 56px Baseline)**: Trải dài toàn chiều ngang, đính cố định trên cùng (`sticky top-0 z-30`), tích hợp nút `[← Thoát bài thi]`, icon well tài liệu, badge phân loại đề thi, bộ đếm ngược thời gian `Clock` và nút `[Nộp bài ngay]` nổi bật.
     - Dual-Panel Split View tối ưu cho từng kỹ năng (`ListeningWorkspace`, `ReadingWorkspace`, `SpeakingStudioWorkspace`, `WritingStudioWorkspace`).
@@ -2698,8 +2731,12 @@ $$\text{MEASURE} \rightarrow \text{UNDERSTAND} \rightarrow \text{EXPLAIN} \right
      - Câu kế tiếp (+1): `<ChevronDown className="w-3.5 h-3.5" />` (thay thế `"[CÂU TIẾP THEO 1]"`).
      - Câu kế tiếp (+2): `<ChevronsDown className="w-3.5 h-3.5" />` (thay thế `"[CÂU TIẾP THEO 2]"`).
    - **Tối Ưu Hóa Khởi Tạo Tải (Dynamic Imports & Lazy Loading):** Lazy load 4 modal nặng (`SubtitleExportModal`, `SrtImportModal`, `XpSubExtractorModal`, `KeyboardShortcutsModal`) qua `next/dynamic` giúp giảm ngay ~68KB dung lượng bundle ban đầu của trang.
+   - **Cơ Chế Lưu Trạng Thái 0ms Tức Thì Chuẩn Dictation (State Retention & Frame 0 Probe):**
+     * **Bảo Toàn Video Đang Học & Tab Tương Tác (`session` trong `videoStore`):** Lưu `activeVideoId`, `rightPanelTab` ("subtitles", "dictation", "studyset", "playlist"), `subViewMode` ("rolling", "full"), từ khóa tìm kiếm `searchQuery`, danh mục lọc `selectedCategory` và trạng thái `selectedFilter` trực tiếp trong Zustand RAM Store.
+     * **Frame 0 Fast Probe:** Khởi tạo tức thì các giá trị từ store tại Frame 0 bằng Lazy Initializer, triệt tiêu độ trễ 1 tick của `useEffect`, hiển thị video và tab đang học ngay lập tức trong 0ms mà không bao giờ bị chớp nháy hay giật layout.
+     * **Bảo Toàn Vị Trí Câu Dictation (`videoExercisePositions`):** Lưu độc lập số thứ tự câu chép chính tả theo từng `videoId`. Khi chuyển sang tra từ, học ngữ pháp rồi quay lại, học viên tiếp tục làm đúng câu đang làm dở dang mà không bị nhảy về câu 1.
 4. **Bộ Kiểm Thử Toàn Diện (`__tests__/myvideo*.test.ts`)**:
-   - 10 bộ kiểm thử Vitest với **250/250 tests PASS 100%**, bao gồm kiểm thử độ chính xác định thời phụ đề (`myvideo_subtitle_engine_precision.test.ts`), đồng bộ phát video thời gian thực (`myvideo_realtime_playback_sync.test.ts`) và kiểm thử đón đầu âm thanh cùng bóc tách phụ đề trọn vẹn (`myvideo_full_subtitle_pipeline_lead_time.test.ts`).
+   - 11 bộ kiểm thử Vitest với **256/256 tests PASS 100%**, bao gồm kiểm thử lưu trạng thái 0ms (`myvideo_state_retention.test.ts`), kiểm thử độ chính xác định thời phụ đề (`myvideo_subtitle_engine_precision.test.ts`), đồng bộ phát video thời gian thực (`myvideo_realtime_playback_sync.test.ts`) và đón đầu âm thanh (`myvideo_full_subtitle_pipeline_lead_time.test.ts`).
 5. **Kiểm Thử Trình Duyệt Google Chrome Trực Tiếp (`scripts/chrome_verify_myvideo.mjs`)**:
    - Sử dụng Google Chrome thực tế qua Chrome DevTools Protocol (CDP WebSocket) kiểm tra toàn diện trên màn hình `/myvideo`:
      - Xác nhận Header phụ đề luôn nằm trên 1 dòng duy nhất (`flex items-center justify-between`, không wrap layout).
@@ -2723,8 +2760,11 @@ $$\text{MEASURE} \rightarrow \text{UNDERSTAND} \rightarrow \text{EXPLAIN} \right
 4. **Theo Dõi Thời Gian Thực & Hỗ Trợ Trợ Năng (Accessibility & Telemetry)**:
    - Tích hợp hook `useStudyTimeTracker("vocab", { activeCondition: activeGame !== null })` tự động kích hoạt bộ đếm thời gian học khi người dùng đang chơi và tạm dừng khi trở về sảnh chờ.
    - Bổ sung đầy đủ thuộc tính `role="button"`, `tabIndex={0}`, `aria-label` và xử lý phím `Enter`/`Space` cho toàn bộ thẻ game.
-5. **Bộ Kiểm Thử Chuẩn Hóa (`__tests__/games_standards.test.ts`)**:
-   - Đạt 100% PASS (4/4 tests), xác thực cơ chế loại bỏ bot dưới 8s, tính toán điểm máy chủ, xử lý chế độ khách không ghi DB, và transaction cập nhật kép.
+5. **Cơ Chế Lưu Trạng Thái 0ms Tức Thì Chuẩn Dictation & SWR Vocabulary Cache (`stores/gameCatalogStore.ts`)**:
+   - **Nạp Sẵn Kho Từ Vựng Frame 0 (0ms Instant Render):** Nạp sẵn tức thì 150 từ vựng từ ngân hàng chuẩn cục bộ (`getInitialGameVocabs`), kết hợp cơ chế SWR background revalidation, triệt tiêu hoàn toàn màn hình trắng, skeleton hay spinner nhấp nháy khi chuyển trang.
+   - **Bảo Toàn Ván Game & Bộ Thẻ Đang Chọn:** Lưu `activeGame` (Word Scramble, Memory Match, Wordle, Speed Blitz, Sentence Builder...), `selectedDeck` ("all", "toeic", "ielts", "bookmarks", "weak") và `selectedCategory` trong RAM Store. Khi chuyển sang tab tra cứu hay làm việc khác rồi quay lại, học viên tiếp tục ngay tại ván chơi mà không bao giờ bị văng về sảnh chờ.
+6. **Bộ Kiểm Thử Chuẩn Hóa (`__tests__/games*.test.ts`)**:
+   - Toàn bộ 4 bộ kiểm thử Vitest với **35/35 tests PASS 100%**, bao gồm kiểm thử lưu trạng thái 0ms (`games_state_retention.test.ts`), kiểm thử tính năng mini-games (`games_feature.test.ts`), chuẩn mực chống gian lận (`games_standards.test.ts`) và bộ kịch bản nâng cao (`games_pro_deep_suite.test.ts`).
 
 ### 5. Cửa Hàng Vật Phẩm XP Shop & Đồng Bộ Trang Bị Ngoại Trang (`/shop` & `/api/shop/*`)
 1. **Quản Lý Kho Đồ Tối Ưu Truy Vấn (`GET /api/shop/inventory`)**:
@@ -4805,14 +4845,17 @@ $$\text{MEASURE} \rightarrow \text{UNDERSTAND} \rightarrow \text{EXPLAIN} \right
      * Trả về dữ liệu trong bộ nhớ RAM ngay lập tức (0ms).
      * Khi cache hết hạn hoặc người dùng chủ động làm mới (`forceRefresh`), hệ thống âm thầm gửi request revalidate tới `/api/vocabulary?themeId=...` và tự động cập nhật lại bộ đệm RAM.
      * Khi mất kết nối mạng hoặc server gián đoạn, tự động fallback an toàn về ngân hàng từ vựng chuẩn cục bộ mà không làm gián đoạn việc học Flashcard hay làm Quiz.
-   - **Bảo Toàn Trạng Thái Bộ Lọc Toàn Diện (Filter & Search State Preservation)**:
-     * Lưu giữ trạng thái `levelMode` ("basic" hoặc "advanced"), từ khóa tìm kiếm `searchQuery`, số lượng thẻ hiển thị `displayedCount`, và chế độ học `viewMode` ("flashcard", "list", "quiz", "ai").
-     * Thí sinh thoải mái học tập qua lại giữa danh mục và phòng học chi tiết mà không bị mất dấu chủ đề đang tìm kiếm.
+   - **Bảo Toàn Trạng Thái Bộ Lọc & Tiến Độ Từng Chủ Đề (Per-Theme Session State Preservation)**:
+     * Lưu giữ trạng thái `levelMode` ("basic" hoặc "advanced"), từ khóa tìm kiếm `searchQuery`, số lượng thẻ hiển thị `displayedCount`, và chế độ học độc lập cho từng chủ đề `themeViewModes` ("flashcard", "list", "quiz", "ai").
+     * **Bảo toàn Flashcard 3D (`themeFlashcardSessions`)**: Lưu số thứ tự thẻ đang học (`currentIndex`), chế độ che chữ (`isWordMasked`), tự động phát âm (`autoPlayAudio`) và danh sách đã đánh dấu (`bookmarkedIds`). Học viên chuyển tab tra cứu ngữ pháp hay từ điển rồi quay lại vẫn tiếp tục đúng thẻ đang học mà không bao giờ bị văng về thẻ 0.
+     * **Bảo toàn Trắc Nghiệm Quiz (`themeQuizSessions`)**: Lưu câu hỏi đang làm (`quizIndex`), điểm số tích lũy (`quizScore`), đáp án đã chọn (`selectedAnswer`), trạng thái nộp câu (`isQuizSubmitted`) và cờ hoàn thành (`quizFinished`), hỗ trợ reset ván đấu sạch sẽ qua `resetThemeQuizSession`.
+     * **Bảo toàn Trợ Lý AI Tutor (`themeAiCoachSessions`)**: Lưu câu hỏi người học (`aiQuestion`) và câu trả lời ngữ cảnh giải nghĩa của AI (`aiResponse`).
+     * Học viên thoải mái chuyển trang học tập (Dictation, Ngữ pháp, Review...) mà không bao giờ bị mất dữ liệu hay gián đoạn trải nghiệm học tập, hiển thị tức thì 0ms.
 
 3. **Tích Hợp Đồng Bộ & Kiểm Thử Tự Động Toàn Diện**:
    - **Export chuẩn mực**: Re-export `useVocabularyCatalogStore` tại [stores/index.ts](file:///e:/XP%20English%20%20XP%20Voca/stores/index.ts).
    - **Kết nối giao diện**: Tích hợp hoàn chỉnh vào [app/(dashboard)/vocabulary/VocabularyThemesClientList.tsx](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/vocabulary/VocabularyThemesClientList.tsx) và [app/(dashboard)/vocabulary/[id]/page.tsx](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/vocabulary/[id]/page.tsx).
-   - **Automated Test Suite**: Tạo mới bộ kiểm thử chuyên sâu [__tests__/vocabulary_catalog_cache_swr.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/vocabulary_catalog_cache_swr.test.ts) bao gồm 11 test cases kiểm tra Frame-0 probe, TTL expiration, filter persistence, pagination updater, và resilient fallback: **11/11 PASS 100%**.
+   - **Automated Test Suite**: Tạo mới bộ kiểm thử chuyên sâu [__tests__/vocabulary_catalog_cache_swr.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/vocabulary_catalog_cache_swr.test.ts) (11 tests) và [__tests__/vocabulary_detail_state_retention.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/vocabulary_detail_state_retention.test.ts) (6 tests) kiểm tra Frame-0 probe, TTL expiration, filter persistence, per-theme flashcard & quiz state retention: **17/17 PASS 100%**.
    - **Toàn bộ hệ thống**: Toàn bộ **112 test suites (1,192 tests)** đều vượt qua 100% với 0 lỗi TypeScript compiler (`tsc --noEmit`).
 
 ---
@@ -5178,6 +5221,249 @@ $$\text{MEASURE} \rightarrow \text{UNDERSTAND} \rightarrow \text{EXPLAIN} \right
 4. **Kiểm Thử Toàn Diện & Đảm Bảo Độ Tin Cậy**:
    - Chạy test suite [__tests__/canonical_study_routes_parity.test.ts](file:///e:/XP%20English%20%20XP%20Voca/__tests__/canonical_study_routes_parity.test.ts): **6/6 PASS 100%**.
    - Kiểm tra `npx tsc --noEmit`: **0 lỗi biên dịch (Clean)**.
+
+### 86. Tinh Chỉnh UI/UX Thẻ Đề Thi Thử Chuẩn Hóa (`/study/exam-prep`) - Kiến Trúc Full-Bleed Cover & Chân Thẻ 2 Tầng Cân Đối
+
+1. **Phân Tích Hiện Trạng & Vấn Đề Giao Diện**:
+   - Thẻ bài thi thử `ExamPaperCard` trước đây có khoảng padding bao bọc ngoài khiến khối ảnh đại diện (`ExamPaperCover`) bị co rút vào trong, tạo viền đệm trắng không cần thiết thay vì tràn viền liền mạch.
+   - Trùng lặp tên đề giữa các bài thi: Khi xóa `#01`, `#02`, các đề thi cùng bộ (Test 1, Test 2) có tiêu đề giống hệt nhau khiến thí sinh không phân biệt được bài thi.
+   - Lỗi rớt dòng icon kỹ năng ở thẻ 4 kỹ năng: Thẻ đủ 4 kỹ năng bị rớt icon thứ 4 xuống dòng riêng, kéo lệch chiều cao lưới so với các thẻ khác.
+   - Biểu tượng đũa thần `Wand2` gây hiểu nhầm sang tính năng AI Magic thay vì kỹ năng Viết học thuật (`Writing`).
+
+2. **Giải Pháp Kiến Trúc Giao Diện Chuẩn Xác (2-Tier Balanced Bottom Bar & Unique Test Identification)**:
+   - **Khối trên - Nghệ thuật trừu tượng 3D sạch (100% Text-Free Art) & Triệt tiêu hoàn toàn lỗi đè chữ**:
+     * **Bộ 9 tác phẩm nghệ thuật học thuật sạch độc quyền & Ánh xạ 1-1 độc bản (1-to-1 Unique Cover Mapping)**: Đảm bảo 8/8 đề thi trên màn hình chính và toàn bộ ngân hàng đề đều sở hữu ảnh bìa độc bản riêng biệt, không có 2 thẻ nào trùng nhau (`/images/exams/`):
+       - `cover-toeic-lr.jpg` (#01 TOEIC LR): Sóng âm và hình khối trang sách kiến trúc 3D (Slate Blue & Platinum).
+       - `cover-toeic-02.jpg` (#02 TOEIC LR): Máy bay giấy lượn qua cổng vòm kiến trúc điêu khắc dưới nắng sớm (Morning Sky Blue & Soft Slate).
+       - `cover-toeic-master.jpg` (TOEIC Full Master): Khối cầu pha lê đa giác tinh xảo biểu trưng cho sự tinh thông và toàn diện (Crystal Polyhedron on Slate Pedestal).
+       - `cover-toeic-sw.jpg` (TOEIC Speaking & Writing): Dải ruy băng giọng nói và ngòi bút điêu khắc tối giản (Lavender Gray & Serene Slate).
+       - `cover-ielts-academic.jpg` (#01 IELTS Academic): Tác phẩm điêu khắc vòm đá vôi học thuật Anh quốc cổ điển (Warm Sandstone Ivory).
+       - `cover-ielts-speaking.jpg` (IELTS Speaking Studio): Phòng studio thu âm giọng nói hiện đại với vòng tròn âm học gỗ (Warm Ivory & Graphite).
+       - `cover-ielts-writing.jpg` (IELTS Writing Master): Bút mực cổ điển trên nền giấy vân thủ công dưới nắng sớm (Parchment Cream & Soft Sunlight).
+       - `cover-ielts-02.jpg` (#02 IELTS Academic): Đại sảnh vòm đá sa thạch và ruy băng điêu khắc nghệ thuật đại học Anh quốc (Monumental Colonnade Atrium).
+       - `cover-mini-speed.jpg` (Mini Speed & Adaptive): Vòng đồng hồ pha lê tốc độ và tia sáng chính xác (Crystal Ice Blue & Clean White).
+     * **Triệt tiêu hiện tượng "Lỗ đen u ám" (Luminance & Clarity Recovery)**: Thay thế lớp overlay đen ngòm bằng lớp phủ gradient định hướng mềm (`from-slate-950/90 via-slate-950/45 to-transparent`) tập trung ở chân ảnh, giữ cho 1/3 phía trên sáng trong, tự nhiên và hài hòa tuyệt đối với nền web.
+     * **Huy hiệu kính mờ siêu nhẹ trong suốt (Ethereal Glassmorphism Badges)**: Nâng cấp badge `[🎧 ETS TOEIC]`, `[B1 • B2]` thành dạng kính mờ trong suốt `bg-white/15 border-white/25 text-white/95 backdrop-blur-md`, triệt tiêu hoàn toàn các khối hộp đen đục gây cảm giác dán băng dính che khuất góc ảnh.
+     * **Đồng bộ hóa 100% thanh thông số & Xóa đường kẻ cắt vụn ảnh (Wadhah Aloui Rule #5)**: Bỏ hoàn toàn đường line kẻ ngang cơ học cắt đôi bức ảnh. Đồng bộ hóa cả thời gian (`Clock` 120 phút) và số câu hỏi (`HelpCircle` 200 câu hỏi) về chung định dạng icon + text thanh thoát, xóa bỏ chiếc hộp đen bao bọc số câu gây bất đối xứng.
+     * **Khử lặp từ ngữ biên tập Subtitle**: Chuẩn hóa dòng phụ thành `OFFICIAL EDITION • 01` (hoặc `02`), loại bỏ hoàn toàn lỗi lặp lại từ "TEST" 2 lần liên tiếp (`STANDARD TEST • TEST 01`), giúp typography tinh gọn và sang trọng.
+      * **Tiêu đề chính sạch sẽ từ tầng dữ liệu gốc (Clean Titles at Data Layer)**: Xóa bỏ hoàn toàn ký tự `#` trong toàn bộ 39 file dữ liệu đề thi gốc (`features/exam-prep/data/exam-papers/`), đảm bảo tên đề thi sạch đẹp, chuyên nghiệp từ backend, database seeding đến UI frontend: `ETS TOEIC 2026 Official Test 01`, `IELTS Academic Official Test 01`...
+   - **Khối dưới - Chân thẻ 2 tầng cân đối hoàn hảo & Hệ màu đồng bộ chuẩn mực (60-30-10 Harmonized Footer)**:
+     * **Tầng 1 (Thông số kỹ năng & Phân loại định dạng đề)**:
+       - Trái: Khóa cứng `flex-nowrap` với kích thước chuẩn `w-6.5 h-6.5 rounded-lg` cho các icon kỹ năng (`Headphones`, `BookOpen`, `Mic`, `PenTool`).
+       - Thay thế `Wand2` bằng `PenTool` (ngòi bút mực) chuẩn hóa ngữ nghĩa cho kỹ năng Viết học thuật.
+       - Phải: Nhãn phân loại định dạng đề thi (`Full Test` / `Mini Speed` / `Luyện Part` / `Đề chuẩn`) với badge bo góc `rounded-md`, chữ `text-[11px] font-semibold`, dùng tone xám Slate trung tính dịu mắt.
+     * **Tầng 2 (Thang điểm mục tiêu & Nút hành động CTA)**:
+       - Trái: Pill thang điểm mục tiêu mềm mại (`Award + Band 9.0` hoặc `990 Điểm`) với nền `bg-amber-50/70 dark:bg-amber-950/30` và viền hổ phách tinh tế, tuân thủ nguyên tắc 10% Semantic Accent (Wadhah Aloui Rule #20).
+       - Phải: Nút `[ Vào thi → ]` chuẩn kiến trúc "button-in-button" với hộp icon `w-5 h-5 rounded-lg bg-white/20`, chuyển động micro-interaction mượt mà khi hover, loại bỏ hoàn toàn khoảng trống rỗng ở giữa.
+     * **Đồng bộ màu sắc nút bấm và viền thẻ**: Chuẩn hóa toàn bộ nút CTA về màu thương hiệu hoàng gia `#0059bb` (`bg-[#0059bb] hover:bg-[#004ba0]`), chấm dứt triệt để tình trạng thẻ thì nút đỏ rực, thẻ thì nút tím rực gây phân mảnh thị giác, đảm bảo tính nhất quán cao cấp toàn diện.
+
+   - **Đồng Bộ Hình Dạng Khối Ảnh Video & Audio Card Chuẩn Thi Thử Đề & Kho Từ Vựng (VideoCatalogBrowseView.tsx)**:
+     * Chuyển đổi khối ảnh từ dạng khung thụt lề lồng kép (double-bezel p-3 aspect-video) sang chuẩn **Full-Bleed Cover Header** tỉ lệ **spect-[16/10]** tràn sát 100% đỉnh và 2 cạnh của thẻ 
+ounded-2xl overflow-hidden.
+     * Tích hợp thanh kính mờ Ethereal Frosted Glassmorphism đôi trên đỉnh ảnh: Huy hiệu CEFR [ Level B2 ] góc trái và thời lượng [ 01:12 ] góc phải đồng bộ 1:1 với ExamPaperCover và ThemeCardItem.
+     * Thân thẻ và chân thẻ được tinh chỉnh khối đệm công thái học gọn gàng px-3 py-2.5 sm:px-3.5 sm:py-2.5 cùng khoảng cách dọc space-y-2 (giảm khoảng trắng thừa bên dưới ảnh mà vẫn giữ nguyên 100% kích cỡ chữ và icon) với nút Học Ngay tinh giản (bỏ hộp lồng thừa) và nút Đọc hiểu AI cân bằng chuẩn Rule #18.
+     * Cập nhật đồng bộ khung xương tải trang VideoCardShimmer và VideoListingSkeleton trong LoadingSkeletons.tsx triệt tiêu 100% CLS.
+
+3. **Kiểm Thử Kỹ Thuật & Độ Ổn Định**:
+   - TypeScript Typecheck `npx tsc --noEmit`: **0 lỗi biên dịch**.
+   - Vitest Test Suites: **134/134 suites passed, 1,393 tests passed 100%**.
+
+---
+
+### 87. Đồng Bộ Ngôn Ngữ Thiết Kế Ảnh Bìa & Thẻ Bài Học Cho Phân Hệ Dictation (Audio & Video) Theo Chuẩn Ethereal Glassmorphism
+
+1. **Bối Cảnh & Mục Tiêu Thiết Kế**:
+   - Kế thừa thành công từ ngôn ngữ thị giác tinh hoa của `ExamPaperCover` và `ExamPaperCard`, người học cần một giao diện nhất quán, sang trọng và thoáng đãng trên toàn bộ hệ thống luyện nghe chính tả Dictation ([`/study/dictation/audio`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/ListeningListingView.tsx) & [`/study/dictation/video`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/VideoCatalogBrowseView.tsx)).
+   - Xóa bỏ triệt để các khối hộp đen đục `bg-slate-900/85` dán băng dính trên góc ảnh bìa, các lớp phủ tối màu làm u ám bức ảnh, và các nút bấm thiếu cân đối thị giác.
+
+2. **Nâng Cấp Chi Tiết Cho Phân Hệ Audio Dictation (`ListeningListingView.tsx` & `LessonCoverImage.tsx`)**:
+   - **Directional Scrim mềm mại trong trẻo**: Chuyển lớp phủ từ đen đặc sang dải gradient định hướng mềm `from-slate-950/75 via-slate-950/20 to-transparent`, giữ cho 2/3 phần trên của ảnh sáng tự nhiên, loại bỏ hoàn toàn cảm giác "lỗ đen".
+   - **Ambient Light Highlight Hover**: Bổ sung lớp phản quang vi tế `group-hover:bg-white/[0.04] transition-colors` khi rê chuột vào ảnh.
+   - **Cinematic Zoom mượt mà chuẩn Apple/Agency**: Cấu hình chuyển động trượt êm ái `transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-105`.
+   - **Hệ thống Badges Ethereal Glassmorphism (Kính mờ trong suốt siêu nhẹ)**:
+     * *Badge Cấp độ (Level)*: `bg-white/15 hover:bg-white/20 text-white backdrop-blur-md border border-white/25 shadow-2xs font-mono font-bold text-[9.5px] uppercase tracking-wider rounded-lg px-2.5 py-0.5`.
+     * *Badge Đã học (Completed)*: `bg-emerald-500/25 hover:bg-emerald-500/35 text-emerald-100 backdrop-blur-md border border-emerald-400/35 shadow-2xs rounded-lg px-2.5 py-0.5`.
+     * *Badge Đang chọn (Active Selection)*: `bg-[#0059bb]/85 hover:bg-[#0059bb] text-white backdrop-blur-md border border-white/30 shadow-2xs rounded-lg px-2.5 py-0.5`.
+   - **Card Border & Metadata Footer**: Viền hover sang trọng `hover:border-[#0059bb]/50 dark:hover:border-sky-500/40 hover:shadow-lg shadow-2xs`, thời lượng (`Clock`) và số câu (`transcript.length câu`) hiển thị đối xứng hoàn hảo theo quy tắc Wadhah Aloui Rule #5.
+
+3. **Nâng Cấp Chi Tiết Cho Phân Hệ Video Dictation (`VideoCatalogBrowseView.tsx`)**:
+   - **Directional Scrim & Ambient Highlight**: Bảo vệ độ tương phản của thumbnail YouTube mà vẫn giữ độ sáng rực rỡ tự nhiên của video.
+   - **Cặp Badges Ethereal Glassmorphism đối xứng**:
+     * *Góc trên trái*: Badge CEFR Level kính mờ `Level A1/B1/C1` trong suốt siêu nhẹ, thanh thoát.
+     * *Góc dưới phải*: Duration Badge kính mờ `bg-slate-950/60 backdrop-blur-md border border-white/20 text-white` tích hợp icon `Clock` nhỏ xíu tinh tế.
+   - **Glassmorphic Play Orb giữa Thumbnail**: Vòng tròn kính mờ phát sáng nhẹ ở trung tâm thumbnail khi hover, mang phong cách trình chiếu điện ảnh Netflix/Apple TV.
+   - **Button-in-Button Action CTA**: Nút "Học Ngay" tích hợp hộp icon `Play` lồng nhau (`w-5 h-5 rounded-lg bg-white/20`) với micro-interaction tương tự `ExamPaperCard`, nút "Đọc hiểu AI" phong cách ghost card tinh tế.
+
+4. **Đồng Bộ Hóa Đa Phân Hệ Song Hành**:
+   - Đồng bộ hoàn toàn `renderLessonCard` trong [`ShadowingListingView.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/shadowing/components/ShadowingListingView.tsx).
+   - Nâng cấp badge level trên danh thiếp bài học gợi ý tại [`InteractiveTranscriptSidebar.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/InteractiveTranscriptSidebar.tsx).
+
+5. **Kiểm Thử Kỹ Thuật & Độ Ổn Định**:
+   - TypeScript Typecheck `npx tsc --noEmit`: **0 lỗi biên dịch**.
+   - Vitest Test Suites: **134/134 suites passed, 1,393/1,393 tests passed 100%**.
+
+---
+
+### 88. Đại Tu Toàn Diện UI/UX Kho Từ Vựng Theo Chủ Đề (`/vocabulary`) - Chuẩn Visual Cover 16/10, Ethereal Glassmorphism & Button-in-Button CTA
+
+1. **Bối Cảnh & Vấn Đề Giao Diện Trước Đây**:
+   - Thẻ chủ đề [`ThemeCardItem`](file:///e:/XP%20English%20%20XP%20Voca/features/vocabulary/components/shared/ThemeCardItem.tsx) trước đây hoàn toàn không có ảnh đại diện (0% visual cover), chỉ là một hộp thẻ phẳng đơn điệu với icon nhỏ 44x44px và một thanh tiến độ giả lập cứng theo độ khó (`25 + difficulty * 15`).
+   - Nút hành động chỉ là một icon mũi tên `↗` trơ trọi ở góc trên bên phải, vi phạm quy tắc Wadhah Aloui Rule #13 (vị trí CTA) và Rule #19 (văn bản động từ trên nút).
+   - Thanh chỉ số `VocabularyStatsBar` hoàn toàn tĩnh, chưa có liên kết nhanh (Deep Links) đến các phân hệ ôn tập liên quan.
+
+2. **Kiến Trúc Nâng Cấp Chi Tiết (High-End Agency Standard & Concentric Radii)**:
+   - **Xây Dựng Động Cơ Ánh Xạ Ảnh Bìa Nghệ Thuật [`themeImageMapper.ts`](file:///e:/XP%20English%20%20XP%20Voca/features/vocabulary/utils/themeImageMapper.ts)**:
+     * Tuyển chọn 80+ tác phẩm nhiếp ảnh nghệ thuật độ phân giải cao, 100% không chứa chữ, chuẩn gu thẩm mỹ cao cấp.
+     * Cơ chế phân giải 2 bước: So khớp ngữ nghĩa theo từ khóa chủ đề (Ẩm thực, AI/Công nghệ, Y tế, Du lịch, Tài chính, Thời trang, Nghệ thuật...) và Fallback phân bổ đồng đều theo thuật toán hash tất định.
+   - **Tái Cấu Trúc Thẻ Chủ Đề `ThemeCardItem` 2 Tầng Cân Đối**:
+     * **Khối trên (Cover Banner 16/10)**:
+       - Lớp phủ Directional Scrim mềm mại `from-slate-950/90 via-slate-950/30 to-transparent`, giữ trọn độ sáng tự nhiên phía trên, triệt tiêu hoàn toàn hiệu ứng "lỗ đen".
+       - Ambient light highlight `group-hover:bg-white/[0.04]` và Cinematic Zoom mượt mà `transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-105`.
+       - Hệ thống Badges kính mờ đồng bộ **Ethereal Frosted Glassmorphism**: Cả Huy hiệu CEFR Level bên trái (`A1 • A2 Cơ Bản`, `B1 • B2 Trung Cấp`, `C1 • C2 Nâng Cao`) và Khối số lượng từ bên phải (`BookOpen` + `{totalVocabs} từ`) đều dùng kính mờ trong suốt siêu nhẹ `bg-white/15 hover:bg-white/20 backdrop-blur-md border border-white/25 shadow-2xs text-white`, tạo sự cân bằng và đồng nhất thẩm mỹ tuyệt đối.
+       - Chân ảnh: Tiêu đề tiếng Việt sắc nét và phụ đề tiếng Anh `drop-shadow-md` nổi bật, thoáng đãng.
+     * **Khối dưới (Card Footer)**:
+       - Tầng 1: Tiến độ từ vựng thực tế kết nối trực tiếp với store `useVocabularyStore.learned`, hiển thị chính xác số từ học viên đã học/thuộc trong chủ đề (`Đã học X/Y từ` hoặc `Chưa bắt đầu • Y từ`), xóa bỏ hoàn toàn thanh tiến độ giả.
+       - Tầng 2: Icon ngữ nghĩa của chủ đề bên trái + Nút hành động CTA `[ Khám phá → ]` chuẩn kiến trúc "Button-in-Button" màu thương hiệu hoàng gia `#0059bb` với hộp icon `ArrowRight` lồng nhau mượt mà.
+   - **Tối Giản & Chuẩn Hóa Toàn Diện Khối Điều Khiển (Single-Tier Sleek Control Dock)**:
+     * **Lược giảm triệt để chi tiết thừa thãi**:
+       - Xóa bỏ đường viền hairline gradient giả tạo ở đỉnh hộp.
+       - Loại bỏ khối hộp bao quanh icon thừa thãi; đưa icon đặt nằm ngang trực tiếp cùng hàng với tiêu đề H1 `flex items-center gap-2.5 sm:gap-3` với kích thước nổi bật rõ rệt `w-7 h-7 sm:w-8 sm:h-8 stroke-[2.2]` (lớn hơn rõ rệt so với chữ "Kho" và dòng tiêu đề để tạo điểm nhấn nhận diện thương hiệu).
+       - Xóa bỏ hoàn toàn Row 2 (micro-metrics và nút CTA duplicate `[ Luyện Flashcards SRS ]` vì đã có sẵn trên `AppTopHeader`), tuân thủ nghiêm ngặt Rule #18 (chỉ 1 Primary CTA duy nhất).
+     * **Bố cục 1 hàng ngang duy nhất (Single-Tier Sleek Dock)**:
+       - Trái: Tiêu đề H1 tích hợp icon nằm ngang tự nhiên (`BookOpen` Mở sách tri thức / `GraduationCap` Mũ cử nhân nâng cao + `Kho Từ Vựng Tiếng Anh` `text-lg sm:text-xl font-bold`) + Subtitle mô tả ngắn gọn ngay bên dưới.
+       - Phải: Segmented Level Switcher (`60 Cơ Bản` / `155 Nâng Cao`) + Ô tìm kiếm `Search Input Dock` tích hợp công cụ tìm kiếm tiếng Việt không dấu (`matchVietnameseSearch`), không phân biệt hoa thường.
+     * **Công Cụ Tìm Kiếm Tối Giản Chuẩn Tiếng Việt (`vietnameseSearchUtils.ts`)**:
+       - Chuẩn hóa Unicode NFD tách dấu, khử triệt để dấu tiếng Việt và chuyển đổi `đ`/`Đ` $\rightarrow$ `d`.
+       - Hỗ trợ tìm kiếm mượt mà cả có dấu và không dấu: gõ "gia dinh" $\rightarrow$ tìm thấy "Gia đình", "an uong" $\rightarrow$ "Ăn uống", "dong vat" $\rightarrow$ "Động vật", không phân biệt HOA / thường.
+       - Áp dụng đồng bộ cho cả trang danh mục chủ đề ([`VocabularyThemesClientList.tsx`](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/vocabulary/VocabularyThemesClientList.tsx)) và trang chi tiết từ vựng ([`page.tsx`](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/vocabulary/[id]/page.tsx)).
+     * **Chuẩn hóa hệ thống Typography & Bảng màu 60-30-10**:
+       - Font chữ: `font-display` (Be Vietnam Pro) cho H1/Nút, `font-sans` cho Subtitle/Search, `font-mono tabular-nums` cho số lượng từ/cấp độ.
+       - Cỡ chữ & Trọng số: Modular scale phân cấp rõ ràng, H1 nổi bật mà không áp đảo, Subtitle dễ đọc.
+       - Màu sắc: 60% Slate/Trắng nền nã, 30% Xanh hoàng gia `#0059bb` thương hiệu, 10% Emerald ngữ nghĩa cho tiến độ thực tế.
+     * **Tối ưu không gian hiển thị**: Giảm chiều cao khối dock từ 140px xuống chỉ còn ~60px, đưa toàn bộ 215 thẻ chủ đề lên sát trên cùng, tối ưu trải nghiệm duyệt bài.
+
+### 88. Chuẩn Hóa UI/UX Hệ Thống Thẻ Bài Học Suite (`/study/dictation`, `/study/shadowing`, `/study/reading` & `/study/exam-prep`) - Kiến Trúc Full-Bleed Cover, Đường Gạch Mờ Tinh Tế & Tinh Gọn Chiều Cao Khoảng Trắng Dọc
+
+1. **Chuẩn Hóa Hình Dạng Khối Ảnh (Full-Bleed Header `aspect-[16/10]`)**:
+   - Chuyển đổi toàn diện khối ảnh thumbnail của thẻ Video ([`VideoCatalogBrowseView.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/VideoCatalogBrowseView.tsx)), thẻ bài nghe Audio MP3 ([`ListeningListingView.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/ListeningListingView.tsx)), thẻ bài nói Shadowing ([`ShadowingListingView.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/shadowing/components/ShadowingListingView.tsx)), thẻ bài đọc Reading ([`ReadingCatalogView.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/reading/components/ReadingCatalogView.tsx)) và thẻ đề thi chuẩn hóa ([`ExamPaperCard.tsx`](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/study/exam-prep/components/hub/ExamPaperCard.tsx)) sang dạng tràn viền Full-Bleed 16/10 đồng bộ 100% với Kho Từ Vựng (`/vocabulary`).
+   - Xóa bỏ hiện tượng khung lồng khung (Double-Bezel cũ `p-3` bọc ngoài ảnh `rounded-xl`), đưa ảnh tràn sát 3 mép đỉnh của thẻ cha `rounded-2xl overflow-hidden`.
+   - Lớp phủ Directional Scrim mềm mại `bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent`, bảo vệ độ tương phản chữ và giữ độ sáng tự nhiên.
+   - Hệ thống Twin Badges kính mờ **Ethereal Frosted Glassmorphism**: Huy hiệu Level/Đang chọn bên trái và Thời lượng/Đã học/Đã đọc bên phải gắn cố định tại `top-2.5 inset-x-2.5` với kính mờ `bg-white/15 backdrop-blur-md border border-white/25 text-white`.
+   - Hiệu ứng Hover Play/Mic/Book Orb kính mờ tròn `w-11 h-11` mượt mà ở tâm ảnh khi hover.
+
+2. **Tinh Gọn Chiều Cao Khoảng Trắng Dọc Dưới Ảnh (Whitespace Reduction) & Bổ Sung Đường Gạch Mờ Tinh Tế**:
+   - **Bảo toàn 100% kích cỡ chữ và icon**: Giữ nguyên toàn bộ `text-[13.5px] font-bold` cho tiêu đề, `text-[11px] font-semibold` cho danh mục/số câu/số từ/format đề, `text-xs font-bold` cho nút bấm và icon `w-3.5 h-3.5` / `w-3 h-3`.
+   - **Bổ sung đường gạch mờ phân tầng (`pt-1.5 border-t border-slate-100 dark:border-slate-800/80`)**:
+     - Áp dụng đường kẻ mảnh tinh tế ngăn cách giữa tầng thông tin siêu dữ liệu (Kỹ năng, Format đề, Danh mục) và tầng nút hành động CTA (Điểm số mục tiêu, Nút Vào thi, Nút Học ngay), tạo sự phân cấp thị giác trang nhã, sắc nét, không bị trôi nổi.
+   - **Thu gọn & tinh chỉnh đệm dọc theo đặc thù khối nội dung**:
+     - Các thẻ Dictation, Shadowing, Reading: điều chỉnh từ `p-3 sm:p-3.5` xuống `px-3 pt-2 pb-2.5 sm:px-3.5 sm:pt-2 sm:pb-2.5` (`space-y-1.5`), giúp phần nội dung chữ nối liền mạch ngay dưới ảnh mà không bị hẫng hoặc thừa khoảng trắng.
+     - Riêng thẻ Đề thi Chuẩn Hóa ([`ExamPaperCard.tsx`](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/study/exam-prep/components/hub/ExamPaperCard.tsx)): Do tiêu đề đề thi đã được hiển thị trọn vẹn trong `ExamPaperCover`, khối footer được tinh chỉnh đệm dọc thoáng đãng hơn một chút lên `px-3 py-3 sm:px-3.5 sm:py-3.5` (`space-y-2 sm:space-y-2.5`), giữ nguyên 100% khoảng cách lề trái phải `px-3 sm:px-3.5`, đường gạch mờ `pt-2 sm:pt-2.5 border-t border-slate-100 dark:border-slate-800/80` tạo độ thở cân đối thị giác agency hoàn mỹ.
+     - Hàng siêu dữ liệu trên: khoảng cách đệm dưới `mb-0.5` đến `mb-1`.
+     - Chiều cao nút bấm CTA: chuẩn hóa `h-8` cân đối, thanh lịch, vững chãi ("Học Ngay" cho Video, "Luyện Nghe" cho Dictation, "Luyện Nói" cho Shadowing, "Đọc Ngay" cho Reading, "Vào thi" cho Exam Prep).
+   - **Đồng bộ hóa Khung Xương Shimmer Skeleton (0px CLS)**:
+     - Cập nhật đồng bộ cấu trúc hình học và đệm dọc cho `VideoCardShimmer`, `LessonCardShimmer`, `ReadingCardShimmer` và bộ khung xương `ExamHubSkeleton` trong [`features/exam-prep/components/ExamPrepSkeleton.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/exam-prep/components/ExamPrepSkeleton.tsx), triệt tiêu 100% hiện tượng giật cục Layout Shift.
+
+3. **Kiểm Thử Kỹ Thuật**:
+   - `npx tsc --noEmit`: **0 lỗi biên dịch**.
+   - `npx vitest run __tests__/vietnamese_search_utils.test.ts` & `__tests__/reading_catalog_cache_swr.test.ts`: **26/26 tests PASS 100%**.
+
+### 89. Tái Cấu Trúc Toàn Diện Thanh Lọc & Tìm Kiếm Đề Thi (`ExamFilterToolbar.tsx` - Bố Cục 2 Tầng Phân Cấp Chuẩn Agency & Triệt Tiêu 100% Lỗi Cắt Chữ)
+
+1. **Khắc Phục Dứt Điểm Lỗi Chèn Ép & Cắt Chữ Layout**:
+   - **Vấn đề cũ**: Dải category tabs dài ngoằng và ô tìm kiếm (`w-64`) bị nhồi nhét chung trên 1 dòng `flex-row`. Trên màn hình laptop/tablet hoặc khi mở thanh sidebar, dải tabs bị co hẹp, tab cuối cùng ("TOEIC 4 Kỹ Năng") đâm sầm vào ô search và bị chém đứt nửa chữ, dải tabs bị biến dạng thành thanh cuộn cụt lủn gây cảm giác chắp vá, vỡ layout.
+   - **Giải pháp 2 Tầng Phân Cấp Thị Giác (2-Tier Spatial Hierarchy)**:
+     - **Tầng 1 (Category Navigation Hub)**: Dải danh mục bộ đề chiếm trọn 100% chiều ngang hàng trên (`w-full`), độc lập hoàn toàn khỏi ô tìm kiếm. Toàn bộ 5 tabs (`Tất cả bộ đề`, `TOEIC Nghe & Đọc`, `IELTS Academic`, `TOEIC Nói & Viết`, `TOEIC 4 Kỹ Năng`) được hiển thị rộng rãi, không còn bất kỳ hiện tượng bị cắt chữ.
+     - **Tích Hợp Gradient Fade Mask & Smooth Chevron Controls**: Tự động phát hiện khả năng cuộn (`canScrollLeft`, `canScrollRight`), kích hoạt lớp gradient mờ êm dịu ở 2 mép biên khi tràn màn hình mobile kèm nút cuộn nhanh, triệt tiêu 100% hiện tượng hard clipping.
+     - **Dải Tabs Tối Giản, Tinh Tế (Clean Minimalist Pills)**: Loại bỏ hoàn toàn các khối số lượng đếm (badge 39, 11, 20...) để các tab giữ được phong cách phẳng, thanh lịch, gọn gàng và không gây nhiễu thị giác.
+     - **Tầng 2 (Search & Actions Dock)**: Nằm ngay ngắn ở hàng dưới, kết nối hài hòa:
+       - **Ô tìm kiếm thông minh**: Độ cao chuẩn agency `h-9.5`, bo góc `rounded-xl`, mở rộng linh hoạt `sm:max-w-md lg:max-w-lg`, icon `Search` sắc nét, placeholder chỉ dẫn rõ ràng theo Rule 12 (`Tìm theo tên đề thi, mã đề (ví dụ: TOEIC 2026, IELTS 4K, ETS)...`), tích hợp nút `X` xóa nhanh từ khóa.
+       - **Bộ chỉ báo số lượng kết quả (Counter Feedback)**: Hiển thị trạng thái lọc tức thì (`Khớp X/Y đề` hoặc `X đề thi khả dụng`).
+       - **Nút Làm mới (Refresh Button)**: Chuẩn hóa `h-9.5 px-3.5 rounded-xl`, micro-interaction icon xoay mượt mà khi người dùng làm mới dữ liệu.
+     - **Đường viền ngăn cách phân tầng**: `border-b border-slate-200/80 dark:border-slate-800` tạo khoảng thở hoàn mỹ trước khi vào lưới danh sách bài thi.
+2. **Đồng Bộ Hóa Khung Xương Tải Mẫu (ExamPrepSkeleton)**:
+   - Cập nhật đồng bộ cấu trúc 2 tầng tương ứng trong [`features/exam-prep/components/ExamPrepSkeleton.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/exam-prep/components/ExamPrepSkeleton.tsx), đảm bảo 0px layout shift.
+
+### 90. Chuẩn Hóa UI/UX Khối Tạo Đề Thi Gemini AI (`ExamConfiguratorBanner.tsx` - Triệt Tiêu Icon Sét, Đồng Bộ Màu Sắc & Hiệu Ứng Animation Mượt Mà)
+
+1. **Loại Bỏ Hoàn Toàn Icon Sét & Chuẩn Hóa Nhận Diện**:
+   - Xóa bỏ triệt để ký tự/icon sét `⚡` ở footer thông báo, thay thế bằng chỉ báo trạng thái tinh tế dot xanh ngọc (`w-1.5 h-1.5 rounded-full bg-emerald-500`).
+   - Thay thế icon sao vàng gắt `Sparkles text-amber-300 fill-amber-300` trên nút header bằng biểu tượng quyền trượng ma thuật AI thanh lịch [`Wand2`](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/study/exam-prep/page.tsx) (`w-3.5 h-3.5`), chuyển đổi mượt mà sang icon đóng `X` khi mở studio.
+2. **Kích Thước Icon, Cỡ Chữ & Màu Sắc Hài Hòa (Chuẩn 60-30-10 & Agency Tier)**:
+   - **Kích thước Icon đồng bộ**: Chuẩn hóa toàn bộ icon trong form (`Wand2`, `BookOpen`, `Award`, `FileText`, `X`, `RefreshCw`) về cỡ `w-3.5 h-3.5` đến `w-4 h-4`, tỷ lệ cân đối hoàn hảo trong hộp chứa `w-8 h-8 rounded-xl`.
+   - **Hệ thống Font chữ & Cỡ chữ chuẩn mực**: Tiêu đề H4 `text-xs sm:text-sm font-bold font-display`, phụ đề `text-[11px] text-slate-500`, nhãn input `text-xs font-bold text-slate-700 dark:text-slate-300`.
+   - **Màu sắc ngữ nghĩa**: Thay thế các màu sắc lạc tông (rose trên icon câu hỏi) sang xanh hoàng gia `#0059bb`, huy hiệu `AI Adaptive Engine` nền xanh nhạt viền mảnh kèm dot nhịp thở pulse sang trọng.
+3. **Hiệu Ứng Animation Mở/Đóng Mượt Mà (Framer Motion AnimatePresence)**:
+   - Khắc phục lỗi `if (configMode !== "AI_GEN") return null` từng vô hiệu hóa vòng đời exit của Framer Motion.
+   - Bọc toàn bộ banner bằng `<AnimatePresence initial={false}>` với đường cong nội suy chuyển động cao cấp `ease: [0.16, 1, 0.3, 1]` (duration: 380ms khi mở, 280ms khi đóng), tạo cảm giác trượt mở êm ái, liền mạch tuyệt đối không giật nảy layout.
+
+### 91. Tái Cấu Trúc Toàn Diện Lộ Trình Học Cá Nhân Hóa (`/roadmap` - Trục Dòng Thời Gian Milestone, Minimalist Bento Banner & Chuẩn Hóa Wadhah Aloui)
+
+1. **Chuẩn Hóa Khối Hero Banner Minimalist (Bảo Toàn Quy Tắc 60-30-10)**:
+   - Loại bỏ hoàn toàn khối banner xanh đặc ngầu và bóng neon chói lọi; chuyển sang kiến trúc **Minimalist Bento Banner** (`bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800`), đồng bộ 100% với Reading Hub, Exam Prep và Kho Từ Vựng.
+   - Hộp nhận diện icon xanh hoàng gia `#0059bb`, tiêu đề H1 sắc nét, cụm thông số tiến độ lộ trình gọn gàng (`overallProgress%`) kèm nút "Đổi Mục Tiêu" thanh lịch.
+2. **Thiết Lập Trục Dòng Thời Gian Lộ Trình (Milestone Pathway Connector)**:
+   - Bổ sung **đường kẻ dọc mờ liên kết các node ngày học** trong [`PhaseRoadmapCard.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/roadmap/components/pathway/PhaseRoadmapCard.tsx), biến danh sách bài học rời rạc thành một hành trình học tập trực quan (Day 1 -> Day 2 -> Day 3).
+   - Thiết kế hệ thống mốc tiến trình rõ nét: Node hoàn thành (chấm xanh ngọc emerald), Node đang chọn (vòng tròn ring `#0059bb` lõi chấm tròn), Node chưa làm (chấm số ngày tinh tế).
+   - Bổ sung thanh tiến độ chặng trực quan: Hiển thị tỷ lệ `%` và số bài đã xong trên tổng số bài chặng.
+3. **Chuẩn Hóa Thẻ Bài Học ([`LessonTaskItem.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/roadmap/components/pathway/LessonTaskItem.tsx)) & Cột Inspector ([`LessonInspectorCard.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/roadmap/components/pathway/LessonInspectorCard.tsx))**:
+   - Triệt tiêu màu xanh lá phủ kín card khi hoàn thành, chuyển sang phong cách sạch sẽ với đường viền mờ và huy hiệu "Đã xong" tinh gọn.
+   - Chuẩn hóa nút CTA `"Luyện Ngay"` về chiều cao `h-8` đồng bộ hệ thống.
+   - Thay thế các icon sét `<Zap>` và sao vàng bằng `<Play className="w-3.5 h-3.5 fill-current" />` và `<Wand2 className="w-3.5 h-3.5" />`.
+   - Nâng cấp cột Inspector với hộp mẹo làm bài Callout `Lightbulb` và trạng thái trống thân thiện có chỉ dẫn.
+4. **Nâng Cấp Form Thiết Lập Mục Tiêu ([`GoalSelectionForm.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/roadmap/components/goal-setting/GoalSelectionForm.tsx))**:
+   - **Xóa bỏ hoàn toàn Emoji Unicode (`📊`, `🎓`)**: Thay thế bằng các icon Lucide SVG cao cấp (`Award`, `GraduationCap`).
+   - **Áp dụng Quy tắc 14 Wadhah Aloui**: Thay dropdown `<select>` trình độ hiện tại bằng **Segmented Control 3 nút bấm trực quan** (`A1 Mất Gốc`, `A2 Sơ Cấp`, `B1 Trung Cấp`).
+   - **Áp dụng Quy tắc 4 Wadhah Aloui**: Tích hợp **Interactive Slider** điều chỉnh thời gian cam kết học tập (2 – 15 giờ/tuần) kèm ước tính số phút học mỗi ngày theo thời gian thực.
+   - Đồng bộ màu sắc 3 card mục tiêu (Luyện thi, Công sở, Du lịch) về tông màu slate/blue thống nhất.
+
+### 92. Chuẩn Hóa Lộ Trình Chặng Dạng Lướt (Phase Carousel Swiper) & Khối Chi Tiết Cố Định (Fixed Companion Inspector)
+
+1. **Khối Các Chặng Lộ Trình Dạng Lướt ([`PhaseCarouselSwiper.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/roadmap/components/pathway/PhaseCarouselSwiper.tsx))**:
+   - Chuyển thanh điều hướng chặng sang dạng **Single-line Controller Strip** (cao ~38px, giảm 40% height, `py-1.5 px-2.5 sm:py-2`):
+     - **Lược bỏ khối 3 tab tĩnh:** Xóa bỏ hoàn toàn cụm nút tab `[• Chặng 1] [• Chặng 2] [• Chặng 3]`, dòng chữ hướng dẫn thừa thãi và dải chấm tròn Dots Indicator dưới đáy.
+     - **Chuyển Chặng Nhảy Số Năng Động & Cỡ Chữ Rõ Nét:** Thay thế bằng nhãn chữ **`Chặng {X}`** thuần túy không viền hộp, cỡ chữ tăng lên rõ nét (`text-sm sm:text-base font-bold text-[#0059bb] dark:text-sky-400 font-display`) đặt cạnh 2 icon mũi tên `<` `>`. Khi người dùng bấm icon chuyển chặng, số chặng tự động nhảy tức thì (`Chặng 1` ➔ `Chặng 2` ➔ `Chặng 3`) song song với hiệu ứng lướt mượt mà của thẻ chặng bài học.
+2. **Khối Chi Tiết Bài Học Bên Cạnh Cố Định Tuyệt Đối ([`LessonInspectorCard.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/roadmap/components/pathway/LessonInspectorCard.tsx))**:
+   - Giảm hơn 30% chiều cao (từ ~480px xuống ~330px) giúp cân bằng hoàn hảo với cột chặng bên trái:
+     - **Lược bỏ hoàn toàn Hộp màu vàng `Phần thưởng bài học: +20 XP`**: Loại bỏ sự trùng lặp 100% với thông số XP đã được tích hợp ngay trên nút CTA chính `Bắt Đầu Luyện Tập (+20 XP)`, tiết kiệm trực tiếp 45px chiều cao.
+     - **Chuẩn hóa chữ Title Case:** Thay thế All-Caps khô cứng thành `Chi Tiết Bài Học` và `Mẹo làm bài ăn điểm`.
+     - **Tối ưu Padding & Spacing:** Thu gọn padding card xuống `p-3.5 sm:p-4`, padding hộp mẹo ăn điểm xuống `p-2.5`, và chuẩn hóa nút CTA chiều cao `h-9.5`.
+3. **Bộ Kiểm Thử Chuẩn Mực ([`__tests__/roadmap_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/roadmap_standards.test.ts))**:
+   - Bổ sung test case kiểm tra tính sẵn sàng và đồng bộ của `PhaseCarouselSwiper`, `LessonInspectorCard` và cấu trúc layout lướt chặng. 100% Pass.
+4. **Tinh Giản Hero Banner Thành Compact Action Strip ([`RoadmapHeroBanner.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/roadmap/components/shared/RoadmapHeroBanner.tsx))**:
+   - Giảm hơn 58% chiều cao (từ ~125px xuống ~50px) bằng cách gộp bố cục về 1 hàng ngang duy nhất (`py-2.5 sm:py-3`).
+   - Lược bỏ hoàn toàn: Đoạn văn mẫu boilerplate, text mờ `• AI Personalized Roadmap`, badge mục tiêu trùng lặp và khung hộp tiến độ cồng kềnh.
+   - Chuyển tiến độ sang **Inline Progress Pill** mảnh mai và chuẩn hóa nút *"Đổi Mục Tiêu"* chiều cao `h-8` thanh lịch.
+5. **Xóa Khối Badge Xanh, Đổi Màu & Tăng Cỡ Chữ "Chặng 1" ([`PhaseRoadmapCard.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/roadmap/components/pathway/PhaseRoadmapCard.tsx))**:
+   - Xóa bỏ hoàn toàn khối badge nền xanh đặc cồng kềnh `[ CHẶNG 1 ]` nằm trước tiêu đề bài học.
+   - Bóc tách tiền tố `"Chặng X"` và đổi sang màu xanh thương hiệu nổi bật, tăng cỡ chữ (`text-base sm:text-lg font-extrabold text-[#0059bb] dark:text-sky-400 mr-1.5`), nối liền với phần nội dung tiêu đề sắc nét, tạo trải nghiệm đọc liền mạch, rõ ràng và tinh tế.
+6. **Tối Ưu Cột Inspector Cố Định & Cân Bằng 1:1 Tuyệt Đối ([`LessonInspectorCard.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/roadmap/components/pathway/LessonInspectorCard.tsx))**:
+   - Tính toán chiều cao tối ưu gói gọn trong **2 Card Bento Tinh Gọn (Tổng cao ~430px)**:
+     - **Card 1: Chi Tiết Bài Học (~235px):** Tiêu đề, mô tả, mẹo ăn điểm AI và nút CTA *"Bắt Đầu Luyện Tập (+XP)"*.
+     - **Card 2: Trợ Lý AI Mentor Đồng Hành (~185px):** Lấp đầy hoàn toàn khoảng trắng bên dưới, gồm 3 chip thông số bài (Thời lượng 15p, Độ khó Vừa sức, Kỹ năng), hộp gợi ý bẫy đề thi từ Gemini AI và nút 1-click *"Hỏi Gemini AI Về Bài Này"*.
+     - **Chuẩn Cố Định Không Cuộn Lướt:** Tổng chiều cao 430px cân bằng 1:1 hoàn hảo với chiều cao cột chặng bên trái (~450px), vừa vặn 100% trong viewport cố định (`sticky top-6 self-start`), hoàn toàn không để trống và không cần cuộn/lướt ở cột phải.
+7. **Chuẩn Hóa Hệ Thống Icon & Tái Cấu Trúc Khối "Đã Xong" Đồng Bộ Toàn Diện Phong Cách Web**:
+   - **Tái Cấu Trúc Khối Bài Học & Triệt Tiêu Checkbox Trùng Lặp ([`LessonTaskItem.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/roadmap/components/pathway/LessonTaskItem.tsx) & [`PhaseRoadmapCard.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/roadmap/components/pathway/PhaseRoadmapCard.tsx))**:
+     - *Triệt tiêu Double-Check & Lệch Trục Y:* Xóa bỏ hoàn toàn checkbox thứ hai bên trong thân thẻ bài học. Chuyển toàn bộ quyền toggle hoàn thành vào **Milestone Node duy nhất trên Timeline** (`w-6 h-6 rounded-full bg-emerald-500` + `Check stroke-[3]`), loại bỏ 100% hiện tượng 2 dấu tích đặt cạnh nhau lệch trục tọa độ Y.
+     - *Giải phóng không gian Tiêu đề:* Bỏ các khối cồng kềnh chiếm chỗ, cho phép tiêu đề bài học hiển thị trọn vẹn (`line-clamp-1 sm:line-clamp-2`), triệt tiêu hoàn toàn lỗi cắt cụt chữ vô lý (`Mô Tả...`, `Ch...`).
+     - *Phân cấp Action Launcher chuẩn mực (Rule 18 & 20):*
+       - Khi bài đã hoàn thành: Chỉ hiển thị **DUY NHẤT 1 NÚT ÔN LẠI TINH GỌN** (`↺ Ôn Lại` `RotateCcw stroke-[2.2]`), loại bỏ khối badge giả nút `[ ✓ Đã hoàn thành ]` gây hiểu nhầm và cồng kềnh.
+       - Khi bài chưa hoàn thành: Nút `▶ Luyện Ngay` mang màu xanh hoàng gia thương hiệu **`#0059bb`** chữ trắng nổi bật, tạo động lực rõ rệt cho học viên tiếp tục lộ trình.
+   - **Đồng Bộ Icon Kỹ Năng Theo Chuẩn Sidebar ([`RoadmapSkillBadge.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/roadmap/components/shared/RoadmapSkillBadge.tsx))**:
+     - Thay icon khiên bảo mật lạc quẻ `ShieldCheck` bằng `BookMarked` (chuẩn Ngữ Pháp AI trong Sidebar) và `BookText` (chuẩn Đọc Hiểu trong Sidebar), nâng stroke lên `stroke-[2.2]`.
+   - **Chuẩn Hóa Icon Lộ Trình & Điều Hướng ([`PhaseCarouselSwiper.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/roadmap/components/pathway/PhaseCarouselSwiper.tsx))**:
+     - Thay `Layers` (icon tầng/lớp) bằng `Compass` (biểu tượng xuyên suốt của Lộ Trình trong AppTopHeader và Sidebar). Nâng cấp `ChevronLeft/Right` lên nét đậm `stroke-[2.5]` sắc sảo.
+   - **Phân Định Rõ Ràng Biểu Tượng Bài Học & AI ([`LessonInspectorCard.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/roadmap/components/pathway/LessonInspectorCard.tsx))**:
+     - Thay `Compass` ở header Chi Tiết Bài Học thành `BookOpen stroke-[2.2]` (tránh trùng lặp với Lộ Trình).
+     - Thay `Sparkles` ở header AI Mentor thành `Bot stroke-[2.2]` (chuẩn Robot AI Tutor trong Header). Thêm icon sắc nét cho 3 chip thông số (`Clock`, `Target`, `Sparkles`).
+   - **Tăng Nét Nhận Diện Tiến Độ Chặng ([`PhaseRoadmapCard.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/roadmap/components/pathway/PhaseRoadmapCard.tsx))**:
+     - Bổ sung `TrendingUp stroke-[2.2]` trước nhãn tiến độ chặng và nâng stroke rương phần thưởng `Gift stroke-[2.2]`.
+8. **Giải Quyết Triệt Để Tình Trạng Quota Cạn Kiệt & Tối Ưu Hóa AI Rate Limiting**:
+   - **Xóa Bỏ Vòng Lặp Nhân 4x Quota Storm ([`chat/route.ts`](file:///e:/XP%20English%20%20XP%20Voca/app/api/ai/chat/route.ts) & [`tutor/route.ts`](file:///e:/XP%20English%20%20XP%20Voca/app/api/ai/tutor/route.ts))**:
+     - Loại bỏ model không tồn tại `gemini-2.5-flash` và model không chuẩn làm lãng phí request. Chỉ sử dụng 2 model chuẩn mực chính thức: `gemini-2.0-flash` và `gemini-1.5-flash`.
+     - Ngắt sớm ngay lập tức (`break`) khi nhận mã HTTP 429 (`RESOURCE_EXHAUSTED`) từ Google API, chấm dứt hiện tượng cố thử 4 lần liên tiếp nhân 4 số lượng request làm cạn kiệt toàn bộ token/quota.
+   - **Tách Biệt Rate Limit Khách & Nâng Hạn Mức Học Viên**:
+     - Phân tách key rate limit của khách theo địa chỉ IP riêng (`ai_chat_guest_${clientIp}`), tránh tình trạng toàn bộ khách học dùng chung 1 bucket `"guest_ai_user"` dẫn đến bị nghẽn 429 tập thể.
+     - Tăng hạn mức xử lý cho tài khoản học viên đăng nhập lên **60 req/phút**, cho phép học viên trao đổi liên tục với AI Mentor/Gia sư mà không bị gián đoạn.
 
 ---
 

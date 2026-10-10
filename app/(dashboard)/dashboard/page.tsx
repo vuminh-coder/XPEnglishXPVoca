@@ -49,6 +49,13 @@ const DashboardAiTutorWidget = dynamic(
 );
 import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAnimation";
 
+import {
+  useDashboardStore,
+  getInitialDashboardOverviewProbe,
+  getInitialDashboardFiltersProbe,
+  getInitialLeaderboardProbe,
+} from "@/stores/dashboardStore";
+
 export default function DashboardPage() {
   const { user: authUser, awardXp, awardCoins } = useAuthStore();
   const storeUser = useUserStore((s) => s.user);
@@ -62,25 +69,89 @@ export default function DashboardPage() {
   const [aiAnswer, setAiAnswer] = useState<string | null>(null);
   const [isAiLoading, setIsAiLoading] = useState(false);
 
-  // Database-driven States initialized deterministically for zero hydration mismatch
-  const [currentTask, setCurrentTask] = useState<string | null>(null);
-  const [isLoadingPlan, setIsLoadingPlan] = useState<boolean>(true);
-  const [showAnnouncement, setShowAnnouncement] = useState(true);
-  const [activeSkillTab, setActiveSkillTab] = useState<SkillType>("dictation");
-  const [selectedDayIndex, setSelectedDayIndex] = useState<number | null>(4);
-  const [leaderboardTab, setLeaderboardTab] = useState<"week" | "month">("week");
-  const [leaderboardCriterion, setLeaderboardCriterion] = useState<"time" | "xp">("time");
+  // 1. Frame 0 Probes for 0ms Instant Render without Skeleton flash
+  const [initialFilters] = useState(() => getInitialDashboardFiltersProbe());
+  const [initialOverviewProbe] = useState(() =>
+    getInitialDashboardOverviewProbe(authUser?.id || storeUser?.id)
+  );
+  const [initialLbProbe] = useState(() =>
+    getInitialLeaderboardProbe(initialFilters.leaderboardTab, initialFilters.leaderboardCriterion)
+  );
 
-  const [isCheckedInToday, setIsCheckedInToday] = useState<boolean>(false);
-  const [activeDaysInWeek, setActiveDaysInWeek] = useState<string[]>([]);
-  const [isLoadingCheckin, setIsLoadingCheckin] = useState<boolean>(true);
+  // Database-driven States initialized deterministically for zero hydration mismatch
+  const [currentTask, setCurrentTask] = useState<string | null>(
+    () => initialOverviewProbe.overview?.studyPlan?.todayTask || null
+  );
+  const [isLoadingPlan, setIsLoadingPlan] = useState<boolean>(
+    () => !initialOverviewProbe.overview?.studyPlan
+  );
+  const [showAnnouncement, setShowAnnouncement] = useState(
+    () => initialFilters.showAnnouncement
+  );
+  const [activeSkillTab, setActiveSkillTabState] = useState<SkillType>(
+    () => initialFilters.activeSkillTab
+  );
+  const [selectedDayIndex, setSelectedDayIndexState] = useState<number | null>(
+    () => initialFilters.selectedDayIndex
+  );
+  const [leaderboardTab, setLeaderboardTabState] = useState<"week" | "month">(
+    () => initialFilters.leaderboardTab
+  );
+  const [leaderboardCriterion, setLeaderboardCriterionState] = useState<"time" | "xp">(
+    () => initialFilters.leaderboardCriterion
+  );
+
+  const [isCheckedInToday, setIsCheckedInToday] = useState<boolean>(
+    () => Boolean(initialOverviewProbe.overview?.checkin?.isCheckedInToday)
+  );
+  const [activeDaysInWeek, setActiveDaysInWeek] = useState<string[]>(
+    () => initialOverviewProbe.overview?.checkin?.activeDaysInWeek || []
+  );
+  const [isLoadingCheckin, setIsLoadingCheckin] = useState<boolean>(
+    () => !initialOverviewProbe.overview?.checkin
+  );
   const [isCheckingIn, setIsCheckingIn] = useState(false);
-  const [serverChallenges, setServerChallenges] = useState<any[]>([]);
-  const [isLoadingChallenges, setIsLoadingChallenges] = useState<boolean>(true);
+  const [serverChallenges, setServerChallenges] = useState<any[]>(
+    () => initialOverviewProbe.overview?.challenges || []
+  );
+  const [isLoadingChallenges, setIsLoadingChallenges] = useState<boolean>(
+    () => !(initialOverviewProbe.overview?.challenges && initialOverviewProbe.overview.challenges.length > 0)
+  );
   const [claimingChallengeId, setClaimingChallengeId] = useState<string | null>(null);
   const [chartDataVersion, setChartDataVersion] = useState(0);
   const [isLoadingChart, setIsLoadingChart] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+
+  // Filter setters synced with useDashboardStore
+  const setActiveSkillTab = (tab: SkillType) => {
+    setActiveSkillTabState(tab);
+    useDashboardStore.getState().setFilter({ activeSkillTab: tab });
+  };
+
+  const setSelectedDayIndex: React.Dispatch<React.SetStateAction<number | null>> = (
+    action: React.SetStateAction<number | null>
+  ) => {
+    setSelectedDayIndexState((prev) => {
+      const next = typeof action === "function" ? action(prev) : action;
+      useDashboardStore.getState().setFilter({ selectedDayIndex: next });
+      return next;
+    });
+  };
+
+  const setLeaderboardTab = (tab: "week" | "month") => {
+    setLeaderboardTabState(tab);
+    useDashboardStore.getState().setFilter({ leaderboardTab: tab });
+  };
+
+  const setLeaderboardCriterion = (criterion: "time" | "xp") => {
+    setLeaderboardCriterionState(criterion);
+    useDashboardStore.getState().setFilter({ leaderboardCriterion: criterion });
+  };
+
+  const handleCloseAnnouncement = () => {
+    setShowAnnouncement(false);
+    useDashboardStore.getState().setFilter({ showAnnouncement: false });
+  };
 
   /* eslint-disable react-hooks/set-state-in-effect -- Client mount detection */
   useEffect(() => {
@@ -168,8 +239,9 @@ export default function DashboardPage() {
             }
           }
 
-          // E. Update instant SWR cache in LocalStorage
+          // E. Update instant SWR cache in LocalStorage & useDashboardStore
           try {
+            useDashboardStore.getState().setOverview(data);
             localStorage.setItem(overviewCacheKey, JSON.stringify(data));
           } catch {
             // ignore storage quota error
@@ -195,15 +267,23 @@ export default function DashboardPage() {
   }, [initChallenges, user?.id]);
   /* eslint-enable react-hooks/set-state-in-effect */
 
-  const [leaderboardData, setLeaderboardData] = useState<any[]>([]);
-  const [isLoadingLeaderboard, setIsLoadingLeaderboard] = useState<boolean>(true);
+  const [leaderboardData, setLeaderboardData] = useState<any[]>(() => initialLbProbe.data);
+  const [isLoadingLeaderboard, setIsLoadingLeaderboard] = useState<boolean>(
+    () => !initialLbProbe.hasData
+  );
 
   /* eslint-disable react-hooks/set-state-in-effect -- SWR instant leaderboard cache hydration */
   useEffect(() => {
     let isMounted = true;
+    const lbKey = `${leaderboardTab}_${leaderboardCriterion}`;
     const lbCacheKey = `xp_voca_lb_${leaderboardTab}_${leaderboardCriterion}`;
 
-    if (typeof window !== "undefined") {
+    // Frame 0 Fast sync from RAM cache on filter change
+    const cachedLb = useDashboardStore.getState().leaderboardCache[lbKey];
+    if (cachedLb && Array.isArray(cachedLb.data) && cachedLb.data.length > 0) {
+      setLeaderboardData(cachedLb.data);
+      setIsLoadingLeaderboard(false);
+    } else if (typeof window !== "undefined") {
       try {
         const raw = sessionStorage.getItem(lbCacheKey);
         if (raw) {
@@ -211,6 +291,7 @@ export default function DashboardPage() {
           if (Array.isArray(cached) && cached.length > 0) {
             setLeaderboardData(cached);
             setIsLoadingLeaderboard(false);
+            useDashboardStore.getState().setLeaderboardData(lbKey, cached);
           }
         }
       } catch {}
@@ -222,6 +303,7 @@ export default function DashboardPage() {
         const json = await res.json();
         if (json.success && json.data && isMounted) {
           setLeaderboardData(json.data);
+          useDashboardStore.getState().setLeaderboardData(lbKey, json.data);
           try {
             sessionStorage.setItem(lbCacheKey, JSON.stringify(json.data));
           } catch {}
@@ -421,9 +503,14 @@ export default function DashboardPage() {
     awardXp(xp);
     awardCoins(coins);
     useUserStore.getState().addPracticeTime(5);
-    setServerChallenges((prev) =>
-      prev.map((c) => (c.id === id ? { ...c, isClaimed: true } : c))
-    );
+    setServerChallenges((prev) => {
+      const updated = prev.map((c) => (c.id === id ? { ...c, isClaimed: true } : c));
+      const currentOverview = useDashboardStore.getState().overview;
+      if (currentOverview) {
+        useDashboardStore.getState().setOverview({ ...currentOverview, challenges: updated });
+      }
+      return updated;
+    });
     setClaimedList((prev) => (prev.includes(id) ? prev : [...prev, id]));
 
     addToast({
@@ -485,6 +572,18 @@ export default function DashboardPage() {
 
     // Update local cache optimistically
     try {
+      const currentOverview = useDashboardStore.getState().overview;
+      if (currentOverview?.checkin) {
+        useDashboardStore.getState().setOverview({
+          ...currentOverview,
+          checkin: {
+            ...currentOverview.checkin,
+            isCheckedInToday: true,
+            activeDaysInWeek: Array.from(new Set([...(currentOverview.checkin.activeDaysInWeek || []), todayStr])),
+            currentStreak: (currentOverview.checkin.currentStreak || 1) + 1,
+          },
+        });
+      }
       const cacheKey = `xp_voca_dashboard_overview_${user?.id || "guest"}`;
       const raw = localStorage.getItem(cacheKey);
       if (raw) {
@@ -679,7 +778,7 @@ export default function DashboardPage() {
                 </Link>
                 <button
                   type="button"
-                  onClick={() => setShowAnnouncement(false)}
+                  onClick={handleCloseAnnouncement}
                   className="w-8 h-8 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-all cursor-pointer"
                   title="Đóng thông báo"
                 >

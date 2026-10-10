@@ -2,7 +2,7 @@ import { ExamPaper, ExamQuestion } from "./types";
 
 export const ieltsGeneral4k01Paper: ExamPaper = {
   id: "ielts_general_4k_01",
-  title: "IELTS General Training Official Test #01",
+  title: "IELTS General Training Official Test 01",
   type: "IELTS_FULL",
   level: "Advanced",
   timeLimitMinutes: 175,

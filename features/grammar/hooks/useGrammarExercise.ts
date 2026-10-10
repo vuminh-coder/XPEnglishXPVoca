@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { GrammarExercise, GrammarLevel } from "../types/grammarTypes";
 import { useUserStore, recordSkillPractice } from "@/stores/userStore";
 import { useNotificationStore } from "@/stores/notificationStore";
@@ -23,13 +23,57 @@ export function useGrammarExercise({
   const { addToast } = useNotificationStore();
   const { recordQuizResult } = useGrammarProgressStore();
 
-  const [exercises, setExercises] = useState<GrammarExercise[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [answers, setAnswers] = useState<Record<number, string>>({});
-  const [checkedQuestions, setCheckedQuestions] = useState<Record<number, boolean>>({});
+  // Frame 0 Synchronous Cache Probe from Zustand RAM Store
+  const initialSession = useMemo(() => {
+    if (!topicId) return null;
+    return useGrammarProgressStore.getState().getExerciseSession(topicId);
+  }, [topicId]);
+
+  const [exercises, setExercises] = useState<GrammarExercise[]>(() => initialSession?.exercises || []);
+  const [currentIndex, setCurrentIndex] = useState<number>(() => initialSession?.currentIndex || 0);
+  const [answers, setAnswers] = useState<Record<number, string>>(() => initialSession?.answers || {});
+  const [checkedQuestions, setCheckedQuestions] = useState<Record<number, boolean>>(() => initialSession?.checkedQuestions || {});
   const [loading, setLoading] = useState(false);
-  const [showResults, setShowResults] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [showResults, setShowResults] = useState<boolean>(() => Boolean(initialSession?.showResults));
+  const [submitted, setSubmitted] = useState<boolean>(() => Boolean(initialSession?.submitted));
+
+  // Switch session if topicId changes dynamically
+  const activeTopicIdRef = useRef(topicId);
+  useEffect(() => {
+    if (activeTopicIdRef.current !== topicId) {
+      activeTopicIdRef.current = topicId;
+      const s = useGrammarProgressStore.getState().getExerciseSession(topicId);
+      if (s) {
+        setExercises(s.exercises || []);
+        setCurrentIndex(s.currentIndex || 0);
+        setAnswers(s.answers || {});
+        setCheckedQuestions(s.checkedQuestions || {});
+        setShowResults(Boolean(s.showResults));
+        setSubmitted(Boolean(s.submitted));
+      } else {
+        setExercises([]);
+        setCurrentIndex(0);
+        setAnswers({});
+        setCheckedQuestions({});
+        setShowResults(false);
+        setSubmitted(false);
+      }
+    }
+  }, [topicId]);
+
+  // Synchronize exercise state updates to Zustand RAM store
+  useEffect(() => {
+    if (topicId && exercises.length > 0) {
+      useGrammarProgressStore.getState().saveExerciseSession(topicId, {
+        exercises,
+        currentIndex,
+        answers,
+        checkedQuestions,
+        showResults,
+        submitted,
+      });
+    }
+  }, [topicId, exercises, currentIndex, answers, checkedQuestions, showResults, submitted]);
 
   const generateExercises = useCallback(async () => {
     if (!topicId) return;
@@ -40,6 +84,7 @@ export function useGrammarExercise({
     setCheckedQuestions({});
     setShowResults(false);
     setSubmitted(false);
+    useGrammarProgressStore.getState().clearExerciseSession(topicId);
 
     try {
       const res = await fetch("/api/ai/grammar", {
@@ -53,6 +98,14 @@ export function useGrammarExercise({
 
       if (data.exercises && data.exercises.length > 0) {
         setExercises(data.exercises);
+        useGrammarProgressStore.getState().saveExerciseSession(topicId, {
+          exercises: data.exercises,
+          currentIndex: 0,
+          answers: {},
+          checkedQuestions: {},
+          showResults: false,
+          submitted: false,
+        });
         if (onSuccessGenerate) {
           onSuccessGenerate();
         }
@@ -141,7 +194,10 @@ export function useGrammarExercise({
     setCheckedQuestions({});
     setShowResults(false);
     setSubmitted(false);
-  }, []);
+    if (topicId) {
+      useGrammarProgressStore.getState().clearExerciseSession(topicId);
+    }
+  }, [topicId]);
 
   // Keyboard navigation for Practice mode
   useEffect(() => {

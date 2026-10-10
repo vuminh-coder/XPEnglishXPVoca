@@ -1,6 +1,34 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { GrammarTopicStatus } from "@/features/grammar/types/grammarTypes";
+import {
+  GrammarTopicStatus,
+  GrammarExercise,
+  GrammarChatMessage,
+  GrammarLevel,
+} from "@/features/grammar/types/grammarTypes";
+
+export type GrammarFilterLevel = "all" | GrammarLevel;
+
+export interface GrammarCatalogFilters {
+  activeLevel: GrammarFilterLevel;
+  searchQuery: string;
+}
+
+export interface GrammarExerciseSession {
+  exercises: GrammarExercise[];
+  currentIndex: number;
+  answers: Record<number, string>;
+  checkedQuestions: Record<number, boolean>;
+  submitted: boolean;
+  showResults: boolean;
+  lastUpdated?: number;
+}
+
+export interface GrammarAiChatSession {
+  messages: GrammarChatMessage[];
+  draftInput?: string;
+  lastUpdated?: number;
+}
 
 export interface GrammarQuizResultRecord {
   correct: number;
@@ -13,6 +41,29 @@ interface GrammarProgressState {
   completedTopicIds: string[];
   inProgressTopicIds: string[];
   quizScores: Record<string, GrammarQuizResultRecord>;
+
+  // Catalog filter state retention (Survives route transitions)
+  catalogFilters: GrammarCatalogFilters;
+  setActiveLevel: (level: GrammarFilterLevel) => void;
+  setSearchQuery: (query: string) => void;
+  resetCatalogFilters: () => void;
+
+  // Active topic tab workspace preservation ("lesson" | "practice")
+  topicWorkspaceTabs: Record<string, "lesson" | "practice">;
+  setTopicTab: (topicId: string, tab: "lesson" | "practice") => void;
+  getTopicTab: (topicId: string) => "lesson" | "practice";
+
+  // Topic Exercise State Retention (AI-generated exercises, current index, answers, submission status)
+  exerciseSessions: Record<string, GrammarExerciseSession>;
+  saveExerciseSession: (topicId: string, session: Partial<GrammarExerciseSession>) => void;
+  getExerciseSession: (topicId: string) => GrammarExerciseSession | null;
+  clearExerciseSession: (topicId: string) => void;
+
+  // Topic AI Chat State Retention (Chat messages & draft input)
+  aiChatSessions: Record<string, GrammarAiChatSession>;
+  saveAiChatSession: (topicId: string, session: Partial<GrammarAiChatSession>) => void;
+  getAiChatSession: (topicId: string) => GrammarAiChatSession | null;
+  clearAiChatSession: (topicId: string) => void;
 
   // Actions
   markTopicStarted: (topicId: string) => void;
@@ -32,6 +83,115 @@ export const useGrammarProgressStore = create<GrammarProgressState>()(
       completedTopicIds: [],
       inProgressTopicIds: [],
       quizScores: {},
+
+      // Catalog Filter State (Instant 0ms retention)
+      catalogFilters: {
+        activeLevel: "all",
+        searchQuery: "",
+      },
+      setActiveLevel: (level: GrammarFilterLevel) => {
+        set((state) => ({
+          catalogFilters: { ...state.catalogFilters, activeLevel: level },
+        }));
+      },
+      setSearchQuery: (query: string) => {
+        set((state) => ({
+          catalogFilters: { ...state.catalogFilters, searchQuery: query },
+        }));
+      },
+      resetCatalogFilters: () => {
+        set({
+          catalogFilters: { activeLevel: "all", searchQuery: "" },
+        });
+      },
+
+      // Active topic tab workspace preservation ("lesson" | "practice")
+      topicWorkspaceTabs: {},
+      setTopicTab: (topicId: string, tab: "lesson" | "practice") => {
+        if (!topicId) return;
+        set((state) => ({
+          topicWorkspaceTabs: {
+            ...state.topicWorkspaceTabs,
+            [topicId]: tab,
+          },
+        }));
+      },
+      getTopicTab: (topicId: string): "lesson" | "practice" => {
+        if (!topicId) return "lesson";
+        return get().topicWorkspaceTabs[topicId] || "lesson";
+      },
+
+      // Topic Exercise State Retention
+      exerciseSessions: {},
+      saveExerciseSession: (topicId: string, session: Partial<GrammarExerciseSession>) => {
+        if (!topicId) return;
+        set((state) => {
+          const prev = state.exerciseSessions[topicId] || {
+            exercises: [],
+            currentIndex: 0,
+            answers: {},
+            checkedQuestions: {},
+            submitted: false,
+            showResults: false,
+          };
+          return {
+            exerciseSessions: {
+              ...state.exerciseSessions,
+              [topicId]: {
+                ...prev,
+                ...session,
+                lastUpdated: Date.now(),
+              },
+            },
+          };
+        });
+      },
+      getExerciseSession: (topicId: string): GrammarExerciseSession | null => {
+        if (!topicId) return null;
+        return get().exerciseSessions[topicId] || null;
+      },
+      clearExerciseSession: (topicId: string) => {
+        if (!topicId) return;
+        set((state) => {
+          const next = { ...state.exerciseSessions };
+          delete next[topicId];
+          return { exerciseSessions: next };
+        });
+      },
+
+      // Topic AI Chat State Retention
+      aiChatSessions: {},
+      saveAiChatSession: (topicId: string, session: Partial<GrammarAiChatSession>) => {
+        if (!topicId) return;
+        set((state) => {
+          const prev = state.aiChatSessions[topicId] || {
+            messages: [],
+            draftInput: "",
+          };
+          return {
+            aiChatSessions: {
+              ...state.aiChatSessions,
+              [topicId]: {
+                ...prev,
+                ...session,
+                lastUpdated: Date.now(),
+              },
+            },
+          };
+        });
+      },
+      getAiChatSession: (topicId: string): GrammarAiChatSession | null => {
+        if (!topicId) return null;
+        return get().aiChatSessions[topicId] || null;
+      },
+      clearAiChatSession: (topicId: string) => {
+        if (!topicId) return;
+        set((state) => {
+          const next = { ...state.aiChatSessions };
+          delete next[topicId];
+          return { aiChatSessions: next };
+        });
+      },
 
       hydrateFromServer: (records) => {
         if (!Array.isArray(records)) return;

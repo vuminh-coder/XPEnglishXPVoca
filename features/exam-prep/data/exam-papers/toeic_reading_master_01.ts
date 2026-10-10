@@ -2,7 +2,7 @@ import { ExamPaper, ExamQuestion } from "./types";
 
 export const toeicReadingMaster01Paper: ExamPaper = {
   id: "toeic_reading_master_01",
-  title: "TOEIC Reading Master 100 #01",
+  title: "TOEIC Reading Master 100 01",
   type: "TOEIC_LR",
   level: "Advanced",
   timeLimitMinutes: 75,

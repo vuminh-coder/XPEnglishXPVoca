@@ -4,7 +4,7 @@ import { toeicSw202601Paper } from "./toeic_sw_2026_01";
 
 export const toeicFull4k01Paper: ExamPaper = {
   id: "toeic_full_4k_01",
-  title: "TOEIC Master Full Simulation #01",
+  title: "TOEIC Master Full Simulation 01",
   type: "TOEIC_FULL",
   level: "Advanced",
   timeLimitMinutes: 200,

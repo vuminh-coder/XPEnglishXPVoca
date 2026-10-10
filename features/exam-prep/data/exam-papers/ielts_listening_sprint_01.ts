@@ -2,7 +2,7 @@ import { ExamPaper, ExamQuestion } from "./types";
 
 export const ieltsListeningSprint01Paper: ExamPaper = {
   id: "ielts_listening_sprint_01",
-  title: "IELTS Listening Sprint Intensive #01",
+  title: "IELTS Listening Sprint Intensive 01",
   type: "IELTS_FULL",
   level: "Advanced",
   timeLimitMinutes: 35,

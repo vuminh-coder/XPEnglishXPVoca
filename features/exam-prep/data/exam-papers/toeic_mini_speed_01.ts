@@ -2,7 +2,7 @@ import { ExamPaper, ExamQuestion } from "./types";
 
 export const toeicMiniSpeed01Paper: ExamPaper = {
     id: "toeic_mini_speed_01",
-    title: "TOEIC Speed Sprint Test 2026 #01",
+    title: "TOEIC Speed Sprint Test 2026 01",
     type: "TOEIC_MINI",
     level: "Intermediate",
     timeLimitMinutes: 35,

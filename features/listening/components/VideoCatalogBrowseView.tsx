@@ -16,6 +16,7 @@ import {
   ChevronLeft,
   ChevronRight,
   RefreshCw,
+  ListChecks,
 } from "lucide-react";
 import { VideoRequestModal } from "./VideoRequestModal";
 import { VideoComprehensionQuizModal } from "./VideoComprehensionQuizModal";
@@ -346,10 +347,10 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
               whileHover={{ y: -4 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => onSelectVideoLesson?.(lesson)}
-              className="p-3 sm:p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 hover:border-[#0059bb]/70 hover:shadow-md shadow-2xs transition-all cursor-pointer flex flex-col group relative overflow-hidden"
+              className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 hover:border-[#0059bb]/50 dark:hover:border-sky-500/40 hover:shadow-lg shadow-2xs transition-all cursor-pointer flex flex-col group relative overflow-hidden select-none"
             >
-              {/* Double-Bezel Inner Thumbnail (Rule 10 Concentric Radii) */}
-              <div className="relative aspect-video w-full rounded-xl overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60">
+              {/* 1. VISUAL COVER BANNER: Full-Bleed 16/10 Header (Chuẩn trang Thi thử đề & Kho từ vựng) */}
+              <div className="relative aspect-[16/10] w-full overflow-hidden shrink-0 bg-slate-950 border-b border-slate-100 dark:border-slate-800/80">
                 <img
                   src={lesson.thumbnailUrl}
                   alt={lesson.title}
@@ -357,59 +358,77 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
                     (e.target as HTMLImageElement).src =
                       "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&auto=format&fit=crop&q=80";
                   }}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]"
                 />
-                
-                {/* Duration Badge (Bottom-Right) */}
-                <span className="absolute bottom-2 right-2 px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-slate-900/85 text-white backdrop-blur-xs shadow-2xs border border-white/10 tabular-nums">
-                  {lesson.durationFormatted}
-                </span>
+
+                {/* Soft Directional Scrim (Leaves top & center bright, protects readability) */}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent pointer-events-none" />
+
+                {/* Subtle Ambient Light Tone on Hover */}
+                <div className="absolute inset-0 bg-white/0 group-hover:bg-white/[0.04] transition-colors pointer-events-none" />
+
+                {/* Top Header Bar trên ảnh (Ethereal Frosted Glassmorphism twin badges) */}
+                <div className="absolute top-2.5 inset-x-2.5 flex items-center justify-between gap-1.5 z-20">
+                  {/* Top-Left: CEFR Level Badge */}
+                  <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold uppercase tracking-wider bg-white/15 hover:bg-white/20 text-white backdrop-blur-md border border-white/25 shadow-2xs whitespace-nowrap flex items-center gap-1">
+                    <span>Level {lesson.cefrLevel}</span>
+                  </span>
+
+                  {/* Top-Right: Duration Badge */}
+                  <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-white/15 hover:bg-white/20 text-white backdrop-blur-md border border-white/25 shadow-2xs tabular-nums flex items-center gap-1 shrink-0">
+                    <Clock className="w-2.5 h-2.5 text-white/95 stroke-[2.2]" />
+                    <span>{lesson.durationFormatted}</span>
+                  </span>
+                </div>
+
+                {/* Center Glass Play Orb: Smooth Fade & Subtle Scale on Hover */}
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10">
+                  <div className="w-11 h-11 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+                    <Play className="w-4.5 h-4.5 fill-white translate-x-0.5" />
+                  </div>
+                </div>
               </div>
 
-              {/* Card Body */}
-              <div className="pt-3 flex-1 flex flex-col justify-between space-y-2.5 min-w-0">
+              {/* 2. CARD BODY & FOOTER CONTAINER */}
+              <div className="px-3 pt-2 pb-2.5 sm:px-3.5 sm:pt-2 sm:pb-2.5 flex-1 flex flex-col justify-between space-y-1.5 min-w-0 bg-white dark:bg-slate-900">
                 <div>
-                  {/* Metadata Row: Level Badge + Category Name (Left) & Sentence Count (Right) */}
-                  <div className="flex items-center justify-between gap-2 text-xs mb-1.5 min-w-0">
-                    <div className="flex items-center gap-1.5 min-w-0 truncate">
-                      <span className="px-1.5 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 border border-blue-200/60 text-[10px] font-bold font-mono shrink-0">
-                        {lesson.cefrLevel}
-                      </span>
-                      <span className="truncate font-medium text-slate-500 dark:text-slate-400 text-[11px]">
-                        {lesson.category?.name || "Tiếng Anh"}
-                      </span>
-                    </div>
-                    <span className="font-mono tabular-nums shrink-0 whitespace-nowrap text-[11px] font-semibold text-slate-400 dark:text-slate-500">
-                      {lesson.totalSentences} câu
+                  {/* Metadata Row: Category Name (Left) & Sentence Count (Right) */}
+                  <div className="flex items-center justify-between gap-2 text-xs mb-0.5 min-w-0">
+                    <span className="truncate font-semibold text-slate-500 dark:text-slate-400 text-[11px]">
+                      {lesson.category?.name || "Tiếng Anh"}
+                    </span>
+                    <span className="font-mono tabular-nums shrink-0 whitespace-nowrap text-[11px] font-semibold text-slate-400 dark:text-slate-500 flex items-center gap-1">
+                      <ListChecks className="w-3 h-3 text-slate-400" />
+                      <span>{lesson.totalSentences} câu</span>
                     </span>
                   </div>
 
-                  {/* Title with Uniform 2-Line Height for 100% Horizontal Alignment */}
+                  {/* Title with Dynamic 2-Line Clamp */}
                   <h4
-                    className="text-[13.5px] font-bold text-slate-900 dark:text-white line-clamp-2 leading-snug group-hover:text-[#0059bb] dark:group-hover:text-sky-400 transition-colors h-[2.5rem]"
+                    className="text-[13.5px] font-bold text-slate-900 dark:text-white line-clamp-2 leading-snug group-hover:text-[#0059bb] dark:group-hover:text-sky-400 transition-colors"
                     title={lesson.title}
                   >
                     {lesson.title}
                   </h4>
                 </div>
 
-                {/* Card Footer: Balanced h-8 Action Targets */}
-                <div className="pt-2.5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-2">
+                {/* Card Footer: Balanced Action Targets (ExamPaperCard Style - Rule #18 Clean Primary CTA) */}
+                <div className="pt-1.5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-2">
                   <Link
                     href={`/study/dictation/video/comprehension/${lesson.id}`}
                     onClick={(e) => {
                       e.stopPropagation();
                     }}
-                    className="group/ai h-8 px-2.5 rounded-xl text-xs font-bold text-slate-700 hover:text-violet-700 dark:text-slate-200 dark:hover:text-violet-300 bg-slate-50 hover:bg-violet-50/60 dark:bg-slate-800/80 dark:hover:bg-violet-950/30 border border-slate-200/90 dark:border-slate-700/80 hover:border-violet-300 dark:hover:border-violet-600/60 flex items-center gap-1.5 transition-all cursor-pointer active:scale-95 shrink-0 shadow-2xs"
+                    className="group/ai h-8 px-3 rounded-xl text-xs font-bold text-slate-600 hover:text-violet-700 dark:text-slate-300 dark:hover:text-violet-300 bg-slate-50 hover:bg-violet-50/70 dark:bg-slate-800/80 dark:hover:bg-violet-950/40 border border-slate-200/90 dark:border-slate-700/80 hover:border-violet-300 dark:hover:border-violet-600/60 flex items-center gap-1.5 transition-all cursor-pointer active:scale-95 shrink-0 shadow-2xs"
                     title="Làm bài trắc nghiệm đọc hiểu AI (+25 XP)"
                   >
                     <Sparkles className="w-3.5 h-3.5 text-violet-600 dark:text-violet-400 group-hover/ai:scale-110 transition-transform shrink-0" />
                     <span>Đọc hiểu AI</span>
                   </Link>
 
-                  <div className="h-8 px-3 rounded-xl text-xs font-bold bg-[#0059bb] group-hover:bg-[#004899] text-white shadow-xs transition-all flex items-center gap-1.5 shrink-0 select-none">
-                    <Play className="w-3 h-3 fill-white" />
+                  <div className="h-8 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0 select-none group/btn">
                     <span>Học Ngay</span>
+                    <Play className="w-3 h-3 fill-white group-hover/btn:translate-x-0.5 transition-transform" />
                   </div>
                 </div>
               </div>
@@ -438,24 +457,22 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
 
 function VideoCardShimmer() {
   return (
-    <div className="p-3 sm:p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-col select-none">
-      <div className="relative aspect-video w-full rounded-xl overflow-hidden shrink-0">
-        <ShimmerBox className="w-full h-full rounded-xl" />
-        <div className="absolute bottom-2 right-2 w-10 h-4 rounded bg-slate-900/40" />
+    <div className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-col overflow-hidden select-none">
+      <div className="relative aspect-[16/10] w-full overflow-hidden shrink-0 border-b border-slate-100 dark:border-slate-800">
+        <ShimmerBox className="w-full h-full" />
+        <div className="absolute top-2.5 left-2.5 w-14 h-5 rounded-lg bg-slate-900/40" />
+        <div className="absolute top-2.5 right-2.5 w-12 h-5 rounded-lg bg-slate-900/40" />
       </div>
-      <div className="pt-3 space-y-2.5 flex-1 flex flex-col justify-between">
-        <div className="space-y-1.5">
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-1.5">
-              <ShimmerBox className="h-4 w-7 rounded-md" />
-              <ShimmerBox className="h-3 w-20 rounded" />
-            </div>
-            <ShimmerBox className="h-3 w-10 rounded shrink-0" />
+      <div className="px-3 pt-2 pb-2.5 sm:px-3.5 sm:pt-2 sm:pb-2.5 flex-1 flex flex-col justify-between space-y-1.5">
+        <div>
+          <div className="flex items-center justify-between gap-2 mb-1">
+            <ShimmerBox className="h-3.5 w-24 rounded" />
+            <ShimmerBox className="h-3.5 w-12 rounded" />
           </div>
-          <ShimmerBox className="h-4 w-full rounded" />
+          <ShimmerBox className="h-4 w-full rounded mb-1" />
           <ShimmerBox className="h-4 w-3/4 rounded" />
         </div>
-        <div className="flex items-center justify-between pt-2.5 border-t border-slate-100 dark:border-slate-800">
+        <div className="pt-1.5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
           <ShimmerBox className="h-8 w-24 rounded-xl" />
           <ShimmerBox className="h-8 w-24 rounded-xl bg-blue-600/30" />
         </div>

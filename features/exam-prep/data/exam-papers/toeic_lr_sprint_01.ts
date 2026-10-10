@@ -2,7 +2,7 @@ import { ExamPaper, ExamQuestion } from "./types";
 
 export const toeicLrSprint01Paper: ExamPaper = {
   id: "toeic_lr_sprint_01",
-  title: "TOEIC LR Speed Sprint #02",
+  title: "TOEIC LR Speed Sprint 02",
   type: "TOEIC_LR",
   level: "Advanced",
   timeLimitMinutes: 60,

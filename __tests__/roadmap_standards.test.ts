@@ -77,5 +77,12 @@ describe("Roadmap Feature Standards (features/roadmap)", () => {
       const updatedTasks = allTasks.map(t => t.id === targetTask.id ? { ...t, isCompleted: !initialStatus } : t);
       expect(updatedTasks.find(t => t.id === targetTask.id)?.isCompleted).toBe(!initialStatus);
     });
+
+    it("6. Exports PhaseCarouselSwiper and LessonInspectorCard for swipeable phases & sticky companion layout", async () => {
+      const roadmapModule = await import("@/features/roadmap");
+      expect(roadmapModule.PhaseCarouselSwiper).toBeDefined();
+      expect(roadmapModule.LessonInspectorCard).toBeDefined();
+      expect(roadmapModule.PhaseRoadmapCard).toBeDefined();
+    });
   });
 });

@@ -56,8 +56,8 @@ function PassageCardCover({
       alt={alt}
       fill
       unoptimized
-      sizes="(max-width: 640px) 45vw, 25vw"
-      className="object-cover group-hover:scale-105 transition-transform duration-300"
+      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+      className="object-cover group-hover:scale-105 transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]"
       onError={() => setHasError(true)}
     />
   );
@@ -221,51 +221,84 @@ export function ReadingCatalogView() {
         key={passage.id}
         href={`/study/reading/${passage.id}`}
         prefetch={true}
-        className="p-3 rounded-2xl border border-slate-200/90 dark:border-slate-800/90 hover:border-[#0059bb]/70 dark:hover:border-sky-500/70 bg-white dark:bg-slate-900 hover:shadow-md transition-all cursor-pointer relative overflow-hidden flex flex-row sm:flex-col gap-3 sm:gap-2.5 group shadow-2xs select-none block active:scale-[0.99]"
+        className="rounded-2xl border border-slate-200/90 dark:border-slate-800/90 hover:border-[#0059bb]/70 dark:hover:border-sky-500/70 bg-white dark:bg-slate-900 hover:shadow-lg shadow-2xs transition-all cursor-pointer relative overflow-hidden flex flex-col group select-none block active:scale-[0.99]"
       >
-        {/* Media Cover - Concentric Radius Rule 10 */}
-        <div className="relative w-[45%] aspect-[16/10] sm:w-full sm:aspect-[16/10] rounded-xl overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60">
+        {/* 1. VISUAL COVER BANNER: Full-Bleed 16/10 Header (Chuẩn trang Thi thử đề, Video, Dictation & Shadowing) */}
+        <div className="relative aspect-[16/10] w-full overflow-hidden shrink-0 bg-slate-950 border-b border-slate-100 dark:border-slate-800/80">
           <PassageCardCover
             src={passage.coverImage}
             alt={passage.title}
             icon={passage.icon}
           />
 
-          {/* Level Badge */}
-          <span className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-slate-900/90 text-white backdrop-blur-xs z-20 shadow-xs border border-white/15 tracking-wide">
-            {getLevelLabel(passage.level)}
-          </span>
+          {/* Soft Directional Scrim (Leaves top & center bright, protects readability) */}
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/20 to-transparent pointer-events-none" />
 
-          {/* Completed Badge */}
-          {isCompleted && (
-            <span className="absolute top-1.5 right-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-600 text-white flex items-center gap-1 shadow-xs">
-              <Check className="w-3 h-3 stroke-[3]" />
-              <span>Đã đọc</span>
+          {/* Subtle Ambient Light Tone on Hover */}
+          <div className="absolute inset-0 bg-white/0 group-hover:bg-white/[0.04] transition-colors pointer-events-none" />
+
+          {/* Top Header Bar trên ảnh (Ethereal Frosted Glassmorphism twin badges) */}
+          <div className="absolute top-2.5 inset-x-2.5 flex items-center justify-between gap-1.5 z-20">
+            {/* Top-Left: CEFR Level Badge */}
+            <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold uppercase tracking-wider bg-white/15 hover:bg-white/20 text-white backdrop-blur-md border border-white/25 shadow-2xs whitespace-nowrap">
+              Level {getLevelLabel(passage.level)}
             </span>
-          )}
-        </div>
 
-        {/* Passage Info */}
-        <div className="py-0.5 sm:py-0 space-y-1.5 flex-1 flex flex-col justify-between min-w-0">
-          <div>
-            {passage.category && (
-              <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#0059bb] dark:text-sky-400 block truncate mb-1">
-                {passage.category}
+            {/* Top-Right: Completed Status Badge OR Duration Badge */}
+            {isCompleted ? (
+              <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-bold bg-emerald-500/30 text-emerald-100 backdrop-blur-md border border-emerald-400/40 shadow-2xs flex items-center gap-1 whitespace-nowrap">
+                <Check className="w-3 h-3 stroke-[3]" />
+                <span>Đã đọc</span>
+              </span>
+            ) : (
+              <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-white/15 hover:bg-white/20 text-white backdrop-blur-md border border-white/25 shadow-2xs tabular-nums flex items-center gap-1 shrink-0">
+                <Clock className="w-2.5 h-2.5 text-white/95 stroke-[2.2]" />
+                <span>{passage.duration || "4 min"}</span>
               </span>
             )}
-            <h3 className="text-[13.5px] sm:text-[14px] font-bold font-sans line-clamp-2 leading-[1.35] transition-colors text-slate-900 dark:text-white group-hover:text-[#0059bb] dark:group-hover:text-sky-400">
+          </div>
+
+          {/* Center Glass Reading Orb: Smooth Fade & Subtle Scale on Hover */}
+          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10">
+            <div className="w-11 h-11 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+              <BookOpen className="w-4.5 h-4.5 text-white" />
+            </div>
+          </div>
+        </div>
+
+        {/* 2. CARD BODY & FOOTER CONTAINER */}
+        <div className="px-3 pt-2 pb-2.5 sm:px-3.5 sm:pt-2 sm:pb-2.5 flex-1 flex flex-col justify-between space-y-1.5 min-w-0 bg-white dark:bg-slate-900">
+          <div>
+            {/* Metadata Row: Category Name (Left) & Word Count (Right) */}
+            <div className="flex items-center justify-between gap-2 text-xs mb-0.5 min-w-0">
+              <span className="truncate font-semibold text-slate-500 dark:text-slate-400 text-[11px]">
+                {passage.category || "Văn Hóa & Đời Sống"}
+              </span>
+              <span className="font-mono tabular-nums shrink-0 whitespace-nowrap text-[11px] font-semibold text-slate-400 dark:text-slate-500 flex items-center gap-1">
+                <BookOpen className="w-3 h-3 text-slate-400" />
+                <span>{passage.wordCount || 150} từ</span>
+              </span>
+            </div>
+
+            {/* Title with Dynamic 2-Line Clamp */}
+            <h3
+              className="text-[13.5px] font-bold font-sans line-clamp-2 leading-snug transition-colors text-slate-900 dark:text-white group-hover:text-[#0059bb] dark:group-hover:text-sky-400"
+              title={passage.title}
+            >
               {passage.title}
             </h3>
           </div>
 
-          <div className="flex items-center justify-between pt-1.5 sm:pt-2 border-t border-slate-100 dark:border-slate-800/80">
-            <span className="flex items-center gap-1.5 font-bold font-mono tabular-nums text-xs text-slate-600 dark:text-slate-300">
-              <Clock className="w-3.5 h-3.5 text-slate-400 stroke-[2.2] shrink-0" />
-              {passage.duration || "4 min"}
+          {/* Card Footer: Balanced Action Targets */}
+          <div className="pt-1.5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-2">
+            <span className="inline-flex items-center gap-1.5 font-bold font-mono tabular-nums text-xs text-slate-500 dark:text-slate-400">
+              <Clock className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 stroke-[2.2] shrink-0" />
+              <span>{passage.duration || "4 min"}</span>
             </span>
-            <div className="flex items-center gap-1 text-xs font-bold text-[#0059bb] dark:text-sky-400 group-hover:translate-x-0.5 transition-transform">
-              <span>Đọc ngay</span>
-              <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
+
+            <div className="h-8 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0 select-none group/btn">
+              <span>Đọc Ngay</span>
+              <ArrowRight className="w-3 h-3 stroke-[2.5] text-white group-hover/btn:translate-x-0.5 transition-transform" />
             </div>
           </div>
         </div>

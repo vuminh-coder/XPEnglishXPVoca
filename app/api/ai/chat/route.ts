@@ -159,11 +159,15 @@ const TOPIC_SUGGESTION_BANKS: Record<
 
 export async function POST(request: Request) {
   try {
-    const userId = (await getAuthenticatedUserId(request)) || "guest_ai_user";
+    const authenticatedId = await getAuthenticatedUserId(request);
+    const userId = authenticatedId || "guest_ai_user";
+    const clientIp = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "127.0.0.1";
+    const rateLimitKey = authenticatedId ? `ai_chat_user_${authenticatedId}` : `ai_chat_guest_${clientIp}`;
 
-    // Rate Limit: Max 30 requests per minute
-    if (isRateLimited(userId, 30, 60 * 1000)) {
-      return NextResponse.json({ error: "Too many requests. Please slow down." }, { status: 429 });
+    // Rate Limit: 60 req/min cho người học đăng nhập, 30 req/min cho khách theo IP (tránh nghẽn chung)
+    const limit = authenticatedId ? 60 : 30;
+    if (isRateLimited(rateLimitKey, limit, 60 * 1000)) {
+      return NextResponse.json({ error: "Hệ thống đang bận. Vui lòng thử lại sau giây lát." }, { status: 429 });
     }
 
     const body = await request.json();
@@ -298,8 +302,6 @@ CRITICAL RULES:
 
     if (apiKey) {
       const modelsToTry = [
-        "gemini-2.5-flash",
-        "gemini-flash-latest",
         "gemini-2.0-flash",
         "gemini-1.5-flash",
       ];
@@ -322,6 +324,11 @@ CRITICAL RULES:
               }),
             }
           );
+
+          if (response.status === 429) {
+            console.warn(`[Gemini API] Quota exhausted (429) on ${modelName}. Dừng chuỗi fallback để tránh đốt token tiếp.`);
+            break; // Tránh loop nhân 4x làm cạn kiệt quota
+          }
 
           if (response.ok) {
             const data = await response.json();

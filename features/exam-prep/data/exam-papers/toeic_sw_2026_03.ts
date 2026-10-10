@@ -2,7 +2,7 @@ import { ExamPaper, ExamQuestion } from "./types";
 
 export const toeicSw202603Paper: ExamPaper = {
   id: "toeic_sw_2026_03",
-  title: "TOEIC Speaking & Writing AI Studio #03",
+  title: "TOEIC Speaking & Writing AI Studio 03",
   type: "TOEIC_SPEAKING_WRITING",
   level: "Advanced",
   timeLimitMinutes: 80,

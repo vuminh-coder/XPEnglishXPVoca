@@ -2,7 +2,7 @@ import { ExamPaper, ExamQuestion } from "./types";
 
 export const toeicLsInteractive01Paper: ExamPaper = {
   id: "toeic_ls_interactive_01",
-  title: "TOEIC Listening & Speaking AI Duo #01",
+  title: "TOEIC Listening & Speaking AI Duo 01",
   type: "TOEIC_LR",
   level: "Advanced",
   timeLimitMinutes: 50,

@@ -2,9 +2,41 @@
 import React from "react";
 
 /**
+ * 1 single card shimmer matching Reading passage cards (Full-Bleed 16/10)
+ */
+export function ReadingCardShimmer() {
+  return (
+    <div className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-col overflow-hidden select-none">
+      {/* 16/10 Aspect Cover Skeleton */}
+      <div className="relative aspect-[16/10] w-full overflow-hidden shrink-0 border-b border-slate-100 dark:border-slate-800 bg-slate-200 dark:bg-slate-800">
+        <div className="absolute top-2.5 left-2.5 w-14 h-5 rounded-lg bg-slate-900/40" />
+        <div className="absolute top-2.5 right-2.5 w-12 h-5 rounded-lg bg-slate-900/40" />
+      </div>
+
+      {/* Body Info Skeleton */}
+      <div className="px-3 pt-2 pb-2.5 sm:px-3.5 sm:pt-2 sm:pb-2.5 flex-1 flex flex-col justify-between space-y-1.5 min-w-0">
+        <div className="space-y-1.5">
+          <div className="flex items-center justify-between gap-2 mb-1">
+            <div className="h-3.5 w-24 rounded bg-slate-200 dark:bg-slate-800" />
+            <div className="h-3.5 w-12 rounded bg-slate-200 dark:bg-slate-800" />
+          </div>
+          <div className="h-4.5 w-full rounded bg-slate-200 dark:bg-slate-800" />
+          <div className="h-4.5 w-4/5 rounded bg-slate-200 dark:bg-slate-800" />
+        </div>
+
+        <div className="flex items-center justify-between pt-1.5 border-t border-slate-100 dark:border-slate-800 text-xs gap-2">
+          <div className="h-3.5 w-14 rounded bg-slate-200 dark:bg-slate-800" />
+          <div className="h-8 w-24 rounded-xl bg-[#0059bb]/30" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
  * Skeleton cho trang Luyện Đọc dạng LISTING (khi duyệt danh sách bài đọc)
  * Bao gồm: Top bar → Search & Pills → 2 Hàng bài đọc (A1-A2 & B1-C2)
- * Tương thích 1:1 với bố cục thẻ ngang 47% trên mobile và thẻ dọc trên desktop.
+ * Khớp 100% hình học với ReadingCatalogView (0px CLS).
  */
 export function ReadingListingSkeleton() {
   return (
@@ -26,7 +58,7 @@ export function ReadingListingSkeleton() {
       </div>
 
       {/* 2. MAIN LISTING CONTENT CANVAS */}
-      <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-6 space-y-7 pb-20">
+      <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-5 sm:py-6 space-y-7 pb-20">
         {/* HÀNG 1: BÀI ĐỌC CƠ BẢN (A1 - A2) */}
         <div className="space-y-4">
           <div className="flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-slate-800">
@@ -37,35 +69,9 @@ export function ReadingListingSkeleton() {
             <div className="h-7 w-28 rounded-lg bg-slate-100 dark:bg-slate-800/60" />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
-            {[1, 2, 3, 4].map((i) => (
-              <div
-                key={i}
-                className="p-2.5 sm:p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-row sm:flex-col gap-3 sm:gap-0"
-              >
-                {/* Thumbnail Skeleton (47% on mobile, full width aspect 16/10 on desktop) */}
-                <div className="relative w-[47%] aspect-[16/10] sm:w-full sm:aspect-[16/10] rounded-lg bg-slate-200 dark:bg-slate-800 shrink-0 overflow-hidden">
-                  <div className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 w-10 sm:w-12 h-4 rounded bg-slate-300 dark:bg-slate-700" />
-                </div>
-
-                {/* Right Text Skeleton */}
-                <div className="py-0.5 sm:py-0 sm:mt-2.5 space-y-2 flex-1 flex flex-col justify-between min-w-0">
-                  <div>
-                    <div className="h-3 w-16 rounded bg-emerald-500/20 mb-1 sm:hidden" />
-                    <div className="h-4 w-full rounded bg-slate-200 dark:bg-slate-800 mb-1.5" />
-                    <div className="h-4 w-3/4 rounded bg-slate-200 dark:bg-slate-800" />
-                  </div>
-
-                  {/* Meta row */}
-                  <div className="flex items-center justify-between pt-1 sm:pt-2 sm:border-t border-slate-100 dark:border-slate-800">
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-4 h-4 rounded-full bg-slate-200 dark:bg-slate-800" />
-                      <div className="h-3.5 w-12 rounded bg-slate-200 dark:bg-slate-800" />
-                    </div>
-                    <div className="h-5 w-20 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/80" />
-                  </div>
-                </div>
-              </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-5">
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+              <ReadingCardShimmer key={i} />
             ))}
           </div>
         </div>
@@ -80,35 +86,9 @@ export function ReadingListingSkeleton() {
             <div className="h-7 w-28 rounded-lg bg-slate-100 dark:bg-slate-800/60" />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
-            {[1, 2, 3, 4].map((i) => (
-              <div
-                key={i}
-                className="p-2.5 sm:p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-row sm:flex-col gap-3 sm:gap-0"
-              >
-                {/* Thumbnail Skeleton (47% on mobile, full width aspect 16/10 on desktop) */}
-                <div className="relative w-[47%] aspect-[16/10] sm:w-full sm:aspect-[16/10] rounded-lg bg-slate-200 dark:bg-slate-800 shrink-0 overflow-hidden">
-                  <div className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 w-10 sm:w-12 h-4 rounded bg-slate-300 dark:bg-slate-700" />
-                </div>
-
-                {/* Right Text Skeleton */}
-                <div className="py-0.5 sm:py-0 sm:mt-2.5 space-y-2 flex-1 flex flex-col justify-between min-w-0">
-                  <div>
-                    <div className="h-3 w-16 rounded bg-purple-500/20 mb-1 sm:hidden" />
-                    <div className="h-4 w-full rounded bg-slate-200 dark:bg-slate-800 mb-1.5" />
-                    <div className="h-4 w-3/4 rounded bg-slate-200 dark:bg-slate-800" />
-                  </div>
-
-                  {/* Meta row */}
-                  <div className="flex items-center justify-between pt-1 sm:pt-2 sm:border-t border-slate-100 dark:border-slate-800">
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-4 h-4 rounded-full bg-slate-200 dark:bg-slate-800" />
-                      <div className="h-3.5 w-12 rounded bg-slate-200 dark:bg-slate-800" />
-                    </div>
-                    <div className="h-5 w-20 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/80" />
-                  </div>
-                </div>
-              </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-5">
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+              <ReadingCardShimmer key={i} />
             ))}
           </div>
         </div>

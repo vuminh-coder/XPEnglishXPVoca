@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useVocabularyCatalogStore } from "@/stores/vocabularyCatalogStore";
 
 export interface UseVocabularyAiCoachProps {
+  themeId?: string;
   themeName: string;
   themeNameEn?: string;
   awardXp: (amount: number) => void;
@@ -10,14 +12,40 @@ export interface UseVocabularyAiCoachProps {
 }
 
 export function useVocabularyAiCoach({
+  themeId,
   themeName,
   themeNameEn,
   awardXp,
   showToastMsg,
 }: UseVocabularyAiCoachProps) {
-  const [aiQuestion, setAiQuestion] = useState("");
-  const [aiResponse, setAiResponse] = useState<string | null>(null);
+  // Synchronous Frame 0 probe from in-memory session store
+  const session = themeId
+    ? useVocabularyCatalogStore.getState().themeAiCoachSessions[themeId]
+    : undefined;
+
+  const [aiQuestion, setAiQuestionState] = useState(() => session?.aiQuestion ?? "");
+  const [aiResponse, setAiResponseState] = useState<string | null>(() => session?.aiResponse ?? null);
   const [isAiLoading, setIsAiLoading] = useState(false);
+
+  const setAiQuestion = useCallback(
+    (q: string) => {
+      setAiQuestionState(q);
+      if (themeId) {
+        useVocabularyCatalogStore.getState().setThemeAiCoachSession(themeId, { aiQuestion: q });
+      }
+    },
+    [themeId]
+  );
+
+  const setAiResponse = useCallback(
+    (resp: string | null) => {
+      setAiResponseState(resp);
+      if (themeId) {
+        useVocabularyCatalogStore.getState().setThemeAiCoachSession(themeId, { aiResponse: resp });
+      }
+    },
+    [themeId]
+  );
 
   const handleAiAsk = useCallback(
     async (queryText?: string) => {
@@ -55,7 +83,7 @@ export function useVocabularyAiCoach({
         setIsAiLoading(false);
       }
     },
-    [aiQuestion, isAiLoading, themeName, themeNameEn, awardXp, showToastMsg]
+    [aiQuestion, isAiLoading, themeName, themeNameEn, awardXp, showToastMsg, setAiResponse]
   );
 
   return {

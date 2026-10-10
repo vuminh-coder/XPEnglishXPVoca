@@ -665,8 +665,8 @@ function InteractiveTranscriptSidebarComponent({
                         showBadge={false}
                       />
 
-                      {/* Huy hiệu Cấp độ rút gọn chuẩn CEFR: A1, A2, B1, B2, C1, C2 */}
-                      <span className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-slate-900/90 text-white backdrop-blur-xs z-20 shadow-xs border border-white/15 tracking-wide">
+                      {/* Huy hiệu Cấp độ rút gọn chuẩn CEFR: Ethereal Glassmorphism */}
+                      <span className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded-lg text-[9.5px] font-mono font-bold uppercase tracking-wider bg-white/15 hover:bg-white/20 text-white backdrop-blur-md border border-white/25 shadow-2xs z-20">
                         {formatLevelBadge(lesson.level)}
                       </span>
                     </div>

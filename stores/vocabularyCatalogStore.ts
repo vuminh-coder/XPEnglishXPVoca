@@ -47,6 +47,58 @@ export const DEFAULT_VOCABULARY_FILTERS: VocabularyCatalogFilters = {
   viewMode: "flashcard",
 };
 
+export interface ReviewCatalogFilters {
+  selectedDateStr: string | null;
+  currentMonthYear: { year: number; month: number } | null;
+  searchTerm: string;
+  selectedPos: string;
+  selectedProficiency: string;
+  selectedBookmark: string;
+  expandedWordId: string | null;
+}
+
+export const DEFAULT_REVIEW_FILTERS: ReviewCatalogFilters = {
+  selectedDateStr: null,
+  currentMonthYear: null,
+  searchTerm: "",
+  selectedPos: "all",
+  selectedProficiency: "all",
+  selectedBookmark: "all",
+  expandedWordId: null,
+};
+
+export type MyVocabTabFilter = "all" | "favorite" | "learning" | "mastered";
+
+export interface MyVocabCatalogFilters {
+  filterTab: MyVocabTabFilter;
+  searchQuery: string;
+}
+
+export const DEFAULT_MYVOCAB_FILTERS: MyVocabCatalogFilters = {
+  filterTab: "all",
+  searchQuery: "",
+};
+
+export interface ThemeFlashcardSession {
+  currentIndex: number;
+  isWordMasked: boolean;
+  autoPlayAudio: boolean;
+  bookmarkedIds: string[];
+}
+
+export interface ThemeQuizSession {
+  quizIndex: number;
+  quizScore: number;
+  selectedAnswer: number | null;
+  isQuizSubmitted: boolean;
+  quizFinished: boolean;
+}
+
+export interface ThemeAiCoachSession {
+  aiQuestion: string;
+  aiResponse: string | null;
+}
+
 interface VocabularyCatalogStoreState {
   // Theme Catalog Cache
   basicThemes: ClientTheme[];
@@ -60,6 +112,28 @@ interface VocabularyCatalogStoreState {
 
   // Preserved Filter & UI States
   filters: VocabularyCatalogFilters;
+
+  // Preserved Per-Theme Learning Sessions & Modes
+  themeViewModes: Record<string, "flashcard" | "list" | "quiz" | "ai">;
+  themeFlashcardSessions: Record<string, ThemeFlashcardSession>;
+  themeQuizSessions: Record<string, ThemeQuizSession>;
+  themeAiCoachSessions: Record<string, ThemeAiCoachSession>;
+
+  setThemeViewMode: (themeId: string, mode: "flashcard" | "list" | "quiz" | "ai") => void;
+  setThemeFlashcardSession: (themeId: string, session: Partial<ThemeFlashcardSession>) => void;
+  setThemeQuizSession: (themeId: string, session: Partial<ThemeQuizSession>) => void;
+  resetThemeQuizSession: (themeId: string) => void;
+  setThemeAiCoachSession: (themeId: string, session: Partial<ThemeAiCoachSession>) => void;
+
+  // Preserved Review Filters & UI States
+  reviewFilters: ReviewCatalogFilters;
+  setReviewFilter: (filter: Partial<ReviewCatalogFilters>) => void;
+  resetReviewFilters: () => void;
+
+  // Preserved MyVocab Filters & UI States
+  myVocabFilters: MyVocabCatalogFilters;
+  setMyVocabFilter: (filter: Partial<MyVocabCatalogFilters>) => void;
+  resetMyVocabFilters: () => void;
 
   // SWR Actions
   fetchThemeVocabs: (
@@ -283,6 +357,105 @@ export const useVocabularyCatalogStore = create<VocabularyCatalogStoreState>((se
   resetFilters: () =>
     set({
       filters: { ...DEFAULT_VOCABULARY_FILTERS },
+    }),
+
+  // Preserved Per-Theme Learning Sessions & Modes
+  themeViewModes: {},
+  themeFlashcardSessions: {},
+  themeQuizSessions: {},
+  themeAiCoachSessions: {},
+
+  setThemeViewMode: (themeId, mode) =>
+    set((state) => ({
+      themeViewModes: { ...state.themeViewModes, [themeId]: mode },
+      filters: { ...state.filters, viewMode: mode },
+    })),
+
+  setThemeFlashcardSession: (themeId, session) =>
+    set((state) => ({
+      themeFlashcardSessions: {
+        ...state.themeFlashcardSessions,
+        [themeId]: {
+          ...(state.themeFlashcardSessions[themeId] || {
+            currentIndex: 0,
+            isWordMasked: false,
+            autoPlayAudio: false,
+            bookmarkedIds: [],
+          }),
+          ...session,
+        },
+      },
+    })),
+
+  setThemeQuizSession: (themeId, session) =>
+    set((state) => ({
+      themeQuizSessions: {
+        ...state.themeQuizSessions,
+        [themeId]: {
+          ...(state.themeQuizSessions[themeId] || {
+            quizIndex: 0,
+            quizScore: 0,
+            selectedAnswer: null,
+            isQuizSubmitted: false,
+            quizFinished: false,
+          }),
+          ...session,
+        },
+      },
+    })),
+
+  resetThemeQuizSession: (themeId) =>
+    set((state) => ({
+      themeQuizSessions: {
+        ...state.themeQuizSessions,
+        [themeId]: {
+          quizIndex: 0,
+          quizScore: 0,
+          selectedAnswer: null,
+          isQuizSubmitted: false,
+          quizFinished: false,
+        },
+      },
+    })),
+
+  setThemeAiCoachSession: (themeId, session) =>
+    set((state) => ({
+      themeAiCoachSessions: {
+        ...state.themeAiCoachSessions,
+        [themeId]: {
+          ...(state.themeAiCoachSessions[themeId] || {
+            aiQuestion: "",
+            aiResponse: null,
+          }),
+          ...session,
+        },
+      },
+    })),
+
+  // Preserved Review Filters & UI States
+  reviewFilters: { ...DEFAULT_REVIEW_FILTERS },
+
+  setReviewFilter: (filter) =>
+    set((state) => ({
+      reviewFilters: { ...state.reviewFilters, ...filter },
+    })),
+
+  resetReviewFilters: () =>
+    set({
+      reviewFilters: { ...DEFAULT_REVIEW_FILTERS },
+    }),
+
+  // Preserved MyVocab Filters & UI States
+  myVocabFilters: { ...DEFAULT_MYVOCAB_FILTERS },
+
+  setMyVocabFilter: (filter) =>
+    set((state) => ({
+      myVocabFilters: { ...state.myVocabFilters, ...filter },
+    })),
+
+  resetMyVocabFilters: () =>
+    set({
+      myVocabFilters: { ...DEFAULT_MYVOCAB_FILTERS },
     }),
 
   // Cache Invalidation

@@ -8,26 +8,54 @@ import {
   modeNameToSkillType,
   hydrateSkillMinutesFromBackend,
 } from "@/stores/skillChartStore";
+import { useAnalyticsCatalogStore } from "@/stores/analyticsCatalogStore";
 import { SkillMode, AnalyticsTabType, AnalyticsStats, LeaderboardUser } from "../types";
 import { SKILL_THEMES } from "../constants";
 
 export function useAnalyticsManager() {
   const { user } = useUserStore();
-  const [activeTab, setActiveTab] = useState<AnalyticsTabType>("ACTIVITIES");
-  const [modeFilter, setModeFilter] = useState<SkillMode>("Dictation");
-  const [apiRank, setApiRank] = useState<string>("#1");
 
-  // Leaderboard state
-  const [leaderboardData, setLeaderboardData] = useState<any[]>([]);
-  const [isLoadingLeaderboard, setIsLoadingLeaderboard] = useState<boolean>(false);
-  const [visibleLeaderboardCount, setVisibleLeaderboardCount] = useState<number>(8);
+  // Frame 0 Session Probes from in-memory catalog store
+  const [activeTab, setActiveTabState] = useState<AnalyticsTabType>(() => {
+    return useAnalyticsCatalogStore.getState().session.activeTab || "ACTIVITIES";
+  });
+  const setActiveTab = (tab: AnalyticsTabType) => {
+    setActiveTabState(tab);
+    useAnalyticsCatalogStore.getState().setSession({ activeTab: tab });
+  };
 
-  // Analytics stats state
-  const [isLoadingAnalytics, setIsLoadingAnalytics] = useState<boolean>(true);
-  const [apiStats, setApiStats] = useState<AnalyticsStats | null>(null);
+  const [modeFilter, setModeFilterState] = useState<SkillMode>(() => {
+    return useAnalyticsCatalogStore.getState().session.modeFilter || "Dictation";
+  });
+  const setModeFilter = (mode: SkillMode) => {
+    setModeFilterState(mode);
+    useAnalyticsCatalogStore.getState().setSession({ modeFilter: mode });
+  };
 
-  // Active day index for 30-day line charts (default to index 4 - "Hôm nay")
-  const [selectedDayIndex, setSelectedDayIndex] = useState<number | null>(4);
+  const [apiRank, setApiRank] = useState<string>(() => {
+    return useAnalyticsCatalogStore.getState().cache.stats?.weeklyRank || "#1";
+  });
+
+  // Active day index for 30-day line charts
+  const [selectedDayIndex, setSelectedDayIndexState] = useState<number | null>(() => {
+    return useAnalyticsCatalogStore.getState().session.selectedDayIndex ?? 4;
+  });
+  const setSelectedDayIndex = (idx: number | null) => {
+    setSelectedDayIndexState(idx);
+    useAnalyticsCatalogStore.getState().setSession({ selectedDayIndex: idx });
+  };
+
+  // Visible leaderboard count
+  const [visibleLeaderboardCount, setVisibleLeaderboardCountState] = useState<number>(() => {
+    return useAnalyticsCatalogStore.getState().session.visibleLeaderboardCount || 8;
+  });
+  const setVisibleLeaderboardCount = (updater: React.SetStateAction<number>) => {
+    setVisibleLeaderboardCountState((prev) => {
+      const next = typeof updater === "function" ? updater(prev) : updater;
+      useAnalyticsCatalogStore.getState().setSession({ visibleLeaderboardCount: next });
+      return next;
+    });
+  };
 
   // Active hover tile for 6-month heatmap
   const [hoveredHeatmapTile, setHoveredHeatmapTile] = useState<{
@@ -37,78 +65,54 @@ export function useAnalyticsManager() {
 
   const { learned } = useVocabularyStore();
 
-  const [dates, setDates] = useState<string[]>([
-    "26/7",
-    "31/7",
-    "5/8",
-    "10/8",
-    "Hôm nay",
-    "17/8",
-    "20/8",
-    "24/8",
-  ]);
+  // Frame 0 Cached Data from RAM Store
+  const initialCache = useAnalyticsCatalogStore.getState().cache;
+  const [leaderboardData, setLeaderboardData] = useState<any[]>(() => initialCache.leaderboard);
+  const [apiStats, setApiStats] = useState<AnalyticsStats | null>(() => initialCache.stats);
+  const [dates, setDates] = useState<string[]>(() => initialCache.dates);
+  const [minutesValues, setMinutesValues] = useState<number[]>(() => initialCache.minutesValues);
+  const [xpValues, setXpValues] = useState<number[]>(() => initialCache.xpValues);
+  const [apiPerSkillData, setApiPerSkillData] = useState<any>(() => initialCache.perSkill);
+  const [apiHeatmapData, setApiHeatmapData] = useState<{ weeks: any[][]; totalActivities: number } | null>(
+    () => initialCache.heatmap
+  );
 
-  const [minutesValues, setMinutesValues] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0]);
-  const [xpValues, setXpValues] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0]);
-  const [apiPerSkillData, setApiPerSkillData] = useState<any>(null);
-  const [apiHeatmapData, setApiHeatmapData] = useState<{ weeks: any[][]; totalActivities: number } | null>(null);
+  const storeLoadingAnalytics = useAnalyticsCatalogStore((s) => s.isLoadingAnalytics);
+  const storeLoadingLeaderboard = useAnalyticsCatalogStore((s) => s.isLoadingLeaderboard);
 
-  // Fetch backend API analytics data & sync with localStorage
+  // Sync cache changes to local view
+  const storeCache = useAnalyticsCatalogStore((s) => s.cache);
+  useEffect(() => {
+    if (storeCache.stats) {
+      setApiStats(storeCache.stats);
+      if (storeCache.stats.weeklyRank) setApiRank(storeCache.stats.weeklyRank);
+    }
+    if (storeCache.dates && storeCache.dates.length > 0) setDates(storeCache.dates);
+    if (storeCache.minutesValues) setMinutesValues(storeCache.minutesValues);
+    if (storeCache.xpValues) setXpValues(storeCache.xpValues);
+    if (storeCache.perSkill) setApiPerSkillData(storeCache.perSkill);
+    if (storeCache.heatmap) setApiHeatmapData(storeCache.heatmap);
+    if (storeCache.leaderboard && storeCache.leaderboard.length > 0) setLeaderboardData(storeCache.leaderboard);
+  }, [storeCache]);
+
+  // Fetch / SWR revalidate analytics data
   useEffect(() => {
     if (user?.id) {
       hydrateSkillMinutesFromBackend(user.id);
     }
+    useAnalyticsCatalogStore.getState().fetchAnalyticsData();
+  }, [user?.id]);
 
-    setIsLoadingAnalytics(true);
-    fetch("/api/user/analytics")
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.json();
-      })
-      .then((res) => {
-        if (res.success && res.data) {
-          const { stats, series, perSkill, heatmap } = res.data;
-          if (stats) {
-            setApiStats(stats);
-            if (stats.weeklyRank) {
-              setApiRank(stats.weeklyRank);
-            }
-          }
-          if (series?.dates && series.dates.length > 0) {
-            setDates(series.dates);
-            if (series.minutesSeries) setMinutesValues(series.minutesSeries);
-            if (series.xpSeries) setXpValues(series.xpSeries);
-          }
-          if (perSkill) {
-            setApiPerSkillData(perSkill);
-          }
-          if (heatmap && Array.isArray(heatmap.weeks) && heatmap.weeks.length > 0) {
-            setApiHeatmapData(heatmap);
-          }
-        }
-      })
-      .catch((err) => console.warn("[AnalyticsStore] Error loading analytics API:", err))
-      .finally(() => setIsLoadingAnalytics(false));
-  }, [user]);
-
-  // Fetch leaderboard data on demand
+  // Fetch / SWR revalidate leaderboard data on demand
   useEffect(() => {
-    if (activeTab === "LEADERBOARD" && leaderboardData.length === 0) {
-      setIsLoadingLeaderboard(true);
-      fetch("/api/leaderboard?period=week&limit=50")
-        .then((res) => {
-          if (!res.ok) throw new Error(`HTTP ${res.status}`);
-          return res.json();
-        })
-        .then((res) => {
-          if (res.success && Array.isArray(res.data)) {
-            setLeaderboardData(res.data);
-          }
-        })
-        .catch((err) => console.warn("[AnalyticsStore] Error fetching leaderboard:", err))
-        .finally(() => setIsLoadingLeaderboard(false));
+    if (activeTab === "LEADERBOARD") {
+      useAnalyticsCatalogStore.getState().fetchLeaderboardData();
     }
-  }, [activeTab, leaderboardData.length]);
+  }, [activeTab]);
+
+  // Instant render: Only show loading if cache is completely empty and currently fetching
+  const isLoadingAnalytics = storeLoadingAnalytics && apiStats === null;
+  const isLoadingLeaderboard = storeLoadingLeaderboard && leaderboardData.length === 0;
 
   // Dynamic live savedWords computation
   const savedWords = useMemo(() => {

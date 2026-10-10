@@ -17,6 +17,7 @@ import {
   Check,
   Play,
   CheckCircle2,
+  ListChecks,
 } from "lucide-react";
 import { Button } from "@/shared/components/ui";
 import { LessonCoverImage } from "@/shared/components/feedback/LessonCoverImage";
@@ -903,46 +904,79 @@ function LessonCardItem({
       whileHover={{ y: -4 }}
       whileTap={{ scale: 0.98 }}
       onClick={onSelect}
-      className={`p-3 sm:p-3.5 rounded-2xl border transition-all cursor-pointer relative overflow-hidden flex flex-row sm:flex-col gap-3 sm:gap-0 group ${
+      className={`rounded-2xl border transition-all cursor-pointer relative overflow-hidden flex flex-col group select-none ${
         isSelected
           ? "bg-white dark:bg-slate-900 border-[#0059bb] ring-2 ring-[#0059bb]/20 shadow-md"
-          : "bg-white dark:bg-slate-900 border-slate-200/90 dark:border-slate-800 hover:border-[#0059bb]/70 hover:shadow-md shadow-2xs"
+          : "bg-white dark:bg-slate-900 border-slate-200/90 dark:border-slate-800 hover:border-[#0059bb]/50 dark:hover:border-sky-500/40 hover:shadow-lg shadow-2xs"
       }`}
     >
-      <div className="relative w-[47%] aspect-[16/10] sm:w-full sm:aspect-[16/10] rounded-xl overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800 border border-slate-200/50 dark:border-slate-700/50">
+      {/* 1. VISUAL COVER BANNER: Full-Bleed 16/10 Header (Chuẩn trang Thi thử đề & Video) */}
+      <div className="relative aspect-[16/10] w-full overflow-hidden shrink-0 bg-slate-950 border-b border-slate-100 dark:border-slate-800/80">
         <LessonCoverImage
           lesson={lesson}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]"
           showBadge={false}
         />
 
-        <span className="absolute bottom-2 left-2 px-2 sm:px-2.5 py-0.5 rounded-md text-[9.5px] sm:text-[10px] font-mono font-bold bg-slate-900/85 text-white backdrop-blur-xs z-20 shadow-2xs border border-white/15">
-          {formatLevelBadge(lesson.level)}
-        </span>
+        {/* Soft Directional Scrim (Leaves top & center bright, protects readability) */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/20 to-transparent pointer-events-none" />
 
-        {isCompleted && (
-          <span className="absolute top-2 right-2 px-2 sm:px-2.5 py-0.5 rounded-md text-[9.5px] sm:text-[10px] font-bold bg-emerald-600/90 text-white flex items-center gap-0.5 sm:gap-1 shadow-2xs backdrop-blur-xs z-20 border border-emerald-400/20">
-            <Check className="w-3 h-3 stroke-[3]" />{" "}
-            <span className="hidden xs:inline sm:inline">Đã học</span>
-          </span>
-        )}
+        {/* Subtle Ambient Light Tone on Hover */}
+        <div className="absolute inset-0 bg-white/0 group-hover:bg-white/[0.04] transition-colors pointer-events-none" />
 
-        {isSelected && (
-          <span className="absolute top-2 left-2 px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-[#0059bb] text-white hidden sm:flex items-center gap-1 shadow-2xs z-20">
-            <Play className="w-3 h-3 fill-white" /> Đang chọn
-          </span>
-        )}
-      </div>
-
-      <div className="py-0.5 sm:py-0 sm:mt-3 space-y-1.5 flex-1 flex flex-col justify-between min-w-0">
-        <div>
-          {lesson.category && (
-            <span className="text-[10.5px] font-extrabold uppercase tracking-wider text-[#0059bb] dark:text-sky-400 block truncate mb-1 sm:hidden">
-              {lesson.category}
+        {/* Top Header Bar trên ảnh (Ethereal Frosted Glassmorphism twin badges) */}
+        <div className="absolute top-2.5 inset-x-2.5 flex items-center justify-between gap-1.5 z-20">
+          {/* Top-Left: Active Selection Badge OR CEFR Level Badge */}
+          {isSelected ? (
+            <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-bold bg-[#0059bb]/90 text-white backdrop-blur-md border border-white/30 shadow-2xs flex items-center gap-1.5 whitespace-nowrap">
+              <Play className="w-3 h-3 fill-white" />
+              <span>Đang chọn</span>
+            </span>
+          ) : (
+            <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold uppercase tracking-wider bg-white/15 hover:bg-white/20 text-white backdrop-blur-md border border-white/25 shadow-2xs whitespace-nowrap">
+              {formatLevelBadge(lesson.level)}
             </span>
           )}
+
+          {/* Top-Right: Completed Status Badge OR Duration Badge */}
+          {isCompleted ? (
+            <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-bold bg-emerald-500/30 text-emerald-100 backdrop-blur-md border border-emerald-400/40 shadow-2xs flex items-center gap-1 whitespace-nowrap">
+              <Check className="w-3 h-3 stroke-[3]" />
+              <span>Đã học</span>
+            </span>
+          ) : (
+            <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-white/15 hover:bg-white/20 text-white backdrop-blur-md border border-white/25 shadow-2xs tabular-nums flex items-center gap-1 shrink-0">
+              <Clock className="w-2.5 h-2.5 text-white/95 stroke-[2.2]" />
+              <span>{lesson.duration || "5 min"}</span>
+            </span>
+          )}
+        </div>
+
+        {/* Center Glass Play Orb: Smooth Fade & Subtle Scale on Hover */}
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10">
+          <div className="w-11 h-11 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+            <Play className="w-4.5 h-4.5 fill-white translate-x-0.5" />
+          </div>
+        </div>
+      </div>
+
+      {/* 2. CARD BODY & FOOTER CONTAINER */}
+      <div className="px-3 pt-2 pb-2.5 sm:px-3.5 sm:pt-2 sm:pb-2.5 flex-1 flex flex-col justify-between space-y-1.5 min-w-0 bg-white dark:bg-slate-900">
+        <div>
+          {/* Metadata Row: Category Name (Left) & Sentence Count (Right) */}
+          <div className="flex items-center justify-between gap-2 text-xs mb-0.5 min-w-0">
+            <span className="truncate font-semibold text-slate-500 dark:text-slate-400 text-[11px]">
+              {lesson.category || "Tiếng Anh Giao Tiếp"}
+            </span>
+            <span className="font-mono tabular-nums shrink-0 whitespace-nowrap text-[11px] font-semibold text-slate-400 dark:text-slate-500 flex items-center gap-1">
+              <ListChecks className="w-3 h-3 text-slate-400" />
+              <span>{lesson.transcript?.length || 10} câu</span>
+            </span>
+          </div>
+
+          {/* Title with Dynamic 2-Line Clamp */}
           <h3
-            className={`text-[14.5px] xs:text-[15.5px] sm:text-[13px] font-bold sm:font-semibold font-sans line-clamp-2 leading-snug transition-colors ${
+            className={`text-[13.5px] font-bold font-sans line-clamp-2 leading-snug transition-colors ${
               isSelected
                 ? "text-[#0059bb] dark:text-sky-400"
                 : "text-slate-900 dark:text-white group-hover:text-[#0059bb] dark:group-hover:text-sky-400"
@@ -952,14 +986,17 @@ function LessonCardItem({
           </h3>
         </div>
 
-        <div className="flex items-center justify-between pt-1 sm:pt-2 sm:border-t border-slate-100 dark:border-slate-800">
-          <span className="flex items-center gap-1.5 font-bold font-mono tabular-nums text-xs xs:text-[13px] sm:text-[11px] text-slate-700 dark:text-slate-200">
-            <Clock className="w-4 h-4 text-[#0059bb] dark:text-sky-400 stroke-[2.5] shrink-0" />{" "}
-            {lesson.duration || "5 min"}
+        {/* Card Footer: Balanced Action Targets */}
+        <div className="pt-1.5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-2">
+          <span className="inline-flex items-center gap-1.5 font-bold font-mono tabular-nums text-xs text-slate-500 dark:text-slate-400">
+            <Clock className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 stroke-[2.2] shrink-0" />
+            <span>{lesson.duration || "5 min"}</span>
           </span>
-          <span className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 font-bold text-xs xs:text-[12.5px] sm:text-[11px] font-mono tabular-nums border border-slate-200/80 dark:border-slate-700/80 shadow-2xs">
-            {lesson.transcript?.length || 10} câu
-          </span>
+
+          <div className="h-8 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0 select-none group/btn">
+            <span>Luyện Nghe</span>
+            <Play className="w-3 h-3 fill-white group-hover/btn:translate-x-0.5 transition-transform" />
+          </div>
         </div>
       </div>
     </motion.div>
@@ -968,18 +1005,24 @@ function LessonCardItem({
 
 function LessonCardShimmer() {
   return (
-    <div className="p-3 sm:p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-row sm:flex-col gap-3 sm:gap-0 select-none">
-      <div className="relative w-[47%] aspect-[16/10] sm:w-full sm:aspect-[16/10] rounded-xl overflow-hidden shrink-0">
-        <ShimmerBox className="w-full h-full rounded-xl" />
+    <div className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-col overflow-hidden select-none">
+      <div className="relative aspect-[16/10] w-full overflow-hidden shrink-0 border-b border-slate-100 dark:border-slate-800">
+        <ShimmerBox className="w-full h-full" />
+        <div className="absolute top-2.5 left-2.5 w-14 h-5 rounded-lg bg-slate-900/40" />
+        <div className="absolute top-2.5 right-2.5 w-12 h-5 rounded-lg bg-slate-900/40" />
       </div>
-      <div className="py-0.5 sm:py-0 sm:mt-3 space-y-2 flex-1 flex flex-col justify-between min-w-0">
-        <div className="space-y-1.5">
-          <ShimmerBox className="h-4 w-full rounded" />
-          <ShimmerBox className="h-4 w-4/5 rounded" />
+      <div className="px-3 pt-2 pb-2.5 sm:px-3.5 sm:pt-2 sm:pb-2.5 flex-1 flex flex-col justify-between space-y-1.5">
+        <div>
+          <div className="flex items-center justify-between gap-2 mb-1">
+            <ShimmerBox className="h-3.5 w-24 rounded" />
+            <ShimmerBox className="h-3.5 w-12 rounded" />
+          </div>
+          <ShimmerBox className="h-4 w-full rounded mb-1" />
+          <ShimmerBox className="h-4 w-3/4 rounded" />
         </div>
-        <div className="flex items-center justify-between pt-1 sm:pt-2 sm:border-t border-slate-100 dark:border-slate-800">
-          <ShimmerBox className="h-3.5 w-16 rounded" />
-          <ShimmerBox className="h-5 w-14 rounded-lg" />
+        <div className="pt-1.5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
+          <ShimmerBox className="h-3.5 w-14 rounded" />
+          <ShimmerBox className="h-8 w-24 rounded-xl bg-[#0059bb]/30" />
         </div>
       </div>
     </div>

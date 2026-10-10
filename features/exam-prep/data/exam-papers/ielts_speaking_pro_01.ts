@@ -2,7 +2,7 @@ import { ExamPaper, ExamQuestion } from "./types";
 
 export const ieltsSpeakingPro01Paper: ExamPaper = {
   id: "ielts_speaking_pro_01",
-  title: "IELTS Speaking AI Studio #01",
+  title: "IELTS Speaking AI Studio 01",
   type: "IELTS_SPEAKING",
   level: "Advanced",
   timeLimitMinutes: 15,

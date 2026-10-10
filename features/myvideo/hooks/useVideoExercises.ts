@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { YouTubeVideoItem } from "@/stores/videoStore";
+import { YouTubeVideoItem, useVideoStore } from "@/stores/videoStore";
 
 export interface UseVideoExercisesProps {
   activeVideo: YouTubeVideoItem | null;
@@ -29,12 +29,43 @@ export function useVideoExercises({
   awardXp,
   addToast,
 }: UseVideoExercisesProps) {
-  // Dictation Exercise State
-  const [currentSubIndex, setCurrentSubIndex] = useState(0);
+  // Dictation Exercise State with Frame 0 session probe
+  const [currentSubIndex, setCurrentSubIndexState] = useState(() => {
+    if (activeVideo?.id) {
+      return useVideoStore.getState().session.videoExercisePositions[activeVideo.id] || 0;
+    }
+    return 0;
+  });
+
+  const setCurrentSubIndex = useCallback(
+    (updater: number | ((prev: number) => number)) => {
+      setCurrentSubIndexState((prev) => {
+        const next = typeof updater === "function" ? updater(prev) : updater;
+        if (activeVideo?.id) {
+          useVideoStore.getState().setVideoExercisePosition(activeVideo.id, next);
+        }
+        return next;
+      });
+    },
+    [activeVideo?.id]
+  );
+
   const [dictationInput, setDictationInput] = useState("");
   const [dictationAnswered, setDictationAnswered] = useState(false);
   const [dictationCorrect, setDictationCorrect] = useState<boolean | null>(null);
   const [showHint, setShowHint] = useState(false);
+
+  // Sync saved position when active video changes
+  useEffect(() => {
+    if (activeVideo?.id) {
+      const savedPos = useVideoStore.getState().session.videoExercisePositions[activeVideo.id] || 0;
+      setCurrentSubIndexState(savedPos);
+      setDictationInput("");
+      setDictationAnswered(false);
+      setDictationCorrect(null);
+      setShowHint(false);
+    }
+  }, [activeVideo?.id]);
 
   // Shadowing Recording State
   const [isRecording, setIsRecording] = useState(false);
@@ -209,7 +240,7 @@ export function useVideoExercises({
     setDictationCorrect(null);
     setShowHint(false);
     setShadowingScore(null);
-  }, []);
+  }, [setCurrentSubIndex]);
 
   return {
     currentSubIndex,

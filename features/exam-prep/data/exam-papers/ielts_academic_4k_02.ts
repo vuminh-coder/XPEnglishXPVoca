@@ -2,7 +2,7 @@ import { ExamPaper, ExamQuestion } from "./types";
 
 export const ieltsAcademic4k02Paper: ExamPaper = {
     id: "ielts_academic_4k_02",
-    title: "IELTS Academic Official Test #02",
+    title: "IELTS Academic Official Test 02",
     type: "IELTS_FULL",
     level: "Advanced",
     timeLimitMinutes: 175,

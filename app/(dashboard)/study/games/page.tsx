@@ -34,6 +34,8 @@ import { useNotificationStore } from "@/stores/notificationStore";
 import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 import { PageEntranceWrapper, MotionItem } from "@/shared/components/feedback/PageEntranceAnimation";
 
+import { useGameCatalogStore } from "@/stores/gameCatalogStore";
+
 const pageTransitionVariants = {
   hidden: { opacity: 0, y: 12 },
   show: {
@@ -63,29 +65,38 @@ const GAME_TITLE_MAP: Record<GameMode, { title: string; icon: React.ReactNode }>
 };
 
 export default function GamesPage() {
-  const [activeGame, setActiveGame] = useState<GameMode | null>(null);
-  const [selectedDeck, setSelectedDeck] = useState<VocabDeckType>("all");
-  const [basePool, setBasePool] = useState<any[]>([]);
-  const [activePool, setActivePool] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { basePool, fetchGameVocabPool } = useGameCatalogStore();
+
+  const [activeGame, setActiveGameState] = useState<GameMode | null>(() => {
+    return useGameCatalogStore.getState().session.activeGame;
+  });
+
+  const setActiveGame = (game: GameMode | null) => {
+    setActiveGameState(game);
+    useGameCatalogStore.getState().setActiveGame(game);
+  };
+
+  const [selectedDeck, setSelectedDeckState] = useState<VocabDeckType>(() => {
+    return useGameCatalogStore.getState().session.selectedDeck;
+  });
+
+  const setSelectedDeck = (deck: VocabDeckType) => {
+    setSelectedDeckState(deck);
+    useGameCatalogStore.getState().setSelectedDeck(deck);
+  };
+
+  const [activePool, setActivePool] = useState<any[]>(() => {
+    return useGameCatalogStore.getState().basePool;
+  });
   const { addToast } = useNotificationStore();
 
   // Track study time when playing mini-games
   useStudyTimeTracker("vocab", { activeCondition: activeGame !== null });
 
+  // Background SWR fetch to revalidate vocabulary pool if needed
   useEffect(() => {
-    setIsLoading(true);
-    fetch("/api/vocabulary?limit=150&random=true")
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.success && Array.isArray(res.data)) {
-          setBasePool(res.data);
-          setActivePool(res.data);
-        }
-      })
-      .catch((err) => console.warn("Could not load dynamic vocabulary pool:", err))
-      .finally(() => setIsLoading(false));
-  }, []);
+    fetchGameVocabPool();
+  }, [fetchGameVocabPool]);
 
   // Update active pool whenever selected deck or base pool changes
   useEffect(() => {
@@ -143,9 +154,6 @@ export default function GamesPage() {
       }
     }
   }, [selectedDeck, basePool, addToast]);
-
-
-  if (isLoading) return null; // Skeleton handled by loading.tsx Suspense boundary
 
 
   return (

@@ -34,6 +34,7 @@ import {
 } from 'lucide-react';
 
 import { useVocabularyStore } from '@/stores/vocabularyStore';
+import { useVocabularyCatalogStore } from '@/stores/vocabularyCatalogStore';
 import { useAuthStore } from '@/stores/authStore';
 import { useNotificationStore } from '@/stores/notificationStore';
 import { speakLessonText } from '@/shared/utils/ttsEngine';
@@ -73,21 +74,64 @@ const VIETNAMESE_LONG_WEEKDAYS = [
 
 export default function ReviewPage() {
   const [isMounted, setIsMounted] = useState(false);
-  const [currentMonth, setCurrentMonth] = useState(() => new Date());
-  const [selectedDate, setSelectedDate] = useState(() => new Date());
-
-  // Search & Filter state
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedPos, setSelectedPos] = useState('all');
-  const [selectedProficiency, setSelectedProficiency] = useState('all');
-  const [selectedBookmark, setSelectedBookmark] = useState('all');
-  const [expandedWordId, setExpandedWordId] = useState<string | null>(null);
-
-  const [bookmarkedIds, setBookmarkedIds] = useState<Set<string>>(new Set());
-
   const { learned, loadLearnedWords } = useVocabularyStore();
   const { user } = useAuthStore();
   const { addToast } = useNotificationStore();
+
+  const setReviewFilter = useVocabularyCatalogStore((s) => s.setReviewFilter);
+
+  // Synchronous Frame 0 Fast Cache Probe for learned words
+  if (typeof window !== 'undefined' && useVocabularyStore.getState().learned.length === 0) {
+    const authUserId = user?.id || 'local_user';
+    try {
+      const localData = localStorage.getItem(`xp_voca_learned_${authUserId}`);
+      if (localData) {
+        const parsed = JSON.parse(localData);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          useVocabularyStore.setState({ learned: parsed });
+        }
+      }
+    } catch {}
+  }
+
+  // Frame 0 Synchronous Cache Probes for Calendar Months and Selected Date
+  const [currentMonth, setCurrentMonth] = useState<Date>(() => {
+    const saved = useVocabularyCatalogStore.getState().reviewFilters.currentMonthYear;
+    if (saved && typeof saved.year === 'number' && typeof saved.month === 'number') {
+      return new Date(saved.year, saved.month, 1);
+    }
+    return new Date();
+  });
+
+  const [selectedDate, setSelectedDate] = useState<Date>(() => {
+    const savedStr = useVocabularyCatalogStore.getState().reviewFilters.selectedDateStr;
+    if (savedStr) {
+      const parsed = new Date(savedStr);
+      if (!isNaN(parsed.getTime())) return parsed;
+    }
+    return new Date();
+  });
+
+  // Frame 0 Synchronous Search & Filter state retention
+  const [searchTerm, setSearchTerm] = useState<string>(() =>
+    useVocabularyCatalogStore.getState().reviewFilters.searchTerm || ''
+  );
+  const [selectedPos, setSelectedPos] = useState<string>(() =>
+    useVocabularyCatalogStore.getState().reviewFilters.selectedPos || 'all'
+  );
+  const [selectedProficiency, setSelectedProficiency] = useState<string>(() =>
+    useVocabularyCatalogStore.getState().reviewFilters.selectedProficiency || 'all'
+  );
+  const [selectedBookmark, setSelectedBookmark] = useState<string>(() =>
+    useVocabularyCatalogStore.getState().reviewFilters.selectedBookmark || 'all'
+  );
+  const [expandedWordId, setExpandedWordId] = useState<string | null>(() =>
+    useVocabularyCatalogStore.getState().reviewFilters.expandedWordId || null
+  );
+
+  const [bookmarkedIds, setBookmarkedIds] = useState<Set<string>>(() =>
+    new Set(getBookmarkedWords())
+  );
 
   useEffect(() => {
     setIsMounted(true);
@@ -107,25 +151,62 @@ export default function ReviewPage() {
     setBookmarkedIds(new Set(getBookmarkedWords()));
   }, []);
 
+  const formatLocalDate = (d: Date) => {
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
   const handlePrevMonth = () => {
-    setCurrentMonth(prev => new Date(prev.getFullYear(), prev.getMonth() - 1, 1));
+    setCurrentMonth(prev => {
+      const next = new Date(prev.getFullYear(), prev.getMonth() - 1, 1);
+      setReviewFilter({ currentMonthYear: { year: next.getFullYear(), month: next.getMonth() } });
+      return next;
+    });
   };
 
   const handleNextMonth = () => {
-    setCurrentMonth(prev => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
+    setCurrentMonth(prev => {
+      const next = new Date(prev.getFullYear(), prev.getMonth() + 1, 1);
+      setReviewFilter({ currentMonthYear: { year: next.getFullYear(), month: next.getMonth() } });
+      return next;
+    });
   };
 
   const handleJumpToToday = () => {
     const today = new Date();
     setCurrentMonth(today);
     setSelectedDate(today);
+    setReviewFilter({
+      currentMonthYear: { year: today.getFullYear(), month: today.getMonth() },
+      selectedDateStr: formatLocalDate(today),
+    });
   };
 
-  const formatLocalDate = (d: Date) => {
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
+  const handleSelectDate = (date: Date) => {
+    setSelectedDate(date);
+    setReviewFilter({ selectedDateStr: formatLocalDate(date) });
+  };
+
+  const handleSearchChange = (term: string) => {
+    setSearchTerm(term);
+    setReviewFilter({ searchTerm: term });
+  };
+
+  const handlePosChange = (pos: string) => {
+    setSelectedPos(pos);
+    setReviewFilter({ selectedPos: pos });
+  };
+
+  const handleProficiencyChange = (prof: string) => {
+    setSelectedProficiency(prof);
+    setReviewFilter({ selectedProficiency: prof });
+  };
+
+  const handleBookmarkChange = (bookmark: string) => {
+    setSelectedBookmark(bookmark);
+    setReviewFilter({ selectedBookmark: bookmark });
   };
 
   const monthYearTitle = `Tháng ${currentMonth.getMonth() + 1}, ${currentMonth.getFullYear()}`;
@@ -323,7 +404,11 @@ export default function ReviewPage() {
   const selectedDateQueryStr = formatLocalDate(selectedDate);
 
   const toggleExpandWord = (wordId: string) => {
-    setExpandedWordId(prev => (prev === wordId ? null : wordId));
+    setExpandedWordId(prev => {
+      const nextId = prev === wordId ? null : wordId;
+      setReviewFilter({ expandedWordId: nextId });
+      return nextId;
+    });
   };
 
   // Distinct POS values in the selected list
@@ -406,7 +491,10 @@ export default function ReviewPage() {
     },
   ];
 
-  if (!isMounted) {
+  // DICTATION RULE: 0ms Instant Render when returning from other pages.
+  // Only display ReviewSkeleton on cold start if learned list is completely empty.
+  const hasLearnedData = learned && learned.length > 0;
+  if (!isMounted && !hasLearnedData) {
     return <ReviewSkeleton />;
   }
 
@@ -570,7 +658,7 @@ export default function ReviewPage() {
                     return (
                       <div
                         key={`${cellDate.toISOString()}-${idx}`}
-                        onClick={() => setSelectedDate(cellDate)}
+                        onClick={() => handleSelectDate(cellDate)}
                         className={cellClass}
                       >
                         <span className={`font-mono tabular-nums leading-none ${dueCount > 0 ? '-mt-1 sm:-mt-0.5' : ''}`}>
@@ -789,13 +877,13 @@ export default function ReviewPage() {
                       type="text"
                       placeholder="Tìm từ vựng, phiên âm, nghĩa tiếng Việt..."
                       value={searchTerm}
-                      onChange={e => setSearchTerm(e.target.value)}
+                      onChange={e => handleSearchChange(e.target.value)}
                       className="w-full h-9 pl-8 pr-8 text-xs font-medium rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-[#0c0c0f] text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20 transition-all"
                     />
                     {searchTerm && (
                       <button
                         type="button"
-                        onClick={() => setSearchTerm('')}
+                        onClick={() => handleSearchChange('')}
                         className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-white cursor-pointer"
                       >
                         <X className="w-3.5 h-3.5 stroke-[2]" />
@@ -815,7 +903,7 @@ export default function ReviewPage() {
                   <select
                     id="review-pos-select"
                     value={selectedPos}
-                    onChange={e => setSelectedPos(e.target.value)}
+                    onChange={e => handlePosChange(e.target.value)}
                     className="w-full h-9 px-2.5 text-xs font-bold rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-[#0c0c0f] text-slate-900 dark:text-white focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20 cursor-pointer transition-all"
                   >
                     <option value="all">Tất cả từ loại</option>
@@ -838,7 +926,7 @@ export default function ReviewPage() {
                   <select
                     id="review-level-select"
                     value={selectedProficiency}
-                    onChange={e => setSelectedProficiency(e.target.value)}
+                    onChange={e => handleProficiencyChange(e.target.value)}
                     className="w-full h-9 px-2.5 text-xs font-bold rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-[#0c0c0f] text-slate-900 dark:text-white focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20 cursor-pointer transition-all"
                   >
                     <option value="all">Mọi cấp độ</option>
@@ -861,7 +949,7 @@ export default function ReviewPage() {
                   <select
                     id="review-bookmark-select"
                     value={selectedBookmark}
-                    onChange={e => setSelectedBookmark(e.target.value)}
+                    onChange={e => handleBookmarkChange(e.target.value)}
                     className="w-full h-9 px-2.5 text-xs font-bold rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-[#0c0c0f] text-slate-900 dark:text-white focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20 cursor-pointer transition-all"
                   >
                     <option value="all">Tất cả từ vựng</option>

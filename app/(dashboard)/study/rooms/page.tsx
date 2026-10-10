@@ -32,72 +32,46 @@ import {
 import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAnimation";
 import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 
-interface StudyRoomMember {
-  id: string;
-  userId: string;
-  status: "FOCUSING" | "RESTING" | "OFFLINE";
-  user: {
-    id: string;
-    fullName: string | null;
-    username: string | null;
-    avatarEmoji: string | null;
-    title: string;
-    totalXp: number;
-  };
-}
-
-interface RoomMessage {
-  id: string;
-  content: string;
-  isAi: boolean;
-  isSystem: boolean;
-  createdAt: string;
-  user?: {
-    id: string;
-    fullName: string | null;
-    username: string | null;
-    avatarEmoji: string | null;
-  } | null;
-}
-
-interface StudyRoom {
-  id: string;
-  name: string;
-  description: string;
-  category: string;
-  accentColor: string;
-  maxMembers: number;
-  isPrivate: boolean;
-  passcode?: string | null;
-  createdAt: string;
-  creator: {
-    fullName: string | null;
-    username: string | null;
-    avatarEmoji: string | null;
-  };
-  members: StudyRoomMember[];
-  _count?: {
-    members: number;
-  };
-}
+import {
+  useStudyRoomStore,
+  getInitialStudyRoomsProbe,
+  getInitialActiveRoomProbe,
+  getInitialRoomCategoryProbe,
+  getInitialPomodoroProbe,
+  getInitialRoomMessagesProbe,
+  StudyRoom,
+  RoomMessage,
+} from "@/stores/studyRoomStore";
 
 export default function StudyRoomsPage() {
   const { user } = useAuthStore();
   const { addToast } = useNotificationStore();
   const { setSidebarCollapsed } = useUiStore();
 
-  const [rooms, setRooms] = useState<StudyRoom[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string>("ALL");
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  // 1. Rooms catalog (Frame 0 Probe - Instant Render 0ms)
+  const initialRoomsProbe = getInitialStudyRoomsProbe();
+  const [rooms, setRooms] = useState<StudyRoom[]>(() => initialRoomsProbe.rooms);
+  const [selectedCategory, setSelectedCategory] = useState<string>(() => getInitialRoomCategoryProbe());
+  const [isLoading, setIsLoading] = useState<boolean>(() => !initialRoomsProbe.hasData);
   const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
 
-  // Active in-room workspace state
-  const [activeRoom, setActiveRoom] = useState<StudyRoom | null>(null);
+  // 2. Active in-room workspace state (Frame 0 Probe - Keep in room across tab navigation)
+  const [activeRoom, setActiveRoom] = useState<StudyRoom | null>(() => getInitialActiveRoomProbe());
 
-  // Focus Pomodoro Timer (25 mins)
-  const [timerSeconds, setTimerSeconds] = useState<number>(25 * 60);
-  const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
-  const [timerMode, setTimerMode] = useState<"FOCUS" | "BREAK">("FOCUS");
+  // 3. Focus Pomodoro Timer (Frame 0 Probe with elapsed time deduction)
+  const initialPomodoro = getInitialPomodoroProbe();
+  const [timerSeconds, setTimerSeconds] = useState<number>(() => initialPomodoro.timerSeconds);
+  const [isTimerRunning, setIsTimerRunning] = useState<boolean>(() => initialPomodoro.isTimerRunning);
+  const [timerMode, setTimerMode] = useState<"FOCUS" | "BREAK">(() => initialPomodoro.timerMode);
+
+  // 4. Live room messages (Frame 0 Probe)
+  const [messages, setMessages] = useState<RoomMessage[]>(() => {
+    const act = getInitialActiveRoomProbe();
+    return getInitialRoomMessagesProbe(act?.id);
+  });
+  const [inputMessage, setInputMessage] = useState<string>(() => useStudyRoomStore.getState().draftMessage || "");
+  const [isSending, setIsSending] = useState<boolean>(false);
+  const [copiedCode, setCopiedCode] = useState<boolean>(false);
 
   // Telemetry: Track vocabulary practice time while actively focusing in study room
   useStudyTimeTracker("vocab", { activeCondition: !!activeRoom && isTimerRunning });
@@ -113,10 +87,6 @@ export default function StudyRoomsPage() {
       setSidebarCollapsed(false);
     };
   }, [activeRoom, setSidebarCollapsed]);
-  const [messages, setMessages] = useState<RoomMessage[]>([]);
-  const [inputMessage, setInputMessage] = useState<string>("");
-  const [isSending, setIsSending] = useState<boolean>(false);
-  const [copiedCode, setCopiedCode] = useState<boolean>(false);
 
   // Create form state
   const [newRoomName, setNewRoomName] = useState<string>("");
@@ -128,14 +98,17 @@ export default function StudyRoomsPage() {
 
   const chatEndRef = useRef<HTMLDivElement | null>(null);
 
-  // 1. Fetch live rooms
+  // 1. Fetch live rooms (SWR Background Revalidation - Non-blocking)
   const fetchRooms = async () => {
     try {
-      setIsLoading(true);
+      if (rooms.length === 0) {
+        setIsLoading(true);
+      }
       const res = await fetch("/api/study-rooms");
       const json = await res.json();
       if (json.success && Array.isArray(json.rooms)) {
         setRooms(json.rooms);
+        useStudyRoomStore.getState().setRooms(json.rooms);
       }
     } catch (e) {
       console.error("Failed to load study rooms:", e);
@@ -161,6 +134,7 @@ export default function StudyRoomsPage() {
         const json = await res.json();
         if (isMounted && json.success && Array.isArray(json.messages)) {
           setMessages(json.messages);
+          useStudyRoomStore.getState().setRoomMessages(activeRoom.id, json.messages);
         }
       } catch (e) {
         console.error("Failed to fetch messages:", e);
@@ -180,19 +154,32 @@ export default function StudyRoomsPage() {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // 4. Pomodoro countdown timer tick
+  // 4. Pomodoro countdown timer tick & bidirectional store sync
   /* eslint-disable react-hooks/set-state-in-effect -- Pomodoro countdown state transitions */
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
     if (isTimerRunning && timerSeconds > 0) {
       interval = setInterval(() => {
-        setTimerSeconds((prev) => prev - 1);
+        setTimerSeconds((prev) => {
+          const next = prev - 1;
+          useStudyRoomStore.getState().setPomodoro({
+            timerSeconds: next,
+            isTimerRunning: true,
+            timerMode,
+          });
+          return next;
+        });
       }, 1000);
     } else if (timerSeconds === 0) {
       setIsTimerRunning(false);
       if (timerMode === "FOCUS") {
         setTimerMode("BREAK");
         setTimerSeconds(5 * 60);
+        useStudyRoomStore.getState().setPomodoro({
+          timerSeconds: 5 * 60,
+          isTimerRunning: false,
+          timerMode: "BREAK",
+        });
         addToast({
           type: "success",
           title: "Hoàn thành 25 phút tập trung! 🎉",
@@ -201,6 +188,11 @@ export default function StudyRoomsPage() {
       } else {
         setTimerMode("FOCUS");
         setTimerSeconds(25 * 60);
+        useStudyRoomStore.getState().setPomodoro({
+          timerSeconds: 25 * 60,
+          isTimerRunning: false,
+          timerMode: "FOCUS",
+        });
         addToast({
           type: "info",
           title: "Hết giờ nghỉ giải lao! 🚀",
@@ -213,6 +205,43 @@ export default function StudyRoomsPage() {
     };
   }, [isTimerRunning, timerSeconds, timerMode, addToast]);
   /* eslint-enable react-hooks/set-state-in-effect */
+
+  const handleEnterRoom = (room: StudyRoom) => {
+    setActiveRoom(room);
+    useStudyRoomStore.getState().enterRoom(room);
+    const cachedMsgs = getInitialRoomMessagesProbe(room.id);
+    if (cachedMsgs.length > 0) {
+      setMessages(cachedMsgs);
+    }
+  };
+
+  const handleLeaveRoom = () => {
+    setActiveRoom(null);
+    useStudyRoomStore.getState().leaveRoom();
+    setMessages([]);
+  };
+
+  const handleSelectCategory = (catId: string) => {
+    setSelectedCategory(catId);
+    useStudyRoomStore.getState().setSelectedCategory(catId);
+  };
+
+  const toggleTimer = () => {
+    const nextRunning = !isTimerRunning;
+    setIsTimerRunning(nextRunning);
+    useStudyRoomStore.getState().setPomodoro({
+      timerSeconds,
+      isTimerRunning: nextRunning,
+      timerMode,
+    });
+  };
+
+  const handleResetTimer = () => {
+    const defaultSeconds = timerMode === "FOCUS" ? 25 * 60 : 5 * 60;
+    setIsTimerRunning(false);
+    setTimerSeconds(defaultSeconds);
+    useStudyRoomStore.getState().resetPomodoro(timerMode);
+  };
 
   const handleCreateRoom = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -243,7 +272,7 @@ export default function StudyRoomsPage() {
           message: `Phòng ${json.room.name} đã sẵn sàng hoạt động.`,
         });
         fetchRooms();
-        setActiveRoom(json.room);
+        handleEnterRoom(json.room);
       } else {
         addToast({
           type: "error",
@@ -267,6 +296,7 @@ export default function StudyRoomsPage() {
 
     const text = inputMessage.trim();
     setInputMessage("");
+    useStudyRoomStore.getState().setDraftMessage("");
     setIsSending(true);
 
     try {
@@ -281,6 +311,7 @@ export default function StudyRoomsPage() {
           const next = [...prev];
           if (json.message) next.push(json.message);
           if (json.aiMessage) next.push(json.aiMessage);
+          useStudyRoomStore.getState().setRoomMessages(activeRoom.id, next);
           return next;
         });
       }
@@ -385,7 +416,7 @@ export default function StudyRoomsPage() {
               </div>
 
               <button
-                onClick={() => setActiveRoom(null)}
+                onClick={handleLeaveRoom}
                 className="px-4 h-10 rounded-xl font-bold text-xs text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/30 hover:bg-rose-100 dark:hover:bg-rose-900/50 border border-rose-200 dark:border-rose-900/50 transition-all flex items-center gap-1.5 active:scale-95 cursor-pointer shadow-2xs"
               >
                 <LogOut className="w-3.5 h-3.5" /> Rời phòng
@@ -408,7 +439,7 @@ export default function StudyRoomsPage() {
 
                   <div className="flex items-center justify-center gap-3 pt-2">
                     <button
-                      onClick={() => setIsTimerRunning(!isTimerRunning)}
+                      onClick={toggleTimer}
                       className="h-11 px-6 bg-[#0059bb] hover:bg-[#004ba0] text-white font-bold text-xs sm:text-sm rounded-xl shadow-xs active:scale-95 transition-all cursor-pointer flex items-center gap-1.5"
                     >
                       {isTimerRunning ? (
@@ -423,10 +454,7 @@ export default function StudyRoomsPage() {
                     </button>
 
                     <button
-                      onClick={() => {
-                        setIsTimerRunning(false);
-                        setTimerSeconds(timerMode === "FOCUS" ? 25 * 60 : 5 * 60);
-                      }}
+                      onClick={handleResetTimer}
                       className="h-11 px-3.5 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-all cursor-pointer shadow-2xs"
                       title="Đặt lại đồng hồ"
                     >
@@ -521,7 +549,10 @@ export default function StudyRoomsPage() {
                   <input
                     type="text"
                     value={inputMessage}
-                    onChange={(e) => setInputMessage(e.target.value)}
+                    onChange={(e) => {
+                      setInputMessage(e.target.value);
+                      useStudyRoomStore.getState().setDraftMessage(e.target.value);
+                    }}
                     aria-label="Nhập tin nhắn phòng tự học"
                     placeholder="Gõ tin nhắn hoặc hỏi @AI giải thích từ vựng..."
                     className="flex-1 h-11 px-4 text-xs font-medium rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/40 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20 transition-all"
@@ -545,7 +576,7 @@ export default function StudyRoomsPage() {
               {categories.map((c) => (
                 <button
                   key={c.id}
-                  onClick={() => setSelectedCategory(c.id)}
+                  onClick={() => handleSelectCategory(c.id)}
                   className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
                     selectedCategory === c.id
                       ? "bg-[#0059bb] text-white shadow-xs"
@@ -637,7 +668,7 @@ export default function StudyRoomsPage() {
                       </div>
 
                       <button
-                        onClick={() => setActiveRoom(r)}
+                        onClick={() => handleEnterRoom(r)}
                         className="h-9 px-4 bg-[#0059bb] hover:bg-[#004ba0] text-white text-xs font-bold rounded-xl active:scale-95 cursor-pointer shadow-xs inline-flex items-center gap-1 transition-all"
                       >
                         Tham gia <ChevronRight className="w-3.5 h-3.5" />

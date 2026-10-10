@@ -8,8 +8,10 @@ import { useGrammarProgressStore } from "@/stores/grammarProgressStore";
 export type GrammarFilterLevel = "all" | GrammarLevel;
 
 export function useGrammarCatalog() {
-  const [activeLevel, setActiveLevel] = useState<GrammarFilterLevel>("all");
-  const [searchQuery, setSearchQuery] = useState("");
+  const activeLevel = useGrammarProgressStore((s) => s.catalogFilters.activeLevel);
+  const setActiveLevel = useGrammarProgressStore((s) => s.setActiveLevel);
+  const searchQuery = useGrammarProgressStore((s) => s.catalogFilters.searchQuery);
+  const setSearchQuery = useGrammarProgressStore((s) => s.setSearchQuery);
 
   const { completedTopicIds, getTopicStatus, getCompletedCount, getAverageAccuracy, fetchServerProgress } =
     useGrammarProgressStore();

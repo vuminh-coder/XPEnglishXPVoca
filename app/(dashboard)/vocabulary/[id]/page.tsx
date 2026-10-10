@@ -30,6 +30,7 @@ import {
   useVocabularyFlashcard,
   useVocabularyQuiz,
   useVocabularyAiCoach,
+  matchVietnameseSearch,
 } from "@/features/vocabulary";
 
 export default function ThemeDetailPage({
@@ -40,8 +41,21 @@ export default function ThemeDetailPage({
   const { id } = use(params);
   const router = useRouter();
 
-  const { fetchThemeVocabs, fetchThemeDetail, filters, setViewMode } = useVocabularyCatalogStore();
-  const { viewMode } = filters;
+  const {
+    fetchThemeVocabs,
+    fetchThemeDetail,
+    filters,
+    themeViewModes,
+    setThemeViewMode,
+  } = useVocabularyCatalogStore();
+  const viewMode = themeViewModes[id] || filters.viewMode || "flashcard";
+
+  const handleSwitchViewMode = useCallback(
+    (mode: "flashcard" | "list" | "quiz" | "ai") => {
+      setThemeViewMode(id, mode);
+    },
+    [id, setThemeViewMode]
+  );
 
   // Instant local dataset fallback for 0ms instant render
   const localInitialVocabs = useMemo(() => {
@@ -125,6 +139,7 @@ export default function ThemeDetailPage({
     handlePrev: handlePrevCard,
     handleShuffle: handleShuffleCards,
   } = useVocabularyFlashcard({
+    themeId: id,
     vocabs,
     setVocabs,
     viewMode,
@@ -146,6 +161,7 @@ export default function ThemeDetailPage({
     handleNextQuizQuestion,
     handleResetQuiz,
   } = useVocabularyQuiz({
+    themeId: id,
     vocabs,
     practiceWord,
     awardXp,
@@ -160,6 +176,7 @@ export default function ThemeDetailPage({
     isAiLoading,
     handleAiAsk,
   } = useVocabularyAiCoach({
+    themeId: id,
     themeName: theme.name,
     themeNameEn: theme.nameEn,
     awardXp,
@@ -223,13 +240,13 @@ export default function ThemeDetailPage({
 
   const filteredVocabs = useMemo(() => {
     return vocabs.filter((v) => {
-      const q = searchQuery.trim().toLowerCase();
+      const q = searchQuery.trim();
       const matchesSearch =
         !q ||
-        v.word.toLowerCase().includes(q) ||
-        (v.phonetic && v.phonetic.toLowerCase().includes(q)) ||
-        (v.definitionVn && v.definitionVn.toLowerCase().includes(q)) ||
-        (v.definition && v.definition.toLowerCase().includes(q));
+        matchVietnameseSearch(v.word, q) ||
+        matchVietnameseSearch(v.phonetic, q) ||
+        matchVietnameseSearch(v.definitionVn, q) ||
+        matchVietnameseSearch(v.definition, q);
 
       if (!matchesSearch) return false;
 
@@ -391,28 +408,28 @@ export default function ThemeDetailPage({
         <HeaderPillContainer>
           <HeaderPillItem
             active={viewMode === "flashcard"}
-            onClick={() => setViewMode("flashcard")}
+            onClick={() => handleSwitchViewMode("flashcard")}
             icon={<Layers className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />}
             label="Flashcard"
             layoutId="vocabDetailViewModePill"
           />
           <HeaderPillItem
             active={viewMode === "list"}
-            onClick={() => setViewMode("list")}
+            onClick={() => handleSwitchViewMode("list")}
             icon={<List className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />}
             label="Danh Sách"
             layoutId="vocabDetailViewModePill"
           />
           <HeaderPillItem
             active={viewMode === "quiz"}
-            onClick={() => setViewMode("quiz")}
+            onClick={() => handleSwitchViewMode("quiz")}
             icon={<Zap className="w-3.5 h-3.5 text-amber-500" />}
             label="Kiểm Tra"
             layoutId="vocabDetailViewModePill"
           />
           <HeaderPillItem
             active={viewMode === "ai"}
-            onClick={() => setViewMode("ai")}
+            onClick={() => handleSwitchViewMode("ai")}
             icon={<Bot className="w-3.5 h-3.5 text-purple-500" />}
             label="AI Coach"
             layoutId="vocabDetailViewModePill"

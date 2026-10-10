@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { useUserStore } from "@/stores/userStore";
+import { useAiSessionStore, getInitialConversationSessionProbe } from "@/stores/aiSessionStore";
 import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 import { aiTopics } from "../data/aiTopics";
 import { Message, Topic, PastSession } from "../types";
@@ -10,8 +11,13 @@ import { Message, Topic, PastSession } from "../types";
 export function useAiConversationSession() {
   const { addToast } = useNotificationStore();
 
-  const [selectedTopicId, setSelectedTopicId] = useState<string>("at1");
+  const [selectedTopicId, setSelectedTopicId] = useState<string>(() => {
+    const probe = getInitialConversationSessionProbe();
+    return probe?.selectedTopicId || "at1";
+  });
   const [selectedPersonaId, setSelectedPersonaId] = useState<string>(() => {
+    const probe = getInitialConversationSessionProbe();
+    if (probe?.selectedPersonaId) return probe.selectedPersonaId;
     if (typeof window !== "undefined") {
       return localStorage.getItem("xp_voca_ai_conversation_persona") || "native_friend";
     }
@@ -19,12 +25,22 @@ export function useAiConversationSession() {
   });
   const [selectedDifficulty, setSelectedDifficulty] = useState<
     "Beginner" | "Intermediate" | "Advanced" | null
-  >(null);
-  const [sessionId, setSessionId] = useState<string>(
-    () => `ai_conv_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`
-  );
-  const [elapsedTime, setElapsedTime] = useState(0);
-  const [isSessionCompleted, setIsSessionCompleted] = useState(false);
+  >(() => {
+    const probe = getInitialConversationSessionProbe();
+    return probe?.selectedDifficulty || null;
+  });
+  const [sessionId, setSessionId] = useState<string>(() => {
+    const probe = getInitialConversationSessionProbe();
+    return probe?.sessionId || `ai_conv_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+  });
+  const [elapsedTime, setElapsedTime] = useState(() => {
+    const probe = getInitialConversationSessionProbe();
+    return probe?.elapsedTime ?? 0;
+  });
+  const [isSessionCompleted, setIsSessionCompleted] = useState(() => {
+    const probe = getInitialConversationSessionProbe();
+    return probe?.isSessionCompleted ?? false;
+  });
 
   // History drawer state
   const [isHistoryDrawerOpen, setIsHistoryDrawerOpen] = useState(false);
@@ -80,6 +96,18 @@ export function useAiConversationSession() {
     };
   }, [isSessionCompleted]);
 
+  // Sync session state to useAiSessionStore
+  useEffect(() => {
+    useAiSessionStore.getState().setConversationSession({
+      sessionId,
+      selectedTopicId,
+      selectedPersonaId,
+      selectedDifficulty,
+      elapsedTime,
+      isSessionCompleted,
+    });
+  }, [sessionId, selectedTopicId, selectedPersonaId, selectedDifficulty, elapsedTime, isSessionCompleted]);
+
   // Helper to sync in-progress session to DB & LocalStorage immediately
   const syncActiveSessionToDb = useCallback(
     (newMessages: Message[], newElapsed?: number) => {
@@ -87,6 +115,16 @@ export function useAiConversationSession() {
       const sid = sessionIdRef.current;
       const topicId = selectedTopicIdRef.current;
       const personaId = selectedPersonaIdRef.current;
+
+      // Realtime RAM store sync
+      useAiSessionStore.getState().setConversationSession({
+        sessionId: sid,
+        selectedTopicId: topicId,
+        selectedPersonaId: personaId,
+        messages: newMessages,
+        elapsedTime: elapsed,
+      });
+
       try {
         localStorage.setItem(
           "xp_active_conv_session",
@@ -145,6 +183,7 @@ export function useAiConversationSession() {
 
   const resetSession = useCallback(() => {
     const newSid = `ai_conv_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+    useAiSessionStore.getState().resetConversationSession();
     setSessionId(newSid);
     setElapsedTime(0);
     setIsSessionCompleted(false);

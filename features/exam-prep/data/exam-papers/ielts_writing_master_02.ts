@@ -2,7 +2,7 @@ import { ExamPaper, ExamQuestion } from "./types";
 
 export const ieltsWritingMaster02Paper: ExamPaper = {
   id: "ielts_writing_master_02",
-  title: "IELTS Academic Writing Master #02 (2 Tasks)",
+  title: "IELTS Academic Writing Master 02 (2 Tasks)",
   type: "IELTS_WRITING",
   level: "Advanced",
   timeLimitMinutes: 60,

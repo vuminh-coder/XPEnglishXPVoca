@@ -92,65 +92,17 @@ export async function GET(request: Request) {
 
     let resultPayload: any;
 
-    if (dbExams && dbExams.length > 0) {
-      // Map database result
-      const formatted = dbExams.map((exam: any) => {
-        const matchingMock = MOCK_EXAM_PAPERS.find((p) => p.id === exam.id);
-        return {
-          id: exam.id,
-          title: exam.title,
-          description: exam.description,
-          durationMinutes: exam.duration,
-          totalQuestions: exam.totalQuestions,
-          difficulty: exam.difficulty,
-          isFullTest: exam.isFullTest,
-          examType: exam.examType?.name || "TOEIC",
-          categoryBadge: matchingMock?.categoryBadge || (exam.examType?.name === "IELTS" ? "IELTS Academic" : "ETS TOEIC L&R"),
-          tags: matchingMock?.tags || [exam.examType?.name || "TOEIC", "Standardized Test"],
-          supportedSkills: matchingMock?.supportedSkills || ["LISTENING", "READING"],
-        };
-      });
+    // Merge DB records and MOCK_EXAM_PAPERS so all 39 papers are always available
+    const combinedMap = new Map<string, any>();
 
-      // Filter by skill in memory if requested
-      const filteredBySkill = skill
-        ? formatted.filter((item: any) => item.supportedSkills.includes(skill as any))
-        : formatted;
-
-      resultPayload = {
-        success: true,
-        source: "database",
-        page,
-        limit,
-        total: totalCount,
-        totalPages: Math.ceil(totalCount / limit),
-        exams: filteredBySkill,
-      };
-    } else {
-      // 3. Graceful Fallback: Query and filter MOCK_EXAM_PAPERS
-      let filtered = [...MOCK_EXAM_PAPERS];
-
-      if (type !== "ALL") {
-        filtered = filtered.filter((p) => p.type.toUpperCase().includes(type));
-      }
-
-      if (skill) {
-        filtered = filtered.filter((p) => p.supportedSkills.includes(skill as any));
-      }
-
-      if (search) {
-        filtered = filtered.filter(
-          (p) =>
-            p.title.toLowerCase().includes(search) ||
-            p.description.toLowerCase().includes(search) ||
-            p.tags.some((t) => t.toLowerCase().includes(search))
-        );
-      }
-
-      const total = filtered.length;
-      const paginated = filtered.slice(skip, skip + limit).map((p) => ({
+    // 1. Seed with all standardized mock papers
+    MOCK_EXAM_PAPERS.forEach((p) => {
+      combinedMap.set(p.id, {
         id: p.id,
         title: p.title,
         description: p.description,
+        type: p.type,
+        timeLimitMinutes: p.timeLimitMinutes,
         durationMinutes: p.timeLimitMinutes,
         totalQuestions: p.totalQuestions,
         difficulty: p.level === "Advanced" ? 4 : p.level === "Intermediate" ? 3 : 2,
@@ -159,18 +111,61 @@ export async function GET(request: Request) {
         categoryBadge: p.categoryBadge,
         tags: p.tags,
         supportedSkills: p.supportedSkills,
-      }));
+      });
+    });
 
-      resultPayload = {
-        success: true,
-        source: "question_bank",
-        page,
-        limit,
-        total,
-        totalPages: Math.ceil(total / limit),
-        exams: paginated,
-      };
+    // 2. Overlay any DB records
+    if (dbExams && dbExams.length > 0) {
+      dbExams.forEach((exam: any) => {
+        const existing = combinedMap.get(exam.id);
+        if (existing) {
+          combinedMap.set(exam.id, {
+            ...existing,
+            title: exam.title || existing.title,
+            description: exam.description || existing.description,
+            durationMinutes: exam.duration || existing.durationMinutes,
+            totalQuestions: exam.totalQuestions || existing.totalQuestions,
+            difficulty: exam.difficulty ?? existing.difficulty,
+          });
+        }
+      });
     }
+
+    let filtered = Array.from(combinedMap.values());
+
+    if (type !== "ALL") {
+      filtered = filtered.filter(
+        (p) =>
+          p.type?.toUpperCase().includes(type) ||
+          p.examType?.toUpperCase().includes(type)
+      );
+    }
+
+    if (skill) {
+      filtered = filtered.filter((p) => p.supportedSkills?.includes(skill as any));
+    }
+
+    if (search) {
+      filtered = filtered.filter(
+        (p) =>
+          p.title?.toLowerCase().includes(search) ||
+          p.description?.toLowerCase().includes(search) ||
+          p.tags?.some((t: string) => t.toLowerCase().includes(search))
+      );
+    }
+
+    const total = filtered.length;
+    const paginated = filtered.slice(skip, skip + limit);
+
+    resultPayload = {
+      success: true,
+      source: "combined_bank",
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+      exams: paginated,
+    };
 
     // Cache the result
     if (examListCache.size >= MAX_CACHE_ENTRIES) {

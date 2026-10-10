@@ -2,7 +2,7 @@ import { ExamPaper, ExamQuestion } from "./types";
 
 export const ieltsLrCombo01Paper: ExamPaper = {
   id: "ielts_lr_combo_01",
-  title: "IELTS Academic L&R Master #01",
+  title: "IELTS Academic L&R Master 01",
   type: "IELTS_FULL",
   level: "Advanced",
   timeLimitMinutes: 95,

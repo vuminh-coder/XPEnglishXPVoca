@@ -2,7 +2,7 @@ import { ExamPaper, ExamQuestion } from "./types";
 
 export const ieltsReadingSprint01Paper: ExamPaper = {
   id: "ielts_reading_sprint_01",
-  title: "IELTS Academic Reading Master #01",
+  title: "IELTS Academic Reading Master 01",
   type: "IELTS_FULL",
   level: "Advanced",
   timeLimitMinutes: 60,

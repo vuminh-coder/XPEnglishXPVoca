@@ -2,7 +2,7 @@ import { ExamPaper, ExamQuestion } from "./types";
 
 export const toeicLr202604Paper: ExamPaper = {
   id: "toeic_lr_2026_04",
-  title: "ETS TOEIC 2026 Official Test #04",
+  title: "ETS TOEIC 2026 Official Test 04",
   type: "TOEIC_LR",
   level: "Advanced",
   timeLimitMinutes: 120,

@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import { Layers, BookMarked, Clock, Sparkles } from "lucide-react";
+import Link from "next/link";
+import { Layers, BookMarked, Clock, Sparkles, ArrowRight } from "lucide-react";
 
 export interface VocabularyStatsBarProps {
   levelMode: "basic" | "advanced";
@@ -21,7 +22,8 @@ export function VocabularyStatsBar({
       icon: Layers,
       color: "text-[#0059bb] dark:text-sky-400",
       bg: "bg-blue-500/10",
-      borderColor: "border-blue-500/20",
+      subText: levelMode === "basic" ? "A1 - A2 Giao Tiếp" : "B1 - C2 Chuyên Sâu",
+      href: null,
     },
     {
       title: "Kho Từ Vựng",
@@ -29,7 +31,8 @@ export function VocabularyStatsBar({
       icon: BookMarked,
       color: "text-emerald-600 dark:text-emerald-400",
       bg: "bg-emerald-500/10",
-      borderColor: "border-emerald-500/20",
+      subText: "Kèm IPA & Song Ngữ",
+      href: null,
     },
     {
       title: "Mục Tiêu Học",
@@ -37,7 +40,8 @@ export function VocabularyStatsBar({
       icon: Clock,
       color: "text-amber-600 dark:text-amber-400",
       bg: "bg-amber-500/10",
-      borderColor: "border-amber-500/20",
+      subText: "Xem lộ trình 30 ngày →",
+      href: "/study/plan",
     },
     {
       title: "Trí Nhớ SRS",
@@ -45,18 +49,22 @@ export function VocabularyStatsBar({
       icon: Sparkles,
       color: "text-purple-600 dark:text-purple-400",
       bg: "bg-purple-500/10",
-      borderColor: "border-purple-500/20",
+      subText: "Ôn tập Flashcard ngay →",
+      href: "/study/practice",
     },
   ];
 
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 select-none">
       {stats.map((item, idx) => {
         const Icon = item.icon;
-        return (
+        const CardContent = (
           <div
-            key={idx}
-            className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between min-h-[92px] group"
+            className={`p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between min-h-[104px] group ${
+              item.href
+                ? "hover:border-[#0059bb]/50 dark:hover:border-sky-500/40 cursor-pointer"
+                : "border-slate-200/90 dark:border-slate-800"
+            }`}
           >
             <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs sm:text-[13px] font-bold">
               <span>{item.title}</span>
@@ -66,15 +74,29 @@ export function VocabularyStatsBar({
                 <Icon className="w-4 h-4" />
               </div>
             </div>
-            <div className="mt-2.5">
+
+            <div className="mt-2">
               <span
-                className={`text-xl sm:text-2xl font-black font-display tracking-tight ${item.color} whitespace-nowrap truncate block`}
+                className={`text-xl sm:text-2xl font-black font-display tracking-tight ${item.color} whitespace-nowrap truncate block leading-tight`}
               >
                 {item.value}
               </span>
+              <div className="flex items-center gap-1 mt-1 text-[11px] font-medium text-slate-400 dark:text-slate-500 group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors">
+                <span>{item.subText}</span>
+              </div>
             </div>
           </div>
         );
+
+        if (item.href) {
+          return (
+            <Link key={idx} href={item.href} className="block min-w-0">
+              {CardContent}
+            </Link>
+          );
+        }
+
+        return <div key={idx} className="min-w-0">{CardContent}</div>;
       })}
     </div>
   );

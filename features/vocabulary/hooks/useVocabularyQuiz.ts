@@ -4,8 +4,10 @@ import { useState, useMemo, useCallback } from "react";
 import { useUserStore, recordSkillPractice } from "@/stores/userStore";
 import { useDailyChallengeStore } from "@/stores/dailyChallengeStore";
 import { useAuthStore } from "@/stores/authStore";
+import { useVocabularyCatalogStore } from "@/stores/vocabularyCatalogStore";
 
 export interface UseVocabularyQuizProps {
+  themeId?: string;
   vocabs: any[];
   practiceWord: (id: string, isCorrect: boolean) => void;
   awardXp: (amount: number) => void;
@@ -13,16 +15,28 @@ export interface UseVocabularyQuizProps {
 }
 
 export function useVocabularyQuiz({
+  themeId,
   vocabs,
   practiceWord,
   awardXp,
   showToastMsg,
 }: UseVocabularyQuizProps) {
-  const [quizIndex, setQuizIndex] = useState(0);
-  const [quizScore, setQuizScore] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
-  const [isQuizSubmitted, setIsQuizSubmitted] = useState(false);
-  const [quizFinished, setQuizFinished] = useState(false);
+  // Synchronous Frame 0 probe from in-memory session store
+  const session = themeId
+    ? useVocabularyCatalogStore.getState().themeQuizSessions[themeId]
+    : undefined;
+
+  const [quizIndex, setQuizIndexState] = useState(() => session?.quizIndex ?? 0);
+  const [quizScore, setQuizScoreState] = useState(() => session?.quizScore ?? 0);
+  const [selectedAnswer, setSelectedAnswerState] = useState<number | null>(
+    () => session?.selectedAnswer ?? null
+  );
+  const [isQuizSubmitted, setIsQuizSubmittedState] = useState(
+    () => session?.isQuizSubmitted ?? false
+  );
+  const [quizFinished, setQuizFinishedState] = useState(
+    () => session?.quizFinished ?? false
+  );
 
   // Generate Quiz Options for Current Question
   const currentQuizItem = vocabs[quizIndex] || null;
@@ -52,33 +66,63 @@ export function useVocabularyQuiz({
   const handleAnswerQuiz = useCallback(
     (optIndex: number) => {
       if (isQuizSubmitted || !currentQuizItem) return;
-      setSelectedAnswer(optIndex);
-      setIsQuizSubmitted(true);
+      setSelectedAnswerState(optIndex);
+      setIsQuizSubmittedState(true);
 
       const isCorrect = quizOptions[optIndex] === currentQuizItem.definitionVn;
+      const nextScore = isCorrect ? quizScore + 1 : quizScore;
       if (isCorrect) {
-        setQuizScore((prev) => prev + 1);
+        setQuizScoreState(nextScore);
         practiceWord(currentQuizItem.id, true);
         useDailyChallengeStore.getState().incrementProgress("review_cards", 1);
         useDailyChallengeStore.getState().incrementProgress("learn_words", 1);
       }
+
+      if (themeId) {
+        useVocabularyCatalogStore.getState().setThemeQuizSession(themeId, {
+          selectedAnswer: optIndex,
+          isQuizSubmitted: true,
+          quizScore: nextScore,
+        });
+      }
     },
-    [isQuizSubmitted, currentQuizItem, quizOptions, practiceWord]
+    [isQuizSubmitted, currentQuizItem, quizOptions, quizScore, practiceWord, themeId]
   );
 
   const handlePrevQuizQuestion = useCallback(() => {
-    setQuizIndex((prev) => (prev > 0 ? prev - 1 : vocabs.length - 1));
-    setSelectedAnswer(null);
-    setIsQuizSubmitted(false);
-  }, [vocabs.length]);
+    const nextIdx = quizIndex > 0 ? quizIndex - 1 : vocabs.length - 1;
+    setQuizIndexState(nextIdx);
+    setSelectedAnswerState(null);
+    setIsQuizSubmittedState(false);
+    if (themeId) {
+      useVocabularyCatalogStore.getState().setThemeQuizSession(themeId, {
+        quizIndex: nextIdx,
+        selectedAnswer: null,
+        isQuizSubmitted: false,
+      });
+    }
+  }, [vocabs.length, quizIndex, themeId]);
 
   const handleNextQuizQuestion = useCallback(() => {
     if (quizIndex < vocabs.length - 1) {
-      setQuizIndex((prev) => prev + 1);
-      setSelectedAnswer(null);
-      setIsQuizSubmitted(false);
+      const nextIdx = quizIndex + 1;
+      setQuizIndexState(nextIdx);
+      setSelectedAnswerState(null);
+      setIsQuizSubmittedState(false);
+      if (themeId) {
+        useVocabularyCatalogStore.getState().setThemeQuizSession(themeId, {
+          quizIndex: nextIdx,
+          selectedAnswer: null,
+          isQuizSubmitted: false,
+        });
+      }
     } else {
-      setQuizFinished(true);
+      setQuizFinishedState(true);
+      if (themeId) {
+        useVocabularyCatalogStore.getState().setThemeQuizSession(themeId, {
+          quizFinished: true,
+        });
+      }
       const bonusXp = quizScore * 5 + 10;
       awardXp(bonusXp);
       useUserStore.getState().addPracticeTime(3, "vocab");
@@ -88,27 +132,25 @@ export function useVocabularyQuiz({
       useDailyChallengeStore.getState().incrementProgress("learn_words", 1);
       showToastMsg("Hoàn thành bài tập! 🎉", `Bạn đã nhận +${bonusXp} XP thưởng & +3 phút học!`);
     }
-  }, [quizIndex, vocabs.length, quizScore, awardXp, showToastMsg]);
+  }, [quizIndex, vocabs.length, quizScore, awardXp, showToastMsg, themeId]);
 
   const handleResetQuiz = useCallback(() => {
-    setQuizIndex(0);
-    setQuizScore(0);
-    setSelectedAnswer(null);
-    setIsQuizSubmitted(false);
-    setQuizFinished(false);
-  }, []);
+    setQuizIndexState(0);
+    setQuizScoreState(0);
+    setSelectedAnswerState(null);
+    setIsQuizSubmittedState(false);
+    setQuizFinishedState(false);
+    if (themeId) {
+      useVocabularyCatalogStore.getState().resetThemeQuizSession(themeId);
+    }
+  }, [themeId]);
 
   return {
     quizIndex,
-    setQuizIndex,
     quizScore,
-    setQuizScore,
     selectedAnswer,
-    setSelectedAnswer,
     isQuizSubmitted,
-    setIsQuizSubmitted,
     quizFinished,
-    setQuizFinished,
     currentQuizItem,
     quizOptions,
     handleAnswerQuiz,

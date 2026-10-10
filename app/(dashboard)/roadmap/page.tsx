@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { Compass, Trophy, BarChart3, Zap, Sparkles } from "lucide-react";
+import { Compass, Trophy, BarChart3, Play, Wand2, ArrowRight } from "lucide-react";
 import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAnimation";
 import {
   AppTopHeader,
@@ -13,6 +13,7 @@ import {
   useRoadmapManager,
   RoadmapHeroBanner,
   PhaseRoadmapCard,
+  PhaseCarouselSwiper,
   LessonInspectorCard,
   GoalSelectionForm,
   AiBlueprintPreview,
@@ -69,9 +70,9 @@ export default function RoadmapPage() {
               <button
                 type="button"
                 onClick={() => handleGenerate()}
-                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#0059bb] hover:bg-[#004ba0] text-white font-bold text-xs shadow-xs transition-all active:scale-95 cursor-pointer shrink-0"
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white font-bold text-xs shadow-xs transition-all active:scale-95 cursor-pointer shrink-0"
               >
-                <Sparkles className="w-3.5 h-3.5 text-amber-300 fill-amber-300" />
+                <Wand2 className="w-3.5 h-3.5" />
                 <span>Tạo Lộ Trình AI</span>
               </button>
             </div>
@@ -147,10 +148,11 @@ export default function RoadmapPage() {
         rightDesktopContent={
           <Link
             href={nextUncompletedTask?.practicePath || "/study/dictation"}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0059bb] hover:bg-[#004ba0] text-white font-bold text-xs shadow-xs transition-all active:scale-95 cursor-pointer shrink-0"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white font-bold text-xs shadow-xs transition-all active:scale-95 cursor-pointer shrink-0 group"
           >
-            <Zap className="w-3.5 h-3.5 text-amber-300 fill-amber-300" />
+            <Play className="w-3.5 h-3.5 fill-current" />
             <span>Học Bài Tiếp Theo</span>
+            <ArrowRight className="w-3 h-3 stroke-[2.5] group-hover:translate-x-0.5 transition-transform" />
           </Link>
         }
       >
@@ -184,22 +186,19 @@ export default function RoadmapPage() {
           onOpenForm={() => setIsFormOpen(true)}
         />
 
-        {/* 3. BENTO 3/4 + 1/4 GRID LAYOUT */}
+        {/* 3. BENTO 3/4 + 1/4 GRID LAYOUT: CAROUSEL TRACK + FIXED COMPANION INSPECTOR */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start">
-          {/* LEFT 8-COLS: HIGH-END TAILORED PHASES & LESSON CARDS */}
-          <div className="lg:col-span-8 space-y-4">
-            {phases.map((phase) => (
-              <PhaseRoadmapCard
-                key={phase.phaseNum}
-                phase={phase}
-                selectedTaskId={selectedTask?.id}
-                onSelectTask={setSelectedTask}
-                onToggleComplete={handleToggleTaskCompleted}
-              />
-            ))}
+          {/* LEFT 8-COLS: HIGH-END TAILORED PHASES CAROUSEL SWIPER (Dạng lướt) */}
+          <div className="lg:col-span-8 min-w-0">
+            <PhaseCarouselSwiper
+              phases={phases}
+              selectedTaskId={selectedTask?.id}
+              onSelectTask={setSelectedTask}
+              onToggleComplete={handleToggleTaskCompleted}
+            />
           </div>
 
-          {/* RIGHT 4-COLS: INSPECTOR COMPANION CARD (Desktop) */}
+          {/* RIGHT 4-COLS: INSPECTOR COMPANION CARD (Desktop - Cố định) */}
           <LessonInspectorCard selectedTask={selectedTask} />
         </div>
       </div>

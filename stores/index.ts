@@ -18,3 +18,8 @@ export * from "./examCatalogStore";
 export * from "./vocabularyCatalogStore";
 export * from "./practiceCatalogStore";
 export * from "./ipaCatalogStore";
+export * from "./gameCatalogStore";
+export * from "./analyticsCatalogStore";
+export * from "./aiSessionStore";
+export * from "./studyRoomStore";
+export * from "./dashboardStore";

@@ -2,7 +2,7 @@ import { ExamPaper, ExamQuestion } from "./types";
 
 export const toeicLwWorkplace01Paper: ExamPaper = {
   id: "toeic_lw_workplace_01",
-  title: "TOEIC Listening & Writing Corporate Duo #01",
+  title: "TOEIC Listening & Writing Corporate Duo 01",
   type: "TOEIC_LR",
   level: "Advanced",
   timeLimitMinutes: 75,
