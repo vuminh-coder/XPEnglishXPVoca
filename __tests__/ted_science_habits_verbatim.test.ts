@@ -6,7 +6,7 @@ import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockDa
 describe("TED-Ed: The Science of Habits - 100% Verbatim Audit", () => {
   it("should have exactly 10 segments with valid duration and metadata", () => {
     expect(LESSON_TED_SCIENCE_HABITS.segments.length).toBe(10);
-    expect(LESSON_TED_SCIENCE_HABITS.externalId).toBe("W1eYrhGeffc");
+    expect(LESSON_TED_SCIENCE_HABITS.externalId).toBe("wr6fQ4KpbRM");
     expect(LESSON_TED_SCIENCE_HABITS.durationSeconds).toBe(70);
     expect(LESSON_TED_SCIENCE_HABITS.cefrLevel).toBe("B2");
     expect(LESSON_TED_SCIENCE_HABITS.accent).toBe("en-US");
@@ -53,7 +53,7 @@ describe("TED-Ed: The Science of Habits - 100% Verbatim Audit", () => {
   });
 
   it("should match mock data in videoCatalogMockData.ts exactly across all 10 segments", () => {
-    const mock = MOCK_VIDEO_LESSONS.find((v) => v.externalId === "W1eYrhGeffc");
+    const mock = MOCK_VIDEO_LESSONS.find((v) => v.externalId === "wr6fQ4KpbRM");
     expect(mock).toBeDefined();
     expect(mock?.segments.length).toBe(10);
     for (let i = 0; i < 10; i++) {

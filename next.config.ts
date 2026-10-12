@@ -36,6 +36,13 @@ const nextConfig: NextConfig = {
   devIndicators: {
     position: "bottom-left",
   },
+  webpack: (config, { dev, isServer }) => {
+    if (dev && !isServer) {
+      config.output = config.output || {};
+      config.output.chunkLoadTimeout = 300000; // 300s timeout to prevent Webpack ChunkLoadError during dev compilation
+    }
+    return config;
+  },
   async redirects() {
     return [
       {

@@ -97,19 +97,8 @@ export function ShadowingListingSkeleton() {
           </div>
         </div>
 
-        {/* HERO STATS BENTO SKELETON */}
+        {/* HERO STATS BENTO SKELETON (Exact 1:1 with ShadowingListingView) */}
         <ShadowingListingHeroStatsSkeleton />
-
-        {/* 2.2 LEVEL / CATEGORY FILTER DOCK SKELETON (Exact 0px CLS Twin) */}
-        <div className="flex items-center justify-between gap-3 overflow-x-auto pb-1">
-          <div className="p-1 rounded-xl bg-slate-200/60 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-1 shrink-0">
-            <ShimmerBox className="h-7 w-28 rounded-lg bg-white dark:bg-slate-900" />
-            <ShimmerBox className="h-7 w-24 rounded-lg" />
-            <ShimmerBox className="h-7 w-24 rounded-lg" />
-            <ShimmerBox className="h-7 w-24 rounded-lg hidden xs:block" />
-          </div>
-          <ShimmerBox className="h-5 w-32 rounded font-mono hidden sm:block" />
-        </div>
 
         {/* ROW 1: BÀI HỌC CƠ BẢN (A1 - A2) */}
         <div className="space-y-4">
@@ -155,7 +144,51 @@ export function ShadowingListingSkeleton() {
           </div>
         </div>
 
-        {/* ROW 2: BÀI HỌC NÂNG CAO (B1 - C2) */}
+        {/* ROW 2: BÀI HỌC TRUNG CẤP (B1 - B2) */}
+        <div className="space-y-4 pt-3">
+          <div className="flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-slate-800">
+            <div className="flex items-center gap-2.5">
+              <ShimmerBox className="h-6 w-16 rounded-md bg-amber-500/20 dark:bg-amber-500/10" />
+              <ShimmerBox className="h-6 w-44 sm:w-60 rounded-md" />
+            </div>
+            <ShimmerBox className="h-7 w-32 rounded-lg" />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+              <div
+                key={i}
+                className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-col overflow-hidden select-none"
+              >
+                {/* 16/10 Aspect Cover Skeleton */}
+                <div className="relative aspect-[16/10] w-full overflow-hidden shrink-0 border-b border-slate-100 dark:border-slate-800">
+                  <ShimmerBox className="w-full h-full" />
+                  <div className="absolute top-2.5 left-2.5 w-14 h-5 rounded-lg bg-slate-900/40" />
+                  <div className="absolute top-2.5 right-2.5 w-12 h-5 rounded-lg bg-slate-900/40" />
+                </div>
+
+                {/* Body Info Skeleton */}
+                <div className="px-3 pt-2 pb-2.5 sm:px-3.5 sm:pt-2 sm:pb-2.5 flex-1 flex flex-col justify-between space-y-1.5 min-w-0">
+                  <div className="space-y-1.5">
+                    <div className="flex items-center justify-between gap-2 mb-1">
+                      <ShimmerBox className="h-3.5 w-24 rounded" />
+                      <ShimmerBox className="h-3.5 w-12 rounded" />
+                    </div>
+                    <ShimmerBox className="h-4.5 w-full rounded" />
+                    <ShimmerBox className="h-4.5 w-4/5 rounded" />
+                  </div>
+
+                  <div className="flex items-center justify-between pt-1.5 border-t border-slate-100 dark:border-slate-800 text-xs gap-2">
+                    <ShimmerBox className="h-3.5 w-14 rounded" />
+                    <ShimmerBox className="h-8 w-24 rounded-xl bg-amber-500/30" />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ROW 3: BÀI HỌC NÂNG CAO (C1 - C2) */}
         <div className="space-y-4 pt-3">
           <div className="flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-slate-800">
             <div className="flex items-center gap-2.5">

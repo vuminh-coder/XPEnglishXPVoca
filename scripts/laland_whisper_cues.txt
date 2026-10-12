@@ -1,0 +1,131 @@
+[00]   0.00s ->   4.00s: So where is the new home?
+[01]   4.00s ->   8.00s: I'm so glad you're home.
+[02]   8.00s ->  12.00s: How's the play going?
+[03]  12.00s ->  14.00s: Um, nervous.
+[04]  14.00s ->  15.00s: You what?
+[05]  15.00s ->  16.00s: Why?
+[06]  16.00s ->  19.00s: Because what do people show up?
+[07]  19.00s ->  20.00s: Pishy Kaka.
+[08]  20.00s ->  23.00s: You nervous about what they think?
+[09]  23.00s ->  24.00s: I'm nervous to do it.
+[10]  24.00s ->  27.00s: I'm nervous to get up on a stage and perform for people.
+[11]  27.00s ->  29.00s: I mean, I don't need to say that to you.
+[12]  29.00s ->  30.00s: It's gonna be a good time.
+[13]  30.00s ->  31.00s: You can get out.
+[14]  31.00s ->  32.00s: But I'm terrified.
+[15]  32.00s ->  35.00s: They should be so lucky to see it.
+[16]  35.00s ->  36.00s: I can't wait.
+[17]  36.00s ->  38.00s: I can.
+[18]  40.00s ->  42.00s: When you leave them with me?
+[19]  42.00s ->  43.00s: Yeah.
+[20]  43.00s ->  45.00s: It's 45.
+[21]  45.00s ->  46.00s: Oh.
+[22]  46.00s ->  47.00s: Boisey.
+[23]  47.00s ->  48.00s: Boisey?
+[24]  48.00s ->  49.00s: Boisey.
+[25]  49.00s ->  51.00s: To Boisey.
+[26]  53.00s ->  56.00s: You should come.
+[27]  56.00s ->  58.00s: To Boisey?
+[28]  58.00s ->  60.00s: Yeah, you can knock that off a book list.
+[29]  60.00s ->  62.00s: Oh, that would be really exciting.
+[30]  62.00s ->  63.00s: I wish I could.
+[31]  63.00s ->  66.00s: What are you doing after the tour?
+[32]  66.00s ->  68.00s: Why can't you?
+[33]  68.00s ->  69.00s: Come to Boisey?
+[34]  69.00s ->  70.00s: Yeah.
+[35]  70.00s ->  71.00s: Because I have to wear hers.
+[36]  71.00s ->  73.00s: You have a can't you wear hers anywhere?
+[37]  76.00s ->  78.00s: Anywhere you are?
+[38]  78.00s ->  81.00s: I mean, I guess.
+[39]  81.00s ->  85.00s: Um, well, all my stuff is here and it's in two weeks
+[40]  85.00s ->  88.00s: so I don't really think that would be.
+[41]  88.00s ->  89.00s: Okay.
+[42]  89.00s ->  91.00s: That's the idea right now.
+[43]  91.00s ->  94.00s: But I wish I could.
+[44]  94.00s ->  97.00s: We're just gonna have to try and see each other.
+[45]  97.00s -> 100.00s: I know, but when are you done?
+[46] 100.00s -> 103.00s: I mean, I mean.
+[47] 103.00s -> 105.00s: When are you finished with the whole tour?
+[48] 105.00s -> 107.00s: But after we finish, we're gonna go and record
+[49] 107.00s -> 109.00s: and then we go back on tour.
+[50] 109.00s -> 111.00s: You know, we tour so we can make the records
+[51] 111.00s -> 114.00s: so we can go back into the record.
+[52] 116.00s -> 119.00s: So it's like the long haul.
+[53] 122.00s -> 124.00s: What do you mean the long haul?
+[54] 124.00s -> 127.00s: I mean, the long haul, like you're gonna stay in this band
+[55] 127.00s -> 129.00s: for a long time.
+[56] 129.00s -> 132.00s: On tour.
+[57] 133.00s -> 135.00s: I mean, what did you think I was gonna do?
+[58] 135.00s -> 138.00s: I don't, I hadn't really thought it through.
+[59] 138.00s -> 141.00s: I didn't know that the band...
+[60] 141.00s -> 144.00s: You didn't think it would be successful.
+[61] 144.00s -> 147.00s: Um...
+[62] 147.00s -> 149.00s: No, that's not really what I mean.
+[63] 149.00s -> 152.00s: I just mean that you're gonna be on tour for what?
+[64] 152.00s -> 154.00s: Months now? Years?
+[65] 154.00s -> 156.00s: Yeah, I don't... This is it.
+[66] 156.00s -> 158.00s: I mean, this is a feasibly B.F.
+[67] 158.00s -> 161.00s: I could be on tour with this for a couple of years,
+[68] 161.00s -> 163.00s: at least, just this record.
+[69] 163.00s -> 167.00s: Do you like the music you're playing?
+[70] 167.00s -> 169.00s: I don't know.
+[71] 169.00s -> 173.00s: I don't know what it matters.
+[72] 173.00s -> 176.00s: Well, it matters because if you're gonna give up your dream,
+[73] 176.00s -> 181.00s: I think it matters that you like what you're playing on the road for years.
+[74] 183.00s -> 185.00s: Do you like the music I'm playing?
+[75] 185.00s -> 188.00s: Yeah.
+[76] 188.00s -> 191.00s: I do. I just didn't think that you did.
+[77] 191.00s -> 194.00s: Yeah, well, you know what I said Keith is the worst
+[78] 194.00s -> 196.00s: and now you're gonna be on tour with him for years.
+[79] 196.00s -> 198.00s: So I just didn't...
+[80] 198.00s -> 200.00s: I don't know what you're doing.
+[81] 200.00s -> 202.00s: I tell you wanted me to do this.
+[82] 202.00s -> 204.00s: It just sounds like now you don't want me to do it.
+[83] 204.00s -> 206.00s: What do you mean I wanted you to do this?
+[84] 206.00s -> 208.00s: This is what you wanted for me.
+[85] 208.00s -> 210.00s: To be in this band?
+[86] 210.00s -> 212.00s: To be an A band to have a steady job, you know?
+[87] 212.00s -> 216.00s: To be... you know?
+[88] 216.00s -> 218.00s: Of course, I wanted you to have a steady job
+[89] 218.00s -> 220.00s: so that you could take care of yourself in your life
+[90] 220.00s -> 221.00s: and you could start your club.
+[91] 221.00s -> 223.00s: Yeah, so I'm doing that. So why don't you understand?
+[92] 223.00s -> 224.00s: Why aren't we celebrating?
+[93] 224.00s -> 226.00s: Why aren't you starting your club?
+[94] 226.00s -> 228.00s: You said yourself no one wants to go to that club.
+[95] 228.00s -> 230.00s: No one wants to go to a club called checking on a stick.
+[96] 230.00s -> 232.00s: So change the name.
+[97] 232.00s -> 234.00s: Well, no one likes jazz. Not even you.
+[98] 234.00s -> 236.00s: I do like jazz now because of you.
+[99] 236.00s -> 238.00s: And this is what I thought you wanted me to do.
+[100] 238.00s -> 240.00s: What am I supposed to do?
+[101] 240.00s -> 242.00s: Go back to playing jingle bells?
+[102] 242.00s -> 244.00s: I'm not saying that. I'm saying why...
+[103] 244.00s -> 246.00s: Swamping pennies so I can start a club and then I want to go to...
+[104] 246.00s -> 248.00s: You may even start a club.
+[105] 248.00s -> 250.00s: People will want to go to it because you're passionate about it
+[106] 250.00s -> 252.00s: and people love what other people are passionate about.
+[107] 252.00s -> 254.00s: You remind people of what they want.
+[108] 254.00s -> 256.00s: Not my experience.
+[109] 258.00s -> 260.00s: Well, whatever. Right? I mean, it's just...
+[110] 260.00s -> 262.00s: It's time to grow up. You know?
+[111] 262.00s -> 264.00s: I have a steady job. This is what I'm doing.
+[112] 264.00s -> 266.00s: And now, suddenly, if you had these problems,
+[113] 266.00s -> 270.00s: I wish you would have said them earlier before I signed on the God damn dotted line.
+[114] 270.00s -> 272.00s: I'm pointing out that you had a dream that you followed.
+[115] 272.00s -> 273.00s: That you were still being...
+[116] 273.00s -> 274.00s: This is the dream.
+[117] 274.00s -> 275.00s: This is the dream.
+[118] 275.00s -> 276.00s: This is not your dream.
+[119] 276.00s -> 280.00s: You guys like me work their whole lives to be in something that's successful.
+[120] 280.00s -> 282.00s: That people like. You know?
+[121] 282.00s -> 286.00s: I mean, I'm finally in something that people enjoy.
+[122] 286.00s -> 288.00s: Since when do you care about being white?
+[123] 288.00s -> 290.00s: Why do you care so much about being white?
+[124] 290.00s -> 292.00s: You're an actress. What are you talking about?
+[125] 292.00s -> 294.00s: Huh.
+[126] 310.00s -> 314.00s: Maybe you just liked me when I was on my ass because it made you feel better about yourself.
+[127] 314.00s -> 316.00s: Are you kidding?
+[128] 316.00s -> 318.00s: No.
+[129] 344.00s -> 346.00s: I'm sorry.
+[130] 374.00s -> 376.00s: I'm sorry.

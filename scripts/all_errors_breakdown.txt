@@ -1,0 +1,44 @@
+Total: 75, Errors: 42
+
+1. [150] features/listening/data/lessons\lesson_bbc_laughter_medicine.ts | id: q_bbc_laughter_med_1 | extId: uQ7t8w4A0xk | BBC Learning English: Is Laughter the Best Medicine?
+2. [150] features/listening/data/lessons\lesson_business_phone_call.ts | id: q_business_phone_1 | extId: 7V1UjX9m_eQ | Business English: Professional Phone Calls & Telephone Etiquette
+3. [150] features/listening/data/lessons\lesson_hotel_checkin.ts | id: q_hotel_checkin_1 | extId: P7X7Cq_9c0s | English for Travel: Hotel Check-in & Guest Services
+4. [150] features/listening/data/lessons\lesson_medical_consultation.ts | id: q_medical_consult_1 | extId: V5a7g9Gz8d0 | Medical English: Doctor Consultation & Pharmacy Prescription
+5. [150] features/listening/data/lessons\lesson_restaurant_ordering.ts | id: q_restaurant_ordering_1 | extId: G9bFzV7p6m0 | English for Dining: Ordering Food at a Restaurant
+6. [150] features/listening/data/lessons\movies\animation\lesson_coco_remember_me_with_mama_coco_extended.ts | id: q_mov_ani_05_1 | extId: 3iFx6m9_bJ0 | Coco: 
+7. [150] features/listening/data/lessons\movies\animation\lesson_finding_nemo_dory_just_keep_swimming.ts | id: q_mov_ani_09_1 | extId: 0Hkn-LSh7es | Finding Nemo: Dory’s 
+8. [150] features/listening/data/lessons\movies\animation\lesson_inside_out_joy_sadness_anxiety_breakthrough.ts | id: q_mov_ani_02_1 | extId: W4N8r3Xm5aQ | Inside Out (1 & 2): Core Memories & The Anxiety Panic Attack Breakthrough
+9. [150] features/listening/data/lessons\movies\animation\lesson_kung_fu_panda_master_oogway_wisdom_peach_tree.ts | id: q_mov_ani_01_1 | extId: tPzPUq6lY_M | Kung Fu Panda: Master Oogway’s Complete Wisdom & Peach Tree Scene
+10. [150] features/listening/data/lessons\movies\animation\lesson_monsters_inc_goodbye_boo_emotional_cut.ts | id: q_mov_ani_12_1 | extId: qX8k2H0_pQ4 | Monsters, Inc.: Sulley and Mike Saying Goodbye to Boo (Emotional Cut)
+11. [150] features/listening/data/lessons\movies\animation\lesson_ratatouille_anton_ego_food_review_monologue.ts | id: q_mov_ani_04_1 | extId: a_Lz22bH374 | Ratatouille: Anton Ego
+12. [150] features/listening/data/lessons\movies\animation\lesson_soul_the_spark_and_ocean_parable.ts | id: q_mov_ani_03_1 | extId: Xk1a8kL0X1U | Soul (Pixar): Joe Gardner Finds 
+13. [150] features/listening/data/lessons\movies\animation\lesson_tangled_lantern_festival_i_see_the_light.ts | id: q_mov_ani_10_1 | extId: fKPK6cDXCAI | Tangled: The Lantern Festival Scene & Flynn Rider Confession (Extended)
+14. [150] features/listening/data/lessons\movies\animation\lesson_up_carl_and_ellie_thanks_for_adventure.ts | id: q_mov_ani_06_1 | extId: 1GAKTUrS3PE | Up (Pixar): Carl & Ellie
+15. [150] features/listening/data/lessons\movies\animation\lesson_walle_i_dont_want_to_survive_i_want_to_live.ts | id: q_mov_ani_11_1 | extId: sW4X5h1aE_g | WALL-E: The Captain Learns About Earth (
+16. [150] features/listening/data/lessons\movies\animation\lesson_zootopia_judy_nick_carrot_pen_confession.ts | id: q_mov_ani_07_1 | extId: eE2q9F1gQ2k | Zootopia: Judy Hopps & Nick Wilde – The Carrot Pen Confession & Press Conference
+17. [150] features/listening/data/lessons\movies\inspirational\lesson_12_angry_men_juror_8_first_doubt_sequence.ts | id: q_mov_insp_12_1 | extId: A7PB9l_tKew | 12 Angry Men: Juror 8 Persuades the Room (The First Reasonable Doubt)
+18. [150] features/listening/data/lessons\movies\inspirational\lesson_a_beautiful_mind_nobel_prize_speech.ts | id: q_mov_insp_09_1 | extId: Yq_T8F6j3_c | A Beautiful Mind: John Nash’s Nobel Prize Acceptance Speech
+19. [150] features/listening/data/lessons\movies\inspirational\lesson_cast_away_keep_breathing_tomorrow_sun_rises.ts | id: q_mov_insp_10_1 | extId: 8jH1rWpQZ04 | Cast Away: Chuck Noland Returns – 
+20. [150] features/listening/data/lessons\movies\inspirational\lesson_dead_poets_society_carpe_diem_captain.ts | id: q_mov_insp_03_1 | extId: viL7crj0jsw | Dead Poets Society: Mr. Keating
+21. [150] features/listening/data/lessons\movies\inspirational\lesson_scent_of_a_woman_al_pacino_baird_school_defense.ts | id: q_mov_insp_11_1 | extId: fT2khh00v8g | Scent of a Woman: Al Pacino
+22. [150] features/listening/data/lessons\movies\inspirational\lesson_shawshank_redemption_get_busy_living_pacific.ts | id: q_mov_insp_04_1 | extId: 7tkzqph37a0 | The Shawshank Redemption: 
+23. [150] features/listening/data/lessons\movies\inspirational\lesson_theory_of_everything_where_there_is_life_hope.ts | id: q_mov_insp_08_1 | extId: WvP4_ZJ24vQ | The Theory of Everything: Stephen Hawking Auditorium Speech (
+24. [150] features/listening/data/lessons\movies\inspirational\lesson_the_intern_ben_whittacker_gentleman_wisdom.ts | id: q_mov_insp_06_1 | extId: rF8rJg-v7aM | The Intern: Ben Whittacker Being The Ultimate Mentor & Gentleman
+25. [150] features/listening/data/lessons\movies\inspirational\lesson_whiplash_there_are_no_two_words_harmful.ts | id: q_mov_insp_07_1 | extId: xDAsABdk3GQ | Whiplash: The Jazz Bar Conversation – 
+26. [150] features/listening/data/lessons\movies\romance\lesson_500_days_of_summer_expectations_vs_reality.ts | id: q_mov_rom_08_1 | extId: u82hnJ4m344 | 500 Days of Summer: Expectations vs. Reality & The Park Bench Finale
+27. [150] features/listening/data/lessons\movies\romance\lesson_flipped_the_sycamore_tree_and_basket_boys.ts | id: q_mov_rom_12_1 | extId: 34xS1l_z34U | Flipped: Bryce and Juli – The Sycamore Tree & The Basket Boy Auction
+28. [150] features/listening/data/lessons\movies\romance\lesson_her_theodore_samantha_deepest_connection.ts | id: q_mov_rom_07_1 | extId: ne6p6642Tw4 | Her: Theodore and Samantha
+29. [150] features/listening/data/lessons\movies\romance\lesson_notting_hill_im_also_just_a_girl.ts | id: q_mov_rom_11_1 | extId: gZ_qXm_0oJk | Notting Hill: 
+30. [150] features/listening/data/lessons\movies\romance\lesson_titanic_flying_first_class_dinner_extended.ts | id: q_mov_rom_09_1 | extId: 1ygdXYm8mAI | Titanic: Jack & Rose – From 
+31. [150] features/listening/data/lessons\movies\sitcoms\lesson_brooklyn_nine_nine_jake_i_want_it_that_way.ts | id: q_mov_sit_08_1 | extId: ffyKY3Dj6ag | Brooklyn Nine-Nine: Jake Peralta’s Best Interrogations (
+32. [150] features/listening/data/lessons\movies\sitcoms\lesson_friends_best_of_chandler_bing_sarcasm.ts | id: q_mov_sit_02_1 | extId: hM_Z94vE4o4 | The Very Best of Chandler Bing’s Sarcasm & One-Liners (Matthew Perry Tribute)
+33. [150] features/listening/data/lessons\movies\sitcoms\lesson_friends_the_iconic_apartment_bet_trivia.ts | id: q_mov_sit_01_1 | extId: V_wW2yPzE8w | Friends: The Iconic Apartment Bet Trivia Game (Extended 10-Minute Cut)
+34. [150] features/listening/data/lessons\movies\sitcoms\lesson_how_i_met_your_mother_barney_playbook_theories.ts | id: q_mov_sit_07_1 | extId: r4qY3hK2_wI | How I Met Your Mother: Barney Stinson
+35. [150] features/listening/data/lessons\movies\sitcoms\lesson_modern_family_best_of_phil_dunphy_dad.ts | id: q_mov_sit_03_1 | extId: mG9pX_L1zQ4 | Modern Family: The Best Of Phil Dunphy Being The Ultimate Dad (14 Minutes)
+36. [150] features/listening/data/lessons\movies\sitcoms\lesson_modern_family_gloria_funniest_language_struggles.ts | id: q_mov_sit_04_1 | extId: 3k4R_6jL3i0 | Modern Family: Gloria’s Funniest Language Struggles & Best Arguments
+37. [150] features/listening/data/lessons\movies\sitcoms\lesson_schitts_creek_alexis_david_vocabulary_dinners.ts | id: q_mov_sit_12_1 | extId: oP4w_Z8e0Yk | Schitt’s Creek: Alexis Rose & Moira’s Most Iconic Vocabulary & Family Dinners
+38. [150] features/listening/data/lessons\movies\sitcoms\lesson_ted_lasso_be_curious_not_judgmental_darts.ts | id: q_mov_sit_11_1 | extId: yG1k4qfQ2zI | Ted Lasso: The 
+39. [150] features/listening/data/lessons\movies\sitcoms\lesson_the_big_bang_theory_sheldon_roommate_agreement.ts | id: q_mov_sit_09_1 | extId: t_Y_1mXf4w4 | The Big Bang Theory: Sheldon Cooper’s Most Ridiculous Roommate Agreement Rules
+40. [150] features/listening/data/lessons\movies\sitcoms\lesson_the_office_jim_pranks_on_dwight_15min.ts | id: q_mov_sit_05_1 | extId: P_4c_V1zW8k | The Office (US): Jim Halpert
+41. [150] features/listening/data/lessons\movies\sitcoms\lesson_the_office_michael_scott_conference_meetings.ts | id: q_mov_sit_06_1 | extId: 8gXpA0bA5Xo | The Office (US): Michael Scott
+42. [150] features/listening/data/lessons\movies\sitcoms\lesson_young_sheldon_outsmarting_everyone_debates.ts | id: q_mov_sit_10_1 | extId: K4w_9e0jK8w | Young Sheldon Outsmarting Everyone (His Best School & Dinner Debates)

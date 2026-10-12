@@ -1,0 +1,1070 @@
+{
+  "text": " What the hell, sir? What the hell, sir? What? Do you see any moving? No, sir. None moving, sir. Check them! Bring that all up in. Check them, make sure. Please, advance, sir. Now give way. That easy. Careful with your wars. Don't hit them. Is there anyone alive out there? Can anyone hear me? Is there anyone alive out there? We waited too long. We'll keep checking them. Keep looking. Is there anyone alive out there? Can anyone hear me? I'm sorry. I'm just a little bit late. I'm not by the sea. And it's up, she goes. Up, she goes. I'm just happy. And I'm alive. Jack. Jack. Jack. Jack. There's a boat. Jack. Jack. Jack. Jack. Jack. Jack. There's a boat. Jack. Jack. Jack. Jack. Jack. Jack. Jack. Jack. Jack. Jack. No! Cut anyone here, me! There's no legata. Cut back! Cut back! I'll never let go. I promise. I'll never let go.",
+  "segments": [
+    {
+      "id": 0,
+      "seek": 0,
+      "start": 0.0,
+      "end": 2.0,
+      "text": " What the hell, sir?",
+      "tokens": [
+        50364,
+        708,
+        264,
+        4921,
+        11,
+        4735,
+        30,
+        50464
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.5325163298962163,
+      "compression_ratio": 1.3578947368421053,
+      "no_speech_prob": 0.2857465147972107
+    },
+    {
+      "id": 1,
+      "seek": 0,
+      "start": 7.0,
+      "end": 9.0,
+      "text": " What the hell, sir?",
+      "tokens": [
+        50714,
+        708,
+        264,
+        4921,
+        11,
+        4735,
+        30,
+        50814
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.5325163298962163,
+      "compression_ratio": 1.3578947368421053,
+      "no_speech_prob": 0.2857465147972107
+    },
+    {
+      "id": 2,
+      "seek": 0,
+      "start": 13.0,
+      "end": 15.0,
+      "text": " What?",
+      "tokens": [
+        51014,
+        708,
+        30,
+        51114
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.5325163298962163,
+      "compression_ratio": 1.3578947368421053,
+      "no_speech_prob": 0.2857465147972107
+    },
+    {
+      "id": 3,
+      "seek": 0,
+      "start": 16.0,
+      "end": 18.0,
+      "text": " Do you see any moving?",
+      "tokens": [
+        51164,
+        1144,
+        291,
+        536,
+        604,
+        2684,
+        30,
+        51264
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.5325163298962163,
+      "compression_ratio": 1.3578947368421053,
+      "no_speech_prob": 0.2857465147972107
+    },
+    {
+      "id": 4,
+      "seek": 0,
+      "start": 19.0,
+      "end": 21.0,
+      "text": " No, sir. None moving, sir.",
+      "tokens": [
+        51314,
+        883,
+        11,
+        4735,
+        13,
+        14492,
+        2684,
+        11,
+        4735,
+        13,
+        51414
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.5325163298962163,
+      "compression_ratio": 1.3578947368421053,
+      "no_speech_prob": 0.2857465147972107
+    },
+    {
+      "id": 5,
+      "seek": 0,
+      "start": 22.0,
+      "end": 24.0,
+      "text": " Check them! Bring that all up in.",
+      "tokens": [
+        51464,
+        6881,
+        552,
+        0,
+        12842,
+        300,
+        439,
+        493,
+        294,
+        13,
+        51564
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.5325163298962163,
+      "compression_ratio": 1.3578947368421053,
+      "no_speech_prob": 0.2857465147972107
+    },
+    {
+      "id": 6,
+      "seek": 3000,
+      "start": 31.0,
+      "end": 33.0,
+      "text": " Check them, make sure.",
+      "tokens": [
+        50414,
+        6881,
+        552,
+        11,
+        652,
+        988,
+        13,
+        50514
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.3041944665423894,
+      "compression_ratio": 1.2461538461538462,
+      "no_speech_prob": 0.029320966452360153
+    },
+    {
+      "id": 7,
+      "seek": 3000,
+      "start": 33.0,
+      "end": 35.0,
+      "text": " Please, advance, sir.",
+      "tokens": [
+        50514,
+        2555,
+        11,
+        7295,
+        11,
+        4735,
+        13,
+        50614
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.3041944665423894,
+      "compression_ratio": 1.2461538461538462,
+      "no_speech_prob": 0.029320966452360153
+    },
+    {
+      "id": 8,
+      "seek": 3000,
+      "start": 35.0,
+      "end": 37.0,
+      "text": " Now give way.",
+      "tokens": [
+        50614,
+        823,
+        976,
+        636,
+        13,
+        50714
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.3041944665423894,
+      "compression_ratio": 1.2461538461538462,
+      "no_speech_prob": 0.029320966452360153
+    },
+    {
+      "id": 9,
+      "seek": 3000,
+      "start": 37.0,
+      "end": 39.0,
+      "text": " That easy.",
+      "tokens": [
+        50714,
+        663,
+        1858,
+        13,
+        50814
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.3041944665423894,
+      "compression_ratio": 1.2461538461538462,
+      "no_speech_prob": 0.029320966452360153
+    },
+    {
+      "id": 10,
+      "seek": 3000,
+      "start": 45.0,
+      "end": 47.0,
+      "text": " Careful with your wars.",
+      "tokens": [
+        51114,
+        32932,
+        365,
+        428,
+        13718,
+        13,
+        51214
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.3041944665423894,
+      "compression_ratio": 1.2461538461538462,
+      "no_speech_prob": 0.029320966452360153
+    },
+    {
+      "id": 11,
+      "seek": 3000,
+      "start": 47.0,
+      "end": 49.0,
+      "text": " Don't hit them.",
+      "tokens": [
+        51214,
+        1468,
+        380,
+        2045,
+        552,
+        13,
+        51314
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.3041944665423894,
+      "compression_ratio": 1.2461538461538462,
+      "no_speech_prob": 0.029320966452360153
+    },
+    {
+      "id": 12,
+      "seek": 3000,
+      "start": 50.0,
+      "end": 53.0,
+      "text": " Is there anyone alive out there?",
+      "tokens": [
+        51364,
+        1119,
+        456,
+        2878,
+        5465,
+        484,
+        456,
+        30,
+        51514
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.3041944665423894,
+      "compression_ratio": 1.2461538461538462,
+      "no_speech_prob": 0.029320966452360153
+    },
+    {
+      "id": 13,
+      "seek": 3000,
+      "start": 54.0,
+      "end": 57.0,
+      "text": " Can anyone hear me?",
+      "tokens": [
+        51564,
+        1664,
+        2878,
+        1568,
+        385,
+        30,
+        51714
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.3041944665423894,
+      "compression_ratio": 1.2461538461538462,
+      "no_speech_prob": 0.029320966452360153
+    },
+    {
+      "id": 14,
+      "seek": 5700,
+      "start": 58.0,
+      "end": 61.0,
+      "text": " Is there anyone alive out there?",
+      "tokens": [
+        50414,
+        1119,
+        456,
+        2878,
+        5465,
+        484,
+        456,
+        30,
+        50564
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.20279992710460315,
+      "compression_ratio": 1.4646464646464648,
+      "no_speech_prob": 0.039633858948946
+    },
+    {
+      "id": 15,
+      "seek": 5700,
+      "start": 68.0,
+      "end": 70.0,
+      "text": " We waited too long.",
+      "tokens": [
+        50914,
+        492,
+        15240,
+        886,
+        938,
+        13,
+        51014
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.20279992710460315,
+      "compression_ratio": 1.4646464646464648,
+      "no_speech_prob": 0.039633858948946
+    },
+    {
+      "id": 16,
+      "seek": 5700,
+      "start": 73.0,
+      "end": 76.0,
+      "text": " We'll keep checking them. Keep looking.",
+      "tokens": [
+        51164,
+        492,
+        603,
+        1066,
+        8568,
+        552,
+        13,
+        5527,
+        1237,
+        13,
+        51314
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.20279992710460315,
+      "compression_ratio": 1.4646464646464648,
+      "no_speech_prob": 0.039633858948946
+    },
+    {
+      "id": 17,
+      "seek": 5700,
+      "start": 77.0,
+      "end": 80.0,
+      "text": " Is there anyone alive out there?",
+      "tokens": [
+        51364,
+        1119,
+        456,
+        2878,
+        5465,
+        484,
+        456,
+        30,
+        51514
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.20279992710460315,
+      "compression_ratio": 1.4646464646464648,
+      "no_speech_prob": 0.039633858948946
+    },
+    {
+      "id": 18,
+      "seek": 5700,
+      "start": 83.0,
+      "end": 85.0,
+      "text": " Can anyone hear me?",
+      "tokens": [
+        51664,
+        1664,
+        2878,
+        1568,
+        385,
+        30,
+        51764
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.20279992710460315,
+      "compression_ratio": 1.4646464646464648,
+      "no_speech_prob": 0.039633858948946
+    },
+    {
+      "id": 19,
+      "seek": 8700,
+      "start": 88.0,
+      "end": 90.0,
+      "text": " I'm sorry.",
+      "tokens": [
+        50414,
+        286,
+        478,
+        2597,
+        13,
+        50514
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.9427641935126726,
+      "compression_ratio": 1.144578313253012,
+      "no_speech_prob": 0.2502062916755676
+    },
+    {
+      "id": 20,
+      "seek": 8700,
+      "start": 96.0,
+      "end": 99.0,
+      "text": " I'm just a little bit late.",
+      "tokens": [
+        50814,
+        286,
+        478,
+        445,
+        257,
+        707,
+        857,
+        3469,
+        13,
+        50964
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.9427641935126726,
+      "compression_ratio": 1.144578313253012,
+      "no_speech_prob": 0.2502062916755676
+    },
+    {
+      "id": 21,
+      "seek": 8700,
+      "start": 99.0,
+      "end": 104.0,
+      "text": " I'm not by the sea.",
+      "tokens": [
+        50964,
+        286,
+        478,
+        406,
+        538,
+        264,
+        4158,
+        13,
+        51214
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.9427641935126726,
+      "compression_ratio": 1.144578313253012,
+      "no_speech_prob": 0.2502062916755676
+    },
+    {
+      "id": 22,
+      "seek": 8700,
+      "start": 105.0,
+      "end": 110.0,
+      "text": " And it's up, she goes.",
+      "tokens": [
+        51264,
+        400,
+        309,
+        311,
+        493,
+        11,
+        750,
+        1709,
+        13,
+        51514
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.9427641935126726,
+      "compression_ratio": 1.144578313253012,
+      "no_speech_prob": 0.2502062916755676
+    },
+    {
+      "id": 23,
+      "seek": 8700,
+      "start": 110.0,
+      "end": 113.0,
+      "text": " Up, she goes.",
+      "tokens": [
+        51514,
+        5858,
+        11,
+        750,
+        1709,
+        13,
+        51664
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.9427641935126726,
+      "compression_ratio": 1.144578313253012,
+      "no_speech_prob": 0.2502062916755676
+    },
+    {
+      "id": 24,
+      "seek": 11700,
+      "start": 118.0,
+      "end": 121.0,
+      "text": " I'm just happy.",
+      "tokens": [
+        50414,
+        286,
+        478,
+        445,
+        2055,
+        13,
+        50564
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.421176815032959,
+      "compression_ratio": 0.8108108108108109,
+      "no_speech_prob": 0.3103744685649872
+    },
+    {
+      "id": 25,
+      "seek": 11700,
+      "start": 123.0,
+      "end": 126.0,
+      "text": " And I'm alive.",
+      "tokens": [
+        50664,
+        400,
+        286,
+        478,
+        5465,
+        13,
+        50814
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.421176815032959,
+      "compression_ratio": 0.8108108108108109,
+      "no_speech_prob": 0.3103744685649872
+    },
+    {
+      "id": 26,
+      "seek": 14700,
+      "start": 148.0,
+      "end": 150.0,
+      "text": " Jack.",
+      "tokens": [
+        50414,
+        4718,
+        13,
+        50514
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.29019001814035267,
+      "compression_ratio": 1.40625,
+      "no_speech_prob": 0.03493992239236832
+    },
+    {
+      "id": 27,
+      "seek": 14700,
+      "start": 155.0,
+      "end": 158.0,
+      "text": " Jack.",
+      "tokens": [
+        50764,
+        4718,
+        13,
+        50914
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.29019001814035267,
+      "compression_ratio": 1.40625,
+      "no_speech_prob": 0.03493992239236832
+    },
+    {
+      "id": 28,
+      "seek": 14700,
+      "start": 159.0,
+      "end": 162.0,
+      "text": " Jack.",
+      "tokens": [
+        50964,
+        4718,
+        13,
+        51114
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.29019001814035267,
+      "compression_ratio": 1.40625,
+      "no_speech_prob": 0.03493992239236832
+    },
+    {
+      "id": 29,
+      "seek": 14700,
+      "start": 168.0,
+      "end": 172.0,
+      "text": " Jack. There's a boat.",
+      "tokens": [
+        51414,
+        4718,
+        13,
+        821,
+        311,
+        257,
+        6582,
+        13,
+        51614
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.29019001814035267,
+      "compression_ratio": 1.40625,
+      "no_speech_prob": 0.03493992239236832
+    },
+    {
+      "id": 30,
+      "seek": 14700,
+      "start": 172.0,
+      "end": 175.0,
+      "text": " Jack.",
+      "tokens": [
+        51614,
+        4718,
+        13,
+        51764
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.29019001814035267,
+      "compression_ratio": 1.40625,
+      "no_speech_prob": 0.03493992239236832
+    },
+    {
+      "id": 31,
+      "seek": 17700,
+      "start": 178.0,
+      "end": 181.0,
+      "text": " Jack.",
+      "tokens": [
+        50414,
+        4718,
+        13,
+        50564
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.3658005893230438,
+      "compression_ratio": 1.59375,
+      "no_speech_prob": 0.007065119221806526
+    },
+    {
+      "id": 32,
+      "seek": 17700,
+      "start": 184.0,
+      "end": 188.0,
+      "text": " Jack.",
+      "tokens": [
+        50714,
+        4718,
+        13,
+        50914
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.3658005893230438,
+      "compression_ratio": 1.59375,
+      "no_speech_prob": 0.007065119221806526
+    },
+    {
+      "id": 33,
+      "seek": 17700,
+      "start": 188.0,
+      "end": 192.0,
+      "text": " Jack.",
+      "tokens": [
+        50914,
+        4718,
+        13,
+        51114
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.3658005893230438,
+      "compression_ratio": 1.59375,
+      "no_speech_prob": 0.007065119221806526
+    },
+    {
+      "id": 34,
+      "seek": 17700,
+      "start": 192.0,
+      "end": 197.0,
+      "text": " Jack.",
+      "tokens": [
+        51114,
+        4718,
+        13,
+        51364
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.3658005893230438,
+      "compression_ratio": 1.59375,
+      "no_speech_prob": 0.007065119221806526
+    },
+    {
+      "id": 35,
+      "seek": 17700,
+      "start": 197.0,
+      "end": 200.0,
+      "text": " Jack.",
+      "tokens": [
+        51364,
+        4718,
+        13,
+        51514
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.3658005893230438,
+      "compression_ratio": 1.59375,
+      "no_speech_prob": 0.007065119221806526
+    },
+    {
+      "id": 36,
+      "seek": 17700,
+      "start": 200.0,
+      "end": 203.0,
+      "text": " There's a boat.",
+      "tokens": [
+        51514,
+        821,
+        311,
+        257,
+        6582,
+        13,
+        51664
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.3658005893230438,
+      "compression_ratio": 1.59375,
+      "no_speech_prob": 0.007065119221806526
+    },
+    {
+      "id": 37,
+      "seek": 17700,
+      "start": 203.0,
+      "end": 206.0,
+      "text": " Jack.",
+      "tokens": [
+        51664,
+        4718,
+        13,
+        51814
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.3658005893230438,
+      "compression_ratio": 1.59375,
+      "no_speech_prob": 0.007065119221806526
+    },
+    {
+      "id": 38,
+      "seek": 20700,
+      "start": 208.0,
+      "end": 212.0,
+      "text": " Jack.",
+      "tokens": [
+        50414,
+        4718,
+        13,
+        50614
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.681483635535607,
+      "compression_ratio": 1.0625,
+      "no_speech_prob": 0.5326936841011047
+    },
+    {
+      "id": 39,
+      "seek": 20700,
+      "start": 213.0,
+      "end": 217.0,
+      "text": " Jack.",
+      "tokens": [
+        50664,
+        4718,
+        13,
+        50864
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.681483635535607,
+      "compression_ratio": 1.0625,
+      "no_speech_prob": 0.5326936841011047
+    },
+    {
+      "id": 40,
+      "seek": 20700,
+      "start": 222.0,
+      "end": 227.0,
+      "text": " Jack.",
+      "tokens": [
+        51114,
+        4718,
+        13,
+        51364
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.681483635535607,
+      "compression_ratio": 1.0625,
+      "no_speech_prob": 0.5326936841011047
+    },
+    {
+      "id": 41,
+      "seek": 23700,
+      "start": 237.0,
+      "end": 241.0,
+      "text": " Jack.",
+      "tokens": [
+        50364,
+        4718,
+        13,
+        50564
+      ],
+      "temperature": 0.6,
+      "avg_logprob": -0.6312423119178185,
+      "compression_ratio": 2.0588235294117645,
+      "no_speech_prob": 0.07614973932504654
+    },
+    {
+      "id": 42,
+      "seek": 23700,
+      "start": 242.0,
+      "end": 247.0,
+      "text": " Jack.",
+      "tokens": [
+        50614,
+        4718,
+        13,
+        50864
+      ],
+      "temperature": 0.6,
+      "avg_logprob": -0.6312423119178185,
+      "compression_ratio": 2.0588235294117645,
+      "no_speech_prob": 0.07614973932504654
+    },
+    {
+      "id": 43,
+      "seek": 23700,
+      "start": 247.0,
+      "end": 252.0,
+      "text": " Jack.",
+      "tokens": [
+        50864,
+        4718,
+        13,
+        51114
+      ],
+      "temperature": 0.6,
+      "avg_logprob": -0.6312423119178185,
+      "compression_ratio": 2.0588235294117645,
+      "no_speech_prob": 0.07614973932504654
+    },
+    {
+      "id": 44,
+      "seek": 23700,
+      "start": 252.0,
+      "end": 256.0,
+      "text": " Jack.",
+      "tokens": [
+        51114,
+        4718,
+        13,
+        51314
+      ],
+      "temperature": 0.6,
+      "avg_logprob": -0.6312423119178185,
+      "compression_ratio": 2.0588235294117645,
+      "no_speech_prob": 0.07614973932504654
+    },
+    {
+      "id": 45,
+      "seek": 23700,
+      "start": 256.0,
+      "end": 259.0,
+      "text": " Jack.",
+      "tokens": [
+        51314,
+        4718,
+        13,
+        51464
+      ],
+      "temperature": 0.6,
+      "avg_logprob": -0.6312423119178185,
+      "compression_ratio": 2.0588235294117645,
+      "no_speech_prob": 0.07614973932504654
+    },
+    {
+      "id": 46,
+      "seek": 23700,
+      "start": 259.0,
+      "end": 263.0,
+      "text": " Jack.",
+      "tokens": [
+        51464,
+        4718,
+        13,
+        51664
+      ],
+      "temperature": 0.6,
+      "avg_logprob": -0.6312423119178185,
+      "compression_ratio": 2.0588235294117645,
+      "no_speech_prob": 0.07614973932504654
+    },
+    {
+      "id": 47,
+      "seek": 26300,
+      "start": 263.0,
+      "end": 265.0,
+      "text": " No!",
+      "tokens": [
+        50364,
+        883,
+        0,
+        50464
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.5797982215881348,
+      "compression_ratio": 1.0941176470588236,
+      "no_speech_prob": 0.37567654252052307
+    },
+    {
+      "id": 48,
+      "seek": 26300,
+      "start": 265.0,
+      "end": 267.0,
+      "text": " Cut anyone here, me!",
+      "tokens": [
+        50464,
+        9431,
+        2878,
+        510,
+        11,
+        385,
+        0,
+        50564
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.5797982215881348,
+      "compression_ratio": 1.0941176470588236,
+      "no_speech_prob": 0.37567654252052307
+    },
+    {
+      "id": 49,
+      "seek": 26300,
+      "start": 268.0,
+      "end": 269.0,
+      "text": " There's no legata.",
+      "tokens": [
+        50614,
+        821,
+        311,
+        572,
+        1676,
+        3274,
+        13,
+        50664
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.5797982215881348,
+      "compression_ratio": 1.0941176470588236,
+      "no_speech_prob": 0.37567654252052307
+    },
+    {
+      "id": 50,
+      "seek": 26300,
+      "start": 272.0,
+      "end": 273.0,
+      "text": " Cut back!",
+      "tokens": [
+        50814,
+        9431,
+        646,
+        0,
+        50864
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.5797982215881348,
+      "compression_ratio": 1.0941176470588236,
+      "no_speech_prob": 0.37567654252052307
+    },
+    {
+      "id": 51,
+      "seek": 26300,
+      "start": 275.0,
+      "end": 276.0,
+      "text": " Cut back!",
+      "tokens": [
+        50964,
+        9431,
+        646,
+        0,
+        51014
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.5797982215881348,
+      "compression_ratio": 1.0941176470588236,
+      "no_speech_prob": 0.37567654252052307
+    },
+    {
+      "id": 52,
+      "seek": 26300,
+      "start": 284.0,
+      "end": 285.0,
+      "text": " I'll never let go.",
+      "tokens": [
+        51414,
+        286,
+        603,
+        1128,
+        718,
+        352,
+        13,
+        51464
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.5797982215881348,
+      "compression_ratio": 1.0941176470588236,
+      "no_speech_prob": 0.37567654252052307
+    },
+    {
+      "id": 53,
+      "seek": 26300,
+      "start": 286.0,
+      "end": 287.0,
+      "text": " I promise.",
+      "tokens": [
+        51514,
+        286,
+        6228,
+        13,
+        51564
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.5797982215881348,
+      "compression_ratio": 1.0941176470588236,
+      "no_speech_prob": 0.37567654252052307
+    },
+    {
+      "id": 54,
+      "seek": 29300,
+      "start": 293.0,
+      "end": 295.0,
+      "text": " I'll never let go.",
+      "tokens": [
+        50364,
+        286,
+        603,
+        1128,
+        718,
+        352,
+        13,
+        50464
+      ],
+      "temperature": 0.2,
+      "avg_logprob": -0.7442973454793295,
+      "compression_ratio": 0.6923076923076923,
+      "no_speech_prob": 0.6972895860671997
+    }
+  ],
+  "language": "en"
+}

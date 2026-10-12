@@ -12,6 +12,7 @@ interface GrammarAiCompanionProps {
   chatLoading: boolean;
   onSendMessage: (text: string) => void;
   prompts: string[];
+  className?: string;
 }
 
 export function GrammarAiCompanion({
@@ -22,6 +23,7 @@ export function GrammarAiCompanion({
   chatLoading,
   onSendMessage,
   prompts,
+  className = "p-4 sm:p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-4 sticky top-4",
 }: GrammarAiCompanionProps) {
   const renderFormattedText = (content: string) => {
     if (!content) return null;
@@ -74,7 +76,7 @@ export function GrammarAiCompanion({
   };
 
   return (
-    <div className="p-4 sm:p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-4 sticky top-4">
+    <div className={className}>
       {/* Header */}
       <div className="flex items-center gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
         <div className="w-10 h-10 rounded-xl bg-purple-500/10 dark:bg-purple-500/20 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center justify-center shrink-0 shadow-2xs">

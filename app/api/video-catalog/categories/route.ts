@@ -65,10 +65,36 @@ export async function GET(req: NextRequest) {
       topPlaylists: c.playlists,
     }));
 
+    const movieCategorySlugs = new Set([
+      "romance-cinema",
+      "inspirational-life",
+      "classic-sitcoms",
+      "animation-pixar-disney",
+    ]);
+
+    const movieMockCats = MOCK_VIDEO_CATEGORIES.filter((c) =>
+      movieCategorySlugs.has(c.slug)
+    ).map((c) => ({
+      id: c.id,
+      slug: c.slug,
+      name: c.name,
+      description: c.description,
+      icon: c.icon,
+      thumbnail: null,
+      orderIndex: c.orderIndex,
+      isFeatured: true,
+      lessonCount: c.lessonsCount || 12,
+      playlistCount: 2,
+      topPlaylists: [],
+    }));
+
+    const otherCats = formatted.filter((c) => !movieCategorySlugs.has(c.slug));
+    const merged = [...movieMockCats, ...otherCats];
+
     return NextResponse.json({
       success: true,
-      categories: formatted,
-      totalCount: formatted.length,
+      categories: merged,
+      totalCount: merged.length,
     });
   } catch (error: any) {
     console.error("[API video-catalog/categories] Error:", error);

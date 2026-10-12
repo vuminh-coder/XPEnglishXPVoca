@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   BookOpen,
@@ -15,9 +15,11 @@ import {
   Loader2,
   XCircle,
   CheckCircle2,
+  Volume2,
 } from "lucide-react";
 import { VietnamFlag } from "@/shared/components/ui";
 import { GrammarLesson, GrammarTopic } from "../../types/grammarTypes";
+import { safeSpeakText, stopTTS } from "@/shared/utils/mobileAudio";
 
 interface GrammarTheoryStudioProps {
   topic: GrammarTopic;
@@ -32,6 +34,28 @@ export function GrammarTheoryStudio({
   onStartPractice,
   loadingPractice,
 }: GrammarTheoryStudioProps) {
+  const [playingText, setPlayingText] = useState<string | null>(null);
+
+  useEffect(() => {
+    return () => {
+      stopTTS();
+    };
+  }, []);
+
+  const handleSpeak = (text: string) => {
+    if (playingText === text) {
+      stopTTS();
+      setPlayingText(null);
+      return;
+    }
+    stopTTS();
+    setPlayingText(text);
+    safeSpeakText(text, {
+      lang: "en-US",
+      onEnd: () => setPlayingText(null),
+      onError: () => setPlayingText(null),
+    });
+  };
   return (
     <div className="p-5 sm:p-7 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-6">
       {/* 1. Overview & Memory Tip */}
@@ -131,9 +155,28 @@ export function GrammarTheoryStudio({
                 key={uIdx}
                 className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200/90 dark:border-slate-800 space-y-2 hover:border-[#0059bb]/40 transition-all shadow-2xs"
               >
-                <span className="px-2.5 py-0.5 rounded-lg text-[9px] font-bold uppercase bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 border border-blue-200/60 dark:border-blue-800/40 inline-block">
-                  {u.context}
-                </span>
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-lg text-[9px] font-bold uppercase bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 border border-blue-200/60 dark:border-blue-800/40 inline-block">
+                    {u.context}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => handleSpeak(u.example)}
+                    className={`p-1.5 rounded-lg border transition-all cursor-pointer shrink-0 ${
+                      playingText === u.example
+                        ? "bg-[#0059bb] text-white border-[#0059bb] shadow-xs"
+                        : "bg-white dark:bg-slate-800 text-slate-500 hover:text-[#0059bb] border-slate-200 dark:border-slate-700"
+                    }`}
+                    title="Nghe phát âm ví dụ"
+                    aria-label={`Nghe câu: ${u.example}`}
+                  >
+                    <Volume2
+                      className={`w-3.5 h-3.5 ${
+                        playingText === u.example ? "animate-pulse" : ""
+                      }`}
+                    />
+                  </button>
+                </div>
                 <p className="text-xs sm:text-sm font-semibold text-slate-900 dark:text-white leading-relaxed">
                   &quot;{u.example}&quot;
                 </p>
@@ -165,11 +208,30 @@ export function GrammarTheoryStudio({
                   <span className="px-2.5 py-0.5 rounded-lg text-[9px] font-bold uppercase bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
                     Ví dụ {eIdx + 1}
                   </span>
-                  {ex.highlight && (
-                    <span className="px-2.5 py-0.5 rounded-lg text-[9px] font-bold bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 border border-blue-200/60 dark:border-blue-800/40">
-                      Trọng tâm: {ex.highlight}
-                    </span>
-                  )}
+                  <div className="flex items-center gap-1.5">
+                    {ex.highlight && (
+                      <span className="px-2.5 py-0.5 rounded-lg text-[9px] font-bold bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 border border-blue-200/60 dark:border-blue-800/40">
+                        Trọng tâm: {ex.highlight}
+                      </span>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => handleSpeak(ex.en)}
+                      className={`p-1.5 rounded-lg border transition-all cursor-pointer shrink-0 ${
+                        playingText === ex.en
+                          ? "bg-[#0059bb] text-white border-[#0059bb] shadow-xs"
+                          : "bg-white dark:bg-slate-800 text-slate-500 hover:text-[#0059bb] border-slate-200 dark:border-slate-700"
+                      }`}
+                      title="Nghe phát âm chuẩn"
+                      aria-label={`Nghe câu: ${ex.en}`}
+                    >
+                      <Volume2
+                        className={`w-3.5 h-3.5 ${
+                          playingText === ex.en ? "animate-pulse" : ""
+                        }`}
+                      />
+                    </button>
+                  </div>
                 </div>
 
                 <div className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display leading-snug">

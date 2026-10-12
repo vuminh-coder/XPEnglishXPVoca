@@ -35,77 +35,29 @@ export function ExamHubSkeleton() {
           </div>
         </div>
 
-        {/* Right: CTA Tạo Đề Mới AI + User Profile Menu */}
+        {/* Right: CTA Tạo Đề Mới AI + Gamification Chips + User Profile Menu */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-          <ShimmerBox className="h-9 w-32 sm:w-36 rounded-xl bg-[#0059bb]/30 dark:bg-[#0059bb]/20" />
+          <ShimmerBox className="h-9 w-28 sm:w-32 rounded-xl bg-[#0059bb]/30 dark:bg-[#0059bb]/20 hidden sm:block" />
+          {/* Gamification Chips: Streak + Coins */}
+          <div className="flex items-center gap-1.5 shrink-0">
+            <ShimmerBox className="h-8 sm:h-9 w-12 sm:w-14 rounded-xl bg-orange-400/15 border border-orange-200/50" />
+            <ShimmerBox className="h-8 sm:h-9 w-12 sm:w-14 rounded-xl bg-amber-400/15 border border-amber-200/50 hidden xs:block" />
+          </div>
           <ShimmerCircle className="w-8 h-8 shrink-0" />
         </div>
       </header>
 
-      {/* ─── MAIN CONTAINER ─── */}
-      <main className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 pt-3 sm:pt-4">
-
-        {/* ─── 1. HERO BENTO BANNER & CONFIGURATOR STUDIO SKELETON ─── */}
-        <div className="p-3.5 sm:p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm relative overflow-hidden space-y-3.5 sm:space-y-4">
-          {/* Top ambient rose glow line (Rule 20) */}
-          <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-rose-500/60 to-transparent" />
-
-          {/* Header Row: Title & Mode Switcher */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800/80 pb-3 sm:pb-3.5">
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <ShimmerBox className="h-5 w-28 rounded-md bg-rose-500/15 dark:bg-rose-500/20 border border-rose-500/30" />
-                <ShimmerText className="h-6 w-48 sm:w-60 rounded-lg" />
-              </div>
-              <ShimmerText className="h-3.5 w-64 sm:w-96 opacity-75" />
-            </div>
-
-            {/* Mode Switcher Tabs (2 buttons) */}
-            <div className="grid grid-cols-2 sm:flex sm:items-center gap-1 p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 shrink-0 w-full sm:w-auto">
-              <ShimmerBox className="h-8 w-full sm:w-32 rounded-lg bg-white dark:bg-slate-700 shadow-2xs" />
-              <ShimmerBox className="h-8 w-full sm:w-32 rounded-lg" />
-            </div>
-          </div>
-
-          {/* 4-Skill Matrix Selector Skeleton */}
-          <div className="space-y-2.5">
-            <div className="flex items-center justify-between">
-              <ShimmerText className="h-3.5 w-52 sm:w-64" />
-              <ShimmerText className="h-3 w-40 opacity-60 hidden sm:block" />
-            </div>
-
-            {/* 4 Skills: Nghe, Đọc, Nói AI, Viết AI */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5">
-              {[
-                { label: "Nghe", accent: "bg-blue-500/10 border-blue-300/40" },
-                { label: "Đọc", accent: "bg-emerald-500/10 border-emerald-300/40" },
-                { label: "Nói AI", accent: "bg-amber-500/10 border-amber-300/40" },
-                { label: "Viết AI", accent: "bg-purple-500/10 border-purple-300/40" },
-              ].map((skill, idx) => (
-                <div
-                  key={idx}
-                  className={`p-2.5 sm:p-3 rounded-xl border ${skill.accent} flex items-center justify-between shadow-2xs`}
-                >
-                  <div className="flex items-center gap-2 min-w-0">
-                    <ShimmerBox className="w-4 h-4 rounded-md shrink-0" />
-                    <ShimmerText className="h-3.5 w-16 sm:w-20" />
-                  </div>
-                  <ShimmerBox className="w-4 h-4 rounded-md shrink-0" />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* ─── 2. SEARCH & FILTER BAR SKELETON (2 TẦNG CHUẨN AGENCY) ─── */}
+      {/* ─── MAIN CONTAINER (1:1 with ExamHub layout) ─── */}
+      <main className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 pt-1">
+        {/* ─── 1. SEARCH & FILTER BAR SKELETON (2 TẦNG CHUẨN AGENCY) ─── */}
         <div className="space-y-3 pt-1">
-          {/* Tầng 1: Dải Category Tabs */}
+          {/* Tầng 1: Dải Category Tabs (Tất cả bộ đề, TOEIC LR, IELTS, TOEIC SW, TOEIC Full) */}
           <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden py-0.5">
-            <ShimmerBox className="h-9 w-28 sm:w-32 rounded-xl bg-white dark:bg-slate-800 shadow-2xs" />
-            <ShimmerBox className="h-9 w-36 sm:w-40 rounded-xl" />
-            <ShimmerBox className="h-9 w-32 sm:w-36 rounded-xl" />
-            <ShimmerBox className="h-9 w-36 sm:w-40 rounded-xl" />
-            <ShimmerBox className="h-9 w-32 sm:w-36 rounded-xl" />
+            <ShimmerBox className="h-8.5 w-28 sm:w-32 rounded-xl bg-[#0059bb]/20 dark:bg-[#0059bb]/30 shadow-2xs" />
+            <ShimmerBox className="h-8.5 w-36 sm:w-40 rounded-xl" />
+            <ShimmerBox className="h-8.5 w-32 sm:w-36 rounded-xl" />
+            <ShimmerBox className="h-8.5 w-36 sm:w-40 rounded-xl" />
+            <ShimmerBox className="h-8.5 w-32 sm:w-36 rounded-xl" />
           </div>
 
           {/* Tầng 2: Search Input & Actions Dock */}
@@ -114,8 +66,8 @@ export function ExamHubSkeleton() {
               <ShimmerBox className="w-full h-9.5 rounded-xl border border-slate-200/90 dark:border-slate-800" />
             </div>
             <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0">
-              <ShimmerText className="h-4 w-24" />
-              <ShimmerBox className="h-9.5 w-24 rounded-xl border border-slate-200/90 dark:border-slate-800" />
+              <ShimmerText className="h-4 w-28" />
+              <ShimmerBox className="h-9 w-24 rounded-xl border border-slate-200/90 dark:border-slate-800" />
             </div>
           </div>
         </div>
@@ -454,8 +406,8 @@ export function ExamWorkspaceSkeleton({
       </header>
 
       {/* ─── MAIN WORKSPACE GRID (8/12 vs 4/12) ─── */}
-      <main className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-3.5 sm:py-4 pb-24 sm:pb-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 items-start">
+      <main className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-3.5 sm:py-5 pb-24 sm:pb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-start">
 
           {/* CỘT TRÁI (8/12): NỘI DUNG CHUYÊN BIỆT THEO TỪNG KỸ NĂNG */}
           <section className="lg:col-span-8 space-y-3.5">
@@ -513,63 +465,109 @@ export function ExamResultSkeleton() {
       className="w-full min-h-screen bg-slate-50/70 dark:bg-slate-950 flex flex-col font-sans select-none pb-16 md:pb-8"
       aria-label="Đang tải bảng điểm kết quả bài thi..."
     >
-      {/* Header 56px */}
-      <header className="w-full h-14 bg-white dark:bg-slate-900 border-b border-slate-200/90 dark:border-slate-800 px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-4 shrink-0 shadow-2xs">
-        <div className="flex items-center gap-2">
-          <ShimmerBox className="h-8 w-28 rounded-xl" />
-          <ShimmerBox className="h-8 w-28 rounded-xl hidden sm:block" />
+      {/* Header 56px Baseline Twin with 3 Report Tabs & Actions */}
+      <header className="sticky top-0 z-30 w-full h-14 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200/90 dark:border-slate-800 px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-4 shrink-0 shadow-2xs">
+        {/* Left: Back button + 3 Report Tabs */}
+        <div className="flex items-center gap-2 min-w-0">
+          <ShimmerBox className="w-8 h-8 rounded-xl shrink-0" />
+          <div className="p-0.5 sm:p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-1 shrink-0">
+            <ShimmerBox className="h-7 w-20 sm:w-24 rounded-lg bg-white dark:bg-slate-700 shadow-2xs" />
+            <ShimmerBox className="h-7 w-24 sm:w-28 rounded-lg hidden sm:block" />
+            <ShimmerBox className="h-7 w-22 sm:w-26 rounded-lg hidden md:block" />
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          <ShimmerBox className="h-8 w-24 rounded-xl" />
-          <ShimmerBox className="h-8 w-24 rounded-xl bg-[#0059bb]/30" />
+
+        {/* Right: Actions (Danh Sách Đề + Thi Lại) + Avatar */}
+        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+          <ShimmerBox className="h-8 w-24 sm:w-28 rounded-xl" />
+          <ShimmerBox className="h-8 w-20 sm:w-24 rounded-xl bg-[#0059bb]/30" />
+          <ShimmerCircle className="w-8 h-8 shrink-0" />
         </div>
       </header>
 
       {/* Main result canvas */}
-      <main className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-4 sm:py-6 space-y-4 sm:space-y-5">
-        {/* Title bar */}
-        <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <ShimmerBox className="w-10 h-10 rounded-xl bg-[#0059bb]/20" />
-            <div className="space-y-1.5">
-              <ShimmerText className="h-3.5 w-32" />
-              <ShimmerText className="h-5 w-56" />
+      <main className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-3.5 sm:py-6 space-y-4 sm:space-y-6">
+        {/* 1. Micro Hero Bar (Award Icon + Title) */}
+        <div className="p-3.5 sm:p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <ShimmerBox className="w-9 h-9 rounded-xl bg-[#0059bb]/30 shrink-0" />
+            <div className="space-y-1.5 min-w-0">
+              <ShimmerText className="h-3 w-44 sm:w-64" />
+              <ShimmerText className="h-4.5 w-60 sm:w-80" />
             </div>
           </div>
         </div>
 
-        {/* Hero Score Radial Gauge Card */}
-        <div className="p-5 sm:p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-4">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <ShimmerCircle className="w-24 h-24 bg-[#0059bb]/15 border-4 border-[#0059bb]/30 shrink-0" />
+        {/* 2. Hero Score Radial Gauge Card */}
+        <div className="p-4 sm:p-6 rounded-2xl bg-gradient-to-br from-[#0059bb]/25 via-[#004799]/20 to-slate-950 border border-blue-400/20 shadow-md space-y-4">
+          <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 sm:gap-6">
+            <div className="flex items-center gap-4 sm:gap-5">
+              <ShimmerCircle className="w-[92px] h-[92px] sm:w-24 sm:h-24 bg-[#0059bb]/20 border-4 border-[#0059bb]/40 shrink-0" />
               <div className="space-y-2">
-                <ShimmerText className="h-7 w-48 sm:w-64" />
-                <ShimmerText className="h-4 w-36 opacity-75" />
+                <ShimmerBox className="h-4 w-36 rounded-md bg-amber-400/30" />
+                <ShimmerText className="h-8 w-36 sm:w-48" />
+                <ShimmerText className="h-3.5 w-44 sm:w-56 opacity-75" />
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              <ShimmerBox className="h-9 w-28 rounded-xl bg-emerald-500/20" />
-              <ShimmerBox className="h-9 w-28 rounded-xl bg-amber-500/20" />
+            <div className="flex flex-col gap-2 shrink-0">
+              <div className="grid grid-cols-2 gap-2">
+                <ShimmerBox className="h-8 w-32 rounded-xl bg-white/10" />
+                <ShimmerBox className="h-8 w-32 rounded-xl bg-white/10" />
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <ShimmerBox className="h-8 w-32 rounded-xl bg-emerald-500/20" />
+                <ShimmerBox className="h-8 w-32 rounded-xl bg-amber-500/20" />
+              </div>
             </div>
           </div>
         </div>
 
-        {/* 4 Metric Bento Cards Grid */}
+        {/* 3. 4 Metric Cards Grid (Đúng, Sai, Bỏ qua, Tốc độ) */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-          {[1, 2, 3, 4].map((i) => (
+          {[
+            { accent: "bg-emerald-500/20" },
+            { accent: "bg-rose-500/20" },
+            { accent: "bg-slate-400/20" },
+            { accent: "bg-blue-500/20" },
+          ].map((item, i) => (
             <div
               key={i}
-              className="p-3.5 sm:p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-2xs flex items-center gap-3"
+              className="p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-2xs flex items-center gap-3"
             >
-              <ShimmerBox className="w-9 h-9 rounded-xl shrink-0" />
-              <div className="space-y-1.5 flex-1">
+              <ShimmerBox className={`w-9 h-9 rounded-xl shrink-0 ${item.accent}`} />
+              <div className="space-y-1.5 flex-1 min-w-0">
                 <ShimmerText className="h-3 w-16" />
                 <ShimmerText className="h-5 w-20" />
               </div>
             </div>
           ))}
+        </div>
+
+        {/* 4. Part Analysis Breakdown Card (TrendingUp icon + 4 Part breakdown rows) */}
+        <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-2xs space-y-3">
+          <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+            <ShimmerBox className="w-5 h-5 rounded-md bg-[#0059bb]/30" />
+            <ShimmerText className="h-4 w-48 sm:w-64" />
+          </div>
+
+          <div className="space-y-2 pt-1">
+            {[1, 2, 3, 4].map((partNum) => (
+              <div
+                key={partNum}
+                className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200/70 dark:border-slate-800/80 flex items-center justify-between gap-3"
+              >
+                <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                  <ShimmerBox className="h-5 w-14 rounded-md bg-blue-500/20 shrink-0" />
+                  <ShimmerText className="h-4 w-32 sm:w-48" />
+                </div>
+                <div className="flex items-center gap-3 shrink-0">
+                  <ShimmerBox className="h-2 w-20 sm:w-32 rounded-full" />
+                  <ShimmerBox className="h-4 w-10 rounded-md" />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </main>
     </div>

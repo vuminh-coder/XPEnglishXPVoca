@@ -16,7 +16,6 @@ import {
   Volume2,
   Bookmark,
   BookmarkCheck,
-  BookMarked,
   ChevronDown,
   ChevronUp,
   Crown,
@@ -37,7 +36,7 @@ import { useVocabularyStore } from '@/stores/vocabularyStore';
 import { useVocabularyCatalogStore } from '@/stores/vocabularyCatalogStore';
 import { useAuthStore } from '@/stores/authStore';
 import { useNotificationStore } from '@/stores/notificationStore';
-import { speakLessonText } from '@/shared/utils/ttsEngine';
+import { safeSpeakText, stopTTS } from '@/shared/utils/mobileAudio';
 import { AppTopHeader } from '@/shared/components/layout/AppTopHeader';
 import { VocabSuiteNavTabs } from '@/shared/components/layout/nav-tabs';
 import { PageEntranceWrapper, MotionItem } from '@/shared/components/feedback/PageEntranceAnimation';
@@ -72,8 +71,43 @@ const VIETNAMESE_LONG_WEEKDAYS = [
   'Thứ Bảy',
 ];
 
+// POS Semantic Color-Coding Helper (Quy tắc phối màu 60-30-10 & Semantic Accents)
+function getPosBadge(pos?: string) {
+  if (!pos) return null;
+  const p = pos.toLowerCase().trim();
+  if (p.includes('noun') || p === 'n' || p === 'n.') {
+    return { label: 'n.', color: 'bg-sky-500/10 text-[#0059bb] dark:text-sky-300 border-sky-500/20' };
+  }
+  if (p.includes('verb') || p === 'v' || p === 'v.') {
+    return { label: 'v.', color: 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/20' };
+  }
+  if (p.includes('adj') || p === 'a' || p === 'a.') {
+    return { label: 'adj.', color: 'bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-500/20' };
+  }
+  if (p.includes('adv')) {
+    return { label: 'adv.', color: 'bg-purple-500/10 text-purple-700 dark:text-purple-300 border-purple-500/20' };
+  }
+  if (p.includes('phrase') || p.includes('phr') || p.includes('idiom')) {
+    return { label: 'phr.', color: 'bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border-indigo-500/20' };
+  }
+  if (p.includes('interjection') || p.includes('interj') || p.includes('exclamation')) {
+    return { label: 'interj.', color: 'bg-rose-500/10 text-rose-700 dark:text-rose-300 border-rose-500/20' };
+  }
+  if (p.includes('prep')) {
+    return { label: 'prep.', color: 'bg-teal-500/10 text-teal-700 dark:text-teal-300 border-teal-500/20' };
+  }
+  if (p.includes('conj')) {
+    return { label: 'conj.', color: 'bg-cyan-500/10 text-cyan-700 dark:text-cyan-300 border-cyan-500/20' };
+  }
+  if (p.includes('pron')) {
+    return { label: 'pron.', color: 'bg-fuchsia-500/10 text-fuchsia-700 dark:text-fuchsia-300 border-fuchsia-500/20' };
+  }
+  return { label: p.length > 7 ? `${p.slice(0, 6)}.` : p, color: 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700' };
+}
+
 export default function ReviewPage() {
   const [isMounted, setIsMounted] = useState(false);
+  const [playingAudioText, setPlayingAudioText] = useState<string | null>(null);
   const { learned, loadLearnedWords } = useVocabularyStore();
   const { user } = useAuthStore();
   const { addToast } = useNotificationStore();
@@ -149,6 +183,13 @@ export default function ReviewPage() {
 
   useEffect(() => {
     setBookmarkedIds(new Set(getBookmarkedWords()));
+  }, []);
+
+  // Clean TTS on unmount
+  useEffect(() => {
+    return () => {
+      stopTTS();
+    };
   }, []);
 
   const formatLocalDate = (d: Date) => {
@@ -318,20 +359,48 @@ export default function ReviewPage() {
   const selectedDateVocabs = useMemo(() => {
     return rawSelectedDateVocabs.filter(v => {
       const matchesSearch =
-        v.word.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        v.definitionVn.toLowerCase().includes(searchTerm.toLowerCase());
+        !searchTerm.trim() ||
+        v.word.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
+        v.definitionVn.toLowerCase().includes(searchTerm.trim().toLowerCase());
+
       const matchesPos = selectedPos === 'all' || v.pos.toLowerCase() === selectedPos.toLowerCase();
-      const matchesProficiency =
-        selectedProficiency === 'all' || v.proficiency === parseInt(selectedProficiency, 10);
+
+      let matchesProficiency = true;
+      if (selectedProficiency === 'due_group') {
+        matchesProficiency = (v.proficiency ?? 0) <= 3;
+      } else if (selectedProficiency === 'mastered_group') {
+        matchesProficiency = v.proficiency >= 4 && v.proficiency <= 5;
+      } else if (selectedProficiency !== 'all') {
+        const targetLvl = parseInt(selectedProficiency, 10);
+        if (targetLvl === 1) {
+          matchesProficiency = (v.proficiency ?? 0) <= 1;
+        } else {
+          matchesProficiency = v.proficiency === targetLvl;
+        }
+      }
+
       const matchesBookmark = selectedBookmark === 'all' || bookmarkedIds.has(v.id);
       return matchesSearch && matchesPos && matchesProficiency && matchesBookmark;
     });
   }, [rawSelectedDateVocabs, searchTerm, selectedPos, selectedProficiency, selectedBookmark, bookmarkedIds]);
 
+  // Quantifier counts for selected date toolbar filter chips
+  const selectedDateDueCount = useMemo(() => {
+    return rawSelectedDateVocabs.filter(v => (v.proficiency ?? 0) <= 3).length;
+  }, [rawSelectedDateVocabs]);
+
+  const selectedDateMasteredCount = useMemo(() => {
+    return rawSelectedDateVocabs.filter(v => (v.proficiency ?? 0) >= 4).length;
+  }, [rawSelectedDateVocabs]);
+
+  const selectedDateBookmarkedCount = useMemo(() => {
+    return rawSelectedDateVocabs.filter(v => bookmarkedIds.has(v.id)).length;
+  }, [rawSelectedDateVocabs, bookmarkedIds]);
+
   // Spaced Repetition Analytics calculations
   const retentionRate = useMemo(() => {
     if (learned.length === 0) return 100;
-    const goodWords = learned.filter(l => l.proficiency >= 3).length;
+    const goodWords = learned.filter(l => (l.proficiency || 0) >= 3).length;
     return Math.round((goodWords / learned.length) * 100);
   }, [learned]);
 
@@ -370,17 +439,20 @@ export default function ReviewPage() {
     return null;
   }, [learned]);
 
-  const speakWord = (wordText: string) => {
-    speakLessonText(wordText, {
-      lessonId: 'review_spaced_repetition',
-      rate: 1.0,
+  const handleSpeak = (text: string, identifier: string) => {
+    if (!text) return;
+    setPlayingAudioText(identifier);
+    safeSpeakText(text, {
+      rate: 0.95,
+      onEnd: () => setPlayingAudioText(null),
+      onError: () => setPlayingAudioText(null),
     });
   };
 
   const handleToggleBookmark = (wordId: string) => {
     const bookmarked = getBookmarkedWords();
     const idx = bookmarked.indexOf(wordId);
-    let updated;
+    let updated: boolean;
     if (idx >= 0) {
       bookmarked.splice(idx, 1);
       updated = false;
@@ -415,81 +487,10 @@ export default function ReviewPage() {
   const uniquePosList = useMemo(() => {
     const set = new Set<string>();
     rawSelectedDateVocabs.forEach(v => {
-      if (v.pos) set.add(v.pos);
+      if (v.pos) set.add(v.pos.trim().toLowerCase());
     });
     return Array.from(set);
   }, [rawSelectedDateVocabs]);
-
-  // 4 Core Stat Cards configuration matching myvocab / dashboard
-  const statCards = [
-    {
-      key: 'due',
-      label: 'Cần ôn hôm nay',
-      sublabel: todayDueCount > 0 ? 'Đang chờ ôn tập' : 'Đã hoàn tất 100%',
-      count: todayDueCount,
-      icon: <CalendarClock className="w-5 h-5 text-amber-500 stroke-[1.8]" />,
-      accentBg: 'bg-amber-50 dark:bg-amber-950/60 border border-amber-200/80 dark:border-amber-800',
-      progressPct: todayDueCount === 0 ? 100 : Math.max(10, Math.min(100, todayDueCount * 10)),
-      progressColor: todayDueCount === 0 ? 'bg-emerald-500' : 'bg-amber-500',
-      action: todayDueCount > 0 ? (
-        <Link
-          href="/study/practice?mode=review"
-          className="text-xs font-bold text-[#0059bb] dark:text-sky-400 hover:underline flex items-center gap-1"
-        >
-          Ôn ngay <ArrowRight className="w-3 h-3 stroke-[2]" />
-        </Link>
-      ) : (
-        <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-0.5">
-          <Check className="w-3.5 h-3.5 stroke-[2]" /> Xong
-        </span>
-      ),
-    },
-    {
-      key: 'retention',
-      label: 'Tỷ lệ nhớ từ',
-      sublabel: 'Chỉ số SM-2 tối ưu',
-      count: `${retentionRate}%`,
-      icon: <Target className="w-5 h-5 text-emerald-500 stroke-[1.8]" />,
-      accentBg: 'bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800',
-      progressPct: retentionRate,
-      progressColor: 'bg-emerald-500',
-      action: (
-        <span className="text-[11px] font-mono font-semibold text-slate-500 dark:text-slate-400">
-          Ổn định
-        </span>
-      ),
-    },
-    {
-      key: 'mastered',
-      label: 'Từ đã làm chủ',
-      sublabel: 'Thành thạo cấp 5',
-      count: masteredCount,
-      icon: <Crown className="w-5 h-5 text-[#0059bb] dark:text-sky-400 stroke-[1.8]" />,
-      accentBg: 'bg-blue-50 dark:bg-blue-950/60 border border-blue-200/80 dark:border-blue-800',
-      progressPct: learned.length > 0 ? Math.round((masteredCount / learned.length) * 100) : 0,
-      progressColor: 'bg-[#0059bb]',
-      action: (
-        <span className="text-[11px] font-mono font-semibold text-slate-500 dark:text-slate-400">
-          {learned.length > 0 ? Math.round((masteredCount / learned.length) * 100) : 0}%
-        </span>
-      ),
-    },
-    {
-      key: 'total',
-      label: 'Tổng từ đang học',
-      sublabel: 'Chu kỳ phản xạ SM-2',
-      count: learned.length,
-      icon: <Layers className="w-5 h-5 text-indigo-500 stroke-[1.8]" />,
-      accentBg: 'bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/80 dark:border-indigo-800',
-      progressPct: Math.min(100, Math.max(5, Math.round((learned.length / 200) * 100))),
-      progressColor: 'bg-indigo-500',
-      action: (
-        <span className="text-[11px] font-mono font-semibold text-slate-500 dark:text-slate-400">
-          Chủ động
-        </span>
-      ),
-    },
-  ];
 
   // DICTATION RULE: 0ms Instant Render when returning from other pages.
   // Only display ReviewSkeleton on cold start if learned list is completely empty.
@@ -498,9 +499,30 @@ export default function ReviewPage() {
     return <ReviewSkeleton />;
   }
 
+  const isFilterActive =
+    searchTerm.trim() !== '' ||
+    selectedPos !== 'all' ||
+    selectedProficiency !== 'all' ||
+    selectedBookmark !== 'all';
+
+  const resetAllFilters = () => {
+    setSearchTerm('');
+    setSelectedPos('all');
+    setSelectedProficiency('all');
+    setSelectedBookmark('all');
+    setReviewFilter({
+      searchTerm: '',
+      selectedPos: 'all',
+      selectedProficiency: 'all',
+      selectedBookmark: 'all',
+    });
+  };
+
   return (
-    <div className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none pb-28 md:pb-12 text-slate-800 dark:text-slate-200" suppressHydrationWarning>
-      
+    <div
+      className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none pb-28 md:pb-12 text-slate-800 dark:text-slate-200 antialiased"
+      suppressHydrationWarning
+    >
       {/* ─── 0. UNIVERSAL APP TOP HEADER (56px Baseline) ─── */}
       <AppTopHeader
         rightDesktopContent={
@@ -509,7 +531,7 @@ export default function ReviewPage() {
               href="/study/practice?mode=review"
               className="h-9 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004ba0] text-white text-xs font-bold shadow-md shadow-[#0059bb]/20 flex items-center gap-1.5 transition-all cursor-pointer active:scale-95 shrink-0 font-display"
             >
-              <Sparkles className="w-3.5 h-3.5 text-amber-300 stroke-[2]" />
+              <Sparkles className="w-3.5 h-3.5 text-amber-300 stroke-[2] fill-amber-300" />
               <span>Bắt Đầu Ôn Tập</span>
             </Link>
           </div>
@@ -519,53 +541,53 @@ export default function ReviewPage() {
       </AppTopHeader>
 
       {/* ─── MAIN CANVAS CONTAINER WITH PAGE ENTRANCE WRAPPER ─── */}
-      <PageEntranceWrapper className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-3 sm:py-5 space-y-4">
-
-        {/* ─── 1. TOP 4 BENTO STATS CARDS ─── */}
-        <MotionItem className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
-          {statCards.map(s => (
-            <div
-              key={s.key}
-              className="p-3 sm:p-4 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-slate-200/90 dark:border-slate-800 shadow-2xs hover:border-[#0059bb]/40 transition-all flex flex-col justify-between space-y-2 sm:space-y-2.5"
-            >
-              <div className="flex items-center justify-between gap-1.5">
-                <span className="text-[11px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 font-display truncate">
-                  {s.label}
-                </span>
-                <div className={`p-1.5 sm:p-2 rounded-xl ${s.accentBg} shadow-2xs shrink-0`}>
-                  {s.icon}
-                </div>
-              </div>
-
-              <div>
-                <div className="flex items-baseline justify-between gap-1.5">
-                  <div className="text-lg sm:text-xl lg:text-2xl font-black text-slate-900 dark:text-white font-mono tracking-tight tabular-nums truncate">
-                    {s.count}
-                  </div>
-                  <div className="shrink-0">{s.action}</div>
-                </div>
-                <div className="flex items-center justify-between text-[10.5px] sm:text-[11px] text-slate-400 mt-1 font-medium gap-1">
-                  <span className="truncate min-w-0">{s.sublabel}</span>
-                  <span className="font-mono text-[9.5px] sm:text-[10px] text-slate-400 shrink-0">{s.progressPct}%</span>
-                </div>
-                <div className="mt-1.5 h-1 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                  <div
-                    className={`h-full rounded-full transition-all duration-500 ${s.progressColor}`}
-                    style={{ width: `${s.progressPct}%` }}
-                  />
-                </div>
-              </div>
+      <PageEntranceWrapper className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-3 sm:py-4 space-y-4">
+        
+        {/* ─── 1. SLIM SUMMARY & STATUS ROW (~36px) ─── */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 px-1 pt-1">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 border border-[#0059bb]/20 flex items-center justify-center shrink-0 shadow-2xs">
+              <CalendarClock className="w-4 h-4 stroke-[2.2]" />
             </div>
-          ))}
-        </MotionItem>
+            <div className="flex items-center gap-2 flex-wrap">
+              <h1 className="text-base sm:text-lg font-black tracking-tight text-slate-900 dark:text-white font-display">
+                Phòng Ôn Tập Ngắt Quãng • Spaced Repetition SRS
+              </h1>
+              <span
+                className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border hidden xs:inline-flex ${
+                  todayDueCount > 0
+                    ? 'bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-500/20'
+                    : 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/20'
+                }`}
+              >
+                {todayDueCount > 0 ? `Hôm nay: ${todayDueCount} từ cần ôn` : 'Hôm nay: Đã hoàn tất 100%'}
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2.5 self-start sm:self-auto text-xs bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 px-3 py-1.5 rounded-xl shadow-2xs">
+            <span className="text-slate-500 dark:text-slate-400 font-medium">Tỷ lệ nhớ:</span>
+            <span className="font-bold text-emerald-600 dark:text-emerald-400 font-mono">
+              {retentionRate}%
+            </span>
+            <div className="w-16 sm:w-20 h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden border border-slate-200/60 dark:border-slate-700/60">
+              <div
+                className="h-full bg-gradient-to-r from-[#0059bb] to-emerald-500 rounded-full transition-all duration-500"
+                style={{ width: `${retentionRate}%` }}
+              />
+            </div>
+            <span className="text-[11px] font-mono font-bold text-slate-400 dark:text-slate-500 hidden sm:inline">
+              ({masteredCount}/{learned.length} từ làm chủ)
+            </span>
+          </div>
+        </div>
 
         {/* ─── 2. MAIN BENTO GRID: CALENDAR (7) & PROFICIENCY DISTRIBUTION (5) ─── */}
         <MotionItem className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5 items-stretch">
           
           {/* Left: Interactive SM-2 Calendar (lg:col-span-7) */}
           <div className="lg:col-span-7 flex flex-col">
-            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-3 h-full flex flex-col justify-between">
-              
+            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-3 h-full flex flex-col justify-between">
               <div>
                 {/* Calendar Header with Quick Jump */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-3 border-b border-slate-100 dark:border-slate-800/80">
@@ -578,7 +600,7 @@ export default function ReviewPage() {
                         {monthYearTitle}
                       </h2>
                       <p className="text-[10.5px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-medium">
-                        Chu kỳ lặp lại ngắt quãng SM-2
+                        Chu kỳ lặp lại ngắt quãng SuperMemo SM-2
                       </p>
                     </div>
                   </div>
@@ -593,7 +615,7 @@ export default function ReviewPage() {
                       <CalendarDays className="w-3.5 h-3.5 stroke-[2]" /> Hôm nay
                     </button>
 
-                    <div className="flex items-center gap-1 border border-slate-200/80 dark:border-slate-700 rounded-xl p-0.5 bg-slate-50 dark:bg-slate-900 shadow-2xs shrink-0">
+                    <div className="flex items-center gap-1 border border-slate-200/80 dark:border-slate-700 rounded-xl p-0.5 bg-slate-50 dark:bg-slate-950 shadow-2xs shrink-0">
                       <button
                         type="button"
                         className="h-7 w-7 rounded-lg hover:bg-slate-200/70 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center justify-center cursor-pointer transition-all active:scale-95"
@@ -626,7 +648,7 @@ export default function ReviewPage() {
                   ))}
                 </div>
 
-                {/* Calendar Grid Cells (Dynamic & well-proportioned) */}
+                {/* Calendar Grid Cells */}
                 <div className="grid grid-cols-7 gap-1 sm:gap-1.5 text-center">
                   {calendarCells.map((cellDate, idx) => {
                     const isCurrentMonth = cellDate.getMonth() === currentMonth.getMonth();
@@ -636,7 +658,7 @@ export default function ReviewPage() {
                     const isCompleted = isDateCompleted(cellDate);
 
                     let cellClass =
-                      'h-9 sm:h-11 rounded-lg sm:rounded-xl flex flex-col items-center justify-center text-xs font-bold relative select-none cursor-pointer transition-all duration-150 border ';
+                      'h-11 sm:h-12 rounded-xl flex flex-col items-center justify-between py-1.5 px-0.5 text-xs font-bold relative select-none cursor-pointer transition-all duration-150 border ';
 
                     if (isSelected) {
                       cellClass +=
@@ -649,10 +671,10 @@ export default function ReviewPage() {
                         'border-emerald-500/30 bg-emerald-50/40 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100/50';
                     } else if (isCurrentMonth) {
                       cellClass +=
-                        'border-slate-200/70 dark:border-slate-800 text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/60';
+                        'border-slate-200/70 dark:border-slate-800 text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/60 shadow-2xs';
                     } else {
                       cellClass +=
-                        'border-transparent text-slate-350 dark:text-slate-600 opacity-40 hover:bg-slate-50 dark:hover:bg-slate-900';
+                        'border-slate-100 dark:border-slate-800/40 text-slate-350 dark:text-slate-600 opacity-40 hover:bg-slate-50 dark:hover:bg-slate-900';
                     }
 
                     return (
@@ -661,27 +683,35 @@ export default function ReviewPage() {
                         onClick={() => handleSelectDate(cellDate)}
                         className={cellClass}
                       >
-                        <span className={`font-mono tabular-nums leading-none ${dueCount > 0 ? '-mt-1 sm:-mt-0.5' : ''}`}>
+                        {/* Zone 1: Fixed Baseline Date Number */}
+                        <span className="font-mono text-xs sm:text-[13px] tabular-nums leading-none font-bold">
                           {cellDate.getDate()}
                         </span>
 
-                        {/* Due count indicator */}
-                        {dueCount > 0 && (
-                          <span
-                            className={`absolute bottom-0.5 sm:bottom-1 px-1 min-w-3.5 sm:min-w-4 rounded-full flex items-center justify-center text-[7.5px] sm:text-[8.5px] font-black shadow-2xs leading-tight ${
-                              isSelected
-                                ? 'bg-amber-400 text-slate-950'
-                                : 'bg-amber-500 text-white'
-                            }`}
-                          >
-                            {dueCount}
-                          </span>
-                        )}
-
-                        {/* Completed dot */}
-                        {isCompleted && !dueCount && (
-                          <span className="absolute bottom-1 w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                        )}
+                        {/* Zone 2: Status Indicator Slot (Fixed Height h-3.5 - Zero Baseline Shift) */}
+                        <div className="h-3.5 flex items-center justify-center w-full">
+                          {dueCount > 0 ? (
+                            <span
+                              className={`px-1.5 h-3.5 min-w-3.5 rounded-full flex items-center justify-center text-[8px] sm:text-[9px] font-black leading-none shadow-2xs font-mono ${
+                                isSelected
+                                  ? 'bg-white/20 text-white border border-white/40 backdrop-blur-xs'
+                                  : 'bg-amber-500 text-white'
+                              }`}
+                            >
+                              {dueCount}
+                            </span>
+                          ) : isCompleted ? (
+                            <span
+                              className={`w-3.5 h-3.5 rounded-full flex items-center justify-center ${
+                                isSelected ? 'text-white' : 'text-emerald-500'
+                              }`}
+                            >
+                              <Check className="w-2.5 h-2.5 stroke-[3]" />
+                            </span>
+                          ) : (
+                            <span className="w-1.5 h-1.5 rounded-full opacity-0" />
+                          )}
+                        </div>
                       </div>
                     );
                   })}
@@ -707,88 +737,176 @@ export default function ReviewPage() {
                   <span>Đã hoàn thành</span>
                 </div>
               </div>
-
             </div>
           </div>
 
           {/* Right: Spaced Repetition Analytics (lg:col-span-5) */}
           <div className="lg:col-span-5 flex flex-col">
-            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-3.5 h-full flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between pb-2.5 border-b border-slate-100 dark:border-slate-800/80">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center border border-blue-200/80 dark:border-blue-800/40 shadow-2xs">
-                      <BarChart3 className="w-4 h-4 stroke-[2]" />
+            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs h-full flex flex-col justify-between gap-2.5 sm:gap-3">
+              <div className="space-y-2 sm:space-y-2.5">
+                {/* Header */}
+                <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800/80">
+                  <div className="flex items-center gap-2">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center border border-blue-200/80 dark:border-blue-800/40 shadow-2xs shrink-0">
+                      <BarChart3 className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2]" />
                     </div>
                     <div>
-                      <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider font-display">
+                      <h3 className="text-xs sm:text-[13px] font-bold text-slate-900 dark:text-white uppercase tracking-wider font-display">
                         Phân Bố Cấp Độ Ghi Nhớ
                       </h3>
-                      <span className="text-[10.5px] text-slate-500 dark:text-slate-400 font-medium">
+                      <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">
                         5 cấp độ thành thạo SM-2
                       </span>
                     </div>
                   </div>
-                  <span className="text-xs font-mono font-bold text-slate-500 dark:text-slate-400">
+                  <span className="px-2 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono text-[10.5px] sm:text-xs font-bold border border-slate-200/80 dark:border-slate-700/80">
                     {learned.length} từ
                   </span>
                 </div>
 
-                {/* 2-Box Mini Stat Summary Strip */}
-                <div className="grid grid-cols-2 gap-2 mt-3">
-                  <div className="p-2.5 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-200/60 dark:border-emerald-900/40 flex items-center justify-between">
-                    <div>
-                      <span className="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider block">
-                        Đã Vững (Cấp 4-5)
-                      </span>
-                      <span className="text-base font-black font-mono tabular-nums text-emerald-800 dark:text-emerald-300">
-                        {strongRetentionCount} <span className="text-[10px] font-sans font-medium text-emerald-600/80">từ</span>
-                      </span>
-                    </div>
-                    <span className="text-xs font-black font-mono text-emerald-600 dark:text-emerald-400">
-                      {learned.length > 0 ? Math.round((strongRetentionCount / learned.length) * 100) : 0}%
-                    </span>
-                  </div>
+                {/* Compact Apple FinTech Studio: Dual-Segment Retention Balance Strip */}
+                {(() => {
+                  const strongPct = learned.length > 0 ? Math.round((strongRetentionCount / learned.length) * 100) : 0;
+                  const needsPct = learned.length > 0 ? Math.round((needsReinforceCount / learned.length) * 100) : 0;
+                  const isMasteredSelected = selectedProficiency === 'mastered_group';
+                  const isDueSelected = selectedProficiency === 'due_group';
 
-                  <div className="p-2.5 rounded-xl bg-amber-50/60 dark:bg-amber-950/30 border border-amber-200/60 dark:border-amber-900/40 flex items-center justify-between">
-                    <div>
-                      <span className="text-[10px] font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider block">
-                        Cần Ôn (Cấp 1-3)
-                      </span>
-                      <span className="text-base font-black font-mono tabular-nums text-amber-800 dark:text-amber-300">
-                        {needsReinforceCount} <span className="text-[10px] font-sans font-medium text-amber-600/80">từ</span>
-                      </span>
-                    </div>
-                    <span className="text-xs font-black font-mono text-amber-600 dark:text-amber-400">
-                      {learned.length > 0 ? Math.round((needsReinforceCount / learned.length) * 100) : 0}%
-                    </span>
-                  </div>
-                </div>
+                  return (
+                    <div className="p-2 sm:p-2.5 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-1.5">
+                      <div className="grid grid-cols-2 gap-2">
+                        {/* Left Metric: Đã Vững (4-5) */}
+                        <button
+                          type="button"
+                          onClick={() => handleProficiencyChange(isMasteredSelected ? 'all' : 'mastered_group')}
+                          className={`p-1.5 sm:p-2 rounded-lg text-left transition-all cursor-pointer border ${
+                            isMasteredSelected
+                              ? 'bg-emerald-50 dark:bg-emerald-950/50 border-emerald-300 dark:border-emerald-700 ring-1 ring-emerald-500/30 shadow-2xs'
+                              : 'bg-white dark:bg-slate-900 border-slate-200/70 dark:border-slate-800 hover:border-emerald-300 dark:hover:border-emerald-800/60'
+                          }`}
+                          title="Bấm để lọc từ Đã Vững (Cấp 4-5)"
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="text-[9.5px] sm:text-[10px] font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider flex items-center gap-1">
+                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
+                              Đã Vững (4-5)
+                            </span>
+                            <span className="text-[11px] font-black font-mono text-emerald-600 dark:text-emerald-400">
+                              {strongPct}%
+                            </span>
+                          </div>
+                          <div className="mt-0.5 flex items-baseline gap-1">
+                            <span className="text-sm sm:text-base font-black font-mono tabular-nums text-slate-900 dark:text-white">
+                              {strongRetentionCount}
+                            </span>
+                            <span className="text-[10px] font-medium text-slate-500 dark:text-slate-400">từ</span>
+                            {isMasteredSelected && (
+                              <span className="ml-auto text-[8.5px] font-bold text-emerald-600 dark:text-emerald-400 font-mono">
+                                Đang lọc
+                              </span>
+                            )}
+                          </div>
+                        </button>
 
-                {/* Level list items with compact gap */}
-                <div className="space-y-2.5 pt-3">
+                        {/* Right Metric: Cần Ôn (1-3) */}
+                        <button
+                          type="button"
+                          onClick={() => handleProficiencyChange(isDueSelected ? 'all' : 'due_group')}
+                          className={`p-1.5 sm:p-2 rounded-lg text-left transition-all cursor-pointer border ${
+                            isDueSelected
+                              ? 'bg-amber-50 dark:bg-amber-950/50 border-amber-300 dark:border-amber-700 ring-1 ring-amber-500/30 shadow-2xs'
+                              : 'bg-white dark:bg-slate-900 border-slate-200/70 dark:border-slate-800 hover:border-amber-300 dark:hover:border-amber-800/60'
+                          }`}
+                          title="Bấm để lọc từ Cần Ôn (Cấp 1-3)"
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="text-[9.5px] sm:text-[10px] font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider flex items-center gap-1">
+                              <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
+                              Cần Ôn (1-3)
+                            </span>
+                            <span className="text-[11px] font-black font-mono text-amber-600 dark:text-amber-400">
+                              {needsPct}%
+                            </span>
+                          </div>
+                          <div className="mt-0.5 flex items-baseline gap-1">
+                            <span className="text-sm sm:text-base font-black font-mono tabular-nums text-slate-900 dark:text-white">
+                              {needsReinforceCount}
+                            </span>
+                            <span className="text-[10px] font-medium text-slate-500 dark:text-slate-400">từ</span>
+                            {isDueSelected && (
+                              <span className="ml-auto text-[8.5px] font-bold text-amber-600 dark:text-amber-400 font-mono">
+                                Đang lọc
+                              </span>
+                            )}
+                          </div>
+                        </button>
+                      </div>
+
+                      {/* Continuous Segmented Bar (Apple Storage Style) */}
+                      <div className="h-1.5 w-full bg-slate-200/80 dark:bg-slate-800 rounded-full overflow-hidden flex p-0.5 gap-0.5">
+                        {strongPct > 0 && (
+                          <div
+                            className="h-full bg-emerald-500 rounded-full transition-all duration-500"
+                            style={{ width: `${strongPct}%` }}
+                          />
+                        )}
+                        {needsPct > 0 && (
+                          <div
+                            className="h-full bg-amber-500 rounded-full transition-all duration-500"
+                            style={{ width: `${needsPct}%` }}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  );
+                })()}
+
+                {/* 5 Compact Level Rows */}
+                <div className="space-y-0.5 pt-0.5">
                   {[
                     { level: 5, label: 'Làm chủ (Cấp 5)', color: 'bg-emerald-500', barBg: 'bg-emerald-500' },
                     { level: 4, label: 'Thành thạo (Cấp 4)', color: 'bg-[#0059bb]', barBg: 'bg-[#0059bb]' },
-                    { level: 3, label: 'Nhớ tốt (Cấp 3)', color: 'bg-indigo-500', barBg: 'bg-indigo-500' },
+                    { level: 3, label: 'Nhớ tốt (Cấp 3)', color: 'bg-purple-500', barBg: 'bg-purple-500' },
                     { level: 2, label: 'Nhận biết (Cấp 2)', color: 'bg-amber-500', barBg: 'bg-amber-500' },
-                    { level: 1, label: 'Bắt đầu (Cấp 1)', color: 'bg-rose-500', barBg: 'bg-rose-500' },
+                    { level: 1, label: 'Bắt đầu (Cấp 1)', color: 'bg-orange-500', barBg: 'bg-orange-500' },
                   ].map(item => {
                     const count = proficiencyDistribution[item.level - 1];
                     const total = Math.max(1, learned.length);
                     const pct = Math.round((count / total) * 100);
+                    const isSelectedLevel = selectedProficiency === String(item.level);
+
                     return (
-                      <div key={item.level} className="space-y-1">
-                        <div className="flex items-center justify-between text-[11px] font-bold text-slate-700 dark:text-slate-300">
+                      <div
+                        key={item.level}
+                        onClick={() => handleProficiencyChange(isSelectedLevel ? 'all' : String(item.level))}
+                        className={`px-2 py-1 -mx-1 rounded-lg transition-all cursor-pointer group ${
+                          isSelectedLevel
+                            ? 'bg-slate-100 dark:bg-slate-800/90 ring-1 ring-[#0059bb]/40 shadow-2xs'
+                            : count === 0
+                            ? 'opacity-40 hover:opacity-90 hover:bg-slate-50 dark:hover:bg-slate-800/40'
+                            : 'hover:bg-slate-50 dark:hover:bg-slate-800/60'
+                        }`}
+                        title={count > 0 ? `Bấm để lọc ${count} từ ${item.label}` : `${item.label}: Chưa có từ`}
+                      >
+                        <div className="flex items-center justify-between text-[10.5px] font-bold text-slate-700 dark:text-slate-300">
                           <span className="flex items-center gap-1.5">
-                            <span className={`w-2 h-2 rounded-full ${item.color}`} />
-                            {item.label}
+                            <span className={`w-1.5 h-1.5 rounded-full ${item.color} ${count === 0 ? 'opacity-60' : ''}`} />
+                            <span className={isSelectedLevel ? 'text-[#0059bb] dark:text-sky-300 font-black' : ''}>
+                              {item.label}
+                            </span>
+                            {isSelectedLevel && (
+                              <span className="text-[8.5px] px-1.5 py-0.2 rounded-md bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-300 font-mono font-bold">
+                                Đang lọc
+                              </span>
+                            )}
                           </span>
-                          <span className="font-mono tabular-nums text-slate-500 dark:text-slate-400">
-                            {count} từ ({pct}%)
+                          <span className="font-mono tabular-nums text-slate-500 dark:text-slate-400 text-[10.5px]">
+                            <span className={`font-bold ${count > 0 ? 'text-slate-900 dark:text-white' : ''}`}>
+                              {count}
+                            </span>{' '}
+                            từ ({pct}%)
                           </span>
                         </div>
-                        <div className="h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                        <div className="h-1 mt-0.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                           <div
                             className={`h-full rounded-full transition-all duration-500 ${item.barBg}`}
                             style={{ width: `${pct}%` }}
@@ -800,20 +918,19 @@ export default function ReviewPage() {
                 </div>
               </div>
 
-              {/* Educational SRS Tip */}
-              <div className="mt-3 p-2.5 rounded-xl bg-blue-50/50 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900/30 flex items-start gap-2 text-[11px] text-slate-600 dark:text-slate-300">
-                <Lightbulb className="w-4 h-4 text-[#0059bb] dark:text-sky-400 shrink-0 mt-0.5" />
-                <p className="leading-relaxed">
+              {/* Compact Educational SRS Tip */}
+              <div className="p-2 sm:p-2.5 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/70 dark:border-slate-800/80 flex items-start gap-2 text-[10px] sm:text-[10.5px] text-slate-600 dark:text-slate-400">
+                <Lightbulb className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400 shrink-0 mt-0.5" />
+                <p className="leading-snug">
                   <strong className="text-slate-900 dark:text-white font-bold">Mẹo SM-2:</strong> Ôn tập từ ở Cấp 1-2 trong vòng 24h giúp tăng 80% khả năng lưu giữ vào trí nhớ dài hạn.
                 </p>
               </div>
-
             </div>
           </div>
         </MotionItem>
 
         {/* ─── 3. SELECTED DATE VOCABULARY LIST & ACTION HUB ─── */}
-        <MotionItem className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#0c0c0f] border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-4">
+        <MotionItem className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-4">
           
           {/* Header Panel inside card section */}
           <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center pb-3.5 border-b border-slate-100 dark:border-slate-800/80">
@@ -840,8 +957,8 @@ export default function ReviewPage() {
                   href={`/study/practice?mode=review&date=${selectedDateQueryStr}`}
                   className="h-9 px-4 rounded-xl bg-[#0059bb] hover:bg-[#004ba0] text-white text-xs font-bold shadow-md shadow-[#0059bb]/20 flex items-center gap-2 transition-all cursor-pointer active:scale-95 font-display"
                 >
-                  <Sparkles className="w-4 h-4 text-amber-300 stroke-[2]" />
-                  <span>Ôn Tập Ngay (+15 XP/từ)</span>
+                  <Sparkles className="w-4 h-4 text-amber-300 stroke-[2] fill-amber-300" />
+                  <span>Ôn Tập Ngày Này (+15 XP/từ)</span>
                 </Link>
               ) : (
                 <div className="flex items-center gap-2">
@@ -854,108 +971,124 @@ export default function ReviewPage() {
             </div>
           </div>
 
-          {/* Filtering Toolbar (when words exist) */}
+          {/* Filtering Toolbar (Streamlined Studio Toolbar with Search & Filter Chips) */}
           {rawSelectedDateVocabs.length > 0 && (
-            <div className="p-3 sm:p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-900/40 border border-slate-200/80 dark:border-slate-800 space-y-2.5">
-              <div className="text-[10.5px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-                <Filter className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400 stroke-[2]" /> Bộ lọc danh sách
+            <div className="p-2 sm:p-2.5 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-2.5">
+              {/* Search Box on Left */}
+              <div className="relative flex-1 max-w-md">
+                <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={e => handleSearchChange(e.target.value)}
+                  placeholder="Tìm theo từ vựng hoặc nghĩa tiếng Việt..."
+                  className="w-full pl-8 pr-8 py-1.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 text-xs font-medium text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-[#0059bb]/20 focus:border-[#0059bb] transition-all"
+                />
+                {searchTerm && (
+                  <button
+                    type="button"
+                    onClick={() => handleSearchChange('')}
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer p-0.5 rounded-md transition-colors"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                )}
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
-                {/* Search Input with External Label */}
-                <div>
-                  <label
-                    htmlFor="review-search-input"
-                    className="block text-[11px] font-bold text-slate-600 dark:text-slate-300 mb-1"
-                  >
-                    Từ vựng hoặc nghĩa
-                  </label>
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 stroke-[2]" />
-                    <input
-                      id="review-search-input"
-                      type="text"
-                      placeholder="Tìm từ vựng, phiên âm, nghĩa tiếng Việt..."
-                      value={searchTerm}
-                      onChange={e => handleSearchChange(e.target.value)}
-                      className="w-full h-9 pl-8 pr-8 text-xs font-medium rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-[#0c0c0f] text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20 transition-all"
-                    />
-                    {searchTerm && (
-                      <button
-                        type="button"
-                        onClick={() => handleSearchChange('')}
-                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-white cursor-pointer"
-                      >
-                        <X className="w-3.5 h-3.5 stroke-[2]" />
-                      </button>
-                    )}
-                  </div>
-                </div>
+              {/* Filter Chips on Right (Rule 14 Wadhah Aloui) */}
+              <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none py-0.5 shrink-0">
+                {/* Level Quick Pills */}
+                <button
+                  type="button"
+                  onClick={() => handleProficiencyChange('all')}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    selectedProficiency === 'all'
+                      ? 'bg-[#0059bb] text-white shadow-2xs'
+                      : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200/80 dark:border-slate-800 hover:text-slate-900 dark:hover:text-white'
+                  }`}
+                >
+                  Tất cả ({rawSelectedDateVocabs.length})
+                </button>
 
-                {/* POS Select with External Label */}
-                <div>
-                  <label
-                    htmlFor="review-pos-select"
-                    className="block text-[11px] font-bold text-slate-600 dark:text-slate-300 mb-1"
+                <button
+                  type="button"
+                  onClick={() => handleProficiencyChange(selectedProficiency === 'due_group' ? 'all' : 'due_group')}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    selectedProficiency === 'due_group'
+                      ? 'bg-amber-500 text-white shadow-2xs'
+                      : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200/80 dark:border-slate-800 hover:text-slate-900 dark:hover:text-white'
+                  }`}
+                >
+                  Cần ôn ({selectedDateDueCount})
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => handleProficiencyChange(selectedProficiency === 'mastered_group' ? 'all' : 'mastered_group')}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    selectedProficiency === 'mastered_group'
+                      ? 'bg-emerald-500 text-white shadow-2xs'
+                      : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200/80 dark:border-slate-800 hover:text-slate-900 dark:hover:text-white'
+                  }`}
+                >
+                  Đã vững ({selectedDateMasteredCount})
+                </button>
+
+                {/* Specific Level Chip indicator if filtered by 1-5 */}
+                {['1', '2', '3', '4', '5'].includes(selectedProficiency) && (
+                  <button
+                    type="button"
+                    onClick={() => handleProficiencyChange('all')}
+                    className="px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer bg-[#0059bb] text-white shadow-2xs flex items-center gap-1.5"
+                    title="Bấm để hủy lọc cấp độ này"
                   >
-                    Từ loại (POS)
-                  </label>
+                    <span>Cấp {selectedProficiency}</span>
+                    <X className="w-3 h-3 stroke-[2.5]" />
+                  </button>
+                )}
+
+                {/* Bookmark Toggle Chip */}
+                <button
+                  type="button"
+                  onClick={() => handleBookmarkChange(selectedBookmark === 'bookmark' ? 'all' : 'bookmark')}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1 ${
+                    selectedBookmark === 'bookmark'
+                      ? 'bg-rose-500 text-white shadow-2xs'
+                      : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200/80 dark:border-slate-800 hover:text-slate-900 dark:hover:text-white'
+                  }`}
+                  title="Lọc các từ đã ghi nhớ"
+                >
+                  <Bookmark className="w-3 h-3" />
+                  <span>Đã lưu ({selectedDateBookmarkedCount})</span>
+                </button>
+
+                {/* POS Filter dropdown if list has multiple POS */}
+                {uniquePosList.length > 1 && (
                   <select
-                    id="review-pos-select"
                     value={selectedPos}
                     onChange={e => handlePosChange(e.target.value)}
-                    className="w-full h-9 px-2.5 text-xs font-bold rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-[#0c0c0f] text-slate-900 dark:text-white focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20 cursor-pointer transition-all"
+                    className="h-7 px-2 text-xs font-bold rounded-lg border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 cursor-pointer focus:outline-hidden"
                   >
-                    <option value="all">Tất cả từ loại</option>
+                    <option value="all">Mọi từ loại</option>
                     {uniquePosList.map(pos => (
                       <option key={pos} value={pos}>
                         {pos.toUpperCase()}
                       </option>
                     ))}
                   </select>
-                </div>
+                )}
 
-                {/* Proficiency Select with External Label */}
-                <div>
-                  <label
-                    htmlFor="review-level-select"
-                    className="block text-[11px] font-bold text-slate-600 dark:text-slate-300 mb-1"
+                {/* Clear Filter button */}
+                {isFilterActive && (
+                  <button
+                    type="button"
+                    onClick={resetAllFilters}
+                    className="p-1 rounded-lg text-slate-400 hover:text-rose-500 hover:bg-slate-200/60 dark:hover:bg-slate-800 cursor-pointer transition-colors"
+                    title="Đặt lại bộ lọc"
                   >
-                    Mức độ thành thạo
-                  </label>
-                  <select
-                    id="review-level-select"
-                    value={selectedProficiency}
-                    onChange={e => handleProficiencyChange(e.target.value)}
-                    className="w-full h-9 px-2.5 text-xs font-bold rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-[#0c0c0f] text-slate-900 dark:text-white focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20 cursor-pointer transition-all"
-                  >
-                    <option value="all">Mọi cấp độ</option>
-                    <option value="1">Cấp độ 1 (Bắt đầu)</option>
-                    <option value="2">Cấp độ 2 (Nhận biết)</option>
-                    <option value="3">Cấp độ 3 (Nhớ tốt)</option>
-                    <option value="4">Cấp độ 4 (Thành thạo)</option>
-                    <option value="5">Cấp độ 5 (Làm chủ)</option>
-                  </select>
-                </div>
-
-                {/* Bookmark Select with External Label */}
-                <div>
-                  <label
-                    htmlFor="review-bookmark-select"
-                    className="block text-[11px] font-bold text-slate-600 dark:text-slate-300 mb-1"
-                  >
-                    Trạng thái lưu trữ
-                  </label>
-                  <select
-                    id="review-bookmark-select"
-                    value={selectedBookmark}
-                    onChange={e => handleBookmarkChange(e.target.value)}
-                    className="w-full h-9 px-2.5 text-xs font-bold rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-[#0c0c0f] text-slate-900 dark:text-white focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/20 cursor-pointer transition-all"
-                  >
-                    <option value="all">Tất cả từ vựng</option>
-                    <option value="bookmark">Chỉ từ đã lưu ghi nhớ</option>
-                  </select>
-                </div>
+                    <RotateCcw className="w-3.5 h-3.5" />
+                  </button>
+                )}
               </div>
             </div>
           )}
@@ -966,7 +1099,7 @@ export default function ReviewPage() {
               /* Content-Rich 2-Column Action Hub */
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 items-stretch pt-1">
                 {/* Left Col (5/12): Congratulatory Status Card */}
-                <div className="lg:col-span-5 p-4 rounded-xl bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 flex flex-col justify-between space-y-3">
+                <div className="lg:col-span-5 p-4 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 flex flex-col justify-between space-y-3">
                   <div className="space-y-2">
                     <div className="flex items-center gap-2">
                       <span className="px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900/40">
@@ -986,7 +1119,7 @@ export default function ReviewPage() {
                     </p>
                   </div>
 
-                  <div className="p-3 rounded-xl bg-white dark:bg-[#0c0c0f] border border-slate-200/80 dark:border-slate-800 space-y-2 text-xs">
+                  <div className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 space-y-2 text-xs">
                     <div className="flex items-center justify-between text-slate-600 dark:text-slate-300">
                       <span>Từ cần ôn ngày này:</span>
                       <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400">0 từ</span>
@@ -1011,7 +1144,7 @@ export default function ReviewPage() {
                   {/* Action 1: Early Review */}
                   <Link
                     href="/study/practice?mode=early-review"
-                    className="p-3.5 rounded-xl bg-slate-50/80 hover:bg-white dark:bg-slate-900/50 dark:hover:bg-slate-900 border border-slate-200/80 hover:border-[#0059bb]/50 dark:border-slate-800 dark:hover:border-blue-500/50 transition-all flex flex-col justify-between space-y-2.5 group shadow-2xs hover:shadow-xs"
+                    className="p-3.5 rounded-xl bg-slate-50/80 hover:bg-white dark:bg-slate-950/50 dark:hover:bg-slate-900 border border-slate-200/80 hover:border-[#0059bb]/50 dark:border-slate-800 dark:hover:border-blue-500/50 transition-all flex flex-col justify-between space-y-2.5 group shadow-2xs hover:shadow-xs"
                   >
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
@@ -1044,7 +1177,7 @@ export default function ReviewPage() {
                   {/* Action 2: Focus Review */}
                   <Link
                     href="/study/practice?mode=focus-review"
-                    className="p-3.5 rounded-xl bg-slate-50/80 hover:bg-white dark:bg-slate-900/50 dark:hover:bg-slate-900 border border-slate-200/80 hover:border-amber-400/50 dark:border-slate-800 dark:hover:border-amber-500/50 transition-all flex flex-col justify-between space-y-2.5 group shadow-2xs hover:shadow-xs"
+                    className="p-3.5 rounded-xl bg-slate-50/80 hover:bg-white dark:bg-slate-950/50 dark:hover:bg-slate-900 border border-slate-200/80 hover:border-amber-400/50 dark:border-slate-800 dark:hover:border-amber-500/50 transition-all flex flex-col justify-between space-y-2.5 group shadow-2xs hover:shadow-xs"
                   >
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
@@ -1077,7 +1210,7 @@ export default function ReviewPage() {
                   {/* Action 3: Learn New Vocabs */}
                   <Link
                     href="/vocabulary"
-                    className="p-3.5 rounded-xl bg-slate-50/80 hover:bg-white dark:bg-slate-900/50 dark:hover:bg-slate-900 border border-slate-200/80 hover:border-emerald-400/50 dark:border-slate-800 dark:hover:border-emerald-500/50 transition-all flex flex-col justify-between space-y-2.5 group shadow-2xs hover:shadow-xs"
+                    className="p-3.5 rounded-xl bg-slate-50/80 hover:bg-white dark:bg-slate-950/50 dark:hover:bg-slate-900 border border-slate-200/80 hover:border-emerald-400/50 dark:border-slate-800 dark:hover:border-emerald-500/50 transition-all flex flex-col justify-between space-y-2.5 group shadow-2xs hover:shadow-xs"
                   >
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
@@ -1122,12 +1255,7 @@ export default function ReviewPage() {
                 </p>
                 <button
                   type="button"
-                  onClick={() => {
-                    setSearchTerm('');
-                    setSelectedPos('all');
-                    setSelectedProficiency('all');
-                    setSelectedBookmark('all');
-                  }}
+                  onClick={resetAllFilters}
                   className="flex items-center gap-1.5 text-xs font-bold text-[#0059bb] dark:text-sky-400 hover:underline cursor-pointer"
                 >
                   <RotateCcw className="w-3.5 h-3.5 stroke-[2]" /> Đặt lại tất cả bộ lọc
@@ -1135,96 +1263,156 @@ export default function ReviewPage() {
               </div>
             )
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+            /* Compact 3-4 Column Word Cards Grid */
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-3.5 sm:gap-4">
               {selectedDateVocabs.map(v => {
                 const isBookmarked = bookmarkedIds.has(v.id);
                 const isExpanded = expandedWordId === v.id;
+                const posInfo = getPosBadge(v.pos);
+                const isWordPlaying = playingAudioText === `word_${v.id}`;
+                const isExamplePlaying = playingAudioText === `ex_${v.id}`;
+                const firstExample = v.examples?.[0];
+                const isExampleMeaningful =
+                  firstExample &&
+                  firstExample.trim().toLowerCase() !== v.word.trim().toLowerCase() &&
+                  firstExample.trim() !== '';
+
+                const hasDistinctEnDef =
+                  v.definition &&
+                  v.definition.trim().toLowerCase() !== v.word.trim().toLowerCase();
 
                 return (
                   <div
                     key={v.id}
-                    className="p-3.5 sm:p-4 rounded-xl bg-slate-50/70 hover:bg-white dark:bg-slate-900/50 dark:hover:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-2xs hover:border-[#0059bb]/40 hover:shadow-xs transition-all flex flex-col justify-between space-y-2.5"
+                    className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs hover:shadow-md hover:border-[#0059bb]/50 dark:hover:border-sky-500/40 transition-all flex flex-col justify-between space-y-3 group relative overflow-hidden"
                   >
-                    <div>
-                      {/* Word card top row header */}
-                      <div className="flex justify-between items-start gap-2 mb-2">
-                        <div className="flex items-center gap-2">
-                          <span className="font-bold text-base text-[#0059bb] dark:text-sky-400 font-display select-all">
-                            {v.word}
-                          </span>
-                          <span className="text-[9.5px] font-black px-1.5 py-0.5 bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 rounded-md uppercase border border-blue-200/60 dark:border-blue-800/40">
-                            {v.pos}
-                          </span>
+                    {/* Top Ambient Royal Blue Line on Hover */}
+                    <div className="absolute top-0 inset-x-0 h-0.5 bg-gradient-to-r from-transparent via-[#0059bb]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                    <div className="space-y-2.5">
+                      {/* 1. Meta Row: POS Badge + Crown + Bookmark Toggle */}
+                      <div className="flex items-center justify-between gap-1.5">
+                        <div className="flex items-center gap-1.5 min-w-0 flex-wrap">
+                          {posInfo && (
+                            <span
+                              className={`px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider border ${posInfo.color}`}
+                            >
+                              {posInfo.label}
+                            </span>
+                          )}
+
+                          {v.proficiency === 5 && (
+                            <span className="px-1.5 py-0.5 rounded-md text-[10px] font-bold bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20 flex items-center gap-1">
+                              <Crown className="w-3 h-3 text-emerald-500" />
+                              <span>Làm chủ</span>
+                            </span>
+                          )}
                         </div>
 
-                        <div className="flex items-center gap-1.5 sm:gap-1">
-                          {/* Speak word audio utility */}
+                        {/* Bookmark Button */}
+                        <button
+                          type="button"
+                          onClick={() => handleToggleBookmark(v.id)}
+                          className={`w-7 h-7 rounded-lg flex items-center justify-center border transition-all cursor-pointer shrink-0 active:scale-90 ${
+                            isBookmarked
+                              ? 'border-amber-200 dark:border-amber-900/60 bg-amber-50 dark:bg-amber-950/40 text-amber-500'
+                              : 'border-slate-200/80 dark:border-slate-800 bg-transparent text-slate-400 hover:text-amber-500 hover:bg-slate-100/70'
+                          }`}
+                          title={isBookmarked ? 'Bỏ lưu ghi nhớ' : 'Lưu ghi nhớ'}
+                        >
+                          {isBookmarked ? (
+                            <BookmarkCheck className="w-3.5 h-3.5 fill-amber-500 text-amber-500 scale-110" />
+                          ) : (
+                            <Bookmark className="w-3.5 h-3.5 text-slate-400" />
+                          )}
+                        </button>
+                      </div>
+
+                      {/* 2. Word Line with Inline Audio Speaker */}
+                      <div>
+                        <div className="flex items-start justify-between gap-2">
+                          <h4 className="text-base sm:text-lg font-black text-slate-900 dark:text-white group-hover:text-[#0059bb] dark:group-hover:text-sky-400 transition-colors font-display tracking-tight leading-snug line-clamp-2 select-all">
+                            {v.word}
+                          </h4>
+
                           <button
                             type="button"
-                            onClick={() => speakWord(v.word)}
-                            className="w-8 h-8 sm:w-7 sm:h-7 rounded-lg bg-white dark:bg-slate-800 text-slate-600 hover:text-[#0059bb] dark:text-slate-400 dark:hover:text-sky-300 flex items-center justify-center cursor-pointer transition-all active:scale-95 border border-slate-200/60 dark:border-slate-700 shadow-2xs"
+                            onClick={() => handleSpeak(v.word, `word_${v.id}`)}
+                            className={`w-7 h-7 rounded-full border flex items-center justify-center shrink-0 transition-all cursor-pointer ${
+                              isWordPlaying
+                                ? 'bg-[#0059bb] text-white border-[#0059bb] animate-pulse shadow-xs shadow-[#0059bb]/30'
+                                : 'border-slate-200/80 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 text-slate-500 hover:text-[#0059bb] dark:hover:text-sky-400 hover:border-[#0059bb]/30 hover:bg-blue-50/50'
+                            }`}
                             title="Nghe phát âm"
                           >
-                            <Volume2 className="w-4 h-4 sm:w-3.5 sm:h-3.5 stroke-[1.8]" />
-                          </button>
-                          {/* Bookmark Toggle */}
-                          <button
-                            type="button"
-                            onClick={() => handleToggleBookmark(v.id)}
-                            className={`w-8 h-8 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center cursor-pointer transition-all active:scale-95 border shadow-2xs ${
-                              isBookmarked
-                                ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-500 border-amber-200 dark:border-amber-900/40'
-                                : 'bg-white dark:bg-slate-800 text-slate-400 hover:text-amber-500 border-slate-200/60 dark:border-slate-700'
-                            }`}
-                            title={isBookmarked ? 'Bỏ lưu ghi nhớ' : 'Lưu ghi nhớ'}
-                          >
-                            {isBookmarked ? (
-                              <BookmarkCheck className="w-4 h-4 sm:w-3.5 sm:h-3.5 stroke-[1.8]" />
-                            ) : (
-                              <Bookmark className="w-4 h-4 sm:w-3.5 sm:h-3.5 stroke-[1.8]" />
-                            )}
+                            <Volume2 className="w-3.5 h-3.5" />
                           </button>
                         </div>
+
+                        {v.phonetic && (
+                          <div className="text-xs text-slate-400 dark:text-slate-500 font-mono mt-0.5">
+                            {v.phonetic}
+                          </div>
+                        )}
                       </div>
 
-                      {/* Definitions */}
-                      <div className="text-xs font-bold text-slate-900 dark:text-white mb-0.5 select-all">
-                        {v.definitionVn}
-                      </div>
-                      <div className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2 font-medium">
-                        {v.definition}
+                      {/* 3. Meaning / Definition */}
+                      <div className="space-y-0.5">
+                        <div className="text-sm font-bold text-slate-800 dark:text-slate-100 leading-snug select-all">
+                          {v.definitionVn}
+                        </div>
+                        {hasDistinctEnDef && (
+                          <div className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
+                            {v.definition}
+                          </div>
+                        )}
                       </div>
 
-                      {/* Expandable Synonyms/Examples */}
+                      {/* 4. Subtle Example Quote */}
+                      {isExampleMeaningful && (
+                        <div className="pt-2 border-t border-dashed border-slate-100 dark:border-slate-800/80 flex items-start justify-between gap-2 text-xs">
+                          <p className="text-slate-500 dark:text-slate-400 italic leading-relaxed line-clamp-2 flex-1">
+                            <span className="text-[#0059bb]/60 dark:text-sky-400/60 font-bold not-italic mr-1">&ldquo;</span>
+                            {firstExample}
+                            <span className="text-[#0059bb]/60 dark:text-sky-400/60 font-bold not-italic ml-0.5">&rdquo;</span>
+                          </p>
+                          <button
+                            type="button"
+                            onClick={() => handleSpeak(firstExample, `ex_${v.id}`)}
+                            className={`p-1 rounded-md transition-all cursor-pointer shrink-0 ${
+                              isExamplePlaying
+                                ? 'text-[#0059bb] dark:text-sky-400 bg-blue-50 dark:bg-blue-950/50 animate-pulse'
+                                : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
+                            }`}
+                            title="Nghe câu ví dụ"
+                          >
+                            <Volume2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      )}
+
+                      {/* Expandable Synonyms/Antonyms */}
                       <AnimatePresence>
                         {isExpanded && (
                           <motion.div
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: 'auto' }}
                             exit={{ opacity: 0, height: 0 }}
-                            className="mt-2.5 pt-2.5 border-t border-slate-100 dark:border-slate-800 space-y-1.5 text-xs leading-relaxed font-sans overflow-hidden"
+                            className="pt-2 border-t border-slate-100 dark:border-slate-800 space-y-1.5 text-xs leading-relaxed font-sans overflow-hidden"
                           >
-                            {v.phonetic && (
+                            {v.synonyms && v.synonyms.length > 0 && (
                               <div>
-                                <span className="font-bold text-slate-400 block text-[10.5px]">Phiên âm:</span>
-                                <span className="font-mono text-slate-700 dark:text-slate-300">
-                                  {v.phonetic}
+                                <span className="font-bold text-slate-400 block text-[10.5px]">Đồng nghĩa:</span>
+                                <span className="text-[#0059bb] dark:text-sky-400 font-bold">
+                                  {v.synonyms.join(', ')}
                                 </span>
                               </div>
                             )}
-                            {v.examples && v.examples.length > 0 && (
+                            {v.antonyms && v.antonyms.length > 0 && (
                               <div>
-                                <span className="font-bold text-slate-400 block text-[10.5px]">Ví dụ:</span>
-                                <p className="italic text-slate-700 dark:text-slate-300 font-medium">
-                                  &ldquo;{v.examples[0]}&rdquo;
-                                </p>
-                              </div>
-                            )}
-                            {v.synonyms && v.synonyms.length > 0 && (
-                              <div>
-                                <span className="font-bold text-slate-400 block text-[10.5px]">Từ đồng nghĩa:</span>
-                                <span className="text-[#0059bb] dark:text-sky-400 font-bold">
-                                  {v.synonyms.join(', ')}
+                                <span className="font-bold text-slate-400 block text-[10.5px]">Trái nghĩa:</span>
+                                <span className="text-rose-500 font-bold">
+                                  {v.antonyms.join(', ')}
                                 </span>
                               </div>
                             )}
@@ -1233,51 +1421,68 @@ export default function ReviewPage() {
                       </AnimatePresence>
                     </div>
 
-                    {/* Card footer: expandable toggle & proficiency tracker */}
-                    <div className="mt-2.5 pt-2.5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between">
-                      <button
-                        type="button"
-                        onClick={() => toggleExpandWord(v.id)}
-                        className="text-[11px] font-bold text-slate-500 hover:text-[#0059bb] dark:text-slate-400 dark:hover:text-sky-400 flex items-center gap-1 cursor-pointer transition-colors"
-                      >
-                        {isExpanded ? (
-                          <>
-                            Thu gọn <ChevronUp className="w-3.5 h-3.5 stroke-[2]" />
-                          </>
-                        ) : (
-                          <>
-                            Chi tiết &amp; ví dụ <ChevronDown className="w-3.5 h-3.5 stroke-[2]" />
-                          </>
-                        )}
-                      </button>
-
-                      {/* Proficiency Level visual indicators */}
+                    {/* 5. Footer: SRS Dots + Expand or Action */}
+                    <div className="pt-2.5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-2">
+                      {/* Left: SRS Dots & Expand Toggle */}
                       <div className="flex items-center gap-1.5">
-                        <span className="text-[10px] font-bold text-slate-400">Cấp:</span>
-                        <div className="flex gap-1">
-                          {Array(5)
-                            .fill(0)
-                            .map((_, i) => (
-                              <div
-                                key={i}
-                                className={`w-2 h-2 rounded-full ${
-                                  i < v.proficiency
-                                    ? 'bg-[#0059bb]'
-                                    : 'bg-slate-200 dark:bg-slate-800'
-                                }`}
-                              />
-                            ))}
+                        {/* SRS 5-Dots Proficiency Indicator */}
+                        <div
+                          className="flex items-center gap-1"
+                          title={`Độ thuần thục: ${v.proficiency}/5`}
+                        >
+                          <div className="flex items-center gap-0.5">
+                            {Array(5)
+                              .fill(0)
+                              .map((_, i) => (
+                                <div
+                                  key={i}
+                                  className={`w-2 h-1.5 rounded-xs transition-all ${
+                                    i < v.proficiency
+                                      ? 'bg-emerald-500'
+                                      : 'bg-slate-200 dark:bg-slate-800'
+                                  }`}
+                                />
+                              ))}
+                          </div>
+                          <span className="text-[10px] font-mono font-bold text-slate-400 dark:text-slate-500">
+                            {v.proficiency}/5
+                          </span>
                         </div>
+
+                        {/* Expand / Synonyms & Antonyms Toggle */}
+                        {!!(v.synonyms?.length || v.antonyms?.length) && (
+                          <button
+                            type="button"
+                            onClick={() => toggleExpandWord(v.id)}
+                            className="text-[10px] font-bold text-slate-500 hover:text-[#0059bb] dark:text-slate-400 dark:hover:text-sky-400 px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-950/40 border border-slate-200/60 dark:border-slate-700/60 flex items-center gap-0.5 cursor-pointer transition-colors shrink-0"
+                            title="Xem từ đồng nghĩa & trái nghĩa"
+                          >
+                            <span>{isExpanded ? 'Thu gọn' : 'Chi tiết'}</span>
+                            {isExpanded ? (
+                              <ChevronUp className="w-2.5 h-2.5 stroke-[2.5]" />
+                            ) : (
+                              <ChevronDown className="w-2.5 h-2.5 stroke-[2.5]" />
+                            )}
+                          </button>
+                        )}
                       </div>
+
+                      {/* Right: Consistent Primary Practice CTA for ALL cards */}
+                      <Link
+                        href={`/study/practice?mode=review&date=${selectedDateQueryStr}&wordId=${v.id}`}
+                        className="text-[11px] font-bold text-[#0059bb] dark:text-sky-400 hover:text-[#004ba0] dark:hover:text-sky-300 flex items-center gap-1 font-display group/link shrink-0 transition-colors"
+                        title="Luyện tập từ này"
+                      >
+                        <span>Luyện từ</span>
+                        <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform" />
+                      </Link>
                     </div>
                   </div>
                 );
               })}
             </div>
           )}
-
         </MotionItem>
-
       </PageEntranceWrapper>
 
       {/* ─── 4. MOBILE FLOATING THUMB-FRIENDLY ACTION BAR (Rule 13 Wadhah Aloui) ─── */}
@@ -1289,11 +1494,11 @@ export default function ReviewPage() {
           >
             <div className="flex items-center gap-2 min-w-0">
               <div className="w-6 h-6 rounded-lg bg-white/20 flex items-center justify-center shrink-0">
-                <Sparkles className="w-3.5 h-3.5 text-amber-300 stroke-[2]" />
+                <Sparkles className="w-3.5 h-3.5 text-amber-300 stroke-[2] fill-amber-300" />
               </div>
               <span className="truncate">Ôn Tập Ngày Này ({rawSelectedDateVocabs.length} từ)</span>
             </div>
-            <span className="px-2 py-0.5 rounded-lg bg-white/20 text-[10px] font-black flex items-center gap-1 shrink-0">
+            <span className="px-2 py-0.5 rounded-lg bg-white/20 text-[10px] font-black flex items-center gap-1 shrink-0 font-mono">
               +15 XP <ArrowRight className="w-3 h-3 stroke-[2]" />
             </span>
           </Link>
@@ -1321,7 +1526,7 @@ export default function ReviewPage() {
               <Clock className="w-4 h-4 shrink-0 stroke-[2]" />
               <span className="truncate">Ôn trước hạn giảm tải</span>
             </div>
-            <span className="text-[11px] font-bold text-[#0059bb] dark:text-sky-400 flex items-center gap-1 shrink-0">
+            <span className="text-[11px] font-bold text-[#0059bb] dark:text-sky-400 flex items-center gap-1 shrink-0 font-mono">
               +10 XP <ArrowRight className="w-3 h-3 stroke-[2]" />
             </span>
           </Link>

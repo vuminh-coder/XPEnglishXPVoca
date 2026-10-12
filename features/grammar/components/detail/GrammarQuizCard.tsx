@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   RotateCcw,
   Check,
@@ -8,8 +8,11 @@ import {
   Sparkles,
   ChevronLeft,
   ChevronRight,
+  Volume2,
 } from "lucide-react";
 import { GrammarExercise } from "../../types/grammarTypes";
+import { safeSpeakText, stopTTS } from "@/shared/utils/mobileAudio";
+import { playSyntheticAudioFeedback } from "@/features/listening/utils/dictationEngine";
 
 interface GrammarQuizCardProps {
   exercise: GrammarExercise;
@@ -45,6 +48,39 @@ export function GrammarQuizCard({
   const isAnswered = Boolean(userAnswer);
   const isCorrect = userAnswer === exercise.correctAnswer;
   const optionLetters = ["A", "B", "C", "D"];
+
+  const [isPlayingSentence, setIsPlayingSentence] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      stopTTS();
+    };
+  }, [currentIndex]);
+
+  const handleSpeakSentence = () => {
+    if (isPlayingSentence) {
+      stopTTS();
+      setIsPlayingSentence(false);
+      return;
+    }
+    stopTTS();
+    setIsPlayingSentence(true);
+    safeSpeakText(exercise.sentence, {
+      lang: "en-US",
+      onEnd: () => setIsPlayingSentence(false),
+      onError: () => setIsPlayingSentence(false),
+    });
+  };
+
+  const handleOptionSelect = (opt: string) => {
+    if (isAnswered) return;
+    if (opt === exercise.correctAnswer) {
+      playSyntheticAudioFeedback("correct");
+    } else {
+      playSyntheticAudioFeedback("incorrect");
+    }
+    onSelectOption(opt);
+  };
 
   return (
     <div className="space-y-4">
@@ -82,15 +118,35 @@ export function GrammarQuizCard({
           </div>
         </div>
 
-        {/* Question Sentence */}
+        {/* Question Sentence with Audio Speaker */}
         <div className="space-y-4">
-          <div className="py-2 space-y-1.5">
-            <div className="text-xs uppercase font-bold text-slate-400 tracking-wider">
-              Chọn phương án đúng để điền vào chỗ trống:
+          <div className="py-2 flex items-start justify-between gap-3">
+            <div className="space-y-1.5 flex-1 min-w-0">
+              <div className="text-xs uppercase font-bold text-slate-400 tracking-wider">
+                Chọn phương án đúng để điền vào chỗ trống:
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-display leading-relaxed">
+                {exercise.sentence}
+              </h3>
             </div>
-            <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-display leading-relaxed">
-              {exercise.sentence}
-            </h3>
+
+            <button
+              type="button"
+              onClick={handleSpeakSentence}
+              className={`p-2 sm:p-2.5 rounded-xl border transition-all cursor-pointer shrink-0 mt-1 shadow-2xs ${
+                isPlayingSentence
+                  ? "bg-[#0059bb] text-white border-[#0059bb] shadow-xs ring-2 ring-[#0059bb]/20"
+                  : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-[#0059bb] hover:bg-slate-200 dark:hover:bg-slate-700 border-slate-200/80 dark:border-slate-700/60"
+              }`}
+              title="Nghe phát âm chuẩn câu hỏi (Audio TTS)"
+              aria-label={`Nghe câu hỏi: ${exercise.sentence}`}
+            >
+              <Volume2
+                className={`w-4 h-4 ${
+                  isPlayingSentence ? "animate-pulse" : ""
+                }`}
+              />
+            </button>
           </div>
 
           {/* 2. LƯỚI 4 ĐÁP ÁN 2 CỘT */}
@@ -124,7 +180,7 @@ export function GrammarQuizCard({
                 <button
                   key={oIdx}
                   type="button"
-                  onClick={() => onSelectOption(opt)}
+                  onClick={() => handleOptionSelect(opt)}
                   disabled={isAnswered}
                   className={`p-4 rounded-2xl border text-left text-sm font-medium transition-all flex items-center justify-between gap-3 min-h-[64px] active:scale-[0.98] ${
                     isAnswered ? "cursor-default" : "cursor-pointer"

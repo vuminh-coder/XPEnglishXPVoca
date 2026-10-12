@@ -7,7 +7,7 @@ import {
   GrammarLevel,
 } from "@/features/grammar/types/grammarTypes";
 
-export type GrammarFilterLevel = "all" | GrammarLevel;
+export type GrammarFilterLevel = "all" | GrammarLevel | "completed";
 
 export interface GrammarCatalogFilters {
   activeLevel: GrammarFilterLevel;

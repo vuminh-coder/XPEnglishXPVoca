@@ -1,13 +1,52 @@
 import { MockVideoCategory } from "./types";
 
 export const MOCK_VIDEO_CATEGORIES: MockVideoCategory[] = [
+  // 4 Chủ đề phim điện ảnh nổi tiếng được ưu tiên hàng đầu
+  {
+    id: "cat_romance_cinema",
+    slug: "romance-cinema",
+    name: "Phim Lãng Mạn & Cảm Xúc",
+    description: "Những trích đoạn tình cảm kinh điển, lời thoại ngọt ngào và ngôn từ giàu chất thơ từ About Time, La La Land, Titanic...",
+    icon: "Heart",
+    orderIndex: 0,
+    lessonsCount: 12,
+  },
+  {
+    id: "cat_inspirational_life",
+    slug: "inspirational-life",
+    name: "Phim Truyền Cảm Hứng & Triết Lý",
+    description: "Những bài diễn thuyết và lời thoại lay động tâm can, đánh thức ý chí từ Good Will Hunting, The Pursuit of Happyness...",
+    icon: "Flame",
+    orderIndex: 1,
+    lessonsCount: 12,
+  },
+  {
+    id: "cat_classic_sitcoms",
+    slug: "classic-sitcoms",
+    name: "Sitcom Kinh Điển & Hài Kịch",
+    description: "Tiếng cười thông minh, đối đáp dí dỏm và phản xạ giao tiếp đời thường từ Friends, Modern Family, The Office...",
+    icon: "Tv",
+    orderIndex: 2,
+    lessonsCount: 12,
+  },
+  {
+    id: "cat_animation_pixar_disney",
+    slug: "animation-pixar-disney",
+    name: "Hoạt Hình Pixar & Disney",
+    description: "Thế giới hoạt hình tuổi thơ, phát âm tiếng Anh chuẩn mực studio, trong trẻo và ấm áp từ Kung Fu Panda, Inside Out, Soul...",
+    icon: "Sparkles",
+    orderIndex: 3,
+    lessonsCount: 12,
+  },
+
+  // Các chủ đề kiến thức & đời sống tiếp theo
   {
     id: "cat_ted_ed",
     slug: "ted-ed",
     name: "TED-Ed & Tư Duy Sâu",
     description: "Các bài giảng khoa học, tâm lý và triết học ngắn gọn, dễ hiểu từ TED-Ed.",
-    icon: "🧠",
-    orderIndex: 0,
+    icon: "Brain",
+    orderIndex: 4,
     lessonsCount: 6,
   },
   {
@@ -15,8 +54,8 @@ export const MOCK_VIDEO_CATEGORIES: MockVideoCategory[] = [
     slug: "bbc-6-minute",
     name: "BBC 6 Minute English",
     description: "Học từ vựng và thành ngữ qua các chủ đề thời sự gần gũi với giọng Anh-Anh chuẩn.",
-    icon: "🎙️",
-    orderIndex: 1,
+    icon: "Radio",
+    orderIndex: 5,
     lessonsCount: 4,
   },
   {
@@ -24,8 +63,8 @@ export const MOCK_VIDEO_CATEGORIES: MockVideoCategory[] = [
     slug: "daily-conversations",
     name: "Giao Tiếp Đời Thực",
     description: "Phản xạ giao tiếp hàng ngày tại sân bay, nhà hàng, công sở và đời sống.",
-    icon: "☕",
-    orderIndex: 2,
+    icon: "MessagesSquare",
+    orderIndex: 6,
     lessonsCount: 4,
   },
   {
@@ -33,8 +72,8 @@ export const MOCK_VIDEO_CATEGORIES: MockVideoCategory[] = [
     slug: "ielts-listening",
     name: "IELTS Nghe & Thuyết Trình",
     description: "Các bài diễn thuyết học thuật, thảo luận nghiên cứu định dạng bài thi IELTS.",
-    icon: "🎓",
-    orderIndex: 3,
+    icon: "GraduationCap",
+    orderIndex: 7,
     lessonsCount: 3,
   },
   {
@@ -42,8 +81,8 @@ export const MOCK_VIDEO_CATEGORIES: MockVideoCategory[] = [
     slug: "toeic-listening",
     name: "TOEIC Luyện Nghe Công Sở",
     description: "Tình huống làm việc văn phòng, thương mại, thông báo hội nghị chuẩn ETS TOEIC.",
-    icon: "🎯",
-    orderIndex: 4,
+    icon: "Target",
+    orderIndex: 8,
     lessonsCount: 4,
   },
   {
@@ -51,8 +90,8 @@ export const MOCK_VIDEO_CATEGORIES: MockVideoCategory[] = [
     slug: "science-tech",
     name: "Khoa Học & Công Nghệ",
     description: "Khám phá AI, vũ trụ, sinh học và các phát minh công nghệ định hình tương lai.",
-    icon: "🚀",
-    orderIndex: 5,
+    icon: "Cpu",
+    orderIndex: 9,
     lessonsCount: 3,
   },
   {
@@ -60,8 +99,8 @@ export const MOCK_VIDEO_CATEGORIES: MockVideoCategory[] = [
     slug: "stories-culture",
     name: "Câu Chuyện & Văn Hóa",
     description: "Những câu chuyện truyền cảm hứng, tiểu sử danh nhân và văn hóa các nước.",
-    icon: "🌍",
-    orderIndex: 6,
+    icon: "Globe2",
+    orderIndex: 10,
     lessonsCount: 3,
   },
   {
@@ -69,8 +108,8 @@ export const MOCK_VIDEO_CATEGORIES: MockVideoCategory[] = [
     slug: "career-business",
     name: "Sự Nghiệp & Phỏng Vấn",
     description: "Kỹ năng trả lời phỏng vấn xin việc, đàm phán lương và phong thái công sở chuyên nghiệp.",
-    icon: "💼",
-    orderIndex: 7,
+    icon: "Briefcase",
+    orderIndex: 11,
     lessonsCount: 2,
   },
   {
@@ -78,8 +117,8 @@ export const MOCK_VIDEO_CATEGORIES: MockVideoCategory[] = [
     slug: "food-dining",
     name: "Ẩm Thực & Nhà Hàng",
     description: "Từ vựng nấu nướng, các vị món ăn, gọi món và giao tiếp tự tin tại nhà hàng quốc tế.",
-    icon: "🍽️",
-    orderIndex: 8,
+    icon: "UtensilsCrossed",
+    orderIndex: 12,
     lessonsCount: 2,
   },
   {
@@ -87,8 +126,8 @@ export const MOCK_VIDEO_CATEGORIES: MockVideoCategory[] = [
     slug: "nature-planet",
     name: "Thiên Nhiên & Trái Đất",
     description: "Các thước phim tài liệu thiên nhiên hoang dã, bảo tồn sinh thái và hành tinh xanh.",
-    icon: "🌿",
-    orderIndex: 9,
+    icon: "Leaf",
+    orderIndex: 13,
     lessonsCount: 2,
   },
   {
@@ -96,8 +135,8 @@ export const MOCK_VIDEO_CATEGORIES: MockVideoCategory[] = [
     slug: "finance-wealth",
     name: "Tài Chính & Tư Duy Đầu Tư",
     description: "Tâm lý học về tiền bạc, quy luật lãi kép và bài học đầu tư giá trị từ các huyền thoại.",
-    icon: "📈",
-    orderIndex: 10,
+    icon: "Coins",
+    orderIndex: 14,
     lessonsCount: 2,
   },
 ];

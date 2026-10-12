@@ -6,7 +6,7 @@ import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockDa
 describe("BBC Learning English: Is Laughter the Best Medicine? - 100% Verbatim Audit", () => {
   it("should have exactly 10 segments with valid duration and metadata", () => {
     expect(LESSON_BBC_LAUGHTER_MEDICINE.segments.length).toBe(10);
-    expect(LESSON_BBC_LAUGHTER_MEDICINE.externalId).toBe("0_S-i2f_jLw");
+    expect(LESSON_BBC_LAUGHTER_MEDICINE.externalId).toBe("jIt35Ey2GN4");
     expect(LESSON_BBC_LAUGHTER_MEDICINE.durationSeconds).toBe(65);
     expect(LESSON_BBC_LAUGHTER_MEDICINE.cefrLevel).toBe("B1");
     expect(LESSON_BBC_LAUGHTER_MEDICINE.accent).toBe("en-GB");
@@ -53,7 +53,7 @@ describe("BBC Learning English: Is Laughter the Best Medicine? - 100% Verbatim A
   });
 
   it("should match mock data in videoCatalogMockData.ts exactly across all 10 segments", () => {
-    const mock = MOCK_VIDEO_LESSONS.find((v) => v.externalId === "0_S-i2f_jLw");
+    const mock = MOCK_VIDEO_LESSONS.find((v) => v.externalId === "jIt35Ey2GN4");
     expect(mock).toBeDefined();
     expect(mock?.segments.length).toBe(10);
     for (let i = 0; i < 10; i++) {

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -11,15 +11,23 @@ import {
   Clock,
   PlusCircle,
   X,
-  ExternalLink,
-  CheckCircle2,
   ChevronLeft,
   ChevronRight,
   RefreshCw,
   ListChecks,
+  Film,
+  Heart,
+  Flame,
+  Tv,
+  Brain,
+  Layers,
+  Briefcase,
+  Globe,
 } from "lucide-react";
 import { VideoRequestModal } from "./VideoRequestModal";
 import { VideoComprehensionQuizModal } from "./VideoComprehensionQuizModal";
+import { VideoCategoryIcon } from "./VideoCategoryIcon";
+import { getLessonCoverImage } from "../utils/lessonImageMapper";
 import { ShimmerBox } from "./LoadingSkeletons";
 import {
   useVideoCatalogStore,
@@ -126,8 +134,93 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
     ]);
   };
 
+  // Check if user is browsing the comprehensive "All Topics" hub overview
+  const isBrowsingAll =
+    selectedCategory === "all" &&
+    !searchQuery.trim() &&
+    selectedLevel === "Tất cả";
+
+  // Filter lessons per featured topic for horizontal scrolling display
+  const romanceLessons = useMemo(() => {
+    return lessons.filter(
+      (l) =>
+        l.category?.slug === "romance-cinema" ||
+        l.category?.id === "cat_romance_cinema"
+    );
+  }, [lessons]);
+
+  const inspirationalLessons = useMemo(() => {
+    return lessons.filter(
+      (l) =>
+        l.category?.slug === "inspirational-life" ||
+        l.category?.id === "cat_inspirational_life"
+    );
+  }, [lessons]);
+
+  const sitcomLessons = useMemo(() => {
+    return lessons.filter(
+      (l) =>
+        l.category?.slug === "classic-sitcoms" ||
+        l.category?.id === "cat_classic_sitcoms"
+    );
+  }, [lessons]);
+
+  const animationLessons = useMemo(() => {
+    return lessons.filter(
+      (l) =>
+        l.category?.slug === "animation-pixar-disney" ||
+        l.category?.id === "cat_animation_pixar_disney"
+    );
+  }, [lessons]);
+
+  // Modular lessons that already have full verbatim data, subtitles, and AI quiz
+  const hasDataLessons = useMemo(() => {
+    return lessons.filter((l) => l.hasFullData || !l.id.startsWith("mov_"));
+  }, [lessons]);
+
+  const tedLessons = useMemo(() => {
+    const tedSlugs = new Set(["ted-ed", "ielts-listening"]);
+    return lessons.filter(
+      (l) =>
+        (l.hasFullData || !l.id.startsWith("mov_")) &&
+        (tedSlugs.has(l.category?.slug || "") ||
+          l.id.includes("julian_treasure") ||
+          l.id.includes("simon_sinek") ||
+          l.id.includes("matt_walker") ||
+          l.id.includes("bilingual_brain") ||
+          l.id.includes("alex_gendler") ||
+          l.id.includes("habits") ||
+          l.id.includes("steve_jobs"))
+    );
+  }, [lessons]);
+
+  const businessTechLessons = useMemo(() => {
+    const techSlugs = new Set(["science-tech", "finance-wealth", "career-business", "toeic-listening"]);
+    return lessons.filter(
+      (l) =>
+        (l.hasFullData || !l.id.startsWith("mov_")) &&
+        (techSlugs.has(l.category?.slug || "") ||
+          l.id.includes("jensen_huang") ||
+          l.id.includes("psychology_of_money") ||
+          l.id.includes("careervidz") ||
+          l.id.includes("meeting") ||
+          l.id.includes("phone_call") ||
+          l.id.includes("interstellar"))
+    );
+  }, [lessons]);
+
+  const dailyLifeLessons = useMemo(() => {
+    const excludedIds = new Set([
+      ...tedLessons.map((l) => l.id),
+      ...businessTechLessons.map((l) => l.id),
+    ]);
+    return lessons.filter(
+      (l) => (l.hasFullData || !l.id.startsWith("mov_")) && !excludedIds.has(l.id)
+    );
+  }, [lessons, tedLessons, businessTechLessons]);
+
   return (
-    <div className="space-y-5">
+    <div className="space-y-6 sm:space-y-7">
       {/* 1. HERO SPOTLIGHT & RECOMMENDATION BANNER */}
       <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs relative overflow-hidden">
         {/* Ambient subtle light-blue gradient accent */}
@@ -135,11 +228,15 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
 
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-3.5">
           <div>
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-rose-50 dark:bg-rose-950/60 border border-rose-200/80 dark:border-rose-800/40 text-rose-700 dark:text-rose-300 text-[11px] font-bold uppercase tracking-wider mb-1.5">
+              <Film className="w-3 h-3 text-rose-600 dark:text-rose-400" />
+              <span>Kho Phim Điện Ảnh & Video Kéo Dài Trên 5 Phút</span>
+            </div>
             <h2 className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white">
               Luyện Nghe & Đọc Hiểu Đa Giác Quan Qua YouTube
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-xl mt-1 leading-relaxed">
-              Phụ đề song ngữ căn chỉnh chuẩn theo từng giây, phát hiện danh từ riêng và bộ bài tập trắc nghiệm đọc hiểu do AI tạo lập.
+              Trích đoạn phim lãng mạn, sitcom hài hước, hoạt hình Pixar và bài học truyền cảm hứng đạt hàng triệu view, phân câu rõ ràng và bài tập đọc hiểu AI.
             </p>
           </div>
 
@@ -151,7 +248,13 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
               className="px-3.5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200/90 dark:bg-slate-800 dark:hover:bg-slate-700/90 border border-slate-200/80 dark:border-slate-700/80 text-slate-700 dark:text-slate-200 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs active:scale-95 disabled:opacity-50"
               title="Làm mới danh sách video từ máy chủ"
             >
-              <RefreshCw className={`w-3.5 h-3.5 ${isLessonsLoading ? "animate-spin text-[#0059bb]" : "text-slate-500 dark:text-slate-400"}`} />
+              <RefreshCw
+                className={`w-3.5 h-3.5 ${
+                  isLessonsLoading
+                    ? "animate-spin text-[#0059bb]"
+                    : "text-slate-500 dark:text-slate-400"
+                }`}
+              />
               <span className="hidden sm:inline">Làm mới</span>
             </button>
 
@@ -209,26 +312,33 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
             <button
               type="button"
               onClick={() => setSelectedCategory("all")}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border cursor-pointer select-none ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border cursor-pointer select-none flex items-center gap-1.5 ${
                 selectedCategory === "all"
                   ? "bg-[#0059bb] border-[#0059bb] text-white shadow-2xs font-bold"
                   : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:border-slate-300"
               }`}
             >
-              Tất cả chủ đề
+              <Layers className={`w-3.5 h-3.5 shrink-0 ${selectedCategory === "all" ? "text-white" : "text-slate-500 dark:text-slate-400"}`} />
+              <span>Tất cả chủ đề</span>
             </button>
             {categories.map((cat) => (
               <button
                 type="button"
                 key={cat.slug}
                 onClick={() => setSelectedCategory(cat.slug)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border cursor-pointer select-none ${
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border cursor-pointer select-none flex items-center gap-1.5 ${
                   selectedCategory === cat.slug
                     ? "bg-[#0059bb] border-[#0059bb] text-white shadow-2xs font-bold"
                     : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:border-slate-300"
                 }`}
               >
-                {cat.name}
+                <VideoCategoryIcon
+                  slug={cat.slug}
+                  iconName={cat.icon}
+                  isActive={selectedCategory === cat.slug}
+                  className="w-3.5 h-3.5 shrink-0"
+                />
+                <span>{cat.name}</span>
               </button>
             ))}
           </div>
@@ -243,7 +353,7 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Tìm video theo tiêu đề, kênh YouTube, chủ đề..."
+              placeholder="Tìm video theo phim, trích đoạn, nhân vật, kênh..."
               className="w-full h-10 pl-10 pr-9 rounded-xl text-xs sm:text-sm border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0059bb]/20 focus:border-[#0059bb] shadow-2xs transition-all"
             />
             {searchQuery && (
@@ -315,7 +425,7 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
         </div>
       </div>
 
-      {/* 3. VIDEO CARDS GRID WITH SKELETON LOADING (Rule 1: Shimmer Skeleton) */}
+      {/* 3. VIDEO CONTENT CANVAS */}
       {isLoadingLessons ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
           {Array.from({ length: 8 }, (_, i) => (
@@ -329,110 +439,113 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
             Không tìm thấy video nào phù hợp với bộ lọc hiện tại.
           </p>
           <p className="text-slate-500 mt-1">
-            Hãy thử tìm từ khóa khác hoặc gửi đề xuất video mới cho cộng đồng!
+            Hãy thử tìm từ khóa khác hoặc bấm &ldquo;Tất cả chủ đề&rdquo; để khám phá kho phim!
           </p>
           <button
             type="button"
-            onClick={() => setIsRequestModalOpen(true)}
+            onClick={() => {
+              setSelectedCategory("all");
+              setSelectedLevel("Tất cả");
+              setSearchQuery("");
+            }}
             className="mt-4 px-4 py-2 rounded-xl text-xs font-bold bg-[#0059bb] hover:bg-[#004ba0] text-white cursor-pointer shadow-xs active:scale-95 transition-all"
           >
-            Đề Xuất Video Mới
+            Xem Tất Cả Video
           </button>
         </div>
+      ) : isBrowsingAll ? (
+        /* ==================================================================== */
+        /* MULTI-ROW TOPIC SHOWCASE (Thay thế cấu trúc hàng cơ bản như bên Audio) */
+        /* ==================================================================== */
+        <div className="space-y-7 sm:space-y-8">
+          {/* ROW 1: PHIM LÃNG MẠN & CẢM XÚC */}
+          <HorizontalVideoTopicRow
+            title="Phim Lãng Mạn & Cảm Xúc"
+            icon={<Heart className="w-5 h-5 text-rose-500 fill-rose-500/15 shrink-0" />}
+            categorySlug="romance-cinema"
+            themeColor="rose"
+            lessons={romanceLessons}
+            onSelectVideoLesson={onSelectVideoLesson}
+            onViewCategory={(slug) => setSelectedCategory(slug)}
+          />
+
+          {/* ROW 2: PHIM TRUYỀN CẢM HỨNG & TRIẾT LÝ SỐNG */}
+          <HorizontalVideoTopicRow
+            title="Phim Truyền Cảm Hứng & Triết Lý Sống"
+            icon={<Flame className="w-5 h-5 text-amber-500 fill-amber-500/15 shrink-0" />}
+            categorySlug="inspirational-life"
+            themeColor="amber"
+            lessons={inspirationalLessons}
+            onSelectVideoLesson={onSelectVideoLesson}
+            onViewCategory={(slug) => setSelectedCategory(slug)}
+          />
+
+          {/* ROW 3: SITCOM KINH ĐIỂN & HÀI KỊCH ĐỜI SỐNG */}
+          <HorizontalVideoTopicRow
+            title="Sitcom Kinh Điển & Hài Kịch Đời Sống"
+            icon={<Tv className="w-5 h-5 text-[#0059bb] dark:text-sky-400 shrink-0" />}
+            categorySlug="classic-sitcoms"
+            themeColor="blue"
+            lessons={sitcomLessons}
+            onSelectVideoLesson={onSelectVideoLesson}
+            onViewCategory={(slug) => setSelectedCategory(slug)}
+          />
+
+          {/* ROW 4: HOẠT HÌNH PIXAR & DISNEY */}
+          <HorizontalVideoTopicRow
+            title="Hoạt Hình Pixar & Disney"
+            icon={<Sparkles className="w-5 h-5 text-purple-500 fill-purple-500/15 shrink-0" />}
+            categorySlug="animation-pixar-disney"
+            themeColor="purple"
+            lessons={animationLessons}
+            onSelectVideoLesson={onSelectVideoLesson}
+            onViewCategory={(slug) => setSelectedCategory(slug)}
+          />
+
+          {/* ROW 5: DIỄN THUYẾT TED-ED & PHÁT TRIỂN BẢN THÂN (BÀI HỌC CÓ ĐỦ DATA) */}
+          <HorizontalVideoTopicRow
+            title="Diễn Thuyết TED-Ed & Phát Triển Bản Thân"
+            icon={<Brain className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" />}
+            categorySlug="ted-ed"
+            themeColor="emerald"
+            lessons={tedLessons}
+            onSelectVideoLesson={onSelectVideoLesson}
+            onViewCategory={(slug) => setSelectedCategory(slug)}
+          />
+
+          {/* ROW 6: CÔNG NGHỆ, TÀI CHÍNH & PHỎNG VẤN QUỐC TẾ */}
+          <HorizontalVideoTopicRow
+            title="Công Nghệ, Tài Chính & Phỏng Vấn Quốc Tế"
+            icon={<Briefcase className="w-5 h-5 text-[#0059bb] dark:text-sky-400 shrink-0" />}
+            categorySlug="career-business"
+            themeColor="blue"
+            lessons={businessTechLessons}
+            onSelectVideoLesson={onSelectVideoLesson}
+            onViewCategory={(slug) => setSelectedCategory(slug)}
+          />
+
+          {/* ROW 7: GIAO TIẾP ĐỜI THỰC, DU LỊCH & KHÁM PHÁ BBC */}
+          <HorizontalVideoTopicRow
+            title="Giao Tiếp Đời Thực, Du Lịch & Khám Phá BBC"
+            icon={<Globe className="w-5 h-5 text-teal-600 dark:text-teal-400 shrink-0" />}
+            categorySlug="daily-conversations"
+            themeColor="emerald"
+            lessons={dailyLifeLessons}
+            onSelectVideoLesson={onSelectVideoLesson}
+            onViewCategory={(slug) => setSelectedCategory(slug)}
+          />
+        </div>
       ) : (
+        /* ==================================================================== */
+        /* SINGLE TOPIC / FILTERED GRID (Khi người dùng chọn 1 chủ đề hoặc search)*/
+        /* ==================================================================== */
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
           {lessons.map((lesson) => (
-            <motion.div
+            <VideoCardItem
               key={lesson.id}
-              whileHover={{ y: -4 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => onSelectVideoLesson?.(lesson)}
-              className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 hover:border-[#0059bb]/50 dark:hover:border-sky-500/40 hover:shadow-lg shadow-2xs transition-all cursor-pointer flex flex-col group relative overflow-hidden select-none"
-            >
-              {/* 1. VISUAL COVER BANNER: Full-Bleed 16/10 Header (Chuẩn trang Thi thử đề & Kho từ vựng) */}
-              <div className="relative aspect-[16/10] w-full overflow-hidden shrink-0 bg-slate-950 border-b border-slate-100 dark:border-slate-800/80">
-                <img
-                  src={lesson.thumbnailUrl}
-                  alt={lesson.title}
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src =
-                      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&auto=format&fit=crop&q=80";
-                  }}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]"
-                />
-
-                {/* Soft Directional Scrim (Leaves top & center bright, protects readability) */}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent pointer-events-none" />
-
-                {/* Subtle Ambient Light Tone on Hover */}
-                <div className="absolute inset-0 bg-white/0 group-hover:bg-white/[0.04] transition-colors pointer-events-none" />
-
-                {/* Top Header Bar trên ảnh (Ethereal Frosted Glassmorphism twin badges) */}
-                <div className="absolute top-2.5 inset-x-2.5 flex items-center justify-between gap-1.5 z-20">
-                  {/* Top-Left: CEFR Level Badge */}
-                  <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold uppercase tracking-wider bg-white/15 hover:bg-white/20 text-white backdrop-blur-md border border-white/25 shadow-2xs whitespace-nowrap flex items-center gap-1">
-                    <span>Level {lesson.cefrLevel}</span>
-                  </span>
-
-                  {/* Top-Right: Duration Badge */}
-                  <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-white/15 hover:bg-white/20 text-white backdrop-blur-md border border-white/25 shadow-2xs tabular-nums flex items-center gap-1 shrink-0">
-                    <Clock className="w-2.5 h-2.5 text-white/95 stroke-[2.2]" />
-                    <span>{lesson.durationFormatted}</span>
-                  </span>
-                </div>
-
-                {/* Center Glass Play Orb: Smooth Fade & Subtle Scale on Hover */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10">
-                  <div className="w-11 h-11 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
-                    <Play className="w-4.5 h-4.5 fill-white translate-x-0.5" />
-                  </div>
-                </div>
-              </div>
-
-              {/* 2. CARD BODY & FOOTER CONTAINER */}
-              <div className="px-3 pt-2 pb-2.5 sm:px-3.5 sm:pt-2 sm:pb-2.5 flex-1 flex flex-col justify-between space-y-1.5 min-w-0 bg-white dark:bg-slate-900">
-                <div>
-                  {/* Metadata Row: Category Name (Left) & Sentence Count (Right) */}
-                  <div className="flex items-center justify-between gap-2 text-xs mb-0.5 min-w-0">
-                    <span className="truncate font-semibold text-slate-500 dark:text-slate-400 text-[11px]">
-                      {lesson.category?.name || "Tiếng Anh"}
-                    </span>
-                    <span className="font-mono tabular-nums shrink-0 whitespace-nowrap text-[11px] font-semibold text-slate-400 dark:text-slate-500 flex items-center gap-1">
-                      <ListChecks className="w-3 h-3 text-slate-400" />
-                      <span>{lesson.totalSentences} câu</span>
-                    </span>
-                  </div>
-
-                  {/* Title with Dynamic 2-Line Clamp */}
-                  <h4
-                    className="text-[13.5px] font-bold text-slate-900 dark:text-white line-clamp-2 leading-snug group-hover:text-[#0059bb] dark:group-hover:text-sky-400 transition-colors"
-                    title={lesson.title}
-                  >
-                    {lesson.title}
-                  </h4>
-                </div>
-
-                {/* Card Footer: Balanced Action Targets (ExamPaperCard Style - Rule #18 Clean Primary CTA) */}
-                <div className="pt-1.5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-2">
-                  <Link
-                    href={`/study/dictation/video/comprehension/${lesson.id}`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
-                    className="group/ai h-8 px-3 rounded-xl text-xs font-bold text-slate-600 hover:text-violet-700 dark:text-slate-300 dark:hover:text-violet-300 bg-slate-50 hover:bg-violet-50/70 dark:bg-slate-800/80 dark:hover:bg-violet-950/40 border border-slate-200/90 dark:border-slate-700/80 hover:border-violet-300 dark:hover:border-violet-600/60 flex items-center gap-1.5 transition-all cursor-pointer active:scale-95 shrink-0 shadow-2xs"
-                    title="Làm bài trắc nghiệm đọc hiểu AI (+25 XP)"
-                  >
-                    <Sparkles className="w-3.5 h-3.5 text-violet-600 dark:text-violet-400 group-hover/ai:scale-110 transition-transform shrink-0" />
-                    <span>Đọc hiểu AI</span>
-                  </Link>
-
-                  <div className="h-8 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0 select-none group/btn">
-                    <span>Học Ngay</span>
-                    <Play className="w-3 h-3 fill-white group-hover/btn:translate-x-0.5 transition-transform" />
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+              lesson={lesson}
+              onSelectVideoLesson={onSelectVideoLesson}
+            />
           ))}
         </div>
       )}
@@ -454,6 +567,259 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
     </div>
   );
 };
+
+/**
+ * REUSABLE VIDEO CARD ITEM COMPONENT
+ * Clean UI/UX adhering to Rule #18 (Single Primary CTA) & Rule #20 (60-30-10 palette)
+ */
+const VideoCardItem: React.FC<{
+  lesson: VideoCatalogLessonItem;
+  onSelectVideoLesson?: (lesson: VideoCatalogLessonItem) => void;
+  className?: string;
+}> = ({ lesson, onSelectVideoLesson, className = "" }) => {
+  return (
+    <motion.div
+      key={lesson.id}
+      whileHover={{ y: -4 }}
+      whileTap={{ scale: 0.98 }}
+      onClick={() => onSelectVideoLesson?.(lesson)}
+      className={`rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 hover:border-[#0059bb]/50 dark:hover:border-sky-500/40 hover:shadow-lg shadow-2xs transition-all cursor-pointer flex flex-col group relative overflow-hidden select-none ${className}`}
+    >
+      {/* 1. VISUAL COVER BANNER */}
+      <div className="relative aspect-[16/10] w-full overflow-hidden shrink-0 bg-slate-950 border-b border-slate-100 dark:border-slate-800/80">
+        <img
+          src={lesson.thumbnailUrl}
+          alt={lesson.title}
+          onLoad={(e) => {
+            const img = e.currentTarget;
+            // YouTube returns a 120x90 JPEG placeholder when video ID is missing/private
+            if (img.naturalWidth === 120 && img.naturalHeight === 90) {
+              img.src = getLessonCoverImage({
+                id: lesson.id,
+                title: lesson.title,
+                category: lesson.category?.name || lesson.category?.slug,
+              });
+            }
+          }}
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = getLessonCoverImage({
+              id: lesson.id,
+              title: lesson.title,
+              category: lesson.category?.name || lesson.category?.slug,
+            });
+          }}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]"
+        />
+
+        {/* Soft Directional Scrim */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-white/0 group-hover:bg-white/[0.04] transition-colors pointer-events-none" />
+
+        {/* Top Badges */}
+        <div className="absolute top-2.5 inset-x-2.5 flex items-center justify-between gap-1.5 z-20">
+          <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold uppercase tracking-wider bg-white/15 hover:bg-white/20 text-white backdrop-blur-md border border-white/25 shadow-2xs whitespace-nowrap flex items-center gap-1">
+            <span>Level {lesson.cefrLevel}</span>
+          </span>
+
+          <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-white/15 hover:bg-white/20 text-white backdrop-blur-md border border-white/25 shadow-2xs tabular-nums flex items-center gap-1 shrink-0">
+            <Clock className="w-2.5 h-2.5 text-white/95 stroke-[2.2]" />
+            <span>{lesson.durationFormatted}</span>
+          </span>
+        </div>
+
+        {/* Center Play Orb */}
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10">
+          <div className="w-11 h-11 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+            <Play className="w-4.5 h-4.5 fill-white translate-x-0.5" />
+          </div>
+        </div>
+      </div>
+
+      {/* 2. CARD BODY & FOOTER */}
+      <div className="px-3 pt-2 pb-2.5 sm:px-3.5 sm:pt-2 sm:pb-2.5 flex-1 flex flex-col justify-between space-y-1.5 min-w-0 bg-white dark:bg-slate-900">
+        <div>
+          <div className="flex items-center justify-between gap-2 text-xs mb-0.5 min-w-0">
+            <span className="truncate font-semibold text-slate-500 dark:text-slate-400 text-[11px] flex items-center gap-1.5">
+              <VideoCategoryIcon
+                slug={lesson.category?.slug}
+                className="w-3 h-3 shrink-0"
+              />
+              <span className="truncate">{lesson.category?.name || "Tiếng Anh"}</span>
+            </span>
+            <span className="font-mono tabular-nums shrink-0 whitespace-nowrap text-[11px] font-semibold text-slate-400 dark:text-slate-500 flex items-center gap-1">
+              <ListChecks className="w-3 h-3 text-slate-400" />
+              <span>{lesson.totalSentences} câu</span>
+            </span>
+          </div>
+
+          <h4
+            className="text-[13.5px] font-bold text-slate-900 dark:text-white line-clamp-2 leading-snug group-hover:text-[#0059bb] dark:group-hover:text-sky-400 transition-colors"
+            title={lesson.title}
+          >
+            {lesson.title}
+          </h4>
+        </div>
+
+        <div className="pt-1.5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-2">
+          <Link
+            href={`/study/dictation/video/comprehension/${lesson.id}`}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            className="group/ai h-8 px-3 rounded-xl text-xs font-bold text-slate-600 hover:text-violet-700 dark:text-slate-300 dark:hover:text-violet-300 bg-slate-50 hover:bg-violet-50/70 dark:bg-slate-800/80 dark:hover:bg-violet-950/40 border border-slate-200/90 dark:border-slate-700/80 hover:border-violet-300 dark:hover:border-violet-600/60 flex items-center gap-1.5 transition-all cursor-pointer active:scale-95 shrink-0 shadow-2xs"
+            title="Làm bài trắc nghiệm đọc hiểu AI (+25 XP)"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-violet-600 dark:text-violet-400 group-hover/ai:scale-110 transition-transform shrink-0" />
+            <span>Đọc hiểu AI</span>
+          </Link>
+
+          <div className="h-8 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0 select-none group/btn">
+            <span>Học Ngay</span>
+            <Play className="w-3 h-3 fill-white group-hover/btn:translate-x-0.5 transition-transform" />
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+interface HorizontalVideoTopicRowProps {
+  title: string;
+  icon: React.ReactNode;
+  categorySlug: string;
+  themeColor: "rose" | "amber" | "blue" | "purple" | "emerald";
+  lessons: VideoCatalogLessonItem[];
+  onSelectVideoLesson?: (lesson: VideoCatalogLessonItem) => void;
+  onViewCategory: (categorySlug: string) => void;
+}
+
+function HorizontalVideoTopicRow({
+  title,
+  icon,
+  categorySlug,
+  themeColor,
+  lessons,
+  onSelectVideoLesson,
+  onViewCategory,
+}: HorizontalVideoTopicRowProps) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const checkScroll = useCallback(() => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      setCanScrollLeft(scrollLeft > 10);
+      setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 10);
+    }
+  }, []);
+
+  useEffect(() => {
+    checkScroll();
+    const el = scrollRef.current;
+    if (el) {
+      el.addEventListener("scroll", checkScroll, { passive: true });
+      window.addEventListener("resize", checkScroll);
+      return () => {
+        el.removeEventListener("scroll", checkScroll);
+        window.removeEventListener("resize", checkScroll);
+      };
+    }
+  }, [checkScroll, lessons]);
+
+  const handleScroll = (direction: "left" | "right") => {
+    if (scrollRef.current) {
+      const scrollAmount = scrollRef.current.clientWidth + 20;
+      scrollRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const getThemeClasses = () => {
+    switch (themeColor) {
+      case "rose":
+        return "bg-rose-50 hover:bg-rose-100/80 dark:bg-rose-950/40 dark:hover:bg-rose-900/50 text-rose-700 dark:text-rose-300 border-rose-200/70 dark:border-rose-800/50";
+      case "amber":
+        return "bg-amber-50 hover:bg-amber-100/80 dark:bg-amber-950/40 dark:hover:bg-amber-900/50 text-amber-700 dark:text-amber-300 border-amber-200/70 dark:border-amber-800/50";
+      case "blue":
+        return "bg-blue-50 hover:bg-blue-100/80 dark:bg-blue-950/40 dark:hover:bg-blue-900/50 text-[#0059bb] dark:text-sky-300 border-blue-200/70 dark:border-blue-800/50";
+      case "purple":
+        return "bg-purple-50 hover:bg-purple-100/80 dark:bg-purple-950/40 dark:hover:bg-purple-900/50 text-purple-700 dark:text-purple-300 border-purple-200/70 dark:border-purple-800/50";
+      case "emerald":
+        return "bg-emerald-50 hover:bg-emerald-100/80 dark:bg-emerald-950/40 dark:hover:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 border-emerald-200/70 dark:border-emerald-800/50";
+      default:
+        return "bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700";
+    }
+  };
+
+  if (lessons.length === 0) return null;
+
+  return (
+    <div className="space-y-3.5 pt-1">
+      {/* Row Header */}
+      <div className="flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-slate-800">
+        <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
+          {icon}
+          <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-display tracking-tight truncate">
+            {title}
+          </h3>
+        </div>
+
+        {/* Row Header Actions: Navigation & View All */}
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <button
+            type="button"
+            onClick={() => handleScroll("left")}
+            disabled={!canScrollLeft}
+            className="w-8 h-8 rounded-lg border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-25 disabled:pointer-events-none flex items-center justify-center transition-all cursor-pointer shadow-2xs active:scale-95"
+            title="Cuộn sang trái"
+            aria-label="Cuộn sang trái"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+          <button
+            type="button"
+            onClick={() => handleScroll("right")}
+            disabled={!canScrollRight}
+            className="w-8 h-8 rounded-lg border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-25 disabled:pointer-events-none flex items-center justify-center transition-all cursor-pointer shadow-2xs active:scale-95"
+            title="Cuộn sang phải"
+            aria-label="Cuộn sang phải"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
+          <button
+            type="button"
+            onClick={() => onViewCategory(categorySlug)}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 cursor-pointer transition-all border ${getThemeClasses()}`}
+          >
+            <span>Xem Video Chủ Đề</span>
+            <ChevronRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      </div>
+
+      {/* Horizontal Carousel Viewport (Khử hoàn toàn mờ mờ, hiển thị sắc nét trọn vẹn 4 bài đầu) */}
+      <div className="relative group/carousel">
+        {/* Scrollable Container */}
+        <div
+          ref={scrollRef}
+          className="flex gap-4 sm:gap-5 overflow-x-auto scroll-smooth no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden pb-3 pt-1 snap-x snap-mandatory"
+        >
+          {lessons.map((lesson) => (
+            <VideoCardItem
+              key={lesson.id}
+              lesson={lesson}
+              onSelectVideoLesson={onSelectVideoLesson}
+              className="w-[85vw] sm:w-[calc((100%-20px)/2)] lg:w-[calc((100%-60px)/4)] shrink-0 snap-start"
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function VideoCardShimmer() {
   return (

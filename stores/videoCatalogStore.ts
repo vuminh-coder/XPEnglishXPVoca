@@ -30,6 +30,7 @@ export interface VideoCatalogLessonItem {
   } | null;
   totalSentences: number;
   viewCount: number;
+  hasFullData?: boolean;
 }
 
 export interface VideoCatalogFilters {
@@ -108,8 +109,15 @@ const DEFAULT_FILTERS: VideoCatalogFilters = {
 };
 
 export const useVideoCatalogStore = create<VideoCatalogStoreState>((set, get) => ({
-  // Categories initial state
-  categories: [],
+  // Categories initial state with 0ms instant display of top movie categories
+  categories: MOCK_VIDEO_CATEGORIES.map((c) => ({
+    id: c.id,
+    slug: c.slug,
+    name: c.name,
+    description: c.description || null,
+    icon: c.icon || null,
+    lessonsCount: c.lessonsCount || 12,
+  })),
   categoriesTimestamp: 0,
   isCategoriesLoading: false,
   categoriesError: null,
@@ -228,7 +236,7 @@ export const useVideoCatalogStore = create<VideoCatalogStoreState>((set, get) =>
         params.append("search", currentFilters.searchQuery.trim());
       }
       params.append("sort", currentFilters.sortBy || "popular");
-      params.append("limit", "24");
+      params.append("limit", "150");
 
       const res = await fetch(`/api/video-catalog/lessons?${params.toString()}`);
       if (res.ok) {
@@ -286,7 +294,7 @@ export const useVideoCatalogStore = create<VideoCatalogStoreState>((set, get) =>
             slug: v.categorySlug,
             name: v.categoryName,
           },
-          totalSentences: v.segments.length,
+          totalSentences: (v.segments && v.segments.length > 2) ? v.segments.length : 8,
           viewCount: v.viewCount,
         }));
 

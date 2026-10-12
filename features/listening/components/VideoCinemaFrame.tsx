@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect, useCallback, useState, useId } from "react";
 import { extractYouTubeVideoId } from "@/features/listening/utils/videoUrlHelper";
+import { getLessonCoverImage } from "@/features/listening/utils/lessonImageMapper";
 import {
   Play,
   Pause,
@@ -493,7 +494,20 @@ export const VideoCinemaFrame: React.FC<VideoCinemaFrameProps> = ({
           </div>
         ) : thumb ? (
           <div className="relative w-full h-full flex items-center justify-center">
-            <img src={thumb} alt={title} className="w-full h-full object-cover" />
+            <img
+              src={thumb}
+              alt={title}
+              onLoad={(e) => {
+                const img = e.currentTarget;
+                if (img.naturalWidth === 120 && img.naturalHeight === 90) {
+                  img.src = getLessonCoverImage({ title });
+                }
+              }}
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = getLessonCoverImage({ title });
+              }}
+              className="w-full h-full object-cover"
+            />
           </div>
         ) : null}
 

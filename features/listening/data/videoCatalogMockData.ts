@@ -7,6 +7,16 @@ import {
 } from "./types";
 import { MOCK_VIDEO_CATEGORIES } from "./categories";
 import {
+  ALL_MODULAR_MOVIE_LESSONS,
+  LESSONS_ROMANCE_CINEMA as MOVIE_LESSONS_ROMANCE,
+  LESSONS_INSPIRATIONAL_LIFE as MOVIE_LESSONS_INSPIRATIONAL,
+  LESSONS_CLASSIC_SITCOMS as MOVIE_LESSONS_SITCOMS,
+  LESSONS_ANIMATION_PIXAR_DISNEY as MOVIE_LESSONS_ANIMATION,
+  ALL_MOVIE_TOPICS,
+} from "./topics";
+
+const ALL_MOVIE_LESSONS = ALL_MODULAR_MOVIE_LESSONS;
+import {
   ALL_MODULAR_LESSONS,
   LESSON_REWRITE_THE_STARS,
   QUIZ_REWRITE_THE_STARS,
@@ -134,8 +144,23 @@ export {
   QUIZ_MEDICAL_CONSULTATION,
 };
 
-// Aggregated catalog array
-export const MOCK_VIDEO_LESSONS: MockVideoLesson[] = ALL_MODULAR_LESSONS;
+// Export movie lesson subsets
+export {
+  ALL_MOVIE_LESSONS,
+  ALL_MODULAR_MOVIE_LESSONS,
+  ALL_MOVIE_TOPICS,
+  MOVIE_LESSONS_ROMANCE,
+  MOVIE_LESSONS_INSPIRATIONAL,
+  MOVIE_LESSONS_SITCOMS,
+  MOVIE_LESSONS_ANIMATION,
+};
+
+// Aggregated catalog array with Curated Movie Lessons placed at the very top
+export const MOCK_VIDEO_LESSONS: MockVideoLesson[] = [
+  ...ALL_MOVIE_LESSONS,
+  ...ALL_MODULAR_LESSONS,
+];
 
 // Alias export
 export const videoCatalogLessons = MOCK_VIDEO_LESSONS;
+

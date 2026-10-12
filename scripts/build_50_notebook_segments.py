@@ -1,0 +1,595 @@
+import json
+import re
+
+def calc_tokenize_count(text, proper_nouns=None):
+    if proper_nouns is None:
+        proper_nouns = []
+    normalized = text
+    normalized = re.sub(r'\s*—\s*', ' ', normalized)
+    raw_tokens = [tok for tok in normalized.strip().split() if tok]
+    count = 0
+    for tok in raw_tokens:
+        clean = re.sub(r'^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$', '', tok)
+        if clean and re.search(r'[a-zA-Z0-9]', clean):
+            count += 1
+    return count
+
+segments = [
+    # Scene 1: Ferris Wheel (0.0s - 108.0s)
+    {
+        "orderIndex": 0,
+        "startTime": 0.0,
+        "endTime": 10.0,
+        "text": "Wait, what? Have you lost your mind? What are you doing? Hey, you can't do that!",
+        "ipaUs": "/weɪt wʌt hæv juː lɔːst jʊər maɪnd wʌt ɑːr juː ˈduːɪŋ heɪ juː kænt duː ðæt/",
+        "translationVi": "Chờ đã, cái gì cơ? Cậu mất trí rồi à? Cậu đang làm cái trò gì thế? Này, cậu không được phép làm thế đâu!",
+        "keywords": ["lost your mind", "what are you doing", "can't do that"],
+        "explanationAi": "Thành ngữ 'lose one's mind' (mất trí, phát điên) khi Tommy hoảng hốt thấy Noah trèo lên khoang đu quay của Allie giữa không trung.",
+        "properNouns": ["Tommy"]
+    },
+    {
+        "orderIndex": 1,
+        "startTime": 10.0,
+        "endTime": 18.0,
+        "text": "I'll tell you when I get down, Tommy. I'm Noah Calhoun. So... so it's really nice to meet you.",
+        "ipaUs": "/aɪl tɛl juː wɛn aɪ ɡɛt daʊn ˈtɑːmi aɪm ˈnoʊə kælˈhuːn soʊ soʊ ɪts ˈrɪəli naɪs tuː miːt juː/",
+        "translationVi": "Tớ sẽ nói cho cậu biết khi nào tớ xuống dưới, Tommy. Tôi là Noah Calhoun. Thật là... thật là hân hạnh được gặp em.",
+        "keywords": ["get down", "Noah Calhoun", "nice to meet you"],
+        "explanationAi": "Màn tự giới thiệu liều lĩnh và quyến rũ bậc nhất màn ảnh của Noah Calhoun khi đu người lơ lửng trên không trung.",
+        "properNouns": ["Tommy", "Noah Calhoun"]
+    },
+    {
+        "orderIndex": 2,
+        "startTime": 18.0,
+        "endTime": 25.0,
+        "text": "Who is this guy? — I don't know, Noah Calhoun. — I would really like to take you out, friend. Do you mind?",
+        "ipaUs": "/huː ɪz ðɪs ɡaɪ aɪ doʊnt noʊ ˈnoʊə kælˈhuːn aɪ wʊd ˈrɪəli laɪk tuː teɪk juː aʊt frɛnd duː juː maɪnd/",
+        "translationVi": "Gã này là ai thế? — Em không biết, Noah Calhoun gì đó. — Tôi thực sự rất muốn đưa cô ấy đi hẹn hò, này anh bạn. Cậu có phiền không?",
+        "keywords": ["take you out", "do you mind", "Noah Calhoun"],
+        "explanationAi": "Cụm động từ 'take someone out' (rủ ai đó đi chơi/hẹn hò), Noah lịch thiệp hỏi người bạn trai đang ngồi cạnh Allie một cách đầy khiêu khích.",
+        "properNouns": ["Noah Calhoun"]
+    },
+    {
+        "orderIndex": 3,
+        "startTime": 25.0,
+        "endTime": 34.0,
+        "text": "You can't sit more than two people in a chair, Noah! — Okay, Tommy. All right. — Get down! Noah, you're gonna kill yourself! Cut it out!",
+        "ipaUs": "/juː kænt sɪt mɔːr ðæn tuː ˈpiːpəl ɪn ə tʃɛər ˈnoʊə oʊˈkeɪ ˈtɑːmi ɔːl raɪt ɡɛt daʊn ˈnoʊə jʊər ˈɡɒnə kɪl jʊərˈsɛlf kʌt ɪt aʊt/",
+        "translationVi": "Cậu không được ngồi quá hai người trên một ghế đâu Noah! — Được rồi Tommy. Biết rồi. — Xuống ngay đi! Noah, anh sẽ tự giết mình mất! Dẹp trò đó đi!",
+        "keywords": ["kill yourself", "cut it out", "get down"],
+        "explanationAi": "Cụm thành ngữ 'cut it out' (dừng lại ngay, dẹp đi) thể hiện sự hoảng sợ tột độ của Allie khi thấy anh chàng dám liều mạng vì mình.",
+        "properNouns": ["Noah", "Tommy"]
+    },
+    {
+        "orderIndex": 4,
+        "startTime": 34.0,
+        "endTime": 43.0,
+        "text": "Well, will you go out with me? — No! — Hey bud, she just told you no! — Why not? — I don't know, because I don't want to!",
+        "ipaUs": "/wɛl wɪl juː ɡoʊ aʊt wɪð miː noʊ heɪ bʌd ʃiː dʒʌst toʊld juː noʊ waɪ nɑːt aɪ doʊnt noʊ bɪˈkɒz aɪ doʊnt wɑːnt tuː/",
+        "translationVi": "Thế em có chịu đi chơi với anh không? — Không! — Này anh bạn, cô ấy vừa bảo không rồi đấy! — Tại sao lại không? — Tôi chẳng biết, vì tôi không thích!",
+        "keywords": ["go out with me", "she told you no", "why not"],
+        "explanationAi": "Lời từ chối dứt khoát của một tiểu thư khuê các trước sự tấn công đường đột của một chàng công nhân xưởng gỗ bộc trực.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 5,
+        "startTime": 43.0,
+        "endTime": 55.0,
+        "text": "All right. Well, you leave me no other choice then. — Oh my God! I'm not kidding! Noah, stop! What are you doing?!",
+        "ipaUs": "/ɔːl raɪt wɛl juː liːv miː noʊ ˈʌðər tʃɔɪs ðɛn oʊ maɪ ɡɑːd aɪm nɑːt ˈkɪdɪŋ ˈnoʊə stɑːp wʌt ɑːr juː ˈduːɪŋ/",
+        "translationVi": "Được thôi. Vậy thì em không cho anh sự lựa chọn nào khác rồi. — Ôi lạy Chúa tôi! Tôi không đùa đâu! Noah, dừng lại đi! Anh đang làm cái trò gì thế?!",
+        "keywords": ["no other choice", "not kidding", "stop what are you doing"],
+        "explanationAi": "Cụm 'leave someone no choice' (buộc ai đó phải hành động liều lĩnh): Noah buông một tay treo lơ lửng trên thanh xà đu quay.",
+        "properNouns": ["Noah"]
+    },
+    {
+        "orderIndex": 6,
+        "startTime": 55.0,
+        "endTime": 66.0,
+        "text": "I'm gonna ask you one more time: will you or will you not go out with me? — Goddamn hillbilly! The car is on fire, you idiot! — Not until she agrees!",
+        "ipaUs": "/aɪm ˈɡɒnə æsk juː wʌn mɔːr taɪm wɪl juː ɔːr wɪl juː nɑːt ɡoʊ aʊt wɪð miː ˈɡɒd dæm ˈhɪlˌbɪli ðə kɑːr ɪz ɒn ˈfaɪər juː ˈɪdiət nɑːt ənˈtɪl ʃiː əˈɡriːz/",
+        "translationVi": "Anh hỏi em lần cuối cùng này: em có chịu hay không chịu đi chơi với anh đây hả? — Đồ nhà quê chết tiệt! Cả khoang ghế sắp cháy đến nơi rồi đồ ngốc! — Cho đến khi cô ấy đồng ý!",
+        "keywords": ["one more time", "will you or will you not", "until she agrees"],
+        "explanationAi": "Sự kiên định tột cùng của Noah: anh sẵn sàng mạo hiểm tính mạng để giành lấy cơ hội được hẹn hò cùng Allie.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 7,
+        "startTime": 66.0,
+        "endTime": 76.0,
+        "text": "Ah, go out with him, honey! — Okay! Okay, fine! I'll go out with you! — Well, don't do me any favors.",
+        "ipaUs": "/ɑː ɡoʊ aʊt wɪð hɪm ˈhʌni oʊˈkeɪ oʊˈkeɪ faɪn aɪl ɡoʊ aʊt wɪð juː wɛl doʊnt duː miː ˈɛni ˈfeɪvərz/",
+        "translationVi": "Ôi, đi chơi với cậu ta đi em gái ơi! — Được rồi! Được rồi, chịu rồi! Em sẽ đi chơi với anh! — Này, đừng có làm bộ ban ơn cho anh thế chứ.",
+        "keywords": ["go out with you", "fine", "don't do me any favors"],
+        "explanationAi": "Thành ngữ 'don't do me any favors' (đừng có làm bộ ban ơn/chiều chuộng miễn cưỡng), câu thoại trêu chọc trứ danh của Ryan Gosling.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 8,
+        "startTime": 76.0,
+        "endTime": 86.0,
+        "text": "No, I want to! — You want to? You want to say it? — I want to go out with you! — Say it again! — I want to go out with you! All right?! All right, we'll go out!",
+        "ipaUs": "/noʊ aɪ wɑːnt tuː juː wɑːnt tuː juː wɑːnt tuː seɪ ɪt aɪ wɑːnt tuː ɡoʊ aʊt wɪð juː seɪ ɪt əˈɡɛn aɪ wɑːnt tuː ɡoʊ aʊt wɪð juː ɔːl raɪt ɔːl raɪt wiːl ɡoʊ aʊt/",
+        "translationVi": "Không, em muốn đi! — Em muốn à? Em muốn nói ra không? — Em muốn đi chơi với anh! — Nói lại lần nữa xem nào! — Em muốn đi chơi với anh! Được chưa hả?! Được rồi, chúng mình sẽ đi hẹn hò!",
+        "keywords": ["I want to go out with you", "say it again", "we'll go out"],
+        "explanationAi": "Noah bắt Allie phải thừa nhận mong muốn thật sự trước khi anh leo trở lại vị trí an toàn, tạo nên màn tán tỉnh kinh điển.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 9,
+        "startTime": 86.0,
+        "endTime": 98.0,
+        "text": "You think you're so smart, don't you? That was a funny one, you idiot! Oh, it's okay, I'll take care of this. What are you doing? Please don't do that!",
+        "ipaUs": "/juː θɪŋk jʊər soʊ smɑːrt doʊnt juː ðæt wʌz ə ˈfʌni wʌn juː ˈɪdiət oʊ ɪts oʊˈkeɪ aɪl teɪk kɛər ʌv ðɪs wʌt ɑːr juː ˈduːɪŋ pliːz doʊnt duː ðæt/",
+        "translationVi": "Anh tưởng mình thông minh lắm chắc? Màn vừa rồi vui tính đấy đồ ngốc ạ! Ồ, không sao đâu, để em xử lý việc này. Em đang làm gì thế? Xin em đừng làm thế!",
+        "keywords": ["so smart", "take care of this", "don't do that"],
+        "explanationAi": "Cú phản đòn tinh nghịch của Allie: cô vờ làm lành rồi bất ngờ kéo tụt quần lót của Noah ngay trên vòng quay hội chợ.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 10,
+        "startTime": 98.0,
+        "endTime": 108.0,
+        "text": "I can't believe it! Oh God! You're not so cocky now, are you? — I'm gonna get you! — Oh, maybe you will, maybe you won't!",
+        "ipaUs": "/aɪ kænt bɪˈliːv ɪt oʊ ɡɑːd jʊər nɑːt soʊ ˈkɑːki naʊ ɑːr juː aɪm ˈɡɒnə ɡɛt juː oʊ ˈmeɪbi juː wɪl ˈmeɪbi juː woʊnt/",
+        "translationVi": "Không thể tin nổi! Trời đất ơi! Bây giờ anh hết làm bộ vênh váo rồi đúng không? — Anh sẽ bắt được em cho coi! — Ồ, có thể có mà cũng có thể không nha!",
+        "keywords": ["not so cocky now", "gonna get you", "maybe you will"],
+        "explanationAi": "Tính từ 'cocky' (ngông nghênh, tự đắc). Allie cười phá lên trêu chọc Noah khi anh đỏ mặt xấu hổ trong bộ quần áo lót.",
+        "properNouns": []
+    },
+
+    # Scene 2: Street Walk & Crossroad (108.0s - 215.0s)
+    {
+        "orderIndex": 11,
+        "startTime": 108.0,
+        "endTime": 118.0,
+        "text": "You remember me? — Yeah, sure. Mr. Underwear, was it? — Oh, yeah. How could I forget?",
+        "ipaUs": "/juː rɪˈmɛmbər miː jɛə ʃʊər ˈmɪstər ˈʌndərˌwɛər wʌz ɪt oʊ jɛə haʊ kʊd aɪ fərˈɡɛt/",
+        "translationVi": "Em còn nhớ anh không? — Ừ, dĩ nhiên rồi. 'Quý ngài Đồ Lót' đúng không nhỉ? — Ồ, đúng thế. Làm sao mà em quên được cơ chứ?",
+        "keywords": ["remember me", "Mr. Underwear", "how could I forget"],
+        "explanationAi": "Biệt danh hài hước 'Mr. Underwear' Allie đặt cho Noah khi gặp lại anh trên con phố vắng ở thị trấn Seabrook.",
+        "properNouns": ["Mr. Underwear"]
+    },
+    {
+        "orderIndex": 12,
+        "startTime": 118.0,
+        "endTime": 130.0,
+        "text": "Yeah, I wanted to apologize to you because I'm really sorry about that. It was a really stupid thing to do, climbing up the ferris wheel to talk to somebody, but I had to be next to you.",
+        "ipaUs": "/jɛə aɪ ˈwɑːntɪd tuː əˈpɑːləˌdʒaɪz tuː juː bɪˈkɒz aɪm ˈrɪəli ˈsɑːri əˈbaʊt ðæt ɪt wʌz ə ˈrɪəli ˈstuːpɪd θɪŋ tuː duː ˈklaɪmɪŋ ʌp ðə ˈfɛrɪs wiːl tuː tɔːk tuː ˈsʌmˌbɑːdi bʌt aɪ hæd tuː biː nɛkst tuː juː/",
+        "translationVi": "Ừ, anh muốn xin lỗi em vì anh thực sự rất ân hận về chuyện đó. Leo lên đu quay chỉ để nói chuyện với một ai đó quả là một hành động ngớ ngẩn, nhưng anh không thể kiềm chế được việc muốn ở cạnh em.",
+        "keywords": ["apologize to you", "stupid thing to do", "next to you"],
+        "explanationAi": "Sự chân thành vụng về của chàng trai miền Nam: nhận lỗi về hành động bốc đồng của mình vì bị vẻ đẹp của cô cuốn hút.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 13,
+        "startTime": 130.0,
+        "endTime": 140.0,
+        "text": "I was being drawn to you. — Oh jeez, what a line! You use that on all the girls? Right. I saw you the other night with little Miss Ribbons.",
+        "ipaUs": "/aɪ wʌz ˈbiːɪŋ drɔːn tuː juː oʊ dʒiːz wʌt ə laɪn juː juːz ðæt ɒn ɔːl ðə ɡɜːrlz raɪt aɪ sɔː juː ðiː ˈʌðər naɪt wɪð ˈlɪtəl mɪs ˈrɪbənz/",
+        "translationVi": "Anh bị cuốn hút về phía em. — Ôi trời, văn vở gớm nhỉ! Anh dùng câu tán tỉnh đó với tất cả các cô gái à? Phải rồi. Tối nọ em thấy anh đi cùng cô nàng 'Nơ Bướm' đấy.",
+        "keywords": ["drawn to you", "what a line", "Miss Ribbons"],
+        "explanationAi": "Cụm 'drawn to someone' (bị cuốn hút mãnh liệt bởi ai đó) và lời trêu đùa sắc sảo 'what a line' (văn vở khéo thật) của Allie.",
+        "properNouns": ["Miss Ribbons"]
+    },
+    {
+        "orderIndex": 14,
+        "startTime": 140.0,
+        "endTime": 150.0,
+        "text": "What are you doing tonight? Or tomorrow night, or this weekend? — Why? — Our date! — What date? — The date that you agreed to! Yes, you did! You promised and you swore!",
+        "ipaUs": "/wʌt ɑːr juː ˈduːɪŋ təˈnaɪt ɔːr təˈmɔːroʊ naɪt ɔːr ðɪs ˈwiːkˌɛnd waɪ ˈaʊər deɪt wʌt deɪt ðə deɪt ðæt juː əˈɡriːd tuː jɛs juː dɪd juː ˈprɑːmɪst ænd juː swɔːr/",
+        "translationVi": "Tối nay em làm gì? Hay tối mai, hoặc cuối tuần này? — Sao cơ? — Buổi hẹn hò của chúng ta! — Hẹn hò nào? — Buổi hẹn mà em đã đồng ý đấy! Có, em đã đồng ý! Em đã hứa và thề rồi mà!",
+        "keywords": ["our date", "agreed to", "promised and swore"],
+        "explanationAi": "Noah kiên trì nhắc lại lời hứa hẹn trên đu quay, không bỏ lỡ bất kỳ cơ hội nào để được ở bên cạnh người trong mộng.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 15,
+        "startTime": 150.0,
+        "endTime": 162.0,
+        "text": "Well, I guess I changed my mind. — Look, I know you get some dirty guy coming up to you on the street, you don't know him, you don't know me. But I know me.",
+        "ipaUs": "/wɛl aɪ ɡɛs aɪ tʃeɪndʒd maɪ maɪnd lʊk aɪ noʊ juː ɡɛt sʌm ˈdɜːrti ɡaɪ ˈkʌmɪŋ ʌp tuː juː ɒn ðə striːt juː doʊnt noʊ hɪm juː doʊnt noʊ miː bʌt aɪ noʊ miː/",
+        "translationVi": "Chà, em đoán là em đổi ý rồi. — Nghe này, anh biết có một gã lấm lem bụi đất bất ngờ tiến lại gần em trên phố, em không quen hắn, em chẳng biết anh là ai. Nhưng anh hiểu rõ bản thân mình.",
+        "keywords": ["changed my mind", "dirty guy", "I know me"],
+        "explanationAi": "Sự tự ý thức về giai cấp của Noah: một người thợ mộc nghèo đối diện với một thiên kim tiểu thư giàu có nhưng tràn đầy tự trọng.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 16,
+        "startTime": 162.0,
+        "endTime": 173.0,
+        "text": "And when I see something that I like, I gotta have it. I love it. I mean, I go crazy for it. — What are you talking about?",
+        "ipaUs": "/ænd wɛn aɪ siː ˈsʌmθɪŋ ðæt aɪ laɪk aɪ ˈɡɑːtə hæv ɪt aɪ lʌv ɪt aɪ miːn aɪ ɡoʊ ˈkreɪzi fɔːr ɪt wʌt ɑːr juː ˈtɔːkɪŋ əˈbaʊt/",
+        "translationVi": "Và khi anh nhìn thấy thứ gì đó anh thực sự thích, anh nhất định phải có được nó. Anh yêu nó say đắm. Ý anh là, anh phát cuồng vì nó. — Anh đang nói cái gì thế hả?",
+        "keywords": ["gotta have it", "go crazy for it", "what are you talking about"],
+        "explanationAi": "Thành ngữ 'go crazy for something' (phát cuồng, say mê cuồng nhiệt vì điều gì đó), biểu lộ bản tính nồng nàn không che giấu của Noah.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 17,
+        "startTime": 173.0,
+        "endTime": 185.0,
+        "text": "Well, you're good. You're good, you're good. No, you're getting me wrong. You're fantastic! You really are. I'm impressed. I'm not usually like this, I'm sorry. — Yes, you are.",
+        "ipaUs": "/wɛl jʊər ɡʊd jʊər ɡʊd jʊər ɡʊd noʊ jʊər ˈɡɛtɪŋ miː rɔːŋ jʊər fænˈtæstɪk juː ˈrɪəli ɑːr aɪm ɪmˈprɛst aɪm nɑːt ˈjuːʒuəli laɪk ðɪs aɪm ˈsɑːri jɛs juː ɑːr/",
+        "translationVi": "Thì em tuyệt vời lắm. Em giỏi giang, em xuất sắc. Không, em hiểu lầm anh rồi. Em vô cùng tuyệt diệu! Em thực sự như thế đấy. Anh quá đỗi ngưỡng mộ. Bình thường anh không thế này đâu, anh xin lỗi. — Có, anh luôn như thế thì có.",
+        "keywords": ["getting me wrong", "fantastic", "impressed"],
+        "explanationAi": "Cụm 'get someone wrong' (hiểu lầm ai đó). Noah lúng túng khen ngợi vẻ đẹp và sự cá tính của Allie một cách mộc mạc.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 18,
+        "startTime": 185.0,
+        "endTime": 198.0,
+        "text": "I could be fun if you want. Pensive, superstitious, brave, and I could be light on the feet. I could be whatever you want.",
+        "ipaUs": "/aɪ kʊd biː fʌn ɪf juː wɑːnt ˈpɛnsɪv ˌsuːpərˈstɪʃəs breɪv ænd aɪ kʊd biː laɪt ɒn ðə fiːt aɪ kʊd biː wʌtˈɛvər juː wɑːnt/",
+        "translationVi": "Anh có thể vui tính nếu em muốn. Trầm tư, mê tín, quả cảm, và anh có thể bước đi nhẹ nhàng thanh thoát. Anh có thể trở thành bất cứ hình mẫu nào em muốn.",
+        "keywords": ["pensive", "superstitious", "light on the feet", "whatever you want"],
+        "explanationAi": "Cụm tính từ kinh điển: 'pensive' (trầm tư suy tưởng), 'light on the feet' (nhẹ nhàng khi khiêu vũ), thể hiện sự chiều chuộng tuyệt đối của chàng trai si tình.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 19,
+        "startTime": 198.0,
+        "endTime": 208.0,
+        "text": "You just tell me what you want, and I'll be that for you. — You're dumb. — I could be that.",
+        "ipaUs": "/juː dʒʌst tɛl miː wʌt juː wɑːnt ænd aɪl biː ðæt fɔːr juː jʊər dʌm aɪ kʊd biː ðæt/",
+        "translationVi": "Em chỉ cần nói cho anh biết em muốn gì, anh sẽ trở thành người như thế vì em. — Anh thật ngốc nghếch. — Anh ngốc nghếch được luôn.",
+        "keywords": ["tell me what you want", "you're dumb", "I could be that"],
+        "explanationAi": "Câu đối đáp ngắn gọn nhưng làm rung động hàng triệu trái tim: 'You're dumb. — I could be that.' (Em chê anh ngốc? Vì em, anh sẵn sàng làm kẻ ngốc).",
+        "properNouns": []
+    },
+
+    # Scene 3: The Windsor House Reunion (220.0s - 350.0s)
+    {
+        "orderIndex": 20,
+        "startTime": 220.0,
+        "endTime": 238.0,
+        "text": "I saw your picture in the paper, the one with you in the house, and I just wanted to come and see if you were okay. I mean, I wasn't in the neighborhood or anything. I just... so, are you okay?",
+        "ipaUs": "/aɪ sɔː jʊər ˈpɪktʃər ɪn ðə ˈpeɪpər ðə wʌn wɪð juː ɪn ðə haʊs ænd aɪ dʒʌst ˈwɑːntɪd tuː kʌm ænd siː ɪf juː wɜːr oʊˈkeɪ aɪ miːn aɪ ˈwɑːzənt ɪn ðə ˈneɪbərˌhʊd ɔːr ˈɛniˌθɪŋ aɪ dʒʌst soʊ ɑːr juː oʊˈkeɪ/",
+        "translationVi": "Em nhìn thấy bức ảnh của anh trên báo, bức ảnh anh đứng trước ngôi nhà đó, và em chỉ muốn ghé qua xem anh có khỏe không. Ý em là, em không tiện đường hay có việc gì ở quanh đây đâu. Em chỉ là... thế, anh vẫn ổn chứ?",
+        "keywords": ["picture in the paper", "in the neighborhood", "are you okay"],
+        "explanationAi": "Allie bất ngờ xuất hiện sau 7 năm xa cách. Lời phân trần lúng túng che giấu nỗi nhớ nhung khắc khoải suốt nhiều năm ròng.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 21,
+        "startTime": 238.0,
+        "endTime": 256.0,
+        "text": "Yeah, I'm okay. — Okay, good. I'm a stupid woman. I shouldn't have... — You want to come in?",
+        "ipaUs": "/jɛə aɪm oʊˈkeɪ oʊˈkeɪ ɡʊd aɪm ə ˈstuːpɪd ˈwʊmən aɪ ˈʃʊdənt hæv juː wɑːnt tuː kʌm ɪn/",
+        "translationVi": "Ừ, anh vẫn ổn. — Thế thì tốt rồi. Em thật là một người đàn bà ngốc nghếch. Lẽ ra em không nên... — Em có muốn vào nhà không?",
+        "keywords": ["stupid woman", "shouldn't have", "come in"],
+        "explanationAi": "Noah mời Allie bước vào ngôi nhà mà chính tay anh đã tái thiết từng viên gạch, hiện thực hóa lời hứa năm xưa với cô.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 22,
+        "startTime": 256.0,
+        "endTime": 275.0,
+        "text": "You're different. — What do you mean? — It's the way you look. Everything. — You look different, too. But in a good way.",
+        "ipaUs": "/jʊər ˈdɪfərənt wʌt duː juː miːn ɪts ðə weɪ juː lʊk ˈɛvriˌθɪŋ juː lʊk ˈdɪfərənt tuː bʌt ɪn ə ɡʊd weɪ/",
+        "translationVi": "Anh khác xưa nhiều quá. — Ý em là sao? — Từ diện mạo của anh, cho tới mọi thứ. — Em trông cũng khác xưa. Nhưng là theo một cách vô cùng tuyệt vời.",
+        "keywords": ["you're different", "the way you look", "in a good way"],
+        "explanationAi": "Cuộc hội ngộ sau năm tháng chiến tranh và thăng trầm tuổi trẻ: cả hai đã trưởng thành, chững chạc hơn nhưng tình cảm vẫn vẹn nguyên.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 23,
+        "startTime": 275.0,
+        "endTime": 300.0,
+        "text": "You're kind of the same, though. And you really did it. The house. It's beautiful what you did.",
+        "ipaUs": "/jʊər kaɪnd ʌv ðə seɪm ðoʊ ænd juː ˈrɪəli dɪd ɪt ðə haʊs ɪts ˈbjuːtəfʊl wʌt juː dɪd/",
+        "translationVi": "Nhưng anh vẫn giữ nét gì đó như xưa. Và anh thực sự đã làm được rồi. Ngôi nhà này. Những gì anh đã tạo nên thật là đẹp đẽ.",
+        "keywords": ["the same though", "you really did it", "beautiful"],
+        "explanationAi": "Ngôi nhà Windsor cổ kính được phục chế hoàn mỹ chính là minh chứng bất diệt cho tình yêu chung thủy mà Noah dành cho Allie.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 24,
+        "startTime": 300.0,
+        "endTime": 330.0,
+        "text": "Well, I promised you I would. I painted it white, with blue shutters, and a porch that wraps around the whole house.",
+        "ipaUs": "/wɛl aɪ ˈprɑːmɪst juː aɪ wʊd aɪ ˈpeɪntɪd ɪt waɪt wɪð bluː ˈʃʌtərz ænd ə pɔːrtʃ ðæt ræps əˈraʊnd ðə hoʊl haʊs/",
+        "translationVi": "Thì anh đã hứa với em là anh sẽ làm mà. Anh sơn nhà màu trắng, với những cánh cửa chớp màu xanh lam, và một mái hiên rộng chạy quanh cả ngôi nhà.",
+        "keywords": ["promised you I would", "blue shutters", "porch wraps around"],
+        "explanationAi": "Từng chi tiết nhỏ nhất trong giấc mơ tuổi thiếu thời của Allie đều được Noah ghi nhớ sâu sắc và hoàn thành trọn vẹn không thiếu sót.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 25,
+        "startTime": 330.0,
+        "endTime": 350.0,
+        "text": "We got to go. The storm is coming in. The clouds are turning dark over the river.",
+        "ipaUs": "/wiː ɡɑːt tuː ɡoʊ ðə stɔːrm ɪz ˈkʌmɪŋ ɪn ðə klaʊdz ɑːr ˈtɜːrnɪŋ dɑːrk ˈoʊvər ðə ˈrɪvər/",
+        "translationVi": "Chúng ta phải chèo về thôi. Cơn bão sắp kéo đến rồi. Những đám mây đen đang vần vũ tối sầm trên mặt sông kìa.",
+        "keywords": ["got to go", "storm is coming in", "clouds turning dark"],
+        "explanationAi": "Điềm báo của thiên nhiên trước phân cảnh cao trào kinh điển: cơn bão ập đến mở màn cho cuộc giãi bày định mệnh trong mưa.",
+        "properNouns": []
+    },
+
+    # Scene 4: Swan Lake Boat Ride & Rain Kiss (420.0s - 470.0s)
+    {
+        "orderIndex": 26,
+        "startTime": 420.0,
+        "endTime": 435.0,
+        "text": "Why didn't you write me? It wasn't over for me! I waited for you for seven years! Now it's too late!",
+        "ipaUs": "/waɪ ˈdɪdənt juː raɪt miː ɪt ˈwɑːzənt ˈoʊvər fɔːr miː aɪ ˈweɪtɪd fɔːr juː fɔːr ˈsɛvən jɪərz naʊ ɪts tuː leɪt/",
+        "translationVi": "Tại sao anh không viết thư cho em? Với em mọi chuyện chưa bao giờ kết thúc cả! Em đã chờ đợi anh suốt bảy năm trời! Giờ thì đã quá muộn rồi!",
+        "keywords": ["write me", "wasn't over for me", "seven years", "too late"],
+        "explanationAi": "Tiếng khóc nghẹn ngào trong mưa của Allie: bảy năm dằn vặt vì ngỡ rằng mình bị người yêu ruồng bỏ không một bức thư hồi âm.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 27,
+        "startTime": 435.0,
+        "endTime": 445.0,
+        "text": "I wrote you 365 letters. I wrote you every day for a year!",
+        "ipaUs": "/aɪ roʊt juː θriː ˈhʌndrəd ænd ˈsɪksti faɪv ˈlɛtərz aɪ roʊt juː ˈɛvri deɪ fɔːr ə jɪər/",
+        "translationVi": "Anh đã viết cho em 365 lá thư! Ngày nào anh cũng viết thư cho em suốt cả một năm ròng!",
+        "keywords": ["365 letters", "every day for a year"],
+        "explanationAi": "Cột mốc tiết lộ chấn động nhất của bộ phim: 365 lá thư đã bị mẹ của Allie giấu kín, mở khóa toàn bộ uất ức suốt 7 năm qua.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 28,
+        "startTime": 445.0,
+        "endTime": 455.0,
+        "text": "You wrote me?! — It wasn't over! It still isn't over!",
+        "ipaUs": "/juː roʊt miː ɪt ˈwɑːzənt ˈoʊvər ɪt stɪl ˈɪzənt ˈoʊvər/",
+        "translationVi": "Anh đã viết thư cho em ư?! — Mọi chuyện chưa từng kết thúc! Và bây giờ nó vẫn chưa kết thúc!",
+        "keywords": ["you wrote me", "wasn't over", "still isn't over"],
+        "explanationAi": "Lời khẳng định đanh thép xé toạc màn mưa: 'It wasn't over. It still isn't over!' - tình yêu của họ vượt lên mọi sự chia cắt thời gian.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 29,
+        "startTime": 455.0,
+        "endTime": 470.0,
+        "text": "Noah pulls Allie into his arms as the pouring rain soaks them completely, sealing their reunion with the most passionate kiss in cinematic history.",
+        "ipaUs": "/ˈnoʊə pʊlz ˈæli ˈɪntuː hɪz ɑːrmz æz ðə ˈpɔːrɪŋ reɪn soʊks ðɛm kəmˈpliːtli ˈsiːlɪŋ ðɛər riːˈjuːnjən wɪð ðə moʊst ˈpæʃənət kɪs ɪn ˌsɪnəˈmætɪk ˈhɪstəri/",
+        "translationVi": "Noah ghì chặt Allie vào vòng tay mình giữa làn mưa như trút nước, gắn kết cuộc hội ngộ của họ bằng nụ hôn nồng cháy bậc nhất lịch sử điện ảnh lãng mạn.",
+        "keywords": ["pulls into arms", "pouring rain", "passionate kiss", "cinematic history"],
+        "explanationAi": "Cảnh quay nụ hôn dưới mưa huyền thoại của Ryan Gosling và Rachel McAdams đoạt giải Best Kiss tại MTV Movie Awards.",
+        "properNouns": ["Noah", "Allie"]
+    },
+
+    # Scene 5: Morning Argument & Broken Promises (500.0s - 565.0s)
+    {
+        "orderIndex": 30,
+        "startTime": 500.0,
+        "endTime": 515.0,
+        "text": "Are we back there? What about the past couple of days? — They happened, you know! I know that they happened and they were wonderful, but they were also very irresponsible!",
+        "ipaUs": "/ɑːr wiː bæk ðɛər wʌt əˈbaʊt ðə pæst ˈkʌpəl ʌv deɪz ðeɪ ˈhæpənd juː noʊ aɪ noʊ ðæt ðeɪ ˈhæpənd ænd ðeɪ wɜːr ˈwʌndərfʊl bʌt ðeɪ wɜːr ˈɔːlsoʊ ˈvɛri ˌɪrɪˈspɑːnsəbəl/",
+        "translationVi": "Chúng ta lại quay về điểm xuất phát đó sao? Thế còn những ngày vừa qua thì sao? — Chúng đã xảy ra, anh biết mà! Em biết những ngày qua thật tuyệt vời, nhưng chúng cũng vô cùng vô trách nhiệm!",
+        "keywords": ["back there", "past couple of days", "irresponsible"],
+        "explanationAi": "Sự xung đột giữa cảm xúc bộc phát và thực tại tàn nhẫn khi Allie bừng tỉnh nhận ra mình đã có hôn ước chính thức.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 31,
+        "startTime": 515.0,
+        "endTime": 528.0,
+        "text": "I have a fiancé waiting for me at a hotel who's going to be crushed when he finds out what we did!",
+        "ipaUs": "/aɪ hæv ə fiːˈɑːnseɪ ˈweɪtɪŋ fɔːr miː æt ə hoʊˈtɛl huːz ˈɡoʊɪŋ tuː biː krʌʃt wɛn hiː faɪndz aʊt wʌt wiː dɪd/",
+        "translationVi": "Em có một vị hôn phu đang chờ đợi em ở khách sạn, người đàn ông ấy sẽ hoàn toàn suy sụp khi biết chuyện chúng ta đã làm!",
+        "keywords": ["fiancé waiting", "crushed", "finds out"],
+        "explanationAi": "Tính từ 'crushed' (tan nát cõi lòng, suy sụp hoàn toàn). Nỗi cắn rứt lương tâm của Allie đối với Lon Hammond.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 32,
+        "startTime": 528.0,
+        "endTime": 536.0,
+        "text": "So you make love to me and then you go back to your husband? Was that your plan? Was that a test that I didn't pass?!",
+        "ipaUs": "/soʊ juː meɪk lʌv tuː miː ænd ðɛn juː ɡoʊ bæk tuː jʊər ˈhʌzbənd wʌz ðæt jʊər plæn wʌz ðæt ə tɛst ðæt aɪ ˈdɪdənt pæs/",
+        "translationVi": "Vậy là em mặn nồng với anh rồi em quay về với chồng mình ư? Đó là kế hoạch của em sao? Hay đó là bài kiểm tra mà anh đã thi trượt hả?!",
+        "keywords": ["make love", "go back to your husband", "test I didn't pass"],
+        "explanationAi": "Noah cảm thấy bị xúc phạm và tổn thương ghê gớm khi tình yêu cháy bỏng của mình dường như chỉ là một cuộc phiêu lưu chớp nhoáng của Allie.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 33,
+        "startTime": 536.0,
+        "endTime": 544.0,
+        "text": "I made a promise to a man! He gave me a ring and I gave him my word! — And your word is shot to hell now, don't you think?!",
+        "ipaUs": "/aɪ meɪd ə ˈprɑːmɪs tuː ə mæn hiː ɡeɪv miː ə rɪŋ ænd aɪ ɡeɪv hɪm maɪ wɜːrd ænd jʊər wɜːrd ɪz ʃɑːt tuː hɛl naʊ doʊnt juː θɪŋk/",
+        "translationVi": "Em đã hứa với người đàn ông đó! Anh ấy trao nhẫn cho em và em đã trao cho anh ấy lời hứa danh dự! — Và lời hứa của em giờ đã nát bét rồi, em không thấy thế sao?!",
+        "keywords": ["made a promise", "gave him my word", "shot to hell"],
+        "explanationAi": "Thành ngữ 'shot to hell' (bị phá hủy hoàn toàn, tan thành mây khói): Noah thẳng thừng vạch trần sự dối lòng của Allie.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 34,
+        "startTime": 544.0,
+        "endTime": 552.0,
+        "text": "I don't know, I'll find out when I talk to him! — This is not about keeping your promise. And it's not about following your heart. It's about security!",
+        "ipaUs": "/aɪ doʊnt noʊ aɪl faɪnd aʊt wɛn aɪ tɔːk tuː hɪm ðɪs ɪz nɑːt əˈbaʊt ˈkiːpɪŋ jʊər ˈprɑːmɪs ænd ɪts nɑːt əˈbaʊt ˈfɑːloʊɪŋ jʊər hɑːrt ɪts əˈbaʊt sɪˈkjʊrəti/",
+        "translationVi": "Em không biết, em sẽ biết khi nói chuyện với anh ấy! — Chuyện này chẳng liên quan gì đến giữ lời hứa cả. Và nó cũng chẳng phải vì nghe theo con tim. Đó là vì sự an toàn danh giá!",
+        "keywords": ["keeping your promise", "following your heart", "security"],
+        "explanationAi": "Noah chỉ trích sự hèn nhát xã hội: Allie sợ mất đi vỏ bọc an toàn và địa vị thượng lưu mà người chồng sắp cưới giàu có mang lại.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 35,
+        "startTime": 552.0,
+        "endTime": 560.0,
+        "text": "What is that supposed to mean?! What are you saying?! — He's got a lot of money! — I hate you! You bastard! If you say that, I hate you!",
+        "ipaUs": "/wʌt ɪz ðæt səˈpoʊzd tuː miːn wʌt ɑːr juː ˈseɪɪŋ hiːz ɡɑːt ə lɑːt ʌv ˈmʌni aɪ heɪt juː juː ˈbæstərd ɪf juː seɪ ðæt aɪ heɪt juː/",
+        "translationVi": "Câu đó có nghĩa là gì hả?! Anh đang nói cái quái gì thế?! — Anh ta có cả núi tiền chứ gì! — Em ghét anh! Đồ khốn kiếp! Nếu anh nói thế thì em căm thù anh!",
+        "keywords": ["supposed to mean", "lot of money", "I hate you"],
+        "explanationAi": "Cơn giận dữ bùng nổ khi Noah chạm vào điểm nhạy cảm nhất về khác biệt tài chính và gia thế giữa hai người.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 36,
+        "startTime": 560.0,
+        "endTime": 568.0,
+        "text": "You're bored! You're bored and you know it! You wouldn't be here if there wasn't something missing! — You son of a bitch!",
+        "ipaUs": "/jʊər bɔːrd jʊər bɔːrd ænd juː noʊ ɪt juː ˈwʊdənt biː hɪər ɪf ðɛər ˈwɑːzənt ˈsʌmθɪŋ ˈmɪsɪŋ juː sʌn ʌv ə bɪtʃ/",
+        "translationVi": "Em đang chán ngấy! Em đang buồn chán và chính em cũng biết điều đó! Em sẽ không có mặt ở đây nếu cuộc đời em không thiếu thốn điều gì! — Đồ đê tiện!",
+        "keywords": ["you're bored", "something missing", "son of a bitch"],
+        "explanationAi": "Noah đâm thẳng vào nỗi cô đơn nội tâm của Allie: dù cuộc sống giàu sang nhưng thiếu vắng ngọn lửa đam mê đích thực.",
+        "properNouns": []
+    },
+
+    # Scene 6: "We Fight" & "What Do You Want?!" (568.0s - 660.0s)
+    {
+        "orderIndex": 37,
+        "startTime": 568.0,
+        "endTime": 578.0,
+        "text": "Would you just stay with me?! — Stay with you? What for? Look at us, we're already fighting!",
+        "ipaUs": "/wʊd juː dʒʌst steɪ wɪð miː steɪ wɪð juː wʌt fɔːr lʊk æt ʌs wɪər ɔːlˈrɛdi ˈfaɪtɪŋ/",
+        "translationVi": "Em ở lại với anh có được không hả?! — Ở lại với anh ư? Để làm gì chứ? Anh nhìn hai chúng ta xem, chúng ta lại đang cãi vã nhau rồi đây này!",
+        "keywords": ["stay with me", "what for", "already fighting"],
+        "explanationAi": "Lời cầu xin tha thiết của Noah đối lập với sự bi quan phòng thủ của Allie khi cả hai rơi vào cuộc tranh cãi quen thuộc.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 38,
+        "startTime": 578.0,
+        "endTime": 588.0,
+        "text": "Well, that's what we do! We fight! You tell me when I'm being an arrogant son of a bitch and I tell you when you're being a pain in the ass!",
+        "ipaUs": "/wɛl ðæts wʌt wiː duː wiː faɪt juː tɛl miː wɛn aɪm ˈbiːɪŋ ən ˈærəɡənt sʌn ʌv ə bɪtʃ ænd aɪ tɛl juː wɛn jʊər ˈbiːɪŋ ə peɪn ɪn ðiː æs/",
+        "translationVi": "Thì bản tính chúng ta là thế mà! Chúng ta cãi nhau! Em mắng anh mỗi khi anh là một gã ngạo mạn đáng ghét, còn anh chỉ cho em thấy mỗi khi em là một của nợ phiền phức!",
+        "keywords": ["that's what we do", "we fight", "arrogant", "pain in the ass"],
+        "explanationAi": "Thành ngữ 'pain in the ass' (kẻ phiền phức, khó chịu). Định nghĩa tình yêu chân thực của Noah: không phải sự hoàn hảo mà là sự chân thật tuyệt đối.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 39,
+        "startTime": 588.0,
+        "endTime": 598.0,
+        "text": "Which you are, 99% of the time! I'm not afraid to hurt your feelings. You have like a two-second rebound rate and you're back doing the next pain in the ass thing!",
+        "ipaUs": "/wɪtʃ juː ɑːr ˈnaɪnti naɪn pərˈsɛnt ʌv ðə taɪm aɪm nɑːt əˈfreɪd tuː hɜːrt jʊər ˈfiːlɪŋz juː hæv laɪk ə tuː ˈsɛkənd ˈriːbaʊnd reɪt ænd jʊər bæk ˈduːɪŋ ðə nɛkst peɪn ɪn ðiː æs θɪŋ/",
+        "translationVi": "Mà em thì phiền phức tới 99% thời gian! Anh chẳng sợ làm em tổn thương. Em có khả năng hồi phục tâm trạng chỉ trong 2 giây rồi em lại tiếp tục làm trò phiền phức tiếp theo!",
+        "keywords": ["hurt your feelings", "rebound rate", "pain in the ass"],
+        "explanationAi": "Thuật ngữ 'rebound rate' (tốc độ hồi phục/nảy bật lại), cách Noah ví von sự kiên cường và cá tính bướng bỉnh đáng yêu của Allie.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 40,
+        "startTime": 598.0,
+        "endTime": 608.0,
+        "text": "So what?! — So it's not gonna be easy. It's gonna be really hard, and we're gonna have to work at this every day. But I want to do that because I want you!",
+        "ipaUs": "/soʊ wʌt soʊ ɪts nɑːt ˈɡɒnə biː ˈiːzi ɪts ˈɡɒnə biː ˈrɪəli hɑːrd ænd wɪər ˈɡɒnə hæv tuː wɜːrk æt ðɪs ˈɛvri deɪ bʌt aɪ wɑːnt tuː duː ðæt bɪˈkɒz aɪ wɑːnt juː/",
+        "translationVi": "Thế thì sao chứ?! — Thế thì nó sẽ không hề dễ dàng đâu. Nó sẽ cực kỳ gian nan, và chúng ta sẽ phải nỗ lực vun đắp mỗi ngày. Nhưng anh muốn làm điều đó vì anh muốn có em!",
+        "keywords": ["not gonna be easy", "really hard", "work at this every day", "I want you"],
+        "explanationAi": "Tuyên ngôn tình yêu bất hủ: tình yêu đích thực đòi hỏi sự nỗ lực và chấp nhận gian nan mỗi ngày chứ không phải con đường trải hoa hồng.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 41,
+        "startTime": 608.0,
+        "endTime": 618.0,
+        "text": "I want all of you, forever. You and me, every day! Will you do something for me? Please?",
+        "ipaUs": "/aɪ wɑːnt ɔːl ʌv juː fəˈrɛvər juː ænd miː ˈɛvri deɪ wɪl juː duː ˈsʌmθɪŋ fɔːr miː pliːz/",
+        "translationVi": "Anh muốn có trọn vẹn con người em, mãi mãi. Chỉ có anh và em, mỗi ngày trôi qua! Em làm một điều này vì anh được không? Anh xin em đấy?",
+        "keywords": ["all of you forever", "you and me every day", "do something for me"],
+        "explanationAi": "Khát khao gắn bó trọn đời thiêng liêng: 'I want all of you, forever. You and me, every day.'",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 42,
+        "startTime": 618.0,
+        "endTime": 628.0,
+        "text": "Just picture your life thirty years from now, forty years from now. What's it look like? If it's with that guy, go!",
+        "ipaUs": "/dʒʌst ˈpɪktʃər jʊər laɪf ˈθɜːrti jɪərz frɒm naʊ ˈfɔːrti jɪərz frɒm naʊ wʌts ɪt lʊk laɪk ɪf ɪts wɪð ðæt ɡaɪ ɡoʊ/",
+        "translationVi": "Hãy thử hình dung cuộc đời em ba mươi năm nữa, bốn mươi năm nữa kể từ bây giờ xem sao. Nó trông sẽ như thế nào? Nếu người bên cạnh em là anh ta, em hãy đi đi!",
+        "keywords": ["picture your life", "thirty years from now", "if it's with that guy go"],
+        "explanationAi": "Cụm 'picture your life' (hình dung tương lai cuộc đời). Noah đặt Allie trước cái nhìn viễn cảnh sâu sắc về hạnh phúc cả đời người.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 43,
+        "startTime": 628.0,
+        "endTime": 638.0,
+        "text": "I lost you once, I think I could do it again if I thought it's what you really wanted. But don't you take the easy way out! — What easy way?! There is no easy way!",
+        "ipaUs": "/aɪ lɔːst juː wʌns aɪ θɪŋk aɪ kʊd duː ɪt əˈɡɛn ɪf aɪ θɔːt ɪts wʌt juː ˈrɪəli ˈwɑːntɪd bʌt doʊnt juː teɪk ðiː ˈiːzi weɪ aʊt wʌt ˈiːzi weɪ ðɛər ɪz noʊ ˈiːzi weɪ/",
+        "translationVi": "Anh đã từng mất em một lần, anh nghĩ anh có thể chịu đựng mất em thêm lần nữa nếu anh tin đó thực sự là điều em muốn. Nhưng em đừng có chọn con đường trốn chạy dễ dàng! — Con đường dễ dàng nào chứ?! Chẳng có con đường nào dễ dàng cả!",
+        "keywords": ["lost you once", "easy way out", "no easy way"],
+        "explanationAi": "Thành ngữ 'take the easy way out' (chọn giải pháp trốn tránh dễ dàng/thỏa hiệp), thức tỉnh dũng khí đấu tranh vì tình yêu của Allie.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 44,
+        "startTime": 638.0,
+        "endTime": 648.0,
+        "text": "No matter what I do, somebody gets hurt! — Would you stop thinking about what everyone wants?! Stop thinking about what I want, what he wants, what your parents want!",
+        "ipaUs": "/noʊ ˈmætər wʌt aɪ duː ˈsʌmˌbɑːdi ɡɛts hɜːrt wʊd juː stɑːp ˈθɪŋkɪŋ əˈbaʊt wʌt ˈɛvriwʌn wɑːnts stɑːp ˈθɪŋkɪŋ əˈbaʊt wʌt aɪ wɑːnt wʌt hiː wɑːnts wʌt jʊər ˈpɛrənts wɑːnt/",
+        "translationVi": "Cho dù em có làm gì đi nữa thì cũng sẽ có người bị tổn thương! — Em có thôi bận tâm xem mọi người muốn gì đi không?! Đừng nghĩ về việc anh muốn gì, anh ta muốn gì, hay bố mẹ em muốn gì nữa!",
+        "keywords": ["somebody gets hurt", "stop thinking", "what everyone wants"],
+        "explanationAi": "Sự giằng xé nội tâm đỉnh điểm của người phụ nữ chịu định kiến gia đình và kỳ vọng môn đăng hộ đối.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 45,
+        "startTime": 648.0,
+        "endTime": 660.0,
+        "text": "What do you want?! What do you want?! — It's not that simple! — What do you want?! Goddamn it, what do you want?! — I have to go.",
+        "ipaUs": "/wʌt duː juː wɑːnt wʌt duː juː wɑːnt ɪts nɑːt ðæt ˈsɪmpəl wʌt duː juː wɑːnt ˈɡɒd dæm ɪt wʌt duː juː wɑːnt aɪ hæv tuː ɡoʊ/",
+        "translationVi": "Bản thân em muốn điều gì?! Em muốn điều gì hả?! — Mọi chuyện không đơn giản như thế đâu! — Em muốn cái gì?! Chết tiệt, bản thân em muốn điều gì?! — Em phải đi rồi.",
+        "keywords": ["what do you want", "not that simple", "I have to go"],
+        "explanationAi": "Tiếng hét xé lòng 'What do you want?!' của Ryan Gosling trở thành biểu tượng kinh điển của quyền tự quyết và tiếng gọi con tim trong tình yêu.",
+        "properNouns": []
+    },
+
+    # Scene 7: Noah's Letter & Memory Awaken (720.0s - 804.0s)
+    {
+        "orderIndex": 46,
+        "startTime": 720.0,
+        "endTime": 738.0,
+        "text": "My dearest Allie, I couldn't sleep last night because I know that it's over between us. I'm not bitter anymore, because I know that what we had was real.",
+        "ipaUs": "/maɪ ˈdɪərɪst ˈæli aɪ ˈkʊdənt sliːp læst naɪt bɪˈkɒz aɪ noʊ ðæt ɪts ˈoʊvər bɪˈtwiːn ʌs aɪm nɑːt ˈbɪtər ˌɛniˈmɔːr bɪˈkɒz aɪ noʊ ðæt wʌt wiː hæd wʌz rɪəl/",
+        "translationVi": "Allie yêu thương nhất của anh, đêm qua anh không tài nào chợp mắt được vì anh biết mọi chuyện giữa chúng ta đã chấm dứt. Anh không còn cay đắng nữa, bởi vì anh biết những gì chúng ta từng có là chân thật.",
+        "keywords": ["my dearest", "over between us", "not bitter anymore", "what we had was real"],
+        "explanationAi": "Lá thư chia tay đầy vị tha của Noah: tình yêu đích thực không oán hận, trân trọng từng khoảnh khắc thiêng liêng đã cùng nhau trải qua.",
+        "properNouns": ["Allie"]
+    },
+    {
+        "orderIndex": 47,
+        "startTime": 738.0,
+        "endTime": 755.0,
+        "text": "And if in some distant place in the future we see each other in our new lives, I'll smile at you with joy, and remember how we spent a summer beneath the trees, learning from each other and growing in love.",
+        "ipaUs": "/ænd ɪf ɪn sʌm ˈdɪstənt pleɪs ɪn ðə ˈfjuːtʃər wiː siː iːtʃ ˈʌðər ɪn ˈaʊər njuː laɪvz aɪl smaɪl æt juː wɪð dʒɔɪ ænd rɪˈmɛmbər haʊ wiː spɛnt ə ˈsʌmər bɪˈniːθ ðə triːz ˈlɜːrnɪŋ frɒm iːtʃ ˈʌðər ænd ˈɡroʊɪŋ ɪn lʌv/",
+        "translationVi": "Và nếu ở một nơi xa xôi nào đó trong tương lai ta gặp lại nhau trong những cuộc đời mới, anh sẽ mỉm cười với em trong niềm hân hoan, và nhớ về mùa hè rực rỡ dưới những tán cây, khi ta học cách thấu hiểu và lớn lên trong tình yêu.",
+        "keywords": ["distant place in the future", "smile with joy", "summer beneath the trees", "growing in love"],
+        "explanationAi": "Lời văn thi vị và lãng mạn bậc nhất của Nicholas Sparks: 'growing in love' - trưởng thành cùng tình yêu dẫu có phải chia xa.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 48,
+        "startTime": 755.0,
+        "endTime": 785.0,
+        "text": "I remember now. It was us... It was us, darling! Oh, my sweetheart! Oh, I loved it so much! Oh, baby...",
+        "ipaUs": "/aɪ rɪˈmɛmbər naʊ ɪt wʌz ʌs ɪt wʌz ʌs ˈdɑːrlɪŋ oʊ maɪ ˈswiːtˌhɑːrt oʊ aɪ lʌvd ɪt soʊ mʌtʃ oʊ ˈbeɪbi/",
+        "translationVi": "Em nhớ ra rồi. Đó chính là chúng ta... Đó là chuyện của chúng mình, anh yêu à! Ôi, người dấu yêu của em! Ôi, em yêu câu chuyện ấy biết bao! Ôi, anh yêu...",
+        "keywords": ["I remember now", "it was us", "sweetheart", "loved it so much"],
+        "explanationAi": "Khoảnh khắc kỳ diệu khi ký ức của bà Allie chợt bừng tỉnh trong viện dưỡng lão, nhận ra ông lão đọc truyện chính là Noah Calhoun.",
+        "properNouns": []
+    },
+    {
+        "orderIndex": 49,
+        "startTime": 785.0,
+        "endTime": 804.0,
+        "text": "No... No! Who are you?! Don't touch me! Get away from me! No! — Allie, it's me... it's Noah. But the Alzheimer's darkness cruelly returns, locking her memories away once more.",
+        "ipaUs": "/noʊ noʊ huː ɑːr juː doʊnt tʌtʃ miː ɡɛt əˈweɪ frɒm miː noʊ ˈæli ɪts miː ɪts ˈnoʊə bʌt ðiː ˈæltsˌhaɪmərz ˈdɑːrknəs ˈkruːəli rɪˈtɜːrnz ˈlɑːkɪŋ hɜːr ˈmɛməriz əˈweɪ wʌns mɔːr/",
+        "translationVi": "Không... Không! Ông là ai?! Đừng có chạm vào tôi! Cút xa tôi ra! Không! — Allie, là anh mà... là Noah đây. Nhưng bóng tối của căn bệnh Alzheimer tàn nhẫn quay trở lại, khóa chặt ký ức của bà thêm một lần nữa.",
+        "keywords": ["don't touch me", "it's me it's Noah", "Alzheimer's darkness", "memories"],
+        "explanationAi": "Cái kết bi tráng đầy ám ảnh của The Notebook: bệnh Alzheimer cướp đi ký ức vừa chớm nở, khắc họa tình yêu kiên trì vô điều kiện của Noah ngày này qua ngày khác.",
+        "properNouns": ["Allie", "Noah", "Alzheimer"]
+    }
+]
+
+# Calculate token counts
+for seg in segments:
+    seg["tokenCount"] = calc_tokenize_count(seg["text"], seg.get("properNouns", []))
+
+print(f"Total structured segments: {len(segments)}")
+print(f"First segment start: {segments[0]['startTime']}s, Last segment end: {segments[-1]['endTime']}s")
+for i, s in enumerate(segments):
+    print(f"[{i:02d}] {s['startTime']:05.1f}s - {s['endTime']:05.1f}s (tokens: {s['tokenCount']}): {s['text'][:65]}...")
+
+with open('scripts/all_50_notebook_segments.json', 'w', encoding='utf-8') as f:
+    json.dump(segments, f, ensure_ascii=False, indent=2)
+
+print("\nSuccessfully wrote scripts/all_50_notebook_segments.json!")

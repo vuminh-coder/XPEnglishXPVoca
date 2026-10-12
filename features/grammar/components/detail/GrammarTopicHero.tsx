@@ -93,41 +93,37 @@ export function GrammarTopicHero({
           </div>
         </div>
 
-        {/* Right: Quick Action Buttons */}
+        {/* Right: Streamlined Context Action Button (Rule 18 single primary CTA) */}
         <div className="flex items-center gap-2 shrink-0">
-          <button
-            onClick={() => onTabChange("lesson")}
-            className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer font-display ${
-              activeTab === "lesson"
-                ? "bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 border border-[#0059bb]/30"
-                : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-            }`}
-          >
-            <BookOpen className="w-3.5 h-3.5" />
-            <span>Lý Thuyết</span>
-          </button>
-
-          <button
-            onClick={() => {
-              onTabChange("practice");
-              if (exerciseCount === 0 && !loadingExercises) {
-                onGenerateExercises();
-              }
-            }}
-            disabled={loadingExercises}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer font-display active:scale-95 shadow-md ${
-              activeTab === "practice"
-                ? "bg-[#0059bb] hover:bg-[#004899] text-white shadow-[#0059bb]/20"
-                : "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-blue-500/20"
-            }`}
-          >
-            {loadingExercises ? (
-              <Loader2 className="w-3.5 h-3.5 animate-spin" />
-            ) : (
-              <Sparkles className="w-3.5 h-3.5 text-amber-300 fill-current" />
-            )}
-            <span>{exerciseCount > 0 ? "Luyện Tập AI (5 Câu)" : "Tạo Đề Luyện AI"}</span>
-          </button>
+          {activeTab === "lesson" ? (
+            <button
+              type="button"
+              onClick={() => {
+                onTabChange("practice");
+                if (exerciseCount === 0 && !loadingExercises) {
+                  onGenerateExercises();
+                }
+              }}
+              disabled={loadingExercises}
+              className="px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer font-display active:scale-95 bg-[#0059bb] hover:bg-[#004899] text-white shadow-md shadow-[#0059bb]/20 disabled:opacity-50"
+            >
+              {loadingExercises ? (
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+              ) : (
+                <Sparkles className="w-3.5 h-3.5 text-amber-300 fill-current" />
+              )}
+              <span>{exerciseCount > 0 ? "Làm Bài Tập (5 Câu)" : "Luyện Tập AI +35 XP"}</span>
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => onTabChange("lesson")}
+              className="px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer font-display bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 active:scale-95"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
+              <span>Xem Lại Lý Thuyết</span>
+            </button>
+          )}
         </div>
       </div>
 

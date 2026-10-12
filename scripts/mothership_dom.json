@@ -1,0 +1,106 @@
+[
+  {
+    "text": "mothership",
+    "ancestry": [
+      {
+        "tag": "SPAN",
+        "className": "ytAttributedStringHost ytAttributedStringLinkInheritColor",
+        "id": ""
+      },
+      {
+        "tag": "TRANSCRIPT-SEGMENT-VIEW-MODEL",
+        "className": "ytwTranscriptSegmentViewModelHost",
+        "id": ""
+      },
+      {
+        "tag": "DIV",
+        "className": "ytwTimelineItemViewModelContentItems",
+        "id": ""
+      },
+      {
+        "tag": "TIMELINE-ITEM-VIEW-MODEL",
+        "className": "ytwTimelineItemViewModelHost ytwTimelineItemViewModelHostSmallerPadding",
+        "id": ""
+      },
+      {
+        "tag": "MACRO-MARKERS-PANEL-ITEM-VIEW-MODEL",
+        "className": "ytwMacroMarkersPanelItemViewModelHost",
+        "id": ""
+      },
+      {
+        "tag": "DIV",
+        "className": "",
+        "id": ""
+      },
+      {
+        "tag": "DIV",
+        "className": "",
+        "id": "contents"
+      },
+      {
+        "tag": "YT-ITEM-SECTION-RENDERER",
+        "className": "ytItemSectionRendererHost",
+        "id": ""
+      },
+      {
+        "tag": "DIV",
+        "className": "ytSectionListRendererContents",
+        "id": ""
+      },
+      {
+        "tag": "YT-SECTION-LIST-RENDERER",
+        "id": ""
+      },
+      {
+        "tag": "DIV",
+        "className": "style-scope ytd-engagement-panel-section-list-renderer",
+        "id": "content"
+      },
+      {
+        "tag": "YTD-ENGAGEMENT-PANEL-SECTION-LIST-RENDERER",
+        "className": "style-scope ytd-watch-flexy",
+        "id": ""
+      },
+      {
+        "tag": "DIV",
+        "className": "style-scope ytd-watch-flexy panels-transitioning",
+        "id": "panels"
+      },
+      {
+        "tag": "DIV",
+        "className": "box style-scope ytd-watch-flexy",
+        "id": "secondary-inner"
+      },
+      {
+        "tag": "DIV",
+        "className": "style-scope ytd-watch-flexy",
+        "id": "secondary"
+      },
+      {
+        "tag": "DIV",
+        "className": "style-scope ytd-watch-flexy",
+        "id": "columns"
+      },
+      {
+        "tag": "YTD-WATCH-FLEXY",
+        "className": "style-scope ytd-page-manager watch-root-element hide-skeleton",
+        "id": ""
+      },
+      {
+        "tag": "YTD-PAGE-MANAGER",
+        "className": "style-scope ytd-app",
+        "id": "page-manager"
+      },
+      {
+        "tag": "DIV",
+        "className": "style-scope ytd-app",
+        "id": "content"
+      },
+      {
+        "tag": "YTD-APP",
+        "className": "",
+        "id": ""
+      }
+    ]
+  }
+]

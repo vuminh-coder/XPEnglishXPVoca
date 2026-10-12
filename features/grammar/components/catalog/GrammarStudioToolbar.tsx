@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Search, X, BookOpen, CheckCircle, Layers, Award } from "lucide-react";
+import { Search, X, BookOpen, CheckCircle, Layers, Award, RefreshCw } from "lucide-react";
 import { GrammarFilterLevel } from "../../hooks/useGrammarCatalog";
 
 interface GrammarStudioToolbarProps {
@@ -15,7 +15,9 @@ interface GrammarStudioToolbarProps {
     basic: number;
     intermediate: number;
     advanced: number;
+    completed?: number;
   };
+  onRefresh?: () => void;
 }
 
 export function GrammarStudioToolbar({
@@ -24,6 +26,7 @@ export function GrammarStudioToolbar({
   searchQuery,
   onSearchChange,
   counts,
+  onRefresh,
 }: GrammarStudioToolbarProps) {
   const levelItems: Array<{
     id: GrammarFilterLevel;
@@ -54,6 +57,12 @@ export function GrammarStudioToolbar({
       label: "Chinh Phục 900+",
       count: counts.advanced,
       icon: <Award className="w-3.5 h-3.5" />,
+    },
+    {
+      id: "completed",
+      label: "Đã Thuộc",
+      count: counts.completed || 0,
+      icon: <CheckCircle className="w-3.5 h-3.5" />,
     },
   ];
 
@@ -98,23 +107,37 @@ export function GrammarStudioToolbar({
         })}
       </div>
 
-      {/* Search Input Box */}
-      <div className="relative w-full md:max-w-md">
-        <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => onSearchChange(e.target.value)}
-          aria-label="Tìm kiếm theo tên thì, cấu trúc, kỳ thi (TOEIC, IELTS)"
-          placeholder="Tìm kiếm theo tên thì, cấu trúc, kỳ thi (TOEIC, IELTS)..."
-          className="w-full pl-10 pr-9 py-2 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200/90 dark:border-slate-800 text-xs sm:text-sm font-medium text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-[#0059bb]/20 focus:border-[#0059bb] transition-all"
-        />
-        {searchQuery && (
+      {/* Search Input Box & Refresh Control */}
+      <div className="flex items-center gap-2 w-full md:max-w-md">
+        <div className="relative flex-1">
+          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => onSearchChange(e.target.value)}
+            aria-label="Tìm kiếm theo tên thì, cấu trúc, kỳ thi (TOEIC, IELTS)"
+            placeholder="Tìm kiếm theo tên thì, cấu trúc, kỳ thi (TOEIC, IELTS)..."
+            className="w-full pl-10 pr-9 py-2 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200/90 dark:border-slate-800 text-xs sm:text-sm font-medium text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-[#0059bb]/20 focus:border-[#0059bb] transition-all"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => onSearchChange("")}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer p-0.5 rounded-md hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
+        </div>
+
+        {onRefresh && (
           <button
-            onClick={() => onSearchChange("")}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer p-0.5 rounded-md hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors"
+            type="button"
+            onClick={onRefresh}
+            className="h-9 px-3 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs font-semibold flex items-center gap-1.5 cursor-pointer transition-colors shadow-2xs shrink-0 select-none"
+            title="Làm mới tiến độ từ máy chủ"
           >
-            <X className="w-4 h-4" />
+            <RefreshCw className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
+            <span className="hidden sm:inline">Làm mới</span>
           </button>
         )}
       </div>

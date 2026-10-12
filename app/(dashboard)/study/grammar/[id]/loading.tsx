@@ -13,7 +13,10 @@ export default function GrammarTopicDetailLoading() {
       <AppTopHeader
         onBack={() => {}}
         rightDesktopContent={
-          <div className="h-9 w-40 rounded-xl bg-slate-200 dark:bg-slate-800 shadow-2xs" />
+          <div className="flex items-center gap-2">
+            <div className="h-8 w-24 rounded-full bg-slate-200 dark:bg-slate-800" />
+            <div className="h-9 w-36 rounded-xl bg-slate-200 dark:bg-slate-800 shadow-2xs" />
+          </div>
         }
       >
         <HeaderPillContainer>
@@ -39,8 +42,7 @@ export default function GrammarTopicDetailLoading() {
             </div>
 
             <div className="flex items-center gap-2 shrink-0">
-              <div className="h-8 w-24 rounded-xl bg-slate-100 dark:bg-slate-800" />
-              <div className="h-8 w-32 rounded-xl bg-slate-200 dark:bg-slate-800" />
+              <div className="h-9 w-36 rounded-xl bg-slate-200 dark:bg-slate-800 shadow-2xs" />
             </div>
           </div>
 

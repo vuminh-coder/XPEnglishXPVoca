@@ -1,134 +1,266 @@
 "use client";
 import React from "react";
 
+/**
+ * ShimmerBox: High-End Shimmer Skeleton Box helper
+ */
+function ShimmerBox({
+  className = "",
+  style,
+}: {
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  const hasCustomRounding = className.includes("rounded");
+  return (
+    <div
+      style={style}
+      className={`relative overflow-hidden bg-slate-200/80 dark:bg-slate-800/80 ${
+        hasCustomRounding ? "" : "rounded-lg"
+      } before:absolute before:inset-0 before:-translate-x-full before:animate-shimmer before:bg-gradient-to-r before:from-transparent before:via-white/40 dark:before:via-white/10 before:to-transparent ${className}`}
+    />
+  );
+}
+
+/**
+ * RoadmapLoading
+ * Skeleton loading bám sát 1:1 hình học giao diện Roadmap Pathway:
+ * 1. AppTopHeader (56px) với 3 Navigation Pills + Nút CTA "Học Bài Tiếp Theo"
+ * 2. RoadmapHeroBanner (~50px Single-line Compact Action Strip)
+ * 3. Lưới 8/12 + 4/12:
+ *    - Cột Trái 8-Cols: PhaseCarouselSwiper (38px strip) + PhaseRoadmapCard (Milestone nodes + Task items, không còn checkbox trùng lặp)
+ *    - Cột Phải 4-Cols Cố Định (~430px): 2 Bento Cards (Chi Tiết Bài Học ~235px + Trợ Lý AI Mentor ~185px)
+ * Đạt chuẩn CLS = 0 (Cumulative Layout Shift = 0px).
+ */
 export default function RoadmapLoading() {
   return (
-    <div className="space-y-4 pb-16 md:pb-8 px-0 select-none font-sans animate-pulse">
-      
-      {/* 1. APP TOP HEADER SKELETON (56px BASELINE) */}
-      <header className="sticky top-0 z-40 w-full h-14 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-3">
+    <div className="space-y-4 pb-16 md:pb-8 px-0 select-none font-sans">
+      {/* 1. APP TOP HEADER SKELETON (56px h-14 BASELINE) */}
+      <header className="sticky top-0 z-40 w-full h-14 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-3 shadow-2xs">
+        {/* Left: Mobile Sidebar Trigger + 3 Header Pills (Lộ trình, Thống kê, Xếp hạng) */}
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-slate-200 dark:bg-slate-800" />
-          <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80">
-            <div className="w-24 h-7 rounded-lg bg-blue-600/40" />
-            <div className="w-24 h-7 rounded-lg bg-slate-200 dark:bg-slate-700" />
-            <div className="w-24 h-7 rounded-lg bg-slate-200 dark:bg-slate-700" />
+          <ShimmerBox className="lg:hidden w-8 h-8 rounded-xl shrink-0" />
+          <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60">
+            {/* Lộ trình (Active) */}
+            <ShimmerBox className="w-24 h-7 rounded-lg bg-[#0059bb]/20 dark:bg-sky-400/20" />
+            {/* Thống kê */}
+            <ShimmerBox className="w-24 h-7 rounded-lg hidden sm:block" />
+            {/* Xếp hạng */}
+            <ShimmerBox className="w-24 h-7 rounded-lg hidden md:block" />
           </div>
         </div>
-        <div className="w-32 h-8 rounded-xl bg-blue-600/30 dark:bg-blue-500/30 hidden sm:block" />
+
+        {/* Right Desktop: Nút CTA "Học Bài Tiếp Theo" + Gamification Chips + Avatar */}
+        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+          <ShimmerBox className="h-9 w-36 sm:w-40 rounded-xl bg-[#0059bb]/30 dark:bg-[#0059bb]/20 hidden sm:block" />
+          <div className="flex items-center gap-1.5 shrink-0">
+            <ShimmerBox className="h-8 sm:h-9 w-12 sm:w-14 rounded-xl bg-orange-400/15 border border-orange-200/50" />
+            <ShimmerBox className="h-8 sm:h-9 w-12 sm:w-14 rounded-xl bg-amber-400/15 border border-amber-200/50 hidden xs:block" />
+          </div>
+          <ShimmerBox className="w-8.5 h-8.5 rounded-full ring-2 ring-slate-200 dark:ring-slate-700 shrink-0" />
+        </div>
       </header>
 
-      {/* 2. MAIN CONTAINER SKELETON */}
+      {/* 2. UNIFIED MAIN CONTAINER */}
       <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 pt-1">
-        
-        {/* HERO SPOTLIGHT BANNER SKELETON */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#0059bb] via-[#004fba] to-[#00388a] shadow-md shadow-blue-900/20 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="space-y-2 max-w-2xl">
-            <div className="flex items-center gap-2">
-              <div className="h-6 w-28 rounded-lg bg-amber-400/30 shrink-0" />
-              <div className="h-6 w-36 rounded-lg bg-white/20 shrink-0" />
+        {/* HERO BANNER SKELETON: Compact Single-line Strip (~50px - 1:1 with RoadmapHeroBanner) */}
+        <div className="py-2.5 px-3.5 sm:py-3 sm:px-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          {/* Left: Branding & Goal Header on a Single Line */}
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="w-8 h-8 rounded-xl bg-[#0059bb]/30 text-white flex items-center justify-center shrink-0 shadow-xs">
+              <ShimmerBox className="w-4 h-4 rounded-md" />
             </div>
-            <div className="h-7 w-64 sm:w-96 rounded-lg bg-white/30" />
-            <div className="h-4 w-full sm:w-3/4 rounded-lg bg-blue-100/30 hidden sm:block" />
+
+            <div className="flex items-center gap-2 min-w-0 flex-wrap">
+              <ShimmerBox className="h-5 w-48 sm:w-64 rounded-md" />
+              <ShimmerBox className="h-5 w-24 rounded-md bg-slate-100 dark:bg-slate-800" />
+            </div>
           </div>
 
-          <div className="flex items-center justify-between w-full md:w-auto gap-3 shrink-0">
-            <div className="p-2.5 rounded-xl bg-white/10 border border-white/15 flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-amber-400/20 shrink-0" />
-              <div className="space-y-1">
-                <div className="h-3 w-12 rounded-md bg-blue-200/40" />
-                <div className="h-4 w-24 rounded-md bg-white/40" />
-              </div>
-            </div>
-            <div className="h-10 w-32 rounded-xl bg-white/20 border border-white/30 shrink-0" />
+          {/* Right: Inline Progress & Change Goal Action */}
+          <div className="flex items-center gap-3 shrink-0 justify-between sm:justify-end">
+            <ShimmerBox className="h-7 w-28 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60" />
+            <ShimmerBox className="h-8 w-28 rounded-xl" />
           </div>
         </div>
 
         {/* 3. BENTO 8/12 + 4/12 GRID LAYOUT SKELETON */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start">
-          
-          {/* LEFT 8-COLS: PHASES & LESSON CARDS */}
-          <div className="lg:col-span-8 space-y-4">
-            {[1, 2].map((phase) => (
-              <div key={phase} className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-4">
-                
-                {/* Phase Header & Chest Reward */}
-                <div className="flex items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
-                  <div className="space-y-1.5 min-w-0 flex-1">
-                    <div className="flex items-center gap-2">
-                      <div className="h-5 w-20 rounded-lg bg-blue-600/30 dark:bg-blue-500/30 shrink-0" />
-                      <div className="h-5 w-56 sm:w-80 rounded-md bg-slate-200 dark:bg-slate-800" />
-                    </div>
-                    <div className="h-3.5 w-64 sm:w-96 rounded-md bg-slate-100 dark:bg-slate-800/60 hidden sm:block" />
-                  </div>
-
-                  <div className="h-7 w-32 rounded-xl bg-amber-500/20 shrink-0" />
+          {/* CỘT TRÁI (8-COLS): PHASE CAROUSEL SWIPER & PHASE CARD */}
+          <div className="lg:col-span-8 min-w-0 space-y-3">
+            {/* 3.1. PhaseCarouselSwiper Top Controller Strip (~38px) */}
+            <div className="py-1.5 px-2.5 sm:py-2 sm:px-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex items-center justify-between gap-2.5">
+              <div className="flex items-center gap-2 min-w-0">
+                <div className="w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-lg bg-blue-50 dark:bg-blue-950/60 flex items-center justify-center shrink-0 border border-blue-100 dark:border-blue-900/60 shadow-2xs">
+                  <ShimmerBox className="w-4 h-4 rounded-md" />
                 </div>
+                <ShimmerBox className="h-4 w-28 rounded-md" />
+              </div>
 
-                {/* Lesson Items List */}
-                <div className="space-y-2.5">
-                  {[1, 2, 3].map((task) => (
-                    <div
-                      key={task}
-                      className="p-3 sm:p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-800 flex items-center justify-between gap-3"
-                    >
-                      <div className="flex items-center gap-3 min-w-0 flex-1">
-                        <div className="w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-700 shrink-0" />
-                        <div className="h-6 w-20 rounded-lg bg-blue-500/20 shrink-0" />
-                        <div className="space-y-1 min-w-0 flex-1">
-                          <div className="h-4 w-3/4 rounded-md bg-slate-200 dark:bg-slate-700" />
-                          <div className="h-3 w-1/2 rounded-md bg-slate-100 dark:bg-slate-700/60" />
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-2 shrink-0">
-                        <div className="h-6 w-16 rounded-lg bg-amber-500/20" />
-                        <div className="h-8 w-24 rounded-xl bg-blue-600/30 dark:bg-blue-500/30" />
-                      </div>
-                    </div>
-                  ))}
+              <div className="flex items-center gap-2.5 shrink-0">
+                <ShimmerBox className="h-4.5 w-16 rounded-md bg-[#0059bb]/20" />
+                <div className="flex items-center gap-1">
+                  <ShimmerBox className="w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-lg" />
+                  <ShimmerBox className="w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-lg" />
                 </div>
-
               </div>
-            ))}
-          </div>
-
-          {/* RIGHT 4-COLS: LESSON DETAIL & AI TIPS SIDEBAR */}
-          <div className="lg:col-span-4 space-y-4">
-            
-            {/* Active Task Detail Card */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-4">
-              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
-                <div className="h-5 w-36 rounded-md bg-blue-600/20 dark:bg-blue-400/20" />
-                <div className="h-5 w-16 rounded-lg bg-amber-500/20" />
-              </div>
-
-              <div className="space-y-2">
-                <div className="h-5 w-3/4 rounded-md bg-slate-200 dark:bg-slate-800" />
-                <div className="h-3.5 w-full rounded-md bg-slate-100 dark:bg-slate-800/60" />
-                <div className="h-3.5 w-4/5 rounded-md bg-slate-100 dark:bg-slate-800/60" />
-              </div>
-
-              {/* Pro AI Tips Box */}
-              <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-800 space-y-2">
-                <div className="h-3.5 w-28 rounded-md bg-slate-400" />
-                <div className="h-3 w-full rounded-md bg-slate-200 dark:bg-slate-700" />
-                <div className="h-3 w-4/5 rounded-md bg-slate-200 dark:bg-slate-700" />
-              </div>
-
-              {/* Reward Box */}
-              <div className="h-10 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/40" />
-
-              {/* Practice CTA Button */}
-              <div className="h-10 w-full rounded-xl bg-blue-600/40 dark:bg-blue-500/40" />
             </div>
 
+            {/* 3.2. PhaseRoadmapCard Skeleton */}
+            <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-4">
+              {/* Phase Header & Chest Reward */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
+                <div className="space-y-1 min-w-0 flex-1">
+                  <div className="flex items-center gap-2">
+                    <ShimmerBox className="h-6 w-20 rounded-md bg-[#0059bb]/20" />
+                    <ShimmerBox className="h-6 w-48 sm:w-64 rounded-md" />
+                  </div>
+                  <ShimmerBox className="h-3.5 w-60 sm:w-80 rounded-md" />
+                </div>
+
+                <ShimmerBox className="h-7 w-36 rounded-xl bg-amber-500/20 shrink-0" />
+              </div>
+
+              {/* Phase Progress Bar */}
+              <div className="space-y-1.5 px-0.5">
+                <div className="flex items-center justify-between">
+                  <ShimmerBox className="h-3.5 w-56 rounded-md" />
+                  <ShimmerBox className="h-3.5 w-10 rounded-md bg-[#0059bb]/20" />
+                </div>
+                <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                  <ShimmerBox className="h-full w-1/3 rounded-full bg-[#0059bb]/40" />
+                </div>
+              </div>
+
+              {/* Timeline Pathway (4 Task Items với Milestone Nodes ngoài, KHÔNG có checkbox thừa trong card) */}
+              <div className="space-y-3.5 pt-2">
+                {[1, 2, 3, 4].map((taskNum, idx) => (
+                  <div key={taskNum} className="relative flex items-start gap-3 sm:gap-3.5">
+                    {/* Milestone Node ngoài cùng trên Timeline */}
+                    <div className="flex flex-col items-center shrink-0 self-stretch relative w-6">
+                      <div
+                        className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 shadow-xs ${
+                          idx < 2
+                            ? "bg-emerald-500/30"
+                            : idx === 2
+                            ? "bg-white dark:bg-slate-900 border-2 border-[#0059bb]/40"
+                            : "bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800"
+                        }`}
+                      >
+                        <ShimmerBox className="w-3 h-3 rounded-full" />
+                      </div>
+                      {idx < 3 && (
+                        <div className="w-0.5 flex-1 bg-slate-200 dark:bg-slate-800 my-1" />
+                      )}
+                    </div>
+
+                    {/* Lesson Task Card Item (1:1 chuẩn xác không có checkbox trùng lặp) */}
+                    <div className="flex-1 min-w-0">
+                      <div className="p-3 sm:p-3.5 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                        {/* Left: Skill Badge + Full Title + Description */}
+                        <div className="space-y-1 min-w-0 flex-1">
+                          <div className="flex items-center gap-2 flex-wrap min-w-0">
+                            <ShimmerBox className="h-5 w-20 rounded-md bg-blue-500/20" />
+                            <ShimmerBox className="h-4.5 w-56 sm:w-72 rounded-md" />
+                          </div>
+                          <ShimmerBox className="h-3.5 w-44 sm:w-60 rounded-md" />
+                        </div>
+
+                        {/* Right Action Launcher: XP badge + CTA Button */}
+                        <div className="w-full sm:w-auto flex items-center justify-between sm:justify-end gap-2.5 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100 dark:border-slate-800 shrink-0">
+                          {idx < 2 ? (
+                            /* Bài đã xong: Nút Ôn lại tinh gọn */
+                            <ShimmerBox className="h-8.5 w-20 rounded-xl" />
+                          ) : (
+                            /* Bài chưa xong: +XP badge + Nút Luyện ngay */
+                            <>
+                              <ShimmerBox className="h-6 w-14 rounded-lg bg-amber-500/20" />
+                              <ShimmerBox className="h-8.5 w-24 rounded-xl bg-[#0059bb]/40" />
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
+          {/* CỘT PHẢI (4-COLS CỐ ĐỊNH ~430px): 2 BENTO CARDS 1:1 KHÔNG CUỘN LƯỚT */}
+          <aside className="hidden lg:block lg:col-span-4 sticky top-6 self-start space-y-3">
+            {/* CARD 1: CHI TIẾT BÀI HỌC (~235px) */}
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-2.5">
+              {/* Header */}
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
+                <div className="flex items-center gap-1.5">
+                  <ShimmerBox className="w-3.5 h-3.5 rounded-md text-[#0059bb]" />
+                  <ShimmerBox className="h-4 w-28 rounded-md" />
+                </div>
+                <ShimmerBox className="h-4 w-14 rounded-full bg-amber-500/20" />
+              </div>
+
+              {/* Title & Description */}
+              <div className="space-y-1">
+                <ShimmerBox className="h-3 w-12 rounded-md bg-[#0059bb]/20" />
+                <ShimmerBox className="h-4.5 w-4/5 rounded-md" />
+                <ShimmerBox className="h-3.5 w-full rounded-md" />
+                <ShimmerBox className="h-3.5 w-3/4 rounded-md" />
+              </div>
+
+              {/* Compact AI Tip Callout */}
+              <div className="p-2 rounded-xl bg-blue-50/50 dark:bg-slate-800/50 border border-blue-100/80 dark:border-slate-700/80 space-y-1">
+                <div className="flex items-center gap-1">
+                  <ShimmerBox className="w-3 h-3 rounded-full bg-amber-500/30" />
+                  <ShimmerBox className="h-3 w-20 rounded-md" />
+                </div>
+                <ShimmerBox className="h-3 w-full rounded-md" />
+              </div>
+
+              {/* Action CTA Button */}
+              <div className="pt-0.5">
+                <ShimmerBox className="w-full h-9 rounded-xl bg-[#0059bb]/40" />
+              </div>
+            </div>
+
+            {/* CARD 2: TRỢ LÝ AI MENTOR ĐỒNG HÀNH (~185px) */}
+            <div className="p-3 sm:p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-2.5">
+              {/* Header */}
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
+                <div className="flex items-center gap-1.5">
+                  <div className="w-5.5 h-5.5 rounded-lg bg-purple-50 dark:bg-purple-950/60 flex items-center justify-center shrink-0 border border-purple-200/60 dark:border-purple-800/40">
+                    <ShimmerBox className="w-3 h-3 rounded-md text-purple-600" />
+                  </div>
+                  <ShimmerBox className="h-4 w-28 rounded-md" />
+                </div>
+                <ShimmerBox className="h-4 w-18 rounded-full bg-purple-500/20" />
+              </div>
+
+              {/* 3 Quick Metric Chips */}
+              <div className="grid grid-cols-3 gap-1.5 text-center">
+                {[1, 2, 3].map((chip) => (
+                  <div
+                    key={chip}
+                    className="p-1 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 space-y-1"
+                  >
+                    <ShimmerBox className="h-2.5 w-12 mx-auto rounded" />
+                    <ShimmerBox className="h-3.5 w-8 mx-auto rounded font-mono" />
+                  </div>
+                ))}
+              </div>
+
+              {/* AI Insight Box */}
+              <div className="p-2 rounded-xl bg-purple-50/50 dark:bg-slate-800/50 border border-purple-100/80 dark:border-slate-700/80 space-y-1">
+                <ShimmerBox className="h-3 w-full rounded-md" />
+                <ShimmerBox className="h-3 w-4/5 rounded-md" />
+              </div>
+
+              {/* Action Button: Ask AI Mentor */}
+              <ShimmerBox className="w-full h-8 rounded-xl bg-gradient-to-r from-purple-600/30 to-[#0059bb]/30" />
+            </div>
+          </aside>
         </div>
-
       </div>
-
     </div>
   );
 }

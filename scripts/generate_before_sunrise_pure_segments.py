@@ -1,0 +1,1214 @@
+# -*- coding: utf-8 -*-
+"""
+Generate 100% Pure Segments (Zero Merged Utterances) for Before Sunrise / The Before Trilogy.
+YouTube ID: QV1tiEDvkkw (13:39 - 819s)
+"""
+import json
+
+raw_segments = [
+    # --- ACT 1: THE TRAIN TO VIENNA (BEFORE SUNRISE) ---
+    {
+        "startTime": 27.0,
+        "endTime": 34.5,
+        "text": "All right, I have an admittedly insane idea, but if I don't ask you this, it's gonna haunt me for the rest of my life.",
+        "translationVi": "Được rồi, anh thừa nhận là mình có một ý tưởng khá điên rồ, nhưng nếu anh không hỏi em điều này, nó sẽ ám ảnh anh suốt phần đời còn lại.",
+        "ipaUs": "/ɔːl raɪt, aɪ hæv ən ədˈmɪtɪdli ɪnˈseɪn aɪˈdiːə, bʌt ɪf aɪ doʊnt æsk juː ðɪs, ɪts ˈɡɒnə hɔːnt miː fɔːr ðə rɛst ʌv maɪ laɪf./",
+        "keywords": ["admittedly", "insane idea", "haunt me"],
+        "explanationAi": "Cấu trúc 'admittedly' dùng để thừa nhận thẳng thắn; 'haunt someone' diễn tả cảm giác ray rứt nếu bỏ lỡ cơ hội.",
+        "properNouns": []
+    },
+    {
+        "startTime": 34.5,
+        "endTime": 36.0,
+        "text": "What?",
+        "translationVi": "Chuyện gì thế anh?",
+        "ipaUs": "/wʌt?/",
+        "keywords": ["what"],
+        "explanationAi": "Câu hỏi tò mò, mở đầu cuộc trò chuyện định mệnh giữa hai người lạ trên chuyến tàu xuyên châu Âu.",
+        "properNouns": []
+    },
+    {
+        "startTime": 36.0,
+        "endTime": 39.5,
+        "text": "So listen, here's the deal.",
+        "translationVi": "Nghe này, giao kèo thế này nhé.",
+        "ipaUs": "/soʊ ˈlɪsən, hɪərz ðə diːl./",
+        "keywords": ["here's the deal"],
+        "explanationAi": "Cách mở đầu tự nhiên của người Mỹ khi đề xuất một thỏa thuận hoặc ý tưởng bất ngờ.",
+        "properNouns": []
+    },
+    {
+        "startTime": 39.5,
+        "endTime": 46.0,
+        "text": "This is what we should do: you should get off the train with me here in Vienna, and come check out the town.",
+        "translationVi": "Đây là điều chúng ta nên làm: em hãy xuống tàu cùng anh ngay tại Vienna này, rồi cùng đi khám phá thành phố.",
+        "ipaUs": "/ðɪs ɪz wʌt wiː ʃʊd duː: juː ʃʊd ɡɛt ɔːf ðə treɪn wɪð miː hɪər ɪn viˈɛnə, ænd kʌm tʃɛk aʊt ðə taʊn./",
+        "keywords": ["get off the train", "check out the town"],
+        "explanationAi": "Bước ngoặt khởi đầu của toàn bộ bộ ba phim Before; Jesse rủ Céline rời khỏi hành trình an toàn để bước vào cuộc phiêu lưu.",
+        "properNouns": ["Vienna"]
+    },
+    {
+        "startTime": 46.0,
+        "endTime": 48.0,
+        "text": "What? What would we do?",
+        "translationVi": "Cái gì cơ? Nhưng chúng ta sẽ làm gì chứ?",
+        "ipaUs": "/wʌt? wʌt wʊd wiː duː?/",
+        "keywords": ["what would we do"],
+        "explanationAi": "Sự ngạc nhiên lẫn e ngại thực tế của Céline trước lời mời của một chàng trai xa lạ.",
+        "properNouns": []
+    },
+    {
+        "startTime": 48.0,
+        "endTime": 53.0,
+        "text": "Come on, it'll be fun! Um, I don't know.",
+        "translationVi": "Thôi nào, sẽ vui lắm đấy! Ừm, anh cũng chưa biết nữa.",
+        "ipaUs": "/kʌm ɑːn, ˈɪtəl biː fʌn! ʌm, aɪ doʊnt noʊ./",
+        "keywords": ["come on", "it'll be fun"],
+        "explanationAi": "Sự chân thành vụng về nhưng đầy quyến rũ của Jesse: anh không hề chuẩn bị sẵn kế hoạch hoàn hảo mà để sự ngẫu hứng dẫn lối.",
+        "properNouns": []
+    },
+    # --- ACT 2: THEOLOGY OF CONNECTION (SPACE IN BETWEEN) ---
+    {
+        "startTime": 53.0,
+        "endTime": 58.5,
+        "text": "I believe if there's any kind of God, it wouldn't be in any of us.",
+        "translationVi": "Em tin rằng nếu có bất kỳ vị Thượng Đế nào tồn tại, Ngài sẽ không nằm trong bất kỳ ai trong chúng ta.",
+        "ipaUs": "/aɪ bɪˈliːv ɪf ðɛərz ˈɛni kaɪnd ʌv ɡɒd, ɪt ˈwʊdənt biː ɪn ˈɛni ʌv ʌs./",
+        "keywords": ["any kind of God", "none of us"],
+        "explanationAi": "Mệnh đề triết học nổi tiếng nhất của Céline về bản chất của tâm linh và sự thiêng liêng giữa con người.",
+        "properNouns": ["God"]
+    },
+    {
+        "startTime": 58.5,
+        "endTime": 63.0,
+        "text": "Not you, or me, but just in this little space in between.",
+        "translationVi": "Không phải ở anh, cũng chẳng phải ở em, mà ngự trị ngay trong khoảng không gian nhỏ bé ở giữa hai chúng ta.",
+        "ipaUs": "/nɒt juː, ɔːr miː, bʌt dʒʌst ɪn ðɪs ˈlɪtəl speɪs ɪn bɪˈtwiːn./",
+        "keywords": ["space in between", "little space"],
+        "explanationAi": "'Space in between' là hình ảnh ẩn dụ tuyệt đẹp cho mối liên kết vô hình nảy sinh giữa hai tâm hồn khi gặp gỡ.",
+        "properNouns": []
+    },
+    {
+        "startTime": 63.0,
+        "endTime": 73.0,
+        "text": "If there's any kind of magic in this world, it must be in the attempt of understanding someone, sharing something.",
+        "translationVi": "Nếu có bất kỳ phép màu nào trên thế gian này, nó ắt hẳn phải nằm trong nỗ lực thấu hiểu một ai đó, chia sẻ điều gì đó cùng nhau.",
+        "ipaUs": "/ɪf ðɛərz ˈɛni kaɪnd ʌv ˈmædʒɪk ɪn ðɪs wɜːrld, ɪt mʌst biː ɪn ðiː əˈtɛmpt ʌv ˌʌndərˈstændɪŋ ˈsʌmwʌn, ˈʃɛərɪŋ ˈsʌmθɪŋ./",
+        "keywords": ["magic in this world", "attempt of understanding", "sharing something"],
+        "explanationAi": "Triết lý về sự đồng cảm: phép màu không phải là phép thuật siêu nhiên mà là sự nỗ lực mở lòng thấu hiểu tha nhân.",
+        "properNouns": []
+    },
+    {
+        "startTime": 73.0,
+        "endTime": 86.0,
+        "text": "I know it's almost impossible to succeed, but who cares, really? The answer must be in the attempt.",
+        "translationVi": "Em biết việc thành công gần như là bất khả thi, nhưng ai thèm bận tâm chứ? Thật đấy. Câu trả lời nằm chính trong sự cố gắng.",
+        "ipaUs": "/aɪ noʊ ɪts ˈɔːlˌmoʊst ɪmˈpɒsəbəl tuː səkˈsiːd, bʌt huː kɛərz, ˈrɪəli? ðiː ˈænsər mʌst biː ɪn ðiː əˈtɛmpt./",
+        "keywords": ["impossible to succeed", "who cares", "the answer must be in the attempt"],
+        "explanationAi": "Khái niệm hiện sinh: giá trị của tình yêu và sự giao tiếp nằm ở quá trình chân thành cố gắng chứ không phải kết quả tuyệt đối.",
+        "properNouns": []
+    },
+    # --- ACT 3: RICHARD LINKLATER & MINIMALIST CINEMA ---
+    {
+        "startTime": 86.0,
+        "endTime": 96.0,
+        "text": "The first film was really just about trying to capture two people connecting, the intangible thing between these two people.",
+        "translationVi": "Bộ phim đầu tiên thực chất chỉ xoay quanh việc nắm bắt khoảnh khắc hai con người kết nối với nhau, thứ vô hình huyền diệu giữa hai tâm hồn.",
+        "ipaUs": "/ðə fɜːrst fɪlm wʌz ˈrɪəli dʒʌst əˈbaʊt ˈtraɪɪŋ tuː ˈkæptʃər tuː ˈpiːpəl kəˈnɛktɪŋ, ðiː ɪnˈtændʒəbəl θɪŋ bɪˈtwiːn ðiːz tuː ˈpiːpəl./",
+        "keywords": ["two people connecting", "intangible thing"],
+        "explanationAi": "Đạo diễn Richard Linklater định nghĩa tôn chỉ nghệ thuật của Before Sunrise: 'intangible thing' (thực thể vô hình nhưng mạnh mẽ).",
+        "properNouns": []
+    },
+    {
+        "startTime": 96.0,
+        "endTime": 104.0,
+        "text": "It was a very minimalist design. Nothing great happened in the movie other than this connection.",
+        "translationVi": "Đó là một kết cấu vô cùng tối giản. Chẳng có biến cố kịch tính nào xảy ra trong phim ngoài chính sự kết nối ấy.",
+        "ipaUs": "/ɪt wʌz ə ˈvɛri ˈmɪnɪməlɪst dɪˈzaɪn. ˈnʌθɪŋ ɡreɪt ˈhæpənd ɪn ðə ˈmuːvi ˈʌðər ðæn ðɪs kəˈnɛkʃən./",
+        "keywords": ["minimalist design", "connection"],
+        "explanationAi": "Phong cách điện ảnh độc lập tối giản: không cần kỹ xảo hay biến cố đao to búa lớn, sức hút đến từ chiều sâu nội tâm.",
+        "properNouns": []
+    },
+    {
+        "startTime": 104.0,
+        "endTime": 108.5,
+        "text": "I just remember wanting to make a film just about that.",
+        "translationVi": "Tôi chỉ nhớ là mình muốn làm một bộ phim trọn vẹn về điều đó.",
+        "ipaUs": "/aɪ dʒʌst rɪˈmɛmbər ˈwɒntɪŋ tuː meɪk ə fɪlm dʒʌst əˈbaʊt ðæt./",
+        "keywords": ["make a film"],
+        "explanationAi": "Tâm sự làm phim chân thành của đạo diễn Linklater.",
+        "properNouns": []
+    },
+    {
+        "startTime": 108.5,
+        "endTime": 113.0,
+        "text": "I think he's crazy about you. You gonna see him again?",
+        "translationVi": "Tớ nghĩ anh chàng đó mê cậu như điếu đổ rồi đấy. Cậu có định gặp lại anh ta không?",
+        "ipaUs": "/aɪ θɪŋk hiːz ˈkreɪzi əˈbaʊt juː. juː ˈɡɒnə siː hɪm əˈɡɛn?/",
+        "keywords": ["crazy about you", "see him again"],
+        "explanationAi": "Cuộc gọi giả vờ giữa Céline và cô bạn thân tại quán cà phê Vienna; 'crazy about someone' là say mê ai đó.",
+        "properNouns": []
+    },
+    {
+        "startTime": 113.0,
+        "endTime": 116.0,
+        "text": "We haven't talked about that yet.",
+        "translationVi": "Tụi mình vẫn chưa nói về chuyện đó.",
+        "ipaUs": "/wiː ˈhævənt tɔːkt əˈbaʊt ðæt jɛt./",
+        "keywords": ["haven't talked about"],
+        "explanationAi": "Céline ngập ngừng giấu đi nỗi băn khoăn về sự chia xa sắp tới.",
+        "properNouns": []
+    },
+    # --- ACT 4: BEHIND THE SCENES - JULIE & RICK's CONVERSATION ---
+    {
+        "startTime": 116.0,
+        "endTime": 125.0,
+        "text": "I remember Julie once saying, 'This movie's boring. Call someone to write some jokes, this is really boring Rick.'",
+        "translationVi": "Tôi nhớ Julie từng nói: 'Bộ phim này buồn tẻ quá. Gọi ai đó viết thêm mấy câu đùa đi, thực sự tẻ nhạt lắm Rick à.'",
+        "ipaUs": "/aɪ rɪˈmɛmbər ˈdʒuːli wʌns ˈseɪɪŋ, ðɪs ˈmuːviz ˈbɔːrɪŋ. kɔːl ˈsʌmwʌn tuː raɪt sʌm dʒoʊks, ðɪs ɪz ˈrɪəli ˈbɔːrɪŋ rɪk./",
+        "keywords": ["movie's boring", "write some jokes"],
+        "explanationAi": "Kỷ niệm hậu trường hài hước khi quay phim tại Vienna; Julie Delpy lo lắng vì bộ phim thiếu những pha gây cười thương mại.",
+        "properNouns": ["Julie", "Rick"]
+    },
+    {
+        "startTime": 125.0,
+        "endTime": 134.0,
+        "text": "And Rick said, 'I've been with you in Vienna for six weeks and I haven't been bored for one second.'",
+        "translationVi": "Và Rick đáp: 'Anh ở bên em tại Vienna suốt sáu tuần qua và chưa buồn chán dù chỉ một giây.'",
+        "ipaUs": "/ænd rɪk sɛd, aɪv biːn wɪð juː ɪn viˈɛnə fɔːr sɪks wiːks ænd aɪ ˈhævənt biːn bɔːrd fɔːr wʌn ˈsɛkənd./",
+        "keywords": ["haven't been bored", "six weeks"],
+        "explanationAi": "Lời khẳng định đắt giá của đạo diễn về sức hút nội tại của Julie Delpy và nhân vật Céline.",
+        "properNouns": ["Rick", "Vienna"]
+    },
+    {
+        "startTime": 134.0,
+        "endTime": 136.5,
+        "text": "Gorgeous.",
+        "translationVi": "Tuyệt đẹp.",
+        "ipaUs": "/ˈɡɔːrdʒəs./",
+        "keywords": ["gorgeous"],
+        "explanationAi": "Lời khen ngợi chân thành khi nhìn thấy hình ảnh trên màn hình monitor.",
+        "properNouns": []
+    },
+    {
+        "startTime": 136.5,
+        "endTime": 140.0,
+        "text": "Yeah... This is beautiful.",
+        "translationVi": "Ừ... Đẹp thật đấy.",
+        "ipaUs": "/jɛə... ðɪs ɪz ˈbjuːtɪfʊl./",
+        "keywords": ["beautiful"],
+        "explanationAi": "Sự đồng điệu giữa đạo diễn và diễn viên khi chiêm ngưỡng cảnh quay.",
+        "properNouns": []
+    },
+    {
+        "startTime": 140.0,
+        "endTime": 156.0,
+        "text": "So if you can be as interesting and whole as you are here in this room, in front of the camera, and somebody's bored in a two-hour movie, then I don't like them.",
+        "translationVi": "Thế nên nếu em có thể thú vị và trọn vẹn như chính con người em trong căn phòng này, ngay trước ống kính máy quay, mà có ai đó lại thấy chán một bộ phim dài hai tiếng, thì anh không ưa họ đâu.",
+        "ipaUs": "/soʊ ɪf juː kæn biː æz ˈɪntrəstɪŋ ænd hoʊl æz juː ɑːr hɪər ɪn ðɪs ruːm, ɪn frʌnt ʌv ðə ˈkæmərə, ænd ˈsʌmbədiz bɔːrd ɪn ə tuː ˈaʊər ˈmuːvi, ðɛn aɪ doʊnt laɪk ðɛm./",
+        "keywords": ["interesting and whole", "front of the camera", "two-hour movie"],
+        "explanationAi": "'Interesting and whole' diễn tả vẻ đẹp của một nhân vật chân thực, có tâm hồn phong phú không gượng ép.",
+        "properNouns": []
+    },
+    {
+        "startTime": 156.0,
+        "endTime": 165.0,
+        "text": "I don't care if they don't like our movie, because that's somebody that's... that's not who I'm making this movie for.",
+        "translationVi": "Tôi chẳng bận tâm nếu họ không thích bộ phim của chúng tôi, bởi vì họ... họ không phải đối tượng mà tôi làm bộ phim này dành cho.",
+        "ipaUs": "/aɪ doʊnt kɛər ɪf ðeɪ doʊnt laɪk ˈaʊər ˈmuːvi, bɪˈkɒz ðæts ˈsʌmbədi ðæts... ðæts nɒt huː aɪm ˈmeɪkɪŋ ðɪs ˈmuːvi fɔːr./",
+        "keywords": ["don't care", "making this movie for"],
+        "explanationAi": "Bản lĩnh kiên định của nhà làm phim tác giả (auteur cinema): chỉ hướng tới những khán giả trân trọng sự kết nối tâm hồn.",
+        "properNouns": []
+    },
+    # --- ACT 5: THE PALM READER IN VIENNA ---
+    {
+        "startTime": 165.0,
+        "endTime": 173.0,
+        "text": "So... you have been on a journey. You are... an adventurer, a seeker.",
+        "translationVi": "Vậy là... cô đã trải qua một hành trình dài. Cô là... một người ưa phiêu lưu, một kẻ luôn kiếm tìm chân lý.",
+        "ipaUs": "/soʊ... juː hæv biːn ɑːn ə ˈdʒɜːrni. juː ɑːr... ən ədˈvɛntʃərər, ə ˈsiːkər./",
+        "keywords": ["journey", "adventurer", "seeker"],
+        "explanationAi": "Lời nhận định sâu sắc của bà thầy bói xem chỉ tay bên lề đường Vienna về bản tính tâm hồn của Céline.",
+        "properNouns": []
+    },
+    {
+        "startTime": 173.0,
+        "endTime": 181.0,
+        "text": "You need to resign yourself to the awkwardness of life.",
+        "translationVi": "Cô cần phải học cách bằng lòng và chấp nhận những vụng về, trắc trở của cuộc đời này.",
+        "ipaUs": "/juː niːd tuː rɪˈzaɪn jʊərˈsɛlf tuː ðiː ˈɔːkwərdnəs ʌv laɪf./",
+        "keywords": ["resign yourself to", "awkwardness of life"],
+        "explanationAi": "'Resign oneself to' là học cách chấp nhận một thực tế không hoàn hảo để tìm thấy sự thanh thản nội tâm.",
+        "properNouns": []
+    },
+    {
+        "startTime": 181.0,
+        "endTime": 191.0,
+        "text": "Only if you find peace within yourself, you'll find true connection with others.",
+        "translationVi": "Chỉ khi nào cô tìm thấy sự bình an bên trong chính mình, cô mới có thể tìm thấy sự kết nối đích thực với những người khác.",
+        "ipaUs": "/ˈoʊnli ɪf juː faɪnd piːs wɪˈðɪn jʊərˈsɛlf, juːl faɪnd truː kəˈnɛkʃən wɪð ˈʌðərz./",
+        "keywords": ["find peace within yourself", "true connection with others"],
+        "explanationAi": "Chân lý nhân sinh kinh điển: mối quan hệ bên ngoài chỉ bền vững khi bản thân đã hòa giải và bình an với chính mình.",
+        "properNouns": []
+    },
+    # --- ACT 6: ONE NIGHT IN VIENNA ---
+    {
+        "startTime": 191.0,
+        "endTime": 198.5,
+        "text": "You think tonight's it, huh? I mean that tonight's our only night?",
+        "translationVi": "Em nghĩ đêm nay là đêm duy nhất của chúng mình thật sao? Ý anh là chỉ có duy nhất đêm nay thôi?",
+        "ipaUs": "/juː θɪŋk təˈnaɪts ɪt, hʌ? aɪ miːn ðæt təˈnaɪts ˈaʊər ˈoʊnli naɪt?/",
+        "keywords": ["tonight's it", "only night"],
+        "explanationAi": "Jesse bộc lộ nỗi tiếc nuối khi nghĩ về thỏa thuận không hẹn gặp lại vào sáng hôm sau.",
+        "properNouns": []
+    },
+    {
+        "startTime": 198.5,
+        "endTime": 202.0,
+        "text": "Can I tell you a secret?",
+        "translationVi": "Anh có thể nói cho em nghe một bí mật không?",
+        "ipaUs": "/kæn aɪ tɛl juː ə ˈsiːkrət?/",
+        "keywords": ["tell you a secret"],
+        "explanationAi": "Lời thủ thỉ thân mật giữa không gian đêm tĩnh mịch của thành Vienna.",
+        "properNouns": []
+    },
+    {
+        "startTime": 202.0,
+        "endTime": 204.0,
+        "text": "Yeah.",
+        "translationVi": "Được chứ, anh nói đi.",
+        "ipaUs": "/jɛə./",
+        "keywords": ["yeah"],
+        "explanationAi": "Céline lắng nghe với ánh mắt dịu dàng.",
+        "properNouns": []
+    },
+    {
+        "startTime": 204.0,
+        "endTime": 206.5,
+        "text": "Come here.",
+        "translationVi": "Lại đây với anh.",
+        "ipaUs": "/kʌm hɪər./",
+        "keywords": ["come here"],
+        "explanationAi": "Cử chỉ kéo gần khoảng cách thể hiện sự gắn kết tình cảm ngày càng sâu đậm.",
+        "properNouns": []
+    },
+    {
+        "startTime": 206.5,
+        "endTime": 208.5,
+        "text": "What?",
+        "translationVi": "Sao thế anh?",
+        "ipaUs": "/wʌt?/",
+        "keywords": ["what"],
+        "explanationAi": "Céline mỉm cười nép vào vai Jesse.",
+        "properNouns": []
+    },
+    {
+        "startTime": 208.5,
+        "endTime": 212.0,
+        "text": "Come here. It's... the only way, no?",
+        "translationVi": "Lại đây nào. Đó là... cách duy nhất rồi, phải không em?",
+        "ipaUs": "/kʌm hɪər. ɪts... ðiː ˈoʊnli weɪ, noʊ?/",
+        "keywords": ["only way"],
+        "explanationAi": "Sự đầu hàng ngọt ngào trước cảm xúc chân thật, chấp nhận sống trọn vẹn từng giây của đêm nay.",
+        "properNouns": []
+    },
+    {
+        "startTime": 212.0,
+        "endTime": 232.0,
+        "text": "Well, all right. Let's do it. We'll just make tonight great.",
+        "translationVi": "Được rồi, nhất trí thế nhé. Chúng ta sẽ cùng biến đêm nay thành một đêm thật tuyệt vời.",
+        "ipaUs": "/wɛl, ɔːl raɪt. lɛts duː ɪt. wiːl dʒʌst meɪk təˈnaɪt ɡreɪt./",
+        "keywords": ["let's do it", "make tonight great"],
+        "explanationAi": "Thỏa thuận buông bỏ nỗi sợ tương lai để tận hưởng khoảnh khắc hiện tại trọn vẹn nhất.",
+        "properNouns": []
+    },
+    # --- ACT 7: REUNION IN PARIS (BEFORE SUNSET - 9 YEARS LATER) ---
+    {
+        "startTime": 232.0,
+        "endTime": 235.0,
+        "text": "Hi. Hello.",
+        "translationVi": "Chào anh. Xin chào.",
+        "ipaUs": "/haɪ. hɛˈloʊ./",
+        "keywords": ["hello"],
+        "explanationAi": "Khoảnh khắc kinh điển sau 9 năm xa cách tại hiệu sách Shakespeare and Company ở Paris.",
+        "properNouns": []
+    },
+    {
+        "startTime": 235.0,
+        "endTime": 237.5,
+        "text": "How are you?",
+        "translationVi": "Anh dạo này thế nào?",
+        "ipaUs": "/haʊ ɑːr juː?/",
+        "keywords": ["how are you"],
+        "explanationAi": "Lời chào đơn sơ nhưng gói ghém cả một thập kỷ mong mỏi và ký ức vẹn nguyên.",
+        "properNouns": []
+    },
+    {
+        "startTime": 237.5,
+        "endTime": 240.5,
+        "text": "I'm good, and you?",
+        "translationVi": "Anh vẫn khỏe, còn em?",
+        "ipaUs": "/aɪm ɡʊd, ænd juː?/",
+        "keywords": ["I'm good"],
+        "explanationAi": "Jesse bối rối không tin nổi vào mắt mình khi thấy Céline đứng trước mặt.",
+        "properNouns": []
+    },
+    {
+        "startTime": 240.5,
+        "endTime": 245.0,
+        "text": "I'm great, I'm... um...",
+        "translationVi": "Em tuyệt lắm, em... ừm...",
+        "ipaUs": "/aɪm ɡreɪt, aɪm... ʌm.../",
+        "keywords": ["I'm great"],
+        "explanationAi": "Sự ngập ngừng ngượng ngùng đáng yêu sau bao năm tháng không liên lạc.",
+        "properNouns": []
+    },
+    {
+        "startTime": 245.0,
+        "endTime": 252.0,
+        "text": "Do you want to get a cup of coffee?",
+        "translationVi": "Em có muốn đi uống một tách cà phê không?",
+        "ipaUs": "/duː juː wɑːnt tuː ɡɛt ə kʌp ʌv ˈkɒfi?/",
+        "keywords": ["cup of coffee"],
+        "explanationAi": "Lời mời cà phê giản dị mở ra cuộc đi dạo 80 phút bất hủ qua các con phố Paris trong Before Sunset.",
+        "properNouns": []
+    },
+    {
+        "startTime": 252.0,
+        "endTime": 256.0,
+        "text": "Yeah... but um, I have a little time.",
+        "translationVi": "Có chứ... nhưng mà, em chỉ có một ít thời gian thôi đấy.",
+        "ipaUs": "/jɛə... bʌt ʌm, aɪ hæv ə ˈlɪtəl taɪm./",
+        "keywords": ["little time"],
+        "explanationAi": "Rào cản thời gian tiếp tục là chất xúc tác đẩy cảm xúc của hai nhân vật lên cao độ.",
+        "properNouns": []
+    },
+    {
+        "startTime": 256.0,
+        "endTime": 264.0,
+        "text": "Okay. Can you believe it was nine years ago that we were walking around Vienna?",
+        "translationVi": "Được rồi. Em có tin được là đã chín năm trôi qua kể từ ngày chúng ta cùng dạo bước quanh Vienna không?",
+        "ipaUs": "/oʊˈkeɪ. kæn juː bɪˈliːv ɪt wʌz naɪn jɪərz əˈɡoʊ ðæt wiː wɜːr ˈwɔːkɪŋ əˈraʊnd viˈɛnə?/",
+        "keywords": ["nine years ago", "walking around Vienna"],
+        "explanationAi": "Khoảng thời gian 9 năm giữa Before Sunrise (1995) và Before Sunset (2004) cũng chính là 9 năm thực tế ngoài đời của dàn diễn viên.",
+        "properNouns": ["Vienna"]
+    },
+    {
+        "startTime": 264.0,
+        "endTime": 268.0,
+        "text": "Nine years? That's impossible! It was, I know! It feels like it was two months ago to me, but it was summer '94. Do I look any different?",
+        "translationVi": "Chín năm ư? Thật khó tin! Đúng thế, em biết chứ! Với em cảm giác cứ như mới hai tháng trước vậy, nhưng thực sự là mùa hè năm 94. Trông em có khác chút nào không?",
+        "ipaUs": "/naɪn jɪərz? ðæts ɪmˈpɒsəbəl! ɪt wʌz, aɪ noʊ! ɪt fiːlz laɪk ɪt wʌz tuː mʌnθs əˈɡoʊ tuː miː, bʌt ɪt wʌz ˈsʌmər ˈnaɪnti fɔːr. duː aɪ lʊk ˈɛni ˈdɪfərənt?/",
+        "keywords": ["two months ago", "summer '94", "look any different"],
+        "explanationAi": "Ký ức sâu đậm khiến thời gian 9 năm tưởng chừng như chỉ là một thoáng chớp mắt.",
+        "properNouns": []
+    },
+    {
+        "startTime": 268.0,
+        "endTime": 273.0,
+        "text": "All right, your train's gonna leave. Say goodbye.",
+        "translationVi": "Được rồi, tàu của em sắp chạy rồi đấy. Chào tạm biệt đi nào.",
+        "ipaUs": "/ɔːl raɪt, jʊər treɪnz ˈɡɒnə liːv. seɪ ˌɡʊdˈbaɪ./",
+        "keywords": ["train's gonna leave", "say goodbye"],
+        "explanationAi": "Hồi ức về khoảnh khắc chia tay tại sân ga Vienna 9 năm trước.",
+        "properNouns": []
+    },
+    {
+        "startTime": 273.0,
+        "endTime": 275.5,
+        "text": "Bye.",
+        "translationVi": "Tạm biệt anh.",
+        "ipaUs": "/baɪ./",
+        "keywords": ["bye"],
+        "explanationAi": "Lời chào nghẹn ngào năm xưa.",
+        "properNouns": []
+    },
+    {
+        "startTime": 275.5,
+        "endTime": 278.0,
+        "text": "Goodbye.",
+        "translationVi": "Tạm biệt em.",
+        "ipaUs": "/ˌɡʊdˈbaɪ./",
+        "keywords": ["goodbye"],
+        "explanationAi": "Jesse đáp lại lời chào.",
+        "properNouns": []
+    },
+    {
+        "startTime": 278.0,
+        "endTime": 281.0,
+        "text": "I do?",
+        "translationVi": "Trông em có khác thật à?",
+        "ipaUs": "/aɪ duː?/",
+        "keywords": ["I do"],
+        "explanationAi": "Céline quay lại câu hỏi về ngoại hình của mình.",
+        "properNouns": []
+    },
+    {
+        "startTime": 281.0,
+        "endTime": 284.5,
+        "text": "I'd have to see you naked.",
+        "translationVi": "Anh sẽ phải nhìn em không mặc gì mới biết được cơ.",
+        "ipaUs": "/aɪd hæv tuː siː juː ˈneɪkɪd./",
+        "keywords": ["see you naked"],
+        "explanationAi": "Lời trêu chọc hóm hỉnh đặc trưng của Jesse xua tan mọi khoảng cách sau 9 năm.",
+        "properNouns": []
+    },
+    {
+        "startTime": 284.5,
+        "endTime": 287.0,
+        "text": "What!?",
+        "translationVi": "Cái gì cơ!?",
+        "ipaUs": "/wʌt!?/",
+        "keywords": ["what"],
+        "explanationAi": "Céline bật cười trước sự táo bạo quen thuộc của anh.",
+        "properNouns": []
+    },
+    # --- ACT 8: TALKING CINEMA VS VISUAL CINEMA ---
+    {
+        "startTime": 287.0,
+        "endTime": 294.0,
+        "text": "The great Sam Fuller, I remember him speaking and he said, 'Cinema's about: Don't talk about it, show it!'",
+        "translationVi": "Đạo diễn vĩ đại Sam Fuller, tôi nhớ ông từng phát biểu: 'Điện ảnh là: Đừng nói về nó, hãy phô diễn nó trên màn ảnh!'",
+        "ipaUs": "/ðə ɡreɪt sæm ˈfʊlər, aɪ rɪˈmɛmbər hɪm ˈspiːkɪŋ ænd hiː sɛd, ˈsɪnəməz əˈbaʊt: doʊnt tɔːk əˈbaʊt ɪt, ʃoʊ ɪt!/",
+        "keywords": ["Sam Fuller", "show it don't talk"],
+        "explanationAi": "Quy tắc kinh điển của điện ảnh truyền thống Hollywood: 'Show, don't tell'.",
+        "properNouns": ["Sam Fuller"]
+    },
+    {
+        "startTime": 294.0,
+        "endTime": 301.0,
+        "text": "You don't talk about a character experience. You show them having that experience.",
+        "translationVi": "Bạn không kể lể về trải nghiệm của nhân vật. Bạn phải cho khán giả tận mắt chứng kiến trải nghiệm đó.",
+        "ipaUs": "/juː doʊnt tɔːk əˈbaʊt ə ˈkærəktər ɪkˈspɪəriəns. juː ʃoʊ ðɛm ˈhævɪŋ ðæt ɪkˈspɪəriəns./",
+        "keywords": ["character experience", "having that experience"],
+        "explanationAi": "Quan điểm dàn dựng phim chính thống tập trung vào hành động thị giác.",
+        "properNouns": []
+    },
+    {
+        "startTime": 301.0,
+        "endTime": 305.0,
+        "text": "Let's get on that boat. Come on. - No! - Come on, it'll be fun! - You don't have time!",
+        "translationVi": "Lên chiếc thuyền kia đi. Nhanh lên nào. - Không đâu! - Thôi nào, sẽ vui lắm! - Anh làm gì còn thời gian!",
+        "ipaUs": "/lɛts ɡɛt ɑːn ðæt boʊt. kʌm ɑːn. noʊ! kʌm ɑːn, ˈɪtəl biː fʌn! juː doʊnt hæv taɪm!/",
+        "keywords": ["get on that boat", "no time"],
+        "explanationAi": "Cảnh Jesse kéo Céline lên thuyền du ngoạn sông Seine tại Paris.",
+        "properNouns": []
+    },
+    {
+        "startTime": 305.0,
+        "endTime": 312.0,
+        "text": "But I never approach cinema like that. I always thought people talking was so evocative, and what they were describing, it has a double effect.",
+        "translationVi": "Nhưng tôi không bao giờ tiếp cận điện ảnh theo cách đó. Tôi luôn nghĩ những cuộc trò chuyện của con người giàu sức gợi vô cùng, và những gì họ miêu tả mang lại hiệu quả nhân đôi.",
+        "ipaUs": "/bʌt aɪ ˈnɛvər əˈproʊtʃ ˈsɪnəmə laɪk ðæt. aɪ ˈɔːlweɪz θɔːt ˈpiːpəl ˈtɔːkɪŋ wʌz soʊ ɪˈvɒkətɪv, ænd wʌt ðeɪ wɜːr dɪˈskraɪbɪŋ, ɪt hæz ə ˈdʌbəl ɪˈfɛkt./",
+        "keywords": ["approach cinema", "evocative", "double effect"],
+        "explanationAi": "Linklater phản biện quy tắc cổ điển: nghệ thuật đối thoại chân thực có sức mạnh kích thích trí tưởng tượng vượt trội so với chỉ nhìn bằng mắt.",
+        "properNouns": []
+    },
+    {
+        "startTime": 312.0,
+        "endTime": 320.0,
+        "text": "Not only does it conjure what they're talking about in the viewer's mind because you're not showing it, to me, it's more interesting because not only do you get the essence of them, but also of what they're talking about.",
+        "translationVi": "Nó không chỉ gợi lên hình ảnh sự việc trong tâm trí khán giả vì bạn không trực tiếp phô bày nó ra, mà đối với tôi nó còn thú vị hơn vì bạn nắm bắt được cả bản chất của nhân vật lẫn điều họ đang chia sẻ.",
+        "ipaUs": "/nɒt ˈoʊnli dʌz ɪt ˈkʌndʒər wʌt ðeɪr ˈtɔːkɪŋ əˈbaʊt ɪn ðə ˈvjuːərz maɪnd, bʌt ˈɔːlsoʊ ʌv wʌt ðeɪr ˈtɔːkɪŋ əˈbaʊt./",
+        "keywords": ["conjure", "viewer's mind", "essence of them"],
+        "explanationAi": "Đỉnh cao lý luận của Before Trilogy: sức mạnh của lời thoại nằm ở khả năng lột tả chân dung tâm hồn nhân vật.",
+        "properNouns": []
+    },
+    # --- ACT 9: LOVE AND REALITY (CÉLINE's MONOLOGUE) ---
+    {
+        "startTime": 320.0,
+        "endTime": 327.0,
+        "text": "I feel like if somebody were to touch me, I would dissolve into molecules.",
+        "translationVi": "Em cảm thấy như thể chỉ cần ai đó khẽ chạm vào em lúc này, em sẽ tan biến thành các phân tử.",
+        "ipaUs": "/aɪ fiːl laɪk ɪf ˈsʌmbədi wɜːr tuː tʌtʃ miː, aɪ wʊd dɪˈzɒlv ˈɪntuː ˈmɒlɪkjuːlz./",
+        "keywords": ["dissolve into molecules"],
+        "explanationAi": "Hình ảnh ẩn dụ kinh điển diễn tả sự nhạy cảm tột cùng và nỗi cô đơn chất chứa trong lòng Céline sau nhiều năm tổn thương.",
+        "properNouns": []
+    },
+    {
+        "startTime": 327.0,
+        "endTime": 334.0,
+        "text": "Reality and love are almost contradictory for me. It's funny, every single one of my exes are now married.",
+        "translationVi": "Hiện thực và tình yêu dường như là hai điều hoàn toàn mâu thuẫn đối với em. Nực cười là, tất cả những người yêu cũ của em giờ đây đều đã kết hôn.",
+        "ipaUs": "/riˈæləti ænd lʌv ɑːr ˈɔːlˌmoʊst ˌkɒntrəˈdɪktəri fɔːr miː. ɪts ˈfʌni, ˈɛvri ˈsɪŋɡəl wʌn ʌv maɪ ˈɛksɪz ɑːr naʊ ˈmærid./",
+        "keywords": ["contradictory", "exes are now married"],
+        "explanationAi": "Sự xung đột giữa lý tưởng lãng mạn thuần khiết và cuộc sống hôn nhân thực tế.",
+        "properNouns": []
+    },
+    {
+        "startTime": 334.0,
+        "endTime": 341.0,
+        "text": "Men go out with me, we break up and they get married. And later they call me to thank me for teaching them what love is.",
+        "translationVi": "Đàn ông hẹn hò với em, rồi tụi em chia tay và họ đi lấy vợ. Về sau họ còn gọi điện cảm ơn em vì đã dạy cho họ biết thế nào là tình yêu.",
+        "ipaUs": "/mɛn ɡoʊ aʊt wɪð miː, wiː breɪk ʌp ænd ðeɪ ɡɛt ˈmærid. ænd ˈleɪtər ðeɪ kɔːl miː tuː θæŋk miː fɔːr ˈtiːtʃɪŋ ðɛm wʌt lʌv ɪz./",
+        "keywords": ["teaching them what love is", "break up"],
+        "explanationAi": "Bi kịch tự trào của Céline: trở thành 'trạm dừng chân' giúp người khác trưởng thành nhưng bản thân lại lẻ loi.",
+        "properNouns": []
+    },
+    {
+        "startTime": 341.0,
+        "endTime": 349.0,
+        "text": "Why didn't they ask me to marry them?! I would've said no, but at least they could've asked! But it's my fault, because I never felt it was the right man.",
+        "translationVi": "Tại sao họ chẳng bao giờ cầu hôn em cơ chứ?! Em sẽ từ chối thôi, nhưng ít nhất họ cũng phải hỏi chứ! Nhưng đó là lỗi của em, vì em chưa bao giờ cảm thấy họ là người đàn ông định mệnh.",
+        "ipaUs": "/waɪ ˈdɪdənt ðeɪ æsk miː tuː ˈmæri ðɛm?! aɪ ˈwʊdəv sɛd noʊ, bʌt æt liːst ðeɪ ˈkʊdəv æskt! bʌt ɪts maɪ fɔːlt, bɪˈkɒz aɪ ˈnɛvər fɛlt ɪt wʌz ðə raɪt mæn./",
+        "keywords": ["ask me to marry them", "at least they could've asked", "the right man"],
+        "explanationAi": "Nỗi uất ức đáng yêu và sự mâu thuẫn nội tâm sâu sắc của người phụ nữ hiện đại.",
+        "properNouns": []
+    },
+    {
+        "startTime": 349.0,
+        "endTime": 350.5,
+        "text": "Never!",
+        "translationVi": "Chưa từng một lần!",
+        "ipaUs": "/ˈnɛvər!/",
+        "keywords": ["never"],
+        "explanationAi": "Sự khẳng định dứt khoát đầy cay đắng.",
+        "properNouns": []
+    },
+    {
+        "startTime": 350.5,
+        "endTime": 359.0,
+        "text": "But what does it mean, 'the right man, the love of your life'? The concept is absurd, the idea that we can only be complete with another person... it's evil! Right?",
+        "translationVi": "Nhưng 'người đàn ông định mệnh, tình yêu của đời mình' rốt cuộc có nghĩa là gì? Khái niệm đó thật lố bịch, cái suy nghĩ rằng chúng ta chỉ có thể trọn vẹn khi có một người khác... thật độc hại! Đúng không anh?",
+        "ipaUs": "/bʌt wʌt dʌz ɪt miːn, ðə raɪt mæn, ðə lʌv ʌv jʊər laɪf? ðə ˈkɒnsɛpt ɪz əbˈsɜːrd, ðiː aɪˈdiːə ðæt wiː kæn ˈoʊnli biː kəmˈpliːt wɪð əˈnʌðər ˈpɜːrsən... ɪts ˈiːvəl! raɪt?/",
+        "keywords": ["love of your life", "concept is absurd", "complete with another person"],
+        "explanationAi": "Céline phản kháng lại ảo tưởng của chủ nghĩa lãng mạn Hollywood ép buộc con người phải dựa dẫm hạnh phúc vào nửa kia.",
+        "properNouns": []
+    },
+    # --- ACT 10: DISSOLVING INTO MOLECULES & RE-WRITING MEMORIES ---
+    {
+        "startTime": 359.0,
+        "endTime": 362.0,
+        "text": "I want to try something.",
+        "translationVi": "Anh muốn thử một điều này.",
+        "ipaUs": "/aɪ wɑːnt tuː traɪ ˈsʌmθɪŋ./",
+        "keywords": ["try something"],
+        "explanationAi": "Jesse đưa tay về phía Céline trên chiếc xe ô tô dạo quanh Paris.",
+        "properNouns": []
+    },
+    {
+        "startTime": 362.0,
+        "endTime": 364.0,
+        "text": "What?",
+        "translationVi": "Gì thế anh?",
+        "ipaUs": "/wʌt?/",
+        "keywords": ["what"],
+        "explanationAi": "Céline ngước nhìn với ánh mắt tò mò.",
+        "properNouns": []
+    },
+    {
+        "startTime": 364.0,
+        "endTime": 368.0,
+        "text": "I want to see if you stay together or if you dissolve into molecules.",
+        "translationVi": "Anh muốn xem liệu em có còn nguyên vẹn hay em sẽ tan biến thành các phân tử.",
+        "ipaUs": "/aɪ wɑːnt tuː siː ɪf juː steɪ təˈɡɛðər ɔːr ɪf juː dɪˈzɒlv ˈɪntuː ˈmɒlɪkjuːlz./",
+        "keywords": ["stay together", "dissolve into molecules"],
+        "explanationAi": "Hành động chạm nhẹ đầy yêu thương và tinh tế của Jesse đáp lại tâm sự vừa rồi của Céline.",
+        "properNouns": []
+    },
+    {
+        "startTime": 368.0,
+        "endTime": 371.0,
+        "text": "How am I doing?",
+        "translationVi": "Em thấy thế nào rồi?",
+        "ipaUs": "/haʊ æm aɪ ˈduːɪŋ?/",
+        "keywords": ["how am I doing"],
+        "explanationAi": "Jesse khẽ mỉm cười hỏi thăm cảm giác của cô.",
+        "properNouns": []
+    },
+    {
+        "startTime": 371.0,
+        "endTime": 374.0,
+        "text": "Still here. Good, I like being here.",
+        "translationVi": "Em vẫn ở đây. Tốt quá, em thích được ở nơi này.",
+        "ipaUs": "/stɪl hɪər. ɡʊd, aɪ laɪk ˈbiːɪŋ hɪər./",
+        "keywords": ["still here", "like being here"],
+        "explanationAi": "Khoảnh khắc bình yên và an toàn trở lại trong trái tim Céline.",
+        "properNouns": []
+    },
+    {
+        "startTime": 374.0,
+        "endTime": 381.0,
+        "text": "It's not about what's happening or what twist is happening there, it's an emotional arc...",
+        "translationVi": "Vấn đề không phải là điều gì đang diễn ra hay cú ngoặt kịch bản nào xuất hiện, mà đó là một đường cong cung bậc cảm xúc...",
+        "ipaUs": "/ɪts nɒt əˈbaʊt wʌts ˈhæpənɪŋ ɔːr wʌt twɪst ɪz ˈhæpənɪŋ ðɛər, ɪts ən ɪˈmoʊʃənəl ɑːrk.../",
+        "keywords": ["twist", "emotional arc"],
+        "explanationAi": "Ethan Hawke phân tích cấu trúc kịch bản của Before Sunset: tập trung vào sự biến chuyển tâm lý tinh vi của hai nhân vật.",
+        "properNouns": []
+    },
+    {
+        "startTime": 381.0,
+        "endTime": 390.0,
+        "text": "There is a first act, second act, third act, but it's just on an emotional level. Now that we've met again, we can change our memory of that December 16th.",
+        "translationVi": "Vẫn có hồi một, hồi hai, hồi ba, nhưng hoàn toàn diễn ra ở tầng cảm xúc. Giờ đây khi ta gặp lại nhau, chúng ta có thể viết lại ký ức về ngày 16 tháng 12 năm ấy.",
+        "ipaUs": "/ðɛər ɪz ə fɜːrst ækt, ˈsɛkənd ækt, θɜːrd ækt, bʌt ɪts dʒʌst ɑːn ən ɪˈmoʊʃənəl ˈlɛvəl. naʊ ðæt wiːv mɛt əˈɡɛn, wiː kæn tʃeɪndʒ ˈaʊər ˈmɛməri ʌv ðæt dɪˈsɛmbər sɪksˈtiːnθ./",
+        "keywords": ["first act", "emotional level", "change our memory", "December 16th"],
+        "explanationAi": "Ý niệm chữa lành: gặp lại nhau để giải thoát cho nỗi tiếc nuối về cuộc hẹn lỡ làng 6 tháng sau Vienna.",
+        "properNouns": ["December 16th"]
+    },
+    {
+        "startTime": 390.0,
+        "endTime": 399.0,
+        "text": "It no longer has that sad ending of us never seeing each other again. You're right. I guess a memory's never finished, as long as you're alive.",
+        "translationVi": "Nó không còn là cái kết buồn về việc chúng ta không bao giờ gặp lại nhau nữa. Anh nói đúng. Em đoán là một ký ức sẽ chẳng bao giờ khép lại, chừng nào con người ta còn sống.",
+        "ipaUs": "/ɪt noʊ ˈlɔːŋɡər hæz ðæt sæd ˈɛndɪŋ ʌv ʌs ˈnɛvər ˈsiːɪŋ iːtʃ ˈʌðər əˈɡɛn. jʊər raɪt. aɪ ɡɛs ə ˈmɛməriz ˈnɛvər ˈfɪnɪʃt, æz lɔːŋ æz jʊər əˈlaɪv./",
+        "keywords": ["sad ending", "memory's never finished", "as long as you're alive"],
+        "explanationAi": "Triết lý sâu sắc của Céline: ký ức là dòng chảy sống động luôn có thể được tái định nghĩa qua trải nghiệm mới.",
+        "properNouns": []
+    },
+    {
+        "startTime": 399.0,
+        "endTime": 408.0,
+        "text": "Baby... you are gonna miss that plane.",
+        "translationVi": "Anh yêu à... anh sẽ lỡ chuyến bay mất đấy.",
+        "ipaUs": "/ˈbeɪbi... juː ɑːr ˈɡɒnə mɪs ðæt pleɪn./",
+        "keywords": ["miss that plane"],
+        "explanationAi": "Câu thoại chốt hạ kinh điển khép lại Before Sunset khi Céline nhảy theo điệu nhạc của Nina Simone trong căn hộ nhỏ tại Paris.",
+        "properNouns": []
+    },
+    {
+        "startTime": 408.0,
+        "endTime": 416.0,
+        "text": "I know.",
+        "translationVi": "Anh biết chứ.",
+        "ipaUs": "/aɪ noʊ./",
+        "keywords": ["I know"],
+        "explanationAi": "Nụ cười mãn nguyện của Jesse; anh chấp nhận đánh đổi tất cả để ở lại bên tình yêu đích thực của đời mình.",
+        "properNouns": []
+    },
+    # --- ACT 11: COLLABORATIVE SCREENWRITING (HAWKE & DELPY) ---
+    {
+        "startTime": 416.0,
+        "endTime": 422.0,
+        "text": "All three of these movies are about a connection between two people,",
+        "translationVi": "Cả ba bộ phim này đều xoay quanh sự kết nối giữa hai con người,",
+        "ipaUs": "/ɔːl θriː ʌv ðiːz ˈmuːviz ɑːr əˈbaʊt ə kəˈnɛkʃən bɪˈtwiːn tuː ˈpiːpəl,/",
+        "keywords": ["connection between two people"],
+        "explanationAi": "Ethan Hawke tóm lược linh hồn của bộ ba tác phẩm điện ảnh.",
+        "properNouns": []
+    },
+    {
+        "startTime": 422.0,
+        "endTime": 428.0,
+        "text": "and to really capture that on film he wanted our help in creating these people who would connect.",
+        "translationVi": "và để thực sự ghi lại được điều đó trên phim, đạo diễn muốn sự chung tay của chúng tôi để kiến tạo nên những nhân vật có thể kết nối sâu sắc như thế.",
+        "ipaUs": "/ænd tuː ˈrɪəli ˈkæptʃər ðæt ɑːn fɪlm hiː ˈwɒntɪd ˈaʊər hɛlp ɪn kriˈeɪtɪŋ ðiːz ˈpiːpəl huː wʊd kəˈnɛkt./",
+        "keywords": ["capture that on film", "creating these people"],
+        "explanationAi": "Sự đồng sáng tạo kịch bản: Linklater, Hawke và Delpy cùng viết kịch bản để đạt được tính tự nhiên tuyệt đối.",
+        "properNouns": []
+    },
+    {
+        "startTime": 428.0,
+        "endTime": 433.0,
+        "text": "So there could be something authentic about it, something real about it.",
+        "translationVi": "Để tác phẩm mang một vẻ chân thực nguyên bản, một điều gì đó thực sự hiện hữu.",
+        "ipaUs": "/soʊ ðɛər kʊd biː ˈsʌmθɪŋ ɔːˈθɛntɪk əˈbaʊt ɪt, ˈsʌmθɪŋ rɪəl əˈbaʊt ɪt./",
+        "keywords": ["authentic", "real about it"],
+        "explanationAi": "'Authentic' là phẩm chất tối thượng của Before Trilogy, khiến khán giả cảm giác nhân vật đang sống thực ngoài đời.",
+        "properNouns": []
+    },
+    {
+        "startTime": 433.0,
+        "endTime": 442.0,
+        "text": "Lots of directors ask you to be a part of their vision, but almost nobody asks you to find the vision with them.",
+        "translationVi": "Rất nhiều đạo diễn yêu cầu bạn trở thành một phần trong tầm nhìn của họ, nhưng hầu như chẳng ai mời bạn cùng họ đi tìm kiếm tầm nhìn ấy.",
+        "ipaUs": "/lɒts ʌv dɪˈrɛktərz æsk juː tuː biː ə pɑːrt ʌv ðɛər ˈvɪʒən, bʌt ˈɔːlˌmoʊst ˈnoʊˌbədi æsks juː tuː faɪnd ðə ˈvɪʒən wɪð ðɛm./",
+        "keywords": ["part of their vision", "find the vision with them"],
+        "explanationAi": "Ethan Hawke ca ngợi phương pháp làm phim dân chủ và tôn trọng nghệ sĩ của Richard Linklater.",
+        "properNouns": []
+    },
+    # --- ACT 12: THE DANUBE RIVER POET & MILKSHAKE POEM ---
+    {
+        "startTime": 442.0,
+        "endTime": 450.0,
+        "text": "I've just been checking you out from across the café, and I don't want to make you uncomfortable but you are by far the best-looking woman in this place.",
+        "translationVi": "Tôi vừa ngắm nhìn em từ phía bên kia quán cà phê, và tôi không muốn làm em khó chịu đâu nhưng em là người phụ nữ xinh đẹp nhất ở nơi này.",
+        "ipaUs": "/aɪv dʒʌst biːn ˈtʃɛkɪŋ juː aʊt frɒm əˈkrɒs ðə kæˈfeɪ, ænd aɪ doʊnt wɑːnt tuː meɪk juː ʌnˈkʌmftərbəl bʌt juː ɑːr baɪ fɑːr ðə bɛst ˈlʊkɪŋ ˈwʊmən ɪn ðɪs pleɪs./",
+        "keywords": ["checking you out", "best-looking woman"],
+        "explanationAi": "Cảnh Jesse giả vờ tán tỉnh lại Céline tại quán cà phê.",
+        "properNouns": []
+    },
+    {
+        "startTime": 450.0,
+        "endTime": 452.5,
+        "text": "I don't talk to strangers.",
+        "translationVi": "Tôi không nói chuyện với người lạ.",
+        "ipaUs": "/aɪ doʊnt tɔːk tuː ˈstreɪndʒərz./",
+        "keywords": ["talk to strangers"],
+        "explanationAi": "Céline hùa theo trò nhập vai dí dỏm của Jesse.",
+        "properNouns": []
+    },
+    {
+        "startTime": 452.5,
+        "endTime": 455.0,
+        "text": "That's the thing, I'm not a stranger. Summer '94?",
+        "translationVi": "Vấn đề là ở chỗ, anh đâu phải người lạ. Mùa hè năm 94 nhớ chứ?",
+        "ipaUs": "/ðæts ðə θɪŋ, aɪm nɒt ə ˈstreɪndʒər. ˈsʌmər ˈnaɪnti fɔːr?/",
+        "keywords": ["not a stranger", "Summer '94"],
+        "explanationAi": "Sự kết nối vượt thời gian giữa hai tâm hồn.",
+        "properNouns": []
+    },
+    {
+        "startTime": 455.0,
+        "endTime": 461.0,
+        "text": "Okay, you give me a word, I take the word, and then I will write a poem with the word inside.",
+        "translationVi": "Được rồi, các bạn hãy cho tôi một từ, tôi nhận từ đó và rồi tôi sẽ làm một bài thơ có chứa từ ấy bên trong.",
+        "ipaUs": "/oʊˈkeɪ, juː ɡɪv miː ə wɜːrd, aɪ teɪk ðə wɜːrd, ænd ðɛn aɪ wɪl raɪt ə ˈpoʊɪm wɪð ðə wɜːrd ɪnˈsaɪd./",
+        "keywords": ["give me a word", "write a poem"],
+        "explanationAi": "Nhân vật người thi sĩ đường phố bên bờ sông Danube đưa ra lời đề nghị độc đáo cho hai người trẻ tuổi.",
+        "properNouns": ["Danube"]
+    },
+    {
+        "startTime": 461.0,
+        "endTime": 467.0,
+        "text": "If you feel it adds something to your life in any way, then you can pay me whatever you feel like. - Milkshake!",
+        "translationVi": "Nếu các bạn cảm thấy nó làm cho cuộc đời mình thêm phần ý nghĩa theo bất kỳ cách nào, thì các bạn có thể trả tôi bao nhiêu tùy thích. - Sữa lắc!",
+        "ipaUs": "/ɪf juː fiːl ɪt ædz ˈsʌmθɪŋ tuː jʊər laɪf ɪn ˈɛni weɪ, ðɛn juː kæn peɪ miː wʌtˈɛvər juː fiːl laɪk. - ˈmɪlkˌʃeɪk!/",
+        "keywords": ["adds something to your life", "whatever you feel like", "Milkshake"],
+        "explanationAi": "Céline chọn ngay từ 'Milkshake' (sữa lắc) - một từ khóa vừa thơ ngây vừa thử thách tính nghệ thuật của người thi sĩ.",
+        "properNouns": []
+    },
+    {
+        "startTime": 467.0,
+        "endTime": 472.0,
+        "text": "Milkshake, oh good yeah, I was going to say rooster prick but great, Milkshake.",
+        "translationVi": "Sữa lắc à, ồ tuyệt đấy, tôi suýt định gợi ý một từ bậy bạ nhưng thôi từ này tuyệt lắm, Sữa lắc.",
+        "ipaUs": "/ˈmɪlkˌʃeɪk, oʊ ɡʊd jɛə, aɪ wʌz ˈɡoʊɪŋ tuː seɪ ˈruːstər prɪk bʌt ɡreɪt, ˈmɪlkˌʃeɪk./",
+        "keywords": ["milkshake", "great"],
+        "explanationAi": "Sự dí dỏm của người thi sĩ giang hồ lãng tử Vienna.",
+        "properNouns": []
+    },
+    {
+        "startTime": 472.0,
+        "endTime": 475.0,
+        "text": "You're mistaking me for someone else. - No.",
+        "translationVi": "Anh đang nhầm tôi với một người khác rồi. - Không hề.",
+        "ipaUs": "/jʊər mɪsˈteɪkɪŋ miː fɔːr ˈsʌmwʌn ɛls. - noʊ./",
+        "keywords": ["mistaking me"],
+        "explanationAi": "Trò đùa tán tỉnh vẫn tiếp diễn tại Paris.",
+        "properNouns": []
+    },
+    {
+        "startTime": 475.0,
+        "endTime": 477.0,
+        "text": "We even fell in love.",
+        "translationVi": "Chúng mình thậm chí đã từng yêu nhau sâu đậm cơ mà.",
+        "ipaUs": "/wiː ˈiːvən fɛl ɪn lʌv./",
+        "keywords": ["fell in love"],
+        "explanationAi": "Lời khẳng định nửa đùa nửa thật nhưng chạm vào sâu thẳm ký ức của cả hai.",
+        "properNouns": []
+    },
+    # --- ACT 13: BEFORE MIDNIGHT - DOMESTIC WEARINESS & BICKERING ---
+    {
+        "startTime": 477.0,
+        "endTime": 483.0,
+        "text": "Let's say that you and I were together all the time, you'd start to hate a lot of my mannerisms.",
+        "translationVi": "Cứ cho là anh và em ở bên nhau suốt ngày đi, em sẽ bắt đầu cảm thấy ghét rất nhiều thói quen kỳ quặc của anh.",
+        "ipaUs": "/lɛts seɪ ðæt juː ænd aɪ wɜːr təˈɡɛðər ɔːl ðə taɪm, juːd stɑːrt tuː heɪt ə lɒt ʌv maɪ ˈmænərɪzəmz./",
+        "keywords": ["together all the time", "mannerisms"],
+        "explanationAi": "Trong Before Sunrise, Jesse từng dự báo chính xác những rạn nứt thực tế của đời sống hôn nhân trong Before Midnight.",
+        "properNouns": []
+    },
+    {
+        "startTime": 483.0,
+        "endTime": 491.0,
+        "text": "The way every time that we would have people over I'd be insecure and I'd get a little too drunk.",
+        "translationVi": "Cái cách mà mỗi lần có khách đến chơi nhà, anh lại thấy bất an rồi uống hơi quá chén.",
+        "ipaUs": "/ðə weɪ ˈɛvri taɪm ðæt wiː wʊd hæv ˈpiːpəl ˈoʊvər aɪd biː ˌɪnsɪˈkjʊər ænd aɪd ɡɛt ə ˈlɪtəl tuː drʌŋk./",
+        "keywords": ["insecure", "too drunk"],
+        "explanationAi": "Sự tự nhận thức chân thực về những khiếm khuyết tâm lý của bản thân khi đối diện với xã hội.",
+        "properNouns": []
+    },
+    {
+        "startTime": 491.0,
+        "endTime": 501.0,
+        "text": "Why am I finding myself so attracted to this woman?! Or the way I tell the same stupid pseudo-intellectual story again...",
+        "translationVi": "Tại sao mình lại thấy bản thân bị cuốn hút đến thế bởi người phụ nữ này?! Hay cái cách anh cứ kể đi kể lại cùng một câu chuyện ngụy trí thức ngớ ngẩn...",
+        "ipaUs": "/waɪ æm aɪ ˈfaɪndɪŋ maɪˈsɛlf soʊ əˈtræktɪd tuː ðɪs ˈwʊmən?! ɔːr ðə weɪ aɪ tɛl ðə seɪm ˈstjuːpɪd ˈsuːdoʊ ˌɪntəˈlɛktʃuəl ˈstɔːri əˈɡɛn.../",
+        "keywords": ["attracted to this woman", "pseudo-intellectual story"],
+        "explanationAi": "'Pseudo-intellectual' là cụm từ tự giễu thói ham thể hiện học thức triết lý của Jesse khi còn trẻ.",
+        "properNouns": []
+    },
+    {
+        "startTime": 501.0,
+        "endTime": 502.5,
+        "text": "and again...",
+        "translationVi": "và lặp lại thêm lần nữa...",
+        "ipaUs": "/ænd əˈɡɛn.../",
+        "keywords": ["again"],
+        "explanationAi": "Sự ngao ngán đáng yêu khi phải nghe lại những câu chuyện cũ.",
+        "properNouns": []
+    },
+    {
+        "startTime": 502.5,
+        "endTime": 510.0,
+        "text": "He tells me that even though I have an offer for an amazing job, he wants me to throw it all away and move to Chicago.",
+        "translationVi": "Anh ấy bảo em rằng dù em có một lời mời làm việc tuyệt vời, anh ấy vẫn muốn em vứt bỏ tất cả để chuyển đến Chicago.",
+        "ipaUs": "/hiː tɛlz miː ðæt ˈiːvən ðoʊ aɪ hæv ən ˈɒfər fɔːr ən əˈmeɪzɪŋ dʒɒb, hiː wɒnts miː tuː θroʊ ɪt ɔːl əˈweɪ ænd muːv tuː ʃɪˈkɑːɡoʊ./",
+        "keywords": ["amazing job", "throw it all away", "move to Chicago"],
+        "explanationAi": "Mâu thuẫn đỉnh điểm trong Before Midnight tại Hy Lạp: xung đột giữa sự nghiệp cá nhân và gia đình.",
+        "properNouns": ["Chicago"]
+    },
+    {
+        "startTime": 510.0,
+        "endTime": 513.0,
+        "text": "That's not what I said. - Yes! - I said I missed him.",
+        "translationVi": "Đó không phải là điều anh đã nói. - Đúng thế đấy! - Anh chỉ bảo là anh nhớ con trai thôi.",
+        "ipaUs": "/ðæts nɒt wʌt aɪ sɛd. - jɛs! - aɪ sɛd aɪ mɪst hɪm./",
+        "keywords": ["missed him"],
+        "explanationAi": "Jesse giải thích về mong muốn được ở gần cậu con trai riêng của mình.",
+        "properNouns": []
+    },
+    {
+        "startTime": 513.0,
+        "endTime": 520.0,
+        "text": "So we could babysit every other weekend for his ex-wife! You see, I've heard all those stories, so of course I'm sick of myself.",
+        "translationVi": "Để rồi tụi mình phải trông con cách tuần cho người vợ cũ của anh ấy! Anh thấy đấy, em đã nghe hết những câu chuyện đó rồi, thế nên dĩ nhiên em cũng phát ngán chính mình.",
+        "ipaUs": "/soʊ wiː kʊd ˈbeɪbiˌsɪt ˈɛvri ˈʌðər ˈwiːkˌɛnd fɔːr hɪz ɛks waɪf! juː siː, aɪv hɜːrd ɔːl ðoʊz ˈstɔːriz, soʊ ʌv kɔːrs aɪm sɪk ʌv maɪˈsɛlf./",
+        "keywords": ["babysit", "ex-wife", "sick of myself"],
+        "explanationAi": "'Sick of myself' thể hiện sự kiệt sức và thất vọng khi bị cuốn vào những bổn phận đời thường ngột ngạt.",
+        "properNouns": []
+    },
+    # --- ACT 14: THE TIME TRAVEL PITCH REVISITED ---
+    {
+        "startTime": 520.0,
+        "endTime": 527.0,
+        "text": "Being with you, it made me feel like I was somebody else.",
+        "translationVi": "Được ở bên anh, điều đó khiến em cảm thấy như mình là một con người hoàn toàn khác.",
+        "ipaUs": "/ˈbiːɪŋ wɪð juː, ɪt meɪd miː fiːl laɪk aɪ wʌz ˈsʌmˌbədi ɛls./",
+        "keywords": ["somebody else"],
+        "explanationAi": "Cảm giác kỳ diệu khi được là phiên bản tốt đẹp, tự do và bay bổng nhất của chính mình khi ở cạnh người tri kỷ.",
+        "properNouns": []
+    },
+    {
+        "startTime": 527.0,
+        "endTime": 537.0,
+        "text": "If we were meeting for the first time today, would you find me attractive? Really, right now as I am, would you ask me to get off the train?",
+        "translationVi": "Nếu hôm nay chúng ta mới gặp nhau lần đầu tiên, anh có thấy em quyến rũ không? Thật lòng đi, ngay bây giờ với con người thật này, anh có rủ em cùng xuống tàu không?",
+        "ipaUs": "/ɪf wiː wɜːr ˈmiːtɪŋ fɔːr ðə fɜːrst taɪm təˈdeɪ, wʊd juː faɪnd miː əˈtræktɪv? ˈrɪəli, raɪt naʊ æz aɪ æm, wʊd juː æsk miː tuː ɡɛt ɔːf ðə treɪn?/",
+        "keywords": ["find me attractive", "get off the train"],
+        "explanationAi": "Câu hỏi nhói lòng của Céline khi lo sợ tuổi trẻ và sự quyến rũ ban đầu đã phai nhạt sau nhiều năm tháng.",
+        "properNouns": []
+    },
+    {
+        "startTime": 537.0,
+        "endTime": 546.0,
+        "text": "Think of it like this: jump ahead ten, twenty years, okay? And you're married.",
+        "translationVi": "Hãy nghĩ về chuyện đó như thế này: hãy nhảy tới tương lai mười, hai mươi năm nữa, được chứ? Và khi đó em đã kết hôn.",
+        "ipaUs": "/θɪŋk ʌv ɪt laɪk ðɪs: dʒʌmp əˈhɛd tɛn, ˈtwɛnti jɪərz, oʊˈkeɪ? ænd jʊər ˈmærid./",
+        "keywords": ["jump ahead", "ten twenty years", "married"],
+        "explanationAi": "Jesse tái hiện lại lập luận du hành thời gian trứ danh năm xưa trên chuyến tàu Vienna.",
+        "properNouns": []
+    },
+    {
+        "startTime": 546.0,
+        "endTime": 555.0,
+        "text": "Only your marriage doesn't have that same energy that it used to.",
+        "translationVi": "Chỉ có điều cuộc hôn nhân của em không còn giữ được nguồn năng lượng rực cháy như nó từng có nữa.",
+        "ipaUs": "/ˈoʊnli jʊər ˈmærɪdʒ ˈdʌzənt hæv ðæt seɪm ˈɛnərdʒi ðæt ɪt juːst tuː./",
+        "keywords": ["same energy", "used to"],
+        "explanationAi": "Quy luật nguội lạnh tự nhiên của hôn nhân khi thiếu vắng sự chăm sóc cảm xúc.",
+        "properNouns": []
+    },
+    {
+        "startTime": 555.0,
+        "endTime": 564.0,
+        "text": "You start to blame your husband. You start to think about all those guys you've met in your life and what might have happened if you picked up with one.",
+        "translationVi": "Em bắt đầu đổ lỗi cho chồng mình. Em bắt đầu nghĩ về tất cả những chàng trai em từng gặp trong đời và chuyện gì sẽ xảy ra nếu ngày đó em chọn đi cùng một người trong số họ.",
+        "ipaUs": "/juː stɑːrt tuː bleɪm jʊər ˈhʌzbənd. juː stɑːrt tuː θɪŋk əˈbaʊt ɔːl ðoʊz ɡaɪz juːv mɛt ɪn jʊər laɪf ænd wʌt maɪt hæv ˈhæpənd ɪf juː pɪkt ʌp wɪð wʌn./",
+        "keywords": ["blame your husband", "what might have happened"],
+        "explanationAi": "Tâm lý hối tiếc và ảo tưởng 'nếu như' (what if) phổ biến của con người khi đối diện với thực tại nhàm chán.",
+        "properNouns": []
+    },
+    {
+        "startTime": 564.0,
+        "endTime": 573.0,
+        "text": "Well, I'm one of those guys. That's me! What this really could be is a gigantic favor to both you and your future husband.",
+        "translationVi": "Thì anh chính là một trong số những chàng trai đó đây. Chính là anh này! Chuyến đi này thực chất là một sự giúp đỡ khổng lồ cho cả em và người chồng tương lai của em.",
+        "ipaUs": "/wɛl, aɪm wʌn ʌv ðoʊz ɡaɪz. ðæts miː! wʌt ðɪs ˈrɪəli kʊd biː ɪz ə dʒaɪˈɡæntɪk ˈfeɪvər tuː boʊθ juː ænd jʊər ˈfjuːtʃər ˈhʌzbənd./",
+        "keywords": ["gigantic favor", "future husband"],
+        "explanationAi": "Lối thuyết phục tự trào thiên tài: biến một cuộc phiêu lưu liều lĩnh thành phép thử tâm lý có lợi cho tương lai.",
+        "properNouns": []
+    },
+    {
+        "startTime": 573.0,
+        "endTime": 580.0,
+        "text": "To find out that you're not missing out on anything: I'm just as big a loser as he is, totally unmotivated, totally boring, and you made the right choice.",
+        "translationVi": "Để em nhận ra rằng em chẳng bỏ lỡ bất cứ điều gì cả: anh cũng chỉ là một kẻ thất bại thảm hại y như anh ta, hoàn toàn thiếu chí tiến thủ, hoàn toàn tẻ nhạt, và em đã chọn đúng người.",
+        "ipaUs": "/tuː faɪnd aʊt ðæt jʊər nɒt ˈmɪsɪŋ aʊt ɑːn ˈɛniˌθɪŋ: aɪm dʒʌst æz bɪɡ ə ˈluːzər æz hiː ɪz, ˈtoʊtəli ˌʌnˈmoʊtəˌveɪtɪd, ˈtoʊtəli ˈbɔːrɪŋ, ænd juː meɪd ðə raɪt tʃɔɪs./",
+        "keywords": ["not missing out", "big a loser", "made the right choice"],
+        "explanationAi": "Sự hài hước hạ mình (self-deprecating humor) thông minh hạ gục mọi sự phòng thủ lý trí của Céline.",
+        "properNouns": []
+    },
+    {
+        "startTime": 580.0,
+        "endTime": 590.0,
+        "text": "You know what's going on here? I don't think I love you anymore.",
+        "translationVi": "Anh có biết chuyện gì đang xảy ra ở đây không? Em nghĩ là em không còn yêu anh nữa rồi.",
+        "ipaUs": "/juː noʊ wʌt ɡoʊɪŋ ɑːn hɪər? aɪ doʊnt θɪŋk aɪ lʌv juː ˌɛniˈmɔːr./",
+        "keywords": ["don't think I love you anymore"],
+        "explanationAi": "Cơn giận dữ và lời tuyên bố đau lòng của Céline khi cuộc cãi vã trong phòng khách sạn ở Hy Lạp lên tới đỉnh điểm.",
+        "properNouns": []
+    },
+    # --- ACT 15: THE LETTER FROM THE FUTURE (BEFORE MIDNIGHT) ---
+    {
+        "startTime": 590.0,
+        "endTime": 599.0,
+        "text": "I just traveled back from the future. I was just with your 82-year-old self who gave me a letter to read to you.",
+        "translationVi": "Anh vừa du hành ngược thời gian từ tương lai trở về đấy. Anh vừa gặp phiên bản tuổi 82 của em, và bà ấy đã gửi cho anh một lá thư để đọc cho em nghe.",
+        "ipaUs": "/aɪ dʒʌst ˈtrævəld bæk frɒm ðə ˈfjuːtʃər. aɪ wʌz dʒʌst wɪð jʊər ˈeɪti tuː jɪər oʊld sɛlf huː ɡeɪv miː ə ˈlɛtər tuː riːd tuː juː./",
+        "keywords": ["traveled back from the future", "82-year-old self", "letter to read"],
+        "explanationAi": "Nỗ lực làm hòa dịu dàng và đầy lãng mạn của Jesse bên bàn cà phê đêm ngoài bờ biển Hy Lạp.",
+        "properNouns": []
+    },
+    {
+        "startTime": 599.0,
+        "endTime": 605.0,
+        "text": "So here I am. We did okay.",
+        "translationVi": "Thế nên anh mới ở đây. Chúng ta đã cùng nhau sống một cuộc đời không hề tệ đâu.",
+        "ipaUs": "/soʊ hɪər aɪ æm. wiː dɪd ˌoʊˈkeɪ./",
+        "keywords": ["we did okay"],
+        "explanationAi": "Jesse nhắc nhở cả hai về toàn bộ chặng đường quý giá họ đã cùng nhau xây dựng suốt gần 20 năm.",
+        "properNouns": []
+    },
+    {
+        "startTime": 605.0,
+        "endTime": 614.0,
+        "text": "There's: 'Dear Céline, I'm sending you this young man. Yes, young, and he will be your escort.'",
+        "translationVi": "Lá thư viết: 'Céline thân mến, ta gửi chàng trai trẻ này đến bên cháu. Phải, còn rất trẻ, và cậu ấy sẽ là người hộ tống cháu.'",
+        "ipaUs": "/ðɛərz: dɪər seɪˈliːn, aɪm ˈsɛndɪŋ juː ðɪs jʌŋ mæn. jɛs, jʌŋ, ænd hiː wɪl biː jʊər ˈɛskɔːrt./",
+        "keywords": ["Dear Céline", "young man", "escort"],
+        "explanationAi": "Jesse hóa thân thành người mang tin nhắn để khơi gợi lại sự lãng mạn nguyên sơ.",
+        "properNouns": ["Céline"]
+    },
+    {
+        "startTime": 614.0,
+        "endTime": 620.0,
+        "text": "God knows he has many problems and has struggled his whole life connecting and being present even with those he loves the most.",
+        "translationVi": "Chúa biết cậu ấy có rất nhiều tật xấu và đã phải vật lộn cả đời để học cách kết nối và hiện diện trọn vẹn, ngay cả với những người cậu ấy yêu thương nhất.",
+        "ipaUs": "/ɡɒd noʊz hiː hæz ˈmɛni ˈprɒbləmz ænd hæz ˈstrʌɡəld hɪz hoʊl laɪf kəˈnɛktɪŋ ænd ˈbiːɪŋ ˈprɛzənt ˈiːvən wɪð ðoʊz hiː lʌvz ðə moʊst./",
+        "keywords": ["struggled his whole life", "connecting and being present"],
+        "explanationAi": "Lời tự thú chân thành và xúc động nhất của Jesse về những thiếu sót trong vai trò người chồng, người cha.",
+        "properNouns": ["God"]
+    },
+    {
+        "startTime": 620.0,
+        "endTime": 627.0,
+        "text": "...and for that he is deeply sorry, but you are his only hope.",
+        "translationVi": "...và vì điều đó cậu ấy vô cùng ân hận, nhưng cháu chính là niềm hy vọng duy nhất của cậu ấy.",
+        "ipaUs": "/...ænd fɔːr ðæt hiː ɪz ˈdiːpli ˈsɒri, bʌt juː ɑːr hɪz ˈoʊnli hoʊp./",
+        "keywords": ["deeply sorry", "only hope"],
+        "explanationAi": "Sự thừa nhận tình yêu tuyệt đối: Jesse cần Céline như chiếc mỏ neo giữ anh ở lại với cuộc đời.",
+        "properNouns": []
+    },
+    {
+        "startTime": 627.0,
+        "endTime": 635.0,
+        "text": "Okay, Jesse, can you stop this stupid game? We're not in one of your stories, okay? Did you hear what I said to you back in the room? Did you hear me?",
+        "translationVi": "Được rồi, Jesse, anh có thể dừng cái trò chơi ngớ ngẩn này lại không? Chúng ta đâu có đang ở trong một cuốn tiểu thuyết của anh chứ! Anh có nghe những gì em vừa nói trong phòng không? Anh có nghe rõ không?",
+        "ipaUs": "/oʊˈkeɪ, ˈdʒɛsi, kæn juː stɒp ðɪs ˈstjuːpɪd ɡeɪm? wiːr nɒt ɪn wʌn ʌv jʊər ˈstɔːriz, oʊˈkeɪ? dɪd juː hɪər wʌt aɪ sɛd tuː juː bæk ɪn ðə ruːm? dɪd juː hɪər miː?/",
+        "keywords": ["stupid game", "one of your stories", "did you hear me"],
+        "explanationAi": "Céline ban đầu vẫn phòng thủ và tức giận, không muốn câu chuyện bị xoa dịu bằng hư cấu tiểu thuyết.",
+        "properNouns": ["Jesse"]
+    },
+    {
+        "startTime": 635.0,
+        "endTime": 647.0,
+        "text": "Now, whether you love me anymore, I figured you didn't mean it, but if you did, then you know something? You're just like the little girls and everybody else.",
+        "translationVi": "Giờ thì, dù em có còn yêu anh nữa hay không, anh đoán là em chỉ lỡ lời thôi, nhưng nếu em thực sự có ý đó thì em biết gì không? Em cũng chỉ giống như những cô gái bé nhỏ và bao người ngoài kia thôi.",
+        "ipaUs": "/naʊ, ˈwɛðər juː lʌv miː ˌɛniˈmɔːr, aɪ ˈfɪɡjərd juː ˈdɪdənt miːn ɪt, bʌt ɪf juː dɪd, ðɛn juː noʊ ˈsʌmθɪŋ? jʊər dʒʌst laɪk ðə ˈlɪtəl ɡɜːrlz ænd ˈɛvriˌbɒdi ɛls./",
+        "keywords": ["didn't mean it", "little girls"],
+        "explanationAi": "Jesse chuyển từ nhượng bộ sang thẳng thắn đối diện với bản chất vấn đề.",
+        "properNouns": []
+    },
+    {
+        "startTime": 647.0,
+        "endTime": 654.0,
+        "text": "You want to live inside some fairy tale. I've put up with plenty of your shit, and if you think I'm just some dog that's gonna keep coming back, then you're wrong.",
+        "translationVi": "Em chỉ muốn sống bên trong một câu chuyện cổ tích màu hồng. Anh đã phải chịu đựng biết bao tính khí thất thường của em, và nếu em nghĩ anh chỉ là một chú cún ngoan ngoãn sẽ luôn quay lại, thì em đã nhầm to rồi.",
+        "ipaUs": "/juː wɑːnt tuː lɪv ɪnˈsaɪd sʌm ˈfɛəri teɪl. aɪv pʊt ʌp wɪð ˈplɛnti ʌv jʊər ʃɪt, ænd ɪf juː θɪŋk aɪm dʒʌst sʌm dɒɡ ðæts ˈɡɒnə kiːp ˈkʌmɪŋ bæk, ðɛn jʊər rɒŋ./",
+        "keywords": ["fairy tale", "put up with"],
+        "explanationAi": "Thành ngữ 'put up with' mang nghĩa chịu đựng; Jesse chỉ ra rằng tình yêu trưởng thành không phải là truyện cổ tích hoàn mỹ.",
+        "properNouns": []
+    },
+    {
+        "startTime": 654.0,
+        "endTime": 664.0,
+        "text": "But if you want true love, then this is it. This is real life.",
+        "translationVi": "Nhưng nếu em thực sự muốn tình yêu đích thực, thì nó chính là thế này đây. Đây chính là cuộc đời thực.",
+        "ipaUs": "/bʌt ɪf juː wɑːnt truː lʌv, ðɛn ðɪs ɪz ɪt. ðɪs ɪz rɪəl laɪf./",
+        "keywords": ["true love", "real life"],
+        "explanationAi": "Đỉnh cao triết lý của toàn bộ bộ ba phim: tình yêu đích thực không nằm ở ảo mộng thần tiên mà ở sự can đảm sống cùng thực tại.",
+        "properNouns": []
+    },
+    {
+        "startTime": 664.0,
+        "endTime": 676.0,
+        "text": "It's not perfect, but it's real! And if you can't see it, then you're blind. All right? I give up.",
+        "translationVi": "Nó không hoàn hảo, nhưng nó có thật! Và nếu em không thể nhìn ra điều đó, thì em mù quáng thật rồi. Được chưa? Anh chịu thua đấy.",
+        "ipaUs": "/ɪts nɒt ˈpɜːrfɪkt, bʌt ɪts rɪəl! ænd ɪf juː kænt siː ɪt, ðɛn jʊər blaɪnd. ɔːl raɪt? aɪ ɡɪv ʌp./",
+        "keywords": ["not perfect but it's real", "you're blind", "give up"],
+        "explanationAi": "'It's not perfect, but it's real' là lời khẳng định bất hủ: vẻ đẹp của tình yêu nằm ở chính những vết xước chân thực của cuộc đời.",
+        "properNouns": []
+    },
+    # --- ACT 16: THE MIRROR OF LIFE (CONCLUSION) ---
+    {
+        "startTime": 676.0,
+        "endTime": 682.0,
+        "text": "It's really a mirror, it's where you're at in your own life.",
+        "translationVi": "Bộ phim thực sự là một tấm gương soi chiếu, phản ánh chính giai đoạn bạn đang trải qua trong cuộc đời.",
+        "ipaUs": "/ɪts ˈrɪəli ə ˈmɪrər, ɪts wɛər jʊər æt ɪn jʊər oʊn laɪf./",
+        "keywords": ["mirror", "your own life"],
+        "explanationAi": "Richard Linklater đúc kết: mỗi người xem ở mỗi lứa tuổi sẽ thấy một thông điệp hoàn toàn khác nhau từ bộ ba phim.",
+        "properNouns": []
+    },
+    {
+        "startTime": 682.0,
+        "endTime": 692.0,
+        "text": "And you know, if you're about to break up with someone, the movie could be a reflection of that. If you've endured a relationship and it's still working for you, it could be an expression of that.",
+        "translationVi": "Và bạn biết đấy, nếu bạn đang bên bờ vực chia tay ai đó, bộ phim có thể là sự phản chiếu của điều ấy. Nếu bạn vừa kiên trì vượt qua sóng gió và mối quan hệ vẫn tốt đẹp, bộ phim sẽ là minh chứng cho điều đó.",
+        "ipaUs": "/ænd juː noʊ, ɪf jʊər əˈbaʊt tuː breɪk ʌp wɪð ˈsʌmwʌn, ðə ˈmuːvi kʊd biː ə rɪˈflɛkʃən ʌv ðæt./",
+        "keywords": ["break up", "reflection", "endured a relationship"],
+        "explanationAi": "Tính phổ quát và đồng cảm sâu sắc của Before Trilogy với mọi trải nghiệm yêu đương của con người.",
+        "properNouns": []
+    },
+    {
+        "startTime": 692.0,
+        "endTime": 700.0,
+        "text": "Good, have fun. - Were you really just... - Sure, okay.",
+        "translationVi": "Tốt rồi, chúc vui vẻ nhé. - Có thật là anh vừa mới... - Chắc chắn rồi, được mà.",
+        "ipaUs": "/ɡʊd, hæv fʌn. wɜːr juː ˈrɪəli dʒʌst... ʃʊər, oʊˈkeɪ./",
+        "keywords": ["have fun"],
+        "explanationAi": "Céline bắt đầu mở lòng chấp nhận lời làm hòa của Jesse bên bàn cà phê Hy Lạp.",
+        "properNouns": []
+    },
+    # --- ACT 17: THE COMPLETE DANUBE RIVER MILKSHAKE POEM ---
+    {
+        "startTime": 711.0,
+        "endTime": 720.0,
+        "text": "Daydream delusion, limousine eyelash, oh baby with your pretty face.",
+        "translationVi": "Ảo mộng ban ngày, hàng mi dài kiêu sa tựa xe hoa, ôi hỡi em yêu với gương mặt xinh tươi tuyệt trần.",
+        "ipaUs": "/ˈdeɪˌdriːm dɪˈluːʒən, ˈlɪməˌziːn ˈaɪˌlæʃ, oʊ ˈbeɪbi wɪð jʊər ˈprɪti feɪs./",
+        "keywords": ["daydream delusion", "limousine eyelash", "pretty face"],
+        "explanationAi": "Câu mở đầu đầy chất thơ siêu thực của thi sĩ sông Danube tại Vienna.",
+        "properNouns": []
+    },
+    {
+        "startTime": 720.0,
+        "endTime": 727.0,
+        "text": "Drop a tear in my wineglass, look at those big eyes, see what you mean to me, sweet cakes and milkshakes.",
+        "translationVi": "Hãy nhỏ một giọt lệ vào ly rượu của tôi, nhìn sâu vào đôi mắt to tròn ấy, để thấy em có ý nghĩa biết bao đối với tôi, như bánh ngọt ngào và ly sữa lắc say đắm.",
+        "ipaUs": "/drɒp ə tɪər ɪn maɪ ˈwaɪnˌɡlæs, lʊk æt ðoʊz bɪɡ aɪz, siː wʌt juː miːn tuː miː, swiːt keɪks ænd ˈmɪlkˌʃeɪks./",
+        "keywords": ["drop a tear", "wineglass", "sweet cakes", "milkshakes"],
+        "explanationAi": "Sự lồng ghép tài tình từ khóa 'Milkshake' mà Céline đã yêu cầu vào mạch thơ trữ tình.",
+        "properNouns": []
+    },
+    {
+        "startTime": 727.0,
+        "endTime": 736.0,
+        "text": "I'm a delusion angel, I'm a fantasy parade. I want you to know what I think, don't want you to guess anymore.",
+        "translationVi": "Tôi là thiên thần của những mộng tưởng, là cuộc diễu hành của những điều kỳ ảo. Tôi muốn em thấu hiểu những gì tôi nghĩ, chẳng muốn em phải đoán mò thêm nữa.",
+        "ipaUs": "/aɪm ə dɪˈluːʒən ˈeɪndʒəl, aɪm ə ˈfæntəsi pəˈreɪd. aɪ wɑːnt juː tuː noʊ wʌt aɪ θɪŋk, doʊnt wɑːnt juː tuː ɡɛs ˌɛniˈmɔːr./",
+        "keywords": ["delusion angel", "fantasy parade"],
+        "explanationAi": "Khát khao chân thành được phơi bày tâm hồn và xóa nhòa mọi khoảng cách nghi ngại.",
+        "properNouns": []
+    },
+    {
+        "startTime": 736.0,
+        "endTime": 747.0,
+        "text": "You have no idea where I came from, you have no idea where we're going.",
+        "translationVi": "Em chẳng hề hay biết tôi đã đến từ chốn nào, và em cũng chẳng biết chúng ta sẽ cùng đi về đâu.",
+        "ipaUs": "/juː hæv noʊ aɪˈdiːə wɛər aɪ keɪm frɒm, juː hæv noʊ aɪˈdiːə wɛər wiːr ˈɡoʊɪŋ./",
+        "keywords": ["no idea where I came from", "where we're going"],
+        "explanationAi": "Cảm thức phiêu bạt lãng tử đặc trưng của tuổi trẻ và tình yêu ngẫu hứng giữa hai người lạ.",
+        "properNouns": []
+    },
+    {
+        "startTime": 747.0,
+        "endTime": 755.0,
+        "text": "Lodged in life like branches in the river flowing downstream caught in the current.",
+        "translationVi": "Nương mình vào cuộc đời tựa những nhành cây trôi trên dòng sông xuôi về hạ lưu, cuốn theo dòng nước siết.",
+        "ipaUs": "/lɒdʒd ɪn laɪf laɪk ˈbræntʃɪz ɪn ðə ˈrɪvər ˈfloʊɪŋ ˈdaʊnˌstriːm kɔːt ɪn ðə ˈkɜːrənt./",
+        "keywords": ["lodged in life", "branches in the river", "caught in the current"],
+        "explanationAi": "Hình ảnh ẩn dụ tráng lệ về thân phận con người: thuận theo dòng chảy của định mệnh như dòng nước sông Danube.",
+        "properNouns": ["Danube"]
+    },
+    {
+        "startTime": 755.0,
+        "endTime": 760.0,
+        "text": "I'll carry you, you'll carry me, that's how it could be.",
+        "translationVi": "Tôi sẽ nâng đỡ em, và em sẽ nâng đỡ tôi, đó là cách mà cuộc đời này có thể diễn ra.",
+        "ipaUs": "/aɪl ˈkæri juː, juːl ˈkæri miː, ðæts haʊ ɪt kʊd biː./",
+        "keywords": ["carry you", "carry me"],
+        "explanationAi": "Thông điệp cốt lõi của bài thơ: sự nâng đỡ và nương tựa lẫn nhau giữa dòng đời vạn biến.",
+        "properNouns": []
+    },
+    {
+        "startTime": 760.0,
+        "endTime": 764.0,
+        "text": "Don't you know me? Don't you know me by now?",
+        "translationVi": "Em không nhận ra tôi sao? Chẳng lẽ đến giờ phút này em vẫn chưa thấu hiểu tôi sao?",
+        "ipaUs": "/doʊnt juː noʊ miː? doʊnt juː noʊ miː baɪ naʊ?/",
+        "keywords": ["know me by now"],
+        "explanationAi": "Câu kết lắng đọng chạm đến đáy lòng của Jesse và Céline trong đêm Vienna.",
+        "properNouns": []
+    },
+    # --- ACT 18: INTENSELY PERSONAL ART & CONCLUSION ---
+    {
+        "startTime": 764.0,
+        "endTime": 773.0,
+        "text": "It sounds weird to say, but I mean it's kind of a dream come true to make something that is intensely personal and that you love and do it only for yourself,",
+        "translationVi": "Nghe thì có vẻ kỳ lạ, nhưng tôi muốn nói rằng việc tạo ra một tác phẩm mang đậm dấu ấn cá nhân sâu sắc, điều mà bạn yêu tha thiết và làm trước hết cho chính bản thân mình, thực sự là một giấc mơ trở thành hiện thực,",
+        "ipaUs": "/ɪt saʊndz wɪərd tuː seɪ, bʌt aɪ miːn ɪts kaɪnd ʌv ə driːm kʌm truː tuː meɪk ˈsʌmθɪŋ ðæt ɪz ɪnˈtɛnsli ˈpɜːrsənəl ænd ðæt juː lʌv ænd duː ɪt ˈoʊnli fɔːr jʊərˈsɛlf,/",
+        "keywords": ["dream come true", "intensely personal"],
+        "explanationAi": "Ethan Hawke chia sẻ về giá trị nghệ thuật đích thực: sáng tạo từ sự chân thành sâu thẳm của trái tim.",
+        "properNouns": []
+    },
+    {
+        "startTime": 773.0,
+        "endTime": 781.0,
+        "text": "and then if other people actually like it, that almost never happens. It's unique.",
+        "translationVi": "và rồi nếu những người khác cũng thực sự yêu thích nó, điều đó gần như hiếm khi xảy ra. Nó thực sự là độc nhất vô nhị.",
+        "ipaUs": "/ænd ðɛn ɪf ˈʌðər ˈpiːpəl ˈæktʃuəli laɪk ɪt, ðæt ˈɔːlˌmoʊst ˈnɛvər ˈhæpənz. ɪts juːˈniːk./",
+        "keywords": ["almost never happens", "unique"],
+        "explanationAi": "Sự cộng hưởng hiếm có giữa tác phẩm nghệ thuật độc lập và tình yêu nồng nhiệt của hàng triệu khán giả toàn cầu.",
+        "properNouns": []
+    },
+    {
+        "startTime": 781.0,
+        "endTime": 790.0,
+        "text": "Most things that you work on are not, and this is... they may be good, they may be not good, whatever, but this one is unique.",
+        "translationVi": "Phần lớn những dự án bạn tham gia đều không được như vậy, và dự án này... chúng có thể tốt, có thể chưa tốt, sao cũng được, nhưng tác phẩm này thực sự là duy nhất.",
+        "ipaUs": "/moʊst θɪŋz ðæt juː wɜːrk ɑːn ɑːr nɒt, ænd ðɪs ɪz... ðeɪ meɪ biː ɡʊd, ðeɪ meɪ biː nɒt ɡʊd, wɒtˈɛvər, bʌt ðɪs wʌn ɪz juːˈniːk./",
+        "keywords": ["this one is unique"],
+        "explanationAi": "Vị thế độc bản của Before Trilogy trong lịch sử điện ảnh thế giới.",
+        "properNouns": []
+    },
+    {
+        "startTime": 790.0,
+        "endTime": 804.0,
+        "text": "Will just be the most rewarding thing for you to do these films, being with each other, yeah.",
+        "translationVi": "Sẽ luôn là điều xứng đáng và viên mãn nhất đối với bạn khi được thực hiện những thước phim này, được đồng hành cùng nhau qua năm tháng, đúng vậy.",
+        "ipaUs": "/wɪl dʒʌst biː ðə moʊst rɪˈwɔːrdɪŋ θɪŋ fɔːr juː tuː duː ðiːz fɪlmz, ˈbiːɪŋ wɪð iːtʃ ˈʌðər, jɛə./",
+        "keywords": ["most rewarding thing", "being with each other"],
+        "explanationAi": "Được gắn bó và già đi cùng nhau qua từng thước phim suốt 18 năm là món quà vô giá của tình bạn và nghệ thuật.",
+        "properNouns": []
+    },
+    {
+        "startTime": 804.0,
+        "endTime": 819.0,
+        "text": "You... and me. Together on this extraordinary journey.",
+        "translationVi": "Em... và anh. Cùng nhau trên hành trình phi thường của cuộc đời.",
+        "ipaUs": "/juː... ænd miː. təˈɡɛðər ɑːn ðɪs ɪkˈstrɔːrdəˌnɛri ˈdʒɜːrni./",
+        "keywords": ["together", "extraordinary journey"],
+        "explanationAi": "Giai điệu du dương và hình ảnh hai nhân vật khép lại hành trình bất hủ của Before Trilogy.",
+        "properNouns": []
+    }
+]
+
+print(f"Total pure segments: {len(raw_segments)}")
+
+with open('scripts/before_sunrise_raw_segments.json', 'w', encoding='utf-8') as f:
+    json.dump(raw_segments, f, ensure_ascii=False, indent=2)
+
+print("Saved scripts/before_sunrise_raw_segments.json successfully!")

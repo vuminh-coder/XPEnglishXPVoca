@@ -1,0 +1,1136 @@
+[
+  {
+    "orderIndex": 0,
+    "startTime": 0.6,
+    "endTime": 4.5,
+    "text": "I have something very important to tell you.",
+    "translationVi": "Bố có một điều vô cùng quan trọng muốn nói với con.",
+    "ipaUs": "/aɪ hæv ˈsʌmθɪŋ ˈvɛri ɪmˈpɔːrtənt tuː tɛl juː./",
+    "keywords": [
+      "important",
+      "tell you"
+    ],
+    "explanationAi": "Lời mở đầu đầy nghiêm cẩn nhưng chan chứa tình phụ tử của người cha (Bill Nighy), chuẩn bị trao truyền bí mật nhân sinh lớn nhất.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 1,
+    "startTime": 4.5,
+    "endTime": 8.2,
+    "text": "Or, let me check, do you want to know the big secret,",
+    "translationVi": "Hoặc, để bố xem nào, con có muốn biết bí mật lớn này không,",
+    "ipaUs": "/ɔːr, lɛt miː tʃɛk, duː juː wɑːnt tuː noʊ ðə bɪɡ ˈsiːkrət,/",
+    "keywords": [
+      "let me check",
+      "big secret"
+    ],
+    "explanationAi": "Cách nói hóm hỉnh đặc trưng của người cha người Anh để kích thích trí tò mò của Tim trước khi tiết lộ sự thật.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 2,
+    "startTime": 8.2,
+    "endTime": 13.5,
+    "text": "or would you rather find it out for yourself like I did?",
+    "translationVi": "hay con muốn tự mình trải nghiệm và nhận ra nó, giống như bố ngày trước?",
+    "ipaUs": "/ɔːr wʊd juː ˈræðər faɪnd ɪt aʊt fɔːr jʊərˈsɛlf laɪk aɪ dɪd?/",
+    "keywords": [
+      "would rather",
+      "find out",
+      "for yourself"
+    ],
+    "explanationAi": "Cấu trúc 'would rather + V' diễn tả sự lựa chọn; 'find out for yourself' nhấn mạnh giá trị của sự tự trải nghiệm trong cuộc đời.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 3,
+    "startTime": 13.5,
+    "endTime": 16.5,
+    "text": "Oh, Christ, there's another secret?",
+    "translationVi": "Trời đất ơi, lại còn có thêm một bí mật nữa ạ?",
+    "ipaUs": "/oʊ, kraɪst, ðɛrz əˈnʌðər ˈsiːkrət?/",
+    "keywords": [
+      "Oh Christ",
+      "another secret"
+    ],
+    "explanationAi": "Thán từ cảm thán 'Oh, Christ' thể hiện sự kinh ngạc chân thực của Tim vì nghĩ năng lực du hành thời gian đã là tối hậu.",
+    "properNouns": [
+      "Christ"
+    ]
+  },
+  {
+    "orderIndex": 4,
+    "startTime": 16.5,
+    "endTime": 18.2,
+    "text": "Less dramatic.",
+    "translationVi": "Ít kịch tính hơn.",
+    "ipaUs": "/lɛs drəˈmætɪk./",
+    "keywords": [
+      "less dramatic"
+    ],
+    "explanationAi": "Người cha hạ giọng, đối lập giữa sự màu nhiệm của phép thuật siêu nhiên với chiều sâu bình dị của trí tuệ cuộc sống.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 5,
+    "startTime": 18.2,
+    "endTime": 20.2,
+    "text": "Much more important.",
+    "translationVi": "Nhưng quan trọng hơn nhiều.",
+    "ipaUs": "/mʌtʃ mɔːr ɪmˈpɔːrtənt./",
+    "keywords": [
+      "much more",
+      "important"
+    ],
+    "explanationAi": "Phó từ 'much' bổ nghĩa nhấn mạnh cấp độ so sánh hơn, khẳng định điều sắp nói vượt trội hơn cả việc du hành quá khứ.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 6,
+    "startTime": 20.2,
+    "endTime": 23.0,
+    "text": "The real mothership.",
+    "translationVi": "Đây mới là con tàu mẹ đích thực (bí quyết gốc rễ tối thượng).",
+    "ipaUs": "/ðə rɪəl ˈmʌðərˌʃɪp./",
+    "keywords": [
+      "the real",
+      "mothership"
+    ],
+    "explanationAi": "Hình ảnh ẩn dụ kinh điển 'mothership' (tàu mẹ chỉ huy) tượng trưng cho chân lý nền tảng điều khiển toàn bộ hạnh phúc đời người.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 7,
+    "startTime": 23.0,
+    "endTime": 26.5,
+    "text": "No, go on. Tell me.",
+    "translationVi": "Thôi nào, bố nói tiếp đi. Kể con nghe với.",
+    "ipaUs": "/noʊ, ɡoʊ ɑːn. tɛl miː./",
+    "keywords": [
+      "go on",
+      "tell me"
+    ],
+    "explanationAi": "Cụm động từ 'go on' có nghĩa khuyến khích ai đó tiếp tục giãi bày một câu chuyện hay thông điệp đang dở dang.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 8,
+    "startTime": 26.5,
+    "endTime": 30.8,
+    "text": "Let's save some time.",
+    "translationVi": "Để chúng ta tiết kiệm chút thời gian xem nào.",
+    "ipaUs": "/lɛts seɪv sʌm taɪm./",
+    "keywords": [
+      "save time"
+    ],
+    "explanationAi": "Lời đùa hóm hỉnh đầy tự trào của Tim - một người nắm trong tay siêu năng lực thời gian nhưng vẫn muốn tiết kiệm thì giờ.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 9,
+    "startTime": 30.8,
+    "endTime": 36.5,
+    "text": "And so he told me his secret formula for happiness.",
+    "translationVi": "Và thế là bố đã truyền lại cho tôi công thức bí mật để có được hạnh phúc.",
+    "ipaUs": "/ænd soʊ hiː toʊld miː hɪz ˈsiːkrət ˈfɔːrmjələ fɔːr ˈhæpinəs./",
+    "keywords": [
+      "secret formula",
+      "happiness"
+    ],
+    "explanationAi": "Giọng tự sự ấm áp của Tim bắt đầu mở ra chương triết lý cốt lõi, chuyển tiếp mượt mà từ đối thoại sang tự sự nội tâm.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 10,
+    "startTime": 36.5,
+    "endTime": 40.0,
+    "text": "Part one of the two part plan",
+    "translationVi": "Phần một trong kế hoạch hai bước",
+    "ipaUs": "/pɑːrt wʌn ʌv ðə tuː pɑːrt plæn/",
+    "keywords": [
+      "part one",
+      "two part plan"
+    ],
+    "explanationAi": "Cụm danh từ ghép 'two-part plan' chỉ kế hoạch gồm 2 giai đoạn logic được người cha thiết kế tỉ mỉ.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 11,
+    "startTime": 40.0,
+    "endTime": 45.0,
+    "text": "was that I should just get on with ordinary life,",
+    "translationVi": "là tôi cứ tiếp tục sống một cuộc đời bình thường,",
+    "ipaUs": "/wʌz ðæt aɪ ʃʊd dʒʌst ɡɛt ɑːn wɪð ˈɔːrdəˌnɛri laɪf,/",
+    "keywords": [
+      "get on with",
+      "ordinary life"
+    ],
+    "explanationAi": "Idiom 'get on with' mang ý nghĩa tiếp tục tiến bước và chuyên tâm làm tròn việc thường ngày mà không bận tâm phân tán.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 12,
+    "startTime": 45.0,
+    "endTime": 50.0,
+    "text": "living it day by day, like anyone else.",
+    "translationVi": "sống trọn từng ngày như bao người khác.",
+    "ipaUs": "/ˈlɪvɪŋ ɪt deɪ baɪ deɪ, laɪk ˈɛniˌwʌn ɛls./",
+    "keywords": [
+      "day by day",
+      "anyone else"
+    ],
+    "explanationAi": "Cụm 'day by day' thể hiện nhịp sống tự nhiên của con người trần thế, không dùng quyền năng thay đổi số phận.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 13,
+    "startTime": 50.0,
+    "endTime": 56.5,
+    "text": "This is our current statement with a revised paragraph there, highlighted.",
+    "translationVi": "Đây là bản tuyên bố hiện tại của chúng ta kèm đoạn văn đã được sửa đổi ở đó, đã tô vàng nổi bật.",
+    "ipaUs": "/ðɪs ɪz ˈaʊər ˈkɜːrənt ˈsteɪtmənt wɪð ə rɪˈvaɪzd ˈpærəˌɡræf ðɛr, ˈhaɪˌlaɪtɪd./",
+    "keywords": [
+      "current statement",
+      "revised",
+      "highlighted"
+    ],
+    "explanationAi": "Ngữ cảnh văn phòng luật sư London căng thẳng; 'revised paragraph' là đoạn văn vừa chỉnh lý trong hồ sơ tố tụng.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 14,
+    "startTime": 56.5,
+    "endTime": 61.5,
+    "text": "Rupert. Rupert, is that the best you can do?",
+    "translationVi": "Rupert. Rupert, đây là bản tốt nhất mà cậu có thể làm được đấy à?",
+    "ipaUs": "/ˈruːpərt. ˈruːpərt, ɪz ðæt ðə bɛst juː kæn duː?/",
+    "keywords": [
+      "best you can do"
+    ],
+    "explanationAi": "Lời chất vấn gay gắt, nghiêm khắc của người sếp luật sư tạo áp lực tâm lý nặng nề cho Rupert và Tim.",
+    "properNouns": [
+      "Rupert"
+    ]
+  },
+  {
+    "orderIndex": 15,
+    "startTime": 61.5,
+    "endTime": 65.5,
+    "text": "No. Absolutely not. We can change that.",
+    "translationVi": "Dạ không. Tuyệt đối không ạ. Chúng tôi có thể sửa lại ngay.",
+    "ipaUs": "/noʊ. ˈæbsəˌluːtli nɑːt. wiː kæn tʃeɪndʒ ðæt./",
+    "keywords": [
+      "absolutely not",
+      "change that"
+    ],
+    "explanationAi": "Phản ứng vội vã, căng thẳng và phục tùng của cấp dưới khi đối mặt với sự phê bình thẳng thừng của sếp.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 16,
+    "startTime": 65.5,
+    "endTime": 68.5,
+    "text": "Item number two.",
+    "translationVi": "Chuyển sang mục số hai.",
+    "ipaUs": "/ˈaɪtəm ˈnʌmbər tuː./",
+    "keywords": [
+      "item number"
+    ],
+    "explanationAi": "Phong thái dứt khoát chuyển nhanh đầu việc trong môi trường công sở áp lực cao tại Anh quốc.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 17,
+    "startTime": 68.5,
+    "endTime": 72.8,
+    "text": "Good afternoon, sir. Are you eating in or taking away today?",
+    "translationVi": "Kính chào quý khách. Trưa nay anh dùng tại chỗ hay mang đi ạ?",
+    "ipaUs": "/ɡʊd ˌæftərˈnuːn, sɜːr. ɑːr juː ˈiːtɪŋ ɪn ɔːr ˈteɪkɪŋ əˈweɪ təˈdeɪ?/",
+    "keywords": [
+      "eating in",
+      "taking away"
+    ],
+    "explanationAi": "Câu chào chuẩn mực tại các cửa hàng thức ăn nhanh tại Anh ('eat in' = ăn tại chỗ, 'take away' = mang về).",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 18,
+    "startTime": 72.8,
+    "endTime": 75.0,
+    "text": "Take away, please.",
+    "translationVi": "Cho tôi mang đi, cảm ơn.",
+    "ipaUs": "/teɪk əˈweɪ, pliːz./",
+    "keywords": [
+      "take away",
+      "please"
+    ],
+    "explanationAi": "Tim trả lời ngắn gọn, đầu óc còn mải lo âu chuyện công việc nên thiếu đi sự tương tác mắt và nụ cười.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 19,
+    "startTime": 75.0,
+    "endTime": 77.2,
+    "text": "Yeah? No problem.",
+    "translationVi": "Vâng ạ? Không vấn đề gì.",
+    "ipaUs": "/jɛə? noʊ ˈprɑːbləm./",
+    "keywords": [
+      "no problem"
+    ],
+    "explanationAi": "Khẩu ngữ quen thuộc của nhân viên phục vụ trẻ tuổi người Anh.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 20,
+    "startTime": 77.2,
+    "endTime": 82.5,
+    "text": "Lovely, that's 4.24 then, please, sir. Thank you kindly.",
+    "translationVi": "Tuyệt ạ, của anh hết 4 bảng 24 xu. Xin cảm ơn anh nhiều.",
+    "ipaUs": "/ˈlʌvli, ðæts fɔːr ˈtwɛnti fɔːr ðɛn, pliːz, sɜːr. θæŋk juː ˈkaɪndli./",
+    "keywords": [
+      "lovely",
+      "thank you kindly"
+    ],
+    "explanationAi": "Cụm 'Lovely' và 'Thank you kindly' là nét văn hóa giao tiếp lịch thiệp, đôn hậu rất đặc trưng của người lao động Anh.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 21,
+    "startTime": 82.5,
+    "endTime": 88.0,
+    "text": "Lovely. And there's your change, sir. 76 pence change.",
+    "translationVi": "Dạ đây, và tiền thối lại của anh đây ạ. 76 xu tiền thối.",
+    "ipaUs": "/ˈlʌvli. ænd ðɛrz jʊər tʃeɪndʒ, sɜːr. ˈsɛvnti sɪks pɛns tʃeɪndʒ./",
+    "keywords": [
+      "change",
+      "pence"
+    ],
+    "explanationAi": "'Pence' là đơn vị xu trong hệ thống tiền tệ Bảng Anh (£1 = 100 pence).",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 22,
+    "startTime": 88.0,
+    "endTime": 89.8,
+    "text": "Thanks.",
+    "translationVi": "Cảm ơn nhé.",
+    "ipaUs": "/θæŋks./",
+    "keywords": [
+      "thanks"
+    ],
+    "explanationAi": "Lời cảm ơn vội vã của Tim trong ngày đầu tiên khi anh đang bị cuốn theo áp lực thời gian.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 23,
+    "startTime": 89.8,
+    "endTime": 92.5,
+    "text": "Thank you. Hello there.",
+    "translationVi": "Cảm ơn anh. Xin chào quý khách tiếp theo.",
+    "ipaUs": "/θæŋk juː. hɛˈloʊ ðɛr./",
+    "keywords": [
+      "hello there"
+    ],
+    "explanationAi": "Người thu ngân quay sang chào vị khách kế tiếp trong hàng người chờ mua đồ ăn trưa.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 24,
+    "startTime": 92.5,
+    "endTime": 95.8,
+    "text": "Are you eating in or taking away?",
+    "translationVi": "Anh chị dùng tại quán hay mang về ạ?",
+    "ipaUs": "/ɑːr juː ˈiːtɪŋ ɪn ɔːr ˈteɪkɪŋ əˈweɪ?/",
+    "keywords": [
+      "eating in",
+      "taking away"
+    ],
+    "explanationAi": "Vòng lặp giao tiếp quen thuộc tại quán ăn tấp nập giữa London.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 25,
+    "startTime": 95.8,
+    "endTime": 101.5,
+    "text": "Do you find the Defendant, John Welbeck, guilty or not guilty of fraud?",
+    "translationVi": "Bồi thẩm đoàn tuyên Bị cáo, John Welbeck, có tội hay vô tội trước cáo buộc lừa đảo?",
+    "ipaUs": "/duː juː faɪnd ðə dɪˈfɛndənt, dʒɑːn ˈwɛlbɛk, ˈɡɪlti ɔːr nɑːt ˈɡɪlti ʌv frɔːd?/",
+    "keywords": [
+      "Defendant",
+      "guilty",
+      "not guilty",
+      "fraud"
+    ],
+    "explanationAi": "Thuật ngữ pháp lý nghiêm trang tại tòa án Hoàng gia Anh: 'Defendant' (bị cáo), 'fraud' (tội gian lận tài chính).",
+    "properNouns": [
+      "John Welbeck"
+    ]
+  },
+  {
+    "orderIndex": 26,
+    "startTime": 101.5,
+    "endTime": 103.8,
+    "text": "Not guilty.",
+    "translationVi": "Vô tội.",
+    "ipaUs": "/nɑːt ˈɡɪlti./",
+    "keywords": [
+      "not guilty"
+    ],
+    "explanationAi": "Phán quyết giải oan mang tính quyết định số phận của bị cáo do trưởng bồi thẩm đoàn công bố.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 27,
+    "startTime": 103.8,
+    "endTime": 106.2,
+    "text": "And that is the verdict of you all?",
+    "translationVi": "Và đó là phán quyết đồng thuận của tất cả các vị?",
+    "ipaUs": "/ænd ðæt ɪz ðə ˈvɜːrdɪkt ʌv juː ɔːl?/",
+    "keywords": [
+      "verdict",
+      "of you all"
+    ],
+    "explanationAi": "Thủ tục xác nhận tính đồng thuận tuyệt đối của bồi thẩm đoàn trước vị thẩm phán.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 28,
+    "startTime": 106.2,
+    "endTime": 108.5,
+    "text": "Yes.",
+    "translationVi": "Vâng, đúng vậy.",
+    "ipaUs": "/jɛs./",
+    "keywords": [
+      "yes"
+    ],
+    "explanationAi": "Lời khẳng định đanh thép của bồi thẩm đoàn khép lại phiên xét xử căng thẳng.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 29,
+    "startTime": 108.5,
+    "endTime": 111.8,
+    "text": "Thank you. You may be seated.",
+    "translationVi": "Xin cảm ơn. Mời quý vị an tọa.",
+    "ipaUs": "/θæŋk juː. juː meɪ biː ˈsiːtɪd./",
+    "keywords": [
+      "may be seated"
+    ],
+    "explanationAi": "Khẩu lệnh lễ nghi của thẩm phán cho phép bồi thẩm đoàn và những người tham dự ngồi xuống.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 30,
+    "startTime": 111.8,
+    "endTime": 114.2,
+    "text": "Thank God.",
+    "translationVi": "Tạ ơn Chúa.",
+    "ipaUs": "/θæŋk ɡɑːd./",
+    "keywords": [
+      "thank God"
+    ],
+    "explanationAi": "Tiếng thở phào nhẹ nhõm vỡ òa của người bị cáo vừa thoát khỏi án tù oan khiên.",
+    "properNouns": [
+      "God"
+    ]
+  },
+  {
+    "orderIndex": 31,
+    "startTime": 114.2,
+    "endTime": 118.2,
+    "text": "Let the Defendant be discharged.",
+    "translationVi": "Tuyên bố trả tự do cho bị cáo ngay tại tòa.",
+    "ipaUs": "/lɛt ðə dɪˈfɛndənt biː dɪsˈtʃɑːrdʒd./",
+    "keywords": [
+      "discharged"
+    ],
+    "explanationAi": "'Discharged' trong tố tụng hình sự nghĩa là phóng thích, bãi bỏ mọi biện pháp ngăn chặn giam giữ đối với bị cáo.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 32,
+    "startTime": 118.2,
+    "endTime": 126.5,
+    "text": "Be upstanding in court.",
+    "translationVi": "Toàn thể phiên tòa đứng dậy cung tiễn thẩm phán.",
+    "ipaUs": "/biː ʌpˈstændɪŋ ɪn kɔːrt./",
+    "keywords": [
+      "upstanding",
+      "court"
+    ],
+    "explanationAi": "Khẩu lệnh trang trọng của thư ký tòa khi hội đồng xét xử rời phòng xử án.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 33,
+    "startTime": 126.5,
+    "endTime": 129.0,
+    "text": "Lights out?",
+    "translationVi": "Tắt đèn đi ngủ nhé?",
+    "ipaUs": "/laɪts aʊt?/",
+    "keywords": [
+      "lights out"
+    ],
+    "explanationAi": "Câu hỏi thân mật giữa bạn cùng phòng khi kết thúc một ngày dài mệt mỏi tại London.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 34,
+    "startTime": 129.0,
+    "endTime": 131.0,
+    "text": "Yeah.",
+    "translationVi": "Ừ, tắt đi.",
+    "ipaUs": "/jɛə./",
+    "keywords": [
+      "yeah"
+    ],
+    "explanationAi": "Tim kiệt sức sau một ngày làm việc ngột ngạt và căng thẳng thần kinh.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 35,
+    "startTime": 131.0,
+    "endTime": 134.0,
+    "text": "Tough day.",
+    "translationVi": "Một ngày vất vả thật.",
+    "ipaUs": "/tʌf deɪ./",
+    "keywords": [
+      "tough day"
+    ],
+    "explanationAi": "Lời đúc kết ngắn ngủi nhưng chân thực về cuộc sống văn phòng bon chen và mỏi mệt.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 36,
+    "startTime": 134.0,
+    "endTime": 138.5,
+    "text": "But then came part two of Dad's plan.",
+    "translationVi": "Nhưng rồi đã đến lúc thực hiện bước thứ hai trong kế hoạch của bố.",
+    "ipaUs": "/bʌt ðɛn keɪm pɑːrt tuː ʌv dædz plæn./",
+    "keywords": [
+      "part two",
+      "Dad's plan"
+    ],
+    "explanationAi": "Bước ngoặt của câu chuyện; Tim quyết định quay ngược lại thời gian để sống lại chính ngày hôm đó.",
+    "properNouns": [
+      "Dad"
+    ]
+  },
+  {
+    "orderIndex": 37,
+    "startTime": 138.5,
+    "endTime": 144.5,
+    "text": "He told me to live every day again almost exactly the same.",
+    "translationVi": "Bố bảo tôi hãy sống lại mỗi ngày thêm một lần nữa, gần như y hệt như cũ.",
+    "ipaUs": "/hiː toʊld miː tuː lɪv ˈɛvri deɪ əˈɡɛn ˈɔːlˌmoʊst ɪɡˈzæktli ðə seɪm./",
+    "keywords": [
+      "almost exactly",
+      "the same"
+    ],
+    "explanationAi": "Bí quyết cốt lõi: Không phải quay lại để làm giàu hay tránh khó khăn, mà là sống lại cùng một bối cảnh để thay đổi tâm thức.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 38,
+    "startTime": 144.5,
+    "endTime": 149.5,
+    "text": "The first time with all the tensions and worries that",
+    "translationVi": "Lần đầu tiên cùng với tất cả những căng thẳng và âu lo",
+    "ipaUs": "/ðə fɜːrst taɪm wɪð ɔːl ðə ˈtɛnʃənz ænd ˈwɜːriz ðæt/",
+    "keywords": [
+      "tensions",
+      "worries"
+    ],
+    "explanationAi": "'Tensions and worries' là những rào cản tâm lý khiến con người mù quáng, bỏ lỡ vẻ đẹp của thực tại.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 39,
+    "startTime": 149.5,
+    "endTime": 154.5,
+    "text": "stop us noticing how sweet the world can be,",
+    "translationVi": "vốn đã ngăn cản chúng ta nhận ra thế giới này ngọt ngào biết bao,",
+    "ipaUs": "/stɑːp ʌs ˈnoʊtɪsɪŋ haʊ swiːt ðə wɜːrld kæn biː,/",
+    "keywords": [
+      "stop noticing",
+      "how sweet"
+    ],
+    "explanationAi": "Đỉnh cao triết lý nhân sinh: Hạnh phúc không ở đâu xa mà nằm ở khả năng để tâm cảm nhận sự ngọt ngào của cuộc sống quanh mình.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 40,
+    "startTime": 154.5,
+    "endTime": 160.0,
+    "text": "but the second time noticing.",
+    "translationVi": "nhưng lần thứ hai, hãy để tâm nhận ra từng điều ấy.",
+    "ipaUs": "/bʌt ðə ˈsɛkənd taɪm ˈnoʊtɪsɪŋ./",
+    "keywords": [
+      "second time",
+      "noticing"
+    ],
+    "explanationAi": "Từ khóa 'noticing' (để ý, chánh niệm, hiện diện trọn vẹn) là chìa khóa mở cánh cửa bình an nội tại.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 41,
+    "startTime": 160.0,
+    "endTime": 163.5,
+    "text": "Okay, Dad.",
+    "translationVi": "Được rồi, bố ơi.",
+    "ipaUs": "/oʊˈkeɪ, dæd./",
+    "keywords": [
+      "okay Dad"
+    ],
+    "explanationAi": "Tiếng đáp chân thành của Tim khi bước vào tủ quần áo để quay về điểm khởi đầu của ngày hôm đó.",
+    "properNouns": [
+      "Dad"
+    ]
+  },
+  {
+    "orderIndex": 42,
+    "startTime": 163.5,
+    "endTime": 168.0,
+    "text": "Let's give it a go.",
+    "translationVi": "Để con thử một lần xem sao.",
+    "ipaUs": "/lɛts ɡɪv ɪt ə ɡoʊ./",
+    "keywords": [
+      "give it a go"
+    ],
+    "explanationAi": "Thành ngữ Anh thông dụng 'give it a go' nghĩa là thử sức thực hiện một điều gì đó với tinh thần cởi mở.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 43,
+    "startTime": 168.0,
+    "endTime": 172.5,
+    "text": "What's our statement at the moment?",
+    "translationVi": "Bản tuyên bố của chúng ta lúc này đang ra sao rồi?",
+    "ipaUs": "/wʌts ˈaʊər ˈsteɪtmənt æt ðə ˈmoʊmənt?/",
+    "keywords": [
+      "at the moment"
+    ],
+    "explanationAi": "Bắt đầu vòng lặp lần thứ hai tại văn phòng luật sư; Tim giờ đây đón nhận tình huống với tâm thế điềm tĩnh, nhẹ nhõm.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 44,
+    "startTime": 172.5,
+    "endTime": 177.0,
+    "text": "This is it with the revised...",
+    "translationVi": "Dạ đây là bản đã được chỉnh sửa...",
+    "ipaUs": "/ðɪs ɪz ɪt wɪð ðə rɪˈvaɪzd.../",
+    "keywords": [
+      "revised"
+    ],
+    "explanationAi": "Rupert vẫn lúng túng đưa tài liệu cho sếp như lần trước.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 45,
+    "startTime": 177.0,
+    "endTime": 183.5,
+    "text": "Robert, this does not pass. Is this the best you can do?",
+    "translationVi": "Robert, thế này không đạt yêu cầu đâu. Đây là hết sức của cậu rồi đấy à?",
+    "ipaUs": "/ˈrɑːbərt, ðɪs dʌz nɑːt pæs. ɪz ðɪs ðə bɛst juː kæn duː?/",
+    "keywords": [
+      "does not pass"
+    ],
+    "explanationAi": "Người sếp vẫn trách mắng (gọi nhầm tên hoặc tên Robert), nhưng lần này Tim quan sát cảnh tượng bằng sự thấu hiểu và nụ cười ấm áp.",
+    "properNouns": [
+      "Robert"
+    ]
+  },
+  {
+    "orderIndex": 46,
+    "startTime": 183.5,
+    "endTime": 189.5,
+    "text": "I'll leave you two to thrash this out.",
+    "translationVi": "Tôi để hai cậu tự ngồi lại mà giải quyết dứt điểm việc này đấy.",
+    "ipaUs": "/aɪl liːv juː tuː tuː θræʃ ðɪs aʊt./",
+    "keywords": [
+      "thrash this out"
+    ],
+    "explanationAi": "Thành ngữ 'thrash something out' nghĩa là bàn bạc thấu đáo, tranh luận rốt ráo để tìm ra giải pháp chung.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 47,
+    "startTime": 189.5,
+    "endTime": 195.0,
+    "text": "Ooh.",
+    "translationVi": "Ôi trời.",
+    "ipaUs": "/uː./",
+    "keywords": [
+      "ooh"
+    ],
+    "explanationAi": "Tiếng cảm thán hài hước của Tim và đồng nghiệp khi sếp vừa quay gót đi ra ngoài.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 48,
+    "startTime": 195.0,
+    "endTime": 197.5,
+    "text": "Good afternoon, sir.",
+    "translationVi": "Kính chào quý khách.",
+    "ipaUs": "/ɡʊd ˌæftərˈnuːn, sɜːr./",
+    "keywords": [
+      "good afternoon"
+    ],
+    "explanationAi": "Vòng lặp thứ hai tại quán ăn; người thu ngân vẫn chào câu quen thuộc.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 49,
+    "startTime": 197.5,
+    "endTime": 199.8,
+    "text": "Good afternoon.",
+    "translationVi": "Chào em buổi chiều.",
+    "ipaUs": "/ɡʊd ˌæftərˈnuːn./",
+    "keywords": [
+      "good afternoon"
+    ],
+    "explanationAi": "Lần này, Tim mỉm cười rạng rỡ và nhìn thẳng vào mắt cô thu ngân, mở đầu tương tác bằng sự chân thành.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 50,
+    "startTime": 199.8,
+    "endTime": 203.0,
+    "text": "Are you eating in or taking away today?",
+    "translationVi": "Trưa nay anh dùng tại quán hay mang về ạ?",
+    "ipaUs": "/ɑːr juː ˈiːtɪŋ ɪn ɔːr ˈteɪkɪŋ əˈweɪ təˈdeɪ?/",
+    "keywords": [
+      "eating in",
+      "taking away"
+    ],
+    "explanationAi": "Câu hỏi nghiệp vụ hàng ngày của nhân viên thu ngân.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 51,
+    "startTime": 203.0,
+    "endTime": 205.5,
+    "text": "Take away, please.",
+    "translationVi": "Cho anh mang về nhé.",
+    "ipaUs": "/teɪk əˈweɪ, pliːz./",
+    "keywords": [
+      "take away"
+    ],
+    "explanationAi": "Giọng điệu của Tim lúc này ấm áp, thư thái và vui tươi hơn hẳn lần một.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 52,
+    "startTime": 205.5,
+    "endTime": 207.8,
+    "text": "Would you like a bag?",
+    "translationVi": "Anh có cần lấy túi đựng không ạ?",
+    "ipaUs": "/wʊd juː laɪk ə bæɡ?/",
+    "keywords": [
+      "like a bag"
+    ],
+    "explanationAi": "Chi tiết nhỏ trong dịch vụ nhưng Tim chú ý lắng nghe trọn vẹn.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 53,
+    "startTime": 207.8,
+    "endTime": 210.0,
+    "text": "That's fine.",
+    "translationVi": "Không cần đâu, thế này ổn rồi.",
+    "ipaUs": "/ðæts faɪn./",
+    "keywords": [
+      "that's fine"
+    ],
+    "explanationAi": "Tim từ chối túi một cách lịch thiệp để bảo vệ môi trường và giảm phiền hà cho thu ngân.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 54,
+    "startTime": 210.0,
+    "endTime": 214.0,
+    "text": "Lovely. That's 6.23 then, please.",
+    "translationVi": "Tuyệt ạ. Của anh hết 6 bảng 23 xu.",
+    "ipaUs": "/ˈlʌvli. ðæts sɪks ˈtwɛnti θriː ðɛn, pliːz./",
+    "keywords": [
+      "lovely"
+    ],
+    "explanationAi": "Giá tiền bữa ăn trong ngày thứ hai được thanh toán trong bầu không khí vui vẻ.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 55,
+    "startTime": 214.0,
+    "endTime": 217.0,
+    "text": "And enjoy the rest of your day.",
+    "translationVi": "Và chúc anh có một ngày thật vui vẻ nhé.",
+    "ipaUs": "/ænd ɪnˈdʒɔɪ ðə rɛst ʌv jʊər deɪ./",
+    "keywords": [
+      "enjoy the rest of your day"
+    ],
+    "explanationAi": "Lời chúc chân thành của cô thu ngân khi cảm nhận được năng lượng tích cực từ nụ cười của Tim.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 56,
+    "startTime": 217.0,
+    "endTime": 219.0,
+    "text": "Thank you. Bye-bye.",
+    "translationVi": "Cảm ơn em nhiều. Chào em nhé.",
+    "ipaUs": "/θæŋk juː. baɪ baɪ./",
+    "keywords": [
+      "bye bye"
+    ],
+    "explanationAi": "Tim chào tạm biệt với nụ cười sảng khoái trên môi.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 57,
+    "startTime": 219.0,
+    "endTime": 221.0,
+    "text": "Hello, there.",
+    "translationVi": "Xin chào quý khách.",
+    "ipaUs": "/hɛˈloʊ, ðɛr./",
+    "keywords": [
+      "hello there"
+    ],
+    "explanationAi": "Năng lượng ấm áp của Tim đã lan tỏa, khiến cô thu ngân tiếp tục tươi cười với khách hàng tiếp theo.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 58,
+    "startTime": 221.0,
+    "endTime": 224.5,
+    "text": "Look around you!",
+    "translationVi": "Cậu hãy ngắm nhìn xung quanh mà xem!",
+    "ipaUs": "/lʊk əˈraʊnd juː!/",
+    "keywords": [
+      "look around"
+    ],
+    "explanationAi": "Tại tòa án trong lần thứ hai, thay vì căng thẳng lo sợ, Tim nhắc nhở đồng nghiệp hãy chiêm ngưỡng vẻ đẹp xung quanh.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 59,
+    "startTime": 224.5,
+    "endTime": 226.5,
+    "text": "What?",
+    "translationVi": "Cái gì cơ?",
+    "ipaUs": "/wʌt?/",
+    "keywords": [
+      "what"
+    ],
+    "explanationAi": "Người đồng nghiệp ngạc nhiên vì bình thường ai cũng chỉ biết lo lắng về vụ án.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 60,
+    "startTime": 226.5,
+    "endTime": 230.5,
+    "text": "Isn't this room beautiful?",
+    "translationVi": "Căn phòng này chẳng phải đẹp tuyệt trần sao?",
+    "ipaUs": "/ˈɪznt ðɪs ruːm ˈbjuːtəfəl?/",
+    "keywords": [
+      "room beautiful"
+    ],
+    "explanationAi": "Câu hỏi tu từ cảm thán về kiến trúc cổ kính tráng lệ của tòa án mà cả hai đã từng mù quáng bỏ lỡ vì âu lo.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 61,
+    "startTime": 230.5,
+    "endTime": 232.5,
+    "text": "Yeah.",
+    "translationVi": "Ừ, đẹp thật đấy.",
+    "ipaUs": "/jɛə./",
+    "keywords": [
+      "yeah"
+    ],
+    "explanationAi": "Người đồng nghiệp ngước nhìn lên trần nhà và lần đầu tiên nhận ra vẻ đẹp ấy.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 62,
+    "startTime": 232.5,
+    "endTime": 235.0,
+    "text": "Come on.",
+    "translationVi": "Đến lúc rồi, cố lên nào.",
+    "ipaUs": "/kʌm ɑːn./",
+    "keywords": [
+      "come on"
+    ],
+    "explanationAi": "Lời động viên tràn đầy niềm tin và lạc quan trước thời khắc bồi thẩm đoàn bước vào.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 63,
+    "startTime": 235.0,
+    "endTime": 239.5,
+    "text": "Not guilty.",
+    "translationVi": "Vô tội.",
+    "ipaUs": "/nɑːt ˈɡɪlti./",
+    "keywords": [
+      "not guilty"
+    ],
+    "explanationAi": "Phán quyết giải thoát bị cáo vang lên một lần nữa.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 64,
+    "startTime": 239.5,
+    "endTime": 245.5,
+    "text": "Fantastic!",
+    "translationVi": "Tuyệt vời quá!",
+    "ipaUs": "/fænˈtæstɪk!/",
+    "keywords": [
+      "fantastic"
+    ],
+    "explanationAi": "Tim vung tay reo mừng hân hoan cùng bị cáo, tận hưởng niềm vui trọn vẹn của công lý được thực thi.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 65,
+    "startTime": 245.5,
+    "endTime": 249.5,
+    "text": "So not such a bad day after all?",
+    "translationVi": "Hóa ra hôm nay cũng không đến nỗi là một ngày tồi tệ chứ gì?",
+    "ipaUs": "/soʊ nɑːt sʌtʃ ə bæd deɪ ˈæftər ɔːl?/",
+    "keywords": [
+      "after all",
+      "bad day"
+    ],
+    "explanationAi": "Mary đón Tim ở nhà và dịu dàng hỏi han bằng thành ngữ 'after all' (hóa ra, rốt cuộc).",
+    "properNouns": [
+      "Mary"
+    ]
+  },
+  {
+    "orderIndex": 66,
+    "startTime": 249.5,
+    "endTime": 253.0,
+    "text": "No. It was pretty good really.",
+    "translationVi": "Không hề. Thật sự là một ngày khá tuyệt vời đấy chứ.",
+    "ipaUs": "/noʊ. ɪt wʌz ˈprɪti ɡʊd ˈrɪəli./",
+    "keywords": [
+      "pretty good",
+      "really"
+    ],
+    "explanationAi": "Tim trả lời với tâm trạng thư thái, hạnh phúc sau khi đã sống một ngày trọn vẹn.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 67,
+    "startTime": 253.0,
+    "endTime": 257.5,
+    "text": "Very good day, actually, as it turns out.",
+    "translationVi": "Thực ra là một ngày cực kỳ tuyệt vời, như những gì đã diễn ra.",
+    "ipaUs": "/ˈvɛri ɡʊd deɪ, ˈæktʃuəli, æz ɪt tɜːrnz aʊt./",
+    "keywords": [
+      "as it turns out",
+      "actually"
+    ],
+    "explanationAi": "Cụm 'as it turns out' (hóa ra là, như thực tế chứng minh) thể hiện sự chiêm nghiệm sâu sắc của Tim.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 68,
+    "startTime": 257.5,
+    "endTime": 261.0,
+    "text": "Well, that's a relief,",
+    "translationVi": "Chà, thế thì nhẹ cả người,",
+    "ipaUs": "/wɛl, ðæts ə rɪˈliːf,/",
+    "keywords": [
+      "that's a relief"
+    ],
+    "explanationAi": "'That's a relief' là cách nói thể hiện sự trút bỏ gánh nặng lo âu hoặc nỗi bận lòng.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 69,
+    "startTime": 261.0,
+    "endTime": 265.5,
+    "text": "because if it had been a very bad day,",
+    "translationVi": "vì nếu hôm nay mà là một ngày cực kỳ tồi tệ,",
+    "ipaUs": "/bɪˈkɔːz ɪf ɪt hæd biːn ə ˈvɛri bæd deɪ,/",
+    "keywords": [
+      "had been",
+      "very bad day"
+    ],
+    "explanationAi": "Cấu trúc câu điều kiện loại 3 mở đầu cho lời trêu chọc ngọt ngào, hóm hỉnh của Mary.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 70,
+    "startTime": 265.5,
+    "endTime": 271.5,
+    "text": "I thought I might have had to have had sex with you to make up for it.",
+    "translationVi": "thì em đã nghĩ là có khi em lại phải ngủ với anh để bù đắp cho anh mất rồi.",
+    "ipaUs": "/aɪ θɔːt aɪ maɪt hæv hæd tuː hæv hæd sɛks wɪð juː tuː meɪk ʌp fɔːr ɪt./",
+    "keywords": [
+      "make up for it",
+      "might have had to"
+    ],
+    "explanationAi": "Lời bông đùa tinh nghịch đầy quyến rũ của Mary; 'make up for' nghĩa là đền bù, bù đắp cho tổn thương.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 71,
+    "startTime": 271.5,
+    "endTime": 273.8,
+    "text": "Goodnight.",
+    "translationVi": "Chúc anh ngủ ngon nhé.",
+    "ipaUs": "/ˌɡʊdˈnaɪt./",
+    "keywords": [
+      "goodnight"
+    ],
+    "explanationAi": "Mary quay lưng lại giả vờ đi ngủ để trêu Tim.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 72,
+    "startTime": 273.8,
+    "endTime": 275.5,
+    "text": "Mmm.",
+    "translationVi": "Ừm...",
+    "ipaUs": "/m̩./",
+    "keywords": [
+      "mmm"
+    ],
+    "explanationAi": "Khoảnh khắc Tim khựng lại một giây để tính toán phản ứng hài hước của mình.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 73,
+    "startTime": 275.5,
+    "endTime": 279.5,
+    "text": "It was a very, very bad day.",
+    "translationVi": "Hôm nay thực sự là một ngày cực kỳ, cực kỳ tồi tệ em ơi.",
+    "ipaUs": "/ɪt wʌz ə ˈvɛri, ˈvɛri bæd deɪ./",
+    "keywords": [
+      "very bad day"
+    ],
+    "explanationAi": "Pha 'quay xe' siêu hài hước của Tim; ngay khi nghe thấy phần thưởng bù đắp, anh lập tức đảo ngược 180 độ.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 74,
+    "startTime": 279.5,
+    "endTime": 283.5,
+    "text": "It went very, very badly.",
+    "translationVi": "Mọi chuyện diễn ra tệ kinh khủng khiếp luôn.",
+    "ipaUs": "/ɪt wɛnt ˈvɛri, ˈvɛri ˈbædli./",
+    "keywords": [
+      "went badly"
+    ],
+    "explanationAi": "Tim phóng đại mức độ thảm họa để được người yêu vỗ về yêu thương.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 75,
+    "startTime": 283.5,
+    "endTime": 287.5,
+    "text": "I got fired from my job.",
+    "translationVi": "Anh vừa bị đuổi việc xong.",
+    "ipaUs": "/aɪ ɡɑːt ˈfaɪərd frəm maɪ dʒɑːb./",
+    "keywords": [
+      "got fired",
+      "my job"
+    ],
+    "explanationAi": "Thành ngữ 'get fired' nghĩa là bị sa thải; câu nói bịa đặt hài hước vượt quá mọi thực tế.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 76,
+    "startTime": 287.5,
+    "endTime": 292.0,
+    "text": "And then I killed a man.",
+    "translationVi": "Và rồi anh còn vừa ngộ sát một người nữa.",
+    "ipaUs": "/ænd ðɛn aɪ kɪld ə mæn./",
+    "keywords": [
+      "killed a man"
+    ],
+    "explanationAi": "Cao trào châm biếm hóm hỉnh đặc trưng của điện ảnh Anh: bịa ra tội ác ghê gớm nhất chỉ để xin sự an ủi của bạn gái.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 77,
+    "startTime": 292.0,
+    "endTime": 295.5,
+    "text": "That is a very bad day.",
+    "translationVi": "Thế thì quả đúng là một ngày tồi tệ thật rồi.",
+    "ipaUs": "/ðæt ɪz ə ˈvɛri bæd deɪ./",
+    "keywords": [
+      "that is",
+      "bad day"
+    ],
+    "explanationAi": "Mary cũng hùa theo trò đùa của Tim với giọng điệu đồng cảm giả vờ đầy đáng yêu.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 78,
+    "startTime": 295.5,
+    "endTime": 298.0,
+    "text": "It's terrible.",
+    "translationVi": "Khủng khiếp lắm em à.",
+    "ipaUs": "/ɪts ˈtɛrəbl./",
+    "keywords": [
+      "terrible"
+    ],
+    "explanationAi": "Tim tiếp tục diễn sâu vẻ mặt đau khổ giả vờ.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 79,
+    "startTime": 298.0,
+    "endTime": 300.0,
+    "text": "Yeah.",
+    "translationVi": "Ừ.",
+    "ipaUs": "/jɛə./",
+    "keywords": [
+      "yeah"
+    ],
+    "explanationAi": "Mary gật đầu chiều theo trò đùa của người yêu.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 80,
+    "startTime": 300.0,
+    "endTime": 304.0,
+    "text": "Like the worst day ever.",
+    "translationVi": "Đúng kiểu ngày tồi tệ nhất trần đời luôn.",
+    "ipaUs": "/laɪk ðə wɜːrst deɪ ˈɛvər./",
+    "keywords": [
+      "worst day ever"
+    ],
+    "explanationAi": "Cấu trúc so sánh bậc nhất 'the worst ... ever' thể hiện đỉnh điểm của thảm cảnh do Tim tự vẽ ra.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 81,
+    "startTime": 304.0,
+    "endTime": 307.5,
+    "text": "So sorry.",
+    "translationVi": "Thương anh quá.",
+    "ipaUs": "/soʊ ˈsɑːri./",
+    "keywords": [
+      "so sorry"
+    ],
+    "explanationAi": "Lời chia sẻ ngọt ngào của Mary khi dang tay ôm lấy Tim để vỗ về yêu thương.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 82,
+    "startTime": 307.5,
+    "endTime": 323.0,
+    "text": "It's okay, I'm home now.",
+    "translationVi": "Không sao đâu, giờ anh đã về nhà bên em rồi.",
+    "ipaUs": "/ɪts ˌoʊˈkeɪ, aɪm hoʊm naʊ./",
+    "keywords": [
+      "it's okay",
+      "home now"
+    ],
+    "explanationAi": "Lời kết lắng đọng và ấm áp nhất của phân đoạn: Dù cuộc đời ngoài kia có ra sao, khi được trở về bên người mình yêu thương, mọi giông bão đều tan biến.",
+    "properNouns": []
+  }
+]

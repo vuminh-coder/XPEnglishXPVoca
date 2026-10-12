@@ -6,7 +6,7 @@ import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockDa
 describe("English for Travel: Hotel Check-in - 100% Verbatim Audit", () => {
   it("should have exactly 10 segments with valid duration and metadata", () => {
     expect(LESSON_HOTEL_CHECKIN.segments.length).toBe(10);
-    expect(LESSON_HOTEL_CHECKIN.externalId).toBe("P7X7Cq_9c0s");
+    expect(LESSON_HOTEL_CHECKIN.externalId).toBe("wyqfYJX23lg");
     expect(LESSON_HOTEL_CHECKIN.durationSeconds).toBe(68);
     expect(LESSON_HOTEL_CHECKIN.cefrLevel).toBe("A2");
     expect(LESSON_HOTEL_CHECKIN.accent).toBe("en-US");
@@ -53,7 +53,7 @@ describe("English for Travel: Hotel Check-in - 100% Verbatim Audit", () => {
   });
 
   it("should match mock data in videoCatalogMockData.ts exactly across all 10 segments", () => {
-    const mock = MOCK_VIDEO_LESSONS.find((v) => v.externalId === "P7X7Cq_9c0s");
+    const mock = MOCK_VIDEO_LESSONS.find((v) => v.externalId === "wyqfYJX23lg");
     expect(mock).toBeDefined();
     expect(mock?.segments.length).toBe(10);
     for (let i = 0; i < 10; i++) {

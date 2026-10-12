@@ -384,7 +384,7 @@ export async function getSmartVideoRecommendations(
       cefrLevel: m.cefrLevel,
       accent: m.accent,
       viewCount: m.viewCount,
-      category: { slug: m.categorySlug, name: m.categoryName, icon: "🎬" },
+      category: { slug: m.categorySlug, name: m.categoryName, icon: "Film" },
       segments: m.segments.map((s) => ({
         keywords: s.keywords || [],
         properNouns: s.properNouns || [],

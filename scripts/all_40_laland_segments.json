@@ -1,0 +1,584 @@
+[
+  {
+    "orderIndex": 0,
+    "startTime": 0.0,
+    "endTime": 8.0,
+    "text": "So where is the new home? — I'm so glad you're home.",
+    "ipaUs": "/soʊ wɛər ɪz ðə nuː hoʊm aɪm soʊ ɡlæd jʊər hoʊm/",
+    "translationVi": "Thế ngôi nhà mới của chúng mình đâu rồi? — Em mừng vì anh đã về nhà.",
+    "keywords": [
+      "new home",
+      "glad you're home"
+    ],
+    "explanationAi": "Cụm 'glad you're home' thể hiện niềm vui giản dị, ấm áp của Mia khi bất ngờ thấy Sebastian trở về sau những ngày xa cách.",
+    "tokenCount": 11
+  },
+  {
+    "orderIndex": 1,
+    "startTime": 8.0,
+    "endTime": 16.0,
+    "text": "How's the play going? — Um, nervous. — You what? — Nervous. — Why?",
+    "ipaUs": "/haʊz ðə pleɪ ˈɡoʊɪŋ ˈnɜːrvəs juː wʌt ˈnɜːrvəs waɪ/",
+    "translationVi": "Vở kịch của em tiến triển sao rồi? — Ừm, em lo lắng lắm. — Em sao cơ? — Em lo lắng. — Tại sao chứ?",
+    "keywords": [
+      "play going",
+      "nervous"
+    ],
+    "explanationAi": "Sự quan tâm ân cần của Sebastian trước tâm lý hồi hộp, lo âu của Mia về vở kịch đầu tay của cô.",
+    "tokenCount": 10
+  },
+  {
+    "orderIndex": 2,
+    "startTime": 16.0,
+    "endTime": 23.0,
+    "text": "Because what if people show up? — Pshaw, fuck 'em! You're nervous about what they think?",
+    "ipaUs": "/bɪˈkɒz wʌt ɪf ˈpiːpəl ʃoʊ ʌp fʌk ðɛm jʊər ˈnɜːrvəs əˈbaʊt wʌt ðeɪ θɪŋk/",
+    "translationVi": "Bởi vì lỡ như có khán giả đến xem thì sao? — Kệ họ đi chứ! Em lo lắng về điều người ta nghĩ sao?",
+    "keywords": [
+      "what if people show up",
+      "nervous about what they think"
+    ],
+    "explanationAi": "Câu đùa phóng khoáng của Sebastian giúp giảm bớt áp lực tâm lý cho Mia trước những phán xét của khán giả.",
+    "tokenCount": 15
+  },
+  {
+    "orderIndex": 3,
+    "startTime": 23.0,
+    "endTime": 29.0,
+    "text": "I'm nervous to do it. I'm nervous to get up on a stage and perform for people. I mean, I don't need to say that to you.",
+    "ipaUs": "/aɪm ˈnɜːrvəs tuː duː ɪt tuː ɡɛt ʌp ɒn ə steɪdʒ ænd pərˈfɔːrm fɔːr ˈpiːpəl aɪ doʊnt niːd tuː seɪ ðæt tuː juː/",
+    "translationVi": "Em lo khi phải diễn nó. Em sợ cảm giác bước lên sân khấu và biểu diễn trước mặt mọi người. Ý em là, em chẳng cần phải phân trần điều đó với anh.",
+    "keywords": [
+      "get up on a stage",
+      "perform for people"
+    ],
+    "explanationAi": "Thành ngữ 'get up on a stage' diễn tả nỗi sợ sân khấu (stage fright) kinh điển của mọi diễn viên trước giờ công diễn.",
+    "tokenCount": 27
+  },
+  {
+    "orderIndex": 4,
+    "startTime": 29.0,
+    "endTime": 32.0,
+    "text": "It's gonna be a good time! You can get out there. — But I'm terrified.",
+    "ipaUs": "/ɪts ˈɡɒnə biː ə ɡʊd taɪm juː kæn ɡɛt aʊt ðɛər bʌt aɪm ˈtɛrəfaɪd/",
+    "translationVi": "Sẽ là một khoảng thời gian tuyệt vời mà! Em có thể bước ra ngoài đó. — Nhưng em thực sự sợ phát khiếp lên được.",
+    "keywords": [
+      "good time",
+      "terrified"
+    ],
+    "explanationAi": "'Terrified' (kinh hãi, vô cùng khiếp sợ) là từ diễn tả cấp độ sợ hãi mạnh mẽ hơn nhiều so với 'nervous'.",
+    "tokenCount": 14
+  },
+  {
+    "orderIndex": 5,
+    "startTime": 32.0,
+    "endTime": 38.0,
+    "text": "They should be so lucky to see it! I can't wait. — I can.",
+    "ipaUs": "/ðeɪ ʃʊd biː soʊ ˈlʌki tuː siː ɪt aɪ kænt weɪt aɪ kæn/",
+    "translationVi": "Khán giả phải may mắn lắm mới được xem vở kịch ấy chứ! Anh nóng lòng muốn xem lắm rồi. — Còn em thì chẳng vội đâu.",
+    "keywords": [
+      "lucky to see it",
+      "can't wait",
+      "I can"
+    ],
+    "explanationAi": "Lời động viên chân thành của Sebastian và câu đáp hóm hỉnh 'I can' (em thì chờ được) của Mia tạo nên khoảnh khắc ấm áp ngắn ngủi.",
+    "tokenCount": 13
+  },
+  {
+    "orderIndex": 6,
+    "startTime": 40.0,
+    "endTime": 46.0,
+    "text": "When do you leave in the morning? — Yeah, 6:45. — Oh.",
+    "ipaUs": "/wɛn duː juː liːv ɪn ðə ˈmɔːrnɪŋ jɛə sɪks ˈfɔːrti faɪv oʊ/",
+    "translationVi": "Mấy giờ sáng mai anh phải đi rồi? — Ừ, 6 giờ 45. — Ồ.",
+    "keywords": [
+      "leave in the morning",
+      "early departure"
+    ],
+    "explanationAi": "Giờ khởi hành gấp gáp 6:45 sáng nhắc nhở cả hai về sự ngắn ngủi của cuộc hội ngộ giữa lịch trình lưu diễn bận rộn.",
+    "tokenCount": 10
+  },
+  {
+    "orderIndex": 7,
+    "startTime": 46.0,
+    "endTime": 51.0,
+    "text": "Boise. — Boise? — Boise. — To Boise?",
+    "ipaUs": "/ˈbɔɪzi ˈbɔɪzi ˈbɔɪzi tuː ˈbɔɪzi/",
+    "translationVi": "Thành phố Boise. — Boise ư? — Đúng, Boise. — Đến tận Boise cơ à?",
+    "keywords": [
+      "Boise",
+      "destination"
+    ],
+    "explanationAi": "Thành phố Boise, thủ phủ bang Idaho, là điểm dừng chân tiếp theo của ban nhạc The Messengers.",
+    "tokenCount": 5
+  },
+  {
+    "orderIndex": 8,
+    "startTime": 53.0,
+    "endTime": 60.0,
+    "text": "You should come! — To Boise? — Yeah, you could knock that off your bucket list.",
+    "ipaUs": "/juː ʃʊd kʌm tuː ˈbɔɪzi jɛə juː kʊd nɒk ðæt ɔːf jɔːr ˈbʌkɪt lɪst/",
+    "translationVi": "Em nên đi cùng anh! — Đến Boise á? — Ừ, em có thể gạch bỏ một mục khỏi danh sách những việc cần làm trong đời đấy.",
+    "keywords": [
+      "knock that off",
+      "bucket list"
+    ],
+    "explanationAi": "Thành ngữ 'knock something off your bucket list' nghĩa là hoàn thành một trải nghiệm mơ ước trong đời.",
+    "tokenCount": 14
+  },
+  {
+    "orderIndex": 9,
+    "startTime": 60.0,
+    "endTime": 66.0,
+    "text": "Oh, that would be really exciting. I wish I could. — What are you doing after the tour?",
+    "ipaUs": "/oʊ ðæt wʊd biː ˈrɪəli ɪkˈsaɪtɪŋ aɪ wɪʃ aɪ kʊd wʌt ɑːr juː ˈduːɪŋ ˈæftər ðə tʊər/",
+    "translationVi": "Ồ, thế thì hào hứng thật đấy. Em ước gì mình có thể đi được. — Thế em định làm gì sau chuyến lưu diễn của anh?",
+    "keywords": [
+      "really exciting",
+      "wish I could",
+      "after the tour"
+    ],
+    "explanationAi": "Câu trúc ước muốn 'wish I could' diễn tả sự bất khả kháng khi lịch trình công việc của Mia không cho phép cô rời Los Angeles.",
+    "tokenCount": 17
+  },
+  {
+    "orderIndex": 10,
+    "startTime": 66.0,
+    "endTime": 71.0,
+    "text": "Why can't you? — Come to Boise? — Yeah. — Because I have to rehearse!",
+    "ipaUs": "/waɪ kænt juː kʌm tuː ˈbɔɪzi jɛə bɪˈkɒz aɪ hæv tuː rɪˈhɜːrs/",
+    "translationVi": "Tại sao em lại không thể đi chứ? — Đến Boise ấy hả? — Đúng thế. — Bởi vì em phải tập dượt vở kịch!",
+    "keywords": [
+      "come to Boise",
+      "have to rehearse"
+    ],
+    "explanationAi": "Động từ 'rehearse' (tập dượt, tổng duyệt) bắt đầu làm dấy lên sự bất đồng quan điểm về mức độ ưu tiên sự nghiệp của mỗi người.",
+    "tokenCount": 12
+  },
+  {
+    "orderIndex": 11,
+    "startTime": 71.0,
+    "endTime": 81.0,
+    "text": "Can't you rehearse anywhere? — Anywhere you are? — I mean, I guess.",
+    "ipaUs": "/kænt juː rɪˈhɜːrs ˈɛnɪwɛər ˈɛnɪwɛər juː ɑːr aɪ miːn aɪ ɡɛs/",
+    "translationVi": "Em không thể tập dượt ở bất cứ đâu sao? — Ở bất cứ nơi nào có anh ấy hả? — Ý anh là, anh đoán thế.",
+    "keywords": [
+      "rehearse anywhere",
+      "anywhere you are",
+      "I guess"
+    ],
+    "explanationAi": "Sebastian mong muốn Mia đi cùng mình, nhưng vô tình xem nhẹ công sức và không gian chuẩn bị sân khấu chuyên nghiệp của cô.",
+    "tokenCount": 11
+  },
+  {
+    "orderIndex": 12,
+    "startTime": 81.0,
+    "endTime": 89.0,
+    "text": "Um, well, all my stuff is here and it's in two weeks, so I don't really think that would be... — Okay.",
+    "ipaUs": "/ɔːl maɪ stʌf ɪz hɪər ænd ɪts ɪn tuː wiːks soʊ aɪ doʊnt ˈrɪəli θɪŋk ðæt wʊd biː oʊˈkeɪ/",
+    "translationVi": "Ừm, chà, tất cả đồ đạc của em đều ở đây và buổi diễn chỉ còn hai tuần nữa thôi, nên em không nghĩ việc đó khả thi đâu... — Được rồi.",
+    "keywords": [
+      "all my stuff is here",
+      "in two weeks"
+    ],
+    "explanationAi": "Mia giải thích hoàn cảnh thực tế: đạo cụ, trang phục và khán phòng biểu diễn đều gắn liền với Los Angeles.",
+    "tokenCount": 21
+  },
+  {
+    "orderIndex": 13,
+    "startTime": 89.0,
+    "endTime": 97.0,
+    "text": "That's the idea right now, but I wish I could. We're just gonna have to try and see each other.",
+    "ipaUs": "/ðæts ðiː aɪˈdɪə raɪt naʊ bʌt aɪ wɪʃ aɪ kʊd wiːr dʒʌst ˈɡɒnə hæv tuː traɪ ænd siː iːtʃ ˈʌðər/",
+    "translationVi": "Dự định lúc này là như vậy, nhưng em ước gì mình đi được. Chúng mình sẽ phải cố gắng sắp xếp để gặp nhau thôi.",
+    "keywords": [
+      "wish I could",
+      "try and see each other"
+    ],
+    "explanationAi": "Nỗ lực thỏa hiệp tình cảm trong mối quan hệ yêu xa do áp lực của lịch trình lưu diễn.",
+    "tokenCount": 20
+  },
+  {
+    "orderIndex": 14,
+    "startTime": 97.0,
+    "endTime": 105.0,
+    "text": "I know, but when are you done? — What do you mean? — When are you finished with the whole tour?",
+    "ipaUs": "/aɪ noʊ bʌt wɛn ɑːr juː dʌn wʌt duː juː miːn wɛn ɑːr juː ˈfɪnɪʃt wɪð ðə hoʊl tʊər/",
+    "translationVi": "Em biết, nhưng bao giờ thì anh mới xong việc? — Ý em là sao? — Bao giờ thì anh mới kết thúc toàn bộ chuyến lưu diễn này?",
+    "keywords": [
+      "when are you done",
+      "finished with the whole tour"
+    ],
+    "explanationAi": "Câu hỏi mang tính bước ngoặt: Mia muốn biết thời điểm Sebastian sẽ trở về cuộc sống bình thường để cùng xây dựng tương lai.",
+    "tokenCount": 19
+  },
+  {
+    "orderIndex": 15,
+    "startTime": 105.0,
+    "endTime": 114.0,
+    "text": "After we finish, we're gonna go and record, and then we go back on tour. We tour so we can make the records, so we can go back and sell the record.",
+    "ipaUs": "/ˈæftər wiː ˈfɪnɪʃ wiːr ˈɡɒnə ɡoʊ ænd rɪˈkɔːrd ænd ðɛn wiː ɡoʊ bæk ɒn tʊər wiː tʊər soʊ wiː kæn meɪk ðə ˈrɛkərdz soʊ wiː kæn ɡoʊ bæk ænd sɛl ðə ˈrɛkərd/",
+    "translationVi": "Sau khi đi tour xong, ban nhạc sẽ vào phòng thu âm, rồi sau đó lại tiếp tục đi tour. Bọn anh lưu diễn để có tiền làm album, rồi lại đi lưu diễn để quảng bá bán album đó.",
+    "keywords": [
+      "go and record",
+      "back on tour",
+      "make the records",
+      "sell the record"
+    ],
+    "explanationAi": "Vòng quay thương mại luẩn quẩn: lưu diễn để tài trợ cho việc thu âm, rồi lại tiếp tục lưu diễn để bán album ra thị trường.",
+    "tokenCount": 32
+  },
+  {
+    "orderIndex": 16,
+    "startTime": 116.0,
+    "endTime": 132.0,
+    "text": "So it's like the long haul. — What do you mean the long haul? — I mean the long haul, like you're gonna stay in this band for a long time. On tour.",
+    "ipaUs": "/soʊ ɪts laɪk ðə lɒŋ hɔːl wʌt duː juː miːn ðə lɒŋ hɔːl laɪk jʊər ˈɡɒnə steɪ ɪn ðɪs bænd fɔːr ə lɒŋ taɪm ɒn tʊər/",
+    "translationVi": "Thế nghĩa là một chặng đường dài hạn đằng đẵng ư? — Ý em chặng đường dài hạn là sao? — Ý em là một chặng đường dài hạn, kiểu như anh sẽ gắn bó với ban nhạc này trong một thời gian dài. Suốt ngày đi tour.",
+    "keywords": [
+      "the long haul",
+      "stay in this band",
+      "for a long time",
+      "on tour"
+    ],
+    "explanationAi": "Thành ngữ 'the long haul' chỉ một cam kết trường kỳ, đối lập với suy nghĩ ban đầu của Mia rằng Sebastian chỉ chơi nhạc tạm thời.",
+    "tokenCount": 31
+  },
+  {
+    "orderIndex": 17,
+    "startTime": 133.0,
+    "endTime": 144.0,
+    "text": "What did you think I was gonna do? — I hadn't really thought it through. I didn't know that the band... — You didn't think it would be successful.",
+    "ipaUs": "/wʌt dɪd juː θɪŋk aɪ wʌz ˈɡɒnə duː aɪ ˈhædənt ˈrɪəli θɔːt ɪt θruː aɪ ˈdɪdənt noʊ ðæt ðə bænd juː ˈdɪdənt θɪŋk ɪt wʊd biː səkˈsɛsfʊl/",
+    "translationVi": "Chứ em nghĩ anh sẽ làm gì nào? — Em chưa thật sự nghĩ kỹ đến chuyện đó. Em không hề biết là ban nhạc... — Em đã không nghĩ là ban nhạc sẽ thành công chứ gì.",
+    "keywords": [
+      "thought it through",
+      "didn't think it would be successful"
+    ],
+    "explanationAi": "Cụm 'think something through' nghĩa là suy xét thấu đáo; lời ngắt lời đầy tự ái của Sebastian chạm vào cái tôi nghệ sĩ của anh.",
+    "tokenCount": 27
+  },
+  {
+    "orderIndex": 18,
+    "startTime": 144.0,
+    "endTime": 154.0,
+    "text": "No, that's not really what I mean. I just mean that you're gonna be on tour for what, months now? Years?",
+    "ipaUs": "/noʊ ðæts nɒt ˈrɪəli wʌt aɪ miːn aɪ dʒʌst miːn ðæt jʊər ˈɡɒnə biː ɒn tʊər fɔːr wʌt mʌnθs naʊ jɪərz/",
+    "translationVi": "Không, ý em thực sự không phải như thế. Em chỉ muốn nói là anh sẽ đi lưu diễn trong bao lâu, hàng tháng trời? Hay nhiều năm?",
+    "keywords": [
+      "not really what I mean",
+      "months now years"
+    ],
+    "explanationAi": "Mia cố gắng làm rõ rằng cô không trù ẻo sự thành công của anh, mà lo sợ về sự vắng mặt kéo dài của người yêu.",
+    "tokenCount": 21
+  },
+  {
+    "orderIndex": 19,
+    "startTime": 154.0,
+    "endTime": 163.0,
+    "text": "Yeah, this is it. I mean, feasibly, I could be on tour with this for a couple of years, at least, just this record.",
+    "ipaUs": "/jɛə ðɪs ɪz ɪt aɪ miːn ˈfiːzəbli aɪ kʊd biː ɒn tʊər wɪð ðɪs fɔːr ə ˈkʌpəl ʌv jɪərz æt liːst dʒʌst ðɪs ˈrɛkərd/",
+    "translationVi": "Đúng thế, thực tế là vậy đấy. Khả năng cao là anh có thể sẽ phải đi tour với album này trong khoảng vài năm, ít nhất là thế, chỉ với riêng đĩa nhạc này.",
+    "keywords": [
+      "feasibly",
+      "couple of years at least",
+      "just this record"
+    ],
+    "explanationAi": "Từ 'feasibly' (về mặt khả thi) khẳng định rằng việc xa nhà là điều kiện tiên quyết trong bản hợp đồng mà Sebastian đã ký.",
+    "tokenCount": 24
+  },
+  {
+    "orderIndex": 20,
+    "startTime": 163.0,
+    "endTime": 173.0,
+    "text": "Do you like the music you're playing? — I don't know... I don't know why that matters.",
+    "ipaUs": "/duː juː laɪk ðə ˈmjuːzɪk jʊər ˈpleɪɪŋ aɪ doʊnt noʊ aɪ doʊnt noʊ waɪ ðæt ˈmætərz/",
+    "translationVi": "Anh có thực sự thích thứ âm nhạc mà anh đang chơi không? — Anh không biết... Anh không hiểu điều đó thì có quan trọng gì chứ.",
+    "keywords": [
+      "like the music",
+      "why that matters"
+    ],
+    "explanationAi": "Câu hỏi thức tỉnh của Mia: 'Do you like the music you're playing?' đâm thẳng vào sự phủ nhận thực tại của Sebastian.",
+    "tokenCount": 16
+  },
+  {
+    "orderIndex": 21,
+    "startTime": 173.0,
+    "endTime": 181.0,
+    "text": "Well, it matters because if you're gonna give up your dream, I think it matters that you like what you're playing on the road for years!",
+    "ipaUs": "/wɛl ɪt ˈmætərz bɪˈkɒz ɪf jʊər ˈɡɒnə ɡɪv ʌp jɔːr driːm aɪ θɪŋk ɪt ˈmætərz ðæt juː laɪk wʌt jʊər ˈpleɪɪŋ ɒn ðə roʊd fɔːr jɪərz/",
+    "translationVi": "Nó quan trọng chứ, bởi vì nếu anh từ bỏ ước mơ của mình, em nghĩ điều quan trọng là anh phải yêu thích những gì anh đang chơi trên đường lưu diễn suốt nhiều năm trời!",
+    "keywords": [
+      "give up your dream",
+      "on the road for years"
+    ],
+    "explanationAi": "Thành ngữ 'give up one's dream' (từ bỏ giấc mơ): Mia không thể hiểu tại sao một người tôn thờ jazz thuần túy lại chấp nhận chơi nhạc synth-pop thương mại.",
+    "tokenCount": 26
+  },
+  {
+    "orderIndex": 22,
+    "startTime": 183.0,
+    "endTime": 191.0,
+    "text": "Do you like the music I'm playing? — Yeah, I do. I just didn't think that you did.",
+    "ipaUs": "/duː juː laɪk ðə ˈmjuːzɪk aɪm ˈpleɪɪŋ jɛə aɪ duː aɪ dʒʌst ˈdɪdənt θɪŋk ðæt juː dɪd/",
+    "translationVi": "Thế em có thích thứ âm nhạc anh đang chơi không? — Có, em thích. Em chỉ không nghĩ là chính bản thân anh lại thích nó.",
+    "keywords": [
+      "like the music",
+      "didn't think that you did"
+    ],
+    "explanationAi": "Sự phân biệt tinh tế: Mia đánh giá cao bài hát theo tiêu chuẩn nhạc pop, nhưng cô biết nó không đại diện cho linh hồn nghệ thuật của Sebastian.",
+    "tokenCount": 17
+  },
+  {
+    "orderIndex": 23,
+    "startTime": 191.0,
+    "endTime": 198.0,
+    "text": "Yeah, well, you know what I said: Keith is the worst, and now you're gonna be on tour with him for years! So I just didn't...",
+    "ipaUs": "/jɛə wɛl juː noʊ wʌt aɪ sɛd kiːθ ɪz ðə wɜːrst ænd naʊ jʊər ˈɡɒnə biː ɒn tʊər wɪð hɪm fɔːr jɪərz soʊ aɪ dʒʌst ˈdɪdənt/",
+    "translationVi": "Ừ, thì anh biết em từng nói gì mà: Keith là kẻ tồi tệ nhất, vậy mà giờ đây anh lại đi lưu diễn cùng anh ta hàng năm trời! Nên em chỉ không hiểu...",
+    "keywords": [
+      "Keith is the worst",
+      "on tour with him for years"
+    ],
+    "explanationAi": "Mia nhắc lại nhận xét ban đầu của chính Sebastian về Keith nhằm vạch trần sự mâu thuẫn giữa lời nói và hành động của anh.",
+    "tokenCount": 26
+  },
+  {
+    "orderIndex": 24,
+    "startTime": 198.0,
+    "endTime": 204.0,
+    "text": "I don't know what you're doing! I thought you wanted me to do this. It just sounds like now you don't want me to do it.",
+    "ipaUs": "/aɪ doʊnt noʊ wʌt jʊər ˈduːɪŋ aɪ θɔːt juː ˈwɒntɪd miː tuː duː ðɪs ɪt dʒʌst saʊndz laɪk naʊ juː doʊnt wɒnt miː tuː duː ɪt/",
+    "translationVi": "Anh chẳng hiểu em đang làm cái trò gì nữa! Anh cứ ngỡ là em muốn anh làm điều này cơ mà. Giờ nghe giọng em cứ như thể em không muốn anh làm việc này nữa vậy.",
+    "keywords": [
+      "thought you wanted me to do this",
+      "don't want me to do it"
+    ],
+    "explanationAi": "Sebastian cảm thấy bị phản bội và tổn thương khi Mia dường như đang thay đổi kỳ vọng đối với sự nghiệp của anh.",
+    "tokenCount": 26
+  },
+  {
+    "orderIndex": 25,
+    "startTime": 204.0,
+    "endTime": 216.0,
+    "text": "What do you mean I wanted you to do this?! — This is what you wanted for me: to be in a band, to have a steady job, you know? To be... you know?",
+    "ipaUs": "/wʌt duː juː miːn aɪ ˈwɒntɪd juː tuː duː ðɪs ðɪs ɪz wʌt juː ˈwɒntɪd fɔːr miː tuː biː ɪn ə bænd tuː hæv ə ˈstɛdi dʒɒb juː noʊ/",
+    "translationVi": "Ý anh là sao khi nói em muốn anh làm điều này chứ?! — Đây chính là điều em từng muốn ở anh mà: được chơi trong một ban nhạc, có một công việc ổn định, em biết mà phải không? Để trở nên... em biết đấy?",
+    "keywords": [
+      "wanted for me",
+      "be in a band",
+      "steady job"
+    ],
+    "explanationAi": "Sebastian lặp lại cụm 'steady job' như tấm bình phong phòng thủ, biến áp lực kinh tế thành lý do từ bỏ ước mơ ban đầu.",
+    "tokenCount": 33
+  },
+  {
+    "orderIndex": 26,
+    "startTime": 216.0,
+    "endTime": 221.0,
+    "text": "Of course I wanted you to have a steady job so that you could take care of yourself in your life, and you could start your club!",
+    "ipaUs": "/ɒv kɔːrs aɪ ˈwɒntɪd juː tuː hæv ə ˈstɛdi dʒɒb soʊ ðæt juː kʊd teɪk kɛər ʌv jʊərˈsɛlf ɪn jɔːr laɪf ænd juː kʊd stɑːrt jɔːr klʌb/",
+    "translationVi": "Dĩ nhiên là em muốn anh có một công việc ổn định để anh có thể tự lo cho bản thân trong cuộc sống, và để anh có thể mở quán câu lạc bộ của riêng mình!",
+    "keywords": [
+      "take care of yourself",
+      "start your club"
+    ],
+    "explanationAi": "Mia làm rõ ý định của cô: công việc ổn định chỉ là phương tiện tạm thời để anh tích lũy vốn mở quán jazz, chứ không phải đích đến cuối cùng.",
+    "tokenCount": 27
+  },
+  {
+    "orderIndex": 27,
+    "startTime": 221.0,
+    "endTime": 226.0,
+    "text": "Yeah, so I'm doing that! So why don't you understand? Why aren't we celebrating? — Why aren't you starting your club?",
+    "ipaUs": "/jɛə soʊ aɪm ˈduːɪŋ ðæt soʊ waɪ doʊnt juː ˌʌndərˈstænd waɪ ɑːrnt wiː ˈsɛlɪbreɪtɪŋ waɪ ɑːrnt juː ˈstɑːrtɪŋ jɔːr klʌb/",
+    "translationVi": "Ừ, thì anh đang làm việc đó đây thôi! Thế sao em lại không chịu hiểu chứ? Sao chúng mình không ăn mừng đi? — Thế sao anh không bắt đầu mở quán đi?",
+    "keywords": [
+      "why aren't we celebrating",
+      "why aren't you starting your club"
+    ],
+    "explanationAi": "Câu hỏi đanh thép của Mia: 'Why aren't you starting your club?' phơi bày sự trì hoãn và nỗi sợ thất bại của Sebastian.",
+    "tokenCount": 20
+  },
+  {
+    "orderIndex": 28,
+    "startTime": 226.0,
+    "endTime": 232.0,
+    "text": "You said yourself no one wants to go to that club! No one wants to go to a club called Chicken on a Stick! — So change the name!",
+    "ipaUs": "/juː sɛd jʊərˈsɛlf noʊ wʌn wɒnts tuː ɡoʊ tuː ðæt klʌb noʊ wʌn wɒnts tuː ɡoʊ tuː ə klʌb kɔːld ˈtʃɪkɪn ɒn ə stɪk soʊ tʃeɪndʒ ðə neɪm/",
+    "translationVi": "Chính em đã nói chẳng ai thèm đến một câu lạc bộ như thế cả! Chẳng có ma nào muốn đến một quán bar tên là 'Gà Xiên Que' (Chicken on a Stick)! — Thì đổi tên khác đi!",
+    "keywords": [
+      "Chicken on a Stick",
+      "change the name"
+    ],
+    "explanationAi": "'Chicken on a Stick' là cái tên hoài niệm gắn với huyền thoại Charlie Parker; câu phản pháo 'change the name' của Mia chứng minh khó khăn chỉ là cái cớ.",
+    "tokenCount": 28
+  },
+  {
+    "orderIndex": 29,
+    "startTime": 232.0,
+    "endTime": 238.0,
+    "text": "Well, no one likes jazz. Not even you! — I do like jazz now, because of you! And this is what I thought you wanted me to do.",
+    "ipaUs": "/wɛl noʊ wʌn laɪks dʒæz nɒt ˈiːvən juː aɪ duː laɪk dʒæz naʊ bɪˈkɒz ʌv juː ænd ðɪs ɪz wʌt aɪ θɔːt juː ˈwɒntɪd miː tuː duː/",
+    "translationVi": "Chà, chẳng ai thèm thích nhạc jazz đâu. Kể cả em cũng thế! — Bây giờ em thực sự thích nhạc jazz rồi, chính là nhờ có anh đấy! Và đây là điều em từng nghĩ anh muốn em làm.",
+    "keywords": [
+      "no one likes jazz",
+      "not even you",
+      "because of you"
+    ],
+    "explanationAi": "Lời thổ lộ chân thành của Mia: chính tình yêu say đắm của Sebastian dành cho jazz đã cảm hóa cô, nhưng chính anh giờ đây lại quay lưng với nó.",
+    "tokenCount": 27
+  },
+  {
+    "orderIndex": 30,
+    "startTime": 238.0,
+    "endTime": 248.0,
+    "text": "What am I supposed to do? Go back to playing 'Jingle Bells' and scraping pennies so I can start some club no one wants to go to?! — You haven't even started a club!",
+    "ipaUs": "/wʌt æm aɪ səˈpoʊzd tuː duː ɡoʊ bæk tuː ˈpleɪɪŋ ˈdʒɪŋɡəl bɛlz ænd ˈskreɪpɪŋ ˈpɛniz soʊ aɪ kæn stɑːrt sʌm klʌb noʊ wʌn wɒnts tuː ɡoʊ tuː juː ˈhævənt ˈiːvən ˈstɑːrtɪd ə klʌb/",
+    "translationVi": "Thế em muốn anh phải làm sao đây? Quay lại chơi mấy bản nhạc 'Jingle Bells' rẻ tiền và gom góp từng đồng xu lẻ để mở một cái quán mà chẳng ai thèm bước chân vào chắc?! — Anh thậm chí còn chưa hề bắt tay vào mở quán cơ mà!",
+    "keywords": [
+      "Jingle Bells",
+      "scraping pennies",
+      "haven't even started"
+    ],
+    "explanationAi": "Thành ngữ 'scraping pennies' (tằn tiện từng đồng bạc lẻ) khắc họa nỗi nhục nhã trong quá khứ khi Sebastian bị đối xử tệ bạc tại nhà hàng đêm Giáng sinh.",
+    "tokenCount": 33
+  },
+  {
+    "orderIndex": 31,
+    "startTime": 248.0,
+    "endTime": 256.0,
+    "text": "People will want to go to it because you're passionate about it, and people love what other people are passionate about! You remind people of what they forgot! — Not in my experience.",
+    "ipaUs": "/ˈpiːpəl wɪl wɒnt tuː ɡoʊ tuː ɪt bɪˈkɒz jʊər ˈpæʃənət əˈbaʊt ɪt ænd ˈpiːpəl lʌv wʌt ˈʌðər ˈpiːpəl ɑːr ˈpæʃənət əˈbaʊt juː rɪˈmaɪnd ˈpiːpəl ʌv wʌt ðeɪ fərˈɡɒt nɒt ɪn maɪ ɪkˈspɪərɪəns/",
+    "translationVi": "Mọi người sẽ muốn đến đó vì anh đam mê nó, và người ta luôn yêu thích những gì mà người khác đam mê bằng cả trái tim! Anh nhắc cho mọi người nhớ lại những điều đẹp đẽ họ từng lãng quên! — Theo kinh nghiệm của anh thì chẳng có chuyện đó đâu.",
+    "keywords": [
+      "passionate about it",
+      "people love what other people are passionate about",
+      "remind people of what they forgot",
+      "not in my experience"
+    ],
+    "explanationAi": "Tuyên ngôn triết lý vĩ đại nhất của La La Land: sức lôi cuốn mãnh liệt của niềm đam mê chân chính, đối lập với sự bi quan phòng thủ của Sebastian.",
+    "tokenCount": 32
+  },
+  {
+    "orderIndex": 32,
+    "startTime": 258.0,
+    "endTime": 264.0,
+    "text": "Well, whatever, right? I mean, it's just... it's time to grow up, you know? I have a steady job. This is what I'm doing.",
+    "ipaUs": "/wɛl wɒtˈɛvər raɪt aɪ miːn ɪts dʒʌst ɪts taɪm tuː ɡroʊ ʌp juː noʊ aɪ hæv ə ˈstɛdi dʒɒb ðɪs ɪz wʌt aɪm ˈduːɪŋ/",
+    "translationVi": "Chà, sao cũng được, phải không? Ý anh là, đã đến lúc phải trưởng thành rồi, em hiểu không? Anh có một công việc ổn định. Đây là việc anh đang làm.",
+    "keywords": [
+      "time to grow up",
+      "steady job",
+      "this is what I'm doing"
+    ],
+    "explanationAi": "Cụm 'time to grow up' (đến lúc phải trưởng thành) phản ánh sự thỏa hiệp cay đắng khi gác lại mộng tưởng tuổi trẻ để đối mặt với cơm áo gạo tiền.",
+    "tokenCount": 24
+  },
+  {
+    "orderIndex": 33,
+    "startTime": 264.0,
+    "endTime": 270.0,
+    "text": "And now, suddenly, if you had these problems, I wish you would've said them earlier before I signed on the goddamn dotted line!",
+    "ipaUs": "/ænd naʊ ˈsʌdənli ɪf juː hæd ðiːz ˈprɒbləmz aɪ wɪʃ juː ˈwʊdəv sɛd ðɛm ˈɜːrlɪər bɪˈfɔːr aɪ saɪnd ɒn ðə ɡɒd dæm ˈdɒtɪd laɪn/",
+    "translationVi": "Và giờ đây, đùng một cái, nếu em có những bất mãn này, anh ước gì em đã nói ra sớm hơn trước khi anh đặt bút ký vào cái bản hợp đồng chết tiệt đó!",
+    "keywords": [
+      "wish you would've said them earlier",
+      "signed on the goddamn dotted line"
+    ],
+    "explanationAi": "Thành ngữ 'sign on the dotted line' nghĩa là đặt bút ký hợp đồng chính thức ràng buộc về mặt pháp lý không thể tự ý hủy bỏ.",
+    "tokenCount": 23
+  },
+  {
+    "orderIndex": 34,
+    "startTime": 270.0,
+    "endTime": 276.0,
+    "text": "I'm pointing out that you had a dream that you followed, that you were sticking to... — This is the dream! This is the dream! — This is not your dream!",
+    "ipaUs": "/aɪm ˈpɔɪntɪŋ aʊt ðæt juː hæd ə driːm ðæt juː ˈfɒloʊd ðæt juː wɜːr ˈstɪkɪŋ tuː ðɪs ɪz ðə driːm ðɪs ɪz nɒt jɔːr driːm/",
+    "translationVi": "Em chỉ đang muốn nhắc anh rằng anh từng có một ước mơ mà anh theo đuổi, mà anh từng kiên định bám giữ... — Đây chính là ước mơ đấy! Đây chính là ước mơ! — Đây không phải là ước mơ của anh!",
+    "keywords": [
+      "dream that you followed",
+      "sticking to",
+      "this is not your dream"
+    ],
+    "explanationAi": "Màn đấu khẩu gay gắt: Sebastian cố thuyết phục bản thân rằng danh vọng hiện tại là giấc mơ, nhưng Mia khẳng định đó chỉ là ảo ảnh.",
+    "tokenCount": 29
+  },
+  {
+    "orderIndex": 35,
+    "startTime": 276.0,
+    "endTime": 286.0,
+    "text": "Guys like me work their whole lives to be in something that's successful, that people like, you know? I mean, I'm finally in something that people enjoy!",
+    "ipaUs": "/ɡaɪz laɪk miː wɜːrk ðɛər hoʊl laɪvz tuː biː ɪn ˈsʌmθɪŋ ðæts səkˈsɛsfʊl ðæt ˈpiːpəl laɪk juː noʊ aɪ miːn aɪm ˈfaɪnəli ɪn ˈsʌmθɪŋ ðæt ˈpiːpəl ɪnˈdʒɔɪ/",
+    "translationVi": "Những gã như anh phải nỗ lực cả đời chỉ để được góp mặt trong một thứ gì đó thành công, một thứ mà người ta yêu thích, em hiểu không? Ý anh là, cuối cùng anh cũng được làm một điều gì đó khiến công chúng tán thưởng!",
+    "keywords": [
+      "whole lives",
+      "successful",
+      "people enjoy"
+    ],
+    "explanationAi": "Tiếng kêu xót xa của một người nghệ sĩ khao khát được đón nhận sau nhiều năm tháng sống trong sự ghẻ lạnh và vô danh.",
+    "tokenCount": 27
+  },
+  {
+    "orderIndex": 36,
+    "startTime": 286.0,
+    "endTime": 294.0,
+    "text": "Since when do you care about being liked? Why do you care so much about being liked?! — You're an actress, what are you talking about?! Huh.",
+    "ipaUs": "/sɪns wɛn duː juː kɛər əˈbaʊt ˈbiːɪŋ laɪkt waɪ duː juː kɛər soʊ mʌtʃ əˈbaʊt ˈbiːɪŋ laɪkt jʊər ən ˈæktrəs wʌt ɑːr juː ˈtɔːkɪŋ əˈbaʊt hʌ/",
+    "translationVi": "Từ bao giờ mà anh lại bận tâm đến việc được người khác ưa thích thế? Tại sao anh lại bận tâm quá nhiều đến việc phải được người ta thích mình chứ?! — Em là một diễn viên cơ mà, em đang nói cái quái gì thế hả?! Hả.",
+    "keywords": [
+      "care about being liked",
+      "you're an actress",
+      "what are you talking about"
+    ],
+    "explanationAi": "Sebastian công kích nghề nghiệp của Mia: diễn viên là nghề kiếm sống bằng sự ái mộ của công chúng, nên cô không có quyền phán xét anh.",
+    "tokenCount": 26
+  },
+  {
+    "orderIndex": 37,
+    "startTime": 310.0,
+    "endTime": 318.0,
+    "text": "Maybe you just liked me when I was on my ass, because it made you feel better about yourself! — Are you kidding? — No.",
+    "ipaUs": "/ˈmeɪbi juː dʒʌst laɪkt miː wɛn aɪ wʌz ɒn maɪ æs bɪˈkɒz ɪt meɪd juː fiːl ˈbɛtər əˈbaʊt jʊərˈsɛlf ɑːr juː ˈkɪdɪŋ noʊ/",
+    "translationVi": "Có lẽ em chỉ thích anh khi anh còn là kẻ bết bát thất bại, bởi vì điều đó làm em cảm thấy bản thân mình tốt đẹp và vượt trội hơn! — Anh đùa đấy à? — Không hề.",
+    "keywords": [
+      "on my ass",
+      "feel better about yourself",
+      "are you kidding"
+    ],
+    "explanationAi": "Thành ngữ tiếng lóng 'on one's ass' (khốn đốn, bết bát, trắng tay). Lời quy chụp tàn nhẫn nhất của Sebastian xé toạc mối quan hệ giữa hai người.",
+    "tokenCount": 23
+  },
+  {
+    "orderIndex": 38,
+    "startTime": 318.0,
+    "endTime": 355.0,
+    "text": "The smoke alarm blares deafeningly as thick smoke pours from the oven. Sebastian dashes into the kitchen, coughing frantically, while Mia gathers her purse in tears. Sebastian whispers desperately: I'm sorry...",
+    "ipaUs": "/ðə smoʊk əˈlɑːrm blɛərz ˈdɛfənɪŋli θɪk smoʊk pɔːrz frɒm ðiː ˈʌvən dæʃɪz ˈɪntuː ðə ˈkɪtʃən kɒfɪŋ ˈfræntɪkəli ˈɡæðərz hɜːr pɜːrs ɪn tɪərz aɪm ˈsɒri/",
+    "translationVi": "Chuông báo cháy hú vang chói tai khi khói đen cuồn cuộn bốc lên từ lò nướng. Sebastian lao vội vào bếp, ho sặc sụa, trong khi Mia nghẹn ngào thu dọn túi xách trong nước mắt. Sebastian thốt lên trong tuyệt vọng: Anh xin lỗi...",
+    "keywords": [
+      "smoke alarm blares",
+      "thick smoke",
+      "gathers her purse",
+      "I'm sorry"
+    ],
+    "explanationAi": "Còi báo cháy réo vang cắt ngang xung đột, hòa cùng tiếng thì thầm 'I'm sorry' đau đớn của Sebastian khi anh nhận ra mình vừa làm tổn thương người mình yêu sâu sắc nhất.",
+    "tokenCount": 31
+  },
+  {
+    "orderIndex": 39,
+    "startTime": 355.0,
+    "endTime": 390.0,
+    "text": "Wait! But Mia rushes out into the heavy rain. The front door slams shut. Standing alone in the smoky room with the ruined meal, Sebastian whispers to the empty apartment: I'm sorry...",
+    "ipaUs": "/weɪt bʌt ˈmiːə ˈrʌʃɪz aʊt ˈɪntuː ðə ˈhɛvi reɪn ðə frʌnt dɔːr slæmz ʃʌt ˈstændɪŋ əˈloʊn ɪn ðə ˈsmoʊki ruːm wɪð ðə ˈruːɪnd miːl aɪm ˈsɒri/",
+    "translationVi": "Đợi đã em! Nhưng Mia đã lao thẳng ra ngoài màn mưa tầm tã. Cánh cửa chính đóng sầm lại. Đứng trơ trọi một mình trong căn phòng mù mịt khói cùng bữa tối hỏng nát, Sebastian thầm thì vào khoảng không căn hộ trống vắng: Anh xin lỗi...",
+    "keywords": [
+      "heavy rain",
+      "door slams shut",
+      "alone in smoky room",
+      "I'm sorry"
+    ],
+    "explanationAi": "Cú đóng cửa dứt khoát 'door slams shut' và lời thì thầm 'I'm sorry' lần thứ hai khép lại toàn bộ 390 giây của phân cảnh chia ly kinh điển trong La La Land.",
+    "tokenCount": 32
+  }
+]

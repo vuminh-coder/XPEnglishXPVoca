@@ -22,6 +22,7 @@ import {
   GrammarTheoryStudio,
   GrammarPracticeStudio,
 } from "@/features/grammar";
+import { StudyAmbienceDock } from "@/features/listening/components/StudyAmbienceDock";
 
 export default function GrammarTopicDetailPage() {
   const params = useParams();
@@ -113,19 +114,22 @@ export default function GrammarTopicDetailPage() {
       <AppTopHeader
         onBack={() => router.push("/study/grammar")}
         rightDesktopContent={
-          <button
-            type="button"
-            onClick={generateExercises}
-            disabled={loadingExercises}
-            className="h-9 px-4 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold shadow-md shadow-[#0059bb]/20 flex items-center gap-1.5 transition-all cursor-pointer font-display active:scale-95 shrink-0 disabled:opacity-50"
-          >
-            {loadingExercises ? (
-              <Loader2 className="w-3.5 h-3.5 animate-spin" />
-            ) : (
-              <Zap className="w-3.5 h-3.5 fill-current text-amber-300" />
-            )}
-            <span>Thi Thử AI +15 XP</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <StudyAmbienceDock />
+            <button
+              type="button"
+              onClick={generateExercises}
+              disabled={loadingExercises}
+              className="h-9 px-4 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold shadow-md shadow-[#0059bb]/20 flex items-center gap-1.5 transition-all cursor-pointer font-display active:scale-95 shrink-0 disabled:opacity-50"
+            >
+              {loadingExercises ? (
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+              ) : (
+                <Zap className="w-3.5 h-3.5 fill-current text-amber-300" />
+              )}
+              <span>Thi Thử AI +15 XP</span>
+            </button>
+          </div>
         }
       >
         <HeaderPillContainer>

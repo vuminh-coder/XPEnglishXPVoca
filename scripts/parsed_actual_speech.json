@@ -1,0 +1,443 @@
+[
+  {
+    "start": 4.64,
+    "end": 7.59,
+    "start_str": "00:00:04.640",
+    "end_str": "00:00:06.789",
+    "text": "Desmond, how are you?"
+  },
+  {
+    "start": 7.59,
+    "end": 9.99,
+    "start_str": "00:00:07.590",
+    "end_str": "00:00:07.600",
+    "text": "how are you? I'm very well, thanks."
+  },
+  {
+    "start": 9.99,
+    "end": 15.749,
+    "start_str": "00:00:09.990",
+    "end_str": "00:00:10.000",
+    "text": "I'm very well, thanks. Though a little hot,"
+  },
+  {
+    "start": 15.759,
+    "end": 21.83,
+    "start_str": "00:00:15.759",
+    "end_str": "00:00:19.510",
+    "text": "your father, I think, is not so well. Cancer."
+  },
+  {
+    "start": 21.83,
+    "end": 23.109,
+    "start_str": "00:00:21.830",
+    "end_str": "00:00:21.840",
+    "text": "Cancer. Yes."
+  },
+  {
+    "start": 23.109,
+    "end": 27.91,
+    "start_str": "00:00:23.109",
+    "end_str": "00:00:23.119",
+    "text": "Yes. I'm very unhappy about it, Tim."
+  },
+  {
+    "start": 27.92,
+    "end": 30.71,
+    "start_str": "00:00:27.920",
+    "end_str": "00:00:29.910",
+    "text": "At your wedding, he said he loved me. He does."
+  },
+  {
+    "start": 30.71,
+    "end": 34.15,
+    "start_str": "00:00:30.710",
+    "end_str": "00:00:30.720",
+    "text": "He does. I know."
+  },
+  {
+    "start": 34.16,
+    "end": 39.11,
+    "start_str": "00:00:34.160",
+    "end_str": "00:00:39.110",
+    "text": "That was the best day of my life."
+  },
+  {
+    "start": 39.12,
+    "end": 47.75,
+    "start_str": "00:00:39.120",
+    "end_str": "00:00:47.750",
+    "text": "So, this is probably the worst."
+  },
+  {
+    "start": 47.76,
+    "end": 51.029,
+    "start_str": "00:00:47.760",
+    "end_str": "00:00:51.029",
+    "text": "Dad."
+  },
+  {
+    "start": 51.039,
+    "end": 58.229,
+    "start_str": "00:00:51.039",
+    "end_str": "00:00:55.910",
+    "text": "Oh, for God's sake. Not you two. What? Well, Kit Kat's just rolled up,"
+  },
+  {
+    "start": 58.229,
+    "end": 59.99,
+    "start_str": "00:00:58.229",
+    "end_str": "00:00:58.239",
+    "text": "What? Well, Kit Kat's just rolled up, blubbing her eyes out, and now you're"
+  },
+  {
+    "start": 59.99,
+    "end": 63.189,
+    "start_str": "00:00:59.990",
+    "end_str": "00:01:00.000",
+    "text": "blubbing her eyes out, and now you're here. What's mom been saying? The truth."
+  },
+  {
+    "start": 63.189,
+    "end": 65.509,
+    "start_str": "00:01:03.189",
+    "end_str": "00:01:03.199",
+    "text": "here. What's mom been saying? The truth. Yeah. Well,"
+  },
+  {
+    "start": 65.509,
+    "end": 68.07,
+    "start_str": "00:01:05.509",
+    "end_str": "00:01:05.519",
+    "text": "Yeah. Well, apart from that,"
+  },
+  {
+    "start": 68.07,
+    "end": 70.87,
+    "start_str": "00:01:08.070",
+    "end_str": "00:01:08.080",
+    "text": "apart from that, it may have been the smoking, but I"
+  },
+  {
+    "start": 70.87,
+    "end": 72.87,
+    "start_str": "00:01:10.870",
+    "end_str": "00:01:10.880",
+    "text": "it may have been the smoking, but I couldn't undo that as it was before you"
+  },
+  {
+    "start": 72.87,
+    "end": 75.35,
+    "start_str": "00:01:12.870",
+    "end_str": "00:01:12.880",
+    "text": "couldn't undo that as it was before you were all born. And anyway, your mother"
+  },
+  {
+    "start": 75.35,
+    "end": 76.55,
+    "start_str": "00:01:15.350",
+    "end_str": "00:01:15.360",
+    "text": "were all born. And anyway, your mother definitely wouldn't have been out with"
+  },
+  {
+    "start": 76.55,
+    "end": 82.31,
+    "start_str": "00:01:16.550",
+    "end_str": "00:01:16.560",
+    "text": "definitely wouldn't have been out with me if I hadn't been such a sexy smoker."
+  },
+  {
+    "start": 82.32,
+    "end": 88.39,
+    "start_str": "00:01:22.320",
+    "end_str": "00:01:24.789",
+    "text": "I did get diagnosed as soon as possible, but it was too late."
+  },
+  {
+    "start": 88.39,
+    "end": 92.069,
+    "start_str": "00:01:28.390",
+    "end_str": "00:01:28.400",
+    "text": "but it was too late. How long have we got? Oh, you know, it"
+  },
+  {
+    "start": 92.069,
+    "end": 98.069,
+    "start_str": "00:01:32.069",
+    "end_str": "00:01:32.079",
+    "text": "How long have we got? Oh, you know, it could be years."
+  },
+  {
+    "start": 98.07900000000001,
+    "end": 102.31,
+    "start_str": "00:01:38.079",
+    "end_str": "00:01:42.310",
+    "text": "How long really?"
+  },
+  {
+    "start": 102.32,
+    "end": 111.19,
+    "start_str": "00:01:42.320",
+    "end_str": "00:01:51.190",
+    "text": "Weeks, I'm afraid."
+  },
+  {
+    "start": 111.2,
+    "end": 116.87,
+    "start_str": "00:01:51.200",
+    "end_str": "00:01:56.870",
+    "text": "Have we had this conversation before?"
+  },
+  {
+    "start": 116.88,
+    "end": 121.27,
+    "start_str": "00:01:56.880",
+    "end_str": "00:01:59.670",
+    "text": "Yeah. What happened?"
+  },
+  {
+    "start": 121.27,
+    "end": 124.23,
+    "start_str": "00:02:01.270",
+    "end_str": "00:02:01.280",
+    "text": "What happened? I rather let myself down."
+  },
+  {
+    "start": 124.23,
+    "end": 145.35,
+    "start_str": "00:02:04.230",
+    "end_str": "00:02:04.240",
+    "text": "I rather let myself down. I hugged you."
+  },
+  {
+    "start": 145.36,
+    "end": 149.27,
+    "start_str": "00:02:25.360",
+    "end_str": "00:02:28.229",
+    "text": "Sorry, I think I just thought with the time thing."
+  },
+  {
+    "start": 149.27,
+    "end": 151.82999999999998,
+    "start_str": "00:02:29.270",
+    "end_str": "00:02:29.280",
+    "text": "time thing. No, I never said we could fix things. I"
+  },
+  {
+    "start": 151.82999999999998,
+    "end": 154.63,
+    "start_str": "00:02:31.830",
+    "end_str": "00:02:31.840",
+    "text": "No, I never said we could fix things. I specifically never said that. Life's a"
+  },
+  {
+    "start": 154.63,
+    "end": 156.869,
+    "start_str": "00:02:34.630",
+    "end_str": "00:02:34.640",
+    "text": "specifically never said that. Life's a mixed bag, no matter who you are. Look"
+  },
+  {
+    "start": 156.869,
+    "end": 158.79,
+    "start_str": "00:02:36.869",
+    "end_str": "00:02:36.879",
+    "text": "mixed bag, no matter who you are. Look at Jesus. He was the son of God, for"
+  },
+  {
+    "start": 158.79,
+    "end": 160.71,
+    "start_str": "00:02:38.790",
+    "end_str": "00:02:38.800",
+    "text": "at Jesus. He was the son of God, for God's sake. Look how that turned out."
+  },
+  {
+    "start": 160.71,
+    "end": 163.11,
+    "start_str": "00:02:40.710",
+    "end_str": "00:02:40.720",
+    "text": "God's sake. Look how that turned out. I know."
+  },
+  {
+    "start": 163.11,
+    "end": 165.91,
+    "start_str": "00:02:43.110",
+    "end_str": "00:02:43.120",
+    "text": "I know. You must see I feel a bit cheated."
+  },
+  {
+    "start": 165.91,
+    "end": 168.949,
+    "start_str": "00:02:45.910",
+    "end_str": "00:02:45.920",
+    "text": "You must see I feel a bit cheated. Don't in fact feel the opposite. The"
+  },
+  {
+    "start": 168.949,
+    "end": 171.19,
+    "start_str": "00:02:48.949",
+    "end_str": "00:02:48.959",
+    "text": "Don't in fact feel the opposite. The only people who give up work at 50 are"
+  },
+  {
+    "start": 171.19,
+    "end": 173.03,
+    "start_str": "00:02:51.190",
+    "end_str": "00:02:51.200",
+    "text": "only people who give up work at 50 are the time travelers with cancer who want"
+  },
+  {
+    "start": 173.03,
+    "end": 174.71,
+    "start_str": "00:02:53.030",
+    "end_str": "00:02:53.040",
+    "text": "the time travelers with cancer who want to play more table tennis with their"
+  },
+  {
+    "start": 174.71,
+    "end": 177.589,
+    "start_str": "00:02:54.710",
+    "end_str": "00:02:54.720",
+    "text": "to play more table tennis with their sons."
+  },
+  {
+    "start": 177.589,
+    "end": 180.39,
+    "start_str": "00:02:57.589",
+    "end_str": "00:02:57.599",
+    "text": "sons. Right."
+  },
+  {
+    "start": 180.39,
+    "end": 184.71,
+    "start_str": "00:03:00.390",
+    "end_str": "00:03:00.400",
+    "text": "Right. So that has been the deal."
+  },
+  {
+    "start": 184.72,
+    "end": 194.309,
+    "start_str": "00:03:04.720",
+    "end_str": "00:03:06.949",
+    "text": "I'm sorry we had to call. It suddenly got very bad."
+  },
+  {
+    "start": 194.319,
+    "end": 200.71,
+    "start_str": "00:03:14.319",
+    "end_str": "00:03:17.190",
+    "text": "And I have something very important to tell you. Or let me check. Do you want"
+  },
+  {
+    "start": 200.71,
+    "end": 202.869,
+    "start_str": "00:03:20.710",
+    "end_str": "00:03:20.720",
+    "text": "tell you. Or let me check. Do you want to know the big secret or would you"
+  },
+  {
+    "start": 202.869,
+    "end": 204.47,
+    "start_str": "00:03:22.869",
+    "end_str": "00:03:22.879",
+    "text": "to know the big secret or would you rather find it out for yourself like I"
+  },
+  {
+    "start": 204.47,
+    "end": 204.869,
+    "start_str": "00:03:24.470",
+    "end_str": "00:03:24.480",
+    "text": "rather find it out for yourself like I did?"
+  },
+  {
+    "start": 204.869,
+    "end": 206.949,
+    "start_str": "00:03:24.869",
+    "end_str": "00:03:24.879",
+    "text": "did? Oh, Christ. There's another secret."
+  },
+  {
+    "start": 206.949,
+    "end": 209.11,
+    "start_str": "00:03:26.949",
+    "end_str": "00:03:26.959",
+    "text": "Oh, Christ. There's another secret. Less traumatic,"
+  },
+  {
+    "start": 209.11,
+    "end": 211.67000000000002,
+    "start_str": "00:03:29.110",
+    "end_str": "00:03:29.120",
+    "text": "Less traumatic, much more important,"
+  },
+  {
+    "start": 211.67000000000002,
+    "end": 216.869,
+    "start_str": "00:03:31.670",
+    "end_str": "00:03:31.680",
+    "text": "much more important, the real mothership."
+  },
+  {
+    "start": 216.879,
+    "end": 219.67000000000002,
+    "start_str": "00:03:36.879",
+    "end_str": "00:03:37.110",
+    "text": "Oh, go on. Tell me."
+  },
+  {
+    "start": 219.67000000000002,
+    "end": 223.37,
+    "start_str": "00:03:39.670",
+    "end_str": "00:03:39.680",
+    "text": "go on. Tell me. let's save some time."
+  },
+  {
+    "start": 223.37,
+    "end": 226.71,
+    "start_str": "00:03:43.370",
+    "end_str": "00:03:43.380",
+    "text": "let's save some time. [Music]"
+  },
+  {
+    "start": 226.72,
+    "end": 232.47,
+    "start_str": "00:03:46.720",
+    "end_str": "00:03:49.509",
+    "text": "And so he told me his secret formula for happiness."
+  },
+  {
+    "start": 232.47,
+    "end": 235.11,
+    "start_str": "00:03:52.470",
+    "end_str": "00:03:52.480",
+    "text": "happiness. Part one of the two-part plan was that I"
+  },
+  {
+    "start": 235.11,
+    "end": 236.869,
+    "start_str": "00:03:55.110",
+    "end_str": "00:03:55.120",
+    "text": "Part one of the two-part plan was that I should just get on with ordinary life,"
+  },
+  {
+    "start": 236.869,
+    "end": 243.35,
+    "start_str": "00:03:56.869",
+    "end_str": "00:03:56.879",
+    "text": "should just get on with ordinary life, living it day by day like anyone else."
+  },
+  {
+    "start": 243.36,
+    "end": 248.5,
+    "start_str": "00:04:03.360",
+    "end_str": "00:04:05.080",
+    "text": "[Music] [Applause]"
+  },
+  {
+    "start": 248.5,
+    "end": 255.699,
+    "start_str": "00:04:08.500",
+    "end_str": "00:04:08.510",
+    "text": "[Applause] [Music]"
+  }
+]

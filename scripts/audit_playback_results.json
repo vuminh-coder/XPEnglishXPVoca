@@ -1,0 +1,746 @@
+[
+  {
+    "id": "q_airport_checkin_1",
+    "externalId": "bIz2Gzu3DKE",
+    "title": "English for Travel: Checking in at the Airport",
+    "file": "features/listening/data/lessons\\lesson_airport_checkin.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "q_alex_gendler_1",
+    "externalId": "iWDKsHm6gTA",
+    "title": "TED-Ed: How Languages Evolve - Alex Gendler",
+    "file": "features/listening/data/lessons\\lesson_alex_gendler_languages.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "q_bbc_food_mood_1",
+    "externalId": "fG7dJ6A3l7w",
+    "title": "BBC Learning English: Food and Mood - 6 Minute English",
+    "file": "features/listening/data/lessons\\lesson_bbc_food_mood.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "q_bbc_laughter_med_1",
+    "externalId": "uQ7t8w4A0xk",
+    "title": "BBC Learning English: Is Laughter the Best Medicine?",
+    "file": "features/listening/data/lessons\\lesson_bbc_laughter_medicine.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_bbc_why_we_laugh_1",
+    "externalId": "Fez57g8jMNM",
+    "title": "BBC 6 Minute English: Why Laughter is the Best Medicine",
+    "file": "features/listening/data/lessons\\lesson_bbc_why_we_laugh.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "q_business_phone_1",
+    "externalId": "7V1UjX9m_eQ",
+    "title": "Business English: Professional Phone Calls & Telephone Etiquette",
+    "file": "features/listening/data/lessons\\lesson_business_phone_call.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_careervidz_1",
+    "externalId": "ml8HHHgDxiE",
+    "title": "CareerVidz: Tell Me About Yourself (The S.E.A.T. Method)",
+    "file": "features/listening/data/lessons\\lesson_careervidz_interview.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "q_daily_pets_1",
+    "externalId": "AK42GhbTZ9w",
+    "title": "Daily English: Pets, Animals & Nature Conversation",
+    "file": "features/listening/data/lessons\\lesson_daily_pets.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "q_attenborough_1",
+    "externalId": "64R2MYUt394",
+    "title": "Sir David Attenborough: A Life on Our Planet | Netflix",
+    "file": "features/listening/data/lessons\\lesson_david_attenborough_planet.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "q_hotel_checkin_1",
+    "externalId": "P7X7Cq_9c0s",
+    "title": "English for Travel: Hotel Check-in & Guest Services",
+    "file": "features/listening/data/lessons\\lesson_hotel_checkin.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_jensen_huang_1",
+    "externalId": "lpLFjQ-bRv8",
+    "title": "Jensen Huang: How Elon Musk Built the World",
+    "file": "features/listening/data/lessons\\lesson_jensen_huang.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "q_vid_julian_treasure_speak_1",
+    "externalId": "eIho2S0ZahI",
+    "title": "Julian Treasure: How to Speak So That People Want to Listen",
+    "file": "features/listening/data/lessons\\lesson_julian_treasure.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "q_matt_walker_1",
+    "externalId": "5MuIMqhT8DM",
+    "title": "Sleep Is Your Superpower | Matt Walker | TED",
+    "file": "features/listening/data/lessons\\lesson_matt_walker_sleep.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "q_medical_consult_1",
+    "externalId": "V5a7g9Gz8d0",
+    "title": "Medical English: Doctor Consultation & Pharmacy Prescription",
+    "file": "features/listening/data/lessons\\lesson_medical_consultation.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_natgeo_renewable_1",
+    "externalId": "1kUE0BZtTRc",
+    "title": "National Geographic: Renewable Energy 101",
+    "file": "features/listening/data/lessons\\lesson_natgeo_renewable_energy.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "q_oxford_food_1",
+    "externalId": "SlTrn13aez4",
+    "title": "Oxford Online English: Talk About Food and Cooking in English",
+    "file": "features/listening/data/lessons\\lesson_oxford_food_cooking.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "q_oxford_meeting_1",
+    "externalId": "NEKZFA7L7Lg",
+    "title": "Oxford Online English: Attending a Meeting in English - Useful Phrases for Meetings",
+    "file": "features/listening/data/lessons\\lesson_oxford_meeting.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "q_psychology_of_money_1",
+    "externalId": "DOgVUMfcb7U",
+    "title": "The Psychology of Money: Warren Buffett",
+    "file": "features/listening/data/lessons\\lesson_psychology_of_money.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "q_ratatouille_ego_1",
+    "externalId": "tAyQL1inris",
+    "title": "Ratatouille: Anton Ego",
+    "file": "features/listening/data/lessons\\lesson_ratatouille_anton_ego.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "q_restaurant_ordering_1",
+    "externalId": "G9bFzV7p6m0",
+    "title": "English for Dining: Ordering Food at a Restaurant",
+    "file": "features/listening/data/lessons\\lesson_restaurant_ordering.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_simon_sinek_1",
+    "externalId": "qp0HIF3SfI4",
+    "title": "Simon Sinek: How Great Leaders Inspire Action (The Golden Circle)",
+    "file": "features/listening/data/lessons\\lesson_simon_sinek.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "q_steve_jobs_1",
+    "externalId": "UF8uR6Z6KLc",
+    "title": "Steve Jobs: How to Live Before You Die (Stanford Commencement Address)",
+    "file": "features/listening/data/lessons\\lesson_steve_jobs.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "q_ted_bilingual_brain_1",
+    "externalId": "MMmOLN5zBLY",
+    "title": "TED-Ed: The Benefits of a Bilingual Brain",
+    "file": "features/listening/data/lessons\\lesson_ted_bilingual_brain.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "q_ted_habits_1",
+    "externalId": "wr6fQ4KpbRM",
+    "title": "TED-Ed: The Science of Habits - How to Make Changes That Stick",
+    "file": "features/listening/data/lessons\\lesson_ted_science_habits.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "q_mov_ani_05_1",
+    "externalId": "3iFx6m9_bJ0",
+    "title": "Coco: ",
+    "file": "features/listening/data/lessons\\movies\\animation\\lesson_coco_remember_me_with_mama_coco_extended.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_ani_09_1",
+    "externalId": "0Hkn-LSh7es",
+    "title": "Finding Nemo: Dory’s ",
+    "file": "features/listening/data/lessons\\movies\\animation\\lesson_finding_nemo_dory_just_keep_swimming.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_ani_02_1",
+    "externalId": "W4N8r3Xm5aQ",
+    "title": "Inside Out (1 & 2): Core Memories & The Anxiety Panic Attack Breakthrough",
+    "file": "features/listening/data/lessons\\movies\\animation\\lesson_inside_out_joy_sadness_anxiety_breakthrough.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_ani_01_1",
+    "externalId": "tPzPUq6lY_M",
+    "title": "Kung Fu Panda: Master Oogway’s Complete Wisdom & Peach Tree Scene",
+    "file": "features/listening/data/lessons\\movies\\animation\\lesson_kung_fu_panda_master_oogway_wisdom_peach_tree.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_ani_12_1",
+    "externalId": "qX8k2H0_pQ4",
+    "title": "Monsters, Inc.: Sulley and Mike Saying Goodbye to Boo (Emotional Cut)",
+    "file": "features/listening/data/lessons\\movies\\animation\\lesson_monsters_inc_goodbye_boo_emotional_cut.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_ani_04_1",
+    "externalId": "a_Lz22bH374",
+    "title": "Ratatouille: Anton Ego",
+    "file": "features/listening/data/lessons\\movies\\animation\\lesson_ratatouille_anton_ego_food_review_monologue.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_ani_03_1",
+    "externalId": "Xk1a8kL0X1U",
+    "title": "Soul (Pixar): Joe Gardner Finds ",
+    "file": "features/listening/data/lessons\\movies\\animation\\lesson_soul_the_spark_and_ocean_parable.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_ani_10_1",
+    "externalId": "fKPK6cDXCAI",
+    "title": "Tangled: The Lantern Festival Scene & Flynn Rider Confession (Extended)",
+    "file": "features/listening/data/lessons\\movies\\animation\\lesson_tangled_lantern_festival_i_see_the_light.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_ani_08_1",
+    "externalId": "dZfGTL2PY3E",
+    "title": "The Lion King: Rafiki Teaches Simba About The Past & Mufasa in The Clouds",
+    "file": "features/listening/data/lessons\\movies\\animation\\lesson_the_lion_king_rafiki_teaches_simba_the_past.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "q_mov_ani_06_1",
+    "externalId": "1GAKTUrS3PE",
+    "title": "Up (Pixar): Carl & Ellie",
+    "file": "features/listening/data/lessons\\movies\\animation\\lesson_up_carl_and_ellie_thanks_for_adventure.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_ani_11_1",
+    "externalId": "sW4X5h1aE_g",
+    "title": "WALL-E: The Captain Learns About Earth (",
+    "file": "features/listening/data/lessons\\movies\\animation\\lesson_walle_i_dont_want_to_survive_i_want_to_live.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_ani_07_1",
+    "externalId": "eE2q9F1gQ2k",
+    "title": "Zootopia: Judy Hopps & Nick Wilde – The Carrot Pen Confession & Press Conference",
+    "file": "features/listening/data/lessons\\movies\\animation\\lesson_zootopia_judy_nick_carrot_pen_confession.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_insp_12_1",
+    "externalId": "A7PB9l_tKew",
+    "title": "12 Angry Men: Juror 8 Persuades the Room (The First Reasonable Doubt)",
+    "file": "features/listening/data/lessons\\movies\\inspirational\\lesson_12_angry_men_juror_8_first_doubt_sequence.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_insp_09_1",
+    "externalId": "Yq_T8F6j3_c",
+    "title": "A Beautiful Mind: John Nash’s Nobel Prize Acceptance Speech",
+    "file": "features/listening/data/lessons\\movies\\inspirational\\lesson_a_beautiful_mind_nobel_prize_speech.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_insp_10_1",
+    "externalId": "8jH1rWpQZ04",
+    "title": "Cast Away: Chuck Noland Returns – ",
+    "file": "features/listening/data/lessons\\movies\\inspirational\\lesson_cast_away_keep_breathing_tomorrow_sun_rises.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_insp_03_1",
+    "externalId": "viL7crj0jsw",
+    "title": "Dead Poets Society: Mr. Keating",
+    "file": "features/listening/data/lessons\\movies\\inspirational\\lesson_dead_poets_society_carpe_diem_captain.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_insp_05_1",
+    "externalId": "uPIEn0M8su0",
+    "title": "Forrest Gump: ",
+    "file": "features/listening/data/lessons\\movies\\inspirational\\lesson_forrest_gump_box_of_chocolates_jennys_grave.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "q_mov_insp_01_1",
+    "externalId": "qM-gZintWDc",
+    "title": "Good Will Hunting: Robin Williams",
+    "file": "features/listening/data/lessons\\movies\\inspirational\\lesson_good_will_hunting_park_bench_monologue.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "q_mov_insp_02_1",
+    "externalId": "UZb2NOHPA2A",
+    "title": "The Pursuit of Happyness: ",
+    "file": "features/listening/data/lessons\\movies\\inspirational\\lesson_pursuit_of_happyness_basketball_happiness.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "q_mov_insp_11_1",
+    "externalId": "fT2khh00v8g",
+    "title": "Scent of a Woman: Al Pacino",
+    "file": "features/listening/data/lessons\\movies\\inspirational\\lesson_scent_of_a_woman_al_pacino_baird_school_defense.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_insp_04_1",
+    "externalId": "7tkzqph37a0",
+    "title": "The Shawshank Redemption: ",
+    "file": "features/listening/data/lessons\\movies\\inspirational\\lesson_shawshank_redemption_get_busy_living_pacific.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_insp_08_1",
+    "externalId": "WvP4_ZJ24vQ",
+    "title": "The Theory of Everything: Stephen Hawking Auditorium Speech (",
+    "file": "features/listening/data/lessons\\movies\\inspirational\\lesson_theory_of_everything_where_there_is_life_hope.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_insp_06_1",
+    "externalId": "rF8rJg-v7aM",
+    "title": "The Intern: Ben Whittacker Being The Ultimate Mentor & Gentleman",
+    "file": "features/listening/data/lessons\\movies\\inspirational\\lesson_the_intern_ben_whittacker_gentleman_wisdom.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_insp_07_1",
+    "externalId": "xDAsABdk3GQ",
+    "title": "Whiplash: The Jazz Bar Conversation – ",
+    "file": "features/listening/data/lessons\\movies\\inspirational\\lesson_whiplash_there_are_no_two_words_harmful.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_rom_08_1",
+    "externalId": "u82hnJ4m344",
+    "title": "500 Days of Summer: Expectations vs. Reality & The Park Bench Finale",
+    "file": "features/listening/data/lessons\\movies\\romance\\lesson_500_days_of_summer_expectations_vs_reality.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "mov_rom_01",
+    "externalId": "1qlLS47uBD4",
+    "title": "About Time: Tim Learns the \\",
+    "file": "features/listening/data/lessons\\movies\\romance\\lesson_about_time_extraordinary_ordinary_life.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "mov_rom_02_q1",
+    "externalId": "DQ8Q6VuyB74",
+    "title": "Before Sunrise: ",
+    "file": "features/listening/data/lessons\\movies\\romance\\lesson_before_sunrise_vienna_night_walk.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "q_mov_rom_10_1",
+    "externalId": "yE-f1alkq9I",
+    "title": "Eternal Sunshine of the Spotless Mind: The Crumbling Memory & ",
+    "file": "features/listening/data/lessons\\movies\\romance\\lesson_eternal_sunshine_meet_me_in_montauk.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "q_mov_rom_12_1",
+    "externalId": "34xS1l_z34U",
+    "title": "Flipped: Bryce and Juli – The Sycamore Tree & The Basket Boy Auction",
+    "file": "features/listening/data/lessons\\movies\\romance\\lesson_flipped_the_sycamore_tree_and_basket_boys.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_rom_07_1",
+    "externalId": "ne6p6642Tw4",
+    "title": "Her: Theodore and Samantha",
+    "file": "features/listening/data/lessons\\movies\\romance\\lesson_her_theodore_samantha_deepest_connection.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "mov_rom_03_q1",
+    "externalId": "FAmaskY8eXE",
+    "title": "La La Land: ",
+    "file": "features/listening/data/lessons\\movies\\romance\\lesson_la_la_land_the_fools_who_dream_audition.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "q_mov_rom_06_1",
+    "externalId": "Eh993__rOxA",
+    "title": "Me Before You: Beach Conversation & The Final Letter in Paris",
+    "file": "features/listening/data/lessons\\movies\\romance\\lesson_me_before_you_the_final_letter_in_paris.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "q_mov_rom_11_1",
+    "externalId": "gZ_qXm_0oJk",
+    "title": "Notting Hill: ",
+    "file": "features/listening/data/lessons\\movies\\romance\\lesson_notting_hill_im_also_just_a_girl.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_rom_05_1",
+    "externalId": "YlETBQHBm9w",
+    "title": "Pride & Prejudice: Mr. Darcy",
+    "file": "features/listening/data/lessons\\movies\\romance\\lesson_pride_and_prejudice_rain_proposal_dawn.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "q_mov_rom_04_1",
+    "externalId": "EemLsTG5fX8",
+    "title": "The Notebook: ",
+    "file": "features/listening/data/lessons\\movies\\romance\\lesson_the_notebook_it_wasnt_over_confrontation.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "q_mov_rom_09_1",
+    "externalId": "1ygdXYm8mAI",
+    "title": "Titanic: Jack & Rose – From ",
+    "file": "features/listening/data/lessons\\movies\\romance\\lesson_titanic_flying_first_class_dinner_extended.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_sit_08_1",
+    "externalId": "ffyKY3Dj6ag",
+    "title": "Brooklyn Nine-Nine: Jake Peralta’s Best Interrogations (",
+    "file": "features/listening/data/lessons\\movies\\sitcoms\\lesson_brooklyn_nine_nine_jake_i_want_it_that_way.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_sit_02_1",
+    "externalId": "hM_Z94vE4o4",
+    "title": "The Very Best of Chandler Bing’s Sarcasm & One-Liners (Matthew Perry Tribute)",
+    "file": "features/listening/data/lessons\\movies\\sitcoms\\lesson_friends_best_of_chandler_bing_sarcasm.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_sit_01_1",
+    "externalId": "V_wW2yPzE8w",
+    "title": "Friends: The Iconic Apartment Bet Trivia Game (Extended 10-Minute Cut)",
+    "file": "features/listening/data/lessons\\movies\\sitcoms\\lesson_friends_the_iconic_apartment_bet_trivia.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_sit_07_1",
+    "externalId": "r4qY3hK2_wI",
+    "title": "How I Met Your Mother: Barney Stinson",
+    "file": "features/listening/data/lessons\\movies\\sitcoms\\lesson_how_i_met_your_mother_barney_playbook_theories.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_sit_03_1",
+    "externalId": "mG9pX_L1zQ4",
+    "title": "Modern Family: The Best Of Phil Dunphy Being The Ultimate Dad (14 Minutes)",
+    "file": "features/listening/data/lessons\\movies\\sitcoms\\lesson_modern_family_best_of_phil_dunphy_dad.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_sit_04_1",
+    "externalId": "3k4R_6jL3i0",
+    "title": "Modern Family: Gloria’s Funniest Language Struggles & Best Arguments",
+    "file": "features/listening/data/lessons\\movies\\sitcoms\\lesson_modern_family_gloria_funniest_language_struggles.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_sit_12_1",
+    "externalId": "oP4w_Z8e0Yk",
+    "title": "Schitt’s Creek: Alexis Rose & Moira’s Most Iconic Vocabulary & Family Dinners",
+    "file": "features/listening/data/lessons\\movies\\sitcoms\\lesson_schitts_creek_alexis_david_vocabulary_dinners.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_sit_11_1",
+    "externalId": "yG1k4qfQ2zI",
+    "title": "Ted Lasso: The ",
+    "file": "features/listening/data/lessons\\movies\\sitcoms\\lesson_ted_lasso_be_curious_not_judgmental_darts.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_sit_09_1",
+    "externalId": "t_Y_1mXf4w4",
+    "title": "The Big Bang Theory: Sheldon Cooper’s Most Ridiculous Roommate Agreement Rules",
+    "file": "features/listening/data/lessons\\movies\\sitcoms\\lesson_the_big_bang_theory_sheldon_roommate_agreement.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_sit_05_1",
+    "externalId": "P_4c_V1zW8k",
+    "title": "The Office (US): Jim Halpert",
+    "file": "features/listening/data/lessons\\movies\\sitcoms\\lesson_the_office_jim_pranks_on_dwight_15min.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_sit_06_1",
+    "externalId": "8gXpA0bA5Xo",
+    "title": "The Office (US): Michael Scott",
+    "file": "features/listening/data/lessons\\movies\\sitcoms\\lesson_the_office_michael_scott_conference_meetings.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "q_mov_sit_10_1",
+    "externalId": "K4w_9e0jK8w",
+    "title": "Young Sheldon Outsmarting Everyone (His Best School & Dinner Debates)",
+    "file": "features/listening/data/lessons\\movies\\sitcoms\\lesson_young_sheldon_outsmarting_everyone_debates.ts",
+    "status": "PLAYABLE",
+    "reason": "",
+    "playStatus": "ERROR",
+    "errorCode": 150
+  },
+  {
+    "id": "ff4c64b7-ea82-4963-a4f6-1ff808d929e6",
+    "externalId": "pRfmrE0ToTo",
+    "title": "Rewrite The Stars",
+    "file": "features/listening/data/lessons/lesson_rewrite_the_stars.ts",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "88c4fc17-4445-46f4-82d4-c51fbb56e859",
+    "externalId": "tybKnGZRwcU",
+    "title": "Kurzgesagt",
+    "file": "features/listening/data/lessons/lesson_kurzgesagt_interstellar.ts",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  },
+  {
+    "id": "e4476093-9f0c-4620-a7f3-345d0e6b64db",
+    "externalId": "doOlP7NLUwc",
+    "title": "BBC Sunken Ship",
+    "file": "features/listening/data/lessons/lesson_bbc_sunken_ship.ts",
+    "playStatus": "PLAYING_SUCCESS",
+    "errorCode": null
+  }
+]

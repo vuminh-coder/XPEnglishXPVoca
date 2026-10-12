@@ -2,6 +2,7 @@
 import React from "react";
 import { Play, Star, Trash2, Clock } from "lucide-react";
 import { YouTubeVideoItem } from "@/stores/videoStore";
+import { getLessonCoverImage } from "@/features/listening/utils/lessonImageMapper";
 
 export interface VideoCardItemProps {
   video: YouTubeVideoItem;
@@ -34,6 +35,15 @@ export function VideoCardItem({
         <img
           src={video.thumbnailUrl}
           alt={video.title}
+          onLoad={(e) => {
+            const img = e.currentTarget;
+            if (img.naturalWidth === 120 && img.naturalHeight === 90) {
+              img.src = getLessonCoverImage({ id: video.id, title: video.title, category: video.category });
+            }
+          }}
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = getLessonCoverImage({ id: video.id, title: video.title, category: video.category });
+          }}
           className="w-16 aspect-video object-cover rounded-lg shrink-0 border border-slate-200/50 dark:border-slate-700/50"
         />
         <div className="min-w-0 flex-1 space-y-1">
@@ -71,6 +81,15 @@ export function VideoCardItem({
         <img
           src={video.thumbnailUrl}
           alt={video.title}
+          onLoad={(e) => {
+            const img = e.currentTarget;
+            if (img.naturalWidth === 120 && img.naturalHeight === 90) {
+              img.src = getLessonCoverImage({ id: video.id, title: video.title, category: video.category });
+            }
+          }}
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = getLessonCoverImage({ id: video.id, title: video.title, category: video.category });
+          }}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
         <div className="absolute inset-0 bg-slate-950/20 group-hover:bg-slate-950/40 transition-all flex items-center justify-center">

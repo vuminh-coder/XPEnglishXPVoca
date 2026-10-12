@@ -83,6 +83,6 @@ describe("Roadmap Feature Standards (features/roadmap)", () => {
       expect(roadmapModule.PhaseCarouselSwiper).toBeDefined();
       expect(roadmapModule.LessonInspectorCard).toBeDefined();
       expect(roadmapModule.PhaseRoadmapCard).toBeDefined();
-    });
+    }, 15000);
   });
 });

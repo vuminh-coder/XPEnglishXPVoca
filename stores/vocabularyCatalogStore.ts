@@ -67,7 +67,7 @@ export const DEFAULT_REVIEW_FILTERS: ReviewCatalogFilters = {
   expandedWordId: null,
 };
 
-export type MyVocabTabFilter = "all" | "favorite" | "learning" | "mastered";
+export type MyVocabTabFilter = "all" | "due" | "learning" | "mastered" | "favorite";
 
 export interface MyVocabCatalogFilters {
   filterTab: MyVocabTabFilter;

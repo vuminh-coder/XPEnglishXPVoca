@@ -6,7 +6,7 @@ import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockDa
 describe("Medical English: Doctor Consultation - 100% Verbatim Audit", () => {
   it("should have exactly 10 segments with valid duration and metadata", () => {
     expect(LESSON_MEDICAL_CONSULTATION.segments.length).toBe(10);
-    expect(LESSON_MEDICAL_CONSULTATION.externalId).toBe("V5a7g9Gz8d0");
+    expect(LESSON_MEDICAL_CONSULTATION.externalId).toBe("44SL8i8h0dg");
     expect(LESSON_MEDICAL_CONSULTATION.durationSeconds).toBe(70);
     expect(LESSON_MEDICAL_CONSULTATION.cefrLevel).toBe("B1");
     expect(LESSON_MEDICAL_CONSULTATION.accent).toBe("en-US");
@@ -53,7 +53,7 @@ describe("Medical English: Doctor Consultation - 100% Verbatim Audit", () => {
   });
 
   it("should match mock data in videoCatalogMockData.ts exactly across all 10 segments", () => {
-    const mock = MOCK_VIDEO_LESSONS.find((v) => v.externalId === "V5a7g9Gz8d0");
+    const mock = MOCK_VIDEO_LESSONS.find((v) => v.externalId === "44SL8i8h0dg");
     expect(mock).toBeDefined();
     expect(mock?.segments.length).toBe(10);
     for (let i = 0; i < 10; i++) {
