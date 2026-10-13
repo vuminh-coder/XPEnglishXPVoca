@@ -1,0 +1,192 @@
+{
+  "text": " Okay, here we go, Wilson. You don't have to worry about anything. Either one of the paddling. You just hang on. I know. Oh, look. A-agh. Come on. Come on. Driver! Go begin!",
+  "segments": [
+    {
+      "id": 0,
+      "seek": 3000,
+      "start": 30.0,
+      "end": 36.0,
+      "text": " Okay, here we go, Wilson. You don't have to worry about anything.",
+      "tokens": [
+        50364,
+        1033,
+        11,
+        510,
+        321,
+        352,
+        11,
+        15388,
+        13,
+        509,
+        500,
+        380,
+        362,
+        281,
+        3292,
+        466,
+        1340,
+        13,
+        50664
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.37243809419519763,
+      "compression_ratio": 1.11,
+      "no_speech_prob": 0.594913899898529
+    },
+    {
+      "id": 1,
+      "seek": 3000,
+      "start": 36.0,
+      "end": 42.0,
+      "text": " Either one of the paddling. You just hang on.",
+      "tokens": [
+        50664,
+        13746,
+        472,
+        295,
+        264,
+        6887,
+        35543,
+        13,
+        509,
+        445,
+        3967,
+        322,
+        13,
+        50964
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.37243809419519763,
+      "compression_ratio": 1.11,
+      "no_speech_prob": 0.594913899898529
+    },
+    {
+      "id": 2,
+      "seek": 6000,
+      "start": 60.0,
+      "end": 65.0,
+      "text": " I know.",
+      "tokens": [
+        50364,
+        286,
+        458,
+        13,
+        50614
+      ],
+      "temperature": 1.0,
+      "avg_logprob": -2.1773625424033716,
+      "compression_ratio": 0.75,
+      "no_speech_prob": 0.2954346537590027
+    },
+    {
+      "id": 3,
+      "seek": 6000,
+      "start": 65.0,
+      "end": 74.0,
+      "text": " Oh, look.",
+      "tokens": [
+        50614,
+        876,
+        11,
+        574,
+        13,
+        51064
+      ],
+      "temperature": 1.0,
+      "avg_logprob": -2.1773625424033716,
+      "compression_ratio": 0.75,
+      "no_speech_prob": 0.2954346537590027
+    },
+    {
+      "id": 4,
+      "seek": 6000,
+      "start": 74.0,
+      "end": 89.0,
+      "text": " A-agh.",
+      "tokens": [
+        51064,
+        316,
+        12,
+        14842,
+        13,
+        51814
+      ],
+      "temperature": 1.0,
+      "avg_logprob": -2.1773625424033716,
+      "compression_ratio": 0.75,
+      "no_speech_prob": 0.2954346537590027
+    },
+    {
+      "id": 5,
+      "seek": 11900,
+      "start": 119.0,
+      "end": 121.0,
+      "text": " Come on.",
+      "tokens": [
+        50364,
+        2492,
+        322,
+        13,
+        50464
+      ],
+      "temperature": 1.0,
+      "avg_logprob": -3.5842254638671873,
+      "compression_ratio": 0.9615384615384616,
+      "no_speech_prob": 0.22823046147823334
+    },
+    {
+      "id": 6,
+      "seek": 11900,
+      "start": 122.84,
+      "end": 124.08,
+      "text": " Come on.",
+      "tokens": [
+        50556,
+        2492,
+        322,
+        13,
+        50618
+      ],
+      "temperature": 1.0,
+      "avg_logprob": -3.5842254638671873,
+      "compression_ratio": 0.9615384615384616,
+      "no_speech_prob": 0.22823046147823334
+    },
+    {
+      "id": 7,
+      "seek": 11900,
+      "start": 145.14,
+      "end": 148.78,
+      "text": " Driver!",
+      "tokens": [
+        51671,
+        36048,
+        0,
+        51853
+      ],
+      "temperature": 1.0,
+      "avg_logprob": -3.5842254638671873,
+      "compression_ratio": 0.9615384615384616,
+      "no_speech_prob": 0.22823046147823334
+    },
+    {
+      "id": 8,
+      "seek": 29900,
+      "start": 299.0,
+      "end": 302.56,
+      "text": " Go begin!",
+      "tokens": [
+        50364,
+        1037,
+        1841,
+        0,
+        50542
+      ],
+      "temperature": 1.0,
+      "avg_logprob": -3.9245834350585938,
+      "compression_ratio": 0.5294117647058824,
+      "no_speech_prob": 0.5849503874778748
+    }
+  ],
+  "language": "en"
+}
