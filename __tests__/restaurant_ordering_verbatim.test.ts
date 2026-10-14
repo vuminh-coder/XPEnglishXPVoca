@@ -17,7 +17,7 @@ describe("English for Dining: Ordering Food at a Restaurant - 100% Verbatim Audi
     let prevStartTime = -1;
     for (let i = 0; i < LESSON_RESTAURANT_ORDERING.segments.length; i++) {
       const seg = LESSON_RESTAURANT_ORDERING.segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeGreaterThanOrEqual(0);
       expect(seg.endTime).toBeGreaterThan(seg.startTime);
       expect(seg.startTime).toBeGreaterThanOrEqual(prevStartTime);

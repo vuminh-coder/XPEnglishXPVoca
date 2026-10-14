@@ -189,40 +189,40 @@ describe("Julian Treasure: How to Speak So That People Want to Listen (vid_julia
     expect(segments[64].keywords).toContain("idea worth spreading");
   });
 
-  it("Audit 7: Reading Comprehension Quiz Reference Segment Cross-Validation", () => {
+  it("Audit 7: Reading Comprehension Quiz Reference Segment Cross-Validation (1-indexed)", () => {
     const quiz = QUIZ_JULIAN_TREASURE;
     const segments = LESSON_JULIAN_TREASURE.segments;
 
-    // Q1: Voice as instrument -> Segment 0
-    expect(quiz.questions[0].referenceSegmentIndex).toBe(0);
-    expect(segments[quiz.questions[0].referenceSegmentIndex!].text).toContain("instrument we all play");
+    // Q1: Voice as instrument -> Segment 1
+    expect(quiz.questions[0].referenceSegmentIndex).toBe(1);
+    expect(segments[quiz.questions[0].referenceSegmentIndex! - 1].text).toContain("instrument we all play");
 
-    // Q2: Gossip -> Segment 7
-    expect(quiz.questions[1].referenceSegmentIndex).toBe(7);
-    expect(segments[quiz.questions[1].referenceSegmentIndex!].text).toContain("gossip");
+    // Q2: Gossip -> Segment 8
+    expect(quiz.questions[1].referenceSegmentIndex).toBe(8);
+    expect(segments[quiz.questions[1].referenceSegmentIndex! - 1].text).toContain("gossip");
 
-    // Q3: Blamethrower -> Segment 14
-    expect(quiz.questions[2].referenceSegmentIndex).toBe(14);
-    expect(segments[quiz.questions[2].referenceSegmentIndex!].text).toContain("blamethrower");
+    // Q3: Blamethrower -> Segment 15
+    expect(quiz.questions[2].referenceSegmentIndex).toBe(15);
+    expect(segments[quiz.questions[2].referenceSegmentIndex! - 1].text).toContain("blamethrower");
 
-    // Q4: HAIL -> Segment 22
-    expect(quiz.questions[3].referenceSegmentIndex).toBe(22);
-    expect(segments[quiz.questions[3].referenceSegmentIndex!].text).toContain("hail");
+    // Q4: HAIL -> Segment 23
+    expect(quiz.questions[3].referenceSegmentIndex).toBe(23);
+    expect(segments[quiz.questions[3].referenceSegmentIndex! - 1].text).toContain("hail");
 
-    // Q5: Lower voices & politicians -> Segment 37
-    expect(quiz.questions[4].referenceSegmentIndex).toBe(37);
-    expect(segments[quiz.questions[4].referenceSegmentIndex!].text).toContain("politicians with lower voices");
+    // Q5: Lower voices & politicians -> Segment 38
+    expect(quiz.questions[4].referenceSegmentIndex).toBe(38);
+    expect(segments[quiz.questions[4].referenceSegmentIndex! - 1].text).toContain("politicians with lower voices");
 
-    // Q6: Timbre & hot chocolate -> Segment 38
-    expect(quiz.questions[5].referenceSegmentIndex).toBe(38);
-    expect(segments[quiz.questions[5].referenceSegmentIndex!].text).toContain("hot chocolate");
+    // Q6: Timbre & hot chocolate -> Segment 39
+    expect(quiz.questions[5].referenceSegmentIndex).toBe(39);
+    expect(segments[quiz.questions[5].referenceSegmentIndex! - 1].text).toContain("hot chocolate");
 
-    // Q7: Repetitive prosody / upspeak -> Segment 43
-    expect(quiz.questions[6].referenceSegmentIndex).toBe(43);
-    expect(segments[quiz.questions[6].referenceSegmentIndex!].text).toContain("every sentence ends as if it were a question");
+    // Q7: Repetitive prosody / upspeak -> Segment 44
+    expect(quiz.questions[6].referenceSegmentIndex).toBe(44);
+    expect(segments[quiz.questions[6].referenceSegmentIndex! - 1].text).toContain("every sentence ends as if it were a question");
 
-    // Q8: Beautiful world of sound -> Segment 64
-    expect(quiz.questions[7].referenceSegmentIndex).toBe(64);
-    expect(segments[quiz.questions[7].referenceSegmentIndex!].text).toContain("world that does sound beautiful");
+    // Q8: Beautiful world of sound -> Segment 65
+    expect(quiz.questions[7].referenceSegmentIndex).toBe(65);
+    expect(segments[quiz.questions[7].referenceSegmentIndex! - 1].text).toContain("world that does sound beautiful");
   });
 });

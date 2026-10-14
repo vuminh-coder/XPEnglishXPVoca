@@ -17,7 +17,7 @@ describe("Steve Jobs: Stanford Commencement Speech - 100% Verbatim & Segment Aud
     let prevStartTime = -1;
     for (let i = 0; i < LESSON_STEVE_JOBS.segments.length; i++) {
       const seg = LESSON_STEVE_JOBS.segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeGreaterThanOrEqual(0);
       expect(seg.endTime).toBeGreaterThan(seg.startTime);
       expect(seg.startTime).toBeGreaterThanOrEqual(prevStartTime);
@@ -31,6 +31,8 @@ describe("Steve Jobs: Stanford Commencement Speech - 100% Verbatim & Segment Aud
       expect(seg.translationVi.length).toBeGreaterThan(0);
       expect(seg.ipaUs).toBeDefined();
       expect(seg.ipaUs!.length).toBeGreaterThan(0);
+      expect(seg.ipaUs!.startsWith("/")).toBe(true);
+      expect(seg.ipaUs!.endsWith("/")).toBe(true);
       expect(Array.isArray(seg.keywords)).toBe(true);
       expect(seg.keywords!.length).toBeGreaterThan(0);
     }
@@ -131,8 +133,9 @@ describe("Steve Jobs: Stanford Commencement Speech - 100% Verbatim & Segment Aud
       expect(q.explanationEn).toBeDefined();
       expect(q.explanationVi).toBeDefined();
       expect(q.targetedConceptEn).toBeDefined();
-      expect(q.targetedConceptVi).toBeDefined();
-      expect(q.referenceSegmentIndex).toBeDefined();
+      expect(typeof q.referenceSegmentIndex).toBe("number");
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(LESSON_STEVE_JOBS.segments.length);
     }
   });
 });

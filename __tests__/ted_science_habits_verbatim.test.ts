@@ -21,7 +21,7 @@ describe("TED-Ed: The Science of Habits (wr6fQ4KpbRM) - 100% Verbatim Master Aud
     let prevStartTime = -1;
     for (let i = 0; i < LESSON_TED_SCIENCE_HABITS.segments.length; i++) {
       const seg = LESSON_TED_SCIENCE_HABITS.segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeGreaterThanOrEqual(0);
       expect(seg.endTime).toBeGreaterThan(seg.startTime);
       expect(seg.startTime).toBeGreaterThanOrEqual(prevStartTime);
@@ -126,8 +126,8 @@ describe("TED-Ed: The Science of Habits (wr6fQ4KpbRM) - 100% Verbatim Master Aud
       expect(q.targetedConceptEn).toBeDefined();
       expect(q.targetedConceptVi).toBeDefined();
       expect(q.referenceSegmentIndex).toBeDefined();
-      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-      expect(q.referenceSegmentIndex).toBeLessThan(LESSON_TED_SCIENCE_HABITS.segments.length);
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(LESSON_TED_SCIENCE_HABITS.segments.length);
     }
   });
 });

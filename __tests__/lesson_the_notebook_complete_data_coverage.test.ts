@@ -32,7 +32,7 @@ describe("Senior Deep Audit: The Notebook Video 4 - 100% Comprehensive Data & Su
     // Continuous monotonic progression across the entire timeline & Zero Merged Utterances
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeLessThan(seg.endTime);
       if (i > 0) {
         expect(seg.startTime).toBeGreaterThanOrEqual(segments[i - 1].startTime);
@@ -147,19 +147,19 @@ describe("Senior Deep Audit: The Notebook Video 4 - 100% Comprehensive Data & Su
       expect(q.targetedConceptEn!.length).toBeGreaterThan(5);
       expect(q.targetedConceptVi!.length).toBeGreaterThan(5);
 
-      // Reference segment index should be within valid bounds
-      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-      expect(q.referenceSegmentIndex).toBeLessThan(lesson.segments.length);
+      // Reference segment index should be within valid bounds (1-indexed)
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(lesson.segments.length);
     }
 
-    // Specific reference index assertions
-    expect(quiz.questions[0].referenceSegmentIndex).toBe(15);
-    expect(quiz.questions[1].referenceSegmentIndex).toBe(50);
-    expect(quiz.questions[2].referenceSegmentIndex).toBe(60);
-    expect(quiz.questions[3].referenceSegmentIndex).toBe(63);
-    expect(quiz.questions[4].referenceSegmentIndex).toBe(74);
-    expect(quiz.questions[5].referenceSegmentIndex).toBe(88);
-    expect(quiz.questions[6].referenceSegmentIndex).toBe(95);
-    expect(quiz.questions[7].referenceSegmentIndex).toBe(101);
+    // Specific reference index assertions (1-indexed)
+    expect(quiz.questions[0].referenceSegmentIndex).toBe(16);
+    expect(quiz.questions[1].referenceSegmentIndex).toBe(51);
+    expect(quiz.questions[2].referenceSegmentIndex).toBe(61);
+    expect(quiz.questions[3].referenceSegmentIndex).toBe(64);
+    expect(quiz.questions[4].referenceSegmentIndex).toBe(75);
+    expect(quiz.questions[5].referenceSegmentIndex).toBe(89);
+    expect(quiz.questions[6].referenceSegmentIndex).toBe(96);
+    expect(quiz.questions[7].referenceSegmentIndex).toBe(102);
   });
 });

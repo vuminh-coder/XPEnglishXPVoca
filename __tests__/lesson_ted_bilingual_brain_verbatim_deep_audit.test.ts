@@ -175,4 +175,41 @@ describe("TED-Ed: The Benefits of a Bilingual Brain (vid_ted_bilingual_brain) - 
     expect(segments[38].properNouns).toContain("Bonjour");
     expect(segments[38].properNouns).toContain("你好");
   });
+
+  it("Audit 10: Pedagogical Quiz Reference Concordance (1-indexed)", () => {
+    const quiz = QUIZ_TED_BILINGUAL_BRAIN;
+    const segments = LESSON_TED_BILINGUAL_BRAIN.segments;
+
+    // Q1 -> ref 3
+    expect(quiz.questions[0].referenceSegmentIndex).toBe(3);
+    expect(segments[quiz.questions[0].referenceSegmentIndex! - 1].text).toContain("bilingual and multilingual majority");
+
+    // Q2 -> ref 9
+    expect(quiz.questions[1].referenceSegmentIndex).toBe(9);
+    expect(segments[quiz.questions[1].referenceSegmentIndex! - 1].text).toContain("varying proportions");
+
+    // Q3 -> ref 16
+    expect(quiz.questions[2].referenceSegmentIndex).toBe(16);
+    expect(segments[quiz.questions[2].referenceSegmentIndex! - 1].text).toContain("subordinate bilinguals");
+
+    // Q4 -> ref 22
+    expect(quiz.questions[3].referenceSegmentIndex).toBe(22);
+    expect(segments[quiz.questions[3].referenceSegmentIndex! - 1].text).toContain("plasticity of their developing brains");
+
+    // Q5 -> ref 25
+    expect(quiz.questions[4].referenceSegmentIndex).toBe(25);
+    expect(segments[quiz.questions[4].referenceSegmentIndex! - 1].text).toContain("less emotional bias");
+
+    // Q6 -> ref 30
+    expect(quiz.questions[5].referenceSegmentIndex).toBe(30);
+    expect(segments[quiz.questions[5].referenceSegmentIndex! - 1].text).toContain("Alzheimer's");
+
+    // Q7 -> ref 32
+    expect(quiz.questions[6].referenceSegmentIndex).toBe(32);
+    expect(segments[quiz.questions[6].referenceSegmentIndex! - 1].text).toContain("Before the 1960s");
+
+    // Q8 -> ref 36
+    expect(quiz.questions[7].referenceSegmentIndex).toBe(36);
+    expect(segments[quiz.questions[7].referenceSegmentIndex! - 1].text).toContain("executive function");
+  });
 });

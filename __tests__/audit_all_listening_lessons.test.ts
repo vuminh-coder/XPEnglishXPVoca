@@ -37,9 +37,15 @@ describe("Audit All Listening Lessons Status", () => {
     Object.entries(nonMovieCats).forEach(([cat, list]) => {
       console.log(`\n--- Danh mục: ${cat} (${list.length} bài) ---`);
       list.forEach(item => {
-        const isMasterStandard = item.segments >= 30 && item.quizzes >= 8 && item.duration >= 180;
-        const statusBadge = isMasterStandard ? "✅ ĐẠT CHUẨN MASTER" : "⚠️ CẦN NÂNG CẤP (Bản ngắn/stub)";
-        console.log(`  * [${item.id}] "${item.title}" (${item.durationFormatted} / ${item.duration}s | ${item.segments} segs | ${item.quizzes} quiz) [${item.externalId}] -> ${statusBadge}`);
+        const fullLesson = ALL_MODULAR_LESSONS.find(l => l.id === item.id);
+        const segs = fullLesson?.segments || [];
+        const is1Indexed = segs.length > 0 && segs[0].orderIndex === 1 && segs[segs.length - 1].orderIndex === segs.length;
+        const quizRefs = (fullLesson?.quiz?.questions || []).map(q => q.referenceSegmentIndex);
+        const minRef = quizRefs.length > 0 ? Math.min(...(quizRefs as number[])) : 0;
+        const maxRef = quizRefs.length > 0 ? Math.max(...(quizRefs as number[])) : 0;
+        const quiz1Indexed = minRef >= 1 && maxRef <= segs.length;
+        const statusBadge = is1Indexed && quiz1Indexed ? "✅ 1-INDEXED MASTER" : "⚠️ NOT 1-INDEXED";
+        console.log(`  * [${item.id}] "${item.title}" (${item.durationFormatted} / ${item.duration}s | ${item.segments} segs | ${item.quizzes} quiz) [${item.externalId}] -> ${statusBadge} (segs: ${segs[0]?.orderIndex}..${segs[segs.length - 1]?.orderIndex}, quiz: ${minRef}..${maxRef})`);
       });
     });
 

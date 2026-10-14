@@ -117,40 +117,40 @@ describe("TED-Ed: The Science of Habits (vid_ted_science_habits) - Verbatim Deep
     expect(segments[31].keywords).toContain("worth celebrating");
   });
 
-  it("Audit 9: Reading Comprehension Quiz Reference Segment Cross-Validation", () => {
+  it("Audit 9: Reading Comprehension Quiz Reference Segment Cross-Validation (1-indexed)", () => {
     const quiz = QUIZ_TED_SCIENCE_HABITS;
     const segments = LESSON_TED_SCIENCE_HABITS.segments;
 
-    // Q1: Extreme strategies -> Segment 1
-    expect(quiz.questions[0].referenceSegmentIndex).toBe(1);
-    expect(segments[quiz.questions[0].referenceSegmentIndex!].text).toContain("rubbing chili peppers on their cuticles");
+    // Q1: Extreme strategies -> Segment 2
+    expect(quiz.questions[0].referenceSegmentIndex).toBe(2);
+    expect(segments[quiz.questions[0].referenceSegmentIndex! - 1].text).toContain("rubbing chili peppers on their cuticles");
 
-    // Q2: Definition of habit -> Segment 3
-    expect(quiz.questions[1].referenceSegmentIndex).toBe(3);
-    expect(segments[quiz.questions[1].referenceSegmentIndex!].text).toContain("Scientists define habits");
+    // Q2: Definition of habit -> Segment 4
+    expect(quiz.questions[1].referenceSegmentIndex).toBe(4);
+    expect(segments[quiz.questions[1].referenceSegmentIndex! - 1].text).toContain("Scientists define habits");
 
-    // Q3: Dopamine & neuroplasticity -> Segment 8
-    expect(quiz.questions[2].referenceSegmentIndex).toBe(8);
-    expect(segments[quiz.questions[2].referenceSegmentIndex!].text).toContain("dopamine");
+    // Q3: Dopamine & neuroplasticity -> Segment 9
+    expect(quiz.questions[2].referenceSegmentIndex).toBe(9);
+    expect(segments[quiz.questions[2].referenceSegmentIndex! - 1].text).toContain("dopamine");
 
-    // Q4: Habit loop outpacing decision-making -> Segment 13
-    expect(quiz.questions[3].referenceSegmentIndex).toBe(13);
-    expect(segments[quiz.questions[3].referenceSegmentIndex!].text).toContain("outpacing the decision-making process");
+    // Q4: Habit loop outpacing decision-making -> Segment 14
+    expect(quiz.questions[3].referenceSegmentIndex).toBe(14);
+    expect(segments[quiz.questions[3].referenceSegmentIndex! - 1].text).toContain("outpacing the decision-making process");
 
-    // Q5: 40% daily automated routine -> Segment 16
-    expect(quiz.questions[4].referenceSegmentIndex).toBe(16);
-    expect(segments[quiz.questions[4].referenceSegmentIndex!].text).toContain("more than 40% of their days");
+    // Q5: 40% daily automated routine -> Segment 17
+    expect(quiz.questions[4].referenceSegmentIndex).toBe(17);
+    expect(segments[quiz.questions[4].referenceSegmentIndex! - 1].text).toContain("more than 40% of their days");
 
-    // Q6: Intentions & environmental friction -> Segment 22
-    expect(quiz.questions[5].referenceSegmentIndex).toBe(22);
-    expect(segments[quiz.questions[5].referenceSegmentIndex!].text).toContain("creating obstacles");
+    // Q6: Intentions & environmental friction -> Segment 23
+    expect(quiz.questions[5].referenceSegmentIndex).toBe(23);
+    expect(segments[quiz.questions[5].referenceSegmentIndex! - 1].text).toContain("creating obstacles");
 
-    // Q7: 2005 transfer study -> Segment 25
-    expect(quiz.questions[6].referenceSegmentIndex).toBe(25);
-    expect(segments[quiz.questions[6].referenceSegmentIndex!].text).toContain("significantly changed");
+    // Q7: 2005 transfer study -> Segment 26
+    expect(quiz.questions[6].referenceSegmentIndex).toBe(26);
+    expect(segments[quiz.questions[6].referenceSegmentIndex! - 1].text).toContain("significantly changed");
 
-    // Q8: Habit Reversal Training & fidget toy -> Segment 27
-    expect(quiz.questions[7].referenceSegmentIndex).toBe(27);
-    expect(segments[quiz.questions[7].referenceSegmentIndex!].text).toContain("replacing it with another one that’s less detrimental");
+    // Q8: Habit Reversal Training & fidget toy -> Segment 28
+    expect(quiz.questions[7].referenceSegmentIndex).toBe(28);
+    expect(segments[quiz.questions[7].referenceSegmentIndex! - 1].text).toContain("replacing it with another one that’s less detrimental");
   });
 });

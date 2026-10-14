@@ -27,7 +27,7 @@ describe("Senior Deep Audit: About Time - Tim Learns Secret of Happiness from Da
     let prevStart = -1;
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeGreaterThanOrEqual(0);
       expect(seg.endTime).toBeGreaterThan(seg.startTime);
       expect(seg.startTime).toBeGreaterThanOrEqual(prevStart);
@@ -95,8 +95,8 @@ describe("Senior Deep Audit: About Time - Tim Learns Secret of Happiness from Da
 
       // Reference segment
       expect(q.referenceSegmentIndex).toBeDefined();
-      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-      expect(q.referenceSegmentIndex).toBeLessThan(83);
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(83);
 
       // Targeted concept
       expect(q.targetedConcept).toBeDefined();

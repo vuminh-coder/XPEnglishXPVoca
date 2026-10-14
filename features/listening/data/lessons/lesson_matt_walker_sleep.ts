@@ -33,19 +33,19 @@ export const QUIZ_MATT_WALKER_SLEEP: VideoQuizData = {
         "Họ trải qua quá trình tái tạo men răng nhanh chóng mà không cần hỗ trợ."
       ],
       correctAnswer: 0,
-      explanation: 'In Segment 1, Matt Walker states: "Men who sleep five hours a night have significantly smaller testicles than those who sleep seven hours or more."',
-      explanationEn: 'In Segment 1, Matt Walker states: "Men who sleep five hours a night have significantly smaller testicles than those who sleep seven hours or more."',
-      explanationVi: 'Trong câu 1, Matt Walker tuyên bố: "Những người đàn ông chỉ ngủ 5 tiếng mỗi đêm có tinh hoàn nhỏ hơn đáng kể so với những người ngủ từ 7 tiếng trở lên."',
-      referenceSegmentIndex: 1,
+      explanation: 'In Segment 2, Matt Walker states: "Men who sleep five hours a night have significantly smaller testicles than those who sleep seven hours or more."',
+      explanationEn: 'In Segment 2, Matt Walker states: "Men who sleep five hours a night have significantly smaller testicles than those who sleep seven hours or more."',
+      explanationVi: 'Trong câu 2, Matt Walker tuyên bố: "Những người đàn ông chỉ ngủ 5 tiếng mỗi đêm có tinh hoàn nhỏ hơn đáng kể so với những người ngủ từ 7 tiếng trở lên."',
+      referenceSegmentIndex: 2,
       targetedConcept: "Thời lượng giấc ngủ & Sinh lý sinh sản (Sleep Duration & Reproductive Physiology)",
       targetedConceptEn: "Sleep Duration & Reproductive Physiology",
       targetedConceptVi: "Thời lượng giấc ngủ & Sinh lý sinh sản"
     },
     {
       id: "q_matt_walker_2",
-      question: "According to Matt Walker in Segment 2, how severely does sleeping only four to five hours a night degrade a man's testosterone levels?",
-      questionEn: "According to Matt Walker in Segment 2, how severely does sleeping only four to five hours a night degrade a man's testosterone levels?",
-      questionVi: "Theo Matt Walker ở câu 2, việc chỉ ngủ 4 đến 5 tiếng mỗi đêm làm suy giảm nồng độ testosterone của nam giới nghiêm trọng đến mức nào?",
+      question: "According to Matt Walker in Segment 3, how severely does sleeping only four to five hours a night degrade a man's testosterone levels?",
+      questionEn: "According to Matt Walker in Segment 3, how severely does sleeping only four to five hours a night degrade a man's testosterone levels?",
+      questionVi: "Theo Matt Walker ở câu 3, việc chỉ ngủ 4 đến 5 tiếng mỗi đêm làm suy giảm nồng độ testosterone của nam giới nghiêm trọng đến mức nào?",
       options: [
         "It ages him by a full decade (10 years) in terms of hormonal wellness, matching someone 10 years senior.",
         "It temporarily increases his physical strength by fifty percent.",
@@ -65,19 +65,19 @@ export const QUIZ_MATT_WALKER_SLEEP: VideoQuizData = {
         "Nó đảo ngược quá trình lão hóa sinh học và cải thiện mật độ xương sâu."
       ],
       correctAnswer: 0,
-      explanation: 'In Segment 2, Walker explains: "men who routinely sleep just four to five hours a night will have a level of testosterone which is that of someone 10 years their senior."',
-      explanationEn: 'In Segment 2, Walker explains: "men who routinely sleep just four to five hours a night will have a level of testosterone which is that of someone 10 years their senior."',
-      explanationVi: 'Trong câu 2, Walker giải thích: "những người đàn ông thường xuyên chỉ ngủ 4 đến 5 tiếng mỗi đêm sẽ có nồng độ testosterone tương đương với người già hơn họ 10 tuổi."',
-      referenceSegmentIndex: 2,
+      explanation: 'In Segment 3, Walker explains: "men who routinely sleep just four to five hours a night will have a level of testosterone which is that of someone 10 years their senior."',
+      explanationEn: 'In Segment 3, Walker explains: "men who routinely sleep just four to five hours a night will have a level of testosterone which is that of someone 10 years their senior."',
+      explanationVi: 'Trong câu 3, Walker giải thích: "những người đàn ông thường xuyên chỉ ngủ 4 đến 5 tiếng mỗi đêm sẽ có nồng độ testosterone tương đương với người già hơn họ 10 tuổi."',
+      referenceSegmentIndex: 3,
       targetedConcept: "Sức khỏe nội tiết & Lão hóa sớm (Endocrine Health & Premature Aging)",
       targetedConceptEn: "Endocrine Health & Premature Aging",
       targetedConceptVi: "Sức khỏe nội tiết & Lão hóa sớm"
     },
     {
       id: "q_matt_walker_3",
-      question: "Which metaphor does Walker use in Segment 9 to describe why the brain requires sleep BEFORE learning?",
-      questionEn: "Which metaphor does Walker use in Segment 9 to describe why the brain requires sleep BEFORE learning?",
-      questionVi: "Phép ẩn dụ nào được Walker sử dụng ở câu 9 để mô tả lý do tại sao não bộ cần giấc ngủ TRƯỚC KHI học?",
+      question: "Which metaphor does Walker use in Segment 10 to describe why the brain requires sleep BEFORE learning?",
+      questionEn: "Which metaphor does Walker use in Segment 10 to describe why the brain requires sleep BEFORE learning?",
+      questionVi: "Phép ẩn dụ nào được Walker sử dụng ở câu 10 để mô tả lý do tại sao não bộ cần giấc ngủ TRƯỚC KHI học?",
       options: [
         "Like a dry sponge ready to initially soak up new information, contrasting with waterlogged circuits when sleep-deprived.",
         "Like a roaring diesel combustion engine needing motor oil to prevent mechanical seizure.",
@@ -97,19 +97,19 @@ export const QUIZ_MATT_WALKER_SLEEP: VideoQuizData = {
         "Như một cuộn giấy da cổ xưa chờ đợi nét bút thư pháp hoàng gia."
       ],
       correctAnswer: 0,
-      explanation: 'In Segment 9, Walker explains: "you also need sleep before learning to actually prepare your brain, almost like a dry sponge ready to initially soak up new information."',
-      explanationEn: 'In Segment 9, Walker explains: "you also need sleep before learning to actually prepare your brain, almost like a dry sponge ready to initially soak up new information."',
-      explanationVi: 'Trong câu 9, Walker giải thích: "bạn cũng cần giấc ngủ trước khi học để thực sự chuẩn bị cho não bộ, gần như một miếng bọt biển khô ráo sẵn sàng thấm hút thông tin mới."',
-      referenceSegmentIndex: 9,
+      explanation: 'In Segment 10, Walker explains: "you also need sleep before learning to actually prepare your brain, almost like a dry sponge ready to initially soak up new information."',
+      explanationEn: 'In Segment 10, Walker explains: "you also need sleep before learning to actually prepare your brain, almost like a dry sponge ready to initially soak up new information."',
+      explanationVi: 'Trong câu 10, Walker giải thích: "bạn cũng cần giấc ngủ trước khi học để thực sự chuẩn bị cho não bộ, gần như một miếng bọt biển khô ráo sẵn sàng thấm hút thông tin mới."',
+      referenceSegmentIndex: 10,
       targetedConcept: "Ẩn dụ bọt biển khô & Chuẩn bị não bộ (Dry Sponge Metaphor & Pre-Learning Preparation)",
       targetedConceptEn: "Dry Sponge Metaphor & Pre-Learning Preparation",
       targetedConceptVi: "Ẩn dụ bọt biển khô & Chuẩn bị não bộ"
     },
     {
       id: "q_matt_walker_4",
-      question: "In the experimental learning study described in Segment 21, what significant memory deficit was observed in individuals who were sleep-deprived compared to those who got eight hours of sleep?",
-      questionEn: "In the experimental learning study described in Segment 21, what significant memory deficit was observed in individuals who were sleep-deprived compared to those who got eight hours of sleep?",
-      questionVi: "Trong nghiên cứu thực nghiệm học tập được mô tả ở câu 21, mức thâm hụt trí nhớ đáng kể nào đã được ghi nhận ở những người thiếu ngủ so với nhóm được ngủ đủ 8 tiếng?",
+      question: "In the experimental learning study described in Segment 22, what significant memory deficit was observed in individuals who were sleep-deprived compared to those who got eight hours of sleep?",
+      questionEn: "In the experimental learning study described in Segment 22, what significant memory deficit was observed in individuals who were sleep-deprived compared to those who got eight hours of sleep?",
+      questionVi: "Trong nghiên cứu thực nghiệm học tập được mô tả ở câu 22, mức thâm hụt trí nhớ đáng kể nào đã được ghi nhận ở những người thiếu ngủ so với nhóm được ngủ đủ 8 tiếng?",
       options: [
         "A 40 percent deficit in the ability of the brain to cram new information and make new memories.",
         "A negligible two percent reduction in short-term arithmetic accuracy.",
@@ -129,19 +129,19 @@ export const QUIZ_MATT_WALKER_SLEEP: VideoQuizData = {
         "Sự gia tăng bất ngờ năm mươi phần trăm trong sự nhạy bén giải quyết vấn đề không gian."
       ],
       correctAnswer: 0,
-      explanation: 'In Segment 21, Walker reveals the experimental results: "it would be the difference in a child acing an exam versus failing it miserably -- 40 percent."',
-      explanationEn: 'In Segment 21, Walker reveals the experimental results: "it would be the difference in a child acing an exam versus failing it miserably -- 40 percent."',
-      explanationVi: 'Trong câu 21, Walker tiết lộ kết quả thực nghiệm: "nó tương đương với sự khác biệt giữa một đứa trẻ đạt điểm tuyệt đối trong kỳ thi so với việc thi trượt thảm hại -- 40 phần trăm."',
-      referenceSegmentIndex: 21,
+      explanation: 'In Segment 22, Walker reveals the experimental results: "it would be the difference in a child acing an exam versus failing it miserably -- 40 percent."',
+      explanationEn: 'In Segment 22, Walker reveals the experimental results: "it would be the difference in a child acing an exam versus failing it miserably -- 40 percent."',
+      explanationVi: 'Trong câu 22, Walker tiết lộ kết quả thực nghiệm: "nó tương đương với sự khác biệt giữa một đứa trẻ đạt điểm tuyệt đối trong kỳ thi so với việc thi trượt thảm hại -- 40 phần trăm."',
+      referenceSegmentIndex: 22,
       targetedConcept: "Thâm hụt 40% khả năng ghi nhớ khi thức trắng đêm (40% Memory Deficit from Sleep Deprivation)",
       targetedConceptEn: "40% Memory Deficit from Sleep Deprivation",
       targetedConceptVi: "Thâm hụt 40% khả năng ghi nhớ khi thức trắng đêm"
     },
     {
       id: "q_matt_walker_5",
-      question: "According to Segment 34, what critical role do deep sleep brainwaves (slow waves and sleep spindles) play in memory consolidation during the night?",
-      questionEn: "According to Segment 34, what critical role do deep sleep brainwaves (slow waves and sleep spindles) play in memory consolidation during the night?",
-      questionVi: "Theo câu 34, sóng não giấc ngủ sâu (sóng chậm và các thoi ngủ) đóng vai trò then chốt nào trong việc củng cố trí nhớ vào ban đêm?",
+      question: "According to Segment 35, what critical role do deep sleep brainwaves (slow waves and sleep spindles) play in memory consolidation during the night?",
+      questionEn: "According to Segment 35, what critical role do deep sleep brainwaves (slow waves and sleep spindles) play in memory consolidation during the night?",
+      questionVi: "Theo câu 35, sóng não giấc ngủ sâu (sóng chậm và các thoi ngủ) đóng vai trò then chốt nào trong việc củng cố trí nhớ vào ban đêm?",
       options: [
         "They act as a nighttime file-transfer mechanism, shifting memories from the temporary hippocampus to the long-term cortex reservoir.",
         "They dissolve existing synaptic connections to erase all daytime emotional experiences.",
@@ -161,19 +161,19 @@ export const QUIZ_MATT_WALKER_SLEEP: VideoQuizData = {
         "Chúng hạn chế chuyển hóa glucose để giữ mô thần kinh trong trạng thái ngủ đông hoàn toàn."
       ],
       correctAnswer: 0,
-      explanation: 'In Segment 34, Walker notes that deep-sleep brainwaves act like a file-transfer mechanism at night, shifting memories from a short-term vulnerable reservoir to a more permanent long-term storage site within the brain.',
-      explanationEn: 'In Segment 34, Walker notes that deep-sleep brainwaves act like a file-transfer mechanism at night, shifting memories from a short-term vulnerable reservoir to a more permanent long-term storage site within the brain.',
-      explanationVi: 'Trong câu 34, Walker ghi nhận rằng sóng não giấc ngủ sâu hoạt động như cơ chế chuyển giao dữ liệu ban đêm, dịch chuyển ký ức từ kho chứa ngắn hạn dễ tổn thương sang nơi lưu trữ dài hạn kiên cố hơn trong não bộ.',
-      referenceSegmentIndex: 34,
+      explanation: 'In Segment 35, Walker notes that deep-sleep brainwaves act like a file-transfer mechanism at night, shifting memories from a short-term vulnerable reservoir to a more permanent long-term storage site within the brain.',
+      explanationEn: 'In Segment 35, Walker notes that deep-sleep brainwaves act like a file-transfer mechanism at night, shifting memories from a short-term vulnerable reservoir to a more permanent long-term storage site within the brain.',
+      explanationVi: 'Trong câu 35, Walker ghi nhận rằng sóng não giấc ngủ sâu hoạt động như cơ chế chuyển giao dữ liệu ban đêm, dịch chuyển ký ức từ kho chứa ngắn hạn dễ tổn thương sang nơi lưu trữ dài hạn kiên cố hơn trong não bộ.',
+      referenceSegmentIndex: 35,
       targetedConcept: "Chuyển giao ký ức từ Hồi hải mã sang Vỏ não (Memory File Transfer: Hippocampus to Cortex)",
       targetedConceptEn: "Memory File Transfer: Hippocampus to Cortex",
       targetedConceptVi: "Chuyển giao ký ức từ Hồi hải mã sang Vỏ não"
     },
     {
       id: "q_matt_walker_6",
-      question: "According to Walker's research on immunology in Segment 74, what dramatic reduction in Natural Killer cell activity occurs after just a single night of four hours of sleep?",
-      questionEn: "According to Walker's research on immunology in Segment 74, what dramatic reduction in Natural Killer cell activity occurs after just a single night of four hours of sleep?",
-      questionVi: "Theo nghiên cứu của Walker về miễn dịch học ở câu 74, mức sụt giảm nghiêm trọng nào trong hoạt tính của tế bào tiêu diệt tự nhiên xảy ra chỉ sau một đêm duy nhất ngủ 4 tiếng?",
+      question: "According to Walker's research on immunology in Segment 75, what dramatic reduction in Natural Killer cell activity occurs after just a single night of four hours of sleep?",
+      questionEn: "According to Walker's research on immunology in Segment 75, what dramatic reduction in Natural Killer cell activity occurs after just a single night of four hours of sleep?",
+      questionVi: "Theo nghiên cứu của Walker về miễn dịch học ở câu 75, mức sụt giảm nghiêm trọng nào trong hoạt tính của tế bào tiêu diệt tự nhiên xảy ra chỉ sau một đêm duy nhất ngủ 4 tiếng?",
       options: [
         "A catastrophic 70 percent drop in natural killer cell activity, severely compromising anti-cancer immune defense.",
         "A mild five percent fluctuation in white blood cell counts that recovers by afternoon.",
@@ -193,19 +193,19 @@ export const QUIZ_MATT_WALKER_SLEEP: VideoQuizData = {
         "Hoàn toàn không có biến đổi đo lường được nào trong các chỉ dấu miễn dịch dịch thể hay tế bào."
       ],
       correctAnswer: 0,
-      explanation: "In Segment 74, Walker highlights: \"There was a 70-percent drop in natural killer cell activity.\"",
-      explanationEn: "In Segment 74, Walker highlights: \"There was a 70-percent drop in natural killer cell activity.\"",
-      explanationVi: 'Trong câu 74, Walker nhấn mạnh: "Có một mức sụt giảm tới 70 phần trăm trong hoạt tính của tế bào tiêu diệt tự nhiên."',
-      referenceSegmentIndex: 74,
+      explanation: "In Segment 75, Walker highlights: \"There was a 70-percent drop in natural killer cell activity.\"",
+      explanationEn: "In Segment 75, Walker highlights: \"There was a 70-percent drop in natural killer cell activity.\"",
+      explanationVi: 'Trong câu 75, Walker nhấn mạnh: "Có một mức sụt giảm tới 70 phần trăm trong hoạt tính của tế bào tiêu diệt tự nhiên."',
+      referenceSegmentIndex: 75,
       targetedConcept: "Sụt giảm 70% tế bào tiêu diệt tự nhiên & Miễn dịch ung thư (70% Drop in Natural Killer Cells & Immune Defense)",
       targetedConceptEn: "70% Drop in Natural Killer Cells & Immune Defense",
       targetedConceptVi: "Sụt giảm 70% tế bào tiêu diệt tự nhiên & Miễn dịch ung thư"
     },
     {
       id: "q_matt_walker_7",
-      question: "What did the global 'Daylight Saving Time' natural experiment involving 1.6 billion people demonstrate regarding cardiovascular health in Segment 62?",
-      questionEn: "What did the global 'Daylight Saving Time' natural experiment involving 1.6 billion people demonstrate regarding cardiovascular health in Segment 62?",
-      questionVi: "Thực nghiệm tự nhiên toàn cầu về 'Quy ước giờ mùa hè' liên quan đến 1,6 tỷ người đã chứng minh điều gì về sức khỏe tim mạch ở câu 62?",
+      question: "What did the global 'Daylight Saving Time' natural experiment involving 1.6 billion people demonstrate regarding cardiovascular health in Segment 63?",
+      questionEn: "What did the global 'Daylight Saving Time' natural experiment involving 1.6 billion people demonstrate regarding cardiovascular health in Segment 63?",
+      questionVi: "Thực nghiệm tự nhiên toàn cầu về 'Quy ước giờ mùa hè' liên quan đến 1,6 tỷ người đã chứng minh điều gì về sức khỏe tim mạch ở câu 63?",
       options: [
         "In the spring when losing one hour of sleep, heart attacks spike by 24 percent, whereas in autumn when gaining one hour, heart attacks decrease by 21 percent.",
         "Changing clocks has zero epidemiological correlation with cardiac admissions or hospital discharge rates.",
@@ -225,19 +225,19 @@ export const QUIZ_MATT_WALKER_SLEEP: VideoQuizData = {
         "Trái tim con người thích nghi tức thì với sự xáo trộn nhịp sinh học mà không để lại hậu quả huyết động học nào."
       ],
       correctAnswer: 0,
-      explanation: 'In Segment 62, Walker cites data: in the spring, when we lose one hour of sleep, we see a subsequent 24 percent increase in heart attacks that following day.',
-      explanationEn: 'In Segment 62, Walker cites data: in the spring, when we lose one hour of sleep, we see a subsequent 24 percent increase in heart attacks that following day.',
-      explanationVi: 'Trong câu 62, Walker trích dẫn dữ liệu: vào mùa xuân, khi chúng ta mất một giờ ngủ, chúng ta ghi nhận mức tăng 24 phần trăm số ca đau tim vào ngày hôm sau.',
-      referenceSegmentIndex: 62,
+      explanation: 'In Segment 63, Walker cites data: in the spring, when we lose one hour of sleep, we see a subsequent 24 percent increase in heart attacks that following day.',
+      explanationEn: 'In Segment 63, Walker cites data: in the spring, when we lose one hour of sleep, we see a subsequent 24 percent increase in heart attacks that following day.',
+      explanationVi: 'Trong câu 63, Walker trích dẫn dữ liệu: vào mùa xuân, khi chúng ta mất một giờ ngủ, chúng ta ghi nhận mức tăng 24 phần trăm số ca đau tim vào ngày hôm sau.',
+      referenceSegmentIndex: 63,
       targetedConcept: "Quy ước giờ mùa hè & Tỷ lệ đau tim (Daylight Saving Time & Heart Attack Incidence)",
       targetedConceptEn: "Daylight Saving Time & Heart Attack Incidence",
       targetedConceptVi: "Quy ước giờ mùa hè & Tỷ lệ đau tim"
     },
     {
       id: "q_matt_walker_8",
-      question: "In the concluding dialogue with David Biello (Segment 133), what behavioral technique does Matt Walker recommend when someone is tossing and turning in bed unable to sleep?",
-      questionEn: "In the concluding dialogue with David Biello (Segment 133), what behavioral technique does Matt Walker recommend when someone is tossing and turning in bed unable to sleep?",
-      questionVi: "Trong đoạn đối thoại kết bài với David Biello (câu 133), Matt Walker khuyến nghị kỹ thuật hành vi nào khi một người trằn trọc trên giường không ngủ được?",
+      question: "In the concluding dialogue with David Biello (Segment 134), what behavioral technique does Matt Walker recommend when someone is tossing and turning in bed unable to sleep?",
+      questionEn: "In the concluding dialogue with David Biello (Segment 134), what behavioral technique does Matt Walker recommend when someone is tossing and turning in bed unable to sleep?",
+      questionVi: "Trong đoạn đối thoại kết bài với David Biello (câu 134), Matt Walker khuyến nghị kỹ thuật hành vi nào khi một người trằn trọc trên giường không ngủ được?",
       options: [
         "Get out of bed, go to a different room, and only return when sleepy to break the association of the bedroom with wakefulness.",
         "Remain lying in bed in darkness and forcefully concentrate on breathing until unconsciousness occurs.",
@@ -257,10 +257,10 @@ export const QUIZ_MATT_WALKER_SLEEP: VideoQuizData = {
         "Thực hiện các bài tập nhảy hiếu khí mạnh mẽ ngay trong phòng ngủ cho đến khi kiệt sức."
       ],
       correctAnswer: 0,
-      explanation: 'In Segment 133, Walker advises: "if you are staying in bed awake for too long, you should get out of bed and go to a different room and do something different... break that association."',
-      explanationEn: 'In Segment 133, Walker advises: "if you are staying in bed awake for too long, you should get out of bed and go to a different room and do something different... break that association."',
-      explanationVi: 'Trong câu 133, Walker khuyên: "nếu bạn nằm trên giường tỉnh táo quá lâu, bạn nên rời khỏi giường và đi sang một phòng khác và làm điều gì đó khác... để phá vỡ sự gắn kết đó."',
-      referenceSegmentIndex: 133,
+      explanation: 'In Segment 134, Walker advises: "if you are staying in bed awake for too long, you should get out of bed and go to a different room and do something different... break that association."',
+      explanationEn: 'In Segment 134, Walker advises: "if you are staying in bed awake for too long, you should get out of bed and go to a different room and do something different... break that association."',
+      explanationVi: 'Trong câu 134, Walker khuyên: "nếu bạn nằm trên giường tỉnh táo quá lâu, bạn nên rời khỏi giường và đi sang một phòng khác và làm điều gì đó khác... để phá vỡ sự gắn kết đó."',
+      referenceSegmentIndex: 134,
       targetedConcept: "Hành vi đối phó mất ngủ & Phá vỡ phản xạ có điều kiện (Insomnia Behavioral Management & Stimulus Control)",
       targetedConceptEn: "Insomnia Behavioral Management & Stimulus Control",
       targetedConceptVi: "Hành vi đối phó mất ngủ & Phá vỡ phản xạ có điều kiện"
@@ -276,7 +276,7 @@ export const QUIZ_MATT_WALKER_SLEEP: VideoQuizData = {
  * Slug: matt-walker-sleep-is-your-superpower
  * External ID: 5MuIMqhT8DM
  * 100% Calibrated Verbatim from YouTube Audio & Official Subtitles
- * 139 Pure Master Segments | 2,641 Verbatim Words (Zero Diffs) | Zero Merged Utterances Standard
+ * 140 Pure Master Segments | 2,725 Verbatim Words (Zero Diffs) | Zero Merged Utterances Standard
  */
 export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
   id: "vid_matt_walker_sleep",
@@ -300,7 +300,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
   quiz: QUIZ_MATT_WALKER_SLEEP,
   segments: [
     {
-      orderIndex: 0,
+      orderIndex: 1,
       startTime: 0.83,
       endTime: 6.37,
       text: "Thank you very much. Well, I would like to start with testicles.",
@@ -312,7 +312,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 12,
     },
     {
-      orderIndex: 1,
+      orderIndex: 2,
       startTime: 9.20,
       endTime: 17.20,
       text: "Men who sleep five hours a night have significantly smaller testicles than those who sleep seven hours or more.",
@@ -324,7 +324,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 19,
     },
     {
-      orderIndex: 2,
+      orderIndex: 3,
       startTime: 20.08,
       endTime: 31.04,
       text: "In addition, men who routinely sleep just four to five hours a night will have a level of testosterone which is that of someone 10 years their senior.",
@@ -336,7 +336,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 28,
     },
     {
-      orderIndex: 3,
+      orderIndex: 4,
       startTime: 33.08,
       endTime: 39.66,
       text: "So a lack of sleep will age a man by a decade in terms of that critical aspect of wellness.",
@@ -348,7 +348,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 20,
     },
     {
-      orderIndex: 4,
+      orderIndex: 5,
       startTime: 41.95,
       endTime: 47.79,
       text: "And we see equivalent impairments in female reproductive health caused by a lack of sleep.",
@@ -360,7 +360,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 15,
     },
     {
-      orderIndex: 5,
+      orderIndex: 6,
       startTime: 51.08,
       endTime: 53.75,
       text: "This is the best news that I have for you today.",
@@ -372,7 +372,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 11,
     },
     {
-      orderIndex: 6,
+      orderIndex: 7,
       startTime: 56.45,
       endTime: 58.83,
       text: "From this point, it may only get worse.",
@@ -384,7 +384,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 8,
     },
     {
-      orderIndex: 7,
+      orderIndex: 8,
       startTime: 58.87,
       endTime: 70.54,
       text: "Not only will I tell you about the wonderfully good things that happen when you get sleep, but the alarmingly bad things that happen when you don't get enough, both for your brain and for your body.",
@@ -396,7 +396,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 38,
     },
     {
-      orderIndex: 8,
+      orderIndex: 9,
       startTime: 71.37,
       endTime: 87.66,
       text: "Let me start with the brain and the functions of learning and memory, because what we've discovered over the past 10 or so years is that you need sleep after learning to essentially hit the save button on those new memories so that you don't forget.",
@@ -408,7 +408,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 48,
     },
     {
-      orderIndex: 9,
+      orderIndex: 10,
       startTime: 88.95,
       endTime: 102.12,
       text: "But recently, we discovered that you also need sleep before learning to actually prepare your brain, almost like a dry sponge ready to initially soak up new information.",
@@ -420,7 +420,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 28,
     },
     {
-      orderIndex: 10,
+      orderIndex: 11,
       startTime: 103.16,
       endTime: 111.25,
       text: "And without sleep, the memory circuits of the brain essentially become waterlogged, as it were, and you can't absorb new memories.",
@@ -432,7 +432,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 22,
     },
     {
-      orderIndex: 11,
+      orderIndex: 12,
       startTime: 112.16,
       endTime: 114.08,
       text: "So let me show you the data.",
@@ -444,7 +444,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 7,
     },
     {
-      orderIndex: 12,
+      orderIndex: 13,
       startTime: 114.08,
       endTime: 120.91,
       text: "Here in this study, we decided to test the hypothesis that pulling the all-nighter was a good idea.",
@@ -456,7 +456,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 19,
     },
     {
-      orderIndex: 13,
+      orderIndex: 14,
       startTime: 122.25,
       endTime: 131.66,
       text: "So we took a group of individuals and we assigned them to one of two experimental groups: a sleep group and a sleep deprivation group.",
@@ -468,7 +468,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 25,
     },
     {
-      orderIndex: 14,
+      orderIndex: 15,
       startTime: 131.66,
       endTime: 141.16,
       text: "Now the sleep group, they're going to get a full eight hours of slumber, but the deprivation group, we're going to keep them awake in the laboratory, under full supervision.",
@@ -480,7 +480,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 32,
     },
     {
-      orderIndex: 15,
+      orderIndex: 16,
       startTime: 141.66,
       endTime: 146.04,
       text: "There's no naps or caffeine, by the way, so it's miserable for everyone involved.",
@@ -492,7 +492,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 16,
     },
     {
-      orderIndex: 16,
+      orderIndex: 17,
       startTime: 146.58,
       endTime: 159.58,
       text: "And then the next day, we're going to place those participants inside an MRI scanner and we're going to have them try and learn a whole list of new facts as we're taking snapshots of brain activity.",
@@ -504,7 +504,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 40,
     },
     {
-      orderIndex: 17,
+      orderIndex: 18,
       startTime: 159.58,
       endTime: 164.08,
       text: "And then we're going to test them to see how effective that learning has been.",
@@ -516,7 +516,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 16,
     },
     {
-      orderIndex: 18,
+      orderIndex: 19,
       startTime: 164.95,
       endTime: 167.87,
       text: "And that's what you're looking at here on the vertical axis.",
@@ -528,7 +528,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 13,
     },
     {
-      orderIndex: 19,
+      orderIndex: 20,
       startTime: 168.50,
       endTime: 179.75,
       text: "And when you put those two groups head to head, what you find is a quite significant, 40-percent deficit in the ability of the brain to make new memories without sleep.",
@@ -540,7 +540,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 32,
     },
     {
-      orderIndex: 20,
+      orderIndex: 21,
       startTime: 181.04,
       endTime: 187.58,
       text: "I think this should be concerning, considering what we know is happening to sleep in our education populations right now.",
@@ -552,7 +552,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 20,
     },
     {
-      orderIndex: 21,
+      orderIndex: 22,
       startTime: 188.54,
       endTime: 196.79,
       text: "In fact, to put that in context, it would be the difference in a child acing an exam versus failing it miserably -- 40 percent.",
@@ -564,7 +564,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 24,
     },
     {
-      orderIndex: 22,
+      orderIndex: 23,
       startTime: 198.29,
       endTime: 205.62,
       text: "And we've gone on to discover what goes wrong within your brain to produce these types of learning disabilities.",
@@ -576,7 +576,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 20,
     },
     {
-      orderIndex: 23,
+      orderIndex: 24,
       startTime: 206.75,
       endTime: 213.00,
       text: "And there's a structure that sits on the left and the right side of your brain, called the hippocampus.",
@@ -588,7 +588,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 20,
     },
     {
-      orderIndex: 24,
+      orderIndex: 25,
       startTime: 213.00,
       endTime: 218.04,
       text: "And you can think of the hippocampus almost like the informational inbox of your brain.",
@@ -600,7 +600,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 15,
     },
     {
-      orderIndex: 25,
+      orderIndex: 26,
       startTime: 218.62,
       endTime: 223.33,
       text: "It's very good at receiving new memory files and then holding on to them.",
@@ -612,7 +612,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 15,
     },
     {
-      orderIndex: 26,
+      orderIndex: 27,
       startTime: 224.91,
       endTime: 233.29,
       text: "And when you look at this structure in those people who'd had a full night of sleep, we saw lots of healthy learning-related activity.",
@@ -624,7 +624,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 26,
     },
     {
-      orderIndex: 27,
+      orderIndex: 28,
       startTime: 234.62,
       endTime: 241.25,
       text: "Yet in those people who were sleep-deprived, we actually couldn't find any significant signal whatsoever.",
@@ -636,7 +636,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 17,
     },
     {
-      orderIndex: 28,
+      orderIndex: 29,
       startTime: 242.75,
       endTime: 250.70,
       text: "So it's almost as though sleep deprivation had shut down your memory inbox, and any new incoming files -- they were just being bounced.",
@@ -648,7 +648,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 24,
     },
     {
-      orderIndex: 29,
+      orderIndex: 30,
       startTime: 251.91,
       endTime: 255.50,
       text: "You couldn't effectively commit new experiences to memory.",
@@ -660,7 +660,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 9,
     },
     {
-      orderIndex: 30,
+      orderIndex: 31,
       startTime: 258.04,
       endTime: 265.66,
       text: "So that's the bad that can happen if I were to take sleep away from you, but let me just come back to that control group for a second.",
@@ -672,7 +672,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 30,
     },
     {
-      orderIndex: 31,
+      orderIndex: 32,
       startTime: 266.45,
       endTime: 269.79,
       text: "Do you remember those folks that got a full eight hours of sleep?",
@@ -684,7 +684,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 13,
     },
     {
-      orderIndex: 32,
+      orderIndex: 33,
       startTime: 270.41,
       endTime: 283.08,
       text: "Well, we can ask a very different question: What is it about the physiological quality of your sleep when you do get it that restores and enhances your memory and learning ability each and every day?",
@@ -696,7 +696,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 36,
     },
     {
-      orderIndex: 33,
+      orderIndex: 34,
       startTime: 284.00,
       endTime: 302.08,
       text: "And by placing electrodes all over the head, what we've discovered is that there are big, powerful brainwaves that happen during the very deepest stages of sleep that have riding on top of them these spectacular bursts of electrical activity that we call sleep spindles.",
@@ -708,7 +708,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 46,
     },
     {
-      orderIndex: 34,
+      orderIndex: 35,
       startTime: 303.08,
       endTime: 320.41,
       text: "And it's the combined quality of these deep-sleep brainwaves that acts like a file-transfer mechanism at night, shifting memories from a short-term vulnerable reservoir to a more permanent long-term storage site within the brain,",
@@ -720,7 +720,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 39,
     },
     {
-      orderIndex: 35,
+      orderIndex: 36,
       startTime: 320.45,
       endTime: 323.83,
       text: "and therefore protecting them, making them safe.",
@@ -732,7 +732,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 7,
     },
     {
-      orderIndex: 36,
+      orderIndex: 37,
       startTime: 325.45,
       endTime: 336.75,
       text: "And it is important that we understand what during sleep actually transacts these memory benefits, because there are real medical and societal implications.",
@@ -744,7 +744,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 23,
     },
     {
-      orderIndex: 37,
+      orderIndex: 38,
       startTime: 336.79,
       endTime: 345.50,
       text: "And let me just tell you about one area that we've moved this work out into, clinically, which is the context of aging and dementia.",
@@ -756,7 +756,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 26,
     },
     {
-      orderIndex: 38,
+      orderIndex: 39,
       startTime: 346.87,
       endTime: 353.58,
       text: "Because it's of course no secret that, as we get older, our learning and memory abilities begin to fade and decline.",
@@ -768,7 +768,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 22,
     },
     {
-      orderIndex: 39,
+      orderIndex: 40,
       startTime: 355.04,
       endTime: 367.29,
       text: "But what we've also discovered is that a physiological signature of aging is that your sleep gets worse, especially that deep quality of sleep that I was just discussing.",
@@ -780,7 +780,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 30,
     },
     {
-      orderIndex: 40,
+      orderIndex: 41,
       startTime: 368.62,
       endTime: 377.54,
       text: "And only last year, we finally published evidence that these two things, they're not simply co-occurring, they are significantly interrelated.",
@@ -792,7 +792,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 22,
     },
     {
-      orderIndex: 41,
+      orderIndex: 42,
       startTime: 378.83,
       endTime: 394.20,
       text: "And it suggests that the disruption of deep sleep is an underappreciated factor that is contributing to cognitive decline or memory decline in aging, and most recently we've discovered, in Alzheimer's disease as well.",
@@ -804,7 +804,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 36,
     },
     {
-      orderIndex: 42,
+      orderIndex: 43,
       startTime: 396.33,
       endTime: 400.08,
       text: "Now, I know this is remarkably depressing news.",
@@ -816,7 +816,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 8,
     },
     {
-      orderIndex: 43,
+      orderIndex: 44,
       startTime: 400.08,
       endTime: 402.37,
       text: "It's in the mail. It's coming at you.",
@@ -828,7 +828,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 10,
     },
     {
-      orderIndex: 44,
+      orderIndex: 45,
       startTime: 402.41,
       endTime: 404.70,
       text: "But there's a potential silver lining here.",
@@ -840,7 +840,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 8,
     },
     {
-      orderIndex: 45,
+      orderIndex: 46,
       startTime: 405.75,
       endTime: 417.37,
       text: "Unlike many of the other factors that we know are associated with aging, for example changes in the physical structure of the brain, that's fiendishly difficult to treat.",
@@ -852,7 +852,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 29,
     },
     {
-      orderIndex: 46,
+      orderIndex: 47,
       startTime: 417.41,
       endTime: 427.33,
       text: "But that sleep is a missing piece in the explanatory puzzle of aging and Alzheimer's is exciting because we may be able to do something about it.",
@@ -864,7 +864,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 28,
     },
     {
-      orderIndex: 47,
+      orderIndex: 48,
       startTime: 428.54,
       endTime: 435.50,
       text: "And one way that we are approaching this at my sleep center is not by using sleeping pills, by the way.",
@@ -876,7 +876,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 21,
     },
     {
-      orderIndex: 48,
+      orderIndex: 49,
       startTime: 435.50,
       endTime: 440.45,
       text: "Unfortunately, they are blunt instruments that do not produce naturalistic sleep.",
@@ -888,7 +888,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 11,
     },
     {
-      orderIndex: 49,
+      orderIndex: 50,
       startTime: 441.54,
       endTime: 444.79,
       text: "Instead, we're actually developing a method based on this.",
@@ -900,7 +900,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 10,
     },
     {
-      orderIndex: 50,
+      orderIndex: 51,
       startTime: 444.79,
       endTime: 448.00,
       text: "It's called direct current brain stimulation.",
@@ -912,7 +912,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 7,
     },
     {
-      orderIndex: 51,
+      orderIndex: 52,
       startTime: 448.04,
       endTime: 455.50,
       text: "You insert a small amount of voltage into the brain, so small you typically don't feel it, but it has a measurable impact.",
@@ -924,7 +924,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 24,
     },
     {
-      orderIndex: 52,
+      orderIndex: 53,
       startTime: 456.83,
       endTime: 472.45,
       text: "Now if you apply this stimulation during sleep in young, healthy adults, as if you're sort of singing in time with those deep-sleep brainwaves, not only can you amplify the size of those deep-sleep brainwaves,",
@@ -936,7 +936,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 38,
     },
     {
-      orderIndex: 53,
+      orderIndex: 54,
       startTime: 472.50,
       endTime: 479.08,
       text: "but in doing so, we can almost double the amount of memory benefit that you get from sleep.",
@@ -948,7 +948,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 18,
     },
     {
-      orderIndex: 54,
+      orderIndex: 55,
       startTime: 479.12,
       endTime: 489.16,
       text: "The question now is whether we can translate this same affordable, potentially portable piece of technology into older adults and those with dementia.",
@@ -960,7 +960,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 23,
     },
     {
-      orderIndex: 55,
+      orderIndex: 56,
       startTime: 490.70,
       endTime: 501.45,
       text: "Can we restore back some healthy quality of deep sleep, and in doing so, can we salvage aspects of their learning and memory function?",
@@ -972,7 +972,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 24,
     },
     {
-      orderIndex: 56,
+      orderIndex: 57,
       startTime: 501.50,
       endTime: 503.66,
       text: "That is my real hope now.",
@@ -984,7 +984,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 6,
     },
     {
-      orderIndex: 57,
+      orderIndex: 58,
       startTime: 504.37,
       endTime: 507.37,
       text: "That's one of our moon-shot goals, as it were.",
@@ -996,7 +996,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 11,
     },
     {
-      orderIndex: 58,
+      orderIndex: 59,
       startTime: 509.33,
       endTime: 515.91,
       text: "So that's an example of sleep for your brain, but sleep is just as essential for your body.",
@@ -1008,7 +1008,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 19,
     },
     {
-      orderIndex: 59,
+      orderIndex: 60,
       startTime: 517.29,
       endTime: 520.95,
       text: "We've already spoken about sleep loss and your reproductive system.",
@@ -1020,7 +1020,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 11,
     },
     {
-      orderIndex: 60,
+      orderIndex: 61,
       startTime: 521.87,
       endTime: 529.91,
       text: "Or I could tell you about sleep loss and your cardiovascular system, and that all it takes is one hour.",
@@ -1032,7 +1032,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 20,
     },
     {
-      orderIndex: 61,
+      orderIndex: 62,
       startTime: 529.95,
       endTime: 541.66,
       text: "Because there is a global experiment performed on 1.6 billion people across 70 countries twice a year, and it's called daylight saving time.",
@@ -1044,7 +1044,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 25,
     },
     {
-      orderIndex: 62,
+      orderIndex: 63,
       startTime: 542.91,
       endTime: 552.00,
       text: "Now, in the spring, when we lose one hour of sleep, we see a subsequent 24-percent increase in heart attacks that following day.",
@@ -1056,7 +1056,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 24,
     },
     {
-      orderIndex: 63,
+      orderIndex: 64,
       startTime: 554.95,
       endTime: 562.00,
       text: "In the autumn, when we gain an hour of sleep, we see a 21-percent reduction in heart attacks.",
@@ -1068,7 +1068,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 19,
     },
     {
-      orderIndex: 64,
+      orderIndex: 65,
       startTime: 563.75,
       endTime: 574.54,
       text: "Isn't that incredible? And you see exactly the same profile for car crashes, road traffic accidents, even suicide rates.",
@@ -1080,7 +1080,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 20,
     },
     {
-      orderIndex: 65,
+      orderIndex: 66,
       startTime: 576.91,
       endTime: 582.33,
       text: "But as a deeper dive, I want to focus on this: sleep loss and your immune system.",
@@ -1092,7 +1092,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 17,
     },
     {
-      orderIndex: 66,
+      orderIndex: 67,
       startTime: 583.16,
       endTime: 588.00,
       text: "And here, I'll introduce these delightful blue elements in the image.",
@@ -1104,7 +1104,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 12,
     },
     {
-      orderIndex: 67,
+      orderIndex: 68,
       startTime: 588.00,
       endTime: 597.70,
       text: "They are called natural killer cells, and you can think of natural killer cells almost like the secret service agents of your immune system.",
@@ -1116,7 +1116,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 24,
     },
     {
-      orderIndex: 68,
+      orderIndex: 69,
       startTime: 597.70,
       endTime: 604.12,
       text: "They are very good at identifying dangerous, unwanted elements and eliminating them.",
@@ -1128,7 +1128,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 12,
     },
     {
-      orderIndex: 69,
+      orderIndex: 70,
       startTime: 605.25,
       endTime: 609.20,
       text: "In fact, what they're doing here is destroying a cancerous tumor mass.",
@@ -1140,7 +1140,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 13,
     },
     {
-      orderIndex: 70,
+      orderIndex: 71,
       startTime: 610.58,
       endTime: 622.41,
       text: "So what you wish for is a virile set of these immune assassins at all times, and tragically, that's what you don't have if you're not sleeping enough.",
@@ -1152,7 +1152,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 31,
     },
     {
-      orderIndex: 71,
+      orderIndex: 72,
       startTime: 623.83,
       endTime: 634.66,
       text: "So here in this experiment, you're not going to have your sleep deprived for an entire night, you're simply going to have your sleep restricted to four hours for one single night,",
@@ -1164,7 +1164,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 34,
     },
     {
-      orderIndex: 72,
+      orderIndex: 73,
       startTime: 634.66,
       endTime: 639.70,
       text: "and then we're going to look to see what's the percent reduction in immune cell activity that you suffer.",
@@ -1176,7 +1176,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 21,
     },
     {
-      orderIndex: 73,
+      orderIndex: 74,
       startTime: 640.79,
       endTime: 645.62,
       text: "And it's not small -- it's not 10 percent, it's not 20 percent.",
@@ -1188,7 +1188,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 15,
     },
     {
-      orderIndex: 74,
+      orderIndex: 75,
       startTime: 645.66,
       endTime: 650.20,
       text: "There was a 70-percent drop in natural killer cell activity.",
@@ -1200,7 +1200,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 11,
     },
     {
-      orderIndex: 75,
+      orderIndex: 76,
       startTime: 651.79,
       endTime: 668.00,
       text: "That's a concerning state of immune deficiency, and you can perhaps understand why we're now finding significant links between short sleep duration and your risk for the development of numerous forms of cancer.",
@@ -1212,7 +1212,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 35,
     },
     {
-      orderIndex: 76,
+      orderIndex: 77,
       startTime: 669.87,
       endTime: 675.95,
       text: "Currently, that list includes cancer of the bowel, cancer of the prostate and cancer of the breast.",
@@ -1224,7 +1224,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 17,
     },
     {
-      orderIndex: 77,
+      orderIndex: 78,
       startTime: 677.83,
       endTime: 693.04,
       text: "In fact, the link between a lack of sleep and cancer is now so strong that the World Health Organization has classified any form of nighttime shift work as a probable carcinogen,",
@@ -1236,7 +1236,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 32,
     },
     {
-      orderIndex: 78,
+      orderIndex: 79,
       startTime: 693.04,
       endTime: 695.70,
       text: "because of a disruption of your sleep-wake rhythms.",
@@ -1248,7 +1248,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 9,
     },
     {
-      orderIndex: 79,
+      orderIndex: 80,
       startTime: 697.83,
       endTime: 702.70,
       text: "So you may have heard of that old maxim that you can sleep when you're dead.",
@@ -1260,7 +1260,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 17,
     },
     {
-      orderIndex: 80,
+      orderIndex: 81,
       startTime: 702.70,
       endTime: 707.41,
       text: "Well, I'm being quite serious now -- it is mortally unwise advice.",
@@ -1272,7 +1272,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 12,
     },
     {
-      orderIndex: 81,
+      orderIndex: 82,
       startTime: 708.37,
       endTime: 713.41,
       text: "We know this from epidemiological studies across millions of individuals.",
@@ -1284,7 +1284,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 10,
     },
     {
-      orderIndex: 82,
+      orderIndex: 83,
       startTime: 713.41,
       endTime: 718.83,
       text: "There's a simple truth: the shorter your sleep, the shorter your life.",
@@ -1296,7 +1296,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 13,
     },
     {
-      orderIndex: 83,
+      orderIndex: 84,
       startTime: 718.87,
       endTime: 722.41,
       text: "Short sleep predicts all-cause mortality.",
@@ -1308,7 +1308,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 6,
     },
     {
-      orderIndex: 84,
+      orderIndex: 85,
       startTime: 724.95,
       endTime: 743.41,
       text: "And if increasing your risk for the development of cancer or even Alzheimer's disease were not sufficiently disquieting, we have since discovered that a lack of sleep will even erode the very fabric of biological life itself,",
@@ -1320,7 +1320,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 38,
     },
     {
-      orderIndex: 85,
+      orderIndex: 86,
       startTime: 744.66,
       endTime: 757.41,
       text: "your DNA genetic code. So here in this study, they took a group of healthy adults and they limited them to six hours of sleep a night for one week,",
@@ -1332,7 +1332,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 30,
     },
     {
-      orderIndex: 86,
+      orderIndex: 87,
       startTime: 757.41,
       endTime: 766.29,
       text: "and then they measured the change in their gene activity profile relative to when those same individuals were getting a full eight hours of sleep a night.",
@@ -1344,7 +1344,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 27,
     },
     {
-      orderIndex: 87,
+      orderIndex: 88,
       startTime: 767.45,
       endTime: 769.25,
       text: "And there were two critical findings.",
@@ -1356,7 +1356,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 6,
     },
     {
-      orderIndex: 88,
+      orderIndex: 89,
       startTime: 770.20,
       endTime: 779.08,
       text: "First, a sizable and significant 711 genes were distorted in their activity, caused by a lack of sleep.",
@@ -1368,7 +1368,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 18,
     },
     {
-      orderIndex: 89,
+      orderIndex: 90,
       startTime: 779.91,
       endTime: 785.50,
       text: "The second result was that about half of those genes were actually increased in their activity.",
@@ -1380,7 +1380,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 16,
     },
     {
-      orderIndex: 90,
+      orderIndex: 91,
       startTime: 785.83,
       endTime: 798.12,
       text: "The other half were decreased. Now those genes that were switched off by a lack of sleep were genes associated with your immune system, so once again, you can see that immune deficiency.",
@@ -1392,7 +1392,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 33,
     },
     {
-      orderIndex: 91,
+      orderIndex: 92,
       startTime: 799.33,
       endTime: 813.91,
       text: "In contrast, those genes that were actually upregulated or increased by way of a lack of sleep, were genes associated with the promotion of tumors, genes associated with long-term chronic inflammation within the body,",
@@ -1404,7 +1404,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 35,
     },
     {
-      orderIndex: 92,
+      orderIndex: 93,
       startTime: 813.95,
       endTime: 819.79,
       text: "and genes associated with stress, and, as a consequence, cardiovascular disease.",
@@ -1416,7 +1416,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 11,
     },
     {
-      orderIndex: 93,
+      orderIndex: 94,
       startTime: 821.16,
       endTime: 829.95,
       text: "There is simply no aspect of your wellness that can retreat at the sign of sleep deprivation and get away unscathed.",
@@ -1428,7 +1428,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 21,
     },
     {
-      orderIndex: 94,
+      orderIndex: 95,
       startTime: 830.91,
       endTime: 833.91,
       text: "It's rather like a broken water pipe in your home.",
@@ -1440,7 +1440,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 11,
     },
     {
-      orderIndex: 95,
+      orderIndex: 96,
       startTime: 833.95,
       endTime: 846.79,
       text: "Sleep loss will leak down into every nook and cranny of your physiology, even tampering with the very DNA nucleic alphabet that spells out your daily health narrative.",
@@ -1452,7 +1452,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 28,
     },
     {
-      orderIndex: 96,
+      orderIndex: 97,
       startTime: 849.87,
       endTime: 855.12,
       text: "And at this point, you may be thinking, \"Oh my goodness, how do I start to get better sleep?",
@@ -1464,7 +1464,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 19,
     },
     {
-      orderIndex: 97,
+      orderIndex: 98,
       startTime: 855.12,
       endTime: 857.37,
       text: "What are you tips for good sleep?\"",
@@ -1476,7 +1476,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 7,
     },
     {
-      orderIndex: 98,
+      orderIndex: 99,
       startTime: 858.08,
       endTime: 872.33,
       text: "Well, beyond avoiding the damaging and harmful impact of alcohol and caffeine on sleep, and if you're struggling with sleep at night, avoiding naps during the day, I have two pieces of advice for you.",
@@ -1488,7 +1488,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 36,
     },
     {
-      orderIndex: 99,
+      orderIndex: 100,
       startTime: 873.08,
       endTime: 882.41,
       text: "The first is regularity. Go to bed at the same time, wake up at the same time, no matter whether it's the weekday or the weekend.",
@@ -1500,7 +1500,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 27,
     },
     {
-      orderIndex: 100,
+      orderIndex: 101,
       startTime: 882.45,
       endTime: 890.50,
       text: "Regularity is king, and it will anchor your sleep and improve the quantity and the quality of that sleep.",
@@ -1512,7 +1512,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 19,
     },
     {
-      orderIndex: 101,
+      orderIndex: 102,
       startTime: 892.37,
       endTime: 895.04,
       text: "The second is keep it cool.",
@@ -1524,7 +1524,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 6,
     },
     {
-      orderIndex: 102,
+      orderIndex: 103,
       startTime: 896.08,
       endTime: 911.04,
       text: "Your body needs to drop its core temperature by about two to three degrees Fahrenheit to initiate sleep and then to stay asleep, and it's the reason you will always find it easier to fall asleep in a room that's too cold than too hot.",
@@ -1536,7 +1536,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 47,
     },
     {
-      orderIndex: 103,
+      orderIndex: 104,
       startTime: 912.00,
       endTime: 917.50,
       text: "So aim for a bedroom temperature of around 65 degrees, or about 18 degrees Celsius.",
@@ -1548,7 +1548,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 15,
     },
     {
-      orderIndex: 104,
+      orderIndex: 105,
       startTime: 917.54,
       endTime: 920.29,
       text: "That's going to be optimal for the sleep of most people.",
@@ -1560,7 +1560,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 12,
     },
     {
-      orderIndex: 105,
+      orderIndex: 106,
       startTime: 922.45,
       endTime: 929.16,
       text: "And then finally, in taking a step back, then, what is the mission-critical statement here?",
@@ -1572,7 +1572,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 16,
     },
     {
-      orderIndex: 106,
+      orderIndex: 107,
       startTime: 930.79,
       endTime: 938.29,
       text: "Well, I think it may be this: sleep, unfortunately, is not an optional lifestyle luxury.",
@@ -1584,7 +1584,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 15,
     },
     {
-      orderIndex: 107,
+      orderIndex: 108,
       startTime: 939.12,
       endTime: 943.66,
       text: "Sleep is a nonnegotiable biological necessity.",
@@ -1596,7 +1596,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 6,
     },
     {
-      orderIndex: 108,
+      orderIndex: 109,
       startTime: 944.87,
       endTime: 953.12,
       text: "It is your life-support system, and it is Mother Nature's best effort yet at immortality.",
@@ -1608,7 +1608,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 17,
     },
     {
-      orderIndex: 109,
+      orderIndex: 110,
       startTime: 954.70,
       endTime: 967.16,
       text: "And the decimation of sleep throughout industrialized nations is having a catastrophic impact on our health, our wellness, even the safety and the education of our children.",
@@ -1620,7 +1620,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 27,
     },
     {
-      orderIndex: 110,
+      orderIndex: 111,
       startTime: 968.33,
       endTime: 977.45,
       text: "It's a silent sleep loss epidemic, and it's fast becoming one of the greatest public health challenges that we face in the 21st century.",
@@ -1632,7 +1632,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 26,
     },
     {
-      orderIndex: 111,
+      orderIndex: 112,
       startTime: 980.29,
       endTime: 993.58,
       text: "I believe it is now time for us to reclaim our right to a full night of sleep, and without embarrassment or that unfortunate stigma of laziness.",
@@ -1644,7 +1644,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 27,
     },
     {
-      orderIndex: 112,
+      orderIndex: 113,
       startTime: 994.62,
       endTime: 1004.75,
       text: "And in doing so, we can be reunited with the most powerful elixir of life, the Swiss Army knife of health, as it were.",
@@ -1656,7 +1656,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 24,
     },
     {
-      orderIndex: 113,
+      orderIndex: 114,
       startTime: 1006.66,
       endTime: 1012.58,
       text: "And with that soapbox rant over, I will simply say, good night, good luck, and above all ...",
@@ -1668,7 +1668,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 17,
     },
     {
-      orderIndex: 114,
+      orderIndex: 115,
       startTime: 1014.87,
       endTime: 1016.66,
       text: "I do hope you sleep well.",
@@ -1680,7 +1680,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 6,
     },
     {
-      orderIndex: 115,
+      orderIndex: 116,
       startTime: 1016.66,
       endTime: 1018.04,
       text: "Thank you very much indeed.",
@@ -1692,7 +1692,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 5,
     },
     {
-      orderIndex: 116,
+      orderIndex: 117,
       startTime: 1022.62,
       endTime: 1023.75,
       text: "Thank you.",
@@ -1704,7 +1704,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 2,
     },
     {
-      orderIndex: 117,
+      orderIndex: 118,
       startTime: 1026.66,
       endTime: 1028.20,
       text: "Thank you so much.",
@@ -1716,7 +1716,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 4,
     },
     {
-      orderIndex: 118,
+      orderIndex: 119,
       startTime: 1028.20,
       endTime: 1030.95,
       text: "No, no, no. Stay there for a second.",
@@ -1728,7 +1728,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 8,
     },
     {
-      orderIndex: 119,
+      orderIndex: 120,
       startTime: 1031.00,
       endTime: 1033.54,
       text: "Good job not running away, though. I appreciate that.",
@@ -1740,7 +1740,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 9,
     },
     {
-      orderIndex: 120,
+      orderIndex: 121,
       startTime: 1033.58,
       endTime: 1036.37,
       text: "So that was terrifying. You're welcome.",
@@ -1752,7 +1752,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 7,
     },
     {
-      orderIndex: 121,
+      orderIndex: 122,
       startTime: 1036.37,
       endTime: 1037.91,
       text: "Yes, thank you, thank you.",
@@ -1764,7 +1764,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 5,
     },
     {
-      orderIndex: 122,
+      orderIndex: 123,
       startTime: 1038.33,
       endTime: 1043.50,
       text: "Since we can't catch up on sleep, what are we supposed to do?",
@@ -1776,7 +1776,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 14,
     },
     {
-      orderIndex: 123,
+      orderIndex: 124,
       startTime: 1043.50,
       endTime: 1050.12,
       text: "What do we do when we're, like, tossing and turning in bed late at night or doing shift work or whatever else?",
@@ -1788,7 +1788,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 23,
     },
     {
-      orderIndex: 124,
+      orderIndex: 125,
       startTime: 1050.16,
       endTime: 1052.50,
       text: "So you're right, we can't catch up on sleep.",
@@ -1800,7 +1800,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 11,
     },
     {
-      orderIndex: 125,
+      orderIndex: 126,
       startTime: 1052.54,
       endTime: 1053.83,
       text: "Sleep is not like the bank.",
@@ -1812,7 +1812,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 6,
     },
     {
-      orderIndex: 126,
+      orderIndex: 127,
       startTime: 1053.87,
       endTime: 1058.62,
       text: "You can't accumulate a debt and then hope to pay it off at a later point in time.",
@@ -1824,7 +1824,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 19,
     },
     {
-      orderIndex: 127,
+      orderIndex: 128,
       startTime: 1058.66,
       endTime: 1072.54,
       text: "I should also note the reason that it's so catastrophic and that our health deteriorates so quickly, first, it's because human beings are the only species that deliberately deprive themselves of sleep for no apparent reason.",
@@ -1836,7 +1836,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 38,
     },
     {
-      orderIndex: 128,
+      orderIndex: 129,
       startTime: 1072.58,
       endTime: 1073.70,
       text: "Because we're smart.",
@@ -1848,7 +1848,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 4,
     },
     {
-      orderIndex: 129,
+      orderIndex: 130,
       startTime: 1073.75,
       endTime: 1084.62,
       text: "And I make that point because it means that Mother Nature, throughout the course of evolution, has never had to face the challenge of this thing called sleep deprivation.",
@@ -1860,7 +1860,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 29,
     },
     {
-      orderIndex: 130,
+      orderIndex: 131,
       startTime: 1085.29,
       endTime: 1095.20,
       text: "So she's never developed a safety net, and that's why when you undersleep, things just sort of implode so quickly, both within the brain and the body.",
@@ -1872,7 +1872,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 29,
     },
     {
-      orderIndex: 131,
+      orderIndex: 132,
       startTime: 1095.25,
       endTime: 1098.00,
       text: "So you just have to prioritize.",
@@ -1884,7 +1884,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 6,
     },
     {
-      orderIndex: 132,
+      orderIndex: 133,
       startTime: 1098.04,
       endTime: 1101.33,
       text: "OK, but tossing and turning in bed,",
@@ -1896,7 +1896,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 7,
     },
     {
-      orderIndex: 133,
+      orderIndex: 134,
       startTime: 1101.37,
       endTime: 1112.04,
       text: "what do I do? So if you are staying in bed awake for too long, you should get out of bed and go to a different room and do something different.",
@@ -1908,7 +1908,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 31,
     },
     {
-      orderIndex: 134,
+      orderIndex: 135,
       startTime: 1112.04,
       endTime: 1121.41,
       text: "The reason is because your brain will very quickly associate your bedroom with the place of wakefulness, and you need to break that association.",
@@ -1920,7 +1920,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 24,
     },
     {
-      orderIndex: 135,
+      orderIndex: 136,
       startTime: 1121.45,
       endTime: 1130.45,
       text: "So only return to bed when you are sleepy, and that way you will relearn the association that you once had, which is your bed is the place of sleep.",
@@ -1932,7 +1932,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 30,
     },
     {
-      orderIndex: 136,
+      orderIndex: 137,
       startTime: 1130.45,
       endTime: 1138.70,
       text: "So the analogy would be, you'd never sit at the dinner table, waiting to get hungry, so why would you lie in bed, waiting to get sleepy?",
@@ -1944,7 +1944,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 28,
     },
     {
-      orderIndex: 137,
+      orderIndex: 138,
       startTime: 1139.54,
       endTime: 1141.54,
       text: "Well, thank you for that wake-up call.",
@@ -1956,7 +1956,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 8,
     },
     {
-      orderIndex: 138,
+      orderIndex: 139,
       startTime: 1141.58,
       endTime: 1142.75,
       text: "Great job, Matt.",
@@ -1968,7 +1968,7 @@ export const LESSON_MATT_WALKER_SLEEP: MockVideoLesson = {
       tokenCount: 3,
     },
     {
-      orderIndex: 139,
+      orderIndex: 140,
       startTime: 1142.75,
       endTime: 1144.95,
       text: "You're very welcome. Thank you very much.",

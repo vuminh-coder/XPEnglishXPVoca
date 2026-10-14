@@ -166,21 +166,21 @@ describe("Daily English Pets: 100% Verbatim Subtitles Calibration Test Suite", (
       expect(q.targetedConceptEn).toBeDefined();
       expect(q.targetedConceptVi).toBeDefined();
       expect(q.referenceSegmentIndex).toBeDefined();
-      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-      expect(q.referenceSegmentIndex).toBeLessThan(11);
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(11);
     }
 
     const segments = petsLesson?.segments || [];
     // Verify specific segment matches
-    expect(quiz.questions[0].referenceSegmentIndex).toBe(0);
+    expect(quiz.questions[0].referenceSegmentIndex).toBe(1);
     expect(segments[0].text).toContain("white coat");
-    expect(quiz.questions[4].referenceSegmentIndex).toBe(6);
+    expect(quiz.questions[4].referenceSegmentIndex).toBe(7);
     expect(segments[6].text).toContain("giraffe");
-    expect(quiz.questions[5].referenceSegmentIndex).toBe(7);
+    expect(quiz.questions[5].referenceSegmentIndex).toBe(8);
     expect(segments[7].text).toContain("elephants");
-    expect(quiz.questions[6].referenceSegmentIndex).toBe(8);
+    expect(quiz.questions[6].referenceSegmentIndex).toBe(9);
     expect(segments[8].text).toContain("woods");
-    expect(quiz.questions[7].referenceSegmentIndex).toBe(10);
+    expect(quiz.questions[7].referenceSegmentIndex).toBe(11);
     expect(segments[10].text).toContain("rabbits");
   });
 });

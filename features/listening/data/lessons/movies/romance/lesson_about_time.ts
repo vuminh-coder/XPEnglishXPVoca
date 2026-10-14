@@ -44,19 +44,19 @@ export const QUIZ_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: VideoQuizData = {
         "Cưới Mary ngay lập tức hay đợi đến khi trở thành luật sư cộng sự cấp cao."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 1 and 2, the father asks: 'do you want to know the big secret, or would you rather find it out for yourself like I did?'",
-      "explanationEn": "In Segments 1 and 2, the father asks: 'do you want to know the big secret, or would you rather find it out for yourself like I did?'",
-      "explanationVi": "Trong Phân đoạn 1 và 2, người cha hỏi: 'con có muốn biết bí mật lớn này không, hay con muốn tự mình trải nghiệm và nhận ra nó, giống như bố ngày trước?'",
+      "explanation": "In Segments 2 and 3, the father asks: 'do you want to know the big secret, or would you rather find it out for yourself like I did?'",
+      "explanationEn": "In Segments 2 and 3, the father asks: 'do you want to know the big secret, or would you rather find it out for yourself like I did?'",
+      "explanationVi": "Trong Phân đoạn 2 và 3, người cha hỏi: 'con có muốn biết bí mật lớn này không, hay con muốn tự mình trải nghiệm và nhận ra nó, giống như bố ngày trước?'",
       "targetedConcept": "Father's pedagogical approach to life wisdom",
       "targetedConceptEn": "Father's pedagogical approach to life wisdom",
       "targetedConceptVi": "Phương pháp giáo dục và gợi mở triết lý sống của người cha",
-      "referenceSegmentIndex": 2
+      "referenceSegmentIndex": 3
     },
     {
       "id": "mov_rom_01_q2",
-      "question": "What metaphor does the father use in Segment 6 to emphasize the supreme importance of this formula?",
-      "questionEn": "What metaphor does the father use in Segment 6 to emphasize the supreme importance of this formula?",
-      "questionVi": "Người cha đã dùng hình ảnh ẩn dụ nào trong Phân đoạn 6 để nhấn mạnh tầm quan trọng tối thượng của công thức này?",
+      "question": "What metaphor does the father use in Segment 7 to emphasize the supreme importance of this formula?",
+      "questionEn": "What metaphor does the father use in Segment 7 to emphasize the supreme importance of this formula?",
+      "questionVi": "Người cha đã dùng hình ảnh ẩn dụ nào trong Phân đoạn 7 để nhấn mạnh tầm quan trọng tối thượng của công thức này?",
       "options": [
         "The golden ticket.",
         "The real mothership.",
@@ -76,13 +76,13 @@ export const QUIZ_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: VideoQuizData = {
         "Suối nguồn tươi trẻ tối thượng."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 6, the father declares: 'The real mothership.' Meaning this wisdom is the central, foundational anchor of true happiness, surpassing time travel itself.",
-      "explanationEn": "In Segment 6, the father declares: 'The real mothership.' Meaning this wisdom is the central, foundational anchor of true happiness, surpassing time travel itself.",
-      "explanationVi": "Trong Phân đoạn 6, người cha tuyên bố: 'The real mothership' (con tàu mẹ đích thực), khẳng định đây là bí quyết nền tảng chi phối toàn bộ hạnh phúc đời người.",
+      "explanation": "In Segment 7, the father declares: 'The real mothership.' Meaning this wisdom is the central, foundational anchor of true happiness, surpassing time travel itself.",
+      "explanationEn": "In Segment 7, the father declares: 'The real mothership.' Meaning this wisdom is the central, foundational anchor of true happiness, surpassing time travel itself.",
+      "explanationVi": "Trong Phân đoạn 7, người cha tuyên bố: 'The real mothership' (con tàu mẹ đích thực), khẳng định đây là bí quyết nền tảng chi phối toàn bộ hạnh phúc đời người.",
       "targetedConcept": "Metaphorical language in British screenwriting",
       "targetedConceptEn": "Metaphorical language in British screenwriting",
       "targetedConceptVi": "Nắm bắt ngôn ngữ ẩn dụ đặc sắc trong kịch bản điện ảnh Anh",
-      "referenceSegmentIndex": 6
+      "referenceSegmentIndex": 7
     },
     {
       "id": "mov_rom_01_q3",
@@ -108,19 +108,19 @@ export const QUIZ_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: VideoQuizData = {
         "Đọc văn học cổ điển hai tiếng mỗi tối."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 10 to 12, Tim narrates: 'Part one of the two part plan was that I should just get on with ordinary life, living it day by day, like anyone else.'",
-      "explanationEn": "In Segments 10 to 12, Tim narrates: 'Part one of the two part plan was that I should just get on with ordinary life, living it day by day, like anyone else.'",
-      "explanationVi": "Trong Phân đoạn 10 đến 12, Tim tự sự: 'Phần một trong kế hoạch hai bước là tôi cứ tiếp tục sống một cuộc đời bình thường, sống trọn từng ngày như bao người khác.'",
+      "explanation": "In Segments 11 to 13, Tim narrates: 'Part one of the two part plan was that I should just get on with ordinary life, living it day by day, like anyone else.'",
+      "explanationEn": "In Segments 11 to 13, Tim narrates: 'Part one of the two part plan was that I should just get on with ordinary life, living it day by day, like anyone else.'",
+      "explanationVi": "Trong Phân đoạn 11 đến 13, Tim tự sự: 'Phần một trong kế hoạch hai bước là tôi cứ tiếp tục sống một cuộc đời bình thường, sống trọn từng ngày như bao người khác.'",
       "targetedConcept": "Understanding the foundational step of the happiness formula",
       "targetedConceptEn": "Understanding the foundational step of the happiness formula",
       "targetedConceptVi": "Hiểu bước nền tảng trong công thức hạnh phúc",
-      "referenceSegmentIndex": 11
+      "referenceSegmentIndex": 12
     },
     {
       "id": "mov_rom_01_q4",
-      "question": "How is the office atmosphere during Tim's first run of the day characterized in Segments 13 to 16?",
-      "questionEn": "How is the office atmosphere during Tim's first run of the day characterized in Segments 13 to 16?",
-      "questionVi": "Bầu không khí văn phòng trong lần trải nghiệm ngày đầu tiên của Tim diễn ra thế nào từ Phân đoạn 13 đến 16?",
+      "question": "How is the office atmosphere during Tim's first run of the day characterized in Segments 14 to 17?",
+      "questionEn": "How is the office atmosphere during Tim's first run of the day characterized in Segments 14 to 17?",
+      "questionVi": "Bầu không khí văn phòng trong lần trải nghiệm ngày đầu tiên của Tim diễn ra thế nào từ Phân đoạn 14 đến 17?",
       "options": [
         "Cheerful and celebratory with colleagues congratulating each other.",
         "Tense and stressful, with a demanding boss sharply criticizing Rupert's revised draft.",
@@ -140,19 +140,19 @@ export const QUIZ_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: VideoQuizData = {
         "Hỗn loạn do một trận ngập bất ngờ trong phòng lưu trữ hồ sơ."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 14 and 15, the boss aggressively asks: 'Rupert, is that the best you can do?' showing the stressful tensions of daily professional life.",
-      "explanationEn": "In Segments 14 and 15, the boss aggressively asks: 'Rupert, is that the best you can do?' showing the stressful tensions of daily professional life.",
-      "explanationVi": "Trong Phân đoạn 14 và 15, sếp gay gắt hỏi: 'Rupert, đây là bản tốt nhất cậu có thể làm đấy à?', phản ánh áp lực căng thẳng đặc trưng nơi công sở.",
+      "explanation": "In Segments 15 and 16, the boss aggressively asks: 'Rupert, is that the best you can do?' showing the stressful tensions of daily professional life.",
+      "explanationEn": "In Segments 15 and 16, the boss aggressively asks: 'Rupert, is that the best you can do?' showing the stressful tensions of daily professional life.",
+      "explanationVi": "Trong Phân đoạn 15 và 16, sếp gay gắt hỏi: 'Rupert, đây là bản tốt nhất cậu có thể làm đấy à?', phản ánh áp lực căng thẳng đặc trưng nơi công sở.",
       "targetedConcept": "Workplace stress and tension contrast",
       "targetedConceptEn": "Workplace stress and tension contrast",
       "targetedConceptVi": "Sự tương phản áp lực nơi công sở trong đời sống thường nhật",
-      "referenceSegmentIndex": 14
+      "referenceSegmentIndex": 15
     },
     {
       "id": "mov_rom_01_q5",
-      "question": "What core advice does 'Part Two' of Dad's plan offer in Segments 36 to 40?",
-      "questionEn": "What core advice does 'Part Two' of Dad's plan offer in Segments 36 to 40?",
-      "questionVi": "Lời khuyên cốt lõi trong 'Phần hai' kế hoạch của người cha là gì từ Phân đoạn 36 đến 40?",
+      "question": "What core advice does 'Part Two' of Dad's plan offer in Segments 37 to 41?",
+      "questionEn": "What core advice does 'Part Two' of Dad's plan offer in Segments 37 to 41?",
+      "questionVi": "Lời khuyên cốt lõi trong 'Phần hai' kế hoạch của người cha là gì từ Phân đoạn 37 đến 41?",
       "options": [
         "To manipulate court witnesses to win every single trial.",
         "To live every day again almost exactly the same, but the second time consciously noticing how sweet the world can be.",
@@ -172,19 +172,19 @@ export const QUIZ_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: VideoQuizData = {
         "Nói cho Mary biết sự thật về khả năng du hành thời gian của mình."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 37 to 40, Tim explains that Dad advised living each day again: first with tensions/worries, 'but the second time noticing.'",
-      "explanationEn": "In Segments 37 to 40, Tim explains that Dad advised living each day again: first with tensions/worries, 'but the second time noticing.'",
-      "explanationVi": "Trong Phân đoạn 37 đến 40, Tim giải thích lời khuyên của cha: lần đầu sống cùng căng thẳng âu lo, nhưng 'lần thứ hai hãy để tâm nhận ra từng điều ấy.'",
+      "explanation": "In Segments 38 to 41, Tim explains that Dad advised living each day again: first with tensions/worries, 'but the second time noticing.'",
+      "explanationEn": "In Segments 38 to 41, Tim explains that Dad advised living each day again: first with tensions/worries, 'but the second time noticing.'",
+      "explanationVi": "Trong Phân đoạn 38 đến 41, Tim giải thích lời khuyên của cha: lần đầu sống cùng căng thẳng âu lo, nhưng 'lần thứ hai hãy để tâm nhận ra từng điều ấy.'",
       "targetedConcept": "Mindfulness and conscious presence",
       "targetedConceptEn": "Mindfulness and conscious presence",
       "targetedConceptVi": "Thực hành chánh niệm và sự hiện diện trọn vẹn trong từng khoảnh khắc",
-      "referenceSegmentIndex": 37
+      "referenceSegmentIndex": 38
     },
     {
       "id": "mov_rom_01_q6",
-      "question": "How does the cashier at the sandwich shop react to Tim's warmth during his second run in Segment 55?",
-      "questionEn": "How does the cashier at the sandwich shop react to Tim's warmth during his second run in Segment 55?",
-      "questionVi": "Cô nhân viên thu ngân tại tiệm sandwich đã phản ứng thế nào trước sự ấm áp của Tim trong lần thứ hai tại Phân đoạn 55?",
+      "question": "How does the cashier at the sandwich shop react to Tim's warmth during his second run in Segment 56?",
+      "questionEn": "How does the cashier at the sandwich shop react to Tim's warmth during his second run in Segment 56?",
+      "questionVi": "Cô nhân viên thu ngân tại tiệm sandwich đã phản ứng thế nào trước sự ấm áp của Tim trong lần thứ hai tại Phân đoạn 56?",
       "options": [
         "She ignores him because there is a long queue.",
         "She warmly smiles and genuinely wishes him: 'And enjoy the rest of your day.'",
@@ -204,19 +204,19 @@ export const QUIZ_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: VideoQuizData = {
         "Cô xin anh lời khuyên pháp lý về một phiếu phạt đỗ xe."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 55, touched by Tim's genuine eye contact and polite smile, the cashier warmly says: 'And enjoy the rest of your day.'",
-      "explanationEn": "In Segment 55, touched by Tim's genuine eye contact and polite smile, the cashier warmly says: 'And enjoy the rest of your day.'",
-      "explanationVi": "Trong Phân đoạn 55, cảm nhận được ánh mắt chân thành và nụ cười của Tim, cô thu ngân đã ấm áp chúc: 'And enjoy the rest of your day.'",
+      "explanation": "In Segment 56, touched by Tim's genuine eye contact and polite smile, the cashier warmly says: 'And enjoy the rest of your day.'",
+      "explanationEn": "In Segment 56, touched by Tim's genuine eye contact and polite smile, the cashier warmly says: 'And enjoy the rest of your day.'",
+      "explanationVi": "Trong Phân đoạn 56, cảm nhận được ánh mắt chân thành và nụ cười của Tim, cô thu ngân đã ấm áp chúc: 'And enjoy the rest of your day.'",
       "targetedConcept": "Reciprocal positive emotional resonance in daily interactions",
       "targetedConceptEn": "Reciprocal positive emotional resonance in daily interactions",
       "targetedConceptVi": "Sự lan tỏa cảm xúc tích cực hai chiều trong tương tác đời thường",
-      "referenceSegmentIndex": 55
+      "referenceSegmentIndex": 56
     },
     {
       "id": "mov_rom_01_q7",
-      "question": "What does Tim remind his colleague in the courtroom to do in Segment 60 during his second run?",
-      "questionEn": "What does Tim remind his colleague in the courtroom to do in Segment 60 during his second run?",
-      "questionVi": "Tim đã nhắc nhở người đồng nghiệp trong phòng xử án làm gì trong lần thứ hai tại Phân đoạn 60?",
+      "question": "What does Tim remind his colleague in the courtroom to do in Segment 61 during his second run?",
+      "questionEn": "What does Tim remind his colleague in the courtroom to do in Segment 61 during his second run?",
+      "questionVi": "Tim đã nhắc nhở người đồng nghiệp trong phòng xử án làm gì trong lần thứ hai tại Phân đoạn 61?",
       "options": [
         "To review their closing legal arguments one more time.",
         "To look around and appreciate how beautiful the courtroom is.",
@@ -236,19 +236,19 @@ export const QUIZ_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: VideoQuizData = {
         "Kiểm tra lại tiểu sử lý lịch của thẩm phán."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 60, Tim invites his colleague to pause and wonder: 'Isn't this room beautiful?' noticing the architecture previously ignored.",
-      "explanationEn": "In Segment 60, Tim invites his colleague to pause and wonder: 'Isn't this room beautiful?' noticing the architecture previously ignored.",
-      "explanationVi": "Trong Phân đoạn 60, Tim rủ đồng nghiệp dừng lại chiêm ngưỡng: 'Căn phòng này chẳng phải đẹp tuyệt trần sao?', nhận ra vẻ đẹp kiến trúc mà trước đó cả hai đã mù quáng bỏ lỡ.",
+      "explanation": "In Segment 61, Tim invites his colleague to pause and wonder: 'Isn't this room beautiful?' noticing the architecture previously ignored.",
+      "explanationEn": "In Segment 61, Tim invites his colleague to pause and wonder: 'Isn't this room beautiful?' noticing the architecture previously ignored.",
+      "explanationVi": "Trong Phân đoạn 61, Tim rủ đồng nghiệp dừng lại chiêm ngưỡng: 'Căn phòng này chẳng phải đẹp tuyệt trần sao?', nhận ra vẻ đẹp kiến trúc mà trước đó cả hai đã mù quáng bỏ lỡ.",
       "targetedConcept": "Aesthetic appreciation amid high-pressure environments",
       "targetedConceptEn": "Aesthetic appreciation amid high-pressure environments",
       "targetedConceptVi": "Cảm thụ cái đẹp và thẩm mỹ giữa môi trường áp lực cao",
-      "referenceSegmentIndex": 60
+      "referenceSegmentIndex": 61
     },
     {
       "id": "mov_rom_01_q8",
-      "question": "What humorous reason does Tim give for his sudden change of story when Mary jokingly offers affection in Segment 70?",
-      "questionEn": "What humorous reason does Tim give for his sudden change of story when Mary jokingly offers affection in Segment 70?",
-      "questionVi": "Tim đã đưa ra lý do hài hước nào để đột ngột 'quay xe' đổi lời kể khi Mary trêu sẽ bù đắp tình cảm ở Phân đoạn 70?",
+      "question": "What humorous reason does Tim give for his sudden change of story when Mary jokingly offers affection in Segment 71?",
+      "questionEn": "What humorous reason does Tim give for his sudden change of story when Mary jokingly offers affection in Segment 71?",
+      "questionVi": "Tim đã đưa ra lý do hài hước nào để đột ngột 'quay xe' đổi lời kể khi Mary trêu sẽ bù đắp tình cảm ở Phân đoạn 71?",
       "options": [
         "He admits he was just playing a game of chess with his father.",
         "Hearing she might offer intimacy to comfort a bad day, he immediately invents getting fired and killing a man to have the 'worst day ever.'",
@@ -268,13 +268,13 @@ export const QUIZ_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: VideoQuizData = {
         "Anh thú nhận đã vô tình mua nhầm đồ tạp hóa."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 70 to 76, Mary jokes about intimacy as comfort, prompting Tim to hilariously exaggerate: 'I got fired from my job. And then I killed a man.'",
-      "explanationEn": "In Segments 70 to 76, Mary jokes about intimacy as comfort, prompting Tim to hilariously exaggerate: 'I got fired from my job. And then I killed a man.'",
-      "explanationVi": "Từ Phân đoạn 70 đến 76, khi Mary trêu sẽ bù đắp bằng tình cảm, Tim lập tức phóng đại siêu hài hước: 'Anh vừa bị đuổi việc xong. Và rồi anh còn vừa ngộ sát một người nữa.'",
+      "explanation": "In Segments 71 to 77, Mary jokes about intimacy as comfort, prompting Tim to hilariously exaggerate: 'I got fired from my job. And then I killed a man.'",
+      "explanationEn": "In Segments 71 to 77, Mary jokes about intimacy as comfort, prompting Tim to hilariously exaggerate: 'I got fired from my job. And then I killed a man.'",
+      "explanationVi": "Từ Phân đoạn 71 đến 77, khi Mary trêu sẽ bù đắp bằng tình cảm, Tim lập tức phóng đại siêu hài hước: 'Anh vừa bị đuổi việc xong. Và rồi anh còn vừa ngộ sát một người nữa.'",
       "targetedConcept": "Playful romantic banter and humorous situational reversal",
       "targetedConceptEn": "Playful romantic banter and humorous situational reversal",
       "targetedConceptVi": "Nghệ thuật đối thoại dí dỏm và đảo ngược tình huống hài hước trong tình yêu",
-      "referenceSegmentIndex": 70
+      "referenceSegmentIndex": 71
     }
   ]
 };
@@ -301,7 +301,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "Trích đoạn kinh điển đầy cảm xúc và triết lý sống từ kiệt tác About Time: Tim được người cha (Bill Nighy) truyền lại 'Công thức bí mật hai bước để đạt được hạnh phúc'. Bằng cách sống lại ngày thứ hai trọn vẹn trong chánh niệm, Tim học cách buông bỏ căng thẳng, mỉm cười với mọi người xung quanh và trân trọng từng khoảnh khắc ngọt ngào bên Mary.",
   segments: [
   {
-    "orderIndex": 0,
+    "orderIndex": 1,
     "startTime": 0.6,
     "endTime": 4.5,
     "text": "I have something very important to tell you.",
@@ -316,7 +316,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 1,
+    "orderIndex": 2,
     "startTime": 4.5,
     "endTime": 8.2,
     "text": "Or, let me check, do you want to know the big secret,",
@@ -331,7 +331,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 12
   },
   {
-    "orderIndex": 2,
+    "orderIndex": 3,
     "startTime": 8.2,
     "endTime": 13.5,
     "text": "or would you rather find it out for yourself like I did?",
@@ -347,7 +347,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 12
   },
   {
-    "orderIndex": 3,
+    "orderIndex": 4,
     "startTime": 13.5,
     "endTime": 16.5,
     "text": "Oh, Christ, there's another secret?",
@@ -364,7 +364,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 4,
+    "orderIndex": 5,
     "startTime": 16.5,
     "endTime": 18.2,
     "text": "Less dramatic.",
@@ -378,7 +378,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 5,
+    "orderIndex": 6,
     "startTime": 18.2,
     "endTime": 20.2,
     "text": "Much more important.",
@@ -393,7 +393,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 6,
+    "orderIndex": 7,
     "startTime": 20.2,
     "endTime": 23,
     "text": "The real mothership.",
@@ -408,7 +408,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 7,
+    "orderIndex": 8,
     "startTime": 23,
     "endTime": 26.5,
     "text": "No, go on. Tell me.",
@@ -423,7 +423,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 8,
+    "orderIndex": 9,
     "startTime": 26.5,
     "endTime": 30.8,
     "text": "Let's save some time.",
@@ -437,7 +437,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 4
   },
   {
-    "orderIndex": 9,
+    "orderIndex": 10,
     "startTime": 30.8,
     "endTime": 36.5,
     "text": "And so he told me his secret formula for happiness.",
@@ -452,7 +452,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 10
   },
   {
-    "orderIndex": 10,
+    "orderIndex": 11,
     "startTime": 36.5,
     "endTime": 40,
     "text": "Part one of the two part plan",
@@ -467,7 +467,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 11,
+    "orderIndex": 12,
     "startTime": 40,
     "endTime": 45,
     "text": "was that I should just get on with ordinary life,",
@@ -482,7 +482,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 10
   },
   {
-    "orderIndex": 12,
+    "orderIndex": 13,
     "startTime": 45,
     "endTime": 50,
     "text": "living it day by day, like anyone else.",
@@ -497,7 +497,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 13,
+    "orderIndex": 14,
     "startTime": 50,
     "endTime": 56.5,
     "text": "This is our current statement with a revised paragraph there, highlighted.",
@@ -513,7 +513,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 11
   },
   {
-    "orderIndex": 14,
+    "orderIndex": 15,
     "startTime": 56.5,
     "endTime": 61.5,
     "text": "Rupert. Rupert, is that the best you can do?",
@@ -529,7 +529,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 9
   },
   {
-    "orderIndex": 15,
+    "orderIndex": 16,
     "startTime": 61.5,
     "endTime": 65.5,
     "text": "No. Absolutely not. We can change that.",
@@ -544,7 +544,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 16,
+    "orderIndex": 17,
     "startTime": 65.5,
     "endTime": 68.5,
     "text": "Item number two.",
@@ -558,7 +558,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 17,
+    "orderIndex": 18,
     "startTime": 68.5,
     "endTime": 72.8,
     "text": "Good afternoon, sir. Are you eating in or taking away today?",
@@ -573,7 +573,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 11
   },
   {
-    "orderIndex": 18,
+    "orderIndex": 19,
     "startTime": 72.8,
     "endTime": 75,
     "text": "Take away, please.",
@@ -588,7 +588,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 19,
+    "orderIndex": 20,
     "startTime": 75,
     "endTime": 77.2,
     "text": "Yeah? No problem.",
@@ -602,7 +602,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 20,
+    "orderIndex": 21,
     "startTime": 77.2,
     "endTime": 82.5,
     "text": "Lovely, that's 4.24 then, please, sir. Thank you kindly.",
@@ -617,7 +617,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 9
   },
   {
-    "orderIndex": 21,
+    "orderIndex": 22,
     "startTime": 82.5,
     "endTime": 88,
     "text": "Lovely. And there's your change, sir. 76 pence change.",
@@ -632,7 +632,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 9
   },
   {
-    "orderIndex": 22,
+    "orderIndex": 23,
     "startTime": 88,
     "endTime": 89.8,
     "text": "Thanks.",
@@ -646,7 +646,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 23,
+    "orderIndex": 24,
     "startTime": 89.8,
     "endTime": 92.5,
     "text": "Thank you. Hello there.",
@@ -660,7 +660,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 4
   },
   {
-    "orderIndex": 24,
+    "orderIndex": 25,
     "startTime": 92.5,
     "endTime": 95.8,
     "text": "Are you eating in or taking away?",
@@ -675,7 +675,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 25,
+    "orderIndex": 26,
     "startTime": 95.8,
     "endTime": 101.5,
     "text": "Do you find the Defendant, John Welbeck, guilty or not guilty of fraud?",
@@ -694,7 +694,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 13
   },
   {
-    "orderIndex": 26,
+    "orderIndex": 27,
     "startTime": 101.5,
     "endTime": 103.8,
     "text": "Not guilty.",
@@ -708,7 +708,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 27,
+    "orderIndex": 28,
     "startTime": 103.8,
     "endTime": 106.2,
     "text": "And that is the verdict of you all?",
@@ -723,7 +723,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 28,
+    "orderIndex": 29,
     "startTime": 106.2,
     "endTime": 108.5,
     "text": "Yes.",
@@ -737,7 +737,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 29,
+    "orderIndex": 30,
     "startTime": 108.5,
     "endTime": 111.8,
     "text": "Thank you. You may be seated.",
@@ -751,7 +751,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 30,
+    "orderIndex": 31,
     "startTime": 111.8,
     "endTime": 114.2,
     "text": "Thank God.",
@@ -767,7 +767,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 31,
+    "orderIndex": 32,
     "startTime": 114.2,
     "endTime": 118.2,
     "text": "Let the Defendant be discharged.",
@@ -781,7 +781,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 32,
+    "orderIndex": 33,
     "startTime": 118.2,
     "endTime": 126.5,
     "text": "Be upstanding in court.",
@@ -796,7 +796,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 4
   },
   {
-    "orderIndex": 33,
+    "orderIndex": 34,
     "startTime": 126.5,
     "endTime": 129,
     "text": "Lights out?",
@@ -810,7 +810,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 34,
+    "orderIndex": 35,
     "startTime": 129,
     "endTime": 131,
     "text": "Yeah.",
@@ -824,7 +824,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 35,
+    "orderIndex": 36,
     "startTime": 131,
     "endTime": 134,
     "text": "Tough day.",
@@ -838,7 +838,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 36,
+    "orderIndex": 37,
     "startTime": 134,
     "endTime": 138.5,
     "text": "But then came part two of Dad's plan.",
@@ -855,7 +855,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 37,
+    "orderIndex": 38,
     "startTime": 138.5,
     "endTime": 144.5,
     "text": "He told me to live every day again almost exactly the same.",
@@ -870,7 +870,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 12
   },
   {
-    "orderIndex": 38,
+    "orderIndex": 39,
     "startTime": 144.5,
     "endTime": 149.5,
     "text": "The first time with all the tensions and worries that",
@@ -885,7 +885,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 10
   },
   {
-    "orderIndex": 39,
+    "orderIndex": 40,
     "startTime": 149.5,
     "endTime": 154.5,
     "text": "stop us noticing how sweet the world can be,",
@@ -900,7 +900,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 9
   },
   {
-    "orderIndex": 40,
+    "orderIndex": 41,
     "startTime": 154.5,
     "endTime": 160,
     "text": "but the second time noticing.",
@@ -915,7 +915,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 41,
+    "orderIndex": 42,
     "startTime": 160,
     "endTime": 163.5,
     "text": "Okay, Dad.",
@@ -931,7 +931,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 42,
+    "orderIndex": 43,
     "startTime": 163.5,
     "endTime": 168,
     "text": "Let's give it a go.",
@@ -945,7 +945,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 43,
+    "orderIndex": 44,
     "startTime": 168,
     "endTime": 172.5,
     "text": "What's our statement at the moment?",
@@ -959,7 +959,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 44,
+    "orderIndex": 45,
     "startTime": 172.5,
     "endTime": 177,
     "text": "This is it with the revised...",
@@ -973,7 +973,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 45,
+    "orderIndex": 46,
     "startTime": 177,
     "endTime": 183.5,
     "text": "Robert, this does not pass. Is this the best you can do?",
@@ -989,7 +989,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 12
   },
   {
-    "orderIndex": 46,
+    "orderIndex": 47,
     "startTime": 183.5,
     "endTime": 189.5,
     "text": "I'll leave you two to thrash this out.",
@@ -1003,7 +1003,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 47,
+    "orderIndex": 48,
     "startTime": 189.5,
     "endTime": 195,
     "text": "Ooh.",
@@ -1017,7 +1017,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 48,
+    "orderIndex": 49,
     "startTime": 195,
     "endTime": 197.5,
     "text": "Good afternoon, sir.",
@@ -1031,7 +1031,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 49,
+    "orderIndex": 50,
     "startTime": 197.5,
     "endTime": 199.8,
     "text": "Good afternoon.",
@@ -1045,7 +1045,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 50,
+    "orderIndex": 51,
     "startTime": 199.8,
     "endTime": 203,
     "text": "Are you eating in or taking away today?",
@@ -1060,7 +1060,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 51,
+    "orderIndex": 52,
     "startTime": 203,
     "endTime": 205.5,
     "text": "Take away, please.",
@@ -1074,7 +1074,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 52,
+    "orderIndex": 53,
     "startTime": 205.5,
     "endTime": 207.8,
     "text": "Would you like a bag?",
@@ -1088,7 +1088,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 53,
+    "orderIndex": 54,
     "startTime": 207.8,
     "endTime": 210,
     "text": "That's fine.",
@@ -1102,7 +1102,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 54,
+    "orderIndex": 55,
     "startTime": 210,
     "endTime": 214,
     "text": "Lovely. That's 6.23 then, please.",
@@ -1116,7 +1116,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 55,
+    "orderIndex": 56,
     "startTime": 214,
     "endTime": 217,
     "text": "And enjoy the rest of your day.",
@@ -1130,7 +1130,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 56,
+    "orderIndex": 57,
     "startTime": 217,
     "endTime": 219,
     "text": "Thank you. Bye-bye.",
@@ -1144,7 +1144,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 57,
+    "orderIndex": 58,
     "startTime": 219,
     "endTime": 221,
     "text": "Hello, there.",
@@ -1158,7 +1158,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 58,
+    "orderIndex": 59,
     "startTime": 221,
     "endTime": 224.5,
     "text": "Look around you!",
@@ -1172,7 +1172,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 59,
+    "orderIndex": 60,
     "startTime": 224.5,
     "endTime": 226.5,
     "text": "What?",
@@ -1186,7 +1186,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 60,
+    "orderIndex": 61,
     "startTime": 226.5,
     "endTime": 230.5,
     "text": "Isn't this room beautiful?",
@@ -1200,7 +1200,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 4
   },
   {
-    "orderIndex": 61,
+    "orderIndex": 62,
     "startTime": 230.5,
     "endTime": 232.5,
     "text": "Yeah.",
@@ -1214,7 +1214,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 62,
+    "orderIndex": 63,
     "startTime": 232.5,
     "endTime": 235,
     "text": "Come on.",
@@ -1228,7 +1228,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 63,
+    "orderIndex": 64,
     "startTime": 235,
     "endTime": 239.5,
     "text": "Not guilty.",
@@ -1242,7 +1242,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 64,
+    "orderIndex": 65,
     "startTime": 239.5,
     "endTime": 245.5,
     "text": "Fantastic!",
@@ -1256,7 +1256,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 65,
+    "orderIndex": 66,
     "startTime": 245.5,
     "endTime": 249.5,
     "text": "So not such a bad day after all?",
@@ -1273,7 +1273,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 66,
+    "orderIndex": 67,
     "startTime": 249.5,
     "endTime": 253,
     "text": "No. It was pretty good really.",
@@ -1288,7 +1288,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 67,
+    "orderIndex": 68,
     "startTime": 253,
     "endTime": 257.5,
     "text": "Very good day, actually, as it turns out.",
@@ -1303,7 +1303,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 68,
+    "orderIndex": 69,
     "startTime": 257.5,
     "endTime": 261,
     "text": "Well, that's a relief,",
@@ -1317,7 +1317,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 4
   },
   {
-    "orderIndex": 69,
+    "orderIndex": 70,
     "startTime": 261,
     "endTime": 265.5,
     "text": "because if it had been a very bad day,",
@@ -1332,7 +1332,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 9
   },
   {
-    "orderIndex": 70,
+    "orderIndex": 71,
     "startTime": 265.5,
     "endTime": 271.5,
     "text": "I thought I might have had to have had sex with you to make up for it.",
@@ -1347,7 +1347,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 17
   },
   {
-    "orderIndex": 71,
+    "orderIndex": 72,
     "startTime": 271.5,
     "endTime": 273.8,
     "text": "Goodnight.",
@@ -1361,7 +1361,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 72,
+    "orderIndex": 73,
     "startTime": 273.8,
     "endTime": 275.5,
     "text": "Mmm.",
@@ -1375,7 +1375,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 73,
+    "orderIndex": 74,
     "startTime": 275.5,
     "endTime": 279.5,
     "text": "It was a very, very bad day.",
@@ -1389,7 +1389,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 74,
+    "orderIndex": 75,
     "startTime": 279.5,
     "endTime": 283.5,
     "text": "It went very, very badly.",
@@ -1403,7 +1403,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 75,
+    "orderIndex": 76,
     "startTime": 283.5,
     "endTime": 287.5,
     "text": "I got fired from my job.",
@@ -1418,7 +1418,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 76,
+    "orderIndex": 77,
     "startTime": 287.5,
     "endTime": 292,
     "text": "And then I killed a man.",
@@ -1432,7 +1432,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 77,
+    "orderIndex": 78,
     "startTime": 292,
     "endTime": 295.5,
     "text": "That is a very bad day.",
@@ -1447,7 +1447,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 78,
+    "orderIndex": 79,
     "startTime": 295.5,
     "endTime": 298,
     "text": "It's terrible.",
@@ -1461,7 +1461,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 79,
+    "orderIndex": 80,
     "startTime": 298,
     "endTime": 300,
     "text": "Yeah.",
@@ -1475,7 +1475,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 80,
+    "orderIndex": 81,
     "startTime": 300,
     "endTime": 304,
     "text": "Like the worst day ever.",
@@ -1489,7 +1489,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 81,
+    "orderIndex": 82,
     "startTime": 304,
     "endTime": 307.5,
     "text": "So sorry.",
@@ -1503,7 +1503,7 @@ export const LESSON_ABOUT_TIME_EXTRAORDINARY_ORDINARY_LIFE: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 82,
+    "orderIndex": 83,
     "startTime": 307.5,
     "endTime": 323,
     "text": "It's okay, I'm home now.",

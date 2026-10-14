@@ -19,7 +19,7 @@ describe("TED-Ed: The Benefits of a Bilingual Brain - 100% Verbatim Audit", () =
   it("should have strictly ordered, non-overlapping timestamps with positive durations", () => {
     for (let i = 0; i < calibratedSegments.length; i++) {
       const seg = calibratedSegments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.endTime).toBeGreaterThan(seg.startTime);
       const dur = seg.endTime - seg.startTime;
       expect(dur).toBeGreaterThanOrEqual(3.0);

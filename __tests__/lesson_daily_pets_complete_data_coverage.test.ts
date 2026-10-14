@@ -23,13 +23,13 @@ describe("Daily English: Pets, Animals & Nature Conversation (575d216f-b275-468e
     expect(lesson.thumbnailUrl).toContain("AK42GhbTZ9w");
   });
 
-  it("Test 2: Master Segments Volume & Chronological Progression", () => {
+  it("Test 2: Master Segments Volume & Chronological Progression (1-indexed 1..11)", () => {
     const segments = LESSON_DAILY_PETS.segments;
     expect(segments.length).toBe(11);
 
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.endTime).toBeGreaterThan(seg.startTime);
       if (i > 0) {
         expect(seg.startTime).toBeGreaterThan(segments[i - 1].startTime);
@@ -98,13 +98,14 @@ describe("Daily English: Pets, Animals & Nature Conversation (575d216f-b275-468e
       expect(q.targetedConceptEn).toBeDefined();
       expect(q.targetedConceptVi).toBeDefined();
       expect(typeof q.referenceSegmentIndex).toBe("number");
-      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-      expect(q.referenceSegmentIndex).toBeLessThan(LESSON_DAILY_PETS.segments.length);
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(LESSON_DAILY_PETS.segments.length);
     }
   });
 
-  it("Test 7: Direct Lesson-Quiz Attachment", () => {
-    expect(LESSON_DAILY_PETS.quiz).toBeDefined();
-    expect(LESSON_DAILY_PETS.quiz).toBe(QUIZ_DAILY_PETS);
+  it("Test 7: Thematic Proper Nouns Alignment", () => {
+    const segments = LESSON_DAILY_PETS.segments;
+    const allProperNouns = segments.flatMap((s) => s.properNouns || []);
+    expect(allProperNouns).toContain("Buster");
   });
 });

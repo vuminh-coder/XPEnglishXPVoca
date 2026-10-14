@@ -32,7 +32,7 @@ describe("Senior Deep Audit: Before Sunrise Video 2 - 100% Comprehensive Data & 
     // Continuous monotonic progression & zero merged utterances
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeLessThan(seg.endTime);
       if (i > 0) {
         expect(seg.startTime).toBeGreaterThanOrEqual(segments[i - 1].startTime);
@@ -170,9 +170,9 @@ describe("Senior Deep Audit: Before Sunrise Video 2 - 100% Comprehensive Data & 
       expect(q.targetedConceptEn!.length).toBeGreaterThan(5);
       expect(q.targetedConceptVi!.length).toBeGreaterThan(5);
 
-      // Reference segment index should be within valid bounds
-      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-      expect(q.referenceSegmentIndex).toBeLessThan(lesson.segments.length);
+      // Reference segment index should be within valid bounds (1-indexed)
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(lesson.segments.length);
     }
   });
 });

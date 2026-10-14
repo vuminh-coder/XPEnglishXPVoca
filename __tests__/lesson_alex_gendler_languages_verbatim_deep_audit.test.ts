@@ -131,30 +131,40 @@ describe("TED-Ed: How Languages Evolve - Alex Gendler (vid_alex_gendler_language
     expect(segments[32].endTime).toBe(226.6);
   });
 
-  it("Audit 7: Quiz Conceptual Synchronization with Lesson Content", () => {
+  it("Audit 7: Quiz Conceptual Synchronization with Lesson Content (1-indexed)", () => {
     const questions = QUIZ_ALEX_GENDLER_LANGUAGES.questions;
+    const segments = LESSON_ALEX_GENDLER_LANGUAGES.segments;
+
     expect(questions[0].targetedConcept).toContain("Tower of Babel");
-    expect(questions[0].referenceSegmentIndex).toBe(0);
+    expect(questions[0].referenceSegmentIndex).toBe(1);
+    expect(segments[questions[0].referenceSegmentIndex! - 1].text).toContain("Tower of Babel");
 
     expect(questions[1].targetedConcept).toContain("Geographic Isolation");
-    expect(questions[1].referenceSegmentIndex).toBe(4);
+    expect(questions[1].referenceSegmentIndex).toBe(5);
+    expect(segments[questions[1].referenceSegmentIndex! - 1].text).toContain("split into smaller tribes");
 
     expect(questions[2].targetedConcept).toContain("Protolanguage");
-    expect(questions[2].referenceSegmentIndex).toBe(8);
+    expect(questions[2].referenceSegmentIndex).toBe(9);
+    expect(segments[questions[2].referenceSegmentIndex! - 1].text).toContain("protolanguage");
 
     expect(questions[3].targetedConcept).toContain("False Cognates");
-    expect(questions[3].referenceSegmentIndex).toBe(12);
+    expect(questions[3].referenceSegmentIndex).toBe(13);
+    expect(segments[questions[3].referenceSegmentIndex! - 1].text).toContain("false cognates");
 
     expect(questions[4].targetedConcept).toContain("Kinship Terms");
-    expect(questions[4].referenceSegmentIndex).toBe(13);
+    expect(questions[4].referenceSegmentIndex).toBe(14);
+    expect(segments[questions[4].referenceSegmentIndex! - 1].text).toContain("kinship terms");
 
     expect(questions[5].targetedConcept).toContain("Mutual Intelligibility");
-    expect(questions[5].referenceSegmentIndex).toBe(20);
+    expect(questions[5].referenceSegmentIndex).toBe(21);
+    expect(segments[questions[5].referenceSegmentIndex! - 1].text).toContain("mutually unintelligible");
 
     expect(questions[6].targetedConcept).toContain("Political Factors");
-    expect(questions[6].referenceSegmentIndex).toBe(22);
+    expect(questions[6].referenceSegmentIndex).toBe(23);
+    expect(segments[questions[6].referenceSegmentIndex! - 1].text).toContain("political and national considerations");
 
     expect(questions[7].targetedConcept).toContain("Dialect Continuum");
-    expect(questions[7].referenceSegmentIndex).toBe(23);
+    expect(questions[7].referenceSegmentIndex).toBe(24);
+    expect(segments[questions[7].referenceSegmentIndex! - 1].text).toContain("How many languages are there");
   });
 });

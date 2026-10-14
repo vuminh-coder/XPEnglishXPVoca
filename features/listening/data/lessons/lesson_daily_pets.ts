@@ -3,6 +3,7 @@ import { MockVideoLesson, VideoQuizData } from "../types";
 /**
  * Bilingual Contextual Reading Comprehension Quiz for Daily English: Pets, Animals & Nature Conversation
  * 8 in-depth analytical questions based 100% on the family dialogue, animal traits, and nature vocabulary.
+ * Standard 1-indexed referenceSegmentIndex
  */
 export const QUIZ_DAILY_PETS: VideoQuizData = {
   lessonId: "575d216f-b275-468e-8a41-c3b26c0ac1ea",
@@ -34,19 +35,19 @@ export const QUIZ_DAILY_PETS: VideoQuizData = {
         "Một chú chó săn đốm, được người mẹ đặt tên là Max.",
       ],
       correctAnswer: 0,
-      explanation: 'In Segments 0 & 1, the speaker introduces: "Our family has a small dog with a white coat and brown spots. My son named our dog Buster."',
-      explanationEn: 'In Segments 0 & 1, the speaker introduces: "Our family has a small dog with a white coat and brown spots. My son named our dog Buster."',
-      explanationVi: 'Trong câu 0 & 1, người nói giới thiệu: "Gia đình chúng tôi có một chú chó nhỏ với bộ lông màu trắng và những đốm màu nâu. Con trai tôi đã đặt tên cho chú chó là Buster."',
-      referenceSegmentIndex: 0,
+      explanation: 'In Segments 1 & 2, the speaker introduces: "Our family has a small dog with a white coat and brown spots. My son named our dog Buster."',
+      explanationEn: 'In Segments 1 & 2, the speaker introduces: "Our family has a small dog with a white coat and brown spots. My son named our dog Buster."',
+      explanationVi: 'Trong các câu 1 & 2, người nói giới thiệu: "Gia đình chúng tôi có một chú chó nhỏ với bộ lông màu trắng và những đốm màu nâu. Con trai tôi đã đặt tên cho chú chó là Buster."',
+      referenceSegmentIndex: 1,
       targetedConcept: "Nhận biết thông tin chi tiết: Đặc điểm thú cưng & Tên gọi (Detailed Fact: Pet Description & Name)",
       targetedConceptEn: "Detailed Fact: Pet Description & Name",
       targetedConceptVi: "Nhận biết thông tin chi tiết: Đặc điểm thú cưng & Tên gọi",
     },
     {
       id: "q_daily_pets_2",
-      question: "In Segment 0, which specific English word is used to describe the dog's fur coloration and texture?",
-      questionEn: "In Segment 0, which specific English word is used to describe the dog's fur coloration and texture?",
-      questionVi: "Trong câu 0, từ tiếng Anh cụ thể nào được sử dụng để miêu tả màu sắc và lớp lông của chú chó?",
+      question: "In Segment 1, which specific English word is used to describe the dog's fur coloration and texture?",
+      questionEn: "In Segment 1, which specific English word is used to describe the dog's fur coloration and texture?",
+      questionVi: "Trong câu 1, từ tiếng Anh cụ thể nào được sử dụng để miêu tả màu sắc và lớp lông của chú chó?",
       options: [
         "'Skin', referring to smooth hairless canine surface.",
         "'Coat', referring to an animal's layer of fur or hair.",
@@ -66,10 +67,10 @@ export const QUIZ_DAILY_PETS: VideoQuizData = {
         "'Feather', chỉ bộ lông vũ của loài chim.",
       ],
       correctAnswer: 1,
-      explanation: 'In Segment 0: "...with a white coat and brown spots." In English, "coat" commonly refers to the fur, hair, or wool covering an animal\'s body.',
-      explanationEn: 'In Segment 0: "...with a white coat and brown spots." In English, "coat" commonly refers to the fur, hair, or wool covering an animal\'s body.',
-      explanationVi: 'Trong câu 0: "...with a white coat and brown spots." Trong tiếng Anh, từ "coat" thường dùng để chỉ lớp lông phủ khắp thân thể động vật.',
-      referenceSegmentIndex: 0,
+      explanation: 'In Segment 1: "...with a white coat and brown spots." In English, "coat" commonly refers to the fur, hair, or wool covering an animal\'s body.',
+      explanationEn: 'In Segment 1: "...with a white coat and brown spots." In English, "coat" commonly refers to the fur, hair, or wool covering an animal\'s body.',
+      explanationVi: 'Trong câu 1: "...with a white coat and brown spots." Trong tiếng Anh, từ "coat" thường dùng để chỉ lớp lông phủ khắp thân thể động vật.',
+      referenceSegmentIndex: 1,
       targetedConcept: "Từ vựng miêu tả động vật: Coat vs Fur/Skin (Animal Vocabulary: Coat)",
       targetedConceptEn: "Animal Vocabulary: Coat",
       targetedConceptVi: "Từ vựng miêu tả động vật: Coat vs Fur/Skin",
@@ -98,10 +99,10 @@ export const QUIZ_DAILY_PETS: VideoQuizData = {
         "Duy nhất tại bể bơi công cộng của địa phương.",
       ],
       correctAnswer: 1,
-      explanation: 'In Segment 3, the speaker states: "Sometimes they play indoors, but most of the time they play outdoors."',
-      explanationEn: 'In Segment 3, the speaker states: "Sometimes they play indoors, but most of the time they play outdoors."',
-      explanationVi: 'Trong câu 3, người nói khẳng định: "Đôi khi chúng chơi trong nhà, nhưng phần lớn thời gian chúng chơi ngoài trời."',
-      referenceSegmentIndex: 3,
+      explanation: 'In Segment 4, the speaker states: "Sometimes they play indoors, but most of the time they play outdoors."',
+      explanationEn: 'In Segment 4, the speaker states: "Sometimes they play indoors, but most of the time they play outdoors."',
+      explanationVi: 'Trong câu 4, người nói khẳng định: "Đôi khi chúng chơi trong nhà, nhưng phần lớn thời gian chúng chơi ngoài trời."',
+      referenceSegmentIndex: 4,
       targetedConcept: "Trạng từ nơi chốn: Indoors vs Outdoors (Spatial Adverbs: Indoors vs Outdoors)",
       targetedConceptEn: "Spatial Adverbs: Indoors vs Outdoors",
       targetedConceptVi: "Trạng từ nơi chốn: Indoors vs Outdoors",
@@ -130,10 +131,10 @@ export const QUIZ_DAILY_PETS: VideoQuizData = {
         "Tình trạng dị ứng y tế đối với mạt bụi nhà và thảm trải sàn trong nhà.",
       ],
       correctAnswer: 0,
-      explanation: 'In Segment 4, the narrator remarks: "We love being outdoors as much as we can be." This shows an active, nature-loving lifestyle.',
-      explanationEn: 'In Segment 4, the narrator remarks: "We love being outdoors as much as we can be." This shows an active, nature-loving lifestyle.',
-      explanationVi: 'Trong câu 4, người dẫn chuyện bộc bạch: "Chúng tôi thích ở ngoài trời nhiều nhất có thể." Điều này thể hiện lối sống năng động và tình yêu thiên nhiên.',
-      referenceSegmentIndex: 4,
+      explanation: 'In Segment 5, the narrator remarks: "We love being outdoors as much as we can be." This shows an active, nature-loving lifestyle.',
+      explanationEn: 'In Segment 5, the narrator remarks: "We love being outdoors as much as we can be." This shows an active, nature-loving lifestyle.',
+      explanationVi: 'Trong câu 5, người dẫn chuyện bộc bạch: "Chúng tôi thích ở ngoài trời nhiều nhất có thể." Điều này thể hiện lối sống năng động và tình yêu thiên nhiên.',
+      referenceSegmentIndex: 5,
       targetedConcept: "Cấu trúc so sánh bằng nhấn mạnh: As much as someone can (Expressing Lifestyle Preference)",
       targetedConceptEn: "Expressing Lifestyle Preference",
       targetedConceptVi: "Cấu trúc so sánh bằng nhấn mạnh: As much as someone can",
@@ -162,10 +163,10 @@ export const QUIZ_DAILY_PETS: VideoQuizData = {
         "Bởi vì nó có những đốm màu rực rỡ trên đôi cánh.",
       ],
       correctAnswer: 1,
-      explanation: 'In Segment 6, the narrator explains: "My daughter\'s favorite animal is the giraffe because it is tall and has a long neck."',
-      explanationEn: 'In Segment 6, the narrator explains: "My daughter\'s favorite animal is the giraffe because it is tall and has a long neck."',
-      explanationVi: 'Trong câu 6, người dẫn chuyện giải thích: "Con vật yêu thích của con gái tôi là hươu cao cổ vì nó cao và có chiếc cổ dài."',
-      referenceSegmentIndex: 6,
+      explanation: 'In Segment 7, the narrator explains: "My daughter\'s favorite animal is the giraffe because it is tall and has a long neck."',
+      explanationEn: 'In Segment 7, the narrator explains: "My daughter\'s favorite animal is the giraffe because it is tall and has a long neck."',
+      explanationVi: 'Trong câu 7, người dẫn chuyện giải thích: "Con vật yêu thích của con gái tôi là hươu cao cổ vì nó cao và có chiếc cổ dài."',
+      referenceSegmentIndex: 7,
       targetedConcept: "Lý do & Đặc điểm động vật (Reasoning & Animal Features: Giraffe)",
       targetedConceptEn: "Reasoning & Animal Features: Giraffe",
       targetedConceptVi: "Lý do & Đặc điểm động vật: Hươu cao cổ",
@@ -194,10 +195,10 @@ export const QUIZ_DAILY_PETS: VideoQuizData = {
         "Những chú gấu bắc cực bơi lội trong hồ nước băng giá.",
       ],
       correctAnswer: 2,
-      explanation: 'In Segment 7, the speaker notes: "We also like watching the elephants."',
-      explanationEn: 'In Segment 7, the speaker notes: "We also like watching the elephants."',
-      explanationVi: 'Trong câu 7, người nói cho biết: "Chúng tôi cũng rất thích ngắm nhìn những chú voi."',
-      referenceSegmentIndex: 7,
+      explanation: 'In Segment 8, the speaker notes: "We also like watching the elephants."',
+      explanationEn: 'In Segment 8, the speaker notes: "We also like watching the elephants."',
+      explanationVi: 'Trong câu 8, người nói cho biết: "Chúng tôi cũng rất thích ngắm nhìn những chú voi."',
+      referenceSegmentIndex: 8,
       targetedConcept: "Từ vựng động vật sở thú: Elephants (Zoo Animals Vocabulary)",
       targetedConceptEn: "Zoo Animals Vocabulary",
       targetedConceptVi: "Từ vựng động vật sở thú: Elephants",
@@ -226,10 +227,10 @@ export const QUIZ_DAILY_PETS: VideoQuizData = {
         "Các rạn san hô dưới biển sâu và rong biển trôi nổi.",
       ],
       correctAnswer: 0,
-      explanation: 'In Segments 8 & 9: "Another thing we like to do is take walks in the woods. There are many kinds of trees, wild flowers and birds."',
-      explanationEn: 'In Segments 8 & 9: "Another thing we like to do is take walks in the woods. There are many kinds of trees, wild flowers and birds."',
-      explanationVi: 'Trong câu 8 & 9: "Một điều khác mà chúng tôi thích làm là đi dạo trong rừng. Ở đó có rất nhiều loài cây, hoa dại và các loài chim."',
-      referenceSegmentIndex: 8,
+      explanation: 'In Segments 9 & 10: "Another thing we like to do is take walks in the woods. There are many kinds of trees, wild flowers and birds."',
+      explanationEn: 'In Segments 9 & 10: "Another thing we like to do is take walks in the woods. There are many kinds of trees, wild flowers and birds."',
+      explanationVi: 'Trong các câu 9 & 10: "Một điều khác mà chúng tôi thích làm là đi dạo trong rừng. Ở đó có rất nhiều loài cây, hoa dại và các loài chim."',
+      referenceSegmentIndex: 9,
       targetedConcept: "Hệ thực vật thiên nhiên: Trees & Wild Flowers (Flora Vocabulary: Woods & Wild Flowers)",
       targetedConceptEn: "Flora Vocabulary: Woods & Wild Flowers",
       targetedConceptVi: "Hệ thực vật thiên nhiên: Trees & Wild Flowers",
@@ -258,10 +259,10 @@ export const QUIZ_DAILY_PETS: VideoQuizData = {
         "Đàn cừu nông trại và bò sữa nuôi trong chuồng.",
       ],
       correctAnswer: 1,
-      explanation: 'In Segment 10, the narrator concludes: "Sometimes we see squirrels and rabbits too."',
-      explanationEn: 'In Segment 10, the narrator concludes: "Sometimes we see squirrels and rabbits too."',
-      explanationVi: 'Trong câu 10, người dẫn chuyện kết luận: "Thỉnh thoảng chúng tôi cũng nhìn thấy sóc và thỏ nữa."',
-      referenceSegmentIndex: 10,
+      explanation: 'In Segment 11, the narrator concludes: "Sometimes we see squirrels and rabbits too."',
+      explanationEn: 'In Segment 11, the narrator concludes: "Sometimes we see squirrels and rabbits too."',
+      explanationVi: 'Trong câu 11, người dẫn chuyện kết luận: "Thỉnh thoảng chúng tôi cũng nhìn thấy sóc và thỏ nữa."',
+      referenceSegmentIndex: 11,
       targetedConcept: "Động vật hoang dã trong rừng: Squirrels & Rabbits (Woodland Wildlife: Squirrels & Rabbits)",
       targetedConceptEn: "Woodland Wildlife: Squirrels & Rabbits",
       targetedConceptVi: "Động vật hoang dã trong rừng: Squirrels & Rabbits",
@@ -273,6 +274,8 @@ export const QUIZ_DAILY_PETS: VideoQuizData = {
 /**
  * Daily English: Pets, Animals & Nature Conversation
  * Slug: daily-pets-animals-nature
+ * External ID: AK42GhbTZ9w
+ * Master Edition: Zero Merged Utterances, 1-Indexed (1..11), Complete Coverage
  */
 export const LESSON_DAILY_PETS: MockVideoLesson = {
   id: "575d216f-b275-468e-8a41-c3b26c0ac1ea",
@@ -296,187 +299,187 @@ export const LESSON_DAILY_PETS: MockVideoLesson = {
   quiz: QUIZ_DAILY_PETS,
   segments: [
     {
-        "orderIndex": 0,
-        "startTime": 13,
-        "endTime": 19,
-        "text": "Our family has a small dog with a white coat and brown spots.",
-        "ipaUs": "/aʊər ˈfæməli hæz ə smɔl dɔɡ wɪð ə waɪt koʊt ænd braʊn spɑts/",
-        "translationVi": "Gia đình chúng tôi có một chú chó nhỏ với bộ lông màu trắng và những đốm màu nâu.",
-        "explanationAi": "Từ 'coat' ở đây chỉ bộ lông của động vật (thay vì fur), kết hợp với 'brown spots' miêu tả những đốm màu nâu đặc trưng.",
-        "properNouns": [],
-        "keywords": [
-            "family",
-            "small dog",
-            "white coat",
-            "brown spots"
-        ],
-        "tokenCount": 13
+      orderIndex: 1,
+      startTime: 13.0,
+      endTime: 19.0,
+      text: "Our family has a small dog with a white coat and brown spots.",
+      ipaUs: "/aʊər ˈfæməli hæz ə smɔl dɔɡ wɪð ə waɪt koʊt ænd braʊn spɑts/",
+      translationVi: "Gia đình chúng tôi có một chú chó nhỏ với bộ lông màu trắng và những đốm màu nâu.",
+      explanationAi: "Từ 'coat' ở đây chỉ bộ lông của động vật (thay vì fur), kết hợp với 'brown spots' miêu tả những đốm màu nâu đặc trưng.",
+      properNouns: [],
+      keywords: [
+        "family",
+        "small dog",
+        "white coat",
+        "brown spots"
+      ],
+      tokenCount: 13
     },
     {
-        "orderIndex": 1,
-        "startTime": 19.5,
-        "endTime": 22.8,
-        "text": "My son named our dog Buster.",
-        "ipaUs": "/maɪ sʌn neɪmd aʊər dɔɡ ˈbʌstər/",
-        "translationVi": "Con trai tôi đã đặt tên cho chú chó là Buster.",
-        "explanationAi": "Cấu trúc 'named + object + name' (đặt tên cho ai/cái gì là...); 'Buster' là một cái tên phổ biến dành cho thú cưng ở các nước nói tiếng Anh.",
-        "properNouns": [
-            "Buster"
-        ],
-        "keywords": [
-            "son",
-            "named",
-            "dog",
-            "Buster"
-        ],
-        "tokenCount": 6
+      orderIndex: 2,
+      startTime: 19.5,
+      endTime: 22.8,
+      text: "My son named our dog Buster.",
+      ipaUs: "/maɪ sʌn neɪmd aʊər dɔɡ ˈbʌstər/",
+      translationVi: "Con trai tôi đã đặt tên cho chú chó là Buster.",
+      explanationAi: "Cấu trúc 'named + object + name' (đặt tên cho ai/cái gì là...); 'Buster' là một cái tên phổ biến dành cho thú cưng ở các nước nói tiếng Anh.",
+      properNouns: [
+        "Buster"
+      ],
+      keywords: [
+        "son",
+        "named",
+        "dog",
+        "Buster"
+      ],
+      tokenCount: 6
     },
     {
-        "orderIndex": 2,
-        "startTime": 23.5,
-        "endTime": 28.5,
-        "text": "Buster and our children have a lot of fun together playing.",
-        "ipaUs": "/ˈbʌstər ænd aʊər ˈtʃɪldrən hæv ə lɑt ʌv fʌn təˈɡɛðər ˈpleɪɪŋ/",
-        "translationVi": "Buster và các con tôi rất vui vẻ khi chơi đùa cùng nhau.",
-        "explanationAi": "Cụm 'have a lot of fun together playing' thể hiện sự gắn kết vui tươi giữa chú cún và những đứa trẻ trong gia đình.",
-        "properNouns": [
-            "Buster"
-        ],
-        "keywords": [
-            "children",
-            "a lot of fun",
-            "together playing"
-        ],
-        "tokenCount": 11
+      orderIndex: 3,
+      startTime: 23.5,
+      endTime: 28.5,
+      text: "Buster and our children have a lot of fun together playing.",
+      ipaUs: "/ˈbʌstər ænd aʊər ˈtʃɪldrən hæv ə lɑt ʌv fʌn təˈɡɛðər ˈpleɪɪŋ/",
+      translationVi: "Buster và các con tôi rất vui vẻ khi chơi đùa cùng nhau.",
+      explanationAi: "Cụm 'have a lot of fun together playing' thể hiện sự gắn kết vui tươi giữa chú cún và những đứa trẻ trong gia đình.",
+      properNouns: [
+        "Buster"
+      ],
+      keywords: [
+        "children",
+        "a lot of fun",
+        "together playing"
+      ],
+      tokenCount: 11
     },
     {
-        "orderIndex": 3,
-        "startTime": 29,
-        "endTime": 34,
-        "text": "Sometimes they play indoors, but most of the time they play outdoors.",
-        "ipaUs": "/ˈsʌmˌtaɪmz ðeɪ pleɪ ˈɪnˌdɔrz bʌt moʊst ʌv ðə taɪm ðeɪ pleɪ ˌaʊtˈdɔrz/",
-        "translationVi": "Đôi khi chúng chơi trong nhà, nhưng phần lớn thời gian chúng chơi ngoài trời.",
-        "explanationAi": "Cặp trạng từ tương phản 'indoors' (trong nhà) và 'outdoors' (ngoài trời); 'most of the time' nghĩa là phần lớn thời gian.",
-        "properNouns": [],
-        "keywords": [
-            "indoors",
-            "most of the time",
-            "outdoors"
-        ],
-        "tokenCount": 12
+      orderIndex: 4,
+      startTime: 29.0,
+      endTime: 34.0,
+      text: "Sometimes they play indoors, but most of the time they play outdoors.",
+      ipaUs: "/ˈsʌmˌtaɪmz ðeɪ pleɪ ˈɪnˌdɔrz bʌt moʊst ʌv ðə taɪm ðeɪ pleɪ ˌaʊtˈdɔrz/",
+      translationVi: "Đôi khi chúng chơi trong nhà, nhưng phần lớn thời gian chúng chơi ngoài trời.",
+      explanationAi: "Cặp trạng từ tương phản 'indoors' (trong nhà) và 'outdoors' (ngoài trời); 'most of the time' nghĩa là phần lớn thời gian.",
+      properNouns: [],
+      keywords: [
+        "indoors",
+        "most of the time",
+        "outdoors"
+      ],
+      tokenCount: 12
     },
     {
-        "orderIndex": 4,
-        "startTime": 34.5,
-        "endTime": 37.5,
-        "text": "We love being outdoors as much as we can be.",
-        "ipaUs": "/wi lʌv ˈbiɪŋ ˌaʊtˈdɔrz æz mʌtʃ æz wi kæn bi/",
-        "translationVi": "Chúng tôi thích ở ngoài trời nhiều nhất có thể.",
-        "explanationAi": "Cấu trúc 'as much as we can be' (nhiều nhất có thể) nhấn mạnh lối sống gần gũi với thiên nhiên của gia đình.",
-        "properNouns": [],
-        "keywords": [
-            "love being outdoors",
-            "as much as we can"
-        ],
-        "tokenCount": 10
+      orderIndex: 5,
+      startTime: 34.5,
+      endTime: 37.5,
+      text: "We love being outdoors as much as we can be.",
+      ipaUs: "/wi lʌv ˈbiɪŋ ˌaʊtˈdɔrz æz mʌtʃ æz wi kæn bi/",
+      translationVi: "Chúng tôi thích ở ngoài trời nhiều nhất có thể.",
+      explanationAi: "Cấu trúc 'as much as we can be' (nhiều nhất có thể) nhấn mạnh lối sống gần gũi với thiên nhiên của gia đình.",
+      properNouns: [],
+      keywords: [
+        "love being outdoors",
+        "as much as we can"
+      ],
+      tokenCount: 10
     },
     {
-        "orderIndex": 5,
-        "startTime": 38.5,
-        "endTime": 44,
-        "text": "Sometimes we go to the local zoo to see other animals.",
-        "ipaUs": "/ˈsʌmˌtaɪmz wi ɡoʊ tu ðə ˈloʊkəl zu tu si ˈʌðər ˈænəməlz/",
-        "translationVi": "Đôi khi chúng tôi đến sở thú địa phương để ngắm nhìn những loài động vật khác.",
-        "explanationAi": "'Local zoo' là sở thú địa phương gần nơi sinh sống; 'other animals' là các loài động vật hoang dã khác ngoài thú nuôi trong nhà.",
-        "properNouns": [],
-        "keywords": [
-            "local zoo",
-            "see",
-            "animals"
-        ],
-        "tokenCount": 11
+      orderIndex: 6,
+      startTime: 38.5,
+      endTime: 44.0,
+      text: "Sometimes we go to the local zoo to see other animals.",
+      ipaUs: "/ˈsʌmˌtaɪmz wi ɡoʊ tu ðə ˈloʊkəl zu tu si ˈʌðər ˈænəməlz/",
+      translationVi: "Đôi khi chúng tôi đến sở thú địa phương để ngắm nhìn những loài động vật khác.",
+      explanationAi: "'Local zoo' là sở thú địa phương gần nơi sinh sống; 'other animals' là các loài động vật hoang dã khác ngoài thú nuôi trong nhà.",
+      properNouns: [],
+      keywords: [
+        "local zoo",
+        "see",
+        "animals"
+      ],
+      tokenCount: 11
     },
     {
-        "orderIndex": 6,
-        "startTime": 44.5,
-        "endTime": 50.5,
-        "text": "My daughter's favorite animal is the giraffe because it is tall and has a long neck.",
-        "ipaUs": "/maɪ ˈdɔtərz ˈfeɪvərɪt ˈænəməl ɪz ðə dʒəˈræf bɪˈkɔz ɪt ɪz tɔl ænd hæz ə lɔŋ nɛk/",
-        "translationVi": "Con vật yêu thích của con gái tôi là hươu cao cổ vì nó cao và có chiếc cổ dài.",
-        "explanationAi": "'Giraffe' /dʒəˈræf/ (hươu cao cổ), đặc trưng với tính từ 'tall' và bộ phận cơ thể 'long neck'.",
-        "properNouns": [],
-        "keywords": [
-            "favorite animal",
-            "giraffe",
-            "tall",
-            "long neck"
-        ],
-        "tokenCount": 17
+      orderIndex: 7,
+      startTime: 44.5,
+      endTime: 50.5,
+      text: "My daughter's favorite animal is the giraffe because it is tall and has a long neck.",
+      ipaUs: "/maɪ ˈdɔtərz ˈfeɪvərɪt ˈænəməl ɪz ðə dʒəˈræf bɪˈkɔz ɪt ɪz tɔl ænd hæz ə lɔŋ nɛk/",
+      translationVi: "Con vật yêu thích của con gái tôi là hươu cao cổ vì nó cao và có chiếc cổ dài.",
+      explanationAi: "'Giraffe' /dʒəˈræf/ (hươu cao cổ), đặc trưng với tính từ 'tall' và bộ phận cơ thể 'long neck'.",
+      properNouns: [],
+      keywords: [
+        "favorite animal",
+        "giraffe",
+        "tall",
+        "long neck"
+      ],
+      tokenCount: 17
     },
     {
-        "orderIndex": 7,
-        "startTime": 51,
-        "endTime": 53.5,
-        "text": "We also like watching the elephants.",
-        "ipaUs": "/wi ˈɔlsoʊ laɪk ˈwɑtʃɪŋ ði ˈɛləfənts/",
-        "translationVi": "Chúng tôi cũng rất thích ngắm nhìn những chú voi.",
-        "explanationAi": "Mạo từ 'the' trước nguyên âm 'elephants' phát âm là /ði/, động từ 'watch' dùng khi quan sát động vật chuyển động hoặc sinh hoạt.",
-        "properNouns": [],
-        "keywords": [
-            "also like",
-            "watching",
-            "elephants"
-        ],
-        "tokenCount": 6
+      orderIndex: 8,
+      startTime: 51.0,
+      endTime: 53.5,
+      text: "We also like watching the elephants.",
+      ipaUs: "/wi ˈɔlsoʊ laɪk ˈwɑtʃɪŋ ði ˈɛləfənts/",
+      translationVi: "Chúng tôi cũng rất thích ngắm nhìn những chú voi.",
+      explanationAi: "Mạo từ 'the' trước nguyên âm 'elephants' phát âm là /ði/, động từ 'watch' dùng khi quan sát động vật chuyển động hoặc sinh hoạt.",
+      properNouns: [],
+      keywords: [
+        "also like",
+        "watching",
+        "elephants"
+      ],
+      tokenCount: 6
     },
     {
-        "orderIndex": 8,
-        "startTime": 54.4,
-        "endTime": 58,
-        "text": "Another thing we like to do is take walks in the woods.",
-        "ipaUs": "/əˈnʌðər θɪŋ wi laɪk tu du ɪz teɪk wɔks ɪn ðə wʊdz/",
-        "translationVi": "Một điều khác mà chúng tôi thích làm là đi dạo trong rừng.",
-        "explanationAi": "'The woods' trong tiếng Anh chỉ khu rừng nhỏ hoặc vùng cây cối rậm rạp; 'take walks' là đi bộ dạo mát thư giãn.",
-        "properNouns": [],
-        "keywords": [
-            "another thing",
-            "take walks",
-            "woods"
-        ],
-        "tokenCount": 12
+      orderIndex: 9,
+      startTime: 54.4,
+      endTime: 58.0,
+      text: "Another thing we like to do is take walks in the woods.",
+      ipaUs: "/əˈnʌðər θɪŋ wi laɪk tu du ɪz teɪk wɔks ɪn ðə wʊdz/",
+      translationVi: "Một điều khác mà chúng tôi thích làm là đi dạo trong rừng.",
+      explanationAi: "'The woods' trong tiếng Anh chỉ khu rừng nhỏ hoặc vùng cây cối rậm rạp; 'take walks' là đi bộ dạo mát thư giãn.",
+      properNouns: [],
+      keywords: [
+        "another thing",
+        "take walks",
+        "woods"
+      ],
+      tokenCount: 12
     },
     {
-        "orderIndex": 9,
-        "startTime": 59.2,
-        "endTime": 65,
-        "text": "There are many kinds of trees, wild flowers and birds.",
-        "ipaUs": "/ðɛr ɑr ˈmɛni kaɪndz ʌv triz waɪld ˈflaʊərz ænd bɜrdz/",
-        "translationVi": "Ở đó có rất nhiều loài cây, hoa dại và các loài chim.",
-        "explanationAi": "'Kinds of' (các loại / các loài); 'wild flowers' là hoa dại mọc tự nhiên trong rừng.",
-        "properNouns": [],
-        "keywords": [
-            "many kinds of",
-            "trees",
-            "wild flowers",
-            "birds"
-        ],
-        "tokenCount": 10
+      orderIndex: 10,
+      startTime: 59.2,
+      endTime: 65.0,
+      text: "There are many kinds of trees, wild flowers and birds.",
+      ipaUs: "/ðɛr ɑr ˈmɛni kaɪndz ʌv triz waɪld ˈflaʊərz ænd bɜrdz/",
+      translationVi: "Ở đó có rất nhiều loài cây, hoa dại và các loài chim.",
+      explanationAi: "'Kinds of' (các loại / các loài); 'wild flowers' là hoa dại mọc tự nhiên trong rừng.",
+      properNouns: [],
+      keywords: [
+        "many kinds of",
+        "trees",
+        "wild flowers",
+        "birds"
+      ],
+      tokenCount: 10
     },
     {
-        "orderIndex": 10,
-        "startTime": 65.5,
-        "endTime": 71.5,
-        "text": "Sometimes we see squirrels and rabbits too.",
-        "ipaUs": "/ˈsʌmˌtaɪmz wi si ˈskwɜrəlz ænd ˈræbɪts tu/",
-        "translationVi": "Thỉnh thoảng chúng tôi cũng nhìn thấy sóc và thỏ nữa.",
-        "explanationAi": "'Squirrels' /ˈskwɜːrəlz/ (những chú sóc) và 'rabbits' (những chú thỏ); 'too' đặt cuối câu mang nghĩa 'cũng vậy / nữa'.",
-        "properNouns": [],
-        "keywords": [
-            "squirrels",
-            "rabbits",
-            "too"
-        ],
-        "tokenCount": 7
+      orderIndex: 11,
+      startTime: 65.5,
+      endTime: 71.5,
+      text: "Sometimes we see squirrels and rabbits too.",
+      ipaUs: "/ˈsʌmˌtaɪmz wi si ˈskwɜrəlz ænd ˈræbɪts tu/",
+      translationVi: "Thỉnh thoảng chúng tôi cũng nhìn thấy sóc và thỏ nữa.",
+      explanationAi: "'Squirrels' /ˈskwɜːrəlz/ (những chú sóc) và 'rabbits' (những chú thỏ); 'too' đặt cuối câu mang nghĩa 'cũng vậy / nữa'.",
+      properNouns: [],
+      keywords: [
+        "squirrels",
+        "rabbits",
+        "too"
+      ],
+      tokenCount: 7
     }
-],
+  ],
 };

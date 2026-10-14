@@ -166,10 +166,10 @@ describe("Anne-Marie & James Arthur: Rewrite The Stars 100% Verbatim Calibration
         expect(q.explanationVi).toBeDefined();
         expect(q.explanationVi!.length).toBeGreaterThan(15);
 
-        // Reference segment valid index
+        // Reference segment valid index (1-indexed)
         expect(q.referenceSegmentIndex).toBeDefined();
-        expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-        expect(q.referenceSegmentIndex).toBeLessThan(18);
+        expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+        expect(q.referenceSegmentIndex).toBeLessThanOrEqual(18);
 
         // Targeted concept
         expect(q.targetedConcept).toBeDefined();
@@ -182,29 +182,29 @@ describe("Anne-Marie & James Arthur: Rewrite The Stars 100% Verbatim Calibration
       const questions = rtsLesson?.quiz?.questions || [];
       const segments = rtsLesson?.segments || [];
 
-      // Question 1: references segment 1 ("hands are tied")
-      expect(questions[0].referenceSegmentIndex).toBe(1);
-      expect(segments[1].text).toContain("hands are tied");
+      // Question 1: references segment 2 ("hands are tied")
+      expect(questions[0].referenceSegmentIndex).toBe(2);
+      expect(segments[questions[0].referenceSegmentIndex! - 1].text).toContain("hands are tied");
 
-      // Question 2: references segment 2 ("not in the cards")
-      expect(questions[1].referenceSegmentIndex).toBe(2);
-      expect(segments[2].text).toContain("not in the cards");
+      // Question 2: references segment 3 ("not in the cards")
+      expect(questions[1].referenceSegmentIndex).toBe(3);
+      expect(segments[questions[1].referenceSegmentIndex! - 1].text).toContain("not in the cards");
 
-      // Question 3: references segment 6 ("rewrite the stars")
-      expect(questions[2].referenceSegmentIndex).toBe(6);
-      expect(segments[6].text).toContain("rewrite the stars");
+      // Question 3: references segment 7 ("rewrite the stars")
+      expect(questions[2].referenceSegmentIndex).toBe(7);
+      expect(segments[questions[2].referenceSegmentIndex! - 1].text).toContain("rewrite the stars");
 
-      // Question 6: references segment 14 ("Anne-Marie entrance: You think it's easy")
-      expect(questions[5].referenceSegmentIndex).toBe(14);
-      expect(segments[14].text).toContain("You think it's easy");
+      // Question 6: references segment 15 ("Anne-Marie entrance: You think it's easy")
+      expect(questions[5].referenceSegmentIndex).toBe(15);
+      expect(segments[questions[5].referenceSegmentIndex! - 1].text).toContain("You think it's easy");
 
-      // Question 7: references segment 15 ("mountains and doors")
-      expect(questions[6].referenceSegmentIndex).toBe(15);
-      expect(segments[15].text).toContain("mountains");
+      // Question 7: references segment 16 ("mountains and doors")
+      expect(questions[6].referenceSegmentIndex).toBe(16);
+      expect(segments[questions[6].referenceSegmentIndex! - 1].text).toContain("mountains");
 
-      // Question 8: references segment 16 ("within these walls")
-      expect(questions[7].referenceSegmentIndex).toBe(16);
-      expect(segments[16].text).toContain("within these walls");
+      // Question 8: references segment 17 ("within these walls")
+      expect(questions[7].referenceSegmentIndex).toBe(17);
+      expect(segments[questions[7].referenceSegmentIndex! - 1].text).toContain("within these walls");
     });
   });
 });

@@ -45,13 +45,13 @@ export const QUIZ_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: VideoQuizData = {
         "Anh vô tình bị trượt chân sau khi bị một hành khách khác xô đẩy."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 15, Noah threatens: 'I'm gonna ask you one more time: will you or will you not go out with me?' refusing to climb back up until she says yes.",
-      "explanationEn": "In Segment 15, Noah threatens: 'I'm gonna ask you one more time: will you or will you not go out with me?' refusing to climb back up until she says yes.",
-      "explanationVi": "Trong Phân đoạn 15, Noah đe dọa liều lĩnh: 'Anh hỏi em lần cuối: em có chịu đi chơi với anh không?' và kiên quyết không trèo lên cho đến khi cô đồng ý.",
+      "explanation": "In Segment 16, Noah threatens: 'I'm gonna ask you one more time: will you or will you not go out with me?' refusing to climb back up until she says yes.",
+      "explanationEn": "In Segment 16, Noah threatens: 'I'm gonna ask you one more time: will you or will you not go out with me?' refusing to climb back up until she says yes.",
+      "explanationVi": "Trong Phân đoạn 16, Noah đe dọa liều lĩnh: 'Anh hỏi em lần cuối: em có chịu đi chơi với anh không?' và kiên quyết không trèo lên cho đến khi cô đồng ý.",
       "targetedConcept": "Reckless romantic persistence",
       "targetedConceptEn": "Reckless romantic persistence",
       "targetedConceptVi": "Sự kiên trì táo bạo và nồng nhiệt trong tình yêu",
-      "referenceSegmentIndex": 15
+      "referenceSegmentIndex": 16
     },
     {
       "id": "mov_rom_04_q2",
@@ -77,13 +77,13 @@ export const QUIZ_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: VideoQuizData = {
         "Anh khoe về tay nghề mộc cừ khôi và mức lương thợ mộc của mình."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 48 and 50, Noah promises: 'You just tell me what you want, and I'll be that for you... I could be that.'",
-      "explanationEn": "In Segments 48 and 50, Noah promises: 'You just tell me what you want, and I'll be that for you... I could be that.'",
-      "explanationVi": "Trong Phân đoạn 48 và 50, Noah hứa: 'Em chỉ cần bảo em muốn gì và anh sẽ trở thành như thế... Anh ngốc nghếch được luôn.'",
+      "explanation": "In Segments 49 and 51, Noah promises: 'You just tell me what you want, and I'll be that for you... I could be that.'",
+      "explanationEn": "In Segments 49 and 51, Noah promises: 'You just tell me what you want, and I'll be that for you... I could be that.'",
+      "explanationVi": "Trong Phân đoạn 49 và 51, Noah hứa: 'Em chỉ cần bảo em muốn gì và anh sẽ trở thành như thế... Anh ngốc nghếch được luôn.'",
       "targetedConcept": "Complete devotion and emotional vulnerability",
       "targetedConceptEn": "Complete devotion and emotional vulnerability",
       "targetedConceptVi": "Sự tận tụy trọn vẹn và sẵn sàng hy sinh cái tôi",
-      "referenceSegmentIndex": 50
+      "referenceSegmentIndex": 51
     },
     {
       "id": "mov_rom_04_q3",
@@ -109,13 +109,13 @@ export const QUIZ_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: VideoQuizData = {
         "Để gây ấn tượng với giới thượng lưu và giành một ghế trong hội đồng thị trấn."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 60, Noah explains: 'Well, I promised you I would. I painted it white, with blue shutters, and a porch that wraps around the whole house.'",
-      "explanationEn": "In Segment 60, Noah explains: 'Well, I promised you I would. I painted it white, with blue shutters, and a porch that wraps around the whole house.'",
-      "explanationVi": "Trong Phân đoạn 60, Noah giải thích: 'Anh đã hứa với em là anh sẽ làm mà. Anh sơn nhà màu trắng, cửa chớp xanh, và một hàng hiên chạy vòng quanh cả ngôi nhà.'",
+      "explanation": "In Segment 61, Noah explains: 'Well, I promised you I would. I painted it white, with blue shutters, and a porch that wraps around the whole house.'",
+      "explanationEn": "In Segment 61, Noah explains: 'Well, I promised you I would. I painted it white, with blue shutters, and a porch that wraps around the whole house.'",
+      "explanationVi": "Trong Phân đoạn 61, Noah giải thích: 'Anh đã hứa với em là anh sẽ làm mà. Anh sơn nhà màu trắng, cửa chớp xanh, và một hàng hiên chạy vòng quanh cả ngôi nhà.'",
       "targetedConcept": "Sacred architectural promise and enduring commitment",
       "targetedConceptEn": "Sacred architectural promise and enduring commitment",
       "targetedConceptVi": "Giữ trọn lời thề danh dự và kiến tạo ước mơ tình yêu",
-      "referenceSegmentIndex": 60
+      "referenceSegmentIndex": 61
     },
     {
       "id": "mov_rom_04_q4",
@@ -141,13 +141,13 @@ export const QUIZ_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: VideoQuizData = {
         "Rằng anh chỉ nhớ lại cô sau khi đọc tờ báo địa phương."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 63, Noah yells passionately through the pouring rain: 'I wrote you 365 letters. I wrote you every day for a year!' erasing years of heartbreak.",
-      "explanationEn": "In Segment 63, Noah yells passionately through the pouring rain: 'I wrote you 365 letters. I wrote you every day for a year!' erasing years of heartbreak.",
-      "explanationVi": "Trong Phân đoạn 63, Noah hét lên đầy xúc động dưới màn mưa: 'Anh đã viết cho em 365 lá thư. Anh viết cho em mỗi ngày suốt một năm trời!' xóa tan hiểu lầm chất chứa 7 năm.",
+      "explanation": "In Segment 64, Noah yells passionately through the pouring rain: 'I wrote you 365 letters. I wrote you every day for a year!' erasing years of heartbreak.",
+      "explanationEn": "In Segment 64, Noah yells passionately through the pouring rain: 'I wrote you 365 letters. I wrote you every day for a year!' erasing years of heartbreak.",
+      "explanationVi": "Trong Phân đoạn 64, Noah hét lên đầy xúc động dưới màn mưa: 'Anh đã viết cho em 365 lá thư. Anh viết cho em mỗi ngày suốt một năm trời!' xóa tan hiểu lầm chất chứa 7 năm.",
       "targetedConcept": "Resolution of seven years of misunderstanding",
       "targetedConceptEn": "Resolution of seven years of misunderstanding",
       "targetedConceptVi": "Khám phá sự thật giải tỏa 7 năm chia cắt",
-      "referenceSegmentIndex": 63
+      "referenceSegmentIndex": 64
     },
     {
       "id": "mov_rom_04_q5",
@@ -173,13 +173,13 @@ export const QUIZ_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: VideoQuizData = {
         "Anh yêu cầu cô gửi trả lại chiếc nhẫn kim cương của Lon ngay lập tức qua đường bưu điện."
       ],
       "correctAnswer": 0,
-      "explanation": "In Segments 74 and 76, Noah confronts her: 'This is not about keeping your promise. And it's not about following your heart. It's about security! He's got a lot of money!'",
-      "explanationEn": "In Segments 74 and 76, Noah confronts her: 'This is not about keeping your promise. And it's not about following your heart. It's about security! He's got a lot of money!'",
-      "explanationVi": "Trong Phân đoạn 74 và 76, Noah đối đầu cô: 'Chuyện này chẳng liên quan gì đến việc giữ lời hứa. Và cũng không phải là đi theo tiếng gọi con tim. Mà là về sự an toàn! Anh ta có rất nhiều tiền!'",
+      "explanation": "In Segments 75 and 77, Noah confronts her: 'This is not about keeping your promise. And it's not about following your heart. It's about security! He's got a lot of money!'",
+      "explanationEn": "In Segments 75 and 77, Noah confronts her: 'This is not about keeping your promise. And it's not about following your heart. It's about security! He's got a lot of money!'",
+      "explanationVi": "Trong Phân đoạn 75 và 77, Noah đối đầu cô: 'Chuyện này chẳng liên quan gì đến việc giữ lời hứa. Và cũng không phải là đi theo tiếng gọi con tim. Mà là về sự an toàn! Anh ta có rất nhiều tiền!'",
       "targetedConcept": "Pragmatic social security vs authentic passion",
       "targetedConceptEn": "Pragmatic social security vs authentic passion",
       "targetedConceptVi": "Thỏa hiệp vị thế xã hội đối lập tiếng gọi con tim",
-      "referenceSegmentIndex": 74
+      "referenceSegmentIndex": 75
     },
     {
       "id": "mov_rom_04_q6",
@@ -205,13 +205,13 @@ export const QUIZ_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: VideoQuizData = {
         "Rằng sự nồng nhiệt lãng mạn đương nhiên sẽ lụi tàn sau mùa hè đầu tiên."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 85 and 88, Noah proclaims: 'That's what we do! We fight!... It's not gonna be easy. It's gonna be really hard, and we're gonna have to work at this every day. But I want to do that because I want you!'",
-      "explanationEn": "In Segments 85 and 88, Noah proclaims: 'That's what we do! We fight!... It's not gonna be easy. It's gonna be really hard, and we're gonna have to work at this every day. But I want to do that because I want you!'",
-      "explanationVi": "Trong Phân đoạn 85 và 88, Noah tuyên bố: 'Đó là cách chúng ta sống! Chúng ta cãi vã!... Mọi chuyện sẽ không dễ dàng đâu. Sẽ rất gian nan, và chúng ta sẽ phải nỗ lực vì nó mỗi ngày. Nhưng anh muốn làm điều đó vì anh muốn có em!'",
+      "explanation": "In Segments 86 and 89, Noah proclaims: 'That's what we do! We fight!... It's not gonna be easy. It's gonna be really hard, and we're gonna have to work at this every day. But I want to do that because I want you!'",
+      "explanationEn": "In Segments 86 and 89, Noah proclaims: 'That's what we do! We fight!... It's not gonna be easy. It's gonna be really hard, and we're gonna have to work at this every day. But I want to do that because I want you!'",
+      "explanationVi": "Trong Phân đoạn 86 và 89, Noah tuyên bố: 'Đó là cách chúng ta sống! Chúng ta cãi vã!... Mọi chuyện sẽ không dễ dàng đâu. Sẽ rất gian nan, và chúng ta sẽ phải nỗ lực vì nó mỗi ngày. Nhưng anh muốn làm điều đó vì anh muốn có em!'",
       "targetedConcept": "Accepting friction for lasting partnership",
       "targetedConceptEn": "Accepting friction for lasting partnership",
       "targetedConceptVi": "Chấp nhận xung đột để xây dựng tình yêu đích thực",
-      "referenceSegmentIndex": 88
+      "referenceSegmentIndex": 89
     },
     {
       "id": "mov_rom_04_q7",
@@ -237,13 +237,13 @@ export const QUIZ_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: VideoQuizData = {
         "Em sẽ quay về Charleston hay ở lại Seabrook?!"
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 94 and 95, Noah breaks through her defense: 'Would you stop thinking about what everyone wants?!... What do you want?! What do you want?!'",
-      "explanationEn": "In Segments 94 and 95, Noah breaks through her defense: 'Would you stop thinking about what everyone wants?!... What do you want?! What do you want?!'",
-      "explanationVi": "Trong Phân đoạn 94 và 95, Noah thức tỉnh cô: 'Em có thôi nghĩ về những gì mọi người muốn hay không?!... Em muốn cái gì?! Bản thân em muốn gì?!'",
+      "explanation": "In Segments 95 and 96, Noah breaks through her defense: 'Would you stop thinking about what everyone wants?!... What do you want?! What do you want?!'",
+      "explanationEn": "In Segments 95 and 96, Noah breaks through her defense: 'Would you stop thinking about what everyone wants?!... What do you want?! What do you want?!'",
+      "explanationVi": "Trong Phân đoạn 95 và 96, Noah thức tỉnh cô: 'Em có thôi nghĩ về những gì mọi người muốn hay không?!... Em muốn cái gì?! Bản thân em muốn gì?!'",
       "targetedConcept": "Authentic emotional autonomy",
       "targetedConceptEn": "Authentic emotional autonomy",
       "targetedConceptVi": "Quyền tự quyết cảm xúc cá nhân",
-      "referenceSegmentIndex": 95
+      "referenceSegmentIndex": 96
     },
     {
       "id": "mov_rom_04_q8",
@@ -269,13 +269,13 @@ export const QUIZ_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: VideoQuizData = {
         "Noah nhận ra các trang sổ tay đã bị nước mưa làm hỏng hoàn toàn."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 101, 102, and 104, right after whispering 'It was us, darling!', Allie panics in terror: 'No! Who are you?! Somebody help me!' as Noah tearfully holds on.",
-      "explanationEn": "In Segments 101, 102, and 104, right after whispering 'It was us, darling!', Allie panics in terror: 'No! Who are you?! Somebody help me!' as Noah tearfully holds on.",
-      "explanationVi": "Trong các Phân đoạn 101, 102 và 104, ngay sau khi thì thầm 'Đó chính là chúng ta, anh yêu!', cơn bệnh tái phát khiến Allie hoảng loạn: 'Không! Ông là ai?! Có ai cứu tôi với!' trong khi Noah nuốt nước mắt ở bên cô.",
+      "explanation": "In Segments 102, 103, and 105, right after whispering 'It was us, darling!', Allie panics in terror: 'No! Who are you?! Somebody help me!' as Noah tearfully holds on.",
+      "explanationEn": "In Segments 102, 103, and 105, right after whispering 'It was us, darling!', Allie panics in terror: 'No! Who are you?! Somebody help me!' as Noah tearfully holds on.",
+      "explanationVi": "Trong các Phân đoạn 102, 103 và 105, ngay sau khi thì thầm 'Đó chính là chúng ta, anh yêu!', cơn bệnh tái phát khiến Allie hoảng loạn: 'Không! Ông là ai?! Có ai cứu tôi với!' trong khi Noah nuốt nước mắt ở bên cô.",
       "targetedConcept": "Transcendent love persevering through Alzheimer's",
       "targetedConceptEn": "Transcendent love persevering through Alzheimer's",
       "targetedConceptVi": "Tình yêu bất diệt vượt qua bi kịch mất trí nhớ",
-      "referenceSegmentIndex": 101
+      "referenceSegmentIndex": 102
     }
   ]
 };
@@ -302,7 +302,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "Tuyển tập trọn vẹn những khoảnh khắc điện ảnh bất hủ nhất giữa Noah Calhoun (Ryan Gosling) và Allie Hamilton (Rachel McAdams) trong The Notebook: từ màn tỏ tình liều mạng trên đu quay hội chợ, cuộc dạo bước ban đêm giữa ngã tư Seabrook, cuộc tái ngộ bên ngôi nhà trang viên Windsor, nụ hôn dưới mưa rào giải tỏa 365 lá thư thất lạc, cuộc cãi vã dữ dội 'What do you want?!', đến lá thư chia tay đầy vị tha và khoảnh khắc ký ức thức tỉnh lay động lòng người.",
   segments: [
   {
-    "orderIndex": 0,
+    "orderIndex": 1,
     "startTime": 0,
     "endTime": 10,
     "text": "Wait, what? Have you lost your mind? What are you doing? Hey, you can't do that!",
@@ -317,7 +317,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 16
   },
   {
-    "orderIndex": 1,
+    "orderIndex": 2,
     "startTime": 10,
     "endTime": 18,
     "text": "I'll tell you when I get down, Tommy. I'm Noah Calhoun. So... so it's really nice to meet you.",
@@ -336,7 +336,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 19
   },
   {
-    "orderIndex": 2,
+    "orderIndex": 3,
     "startTime": 18,
     "endTime": 19.33,
     "text": "Who is this guy?",
@@ -350,7 +350,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 4
   },
   {
-    "orderIndex": 3,
+    "orderIndex": 4,
     "startTime": 19.33,
     "endTime": 21,
     "text": "I don't know, Noah Calhoun.",
@@ -368,7 +368,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 5
   },
   {
-    "orderIndex": 4,
+    "orderIndex": 5,
     "startTime": 21,
     "endTime": 25,
     "text": "I would really like to take you out, friend. Do you mind?",
@@ -383,7 +383,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 12
   },
   {
-    "orderIndex": 5,
+    "orderIndex": 6,
     "startTime": 25,
     "endTime": 28.96,
     "text": "You can't sit more than two people in a chair, Noah!",
@@ -400,7 +400,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 11
   },
   {
-    "orderIndex": 6,
+    "orderIndex": 7,
     "startTime": 28.96,
     "endTime": 30.4,
     "text": "Okay, Tommy. All right.",
@@ -417,7 +417,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 4
   },
   {
-    "orderIndex": 7,
+    "orderIndex": 8,
     "startTime": 30.4,
     "endTime": 34,
     "text": "Get down! Noah, you're gonna kill yourself! Cut it out!",
@@ -434,7 +434,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 10
   },
   {
-    "orderIndex": 8,
+    "orderIndex": 9,
     "startTime": 34,
     "endTime": 36.52,
     "text": "Well, will you go out with me?",
@@ -449,7 +449,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 7
   },
   {
-    "orderIndex": 9,
+    "orderIndex": 10,
     "startTime": 36.52,
     "endTime": 36.88,
     "text": "No!",
@@ -463,7 +463,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 1
   },
   {
-    "orderIndex": 10,
+    "orderIndex": 11,
     "startTime": 36.88,
     "endTime": 39.4,
     "text": "Hey bud, she just told you no!",
@@ -478,7 +478,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 7
   },
   {
-    "orderIndex": 11,
+    "orderIndex": 12,
     "startTime": 39.4,
     "endTime": 40.12,
     "text": "Why not?",
@@ -492,7 +492,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 2
   },
   {
-    "orderIndex": 12,
+    "orderIndex": 13,
     "startTime": 40.12,
     "endTime": 43,
     "text": "I don't know, because I don't want to!",
@@ -507,7 +507,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 8
   },
   {
-    "orderIndex": 13,
+    "orderIndex": 14,
     "startTime": 43,
     "endTime": 48.45,
     "text": "All right. Well, you leave me no other choice then.",
@@ -522,7 +522,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 10
   },
   {
-    "orderIndex": 14,
+    "orderIndex": 15,
     "startTime": 48.45,
     "endTime": 55,
     "text": "Oh my God! I'm not kidding! Noah, stop! What are you doing?!",
@@ -539,7 +539,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 12
   },
   {
-    "orderIndex": 15,
+    "orderIndex": 16,
     "startTime": 55,
     "endTime": 61.23,
     "text": "I'm gonna ask you one more time: will you or will you not go out with me?",
@@ -554,7 +554,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 17
   },
   {
-    "orderIndex": 16,
+    "orderIndex": 17,
     "startTime": 61.23,
     "endTime": 64.53,
     "text": "Goddamn hillbilly! The car is on fire, you idiot!",
@@ -569,7 +569,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 9
   },
   {
-    "orderIndex": 17,
+    "orderIndex": 18,
     "startTime": 64.53,
     "endTime": 66,
     "text": "Not until she agrees!",
@@ -584,7 +584,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 4
   },
   {
-    "orderIndex": 18,
+    "orderIndex": 19,
     "startTime": 66,
     "endTime": 69,
     "text": "Ah, go out with him, honey!",
@@ -598,7 +598,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 6
   },
   {
-    "orderIndex": 19,
+    "orderIndex": 20,
     "startTime": 69,
     "endTime": 73,
     "text": "Okay! Okay, fine! I'll go out with you!",
@@ -613,7 +613,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 8
   },
   {
-    "orderIndex": 20,
+    "orderIndex": 21,
     "startTime": 73,
     "endTime": 76,
     "text": "Well, don't do me any favors.",
@@ -628,7 +628,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 6
   },
   {
-    "orderIndex": 21,
+    "orderIndex": 22,
     "startTime": 76,
     "endTime": 77.11,
     "text": "No, I want to!",
@@ -642,7 +642,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 4
   },
   {
-    "orderIndex": 22,
+    "orderIndex": 23,
     "startTime": 77.11,
     "endTime": 79.33,
     "text": "You want to? You want to say it?",
@@ -657,7 +657,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 8
   },
   {
-    "orderIndex": 23,
+    "orderIndex": 24,
     "startTime": 79.33,
     "endTime": 81.27,
     "text": "I want to go out with you!",
@@ -671,7 +671,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 7
   },
   {
-    "orderIndex": 24,
+    "orderIndex": 25,
     "startTime": 81.27,
     "endTime": 82.1,
     "text": "Say it again!",
@@ -685,7 +685,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 3
   },
   {
-    "orderIndex": 25,
+    "orderIndex": 26,
     "startTime": 82.1,
     "endTime": 86,
     "text": "I want to go out with you! All right?! All right, we'll go out!",
@@ -700,7 +700,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 14
   },
   {
-    "orderIndex": 26,
+    "orderIndex": 27,
     "startTime": 86,
     "endTime": 98,
     "text": "You think you're so smart, don't you? That was a funny one, you idiot! Oh, it's okay, I'll take care of this. What are you doing? Please don't do that, Allie!",
@@ -717,7 +717,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 31
   },
   {
-    "orderIndex": 27,
+    "orderIndex": 28,
     "startTime": 98,
     "endTime": 103.42,
     "text": "I can't believe it! Oh God! You're not so cocky now, are you?",
@@ -732,7 +732,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 13
   },
   {
-    "orderIndex": 28,
+    "orderIndex": 29,
     "startTime": 103.42,
     "endTime": 105.09,
     "text": "I'm gonna get you!",
@@ -746,7 +746,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 4
   },
   {
-    "orderIndex": 29,
+    "orderIndex": 30,
     "startTime": 105.09,
     "endTime": 108,
     "text": "Oh, maybe you will, maybe you won't!",
@@ -761,7 +761,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 7
   },
   {
-    "orderIndex": 30,
+    "orderIndex": 31,
     "startTime": 108,
     "endTime": 110,
     "text": "You remember me?",
@@ -775,7 +775,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 3
   },
   {
-    "orderIndex": 31,
+    "orderIndex": 32,
     "startTime": 110,
     "endTime": 114,
     "text": "Yeah, sure. Mr. Underwear, was it?",
@@ -790,7 +790,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 6
   },
   {
-    "orderIndex": 32,
+    "orderIndex": 33,
     "startTime": 114,
     "endTime": 118,
     "text": "Oh, yeah. How could I forget?",
@@ -805,7 +805,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 6
   },
   {
-    "orderIndex": 33,
+    "orderIndex": 34,
     "startTime": 118,
     "endTime": 130,
     "text": "Yeah, I wanted to clear the air with you because I'm really sorry about that. It was a really stupid thing to do, climbing up the ferris wheel to talk to somebody, but I had to be next to you.",
@@ -820,7 +820,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 40
   },
   {
-    "orderIndex": 34,
+    "orderIndex": 35,
     "startTime": 130,
     "endTime": 132.07,
     "text": "I was being drawn to you.",
@@ -835,7 +835,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 6
   },
   {
-    "orderIndex": 35,
+    "orderIndex": 36,
     "startTime": 132.07,
     "endTime": 140,
     "text": "Oh jeez, what a line! You use that on all the girls? Right. I saw you the other night with little Miss Ribbons.",
@@ -850,7 +850,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 23
   },
   {
-    "orderIndex": 36,
+    "orderIndex": 37,
     "startTime": 140,
     "endTime": 143.67,
     "text": "What are you doing tonight? Or tomorrow night, or this weekend?",
@@ -865,7 +865,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 11
   },
   {
-    "orderIndex": 37,
+    "orderIndex": 38,
     "startTime": 143.67,
     "endTime": 144,
     "text": "Why?",
@@ -879,7 +879,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 1
   },
   {
-    "orderIndex": 38,
+    "orderIndex": 39,
     "startTime": 144,
     "endTime": 144.67,
     "text": "Our date!",
@@ -893,7 +893,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 2
   },
   {
-    "orderIndex": 39,
+    "orderIndex": 40,
     "startTime": 144.67,
     "endTime": 145.34,
     "text": "What date?",
@@ -907,7 +907,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 2
   },
   {
-    "orderIndex": 40,
+    "orderIndex": 41,
     "startTime": 145.34,
     "endTime": 150,
     "text": "The date that you agreed to! Yes, you did! You promised and you swore!",
@@ -922,7 +922,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 14
   },
   {
-    "orderIndex": 41,
+    "orderIndex": 42,
     "startTime": 150,
     "endTime": 152.47,
     "text": "Well, I guess I changed my mind.",
@@ -937,7 +937,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 7
   },
   {
-    "orderIndex": 42,
+    "orderIndex": 43,
     "startTime": 152.47,
     "endTime": 162,
     "text": "Look, I know you get some dirty guy coming up to you on the street, you don't know him, you don't know me. But I know me.",
@@ -952,7 +952,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 27
   },
   {
-    "orderIndex": 43,
+    "orderIndex": 44,
     "startTime": 162,
     "endTime": 170.96,
     "text": "And when I see something that I like, I gotta have it. I love it. I mean, I go crazy for it.",
@@ -967,7 +967,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 22
   },
   {
-    "orderIndex": 44,
+    "orderIndex": 45,
     "startTime": 170.96,
     "endTime": 173,
     "text": "What are you talking about?",
@@ -981,7 +981,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 5
   },
   {
-    "orderIndex": 45,
+    "orderIndex": 46,
     "startTime": 173,
     "endTime": 183.76,
     "text": "Well, you're good. You're good, you're good. No, you're getting me wrong. You're fantastic! You really are. I'm impressed. I'm not usually like this, I'm sorry.",
@@ -996,7 +996,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 26
   },
   {
-    "orderIndex": 46,
+    "orderIndex": 47,
     "startTime": 183.76,
     "endTime": 185,
     "text": "Yes, you are.",
@@ -1010,7 +1010,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 3
   },
   {
-    "orderIndex": 47,
+    "orderIndex": 48,
     "startTime": 185,
     "endTime": 198,
     "text": "I could be fun if you want. Pensive, superstitious, brave, and I could be light on the feet. I could be whatever you want.",
@@ -1025,7 +1025,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 24
   },
   {
-    "orderIndex": 48,
+    "orderIndex": 49,
     "startTime": 198,
     "endTime": 204.84,
     "text": "You just tell me what you want, and I'll be that for you.",
@@ -1040,7 +1040,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 13
   },
   {
-    "orderIndex": 49,
+    "orderIndex": 50,
     "startTime": 204.84,
     "endTime": 205.89,
     "text": "You're dumb.",
@@ -1055,7 +1055,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 2
   },
   {
-    "orderIndex": 50,
+    "orderIndex": 51,
     "startTime": 205.89,
     "endTime": 208,
     "text": "I could be that.",
@@ -1069,7 +1069,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 4
   },
   {
-    "orderIndex": 51,
+    "orderIndex": 52,
     "startTime": 220,
     "endTime": 238,
     "text": "I saw your picture in the paper, the one with you in the house, and I just wanted to come and see if you were okay. I mean, I wasn't in the neighborhood or anything. I just... so, are you okay?",
@@ -1084,7 +1084,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 41
   },
   {
-    "orderIndex": 52,
+    "orderIndex": 53,
     "startTime": 238,
     "endTime": 241.18,
     "text": "Yeah, I'm okay.",
@@ -1099,7 +1099,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 3
   },
   {
-    "orderIndex": 53,
+    "orderIndex": 54,
     "startTime": 241.18,
     "endTime": 250.71,
     "text": "Okay, good. I'm a stupid woman. I shouldn't have...",
@@ -1114,7 +1114,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 9
   },
   {
-    "orderIndex": 54,
+    "orderIndex": 55,
     "startTime": 250.71,
     "endTime": 256,
     "text": "You want to come in?",
@@ -1129,7 +1129,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 5
   },
   {
-    "orderIndex": 55,
+    "orderIndex": 56,
     "startTime": 256,
     "endTime": 257.81,
     "text": "You're different.",
@@ -1144,7 +1144,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 2
   },
   {
-    "orderIndex": 56,
+    "orderIndex": 57,
     "startTime": 257.81,
     "endTime": 261.43,
     "text": "What do you mean?",
@@ -1158,7 +1158,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 4
   },
   {
-    "orderIndex": 57,
+    "orderIndex": 58,
     "startTime": 261.43,
     "endTime": 266.86,
     "text": "It's the way you look. Everything.",
@@ -1173,7 +1173,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 6
   },
   {
-    "orderIndex": 58,
+    "orderIndex": 59,
     "startTime": 266.86,
     "endTime": 275,
     "text": "You look different, too. But in a good way.",
@@ -1188,7 +1188,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 9
   },
   {
-    "orderIndex": 59,
+    "orderIndex": 60,
     "startTime": 275,
     "endTime": 300,
     "text": "You're kind of the same, though. And you really did it. The house. It's beautiful what you did.",
@@ -1203,7 +1203,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 18
   },
   {
-    "orderIndex": 60,
+    "orderIndex": 61,
     "startTime": 300,
     "endTime": 330,
     "text": "Well, I promised you I would. I painted it white, with blue shutters, and a porch that wraps around the whole house.",
@@ -1218,7 +1218,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 22
   },
   {
-    "orderIndex": 61,
+    "orderIndex": 62,
     "startTime": 330,
     "endTime": 350,
     "text": "Great. We got to go. Let's go. The storm is coming in. The clouds are turning dark over the river.",
@@ -1233,7 +1233,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 20
   },
   {
-    "orderIndex": 62,
+    "orderIndex": 63,
     "startTime": 420,
     "endTime": 435,
     "text": "Why didn't you write me? It wasn't over for me! I waited for you for seven years! Now it's too late!",
@@ -1248,7 +1248,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 21
   },
   {
-    "orderIndex": 63,
+    "orderIndex": 64,
     "startTime": 435,
     "endTime": 445,
     "text": "I wrote you 365 letters. I wrote you every day for a year!",
@@ -1263,7 +1263,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 13
   },
   {
-    "orderIndex": 64,
+    "orderIndex": 65,
     "startTime": 445,
     "endTime": 447.73,
     "text": "You wrote me?!",
@@ -1277,7 +1277,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 3
   },
   {
-    "orderIndex": 65,
+    "orderIndex": 66,
     "startTime": 447.73,
     "endTime": 455,
     "text": "Yes! It wasn't over! It still isn't over!",
@@ -1292,7 +1292,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 8
   },
   {
-    "orderIndex": 66,
+    "orderIndex": 67,
     "startTime": 455,
     "endTime": 470,
     "text": "Oh, Noah... They hold each other in the pouring rain, breathing each other's name before their lips meet in an embrace that erases seven years of separation.",
@@ -1309,7 +1309,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 27
   },
   {
-    "orderIndex": 67,
+    "orderIndex": 68,
     "startTime": 500,
     "endTime": 505.5,
     "text": "Are we back there? What about the past couple of days?",
@@ -1324,7 +1324,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 11
   },
   {
-    "orderIndex": 68,
+    "orderIndex": 69,
     "startTime": 505.5,
     "endTime": 515,
     "text": "They happened, you know! I know that they happened and they were wonderful, but they were also very irresponsible!",
@@ -1339,7 +1339,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 19
   },
   {
-    "orderIndex": 69,
+    "orderIndex": 70,
     "startTime": 515,
     "endTime": 528,
     "text": "I have a fiancé waiting for me at a hotel who's going to be crushed when he finds out what we did!",
@@ -1354,7 +1354,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 22
   },
   {
-    "orderIndex": 70,
+    "orderIndex": 71,
     "startTime": 528,
     "endTime": 536,
     "text": "So you make love to me and then you go back to your husband? Was that your plan? Was that a test that I didn't pass?!",
@@ -1369,7 +1369,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 26
   },
   {
-    "orderIndex": 71,
+    "orderIndex": 72,
     "startTime": 536,
     "endTime": 540.97,
     "text": "I made a promise to a man! He gave me a ring and I gave him my word!",
@@ -1384,7 +1384,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 18
   },
   {
-    "orderIndex": 72,
+    "orderIndex": 73,
     "startTime": 540.97,
     "endTime": 544,
     "text": "And your word is shot to hell now, don't you think?!",
@@ -1399,7 +1399,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 11
   },
   {
-    "orderIndex": 73,
+    "orderIndex": 74,
     "startTime": 544,
     "endTime": 547.14,
     "text": "I don't know, I'll find out when I talk to him!",
@@ -1414,7 +1414,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 11
   },
   {
-    "orderIndex": 74,
+    "orderIndex": 75,
     "startTime": 547.14,
     "endTime": 552,
     "text": "This is not about keeping your promise. And it's not about following your heart. It's about security!",
@@ -1429,7 +1429,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 17
   },
   {
-    "orderIndex": 75,
+    "orderIndex": 76,
     "startTime": 552,
     "endTime": 554.14,
     "text": "What is that supposed to mean?! What are you saying?!",
@@ -1444,7 +1444,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 10
   },
   {
-    "orderIndex": 76,
+    "orderIndex": 77,
     "startTime": 554.14,
     "endTime": 555.43,
     "text": "He's got a lot of money!",
@@ -1459,7 +1459,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 6
   },
   {
-    "orderIndex": 77,
+    "orderIndex": 78,
     "startTime": 555.43,
     "endTime": 558,
     "text": "I hate you! You bastard! If you say that, I hate you!",
@@ -1474,7 +1474,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 12
   },
   {
-    "orderIndex": 78,
+    "orderIndex": 79,
     "startTime": 558,
     "endTime": 560.08,
     "text": "Did you pay attention to anything that's been happening?!",
@@ -1489,7 +1489,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 9
   },
   {
-    "orderIndex": 79,
+    "orderIndex": 80,
     "startTime": 560.08,
     "endTime": 563.08,
     "text": "I guess not! I think I must have misread all of those signals!",
@@ -1504,7 +1504,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 13
   },
   {
-    "orderIndex": 80,
+    "orderIndex": 81,
     "startTime": 563.08,
     "endTime": 564,
     "text": "I guess you did!",
@@ -1518,7 +1518,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 4
   },
   {
-    "orderIndex": 81,
+    "orderIndex": 82,
     "startTime": 564,
     "endTime": 568.64,
     "text": "You're bored! You're bored and you know it! You wouldn't be here if there wasn't something missing!",
@@ -1533,7 +1533,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 17
   },
   {
-    "orderIndex": 82,
+    "orderIndex": 83,
     "startTime": 568.64,
     "endTime": 570,
     "text": "You son of a bitch!",
@@ -1547,7 +1547,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 5
   },
   {
-    "orderIndex": 83,
+    "orderIndex": 84,
     "startTime": 570,
     "endTime": 572.82,
     "text": "Would you just stay with me?!",
@@ -1562,7 +1562,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 6
   },
   {
-    "orderIndex": 84,
+    "orderIndex": 85,
     "startTime": 572.82,
     "endTime": 578,
     "text": "Stay with you? What for? Look at us, we're already fighting!",
@@ -1577,7 +1577,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 11
   },
   {
-    "orderIndex": 85,
+    "orderIndex": 86,
     "startTime": 578,
     "endTime": 588,
     "text": "Well, that's what we do! We fight! You tell me when I'm being an arrogant son of a bitch and I tell you when you're being a pain in the ass!",
@@ -1592,7 +1592,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 31
   },
   {
-    "orderIndex": 86,
+    "orderIndex": 87,
     "startTime": 588,
     "endTime": 598,
     "text": "Which you are, 99% of the time! I'm not afraid to hurt your feelings. You have like a two-second rebound rate and you're back doing the next pain in the ass thing!",
@@ -1607,7 +1607,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 32
   },
   {
-    "orderIndex": 87,
+    "orderIndex": 88,
     "startTime": 598,
     "endTime": 598.61,
     "text": "So what?!",
@@ -1621,7 +1621,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 2
   },
   {
-    "orderIndex": 88,
+    "orderIndex": 89,
     "startTime": 598.61,
     "endTime": 608,
     "text": "So it's not gonna be easy. It's gonna be really hard, and we're gonna have to work at this every day. But I want to do that because I want you!",
@@ -1636,7 +1636,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 31
   },
   {
-    "orderIndex": 89,
+    "orderIndex": 90,
     "startTime": 608,
     "endTime": 618,
     "text": "I want all of you, forever. You and me, every day! Will you do something for me? Please?",
@@ -1651,7 +1651,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 18
   },
   {
-    "orderIndex": 90,
+    "orderIndex": 91,
     "startTime": 618,
     "endTime": 628,
     "text": "Just picture your life thirty years from now, forty years from now. What's it look like? If it's with that guy, go!",
@@ -1666,7 +1666,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 22
   },
   {
-    "orderIndex": 91,
+    "orderIndex": 92,
     "startTime": 628,
     "endTime": 635.71,
     "text": "I lost you once, I think I could do it again if I thought it's what you really wanted. But don't you take the easy way out!",
@@ -1681,7 +1681,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 27
   },
   {
-    "orderIndex": 92,
+    "orderIndex": 93,
     "startTime": 635.71,
     "endTime": 638,
     "text": "What easy way?! There is no easy way!",
@@ -1696,7 +1696,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 8
   },
   {
-    "orderIndex": 93,
+    "orderIndex": 94,
     "startTime": 638,
     "endTime": 640.76,
     "text": "No matter what I do, somebody gets hurt!",
@@ -1711,7 +1711,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 8
   },
   {
-    "orderIndex": 94,
+    "orderIndex": 95,
     "startTime": 640.76,
     "endTime": 648,
     "text": "Would you stop thinking about what everyone wants?! Stop thinking about what I want, what he wants, what your parents want!",
@@ -1726,7 +1726,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 21
   },
   {
-    "orderIndex": 95,
+    "orderIndex": 96,
     "startTime": 648,
     "endTime": 651.69,
     "text": "What do you want?! What do you want?!",
@@ -1741,7 +1741,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 8
   },
   {
-    "orderIndex": 96,
+    "orderIndex": 97,
     "startTime": 651.69,
     "endTime": 653.54,
     "text": "It's not that simple!",
@@ -1756,7 +1756,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 4
   },
   {
-    "orderIndex": 97,
+    "orderIndex": 98,
     "startTime": 653.54,
     "endTime": 658.16,
     "text": "What do you want?! Goddamn it, what do you want?!",
@@ -1771,7 +1771,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 10
   },
   {
-    "orderIndex": 98,
+    "orderIndex": 99,
     "startTime": 658.16,
     "endTime": 660,
     "text": "I have to go.",
@@ -1785,7 +1785,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 4
   },
   {
-    "orderIndex": 99,
+    "orderIndex": 100,
     "startTime": 720,
     "endTime": 738,
     "text": "My dearest Allie, I couldn't sleep last night because I know that it's over between us. I'm not bitter anymore, because I know that what we had was real.",
@@ -1802,7 +1802,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 29
   },
   {
-    "orderIndex": 100,
+    "orderIndex": 101,
     "startTime": 738,
     "endTime": 755,
     "text": "And if in some distant place in the future we see each other in our new lives, I'll smile at you with joy, and remember how we spent a summer beneath the trees, learning from each other and growing in love.",
@@ -1817,7 +1817,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 41
   },
   {
-    "orderIndex": 101,
+    "orderIndex": 102,
     "startTime": 755,
     "endTime": 782,
     "text": "I remember now. It was us... It was us, darling! Oh, my sweetheart! Oh, I loved it so much! Oh, baby...",
@@ -1832,7 +1832,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 21
   },
   {
-    "orderIndex": 102,
+    "orderIndex": 103,
     "startTime": 782,
     "endTime": 788.19,
     "text": "No... No! Who are you?! Don't touch me! Get away from me! No!",
@@ -1847,7 +1847,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 13
   },
   {
-    "orderIndex": 103,
+    "orderIndex": 104,
     "startTime": 788.19,
     "endTime": 792,
     "text": "Allie, it's me... it's Noah! Look at me!",
@@ -1865,7 +1865,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 8
   },
   {
-    "orderIndex": 104,
+    "orderIndex": 105,
     "startTime": 792,
     "endTime": 794.67,
     "text": "Somebody help me! Who are you?!",
@@ -1880,7 +1880,7 @@ export const LESSON_THE_NOTEBOOK_IT_WASNT_OVER_CONFRONTATION: MockVideoLesson = 
     "tokenCount": 6
   },
   {
-    "orderIndex": 105,
+    "orderIndex": 106,
     "startTime": 794.67,
     "endTime": 804,
     "text": "It's okay, Allie, I'm here. Noah holds back his tears as the nurses arrive, loving her through the darkness of dementia.",

@@ -744,7 +744,10 @@ export const LESSON_BBC_LAUGHTER_MEDICINE: MockVideoLesson = {
         "text": "No, Neil, I don't.",
         "translationVi": "Không, Neil, tôi không làm thế đâu.",
         "ipaUs": "/ˈnoʊ ˈniːl ˈaɪ ˈdoʊnt/",
-        "keywords": [],
+        "keywords": [
+            "negative response",
+            "disagree"
+        ],
         "explanationAi": "Câu phủ định dứt khoát của Alice tạo nên nét tương phản tính cách hài hước giữa hai người dẫn.",
         "properNouns": [
             "Neil"
@@ -940,7 +943,10 @@ export const LESSON_BBC_LAUGHTER_MEDICINE: MockVideoLesson = {
         "text": "Yes, it does.",
         "translationVi": "Đúng vậy, nghe đúng là thế.",
         "ipaUs": "/ˈjes ˈɪt ˈdʌz/",
-        "keywords": [],
+        "keywords": [
+            "agreement",
+            "confirmation"
+        ],
         "explanationAi": "Câu phụ họa tán đồng của Alice dẫn dắt vào phần giải thích chi tiết ý nghĩa ngữ dụng của từ.",
         "properNouns": [],
         "tokenCount": 3
@@ -1455,7 +1461,10 @@ export const LESSON_BBC_LAUGHTER_MEDICINE: MockVideoLesson = {
         "text": "Alright then. Here they are:",
         "translationVi": "Được thôi. Các từ vựng đó đây:",
         "ipaUs": "/ˈɔːlraɪt ˈðen ˈhiːr ˈðeɪ ˈɑːr/",
-        "keywords": [],
+        "keywords": [
+            "alright then",
+            "here they are"
+        ],
         "explanationAi": "Lời dẫn tự nhiên bước vào phần tổng kết 10 từ vựng cốt lõi của bài học.",
         "properNouns": [],
         "tokenCount": 5
@@ -1642,7 +1651,10 @@ export const LESSON_BBC_LAUGHTER_MEDICINE: MockVideoLesson = {
         "text": "Bye.",
         "translationVi": "Tạm biệt.",
         "ipaUs": "/ˈbaɪ/",
-        "keywords": [],
+        "keywords": [
+            "bye",
+            "farewell"
+        ],
         "explanationAi": "Lời chào tạm biệt ngắn gọn kết thúc buổi ghi hình của Alice và Neil.",
         "properNouns": [],
         "tokenCount": 1

@@ -84,10 +84,10 @@ describe("Sleep Is Your Superpower - Matt Walker (vid_matt_walker_sleep) - Verba
   it("Audit 9: Quiz Pedagogical Coverage Across the Full Talk", () => {
     const quiz = QUIZ_MATT_WALKER_SLEEP;
     const refIndices = quiz.questions.map((q) => q.referenceSegmentIndex);
-    expect(refIndices).toEqual([1, 2, 9, 21, 34, 74, 62, 133]);
+    expect(refIndices).toEqual([2, 3, 10, 22, 35, 75, 63, 134]);
 
     for (const q of quiz.questions) {
-      const targetSeg = LESSON_MATT_WALKER_SLEEP.segments[q.referenceSegmentIndex!];
+      const targetSeg = LESSON_MATT_WALKER_SLEEP.segments[q.referenceSegmentIndex! - 1];
       expect(targetSeg).toBeDefined();
     }
   });

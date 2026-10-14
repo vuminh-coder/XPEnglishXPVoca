@@ -29,7 +29,7 @@ describe("Julian Treasure: How to Speak So That People Want to Listen (vid_julia
 
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeLessThan(seg.endTime);
       if (i > 0) {
         expect(seg.startTime).toBeGreaterThanOrEqual(segments[i - 1].startTime);
@@ -98,8 +98,8 @@ describe("Julian Treasure: How to Speak So That People Want to Listen (vid_julia
       expect(q.targetedConceptEn).toBeDefined();
       expect(q.targetedConceptVi).toBeDefined();
       expect(typeof q.referenceSegmentIndex).toBe("number");
-      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-      expect(q.referenceSegmentIndex).toBeLessThan(LESSON_JULIAN_TREASURE.segments.length);
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(LESSON_JULIAN_TREASURE.segments.length);
     }
   });
 

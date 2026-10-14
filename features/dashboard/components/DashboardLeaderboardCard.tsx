@@ -41,7 +41,10 @@ export function DashboardLeaderboardCard({
   topLeaders,
 }: DashboardLeaderboardCardProps) {
   return (
-    <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3.5">
+    <div
+      suppressHydrationWarning
+      className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3.5"
+    >
       {/* 1. Header with Trophy and Period Switcher */}
       <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
         <div className="flex items-center gap-2 text-amber-500">
@@ -135,7 +138,7 @@ export function DashboardLeaderboardCard({
       </div>
 
       {/* 3. Leaderboard Rows with AnimatePresence */}
-      <div className="min-h-[190px]">
+      <div suppressHydrationWarning className="min-h-[190px]">
         {isLoadingLeaderboard ? (
           <div className="space-y-2">
             {/* User Row Shimmer */}
@@ -180,9 +183,15 @@ export function DashboardLeaderboardCard({
               className="space-y-2 pt-1"
             >
               {/* User Row (Live Synced) */}
-              <div className="flex items-center justify-between p-2.5 rounded-xl bg-blue-50/90 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-800/60 shadow-2xs">
+              <div
+                suppressHydrationWarning
+                className="flex items-center justify-between p-2.5 rounded-xl bg-blue-50/90 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-800/60 shadow-2xs"
+              >
                 <div className="flex items-center gap-2.5 min-w-0">
-                  <span className="text-xs font-black text-blue-600 dark:text-sky-400 font-mono shrink-0">
+                  <span
+                    suppressHydrationWarning
+                    className="text-xs font-black text-blue-600 dark:text-sky-400 font-mono shrink-0"
+                  >
                     #{userRankInLeaderboard}
                   </span>
                   <UserAvatar

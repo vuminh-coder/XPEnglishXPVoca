@@ -29,7 +29,7 @@ describe("Sleep Is Your Superpower - Matt Walker (vid_matt_walker_sleep) - Compl
 
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeLessThan(seg.endTime);
       if (i > 0) {
         expect(seg.startTime).toBeGreaterThanOrEqual(segments[i - 1].startTime);
@@ -102,8 +102,8 @@ describe("Sleep Is Your Superpower - Matt Walker (vid_matt_walker_sleep) - Compl
       expect(q.targetedConceptEn).toBeDefined();
       expect(q.targetedConceptVi).toBeDefined();
       expect(typeof q.referenceSegmentIndex).toBe("number");
-      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-      expect(q.referenceSegmentIndex).toBeLessThan(LESSON_MATT_WALKER_SLEEP.segments.length);
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(LESSON_MATT_WALKER_SLEEP.segments.length);
     }
   });
 

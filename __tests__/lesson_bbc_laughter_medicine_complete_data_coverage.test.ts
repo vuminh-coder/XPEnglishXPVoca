@@ -28,6 +28,7 @@ describe("BBC Learning English: What Makes Us Laugh? - Complete Data Coverage Te
       expect(seg.ipaUs?.startsWith("/")).toBe(true);
       expect(seg.ipaUs?.endsWith("/")).toBe(true);
       expect(Array.isArray(seg.keywords)).toBe(true);
+      expect(seg.keywords!.length).toBeGreaterThanOrEqual(1);
       expect(seg.properNouns).toBeDefined();
       expect(seg.tokenCount).toBeDefined();
       expect(seg.tokenCount).toBeGreaterThan(0);

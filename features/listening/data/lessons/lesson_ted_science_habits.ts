@@ -14,9 +14,9 @@ export const QUIZ_TED_SCIENCE_HABITS: VideoQuizData = {
   questions: [
     {
         "id": "q_ted_habits_1",
-        "question": "What extreme physical strategies do people employ when trying to stop a nail-biting habit, according to Segment 1?",
-        "questionEn": "What extreme physical strategies do people employ when trying to stop a nail-biting habit, according to Segment 1?",
-        "questionVi": "Những chiến lược vật lý cực đoan nào được mọi người áp dụng khi cố gắng dứt bỏ thói quen cắn móng tay, theo câu 1?",
+        "question": "What extreme physical strategies do people employ when trying to stop a nail-biting habit, according to Segment 2?",
+        "questionEn": "What extreme physical strategies do people employ when trying to stop a nail-biting habit, according to Segment 2?",
+        "questionVi": "Những chiến lược vật lý cực đoan nào được mọi người áp dụng khi cố gắng dứt bỏ thói quen cắn móng tay, theo câu 2?",
         "options": [
             "Rubbing chili peppers on cuticles, wearing gloves all day, dipping hands in salt, and imagining bacteria",
             "Surgically removing fingernails and applying permanent synthetic ceramic coatings",
@@ -36,10 +36,10 @@ export const QUIZ_TED_SCIENCE_HABITS: VideoQuizData = {
             "Tham gia các buổi thôi miên trong bể cách ly dưới nước cách âm"
         ],
         "correctAnswer": 0,
-        "explanation": "In Segment 1, the speaker notes people employ strategies like: \"rubbing chili peppers on their cuticles, wearing gloves all day, dipping their hands in salt, and envisioning bacteria crawling on their fingers.\"",
-        "explanationEn": "In Segment 1, the speaker notes people employ strategies like: \"rubbing chili peppers on their cuticles, wearing gloves all day, dipping their hands in salt, and envisioning bacteria crawling on their fingers.\"",
-        "explanationVi": "Trong câu 1, diễn giả ghi nhận mọi người áp dụng các biện pháp: \"xát ớt vào khóe móng, đeo găng tay cả ngày, nhúng tay vào muối, và tưởng tượng vi khuẩn đang bò trên ngón tay.\"",
-        "referenceSegmentIndex": 1,
+        "explanation": "In Segment 2, the speaker notes people employ strategies like: \"rubbing chili peppers on their cuticles, wearing gloves all day, dipping their hands in salt, and envisioning bacteria crawling on their fingers.\"",
+        "explanationEn": "In Segment 2, the speaker notes people employ strategies like: \"rubbing chili peppers on their cuticles, wearing gloves all day, dipping their hands in salt, and envisioning bacteria crawling on their fingers.\"",
+        "explanationVi": "Trong câu 2, diễn giả ghi nhận mọi người áp dụng các biện pháp: \"xát ớt vào khóe móng, đeo găng tay cả ngày, nhúng tay vào muối, và tưởng tượng vi khuẩn đang bò trên ngón tay.\"",
+        "referenceSegmentIndex": 2,
         "targetedConcept": "Các biện pháp cực đoan đối trị thói quen cắn móng tay (Extreme Habit-Stopping Strategies)",
         "targetedConceptEn": "Extreme Habit-Stopping Strategies",
         "targetedConceptVi": "Các biện pháp cực đoan đối trị thói quen cắn móng tay"
@@ -68,10 +68,10 @@ export const QUIZ_TED_SCIENCE_HABITS: VideoQuizData = {
             "Các dị tật di truyền tạm thời thừa hưởng từ tổ tiên săn bắt hái lượm thời tiền sử"
         ],
         "correctAnswer": 0,
-        "explanation": "In Segment 3, scientists define habits as: \"behaviors that are performed regularly, and cued subconsciously in response to certain environments, whether it be a location, time of day, or even an emotional state.\"",
-        "explanationEn": "In Segment 3, scientists define habits as: \"behaviors that are performed regularly, and cued subconsciously in response to certain environments, whether it be a location, time of day, or even an emotional state.\"",
-        "explanationVi": "Trong câu 3, các nhà khoa học định nghĩa thói quen là: \"những hành vi được thực hiện thường xuyên và được kích hoạt trong tiềm thức nhằm phản ứng lại các bối cảnh nhất định, dù đó là một địa điểm, thời điểm trong ngày hay thậm chí là trạng thái cảm xúc.\"",
-        "referenceSegmentIndex": 3,
+        "explanation": "In Segment 4, scientists define habits as: \"behaviors that are performed regularly, and cued subconsciously in response to certain environments, whether it be a location, time of day, or even an emotional state.\"",
+        "explanationEn": "In Segment 4, scientists define habits as: \"behaviors that are performed regularly, and cued subconsciously in response to certain environments, whether it be a location, time of day, or even an emotional state.\"",
+        "explanationVi": "Trong câu 4, các nhà khoa học định nghĩa thói quen là: \"những hành vi được thực hiện thường xuyên và được kích hoạt trong tiềm thức nhằm phản ứng lại các bối cảnh nhất định, dù đó là một địa điểm, thời điểm trong ngày hay thậm chí là trạng thái cảm xúc.\"",
+        "referenceSegmentIndex": 4,
         "targetedConcept": "Định nghĩa khoa học về thói quen và kích hoạt tiềm thức (Scientific Definition of Habits & Subconscious Cues)",
         "targetedConceptEn": "Scientific Definition of Habits & Subconscious Cues",
         "targetedConceptVi": "Định nghĩa khoa học về thói quen và kích hoạt tiềm thức"
@@ -100,10 +100,10 @@ export const QUIZ_TED_SCIENCE_HABITS: VideoQuizData = {
             "Melatonin, chất kích hoạt ngay lập tức giấc ngủ mắt chuyển động nhanh sâu"
         ],
         "correctAnswer": 0,
-        "explanation": "In Segments 8 & 9, the narrator explains: \"positive experiences can trigger the release of dopamine, a neurotransmitter that mediates feelings of pleasure... a driver of neuroplasticity, meaning it can change how your neurons wire and fire.\"",
-        "explanationEn": "In Segments 8 & 9, the narrator explains: \"positive experiences can trigger the release of dopamine, a neurotransmitter that mediates feelings of pleasure... a driver of neuroplasticity, meaning it can change how your neurons wire and fire.\"",
-        "explanationVi": "Trong câu 8 & 9, diễn giả giải thích: \"trải nghiệm tích cực kích hoạt giải phóng dopamine, chất dẫn truyền thần kinh điều phối khoái cảm... là động lực của tính mềm dẻo thần kinh, thay đổi cách tế bào thần kinh liên kết và phát xung.\"",
-        "referenceSegmentIndex": 8,
+        "explanation": "In Segments 9 & 10, the narrator explains: \"positive experiences can trigger the release of dopamine, a neurotransmitter that mediates feelings of pleasure... a driver of neuroplasticity, meaning it can change how your neurons wire and fire.\"",
+        "explanationEn": "In Segments 9 & 10, the narrator explains: \"positive experiences can trigger the release of dopamine, a neurotransmitter that mediates feelings of pleasure... a driver of neuroplasticity, meaning it can change how your neurons wire and fire.\"",
+        "explanationVi": "Trong câu 9 & 10, diễn giả giải thích: \"trải nghiệm tích cực kích hoạt giải phóng dopamine, chất dẫn truyền thần kinh điều phối khoái cảm... là động lực của tính mềm dẻo thần kinh, thay đổi cách tế bào thần kinh liên kết và phát xung.\"",
+        "referenceSegmentIndex": 9,
         "targetedConcept": "Vai trò của Dopamine và tính mềm dẻo thần kinh (Dopamine and Neuroplasticity in Habit Formation)",
         "targetedConceptEn": "Dopamine and Neuroplasticity in Habit Formation",
         "targetedConceptVi": "Vai trò của Dopamine và tính mềm dẻo thần kinh"
@@ -132,19 +132,19 @@ export const QUIZ_TED_SCIENCE_HABITS: VideoQuizData = {
             "Vì các dây thần kinh thính giác không ghi nhận được cảm giác xúc giác khi căng thẳng"
         ],
         "correctAnswer": 0,
-        "explanation": "In Segments 13 & 14, the video clarifies: \"Once established, these cue-behavior-reward loops work fast, outpacing the decision-making process. You may find yourself engaging in a habit before you have the chance to notice and stop.\"",
-        "explanationEn": "In Segments 13 & 14, the video clarifies: \"Once established, these cue-behavior-reward loops work fast, outpacing the decision-making process. You may find yourself engaging in a habit before you have the chance to notice and stop.\"",
-        "explanationVi": "Trong câu 13 & 14, video làm rõ: \"Một khi đã thiết lập, các vòng lặp tín hiệu - hành vi - phần thưởng vận hành rất nhanh, vượt mặt quá trình ra quyết định. Bạn có thể thấy mình thực hiện thói quen trước khi kịp nhận ra và dừng lại.\"",
-        "referenceSegmentIndex": 13,
+        "explanation": "In Segments 14 & 15, the video clarifies: \"Once established, these cue-behavior-reward loops work fast, outpacing the decision-making process. You may find yourself engaging in a habit before you have the chance to notice and stop.\"",
+        "explanationEn": "In Segments 14 & 15, the video clarifies: \"Once established, these cue-behavior-reward loops work fast, outpacing the decision-making process. You may find yourself engaging in a habit before you have the chance to notice and stop.\"",
+        "explanationVi": "Trong câu 14 & 15, video làm rõ: \"Một khi đã thiết lập, các vòng lặp tín hiệu - hành vi - phần thưởng vận hành rất nhanh, vượt mặt quá trình ra quyết định. Bạn có thể thấy mình thực hiện thói quen trước khi kịp nhận ra và dừng lại.\"",
+        "referenceSegmentIndex": 14,
         "targetedConcept": "Vòng lặp thói quen vượt mặt tư duy có ý thức (Habit Loop Outpacing Conscious Decision-Making)",
         "targetedConceptEn": "Habit Loop Outpacing Conscious Decision-Making",
         "targetedConceptVi": "Vòng lặp thói quen vượt mặt tư duy có ý thức"
     },
     {
         "id": "q_ted_habits_5",
-        "question": "According to the scientific study cited in Segment 16, what proportion of daily life is spent on automated habits?",
-        "questionEn": "According to the scientific study cited in Segment 16, what proportion of daily life is spent on automated habits?",
-        "questionVi": "Theo nghiên cứu khoa học được trích dẫn trong câu 16, tỷ lệ thời gian hàng ngày con người dành cho các thói quen tự động là bao nhiêu?",
+        "question": "According to the scientific study cited in Segment 17, what proportion of daily life is spent on automated habits?",
+        "questionEn": "According to the scientific study cited in Segment 17, what proportion of daily life is spent on automated habits?",
+        "questionVi": "Theo nghiên cứu khoa học được trích dẫn trong câu 17, tỷ lệ thời gian hàng ngày con người dành cho các thói quen tự động là bao nhiêu?",
         "options": [
             "More than 40 percent of our days while minds are occupied with other thoughts",
             "Exactly 12 percent exclusively during nighttime preparation",
@@ -164,10 +164,10 @@ export const QUIZ_TED_SCIENCE_HABITS: VideoQuizData = {
             "Khoảng 85 phần trăm toàn bộ quá trình trao đổi chất tế bào vật lý"
         ],
         "correctAnswer": 0,
-        "explanation": "In Segment 16, the study reveals: \"One study estimated that on average, people spend more than 40% of their days performing regularly repeated behaviors while their minds are occupied with other thoughts.\"",
-        "explanationEn": "In Segment 16, the study reveals: \"One study estimated that on average, people spend more than 40% of their days performing regularly repeated behaviors while their minds are occupied with other thoughts.\"",
-        "explanationVi": "Trong câu 16, nghiên cứu chỉ ra: \"Một nghiên cứu ước tính rằng trung bình, con người dành hơn 40% thời gian mỗi ngày để thực hiện các hành vi lặp đi lặp lại thường xuyên trong khi tâm trí đang bận rộn với những suy nghĩ khác.\"",
-        "referenceSegmentIndex": 16,
+        "explanation": "In Segment 17, the study reveals: \"One study estimated that on average, people spend more than 40% of their days performing regularly repeated behaviors while their minds are occupied with other thoughts.\"",
+        "explanationEn": "In Segment 17, the study reveals: \"One study estimated that on average, people spend more than 40% of their days performing regularly repeated behaviors while their minds are occupied with other thoughts.\"",
+        "explanationVi": "Trong câu 17, nghiên cứu chỉ ra: \"Một nghiên cứu ước tính rằng trung bình, con người dành hơn 40% thời gian mỗi ngày để thực hiện các hành vi lặp đi lặp lại thường xuyên trong khi tâm trí đang bận rộn với những suy nghĩ khác.\"",
+        "referenceSegmentIndex": 17,
         "targetedConcept": "Tỷ lệ 40% hành vi tự động trong đời sống (The 40 Percent Daily Automated Routine)",
         "targetedConceptEn": "The 40 Percent Daily Automated Routine",
         "targetedConceptVi": "Tỷ lệ 40% hành vi tự động trong đời sống"
@@ -196,10 +196,10 @@ export const QUIZ_TED_SCIENCE_HABITS: VideoQuizData = {
             "Vì các quyết tâm bằng văn bản gây ra sự từ chối tâm lý ngay lập tức ở thụ thể thân não"
         ],
         "correctAnswer": 0,
-        "explanation": "In Segments 18 to 22, the speaker explains: \"intentions alone often fail... One of the most effective ways to manage behavior is to identify these locations or times of day. Then try to modify them by changing your routine or creating obstacles that make it more difficult.\"",
-        "explanationEn": "In Segments 18 to 22, the speaker explains: \"intentions alone often fail... One of the most effective ways to manage behavior is to identify these locations or times of day. Then try to modify them by changing your routine or creating obstacles that make it more difficult.\"",
-        "explanationVi": "Trong các câu 18 đến 22, diễn giả giải thích: \"chỉ riêng ý định thường thất bại... Một trong những cách hiệu quả nhất là nhận diện địa điểm/thời điểm trong ngày, rồi điều chỉnh bằng cách thay đổi nếp sinh hoạt hoặc tạo rào cản khiến việc thực hiện khó hơn.\"",
-        "referenceSegmentIndex": 22,
+        "explanation": "In Segments 19 to 23, the speaker explains: \"intentions alone often fail... One of the most effective ways to manage behavior is to identify these locations or times of day. Then try to modify them by changing your routine or creating obstacles that make it more difficult.\"",
+        "explanationEn": "In Segments 19 to 23, the speaker explains: \"intentions alone often fail... One of the most effective ways to manage behavior is to identify these locations or times of day. Then try to modify them by changing your routine or creating obstacles that make it more difficult.\"",
+        "explanationVi": "Trong các câu 19 đến 23, diễn giả giải thích: \"chỉ riêng ý định thường thất bại... Một trong những cách hiệu quả nhất là nhận diện địa điểm/thời điểm trong ngày, rồi điều chỉnh bằng cách thay đổi nếp sinh hoạt hoặc tạo rào cản khiến việc thực hiện khó hơn.\"",
+        "referenceSegmentIndex": 23,
         "targetedConcept": "Sự bất lực của ý chí đơn thuần & can thiệp môi trường (Intentions Failure & Environmental Friction)",
         "targetedConceptEn": "Intentions Failure & Environmental Friction",
         "targetedConceptVi": "Sự bất lực của ý chí đơn thuần & can thiệp môi trường"
@@ -228,10 +228,10 @@ export const QUIZ_TED_SCIENCE_HABITS: VideoQuizData = {
             "Thói quen tập thể dục biến mất hoàn toàn khi bước vào ký túc xá học thuật mới"
         ],
         "correctAnswer": 0,
-        "explanation": "In Segments 24 & 25, the research showed: \"When students were no longer around old environments and routines, their habits, even the strong ones, significantly changed.\"",
-        "explanationEn": "In Segments 24 & 25, the research showed: \"When students were no longer around old environments and routines, their habits, even the strong ones, significantly changed.\"",
-        "explanationVi": "Trong câu 24 & 25, nghiên cứu chỉ ra: \"Khi sinh viên không còn ở trong môi trường và nếp sinh hoạt cũ, thói quen của họ, ngay cả những thói quen ăn sâu nhất, đã thay đổi rõ rệt.\"",
-        "referenceSegmentIndex": 25,
+        "explanation": "In Segments 25 & 26, the research showed: \"When students were no longer around old environments and routines, their habits, even the strong ones, significantly changed.\"",
+        "explanationEn": "In Segments 25 & 26, the research showed: \"When students were no longer around old environments and routines, their habits, even the strong ones, significantly changed.\"",
+        "explanationVi": "Trong câu 25 & 26, nghiên cứu chỉ ra: \"Khi sinh viên không còn ở trong môi trường và nếp sinh hoạt cũ, thói quen của họ, ngay cả những thói quen ăn sâu nhất, đã thay đổi rõ rệt.\"",
+        "referenceSegmentIndex": 26,
         "targetedConcept": "Nghiên cứu sinh viên chuyển trường 2005 (The 2005 Student Relocation Habit Study)",
         "targetedConceptEn": "The 2005 Student Relocation Habit Study",
         "targetedConceptVi": "Nghiên cứu sinh viên chuyển trường 2005"
@@ -260,10 +260,10 @@ export const QUIZ_TED_SCIENCE_HABITS: VideoQuizData = {
             "Tránh xa hoàn toàn các thư từ điện tử vĩnh viễn để loại trừ căng thẳng công sở"
         ],
         "correctAnswer": 0,
-        "explanation": "In Segments 27 to 29, the speaker explains: \"the aim is to change a habit by replacing it with another one that’s less detrimental... if you tend to bite your nails at work, preemptively keep a fidget toy at your desk... use the toy when you feel the urge.\"",
-        "explanationEn": "In Segments 27 to 29, the speaker explains: \"the aim is to change a habit by replacing it with another one that’s less detrimental... if you tend to bite your nails at work, preemptively keep a fidget toy at your desk... use the toy when you feel the urge.\"",
-        "explanationVi": "Trong các câu 27 đến 29, diễn giả giải thích: \"mục tiêu là thay thế thói quen bằng một hành vi khác ít gây hại hơn... nếu bạn hay cắn móng tay ở nơi làm việc, hãy chủ động để sẵn đồ chơi fidget toy... và dùng nó khi cảm thấy thôi thúc muốn cắn móng tay.\"",
-        "referenceSegmentIndex": 27,
+        "explanation": "In Segments 28 to 30, the speaker explains: \"the aim is to change a habit by replacing it with another one that’s less detrimental... if you tend to bite your nails at work, preemptively keep a fidget toy at your desk... use the toy when you feel the urge.\"",
+        "explanationEn": "In Segments 28 to 30, the speaker explains: \"the aim is to change a habit by replacing it with another one that’s less detrimental... if you tend to bite your nails at work, preemptively keep a fidget toy at your desk... use the toy when you feel the urge.\"",
+        "explanationVi": "Trong các câu 28 đến 30, diễn giả giải thích: \"mục tiêu là thay thế thói quen bằng một hành vi khác ít gây hại hơn... nếu bạn hay cắn móng tay ở nơi làm việc, hãy chủ động để sẵn đồ chơi fidget toy... và dùng nó khi cảm thấy thôi thúc muốn cắn móng tay.\"",
+        "referenceSegmentIndex": 28,
         "targetedConcept": "Phương pháp đảo ngược thói quen và hành vi thay thế (Habit Reversal Training & Competing Responses)",
         "targetedConceptEn": "Habit Reversal Training & Competing Responses",
         "targetedConceptVi": "Phương pháp đảo ngược thói quen và hành vi thay thế"
@@ -302,7 +302,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
   quiz: QUIZ_TED_SCIENCE_HABITS,
   segments: [
     {
-        "orderIndex": 0,
+        "orderIndex": 1,
         "startTime": 7.04,
         "endTime": 11.88,
         "text": "Billions of people deal with a nail-biting habit at some point in their lives.",
@@ -319,7 +319,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 15
     },
     {
-        "orderIndex": 1,
+        "orderIndex": 2,
         "startTime": 12.01,
         "endTime": 24.73,
         "text": "Many will go to great lengths to try to stop, employing strategies like rubbing chili peppers on their cuticles, wearing gloves all day, dipping their hands in salt, and envisioning bacteria crawling on their fingers.",
@@ -336,7 +336,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 35
     },
     {
-        "orderIndex": 2,
+        "orderIndex": 3,
         "startTime": 25.06,
         "endTime": 32.82,
         "text": "And while not all of us are nail-biters, most of us do have a habit we'd like to kick. So what's the best way to break one?",
@@ -352,7 +352,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 30
     },
     {
-        "orderIndex": 3,
+        "orderIndex": 4,
         "startTime": 33.24,
         "endTime": 45.04,
         "text": "Scientists define habits as behaviors that are performed regularly, and cued subconsciously in response to certain environments, whether it be a location, time of day, or even an emotional state.",
@@ -369,7 +369,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 30
     },
     {
-        "orderIndex": 4,
+        "orderIndex": 5,
         "startTime": 45.25,
         "endTime": 56.64,
         "text": "They can include simple actions like picking your hair when stressed, but also more complex practices ingrained in daily routines, like staying up late or brewing your coffee in the morning.",
@@ -386,7 +386,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 31
     },
     {
-        "orderIndex": 5,
+        "orderIndex": 6,
         "startTime": 56.84,
         "endTime": 61.97,
         "text": "If you do something frequently, without much deliberation, then it’s likely a habit.",
@@ -402,7 +402,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 14
     },
     {
-        "orderIndex": 6,
+        "orderIndex": 7,
         "startTime": 62.27,
         "endTime": 68.31,
         "text": "They form because at some point your brain learns that the behavior is beneficial.",
@@ -419,7 +419,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 14
     },
     {
-        "orderIndex": 7,
+        "orderIndex": 8,
         "startTime": 68.31,
         "endTime": 77.99,
         "text": "Let's say after opening a stressful email, you bite your nails. This is rewarding, as it’s enough to focus your attention, curbing your email fueled anxiety.",
@@ -436,7 +436,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 28
     },
     {
-        "orderIndex": 8,
+        "orderIndex": 9,
         "startTime": 78.03,
         "endTime": 86.04,
         "text": "Within your brain, positive experiences can trigger the release of dopamine, a neurotransmitter that mediates feelings of pleasure.",
@@ -453,7 +453,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 18
     },
     {
-        "orderIndex": 9,
+        "orderIndex": 10,
         "startTime": 86.58,
         "endTime": 94.3,
         "text": "Dopamine is also a driver of neuroplasticity, meaning it can change how your neurons wire and fire.",
@@ -469,7 +469,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 17
     },
     {
-        "orderIndex": 10,
+        "orderIndex": 11,
         "startTime": 94.8,
         "endTime": 101.31,
         "text": "Your brain builds connections that link the reward with the behavior, driving you to repeat it.",
@@ -485,7 +485,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 16
     },
     {
-        "orderIndex": 11,
+        "orderIndex": 12,
         "startTime": 101.51,
         "endTime": 106.35,
         "text": "It also starts associating the behavior with other cues, like your environment.",
@@ -501,7 +501,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 12
     },
     {
-        "orderIndex": 12,
+        "orderIndex": 13,
         "startTime": 106.39,
         "endTime": 117.03,
         "text": "Eventually, all it takes is the context of sitting at your desk to subconsciously trigger a nail-biting habit—no stressful email or sense of relief required.",
@@ -518,7 +518,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 27
     },
     {
-        "orderIndex": 13,
+        "orderIndex": 14,
         "startTime": 117.74,
         "endTime": 126.25,
         "text": "Once established, these cue-behavior-reward loops work fast, outpacing the decision-making process.",
@@ -534,7 +534,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 14
     },
     {
-        "orderIndex": 14,
+        "orderIndex": 15,
         "startTime": 126.29,
         "endTime": 131.38,
         "text": "You may find yourself engaging in a habit before you have the chance to notice and stop.",
@@ -550,7 +550,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 17
     },
     {
-        "orderIndex": 15,
+        "orderIndex": 16,
         "startTime": 131.63,
         "endTime": 142.93,
         "text": "But this can be a good thing because not all habits are bad. They’re stored memories of what’s worked in the past, which allow you to take swift action in the present.",
@@ -567,7 +567,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 34
     },
     {
-        "orderIndex": 16,
+        "orderIndex": 17,
         "startTime": 143.18,
         "endTime": 153.27,
         "text": "One study estimated that on average, people spend more than 40% of their days performing regularly repeated behaviors while their minds are occupied with other thoughts.",
@@ -584,7 +584,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 26
     },
     {
-        "orderIndex": 17,
+        "orderIndex": 18,
         "startTime": 153.27,
         "endTime": 159.49,
         "text": "A seemingly automated morning routine, for example, saves you both time and precious mental energy.",
@@ -600,7 +600,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 15
     },
     {
-        "orderIndex": 18,
+        "orderIndex": 19,
         "startTime": 159.95,
         "endTime": 169.71,
         "text": "Still, many people have habits that no longer serve them. Yet research shows that intentions alone often fail to lead to long-term behavior change.",
@@ -616,7 +616,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 25
     },
     {
-        "orderIndex": 19,
+        "orderIndex": 20,
         "startTime": 169.92,
         "endTime": 178.76,
         "text": "This isn’t to say you can’t break a habit. Rather, by understanding the basis of habits, you can create better plans for changing them.",
@@ -632,7 +632,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 26
     },
     {
-        "orderIndex": 20,
+        "orderIndex": 21,
         "startTime": 179.3,
         "endTime": 192.48,
         "text": "For example, we know habits are often cued by environments and routines. Lying in bed may cause you to endlessly scroll through your phone, or watching TV on the couch may lead you to grab a sugary snack.",
@@ -649,7 +649,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 38
     },
     {
-        "orderIndex": 21,
+        "orderIndex": 22,
         "startTime": 192.48,
         "endTime": 198.99,
         "text": "One of the most effective ways to manage behavior is to identify these locations or times of day.",
@@ -666,7 +666,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 18
     },
     {
-        "orderIndex": 22,
+        "orderIndex": 23,
         "startTime": 199.15,
         "endTime": 207.62,
         "text": "Then try to modify them by changing your routine or creating obstacles that make it more difficult to perform the habit in that space.",
@@ -683,7 +683,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 24
     },
     {
-        "orderIndex": 23,
+        "orderIndex": 24,
         "startTime": 207.95,
         "endTime": 215.84,
         "text": "Moving, switching jobs, or even starting a new schedule, are particularly great times to break a habit or build a new one.",
@@ -700,7 +700,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 22
     },
     {
-        "orderIndex": 24,
+        "orderIndex": 25,
         "startTime": 216.21,
         "endTime": 224.84,
         "text": "One 2005 study tracked university students’ exercising, reading, and TV watching habits before and after they transferred schools.",
@@ -716,7 +716,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 18
     },
     {
-        "orderIndex": 25,
+        "orderIndex": 26,
         "startTime": 224.89,
         "endTime": 232.56,
         "text": "When students were no longer around old environments and routines, their habits, even the strong ones, significantly changed.",
@@ -733,7 +733,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 18
     },
     {
-        "orderIndex": 26,
+        "orderIndex": 27,
         "startTime": 232.9,
         "endTime": 239.53,
         "text": "For behaviors like nail-biting or hair-pulling, a practice called habit reversal training can be helpful.",
@@ -749,7 +749,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 17
     },
     {
-        "orderIndex": 27,
+        "orderIndex": 28,
         "startTime": 239.57,
         "endTime": 248.08,
         "text": "Developed by psychologists in the 1970s, the aim is to change a habit by replacing it with another one that’s less detrimental.",
@@ -766,7 +766,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 23
     },
     {
-        "orderIndex": 28,
+        "orderIndex": 29,
         "startTime": 248.33,
         "endTime": 255.54,
         "text": "The training requires you to analyze and understand your habit cues, so you can effectively intervene at the right times.",
@@ -783,7 +783,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 20
     },
     {
-        "orderIndex": 29,
+        "orderIndex": 30,
         "startTime": 255.63,
         "endTime": 266.43,
         "text": "For example, if you tend to bite your nails at work, preemptively keep a fidget toy at your desk. Then, if a stressful email comes in, use the toy when you feel the urge to bite your nails.",
@@ -800,7 +800,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 38
     },
     {
-        "orderIndex": 30,
+        "orderIndex": 31,
         "startTime": 266.97,
         "endTime": 272.77,
         "text": "Breaking a habit takes time, so remember to give yourself grace and have patience through the process.",
@@ -817,7 +817,7 @@ export const LESSON_TED_SCIENCE_HABITS: MockVideoLesson = {
         "tokenCount": 17
     },
     {
-        "orderIndex": 31,
+        "orderIndex": 32,
         "startTime": 272.89,
         "endTime": 281.69,
         "text": "And while many focus on their bad habits, it’s also worth celebrating the good ones that help us move swiftly and successfully through our daily routines.",

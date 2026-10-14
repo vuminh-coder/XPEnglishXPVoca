@@ -44,13 +44,13 @@ export const QUIZ_ALEX_GENDLER_LANGUAGES: VideoQuizData = {
         "Biên niên sử Ai Cập về thần Thoth sáng tạo chữ tượng hình bên bờ sông Nile"
       ],
       "correctAnswer": 0,
-      "explanation": "In Segment 0, the video opens: 'In the biblical story of the Tower of Babel, all of humanity once spoke a single language until they suddenly split into many groups unable to understand each other.'",
-      "explanationEn": "In Segment 0, the video opens: 'In the biblical story of the Tower of Babel, all of humanity once spoke a single language until they suddenly split into many groups unable to understand each other.'",
-      "explanationVi": "Trong Phân đoạn 0, video mở đầu bằng tích Tháp Babel: 'In the biblical story of the Tower of Babel, all of humanity once spoke a single language until they suddenly split into many groups unable to understand each other.'",
+      "explanation": "In Segment 1, the video opens: 'In the biblical story of the Tower of Babel, all of humanity once spoke a single language until they suddenly split into many groups unable to understand each other.'",
+      "explanationEn": "In Segment 1, the video opens: 'In the biblical story of the Tower of Babel, all of humanity once spoke a single language until they suddenly split into many groups unable to understand each other.'",
+      "explanationVi": "Trong Phân đoạn 1, video mở đầu bằng tích Tháp Babel: 'In the biblical story of the Tower of Babel, all of humanity once spoke a single language until they suddenly split into many groups unable to understand each other.'",
       "targetedConcept": "Biblical Allegory of the Tower of Babel",
       "targetedConceptEn": "Biblical Allegory of the Tower of Babel",
       "targetedConceptVi": "Điển tích Tháp Babel và nhận thức khởi nguyên ngôn ngữ",
-      "referenceSegmentIndex": 0
+      "referenceSegmentIndex": 1
     },
     {
       "id": "q_ted_alex_02",
@@ -76,13 +76,13 @@ export const QUIZ_ALEX_GENDLER_LANGUAGES: VideoQuizData = {
         "Các hiệp ước chính phủ cố tình cấm đoàn thương buôn qua lại giữa các vùng lân cận"
       ],
       "correctAnswer": 0,
-      "explanation": "In Segments 4 and 5, Alex Gendler explains that groups split into smaller tribes searching for fresh game and fertile land, and as they settled in new places, they became isolated from one another and developed in different ways.",
-      "explanationEn": "In Segments 4 and 5, Alex Gendler explains that groups split into smaller tribes searching for fresh game and fertile land, and as they settled in new places, they became isolated from one another and developed in different ways.",
-      "explanationVi": "Ở Phân đoạn 4 và 5, Alex Gendler giải thích các nhóm chia thành các bộ lạc nhỏ tìm thú săn và đất đai màu mỡ, khi định cư ở vùng đất mới họ bị cô lập địa lý và phát triển theo những hướng khác nhau.",
+      "explanation": "In Segments 5 and 6, Alex Gendler explains that groups split into smaller tribes searching for fresh game and fertile land, and as they settled in new places, they became isolated from one another and developed in different ways.",
+      "explanationEn": "In Segments 5 and 6, Alex Gendler explains that groups split into smaller tribes searching for fresh game and fertile land, and as they settled in new places, they became isolated from one another and developed in different ways.",
+      "explanationVi": "Ở Phân đoạn 5 và 6, Alex Gendler giải thích các nhóm chia thành các bộ lạc nhỏ tìm thú săn và đất đai màu mỡ, khi định cư ở vùng đất mới họ bị cô lập địa lý và phát triển theo những hướng khác nhau.",
       "targetedConcept": "Geographic Isolation & Human Migration",
       "targetedConceptEn": "Geographic Isolation & Human Migration",
       "targetedConceptVi": "Sự cô lập địa lý và di cư sinh tồn thời sơ khai",
-      "referenceSegmentIndex": 4
+      "referenceSegmentIndex": 5
     },
     {
       "id": "q_ted_alex_03",
@@ -108,13 +108,13 @@ export const QUIZ_ALEX_GENDLER_LANGUAGES: VideoQuizData = {
         "Creole language (Ngôn ngữ hỗn dung)"
       ],
       "correctAnswer": 0,
-      "explanation": "In Segment 8, the narrator explicitly defines: 'tracing multiple languages back as far as they can to their common ancestor, or protolanguage.'",
-      "explanationEn": "In Segment 8, the narrator explicitly defines: 'tracing multiple languages back as far as they can to their common ancestor, or protolanguage.'",
-      "explanationVi": "Trong Phân đoạn 8, người thuyết minh định nghĩa rõ: 'tracing multiple languages back as far as they can to their common ancestor, or protolanguage.'",
+      "explanation": "In Segment 9, the narrator explicitly defines: 'tracing multiple languages back as far as they can to their common ancestor, or protolanguage.'",
+      "explanationEn": "In Segment 9, the narrator explicitly defines: 'tracing multiple languages back as far as they can to their common ancestor, or protolanguage.'",
+      "explanationVi": "Trong Phân đoạn 9, người thuyết minh định nghĩa rõ: 'tracing multiple languages back as far as they can to their common ancestor, or protolanguage.'",
       "targetedConcept": "Linguistic Protolanguage Concept",
       "targetedConceptEn": "Linguistic Protolanguage Concept",
       "targetedConceptVi": "Khái niệm ngôn ngữ tiền thân (Protolanguage)",
-      "referenceSegmentIndex": 8
+      "referenceSegmentIndex": 9
     },
     {
       "id": "q_ted_alex_04",
@@ -140,13 +140,13 @@ export const QUIZ_ALEX_GENDLER_LANGUAGES: VideoQuizData = {
         "Nguyên âm đổi sau mỗi 10 năm trong khi phụ âm giữ nguyên vĩnh viễn"
       ],
       "correctAnswer": 0,
-      "explanation": "In Segment 12, the narrator notes: 'Similar sounding words don't tell us much. They could be false cognates or just directly borrowed terms rather than derived from a common root.'",
-      "explanationEn": "In Segment 12, the narrator notes: 'Similar sounding words don't tell us much. They could be false cognates or just directly borrowed terms rather than derived from a common root.'",
-      "explanationVi": "Trong Phân đoạn 12, người thuyết minh chỉ ra: 'They could be false cognates or just directly borrowed terms rather than derived from a common root.'",
+      "explanation": "In Segment 13, the narrator notes: 'Similar sounding words don't tell us much. They could be false cognates or just directly borrowed terms rather than derived from a common root.'",
+      "explanationEn": "In Segment 13, the narrator notes: 'Similar sounding words don't tell us much. They could be false cognates or just directly borrowed terms rather than derived from a common root.'",
+      "explanationVi": "Trong Phân đoạn 13, người thuyết minh chỉ ra: 'They could be false cognates or just directly borrowed terms rather than derived from a common root.'",
       "targetedConcept": "False Cognates vs Borrowed Terms",
       "targetedConceptEn": "False Cognates vs Borrowed Terms",
       "targetedConceptVi": "Từ đồng nguyên giả và từ vay mượn",
-      "referenceSegmentIndex": 12
+      "referenceSegmentIndex": 13
     },
     {
       "id": "q_ted_alex_05",
@@ -172,13 +172,13 @@ export const QUIZ_ALEX_GENDLER_LANGUAGES: VideoQuizData = {
         "Tên các chòm sao chiêm tinh và các cặp câu thơ lục bát"
       ],
       "correctAnswer": 0,
-      "explanation": "In Segment 13, Alex states: 'Grammar and syntax are a more reliable guide, as well as basic vocabulary, such as pronouns, numbers or kinship terms, that's less likely to be borrowed.'",
-      "explanationEn": "In Segment 13, Alex states: 'Grammar and syntax are a more reliable guide, as well as basic vocabulary, such as pronouns, numbers or kinship terms, that's less likely to be borrowed.'",
-      "explanationVi": "Trong Phân đoạn 13, bài học chỉ rõ: 'Grammar and syntax are a more reliable guide, as well as basic vocabulary, such as pronouns, numbers or kinship terms, that's less likely to be borrowed.'",
+      "explanation": "In Segment 14, Alex states: 'Grammar and syntax are a more reliable guide, as well as basic vocabulary, such as pronouns, numbers or kinship terms, that's less likely to be borrowed.'",
+      "explanationEn": "In Segment 14, Alex states: 'Grammar and syntax are a more reliable guide, as well as basic vocabulary, such as pronouns, numbers or kinship terms, that's less likely to be borrowed.'",
+      "explanationVi": "Trong Phân đoạn 14, bài học chỉ rõ: 'Grammar and syntax are a more reliable guide, as well as basic vocabulary, such as pronouns, numbers or kinship terms, that's less likely to be borrowed.'",
       "targetedConcept": "Core Vocabulary & Kinship Terms",
       "targetedConceptEn": "Core Vocabulary & Kinship Terms",
       "targetedConceptVi": "Từ vựng cốt lõi và từ xưng hô họ hàng bảo thủ",
-      "referenceSegmentIndex": 13
+      "referenceSegmentIndex": 14
     },
     {
       "id": "q_ted_alex_06",
@@ -204,19 +204,19 @@ export const QUIZ_ALEX_GENDLER_LANGUAGES: VideoQuizData = {
         "Tiếng Bồ Đào Nha từng được tuyên bố là một phương ngữ của tiếng Quan Thoại thời nhà Minh"
       ],
       "correctAnswer": 0,
-      "explanation": "In Segment 20, the narrator contrasts: 'Chinese is classified as a single language, but its dialects vary to the point of being mutually unintelligible, while speakers of Spanish and Portuguese can often understand each other.'",
-      "explanationEn": "In Segment 20, the narrator contrasts: 'Chinese is classified as a single language, but its dialects vary to the point of being mutually unintelligible, while speakers of Spanish and Portuguese can often understand each other.'",
-      "explanationVi": "Trong Phân đoạn 20, Alex đối chiếu: 'Chinese is classified as a single language, but its dialects vary to the point of being mutually unintelligible, while speakers of Spanish and Portuguese can often understand each other.'",
+      "explanation": "In Segment 21, the narrator contrasts: 'Chinese is classified as a single language, but its dialects vary to the point of being mutually unintelligible, while speakers of Spanish and Portuguese can often understand each other.'",
+      "explanationEn": "In Segment 21, the narrator contrasts: 'Chinese is classified as a single language, but its dialects vary to the point of being mutually unintelligible, while speakers of Spanish and Portuguese can often understand each other.'",
+      "explanationVi": "Trong Phân đoạn 21, Alex đối chiếu: 'Chinese is classified as a single language, but its dialects vary to the point of being mutually unintelligible, while speakers of Spanish and Portuguese can often understand each other.'",
       "targetedConcept": "Mutual Intelligibility Paradox",
       "targetedConceptEn": "Mutual Intelligibility Paradox",
       "targetedConceptVi": "Nghịch lý tính thông hiểu lẫn nhau giữa ngôn ngữ và phương ngữ",
-      "referenceSegmentIndex": 20
+      "referenceSegmentIndex": 21
     },
     {
       "id": "q_ted_alex_07",
-      "question": "According to Segment 22, what factor frequently dictates whether a speech variety is labeled an independent language rather than a dialect?",
-      "questionEn": "According to Segment 22, what factor frequently dictates whether a speech variety is labeled an independent language rather than a dialect?",
-      "questionVi": "Theo Phân đoạn 22, yếu tố nào thường chi phối việc một biến thể ngôn ngữ được định danh là ngôn ngữ độc lập thay vì phương ngữ?",
+      "question": "According to Segment 23, what factor frequently dictates whether a speech variety is labeled an independent language rather than a dialect?",
+      "questionEn": "According to Segment 23, what factor frequently dictates whether a speech variety is labeled an independent language rather than a dialect?",
+      "questionVi": "Theo Phân đoạn 23, yếu tố nào thường chi phối việc một biến thể ngôn ngữ được định danh là ngôn ngữ độc lập thay vì phương ngữ?",
       "options": [
         "Changing political and national considerations rather than objective linguistic features",
         "The total number of consonants in its phonetic alphabet",
@@ -236,13 +236,13 @@ export const QUIZ_ALEX_GENDLER_LANGUAGES: VideoQuizData = {
         "Độ cao địa lý của các dãy núi nơi người nói đang sinh sống"
       ],
       "correctAnswer": 0,
-      "explanation": "In Segment 22, the narrator affirms: 'Often the difference between languages and dialects is a matter of changing political and national considerations, rather than any linguistic features.'",
-      "explanationEn": "In Segment 22, the narrator affirms: 'Often the difference between languages and dialects is a matter of changing political and national considerations, rather than any linguistic features.'",
-      "explanationVi": "Trong Phân đoạn 22, bài giảng khẳng định: 'Often the difference between languages and dialects is a matter of changing political and national considerations, rather than any linguistic features.'",
+      "explanation": "In Segment 23, the narrator affirms: 'Often the difference between languages and dialects is a matter of changing political and national considerations, rather than any linguistic features.'",
+      "explanationEn": "In Segment 23, the narrator affirms: 'Often the difference between languages and dialects is a matter of changing political and national considerations, rather than any linguistic features.'",
+      "explanationVi": "Trong Phân đoạn 23, bài giảng khẳng định: 'Often the difference between languages and dialects is a matter of changing political and national considerations, rather than any linguistic features.'",
       "targetedConcept": "Political Factors in Language Classification",
       "targetedConceptEn": "Political Factors in Language Classification",
       "targetedConceptVi": "Vai trò của chính trị và biên giới quốc gia trong phân loại ngôn ngữ",
-      "referenceSegmentIndex": 22
+      "referenceSegmentIndex": 23
     },
     {
       "id": "q_ted_alex_08",
@@ -268,13 +268,13 @@ export const QUIZ_ALEX_GENDLER_LANGUAGES: VideoQuizData = {
         "Bởi vì các phiến đá cổ liên tục tạo ra các ngôn ngữ đã tuyệt chủng tại các buổi đấu giá"
       ],
       "correctAnswer": 0,
-      "explanation": "In Segments 21 and 23, the video explains that living languages transition gradually crossing borders, which is why answers to 'How many languages are there?' vary from 3,000 to 8,000 depending on who is counting.",
-      "explanationEn": "In Segments 21 and 23, the video explains that living languages transition gradually crossing borders, which is why answers to 'How many languages are there?' vary from 3,000 to 8,000 depending on who is counting.",
-      "explanationVi": "Trong Phân đoạn 21 và 23, video giải thích ngôn ngữ chuyển tiếp dần dần qua các biên giới, vì thế câu trả lời dao động từ 3.000 đến 8.000 tùy thuộc vào tiêu chí của người thống kê.",
+      "explanation": "In Segments 22 and 24, the video explains that living languages transition gradually crossing borders, which is why answers to 'How many languages are there?' vary from 3,000 to 8,000 depending on who is counting.",
+      "explanationEn": "In Segments 22 and 24, the video explains that living languages transition gradually crossing borders, which is why answers to 'How many languages are there?' vary from 3,000 to 8,000 depending on who is counting.",
+      "explanationVi": "Trong Phân đoạn 22 và 24, video giải thích ngôn ngữ chuyển tiếp dần dần qua các biên giới, vì thế câu trả lời dao động từ 3.000 đến 8.000 tùy thuộc vào tiêu chí của người thống kê.",
       "targetedConcept": "Dialect Continuum & Linguistic Counting Discrepancies",
       "targetedConceptEn": "Dialect Continuum & Linguistic Counting Discrepancies",
       "targetedConceptVi": "Chuỗi liên tục phương ngữ và sự chênh lệch thống kê số lượng ngôn ngữ",
-      "referenceSegmentIndex": 23
+      "referenceSegmentIndex": 24
     }
   ]
 };
@@ -301,7 +301,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
   quiz: QUIZ_ALEX_GENDLER_LANGUAGES,
   segments: [
   {
-    "orderIndex": 0,
+    "orderIndex": 1,
     "startTime": 7.4,
     "endTime": 17,
     "text": "In the biblical story of the Tower of Babel, all of humanity once spoke a single language until they suddenly split into many groups unable to understand each other.",
@@ -320,7 +320,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 29
   },
   {
-    "orderIndex": 1,
+    "orderIndex": 2,
     "startTime": 17,
     "endTime": 27,
     "text": "We don't really know if such an original language ever existed, but we do know that the thousands of languages existing today can be traced back to a much smaller number.",
@@ -337,7 +337,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 32
   },
   {
-    "orderIndex": 2,
+    "orderIndex": 3,
     "startTime": 27,
     "endTime": 29.2,
     "text": "So how did we end up with so many?",
@@ -353,7 +353,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 9
   },
   {
-    "orderIndex": 3,
+    "orderIndex": 4,
     "startTime": 29.2,
     "endTime": 33.7,
     "text": "In the early days of human migration, the world was much less populated.",
@@ -369,7 +369,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 13
   },
   {
-    "orderIndex": 4,
+    "orderIndex": 5,
     "startTime": 33.7,
     "endTime": 42.2,
     "text": "Groups of people that shared a single language and culture often split into smaller tribes, going separate ways in search of fresh game and fertile land.",
@@ -386,7 +386,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 26
   },
   {
-    "orderIndex": 5,
+    "orderIndex": 6,
     "startTime": 42.2,
     "endTime": 48.7,
     "text": "As they migrated and settled in new places, they became isolated from one another and developed in different ways.",
@@ -403,7 +403,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 19
   },
   {
-    "orderIndex": 6,
+    "orderIndex": 7,
     "startTime": 48.7,
     "endTime": 59.2,
     "text": "Centuries of living in different conditions, eating different food and encountering different neighbors turned similar dialects with varied pronunciation and vocabulary into radically different languages,",
@@ -420,7 +420,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 25
   },
   {
-    "orderIndex": 7,
+    "orderIndex": 8,
     "startTime": 59.2,
     "endTime": 62.9,
     "text": "continuing to divide as populations grew and spread out further.",
@@ -436,7 +436,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 10
   },
   {
-    "orderIndex": 8,
+    "orderIndex": 9,
     "startTime": 62.9,
     "endTime": 72.7,
     "text": "Like genealogists, modern linguists try to map this process by tracing multiple languages back as far as they can to their common ancestor, or protolanguage.",
@@ -453,7 +453,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 25
   },
   {
-    "orderIndex": 9,
+    "orderIndex": 10,
     "startTime": 72.7,
     "endTime": 80.3,
     "text": "A group of all languages related in this way is called a language family, which can contain many branches and sub-families.",
@@ -469,7 +469,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 22
   },
   {
-    "orderIndex": 10,
+    "orderIndex": 11,
     "startTime": 80.3,
     "endTime": 84.4,
     "text": "So how do we determine whether languages are related in the first place?",
@@ -486,7 +486,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 13
   },
   {
-    "orderIndex": 11,
+    "orderIndex": 12,
     "startTime": 84.4,
     "endTime": 86.6,
     "text": "Similar sounding words don't tell us much.",
@@ -502,7 +502,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 12,
+    "orderIndex": 13,
     "startTime": 86.6,
     "endTime": 92.4,
     "text": "They could be false cognates or just directly borrowed terms rather than derived from a common root.",
@@ -519,7 +519,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 17
   },
   {
-    "orderIndex": 13,
+    "orderIndex": 14,
     "startTime": 92.4,
     "endTime": 101.5,
     "text": "Grammar and syntax are a more reliable guide, as well as basic vocabulary, such as pronouns, numbers or kinship terms, that's less likely to be borrowed.",
@@ -536,7 +536,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 27
   },
   {
-    "orderIndex": 14,
+    "orderIndex": 15,
     "startTime": 101.5,
     "endTime": 108.6,
     "text": "By systematically comparing these features and looking for regular patterns of sound changes and correspondences between languages,",
@@ -552,7 +552,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 17
   },
   {
-    "orderIndex": 15,
+    "orderIndex": 16,
     "startTime": 108.6,
     "endTime": 116.7,
     "text": "linguists can determine relationships, trace specific steps in their evolution and even reconstruct earlier languages with no written records.",
@@ -569,7 +569,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 19
   },
   {
-    "orderIndex": 16,
+    "orderIndex": 17,
     "startTime": 116.7,
     "endTime": 120.7,
     "text": "Linguistics can even reveal other important historical clues,",
@@ -585,7 +585,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 17,
+    "orderIndex": 18,
     "startTime": 120.7,
     "endTime": 128.8,
     "text": "such as determining the geographic origins and lifestyles of ancient peoples based on which of their words were native, and which were borrowed.",
@@ -602,7 +602,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 23
   },
   {
-    "orderIndex": 18,
+    "orderIndex": 19,
     "startTime": 128.8,
     "endTime": 133,
     "text": "There are two main problems linguists face when constructing these language family trees.",
@@ -618,7 +618,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 13
   },
   {
-    "orderIndex": 19,
+    "orderIndex": 20,
     "startTime": 133,
     "endTime": 142.8,
     "text": "One is that there is no clear way of deciding where the branches at the bottom should end, that is, which dialects should be considered separate languages or vice versa.",
@@ -636,7 +636,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 30
   },
   {
-    "orderIndex": 20,
+    "orderIndex": 21,
     "startTime": 142.8,
     "endTime": 152.9,
     "text": "Chinese is classified as a single language, but its dialects vary to the point of being mutually unintelligible, while speakers of Spanish and Portuguese can often understand each other.",
@@ -657,7 +657,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 29
   },
   {
-    "orderIndex": 21,
+    "orderIndex": 22,
     "startTime": 152.9,
     "endTime": 162.6,
     "text": "Languages actually spoken by living people do not exist in neatly divided categories, but tend to transition gradually, crossing borders and classifications.",
@@ -674,7 +674,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 22
   },
   {
-    "orderIndex": 22,
+    "orderIndex": 23,
     "startTime": 162.6,
     "endTime": 170.6,
     "text": "Often the difference between languages and dialects is a matter of changing political and national considerations, rather than any linguistic features.",
@@ -691,7 +691,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 21
   },
   {
-    "orderIndex": 23,
+    "orderIndex": 24,
     "startTime": 170.6,
     "endTime": 178.1,
     "text": "This is why the answer to, \"How many languages are there?\" can be anywhere between 3,000 and 8,000, depending on who's counting.",
@@ -707,7 +707,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 25
   },
   {
-    "orderIndex": 24,
+    "orderIndex": 25,
     "startTime": 178.1,
     "endTime": 185.4,
     "text": "The other problem is that the farther we move back in time towards the top of the tree, the less evidence we have about the languages there.",
@@ -723,7 +723,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 27
   },
   {
-    "orderIndex": 25,
+    "orderIndex": 26,
     "startTime": 185.4,
     "endTime": 192.6,
     "text": "The current division of major language families represents the limit at which relationships can be established with reasonable certainty,",
@@ -739,7 +739,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 19
   },
   {
-    "orderIndex": 26,
+    "orderIndex": 27,
     "startTime": 192.6,
     "endTime": 197.4,
     "text": "meaning that languages of different families are presumed not to be related on any level.",
@@ -755,7 +755,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 15
   },
   {
-    "orderIndex": 27,
+    "orderIndex": 28,
     "startTime": 197.4,
     "endTime": 198.8,
     "text": "But this may change.",
@@ -769,7 +769,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 4
   },
   {
-    "orderIndex": 28,
+    "orderIndex": 29,
     "startTime": 198.8,
     "endTime": 203.7,
     "text": "While many proposals for higher level relationships -- or super families -- are speculative,",
@@ -785,7 +785,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 12
   },
   {
-    "orderIndex": 29,
+    "orderIndex": 30,
     "startTime": 203.7,
     "endTime": 212.4,
     "text": "some have been widely accepted and others are being considered, especially for native languages with small speaker populations that have not been extensively studied.",
@@ -802,7 +802,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 24
   },
   {
-    "orderIndex": 30,
+    "orderIndex": 31,
     "startTime": 212.4,
     "endTime": 221.4,
     "text": "We may never be able to determine how language came about, or whether all human languages did in fact have a common ancestor scattered through the babel of migration.",
@@ -819,7 +819,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 29
   },
   {
-    "orderIndex": 31,
+    "orderIndex": 32,
     "startTime": 221.4,
     "endTime": 224.2,
     "text": "But the next time you hear a foreign language, pay attention.",
@@ -835,7 +835,7 @@ export const LESSON_ALEX_GENDLER_LANGUAGES: MockVideoLesson = {
     "tokenCount": 11
   },
   {
-    "orderIndex": 32,
+    "orderIndex": 33,
     "startTime": 224.2,
     "endTime": 226.6,
     "text": "It may not be as foreign as you think.",

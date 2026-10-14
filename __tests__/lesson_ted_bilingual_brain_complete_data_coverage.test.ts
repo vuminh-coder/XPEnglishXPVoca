@@ -29,7 +29,7 @@ describe("TED-Ed: The Benefits of a Bilingual Brain (vid_ted_bilingual_brain) - 
 
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeLessThan(seg.endTime);
       if (i > 0) {
         expect(seg.startTime).toBeGreaterThanOrEqual(segments[i - 1].startTime);
@@ -98,8 +98,8 @@ describe("TED-Ed: The Benefits of a Bilingual Brain (vid_ted_bilingual_brain) - 
       expect(q.targetedConceptEn).toBeDefined();
       expect(q.targetedConceptVi).toBeDefined();
       expect(typeof q.referenceSegmentIndex).toBe("number");
-      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-      expect(q.referenceSegmentIndex).toBeLessThan(LESSON_TED_BILINGUAL_BRAIN.segments.length);
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(LESSON_TED_BILINGUAL_BRAIN.segments.length);
     }
   });
 

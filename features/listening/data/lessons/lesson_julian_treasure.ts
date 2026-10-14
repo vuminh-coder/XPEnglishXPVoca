@@ -35,10 +35,10 @@ export const QUIZ_JULIAN_TREASURE: VideoQuizData = {
             "Một phản ứng cảm xúc không thể kiểm soát"
         ],
         "correctAnswer": 0,
-        "explanation": "In Segment 0, Julian Treasure opens with: \"The human voice: It's the instrument we all play. It's the most powerful sound in the world, probably.\"",
-        "explanationEn": "In Segment 0, Julian Treasure opens with: \"The human voice: It's the instrument we all play. It's the most powerful sound in the world, probably.\"",
-        "explanationVi": "Trong câu 0, Julian Treasure mở đầu: \"Giọng nói con người: Đó là thứ nhạc cụ mà tất cả chúng ta đều chơi. Có lẽ đó là âm thanh quyền năng nhất trên thế giới.\"",
-        "referenceSegmentIndex": 0,
+        "explanation": "In Segment 1, Julian Treasure opens with: \"The human voice: It's the instrument we all play. It's the most powerful sound in the world, probably.\"",
+        "explanationEn": "In Segment 1, Julian Treasure opens with: \"The human voice: It's the instrument we all play. It's the most powerful sound in the world, probably.\"",
+        "explanationVi": "Trong câu 1, Julian Treasure mở đầu: \"Giọng nói con người: Đó là thứ nhạc cụ mà tất cả chúng ta đều chơi. Có lẽ đó là âm thanh quyền năng nhất trên thế giới.\"",
+        "referenceSegmentIndex": 1,
         "targetedConcept": "Ẩn dụ nhạc cụ của giọng nói (The Instrument We All Play Metaphor)",
         "targetedConceptEn": "The Instrument We All Play Metaphor",
         "targetedConceptVi": "Ẩn dụ nhạc cụ của giọng nói"
@@ -67,19 +67,19 @@ export const QUIZ_JULIAN_TREASURE: VideoQuizData = {
             "Nói giọng đều đều — ru ngủ khán giả trong các giảng đường công cộng"
         ],
         "correctAnswer": 0,
-        "explanation": "In Segments 7 & 8, Julian defines gossip as: \"Speaking ill of somebody who's not present... and we know perfectly well the person gossiping, five minutes later, will be gossiping about us.\"",
-        "explanationEn": "In Segments 7 & 8, Julian defines gossip as: \"Speaking ill of somebody who's not present... and we know perfectly well the person gossiping, five minutes later, will be gossiping about us.\"",
-        "explanationVi": "Trong câu 7 & 8, Julian định nghĩa thói ngồi lê đôi mách: \"Nói xấu một ai đó không có mặt tại đây... và chúng ta thừa biết kẻ đang buôn chuyện kia, năm phút sau, sẽ lại đem chính chúng ta ra làm đề tài đàm tiếu.\"",
-        "referenceSegmentIndex": 7,
+        "explanation": "In Segments 8 & 9, Julian defines gossip as: \"Speaking ill of somebody who's not present... and we know perfectly well the person gossiping, five minutes later, will be gossiping about us.\"",
+        "explanationEn": "In Segments 8 & 9, Julian defines gossip as: \"Speaking ill of somebody who's not present... and we know perfectly well the person gossiping, five minutes later, will be gossiping about us.\"",
+        "explanationVi": "Trong câu 8 & 9, Julian định nghĩa thói ngồi lê đôi mách: \"Nói xấu một ai đó không có mặt tại đây... và chúng ta thừa biết kẻ đang buôn chuyện kia, năm phút sau, sẽ lại đem chính chúng ta ra làm đề tài đàm tiếu.\"",
+        "referenceSegmentIndex": 8,
         "targetedConcept": "Thói xấu thứ nhất: Ngồi lê đôi mách (Deadly Sin #1: Gossip)",
         "targetedConceptEn": "Deadly Sin #1: Gossip",
         "targetedConceptVi": "Thói xấu thứ nhất: Ngồi lê đôi mách"
     },
     {
         "id": "q_vid_julian_treasure_speak_3",
-        "question": "What metaphor does Julian Treasure coin in Segment 14 to describe people who make chronic excuses?",
-        "questionEn": "What metaphor does Julian Treasure coin in Segment 14 to describe people who make chronic excuses?",
-        "questionVi": "Julian Treasure sáng tạo phép ẩn dụ nào trong câu 14 để mô tả những người có thói quen liên tục bào chữa?",
+        "question": "What metaphor does Julian Treasure coin in Segment 15 to describe people who make chronic excuses?",
+        "questionEn": "What metaphor does Julian Treasure coin in Segment 15 to describe people who make chronic excuses?",
+        "questionVi": "Julian Treasure sáng tạo phép ẩn dụ nào trong câu 15 để mô tả những người có thói quen liên tục bào chữa?",
         "options": [
             "A blamethrower — passing faults onto others without taking responsibility",
             "An echo chamber — constantly repeating obsolete political slogans",
@@ -99,10 +99,10 @@ export const QUIZ_JULIAN_TREASURE: VideoQuizData = {
             "Cửa xoay tự động — để những người quen xã giao hời hợt đi qua"
         ],
         "correctAnswer": 0,
-        "explanation": "In Segments 14 & 15, Julian states: \"Some people have a blamethrower. They just pass it on to everybody else and don't take responsibility for their actions.\"",
-        "explanationEn": "In Segments 14 & 15, Julian states: \"Some people have a blamethrower. They just pass it on to everybody else and don't take responsibility for their actions.\"",
-        "explanationVi": "Trong câu 14 & 15, Julian nói: \"Một số người sở hữu một khẩu súng phun lỗi. Họ chỉ biết đùn đẩy trách nhiệm sang mọi người xung quanh mà không chịu nhận trách nhiệm cho hành vi của mình.\"",
-        "referenceSegmentIndex": 14,
+        "explanation": "In Segments 15 & 16, Julian states: \"Some people have a blamethrower. They just pass it on to everybody else and don't take responsibility for their actions.\"",
+        "explanationEn": "In Segments 15 & 16, Julian states: \"Some people have a blamethrower. They just pass it on to everybody else and don't take responsibility for their actions.\"",
+        "explanationVi": "Trong câu 15 & 16, Julian nói: \"Một số người sở hữu một khẩu súng phun lỗi. Họ chỉ biết đùn đẩy trách nhiệm sang mọi người xung quanh mà không chịu nhận trách nhiệm cho hành vi của mình.\"",
+        "referenceSegmentIndex": 15,
         "targetedConcept": "Căn bệnh bao biện & Khẩu súng phun lỗi (The Blamethrower Metaphor)",
         "targetedConceptEn": "The Blamethrower Metaphor",
         "targetedConceptVi": "Căn bệnh bao biện & Khẩu súng phun lỗi"
@@ -131,10 +131,10 @@ export const QUIZ_JULIAN_TREASURE: VideoQuizData = {
             "Honor (Danh dự), Authority (Thẩm quyền), Insight (Thấu suốt), và Loyalty (Trung thành)"
         ],
         "correctAnswer": 0,
-        "explanation": "In Segments 24 to 27, Julian spells out HAIL: Honesty (being true, straight and clear), Authenticity (just being yourself), Integrity (being your word), and Love (wishing people well).",
-        "explanationEn": "In Segments 24 to 27, Julian spells out HAIL: Honesty (being true, straight and clear), Authenticity (just being yourself), Integrity (being your word), and Love (wishing people well).",
-        "explanationVi": "Trong các câu 24 đến 27, Julian giải nghĩa mô hình HAIL: Honesty (nói thật, thẳng thắn), Authenticity (là chính mình), Integrity (giữ lời hứa), và Love (thiện ý mong điều tốt lành cho mọi người).",
-        "referenceSegmentIndex": 22,
+        "explanation": "In Segments 25 to 28, Julian spells out HAIL: Honesty (being true, straight and clear), Authenticity (just being yourself), Integrity (being your word), and Love (wishing people well).",
+        "explanationEn": "In Segments 25 to 28, Julian spells out HAIL: Honesty (being true, straight and clear), Authenticity (just being yourself), Integrity (being your word), and Love (wishing people well).",
+        "explanationVi": "Trong các câu 25 đến 28, Julian giải nghĩa mô hình HAIL: Honesty (nói thật, thẳng thắn), Authenticity (là chính mình), Integrity (giữ lời hứa), và Love (thiện ý mong điều tốt lành cho mọi người).",
+        "referenceSegmentIndex": 23,
         "targetedConcept": "Bốn trụ cột HAIL trong nghệ thuật giao tiếp (The Four Cornerstones: HAIL)",
         "targetedConceptEn": "The Four Cornerstones: HAIL",
         "targetedConceptVi": "Bốn trụ cột HAIL trong nghệ thuật giao tiếp"
@@ -163,10 +163,10 @@ export const QUIZ_JULIAN_TREASURE: VideoQuizData = {
             "Vì các chuyên gia giọng nói lấy học phí rẻ hơn đối với người có giọng trầm"
         ],
         "correctAnswer": 0,
-        "explanation": "In Segment 37, Julian explains: \"We vote for politicians with lower voices, it's true, because we associate depth with power and with authority. That's register.\"",
-        "explanationEn": "In Segment 37, Julian explains: \"We vote for politicians with lower voices, it's true, because we associate depth with power and with authority. That's register.\"",
-        "explanationVi": "Trong câu 37, Julian giải thích: \"Chúng ta thường bỏ phiếu cho các chính trị gia sở hữu giọng trầm hơn, đó là sự thật, bởi chúng ta thường vô thức liên kết độ trầm sâu với quyền lực và thẩm quyền. Đó chính là âm vực.\"",
-        "referenceSegmentIndex": 37,
+        "explanation": "In Segment 38, Julian explains: \"We vote for politicians with lower voices, it's true, because we associate depth with power and with authority. That's register.\"",
+        "explanationEn": "In Segment 38, Julian explains: \"We vote for politicians with lower voices, it's true, because we associate depth with power and with authority. That's register.\"",
+        "explanationVi": "Trong câu 38, Julian giải thích: \"Chúng ta thường bỏ phiếu cho các chính trị gia sở hữu giọng trầm hơn, đó là sự thật, bởi chúng ta thường vô thức liên kết độ trầm sâu với quyền lực và thẩm quyền. Đó chính là âm vực.\"",
+        "referenceSegmentIndex": 38,
         "targetedConcept": "Tâm lý học âm vực và sự tín nhiệm (Register and Perceived Authority)",
         "targetedConceptEn": "Register and Perceived Authority",
         "targetedConceptVi": "Tâm lý học âm vực và sự tín nhiệm"
@@ -195,10 +195,10 @@ export const QUIZ_JULIAN_TREASURE: VideoQuizData = {
             "Nhanh nhẹn và tràn trề năng lượng như nước khoáng có ga"
         ],
         "correctAnswer": 0,
-        "explanation": "In Segment 38, Julian notes: \"Again, the research shows that we prefer voices which are rich, smooth, warm, like hot chocolate.\"",
-        "explanationEn": "In Segment 38, Julian notes: \"Again, the research shows that we prefer voices which are rich, smooth, warm, like hot chocolate.\"",
-        "explanationVi": "Trong câu 38, Julian ghi nhận: \"Một lần nữa, nghiên cứu chỉ ra rằng chúng ta chuộng những chất giọng trầm ấm, mượt mà và nồng nàn như một ly sô-cô-la nóng.\"",
-        "referenceSegmentIndex": 38,
+        "explanation": "In Segment 39, Julian notes: \"Again, the research shows that we prefer voices which are rich, smooth, warm, like hot chocolate.\"",
+        "explanationEn": "In Segment 39, Julian notes: \"Again, the research shows that we prefer voices which are rich, smooth, warm, like hot chocolate.\"",
+        "explanationVi": "Trong câu 39, Julian ghi nhận: \"Một lần nữa, nghiên cứu chỉ ra rằng chúng ta chuộng những chất giọng trầm ấm, mượt mà và nồng nàn như một ly sô-cô-la nóng.\"",
+        "referenceSegmentIndex": 39,
         "targetedConcept": "Âm sắc ấm áp và khả năng rèn luyện (Timbre and Voice Coaching)",
         "targetedConceptEn": "Timbre and Voice Coaching",
         "targetedConceptVi": "Âm sắc ấm áp và khả năng rèn luyện"
@@ -227,10 +227,10 @@ export const QUIZ_JULIAN_TREASURE: VideoQuizData = {
             "Ngập ngừng dừng lại hơn 5 giây trước khi thốt ra bất kỳ tính từ nào"
         ],
         "correctAnswer": 0,
-        "explanation": "In Segments 43 & 44, Julian describes repetitive prosody: \"where every sentence ends as if it were a question when it's actually not a question, it's a statement? ... it's actually restricting your ability to communicate through prosody.\"",
-        "explanationEn": "In Segments 43 & 44, Julian describes repetitive prosody: \"where every sentence ends as if it were a question when it's actually not a question, it's a statement? ... it's actually restricting your ability to communicate through prosody.\"",
-        "explanationVi": "Trong các câu 43 & 44, Julian mô tả tật ngữ điệu lặp lại: \"mọi câu nói đều lên giọng ở cuối như thể đó là một câu hỏi dù thực chất nó là một câu trần thuật?... nó thực sự bóp nghẹt khả năng biểu đạt cảm xúc qua ngữ điệu của bạn.\"",
-        "referenceSegmentIndex": 43,
+        "explanation": "In Segments 44 & 45, Julian describes repetitive prosody: \"where every sentence ends as if it were a question when it's actually not a question, it's a statement? ... it's actually restricting your ability to communicate through prosody.\"",
+        "explanationEn": "In Segments 44 & 45, Julian describes repetitive prosody: \"where every sentence ends as if it were a question when it's actually not a question, it's a statement? ... it's actually restricting your ability to communicate through prosody.\"",
+        "explanationVi": "Trong các câu 44 & 45, Julian mô tả tật ngữ điệu lặp lại: \"mọi câu nói đều lên giọng ở cuối như thể đó là một câu hỏi dù thực chất nó là một câu trần thuật?... nó thực sự bóp nghẹt khả năng biểu đạt cảm xúc qua ngữ điệu của bạn.\"",
+        "referenceSegmentIndex": 44,
         "targetedConcept": "Ngữ điệu, tính đơn điệu và tật lên giọng cuối câu (Prosody, Monotonic Speech & Upspeak)",
         "targetedConceptEn": "Prosody, Monotonic Speech & Upspeak",
         "targetedConceptVi": "Ngữ điệu, tính đơn điệu và tật lên giọng cuối câu"
@@ -259,10 +259,10 @@ export const QUIZ_JULIAN_TREASURE: VideoQuizData = {
             "Một hiệp định quốc tế cấm triệt để việc than phiền trong môi trường làm việc"
         ],
         "correctAnswer": 0,
-        "explanation": "In Segment 64, Julian concludes: \"That would be a world that does sound beautiful, and one where understanding would be the norm, and that is an idea worth spreading.\"",
-        "explanationEn": "In Segment 64, Julian concludes: \"That would be a world that does sound beautiful, and one where understanding would be the norm, and that is an idea worth spreading.\"",
-        "explanationVi": "Trong câu 64, Julian đúc kết: \"Đó sẽ là một thế giới ngập tràn thanh âm tuyệt mỹ, nơi mà sự thấu hiểu trở thành chuẩn mực tự nhiên; và đó chính là một ý tưởng xứng đáng được lan tỏa.\"",
-        "referenceSegmentIndex": 64,
+        "explanation": "In Segment 65, Julian concludes: \"That would be a world that does sound beautiful, and one where understanding would be the norm, and that is an idea worth spreading.\"",
+        "explanationEn": "In Segment 65, Julian concludes: \"That would be a world that does sound beautiful, and one where understanding would be the norm, and that is an idea worth spreading.\"",
+        "explanationVi": "Trong câu 65, Julian đúc kết: \"Đó sẽ là một thế giới ngập tràn thanh âm tuyệt mỹ, nơi mà sự thấu hiểu trở thành chuẩn mực tự nhiên; và đó chính là một ý tưởng xứng đáng được lan tỏa.\"",
+        "referenceSegmentIndex": 65,
         "targetedConcept": "Tầm nhìn về thế giới của sự thấu hiểu (Conscious Sound & Universal Understanding)",
         "targetedConceptEn": "Conscious Sound & Universal Understanding",
         "targetedConceptVi": "Tầm nhìn về thế giới của sự thấu hiểu"
@@ -301,7 +301,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
   quiz: QUIZ_JULIAN_TREASURE,
   segments: [
     {
-        "orderIndex": 0,
+        "orderIndex": 1,
         "startTime": 13.96,
         "endTime": 17.63,
         "text": "The human voice: It's the instrument we all play.",
@@ -317,7 +317,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 1,
+        "orderIndex": 2,
         "startTime": 18.61,
         "endTime": 23.92,
         "text": "It's the most powerful sound in the world, probably. It's the only one that can start a war or say \"I love you.\"",
@@ -333,7 +333,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 25
     },
     {
-        "orderIndex": 2,
+        "orderIndex": 3,
         "startTime": 23.94,
         "endTime": 29.32,
         "text": "And yet many people have the experience that when they speak, people don't listen to them. And why is that?",
@@ -349,7 +349,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 21
     },
     {
-        "orderIndex": 3,
+        "orderIndex": 4,
         "startTime": 29.35,
         "endTime": 33.11,
         "text": "How can we speak powerfully to make change in the world?",
@@ -365,7 +365,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 11
     },
     {
-        "orderIndex": 4,
+        "orderIndex": 5,
         "startTime": 33.48,
         "endTime": 37.67,
         "text": "What I'd like to suggest, there are a number of habits that we need to move away from.",
@@ -381,7 +381,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 19
     },
     {
-        "orderIndex": 5,
+        "orderIndex": 6,
         "startTime": 37.69,
         "endTime": 41.42,
         "text": "I've assembled for your pleasure here seven deadly sins of speaking.",
@@ -397,7 +397,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 12
     },
     {
-        "orderIndex": 6,
+        "orderIndex": 7,
         "startTime": 41.44,
         "endTime": 49.11,
         "text": "I'm not pretending this is an exhaustive list, but these seven, I think, are pretty large habits that we can all fall into.",
@@ -413,7 +413,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 24
     },
     {
-        "orderIndex": 7,
+        "orderIndex": 8,
         "startTime": 49.13,
         "endTime": 54.1,
         "text": "First, gossip. Speaking ill of somebody who's not present.",
@@ -429,7 +429,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 8,
+        "orderIndex": 9,
         "startTime": 54.7,
         "endTime": 60.7,
         "text": "Not a nice habit, and we know perfectly well the person gossiping, five minutes later, will be gossiping about us.",
@@ -445,7 +445,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 20
     },
     {
-        "orderIndex": 9,
+        "orderIndex": 10,
         "startTime": 61.77,
         "endTime": 72.0,
         "text": "Second, judging. We know people who are like this in conversation, and it's very hard to listen to somebody if you know that you're being judged and found wanting at the same time.",
@@ -462,7 +462,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 35
     },
     {
-        "orderIndex": 10,
+        "orderIndex": 11,
         "startTime": 72.03,
         "endTime": 80.14,
         "text": "Third, negativity. You can fall into this. My mother, in the last years of her life, became very negative, and it's hard to listen.",
@@ -479,7 +479,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 25
     },
     {
-        "orderIndex": 11,
+        "orderIndex": 12,
         "startTime": 80.17,
         "endTime": 89.61,
         "text": "I remember one day, I said to her, \"It's October 1 today,\" and she said, \"I know, isn't it dreadful?\" It's hard to listen when somebody's that negative.",
@@ -498,7 +498,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 32
     },
     {
-        "orderIndex": 12,
+        "orderIndex": 13,
         "startTime": 90.93,
         "endTime": 98.95,
         "text": "And another form of negativity, complaining. Well, this is the national art of the U.K. It's our national sport.",
@@ -517,7 +517,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 21
     },
     {
-        "orderIndex": 13,
+        "orderIndex": 14,
         "startTime": 98.98,
         "endTime": 107.19,
         "text": "We complain about the weather, sport, about politics, about everything, but actually, complaining is viral misery. It's not spreading sunshine and lightness in the world.",
@@ -534,7 +534,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 26
     },
     {
-        "orderIndex": 14,
+        "orderIndex": 15,
         "startTime": 108.29,
         "endTime": 115.47,
         "text": "Excuses. We've all met this guy. Maybe we've all been this guy. Some people have a blamethrower.",
@@ -550,7 +550,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 19
     },
     {
-        "orderIndex": 15,
+        "orderIndex": 16,
         "startTime": 115.49,
         "endTime": 122.96,
         "text": "They just pass it on to everybody else and don't take responsibility for their actions, and again, hard to listen to somebody who is being like that.",
@@ -567,7 +567,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 28
     },
     {
-        "orderIndex": 16,
+        "orderIndex": 17,
         "startTime": 122.98,
         "endTime": 130.61,
         "text": "Penultimate, the sixth of the seven, embroidery, exaggeration. It demeans our language, actually, sometimes.",
@@ -584,7 +584,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 14
     },
     {
-        "orderIndex": 17,
+        "orderIndex": 18,
         "startTime": 130.64,
         "endTime": 144.3,
         "text": "For example, if I see something that really is awesome, what do I call it? And then, of course, this exaggeration becomes lying, and we don't want to listen to people we know are lying to us.",
@@ -601,7 +601,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 38
     },
     {
-        "orderIndex": 18,
+        "orderIndex": 19,
         "startTime": 144.32,
         "endTime": 154.74,
         "text": "And finally, dogmatism. The confusion of facts with opinions. When those two things get conflated, you're listening into the wind.",
@@ -619,7 +619,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 21
     },
     {
-        "orderIndex": 19,
+        "orderIndex": 20,
         "startTime": 154.76,
         "endTime": 160.52,
         "text": "You know, somebody is bombarding you with their opinions as if they were true. It's difficult to listen to that.",
@@ -636,7 +636,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 21
     },
     {
-        "orderIndex": 20,
+        "orderIndex": 21,
         "startTime": 160.55,
         "endTime": 170.15,
         "text": "So here they are, seven deadly sins of speaking. These are things I think we need to avoid. But is there a positive way to think about this? Yes, there is.",
@@ -653,7 +653,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 31
     },
     {
-        "orderIndex": 21,
+        "orderIndex": 22,
         "startTime": 170.46,
         "endTime": 181.63,
         "text": "I'd like to suggest that there are four really powerful cornerstones, foundations, that we can stand on if we want our speech to be powerful and to make change in the world.",
@@ -670,7 +670,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 33
     },
     {
-        "orderIndex": 22,
+        "orderIndex": 23,
         "startTime": 182.29,
         "endTime": 191.55,
         "text": "Fortunately, these things spell a word. The word is \"hail,\" and it has a great definition as well. I'm not talking about the stuff that falls from the sky and hits you on the head.",
@@ -689,7 +689,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 36
     },
     {
-        "orderIndex": 23,
+        "orderIndex": 24,
         "startTime": 191.57,
         "endTime": 201.8,
         "text": "I'm talking about this definition, to greet or acclaim enthusiastically, which is how I think our words will be received if we stand on these four things. So what do they stand for? See if you can guess.",
@@ -706,7 +706,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 39
     },
     {
-        "orderIndex": 24,
+        "orderIndex": 25,
         "startTime": 202.32,
         "endTime": 208.23,
         "text": "The H, honesty, of course, being true in what you say, being straight and clear.",
@@ -725,7 +725,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 15
     },
     {
-        "orderIndex": 25,
+        "orderIndex": 26,
         "startTime": 208.25,
         "endTime": 217.42,
         "text": "The A is authenticity, just being yourself. A friend of mine described it as standing in your own truth, which I think is a lovely way to put it.",
@@ -745,7 +745,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 29
     },
     {
-        "orderIndex": 26,
+        "orderIndex": 27,
         "startTime": 217.44,
         "endTime": 223.7,
         "text": "The I is integrity, being your word, actually doing what you say, and being somebody people can trust.",
@@ -765,7 +765,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 18
     },
     {
-        "orderIndex": 27,
+        "orderIndex": 28,
         "startTime": 224.36,
         "endTime": 232.64,
         "text": "And the L is love. I don't mean romantic love, but I do mean wishing people well, for two reasons.",
@@ -785,7 +785,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 21
     },
     {
-        "orderIndex": 28,
+        "orderIndex": 29,
         "startTime": 232.66,
         "endTime": 242.0,
         "text": "First of all, I think absolute honesty may not be what we want. I mean, my goodness, you look ugly this morning. Perhaps that's not necessary.",
@@ -802,7 +802,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 27
     },
     {
-        "orderIndex": 29,
+        "orderIndex": 30,
         "startTime": 242.02,
         "endTime": 254.67,
         "text": "Tempered with love, of course, honesty is a great thing. But also, if you're really wishing somebody well, it's very hard to judge them at the same time. I'm not even sure you can do those two things simultaneously.",
@@ -819,7 +819,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 42
     },
     {
-        "orderIndex": 30,
+        "orderIndex": 31,
         "startTime": 255.31,
         "endTime": 262.61,
         "text": "So hail. Also, now that's what you say, and it's like the old song, it is what you say, it's also the way that you say it.",
@@ -838,7 +838,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 30
     },
     {
-        "orderIndex": 31,
+        "orderIndex": 32,
         "startTime": 262.64,
         "endTime": 269.79,
         "text": "You have an amazing toolbox. This instrument is incredible, and yet this is a toolbox that very few people have ever opened.",
@@ -855,7 +855,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 22
     },
     {
-        "orderIndex": 32,
+        "orderIndex": 33,
         "startTime": 269.81,
         "endTime": 278.42,
         "text": "I'd like to have a little rummage in there with you now and just pull a few tools out that you might like to take away and play with, which will increase the power of your speaking.",
@@ -872,7 +872,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 38
     },
     {
-        "orderIndex": 33,
+        "orderIndex": 34,
         "startTime": 278.44,
         "endTime": 286.21,
         "text": "Register, for example. Now, falsetto register may not be very useful most of the time, but there's a register in between.",
@@ -889,7 +889,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 22
     },
     {
-        "orderIndex": 34,
+        "orderIndex": 35,
         "startTime": 286.23,
         "endTime": 291.92,
         "text": "I'm not going to get very technical about this for any of you who are voice coaches. You can locate your voice, however.",
@@ -905,7 +905,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 24
     },
     {
-        "orderIndex": 35,
+        "orderIndex": 36,
         "startTime": 291.94,
         "endTime": 298.96,
         "text": "So if I talk up here in my nose, you can hear the difference. If I go down here in my throat, which is where most of us speak from most of the time.",
@@ -922,7 +922,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 34
     },
     {
-        "orderIndex": 36,
+        "orderIndex": 37,
         "startTime": 298.99,
         "endTime": 304.71,
         "text": "But if you want weight, you need to go down here to the chest. You hear the difference?",
@@ -938,7 +938,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 18
     },
     {
-        "orderIndex": 37,
+        "orderIndex": 38,
         "startTime": 304.73,
         "endTime": 315.81,
         "text": "We vote for politicians with lower voices, it's true, because we associate depth with power and with authority. That's register.",
@@ -956,7 +956,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 22
     },
     {
-        "orderIndex": 38,
+        "orderIndex": 39,
         "startTime": 316.13,
         "endTime": 325.91,
         "text": "Then we have timbre. It's the way your voice feels. Again, the research shows that we prefer voices which are rich, smooth, warm, like hot chocolate.",
@@ -973,7 +973,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 27
     },
     {
-        "orderIndex": 39,
+        "orderIndex": 40,
         "startTime": 326.63,
         "endTime": 332.58,
         "text": "Well if that's not you, that's not the end of the world, because you can train. Go and get a voice coach.",
@@ -989,7 +989,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 24
     },
     {
-        "orderIndex": 40,
+        "orderIndex": 41,
         "startTime": 332.61,
         "endTime": 339.41,
         "text": "And there are amazing things you can do with breathing, with posture, and with exercises to improve the timbre of your voice.",
@@ -1006,7 +1006,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 22
     },
     {
-        "orderIndex": 41,
+        "orderIndex": 42,
         "startTime": 339.44,
         "endTime": 348.29,
         "text": "Then prosody. I love prosody. This is the sing-song, the meta-language that we use in order to impart meaning. It's root one for meaning in conversation.",
@@ -1024,7 +1024,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 29
     },
     {
-        "orderIndex": 42,
+        "orderIndex": 43,
         "startTime": 348.31,
         "endTime": 359.52,
         "text": "People who speak all on one note are really quite hard to listen to if they don't have any prosody at all. That's where the word \"monotonic\" comes from, or monotonous, monotone.",
@@ -1041,7 +1041,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 34
     },
     {
-        "orderIndex": 43,
+        "orderIndex": 44,
         "startTime": 360.31,
         "endTime": 368.8,
         "text": "Also, we have repetitive prosody now coming in, where every sentence ends as if it were a question when it's actually not a question, it's a statement?",
@@ -1058,7 +1058,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 29
     },
     {
-        "orderIndex": 44,
+        "orderIndex": 45,
         "startTime": 371.15,
         "endTime": 379.98,
         "text": "And if you repeat that one, it's actually restricting your ability to communicate through prosody, which I think is a shame, so let's try and break that habit.",
@@ -1074,7 +1074,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 30
     },
     {
-        "orderIndex": 45,
+        "orderIndex": 46,
         "startTime": 381.31,
         "endTime": 392.19,
         "text": "Pace. I can get very excited by saying something really quickly, or I can slow right down to emphasize, and at the end of that, of course, is our old friend silence.",
@@ -1091,7 +1091,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 32
     },
     {
-        "orderIndex": 46,
+        "orderIndex": 47,
         "startTime": 394.56,
         "endTime": 403.06,
         "text": "There's nothing wrong with a bit of silence in a talk, is there? We don't have to fill it with ums and ahs. It can be very powerful.",
@@ -1108,7 +1108,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 30
     },
     {
-        "orderIndex": 47,
+        "orderIndex": 48,
         "startTime": 403.82,
         "endTime": 416.13,
         "text": "Of course, pitch often goes along with pace to indicate arousal, but you can do it just with pitch. Where did you leave my keys? Where did you leave my keys? So, slightly different meaning in those two deliveries.",
@@ -1125,7 +1125,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 39
     },
     {
-        "orderIndex": 48,
+        "orderIndex": 49,
         "startTime": 416.16,
         "endTime": 427.5,
         "text": "And finally, volume. I can get really excited by using volume. Sorry about that, if I startled anybody. Or, I can have you really pay attention by getting very quiet.",
@@ -1142,7 +1142,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 30
     },
     {
-        "orderIndex": 49,
+        "orderIndex": 50,
         "startTime": 428.71,
         "endTime": 441.09,
         "text": "Some people broadcast the whole time. Try not to do that. That's called sodcasting, imposing your sound on people around you carelessly and inconsiderately. Not nice.",
@@ -1159,7 +1159,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 27
     },
     {
-        "orderIndex": 50,
+        "orderIndex": 51,
         "startTime": 441.12,
         "endTime": 454.67,
         "text": "Of course, where this all comes into play most of all is when you've got something really important to do. It might be standing on a stage like this and giving a talk to people. It might be proposing marriage, asking for a raise, a wedding speech.",
@@ -1176,7 +1176,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 48
     },
     {
-        "orderIndex": 51,
+        "orderIndex": 52,
         "startTime": 454.69,
         "endTime": 467.07,
         "text": "Whatever it is, if it's really important, you owe it to yourself to look at this toolbox and the engine that it's going to work on, and no engine works well without being warmed up. Warm up your voice.",
@@ -1193,7 +1193,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 41
     },
     {
-        "orderIndex": 52,
+        "orderIndex": 53,
         "startTime": 467.48,
         "endTime": 481.83,
         "text": "Actually, let me show you how to do that. Would you all like to stand up for a moment? I'm going to show you the six vocal warm-up exercises that I do before every talk I ever do. Any time you're going to talk to anybody important, do these.",
@@ -1210,7 +1210,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 52
     },
     {
-        "orderIndex": 53,
+        "orderIndex": 54,
         "startTime": 481.86,
         "endTime": 492.37,
         "text": "First, arms up, deep breath in, and sigh out, ahhhhh, like that. One more time: ahhhh, very good.",
@@ -1227,7 +1227,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 18
     },
     {
-        "orderIndex": 54,
+        "orderIndex": 55,
         "startTime": 492.39,
         "endTime": 499.41,
         "text": "Now we're going to warm up our lips, and we're going to go Ba, Ba, Ba, Ba, Ba, Ba, Ba, Ba. Very good.",
@@ -1243,7 +1243,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 25
     },
     {
-        "orderIndex": 55,
+        "orderIndex": 56,
         "startTime": 499.44,
         "endTime": 506.83,
         "text": "And now, brrrrrrrrrr, just like when you were a kid. Brrrr. Now your lips should be coming alive.",
@@ -1259,7 +1259,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 18
     },
     {
-        "orderIndex": 56,
+        "orderIndex": 57,
         "startTime": 506.85,
         "endTime": 515.04,
         "text": "We're going to do the tongue next with exaggerated la, la, la, la, la, la, la, la, la. Beautiful. You're getting really good at this.",
@@ -1276,7 +1276,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 27
     },
     {
-        "orderIndex": 57,
+        "orderIndex": 58,
         "startTime": 515.07,
         "endTime": 520.15,
         "text": "And then, roll an R: Rrrrrrr. That's like champagne for the tongue.",
@@ -1293,7 +1293,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 13
     },
     {
-        "orderIndex": 58,
+        "orderIndex": 59,
         "startTime": 520.17,
         "endTime": 528.56,
         "text": "Finally, and if I can only do one, the pros call this the siren. It's really good. It starts with \"we\" and goes to \"aw.\" The \"we\" is high, the \"aw\" is low.",
@@ -1310,7 +1310,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 34
     },
     {
-        "orderIndex": 59,
+        "orderIndex": 60,
         "startTime": 528.59,
         "endTime": 538.21,
         "text": "So you go, weeeaawww, weeeaawww. Fantastic. Give yourselves a round of applause. Take a seat, thank you.",
@@ -1327,7 +1327,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 17
     },
     {
-        "orderIndex": 60,
+        "orderIndex": 61,
         "startTime": 539.71,
         "endTime": 549.08,
         "text": "Next time you speak, do those in advance. Now let me just put this in context to close. This is a serious point here. This is where we are now, right?",
@@ -1344,7 +1344,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 31
     },
     {
-        "orderIndex": 61,
+        "orderIndex": 62,
         "startTime": 549.1,
         "endTime": 558.77,
         "text": "We speak not very well to people who simply aren't listening in an environment that's all about noise and bad acoustics. I have talked about that on this stage in different phases.",
@@ -1361,7 +1361,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 34
     },
     {
-        "orderIndex": 62,
+        "orderIndex": 63,
         "startTime": 558.8,
         "endTime": 567.58,
         "text": "What would the world be like if we were speaking powerfully to people who were listening consciously in environments which were actually fit for purpose?",
@@ -1378,7 +1378,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 25
     },
     {
-        "orderIndex": 63,
+        "orderIndex": 64,
         "startTime": 567.6,
         "endTime": 579.52,
         "text": "Or to make that a bit larger, what would the world be like if we were creating sound consciously and consuming sound consciously and designing all our environments consciously for sound?",
@@ -1395,7 +1395,7 @@ export const LESSON_JULIAN_TREASURE: MockVideoLesson = {
         "tokenCount": 31
     },
     {
-        "orderIndex": 64,
+        "orderIndex": 65,
         "startTime": 579.55,
         "endTime": 590.39,
         "text": "That would be a world that does sound beautiful, and one where understanding would be the norm, and that is an idea worth spreading. Thank you.",

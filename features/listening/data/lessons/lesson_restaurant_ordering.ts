@@ -33,10 +33,10 @@ export const QUIZ_RESTAURANT_ORDERING: VideoQuizData = {
             "Một bàn cao cho hai người tại quầy bar ngoài trời"
         ],
         "correctAnswer": 0,
-        "explanation": "In Segment 1, the father requests: \"Hello! I would like a table for four, please.\"",
-        "explanationEn": "In Segment 1, the father requests: \"Hello! I would like a table for four, please.\"",
-        "explanationVi": "Trong câu 1, người cha yêu cầu: \"Hello! I would like a table for four, please.\" (Xin chào! Cho chúng tôi một bàn bốn người nhé).",
-        "referenceSegmentIndex": 1,
+        "explanation": "In Segment 2, the father requests: \"Hello! I would like a table for four, please.\"",
+        "explanationEn": "In Segment 2, the father requests: \"Hello! I would like a table for four, please.\"",
+        "explanationVi": "Trong câu 2, người cha yêu cầu: \"Hello! I would like a table for four, please.\" (Xin chào! Cho chúng tôi một bàn bốn người nhé).",
+        "referenceSegmentIndex": 2,
         "targetedConcept": "Yêu cầu xếp bàn ăn (Table Seating Request)",
         "targetedConceptEn": "Table Seating Request",
         "targetedConceptVi": "Yêu cầu xếp bàn ăn"
@@ -65,10 +65,10 @@ export const QUIZ_RESTAURANT_ORDERING: VideoQuizData = {
             "Ông yêu cầu người phục vụ tắt toàn bộ đèn điện"
         ],
         "correctAnswer": 0,
-        "explanation": "In Segment 5, the father asks: \"Could you give us the menu, please?\"",
-        "explanationEn": "In Segment 5, the father asks: \"Could you give us the menu, please?\"",
-        "explanationVi": "Trong câu 5, người cha hỏi: \"Could you give us the menu, please?\" (Bạn có thể đưa cho chúng tôi thực đơn được không?).",
-        "referenceSegmentIndex": 5,
+        "explanation": "In Segment 6, the father asks: \"Could you give us the menu, please?\"",
+        "explanationEn": "In Segment 6, the father asks: \"Could you give us the menu, please?\"",
+        "explanationVi": "Trong câu 6, người cha hỏi: \"Could you give us the menu, please?\" (Bạn có thể đưa cho chúng tôi thực đơn được không?).",
+        "referenceSegmentIndex": 6,
         "targetedConcept": "Yêu cầu thực đơn nhà hàng (Requesting the Dining Menu)",
         "targetedConceptEn": "Requesting the Dining Menu",
         "targetedConceptVi": "Yêu cầu thực đơn nhà hàng"
@@ -97,10 +97,10 @@ export const QUIZ_RESTAURANT_ORDERING: VideoQuizData = {
             "Một ly nước máy ấm thông thường"
         ],
         "correctAnswer": 0,
-        "explanation": "In Segment 12, Paul orders: \"I'll have a milkshake.\"",
-        "explanationEn": "In Segment 12, Paul orders: \"I'll have a milkshake.\"",
-        "explanationVi": "Trong câu 12, Paul gọi: \"I'll have a milkshake.\" (Con sẽ uống một ly sữa lắc).",
-        "referenceSegmentIndex": 12,
+        "explanation": "In Segment 13, Paul orders: \"I'll have a milkshake.\"",
+        "explanationEn": "In Segment 13, Paul orders: \"I'll have a milkshake.\"",
+        "explanationVi": "Trong câu 13, Paul gọi: \"I'll have a milkshake.\" (Con sẽ uống một ly sữa lắc).",
+        "referenceSegmentIndex": 13,
         "targetedConcept": "Gọi đồ uống nhà hàng (Ordering Beverages & Drinks)",
         "targetedConceptEn": "Ordering Beverages & Drinks",
         "targetedConceptVi": "Gọi đồ uống nhà hàng"
@@ -129,10 +129,10 @@ export const QUIZ_RESTAURANT_ORDERING: VideoQuizData = {
             "Pizza nấm làm món khai vị và trứng luộc làm món chính"
         ],
         "correctAnswer": 0,
-        "explanation": "In Segment 19, the mother specifies: \"For starter, I'd like the vegetable soup. For the main course, I'd like the grilled fish.\"",
-        "explanationEn": "In Segment 19, the mother specifies: \"For starter, I'd like the vegetable soup. For the main course, I'd like the grilled fish.\"",
-        "explanationVi": "Trong câu 19, người mẹ gọi: \"For starter, I'd like the vegetable soup. For the main course, I'd like the grilled fish.\" (Về món khai vị, tôi muốn súp rau củ. Còn món chính, cho tôi món cá nướng).",
-        "referenceSegmentIndex": 19,
+        "explanation": "In Segment 20, the mother specifies: \"For starter, I'd like the vegetable soup. For the main course, I'd like the grilled fish.\"",
+        "explanationEn": "In Segment 20, the mother specifies: \"For starter, I'd like the vegetable soup. For the main course, I'd like the grilled fish.\"",
+        "explanationVi": "Trong câu 20, người mẹ gọi: \"For starter, I'd like the vegetable soup. For the main course, I'd like the grilled fish.\" (Về món khai vị, tôi muốn súp rau củ. Còn món chính, cho tôi món cá nướng).",
+        "referenceSegmentIndex": 20,
         "targetedConcept": "Chọn món khai vị & món chính (Selecting Starters & Main Courses)",
         "targetedConceptEn": "Selecting Starters & Main Courses",
         "targetedConceptVi": "Chọn món khai vị & món chính"
@@ -161,10 +161,10 @@ export const QUIZ_RESTAURANT_ORDERING: VideoQuizData = {
             "Cậu bé không thích ăn rau củ trong món súp"
         ],
         "correctAnswer": 0,
-        "explanation": "In Segment 24, Paul explains: \"I am so hungry and I want to eat, but the soup is so hot, I can barely touch it.\"",
-        "explanationEn": "In Segment 24, Paul explains: \"I am so hungry and I want to eat, but the soup is so hot, I can barely touch it.\"",
-        "explanationVi": "Trong câu 24, Paul giải thích: \"I am so hungry and I want to eat, but the soup is so hot, I can barely touch it.\" (Con đói bụng lắm và muốn ăn ngay, nhưng món súp nóng quá, con gần như không chạm vào nổi).",
-        "referenceSegmentIndex": 24,
+        "explanation": "In Segment 25, Paul explains: \"I am so hungry and I want to eat, but the soup is so hot, I can barely touch it.\"",
+        "explanationEn": "In Segment 25, Paul explains: \"I am so hungry and I want to eat, but the soup is so hot, I can barely touch it.\"",
+        "explanationVi": "Trong câu 25, Paul giải thích: \"I am so hungry and I want to eat, but the soup is so hot, I can barely touch it.\" (Con đói bụng lắm và muốn ăn ngay, nhưng món súp nóng quá, con gần như không chạm vào nổi).",
+        "referenceSegmentIndex": 25,
         "targetedConcept": "Nhận xét nhiệt độ món ăn (Commenting on Food Temperature)",
         "targetedConceptEn": "Commenting on Food Temperature",
         "targetedConceptVi": "Nhận xét nhiệt độ món ăn"
@@ -193,10 +193,10 @@ export const QUIZ_RESTAURANT_ORDERING: VideoQuizData = {
             "Chai nước tương xì dầu"
         ],
         "correctAnswer": 0,
-        "explanation": "In Segment 33, the mother requests: \"Could you please pass me the salt, Paul?\"",
-        "explanationEn": "In Segment 33, the mother requests: \"Could you please pass me the salt, Paul?\"",
-        "explanationVi": "Trong câu 33, người mẹ nhờ: \"Could you please pass me the salt, Paul?\" (Paul ơi, con có thể làm ơn chuyền cho mẹ lọ muối được không?).",
-        "referenceSegmentIndex": 33,
+        "explanation": "In Segment 34, the mother requests: \"Could you please pass me the salt, Paul?\"",
+        "explanationEn": "In Segment 34, the mother requests: \"Could you please pass me the salt, Paul?\"",
+        "explanationVi": "Trong câu 34, người mẹ nhờ: \"Could you please pass me the salt, Paul?\" (Paul ơi, con có thể làm ơn chuyền cho mẹ lọ muối được không?).",
+        "referenceSegmentIndex": 34,
         "targetedConcept": "Phép lịch sự chuyền gia vị trên bàn ăn (Table Manners & Passing Condiments)",
         "targetedConceptEn": "Table Manners & Passing Condiments",
         "targetedConceptVi": "Phép lịch sự chuyền gia vị trên bàn ăn"
@@ -225,10 +225,10 @@ export const QUIZ_RESTAURANT_ORDERING: VideoQuizData = {
             "Một bát dâu tây tươi"
         ],
         "correctAnswer": 0,
-        "explanation": "In Segment 42, Amy says: \"I'll have the cheese cake please.\"",
-        "explanationEn": "In Segment 42, Amy says: \"I'll have the cheese cake please.\"",
-        "explanationVi": "Trong câu 42, Amy gọi: \"I'll have the cheese cake please.\" (Cho con bánh phô mai nhé).",
-        "referenceSegmentIndex": 42,
+        "explanation": "In Segment 43, Amy says: \"I'll have the cheese cake please.\"",
+        "explanationEn": "In Segment 43, Amy says: \"I'll have the cheese cake please.\"",
+        "explanationVi": "Trong câu 43, Amy gọi: \"I'll have the cheese cake please.\" (Cho con bánh phô mai nhé).",
+        "referenceSegmentIndex": 43,
         "targetedConcept": "Gọi món tráng miệng (Ordering Desserts)",
         "targetedConceptEn": "Ordering Desserts",
         "targetedConceptVi": "Gọi món tráng miệng"
@@ -257,10 +257,10 @@ export const QUIZ_RESTAURANT_ORDERING: VideoQuizData = {
             "Ông yêu cầu đặt bàn trước cho sáng ngày mai"
         ],
         "correctAnswer": 0,
-        "explanation": "In Segment 51, the father responds: \"No, thank you, just the bill.\"",
-        "explanationEn": "In Segment 51, the father responds: \"No, thank you, just the bill.\"",
-        "explanationVi": "Trong câu 51, người cha đáp: \"No, thank you, just the bill.\" (Không, cảm ơn bạn, chỉ cần hóa đơn tính tiền thôi).",
-        "referenceSegmentIndex": 51,
+        "explanation": "In Segment 52, the father responds: \"No, thank you, just the bill.\"",
+        "explanationEn": "In Segment 52, the father responds: \"No, thank you, just the bill.\"",
+        "explanationVi": "Trong câu 52, người cha đáp: \"No, thank you, just the bill.\" (Không, cảm ơn bạn, chỉ cần hóa đơn tính tiền thôi).",
+        "referenceSegmentIndex": 52,
         "targetedConcept": "Yêu cầu hóa đơn thanh toán (Requesting the Dining Bill)",
         "targetedConceptEn": "Requesting the Dining Bill",
         "targetedConceptVi": "Yêu cầu hóa đơn thanh toán"
@@ -298,7 +298,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
   quiz: QUIZ_RESTAURANT_ORDERING,
   segments: [
     {
-        "orderIndex": 0,
+        "orderIndex": 1,
         "startTime": 7.92,
         "endTime": 9.8,
         "text": "Hello! How can I help you?",
@@ -313,7 +313,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 1,
+        "orderIndex": 2,
         "startTime": 10.28,
         "endTime": 13.5,
         "text": "Hello! I would like a table for four, please.",
@@ -329,7 +329,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 2,
+        "orderIndex": 3,
         "startTime": 14,
         "endTime": 17.5,
         "text": "Of course. Please follow me!",
@@ -344,7 +344,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 3,
+        "orderIndex": 4,
         "startTime": 18.64,
         "endTime": 20.3,
         "text": "Here is a table for four.",
@@ -359,7 +359,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 4,
+        "orderIndex": 5,
         "startTime": 20.72,
         "endTime": 23,
         "text": "Thank you!",
@@ -373,7 +373,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 5,
+        "orderIndex": 6,
         "startTime": 23.68,
         "endTime": 25.8,
         "text": "Could you give us the menu, please?",
@@ -389,7 +389,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 6,
+        "orderIndex": 7,
         "startTime": 26.08,
         "endTime": 28,
         "text": "Yes, of course.",
@@ -404,7 +404,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 7,
+        "orderIndex": 8,
         "startTime": 28.72,
         "endTime": 29.5,
         "text": "Here you are!",
@@ -418,7 +418,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 8,
+        "orderIndex": 9,
         "startTime": 29.84,
         "endTime": 30.5,
         "text": "Thank you.",
@@ -432,7 +432,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 9,
+        "orderIndex": 10,
         "startTime": 30.72,
         "endTime": 32.5,
         "text": "Can I get you anything to drink?",
@@ -447,7 +447,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 10,
+        "orderIndex": 11,
         "startTime": 32.88,
         "endTime": 34.2,
         "text": "Just water for me.",
@@ -462,7 +462,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 11,
+        "orderIndex": 12,
         "startTime": 34.48,
         "endTime": 35.8,
         "text": "I'll have a lemonade.",
@@ -477,7 +477,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 12,
+        "orderIndex": 13,
         "startTime": 36.32,
         "endTime": 37.8,
         "text": "I'll have a milkshake.",
@@ -492,7 +492,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 13,
+        "orderIndex": 14,
         "startTime": 38.08,
         "endTime": 39.5,
         "text": "I'll have an orange juice.",
@@ -507,7 +507,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 14,
+        "orderIndex": 15,
         "startTime": 40,
         "endTime": 42,
         "text": "Great! I'll be right back.",
@@ -522,7 +522,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 15,
+        "orderIndex": 16,
         "startTime": 51.92,
         "endTime": 53.2,
         "text": "Are you ready to order?",
@@ -536,7 +536,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 16,
+        "orderIndex": 17,
         "startTime": 53.44,
         "endTime": 57,
         "text": "Yes, we are. I'll have the grilled chicken and a salad.",
@@ -552,7 +552,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 12
     },
     {
-        "orderIndex": 17,
+        "orderIndex": 18,
         "startTime": 57.28,
         "endTime": 59,
         "text": "Would you like a starter, sir?",
@@ -568,7 +568,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 18,
+        "orderIndex": 19,
         "startTime": 59.52,
         "endTime": 61.5,
         "text": "Yes, I'd like the vegetable soup.",
@@ -583,7 +583,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 19,
+        "orderIndex": 20,
         "startTime": 61.76,
         "endTime": 67.2,
         "text": "For starter, I'd like the vegetable soup. For the main course, I'd like the grilled fish.",
@@ -600,7 +600,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 18
     },
     {
-        "orderIndex": 20,
+        "orderIndex": 21,
         "startTime": 67.84,
         "endTime": 70.8,
         "text": "I'll have the chicken soup and a lasagna.",
@@ -615,7 +615,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 21,
+        "orderIndex": 22,
         "startTime": 71.28,
         "endTime": 74.8,
         "text": "I'll have the chicken soup, the grilled chicken and some salad.",
@@ -631,7 +631,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 12
     },
     {
-        "orderIndex": 22,
+        "orderIndex": 23,
         "startTime": 75.04,
         "endTime": 77,
         "text": "Excellent, I'll be right back.",
@@ -646,7 +646,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 23,
+        "orderIndex": 24,
         "startTime": 80.08,
         "endTime": 82,
         "text": "It smells so great!",
@@ -660,7 +660,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 24,
+        "orderIndex": 25,
         "startTime": 82.4,
         "endTime": 87.2,
         "text": "I am so hungry and I want to eat, but the soup is so hot, I can barely touch it.",
@@ -677,7 +677,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 20
     },
     {
-        "orderIndex": 25,
+        "orderIndex": 26,
         "startTime": 87.44,
         "endTime": 90,
         "text": "Wait for it to cool down before you eat it.",
@@ -693,7 +693,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 26,
+        "orderIndex": 27,
         "startTime": 94.96,
         "endTime": 98.2,
         "text": "The grilled chicken tastes delicious, doesn't it, Paul?",
@@ -711,7 +711,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 27,
+        "orderIndex": 28,
         "startTime": 98.56,
         "endTime": 100.8,
         "text": "Yes dad, it does, indeed.",
@@ -726,7 +726,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 28,
+        "orderIndex": 29,
         "startTime": 101.36,
         "endTime": 103.5,
         "text": "What about your lasagna, Amy?",
@@ -743,7 +743,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 29,
+        "orderIndex": 30,
         "startTime": 103.84,
         "endTime": 106.5,
         "text": "I love it, it's my favourite dish.",
@@ -758,7 +758,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 30,
+        "orderIndex": 31,
         "startTime": 106.96,
         "endTime": 108,
         "text": "Great!",
@@ -772,7 +772,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 31,
+        "orderIndex": 32,
         "startTime": 108.08,
         "endTime": 109.8,
         "text": "How's your fish, mom?",
@@ -787,7 +787,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 32,
+        "orderIndex": 33,
         "startTime": 110.24,
         "endTime": 114,
         "text": "It's excellent. I'm so glad we came to this restaurant.",
@@ -803,7 +803,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 12
     },
     {
-        "orderIndex": 33,
+        "orderIndex": 34,
         "startTime": 114.4,
         "endTime": 117.5,
         "text": "Could you please pass me the salt, Paul?",
@@ -820,7 +820,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 34,
+        "orderIndex": 35,
         "startTime": 117.92,
         "endTime": 119,
         "text": "Here you are, mom.",
@@ -835,7 +835,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 35,
+        "orderIndex": 36,
         "startTime": 119.28,
         "endTime": 120.5,
         "text": "Thank you.",
@@ -849,7 +849,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 36,
+        "orderIndex": 37,
         "startTime": 130.16,
         "endTime": 131.8,
         "text": "Did you enjoy your meal?",
@@ -863,7 +863,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 37,
+        "orderIndex": 38,
         "startTime": 132.08,
         "endTime": 134.5,
         "text": "Yes, it was wonderful, thank you.",
@@ -878,7 +878,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 38,
+        "orderIndex": 39,
         "startTime": 134.8,
         "endTime": 136.5,
         "text": "Would you like something for dessert?",
@@ -893,7 +893,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 39,
+        "orderIndex": 40,
         "startTime": 136.88,
         "endTime": 140,
         "text": "Yes, for dessert, I'll have ice cream please.",
@@ -908,7 +908,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 40,
+        "orderIndex": 41,
         "startTime": 140.56,
         "endTime": 142.2,
         "text": "I'll have the chocolate cake.",
@@ -923,7 +923,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 41,
+        "orderIndex": 42,
         "startTime": 142.64,
         "endTime": 143.8,
         "text": "I'll have ice cream.",
@@ -938,7 +938,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 42,
+        "orderIndex": 43,
         "startTime": 144.24,
         "endTime": 146.5,
         "text": "I'll have the cheese cake please.",
@@ -954,7 +954,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 43,
+        "orderIndex": 44,
         "startTime": 148.08,
         "endTime": 151.8,
         "text": "Everything looks great! Let's eat the desserts!",
@@ -970,7 +970,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 44,
+        "orderIndex": 45,
         "startTime": 152.96,
         "endTime": 156.4,
         "text": "Dad, I'm thirsty. I would like to drink some water.",
@@ -986,7 +986,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 11
     },
     {
-        "orderIndex": 45,
+        "orderIndex": 46,
         "startTime": 156.72,
         "endTime": 157.8,
         "text": "Excuse me!",
@@ -1000,7 +1000,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 46,
+        "orderIndex": 47,
         "startTime": 158.16,
         "endTime": 160,
         "text": "Yes, sir, how can I help you?",
@@ -1015,7 +1015,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 47,
+        "orderIndex": 48,
         "startTime": 160.4,
         "endTime": 163.2,
         "text": "Could you bring my son a glass of water, please?",
@@ -1031,7 +1031,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 48,
+        "orderIndex": 49,
         "startTime": 163.52,
         "endTime": 164.8,
         "text": "Yes, of course!",
@@ -1046,7 +1046,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 49,
+        "orderIndex": 50,
         "startTime": 165.04,
         "endTime": 166.5,
         "text": "Thank you.",
@@ -1060,7 +1060,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 50,
+        "orderIndex": 51,
         "startTime": 167.2,
         "endTime": 168.8,
         "text": "Can I bring you anything else?",
@@ -1075,7 +1075,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 51,
+        "orderIndex": 52,
         "startTime": 169.2,
         "endTime": 171.2,
         "text": "No, thank you, just the bill.",
@@ -1090,7 +1090,7 @@ export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 52,
+        "orderIndex": 53,
         "startTime": 171.6,
         "endTime": 174.5,
         "text": "Ok sir. I'll be right back with the bill.",

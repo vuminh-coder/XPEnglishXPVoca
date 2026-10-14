@@ -21,7 +21,7 @@ describe("Matt Walker: Sleep Is Your Superpower - 100% Verbatim & Segment Audit"
     let prevStartTime = -1;
     for (let i = 0; i < LESSON_MATT_WALKER_SLEEP.segments.length; i++) {
       const seg = LESSON_MATT_WALKER_SLEEP.segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeGreaterThanOrEqual(0);
       expect(seg.endTime).toBeGreaterThan(seg.startTime);
       expect(seg.startTime).toBeGreaterThanOrEqual(prevStartTime);
@@ -126,8 +126,8 @@ describe("Matt Walker: Sleep Is Your Superpower - 100% Verbatim & Segment Audit"
       expect(q.targetedConceptEn).toBeDefined();
       expect(q.targetedConceptVi).toBeDefined();
       expect(q.referenceSegmentIndex).toBeDefined();
-      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-      expect(q.referenceSegmentIndex).toBeLessThan(LESSON_MATT_WALKER_SLEEP.segments.length);
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(LESSON_MATT_WALKER_SLEEP.segments.length);
     }
   });
 });

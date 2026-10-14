@@ -51,9 +51,7 @@ import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAn
 
 import {
   useDashboardStore,
-  getInitialDashboardOverviewProbe,
   getInitialDashboardFiltersProbe,
-  getInitialLeaderboardProbe,
 } from "@/stores/dashboardStore";
 
 export default function DashboardPage() {
@@ -69,54 +67,21 @@ export default function DashboardPage() {
   const [aiAnswer, setAiAnswer] = useState<string | null>(null);
   const [isAiLoading, setIsAiLoading] = useState(false);
 
-  // 1. Frame 0 Probes for 0ms Instant Render without Skeleton flash
-  const [initialFilters] = useState(() => getInitialDashboardFiltersProbe());
-  const [initialOverviewProbe] = useState(() =>
-    getInitialDashboardOverviewProbe(authUser?.id || storeUser?.id)
-  );
-  const [initialLbProbe] = useState(() =>
-    getInitialLeaderboardProbe(initialFilters.leaderboardTab, initialFilters.leaderboardCriterion)
-  );
+  // 1. Deterministic Server & Initial Hydration Baseline (Zero Hydration Mismatch)
+  const [currentTask, setCurrentTask] = useState<string | null>(null);
+  const [isLoadingPlan, setIsLoadingPlan] = useState<boolean>(true);
+  const [showAnnouncement, setShowAnnouncement] = useState<boolean>(true);
+  const [activeSkillTab, setActiveSkillTabState] = useState<SkillType>("dictation");
+  const [selectedDayIndex, setSelectedDayIndexState] = useState<number | null>(4);
+  const [leaderboardTab, setLeaderboardTabState] = useState<"week" | "month">("week");
+  const [leaderboardCriterion, setLeaderboardCriterionState] = useState<"time" | "xp">("time");
 
-  // Database-driven States initialized deterministically for zero hydration mismatch
-  const [currentTask, setCurrentTask] = useState<string | null>(
-    () => initialOverviewProbe.overview?.studyPlan?.todayTask || null
-  );
-  const [isLoadingPlan, setIsLoadingPlan] = useState<boolean>(
-    () => !initialOverviewProbe.overview?.studyPlan
-  );
-  const [showAnnouncement, setShowAnnouncement] = useState(
-    () => initialFilters.showAnnouncement
-  );
-  const [activeSkillTab, setActiveSkillTabState] = useState<SkillType>(
-    () => initialFilters.activeSkillTab
-  );
-  const [selectedDayIndex, setSelectedDayIndexState] = useState<number | null>(
-    () => initialFilters.selectedDayIndex
-  );
-  const [leaderboardTab, setLeaderboardTabState] = useState<"week" | "month">(
-    () => initialFilters.leaderboardTab
-  );
-  const [leaderboardCriterion, setLeaderboardCriterionState] = useState<"time" | "xp">(
-    () => initialFilters.leaderboardCriterion
-  );
-
-  const [isCheckedInToday, setIsCheckedInToday] = useState<boolean>(
-    () => Boolean(initialOverviewProbe.overview?.checkin?.isCheckedInToday)
-  );
-  const [activeDaysInWeek, setActiveDaysInWeek] = useState<string[]>(
-    () => initialOverviewProbe.overview?.checkin?.activeDaysInWeek || []
-  );
-  const [isLoadingCheckin, setIsLoadingCheckin] = useState<boolean>(
-    () => !initialOverviewProbe.overview?.checkin
-  );
+  const [isCheckedInToday, setIsCheckedInToday] = useState<boolean>(false);
+  const [activeDaysInWeek, setActiveDaysInWeek] = useState<string[]>([]);
+  const [isLoadingCheckin, setIsLoadingCheckin] = useState<boolean>(true);
   const [isCheckingIn, setIsCheckingIn] = useState(false);
-  const [serverChallenges, setServerChallenges] = useState<any[]>(
-    () => initialOverviewProbe.overview?.challenges || []
-  );
-  const [isLoadingChallenges, setIsLoadingChallenges] = useState<boolean>(
-    () => !(initialOverviewProbe.overview?.challenges && initialOverviewProbe.overview.challenges.length > 0)
-  );
+  const [serverChallenges, setServerChallenges] = useState<any[]>([]);
+  const [isLoadingChallenges, setIsLoadingChallenges] = useState<boolean>(true);
   const [claimingChallengeId, setClaimingChallengeId] = useState<string | null>(null);
   const [chartDataVersion, setChartDataVersion] = useState(0);
   const [isLoadingChart, setIsLoadingChart] = useState(false);
@@ -153,9 +118,18 @@ export default function DashboardPage() {
     useDashboardStore.getState().setFilter({ showAnnouncement: false });
   };
 
-  /* eslint-disable react-hooks/set-state-in-effect -- Client mount detection */
+  /* eslint-disable react-hooks/set-state-in-effect -- Client mount detection and safe filter hydration */
   useEffect(() => {
     setIsMounted(true);
+
+    const savedFilters = getInitialDashboardFiltersProbe();
+    if (savedFilters) {
+      if (savedFilters.activeSkillTab) setActiveSkillTabState(savedFilters.activeSkillTab);
+      if (typeof savedFilters.selectedDayIndex !== "undefined") setSelectedDayIndexState(savedFilters.selectedDayIndex);
+      if (savedFilters.leaderboardTab) setLeaderboardTabState(savedFilters.leaderboardTab);
+      if (savedFilters.leaderboardCriterion) setLeaderboardCriterionState(savedFilters.leaderboardCriterion);
+      if (typeof savedFilters.showAnnouncement === "boolean") setShowAnnouncement(savedFilters.showAnnouncement);
+    }
   }, []);
   /* eslint-enable react-hooks/set-state-in-effect */
 
@@ -267,10 +241,8 @@ export default function DashboardPage() {
   }, [initChallenges, user?.id]);
   /* eslint-enable react-hooks/set-state-in-effect */
 
-  const [leaderboardData, setLeaderboardData] = useState<any[]>(() => initialLbProbe.data);
-  const [isLoadingLeaderboard, setIsLoadingLeaderboard] = useState<boolean>(
-    () => !initialLbProbe.hasData
-  );
+  const [leaderboardData, setLeaderboardData] = useState<any[]>([]);
+  const [isLoadingLeaderboard, setIsLoadingLeaderboard] = useState<boolean>(true);
 
   /* eslint-disable react-hooks/set-state-in-effect -- SWR instant leaderboard cache hydration */
   useEffect(() => {
@@ -795,7 +767,7 @@ export default function DashboardPage() {
           userTitle={userTitle}
           xpPercent={xpPercent}
           savedWordsCount={savedWordsCount}
-          isLoadingCheckin={isLoadingCheckin}
+          isLoadingCheckin={isLoadingCheckin || !isMounted}
         />
 
         {/* 3. BENTO 2-COLUMN MAIN CANVAS (Left: 7/12, Right: 5/12 - 0px CLS Standard) */}
@@ -805,7 +777,7 @@ export default function DashboardPage() {
             {/* 3.1. Today's Mission Deck */}
             <DashboardMissionDeck
               currentTask={currentTask}
-              isLoadingPlan={isLoadingPlan}
+              isLoadingPlan={isLoadingPlan || !isMounted}
               remainingWords={remainingWords}
               wordsPracticedToday={wordsPracticedToday}
               studyPlanTargetUrl={studyPlanTargetUrl}
@@ -839,7 +811,7 @@ export default function DashboardPage() {
             {/* 3.4. Duolingo Gamified Streak Studio */}
             <DashboardStreakStudio
               user={user}
-              isLoadingCheckin={isLoadingCheckin}
+              isLoadingCheckin={isLoadingCheckin || !isMounted}
               isCheckedInToday={isCheckedInToday}
               isCheckingIn={isCheckingIn}
               weekDays={weekDays}
@@ -852,7 +824,7 @@ export default function DashboardPage() {
               setLeaderboardTab={setLeaderboardTab}
               leaderboardCriterion={leaderboardCriterion}
               setLeaderboardCriterion={setLeaderboardCriterion}
-              isLoadingLeaderboard={isLoadingLeaderboard}
+              isLoadingLeaderboard={isLoadingLeaderboard || !isMounted}
               userRankInLeaderboard={userRankInLeaderboard}
               user={user}
               topLeaders={topLeaders}
@@ -861,7 +833,7 @@ export default function DashboardPage() {
             {/* 3.6. Daily Quests Card with Filter Sub-Tabs */}
             <DashboardDailyQuestsCard
               displayChallenges={displayChallenges}
-              isLoadingChallenges={isLoadingChallenges}
+              isLoadingChallenges={isLoadingChallenges || !isMounted}
               claimingChallengeId={claimingChallengeId}
               handleClaimChallenge={handleClaimChallenge}
             />

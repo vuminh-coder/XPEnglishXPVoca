@@ -33,10 +33,10 @@ export const QUIZ_TED_BILINGUAL_BRAIN: VideoQuizData = {
         "Họ đã đạt được sự thông thạo hoàn hảo trong cả sáu ngôn ngữ chính thức của Liên Hợp Quốc."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 2, the narrator notes: 'chances are you belong to the world's bilingual and multilingual majority.'",
-      "explanationEn": "In Segment 2, the narrator notes: 'chances are you belong to the world's bilingual and multilingual majority.'",
-      "explanationVi": "Trong câu 2, người thuyết minh chỉ ra: 'rất có thể bạn thuộc về bộ phận đa số những người song ngữ và đa ngôn ngữ trên thế giới.'",
-      "referenceSegmentIndex": 2,
+      "explanation": "In Segment 3, the narrator notes: 'chances are you belong to the world's bilingual and multilingual majority.'",
+      "explanationEn": "In Segment 3, the narrator notes: 'chances are you belong to the world's bilingual and multilingual majority.'",
+      "explanationVi": "Trong câu 3, người thuyết minh chỉ ra: 'rất có thể bạn thuộc về bộ phận đa số những người song ngữ và đa ngôn ngữ trên thế giới.'",
+      "referenceSegmentIndex": 3,
       "targetedConcept": "Nhân khẩu học đa ngôn ngữ & Đa số toàn cầu (Multilingual Demographics & Global Majority)",
       "targetedConceptEn": "Multilingual Demographics & Global Majority",
       "targetedConceptVi": "Nhân khẩu học đa ngôn ngữ & Đa số toàn cầu"
@@ -65,10 +65,10 @@ export const QUIZ_TED_BILINGUAL_BRAIN: VideoQuizData = {
         "Người song ngữ thông thường bắt buộc phải thi đỗ các kỳ thi chính phủ hàng năm để duy trì tình trạng đa ngôn ngữ hợp pháp."
       ],
       "correctAnswer": 0,
-      "explanation": "In Segments 7 & 8, the narrator explains that while a balanced bilingual has near equal abilities across the board in two languages, most bilinguals around the world know and use their languages in varying proportions.",
-      "explanationEn": "In Segments 7 & 8, the narrator explains that while a balanced bilingual has near equal abilities across the board in two languages, most bilinguals around the world know and use their languages in varying proportions.",
-      "explanationVi": "Trong câu 7 & 8, người thuyết minh giải thích rằng trong khi người song ngữ cân bằng có năng lực gần như đồng đều ở cả hai ngôn ngữ, đa số người song ngữ trên thế giới sử dụng các ngôn ngữ theo những tỷ lệ khác nhau.",
-      "referenceSegmentIndex": 8,
+      "explanation": "In Segments 8 & 9, the narrator explains that while a balanced bilingual has near equal abilities across the board in two languages, most bilinguals around the world know and use their languages in varying proportions.",
+      "explanationEn": "In Segments 8 & 9, the narrator explains that while a balanced bilingual has near equal abilities across the board in two languages, most bilinguals around the world know and use their languages in varying proportions.",
+      "explanationVi": "Trong câu 8 & 9, người thuyết minh giải thích rằng trong khi người song ngữ cân bằng có năng lực gần như đồng đều ở cả hai ngôn ngữ, đa số người song ngữ trên thế giới sử dụng các ngôn ngữ theo những tỷ lệ khác nhau.",
+      "referenceSegmentIndex": 9,
       "targetedConcept": "Phân loại mức độ năng lực ngôn ngữ & Tỷ lệ sử dụng thực tế (Linguistic Competence Proportions & Real-World Usage)",
       "targetedConceptEn": "Linguistic Competence Proportions & Real-World Usage",
       "targetedConceptVi": "Phân loại mức độ năng lực ngôn ngữ & Tỷ lệ sử dụng thực tế"
@@ -97,10 +97,10 @@ export const QUIZ_TED_BILINGUAL_BRAIN: VideoQuizData = {
         "Gabriella là nhà ngôn ngữ học hàn lâm, trong khi cha mẹ và anh trai từ chối giao tiếp bằng lời nói bên ngoài Peru."
       ],
       "correctAnswer": 0,
-      "explanation": "In Segments 11-15, the narrator delineates compound bilingualism (simultaneous acquisition with a single conceptual set), coordinate bilingualism (separate conceptual sets for school vs. home), and subordinate bilingualism (filtering secondary language through primary language).",
-      "explanationEn": "In Segments 11-15, the narrator delineates compound bilingualism (simultaneous acquisition with a single conceptual set), coordinate bilingualism (separate conceptual sets for school vs. home), and subordinate bilingualism (filtering secondary language through primary language).",
-      "explanationVi": "Trong các câu 11-15, người thuyết minh phân biệt rõ: song ngữ phức hợp (học đồng thời với một hệ khái niệm duy nhất), song ngữ tọa độ (hai hệ khái niệm riêng biệt cho trường học và gia đình), và song ngữ phụ thuộc (lọc ngôn ngữ thứ hai qua tiếng mẹ đẻ).",
-      "referenceSegmentIndex": 15,
+      "explanation": "In Segments 12-16, the narrator delineates compound bilingualism (simultaneous acquisition with a single conceptual set), coordinate bilingualism (separate conceptual sets for school vs. home), and subordinate bilingualism (filtering secondary language through primary language).",
+      "explanationEn": "In Segments 12-16, the narrator delineates compound bilingualism (simultaneous acquisition with a single conceptual set), coordinate bilingualism (separate conceptual sets for school vs. home), and subordinate bilingualism (filtering secondary language through primary language).",
+      "explanationVi": "Trong các câu 12-16, người thuyết minh phân biệt rõ: song ngữ phức hợp (học đồng thời với một hệ khái niệm duy nhất), song ngữ tọa độ (hai hệ khái niệm riêng biệt cho trường học và gia đình), và song ngữ phụ thuộc (lọc ngôn ngữ thứ hai qua tiếng mẹ đẻ).",
+      "referenceSegmentIndex": 16,
       "targetedConcept": "Ba nhóm người song ngữ: Phức hợp, Tọa độ và Phụ thuộc (Three Bilingual Types: Compound, Coordinate, and Subordinate)",
       "targetedConceptEn": "Three Bilingual Types: Compound, Coordinate, and Subordinate",
       "targetedConceptVi": "Ba nhóm người song ngữ: Phức hợp, Tọa độ và Phụ thuộc"
@@ -129,10 +129,10 @@ export const QUIZ_TED_BILINGUAL_BRAIN: VideoQuizData = {
         "Người lớn mất hoàn toàn khả năng tư duy phân tích thần kinh ngay khi bước sang tuổi 18."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 21 & 22, the narrator explains that children learn languages more easily because the plasticity of developing brains lets them use both hemispheres in acquisition, while adult language is lateralized usually to the left hemisphere.",
-      "explanationEn": "In Segments 21 & 22, the narrator explains that children learn languages more easily because the plasticity of developing brains lets them use both hemispheres in acquisition, while adult language is lateralized usually to the left hemisphere.",
-      "explanationVi": "Trong các câu 21 & 22, người thuyết minh giải thích rằng trẻ em học dễ hơn nhờ tính mềm dẻo của não bộ đang phát triển cho phép dùng cả hai bán cầu não, trong khi ở người lớn ngôn ngữ thường bị khu biệt hóa về bán cầu trái.",
-      "referenceSegmentIndex": 21,
+      "explanation": "In Segments 22 & 23, the narrator explains that children learn languages more easily because the plasticity of developing brains lets them use both hemispheres in acquisition, while adult language is lateralized usually to the left hemisphere.",
+      "explanationEn": "In Segments 22 & 23, the narrator explains that children learn languages more easily because the plasticity of developing brains lets them use both hemispheres in acquisition, while adult language is lateralized usually to the left hemisphere.",
+      "explanationVi": "Trong các câu 22 & 23, người thuyết minh giải thích rằng trẻ em học dễ hơn nhờ tính mềm dẻo của não bộ đang phát triển cho phép dùng cả hai bán cầu não, trong khi ở người lớn ngôn ngữ thường bị khu biệt hóa về bán cầu trái.",
+      "referenceSegmentIndex": 22,
       "targetedConcept": "Giả thuyết giai đoạn then chốt & Tính mềm dẻo của não bộ (Critical Period Hypothesis & Neural Plasticity)",
       "targetedConceptEn": "Critical Period Hypothesis & Neural Plasticity",
       "targetedConceptVi": "Giả thuyết giai đoạn then chốt & Tính mềm dẻo của não bộ"
@@ -161,10 +161,10 @@ export const QUIZ_TED_BILINGUAL_BRAIN: VideoQuizData = {
         "Họ quên vĩnh viễn mọi ký ức thời thơ ấu mỗi khi nói ngôn ngữ thứ hai của mình."
       ],
       "correctAnswer": 0,
-      "explanation": "In Segments 24 & 25, the narrator highlights research showing that people who learned a second language in adulthood exhibit less emotional bias and a more rational approach when confronting problems in the second language.",
-      "explanationEn": "In Segments 24 & 25, the narrator highlights research showing that people who learned a second language in adulthood exhibit less emotional bias and a more rational approach when confronting problems in the second language.",
-      "explanationVi": "Trong các câu 24 & 25, người thuyết minh dẫn chứng nghiên cứu cho thấy những người học ngoại ngữ khi trưởng thành ít bị chi phối bởi thiên kiến cảm xúc và có cách tiếp cận duy lý hơn khi giải quyết vấn đề bằng ngôn ngữ thứ hai.",
-      "referenceSegmentIndex": 24,
+      "explanation": "In Segments 25 & 26, the narrator highlights research showing that people who learned a second language in adulthood exhibit less emotional bias and a more rational approach when confronting problems in the second language.",
+      "explanationEn": "In Segments 25 & 26, the narrator highlights research showing that people who learned a second language in adulthood exhibit less emotional bias and a more rational approach when confronting problems in the second language.",
+      "explanationVi": "Trong các câu 25 & 26, người thuyết minh dẫn chứng nghiên cứu cho thấy những người học ngoại ngữ khi trưởng thành ít bị chi phối bởi thiên kiến cảm xúc và có cách tiếp cận duy lý hơn khi giải quyết vấn đề bằng ngôn ngữ thứ hai.",
+      "referenceSegmentIndex": 25,
       "targetedConcept": "Hiệu ứng ngoại ngữ: Giảm thiên kiến cảm xúc & Tư duy duy lý (The Foreign Language Effect: Rationality & Reduced Emotional Bias)",
       "targetedConceptEn": "The Foreign Language Effect: Rationality & Reduced Emotional Bias",
       "targetedConceptVi": "Hiệu ứng ngoại ngữ: Giảm thiên kiến cảm xúc & Tư duy duy lý"
@@ -193,10 +193,10 @@ export const QUIZ_TED_BILINGUAL_BRAIN: VideoQuizData = {
         "Mở rộng vĩnh viễn dây thanh âm cho phép hát opera hoàn hảo ở nhiều quãng tám."
       ],
       "correctAnswer": 0,
-      "explanation": "In Segments 27-29, the narrator reveals visible physical changes like higher density of grey matter containing neurons and synapses, and delaying the onset of diseases like Alzheimer's and dementia by as much as five years.",
-      "explanationEn": "In Segments 27-29, the narrator reveals visible physical changes like higher density of grey matter containing neurons and synapses, and delaying the onset of diseases like Alzheimer's and dementia by as much as five years.",
-      "explanationVi": "Trong các câu 27-29, người thuyết minh tiết lộ các biến đổi giải phẫu có thể nhìn thấy như mật độ chất xám cao hơn (chứa nơ-ron và xi-náp), cùng khả năng trì hoãn khởi phát bệnh Alzheimer và sa sút trí tuệ lên tới 5 năm.",
-      "referenceSegmentIndex": 29,
+      "explanation": "In Segments 28-30, the narrator reveals visible physical changes like higher density of grey matter containing neurons and synapses, and delaying the onset of diseases like Alzheimer's and dementia by as much as five years.",
+      "explanationEn": "In Segments 28-30, the narrator reveals visible physical changes like higher density of grey matter containing neurons and synapses, and delaying the onset of diseases like Alzheimer's and dementia by as much as five years.",
+      "explanationVi": "Trong các câu 28-30, người thuyết minh tiết lộ các biến đổi giải phẫu có thể nhìn thấy như mật độ chất xám cao hơn (chứa nơ-ron và xi-náp), cùng khả năng trì hoãn khởi phát bệnh Alzheimer và sa sút trí tuệ lên tới 5 năm.",
+      "referenceSegmentIndex": 30,
       "targetedConcept": "Mật độ chất xám & Trì hoãn bệnh Alzheimer và sa sút trí tuệ (Grey Matter Density & Delaying Neurodegenerative Diseases)",
       "targetedConceptEn": "Grey Matter Density & Delaying Neurodegenerative Diseases",
       "targetedConceptVi": "Mật độ chất xám & Trì hoãn bệnh Alzheimer và sa sút trí tuệ"
@@ -225,10 +225,10 @@ export const QUIZ_TED_BILINGUAL_BRAIN: VideoQuizData = {
         "Nó từng chỉ được khuyến nghị riêng cho các hoa tiêu hàng hải giao tiếp qua tần số vô tuyến đại dương."
       ],
       "correctAnswer": 0,
-      "explanation": "In Segments 31 & 32, the narrator notes: 'Before the 1960s, bilingualism was considered a handicap that slowed a child's development by forcing them to spend too much energy distinguishing between languages, a view based largely on flawed studies.'",
-      "explanationEn": "In Segments 31 & 32, the narrator notes: 'Before the 1960s, bilingualism was considered a handicap that slowed a child's development by forcing them to spend too much energy distinguishing between languages, a view based largely on flawed studies.'",
-      "explanationVi": "Trong các câu 31 & 32, người thuyết minh ghi nhận: 'Trước những năm 1960, song ngữ từng bị coi là một bất lợi làm chậm sự phát triển của trẻ nhỏ do ép buộc tiêu tốn quá nhiều năng lượng để phân biệt các ngôn ngữ, một quan điểm dựa trên các nghiên cứu sai sót.'",
-      "referenceSegmentIndex": 31,
+      "explanation": "In Segments 32 & 33, the narrator notes: 'Before the 1960s, bilingualism was considered a handicap that slowed a child's development by forcing them to spend too much energy distinguishing between languages, a view based largely on flawed studies.'",
+      "explanationEn": "In Segments 32 & 33, the narrator notes: 'Before the 1960s, bilingualism was considered a handicap that slowed a child's development by forcing them to spend too much energy distinguishing between languages, a view based largely on flawed studies.'",
+      "explanationVi": "Trong các câu 32 & 33, người thuyết minh ghi nhận: 'Trước những năm 1960, song ngữ từng bị coi là một bất lợi làm chậm sự phát triển của trẻ nhỏ do ép buộc tiêu tốn quá nhiều năng lượng để phân biệt các ngôn ngữ, một quan điểm dựa trên các nghiên cứu sai sót.'",
+      "referenceSegmentIndex": 32,
       "targetedConcept": "Định kiến lịch sử trước thập niên 1960 & Nghiên cứu sai lệch (Historical Pre-1960s Misconception & Flawed Studies)",
       "targetedConceptEn": "Historical Pre-1960s Misconception & Flawed Studies",
       "targetedConceptVi": "Định kiến lịch sử trước thập niên 1960 & Nghiên cứu sai lệch"
@@ -257,10 +257,10 @@ export const QUIZ_TED_BILINGUAL_BRAIN: VideoQuizData = {
         "Tuyến yên, nơi sản sinh hormone tăng trưởng chỉ riêng trong các kỳ thi toán học."
       ],
       "correctAnswer": 0,
-      "explanation": "In Segments 34 & 35, the narrator explains that switching languages strengthens the dorsolateral prefrontal cortex, which controls executive function, problem solving, task switching, and focusing while filtering irrelevant information.",
-      "explanationEn": "In Segments 34 & 35, the narrator explains that switching languages strengthens the dorsolateral prefrontal cortex, which controls executive function, problem solving, task switching, and focusing while filtering irrelevant information.",
-      "explanationVi": "Trong các câu 34 & 35, người thuyết minh giải thích rằng việc chuyển đổi ngôn ngữ củng cố vỏ não trước trán lưng bên, phần não chỉ huy chức năng điều hành, giải quyết vấn đề, chuyển đổi tác vụ và tập trung lọc bỏ thông tin gây nhiễu.",
-      "referenceSegmentIndex": 35,
+      "explanation": "In Segments 35 & 36, the narrator explains that switching languages strengthens the dorsolateral prefrontal cortex, which controls executive function, problem solving, task switching, and focusing while filtering irrelevant information.",
+      "explanationEn": "In Segments 35 & 36, the narrator explains that switching languages strengthens the dorsolateral prefrontal cortex, which controls executive function, problem solving, task switching, and focusing while filtering irrelevant information.",
+      "explanationVi": "Trong các câu 35 & 36, người thuyết minh giải thích rằng việc chuyển đổi ngôn ngữ củng cố vỏ não trước trán lưng bên, phần não chỉ huy chức năng điều hành, giải quyết vấn đề, chuyển đổi tác vụ và tập trung lọc bỏ thông tin gây nhiễu.",
+      "referenceSegmentIndex": 36,
       "targetedConcept": "Vỏ não trước trán lưng bên & Chức năng điều hành cấp cao (Dorsolateral Prefrontal Cortex & Executive Function)",
       "targetedConceptEn": "Dorsolateral Prefrontal Cortex & Executive Function",
       "targetedConceptVi": "Vỏ não trước trán lưng bên & Chức năng điều hành cấp cao"
@@ -297,7 +297,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
   "quiz": QUIZ_TED_BILINGUAL_BRAIN,
   "segments": [
     {
-      "orderIndex": 0,
+      "orderIndex": 1,
       "startTime": 6.63,
       "endTime": 12.5,
       "text": "¿Hablas español? Parlez-vous français? 你会说中文吗？",
@@ -319,7 +319,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 7
     },
     {
-      "orderIndex": 1,
+      "orderIndex": 2,
       "startTime": 12.49,
       "endTime": 18.33,
       "text": "If you answered, \"sí,\" \"oui,\" or \"会\" and you're watching this in English,",
@@ -340,7 +340,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 13
     },
     {
-      "orderIndex": 2,
+      "orderIndex": 3,
       "startTime": 18.33,
       "endTime": 23.47,
       "text": "chances are you belong to the world's bilingual and multilingual majority.",
@@ -358,7 +358,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 12
     },
     {
-      "orderIndex": 3,
+      "orderIndex": 4,
       "startTime": 23.47,
       "endTime": 27.47,
       "text": "And besides having an easier time traveling or watching movies without subtitles,",
@@ -376,7 +376,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 12
     },
     {
-      "orderIndex": 4,
+      "orderIndex": 5,
       "startTime": 27.47,
       "endTime": 34.78,
       "text": "knowing two or more languages means that your brain may actually look and work differently than those of your monolingual friends.",
@@ -394,7 +394,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 21
     },
     {
-      "orderIndex": 5,
+      "orderIndex": 6,
       "startTime": 34.78,
       "endTime": 38.27,
       "text": "So what does it really mean to know a language?",
@@ -411,7 +411,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 10
     },
     {
-      "orderIndex": 6,
+      "orderIndex": 7,
       "startTime": 38.27,
       "endTime": 46.98,
       "text": "Language ability is typically measured in two active parts, speaking and writing, and two passive parts, listening and reading.",
@@ -432,7 +432,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 19
     },
     {
-      "orderIndex": 7,
+      "orderIndex": 8,
       "startTime": 46.98,
       "endTime": 52.38,
       "text": "While a balanced bilingual has near equal abilities across the board in two languages,",
@@ -449,7 +449,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 14
     },
     {
-      "orderIndex": 8,
+      "orderIndex": 9,
       "startTime": 52.38,
       "endTime": 57.98,
       "text": "most bilinguals around the world know and use their languages in varying proportions.",
@@ -465,7 +465,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 13
     },
     {
-      "orderIndex": 9,
+      "orderIndex": 10,
       "startTime": 57.98,
       "endTime": 64.92,
       "text": "And depending on their situation and how they acquired each language, they can be classified into three general types.",
@@ -483,7 +483,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 19
     },
     {
-      "orderIndex": 10,
+      "orderIndex": 11,
       "startTime": 64.92,
       "endTime": 72.01,
       "text": "For example, let's take Gabriella, whose family immigrates to the US from Peru when she's two-years old.",
@@ -503,7 +503,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 20
     },
     {
-      "orderIndex": 11,
+      "orderIndex": 12,
       "startTime": 72.01,
       "endTime": 80.3,
       "text": "As a compound bilingual, Gabriella develops two linguistic codes simultaneously, with a single set of concepts,",
@@ -522,7 +522,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 16
     },
     {
-      "orderIndex": 12,
+      "orderIndex": 13,
       "startTime": 80.3,
       "endTime": 85.36,
       "text": "learning both English and Spanish as she begins to process the world around her.",
@@ -542,7 +542,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 14
     },
     {
-      "orderIndex": 13,
+      "orderIndex": 14,
       "startTime": 85.36,
       "endTime": 91.34,
       "text": "Her teenage brother, on the other hand, might be a coordinate bilingual, working with two sets of concepts,",
@@ -558,7 +558,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 18
     },
     {
-      "orderIndex": 14,
+      "orderIndex": 15,
       "startTime": 91.34,
       "endTime": 96.76,
       "text": "learning English in school, while continuing to speak Spanish at home and with friends.",
@@ -579,7 +579,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 14
     },
     {
-      "orderIndex": 15,
+      "orderIndex": 16,
       "startTime": 96.76,
       "endTime": 106.2,
       "text": "Finally, Gabriella's parents are likely to be subordinate bilinguals who learn a secondary language by filtering it through their primary language.",
@@ -598,7 +598,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 22
     },
     {
-      "orderIndex": 16,
+      "orderIndex": 17,
       "startTime": 106.2,
       "endTime": 115.84,
       "text": "Because all types of bilingual people can become fully proficient in a language regardless of accent or pronunciation, the difference may not be apparent to a casual observer.",
@@ -617,7 +617,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 28
     },
     {
-      "orderIndex": 17,
+      "orderIndex": 18,
       "startTime": 115.84,
       "endTime": 125.71,
       "text": "But recent advances in brain imaging technology have given neurolinguists a glimpse into how specific aspects of language learning affect the bilingual brain.",
@@ -635,7 +635,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 23
     },
     {
-      "orderIndex": 18,
+      "orderIndex": 19,
       "startTime": 125.71,
       "endTime": 131.62,
       "text": "It's well known that the brain's left hemisphere is more dominant and analytical in logical processes,",
@@ -653,7 +653,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 18
     },
     {
-      "orderIndex": 19,
+      "orderIndex": 20,
       "startTime": 131.62,
       "endTime": 140.07,
       "text": "while the right hemisphere is more active in emotional and social ones, though this is a matter of degree, not an absolute split.",
@@ -671,7 +671,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 23
     },
     {
-      "orderIndex": 20,
+      "orderIndex": 21,
       "startTime": 140.07,
       "endTime": 148.8,
       "text": "The fact that language involves both types of functions while lateralization develops gradually with age, has lead to the critical period hypothesis.",
@@ -687,7 +687,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 22
     },
     {
-      "orderIndex": 21,
+      "orderIndex": 22,
       "startTime": 148.8,
       "endTime": 158.97,
       "text": "According to this theory, children learn languages more easily because the plasticity of their developing brains lets them use both hemispheres in language acquisition,",
@@ -705,7 +705,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 24
     },
     {
-      "orderIndex": 22,
+      "orderIndex": 23,
       "startTime": 158.97,
       "endTime": 164.9,
       "text": "while in most adults, language is lateralized to one hemisphere, usually the left.",
@@ -722,7 +722,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 13
     },
     {
-      "orderIndex": 23,
+      "orderIndex": 24,
       "startTime": 164.9,
       "endTime": 172.48,
       "text": "If this is true, learning a language in childhood may give you a more holistic grasp of its social and emotional contexts.",
@@ -739,7 +739,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 22
     },
     {
-      "orderIndex": 24,
+      "orderIndex": 25,
       "startTime": 172.48,
       "endTime": 181.42,
       "text": "Conversely, recent research showed that people who learned a second language in adulthood exhibit less emotional bias and a more rational approach",
@@ -757,7 +757,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 22
     },
     {
-      "orderIndex": 25,
+      "orderIndex": 26,
       "startTime": 181.42,
       "endTime": 185.46,
       "text": "when confronting problems in the second language than in their native one.",
@@ -773,7 +773,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 12
     },
     {
-      "orderIndex": 26,
+      "orderIndex": 27,
       "startTime": 185.46,
       "endTime": 192.21,
       "text": "But regardless of when you acquire additional languages, being multilingual gives your brain some remarkable advantages.",
@@ -790,7 +790,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 16
     },
     {
-      "orderIndex": 27,
+      "orderIndex": 28,
       "startTime": 192.21,
       "endTime": 199.44,
       "text": "Some of these are even visible, such as higher density of the grey matter that contains most of your brain's neurons and synapses,",
@@ -808,7 +808,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 24
     },
     {
-      "orderIndex": 28,
+      "orderIndex": 29,
       "startTime": 199.44,
       "endTime": 203.5,
       "text": "and more activity in certain regions when engaging a second language.",
@@ -825,7 +825,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 11
     },
     {
-      "orderIndex": 29,
+      "orderIndex": 30,
       "startTime": 203.5,
       "endTime": 213.22,
       "text": "The heightened workout a bilingual brain receives throughout its life can also help delay the onset of diseases, like Alzheimer's and dementia by as much as five years.",
@@ -845,7 +845,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 29
     },
     {
-      "orderIndex": 30,
+      "orderIndex": 31,
       "startTime": 213.22,
       "endTime": 220.51,
       "text": "The idea of major cognitive benefits to bilingualism may seem intuitive now, but it would have surprised earlier experts.",
@@ -863,7 +863,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 19
     },
     {
-      "orderIndex": 31,
+      "orderIndex": 32,
       "startTime": 220.51,
       "endTime": 226,
       "text": "Before the 1960s, bilingualism was considered a handicap that slowed a child's development",
@@ -880,7 +880,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 14
     },
     {
-      "orderIndex": 32,
+      "orderIndex": 33,
       "startTime": 226,
       "endTime": 234.09,
       "text": "by forcing them to spend too much energy distinguishing between languages, a view based largely on flawed studies.",
@@ -897,7 +897,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 18
     },
     {
-      "orderIndex": 33,
+      "orderIndex": 34,
       "startTime": 234.09,
       "endTime": 241.43,
       "text": "And while a more recent study did show that reaction times and errors increase for some bilingual students in cross-language tests,",
@@ -914,7 +914,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 22
     },
     {
-      "orderIndex": 34,
+      "orderIndex": 35,
       "startTime": 241.43,
       "endTime": 251.47,
       "text": "it also showed that the effort and attention needed to switch between languages triggered more activity in, and potentially strengthened, the dorsolateral prefrontal cortex.",
@@ -932,7 +932,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 24
     },
     {
-      "orderIndex": 35,
+      "orderIndex": 36,
       "startTime": 251.47,
       "endTime": 262.64,
       "text": "This is the part of the brain that plays a large role in executive function, problem solving, switching between tasks, and focusing while filtering out irrelevant information.",
@@ -949,7 +949,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 27
     },
     {
-      "orderIndex": 36,
+      "orderIndex": 37,
       "startTime": 262.64,
       "endTime": 270.9,
       "text": "So, while bilingualism may not necessarily make you smarter, it does make your brain more healthy, complex and actively engaged,",
@@ -967,7 +967,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 20
     },
     {
-      "orderIndex": 37,
+      "orderIndex": 38,
       "startTime": 270.9,
       "endTime": 277.79,
       "text": "and even if you didn't have the good fortune of learning a second language as a child, it's never too late to do yourself a favor",
@@ -985,7 +985,7 @@ export const LESSON_TED_BILINGUAL_BRAIN: MockVideoLesson = {
       "tokenCount": 28
     },
     {
-      "orderIndex": 38,
+      "orderIndex": 39,
       "startTime": 277.79,
       "endTime": 288.08,
       "text": "and make the linguistic leap from, \"Hello,\" to, \"Hola,\" \"Bonjour\" or \"你好’s\" because when it comes to our brains a little exercise can go a long way.",

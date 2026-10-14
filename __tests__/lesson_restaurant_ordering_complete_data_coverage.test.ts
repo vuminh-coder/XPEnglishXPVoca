@@ -29,7 +29,7 @@ describe("English for Dining: Ordering Food at a Restaurant (vid_travel_restaura
 
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.endTime).toBeGreaterThan(seg.startTime);
       if (i > 0) {
         expect(seg.startTime).toBeGreaterThanOrEqual(segments[i - 1].startTime);
@@ -99,8 +99,8 @@ describe("English for Dining: Ordering Food at a Restaurant (vid_travel_restaura
       expect(q.targetedConceptEn).toBeDefined();
       expect(q.targetedConceptVi).toBeDefined();
       expect(typeof q.referenceSegmentIndex).toBe("number");
-      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-      expect(q.referenceSegmentIndex).toBeLessThan(LESSON_RESTAURANT_ORDERING.segments.length);
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(LESSON_RESTAURANT_ORDERING.segments.length);
     }
   });
 

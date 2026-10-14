@@ -38,7 +38,7 @@ describe("Senior 50-Year QA Deep Audit: La La Land - Sebastian & Mia Confrontati
     let prevStart = -1;
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeGreaterThanOrEqual(0);
       expect(seg.endTime).toBeGreaterThan(seg.startTime);
       expect(seg.startTime).toBeGreaterThanOrEqual(prevStart);
@@ -103,10 +103,10 @@ describe("Senior 50-Year QA Deep Audit: La La Land - Sebastian & Mia Confrontati
       expect(q.explanationEn!.length).toBeGreaterThan(20);
       expect(q.explanationVi!.length).toBeGreaterThan(20);
 
-      // Reference segment
+      // Reference segment (1-indexed)
       expect(q.referenceSegmentIndex).toBeDefined();
-      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-      expect(q.referenceSegmentIndex).toBeLessThan(87);
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(87);
 
       // Targeted concept
       expect(q.targetedConcept).toBeDefined();

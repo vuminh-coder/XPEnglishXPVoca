@@ -44,13 +44,13 @@ export const QUIZ_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: VideoQuizData = {
         "Cùng viết một cuốn tiểu thuyết trong suốt phần còn lại của chuyến tàu."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 3, Jesse asks Céline: 'This is what we should do: you should get off the train with me here in Vienna, and come check out the town.'",
-      "explanationEn": "In Segment 3, Jesse asks Céline: 'This is what we should do: you should get off the train with me here in Vienna, and come check out the town.'",
-      "explanationVi": "Trong Phân đoạn 3, Jesse rủ Céline: 'Đây là điều chúng ta nên làm: em hãy xuống tàu cùng anh ngay tại Vienna này, rồi cùng đi khám phá thành phố.'",
+      "explanation": "In Segment 4, Jesse asks Céline: 'This is what we should do: you should get off the train with me here in Vienna, and come check out the town.'",
+      "explanationEn": "In Segment 4, Jesse asks Céline: 'This is what we should do: you should get off the train with me here in Vienna, and come check out the town.'",
+      "explanationVi": "Trong Phân đoạn 4, Jesse rủ Céline: 'Đây là điều chúng ta nên làm: em hãy xuống tàu cùng anh ngay tại Vienna này, rồi cùng đi khám phá thành phố.'",
       "targetedConcept": "Plot catalyst of Before Sunrise",
       "targetedConceptEn": "Plot catalyst of Before Sunrise",
       "targetedConceptVi": "Bước ngoặt khởi đầu của Before Sunrise",
-      "referenceSegmentIndex": 3
+      "referenceSegmentIndex": 4
     },
     {
       "id": "mov_rom_02_q2",
@@ -76,13 +76,13 @@ export const QUIZ_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: VideoQuizData = {
         "Trong những giấc mơ và ảo tưởng không bao giờ chạm đến hiện thực hữu hình."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 7 and 8, Céline expresses: 'it wouldn't be in any of us... but just in this little space in between... in the attempt of understanding someone.'",
-      "explanationEn": "In Segments 7 and 8, Céline expresses: 'it wouldn't be in any of us... but just in this little space in between... in the attempt of understanding someone.'",
+      "explanation": "In Segments 8 and 9, Céline expresses: 'it wouldn't be in any of us... but just in this little space in between... in the attempt of understanding someone.'",
+      "explanationEn": "In Segments 8 and 9, Céline expresses: 'it wouldn't be in any of us... but just in this little space in between... in the attempt of understanding someone.'",
       "explanationVi": "Trong Phân đoạn 7 và 8, Céline bộc bạch: 'Ngài sẽ không nằm trong bất kỳ ai trong chúng ta... mà ngự trị ngay trong khoảng không gian nhỏ bé ở giữa hai chúng ta... trong nỗ lực thấu hiểu một ai đó.'",
       "targetedConcept": "Philosophical concept of spiritual connection",
       "targetedConceptEn": "Philosophical concept of spiritual connection",
       "targetedConceptVi": "Triết lý về sự kết nối tâm linh và đồng cảm giữa con người",
-      "referenceSegmentIndex": 7
+      "referenceSegmentIndex": 8
     },
     {
       "id": "mov_rom_02_q3",
@@ -108,13 +108,13 @@ export const QUIZ_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: VideoQuizData = {
         "Bằng cách loại bỏ mọi tương tác nhân vật để chỉ tập trung vào cảnh quan kiến trúc đô thị."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 51, Linklater explains: 'I always thought people talking was so evocative... not only do you get the essence of them, but also of what they're talking about.'",
-      "explanationEn": "In Segment 51, Linklater explains: 'I always thought people talking was so evocative... not only do you get the essence of them, but also of what they're talking about.'",
-      "explanationVi": "Trong Phân đoạn 51, Linklater giải thích: 'Tôi luôn nghĩ những cuộc trò chuyện của con người giàu sức gợi vô cùng... bạn nắm bắt được cả bản chất của nhân vật lẫn điều họ đang chia sẻ.'",
+      "explanation": "In Segment 52, Linklater explains: 'I always thought people talking was so evocative... not only do you get the essence of them, but also of what they're talking about.'",
+      "explanationEn": "In Segment 52, Linklater explains: 'I always thought people talking was so evocative... not only do you get the essence of them, but also of what they're talking about.'",
+      "explanationVi": "Trong Phân đoạn 52, Linklater giải thích: 'Tôi luôn nghĩ những cuộc trò chuyện của con người giàu sức gợi vô cùng... bạn nắm bắt được cả bản chất của nhân vật lẫn điều họ đang chia sẻ.'",
       "targetedConcept": "Auteur cinematic philosophy of dialogue",
       "targetedConceptEn": "Auteur cinematic philosophy of dialogue",
       "targetedConceptVi": "Triết lý điện ảnh tác giả về sức mạnh gợi mở của đối thoại",
-      "referenceSegmentIndex": 51
+      "referenceSegmentIndex": 52
     },
     {
       "id": "mov_rom_02_q4",
@@ -140,13 +140,13 @@ export const QUIZ_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: VideoQuizData = {
         "Anh dừng xe lại và yêu cầu cả hai đi tàu điện ngầm thay thế."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 53, Céline confides her fragility, and Jesse gently touches her to see if she dissolves, bringing her back to feeling safe.",
-      "explanationEn": "In Segment 53, Céline confides her fragility, and Jesse gently touches her to see if she dissolves, bringing her back to feeling safe.",
+      "explanation": "In Segment 54, Céline confides her fragility, and Jesse gently touches her to see if she dissolves, bringing her back to feeling safe.",
+      "explanationEn": "In Segment 54, Céline confides her fragility, and Jesse gently touches her to see if she dissolves, bringing her back to feeling safe.",
       "explanationVi": "Trong Phân đoạn 53, Céline bộc bạch sự yếu mềm của mình, và Jesse khẽ chạm vào cô để xem cô còn nguyên vẹn hay tan biến, đem lại sự bình yên dịu dàng.",
       "targetedConcept": "Emotional tenderness and non-verbal vulnerability",
       "targetedConceptEn": "Emotional tenderness and non-verbal vulnerability",
       "targetedConceptVi": "Sự dịu dàng thấu cảm và cử chỉ phi ngôn ngữ chữa lành tổn thương",
-      "referenceSegmentIndex": 53
+      "referenceSegmentIndex": 54
     },
     {
       "id": "mov_rom_02_q5",
@@ -172,13 +172,13 @@ export const QUIZ_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: VideoQuizData = {
         "Hoa hướng dương (Sunflower)"
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 78, Céline enthusiastically offers the word 'Milkshake!', which the river poet beautifully weaves into his verse.",
-      "explanationEn": "In Segment 78, Céline enthusiastically offers the word 'Milkshake!', which the river poet beautifully weaves into his verse.",
+      "explanation": "In Segment 79, Céline enthusiastically offers the word 'Milkshake!', which the river poet beautifully weaves into his verse.",
+      "explanationEn": "In Segment 79, Céline enthusiastically offers the word 'Milkshake!', which the river poet beautifully weaves into his verse.",
       "explanationVi": "Trong Phân đoạn 78, Céline đã hào hứng chọn từ 'Milkshake!' (ly sữa lắc), và người thi sĩ đã khéo léo dệt từ đó vào thi phẩm trữ tình của mình.",
       "targetedConcept": "Impromptu street poetry and artistic wordplay",
       "targetedConceptEn": "Impromptu street poetry and artistic wordplay",
       "targetedConceptVi": "Nghệ thuật thơ đường phố ngẫu hứng và lối chơi chữ thi ca",
-      "referenceSegmentIndex": 78
+      "referenceSegmentIndex": 79
     },
     {
       "id": "mov_rom_02_q6",
@@ -204,13 +204,13 @@ export const QUIZ_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: VideoQuizData = {
         "Những cánh chim tranh giành lãnh thổ khốc liệt trong những tháng mùa đông bão tuyết."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 119, the poem declares: 'Lodged in life like branches in the river flowing downstream caught in the current. I'll carry you, you'll carry me, that's how it could be.'",
-      "explanationEn": "In Segment 119, the poem declares: 'Lodged in life like branches in the river flowing downstream caught in the current. I'll carry you, you'll carry me, that's how it could be.'",
-      "explanationVi": "Trong Phân đoạn 119, bài thơ cất lên: 'Nương mình vào cuộc đời tựa những nhành cây trôi trên dòng sông xuôi về hạ lưu cuốn theo dòng nước siết. Tôi sẽ nâng đỡ em, và em sẽ nâng đỡ tôi, đó là cách cuộc đời diễn ra.'",
+      "explanation": "In Segment 120, the poem declares: 'Lodged in life like branches in the river flowing downstream caught in the current. I'll carry you, you'll carry me, that's how it could be.'",
+      "explanationEn": "In Segment 120, the poem declares: 'Lodged in life like branches in the river flowing downstream caught in the current. I'll carry you, you'll carry me, that's how it could be.'",
+      "explanationVi": "Trong Phân đoạn 120, bài thơ cất lên: 'Nương mình vào cuộc đời tựa những nhành cây trôi trên dòng sông xuôi về hạ lưu cuốn theo dòng nước siết. Tôi sẽ nâng đỡ em, và em sẽ nâng đỡ tôi, đó là cách cuộc đời diễn ra.'",
       "targetedConcept": "Poetic symbolism of destiny and mutual support",
       "targetedConceptEn": "Poetic symbolism of destiny and mutual support",
       "targetedConceptVi": "Biểu tượng thi ca về định mệnh và sự nương tựa nâng đỡ lẫn nhau",
-      "referenceSegmentIndex": 119
+      "referenceSegmentIndex": 120
     },
     {
       "id": "mov_rom_02_q7",
@@ -236,13 +236,13 @@ export const QUIZ_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: VideoQuizData = {
         "Anh hành động như một thầy bói dự đoán những con số trúng xổ số của họ."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 100, Jesse approaches her table: 'I just traveled back from the future. I was just with your 82-year-old self who gave me a letter to read to you.'",
-      "explanationEn": "In Segment 100, Jesse approaches her table: 'I just traveled back from the future. I was just with your 82-year-old self who gave me a letter to read to you.'",
+      "explanation": "In Segment 101, Jesse approaches her table: 'I just traveled back from the future. I was just with your 82-year-old self who gave me a letter to read to you.'",
+      "explanationEn": "In Segment 101, Jesse approaches her table: 'I just traveled back from the future. I was just with your 82-year-old self who gave me a letter to read to you.'",
       "explanationVi": "Trong Phân đoạn 100, Jesse bước đến bàn của cô: 'Anh vừa du hành ngược thời gian từ tương lai trở về đấy. Anh vừa gặp phiên bản tuổi 82 của em, và bà ấy đã gửi cho anh một lá thư để đọc cho em nghe.'",
       "targetedConcept": "Playful reconciliation and narrative reframing in long-term marriage",
       "targetedConceptEn": "Playful reconciliation and narrative reframing in long-term marriage",
       "targetedConceptVi": "Nghệ thuật làm hòa hóm hỉnh và tái định hình câu chuyện trong hôn nhân lâu năm",
-      "referenceSegmentIndex": 100
+      "referenceSegmentIndex": 101
     },
     {
       "id": "mov_rom_02_q8",
@@ -268,13 +268,13 @@ export const QUIZ_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: VideoQuizData = {
         "Tình yêu đích thực đòi hỏi phải hy sinh hoàn toàn bản sắc cá nhân để làm hài lòng đối phương."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 109, Jesse firmly declares: 'If you want true love, then this is it. This is real life. It's not perfect, but it's real! And if you can't see it, then you're blind.'",
-      "explanationEn": "In Segment 109, Jesse firmly declares: 'If you want true love, then this is it. This is real life. It's not perfect, but it's real! And if you can't see it, then you're blind.'",
-      "explanationVi": "Trong Phân đoạn 109, Jesse dứt khoát tuyên bố: 'Nếu em thực sự muốn tình yêu đích thực, thì nó chính là thế này đây. Đây chính là cuộc đời thực. Nó không hoàn hảo, nhưng nó có thật! Và nếu em không thể nhìn ra điều đó, thì em mù quáng thật rồi.'",
+      "explanation": "In Segment 110, Jesse firmly declares: 'If you want true love, then this is it. This is real life. It's not perfect, but it's real! And if you can't see it, then you're blind.'",
+      "explanationEn": "In Segment 110, Jesse firmly declares: 'If you want true love, then this is it. This is real life. It's not perfect, but it's real! And if you can't see it, then you're blind.'",
+      "explanationVi": "Trong Phân đoạn 110, Jesse dứt khoát tuyên bố: 'Nếu em thực sự muốn tình yêu đích thực, thì nó chính là thế này đây. Đây chính là cuộc đời thực. Nó không hoàn hảo, nhưng nó có thật! Và nếu em không thể nhìn ra điều đó, thì em mù quáng thật rồi.'",
       "targetedConcept": "Mature realism versus fairy-tale romantic idealism",
       "targetedConceptEn": "Mature realism versus fairy-tale romantic idealism",
       "targetedConceptVi": "Chủ nghĩa hiện thực trưởng thành đối lập với ảo tưởng lãng mạn cổ tích",
-      "referenceSegmentIndex": 109
+      "referenceSegmentIndex": 110
     }
   ]
 };
@@ -301,7 +301,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "Trích đoạn đại cảnh kết nối trọn vẹn bộ ba kiệt tác Before Trilogy (Before Sunrise, Before Sunset, Before Midnight) của đạo diễn Richard Linklater cùng Ethan Hawke (Jesse) và Julie Delpy (Céline). Khám phá triết lý tình yêu sâu sắc qua thời gian, nghệ thuật đối thoại đỉnh cao, bài thơ tình bên bờ sông Danube và cái kết chân thực về hôn nhân.",
   segments: [
   {
-    "orderIndex": 0,
+    "orderIndex": 1,
     "startTime": 27,
     "endTime": 34.5,
     "text": "All right, I have an admittedly insane idea, but if I don't ask you this, it's gonna haunt me for the rest of my life.",
@@ -317,7 +317,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 25
   },
   {
-    "orderIndex": 1,
+    "orderIndex": 2,
     "startTime": 34.5,
     "endTime": 36,
     "text": "What?",
@@ -331,7 +331,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 2,
+    "orderIndex": 3,
     "startTime": 36,
     "endTime": 39.5,
     "text": "So listen, here's the deal.",
@@ -345,7 +345,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 3,
+    "orderIndex": 4,
     "startTime": 39.5,
     "endTime": 46,
     "text": "This is what we should do: you should get off the train with me here in Vienna, and come check out the town.",
@@ -362,7 +362,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 23
   },
   {
-    "orderIndex": 4,
+    "orderIndex": 5,
     "startTime": 46,
     "endTime": 48,
     "text": "What? What would we do?",
@@ -376,7 +376,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 5,
+    "orderIndex": 6,
     "startTime": 48,
     "endTime": 53,
     "text": "Come on, it'll be fun! Um, I don't know.",
@@ -391,7 +391,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 9
   },
   {
-    "orderIndex": 6,
+    "orderIndex": 7,
     "startTime": 53,
     "endTime": 58.5,
     "text": "I believe if there's any kind of God, it wouldn't be in any of us.",
@@ -408,7 +408,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 15
   },
   {
-    "orderIndex": 7,
+    "orderIndex": 8,
     "startTime": 58.5,
     "endTime": 63,
     "text": "Not you, or me, but just in this little space in between.",
@@ -423,7 +423,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 12
   },
   {
-    "orderIndex": 8,
+    "orderIndex": 9,
     "startTime": 63,
     "endTime": 73,
     "text": "If there's any kind of magic in this world, it must be in the attempt of understanding someone, sharing something.",
@@ -439,7 +439,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 20
   },
   {
-    "orderIndex": 9,
+    "orderIndex": 10,
     "startTime": 73,
     "endTime": 86,
     "text": "I know it's almost impossible to succeed, but who cares, really? The answer must be in the attempt.",
@@ -455,7 +455,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 18
   },
   {
-    "orderIndex": 10,
+    "orderIndex": 11,
     "startTime": 86,
     "endTime": 96,
     "text": "The first film was really just about trying to capture two people connecting, the intangible thing between these two people.",
@@ -470,7 +470,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 20
   },
   {
-    "orderIndex": 11,
+    "orderIndex": 12,
     "startTime": 96,
     "endTime": 104,
     "text": "It was a very minimalist design. Nothing great happened in the movie other than this connection.",
@@ -485,7 +485,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 16
   },
   {
-    "orderIndex": 12,
+    "orderIndex": 13,
     "startTime": 104,
     "endTime": 108.5,
     "text": "I just remember wanting to make a film just about that.",
@@ -499,7 +499,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 11
   },
   {
-    "orderIndex": 13,
+    "orderIndex": 14,
     "startTime": 108.5,
     "endTime": 113,
     "text": "I think he's crazy about you. You gonna see him again?",
@@ -514,7 +514,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 11
   },
   {
-    "orderIndex": 14,
+    "orderIndex": 15,
     "startTime": 113,
     "endTime": 116,
     "text": "We haven't talked about that yet.",
@@ -528,7 +528,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 15,
+    "orderIndex": 16,
     "startTime": 116,
     "endTime": 125,
     "text": "I remember Julie once saying, 'This movie's boring. Call someone to write some jokes, this is really boring Rick.'",
@@ -546,7 +546,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 19
   },
   {
-    "orderIndex": 16,
+    "orderIndex": 17,
     "startTime": 125,
     "endTime": 134,
     "text": "And Rick said, 'I've been with you in Vienna for six weeks and I haven't been bored for one second.'",
@@ -564,7 +564,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 20
   },
   {
-    "orderIndex": 17,
+    "orderIndex": 18,
     "startTime": 134,
     "endTime": 136.5,
     "text": "Gorgeous.",
@@ -578,7 +578,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 18,
+    "orderIndex": 19,
     "startTime": 136.5,
     "endTime": 140,
     "text": "Yeah... This is beautiful.",
@@ -592,7 +592,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 4
   },
   {
-    "orderIndex": 19,
+    "orderIndex": 20,
     "startTime": 140,
     "endTime": 156,
     "text": "So if you can be as interesting and whole as you are here in this room, in front of the camera, and somebody's bored in a two-hour movie, then I don't like them.",
@@ -608,7 +608,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 33
   },
   {
-    "orderIndex": 20,
+    "orderIndex": 21,
     "startTime": 156,
     "endTime": 165,
     "text": "I don't care if they don't like our movie, because that's somebody that's... that's not who I'm making this movie for.",
@@ -623,7 +623,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 21
   },
   {
-    "orderIndex": 21,
+    "orderIndex": 22,
     "startTime": 165,
     "endTime": 173,
     "text": "So... you have been on a journey. You are... an adventurer, a seeker.",
@@ -639,7 +639,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 13
   },
   {
-    "orderIndex": 22,
+    "orderIndex": 23,
     "startTime": 173,
     "endTime": 181,
     "text": "You need to resign yourself to the awkwardness of life.",
@@ -654,7 +654,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 10
   },
   {
-    "orderIndex": 23,
+    "orderIndex": 24,
     "startTime": 181,
     "endTime": 191,
     "text": "Only if you find peace within yourself, you'll find true connection with others.",
@@ -669,7 +669,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 13
   },
   {
-    "orderIndex": 24,
+    "orderIndex": 25,
     "startTime": 191,
     "endTime": 198.5,
     "text": "You think tonight's it, huh? I mean that tonight's our only night?",
@@ -684,7 +684,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 12
   },
   {
-    "orderIndex": 25,
+    "orderIndex": 26,
     "startTime": 198.5,
     "endTime": 202,
     "text": "Can I tell you a secret?",
@@ -698,7 +698,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 26,
+    "orderIndex": 27,
     "startTime": 202,
     "endTime": 204,
     "text": "Yeah.",
@@ -712,7 +712,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 27,
+    "orderIndex": 28,
     "startTime": 204,
     "endTime": 206.5,
     "text": "Come here.",
@@ -726,7 +726,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 28,
+    "orderIndex": 29,
     "startTime": 206.5,
     "endTime": 208.5,
     "text": "What?",
@@ -740,7 +740,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 29,
+    "orderIndex": 30,
     "startTime": 208.5,
     "endTime": 212,
     "text": "Come here. It's... the only way, no?",
@@ -754,7 +754,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 30,
+    "orderIndex": 31,
     "startTime": 212,
     "endTime": 232,
     "text": "Well, all right. Let's do it. We'll just make tonight great.",
@@ -769,7 +769,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 11
   },
   {
-    "orderIndex": 31,
+    "orderIndex": 32,
     "startTime": 232,
     "endTime": 235,
     "text": "Hi. Hello.",
@@ -783,7 +783,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 32,
+    "orderIndex": 33,
     "startTime": 235,
     "endTime": 237.5,
     "text": "How are you?",
@@ -797,7 +797,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 33,
+    "orderIndex": 34,
     "startTime": 237.5,
     "endTime": 240.5,
     "text": "I'm good, and you?",
@@ -811,7 +811,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 4
   },
   {
-    "orderIndex": 34,
+    "orderIndex": 35,
     "startTime": 240.5,
     "endTime": 245,
     "text": "I'm great, I'm... um...",
@@ -825,7 +825,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 4
   },
   {
-    "orderIndex": 35,
+    "orderIndex": 36,
     "startTime": 245,
     "endTime": 252,
     "text": "Do you want to get a cup of coffee?",
@@ -839,7 +839,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 9
   },
   {
-    "orderIndex": 36,
+    "orderIndex": 37,
     "startTime": 252,
     "endTime": 256,
     "text": "Yeah... but um, I have a little time.",
@@ -853,7 +853,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 37,
+    "orderIndex": 38,
     "startTime": 256,
     "endTime": 264,
     "text": "Okay. Can you believe it was nine years ago that we were walking around Vienna?",
@@ -870,7 +870,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 15
   },
   {
-    "orderIndex": 38,
+    "orderIndex": 39,
     "startTime": 264,
     "endTime": 268,
     "text": "Nine years? That's impossible! It was, I know! It feels like it was two months ago to me, but it was summer '94. Do I look any different?",
@@ -886,7 +886,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 28
   },
   {
-    "orderIndex": 39,
+    "orderIndex": 40,
     "startTime": 268,
     "endTime": 273,
     "text": "All right, your train's gonna leave. Say goodbye.",
@@ -901,7 +901,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 40,
+    "orderIndex": 41,
     "startTime": 273,
     "endTime": 275.5,
     "text": "Bye.",
@@ -915,7 +915,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 41,
+    "orderIndex": 42,
     "startTime": 275.5,
     "endTime": 278,
     "text": "Goodbye.",
@@ -929,7 +929,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 42,
+    "orderIndex": 43,
     "startTime": 278,
     "endTime": 281,
     "text": "I do?",
@@ -943,7 +943,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 43,
+    "orderIndex": 44,
     "startTime": 281,
     "endTime": 284.5,
     "text": "I'd have to see you naked.",
@@ -957,7 +957,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 44,
+    "orderIndex": 45,
     "startTime": 284.5,
     "endTime": 287,
     "text": "What!?",
@@ -971,7 +971,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 45,
+    "orderIndex": 46,
     "startTime": 287,
     "endTime": 294,
     "text": "The great Sam Fuller, I remember him speaking and he said, 'Cinema's about: Don't talk about it, show it!'",
@@ -988,7 +988,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 19
   },
   {
-    "orderIndex": 46,
+    "orderIndex": 47,
     "startTime": 294,
     "endTime": 301,
     "text": "You don't talk about a character experience. You show them having that experience.",
@@ -1003,7 +1003,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 13
   },
   {
-    "orderIndex": 47,
+    "orderIndex": 48,
     "startTime": 301,
     "endTime": 302,
     "text": "Let's get on that boat. Come on.",
@@ -1018,7 +1018,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 48,
+    "orderIndex": 49,
     "startTime": 302,
     "endTime": 303,
     "text": "No!",
@@ -1032,7 +1032,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 49,
+    "orderIndex": 50,
     "startTime": 303,
     "endTime": 304,
     "text": "Come on, it'll be fun!",
@@ -1047,7 +1047,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 50,
+    "orderIndex": 51,
     "startTime": 304,
     "endTime": 305,
     "text": "You don't have time!",
@@ -1061,7 +1061,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 4
   },
   {
-    "orderIndex": 51,
+    "orderIndex": 52,
     "startTime": 305,
     "endTime": 312,
     "text": "But I never approach cinema like that. I always thought people talking was so evocative, and what they were describing, it has a double effect.",
@@ -1077,7 +1077,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 25
   },
   {
-    "orderIndex": 52,
+    "orderIndex": 53,
     "startTime": 312,
     "endTime": 320,
     "text": "Not only does it conjure what they're talking about in the viewer's mind because you're not showing it, to me, it's more interesting because not only do you get the essence of them, but also of what they're talking about.",
@@ -1093,7 +1093,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 40
   },
   {
-    "orderIndex": 53,
+    "orderIndex": 54,
     "startTime": 320,
     "endTime": 327,
     "text": "I feel like if somebody were to touch me, I would dissolve into molecules.",
@@ -1107,7 +1107,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 14
   },
   {
-    "orderIndex": 54,
+    "orderIndex": 55,
     "startTime": 327,
     "endTime": 334,
     "text": "Reality and love are almost contradictory for me. It's funny, every single one of my exes are now married.",
@@ -1122,7 +1122,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 19
   },
   {
-    "orderIndex": 55,
+    "orderIndex": 56,
     "startTime": 334,
     "endTime": 341,
     "text": "Men go out with me, we break up and they get married. And later they call me to thank me for teaching them what love is.",
@@ -1137,7 +1137,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 26
   },
   {
-    "orderIndex": 56,
+    "orderIndex": 57,
     "startTime": 341,
     "endTime": 349,
     "text": "Why didn't they ask me to marry them?! I would've said no, but at least they could've asked! But it's my fault, because I never felt it was the right man.",
@@ -1153,7 +1153,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 31
   },
   {
-    "orderIndex": 57,
+    "orderIndex": 58,
     "startTime": 349,
     "endTime": 350.5,
     "text": "Never!",
@@ -1167,7 +1167,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 58,
+    "orderIndex": 59,
     "startTime": 350.5,
     "endTime": 359,
     "text": "But what does it mean, 'the right man, the love of your life'? The concept is absurd, the idea that we can only be complete with another person... it's evil! Right?",
@@ -1183,7 +1183,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 31
   },
   {
-    "orderIndex": 59,
+    "orderIndex": 60,
     "startTime": 359,
     "endTime": 362,
     "text": "I want to try something.",
@@ -1197,7 +1197,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 60,
+    "orderIndex": 61,
     "startTime": 362,
     "endTime": 364,
     "text": "What?",
@@ -1211,7 +1211,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 61,
+    "orderIndex": 62,
     "startTime": 364,
     "endTime": 368,
     "text": "I want to see if you stay together or if you dissolve into molecules.",
@@ -1226,7 +1226,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 14
   },
   {
-    "orderIndex": 62,
+    "orderIndex": 63,
     "startTime": 368,
     "endTime": 371,
     "text": "How am I doing?",
@@ -1240,7 +1240,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 4
   },
   {
-    "orderIndex": 63,
+    "orderIndex": 64,
     "startTime": 371,
     "endTime": 374,
     "text": "Still here. Good, I like being here.",
@@ -1255,7 +1255,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 64,
+    "orderIndex": 65,
     "startTime": 374,
     "endTime": 381,
     "text": "It's not about what's happening or what twist is happening there, it's an emotional arc...",
@@ -1270,7 +1270,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 15
   },
   {
-    "orderIndex": 65,
+    "orderIndex": 66,
     "startTime": 381,
     "endTime": 390,
     "text": "There is a first act, second act, third act, but it's just on an emotional level. Now that we've met again, we can change our memory of that December 16th.",
@@ -1289,7 +1289,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 30
   },
   {
-    "orderIndex": 66,
+    "orderIndex": 67,
     "startTime": 390,
     "endTime": 399,
     "text": "It no longer has that sad ending of us never seeing each other again. You're right. I guess a memory's never finished, as long as you're alive.",
@@ -1305,7 +1305,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 27
   },
   {
-    "orderIndex": 67,
+    "orderIndex": 68,
     "startTime": 399,
     "endTime": 408,
     "text": "Baby... you are gonna miss that plane.",
@@ -1319,7 +1319,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 68,
+    "orderIndex": 69,
     "startTime": 408,
     "endTime": 416,
     "text": "I know.",
@@ -1333,7 +1333,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 69,
+    "orderIndex": 70,
     "startTime": 416,
     "endTime": 422,
     "text": "All three of these movies are about a connection between two people,",
@@ -1347,7 +1347,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 12
   },
   {
-    "orderIndex": 70,
+    "orderIndex": 71,
     "startTime": 422,
     "endTime": 428,
     "text": "and to really capture that on film he wanted our help in creating these people who would connect.",
@@ -1362,7 +1362,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 18
   },
   {
-    "orderIndex": 71,
+    "orderIndex": 72,
     "startTime": 428,
     "endTime": 433,
     "text": "So there could be something authentic about it, something real about it.",
@@ -1377,7 +1377,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 12
   },
   {
-    "orderIndex": 72,
+    "orderIndex": 73,
     "startTime": 433,
     "endTime": 442,
     "text": "Lots of directors ask you to be a part of their vision, but almost nobody asks you to find the vision with them.",
@@ -1392,7 +1392,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 23
   },
   {
-    "orderIndex": 73,
+    "orderIndex": 74,
     "startTime": 442,
     "endTime": 450,
     "text": "I've just been checking you out from across the café, and I don't want to make you uncomfortable but you are by far the best-looking woman in this place.",
@@ -1407,7 +1407,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 29
   },
   {
-    "orderIndex": 74,
+    "orderIndex": 75,
     "startTime": 450,
     "endTime": 452.5,
     "text": "I don't talk to strangers.",
@@ -1421,7 +1421,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 75,
+    "orderIndex": 76,
     "startTime": 452.5,
     "endTime": 455,
     "text": "That's the thing, I'm not a stranger. Summer '94?",
@@ -1436,7 +1436,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 9
   },
   {
-    "orderIndex": 76,
+    "orderIndex": 77,
     "startTime": 455,
     "endTime": 461,
     "text": "Okay, you give me a word, I take the word, and then I will write a poem with the word inside.",
@@ -1453,7 +1453,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 21
   },
   {
-    "orderIndex": 77,
+    "orderIndex": 78,
     "startTime": 461,
     "endTime": 464,
     "text": "If you feel it adds something to your life in any way, then you can pay me whatever you feel like.",
@@ -1468,7 +1468,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 21
   },
   {
-    "orderIndex": 78,
+    "orderIndex": 79,
     "startTime": 464,
     "endTime": 467,
     "text": "Milkshake!",
@@ -1482,7 +1482,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 79,
+    "orderIndex": 80,
     "startTime": 467,
     "endTime": 472,
     "text": "Milkshake, oh good yeah, I was going to say rooster prick but great, Milkshake.",
@@ -1497,7 +1497,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 14
   },
   {
-    "orderIndex": 80,
+    "orderIndex": 81,
     "startTime": 472,
     "endTime": 473.5,
     "text": "You're mistaking me for someone else.",
@@ -1511,7 +1511,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 81,
+    "orderIndex": 82,
     "startTime": 473.5,
     "endTime": 475,
     "text": "No.",
@@ -1525,7 +1525,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 82,
+    "orderIndex": 83,
     "startTime": 475,
     "endTime": 477,
     "text": "We even fell in love.",
@@ -1539,7 +1539,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 83,
+    "orderIndex": 84,
     "startTime": 477,
     "endTime": 483,
     "text": "Let's say that you and I were together all the time, you'd start to hate a lot of my mannerisms.",
@@ -1554,7 +1554,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 20
   },
   {
-    "orderIndex": 84,
+    "orderIndex": 85,
     "startTime": 483,
     "endTime": 491,
     "text": "The way every time that we would have people over I'd be insecure and I'd get a little too drunk.",
@@ -1569,7 +1569,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 20
   },
   {
-    "orderIndex": 85,
+    "orderIndex": 86,
     "startTime": 491,
     "endTime": 501,
     "text": "Why am I finding myself so attracted to this woman?! Or the way I tell the same stupid pseudo-intellectual story again...",
@@ -1584,7 +1584,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 21
   },
   {
-    "orderIndex": 86,
+    "orderIndex": 87,
     "startTime": 501,
     "endTime": 502.5,
     "text": "and again...",
@@ -1598,7 +1598,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 87,
+    "orderIndex": 88,
     "startTime": 502.5,
     "endTime": 510,
     "text": "He tells me that even though I have an offer for an amazing job, he wants me to throw it all away and move to Chicago.",
@@ -1616,7 +1616,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 26
   },
   {
-    "orderIndex": 88,
+    "orderIndex": 89,
     "startTime": 510,
     "endTime": 511,
     "text": "That's not what I said.",
@@ -1630,7 +1630,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 89,
+    "orderIndex": 90,
     "startTime": 511,
     "endTime": 512,
     "text": "Yes!",
@@ -1644,7 +1644,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 90,
+    "orderIndex": 91,
     "startTime": 512,
     "endTime": 513,
     "text": "I said I missed him.",
@@ -1658,7 +1658,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 91,
+    "orderIndex": 92,
     "startTime": 513,
     "endTime": 520,
     "text": "So we could babysit every other weekend for his ex-wife! You see, I've heard all those stories, so of course I'm sick of myself.",
@@ -1674,7 +1674,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 24
   },
   {
-    "orderIndex": 92,
+    "orderIndex": 93,
     "startTime": 520,
     "endTime": 527,
     "text": "Being with you, it made me feel like I was somebody else.",
@@ -1688,7 +1688,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 12
   },
   {
-    "orderIndex": 93,
+    "orderIndex": 94,
     "startTime": 527,
     "endTime": 537,
     "text": "If we were meeting for the first time today, would you find me attractive? Really, right now as I am, would you ask me to get off the train?",
@@ -1703,7 +1703,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 29
   },
   {
-    "orderIndex": 94,
+    "orderIndex": 95,
     "startTime": 537,
     "endTime": 546,
     "text": "Think of it like this: jump ahead ten, twenty years, okay? And you're married.",
@@ -1719,7 +1719,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 14
   },
   {
-    "orderIndex": 95,
+    "orderIndex": 96,
     "startTime": 546,
     "endTime": 555,
     "text": "Only your marriage doesn't have that same energy that it used to.",
@@ -1734,7 +1734,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 12
   },
   {
-    "orderIndex": 96,
+    "orderIndex": 97,
     "startTime": 555,
     "endTime": 564,
     "text": "You start to blame your husband. You start to think about all those guys you've met in your life and what might have happened if you picked up with one.",
@@ -1749,7 +1749,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 30
   },
   {
-    "orderIndex": 97,
+    "orderIndex": 98,
     "startTime": 564,
     "endTime": 573,
     "text": "Well, I'm one of those guys. That's me! What this really could be is a gigantic favor to both you and your future husband.",
@@ -1764,7 +1764,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 24
   },
   {
-    "orderIndex": 98,
+    "orderIndex": 99,
     "startTime": 573,
     "endTime": 580,
     "text": "To find out that you're not missing out on anything: I'm just as big a loser as he is, totally unmotivated, totally boring, and you made the right choice.",
@@ -1780,7 +1780,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 29
   },
   {
-    "orderIndex": 99,
+    "orderIndex": 100,
     "startTime": 580,
     "endTime": 590,
     "text": "You know what's going on here? I don't think I love you anymore.",
@@ -1794,7 +1794,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 13
   },
   {
-    "orderIndex": 100,
+    "orderIndex": 101,
     "startTime": 590,
     "endTime": 599,
     "text": "I just traveled back from the future. I was just with your 82-year-old self who gave me a letter to read to you.",
@@ -1810,7 +1810,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 23
   },
   {
-    "orderIndex": 101,
+    "orderIndex": 102,
     "startTime": 599,
     "endTime": 605,
     "text": "So here I am. We did okay.",
@@ -1824,7 +1824,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 102,
+    "orderIndex": 103,
     "startTime": 605,
     "endTime": 614,
     "text": "There's: 'Dear Céline, I'm sending you this young man. Yes, young, and he will be your escort.'",
@@ -1842,7 +1842,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 17
   },
   {
-    "orderIndex": 103,
+    "orderIndex": 104,
     "startTime": 614,
     "endTime": 620,
     "text": "God knows he has many problems and has struggled his whole life connecting and being present even with those he loves the most.",
@@ -1859,7 +1859,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 23
   },
   {
-    "orderIndex": 104,
+    "orderIndex": 105,
     "startTime": 620,
     "endTime": 627,
     "text": "...and for that he is deeply sorry, but you are his only hope.",
@@ -1874,7 +1874,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 13
   },
   {
-    "orderIndex": 105,
+    "orderIndex": 106,
     "startTime": 627,
     "endTime": 635,
     "text": "Okay, Jesse, can you stop this stupid game? We're not in one of your stories, okay? Did you hear what I said to you back in the room? Did you hear me?",
@@ -1892,7 +1892,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 32
   },
   {
-    "orderIndex": 106,
+    "orderIndex": 107,
     "startTime": 635,
     "endTime": 647,
     "text": "Now, whether you love me anymore, I figured you didn't mean it, but if you did, then you know something? You're just like the little girls and everybody else.",
@@ -1907,7 +1907,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 29
   },
   {
-    "orderIndex": 107,
+    "orderIndex": 108,
     "startTime": 647,
     "endTime": 654,
     "text": "You want to live inside some fairy tale. I've put up with plenty of your shit, and if you think I'm just some dog that's gonna keep coming back, then you're wrong.",
@@ -1922,7 +1922,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 32
   },
   {
-    "orderIndex": 108,
+    "orderIndex": 109,
     "startTime": 654,
     "endTime": 664,
     "text": "But if you want true love, then this is it. This is real life.",
@@ -1937,7 +1937,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 14
   },
   {
-    "orderIndex": 109,
+    "orderIndex": 110,
     "startTime": 664,
     "endTime": 676,
     "text": "It's not perfect, but it's real! And if you can't see it, then you're blind. All right? I give up.",
@@ -1953,7 +1953,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 20
   },
   {
-    "orderIndex": 110,
+    "orderIndex": 111,
     "startTime": 676,
     "endTime": 682,
     "text": "It's really a mirror, it's where you're at in your own life.",
@@ -1968,7 +1968,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 12
   },
   {
-    "orderIndex": 111,
+    "orderIndex": 112,
     "startTime": 682,
     "endTime": 692,
     "text": "And you know, if you're about to break up with someone, the movie could be a reflection of that. If you've endured a relationship and it's still working for you, it could be an expression of that.",
@@ -1984,7 +1984,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 37
   },
   {
-    "orderIndex": 112,
+    "orderIndex": 113,
     "startTime": 692,
     "endTime": 694.7,
     "text": "Good, have fun.",
@@ -1998,7 +1998,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 113,
+    "orderIndex": 114,
     "startTime": 694.7,
     "endTime": 697.3,
     "text": "Were you really just...",
@@ -2012,7 +2012,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 4
   },
   {
-    "orderIndex": 114,
+    "orderIndex": 115,
     "startTime": 697.3,
     "endTime": 700,
     "text": "Sure, okay.",
@@ -2026,7 +2026,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 115,
+    "orderIndex": 116,
     "startTime": 711,
     "endTime": 720,
     "text": "Daydream delusion, limousine eyelash, oh baby with your pretty face.",
@@ -2042,7 +2042,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 10
   },
   {
-    "orderIndex": 116,
+    "orderIndex": 117,
     "startTime": 720,
     "endTime": 727,
     "text": "Drop a tear in my wineglass, look at those big eyes, see what you mean to me, sweet cakes and milkshakes.",
@@ -2059,7 +2059,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 21
   },
   {
-    "orderIndex": 117,
+    "orderIndex": 118,
     "startTime": 727,
     "endTime": 736,
     "text": "I'm a delusion angel, I'm a fantasy parade. I want you to know what I think, don't want you to guess anymore.",
@@ -2074,7 +2074,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 22
   },
   {
-    "orderIndex": 118,
+    "orderIndex": 119,
     "startTime": 736,
     "endTime": 747,
     "text": "You have no idea where I came from, you have no idea where we're going.",
@@ -2089,7 +2089,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 15
   },
   {
-    "orderIndex": 119,
+    "orderIndex": 120,
     "startTime": 747,
     "endTime": 755,
     "text": "Lodged in life like branches in the river flowing downstream caught in the current.",
@@ -2107,7 +2107,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 14
   },
   {
-    "orderIndex": 120,
+    "orderIndex": 121,
     "startTime": 755,
     "endTime": 760,
     "text": "I'll carry you, you'll carry me, that's how it could be.",
@@ -2122,7 +2122,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 11
   },
   {
-    "orderIndex": 121,
+    "orderIndex": 122,
     "startTime": 760,
     "endTime": 764,
     "text": "Don't you know me? Don't you know me by now?",
@@ -2136,7 +2136,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 10
   },
   {
-    "orderIndex": 122,
+    "orderIndex": 123,
     "startTime": 764,
     "endTime": 773,
     "text": "It sounds weird to say, but I mean it's kind of a dream come true to make something that is intensely personal and that you love and do it only for yourself,",
@@ -2151,7 +2151,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 32
   },
   {
-    "orderIndex": 123,
+    "orderIndex": 124,
     "startTime": 773,
     "endTime": 781,
     "text": "and then if other people actually like it, that almost never happens. It's unique.",
@@ -2166,7 +2166,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 14
   },
   {
-    "orderIndex": 124,
+    "orderIndex": 125,
     "startTime": 781,
     "endTime": 790,
     "text": "Most things that you work on are not, and this is... they may be good, they may be not good, whatever, but this one is unique.",
@@ -2180,7 +2180,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 26
   },
   {
-    "orderIndex": 125,
+    "orderIndex": 126,
     "startTime": 790,
     "endTime": 804,
     "text": "Will just be the most rewarding thing for you to do these films, being with each other, yeah.",
@@ -2195,7 +2195,7 @@ export const LESSON_BEFORE_SUNRISE_VIENNA_NIGHT_WALK: MockVideoLesson = {
     "tokenCount": 18
   },
   {
-    "orderIndex": 126,
+    "orderIndex": 127,
     "startTime": 804,
     "endTime": 819,
     "text": "You... and me. Together on this extraordinary journey.",

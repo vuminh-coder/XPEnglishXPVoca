@@ -45,13 +45,13 @@ export const QUIZ_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: VideoQuizData = {
         "Đạo diễn của cô đã từ chức hai tuần trước đêm công diễn."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 10 and 11, Mia confesses: 'I'm nervous to do it. I'm nervous to get up on a stage and perform for people. I'm terrified.'",
-      "explanationEn": "In Segments 10 and 11, Mia confesses: 'I'm nervous to do it. I'm nervous to get up on a stage and perform for people. I'm terrified.'",
-      "explanationVi": "Trong Phân đoạn 10 và 11, Mia bộc bạch: 'Em sợ làm điều đó. Em sợ cảm giác bước lên sân khấu và biểu diễn trước mặt mọi người. Em sợ phát khiếp lên được.'",
+      "explanation": "In Segments 11 and 12, Mia confesses: 'I'm nervous to do it. I'm nervous to get up on a stage and perform for people. I'm terrified.'",
+      "explanationEn": "In Segments 11 and 12, Mia confesses: 'I'm nervous to do it. I'm nervous to get up on a stage and perform for people. I'm terrified.'",
+      "explanationVi": "Trong Phân đoạn 11 và 12, Mia bộc bạch: 'Em sợ làm điều đó. Em sợ cảm giác bước lên sân khấu và biểu diễn trước mặt mọi người. Em sợ phát khiếp lên được.'",
       "targetedConcept": "Artistic vulnerability and stage fright",
       "targetedConceptEn": "Artistic vulnerability and stage fright",
       "targetedConceptVi": "Sự mong manh của nghệ sĩ và nỗi sợ sân khấu",
-      "referenceSegmentIndex": 10
+      "referenceSegmentIndex": 11
     },
     {
       "id": "mov_rom_03_q2",
@@ -77,13 +77,13 @@ export const QUIZ_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: VideoQuizData = {
         "Cô không muốn tiếp xúc với Keith và ê-kíp sản xuất của anh ấy."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 30 and 34, Mia explains: 'Because I have to rehearse!... all my stuff is here and it's in two weeks, so I don't really think that would be practical.'",
-      "explanationEn": "In Segments 30 and 34, Mia explains: 'Because I have to rehearse!... all my stuff is here and it's in two weeks, so I don't really think that would be practical.'",
-      "explanationVi": "Trong Phân đoạn 30 và 34, Mia giải thích: 'Vì em phải tập kịch!... toàn bộ đồ đạc của em ở đây và chỉ còn hai tuần nữa, nên em thấy đi như vậy không thực tế chút nào.'",
+      "explanation": "In Segments 31 and 35, Mia explains: 'Because I have to rehearse!... all my stuff is here and it's in two weeks, so I don't really think that would be practical.'",
+      "explanationEn": "In Segments 31 and 35, Mia explains: 'Because I have to rehearse!... all my stuff is here and it's in two weeks, so I don't really think that would be practical.'",
+      "explanationVi": "Trong Phân đoạn 31 và 35, Mia giải thích: 'Vì em phải tập kịch!... toàn bộ đồ đạc của em ở đây và chỉ còn hai tuần nữa, nên em thấy đi như vậy không thực tế chút nào.'",
       "targetedConcept": "Conflicting priorities and professional commitments",
       "targetedConceptEn": "Conflicting priorities and professional commitments",
       "targetedConceptVi": "Xung đột ưu tiên và cam kết sự nghiệp riêng",
-      "referenceSegmentIndex": 34
+      "referenceSegmentIndex": 35
     },
     {
       "id": "mov_rom_03_q3",
@@ -109,13 +109,13 @@ export const QUIZ_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: VideoQuizData = {
         "Hợp đồng thu âm bắt buộc anh phải chuyển hẳn đến định cư tại thành phố New York."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 40 and 49, Sebastian explains the reality of 'the long haul': 'We tour so we can make the records, so we can go back and sell the record... feasibly, I could be on tour with this for a couple of years, at least.'",
-      "explanationEn": "In Segments 40 and 49, Sebastian explains the reality of 'the long haul': 'We tour so we can make the records, so we can go back and sell the record... feasibly, I could be on tour with this for a couple of years, at least.'",
-      "explanationVi": "Trong Phân đoạn 40 và 49, Sebastian giải thích về 'chặng đường dài hạn': 'Bọn anh lưu diễn để có tiền làm album, rồi lại đi lưu diễn để bán đĩa... trên thực tế, anh có thể phải đi tour với album này ít nhất vài năm trời.'",
+      "explanation": "In Segments 41 and 50, Sebastian explains the reality of 'the long haul': 'We tour so we can make the records, so we can go back and sell the record... feasibly, I could be on tour with this for a couple of years, at least.'",
+      "explanationEn": "In Segments 41 and 50, Sebastian explains the reality of 'the long haul': 'We tour so we can make the records, so we can go back and sell the record... feasibly, I could be on tour with this for a couple of years, at least.'",
+      "explanationVi": "Trong Phân đoạn 41 và 50, Sebastian giải thích về 'chặng đường dài hạn': 'Bọn anh lưu diễn để có tiền làm album, rồi lại đi lưu diễn để bán đĩa... trên thực tế, anh có thể phải đi tour với album này ít nhất vài năm trời.'",
       "targetedConcept": "The grueling cycle of commercial touring",
       "targetedConceptEn": "The grueling cycle of commercial touring",
       "targetedConceptVi": "Vòng luẩn quẩn bào mòn của công nghiệp lưu diễn thương mại",
-      "referenceSegmentIndex": 40
+      "referenceSegmentIndex": 41
     },
     {
       "id": "mov_rom_03_q4",
@@ -141,13 +141,13 @@ export const QUIZ_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: VideoQuizData = {
         "Rằng Keith đang thay thế toàn bộ nhạc cụ mộc bằng các bản phối vi tính."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 52, Mia directly challenges him: 'Well, it matters because if you're gonna give up your dream, I think it matters that you like what you're playing on the road for years.'",
-      "explanationEn": "In Segment 52, Mia directly challenges him: 'Well, it matters because if you're gonna give up your dream, I think it matters that you like what you're playing on the road for years.'",
-      "explanationVi": "Trong Phân đoạn 52, Mia thẳng thắn chất vấn: 'Điều đó quan trọng chứ, bởi vì nếu anh từ bỏ ước mơ của mình, em nghĩ điều quan trọng là anh phải yêu thích những gì anh đang chơi trên những chuyến lưu diễn hàng năm trời.'",
+      "explanation": "In Segment 53, Mia directly challenges him: 'Well, it matters because if you're gonna give up your dream, I think it matters that you like what you're playing on the road for years.'",
+      "explanationEn": "In Segment 53, Mia directly challenges him: 'Well, it matters because if you're gonna give up your dream, I think it matters that you like what you're playing on the road for years.'",
+      "explanationVi": "Trong Phân đoạn 53, Mia thẳng thắn chất vấn: 'Điều đó quan trọng chứ, bởi vì nếu anh từ bỏ ước mơ của mình, em nghĩ điều quan trọng là anh phải yêu thích những gì anh đang chơi trên những chuyến lưu diễn hàng năm trời.'",
       "targetedConcept": "Artistic authenticity vs pragmatic compromise",
       "targetedConceptEn": "Artistic authenticity vs pragmatic compromise",
       "targetedConceptVi": "Tính chân thực trong nghệ thuật đối lập với sự thỏa hiệp thực dụng",
-      "referenceSegmentIndex": 52
+      "referenceSegmentIndex": 53
     },
     {
       "id": "mov_rom_03_q5",
@@ -173,13 +173,13 @@ export const QUIZ_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: VideoQuizData = {
         "Bố của anh khuyên rằng việc mở một địa điểm biểu diễn độc lập sẽ dẫn tới phá sản ngay lập tức."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 66 and 69, Sebastian argues: 'What am I supposed to do? Go back to playing 'Jingle Bells' and scraping pennies... it's time to grow up, you know? I have a steady job.'",
-      "explanationEn": "In Segments 66 and 69, Sebastian argues: 'What am I supposed to do? Go back to playing 'Jingle Bells' and scraping pennies... it's time to grow up, you know? I have a steady job.'",
-      "explanationVi": "Trong Phân đoạn 66 và 69, Sebastian tranh biện: 'Anh phải làm gì bây giờ? Quay lại chơi bài Jingle Bells và nhặt nhạnh từng đồng xu lẻ ư... đã đến lúc phải trưởng thành rồi, em hiểu không? Anh đang có một công việc ổn định.'",
+      "explanation": "In Segments 67 and 70, Sebastian argues: 'What am I supposed to do? Go back to playing 'Jingle Bells' and scraping pennies... it's time to grow up, you know? I have a steady job.'",
+      "explanationEn": "In Segments 67 and 70, Sebastian argues: 'What am I supposed to do? Go back to playing 'Jingle Bells' and scraping pennies... it's time to grow up, you know? I have a steady job.'",
+      "explanationVi": "Trong Phân đoạn 67 và 70, Sebastian tranh biện: 'Anh phải làm gì bây giờ? Quay lại chơi bài Jingle Bells và nhặt nhạnh từng đồng xu lẻ ư... đã đến lúc phải trưởng thành rồi, em hiểu không? Anh đang có một công việc ổn định.'",
       "targetedConcept": "Fear of poverty and rationale of maturity",
       "targetedConceptEn": "Fear of poverty and rationale of maturity",
       "targetedConceptVi": "Nỗi sợ nghèo túng và vỏ bọc của sự trưởng thành thực dụng",
-      "referenceSegmentIndex": 66
+      "referenceSegmentIndex": 67
     },
     {
       "id": "mov_rom_03_q6",
@@ -205,13 +205,13 @@ export const QUIZ_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: VideoQuizData = {
         "Các quỹ trợ cấp của thành phố Los Angeles sẽ tài trợ cho việc bảo tồn nhạc jazz truyền thống."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 67, Mia delivers her iconic thesis: 'People will want to go to it because you're passionate about it, and people love what other people are passionate about! You remind people of what they forgot!'",
-      "explanationEn": "In Segment 67, Mia delivers her iconic thesis: 'People will want to go to it because you're passionate about it, and people love what other people are passionate about! You remind people of what they forgot!'",
-      "explanationVi": "Trong Phân đoạn 67, Mia đưa ra quan điểm kinh điển: 'Mọi người sẽ muốn đến đó vì anh say mê nó, và người ta luôn yêu thích những gì mà người khác đam mê chân thành! Anh nhắc cho mọi người nhớ lại những điều họ từng quên lãng!'",
+      "explanation": "In Segment 68, Mia delivers her iconic thesis: 'People will want to go to it because you're passionate about it, and people love what other people are passionate about! You remind people of what they forgot!'",
+      "explanationEn": "In Segment 68, Mia delivers her iconic thesis: 'People will want to go to it because you're passionate about it, and people love what other people are passionate about! You remind people of what they forgot!'",
+      "explanationVi": "Trong Phân đoạn 68, Mia đưa ra quan điểm kinh điển: 'Mọi người sẽ muốn đến đó vì anh say mê nó, và người ta luôn yêu thích những gì mà người khác đam mê chân thành! Anh nhắc cho mọi người nhớ lại những điều họ từng quên lãng!'",
       "targetedConcept": "The contagious power of authentic artistic passion",
       "targetedConceptEn": "The contagious power of authentic artistic passion",
       "targetedConceptVi": "Sức lan tỏa kỳ diệu của niềm đam mê nghệ thuật chân chính",
-      "referenceSegmentIndex": 67
+      "referenceSegmentIndex": 68
     },
     {
       "id": "mov_rom_03_q7",
@@ -237,13 +237,13 @@ export const QUIZ_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: VideoQuizData = {
         "Rằng cô chỉ là một nhân viên pha cà phê nông cạn không hiểu gì về nhạc lý."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 78, Sebastian strikes his most venomous blow: 'Maybe you just liked me when I was on my ass, because it made you feel better about yourself.'",
-      "explanationEn": "In Segment 78, Sebastian strikes his most venomous blow: 'Maybe you just liked me when I was on my ass, because it made you feel better about yourself.'",
-      "explanationVi": "Trong Phân đoạn 78, Sebastian buông lời tàn nhẫn nhất: 'Có lẽ em chỉ thích anh khi anh còn là kẻ bết bát thất bại, bởi vì điều đó làm em cảm thấy bản thân mình tốt đẹp và vượt trội hơn.'",
+      "explanation": "In Segment 79, Sebastian strikes his most venomous blow: 'Maybe you just liked me when I was on my ass, because it made you feel better about yourself.'",
+      "explanationEn": "In Segment 79, Sebastian strikes his most venomous blow: 'Maybe you just liked me when I was on my ass, because it made you feel better about yourself.'",
+      "explanationVi": "Trong Phân đoạn 79, Sebastian buông lời tàn nhẫn nhất: 'Có lẽ em chỉ thích anh khi anh còn là kẻ bết bát thất bại, bởi vì điều đó làm em cảm thấy bản thân mình tốt đẹp và vượt trội hơn.'",
       "targetedConcept": "Defensive projection and emotional toxicity",
       "targetedConceptEn": "Defensive projection and emotional toxicity",
       "targetedConceptVi": "Sự phòng vệ độc hại và công kích hạ thấp nhân phẩm đối phương",
-      "referenceSegmentIndex": 78
+      "referenceSegmentIndex": 79
     },
     {
       "id": "mov_rom_03_q8",
@@ -269,13 +269,13 @@ export const QUIZ_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: VideoQuizData = {
         "Một cuộc gọi vào điện thoại bàn thông báo Mia được gọi thử vai lại."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 81, 82, and 85, the smoke alarm blares deafeningly as thick black smoke pours from the oven; Mia gathers her coat and purse in tears and rushes out into the pouring rain as the door slams shut.",
-      "explanationEn": "In Segments 81, 82, and 85, the smoke alarm blares deafeningly as thick black smoke pours from the oven; Mia gathers her coat and purse in tears and rushes out into the pouring rain as the door slams shut.",
-      "explanationVi": "Trong các Phân đoạn 81, 82 và 85, còi báo cháy réo vang chói tai khi khói đen ngập lò nướng; Mia ôm áo khoác và túi xách trong nước mắt lao ra màn mưa tầm tã khi cánh cửa đóng sầm lại.",
+      "explanation": "In Segments 82, 83, and 86, the smoke alarm blares deafeningly as thick black smoke pours from the oven; Mia gathers her coat and purse in tears and rushes out into the pouring rain as the door slams shut.",
+      "explanationEn": "In Segments 82, 83, and 86, the smoke alarm blares deafeningly as thick black smoke pours from the oven; Mia gathers her coat and purse in tears and rushes out into the pouring rain as the door slams shut.",
+      "explanationVi": "Trong các Phân đoạn 82, 83 và 86, còi báo cháy réo vang chói tai khi khói đen ngập lò nướng; Mia ôm áo khoác và túi xách trong nước mắt lao ra màn mưa tầm tã khi cánh cửa đóng sầm lại.",
       "targetedConcept": "Dramatic symbolism of destroyed domestic bliss",
       "targetedConceptEn": "Dramatic symbolism of destroyed domestic bliss",
       "targetedConceptVi": "Biểu tượng kịch tính về sự tan vỡ của hạnh phúc gia đình",
-      "referenceSegmentIndex": 81
+      "referenceSegmentIndex": 82
     }
   ]
 };
@@ -302,7 +302,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "Phân cảnh tranh luận kịch tính đoạt giải Oscar trong La La Land: Sebastian bất ngờ trở về nấu bữa tối lãng mạn cho Mia, nhưng cuộc trò chuyện nhanh chóng chuyển thành xung đột dữ dội về việc thỏa hiệp đam mê nghệ thuật thực thụ để đổi lấy danh tiếng thương mại.",
   segments: [
   {
-    "orderIndex": 0,
+    "orderIndex": 1,
     "startTime": 0,
     "endTime": 4,
     "text": "So where is the new home?",
@@ -316,7 +316,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 1,
+    "orderIndex": 2,
     "startTime": 4,
     "endTime": 8,
     "text": "I'm so glad you're home.",
@@ -330,7 +330,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 2,
+    "orderIndex": 3,
     "startTime": 8,
     "endTime": 11.5,
     "text": "How's the play going?",
@@ -344,7 +344,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 4
   },
   {
-    "orderIndex": 3,
+    "orderIndex": 4,
     "startTime": 11.5,
     "endTime": 13.5,
     "text": "Um, nervous.",
@@ -358,7 +358,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 4,
+    "orderIndex": 5,
     "startTime": 13.5,
     "endTime": 14.8,
     "text": "You what?",
@@ -372,7 +372,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 5,
+    "orderIndex": 6,
     "startTime": 14.8,
     "endTime": 16,
     "text": "Nervous.",
@@ -386,7 +386,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 6,
+    "orderIndex": 7,
     "startTime": 16,
     "endTime": 17.5,
     "text": "Why?",
@@ -400,7 +400,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 7,
+    "orderIndex": 8,
     "startTime": 17.5,
     "endTime": 20.5,
     "text": "Because what if people show up?",
@@ -415,7 +415,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 8,
+    "orderIndex": 9,
     "startTime": 20.5,
     "endTime": 22,
     "text": "Pshaw, fuck 'em!",
@@ -429,7 +429,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 9,
+    "orderIndex": 10,
     "startTime": 22,
     "endTime": 24.5,
     "text": "You're nervous about what they think?",
@@ -443,7 +443,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 10,
+    "orderIndex": 11,
     "startTime": 24.5,
     "endTime": 27,
     "text": "I'm nervous to do it. I'm nervous to get up on a stage and perform for people.",
@@ -458,7 +458,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 17
   },
   {
-    "orderIndex": 11,
+    "orderIndex": 12,
     "startTime": 27,
     "endTime": 29,
     "text": "I'm terrified.",
@@ -472,7 +472,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 12,
+    "orderIndex": 13,
     "startTime": 29,
     "endTime": 32,
     "text": "It's gonna be a good time! You can get out there.",
@@ -487,7 +487,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 11
   },
   {
-    "orderIndex": 13,
+    "orderIndex": 14,
     "startTime": 32,
     "endTime": 35,
     "text": "They should be so lucky to see it! I can't wait.",
@@ -502,7 +502,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 11
   },
   {
-    "orderIndex": 14,
+    "orderIndex": 15,
     "startTime": 35,
     "endTime": 38,
     "text": "I can.",
@@ -516,7 +516,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 15,
+    "orderIndex": 16,
     "startTime": 40,
     "endTime": 43,
     "text": "When do you leave in the morning?",
@@ -530,7 +530,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 16,
+    "orderIndex": 17,
     "startTime": 43,
     "endTime": 45,
     "text": "Yeah, 6:45.",
@@ -544,7 +544,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 17,
+    "orderIndex": 18,
     "startTime": 45,
     "endTime": 46.5,
     "text": "Oh.",
@@ -558,7 +558,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 18,
+    "orderIndex": 19,
     "startTime": 46.5,
     "endTime": 48,
     "text": "Boise.",
@@ -574,7 +574,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 19,
+    "orderIndex": 20,
     "startTime": 48,
     "endTime": 49.5,
     "text": "Boise?",
@@ -590,7 +590,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 20,
+    "orderIndex": 21,
     "startTime": 49.5,
     "endTime": 51,
     "text": "Boise.",
@@ -606,7 +606,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 21,
+    "orderIndex": 22,
     "startTime": 51,
     "endTime": 53,
     "text": "To Boise?",
@@ -622,7 +622,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 22,
+    "orderIndex": 23,
     "startTime": 53,
     "endTime": 56,
     "text": "You should come!",
@@ -636,7 +636,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 23,
+    "orderIndex": 24,
     "startTime": 56,
     "endTime": 58,
     "text": "To Boise?",
@@ -652,7 +652,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 24,
+    "orderIndex": 25,
     "startTime": 58,
     "endTime": 60.5,
     "text": "Yeah, you could knock that off your bucket list.",
@@ -667,7 +667,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 9
   },
   {
-    "orderIndex": 25,
+    "orderIndex": 26,
     "startTime": 60.5,
     "endTime": 63.5,
     "text": "Oh, that would be really exciting. I wish I could.",
@@ -682,7 +682,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 10
   },
   {
-    "orderIndex": 26,
+    "orderIndex": 27,
     "startTime": 63.5,
     "endTime": 66,
     "text": "What are you doing after the tour?",
@@ -696,7 +696,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 27,
+    "orderIndex": 28,
     "startTime": 66,
     "endTime": 68,
     "text": "Why can't you?",
@@ -710,7 +710,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 28,
+    "orderIndex": 29,
     "startTime": 68,
     "endTime": 69.5,
     "text": "Come to Boise?",
@@ -726,7 +726,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 29,
+    "orderIndex": 30,
     "startTime": 69.5,
     "endTime": 70.5,
     "text": "Yeah.",
@@ -740,7 +740,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 30,
+    "orderIndex": 31,
     "startTime": 70.5,
     "endTime": 72,
     "text": "Because I have to rehearse!",
@@ -754,7 +754,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 31,
+    "orderIndex": 32,
     "startTime": 72,
     "endTime": 76,
     "text": "Can't you rehearse anywhere?",
@@ -768,7 +768,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 4
   },
   {
-    "orderIndex": 32,
+    "orderIndex": 33,
     "startTime": 76,
     "endTime": 78.5,
     "text": "Anywhere you are?",
@@ -782,7 +782,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 33,
+    "orderIndex": 34,
     "startTime": 78.5,
     "endTime": 81,
     "text": "I mean, I guess.",
@@ -796,7 +796,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 4
   },
   {
-    "orderIndex": 34,
+    "orderIndex": 35,
     "startTime": 81,
     "endTime": 89,
     "text": "Um, well, all my stuff is here and it's in two weeks, so I don't really think that would be practical.",
@@ -812,7 +812,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 21
   },
   {
-    "orderIndex": 35,
+    "orderIndex": 36,
     "startTime": 89,
     "endTime": 97,
     "text": "That's the idea right now, but I wish I could. We're just gonna have to try and see each other.",
@@ -826,7 +826,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 20
   },
   {
-    "orderIndex": 36,
+    "orderIndex": 37,
     "startTime": 97,
     "endTime": 100.5,
     "text": "I know, but when are you done?",
@@ -840,7 +840,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 37,
+    "orderIndex": 38,
     "startTime": 100.5,
     "endTime": 102.5,
     "text": "What do you mean?",
@@ -854,7 +854,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 4
   },
   {
-    "orderIndex": 38,
+    "orderIndex": 39,
     "startTime": 102.5,
     "endTime": 105,
     "text": "When are you finished with the whole tour?",
@@ -868,7 +868,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 39,
+    "orderIndex": 40,
     "startTime": 105,
     "endTime": 109,
     "text": "After we finish, we're gonna go and record, and then we go back on tour.",
@@ -883,7 +883,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 15
   },
   {
-    "orderIndex": 40,
+    "orderIndex": 41,
     "startTime": 109,
     "endTime": 114,
     "text": "We tour so we can make the records, so we can go back and sell the record.",
@@ -898,7 +898,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 17
   },
   {
-    "orderIndex": 41,
+    "orderIndex": 42,
     "startTime": 116,
     "endTime": 121,
     "text": "So it's like the long haul.",
@@ -912,7 +912,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 42,
+    "orderIndex": 43,
     "startTime": 121,
     "endTime": 124,
     "text": "What do you mean the long haul?",
@@ -926,7 +926,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 43,
+    "orderIndex": 44,
     "startTime": 124,
     "endTime": 132,
     "text": "I mean the long haul, like you're gonna stay in this band for a long time. On tour.",
@@ -941,7 +941,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 18
   },
   {
-    "orderIndex": 44,
+    "orderIndex": 45,
     "startTime": 133,
     "endTime": 136.5,
     "text": "What did you think I was gonna do?",
@@ -955,7 +955,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 45,
+    "orderIndex": 46,
     "startTime": 136.5,
     "endTime": 141,
     "text": "I hadn't really thought it through. I didn't know that the band...",
@@ -969,7 +969,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 12
   },
   {
-    "orderIndex": 46,
+    "orderIndex": 47,
     "startTime": 141,
     "endTime": 144,
     "text": "You didn't think it would be successful.",
@@ -983,7 +983,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 47,
+    "orderIndex": 48,
     "startTime": 144,
     "endTime": 147,
     "text": "No, that's not really what I mean.",
@@ -997,7 +997,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 48,
+    "orderIndex": 49,
     "startTime": 147,
     "endTime": 154,
     "text": "I just mean that you're gonna be on tour for what? Months now? Years?",
@@ -1011,7 +1011,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 14
   },
   {
-    "orderIndex": 49,
+    "orderIndex": 50,
     "startTime": 154,
     "endTime": 163,
     "text": "Yeah, this is it. I mean, feasibly, I could be on tour with this for a couple of years, at least, just this record.",
@@ -1027,7 +1027,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 24
   },
   {
-    "orderIndex": 50,
+    "orderIndex": 51,
     "startTime": 163,
     "endTime": 167,
     "text": "Do you like the music you're playing?",
@@ -1041,7 +1041,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 51,
+    "orderIndex": 52,
     "startTime": 167,
     "endTime": 173,
     "text": "I don't know... I don't know why that matters.",
@@ -1055,7 +1055,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 9
   },
   {
-    "orderIndex": 52,
+    "orderIndex": 53,
     "startTime": 173,
     "endTime": 181,
     "text": "Well, it matters because if you're gonna give up your dream, I think it matters that you like what you're playing on the road for years.",
@@ -1070,7 +1070,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 26
   },
   {
-    "orderIndex": 53,
+    "orderIndex": 54,
     "startTime": 183,
     "endTime": 186,
     "text": "Do you like the music I'm playing?",
@@ -1084,7 +1084,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 54,
+    "orderIndex": 55,
     "startTime": 186,
     "endTime": 191,
     "text": "Yeah, I do. I just didn't think that you liked it.",
@@ -1098,7 +1098,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 11
   },
   {
-    "orderIndex": 55,
+    "orderIndex": 56,
     "startTime": 191,
     "endTime": 198,
     "text": "Yeah, well, you know what I said: Keith is the worst, and now you're gonna be on tour with him for years.",
@@ -1115,7 +1115,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 22
   },
   {
-    "orderIndex": 56,
+    "orderIndex": 57,
     "startTime": 198,
     "endTime": 204,
     "text": "I don't know what you're doing! I thought you wanted me to do this. It just sounds like now you don't want me to do it.",
@@ -1130,7 +1130,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 26
   },
   {
-    "orderIndex": 57,
+    "orderIndex": 58,
     "startTime": 204,
     "endTime": 208,
     "text": "What do you mean I wanted you to do this?!",
@@ -1144,7 +1144,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 10
   },
   {
-    "orderIndex": 58,
+    "orderIndex": 59,
     "startTime": 208,
     "endTime": 216,
     "text": "This is what you wanted for me. To be in this band? To be in a band to have a steady job, you know? To be... you know?",
@@ -1159,7 +1159,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 28
   },
   {
-    "orderIndex": 59,
+    "orderIndex": 60,
     "startTime": 216,
     "endTime": 221,
     "text": "Of course I wanted you to have a steady job so that you could take care of yourself in your life and you could start your club.",
@@ -1174,7 +1174,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 27
   },
   {
-    "orderIndex": 60,
+    "orderIndex": 61,
     "startTime": 221,
     "endTime": 224,
     "text": "Yeah, so I'm doing that! So why don't you understand? Why aren't we celebrating?",
@@ -1189,7 +1189,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 14
   },
   {
-    "orderIndex": 61,
+    "orderIndex": 62,
     "startTime": 224,
     "endTime": 226.5,
     "text": "Why aren't you starting your club?",
@@ -1203,7 +1203,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 62,
+    "orderIndex": 63,
     "startTime": 226.5,
     "endTime": 230.5,
     "text": "You said yourself no one wants to go to that club! No one wants to go to a club called Chicken on a Stick!",
@@ -1220,7 +1220,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 24
   },
   {
-    "orderIndex": 63,
+    "orderIndex": 64,
     "startTime": 230.5,
     "endTime": 232,
     "text": "So change the name!",
@@ -1234,7 +1234,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 4
   },
   {
-    "orderIndex": 64,
+    "orderIndex": 65,
     "startTime": 232,
     "endTime": 235,
     "text": "Well, no one likes jazz. Not even you!",
@@ -1249,7 +1249,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 65,
+    "orderIndex": 66,
     "startTime": 235,
     "endTime": 238,
     "text": "I do like jazz now, because of you!",
@@ -1264,7 +1264,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 66,
+    "orderIndex": 67,
     "startTime": 238,
     "endTime": 248,
     "text": "What am I supposed to do? Go back to playing 'Jingle Bells' and scraping pennies so I can save for some Shangri-La club no one wants to go to?",
@@ -1283,7 +1283,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 29
   },
   {
-    "orderIndex": 67,
+    "orderIndex": 68,
     "startTime": 248,
     "endTime": 256,
     "text": "People will want to go to it because you're passionate about it, and people love what other people are passionate about! You remind people of what they forgot!",
@@ -1299,7 +1299,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 28
   },
   {
-    "orderIndex": 68,
+    "orderIndex": 69,
     "startTime": 256,
     "endTime": 258,
     "text": "Not in my experience.",
@@ -1313,7 +1313,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 4
   },
   {
-    "orderIndex": 69,
+    "orderIndex": 70,
     "startTime": 258,
     "endTime": 264,
     "text": "Well, whatever, right? I mean, it's just... it's time to grow up, you know? I have a steady job. This is what I'm doing.",
@@ -1328,7 +1328,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 24
   },
   {
-    "orderIndex": 70,
+    "orderIndex": 71,
     "startTime": 264,
     "endTime": 270,
     "text": "And now, suddenly, if you had these problems, I wish you would've said them earlier before I signed on the goddamn dotted line!",
@@ -1343,7 +1343,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 23
   },
   {
-    "orderIndex": 71,
+    "orderIndex": 72,
     "startTime": 270,
     "endTime": 273.5,
     "text": "I'm pointing out that you had a dream that you followed, that you were sticking to...",
@@ -1358,7 +1358,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 16
   },
   {
-    "orderIndex": 72,
+    "orderIndex": 73,
     "startTime": 273.5,
     "endTime": 275,
     "text": "This is the dream! This is the dream!",
@@ -1372,7 +1372,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 73,
+    "orderIndex": 74,
     "startTime": 275,
     "endTime": 276.5,
     "text": "This is not your dream!",
@@ -1386,7 +1386,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 74,
+    "orderIndex": 75,
     "startTime": 276.5,
     "endTime": 286,
     "text": "Guys like me work their whole lives to be in something that's successful, that people like, you know? I'm finally in something that people enjoy.",
@@ -1402,7 +1402,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 25
   },
   {
-    "orderIndex": 75,
+    "orderIndex": 76,
     "startTime": 286,
     "endTime": 290,
     "text": "Since when do you care about being liked? Why do you care so much about being liked?!",
@@ -1416,7 +1416,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 17
   },
   {
-    "orderIndex": 76,
+    "orderIndex": 77,
     "startTime": 290,
     "endTime": 294,
     "text": "You're an actress, who are you to talk?!",
@@ -1430,7 +1430,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 77,
+    "orderIndex": 78,
     "startTime": 294,
     "endTime": 310,
     "text": "The record ends. The needle scratches against the vinyl in the heavy silence.",
@@ -1445,7 +1445,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 13
   },
   {
-    "orderIndex": 78,
+    "orderIndex": 79,
     "startTime": 310,
     "endTime": 314,
     "text": "Maybe you just liked me when I was on my ass, because it made you feel better about yourself.",
@@ -1460,7 +1460,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 19
   },
   {
-    "orderIndex": 79,
+    "orderIndex": 80,
     "startTime": 314,
     "endTime": 316.5,
     "text": "Are you kidding?",
@@ -1474,7 +1474,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 80,
+    "orderIndex": 81,
     "startTime": 316.5,
     "endTime": 318,
     "text": "No.",
@@ -1488,7 +1488,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 81,
+    "orderIndex": 82,
     "startTime": 318,
     "endTime": 330,
     "text": "Suddenly, the smoke alarm blares deafeningly as thick black smoke pours from the kitchen oven.",
@@ -1503,7 +1503,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 15
   },
   {
-    "orderIndex": 82,
+    "orderIndex": 83,
     "startTime": 330,
     "endTime": 344,
     "text": "The burnt pie sizzles in the heat. The romantic surprise dinner is completely ruined.",
@@ -1518,7 +1518,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 14
   },
   {
-    "orderIndex": 83,
+    "orderIndex": 84,
     "startTime": 344,
     "endTime": 355,
     "text": "Mia silently gathers her coat and purse with tears streaming down her face.",
@@ -1535,7 +1535,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 13
   },
   {
-    "orderIndex": 84,
+    "orderIndex": 85,
     "startTime": 355,
     "endTime": 365,
     "text": "Wait!",
@@ -1549,7 +1549,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 85,
+    "orderIndex": 86,
     "startTime": 365,
     "endTime": 375,
     "text": "Mia rushes out into the pouring rain. The front door slams shut.",
@@ -1566,7 +1566,7 @@ export const LESSON_LA_LA_LAND_THE_FOOLS_WHO_DREAM_AUDITION: MockVideoLesson = {
     "tokenCount": 12
   },
   {
-    "orderIndex": 86,
+    "orderIndex": 87,
     "startTime": 375,
     "endTime": 390,
     "text": "Sebastian stands alone in the smoky room, the alarm still ringing, holding the burnt remnants of their celebration.",

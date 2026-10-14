@@ -17,7 +17,7 @@ describe("Ratatouille: Anton Ego Review - 100% Verbatim Audit", () => {
     let prevStartTime = -1;
     for (let i = 0; i < LESSON_RATATOUILLE_ANTON_EGO.segments.length; i++) {
       const seg = LESSON_RATATOUILLE_ANTON_EGO.segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeGreaterThanOrEqual(0);
       expect(seg.endTime).toBeGreaterThan(seg.startTime);
       expect(seg.startTime).toBeGreaterThanOrEqual(prevStartTime);

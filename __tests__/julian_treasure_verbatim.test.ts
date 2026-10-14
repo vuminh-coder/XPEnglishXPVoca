@@ -21,7 +21,7 @@ describe("Julian Treasure: How to Speak So That People Want to Listen - 100% Ver
     let prevStartTime = -1;
     for (let i = 0; i < LESSON_JULIAN_TREASURE.segments.length; i++) {
       const seg = LESSON_JULIAN_TREASURE.segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeGreaterThanOrEqual(0);
       expect(seg.endTime).toBeGreaterThan(seg.startTime);
       expect(seg.startTime).toBeGreaterThanOrEqual(prevStartTime);
@@ -127,8 +127,8 @@ describe("Julian Treasure: How to Speak So That People Want to Listen - 100% Ver
       expect(q.targetedConceptEn).toBeDefined();
       expect(q.targetedConceptVi).toBeDefined();
       expect(q.referenceSegmentIndex).toBeDefined();
-      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-      expect(q.referenceSegmentIndex).toBeLessThan(LESSON_JULIAN_TREASURE.segments.length);
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(LESSON_JULIAN_TREASURE.segments.length);
     }
   });
 });
