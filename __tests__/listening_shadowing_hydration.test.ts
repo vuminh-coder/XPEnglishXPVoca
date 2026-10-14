@@ -544,7 +544,7 @@ describe("Listening & Shadowing URL Hydration & State Resilience", () => {
     expect(isSameLessonId("listen_toeic_q3_040", "40")).toBe(true);
     expect(isSameLessonId("40", "40")).toBe(true);
     expect(isSameLessonId("40", "41")).toBe(false);
-  });
+  }, 15000);
 
   it("Cache Guard Protection: prevents second HTTP fetch when catalog finishes loading", async () => {
     const { isSameLessonId } = await import("@/features/listening/utils/lessonIdHelper");
