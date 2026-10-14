@@ -2,403 +2,914 @@ import { MockVideoLesson, VideoQuizData } from "../types";
 
 /**
  * Bilingual Contextual Reading Comprehension Quiz for Business English: Professional Phone Calls
+ * 8 in-depth analytical questions covering UK business telephony, caller verification, spelling, and message logging.
  */
 export const QUIZ_BUSINESS_PHONE_CALL: VideoQuizData = {
-  lessonId: "vid_business_phone_call",
-  lessonTitle: "Business English: Professional Phone Calls & Telephone Etiquette",
-  totalQuestions: 8,
-  xpReward: 40,
-  questions: [
+  "lessonId": "vid_business_phone_call",
+  "lessonTitle": "Business English: Professional Phone Calls & Telephone Etiquette",
+  "totalQuestions": 8,
+  "xpReward": 40,
+  "questions": [
     {
-      id: "q_business_phone_1",
-      question: "How does Claire professionally introduce herself and open the corporate telephone call?",
-      questionEn: "How does Claire professionally introduce herself and open the corporate telephone call?",
-      questionVi: "Claire giới thiệu bản thân và mở đầu cuộc gọi doanh nghiệp chuyên nghiệp như thế nào?",
-      options: [
-        "By stating the company name, her department, and offering to direct the caller's inquiry",
-        "By asking the caller for immediate credit card verification before speaking",
-        "By transferring the incoming call straight to automated voicemail without speaking",
-        "By complaining about high incoming call volume during morning office hours",
+      "id": "q_business_phone_1",
+      "question": "How does the receptionist professionally greet the caller and identify the business in Segment 1?",
+      "questionEn": "How does the receptionist professionally greet the caller and identify the business in Segment 1?",
+      "questionVi": "Nhân viên lễ tân chào người gọi và giới thiệu doanh nghiệp chuyên nghiệp như thế nào trong Phân đoạn 1?",
+      "options": [
+        "By greeting with 'Good morning', stating the boutique name 'Chic Boutique', and offering assistance with 'How may I help you?'",
+        "By demanding caller identity and account login credentials before answering any questions",
+        "By asking the caller to immediately hang up and send an automated email instead",
+        "By transferring the incoming call directly to voicemail without greeting"
       ],
-      optionsEn: [
-        "By stating the company name, her department, and offering to direct the caller's inquiry",
-        "By asking the caller for immediate credit card verification before speaking",
-        "By transferring the incoming call straight to automated voicemail without speaking",
-        "By complaining about high incoming call volume during morning office hours",
+      "optionsEn": [
+        "By greeting with 'Good morning', stating the boutique name 'Chic Boutique', and offering assistance with 'How may I help you?'",
+        "By demanding caller identity and account login credentials before answering any questions",
+        "By asking the caller to immediately hang up and send an automated email instead",
+        "By transferring the incoming call directly to voicemail without greeting"
       ],
-      optionsVi: [
-        "Bằng cách nêu tên công ty, bộ phận công tác và nhã nhặn đề nghị chuyển tiếp yêu cầu của người gọi",
-        "Bằng cách yêu cầu người gọi xác minh thẻ tín dụng ngay trước khi trò chuyện",
-        "Bằng cách chuyển thẳng cuộc gọi đến vào hộp thư thoại tự động mà không trò chuyện",
-        "Bằng cách phàn nàn về lượng cuộc gọi đến quá tải vào giờ làm việc buổi sáng",
+      "optionsVi": [
+        "Bằng cách chào 'Good morning', nêu tên doanh nghiệp 'Chic Boutique' và nhã nhặn đề nghị hỗ trợ 'How may I help you?'",
+        "Bằng cách yêu cầu người gọi cung cấp mã định danh tài khoản trước khi trả lời câu hỏi",
+        "Bằng cách yêu cầu người gọi cúp máy ngay và gửi email tự động thay thế",
+        "Bằng cách chuyển cuộc gọi thẳng vào hộp thư thoại mà không có lời chào"
       ],
-      correctAnswer: 0,
-      explanation: "In Segment 0, Claire demonstrates standard professional etiquette: 'Good morning, Apex Global Solutions. This is Claire speaking from customer relations. How may I direct your call?'",
-      explanationEn: "In Segment 0, Claire demonstrates standard professional etiquette: 'Good morning, Apex Global Solutions. This is Claire speaking from customer relations. How may I direct your call?'",
-      explanationVi: "Trong Phân đoạn 0, Claire thể hiện nghi thức điện thoại chuẩn mực: 'Good morning, Apex Global Solutions. This is Claire speaking from customer relations. How may I direct your call?' (Chào buổi sáng, Apex Global Solutions xin nghe. Tôi là Claire từ chăm sóc khách hàng...).",
-      referenceSegmentIndex: 0,
-      targetedConcept: "Professional Telephone Greeting & Department Identification",
-      targetedConceptEn: "Professional Telephone Greeting & Department Identification",
-      targetedConceptVi: "Lời chào mở đầu chuyên nghiệp & Nhận diện bộ phận công sở",
+      "correctAnswer": 0,
+      "explanation": "In Segment 1, the receptionist demonstrates standard UK commercial telephone protocol: 'Good morning, Chic Boutique, how may I help you?'",
+      "explanationEn": "In Segment 1, the receptionist demonstrates standard UK commercial telephone protocol: 'Good morning, Chic Boutique, how may I help you?'",
+      "explanationVi": "Trong Phân đoạn 1, nhân viên lễ tân thể hiện đúng nghi thức điện thoại thương mại chuẩn mực: Chào theo thời gian + Tên công ty + Lời đề nghị giúp đỡ.",
+      "referenceSegmentIndex": 1,
+      "targetedConcept": "Professional Telephone Greeting & Company Identification",
+      "targetedConceptEn": "Professional Telephone Greeting & Company Identification",
+      "targetedConceptVi": "Lời chào mở đầu chuyên nghiệp & Nhận diện doanh nghiệp"
     },
     {
-      id: "q_business_phone_2",
-      question: "Which specific phrase does David Miller use to request connecting to Mr. Henderson in procurement?",
-      questionEn: "Which specific phrase does David Miller use to request connecting to Mr. Henderson in procurement?",
-      questionVi: "David Miller dùng cụm từ cụ thể nào để yêu cầu kết nối với ông Henderson ở phòng mua hàng?",
-      options: [
-        "Could you please put me through to Mr. Henderson in the procurement department?",
-        "Please disconnect my line and call back tomorrow morning",
-        "Can you send a courier messenger to deliver my physical documents?",
-        "I demand to speak to your Chief Executive Officer immediately",
+      "id": "q_business_phone_2",
+      "question": "Whom does John Wright politely request to speak with when initiating his business inquiry in Segment 2?",
+      "questionEn": "Whom does John Wright politely request to speak with when initiating his business inquiry in Segment 2?",
+      "questionVi": "John Wright lịch sự yêu cầu được nói chuyện với ai khi bắt đầu cuộc gọi công việc trong Phân đoạn 2?",
+      "options": [
+        "Mr Morgan, using the formal request 'I'd like to speak to Mr Morgan please'",
+        "The Chief Executive Officer for an unscheduled job interview",
+        "The head chef regarding an upcoming catering booking",
+        "The technical support engineer for software troubleshooting"
       ],
-      optionsEn: [
-        "Could you please put me through to Mr. Henderson in the procurement department?",
-        "Please disconnect my line and call back tomorrow morning",
-        "Can you send a courier messenger to deliver my physical documents?",
-        "I demand to speak to your Chief Executive Officer immediately",
+      "optionsEn": [
+        "Mr Morgan, using the formal request 'I'd like to speak to Mr Morgan please'",
+        "The Chief Executive Officer for an unscheduled job interview",
+        "The head chef regarding an upcoming catering booking",
+        "The technical support engineer for software troubleshooting"
       ],
-      optionsVi: [
-        "Could you please put me through to Mr. Henderson in the procurement department? (Bạn có thể nối máy cho tôi gặp ông Henderson ở phòng mua hàng được không?)",
-        "Vui lòng ngắt đường dây của tôi và gọi lại vào sáng mai",
-        "Bạn có thể cử người chuyển phát nhanh giao tài liệu giấy cho tôi không?",
-        "Tôi yêu cầu được nói chuyện trực tiếp với Tổng giám đốc ngay lập tức",
+      "optionsVi": [
+        "Ông Morgan, thông qua cấu trúc lịch sự 'I'd like to speak to Mr Morgan please'",
+        "Tổng giám đốc điều hành để phỏng vấn xin việc đột xuất",
+        "Bếp trưởng để đặt tiệc cho sự kiện sắp tới",
+        "Kỹ sư hỗ trợ kỹ thuật để sửa lỗi phần mềm"
       ],
-      correctAnswer: 0,
-      explanation: "In Segment 1, David says: 'Hello Claire, this is David Miller from Pacific Logistics. Could you please put me through to Mr. Henderson in the procurement department?'",
-      explanationEn: "In Segment 1, David says: 'Hello Claire, this is David Miller from Pacific Logistics. Could you please put me through to Mr. Henderson in the procurement department?'",
-      explanationVi: "Trong Phân đoạn 1, David nói: 'Hello Claire, this is David Miller from Pacific Logistics. Could you please put me through to Mr. Henderson in the procurement department?' Cụm từ 'put me through to' là thành ngữ công sở chuẩn mực mang nghĩa 'nối máy cho ai'.",
-      referenceSegmentIndex: 1,
-      targetedConcept: "Call Transfer Request ('Put Me Through')",
-      targetedConceptEn: "Call Transfer Request ('Put Me Through')",
-      targetedConceptVi: "Yêu cầu chuyển máy / nối máy trong giao tiếp công sở",
+      "correctAnswer": 0,
+      "explanation": "In Segment 2, John Wright clearly states: \"I'd like to speak to Mr Morgan please.\" This is the most courteous and standard phrasing to request a specific colleague.",
+      "explanationEn": "In Segment 2, John Wright clearly states: \"I'd like to speak to Mr Morgan please.\" This is the most courteous and standard phrasing to request a specific colleague.",
+      "explanationVi": "Trong Phân đoạn 2, John Wright nói: \"I'd like to speak to Mr Morgan please.\" Đây là mẫu câu chuẩn mực nhất để đề nghị nối máy gặp người phụ trách.",
+      "referenceSegmentIndex": 2,
+      "targetedConcept": "Call Directing & Requesting the Person in Charge",
+      "targetedConceptEn": "Call Directing & Requesting the Person in Charge",
+      "targetedConceptVi": "Yêu cầu kết nối với người phụ trách qua điện thoại"
     },
     {
-      id: "q_business_phone_3",
-      question: "What courtesy phrase does Claire use before checking Mr. Henderson's extension line?",
-      questionEn: "What courtesy phrase does Claire use before checking Mr. Henderson's extension line?",
-      questionVi: "Claire sử dụng cụm từ lịch sự nào trước khi kiểm tra số máy nhánh của ông Henderson?",
-      options: [
-        "Please hold the line for just a moment",
-        "Hang up immediately and retry in thirty minutes",
-        "Turn off your mobile device and wait silently",
-        "Listen to our commercial advertising radio broadcast",
+      "id": "q_business_phone_3",
+      "question": "Which supplier company does John Wright represent during the telephone conversation in Segment 4?",
+      "questionEn": "Which supplier company does John Wright represent during the telephone conversation in Segment 4?",
+      "questionVi": "John Wright đại diện cho công ty cung ứng nào trong cuộc đối thoại qua điện thoại ở Phân đoạn 4?",
+      "options": [
+        "International Fashion Supplies",
+        "Apex Global Electronics",
+        "Pacific Logistics & Shipping",
+        "Metro Retail Department Stores"
       ],
-      optionsEn: [
-        "Please hold the line for just a moment",
-        "Hang up immediately and retry in thirty minutes",
-        "Turn off your mobile device and wait silently",
-        "Listen to our commercial advertising radio broadcast",
+      "optionsEn": [
+        "International Fashion Supplies",
+        "Apex Global Electronics",
+        "Pacific Logistics & Shipping",
+        "Metro Retail Department Stores"
       ],
-      optionsVi: [
-        "Please hold the line for just a moment (Xin vui lòng giữ máy trong giây lát ạ)",
-        "Hãy cúp máy ngay và thử lại sau ba mươi phút",
-        "Hãy tắt thiết bị di động của bạn và chờ trong im lặng",
-        "Hãy nghe kênh phát thanh quảng cáo thương mại của chúng tôi",
+      "optionsVi": [
+        "International Fashion Supplies",
+        "Apex Global Electronics",
+        "Pacific Logistics & Shipping",
+        "Metro Retail Department Stores"
       ],
-      correctAnswer: 0,
-      explanation: "In Segment 2, Claire politely requests: 'Let me check his extension line right now. Please hold the line for just a moment.'",
-      explanationEn: "In Segment 2, Claire politely requests: 'Let me check his extension line right now. Please hold the line for just a moment.'",
-      explanationVi: "Trong Phân đoạn 2, Claire đưa ra lời yêu cầu lịch sự chuẩn mực: 'Let me check his extension line right now. Please hold the line for just a moment.' ('hold the line' nghĩa là giữ máy không cúp máy).",
-      referenceSegmentIndex: 2,
-      targetedConcept: "Telephone Etiquette: 'Hold the Line'",
-      targetedConceptEn: "Telephone Etiquette: 'Hold the Line'",
-      targetedConceptVi: "Nghi thức nghe điện thoại: Xin vui lòng giữ máy",
+      "correctAnswer": 0,
+      "explanation": "In Segment 4, John Wright introduces himself and his employer: \"This is John Wright from International Fashion Supplies.\"",
+      "explanationEn": "In Segment 4, John Wright introduces himself and his employer: \"This is John Wright from International Fashion Supplies.\"",
+      "explanationVi": "Trong Phân đoạn 4, John Wright tự giới thiệu: \"This is John Wright from International Fashion Supplies.\" (Tôi là John Wright đến từ công ty International Fashion Supplies).",
+      "referenceSegmentIndex": 4,
+      "targetedConcept": "Professional Identity & Supplier Representation",
+      "targetedConceptEn": "Professional Identity & Supplier Representation",
+      "targetedConceptVi": "Tự giới thiệu danh tính & Đơn vị cung ứng đối tác"
     },
     {
-      id: "q_business_phone_4",
-      question: "Why is Mr. Henderson currently unable to take David Miller's phone call?",
-      questionEn: "Why is Mr. Henderson currently unable to take David Miller's phone call?",
-      questionVi: "Tại sao ông Henderson hiện tại không thể tiếp nhận cuộc gọi của David Miller?",
-      options: [
-        "He is currently tied up in an executive board meeting until 3 PM",
-        "He has resigned permanently from the corporate organization",
-        "He is out of the country on a three-week annual vacation",
-        "His telephone line has been disconnected due to technical power failure",
+      "id": "q_business_phone_4",
+      "question": "Why does John Wright spell out his surname letter by letter in Segment 7?",
+      "questionEn": "Why does John Wright spell out his surname letter by letter in Segment 7?",
+      "questionVi": "Tại sao John Wright phải đánh vần từng chữ cái họ của mình trong Phân đoạn 7?",
+      "options": [
+        "Because the receptionist didn't catch his name and 'Wright' has silent letters and common homophones (Right/Write)",
+        "Because company policy forbids pronouncing full names without spelling",
+        "Because he forgot how to pronounce his family name in English",
+        "Because he was required to test the telephone microphone volume"
       ],
-      optionsEn: [
-        "He is currently tied up in an executive board meeting until 3 PM",
-        "He has resigned permanently from the corporate organization",
-        "He is out of the country on a three-week annual vacation",
-        "His telephone line has been disconnected due to technical power failure",
+      "optionsEn": [
+        "Because the receptionist didn't catch his name and 'Wright' has silent letters and common homophones (Right/Write)",
+        "Because company policy forbids pronouncing full names without spelling",
+        "Because he forgot how to pronounce his family name in English",
+        "Because he was required to test the telephone microphone volume"
       ],
-      optionsVi: [
-        "Ông ấy hiện đang bận họp hội đồng quản trị cho đến 3 giờ chiều",
-        "Ông ấy đã chính thức từ chức khỏi tổ chức doanh nghiệp",
-        "Ông ấy đang ở nước ngoài trong kỳ nghỉ phép hàng năm ba tuần",
-        "Đường dây điện thoại của ông ấy bị cắt do sự cố mất điện kỹ thuật",
+      "optionsVi": [
+        "Vì lễ tân chưa nghe rõ tên và họ 'Wright' có chữ cái câm cùng các từ đồng âm phổ biến (Right/Write)",
+        "Vì quy định công ty cấm phát âm cả họ mà không đánh vần",
+        "Vì ông ấy quên cách phát âm họ của mình bằng tiếng Anh",
+        "Vì ông ấy cần kiểm tra âm lượng micro của điện thoại"
       ],
-      correctAnswer: 0,
-      explanation: "In Segment 3, Claire informs the caller: 'I am afraid Mr. Henderson is currently tied up in an executive board meeting until 3 PM.' The idiom 'tied up' means occupied with urgent tasks.",
-      explanationEn: "In Segment 3, Claire informs the caller: 'I am afraid Mr. Henderson is currently tied up in an executive board meeting until 3 PM.' The idiom 'tied up' means occupied with urgent tasks.",
-      explanationVi: "Trong Phân đoạn 3, Claire giải thích: 'I am afraid Mr. Henderson is currently tied up in an executive board meeting until 3 PM.' Thành ngữ 'tied up' chỉ trạng thái đang rất bận rộn với công việc quan trọng.",
-      referenceSegmentIndex: 3,
-      targetedConcept: "Business Idiom: 'Tied up in a Meeting'",
-      targetedConceptEn: "Business Idiom: 'Tied up in a Meeting'",
-      targetedConceptVi: "Thành ngữ công sở: 'Tied up' (Bận rộn không thể dứt ra)",
+      "correctAnswer": 0,
+      "explanation": "In Segments 5-7, after the receptionist says \"Sorry, I didn't catch your name\", John clarifies: \"John Wright. That's W-R-I-G-H-T.\"",
+      "explanationEn": "In Segments 5-7, after the receptionist says \"Sorry, I didn't catch your name\", John clarifies: \"John Wright. That's W-R-I-G-H-T.\"",
+      "explanationVi": "Trong Phân đoạn 5-7, sau khi lễ tân nói \"Sorry, I didn't catch your name\", John nhắc lại và đánh vần: \"That's W-R-I-G-H-T\" để tránh nhầm lẫn với các từ đồng âm như 'Right' hay 'Write'.",
+      "referenceSegmentIndex": 7,
+      "targetedConcept": "Clarification & Spelling Corporate Names",
+      "targetedConceptEn": "Clarification & Spelling Corporate Names",
+      "targetedConceptVi": "Kỹ năng làm rõ thông tin & Đánh vần tên riêng đối tác"
     },
     {
-      id: "q_business_phone_5",
-      question: "What two helpful options does Claire offer the caller when the recipient is unavailable?",
-      questionEn: "What two helpful options does Claire offer the caller when the recipient is unavailable?",
-      questionVi: "Claire đưa ra hai lựa chọn hữu ích nào cho người gọi khi người nhận không thể nghe máy?",
-      options: [
-        "Leaving a detailed message or having Mr. Henderson return the call when available",
-        "Purchasing an express VIP support pass or calling emergency dispatch",
-        "Traveling directly to the corporate office in person or hiring a legal mediator",
-        "Canceling the business partnership or mailing physical letters via postal delivery",
+      "id": "q_business_phone_5",
+      "question": "What does the British English idiom 'the line's engaged' mean in Segment 9?",
+      "questionEn": "What does the British English idiom 'the line's engaged' mean in Segment 9?",
+      "questionVi": "Thành ngữ tiếng Anh-Anh 'the line's engaged' trong Phân đoạn 9 có nghĩa là gì?",
+      "options": [
+        "The extension line is currently busy because Mr Morgan is speaking on another call",
+        "The telephone company disconnected the service due to unpaid bills",
+        "Mr Morgan has officially announced his wedding engagement",
+        "The telephone equipment is completely broken and being repaired"
       ],
-      optionsEn: [
-        "Leaving a detailed message or having Mr. Henderson return the call when available",
-        "Purchasing an express VIP support pass or calling emergency dispatch",
-        "Traveling directly to the corporate office in person or hiring a legal mediator",
-        "Canceling the business partnership or mailing physical letters via postal delivery",
+      "optionsEn": [
+        "The extension line is currently busy because Mr Morgan is speaking on another call",
+        "The telephone company disconnected the service due to unpaid bills",
+        "Mr Morgan has officially announced his wedding engagement",
+        "The telephone equipment is completely broken and being repaired"
       ],
-      optionsVi: [
-        "Để lại tin nhắn chi tiết hoặc nhờ ông Henderson gọi lại ngay khi rảnh",
-        "Mua gói hỗ trợ VIP hỏa tốc hoặc gọi đến đường dây cứu trợ khẩn cấp",
-        "Đích thân đến tận văn phòng công ty hoặc thuê hòa giải viên pháp lý",
-        "Hủy bỏ quan hệ đối tác kinh doanh hoặc gửi thư giấy qua bưu điện",
+      "optionsVi": [
+        "Đường dây máy nhánh hiện đang bận do ông Morgan đang bận nghe một cuộc gọi khác",
+        "Công ty viễn thông đã ngắt dịch vụ do chưa thanh toán hóa đơn",
+        "Ông Morgan vừa chính thức tuyên bố đính hôn",
+        "Thiết bị điện thoại đã bị hỏng hoàn toàn và đang chờ bảo dưỡng"
       ],
-      correctAnswer: 0,
-      explanation: "In Segment 4, Claire offers: 'Would you like to leave a detailed message, or should I ask him to return your call as soon as he is available?'",
-      explanationEn: "In Segment 4, Claire offers: 'Would you like to leave a detailed message, or should I ask him to return your call as soon as he is available?'",
-      explanationVi: "Trong Phân đoạn 4, Claire đưa ra hai giải pháp chuẩn mực: 'Would you like to leave a detailed message, or should I ask him to return your call as soon as he is available?'",
-      referenceSegmentIndex: 4,
-      targetedConcept: "Handling Inquiries: Taking a Message vs. Callback",
-      targetedConceptEn: "Handling Inquiries: Taking a Message vs. Callback",
-      targetedConceptVi: "Quy trình xử lý cuộc gọi: Ghi lời nhắn hoặc Hẹn gọi lại",
+      "correctAnswer": 0,
+      "explanation": "In British business terminology, 'the line is engaged' means the telephone line is busy. The receptionist follows up with: 'would you like to hold?'",
+      "explanationEn": "In British business terminology, 'the line is engaged' means the telephone line is busy. The receptionist follows up with: 'would you like to hold?'",
+      "explanationVi": "Trong tiếng Anh-Anh thương mại, 'engaged line' nghĩa là đường dây đang bận. Lễ tân giải thích và hỏi: \"I'm afraid the line's engaged, would you like to hold?\" (Tôi e rằng máy đang bận, ông có muốn giữ máy chờ không ạ?).",
+      "referenceSegmentIndex": 9,
+      "targetedConcept": "British Telephony Idioms ('Line Engaged' vs. 'Busy')",
+      "targetedConceptEn": "British Telephony Idioms ('Line Engaged' vs. 'Busy')",
+      "targetedConceptVi": "Thành ngữ điện thoại Anh-Anh ('Line Engaged' - Máy bận)"
     },
     {
-      id: "q_business_phone_6",
-      question: "What is the primary subject and deadline of David Miller's message?",
-      questionEn: "What is the primary subject and deadline of David Miller's message?",
-      questionVi: "Chủ đề chính và thời hạn của lời nhắn từ David Miller là gì?",
-      options: [
-        "A revised quarterly supply chain contract requiring immediate sign-off before Friday",
-        "An invitation to an informal weekend golf tournament next month",
-        "A routine quarterly billing invoice due at the end of next year",
-        "A job application submission for an entry-level logistics intern role",
+      "id": "q_business_phone_6",
+      "question": "What critical supply chain information does John Wright convey in his message in Segments 12-13?",
+      "questionEn": "What critical supply chain information does John Wright convey in his message in Segments 12-13?",
+      "questionVi": "John Wright truyền đạt thông tin chuỗi cung ứng quan trọng nào trong lời nhắn ở Phân đoạn 12-13?",
+      "options": [
+        "Their latest shipment has been delayed, but the 300 ordered dresses should arrive next Friday",
+        "The order of 300 dresses has been completely canceled due to factory bankruptcy",
+        "The price of the dresses will triple starting from next Monday",
+        "The shipment has already arrived at the store warehouse three days early"
       ],
-      optionsEn: [
-        "A revised quarterly supply chain contract requiring immediate sign-off before Friday",
-        "An invitation to an informal weekend golf tournament next month",
-        "A routine quarterly billing invoice due at the end of next year",
-        "A job application submission for an entry-level logistics intern role",
+      "optionsEn": [
+        "Their latest shipment has been delayed, but the 300 ordered dresses should arrive next Friday",
+        "The order of 300 dresses has been completely canceled due to factory bankruptcy",
+        "The price of the dresses will triple starting from next Monday",
+        "The shipment has already arrived at the store warehouse three days early"
       ],
-      optionsVi: [
-        "Hợp đồng chuỗi cung ứng theo quý sửa đổi cần chữ ký phê duyệt khẩn cấp trước thứ Sáu",
-        "Lời mời tham dự giải thi đấu gôn giao lưu cuối tuần vào tháng tới",
-        "Hóa đơn thanh toán định kỳ hàng quý đến hạn vào cuối năm sau",
-        "Hồ sơ ứng tuyển cho vị trí thực tập sinh hậu cần mới vào nghề",
+      "optionsVi": [
+        "Chuyến hàng mới nhất bị hoãn, nhưng 300 chiếc váy đã đặt dự kiến sẽ đến vào thứ Sáu tuần tới",
+        "Đơn hàng 300 chiếc váy đã bị hủy hoàn toàn do nhà máy phá sản",
+        "Giá của các mẫu váy sẽ tăng gấp ba lần kể từ thứ Hai tuần tới",
+        "Chuyến hàng đã đến kho của cửa hàng sớm hơn ba ngày"
       ],
-      correctAnswer: 0,
-      explanation: "In Segment 5, David specifies: 'It is regarding the revised quarterly supply chain contract that requires his immediate sign-off before Friday.'",
-      explanationEn: "In Segment 5, David specifies: 'It is regarding the revised quarterly supply chain contract that requires his immediate sign-off before Friday.'",
-      explanationVi: "Trong Phân đoạn 5, David nêu rõ tính cấp bách: 'It is regarding the revised quarterly supply chain contract that requires his immediate sign-off before Friday.' (Liên quan đến hợp đồng chuỗi cung ứng sửa đổi cần ký duyệt khẩn cấp trước thứ Sáu).",
-      referenceSegmentIndex: 5,
-      targetedConcept: "Contract Sign-off Deadline & Supply Chain Urgency",
-      targetedConceptEn: "Contract Sign-off Deadline & Supply Chain Urgency",
-      targetedConceptVi: "Thời hạn ký duyệt hợp đồng & Tính cấp bách trong chuỗi cung ứng",
+      "correctAnswer": 0,
+      "explanation": "In Segments 12-13, John leaves the message: 'our latest shipment has been delayed and that the 300 dresses he ordered should arrive next Friday.'",
+      "explanationEn": "In Segments 12-13, John leaves the message: 'our latest shipment has been delayed and that the 300 dresses he ordered should arrive next Friday.'",
+      "explanationVi": "Trong Phân đoạn 12-13, John để lại lời nhắn rõ ràng: chuyến hàng mới nhất bị hoãn và 300 chiếc váy ông Morgan đặt sẽ đến vào thứ Sáu tuần sau.",
+      "referenceSegmentIndex": 13,
+      "targetedConcept": "Order Status & Shipment Delay Communication",
+      "targetedConceptEn": "Order Status & Shipment Delay Communication",
+      "targetedConceptVi": "Thông báo trạng thái đơn hàng & Hoãn chuyến giao hàng"
     },
     {
-      id: "q_business_phone_7",
-      question: "Why does Claire repeat David Miller's telephone number and corporate email address back to him?",
-      questionEn: "Why does Claire repeat David Miller's telephone number and corporate email address back to him?",
-      questionVi: "Tại sao Claire đọc lặp lại số điện thoại và địa chỉ email công ty của David Miller cho ông ấy nghe?",
-      options: [
-        "To perform read-back verification ensuring complete accuracy before flagging the memo as high priority",
-        "Because she forgot the numbers immediately due to static interference",
-        "To test if David is paying attention during the business dialogue",
-        "Because company policy forbids writing down digits without reciting them twice out loud",
+      "id": "q_business_phone_7",
+      "question": "In British telephone conventions, how does John Wright read out the consecutive double digits in '99' in Segment 17?",
+      "questionEn": "In British telephone conventions, how does John Wright read out the consecutive double digits in '99' in Segment 17?",
+      "questionVi": "Theo quy ước đọc số điện thoại kiểu Anh, John Wright phát âm cặp số lặp '99' như thế nào trong Phân đoạn 17?",
+      "options": [
+        "As 'double nine' (zero one six three two nine six zero double nine four)",
+        "As 'ninety-nine hundred' following financial accounting format",
+        "As 'two nines' following postal code indexing rules",
+        "As 'pair of nines' following radio military alphabet"
       ],
-      optionsEn: [
-        "To perform read-back verification ensuring complete accuracy before flagging the memo as high priority",
-        "Because she forgot the numbers immediately due to static interference",
-        "To test if David is paying attention during the business dialogue",
-        "Because company policy forbids writing down digits without reciting them twice out loud",
+      "optionsEn": [
+        "As 'double nine' (zero one six three two nine six zero double nine four)",
+        "As 'ninety-nine hundred' following financial accounting format",
+        "As 'two nines' following postal code indexing rules",
+        "As 'pair of nines' following radio military alphabet"
       ],
-      optionsVi: [
-        "Để thực hiện quy trình đọc lại xác minh (read-back verification) đảm bảo tính chính xác tuyệt đối trước khi gắn cờ ưu tiên",
-        "Vì cô ấy quên ngay các con số do đường truyền bị rè nhiễu sóng",
-        "Để kiểm tra xem David có đang tập trung trong cuộc đối thoại hay không",
-        "Vì chính sách công ty cấm ghi chép mà không đọc to hai lần",
+      "optionsVi": [
+        "Phát âm là 'double nine' (zero one six three two nine six zero double nine four)",
+        "Phát âm là 'ninety-nine hundred' theo định dạng kế toán tài chính",
+        "Phát âm là 'two nines' theo quy tắc chỉ mục mã bưu chính",
+        "Phát âm là 'pair of nines' theo bảng chữ cái vô tuyến quân sự"
       ],
-      correctAnswer: 0,
-      explanation: "In Segment 8, Claire demonstrates the vital commercial protocol of read-back verification: 'Let me read that back to confirm: 555-0194 and david.miller@pacificlogistics.com. I will flag this as high priority.'",
-      explanationEn: "In Segment 8, Claire demonstrates the vital commercial protocol of read-back verification: 'Let me read that back to confirm: 555-0194 and david.miller@pacificlogistics.com. I will flag this as high priority.'",
-      explanationVi: "Trong Phân đoạn 8, Claire áp dụng nguyên tắc kiểm tra thông tin đối chiếu: 'Let me read that back to confirm: 555-0194 and david.miller@pacificlogistics.com. I will flag this as high priority.' (Đọc lại để xác nhận và gắn cờ ưu tiên cao).",
-      referenceSegmentIndex: 8,
-      targetedConcept: "Verification Technique & Priority Flagging",
-      targetedConceptEn: "Verification Technique & Priority Flagging",
-      targetedConceptVi: "Kỹ thuật đọc lại đối chiếu (Read-back) & Gắn cờ tin nhắn ưu tiên",
+      "correctAnswer": 0,
+      "explanation": "In Segment 17, John Wright reads his telephone number: 'zero one six three two nine six zero double nine four.' British speakers conventionally say 'double [number]' for repeated digits.",
+      "explanationEn": "In Segment 17, John Wright reads his telephone number: 'zero one six three two nine six zero double nine four.' British speakers conventionally say 'double [number]' for repeated digits.",
+      "explanationVi": "Trong Phân đoạn 17, John đọc: '...zero double nine four'. Người Anh có thói quen phát âm 'double + số' khi có hai chữ số giống nhau đứng kề nhau.",
+      "referenceSegmentIndex": 17,
+      "targetedConcept": "British Telephone Number Conventions ('Double Digits')",
+      "targetedConceptEn": "British Telephone Number Conventions ('Double Digits')",
+      "targetedConceptVi": "Quy ước đọc số điện thoại Anh quốc ('Double Digits')"
     },
     {
-      id: "q_business_phone_8",
-      question: "How does David Miller courteously conclude the phone conversation?",
-      questionEn: "How does David Miller courteously conclude the phone conversation?",
-      questionVi: "David Miller kết thúc cuộc trò chuyện điện thoại một cách lịch thiệp như thế nào?",
-      options: [
-        "By thanking Claire for her professional assistance and wishing her a wonderful, productive afternoon",
-        "By abruptly hanging up without saying goodbye to save telephone minutes",
-        "By demanding that the CEO apologize for the delayed return call",
-        "By asking Claire for personal recommendations on nearby dinner restaurants",
+      "id": "q_business_phone_8",
+      "question": "What is the primary commercial purpose of the receptionist reciting the telephone number in Segment 18?",
+      "questionEn": "What is the primary commercial purpose of the receptionist reciting the telephone number in Segment 18?",
+      "questionVi": "Mục đích thương mại chính của việc nhân viên lễ tân đọc nhắc lại số điện thoại trong Phân đoạn 18 là gì?",
+      "options": [
+        "To perform read-back verification ensuring complete accuracy before logging the callback memo",
+        "To test if the caller is listening attentively before disconnecting the call",
+        "Because UK telecommunications law requires repeating every digit twice",
+        "To memorize the caller's contact for personal non-business purposes"
       ],
-      optionsEn: [
-        "By thanking Claire for her professional assistance and wishing her a wonderful, productive afternoon",
-        "By abruptly hanging up without saying goodbye to save telephone minutes",
-        "By demanding that the CEO apologize for the delayed return call",
-        "By asking Claire for personal recommendations on nearby dinner restaurants",
+      "optionsEn": [
+        "To perform read-back verification ensuring complete accuracy before logging the callback memo",
+        "To test if the caller is listening attentively before disconnecting the call",
+        "Because UK telecommunications law requires repeating every digit twice",
+        "To memorize the caller's contact for personal non-business purposes"
       ],
-      optionsVi: [
-        "Bằng cách cảm ơn Claire vì sự hỗ trợ chuyên nghiệp và chúc cô một buổi chiều tuyệt vời, làm việc hiệu quả",
-        "Bằng cách đột ngột cúp máy mà không chào để tiết kiệm cước viễn thông",
-        "Bằng cách yêu cầu Giám đốc điều hành phải xin lỗi vì gọi lại chậm trễ",
-        "Bằng cách hỏi Claire gợi ý cá nhân về các nhà hàng ăn tối gần đó",
+      "optionsVi": [
+        "Để thực hiện quy trình đọc lại xác minh (read-back verification) đảm bảo tính chính xác tuyệt đối trước khi ghi sổ memo",
+        "Để kiểm tra xem người gọi có đang chú ý lắng nghe trước khi cúp máy hay không",
+        "Vì luật viễn thông Anh quốc yêu cầu phải lặp lại từng con số hai lần",
+        "Để ghi nhớ số liên lạc của người gọi cho mục đích cá nhân ngoài công việc"
       ],
-      correctAnswer: 0,
-      explanation: "In Segment 9, David politely closes: 'Thank you very much for your professional assistance, Claire. Have a wonderful and productive afternoon!'",
-      explanationEn: "In Segment 9, David politely closes: 'Thank you very much for your professional assistance, Claire. Have a wonderful and productive afternoon!'",
-      explanationVi: "Trong Phân đoạn 9, David kết thúc cuộc gọi với lời chúc công sở chuẩn mực: 'Thank you very much for your professional assistance, Claire. Have a wonderful and productive afternoon!' (Cảm ơn sự hỗ trợ chuyên nghiệp của bạn, Claire. Chúc bạn một buổi chiều tuyệt vời và làm việc hiệu quả!).",
-      referenceSegmentIndex: 9,
-      targetedConcept: "Professional Closing & Courtesies",
-      targetedConceptEn: "Professional Closing & Courtesies",
-      targetedConceptVi: "Nghi thức chào kết thúc cuộc gọi lịch thiệp nơi công sở",
-    },
+      "correctAnswer": 0,
+      "explanation": "In Segment 18, the receptionist recites: 'That's oh one six three two nine six oh double nine four', which John confirms with 'Yes, that's right.' This ensures error-free message logging.",
+      "explanationEn": "In Segment 18, the receptionist recites: 'That's oh one six three two nine six oh double nine four', which John confirms with 'Yes, that's right.' This ensures error-free message logging.",
+      "explanationVi": "Trong Phân đoạn 18, lễ tân đọc lại: 'That's oh one six three two nine six oh double nine four', và John xác nhận 'Yes, that's right.' Đây là kỹ thuật đọc lại đối chiếu (read-back verification) cốt lõi trong dịch vụ khách hàng chuyên nghiệp.",
+      "referenceSegmentIndex": 18,
+      "targetedConcept": "Read-back Verification Protocol & Message Accuracy",
+      "targetedConceptEn": "Read-back Verification Protocol & Message Accuracy",
+      "targetedConceptVi": "Quy trình đối chiếu đọc lại (Read-back) & Độ chính xác thông tin"
+    }
   ],
-  generatedBy: "CONTEXTUAL_FALLBACK",
+  "generatedBy": "CONTEXTUAL_FALLBACK"
 };
 
+/**
+ * Business English: Professional Phone Calls & Telephone Etiquette (Chic Boutique)
+ * Master Edition - 22 Pure Segments (Zero Merged Utterances)
+ * ExternalId: Tw2r9DkL5co (Animated English)
+ * Duration: 79s (01:19)
+ * Category: cat_toeic_listen (TOEIC Luyện Nghe Công Sở)
+ */
 export const LESSON_BUSINESS_PHONE_CALL: MockVideoLesson = {
-  id: "vid_business_phone_call",
-  slug: "business-english-professional-phone-calls-etiquette",
-  title: "Business English: Professional Phone Calls & Telephone Etiquette",
-  description: "Hội thoại tiếng Anh thương mại và kỹ năng trực điện thoại chuyên nghiệp: quy trình chào đón đối tác, kết nối máy nhánh phòng Mua hàng, xử lý khi người phụ trách bận họp, ghi nhận tin nhắn khẩn cấp (taking a message), xác nhận thông tin liên lạc và nghi thức kết thúc cuộc gọi chuẩn công sở.",
-  sourceType: "YOUTUBE",
-  externalId: "Tw2r9DkL5co",
-  thumbnailUrl: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&auto=format&fit=crop&q=80",
-  durationSeconds: 72,
-  durationFormatted: "01:12",
-  cefrLevel: "B1",
-  supportedTypes: "BOTH",
-  categoryId: "cat_toeic_listen",
-  categorySlug: "toeic-listening",
-  categoryName: "TOEIC Luyện Nghe Công Sở",
-  accent: "en-US",
-  wpmSpeed: 138,
-  viewCount: 245000,
-  studyCount: 71200,
-  quiz: QUIZ_BUSINESS_PHONE_CALL,
-  segments: [
+  "id": "vid_business_phone_call",
+  "slug": "business-english-professional-phone-calls-etiquette",
+  "title": "Business English: Professional Phone Calls & Telephone Etiquette",
+  "description": "Hội thoại tiếng Anh thương mại và kỹ năng trực điện thoại chuyên nghiệp tại công ty thời trang Chic Boutique: quy trình chào đón đối tác, kết nối máy nhánh cho John Wright (International Fashion Supplies) gặp Mr Morgan, xử lý khi đường dây bận (line engaged), ghi nhận lời nhắn hoãn chuyến hàng 300 chiếc váy, đối chiếu số điện thoại và nghi thức chào kết thúc chuẩn mực.",
+  "sourceType": "YOUTUBE",
+  "externalId": "Tw2r9DkL5co",
+  "thumbnailUrl": "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&auto=format&fit=crop&q=80",
+  "durationSeconds": 79,
+  "durationFormatted": "01:19",
+  "cefrLevel": "B1",
+  "supportedTypes": "BOTH",
+  "categoryId": "cat_toeic_listen",
+  "categorySlug": "toeic-listening",
+  "categoryName": "TOEIC Luyện Nghe Công Sở",
+  "accent": "en-GB",
+  "wpmSpeed": 142,
+  "viewCount": 245000,
+  "studyCount": 71200,
+  "quiz": {
+    "lessonId": "vid_business_phone_call",
+    "lessonTitle": "Business English: Professional Phone Calls & Telephone Etiquette",
+    "totalQuestions": 8,
+    "xpReward": 40,
+    "questions": [
+      {
+        "id": "q_business_phone_1",
+        "question": "How does the receptionist professionally greet the caller and identify the business in Segment 1?",
+        "questionEn": "How does the receptionist professionally greet the caller and identify the business in Segment 1?",
+        "questionVi": "Nhân viên lễ tân chào người gọi và giới thiệu doanh nghiệp chuyên nghiệp như thế nào trong Phân đoạn 1?",
+        "options": [
+          "By greeting with 'Good morning', stating the boutique name 'Chic Boutique', and offering assistance with 'How may I help you?'",
+          "By demanding caller identity and account login credentials before answering any questions",
+          "By asking the caller to immediately hang up and send an automated email instead",
+          "By transferring the incoming call directly to voicemail without greeting"
+        ],
+        "optionsEn": [
+          "By greeting with 'Good morning', stating the boutique name 'Chic Boutique', and offering assistance with 'How may I help you?'",
+          "By demanding caller identity and account login credentials before answering any questions",
+          "By asking the caller to immediately hang up and send an automated email instead",
+          "By transferring the incoming call directly to voicemail without greeting"
+        ],
+        "optionsVi": [
+          "Bằng cách chào 'Good morning', nêu tên doanh nghiệp 'Chic Boutique' và nhã nhặn đề nghị hỗ trợ 'How may I help you?'",
+          "Bằng cách yêu cầu người gọi cung cấp mã định danh tài khoản trước khi trả lời câu hỏi",
+          "Bằng cách yêu cầu người gọi cúp máy ngay và gửi email tự động thay thế",
+          "Bằng cách chuyển cuộc gọi thẳng vào hộp thư thoại mà không có lời chào"
+        ],
+        "correctAnswer": 0,
+        "explanation": "In Segment 1, the receptionist demonstrates standard UK commercial telephone protocol: 'Good morning, Chic Boutique, how may I help you?'",
+        "explanationEn": "In Segment 1, the receptionist demonstrates standard UK commercial telephone protocol: 'Good morning, Chic Boutique, how may I help you?'",
+        "explanationVi": "Trong Phân đoạn 1, nhân viên lễ tân thể hiện đúng nghi thức điện thoại thương mại chuẩn mực: Chào theo thời gian + Tên công ty + Lời đề nghị giúp đỡ.",
+        "referenceSegmentIndex": 1,
+        "targetedConcept": "Professional Telephone Greeting & Company Identification",
+        "targetedConceptEn": "Professional Telephone Greeting & Company Identification",
+        "targetedConceptVi": "Lời chào mở đầu chuyên nghiệp & Nhận diện doanh nghiệp"
+      },
+      {
+        "id": "q_business_phone_2",
+        "question": "Whom does John Wright politely request to speak with when initiating his business inquiry in Segment 2?",
+        "questionEn": "Whom does John Wright politely request to speak with when initiating his business inquiry in Segment 2?",
+        "questionVi": "John Wright lịch sự yêu cầu được nói chuyện với ai khi bắt đầu cuộc gọi công việc trong Phân đoạn 2?",
+        "options": [
+          "Mr Morgan, using the formal request 'I'd like to speak to Mr Morgan please'",
+          "The Chief Executive Officer for an unscheduled job interview",
+          "The head chef regarding an upcoming catering booking",
+          "The technical support engineer for software troubleshooting"
+        ],
+        "optionsEn": [
+          "Mr Morgan, using the formal request 'I'd like to speak to Mr Morgan please'",
+          "The Chief Executive Officer for an unscheduled job interview",
+          "The head chef regarding an upcoming catering booking",
+          "The technical support engineer for software troubleshooting"
+        ],
+        "optionsVi": [
+          "Ông Morgan, thông qua cấu trúc lịch sự 'I'd like to speak to Mr Morgan please'",
+          "Tổng giám đốc điều hành để phỏng vấn xin việc đột xuất",
+          "Bếp trưởng để đặt tiệc cho sự kiện sắp tới",
+          "Kỹ sư hỗ trợ kỹ thuật để sửa lỗi phần mềm"
+        ],
+        "correctAnswer": 0,
+        "explanation": "In Segment 2, John Wright clearly states: \"I'd like to speak to Mr Morgan please.\" This is the most courteous and standard phrasing to request a specific colleague.",
+        "explanationEn": "In Segment 2, John Wright clearly states: \"I'd like to speak to Mr Morgan please.\" This is the most courteous and standard phrasing to request a specific colleague.",
+        "explanationVi": "Trong Phân đoạn 2, John Wright nói: \"I'd like to speak to Mr Morgan please.\" Đây là mẫu câu chuẩn mực nhất để đề nghị nối máy gặp người phụ trách.",
+        "referenceSegmentIndex": 2,
+        "targetedConcept": "Call Directing & Requesting the Person in Charge",
+        "targetedConceptEn": "Call Directing & Requesting the Person in Charge",
+        "targetedConceptVi": "Yêu cầu kết nối với người phụ trách qua điện thoại"
+      },
+      {
+        "id": "q_business_phone_3",
+        "question": "Which supplier company does John Wright represent during the telephone conversation in Segment 4?",
+        "questionEn": "Which supplier company does John Wright represent during the telephone conversation in Segment 4?",
+        "questionVi": "John Wright đại diện cho công ty cung ứng nào trong cuộc đối thoại qua điện thoại ở Phân đoạn 4?",
+        "options": [
+          "International Fashion Supplies",
+          "Apex Global Electronics",
+          "Pacific Logistics & Shipping",
+          "Metro Retail Department Stores"
+        ],
+        "optionsEn": [
+          "International Fashion Supplies",
+          "Apex Global Electronics",
+          "Pacific Logistics & Shipping",
+          "Metro Retail Department Stores"
+        ],
+        "optionsVi": [
+          "International Fashion Supplies",
+          "Apex Global Electronics",
+          "Pacific Logistics & Shipping",
+          "Metro Retail Department Stores"
+        ],
+        "correctAnswer": 0,
+        "explanation": "In Segment 4, John Wright introduces himself and his employer: \"This is John Wright from International Fashion Supplies.\"",
+        "explanationEn": "In Segment 4, John Wright introduces himself and his employer: \"This is John Wright from International Fashion Supplies.\"",
+        "explanationVi": "Trong Phân đoạn 4, John Wright tự giới thiệu: \"This is John Wright from International Fashion Supplies.\" (Tôi là John Wright đến từ công ty International Fashion Supplies).",
+        "referenceSegmentIndex": 4,
+        "targetedConcept": "Professional Identity & Supplier Representation",
+        "targetedConceptEn": "Professional Identity & Supplier Representation",
+        "targetedConceptVi": "Tự giới thiệu danh tính & Đơn vị cung ứng đối tác"
+      },
+      {
+        "id": "q_business_phone_4",
+        "question": "Why does John Wright spell out his surname letter by letter in Segment 7?",
+        "questionEn": "Why does John Wright spell out his surname letter by letter in Segment 7?",
+        "questionVi": "Tại sao John Wright phải đánh vần từng chữ cái họ của mình trong Phân đoạn 7?",
+        "options": [
+          "Because the receptionist didn't catch his name and 'Wright' has silent letters and common homophones (Right/Write)",
+          "Because company policy forbids pronouncing full names without spelling",
+          "Because he forgot how to pronounce his family name in English",
+          "Because he was required to test the telephone microphone volume"
+        ],
+        "optionsEn": [
+          "Because the receptionist didn't catch his name and 'Wright' has silent letters and common homophones (Right/Write)",
+          "Because company policy forbids pronouncing full names without spelling",
+          "Because he forgot how to pronounce his family name in English",
+          "Because he was required to test the telephone microphone volume"
+        ],
+        "optionsVi": [
+          "Vì lễ tân chưa nghe rõ tên và họ 'Wright' có chữ cái câm cùng các từ đồng âm phổ biến (Right/Write)",
+          "Vì quy định công ty cấm phát âm cả họ mà không đánh vần",
+          "Vì ông ấy quên cách phát âm họ của mình bằng tiếng Anh",
+          "Vì ông ấy cần kiểm tra âm lượng micro của điện thoại"
+        ],
+        "correctAnswer": 0,
+        "explanation": "In Segments 5-7, after the receptionist says \"Sorry, I didn't catch your name\", John clarifies: \"John Wright. That's W-R-I-G-H-T.\"",
+        "explanationEn": "In Segments 5-7, after the receptionist says \"Sorry, I didn't catch your name\", John clarifies: \"John Wright. That's W-R-I-G-H-T.\"",
+        "explanationVi": "Trong Phân đoạn 5-7, sau khi lễ tân nói \"Sorry, I didn't catch your name\", John nhắc lại và đánh vần: \"That's W-R-I-G-H-T\" để tránh nhầm lẫn với các từ đồng âm như 'Right' hay 'Write'.",
+        "referenceSegmentIndex": 7,
+        "targetedConcept": "Clarification & Spelling Corporate Names",
+        "targetedConceptEn": "Clarification & Spelling Corporate Names",
+        "targetedConceptVi": "Kỹ năng làm rõ thông tin & Đánh vần tên riêng đối tác"
+      },
+      {
+        "id": "q_business_phone_5",
+        "question": "What does the British English idiom 'the line's engaged' mean in Segment 9?",
+        "questionEn": "What does the British English idiom 'the line's engaged' mean in Segment 9?",
+        "questionVi": "Thành ngữ tiếng Anh-Anh 'the line's engaged' trong Phân đoạn 9 có nghĩa là gì?",
+        "options": [
+          "The extension line is currently busy because Mr Morgan is speaking on another call",
+          "The telephone company disconnected the service due to unpaid bills",
+          "Mr Morgan has officially announced his wedding engagement",
+          "The telephone equipment is completely broken and being repaired"
+        ],
+        "optionsEn": [
+          "The extension line is currently busy because Mr Morgan is speaking on another call",
+          "The telephone company disconnected the service due to unpaid bills",
+          "Mr Morgan has officially announced his wedding engagement",
+          "The telephone equipment is completely broken and being repaired"
+        ],
+        "optionsVi": [
+          "Đường dây máy nhánh hiện đang bận do ông Morgan đang bận nghe một cuộc gọi khác",
+          "Công ty viễn thông đã ngắt dịch vụ do chưa thanh toán hóa đơn",
+          "Ông Morgan vừa chính thức tuyên bố đính hôn",
+          "Thiết bị điện thoại đã bị hỏng hoàn toàn và đang chờ bảo dưỡng"
+        ],
+        "correctAnswer": 0,
+        "explanation": "In British business terminology, 'the line is engaged' means the telephone line is busy. The receptionist follows up with: 'would you like to hold?'",
+        "explanationEn": "In British business terminology, 'the line is engaged' means the telephone line is busy. The receptionist follows up with: 'would you like to hold?'",
+        "explanationVi": "Trong tiếng Anh-Anh thương mại, 'engaged line' nghĩa là đường dây đang bận. Lễ tân giải thích và hỏi: \"I'm afraid the line's engaged, would you like to hold?\" (Tôi e rằng máy đang bận, ông có muốn giữ máy chờ không ạ?).",
+        "referenceSegmentIndex": 9,
+        "targetedConcept": "British Telephony Idioms ('Line Engaged' vs. 'Busy')",
+        "targetedConceptEn": "British Telephony Idioms ('Line Engaged' vs. 'Busy')",
+        "targetedConceptVi": "Thành ngữ điện thoại Anh-Anh ('Line Engaged' - Máy bận)"
+      },
+      {
+        "id": "q_business_phone_6",
+        "question": "What critical supply chain information does John Wright convey in his message in Segments 12-13?",
+        "questionEn": "What critical supply chain information does John Wright convey in his message in Segments 12-13?",
+        "questionVi": "John Wright truyền đạt thông tin chuỗi cung ứng quan trọng nào trong lời nhắn ở Phân đoạn 12-13?",
+        "options": [
+          "Their latest shipment has been delayed, but the 300 ordered dresses should arrive next Friday",
+          "The order of 300 dresses has been completely canceled due to factory bankruptcy",
+          "The price of the dresses will triple starting from next Monday",
+          "The shipment has already arrived at the store warehouse three days early"
+        ],
+        "optionsEn": [
+          "Their latest shipment has been delayed, but the 300 ordered dresses should arrive next Friday",
+          "The order of 300 dresses has been completely canceled due to factory bankruptcy",
+          "The price of the dresses will triple starting from next Monday",
+          "The shipment has already arrived at the store warehouse three days early"
+        ],
+        "optionsVi": [
+          "Chuyến hàng mới nhất bị hoãn, nhưng 300 chiếc váy đã đặt dự kiến sẽ đến vào thứ Sáu tuần tới",
+          "Đơn hàng 300 chiếc váy đã bị hủy hoàn toàn do nhà máy phá sản",
+          "Giá của các mẫu váy sẽ tăng gấp ba lần kể từ thứ Hai tuần tới",
+          "Chuyến hàng đã đến kho của cửa hàng sớm hơn ba ngày"
+        ],
+        "correctAnswer": 0,
+        "explanation": "In Segments 12-13, John leaves the message: 'our latest shipment has been delayed and that the 300 dresses he ordered should arrive next Friday.'",
+        "explanationEn": "In Segments 12-13, John leaves the message: 'our latest shipment has been delayed and that the 300 dresses he ordered should arrive next Friday.'",
+        "explanationVi": "Trong Phân đoạn 12-13, John để lại lời nhắn rõ ràng: chuyến hàng mới nhất bị hoãn và 300 chiếc váy ông Morgan đặt sẽ đến vào thứ Sáu tuần sau.",
+        "referenceSegmentIndex": 13,
+        "targetedConcept": "Order Status & Shipment Delay Communication",
+        "targetedConceptEn": "Order Status & Shipment Delay Communication",
+        "targetedConceptVi": "Thông báo trạng thái đơn hàng & Hoãn chuyến giao hàng"
+      },
+      {
+        "id": "q_business_phone_7",
+        "question": "In British telephone conventions, how does John Wright read out the consecutive double digits in '99' in Segment 17?",
+        "questionEn": "In British telephone conventions, how does John Wright read out the consecutive double digits in '99' in Segment 17?",
+        "questionVi": "Theo quy ước đọc số điện thoại kiểu Anh, John Wright phát âm cặp số lặp '99' như thế nào trong Phân đoạn 17?",
+        "options": [
+          "As 'double nine' (zero one six three two nine six zero double nine four)",
+          "As 'ninety-nine hundred' following financial accounting format",
+          "As 'two nines' following postal code indexing rules",
+          "As 'pair of nines' following radio military alphabet"
+        ],
+        "optionsEn": [
+          "As 'double nine' (zero one six three two nine six zero double nine four)",
+          "As 'ninety-nine hundred' following financial accounting format",
+          "As 'two nines' following postal code indexing rules",
+          "As 'pair of nines' following radio military alphabet"
+        ],
+        "optionsVi": [
+          "Phát âm là 'double nine' (zero one six three two nine six zero double nine four)",
+          "Phát âm là 'ninety-nine hundred' theo định dạng kế toán tài chính",
+          "Phát âm là 'two nines' theo quy tắc chỉ mục mã bưu chính",
+          "Phát âm là 'pair of nines' theo bảng chữ cái vô tuyến quân sự"
+        ],
+        "correctAnswer": 0,
+        "explanation": "In Segment 17, John Wright reads his telephone number: 'zero one six three two nine six zero double nine four.' British speakers conventionally say 'double [number]' for repeated digits.",
+        "explanationEn": "In Segment 17, John Wright reads his telephone number: 'zero one six three two nine six zero double nine four.' British speakers conventionally say 'double [number]' for repeated digits.",
+        "explanationVi": "Trong Phân đoạn 17, John đọc: '...zero double nine four'. Người Anh có thói quen phát âm 'double + số' khi có hai chữ số giống nhau đứng kề nhau.",
+        "referenceSegmentIndex": 17,
+        "targetedConcept": "British Telephone Number Conventions ('Double Digits')",
+        "targetedConceptEn": "British Telephone Number Conventions ('Double Digits')",
+        "targetedConceptVi": "Quy ước đọc số điện thoại Anh quốc ('Double Digits')"
+      },
+      {
+        "id": "q_business_phone_8",
+        "question": "What is the primary commercial purpose of the receptionist reciting the telephone number in Segment 18?",
+        "questionEn": "What is the primary commercial purpose of the receptionist reciting the telephone number in Segment 18?",
+        "questionVi": "Mục đích thương mại chính của việc nhân viên lễ tân đọc nhắc lại số điện thoại trong Phân đoạn 18 là gì?",
+        "options": [
+          "To perform read-back verification ensuring complete accuracy before logging the callback memo",
+          "To test if the caller is listening attentively before disconnecting the call",
+          "Because UK telecommunications law requires repeating every digit twice",
+          "To memorize the caller's contact for personal non-business purposes"
+        ],
+        "optionsEn": [
+          "To perform read-back verification ensuring complete accuracy before logging the callback memo",
+          "To test if the caller is listening attentively before disconnecting the call",
+          "Because UK telecommunications law requires repeating every digit twice",
+          "To memorize the caller's contact for personal non-business purposes"
+        ],
+        "optionsVi": [
+          "Để thực hiện quy trình đọc lại xác minh (read-back verification) đảm bảo tính chính xác tuyệt đối trước khi ghi sổ memo",
+          "Để kiểm tra xem người gọi có đang chú ý lắng nghe trước khi cúp máy hay không",
+          "Vì luật viễn thông Anh quốc yêu cầu phải lặp lại từng con số hai lần",
+          "Để ghi nhớ số liên lạc của người gọi cho mục đích cá nhân ngoài công việc"
+        ],
+        "correctAnswer": 0,
+        "explanation": "In Segment 18, the receptionist recites: 'That's oh one six three two nine six oh double nine four', which John confirms with 'Yes, that's right.' This ensures error-free message logging.",
+        "explanationEn": "In Segment 18, the receptionist recites: 'That's oh one six three two nine six oh double nine four', which John confirms with 'Yes, that's right.' This ensures error-free message logging.",
+        "explanationVi": "Trong Phân đoạn 18, lễ tân đọc lại: 'That's oh one six three two nine six oh double nine four', và John xác nhận 'Yes, that's right.' Đây là kỹ thuật đọc lại đối chiếu (read-back verification) cốt lõi trong dịch vụ khách hàng chuyên nghiệp.",
+        "referenceSegmentIndex": 18,
+        "targetedConcept": "Read-back Verification Protocol & Message Accuracy",
+        "targetedConceptEn": "Read-back Verification Protocol & Message Accuracy",
+        "targetedConceptVi": "Quy trình đối chiếu đọc lại (Read-back) & Độ chính xác thông tin"
+      }
+    ],
+    "generatedBy": "CONTEXTUAL_FALLBACK"
+  },
+  "segments": [
     {
-      orderIndex: 0,
-      startTime: 0.0,
-      endTime: 6.5,
-      text: "Good morning, Apex Global Solutions. This is Claire speaking from customer relations. How may I direct your call?",
-      translationVi: "Xin chào buổi sáng, công ty Apex Global Solutions xin nghe. Tôi là Claire từ bộ phận chăm sóc khách hàng. Tôi có thể chuyển máy cho quý khách tới đâu ạ?",
-      ipaUs: "/ɡʊd ˈmɔːr.nɪŋ ˈeɪ.peks ˈɡloʊ.bəl səˈluː.ʃənz ðɪs ɪz klɛər ˈspiː.kɪŋ frʌm ˈkʌs.tə.mər rɪˈleɪ.ʃənz haʊ meɪ aɪ daɪˈrekt jʊər kɔːl/",
-      keywords: ["direct your call", "customer relations", "Apex Global Solutions"],
-      properNouns: ["Apex Global Solutions", "Claire"],
-      explanationAi: "Mẫu câu mở đầu cuộc gọi doanh nghiệp chuẩn mực: Tên công ty + Tên người trực tổng đài + Lời đề nghị hỗ trợ hướng dẫn chuyển máy.",
+      "orderIndex": 1,
+      "startTime": 11.75,
+      "endTime": 15.3,
+      "text": "Good morning, Chic Boutique, how may I help you?",
+      "translationVi": "Chào buổi sáng, Chic Boutique xin nghe, tôi có thể giúp gì cho quý khách ạ?",
+      "ipaUs": "/ɡʊd ˈmɔːr.nɪŋ ʃiːk buːˈtiːk haʊ meɪ aɪ hɛlp juː/",
+      "keywords": [
+        "Chic Boutique",
+        "how may I help you"
+      ],
+      "properNouns": [
+        "Chic Boutique"
+      ],
+      "explanationAi": "Lời chào mở đầu cuộc gọi doanh nghiệp chuẩn mực của người Anh: Nêu tên công ty + Đề nghị hỗ trợ.",
+      "tokenCount": 9
     },
     {
-      orderIndex: 1,
-      startTime: 6.5,
-      endTime: 13.8,
-      text: "Hello Claire, this is David Miller from Pacific Logistics. Could you please put me through to Mr. Henderson in the procurement department?",
-      translationVi: "Xin chào Claire, tôi là David Miller từ công ty Pacific Logistics. Bạn có thể vui lòng nối máy cho tôi gặp ông Henderson ở phòng mua hàng được không?",
-      ipaUs: "/hɛˈloʊ klɛər ðɪs ɪz ˈdeɪ.vɪd ˈmɪl.ər frʌm pəˈsɪf.ɪk ləˈdʒɪs.tɪks kʊd juː pliːz pʊt miː θruː tuː ˈmɪs.tər ˈhɛn.dər.sən ɪn ðə proʊˈkjʊr.mənt dɪˈpɑːrt.mənt/",
-      keywords: ["put me through", "procurement department", "Pacific Logistics"],
-      properNouns: ["David Miller", "Pacific Logistics", "Mr. Henderson"],
-      explanationAi: "'put me through to [someone]' là thành ngữ thương mại phổ biến nhất khi yêu cầu nhân viên tổng đài chuyển máy cho mình gặp ai đó.",
+      "orderIndex": 2,
+      "startTime": 15.3,
+      "endTime": 17.66,
+      "text": "I'd like to speak to Mr Morgan please.",
+      "translationVi": "Tôi muốn nói chuyện với ông Morgan làm ơn.",
+      "ipaUs": "/aɪd laɪk tuː spiːk tuː ˈmɪs.tər ˈmɔːr.ɡən pliːz/",
+      "keywords": [
+        "speak to",
+        "Mr Morgan",
+        "please"
+      ],
+      "properNouns": [
+        "Mr Morgan"
+      ],
+      "explanationAi": "'I'd like to speak to [someone]' là cấu trúc chuẩn mực và lịch sự nhất khi gọi điện yêu cầu gặp ai đó.",
+      "tokenCount": 9
     },
     {
-      orderIndex: 2,
-      startTime: 13.8,
-      endTime: 20.6,
-      text: "Certainly, Mr. Miller. Let me check his extension line right now. Please hold the line for just a moment.",
-      translationVi: "Chắc chắn rồi, thưa ông Miller. Để tôi kiểm tra số máy nhánh của ông ấy ngay bây giờ. Xin vui lòng giữ máy trong giây lát ạ.",
-      ipaUs: "/ˈsɜːr.tən.li ˈmɪs.tər ˈmɪl.ər lɛt miː tʃɛk hɪz ɪkˈstɛn.ʃən laɪn raɪt naʊ pliːz hoʊld ðə laɪn fɔːr dʒʌst ə ˈmoʊ.mənt/",
-      keywords: ["extension line", "hold the line", "moment"],
-      properNouns: ["Mr. Miller"],
-      explanationAi: "'extension line' là đường dây máy nhánh nội bộ văn phòng. 'hold the line' nghĩa là giữ máy chờ kết nối.",
+      "orderIndex": 3,
+      "startTime": 17.66,
+      "endTime": 19.8,
+      "text": "Who's calling please?",
+      "translationVi": "Xin lỗi cho hỏi ai đang gọi vậy ạ?",
+      "ipaUs": "/huːz ˈkɔː.lɪŋ pliːz/",
+      "keywords": [
+        "who's calling",
+        "please"
+      ],
+      "properNouns": [],
+      "explanationAi": "Câu hỏi lịch thiệp dùng để xác minh danh tính người gọi trước khi chuyển máy.",
+      "tokenCount": 4
     },
     {
-      orderIndex: 3,
-      startTime: 20.6,
-      endTime: 28.2,
-      text: "Thank you for waiting. I am afraid Mr. Henderson is currently tied up in an executive board meeting until 3 PM.",
-      translationVi: "Cảm ơn ông đã chờ. Tôi e rằng ông Henderson hiện đang bận họp hội đồng quản trị cho đến 3 giờ chiều.",
-      ipaUs: "/θæŋk juː fɔːr ˈweɪ.tɪŋ aɪ æm əˈfreɪd ˈmɪs.tər ˈhɛn.dər.sən ɪz ˈkɜːr.ənt.li taɪd ʌp ɪn æn ɪɡˈzɛk.jə.tɪv bɔːrd ˈmiː.tɪŋ ənˈtɪl θriː piː ɛm/",
-      keywords: ["tied up", "executive board meeting", "waiting"],
-      properNouns: ["Mr. Henderson"],
-      explanationAi: "'tied up' là thành ngữ công sở mang nghĩa đang bận rộn kín lịch không thể nghe máy hoặc tham gia việc khác.",
+      "orderIndex": 4,
+      "startTime": 19.8,
+      "endTime": 23.18,
+      "text": "This is John Wright from International Fashion Supplies.",
+      "translationVi": "Tôi là John Wright đến từ công ty International Fashion Supplies.",
+      "ipaUs": "/ðɪs ɪz dʒɒn raɪt frʌm ˌɪn.təˈnæʃ.ən.əl ˈfæʃ.ən səˈplaɪz/",
+      "keywords": [
+        "This is",
+        "John Wright",
+        "International Fashion Supplies"
+      ],
+      "properNouns": [
+        "John Wright",
+        "International Fashion Supplies"
+      ],
+      "explanationAi": "Trong điện thoại tiếng Anh, người ta dùng 'This is [Tên]' thay vì 'I am [Tên]' để tự giới thiệu bản thân.",
+      "tokenCount": 8
     },
     {
-      orderIndex: 4,
-      startTime: 28.2,
-      endTime: 35.5,
-      text: "Would you like to leave a detailed message, or should I ask him to return your call as soon as he is available?",
-      translationVi: "Ông có muốn để lại tin nhắn chi tiết không, hay tôi nên nhờ ông ấy gọi lại cho ông ngay khi rảnh ạ?",
-      ipaUs: "/wʊd juː laɪk tuː liːv ə ˈdiː.teɪld ˈmɛs.ɪdʒ ɔːr ʃʊd aɪ æsk hɪm tuː rɪˈtɜːrn jʊər kɔːl æz suːn æz hiː ɪz əˈveɪ.lə.bəl/",
-      keywords: ["leave a detailed message", "return your call", "available"],
-      properNouns: [],
-      explanationAi: "Mẫu câu hỏi lựa chọn kinh điển khi người nhận vắng mặt: 'leave a message' (để lại tin nhắn) hoặc 'return the call' (gọi lại sau).",
+      "orderIndex": 5,
+      "startTime": 23.18,
+      "endTime": 25.5,
+      "text": "Sorry, I didn't catch your name.",
+      "translationVi": "Xin lỗi, tôi chưa nghe rõ tên của ông.",
+      "ipaUs": "/ˈsɒr.i aɪ ˈdɪd.ənt kætʃ jɔːr neɪm/",
+      "keywords": [
+        "didn't catch",
+        "name"
+      ],
+      "properNouns": [],
+      "explanationAi": "'I didn't catch [something]' là thành ngữ lịch sự nghĩa là 'tôi chưa nghe rõ / chưa kịp nắm bắt được thông tin'.",
+      "tokenCount": 7
     },
     {
-      orderIndex: 5,
-      startTime: 35.5,
-      endTime: 43.6,
-      text: "Yes, please. It is regarding the revised quarterly supply chain contract that requires his immediate sign-off before Friday.",
-      translationVi: "Vâng, làm phiền bạn. Cuộc gọi này liên quan đến hợp đồng chuỗi cung ứng theo quý sửa đổi cần chữ ký phê duyệt khẩn cấp của ông ấy trước thứ Sáu.",
-      ipaUs: "/jɛs pliːz ɪt ɪz rɪˈɡɑːr.dɪŋ ðə rɪˈvaɪzd ˈkwɔːr.tər.li səˈplaɪ tʃeɪn ˈkɒn.trækt ðæt rɪˈkwaɪərz hɪz ɪˈmiː.di.ət saɪn ɔːf bɪˈfɔːr ˈfraɪ.deɪ/",
-      keywords: ["revised quarterly contract", "supply chain", "immediate sign-off"],
-      properNouns: ["Friday"],
-      explanationAi: "'sign-off' là danh từ/cụm động từ chỉ sự ký tên phê duyệt chính thức một văn kiện thương mại quan trọng.",
+      "orderIndex": 6,
+      "startTime": 25.5,
+      "endTime": 27.45,
+      "text": "John Wright.",
+      "translationVi": "John Wright.",
+      "ipaUs": "/dʒɒn raɪt/",
+      "keywords": [
+        "John Wright"
+      ],
+      "properNouns": [
+        "John Wright"
+      ],
+      "explanationAi": "Nhắc lại tên riêng rõ ràng để người nghe ghi chép chính xác.",
+      "tokenCount": 2
     },
     {
-      orderIndex: 6,
-      startTime: 43.6,
-      endTime: 51.8,
-      text: "Understood. Could you kindly provide your direct contact number and preferred email address so I can log them into our memo?",
-      translationVi: "Tôi đã hiểu. Ông có thể vui lòng cung cấp số liên lạc trực tiếp và địa chỉ email ưu tiên để tôi ghi vào bản ghi nhớ nội bộ được không ạ?",
-      ipaUs: "/ˌʌn.dərˈstʊd kʊd juː ˈkaɪnd.li prəˈvaɪd jʊər daɪˈrekt ˈkɒn.tækt ˈnʌm.bər ænd prɪˈfɜːrd ˈiː.meɪl əˈdres soʊ aɪ kæn lɔːɡ ðɛm ˈɪn.tuː ˈaʊər ˈmem.oʊ/",
-      keywords: ["direct contact number", "preferred email address", "log them into our memo"],
-      properNouns: [],
-      explanationAi: "'log [something] into our memo' nghĩa là ghi nhận thông tin vào sổ ghi chú hoặc hệ thống ghi nhớ công việc của công ty.",
+      "orderIndex": 7,
+      "startTime": 27.45,
+      "endTime": 31.0,
+      "text": "That's W-R-I-G-H-T.",
+      "translationVi": "Đánh vần là W-R-I-G-H-T.",
+      "ipaUs": "/ðæts ˈdʌb.əl.juː ɑːr aɪ dʒiː eɪtʃ tiː/",
+      "keywords": [
+        "W-R-I-G-H-T",
+        "spelling"
+      ],
+      "properNouns": [
+        "W-R-I-G-H-T"
+      ],
+      "explanationAi": "Kỹ năng đánh vần từng chữ cái (spelling) rất quan trọng trong giao tiếp điện thoại doanh nghiệp khi tên có cách viết đặc biệt.",
+      "tokenCount": 8
     },
     {
-      orderIndex: 7,
-      startTime: 51.8,
-      endTime: 59.5,
-      text: "My cell number is 555-0194, and my corporate email is david.miller@pacificlogistics.com.",
-      translationVi: "Số di động của tôi là 555-0194, và email công ty của tôi là david.miller@pacificlogistics.com.",
-      ipaUs: "/maɪ sɛl ˈnʌm.bər ɪz faɪv faɪv faɪv oʊ wʌn naɪn fɔːr ænd maɪ ˈkɔːr.pər.ət ˈiː.meɪl ɪz ˈdeɪ.vɪd dɒt ˈmɪl.ər æt pəˈsɪf.ɪk ləˈdʒɪs.tɪks dɒt kɒm/",
-      keywords: ["cell number", "corporate email"],
-      properNouns: ["david.miller@pacificlogistics.com"],
-      explanationAi: "Cách đọc số điện thoại và email chuẩn quốc tế trong giao dịch thương mại: số 0 đọc là 'oh', dấu chấm đọc là 'dot', ký tự @ đọc là 'at'.",
+      "orderIndex": 8,
+      "startTime": 31.0,
+      "endTime": 35.23,
+      "text": "Okay Mr Wright, I'll try and put you through.",
+      "translationVi": "Vâng thưa ông Wright, tôi sẽ thử nối máy cho ông ạ.",
+      "ipaUs": "/oʊˈkeɪ ˈmɪs.tər raɪt aɪl traɪ ænd pʊt juː θruː/",
+      "keywords": [
+        "put you through",
+        "try"
+      ],
+      "properNouns": [
+        "Mr Wright"
+      ],
+      "explanationAi": "'put you through' là cụm động từ chuẩn công sở mang nghĩa 'kết nối máy / chuyển máy cho bạn'.",
+      "tokenCount": 10
     },
     {
-      orderIndex: 8,
-      startTime: 59.5,
-      endTime: 66.8,
-      text: "Let me read that back to confirm: 555-0194 and david.miller@pacificlogistics.com. I will flag this as high priority.",
-      translationVi: "Để tôi đọc lại để xác nhận nhé: 555-0194 và david.miller@pacificlogistics.com. Tôi sẽ gắn cờ ưu tiên cao cho tin nhắn này ạ.",
-      ipaUs: "/lɛt miː riːd ðæt bæk tuː kənˈfɜːrm faɪv faɪv faɪv oʊ wʌn naɪn fɔːr ænd ˈdeɪ.vɪd dɒt ˈmɪl.ər æt pəˈsɪf.ɪk ləˈdʒɪs.tɪks dɒt kɒm aɪ wɪl flæɡ ðɪs æz haɪ praɪˈɔːr.ə.ti/",
-      keywords: ["read that back", "confirm", "flag as high priority"],
-      properNouns: ["david.miller@pacificlogistics.com"],
-      explanationAi: "'read that back' là kỹ thuật chuyên nghiệp đối chiếu thông tin quan trọng. 'flag as high priority' nghĩa là đánh dấu mức độ ưu tiên hàng đầu.",
+      "orderIndex": 9,
+      "startTime": 35.23,
+      "endTime": 39.2,
+      "text": "I'm afraid the line's engaged, would you like to hold?",
+      "translationVi": "Tôi e rằng đường dây đang bận, ông có muốn giữ máy chờ không ạ?",
+      "ipaUs": "/aɪm əˈfreɪd ðə laɪnz ɪnˈɡeɪdʒd wʊd juː laɪk tuː hoʊld/",
+      "keywords": [
+        "line's engaged",
+        "hold the line",
+        "afraid"
+      ],
+      "properNouns": [],
+      "explanationAi": "'the line's engaged' (tiếng Anh-Anh) tương đương với 'the line is busy' (tiếng Anh-Mỹ), nghĩa là máy đang bận.",
+      "tokenCount": 12
     },
     {
-      orderIndex: 9,
-      startTime: 66.8,
-      endTime: 72.0,
-      text: "Thank you very much for your professional assistance, Claire. Have a wonderful and productive afternoon!",
-      translationVi: "Cảm ơn sự hỗ trợ rất chuyên nghiệp của bạn nhé Claire. Chúc bạn một buổi chiều tuyệt vời và làm việc hiệu quả!",
-      ipaUs: "/θæŋk juː ˈvɛr.i mʌtʃ fɔːr jʊər prəˈfɛʃ.ən.əl əˈsɪs.təns klɛər hæv ə ˈwʌn.dər.fəl ænd prəˈdʌk.tɪv ˌæf.tərˈnuːn/",
-      keywords: ["professional assistance", "productive afternoon"],
-      properNouns: ["Claire"],
-      explanationAi: "Lời chúc kết thúc cuộc gọi lịch thiệp: 'productive afternoon' (buổi chiều làm việc nhiều thành tựu/hiệu quả).",
+      "orderIndex": 10,
+      "startTime": 39.2,
+      "endTime": 41.28,
+      "text": "Uh, can I leave a message?",
+      "translationVi": "À, tôi có thể để lại lời nhắn được không?",
+      "ipaUs": "/ʌ kæn aɪ liːv ə ˈmɛs.ɪdʒ/",
+      "keywords": [
+        "leave a message"
+      ],
+      "properNouns": [],
+      "explanationAi": "'leave a message' là hành động để lại tin nhắn khi người cần gặp không thể nghe máy.",
+      "tokenCount": 6
     },
-  ],
+    {
+      "orderIndex": 11,
+      "startTime": 41.28,
+      "endTime": 43.0,
+      "text": "Certainly.",
+      "translationVi": "Dạ chắc chắn rồi ạ.",
+      "ipaUs": "/ˈsɜːr.tən.li/",
+      "keywords": [
+        "Certainly"
+      ],
+      "properNouns": [],
+      "explanationAi": "'Certainly' là phản hồi đồng ý trang trọng, chuyên nghiệp hơn rất nhiều so với 'Yes' hay 'Okay'.",
+      "tokenCount": 1
+    },
+    {
+      "orderIndex": 12,
+      "startTime": 43.0,
+      "endTime": 47.0,
+      "text": "Could you please tell Mr Morgan our latest shipment has been delayed...",
+      "translationVi": "Cô có thể vui lòng nhắn với ông Morgan là chuyến hàng mới nhất của chúng tôi đã bị hoãn...",
+      "ipaUs": "/kʊd juː pliːz tɛl ˈmɪs.tər ˈmɔːr.ɡən ˈaʊər ˈleɪ.tɪst ˈʃɪp.mənt hæz biːn dɪˈleɪd/",
+      "keywords": [
+        "latest shipment",
+        "delayed",
+        "Mr Morgan"
+      ],
+      "properNouns": [
+        "Mr Morgan"
+      ],
+      "explanationAi": "'shipment has been delayed' là thuật ngữ thương mại thông báo việc giao hàng bị chậm trễ so với kế hoạch.",
+      "tokenCount": 12
+    },
+    {
+      "orderIndex": 13,
+      "startTime": 47.0,
+      "endTime": 50.5,
+      "text": "...and that the 300 dresses he ordered should arrive next Friday.",
+      "translationVi": "...và 300 chiếc váy ông ấy đặt dự kiến sẽ đến vào thứ Sáu tuần tới.",
+      "ipaUs": "/ænd ðæt ðə θriː ˈhʌn.drəd ˈdrɛs.ɪz hiː ˈɔːr.dərd ʃʊd əˈraɪv nɛkst ˈfraɪ.deɪ/",
+      "keywords": [
+        "300 dresses",
+        "ordered",
+        "next Friday"
+      ],
+      "properNouns": [
+        "Friday"
+      ],
+      "explanationAi": "Cung cấp chi tiết số lượng (300 dresses) và mốc thời gian dự kiến giao hàng mới (next Friday).",
+      "tokenCount": 11
+    },
+    {
+      "orderIndex": 14,
+      "startTime": 50.5,
+      "endTime": 54.24,
+      "text": "Dress order delayed... arriving next Friday.",
+      "translationVi": "Đơn hàng váy bị hoãn... sẽ đến vào thứ Sáu tuần tới.",
+      "ipaUs": "/drɛs ˈɔːr.dər dɪˈleɪd əˈraɪ.vɪŋ nɛkst ˈfraɪ.deɪ/",
+      "keywords": [
+        "order delayed",
+        "arriving next Friday"
+      ],
+      "properNouns": [
+        "Friday"
+      ],
+      "explanationAi": "Kỹ năng ghi chép thông tin vắn tắt (note-taking) của lễ tân khi tiếp nhận lời nhắn quan trọng.",
+      "tokenCount": 6
+    },
+    {
+      "orderIndex": 15,
+      "startTime": 54.24,
+      "endTime": 58.3,
+      "text": "Yes, and would you please ask him to give me a call as soon as the shipment arrives?",
+      "translationVi": "Vâng, và cô có thể vui lòng nhờ ông ấy gọi lại cho tôi ngay khi chuyến hàng đến được không?",
+      "ipaUs": "/jɛs ænd wʊd juː pliːz æsk hɪm tuː ɡɪv miː ə kɔːl æz suːn æz ðə ˈʃɪp.mənt əˈraɪvz/",
+      "keywords": [
+        "give me a call",
+        "as soon as",
+        "shipment arrives"
+      ],
+      "properNouns": [],
+      "explanationAi": "'give someone a call' là cách diễn đạt phổ biến mang nghĩa 'gọi điện cho ai'. 'as soon as' chỉ tính kịp thời ngay khi có biến động.",
+      "tokenCount": 18
+    },
+    {
+      "orderIndex": 16,
+      "startTime": 58.3,
+      "endTime": 62.14,
+      "text": "Of course. Could you let me have your number please?",
+      "translationVi": "Dạ dĩ nhiên rồi ạ. Ông có thể vui lòng cho tôi xin số điện thoại được không?",
+      "ipaUs": "/əv kɔːrs kʊd juː lɛt miː hæv jʊər ˈnʌm.bər pliːz/",
+      "keywords": [
+        "Of course",
+        "have your number",
+        "please"
+      ],
+      "properNouns": [],
+      "explanationAi": "'Could you let me have your number please?' là mẫu câu lịch sự hỏi xin số điện thoại liên lạc của đối tác.",
+      "tokenCount": 10
+    },
+    {
+      "orderIndex": 17,
+      "startTime": 62.14,
+      "endTime": 67.5,
+      "text": "Yes, it's zero one six three two nine six zero double nine four.",
+      "translationVi": "Vâng, số của tôi là 01632 960994.",
+      "ipaUs": "/jɛs ɪts ˈzɪə.roʊ wʌn sɪks θriː tuː naɪn sɪks ˈzɪə.roʊ ˈdʌb.əl naɪn fɔːr/",
+      "keywords": [
+        "zero one six three two",
+        "double nine four"
+      ],
+      "properNouns": [],
+      "explanationAi": "Người Anh thường dùng 'double [number]' khi đọc hai chữ số giống nhau đứng liền nhau (ví dụ 99 đọc là double nine).",
+      "tokenCount": 14
+    },
+    {
+      "orderIndex": 18,
+      "startTime": 67.5,
+      "endTime": 72.45,
+      "text": "That's oh one six three two nine six oh double nine four.",
+      "translationVi": "Dạ là 01632 960994 ạ.",
+      "ipaUs": "/ðæts oʊ wʌn sɪks θriː tuː naɪn sɪks oʊ ˈdʌb.əl naɪn fɔːr/",
+      "keywords": [
+        "oh one six three two",
+        "read back"
+      ],
+      "properNouns": [],
+      "explanationAi": "Lễ tân đọc lại (read-back) để xác nhận số điện thoại, trong đó số 0 được đọc là 'oh'.",
+      "tokenCount": 13
+    },
+    {
+      "orderIndex": 19,
+      "startTime": 72.45,
+      "endTime": 74.2,
+      "text": "Yes, that's right.",
+      "translationVi": "Vâng, đúng rồi đó.",
+      "ipaUs": "/jɛs ðæts raɪt/",
+      "keywords": [
+        "that's right"
+      ],
+      "properNouns": [],
+      "explanationAi": "Xác nhận tính chính xác của thông tin vừa đối chiếu.",
+      "tokenCount": 4
+    },
+    {
+      "orderIndex": 20,
+      "startTime": 74.2,
+      "endTime": 76.0,
+      "text": "Thanks for your help.",
+      "translationVi": "Cảm ơn sự giúp đỡ của cô.",
+      "ipaUs": "/θæŋks fɔːr jʊər hɛlp/",
+      "keywords": [
+        "Thanks for your help"
+      ],
+      "properNouns": [],
+      "explanationAi": "Lời cảm ơn lịch sự trước khi cúp máy.",
+      "tokenCount": 4
+    },
+    {
+      "orderIndex": 21,
+      "startTime": 76.0,
+      "endTime": 77.3,
+      "text": "Goodbye.",
+      "translationVi": "Tạm biệt ông ạ.",
+      "ipaUs": "/ɡʊdˈbaɪ/",
+      "keywords": [
+        "Goodbye"
+      ],
+      "properNouns": [],
+      "explanationAi": "Lời chào tạm biệt chuẩn mực của lễ tân.",
+      "tokenCount": 1
+    },
+    {
+      "orderIndex": 22,
+      "startTime": 77.3,
+      "endTime": 78.93,
+      "text": "Goodbye.",
+      "translationVi": "Tạm biệt cô.",
+      "ipaUs": "/ɡʊdˈbaɪ/",
+      "keywords": [
+        "Goodbye"
+      ],
+      "properNouns": [],
+      "explanationAi": "Lời chào tạm biệt đáp lại kết thúc cuộc gọi.",
+      "tokenCount": 1
+    }
+  ]
 };

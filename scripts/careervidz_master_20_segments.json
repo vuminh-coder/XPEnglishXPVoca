@@ -1,0 +1,312 @@
+[
+  {
+    "orderIndex": 1,
+    "startTime": 0.0,
+    "endTime": 2.84,
+    "text": "Okay, you are in a job interview.",
+    "translationVi": "Được rồi, bạn đang ở trong một buổi phỏng vấn xin việc.",
+    "ipaUs": "/oʊˈkeɪ juː ɑːr ɪn ə dʒɑːb ˈɪntərvjuː/",
+    "properNouns": [],
+    "keywords": [
+      "job interview",
+      "in an interview"
+    ],
+    "explanationAi": "Tình huống giả định mở đầu đặt người học vào vị trí ứng viên trong phòng phỏng vấn xin việc thực tế.",
+    "tokenCount": 7
+  },
+  {
+    "orderIndex": 2,
+    "startTime": 2.84,
+    "endTime": 7.52,
+    "text": "It's right at the start and the interviewer says to you, 'Tell me about yourself.'",
+    "translationVi": "Ngay phần mở đầu, người phỏng vấn nói với bạn: 'Hãy giới thiệu về bản thân bạn.'",
+    "ipaUs": "/ɪts raɪt æt ðə stɑːrt ænd ðə ˈɪntərvjuːər sez tuː juː tel miː əˈbaʊt jʊərˈself/",
+    "properNouns": [],
+    "keywords": [
+      "right at the start",
+      "interviewer",
+      "tell me about yourself"
+    ],
+    "explanationAi": "'Right at the start' là thành ngữ chỉ thời điểm ngay từ đầu buổi gặp mặt; câu hỏi 'Tell me about yourself' là câu hỏi mở kinh điển nhất trong phỏng vấn tuyển dụng.",
+    "tokenCount": 16
+  },
+  {
+    "orderIndex": 3,
+    "startTime": 7.52,
+    "endTime": 10.2,
+    "text": "Whatever you do, do not say this:",
+    "translationVi": "Dù bạn làm gì đi nữa, tuyệt đối đừng nói như thế này:",
+    "ipaUs": "/wʌtˈevər juː duː duː nɑːt seɪ ðɪs/",
+    "properNouns": [],
+    "keywords": [
+      "whatever you do",
+      "do not say"
+    ],
+    "explanationAi": "Thành ngữ 'Whatever you do, do not...' dùng để cảnh báo mạnh mẽ một sai lầm chết người cần phải tránh bằng mọi giá.",
+    "tokenCount": 7
+  },
+  {
+    "orderIndex": 4,
+    "startTime": 10.2,
+    "endTime": 12.76,
+    "text": "'Tell me about yourself.' 'Yeah, sure.'",
+    "translationVi": "'Hãy giới thiệu về bạn đi.' 'Vâng, chắc chắn rồi.'",
+    "ipaUs": "/tel miː əˈbaʊt jʊərˈself jeə ʃʊr/",
+    "properNouns": [],
+    "keywords": [
+      "yeah sure",
+      "casual slang"
+    ],
+    "explanationAi": "Sử dụng từ đệm suồng sã như 'Yeah, sure' khi mở lời phỏng vấn sẽ tạo ấn tượng ban đầu thiếu chuyên nghiệp và cẩu thả.",
+    "tokenCount": 6
+  },
+  {
+    "orderIndex": 5,
+    "startTime": 12.76,
+    "endTime": 15.8,
+    "text": "My name's Richard. I'm 32 years old.",
+    "translationVi": "Tên tôi là Richard. Tôi 32 tuổi.",
+    "ipaUs": "/maɪ neɪmz ˈrɪtʃərd aɪm ˈθɜːrti tuː jɪrz oʊld/",
+    "properNouns": [
+      "Richard"
+    ],
+    "keywords": [
+      "my name's",
+      "years old"
+    ],
+    "explanationAi": "Việc mở đầu bằng cách liệt kê máy móc tên và tuổi tác là cách trả lời yếu vì nhà tuyển dụng đã nắm rõ thông tin cơ bản này trên hồ sơ xin việc (CV).",
+    "tokenCount": 9
+  },
+  {
+    "orderIndex": 6,
+    "startTime": 15.8,
+    "endTime": 21.76,
+    "text": "I'm a happy person, a good team worker, and I'm a great fit for this job.",
+    "translationVi": "Tôi là một người vui vẻ, làm việc nhóm tốt và tôi rất phù hợp với công việc này.",
+    "ipaUs": "/aɪm ə ˈhæpi ˈpɜːrsən ə ɡʊd tiːm ˈwɜːrkər ænd aɪm ə ɡreɪt fɪt fɔːr ðɪs dʒɑːb/",
+    "properNouns": [],
+    "keywords": [
+      "happy person",
+      "team worker",
+      "great fit for this job"
+    ],
+    "explanationAi": "Những tính từ chung chung như 'happy person' hay lời khẳng định vô căn cứ 'great fit' bị coi là sáo rỗng (cliche) nếu không đi kèm minh chứng hành động cụ thể.",
+    "tokenCount": 18
+  },
+  {
+    "orderIndex": 7,
+    "startTime": 21.76,
+    "endTime": 24.32,
+    "text": "That was a terrible answer.",
+    "translationVi": "Đó là một câu trả lời tồi tệ.",
+    "ipaUs": "/ðæt wʌz ə ˈterəbl ˈænsər/",
+    "properNouns": [],
+    "keywords": [
+      "terrible answer"
+    ],
+    "explanationAi": "Tính từ 'terrible' thể hiện sự đánh giá tiêu cực dứt khoát của chuyên gia tuyển dụng đối với câu trả lời thiếu chiều sâu.",
+    "tokenCount": 5
+  },
+  {
+    "orderIndex": 8,
+    "startTime": 24.32,
+    "endTime": 25.8,
+    "text": "You will not get hired.",
+    "translationVi": "Bạn sẽ không được tuyển dụng đâu.",
+    "ipaUs": "/juː wɪl nɑːt ɡet ˈhaɪərd/",
+    "properNouns": [],
+    "keywords": [
+      "get hired"
+    ],
+    "explanationAi": "Cụm động từ 'get hired' mang nghĩa được công ty nhận vào làm việc; ở đây nhấn mạnh hậu quả của việc không chuẩn bị kỹ lưỡng.",
+    "tokenCount": 5
+  },
+  {
+    "orderIndex": 9,
+    "startTime": 25.8,
+    "endTime": 30.72,
+    "text": "When answering 'Tell me about yourself', I recommend you talk about the skills you have,",
+    "translationVi": "Khi trả lời 'Hãy giới thiệu về bản thân', tôi khuyên bạn nên nói về những kỹ năng bạn sở hữu,",
+    "ipaUs": "/wen ˈænsərɪŋ tel miː əˈbaʊt jʊərˈself aɪ ˌrekəˈmend juː tɔːk əˈbaʊt ðə skɪlz juː hæv/",
+    "properNouns": [],
+    "keywords": [
+      "when answering",
+      "recommend",
+      "skills you have"
+    ],
+    "explanationAi": "Cấu trúc lời khuyên 'I recommend you talk about...' hướng dẫn ứng viên tập trung trực tiếp vào năng lực chuyên môn cốt lõi thay vì đời tư.",
+    "tokenCount": 15
+  },
+  {
+    "orderIndex": 10,
+    "startTime": 30.72,
+    "endTime": 35.6,
+    "text": "the experience you can bring to the role, any achievements you have attained,",
+    "translationVi": "kinh nghiệm bạn có thể đem lại cho vị trí này, bất kỳ thành tựu nào bạn đã đạt được,",
+    "ipaUs": "/ði ɪkˈspɪriəns juː kæn brɪŋ tuː ðə roʊl ˈeni əˈtʃiːvmənts juː hæv əˈteɪnd/",
+    "properNouns": [],
+    "keywords": [
+      "bring to the role",
+      "achievements",
+      "attained"
+    ],
+    "explanationAi": "'Bring to the role' nhấn mạnh giá trị đóng góp cho doanh nghiệp; động từ 'attained' (gặt hái, đạt được) thể hiện kết quả công việc cụ thể đã được chứng thực.",
+    "tokenCount": 13
+  },
+  {
+    "orderIndex": 11,
+    "startTime": 35.6,
+    "endTime": 40.12,
+    "text": "and the type of person you are or what you will do in the role to add value.",
+    "translationVi": "và mẫu người của bạn hoặc những điều bạn sẽ làm ở vị trí đó để tạo thêm giá trị.",
+    "ipaUs": "/ænd ðə taɪp əv ˈpɜːrsən juː ɑːr ɔːr wʌt juː wɪl duː ɪn ðə roʊl tuː æd ˈvæljuː/",
+    "properNouns": [],
+    "keywords": [
+      "type of person",
+      "add value"
+    ],
+    "explanationAi": "Thuật ngữ kinh doanh 'add value' (gia tăng giá trị) là yếu tố quyết định hàng đầu mà mọi nhà tuyển dụng tìm kiếm ở ứng viên tiềm năng.",
+    "tokenCount": 18
+  },
+  {
+    "orderIndex": 12,
+    "startTime": 40.12,
+    "endTime": 44.64,
+    "text": "Here is the best answer you can give in any job interview:",
+    "translationVi": "Đây là câu trả lời tốt nhất mà bạn có thể đưa ra trong bất kỳ cuộc phỏng vấn nào:",
+    "ipaUs": "/hɪr ɪz ðə best ˈænsər juː kæn ɡɪv ɪn ˈeni dʒɑːb ˈɪntərvjuː/",
+    "properNouns": [],
+    "keywords": [
+      "best answer",
+      "give in any interview"
+    ],
+    "explanationAi": "Lời dẫn dắt mang tính khẳng định cao, chuyển sang bài nói mẫu hoàn hảo áp dụng được cho mọi ngành nghề.",
+    "tokenCount": 12
+  },
+  {
+    "orderIndex": 13,
+    "startTime": 44.64,
+    "endTime": 47.4,
+    "text": "'Please, tell me about yourself.'",
+    "translationVi": "'Xin mời bạn giới thiệu về bản thân.'",
+    "ipaUs": "/pliːz tel miː əˈbaʊt jʊərˈself/",
+    "properNouns": [],
+    "keywords": [
+      "please tell me about yourself"
+    ],
+    "explanationAi": "Lời mời lịch sự từ người phỏng vấn làm bối cảnh để ứng viên bắt đầu phần trình bày chuẩn mực.",
+    "tokenCount": 5
+  },
+  {
+    "orderIndex": 14,
+    "startTime": 47.4,
+    "endTime": 50.52,
+    "text": "Thank you very much for giving me this opportunity.",
+    "translationVi": "Cảm ơn quý vị rất nhiều vì đã trao cho tôi cơ hội này.",
+    "ipaUs": "/θæŋk juː ˈveri mʌtʃ fɔːr ˈɡɪvɪŋ miː ðɪs ˌɑːpərˈtuːnəti/",
+    "properNouns": [],
+    "keywords": [
+      "thank you very much",
+      "giving me this opportunity"
+    ],
+    "explanationAi": "Mở đầu bằng lời cảm ơn chân thành và lịch thiệp giúp thể hiện thái độ tôn trọng, chuyên nghiệp và bình tĩnh tự tin.",
+    "tokenCount": 9
+  },
+  {
+    "orderIndex": 15,
+    "startTime": 50.52,
+    "endTime": 54.68,
+    "text": "I am a disciplined, responsive, and supportive team player",
+    "translationVi": "Tôi là một thành viên đội nhóm có kỷ luật, nhạy bén và luôn hết lòng hỗ trợ đồng nghiệp",
+    "ipaUs": "/aɪ æm ə ˈdɪsəplɪnd rɪˈspɑːnsɪv ænd səˈpɔːrtɪv tiːm ˈpleɪər/",
+    "properNouns": [],
+    "keywords": [
+      "disciplined",
+      "responsive",
+      "supportive",
+      "team player"
+    ],
+    "explanationAi": "Bộ ba phẩm chất giá trị cao: 'disciplined' (tính kỷ luật cao), 'responsive' (nhanh nhạy, phản hồi mau lẹ), 'supportive' (luôn sẵn sàng giúp đỡ cộng sự).",
+    "tokenCount": 9
+  },
+  {
+    "orderIndex": 16,
+    "startTime": 54.68,
+    "endTime": 58.28,
+    "text": "with the skills and knowledge to match the job description.",
+    "translationVi": "với đầy đủ các kỹ năng và kiến thức đáp ứng sát sao bảng mô tả công việc.",
+    "ipaUs": "/wɪð ðə skɪlz ænd ˈnɑːlɪdʒ tuː mætʃ ðə dʒɑːb dɪˈskrɪpʃən/",
+    "properNouns": [],
+    "keywords": [
+      "skills and knowledge",
+      "match",
+      "job description"
+    ],
+    "explanationAi": "'Match the job description' (ăn khớp với bảng mô tả công việc) chứng tỏ ứng viên đã nghiên cứu kỹ vị trí ứng tuyển và có mục tiêu rõ ràng.",
+    "tokenCount": 10
+  },
+  {
+    "orderIndex": 17,
+    "startTime": 58.28,
+    "endTime": 63.04,
+    "text": "In addition to having the qualifications needed to excel in this role,",
+    "translationVi": "Bên cạnh việc có bằng cấp chuyên môn cần thiết để hoàn thành xuất sắc vị trí này,",
+    "ipaUs": "/ɪn əˈdɪʃən tuː ˈhævɪŋ ðə ˌkwɑːlɪfɪˈkeɪʃənz ˈniːdɪd tuː ɪkˈsel ɪn ðɪs roʊl/",
+    "properNouns": [],
+    "keywords": [
+      "in addition to",
+      "qualifications",
+      "excel in this role"
+    ],
+    "explanationAi": "Cụm nối trang trọng 'In addition to having...' tạo đòn bẩy để ứng viên chuyển từ bằng cấp lý thuyết sang kinh nghiệm thực chiến.",
+    "tokenCount": 12
+  },
+  {
+    "orderIndex": 18,
+    "startTime": 63.04,
+    "endTime": 69.56,
+    "text": "I have experience collaborating on teams, problem-solving, and delivering excellent customer service.",
+    "translationVi": "tôi có kinh nghiệm phối hợp làm việc nhóm, giải quyết vấn đề và mang lại dịch vụ khách hàng xuất sắc.",
+    "ipaUs": "/aɪ hæv ɪkˈspɪriəns kəˈlæbəreɪtɪŋ ɑːn tiːmz ˈprɑːbləm ˈsɑːlvɪŋ ænd dɪˈlɪvərɪŋ ˈeksələnt ˈkʌstəmər ˈsɜːrvɪs/",
+    "properNouns": [],
+    "keywords": [
+      "collaborating on teams",
+      "problem-solving",
+      "customer service"
+    ],
+    "explanationAi": "Ba kỹ năng chuyển đổi (transferable skills) đắt giá nhất trong mọi tổ chức: cộng tác nhóm, tư duy xử lý sự cố và thái độ phụng sự khách hàng.",
+    "tokenCount": 13
+  },
+  {
+    "orderIndex": 19,
+    "startTime": 69.56,
+    "endTime": 76.16,
+    "text": "If you hire me, I will demonstrate a strong work ethic, be a positive role model for your company,",
+    "translationVi": "Nếu quý vị tuyển dụng tôi, tôi sẽ thể hiện đạo đức làm việc vững vàng, trở thành một tấm gương tích cực cho công ty,",
+    "ipaUs": "/ɪf juː ˈhaɪər miː aɪ wɪl ˈdemənstreɪt ə strɔːŋ wɜːrk ˈeθɪk biː ə ˈpɑːzətɪv roʊl ˈmɑːdl fɔːr jʊər ˈkʌmpəni/",
+    "properNouns": [],
+    "keywords": [
+      "demonstrate",
+      "strong work ethic",
+      "positive role model"
+    ],
+    "explanationAi": "'Work ethic' (đạo đức nghề nghiệp) và 'positive role model' (tấm gương tích cực) tạo lập niềm tin về sự trung thành, tận tụy và sức ảnh hưởng tốt tới văn hóa doanh nghiệp.",
+    "tokenCount": 19
+  },
+  {
+    "orderIndex": 20,
+    "startTime": 76.16,
+    "endTime": 83.5,
+    "text": "and take ownership of my professional development to ensure you always receive a strong return on my salary.",
+    "translationVi": "và chủ động chịu trách nhiệm về sự phát triển chuyên môn của mình để đảm bảo công ty luôn nhận lại giá trị sinh lời vượt trội từ mức lương chi trả cho tôi.",
+    "ipaUs": "/ænd teɪk ˈoʊnərʃɪp əv maɪ prəˈfeʃənl dɪˈveləpmənt tuː ɪnˈʃʊr juː ˈɔːlweɪz rɪˈsiːv ə strɔːŋ rɪˈtɜːrn ɑːn maɪ ˈsæləri/",
+    "properNouns": [],
+    "keywords": [
+      "take ownership",
+      "professional development",
+      "return on salary"
+    ],
+    "explanationAi": "Cụm 'take ownership' (chủ động nhận trách nhiệm) kết hợp khái niệm kinh tế 'return on salary' (lợi tức đầu tư trên quỹ lương) là đòn chốt hạ ngoạn mục, cho thấy tư duy đôi bên cùng có lợi (win-win).",
+    "tokenCount": 18
+  }
+]

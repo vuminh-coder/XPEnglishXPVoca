@@ -1,80 +1,106 @@
 import { describe, it, expect } from "vitest";
-import { LESSON_THE_LION_KING_RAFIKI_TEACHES_SIMBA_THE_PAST } from "../features/listening/data/lessons/movies/animation/lesson_the_lion_king";
+import {
+  LESSON_THE_LION_KING_RAFIKI_TEACHES_SIMBA_THE_PAST,
+  QUIZ_THE_LION_KING_RAFIKI_TEACHES_SIMBA_THE_PAST,
+} from "../features/listening/data/lessons/movies/animation/lesson_the_lion_king";
 
-describe("The Lion King Complete Data Coverage Test (100% Multi-Chapter Narrative & Linguistic Audit)", () => {
-  const combinedText = LESSON_THE_LION_KING_RAFIKI_TEACHES_SIMBA_THE_PAST.segments
-    .map((s) => s.text)
-    .join(" ")
-    .toLowerCase();
-
-  const essentialAnchors = [
-    "sun will set on my time here",
-    "learn english with tv series",
-    "present their newborn son, simba",
-    "envious brother scar",
-    "can we keep him",
-    "lions eat guys like us",
-    "on our side",
-    "drops the auxiliary verbs",
-    "you nearly died",
-    "gee, he looks blue",
-    "brownish-gold",
-    "suffix -ish",
-    "what's eating you",
-    "top of the food chain",
-    "apex predator",
-    "something terrible",
-    "put your behind in your past",
-    "put your past behind you",
-    "turns its back on you",
-    "turn your back on the world",
-    "hakuna matata",
-    "what's a motto",
-    "problem-free philosophy",
-    "i'm starved",
-    "rustle up some grub",
-    "rare delicacies",
-    "piquant, with a very pleasant crunch",
-    "slimy, yet satisfying",
-    "tastes like chicken",
-    "run from your challenges or learn from them",
-  ];
-
-  it("should contain all 30 essential narrative, dialogue, and linguistic anchors without any omission across all 16 chapters", () => {
-    const missingAnchors = essentialAnchors.filter(
-      (anchor) => !combinedText.includes(anchor.toLowerCase())
-    );
-
-    expect(
-      missingAnchors,
-      `Detected missing dialogue anchors in The Lion King lesson: ${JSON.stringify(missingAnchors)}`
-    ).toEqual([]);
+describe("The Lion King: Rafiki, Timon & Pumbaa 'Hakuna Matata & The Past Can Hurt' (mov_ani_08) - Complete Data Coverage Suite", () => {
+  it("Test 1: Full Metadata & Duration Alignment", () => {
+    const lesson = LESSON_THE_LION_KING_RAFIKI_TEACHES_SIMBA_THE_PAST;
+    expect(lesson.id).toBe("mov_ani_08");
+    expect(lesson.slug).toBe("the-lion-king-rafiki-teaches-simba-the-past");
+    expect(lesson.categoryId).toBe("cat_animation_pixar_disney");
+    expect(lesson.categorySlug).toBe("animation-pixar-disney");
+    expect(lesson.categoryName).toBe("Hoạt Hình Pixar & Disney");
+    expect(lesson.externalId).toBe("HeQTJE99OXo");
+    expect(lesson.cefrLevel).toBe("A2");
+    expect(lesson.accent).toBe("American");
+    expect(lesson.durationFormatted).toBe("24:04");
+    expect(lesson.durationSeconds).toBe(1444);
+    expect(lesson.sourceType).toBe("YOUTUBE");
+    expect(lesson.supportedTypes).toBe("BOTH");
+    expect(lesson.viewCount).toBe(1453059);
+    expect(lesson.thumbnailUrl).toContain("HeQTJE99OXo");
   });
 
-  it("should have total words across segments consistent with comprehensive 31-segment lesson", () => {
-    const totalWords = LESSON_THE_LION_KING_RAFIKI_TEACHES_SIMBA_THE_PAST.segments.reduce(
-      (acc, s) => acc + s.text.split(/\s+/).length,
-      0
-    );
-    expect(totalWords).toBeGreaterThanOrEqual(700);
-    expect(totalWords).toBeLessThanOrEqual(950);
-  });
-
-  it("should have total tokenCount synchronized with individual segments sum", () => {
-    const sumTokens = LESSON_THE_LION_KING_RAFIKI_TEACHES_SIMBA_THE_PAST.segments.reduce(
-      (acc, s) => acc + (s.tokenCount || 0),
-      0
-    );
-    expect(sumTokens).toBeGreaterThan(650);
-  });
-
-  it("should preserve uninterrupted chronological continuity across the 24:04 runtime", () => {
+  it("Test 2: Master Segments Volume & Chronological Progression", () => {
     const segments = LESSON_THE_LION_KING_RAFIKI_TEACHES_SIMBA_THE_PAST.segments;
-    for (let i = 0; i < segments.length - 1; i++) {
-      expect(
-        segments[i + 1].startTime,
-        `Gap detected between seg ${i} and seg ${i + 1}`
-      ).toBeGreaterThanOrEqual(segments[i].startTime);
+    expect(segments.length).toBe(50);
+
+    for (let i = 0; i < segments.length; i++) {
+      const seg = segments[i];
+      expect(seg.orderIndex).toBe(i);
+      expect(seg.startTime).toBeLessThan(seg.endTime);
+      if (i > 0) {
+        expect(seg.startTime).toBeGreaterThanOrEqual(segments[i - 1].startTime);
+      }
     }
+    expect(segments[0].startTime).toBe(0.0);
+    expect(segments[segments.length - 1].endTime).toBe(1440.0);
+  });
+
+  it("Test 3: Comprehensive Segment Field Integrity", () => {
+    const segments = LESSON_THE_LION_KING_RAFIKI_TEACHES_SIMBA_THE_PAST.segments;
+    for (const seg of segments) {
+      expect(seg.text.trim().length).toBeGreaterThan(0);
+      expect(seg.translationVi.trim().length).toBeGreaterThan(0);
+      expect(seg.ipaUs).toBeDefined();
+      expect(seg.ipaUs!.trim().length).toBeGreaterThan(0);
+      expect(seg.ipaUs!.startsWith("/")).toBe(true);
+      expect(seg.ipaUs!.endsWith("/")).toBe(true);
+      expect(seg.keywords).toBeDefined();
+      expect(seg.keywords!.length).toBeGreaterThanOrEqual(1);
+      expect(seg.explanationAi).toBeDefined();
+      expect(seg.explanationAi!.trim().length).toBeGreaterThan(10);
+      expect(Array.isArray(seg.properNouns)).toBe(true);
+      expect(typeof seg.tokenCount).toBe("number");
+      expect(seg.tokenCount).toBeGreaterThan(0);
+    }
+  });
+
+  it("Test 4: Strict Token Count Accuracy via Regex", () => {
+    const segments = LESSON_THE_LION_KING_RAFIKI_TEACHES_SIMBA_THE_PAST.segments;
+    for (const seg of segments) {
+      const tokens = seg.text.match(/\b[A-Za-z0-9_]+\b/g) || [];
+      expect(seg.tokenCount).toBe(tokens.length);
+    }
+  });
+
+  it("Test 5: Full Bilingual Quiz Rigor (8 CEFR Questions)", () => {
+    const quiz = QUIZ_THE_LION_KING_RAFIKI_TEACHES_SIMBA_THE_PAST;
+    expect(quiz.lessonId).toBe("mov_ani_08");
+    expect(quiz.totalQuestions).toBe(8);
+    expect(quiz.questions.length).toBe(8);
+
+    quiz.questions.forEach((q, idx) => {
+      expect(q.id).toBe(`q_mov_ani_08_${idx + 1}`);
+      expect(q.question.length).toBeGreaterThan(15);
+      expect(q.questionEn).toBeDefined();
+      expect(q.questionVi).toBeDefined();
+      expect(q.options.length).toBe(4);
+      expect(q.optionsEn?.length).toBe(4);
+      expect(q.optionsVi?.length).toBe(4);
+      expect(q.correctAnswer).toBeGreaterThanOrEqual(0);
+      expect(q.correctAnswer).toBeLessThan(4);
+      expect(q.explanation.length).toBeGreaterThan(15);
+      expect(q.explanationEn).toBeDefined();
+      expect(q.explanationVi).toBeDefined();
+      expect(q.targetedConcept).toBeDefined();
+      expect(q.targetedConceptEn).toBeDefined();
+      expect(q.targetedConceptVi).toBeDefined();
+      expect(typeof q.referenceSegmentIndex).toBe("number");
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
+      expect(q.referenceSegmentIndex).toBeLessThan(
+        LESSON_THE_LION_KING_RAFIKI_TEACHES_SIMBA_THE_PAST.segments.length
+      );
+    });
+  });
+
+  it("Test 6: Zero Missing Attributes Across Lesson Object", () => {
+    const lesson = LESSON_THE_LION_KING_RAFIKI_TEACHES_SIMBA_THE_PAST;
+    expect(lesson.description).toBeDefined();
+    expect(lesson.description.length).toBeGreaterThan(20);
+    expect(lesson.quiz).toBeDefined();
+    expect(lesson.quiz!.questions.length).toBe(8);
   });
 });

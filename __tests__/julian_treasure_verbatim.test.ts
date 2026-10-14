@@ -5,14 +5,16 @@ import { tokenizeSentence } from "@/features/listening/components/DictationWorks
 import { LESSON_JULIAN_TREASURE } from "@/features/listening/data/lessons/lesson_julian_treasure";
 import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
 
-describe("Julian Treasure: How to Speak So That People Want to Listen - 100% Verbatim Audit", () => {
-  it("should have exactly 10 segments with valid duration and metadata", () => {
-    expect(LESSON_JULIAN_TREASURE.segments.length).toBe(10);
+describe("Julian Treasure: How to Speak So That People Want to Listen - 100% Verbatim Master Audit", () => {
+  it("should have exactly 65 segments with valid duration and metadata", () => {
+    expect(LESSON_JULIAN_TREASURE.segments.length).toBe(65);
     expect(LESSON_JULIAN_TREASURE.externalId).toBe("eIho2S0ZahI");
-    expect(LESSON_JULIAN_TREASURE.durationSeconds).toBe(72);
+    expect(LESSON_JULIAN_TREASURE.durationSeconds).toBe(598);
+    expect(LESSON_JULIAN_TREASURE.durationFormatted).toBe("09:58");
     expect(LESSON_JULIAN_TREASURE.cefrLevel).toBe("B2");
     expect(LESSON_JULIAN_TREASURE.accent).toBe("en-GB");
     expect(LESSON_JULIAN_TREASURE.categoryId).toBe("cat_ted_ed");
+    expect(LESSON_JULIAN_TREASURE.viewCount).toBe(51652770);
   });
 
   it("should have chronological timestamps with positive durations", () => {
@@ -40,7 +42,7 @@ describe("Julian Treasure: How to Speak So That People Want to Listen - 100% Ver
     }
   });
 
-  it("should tokenize all 10 segments cleanly with zero empty tokens (177 tokens total)", () => {
+  it("should tokenize all 65 segments cleanly with zero empty tokens (1657 tokens total)", () => {
     let totalTokens = 0;
     for (const seg of LESSON_JULIAN_TREASURE.segments) {
       const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
@@ -51,27 +53,27 @@ describe("Julian Treasure: How to Speak So That People Want to Listen - 100% Ver
         expect(token.dots.length).toBe(token.clean.length);
       }
     }
-    expect(totalTokens).toBe(177);
+    expect(totalTokens).toBe(1657);
   });
 
-  it("should match mock data in videoCatalogMockData.ts exactly across all 10 segments", () => {
+  it("should match mock data in videoCatalogMockData.ts exactly across all 65 segments", () => {
     const mock = MOCK_VIDEO_LESSONS.find((v) => v.externalId === "eIho2S0ZahI");
     expect(mock).toBeDefined();
-    expect(mock?.segments.length).toBe(10);
-    for (let i = 0; i < 10; i++) {
+    expect(mock?.segments.length).toBe(65);
+    for (let i = 0; i < 65; i++) {
       expect(mock?.segments[i].text).toBe(LESSON_JULIAN_TREASURE.segments[i].text);
       expect(mock?.segments[i].startTime).toBe(LESSON_JULIAN_TREASURE.segments[i].startTime);
       expect(mock?.segments[i].endTime).toBe(LESSON_JULIAN_TREASURE.segments[i].endTime);
     }
   });
 
-  it("should match 100% word-for-word against official TED YouTube subtitles in json3 (0 diffs)", () => {
+  it("should match 100% word-for-word against official TED YouTube subtitles in json3 (0 diffs across 1661 words)", () => {
     const jsonPath = path.resolve(process.cwd(), "scripts/julian_treasure.en.json3");
     if (!fs.existsSync(jsonPath)) return;
 
     const rawJson = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
     const events = rawJson.events.filter(
-      (e: any) => e.tStartMs >= 13900 && e.tStartMs < 72000 && e.segs
+      (e: any) => e.tStartMs >= 13900 && e.segs
     );
 
     function cleanWords(str: string): string[] {
@@ -88,7 +90,8 @@ describe("Julian Treasure: How to Speak So That People Want to Listen - 100% Ver
 
     const rawWords: string[] = [];
     events.forEach((e: any) => {
-      const txt = e.segs.map((s: any) => s.utf8).join("").replace(/\n/g, " ");
+      let txt = e.segs.map((s: any) => s.utf8).join("").replace(/\n/g, " ");
+      txt = txt.replace(/\(Laughter\)|\(Applause\)|\(Higher pitch\)|\(Loud\)/g, "");
       rawWords.push(...cleanWords(txt));
     });
 
@@ -97,6 +100,8 @@ describe("Julian Treasure: How to Speak So That People Want to Listen - 100% Ver
       lessonWords.push(...cleanWords(seg.text));
     });
 
+    expect(lessonWords.length).toBe(1661);
+    expect(rawWords.length).toBe(1661);
     expect(lessonWords.length).toBe(rawWords.length);
     expect(lessonWords).toEqual(rawWords);
   });
@@ -122,6 +127,8 @@ describe("Julian Treasure: How to Speak So That People Want to Listen - 100% Ver
       expect(q.targetedConceptEn).toBeDefined();
       expect(q.targetedConceptVi).toBeDefined();
       expect(q.referenceSegmentIndex).toBeDefined();
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
+      expect(q.referenceSegmentIndex).toBeLessThan(LESSON_JULIAN_TREASURE.segments.length);
     }
   });
 });

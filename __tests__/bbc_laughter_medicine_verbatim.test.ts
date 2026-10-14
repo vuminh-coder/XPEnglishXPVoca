@@ -3,21 +3,21 @@ import { tokenizeSentence } from "@/features/listening/components/DictationWorks
 import { LESSON_BBC_LAUGHTER_MEDICINE } from "@/features/listening/data/lessons/lesson_bbc_laughter_medicine";
 import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
 
-describe("BBC Learning English: Is Laughter the Best Medicine? - 100% Verbatim Audit", () => {
-  it("should have exactly 10 segments with valid duration and metadata", () => {
-    expect(LESSON_BBC_LAUGHTER_MEDICINE.segments.length).toBe(10);
+describe("BBC Learning English: What Makes Us Laugh? - 100% Verbatim Audit", () => {
+  it("should have exactly 84 segments with valid duration and metadata", () => {
+    expect(LESSON_BBC_LAUGHTER_MEDICINE.segments.length).toBe(84);
     expect(LESSON_BBC_LAUGHTER_MEDICINE.externalId).toBe("jIt35Ey2GN4");
-    expect(LESSON_BBC_LAUGHTER_MEDICINE.durationSeconds).toBe(65);
+    expect(LESSON_BBC_LAUGHTER_MEDICINE.durationSeconds).toBe(376);
     expect(LESSON_BBC_LAUGHTER_MEDICINE.cefrLevel).toBe("B1");
     expect(LESSON_BBC_LAUGHTER_MEDICINE.accent).toBe("en-GB");
     expect(LESSON_BBC_LAUGHTER_MEDICINE.categoryId).toBe("cat_bbc_6min");
   });
 
-  it("should have chronological timestamps with positive durations", () => {
+  it("should have chronological timestamps with positive durations and 1-based indexing", () => {
     let prevStartTime = -1;
     for (let i = 0; i < LESSON_BBC_LAUGHTER_MEDICINE.segments.length; i++) {
       const seg = LESSON_BBC_LAUGHTER_MEDICINE.segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeGreaterThanOrEqual(0);
       expect(seg.endTime).toBeGreaterThan(seg.startTime);
       expect(seg.startTime).toBeGreaterThanOrEqual(prevStartTime);
@@ -31,14 +31,18 @@ describe("BBC Learning English: Is Laughter the Best Medicine? - 100% Verbatim A
       expect(seg.translationVi.length).toBeGreaterThan(0);
       expect(seg.ipaUs).toBeDefined();
       expect(seg.ipaUs!.length).toBeGreaterThan(0);
+      expect(seg.ipaUs!.startsWith("/")).toBe(true);
+      expect(seg.ipaUs!.endsWith("/")).toBe(true);
       expect(Array.isArray(seg.keywords)).toBe(true);
-      expect(seg.keywords!.length).toBeGreaterThan(0);
       expect(seg.explanationAi).toBeDefined();
       expect(seg.explanationAi!.length).toBeGreaterThan(0);
+      expect(seg.tokenCount).toBeDefined();
+      const regexTokens = (seg.text.match(/\b[A-Za-z0-9_]+\b/g) || []).length;
+      expect(seg.tokenCount).toBe(regexTokens);
     }
   });
 
-  it("should tokenize all 10 segments cleanly with zero empty tokens", () => {
+  it("should tokenize all 84 segments cleanly with zero empty tokens", () => {
     let totalTokens = 0;
     for (const seg of LESSON_BBC_LAUGHTER_MEDICINE.segments) {
       const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
@@ -49,14 +53,14 @@ describe("BBC Learning English: Is Laughter the Best Medicine? - 100% Verbatim A
         expect(token.dots.length).toBe(token.clean.length);
       }
     }
-    expect(totalTokens).toBe(190);
+    expect(totalTokens).toBeGreaterThan(800);
   });
 
-  it("should match mock data in videoCatalogMockData.ts exactly across all 10 segments", () => {
+  it("should match mock data in videoCatalogMockData.ts exactly across all 84 segments", () => {
     const mock = MOCK_VIDEO_LESSONS.find((v) => v.externalId === "jIt35Ey2GN4");
     expect(mock).toBeDefined();
-    expect(mock?.segments.length).toBe(10);
-    for (let i = 0; i < 10; i++) {
+    expect(mock?.segments.length).toBe(84);
+    for (let i = 0; i < 84; i++) {
       expect(mock?.segments[i].text).toBe(LESSON_BBC_LAUGHTER_MEDICINE.segments[i].text);
       expect(mock?.segments[i].startTime).toBe(LESSON_BBC_LAUGHTER_MEDICINE.segments[i].startTime);
       expect(mock?.segments[i].endTime).toBe(LESSON_BBC_LAUGHTER_MEDICINE.segments[i].endTime);

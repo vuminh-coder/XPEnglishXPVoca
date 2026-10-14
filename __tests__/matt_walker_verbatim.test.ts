@@ -1,14 +1,20 @@
 import { describe, it, expect } from "vitest";
+import fs from "fs";
+import path from "path";
 import { tokenizeSentence } from "@/features/listening/components/DictationWorkspace";
-import { LESSON_MATT_WALKER_SLEEP, QUIZ_MATT_WALKER_SLEEP } from "@/features/listening/data/lessons/lesson_matt_walker_sleep";
+import { LESSON_MATT_WALKER_SLEEP } from "@/features/listening/data/lessons/lesson_matt_walker_sleep";
 import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
 
 describe("Matt Walker: Sleep Is Your Superpower - 100% Verbatim & Segment Audit", () => {
-  it("should have exactly 12 segments with valid duration and metadata", () => {
-    expect(LESSON_MATT_WALKER_SLEEP.segments.length).toBe(12);
+  it("should have exactly 140 segments with valid duration and metadata", () => {
+    expect(LESSON_MATT_WALKER_SLEEP.segments.length).toBe(140);
     expect(LESSON_MATT_WALKER_SLEEP.externalId).toBe("5MuIMqhT8DM");
-    expect(LESSON_MATT_WALKER_SLEEP.durationSeconds).toBe(121);
+    expect(LESSON_MATT_WALKER_SLEEP.durationSeconds).toBe(1145);
+    expect(LESSON_MATT_WALKER_SLEEP.durationFormatted).toBe("19:05");
     expect(LESSON_MATT_WALKER_SLEEP.cefrLevel).toBe("B2");
+    expect(LESSON_MATT_WALKER_SLEEP.accent).toBe("en-US");
+    expect(LESSON_MATT_WALKER_SLEEP.categoryId).toBe("cat_ted_ed");
+    expect(LESSON_MATT_WALKER_SLEEP.viewCount).toBe(17445000);
   });
 
   it("should have chronological timestamps with positive durations", () => {
@@ -36,7 +42,7 @@ describe("Matt Walker: Sleep Is Your Superpower - 100% Verbatim & Segment Audit"
     }
   });
 
-  it("should tokenize all 12 segments cleanly with zero empty tokens", () => {
+  it("should tokenize all 140 segments cleanly with zero empty tokens", () => {
     let totalTokens = 0;
     for (const seg of LESSON_MATT_WALKER_SLEEP.segments) {
       const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
@@ -47,72 +53,65 @@ describe("Matt Walker: Sleep Is Your Superpower - 100% Verbatim & Segment Audit"
         expect(token.dots.length).toBe(token.clean.length);
       }
     }
-    expect(totalTokens).toBeGreaterThan(200);
+    expect(totalTokens).toBeGreaterThan(2500);
   });
 
-  it("should match mock data in videoCatalogMockData.ts exactly across all 12 segments", () => {
+  it("should match mock data in videoCatalogMockData.ts exactly across all 140 segments", () => {
     const mock = MOCK_VIDEO_LESSONS.find((v) => v.externalId === "5MuIMqhT8DM");
     expect(mock).toBeDefined();
-    expect(mock?.segments.length).toBe(12);
-    for (let i = 0; i < 12; i++) {
+    expect(mock?.segments.length).toBe(140);
+    for (let i = 0; i < 140; i++) {
       expect(mock?.segments[i].text).toBe(LESSON_MATT_WALKER_SLEEP.segments[i].text);
       expect(mock?.segments[i].startTime).toBe(LESSON_MATT_WALKER_SLEEP.segments[i].startTime);
       expect(mock?.segments[i].endTime).toBe(LESSON_MATT_WALKER_SLEEP.segments[i].endTime);
     }
   });
 
-  it("should match 100% word-for-word against official YouTube captions in matt_walker.en.json3 (0 diffs across 270 words)", () => {
-    const fs = require("fs");
-    const path = require("path");
-    const subPath = path.resolve(process.cwd(), "scripts/matt_walker.en.json3");
-    if (!fs.existsSync(subPath)) return;
+  it("should match 100% word-for-word against official TED YouTube subtitles in json3 (0 diffs across 2,641 words)", () => {
+    const jsonPath = path.resolve(process.cwd(), "scripts/matt_walker_sleep.en.json3");
+    if (!fs.existsSync(jsonPath)) return;
 
-    const sub = JSON.parse(fs.readFileSync(subPath, "utf8"));
+    const rawJson = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
+    const events = rawJson.events.filter(
+      (e: any) => e.segs && !["(Laughter)", "(Applause)", "(Cheering)", "(Music)"].includes(e.segs.map((s: any) => s.utf8).join("").trim())
+    );
+
+    function cleanWords(str: string): string[] {
+      return str
+        .replace(/\b(David Biello|Matt Walker|DB|MW):\s*/g, "")
+        .replace(/[‘’]/g, "'")
+        .replace(/[“”]/g, '"')
+        .replace(/--/g, " ")
+        .replace(/['"]+/g, "")
+        .replace(/[^a-zA-Z0-9\s]/g, " ")
+        .split(/\s+/)
+        .map((w) => w.trim().toLowerCase())
+        .filter(Boolean);
+    }
+
     const rawWords: string[] = [];
-    sub.events.forEach((e: any) => {
-      if (!e.segs) return;
-      const baseT = e.tStartMs;
-      if (baseT > 122000) return;
-      e.segs.forEach((s: any) => {
-        const text = s.utf8;
-        if (!text || text === "\n") return;
-        const offset = s.tOffsetMs || 0;
-        const startMs = baseT + offset;
-        const trimmed = text.trim();
-        if (trimmed && !trimmed.startsWith("(") && !trimmed.startsWith("[")) {
-          const parts = trimmed.split(/\s+/);
-          parts.forEach((p: string) => {
-            if (p) rawWords.push(p);
-          });
-        }
-      });
+    events.forEach((e: any) => {
+      const txt = e.segs.map((s: any) => s.utf8).join("").replace(/\n/g, " ");
+      rawWords.push(...cleanWords(txt));
     });
-
-    const normalize = (w: string) => w.replace(/[.,!?:;\"\'\(\)\-]/g, "").toLowerCase();
 
     const lessonWords: string[] = [];
-    LESSON_MATT_WALKER_SLEEP.segments.forEach((s) => {
-      const ws = s.text.trim().split(/\s+/);
-      ws.forEach((w) => lessonWords.push(w));
+    LESSON_MATT_WALKER_SLEEP.segments.forEach((seg) => {
+      lessonWords.push(...cleanWords(seg.text));
     });
 
-    expect(lessonWords.length).toBe(270);
-    expect(rawWords.length).toBe(270);
-
-    const normLesson = lessonWords.map(normalize);
-    const normRaw = rawWords.map(normalize);
-    expect(normLesson).toEqual(normRaw);
+    expect(lessonWords.length).toBe(2641);
+    expect(rawWords.length).toBe(2641);
+    expect(lessonWords).toEqual(rawWords);
   });
 
   it("should have comprehensive bilingual reading quiz attached", () => {
-    const quiz = LESSON_MATT_WALKER_SLEEP.quiz;
-    expect(quiz).toBeDefined();
-    if (!quiz) return;
-
+    expect(LESSON_MATT_WALKER_SLEEP.quiz).toBeDefined();
+    const quiz = LESSON_MATT_WALKER_SLEEP.quiz!;
     expect(quiz.lessonId).toBe("vid_matt_walker_sleep");
     expect(quiz.totalQuestions).toBe(8);
-    expect(quiz.questions.length).toBe(8);
     expect(quiz.xpReward).toBe(40);
+    expect(quiz.questions.length).toBe(8);
 
     for (const q of quiz.questions) {
       expect(q.id.length).toBeGreaterThan(0);
@@ -127,7 +126,8 @@ describe("Matt Walker: Sleep Is Your Superpower - 100% Verbatim & Segment Audit"
       expect(q.targetedConceptEn).toBeDefined();
       expect(q.targetedConceptVi).toBeDefined();
       expect(q.referenceSegmentIndex).toBeDefined();
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
+      expect(q.referenceSegmentIndex).toBeLessThan(LESSON_MATT_WALKER_SLEEP.segments.length);
     }
   });
 });
-

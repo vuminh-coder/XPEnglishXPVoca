@@ -10,412 +10,1099 @@ export const QUIZ_RESTAURANT_ORDERING: VideoQuizData = {
   xpReward: 40,
   questions: [
     {
-      id: "q_restaurant_ordering_1",
-      question: "What reservation details does the guest provide when arriving at Bistro Paris?",
-      questionEn: "What reservation details does the guest provide when arriving at Bistro Paris?",
-      questionVi: "Vị khách cung cấp thông tin đặt bàn nào khi đến nhà hàng Bistro Paris?",
-      options: [
-        "A table reserved for two under the name Alex at 7:30 PM",
-        "A large banquet hall for fifty guests at midnight",
-        "A breakfast table reserved for one under the name David",
-        "A drive-through takeout window order for three cars",
-      ],
-      optionsEn: [
-        "A table reserved for two under the name Alex at 7:30 PM",
-        "A large banquet hall for fifty guests at midnight",
-        "A breakfast table reserved for one under the name David",
-        "A drive-through takeout window order for three cars",
-      ],
-      optionsVi: [
-        "Bàn đặt cho hai người dưới tên Alex lúc 7:30 tối",
-        "Sảnh tiệc lớn cho năm mươi khách vào nửa đêm",
-        "Bàn ăn sáng cho một người dưới tên David",
-        "Đơn mang đi qua cửa sổ ô tô cho ba chiếc xe",
-      ],
-      correctAnswer: 0,
-      explanation: 'In Segment 1, the guest confirms: "Yes, good evening. We have a table reserved for two under the name Alex at 7:30 PM."',
-      explanationEn: 'In Segment 1, the guest confirms: "Yes, good evening. We have a table reserved for two under the name Alex at 7:30 PM."',
-      explanationVi: 'Trong câu 1, khách xác nhận: "Vâng, chào buổi tối. Chúng tôi có đặt bàn cho hai người dưới tên Alex lúc 7:30 tối."',
-      referenceSegmentIndex: 1,
-      targetedConcept: "Báo tên đặt bàn nhà hàng (Table Reservation Confirmation)",
-      targetedConceptEn: "Table Reservation Confirmation",
-      targetedConceptVi: "Báo tên đặt bàn nhà hàng",
+        "id": "q_restaurant_ordering_1",
+        "question": "How many people does the father request a dining table for when entering the restaurant?",
+        "questionEn": "How many people does the father request a dining table for when entering the restaurant?",
+        "questionVi": "Người cha yêu cầu một bàn ăn cho bao nhiêu người khi bước vào nhà hàng?",
+        "options": [
+            "A table for four guests",
+            "A table for only one person",
+            "A private VIP banquet room for twenty people",
+            "A high table for two at the outdoor bar"
+        ],
+        "optionsEn": [
+            "A table for four guests",
+            "A table for only one person",
+            "A private VIP banquet room for twenty people",
+            "A high table for two at the outdoor bar"
+        ],
+        "optionsVi": [
+            "Một bàn dành cho bốn khách",
+            "Một bàn chỉ dành cho một người",
+            "Một phòng tiệc VIP riêng cho hai mươi người",
+            "Một bàn cao cho hai người tại quầy bar ngoài trời"
+        ],
+        "correctAnswer": 0,
+        "explanation": "In Segment 1, the father requests: \"Hello! I would like a table for four, please.\"",
+        "explanationEn": "In Segment 1, the father requests: \"Hello! I would like a table for four, please.\"",
+        "explanationVi": "Trong câu 1, người cha yêu cầu: \"Hello! I would like a table for four, please.\" (Xin chào! Cho chúng tôi một bàn bốn người nhé).",
+        "referenceSegmentIndex": 1,
+        "targetedConcept": "Yêu cầu xếp bàn ăn (Table Seating Request)",
+        "targetedConceptEn": "Table Seating Request",
+        "targetedConceptVi": "Yêu cầu xếp bàn ăn"
     },
     {
-      id: "q_restaurant_ordering_2",
-      question: "What initial hospitality offer does server Sarah make before taking the main course order?",
-      questionEn: "What initial hospitality offer does server Sarah make before taking the main course order?",
-      questionVi: "Người phục vụ Sarah đưa ra lời mời phục vụ ban đầu nào trước khi nhận gọi món chính?",
-      options: [
-        "Starting them off with drinks while they review the menu",
-        "Demanding they pay the entire bill before sitting down",
-        "Requiring them to cook their own food in the kitchen",
-        "Serving cold dessert immediately before any appetizers",
-      ],
-      optionsEn: [
-        "Starting them off with drinks while they review the menu",
-        "Demanding they pay the entire bill before sitting down",
-        "Requiring them to cook their own food in the kitchen",
-        "Serving cold dessert immediately before any appetizers",
-      ],
-      optionsVi: [
-        "Mời gọi đồ uống khai vị trong khi họ xem qua thực đơn",
-        "Yêu cầu họ thanh toán toàn bộ hóa đơn trước khi ngồi xuống",
-        "Bắt buộc họ phải tự vào bếp nấu thức ăn",
-        "Phục vụ món tráng miệng lạnh ngay trước mọi món khai vị",
-      ],
-      correctAnswer: 0,
-      explanation: 'In Segment 3, Sarah asks: "Can I start you off with something to drink while you look over the menu?"',
-      explanationEn: 'In Segment 3, Sarah asks: "Can I start you off with something to drink while you look over the menu?"',
-      explanationVi: 'Trong câu 3, Sarah hỏi: "Tôi có thể lấy đồ uống gì cho quý khách trong khi quý khách xem thực đơn không ạ?"',
-      referenceSegmentIndex: 3,
-      targetedConcept: "Mời đồ uống khai vị (Starting Off with Drinks)",
-      targetedConceptEn: "Starting Off with Drinks",
-      targetedConceptVi: "Mời đồ uống khai vị",
+        "id": "q_restaurant_ordering_2",
+        "question": "What does the father politely request right after the family is shown to their table?",
+        "questionEn": "What does the father politely request right after the family is shown to their table?",
+        "questionVi": "Người cha lịch sự yêu cầu điều gì ngay sau khi gia đình được dẫn tới bàn?",
+        "options": [
+            "He asks the server to bring them the menu",
+            "He demands an immediate refund before eating",
+            "He asks for blankets and extra pillows",
+            "He orders the waiter to turn off all the lights"
+        ],
+        "optionsEn": [
+            "He asks the server to bring them the menu",
+            "He demands an immediate refund before eating",
+            "He asks for blankets and extra pillows",
+            "He orders the waiter to turn off all the lights"
+        ],
+        "optionsVi": [
+            "Ông đề nghị người phục vụ đưa thực đơn cho gia đình",
+            "Ông yêu cầu hoàn tiền ngay trước khi ăn",
+            "Ông xin chăn và thêm gối ngủ",
+            "Ông yêu cầu người phục vụ tắt toàn bộ đèn điện"
+        ],
+        "correctAnswer": 0,
+        "explanation": "In Segment 5, the father asks: \"Could you give us the menu, please?\"",
+        "explanationEn": "In Segment 5, the father asks: \"Could you give us the menu, please?\"",
+        "explanationVi": "Trong câu 5, người cha hỏi: \"Could you give us the menu, please?\" (Bạn có thể đưa cho chúng tôi thực đơn được không?).",
+        "referenceSegmentIndex": 5,
+        "targetedConcept": "Yêu cầu thực đơn nhà hàng (Requesting the Dining Menu)",
+        "targetedConceptEn": "Requesting the Dining Menu",
+        "targetedConceptVi": "Yêu cầu thực đơn nhà hàng"
     },
     {
-      id: "q_restaurant_ordering_3",
-      question: "What beverage do the guests order to begin their dining experience?",
-      questionEn: "What beverage do the guests order to begin their dining experience?",
-      questionVi: "Những vị khách gọi loại đồ uống nào để bắt đầu bữa ăn?",
-      options: [
-        "A bottle of sparkling water with lemon",
-        "A pitcher of iced tap water with salt",
-        "Two glasses of extremely hot black coffee",
-        "A bottle of sugary strawberry soda",
-      ],
-      optionsEn: [
-        "A bottle of sparkling water with lemon",
-        "A pitcher of iced tap water with salt",
-        "Two glasses of extremely hot black coffee",
-        "A bottle of sugary strawberry soda",
-      ],
-      optionsVi: [
-        "Một chai nước khoáng có ga kèm lát chanh",
-        "Một bình nước máy có đá pha muối",
-        "Hai ly cà phê đen cực nóng",
-        "Một chai nước ngọt có ga vị dâu",
-      ],
-      correctAnswer: 0,
-      explanation: 'In Segment 4, the guest replies: "We would like a bottle of sparkling water with lemon, please."',
-      explanationEn: 'In Segment 4, the guest replies: "We would like a bottle of sparkling water with lemon, please."',
-      explanationVi: 'Trong câu 4, khách gọi: "Cho chúng tôi một chai nước khoáng có ga kèm chanh nhé."',
-      referenceSegmentIndex: 4,
-      targetedConcept: "Gọi nước khoáng có ga (Sparkling Water with Lemon)",
-      targetedConceptEn: "Sparkling Water with Lemon",
-      targetedConceptVi: "Gọi nước khoáng có ga",
+        "id": "q_restaurant_ordering_3",
+        "question": "What drink does Paul choose when the waiter asks for their beverage orders?",
+        "questionEn": "What drink does Paul choose when the waiter asks for their beverage orders?",
+        "questionVi": "Paul chọn loại đồ uống nào khi người phục vụ hỏi về nhu cầu đồ uống?",
+        "options": [
+            "A sweet and creamy milkshake",
+            "A cup of boiling black tea",
+            "A bottle of sparkling champagne",
+            "A glass of plain warm tap water"
+        ],
+        "optionsEn": [
+            "A sweet and creamy milkshake",
+            "A cup of boiling black tea",
+            "A bottle of sparkling champagne",
+            "A glass of plain warm tap water"
+        ],
+        "optionsVi": [
+            "Một ly sữa lắc ngọt ngào và béo ngậy",
+            "Một tách trà đen nóng sôi",
+            "Một chai sâm panh có ga",
+            "Một ly nước máy ấm thông thường"
+        ],
+        "correctAnswer": 0,
+        "explanation": "In Segment 12, Paul orders: \"I'll have a milkshake.\"",
+        "explanationEn": "In Segment 12, Paul orders: \"I'll have a milkshake.\"",
+        "explanationVi": "Trong câu 12, Paul gọi: \"I'll have a milkshake.\" (Con sẽ uống một ly sữa lắc).",
+        "referenceSegmentIndex": 12,
+        "targetedConcept": "Gọi đồ uống nhà hàng (Ordering Beverages & Drinks)",
+        "targetedConceptEn": "Ordering Beverages & Drinks",
+        "targetedConceptVi": "Gọi đồ uống nhà hàng"
     },
     {
-      id: "q_restaurant_ordering_4",
-      question: "How does the server describe today's special dish prepared by the chef?",
-      questionEn: "How does the server describe today's special dish prepared by the chef?",
-      questionVi: "Người phục vụ miêu tả món ăn đặc biệt hôm nay của bếp trưởng như thế nào?",
-      options: [
-        "Pan-seared Atlantic salmon served with roasted asparagus and garlic butter sauce",
-        "Deep-fried chicken nuggets served with ketchup and french fries",
-        "Boiled cabbage soup served with plain white bread slices",
-        "Raw frozen tuna slices without any seasoning or side dishes",
-      ],
-      optionsEn: [
-        "Pan-seared Atlantic salmon served with roasted asparagus and garlic butter sauce",
-        "Deep-fried chicken nuggets served with ketchup and french fries",
-        "Boiled cabbage soup served with plain white bread slices",
-        "Raw frozen tuna slices without any seasoning or side dishes",
-      ],
-      optionsVi: [
-        "Cá hồi Đại Tây Dương áp chảo kèm măng tây nướng và sốt bơ tỏi",
-        "Gà viên chiên giòn ăn kèm tương cà và khoai tây chiên",
-        "Súp bắp cải luộc ăn kèm lát bánh mì trắng không bơ",
-        "Lát cá ngừ đông lạnh sống không kèm gia vị hay món phụ nào",
-      ],
-      correctAnswer: 0,
-      explanation: 'In Segment 5, the server details: "Today\'s special is pan-seared Atlantic salmon served with roasted asparagus and garlic butter sauce."',
-      explanationEn: 'In Segment 5, the server details: "Today\'s special is pan-seared Atlantic salmon served with roasted asparagus and garlic butter sauce."',
-      explanationVi: 'Trong câu 5, người phục vụ mô tả chi tiết: "Món đặc biệt hôm nay là cá hồi Đại Tây Dương áp chảo ăn kèm măng tây nướng và sốt bơ tỏi."',
-      referenceSegmentIndex: 5,
-      targetedConcept: "Món đặc biệt của bếp trưởng (Chef's Special Recommendation)",
-      targetedConceptEn: "Chef's Special Recommendation",
-      targetedConceptVi: "Món đặc biệt của bếp trưởng",
+        "id": "q_restaurant_ordering_4",
+        "question": "What two courses does the mother order for her dinner meal?",
+        "questionEn": "What two courses does the mother order for her dinner meal?",
+        "questionVi": "Người mẹ gọi hai món ăn nào cho bữa tối của mình?",
+        "options": [
+            "Vegetable soup for starter and grilled fish for the main course",
+            "Fried onion rings for starter and spicy chicken wings for main",
+            "Vanilla ice cream for starter and beef steak for main",
+            "Mushroom pizza for starter and boiled eggs for main"
+        ],
+        "optionsEn": [
+            "Vegetable soup for starter and grilled fish for the main course",
+            "Fried onion rings for starter and spicy chicken wings for main",
+            "Vanilla ice cream for starter and beef steak for main",
+            "Mushroom pizza for starter and boiled eggs for main"
+        ],
+        "optionsVi": [
+            "Súp rau củ làm món khai vị và cá nướng làm món chính",
+            "Hành tây chiên giòn khai vị và cánh gà cay làm món chính",
+            "Kem vani làm món khai vị và bít tết bò làm món chính",
+            "Pizza nấm làm món khai vị và trứng luộc làm món chính"
+        ],
+        "correctAnswer": 0,
+        "explanation": "In Segment 19, the mother specifies: \"For starter, I'd like the vegetable soup. For the main course, I'd like the grilled fish.\"",
+        "explanationEn": "In Segment 19, the mother specifies: \"For starter, I'd like the vegetable soup. For the main course, I'd like the grilled fish.\"",
+        "explanationVi": "Trong câu 19, người mẹ gọi: \"For starter, I'd like the vegetable soup. For the main course, I'd like the grilled fish.\" (Về món khai vị, tôi muốn súp rau củ. Còn món chính, cho tôi món cá nướng).",
+        "referenceSegmentIndex": 19,
+        "targetedConcept": "Chọn món khai vị & món chính (Selecting Starters & Main Courses)",
+        "targetedConceptEn": "Selecting Starters & Main Courses",
+        "targetedConceptVi": "Chọn món khai vị & món chính"
     },
     {
-      id: "q_restaurant_ordering_5",
-      question: "What dietary restriction or health concern does the guest raise regarding the garlic butter sauce?",
-      questionEn: "What dietary restriction or health concern does the guest raise regarding the garlic butter sauce?",
-      questionVi: "Vị khách nêu ra hạn chế ăn kiêng hoặc lo ngại sức khỏe nào liên quan đến sốt bơ tỏi?",
-      options: [
-        "Whether the sauce contains dairy because the friend has a mild lactose intolerance",
-        "Whether the dish contains dangerous chili peppers that burn the tongue",
-        "If the salmon was caught using commercial nylon nets",
-        "Whether the asparagus was grown in organic greenhouse soil",
-      ],
-      optionsEn: [
-        "Whether the sauce contains dairy because the friend has a mild lactose intolerance",
-        "Whether the dish contains dangerous chili peppers that burn the tongue",
-        "If the salmon was caught using commercial nylon nets",
-        "Whether the asparagus was grown in organic greenhouse soil",
-      ],
-      optionsVi: [
-        "Liệu nước sốt có chứa sữa không vì người bạn đi cùng bị dị ứng nhẹ với đường lactose",
-        "Liệu món ăn có chứa ớt cay nồng làm bỏng lưỡi không",
-        "Liệu cá hồi có bị đánh bắt bằng lưới ni-lông thương mại không",
-        "Liệu măng tây có được trồng trong đất nhà kính hữu cơ không",
-      ],
-      correctAnswer: 0,
-      explanation: 'In Segment 6, the guest checks: "Does the sauce contain any dairy? My friend has a mild lactose intolerance."',
-      explanationEn: 'In Segment 6, the guest checks: "Does the sauce contain any dairy? My friend has a mild lactose intolerance."',
-      explanationVi: 'Trong câu 6, khách hỏi thăm: "Nước sốt có chứa sản phẩm từ sữa không? Bạn tôi hơi dị ứng với đường lactose."',
-      referenceSegmentIndex: 6,
-      targetedConcept: "Hỏi về dị ứng lactose từ sữa (Dietary Restrictions & Lactose Intolerance)",
-      targetedConceptEn: "Dietary Restrictions & Lactose Intolerance",
-      targetedConceptVi: "Hỏi về dị ứng lactose từ sữa",
+        "id": "q_restaurant_ordering_5",
+        "question": "Why can't Paul eat his soup immediately when the food is served?",
+        "questionEn": "Why can't Paul eat his soup immediately when the food is served?",
+        "questionVi": "Tại sao Paul không thể ăn món súp ngay khi thức ăn vừa được dọn lên?",
+        "options": [
+            "The soup is extremely hot so he can barely touch it",
+            "The soup is completely frozen with ice cubes",
+            "The waiter forgot to bring spoons to the table",
+            "He does not like vegetables in the soup"
+        ],
+        "optionsEn": [
+            "The soup is extremely hot so he can barely touch it",
+            "The soup is completely frozen with ice cubes",
+            "The waiter forgot to bring spoons to the table",
+            "He does not like vegetables in the soup"
+        ],
+        "optionsVi": [
+            "Món súp quá nóng khiến cậu bé gần như không thể chạm vào",
+            "Món súp bị đông đá hoàn toàn với những viên đá lạnh",
+            "Người phục vụ quên không mang thìa ra bàn",
+            "Cậu bé không thích ăn rau củ trong món súp"
+        ],
+        "correctAnswer": 0,
+        "explanation": "In Segment 24, Paul explains: \"I am so hungry and I want to eat, but the soup is so hot, I can barely touch it.\"",
+        "explanationEn": "In Segment 24, Paul explains: \"I am so hungry and I want to eat, but the soup is so hot, I can barely touch it.\"",
+        "explanationVi": "Trong câu 24, Paul giải thích: \"I am so hungry and I want to eat, but the soup is so hot, I can barely touch it.\" (Con đói bụng lắm và muốn ăn ngay, nhưng món súp nóng quá, con gần như không chạm vào nổi).",
+        "referenceSegmentIndex": 24,
+        "targetedConcept": "Nhận xét nhiệt độ món ăn (Commenting on Food Temperature)",
+        "targetedConceptEn": "Commenting on Food Temperature",
+        "targetedConceptVi": "Nhận xét nhiệt độ món ăn"
     },
     {
-      id: "q_restaurant_ordering_6",
-      question: "What culinary adjustment does the restaurant offer to accommodate the guest's lactose sensitivity?",
-      questionEn: "What culinary adjustment does the restaurant offer to accommodate the guest's lactose sensitivity?",
-      questionVi: "Nhà hàng đưa ra sự điều chỉnh ẩm thực nào để phù hợp với người bị dị ứng đường lactose?",
-      options: [
-        "Preparing a dairy-free lemon herb olive oil dressing instead of butter sauce",
-        "Removing the fish entirely and serving only boiled white rice",
-        "Advising the guest to bring their own cooked food from home",
-        "Diluting the dairy butter with cold mineral water",
-      ],
-      optionsEn: [
-        "Preparing a dairy-free lemon herb olive oil dressing instead of butter sauce",
-        "Removing the fish entirely and serving only boiled white rice",
-        "Advising the guest to bring their own cooked food from home",
-        "Diluting the dairy butter with cold mineral water",
-      ],
-      optionsVi: [
-        "Làm sốt dầu ô liu thảo mộc chanh không chứa sữa thay cho sốt bơ",
-        "Bỏ hoàn toàn cá và chỉ phục vụ cơm trắng luộc",
-        "Khuyên khách nên mang đồ ăn tự nấu từ nhà đến",
-        "Pha loãng bơ sữa với nước khoáng lạnh",
-      ],
-      correctAnswer: 0,
-      explanation: 'In Segment 7, the server reassures: "...our chef can happily prepare a dairy-free lemon herb olive oil dressing for you."',
-      explanationEn: 'In Segment 7, the server reassures: "...our chef can happily prepare a dairy-free lemon herb olive oil dressing for you."',
-      explanationVi: 'Trong câu 7, người phục vụ trấn an: "...đầu bếp của chúng tôi có thể làm sốt dầu ô liu thảo mộc chanh không chứa sữa cho quý khách."',
-      referenceSegmentIndex: 7,
-      targetedConcept: "Điều chỉnh món ăn không chứa sữa (Dairy-Free Custom Dressing)",
-      targetedConceptEn: "Dairy-Free Custom Dressing",
-      targetedConceptVi: "Điều chỉnh món ăn không chứa sữa",
+        "id": "q_restaurant_ordering_6",
+        "question": "What condiment does the mother ask Paul to pass to her at the dining table?",
+        "questionEn": "What condiment does the mother ask Paul to pass to her at the dining table?",
+        "questionVi": "Người mẹ nhờ Paul chuyền giúp gia vị gì trên bàn ăn?",
+        "options": [
+            "The salt shaker",
+            "The hot chili sauce",
+            "The black pepper grinder",
+            "The soy sauce bottle"
+        ],
+        "optionsEn": [
+            "The salt shaker",
+            "The hot chili sauce",
+            "The black pepper grinder",
+            "The soy sauce bottle"
+        ],
+        "optionsVi": [
+            "Lọ muối",
+            "Chai tương ớt cay",
+            "Cối xay tiêu đen",
+            "Chai nước tương xì dầu"
+        ],
+        "correctAnswer": 0,
+        "explanation": "In Segment 33, the mother requests: \"Could you please pass me the salt, Paul?\"",
+        "explanationEn": "In Segment 33, the mother requests: \"Could you please pass me the salt, Paul?\"",
+        "explanationVi": "Trong câu 33, người mẹ nhờ: \"Could you please pass me the salt, Paul?\" (Paul ơi, con có thể làm ơn chuyền cho mẹ lọ muối được không?).",
+        "referenceSegmentIndex": 33,
+        "targetedConcept": "Phép lịch sự chuyền gia vị trên bàn ăn (Table Manners & Passing Condiments)",
+        "targetedConceptEn": "Table Manners & Passing Condiments",
+        "targetedConceptVi": "Phép lịch sự chuyền gia vị trên bàn ăn"
     },
     {
-      id: "q_restaurant_ordering_7",
-      question: "What two main courses do the guests order, and what doneness level is specified for the steak?",
-      questionEn: "What two main courses do the guests order, and what doneness level is specified for the steak?",
-      questionVi: "Hai món chính nào được khách gọi, và mức độ chín nào được yêu cầu cho món bít tết?",
-      options: [
-        "One salmon and one grilled ribeye steak cooked medium-rare",
-        "Two well-done chicken breasts with barbecue sauce",
-        "One raw hamburger patty and one plain boiled egg",
-        "Two seafood platters completely blackened and burnt",
-      ],
-      optionsEn: [
-        "One salmon and one grilled ribeye steak cooked medium-rare",
-        "Two well-done chicken breasts with barbecue sauce",
-        "One raw hamburger patty and one plain boiled egg",
-        "Two seafood platters completely blackened and burnt",
-      ],
-      optionsVi: [
-        "Một phần cá hồi và một phần bít tết sườn nướng ribeye chín tái vừa (medium-rare)",
-        "Hai ức gà chín kỹ kèm sốt thịt nướng barbecue",
-        "Một miếng thịt băm hamburger sống và một quả trứng luộc",
-        "Hai đĩa hải sản nướng cháy đen hoàn toàn",
-      ],
-      correctAnswer: 0,
-      explanation: 'In Segment 8, the guest orders: "We will take one salmon and one grilled ribeye steak cooked medium-rare."',
-      explanationEn: 'In Segment 8, the guest orders: "We will take one salmon and one grilled ribeye steak cooked medium-rare."',
-      explanationVi: 'Trong câu 8, khách gọi món: "Chúng tôi sẽ gọi một phần cá hồi và một phần bít tết sườn nướng ribeye chín tái vừa (medium-rare)."',
-      referenceSegmentIndex: 8,
-      targetedConcept: "Gọi món chính & Độ chín bít tết (Main Entrées & Medium-Rare Doneness)",
-      targetedConceptEn: "Main Entrées & Medium-Rare Doneness",
-      targetedConceptVi: "Gọi món chính & Độ chín bít tết",
+        "id": "q_restaurant_ordering_7",
+        "question": "Which dessert does Amy choose when the waiter asks about desserts?",
+        "questionEn": "Which dessert does Amy choose when the waiter asks about desserts?",
+        "questionVi": "Amy chọn món tráng miệng nào khi người phục vụ hỏi về món tráng miệng?",
+        "options": [
+            "The cheesecake",
+            "A chocolate fudge brownie",
+            "An apple cinnamon pie",
+            "A bowl of fresh strawberries"
+        ],
+        "optionsEn": [
+            "The cheesecake",
+            "A chocolate fudge brownie",
+            "An apple cinnamon pie",
+            "A bowl of fresh strawberries"
+        ],
+        "optionsVi": [
+            "Bánh phô mai (cheesecake)",
+            "Bánh hạnh nhân sô-cô-la fudge",
+            "Bánh nướng táo hương quế",
+            "Một bát dâu tây tươi"
+        ],
+        "correctAnswer": 0,
+        "explanation": "In Segment 42, Amy says: \"I'll have the cheese cake please.\"",
+        "explanationEn": "In Segment 42, Amy says: \"I'll have the cheese cake please.\"",
+        "explanationVi": "Trong câu 42, Amy gọi: \"I'll have the cheese cake please.\" (Cho con bánh phô mai nhé).",
+        "referenceSegmentIndex": 42,
+        "targetedConcept": "Gọi món tráng miệng (Ordering Desserts)",
+        "targetedConceptEn": "Ordering Desserts",
+        "targetedConceptVi": "Gọi món tráng miệng"
     },
     {
-      id: "q_restaurant_ordering_8",
-      question: "How does the server conclude the ordering interaction professionally?",
-      questionEn: "How does the server conclude the ordering interaction professionally?",
-      questionVi: "Người phục vụ kết thúc cuộc tương tác gọi món một cách chuyên nghiệp như thế nào?",
-      options: [
-        "Praising their choices, sending the order to the kitchen, and wishing them an enjoyable evening",
-        "Expressing regret and canceling the entire reservation",
-        "Demanding they finish eating within ten minutes",
-        "Asking them to wash the dishes in the back kitchen",
-      ],
-      optionsEn: [
-        "Praising their choices, sending the order to the kitchen, and wishing them an enjoyable evening",
-        "Expressing regret and canceling the entire reservation",
-        "Demanding they finish eating within ten minutes",
-        "Asking them to wash the dishes in the back kitchen",
-      ],
-      optionsVi: [
-        "Khen ngợi sự lựa chọn, gửi đơn gọi món tới nhà bếp ngay và chúc quý khách một buổi tối tuyệt vời",
-        "Bày tỏ sự tiếc nuối và hủy bỏ toàn bộ đặt bàn",
-        "Yêu cầu họ phải ăn xong trong vòng mười phút",
-        "Bảo họ vào bếp phía sau rửa bát",
-      ],
-      correctAnswer: 0,
-      explanation: 'In Segment 9, the server concludes: "Excellent choices! I will place your order with the kitchen right away. Enjoy your evening!"',
-      explanationEn: 'In Segment 9, the server concludes: "Excellent choices! I will place your order with the kitchen right away. Enjoy your evening!"',
-      explanationVi: 'Trong câu 9, người phục vụ kết thúc: "Những sự lựa chọn tuyệt vời! Tôi sẽ gửi đơn gọi món tới nhà bếp ngay bây giờ. Chúc quý khách một buổi tối ngon miệng!"',
-      referenceSegmentIndex: 9,
-      targetedConcept: "Kết thúc gọi món chuẩn mực (Order Placement & Hospitality Courtesies)",
-      targetedConceptEn: "Order Placement & Hospitality Courtesies",
-      targetedConceptVi: "Kết thúc gọi món chuẩn mực",
-    },
-  ],
+        "id": "q_restaurant_ordering_8",
+        "question": "What final request does the father make after the waiter asks if they need anything else?",
+        "questionEn": "What final request does the father make after the waiter asks if they need anything else?",
+        "questionVi": "Người cha đưa ra yêu cầu cuối cùng nào sau khi người phục vụ hỏi họ có cần thêm gì nữa không?",
+        "options": [
+            "He politely asks for just the bill to pay for the meal",
+            "He orders four more large pepperoni pizzas to take home",
+            "He asks to speak with the head chef in the kitchen",
+            "He requests a reservation for tomorrow morning"
+        ],
+        "optionsEn": [
+            "He politely asks for just the bill to pay for the meal",
+            "He orders four more large pepperoni pizzas to take home",
+            "He asks to speak with the head chef in the kitchen",
+            "He requests a reservation for tomorrow morning"
+        ],
+        "optionsVi": [
+            "Ông lịch sự xin hóa đơn tính tiền cho bữa ăn",
+            "Ông gọi thêm bốn chiếc pizza xúc xích lớn mang về nhà",
+            "Ông yêu cầu được nói chuyện với bếp trưởng trong gian bếp",
+            "Ông yêu cầu đặt bàn trước cho sáng ngày mai"
+        ],
+        "correctAnswer": 0,
+        "explanation": "In Segment 51, the father responds: \"No, thank you, just the bill.\"",
+        "explanationEn": "In Segment 51, the father responds: \"No, thank you, just the bill.\"",
+        "explanationVi": "Trong câu 51, người cha đáp: \"No, thank you, just the bill.\" (Không, cảm ơn bạn, chỉ cần hóa đơn tính tiền thôi).",
+        "referenceSegmentIndex": 51,
+        "targetedConcept": "Yêu cầu hóa đơn thanh toán (Requesting the Dining Bill)",
+        "targetedConceptEn": "Requesting the Dining Bill",
+        "targetedConceptVi": "Yêu cầu hóa đơn thanh toán"
+    }
+],
   generatedBy: "CONTEXTUAL_FALLBACK",
 };
 
 /**
  * English for Dining: Ordering Food at a Restaurant
  * Slug: english-dining-ordering-food-restaurant
- * YouTube ID: G9bFzV7p6m0
- * Category: cat_daily (Đời Sống & Du Lịch)
- * Standard Professional Dining English Dialogue
+ * YouTube ID: bgfdqVmVjfk
+ * Category: cat_daily_conv (Giao Tiếp Đời Thực)
+ * 100% Verbatim Authentic Dialogue (Scene 1: Easy English Family Dining Master Track)
  */
 export const LESSON_RESTAURANT_ORDERING: MockVideoLesson = {
   id: "vid_travel_restaurant_ordering",
   slug: "english-dining-ordering-food-restaurant",
   title: "English for Dining: Ordering Food at a Restaurant",
-  description: "Bộ hội thoại tiếng Anh thực tế khi đi ăn nhà hàng: đặt bàn trước, gọi đồ uống khai vị, hỏi tư vấn món đặc trưng của bếp trưởng (chef's recommendation), ghi chú dị ứng thực phẩm, gọi món chính và tráng miệng, và yêu cầu hóa đơn thanh toán.",
+  description: "Trọn vẹn hội thoại thực tế khi dùng bữa tại nhà hàng cùng gia đình: đặt bàn 4 người, nhận thực đơn, gọi đồ uống (nước lọc, nước chanh, sữa lắc milkshake, nước cam), gọi món khai vị và món chính (súp rau củ, gà nướng, cá nướng, lasagna), trò chuyện và chuyền gia vị trên bàn ăn, gọi món tráng miệng (kem, bánh sô-cô-la, bánh phô mai cheesecake), xin thêm ly nước và thanh toán hóa đơn.",
   sourceType: "YOUTUBE",
   externalId: "bgfdqVmVjfk",
   thumbnailUrl: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&auto=format&fit=crop&q=80",
-  durationSeconds: 65,
-  durationFormatted: "01:05",
+  durationSeconds: 175,
+  durationFormatted: "02:55",
   cefrLevel: "A2",
   supportedTypes: "BOTH",
   categoryId: "cat_daily_conv",
   categorySlug: "daily-conversations",
   categoryName: "Giao Tiếp Đời Thực",
   accent: "en-US",
-  wpmSpeed: 145,
+  wpmSpeed: 120,
   viewCount: 224000,
   studyCount: 71200,
   quiz: QUIZ_RESTAURANT_ORDERING,
   segments: [
     {
-      orderIndex: 0,
-      startTime: 0.0,
-      endTime: 5.0,
-      text: "Good evening! Welcome to Bistro Paris. Do you have a dinner reservation with us tonight?",
-      translationVi: "Xin chào buổi tối! Chào mừng quý khách đến với Bistro Paris. Quý khách có đặt bàn ăn tối trước với chúng tôi không ạ?",
-      ipaUs: "/ɡʊd ˈiːvnɪŋ ˈwelkəm tuː ˈbiːstroʊ ˈpærɪs duː juː hæv ə ˈdɪnər ˌrezərˈveɪʃn wɪð ʌs təˈnaɪt/",
-      properNouns: ["Bistro Paris"],
-      keywords: ["good evening", "welcome", "dinner reservation"],
-      explanationAi: "Lời chào mở đầu lịch thiệp của nhân viên đón khách tại nhà hàng (host/hostess).",
-      tokenCount: 15,
+        "orderIndex": 0,
+        "startTime": 7.92,
+        "endTime": 9.8,
+        "text": "Hello! How can I help you?",
+        "translationVi": "Xin chào! Tôi có thể giúp gì cho quý khách?",
+        "ipaUs": "/həˈloʊ haʊ kæn aɪ help juː/",
+        "properNouns": [],
+        "keywords": [
+            "hello",
+            "how can I help you"
+        ],
+        "explanationAi": "Lời chào hỏi và mở lời đón khách tiêu chuẩn và lịch sự của nhân viên nhà hàng.",
+        "tokenCount": 6
     },
     {
-      orderIndex: 1,
-      startTime: 5.5,
-      endTime: 11.2,
-      text: "Yes, good evening. We have a table reserved for two under the name Alex at 7:30 PM.",
-      translationVi: "Vâng, chào buổi tối. Chúng tôi có đặt bàn cho hai người dưới tên Alex lúc 7:30 tối.",
-      ipaUs: "/jes ɡʊd ˈiːvnɪŋ wiː hæv ə ˈteɪbl rɪˈzɜːrvd fɔːr tuː ˈʌndər ðə neɪm ˈæleks æt ˈsevn ˈθɜːrti piː em/",
-      properNouns: ["Alex"],
-      keywords: ["table reserved", "for two", "under the name"],
-      explanationAi: "'Table for two' là bàn dành cho hai người; 'under the name of...' là đứng tên người đặt chỗ.",
-      tokenCount: 18,
+        "orderIndex": 1,
+        "startTime": 10.28,
+        "endTime": 13.5,
+        "text": "Hello! I would like a table for four, please.",
+        "translationVi": "Xin chào! Cho chúng tôi một bàn bốn người nhé.",
+        "ipaUs": "/həˈloʊ aɪ wʊd laɪk ə ˈteɪbl fɔːr fɔːr pliːz/",
+        "properNouns": [],
+        "keywords": [
+            "would like",
+            "table for four",
+            "please"
+        ],
+        "explanationAi": "'A table for four' là mẫu câu thông dụng nhất để yêu cầu bàn ăn cho 4 người trong nhà hàng.",
+        "tokenCount": 9
     },
     {
-      orderIndex: 2,
-      startTime: 11.8,
-      endTime: 17.5,
-      text: "Right this way, please. Here are your menus, and our server will be with you in a moment.",
-      translationVi: "Xin mời đi lối này ạ. Đây là thực đơn của quý khách, và người phục vụ sẽ đến trong giây lát.",
-      ipaUs: "/raɪt ðɪs weɪ pliːz hɪr ɑːr jʊər ˈmenjuːz ænd ˈaʊər ˈsɜːrvər wɪl biː wɪð juː ɪn ə ˈmoʊmənt/",
-      properNouns: [],
-      keywords: ["right this way", "menus", "server", "in a moment"],
-      explanationAi: "'Right this way' là chỉ dẫn mời khách theo sau; 'server' là từ trung tính chỉ người phục vụ bàn.",
-      tokenCount: 18,
+        "orderIndex": 2,
+        "startTime": 14,
+        "endTime": 17.5,
+        "text": "Of course. Please follow me!",
+        "translationVi": "Tất nhiên rồi ạ. Xin mời đi theo tôi!",
+        "ipaUs": "/əv kɔːrs pliːz ˈfɑːloʊ miː/",
+        "properNouns": [],
+        "keywords": [
+            "of course",
+            "please follow me"
+        ],
+        "explanationAi": "'Please follow me' là câu dẫn đường lịch thiệp khi nhân viên đưa khách đến vị trí bàn ăn.",
+        "tokenCount": 5
     },
     {
-      orderIndex: 3,
-      startTime: 18.0,
-      endTime: 24.5,
-      text: "Good evening, my name is Sarah. Can I start you off with something to drink while you look over the menu?",
-      translationVi: "Xin chào buổi tối, tôi tên là Sarah. Tôi có thể lấy đồ uống gì cho quý khách trong khi quý khách xem thực đơn không ạ?",
-      ipaUs: "/ɡʊd ˈiːvnɪŋ maɪ neɪm ɪz ˈserə kæn aɪ stɑːrt juː ɔːf wɪð ˈsʌmθɪŋ tuː drɪŋk waɪl juː lʊk ˈoʊvər ðə ˈmenjuː/",
-      properNouns: ["Sarah"],
-      keywords: ["start you off", "something to drink", "look over"],
-      explanationAi: "'Start someone off with...' là cụm từ chuyên ngành phục vụ nghĩa là mời dùng món khai vị hoặc đồ uống trước.",
-      tokenCount: 21,
+        "orderIndex": 3,
+        "startTime": 18.64,
+        "endTime": 20.3,
+        "text": "Here is a table for four.",
+        "translationVi": "Đây là bàn bốn người của quý khách ạ.",
+        "ipaUs": "/hɪr ɪz ə ˈteɪbl fɔːr fɔːr/",
+        "properNouns": [],
+        "keywords": [
+            "here is",
+            "table for four"
+        ],
+        "explanationAi": "Cụm 'Here is...' dùng để giới thiệu vị trí bàn ăn đã được chuẩn bị sẵn sàng.",
+        "tokenCount": 6
     },
     {
-      orderIndex: 4,
-      startTime: 25.0,
-      endTime: 31.5,
-      text: "We would like a bottle of sparkling water with lemon, please. What is the chef's special today?",
-      translationVi: "Cho chúng tôi một chai nước khoáng có ga kèm chanh nhé. Món đặc biệt của bếp trưởng hôm nay là gì vậy?",
-      ipaUs: "/wiː wʊd laɪk ə ˈbɑːtl əv ˈspɑːrklɪŋ ˈwɔːtər wɪð ˈlemən pliːz wʌt ɪz ðə ʃefs ˈspeʃl təˈdeɪ/",
-      properNouns: [],
-      keywords: ["sparkling water", "lemon", "chef's special"],
-      explanationAi: "'Sparkling water' là nước khoáng có gas (sủi bọt); 'chef's special' là món đặc sắc nhất trong ngày do bếp trưởng chế biến.",
-      tokenCount: 18,
+        "orderIndex": 4,
+        "startTime": 20.72,
+        "endTime": 23,
+        "text": "Thank you!",
+        "translationVi": "Cảm ơn bạn!",
+        "ipaUs": "/θæŋk juː/",
+        "properNouns": [],
+        "keywords": [
+            "thank you"
+        ],
+        "explanationAi": "Lời cảm ơn tự nhiên sau khi được nhân viên dẫn tới bàn ăn.",
+        "tokenCount": 2
     },
     {
-      orderIndex: 5,
-      startTime: 32.0,
-      endTime: 39.0,
-      text: "Today's special is pan-seared Atlantic salmon served with roasted asparagus and garlic butter sauce.",
-      translationVi: "Món đặc biệt hôm nay là cá hồi Đại Tây Dương áp chảo ăn kèm măng tây nướng và sốt bơ tỏi.",
-      ipaUs: "/təˈdeɪz ˈspeʃl ɪz pæn sɪrd ətˈlæntɪk ˈsæmən sɜːrvd wɪð ˈroʊstɪd əˈspærəɡəs ænd ˈɡɑːrlɪk ˈbʌtər sɔːs/",
-      properNouns: ["Atlantic"],
-      keywords: ["pan-seared", "Atlantic salmon", "roasted asparagus", "garlic butter sauce"],
-      explanationAi: "'Pan-seared' là áp chảo trên lửa lớn để mặt ngoài xém vàng; 'salmon' phát âm là /ˈsæmən/ (âm l câm).",
-      tokenCount: 15,
+        "orderIndex": 5,
+        "startTime": 23.68,
+        "endTime": 25.8,
+        "text": "Could you give us the menu, please?",
+        "translationVi": "Bạn có thể đưa cho chúng tôi thực đơn được không?",
+        "ipaUs": "/kʊd juː ɡɪv ʌs ðə ˈmenjuː pliːz/",
+        "properNouns": [],
+        "keywords": [
+            "could you",
+            "give us",
+            "menu"
+        ],
+        "explanationAi": "Cấu trúc đề nghị lịch sự 'Could you... please?' khi yêu cầu nhận thực đơn xem món.",
+        "tokenCount": 7
     },
     {
-      orderIndex: 6,
-      startTime: 39.5,
-      endTime: 46.5,
-      text: "That sounds delicious! Does the sauce contain any dairy? My friend has a mild lactose intolerance.",
-      translationVi: "Nghe ngon quá! Nước sốt có chứa sản phẩm từ sữa không? Bạn tôi hơi dị ứng với đường lactose.",
-      ipaUs: "/ðæt saʊndz dɪˈlɪʃəs dʌz ðə sɔːs kənˈteɪn ˈeni ˈderi maɪ frend hæz ə maɪld ˈlæktoʊs ɪnˈtɑːlərəns/",
-      properNouns: [],
-      keywords: ["delicious", "dairy", "lactose intolerance"],
-      explanationAi: "'Lactose intolerance' là chứng bất dung nạp đường sữa; 'dairy' chỉ các chế phẩm từ sữa động vật.",
-      tokenCount: 17,
+        "orderIndex": 6,
+        "startTime": 26.08,
+        "endTime": 28,
+        "text": "Yes, of course.",
+        "translationVi": "Vâng, tất nhiên rồi ạ.",
+        "ipaUs": "/jes əv kɔːrs/",
+        "properNouns": [],
+        "keywords": [
+            "yes",
+            "of course"
+        ],
+        "explanationAi": "Câu đáp lại vui vẻ và sẵn sàng phục vụ của nhân viên bồi bàn.",
+        "tokenCount": 3
     },
     {
-      orderIndex: 7,
-      startTime: 47.0,
-      endTime: 54.0,
-      text: "Yes, the sauce contains butter, but our chef can happily prepare a dairy-free lemon herb olive oil dressing for you.",
-      translationVi: "Vâng, sốt có bơ, nhưng đầu bếp có thể vui vẻ làm sốt dầu ô liu thảo mộc chanh không chứa sữa cho quý khách.",
-      ipaUs: "/jes ðə sɔːs kənˈteɪnz ˈbʌtər bʌt ˈaʊər ʃef kæn ˈhæpɪli prɪˈper ə ˈderi friː ˈlemən ɜːrb ˈɑːlɪv ɔɪl ˈdresɪŋ fɔːr juː/",
-      properNouns: [],
-      keywords: ["contains butter", "dairy-free", "lemon herb", "olive oil dressing"],
-      explanationAi: "'Dairy-free' là không có thành phần sữa; 'dressing' là nước xốt gia vị lỏng rưới lên món ăn.",
-      tokenCount: 20,
+        "orderIndex": 7,
+        "startTime": 28.72,
+        "endTime": 29.5,
+        "text": "Here you are!",
+        "translationVi": "Thực đơn của quý khách đây ạ!",
+        "ipaUs": "/hɪr juː ɑːr/",
+        "properNouns": [],
+        "keywords": [
+            "here you are"
+        ],
+        "explanationAi": "'Here you are' là cách nói chuẩn mực khi trao vật gì đó (ở đây là thực đơn) tận tay người khác.",
+        "tokenCount": 3
     },
     {
-      orderIndex: 8,
-      startTime: 54.5,
-      endTime: 60.5,
-      text: "That would be wonderful! We will take one salmon and one grilled ribeye steak cooked medium-rare.",
-      translationVi: "Tuyệt vời quá! Chúng tôi sẽ gọi một phần cá hồi và một phần bít tết sườn nướng tái vừa.",
-      ipaUs: "/ðæt wʊd biː ˈwʌndərfʊl wiː wɪl teɪk wʌn ˈsæmən ænd wʌn ɡrɪld ˈrɪbaɪ steɪk kʊkt ˈmiːdiəm rer/",
-      properNouns: [],
-      keywords: ["wonderful", "ribeye steak", "medium-rare"],
-      explanationAi: "'Medium-rare' là mức độ chín hoàn hảo của bít tết bò (bên ngoài nâu sém, bên trong đỏ hồng và mọng nước).",
-      tokenCount: 17,
+        "orderIndex": 8,
+        "startTime": 29.84,
+        "endTime": 30.5,
+        "text": "Thank you.",
+        "translationVi": "Cảm ơn bạn.",
+        "ipaUs": "/θæŋk juː/",
+        "properNouns": [],
+        "keywords": [
+            "thank you"
+        ],
+        "explanationAi": "Lời cảm ơn ngắn gọn khi nhận thực đơn.",
+        "tokenCount": 2
     },
     {
-      orderIndex: 9,
-      startTime: 61.0,
-      endTime: 65.0,
-      text: "Excellent choices! I will place your order with the kitchen right away. Enjoy your evening!",
-      translationVi: "Những sự lựa chọn tuyệt hảo! Tôi sẽ gửi đơn gọi món tới nhà bếp ngay bây giờ. Chúc quý khách có một buổi tối ngon miệng!",
-      ipaUs: "/ˈeksələnt ˈtʃɔɪsɪz aɪ wɪl pleɪs jʊər ˈɔːrdər wɪð ðə ˈkɪtʃɪn raɪt əˈweɪ ɪnˈdʒɔɪ jʊər ˈiːvnɪŋ/",
-      properNouns: [],
-      keywords: ["excellent choices", "place your order", "right away"],
-      explanationAi: "'Place an order' là đặt đơn gọi món; 'right away' là ngay lập tức không chậm trễ.",
-      tokenCount: 16,
+        "orderIndex": 9,
+        "startTime": 30.72,
+        "endTime": 32.5,
+        "text": "Can I get you anything to drink?",
+        "translationVi": "Tôi có thể lấy đồ uống gì cho quý khách trước không ạ?",
+        "ipaUs": "/kæn aɪ ɡet juː ˈeniθɪŋ tuː drɪŋk/",
+        "properNouns": [],
+        "keywords": [
+            "can I get you",
+            "anything to drink"
+        ],
+        "explanationAi": "'Can I get you anything to drink?' là câu hỏi thông lệ để phục vụ nước uống trước khi khách chọn đồ ăn.",
+        "tokenCount": 7
     },
-  ],
+    {
+        "orderIndex": 10,
+        "startTime": 32.88,
+        "endTime": 34.2,
+        "text": "Just water for me.",
+        "translationVi": "Cho tôi nước lọc thôi.",
+        "ipaUs": "/dʒʌst ˈwɔːtər fɔːr miː/",
+        "properNouns": [],
+        "keywords": [
+            "just water",
+            "for me"
+        ],
+        "explanationAi": "'Just water for me' là cách gọi nước lọc đơn giản, nhanh chóng.",
+        "tokenCount": 4
+    },
+    {
+        "orderIndex": 11,
+        "startTime": 34.48,
+        "endTime": 35.8,
+        "text": "I'll have a lemonade.",
+        "translationVi": "Tôi sẽ dùng một ly nước chanh.",
+        "ipaUs": "/aɪl hæv ə ˌleməˈneɪd/",
+        "properNouns": [],
+        "keywords": [
+            "I'll have",
+            "lemonade"
+        ],
+        "explanationAi": "'I'll have...' là mẫu câu phổ biến nhất để gọi món ăn hoặc đồ uống tại nhà hàng.",
+        "tokenCount": 5
+    },
+    {
+        "orderIndex": 12,
+        "startTime": 36.32,
+        "endTime": 37.8,
+        "text": "I'll have a milkshake.",
+        "translationVi": "Con sẽ uống một ly sữa lắc.",
+        "ipaUs": "/aɪl hæv ə ˈmɪlkʃeɪk/",
+        "properNouns": [],
+        "keywords": [
+            "I'll have",
+            "milkshake"
+        ],
+        "explanationAi": "'Milkshake' là sữa lắc vị ngọt béo rất được trẻ em yêu thích tại các quán ăn.",
+        "tokenCount": 5
+    },
+    {
+        "orderIndex": 13,
+        "startTime": 38.08,
+        "endTime": 39.5,
+        "text": "I'll have an orange juice.",
+        "translationVi": "Con sẽ uống một ly nước cam.",
+        "ipaUs": "/aɪl hæv ən ˈɔːrɪndʒ dʒuːs/",
+        "properNouns": [],
+        "keywords": [
+            "I'll have",
+            "orange juice"
+        ],
+        "explanationAi": "'Orange juice' là nước cam ép; chú ý dùng mạo từ 'an' trước nguyên âm 'orange'.",
+        "tokenCount": 6
+    },
+    {
+        "orderIndex": 14,
+        "startTime": 40,
+        "endTime": 42,
+        "text": "Great! I'll be right back.",
+        "translationVi": "Tuyệt vời! Tôi sẽ quay lại ngay.",
+        "ipaUs": "/ɡreɪt aɪl biː raɪt bæk/",
+        "properNouns": [],
+        "keywords": [
+            "great",
+            "I'll be right back"
+        ],
+        "explanationAi": "'I'll be right back' thông báo cho khách biết người phục vụ đi lấy đồ uống và sẽ quay lại bàn sớm.",
+        "tokenCount": 6
+    },
+    {
+        "orderIndex": 15,
+        "startTime": 51.92,
+        "endTime": 53.2,
+        "text": "Are you ready to order?",
+        "translationVi": "Quý khách đã sẵn sàng gọi món chưa ạ?",
+        "ipaUs": "/ɑːr juː ˈredi tuː ˈɔːrdər/",
+        "properNouns": [],
+        "keywords": [
+            "ready to order"
+        ],
+        "explanationAi": "Câu hỏi tiêu chuẩn của nhân viên phục vụ khi quay lại bàn để ghi nhận món chính.",
+        "tokenCount": 5
+    },
+    {
+        "orderIndex": 16,
+        "startTime": 53.44,
+        "endTime": 57,
+        "text": "Yes, we are. I'll have the grilled chicken and a salad.",
+        "translationVi": "Vâng, chúng tôi sẵn sàng rồi. Cho tôi món gà nướng và một phần salad.",
+        "ipaUs": "/jes wiː ɑːr aɪl hæv ðə ɡrɪld ˈtʃɪkɪn ænd ə ˈsæləd/",
+        "properNouns": [],
+        "keywords": [
+            "yes we are",
+            "grilled chicken",
+            "salad"
+        ],
+        "explanationAi": "'Grilled chicken' là món gà nướng trên vỉ than hoặc lò nướng kèm món rau trộn salad.",
+        "tokenCount": 12
+    },
+    {
+        "orderIndex": 17,
+        "startTime": 57.28,
+        "endTime": 59,
+        "text": "Would you like a starter, sir?",
+        "translationVi": "Thưa ông, ông có muốn dùng món khai vị không ạ?",
+        "ipaUs": "/wʊd juː laɪk ə ˈstɑːrtər sɜːr/",
+        "properNouns": [],
+        "keywords": [
+            "would you like",
+            "starter",
+            "sir"
+        ],
+        "explanationAi": "'Starter' (hay appetizer) là món khai vị nhẹ dùng trước món chính.",
+        "tokenCount": 6
+    },
+    {
+        "orderIndex": 18,
+        "startTime": 59.52,
+        "endTime": 61.5,
+        "text": "Yes, I'd like the vegetable soup.",
+        "translationVi": "Vâng, tôi muốn dùng món súp rau củ.",
+        "ipaUs": "/jes aɪd laɪk ðə ˈvedʒtəbl suːp/",
+        "properNouns": [],
+        "keywords": [
+            "I'd like",
+            "vegetable soup"
+        ],
+        "explanationAi": "'Vegetable soup' là món súp nấu từ rau củ thanh đạm thích hợp làm món khai vị.",
+        "tokenCount": 7
+    },
+    {
+        "orderIndex": 19,
+        "startTime": 61.76,
+        "endTime": 67.2,
+        "text": "For starter, I'd like the vegetable soup. For the main course, I'd like the grilled fish.",
+        "translationVi": "Về món khai vị, tôi muốn súp rau củ. Còn món chính, cho tôi món cá nướng.",
+        "ipaUs": "/fɔːr ˈstɑːrtər aɪd laɪk ðə ˈvedʒtəbl suːp fɔːr ðə meɪn kɔːrs aɪd laɪk ðə ɡrɪld fɪʃ/",
+        "properNouns": [],
+        "keywords": [
+            "for starter",
+            "vegetable soup",
+            "main course",
+            "grilled fish"
+        ],
+        "explanationAi": "Cặp cấu trúc 'For starter,... For the main course,...' giúp phân chia rõ ràng các đợt món khi gọi đồ ăn.",
+        "tokenCount": 18
+    },
+    {
+        "orderIndex": 20,
+        "startTime": 67.84,
+        "endTime": 70.8,
+        "text": "I'll have the chicken soup and a lasagna.",
+        "translationVi": "Con sẽ ăn món súp gà và món lasagna.",
+        "ipaUs": "/aɪl hæv ðə ˈtʃɪkɪn suːp ænd ə ləˈzɑːnjə/",
+        "properNouns": [],
+        "keywords": [
+            "chicken soup",
+            "lasagna"
+        ],
+        "explanationAi": "'Lasagna' là món mì Ý dạng lớp xếp tầng xen kẽ phô mai, sốt thịt bolognese và gia vị nướng lò.",
+        "tokenCount": 9
+    },
+    {
+        "orderIndex": 21,
+        "startTime": 71.28,
+        "endTime": 74.8,
+        "text": "I'll have the chicken soup, the grilled chicken and some salad.",
+        "translationVi": "Con sẽ ăn súp gà, gà nướng và một ít salad.",
+        "ipaUs": "/aɪl hæv ðə ˈtʃɪkɪn suːp ðə ɡrɪld ˈtʃɪkɪn ænd sʌm ˈsæləd/",
+        "properNouns": [],
+        "keywords": [
+            "chicken soup",
+            "grilled chicken",
+            "some salad"
+        ],
+        "explanationAi": "Cách liệt kê chuỗi món ăn yêu thích bằng liên từ 'and'.",
+        "tokenCount": 12
+    },
+    {
+        "orderIndex": 22,
+        "startTime": 75.04,
+        "endTime": 77,
+        "text": "Excellent, I'll be right back.",
+        "translationVi": "Tuyệt hảo, tôi sẽ quay lại ngay.",
+        "ipaUs": "/ˈeksələnt aɪl biː raɪt bæk/",
+        "properNouns": [],
+        "keywords": [
+            "excellent",
+            "I'll be right back"
+        ],
+        "explanationAi": "Lời xác nhận hào hứng của bồi bàn trước khi chuyển đơn đặt món vào gian bếp.",
+        "tokenCount": 6
+    },
+    {
+        "orderIndex": 23,
+        "startTime": 80.08,
+        "endTime": 82,
+        "text": "It smells so great!",
+        "translationVi": "Mùi thơm phức tuyệt quá!",
+        "ipaUs": "/ɪt smelz soʊ ɡreɪt/",
+        "properNouns": [],
+        "keywords": [
+            "smells so great"
+        ],
+        "explanationAi": "'Smell great' là câu khen ngợi cảm quan khứu giác khi món ăn vừa được dọn lên bàn nóng hổi.",
+        "tokenCount": 4
+    },
+    {
+        "orderIndex": 24,
+        "startTime": 82.4,
+        "endTime": 87.2,
+        "text": "I am so hungry and I want to eat, but the soup is so hot, I can barely touch it.",
+        "translationVi": "Con đói bụng lắm và muốn ăn ngay, nhưng món súp nóng quá, con gần như không chạm vào nổi.",
+        "ipaUs": "/aɪ æm soʊ ˈhʌŋɡri ænd aɪ wɑːnt tuː iːt bʌt ðə suːp ɪz soʊ hɑːt aɪ kæn ˈberli tʌtʃ ɪt/",
+        "properNouns": [],
+        "keywords": [
+            "hungry",
+            "want to eat",
+            "so hot",
+            "barely touch"
+        ],
+        "explanationAi": "'Barely touch' diễn tả việc khó lòng đụng đũa/chạm vào vì thức ăn còn quá nóng vừa mới nấu xong.",
+        "tokenCount": 20
+    },
+    {
+        "orderIndex": 25,
+        "startTime": 87.44,
+        "endTime": 90,
+        "text": "Wait for it to cool down before you eat it.",
+        "translationVi": "Hãy đợi cho nó nguội bớt trước khi con ăn nhé.",
+        "ipaUs": "/weɪt fɔːr ɪt tuː kuːl daʊn bɪˈfɔːr juː iːt ɪt/",
+        "properNouns": [],
+        "keywords": [
+            "wait for it",
+            "cool down",
+            "before you eat"
+        ],
+        "explanationAi": "'Cool down' là cụm động từ chỉ sự nguội dần, hạ nhiệt độ của thức ăn.",
+        "tokenCount": 10
+    },
+    {
+        "orderIndex": 26,
+        "startTime": 94.96,
+        "endTime": 98.2,
+        "text": "The grilled chicken tastes delicious, doesn't it, Paul?",
+        "translationVi": "Món gà nướng này ăn ngon tuyệt con nhỉ, Paul?",
+        "ipaUs": "/ðə ɡrɪld ˈtʃɪkɪn teɪsts dɪˈlɪʃəs ˈdʌznt ɪt pɔːl/",
+        "properNouns": [
+            "Paul"
+        ],
+        "keywords": [
+            "grilled chicken",
+            "tastes delicious",
+            "doesn't it"
+        ],
+        "explanationAi": "Câu hỏi đuôi 'doesn't it?' dùng để tìm kiếm sự đồng tình về hương vị món ăn.",
+        "tokenCount": 9
+    },
+    {
+        "orderIndex": 27,
+        "startTime": 98.56,
+        "endTime": 100.8,
+        "text": "Yes dad, it does, indeed.",
+        "translationVi": "Vâng thưa bố, đúng là ngon thật đấy ạ.",
+        "ipaUs": "/jes dæd ɪt dʌz ɪnˈdiːd/",
+        "properNouns": [],
+        "keywords": [
+            "yes dad",
+            "does indeed"
+        ],
+        "explanationAi": "'It does, indeed' là lời khẳng định mạnh mẽ và lịch sự về một nhận định đúng đắn.",
+        "tokenCount": 5
+    },
+    {
+        "orderIndex": 28,
+        "startTime": 101.36,
+        "endTime": 103.5,
+        "text": "What about your lasagna, Amy?",
+        "translationVi": "Còn món lasagna của con thì sao hả Amy?",
+        "ipaUs": "/wʌt əˈbaʊt jʊər ləˈzɑːnjə ˈeɪmi/",
+        "properNouns": [
+            "Amy"
+        ],
+        "keywords": [
+            "what about",
+            "lasagna"
+        ],
+        "explanationAi": "'What about...?' là cách tự nhiên để hỏi han cảm nhận của người khác về món họ đang thưởng thức.",
+        "tokenCount": 5
+    },
+    {
+        "orderIndex": 29,
+        "startTime": 103.84,
+        "endTime": 106.5,
+        "text": "I love it, it's my favourite dish.",
+        "translationVi": "Con mê tít luôn, đây là món khoái khẩu của con mà.",
+        "ipaUs": "/aɪ lʌv ɪt ɪts maɪ ˈfeɪvərɪt dɪʃ/",
+        "properNouns": [],
+        "keywords": [
+            "love it",
+            "favourite dish"
+        ],
+        "explanationAi": "'Favourite dish' chỉ món ăn yêu thích nhất của một người.",
+        "tokenCount": 8
+    },
+    {
+        "orderIndex": 30,
+        "startTime": 106.96,
+        "endTime": 108,
+        "text": "Great!",
+        "translationVi": "Tuyệt quá!",
+        "ipaUs": "/ɡreɪt/",
+        "properNouns": [],
+        "keywords": [
+            "great"
+        ],
+        "explanationAi": "Thán từ bày tỏ sự hài lòng và vui vẻ của người cha khi các con ăn ngon miệng.",
+        "tokenCount": 1
+    },
+    {
+        "orderIndex": 31,
+        "startTime": 108.08,
+        "endTime": 109.8,
+        "text": "How's your fish, mom?",
+        "translationVi": "Món cá của em thế nào hả mẹ nó?",
+        "ipaUs": "/haʊz jʊər fɪʃ mɑːm/",
+        "properNouns": [],
+        "keywords": [
+            "how's your fish",
+            "mom"
+        ],
+        "explanationAi": "'How is...?' dùng để hỏi chất lượng hoặc cảm nhận về một món ăn cụ thể.",
+        "tokenCount": 5
+    },
+    {
+        "orderIndex": 32,
+        "startTime": 110.24,
+        "endTime": 114,
+        "text": "It's excellent. I'm so glad we came to this restaurant.",
+        "translationVi": "Ngon tuyệt hảo. Em rất mừng vì gia đình mình đã đến nhà hàng này.",
+        "ipaUs": "/ɪts ˈeksələnt aɪm soʊ ɡlæd wiː keɪm tuː ðɪs ˈrestərɑːnt/",
+        "properNouns": [],
+        "keywords": [
+            "excellent",
+            "so glad",
+            "came to this restaurant"
+        ],
+        "explanationAi": "'So glad' thể hiện sự vui mừng, thỏa mãn với quyết định lựa chọn địa điểm dùng bữa.",
+        "tokenCount": 12
+    },
+    {
+        "orderIndex": 33,
+        "startTime": 114.4,
+        "endTime": 117.5,
+        "text": "Could you please pass me the salt, Paul?",
+        "translationVi": "Paul ơi, con có thể làm ơn chuyền cho mẹ lọ muối được không?",
+        "ipaUs": "/kʊd juː pliːz pæs miː ðə sɔːlt pɔːl/",
+        "properNouns": [
+            "Paul"
+        ],
+        "keywords": [
+            "could you please",
+            "pass me the salt"
+        ],
+        "explanationAi": "'Pass me the salt' là phép lịch sự trên bàn ăn phương Tây khi nhờ người khác đưa giúp gia vị.",
+        "tokenCount": 8
+    },
+    {
+        "orderIndex": 34,
+        "startTime": 117.92,
+        "endTime": 119,
+        "text": "Here you are, mom.",
+        "translationVi": "Của mẹ đây ạ.",
+        "ipaUs": "/hɪr juː ɑːr mɑːm/",
+        "properNouns": [],
+        "keywords": [
+            "here you are",
+            "mom"
+        ],
+        "explanationAi": "Câu nói nhã nhặn khi chuyền đồ cho người lớn tuổi trong gia đình.",
+        "tokenCount": 4
+    },
+    {
+        "orderIndex": 35,
+        "startTime": 119.28,
+        "endTime": 120.5,
+        "text": "Thank you.",
+        "translationVi": "Cảm ơn con.",
+        "ipaUs": "/θæŋk juː/",
+        "properNouns": [],
+        "keywords": [
+            "thank you"
+        ],
+        "explanationAi": "Lời cảm ơn của mẹ khi nhận lọ muối.",
+        "tokenCount": 2
+    },
+    {
+        "orderIndex": 36,
+        "startTime": 130.16,
+        "endTime": 131.8,
+        "text": "Did you enjoy your meal?",
+        "translationVi": "Quý khách có dùng bữa ngon miệng không ạ?",
+        "ipaUs": "/dɪd juː ɪnˈdʒɔɪ jʊər miːl/",
+        "properNouns": [],
+        "keywords": [
+            "enjoy your meal"
+        ],
+        "explanationAi": "Câu hỏi quan tâm chu đáo của nhân viên nhà hàng sau khi khách ăn xong món chính.",
+        "tokenCount": 5
+    },
+    {
+        "orderIndex": 37,
+        "startTime": 132.08,
+        "endTime": 134.5,
+        "text": "Yes, it was wonderful, thank you.",
+        "translationVi": "Vâng, bữa ăn rất tuyệt vời, cảm ơn bạn.",
+        "ipaUs": "/jes ɪt wʌz ˈwʌndərfʊl θæŋk juː/",
+        "properNouns": [],
+        "keywords": [
+            "was wonderful",
+            "thank you"
+        ],
+        "explanationAi": "Lời khen ngợi hài lòng từ phía khách hàng dành cho chất lượng món ăn và dịch vụ.",
+        "tokenCount": 6
+    },
+    {
+        "orderIndex": 38,
+        "startTime": 134.8,
+        "endTime": 136.5,
+        "text": "Would you like something for dessert?",
+        "translationVi": "Quý khách có muốn dùng món gì để tráng miệng không ạ?",
+        "ipaUs": "/wʊd juː laɪk ˈsʌmθɪŋ fɔːr dɪˈzɜːrt/",
+        "properNouns": [],
+        "keywords": [
+            "would you like",
+            "for dessert"
+        ],
+        "explanationAi": "'Dessert' là món tráng miệng ngọt (bánh, kem, trái cây) sau bữa ăn chính.",
+        "tokenCount": 6
+    },
+    {
+        "orderIndex": 39,
+        "startTime": 136.88,
+        "endTime": 140,
+        "text": "Yes, for dessert, I'll have ice cream please.",
+        "translationVi": "Vâng, về tráng miệng thì cho tôi kem nhé.",
+        "ipaUs": "/jes fɔːr dɪˈzɜːrt aɪl hæv aɪs kriːm pliːz/",
+        "properNouns": [],
+        "keywords": [
+            "for dessert",
+            "ice cream"
+        ],
+        "explanationAi": "'Ice cream' là món kem lạnh tráng miệng thơm mát phổ biến.",
+        "tokenCount": 9
+    },
+    {
+        "orderIndex": 40,
+        "startTime": 140.56,
+        "endTime": 142.2,
+        "text": "I'll have the chocolate cake.",
+        "translationVi": "Tôi sẽ chọn bánh sô-cô-la.",
+        "ipaUs": "/aɪl hæv ðə ˈtʃɔːklət keɪk/",
+        "properNouns": [],
+        "keywords": [
+            "I'll have",
+            "chocolate cake"
+        ],
+        "explanationAi": "'Chocolate cake' là bánh ngọt sô-cô-la đậm đà hấp dẫn.",
+        "tokenCount": 6
+    },
+    {
+        "orderIndex": 41,
+        "startTime": 142.64,
+        "endTime": 143.8,
+        "text": "I'll have ice cream.",
+        "translationVi": "Con sẽ ăn kem.",
+        "ipaUs": "/aɪl hæv aɪs kriːm/",
+        "properNouns": [],
+        "keywords": [
+            "I'll have",
+            "ice cream"
+        ],
+        "explanationAi": "Lựa chọn món kem mát lạnh của cậu bé Paul.",
+        "tokenCount": 5
+    },
+    {
+        "orderIndex": 42,
+        "startTime": 144.24,
+        "endTime": 146.5,
+        "text": "I'll have the cheese cake please.",
+        "translationVi": "Cho con bánh phô mai nhé.",
+        "ipaUs": "/aɪl hæv ðə ˈtʃiːzkeɪk pliːz/",
+        "properNouns": [],
+        "keywords": [
+            "I'll have",
+            "cheese cake",
+            "please"
+        ],
+        "explanationAi": "'Cheesecake' (bánh phô mai) là loại bánh ngọt mềm ngậy đặc trưng của văn hóa ẩm thực phương Tây.",
+        "tokenCount": 7
+    },
+    {
+        "orderIndex": 43,
+        "startTime": 148.08,
+        "endTime": 151.8,
+        "text": "Everything looks great! Let's eat the desserts!",
+        "translationVi": "Mọi thứ trông ngon mắt quá! Chúng ta cùng thưởng thức các món tráng miệng nào!",
+        "ipaUs": "/ˈevriθɪŋ lʊks ɡreɪt lets iːt ðə dɪˈzɜːrts/",
+        "properNouns": [],
+        "keywords": [
+            "everything looks great",
+            "let's eat",
+            "desserts"
+        ],
+        "explanationAi": "'Looks great' khen vẻ bề ngoài hấp dẫn; 'Let's eat' là lời rủ cùng bắt đầu thưởng thức.",
+        "tokenCount": 8
+    },
+    {
+        "orderIndex": 44,
+        "startTime": 152.96,
+        "endTime": 156.4,
+        "text": "Dad, I'm thirsty. I would like to drink some water.",
+        "translationVi": "Bố ơi, con khát quá. Con muốn uống một chút nước lọc.",
+        "ipaUs": "/dæd aɪm ˈθɜːrsti aɪ wʊd laɪk tuː drɪŋk sʌm ˈwɔːtər/",
+        "properNouns": [],
+        "keywords": [
+            "thirsty",
+            "would like to drink",
+            "some water"
+        ],
+        "explanationAi": "'Thirsty' là tính từ chỉ cảm giác khát nước; 'drink some water' là uống nước lọc.",
+        "tokenCount": 11
+    },
+    {
+        "orderIndex": 45,
+        "startTime": 156.72,
+        "endTime": 157.8,
+        "text": "Excuse me!",
+        "translationVi": "Xin lỗi làm phiền bạn một chút!",
+        "ipaUs": "/ɪkˈskjuːs miː/",
+        "properNouns": [],
+        "keywords": [
+            "excuse me"
+        ],
+        "explanationAi": "'Excuse me!' là câu nói chuẩn để gọi nhân viên bồi bàn khi đang ngồi tại bàn ăn.",
+        "tokenCount": 2
+    },
+    {
+        "orderIndex": 46,
+        "startTime": 158.16,
+        "endTime": 160,
+        "text": "Yes, sir, how can I help you?",
+        "translationVi": "Vâng thưa ông, tôi có thể giúp gì cho ông ạ?",
+        "ipaUs": "/jes sɜːr haʊ kæn aɪ help juː/",
+        "properNouns": [],
+        "keywords": [
+            "yes sir",
+            "how can I help you"
+        ],
+        "explanationAi": "Lời hồi đáp nhanh chóng và kính cẩn của nhân viên phục vụ.",
+        "tokenCount": 7
+    },
+    {
+        "orderIndex": 47,
+        "startTime": 160.4,
+        "endTime": 163.2,
+        "text": "Could you bring my son a glass of water, please?",
+        "translationVi": "Bạn có thể mang cho con trai tôi một ly nước lọc được không?",
+        "ipaUs": "/kʊd juː brɪŋ maɪ sʌn ə ɡlæs əv ˈwɔːtər pliːz/",
+        "properNouns": [],
+        "keywords": [
+            "could you bring",
+            "glass of water",
+            "please"
+        ],
+        "explanationAi": "'A glass of water' là một cốc/ly nước lọc; cấu trúc yêu cầu lịch sự với 'Could you bring...'.",
+        "tokenCount": 10
+    },
+    {
+        "orderIndex": 48,
+        "startTime": 163.52,
+        "endTime": 164.8,
+        "text": "Yes, of course!",
+        "translationVi": "Vâng, tất nhiên rồi ạ!",
+        "ipaUs": "/jes əv kɔːrs/",
+        "properNouns": [],
+        "keywords": [
+            "yes",
+            "of course"
+        ],
+        "explanationAi": "Sự sẵn lòng phục vụ ngay lập tức của nhân viên.",
+        "tokenCount": 3
+    },
+    {
+        "orderIndex": 49,
+        "startTime": 165.04,
+        "endTime": 166.5,
+        "text": "Thank you.",
+        "translationVi": "Cảm ơn bạn.",
+        "ipaUs": "/θæŋk juː/",
+        "properNouns": [],
+        "keywords": [
+            "thank you"
+        ],
+        "explanationAi": "Lời cảm ơn của người cha khi nhân viên nhận lời lấy nước.",
+        "tokenCount": 2
+    },
+    {
+        "orderIndex": 50,
+        "startTime": 167.2,
+        "endTime": 168.8,
+        "text": "Can I bring you anything else?",
+        "translationVi": "Tôi có thể mang thêm gì khác cho quý khách không ạ?",
+        "ipaUs": "/kæn aɪ brɪŋ juː ˈeniθɪŋ els/",
+        "properNouns": [],
+        "keywords": [
+            "bring you",
+            "anything else"
+        ],
+        "explanationAi": "'Anything else?' là câu hỏi quen thuộc để kiểm tra xem khách còn cần hỗ trợ gì nữa không.",
+        "tokenCount": 6
+    },
+    {
+        "orderIndex": 51,
+        "startTime": 169.2,
+        "endTime": 171.2,
+        "text": "No, thank you, just the bill.",
+        "translationVi": "Không, cảm ơn bạn, chỉ cần hóa đơn tính tiền thôi.",
+        "ipaUs": "/noʊ θæŋk juː dʒʌst ðə bɪl/",
+        "properNouns": [],
+        "keywords": [
+            "no thank you",
+            "just the bill"
+        ],
+        "explanationAi": "'Just the bill' là cách nói thông dụng để xin hóa đơn thanh toán khi đã dùng xong bữa.",
+        "tokenCount": 6
+    },
+    {
+        "orderIndex": 52,
+        "startTime": 171.6,
+        "endTime": 174.5,
+        "text": "Ok sir. I'll be right back with the bill.",
+        "translationVi": "Vâng thưa ông. Tôi sẽ quay lại ngay với hóa đơn ạ.",
+        "ipaUs": "/oʊˈkeɪ sɜːr aɪl biː raɪt bæk wɪð ðə bɪl/",
+        "properNouns": [],
+        "keywords": [
+            "ok sir",
+            "right back with the bill"
+        ],
+        "explanationAi": "Lời chào kết chu đáo khi nhân viên đi in hóa đơn thanh toán mang ra bàn cho khách.",
+        "tokenCount": 10
+    }
+],
 };

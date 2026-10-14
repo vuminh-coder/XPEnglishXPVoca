@@ -6,10 +6,10 @@ import { LESSON_OXFORD_FOOD_COOKING } from "@/features/listening/data/lessons/le
 import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
 
 describe("Oxford Online English: Talk About Food and Cooking - 100% Verbatim Audit", () => {
-  it("should have exactly 12 segments with valid duration and metadata", () => {
-    expect(LESSON_OXFORD_FOOD_COOKING.segments.length).toBe(12);
+  it("should have exactly 22 segments with valid duration and metadata", () => {
+    expect(LESSON_OXFORD_FOOD_COOKING.segments.length).toBe(22);
     expect(LESSON_OXFORD_FOOD_COOKING.externalId).toBe("SlTrn13aez4");
-    expect(LESSON_OXFORD_FOOD_COOKING.durationSeconds).toBe(121);
+    expect(LESSON_OXFORD_FOOD_COOKING.durationSeconds).toBe(122);
     expect(LESSON_OXFORD_FOOD_COOKING.cefrLevel).toBe("A2");
   });
 
@@ -17,7 +17,7 @@ describe("Oxford Online English: Talk About Food and Cooking - 100% Verbatim Aud
     let prevStartTime = -1;
     for (let i = 0; i < LESSON_OXFORD_FOOD_COOKING.segments.length; i++) {
       const seg = LESSON_OXFORD_FOOD_COOKING.segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeGreaterThanOrEqual(0);
       expect(seg.endTime).toBeGreaterThan(seg.startTime);
       expect(seg.startTime).toBeGreaterThanOrEqual(prevStartTime);
@@ -38,7 +38,7 @@ describe("Oxford Online English: Talk About Food and Cooking - 100% Verbatim Aud
     }
   });
 
-  it("should tokenize all 12 segments cleanly with zero empty tokens", () => {
+  it("should tokenize all 22 segments cleanly with zero empty tokens", () => {
     let totalTokens = 0;
     for (const seg of LESSON_OXFORD_FOOD_COOKING.segments) {
       const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
@@ -52,11 +52,11 @@ describe("Oxford Online English: Talk About Food and Cooking - 100% Verbatim Aud
     expect(totalTokens).toBeGreaterThan(200);
   });
 
-  it("should match mock data in videoCatalogMockData.ts exactly across all 12 segments", () => {
+  it("should match mock data in videoCatalogMockData.ts exactly across all 22 segments", () => {
     const mock = MOCK_VIDEO_LESSONS.find((v) => v.externalId === "SlTrn13aez4");
     expect(mock).toBeDefined();
-    expect(mock?.segments.length).toBe(12);
-    for (let i = 0; i < 12; i++) {
+    expect(mock?.segments.length).toBe(22);
+    for (let i = 0; i < 22; i++) {
       expect(mock?.segments[i].text).toBe(LESSON_OXFORD_FOOD_COOKING.segments[i].text);
       expect(mock?.segments[i].startTime).toBe(LESSON_OXFORD_FOOD_COOKING.segments[i].startTime);
       expect(mock?.segments[i].endTime).toBe(LESSON_OXFORD_FOOD_COOKING.segments[i].endTime);
@@ -115,6 +115,8 @@ describe("Oxford Online English: Talk About Food and Cooking - 100% Verbatim Aud
       expect(q.targetedConceptEn).toBeDefined();
       expect(q.targetedConceptVi).toBeDefined();
       expect(q.referenceSegmentIndex).toBeDefined();
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(22);
     }
   });
 });

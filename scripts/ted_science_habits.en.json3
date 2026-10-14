@@ -1,0 +1,481 @@
+{
+  "wireMagic": "pb3",
+  "pens": [ {
+  
+  } ],
+  "wsWinStyles": [ {
+  
+  } ],
+  "wpWinPositions": [ {
+  
+  } ],
+  "events": [ {
+    "tStartMs": 7045,
+    "dDurationMs": 4838,
+    "segs": [ {
+      "utf8": "Billions of people deal with a nail-biting\nhabit at some point in their lives."
+    } ]
+  }, {
+    "tStartMs": 12008,
+    "dDurationMs": 2210,
+    "segs": [ {
+      "utf8": "Many will go to great lengths\nto try to stop,"
+    } ]
+  }, {
+    "tStartMs": 14218,
+    "dDurationMs": 3671,
+    "segs": [ {
+      "utf8": "employing strategies like rubbing\nchili peppers on their cuticles,"
+    } ]
+  }, {
+    "tStartMs": 17889,
+    "dDurationMs": 2836,
+    "segs": [ {
+      "utf8": "wearing gloves all day,\ndipping their hands in salt,"
+    } ]
+  }, {
+    "tStartMs": 20725,
+    "dDurationMs": 4004,
+    "segs": [ {
+      "utf8": "and envisioning bacteria crawling\non their fingers."
+    } ]
+  }, {
+    "tStartMs": 25063,
+    "dDurationMs": 2293,
+    "segs": [ {
+      "utf8": "And while not all of us are nail-biters,"
+    } ]
+  }, {
+    "tStartMs": 27356,
+    "dDurationMs": 3462,
+    "segs": [ {
+      "utf8": "most of us do have a habit\nwe'd like to kick."
+    } ]
+  }, {
+    "tStartMs": 30943,
+    "dDurationMs": 1877,
+    "segs": [ {
+      "utf8": "So what's the best way to break one?"
+    } ]
+  }, {
+    "tStartMs": 33237,
+    "dDurationMs": 4129,
+    "segs": [ {
+      "utf8": "Scientists define habits as behaviors\nthat are performed regularly,"
+    } ]
+  }, {
+    "tStartMs": 37366,
+    "dDurationMs": 3754,
+    "segs": [ {
+      "utf8": "and cued subconsciously in response\nto certain environments,"
+    } ]
+  }, {
+    "tStartMs": 41120,
+    "dDurationMs": 3921,
+    "segs": [ {
+      "utf8": "whether it be a location, time of day,\nor even an emotional state."
+    } ]
+  }, {
+    "tStartMs": 45249,
+    "dDurationMs": 3504,
+    "segs": [ {
+      "utf8": "They can include simple actions\nlike picking your hair when stressed,"
+    } ]
+  }, {
+    "tStartMs": 48753,
+    "dDurationMs": 4546,
+    "segs": [ {
+      "utf8": "but also more complex practices ingrained\nin daily routines,"
+    } ]
+  }, {
+    "tStartMs": 53299,
+    "dDurationMs": 3337,
+    "segs": [ {
+      "utf8": "like staying up late\nor brewing your coffee in the morning."
+    } ]
+  }, {
+    "tStartMs": 56844,
+    "dDurationMs": 3420,
+    "segs": [ {
+      "utf8": "If you do something frequently,\nwithout much deliberation,"
+    } ]
+  }, {
+    "tStartMs": 60264,
+    "dDurationMs": 1710,
+    "segs": [ {
+      "utf8": "then it’s likely a habit."
+    } ]
+  }, {
+    "tStartMs": 62266,
+    "dDurationMs": 6048,
+    "segs": [ {
+      "utf8": "They form because at some point your brain\nlearns that the behavior is beneficial."
+    } ]
+  }, {
+    "tStartMs": 68314,
+    "dDurationMs": 3337,
+    "segs": [ {
+      "utf8": "Let's say after opening a stressful email,\nyou bite your nails."
+    } ]
+  }, {
+    "tStartMs": 71734,
+    "dDurationMs": 3253,
+    "segs": [ {
+      "utf8": "This is rewarding,\nas it’s enough to focus your attention,"
+    } ]
+  }, {
+    "tStartMs": 74987,
+    "dDurationMs": 3003,
+    "segs": [ {
+      "utf8": "curbing your email fueled anxiety."
+    } ]
+  }, {
+    "tStartMs": 78032,
+    "dDurationMs": 4421,
+    "segs": [ {
+      "utf8": "Within your brain, positive experiences\ncan trigger the release of dopamine,"
+    } ]
+  }, {
+    "tStartMs": 82453,
+    "dDurationMs": 3587,
+    "segs": [ {
+      "utf8": "a neurotransmitter that mediates\nfeelings of pleasure."
+    } ]
+  }, {
+    "tStartMs": 86582,
+    "dDurationMs": 3837,
+    "segs": [ {
+      "utf8": "Dopamine is also a driver\nof neuroplasticity,"
+    } ]
+  }, {
+    "tStartMs": 90419,
+    "dDurationMs": 3879,
+    "segs": [ {
+      "utf8": "meaning it can change\nhow your neurons wire and fire."
+    } ]
+  }, {
+    "tStartMs": 94799,
+    "dDurationMs": 4671,
+    "segs": [ {
+      "utf8": "Your brain builds connections\nthat link the reward with the behavior,"
+    } ]
+  }, {
+    "tStartMs": 99470,
+    "dDurationMs": 1835,
+    "segs": [ {
+      "utf8": "driving you to repeat it."
+    } ]
+  }, {
+    "tStartMs": 101514,
+    "dDurationMs": 4838,
+    "segs": [ {
+      "utf8": "It also starts associating the behavior\nwith other cues, like your environment."
+    } ]
+  }, {
+    "tStartMs": 106394,
+    "dDurationMs": 4421,
+    "segs": [ {
+      "utf8": "Eventually, all it takes is the context\nof sitting at your desk"
+    } ]
+  }, {
+    "tStartMs": 110815,
+    "dDurationMs": 3128,
+    "segs": [ {
+      "utf8": "to subconsciously trigger\na nail-biting habit—"
+    } ]
+  }, {
+    "tStartMs": 113943,
+    "dDurationMs": 3086,
+    "segs": [ {
+      "utf8": "no stressful email\nor sense of relief required."
+    } ]
+  }, {
+    "tStartMs": 117738,
+    "dDurationMs": 5923,
+    "segs": [ {
+      "utf8": "Once established,\nthese cue-behavior-reward loops work fast,"
+    } ]
+  }, {
+    "tStartMs": 123661,
+    "dDurationMs": 2586,
+    "segs": [ {
+      "utf8": "outpacing the decision-making process."
+    } ]
+  }, {
+    "tStartMs": 126289,
+    "dDurationMs": 2127,
+    "segs": [ {
+      "utf8": "You may find yourself\nengaging in a habit"
+    } ]
+  }, {
+    "tStartMs": 128416,
+    "dDurationMs": 2961,
+    "segs": [ {
+      "utf8": "before you have the chance\nto notice and stop."
+    } ]
+  }, {
+    "tStartMs": 131627,
+    "dDurationMs": 4004,
+    "segs": [ {
+      "utf8": "But this can be a good thing\nbecause not all habits are bad."
+    } ]
+  }, {
+    "tStartMs": 135882,
+    "dDurationMs": 3169,
+    "segs": [ {
+      "utf8": "They’re stored memories\nof what’s worked in the past,"
+    } ]
+  }, {
+    "tStartMs": 139177,
+    "dDurationMs": 3753,
+    "segs": [ {
+      "utf8": "which allow you to take swift\naction in the present."
+    } ]
+  }, {
+    "tStartMs": 143181,
+    "dDurationMs": 2168,
+    "segs": [ {
+      "utf8": "One study estimated that on average,"
+    } ]
+  }, {
+    "tStartMs": 145349,
+    "dDurationMs": 4964,
+    "segs": [ {
+      "utf8": "people spend more than 40% of their days\nperforming regularly repeated behaviors"
+    } ]
+  }, {
+    "tStartMs": 150313,
+    "dDurationMs": 2961,
+    "segs": [ {
+      "utf8": "while their minds are occupied\nwith other thoughts."
+    } ]
+  }, {
+    "tStartMs": 153274,
+    "dDurationMs": 2920,
+    "segs": [ {
+      "utf8": "A seemingly automated morning routine,\nfor example,"
+    } ]
+  }, {
+    "tStartMs": 156194,
+    "dDurationMs": 3294,
+    "segs": [ {
+      "utf8": "saves you both time\nand precious mental energy."
+    } ]
+  }, {
+    "tStartMs": 159947,
+    "dDurationMs": 3462,
+    "segs": [ {
+      "utf8": "Still, many people have habits\nthat no longer serve them."
+    } ]
+  }, {
+    "tStartMs": 163576,
+    "dDurationMs": 3629,
+    "segs": [ {
+      "utf8": "Yet research shows that intentions alone\noften fail"
+    } ]
+  }, {
+    "tStartMs": 167205,
+    "dDurationMs": 2502,
+    "segs": [ {
+      "utf8": "to lead to long-term behavior change."
+    } ]
+  }, {
+    "tStartMs": 169916,
+    "dDurationMs": 2711,
+    "segs": [ {
+      "utf8": "This isn’t to say you can’t break a habit."
+    } ]
+  }, {
+    "tStartMs": 172627,
+    "dDurationMs": 3128,
+    "segs": [ {
+      "utf8": "Rather, by understanding\nthe basis of habits,"
+    } ]
+  }, {
+    "tStartMs": 175755,
+    "dDurationMs": 3003,
+    "segs": [ {
+      "utf8": "you can create better plans\nfor changing them."
+    } ]
+  }, {
+    "tStartMs": 179300,
+    "dDurationMs": 5088,
+    "segs": [ {
+      "utf8": "For example, we know habits are often\ncued by environments and routines."
+    } ]
+  }, {
+    "tStartMs": 184388,
+    "dDurationMs": 4046,
+    "segs": [ {
+      "utf8": "Lying in bed may cause you to endlessly\nscroll through your phone,"
+    } ]
+  }, {
+    "tStartMs": 188434,
+    "dDurationMs": 4046,
+    "segs": [ {
+      "utf8": "or watching TV on the couch may lead\nyou to grab a sugary snack."
+    } ]
+  }, {
+    "tStartMs": 192480,
+    "dDurationMs": 2961,
+    "segs": [ {
+      "utf8": "One of the most effective ways\nto manage behavior"
+    } ]
+  }, {
+    "tStartMs": 195441,
+    "dDurationMs": 3545,
+    "segs": [ {
+      "utf8": "is to identify these locations\nor times of day."
+    } ]
+  }, {
+    "tStartMs": 199153,
+    "dDurationMs": 3170,
+    "segs": [ {
+      "utf8": "Then try to modify them\nby changing your routine"
+    } ]
+  }, {
+    "tStartMs": 202323,
+    "dDurationMs": 3921,
+    "segs": [ {
+      "utf8": "or creating obstacles that make\nit more difficult to perform the habit"
+    } ]
+  }, {
+    "tStartMs": 206244,
+    "dDurationMs": 1376,
+    "segs": [ {
+      "utf8": "in that space."
+    } ]
+  }, {
+    "tStartMs": 207954,
+    "dDurationMs": 3628,
+    "segs": [ {
+      "utf8": "Moving, switching jobs,\nor even starting a new schedule,"
+    } ]
+  }, {
+    "tStartMs": 211582,
+    "dDurationMs": 4254,
+    "segs": [ {
+      "utf8": "are particularly great times\nto break a habit or build a new one."
+    } ]
+  }, {
+    "tStartMs": 216212,
+    "dDurationMs": 4004,
+    "segs": [ {
+      "utf8": "One 2005 study tracked university\nstudents’ exercising,"
+    } ]
+  }, {
+    "tStartMs": 220216,
+    "dDurationMs": 4629,
+    "segs": [ {
+      "utf8": "reading, and TV watching habits\nbefore and after they transferred schools."
+    } ]
+  }, {
+    "tStartMs": 224887,
+    "dDurationMs": 4004,
+    "segs": [ {
+      "utf8": "When students were no longer around\nold environments and routines,"
+    } ]
+  }, {
+    "tStartMs": 228891,
+    "dDurationMs": 3670,
+    "segs": [ {
+      "utf8": "their habits, even the strong ones,\nsignificantly changed."
+    } ]
+  }, {
+    "tStartMs": 232895,
+    "dDurationMs": 2961,
+    "segs": [ {
+      "utf8": "For behaviors like nail-biting \nor hair-pulling,"
+    } ]
+  }, {
+    "tStartMs": 235856,
+    "dDurationMs": 3671,
+    "segs": [ {
+      "utf8": "a practice called habit reversal training\ncan be helpful."
+    } ]
+  }, {
+    "tStartMs": 239568,
+    "dDurationMs": 3003,
+    "segs": [ {
+      "utf8": "Developed by psychologists in the 1970s,"
+    } ]
+  }, {
+    "tStartMs": 242571,
+    "dDurationMs": 3754,
+    "segs": [ {
+      "utf8": "the aim is to change a habit\nby replacing it with another one"
+    } ]
+  }, {
+    "tStartMs": 246325,
+    "dDurationMs": 1752,
+    "segs": [ {
+      "utf8": "that’s less detrimental."
+    } ]
+  }, {
+    "tStartMs": 248327,
+    "dDurationMs": 4463,
+    "segs": [ {
+      "utf8": "The training requires you to analyze\nand understand your habit cues,"
+    } ]
+  }, {
+    "tStartMs": 252790,
+    "dDurationMs": 2753,
+    "segs": [ {
+      "utf8": "so you can effectively intervene\nat the right times."
+    } ]
+  }, {
+    "tStartMs": 255626,
+    "dDurationMs": 2753,
+    "segs": [ {
+      "utf8": "For example, if you tend to bite\nyour nails at work,"
+    } ]
+  }, {
+    "tStartMs": 258379,
+    "dDurationMs": 2586,
+    "segs": [ {
+      "utf8": "preemptively keep a fidget toy\nat your desk."
+    } ]
+  }, {
+    "tStartMs": 261132,
+    "dDurationMs": 2085,
+    "segs": [ {
+      "utf8": "Then, if a stressful email comes in,"
+    } ]
+  }, {
+    "tStartMs": 263217,
+    "dDurationMs": 3212,
+    "segs": [ {
+      "utf8": "use the toy when you feel\nthe urge to bite your nails."
+    } ]
+  }, {
+    "tStartMs": 266971,
+    "dDurationMs": 1877,
+    "segs": [ {
+      "utf8": "Breaking a habit takes time,"
+    } ]
+  }, {
+    "tStartMs": 268848,
+    "dDurationMs": 3920,
+    "segs": [ {
+      "utf8": "so remember to give yourself grace\nand have patience through the process."
+    } ]
+  }, {
+    "tStartMs": 272893,
+    "dDurationMs": 2128,
+    "segs": [ {
+      "utf8": "And while many focus on their bad habits,"
+    } ]
+  }, {
+    "tStartMs": 275021,
+    "dDurationMs": 2335,
+    "segs": [ {
+      "utf8": "it’s also worth celebrating the good ones"
+    } ]
+  }, {
+    "tStartMs": 277356,
+    "dDurationMs": 4338,
+    "segs": [ {
+      "utf8": "that help us move swiftly and successfully\nthrough our daily routines."
+    } ]
+  } ]
+}

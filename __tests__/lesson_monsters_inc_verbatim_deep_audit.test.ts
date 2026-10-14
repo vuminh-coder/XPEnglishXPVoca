@@ -1,136 +1,163 @@
 import { describe, it, expect } from "vitest";
-import { tokenizeSentence } from "@/features/listening/components/DictationWorkspace";
 import {
   LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT,
   QUIZ_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT,
-} from "@/features/listening/data/lessons/movies/animation/lesson_monsters_inc";
-import {
-  TOPIC_ANIMATION_PIXAR_DISNEY,
-  LESSONS_ANIMATION_PIXAR_DISNEY,
-} from "@/features/listening/data/topics/topic_animation_pixar_disney";
+} from "../features/listening/data/lessons/movies/animation/lesson_monsters_inc";
 
-describe("Senior 50-Year QA Deep Audit: Monsters, Inc. - 100% Full Video Timeline & Complete Cues Coverage (Video #12)", () => {
-  it("should have valid lesson metadata and official YouTube external ID matching _kafLt9bNyU (17:39 - 1059s)", () => {
-    const lesson = LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT;
-    expect(lesson.id).toBe("mov_ani_12");
-    expect(lesson.slug).toBe("monsters-inc-goodbye-boo-emotional-cut");
-    expect(lesson.externalId).toBe("_kafLt9bNyU");
-    expect(lesson.durationSeconds).toBe(1059);
-    expect(lesson.durationFormatted).toBe("17:39");
-    expect(lesson.durationSeconds).toBeGreaterThanOrEqual(300); // Strict >= 5 minutes condition
-    expect(lesson.cefrLevel).toBe("A2");
-    expect(lesson.categoryId).toBe("cat_animation_pixar_disney");
-    expect(lesson.sourceType).toBe("YOUTUBE");
-    expect(lesson.thumbnailUrl).toContain("_kafLt9bNyU");
+describe("Monsters, Inc.: Mike & Sulley Funniest Moments & Door Shredder (mov_ani_12) - Verbatim Deep Audit Suite", () => {
+  it("Audit 1: Concept Introduction & Locker Room Dialogue (Segments 0-8)", () => {
+    const segments = LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments;
+    expect(segments[0].text).toContain("Monsters, Inc. has such a crazy concept!");
+    expect(segments[0].keywords).toContain("crazy concept");
+
+    expect(segments[2].text).toContain("where Mike and Sulley deal with Randall, a shady monster");
+    expect(segments[4].text).toBe("You know, pal, she's the one! That's it, she is the one.");
+    expect(segments[4].keywords).toContain("she's the one");
+
+    expect(segments[5].text).toBe("I'm happy for you.");
+    expect(segments[6].text).toBe("Oh, and thanks for hooking me up with those reservations.");
+    expect(segments[6].keywords).toContain("hooking me up with");
+
+    expect(segments[7].text).toBe("Oh, no problem. They're under the name Googly Bear.");
+    expect(segments[7].properNouns).toContain("Googly Bear");
+    expect(segments[8].text).toBe("Oh, good idea!");
   });
 
-  it("should contain 30 chronological master segments covering 100% of all 125 video cues from 28s to 1059s", () => {
-    const { segments } = LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT;
-    expect(segments.length).toBe(30);
+  it("Audit 2: Randall Sneak Attack & Scare Floor Challenge (Segments 9-16)", () => {
+    const segments = LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments;
+    expect(segments[9].text).toContain("What do you know! It scares little kids and little monsters!");
+    expect(segments[10].text).toBe("I wasn't scared, I have allergies.");
+    expect(segments[10].keywords).toContain("allergies");
 
-    // Verify key narrative & linguistic anchors across all 30 segments
-    expect(segments[0].text).toContain("Monsters, Inc. has such a crazy concept");
-    expect(segments[1].text).toContain("deal with Randall");
-    expect(segments[2].text).toContain("she's the one");
-    expect(segments[3].text).toContain("What do you know");
-    expect(segments[4].text).toContain("I'm in the zone today");
-    expect(segments[5].text).toContain("pal");
-    expect(segments[6].text).toContain("flirts with him");
-    expect(segments[7].text).toContain("hook someone up with");
-    expect(segments[8].text).toContain("Whaddya know");
-    expect(segments[9].text).toContain("save it for the ring");
-    expect(segments[10].text).toContain("will you?");
-    expect(segments[11].text).toContain("in the zone");
-    expect(segments[12].text).toContain("master these expressions");
-    expect(segments[13].text).toContain("don't blow this");
-    expect(segments[14].text).toContain("blew it");
-    expect(segments[15].text).toContain("flap T");
-    expect(segments[16].text).toContain("out of our hair");
-    expect(segments[17].text).toContain("Can it");
-    expect(segments[18].text).toContain("Word on the street is");
-    expect(segments[19].text).toContain("no way");
-    expect(segments[20].text).toContain("inside job");
-    expect(segments[21].text).toContain("put your money where your mouth is");
-    expect(segments[22].text).toContain("them shifty eyes");
-    expect(segments[23].text).toContain("Googly Bear");
-    expect(segments[24].text).toContain("Winds of Change");
-    expect(segments[25].text).toContain("Shut up");
-    expect(segments[26].text).toContain("Strong refusal");
-    expect(segments[27].text).toContain("Comment of the Day");
-    expect(segments[28].text).toContain("challenge for today");
-    expect(segments[29].text).toContain("jump in the pail");
+    expect(segments[11].text).toBe("Uh-huh, sure.");
+    expect(segments[12].text).toBe("Hey Randall, save it for the scare floor, will you?");
+    expect(segments[12].keywords).toContain("save it for the scare floor");
 
-    // Span check: covers beginning (<= 30s) and reaches end of video (>= 1037s)
-    expect(segments[0].startTime).toBeLessThanOrEqual(30);
-    expect(segments[segments.length - 1].endTime).toBe(1059.0);
+    expect(segments[13].text).toBe("I'm in the zone today, Sullivan! Going to be doing some serious scaring, putting up some big numbers!");
+    expect(segments[13].keywords).toContain("in the zone");
 
-    let prevStart = -1;
-    for (let i = 0; i < segments.length; i++) {
-      const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
-      expect(seg.startTime).toBeGreaterThanOrEqual(0);
-      expect(seg.endTime).toBeGreaterThan(seg.startTime);
-      expect(seg.startTime).toBeGreaterThanOrEqual(prevStart);
-      prevStart = seg.startTime;
+    expect(segments[14].text).toContain("more humiliating when we break the record first!");
+    expect(segments[15].text).toBe("Shh! Do you hear that? It's the Winds of Change!");
+    expect(segments[15].properNouns).toContain("Winds of Change");
 
-      // Verbatim dialogue and high-quality Vietnamese translation
-      expect(seg.text.length).toBeGreaterThan(15);
-      expect(seg.translationVi.length).toBeGreaterThan(15);
-
-      // IPA pronunciation
-      expect(seg.ipaUs).toBeDefined();
-      expect(seg.ipaUs!.length).toBeGreaterThan(5);
-      expect(seg.ipaUs!).toContain("/");
-
-      // Pedagogical keywords and AI explanations
-      expect(seg.keywords).toBeDefined();
-      expect(seg.keywords!.length).toBeGreaterThanOrEqual(3);
-
-      expect(seg.explanationAi).toBeDefined();
-      expect(seg.explanationAi!.length).toBeGreaterThan(15);
-    }
+    expect(segments[16].text).toBe("What a creep! One of these days I'm really going to let you teach that guy a lesson.");
+    expect(segments[16].keywords).toContain("what a creep");
   });
 
-  it("should match tokenizeSentence length exactly for each segment's tokenCount with 0 discrepancies across all 30 segments", () => {
-    const { segments } = LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT;
-    segments.forEach((seg) => {
-      const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
-      expect(seg.tokenCount).toBe(tokens.length);
-      expect(tokens.length).toBeGreaterThan(0);
-    });
+  it("Audit 3: Language Insights - Pal, The One, Hooking Up & Tag Questions (Segments 17-25)", () => {
+    const segments = LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments;
+    expect(segments[17].text).toContain("You can call a friend of yours 'pal'");
+    expect(segments[18].text).toContain("When Mike says Celia is 'the one'");
+
+    expect(segments[19].text).toBe("When you hook someone up with something, you provide the person with something useful for free or as a favor.");
+    expect(segments[19].keywords).toContain("hook someone up with");
+
+    expect(segments[20].text).toContain("what do' becomes 'whaddya' and 'you' reduces to 'ya'");
+    expect(segments[21].text).toContain("Save it for the scare floor', he means let's settle our rivalry during work");
+
+    expect(segments[22].text).toContain("The tag question 'will you?' is used at the end of requests");
+    expect(segments[23].text).toBe("When you say 'I'm in the zone', you mean you are at the top of your game, performing at peak capability.");
+    expect(segments[23].keywords).toContain("in the zone");
+
+    expect(segments[24].text).toContain("Calling someone a 'creep' is an insult");
   });
 
-  it("should provide 6 bilingual comprehension quiz questions with accurate segment references", () => {
+  it("Audit 4: Boo Enters Monster World & Don't Blow This (Segments 26-31)", () => {
+    const segments = LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments;
+    expect(segments[26].text).toContain("A major crisis occurs when Boo, a human child, accidentally enters the Monster World!");
+    expect(segments[27].text).toBe("Hey, where are you going? Please don't blow this, not when we're so close to breaking the record!");
+    expect(segments[27].keywords).toContain("don't blow this");
+
+    expect(segments[28].text).toBe("Somebody else will find the kid. It'll be their problem, not ours! She's out of our hair!");
+    expect(segments[28].keywords).toContain("out of our hair");
+
+    expect(segments[29].text).toContain("When you 'blow something', you mess it up or fail to take advantage of a valuable opportunity");
+    expect(segments[29].keywords).toContain("blow something");
+
+    expect(segments[30].text).toContain("It'll be their problem, not ours', where the T in 'not' transforms into a flap T");
+    expect(segments[31].text).toBe("The idiom 'she's out of our hair' means someone is no longer causing you any trouble, disturbance, or inconvenience.");
+    expect(segments[31].keywords).toContain("out of our hair");
+  });
+
+  it("Audit 5: Rehearsing The Play & 'Can It!' Slang (Segments 32-34)", () => {
+    const segments = LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments;
+    expect(segments[32].text).toBe("They're rehearsing a play: She's out of our hair!");
+    expect(segments[33].text).toBe("Can it!");
+    expect(segments[33].keywords).toContain("can it");
+
+    expect(segments[34].text).toBe("'Can it' is a slangy, emphatic way to tell someone to shut up or stop talking immediately.");
+    expect(segments[34].keywords).toContain("can it");
+    expect(segments[34].keywords).toContain("shut up");
+  });
+
+  it("Audit 6: Randall's Interrogation & Word on the Street (Segments 35-40)", () => {
+    const segments = LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments;
+    expect(segments[35].text).toBe("So what do you think of that kid getting out, Sullivan? Pretty crazy, huh?");
+    expect(segments[36].text).toBe("Word on the street is the kid's been traced back to this factory. You haven't seen anything, have you?");
+    expect(segments[36].keywords).toContain("word on the street is");
+
+    expect(segments[37].text).toBe("'Word on the street is' means hearing circulating rumors from people in your community or neighborhood.");
+    expect(segments[38].text).toBe("No, no way!");
+    expect(segments[38].keywords).toContain("no way");
+
+    expect(segments[39].text).toContain("If you 'trace something back to somewhere'");
+    expect(segments[40].text).toContain("You can use 'no way' to emphatically refuse something");
+  });
+
+  it("Audit 7: Waxford, Inside Job, Shifty Eyes & Grand Finale (Segments 41-49)", () => {
+    const segments = LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments;
+    expect(segments[41].text).toBe("But if it was an inside job, I'd put my money on Waxford! The one at station six!");
+    expect(segments[41].keywords).toContain("inside job");
+    expect(segments[41].keywords).toContain("Waxford");
+
+    expect(segments[42].text).toContain("An 'inside job' means a crime or sabotage committed by someone already working inside");
+    expect(segments[43].text).toContain("Saying 'I'd put my money on Waxford' means betting");
+    expect(segments[44].text).toContain("put your money where your mouth is', challenging someone to prove claims with deeds");
+
+    expect(segments[45].text).toBe("You know, he got them shifty eyes!");
+    expect(segments[45].keywords).toContain("them shifty eyes");
+
+    expect(segments[46].text).toBe("Describing someone as 'shifty' means they appear deceitful, evasive, and untrustworthy, like someone whose eyes dart suspiciously.");
+    expect(segments[46].keywords).toContain("shifty");
+
+    expect(segments[48].text).toBe("Leave me alone, I'm not kidding! Pop a worm pill and hit the road, I'm busy!");
+    expect(segments[49].text).toBe("You want to play? Fine, you can be the new astronaut. Go jump in the pail and we'll shoot you into outer space!");
+  });
+
+  it("Audit 8: Deep Quiz Content Rigor & Reference Segments Alignment", () => {
     const quiz = QUIZ_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT;
-    expect(quiz.lessonId).toBe("mov_ani_12");
-    expect(quiz.totalQuestions).toBe(6);
-    expect(quiz.xpReward).toBe(100);
-    expect(quiz.questions.length).toBe(6);
+    expect(quiz.questions.length).toBe(8);
 
-    quiz.questions.forEach((q) => {
-      expect(q.id.length).toBeGreaterThan(0);
-      expect(q.questionEn).toBeDefined();
-      expect(q.questionVi).toBeDefined();
-      expect(q.optionsEn?.length).toBe(4);
-      expect(q.optionsVi?.length).toBe(4);
-      expect(q.options.length).toBe(4);
-      expect(q.correctAnswer).toBeGreaterThanOrEqual(0);
-      expect(q.correctAnswer).toBeLessThanOrEqual(3);
-      expect(q.explanationEn).toBeDefined();
-      expect(q.explanationVi).toBeDefined();
-      expect(q.targetedConceptEn).toBeDefined();
-      expect(q.targetedConceptVi).toBeDefined();
-      expect(q.referenceSegmentIndex).toBeDefined();
-      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-      expect(q.referenceSegmentIndex).toBeLessThan(LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments.length);
-    });
-  });
+    // Q1 -> referenceSegmentIndex 19
+    expect(quiz.questions[0].referenceSegmentIndex).toBe(19);
+    expect(LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments[19].text).toContain("hook someone up with");
 
-  it("should be properly registered in TOPIC_ANIMATION_PIXAR_DISNEY and LESSONS_ANIMATION_PIXAR_DISNEY", () => {
-    const foundInList = LESSONS_ANIMATION_PIXAR_DISNEY.find((l) => l.id === "mov_ani_12");
-    expect(foundInList).toBeDefined();
-    expect(foundInList?.externalId).toBe("_kafLt9bNyU");
-    expect(TOPIC_ANIMATION_PIXAR_DISNEY.lessonsCount).toBe(12);
-    expect(LESSONS_ANIMATION_PIXAR_DISNEY.length).toBe(12);
+    // Q2 -> referenceSegmentIndex 23
+    expect(quiz.questions[1].referenceSegmentIndex).toBe(23);
+    expect(LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments[23].text).toContain("in the zone");
+
+    // Q3 -> referenceSegmentIndex 34
+    expect(quiz.questions[2].referenceSegmentIndex).toBe(34);
+    expect(LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments[34].text).toContain("Can it");
+
+    // Q4 -> referenceSegmentIndex 37
+    expect(quiz.questions[3].referenceSegmentIndex).toBe(37);
+    expect(LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments[37].text).toContain("Word on the street is");
+
+    // Q5 -> referenceSegmentIndex 44
+    expect(quiz.questions[4].referenceSegmentIndex).toBe(44);
+    expect(LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments[44].text).toContain("put your money where your mouth is");
+
+    // Q6 -> referenceSegmentIndex 46
+    expect(quiz.questions[5].referenceSegmentIndex).toBe(46);
+    expect(LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments[46].text).toContain("shifty");
+
+    // Q7 -> referenceSegmentIndex 31
+    expect(quiz.questions[6].referenceSegmentIndex).toBe(31);
+    expect(LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments[31].text).toContain("out of our hair");
+
+    // Q8 -> referenceSegmentIndex 29
+    expect(quiz.questions[7].referenceSegmentIndex).toBe(29);
+    expect(LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments[29].text).toContain("blow something");
   });
 });

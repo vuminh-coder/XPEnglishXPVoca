@@ -1,0 +1,560 @@
+import json
+import re
+
+segments_raw = [
+  {
+    "orderIndex": 0,
+    "startTime": 42.0,
+    "endTime": 55.0,
+    "text": "So long, boys! I'll send you a postcard from Paradise Falls!",
+    "translationVi": "Chào tạm biệt các chàng trai! Tôi sẽ gửi bưu thiếp cho các cậu từ Thác Thiên Đường!",
+    "ipaUs": "/soʊ lɔːŋ, bɔɪz! aɪl sɛnd juː ə ˈpoʊstˌkɑːrd frʌm ˈpærədaɪs fɔːlz!/",
+    "keywords": ["so long", "postcard", "Paradise Falls"],
+    "explanationAi": "Carl Fredricksen hét lớn chào tạm biệt các nhân viên viện dưỡng lão khi ngôi nhà gắn hàng ngàn quả bóng bay cất cánh lên bầu trời.",
+    "properNouns": ["Paradise Falls"]
+  },
+  {
+    "orderIndex": 1,
+    "startTime": 55.0,
+    "endTime": 75.0,
+    "text": "Up has got to be one of my personal favorite Pixar movies, and today you're going to learn advanced vocabulary and pronunciation.",
+    "translationVi": "Up chắc chắn là một trong những bộ phim hoạt hình Pixar yêu thích nhất của tôi, và hôm nay bạn sẽ được học từ vựng và phát âm nâng cao.",
+    "ipaUs": "/ʌp hæz ɡɑːt tuː biː wʌn əv maɪ ˈpɜːrsənəl ˈfeɪvərɪt ˈpɪksɑːr ˈmuːviz, ænd təˈdeɪ jʊr ˈɡoʊɪŋ tuː lɜːrn ədˈvænst voʊˈkæbjəˌlɛri ænd prəˌnʌnsiˈeɪʃən./",
+    "keywords": ["Pixar movies", "advanced vocabulary", "pronunciation"],
+    "explanationAi": "Lời giới thiệu bài học từ huấn luyện viên RealLife English.",
+    "properNouns": ["Up", "Pixar"]
+  },
+  {
+    "orderIndex": 2,
+    "startTime": 75.0,
+    "endTime": 95.0,
+    "text": "We'll analyze a hilarious scene where Russell accidentally gets stuck in Carl's house just as it's taking flight.",
+    "translationVi": "Chúng ta sẽ cùng phân tích một phân cảnh hài hước khi cậu bé Russell tình cờ bị kẹt lại trong ngôi nhà của cụ Carl đúng lúc nó đang cất cánh bay lên.",
+    "ipaUs": "/wiːl ˈænəˌlaɪz ə hɪˈlɛriəs siːn wɛr ˈrʌsəl ˌæksəˈdɛntli ɡɛts stʌk ɪn kɑːrlz haʊs dʒʌst æz ɪts ˈteɪkɪŋ flaɪt./",
+    "keywords": ["hilarious scene", "gets stuck", "taking flight"],
+    "explanationAi": "Cụm động từ 'get stuck' (bị kẹt lại) và 'take flight' (cất cánh bay lên bầu trời).",
+    "properNouns": ["Russell", "Carl"]
+  },
+  {
+    "orderIndex": 3,
+    "startTime": 95.0,
+    "endTime": 115.0,
+    "text": "Our mission is to help you understand fast-speaking natives without getting lost, without missing the jokes, and without subtitles.",
+    "translationVi": "Sứ mệnh của chúng tôi là giúp bạn nghe hiểu người bản xứ nói nhanh mà không bị mất phương hướng, không bỏ lỡ các mẩu chuyện cười, và không cần nhìn phụ đề.",
+    "ipaUs": "/ˈaʊər ˈmɪʃən ɪz tuː hɛlp juː ˌʌndərˈstænd fæst ˈspiːkɪŋ ˈneɪtɪvz wɪðˈaʊt ˈɡɛtɪŋ lɔːst, wɪðˈaʊt ˈmɪsɪŋ ðə dʒoʊks, ænd wɪðˈaʊt ˈsʌbˌtaɪtəlz./",
+    "keywords": ["fast-speaking natives", "getting lost", "without subtitles"],
+    "explanationAi": "Mục tiêu đào tạo kỹ năng nghe phản xạ tự nhiên của phương pháp RealLife English.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 4,
+    "startTime": 115.0,
+    "endTime": 130.0,
+    "text": "Good afternoon! My name is Russell, and I am a Wilderness Explorer in Tribe 54, Sweatlodge 12.",
+    "translationVi": "Chào buổi chiều cụ! Cháu tên là Russell, và cháu là Nhà thám hiểm Hoang dã thuộc Bộ tộc 54, Phân đội 12.",
+    "ipaUs": "/ɡʊd ˌæftərˈnuːn! maɪ neɪm ɪz ˈrʌsəl, ænd aɪ æm ə ˈwɪldərnəs ɪkˈsplɔːrər ɪn traɪb ˈfɪfti fɔːr, ˈswɛtˌlɑːdʒ twɛlv./",
+    "keywords": ["Wilderness Explorer", "Tribe 54", "Sweatlodge 12"],
+    "explanationAi": "Lời chào mở màn kinh điển của chú bé hướng đạo sinh Russell trước hiên nhà cụ Carl.",
+    "properNouns": ["Russell", "Wilderness Explorer", "Tribe 54", "Sweatlodge 12"]
+  },
+  {
+    "orderIndex": 5,
+    "startTime": 130.0,
+    "endTime": 140.0,
+    "text": "Are you in need of any assistance today, sir?",
+    "translationVi": "Hôm nay cụ có đang cần bất kỳ sự trợ giúp nào không, thưa cụ?",
+    "ipaUs": "/ɑːr juː ɪn niːd əv ˈɛni əˈsɪstəns təˈdeɪ, sɜːr?/",
+    "keywords": ["in need of assistance", "sir"],
+    "explanationAi": "Cách hỏi trang trọng: 'in need of assistance' tương đương với 'need any help'.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 6,
+    "startTime": 140.0,
+    "endTime": 144.0,
+    "text": "No.",
+    "translationVi": "Không.",
+    "ipaUs": "/noʊ./",
+    "keywords": ["no"],
+    "explanationAi": "Câu trả lời cộc lốc của cụ Carl khi định đóng sập cửa.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 7,
+    "startTime": 144.0,
+    "endTime": 150.0,
+    "text": "I could help you cross the street.",
+    "translationVi": "Cháu có thể giúp cụ qua đường.",
+    "ipaUs": "/aɪ kʊd hɛlp juː krɔːs ðə striːt./",
+    "keywords": ["cross the street"],
+    "explanationAi": "Hành động dắt người già qua đường - nghĩa cử truyền thống của hướng đạo sinh.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 8,
+    "startTime": 150.0,
+    "endTime": 153.0,
+    "text": "No.",
+    "translationVi": "Không.",
+    "ipaUs": "/noʊ./",
+    "keywords": ["no"],
+    "explanationAi": "Carl tiếp tục từ chối dứt khoát.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 9,
+    "startTime": 153.0,
+    "endTime": 158.0,
+    "text": "I could help you cross your yard.",
+    "translationVi": "Cháu có thể giúp cụ băng qua khoảng sân.",
+    "ipaUs": "/aɪ kʊd hɛlp juː krɔːs jʊər jɑːrd./",
+    "keywords": ["cross your yard"],
+    "explanationAi": "Sự kiên trì đến mức hài hước của Russell khi giảm dần khoảng cách để được giúp đỡ.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 10,
+    "startTime": 158.0,
+    "endTime": 161.0,
+    "text": "No.",
+    "translationVi": "Không.",
+    "ipaUs": "/noʊ./",
+    "keywords": ["no"],
+    "explanationAi": "Carl vẫn giữ nguyên vẻ cau có.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 11,
+    "startTime": 161.0,
+    "endTime": 166.0,
+    "text": "I could help you cross your porch.",
+    "translationVi": "Cháu có thể giúp cụ bước qua hàng hiên.",
+    "ipaUs": "/aɪ kʊd hɛlp juː krɔːs jʊər pɔːrtʃ./",
+    "keywords": ["cross your porch"],
+    "explanationAi": "Hàng hiên chỉ dài vài bước chân nhưng Russell vẫn đề nghị giúp băng qua.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 12,
+    "startTime": 166.0,
+    "endTime": 170.0,
+    "text": "No.",
+    "translationVi": "Không.",
+    "ipaUs": "/noʊ./",
+    "keywords": ["no"],
+    "explanationAi": "Lời từ chối thứ tư của Carl.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 13,
+    "startTime": 170.0,
+    "endTime": 177.0,
+    "text": "Well, I got to help you cross something!",
+    "translationVi": "Chà, nhưng cháu bắt buộc phải giúp cụ băng qua một cái gì đó chứ ạ!",
+    "ipaUs": "/wɛl, aɪ ɡɑːt tuː hɛlp juː krɔːs ˈsʌmθɪŋ!/",
+    "keywords": ["got to help", "cross something"],
+    "explanationAi": "Cụm 'got to' (phải, có bổn phận). Russell bộc lộ áp lực phải hoàn thành chỉ tiêu để lấy huy hiệu.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 14,
+    "startTime": 177.0,
+    "endTime": 186.0,
+    "text": "Uh, no, I'm doing fine. Good afternoon.",
+    "translationVi": "Ờ, không, ta vẫn đang rất ổn. Chào buổi chiều.",
+    "ipaUs": "/ʌ, noʊ, aɪm ˈduːɪŋ faɪn. ɡʊd ˌæftərˈnuːn./",
+    "keywords": ["doing fine", "good afternoon"],
+    "explanationAi": "Cách từ chối khéo léo và dứt khoát trong tiếng Anh giao tiếp: 'I'm doing fine'.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 15,
+    "startTime": 186.0,
+    "endTime": 196.0,
+    "text": "Skip to the end! See these? These are my Wilderness Explorer badges.",
+    "translationVi": "Cháu hãy đọc lướt nhanh đến phần kết đi! Cụ nhìn thấy những thứ này không? Đây là các huy hiệu Thám hiểm Hoang dã của cháu đấy.",
+    "ipaUs": "/skɪp tuː ðɪ ɛnd! siː ðiːz? ðiːz ɑːr maɪ ˈwɪldərnəs ɪkˈsplɔːrər ˈbædʒɪz./",
+    "keywords": ["skip to the end", "badges"],
+    "explanationAi": "Thành ngữ 'skip to the end' (bỏ qua đoạn giữa, đi thẳng vào ý chính). Russell chỉ vào dải băng đeo huy hiệu.",
+    "properNouns": ["Wilderness Explorer"]
+  },
+  {
+    "orderIndex": 16,
+    "startTime": 196.0,
+    "endTime": 208.0,
+    "text": "You may notice one is missing: it's my Assisting the Elderly badge. If I get it, I will become a Senior Wilderness Explorer!",
+    "translationVi": "Cụ có thể để ý thấy đang thiếu mất một cái: đó là huy hiệu Giúp đỡ Người cao tuổi. Nếu cháu đạt được nó, cháu sẽ trở thành Nhà thám hiểm Hoang dã Cấp cao!",
+    "ipaUs": "/juː meɪ ˈnoʊtɪs wʌn ɪz ˈmɪsɪŋ: ɪts maɪ əˈsɪstɪŋ ðɪ ˈɛldərli bædʒ. ɪf aɪ ɡɛt ɪt, aɪ wɪl bɪˈkʌm ə ˈsiːnjər ˈwɪldərnəs ɪkˈsplɔːrər!/",
+    "keywords": ["one is missing", "Assisting the Elderly badge", "Senior Wilderness Explorer"],
+    "explanationAi": "Tên huy hiệu chính thức: 'Assisting the Elderly badge'. Danh xưng mục tiêu: 'Senior Wilderness Explorer'.",
+    "properNouns": ["Assisting the Elderly", "Senior Wilderness Explorer"]
+  },
+  {
+    "orderIndex": 17,
+    "startTime": 208.0,
+    "endTime": 218.0,
+    "text": "There's a big ceremony, and all the dads come, and they pin on our badges.",
+    "translationVi": "Sẽ có một buổi lễ long trọng, và tất cả các ông bố đều đến để cài huy hiệu lên ngực áo cho chúng cháu.",
+    "ipaUs": "/ðɛrz ə bɪɡ ˈsɛrəˌmoʊni, ænd ɔːl ðə dædz kʌm, ænd ðeɪ pɪn ɑːn ˈaʊər ˈbædʒɪz./",
+    "keywords": ["big ceremony", "all the dads come", "pin on badges"],
+    "explanationAi": "Chi tiết cảm động hé lộ nỗi niềm thiếu thốn tình cảm của Russell khi bố cậu luôn vắng mặt vì bận rộn.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 18,
+    "startTime": 218.0,
+    "endTime": 226.0,
+    "text": "So you want to assist an old person? Yep! Then I'll be a Senior Wilderness Explorer!",
+    "translationVi": "Vậy là nhóc muốn giúp đỡ một người già chứ gì? Dạ đúng ạ! Khi đó cháu sẽ là Nhà thám hiểm Hoang dã Cấp cao!",
+    "ipaUs": "/soʊ juː wɑːnt tuː əˈsɪst ən oʊld ˈpɜːrsən? jɛp! ðɛn aɪl biː ə ˈsiːnjər ˈwɪldərnəs ɪkˈsplɔːrər!/",
+    "keywords": ["assist an old person", "Senior Wilderness Explorer"],
+    "explanationAi": "Carl bắt đầu nảy ra kế hoạch đánh lừa cậu bé để tống khứ cậu đi.",
+    "properNouns": ["Senior Wilderness Explorer"]
+  },
+  {
+    "orderIndex": 19,
+    "startTime": 226.0,
+    "endTime": 234.0,
+    "text": "You ever heard of a snipe? A snipe?",
+    "translationVi": "Nhóc đã bao giờ nghe nói về loài chim dẽ giun chưa? Chim dẽ giun ạ?",
+    "ipaUs": "/juː ˈɛvər hɜːrd əv ə snaɪp? ə snaɪp?/",
+    "keywords": ["heard of a snipe"],
+    "explanationAi": "Bắt đầu phi vụ lừa đảo 'snipe hunt' kinh điển trong văn hóa cắm trại Mỹ.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 20,
+    "startTime": 234.0,
+    "endTime": 248.0,
+    "text": "A bird with beady eyes! Every night it sneaks into my yard and gobbles my azaleas!",
+    "translationVi": "Một loài chim có đôi mắt hạt cườm ti hí! Đêm nào nó cũng lẻn vào sân nhà ta và ngấu nghiến những luống hoa đỗ quyên!",
+    "ipaUs": "/ə bɜːrd wɪð ˈbiːdi aɪz! ˈɛvri naɪt ɪt sniːks ˈɪntuː maɪ jɑːrd ænd ˈɡɑːbəlz maɪ əˈzeɪljəz!/",
+    "keywords": ["beady eyes", "sneaks into", "gobbles my azaleas"],
+    "explanationAi": "Tính từ 'beady eyes' (mắt ti hí như hạt cườm), động từ 'gobble' (ăn ngấu nghiến) và loài hoa 'azaleas' (đỗ quyên).",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 21,
+    "startTime": 248.0,
+    "endTime": 258.0,
+    "text": "I'm elderly and infirm! I can't catch it! If only someone could help me...",
+    "translationVi": "Ta già yếu và tàn phế rồi! Ta chẳng thể nào bắt được nó! Giá như có ai đó giúp ta...",
+    "ipaUs": "/aɪm ˈɛldərli ænd ɪnˈfɜːrm! aɪ kænt kætʃ ɪt! ɪf ˈoʊnli ˈsʌmˌwʌn kʊd hɛlp miː.../",
+    "keywords": ["elderly and infirm", "can't catch it", "if only"],
+    "explanationAi": "Tính từ trang trọng 'infirm' (yếu đuối, tàn tật vì tuổi già). Carl đóng kịch giả vờ bất lực.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 22,
+    "startTime": 258.0,
+    "endTime": 268.0,
+    "text": "Me! Me! I'll do it! Oh, I don't know, it's awfully crafty.",
+    "translationVi": "Cháu! Cháu đây ạ! Cháu sẽ làm việc đó! Ôi, ta không biết nữa, nó ranh mãnh vô cùng đấy.",
+    "ipaUs": "/miː! miː! aɪl duː ɪt! oʊ, aɪ doʊnt noʊ, ɪts ˈɔːfəli ˈkræfti./",
+    "keywords": ["I'll do it", "awfully crafty"],
+    "explanationAi": "Phó từ tăng cường 'awfully' (rất, vô cùng) kết hợp tính từ 'crafty' (ma mãnh, xảo quyệt).",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 23,
+    "startTime": 268.0,
+    "endTime": 280.0,
+    "text": "You'd have to clap your hands three times to lure it in! I'll find it, Mr. Fredricksen!",
+    "translationVi": "Nhóc phải vỗ tay ba lần để dụ nó vào! Cháu nhất định sẽ tìm ra nó, thưa cụ Fredricksen!",
+    "ipaUs": "/jʊd hæv tuː klæp jʊər hændz θriː taɪmz tuː lʊr ɪt ɪn! aɪl faɪnd ɪt, ˈmɪstər ˈfrɛdrɪksən!/",
+    "keywords": ["clap hands three times", "lure it in"],
+    "explanationAi": "Cụm động từ 'lure in' (dụ dỗ, nhử vào bẫy bằng âm thanh hoặc thức ăn).",
+    "properNouns": ["Fredricksen"]
+  },
+  {
+    "orderIndex": 24,
+    "startTime": 280.0,
+    "endTime": 292.0,
+    "text": "I think its burrow is two blocks down. Two blocks down! Got it! Here, snipey, snipey, snipe!",
+    "translationVi": "Ta nghĩ hang của nó ở cách đây hai dãy nhà. Cách hai dãy nhà! Cháu hiểu rồi! Lại đây nào, chú chim dẽ giun ơi!",
+    "ipaUs": "/aɪ θɪŋk ɪts ˈbɜːroʊ ɪz tuː blɑːks daʊn. tuː blɑːks daʊn! ɡɑːt ɪt! hɪr, ˈsnaɪpi, ˈsnaɪpi, snaɪp!/",
+    "keywords": ["burrow", "two blocks down", "here snipey"],
+    "explanationAi": "Danh từ 'burrow' (hang đào dưới lòng đất của động vật). Russell háo hức chạy đi tìm con chim trong tưởng tượng.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 25,
+    "startTime": 292.0,
+    "endTime": 310.0,
+    "text": "Let's explore the vocabulary: 'Wilderness Explorer' is a fictional parody of the Boy Scouts of America youth program.",
+    "translationVi": "Hãy cùng khám phá từ vựng: 'Wilderness Explorer' là hình tượng châm biếm hư cấu của chương trình Hướng đạo sinh Mỹ Boy Scouts of America.",
+    "ipaUs": "/lɛts ɪkˈsplɔːr ðə voʊˈkæbjəˌlɛri: ˈwɪldərnəs ɪkˈsplɔːrər ɪz ə ˈfɪkʃənəl ˈpærədi əv ðə bɔɪ skaʊts əv əˈmɛrɪkə juːθ ˈproʊɡræm./",
+    "keywords": ["Wilderness Explorer", "fictional parody", "Boy Scouts of America"],
+    "explanationAi": "Kiến thức văn hóa xã hội Mỹ: Hướng đạo sinh rèn luyện kỹ năng sinh tồn và tích lũy huy hiệu khen thưởng.",
+    "properNouns": ["Wilderness Explorer", "Boy Scouts of America"]
+  },
+  {
+    "orderIndex": 26,
+    "startTime": 310.0,
+    "endTime": 328.0,
+    "text": "The word 'elderly' is a polite, respectful term for older adults, whereas simply calling someone 'old' can sound blunt or offensive.",
+    "translationVi": "Từ 'elderly' là một thuật ngữ lịch sự, tôn trọng dùng để chỉ người cao tuổi, trong khi gọi ai đó là 'old' có thể nghe thô lỗ hoặc xúc phạm.",
+    "ipaUs": "/ðə wɜːrd ˈɛldərli ɪz ə pəˈlaɪt, rɪˈspɛktfəl tɜːrm fɔːr ˈoʊldər əˈdʌlts, wɛrˈæz ˈsɪmpli ˈkɔːlɪŋ ˈsʌmˌwʌn oʊld kæn saʊnd blʌnt ɔːr əˈfɛnsɪv./",
+    "keywords": ["elderly", "polite and respectful", "older adults"],
+    "explanationAi": "Quy tắc ngữ dụng học xã hội: Lựa chọn từ ngữ nhã nhặn khi giao tiếp với người lớn tuổi.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 27,
+    "startTime": 328.0,
+    "endTime": 348.0,
+    "text": "A 'porch' is a raised covered platform at the entrance of a house where people often sit, relax, and greet visitors.",
+    "translationVi": "'Porch' là hàng hiên có mái che nhô cao ở lối vào của một ngôi nhà, nơi người ta thường ngồi nghỉ ngơi thư giãn và đón tiếp khách.",
+    "ipaUs": "/ə pɔːrtʃ ɪz ə reɪzd ˈkʌvərd ˈplætfɔːrm æt ðɪ ˈɛntrəns əv ə haʊs wɛr ˈpiːpəl ˈɔːfən sɪt, rɪˈlæks, ænd ɡriːt ˈvɪzɪtərz./",
+    "keywords": ["porch", "covered platform", "entrance of a house"],
+    "explanationAi": "Đặc trưng kiến trúc nhà ở truyền thống tại Mỹ: hàng hiên trước cửa nhà gắn liền với sinh hoạt cộng đồng.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 28,
+    "startTime": 348.0,
+    "endTime": 368.0,
+    "text": "Notice connected speech: in 'you may notice one is missing', the T in 'notice' is a flapped T between vowels, and 'one is' links seamlessly.",
+    "translationVi": "Chú ý hiện tượng nối âm: trong câu 'you may notice one is missing', âm T trong 'notice' là âm T vỗ (flap T) giữa hai nguyên âm, và 'one is' nối âm liền mạch.",
+    "ipaUs": "/ˈnoʊtɪs kəˈnɛktɪd spiːtʃ: ɪn juː meɪ ˈnoʊtɪs wʌn ɪz ˈmɪsɪŋ, ðə tiː ɪn ˈnoʊtɪs ɪz ə flæpt tiː bɪˈtwiːn ˈvaʊəlz, ænd wʌn ɪz lɪŋks ˈsiːmləsli./",
+    "keywords": ["connected speech", "flapped T", "links seamlessly"],
+    "explanationAi": "Quy tắc ngữ âm học chuẩn Anh Mỹ giúp người học nhận diện âm Flap T và liên kết phụ âm - nguyên âm.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 29,
+    "startTime": 368.0,
+    "endTime": 388.0,
+    "text": "Carl sends Russell on a 'wild goose chase': an idiom meaning a completely hopeless, futile search for something nonexistent.",
+    "translationVi": "Cụ Carl đã cử Russell đi làm một phi vụ 'wild goose chase': một thành ngữ có nghĩa là cuộc tìm kiếm vô vọng, vô ích cho một thứ hoàn toàn không có thật.",
+    "ipaUs": "/kɑːrl sɛndz ˈrʌsəl ɑːn ə waɪld ɡuːs tʃeɪs: ən ˈɪdiəm ˈmiːnɪŋ ə kəmˈpliːtli ˈhoʊpləs, ˈfjuːtəl sɜːrtʃ fɔːr ˈsʌmθɪŋ ˌnɑːnɪɡˈzɪstənt./",
+    "keywords": ["wild goose chase", "futile search", "nonexistent"],
+    "explanationAi": "Thành ngữ 'wild goose chase' (cuộc săn đuổi vô nghĩa như đuổi ngỗng trời) bắt nguồn từ thời văn học Shakespeare.",
+    "properNouns": ["Carl", "Russell"]
+  },
+  {
+    "orderIndex": 30,
+    "startTime": 388.0,
+    "endTime": 408.0,
+    "text": "To 'gobble up' means to devour or consume food very rapidly and greedily, often without chewing properly.",
+    "translationVi": "'Gobble up' có nghĩa là ngốn ngấu, ngấu nghiến thức ăn một cách nhanh chóng và thèm thuồng, thường là không nhai kỹ.",
+    "ipaUs": "/tuː ˈɡɑːbəl ʌp miːnz tuː dɪˈvaʊər ɔːr kənˈsuːm fuːd ˈvɛri ˈræpədli ænd ˈɡriːdəli, ˈɔːfən wɪðˈaʊt ˈtʃuːɪŋ ˈprɑːpərli./",
+    "keywords": ["gobble up", "devour rapidly", "greedily"],
+    "explanationAi": "Cụm động từ miêu tả hành vi ăn uống thô thiển hoặc nhanh chóng.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 31,
+    "startTime": 408.0,
+    "endTime": 428.0,
+    "text": "A 'burrow' is a specialized hole or underground tunnel excavated by animals like rabbits or badgers for shelter and protection.",
+    "translationVi": "'Burrow' là một cái hang hoặc đường hầm ngầm chuyên dụng do động vật như thỏ hoặc lửng đào bới để làm nơi trú ẩn và bảo vệ bản thân.",
+    "ipaUs": "/ə ˈbɜːroʊ ɪz ə ˈspɛʃəlaɪzd hoʊl ɔːr ˈʌndərˌɡraʊnd ˈtʌnəl ˈɛkskəˌveɪtəd baɪ ˈænɪməlz laɪk ˈræbɪts ɔːr ˈbædʒərz fɔːr ˈʃɛltər ænd prəˈtɛkʃən./",
+    "keywords": ["burrow", "underground tunnel", "shelter"],
+    "explanationAi": "Danh từ sinh học về nơi trú ẩn ngầm của loài vật, phân biệt với 'nest' (tổ chim trên cây).",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 32,
+    "startTime": 428.0,
+    "endTime": 450.0,
+    "text": "This house is not merely bricks and wood to Carl; it contains all the sacred memories of his beloved wife, Ellie.",
+    "translationVi": "Ngôi nhà này không đơn thuần chỉ là gạch và gỗ đối với Carl; nó chứa đựng tất cả những ký ức thiêng liêng về người vợ yêu dấu của ông, bà Ellie.",
+    "ipaUs": "/ðɪs haʊs ɪz nɑːt ˈmɪrli brɪks ænd wʊd tuː kɑːrl; ɪt kənˈteɪnz ɔːl ðə ˈseɪkrəd ˈmɛməriz əv hɪz bɪˈlʌvɪd waɪf, ˈɛli./",
+    "keywords": ["not merely bricks and wood", "sacred memories", "beloved wife Ellie"],
+    "explanationAi": "Ý nghĩa biểu tượng trung tâm của bộ phim: ngôi nhà chính là hiện thân cho tình yêu bất tử của Carl và Ellie.",
+    "properNouns": ["Carl", "Ellie"]
+  },
+  {
+    "orderIndex": 33,
+    "startTime": 450.0,
+    "endTime": 470.0,
+    "text": "They had promised each other since childhood that one day they would travel together to the cliff tops of Paradise Falls.",
+    "translationVi": "Họ đã hứa với nhau từ thuở ấu thơ rằng một ngày nào đó họ sẽ cùng nhau chu du đến đỉnh vách đá Thác Thiên Đường.",
+    "ipaUs": "/ðeɪ hæd ˈprɑːmɪst iːtʃ ˈʌðər sɪns ˈtʃaɪldˌhʊd ðæt wʌn deɪ ðeɪ wʊd ˈtrævəl təˈɡɛðər tuː ðə klɪf tɑːps əv ˈpærədaɪs fɔːlz./",
+    "keywords": ["promised each other", "cliff tops", "Paradise Falls"],
+    "explanationAi": "Ước nguyện thời thơ ấu chưa trọn vẹn mà Carl quyết tâm hoàn thành bằng mọi giá trước khi qua đời.",
+    "properNouns": ["Paradise Falls"]
+  },
+  {
+    "orderIndex": 34,
+    "startTime": 470.0,
+    "endTime": 490.0,
+    "text": "When the workers come to take him to Shady Oaks Retirement Village, Carl releases thousands of helium balloons through his chimney.",
+    "translationVi": "Khi các nhân viên đến đưa ông về Viện dưỡng lão Shady Oaks, Carl giật dây thả hàng ngàn quả bóng bay khí heli qua ống khói.",
+    "ipaUs": "/wɛn ðə ˈwɜːrkərz kʌm tuː teɪk hɪm tuː ˈʃeɪdi oʊks rɪˈtaɪərmənt ˈvɪlɪdʒ, kɑːrl rɪˈliːsɪz ˈθaʊzəndz əv ˈhiːliəm bəˈluːnz θruː hɪz ˈtʃɪmni./",
+    "keywords": ["Shady Oaks Retirement Village", "helium balloons", "chimney"],
+    "explanationAi": "Phân cảnh cất cánh kinh điển của điện ảnh thế giới: Ngôi nhà bứt khỏi móng và bay lên bầu trời xanh.",
+    "properNouns": ["Shady Oaks Retirement Village", "Carl"]
+  },
+  {
+    "orderIndex": 35,
+    "startTime": 490.0,
+    "endTime": 510.0,
+    "text": "At ten thousand feet in the air, relaxing in his armchair, Carl suddenly hears a loud knock at his front porch door!",
+    "translationVi": "Ở độ cao mười ngàn feet giữa tầng không, đang thư thái ngồi trên chiếc ghế bành, Carl bỗng nghe thấy tiếng gõ cửa ầm ĩ ngoài hiên nhà!",
+    "ipaUs": "/æt tɛn ˈθaʊzənd fiːt ɪn ðɪ ɛr, rɪˈlæksɪŋ ɪn hɪz ˈɑːrmˌtʃɛr, kɑːrl ˈsʌdənli hɪrz ə laʊd nɑːk æt hɪz frʌnt pɔːrtʃ dɔːr!/",
+    "keywords": ["ten thousand feet", "front porch door", "loud knock"],
+    "explanationAi": "Yếu tố bất ngờ gây cười cực độ: Làm sao có ai gõ cửa giữa tầng mây trên bầu trời?",
+    "properNouns": ["Carl"]
+  },
+  {
+    "orderIndex": 36,
+    "startTime": 510.0,
+    "endTime": 525.0,
+    "text": "Huh! I've never been in a floating house before! Goggles! Look at this stuff, wow!",
+    "translationVi": "Hả! Cháu chưa bao giờ được ở trong một ngôi nhà nổi bay lơ lửng như thế này cả! Kính bảo hộ kìa! Nhìn đống đồ này mà xem, oa!",
+    "ipaUs": "/hʌ! aɪv ˈnɛvər biːn ɪn ə ˈfloʊtɪŋ haʊs bɪˈfɔːr! ˈɡɑːɡəlz! lʊk æt ðɪs stʌf, waʊ!/",
+    "keywords": ["floating house", "goggles", "look at this stuff"],
+    "explanationAi": "Russell ngây thơ thích thú khám phá căn phòng của Carl sau khi bị kẹt ngoài hiên nhà lúc cất cánh.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 37,
+    "startTime": 525.0,
+    "endTime": 540.0,
+    "text": "You're going on a trip? Paradise Falls: a land lost in time! You're going to South America, Mr. Fredricksen!",
+    "translationVi": "Cụ đang đi du lịch đấy ạ? Thác Thiên Đường: vùng đất bị lãng quên bởi thời gian! Cụ đang bay tới Nam Mỹ, cụ Fredricksen ơi!",
+    "ipaUs": "/jʊr ˈɡoʊɪŋ ɑːn ə trɪp? ˈpærədaɪs fɔːlz: ə lænd lɔːst ɪn taɪm! jʊr ˈɡoʊɪŋ tuː saʊθ əˈmɛrɪkə, ˈmɪstər ˈfrɛdrɪksən!/",
+    "keywords": ["going on a trip", "Paradise Falls", "South America"],
+    "explanationAi": "Cụm 'go on a trip' (đi du lịch, thực hiện chuyến đi xa). Khẩu hiệu về Thác Thiên Đường.",
+    "properNouns": ["Paradise Falls", "South America", "Fredricksen"]
+  },
+  {
+    "orderIndex": 38,
+    "startTime": 540.0,
+    "endTime": 550.0,
+    "text": "Don't touch that! You'll soil it!",
+    "translationVi": "Đừng có đụng vào đó! Cháu sẽ làm bẩn nó mất!",
+    "ipaUs": "/doʊnt tʌtʃ ðæt! juːl sɔɪl ɪt!/",
+    "keywords": ["don't touch", "soil it"],
+    "explanationAi": "Động từ 'soil' (làm vấy bẩn, làm dơ bẩn đồ vật quý giá). Carl giữ gìn kỷ vật của Ellie từng li từng tí.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 39,
+    "startTime": 550.0,
+    "endTime": 565.0,
+    "text": "You know, most people take a plane, but you're smart because you'll have your TV and clocks and stuff!",
+    "translationVi": "Cụ biết đấy, hầu hết mọi người đều đi máy bay, nhưng cụ thật thông minh vì cụ mang theo được cả TV, đồng hồ và đủ thứ đồ đạc!",
+    "ipaUs": "/juː noʊ, moʊst ˈpiːpəl teɪk ə pleɪn, bʌt jʊr smɑːrt bɪˈkɔːz juːl hæv jʊər ˌtiːˈviː ænd klɑːks ænd stʌf!/",
+    "keywords": ["take a plane", "smart", "TV and clocks"],
+    "explanationAi": "Lập luận ngây thơ nhưng vô cùng logic của một đứa trẻ lớp năm.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 40,
+    "startTime": 565.0,
+    "endTime": 578.0,
+    "text": "Whoa! Is this how you steer your house? Does it really work? Oh, this makes it go right, and that one left!",
+    "translationVi": "Oa! Đây là cách cụ bẻ lái ngôi nhà của cụ đấy ư? Nó có thực sự hiệu quả không ạ? Ồ, cái này làm nó rẽ phải, còn cái kia rẽ trái!",
+    "ipaUs": "/woʊ! ɪz ðɪs haʊ juː stɪr jʊər haʊs? dʌz ɪt ˈriːəli wɜːrk? oʊ, ðɪs meɪks ɪt ɡoʊ raɪt, ænd ðæt wʌn lɛft!/",
+    "keywords": ["steer your house", "really work", "right and left"],
+    "explanationAi": "Động từ 'steer' (điều khiển hướng đi, bẻ lái). Russell nghịch các dây néo điều khiển rèm cửa.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 41,
+    "startTime": 578.0,
+    "endTime": 588.0,
+    "text": "Knock it off! Cut it out! Stop messing with my ropes!",
+    "translationVi": "Dừng lại ngay! Thôi cái trò đó đi! Đừng có nghịch các dây thừng của ta nữa!",
+    "ipaUs": "/nɑːk ɪt ɔːf! kʌt ɪt aʊt! stɑːp ˈmɛsɪŋ wɪð maɪ roʊps!/",
+    "keywords": ["knock it off", "cut it out", "messing with my ropes"],
+    "explanationAi": "Hai thành ngữ mệnh lệnh cực kỳ phổ biến để yêu cầu ai dừng hành động gây khó chịu: 'knock it off' và 'cut it out'.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 42,
+    "startTime": 588.0,
+    "endTime": 600.0,
+    "text": "Hey look, buildings! That building's so close I could almost touch it!",
+    "translationVi": "Nhìn kìa, các tòa nhà! Tòa cao ốc kia ở gần đến mức cháu gần như có thể chạm tay vào nó rồi!",
+    "ipaUs": "/heɪ lʊk, ˈbɪldɪŋz! ðæt ˈbɪldɪŋz soʊ kloʊs aɪ kʊd ˈɔːlˌmoʊst tʌtʃ ɪt!/",
+    "keywords": ["buildings", "so close", "almost touch it"],
+    "explanationAi": "Ví dụ về hiện tượng nối âm /t/: 'almost touch' kết nối hai âm /t/ liền kề thành một âm mượt mà.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 43,
+    "startTime": 600.0,
+    "endTime": 615.0,
+    "text": "Wow, this is great! You should try this, Mr. Fredricksen! Look, there's a bus that could take me home, two blocks away!",
+    "translationVi": "Oa, tuyệt quá đi mất! Cụ cũng nên thử nhìn ra ngoài xem này, cụ Fredricksen! Nhìn xem, có một chuyến xe buýt có thể đưa cháu về nhà, cách đây hai dãy nhà kìa!",
+    "ipaUs": "/waʊ, ðɪs ɪz ɡreɪt! juː ʃʊd traɪ ðɪs, ˈmɪstər ˈfrɛdrɪksən! lʊk, ðɛrz ə bʌs ðæt kʊd teɪk miː hoʊm, tuː blɑːks əˈweɪ!/",
+    "keywords": ["this is great", "bus take me home", "two blocks away"],
+    "explanationAi": "Russell ngó xuống mặt đất từ độ cao nghẹt thở qua cửa sổ ngôi nhà bay.",
+    "properNouns": ["Fredricksen"]
+  },
+  {
+    "orderIndex": 44,
+    "startTime": 615.0,
+    "endTime": 640.0,
+    "text": "To 'soil' means to make something dirty, while to 'steer' means to direct the navigation or trajectory of a vessel or vehicle.",
+    "translationVi": "'Soil' có nghĩa là làm bẩn một thứ gì đó, trong khi 'steer' có nghĩa là điều hướng hoặc bẻ lái lộ trình của một con tàu hay phương tiện.",
+    "ipaUs": "/tuː sɔɪl miːnz tuː meɪk ˈsʌmθɪŋ ˈdɜːrti, waɪl tuː stɪr miːnz tuː dəˈrɛkt ðə ˌnævəˈɡeɪʃən ɔːr trəˈdʒɛktəri əv ə ˈvɛsəl ɔːr ˈviːɪkəl./",
+    "keywords": ["soil", "steer", "navigation", "trajectory"],
+    "explanationAi": "Phân tích định nghĩa ngôn ngữ học chính xác của hai động từ trọng tâm trong phân cảnh.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 45,
+    "startTime": 640.0,
+    "endTime": 665.0,
+    "text": "Both 'knock it off' and 'cut it out' are informal imperative idioms used when you are severely annoyed and want someone to immediately cease their behavior.",
+    "translationVi": "Cả 'knock it off' và 'cut it out' đều là các thành ngữ mệnh lệnh thân mật dùng khi bạn vô cùng khó chịu và muốn người khác lập tức chấm dứt hành vi của họ.",
+    "ipaUs": "/boʊθ nɑːk ɪt ɔːf ænd kʌt ɪt aʊt ɑːr ɪnˈfɔːrməl ɪmˈpɛrətɪv ˈɪdiəmz juːzd wɛn juː ɑːr səˈvɪrli əˈnɔɪd ænd wɑːnt ˈsʌmˌwʌn tuː ɪˈmiːdiətli siːs ðɛr bɪˈheɪvjər./",
+    "keywords": ["knock it off", "cut it out", "imperative idioms", "cease"],
+    "explanationAi": "Cách dùng tự nhiên của người bản ngữ khi biểu đạt cảm xúc bực bội một cách mạnh mẽ nhưng không tục tĩu.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 46,
+    "startTime": 665.0,
+    "endTime": 690.0,
+    "text": "Later at Paradise Falls, sitting in the empty house, Carl opens Ellie's childhood scrapbook: 'My Adventure Book'.",
+    "translationVi": "Về sau tại Thác Thiên Đường, ngồi một mình trong căn nhà trống trải, Carl mở cuốn sổ lưu niệm thời thơ ấu của Ellie: 'Sách Phiêu Lưu Của Tôi'.",
+    "ipaUs": "/ˈleɪtər æt ˈpærədaɪs fɔːlz, ˈsɪtɪŋ ɪn ðɪ ˈɛmpti haʊs, kɑːrl ˈoʊpənz ˈɛliz ˈtʃaɪldˌhʊd ˈskræpˌbʊk: maɪ ədˈvɛntʃər bʊk./",
+    "keywords": ["Paradise Falls", "childhood scrapbook", "My Adventure Book"],
+    "explanationAi": "Đỉnh cao xúc động nhất của bộ phim: Khoảnh khắc nhận thức chân lý cuộc đời của ông lão Carl.",
+    "properNouns": ["Paradise Falls", "Carl", "Ellie", "My Adventure Book"]
+  },
+  {
+    "orderIndex": 47,
+    "startTime": 690.0,
+    "endTime": 715.0,
+    "text": "He flips past the blank pages marked 'Stuff I'm Going to Do', and discovers photos of their simple, beautiful married life together.",
+    "translationVi": "Ông lật qua những trang giấy trắng từng ghi 'Những việc tôi sẽ làm', và kinh ngạc phát hiện những bức ảnh chụp cuộc sống hôn nhân giản dị, tuyệt đẹp suốt bao năm qua của hai người.",
+    "ipaUs": "/hiː flɪps pæst ðə blæŋk ˈpeɪdʒɪz mɑːrkt stʌf aɪm ˈɡoʊɪŋ tuː duː, ænd dɪˈskʌvərz ˈfoʊtoʊz əv ðɛr ˈsɪmpəl, ˈbjuːtəfəl ˈmɛrid laɪf təˈɡɛðər./",
+    "keywords": ["blank pages", "Stuff I'm Going to Do", "married life"],
+    "explanationAi": "Ellie không coi việc chưa đi Nam Mỹ là dang dở; chính những tháng ngày bên Carl mới là chuyến phiêu lưu đích thực.",
+    "properNouns": []
+  },
+  {
+    "orderIndex": 48,
+    "startTime": 715.0,
+    "endTime": 740.0,
+    "text": "On the very last page, Ellie left her final handwritten note: 'Thanks for the adventure — now go have a new one! Love, Ellie.'",
+    "translationVi": "Ở ngay trang cuối cùng, Ellie đã để lại dòng bút tích nhắn gửi cuối cùng: 'Cảm ơn anh vì chuyến phiêu lưu — giờ hãy đi tìm một chuyến phiêu lưu mới nhé! Yêu anh, Ellie.'",
+    "ipaUs": "/ɑːn ðə ˈvɛri læst peɪdʒ, ˈɛli lɛft hɜːr ˈfaɪnəl ˈhændˌrɪtən noʊt: θæŋks fɔːr ðɪ ədˈvɛntʃər — naʊ ɡoʊ hæv ə njuː wʌn! lʌv, ˈɛli./",
+    "keywords": ["Thanks for the adventure", "now go have a new one", "Love Ellie"],
+    "explanationAi": "Thông điệp bất hủ giải thoát Carl khỏi nỗi ám ảnh quá khứ, trao cho ông động lực vứt bỏ đồ đạc để bay đi cứu cậu bé Russell.",
+    "properNouns": ["Ellie"]
+  },
+  {
+    "orderIndex": 49,
+    "startTime": 740.0,
+    "endTime": 1446.0,
+    "text": "Keep practicing your English every single day, remember that adventure is out there, and we'll see you in our next Pixar lesson!",
+    "translationVi": "Hãy tiếp tục luyện tập tiếng Anh mỗi ngày, ghi nhớ rằng chuyến phiêu lưu luôn ở ngay ngoài kia, và hẹn gặp lại các bạn trong bài học Pixar tiếp theo!",
+    "ipaUs": "/kiːp ˈpræktəsɪŋ jʊər ˈɪŋɡlɪʃ ˈɛvri ˈsɪŋɡəl deɪ, rɪˈmɛmbər ðæt ədˈvɛntʃər ɪz aʊt ðɛr, ænd wiːl siː juː ɪn ˈaʊər nɛkst ˈpɪksɑːr ˈlɛsən!/",
+    "keywords": ["keep practicing", "adventure is out there", "Pixar lesson"],
+    "explanationAi": "Lời chào kết thúc bài giảng truyền cảm hứng của RealLife English.",
+    "properNouns": ["Pixar"]
+  }
+]
+
+with open('scripts/up_pure_segments.json', 'w', encoding='utf-8') as f:
+    json.dump(segments_raw, f, indent=2, ensure_ascii=False)
+
+print(f"Successfully generated {len(segments_raw)} pure segments saved to scripts/up_pure_segments.json")

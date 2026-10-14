@@ -15,9 +15,9 @@ describe("Kurzgesagt: How to Win an Interstellar War 100% Verbatim Calibration T
     expect(kurzgesagtLesson?.title).toContain("Interstellar War");
   });
 
-  it("should have exactly 21 calibrated verbatim segments", () => {
+  it("should have exactly 58 calibrated master verbatim segments", () => {
     expect(kurzgesagtLesson?.segments).toBeDefined();
-    expect(kurzgesagtLesson?.segments?.length).toBe(21);
+    expect(kurzgesagtLesson?.segments?.length).toBe(58);
   });
 
   it("should verify Sentence 1 starts with clean lead-in at 0.00s and correct text", () => {
@@ -46,15 +46,26 @@ describe("Kurzgesagt: How to Win an Interstellar War 100% Verbatim Calibration T
 
     // Sentence 13: Dyson swarm
     expect(segments[12].text).toContain("Dyson swarm");
+
+    // Sentence 27: Star Laser, Relativistic Missile, Ultra-Relativistic Electron Beam
+    expect(segments[26].text).toContain("Star Laser");
+    expect(segments[26].text).toContain("Relativistic Missile");
+    expect(segments[26].text).toContain("Ultra-Relativistic Electron Beam");
+
+    // Sentence 56: World War II
+    expect(segments[55].text).toContain("World War II");
+    expect(segments[55].properNouns).toContain("World War II");
   });
 
-  it("should verify all 21 segments possess complete pedagogical metadata and IPA", () => {
+  it("should verify all 58 segments possess complete pedagogical metadata and IPA", () => {
     const segments = kurzgesagtLesson?.segments || [];
     segments.forEach((seg, idx) => {
       expect(seg.text.length).toBeGreaterThan(0);
       expect(seg.translationVi.length).toBeGreaterThan(0);
       expect(seg.ipaUs).toBeDefined();
       expect(seg.ipaUs!.length).toBeGreaterThan(0);
+      expect(seg.ipaUs!.startsWith("/")).toBe(true);
+      expect(seg.ipaUs!.endsWith("/")).toBe(true);
       expect(seg.explanationAi).toBeDefined();
       expect(seg.explanationAi!.length).toBeGreaterThan(0);
       expect(seg.tokenCount).toBeGreaterThan(0);
@@ -71,7 +82,7 @@ describe("Kurzgesagt: How to Win an Interstellar War 100% Verbatim Calibration T
     }
   });
 
-  it("should tokenize all 21 segments cleanly with DictationWorkspace tokenizer (227 tokens total)", () => {
+  it("should tokenize all 58 segments cleanly with DictationWorkspace tokenizer (765 tokens total)", () => {
     let totalTokens = 0;
     const segments = kurzgesagtLesson?.segments || [];
     for (const seg of segments) {
@@ -83,10 +94,10 @@ describe("Kurzgesagt: How to Win an Interstellar War 100% Verbatim Calibration T
         expect(token.dots.length).toBe(token.clean.length);
       }
     }
-    expect(totalTokens).toBe(227);
+    expect(totalTokens).toBe(765);
   });
 
-  it("should match 100% word-for-word against official YouTube subtitles in json3 (0 diffs across 227 words)", () => {
+  it("should match 100% word-for-word against official YouTube subtitles in json3 (0 diffs across all 58 segments)", () => {
     const subPath = path.resolve(process.cwd(), "scripts/kurzgesagt_raw.en.json3");
     if (!fs.existsSync(subPath)) return;
 
@@ -99,9 +110,48 @@ describe("Kurzgesagt: How to Win an Interstellar War 100% Verbatim Calibration T
       .filter((l: any) => l.text);
 
     const segMap = [
+      // 1..21 (raw lines 0..32)
       [0], [1, 2], [3, 4], [5, 6], [7], [8], [9, 10], [11], [12], [13],
       [14, 15], [16, 17], [18, 19], [20, 21, 22], [23], [24], [25], [26],
-      [27, 28], [29], [30, 31, 32]
+      [27, 28], [29], [30, 31, 32],
+      // 22..58 (raw lines 33..99)
+      [33, 34, 35],
+      [36, 37],
+      [38, 39],
+      [40],
+      [41],
+      [42, 43],
+      [44, 45],
+      [46],
+      [47],
+      [48, 49, 50],
+      [51, 52],
+      [53],
+      [54, 55],
+      [56],
+      [57, 58],
+      [59, 60],
+      [61, 62, 63],
+      [64],
+      [65],
+      [66, 67],
+      [68, 69],
+      [70],
+      [71, 72],
+      [73, 74],
+      [75, 76],
+      [77],
+      [78, 79],
+      [80, 81, 82],
+      [83, 84],
+      [85, 86],
+      [87, 88],
+      [89],
+      [90, 91],
+      [92, 93],
+      [94, 95],
+      [96, 97, 98],
+      [99]
     ];
 
     function cleanWords(s: string): string[] {
@@ -118,9 +168,9 @@ describe("Kurzgesagt: How to Win an Interstellar War 100% Verbatim Calibration T
     }
 
     const segments = kurzgesagtLesson?.segments || [];
-    expect(segments.length).toBe(21);
+    expect(segments.length).toBe(58);
 
-    for (let i = 0; i < 21; i++) {
+    for (let i = 0; i < 58; i++) {
       const offText = segMap[i].map((idx) => rawLines[idx].text).join(" ");
       const offWords = cleanWords(offText);
       const segWords = cleanWords(segments[i].text);
@@ -168,10 +218,10 @@ describe("Kurzgesagt: How to Win an Interstellar War 100% Verbatim Calibration T
         expect(q.explanationVi).toBeDefined();
         expect(q.explanationVi!.length).toBeGreaterThan(15);
 
-        // Reference segment valid index
+        // Reference segment valid 1-indexed range
         expect(q.referenceSegmentIndex).toBeDefined();
-        expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-        expect(q.referenceSegmentIndex).toBeLessThan(21);
+        expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+        expect(q.referenceSegmentIndex).toBeLessThanOrEqual(58);
 
         // Targeted concept
         expect(q.targetedConcept).toBeDefined();
@@ -180,41 +230,41 @@ describe("Kurzgesagt: How to Win an Interstellar War 100% Verbatim Calibration T
       });
     });
 
-    it("should verify specific question references match their scientific transcript segments", () => {
+    it("should verify specific question references match their scientific transcript segments across the entire lesson", () => {
       const questions = kurzgesagtLesson?.quiz?.questions || [];
       const segments = kurzgesagtLesson?.segments || [];
 
-      // Question 1: references segment 6 ("Humans... technological civilization")
+      // Question 1: references segment 6 ("A yellow dwarf star system home to a species of primates.")
       expect(questions[0].referenceSegmentIndex).toBe(6);
-      expect(segments[6].text).toContain("Humans");
+      expect(segments[5].text).toContain("species of primates");
 
-      // Question 2: references segment 10 ("orange dwarf star HD 40307, 42 light years away")
-      expect(questions[1].referenceSegmentIndex).toBe(10);
+      // Question 2: references segment 11 ("orange dwarf star HD 40307, 42 light years away")
+      expect(questions[1].referenceSegmentIndex).toBe(11);
       expect(segments[10].text).toContain("HD 40307");
 
-      // Question 3: references segment 12 ("Dyson swarm")
-      expect(questions[2].referenceSegmentIndex).toBe(12);
+      // Question 3: references segment 13 ("Dyson swarm")
+      expect(questions[2].referenceSegmentIndex).toBe(13);
       expect(segments[12].text).toContain("Dyson swarm");
 
-      // Question 4: references segment 13 ("hyperspace bypass")
-      expect(questions[3].referenceSegmentIndex).toBe(13);
+      // Question 4: references segment 14 ("hyperspace bypass")
+      expect(questions[3].referenceSegmentIndex).toBe(14);
       expect(segments[13].text).toContain("hyperspace bypass");
 
-      // Question 5: references segment 16 ("Front lines, tactics, and logistics are meaningless")
-      expect(questions[4].referenceSegmentIndex).toBe(16);
+      // Question 5: references segment 17 ("Front lines, tactics, and logistics are meaningless")
+      expect(questions[4].referenceSegmentIndex).toBe(17);
       expect(segments[16].text).toContain("meaningless");
 
-      // Question 6: references segment 17 ("fought across time")
-      expect(questions[5].referenceSegmentIndex).toBe(17);
-      expect(segments[17].text).toContain("fought across time");
+      // Question 6: references segment 37 ("collective focusing element a million kilometers wide")
+      expect(questions[5].referenceSegmentIndex).toBe(37);
+      expect(segments[36].text).toContain("focusing element");
 
-      // Question 7: references segment 19 ("Sending an invasion fleet is futile")
-      expect(questions[6].referenceSegmentIndex).toBe(19);
-      expect(segments[19].text).toContain("futile");
+      // Question 7: references segment 42 ("light scattering off bits of dust and gas... clearly visible")
+      expect(questions[6].referenceSegmentIndex).toBe(42);
+      expect(segments[41].text).toContain("scattering");
 
-      // Question 8: references segment 20 ("fraction of the speed of light... plenty of time to prepare")
-      expect(questions[7].referenceSegmentIndex).toBe(20);
-      expect(segments[20].text).toContain("plenty of time to prepare");
+      // Question 8: references segment 55 ("grandchildren will be the ones to find out if you won")
+      expect(questions[7].referenceSegmentIndex).toBe(55);
+      expect(segments[54].text).toContain("grandchildren");
     });
   });
 });

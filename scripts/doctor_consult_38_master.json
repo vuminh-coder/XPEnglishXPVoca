@@ -1,0 +1,613 @@
+[
+  {
+    "orderIndex": 1,
+    "startTime": 12.0,
+    "endTime": 12.8,
+    "speaker": "Receptionist",
+    "text": "Hello.",
+    "translationVi": "Xin chào.",
+    "ipaUs": "/həˈloʊ/",
+    "properNouns": [],
+    "keywords": [
+      "hello"
+    ],
+    "explanationAi": "Lời chào mở đầu tiêu chuẩn tại quầy tiếp tân phòng khám.",
+    "tokenCount": 1
+  },
+  {
+    "orderIndex": 2,
+    "startTime": 13.12,
+    "endTime": 13.92,
+    "speaker": "Kate",
+    "text": "Hello.",
+    "translationVi": "Chào bạn.",
+    "ipaUs": "/həˈloʊ/",
+    "properNouns": [],
+    "keywords": [
+      "hello"
+    ],
+    "explanationAi": "Lời chào đáp lễ của bệnh nhân khi bước đến quầy lễ tân.",
+    "tokenCount": 1
+  },
+  {
+    "orderIndex": 3,
+    "startTime": 14.0,
+    "endTime": 15.71,
+    "speaker": "Receptionist",
+    "text": "What can I do for you today?",
+    "translationVi": "Tôi có thể giúp gì cho bạn hôm nay?",
+    "ipaUs": "/wʌt kæn aɪ duː fɔːr juː təˈdeɪ/",
+    "properNouns": [],
+    "keywords": [
+      "what can I do",
+      "today"
+    ],
+    "explanationAi": "Mẫu câu thăm hỏi mở đầu lịch sự: 'What can I do for you today?' (Tôi có thể hỗ trợ gì cho bạn hôm nay?).",
+    "tokenCount": 7
+  },
+  {
+    "orderIndex": 4,
+    "startTime": 15.76,
+    "endTime": 17.92,
+    "speaker": "Kate",
+    "text": "I would like to see Dr. David.",
+    "translationVi": "Tôi muốn gặp bác sĩ David.",
+    "ipaUs": "/aɪ wʊd laɪk tuː siː ˈdɑːktər ˈdeɪvɪd/",
+    "properNouns": [
+      "Dr. David"
+    ],
+    "keywords": [
+      "would like to see",
+      "doctor"
+    ],
+    "explanationAi": "Cấu trúc 'I would like to see [Doctor's name]' dùng để đăng ký khám với bác sĩ cụ thể.",
+    "tokenCount": 7
+  },
+  {
+    "orderIndex": 5,
+    "startTime": 18.08,
+    "endTime": 19.44,
+    "speaker": "Receptionist",
+    "text": "Do you have an appointment?",
+    "translationVi": "Bạn đã có lịch hẹn trước chưa?",
+    "ipaUs": "/duː juː hæv æn əˈpɔɪntmənt/",
+    "properNouns": [],
+    "keywords": [
+      "appointment",
+      "have an appointment"
+    ],
+    "explanationAi": "'Appointment' là lịch hẹn trước; câu hỏi tiêu chuẩn tại các cơ sở y tế nước ngoài.",
+    "tokenCount": 5
+  },
+  {
+    "orderIndex": 6,
+    "startTime": 19.68,
+    "endTime": 21.36,
+    "speaker": "Kate",
+    "text": "No, I don't.",
+    "translationVi": "Dạ chưa, tôi chưa có lịch hẹn.",
+    "ipaUs": "/noʊ aɪ doʊnt/",
+    "properNouns": [],
+    "keywords": [
+      "no",
+      "I don't"
+    ],
+    "explanationAi": "Câu trả lời ngắn gọn xác nhận chưa đặt hẹn trước (khách vãng lai walk-in).",
+    "tokenCount": 4
+  },
+  {
+    "orderIndex": 7,
+    "startTime": 21.44,
+    "endTime": 26.88,
+    "speaker": "Receptionist",
+    "text": "Dr. David is busy with a patient. If you want to see Dr. David, then you need to make an appointment.",
+    "translationVi": "Bác sĩ David đang bận với bệnh nhân. Nếu bạn muốn gặp bác sĩ David, bạn cần phải đặt lịch hẹn.",
+    "ipaUs": "/ˈdɑːktər ˈdeɪvɪd ɪz ˈbɪzi wɪð ə ˈpeɪʃnt ɪf juː wɑːnt tuː siː ˈdɑːktər ˈdeɪvɪd ðen juː niːd tuː meɪk æn əˈpɔɪntmənt/",
+    "properNouns": [
+      "Dr. David"
+    ],
+    "keywords": [
+      "busy with a patient",
+      "need to make an appointment"
+    ],
+    "explanationAi": "'Make an appointment' là cụm cố định chỉ hành động đặt lịch hẹn khám bệnh.",
+    "tokenCount": 21
+  },
+  {
+    "orderIndex": 8,
+    "startTime": 27.44,
+    "endTime": 30.32,
+    "speaker": "Kate",
+    "text": "Okay, I would like to make an appointment.",
+    "translationVi": "Được rồi, vậy tôi muốn đặt một lịch hẹn ngay bây giờ.",
+    "ipaUs": "/oʊˈkeɪ aɪ wʊd laɪk tuː meɪk æn əˈpɔɪntmənt/",
+    "properNouns": [],
+    "keywords": [
+      "okay",
+      "make an appointment"
+    ],
+    "explanationAi": "Cách đồng ý lịch sự để nhân viên tiến hành thủ tục ghi danh khám bệnh.",
+    "tokenCount": 8
+  },
+  {
+    "orderIndex": 9,
+    "startTime": 30.96,
+    "endTime": 33.44,
+    "speaker": "Receptionist",
+    "text": "Can I have your name and age, please?",
+    "translationVi": "Cho tôi xin họ tên và tuổi của bạn được không?",
+    "ipaUs": "/kæn aɪ hæv jʊər neɪm ænd eɪdʒ pliːz/",
+    "properNouns": [],
+    "keywords": [
+      "name and age",
+      "please"
+    ],
+    "explanationAi": "Bước thu thập thông tin định danh bệnh nhân cơ bản (họ tên và độ tuổi).",
+    "tokenCount": 8
+  },
+  {
+    "orderIndex": 10,
+    "startTime": 33.6,
+    "endTime": 36.64,
+    "speaker": "Kate",
+    "text": "My name is Kate, I am 23.",
+    "translationVi": "Tên tôi là Kate, tôi 23 tuổi.",
+    "ipaUs": "/maɪ neɪm ɪz keɪt aɪ æm ˈtwenti θriː/",
+    "properNouns": [
+      "Kate"
+    ],
+    "keywords": [
+      "name is Kate",
+      "23"
+    ],
+    "explanationAi": "Bệnh nhân cung cấp tên và số tuổi.",
+    "tokenCount": 7
+  },
+  {
+    "orderIndex": 11,
+    "startTime": 38.4,
+    "endTime": 39.84,
+    "speaker": "Receptionist",
+    "text": "And what is your diagnosis?",
+    "translationVi": "Và bạn đang có triệu chứng hoặc cảm thấy thế nào?",
+    "ipaUs": "/ænd wʌt ɪz jʊər ˌdaɪəɡˈnoʊsɪs/",
+    "properNouns": [],
+    "keywords": [
+      "diagnosis",
+      "symptoms"
+    ],
+    "explanationAi": "'Diagnosis' trong ngữ cảnh hội thoại thường nhật tại quầy tiếp tân được dùng mang ý hỏi về vấn đề sức khỏe hoặc triệu chứng bạn tự cảm nhận.",
+    "tokenCount": 5
+  },
+  {
+    "orderIndex": 12,
+    "startTime": 40.48,
+    "endTime": 42.16,
+    "speaker": "Kate",
+    "text": "I think I have a fever.",
+    "translationVi": "Tôi nghĩ là mình đang bị sốt.",
+    "ipaUs": "/aɪ θɪŋk aɪ hæv ə ˈfiːvər/",
+    "properNouns": [],
+    "keywords": [
+      "have a fever"
+    ],
+    "explanationAi": "'Have a fever' là cấu trúc diễn tả triệu chứng sốt (nhiệt độ cơ thể cao hơn bình thường).",
+    "tokenCount": 6
+  },
+  {
+    "orderIndex": 13,
+    "startTime": 42.4,
+    "endTime": 48.8,
+    "speaker": "Receptionist",
+    "text": "Here is your token number. Please wait in the waiting hall. I will let you know when your turn comes.",
+    "translationVi": "Đây là số thứ tự của bạn. Xin vui lòng chờ ở phòng chờ. Tôi sẽ thông báo cho bạn khi đến lượt nhé.",
+    "ipaUs": "/hɪr ɪz jʊər ˈtoʊkən ˈnʌmbər pliːz weɪt ɪn ðə ˈweɪtɪŋ hɔːl aɪ wɪl let juː noʊ wen jʊər tɜːrn kʌmz/",
+    "properNouns": [],
+    "keywords": [
+      "token number",
+      "waiting hall",
+      "your turn comes"
+    ],
+    "explanationAi": "'Token number' là số thứ tự bốc thăm/xếp hàng; 'waiting hall' là phòng chờ bệnh nhân.",
+    "tokenCount": 20
+  },
+  {
+    "orderIndex": 14,
+    "startTime": 48.88,
+    "endTime": 51.04,
+    "speaker": "Kate",
+    "text": "Fine, thank you.",
+    "translationVi": "Vâng, cảm ơn bạn.",
+    "ipaUs": "/faɪn θæŋk juː/",
+    "properNouns": [],
+    "keywords": [
+      "fine",
+      "thank you"
+    ],
+    "explanationAi": "Lời cảm ơn ngắn gọn khi nhận số thứ tự xếp hàng.",
+    "tokenCount": 3
+  },
+  {
+    "orderIndex": 15,
+    "startTime": 55.76,
+    "endTime": 64.24,
+    "speaker": "Receptionist",
+    "text": "Token number 23, Miss Kate, it is your turn. Please go to the doctor's room.",
+    "translationVi": "Số thứ tự 23, cô Kate, đã đến lượt cô rồi. Mời cô vào phòng khám của bác sĩ.",
+    "ipaUs": "/ˈtoʊkən ˈnʌmbər ˈtwenti θriː mɪs keɪt ɪt ɪz jʊər tɜːrn pliːz ɡoʊ tuː ðə ˈdɑːktərz ruːm/",
+    "properNouns": [
+      "Miss Kate"
+    ],
+    "keywords": [
+      "token number 23",
+      "your turn",
+      "doctor's room"
+    ],
+    "explanationAi": "Loa gọi hoặc tiếp tân thông báo mời bệnh nhân có số thứ tự vào phòng khám bác sĩ.",
+    "tokenCount": 16
+  },
+  {
+    "orderIndex": 16,
+    "startTime": 68.08,
+    "endTime": 69.76,
+    "speaker": "Dr. David",
+    "text": "Hello, Miss Kate.",
+    "translationVi": "Chào cô Kate.",
+    "ipaUs": "/həˈloʊ mɪs keɪt/",
+    "properNouns": [
+      "Miss Kate"
+    ],
+    "keywords": [
+      "hello",
+      "Miss Kate"
+    ],
+    "explanationAi": "Lời chào thân thiện của bác sĩ khi bệnh nhân bước vào phòng khám.",
+    "tokenCount": 3
+  },
+  {
+    "orderIndex": 17,
+    "startTime": 69.84,
+    "endTime": 71.2,
+    "speaker": "Kate",
+    "text": "Hello, Doctor.",
+    "translationVi": "Chào bác sĩ.",
+    "ipaUs": "/həˈloʊ ˈdɑːktər/",
+    "properNouns": [],
+    "keywords": [
+      "hello doctor"
+    ],
+    "explanationAi": "Lời chào tôn trọng gửi tới bác sĩ điều trị.",
+    "tokenCount": 2
+  },
+  {
+    "orderIndex": 18,
+    "startTime": 71.44,
+    "endTime": 72.72,
+    "speaker": "Dr. David",
+    "text": "What is the matter?",
+    "translationVi": "Cô đang gặp vấn đề gì về sức khỏe thế?",
+    "ipaUs": "/wʌt ɪz ðə ˈmætər/",
+    "properNouns": [],
+    "keywords": [
+      "what is the matter"
+    ],
+    "explanationAi": "'What is the matter?' là câu hỏi kinh điển của thầy thuốc để tìm hiểu triệu chứng của bệnh nhân.",
+    "tokenCount": 4
+  },
+  {
+    "orderIndex": 19,
+    "startTime": 72.8,
+    "endTime": 76.11,
+    "speaker": "Kate",
+    "text": "I have a fever, I am not feeling well.",
+    "translationVi": "Tôi bị sốt, tôi cảm thấy trong người không được khỏe.",
+    "ipaUs": "/aɪ hæv ə ˈfiːvər aɪ æm nɑːt ˈfiːlɪŋ wel/",
+    "properNouns": [],
+    "keywords": [
+      "fever",
+      "not feeling well"
+    ],
+    "explanationAi": "'Not feeling well' là cách diễn đạt phổ biến khi cơ thể mệt mỏi, khó chịu, phát bệnh.",
+    "tokenCount": 9
+  },
+  {
+    "orderIndex": 20,
+    "startTime": 76.16,
+    "endTime": 80.96,
+    "speaker": "Dr. David",
+    "text": "Let me examine you. You have a mild fever.",
+    "translationVi": "Để tôi khám cho cô nhé. Cô bị sốt nhẹ.",
+    "ipaUs": "/let miː ɪɡˈzæmɪn juː juː hæv ə maɪld ˈfiːvər/",
+    "properNouns": [],
+    "keywords": [
+      "examine",
+      "mild fever"
+    ],
+    "explanationAi": "'Examine' là thăm khám lâm sàng; 'mild fever' là sốt nhẹ (dưới 38.5°C).",
+    "tokenCount": 9
+  },
+  {
+    "orderIndex": 21,
+    "startTime": 81.12,
+    "endTime": 85.64,
+    "speaker": "Kate",
+    "text": "I feel terrible.",
+    "translationVi": "Tôi cảm thấy người rất mệt mỏi, khó chịu.",
+    "ipaUs": "/aɪ fiːl ˈterəbl/",
+    "properNouns": [],
+    "keywords": [
+      "feel terrible"
+    ],
+    "explanationAi": "'Feel terrible' diễn tả cảm giác vô cùng mệt mỏi, suy sụp do sốt.",
+    "tokenCount": 3
+  },
+  {
+    "orderIndex": 22,
+    "startTime": 86.08,
+    "endTime": 90.24,
+    "speaker": "Dr. David",
+    "text": "Let me check your blood pressure level. Roll up your sleeve.",
+    "translationVi": "Để tôi kiểm tra huyết áp cho cô. Cô hãy kéo tay áo lên nhé.",
+    "ipaUs": "/let miː tʃek jʊər blʌd ˈpreʃər ˈlevl roʊl ʌp jʊər sliːv/",
+    "properNouns": [],
+    "keywords": [
+      "blood pressure level",
+      "roll up your sleeve"
+    ],
+    "explanationAi": "'Blood pressure' là huyết áp; 'roll up your sleeve' là vén/kéo tay áo lên để đo huyết áp bắp tay.",
+    "tokenCount": 11
+  },
+  {
+    "orderIndex": 23,
+    "startTime": 92.56,
+    "endTime": 101.12,
+    "speaker": "Dr. David",
+    "text": "Your blood pressure level is fine: 120 over 80. No need to worry, I am prescribing you some medicines.",
+    "translationVi": "Chỉ số huyết áp của cô hoàn toàn bình thường: 120 trên 80. Không cần lo lắng đâu, tôi sẽ kê cho cô một số loại thuốc.",
+    "ipaUs": "/jʊər blʌd ˈpreʃər ˈlevl ɪz faɪn wʌn ˈtwenti ˈoʊvər ˈeɪti noʊ niːd tuː ˈwɜːri aɪ æm prɪˈskraɪbɪŋ juː sʌm ˈmedɪsnz/",
+    "properNouns": [],
+    "keywords": [
+      "120 over 80",
+      "no need to worry",
+      "prescribing medicines"
+    ],
+    "explanationAi": "Cách đọc huyết áp trong tiếng Anh: '120 over 80' (tâm thu 120, tâm trương 80 mmHg); 'prescribe' là kê đơn thuốc.",
+    "tokenCount": 19
+  },
+  {
+    "orderIndex": 24,
+    "startTime": 101.68,
+    "endTime": 105.87,
+    "speaker": "Dr. David",
+    "text": "Here is the prescription. Take two tablets thrice a day.",
+    "translationVi": "Đây là đơn thuốc. Hãy uống hai viên, mỗi ngày ba lần.",
+    "ipaUs": "/hɪr ɪz ðə prɪˈskrɪpʃn teɪk tuː ˈtæbləts θraɪs ə deɪ/",
+    "properNouns": [],
+    "keywords": [
+      "prescription",
+      "two tablets",
+      "thrice a day"
+    ],
+    "explanationAi": "'Prescription' là đơn thuốc; 'tablets' là viên nén; 'thrice a day' là ba lần một ngày (tương đương three times a day).",
+    "tokenCount": 10
+  },
+  {
+    "orderIndex": 25,
+    "startTime": 105.92,
+    "endTime": 107.92,
+    "speaker": "Kate",
+    "text": "With meal or without meal?",
+    "translationVi": "Uống trong bữa ăn hay không cùng bữa ăn ạ?",
+    "ipaUs": "/wɪð miːl ɔːr wɪˈðaʊt miːl/",
+    "properNouns": [],
+    "keywords": [
+      "with meal",
+      "without meal"
+    ],
+    "explanationAi": "Câu hỏi quan trọng về thời điểm dùng thuốc: uống kèm bữa ăn (no) hay xa bữa ăn (đói).",
+    "tokenCount": 5
+  },
+  {
+    "orderIndex": 26,
+    "startTime": 108.0,
+    "endTime": 113.92,
+    "speaker": "Dr. David",
+    "text": "After having meal, you can take your medicine, and have some rest after taking the medicine.",
+    "translationVi": "Sau khi ăn xong, cô có thể uống thuốc, và hãy nghỉ ngơi một chút sau khi uống thuốc nhé.",
+    "ipaUs": "/ˈæftər ˈhævɪŋ miːl juː kæn teɪk jʊər ˈmedɪsn ænd hæv sʌm rest ˈæftər ˈteɪkɪŋ ðə ˈmedɪsn/",
+    "properNouns": [],
+    "keywords": [
+      "after having meal",
+      "take your medicine",
+      "have some rest"
+    ],
+    "explanationAi": "Chỉ dẫn uống thuốc sau ăn để tránh kích ứng dạ dày và nghỉ ngơi hồi phục thể lực.",
+    "tokenCount": 16
+  },
+  {
+    "orderIndex": 27,
+    "startTime": 114.32,
+    "endTime": 115.36,
+    "speaker": "Kate",
+    "text": "Thank you.",
+    "translationVi": "Cảm ơn bác sĩ.",
+    "ipaUs": "/θæŋk juː/",
+    "properNouns": [],
+    "keywords": [
+      "thank you"
+    ],
+    "explanationAi": "Lời cảm ơn bác sĩ sau buổi khám.",
+    "tokenCount": 2
+  },
+  {
+    "orderIndex": 28,
+    "startTime": 115.44,
+    "endTime": 116.72,
+    "speaker": "Dr. David",
+    "text": "Get well soon.",
+    "translationVi": "Chúc cô mau chóng bình phục nhé.",
+    "ipaUs": "/ɡet wel suːn/",
+    "properNouns": [],
+    "keywords": [
+      "get well soon"
+    ],
+    "explanationAi": "'Get well soon' là lời chúc sớm hồi phục sức khỏe kinh điển và ấm áp trong giao tiếp y tế.",
+    "tokenCount": 3
+  },
+  {
+    "orderIndex": 29,
+    "startTime": 122.72,
+    "endTime": 123.52,
+    "speaker": "Pharmacist",
+    "text": "Hello.",
+    "translationVi": "Xin chào.",
+    "ipaUs": "/həˈloʊ/",
+    "properNouns": [],
+    "keywords": [
+      "hello"
+    ],
+    "explanationAi": "Lời chào của dược sĩ tại quầy phát thuốc nhà thuốc.",
+    "tokenCount": 1
+  },
+  {
+    "orderIndex": 30,
+    "startTime": 123.84,
+    "endTime": 124.64,
+    "speaker": "Kate",
+    "text": "Hello.",
+    "translationVi": "Chào bạn.",
+    "ipaUs": "/həˈloʊ/",
+    "properNouns": [],
+    "keywords": [
+      "hello"
+    ],
+    "explanationAi": "Lời chào đáp lễ của bệnh nhân khi tới lấy thuốc.",
+    "tokenCount": 1
+  },
+  {
+    "orderIndex": 31,
+    "startTime": 124.8,
+    "endTime": 126.48,
+    "speaker": "Pharmacist",
+    "text": "What can I do for you?",
+    "translationVi": "Tôi có thể hỗ trợ gì cho bạn?",
+    "ipaUs": "/wʌt kæn aɪ duː fɔːr juː/",
+    "properNouns": [],
+    "keywords": [
+      "what can I do for you"
+    ],
+    "explanationAi": "Câu hỏi dịch vụ chăm sóc khách hàng tại nhà thuốc.",
+    "tokenCount": 6
+  },
+  {
+    "orderIndex": 32,
+    "startTime": 127.04,
+    "endTime": 129.84,
+    "speaker": "Kate",
+    "text": "Give me these medicines according to this prescription.",
+    "translationVi": "Lấy cho tôi những loại thuốc này theo đơn thuốc này với ạ.",
+    "ipaUs": "/ɡɪv miː ðiːz ˈmedɪsnz əˈkɔːrdɪŋ tuː ðɪs prɪˈskrɪpʃn/",
+    "properNouns": [],
+    "keywords": [
+      "medicines",
+      "according to",
+      "prescription"
+    ],
+    "explanationAi": "'According to this prescription' là theo đơn thuốc này (mua thuốc kê đơn).",
+    "tokenCount": 8
+  },
+  {
+    "orderIndex": 33,
+    "startTime": 130.24,
+    "endTime": 133.04,
+    "speaker": "Pharmacist",
+    "text": "Okay, ma'am, I will be right back.",
+    "translationVi": "Vâng thưa cô, tôi sẽ lấy thuốc và quay lại ngay.",
+    "ipaUs": "/oʊˈkeɪ mæm aɪ wɪl biː raɪt bæk/",
+    "properNouns": [],
+    "keywords": [
+      "ma'am",
+      "right back"
+    ],
+    "explanationAi": "'I will be right back' nghĩa là tôi sẽ quay lại ngay trong giây lát.",
+    "tokenCount": 8
+  },
+  {
+    "orderIndex": 34,
+    "startTime": 135.92,
+    "endTime": 137.12,
+    "speaker": "Pharmacist",
+    "text": "Here you go.",
+    "translationVi": "Thuốc của cô đây ạ.",
+    "ipaUs": "/hɪr juː ɡoʊ/",
+    "properNouns": [],
+    "keywords": [
+      "here you go"
+    ],
+    "explanationAi": "Thành ngữ trao đồ vật tận tay cho người đối diện: 'Here you go' (Của bạn đây).",
+    "tokenCount": 3
+  },
+  {
+    "orderIndex": 35,
+    "startTime": 137.44,
+    "endTime": 140.4,
+    "speaker": "Kate",
+    "text": "Thanks. How much is this medicine?",
+    "translationVi": "Cảm ơn bạn. Số thuốc này giá bao nhiêu tiền vậy?",
+    "ipaUs": "/θæŋks haʊ mʌtʃ ɪz ðɪs ˈmedɪsn/",
+    "properNouns": [],
+    "keywords": [
+      "how much",
+      "medicine"
+    ],
+    "explanationAi": "Câu hỏi giá tiền: 'How much is this medicine?' (Thuốc này bao nhiêu tiền?).",
+    "tokenCount": 6
+  },
+  {
+    "orderIndex": 36,
+    "startTime": 140.64,
+    "endTime": 142.44,
+    "speaker": "Pharmacist",
+    "text": "It costs 8.67.",
+    "translationVi": "Tổng cộng hết 8 đô la 67 cent ạ.",
+    "ipaUs": "/ɪt kɔːsts eɪt ˈsɪksti ˈsevən/",
+    "properNouns": [],
+    "keywords": [
+      "costs",
+      "8.67"
+    ],
+    "explanationAi": "Báo giá tiền: '8.67' (eight dollars and sixty-seven cents).",
+    "tokenCount": 4
+  },
+  {
+    "orderIndex": 37,
+    "startTime": 143.84,
+    "endTime": 145.04,
+    "speaker": "Kate",
+    "text": "Here you go.",
+    "translationVi": "Tiền của bạn đây.",
+    "ipaUs": "/hɪr juː ɡoʊ/",
+    "properNouns": [],
+    "keywords": [
+      "here you go"
+    ],
+    "explanationAi": "Người mua đưa tiền thanh toán cho nhân viên bán thuốc.",
+    "tokenCount": 3
+  },
+  {
+    "orderIndex": 38,
+    "startTime": 146.96,
+    "endTime": 148.48,
+    "speaker": "Pharmacist",
+    "text": "Here is your change.",
+    "translationVi": "Đây là tiền thối lại của cô ạ.",
+    "ipaUs": "/hɪr ɪz jʊər tʃeɪndʒ/",
+    "properNouns": [],
+    "keywords": [
+      "change",
+      "here is your change"
+    ],
+    "explanationAi": "'Change' là tiền thừa thối lại sau khi thanh toán.",
+    "tokenCount": 4
+  }
+]

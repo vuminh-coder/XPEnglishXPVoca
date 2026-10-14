@@ -1,0 +1,1122 @@
+[
+  {
+    "orderIndex": 0,
+    "startTime": 0.83,
+    "endTime": 6.37,
+    "text": "Thank you very much. Well, I would like to start with testicles.",
+    "translationVi": "Cảm ơn rất nhiều. Tôi sẽ bắt đầu bằng việc nói về tinh hoàn.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 1,
+    "startTime": 9.2,
+    "endTime": 17.2,
+    "text": "Men who sleep five hours a night have significantly smaller testicles than those who sleep seven hours or more.",
+    "translationVi": "Đàn ông ngủ năm tiếng một đêm có tinh hoàn nhỏ hơn nhiều so với người ngủ bảy tiếng hoặc hơn.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 2,
+    "startTime": 20.08,
+    "endTime": 31.04,
+    "text": "In addition, men who routinely sleep just four to five hours a night will have a level of testosterone which is that of someone 10 years their senior.",
+    "translationVi": "Thêm vào đó, đàn ông thường ngủ chỉ bốn đến năm tiếng một đêm sẽ có lượng hóc môn nam bằng người già hơn họ mười tuổi",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 3,
+    "startTime": 33.08,
+    "endTime": 39.66,
+    "text": "So a lack of sleep will age a man by a decade in terms of that critical aspect of wellness.",
+    "translationVi": "Thiếu ngủ khiến đàn ông già đi cả chục tuổi khi xem xét về khía cạnh sức khoẻ quan trọng này.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 4,
+    "startTime": 41.95,
+    "endTime": 47.79,
+    "text": "And we see equivalent impairments in female reproductive health caused by a lack of sleep.",
+    "translationVi": "Và chúng ta cũng thấy tác động xấu tới sức khoẻ sinh sản ở phụ nữ gây ra bởi việc thiếu ngủ.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 5,
+    "startTime": 51.08,
+    "endTime": 53.75,
+    "text": "This is the best news that I have for you today.",
+    "translationVi": "Đây tin tốt nhất cho bạn hôm nay đấy.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 6,
+    "startTime": 56.45,
+    "endTime": 58.83,
+    "text": "From this point, it may only get worse.",
+    "translationVi": "Từ đây trở đi, có thể là những tin xấu hơn mà thôi.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 7,
+    "startTime": 58.87,
+    "endTime": 70.54,
+    "text": "Not only will I tell you about the wonderfully good things that happen when you get sleep, but the alarmingly bad things that happen when you don't get enough, both for your brain and for your body.",
+    "translationVi": "Tôi không chỉ nói cho bạn biết những điều tuyệt vời xảy ra khi bạn ngủ đủ, mà những điều xấu xảy ra khi bạn không ngủ đủ, tới cả bộ não và cơ thể bạn.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 8,
+    "startTime": 71.37,
+    "endTime": 87.66,
+    "text": "Let me start with the brain and the functions of learning and memory, because what we've discovered over the past 10 or so years is that you need sleep after learning to essentially hit the save button on those new memories so that you don't forget.",
+    "translationVi": "Hãy để tôi bắt đầu nói về bộ não và những chức năng về học và ghi nhớ, vì những điều chúng ta phát hiện ra trong vòng mười năm trở lại đây đó là bạn cần ngủ sau khi học để nhấn nút giữ lại những kiến thức đó để bạn không quên chúng.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 9,
+    "startTime": 88.95,
+    "endTime": 102.12,
+    "text": "But recently, we discovered that you also need sleep before learning to actually prepare your brain, almost like a dry sponge ready to initially soak up new information.",
+    "translationVi": "Nhưng gần đây, chúng ta phát hiện ra bạn cần ngủ trước khi học để não bạn chuẩn bị, nó như là một cái miếng mút khô sẵn sàng thẩm thấu những thông tin mới.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 10,
+    "startTime": 103.16,
+    "endTime": 111.25,
+    "text": "And without sleep, the memory circuits of the brain essentially become waterlogged, as it were, and you can't absorb new memories.",
+    "translationVi": "Và không ngủ đủ, các mạch ghi nhớ trong não sẽ bị ngập úng, và vì thế, bạn không thể tiếp nhận những thông tin mới.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 11,
+    "startTime": 112.16,
+    "endTime": 114.08,
+    "text": "So let me show you the data.",
+    "translationVi": "Hãy để tôi đưa ra một vài số liệu.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 12,
+    "startTime": 114.08,
+    "endTime": 120.91,
+    "text": "Here in this study, we decided to test the hypothesis that pulling the all-nighter was a good idea.",
+    "translationVi": "Trong nghiên cứu này, chúng tôi kiểm tra giả thuyết rằng thức trắng đêm để học là một ý kiến hay.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 13,
+    "startTime": 122.25,
+    "endTime": 131.66,
+    "text": "So we took a group of individuals and we assigned them to one of two experimental groups: a sleep group and a sleep deprivation group.",
+    "translationVi": "Chúng tôi chọn ra một nhóm người và chỉ định họ vào một trong hai nhóm thử nghiệm: Một nhóm ngủ và một nhóm thiếu ngủ.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 14,
+    "startTime": 131.66,
+    "endTime": 141.16,
+    "text": "Now the sleep group, they're going to get a full eight hours of slumber, but the deprivation group, we're going to keep them awake in the laboratory, under full supervision.",
+    "translationVi": "Nhóm ngủ sẽ được ngủ đủ tám tiếng, Nhưng với nhóm thiếu ngủ, trong phòng thí nghiệm, và giám sát chặt chẽ.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 15,
+    "startTime": 141.66,
+    "endTime": 146.04,
+    "text": "There's no naps or caffeine, by the way, so it's miserable for everyone involved.",
+    "translationVi": "Họ không được ngủ trưa hay uống cafe, nên điều đó khiến họ khổ sở.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 16,
+    "startTime": 146.58,
+    "endTime": 159.58,
+    "text": "And then the next day, we're going to place those participants inside an MRI scanner and we're going to have them try and learn a whole list of new facts as we're taking snapshots of brain activity.",
+    "translationVi": "Và ngày hôm sau, chúng tôi chụp cộng hưởng từ các thành viên tham gia thí nghiệm và để họ tiếp cận và học toàn bộ kiến thức mới cùng lúc chúng tôi chụp các hoạt động của bộ não.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 17,
+    "startTime": 159.58,
+    "endTime": 164.08,
+    "text": "And then we're going to test them to see how effective that learning has been.",
+    "translationVi": "Và sau đó chúng tôi kiểm tra chúng để xem việc học có hiệu quả như thế nào.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 18,
+    "startTime": 164.95,
+    "endTime": 167.87,
+    "text": "And that's what you're looking at here on the vertical axis.",
+    "translationVi": "Và đó là những gì bạn nhìn thấy trên cột dọc kia.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 19,
+    "startTime": 168.5,
+    "endTime": 179.75,
+    "text": "And when you put those two groups head to head, what you find is a quite significant, 40-percent deficit in the ability of the brain to make new memories without sleep.",
+    "translationVi": "Và khi bạn đặt hai nhóm này bên cạnh nhau, bạn sẽ thấy một sự khác biệt rõ rệt, tới 40 phần trăm kém hơn trong khả năng của bộ não để tạo ra miền nhớ mới nếu không ngủ đủ.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 20,
+    "startTime": 181.04,
+    "endTime": 187.58,
+    "text": "I think this should be concerning, considering what we know is happening to sleep in our education populations right now.",
+    "translationVi": "Tôi nghĩ điều này đáng lo ngại, khi xem xét những gì chúng ta đã biết giấc ngủ trong giáo dục phổ biến hiện tại.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 21,
+    "startTime": 188.54,
+    "endTime": 196.79,
+    "text": "In fact, to put that in context, it would be the difference in a child acing an exam versus failing it miserably -- 40 percent.",
+    "translationVi": "Trên thực tế, để dễ hiểu hơn, Đó là sự khác biệt giữa một đứa trẻ thi tốt so với thi trượt thảm hại là 40 phần trăm.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 22,
+    "startTime": 198.29,
+    "endTime": 205.62,
+    "text": "And we've gone on to discover what goes wrong within your brain to produce these types of learning disabilities.",
+    "translationVi": "Và chúng tôi tiếp tục tìm ra một số vấn đề trong não bộ của bạn khiến chúng tạo ra những khiếm khuyết về khả năng học tập.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 23,
+    "startTime": 206.75,
+    "endTime": 213.0,
+    "text": "And there's a structure that sits on the left and the right side of your brain, called the hippocampus.",
+    "translationVi": "Và có một bộ phận nằm trên phía trái và phải của bộ não chúng ta, gọi là Hồi hải mã",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 24,
+    "startTime": 213.0,
+    "endTime": 218.04,
+    "text": "And you can think of the hippocampus almost like the informational inbox of your brain.",
+    "translationVi": "Và bạn có thể nghĩ về Hồi hải mã gần như là hộp thông tin của bộ não.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 25,
+    "startTime": 218.62,
+    "endTime": 223.33,
+    "text": "It's very good at receiving new memory files and then holding on to them.",
+    "translationVi": "Nó rất giỏi tiếp nhận thông tin mới và giữ chúng lại.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 26,
+    "startTime": 224.91,
+    "endTime": 233.29,
+    "text": "And when you look at this structure in those people who'd had a full night of sleep, we saw lots of healthy learning-related activity.",
+    "translationVi": "Và khi bạn nhìn vào bộ phận này ở những người ngủ đủ giấc, chúng tôi nhìn thấy rất nhiều hoạt động tích cực liên quan đến việc học.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 27,
+    "startTime": 234.62,
+    "endTime": 241.25,
+    "text": "Yet in those people who were sleep-deprived, we actually couldn't find any significant signal whatsoever.",
+    "translationVi": "Nhưng ở những người thiếu ngủ, chúng ta thực tế không tìm thấy bấy cứ một tín hiệu quan trọng nào.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 28,
+    "startTime": 242.75,
+    "endTime": 250.7,
+    "text": "So it's almost as though sleep deprivation had shut down your memory inbox, and any new incoming files -- they were just being bounced.",
+    "translationVi": "Như thể việc thiếu ngủ đã đóng hộp ghi nhớ thông tin của bạn, và bất cứ thông tin mới nào đến -- sẽ bị bật lại.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 29,
+    "startTime": 251.91,
+    "endTime": 255.5,
+    "text": "You couldn't effectively commit new experiences to memory.",
+    "translationVi": "Bạn không thể kết nối dữ liệu mới tới bộ nhớ một cách hiệu quả.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 30,
+    "startTime": 258.04,
+    "endTime": 265.66,
+    "text": "So that's the bad that can happen if I were to take sleep away from you, but let me just come back to that control group for a second.",
+    "translationVi": "Đó là điều xấu có thể xảy ra nếu tôi lấy đi giấc ngủ của bạn, nhưng hãy quay trở lại với nhóm được kiểm soát một chút.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 31,
+    "startTime": 266.45,
+    "endTime": 269.79,
+    "text": "Do you remember those folks that got a full eight hours of sleep?",
+    "translationVi": "Bạn có nhớ những bạn được ngủ đủ tám tiếng?",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 32,
+    "startTime": 270.41,
+    "endTime": 283.08,
+    "text": "Well, we can ask a very different question: What is it about the physiological quality of your sleep when you do get it that restores and enhances your memory and learning ability each and every day?",
+    "translationVi": "Chúng ta có thể hỏi một câu hỏi rất khác: Điều gì về mặt sinh lý của chất lượng giấc ngủ ? khi bạn ngủ đủ có thể lưu trữ thông tin và tăng cường trí nhớ cũng như khả năng học tập mỗi ngày?",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 33,
+    "startTime": 284.0,
+    "endTime": 302.08,
+    "text": "And by placing electrodes all over the head, what we've discovered is that there are big, powerful brainwaves that happen during the very deepest stages of sleep that have riding on top of them these spectacular bursts of electrical activity that we call sleep spindles.",
+    "translationVi": "Và bằng việc đặt điện cực khắp đầu họ, chúng tôi phát hiện ra rằng có những luồng điện não mạnh mẽ xảy ra trong giai đoạn bạn ngủ sâu nhất mà trên đỉnh của chúng là những tia lửa điện cực đẹp của hoạt động điện mà chúng ta gọi là những trục quay ngủ.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 34,
+    "startTime": 303.08,
+    "endTime": 320.41,
+    "text": "And it's the combined quality of these deep-sleep brainwaves that acts like a file-transfer mechanism at night, shifting memories from a short-term vulnerable reservoir to a more permanent long-term storage site within the brain,",
+    "translationVi": "Và đó là chất lượng tổng hợp của của những dòng điện não ngủ sâu hoạt động như những hệ thống chuyển dữ liệu vào ban đêm, thay đổi trí nhớ từ khu vực trí nhớ tạm thời đếm vùng trí nhớ lâu dài trong bộ não,",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 35,
+    "startTime": 320.45,
+    "endTime": 323.83,
+    "text": "and therefore protecting them, making them safe.",
+    "translationVi": "và vì thế bảo vệ và mang lại an toàn cho chúng.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 36,
+    "startTime": 325.45,
+    "endTime": 336.75,
+    "text": "And it is important that we understand what during sleep actually transacts these memory benefits, because there are real medical and societal implications.",
+    "translationVi": "Và một điều quan trọng chúng ta cần hiểu là điều gì trong khi ngủ thực sự trao đổi những lợi ích ghi nhớ, vì chúng liên quan thực tế đến khía cạnh xã hội và y tế.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 37,
+    "startTime": 336.79,
+    "endTime": 345.5,
+    "text": "And let me just tell you about one area that we've moved this work out into, clinically, which is the context of aging and dementia.",
+    "translationVi": "Và hãy để tôi cho bạn biết về một lĩnh vực mà chúng tôi áp dụng những khám phá này, đó là bệnh lão hoá và mất trí nhớ.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 38,
+    "startTime": 346.87,
+    "endTime": 353.58,
+    "text": "Because it's of course no secret that, as we get older, our learning and memory abilities begin to fade and decline.",
+    "translationVi": "Vì dĩ nhiên là khi chúng ta già đi, khả năng học và ghi nhớ của chúng ta giảm dần đi.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 39,
+    "startTime": 355.04,
+    "endTime": 367.29,
+    "text": "But what we've also discovered is that a physiological signature of aging is that your sleep gets worse, especially that deep quality of sleep that I was just discussing.",
+    "translationVi": "Nhưng chúng tôi cũng tìm ra dấu hiệu sinh lý đặc trưng của lão hoá là ngủ kém đi, đặc biệt là chất lượng giấc ngủ sâu mà tôi đang nói đến ở đây.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 40,
+    "startTime": 368.62,
+    "endTime": 377.54,
+    "text": "And only last year, we finally published evidence that these two things, they're not simply co-occurring, they are significantly interrelated.",
+    "translationVi": "Và chỉ trong năm ngoái, chúng tôi đã công bố bằng chứng rằng có hai điều, chúng không chỉ đồng thời xảy ra, chúng liên quan mật thiết đến nhau.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 41,
+    "startTime": 378.83,
+    "endTime": 394.2,
+    "text": "And it suggests that the disruption of deep sleep is an underappreciated factor that is contributing to cognitive decline or memory decline in aging, and most recently we've discovered, in Alzheimer's disease as well.",
+    "translationVi": "Và điều đó có nghĩa là sự gián đoạn của giấc ngủ sâu là một yếu tố không được đánh giá cao nó tác động đến việc suy giảm trí nhớ và suy giảm nhận thức trong việc lão hoá, gần đây chúng ta phát hiện ra cả trong bệnh mất trí nhớ nữa.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 42,
+    "startTime": 396.33,
+    "endTime": 400.08,
+    "text": "Now, I know this is remarkably depressing news.",
+    "translationVi": "Tôi biết đây là một tin rất đáng buồn.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 43,
+    "startTime": 400.08,
+    "endTime": 402.37,
+    "text": "It's in the mail. It's coming at you.",
+    "translationVi": "Nó đang trong hòm thư. Rồi nó sẽ đến với bạn.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 44,
+    "startTime": 402.41,
+    "endTime": 404.7,
+    "text": "But there's a potential silver lining here.",
+    "translationVi": "Nhưng có một tin tốt lành ở đây.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 45,
+    "startTime": 405.75,
+    "endTime": 417.37,
+    "text": "Unlike many of the other factors that we know are associated with aging, for example changes in the physical structure of the brain, that's fiendishly difficult to treat.",
+    "translationVi": "Không giống như những yếu tố khác thường được nhắc đến về việc lão hoá, ví dụ như thay đổi về cấu tạo sinh lý của bộ não, Nó vô cùng khó chữa.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 46,
+    "startTime": 417.41,
+    "endTime": 427.33,
+    "text": "But that sleep is a missing piece in the explanatory puzzle of aging and Alzheimer's is exciting because we may be able to do something about it.",
+    "translationVi": "Nhưng việc tìm ra giấc ngủ là một mảnh ghép thiếu để giải thích việc lão hoá và bệnh mất trí nhớ là điều đáng khích lệ vì chúng ta có thể làm một điều gì đó về điều này.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 47,
+    "startTime": 428.54,
+    "endTime": 435.5,
+    "text": "And one way that we are approaching this at my sleep center is not by using sleeping pills, by the way.",
+    "translationVi": "Và cách tiếp cận vấn đề này ở trung tâm chuyên về giấc ngủ của tôi không phải là dùng thuốc ngủ đâu nhé.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 48,
+    "startTime": 435.5,
+    "endTime": 440.45,
+    "text": "Unfortunately, they are blunt instruments that do not produce naturalistic sleep.",
+    "translationVi": "Không may thay, chúng không tạo ra giấc ngủ tự nhiên.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 49,
+    "startTime": 441.54,
+    "endTime": 444.79,
+    "text": "Instead, we're actually developing a method based on this.",
+    "translationVi": "Thay vào đó, chúng tôi đang tạo ra một phương pháp dựa trên điều này.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 50,
+    "startTime": 444.79,
+    "endTime": 448.0,
+    "text": "It's called direct current brain stimulation.",
+    "translationVi": "Nó gọi là dòng kích thích não trực tiếp.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 51,
+    "startTime": 448.04,
+    "endTime": 455.5,
+    "text": "You insert a small amount of voltage into the brain, so small you typically don't feel it, but it has a measurable impact.",
+    "translationVi": "Bạn đẩy một lượng điện nhỏ vào bộ não, nhỏ đến mức bạn không cảm thấy gì cả, nhưng nó tạo ra một tác động lớn.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 52,
+    "startTime": 456.83,
+    "endTime": 472.45,
+    "text": "Now if you apply this stimulation during sleep in young, healthy adults, as if you're sort of singing in time with those deep-sleep brainwaves, not only can you amplify the size of those deep-sleep brainwaves,",
+    "translationVi": "Nếu bạn áp dụng sự kích thích này trong lúc ngủ tới người trẻ khoẻ mạnh, như thể bạn chìm vào thời gian với những sóng điện não ngủ sâu, không chỉ là tăng cường kích cỡ của những sóng điện não sâu này,",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 53,
+    "startTime": 472.5,
+    "endTime": 479.08,
+    "text": "but in doing so, we can almost double the amount of memory benefit that you get from sleep.",
+    "translationVi": "mà bằng việc đó, ta có thể gần như tăng gấp đôi tác dụng của bộ nhớ mà bạn có được từ giấc ngủ.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 54,
+    "startTime": 479.12,
+    "endTime": 489.16,
+    "text": "The question now is whether we can translate this same affordable, potentially portable piece of technology into older adults and those with dementia.",
+    "translationVi": "Câu hỏi ở đây là liệu chúng ta có thể mang thiết bị dễ di chuyển với giá cả phải chăng này tới những người lớn tuổi và những người bị mất trí nhớ.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 55,
+    "startTime": 490.7,
+    "endTime": 501.45,
+    "text": "Can we restore back some healthy quality of deep sleep, and in doing so, can we salvage aspects of their learning and memory function?",
+    "translationVi": "Liệu chúng ta có thể khôi phục lại những giấc ngủ sâu tốt cho sức khoẻ và làm như thế, liệu chúng ta có phá hủy khả năng học của họ và những chức năng ghi nhớ?",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 56,
+    "startTime": 501.5,
+    "endTime": 503.66,
+    "text": "That is my real hope now.",
+    "translationVi": "Đó là niềm hi vọng thực sự của tôi.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 57,
+    "startTime": 504.37,
+    "endTime": 507.37,
+    "text": "That's one of our moon-shot goals, as it were.",
+    "translationVi": "Và đó là một mục tiêu đầy tham vọng, vì nó thực sự là thế.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 58,
+    "startTime": 509.33,
+    "endTime": 515.91,
+    "text": "So that's an example of sleep for your brain, but sleep is just as essential for your body.",
+    "translationVi": "Đó là một ví dụ về giấc ngủ trong bộ não của bạn, nhưng giấc ngủ còn vô cùng cẩn thiết cho cơ thể của chúng ta.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 59,
+    "startTime": 517.29,
+    "endTime": 520.95,
+    "text": "We've already spoken about sleep loss and your reproductive system.",
+    "translationVi": "Chúng ta đã nói đến việc thiếu ngủ và bộ phận sinh sản.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 60,
+    "startTime": 521.87,
+    "endTime": 529.91,
+    "text": "Or I could tell you about sleep loss and your cardiovascular system, and that all it takes is one hour.",
+    "translationVi": "Hoặc tôi có thể nói về việc mất ngủ và hệ thống tim mạch của bạn, và sẽ chỉ mất một tiếng đồng hồ.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 61,
+    "startTime": 529.95,
+    "endTime": 541.66,
+    "text": "Because there is a global experiment performed on 1.6 billion people across 70 countries twice a year, and it's called daylight saving time.",
+    "translationVi": "Vì có một thí nghiệm toàn cầu trên 1.6 tỉ người trên 70 đất nước hai lần trong một năm, và đó gọi là việc chuyển giờ theo mùa.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 62,
+    "startTime": 542.91,
+    "endTime": 552.0,
+    "text": "Now, in the spring, when we lose one hour of sleep, we see a subsequent 24-percent increase in heart attacks that following day.",
+    "translationVi": "Vào mùa xuân, khi chúng ta mất đi một giờ ngủ, chúng ta thấy số người bị đau tim tăng 24 phần trăm trong ngày hôm sau.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 63,
+    "startTime": 554.95,
+    "endTime": 562.0,
+    "text": "In the autumn, when we gain an hour of sleep, we see a 21-percent reduction in heart attacks.",
+    "translationVi": "Vào mùa thu, khi chúng ta có thêm một giờ ngủ, chúng ta thấy số người bị đau tim giảm đi 21 phần trăm",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 64,
+    "startTime": 563.75,
+    "endTime": 574.54,
+    "text": "Isn't that incredible? And you see exactly the same profile for car crashes, road traffic accidents, even suicide rates.",
+    "translationVi": "Thật đáng kinh ngạc phải không nào? Điều tương tự xảy ra ở số lượng tai nạn xe hơi, va chạm giao thông, thậm chí tỉ lệ tự tử.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 65,
+    "startTime": 576.91,
+    "endTime": 582.33,
+    "text": "But as a deeper dive, I want to focus on this: sleep loss and your immune system.",
+    "translationVi": "Nhưng là người có cái nhìn sâu hơn, tôi muốn nhấn mạnh vấn đề: thiếu ngủ và hệ thống miễn dịch.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 66,
+    "startTime": 583.16,
+    "endTime": 588.0,
+    "text": "And here, I'll introduce these delightful blue elements in the image.",
+    "translationVi": "Ở đây, tôi sẽ giới thiệu những nhân tố tốt trong bức tranh này.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 67,
+    "startTime": 588.0,
+    "endTime": 597.7,
+    "text": "They are called natural killer cells, and you can think of natural killer cells almost like the secret service agents of your immune system.",
+    "translationVi": "Chúng gọi là những tế bào tiêu diệt tự nhiên, và bạn có thể xem những tế bào tiêu diệt tự nhiên như những đặc vụ của hệ thống miễn dịch.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 68,
+    "startTime": 597.7,
+    "endTime": 604.12,
+    "text": "They are very good at identifying dangerous, unwanted elements and eliminating them.",
+    "translationVi": "Chúng rất giỏi trong việc nhận ra những thành tố nguy hiểm, không mong muốn và loại trừ chúng.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 69,
+    "startTime": 605.25,
+    "endTime": 609.2,
+    "text": "In fact, what they're doing here is destroying a cancerous tumor mass.",
+    "translationVi": "Trên thực tế, chúng giúp phá huỷ những khối u ung thư.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 70,
+    "startTime": 610.58,
+    "endTime": 622.41,
+    "text": "So what you wish for is a virile set of these immune assassins at all times, and tragically, that's what you don't have if you're not sleeping enough.",
+    "translationVi": "Nên thứ bạn muốn là những sát thủ miễn dịch này trong mọi thời điểm, điều tệ hại là, đó là thứ bạn không có nếu không ngủ đủ giấc.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 71,
+    "startTime": 623.83,
+    "endTime": 634.66,
+    "text": "So here in this experiment, you're not going to have your sleep deprived for an entire night, you're simply going to have your sleep restricted to four hours for one single night,",
+    "translationVi": "Trong thí nghiệm này, bạn không bị bắt thức trắng đêm, đơn giản là giảm thời gian ngủ xuống còn bốn tiếng trong một đêm,",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 72,
+    "startTime": 634.66,
+    "endTime": 639.7,
+    "text": "and then we're going to look to see what's the percent reduction in immune cell activity that you suffer.",
+    "translationVi": "và sau đó chúng tôi xem tỉ lệ phần trăm chậm lại hoạt động tế bào miễn dịch bạn hứng chịu.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 73,
+    "startTime": 640.79,
+    "endTime": 645.62,
+    "text": "And it's not small -- it's not 10 percent, it's not 20 percent.",
+    "translationVi": "Và nó không nhỏ -- không phải mười phần trăm, không phải 20 phần trăm.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 74,
+    "startTime": 645.66,
+    "endTime": 650.2,
+    "text": "There was a 70-percent drop in natural killer cell activity.",
+    "translationVi": "Mà là giảm tới 70 phần trăm hoạt động của tế bào tiêu diệt tự nhiên.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 75,
+    "startTime": 651.79,
+    "endTime": 668.0,
+    "text": "That's a concerning state of immune deficiency, and you can perhaps understand why we're now finding significant links between short sleep duration and your risk for the development of numerous forms of cancer.",
+    "translationVi": "Đó là mức độ đáng lo ngại trong suy giảm hệ miễn dịch, và giờ bạn có thể hiểu tại sao chúng tôi tìm ra một mối quan hệ quan trọng giữa việc ngủ ít và tác hại của nó đến việc hình thành các loại ung thư.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 76,
+    "startTime": 669.87,
+    "endTime": 675.95,
+    "text": "Currently, that list includes cancer of the bowel, cancer of the prostate and cancer of the breast.",
+    "translationVi": "Hiện tại, danh sách đó bao gồm ung thư ruột, ung thu tuyến tiền liệt và ung thư vú.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 77,
+    "startTime": 677.83,
+    "endTime": 693.04,
+    "text": "In fact, the link between a lack of sleep and cancer is now so strong that the World Health Organization has classified any form of nighttime shift work as a probable carcinogen,",
+    "translationVi": "Trên thực tế, mối quan hệ giữa việc thiếu ngủ và bệnh ung thư chặt chẽ đến mức tổ chức Sức Khoẻ Thế Giới đã liệt kê bất cứ công việc nào làm ca đêm có khả năng gây ung thư,",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 78,
+    "startTime": 693.04,
+    "endTime": 695.7,
+    "text": "because of a disruption of your sleep-wake rhythms.",
+    "translationVi": "vì nó phá vỡ nhịp ngủ-thức của bạn.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 79,
+    "startTime": 697.83,
+    "endTime": 702.7,
+    "text": "So you may have heard of that old maxim that you can sleep when you're dead.",
+    "translationVi": "Nên bạn có thể đã nghe một câu nói quen thuộc rằng bạn có thể ngủ khi bạn chết.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 80,
+    "startTime": 702.7,
+    "endTime": 707.41,
+    "text": "Well, I'm being quite serious now -- it is mortally unwise advice.",
+    "translationVi": "Tôi nói nghiêm túc rằng -- đó là một lời khuyên không thông minh và chết người",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 81,
+    "startTime": 708.37,
+    "endTime": 713.41,
+    "text": "We know this from epidemiological studies across millions of individuals.",
+    "translationVi": "Chúng ta biết điều này từ những nghiên cứu trên hàng triệu người.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 82,
+    "startTime": 713.41,
+    "endTime": 718.83,
+    "text": "There's a simple truth: the shorter your sleep, the shorter your life.",
+    "translationVi": "Đó là một sự thật đơn giản: Càng ngủ ngắn, bạn càng sống ít đi.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 83,
+    "startTime": 718.87,
+    "endTime": 722.41,
+    "text": "Short sleep predicts all-cause mortality.",
+    "translationVi": "Ngủ ngắn báo hiệu nguyên nhân chết chóc.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 84,
+    "startTime": 724.95,
+    "endTime": 743.41,
+    "text": "And if increasing your risk for the development of cancer or even Alzheimer's disease were not sufficiently disquieting, we have since discovered that a lack of sleep will even erode the very fabric of biological life itself,",
+    "translationVi": "Và nếu việc tăng rủi ro trong việc phát triển ung thư hoặc thậm chí bệnh Mất Trí Nhớ không đủ yên tâm chúng tôi còn phát hiện ra việc thiếu ngủ thậm chí còn tàn phá chính những sợi dây sinh học của sự sống,",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 85,
+    "startTime": 744.66,
+    "endTime": 757.41,
+    "text": "your DNA genetic code. So here in this study, they took a group of healthy adults and they limited them to six hours of sleep a night for one week,",
+    "translationVi": "mã gen của bạn. Trong một nghiên cứu, họ chọn ra một nhóm người khoẻ mạnh và giới hạn họ ngủ sáu tiếng một đêm trong vòng một tuần,",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 86,
+    "startTime": 757.41,
+    "endTime": 766.29,
+    "text": "and then they measured the change in their gene activity profile relative to when those same individuals were getting a full eight hours of sleep a night.",
+    "translationVi": "sau đó họ đo sự thay đổi hoạt động của các mã gen trong cơ thể so sánh với chính cá nhân đó khi họ ngủ đủ tám tiếng mỗi đêm.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 87,
+    "startTime": 767.45,
+    "endTime": 769.25,
+    "text": "And there were two critical findings.",
+    "translationVi": "Và có hai phát hiện quan trọng.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 88,
+    "startTime": 770.2,
+    "endTime": 779.08,
+    "text": "First, a sizable and significant 711 genes were distorted in their activity, caused by a lack of sleep.",
+    "translationVi": "Đầu tiên, một số lượng lớn gồm 711 mã gen quan trọng bị tác động tới hoạt động vì thiếu ngủ.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 89,
+    "startTime": 779.91,
+    "endTime": 785.5,
+    "text": "The second result was that about half of those genes were actually increased in their activity.",
+    "translationVi": "Phát hiện thứ hai là trong phân nửa số gen này thực tế hoạt động của nó tăng lên.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 90,
+    "startTime": 785.83,
+    "endTime": 798.12,
+    "text": "The other half were decreased. Now those genes that were switched off by a lack of sleep were genes associated with your immune system, so once again, you can see that immune deficiency.",
+    "translationVi": "Nửa còn lại bị giảm đi. Những mã gen này bị ngừng hoạt động vì thiếu ngủ là mã gen liên quan đến hệ miễn dịch, một lần nữa, bạn có thể thấy hệ miễn dịch bị suy giảm.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 91,
+    "startTime": 799.33,
+    "endTime": 813.91,
+    "text": "In contrast, those genes that were actually upregulated or increased by way of a lack of sleep, were genes associated with the promotion of tumors, genes associated with long-term chronic inflammation within the body,",
+    "translationVi": "Ngược lại, những mã gen bị hoạt động mạnh hơn hoặc tăng lên do thiếu ngủ, là những mã gen liên quan đến việc tạo ra các khối u, mã gen liên quan đến những bệnh lâu dài trong cơ thể bạn,",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 92,
+    "startTime": 813.95,
+    "endTime": 819.79,
+    "text": "and genes associated with stress, and, as a consequence, cardiovascular disease.",
+    "translationVi": "và mã gen gắn liền với căng thẳng, và một hệ quả là bệnh tim mạch.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 93,
+    "startTime": 821.16,
+    "endTime": 829.95,
+    "text": "There is simply no aspect of your wellness that can retreat at the sign of sleep deprivation and get away unscathed.",
+    "translationVi": "Đơn giản là không có khía cạnh sức khoẻ nào của bạn có thể tránh xa việc thiếu ngủ và không bị tác động gì.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 94,
+    "startTime": 830.91,
+    "endTime": 833.91,
+    "text": "It's rather like a broken water pipe in your home.",
+    "translationVi": "Nó như là một ống nước bị hỏng trong nhà bạn.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 95,
+    "startTime": 833.95,
+    "endTime": 846.79,
+    "text": "Sleep loss will leak down into every nook and cranny of your physiology, even tampering with the very DNA nucleic alphabet that spells out your daily health narrative.",
+    "translationVi": "Thiếu ngủ sẽ rò rì vào những ngóc ngách trong cơ thể của bạn, thậm chí làm xáo trộn cả mã gen liên quan đến sức khoẻ hàng ngày của bạn.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 96,
+    "startTime": 849.87,
+    "endTime": 855.12,
+    "text": "And at this point, you may be thinking, \"Oh my goodness, how do I start to get better sleep?",
+    "translationVi": "Và đến đây, bạn có thể nghĩ, \"Ôi chúa ơi, làm sao để mình bắu đầu ngủ tốt hơn?",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 97,
+    "startTime": 855.12,
+    "endTime": 857.37,
+    "text": "What are you tips for good sleep?\"",
+    "translationVi": "Bạn có mẹo nào để ngủ ngon không?\"",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 98,
+    "startTime": 858.08,
+    "endTime": 872.33,
+    "text": "Well, beyond avoiding the damaging and harmful impact of alcohol and caffeine on sleep, and if you're struggling with sleep at night, avoiding naps during the day, I have two pieces of advice for you.",
+    "translationVi": "Ngoài việc tránh tác động xấu và gây hại của rượu và caffeine đến giấc ngủ, nếu bạn khó ngủ buổi tối, tránh ngủ trưa trong ngày, Tôi có hai lời khuyên cho bạn.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 99,
+    "startTime": 873.08,
+    "endTime": 882.41,
+    "text": "The first is regularity. Go to bed at the same time, wake up at the same time, no matter whether it's the weekday or the weekend.",
+    "translationVi": "Điều đầu tiên là sự đều đặn. Đi ngủ vào một giờ nhất định, thức dậy vào một giờ nhất định, cho dù là ngày trong tuần hay cuối tuần.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 100,
+    "startTime": 882.45,
+    "endTime": 890.5,
+    "text": "Regularity is king, and it will anchor your sleep and improve the quantity and the quality of that sleep.",
+    "translationVi": "Sự đều đặn là quan trọng nhất, và nó sẽ cố định giấc ngủ và cải thiện số lượng và chất lượng giấc ngủ.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 101,
+    "startTime": 892.37,
+    "endTime": 895.04,
+    "text": "The second is keep it cool.",
+    "translationVi": "Điều thứ hai là giữ phòng ngủ mát.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 102,
+    "startTime": 896.08,
+    "endTime": 911.04,
+    "text": "Your body needs to drop its core temperature by about two to three degrees Fahrenheit to initiate sleep and then to stay asleep, and it's the reason you will always find it easier to fall asleep in a room that's too cold than too hot.",
+    "translationVi": "Cơ thể bạn cần giảm nhiệt độ xuống khoảng hai đến ba độ Fahrenheit để bắt đầu ngủ và sau đó tiếp tục buồn ngủ, và đó là lí do bạn luôn cảm thấy dễ buồn ngủ trong phòng quá lạnh thay vì quá nóng.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 103,
+    "startTime": 912.0,
+    "endTime": 917.5,
+    "text": "So aim for a bedroom temperature of around 65 degrees, or about 18 degrees Celsius.",
+    "translationVi": "Nên hãy để phòng ngủ của bạn ở tầm 65 độ F, hoặc 18 độ C.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 104,
+    "startTime": 917.54,
+    "endTime": 920.29,
+    "text": "That's going to be optimal for the sleep of most people.",
+    "translationVi": "Đó là nhiệt độ lí tưởng cho việc ngủ với hầu hết chúng ta.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 105,
+    "startTime": 922.45,
+    "endTime": 929.16,
+    "text": "And then finally, in taking a step back, then, what is the mission-critical statement here?",
+    "translationVi": "Và cuối cùng, hãy nghĩ lại, vậy thì, Thông tin quan trọng nhất ở đây là gì?",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 106,
+    "startTime": 930.79,
+    "endTime": 938.29,
+    "text": "Well, I think it may be this: sleep, unfortunately, is not an optional lifestyle luxury.",
+    "translationVi": "Tôi nghĩ có thể là thế này: ngủ, đơn giản, không phải là một cách sống xa xỉ.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 107,
+    "startTime": 939.12,
+    "endTime": 943.66,
+    "text": "Sleep is a nonnegotiable biological necessity.",
+    "translationVi": "Ngủ là một nhu cầu sinh học cần thiết và không thể thương lượng.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 108,
+    "startTime": 944.87,
+    "endTime": 953.12,
+    "text": "It is your life-support system, and it is Mother Nature's best effort yet at immortality.",
+    "translationVi": "Đó là hệ thống trợ giúp cuộc sống, và nỗ lực tuyệt vời của Mẹ Thiên Nhiên giúp ta duy trì sự sống lâu dài.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 109,
+    "startTime": 954.7,
+    "endTime": 967.16,
+    "text": "And the decimation of sleep throughout industrialized nations is having a catastrophic impact on our health, our wellness, even the safety and the education of our children.",
+    "translationVi": "Và việc thiếu ngủ ở những nước công nghiệp hiện đại có một tác động thảm khốc đến sức khoẻ và cuộc sống của chúng ta, thậm chí tới sự an toàn và giáo dục của con cái chúng ta.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 110,
+    "startTime": 968.33,
+    "endTime": 977.45,
+    "text": "It's a silent sleep loss epidemic, and it's fast becoming one of the greatest public health challenges that we face in the 21st century.",
+    "translationVi": "Đó là nạn thiếu ngủ thầm lặng, và nó nhanh chóng trở thành một thách thức y tế công cộng rất lớn mà chúng ta phải đối diện trong thế kỉ 21.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 111,
+    "startTime": 980.29,
+    "endTime": 993.58,
+    "text": "I believe it is now time for us to reclaim our right to a full night of sleep, and without embarrassment or that unfortunate stigma of laziness.",
+    "translationVi": "Tôi tin rằng đây là lúc chúng ta đòi lại quyền được có một đêm ngủ đủ giấc, mà không bị ngượng ngịu hay bị gắn mác là lười.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 112,
+    "startTime": 994.62,
+    "endTime": 1004.75,
+    "text": "And in doing so, we can be reunited with the most powerful elixir of life, the Swiss Army knife of health, as it were.",
+    "translationVi": "Làm vậy, chúng ta có thể tìm lại liều thuốc quan trọng của cuộc sống, cái dao Quân đội Thuỵ Sĩ của sức khoẻ, vì nó là như vậy.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 113,
+    "startTime": 1006.66,
+    "endTime": 1012.58,
+    "text": "And with that soapbox rant over, I will simply say, good night, good luck, and above all ...",
+    "translationVi": "Và với bài diễn thuyết không chuyên này, Tôi tóm gọn lại là, chúc ngủ ngon và may mắn, và hơn hết...",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 114,
+    "startTime": 1014.87,
+    "endTime": 1016.66,
+    "text": "I do hope you sleep well.",
+    "translationVi": "Tôi mong mọi người ngủ ngon.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 115,
+    "startTime": 1016.66,
+    "endTime": 1018.04,
+    "text": "Thank you very much indeed.",
+    "translationVi": "Thực sự cảm ơn rất nhiều.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 116,
+    "startTime": 1022.62,
+    "endTime": 1023.75,
+    "text": "Thank you.",
+    "translationVi": "Cảm ơn.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 117,
+    "startTime": 1026.66,
+    "endTime": 1028.2,
+    "text": "Thank you so much.",
+    "translationVi": "Cảm ơn rất nhiều.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 118,
+    "startTime": 1028.2,
+    "endTime": 1030.95,
+    "text": "No, no, no. Stay there for a second.",
+    "translationVi": "không, không, không Hãy ở lại đây một phút.",
+    "speaker": "DB"
+  },
+  {
+    "orderIndex": 119,
+    "startTime": 1031.0,
+    "endTime": 1033.54,
+    "text": "Good job not running away, though. I appreciate that.",
+    "translationVi": "Rất cảm ơn đã không tháo chạy. Tôi cảm kích điều đó.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 120,
+    "startTime": 1033.58,
+    "endTime": 1036.37,
+    "text": "So that was terrifying. You're welcome.",
+    "translationVi": "Điều này thật tệ hại. Không có gì.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 121,
+    "startTime": 1036.37,
+    "endTime": 1037.91,
+    "text": "Yes, thank you, thank you.",
+    "translationVi": "Vâng, cảm ơn, cảm ơn anh.",
+    "speaker": "DB"
+  },
+  {
+    "orderIndex": 122,
+    "startTime": 1038.33,
+    "endTime": 1043.5,
+    "text": "Since we can't catch up on sleep, what are we supposed to do?",
+    "translationVi": "Khi mà chúng ta không ngủ đủ, chúng ta nên làm gì?",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 123,
+    "startTime": 1043.5,
+    "endTime": 1050.12,
+    "text": "What do we do when we're, like, tossing and turning in bed late at night or doing shift work or whatever else?",
+    "translationVi": "Chúng ta nên làm gì khi trằn trọc trên giường buổi tối hay làm việc theo ca hay kiểu như thế?",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 124,
+    "startTime": 1050.16,
+    "endTime": 1052.5,
+    "text": "So you're right, we can't catch up on sleep.",
+    "translationVi": "Bạn nói đúng, chúng ta không ngủ đủ.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 125,
+    "startTime": 1052.54,
+    "endTime": 1053.83,
+    "text": "Sleep is not like the bank.",
+    "translationVi": "Ngủ không giống ngân hàng.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 126,
+    "startTime": 1053.87,
+    "endTime": 1058.62,
+    "text": "You can't accumulate a debt and then hope to pay it off at a later point in time.",
+    "translationVi": "Bạn không thể tích tụ nợ và sau đó hi vọng trả nợ trong tương lai.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 127,
+    "startTime": 1058.66,
+    "endTime": 1072.54,
+    "text": "I should also note the reason that it's so catastrophic and that our health deteriorates so quickly, first, it's because human beings are the only species that deliberately deprive themselves of sleep for no apparent reason.",
+    "translationVi": "Tôi cũng nên nói lí do khiến điều này trở nên tệ hại đó là sức khoẻ của chúng ta xấu đi rất nhanh, đầu tiên, đó là vì con người là loài vật duy nhất cố tình khiến mình ngủ không đủ chẳng vì lí do hiển nhiên nào cả.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 128,
+    "startTime": 1072.58,
+    "endTime": 1073.7,
+    "text": "Because we're smart.",
+    "translationVi": "Vì ta thông minh.",
+    "speaker": "DB"
+  },
+  {
+    "orderIndex": 129,
+    "startTime": 1073.75,
+    "endTime": 1084.62,
+    "text": "And I make that point because it means that Mother Nature, throughout the course of evolution, has never had to face the challenge of this thing called sleep deprivation.",
+    "translationVi": "Và tôi nói như vậy là vì Mẹ Thiên Nhiên, trong suốt quá trình tiến hoá, không bao giờ phải đối diện với vấn đề gọi là thiếu ngủ.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 130,
+    "startTime": 1085.29,
+    "endTime": 1095.2,
+    "text": "So she's never developed a safety net, and that's why when you undersleep, things just sort of implode so quickly, both within the brain and the body.",
+    "translationVi": "Nên bà không phát triển mạng lưới an toàn, và đó là lí do tại sao khi bạn ngủ không đủ, nhiều thứ có thể sụp đổ nhanh chóng, cả trong bộ não và cơ thể.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 131,
+    "startTime": 1095.25,
+    "endTime": 1098.0,
+    "text": "So you just have to prioritize.",
+    "translationVi": "Nên bạn phải ưu tiên.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 132,
+    "startTime": 1098.04,
+    "endTime": 1101.33,
+    "text": "OK, but tossing and turning in bed,",
+    "translationVi": "Ok, nếu cứ trằn trọc trên giường,",
+    "speaker": "DB"
+  },
+  {
+    "orderIndex": 133,
+    "startTime": 1101.37,
+    "endTime": 1112.04,
+    "text": "what do I do? So if you are staying in bed awake for too long, you should get out of bed and go to a different room and do something different.",
+    "translationVi": "bạn cần làm gì? Nếu bạn nằm trên giường tỉnh như sáo quá lâu bạn nên ra khỏi giường và đi đến một phòng khác và hãy làm điều gì đó khác.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 134,
+    "startTime": 1112.04,
+    "endTime": 1121.41,
+    "text": "The reason is because your brain will very quickly associate your bedroom with the place of wakefulness, and you need to break that association.",
+    "translationVi": "Lí do là vì bộ não nhanh chóng kết nối phòng ngủ là nơi bạn tỉnh táo, và bạn cần phá vỡ sự kết nối đó.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 135,
+    "startTime": 1121.45,
+    "endTime": 1130.45,
+    "text": "So only return to bed when you are sleepy, and that way you will relearn the association that you once had, which is your bed is the place of sleep.",
+    "translationVi": "Nên chỉ trở lại giường khi bạn đã buồn ngủ, và đó là cách bạn học lại sự kết nối bạn đã từng có, giường là nơi để ngủ.",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 136,
+    "startTime": 1130.45,
+    "endTime": 1138.7,
+    "text": "So the analogy would be, you'd never sit at the dinner table, waiting to get hungry, so why would you lie in bed, waiting to get sleepy?",
+    "translationVi": "Một so sánh thế này, bạn sẽ chẳng bao giờ ngồi ở bàn ăn, đợi đến khi bị đói, vậy tại sao bạn lại nằm trên giường chờ đến khi buồn ngủ?",
+    "speaker": "MW"
+  },
+  {
+    "orderIndex": 137,
+    "startTime": 1139.54,
+    "endTime": 1141.54,
+    "text": "Well, thank you for that wake-up call.",
+    "translationVi": "Cảm ơn vì sự cảnh tỉnh này.",
+    "speaker": "DB"
+  },
+  {
+    "orderIndex": 138,
+    "startTime": 1141.58,
+    "endTime": 1142.75,
+    "text": "Great job, Matt.",
+    "translationVi": "Làm tốt lắm, Matt.",
+    "speaker": "DB"
+  },
+  {
+    "orderIndex": 139,
+    "startTime": 1142.75,
+    "endTime": 1144.95,
+    "text": "You're very welcome. Thank you very much.",
+    "translationVi": "Không có gì. Cảm ơn các bạn rất nhiều.",
+    "speaker": "MW"
+  }
+]

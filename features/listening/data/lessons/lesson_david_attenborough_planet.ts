@@ -2,278 +2,280 @@ import { MockVideoLesson, VideoQuizData } from "../types";
 
 /**
  * Bilingual Contextual Reading Comprehension Quiz for Sir David Attenborough: A Life on Our Planet
+ * 8 High-Yield CEFR B2 Questions aligned with authentic Netflix documentary dialogue
  */
 export const QUIZ_DAVID_ATTENBOROUGH_PLANET: VideoQuizData = {
-  lessonId: "vid_david_attenborough_planet",
-  lessonTitle: "Sir David Attenborough: A Life on Our Planet | Netflix",
-  totalQuestions: 8,
-  xpReward: 40,
-  questions: [
+  "lessonId": "vid_david_attenborough_planet",
+  "lessonTitle": "Sir David Attenborough: A Life on Our Planet | Netflix",
+  "totalQuestions": 8,
+  "xpReward": 40,
+  "questions": [
     {
-      id: "q_attenborough_1",
-      question: "How does the narrator introduce himself and provide context about his age at the beginning of the program?",
-      questionEn: "How does the narrator introduce himself and provide context about his age at the beginning of the program?",
-      questionVi: "Người thuyết minh tự giới thiệu bản thân và cung cấp ngữ cảnh về tuổi tác của mình như thế nào ở phần đầu chương trình?",
-      options: [
+      "id": "q_attenborough_1",
+      "question": "How does the narrator introduce himself and provide context about his age at the beginning of the program?",
+      "questionEn": "How does the narrator introduce himself and provide context about his age at the beginning of the program?",
+      "questionVi": "Người thuyết minh tự giới thiệu bản thân và cung cấp ngữ cảnh về tuổi tác của mình như thế nào ở phần đầu chương trình?",
+      "options": [
         "He states that he is David Attenborough and is 93 years old, offering a rather different program",
         "He introduces himself as a junior wildlife intern conducting his first field survey",
         "He claims to be a 40-year-old laboratory geneticist studying cloned animals",
-        "He does not reveal his identity or age throughout the entire broadcast",
+        "He does not reveal his identity or age throughout the entire broadcast"
       ],
-      optionsEn: [
+      "optionsEn": [
         "He states that he is David Attenborough and is 93 years old, offering a rather different program",
         "He introduces himself as a junior wildlife intern conducting his first field survey",
         "He claims to be a 40-year-old laboratory geneticist studying cloned animals",
-        "He does not reveal his identity or age throughout the entire broadcast",
+        "He does not reveal his identity or age throughout the entire broadcast"
       ],
-      optionsVi: [
+      "optionsVi": [
         "Ông giới thiệu mình là David Attenborough, 93 tuổi, và mang đến một chương trình khá là khác biệt",
         "Ông giới thiệu mình là một thực tập sinh động vật hoang dã trẻ tuổi đang làm khảo sát thực địa đầu tiên",
         "Ông tự xưng là một nhà di truyền học phòng thí nghiệm 40 tuổi nghiên cứu động vật nhân bản",
-        "Ông không tiết lộ danh tính hay tuổi tác trong suốt toàn bộ chương trình",
+        "Ông không tiết lộ danh tính hay tuổi tác trong suốt toàn bộ chương trình"
       ],
-      correctAnswer: 0,
-      explanation: 'In Segments 0 & 1, Sir David begins: "Tonight, we\'ve got rather a different program for you. I am David Attenborough, and I am 93."',
-      explanationEn: 'In Segments 0 & 1, Sir David begins: "Tonight, we\'ve got rather a different program for you. I am David Attenborough, and I am 93."',
-      explanationVi: 'Trong câu 0 & 1, Sir David mở đầu: "Tối nay, chúng tôi mang tới cho quý vị một chương trình khá là khác biệt. Tôi là David Attenborough, và tôi 93 tuổi."',
-      referenceSegmentIndex: 1,
-      targetedConcept: "Danh tính nhân vật & Tuổi thọ cống hiến (Speaker Identity & Lifelong Dedication)",
-      targetedConceptEn: "Speaker Identity & Lifelong Dedication",
-      targetedConceptVi: "Danh tính nhân vật & Tuổi thọ cống hiến",
+      "correctAnswer": 0,
+      "explanation": "In Segments 1 & 2, Sir David begins: 'Tonight, we\\'ve got rather a different program for you. I am David Attenborough, and I am 93.'",
+      "explanationEn": "In Segments 1 & 2, Sir David begins: 'Tonight, we\\'ve got rather a different program for you. I am David Attenborough, and I am 93.'",
+      "explanationVi": "Trong câu 1 & 2, Sir David mở đầu: 'Tối nay, chúng tôi mang tới cho quý vị một chương trình khá là khác biệt. Tôi là David Attenborough, và tôi 93 tuổi.'",
+      "referenceSegmentIndex": 2,
+      "targetedConcept": "Danh tính nhân vật & Tuổi thọ cống hiến (Speaker Identity & Lifelong Dedication)",
+      "targetedConceptEn": "Speaker Identity & Lifelong Dedication",
+      "targetedConceptVi": "Danh tính nhân vật & Tuổi thọ cống hiến"
     },
     {
-      id: "q_attenborough_2",
-      question: "What reflection does Sir David share regarding his lifetime experiences in natural exploration?",
-      questionEn: "What reflection does Sir David share regarding his lifetime experiences in natural exploration?",
-      questionVi: "Sir David chia sẻ chiêm nghiệm gì về những trải nghiệm cả một đời khám phá thế giới tự nhiên của mình?",
-      options: [
+      "id": "q_attenborough_2",
+      "question": "What reflection does Sir David share regarding his lifetime experiences in natural exploration?",
+      "questionEn": "What reflection does Sir David share regarding his lifetime experiences in natural exploration?",
+      "questionVi": "Sir David chia sẻ chiêm nghiệm gì về những trải nghiệm cả một đời khám phá thế giới tự nhiên của mình?",
+      "options": [
         "He had the most extraordinary life, and only now fully appreciates just how extraordinary it was",
         "He regrets wasting decades traveling to untouched wilderness areas",
         "He believes nature was dull and uneventful compared to modern city life",
-        "He claims his career was entirely unremarkable and uninspired",
+        "He claims his career was entirely unremarkable and uninspired"
       ],
-      optionsEn: [
+      "optionsEn": [
         "He had the most extraordinary life, and only now fully appreciates just how extraordinary it was",
         "He regrets wasting decades traveling to untouched wilderness areas",
         "He believes nature was dull and uneventful compared to modern city life",
-        "He claims his career was entirely unremarkable and uninspired",
+        "He claims his career was entirely unremarkable and uninspired"
       ],
-      optionsVi: [
+      "optionsVi": [
         "Ông đã có một cuộc đời phi thường nhất, và chỉ đến tận bây giờ mới thực sự thấm thía cuộc đời ấy phi thường đến nhường nào",
         "Ông hối tiếc vì đã lãng phí nhiều thập kỷ chu du đến các vùng thiên nhiên hoang sơ",
         "Ông tin rằng thiên nhiên thật tẻ nhạt và vô vị so với cuộc sống đô thị hiện đại",
-        "Ông cho rằng sự nghiệp của mình hoàn toàn tầm thường và thiếu cảm hứng",
+        "Ông cho rằng sự nghiệp của mình hoàn toàn tầm thường và thiếu cảm hứng"
       ],
-      correctAnswer: 0,
-      explanation: 'In Segments 2 & 3, Sir David reflects: "I\'ve had the most extraordinary life. It\'s only now that I appreciate how extraordinary."',
-      explanationEn: 'In Segments 2 & 3, Sir David reflects: "I\'ve had the most extraordinary life. It\'s only now that I appreciate how extraordinary."',
-      explanationVi: 'Trong câu 2 & 3, Sir David chiêm nghiệm: "Tôi đã sống một cuộc đời phi thường nhất. Chỉ đến tận bây giờ tôi mới thực sự thấm thía cuộc đời ấy phi thường đến nhường nào."',
-      referenceSegmentIndex: 3,
-      targetedConcept: "Chiêm nghiệm cuộc đời phi thường (Reflection on an Extraordinary Life)",
-      targetedConceptEn: "Reflection on an Extraordinary Life",
-      targetedConceptVi: "Chiêm nghiệm cuộc đời phi thường",
+      "correctAnswer": 0,
+      "explanation": "In Segments 3 & 4, Sir David reflects: 'I\\'ve had the most extraordinary life. It\\'s only now that I appreciate how extraordinary.'",
+      "explanationEn": "In Segments 3 & 4, Sir David reflects: 'I\\'ve had the most extraordinary life. It\\'s only now that I appreciate how extraordinary.'",
+      "explanationVi": "Trong câu 3 & 4, Sir David chiêm nghiệm: 'Tôi đã sống một cuộc đời phi thường nhất. Chỉ đến tận bây giờ tôi mới thực sự thấm thía cuộc đời ấy phi thường đến nhường nào.'",
+      "referenceSegmentIndex": 4,
+      "targetedConcept": "Chiêm nghiệm cuộc đời phi thường (Reflection on an Extraordinary Life)",
+      "targetedConceptEn": "Reflection on an Extraordinary Life",
+      "targetedConceptVi": "Chiêm nghiệm cuộc đời phi thường"
     },
     {
-      id: "q_attenborough_3",
-      question: "How does Sir David describe the living world before highlighting ecological concerns?",
-      questionEn: "How does Sir David describe the living world before highlighting ecological concerns?",
-      questionVi: "Sir David miêu tả thế giới sinh vật sống như thế nào trước khi nêu bật các mối lo ngại sinh thái?",
-      options: [
+      "id": "q_attenborough_3",
+      "question": "How does Sir David describe the living world before highlighting ecological concerns?",
+      "questionEn": "How does Sir David describe the living world before highlighting ecological concerns?",
+      "questionVi": "Sir David miêu tả thế giới sinh vật sống như thế nào trước khi nêu bật các mối lo ngại sinh thái?",
+      "options": [
         "As a unique and spectacular marvel",
         "As a hostile and dangerous obstacle to technological growth",
         "As an entirely artificial simulation programmed by machines",
-        "As a barren wasteland devoid of genuine beauty",
+        "As a barren wasteland devoid of genuine beauty"
       ],
-      optionsEn: [
+      "optionsEn": [
         "As a unique and spectacular marvel",
         "As a hostile and dangerous obstacle to technological growth",
         "As an entirely artificial simulation programmed by machines",
-        "As a barren wasteland devoid of genuine beauty",
+        "As a barren wasteland devoid of genuine beauty"
       ],
-      optionsVi: [
+      "optionsVi": [
         "Như một kỳ quan độc nhất vô nhị và vô cùng tráng lệ",
         "Như một rào cản nguy hiểm và thù địch đối với sự tăng trưởng công nghệ",
         "Như một mô phỏng hoàn toàn nhân tạo được lập trình bởi máy móc",
-        "Như một vùng đất hoang cằn cỗi không có vẻ đẹp thực sự",
+        "Như một vùng đất hoang cằn cỗi không có vẻ đẹp thực sự"
       ],
-      correctAnswer: 0,
-      explanation: 'In Segment 4, he celebrates our planet: "The living world is a unique and spectacular marvel."',
-      explanationEn: 'In Segment 4, he celebrates our planet: "The living world is a unique and spectacular marvel."',
-      explanationVi: 'Trong câu 4, ông ca ngợi hành tinh của chúng ta: "Thế giới sinh vật sống là một kỳ quan độc nhất vô nhị và tráng lệ."',
-      referenceSegmentIndex: 4,
-      targetedConcept: "Vẻ đẹp kỳ vĩ của thế giới tự nhiên (The Wonder and Marvel of the Living World)",
-      targetedConceptEn: "The Wonder and Marvel of the Living World",
-      targetedConceptVi: "Vẻ đẹp kỳ vĩ của thế giới tự nhiên",
+      "correctAnswer": 0,
+      "explanation": "In Segment 5, he celebrates our planet: 'The living world is a unique and spectacular marvel.'",
+      "explanationEn": "In Segment 5, he celebrates our planet: 'The living world is a unique and spectacular marvel.'",
+      "explanationVi": "Trong câu 5, ông ca ngợi hành tinh của chúng ta: 'Thế giới sinh vật sống là một kỳ quan độc nhất vô nhị và tráng lệ.'",
+      "referenceSegmentIndex": 5,
+      "targetedConcept": "Vẻ đẹp kỳ vĩ của thế giới tự nhiên (The Wonder and Marvel of the Living World)",
+      "targetedConceptEn": "The Wonder and Marvel of the Living World",
+      "targetedConceptVi": "Vẻ đẹp kỳ vĩ của thế giới tự nhiên"
     },
     {
-      id: "q_attenborough_4",
-      question: "According to Sir David, what is the consequence of the way humans currently live on Earth?",
-      questionEn: "According to Sir David, what is the consequence of the way humans currently live on Earth?",
-      questionVi: "Theo Sir David, cách thức con người hiện đang sinh sống trên Trái Đất đang gây ra hậu quả gì?",
-      options: [
+      "id": "q_attenborough_4",
+      "question": "According to Sir David, what is the consequence of the way humans currently live on Earth?",
+      "questionEn": "According to Sir David, what is the consequence of the way humans currently live on Earth?",
+      "questionVi": "Theo Sir David, cách thức con người hiện đang sinh sống trên Trái Đất đang gây ra hậu quả gì?",
+      "options": [
         "It is sending the living world into a sharp decline",
         "It is significantly expanding pristine rainforests on every continent",
         "It is cooling down global oceans to ice-age levels",
-        "It has eliminated all pollution and biodiversity loss permanently",
+        "It has eliminated all pollution and biodiversity loss permanently"
       ],
-      optionsEn: [
+      "optionsEn": [
         "It is sending the living world into a sharp decline",
         "It is significantly expanding pristine rainforests on every continent",
         "It is cooling down global oceans to ice-age levels",
-        "It has eliminated all pollution and biodiversity loss permanently",
+        "It has eliminated all pollution and biodiversity loss permanently"
       ],
-      optionsVi: [
+      "optionsVi": [
         "Nó đang đẩy thế giới sinh vật sống vào cảnh suy tàn",
         "Nó đang mở rộng đáng kể các cánh rừng nguyên sinh trên mọi châu lục",
         "Nó đang làm mát các đại dương toàn cầu xuống mức kỷ băng hà",
-        "Nó đã xóa bỏ vĩnh viễn mọi ô nhiễm và sự mất mát đa dạng sinh học",
+        "Nó đã xóa bỏ vĩnh viễn mọi ô nhiễm và sự mất mát đa dạng sinh học"
       ],
-      correctAnswer: 0,
-      explanation: 'In Segment 5, he stresses the stark reality: "Yet the way we humans live on Earth is sending it into a decline."',
-      explanationEn: 'In Segment 5, he stresses the stark reality: "Yet the way we humans live on Earth is sending it into a decline."',
-      explanationVi: 'Trong câu 5, ông nhấn mạnh thực tế phũ phàng: "Thế nhưng cách con người chúng ta đang sống trên Trái Đất lại đang đẩy hành tinh này vào cảnh suy tàn."',
-      referenceSegmentIndex: 5,
-      targetedConcept: "Sự suy thoái sinh thái do con người (Anthropogenic Ecological Decline)",
-      targetedConceptEn: "Anthropogenic Ecological Decline",
-      targetedConceptVi: "Sự suy thoái sinh thái do con người",
+      "correctAnswer": 0,
+      "explanation": "In Segment 6, he stresses the stark reality: 'Yet the way we humans live on Earth is sending it into a decline.'",
+      "explanationEn": "In Segment 6, he stresses the stark reality: 'Yet the way we humans live on Earth is sending it into a decline.'",
+      "explanationVi": "Trong câu 6, ông nhấn mạnh thực tế phũ phàng: 'Thế nhưng cách con người chúng ta đang sống trên Trái Đất lại đang đẩy hành tinh này vào cảnh suy tàn.'",
+      "referenceSegmentIndex": 6,
+      "targetedConcept": "Sự suy thoái sinh thái do con người (Anthropogenic Ecological Decline)",
+      "targetedConceptEn": "Anthropogenic Ecological Decline",
+      "targetedConceptVi": "Sự suy thoái sinh thái do con người"
     },
     {
-      id: "q_attenborough_5",
-      question: "In what stark terms does Sir David describe humanity's takeover of our planet?",
-      questionEn: "In what stark terms does Sir David describe humanity's takeover of our planet?",
-      questionVi: "Bằng những từ ngữ đanh thép nào Sir David miêu tả sự thống trị của loài người trên hành tinh?",
-      options: [
+      "id": "q_attenborough_5",
+      "question": "In what stark terms does Sir David describe humanity's takeover of our planet?",
+      "questionEn": "In what stark terms does Sir David describe humanity's takeover of our planet?",
+      "questionVi": "Bằng những từ ngữ đanh thép nào Sir David miêu tả sự thống trị của loài người trên hành tinh?",
+      "options": [
         "Human beings have overrun the world and are replacing the wild with the tame",
         "Humans have voluntarily retreated into subterranean cities to preserve ecology",
         "Wild beasts have conquered urban centers and forced humans into migration",
-        "Humanity has strictly preserved every wild ecosystem without any alterations",
+        "Humanity has strictly preserved every wild ecosystem without any alterations"
       ],
-      optionsEn: [
+      "optionsEn": [
         "Human beings have overrun the world and are replacing the wild with the tame",
         "Humans have voluntarily retreated into subterranean cities to preserve ecology",
         "Wild beasts have conquered urban centers and forced humans into migration",
-        "Humanity has strictly preserved every wild ecosystem without any alterations",
+        "Humanity has strictly preserved every wild ecosystem without any alterations"
       ],
-      optionsVi: [
+      "optionsVi": [
         "Loài người đã xâm chiếm khắp thế giới và đang thay thế chốn hoang dã bằng sự thuần hóa",
         "Con người đã tự nguyện rút vào các thành phố dưới lòng đất để bảo tồn hệ sinh thái",
         "Các loài thú hoang dã đã chinh phục các trung tâm đô thị và buộc con người phải di cư",
-        "Nhân loại đã bảo tồn nghiêm ngặt mọi hệ sinh thái hoang dã mà không hề biến đổi",
+        "Nhân loại đã bảo tồn nghiêm ngặt mọi hệ sinh thái hoang dã mà không hề biến đổi"
       ],
-      correctAnswer: 0,
-      explanation: 'In Segments 6 & 7, he declares: "Human beings have overrun the world. We\'re replacing the wild with the tame."',
-      explanationEn: 'In Segments 6 & 7, he declares: "Human beings have overrun the world. We\'re replacing the wild with the tame."',
-      explanationVi: 'Trong câu 6 & 7, ông tuyên bố: "Loài người đã xâm chiếm và tràn ngập khắp thế giới. Chúng ta đang thay thế chốn hoang dã bằng sự thuần hóa."',
-      referenceSegmentIndex: 6,
-      targetedConcept: "Thay thế chốn hoang dã bằng sự thuần hóa (Replacing the Wild with the Tame)",
-      targetedConceptEn: "Replacing the Wild with the Tame",
-      targetedConceptVi: "Thay thế chốn hoang dã bằng sự thuần hóa",
+      "correctAnswer": 0,
+      "explanation": "In Segments 7 & 8, he declares: 'Human beings have overrun the world. We\\'re replacing the wild with the tame.'",
+      "explanationEn": "In Segments 7 & 8, he declares: 'Human beings have overrun the world. We\\'re replacing the wild with the tame.'",
+      "explanationVi": "Trong câu 7 & 8, ông tuyên bố: 'Loài người đã xâm chiếm và tràn ngập khắp thế giới. Chúng ta đang thay thế chốn hoang dã bằng sự thuần hóa.'",
+      "referenceSegmentIndex": 7,
+      "targetedConcept": "Thay thế chốn hoang dã bằng sự thuần hóa (Replacing the Wild with the Tame)",
+      "targetedConceptEn": "Replacing the Wild with the Tame",
+      "targetedConceptVi": "Thay thế chốn hoang dã bằng sự thuần hóa"
     },
     {
-      id: "q_attenborough_6",
-      question: "What dual definition does Sir David give to describe the essence and purpose of this film?",
-      questionEn: "What dual definition does Sir David give to describe the essence and purpose of this film?",
-      questionVi: "Sir David đưa ra định nghĩa kép nào để miêu tả bản chất và mục đích của bộ phim này?",
-      options: [
+      "id": "q_attenborough_6",
+      "question": "What dual definition does Sir David give to describe the essence and purpose of this film?",
+      "questionEn": "What dual definition does Sir David give to describe the essence and purpose of this film?",
+      "questionVi": "Sir David đưa ra định nghĩa kép nào để miêu tả bản chất và mục đích của bộ phim này?",
+      "options": [
         "His witness statement and his vision for the future",
         "A commercial promotional teaser for tropical holiday resorts",
         "A fictional drama portraying mythical sea monsters",
-        "A financial audit report for multinational logging corporations",
+        "A financial audit report for multinational logging corporations"
       ],
-      optionsEn: [
+      "optionsEn": [
         "His witness statement and his vision for the future",
         "A commercial promotional teaser for tropical holiday resorts",
         "A fictional drama portraying mythical sea monsters",
-        "A financial audit report for multinational logging corporations",
+        "A financial audit report for multinational logging corporations"
       ],
-      optionsVi: [
+      "optionsVi": [
         "Lời khai nhân chứng của ông và tầm nhìn của ông về tương lai",
         "Một đoạn giới thiệu quảng cáo thương mại cho các khu nghỉ dưỡng nhiệt đới",
         "Một bộ phim truyền hình hư cấu miêu tả các quái vật biển thần thoại",
-        "Một báo cáo kiểm toán tài chính cho các tập đoàn khai thác gỗ đa quốc gia",
+        "Một báo cáo kiểm toán tài chính cho các tập đoàn khai thác gỗ đa quốc gia"
       ],
-      correctAnswer: 0,
-      explanation: 'In Segment 8, Sir David proclaims: "This film is my witness statement and my vision for the future."',
-      explanationEn: 'In Segment 8, Sir David proclaims: "This film is my witness statement and my vision for the future."',
-      explanationVi: 'Trong câu 8, Sir David khẳng định: "Bộ phim này chính là lời khai của nhân chứng và là tầm nhìn của tôi dành cho tương lai."',
-      referenceSegmentIndex: 8,
-      targetedConcept: "Tuyên ngôn nhân chứng & Tầm nhìn tương lai (Witness Statement & Vision for the Future)",
-      targetedConceptEn: "Witness Statement & Vision for the Future",
-      targetedConceptVi: "Tuyên ngôn nhân chứng & Tầm nhìn tương lai",
+      "correctAnswer": 0,
+      "explanation": "In Segment 9, Sir David proclaims: 'This film is my witness statement and my vision for the future.'",
+      "explanationEn": "In Segment 9, Sir David proclaims: 'This film is my witness statement and my vision for the future.'",
+      "explanationVi": "Trong câu 9, Sir David khẳng định: 'Bộ phim này chính là lời khai của nhân chứng và là tầm nhìn của tôi dành cho tương lai.'",
+      "referenceSegmentIndex": 9,
+      "targetedConcept": "Tuyên ngôn nhân chứng & Tầm nhìn tương lai (Witness Statement & Vision for the Future)",
+      "targetedConceptEn": "Witness Statement & Vision for the Future",
+      "targetedConceptVi": "Tuyên ngôn nhân chứng & Tầm nhìn tương lai"
     },
     {
-      id: "q_attenborough_7",
-      question: "What does Sir David identify as our 'greatest mistake', and what hopeful condition does he express?",
-      questionEn: "What does Sir David identify as our 'greatest mistake', and what hopeful condition does he express?",
-      questionVi: "Sir David xác định điều gì là 'sai lầm lớn nhất' của chúng ta, và ông bày tỏ điều kiện hy vọng nào?",
-      options: [
+      "id": "q_attenborough_7",
+      "question": "What does Sir David identify as our 'greatest mistake', and what hopeful condition does he express?",
+      "questionEn": "What does Sir David identify as our 'greatest mistake', and what hopeful condition does he express?",
+      "questionVi": "Sir David xác định điều gì là 'sai lầm lớn nhất' của chúng ta, và ông bày tỏ điều kiện hy vọng nào?",
+      "options": [
         "How we caused planetary decline, but if we act now, we can yet put it right",
         "How humanity failed to colonize Mars before the turn of the millennium",
         "How scientists ignored commercial opportunities in Arctic oil drilling",
-        "How ancient civilizations stopped building monumental stone pyramids",
+        "How ancient civilizations stopped building monumental stone pyramids"
       ],
-      optionsEn: [
+      "optionsEn": [
         "How we caused planetary decline, but if we act now, we can yet put it right",
         "How humanity failed to colonize Mars before the turn of the millennium",
         "How scientists ignored commercial opportunities in Arctic oil drilling",
-        "How ancient civilizations stopped building monumental stone pyramids",
+        "How ancient civilizations stopped building monumental stone pyramids"
       ],
-      optionsVi: [
+      "optionsVi": [
         "Cách chúng ta gây ra sự suy tàn hành tinh, nhưng nếu hành động ngay bây giờ, chúng ta vẫn còn có thể sửa chữa sai lầm",
         "Cách nhân loại đã thất bại trong việc định cư trên sao Hỏa trước thiên niên kỷ mới",
         "Cách các nhà khoa học đã phớt lờ các cơ hội thương mại trong khoan dầu Bắc Cực",
-        "Cách các nền văn minh cổ đại ngừng xây dựng các kim tự tháp đá hoành tráng",
+        "Cách các nền văn minh cổ đại ngừng xây dựng các kim tự tháp đá hoành tráng"
       ],
-      correctAnswer: 0,
-      explanation: 'In Segments 9 & 10, he calls this: "The story of how we came to make this our greatest mistake. And how, if we act now, we can yet put it right."',
-      explanationEn: 'In Segments 9 & 10, he calls this: "The story of how we came to make this our greatest mistake. And how, if we act now, we can yet put it right."',
-      explanationVi: 'Trong câu 9 & 10, ông gọi đây là: "Câu chuyện về cách chúng ta đã đi đến việc tạo nên sai lầm lớn nhất đời mình. Và làm thế nào, nếu hành động ngay bây giờ, chúng ta vẫn còn có thể xoay chuyển và sửa chữa nó."',
-      referenceSegmentIndex: 9,
-      targetedConcept: "Sai lầm lớn nhất & Cơ hội chuộc lỗi khẩn cấp (Greatest Mistake & The Urgent Opportunity to Put It Right)",
-      targetedConceptEn: "Greatest Mistake & The Urgent Opportunity to Put It Right",
-      targetedConceptVi: "Sai lầm lớn nhất & Cơ hội chuộc lỗi khẩn cấp",
+      "correctAnswer": 0,
+      "explanation": "In Segments 10 & 11, he calls this: 'The story of how we came to make this our greatest mistake. And how, if we act now, we can yet put it right.'",
+      "explanationEn": "In Segments 10 & 11, he calls this: 'The story of how we came to make this our greatest mistake. And how, if we act now, we can yet put it right.'",
+      "explanationVi": "Trong câu 10 & 11, ông gọi đây là: 'Câu chuyện về cách chúng ta đã đi đến việc tạo nên sai lầm lớn nhất đời mình. Và làm thế nào, nếu hành động ngay bây giờ, chúng ta vẫn còn có thể xoay chuyển và sửa chữa nó.'",
+      "referenceSegmentIndex": 10,
+      "targetedConcept": "Sai lầm lớn nhất & Cơ hội chuộc lỗi khẩn cấp (Greatest Mistake & The Urgent Opportunity to Put It Right)",
+      "targetedConceptEn": "Greatest Mistake & The Urgent Opportunity to Put It Right",
+      "targetedConceptVi": "Sai lầm lớn nhất & Cơ hội chuộc lỗi khẩn cấp"
     },
     {
-      id: "q_attenborough_8",
-      question: "While warning that our planet is headed for disaster, what fundamental ecological philosophy does Sir David urge humanity to learn?",
-      questionEn: "While warning that our planet is headed for disaster, what fundamental ecological philosophy does Sir David urge humanity to learn?",
-      questionVi: "Trong khi cảnh báo rằng hành tinh chúng ta đang lao đầu vào thảm họa, triết lý sinh thái nền tảng nào mà Sir David tha thiết kêu gọi nhân loại phải học?",
-      options: [
+      "id": "q_attenborough_8",
+      "question": "While warning that our planet is headed for disaster, what fundamental ecological philosophy does Sir David urge humanity to learn?",
+      "questionEn": "While warning that our planet is headed for disaster, what fundamental ecological philosophy does Sir David urge humanity to learn?",
+      "questionVi": "Trong khi cảnh báo rằng hành tinh chúng ta đang lao đầu vào thảm họa, triết lý sinh thái nền tảng nào mà Sir David tha thiết kêu gọi nhân loại phải học?",
+      "options": [
         "We need to learn how to work with nature, rather than against it",
         "We must maximize natural resource extraction before supplies completely vanish",
         "We should construct artificial domes over all cities to isolate from nature",
-        "We have to accelerate industrial logging to prevent wild forest fires",
+        "We have to accelerate industrial logging to prevent wild forest fires"
       ],
-      optionsEn: [
+      "optionsEn": [
         "We need to learn how to work with nature, rather than against it",
         "We must maximize natural resource extraction before supplies completely vanish",
         "We should construct artificial domes over all cities to isolate from nature",
-        "We have to accelerate industrial logging to prevent wild forest fires",
+        "We have to accelerate industrial logging to prevent wild forest fires"
       ],
-      optionsVi: [
+      "optionsVi": [
         "Chúng ta cần phải học cách hợp tác thuận hòa cùng thiên nhiên, thay vì chống lại mẹ thiên nhiên",
         "Chúng ta phải tối đa hóa việc khai thác tài nguyên thiên nhiên trước khi nguồn cung biến mất hoàn toàn",
         "Chúng ta nên xây dựng các mái vòm nhân tạo trên tất cả các thành phố để cô lập khỏi thiên nhiên",
-        "Chúng ta phải đẩy nhanh việc khai thác gỗ công nghiệp để ngăn chặn cháy rừng hoang dã",
+        "Chúng ta phải đẩy nhanh việc khai thác gỗ công nghiệp để ngăn chặn cháy rừng hoang dã"
       ],
-      correctAnswer: 0,
-      explanation: 'In Segments 11 & 12, Sir David warns: "Our planet is headed for disaster. We need to learn how to work with nature, rather than against it."',
-      explanationEn: 'In Segments 11 & 12, Sir David warns: "Our planet is headed for disaster. We need to learn how to work with nature, rather than against it."',
-      explanationVi: 'Trong câu 11 & 12, Sir David cảnh báo: "Hành tinh của chúng ta đang lao đầu vào thảm họa. Chúng ta cần phải học cách hợp tác thuận hòa cùng thiên nhiên, thay vì chống lại mẹ thiên nhiên."',
-      referenceSegmentIndex: 12,
-      targetedConcept: "Hợp tác thuận hòa cùng thiên nhiên (Working With Nature Rather Than Against It)",
-      targetedConceptEn: "Working With Nature Rather Than Against It",
-      targetedConceptVi: "Hợp tác thuận hòa cùng thiên nhiên",
-    },
+      "correctAnswer": 0,
+      "explanation": "In Segments 12 & 13, Sir David warns: 'Our planet is headed for disaster. We need to learn how to work with nature, rather than against it.'",
+      "explanationEn": "In Segments 12 & 13, Sir David warns: 'Our planet is headed for disaster. We need to learn how to work with nature, rather than against it.'",
+      "explanationVi": "Trong câu 12 & 13, Sir David cảnh báo: 'Hành tinh của chúng ta đang lao đầu vào thảm họa. Chúng ta cần phải học cách hợp tác thuận hòa cùng thiên nhiên, thay vì chống lại mẹ thiên nhiên.'",
+      "referenceSegmentIndex": 13,
+      "targetedConcept": "Hợp tác thuận hòa cùng thiên nhiên (Working With Nature Rather Than Against It)",
+      "targetedConceptEn": "Working With Nature Rather Than Against It",
+      "targetedConceptVi": "Hợp tác thuận hòa cùng thiên nhiên"
+    }
   ],
-  generatedBy: "CONTEXTUAL_FALLBACK",
+  "generatedBy": "CONTEXTUAL_FALLBACK"
 };
 
 /**
  * Sir David Attenborough: A Life on Our Planet | Netflix
  * Slug: david-attenborough-a-life-on-our-planet
- * External ID: 64R2MYUt394
- * 100% Calibrated Verbatim from YouTube Audio & Official Subtitles
+ * YouTube ID: 64R2MYUt394
+ * Category: cat_nature_planet (Thiên Nhiên & Trái Đất)
+ * 100% Calibrated Verbatim from YouTube Audio & Official Subtitles (14 Pure Master Segments - 1-Indexed)
  */
 export const LESSON_DAVID_ATTENBOROUGH_PLANET: MockVideoLesson = {
   id: "vid_david_attenborough_planet",
@@ -297,172 +299,218 @@ export const LESSON_DAVID_ATTENBOROUGH_PLANET: MockVideoLesson = {
   quiz: QUIZ_DAVID_ATTENBOROUGH_PLANET,
   segments: [
     {
-      orderIndex: 0,
-      startTime: 0.21,
-      endTime: 2.88,
-      text: "Tonight, we've got rather a different program for you.",
-      translationVi: "Tối nay, chúng tôi mang tới cho quý vị một chương trình khá là khác biệt.",
-      ipaUs: "/təˈnaɪt wiːv ɡɑːt ˈræðər ə ˈdɪfrənt ˈproʊɡræm fɔːr juː/",
-      properNouns: [],
-      keywords: ["rather a different", "program"],
-      explanationAi: "Cụm 'rather a different...' mang phong thái nói chuyện lịch thiệp kinh điển của người Anh.",
-      tokenCount: 9,
+        "orderIndex": 1,
+        "startTime": 0.21,
+        "endTime": 2.88,
+        "text": "Tonight, we've got rather a different program for you.",
+        "translationVi": "Tối nay, chúng tôi mang tới cho quý vị một chương trình khá là khác biệt.",
+        "ipaUs": "/təˈnaɪt wiːv ɡɑːt ˈræðər ə ˈdɪfrənt ˈproʊɡræm fɔːr juː/",
+        "properNouns": [],
+        "keywords": [
+            "rather a different",
+            "program"
+        ],
+        "explanationAi": "Cụm 'rather a different...' mang phong thái nói chuyện lịch thiệp kinh điển của người Anh.",
+        "tokenCount": 10
     },
     {
-      orderIndex: 1,
-      startTime: 4.92,
-      endTime: 8.88,
-      text: "I am David Attenborough, and I am 93.",
-      translationVi: "Tôi là David Attenborough, và tôi 93 tuổi.",
-      ipaUs: "/aɪ æm ˈdeɪvɪd ˈætənbərə ænd aɪ æm ˈnaɪnti θriː/",
-      properNouns: ["David Attenborough"],
-      keywords: ["David Attenborough", "93"],
-      explanationAi: "Lời giới thiệu danh xưng mộc mạc nhưng đầy sức nặng của huyền thoại làm phim tài liệu tự nhiên.",
-      tokenCount: 8,
+        "orderIndex": 2,
+        "startTime": 4.92,
+        "endTime": 8.88,
+        "text": "I am David Attenborough, and I am 93.",
+        "translationVi": "Tôi là David Attenborough, và tôi 93 tuổi.",
+        "ipaUs": "/aɪ æm ˈdeɪvɪd ˈætənbərə ænd aɪ æm ˈnaɪnti θriː/",
+        "properNouns": [
+            "David Attenborough"
+        ],
+        "keywords": [
+            "David Attenborough",
+            "93"
+        ],
+        "explanationAi": "Lời giới thiệu danh xưng mộc mạc nhưng đầy sức nặng của huyền thoại làm phim tài liệu tự nhiên.",
+        "tokenCount": 8
     },
     {
-      orderIndex: 2,
-      startTime: 10.34,
-      endTime: 12.55,
-      text: "I've had the most extraordinary life.",
-      translationVi: "Tôi đã sống một cuộc đời phi thường nhất.",
-      ipaUs: "/aɪv hæd ðə moʊst ɪkˈstrɔːrdəneri laɪf/",
-      properNouns: [],
-      keywords: ["extraordinary life"],
-      explanationAi: "Tính từ 'extraordinary' (phi thường, kỳ diệu, vô tiền khoáng hậu).",
-      tokenCount: 6,
+        "orderIndex": 3,
+        "startTime": 10.34,
+        "endTime": 12.55,
+        "text": "I've had the most extraordinary life.",
+        "translationVi": "Tôi đã sống một cuộc đời phi thường nhất.",
+        "ipaUs": "/aɪv hæd ðə moʊst ɪkˈstrɔːrdəneri laɪf/",
+        "properNouns": [],
+        "keywords": [
+            "extraordinary life"
+        ],
+        "explanationAi": "Tính từ 'extraordinary' (phi thường, kỳ diệu, vô tiền khoáng hậu).",
+        "tokenCount": 7
     },
     {
-      orderIndex: 3,
-      startTime: 14.10,
-      endTime: 17.68,
-      text: "It's only now that I appreciate how extraordinary.",
-      translationVi: "Chỉ đến tận bây giờ tôi mới thực sự thấm thía cuộc đời ấy phi thường đến nhường nào.",
-      ipaUs: "/ɪts ˈoʊnli naʊ ðæt aɪ əˈpriːʃieɪt haʊ ɪkˈstrɔːrdəneri/",
-      properNouns: [],
-      keywords: ["only now", "appreciate", "how extraordinary"],
-      explanationAi: "Cấu trúc 'It is only now that...' nhấn mạnh nhận thức muộn màng và sự chiêm nghiệm sâu sắc.",
-      tokenCount: 8,
+        "orderIndex": 4,
+        "startTime": 14.1,
+        "endTime": 17.68,
+        "text": "It's only now that I appreciate how extraordinary.",
+        "translationVi": "Chỉ đến tận bây giờ tôi mới thực sự thấm thía cuộc đời ấy phi thường đến nhường nào.",
+        "ipaUs": "/ɪts ˈoʊnli naʊ ðæt aɪ əˈpriːʃieɪt haʊ ɪkˈstrɔːrdəneri/",
+        "properNouns": [],
+        "keywords": [
+            "only now",
+            "appreciate",
+            "how extraordinary"
+        ],
+        "explanationAi": "Cấu trúc 'It is only now that...' nhấn mạnh nhận thức muộn màng và sự chiêm nghiệm sâu sắc.",
+        "tokenCount": 9
     },
     {
-      orderIndex: 4,
-      startTime: 20.56,
-      endTime: 24.77,
-      text: "The living world is a unique and spectacular marvel.",
-      translationVi: "Thế giới sinh vật sống là một kỳ quan độc nhất vô nhị và tráng lệ.",
-      ipaUs: "/ðə ˈlɪvɪŋ wɜːrld ɪz ə juːˈniːk ænd spekˈtækjələr ˈmɑːrvl/",
-      properNouns: [],
-      keywords: ["living world", "unique", "spectacular marvel"],
-      explanationAi: "'Spectacular marvel' (kỳ quan tráng lệ) ca ngợi vẻ đẹp phong phú của hệ sinh thái muôn loài.",
-      tokenCount: 9,
+        "orderIndex": 5,
+        "startTime": 20.56,
+        "endTime": 24.77,
+        "text": "The living world is a unique and spectacular marvel.",
+        "translationVi": "Thế giới sinh vật sống là một kỳ quan độc nhất vô nhị và tráng lệ.",
+        "ipaUs": "/ðə ˈlɪvɪŋ wɜːrld ɪz ə juːˈniːk ænd spekˈtækjələr ˈmɑːrvl/",
+        "properNouns": [],
+        "keywords": [
+            "living world",
+            "unique",
+            "spectacular marvel"
+        ],
+        "explanationAi": "'Spectacular marvel' (kỳ quan tráng lệ) ca ngợi vẻ đẹp phong phú của hệ sinh thái muôn loài.",
+        "tokenCount": 9
     },
     {
-      orderIndex: 5,
-      startTime: 25.32,
-      endTime: 31.78,
-      text: "Yet the way we humans live on Earth is sending it into a decline.",
-      translationVi: "Thế nhưng cách con người chúng ta đang sống trên Trái Đất lại đang đẩy hành tinh này vào cảnh suy tàn.",
-      ipaUs: "/jet ðə weɪ wiː ˈhjuːmənz lɪv ɑːn ɜːrθ ɪz ˈsendɪŋ ɪt ˈɪntuː ə dɪˈklaɪn/",
-      properNouns: ["Earth"],
-      keywords: ["live on Earth", "sending into a decline"],
-      explanationAi: "Cụm 'send into a decline' diễn tả sự trượt dài, thoái hóa không thể đảo ngược.",
-      tokenCount: 14,
+        "orderIndex": 6,
+        "startTime": 25.32,
+        "endTime": 31.78,
+        "text": "Yet the way we humans live on Earth is sending it into a decline.",
+        "translationVi": "Thế nhưng cách con người chúng ta đang sống trên Trái Đất lại đang đẩy hành tinh này vào cảnh suy tàn.",
+        "ipaUs": "/jet ðə weɪ wiː ˈhjuːmənz lɪv ɑːn ɜːrθ ɪz ˈsendɪŋ ɪt ˈɪntuː ə dɪˈklaɪn/",
+        "properNouns": [
+            "Earth"
+        ],
+        "keywords": [
+            "live on Earth",
+            "sending into a decline"
+        ],
+        "explanationAi": "Cụm 'send into a decline' diễn tả sự trượt dài, thoái hóa không thể đảo ngược.",
+        "tokenCount": 14
     },
     {
-      orderIndex: 6,
-      startTime: 33.74,
-      endTime: 35.95,
-      text: "Human beings have overrun the world.",
-      translationVi: "Loài người đã xâm chiếm và tràn ngập khắp thế giới.",
-      ipaUs: "/ˈhjuːmən ˈbiːɪŋz hæv ˌoʊvəˈrʌn ðə wɜːrld/",
-      properNouns: [],
-      keywords: ["human beings", "overrun the world"],
-      explanationAi: "Động từ 'overrun' mang sắc thái áp đảo, lấn chiếm toàn bộ môi trường sống hoang dã.",
-      tokenCount: 6,
+        "orderIndex": 7,
+        "startTime": 33.74,
+        "endTime": 35.95,
+        "text": "Human beings have overrun the world.",
+        "translationVi": "Loài người đã xâm chiếm và tràn ngập khắp thế giới.",
+        "ipaUs": "/ˈhjuːmən ˈbiːɪŋz hæv ˌoʊvəˈrʌn ðə wɜːrld/",
+        "properNouns": [],
+        "keywords": [
+            "human beings",
+            "overrun the world"
+        ],
+        "explanationAi": "Động từ 'overrun' mang sắc thái áp đảo, lấn chiếm toàn bộ môi trường sống hoang dã.",
+        "tokenCount": 6
     },
     {
-      orderIndex: 7,
-      startTime: 37.87,
-      endTime: 41.67,
-      text: "We're replacing the wild with the tame.",
-      translationVi: "Chúng ta đang thay thế chốn hoang dã bằng sự thuần hóa.",
-      ipaUs: "/wɪr rɪˈpleɪsɪŋ ðə waɪld wɪð ðə teɪm/",
-      properNouns: [],
-      keywords: ["replacing", "the wild", "the tame"],
-      explanationAi: "Sự đối lập giữa danh từ hóa 'the wild' (thiên nhiên hoang sơ) và 'the tame' (khu vực chăn thả thuần hóa nhân tạo).",
-      tokenCount: 7,
+        "orderIndex": 8,
+        "startTime": 37.87,
+        "endTime": 41.67,
+        "text": "We're replacing the wild with the tame.",
+        "translationVi": "Chúng ta đang thay thế chốn hoang dã bằng sự thuần hóa.",
+        "ipaUs": "/wɪr rɪˈpleɪsɪŋ ðə waɪld wɪð ðə teɪm/",
+        "properNouns": [],
+        "keywords": [
+            "replacing",
+            "the wild",
+            "the tame"
+        ],
+        "explanationAi": "Sự đối lập giữa danh từ hóa 'the wild' (thiên nhiên hoang sơ) và 'the tame' (khu vực chăn thả thuần hóa nhân tạo).",
+        "tokenCount": 8
     },
     {
-      orderIndex: 8,
-      startTime: 46.17,
-      endTime: 50.68,
-      text: "This film is my witness statement and my vision for the future.",
-      translationVi: "Bộ phim này chính là lời khai của nhân chứng và là tầm nhìn của tôi dành cho tương lai.",
-      ipaUs: "/ðɪs fɪlm ɪz maɪ ˈwɪtnəs ˈsteɪtmənt ænd maɪ ˈvɪʒən fɔːr ðə ˈfjuːtʃər/",
-      properNouns: [],
-      keywords: ["witness statement", "vision for the future"],
-      explanationAi: "'Witness statement' (lời khai của nhân chứng tại tòa án) ẩn dụ cho trách nhiệm lịch sử của tác giả.",
-      tokenCount: 12,
+        "orderIndex": 9,
+        "startTime": 46.17,
+        "endTime": 50.68,
+        "text": "This film is my witness statement and my vision for the future.",
+        "translationVi": "Bộ phim này chính là lời khai của nhân chứng và là tầm nhìn của tôi dành cho tương lai.",
+        "ipaUs": "/ðɪs fɪlm ɪz maɪ ˈwɪtnəs ˈsteɪtmənt ænd maɪ ˈvɪʒən fɔːr ðə ˈfjuːtʃər/",
+        "properNouns": [],
+        "keywords": [
+            "witness statement",
+            "vision for the future"
+        ],
+        "explanationAi": "'Witness statement' (lời khai của nhân chứng tại tòa án) ẩn dụ cho trách nhiệm lịch sử của tác giả.",
+        "tokenCount": 12
     },
     {
-      orderIndex: 9,
-      startTime: 52.55,
-      endTime: 56.18,
-      text: "The story of how we came to make this our greatest mistake.",
-      translationVi: "Câu chuyện về cách chúng ta đã đi đến việc tạo nên sai lầm lớn nhất đời mình.",
-      ipaUs: "/ðə ˈstɔːri əv haʊ wiː keɪm tuː meɪk ðɪs ˈaʊər ˈɡreɪtɪst mɪˈsteɪk/",
-      properNouns: [],
-      keywords: ["came to make", "greatest mistake"],
-      explanationAi: "Cụm 'came to make...' diễn tả một chuỗi hành động dẫn tới hậu quả tai hại.",
-      tokenCount: 11,
+        "orderIndex": 10,
+        "startTime": 52.55,
+        "endTime": 56.18,
+        "text": "The story of how we came to make this our greatest mistake.",
+        "translationVi": "Câu chuyện về cách chúng ta đã đi đến việc tạo nên sai lầm lớn nhất đời mình.",
+        "ipaUs": "/ðə ˈstɔːri əv haʊ wiː keɪm tuː meɪk ðɪs ˈaʊər ˈɡreɪtɪst mɪˈsteɪk/",
+        "properNouns": [],
+        "keywords": [
+            "came to make",
+            "greatest mistake"
+        ],
+        "explanationAi": "Cụm 'came to make...' diễn tả một chuỗi hành động dẫn tới hậu quả tai hại.",
+        "tokenCount": 12
     },
     {
-      orderIndex: 10,
-      startTime: 58.27,
-      endTime: 62.94,
-      text: "And how, if we act now, we can yet put it right.",
-      translationVi: "Và làm thế nào, nếu hành động ngay bây giờ, chúng ta vẫn còn có thể xoay chuyển và sửa chữa nó.",
-      ipaUs: "/ænd haʊ ɪf wiː ækt naʊ wiː kæn jet pʊt ɪt raɪt/",
-      properNouns: [],
-      keywords: ["act now", "put it right"],
-      explanationAi: "Thành ngữ 'put it right' mang nghĩa khắc phục sai lầm, đưa sự việc trở về quỹ đạo đúng đắn.",
-      tokenCount: 11,
+        "orderIndex": 11,
+        "startTime": 58.27,
+        "endTime": 62.94,
+        "text": "And how, if we act now, we can yet put it right.",
+        "translationVi": "Và làm thế nào, nếu hành động ngay bây giờ, chúng ta vẫn còn có thể xoay chuyển và sửa chữa nó.",
+        "ipaUs": "/ænd haʊ ɪf wiː ækt naʊ wiː kæn jet pʊt ɪt raɪt/",
+        "properNouns": [],
+        "keywords": [
+            "act now",
+            "put it right"
+        ],
+        "explanationAi": "Thành ngữ 'put it right' mang nghĩa khắc phục sai lầm, đưa sự việc trở về quỹ đạo đúng đắn.",
+        "tokenCount": 12
     },
     {
-      orderIndex: 11,
-      startTime: 78.62,
-      endTime: 81.92,
-      text: "Our planet is headed for disaster.",
-      translationVi: "Hành tinh của chúng ta đang lao đầu vào thảm họa.",
-      ipaUs: "/ˈaʊər ˈplænɪt ɪz ˈhedɪd fɔːr dɪˈzæstər/",
-      properNouns: [],
-      keywords: ["headed for disaster"],
-      explanationAi: "Cụm 'be headed for disaster' cảnh báo nguy cơ hủy diệt nhãn tiền.",
-      tokenCount: 6,
+        "orderIndex": 12,
+        "startTime": 78.62,
+        "endTime": 81.92,
+        "text": "Our planet is headed for disaster.",
+        "translationVi": "Hành tinh của chúng ta đang lao đầu vào thảm họa.",
+        "ipaUs": "/ˈaʊər ˈplænɪt ɪz ˈhedɪd fɔːr dɪˈzæstər/",
+        "properNouns": [],
+        "keywords": [
+            "headed for disaster"
+        ],
+        "explanationAi": "Cụm 'be headed for disaster' cảnh báo nguy cơ hủy diệt nhãn tiền.",
+        "tokenCount": 6
     },
     {
-      orderIndex: 12,
-      startTime: 85.13,
-      endTime: 90.67,
-      text: "We need to learn how to work with nature, rather than against it.",
-      translationVi: "Chúng ta cần phải học cách hợp tác thuận hòa cùng thiên nhiên, thay vì chống lại mẹ thiên nhiên.",
-      ipaUs: "/wiː niːd tuː lɜːrn haʊ tuː wɜːrk wɪð ˈneɪtʃər ˈræðər ðæn əˈɡenst ɪt/",
-      properNouns: [],
-      keywords: ["work with nature", "rather than against it"],
-      explanationAi: "Triết lý bảo tồn cốt lõi: 'work with... rather than against...' (thuận theo thay vì đối kháng).",
-      tokenCount: 13,
+        "orderIndex": 13,
+        "startTime": 85.13,
+        "endTime": 90.67,
+        "text": "We need to learn how to work with nature, rather than against it.",
+        "translationVi": "Chúng ta cần phải học cách hợp tác thuận hòa cùng thiên nhiên, thay vì chống lại mẹ thiên nhiên.",
+        "ipaUs": "/wiː niːd tuː lɜːrn haʊ tuː wɜːrk wɪð ˈneɪtʃər ˈræðər ðæn əˈɡenst ɪt/",
+        "properNouns": [],
+        "keywords": [
+            "work with nature",
+            "rather than against it"
+        ],
+        "explanationAi": "Triết lý bảo tồn cốt lõi: 'work with... rather than against...' (thuận theo thay vì đối kháng).",
+        "tokenCount": 13
     },
     {
-      orderIndex: 13,
-      startTime: 96.72,
-      endTime: 98.89,
-      text: "And I'm going to tell you how.",
-      translationVi: "Và tôi sẽ kể cho quý vị nghe làm thế nào để đạt được điều đó.",
-      ipaUs: "/ænd aɪm ˈɡoʊɪŋ tuː tel juː haʊ/",
-      properNouns: [],
-      keywords: ["going to tell you"],
-      explanationAi: "Lời kết thúc đoạn giới thiệu dứt khoát, khơi gợi khát khao lắng nghe giải pháp.",
-      tokenCount: 7,
-    },
-  ],
+        "orderIndex": 14,
+        "startTime": 96.72,
+        "endTime": 98.89,
+        "text": "And I'm going to tell you how.",
+        "translationVi": "Và tôi sẽ kể cho quý vị nghe làm thế nào để đạt được điều đó.",
+        "ipaUs": "/ænd aɪm ˈɡoʊɪŋ tuː tel juː haʊ/",
+        "properNouns": [],
+        "keywords": [
+            "going to tell you"
+        ],
+        "explanationAi": "Lời kết thúc đoạn giới thiệu dứt khoát, khơi gợi khát khao lắng nghe giải pháp.",
+        "tokenCount": 8
+    }
+],
 };

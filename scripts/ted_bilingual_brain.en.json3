@@ -1,0 +1,547 @@
+{
+  "wireMagic": "pb3",
+  "pens": [ {
+  
+  } ],
+  "wsWinStyles": [ {
+  
+  } ],
+  "wpWinPositions": [ {
+  
+  } ],
+  "events": [ {
+    "tStartMs": 6635,
+    "dDurationMs": 5860,
+    "segs": [ {
+      "utf8": "¿Hablas español? Parlez-vous français? \n你会说中文吗？"
+    } ]
+  }, {
+    "tStartMs": 12495,
+    "dDurationMs": 5838,
+    "segs": [ {
+      "utf8": "If you answered, \"sí,\" \"oui,\" or \"会\"\nand you're watching this in English,"
+    } ]
+  }, {
+    "tStartMs": 18333,
+    "dDurationMs": 5136,
+    "segs": [ {
+      "utf8": "chances are you belong to the world's\nbilingual and multilingual majority."
+    } ]
+  }, {
+    "tStartMs": 23469,
+    "dDurationMs": 2094,
+    "segs": [ {
+      "utf8": "And besides having \nan easier time traveling"
+    } ]
+  }, {
+    "tStartMs": 25563,
+    "dDurationMs": 1908,
+    "segs": [ {
+      "utf8": "or watching movies without subtitles,"
+    } ]
+  }, {
+    "tStartMs": 27471,
+    "dDurationMs": 2424,
+    "segs": [ {
+      "utf8": "knowing two or more languages\nmeans that your brain"
+    } ]
+  }, {
+    "tStartMs": 29895,
+    "dDurationMs": 4882,
+    "segs": [ {
+      "utf8": "may actually look and work differently\nthan those of your monolingual friends."
+    } ]
+  }, {
+    "tStartMs": 34777,
+    "dDurationMs": 3495,
+    "segs": [ {
+      "utf8": "So what does it really \nmean to know a language?"
+    } ]
+  }, {
+    "tStartMs": 38272,
+    "dDurationMs": 4861,
+    "segs": [ {
+      "utf8": "Language ability is typically measured\nin two active parts, speaking and writing,"
+    } ]
+  }, {
+    "tStartMs": 43133,
+    "dDurationMs": 3852,
+    "segs": [ {
+      "utf8": "and two passive parts, \nlistening and reading."
+    } ]
+  }, {
+    "tStartMs": 46985,
+    "dDurationMs": 2670,
+    "segs": [ {
+      "utf8": "While a balanced bilingual has near equal"
+    } ]
+  }, {
+    "tStartMs": 49655,
+    "dDurationMs": 2722,
+    "segs": [ {
+      "utf8": "abilities across the board \nin two languages,"
+    } ]
+  }, {
+    "tStartMs": 52377,
+    "dDurationMs": 3383,
+    "segs": [ {
+      "utf8": "most bilinguals around the world\nknow and use their languages"
+    } ]
+  }, {
+    "tStartMs": 55760,
+    "dDurationMs": 2221,
+    "segs": [ {
+      "utf8": "in varying proportions."
+    } ]
+  }, {
+    "tStartMs": 57981,
+    "dDurationMs": 3631,
+    "segs": [ {
+      "utf8": "And depending on their situation\nand how they acquired each language,"
+    } ]
+  }, {
+    "tStartMs": 61612,
+    "dDurationMs": 3303,
+    "segs": [ {
+      "utf8": "they can be classified into\nthree general types."
+    } ]
+  }, {
+    "tStartMs": 64915,
+    "dDurationMs": 2852,
+    "segs": [ {
+      "utf8": "For example, let's take Gabriella,"
+    } ]
+  }, {
+    "tStartMs": 67767,
+    "dDurationMs": 4240,
+    "segs": [ {
+      "utf8": "whose family immigrates to the US \nfrom Peru when she's two-years old."
+    } ]
+  }, {
+    "tStartMs": 72007,
+    "dDurationMs": 1816,
+    "segs": [ {
+      "utf8": "As a compound bilingual,"
+    } ]
+  }, {
+    "tStartMs": 73823,
+    "dDurationMs": 4452,
+    "segs": [ {
+      "utf8": "Gabriella develops two linguistic \ncodes simultaneously,"
+    } ]
+  }, {
+    "tStartMs": 78275,
+    "dDurationMs": 2022,
+    "segs": [ {
+      "utf8": "with a single set of concepts,"
+    } ]
+  }, {
+    "tStartMs": 80297,
+    "dDurationMs": 1868,
+    "segs": [ {
+      "utf8": "learning both English and Spanish"
+    } ]
+  }, {
+    "tStartMs": 82165,
+    "dDurationMs": 3193,
+    "segs": [ {
+      "utf8": "as she begins to process \nthe world around her."
+    } ]
+  }, {
+    "tStartMs": 85358,
+    "dDurationMs": 3804,
+    "segs": [ {
+      "utf8": "Her teenage brother, on the other hand,\nmight be a coordinate bilingual,"
+    } ]
+  }, {
+    "tStartMs": 89162,
+    "dDurationMs": 2176,
+    "segs": [ {
+      "utf8": "working with two sets of concepts,"
+    } ]
+  }, {
+    "tStartMs": 91338,
+    "dDurationMs": 1862,
+    "segs": [ {
+      "utf8": "learning English in school,"
+    } ]
+  }, {
+    "tStartMs": 93200,
+    "dDurationMs": 3564,
+    "segs": [ {
+      "utf8": "while continuing to speak Spanish\nat home and with friends."
+    } ]
+  }, {
+    "tStartMs": 96764,
+    "dDurationMs": 5081,
+    "segs": [ {
+      "utf8": "Finally, Gabriella's parents are likely\nto be subordinate bilinguals"
+    } ]
+  }, {
+    "tStartMs": 101845,
+    "dDurationMs": 1565,
+    "segs": [ {
+      "utf8": "who learn a secondary language"
+    } ]
+  }, {
+    "tStartMs": 103410,
+    "dDurationMs": 2788,
+    "segs": [ {
+      "utf8": "by filtering it through\ntheir primary language."
+    } ]
+  }, {
+    "tStartMs": 106198,
+    "dDurationMs": 4017,
+    "segs": [ {
+      "utf8": "Because all types of bilingual people\ncan become fully proficient in a language"
+    } ]
+  }, {
+    "tStartMs": 110215,
+    "dDurationMs": 2508,
+    "segs": [ {
+      "utf8": "regardless of accent or pronunciation,"
+    } ]
+  }, {
+    "tStartMs": 112723,
+    "dDurationMs": 3120,
+    "segs": [ {
+      "utf8": "the difference may not be apparent\nto a casual observer."
+    } ]
+  }, {
+    "tStartMs": 115843,
+    "dDurationMs": 2776,
+    "segs": [ {
+      "utf8": "But recent advances \nin brain imaging technology"
+    } ]
+  }, {
+    "tStartMs": 118619,
+    "dDurationMs": 2240,
+    "segs": [ {
+      "utf8": "have given neurolinguists a glimpse"
+    } ]
+  }, {
+    "tStartMs": 120859,
+    "dDurationMs": 4855,
+    "segs": [ {
+      "utf8": "into how specific aspects of language\nlearning affect the bilingual brain."
+    } ]
+  }, {
+    "tStartMs": 125714,
+    "dDurationMs": 3295,
+    "segs": [ {
+      "utf8": "It's well known that the brain's\nleft hemisphere is more dominant"
+    } ]
+  }, {
+    "tStartMs": 129009,
+    "dDurationMs": 2613,
+    "segs": [ {
+      "utf8": "and analytical in logical processes,"
+    } ]
+  }, {
+    "tStartMs": 131622,
+    "dDurationMs": 4580,
+    "segs": [ {
+      "utf8": "while the right hemisphere is more active\nin emotional and social ones,"
+    } ]
+  }, {
+    "tStartMs": 136202,
+    "dDurationMs": 3873,
+    "segs": [ {
+      "utf8": "though this is a matter of degree,\nnot an absolute split."
+    } ]
+  }, {
+    "tStartMs": 140075,
+    "dDurationMs": 2808,
+    "segs": [ {
+      "utf8": "The fact that language involves\nboth types of functions"
+    } ]
+  }, {
+    "tStartMs": 142883,
+    "dDurationMs": 2978,
+    "segs": [ {
+      "utf8": "while lateralization develops\ngradually with age,"
+    } ]
+  }, {
+    "tStartMs": 145861,
+    "dDurationMs": 2938,
+    "segs": [ {
+      "utf8": "has lead to the critical \nperiod hypothesis."
+    } ]
+  }, {
+    "tStartMs": 148799,
+    "dDurationMs": 1631,
+    "segs": [ {
+      "utf8": "According to this theory,"
+    } ]
+  }, {
+    "tStartMs": 150430,
+    "dDurationMs": 1976,
+    "segs": [ {
+      "utf8": "children learn languages more easily"
+    } ]
+  }, {
+    "tStartMs": 152406,
+    "dDurationMs": 2790,
+    "segs": [ {
+      "utf8": "because the plasticity \nof their developing brains"
+    } ]
+  }, {
+    "tStartMs": 155196,
+    "dDurationMs": 3779,
+    "segs": [ {
+      "utf8": "lets them use both hemispheres\nin language acquisition,"
+    } ]
+  }, {
+    "tStartMs": 158975,
+    "dDurationMs": 4017,
+    "segs": [ {
+      "utf8": "while in most adults, language \nis lateralized to one hemisphere,"
+    } ]
+  }, {
+    "tStartMs": 162992,
+    "dDurationMs": 1906,
+    "segs": [ {
+      "utf8": "usually the left."
+    } ]
+  }, {
+    "tStartMs": 164898,
+    "dDurationMs": 2786,
+    "segs": [ {
+      "utf8": "If this is true, learning a language\nin childhood"
+    } ]
+  }, {
+    "tStartMs": 167684,
+    "dDurationMs": 4796,
+    "segs": [ {
+      "utf8": "may give you a more holistic grasp\nof its social and emotional contexts."
+    } ]
+  }, {
+    "tStartMs": 172480,
+    "dDurationMs": 2330,
+    "segs": [ {
+      "utf8": "Conversely, recent research showed"
+    } ]
+  }, {
+    "tStartMs": 174810,
+    "dDurationMs": 2710,
+    "segs": [ {
+      "utf8": "that people who learned \na second language in adulthood"
+    } ]
+  }, {
+    "tStartMs": 177520,
+    "dDurationMs": 3903,
+    "segs": [ {
+      "utf8": "exhibit less emotional bias\nand a more rational approach"
+    } ]
+  }, {
+    "tStartMs": 181423,
+    "dDurationMs": 2388,
+    "segs": [ {
+      "utf8": "when confronting problems\nin the second language"
+    } ]
+  }, {
+    "tStartMs": 183811,
+    "dDurationMs": 1649,
+    "segs": [ {
+      "utf8": "than in their native one."
+    } ]
+  }, {
+    "tStartMs": 185460,
+    "dDurationMs": 2649,
+    "segs": [ {
+      "utf8": "But regardless of when you acquire\nadditional languages,"
+    } ]
+  }, {
+    "tStartMs": 188109,
+    "dDurationMs": 4101,
+    "segs": [ {
+      "utf8": "being multilingual gives your brain\nsome remarkable advantages."
+    } ]
+  }, {
+    "tStartMs": 192210,
+    "dDurationMs": 1544,
+    "segs": [ {
+      "utf8": "Some of these are even visible,"
+    } ]
+  }, {
+    "tStartMs": 193754,
+    "dDurationMs": 2584,
+    "segs": [ {
+      "utf8": "such as higher density of the grey matter"
+    } ]
+  }, {
+    "tStartMs": 196338,
+    "dDurationMs": 3103,
+    "segs": [ {
+      "utf8": "that contains most of your brain's \nneurons and synapses,"
+    } ]
+  }, {
+    "tStartMs": 199441,
+    "dDurationMs": 4063,
+    "segs": [ {
+      "utf8": "and more activity in certain regions\nwhen engaging a second language."
+    } ]
+  }, {
+    "tStartMs": 203504,
+    "dDurationMs": 3385,
+    "segs": [ {
+      "utf8": "The heightened workout a bilingual\nbrain receives throughout its life"
+    } ]
+  }, {
+    "tStartMs": 206889,
+    "dDurationMs": 4445,
+    "segs": [ {
+      "utf8": "can also help delay the onset of diseases,\nlike Alzheimer's and dementia"
+    } ]
+  }, {
+    "tStartMs": 211334,
+    "dDurationMs": 1891,
+    "segs": [ {
+      "utf8": "by as much as five years."
+    } ]
+  }, {
+    "tStartMs": 213225,
+    "dDurationMs": 2718,
+    "segs": [ {
+      "utf8": "The idea of major cognitive \nbenefits to bilingualism"
+    } ]
+  }, {
+    "tStartMs": 215943,
+    "dDurationMs": 1576,
+    "segs": [ {
+      "utf8": "may seem intuitive now,"
+    } ]
+  }, {
+    "tStartMs": 217519,
+    "dDurationMs": 2988,
+    "segs": [ {
+      "utf8": "but it would have surprised \nearlier experts."
+    } ]
+  }, {
+    "tStartMs": 220507,
+    "dDurationMs": 3687,
+    "segs": [ {
+      "utf8": "Before the 1960s, bilingualism\nwas considered a handicap"
+    } ]
+  }, {
+    "tStartMs": 224194,
+    "dDurationMs": 1805,
+    "segs": [ {
+      "utf8": "that slowed a child's development"
+    } ]
+  }, {
+    "tStartMs": 225999,
+    "dDurationMs": 4653,
+    "segs": [ {
+      "utf8": "by forcing them to spend too much energy\ndistinguishing between languages,"
+    } ]
+  }, {
+    "tStartMs": 230652,
+    "dDurationMs": 3437,
+    "segs": [ {
+      "utf8": "a view based largely on flawed studies."
+    } ]
+  }, {
+    "tStartMs": 234089,
+    "dDurationMs": 2089,
+    "segs": [ {
+      "utf8": "And while a more recent study did show"
+    } ]
+  }, {
+    "tStartMs": 236178,
+    "dDurationMs": 3237,
+    "segs": [ {
+      "utf8": "that reaction times and errors increase\nfor some bilingual students"
+    } ]
+  }, {
+    "tStartMs": 239415,
+    "dDurationMs": 2012,
+    "segs": [ {
+      "utf8": "in cross-language tests,"
+    } ]
+  }, {
+    "tStartMs": 241427,
+    "dDurationMs": 2398,
+    "segs": [ {
+      "utf8": "it also showed that the effort\nand attention needed"
+    } ]
+  }, {
+    "tStartMs": 243825,
+    "dDurationMs": 2951,
+    "segs": [ {
+      "utf8": "to switch between languages\ntriggered more activity in,"
+    } ]
+  }, {
+    "tStartMs": 246776,
+    "dDurationMs": 4689,
+    "segs": [ {
+      "utf8": "and potentially strengthened,\nthe dorsolateral prefrontal cortex."
+    } ]
+  }, {
+    "tStartMs": 251465,
+    "dDurationMs": 2677,
+    "segs": [ {
+      "utf8": "This is the part of the brain\nthat plays a large role"
+    } ]
+  }, {
+    "tStartMs": 254142,
+    "dDurationMs": 4829,
+    "segs": [ {
+      "utf8": "in executive function, problem solving,\nswitching between tasks,"
+    } ]
+  }, {
+    "tStartMs": 258971,
+    "dDurationMs": 3673,
+    "segs": [ {
+      "utf8": "and focusing while filtering out\nirrelevant information."
+    } ]
+  }, {
+    "tStartMs": 262644,
+    "dDurationMs": 3836,
+    "segs": [ {
+      "utf8": "So, while bilingualism may not\nnecessarily make you smarter,"
+    } ]
+  }, {
+    "tStartMs": 266480,
+    "dDurationMs": 4417,
+    "segs": [ {
+      "utf8": "it does make your brain more healthy,\ncomplex and actively engaged,"
+    } ]
+  }, {
+    "tStartMs": 270897,
+    "dDurationMs": 2525,
+    "segs": [ {
+      "utf8": "and even if you didn't have \nthe good fortune"
+    } ]
+  }, {
+    "tStartMs": 273422,
+    "dDurationMs": 2229,
+    "segs": [ {
+      "utf8": "of learning a second language as a child,"
+    } ]
+  }, {
+    "tStartMs": 275651,
+    "dDurationMs": 2143,
+    "segs": [ {
+      "utf8": "it's never too late to do \nyourself a favor"
+    } ]
+  }, {
+    "tStartMs": 277794,
+    "dDurationMs": 2778,
+    "segs": [ {
+      "utf8": "and make the linguistic \nleap from, \"Hello,\""
+    } ]
+  }, {
+    "tStartMs": 280572,
+    "dDurationMs": 2987,
+    "segs": [ {
+      "utf8": "to, \"Hola,\" \"Bonjour\" or \"你好’s\""
+    } ]
+  }, {
+    "tStartMs": 283559,
+    "dDurationMs": 4522,
+    "segs": [ {
+      "utf8": "because when it comes to our brains\na little exercise can go a long way."
+    } ]
+  } ]
+}

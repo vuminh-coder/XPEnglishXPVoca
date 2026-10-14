@@ -1,0 +1,1483 @@
+{
+  "wireMagic": "pb3",
+  "pens": [ {
+  
+  } ],
+  "wsWinStyles": [ {
+  
+  } ],
+  "wpWinPositions": [ {
+  
+  } ],
+  "events": [ {
+    "tStartMs": 2780,
+    "dDurationMs": 7029,
+    "segs": [ {
+      "utf8": "Hello. This is 6 Minute English"
+    } ]
+  }, {
+    "tStartMs": 9809,
+    "dDurationMs": 1671,
+    "segs": [ {
+      "utf8": "from BBC Learning English."
+    } ]
+  }, {
+    "tStartMs": 11480,
+    "dDurationMs": 1140,
+    "segs": [ {
+      "utf8": "I'm Sam."
+    } ]
+  }, {
+    "tStartMs": 12620,
+    "dDurationMs": 1450,
+    "segs": [ {
+      "utf8": "And I'm Neil."
+    } ]
+  }, {
+    "tStartMs": 14070,
+    "dDurationMs": 1940,
+    "segs": [ {
+      "utf8": "Have you heard this joke, Neil?"
+    } ]
+  }, {
+    "tStartMs": 16010,
+    "dDurationMs": 1970,
+    "segs": [ {
+      "utf8": "Question: what's a rat's"
+    } ]
+  }, {
+    "tStartMs": 17980,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "favourite game?"
+    } ]
+  }, {
+    "tStartMs": 18980,
+    "dDurationMs": 2310,
+    "segs": [ {
+      "utf8": "I don't know, Sam, what is a"
+    } ]
+  }, {
+    "tStartMs": 21290,
+    "dDurationMs": 1140,
+    "segs": [ {
+      "utf8": "rat's favourite game?"
+    } ]
+  }, {
+    "tStartMs": 22430,
+    "dDurationMs": 1630,
+    "segs": [ {
+      "utf8": "Hide and squeak!"
+    } ]
+  }, {
+    "tStartMs": 24060,
+    "dDurationMs": 1620,
+    "segs": [ {
+      "utf8": "Ha-ha-ha! Very funny!"
+    } ]
+  }, {
+    "tStartMs": 25680,
+    "dDurationMs": 1870,
+    "segs": [ {
+      "utf8": "Well, I'm glad you're laughing"
+    } ]
+  }, {
+    "tStartMs": 27550,
+    "dDurationMs": 1680,
+    "segs": [ {
+      "utf8": "because, as we'll be finding out"
+    } ]
+  }, {
+    "tStartMs": 29230,
+    "dDurationMs": 1990,
+    "segs": [ {
+      "utf8": "in this programme, laughter is"
+    } ]
+  }, {
+    "tStartMs": 31220,
+    "dDurationMs": 2350,
+    "segs": [ {
+      "utf8": "good for you! In fact, laughter"
+    } ]
+  }, {
+    "tStartMs": 33570,
+    "dDurationMs": 1020,
+    "segs": [ {
+      "utf8": "is often called"
+    } ]
+  }, {
+    "tStartMs": 34590,
+    "dDurationMs": 1859,
+    "segs": [ {
+      "utf8": "'the best medicine'."
+    } ]
+  }, {
+    "tStartMs": 36449,
+    "dDurationMs": 1561,
+    "segs": [ {
+      "utf8": "And it seems that's really true,"
+    } ]
+  }, {
+    "tStartMs": 38010,
+    "dDurationMs": 1940,
+    "segs": [ {
+      "utf8": "medically speaking. Laughing"
+    } ]
+  }, {
+    "tStartMs": 39950,
+    "dDurationMs": 2400,
+    "segs": [ {
+      "utf8": "releases anti-stress endorphins"
+    } ]
+  }, {
+    "tStartMs": 42350,
+    "dDurationMs": 1270,
+    "segs": [ {
+      "utf8": "into the body and there's"
+    } ]
+  }, {
+    "tStartMs": 43620,
+    "dDurationMs": 1779,
+    "segs": [ {
+      "utf8": "evidence that people who laugh"
+    } ]
+  }, {
+    "tStartMs": 45399,
+    "dDurationMs": 1531,
+    "segs": [ {
+      "utf8": "recover more quickly from"
+    } ]
+  }, {
+    "tStartMs": 46930,
+    "dDurationMs": 2229,
+    "segs": [ {
+      "utf8": "illness, including Covid."
+    } ]
+  }, {
+    "tStartMs": 49159,
+    "dDurationMs": 1360,
+    "segs": [ {
+      "utf8": "Laughing is an essential part"
+    } ]
+  }, {
+    "tStartMs": 50519,
+    "dDurationMs": 1851,
+    "segs": [ {
+      "utf8": "of what makes us human."
+    } ]
+  }, {
+    "tStartMs": 52370,
+    "dDurationMs": 1239,
+    "segs": [ {
+      "utf8": "Babies cry straight from"
+    } ]
+  }, {
+    "tStartMs": 53609,
+    "dDurationMs": 1441,
+    "segs": [ {
+      "utf8": "birth but the next sound"
+    } ]
+  }, {
+    "tStartMs": 55050,
+    "dDurationMs": 1559,
+    "segs": [ {
+      "utf8": "they make, often as young"
+    } ]
+  }, {
+    "tStartMs": 56609,
+    "dDurationMs": 1781,
+    "segs": [ {
+      "utf8": "as two or three months,"
+    } ]
+  }, {
+    "tStartMs": 58390,
+    "dDurationMs": 1259,
+    "segs": [ {
+      "utf8": "is laughter."
+    } ]
+  }, {
+    "tStartMs": 59649,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "And who can hear a baby"
+    } ]
+  }, {
+    "tStartMs": 60649,
+    "dDurationMs": 1100,
+    "segs": [ {
+      "utf8": "laugh without laughing"
+    } ]
+  }, {
+    "tStartMs": 61749,
+    "dDurationMs": 1250,
+    "segs": [ {
+      "utf8": "themselves? Laughter"
+    } ]
+  }, {
+    "tStartMs": 62999,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "is catching."
+    } ]
+  }, {
+    "tStartMs": 63999,
+    "dDurationMs": 1391,
+    "segs": [ {
+      "utf8": "But before we start tickling"
+    } ]
+  }, {
+    "tStartMs": 65390,
+    "dDurationMs": 1411,
+    "segs": [ {
+      "utf8": "our funny bones, I have"
+    } ]
+  }, {
+    "tStartMs": 66801,
+    "dDurationMs": 1539,
+    "segs": [ {
+      "utf8": "a quiz question for you,"
+    } ]
+  }, {
+    "tStartMs": 68340,
+    "dDurationMs": 1800,
+    "segs": [ {
+      "utf8": "Neil, and it's no laughing"
+    } ]
+  }, {
+    "tStartMs": 70140,
+    "dDurationMs": 1290,
+    "segs": [ {
+      "utf8": "matter. Laughter can be a"
+    } ]
+  }, {
+    "tStartMs": 71430,
+    "dDurationMs": 1960,
+    "segs": [ {
+      "utf8": "serious business. In fact,"
+    } ]
+  }, {
+    "tStartMs": 73390,
+    "dDurationMs": 1780,
+    "segs": [ {
+      "utf8": "there's a scientific field"
+    } ]
+  }, {
+    "tStartMs": 75170,
+    "dDurationMs": 1820,
+    "segs": [ {
+      "utf8": "of study into laughter and"
+    } ]
+  }, {
+    "tStartMs": 76990,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "its effects on the"
+    } ]
+  }, {
+    "tStartMs": 77990,
+    "dDurationMs": 2510,
+    "segs": [ {
+      "utf8": "human body. But what is this"
+    } ]
+  }, {
+    "tStartMs": 80500,
+    "dDurationMs": 2490,
+    "segs": [ {
+      "utf8": "study called? Is it:"
+    } ]
+  }, {
+    "tStartMs": 82990,
+    "dDurationMs": 3409,
+    "segs": [ {
+      "utf8": "a) gigglology? b) gelotology?"
+    } ]
+  }, {
+    "tStartMs": 86399,
+    "dDurationMs": 2571,
+    "segs": [ {
+      "utf8": "or c) guffology?"
+    } ]
+  }, {
+    "tStartMs": 88970,
+    "dDurationMs": 1610,
+    "segs": [ {
+      "utf8": "Did you make those words up,"
+    } ]
+  }, {
+    "tStartMs": 90580,
+    "dDurationMs": 1100,
+    "segs": [ {
+      "utf8": "Sam? They sound a bit funny"
+    } ]
+  }, {
+    "tStartMs": 91680,
+    "dDurationMs": 1719,
+    "segs": [ {
+      "utf8": "to me! I'll say the study"
+    } ]
+  }, {
+    "tStartMs": 93399,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "of laughter is"
+    } ]
+  }, {
+    "tStartMs": 94399,
+    "dDurationMs": 1391,
+    "segs": [ {
+      "utf8": "called b) gelotology."
+    } ]
+  }, {
+    "tStartMs": 95790,
+    "dDurationMs": 1910,
+    "segs": [ {
+      "utf8": "OK, Neil, but you'll be"
+    } ]
+  }, {
+    "tStartMs": 97700,
+    "dDurationMs": 1490,
+    "segs": [ {
+      "utf8": "laughing on the other side"
+    } ]
+  }, {
+    "tStartMs": 99190,
+    "dDurationMs": 1900,
+    "segs": [ {
+      "utf8": "of your face if you're wrong!"
+    } ]
+  }, {
+    "tStartMs": 101090,
+    "dDurationMs": 1480,
+    "segs": [ {
+      "utf8": "Anyway, we'll find out the"
+    } ]
+  }, {
+    "tStartMs": 102570,
+    "dDurationMs": 1159,
+    "segs": [ {
+      "utf8": "correct answer later"
+    } ]
+  }, {
+    "tStartMs": 103729,
+    "dDurationMs": 1761,
+    "segs": [ {
+      "utf8": "in the programme."
+    } ]
+  }, {
+    "tStartMs": 105490,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "Someone who's an expert"
+    } ]
+  }, {
+    "tStartMs": 106490,
+    "dDurationMs": 1320,
+    "segs": [ {
+      "utf8": "in the study of laughing -"
+    } ]
+  }, {
+    "tStartMs": 107810,
+    "dDurationMs": 1480,
+    "segs": [ {
+      "utf8": "whatever it's called - is"
+    } ]
+  }, {
+    "tStartMs": 109290,
+    "dDurationMs": 2110,
+    "segs": [ {
+      "utf8": "cognitive neuroscientist,"
+    } ]
+  }, {
+    "tStartMs": 111400,
+    "dDurationMs": 2170,
+    "segs": [ {
+      "utf8": "Professor Sophie Scott."
+    } ]
+  }, {
+    "tStartMs": 113570,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "Here she explains to"
+    } ]
+  }, {
+    "tStartMs": 114570,
+    "dDurationMs": 1299,
+    "segs": [ {
+      "utf8": "David Edmonds, presenter"
+    } ]
+  }, {
+    "tStartMs": 115869,
+    "dDurationMs": 1511,
+    "segs": [ {
+      "utf8": "of BBC World Service"
+    } ]
+  }, {
+    "tStartMs": 117380,
+    "dDurationMs": 1460,
+    "segs": [ {
+      "utf8": "programme, The Big Idea,"
+    } ]
+  }, {
+    "tStartMs": 118840,
+    "dDurationMs": 1199,
+    "segs": [ {
+      "utf8": "exactly how a laugh"
+    } ]
+  }, {
+    "tStartMs": 120039,
+    "dDurationMs": 2820,
+    "segs": [ {
+      "utf8": "is produced."
+    } ]
+  }, {
+    "tStartMs": 122859,
+    "dDurationMs": 3421,
+    "segs": [ {
+      "utf8": "Laughing is a variation"
+    } ]
+  }, {
+    "tStartMs": 126280,
+    "dDurationMs": 1900,
+    "segs": [ {
+      "utf8": "of breathing. Like"
+    } ]
+  }, {
+    "tStartMs": 128180,
+    "dDurationMs": 1130,
+    "segs": [ {
+      "utf8": "breathing, it involves"
+    } ]
+  }, {
+    "tStartMs": 129310,
+    "dDurationMs": 1400,
+    "segs": [ {
+      "utf8": "the rib cage."
+    } ]
+  }, {
+    "tStartMs": 130710,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "When you laugh you get"
+    } ]
+  }, {
+    "tStartMs": 131710,
+    "dDurationMs": 2080,
+    "segs": [ {
+      "utf8": "these very, very large,"
+    } ]
+  }, {
+    "tStartMs": 133790,
+    "dDurationMs": 1800,
+    "segs": [ {
+      "utf8": "very fast contractions of"
+    } ]
+  }, {
+    "tStartMs": 135590,
+    "dDurationMs": 1440,
+    "segs": [ {
+      "utf8": "the rib cage. And it's a"
+    } ]
+  }, {
+    "tStartMs": 137030,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "very primitive way of"
+    } ]
+  }, {
+    "tStartMs": 138030,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "making a sound, so"
+    } ]
+  }, {
+    "tStartMs": 139030,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "you're really just"
+    } ]
+  }, {
+    "tStartMs": 140030,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "squeezing air out in"
+    } ]
+  }, {
+    "tStartMs": 141030,
+    "dDurationMs": 1069,
+    "segs": [ {
+      "utf8": "big bouts. Each of"
+    } ]
+  }, {
+    "tStartMs": 142099,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "those individual"
+    } ]
+  }, {
+    "tStartMs": 143099,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "squeezes gives you"
+    } ]
+  }, {
+    "tStartMs": 144099,
+    "dDurationMs": 2651,
+    "segs": [ {
+      "utf8": "a 'ha!' sound."
+    } ]
+  }, {
+    "tStartMs": 146750,
+    "dDurationMs": 1360,
+    "segs": [ {
+      "utf8": "The 'ha-ha' sound"
+    } ]
+  }, {
+    "tStartMs": 148110,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "you make when you"
+    } ]
+  }, {
+    "tStartMs": 149110,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "laugh comes from"
+    } ]
+  }, {
+    "tStartMs": 150110,
+    "dDurationMs": 1570,
+    "segs": [ {
+      "utf8": "your rib cage - a"
+    } ]
+  }, {
+    "tStartMs": 151680,
+    "dDurationMs": 1650,
+    "segs": [ {
+      "utf8": "structure made of bones,"
+    } ]
+  }, {
+    "tStartMs": 153330,
+    "dDurationMs": 1670,
+    "segs": [ {
+      "utf8": "called ribs, inside your"
+    } ]
+  }, {
+    "tStartMs": 155000,
+    "dDurationMs": 1140,
+    "segs": [ {
+      "utf8": "chest which protects"
+    } ]
+  }, {
+    "tStartMs": 156140,
+    "dDurationMs": 1580,
+    "segs": [ {
+      "utf8": "the heart and lungs."
+    } ]
+  }, {
+    "tStartMs": 157720,
+    "dDurationMs": 1650,
+    "segs": [ {
+      "utf8": "The rib cage works like"
+    } ]
+  }, {
+    "tStartMs": 159370,
+    "dDurationMs": 2810,
+    "segs": [ {
+      "utf8": "a drum to amplify a laugh."
+    } ]
+  }, {
+    "tStartMs": 162180,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "It's the reason why"
+    } ]
+  }, {
+    "tStartMs": 163180,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "jokes are sometimes"
+    } ]
+  }, {
+    "tStartMs": 164180,
+    "dDurationMs": 2000,
+    "segs": [ {
+      "utf8": "called 'rib-ticklers'."
+    } ]
+  }, {
+    "tStartMs": 166180,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "Professor Scott calls"
+    } ]
+  }, {
+    "tStartMs": 167180,
+    "dDurationMs": 1380,
+    "segs": [ {
+      "utf8": "this a very primitive"
+    } ]
+  }, {
+    "tStartMs": 168560,
+    "dDurationMs": 1550,
+    "segs": [ {
+      "utf8": "way of making sounds"
+    } ]
+  }, {
+    "tStartMs": 170110,
+    "dDurationMs": 1330,
+    "segs": [ {
+      "utf8": "because it's simple,"
+    } ]
+  }, {
+    "tStartMs": 171440,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "natural and"
+    } ]
+  }, {
+    "tStartMs": 172440,
+    "dDurationMs": 1370,
+    "segs": [ {
+      "utf8": "essentially human."
+    } ]
+  }, {
+    "tStartMs": 173810,
+    "dDurationMs": 1050,
+    "segs": [ {
+      "utf8": "The word primitive can"
+    } ]
+  }, {
+    "tStartMs": 174860,
+    "dDurationMs": 1140,
+    "segs": [ {
+      "utf8": "be used to describe"
+    } ]
+  }, {
+    "tStartMs": 176000,
+    "dDurationMs": 1060,
+    "segs": [ {
+      "utf8": "anything relating to"
+    } ]
+  }, {
+    "tStartMs": 177060,
+    "dDurationMs": 1410,
+    "segs": [ {
+      "utf8": "the basic way humans"
+    } ]
+  }, {
+    "tStartMs": 178470,
+    "dDurationMs": 1430,
+    "segs": [ {
+      "utf8": "lived in their early"
+    } ]
+  }, {
+    "tStartMs": 179900,
+    "dDurationMs": 1649,
+    "segs": [ {
+      "utf8": "stages of development,"
+    } ]
+  }, {
+    "tStartMs": 181549,
+    "dDurationMs": 1341,
+    "segs": [ {
+      "utf8": "before money, machines"
+    } ]
+  }, {
+    "tStartMs": 182890,
+    "dDurationMs": 2480,
+    "segs": [ {
+      "utf8": "or writing were invented."
+    } ]
+  }, {
+    "tStartMs": 185370,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "Primitive human noises,"
+    } ]
+  }, {
+    "tStartMs": 186370,
+    "dDurationMs": 1630,
+    "segs": [ {
+      "utf8": "like crying and laughing,"
+    } ]
+  }, {
+    "tStartMs": 188000,
+    "dDurationMs": 1680,
+    "segs": [ {
+      "utf8": "link to a universal human"
+    } ]
+  }, {
+    "tStartMs": 189680,
+    "dDurationMs": 1900,
+    "segs": [ {
+      "utf8": "experience, and this can"
+    } ]
+  }, {
+    "tStartMs": 191580,
+    "dDurationMs": 1250,
+    "segs": [ {
+      "utf8": "be seen in the large"
+    } ]
+  }, {
+    "tStartMs": 192830,
+    "dDurationMs": 1200,
+    "segs": [ {
+      "utf8": "number of words we use"
+    } ]
+  }, {
+    "tStartMs": 194030,
+    "dDurationMs": 1659,
+    "segs": [ {
+      "utf8": "to talk about them."
+    } ]
+  }, {
+    "tStartMs": 195689,
+    "dDurationMs": 2071,
+    "segs": [ {
+      "utf8": "In English, 'chuckle',"
+    } ]
+  }, {
+    "tStartMs": 197760,
+    "dDurationMs": 1380,
+    "segs": [ {
+      "utf8": "'giggle', 'chortle',"
+    } ]
+  }, {
+    "tStartMs": 199140,
+    "dDurationMs": 1860,
+    "segs": [ {
+      "utf8": "'cackle' and 'guffaw'"
+    } ]
+  }, {
+    "tStartMs": 201000,
+    "dDurationMs": 1049,
+    "segs": [ {
+      "utf8": "all describe different"
+    } ]
+  }, {
+    "tStartMs": 202049,
+    "dDurationMs": 1160,
+    "segs": [ {
+      "utf8": "types of laughter."
+    } ]
+  }, {
+    "tStartMs": 203209,
+    "dDurationMs": 1221,
+    "segs": [ {
+      "utf8": "Right, so how would"
+    } ]
+  }, {
+    "tStartMs": 204430,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "you describe a"
+    } ]
+  }, {
+    "tStartMs": 205430,
+    "dDurationMs": 1510,
+    "segs": [ {
+      "utf8": "'giggle', Sam?"
+    } ]
+  }, {
+    "tStartMs": 206940,
+    "dDurationMs": 1600,
+    "segs": [ {
+      "utf8": "I'd say a giggle is"
+    } ]
+  }, {
+    "tStartMs": 208540,
+    "dDurationMs": 2039,
+    "segs": [ {
+      "utf8": "laughing in a quiet but"
+    } ]
+  }, {
+    "tStartMs": 210579,
+    "dDurationMs": 1761,
+    "segs": [ {
+      "utf8": "uncontrolled way, like a"
+    } ]
+  }, {
+    "tStartMs": 212340,
+    "dDurationMs": 1289,
+    "segs": [ {
+      "utf8": "child who finds something"
+    } ]
+  }, {
+    "tStartMs": 213629,
+    "dDurationMs": 1021,
+    "segs": [ {
+      "utf8": "very funny or"
+    } ]
+  }, {
+    "tStartMs": 214650,
+    "dDurationMs": 1390,
+    "segs": [ {
+      "utf8": "feels embarrassed."
+    } ]
+  }, {
+    "tStartMs": 216040,
+    "dDurationMs": 1420,
+    "segs": [ {
+      "utf8": "Unlike a guffaw which"
+    } ]
+  }, {
+    "tStartMs": 217460,
+    "dDurationMs": 1389,
+    "segs": [ {
+      "utf8": "is when you blast out"
+    } ]
+  }, {
+    "tStartMs": 218849,
+    "dDurationMs": 1931,
+    "segs": [ {
+      "utf8": "a very loud laugh, often"
+    } ]
+  }, {
+    "tStartMs": 220780,
+    "dDurationMs": 1190,
+    "segs": [ {
+      "utf8": "at something stupid or"
+    } ]
+  }, {
+    "tStartMs": 221970,
+    "dDurationMs": 2050,
+    "segs": [ {
+      "utf8": "rude someone has said."
+    } ]
+  }, {
+    "tStartMs": 224020,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "But humans aren't"
+    } ]
+  }, {
+    "tStartMs": 225020,
+    "dDurationMs": 1340,
+    "segs": [ {
+      "utf8": "the only animals to"
+    } ]
+  }, {
+    "tStartMs": 226360,
+    "dDurationMs": 1230,
+    "segs": [ {
+      "utf8": "laugh. We belong to"
+    } ]
+  }, {
+    "tStartMs": 227590,
+    "dDurationMs": 1229,
+    "segs": [ {
+      "utf8": "the same family as"
+    } ]
+  }, {
+    "tStartMs": 228819,
+    "dDurationMs": 1021,
+    "segs": [ {
+      "utf8": "other primates like"
+    } ]
+  }, {
+    "tStartMs": 229840,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "chimpanzees, gorillas"
+    } ]
+  }, {
+    "tStartMs": 230840,
+    "dDurationMs": 1931,
+    "segs": [ {
+      "utf8": "and orangutans, all"
+    } ]
+  }, {
+    "tStartMs": 232771,
+    "dDurationMs": 1179,
+    "segs": [ {
+      "utf8": "of whom laugh."
+    } ]
+  }, {
+    "tStartMs": 233950,
+    "dDurationMs": 1410,
+    "segs": [ {
+      "utf8": "Even rats tickle each"
+    } ]
+  }, {
+    "tStartMs": 235360,
+    "dDurationMs": 1180,
+    "segs": [ {
+      "utf8": "other and make squeaky"
+    } ]
+  }, {
+    "tStartMs": 236540,
+    "dDurationMs": 1440,
+    "segs": [ {
+      "utf8": "noises like laughter when"
+    } ]
+  }, {
+    "tStartMs": 237980,
+    "dDurationMs": 1330,
+    "segs": [ {
+      "utf8": "they play. Here's"
+    } ]
+  }, {
+    "tStartMs": 239310,
+    "dDurationMs": 1300,
+    "segs": [ {
+      "utf8": "Professor Scott again"
+    } ]
+  }, {
+    "tStartMs": 240610,
+    "dDurationMs": 1560,
+    "segs": [ {
+      "utf8": "to take up the story for"
+    } ]
+  }, {
+    "tStartMs": 242170,
+    "dDurationMs": 1849,
+    "segs": [ {
+      "utf8": "BBC World Service programme,"
+    } ]
+  }, {
+    "tStartMs": 244019,
+    "dDurationMs": 2231,
+    "segs": [ {
+      "utf8": "The Big Idea."
+    } ]
+  }, {
+    "tStartMs": 246250,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "Play is a very important"
+    } ]
+  }, {
+    "tStartMs": 247250,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "behaviour for mammals - all"
+    } ]
+  }, {
+    "tStartMs": 248250,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "mammals play when they're"
+    } ]
+  }, {
+    "tStartMs": 249250,
+    "dDurationMs": 1069,
+    "segs": [ {
+      "utf8": "juveniles and some mammals"
+    } ]
+  }, {
+    "tStartMs": 250319,
+    "dDurationMs": 1821,
+    "segs": [ {
+      "utf8": "play their whole lives,"
+    } ]
+  }, {
+    "tStartMs": 252140,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "and laughter is a sort"
+    } ]
+  }, {
+    "tStartMs": 253140,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "of an invitation to play,"
+    } ]
+  }, {
+    "tStartMs": 254140,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "it s a sign that"
+    } ]
+  }, {
+    "tStartMs": 255140,
+    "dDurationMs": 2159,
+    "segs": [ {
+      "utf8": "you re playing."
+    } ]
+  }, {
+    "tStartMs": 257299,
+    "dDurationMs": 1641,
+    "segs": [ {
+      "utf8": "Professor Scott says"
+    } ]
+  }, {
+    "tStartMs": 258940,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "that laughter is an"
+    } ]
+  }, {
+    "tStartMs": 259940,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "important social tool"
+    } ]
+  }, {
+    "tStartMs": 260940,
+    "dDurationMs": 1750,
+    "segs": [ {
+      "utf8": "for all mammals - animals,"
+    } ]
+  }, {
+    "tStartMs": 262690,
+    "dDurationMs": 1370,
+    "segs": [ {
+      "utf8": "including humans, dogs"
+    } ]
+  }, {
+    "tStartMs": 264060,
+    "dDurationMs": 1500,
+    "segs": [ {
+      "utf8": "and whales, which give"
+    } ]
+  }, {
+    "tStartMs": 265560,
+    "dDurationMs": 1710,
+    "segs": [ {
+      "utf8": "birth to live young,"
+    } ]
+  }, {
+    "tStartMs": 267270,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "rather than laying"
+    } ]
+  }, {
+    "tStartMs": 268270,
+    "dDurationMs": 1140,
+    "segs": [ {
+      "utf8": "eggs, and who feed"
+    } ]
+  }, {
+    "tStartMs": 269410,
+    "dDurationMs": 1190,
+    "segs": [ {
+      "utf8": "their young with milk."
+    } ]
+  }, {
+    "tStartMs": 270600,
+    "dDurationMs": 1220,
+    "segs": [ {
+      "utf8": "By laughing, young"
+    } ]
+  }, {
+    "tStartMs": 271820,
+    "dDurationMs": 1190,
+    "segs": [ {
+      "utf8": "mammals - sometimes"
+    } ]
+  }, {
+    "tStartMs": 273010,
+    "dDurationMs": 1920,
+    "segs": [ {
+      "utf8": "called juveniles - signal"
+    } ]
+  }, {
+    "tStartMs": 274930,
+    "dDurationMs": 1500,
+    "segs": [ {
+      "utf8": "that they want to play,"
+    } ]
+  }, {
+    "tStartMs": 276430,
+    "dDurationMs": 1370,
+    "segs": [ {
+      "utf8": "and young rats who don't"
+    } ]
+  }, {
+    "tStartMs": 277800,
+    "dDurationMs": 1089,
+    "segs": [ {
+      "utf8": "laugh back are more"
+    } ]
+  }, {
+    "tStartMs": 278889,
+    "dDurationMs": 1131,
+    "segs": [ {
+      "utf8": "likely to get a bite"
+    } ]
+  }, {
+    "tStartMs": 280020,
+    "dDurationMs": 1290,
+    "segs": [ {
+      "utf8": "than a giggle. And a"
+    } ]
+  }, {
+    "tStartMs": 281310,
+    "dDurationMs": 1450,
+    "segs": [ {
+      "utf8": "rat bite is nothing"
+    } ]
+  }, {
+    "tStartMs": 282760,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "to laugh about."
+    } ]
+  }, {
+    "tStartMs": 283760,
+    "dDurationMs": 1540,
+    "segs": [ {
+      "utf8": "What a lot of facts"
+    } ]
+  }, {
+    "tStartMs": 285300,
+    "dDurationMs": 1220,
+    "segs": [ {
+      "utf8": "we've learned about"
+    } ]
+  }, {
+    "tStartMs": 286520,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "laughter, Neil!"
+    } ]
+  }, {
+    "tStartMs": 287520,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "Yes, we could almost"
+    } ]
+  }, {
+    "tStartMs": 288520,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "be experts on"
+    } ]
+  }, {
+    "tStartMs": 289520,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "laughter... 'Guffologists',"
+    } ]
+  }, {
+    "tStartMs": 290520,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "isn't that what you"
+    } ]
+  }, {
+    "tStartMs": 291520,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "called them, Sam?"
+    } ]
+  }, {
+    "tStartMs": 292520,
+    "dDurationMs": 1170,
+    "segs": [ {
+      "utf8": "Ah yes, in my quiz"
+    } ]
+  }, {
+    "tStartMs": 293690,
+    "dDurationMs": 1250,
+    "segs": [ {
+      "utf8": "question I asked you"
+    } ]
+  }, {
+    "tStartMs": 294940,
+    "dDurationMs": 1430,
+    "segs": [ {
+      "utf8": "to name the scientific"
+    } ]
+  }, {
+    "tStartMs": 296370,
+    "dDurationMs": 1380,
+    "segs": [ {
+      "utf8": "study of laughter and"
+    } ]
+  }, {
+    "tStartMs": 297750,
+    "dDurationMs": 1690,
+    "segs": [ {
+      "utf8": "its effects on the body."
+    } ]
+  }, {
+    "tStartMs": 299440,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "I'm almost certain it's"
+    } ]
+  }, {
+    "tStartMs": 300440,
+    "dDurationMs": 1880,
+    "segs": [ {
+      "utf8": "not 'gigglology' or"
+    } ]
+  }, {
+    "tStartMs": 302320,
+    "dDurationMs": 1121,
+    "segs": [ {
+      "utf8": "'guffology'! So, the"
+    } ]
+  }, {
+    "tStartMs": 303441,
+    "dDurationMs": 1339,
+    "segs": [ {
+      "utf8": "answer must be..."
+    } ]
+  }, {
+    "tStartMs": 304780,
+    "dDurationMs": 2330,
+    "segs": [ {
+      "utf8": "Gelotology! The"
+    } ]
+  }, {
+    "tStartMs": 307110,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "correct answer!"
+    } ]
+  }, {
+    "tStartMs": 308110,
+    "dDurationMs": 1290,
+    "segs": [ {
+      "utf8": "Well done, Neil, I knew"
+    } ]
+  }, {
+    "tStartMs": 309400,
+    "dDurationMs": 2120,
+    "segs": [ {
+      "utf8": "you were good for a laugh!"
+    } ]
+  }, {
+    "tStartMs": 311520,
+    "dDurationMs": 1030,
+    "segs": [ {
+      "utf8": "OK. Let's recap the"
+    } ]
+  }, {
+    "tStartMs": 312550,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "vocabulary from the"
+    } ]
+  }, {
+    "tStartMs": 313550,
+    "dDurationMs": 1030,
+    "segs": [ {
+      "utf8": "programme before you"
+    } ]
+  }, {
+    "tStartMs": 314580,
+    "dDurationMs": 1459,
+    "segs": [ {
+      "utf8": "think up any more terrible"
+    } ]
+  }, {
+    "tStartMs": 316039,
+    "dDurationMs": 1720,
+    "segs": [ {
+      "utf8": "jokes! First, we had"
+    } ]
+  }, {
+    "tStartMs": 317759,
+    "dDurationMs": 1581,
+    "segs": [ {
+      "utf8": "rib cage - the structure in"
+    } ]
+  }, {
+    "tStartMs": 319340,
+    "dDurationMs": 1190,
+    "segs": [ {
+      "utf8": "your chest which is made"
+    } ]
+  }, {
+    "tStartMs": 320530,
+    "dDurationMs": 1660,
+    "segs": [ {
+      "utf8": "of ribs, and produces the"
+    } ]
+  }, {
+    "tStartMs": 322190,
+    "dDurationMs": 1280,
+    "segs": [ {
+      "utf8": "sound of a laugh."
+    } ]
+  }, {
+    "tStartMs": 323470,
+    "dDurationMs": 1530,
+    "segs": [ {
+      "utf8": "The adjective primitive"
+    } ]
+  }, {
+    "tStartMs": 325000,
+    "dDurationMs": 1410,
+    "segs": [ {
+      "utf8": "relates to the simple,"
+    } ]
+  }, {
+    "tStartMs": 326410,
+    "dDurationMs": 1590,
+    "segs": [ {
+      "utf8": "natural way humans lived"
+    } ]
+  }, {
+    "tStartMs": 328000,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "in their early"
+    } ]
+  }, {
+    "tStartMs": 329000,
+    "dDurationMs": 1280,
+    "segs": [ {
+      "utf8": "stages of development."
+    } ]
+  }, {
+    "tStartMs": 330280,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "There are different types"
+    } ]
+  }, {
+    "tStartMs": 331280,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "of laughter, including"
+    } ]
+  }, {
+    "tStartMs": 332280,
+    "dDurationMs": 1820,
+    "segs": [ {
+      "utf8": "giggles - childlike laughter"
+    } ]
+  }, {
+    "tStartMs": 334100,
+    "dDurationMs": 2390,
+    "segs": [ {
+      "utf8": "in a quiet but uncontrolled way."
+    } ]
+  }, {
+    "tStartMs": 336490,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "And guffaw is when you"
+    } ]
+  }, {
+    "tStartMs": 337490,
+    "dDurationMs": 1530,
+    "segs": [ {
+      "utf8": "laugh out loud, often at"
+    } ]
+  }, {
+    "tStartMs": 339020,
+    "dDurationMs": 2190,
+    "segs": [ {
+      "utf8": "something someone has said."
+    } ]
+  }, {
+    "tStartMs": 341210,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "Mammals are animals,"
+    } ]
+  }, {
+    "tStartMs": 342210,
+    "dDurationMs": 1100,
+    "segs": [ {
+      "utf8": "including humans, which"
+    } ]
+  }, {
+    "tStartMs": 343310,
+    "dDurationMs": 1699,
+    "segs": [ {
+      "utf8": "give birth to live young"
+    } ]
+  }, {
+    "tStartMs": 345009,
+    "dDurationMs": 1701,
+    "segs": [ {
+      "utf8": "and feed them with milk."
+    } ]
+  }, {
+    "tStartMs": 346710,
+    "dDurationMs": 1720,
+    "segs": [ {
+      "utf8": "And finally, a young animal"
+    } ]
+  }, {
+    "tStartMs": 348430,
+    "dDurationMs": 1299,
+    "segs": [ {
+      "utf8": "which is not fully grown"
+    } ]
+  }, {
+    "tStartMs": 349729,
+    "dDurationMs": 1971,
+    "segs": [ {
+      "utf8": "can be called a juvenile."
+    } ]
+  }, {
+    "tStartMs": 351700,
+    "dDurationMs": 1100,
+    "segs": [ {
+      "utf8": "Well, it's been a laugh"
+    } ]
+  }, {
+    "tStartMs": 352800,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "a minute, Sam, but"
+    } ]
+  }, {
+    "tStartMs": 353800,
+    "dDurationMs": 1200,
+    "segs": [ {
+      "utf8": "unfortunately our six"
+    } ]
+  }, {
+    "tStartMs": 355000,
+    "dDurationMs": 1000,
+    "segs": [ {
+      "utf8": "minutes are up."
+    } ]
+  }, {
+    "tStartMs": 356000,
+    "dDurationMs": 1580,
+    "segs": [ {
+      "utf8": "Join us again soon for"
+    } ]
+  }, {
+    "tStartMs": 357580,
+    "dDurationMs": 1540,
+    "segs": [ {
+      "utf8": "more trending topics,"
+    } ]
+  }, {
+    "tStartMs": 359120,
+    "dDurationMs": 1150,
+    "segs": [ {
+      "utf8": "useful vocabulary, and,"
+    } ]
+  }, {
+    "tStartMs": 360270,
+    "dDurationMs": 1210,
+    "segs": [ {
+      "utf8": "who knows, maybe some"
+    } ]
+  }, {
+    "tStartMs": 361480,
+    "dDurationMs": 2150,
+    "segs": [ {
+      "utf8": "terrible jokes, here at"
+    } ]
+  }, {
+    "tStartMs": 363630,
+    "dDurationMs": 1630,
+    "segs": [ {
+      "utf8": "6 Minute English."
+    } ]
+  }, {
+    "tStartMs": 365260,
+    "dDurationMs": 2309,
+    "segs": [ {
+      "utf8": "Bye for now!"
+    } ]
+  }, {
+    "tStartMs": 367569,
+    "dDurationMs": 1090,
+    "segs": [ {
+      "utf8": "Goodbye!"
+    } ]
+  } ]
+}

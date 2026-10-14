@@ -1,0 +1,574 @@
+const fs = require('fs');
+
+const segments = [
+  // Scene 1: Welcome to Zootopia & Meeting Clawhauser (0 - 11)
+  {
+    orderIndex: 0,
+    startTime: 12.0,
+    endTime: 25.0,
+    text: "Let's learn English with Zootopia, a fantastic Disney animated movie celebrating our differences in a modern mammal metropolis.",
+    translationVi: "Cùng học tiếng Anh qua bộ phim Zootopia, một tác phẩm hoạt hình tuyệt vời của Disney tôn vinh sự khác biệt trong một đại đô thị động vật có vú hiện đại.",
+    ipaUs: "/lɛts lɜːrn ˈɪŋɡlɪʃ wɪð zuːˈtoʊpiə, ə fænˈtæstɪk ˈdɪzni ˈænəˌmeɪtɪd ˈmuːvi ˈsɛləˌbreɪtɪŋ ˈaʊər ˈdɪfərənsɪz ɪn ə ˈmɑːdərn ˈmæməl məˈtrɑːpəlɪs./",
+    keywords: ["animated movie", "celebrating our differences", "metropolis"],
+    explanationAi: "Từ 'metropolis' chỉ đô thị phồn hoa quy mô lớn. Mở đầu bài học giới thiệu bối cảnh xã hội đa dạng của thành phố Zootopia.",
+    properNouns: ["Zootopia", "Disney"]
+  },
+  {
+    orderIndex: 1,
+    startTime: 55.0,
+    endTime: 64.0,
+    text: "O-M-goodness! They really did hire a bunny!",
+    translationVi: "Ôi trời đất ơi! Họ thực sự đã tuyển dụng một cô thỏ kìa!",
+    ipaUs: "/oʊ-ɛm-ˈɡʊdnəs! ðeɪ ˈriːəli dɪd ˈhaɪər ə ˈbʌni!/",
+    keywords: ["O-M-goodness", "hire a bunny"],
+    explanationAi: "'O-M-goodness' là cách nói biến tấu nhẹ nhàng, lịch thiệp hơn của thành ngữ cảm thán 'O-M-G' (Oh my god), thể hiện sự kinh ngạc tột cùng.",
+    properNouns: []
+  },
+  {
+    orderIndex: 2,
+    startTime: 65.0,
+    endTime: 78.0,
+    text: "What?! Heh, I gotta tell you, you are even cuter than I thought you'd be!",
+    translationVi: "Cái gì cơ?! Hì, tôi phải nói thật lòng là cô còn đáng yêu hơn cả những gì tôi tưởng tượng đấy!",
+    ipaUs: "/wʌt?! hɛ, aɪ ˈɡɑːtə tɛl juː, juː ɑːr ˈiːvən ˈkjuːtər ðæn aɪ θɔːt juːd biː!/",
+    keywords: ["gotta tell you", "even cuter", "thought you'd be"],
+    explanationAi: "Dạng nối âm 'gotta' (got to) và cấu trúc so sánh hơn nhấn mạnh 'even cuter than I thought'. Lời khen tự nhiên nhưng đụng chạm ranh giới định kiến.",
+    properNouns: []
+  },
+  {
+    orderIndex: 3,
+    startTime: 82.0,
+    endTime: 95.0,
+    text: "Ooh, uh, you probably didn't know, but a bunny can call another bunny cute.",
+    translationVi: "Ồ, ừm, có lẽ anh không biết điều này, nhưng một chú thỏ có thể gọi một chú thỏ khác là đáng yêu.",
+    ipaUs: "/uː, ʌ, juː ˈprɑːbəbli ˈdɪdənt noʊ, bʌt ə ˈbʌni kæn kɔːl əˈnʌðər ˈbʌni kjuːt./",
+    keywords: ["probably didn't know", "call another bunny cute"],
+    explanationAi: "Judy giải thích văn hóa ứng xử nội bộ loài thỏ (in-group terminology). Từ 'cute' mang tính thân mật khi dùng giữa đồng loại.",
+    properNouns: []
+  },
+  {
+    orderIndex: 4,
+    startTime: 96.0,
+    endTime: 108.0,
+    text: "But when other animals do it, it's a little...",
+    translationVi: "Nhưng khi những loài vật khác nói vậy, thì nó hơi...",
+    ipaUs: "/bʌt wɛn ˈʌðər ˈænəməlz duː ɪt, ɪts ə ˈlɪtəl.../",
+    keywords: ["other animals", "a little"],
+    explanationAi: "Cách nói bỏ lửng khéo léo (euphemistic trailing off) trong giao tiếp tiếng Anh để tế nhị chỉ ra sự xúc phạm hoặc vi phạm định kiến mà không gây căng thẳng.",
+    properNouns: []
+  },
+  {
+    orderIndex: 5,
+    startTime: 112.0,
+    endTime: 122.0,
+    text: "I am so sorry!",
+    translationVi: "Tôi vô cùng xin lỗi cô!",
+    ipaUs: "/aɪ æm soʊ ˈsɑːri!/",
+    keywords: ["so sorry"],
+    explanationAi: "Lời xin lỗi chân thành với trạng từ nhấn mạnh 'so', Clawhauser lập tức nhận ra sơ suất trong ngôn từ của mình.",
+    properNouns: []
+  },
+  {
+    orderIndex: 6,
+    startTime: 125.0,
+    endTime: 145.0,
+    text: "Me, Benjamin Clawhauser, the guy everyone thinks is just a flabby, donut-loving cop, stereotyping you.",
+    translationVi: "Tôi, Benjamin Clawhauser, kẻ mà ai cũng nghĩ chỉ là một tay cảnh sát béo ú, nghiện bánh rán, lại đi mang định kiến áp đặt lên cô.",
+    ipaUs: "/miː, ˈbɛndʒəmɪn ˈklɔːˌhaʊzər, ðə ɡaɪ ˈɛvriˌwʌn θɪŋks ɪz dʒʌst ə ˈflæbi, ˈdoʊnʌt-ˈlʌvɪŋ kɑːp, ˈstɛriəˌtaɪpɪŋ juː./",
+    keywords: ["flabby", "donut-loving cop", "stereotyping"],
+    explanationAi: "Tính từ miêu tả vóc dáng 'flabby' (bèo nhèo, béo ú) và động từ học thuật 'stereotyping' (mang định kiến khuôn mẫu), phản ánh sự tự nhận thức châm biếm.",
+    properNouns: ["Benjamin Clawhauser"]
+  },
+  {
+    orderIndex: 7,
+    startTime: 150.0,
+    endTime: 165.0,
+    text: "It's okay. You're Benjamin Clawhauser, right?",
+    translationVi: "Không sao đâu ạ. Anh là Benjamin Clawhauser, đúng không?",
+    ipaUs: "/ɪts oʊˈkeɪ. jʊr ˈbɛndʒəmɪn ˈklɔːˌhaʊzər, raɪt?/",
+    keywords: ["it's okay", "right"],
+    explanationAi: "Câu an ủi và tag question thu gọn 'right?' để làm dịu bầu không khí và mở đầu mối quan hệ thân thiện.",
+    properNouns: ["Benjamin Clawhauser"]
+  },
+  {
+    orderIndex: 8,
+    startTime: 170.0,
+    endTime: 185.0,
+    text: "You've heard of me? Oh, you are sweet.",
+    translationVi: "Cô từng nghe danh tôi rồi sao? Ôi, cô thật là tốt bụng và ngọt ngào.",
+    ipaUs: "/juːv hɜːrd ʌv miː? oʊ, juː ɑːr swiːt./",
+    keywords: ["heard of me", "you are sweet"],
+    explanationAi: "Cụm động từ 'heard of someone' (nghe danh ai đó) và tính từ 'sweet' dùng khen ngợi sự tử tế, nồng nhiệt của đối phương.",
+    properNouns: []
+  },
+  {
+    orderIndex: 9,
+    startTime: 190.0,
+    endTime: 210.0,
+    text: "You're gonna love it here. The bullpen is right through those double doors.",
+    translationVi: "Cô sẽ yêu thích nơi này cho mà xem. Phòng làm việc chung ở ngay sau cánh cửa đôi kia đấy.",
+    ipaUs: "/jʊr ˈɡɑːnə lʌv ɪt hɪr. ðə ˈbʊlˌpɛn ɪz raɪt θruː ðoʊz ˈdʌbəl dɔːrz./",
+    keywords: ["gonna love it", "bullpen", "double doors"],
+    explanationAi: "Thuật ngữ ngành cảnh sát 'bullpen' (phòng trực tác chiến tập trung của các sĩ quan cảnh sát).",
+    properNouns: []
+  },
+  {
+    orderIndex: 10,
+    startTime: 215.0,
+    endTime: 230.0,
+    text: "Thank you, Officer Clawhauser! Wish me luck!",
+    translationVi: "Cảm ơn Sĩ quan Clawhauser! Hãy chúc tôi may mắn nhé!",
+    ipaUs: "/θæŋk juː, ˈɔːfɪsər ˈklɔːˌhaʊzər! wɪʃ miː lʌk!/",
+    keywords: ["Officer", "wish me luck"],
+    explanationAi: "Cách xưng hô chức danh cảnh sát 'Officer' đi kèm họ, cùng thành ngữ cầu may phổ biến 'Wish me luck'.",
+    properNouns: ["Officer Clawhauser"]
+  },
+  {
+    orderIndex: 11,
+    startTime: 235.0,
+    endTime: 250.0,
+    text: "Good luck, Hopps! And don't let anyone step on your tail!",
+    translationVi: "Chúc may mắn nhé, Hopps! Và đừng để ai dẫm lên chiếc đuôi của cô đấy!",
+    ipaUs: "/ɡʊd lʌk, hɑːps! ænd doʊnt lɛt ˈɛniˌwʌn stɛp ɑːn jʊər teɪl!/",
+    keywords: ["good luck", "step on your tail"],
+    explanationAi: "Thành ngữ hình ảnh vui nhộn của giới động vật nhắc nhở hãy cẩn trọng, kiên cường và tự tin khẳng định vị thế.",
+    properNouns: ["Hopps"]
+  },
+
+  // Scene 2: Chief Bogo's Briefing & Parking Duty (12 - 24)
+  {
+    orderIndex: 12,
+    startTime: 450.0,
+    endTime: 465.0,
+    text: "All right, all right, quiet down. Everybody sit.",
+    translationVi: "Được rồi, được rồi, trật tự nào. Tất cả ngồi xuống.",
+    ipaUs: "/ɔːl raɪt, ɔːl raɪt, ˈkwaɪət daʊn. ˈɛvribɑːdi sɪt./",
+    keywords: ["quiet down", "everybody sit"],
+    explanationAi: "Cụm động từ chỉ huy 'quiet down' (yêu cầu hạ giọng, giữ trật tự) mang uy quyền tối cao của một người đứng đầu cơ quan.",
+    properNouns: []
+  },
+  {
+    orderIndex: 13,
+    startTime: 470.0,
+    endTime: 485.0,
+    text: "I've got three items on the docket.",
+    translationVi: "Tôi có ba nội dung nghị sự trong sổ công tác hôm nay.",
+    ipaUs: "/aɪv ɡɑːt θriː ˈaɪtəmz ɑːn ðə ˈdɑːkɪt./",
+    keywords: ["items", "on the docket"],
+    explanationAi: "Thuật ngữ tư pháp và hành chính 'on the docket' (trong chương trình nghị sự/danh sách vụ việc cần xử lý trong phiên họp).",
+    properNouns: []
+  },
+  {
+    orderIndex: 14,
+    startTime: 490.0,
+    endTime: 508.0,
+    text: "First, we need to acknowledge the elephant in the room.",
+    translationVi: "Thứ nhất, chúng ta cần thẳng thắn nhìn nhận chú voi ở ngay trong phòng này.",
+    ipaUs: "/fɜːrst, wiː niːd tuː əkˈnɑːlɪdʒ ði ˈɛləfənt ɪn ðə ruːm./",
+    keywords: ["acknowledge", "elephant in the room"],
+    explanationAi: "Chơi chữ xuất sắc (pun): Thành ngữ 'elephant in the room' thường nghĩa là vấn đề nhức nhối hiển nhiên ai cũng thấy nhưng né tránh; ở đây Bogo dùng theo nghĩa đen chỉ cô voi Francine.",
+    properNouns: []
+  },
+  {
+    orderIndex: 15,
+    startTime: 512.0,
+    endTime: 528.0,
+    text: "Francine, happy birthday.",
+    translationVi: "Francine, chúc mừng sinh nhật cô.",
+    ipaUs: "/frænˈsiːn, ˈhæpi ˈbɜːrθdeɪ./",
+    keywords: ["happy birthday"],
+    explanationAi: "Lời chúc mừng sinh nhật bất ngờ xua tan sự căng thẳng ban đầu trong phòng họp của các sĩ quan khổng lồ.",
+    properNouns: ["Francine"]
+  },
+  {
+    orderIndex: 16,
+    startTime: 535.0,
+    endTime: 555.0,
+    text: "Number two: there are some new recruits with us I should introduce, but I'm not going to, because I don't care.",
+    translationVi: "Điều thứ hai: có vài tân binh mới gia nhập mà lẽ ra tôi phải giới thiệu, nhưng tôi sẽ không làm, vì tôi chẳng bận tâm.",
+    ipaUs: "/ˈnʌmbər tuː: ðɛr ɑːr sʌm nuː rɪˈkruːts wɪð ʌs aɪ ʃʊd ˌɪntrəˈduːs, bʌt aɪm nɑːt ˈɡoʊɪŋ tuː, bɪˈkəz aɪ doʊnt kɛr./",
+    keywords: ["new recruits", "introduce", "don't care"],
+    explanationAi: "Thuật ngữ quân sự và lực lượng vũ trang 'new recruits' (tân binh mới tuyển dụng). Câu nói bộc lộ tính cách lạnh lùng, thực tế và nghiêm khắc của Bogo.",
+    properNouns: []
+  },
+  {
+    orderIndex: 17,
+    startTime: 560.0,
+    endTime: 580.0,
+    text: "Finally, we have fourteen missing mammal cases across the city.",
+    translationVi: "Cuối cùng, chúng ta đang có mười bốn vụ mất tích động vật có vú trên toàn thành phố.",
+    ipaUs: "/ˈfaɪnəli, wiː hæv ˌfɔːrˈtiːn ˈmɪsɪŋ ˈmæməl ˈkeɪsɪz əˈkrɔːs ðə ˈsɪti./",
+    keywords: ["fourteen", "missing mammal cases", "across the city"],
+    explanationAi: "Thuật ngữ phá án 'missing mammal cases' (các vụ án động vật mất tích bí ẩn), khởi nguồn xung đột cốt lõi của tác phẩm.",
+    properNouns: []
+  },
+  {
+    orderIndex: 18,
+    startTime: 585.0,
+    endTime: 605.0,
+    text: "All predators, from a giant polar bear to a teensy little otter.",
+    translationVi: "Tất cả đều là động vật săn mồi, từ một con gấu Bắc cực khổng lồ cho tới một chú rái cá bé xíu.",
+    ipaUs: "/ɔːl ˈprɛdətərz, frʌm ə ˈdʒaɪənt ˈpoʊlər bɛr tuː ə ˈtiːnsi ˈlɪtəl ˈɑːtər./",
+    keywords: ["predators", "giant polar bear", "teensy little otter"],
+    explanationAi: "Danh từ sinh học cốt lõi 'predators' (loài thú săn mồi) và tính từ khẩu ngữ đáng yêu 'teensy' (bé tí xíu, rất nhỏ).",
+    properNouns: []
+  },
+  {
+    orderIndex: 19,
+    startTime: 610.0,
+    endTime: 630.0,
+    text: "And City Hall is right up my tail to find them. This is priority number one.",
+    translationVi: "Và Tòa Thị Chính đang bám sát gót đuôi tôi hối thúc phải tìm ra họ. Đây là nhiệm vụ ưu tiên số một.",
+    ipaUs: "/ænd ˈsɪti hɔːl ɪz raɪt ʌp maɪ teɪl tuː faɪnd ðɛm. ðɪs ɪz praɪˈɔːrəti ˈnʌmbər wʌn./",
+    keywords: ["City Hall", "up my tail", "priority number one"],
+    explanationAi: "Thành ngữ tiếng lóng 'right up my tail' (tương đương 'right on my back' - gây áp lực nặng nề, ráo riết đòi hỏi kết quả ngay lập tức).",
+    properNouns: ["City Hall"]
+  },
+  {
+    orderIndex: 20,
+    startTime: 635.0,
+    endTime: 655.0,
+    text: "Officers Grizzoli, Fangmeyer, Delgato, take Rainforest District. McHorn and Wolfard, Sahara Square.",
+    translationVi: "Các sĩ quan Grizzoli, Fangmeyer, Delgato, phụ trách Quận Rừng Mưa. McHorn và Wolfard, nhận Quảng trường Sahara.",
+    ipaUs: "/ˈɔːfɪsərz ɡrɪzˈoʊli, fæŋɡˈmaɪər, dɛlˈɡɑːtoʊ, teɪk ˈreɪnˌfɔːrɪst ˈdɪstrɪkt. məkˈhɔːrn ænd ˈwʊlfərd, səˈhærə skwɛr./",
+    keywords: ["Officers", "Rainforest District", "Sahara Square"],
+    explanationAi: "Tên các phân khu sinh thái đặc trưng của thành phố Zootopia phản ánh địa hình tương thích sinh học của từng loài vật.",
+    properNouns: ["Grizzoli", "Fangmeyer", "Delgato", "Rainforest District", "McHorn", "Wolfard", "Sahara Square"]
+  },
+  {
+    orderIndex: 21,
+    startTime: 660.0,
+    endTime: 672.0,
+    text: "Hopps. Parking duty.",
+    translationVi: "Hopps. Nhiệm vụ ghi vé phạt đỗ xe.",
+    ipaUs: "/hɑːps. ˈpɑːrkɪŋ ˈduːti./",
+    keywords: ["parking duty"],
+    explanationAi: "Phân công công việc tối thiểu 'parking duty' (công việc kiểm soát vé đỗ xe), gáo nước lạnh dội vào tham vọng trở thành thám tử điều tra của Judy.",
+    properNouns: ["Hopps"]
+  },
+  {
+    orderIndex: 22,
+    startTime: 675.0,
+    endTime: 692.0,
+    text: "Parking duty? Sir, I was top of my class at the academy!",
+    translationVi: "Nhiệm vụ ghi vé đỗ xe ư? Thưa ngài, tôi đã tốt nghiệp thủ khoa xuất sắc tại học viện cảnh sát!",
+    ipaUs: "/ˈpɑːrkɪŋ ˈduːti? sɜːr, aɪ wʌz tɑːp ʌv maɪ klæs æt ði əˈkædəmi!/",
+    keywords: ["top of my class", "academy"],
+    explanationAi: "Thành ngữ học thuật 'top of my class' (đứng đầu khóa, thủ khoa học viện), nhấn mạnh năng lực thực thụ vượt qua định kiến thể hình.",
+    properNouns: []
+  },
+  {
+    orderIndex: 23,
+    startTime: 695.0,
+    endTime: 715.0,
+    text: "Didn't forget. Just don't care. Writing a hundred tickets a day should be a breeze.",
+    translationVi: "Ta không hề quên. Chỉ là ta không quan tâm thôi. Ghi một trăm vé phạt một ngày chắc chỉ là chuyện nhỏ như gió thoảng với cô.",
+    ipaUs: "/ˈdɪdənt fərˈɡɛt. dʒʌst doʊnt kɛr. ˈraɪtɪŋ ə ˈhʌndrəd ˈtɪkɪts ə deɪ ʃʊd biː ə briːz./",
+    keywords: ["hundred tickets", "a breeze"],
+    explanationAi: "Thành ngữ 'a breeze' (cực kỳ dễ dàng, chuyện dễ như bỡn) dùng đầy tính mỉa mai và thách thức năng lực của cô thỏ cảnh sát.",
+    properNouns: []
+  },
+  {
+    orderIndex: 24,
+    startTime: 720.0,
+    endTime: 742.0,
+    text: "A hundred tickets? I'm not gonna write a hundred tickets. I'm gonna write two hundred before noon!",
+    translationVi: "Một trăm vé phạt ư? Tôi sẽ không chỉ viết một trăm vé đâu. Tôi sẽ ghi tới hai trăm vé trước buổi trưa!",
+    ipaUs: "/ə ˈhʌndrəd ˈtɪkɪts? aɪm nɑːt ˈɡɑːnə raɪt ə ˈhʌndrəd ˈtɪkɪts. aɪm ˈɡɑːnə raɪt tuː ˈhʌndrəd bɪˈfɔːr nuːn!/",
+    keywords: ["write two hundred", "before noon"],
+    explanationAi: "Ý chí quyết tâm phi thường (unyielding resilience) của Judy, tự nhân đôi chỉ tiêu để đập tan mọi nghi ngờ về năng lực của bản thân.",
+    properNouns: []
+  },
+
+  // Scene 3: The Pawpsicle Hustle & Street Confrontation (25 - 36)
+  {
+    orderIndex: 25,
+    startTime: 850.0,
+    endTime: 868.0,
+    text: "Listen, little darling, time is money and money is time.",
+    translationVi: "Lắng nghe này cưng à, thời gian là tiền bạc và tiền bạc chính là thời gian.",
+    ipaUs: "/ˈlɪsən, ˈlɪtəl ˈdɑːrlɪŋ, taɪm ɪz ˈmʌni ænd ˈmʌni ɪz taɪm./",
+    keywords: ["little darling", "time is money"],
+    explanationAi: "Cách nói nịnh nọt đường mật 'little darling' đi kèm châm ngôn thực dụng tư bản 'time is money', khắc họa bản chất láu cá của Nick.",
+    properNouns: []
+  },
+  {
+    orderIndex: 26,
+    startTime: 872.0,
+    endTime: 895.0,
+    text: "We take the Jumbo-pop, melt it down into two hundred Pawpsicles, and sell them for two bucks apiece.",
+    translationVi: "Chúng ta lấy que kem voi khổng lồ, nấu chảy ra thành hai trăm que kem chân nhỏ Pawpsicle, rồi bán chúng hai đô một que.",
+    ipaUs: "/wiː teɪk ðə ˈdʒʌmboʊ-pɑːp, mɛlt ɪt daʊn ˈɪntuː tuː ˈhʌndrəd ˈpɔːpsɪkəlz, ænd sɛl ðɛm fɔːr tuː bʌks əˈpiːs./",
+    keywords: ["Jumbo-pop", "melt it down", "Pawpsicles", "two bucks apiece"],
+    explanationAi: "Từ ghép sáng tạo 'Pawpsicle' (ghép giữa paw - dấu chân và popsicle - que kem), kết hợp từ lóng 'bucks' (đô la) và 'apiece' (mỗi chiếc).",
+    properNouns: ["Jumbo-pop", "Pawpsicles"]
+  },
+  {
+    orderIndex: 27,
+    startTime: 900.0,
+    endTime: 924.0,
+    text: "Then we sell the leftover wooden sticks as premium red wood lumber to the Little Rodentia construction crew.",
+    translationVi: "Sau đó chúng ta bán những que gỗ thừa đó làm gỗ hồng mộc cao cấp cho đội công nhân xây dựng ở Phố Gặm Nhấm Tí Hon.",
+    ipaUs: "/ðɛn wiː sɛl ðə ˈlɛftˌoʊvər ˈwʊdən stɪks æz ˈpriːmiəm rɛd wʊd ˈlʌmbər tuː ðə ˈlɪtəl roʊˈdɛnʃə kənˈstrʌkʃən kruː./",
+    keywords: ["leftover", "red wood lumber", "Little Rodentia"],
+    explanationAi: "Thuật ngữ ngành vật liệu 'lumber' (gỗ xẻ xây dựng) và chiêu trò lừa đảo qua đồng âm tinh vi nhắm vào thị trường chuột túi tí hon.",
+    properNouns: ["Little Rodentia"]
+  },
+  {
+    orderIndex: 28,
+    startTime: 928.0,
+    endTime: 948.0,
+    text: "Hey! You tricked me! I thought you were buying that ice cream for your little boy!",
+    translationVi: "Này! Anh đã lừa tôi! Tôi cứ ngỡ là anh mua que kem đó cho đứa con trai nhỏ của anh chứ!",
+    ipaUs: "/heɪ! juː trɪkt miː! aɪ θɔːt juː wɜːr ˈbaɪɪŋ ðæt aɪs kriːm fɔːr jʊər ˈlɪtəl bɔɪ!/",
+    keywords: ["tricked me", "buying that ice cream", "little boy"],
+    explanationAi: "Thì quá khứ tiếp diễn trong lời tố cáo 'I thought you were buying', phơi bày sự phẫn nộ khi lòng trắc ẩn bị lợi dụng trục lợi.",
+    properNouns: []
+  },
+  {
+    orderIndex: 29,
+    startTime: 952.0,
+    endTime: 970.0,
+    text: "First of all, he's not my boy, he's my business partner Finnick.",
+    translationVi: "Trước hết, cậu ta không phải con trai tôi, cậu ta là đối tác làm ăn Finnick của tôi.",
+    ipaUs: "/fɜːrst ʌv ɔːl, hiz nɑːt maɪ bɔɪ, hiz maɪ ˈbɪznəs ˈpɑːrtnər ˈfɪnɪk./",
+    keywords: ["first of all", "business partner"],
+    explanationAi: "Cụm liên kết mạch lạc 'First of all' (trước hết) và danh từ kinh doanh 'business partner' dùng hợp thức hóa chiêu trò lừa đảo đường phố.",
+    properNouns: ["Finnick"]
+  },
+  {
+    orderIndex: 30,
+    startTime: 975.0,
+    endTime: 994.0,
+    text: "You told that mouse foreman the popsicle sticks were authentic redwood!",
+    translationVi: "Anh đã nói với viên quản đốc chuột rằng những que kem đó là gỗ hồng mộc chuẩn xịn cơ mà!",
+    ipaUs: "/juː toʊld ðæt maʊs ˈfɔːrmən ðə ˈpɑːpsɪkəl stɪks wɜːr ɔːˈθɛntɪk ˈrɛdˌwʊd!/",
+    keywords: ["mouse foreman", "authentic redwood"],
+    explanationAi: "Từ vựng nghề nghiệp 'foreman' (quản đốc công trình) và tính từ 'authentic' (chuẩn xác, chính hiệu, đáng tin cậy).",
+    properNouns: []
+  },
+  {
+    orderIndex: 31,
+    startTime: 998.0,
+    endTime: 1018.0,
+    text: "That's right. Red wood. With a space in the middle. Wood that is red.",
+    translationVi: "Đúng thế thật. Gỗ đỏ. Có dấu cách ở giữa hẳn hoi. Là thứ gỗ có màu đỏ.",
+    ipaUs: "/ðæts raɪt. rɛd wʊd. wɪð ə speɪs ɪn ðə ˈmɪdəl. wʊd ðæt ɪz rɛd./",
+    keywords: ["red wood", "with a space", "wood that is red"],
+    explanationAi: "Kỹ xảo ngụy biện ngôn từ (verbal loophole): Chơi chữ giữa danh từ ghép 'redwood' (cây tùng đỏ đắt giá) và cụm tính từ-danh từ 'red wood' (gỗ sơn màu đỏ).",
+    properNouns: []
+  },
+  {
+    orderIndex: 32,
+    startTime: 1022.0,
+    endTime: 1035.0,
+    text: "You're a con artist!",
+    translationVi: "Anh chính là một kẻ lừa đảo chuyên nghiệp!",
+    ipaUs: "/jʊr ə kɑːn ˈɑːrtɪst!/",
+    keywords: ["con artist"],
+    explanationAi: "Thuật ngữ 'con artist' (kẻ lừa đảo tinh vi dùng tài mồm mép thao túng lòng tin của nạn nhân).",
+    properNouns: []
+  },
+  {
+    orderIndex: 33,
+    startTime: 1038.0,
+    endTime: 1052.0,
+    text: "It's called a hustle, sweetheart.",
+    translationVi: "Đó gọi là nghệ thuật mánh lới kiếm cơm đấy, cưng à.",
+    ipaUs: "/ɪts kɔːld ə ˈhʌsəl, ˈswiːtˌhɑːrt./",
+    keywords: ["called a hustle", "sweetheart"],
+    explanationAi: "Câu thoại biểu tượng của phim: danh từ tiếng lóng 'hustle' (chiêu trò mánh khóe kiếm tiền nhanh trên đường phố) kèm xưng hô trịch thượng 'sweetheart'.",
+    properNouns: []
+  },
+  {
+    orderIndex: 34,
+    startTime: 1056.0,
+    endTime: 1076.0,
+    text: "And I'm not the liar, he is. I just know how to play the game.",
+    translationVi: "Và tôi chẳng phải kẻ dối trá, gã kia mới là kẻ dối trá. Tôi chỉ là người biết cách chơi theo luật đời mà thôi.",
+    ipaUs: "/ænd aɪm nɑːt ðə ˈlaɪər, hiː ɪz. aɪ dʒʌst noʊ haʊ tuː pleɪ ðə ɡeɪm./",
+    keywords: ["not the liar", "play the game"],
+    explanationAi: "Thành ngữ phổ biến 'play the game' (hiểu rõ ngóc ngách luật lệ xã hội và thích nghi để sinh tồn và hưởng lợi thế).",
+    properNouns: []
+  },
+  {
+    orderIndex: 35,
+    startTime: 1080.0,
+    endTime: 1102.0,
+    text: "You can't touch me, Carrots. I've been doing this since I was born.",
+    translationVi: "Cô chẳng thể động vào sợi lông của tôi đâu, Cà Rốt. Tôi đã hành nghề này từ khi mới lọt lòng rồi.",
+    ipaUs: "/juː kænt tʌtʃ miː, ˈkærəts. aɪv bɪn ˈduːɪŋ ðɪs sɪns aɪ wʌz bɔːrn./",
+    keywords: ["can't touch me", "Carrots", "since I was born"],
+    explanationAi: "Thành ngữ pháp lý khẩu ngữ 'can't touch me' (không thể bắt tội hay sờ gáy tôi được) và biệt danh trêu chọc 'Carrots'.",
+    properNouns: ["Carrots"]
+  },
+  {
+    orderIndex: 36,
+    startTime: 1106.0,
+    endTime: 1130.0,
+    text: "Look around you, slick. You're never gonna be a real cop. You're just a cute little meter maid.",
+    translationVi: "Nhìn quanh cô xem, người đẹp. Cô sẽ không bao giờ trở thành cảnh sát thực thụ được đâu. Cô chỉ là một cô bé ghi vé phạt đỗ xe dễ thương thôi.",
+    ipaUs: "/lʊk əˈraʊnd juː, slɪk. jʊr ˈnɛvər ˈɡɑːnə biː ə ˈriːəl kɑːp. jʊr dʒʌst ə kjuːt ˈlɪtəl ˈmiːtər meɪd./",
+    keywords: ["slick", "real cop", "meter maid"],
+    explanationAi: "Từ miệt thị 'meter maid' (nhân viên chỉ đi xé vé phạt đồng hồ đỗ xe) nhằm hạ thấp uy tín nghề nghiệp của một sĩ quan cảnh sát.",
+    properNouns: []
+  },
+
+  // Scene 4: Carrot Pen Investigation & Felony Tax Fraud (37 - 49)
+  {
+    orderIndex: 37,
+    startTime: 1300.0,
+    endTime: 1318.0,
+    text: "Nicholas Wilde, you are under arrest!",
+    translationVi: "Nicholas Wilde, anh đã bị bắt giữ!",
+    ipaUs: "/ˈnɪkələs waɪld, juː ɑːr ˈʌndər əˈrɛst!/",
+    keywords: ["under arrest"],
+    explanationAi: "Cụm từ tuyên bố quyền lực thực thi pháp luật chính thức 'you are under arrest' (anh chính thức bị bắt).",
+    properNouns: ["Nicholas Wilde"]
+  },
+  {
+    orderIndex: 38,
+    startTime: 1322.0,
+    endTime: 1340.0,
+    text: "Under arrest? For what? Hurting your delicate feelings?",
+    translationVi: "Bị bắt ư? Vì tội gì cơ? Làm tổn thương cảm xúc mỏng manh dễ vỡ của cô chắc?",
+    ipaUs: "/ˈʌndər əˈrɛst? fɔːr wʌt? ˈhɜːrtɪŋ jʊər ˈdɛlɪkət ˈfiːlɪŋz?/",
+    keywords: ["for what", "delicate feelings"],
+    explanationAi: "Thành ngữ mỉa mai 'hurting feelings' kết hợp tính từ 'delicate' (mỏng manh) nhằm châm chọc tính dễ xúc động của loài thỏ.",
+    properNouns: []
+  },
+  {
+    orderIndex: 39,
+    startTime: 1345.0,
+    endTime: 1362.0,
+    text: "Felony tax evasion.",
+    translationVi: "Trọng tội trốn thuế.",
+    ipaUs: "/ˈfɛləni tæks ɪˈveɪʒən./",
+    keywords: ["felony tax evasion"],
+    explanationAi: "Thuật ngữ luật hình sự 'felony' (trọng tội cấp độ cao nhất đối lập với misdemeanor) đi cùng 'tax evasion' (hành vi gian lận trốn thuế nhà nước).",
+    properNouns: []
+  },
+  {
+    orderIndex: 40,
+    startTime: 1368.0,
+    endTime: 1390.0,
+    text: "Yeah, two hundred dollars a day, 365 days a year, since you were twelve.",
+    translationVi: "Phải đấy, hai trăm đô một ngày, 365 ngày một năm, liên tục từ khi anh mới mười hai tuổi.",
+    ipaUs: "/jæ, tuː ˈhʌndrəd ˈdɑːlərz ə deɪ, θriː ˈhʌndrəd ˈsɪksti faɪv deɪz ə jɪr, sɪns juː wɜːr twɛlv./",
+    keywords: ["two hundred dollars a day", "365 days a year", "since you were twelve"],
+    explanationAi: "Judy nhắc lại từng từ nguyên văn lời Nick vừa tự hào khoe khoang để biến thành bằng chứng định tội.",
+    properNouns: []
+  },
+  {
+    orderIndex: 41,
+    startTime: 1395.0,
+    endTime: 1420.0,
+    text: "That's two decades, times twenty, which equals one million four hundred sixty thousand dollars!",
+    translationVi: "Tức là hai thập kỷ, nhân cho hai mươi, tính ra là đúng một triệu bốn trăm sáu mươi nghìn đô la!",
+    ipaUs: "/ðæts tuː ˈdɛkeɪdz, taɪmz ˈtwɛnti, wɪtʃ ˈiːkwəlz wʌn ˈmɪljən fɔːr ˈhʌndrəd ˈsɪksti ˈθaʊzənd ˈdɑːlərz!/",
+    keywords: ["two decades", "times twenty", "equals"],
+    explanationAi: "Phép tính nhân toán học khẩu ngữ 'times twenty' và 'equals', bộc lộ tư duy sắc bén và khả năng tính nhẩm chớp nhoáng của Judy.",
+    properNouns: []
+  },
+  {
+    orderIndex: 42,
+    startTime: 1425.0,
+    endTime: 1445.0,
+    text: "I mean, I am just a dumb bunny, but we are exceptionally good at multiplying.",
+    translationVi: "Ý tôi là, tôi chỉ là một cô thỏ ngốc nghếch, nhưng loài thỏ chúng tôi đặc biệt rất giỏi nhân giống và làm phép nhân.",
+    ipaUs: "/aɪ miːn, aɪ æm dʒʌst ə dʌm ˈbʌni, bʌt wiː ɑːr ɪkˈsɛpʃənəli ɡʊd æt ˈmʌltəˌplaɪɪŋ./",
+    keywords: ["dumb bunny", "exceptionally good", "multiplying"],
+    explanationAi: "Màn phản pháo chơi chữ bậc thầy: động từ 'multiplying' vừa mang nghĩa làm phép tính nhân số học, vừa ám chỉ tốc độ sinh sôi nảy nở của loài thỏ.",
+    properNouns: []
+  },
+  {
+    orderIndex: 43,
+    startTime: 1450.0,
+    endTime: 1472.0,
+    text: "And according to your tax return forms, you reported exactly zero.",
+    translationVi: "Và theo như các tờ khai thuế thu nhập của anh, con số anh báo cáo chính xác là số không tròn trĩnh.",
+    ipaUs: "/ænd əˈkɔːrdɪŋ tuː jʊər tæks rɪˈtɜːrn fɔːrmz, juː rɪˈpɔːrtɪd ɪɡˈzæktli ˈzɪroʊ./",
+    keywords: ["tax return forms", "reported exactly zero"],
+    explanationAi: "Thuật ngữ tài chính công 'tax return forms' (tờ khai quyết toán thuế) và con số 'exactly zero' đóng đinh bằng chứng phạm tội.",
+    properNouns: []
+  },
+  {
+    orderIndex: 44,
+    startTime: 1478.0,
+    endTime: 1502.0,
+    text: "Lying on a federal declaration form is a serious punishable offense: five years in prison.",
+    translationVi: "Khai man trên biểu mẫu tuyên thệ liên bang là một trọng tội nghiêm trọng phải chịu phạt: năm năm tù giam.",
+    ipaUs: "/ˈlaɪɪŋ ɑːn ə ˈfɛdərəl ˌdɛkləˈreɪʃən fɔːrm ɪz ə ˈsɪriəs ˈpʌnɪʃəbəl əˈfɛns: faɪv jɪrz ɪn ˈprɪzən./",
+    keywords: ["federal declaration form", "punishable offense", "five years in prison"],
+    explanationAi: "Thuật ngữ pháp lý 'punishable offense' (tội danh có khung hình phạt quy định) đập tan sự kiêu ngạo của tên lừa đảo đường phố.",
+    properNouns: []
+  },
+  {
+    orderIndex: 45,
+    startTime: 1508.0,
+    endTime: 1525.0,
+    text: "Wait a second, you don't have that on record! You can't prove that!",
+    translationVi: "Chờ một chút đã, cô làm gì có hồ sơ lưu lại! Cô không tài nào chứng minh được điều đó đâu!",
+    ipaUs: "/weɪt ə ˈsɛkənd, juː doʊnt hæv ðæt ɑːn ˈrɛkərd! juː kænt pruːv ðæt!/",
+    keywords: ["wait a second", "on record", "can't prove that"],
+    explanationAi: "Thành ngữ pháp lý 'on record' (được ghi nhận trong hồ sơ lưu trữ chính thức) và động từ 'prove' (chứng minh tính xác thực).",
+    properNouns: []
+  },
+  {
+    orderIndex: 46,
+    startTime: 1530.0,
+    endTime: 1555.0,
+    text: "Actual 100-carat felony confession recorded right here on my carrot pen!",
+    translationVi: "Bản thú nhận trọng tội chuẩn 100 cara đã được ghi âm nguyên văn ngay trong cây bút cà rốt của tôi đây!",
+    ipaUs: "/ˈæktʃuəl wʌn ˈhʌndrəd-ˈkærət ˈfɛləni kənˈfɛʃən rɪˈkɔːrdɪd raɪt hɪr ɑːn maɪ ˈkærət pɛn!/",
+    keywords: ["100-carat", "felony confession", "carrot pen"],
+    explanationAi: "Chơi chữ đồng âm tuyệt diệu giữa 'carat' (đơn vị độ tinh khiết kim cương) và củ 'carrot' (cà rốt) của cây bút ghi âm độc quyền của Judy.",
+    properNouns: []
+  },
+  {
+    orderIndex: 47,
+    startTime: 1560.0,
+    endTime: 1575.0,
+    text: "Give me that pen, Carrots!",
+    translationVi: "Đưa ngay cây bút đó cho tôi mau, Cà Rốt!",
+    ipaUs: "/ɡɪv miː ðæt pɛn, ˈkærəts!/",
+    keywords: ["give me that pen", "Carrots"],
+    explanationAi: "Mệnh lệnh gấp rút của Nick khi nhận ra thế cờ đã bị đảo ngược 180 độ, chuyển từ kẻ săn mồi thành con mồi trong cái bẫy pháp lý.",
+    properNouns: ["Carrots"]
+  },
+  {
+    orderIndex: 48,
+    startTime: 1580.0,
+    endTime: 1610.0,
+    text: "You want the pen? You help me solve this missing mammal case in forty-eight hours, or you serve five years in federal prison.",
+    translationVi: "Anh muốn lấy cây bút à? Vậy thì giúp tôi phá vụ án mất tích động vật này trong vòng bốn mươi tám giờ, hoặc là anh đi bóc lịch năm năm trong nhà tù liên bang.",
+    ipaUs: "/juː wɑːnt ðə pɛn? juː hɛlp miː sɑːlv ðɪs ˈmɪsɪŋ ˈmæməl keɪs ɪn ˈfɔːrti-eɪt ˈaʊərz, ɔːr juː sɜːrv faɪv jɪrz ɪn ˈfɛdərəl ˈprɪzən./",
+    keywords: ["solve this case", "forty-eight hours", "federal prison"],
+    explanationAi: "Lời ra điều kiện đanh thép với động từ thụ án 'serve prison time'. Judy biến đối thủ sừng sỏ thành cộng sự đắc lực trong vụ án.",
+    properNouns: []
+  },
+  {
+    orderIndex: 49,
+    startTime: 1615.0,
+    endTime: 1640.0,
+    text: "Boy, I really hate you. All right, forty-eight hours, partner. It's called a hustle, sweetheart. Boom.",
+    translationVi: "Trời ạ, tôi ghét cô thật đấy. Được rồi, bốn mươi tám tiếng, thưa bạn đồng hành. Đó gọi là cú lừa đảo ngoạn mục đấy, cưng à. Bùm!",
+    ipaUs: "/bɔɪ, aɪ ˈriːəli heɪt juː. ɔːl raɪt, ˈfɔːrti-eɪt ˈaʊərz, ˈpɑːrtnər. ɪts kɔːld ə ˈhʌsəl, ˈswiːtˌhɑːrt. buːm./",
+    keywords: ["hate you", "partner", "called a hustle", "boom"],
+    explanationAi: "Sự khuất phục đầy thán phục của Nick Wilde với danh xưng 'partner' (bạn cộng sự) và mượn lại câu thoại biểu tượng 'It's called a hustle, sweetheart' kết hợp từ cảm thán 'Boom' kết màn hoàn hảo.",
+    properNouns: []
+  }
+];
+
+// Token count synchronization with exact JS regex
+segments.forEach((s) => {
+  s.tokenCount = (s.text.match(/\b[A-Za-z0-9_]+\b/g) || []).length;
+});
+
+console.log(`Generated ${segments.length} pure segments.`);
+segments.forEach((s, i) => {
+  console.log(`Seg ${i}: tokens=${s.tokenCount}, start=${s.startTime}, end=${s.endTime}, text="${s.text.substring(0, 35)}..."`);
+});
+
+fs.writeFileSync('scripts/zootopia_pure_segments.json', JSON.stringify(segments, null, 2), 'utf-8');
+console.log('Saved scripts/zootopia_pure_segments.json successfully!');

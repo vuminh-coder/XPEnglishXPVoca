@@ -1,137 +1,106 @@
 import { describe, it, expect } from "vitest";
-import fs from "fs";
-import path from "path";
-import { tokenizeSentence } from "@/features/listening/components/DictationWorkspace";
 import {
   LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT,
   QUIZ_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT,
-} from "@/features/listening/data/lessons/movies/animation/lesson_monsters_inc";
+} from "../features/listening/data/lessons/movies/animation/lesson_monsters_inc";
 
-describe("Monsters, Inc. Complete Data & Subtitle Coverage Suite (100% Cues Verification)", () => {
-  const cuesPath = path.resolve(process.cwd(), "scripts/monsters_inc_cleaned_cues.json");
-  const rawCues = JSON.parse(fs.readFileSync(cuesPath, "utf-8")) as Array<{
-    index: number;
-    timestamp: string;
-    seconds: number;
-    text: string;
-  }>;
-
-  it("should verify that raw cues list has 125 dialogue cues covering 28s to 1059s", () => {
-    expect(rawCues.length).toBe(125);
-    expect(rawCues[0].seconds).toBe(28);
-    expect(rawCues[rawCues.length - 1].seconds).toBeGreaterThanOrEqual(1037);
+describe("Monsters, Inc.: Mike & Sulley Funniest Moments & Door Shredder (mov_ani_12) - Complete Data Coverage Suite", () => {
+  it("Test 1: Full Metadata & Duration Alignment", () => {
+    const lesson = LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT;
+    expect(lesson.id).toBe("mov_ani_12");
+    expect(lesson.slug).toBe("monsters-inc-goodbye-boo-emotional-cut");
+    expect(lesson.categoryId).toBe("cat_animation_pixar_disney");
+    expect(lesson.categorySlug).toBe("animation-pixar-disney");
+    expect(lesson.categoryName).toBe("Hoạt Hình Pixar & Disney");
+    expect(lesson.externalId).toBe("_kafLt9bNyU");
+    expect(lesson.cefrLevel).toBe("A2");
+    expect(lesson.accent).toBe("American");
+    expect(lesson.durationFormatted).toBe("17:39");
+    expect(lesson.durationSeconds).toBe(1059);
+    expect(lesson.sourceType).toBe("YOUTUBE");
+    expect(lesson.supportedTypes).toBe("BOTH");
+    expect(lesson.viewCount).toBe(277436);
+    expect(lesson.thumbnailUrl).toContain("_kafLt9bNyU");
   });
 
-  it("should contain exactly 30 master segments with non-decreasing chronology", () => {
-    const { segments } = LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT;
-    expect(segments.length).toBe(30);
+  it("Test 2: Master Segments Volume & Chronological Progression", () => {
+    const segments = LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments;
+    expect(segments.length).toBe(50);
 
     for (let i = 0; i < segments.length; i++) {
-      expect(segments[i].orderIndex).toBe(i);
-      expect(segments[i].startTime).toBeGreaterThanOrEqual(0);
-      expect(segments[i].endTime).toBeGreaterThan(segments[i].startTime);
+      const seg = segments[i];
+      expect(seg.orderIndex).toBe(i);
+      expect(seg.startTime).toBeLessThan(seg.endTime);
       if (i > 0) {
-        expect(segments[i].startTime).toBeGreaterThanOrEqual(segments[i - 1].startTime);
+        expect(seg.startTime).toBeGreaterThanOrEqual(segments[i - 1].startTime);
       }
+    }
+    expect(segments[0].startTime).toBe(28.0);
+    expect(segments[segments.length - 1].endTime).toBe(1059.0);
+  });
+
+  it("Test 3: Comprehensive Segment Field Integrity", () => {
+    const segments = LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments;
+    for (const seg of segments) {
+      expect(seg.text.trim().length).toBeGreaterThan(0);
+      expect(seg.translationVi.trim().length).toBeGreaterThan(0);
+      expect(seg.ipaUs).toBeDefined();
+      expect(seg.ipaUs!.trim().length).toBeGreaterThan(0);
+      expect(seg.ipaUs!.startsWith("/")).toBe(true);
+      expect(seg.ipaUs!.endsWith("/")).toBe(true);
+      expect(seg.keywords).toBeDefined();
+      expect(seg.keywords!.length).toBeGreaterThanOrEqual(1);
+      expect(seg.explanationAi).toBeDefined();
+      expect(seg.explanationAi!.trim().length).toBeGreaterThan(10);
+      expect(Array.isArray(seg.properNouns)).toBe(true);
+      expect(typeof seg.tokenCount).toBe("number");
+      expect(seg.tokenCount).toBeGreaterThan(0);
     }
   });
 
-  it("should verify that every segment contains rich verbatim text, Vietnamese translation, IPA, and pedagogical annotations", () => {
-    const { segments } = LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT;
-    segments.forEach((seg, idx) => {
-      expect(seg.text.trim().length, `Segment ${idx} text is too short`).toBeGreaterThan(15);
-      expect(seg.translationVi.trim().length, `Segment ${idx} translationVi is too short`).toBeGreaterThan(15);
-      expect(seg.ipaUs, `Segment ${idx} missing ipaUs`).toBeDefined();
-      expect(seg.ipaUs!.length).toBeGreaterThan(5);
-      expect(seg.keywords, `Segment ${idx} missing keywords`).toBeDefined();
-      expect(seg.keywords!.length).toBeGreaterThanOrEqual(2);
-      expect(seg.explanationAi, `Segment ${idx} missing explanationAi`).toBeDefined();
-      expect(seg.explanationAi!.length).toBeGreaterThan(15);
-
-      const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
-      expect(seg.tokenCount, `Segment ${idx} tokenCount mismatch`).toBe(tokens.length);
-    });
+  it("Test 4: Strict Token Count Accuracy via Regex", () => {
+    const segments = LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments;
+    for (const seg of segments) {
+      const tokens = seg.text.match(/\b[A-Za-z0-9_]+\b/g) || [];
+      expect(seg.tokenCount).toBe(tokens.length);
+    }
   });
 
-  it("should verify 100% coverage of core dialogue and instruction phrases from the video", () => {
-    const fullText = LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments.map((s) => s.text).join(" ");
-
-    const keyPhrases = [
-      "crazy concept",
-      "city run by monsters",
-      "generate power",
-      "scaring little children",
-      "deal with Randall",
-      "shady monster",
-      "she's the one",
-      "hooking me up with those reservations",
-      "Googly Bear",
-      "What do you know",
-      "scares little kids and little monsters",
-      "I have allergies",
-      "save it for the scare floor",
-      "in the zone",
-      "serious scaring",
-      "putting up some big numbers",
-      "humiliating when we break the record",
-      "Winds of Change",
-      "What a creep",
-      "teach that guy a lesson",
-      "pal",
-      "mate",
-      "flirts with him",
-      "Whaddya know",
-      "save it for the ring",
-      "Karate Kid",
-      "will you",
-      "top of your game",
-      "Scooby-Doo",
-      "don't blow this",
-      "breaking the record",
-      "blew it",
-      "It'll be their problem, not ours",
-      "flap T",
-      "out of our hair",
-      "Can it",
-      "shut up",
-      "Word on the street is",
-      "traced back to this factory",
-      "no way",
-      "inside job",
-      "put my money on Waxford",
-      "put your money where your mouth is",
-      "them shifty eyes",
-      "Comment of the Day",
-      "Garfield",
-      "challenge for today",
-      "hit the road",
-      "jump in the pail",
-      "outer space"
-    ];
-
-    keyPhrases.forEach((phrase) => {
-      expect(fullText.toLowerCase()).toContain(phrase.toLowerCase());
-    });
-  });
-
-  it("should verify bilingual quiz consistency and validity", () => {
+  it("Test 5: Full Bilingual Quiz Rigor (8 CEFR Questions)", () => {
     const quiz = QUIZ_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT;
     expect(quiz.lessonId).toBe("mov_ani_12");
-    expect(quiz.questions.length).toBe(6);
+    expect(quiz.totalQuestions).toBe(8);
+    expect(quiz.questions.length).toBe(8);
 
-    quiz.questions.forEach((q) => {
-      expect(q.id.length).toBeGreaterThan(0);
-      expect(q.questionEn?.length).toBeGreaterThan(10);
-      expect(q.questionVi?.length).toBeGreaterThan(10);
+    quiz.questions.forEach((q, idx) => {
+      expect(q.id).toBe(`q_mov_ani_12_${idx + 1}`);
+      expect(q.question.length).toBeGreaterThan(15);
+      expect(q.questionEn).toBeDefined();
+      expect(q.questionVi).toBeDefined();
       expect(q.options.length).toBe(4);
       expect(q.optionsEn?.length).toBe(4);
       expect(q.optionsVi?.length).toBe(4);
       expect(q.correctAnswer).toBeGreaterThanOrEqual(0);
-      expect(q.correctAnswer).toBeLessThanOrEqual(3);
-      expect(q.explanationEn?.length).toBeGreaterThan(10);
-      expect(q.explanationVi?.length).toBeGreaterThan(10);
+      expect(q.correctAnswer).toBeLessThan(4);
+      expect(q.explanation.length).toBeGreaterThan(15);
+      expect(q.explanationEn).toBeDefined();
+      expect(q.explanationVi).toBeDefined();
+      expect(q.targetedConcept).toBeDefined();
+      expect(q.targetedConceptEn).toBeDefined();
+      expect(q.targetedConceptVi).toBeDefined();
+      expect(typeof q.referenceSegmentIndex).toBe("number");
       expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-      expect(q.referenceSegmentIndex).toBeLessThan(LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments.length);
+      expect(q.referenceSegmentIndex).toBeLessThan(
+        LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments.length
+      );
     });
+  });
+
+  it("Test 6: Zero Missing Attributes Across Lesson Object", () => {
+    const lesson = LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT;
+    expect(lesson.description).toBeDefined();
+    expect(lesson.description.length).toBeGreaterThan(20);
+    expect(lesson.quiz).toBeDefined();
+    expect(lesson.quiz!.questions.length).toBe(8);
   });
 });

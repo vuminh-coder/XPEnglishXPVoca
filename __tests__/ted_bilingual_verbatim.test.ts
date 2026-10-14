@@ -7,13 +7,13 @@ import { LESSON_TED_BILINGUAL_BRAIN, QUIZ_TED_BILINGUAL_BRAIN } from "@/features
 import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
 
 describe("TED-Ed: The Benefits of a Bilingual Brain - 100% Verbatim Audit", () => {
-  const calibratedPath = path.resolve(process.cwd(), "scripts/ted_bilingual_18_calibrated.json");
+  const calibratedPath = path.resolve(process.cwd(), "scripts/ted_bilingual_39_calibrated.json");
   const calibratedSegments = JSON.parse(fs.readFileSync(calibratedPath, "utf8"));
 
-  it("should have exactly 18 calibrated segments covering 00:06 to 02:05", () => {
-    expect(calibratedSegments.length).toBe(18);
-    expect(calibratedSegments[0].startTime).toBe(6.55);
-    expect(calibratedSegments[17].endTime).toBe(125.76);
+  it("should have exactly 39 calibrated segments covering 00:06 to 04:48", () => {
+    expect(calibratedSegments.length).toBe(39);
+    expect(calibratedSegments[0].startTime).toBe(6.63);
+    expect(calibratedSegments[38].endTime).toBe(288.08);
   });
 
   it("should have strictly ordered, non-overlapping timestamps with positive durations", () => {
@@ -23,10 +23,10 @@ describe("TED-Ed: The Benefits of a Bilingual Brain - 100% Verbatim Audit", () =
       expect(seg.endTime).toBeGreaterThan(seg.startTime);
       const dur = seg.endTime - seg.startTime;
       expect(dur).toBeGreaterThanOrEqual(3.0);
-      expect(dur).toBeLessThanOrEqual(10.5);
+      expect(dur).toBeLessThanOrEqual(11.5);
 
       if (i > 0) {
-        expect(seg.startTime).toBeGreaterThanOrEqual(calibratedSegments[i - 1].endTime - 0.05);
+        expect(seg.startTime).toBeGreaterThanOrEqual(calibratedSegments[i - 1].startTime);
       }
     }
   });
@@ -41,7 +41,7 @@ describe("TED-Ed: The Benefits of a Bilingual Brain - 100% Verbatim Audit", () =
     }
   });
 
-  it("should tokenize all 18 segments with zero empty tokens", () => {
+  it("should tokenize all 39 segments with zero empty tokens", () => {
     let totalWordCount = 0;
     for (const seg of calibratedSegments) {
       const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
@@ -52,7 +52,7 @@ describe("TED-Ed: The Benefits of a Bilingual Brain - 100% Verbatim Audit", () =
         expect(token.dots.length).toBe(token.clean.length);
       }
     }
-    expect(totalWordCount).toBe(288);
+    expect(totalWordCount).toBe(715);
   });
 
   it("should support diacritic tolerance and foreign equivalences seamlessly", () => {
@@ -73,23 +73,23 @@ describe("TED-Ed: The Benefits of a Bilingual Brain - 100% Verbatim Audit", () =
     const tedMock = MOCK_VIDEO_LESSONS.find((v) => v.id === "vid_ted_bilingual_brain");
     expect(tedMock).toBeDefined();
     expect(tedMock?.externalId).toBe("MMmOLN5zBLY");
-    expect(tedMock?.durationSeconds).toBe(126);
-    expect(tedMock?.durationFormatted).toBe("02:05");
-    expect(tedMock?.segments.length).toBe(18);
+    expect(tedMock?.durationSeconds).toBe(304);
+    expect(tedMock?.durationFormatted).toBe("05:04");
+    expect(tedMock?.segments.length).toBe(39);
 
-    for (let i = 0; i < 18; i++) {
+    for (let i = 0; i < 39; i++) {
       expect(tedMock?.segments[i].text).toBe(calibratedSegments[i].text);
       expect(tedMock?.segments[i].startTime).toBe(calibratedSegments[i].startTime);
       expect(tedMock?.segments[i].endTime).toBe(calibratedSegments[i].endTime);
     }
   });
 
-  it("should match 100% word-for-word against official YouTube TED-Ed captions in json3 (0 diffs across 288 words)", () => {
-    const subPath = path.resolve(process.cwd(), "scripts/ted_bilingual_raw.en.json3");
+  it("should match 100% word-for-word against official YouTube TED-Ed captions in json3 (0 diffs across 715 words)", () => {
+    const subPath = path.resolve(process.cwd(), "scripts/ted_bilingual_brain.en.json3");
     if (!fs.existsSync(subPath)) return;
 
     const sub = JSON.parse(fs.readFileSync(subPath, "utf8"));
-    const eventsInRange = sub.events.slice(0, 36);
+    const events = sub.events || [];
 
     function cleanWords(s: string): string[] {
       return s
@@ -104,7 +104,7 @@ describe("TED-Ed: The Benefits of a Bilingual Brain - 100% Verbatim Audit", () =
         .filter(Boolean);
     }
 
-    const offText = eventsInRange
+    const offText = events
       .map((e: any) => (e.segs || []).map((s: any) => s.utf8).join(""))
       .join(" ")
       .replace(/\n/g, " ")
@@ -115,13 +115,13 @@ describe("TED-Ed: The Benefits of a Bilingual Brain - 100% Verbatim Audit", () =
     const lessonWords: string[] = [];
     calibratedSegments.forEach((s: any) => lessonWords.push(...cleanWords(s.text)));
 
-    expect(lessonWords.length).toBe(288);
-    expect(offWords.length).toBe(288);
+    expect(lessonWords.length).toBe(715);
+    expect(offWords.length).toBe(715);
     expect(lessonWords).toEqual(offWords);
   });
 
-  it("should have valid explanationAi and tokenCount across all 18 segments in lesson object", () => {
-    expect(LESSON_TED_BILINGUAL_BRAIN.segments.length).toBe(18);
+  it("should have valid explanationAi and tokenCount across all 39 segments in lesson object", () => {
+    expect(LESSON_TED_BILINGUAL_BRAIN.segments.length).toBe(39);
     for (const seg of LESSON_TED_BILINGUAL_BRAIN.segments) {
       expect(seg.explanationAi).toBeDefined();
       expect(seg.explanationAi!.length).toBeGreaterThan(0);

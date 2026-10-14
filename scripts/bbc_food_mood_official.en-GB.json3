@@ -1,0 +1,697 @@
+{
+  "wireMagic": "pb3",
+  "pens": [ {
+  
+  } ],
+  "wsWinStyles": [ {
+  
+  } ],
+  "wpWinPositions": [ {
+  
+  } ],
+  "events": [ {
+    "tStartMs": 9240,
+    "dDurationMs": 2160,
+    "segs": [ {
+      "utf8": "Hello. This is 6 Minute English from"
+    } ]
+  }, {
+    "tStartMs": 11400,
+    "dDurationMs": 1720,
+    "segs": [ {
+      "utf8": "BBC Learning English. I’m Sam."
+    } ]
+  }, {
+    "tStartMs": 13120,
+    "dDurationMs": 800,
+    "segs": [ {
+      "utf8": "And I’m Rob."
+    } ]
+  }, {
+    "tStartMs": 13920,
+    "dDurationMs": 2920,
+    "segs": [ {
+      "utf8": "When someone feels sad or in a bad mood,"
+    } ]
+  }, {
+    "tStartMs": 16840,
+    "dDurationMs": 3480,
+    "segs": [ {
+      "utf8": "they often try to feel better by eating their favourite food…"
+    } ]
+  }, {
+    "tStartMs": 20320,
+    "dDurationMs": 3080,
+    "segs": [ {
+      "utf8": "I usually go for a peanut butter sandwich myself."
+    } ]
+  }, {
+    "tStartMs": 23400,
+    "dDurationMs": 2080,
+    "segs": [ {
+      "utf8": "Do you have a favourite comfort food, Rob?"
+    } ]
+  }, {
+    "tStartMs": 25480,
+    "dDurationMs": 3240,
+    "segs": [ {
+      "utf8": "Hmm, maybe a cream chocolate éclair…"
+    } ]
+  }, {
+    "tStartMs": 28720,
+    "dDurationMs": 3480,
+    "segs": [ {
+      "utf8": "Comfort food is a type of emotional eating –"
+    } ]
+  }, {
+    "tStartMs": 32200,
+    "dDurationMs": 2840,
+    "segs": [ {
+      "utf8": "eating lots of food because we feel sad, not"
+    } ]
+  }, {
+    "tStartMs": 35040,
+    "dDurationMs": 2560,
+    "segs": [ {
+      "utf8": "because we’re hungry. But unfortunately, most"
+    } ]
+  }, {
+    "tStartMs": 37600,
+    "dDurationMs": 2880,
+    "segs": [ {
+      "utf8": "comfort food is high in carbohydrates and sugar"
+    } ]
+  }, {
+    "tStartMs": 40480,
+    "dDurationMs": 3480,
+    "segs": [ {
+      "utf8": "and, after a few minutes,\nit leaves us feeling even"
+    } ]
+  }, {
+    "tStartMs": 43960,
+    "dDurationMs": 920,
+    "segs": [ {
+      "utf8": "worse than before."
+    } ]
+  }, {
+    "tStartMs": 44880,
+    "dDurationMs": 3040,
+    "segs": [ {
+      "utf8": "Today, scientific research into the relationship"
+    } ]
+  }, {
+    "tStartMs": 47920,
+    "dDurationMs": 3200,
+    "segs": [ {
+      "utf8": "between what we eat and how we feel is growing."
+    } ]
+  }, {
+    "tStartMs": 51120,
+    "dDurationMs": 2880,
+    "segs": [ {
+      "utf8": "In this programme we’ll be investigating the"
+    } ]
+  }, {
+    "tStartMs": 54000,
+    "dDurationMs": 2560,
+    "segs": [ {
+      "utf8": "connection between our food and our mood."
+    } ]
+  }, {
+    "tStartMs": 56560,
+    "dDurationMs": 2760,
+    "segs": [ {
+      "utf8": "We’ll hear how healthy eating makes us feel"
+    } ]
+  }, {
+    "tStartMs": 59320,
+    "dDurationMs": 2160,
+    "segs": [ {
+      "utf8": "better, and of course, we’ll be learning some"
+    } ]
+  }, {
+    "tStartMs": 61480,
+    "dDurationMs": 1440,
+    "segs": [ {
+      "utf8": "new vocabulary as well."
+    } ]
+  }, {
+    "tStartMs": 62920,
+    "dDurationMs": 5680,
+    "segs": [ {
+      "utf8": "Great! But first\nI have a question for you, Sam"
+    } ]
+  }, {
+    "tStartMs": 68600,
+    "dDurationMs": 400,
+    "segs": [ {
+      "utf8": "People who link what we eat with how we"
+    } ]
+  }, {
+    "tStartMs": 69000,
+    "dDurationMs": 3480,
+    "segs": [ {
+      "utf8": "feel make a simple argument: the food you"
+    } ]
+  }, {
+    "tStartMs": 72480,
+    "dDurationMs": 2720,
+    "segs": [ {
+      "utf8": "eat supplies nutrients and energy to the brain,"
+    } ]
+  }, {
+    "tStartMs": 75200,
+    "dDurationMs": 2680,
+    "segs": [ {
+      "utf8": "and the brain controls our emotions."
+    } ]
+  }, {
+    "tStartMs": 77880,
+    "dDurationMs": 3040,
+    "segs": [ {
+      "utf8": "Now, that might sound simplistic, but the brain is a"
+    } ]
+  }, {
+    "tStartMs": 80920,
+    "dDurationMs": 3200,
+    "segs": [ {
+      "utf8": "vital link in the connection between food and"
+    } ]
+  }, {
+    "tStartMs": 84120,
+    "dDurationMs": 3000,
+    "segs": [ {
+      "utf8": "our mood. So, Sam, my question is: how much"
+    } ]
+  }, {
+    "tStartMs": 87120,
+    "dDurationMs": 4240,
+    "segs": [ {
+      "utf8": "of the body’s total energy is used up by the brain? Is it:"
+    } ]
+  }, {
+    "tStartMs": 91360,
+    "dDurationMs": 4280,
+    "segs": [ {
+      "utf8": "a) 10 percent, b) 20 percent,\nor c) 30 percent?"
+    } ]
+  }, {
+    "tStartMs": 95640,
+    "dDurationMs": 4920,
+    "segs": [ {
+      "utf8": "Hmmm, that's a good question.\nI’ll say it’s a) 10 percent."
+    } ]
+  }, {
+    "tStartMs": 100560,
+    "dDurationMs": 2160,
+    "segs": [ {
+      "utf8": "Right. Well, I’ll reveal the answer later"
+    } ]
+  }, {
+    "tStartMs": 102720,
+    "dDurationMs": 2920,
+    "segs": [ {
+      "utf8": "in the programme. Emotional eating is"
+    } ]
+  }, {
+    "tStartMs": 105640,
+    "dDurationMs": 2160,
+    "segs": [ {
+      "utf8": "often caused by feelings of depression,"
+    } ]
+  }, {
+    "tStartMs": 107800,
+    "dDurationMs": 3440,
+    "segs": [ {
+      "utf8": "anxiety or stress. Chef Danny Edwards,"
+    } ]
+  }, {
+    "tStartMs": 111240,
+    "dDurationMs": 2160,
+    "segs": [ {
+      "utf8": "who has suffered with depression, works"
+    } ]
+  }, {
+    "tStartMs": 113400,
+    "dDurationMs": 2520,
+    "segs": [ {
+      "utf8": "in one of the most stressful places imaginable -"
+    } ]
+  }, {
+    "tStartMs": 115920,
+    "dDurationMs": 3400,
+    "segs": [ {
+      "utf8": "a busy restaurant kitchen. BBC World Service"
+    } ]
+  }, {
+    "tStartMs": 119320,
+    "dDurationMs": 2040,
+    "segs": [ {
+      "utf8": "programme, The Food Chain, asked Danny"
+    } ]
+  }, {
+    "tStartMs": 121360,
+    "dDurationMs": 2120,
+    "segs": [ {
+      "utf8": "about his eating habits at work:"
+    } ]
+  }, {
+    "tStartMs": 123480,
+    "dDurationMs": 2080,
+    "segs": [ {
+      "utf8": "Actually, when you’re working in a kitchen"
+    } ]
+  }, {
+    "tStartMs": 125560,
+    "dDurationMs": 1800,
+    "segs": [ {
+      "utf8": "environment for long periods, your appetite"
+    } ]
+  }, {
+    "tStartMs": 127360,
+    "dDurationMs": 2720,
+    "segs": [ {
+      "utf8": "can become suppressed because you sometimes"
+    } ]
+  }, {
+    "tStartMs": 130080,
+    "dDurationMs": 3880,
+    "segs": [ {
+      "utf8": "don't want to eat, or you don't feel like you can"
+    } ]
+  }, {
+    "tStartMs": 133960,
+    "dDurationMs": 2880,
+    "segs": [ {
+      "utf8": "stop and eat, and all of that. So, it very often is"
+    } ]
+  }, {
+    "tStartMs": 136840,
+    "dDurationMs": 2480,
+    "segs": [ {
+      "utf8": "grabbing something on the go which obviously,"
+    } ]
+  }, {
+    "tStartMs": 139320,
+    "dDurationMs": 3520,
+    "segs": [ {
+      "utf8": "as we know, is not great for us… So you go for something"
+    } ]
+  }, {
+    "tStartMs": 142840,
+    "dDurationMs": 3840,
+    "segs": [ {
+      "utf8": "that’s quick, so hence why a lot of\nchefs have quite a bad diet."
+    } ]
+  }, {
+    "tStartMs": 146680,
+    "dDurationMs": 3360,
+    "segs": [ {
+      "utf8": "Even though he’s surrounded by food, Danny"
+    } ]
+  }, {
+    "tStartMs": 150040,
+    "dDurationMs": 3240,
+    "segs": [ {
+      "utf8": "says that working under stress actually decreases"
+    } ]
+  }, {
+    "tStartMs": 153280,
+    "dDurationMs": 2880,
+    "segs": [ {
+      "utf8": "his appetite – the feeling that you want to eat food."
+    } ]
+  }, {
+    "tStartMs": 156160,
+    "dDurationMs": 3560,
+    "segs": [ {
+      "utf8": "In a busy kitchen there’s no time for a sit-down meal,"
+    } ]
+  }, {
+    "tStartMs": 159720,
+    "dDurationMs": 4200,
+    "segs": [ {
+      "utf8": "so Danny has to grab and go – take something quickly"
+    } ]
+  }, {
+    "tStartMs": 163920,
+    "dDurationMs": 2640,
+    "segs": [ {
+      "utf8": "because he doesn’t have much time, although"
+    } ]
+  }, {
+    "tStartMs": 166560,
+    "dDurationMs": 1960,
+    "segs": [ {
+      "utf8": "he knows this isn’t very healthy."
+    } ]
+  }, {
+    "tStartMs": 168520,
+    "dDurationMs": 2840,
+    "segs": [ {
+      "utf8": "So when even chefs have a difficult relationship"
+    } ]
+  }, {
+    "tStartMs": 171360,
+    "dDurationMs": 4200,
+    "segs": [ {
+      "utf8": "with food, what about the rest of us? Professor Felice Jacka,"
+    } ]
+  }, {
+    "tStartMs": 175560,
+    "dDurationMs": 4200,
+    "segs": [ {
+      "utf8": "is an expert in nutritional psychiatry. She studied the effect of"
+    } ]
+  }, {
+    "tStartMs": 179760,
+    "dDurationMs": 3280,
+    "segs": [ {
+      "utf8": "eating a healthy diet – food such as fresh fruit and"
+    } ]
+  }, {
+    "tStartMs": 183040,
+    "dDurationMs": 3720,
+    "segs": [ {
+      "utf8": "vegetables, wholegrain cereals,\nand olive oil – on people"
+    } ]
+  }, {
+    "tStartMs": 186760,
+    "dDurationMs": 3800,
+    "segs": [ {
+      "utf8": "suffering depression. Professor Jacka found that the patients"
+    } ]
+  }, {
+    "tStartMs": 190560,
+    "dDurationMs": 3520,
+    "segs": [ {
+      "utf8": "whose mental health improved were the same patients who"
+    } ]
+  }, {
+    "tStartMs": 194080,
+    "dDurationMs": 1400,
+    "segs": [ {
+      "utf8": "had also improved their diet."
+    } ]
+  }, {
+    "tStartMs": 195480,
+    "dDurationMs": 2880,
+    "segs": [ {
+      "utf8": "But Professor Jacka’s ideas were not"
+    } ]
+  }, {
+    "tStartMs": 198360,
+    "dDurationMs": 3120,
+    "segs": [ {
+      "utf8": "accepted by everyone. Here, she explains to"
+    } ]
+  }, {
+    "tStartMs": 201480,
+    "dDurationMs": 2640,
+    "segs": [ {
+      "utf8": "Jordan Dunbar, presenter of BBC World Service’s,"
+    } ]
+  }, {
+    "tStartMs": 204120,
+    "dDurationMs": 3400,
+    "segs": [ {
+      "utf8": "The Food Chain, about the opposition her study"
+    } ]
+  }, {
+    "tStartMs": 207520,
+    "dDurationMs": 1280,
+    "segs": [ {
+      "utf8": "faced from other doctors:"
+    } ]
+  }, {
+    "tStartMs": 208800,
+    "dDurationMs": 4360,
+    "segs": [ {
+      "utf8": "So I proposed to do this for my PhD study, and everyone"
+    } ]
+  }, {
+    "tStartMs": 213160,
+    "dDurationMs": 3480,
+    "segs": [ {
+      "utf8": "thought I was a bit bananas, you know, and there was quite a"
+    } ]
+  }, {
+    "tStartMs": 216640,
+    "dDurationMs": 3960,
+    "segs": [ {
+      "utf8": "bit of, I guess, eye rolling maybe. I'm not surprised by that"
+    } ]
+  }, {
+    "tStartMs": 220600,
+    "dDurationMs": 2080,
+    "segs": [ {
+      "utf8": "because the discipline of psychiatry"
+    } ]
+  }, {
+    "tStartMs": 222680,
+    "dDurationMs": 4440,
+    "segs": [ {
+      "utf8": "was very medication and brain focused.\nWhat did people say"
+    } ]
+  }, {
+    "tStartMs": 227120,
+    "dDurationMs": 3320,
+    "segs": [ {
+      "utf8": "in the field? Were they sceptical? Oh, hugely sceptical"
+    } ]
+  }, {
+    "tStartMs": 230440,
+    "dDurationMs": 5320,
+    "segs": [ {
+      "utf8": "and sometimes very patronising.\nBut this again comes from the"
+    } ]
+  }, {
+    "tStartMs": 235760,
+    "dDurationMs": 4240,
+    "segs": [ {
+      "utf8": "fact that general practitioners,\npsychiatrists, medical specialists"
+    } ]
+  }, {
+    "tStartMs": 240000,
+    "dDurationMs": 4520,
+    "segs": [ {
+      "utf8": "get almost no nutrition training\nthrough all those years of study."
+    } ]
+  }, {
+    "tStartMs": 244520,
+    "dDurationMs": 3720,
+    "segs": [ {
+      "utf8": "When Professor Jacka investigated\nthe link between food and"
+    } ]
+  }, {
+    "tStartMs": 248240,
+    "dDurationMs": 4240,
+    "segs": [ {
+      "utf8": "mood, her colleagues thought she was\nbananas – a slang"
+    } ]
+  }, {
+    "tStartMs": 252480,
+    "dDurationMs": 4040,
+    "segs": [ {
+      "utf8": "word meaning silly or crazy.\nThey rolled their eyes – a phrase"
+    } ]
+  }, {
+    "tStartMs": 256520,
+    "dDurationMs": 3920,
+    "segs": [ {
+      "utf8": "which describes the gesture of\nturning your eyes upwards to"
+    } ]
+  }, {
+    "tStartMs": 260440,
+    "dDurationMs": 2480,
+    "segs": [ {
+      "utf8": "express annoyance, boredom or disbelief."
+    } ]
+  }, {
+    "tStartMs": 262920,
+    "dDurationMs": 3840,
+    "segs": [ {
+      "utf8": "Other colleagues were patronising –\nthey behaved towards her"
+    } ]
+  }, {
+    "tStartMs": 266760,
+    "dDurationMs": 4440,
+    "segs": [ {
+      "utf8": "as if she were stupid or unimportant.\nProfessor Jacka thinks"
+    } ]
+  }, {
+    "tStartMs": 271200,
+    "dDurationMs": 3920,
+    "segs": [ {
+      "utf8": "this is because most doctors have\nlittle or no training about"
+    } ]
+  }, {
+    "tStartMs": 275120,
+    "dDurationMs": 3840,
+    "segs": [ {
+      "utf8": "nutrition and the effect of\nfood on mental health. But her"
+    } ]
+  }, {
+    "tStartMs": 278960,
+    "dDurationMs": 4720,
+    "segs": [ {
+      "utf8": "ground-breaking research, named\n‘The Smile Trial’, has been"
+    } ]
+  }, {
+    "tStartMs": 283680,
+    "dDurationMs": 3360,
+    "segs": [ {
+      "utf8": "successfully repeated elsewhere,\nclearly showing the link"
+    } ]
+  }, {
+    "tStartMs": 287040,
+    "dDurationMs": 2520,
+    "segs": [ {
+      "utf8": "between eating well and feeling good."
+    } ]
+  }, {
+    "tStartMs": 289560,
+    "dDurationMs": 3520,
+    "segs": [ {
+      "utf8": "So, the next time you’re feeling down\nand your brain is calling"
+    } ]
+  }, {
+    "tStartMs": 293080,
+    "dDurationMs": 4440,
+    "segs": [ {
+      "utf8": "out for a donut, you might be better eating an apple instead!"
+    } ]
+  }, {
+    "tStartMs": 297520,
+    "dDurationMs": 2480,
+    "segs": [ {
+      "utf8": "And speaking of brains, Sam, it’s time to"
+    } ]
+  }, {
+    "tStartMs": 300000,
+    "dDurationMs": 1960,
+    "segs": [ {
+      "utf8": "reveal the answer to my question."
+    } ]
+  }, {
+    "tStartMs": 302720,
+    "dDurationMs": 3080,
+    "segs": [ {
+      "utf8": "Yes, you asked me how much of the body’s energy"
+    } ]
+  }, {
+    "tStartMs": 305800,
+    "dDurationMs": 4440,
+    "segs": [ {
+      "utf8": "is used up by the brain. And I guessed\nit was ten percent…"
+    } ]
+  }, {
+    "tStartMs": 310240,
+    "dDurationMs": 3320,
+    "segs": [ {
+      "utf8": "Well, I’m afraid you are wrong. In fact, around"
+    } ]
+  }, {
+    "tStartMs": 313560,
+    "dDurationMs": 3240,
+    "segs": [ {
+      "utf8": "20 percent of the body’s energy\ngoes to feeding the brain,"
+    } ]
+  }, {
+    "tStartMs": 316800,
+    "dDurationMs": 3200,
+    "segs": [ {
+      "utf8": "even though it only\nmakes up two percent of our total body"
+    } ]
+  }, {
+    "tStartMs": 320000,
+    "dDurationMs": 3640,
+    "segs": [ {
+      "utf8": "weight. OK, let’s recap the\nvocabulary we’ve learned from our"
+    } ]
+  }, {
+    "tStartMs": 323640,
+    "dDurationMs": 4200,
+    "segs": [ {
+      "utf8": "discussion about emotional eating - that's eating too much food"
+    } ]
+  }, {
+    "tStartMs": 327840,
+    "dDurationMs": 2880,
+    "segs": [ {
+      "utf8": "because of how you feel, not because you’re hungry."
+    } ]
+  }, {
+    "tStartMs": 330720,
+    "dDurationMs": 3040,
+    "segs": [ {
+      "utf8": "Appetite is the desire to eat food."
+    } ]
+  }, {
+    "tStartMs": 333760,
+    "dDurationMs": 3000,
+    "segs": [ {
+      "utf8": "If you grab and go, you take something quickly"
+    } ]
+  }, {
+    "tStartMs": 336760,
+    "dDurationMs": 4120,
+    "segs": [ {
+      "utf8": "because you don’t have much time.\nCalling someone bananas is"
+    } ]
+  }, {
+    "tStartMs": 340880,
+    "dDurationMs": 4160,
+    "segs": [ {
+      "utf8": "slang for silly or crazy. If you roll your eyes,"
+    } ]
+  }, {
+    "tStartMs": 345040,
+    "dDurationMs": 3960,
+    "segs": [ {
+      "utf8": "you move your eyes upwards\nto show you feel annoyed, bored or"
+    } ]
+  }, {
+    "tStartMs": 349000,
+    "dDurationMs": 3280,
+    "segs": [ {
+      "utf8": "don’t believe what someone is\ntelling you. And finally, if"
+    } ]
+  }, {
+    "tStartMs": 352280,
+    "dDurationMs": 4200,
+    "segs": [ {
+      "utf8": "someone is patronising you, they\nspeak or behave towards you"
+    } ]
+  }, {
+    "tStartMs": 356480,
+    "dDurationMs": 2560,
+    "segs": [ {
+      "utf8": "as if you were stupid or unimportant."
+    } ]
+  }, {
+    "tStartMs": 360240,
+    "dDurationMs": 1920,
+    "segs": [ {
+      "utf8": "That's the end of our programme.\nDon’t forget to join us"
+    } ]
+  }, {
+    "tStartMs": 362160,
+    "dDurationMs": 3760,
+    "segs": [ {
+      "utf8": "again soon for more topical discussion and useful vocabulary"
+    } ]
+  }, {
+    "tStartMs": 365920,
+    "dDurationMs": 2160,
+    "segs": [ {
+      "utf8": "here at 6 Minute English. Bye, everyone!"
+    } ]
+  }, {
+    "tStartMs": 368080,
+    "dDurationMs": 520,
+    "segs": [ {
+      "utf8": "Bye!"
+    } ]
+  } ]
+}

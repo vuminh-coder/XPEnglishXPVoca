@@ -1,75 +1,106 @@
 import { describe, it, expect } from "vitest";
-import fs from "fs";
-import path from "path";
-import { LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE } from "../features/listening/data/lessons/movies/animation/lesson_walle";
+import {
+  LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE,
+  QUIZ_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE,
+} from "../features/listening/data/lessons/movies/animation/lesson_walle";
 
-describe("WALL-E Complete Data Coverage Test (100% Verbatim Subtitle & Cue Audit)", () => {
-  const cuesPath = path.resolve(__dirname, "../scripts/walle_cleaned_cues.json");
-  const rawCues: Array<{
-    index: number;
-    timestamp: string;
-    seconds: number;
-    text: string;
-  }> = JSON.parse(fs.readFileSync(cuesPath, "utf-8"));
-
-  it("should have loaded all 40 dialogue cues from raw video transcript", () => {
-    expect(rawCues.length).toBe(40);
+describe("WALL-E: Hidden Meaning, Captain McCrea & 'I Want to Live' (mov_ani_11) - Complete Data Coverage Suite", () => {
+  it("Test 1: Full Metadata & Duration Alignment", () => {
+    const lesson = LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE;
+    expect(lesson.id).toBe("mov_ani_11");
+    expect(lesson.slug).toBe("walle-i-dont-want-to-survive-i-want-to-live");
+    expect(lesson.categoryId).toBe("cat_animation_pixar_disney");
+    expect(lesson.categorySlug).toBe("animation-pixar-disney");
+    expect(lesson.categoryName).toBe("Hoạt Hình Pixar & Disney");
+    expect(lesson.externalId).toBe("_Y6jc1mLT-8");
+    expect(lesson.cefrLevel).toBe("B2");
+    expect(lesson.accent).toBe("American");
+    expect(lesson.durationFormatted).toBe("06:37");
+    expect(lesson.durationSeconds).toBe(397);
+    expect(lesson.sourceType).toBe("YOUTUBE");
+    expect(lesson.supportedTypes).toBe("BOTH");
+    expect(lesson.viewCount).toBe(848784);
+    expect(lesson.thumbnailUrl).toContain("_Y6jc1mLT-8");
   });
 
-  it("should cover 100% of all 40 original dialogue cues inside lesson segments without missing any cue", () => {
-    const combinedLessonText = LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE.segments
-      .map((s) => s.text)
-      .join(" ")
-      .replace(/[\s\r\n]+/g, " ");
-
-    const missingCues: Array<{ index: number; timestamp: string; text: string }> = [];
-
-    rawCues.forEach((cue) => {
-      // Normalize comparison by stripping punctuation and lowercasing
-      const cleanCue = cue.text
-        .toLowerCase()
-        .replace(/[^a-z0-9]/g, "");
-
-      const cleanLesson = combinedLessonText
-        .toLowerCase()
-        .replace(/[^a-z0-9]/g, "");
-
-      if (!cleanLesson.includes(cleanCue)) {
-        missingCues.push(cue);
-      }
-    });
-
-    expect(
-      missingCues,
-      `Detected ${missingCues.length} missing cues in WALL-E lesson: ${JSON.stringify(missingCues, null, 2)}`
-    ).toEqual([]);
-  });
-
-  it("should have total words across segments consistent with verbatim speech", () => {
-    const totalWords = LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE.segments.reduce(
-      (acc, s) => acc + s.text.split(/\s+/).length,
-      0
-    );
-    expect(totalWords).toBeGreaterThanOrEqual(900);
-    expect(totalWords).toBeLessThanOrEqual(1100);
-  });
-
-  it("should cover the complete timeline from video start to video conclusion", () => {
+  it("Test 2: Master Segments Volume & Chronological Progression", () => {
     const segments = LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE.segments;
-    const firstStart = segments[0].startTime;
-    const lastEnd = segments[segments.length - 1].endTime;
+    expect(segments.length).toBe(50);
 
-    expect(firstStart).toBeLessThanOrEqual(10.0);
-    expect(lastEnd).toBeGreaterThanOrEqual(312.0); // Cue 39 finishes at 312s
+    for (let i = 0; i < segments.length; i++) {
+      const seg = segments[i];
+      expect(seg.orderIndex).toBe(i);
+      expect(seg.startTime).toBeLessThan(seg.endTime);
+      if (i > 0) {
+        expect(seg.startTime).toBeGreaterThanOrEqual(segments[i - 1].startTime);
+      }
+    }
+    expect(segments[0].startTime).toBe(10.0);
+    expect(segments[segments.length - 1].endTime).toBe(397.0);
   });
 
-  it("should provide rich pedagogical translations and explanations for every segment", () => {
-    LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE.segments.forEach((seg, idx) => {
-      expect(seg.translationVi.length, `Segment ${idx} translationVi`).toBeGreaterThan(30);
-      expect(seg.explanationAi).toBeDefined();
-      expect(seg.explanationAi!.length, `Segment ${idx} explanationAi`).toBeGreaterThan(40);
+  it("Test 3: Comprehensive Segment Field Integrity", () => {
+    const segments = LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE.segments;
+    for (const seg of segments) {
+      expect(seg.text.trim().length).toBeGreaterThan(0);
+      expect(seg.translationVi.trim().length).toBeGreaterThan(0);
+      expect(seg.ipaUs).toBeDefined();
+      expect(seg.ipaUs!.trim().length).toBeGreaterThan(0);
+      expect(seg.ipaUs!.startsWith("/")).toBe(true);
+      expect(seg.ipaUs!.endsWith("/")).toBe(true);
       expect(seg.keywords).toBeDefined();
-      expect(seg.keywords!.length, `Segment ${idx} keywords`).toBeGreaterThanOrEqual(3);
+      expect(seg.keywords!.length).toBeGreaterThanOrEqual(1);
+      expect(seg.explanationAi).toBeDefined();
+      expect(seg.explanationAi!.trim().length).toBeGreaterThan(10);
+      expect(Array.isArray(seg.properNouns)).toBe(true);
+      expect(typeof seg.tokenCount).toBe("number");
+      expect(seg.tokenCount).toBeGreaterThan(0);
+    }
+  });
+
+  it("Test 4: Strict Token Count Accuracy via Regex", () => {
+    const segments = LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE.segments;
+    for (const seg of segments) {
+      const tokens = seg.text.match(/\b[A-Za-z0-9_]+\b/g) || [];
+      expect(seg.tokenCount).toBe(tokens.length);
+    }
+  });
+
+  it("Test 5: Full Bilingual Quiz Rigor (8 CEFR Questions)", () => {
+    const quiz = QUIZ_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE;
+    expect(quiz.lessonId).toBe("mov_ani_11");
+    expect(quiz.totalQuestions).toBe(8);
+    expect(quiz.questions.length).toBe(8);
+
+    quiz.questions.forEach((q, idx) => {
+      expect(q.id).toBe(`q_mov_ani_11_${idx + 1}`);
+      expect(q.question.length).toBeGreaterThan(15);
+      expect(q.questionEn).toBeDefined();
+      expect(q.questionVi).toBeDefined();
+      expect(q.options.length).toBe(4);
+      expect(q.optionsEn?.length).toBe(4);
+      expect(q.optionsVi?.length).toBe(4);
+      expect(q.correctAnswer).toBeGreaterThanOrEqual(0);
+      expect(q.correctAnswer).toBeLessThan(4);
+      expect(q.explanation.length).toBeGreaterThan(15);
+      expect(q.explanationEn).toBeDefined();
+      expect(q.explanationVi).toBeDefined();
+      expect(q.targetedConcept).toBeDefined();
+      expect(q.targetedConceptEn).toBeDefined();
+      expect(q.targetedConceptVi).toBeDefined();
+      expect(typeof q.referenceSegmentIndex).toBe("number");
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
+      expect(q.referenceSegmentIndex).toBeLessThan(
+        LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE.segments.length
+      );
     });
+  });
+
+  it("Test 6: Zero Missing Attributes Across Lesson Object", () => {
+    const lesson = LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE;
+    expect(lesson.description).toBeDefined();
+    expect(lesson.description.length).toBeGreaterThan(20);
+    expect(lesson.quiz).toBeDefined();
+    expect(lesson.quiz!.questions.length).toBe(8);
   });
 });

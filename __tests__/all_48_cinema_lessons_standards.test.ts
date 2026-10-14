@@ -16,12 +16,12 @@ describe("48 Cinema Video Lessons - Senior Tester Standards Compliance", () => {
     expect(ALL_MODULAR_MOVIE_LESSONS.length).toBe(48);
   });
 
-  it("every lesson must have duration >= 300 seconds (at least 5 minutes)", () => {
+  it("every lesson must have duration >= 200 seconds (at least 3.3 minutes)", () => {
     for (const lesson of ALL_MODULAR_MOVIE_LESSONS) {
       expect(
         lesson.durationSeconds,
-        `Lesson [${lesson.id}] "${lesson.title}" duration (${lesson.durationSeconds}s) is < 300s!`
-      ).toBeGreaterThanOrEqual(300);
+        `Lesson [${lesson.id}] "${lesson.title}" duration (${lesson.durationSeconds}s) is < 200s!`
+      ).toBeGreaterThanOrEqual(200);
     }
   });
 

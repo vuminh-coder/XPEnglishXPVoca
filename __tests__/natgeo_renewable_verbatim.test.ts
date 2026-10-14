@@ -6,34 +6,34 @@ import { checkEquivalenceMatch, stripDiacritics } from "@/features/listening/uti
 import { LESSON_NATGEO_RENEWABLE_ENERGY, QUIZ_NATGEO_RENEWABLE_ENERGY } from "@/features/listening/data/lessons/lesson_natgeo_renewable_energy";
 import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
 
-describe("National Geographic: Renewable Energy 101 - 100% Verbatim Audit", () => {
-  const calibratedPath = path.resolve(process.cwd(), "scripts/natgeo_25_calibrated.json");
-  const calibratedSegments = JSON.parse(fs.readFileSync(calibratedPath, "utf8"));
+describe("National Geographic: Renewable Energy 101 - 100% Master Verbatim Audit", () => {
+  const masterPath = path.resolve(process.cwd(), "scripts/natgeo_master_segments.json");
+  const masterSegments = JSON.parse(fs.readFileSync(masterPath, "utf8"));
 
-  it("should have exactly 25 calibrated segments covering 00:01.20 to 02:52.50", () => {
-    expect(calibratedSegments.length).toBe(25);
-    expect(calibratedSegments[0].startTime).toBe(1.2);
-    expect(calibratedSegments[24].endTime).toBe(172.5);
+  it("should have exactly 35 master segments covering 00:01.20 to 03:00.00", () => {
+    expect(masterSegments.length).toBe(35);
+    expect(masterSegments[0].startTime).toBe(1.2);
+    expect(masterSegments[34].endTime).toBe(180.0);
   });
 
-  it("should have strictly ordered, non-overlapping timestamps with positive durations", () => {
-    for (let i = 0; i < calibratedSegments.length; i++) {
-      const seg = calibratedSegments[i];
-      expect(seg.orderIndex).toBe(i);
+  it("should have strictly ordered 1-indexed segments with non-overlapping timestamps and positive durations", () => {
+    for (let i = 0; i < masterSegments.length; i++) {
+      const seg = masterSegments[i];
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.endTime).toBeGreaterThan(seg.startTime);
       const dur = seg.endTime - seg.startTime;
       expect(dur).toBeGreaterThanOrEqual(2.5);
       expect(dur).toBeLessThanOrEqual(12.0);
 
-      // Continuity check: between Seg 1 and Seg 2 there is the NatGeo intro title card music
+      // Continuity check: between Seg 2 and Seg 3 there is the NatGeo intro title card music
       if (i > 0 && i !== 2) {
-        expect(seg.startTime).toBeGreaterThanOrEqual(calibratedSegments[i - 1].endTime - 0.05);
+        expect(seg.startTime).toBeGreaterThanOrEqual(masterSegments[i - 1].endTime - 0.05);
       }
     }
   });
 
   it("should have valid IPA, Vietnamese translations, and keywords for every segment", () => {
-    for (const seg of calibratedSegments) {
+    for (const seg of masterSegments) {
       expect(seg.text.length).toBeGreaterThan(0);
       expect(seg.translationVi.length).toBeGreaterThan(0);
       expect(seg.ipaUs).toMatch(/^\/.*\/$/);
@@ -42,9 +42,9 @@ describe("National Geographic: Renewable Energy 101 - 100% Verbatim Audit", () =
     }
   });
 
-  it("should tokenize all 25 segments with zero empty tokens", () => {
+  it("should tokenize all 35 segments with zero empty tokens", () => {
     let totalTokens = 0;
-    for (const seg of calibratedSegments) {
+    for (const seg of masterSegments) {
       const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
       expect(tokens.length).toBeGreaterThan(0);
       totalTokens += tokens.length;
@@ -62,7 +62,7 @@ describe("National Geographic: Renewable Energy 101 - 100% Verbatim Audit", () =
     expect(checkEquivalenceMatch("greenhouse", "greenhouse")).toBe(true);
   });
 
-  it("should match mock data in videoCatalogMockData.ts exactly across all 25 segments", () => {
+  it("should match mock data in videoCatalogMockData.ts exactly across all 35 segments", () => {
     const mock = MOCK_VIDEO_LESSONS.find((v) => v.id === "vid_ielts_environmental_sustainability");
     expect(mock).toBeDefined();
     expect(mock?.externalId).toBe("1kUE0BZtTRc");
@@ -70,18 +70,19 @@ describe("National Geographic: Renewable Energy 101 - 100% Verbatim Audit", () =
     expect(mock?.durationFormatted).toBe("03:16");
     expect(mock?.cefrLevel).toBe("B2");
     expect(mock?.accent).toBe("en-US");
-    expect(mock?.segments.length).toBe(25);
+    expect(mock?.segments.length).toBe(35);
 
-    for (let i = 0; i < 25; i++) {
-      expect(mock?.segments[i].text).toBe(calibratedSegments[i].text);
-      expect(mock?.segments[i].startTime).toBe(calibratedSegments[i].startTime);
-      expect(mock?.segments[i].endTime).toBe(calibratedSegments[i].endTime);
-      expect(mock?.segments[i].ipaUs).toBe(calibratedSegments[i].ipaUs);
-      expect(mock?.segments[i].translationVi).toBe(calibratedSegments[i].translationVi);
+    for (let i = 0; i < 35; i++) {
+      expect(mock?.segments[i].orderIndex).toBe(i + 1);
+      expect(mock?.segments[i].text).toBe(masterSegments[i].text);
+      expect(mock?.segments[i].startTime).toBe(masterSegments[i].startTime);
+      expect(mock?.segments[i].endTime).toBe(masterSegments[i].endTime);
+      expect(mock?.segments[i].ipaUs).toBe(masterSegments[i].ipaUs);
+      expect(mock?.segments[i].translationVi).toBe(masterSegments[i].translationVi);
     }
   });
 
-  it("should match 100% word-for-word against official YouTube captions in json3 (333 words)", () => {
+  it("should match 100% word-for-word against official YouTube captions in json3 (333 words spoken narration)", () => {
     const subPath = path.resolve(process.cwd(), "scripts/natgeo_renewable.en.json3");
     if (!fs.existsSync(subPath)) return;
 
@@ -104,8 +105,9 @@ describe("National Geographic: Renewable Energy 101 - 100% Verbatim Audit", () =
 
     const normalize = (w: string) => w.replace(/[.,!?:;\"\'\(\)\-]/g, "").toLowerCase();
 
+    // Segments 1..34 contain the spoken narration (333 words)
     const lessonWords: string[] = [];
-    calibratedSegments.forEach((s: any) => {
+    masterSegments.slice(0, 34).forEach((s: any) => {
       const ws = s.text.trim().split(/\s+/);
       ws.forEach((w: string) => lessonWords.push(w));
     });
@@ -122,17 +124,19 @@ describe("National Geographic: Renewable Energy 101 - 100% Verbatim Audit", () =
     expect(normLesson).toEqual(normRaw);
   });
 
-  it("should have valid explanationAi and tokenCount across all 25 segments in lesson object", () => {
-    expect(LESSON_NATGEO_RENEWABLE_ENERGY.segments.length).toBe(25);
+  it("should have valid explanationAi, properNouns, and exact tokenCount across all 35 segments in lesson object", () => {
+    expect(LESSON_NATGEO_RENEWABLE_ENERGY.segments.length).toBe(35);
     for (const seg of LESSON_NATGEO_RENEWABLE_ENERGY.segments) {
       expect(seg.explanationAi).toBeDefined();
       expect(seg.explanationAi!.length).toBeGreaterThan(0);
       expect(seg.tokenCount).toBeDefined();
-      expect(seg.tokenCount).toBeGreaterThan(0);
+      const expectedTokens = (seg.text.match(/\b[A-Za-z0-9_]+\b/g) || []).length;
+      expect(seg.tokenCount).toBe(expectedTokens);
+      expect(Array.isArray(seg.properNouns)).toBe(true);
     }
   });
 
-  it("should have comprehensive bilingual reading comprehension quiz attached", () => {
+  it("should have comprehensive bilingual reading comprehension quiz attached with 1-indexed references", () => {
     const quiz = LESSON_NATGEO_RENEWABLE_ENERGY.quiz;
     expect(quiz).toBeDefined();
     if (!quiz) return;
@@ -155,7 +159,8 @@ describe("National Geographic: Renewable Energy 101 - 100% Verbatim Audit", () =
       expect(q.targetedConceptEn).toBeDefined();
       expect(q.targetedConceptVi).toBeDefined();
       expect(q.referenceSegmentIndex).toBeDefined();
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(35);
     }
   });
 });
-

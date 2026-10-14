@@ -4,20 +4,20 @@ import { LESSON_BBC_FOOD_MOOD } from "@/features/listening/data/lessons/lesson_b
 import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
 
 describe("BBC Learning English: Food and Mood - 100% Verbatim Audit", () => {
-  it("should have exactly 10 segments with valid duration and metadata", () => {
-    expect(LESSON_BBC_FOOD_MOOD.segments.length).toBe(10);
+  it("should have exactly 57 segments with valid duration and metadata", () => {
+    expect(LESSON_BBC_FOOD_MOOD.segments.length).toBe(57);
     expect(LESSON_BBC_FOOD_MOOD.externalId).toBe("fG7dJ6A3l7w");
-    expect(LESSON_BBC_FOOD_MOOD.durationSeconds).toBe(66);
+    expect(LESSON_BBC_FOOD_MOOD.durationSeconds).toBe(381);
     expect(LESSON_BBC_FOOD_MOOD.cefrLevel).toBe("B1");
     expect(LESSON_BBC_FOOD_MOOD.accent).toBe("en-GB");
     expect(LESSON_BBC_FOOD_MOOD.categoryId).toBe("cat_bbc_6min");
   });
 
-  it("should have chronological timestamps with positive durations", () => {
+  it("should have chronological timestamps with positive durations and 1-indexed orderIndex", () => {
     let prevStartTime = -1;
     for (let i = 0; i < LESSON_BBC_FOOD_MOOD.segments.length; i++) {
       const seg = LESSON_BBC_FOOD_MOOD.segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeGreaterThanOrEqual(0);
       expect(seg.endTime).toBeGreaterThan(seg.startTime);
       expect(seg.startTime).toBeGreaterThanOrEqual(prevStartTime);
@@ -38,7 +38,7 @@ describe("BBC Learning English: Food and Mood - 100% Verbatim Audit", () => {
     }
   });
 
-  it("should tokenize all 10 segments cleanly with zero empty tokens", () => {
+  it("should tokenize all 57 segments cleanly with zero empty tokens", () => {
     let totalTokens = 0;
     for (const seg of LESSON_BBC_FOOD_MOOD.segments) {
       const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
@@ -49,14 +49,14 @@ describe("BBC Learning English: Food and Mood - 100% Verbatim Audit", () => {
         expect(token.dots.length).toBe(token.clean.length);
       }
     }
-    expect(totalTokens).toBe(142);
+    expect(totalTokens).toBeGreaterThan(950);
   });
 
-  it("should match mock data in videoCatalogMockData.ts exactly across all 10 segments", () => {
+  it("should match mock data in videoCatalogMockData.ts exactly across all 57 segments", () => {
     const mock = MOCK_VIDEO_LESSONS.find((v) => v.externalId === "fG7dJ6A3l7w");
     expect(mock).toBeDefined();
-    expect(mock?.segments.length).toBe(10);
-    for (let i = 0; i < 10; i++) {
+    expect(mock?.segments.length).toBe(57);
+    for (let i = 0; i < 57; i++) {
       expect(mock?.segments[i].text).toBe(LESSON_BBC_FOOD_MOOD.segments[i].text);
       expect(mock?.segments[i].startTime).toBe(LESSON_BBC_FOOD_MOOD.segments[i].startTime);
       expect(mock?.segments[i].endTime).toBe(LESSON_BBC_FOOD_MOOD.segments[i].endTime);

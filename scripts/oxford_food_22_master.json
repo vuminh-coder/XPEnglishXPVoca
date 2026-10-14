@@ -1,0 +1,391 @@
+[
+  {
+    "orderIndex": 1,
+    "startTime": 52.85,
+    "endTime": 54.28,
+    "speaker": "Speaker A",
+    "text": "What kind of food do you like?",
+    "translationVi": "Bạn thích loại đồ ăn nào?",
+    "ipaUs": "/wʌt kaɪnd əv fuːd duː juː laɪk/",
+    "properNouns": [],
+    "keywords": [
+      "kind of food",
+      "like"
+    ],
+    "explanationAi": "Mẫu câu hỏi mở đầu kinh điển 'What kind of food do you like?' dùng để gợi mở chủ đề sở thích ăn uống cá nhân.",
+    "tokenCount": 7
+  },
+  {
+    "orderIndex": 2,
+    "startTime": 54.28,
+    "endTime": 55.88,
+    "speaker": "Speaker B",
+    "text": "I like a bit of everything, really.",
+    "translationVi": "Thật lòng mà nói, món gì tôi cũng thích một chút.",
+    "ipaUs": "/aɪ laɪk ə bɪt əv ˈevriθɪŋ ˈriːəli/",
+    "properNouns": [],
+    "keywords": [
+      "a bit of everything",
+      "really"
+    ],
+    "explanationAi": "Thành ngữ khẩu ngữ 'a bit of everything' thể hiện sự cởi mở, không kén chọn đồ ăn, kèm từ đệm 'really' để tăng tính tự nhiên.",
+    "tokenCount": 7
+  },
+  {
+    "orderIndex": 3,
+    "startTime": 55.88,
+    "endTime": 59.66,
+    "speaker": "Speaker B",
+    "text": "I grew up in the UK, and you can get food from all over the world there.",
+    "translationVi": "Tôi lớn lên ở Vương quốc Anh, và bạn có thể thưởng thức món ăn từ khắp nơi trên thế giới tại đó.",
+    "ipaUs": "/aɪ ɡruː ʌp ɪn ðə ˌjuːˈkeɪ ænd juː kæn ɡet fuːd frəm ɔːl ˈoʊvər ðə wɜːrld ðer/",
+    "properNouns": [
+      "UK"
+    ],
+    "keywords": [
+      "grew up",
+      "UK",
+      "all over the world"
+    ],
+    "explanationAi": "Cụm động từ 'grew up' (quá khứ của grow up) chỉ nơi chốn trưởng thành, kết hợp thành ngữ 'all over the world' (khắp mọi miền thế giới).",
+    "tokenCount": 17
+  },
+  {
+    "orderIndex": 4,
+    "startTime": 59.66,
+    "endTime": 66.25,
+    "speaker": "Speaker B",
+    "text": "My mum's cooking is a combination of different cuisines: a bit of French, a bit of Italian, a bit of Indian, and so on.",
+    "translationVi": "Mẹ tôi nấu ăn theo sự kết hợp của nhiều nền ẩm thực khác nhau: một chút Pháp, một chút Ý, một chút Ấn Độ, vân vân.",
+    "ipaUs": "/maɪ mʌmz ˈkʊkɪŋ ɪz ə ˌkɑːmbɪˈneɪʃən əv ˈdɪfrənt kwɪˈziːnz ə bɪt əv frentʃ ə bɪt əv ɪˈtæljən ə bɪt əv ˈɪndiən ænd soʊ ɑːn/",
+    "properNouns": [
+      "French",
+      "Italian",
+      "Indian"
+    ],
+    "keywords": [
+      "combination",
+      "cuisines",
+      "French",
+      "Italian",
+      "Indian",
+      "and so on"
+    ],
+    "explanationAi": "Danh từ 'cuisine' /kwɪˈziːn/ chỉ nghệ thuật ẩm thực đặc trưng một quốc gia, kết hợp cụm 'and so on' (vân vân).",
+    "tokenCount": 25
+  },
+  {
+    "orderIndex": 5,
+    "startTime": 66.25,
+    "endTime": 67.74,
+    "speaker": "Speaker A",
+    "text": "What's British cuisine like?",
+    "translationVi": "Ẩm thực Anh quốc thì như thế nào?",
+    "ipaUs": "/wʌts ˈbrɪtɪʃ kwɪˈziːn laɪk/",
+    "properNouns": [
+      "British"
+    ],
+    "keywords": [
+      "British cuisine",
+      "like"
+    ],
+    "explanationAi": "Cấu trúc câu hỏi 'What is X like?' dùng để yêu cầu người đối thoại miêu tả đặc điểm, tính chất và trải nghiệm về đối tượng X.",
+    "tokenCount": 5
+  },
+  {
+    "orderIndex": 6,
+    "startTime": 67.74,
+    "endTime": 70.64,
+    "speaker": "Speaker A",
+    "text": "I know about fish and chips, but there must be more...",
+    "translationVi": "Tôi biết về món cá và khoai tây chiên, nhưng hẳn là còn nhiều món khác nữa chứ...",
+    "ipaUs": "/aɪ noʊ əˈbaʊt fɪʃ ænd tʃɪps bʌt ðer mʌst biː mɔːr/",
+    "properNouns": [],
+    "keywords": [
+      "fish and chips",
+      "must be more"
+    ],
+    "explanationAi": "Món 'fish and chips' là biểu tượng ẩm thực đường phố Anh quốc; động từ khuyết thiếu 'must be' suy đoán logic với độ chắc chắn cao.",
+    "tokenCount": 11
+  },
+  {
+    "orderIndex": 7,
+    "startTime": 70.64,
+    "endTime": 72.7,
+    "speaker": "Speaker B",
+    "text": "There is, but not that much.",
+    "translationVi": "Có chứ, nhưng không nhiều đến mức đó đâu.",
+    "ipaUs": "/ðer ɪz bʌt nɑːt ðæt mʌtʃ/",
+    "properNouns": [],
+    "keywords": [
+      "there is",
+      "not that much"
+    ],
+    "explanationAi": "Cách trả lời ngắn gọn tự nhiên 'There is' (rút gọn của There is more), kèm vế hạ giọng khiêm tốn 'not that much'.",
+    "tokenCount": 6
+  },
+  {
+    "orderIndex": 8,
+    "startTime": 72.7,
+    "endTime": 78.7,
+    "speaker": "Speaker B",
+    "text": "There are a few famous dishes like shepherd's pie or Sunday roast, but most people eat a mix of things.",
+    "translationVi": "Có một vài món nổi tiếng như bánh thịt đút lò shepherd's pie hay thịt nướng chủ nhật, nhưng hầu hết mọi người đều ăn đa dạng nhiều món.",
+    "ipaUs": "/ðer ɑːr ə fjuː ˈfeɪməs ˈdɪʃɪz laɪk ˈʃepərdz paɪ ɔːr ˈsʌndeɪ roʊst bʌt moʊst ˈpiːpl iːt ə mɪks əv θɪŋz/",
+    "properNouns": [
+      "Sunday"
+    ],
+    "keywords": [
+      "famous dishes",
+      "shepherd's pie",
+      "Sunday roast",
+      "mix of things"
+    ],
+    "explanationAi": "'Shepherd's pie' (bánh thịt băm phủ khoai tây nghiền nướng) và 'Sunday roast' (bữa thịt nướng gia đình truyền thống ngày Chủ Nhật).",
+    "tokenCount": 21
+  },
+  {
+    "orderIndex": 9,
+    "startTime": 78.7,
+    "endTime": 81.22,
+    "speaker": "Speaker B",
+    "text": "What about you? What food do you like?",
+    "translationVi": "Còn bạn thì sao? Bạn thích đồ ăn gì?",
+    "ipaUs": "/wʌt əˈbaʊt juː wʌt fuːd duː juː laɪk/",
+    "properNouns": [],
+    "keywords": [
+      "what about you",
+      "what food"
+    ],
+    "explanationAi": "Kỹ thuật giao tiếp ném bóng đối thoại 'What about you?' giúp chuyển quyền phát ngôn sang đối phương mượt mà.",
+    "tokenCount": 8
+  },
+  {
+    "orderIndex": 10,
+    "startTime": 81.22,
+    "endTime": 85.99,
+    "speaker": "Speaker A",
+    "text": "I'm half Spanish, so when I was young we ate a lot of Mediterranean food at home.",
+    "translationVi": "Tôi mang một nửa dòng máu Tây Ban Nha, nên hồi nhỏ nhà tôi ăn rất nhiều món Địa Trung Hải.",
+    "ipaUs": "/aɪm hæf ˈspænɪʃ soʊ wen aɪ wʌz jʌŋ wiː eɪt ə lɑːt əv ˌmedɪtəˈreɪniən fuːd æt hoʊm/",
+    "properNouns": [
+      "Spanish",
+      "Mediterranean"
+    ],
+    "keywords": [
+      "half Spanish",
+      "Mediterranean food",
+      "at home"
+    ],
+    "explanationAi": "Cụm 'half Spanish' chỉ gốc gác gia đình đa văn hóa, và 'Mediterranean food' là nền ẩm thực giàu dầu ô liu, cá và thảo mộc.",
+    "tokenCount": 18
+  },
+  {
+    "orderIndex": 11,
+    "startTime": 85.99,
+    "endTime": 92.91,
+    "speaker": "Speaker A",
+    "text": "Now, I live in Berlin, and it's a pretty cosmopolitan place, so you can get all kinds of food, like the UK, I suppose.",
+    "translationVi": "Bây giờ tôi sống ở Berlin, và đó là một nơi khá quốc tế và đa văn hóa, nên bạn có thể tìm thấy mọi loại đồ ăn, giống như ở Vương quốc Anh vậy, tôi đoán thế.",
+    "ipaUs": "/naʊ aɪ lɪv ɪn bɜːrˈlɪn ænd ɪts ə ˈprɪti ˌkɑːzməˈpɑːlɪtən pleɪs soʊ juː kæn ɡet ɔːl kaɪndz əv fuːd laɪk ðə ˌjuːˈkeɪ aɪ səˈpoʊz/",
+    "properNouns": [
+      "Berlin",
+      "UK"
+    ],
+    "keywords": [
+      "live in Berlin",
+      "cosmopolitan place",
+      "all kinds of food",
+      "suppose"
+    ],
+    "explanationAi": "Tính từ B2 'cosmopolitan' /ˌkɑːzməˈpɑːlɪtən/ chỉ thành phố quốc tế hội tụ nhiều cộng đồng đa dạng văn hóa.",
+    "tokenCount": 25
+  },
+  {
+    "orderIndex": 12,
+    "startTime": 92.91,
+    "endTime": 95.7,
+    "speaker": "Speaker B",
+    "text": "I've never really had much Spanish food.",
+    "translationVi": "Tôi thực sự chưa từng ăn nhiều món Tây Ban Nha lắm.",
+    "ipaUs": "/aɪv ˈnevər ˈriːəli hæd mʌtʃ ˈspænɪʃ fuːd/",
+    "properNouns": [
+      "Spanish"
+    ],
+    "keywords": [
+      "never really had",
+      "Spanish food"
+    ],
+    "explanationAi": "Thì hiện tại hoàn thành 'have never had' dùng để chia sẻ về trải nghiệm thực tế trong đời tính đến thời điểm hiện tại.",
+    "tokenCount": 8
+  },
+  {
+    "orderIndex": 13,
+    "startTime": 95.7,
+    "endTime": 97.34,
+    "speaker": "Speaker B",
+    "text": "Is it similar to Italian?",
+    "translationVi": "Nó có tương đồng với đồ ăn Ý không?",
+    "ipaUs": "/ɪz ɪt ˈsɪmələr tuː ɪˈtæljən/",
+    "properNouns": [
+      "Italian"
+    ],
+    "keywords": [
+      "similar to",
+      "Italian"
+    ],
+    "explanationAi": "Tính từ 'similar' luôn đi kèm giới từ 'to': 'similar to something' (tương đồng, giống với cái gì).",
+    "tokenCount": 5
+  },
+  {
+    "orderIndex": 14,
+    "startTime": 97.34,
+    "endTime": 99.18,
+    "speaker": "Speaker A",
+    "text": "In some ways, yes.",
+    "translationVi": "Ở một số khía cạnh thì đúng vậy.",
+    "ipaUs": "/ɪn sʌm weɪz jes/",
+    "properNouns": [],
+    "keywords": [
+      "in some ways"
+    ],
+    "explanationAi": "Thành ngữ ngoại giao 'in some ways' (ở một chừng mực nào đó) dùng khi muốn đồng ý một phần nhưng chuẩn bị nêu điểm khác biệt.",
+    "tokenCount": 4
+  },
+  {
+    "orderIndex": 15,
+    "startTime": 99.18,
+    "endTime": 104.29,
+    "speaker": "Speaker A",
+    "text": "They both use a lot of fresh ingredients, and there's a lot of seafood, salads, and so on.",
+    "translationVi": "Cả hai đều dùng nhiều nguyên liệu tươi, và có rất nhiều hải sản, rau trộn, vân vân.",
+    "ipaUs": "/ðeɪ boʊθ juːz ə lɑːt əv freʃ ɪnˈɡriːdiənts ænd ðerz ə lɑːt əv ˈsiːfuːd ˈsælədz ænd soʊ ɑːn/",
+    "properNouns": [],
+    "keywords": [
+      "fresh ingredients",
+      "seafood",
+      "salads",
+      "and so on"
+    ],
+    "explanationAi": "Danh từ 'ingredients' /ɪnˈɡriːdiənts/ là thành tố cốt lõi trong nấu ăn, kết hợp các món hải sản (seafood) và rau xà lách (salads).",
+    "tokenCount": 19
+  },
+  {
+    "orderIndex": 16,
+    "startTime": 104.29,
+    "endTime": 107.14,
+    "speaker": "Speaker A",
+    "text": "Pasta isn't so common in Spanish cooking, though.",
+    "translationVi": "Tuy nhiên, mì Ý thì không quá phổ biến trong cách nấu nướng của Tây Ban Nha.",
+    "ipaUs": "/ˈpɑːstə ˈɪznt soʊ ˈkɑːmən ɪn ˈspænɪʃ ˈkʊkɪŋ ðoʊ/",
+    "properNouns": [
+      "Spanish"
+    ],
+    "keywords": [
+      "pasta",
+      "not so common",
+      "Spanish cooking",
+      "though"
+    ],
+    "explanationAi": "Từ 'though' đặt ở cuối câu dùng như một liên từ tương phản chỉ sự nhượng bộ nhẹ nhàng (tương đương 'however').",
+    "tokenCount": 9
+  },
+  {
+    "orderIndex": 17,
+    "startTime": 107.14,
+    "endTime": 109.5,
+    "speaker": "Speaker B",
+    "text": "What are some typical Spanish dishes?",
+    "translationVi": "Những món ăn Tây Ban Nha đặc trưng gồm những món nào?",
+    "ipaUs": "/wʌt ɑːr sʌm ˈtɪpɪkl ˈspænɪʃ ˈdɪʃɪz/",
+    "properNouns": [
+      "Spanish"
+    ],
+    "keywords": [
+      "typical",
+      "Spanish dishes"
+    ],
+    "explanationAi": "Tính từ 'typical' /ˈtɪpɪkl/ dùng để hỏi về những nét đặc thù, tiêu biểu nhất của một nền văn hóa ẩm thực.",
+    "tokenCount": 6
+  },
+  {
+    "orderIndex": 18,
+    "startTime": 109.5,
+    "endTime": 111.14,
+    "speaker": "Speaker B",
+    "text": "I'd be interested to try some.",
+    "translationVi": "Tôi rất hứng thú muốn nếm thử một vài món.",
+    "ipaUs": "/aɪd biː ˈɪntrəstɪd tuː traɪ sʌm/",
+    "properNouns": [],
+    "keywords": [
+      "interested to try"
+    ],
+    "explanationAi": "Cấu trúc 'I'd be interested to + verb' (viết tắt của I would be) là cách diễn đạt nguyện vọng lịch sự và hào hứng.",
+    "tokenCount": 7
+  },
+  {
+    "orderIndex": 19,
+    "startTime": 111.14,
+    "endTime": 113.58,
+    "speaker": "Speaker A",
+    "text": "I guess paella is quite well-known.",
+    "translationVi": "Tôi đoán món cơm thập cẩm paella thì khá nổi tiếng.",
+    "ipaUs": "/aɪ ɡes paɪˈelə ɪz kwaɪt ˈwelnoʊn/",
+    "properNouns": [],
+    "keywords": [
+      "paella",
+      "well-known"
+    ],
+    "explanationAi": "'Paella' /paɪˈelə/ là món cơm rang/nấu chảo nông truyền thống của vùng Valencia với hải sản và nghệ tây tây ban nha saffron.",
+    "tokenCount": 7
+  },
+  {
+    "orderIndex": 20,
+    "startTime": 113.58,
+    "endTime": 118.73,
+    "speaker": "Speaker A",
+    "text": "My personal favourite is a dish called albondigas, which is meatballs in a tomato sauce.",
+    "translationVi": "Món khoái khẩu của cá nhân tôi là món albondigas, tức là thịt viên trong sốt cà chua.",
+    "ipaUs": "/maɪ ˈpɜːrsənl ˈfeɪvərɪt ɪz ə dɪʃ kɔːld ælbɑːnˈdiːɡəs wɪtʃ ɪz ˈmiːtbɔːlz ɪn ə təˈmeɪtoʊ sɔːs/",
+    "properNouns": [],
+    "keywords": [
+      "personal favourite",
+      "albondigas",
+      "meatballs",
+      "tomato sauce"
+    ],
+    "explanationAi": "'Albondigas' là món thịt viên truyền thống kiểu Tây Ban Nha sốt cà chua đượm vị tỏi và rau thơm tây.",
+    "tokenCount": 15
+  },
+  {
+    "orderIndex": 21,
+    "startTime": 118.73,
+    "endTime": 120.87,
+    "speaker": "Speaker A",
+    "text": "It's simple, but so tasty.",
+    "translationVi": "Rất đơn giản, nhưng vô cùng thơm ngon.",
+    "ipaUs": "/ɪts ˈsɪmpl bʌt soʊ ˈteɪsti/",
+    "properNouns": [],
+    "keywords": [
+      "simple",
+      "tasty"
+    ],
+    "explanationAi": "Cặp tính từ tương phản 'simple, but so tasty' thể hiện vẻ đẹp của ẩm thực gia đình: mộc mạc nhưng đậm đà ngon miệng.",
+    "tokenCount": 6
+  },
+  {
+    "orderIndex": 22,
+    "startTime": 120.87,
+    "endTime": 122.2,
+    "speaker": "Speaker B",
+    "text": "Sounds good!",
+    "translationVi": "Nghe tuyệt đấy!",
+    "ipaUs": "/saʊndz ɡʊd/",
+    "properNouns": [],
+    "keywords": [
+      "sounds good"
+    ],
+    "explanationAi": "Cụm thốt từ giao tiếp thông dụng 'Sounds good!' dùng để tán thành hào hứng và chốt lại cuộc trò chuyện ẩm thực.",
+    "tokenCount": 2
+  }
+]

@@ -6,18 +6,18 @@ import { LESSON_PSYCHOLOGY_OF_MONEY } from "@/features/listening/data/lessons/le
 import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
 
 describe("The Psychology of Money: Warren Buffett's Secret - 100% Verbatim Audit", () => {
-  it("should have exactly 9 segments with valid duration and metadata", () => {
-    expect(LESSON_PSYCHOLOGY_OF_MONEY.segments.length).toBe(9);
+  it("should have exactly 16 segments with valid duration and metadata", () => {
+    expect(LESSON_PSYCHOLOGY_OF_MONEY.segments.length).toBe(16);
     expect(LESSON_PSYCHOLOGY_OF_MONEY.externalId).toBe("DOgVUMfcb7U");
     expect(LESSON_PSYCHOLOGY_OF_MONEY.durationSeconds).toBe(48);
     expect(LESSON_PSYCHOLOGY_OF_MONEY.cefrLevel).toBe("B2");
   });
 
-  it("should have chronological timestamps with positive durations", () => {
+  it("should have chronological timestamps with positive durations and 1-indexed orderIndex", () => {
     let prevStartTime = -1;
     for (let i = 0; i < LESSON_PSYCHOLOGY_OF_MONEY.segments.length; i++) {
       const seg = LESSON_PSYCHOLOGY_OF_MONEY.segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeGreaterThanOrEqual(0);
       expect(seg.endTime).toBeGreaterThan(seg.startTime);
       expect(seg.startTime).toBeGreaterThanOrEqual(prevStartTime);
@@ -31,6 +31,8 @@ describe("The Psychology of Money: Warren Buffett's Secret - 100% Verbatim Audit
       expect(seg.translationVi.length).toBeGreaterThan(0);
       expect(seg.ipaUs).toBeDefined();
       expect(seg.ipaUs!.length).toBeGreaterThan(0);
+      expect(seg.ipaUs!.startsWith("/")).toBe(true);
+      expect(seg.ipaUs!.endsWith("/")).toBe(true);
       expect(Array.isArray(seg.keywords)).toBe(true);
       expect(seg.keywords!.length).toBeGreaterThan(0);
       expect(seg.explanationAi).toBeDefined();
@@ -38,7 +40,7 @@ describe("The Psychology of Money: Warren Buffett's Secret - 100% Verbatim Audit
     }
   });
 
-  it("should tokenize all 9 segments cleanly with zero empty tokens", () => {
+  it("should tokenize all 16 segments cleanly with zero empty tokens", () => {
     let totalTokens = 0;
     for (const seg of LESSON_PSYCHOLOGY_OF_MONEY.segments) {
       const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
@@ -52,11 +54,12 @@ describe("The Psychology of Money: Warren Buffett's Secret - 100% Verbatim Audit
     expect(totalTokens).toBeGreaterThan(100);
   });
 
-  it("should match mock data in videoCatalogMockData.ts exactly across all 9 segments", () => {
+  it("should match mock data in videoCatalogMockData.ts exactly across all 16 segments", () => {
     const mock = MOCK_VIDEO_LESSONS.find((v) => v.externalId === "DOgVUMfcb7U");
     expect(mock).toBeDefined();
-    expect(mock?.segments.length).toBe(9);
-    for (let i = 0; i < 9; i++) {
+    expect(mock?.segments.length).toBe(16);
+    for (let i = 0; i < 16; i++) {
+      expect(mock?.segments[i].orderIndex).toBe(i + 1);
       expect(mock?.segments[i].text).toBe(LESSON_PSYCHOLOGY_OF_MONEY.segments[i].text);
       expect(mock?.segments[i].startTime).toBe(LESSON_PSYCHOLOGY_OF_MONEY.segments[i].startTime);
       expect(mock?.segments[i].endTime).toBe(LESSON_PSYCHOLOGY_OF_MONEY.segments[i].endTime);
@@ -126,7 +129,7 @@ describe("The Psychology of Money: Warren Buffett's Secret - 100% Verbatim Audit
     expect(normLesson).toEqual(normRaw);
   });
 
-  it("should have comprehensive bilingual reading quiz attached", () => {
+  it("should have comprehensive bilingual reading quiz attached with valid 1-indexed references", () => {
     expect(LESSON_PSYCHOLOGY_OF_MONEY.quiz).toBeDefined();
     const quiz = LESSON_PSYCHOLOGY_OF_MONEY.quiz!;
     expect(quiz.lessonId).toBe("vid_psychology_of_money");
@@ -146,8 +149,8 @@ describe("The Psychology of Money: Warren Buffett's Secret - 100% Verbatim Audit
       expect(q.explanationVi).toBeDefined();
       expect(q.targetedConceptEn).toBeDefined();
       expect(q.targetedConceptVi).toBeDefined();
-      expect(q.referenceSegmentIndex).toBeDefined();
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(16);
     }
   });
 });
-

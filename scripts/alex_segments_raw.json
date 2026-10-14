@@ -1,0 +1,233 @@
+[
+  {
+    "orderIndex": 0,
+    "startTime": 7.4,
+    "endTime": 17,
+    "text": "In the biblical story of the Tower of Babel, all of humanity once spoke a single language until they suddenly split into many groups unable to understand each other.",
+    "rawVi": "Trong kinh thánh, câu chuyện tháp Babel, toàn thể loài người chỉ nói một ngôn ngữ cho tới khi bị chia thành nhiều nhóm nhỏ không thể hiểu lẫn nhau. Chúng ta không biết liệu ngôn ngữ căn nguyên có từng tồn tại,"
+  },
+  {
+    "orderIndex": 1,
+    "startTime": 17,
+    "endTime": 27,
+    "text": "We don't really know if such an original language ever existed, but we do know that the thousands of languages existing today can be traced back to a much smaller number.",
+    "rawVi": "không thể hiểu lẫn nhau. Chúng ta không biết liệu ngôn ngữ căn nguyên có từng tồn tại, nhưng lại biết rằng ngày nay có hàng nghìn ngôn ngữ bắt nguồn từ một vài ngôn ngữ ban đầu. Tại sao chúng lại gia tăng nhiều đến vậy?"
+  },
+  {
+    "orderIndex": 2,
+    "startTime": 27,
+    "endTime": 29.2,
+    "text": "So how did we end up with so many?",
+    "rawVi": "bắt nguồn từ một vài ngôn ngữ ban đầu. Tại sao chúng lại gia tăng nhiều đến vậy? Thưở ban đầu của quá trình di cư,"
+  },
+  {
+    "orderIndex": 3,
+    "startTime": 29.2,
+    "endTime": 33.7,
+    "text": "In the early days of human migration, the world was much less populated.",
+    "rawVi": "Tại sao chúng lại gia tăng nhiều đến vậy? Thưở ban đầu của quá trình di cư, thế giới có rất ít người. Nhóm người có cùng ngôn ngữ và văn hoá"
+  },
+  {
+    "orderIndex": 4,
+    "startTime": 33.7,
+    "endTime": 42.2,
+    "text": "Groups of people that shared a single language and culture often split into smaller tribes, going separate ways in search of fresh game and fertile land.",
+    "rawVi": "thế giới có rất ít người. Nhóm người có cùng ngôn ngữ và văn hoá thường chia tách thành các bộ lạc nhỏ hơn trên đường tìm kiếm các vùng đất mới và màu mỡ. Khi di cư và dọn đến những vùng đất mới,"
+  },
+  {
+    "orderIndex": 5,
+    "startTime": 42.2,
+    "endTime": 48.7,
+    "text": "As they migrated and settled in new places, they became isolated from one another and developed in different ways.",
+    "rawVi": "trên đường tìm kiếm các vùng đất mới và màu mỡ. Khi di cư và dọn đến những vùng đất mới, họ trở nên xa cách những người khác và phát triển theo các cách khác nhau. Hàng thế kỷ sinh tồn trong điều kiện khác nhau, thức ăn khác nhau"
+  },
+  {
+    "orderIndex": 6,
+    "startTime": 48.7,
+    "endTime": 59.2,
+    "text": "Centuries of living in different conditions, eating different food and encountering different neighbors turned similar dialects with varied pronunciation and vocabulary into radically different languages,",
+    "rawVi": "Hàng thế kỷ sinh tồn trong điều kiện khác nhau, thức ăn khác nhau chạm trán với những hàng xóm khác nhau biến một ngôn ngữ có chung cách phát âm và từ vựng thành những ngôn ngữ khác nhau, tiếp tục cùng với sự gia tăng và lan rộng của dân số."
+  },
+  {
+    "orderIndex": 7,
+    "startTime": 59.2,
+    "endTime": 62.9,
+    "text": "continuing to divide as populations grew and spread out further.",
+    "rawVi": "thành những ngôn ngữ khác nhau, tiếp tục cùng với sự gia tăng và lan rộng của dân số. Như những nhà phả hệ học, các nhà ngôn ngữ cố ghép nối quá trình này"
+  },
+  {
+    "orderIndex": 8,
+    "startTime": 62.9,
+    "endTime": 72.7,
+    "text": "Like genealogists, modern linguists try to map this process by tracing multiple languages back as far as they can to their common ancestor, or protolanguage.",
+    "rawVi": "tiếp tục cùng với sự gia tăng và lan rộng của dân số. Như những nhà phả hệ học, các nhà ngôn ngữ cố ghép nối quá trình này bằng cách lần theo dấu vết các ngôn ngữ tới tổ tiên hay ngôn ngữ nguyên thủy của chúng. Bằng cách này, những ngôn ngữ liên quan được gộp thành một chủng loại,"
+  },
+  {
+    "orderIndex": 9,
+    "startTime": 72.7,
+    "endTime": 80.3,
+    "text": "A group of all languages related in this way is called a language family, which can contain many branches and sub-families.",
+    "rawVi": "tới tổ tiên hay ngôn ngữ nguyên thủy của chúng. Bằng cách này, những ngôn ngữ liên quan được gộp thành một chủng loại, có thể bao gồm nhiều nhánh và nhiều phân nhóm. Bằng cách nào, ta nhận diện các ngôn ngữ có liên quan?"
+  },
+  {
+    "orderIndex": 10,
+    "startTime": 80.3,
+    "endTime": 84.4,
+    "text": "So how do we determine whether languages are related in the first place?",
+    "rawVi": "có thể bao gồm nhiều nhánh và nhiều phân nhóm. Bằng cách nào, ta nhận diện các ngôn ngữ có liên quan? Không thể kết luận từ các từ phát âm tương tự."
+  },
+  {
+    "orderIndex": 11,
+    "startTime": 84.4,
+    "endTime": 86.6,
+    "text": "Similar sounding words don't tell us much.",
+    "rawVi": "Không thể kết luận từ các từ phát âm tương tự. Chúng thường không cùng cội nguồn hay chỉ là vay mượn trực tiếp"
+  },
+  {
+    "orderIndex": 12,
+    "startTime": 86.6,
+    "endTime": 92.4,
+    "text": "They could be false cognates or just directly borrowed terms rather than derived from a common root.",
+    "rawVi": "Không thể kết luận từ các từ phát âm tương tự. Chúng thường không cùng cội nguồn hay chỉ là vay mượn trực tiếp Ngữ pháp và cú pháp là những chỉ dẫn linh động hơn,"
+  },
+  {
+    "orderIndex": 13,
+    "startTime": 92.4,
+    "endTime": 101.5,
+    "text": "Grammar and syntax are a more reliable guide, as well as basic vocabulary, such as pronouns, numbers or kinship terms, that's less likely to be borrowed.",
+    "rawVi": "Ngữ pháp và cú pháp là những chỉ dẫn linh động hơn, cũng như các từ vựng cơ bản, như đại từ, số từ hay tính từ, hầu như ít bị vay mượn. Bằng cách so sánh một cách hệ thống những đặc trưng"
+  },
+  {
+    "orderIndex": 14,
+    "startTime": 101.5,
+    "endTime": 108.6,
+    "text": "By systematically comparing these features and looking for regular patterns of sound changes and correspondences between languages,",
+    "rawVi": "Bằng cách so sánh một cách hệ thống những đặc trưng các cấu trúc thông thường của sự thay đối âm thanh và tương xứng giữa các ngôn ngữ, các nhà ngôn ngữ nhận ra mối quan hệ,"
+  },
+  {
+    "orderIndex": 15,
+    "startTime": 108.6,
+    "endTime": 116.7,
+    "text": "linguists can determine relationships, trace specific steps in their evolution and even reconstruct earlier languages with no written records.",
+    "rawVi": "các nhà ngôn ngữ nhận ra mối quan hệ, theo dấu các đặc thù của quá trình tiến hóa thậm chí dựng lại ngôn ngữ căn nguyên tưởng chừng đã mất dấu. Họ thậm chí có thể đưa ra các manh mối quan trọng khác,"
+  },
+  {
+    "orderIndex": 16,
+    "startTime": 116.7,
+    "endTime": 120.7,
+    "text": "Linguistics can even reveal other important historical clues,",
+    "rawVi": "thậm chí dựng lại ngôn ngữ căn nguyên tưởng chừng đã mất dấu. Họ thậm chí có thể đưa ra các manh mối quan trọng khác, như nguồn gốc khảo cổ và lối sống của người cổ"
+  },
+  {
+    "orderIndex": 17,
+    "startTime": 120.7,
+    "endTime": 128.8,
+    "text": "such as determining the geographic origins and lifestyles of ancient peoples based on which of their words were native, and which were borrowed.",
+    "rawVi": "Họ thậm chí có thể đưa ra các manh mối quan trọng khác, như nguồn gốc khảo cổ và lối sống của người cổ dựa vào những từ ngữ bản địa, và những từ vay mượn. Có 2 vấn đề chính"
+  },
+  {
+    "orderIndex": 18,
+    "startTime": 128.8,
+    "endTime": 133,
+    "text": "There are two main problems linguists face when constructing these language family trees.",
+    "rawVi": "Có 2 vấn đề chính khi xây dựng sơ đồ cây ngôn ngữ. Thứ nhất là không có một cách thức rõ ràng"
+  },
+  {
+    "orderIndex": 19,
+    "startTime": 133,
+    "endTime": 142.8,
+    "text": "One is that there is no clear way of deciding where the branches at the bottom should end, that is, which dialects should be considered separate languages or vice versa.",
+    "rawVi": "khi xây dựng sơ đồ cây ngôn ngữ. Thứ nhất là không có một cách thức rõ ràng chỉ ra nơi kết thúc của nhánh dưới cùng, ngôn ngữ địa phương nào nên được xét là ngôn ngữ riêng lẻ. Hán ngữ được phân vào ngôn ngữ riêng,"
+  },
+  {
+    "orderIndex": 20,
+    "startTime": 142.8,
+    "endTime": 152.9,
+    "text": "Chinese is classified as a single language, but its dialects vary to the point of being mutually unintelligible, while speakers of Spanish and Portuguese can often understand each other.",
+    "rawVi": "ngôn ngữ địa phương nào nên được xét là ngôn ngữ riêng lẻ. Hán ngữ được phân vào ngôn ngữ riêng, nhưng phát ngôn thay đổi một cách khó hiểu trong khi người nói tiếng Tây Ban Nha và Bồ Đào Nha lại có thể hiểu nhau. Ngôn ngữ đang được sử dụng"
+  },
+  {
+    "orderIndex": 21,
+    "startTime": 152.9,
+    "endTime": 162.6,
+    "text": "Languages actually spoken by living people do not exist in neatly divided categories, but tend to transition gradually, crossing borders and classifications.",
+    "rawVi": "và Bồ Đào Nha lại có thể hiểu nhau. Ngôn ngữ đang được sử dụng không nằm gần khu vực nguyên phát, mà có xu hướng dịch chuyển dần dần, vượt qua biên giới và sự phân chia Khác biệt ngôn ngữ thường xảy ra"
+  },
+  {
+    "orderIndex": 22,
+    "startTime": 162.6,
+    "endTime": 170.6,
+    "text": "Often the difference between languages and dialects is a matter of changing political and national considerations, rather than any linguistic features.",
+    "rawVi": "vượt qua biên giới và sự phân chia Khác biệt ngôn ngữ thường xảy ra do thay đổi quan điểm chính trị và dân tộc, hơn là do đặc trưng ngôn ngữ. Thế nên, trả lời cho: \"Có bao nhiêu ngôn ngữ?\""
+  },
+  {
+    "orderIndex": 23,
+    "startTime": 170.6,
+    "endTime": 178.1,
+    "text": "This is why the answer to, \"How many languages are there?\" can be anywhere between 3,000 and 8,000, depending on who's counting.",
+    "rawVi": "hơn là do đặc trưng ngôn ngữ. Thế nên, trả lời cho: \"Có bao nhiêu ngôn ngữ?\" lại có thể là 3000 hay 8000 phụ thuộc vào người tính toán. Vấn đề khác là"
+  },
+  {
+    "orderIndex": 24,
+    "startTime": 178.1,
+    "endTime": 185.4,
+    "text": "The other problem is that the farther we move back in time towards the top of the tree, the less evidence we have about the languages there.",
+    "rawVi": "phụ thuộc vào người tính toán. Vấn đề khác là có rất ít bằng chứng đối với những ngôn ngữ xếp đầu Sự phân chia hiện tại các nhóm ngôn ngữ chính"
+  },
+  {
+    "orderIndex": 25,
+    "startTime": 185.4,
+    "endTime": 192.6,
+    "text": "The current division of major language families represents the limit at which relationships can be established with reasonable certainty,",
+    "rawVi": "Sự phân chia hiện tại các nhóm ngôn ngữ chính thể hiện giới hạn chắc chắn mà tại đó các mối quan hệ được thành lập nghĩa là ngôn ngữ trong các nhóm khác nhau"
+  },
+  {
+    "orderIndex": 26,
+    "startTime": 192.6,
+    "endTime": 197.4,
+    "text": "meaning that languages of different families are presumed not to be related on any level.",
+    "rawVi": "nghĩa là ngôn ngữ trong các nhóm khác nhau thường được cho là không liên quan tại tất cả cấp độ. Điều này có thể thay đổi."
+  },
+  {
+    "orderIndex": 27,
+    "startTime": 197.4,
+    "endTime": 198.8,
+    "text": "But this may change.",
+    "rawVi": "thường được cho là không liên quan tại tất cả cấp độ. Điều này có thể thay đổi. Trong khi nhiều đề nghị cho các mối quan hệ"
+  },
+  {
+    "orderIndex": 28,
+    "startTime": 198.8,
+    "endTime": 203.7,
+    "text": "While many proposals for higher level relationships -- or super families -- are speculative,",
+    "rawVi": "Điều này có thể thay đổi. Trong khi nhiều đề nghị cho các mối quan hệ hay cấp bậc cao hơn mang tính chất suy đoán một vài được chấp nhận rộng rãi và một số khác cần được xem xét,"
+  },
+  {
+    "orderIndex": 29,
+    "startTime": 203.7,
+    "endTime": 212.4,
+    "text": "some have been widely accepted and others are being considered, especially for native languages with small speaker populations that have not been extensively studied.",
+    "rawVi": "hay cấp bậc cao hơn mang tính chất suy đoán một vài được chấp nhận rộng rãi và một số khác cần được xem xét, đặc biệt, ngôn ngữ thiểu số bản địa cần được nghiên cứu một cách bao quát hơn. Cách mà ngôn ngữ xuất hiện vẫn còn mơ hồ"
+  },
+  {
+    "orderIndex": 30,
+    "startTime": 212.4,
+    "endTime": 221.4,
+    "text": "We may never be able to determine how language came about, or whether all human languages did in fact have a common ancestor scattered through the babel of migration.",
+    "rawVi": "cần được nghiên cứu một cách bao quát hơn. Cách mà ngôn ngữ xuất hiện vẫn còn mơ hồ cũng như việc liệu ngôn ngữ căn nguyên có được phổ biến rải rác thông qua sự di cư. Nhưng lần tới khi nghe tiếng nước ngoài, hãy chú ý,"
+  },
+  {
+    "orderIndex": 31,
+    "startTime": 221.4,
+    "endTime": 224.2,
+    "text": "But the next time you hear a foreign language, pay attention.",
+    "rawVi": "rải rác thông qua sự di cư. Nhưng lần tới khi nghe tiếng nước ngoài, hãy chú ý,"
+  },
+  {
+    "orderIndex": 32,
+    "startTime": 224.2,
+    "endTime": 226.6,
+    "text": "It may not be as foreign as you think.",
+    "rawVi": "Nhưng lần tới khi nghe tiếng nước ngoài, hãy chú ý, nó có thể không hẳn là tiếng nước ngoài như bạn nghĩ."
+  }
+]

@@ -7,32 +7,32 @@ import { LESSON_AIRPORT_CHECKIN, QUIZ_AIRPORT_CHECKIN } from "@/features/listeni
 import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
 
 describe("English for Travel: Checking in at the Airport - 100% Verbatim Audit", () => {
-  const calibratedPath = path.resolve(process.cwd(), "scripts/airport_checkin_16_calibrated.json");
-  const calibratedSegments = JSON.parse(fs.readFileSync(calibratedPath, "utf8"));
+  const masterPath = path.resolve(process.cwd(), "scripts/airport_checkin_master_16_segments.json");
+  const masterSegments = JSON.parse(fs.readFileSync(masterPath, "utf8"));
 
-  it("should have exactly 16 calibrated segments covering 00:03.00 to 00:56.00", () => {
-    expect(calibratedSegments.length).toBe(16);
-    expect(calibratedSegments[0].startTime).toBe(3.0);
-    expect(calibratedSegments[15].endTime).toBe(56.0);
+  it("should have exactly 16 master segments covering 00:03.00 to 00:56.00", () => {
+    expect(masterSegments.length).toBe(16);
+    expect(masterSegments[0].startTime).toBe(3.0);
+    expect(masterSegments[15].endTime).toBe(56.0);
   });
 
-  it("should have strictly contiguous, non-overlapping timestamps with positive durations", () => {
-    for (let i = 0; i < calibratedSegments.length; i++) {
-      const seg = calibratedSegments[i];
-      expect(seg.orderIndex).toBe(i);
+  it("should have strictly contiguous, non-overlapping timestamps with positive durations and 1-indexed order", () => {
+    for (let i = 0; i < masterSegments.length; i++) {
+      const seg = masterSegments[i];
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.endTime).toBeGreaterThan(seg.startTime);
       const dur = seg.endTime - seg.startTime;
       expect(dur).toBeGreaterThanOrEqual(2.0);
       expect(dur).toBeLessThanOrEqual(6.0);
 
       if (i > 0) {
-        expect(seg.startTime).toBe(calibratedSegments[i - 1].endTime);
+        expect(seg.startTime).toBe(masterSegments[i - 1].endTime);
       }
     }
   });
 
   it("should have valid IPA, Vietnamese translations, and keywords for every segment", () => {
-    for (const seg of calibratedSegments) {
+    for (const seg of masterSegments) {
       expect(seg.text.length).toBeGreaterThan(0);
       expect(seg.translationVi.length).toBeGreaterThan(0);
       expect(seg.ipaUs).toMatch(/^\/.*\/$/);
@@ -43,7 +43,7 @@ describe("English for Travel: Checking in at the Airport - 100% Verbatim Audit",
 
   it("should tokenize all 16 segments with zero empty tokens (106 words total)", () => {
     let totalTokens = 0;
-    for (const seg of calibratedSegments) {
+    for (const seg of masterSegments) {
       const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
       expect(tokens.length).toBeGreaterThan(0);
       totalTokens += tokens.length;
@@ -72,11 +72,12 @@ describe("English for Travel: Checking in at the Airport - 100% Verbatim Audit",
     expect(mock?.segments.length).toBe(16);
 
     for (let i = 0; i < 16; i++) {
-      expect(mock?.segments[i].text).toBe(calibratedSegments[i].text);
-      expect(mock?.segments[i].startTime).toBe(calibratedSegments[i].startTime);
-      expect(mock?.segments[i].endTime).toBe(calibratedSegments[i].endTime);
-      expect(mock?.segments[i].ipaUs).toBe(calibratedSegments[i].ipaUs);
-      expect(mock?.segments[i].translationVi).toBe(calibratedSegments[i].translationVi);
+      expect(mock?.segments[i].orderIndex).toBe(i + 1);
+      expect(mock?.segments[i].text).toBe(masterSegments[i].text);
+      expect(mock?.segments[i].startTime).toBe(masterSegments[i].startTime);
+      expect(mock?.segments[i].endTime).toBe(masterSegments[i].endTime);
+      expect(mock?.segments[i].ipaUs).toBe(masterSegments[i].ipaUs);
+      expect(mock?.segments[i].translationVi).toBe(masterSegments[i].translationVi);
     }
   });
 
@@ -98,7 +99,7 @@ describe("English for Travel: Checking in at the Airport - 100% Verbatim Audit",
     const normalize = (w: string) => w.replace(/[.,!?:;\"\'\(\)\-]/g, "").toLowerCase();
 
     const lessonWords: string[] = [];
-    calibratedSegments.forEach((s: any) => {
+    masterSegments.forEach((s: any) => {
       const ws = s.text.trim().split(/\s+/);
       ws.forEach((w: string) => lessonWords.push(w));
     });
@@ -118,6 +119,8 @@ describe("English for Travel: Checking in at the Airport - 100% Verbatim Audit",
       expect(seg.explanationAi!.length).toBeGreaterThan(0);
       expect(seg.tokenCount).toBeDefined();
       expect(seg.tokenCount).toBeGreaterThan(0);
+      const regexTokens = (seg.text.match(/\b[A-Za-z0-9_]+\b/g) || []).length;
+      expect(seg.tokenCount).toBe(regexTokens);
     }
   });
 
@@ -144,7 +147,8 @@ describe("English for Travel: Checking in at the Airport - 100% Verbatim Audit",
       expect(q.targetedConceptEn).toBeDefined();
       expect(q.targetedConceptVi).toBeDefined();
       expect(q.referenceSegmentIndex).toBeDefined();
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(16);
     }
   });
 });
-

@@ -1,0 +1,234 @@
+[
+  {
+    "orderIndex": 1,
+    "startTime": 235.45,
+    "endTime": 241.77,
+    "text": "Now that you've introduced yourself, the meeting will begin.",
+    "translationVi": "Bây giờ sau khi bạn đã giới thiệu bản thân, cuộc họp sẽ chính thức bắt đầu.",
+    "ipaUs": "/naʊ ðæt juːv ˌɪntrəˈdjuːst jʊərˈsɛlf ðə ˈmiːtɪŋ wɪl bɪˈɡɪn/",
+    "properNouns": [],
+    "keywords": [
+      "introduced yourself",
+      "meeting will begin"
+    ],
+    "explanationAi": "Cụm 'now that' dùng để liên kết sự việc vừa hoàn thành mở ra bước tiếp theo (Bây giờ khi mà / Sau khi...).",
+    "tokenCount": 10
+  },
+  {
+    "orderIndex": 2,
+    "startTime": 241.77,
+    "endTime": 249.88,
+    "text": "During the meeting, you might need to give your opinion on the different agenda items which you are discussing.",
+    "translationVi": "Trong suốt cuộc họp, bạn có thể cần phải đưa ra ý kiến của mình về các hạng mục nghị trình khác nhau mà bạn đang thảo luận.",
+    "ipaUs": "/ˈdjʊərɪŋ ðə ˈmiːtɪŋ juː maɪt niːd tuː ɡɪv jʊər əˈpɪnjən ɒn ðə ˈdɪfrənt əˈdʒɛndə ˈaɪtəmz wɪtʃ juː ɑːr dɪˈskʌsɪŋ/",
+    "properNouns": [],
+    "keywords": [
+      "give your opinion",
+      "agenda items",
+      "discussing"
+    ],
+    "explanationAi": "'Agenda items' là các mục/chủ đề trong chương trình nghị sự của cuộc họp. 'Give your opinion' là cách diễn đạt phát biểu ý kiến tự nhiên.",
+    "tokenCount": 19
+  },
+  {
+    "orderIndex": 3,
+    "startTime": 249.88,
+    "endTime": 256.35,
+    "text": "You might also need to react to other people's suggestions.",
+    "translationVi": "Bạn cũng có thể cần phải phản hồi lại các đề xuất của những người khác.",
+    "ipaUs": "/juː maɪt ˈɔːlsəʊ niːd tuː riˈækt tuː ˈʌðər ˈpiːplz səˈdʒɛstʃənz/",
+    "properNouns": [],
+    "keywords": [
+      "react to",
+      "suggestions"
+    ],
+    "explanationAi": "'React to' có nghĩa là phản hồi, đưa ra ý kiến phản biện hoặc đồng tình với lời đề xuất của đồng nghiệp.",
+    "tokenCount": 11
+  },
+  {
+    "orderIndex": 4,
+    "startTime": 256.35,
+    "endTime": 262.45,
+    "text": "How can you do this?",
+    "translationVi": "Làm thế nào bạn có thể thực hiện điều này?",
+    "ipaUs": "/haʊ kæn juː duː ðɪs/",
+    "properNouns": [],
+    "keywords": [
+      "How can you do this"
+    ],
+    "explanationAi": "Câu hỏi gợi mở dẫn dắt người học vào các cấu trúc câu thực hành tiếp theo.",
+    "tokenCount": 5
+  },
+  {
+    "orderIndex": 5,
+    "startTime": 262.45,
+    "endTime": 267.24,
+    "text": "When making suggestions, modal verbs can be very useful.",
+    "translationVi": "Khi đưa ra đề xuất, các động từ khuyết thiếu có thể rất hữu ích.",
+    "ipaUs": "/wɛn ˈmeɪkɪŋ səˈdʒɛstʃənz ˈmoʊdəl vɜːrbz kæn biː ˈvɛri ˈjuːsfəl/",
+    "properNouns": [],
+    "keywords": [
+      "making suggestions",
+      "modal verbs",
+      "useful"
+    ],
+    "explanationAi": "'Modal verbs' (động từ khuyết thiếu) là công cụ ngữ pháp đắc lực giúp điều chỉnh sắc thái lịch sự trong tiếng Anh công sở.",
+    "tokenCount": 9
+  },
+  {
+    "orderIndex": 6,
+    "startTime": 267.24,
+    "endTime": 278.95,
+    "text": "'Should', 'ought to' or 'might want to' can express something you think is a good idea, but not an obligation:",
+    "translationVi": "'Should', 'ought to' hoặc 'might want to' có thể diễn đạt điều gì đó bạn cho là một ý tưởng hay, nhưng không phải là nghĩa vụ bắt buộc:",
+    "ipaUs": "/ʃʊd ɔːt tuː ɔːr maɪt wɒnt tuː kæn ɪkˈsprɛs ˈsʌmθɪŋ juː θɪŋk ɪz ə ɡʊd aɪˈdɪə bʌt nɒt ən ˌɒblɪˈɡeɪʃən/",
+    "properNouns": [],
+    "keywords": [
+      "should",
+      "ought to",
+      "might want to",
+      "not an obligation"
+    ],
+    "explanationAi": "'Ought to' có nghĩa tương đương 'should' nhưng trang trọng hơn. 'Not an obligation' chỉ lời khuyên gợi ý chứ không phải bổn phận bắt buộc.",
+    "tokenCount": 20
+  },
+  {
+    "orderIndex": 7,
+    "startTime": 278.95,
+    "endTime": 283.98,
+    "text": "We ought to give new clients a gift from the company.",
+    "translationVi": "Chúng ta nên gửi tặng các khách hàng mới một món quà từ công ty.",
+    "ipaUs": "/wiː ɔːt tuː ɡɪv njuː ˈklaɪənts ə ɡɪft frɒm ðə ˈkʌmpəni/",
+    "properNouns": [],
+    "keywords": [
+      "ought to give",
+      "new clients",
+      "gift"
+    ],
+    "explanationAi": "Cấu trúc 'ought to + V' dùng để đưa ra lời khuyên hoặc gợi ý lịch sự trong bối cảnh công việc chuyên nghiệp.",
+    "tokenCount": 11
+  },
+  {
+    "orderIndex": 8,
+    "startTime": 283.98,
+    "endTime": 289.9,
+    "text": "We might want to consider looking for another engineer to help with this.",
+    "translationVi": "Chúng ta có thể muốn cân nhắc việc tìm kiếm một kỹ sư khác để hỗ trợ việc này.",
+    "ipaUs": "/wiː maɪt wɒnt tuː kənˈsɪdər ˈlʊkɪŋ fɔːr əˈnʌðər ˌɛndʒɪˈnɪər tuː hɛlp wɪð ðɪs/",
+    "properNouns": [],
+    "keywords": [
+      "might want to consider",
+      "looking for another engineer"
+    ],
+    "explanationAi": "Cụm 'might want to consider + V-ing' là kỹ thuật nói giảm nói tránh (softening) rất tinh tế và lịch thiệp nơi công sở.",
+    "tokenCount": 13
+  },
+  {
+    "orderIndex": 9,
+    "startTime": 289.9,
+    "endTime": 298.22,
+    "text": "Or: I think we should make this a priority for this month.",
+    "translationVi": "Hoặc: Tôi nghĩ chúng ta nên đặt việc này làm ưu tiên hàng đầu trong tháng này.",
+    "ipaUs": "/ɔːr aɪ θɪŋk wiː ʃʊd meɪk ðɪs ə praɪˈɒrəti fɔːr ðɪs mʌnθ/",
+    "properNouns": [],
+    "keywords": [
+      "make this a priority",
+      "priority for this month"
+    ],
+    "explanationAi": "'Make something a priority' có nghĩa là ưu tiên giải quyết điều gì đó trước tiên.",
+    "tokenCount": 12
+  },
+  {
+    "orderIndex": 10,
+    "startTime": 298.22,
+    "endTime": 305.86,
+    "text": "'Have to' and 'need to' can express something that is an obligation:",
+    "translationVi": "'Have to' và 'need to' có thể diễn tả điều gì đó mang tính nghĩa vụ bắt buộc:",
+    "ipaUs": "/hæv tuː ænd niːd tuː kæn ɪkˈsprɛs ˈsʌmθɪŋ ðæt ɪz ən ˌɒblɪˈɡeɪʃən/",
+    "properNouns": [],
+    "keywords": [
+      "have to",
+      "need to",
+      "obligation"
+    ],
+    "explanationAi": "'Have to' và 'need to' thể hiện sự cần thiết tất yếu hoặc yêu cầu công việc mang tính bắt buộc.",
+    "tokenCount": 12
+  },
+  {
+    "orderIndex": 11,
+    "startTime": 305.86,
+    "endTime": 311.11,
+    "text": "We have to improve the way we collect and record sales data.",
+    "translationVi": "Chúng ta phải cải thiện cách thu thập và ghi chép dữ liệu bán hàng.",
+    "ipaUs": "/wiː hæv tuː ɪmˈpruːv ðə weɪ wiː kəˈlɛkt ænd rɪˈkɔːrd seɪlz ˈdeɪtə/",
+    "properNouns": [],
+    "keywords": [
+      "improve the way",
+      "collect and record",
+      "sales data"
+    ],
+    "explanationAi": "Ví dụ điển hình cho yêu cầu bắt buộc cải tiến quy trình nghiệp vụ (business process improvement).",
+    "tokenCount": 12
+  },
+  {
+    "orderIndex": 12,
+    "startTime": 311.11,
+    "endTime": 318.74,
+    "text": "Or: We need to find a cheaper solution—our budget is very tight.",
+    "translationVi": "Hoặc: Chúng ta cần tìm một giải pháp rẻ hơn—ngân sách của chúng ta đang rất hạn hẹp.",
+    "ipaUs": "/ɔːr wiː niːd tuː faɪnd ə ˈtʃiːpər səˈluːʃən ˈaʊər ˈbʌdʒɪt ɪz ˈvɛri taɪt/",
+    "properNouns": [],
+    "keywords": [
+      "cheaper solution",
+      "budget is very tight"
+    ],
+    "explanationAi": "'Tight budget' là thành ngữ kinh doanh quen thuộc chỉ ngân sách eo hẹp, không dư dả.",
+    "tokenCount": 13
+  },
+  {
+    "orderIndex": 13,
+    "startTime": 318.74,
+    "endTime": 326.24,
+    "text": "Remember, you can also use these to make negative suggestions:",
+    "translationVi": "Hãy nhớ rằng, bạn cũng có thể sử dụng những từ này để đưa ra đề xuất phủ định:",
+    "ipaUs": "/rɪˈmɛmbər juː kæn ˈɔːlsəʊ juːz ðiːz tuː meɪk ˈnɛɡətɪv səˈdʒɛstʃənz/",
+    "properNouns": [],
+    "keywords": [
+      "Remember",
+      "negative suggestions"
+    ],
+    "explanationAi": "'Negative suggestions' là đề xuất khuyên can không nên làm điều gì đó (ví dụ không nên vội vàng, không cần tuyển thêm người).",
+    "tokenCount": 10
+  },
+  {
+    "orderIndex": 14,
+    "startTime": 326.24,
+    "endTime": 331.36,
+    "text": "We shouldn't rush this—we need to think it through carefully.",
+    "translationVi": "Chúng ta không nên vội vã việc này—chúng ta cần suy nghĩ kỹ lưỡng.",
+    "ipaUs": "/wiː ʃʊdnt rʌʃ ðɪs wiː niːd tuː θɪŋk ɪt θruː ˈkɛərfəli/",
+    "properNouns": [],
+    "keywords": [
+      "shouldn't rush",
+      "think it through carefully"
+    ],
+    "explanationAi": "'Think something through' có nghĩa là cân nhắc kỹ mọi khía cạnh trước khi hành động. 'Rush' nghĩa là hành động quá hấp tấp.",
+    "tokenCount": 12
+  },
+  {
+    "orderIndex": 15,
+    "startTime": 331.36,
+    "endTime": 337.66,
+    "text": "Or: We don't need to hire new staff at the moment.",
+    "translationVi": "Hoặc: Chúng ta không cần phải tuyển thêm nhân viên mới vào thời điểm này.",
+    "ipaUs": "/ɔːr wiː doʊnt niːd tuː ˈhaɪər njuː stæf æt ðə ˈmoʊmənt/",
+    "properNouns": [],
+    "keywords": [
+      "don't need to hire",
+      "new staff",
+      "at the moment"
+    ],
+    "explanationAi": "'At the moment' tương đương 'currently/right now', diễn tả quyết định nhân sự áp dụng cho thời điểm hiện tại.",
+    "tokenCount": 12
+  }
+]

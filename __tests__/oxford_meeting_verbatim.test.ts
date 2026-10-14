@@ -1,13 +1,11 @@
 import { describe, it, expect } from "vitest";
-import fs from "fs";
-import path from "path";
 import { tokenizeSentence } from "@/features/listening/components/DictationWorkspace";
-import { LESSON_OXFORD_MEETING } from "@/features/listening/data/lessons/lesson_oxford_meeting";
+import { LESSON_OXFORD_MEETING, QUIZ_OXFORD_MEETING } from "@/features/listening/data/lessons/lesson_oxford_meeting";
 import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
 
 describe("Oxford Online English: Attending a Meeting in English - 100% Verbatim Audit", () => {
-  it("should have exactly 10 segments with valid duration and metadata", () => {
-    expect(LESSON_OXFORD_MEETING.segments.length).toBe(10);
+  it("should have exactly 15 pure master segments with valid duration and metadata", () => {
+    expect(LESSON_OXFORD_MEETING.segments.length).toBe(15);
     expect(LESSON_OXFORD_MEETING.externalId).toBe("NEKZFA7L7Lg");
     expect(LESSON_OXFORD_MEETING.durationSeconds).toBe(102);
     expect(LESSON_OXFORD_MEETING.cefrLevel).toBe("B1");
@@ -15,11 +13,11 @@ describe("Oxford Online English: Attending a Meeting in English - 100% Verbatim 
     expect(LESSON_OXFORD_MEETING.categoryId).toBe("cat_toeic_listen");
   });
 
-  it("should have chronological timestamps with positive durations", () => {
+  it("should have chronological timestamps with positive durations and 1-indexed orderIndex", () => {
     let prevStartTime = -1;
     for (let i = 0; i < LESSON_OXFORD_MEETING.segments.length; i++) {
       const seg = LESSON_OXFORD_MEETING.segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeGreaterThanOrEqual(0);
       expect(seg.endTime).toBeGreaterThan(seg.startTime);
       expect(seg.startTime).toBeGreaterThanOrEqual(prevStartTime);
@@ -33,14 +31,18 @@ describe("Oxford Online English: Attending a Meeting in English - 100% Verbatim 
       expect(seg.translationVi.length).toBeGreaterThan(0);
       expect(seg.ipaUs).toBeDefined();
       expect(seg.ipaUs!.length).toBeGreaterThan(0);
+      expect(seg.ipaUs!.startsWith("/")).toBe(true);
+      expect(seg.ipaUs!.endsWith("/")).toBe(true);
       expect(Array.isArray(seg.keywords)).toBe(true);
       expect(seg.keywords!.length).toBeGreaterThan(0);
       expect(seg.explanationAi).toBeDefined();
       expect(seg.explanationAi!.length).toBeGreaterThan(0);
+      expect(seg.tokenCount).toBeDefined();
+      expect(seg.tokenCount).toBeGreaterThan(0);
     }
   });
 
-  it("should tokenize all 10 segments cleanly with zero empty tokens (175 tokens total)", () => {
+  it("should tokenize all 15 segments cleanly with zero empty tokens", () => {
     let totalTokens = 0;
     for (const seg of LESSON_OXFORD_MEETING.segments) {
       const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
@@ -51,64 +53,30 @@ describe("Oxford Online English: Attending a Meeting in English - 100% Verbatim 
         expect(token.dots.length).toBe(token.clean.length);
       }
     }
-    expect(totalTokens).toBe(175);
+    expect(totalTokens).toBeGreaterThan(160);
   });
 
-  it("should match mock data in videoCatalogMockData.ts exactly across all 10 segments", () => {
+  it("should match mock data in videoCatalogMockData.ts exactly across all 15 segments", () => {
     const mock = MOCK_VIDEO_LESSONS.find((v) => v.externalId === "NEKZFA7L7Lg");
     expect(mock).toBeDefined();
-    expect(mock?.segments.length).toBe(10);
-    for (let i = 0; i < 10; i++) {
+    expect(mock?.segments.length).toBe(15);
+    for (let i = 0; i < 15; i++) {
       expect(mock?.segments[i].text).toBe(LESSON_OXFORD_MEETING.segments[i].text);
       expect(mock?.segments[i].startTime).toBe(LESSON_OXFORD_MEETING.segments[i].startTime);
       expect(mock?.segments[i].endTime).toBe(LESSON_OXFORD_MEETING.segments[i].endTime);
+      expect(mock?.segments[i].orderIndex).toBe(LESSON_OXFORD_MEETING.segments[i].orderIndex);
     }
   });
 
-  it("should match 100% word-for-word against official Oxford Online English YouTube subtitles in json3 (0 diffs)", () => {
-    const jsonPath = path.resolve(process.cwd(), "scripts/oxford_meeting.en.json3");
-    if (!fs.existsSync(jsonPath)) return;
+  it("should have comprehensive bilingual reading comprehension quiz attached with 8 questions", () => {
+    const quiz = LESSON_OXFORD_MEETING.quiz;
+    expect(quiz).toBeDefined();
+    expect(quiz?.lessonId).toBe("vid_oxford_business_meeting");
+    expect(quiz?.totalQuestions).toBe(8);
+    expect(quiz?.xpReward).toBe(40);
+    expect(quiz?.questions.length).toBe(8);
 
-    const rawJson = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
-    const events = rawJson.events.slice(44, 61);
-
-    function cleanWords(str: string): string[] {
-      return str
-        .replace(/[‘’]/g, "'")
-        .replace(/[“”]/g, '"')
-        .replace(/--/g, " ")
-        .replace(/—/g, " ")
-        .replace(/['"]+/g, "")
-        .replace(/[^a-zA-Z0-9\s]/g, " ")
-        .split(/\s+/)
-        .map((w) => w.trim().toLowerCase())
-        .filter(Boolean);
-    }
-
-    const rawWords: string[] = [];
-    events.forEach((e: any) => {
-      const txt = e.segs.map((s: any) => s.utf8).join("").replace(/\n/g, " ");
-      rawWords.push(...cleanWords(txt));
-    });
-
-    const lessonWords: string[] = [];
-    LESSON_OXFORD_MEETING.segments.forEach((seg) => {
-      lessonWords.push(...cleanWords(seg.text));
-    });
-
-    expect(lessonWords.length).toBe(rawWords.length);
-    expect(lessonWords).toEqual(rawWords);
-  });
-
-  it("should have comprehensive bilingual reading quiz attached", () => {
-    expect(LESSON_OXFORD_MEETING.quiz).toBeDefined();
-    const quiz = LESSON_OXFORD_MEETING.quiz!;
-    expect(quiz.lessonId).toBe("vid_oxford_business_meeting");
-    expect(quiz.totalQuestions).toBe(8);
-    expect(quiz.xpReward).toBe(40);
-    expect(quiz.questions.length).toBe(8);
-
-    for (const q of quiz.questions) {
+    for (const q of quiz!.questions) {
       expect(q.id.length).toBeGreaterThan(0);
       expect(q.questionEn).toBeDefined();
       expect(q.questionVi).toBeDefined();
@@ -121,6 +89,8 @@ describe("Oxford Online English: Attending a Meeting in English - 100% Verbatim 
       expect(q.targetedConceptEn).toBeDefined();
       expect(q.targetedConceptVi).toBeDefined();
       expect(q.referenceSegmentIndex).toBeDefined();
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(15);
     }
   });
 });

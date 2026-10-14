@@ -16,8 +16,8 @@ import { MockVideoLesson, VideoQuizData } from "../../../types";
 export const QUIZ_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: VideoQuizData = {
   "lessonId": "mov_ani_10",
   "lessonTitle": "Tangled: Rapunzel & Flynn Rider Floating Lanterns & I See The Light",
-  "totalQuestions": 6,
-  "xpReward": 150,
+  "totalQuestions": 8,
+  "xpReward": 200,
   "generatedBy": "AI_GEMINI",
   "questions": [
     {
@@ -50,7 +50,7 @@ export const QUIZ_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: VideoQuizData = {
       "targetedConcept": "Pointless Vocabulary in Confrontation",
       "targetedConceptEn": "Pointless Vocabulary in Confrontation",
       "targetedConceptVi": "Từ vựng 'pointless' trong ngữ cảnh đối đầu",
-      "referenceSegmentIndex": 1
+      "referenceSegmentIndex": 2
     },
     {
       "id": "q_mov_ani_10_2",
@@ -82,7 +82,7 @@ export const QUIZ_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: VideoQuizData = {
       "targetedConcept": "Satchel Definition & Context",
       "targetedConceptEn": "Satchel Definition & Context",
       "targetedConceptVi": "Định nghĩa và ngữ cảnh từ 'satchel'",
-      "referenceSegmentIndex": 4
+      "referenceSegmentIndex": 14
     },
     {
       "id": "q_mov_ani_10_3",
@@ -108,13 +108,13 @@ export const QUIZ_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: VideoQuizData = {
         "Anh muốn nhuộm nó thành màu nâu sẫm"
       ],
       "correctAnswer": 0,
-      "explanation": "Flynn protests: 'The only thing I want to do with your hair is to get out of it. Literally! Why on earth would I want your hair?'",
-      "explanationEn": "Flynn protests: 'The only thing I want to do with your hair is to get out of it. Literally! Why on earth would I want your hair?'",
-      "explanationVi": "Flynn phản bác: 'Điều duy nhất tôi muốn làm với mái tóc của cô là thoát ra khỏi nó. Theo đúng nghĩa đen luôn đấy!'",
+      "explanation": "Flynn protests: 'The only thing I want to do with your hair is to get out of it! Literally! Why on earth would I want your hair?'",
+      "explanationEn": "Flynn protests: 'The only thing I want to do with your hair is to get out of it! Literally! Why on earth would I want your hair?'",
+      "explanationVi": "Flynn phản bác: 'Điều duy nhất tôi muốn làm với mái tóc của cô là thoát ra khỏi nó! Theo đúng nghĩa đen luôn đấy! Tại sao trên đời tôi lại muốn tóc cô cơ chứ?'",
       "targetedConcept": "Literally Usage & Exaggeration",
       "targetedConceptEn": "Literally Usage & Exaggeration",
       "targetedConceptVi": "Cách dùng từ 'literally' và sắc thái nhấn mạnh",
-      "referenceSegmentIndex": 5
+      "referenceSegmentIndex": 20
     },
     {
       "id": "q_mov_ani_10_4",
@@ -146,7 +146,7 @@ export const QUIZ_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: VideoQuizData = {
       "targetedConcept": "Conditional Bargaining Structures",
       "targetedConceptEn": "Conditional Bargaining Structures",
       "targetedConceptVi": "Cấu trúc điều kiện và thương lượng",
-      "referenceSegmentIndex": 9
+      "referenceSegmentIndex": 32
     },
     {
       "id": "q_mov_ani_10_5",
@@ -172,13 +172,13 @@ export const QUIZ_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: VideoQuizData = {
         "'The dazzle' — khoe đồng tiền vàng lấp lánh"
       ],
       "correctAnswer": 0,
-      "explanation": "Flynn announces 'Here comes... the smolder', squinting seductively, but Rapunzel and Pascal are entirely unmoved.",
-      "explanationEn": "Flynn announces 'Here comes... the smolder', squinting seductively, but Rapunzel and Pascal are entirely unmoved.",
-      "explanationVi": "Flynn thốt lên 'Xuất chiêu đây... the smolder', nhưng Rapunzel và chú tắc kè Pascal nhìn anh trơ trơ không chút xao xuyến.",
+      "explanation": "Flynn announces: 'All right, listen. I didn't want to have to do this, but you leave me no choice. Here comes the smolder.'",
+      "explanationEn": "Flynn announces: 'All right, listen. I didn't want to have to do this, but you leave me no choice. Here comes the smolder.'",
+      "explanationVi": "Flynn thốt lên: 'Được rồi, nghe này. Tôi không muốn phải làm thế này đâu, nhưng cô ép tôi đấy nhé. Xuất chiêu the smolder đây!'",
       "targetedConcept": "Cultural Idiom & Character Quirk",
       "targetedConceptEn": "Cultural Idiom & Character Quirk",
       "targetedConceptVi": "Thành ngữ văn hóa và nét tính cách nhân vật",
-      "referenceSegmentIndex": 14
+      "referenceSegmentIndex": 42
     },
     {
       "id": "q_mov_ani_10_6",
@@ -204,13 +204,77 @@ export const QUIZ_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: VideoQuizData = {
         "Chuyển đổi câu bị động"
       ],
       "correctAnswer": 0,
-      "explanation": "The lesson highlights elision in natural American speech where auxiliary verbs are omitted for conversational rhythm.",
-      "explanationEn": "The lesson highlights elision in natural American speech where auxiliary verbs are omitted for conversational rhythm.",
-      "explanationVi": "Bài học phân tích hiện tượng lược âm (elision) trong tiếng Anh Mỹ tự nhiên khi trợ động từ được tinh giản để tạo nhịp điệu giao tiếp thoải mái.",
+      "explanation": "The lesson highlights elision in connected speech: 'Americans frequently use informal greetings like \"How you doing?\" where the auxiliary \"are\" is completely omitted.'",
+      "explanationEn": "The lesson highlights elision in connected speech: 'Americans frequently use informal greetings like \"How you doing?\" where the auxiliary \"are\" is completely omitted.'",
+      "explanationVi": "Bài học phân tích hiện tượng lược âm (elision) trong tiếng Anh Mỹ khi trợ động từ 'are' được giản lược hoàn toàn trong các câu chào hỏi giao tiếp.",
       "targetedConcept": "Connected Speech & Elision",
       "targetedConceptEn": "Connected Speech & Elision",
       "targetedConceptVi": "Nối âm và hiện tượng lược âm trong giao tiếp",
-      "referenceSegmentIndex": 16
+      "referenceSegmentIndex": 46
+    },
+    {
+      "id": "q_mov_ani_10_7",
+      "question": "How does Rapunzel prove her negotiation leverage and moral integrity to Flynn?",
+      "questionEn": "How does Rapunzel prove her negotiation leverage and moral integrity to Flynn?",
+      "questionVi": "Rapunzel chứng minh lợi thế đàm phán và phẩm chất danh dự của mình trước Flynn như thế nào?",
+      "options": [
+        "She emphasizes that without her help he will never find the satchel, yet guarantees with an unbreakable promise to return it once the deal is honored",
+        "She threatens to alert the royal castle guards surrounding the secluded forest",
+        "She offers him a large chest filled with royal gold coins upfront",
+        "She casts an ancient mystical spell on the tower entrance"
+      ],
+      "optionsEn": [
+        "She emphasizes that without her help he will never find the satchel, yet guarantees with an unbreakable promise to return it once the deal is honored",
+        "She threatens to alert the royal castle guards surrounding the secluded forest",
+        "She offers him a large chest filled with royal gold coins upfront",
+        "She casts an ancient mystical spell on the tower entrance"
+      ],
+      "optionsVi": [
+        "Cô nhấn mạnh rằng nếu không có cô thì anh sẽ không bao giờ tìm thấy túi, đồng thời cam kết một lời hứa sắt đá không bao giờ phá vỡ một khi giao kèo hoàn tất",
+        "Cô đe dọa sẽ gọi lính gác hoàng gia đang bao vây khu rừng hẻo lánh",
+        "Cô tặng trước cho anh một rương đầy tiền vàng hoàng gia",
+        "Cô niệm một câu thần chú cổ xưa phong ấn lối vào tòa tháp"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Rapunzel asserts her leverage by stating Flynn will never find the satchel alone, and seals her commitment with an unbreakable promise: 'And when I promise something, I never, ever break that promise. Ever.'",
+      "explanationEn": "Rapunzel asserts her leverage by stating Flynn will never find the satchel alone, and seals her commitment with an unbreakable promise: 'And when I promise something, I never, ever break that promise. Ever.'",
+      "explanationVi": "Rapunzel khẳng định thế mạnh đàm phán khi nêu rõ Flynn sẽ không thể tự tìm ra túi, và củng cố niềm tin bằng lời hứa bất diệt: 'Và khi ta đã hứa điều gì, ta không bao giờ nuốt lời. Không bao giờ.'",
+      "targetedConcept": "Negotiation Leverage & Integrity Declarations",
+      "targetedConceptEn": "Negotiation Leverage & Integrity Declarations",
+      "targetedConceptVi": "Lợi thế đàm phán và tuyên ngôn danh dự trong thương thuyết",
+      "referenceSegmentIndex": 41
+    },
+    {
+      "id": "q_mov_ani_10_8",
+      "question": "In the climactic song segment 'I See the Light', what emotional and symbolic transformation is expressed through the metaphor of the fog lifting?",
+      "questionEn": "In the climactic song segment 'I See the Light', what emotional and symbolic transformation is expressed through the metaphor of the fog lifting?",
+      "questionVi": "Trong phân đoạn bài hát cao trào 'I See the Light', sự chuyển hóa cảm xúc và biểu tượng nào được thể hiện qua phép ẩn dụ sương mù tan biến ('fog has lifted')?",
+      "options": [
+        "A profound sense of clarity and awakening, realizing one's true desires and authentic connection after years of isolation",
+        "Physical relief that the boat has navigated out of a literal morning sea mist",
+        "Fear of returning to the dark tower now that the lantern festival has ended",
+        "Disappointment that dreams in reality differ from expectation"
+      ],
+      "optionsEn": [
+        "A profound sense of clarity and awakening, realizing one's true desires and authentic connection after years of isolation",
+        "Physical relief that the boat has navigated out of a literal morning sea mist",
+        "Fear of returning to the dark tower now that the lantern festival has ended",
+        "Disappointment that dreams in reality differ from expectation"
+      ],
+      "optionsVi": [
+        "Cảm giác thấu suốt và bừng tỉnh sâu sắc, nhận ra ước nguyện chân thật và sự gắn kết tâm hồn sau nhiều năm cô độc",
+        "Sự nhẹ nhõm về mặt thể chất khi con thuyền thoát khỏi màn sương sớm ngoài biển",
+        "Nỗi sợ hãi khi phải trở về tòa tháp tăm tối khi lễ hội đèn lồng đã kết thúc",
+        "Sự thất vọng khi hiện thực không giống như kỳ vọng ban đầu"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The lyric 'it's like the fog has lifted' metaphorically captures the revelation of truth, purpose, and emotional freedom that Rapunzel and Flynn experience as their dreams align under the floating lanterns.",
+      "explanationEn": "The lyric 'it's like the fog has lifted' metaphorically captures the revelation of truth, purpose, and emotional freedom that Rapunzel and Flynn experience as their dreams align under the floating lanterns.",
+      "explanationVi": "Ca từ 'it's like the fog has lifted' (như thể màn sương đã tan biến) là phép ẩn dụ thể hiện sự khai sáng chân lý, mục đích sống và tự do cảm xúc mà Rapunzel và Flynn cảm nhận được dưới bầu trời đèn lồng lung linh.",
+      "targetedConcept": "Poetic Metaphor & Character Awakening in Lyrics",
+      "targetedConceptEn": "Poetic Metaphor & Character Awakening in Lyrics",
+      "targetedConceptVi": "Phép ẩn dụ thi ca và sự thức tỉnh tâm lý nhân vật qua ca từ",
+      "referenceSegmentIndex": 49
     }
   ]
 };
@@ -230,252 +294,770 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
   supportedTypes: "BOTH",
   thumbnailUrl: "https://img.youtube.com/vi/uQ2rJKiiRiU/hqdefault.jpg",
   accent: "American",
-  wpmSpeed: 130,
+  wpmSpeed: 125,
   viewCount: 3765078,
-  studyCount: 6120,
+  studyCount: 8920,
   description:
-    "Học tiếng Anh chuyên sâu cùng Rapunzel và Flynn Rider trong kiệt tác Tangled (Disney): Trích đoạn đối đầu hài hước trong tòa tháp, giao kèo đèn lồng định mệnh, biểu cảm 'the smolder' trứ danh, phân tích hiện tượng lược âm (elision) và biến âm American T trong giao tiếp tự nhiên.",
+    "Cùng công chúa tóc mây Rapunzel và chàng trộm láu lỉnh Flynn Rider trong Tangled giải mã phân cảnh đối đầu thẩm vấn kinh điển với chiếc chảo rán, kỹ thuật nuốt âm Elision 'How you doing?', biến âm Flapped T và ca khúc bất hủ đoạt đề cử Oscar 'I See The Light'.",
   segments: [
-    {
-      orderIndex: 0,
-      startTime: 10.0,
-      endTime: 45.0,
-      text: "Welcome to Learn English with TV Series! In today's lesson, you will learn English with Rapunzel and Flynn Rider in the Disney animation classic, Tangled.",
-      translationVi: "Chào mừng các bạn đến với Learn English with TV Series! Trong bài học hôm nay, các bạn sẽ học tiếng Anh cùng Rapunzel và Flynn Rider trong bộ phim hoạt hình kinh điển của Disney, Tangled (Công Chúa Tóc Mây).",
-      ipaUs: "/ˈwɛlkəm tuː lɜːrn ˈɪŋɡlɪʃ wɪð ˌtiːˈviː ˈsɪriz! ɪn təˈdeɪz ˈlɛsən, juː wɪl lɜːrn ˈɪŋɡlɪʃ wɪð rəˈpʌnzəl ænd flɪn ˈraɪdər ɪn ðə ˈdɪzni ˌænəˈmeɪʃən ˈklæsɪk, ˈtæŋɡəld./",
-      keywords: ["animation classic","lesson","Disney","Tangled"],
-      explanationAi: "Lời giới thiệu mở đầu bài học từ kênh Learn English with TV Series. Cụm 'animation classic' chỉ tác phẩm hoạt hình kinh điển mang tính biểu tượng.",
-      properNouns: ["Learn English with TV Series","Rapunzel","Flynn Rider","Disney","Tangled"],
-      tokenCount: 25,
-    },
-    {
-      orderIndex: 1,
-      startTime: 93.0,
-      endTime: 110.0,
-      text: "Okay... AHH! Wha...? Is this... hair? Struggling... struggling is pointless. What? I know why you're here, and I'm not afraid of you.",
-      translationVi: "Được rồi... Á! Cái gì...? Đây là... tóc ư? Giãy giụa... giãy giụa là vô ích. Cái gì? Ta biết tại sao ngươi lại ở đây, và ta không hề sợ ngươi đâu.",
-      ipaUs: "/oʊˈkeɪ... ɑː! wʌ...? ɪz ðɪs... hɛr? ˈstrʌɡəlɪŋ... ˈstrʌɡəlɪŋ ɪz ˈpɔɪntləs. wʌt? aɪ noʊ waɪ jʊr hɪr, ænd aɪm nɑːt əˈfreɪd əv juː./",
-      keywords: ["struggling is pointless","afraid of you","hair"],
-      explanationAi: "Từ vựng cốt lõi: 'pointless' (vô ích, không có tác dụng gì). Rapunzel khẳng định vị thế chủ động khi trói Flynn Rider vào chiếc ghế bằng mái tóc dài ma thuật.",
-      properNouns: [],
-      tokenCount: 22,
-    },
-    {
-      orderIndex: 2,
-      startTime: 110.0,
-      endTime: 128.0,
-      text: "Who are you, and how did you find me? — I know not who you are, nor how I came to find you. But may I just say, hi! How you doing? The name's Flynn Rider. How's your day going, huh?",
-      translationVi: "Ngươi là ai, và làm sao ngươi tìm ra ta? — Tôi chẳng biết cô là ai, cũng chẳng rõ làm sao tôi lại tìm ra cô. Nhưng cho phép tôi chào một câu nhé: Chào đằng ấy! Dạo này thế nào? Tôi tên là Flynn Rider. Ngày hôm nay của cô trôi qua thế nào, hả?",
-      ipaUs: "/huː ɑːr juː, ænd haʊ dɪd juː faɪnd miː? — aɪ noʊ nɑːt huː juː ɑːr, nɔːr haʊ aɪ keɪm tuː faɪnd juː. bʌt meɪ aɪ dʒʌst seɪ, haɪ! haʊ juː ˈduːɪŋ? ðə neɪmz flɪn ˈraɪdər. haʊz jʊər deɪ ˈɡoʊɪŋ, hʌ?/",
-      keywords: ["I know not who you are","How you doing","The name's"],
-      explanationAi: "Lối nói cổ điển hài hước: 'I know not...' (cách dùng phủ định văn chương cổ) tương phản với câu chào tán tỉnh kiểu hiện đại 'How you doing?'.",
-      properNouns: ["Flynn Rider"],
-      tokenCount: 40,
-    },
-    {
-      orderIndex: 3,
-      startTime: 128.0,
-      endTime: 145.0,
-      text: "Who else knows my location, Flynn Rider? — All right, Blondie. — Rapunzel. — Gesundheit. Here's the thing: I was in a situation, gallivanting through the forest, I came across your tower, and—",
-      translationVi: "Ai khác còn biết vị trí nơi ở của ta nữa, Flynn Rider? — Được rồi, cô nàng Tóc Vàng. — Là Rapunzel. — Chúc sức khỏe. Chuyện là thế này: Tôi rơi vào một tình huống éo le, đang ngao du lông bông qua khu rừng, thì tình cờ bắt gặp ngọn tháp của cô, và—",
-      ipaUs: "/huː ɛls noʊz maɪ loʊˈkeɪʃən, flɪn ˈraɪdər? — ɔːl raɪt, ˈblɑːndi. — rəˈpʌnzəl. — ɡəˈzʊntˌhaɪt. hɪrz ðə θɪŋ: aɪ wʌz ɪn ə ˌsɪtʃuˈeɪʃən, ˈɡæləˌvæntɪŋ θruː ðə ˈfɔːrɪst, aɪ keɪm əˈkrɔːs jʊər ˈtaʊər, ænd—/",
-      keywords: ["location","Blondie","Gesundheit","gallivanting through the forest","came across"],
-      explanationAi: "'Gesundheit' (tiếng Đức chúc sức khỏe khi ai đó hắt hơi, Flynn dùng trêu tên Rapunzel). 'Gallivanting' (ngao du, lang thang lông bông tìm kiếm niềm vui).",
-      properNouns: ["Flynn Rider","Blondie","Rapunzel"],
-      tokenCount: 30,
-    },
-    {
-      orderIndex: 4,
-      startTime: 145.0,
-      endTime: 160.0,
-      text: "I've hidden it, somewhere you'll never find it. — Ho, ho, no. Where is my satchel? — I hid it. Somewhere you'll never find it. — It's in the pot, isn't it?",
-      translationVi: "Ta đã giấu nó rồi, ở một nơi ngươi sẽ không bao giờ tìm thấy được đâu. — Ôi không, đừng đùa chứ. Chiếc túi đeo của tôi đâu rồi? — Ta đã giấu nó rồi. Ở một nơi ngươi chẳng bao giờ tìm ra. — Nó ở trong cái nồi, đúng không?",
-      ipaUs: "/aɪv ˈhɪdən ɪt, ˈsʌmwɛr juːl ˈnɛvər faɪnd ɪt. — hoʊ, hoʊ, noʊ. wɛr ɪz maɪ ˈsætʃəl? — aɪ hɪd ɪt. ˈsʌmwɛr juːl ˈnɛvər faɪnd ɪt. — ɪts ɪn ðə pɑːt, ˈɪzənt ɪt?/",
-      keywords: ["satchel","hidden","in the pot"],
-      explanationAi: "Từ vựng trọng tâm: 'satchel' (chiếc túi da có quai đeo chéo vai dùng để đựng vương miện hoàng gia bị đánh cắp).",
-      properNouns: [],
-      tokenCount: 29,
-    },
-    {
-      orderIndex: 5,
-      startTime: 160.0,
-      endTime: 178.0,
-      text: "Now it's hidden where you'll never find it! So, what do you want with my hair? To cut it? — What? — Sell it? — No! Listen, the only thing I want to do with your hair is to get out of it. Literally!",
-      translationVi: "Bây giờ thì nó đã được giấu ở nơi ngươi không bao giờ tìm ra rồi đấy! Thế rốt cuộc, ngươi muốn làm gì với mái tóc của ta? Cắt nó à? — Cái gì cơ? — Hay đem bán nó? — Không! Nghe này, điều duy nhất tôi muốn làm với mái tóc của cô là thoát ra khỏi nó. Theo đúng nghĩa đen luôn đấy!",
-      ipaUs: "/naʊ ɪts ˈhɪdən wɛr juːl ˈnɛvər faɪnd ɪt! soʊ, wʌt duː juː wɑːnt wɪð maɪ hɛr? tuː kʌt ɪt? — wʌt? — sɛl ɪt? — noʊ! ˈlɪsən, ði ˈoʊnli θɪŋ aɪ wɑːnt tuː duː wɪð jʊər hɛr ɪz tuː ɡɛt aʊt əv ɪt. ˈlɪtərəli!/",
-      keywords: ["cut it","sell it","get out of it","literally"],
-      explanationAi: "Thành ngữ & Trạng từ: 'literally' (theo đúng nghĩa đen). Flynn nhấn mạnh anh chỉ muốn thoát khỏi việc bị trói nghẹt thở bởi mái tóc khổng lồ.",
-      properNouns: [],
-      tokenCount: 41,
-    },
-    {
-      orderIndex: 6,
-      startTime: 178.0,
-      endTime: 198.0,
-      text: "Wait, you don't want my hair? — Why on earth would I want your hair? Look, I was being chased, I saw a tower, I climbed it, end of story. — You're telling the truth? — YES!",
-      translationVi: "Khoan đã, ngươi không muốn chiếm lấy tóc của ta thật sao? — Tại sao trên đời này tôi lại thèm muốn mái tóc của cô chứ? Nghe này, tôi bị truy đuổi, tôi thấy một ngọn tháp, tôi trèo lên, hết chuyện! — Ngươi đang nói sự thật đấy chứ? — ĐÚNG VẬY!",
-      ipaUs: "/weɪt, juː doʊnt wɑːnt maɪ hɛr? — waɪ ɑːn ɜːrθ wʊd aɪ wɑːnt jʊər hɛr? lʊk, aɪ wʌz ˈbiːɪŋ tʃeɪst, aɪ sɔː ə ˈtaʊər, aɪ klaɪmd ɪt, ɛnd əv ˈstɔːri. — jʊr ˈtɛlɪŋ ðə truːθ? — jɛs!/",
-      keywords: ["why on earth","being chased","end of story","telling the truth"],
-      explanationAi: "Cụm thành ngữ cường điệu: 'Why on earth' (Tại sao trên trần đời này lại... - nhấn mạnh sự vô lý), 'end of story' (thế là hết chuyện, không có gì để bàn cãi thêm).",
-      properNouns: [],
-      tokenCount: 34,
-    },
-    {
-      orderIndex: 7,
-      startTime: 198.0,
-      endTime: 220.0,
-      text: "I think he's telling the truth, too. He doesn't have fangs... but what choice do I have? Okay, Flynn Rider, I'm prepared to offer you a deal. — Deal?",
-      translationVi: "Mình nghĩ anh ta cũng đang nói thật đấy. Anh ta không hề có răng nanh... nhưng mình còn sự lựa chọn nào khác đâu chứ? Được rồi, Flynn Rider, ta sẵn sàng đưa ra cho ngươi một thỏa thuận. — Thỏa thuận ư?",
-      ipaUs: "/aɪ θɪŋk hiːz ˈtɛlɪŋ ðə truːθ, tuː. hiː ˈdʌzənt hæv fæŋz... bʌt wʌt tʃɔɪs duː aɪ hæv? oʊˈkeɪ, flɪn ˈraɪdər, aɪm prɪˈpɛrd tuː ˈɔːfər juː ə diːl. — diːl?/",
-      keywords: ["fangs","what choice do I have","offer you a deal"],
-      explanationAi: "Chi tiết tính cách: Mẹ Gothel đã nhồi sọ Rapunzel rằng người ngoài tháp là những quái vật có 'fangs' (răng nanh sắc nhọn) chuyên ăn thịt người.",
-      properNouns: ["Flynn Rider"],
-      tokenCount: 28,
-    },
-    {
-      orderIndex: 8,
-      startTime: 220.0,
-      endTime: 242.0,
-      text: "Look this way. Do you know what these are? — You mean the lantern thing they do for the princess? — Lanterns... I knew they weren't stars!",
-      translationVi: "Nhìn về hướng này đi. Ngươi có biết những thứ này là gì không? — Ý cô là cái trò thả đèn lồng mà họ tổ chức cho nàng công chúa ấy hả? — Đèn lồng... Ta biết ngay chúng không phải là những vì sao mà!",
-      ipaUs: "/lʊk ðɪs weɪ. duː juː noʊ wʌt ðiːz ɑːr? — juː miːn ðə ˈlæntərn θɪŋ ðeɪ duː fɔːr ðə ˈprɪnsɛs? — ˈlæntərnz... aɪ njuː ðeɪ wɜːrnt stɑːrz!/",
-      keywords: ["lantern thing","princess","not stars"],
-      explanationAi: "Nút thắt cảm xúc then chốt: Rapunzel nhận ra những đốm sáng bay lên vào mỗi ngày sinh nhật nàng không phải hiện tượng thiên văn tự nhiên mà là những chiếc 'lanterns' (đèn lồng) của hoàng gia.",
-      properNouns: [],
-      tokenCount: 25,
-    },
-    {
-      orderIndex: 9,
-      startTime: 242.0,
-      endTime: 265.0,
-      text: "Well, tomorrow evening, they will light the night sky with these lanterns. You will act as my guide, take me to these lanterns, and return me home safely. Then, and only then, will I return your satchel to you. That is my deal.",
-      translationVi: "Tối mai, họ sẽ thắp sáng bầu trời đêm bằng những chiếc đèn lồng này. Ngươi sẽ đóng vai trò là người dẫn đường cho ta, đưa ta đến ngắm những chiếc đèn lồng đó, và hộ tống ta trở về nhà an toàn. Khi đó, và chỉ khi đó, ta mới trả lại chiếc túi cho ngươi. Đó chính là thỏa thuận của ta.",
-      ipaUs: "/wɛl, təˈmɑːroʊ ˈiːvnɪŋ, ðeɪ wɪl laɪt ðə naɪt skaɪ wɪð ðiːz ˈlæntərnz. juː wɪl ækt æz maɪ ɡaɪd, teɪk miː tuː ðiːz ˈlæntərnz, ænd rɪˈtɜːrn miː hoʊm ˈseɪfli. ðɛn, ænd ˈoʊnli ðɛn, wɪl aɪ rɪˈtɜːrn jʊər ˈsætʃəl tuː juː. ðæt ɪz maɪ diːl./",
-      keywords: ["act as my guide","return me home safely","then and only then","satchel"],
-      explanationAi: "Cấu trúc đảo ngữ nhấn mạnh trang trọng: 'Then, and only then, will I return...' (Chỉ khi hoàn thành điều kiện thì hành động tiếp theo mới xảy ra).",
-      properNouns: [],
-      tokenCount: 43,
-    },
-    {
-      orderIndex: 10,
-      startTime: 265.0,
-      endTime: 285.0,
-      text: "Yeah, no can do. Unfortunately, the kingdom and I are not exactly simpatico at the moment. So, I won't be taking you anywhere.",
-      translationVi: "Ừm, chịu thôi, không làm được đâu. Rất tiếc là vương quốc và tôi hiện tại không hề hòa hợp và mặn mà gì với nhau cho lắm. Vì vậy, tôi sẽ chẳng đưa cô đi bất cứ đâu hết.",
-      ipaUs: "/jɛə, noʊ kæn duː. ʌnˈfɔːrtʃənətli, ðə ˈkɪŋdəm ænd aɪ ɑːr nɑːt ɪɡˈzæktli sɪmˈpɑːtɪkoʊ æt ðə ˈmoʊmənt. soʊ, aɪ woʊnt biː ˈteɪkɪŋ juː ˈɛniwɛr./",
-      keywords: ["no can do","simpatico","at the moment","won't be taking you"],
-      explanationAi: "Tiếng lóng khẩu ngữ đắt giá: 'no can do' (bất khả thi, không thể làm được), 'simpatico' (từ gốc Ý/Tây Ban Nha chỉ sự tâm đầu ý hợp, hòa thuận, thân thiện).",
-      properNouns: [],
-      tokenCount: 23,
-    },
-    {
-      orderIndex: 11,
-      startTime: 285.0,
-      endTime: 305.0,
-      text: "Something brought you here, Flynn Rider. Call it what you will: fate, destiny... — A horse. — ...So, I have made the decision to trust you. — A horrible decision, really.",
-      translationVi: "Có một điều gì đó đã dẫn lối ngươi đến đây, Flynn Rider. Cứ gọi nó bằng bất cứ tên gì ngươi muốn: số phận, định mệnh... — Là một con ngựa đấy. — ...Vì thế, ta đã đưa ra quyết định đặt niềm tin vào ngươi. — Một quyết định cực kỳ tồi tệ, thật đấy.",
-      ipaUs: "/ˈsʌmθɪŋ brɔːt juː hɪr, flɪn ˈraɪdər. kɔːl ɪt wʌt juː wɪl: feɪt, ˈdɛstəni... — ə hɔːrs. — ...soʊ, aɪ hæv meɪd ðə dɪˈsɪʒən tuː trʌst juː. — ə ˈhɔːrəbəl dɪˈsɪʒən, ˈrɪəli./",
-      keywords: ["fate","destiny","decision to trust you","horrible decision"],
-      explanationAi: "Sự đối lập hài hước: Rapunzel lý tưởng hóa bằng 'fate' (số phận) và 'destiny' (định mệnh), còn Flynn thực tế hóa bằng 'a horse' (chú ngựa chiến Maximus rượt đuổi anh).",
-      properNouns: ["Flynn Rider"],
-      tokenCount: 28,
-    },
-    {
-      orderIndex: 12,
-      startTime: 305.0,
-      endTime: 328.0,
-      text: "But trust me when I tell you this: you can tear this tower apart, brick by brick, but without my help, you will never find your precious satchel.",
-      translationVi: "Nhưng hãy tin ta khi ta nói điều này với ngươi: Ngươi có thể phá nát ngọn tháp này ra thành từng viên gạch, nhưng nếu không có sự giúp đỡ của ta, ngươi sẽ không bao giờ tìm thấy chiếc túi quý giá của mình đâu.",
-      ipaUs: "/bʌt trʌst miː wɛn aɪ tɛl juː ðɪs: juː kæn tɛr ðɪs ˈtaʊər əˈpɑːrt, brɪk baɪ brɪk, bʌt wɪˈðaʊt maɪ hɛlp, juː wɪl ˈnɛvər faɪnd jʊər ˈprɛʃəs ˈsætʃəl./",
-      keywords: ["tear apart","brick by brick","without my help","precious satchel"],
-      explanationAi: "Thành ngữ biểu cảm mạnh: 'tear apart' (xé nát, đập phá tan tành), 'brick by brick' (từng viên gạch một, triệt để không bỏ sót ngóc ngách nào).",
-      properNouns: [],
-      tokenCount: 28,
-    },
-    {
-      orderIndex: 13,
-      startTime: 328.0,
-      endTime: 350.0,
-      text: "Let me just get this straight. I take you to see the lanterns, bring you back home, and you'll give me back my satchel? — I promise. And when I promise something, I never, ever break that promise. EVER!",
-      translationVi: "Để tôi làm rõ điều này cho thẳng thắn nhé. Tôi đưa cô đi ngắm đèn lồng, đưa cô trở về nhà an toàn, rồi cô sẽ trả lại chiếc túi cho tôi chứ? — Ta hứa. Và khi ta đã hứa điều gì, ta không bao giờ nuốt lời. KHÔNG BAO GIỜ!",
-      ipaUs: "/lɛt miː dʒʌst ɡɛt ðɪs streɪt. aɪ teɪk juː tuː siː ðə ˈlæntərnz, brɪŋ juː bæk hoʊm, ænd juːl ɡɪv miː bæk maɪ ˈsætʃəl? — aɪ ˈprɑːməs. ænd wɛn aɪ ˈprɑːməs ˈsʌmθɪŋ, aɪ ˈnɛvər, ˈɛvər breɪk ðæt ˈprɑːməs. ˈɛvər!/",
-      keywords: ["get this straight","give me back","never break a promise"],
-      explanationAi: "Cụm diễn đạt đắt giá: 'get something straight' (làm rõ ràng một vấn đề, không mập mờ), 'break a promise' (nuốt lời, thất hứa).",
-      properNouns: [],
-      tokenCount: 38,
-    },
-    {
-      orderIndex: 14,
-      startTime: 350.0,
-      endTime: 375.0,
-      text: "All right, listen. I didn't want to have to do this, but you leave me no choice. Here comes... the smolder.",
-      translationVi: "Được rồi, nghe đây. Tôi vốn không muốn phải dùng đến cách này đâu, nhưng cô không cho tôi sự lựa chọn nào khác cả. Xuất chiêu đây... ánh mắt quyến rũ thiêu đốt con tim.",
-      ipaUs: "/ɔːl raɪt, ˈlɪsən. aɪ ˈdɪdənt wɑːnt tuː hæv tuː duː ðɪs, bʌt juː liːv miː noʊ tʃɔɪs. hɪr kʌmz... ðə ˈsmoʊldər./",
-      keywords: ["leave me no choice","here comes","the smolder"],
-      explanationAi: "Thương hiệu điện ảnh hài hước của Flynn Rider: 'the smolder' (ánh nhìn gợi tình, nhướn mày quyến rũ chết người mà anh ta dùng để hớp hồn mọi phụ nữ).",
-      properNouns: [],
-      tokenCount: 21,
-    },
-    {
-      orderIndex: 15,
-      startTime: 375.0,
-      endTime: 400.0,
-      text: "This is kind of an off day for me. This doesn't normally happen... Fine, I'll take you to see the lanterns! — Really?! — Oops. — You broke my smolder.",
-      translationVi: "Hôm nay đúng là một ngày phong độ xuống dốc của tôi rồi. Bình thường chuyện này không bao giờ xảy ra đâu... Thôi được rồi, tôi sẽ đưa cô đi ngắm đèn lồng! — Thật ư?! — Ôi. — Cô làm hỏng mất ánh nhìn quyến rũ của tôi rồi.",
-      ipaUs: "/ðɪs ɪz kaɪnd əv ən ɔːf deɪ fɔːr miː. ðɪs ˈdʌzənt ˈnɔːrməli ˈhæpən... faɪn, aɪl teɪk juː tuː siː ðə ˈlæntərnz! — ˈrɪəli?! — uːps. — juː broʊk maɪ ˈsmoʊldər./",
-      keywords: ["an off day","doesn't normally happen","broke my smolder"],
-      explanationAi: "Thành ngữ đời thường: 'an off day' (một ngày không may mắn, phong độ tụt dốc, làm gì cũng trật lắt). Flynn ngã đập mặt xuống sàn làm hỏng mất vẻ mặt smolder.",
-      properNouns: [],
-      tokenCount: 27,
-    },
-    {
-      orderIndex: 16,
-      startTime: 567.0,
-      endTime: 615.0,
-      text: "Notice how Flynn uses elision in connected speech: 'How you doing?' instead of 'How are you doing?', dropping the auxiliary verb entirely to sound natural and charming.",
-      translationVi: "Hãy chú ý cách Flynn áp dụng hiện tượng lược âm (elision) trong chuỗi lời nói liên tục: nói 'How you doing?' thay vì 'How are you doing?', lược bỏ hoàn toàn trợ động từ để tạo cảm giác tự nhiên và cuốn hút.",
-      ipaUs: "/ˈnoʊtɪs haʊ flɪn ˈjuːzɪz ɪˈlɪʒən ɪn kəˈnɛktɪd spiːtʃ: 'haʊ juː ˈduːɪŋ?' ɪnˈstɛd əv 'haʊ ɑːr juː ˈduːɪŋ?', ˈdrɑːpɪŋ ði ɔːɡˈzɪljəri vɜːrb ɪnˈtaɪərli tuː saʊnd ˈnætʃərəl ænd ˈtʃɑːrmɪŋ./",
-      keywords: ["elision","connected speech","auxiliary verb","natural and charming"],
-      explanationAi: "Khái niệm ngữ âm học: 'elision' (sự nuốt âm / lược âm). Trong đàm thoại tiếng Anh thường nhật của người Mỹ, các trợ động từ như 'are' thường bị giản lược.",
-      properNouns: ["Flynn"],
-      tokenCount: 27,
-    },
-    {
-      orderIndex: 17,
-      startTime: 615.0,
-      endTime: 660.0,
-      text: "The vocabulary term 'satchel' refers to a bag carried on the shoulder by a long strap, typically closed by a flap, historically popular with students and travelers.",
-      translationVi: "Thuật ngữ từ vựng 'satchel' chỉ một chiếc túi đeo vai có quai dài, thường có nắp đậy gập xuống, trong lịch sử rất phổ biến với học sinh và những người lữ hành.",
-      ipaUs: "/ðə voʊˈkæbjəˌlɛri tɜːrm ˈsætʃəl rɪˈfɜːrz tuː ə bæɡ ˈkærid ɑːn ðə ˈʃoʊldər baɪ ə lɔːŋ stræp, ˈtɪpɪkli kloʊzd baɪ ə flæp, hɪˈstɔːrɪkli ˈpɑːpjələr wɪð ˈstuːdənts ænd ˈtrævələrz./",
-      keywords: ["satchel","shoulder strap","flap","travelers"],
-      explanationAi: "Định nghĩa từ vựng: 'satchel' là danh từ chỉ loại túi đeo chéo cổ điển, xuất hiện trong nhiều tác phẩm văn học và phim ảnh kinh điển.",
-      properNouns: [],
-      tokenCount: 27,
-    },
-    {
-      orderIndex: 18,
-      startTime: 759.0,
-      endTime: 810.0,
-      text: "When Americans pronounce the T in phrases like 'get this straight' or 'let me', they often use a flap T or glottal stop rather than an aspirated sound.",
-      translationVi: "Khi người Mỹ phát âm âm T trong các cụm từ như 'get this straight' hay 'let me', họ thường sử dụng âm T vỗ (flap T) hoặc âm tắc thanh hầu (glottal stop) thay vì bật hơi mạnh.",
-      ipaUs: "/wɛn əˈmɛrɪkənz prəˈnaʊns ðə tiː ɪn ˈfreɪzɪz laɪk 'ɡɛt ðɪs streɪt' ɔːr 'lɛt miː', ðeɪ ˈɔːfən juːz ə flæp tiː ɔːr ˈɡlɑːtəl stɑːp ˈræðər ðæn ən ˈæspəreɪtɪd saʊnd./",
-      keywords: ["pronounce","flap T","glottal stop","aspirated sound"],
-      explanationAi: "Ngữ âm học giọng Mỹ: 'flap T' (âm T vỗ nhẹ như âm /d/) và 'glottal stop' (âm ngắt cổ họng khi T đứng trước phụ âm hoặc ở cuối từ).",
-      properNouns: [],
-      tokenCount: 28,
-    },
-    {
-      orderIndex: 19,
-      startTime: 980.0,
-      endTime: 1040.0,
-      text: "By promising to see the lanterns, Rapunzel takes her first brave step outside the comfort of her tower, trading fear of the unknown for the pursuit of her true dream.",
-      translationVi: "Bằng việc giao kết thỏa thuận đi ngắm đèn lồng, Rapunzel đã bước bước chân can đảm đầu tiên ra khỏi vùng an toàn của ngọn tháp, đánh đổi nỗi sợ hãi về thế giới xa lạ để theo đuổi ước mơ đích thực của đời mình.",
-      ipaUs: "/baɪ ˈprɑːməsɪŋ tuː siː ðə ˈlæntərnz, rəˈpʌnzəl teɪks hɜːr fɜːrst breɪv stɛp ˌaʊtˈsaɪd ðə ˈkʌmfərt əv hɜːr ˈtaʊər, ˈtreɪdɪŋ fɪr əv ði ʌnˈnoʊn fɔːr ðə pərˈsuːt əv hɜːr truː driːm./",
-      keywords: ["brave step","comfort of tower","fear of the unknown","true dream"],
-      explanationAi: "Thông điệp sư phạm truyền cảm hứng: Bài học về việc bước ra khỏi vùng an toàn ('comfort zone') để đón nhận hành trình trưởng thành và khám phá bản thân.",
-      properNouns: ["Rapunzel"],
-      tokenCount: 30,
-    },
-  ],
-  quiz: QUIZ_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT,
+  {
+    "orderIndex": 0,
+    "startTime": 10,
+    "endTime": 45,
+    "text": "Welcome to Learn English with TV Series, where we learn spoken English with Rapunzel and Flynn Rider in Disney's Tangled!",
+    "translationVi": "Chào mừng các bạn đến với Learn English with TV Series, nơi chúng ta học tiếng Anh giao tiếp cùng Rapunzel và Flynn Rider trong bộ phim Tangled của Disney!",
+    "ipaUs": "/ˈwɛlkəm tuː lɜːrn ˈɪŋɡlɪʃ wɪð ˌtiːˈviː ˈsɪriz, wɛr wiː lɜːrn ˈspoʊkən ˈɪŋɡlɪʃ wɪð rəˈpʌnzəl ænd flɪn ˈraɪdər ɪn ˈdɪzniːz ˈtæŋɡəld!/",
+    "keywords": [
+      "spoken English",
+      "Disney",
+      "Tangled"
+    ],
+    "explanationAi": "Lời chào mở đầu bài học giới thiệu các nhân vật chính và mục tiêu rèn luyện phản xạ nghe nói tiếng Anh qua phim hoạt hình kinh điển.",
+    "properNouns": [
+      "Learn English with TV Series",
+      "Rapunzel",
+      "Flynn Rider",
+      "Disney",
+      "Tangled"
+    ],
+    "tokenCount": 21
+  },
+  {
+    "orderIndex": 1,
+    "startTime": 93,
+    "endTime": 100,
+    "text": "Okay... AHH! Wha...? Is this... hair?",
+    "translationVi": "Được rồi... Á! Cái gì...? Đây là... tóc ư?",
+    "ipaUs": "/oʊˈkeɪ... ɑː! wʌ...? ɪz ðɪs... hɛr?/",
+    "keywords": [
+      "hair"
+    ],
+    "explanationAi": "Phản ứng thảng thốt của Flynn Rider khi tỉnh dậy và nhận ra mình bị trói chặt từ đầu đến chân bằng mái tóc vàng dài kỳ lạ.",
+    "properNouns": [],
+    "tokenCount": 6
+  },
+  {
+    "orderIndex": 2,
+    "startTime": 101,
+    "endTime": 106,
+    "text": "Struggling... struggling is pointless.",
+    "translationVi": "Giãy giụa... giãy giụa là vô ích thôi.",
+    "ipaUs": "/ˈstrʌɡəlɪŋ... ˈstrʌɡəlɪŋ ɪz ˈpɔɪntləs./",
+    "keywords": [
+      "struggling",
+      "pointless"
+    ],
+    "explanationAi": "Từ vựng cốt lõi 'pointless' (vô ích, hoàn toàn vô nghĩa). Rapunzel khẳng định vị thế làm chủ tình thế bằng chiếc chảo rán cầm trên tay.",
+    "properNouns": [],
+    "tokenCount": 4
+  },
+  {
+    "orderIndex": 3,
+    "startTime": 107,
+    "endTime": 110,
+    "text": "What?",
+    "translationVi": "Cái gì cơ?",
+    "ipaUs": "/wʌt?/",
+    "keywords": [
+      "what"
+    ],
+    "explanationAi": "Câu hỏi ngơ ngác của tên trộm tự mãn khi nhận ra mình đang bị khống chế bởi một cô gái trẻ trong tháp hoang.",
+    "properNouns": [],
+    "tokenCount": 1
+  },
+  {
+    "orderIndex": 4,
+    "startTime": 111,
+    "endTime": 116,
+    "text": "I know why you're here, and I'm not afraid of you.",
+    "translationVi": "Ta biết tại sao ngươi lại mò đến đây, và ta không hề sợ ngươi đâu.",
+    "ipaUs": "/aɪ noʊ waɪ jʊr hɪr, ænd aɪm nɑːt əˈfreɪd ʌv juː./",
+    "keywords": [
+      "not afraid of you"
+    ],
+    "explanationAi": "Lời răn đe dũng cảm với cấu trúc 'not afraid of' (không hề khiếp sợ), che giấu nỗi bỡ ngỡ lần đầu gặp người lạ ngoài tháp.",
+    "properNouns": [],
+    "tokenCount": 13
+  },
+  {
+    "orderIndex": 5,
+    "startTime": 117,
+    "endTime": 122,
+    "text": "Who are you, and how did you find me?",
+    "translationVi": "Ngươi là ai, và làm sao ngươi tìm ra được ta?",
+    "ipaUs": "/huː ɑːr juː, ænd haʊ dɪd juː faɪnd miː?/",
+    "keywords": [
+      "how did you find me"
+    ],
+    "explanationAi": "Câu hỏi thẩm vấn trực diện về danh tính và cách tiếp cận ngọn tháp bí mật được giấu kín suốt 18 năm.",
+    "properNouns": [],
+    "tokenCount": 9
+  },
+  {
+    "orderIndex": 6,
+    "startTime": 123,
+    "endTime": 130,
+    "text": "I know not who you are, nor how I came to find you.",
+    "translationVi": "Tôi chẳng biết cô là ai, cũng chẳng rõ làm sao tôi lại tìm ra được cô.",
+    "ipaUs": "/aɪ noʊ nɑːt huː juː ɑːr, nɔːr haʊ aɪ keɪm tuː faɪnd juː./",
+    "keywords": [
+      "know not",
+      "nor how"
+    ],
+    "explanationAi": "Cấu trúc văn chương cổ điển hài hước: 'I know not... nor...' tạo phong thái hiệp sĩ quý tộc giả tạo.",
+    "properNouns": [],
+    "tokenCount": 13
+  },
+  {
+    "orderIndex": 7,
+    "startTime": 131,
+    "endTime": 138,
+    "text": "But may I just say, hi! How you doing? The name's Flynn Rider. How's your day going, huh?",
+    "translationVi": "Nhưng cho phép tôi chào một câu nhé: Chào đằng ấy! Dạo này thế nào? Tôi tên là Flynn Rider. Ngày hôm nay của cô trôi qua thế nào, hả?",
+    "ipaUs": "/bʌt meɪ aɪ dʒʌst seɪ, haɪ! haʊ juː ˈduːɪŋ? ðə neɪmz flɪn ˈraɪdər. haʊz jʊər deɪ ˈɡoʊɪŋ, hʌ?/",
+    "keywords": [
+      "How you doing",
+      "The name's"
+    ],
+    "explanationAi": "Hiện tượng lược âm (elision): 'How you doing?' thay cho 'How are you doing?', tán tỉnh theo phong cách đĩnh đạc hài hước.",
+    "properNouns": [
+      "Flynn Rider"
+    ],
+    "tokenCount": 20
+  },
+  {
+    "orderIndex": 8,
+    "startTime": 139,
+    "endTime": 144,
+    "text": "Who else knows my location, Flynn Rider?",
+    "translationVi": "Còn ai khác biết được vị trí ngọn tháp của ta nữa, Flynn Rider?",
+    "ipaUs": "/huː ɛls noʊz maɪ loʊˈkeɪʃən, flɪn ˈraɪdər?/",
+    "keywords": [
+      "who else",
+      "location"
+    ],
+    "explanationAi": "Rapunzel không hề bị lung lay bởi vẻ điển trai của Flynn, kiên quyết tra hỏi về mức độ an toàn của nơi trú ẩn.",
+    "properNouns": [
+      "Flynn Rider"
+    ],
+    "tokenCount": 7
+  },
+  {
+    "orderIndex": 9,
+    "startTime": 145,
+    "endTime": 148,
+    "text": "All right, Blondie.",
+    "translationVi": "Được rồi, cô nàng Tóc Vàng.",
+    "ipaUs": "/ɔːl raɪt, ˈblɑːndi./",
+    "keywords": [
+      "Blondie"
+    ],
+    "explanationAi": "Biệt danh trêu chọc 'Blondie' (cô gái tóc vàng hoe) thể hiện thói quen gán biệt hiệu suồng sã của Flynn.",
+    "properNouns": [
+      "Blondie"
+    ],
+    "tokenCount": 3
+  },
+  {
+    "orderIndex": 10,
+    "startTime": 149,
+    "endTime": 151,
+    "text": "Rapunzel.",
+    "translationVi": "Ta là Rapunzel.",
+    "ipaUs": "/rəˈpʌnzəl./",
+    "keywords": [
+      "Rapunzel"
+    ],
+    "explanationAi": "Lời đính chính đanh thép khẳng định tên thật của cô gái sở hữu mái tóc phép thuật.",
+    "properNouns": [
+      "Rapunzel"
+    ],
+    "tokenCount": 1
+  },
+  {
+    "orderIndex": 11,
+    "startTime": 152,
+    "endTime": 156,
+    "text": "Gesundheit.",
+    "translationVi": "Chúc sức khỏe.",
+    "ipaUs": "/ɡəˈzʊntˌhaɪt./",
+    "keywords": [
+      "Gesundheit"
+    ],
+    "explanationAi": "Từ mượn tiếng Đức 'Gesundheit' (lời chúc sức khỏe khi ai đó hắt hơi), Flynn trêu chọc vì tên 'Rapunzel' nghe lạ tai như tiếng hắt hơi.",
+    "properNouns": [],
+    "tokenCount": 1
+  },
+  {
+    "orderIndex": 12,
+    "startTime": 157,
+    "endTime": 166,
+    "text": "Here's the thing: I was in a situation, gallivanting through the forest, I came across your tower, and—",
+    "translationVi": "Chuyện là thế này: Tôi rơi vào một tình huống éo le, đang ngao du lông bông qua khu rừng, thì tình cờ bắt gặp ngọn tháp của cô, và—",
+    "ipaUs": "/hɪrz ðə θɪŋ: aɪ wʌz ɪn ə ˌsɪtʃuˈeɪʃən, ˈɡæləˌvæntɪŋ θruː ðə ˈfɔːrɪst, aɪ keɪm əˈkrɔːs jʊər ˈtaʊər, ænd—/",
+    "keywords": [
+      "here's the thing",
+      "gallivanting",
+      "came across"
+    ],
+    "explanationAi": "Từ vựng đắt giá 'gallivanting' (rong chơi, lêu lổng tìm thú vui) và cụm động từ 'came across' (tình cờ bắt gặp).",
+    "properNouns": [],
+    "tokenCount": 19
+  },
+  {
+    "orderIndex": 13,
+    "startTime": 167,
+    "endTime": 172,
+    "text": "I've hidden it, somewhere you'll never find it.",
+    "translationVi": "Ta đã giấu nó rồi, ở một nơi ngươi sẽ không bao giờ tìm ra đâu.",
+    "ipaUs": "/aɪv ˈhɪdən ɪt, ˈsʌmˌwɛr juːl ˈnɛvər faɪnd ɪt./",
+    "keywords": [
+      "hidden it",
+      "never find it"
+    ],
+    "explanationAi": "Rapunzel chặn họng tên trộm bằng con át chủ bài: chiếc túi xách chứa vương miện hoàng gia bị đánh cắp.",
+    "properNouns": [],
+    "tokenCount": 10
+  },
+  {
+    "orderIndex": 14,
+    "startTime": 173,
+    "endTime": 177,
+    "text": "Ho, ho, no. Where is my satchel?",
+    "translationVi": "Ôi không, đừng đùa chứ. Chiếc túi đeo của tôi đâu rồi?",
+    "ipaUs": "/hoʊ, hoʊ, noʊ. wɛr ɪz maɪ ˈsætʃəl?/",
+    "keywords": [
+      "satchel"
+    ],
+    "explanationAi": "Từ vựng trọng tâm 'satchel' (chiếc túi da có quai đeo chéo vai chuyên dùng cho người lữ hành).",
+    "properNouns": [],
+    "tokenCount": 7
+  },
+  {
+    "orderIndex": 15,
+    "startTime": 178,
+    "endTime": 182,
+    "text": "I hid it. Somewhere you'll never find it.",
+    "translationVi": "Ta đã giấu nó rồi. Ở một nơi ngươi chẳng bao giờ lần ra được.",
+    "ipaUs": "/aɪ hɪd ɪt. ˈsʌmˌwɛr juːl ˈnɛvər faɪnd ɪt./",
+    "keywords": [
+      "hid it"
+    ],
+    "explanationAi": "Thì quá khứ đơn 'hid it' khẳng định hành động giấu đồ đã hoàn tất an toàn.",
+    "properNouns": [],
+    "tokenCount": 9
+  },
+  {
+    "orderIndex": 16,
+    "startTime": 183,
+    "endTime": 186,
+    "text": "It's in the pot, isn't it?",
+    "translationVi": "Nó ở trong cái nồi, đúng không?",
+    "ipaUs": "/ɪts ɪn ðə pɑːt, ˈɪzənt ɪt?/",
+    "keywords": [
+      "in the pot",
+      "isn't it"
+    ],
+    "explanationAi": "Câu hỏi đuôi châm biếm 'isn't it?' khi Flynn liếc thấy quai túi thò ra ngoài chiếc nồi nấu súp.",
+    "properNouns": [],
+    "tokenCount": 8
+  },
+  {
+    "orderIndex": 17,
+    "startTime": 187,
+    "endTime": 194,
+    "text": "Now it's hidden where you'll never find it! So, what do you want with my hair? To cut it?",
+    "translationVi": "Bây giờ thì nó đã được giấu ở nơi ngươi không bao giờ tìm ra rồi đấy! Thế ngươi muốn làm gì với mái tóc của ta? Cắt nó à?",
+    "ipaUs": "/naʊ ɪts ˈhɪdən wɛr juːl ˈnɛvər faɪnd ɪt! soʊ, wʌt duː juː wɑːnt wɪð maɪ hɛr? tuː kʌt ɪt?/",
+    "keywords": [
+      "cut my hair"
+    ],
+    "explanationAi": "Nỗi ám ảnh sâu kín của Rapunzel vì lời dọa dẫm của Mẹ Gothel rằng kẻ xấu luôn rình rập để cắt trộm mái tóc phép thuật.",
+    "properNouns": [],
+    "tokenCount": 21
+  },
+  {
+    "orderIndex": 18,
+    "startTime": 195,
+    "endTime": 197,
+    "text": "What?",
+    "translationVi": "Cái gì cơ?",
+    "ipaUs": "/wʌt?/",
+    "keywords": [
+      "what"
+    ],
+    "explanationAi": "Flynn hoàn toàn bất ngờ trước câu hỏi kỳ quặc.",
+    "properNouns": [],
+    "tokenCount": 1
+  },
+  {
+    "orderIndex": 19,
+    "startTime": 198,
+    "endTime": 200,
+    "text": "Sell it?",
+    "translationVi": "Hay đem bán nó?",
+    "ipaUs": "/sɛl ɪt?/",
+    "keywords": [
+      "sell it"
+    ],
+    "explanationAi": "Giả định tiếp theo của Rapunzel về động cơ thương mại hóa mái tóc thần kỳ.",
+    "properNouns": [],
+    "tokenCount": 2
+  },
+  {
+    "orderIndex": 20,
+    "startTime": 201,
+    "endTime": 210,
+    "text": "No! Listen, the only thing I want to do with your hair is to get out of it. Literally!",
+    "translationVi": "Không! Nghe này, điều duy nhất tôi muốn làm với mái tóc của cô là thoát ra khỏi nó. Theo đúng nghĩa đen luôn đấy!",
+    "ipaUs": "/noʊ! ˈlɪsən, ði ˈoʊnli θɪŋ aɪ wɑːnt tuː duː wɪð jʊər hɛr ɪz tuː ɡɛt aʊt ʌv ɪt. ˈlɪtərəli!/",
+    "keywords": [
+      "get out of it",
+      "literally"
+    ],
+    "explanationAi": "Trạng từ nhấn mạnh 'literally' (theo đúng nghĩa đen). Flynn đang bị trói nghẹt thở và chỉ khao khát được cởi trói.",
+    "properNouns": [],
+    "tokenCount": 19
+  },
+  {
+    "orderIndex": 21,
+    "startTime": 211,
+    "endTime": 215,
+    "text": "Wait, you don't want my hair?",
+    "translationVi": "Khoan đã, ngươi không hề muốn chiếm lấy tóc của ta thật sao?",
+    "ipaUs": "/weɪt, juː doʊnt wɑːnt maɪ hɛr?/",
+    "keywords": [
+      "don't want my hair"
+    ],
+    "explanationAi": "Sự ngỡ ngàng của Rapunzel khi nhận ra niềm tin bị nhồi sọ bấy lâu nay có dấu hiệu rạn nứt.",
+    "properNouns": [],
+    "tokenCount": 7
+  },
+  {
+    "orderIndex": 22,
+    "startTime": 216,
+    "endTime": 225,
+    "text": "Why on earth would I want your hair? Look, I was being chased, I saw a tower, I climbed it, end of story.",
+    "translationVi": "Tại sao trên trần đời này tôi lại thèm muốn mái tóc của cô chứ? Nghe này, tôi bị truy đuổi, tôi thấy một ngọn tháp, tôi trèo lên, thế là hết chuyện.",
+    "ipaUs": "/waɪ ɑːn ɜːrθ wʊd aɪ wɑːnt jʊər hɛr? lʊk, aɪ wʌz ˈbiːɪŋ tʃeɪst, aɪ sɔː ə ˈtaʊər, aɪ klaɪmd ɪt, ɛnd ʌv ˈstɔːri./",
+    "keywords": [
+      "why on earth",
+      "being chased",
+      "end of story"
+    ],
+    "explanationAi": "Cụm thành ngữ cường điệu 'Why on earth' (Tại sao trên đời lại...) và thành ngữ kết luận 'end of story' (không có gì để bàn cãi thêm).",
+    "properNouns": [],
+    "tokenCount": 23
+  },
+  {
+    "orderIndex": 23,
+    "startTime": 226,
+    "endTime": 230,
+    "text": "You're telling the truth?",
+    "translationVi": "Ngươi đang nói sự thật đấy chứ?",
+    "ipaUs": "/jʊr ˈtɛlɪŋ ðə truːθ?/",
+    "keywords": [
+      "telling the truth"
+    ],
+    "explanationAi": "Rapunzel tìm kiếm sự xác thực cuối cùng trước khi đưa ra quyết định táo bạo nhất cuộc đời.",
+    "properNouns": [],
+    "tokenCount": 5
+  },
+  {
+    "orderIndex": 24,
+    "startTime": 231,
+    "endTime": 233,
+    "text": "YES!",
+    "translationVi": "ĐÚNG VẬY!",
+    "ipaUs": "/jɛs!/",
+    "keywords": [
+      "yes"
+    ],
+    "explanationAi": "Tiếng hét khẳng định dứt khoát trong cơn tuyệt vọng của Flynn.",
+    "properNouns": [],
+    "tokenCount": 1
+  },
+  {
+    "orderIndex": 25,
+    "startTime": 234,
+    "endTime": 245,
+    "text": "I think he's telling the truth, too. He doesn't have fangs... but what choice do I have?",
+    "translationVi": "Mình nghĩ anh ta cũng đang nói thật đấy. Anh ta không hề có răng nanh... nhưng mình còn sự lựa chọn nào khác đâu chứ?",
+    "ipaUs": "/aɪ θɪŋk hiz ˈtɛlɪŋ ðə truːθ, tuː. hiː ˈdʌzənt hæv fæŋz... bʌt wʌt tʃɔɪs duː aɪ hæv?/",
+    "keywords": [
+      "fangs",
+      "what choice do I have"
+    ],
+    "explanationAi": "Nỗi sợ trẻ con về quái vật có 'fangs' (răng nanh) được xóa bỏ, dẫn đến câu hỏi trăn trở tìm lối thoát.",
+    "properNouns": [],
+    "tokenCount": 19
+  },
+  {
+    "orderIndex": 26,
+    "startTime": 246,
+    "endTime": 252,
+    "text": "Okay, Flynn Rider, I'm prepared to offer you a deal.",
+    "translationVi": "Được rồi, Flynn Rider, ta sẵn sàng đưa ra cho ngươi một thỏa thuận.",
+    "ipaUs": "/oʊˈkeɪ, flɪn ˈraɪdər, aɪm prɪˈpɛrd tuː ˈɔːfər juː ə diːl./",
+    "keywords": [
+      "prepared to offer a deal"
+    ],
+    "explanationAi": "Cụm từ đàm phán chính thức 'offer a deal' (đưa ra một đề nghị thỏa thuận đôi bên cùng có lợi).",
+    "properNouns": [
+      "Flynn Rider"
+    ],
+    "tokenCount": 11
+  },
+  {
+    "orderIndex": 27,
+    "startTime": 253,
+    "endTime": 255,
+    "text": "Deal?",
+    "translationVi": "Thỏa thuận ư?",
+    "ipaUs": "/diːl?/",
+    "keywords": [
+      "deal"
+    ],
+    "explanationAi": "Flynn tò mò ngước nhìn cô gái vừa hạ gục mình bằng chiếc chảo rán.",
+    "properNouns": [],
+    "tokenCount": 1
+  },
+  {
+    "orderIndex": 28,
+    "startTime": 256,
+    "endTime": 265,
+    "text": "Look this way. Do you know what these are?",
+    "translationVi": "Nhìn về hướng này đi. Ngươi có biết những thứ này là gì không?",
+    "ipaUs": "/lʊk ðɪs weɪ. duː juː noʊ wʌt ðiːz ɑːr?/",
+    "keywords": [
+      "look this way"
+    ],
+    "explanationAi": "Rapunzel chỉ vào bức tranh tường vẽ những đốm sáng lơ lửng mà nàng tự họa trong nhiều năm.",
+    "properNouns": [],
+    "tokenCount": 9
+  },
+  {
+    "orderIndex": 29,
+    "startTime": 266,
+    "endTime": 272,
+    "text": "You mean the lantern thing they do for the princess?",
+    "translationVi": "Ý cô là cái trò thả đèn lồng mà họ tổ chức cho nàng công chúa ấy hả?",
+    "ipaUs": "/juː miːn ðə ˈlæntərn θɪŋ ðeɪ duː fɔːr ðə ˈprɪnsɛs?/",
+    "keywords": [
+      "lantern thing",
+      "princess"
+    ],
+    "explanationAi": "Flynn vô tình tiết lộ nguồn gốc hoàng gia của lễ hội đèn lồng: thả để tưởng nhớ công chúa mất tích.",
+    "properNouns": [],
+    "tokenCount": 10
+  },
+  {
+    "orderIndex": 30,
+    "startTime": 273,
+    "endTime": 278,
+    "text": "Lanterns... I knew they weren't stars!",
+    "translationVi": "Đèn lồng... Ta biết ngay chúng không phải là những vì sao mà!",
+    "ipaUs": "/ˈlæntərnz... aɪ njuː ðeɪ wɜːrnt stɑːrz!/",
+    "keywords": [
+      "lanterns",
+      "not stars"
+    ],
+    "explanationAi": "Khoảnh khắc khai sáng (epiphany): Rapunzel nhận ra bản chất thực sự của những quầng sáng bay lượn.",
+    "properNouns": [],
+    "tokenCount": 7
+  },
+  {
+    "orderIndex": 31,
+    "startTime": 279,
+    "endTime": 295,
+    "text": "Well, tomorrow evening, they will light the night sky with these lanterns.",
+    "translationVi": "Tối mai, họ sẽ thắp sáng bầu trời đêm bằng những chiếc đèn lồng này.",
+    "ipaUs": "/wɛl, təˈmɑːroʊ ˈiːvnɪŋ, ðeɪ wɪl laɪt ðə naɪt skaɪ wɪð ðiːz ˈlæntərnz./",
+    "keywords": [
+      "light the night sky",
+      "lanterns"
+    ],
+    "explanationAi": "Hình ảnh thơ mộng 'light the night sky' chuẩn bị cho lễ hội sinh nhật thứ 18 của nàng công chúa.",
+    "properNouns": [],
+    "tokenCount": 12
+  },
+  {
+    "orderIndex": 32,
+    "startTime": 296,
+    "endTime": 312,
+    "text": "You will act as my guide, take me to these lanterns, and return me home safely.",
+    "translationVi": "Ngươi sẽ đóng vai trò là người dẫn đường cho ta, đưa ta đến ngắm những chiếc đèn lồng đó, và hộ tống ta trở về nhà an toàn.",
+    "ipaUs": "/juː wɪl ækt æz maɪ ɡaɪd, teɪk miː tuː ðiːz ˈlæntərnz, ænd rɪˈtɜːrn miː hoʊm ˈseɪfli./",
+    "keywords": [
+      "act as my guide",
+      "return home safely"
+    ],
+    "explanationAi": "Ba điều kiện nhiệm vụ rõ ràng: làm hướng dẫn viên, hộ tống đi xem đèn và đưa trở về tháp an toàn.",
+    "properNouns": [],
+    "tokenCount": 16
+  },
+  {
+    "orderIndex": 33,
+    "startTime": 313,
+    "endTime": 325,
+    "text": "Then, and only then, will I return your satchel to you. That is my deal.",
+    "translationVi": "Khi đó, và chỉ khi đó, ta mới trả lại chiếc túi cho ngươi. Đó chính là thỏa thuận của ta.",
+    "ipaUs": "/ðɛn, ænd ˈoʊnli ðɛn, wɪl aɪ rɪˈtɜːrn jʊər ˈsætʃəl tuː juː. ðæt ɪz maɪ diːl./",
+    "keywords": [
+      "then and only then",
+      "return your satchel"
+    ],
+    "explanationAi": "Cấu trúc đảo ngữ trang trọng 'Then, and only then, will I...' khẳng định tính cam kết và ràng buộc sắt đá.",
+    "properNouns": [],
+    "tokenCount": 15
+  },
+  {
+    "orderIndex": 34,
+    "startTime": 326,
+    "endTime": 336,
+    "text": "Yeah, no can do. Unfortunately, the kingdom and I are not exactly simpatico at the moment.",
+    "translationVi": "Ừm, chịu thôi, không làm được đâu. Rất tiếc là vương quốc và tôi hiện tại không hề hòa thuận và mặn mà gì với nhau cho lắm.",
+    "ipaUs": "/jɛə, noʊ kæn duː. ʌnˈfɔːrtʃənətli, ðə ˈkɪŋdəm ænd aɪ ɑːr nɑːt ɪɡˈzæktli sɪmˈpɑːtɪkoʊ æt ðə ˈmoʊmənt./",
+    "keywords": [
+      "no can do",
+      "simpatico",
+      "at the moment"
+    ],
+    "explanationAi": "Tiếng lóng 'no can do' (bất khả thi) và từ mượn 'simpatico' (hòa hợp, thân thiện), mỉa mai việc anh đang bị truy nã gắt gao.",
+    "properNouns": [],
+    "tokenCount": 16
+  },
+  {
+    "orderIndex": 35,
+    "startTime": 337,
+    "endTime": 342,
+    "text": "So, I won't be taking you anywhere.",
+    "translationVi": "Vì vậy, tôi sẽ chẳng đưa cô đi bất cứ nơi đâu hết.",
+    "ipaUs": "/soʊ, aɪ woʊnt biː ˈteɪkɪŋ juː ˈɛniˌwɛr./",
+    "keywords": [
+      "won't be taking you anywhere"
+    ],
+    "explanationAi": "Thì tương lai tiếp diễn 'won't be taking you' nhấn mạnh lập trường từ chối dứt khoát của Flynn Rider.",
+    "properNouns": [],
+    "tokenCount": 8
+  },
+  {
+    "orderIndex": 36,
+    "startTime": 343,
+    "endTime": 352,
+    "text": "Something brought you here, Flynn Rider. Call it what you will: fate, destiny...",
+    "translationVi": "Có một điều gì đó đã dẫn lối ngươi đến đây, Flynn Rider. Cứ gọi nó bằng bất cứ tên gì ngươi muốn: số phận, định mệnh...",
+    "ipaUs": "/ˈsʌmθɪŋ brɔːt juː hɪr, flɪn ˈraɪdər. kɔːl ɪt wʌt juː wɪl: feɪt, ˈdɛstəni.../",
+    "keywords": [
+      "fate",
+      "destiny"
+    ],
+    "explanationAi": "Cụm danh từ triết học 'fate' (số phận) và 'destiny' (định mệnh) thể hiện niềm tin lãng mạn ngây thơ của Rapunzel.",
+    "properNouns": [
+      "Flynn Rider"
+    ],
+    "tokenCount": 13
+  },
+  {
+    "orderIndex": 37,
+    "startTime": 353,
+    "endTime": 356,
+    "text": "A horse.",
+    "translationVi": "Là một con ngựa đấy.",
+    "ipaUs": "/ə hɔːrs./",
+    "keywords": [
+      "a horse"
+    ],
+    "explanationAi": "Lời cắt ngang thực tế tàn nhẫn và hóm hỉnh của Flynn: chú ngựa chiến Maximus của đội thị vệ hoàng gia.",
+    "properNouns": [],
+    "tokenCount": 2
+  },
+  {
+    "orderIndex": 38,
+    "startTime": 357,
+    "endTime": 365,
+    "text": "So, I have made the decision to trust you. — A horrible decision, really.",
+    "translationVi": "Vì thế, ta đã đưa ra quyết định đặt niềm tin vào ngươi. — Một quyết định cực kỳ tồi tệ, thật đấy.",
+    "ipaUs": "/soʊ, aɪ hæv meɪd ðə dɪˈsɪʒən tuː trʌst juː. — ə ˈhɔːrəbəl dɪˈsɪʒən, ˈrɪəli./",
+    "keywords": [
+      "decision to trust",
+      "horrible decision"
+    ],
+    "explanationAi": "Thành ngữ 'make the decision to trust' và lời nhận xét châm biếm tự thú 'horrible decision' của tên trộm khét tiếng.",
+    "properNouns": [],
+    "tokenCount": 13
+  },
+  {
+    "orderIndex": 39,
+    "startTime": 366,
+    "endTime": 382,
+    "text": "You can tear this tower apart, brick by brick, but without my help, you will never find your precious satchel.",
+    "translationVi": "Ngươi có thể phá nát ngọn tháp này ra thành từng viên gạch, nhưng nếu không có sự giúp đỡ của ta, ngươi sẽ không bao giờ tìm thấy chiếc túi quý giá của mình đâu.",
+    "ipaUs": "/juː kæn tɛr ðɪs ˈtaʊər əˈpɑːrt, brɪk baɪ brɪk, bʌt wɪˈðaʊt maɪ hɛlp, juː wɪl ˈnɛvər faɪnd jʊər ˈprɛʃəs ˈsætʃəl./",
+    "keywords": [
+      "tear apart",
+      "brick by brick",
+      "precious satchel"
+    ],
+    "explanationAi": "Thành ngữ 'tear apart' (phá tung) và 'brick by brick' (từng viên gạch một) củng cố đòn bẩy thương lượng tuyệt đối của Rapunzel.",
+    "properNouns": [],
+    "tokenCount": 20
+  },
+  {
+    "orderIndex": 40,
+    "startTime": 383,
+    "endTime": 398,
+    "text": "Let me just get this straight. I take you to see the lanterns, bring you back home, and you'll give me back my satchel?",
+    "translationVi": "Để tôi làm rõ điều này cho thẳng thắn nhé. Tôi đưa cô đi ngắm đèn lồng, đưa cô trở về nhà an toàn, rồi cô sẽ trả lại chiếc túi cho tôi chứ?",
+    "ipaUs": "/lɛt miː dʒʌst ɡɛt ðɪs streɪt. aɪ teɪk juː tuː siː ðə ˈlæntərnz, brɪŋ juː bæk hoʊm, ænd juːl ɡɪv miː bæk maɪ ˈsætʃəl?/",
+    "keywords": [
+      "get this straight",
+      "give back"
+    ],
+    "explanationAi": "Thành ngữ hội thoại đắt giá 'get this straight' (làm sáng tỏ mọi điều khoản, không để hiểu lầm).",
+    "properNouns": [],
+    "tokenCount": 25
+  },
+  {
+    "orderIndex": 41,
+    "startTime": 399,
+    "endTime": 412,
+    "text": "I promise. And when I promise something, I never, ever break that promise. EVER!",
+    "translationVi": "Ta hứa. Và khi ta đã hứa điều gì, ta không bao giờ nuốt lời. KHÔNG BAO GIỜ!",
+    "ipaUs": "/aɪ ˈprɑːməs. ænd wɛn aɪ ˈprɑːməs ˈsʌmθɪŋ, aɪ ˈnɛvər, ˈɛvər breɪk ðæt ˈprɑːməs. ˈɛvər!/",
+    "keywords": [
+      "never break a promise",
+      "EVER"
+    ],
+    "explanationAi": "Cụm thành ngữ đạo đức 'break a promise' (thất hứa, nuốt lời). Từ 'EVER' được nhấn mạnh tuyệt đối làm nổi bật đức tính trung thực của Rapunzel.",
+    "properNouns": [],
+    "tokenCount": 14
+  },
+  {
+    "orderIndex": 42,
+    "startTime": 413,
+    "endTime": 425,
+    "text": "All right, listen. I didn't want to have to do this, but you leave me no choice. Here comes... the smolder.",
+    "translationVi": "Được rồi, nghe đây. Tôi vốn không muốn phải dùng đến cách này đâu, nhưng cô không cho tôi sự lựa chọn nào cả. Xuất chiêu đây... ánh mắt quyến rũ thiêu đốt con tim.",
+    "ipaUs": "/ɔːl raɪt, ˈlɪsən. aɪ ˈdɪdənt wɑːnt tuː hæv tuː duː ðɪs, bʌt juː liːv miː noʊ tʃɔɪs. hɪr kʌmz... ðə ˈsmoʊldər./",
+    "keywords": [
+      "leave me no choice",
+      "the smolder"
+    ],
+    "explanationAi": "Thương hiệu hài hước kinh điển của Flynn Rider: 'the smolder' (cái nhìn nhíu mày quyến rũ sát gái độc quyền).",
+    "properNouns": [],
+    "tokenCount": 22
+  },
+  {
+    "orderIndex": 43,
+    "startTime": 426,
+    "endTime": 438,
+    "text": "This is kind of an off day for me. This doesn't normally happen... Fine, I'll take you to see the lanterns!",
+    "translationVi": "Hôm nay đúng là một ngày phong độ xuống dốc của tôi rồi. Bình thường chuyện này không bao giờ xảy ra đâu... Thôi được rồi, tôi sẽ đưa cô đi ngắm đèn lồng!",
+    "ipaUs": "/ðɪs ɪz kaɪnd ʌv ən ɔːf deɪ fɔːr miː. ðɪs ˈdʌzənt ˈnɔːrməli ˈhæpən... faɪn, aɪl teɪk juː tuː siː ðə ˈlæntərnz!/",
+    "keywords": [
+      "an off day",
+      "doesn't normally happen"
+    ],
+    "explanationAi": "Thành ngữ 'an off day' (ngày xui xẻo, phong độ kém cỏi). Flynn hoàn toàn bất lực trước sự ngây thơ miễn nhiễm của Rapunzel và buộc phải đồng ý.",
+    "properNouns": [],
+    "tokenCount": 23
+  },
+  {
+    "orderIndex": 44,
+    "startTime": 439,
+    "endTime": 443,
+    "text": "Really?!",
+    "translationVi": "Thật ư?!",
+    "ipaUs": "/ˈrɪəli?!/",
+    "keywords": [
+      "really"
+    ],
+    "explanationAi": "Tiếng reo hò sung sướng vỡ òa của Rapunzel khi cánh cửa bước ra thế giới bên ngoài lần đầu tiên mở ra.",
+    "properNouns": [],
+    "tokenCount": 1
+  },
+  {
+    "orderIndex": 45,
+    "startTime": 444,
+    "endTime": 450,
+    "text": "Oops. You broke my smolder.",
+    "translationVi": "Ôi. Cô làm hỏng mất vẻ mặt quyến rũ của tôi rồi.",
+    "ipaUs": "/uːps. juː broʊk maɪ ˈsmoʊldər./",
+    "keywords": [
+      "broke my smolder"
+    ],
+    "explanationAi": "Lời phàn nàn hài hước khi Flynn ngã đập mặt xuống sàn gỗ vì Rapunzel giật mạnh mái tóc.",
+    "properNouns": [],
+    "tokenCount": 5
+  },
+  {
+    "orderIndex": 46,
+    "startTime": 567,
+    "endTime": 615,
+    "text": "In connected speech, Americans frequently use elision, dropping unstuck auxiliary verbs to create smooth, natural cadence.",
+    "translationVi": "Trong chuỗi lời nói liên tục, người Mỹ thường xuyên sử dụng hiện tượng nuốt âm, lược bỏ các trợ động từ không nhấn để tạo nhịp điệu mượt mà, tự nhiên.",
+    "ipaUs": "/ɪn kəˈnɛktɪd spiːtʃ, əˈmɛrɪkənz ˈfriːkwəntli juːz ɪˈlɪʒən, ˈdrɑːpɪŋ ʌnˈstʌk ɔːɡˈzɪljəri vɜːrbz tuː kriˈeɪt smuːð, ˈnætʃərəl ˈkeɪdəns./",
+    "keywords": [
+      "connected speech",
+      "elision",
+      "auxiliary verbs",
+      "cadence"
+    ],
+    "explanationAi": "Bài học ngữ âm học sư phạm: hiện tượng nuốt âm (elision) trong câu 'How you doing?' giúp giao tiếp tiếng Anh đời thực tự nhiên hơn.",
+    "properNouns": [],
+    "tokenCount": 16
+  },
+  {
+    "orderIndex": 47,
+    "startTime": 759,
+    "endTime": 810,
+    "text": "When pronouncing the T in common phrases like 'get this straight', native speakers produce a flap T or glottal stop.",
+    "translationVi": "Khi phát âm âm T trong các cụm từ phổ biến như 'get this straight', người bản xứ phát âm âm T vỗ hoặc âm tắc thanh hầu.",
+    "ipaUs": "/wɛn prəˈnaʊnsɪŋ ðə tiː ɪn ˈkɑːmən ˈfreɪzɪz laɪk 'ɡɛt ðɪs streɪt', ˈneɪtɪv ˈspiːkərz prəˈduːs ə flæp tiː ɔːr ˈɡlɑːtəl stɑːp./",
+    "keywords": [
+      "pronouncing",
+      "flap T",
+      "glottal stop"
+    ],
+    "explanationAi": "Quy tắc ngữ âm giọng Mỹ: âm T vỗ (flap T) xuất hiện giữa các nguyên âm và âm tắc thanh hầu (glottal stop) xuất hiện trước phụ âm.",
+    "properNouns": [],
+    "tokenCount": 20
+  },
+  {
+    "orderIndex": 48,
+    "startTime": 980,
+    "endTime": 1040,
+    "text": "By stepping outside her tower, Rapunzel trades the safety of her comfort zone for the courageous pursuit of her true lifelong dream.",
+    "translationVi": "Bằng việc bước chân ra ngoài ngọn tháp, Rapunzel đã đánh đổi sự an toàn của vùng an toàn để dũng cảm theo đuổi ước mơ cả đời của mình.",
+    "ipaUs": "/baɪ ˈstɛpɪŋ ˌaʊtˈsaɪd hɜːr ˈtaʊər, rəˈpʌnzəl treɪdz ðə ˈseɪfti ʌv hɜːr ˈkʌmfərt zoʊn fɔːr ðə kəˈreɪdʒəs pərˈsuːt ʌv hɜːr truː ˈlaɪfˌlɔːŋ driːm./",
+    "keywords": [
+      "comfort zone",
+      "courageous pursuit",
+      "lifelong dream"
+    ],
+    "explanationAi": "Thông điệp nhân văn truyền cảm hứng: dũng cảm vượt qua nỗi sợ hãi để bước ra khỏi vùng an toàn ('comfort zone') chạm tới ước mơ.",
+    "properNouns": [
+      "Rapunzel"
+    ],
+    "tokenCount": 22
+  },
+  {
+    "orderIndex": 49,
+    "startTime": 1045,
+    "endTime": 1210,
+    "text": "And at last I see the light, and it's like the fog has lifted. And at last I see the light, and it's like the sky is new.",
+    "translationVi": "Và cuối cùng tôi cũng nhìn thấy ánh sáng, và tựa như làn sương mù đã tan biến. Và cuối cùng tôi cũng nhìn thấy ánh sáng, và tựa như bầu trời đã tái sinh mới tinh.",
+    "ipaUs": "/ænd æt læst aɪ siː ðə laɪt, ænd ɪts laɪk ðə fɔːɡ hæz ˈlɪftɪd. ænd æt læst aɪ siː ðə laɪt, ænd ɪts laɪk ðə skaɪ ɪz nuː./",
+    "keywords": [
+      "at last I see the light",
+      "fog has lifted",
+      "sky is new"
+    ],
+    "explanationAi": "Ca từ bất hủ đoạt giải Oscar 'I See the Light': ẩn dụ sương mù tan biến ('fog has lifted') khi trái tim tìm thấy tình yêu chân chính và tự do.",
+    "properNouns": [],
+    "tokenCount": 30
+  }
+],
+  quiz: QUIZ_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT
 };

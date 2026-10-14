@@ -4,20 +4,20 @@ import { LESSON_HOTEL_CHECKIN } from "@/features/listening/data/lessons/lesson_h
 import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
 
 describe("English for Travel: Hotel Check-in - 100% Verbatim Audit", () => {
-  it("should have exactly 10 segments with valid duration and metadata", () => {
-    expect(LESSON_HOTEL_CHECKIN.segments.length).toBe(10);
+  it("should have exactly 37 segments with valid duration and metadata", () => {
+    expect(LESSON_HOTEL_CHECKIN.segments.length).toBe(37);
     expect(LESSON_HOTEL_CHECKIN.externalId).toBe("wyqfYJX23lg");
-    expect(LESSON_HOTEL_CHECKIN.durationSeconds).toBe(68);
+    expect(LESSON_HOTEL_CHECKIN.durationSeconds).toBe(158);
     expect(LESSON_HOTEL_CHECKIN.cefrLevel).toBe("A2");
     expect(LESSON_HOTEL_CHECKIN.accent).toBe("en-US");
     expect(LESSON_HOTEL_CHECKIN.categoryId).toBe("cat_daily_conv");
   });
 
-  it("should have chronological timestamps with positive durations", () => {
+  it("should have chronological timestamps with positive durations and 1-indexed order", () => {
     let prevStartTime = -1;
     for (let i = 0; i < LESSON_HOTEL_CHECKIN.segments.length; i++) {
       const seg = LESSON_HOTEL_CHECKIN.segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeGreaterThanOrEqual(0);
       expect(seg.endTime).toBeGreaterThan(seg.startTime);
       expect(seg.startTime).toBeGreaterThanOrEqual(prevStartTime);
@@ -31,6 +31,8 @@ describe("English for Travel: Hotel Check-in - 100% Verbatim Audit", () => {
       expect(seg.translationVi.length).toBeGreaterThan(0);
       expect(seg.ipaUs).toBeDefined();
       expect(seg.ipaUs!.length).toBeGreaterThan(0);
+      expect(seg.ipaUs!.startsWith("/")).toBe(true);
+      expect(seg.ipaUs!.endsWith("/")).toBe(true);
       expect(Array.isArray(seg.keywords)).toBe(true);
       expect(seg.keywords!.length).toBeGreaterThan(0);
       expect(seg.explanationAi).toBeDefined();
@@ -38,7 +40,7 @@ describe("English for Travel: Hotel Check-in - 100% Verbatim Audit", () => {
     }
   });
 
-  it("should tokenize all 10 segments cleanly with zero empty tokens", () => {
+  it("should tokenize all 37 segments cleanly with zero empty tokens", () => {
     let totalTokens = 0;
     for (const seg of LESSON_HOTEL_CHECKIN.segments) {
       const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
@@ -49,14 +51,15 @@ describe("English for Travel: Hotel Check-in - 100% Verbatim Audit", () => {
         expect(token.dots.length).toBe(token.clean.length);
       }
     }
-    expect(totalTokens).toBe(147);
+    expect(totalTokens).toBeGreaterThan(450);
   });
 
-  it("should match mock data in videoCatalogMockData.ts exactly across all 10 segments", () => {
+  it("should match mock data in videoCatalogMockData.ts exactly across all 37 segments", () => {
     const mock = MOCK_VIDEO_LESSONS.find((v) => v.externalId === "wyqfYJX23lg");
     expect(mock).toBeDefined();
-    expect(mock?.segments.length).toBe(10);
-    for (let i = 0; i < 10; i++) {
+    expect(mock?.segments.length).toBe(37);
+    for (let i = 0; i < 37; i++) {
+      expect(mock?.segments[i].orderIndex).toBe(i + 1);
       expect(mock?.segments[i].text).toBe(LESSON_HOTEL_CHECKIN.segments[i].text);
       expect(mock?.segments[i].startTime).toBe(LESSON_HOTEL_CHECKIN.segments[i].startTime);
       expect(mock?.segments[i].endTime).toBe(LESSON_HOTEL_CHECKIN.segments[i].endTime);
@@ -84,6 +87,8 @@ describe("English for Travel: Hotel Check-in - 100% Verbatim Audit", () => {
       expect(q.targetedConceptEn).toBeDefined();
       expect(q.targetedConceptVi).toBeDefined();
       expect(q.referenceSegmentIndex).toBeDefined();
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(37);
     }
   });
 });

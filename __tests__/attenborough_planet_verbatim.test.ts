@@ -17,7 +17,7 @@ describe("David Attenborough: A Life on Our Planet - 100% Verbatim Audit", () =>
     let prevStartTime = -1;
     for (let i = 0; i < LESSON_DAVID_ATTENBOROUGH_PLANET.segments.length; i++) {
       const seg = LESSON_DAVID_ATTENBOROUGH_PLANET.segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeGreaterThanOrEqual(0);
       expect(seg.endTime).toBeGreaterThan(seg.startTime);
       expect(seg.startTime).toBeGreaterThanOrEqual(prevStartTime);
@@ -114,6 +114,8 @@ describe("David Attenborough: A Life on Our Planet - 100% Verbatim Audit", () =>
       expect(q.targetedConceptEn).toBeDefined();
       expect(q.targetedConceptVi).toBeDefined();
       expect(q.referenceSegmentIndex).toBeDefined();
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(14);
     }
   });
 });

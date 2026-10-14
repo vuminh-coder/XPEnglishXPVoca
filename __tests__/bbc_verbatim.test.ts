@@ -15,9 +15,9 @@ describe("BBC Learning English: 100% Verbatim Subtitles Calibration Test Suite",
     expect(bbcLesson?.title).toContain("First Treasure Recovered");
   });
 
-  it("should have exactly 13 calibrated verbatim segments", () => {
+  it("should have exactly 84 calibrated verbatim segments with Zero Merged Utterances", () => {
     expect(bbcLesson?.segments).toBeDefined();
-    expect(bbcLesson?.segments?.length).toBe(13);
+    expect(bbcLesson?.segments?.length).toBe(84);
   });
 
   it("should start with BBC Learning English intro accurately from 0.0s unclipped", () => {
@@ -45,71 +45,50 @@ describe("BBC Learning English: 100% Verbatim Subtitles Calibration Test Suite",
     }
   });
 
-  it("should contain 100% verbatim text matching spoken BBC audio without any omission", () => {
+  it("should separate speakers into independent turns without merged utterances or speaker prefixes", () => {
     const segments = bbcLesson?.segments || [];
-    // Segment 1: This is Learning English from the News
-    expect(segments[0].text).toContain("From BBC Learning English, This is Learning English from the News");
+    // Segment 3: Georgie alone
+    expect(segments[2].text).toBe("Hello, I'm Georgie.");
+    // Segment 4: Phil alone
+    expect(segments[3].text).toBe("And I'm Phil.");
 
-    // Segment 2: $20 billion sunken ship
-    expect(segments[1].text).toBe("In this programme, first treasure recovered from $20 billion sunken ship.");
+    // Outro split: Segment 83 Georgie, Segment 84 Phil
+    expect(segments[82].text).toBe("Bye for now.");
+    expect(segments[83].text).toBe("Goodbye.");
 
-    // Segment 3: Georgie & Phil
-    expect(segments[2].text).toBe("Hello, I'm Georgie. And I'm Phil.");
-
-    // Segment 4: vocabulary in headlines
-    expect(segments[3].text).toBe(
-      "In this programme, we look at one big news story and the vocabulary in the headlines that will help you understand it."
-    );
-
-    // Segment 5: website
-    expect(segments[4].text).toBe(
-      "You can find all the vocabulary and headlines from this episode, as well as a worksheet on our website, bbclearningenglish.com."
-    );
-
-    // Segment 6: let's hear more
-    expect(segments[5].text).toBe("OK, Phil, let's hear more about this story.");
-
-    // Segment 7: 300 years ago ship
-    expect(segments[6].text).toBe(
-      "A cannon, three coins and a porcelain cup have been recovered from a ship that sank over 300 years ago."
-    );
-
-    // Segment 8: San Jose sunk in 1708
-    expect(segments[7].text).toBe(
-      "The ship, called the San Jose, was sunk by British ships in 1708 near Cartagena in Colombia."
-    );
-
-    // Segment 9: $20 billion worth
-    expect(segments[8].text).toBe(
-      "The ship is thought to have $20 billion worth of gold and silver coins on board, according to some estimates."
-    );
-
-    // Segment 10: indigenous groups
-    expect(segments[9].text).toBe(
-      "Colombia, Spain, an American company and indigenous groups in Bolivia have all claimed that this treasure belongs to them."
-    );
-
-    // Segment 11: 2015 expedition
-    expect(segments[10].text).toBe(
-      "Colombian scientists located the ship in 2015 and launched an expedition to explore it last year."
-    );
-
-    // Segment 12: Fox Weather headline
-    expect(segments[11].text).toBe(
-      "Let's have our first headline. This one is from Fox Weather, an American broadcaster."
-    );
-
-    // Segment 13: Fox Weather headline with "wrecked in war"
-    expect(segments[12].text).toBe(
-      "Archeologists recover treasures from the legendary 1708 San Jose, wrecked in war."
-    );
+    // Zero character prefix in any segment text
+    for (const seg of segments) {
+      expect(seg.text).not.toMatch(/^(Georgie|Phil|News Reader|Voiceover):/i);
+      expect(seg.text).not.toContain("\n");
+    }
   });
 
-  it("should have valid pedagogical annotations for all 13 segments", () => {
+  it("should contain 100% verbatim text matching spoken BBC audio without any omission across all 3 headlines", () => {
+    const segments = bbcLesson?.segments || [];
+    // Headline 1: Fox Weather
+    expect(segments[14].text).toBe(
+      "Archeologists recover treasures from the legendary 1708 San Jose, wrecked in war."
+    );
+    expect(segments[19].text).toBe("The verb 'wreck' means to destroy or damage badly.");
+
+    // Headline 2: Sky News
+    expect(segments[38].text).toBe("First treasures from 'holy grail of shipwrecks' recovered.");
+    expect(segments[45].text).toContain("metaphor to describe something that many people want, but is very difficult to find");
+
+    // Headline 3: CBS News
+    expect(segments[56].text).toBe(
+      "Coins, cannon recovered from a legendary ship that sunk 3 centuries ago with billions of dollars in treasure."
+    );
+    expect(segments[63].text).toBe("Something that is legendary has been spoken about a lot over time.");
+  });
+
+  it("should have valid pedagogical annotations for all 84 segments", () => {
     const segments = bbcLesson?.segments || [];
     for (const seg of segments) {
       expect(seg.ipaUs).toBeDefined();
       expect(seg.ipaUs!.length).toBeGreaterThan(0);
+      expect(seg.ipaUs!.startsWith("/")).toBe(true);
+      expect(seg.ipaUs!.endsWith("/")).toBe(true);
       expect(seg.translationVi.length).toBeGreaterThan(0);
       expect(seg.explanationAi).toBeDefined();
       expect(seg.explanationAi!.length).toBeGreaterThan(0);
@@ -120,7 +99,7 @@ describe("BBC Learning English: 100% Verbatim Subtitles Calibration Test Suite",
     }
   });
 
-  it("should cleanly tokenize all 13 segments with DictationWorkspace tokenizer (203 tokens total)", () => {
+  it("should cleanly tokenize all 84 segments with DictationWorkspace tokenizer", () => {
     let totalTokens = 0;
     const segments = bbcLesson?.segments || [];
     for (const seg of segments) {
@@ -132,16 +111,15 @@ describe("BBC Learning English: 100% Verbatim Subtitles Calibration Test Suite",
         expect(token.dots.length).toBe(token.clean.length);
       }
     }
-    expect(totalTokens).toBe(202);
+    expect(totalTokens).toBe(1067);
   });
 
-  it("should match 100% word-for-word against official YouTube BBC captions in json3 (0 diffs across 203 words)", () => {
+  it("should match 100% word-for-word against official YouTube BBC captions in json3 (0 diffs across all 1069 words)", () => {
     const subPath = path.resolve(process.cwd(), "scripts/bbc_brain_official.en-GB.json3");
     if (!fs.existsSync(subPath)) return;
 
     const sub = JSON.parse(fs.readFileSync(subPath, "utf8"));
-    const eventsInRange = sub.events.slice(0, 24);
-    const rawText = eventsInRange
+    const rawText = sub.events
       .map((e: any) => (e.segs || []).map((s: any) => s.utf8).join(""))
       .join(" ")
       .replace(/\n/g, " ")
@@ -166,8 +144,8 @@ describe("BBC Learning English: 100% Verbatim Subtitles Calibration Test Suite",
     const segments = bbcLesson?.segments || [];
     segments.forEach((s) => lessonWords.push(...cleanWords(s.text)));
 
-    expect(lessonWords.length).toBe(203);
-    expect(officialWords.length).toBe(203);
+    expect(lessonWords.length).toBe(1069);
+    expect(officialWords.length).toBe(1069);
     expect(lessonWords).toEqual(officialWords);
   });
 
@@ -201,27 +179,26 @@ describe("BBC Learning English: 100% Verbatim Subtitles Calibration Test Suite",
       expect(q.targetedConceptVi).toBeDefined();
       expect(q.referenceSegmentIndex).toBeDefined();
       expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-      expect(q.referenceSegmentIndex).toBeLessThan(13);
+      expect(q.referenceSegmentIndex).toBeLessThan(84);
     }
 
     const segments = bbcLesson?.segments || [];
     // Verify specific segment matches
-    expect(quiz.questions[0].referenceSegmentIndex).toBe(3);
-    expect(segments[3].text).toContain("vocabulary in the headlines");
-    expect(quiz.questions[1].referenceSegmentIndex).toBe(6);
-    expect(segments[6].text).toContain("porcelain cup");
-    expect(quiz.questions[2].referenceSegmentIndex).toBe(7);
-    expect(segments[7].text).toContain("Cartagena in Colombia");
-    expect(quiz.questions[3].referenceSegmentIndex).toBe(8);
-    expect(segments[8].text).toContain("20 billion");
-    expect(quiz.questions[4].referenceSegmentIndex).toBe(9);
-    expect(segments[9].text).toContain("Bolivia");
-    expect(quiz.questions[5].referenceSegmentIndex).toBe(10);
-    expect(segments[10].text).toContain("2015");
-    expect(quiz.questions[6].referenceSegmentIndex).toBe(11);
-    expect(segments[11].text).toContain("Fox Weather");
-    expect(quiz.questions[7].referenceSegmentIndex).toBe(12);
-    expect(segments[12].text).toContain("wrecked in war");
+    expect(quiz.questions[0].referenceSegmentIndex).toBe(4);
+    expect(segments[4].text).toContain("vocabulary in the headlines");
+    expect(quiz.questions[1].referenceSegmentIndex).toBe(7);
+    expect(segments[7].text).toContain("porcelain cup");
+    expect(quiz.questions[2].referenceSegmentIndex).toBe(8);
+    expect(segments[8].text).toContain("Cartagena in Colombia");
+    expect(quiz.questions[3].referenceSegmentIndex).toBe(21);
+    expect(segments[21].text).toContain("sinks to the bottom");
+    expect(quiz.questions[4].referenceSegmentIndex).toBe(26);
+    expect(segments[26].text).toContain("nervous wreck");
+    expect(quiz.questions[5].referenceSegmentIndex).toBe(43);
+    expect(segments[43].text).toContain("Holy Grail");
+    expect(quiz.questions[6].referenceSegmentIndex).toBe(62);
+    expect(segments[62].text).toContain("adjective that comes from");
+    expect(quiz.questions[7].referenceSegmentIndex).toBe(35);
+    expect(segments[35].text).toContain("2015");
   });
 });
-

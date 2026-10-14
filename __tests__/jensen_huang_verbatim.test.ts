@@ -4,18 +4,18 @@ import { LESSON_JENSEN_HUANG, QUIZ_JENSEN_HUANG } from "@/features/listening/dat
 import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
 
 describe("Jensen Huang: Supercomputer in 19 Days - 100% Verbatim & Segment Audit", () => {
-  it("should have exactly 10 segments with valid duration and metadata", () => {
-    expect(LESSON_JENSEN_HUANG.segments.length).toBe(10);
+  it("should have exactly 31 pure master segments with valid duration and metadata", () => {
+    expect(LESSON_JENSEN_HUANG.segments.length).toBe(31);
     expect(LESSON_JENSEN_HUANG.externalId).toBe("lpLFjQ-bRv8");
     expect(LESSON_JENSEN_HUANG.durationSeconds).toBe(109);
     expect(LESSON_JENSEN_HUANG.cefrLevel).toBe("B2");
   });
 
-  it("should have chronological timestamps with positive durations", () => {
+  it("should have chronological timestamps with positive durations and 1-indexed orderIndex", () => {
     let prevStartTime = -1;
     for (let i = 0; i < LESSON_JENSEN_HUANG.segments.length; i++) {
       const seg = LESSON_JENSEN_HUANG.segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeGreaterThanOrEqual(0);
       expect(seg.endTime).toBeGreaterThan(seg.startTime);
       expect(seg.startTime).toBeGreaterThanOrEqual(prevStartTime);
@@ -29,6 +29,8 @@ describe("Jensen Huang: Supercomputer in 19 Days - 100% Verbatim & Segment Audit
       expect(seg.translationVi.length).toBeGreaterThan(0);
       expect(seg.ipaUs).toBeDefined();
       expect(seg.ipaUs!.length).toBeGreaterThan(0);
+      expect(seg.ipaUs!.startsWith("/")).toBe(true);
+      expect(seg.ipaUs!.endsWith("/")).toBe(true);
       expect(Array.isArray(seg.keywords)).toBe(true);
       expect(seg.keywords!.length).toBeGreaterThan(0);
       expect(seg.explanationAi).toBeDefined();
@@ -38,7 +40,7 @@ describe("Jensen Huang: Supercomputer in 19 Days - 100% Verbatim & Segment Audit
     }
   });
 
-  it("should tokenize all 10 segments cleanly with zero empty tokens", () => {
+  it("should tokenize all 31 segments cleanly with zero empty tokens", () => {
     let totalTokens = 0;
     for (const seg of LESSON_JENSEN_HUANG.segments) {
       const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
@@ -49,17 +51,18 @@ describe("Jensen Huang: Supercomputer in 19 Days - 100% Verbatim & Segment Audit
         expect(token.dots.length).toBe(token.clean.length);
       }
     }
-    expect(totalTokens).toBeGreaterThan(200);
+    expect(totalTokens).toBeGreaterThan(250);
   });
 
-  it("should match mock data in videoCatalogMockData.ts exactly across all 10 segments", () => {
+  it("should match mock data in videoCatalogMockData.ts exactly across all 31 segments", () => {
     const mock = MOCK_VIDEO_LESSONS.find((v) => v.externalId === "lpLFjQ-bRv8");
     expect(mock).toBeDefined();
-    expect(mock?.segments.length).toBe(10);
-    for (let i = 0; i < 10; i++) {
+    expect(mock?.segments.length).toBe(31);
+    for (let i = 0; i < 31; i++) {
       expect(mock?.segments[i].text).toBe(LESSON_JENSEN_HUANG.segments[i].text);
       expect(mock?.segments[i].startTime).toBe(LESSON_JENSEN_HUANG.segments[i].startTime);
       expect(mock?.segments[i].endTime).toBe(LESSON_JENSEN_HUANG.segments[i].endTime);
+      expect(mock?.segments[i].orderIndex).toBe(LESSON_JENSEN_HUANG.segments[i].orderIndex);
     }
   });
 
@@ -86,6 +89,8 @@ describe("Jensen Huang: Supercomputer in 19 Days - 100% Verbatim & Segment Audit
       expect(q.targetedConceptEn).toBeDefined();
       expect(q.targetedConceptVi).toBeDefined();
       expect(q.referenceSegmentIndex).toBeDefined();
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(31);
     }
   });
 });

@@ -4,38 +4,278 @@ import { MockVideoLesson, VideoQuizData } from "../../../types";
  * ============================================================================
  * LESSON: Ratatouille: Remy, Linguini & Anton Ego's Food Philosophy
  * Category: Hoạt Hình Pixar & Disney (cat_animation_pixar_disney)
- * Level: CEFR B2 | British
+ * Level: CEFR B2 | British Accent
  * YouTube ID: 8WRjQAKUlio (23:41 - 1421s)
- * Views: 3,090,371 | Likes: High Engagement
+ * Views: 3,090,371 | Likes: High Engagement | RealLife English & Pixar
  * 
- * BÁM SÁT 100% TIMELINE & VERBATIM LỜI THOẠI VIDEO GỐC
+ * BÁM SÁT 100% TIMELINE & VERBATIM LỜI THOẠI VIDEO GỐC (00:12 - 23:41)
+ * TIÊU CHUẨN ZERO MERGED UTTERANCES - 50 MASTER SEGMENTS - 8 QUIZ CEFR B2
  * ============================================================================
  */
 
 export const QUIZ_RATATOUILLE_ANTON_EGO_FOOD_REVIEW_MONOLOGUE: VideoQuizData = {
-  lessonId: "mov_ani_04",
-  lessonTitle: "Ratatouille: Remy, Linguini & Anton Ego's Food Philosophy",
-  totalQuestions: 1,
-  xpReward: 100,
-  generatedBy: "AI_GEMINI",
-  questions: [
+  "lessonId": "mov_ani_04",
+  "lessonTitle": "Ratatouille: Remy, Linguini & Anton Ego's Food Philosophy",
+  "totalQuestions": 8,
+  "xpReward": 200,
+  "generatedBy": "AI_GEMINI",
+  "questions": [
     {
-      id: "q_mov_ani_04_1",
-      question: "What profound realization about art does food critic Anton Ego express at the climax of his review?",
-      questionEn: "What profound realization about art does food critic Anton Ego express at the climax of his review?",
-      questionVi: "Nhà phê bình Anton Ego bày tỏ nhận thức sâu sắc nào về nghệ thuật ở đỉnh điểm bài đánh giá của mình?",
-      options: ["Not everyone can become a great artist, but a great artist can come from anywhere", "French cuisine is objectively superior to any other global tradition", "Rats should never be allowed in fine-dining restaurants", "Critics should never praise modern chefs"],
-      optionsEn: ["Not everyone can become a great artist, but a great artist can come from anywhere", "French cuisine is objectively superior to any other global tradition", "Rats should never be allowed in fine-dining restaurants", "Critics should never praise modern chefs"],
-      optionsVi: ["Không phải ai cũng có thể trở thành nghệ sĩ vĩ đại, nhưng một nghệ sĩ vĩ đại có thể xuất thân từ bất cứ đâu", "Ẩm thực Pháp vượt trội hơn mọi nền ẩm thực khác", "Chuột không bao giờ được phép vào nhà hàng sang trọng", "Nhà phê bình không nên khen ngợi đầu bếp hiện đại"],
-      correctAnswer: 0,
-      explanation: "Anton Ego humbly concludes: 'Not everyone can become a great artist, but a great artist can come from anywhere.'",
-      explanationEn: "Anton Ego humbly concludes: 'Not everyone can become a great artist, but a great artist can come from anywhere.'",
-      explanationVi: "Anton Ego khiêm nhường kết luận: 'Không phải ai cũng có thể thành nghệ sĩ vĩ đại, nhưng một nghệ sĩ vĩ đại có thể đến từ bất kỳ đâu.'",
-      targetedConcept: "Artistic Philosophy Insight",
-      targetedConceptEn: "Artistic Philosophy Insight",
-      targetedConceptVi: "Thấu hiểu triết lý nghệ thuật",
-      referenceSegmentIndex: 2,
+      "id": "q_mov_ani_04_1",
+      "question": "What does the English idiom 'have/get the gall' mean when Chef Skinner confronts Linguini?",
+      "questionEn": "What does the English idiom 'have/get the gall' mean when Chef Skinner confronts Linguini?",
+      "questionVi": "Thành ngữ tiếng Anh 'have/get the gall' có ý nghĩa gì khi Bếp trưởng Skinner đối chất với Linguini?",
+      "options": [
+        "Having the brazen audacity, insolence, or nerve to do something disrespectful",
+        "Having a severe biological illness affecting the digestive liver and gallbladder",
+        "Possessing certified culinary qualifications from an elite Parisian gastronomy academy",
+        "Lacking the physical stamina required to carry heavy iron pots in a commercial kitchen"
+      ],
+      "optionsEn": [
+        "Having the brazen audacity, insolence, or nerve to do something disrespectful",
+        "Having a severe biological illness affecting the digestive liver and gallbladder",
+        "Possessing certified culinary qualifications from an elite Parisian gastronomy academy",
+        "Lacking the physical stamina required to carry heavy iron pots in a commercial kitchen"
+      ],
+      "optionsVi": [
+        "Có sự trơ trẽn, to gan lớn mật hoặc liều lĩnh dám làm điều gì đó xấc xược, thất thố",
+        "Mắc phải một căn bệnh sinh học nghiêm trọng ảnh hưởng đến gan và túi mật",
+        "Sở hữu chứng chỉ nấu ăn được công nhận từ học viện ẩm thực danh giá tại Paris",
+        "Thiếu sức bền thể chất cần thiết để bưng bê những chiếc nồi gang nặng trong bếp"
+      ],
+      "correctAnswer": 0,
+      "explanation": "To 'have the gall' means to exhibit shocking boldness, impudence, or insolent audacity to do something unacceptable.",
+      "explanationEn": "To 'have the gall' means to exhibit shocking boldness, impudence, or insolent audacity to do something unacceptable.",
+      "explanationVi": "'Have the gall' có nghĩa là thể hiện sự trơ tráo, to gan hoặc liều lĩnh dám làm một điều không thể chấp nhận được.",
+      "targetedConcept": "Idiomatic Expression: Have/Get the Gall",
+      "targetedConceptEn": "Idiomatic Expression: Have/Get the Gall",
+      "targetedConceptVi": "Thành ngữ: Có gan cùng mình / trơ tráo liều lĩnh",
+      "referenceSegmentIndex": 7
     },
+    {
+      "id": "q_mov_ani_04_2",
+      "question": "How is Chef Skinner's threat of being 'drawn and quartered' rhetorically analyzed in the lesson?",
+      "questionEn": "How is Chef Skinner's threat of being 'drawn and quartered' rhetorically analyzed in the lesson?",
+      "questionVi": "Lời đe dọa 'tứ mã phanh thây' (drawn and quartered) của Bếp trưởng Skinner được phân tích tu từ như thế nào trong bài học?",
+      "options": [
+        "As an extreme hyperbolic figure of speech referencing medieval capital punishments to exaggerate anger",
+        "As a literal modern legal statute enforced by contemporary French labor courts",
+        "As a classic butchery technique used to divide poultry carcasses into four portions",
+        "As a traditional painting exercise required of young art apprentices in the Louvre"
+      ],
+      "optionsEn": [
+        "As an extreme hyperbolic figure of speech referencing medieval capital punishments to exaggerate anger",
+        "As a literal modern legal statute enforced by contemporary French labor courts",
+        "As a classic butchery technique used to divide poultry carcasses into four portions",
+        "As a traditional painting exercise required of young art apprentices in the Louvre"
+      ],
+      "optionsVi": [
+        "Như một biện pháp tu từ thậm xưng cường điệu viện dẫn hình phạt thời trung cổ để thổi phồng cơn thịnh nộ",
+        "Như một điều luật lao động hiện đại được các tòa án Pháp áp dụng nghiêm ngặt",
+        "Như một kỹ thuật chặt thịt gia cầm truyền thống thành bốn phần bằng nhau",
+        "Như một bài tập hội họa truyền thống bắt buộc đối với các học viên tại bảo tàng Louvre"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The lesson explains that Skinner uses 'drawn and quartered' hyperbolically—an exaggerated threat derived from medieval execution methods.",
+      "explanationEn": "The lesson explains that Skinner uses 'drawn and quartered' hyperbolically—an exaggerated threat derived from medieval execution methods.",
+      "explanationVi": "Bài học giải thích Skinner dùng cụm 'drawn and quartered' theo lối thậm xưng (hyperbolically)—một lời đe dọa phóng đại bắt nguồn từ án phạt thời trung cổ.",
+      "targetedConcept": "Hyperbolic Figurative Language",
+      "targetedConceptEn": "Hyperbolic Figurative Language",
+      "targetedConceptVi": "Ngôn ngữ tu từ thậm xưng cường điệu",
+      "referenceSegmentIndex": 13
+    },
+    {
+      "id": "q_mov_ani_04_3",
+      "question": "What is the grammatical rule governing the correlative conjunction pair 'either... or' versus 'neither... nor'?",
+      "questionEn": "What is the grammatical rule governing the correlative conjunction pair 'either... or' versus 'neither... nor'?",
+      "questionVi": "Quy tắc ngữ pháp nào chi phối cặp liên từ tương quan 'either... or' so với 'neither... nor'?",
+      "options": [
+        "'Either... or' presents an affirmative choice between two alternatives, while 'neither... nor' negates both alternatives simultaneously",
+        "'Either... or' can only connect past tense verbs, whereas 'neither... nor' only joins future tense auxiliary clauses",
+        "'Either... or' is exclusive to British English, while 'neither... nor' is restricted exclusively to American dialects",
+        "'Either... or' always requires a plural subjunctive verb regardless of subject number"
+      ],
+      "optionsEn": [
+        "'Either... or' presents an affirmative choice between two alternatives, while 'neither... nor' negates both alternatives simultaneously",
+        "'Either... or' can only connect past tense verbs, whereas 'neither... nor' only joins future tense auxiliary clauses",
+        "'Either... or' is exclusive to British English, while 'neither... nor' is restricted exclusively to American dialects",
+        "'Either... or' always requires a plural subjunctive verb regardless of subject number"
+      ],
+      "optionsVi": [
+        "'Either... or' đưa ra sự lựa chọn khẳng định giữa hai phương án, trong khi 'neither... nor' phủ định đồng thời cả hai phương án",
+        "'Either... or' chỉ có thể nối các động từ quá khứ, còn 'neither... nor' chỉ nối các mệnh đề tương lai",
+        "'Either... or' là từ độc quyền của tiếng Anh-Anh, còn 'neither... nor' chỉ dùng trong tiếng Anh-Mỹ",
+        "'Either... or' luôn đòi hỏi động từ số nhiều bất kể chủ ngữ là số ít hay số nhiều"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The fluency coach explains that 'either... or' offers options between two alternatives, whereas 'neither... nor' negates both choices.",
+      "explanationEn": "The fluency coach explains that 'either... or' offers options between two alternatives, whereas 'neither... nor' negates both choices.",
+      "explanationVi": "Huấn luyện viên giải thích 'either... or' đưa ra các tùy chọn giữa hai khả năng, còn 'neither... nor' phủ định cả hai lựa chọn đó.",
+      "targetedConcept": "Correlative Conjunctions: Either/Or vs Neither/Nor",
+      "targetedConceptEn": "Correlative Conjunctions: Either/Or vs Neither/Nor",
+      "targetedConceptVi": "Liên từ tương quan: Either/Or và Neither/Nor",
+      "referenceSegmentIndex": 16
+    },
+    {
+      "id": "q_mov_ani_04_4",
+      "question": "What phonological connected speech phenomenon occurs when a /t/ sound precedes a /j/ sound as in 'but you'?",
+      "questionEn": "What phonological connected speech phenomenon occurs when a /t/ sound precedes a /j/ sound as in 'but you'?",
+      "questionVi": "Hiện tượng biến âm nối âm nào xảy ra khi âm /t/ đứng trước âm /j/ như trong cụm 'but you'?",
+      "options": [
+        "Palatalization assimilation, where the sounds merge into an affricate /tʃ/ sound sounding like 'but-chu'",
+        "Vowel lengthening, where the vowel 'u' is stretched into a long diphthong",
+        "Glottal stopping, where the /t/ sound is entirely omitted without any sound substitution",
+        "Nasalization, where air is forced through the nasal cavity producing an /n/ sound"
+      ],
+      "optionsEn": [
+        "Palatalization assimilation, where the sounds merge into an affricate /tʃ/ sound sounding like 'but-chu'",
+        "Vowel lengthening, where the vowel 'u' is stretched into a long diphthong",
+        "Glottal stopping, where the /t/ sound is entirely omitted without any sound substitution",
+        "Nasalization, where air is forced through the nasal cavity producing an /n/ sound"
+      ],
+      "optionsVi": [
+        "Hiện tượng đồng hóa ngạc hóa, nơi hai âm hòa vào nhau tạo thành âm tắc xát /tʃ/ phát âm như 'but-chu'",
+        "Kéo dài nguyên âm, nơi nguyên âm 'u' được kéo thành nguyên âm đôi dài",
+        "Hiện tượng tắc thanh môn, nơi âm /t/ bị triệt tiêu hoàn toàn mà không có âm thay thế",
+        "Mũi hóa âm học, nơi luồng hơi đi qua khoang mũi tạo thành âm /n/"
+      ],
+      "correctAnswer": 0,
+      "explanation": "When an ending /t/ meets a starting /j/, native speakers naturally assimilate the cluster into a /tʃ/ sound: 'but you' becomes /bʌtʃuː/.",
+      "explanationEn": "When an ending /t/ meets a starting /j/, native speakers naturally assimilate the cluster into a /tʃ/ sound: 'but you' becomes /bʌtʃuː/.",
+      "explanationVi": "Khi âm cuối /t/ gặp âm đầu /j/, người bản xứ đồng hóa cụm âm thành âm /tʃ/: 'but you' được phát âm liền thành /bʌtʃuː/.",
+      "targetedConcept": "Connected Speech: Palatal Assimilation (/t/ + /j/ -> /tʃ/)",
+      "targetedConceptEn": "Connected Speech: Palatal Assimilation (/t/ + /j/ -> /tʃ/)",
+      "targetedConceptVi": "Nối âm tự nhiên: Đồng hóa ngạc âm (/t/ + /j/ -> /tʃ/)",
+      "referenceSegmentIndex": 18
+    },
+    {
+      "id": "q_mov_ani_04_5",
+      "question": "What discovery allows Remy to steer Linguini's culinary movements without being seen?",
+      "questionEn": "What discovery allows Remy to steer Linguini's culinary movements without being seen?",
+      "questionVi": "Phát hiện nào cho phép Remy điều khiển các thao tác nấu nướng của Linguini mà không bị lộ diện?",
+      "options": [
+        "Tugging specific locks of Linguini's hair triggers involuntary neuromuscular reflexes like a marionette",
+        "Whispering complex French recipes through an ultrasonic radio transmitter hidden in Linguini's ear",
+        "Transmitting hypnotic telepathic brainwaves while sitting on Linguini's right shoulder",
+        "Writing step-by-step instructions with chalk on the kitchen floor under the table"
+      ],
+      "optionsEn": [
+        "Tugging specific locks of Linguini's hair triggers involuntary neuromuscular reflexes like a marionette",
+        "Whispering complex French recipes through an ultrasonic radio transmitter hidden in Linguini's ear",
+        "Transmitting hypnotic telepathic brainwaves while sitting on Linguini's right shoulder",
+        "Writing step-by-step instructions with chalk on the kitchen floor under the table"
+      ],
+      "optionsVi": [
+        "Việc giật các lọn tóc cụ thể của Linguini kích hoạt phản xạ cơ thần kinh vô thức giống như một con rối",
+        "Thì thầm các công thức nấu ăn tiếng Pháp qua máy phát sóng siêu âm giấu trong tai Linguini",
+        "Truyền sóng não thôi miên thần giao cách cảm khi ngồi trên vai phải của Linguini",
+        "Viết các chỉ dẫn từng bước bằng phấn xuống sàn bếp phía dưới gầm bàn"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Remy discovers that pulling different tufts of Linguini's hair causes involuntary muscle contractions, turning Linguini into a culinary puppet.",
+      "explanationEn": "Remy discovers that pulling different tufts of Linguini's hair causes involuntary muscle contractions, turning Linguini into a culinary puppet.",
+      "explanationVi": "Remy phát hiện ra rằng việc giật các lọn tóc khác nhau của Linguini kích hoạt các phản xạ co cơ vô thức, biến Linguini thành con rối nấu bếp.",
+      "targetedConcept": "Involuntary Neuromuscular Marionette Mechanism",
+      "targetedConceptEn": "Involuntary Neuromuscular Marionette Mechanism",
+      "targetedConceptVi": "Cơ chế phản xạ co cơ vô thức kiểu múa rối",
+      "referenceSegmentIndex": 27
+    },
+    {
+      "id": "q_mov_ani_04_6",
+      "question": "What fundamental kitchen discipline does Colette emphasize to prevent culinary chaos?",
+      "questionEn": "What fundamental kitchen discipline does Colette emphasize to prevent culinary chaos?",
+      "questionVi": "Kỷ luật làm bếp nền tảng nào mà Colette nhấn mạnh để ngăn chặn sự hỗn loạn trong gian bếp nhà hàng?",
+      "options": [
+        "Keeping your cooking station clean and clearing the cutting board immediately after every preparation task",
+        "Shouting loudly at all kitchen porters to assert dominance and establish workplace authority",
+        "Using only imported butter from Normandy and discarding olive oil completely",
+        "Sharpening every knife at exactly six o'clock every morning before the doors unlock"
+      ],
+      "optionsEn": [
+        "Keeping your cooking station clean and clearing the cutting board immediately after every preparation task",
+        "Shouting loudly at all kitchen porters to assert dominance and establish workplace authority",
+        "Using only imported butter from Normandy and discarding olive oil completely",
+        "Sharpening every knife at exactly six o'clock every morning before the doors unlock"
+      ],
+      "optionsVi": [
+        "Luôn giữ khu vực nấu nướng sạch sẽ và dọn thớt ngay lập tức sau mỗi công đoạn sơ chế",
+        "Hét lớn vào mặt tất cả nhân viên phụ bếp để khẳng định quyền lực và thiết lập trật tự",
+        "Chỉ sử dụng bơ nhập khẩu từ Normandy và loại bỏ hoàn toàn dầu ô liu",
+        "Mài sắc mọi con dao vào đúng sáu giờ sáng mỗi ngày trước khi mở cửa nhà hàng"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Colette instructs: 'Keep your station clean! If you clear your cutting board after every prep, the mess will never conquer you!'",
+      "explanationEn": "Colette instructs: 'Keep your station clean! If you clear your cutting board after every prep, the mess will never conquer you!'",
+      "explanationVi": "Colette chỉ bảo: 'Luôn giữ cho khu vực của cậu sạch sẽ! Nếu dọn sạch thớt sau mỗi công đoạn sơ chế, sự bừa bộn sẽ không bao giờ đánh bại được cậu!'",
+      "targetedConcept": "Professional Kitchen Mise en Place & Station Discipline",
+      "targetedConceptEn": "Professional Kitchen Mise en Place & Station Discipline",
+      "targetedConceptVi": "Kỷ luật sắp đặt và vệ sinh khu vực bếp chuyên nghiệp",
+      "referenceSegmentIndex": 33
+    },
+    {
+      "id": "q_mov_ani_04_7",
+      "question": "What Proustian sensory memory disarms food critic Anton Ego upon tasting Remy's ratatouille?",
+      "questionEn": "What Proustian sensory memory disarms food critic Anton Ego upon tasting Remy's ratatouille?",
+      "questionVi": "Ký ức giác quan hoài niệm (Proustian memory) nào đã giải giáp sự cay nghiệt của Anton Ego khi nếm thử món ratatouille của Remy?",
+      "options": [
+        "He recalls scraping his knee as a weeping boy and being comforted by his mother with a warm bowl of ratatouille",
+        "He remembers attending his first formal banquet at the Palace of Versailles with his grandfather",
+        "He recalls winning first prize in an international culinary writing contest in Rome",
+        "He remembers eating roasted chestnuts near the Eiffel Tower during a winter snowfall"
+      ],
+      "optionsEn": [
+        "He recalls scraping his knee as a weeping boy and being comforted by his mother with a warm bowl of ratatouille",
+        "He remembers attending his first formal banquet at the Palace of Versailles with his grandfather",
+        "He recalls winning first prize in an international culinary writing contest in Rome",
+        "He remembers eating roasted chestnuts near the Eiffel Tower during a winter snowfall"
+      ],
+      "optionsVi": [
+        "Ông nhớ lại ngày mình bị ngã trầy đầu gối khóc nức nở và được mẹ vỗ về bằng một bát ratatouille thơm nóng",
+        "Ông nhớ lại lần đầu tiên tham dự yến tiệc hoàng gia tại cung điện Versailles cùng ông nội",
+        "Ông nhớ lại chiến thắng giải nhất trong cuộc thi viết ẩm thực quốc tế tại Rome",
+        "Ông nhớ lại kỷ niệm ăn hạt dẻ nướng gần tháp Eiffel trong một ngày tuyết rơi mùa đông"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The taste instantly transports Ego to his rural childhood kitchen, where his mother comforted his scraped knee with warm, freshly cooked ratatouille.",
+      "explanationEn": "The taste instantly transports Ego to his rural childhood kitchen, where his mother comforted his scraped knee with warm, freshly cooked ratatouille.",
+      "explanationVi": "Hương vị mộc mạc lập tức đưa Ego ngược thời gian về gian bếp tuổi thơ nông thôn, nơi người mẹ đã ân cần vỗ về vết trầy đầu gối của ông bằng một bát ratatouille thơm nóng.",
+      "targetedConcept": "Proustian Sensory Memory & Emotional Gastronomy",
+      "targetedConceptEn": "Proustian Sensory Memory & Emotional Gastronomy",
+      "targetedConceptVi": "Ký ức giác quan hoài niệm và giá trị cảm xúc ẩm thực",
+      "referenceSegmentIndex": 38
+    },
+    {
+      "id": "q_mov_ani_04_8",
+      "question": "How does Anton Ego famously re-interpret Chef Gusteau's motto 'Anyone can cook' in his final review?",
+      "questionEn": "How does Anton Ego famously re-interpret Chef Gusteau's motto 'Anyone can cook' in his final review?",
+      "questionVi": "Anton Ego đã tái diễn giải phương châm 'Ai cũng có thể nấu ăn' của Bếp trưởng Gusteau như thế nào trong bài phê bình kết thúc phim?",
+      "options": [
+        "Not everyone can become a great artist, but a great artist can come from anywhere",
+        "Anyone with sufficient financial capital can purchase a Michelin three-star establishment",
+        "Cooking is an automated biological task that machines will soon perform without human intervention",
+        "Critics possess higher intellectual authority than any practicing chef in France"
+      ],
+      "optionsEn": [
+        "Not everyone can become a great artist, but a great artist can come from anywhere",
+        "Anyone with sufficient financial capital can purchase a Michelin three-star establishment",
+        "Cooking is an automated biological task that machines will soon perform without human intervention",
+        "Critics possess higher intellectual authority than any practicing chef in France"
+      ],
+      "optionsVi": [
+        "Không phải ai cũng có thể trở thành một nghệ sĩ vĩ đại, nhưng một nghệ sĩ vĩ đại có thể xuất thân từ bất kỳ đâu",
+        "Bất kỳ ai có đủ vốn tài chính đều có thể mua được một nhà hàng ba sao Michelin",
+        "Nấu nướng là công việc sinh học tự động mà máy móc sẽ sớm thay thế con người thực hiện",
+        "Các nhà phê bình có thẩm quyền trí tuệ cao hơn bất kỳ đầu bếp thực hành nào tại Pháp"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Anton Ego humbly concludes: 'Not everyone can become a great artist, but a great artist can come from anywhere.'",
+      "explanationEn": "Anton Ego humbly concludes: 'Not everyone can become a great artist, but a great artist can come from anywhere.'",
+      "explanationVi": "Anton Ego khiêm nhường kết luận: 'Không phải ai cũng có thể trở thành một nghệ sĩ vĩ đại, nhưng một nghệ sĩ vĩ đại có thể xuất thân từ bất kỳ nơi đâu.'",
+      "targetedConcept": "Ego's Epiphany: Egalitarian Meritocracy in Art",
+      "targetedConceptEn": "Ego's Epiphany: Egalitarian Meritocracy in Art",
+      "targetedConceptVi": "Sự thức tỉnh của Ego: Bình đẳng và thực tài trong nghệ thuật",
+      "referenceSegmentIndex": 46
+    }
   ],
 };
 
@@ -58,46 +298,880 @@ export const LESSON_RATATOUILLE_ANTON_EGO_FOOD_REVIEW_MONOLOGUE: MockVideoLesson
   viewCount: 3090371,
   studyCount: 7320,
   description:
-    "Lời bình luận ẩm thực kinh điển của nhà phê bình Anton Ego (lồng tiếng bởi Peter O'Toole): 'Không phải ai cũng có thể trở thành một nghệ sĩ vĩ đại, nhưng một nghệ sĩ vĩ đại có thể xuất thân từ bất kỳ đâu.'",
+    "Lời bình luận ẩm thực kinh điển của nhà phê bình Anton Ego (lồng tiếng bởi Peter O'Toole) và bài học ngôn ngữ đắt giá từ kiệt tác Ratatouille của Pixar: 'Không phải ai cũng có thể trở thành một nghệ sĩ vĩ đại, nhưng một nghệ sĩ vĩ đại có thể xuất thân từ bất kỳ đâu.'",
   segments: [
     {
-      orderIndex: 0,
-      startTime: 30.0,
-      endTime: 45.0,
-      text: "In many ways, the work of a critic is easy. We risk very little, yet enjoy a position over those who offer up their work and their selves to our judgment.",
-      translationVi: "Xét trên nhiều phương diện, công việc của một nhà phê bình thật dễ dàng. Chúng tôi đối mặt rất ít rủi ro, nhưng lại được hưởng vị thế đứng trên những người cống hiến tác phẩm và cả tâm can của họ cho sự phán xét của chúng tôi.",
-      ipaUs: "/ɪn ˈmɛni weɪz, ðə wɜːrk əv ə ˈkrɪtɪk ɪz ˈiːzi. wiː rɪsk ˈvɛri ˈlɪtl̩, jɛt ɛnˈdʒɔɪ ə pəˈzɪʃən ˈoʊvər ðoʊz huː ˈɔːfər ʌp ðɛr wɜːrk ænd ðɛr sɛlvz tuː ˈaʊər ˈdʒʌdʒmənt./",
-      keywords: ["work of a critic", "risk very little", "offer up", "judgment"],
-      explanationAi: "Cụm từ văn phong học thuật cao cấp: 'offer up' (dâng hiến/giao phó), 'risk very little' (gần như chẳng mạo hiểm điều gì).",
-      properNouns: [],
-      tokenCount: 31,
+        "orderIndex": 0,
+        "startTime": 12.0,
+        "endTime": 30.0,
+        "text": "Today, we're going to be learning English with Ratatouille! Aww Yeah! You're going to be learning with your fluency coach, Andrea!",
+        "translationVi": "Hôm nay, chúng ta cùng học tiếng Anh qua bộ phim Ratatouille! Tuyệt vời! Bạn sẽ cùng học với huấn luyện viên lưu loát của bạn, cô Andrea!",
+        "ipaUs": "/təˈdeɪ, wɪr ˈɡoʊɪŋ tuː biː ˈlɜːrnɪŋ ˈɪŋɡlɪʃ wɪð ˌrætəˈtuːi! ɔː jɛə! jʊr ˈɡoʊɪŋ tuː biː ˈlɜːrnɪŋ wɪð jʊər ˈfluːənsi koʊtʃ, ænˈdreɪə!/",
+        "keywords": [
+            "learning English",
+            "Ratatouille",
+            "fluency coach",
+            "Andrea"
+        ],
+        "explanationAi": "Lời chào mở đầu bài học từ kênh RealLife English. Phim hoạt hình đoạt giải Oscar của Pixar lấy bối cảnh tại thủ đô ẩm thực Paris.",
+        "properNouns": [
+            "Ratatouille",
+            "Andrea"
+        ],
+        "tokenCount": 23
     },
     {
-      orderIndex: 1,
-      startTime: 48.0,
-      endTime: 63.5,
-      text: "We thrive on negative criticism, which is fun to write and to read. But the bitter truth we critics must face is that the average piece of junk is probably more meaningful than our criticism designating it so.",
-      translationVi: "Chúng tôi sống bám vào những lời phê bình cay nghiệt, thứ rất sướng khi viết và hấp dẫn khi đọc. Nhưng sự thật cay đắng mà chúng tôi phải đối diện là: ngay cả một món đồ vứt đi tầm thường có lẽ vẫn có ý nghĩa hơn lời bình phẩm của chúng tôi khi gán cho nó cái mác đó.",
-      ipaUs: "/wiː θraɪv ɑːn ˈnɛɡətɪv ˈkrɪtɪˌsɪzəm, wɪtʃ ɪz fʌn tuː raɪt ænd tuː riːd. bʌt ðə ˈbɪtər truːθ wiː ˈkrɪtɪks mʌst feɪs ɪz ðæt ðɪ ˈævərɪdʒ piːs əv dʒʌŋk ɪz ˈprɑːbəbli mɔːr ˈmiːnɪŋfəl ðæn ˈaʊər ˈkrɪtɪˌsɪzəm ˈdɛzɪɡˌneɪtɪŋ ɪt soʊ./",
-      keywords: ["thrive on", "negative criticism", "bitter truth", "designating"],
-      explanationAi: "Cụm động từ 'thrive on' (phát triển mạnh/sống bám vào nhờ vào điều gì đó). Tự vấn lương tâm nghề nghiệp sắc sảo của Ego.",
-      properNouns: [],
-      tokenCount: 38,
+        "orderIndex": 1,
+        "startTime": 30.0,
+        "endTime": 50.0,
+        "text": "Ratatouille is about an ambitious rat named Remy, who dreams of becoming a great French chef despite everyone telling him it's impossible.",
+        "translationVi": "Ratatouille kể về một chú chuột đầy hoài bão tên là Remy, người mơ ước trở thành một đầu bếp Pháp vĩ đại dù mọi người đều bảo đó là điều bất khả thi.",
+        "ipaUs": "/ˌrætəˈtuːi ɪz əˈbaʊt ən æmˈbɪʃəs ræt neɪmd ˈrɛmi, huː driːmz əv bɪˈkʌmɪŋ ə ɡreɪt frɛntʃ ʃɛf dɪˈspaɪt ˈɛvriˌwʌn ˈtɛlɪŋ hɪm ɪts ɪmˈpɑːsəbəl./",
+        "keywords": [
+            "ambitious rat",
+            "French chef",
+            "despite",
+            "impossible"
+        ],
+        "explanationAi": "Giới thiệu nhân vật chính: 'ambitious rat' (chú chuột đầy tham vọng và đam mê ẩm thực), liên từ 'despite' (mặc dù).",
+        "properNouns": [
+            "Ratatouille",
+            "Remy"
+        ],
+        "tokenCount": 23
     },
     {
-      orderIndex: 2,
-      startTime: 90.0,
-      endTime: 108.5,
-      text: "Not everyone can become a great artist, but a great artist can come from anywhere.",
-      translationVi: "Không phải bất kỳ ai cũng có thể trở thành một nghệ sĩ vĩ đại, nhưng một nghệ sĩ vĩ đại có thể xuất thân từ bất kỳ nơi đâu.",
-      ipaUs: "/nɑːt ˈɛvriˌwʌn kæn bɪˈkʌm ə ɡreɪt ˈɑːrtɪst, bʌt ə ɡreɪt ˈɑːrtɪst kæn kʌm frʌm ˈɛniˌwɛr./",
-      keywords: ["not everyone", "great artist", "come from anywhere"],
-      explanationAi: "Lời khẳng định bất hủ đảo ngược cấu trúc triết lý Gusteau: Xóa bỏ rào cản xuất thân, tôn vinh tài năng đích thực.",
-      properNouns: [],
-      tokenCount: 15,
+        "orderIndex": 2,
+        "startTime": 50.0,
+        "endTime": 75.0,
+        "text": "In this lesson, we will help you to learn English without getting lost, without missing the jokes, and without subtitles. So let's jump right into the first scene!",
+        "translationVi": "Trong bài học này, chúng tôi sẽ giúp bạn học tiếng Anh mà không bị mất phương hướng, không bỏ lỡ các mẩu chuyện cười và không cần nhìn phụ đề. Nào, hãy cùng bước ngay vào phân cảnh đầu tiên!",
+        "ipaUs": "/ɪn ðɪs ˈlɛsən, wiː wɪl hɛlp juː tuː lɜːrn ˈɪŋɡlɪʃ wɪðˈaʊt ˈɡɛtɪŋ lɔːst, wɪðˈaʊt ˈmɪsɪŋ ðə dʒoʊks, ænd wɪðˈaʊt ˈsʌbˌtaɪtəlz. soʊ lɛts dʒʌmp raɪt ˈɪntuː ðə fɜːrst siːn!/",
+        "keywords": [
+            "getting lost",
+            "missing jokes",
+            "without subtitles",
+            "jump right into"
+        ],
+        "explanationAi": "Cụm động từ thành ngữ: 'jump right into' (bắt đầu ngay lập tức không chần chừ).",
+        "properNouns": [],
+        "tokenCount": 29
     },
-  ],
-  quiz: QUIZ_RATATOUILLE_ANTON_EGO_FOOD_REVIEW_MONOLOGUE,
+    {
+        "orderIndex": 3,
+        "startTime": 75.0,
+        "endTime": 92.0,
+        "text": "Linguini was hired as a garbage boy at Gusteau's restaurant, but while cleaning, he accidentally knocks over the soup pot.",
+        "translationVi": "Linguini được nhận vào làm phụ việc dọn rác tại nhà hàng Gusteau, nhưng trong lúc lau dọn, cậu đã vô tình gạt đổ nồi súp.",
+        "ipaUs": "/lɪŋˈɡwiːni wʌz ˈhaɪərd æz ə ˈɡɑːrbɪdʒ bɔɪ æt ɡuːˈstoʊz ˈrɛstəˌrɑːnt, bʌt waɪl ˈkliːnɪŋ, hiː ˌæksəˈdɛntli nɑːks ˈoʊvər ðə suːp pɑːt./",
+        "keywords": [
+            "garbage boy",
+            "Gusteau's restaurant",
+            "knocks over",
+            "soup pot"
+        ],
+        "explanationAi": "Cụm 'knocks over' (làm đổ, xô đổ). Tình huống vụng về khởi đầu chuỗi rắc rối của Linguini.",
+        "properNouns": [
+            "Linguini",
+            "Gusteau"
+        ],
+        "tokenCount": 21
+    },
+    {
+        "orderIndex": 4,
+        "startTime": 92.0,
+        "endTime": 108.0,
+        "text": "Panicked, Linguini tries to fix it by throwing random vegetables, spices, and tap water into the simmering broth.",
+        "translationVi": "Trong cơn hoảng loạn, Linguini cố chữa cháy bằng cách ném bừa bãi rau củ, gia vị và nước máy vào nồi nước dùng đang sôi lăn tăn.",
+        "ipaUs": "/ˈpænɪkt, lɪŋˈɡwiːni traɪz tuː fɪks ɪt baɪ ˈθroʊɪŋ ˈrændəm ˈvɛdʒtəbəlz, ˈspaɪsɪz, ænd tæp ˈwɔːtər ˈɪntuː ðə ˈsɪmərɪŋ brɔːθ./",
+        "keywords": [
+            "panicked",
+            "random vegetables",
+            "simmering broth"
+        ],
+        "explanationAi": "Thuật ngữ nấu ăn: 'simmering broth' (nước dùng đang sôi liu riu trên bếp).",
+        "properNouns": [
+            "Linguini"
+        ],
+        "tokenCount": 18
+    },
+    {
+        "orderIndex": 5,
+        "startTime": 108.0,
+        "endTime": 125.0,
+        "text": "Watching in horror from above, Remy smells the ruined concoction and realizes it's an absolute culinary disaster.",
+        "translationVi": "Quan sát trong kinh hãi từ trên trần nhà, Remy ngửi thấy thứ hỗn hợp hỏng bét đó và nhận ra đây là một thảm họa ẩm thực thực sự.",
+        "ipaUs": "/ˈwɑːtʃɪŋ ɪn ˈhɔːrər frʌm əˈbʌv, ˈrɛmi smɛlz ðə ˈruːɪnd kənˈkɑːkʃən ænd ˈriːəˌlaɪzɪz ɪts ən ˈæbsəˌluːt ˈkjʌlɪˌnɛri dɪˈzæstər./",
+        "keywords": [
+            "in horror",
+            "ruined concoction",
+            "culinary disaster"
+        ],
+        "explanationAi": "Danh từ ẩm thực: 'concoction' (hỗn hợp pha trộn), tính từ 'culinary' (thuộc về nấu nướng, ẩm thực).",
+        "properNouns": [
+            "Remy"
+        ],
+        "tokenCount": 18
+    },
+    {
+        "orderIndex": 6,
+        "startTime": 125.0,
+        "endTime": 142.0,
+        "text": "Remy sneaks down, grabs fresh thyme, bay leaves, roasted garlic, and heavy cream to completely transform the flavor profile.",
+        "translationVi": "Remy lẻn xuống bếp, vớ lấy nhánh xạ hương tươi, lá nguyệt quế, tỏi nướng và kem tươi béo ngậy để biến đổi hoàn toàn hương vị của nồi súp.",
+        "ipaUs": "/ˈrɛmi sniːks daʊn, ɡræbz frɛʃ taɪm, beɪ liːvz, ˈroʊstɪd ˈɡɑːrlɪk, ænd ˈhɛvi kriːm tuː kəmˈpliːtli trænsˈfɔːrm ðə ˈfleɪvər ˈproʊfaɪl./",
+        "keywords": [
+            "fresh thyme",
+            "bay leaves",
+            "heavy cream",
+            "flavor profile"
+        ],
+        "explanationAi": "Thuật ngữ nguyên liệu nấu ăn Pháp: 'fresh thyme' (cỏ xạ hương tươi), 'bay leaves' (lá nguyệt quế), 'flavor profile' (phổ hương vị).",
+        "properNouns": [
+            "Remy"
+        ],
+        "tokenCount": 19
+    },
+    {
+        "orderIndex": 7,
+        "startTime": 142.0,
+        "endTime": 155.0,
+        "text": "What are you doing?! Where do you get the gall to even attempt to cook in my kitchen?!",
+        "translationVi": "Cậu đang làm cái trò gì thế này?! Cậu lấy đâu ra cái gan cùng mình để dám cả gan nấu nướng trong căn bếp của tôi hả?!",
+        "ipaUs": "/wʌt ɑːr juː ˈduːɪŋ?! wɛr duː juː ɡɛt ðə ɡɔːl tuː ˈiːvən əˈtɛmpt tuː kʊk ɪn maɪ ˈkɪtʃən?!/",
+        "keywords": [
+            "what are you doing",
+            "get the gall",
+            "attempt to cook"
+        ],
+        "explanationAi": "Thành ngữ 'have/get the gall' (có sự trơ trẽn, to gan lớn mật dám làm điều gì xấc xược). Bếp trưởng Skinner gầm lên khi bắt quả tang Linguini.",
+        "properNouns": [],
+        "tokenCount": 18
+    },
+    {
+        "orderIndex": 8,
+        "startTime": 155.0,
+        "endTime": 170.0,
+        "text": "No, Chef! I was just cleaning! I spilled the soup by mistake and I was trying to wipe the counter!",
+        "translationVi": "Không, thưa Bếp trưởng! Tôi chỉ đang lau dọn thôi ạ! Tôi vô tình làm đổ súp và đang cố lau sạch mặt bàn bếp thôi!",
+        "ipaUs": "/noʊ, ʃɛf! aɪ wʌz dʒʌst ˈkliːnɪŋ! aɪ spɪld ðə suːp baɪ mɪsˈteɪk ænd aɪ wʌz ˈtraɪɪŋ tuː waɪp ðə ˈkaʊntər!/",
+        "keywords": [
+            "just cleaning",
+            "spilled the soup",
+            "by mistake",
+            "wipe the counter"
+        ],
+        "explanationAi": "Linguini sợ hãi run rẩy thanh minh: 'by mistake' (vô tình, do sơ suất).",
+        "properNouns": [
+            "Chef"
+        ],
+        "tokenCount": 20
+    },
+    {
+        "orderIndex": 9,
+        "startTime": 170.0,
+        "endTime": 185.0,
+        "text": "You will be fired! You will be drawn and quartered! I'll do it, I think the law is on my side!",
+        "translationVi": "Cậu sẽ bị đuổi việc! Cậu sẽ bị tứ mã phanh thây! Tôi sẽ làm thật đấy, tôi tin rằng pháp luật đang đứng về phía tôi!",
+        "ipaUs": "/juː wɪl biː ˈfaɪərd! juː wɪl biː drɔːn ænd ˈkwɔːrtərd! aɪl duː ɪt, aɪ θɪŋk ðə lɔː ɪz ɑːn maɪ saɪd!/",
+        "keywords": [
+            "fired",
+            "drawn and quartered",
+            "law is on my side"
+        ],
+        "explanationAi": "Thành ngữ cường điệu mang tính lịch sử: 'drawn and quartered' (hình phạt tứ mã phanh thây thời trung cổ), 'on my side' (ủng hộ, đứng về phía tôi).",
+        "properNouns": [],
+        "tokenCount": 22
+    },
+    {
+        "orderIndex": 10,
+        "startTime": 185.0,
+        "endTime": 200.0,
+        "text": "Stop that soup! The waiter already took a bowl out to table five!",
+        "translationVi": "Chặn bát súp đó lại mau! Người bồi bàn đã vừa bưng một bát súp ra bàn số năm rồi kìa!",
+        "ipaUs": "/stɑːp ðæt suːp! ðə ˈweɪtər ɔːlˈrɛdi tʊk ə boʊl aʊt tuː ˈteɪbəl faɪv!/",
+        "keywords": [
+            "stop that soup",
+            "waiter",
+            "table five"
+        ],
+        "explanationAi": "Cú sốc tột cùng của Skinner khi nhận ra bát súp do chuột nấu đã được phục vụ cho thực khách.",
+        "properNouns": [],
+        "tokenCount": 13
+    },
+    {
+        "orderIndex": 11,
+        "startTime": 200.0,
+        "endTime": 218.0,
+        "text": "The soup was served to Solene LeClaire, the demanding food critic from Le Figaro, and she adored it!",
+        "translationVi": "Bát súp đã được phục vụ cho bà Solene LeClaire, nhà phê bình ẩm thực khắt khe của tờ nhật báo Le Figaro, và bà ấy mê mẩn nó vô cùng!",
+        "ipaUs": "/ðə suːp wʌz sɜːrvd tuː soʊˈlɛn ləˈklɛr, ðə dɪˈmændɪŋ fuːd ˈkrɪtɪk frʌm lə fiːɡəˈroʊ, ænd ʃiː əˈdɔːrd ɪt!/",
+        "keywords": [
+            "served to",
+            "food critic",
+            "adored it"
+        ],
+        "explanationAi": "Động từ 'adore' (say mê, yêu thích tột bậc). Sự đón nhận nồng nhiệt bất ngờ từ giới phê bình tinh hoa.",
+        "properNouns": [
+            "Solene LeClaire",
+            "Le Figaro"
+        ],
+        "tokenCount": 18
+    },
+    {
+        "orderIndex": 12,
+        "startTime": 403.0,
+        "endTime": 420.0,
+        "text": "Here, Chef Skinner insults Linguini by saying that for him to cook would be 'monumentally idiotic'.",
+        "translationVi": "Ở đây, Bếp trưởng Skinner đã thóa mạ Linguini bằng cách bảo rằng việc cậu ta nấu ăn sẽ là một điều 'ngu xuẩn tột độ'.",
+        "ipaUs": "/hɪr, ʃɛf ˈskɪnər ˈɪnsʌlts lɪŋˈɡwiːni baɪ ˈseɪɪŋ ðæt fɔːr hɪm tuː kʊk wʊd biː ˌmɑːnjəˈmɛntəli ˌɪdiˈɑːtɪk./",
+        "keywords": [
+            "insults",
+            "monumentally idiotic"
+        ],
+        "explanationAi": "Phó từ nhấn mạnh cao cấp: 'monumentally' (cực kỳ, to lớn như tượng đài), kết hợp với 'idiotic' để tạo sự khinh miệt sâu sắc.",
+        "properNouns": [
+            "Skinner",
+            "Linguini"
+        ],
+        "tokenCount": 16
+    },
+    {
+        "orderIndex": 13,
+        "startTime": 420.0,
+        "endTime": 435.0,
+        "text": "Chef Skinner is using these expressions hyperbolically, which means in an exaggerated, dramatic way.",
+        "translationVi": "Bếp trưởng Skinner đang sử dụng những cách diễn đạt này theo lối thậm xưng, nghĩa là cường điệu hóa một cách đầy kịch tính.",
+        "ipaUs": "/ʃɛf ˈskɪnər ɪz ˈjuːzɪŋ ðiːz ɪkˈsprɛʃənz ˌhaɪpərˈbɑːlɪkli, wɪtʃ miːnz ɪn ən ɪɡˈzædʒəˌreɪtɪd, drəˈmætɪk weɪ./",
+        "keywords": [
+            "hyperbolically",
+            "exaggerated",
+            "dramatic way"
+        ],
+        "explanationAi": "Thuật ngữ tu từ học: 'hyperbolically' (lối nói phóng đại, thậm xưng nhằm tạo hiệu ứng hài hước hoặc răn đe).",
+        "properNouns": [
+            "Skinner"
+        ],
+        "tokenCount": 14
+    },
+    {
+        "orderIndex": 14,
+        "startTime": 435.0,
+        "endTime": 455.0,
+        "text": "When someone is 'on your side', it means they support your position, agree with your argument, or back you up.",
+        "translationVi": "Khi ai đó 'đứng về phía bạn' (on your side), điều đó có nghĩa là họ ủng hộ lập trường của bạn, đồng tình với lý lẽ của bạn hoặc bảo bọc bạn.",
+        "ipaUs": "/wɛn ˈsʌmˌwʌn ɪz ɑːn jʊər saɪd, ɪt miːnz ðeɪ səˈpɔːrt jʊər pəˈzɪʃən, əˈɡriː wɪð jʊər ˈɑːrɡjəmənt, ɔːr bæk juː ʌp./",
+        "keywords": [
+            "on your side",
+            "support your position",
+            "back you up"
+        ],
+        "explanationAi": "Thành ngữ giao tiếp thông dụng: 'on one's side' và cụm động từ 'back someone up' (chống lưng, ủng hộ).",
+        "properNouns": [],
+        "tokenCount": 20
+    },
+    {
+        "orderIndex": 15,
+        "startTime": 455.0,
+        "endTime": 475.0,
+        "text": "The adjective 'blathering' describes someone who talks far too much, often in a foolish, annoying, or meaningless manner.",
+        "translationVi": "Tính từ 'blathering' miêu tả một kẻ ăn nói lảm nhảm quá nhiều, thường theo một cách ngớ ngẩn, gây bực mình hoặc vô nghĩa.",
+        "ipaUs": "/ði ˈædʒɪktɪv ˈblæðərɪŋ dɪˈskraɪbz ˈsʌmˌwʌn huː tɔːks fɑːr tuː mʌtʃ, ˈɔːfən ɪn ə ˈfuːlɪʃ, əˈnɔɪɪŋ, ɔːr ˈmiːnɪŋlɪs ˈmænər./",
+        "keywords": [
+            "blathering",
+            "talks too much",
+            "foolish and annoying"
+        ],
+        "explanationAi": "Từ vựng châm biếm: 'blathering' (lảm nhảm, ba hoa xích bích).",
+        "properNouns": [],
+        "tokenCount": 18
+    },
+    {
+        "orderIndex": 16,
+        "startTime": 475.0,
+        "endTime": 495.0,
+        "text": "Let's examine the grammar of correlative conjunctions: 'either... or' presents choices, while 'neither... nor' negates both alternatives.",
+        "translationVi": "Chúng ta hãy cùng xem xét ngữ pháp của cặp liên từ tương quan: 'either... or' dùng để đưa ra sự lựa chọn, trong khi 'neither... nor' phủ định cả hai phương án.",
+        "ipaUs": "/lɛts ɪɡˈzæmɪn ðə ˈɡræmər əv kəˈrɛlətɪv kənˈdʒʌŋkʃənz: ˈiːðər... ɔːr prɪˈzɛnts ˈtʃɔɪsɪz, waɪl ˈniːðər... nɔːr nɪˈɡeɪts boʊθ ɔːlˈtɜːrnətɪvz./",
+        "keywords": [
+            "correlative conjunctions",
+            "either or",
+            "neither nor"
+        ],
+        "explanationAi": "Điểm ngữ pháp CEFR B2: Cặp liên từ tương quan diễn đạt sự lựa chọn và sự phủ định song hành chuẩn xác.",
+        "properNouns": [],
+        "tokenCount": 18
+    },
+    {
+        "orderIndex": 17,
+        "startTime": 521.0,
+        "endTime": 540.0,
+        "text": "To 'pay attention' means to focus your conscious mental energy to carefully observe, listen, or learn.",
+        "translationVi": "'Chú ý' (pay attention) có nghĩa là tập trung năng lượng tinh thần có ý thức để quan sát cẩn thận, lắng nghe hoặc học hỏi.",
+        "ipaUs": "/tuː peɪ əˈtɛnʃən miːnz tuː ˈfoʊkəs jʊər ˈkɑːnʃəs ˈmɛntəl ˈɛnərdʒi tuː ˈkɛrfəli əbˈzɜːrv, ˈlɪsən, ɔːr lɜːrn./",
+        "keywords": [
+            "pay attention",
+            "focus mental energy",
+            "carefully observe"
+        ],
+        "explanationAi": "Thành ngữ cốt lõi trong học tập và công việc: 'pay attention to something'.",
+        "properNouns": [],
+        "tokenCount": 16
+    },
+    {
+        "orderIndex": 18,
+        "startTime": 540.0,
+        "endTime": 555.0,
+        "text": "Notice connected speech: when a word ending in a /t/ sound meets a /j/ sound like 'you', they blend into a /tʃ/ sound: 'but you' becomes 'but-chu'.",
+        "translationVi": "Hãy chú ý đến hiện tượng nối âm biến âm: khi một từ kết thúc bằng âm /t/ gặp âm /j/ như từ 'you', chúng sẽ hòa vào nhau thành âm /tʃ/: 'but you' biến thành 'but-chu'.",
+        "ipaUs": "/ˈnoʊtɪs kəˈnɛktɪd spiːtʃ: wɛn ə wɜːrd ˈɛndɪŋ ɪn ə /t/ saʊnd miːts ə /j/ saʊnd laɪk juː, ðeɪ blɛnd ˈɪntuː ə /tʃ/ saʊnd: bʌt juː bɪˈkʌmz ˈbʌtʃuː./",
+        "keywords": [
+            "connected speech",
+            "blend into",
+            "t sound",
+            "y sound"
+        ],
+        "explanationAi": "Hiện tượng đồng hóa ngữ âm (palatalization assimilation) trong giao tiếp tự nhiên của người bản xứ.",
+        "properNouns": [],
+        "tokenCount": 28
+    },
+    {
+        "orderIndex": 19,
+        "startTime": 555.0,
+        "endTime": 575.0,
+        "text": "They think you might be a cook, but you know what I think, Linguini? I think you are a sneaky, overreaching little rat!",
+        "translationVi": "Họ cứ ngỡ cậu có thể là một đầu bếp, nhưng cậu có biết tôi nghĩ gì không, Linguini? Tôi nghĩ cậu là một con chuột nhắt xảo quyệt, trèo cao ngạo mạn!",
+        "ipaUs": "/ðeɪ θɪŋk juː maɪt biː ə kʊk, bʌt juː noʊ wʌt aɪ θɪŋk, lɪŋˈɡwiːni? aɪ θɪŋk juː ɑːr ə ˈsniːki, ˌoʊvərˈriːtʃɪŋ ˈlɪtl̩ ræt!/",
+        "keywords": [
+            "sneaky",
+            "overreaching",
+            "little rat"
+        ],
+        "explanationAi": "Tính từ miêu tả tính cách: 'sneaky' (lén lút, quỷ quyệt), 'overreaching' (tham vọng vượt quá năng lực thực tế). Skinner nhục mạ Linguini mà không hề biết con chuột thực sự đang trốn dưới mũ.",
+        "properNouns": [
+            "Linguini"
+        ],
+        "tokenCount": 23
+    },
+    {
+        "orderIndex": 20,
+        "startTime": 575.0,
+        "endTime": 595.0,
+        "text": "If someone is described as 'sneaky', they behave in a secretive, deceitful way to deceive others without being noticed.",
+        "translationVi": "Nếu ai đó bị miêu tả là 'sneaky', họ hành xử theo cách lén lút, dối trá để đánh lừa người khác mà không bị phát giác.",
+        "ipaUs": "/ɪf ˈsʌmˌwʌn ɪz dɪˈskraɪbd æz ˈsniːki, ðeɪ bɪˈheɪv ɪn ə ˈsiːkrətɪv, dɪˈsiːtfəl weɪ tuː dɪˈsiːv ˈʌðərz wɪðˈaʊt ˈbiːɪŋ ˈnoʊtɪst./",
+        "keywords": [
+            "sneaky",
+            "secretive",
+            "deceitful"
+        ],
+        "explanationAi": "Phân tích sắc thái ngữ nghĩa của từ vựng 'sneaky' trong giao tiếp thường nhật.",
+        "properNouns": [],
+        "tokenCount": 19
+    },
+    {
+        "orderIndex": 21,
+        "startTime": 760.0,
+        "endTime": 778.0,
+        "text": "A rat in the kitchen?! Our reputation is hanging by a thread! Dispose of it far away!",
+        "translationVi": "Có chuột trong bếp ư?! Danh tiếng của chúng ta đang như chỉ mành treo chuông đây này! Hãy đem nó đi vứt thật xa ngay lập tức!",
+        "ipaUs": "/ə ræt ɪn ðə ˈkɪtʃən?! ˈaʊər ˌrɛpjəˈteɪʃən ɪz ˈhæŋɪŋ baɪ ə θrɛd! dɪˈspoʊz əv ɪt fɑːr əˈweɪ!/",
+        "keywords": [
+            "hanging by a thread",
+            "dispose of it",
+            "reputation"
+        ],
+        "explanationAi": "Thành ngữ 'hanging by a thread' (nguy ngập, ngàn cân treo sợi tóc), cụm 'dispose of' (vứt bỏ, khử đi).",
+        "properNouns": [],
+        "tokenCount": 17
+    },
+    {
+        "orderIndex": 22,
+        "startTime": 778.0,
+        "endTime": 795.0,
+        "text": "Linguini pedals his bicycle to the banks of the River Seine, preparing to throw the trapped rat into the water.",
+        "translationVi": "Linguini đạp chiếc xe đạp ra bờ sông Seine, chuẩn bị quẳng chú chuột đang bị nhốt trong hũ thủy tinh xuống dòng nước.",
+        "ipaUs": "/lɪŋˈɡwiːni ˈpɛdəlz hɪz ˈbaɪsɪkəl tuː ðə bæŋks əv ðə ˈrɪvər seɪn, prɪˈpɛrɪŋ tuː θroʊ ðə træpt ræt ˈɪntuː ðə ˈwɔːtər./",
+        "keywords": [
+            "pedals his bicycle",
+            "River Seine",
+            "trapped rat"
+        ],
+        "explanationAi": "Địa danh biểu tượng của Paris: dòng sông Seine hiền hòa nơi tình bạn kỳ lạ giữa người và chuột bắt đầu.",
+        "properNouns": [
+            "Linguini",
+            "River Seine"
+        ],
+        "tokenCount": 20
+    },
+    {
+        "orderIndex": 23,
+        "startTime": 795.0,
+        "endTime": 810.0,
+        "text": "Wait... you were the one who added those ingredients, weren't you? Can you understand what I'm saying?",
+        "translationVi": "Đợi đã... chính mày là kẻ đã nêm nếm những nguyên liệu đó vào súp, có phải không? Mày có hiểu tao đang nói gì không thế?",
+        "ipaUs": "/weɪt... juː wɜːr ðə wʌn huː ˈædɪd ðoʊz ɪnˈɡriːdiənts, ˈwɜːrnt juː? kæn juː ˌʌndərˈstænd wʌt aɪm ˈseɪɪŋ?/",
+        "keywords": [
+            "added ingredients",
+            "understand what I'm saying"
+        ],
+        "explanationAi": "Linguini sử dụng câu hỏi đuôi (tag question) 'weren't you?' khi nhận ra sự thông minh phi thường của Remy.",
+        "properNouns": [],
+        "tokenCount": 19
+    },
+    {
+        "orderIndex": 24,
+        "startTime": 810.0,
+        "endTime": 825.0,
+        "text": "Remy nods his head vigorously. Linguini drops to his knees in utter disbelief.",
+        "translationVi": "Remy gật đầu lia lịa. Linguini quỵ gối xuống đất trong sự hoang mang không thể tin nổi.",
+        "ipaUs": "/ˈrɛmi nɑːdz hɪz hɛd ˈvɪɡərəsli. lɪŋˈɡwiːni drɑːps tuː hɪz niːz ɪn ˈʌtər ˌdɪsbɪˈliːf./",
+        "keywords": [
+            "nods vigorously",
+            "utter disbelief"
+        ],
+        "explanationAi": "Phó từ 'vigorously' (mạnh mẽ, dứt khoát), danh từ 'utter disbelief' (sự hoài nghi tột độ, hoàn toàn kinh ngạc).",
+        "properNouns": [
+            "Remy",
+            "Linguini"
+        ],
+        "tokenCount": 13
+    },
+    {
+        "orderIndex": 25,
+        "startTime": 825.0,
+        "endTime": 840.0,
+        "text": "I can't cook, and you can't be seen cooking! But together... maybe we can pull this off!",
+        "translationVi": "Tao thì không biết nấu ăn, còn mày thì không thể lộ diện nấu nướng được! Nhưng nếu hợp tác cùng nhau... có lẽ chúng ta sẽ xoay xở thành công!",
+        "ipaUs": "/aɪ kænt kʊk, ænd juː kænt biː siːn ˈkʊkɪŋ! bʌt təˈɡɛðər... ˈmeɪbi wiː kæn pʊl ðɪs ɔːf!/",
+        "keywords": [
+            "can't be seen",
+            "pull this off"
+        ],
+        "explanationAi": "Thành ngữ 'pull something off' (làm được một việc vô cùng khó khăn, xoay xở thành công). Thỏa thuận đồng minh giữa Remy và Linguini.",
+        "properNouns": [],
+        "tokenCount": 19
+    },
+    {
+        "orderIndex": 26,
+        "startTime": 840.0,
+        "endTime": 860.0,
+        "text": "Back in Linguini's tiny flat, Remy accidentally tugs on a lock of Linguini's hair, causing his arm to jerk upright.",
+        "translationVi": "Trở về căn gác xép chật hẹp của Linguini, Remy vô tình giật mạnh một lọn tóc của Linguini, khiến cánh tay cậu giật bắn thẳng lên.",
+        "ipaUs": "/bæk ɪn lɪŋˈɡwiːniz ˈtaɪni flæt, ˈrɛmi ˌæksəˈdɛntli tʌɡz ɑːn ə lɑːk əv lɪŋˈɡwiːniz hɛr, ˈkɔːzɪŋ hɪz ɑːrm tuː dʒɜːrk ˈʌpˌraɪt./",
+        "keywords": [
+            "tugs on a lock of hair",
+            "jerk upright"
+        ],
+        "explanationAi": "Động từ 'tug' (giật nhẹ, kéo), 'jerk' (co giật, chuyển động đột ngột). Phát hiện tình cờ về cơ chế điều khiển thân xác.",
+        "properNouns": [
+            "Linguini",
+            "Remy"
+        ],
+        "tokenCount": 22
+    },
+    {
+        "orderIndex": 27,
+        "startTime": 860.0,
+        "endTime": 875.0,
+        "text": "Whoa! That is strangely involuntary! You're pulling my hair and controlling my muscles!",
+        "translationVi": "Oa! Cảm giác này vô thức một cách kỳ lạ thật đấy! Mày đang giật tóc tao và điều khiển các cơ bắp của tao kìa!",
+        "ipaUs": "/woʊ! ðæt ɪz ˈstreɪndʒli ɪnˈvɑːlənˌtɛri! jʊr ˈpʊlɪŋ maɪ hɛr ænd kənˈtroʊlɪŋ maɪ ˈmʌsəlz!/",
+        "keywords": [
+            "strangely involuntary",
+            "controlling muscles"
+        ],
+        "explanationAi": "Tính từ sinh học: 'involuntary' (vô thức, không theo ý muốn chủ quan, phản xạ tự nhiên).",
+        "properNouns": [],
+        "tokenCount": 14
+    },
+    {
+        "orderIndex": 28,
+        "startTime": 875.0,
+        "endTime": 895.0,
+        "text": "The coach asks: which of these human physical actions is involuntary? Coughing, sneezing, or dancing?",
+        "translationVi": "Cô giáo đặt câu hỏi tương tác: trong những hành động thể chất sau đây của con người, hành động nào là phản xạ vô thức không tự chủ? Ho, hắt hơi, hay khiêu vũ?",
+        "ipaUs": "/ðə koʊtʃ æsks: wɪtʃ əv ðiːz ˈhjuːmən ˈfɪzɪkəl ˈækʃənz ɪz ɪnˈvɑːlənˌtɛri? ˈkɑːfɪŋ, ˈsniːzɪŋ, ɔːr ˈdænsɪŋ?/",
+        "keywords": [
+            "involuntary actions",
+            "coughing",
+            "sneezing",
+            "dancing"
+        ],
+        "explanationAi": "Câu đố ngữ nghĩa tương tác: hắt hơi (sneezing) là phản xạ vô thức tự nhiên (involuntary reflex).",
+        "properNouns": [],
+        "tokenCount": 15
+    },
+    {
+        "orderIndex": 29,
+        "startTime": 1050.0,
+        "endTime": 1070.0,
+        "text": "Hiding underneath Linguini's toque blanche chef hat, Remy steers his hands to replicate the exact soup recipe.",
+        "translationVi": "Ẩn mình bên dưới chiếc mũ đầu bếp toque blanche của Linguini, Remy giật tóc điều khiển hai tay cậu để tái tạo chuẩn xác công thức nồi súp.",
+        "ipaUs": "/ˈhaɪdɪŋ ˌʌndərˈniːθ lɪŋˈɡwiːniz tʊk blɑːnʃ ʃɛf hæt, ˈrɛmi stɪrz hɪz hændz tuː ˈrɛplɪkeɪt ðɪ ɪɡˈzækt suːp ˈrɛsəpi./",
+        "keywords": [
+            "toque blanche",
+            "steers his hands",
+            "replicate",
+            "exact recipe"
+        ],
+        "explanationAi": "Thuật ngữ tiếng Pháp: 'toque blanche' (chiếc mũ vải trắng truyền thống của bếp trưởng), động từ 'replicate' (tái tạo, sao chép hoàn hảo).",
+        "properNouns": [
+            "Linguini",
+            "Remy"
+        ],
+        "tokenCount": 18
+    },
+    {
+        "orderIndex": 30,
+        "startTime": 1070.0,
+        "endTime": 1088.0,
+        "text": "Congratulations, you were able to repeat your accidental success! But you will need to know much more if you are to survive in my kitchen, boy!",
+        "translationVi": "Chúc mừng, cậu đã lặp lại được thành công ngẫu nhiên của mình rồi đấy! Nhưng cậu sẽ cần phải học nhiều hơn thế nếu muốn sống sót trong căn bếp của tôi, cậu bé ạ!",
+        "ipaUs": "/kənˌɡrætʃəˈleɪʃənz, juː wɜːr ˈeɪbəl tuː rɪˈpiːt jʊər ˌæksəˈdɛntəl səkˈsɛs! bʌt juː wɪl niːd tuː noʊ mʌtʃ mɔːr ɪf juː ɑːr tuː sərˈvaɪv ɪn maɪ ˈkɪtʃən, bɔɪ!/",
+        "keywords": [
+            "accidental success",
+            "survive in my kitchen"
+        ],
+        "explanationAi": "Skinner miễn cưỡng công nhận nhưng vẫn cảnh cáo: 'accidental success' (thành công do ăn may).",
+        "properNouns": [],
+        "tokenCount": 26
+    },
+    {
+        "orderIndex": 31,
+        "startTime": 1088.0,
+        "endTime": 1105.0,
+        "text": "Colette will be responsible for teaching you how we do things here. Do not make her regret it!",
+        "translationVi": "Colette sẽ chịu trách nhiệm dạy cho cậu biết chúng tôi làm việc ở đây như thế nào. Đừng làm cô ấy phải hối hận đấy!",
+        "ipaUs": "/koʊˈlɛt wɪl biː rɪˈspɑːnsəbəl fɔːr ˈtiːtʃɪŋ juː haʊ wiː duː θɪŋz hɪr. duː nɑːt meɪk hɜːr rɪˈɡrɛt ɪt!/",
+        "keywords": [
+            "responsible for teaching",
+            "how we do things",
+            "regret it"
+        ],
+        "explanationAi": "Giới thiệu Colette Tatou - người phụ nữ duy nhất kiên cường khẳng định vị thế trong gian bếp khốc liệt của Gusteau.",
+        "properNouns": [
+            "Colette"
+        ],
+        "tokenCount": 18
+    },
+    {
+        "orderIndex": 32,
+        "startTime": 1105.0,
+        "endTime": 1125.0,
+        "text": "High cuisine is not for the faint of heart. It is governed by rigorous rules, timing, cuts, and ruthless precision.",
+        "translationVi": "Ẩm thực cao cấp không dành cho những kẻ yếu bóng vía. Nó được điều hành bởi những quy tắc ngặt nghèo, sự chuẩn xác về thời gian, kỹ thuật dao thớt và kỷ luật khắc nghiệt.",
+        "ipaUs": "/haɪ kwɪˈziːn ɪz nɑːt fɔːr ðə feɪnt əv hɑːrt. ɪt ɪz ˈɡʌvərnd baɪ ˈrɪɡərəs ruːlz, ˈtaɪmɪŋ, kʌts, ænd ˈruːθlɪs prɪˈsɪʒən./",
+        "keywords": [
+            "high cuisine",
+            "faint of heart",
+            "rigorous rules",
+            "ruthless precision"
+        ],
+        "explanationAi": "Thành ngữ 'not for the faint of heart' (không dành cho kẻ yếu tim/nhát gan), cụm từ 'ruthless precision' (độ chính xác tuyệt đối không khoan nhượng).",
+        "properNouns": [],
+        "tokenCount": 20
+    },
+    {
+        "orderIndex": 33,
+        "startTime": 1125.0,
+        "endTime": 1145.0,
+        "text": "Keep your station clean! If you clear your cutting board after every prep, the mess will never conquer you!",
+        "translationVi": "Luôn giữ cho khu vực nấu nướng của mình sạch sẽ! Nếu dọn sạch thớt sau mỗi lần sơ chế, sự hỗn loạn sẽ không bao giờ đánh bại được cậu!",
+        "ipaUs": "/kiːp jʊər ˈsteɪʃən kliːn! ɪf juː klɪr jʊər ˈkʌtɪŋ bɔːrd ˈæftər ˈɛvri prɛp, ðə mɛs wɪl ˈnɛvər ˈkɑːŋkər juː!/",
+        "keywords": [
+            "keep your station clean",
+            "cutting board",
+            "prep",
+            "conquer you"
+        ],
+        "explanationAi": "Quy tắc bếp núc vàng của Colette: 'prep' (viết tắt của preparation - công đoạn chuẩn bị nguyên liệu).",
+        "properNouns": [],
+        "tokenCount": 19
+    },
+    {
+        "orderIndex": 34,
+        "startTime": 1145.0,
+        "endTime": 1165.0,
+        "text": "News of the mysterious culinary genius at Gusteau's reached the somber study of Anton Ego, the most feared food critic in France.",
+        "translationVi": "Tin tức về vị thiên tài ẩm thực bí ẩn tại nhà hàng Gusteau đã bay tới phòng làm việc u ám của Anton Ego, nhà phê bình ẩm thực đáng sợ nhất nước Pháp.",
+        "ipaUs": "/njuːz əv ðə mɪˈstɪriəs ˈkjʌlɪˌnɛri ˈdʒiːniəs æt ɡuːˈstoʊz riːtʃt ðə ˈsɑːmbər ˈstʌdi əv ˈæntɑːn ˈiːɡoʊ, ðə moʊst fɪrd fuːd ˈkrɪtɪk ɪn fræns./",
+        "keywords": [
+            "culinary genius",
+            "somber study",
+            "feared food critic"
+        ],
+        "explanationAi": "Nhân vật Anton Ego - vị giám khảo ẩm thực với cây bút có thể khai tử hoặc chắp cánh cho bất kỳ nhà hàng nào.",
+        "properNouns": [
+            "Gusteau",
+            "Anton Ego",
+            "France"
+        ],
+        "tokenCount": 23
+    },
+    {
+        "orderIndex": 35,
+        "startTime": 1165.0,
+        "endTime": 1185.0,
+        "text": "Ego challenged the restaurant: 'Bring me your finest dish tonight, and let us see if Gusteau's motto holds any truth.'",
+        "translationVi": "Ego buông lời thách thức nhà hàng: 'Hãy mang cho ta món ăn xuất sắc nhất của các người tối nay, và để xem phương châm của Gusteau có chút sự thật nào hay không.'",
+        "ipaUs": "/ˈiːɡoʊ ˈtʃælɪndʒd ðə ˈrɛstəˌrɑːnt: brɪŋ miː jʊər ˈfaɪnəst dɪʃ təˈnaɪt, ænd lɛt ʌs siː ɪf ɡuːˈstoʊz ˈmɑːtoʊ hoʊldz ˈɛni truːθ./",
+        "keywords": [
+            "challenged",
+            "finest dish",
+            "motto holds truth"
+        ],
+        "explanationAi": "Thành ngữ 'holds any truth' (có tính xác thực, có giá trị đúng đắn). Phương châm của Gusteau là 'Anyone can cook'.",
+        "properNouns": [
+            "Ego",
+            "Gusteau"
+        ],
+        "tokenCount": 21
+    },
+    {
+        "orderIndex": 36,
+        "startTime": 1185.0,
+        "endTime": 1205.0,
+        "text": "Remy chose to serve him Ratatouille: a humble peasant dish made of thinly layered eggplant, zucchini, squash, and tomato confit.",
+        "translationVi": "Remy quyết định phục vụ ông món Ratatouille: một món ăn dân dã thôn quê bình dị gồm những lát cà tím, bí ngòi, bí vàng và nước sốt cà chua confit xếp lớp tinh tế.",
+        "ipaUs": "/ˈrɛmi tʃoʊz tuː sɜːrv hɪm ˌrætəˈtuːi: ə ˈhʌmbəl ˈpɛzənt dɪʃ meɪd əv ˈθɪnli ˈleɪərd ˈɛɡˌplænt, zuːˈkiːni, skwɑːʃ, ænd təˈmeɪtoʊ kənˈfiː./",
+        "keywords": [
+            "peasant dish",
+            "eggplant",
+            "zucchini",
+            "squash",
+            "tomato confit"
+        ],
+        "explanationAi": "Tên món ăn biểu tượng: 'Ratatouille' xuất thân từ món rau củ hầm của nông dân vùng Provence ('peasant dish').",
+        "properNouns": [
+            "Remy",
+            "Ratatouille"
+        ],
+        "tokenCount": 20
+    },
+    {
+        "orderIndex": 37,
+        "startTime": 1205.0,
+        "endTime": 1225.0,
+        "text": "Ego took a single bite. In an instant, the fork slipped from his hand as he was transported back to his childhood kitchen.",
+        "translationVi": "Ego đưa một miếng vào miệng. Ngay lập tức, chiếc nĩa rơi tuột khỏi tay ông khi ông được đưa ngược thời gian trở về gian bếp tuổi thơ của mình.",
+        "ipaUs": "/ˈiːɡoʊ tʊk ə ˈsɪŋɡəl baɪt. ɪn ən ˈɪnstənt, ðə fɔːrk slɪpt frʌm hɪz hænd æz hiː wʌz trænsˈpɔːrtɪd bæk tuː hɪz ˈtʃaɪldˌhʊd ˈkɪtʃən./",
+        "keywords": [
+            "single bite",
+            "fork slipped",
+            "transported back to childhood"
+        ],
+        "explanationAi": "Hiệu ứng hoài niệm hương vị kỳ diệu (Proustian memory): Một hương vị mộc mạc làm tan chảy bức tường phòng thủ kiêu ngạo của một nhà phê bình.",
+        "properNouns": [
+            "Ego"
+        ],
+        "tokenCount": 23
+    },
+    {
+        "orderIndex": 38,
+        "startTime": 1225.0,
+        "endTime": 1245.0,
+        "text": "He remembered scraping his knee, weeping, and his mother comforting him with a warm bowl of freshly cooked ratatouille.",
+        "translationVi": "Ông nhớ lại ngày mình bị trầy xước đầu gối, khóc nức nở, và mẹ ông đã ân cần vỗ về ông bằng một bát ratatouille thơm phức vừa nấu xong.",
+        "ipaUs": "/hiː rɪˈmɛmbərd ˈskreɪpɪŋ hɪz niː, ˈwiːpɪŋ, ænd hɪz ˈmʌðər ˈkʌmfərtɪŋ hɪm wɪð ə wɔːrm boʊl əv ˈfrɛʃli kʊkt ˌrætəˈtuːi./",
+        "keywords": [
+            "scraping his knee",
+            "mother comforting him",
+            "freshly cooked ratatouille"
+        ],
+        "explanationAi": "Cảm xúc cốt lõi của nghệ thuật ẩm thực: không phải kỹ thuật cầu kỳ, mà là tình yêu thương và sự kết nối con người.",
+        "properNouns": [],
+        "tokenCount": 19
+    },
+    {
+        "orderIndex": 39,
+        "startTime": 1245.0,
+        "endTime": 1265.0,
+        "text": "The next morning, Anton Ego published his legendary review, fundamentally redefining the very purpose of criticism.",
+        "translationVi": "Sáng hôm sau, Anton Ego đã cho xuất bản bài phê bình huyền thoại của mình, tái định nghĩa hoàn toàn mục đích thực sự của nghề phê bình.",
+        "ipaUs": "/ðə nɛkst ˈmɔːrnɪŋ, ˈæntɑːn ˈiːɡoʊ ˈpʌblɪʃt hɪz ˈlɛdʒənˌdɛri rɪˈvjuː, ˌfʌndəˈmɛntəli ˌriːdɪˈfaɪnɪŋ ðə ˈvɛri ˈpɜːrpəs əv ˈkrɪtɪˌsɪzəm./",
+        "keywords": [
+            "published legendary review",
+            "redefining",
+            "purpose of criticism"
+        ],
+        "explanationAi": "Bước ngoặt tư tưởng: Đỉnh cao văn học điện ảnh trong kịch bản của Brad Bird.",
+        "properNouns": [
+            "Anton Ego"
+        ],
+        "tokenCount": 16
+    },
+    {
+        "orderIndex": 40,
+        "startTime": 1265.0,
+        "endTime": 1285.0,
+        "text": "In many ways, the work of a critic is easy. We risk very little, yet enjoy a position over those who offer up their work to our judgment.",
+        "translationVi": "Xét trên nhiều phương diện, công việc của một nhà phê bình thật dễ dàng. Chúng tôi đối mặt rất ít rủi ro, nhưng lại được hưởng vị thế đứng trên những người cống hiến tác phẩm cho sự phán xét của chúng tôi.",
+        "ipaUs": "/ɪn ˈmɛni weɪz, ðə wɜːrk əv ə ˈkrɪtɪk ɪz ˈiːzi. wiː rɪsk ˈvɛri ˈlɪtl̩, jɛt ɛnˈdʒɔɪ ə pəˈzɪʃən ˈoʊvər ðoʊz huː ˈɔːfər ʌp ðɛr wɜːrk tuː ˈaʊər ˈdʒʌdʒmənt./",
+        "keywords": [
+            "work of a critic is easy",
+            "risk very little",
+            "offer up their work",
+            "judgment"
+        ],
+        "explanationAi": "Lời tự thú liêm chính của Anton Ego (lồng tiếng bởi Peter O'Toole): thừa nhận sự bất cân xứng giữa kẻ phán xét và người sáng tạo.",
+        "properNouns": [],
+        "tokenCount": 28
+    },
+    {
+        "orderIndex": 41,
+        "startTime": 1285.0,
+        "endTime": 1305.0,
+        "text": "We thrive on negative criticism, which is fun to write and to read. But the bitter truth we must face is that the average piece of junk is more meaningful than our review designating it so.",
+        "translationVi": "Chúng tôi sống bám vào những lời phê bình cay nghiệt, thứ rất sướng khi viết và hấp dẫn khi đọc. Nhưng sự thật cay đắng chúng tôi phải đối diện là ngay cả một món đồ vứt đi tầm thường vẫn có ý nghĩa hơn bài bình phẩm của chúng tôi khi gán cho nó cái mác đó.",
+        "ipaUs": "/wiː θraɪv ɑːn ˈnɛɡətɪv ˈkrɪtɪˌsɪzəm, wɪtʃ ɪz fʌn tuː raɪt ænd tuː riːd. bʌt ðə ˈbɪtər truːθ wiː mʌst feɪs ɪz ðæt ðɪ ˈævərɪdʒ piːs əv dʒʌŋk ɪz mɔːr ˈmiːnɪŋfəl ðæn ˈaʊər rɪˈvjuː ˈdɛzɪɡˌneɪtɪŋ ɪt soʊ./",
+        "keywords": [
+            "thrive on negative criticism",
+            "bitter truth",
+            "designating it so"
+        ],
+        "explanationAi": "Tự vấn sâu sắc: sự phê bình tiêu cực ('negative criticism') luôn dễ dàng nhưng hành động dũng cảm sáng tạo mới là điều đáng tôn vinh.",
+        "properNouns": [],
+        "tokenCount": 36
+    },
+    {
+        "orderIndex": 42,
+        "startTime": 1305.0,
+        "endTime": 1325.0,
+        "text": "There are times when a critic truly risks something, and that is in the discovery and defense of the new. The world is often unkind to new talent, new creations.",
+        "translationVi": "Nhưng có những thời khắc khi một nhà phê bình thực sự dám mạo hiểm, và đó là khi phát hiện và dũng cảm bảo vệ cái mới. Thế giới này thường nghiệt ngã với những tài năng mới, những tạo tác mới.",
+        "ipaUs": "/ðɛr ɑːr taɪmz wɛn ə ˈkrɪtɪk ˈtruːli rɪsks ˈsʌmθɪŋ, ænd ðæt ɪz ɪn ðə dɪˈskʌvəri ænd dɪˈfɛns əv ðə njuː. ðə wɜːrld ɪz ˈɔːfən ʌnˈkaɪnd tuː njuː ˈtælənt, njuː kriˈeɪʃənz./",
+        "keywords": [
+            "truly risks something",
+            "discovery and defense of the new",
+            "unkind to new talent"
+        ],
+        "explanationAi": "Sứ mệnh chân chính của phê bình: bảo vệ và nâng niu cái mới trước định kiến thù hằn của số đông.",
+        "properNouns": [],
+        "tokenCount": 30
+    },
+    {
+        "orderIndex": 43,
+        "startTime": 1325.0,
+        "endTime": 1345.0,
+        "text": "Last night, I experienced something new: an extraordinary meal from a singularly unexpected source.",
+        "translationVi": "Tối qua, tôi đã được trải nghiệm một điều hoàn toàn mới mẻ: một bữa ăn phi thường xuất phát từ một nguồn gốc bất ngờ đến khôn cùng.",
+        "ipaUs": "/læst naɪt, aɪ ɪkˈspɪriənst ˈsʌmθɪŋ njuː: ən ɪkˈstrɔːrdəˌnɛri miːl frʌm ə ˈsɪŋɡjələrli ˌʌnɪkˈspɛktɪd sɔːrs./",
+        "keywords": [
+            "experienced something new",
+            "extraordinary meal",
+            "singularly unexpected source"
+        ],
+        "explanationAi": "Cụm trạng từ tinh tế: 'singularly unexpected' (bất ngờ đến mức có một không hai).",
+        "properNouns": [],
+        "tokenCount": 14
+    },
+    {
+        "orderIndex": 44,
+        "startTime": 1345.0,
+        "endTime": 1365.0,
+        "text": "To say that both the meal and its maker have challenged my preconceptions about fine cooking is a gross understatement.",
+        "translationVi": "Nếu nói rằng bữa ăn đó và người tạo ra nó đã thách thức mọi định kiến bấy lâu của tôi về ẩm thực cao cấp, thì đó vẫn là một sự nói giảm nói tránh quá mức.",
+        "ipaUs": "/tuː seɪ ðæt boʊθ ðə miːl ænd ɪts ˈmeɪkər hæv ˈtʃælɪndʒd maɪ ˌpriːkənˈsɛpʃənz əˈbaʊt faɪn ˈkʊkɪŋ ɪz ə ɡroʊs ˈʌndərˌsteɪtmənt./",
+        "keywords": [
+            "challenged preconceptions",
+            "fine cooking",
+            "gross understatement"
+        ],
+        "explanationAi": "Thành ngữ văn học đỉnh cao: 'gross understatement' (cách nói giảm nói tránh quá chừng so với tầm vóc chấn động thực tế).",
+        "properNouns": [],
+        "tokenCount": 20
+    },
+    {
+        "orderIndex": 45,
+        "startTime": 1365.0,
+        "endTime": 1380.0,
+        "text": "They have rocked me to my core. In the past, I have made no secret of my disdain for Chef Gusteau's famous motto: 'Anyone can cook.'",
+        "translationVi": "Họ đã làm rung chuyển tận đáy tâm hồn tôi. Trước đây, tôi chưa từng giấu giếm sự khinh thường của mình đối với phương châm nổi tiếng của Bếp trưởng Gusteau: 'Ai cũng có thể nấu ăn.'",
+        "ipaUs": "/ðeɪ hæv rɑːkt miː tuː maɪ kɔːr. ɪn ðə pæst, aɪ hæv meɪd noʊ ˈsiːkrət əv maɪ dɪsˈdeɪn fɔːr ʃɛf ɡuːˈstoʊz ˈfeɪməs ˈmɑːtoʊ: ˈɛniˌwʌn kæn kʊk./",
+        "keywords": [
+            "rocked me to my core",
+            "made no secret",
+            "disdain",
+            "anyone can cook"
+        ],
+        "explanationAi": "Thành ngữ 'rock someone to their core' (làm rung chuyển tận gốc rễ tâm can), danh từ 'disdain' (sự khinh thị, coi thường).",
+        "properNouns": [
+            "Gusteau"
+        ],
+        "tokenCount": 27
+    },
+    {
+        "orderIndex": 46,
+        "startTime": 1380.0,
+        "endTime": 1395.0,
+        "text": "But I realize only now do I truly understand what he meant: Not everyone can become a great artist, but a great artist can come from anywhere.",
+        "translationVi": "Nhưng chỉ đến bây giờ tôi mới thực sự thấu hiểu điều ông ấy từng muốn gửi gắm: Không phải ai cũng có thể trở thành một nghệ sĩ vĩ đại, nhưng một nghệ sĩ vĩ đại có thể xuất thân từ bất kỳ đâu.",
+        "ipaUs": "/bʌt aɪ ˈriːəˌlaɪz ˈoʊnli naʊ duː aɪ ˈtruːli ˌʌndərˈstænd wʌt hiː mɛnt: nɑːt ˈɛvriˌwʌn kæn bɪˈkʌm ə ɡreɪt ˈɑːrtɪst, bʌt ə ɡreɪt ˈɑːrtɪst kæn kʌm frʌm ˈɛniˌwɛr./",
+        "keywords": [
+            "truly understand",
+            "not everyone can become a great artist",
+            "come from anywhere"
+        ],
+        "explanationAi": "Tuyên ngôn triết học bất hủ của kiệt tác Ratatouille: Phá vỡ mọi rào cản về giai cấp, chủng tộc và xuất thân để tôn vinh tài năng và tâm hồn nghệ sĩ đích thực.",
+        "properNouns": [],
+        "tokenCount": 27
+    },
+    {
+        "orderIndex": 47,
+        "startTime": 1395.0,
+        "endTime": 1410.0,
+        "text": "It is difficult to imagine more humble origins than those of the genius now cooking at Gusteau's, who is, in this critic's opinion, nothing less than the finest chef in France.",
+        "translationVi": "Thật khó để mường tượng ra một xuất thân nào khiêm nhường hơn xuất thân của vị thiên tài hiện đang nấu nướng tại nhà hàng Gusteau, người mà theo ý kiến của nhà phê bình này, không ai khác chính là vị đầu bếp xuất sắc nhất nước Pháp.",
+        "ipaUs": "/ɪt ɪz ˈdɪfɪkəlt tuː ɪˈmædʒɪn mɔːr ˈhʌmbəl ˈɔːrədʒɪnz ðæn ðoʊz əv ðə ˈdʒiːniəs naʊ ˈkʊkɪŋ æt ɡuːˈstoʊz, huː ɪz, ɪn ðɪs ˈkrɪtɪks əˈpɪnjən, ˈnʌθɪŋ lɛs ðæn ðə ˈfaɪnəst ʃɛf ɪn fræns./",
+        "keywords": [
+            "humble origins",
+            "finest chef in France",
+            "nothing less than"
+        ],
+        "explanationAi": "Cụm từ biểu đạt đỉnh cao: 'humble origins' (xuất thân khiêm tốn), 'nothing less than' (chính là, hoàn toàn không thua kém).",
+        "properNouns": [
+            "Gusteau",
+            "France"
+        ],
+        "tokenCount": 33
+    },
+    {
+        "orderIndex": 48,
+        "startTime": 1410.0,
+        "endTime": 1418.0,
+        "text": "I will be returning to Gusteau's soon, hungry for more.",
+        "translationVi": "Tôi sẽ sớm quay trở lại Gusteau's, với một cơn thèm ăn đang đón chờ nhiều hơn nữa.",
+        "ipaUs": "/aɪ wɪl biː rɪˈtɜːrnɪŋ tuː ɡuːˈstoʊz suːn, ˈhʌŋɡri fɔːr mɔːr./",
+        "keywords": [
+            "returning soon",
+            "hungry for more"
+        ],
+        "explanationAi": "Câu kết kinh điển của bài phê bình: Anton Ego đầu hàng hoàn toàn trước tài năng của chú chuột đầu bếp Remy.",
+        "properNouns": [
+            "Gusteau"
+        ],
+        "tokenCount": 11
+    },
+    {
+        "orderIndex": 49,
+        "startTime": 1418.0,
+        "endTime": 1421.0,
+        "text": "Keep practicing your English every single day, enjoy great cinema, and we'll see you in our next lesson!",
+        "translationVi": "Hãy tiếp tục luyện tập tiếng Anh mỗi ngày, tận hưởng điện ảnh tuyệt vời, và hẹn gặp lại các bạn trong bài học tiếp theo!",
+        "ipaUs": "/kiːp ˈpræktəsɪŋ jʊər ˈɪŋɡlɪʃ ˈɛvri ˈsɪŋɡəl deɪ, ɛnˈdʒɔɪ ɡreɪt ˈsɪnəmə, ænd wiːl siː juː ɪn ˈaʊər nɛkst ˈlɛsən!/",
+        "keywords": [
+            "keep practicing",
+            "every single day",
+            "great cinema",
+            "next lesson"
+        ],
+        "explanationAi": "Lời chào kết thúc bài giảng của RealLife English.",
+        "properNouns": [],
+        "tokenCount": 19
+    }
+],
+  quiz: QUIZ_RATATOUILLE_ANTON_EGO_FOOD_REVIEW_MONOLOGUE
 };
 
 export default LESSON_RATATOUILLE_ANTON_EGO_FOOD_REVIEW_MONOLOGUE;
